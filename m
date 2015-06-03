@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CF207757EF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D2DC4757EF
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  3 Jun 2015 08:38:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t538cKpR007200
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t538cKDN020340
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 3 Jun 2015 01:38:20 -0700 (PDT)
@@ -14,11 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Wed, 3 Jun 2015 01:38:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 3 Jun 2015 01:38:17 -0700
-Message-ID: <cover.1433320510.git.liezhi.yang@windriver.com>
+Date: Wed, 3 Jun 2015 01:38:18 -0700
+Message-ID: <f6f7ba4a719a8fe6e93d70541812a2b3af92e5cb.1433320510.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1433320510.git.liezhi.yang@windriver.com>
+References: <cover.1433320510.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] gtk+/cairo/libsdl: build without x11 in DISTRO_FEATURE
+Subject: [PATCH 1/2] gtk+/cairo: enable x11 or directfb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +36,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 03 Jun 2015 08:38:20 -0000
 Content-Type: text/plain
 
-Hello,
+The gtk+2 requires whether x11 or directfb to build, so we need enable
+either of them. The cairo can be built without x11 or directfb, but gtk+
+requires cairo, so enable x11 or directfb for cairo, too.
 
-After the two patches, yocto's world build would be OK without x11 in
-DISTRO_FEATURE.
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-gnome/gtk+/gtk+.inc      |    5 ++---
+ meta/recipes-graphics/cairo/cairo.inc |    8 ++++++--
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-// Robert
-
-The following changes since commit 968973d55d4b33e1a929ed4cdf9387fcaba2d93f:
-
-  qt4: unconditionally disable gstreamer 0.10 support in qt webkit (2015-05-30 22:25:12 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/nox11
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/nox11
-
-Robert Yang (2):
-  gtk+/cairo: enable x11 or directfb
-  libsdl: depends on libglu when both x11 and opengl
-
- meta/recipes-gnome/gtk+/gtk+.inc              |    5 ++---
- meta/recipes-graphics/cairo/cairo.inc         |    8 ++++++--
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb |    3 ++-
- 3 files changed, 10 insertions(+), 6 deletions(-)
-
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index 1c0558c..fcfb86f 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -14,9 +14,8 @@ X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender
+ DEPENDS = "glib-2.0 pango atk jpeg libpng gdk-pixbuf-native docbook-utils-native \
+  cairo gdk-pixbuf"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-"
++# Requires x11 or directfb
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'directfb', d)}"
+ 
+ PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
+ # without --with-gdktarget=directfb it will check for cairo-xlib which isn't available without X11 DISTRO_FEATURE
+diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
+index 1e45318..f6474bc 100644
+--- a/meta/recipes-graphics/cairo/cairo.inc
++++ b/meta/recipes-graphics/cairo/cairo.inc
+@@ -17,8 +17,12 @@ LICENSE_${PN}-perf-utils = "GPLv3+"
+ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+ DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
++# Build cairo-xlib or cairo-directfb for gtk+
++PACKAGECONFIG ??= " ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', 'directfb', d)} \
++                    "
++
++# No directfb-native, so set PACKAGECONFIG to null when no x11
++PACKAGECONFIG_class-native ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
+ 
+ PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+ PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
 -- 
 1.7.9.5
 
