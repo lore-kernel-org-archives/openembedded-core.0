@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BBE8775807
+	by mail.openembedded.org (Postfix) with ESMTP id BA5B775806
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Jun 2015 16:32:04 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Jun 2015 09:32:07 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 04 Jun 2015 09:32:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,553,1427785200"; d="scan'208";a="705387192"
+X-IronPort-AV: E=Sophos;i="5.13,553,1427785200"; d="scan'208";a="705387151"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jun 2015 09:32:05 -0700
+	by orsmga001.jf.intel.com with ESMTP; 04 Jun 2015 09:32:03 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jun 2015 19:31:49 +0300
-Message-Id: <1433435514-28677-6-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Thu,  4 Jun 2015 19:31:47 +0300
+Message-Id: <1433435514-28677-4-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1433435514-28677-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1433435514-28677-1-git-send-email-markus.lehtonen@linux.intel.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 05/10] devtool: simplify few conditionals a bit
+Subject: [PATCH 03/10] devtool: update-recipe: do rev parsing in a separate function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +32,90 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Jun 2015 16:32:05 -0000
 
-Just refactor the code.
+Split out the logic of determining "initial rev" and "update rev" into a
+separate function.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 27 ++++++++++++---------------
- 1 file changed, 12 insertions(+), 15 deletions(-)
+ scripts/lib/devtool/standard.py | 55 +++++++++++++++++++++++------------------
+ 1 file changed, 31 insertions(+), 24 deletions(-)
 
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index aa95e6e..dfa45e8 100644
+index aed76ea..c8ba247 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -49,18 +49,16 @@ def add(args, config, basepath, workspace):
-         return -1
+@@ -514,6 +514,36 @@ def modify(args, config, basepath, workspace):
  
-     srctree = os.path.abspath(args.srctree)
--    if os.path.exists(srctree):
--        if args.fetch:
--            if not os.path.isdir(srctree):
--                logger.error("Cannot fetch into source tree path %s as it exists and is not a directory" % srctree)
--                return 1
--            elif os.listdir(srctree):
--                logger.error("Cannot fetch into source tree path %s as it already exists and is non-empty" % srctree)
--                return 1
--    else:
--        if not args.fetch:
--            logger.error("Specified source tree %s could not be found" % srctree)
-+    if os.path.exists(srctree) and args.fetch:
-+        if not os.path.isdir(srctree):
-+            logger.error("Cannot fetch into source tree path %s as it exists and is not a directory" % srctree)
-             return 1
-+        elif os.listdir(srctree):
-+            logger.error("Cannot fetch into source tree path %s as it already exists and is non-empty" % srctree)
-+            return 1
-+    elif not args.fetch:
-+        logger.error("Specified source tree %s could not be found" % srctree)
-+        return 1
+     return 0
  
-     appendpath = os.path.join(config.workspace_path, 'appends')
-     if not os.path.exists(appendpath):
-@@ -424,10 +422,9 @@ def modify(args, config, basepath, workspace):
-         logger.error("recipe %s is already in your workspace" % args.recipename)
-         return -1
++def _get_patchset_revs(args, srctree, recipe_path):
++    """Get initial and update rev of a recipe. These are the start point of the
++    whole patchset and start point for the patches to be re-generated/updated.
++    """
++    import bb
++
++    if args.initial_rev:
++        return args.initial_rev, args.initial_rev
++
++    # Parse initial rev from recipe
++    commits = []
++    initial_rev = None
++    with open(recipe_path, 'r') as f:
++        for line in f:
++            if line.startswith('# initial_rev:'):
++                initial_rev = line.split(':')[-1].strip()
++            elif line.startswith('# commit:'):
++                commits.append(line.split(':')[-1].strip())
++
++    update_rev = initial_rev
++    if initial_rev:
++        # Find first actually changed revision
++        stdout, _ = bb.process.run('git rev-list --reverse %s..HEAD' %
++                                   initial_rev, cwd=srctree)
++        newcommits = stdout.split()
++        for i in xrange(min(len(commits), len(newcommits))):
++            if newcommits[i] == commits[i]:
++                update_rev = commits[i]
++
++    return initial_rev, update_rev
  
--    if not args.extract:
--        if not os.path.isdir(args.srctree):
--            logger.error("directory %s does not exist or not a directory (specify -x to extract source from recipe)" % args.srctree)
--            return -1
-+    if not args.extract and not os.path.isdir(args.srctree):
-+        logger.error("directory %s does not exist or not a directory (specify -x to extract source from recipe)" % args.srctree)
-+        return -1
+ def update_recipe(args, config, basepath, workspace):
+     """Entry point for the devtool 'update-recipe' subcommand"""
+@@ -618,34 +648,11 @@ def update_recipe(args, config, basepath, workspace):
+             logger.info('You will need to update SRC_URI within the recipe to point to a git repository where you have pushed your changes')
  
-     tinfoil = setup_tinfoil()
+     elif mode == 'patch':
+-        commits = []
+-        update_rev = None
+-        if args.initial_rev:
+-            initial_rev = args.initial_rev
+-        else:
+-            initial_rev = None
+-            with open(append, 'r') as f:
+-                for line in f:
+-                    if line.startswith('# initial_rev:'):
+-                        initial_rev = line.split(':')[-1].strip()
+-                    elif line.startswith('# commit:'):
+-                        commits.append(line.split(':')[-1].strip())
+-
+-            if initial_rev:
+-                # Find first actually changed revision
+-                (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=srctree)
+-                newcommits = stdout.split()
+-                for i in xrange(min(len(commits), len(newcommits))):
+-                    if newcommits[i] == commits[i]:
+-                        update_rev = commits[i]
+-
++        initial_rev, update_rev = _get_patchset_revs(args, srctree, append)
+         if not initial_rev:
+             logger.error('Unable to find initial revision - please specify it with --initial-rev')
+             return -1
+ 
+-        if not update_rev:
+-            update_rev = initial_rev
+-
+         # Find list of existing patches in recipe file
+         existing_patches = oe.recipeutils.get_recipe_patches(rd)
  
 -- 
 2.1.4
