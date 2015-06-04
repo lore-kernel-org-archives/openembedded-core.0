@@ -1,28 +1,24 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 614766AC43
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E61816AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 08:52:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
-   d="scan'208";a="96439418"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 04 Jun 2015 16:57:07 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t548pECV023946
+	Thu,  4 Jun 2015 09:01:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5491BkY015807
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Jun 2015 16:51:15 +0800
-Received: from localhost.localdomain (10.167.226.47) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Thu, 4 Jun 2015 16:52:44 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
+	Thu, 4 Jun 2015 02:01:11 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 4 Jun 2015 02:01:11 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Jun 2015 16:52:36 +0800
-Message-ID: <1433407956-1948-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Thu, 4 Jun 2015 02:01:09 -0700
+Message-ID: <cover.1433408433.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.47]
-Subject: [PATCH] base-files: Fix LSB NG Cases.
+Subject: [PATCH 0/1] rpm: remove extra dev and dbg packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 08:52:49 -0000
+X-List-Received-Date: Thu, 04 Jun 2015 09:01:11 -0000
 Content-Type: text/plain
 
--/tset/LSB.fhs/var/tmp/tmp-tc.
+The following changes since commit c91ffdb8fff4a62ccb80196a3d735e4b9a3056a3:
 
-The LSB Core test requires the /var/tmp directory supports creation of files.
-And the mount tmpfs on /var/volatile cause the /var/tmp directory can't be
-writable for non-root users.
+  dosfstools: Add recipe for v3.0.28 (2015-06-03 16:38:14 +0100)
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-core/base-files/base-files/fstab | 1 -
- 1 file changed, 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
-index d79a016..458ec70 100644
---- a/meta/recipes-core/base-files/base-files/fstab
-+++ b/meta/recipes-core/base-files/base-files/fstab
-@@ -4,7 +4,6 @@
- proc                 /proc                proc       defaults              0  0
- devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
- tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
--tmpfs                /var/volatile        tmpfs      defaults              0  0
- 
- # uncomment this if your device has a SD/MMC/Transflash slot
- #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto  0  0
+  git://git.openembedded.org/openembedded-core-contrib rbt/dev
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/dev
+
+Robert Yang (1):
+  rpm: remove extra dev and dbg packages
+
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb |   14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
+
 -- 
-1.8.4.2
+1.7.9.5
 
 
