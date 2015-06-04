@@ -1,23 +1,23 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BC16B7580C
+	by mail.openembedded.org (Postfix) with ESMTP id BBE8775807
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  4 Jun 2015 16:32:04 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Jun 2015 09:32:06 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 04 Jun 2015 09:32:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,553,1427785200"; d="scan'208";a="705387174"
+X-IronPort-AV: E=Sophos;i="5.13,553,1427785200"; d="scan'208";a="705387192"
 Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jun 2015 09:32:04 -0700
+	by orsmga001.jf.intel.com with ESMTP; 04 Jun 2015 09:32:05 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jun 2015 19:31:48 +0300
-Message-Id: <1433435514-28677-5-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Thu,  4 Jun 2015 19:31:49 +0300
+Message-Id: <1433435514-28677-6-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1433435514-28677-1-git-send-email-markus.lehtonen@linux.intel.com>
 References: <1433435514-28677-1-git-send-email-markus.lehtonen@linux.intel.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 04/10] devtool: simplify the logic of determining patches to be removed
+Subject: [PATCH 05/10] devtool: simplify few conditionals a bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,55 +32,59 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Jun 2015 16:32:05 -0000
 
-A slight simplification of the code.
+Just refactor the code.
 
 Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- scripts/lib/devtool/standard.py | 25 +++++++++++--------------
- 1 file changed, 11 insertions(+), 14 deletions(-)
+ scripts/lib/devtool/standard.py | 27 ++++++++++++---------------
+ 1 file changed, 12 insertions(+), 15 deletions(-)
 
 diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index c8ba247..aa95e6e 100644
+index aa95e6e..dfa45e8 100644
 --- a/scripts/lib/devtool/standard.py
 +++ b/scripts/lib/devtool/standard.py
-@@ -657,26 +657,23 @@ def update_recipe(args, config, basepath, workspace):
-         existing_patches = oe.recipeutils.get_recipe_patches(rd)
+@@ -49,18 +49,16 @@ def add(args, config, basepath, workspace):
+         return -1
  
-         removepatches = []
--        seqpatch_re = re.compile('^[0-9]{4}-')
-+        seqpatch_re = re.compile('^([0-9]{4}-)?(.+)')
-         if not args.no_remove:
-             # Get all patches from source tree and check if any should be removed
-             tempdir = tempfile.mkdtemp(prefix='devtool')
-             try:
-                 GitApplyTree.extractPatches(srctree, initial_rev, tempdir)
--                newpatches = os.listdir(tempdir)
-+                # Strip numbering from patch names. If it's a git sequence
-+                # named patch, the numbers might not match up since we are
-+                # starting from a different revision This does assume that
-+                # people are using unique shortlog values, but they ought to be
-+                # anyway...
-+                newpatches = [seqpatch_re.match(fname).group(2) for fname in
-+                              os.listdir(tempdir)]
-                 for patch in existing_patches:
--                    # If it's a git sequence named patch, the numbers might not match up
--                    # since we are starting from a different revision
--                    # This does assume that people are using unique shortlog values, but
--                    # they ought to be anyway...
--                    patchfile = os.path.basename(patch)
--                    if seqpatch_re.search(patchfile):
--                        for newpatch in newpatches:
--                            if seqpatch_re.search(newpatch) and patchfile[5:] == newpatch[5:]:
--                                break
--                            else:
--                                removepatches.append(patch)
--                    elif patchfile not in newpatches:
-+                    basename = seqpatch_re.match(
-+                                    os.path.basename(patch)).group(2)
-+                    if basename not in newpatches:
-                         removepatches.append(patch)
-             finally:
-                 shutil.rmtree(tempdir)
+     srctree = os.path.abspath(args.srctree)
+-    if os.path.exists(srctree):
+-        if args.fetch:
+-            if not os.path.isdir(srctree):
+-                logger.error("Cannot fetch into source tree path %s as it exists and is not a directory" % srctree)
+-                return 1
+-            elif os.listdir(srctree):
+-                logger.error("Cannot fetch into source tree path %s as it already exists and is non-empty" % srctree)
+-                return 1
+-    else:
+-        if not args.fetch:
+-            logger.error("Specified source tree %s could not be found" % srctree)
++    if os.path.exists(srctree) and args.fetch:
++        if not os.path.isdir(srctree):
++            logger.error("Cannot fetch into source tree path %s as it exists and is not a directory" % srctree)
+             return 1
++        elif os.listdir(srctree):
++            logger.error("Cannot fetch into source tree path %s as it already exists and is non-empty" % srctree)
++            return 1
++    elif not args.fetch:
++        logger.error("Specified source tree %s could not be found" % srctree)
++        return 1
+ 
+     appendpath = os.path.join(config.workspace_path, 'appends')
+     if not os.path.exists(appendpath):
+@@ -424,10 +422,9 @@ def modify(args, config, basepath, workspace):
+         logger.error("recipe %s is already in your workspace" % args.recipename)
+         return -1
+ 
+-    if not args.extract:
+-        if not os.path.isdir(args.srctree):
+-            logger.error("directory %s does not exist or not a directory (specify -x to extract source from recipe)" % args.srctree)
+-            return -1
++    if not args.extract and not os.path.isdir(args.srctree):
++        logger.error("directory %s does not exist or not a directory (specify -x to extract source from recipe)" % args.srctree)
++        return -1
+ 
+     tinfoil = setup_tinfoil()
+ 
 -- 
 2.1.4
 
