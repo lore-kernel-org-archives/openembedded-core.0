@@ -1,40 +1,41 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A4367570D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3767A6AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 06:30:35 +0000 (UTC)
-Received: by qgg60 with SMTP id 60so13577550qgg.2
+	Thu,  4 Jun 2015 08:35:56 +0000 (UTC)
+Received: by wiga1 with SMTP id a1so39788144wig.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jun 2015 23:30:36 -0700 (PDT)
+	Thu, 04 Jun 2015 01:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=x/7ggGa4ONgpZZfPUmk7860vZM7xe4siaHkulgFo4ao=;
-	b=UB3iBHYtwgdzTwVvrF7UpRVQ1ONIUyPs+kTcjHL8+cI3j9VJ2DjQpRvR5qNxwZWgO3
-	7hn9O/gif4SfZvFlwTokqV4K30l3JaCca8cYqH4SWd626tjcf5cdJQ7iKJbsgJd7pPr+
-	0AIkeQx5f5oECfzZk1L5fodYP1ewpBH2rpe43NtVSAjfDCb/YNUGtDJQqRNRuCxGU7Dr
-	80/KwjONybU5MsU8OHOEO3b/Fm+Vet97vKKlbgWXstM2hshBA+eczj6LPhP9yTOLuTxS
-	Rv5445eq4O3hblfngKtoUdmbqpzE4j0xcc2hCz4LuKGgB6hNePrt9y1xiwBesYuMiITA
-	rFCA==
-X-Received: by 10.55.40.92 with SMTP id o89mr52677014qkh.74.1433399436403;
-	Wed, 03 Jun 2015 23:30:36 -0700 (PDT)
-Received: from ?IPv6:2601:9:3580:84c:243b:97d2:82f:b7e8?
-	([2601:9:3580:84c:243b:97d2:82f:b7e8])
-	by mx.google.com with ESMTPSA id o65sm1870042qge.34.2015.06.03.23.30.34
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 03 Jun 2015 23:30:35 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
-X-Pgp-Agent: GPGMail 2.5b6
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1433388666-8923-1-git-send-email-armccurdy@gmail.com>
-Date: Wed, 3 Jun 2015 23:30:28 -0700
-Message-Id: <1640EBA1-D4F4-4878-810B-4F968E8D871C@gmail.com>
-References: <1433388666-8923-1-git-send-email-armccurdy@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-X-Mailer: Apple Mail (2.2098)
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=22a4FlY0CcuQh4E9qhFPCBm7/B8mLFfgx4P4FoW/kto=;
+	b=AXcKz2SiHR1nOPnpS9McDNehUN8KBGycc04vBvWmk6N1/RozYagNbo6MP9ejiJCF1R
+	X4npbFnGu1z+cTAPW3oOvF1CkTEXAv77BctbtMzDyHeYIzKlNfT4cWEeNZzHWCRY35zw
+	NdmiMTIjvY7aUbwkCiCFohAKmJeSYbDA0sYpoJh9x65ER8/EdhFJsDTDJPByr5WNM6kT
+	4JQ7MPJdwzGenZfotFM77xG9NaXo7PjbM5U38tUkWtjfDtpVnBr6WlDfFlH9n+YecN22
+	XEAv9M1k7WyD8fdJ8/C82lE53W/P6X00ycotBDOQUzO0+L+SC8ZTW4mYmDZIc8Es/r1S
+	v5wA==
+X-Received: by 10.194.3.11 with SMTP id 11mr32246542wjy.121.1433406957532;
+	Thu, 04 Jun 2015 01:35:57 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id 12sm4654981wjw.17.2015.06.04.01.35.56
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Jun 2015 01:35:56 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 4 Jun 2015 10:36:17 +0200
+To: akuster808 <akuster808@gmail.com>
+Message-ID: <20150604083617.GA2376@jama>
+References: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
+	<5547FB9B.5080102@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <5547FB9B.5080102@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] python-numpy: duplicate i586 over-ride for i686
+Subject: Re: [dizzy][PATCH] mesa: update --with-llvm-shared-libs configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,69 +48,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 06:30:40 -0000
-X-Groupsio-MsgNum: 66298
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_698FA549-4B5B-404E-BAB4-543B8AB522C0";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_698FA549-4B5B-404E-BAB4-543B8AB522C0
+X-List-Received-Date: Thu, 04 Jun 2015 08:35:58 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
 
+On Mon, May 04, 2015 at 04:07:07PM -0700, akuster808 wrote:
+> merged to staging.
+> - armin
 
-> On Jun 3, 2015, at 8:31 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->=20
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
-> meta/recipes-devtools/python/python-numpy_1.7.0.bb | 4 ++++
-> 1 file changed, 4 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/python/python-numpy_1.7.0.bb =
-b/meta/recipes-devtools/python/python-numpy_1.7.0.bb
-> index d4fd279..28ad97f 100644
-> --- a/meta/recipes-devtools/python/python-numpy_1.7.0.bb
-> +++ b/meta/recipes-devtools/python/python-numpy_1.7.0.bb
-> @@ -30,6 +30,10 @@ CONFIGFILESURI_i586 =3D " \
->     file://config.h \
->     file://numpyconfig.h \
-> "
-> +CONFIGFILESURI_i686 =3D " \
-> +    file://config.h \
-> +    file://numpyconfig.h \
-> +=E2=80=9D
+Ping for merging staging to dizzy branch
 
-
-can we use x86 override instead ?
-
-> CONFIGFILESURI_x86-64 =3D " \
->     file://config.h \
->     file://_numpyconfig.h \
-> --
-> 1.9.1
->=20
-> --
+> On 05/01/2015 10:47 AM, Martin Jansa wrote:
+> > From: Andre McCurdy <armccurdy@gmail.com>
+> >
+> > As per the Mesa 10.2 release notes, "--with-llvm-shared-libs"
+> > has been renamed to "--enable-llvm-shared-libs".
+> >
+> >    http://www.mesa3d.org/relnotes/10.2.html
+> >
+> > Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > ---
+> >   meta/recipes-graphics/mesa/mesa.inc | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphic=
+s/mesa/mesa.inc
+> > index 1857f3c..658bd3a 100644
+> > --- a/meta/recipes-graphics/mesa/mesa.inc
+> > +++ b/meta/recipes-graphics/mesa/mesa.inc
+> > @@ -62,7 +62,7 @@ PACKAGECONFIG[gallium]      =3D "--with-gallium-drive=
+rs=3D${GALLIUMDRIVERS}, --witho
+> >   PACKAGECONFIG[gallium-egl]  =3D "--enable-gallium-egl, --disable-gall=
+ium-egl"
+> >   PACKAGECONFIG[gallium-gbm]  =3D "--enable-gallium-gbm, --disable-gall=
+ium-gbm"
+> >   MESA_LLVM_RELEASE ?=3D "3.3"
+> > -PACKAGECONFIG[gallium-llvm] =3D "--enable-gallium-llvm --with-llvm-sha=
+red-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+> > +PACKAGECONFIG[gallium-llvm] =3D "--enable-gallium-llvm --enable-llvm-s=
+hared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+> >                                  ${@'elfutils' if ${GALLIUMDRIVERS_LLVM=
+33_ENABLED} else ''}"
+> >   export WANT_LLVM_RELEASE =3D "${MESA_LLVM_RELEASE}"
+> >
+> >
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Apple-Mail=_698FA549-4B5B-404E-BAB4-543B8AB522C0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlVv8IkACgkQuwUzVZGdMxQEKgCfTxTREkkICqkCgRLp9QPIstWR
-/fYAnRuoLzlId0Nl/nQUGnhdtogQdsQv
-=+88O
------END PGP SIGNATURE-----
-
---Apple-Mail=_698FA549-4B5B-404E-BAB4-543B8AB522C0--
