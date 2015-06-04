@@ -1,40 +1,39 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 515586AC43
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id AB5406AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 08:47:19 +0000 (UTC)
-Received: by wibdt2 with SMTP id dt2so41030191wib.1
+	Thu,  4 Jun 2015 08:47:44 +0000 (UTC)
+Received: by wibdt2 with SMTP id dt2so41043087wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jun 2015 01:47:20 -0700 (PDT)
+	Thu, 04 Jun 2015 01:47:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=soawLZOzJRbJoFIX11Yqo/efVfriphMqOhDmHtHKCoQ=;
-	b=rIAJX4iKXPas7/264GTG8cfo1g/Hst3E4WWM/JxN+pd8iD9vU3Tn3PT7CFgWifI4bG
-	BRfRLFkQFxpr1p9dPyG/1r1wZdx1aelFpHNZVGVPbh9AqZFc+j+Kbw7b6lsLWyNw0Yts
-	A6H9QGzRcSdgY6OgaZXkd1pzaKdnLFr3eu0rWIw+s8MC13S5wuAjQlP3k3tIvxCUTdXJ
-	KpQDsaS70l+qNeDYPJugbYnypdRLYBnhBj/ddEVvMatNtBiHwsya8X5ivFRdDvQeyTy8
-	qDXtY3bhuGxGKwxoX+UwZ7B7R17Yz9AmHCbHiEunmXIp13e6QM236QMe515qICskhF8t
-	vKOg==
-X-Received: by 10.180.37.200 with SMTP id a8mr50684396wik.11.1433407640336;
-	Thu, 04 Jun 2015 01:47:20 -0700 (PDT)
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=pF1nsn8cyfkbBmRvAsjLTxM5iNtqGDn5m2DrdWUrcZA=;
+	b=SZ2fL8eCDUtd0K0g9u4QMqvmwPqplPoKGHPn05dveunxthtcvVZxaJ0E1fyqB8yiDq
+	qIGqUEV26V5wIx1/8emrV0sog1wwwriXKua7Wykvw/HB5oSIWaKUPcNbvlp8te4PpAbM
+	idh0GntvIAdiHaagAAtAr39xOA39fbv3O1V2T+i5NnL6Esp4/Bdf1kW6/geYZD6hcoka
+	OK50kV9ny29GOHEc32GYrHrljvwfyuDfUaGQj0oe91z9+mh3tqGjpoSwlbFMmjKFDhN2
+	YVGrJofJhSC9z3FOXVedqxljGPKkP4vHNq1zCaqNqumeMaw6eJr6KDdfvPhTdD76qnKR
+	i4dQ==
+X-Received: by 10.180.73.10 with SMTP id h10mr5640030wiv.3.1433407665199;
+	Thu, 04 Jun 2015 01:47:45 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id x10sm4699974wjf.45.2015.06.04.01.47.19
+	by mx.google.com with ESMTPSA id m2sm30177399wiy.7.2015.06.04.01.47.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Jun 2015 01:47:19 -0700 (PDT)
+	Thu, 04 Jun 2015 01:47:44 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 4 Jun 2015 10:47:40 +0200
+Date: Thu, 4 Jun 2015 10:48:05 +0200
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20150604084740.GE2376@jama>
-References: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
+Message-ID: <20150604084805.GF2376@jama>
+References: <1432207476-32627-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1432207476-32627-1-git-send-email-Martin.Jansa@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [fido][PATCH] e2fsprogs: install populate-extfs.sh
+Subject: Re: [fido][PATCH] squashfs-tools: build and install unsquashfs as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,48 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 08:47:21 -0000
+X-List-Received-Date: Thu, 04 Jun 2015 08:47:46 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 16, 2015 at 06:58:43AM +0200, Martin Jansa wrote:
-> From: Martin Jansa <martin.jansa@gmail.com>
+On Thu, May 21, 2015 at 01:24:36PM +0200, Martin Jansa wrote:
+> * it's useful for debugging corrupt squashfs images from mksquashfs
 
 ping
 
->=20
-> * install populate-extfs.sh from contrib, be aware that in order
->   to use it you need to set DEBUGFS shell variable, otherwise it will
->   try to use debugfs from relative path which is almost always
->   incorrect:
->     CONTRIB_DIR=3D$(dirname $(readlink -f $0))
->     DEBUGFS=3D"$CONTRIB_DIR/../debugfs/debugfs"
->=20
+> 
 > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/r=
-ecipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-> index 66065bc..abc959f 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
-> @@ -54,6 +54,8 @@ do_install () {
->  	oe_multilib_header ext2fs/ext2_types.h
->  	install -d ${D}${base_bindir}
->  	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
-> +
-> +	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
+>  meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
+> index d36f0fe..19d555e1 100644
+> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
+> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
+> @@ -27,11 +27,12 @@ SPDX_S = "${WORKDIR}/squashfs${PV}"
+>  EXTRA_OEMAKE = "MAKEFLAGS= LZMA_SUPPORT=1 LZMA_DIR=../.. XZ_SUPPORT=1 LZO_SUPPORT=1 LZ4_SUPPORT=1"
+>  
+>  do_compile() {
+> -        oe_runmake mksquashfs
+> +	oe_runmake mksquashfs unsquashfs
 >  }
-> =20
->  do_install_append_class-target() {
-> --=20
-> 2.4.0
->=20
+>  do_install () {
+>          install -d ${D}${sbindir}
+>          install -m 0755 mksquashfs ${D}${sbindir}/
+> +	install -m 0755 unsquashfs ${D}${sbindir}/
+>  }
+>  
+>  ARM_INSTRUCTION_SET = "arm"
+> -- 
+> 2.4.1
+> 
 
---=20
+-- 
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
