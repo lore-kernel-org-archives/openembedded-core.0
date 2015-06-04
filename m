@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 960B9757EB
+Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
+	[209.85.216.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B2066757F3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 19:37:14 +0000 (UTC)
-Received: by qkx62 with SMTP id 62so29423433qkx.3
+	Thu,  4 Jun 2015 19:37:15 +0000 (UTC)
+Received: by qcxw10 with SMTP id w10so22010122qcx.3
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 04 Jun 2015 12:37:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=2fduK5/jINLXCpm0etWs9tZuilEoQ4WUKShmsLPIBmk=;
-	b=g11M0BKV3X1BBWumMJPUpmUzm6t95EaO5ooXT4GxzQcz7+16vqbHRSdtch4pbLibGq
-	Xg1UwxQYIMe/CJLIFIcXPDbKdLgOBPHzuZUdhS3fDs2x/q2wsLD51SqXQi9zR4NHk6qi
-	lkWWKP9H8CsRpbsqSr/xcsu003sOipvEAHecZJ87L/4e37Jq6IGWMwhSTMv+zPqpkIET
-	7NfCkBsQdFUb6DgVJC8+faGCzhdF+d8bb5gV3yeeZdB4ACA4PiGRONwHkGhAAJA4Ggu/
-	fUcsIJudWtfrtQuxRDF4i3gcfv9VsWJ4pFO466yAMNXjqbmtJzO0wPfRLAsFGB4fiJhw
-	ur9A==
-X-Received: by 10.55.17.79 with SMTP id b76mr74181156qkh.70.1433446635732;
-	Thu, 04 Jun 2015 12:37:15 -0700 (PDT)
+	:references; bh=HHfLCTDKwba4P1L5LS8zhPCS5uXogysc70GJU5FViNk=;
+	b=aDPd+jbR5TM2hRWNlt7BuvQfHuF9oZeGCXjfwla13kg1qUJLJSQi1Q6dV30rUX5jBL
+	ENWR+hAJ3FjAjVq10kt0KI6x/GN5eA0bIOGxGAEbYr/iKNV85DYCfYSsRNPOzC+8TmlA
+	CTSljFlPWLoayj08Eao7nkc9EAcZGCDIMiYY4siDl1nQilPUpMwv5qdpiR1vEVxNGmBS
+	ien64/oX8SRk/D7s41uITz9HoKxRsjrCbYeCJDo+H1mKlBgBtNBOoIxDwNDVXIMq3OuC
+	d9b89WdbUk28R55dJH93vGcZFcoPkw6rpySk7kgTkSn8IftLEh/EUMuPRDJk6aQeYs5r
+	8WOg==
+X-Received: by 10.140.48.171 with SMTP id o40mr44846795qga.0.1433446636633;
+	Thu, 04 Jun 2015 12:37:16 -0700 (PDT)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by mx.google.com with ESMTPSA id r88sm2891057qkh.12.2015.06.04.12.37.14
+	by mx.google.com with ESMTPSA id i91sm2908758qgd.46.2015.06.04.12.37.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Thu, 04 Jun 2015 12:37:14 -0700 (PDT)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id DE326FC91F2; Thu,  4 Jun 2015 12:37:09 -0700 (PDT)
+	id BD1AAFC91F0; Thu,  4 Jun 2015 12:37:09 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jun 2015 12:37:08 -0700
-Message-Id: <f1d8a6d07dbe8a5093fb327bccd2b4744b570b1f.1433446500.git.akuster808@gmail.com>
+Date: Thu,  4 Jun 2015 12:37:06 -0700
+Message-Id: <60f0906f6e70b2468f7c629ff6f4ad1b3e2495aa.1433446500.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1433446500.git.akuster808@gmail.com>
 References: <cover.1433446500.git.akuster808@gmail.com>
 In-Reply-To: <cover.1433446500.git.akuster808@gmail.com>
 References: <cover.1433446500.git.akuster808@gmail.com>
-Subject: [PATCH 3/3] neon: build fix
+Subject: [PATCH 1/3] nettle: update package to 3.1.1 version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,87 +50,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Jun 2015 19:37:19 -0000
 
-fixup to allow building with api changes in gnutls.
+this requires the gnutls 3.4.1  update or the current gnutils build will break.
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../neon/neon/gnutls_4.3_fixup.patch               | 53 ++++++++++++++++++++++
- meta/recipes-support/neon/neon_0.30.1.bb           |  3 +-
- 2 files changed, 55 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
+ .../nettle/{nettle_2.7.1.bb => nettle_3.1.1.bb}              | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-support/nettle/{nettle_2.7.1.bb => nettle_3.1.1.bb} (48%)
 
-diff --git a/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch b/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
-new file mode 100644
-index 0000000..0020330
---- /dev/null
-+++ b/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
-@@ -0,0 +1,53 @@
-+replace deprecated GnuTLS functions with newer ones if available 
-+
-+Upstream Status: Pending
-+
-+Signed-off-by: Armin Kuster <akuster808@gmail.com>
-+
-+Index: neon-0.30.1/macros/neon.m4
-+===================================================================
-+--- neon-0.30.1.orig/macros/neon.m4
-++++ neon-0.30.1/macros/neon.m4
-+@@ -987,6 +987,10 @@ gnutls)
-+                   gnutls_certificate_get_x509_cas \
-+                   gnutls_x509_crt_sign2])
-+ 
-++   # gnutls 4.3 check
-++   AC_CHECK_LIB(gnutls, gnutls_global_init)
-++   AC_CHECK_FUNCS(gnutls_certificate_set_retrieve_function,,)
-++
-+    # fail if gnutls_x509_crt_sign2 is not found (it was introduced in 1.2.0, which is required)
-+    if test x${ac_cv_func_gnutls_x509_crt_sign2} != xyes; then
-+        AC_MSG_ERROR([GnuTLS version predates gnutls_x509_crt_sign2, newer version required (at least 1.2.0)])
-+Index: neon-0.30.1/src/ne_gnutls.c
-+===================================================================
-+--- neon-0.30.1.orig/src/ne_gnutls.c
-++++ neon-0.30.1/src/ne_gnutls.c
-+@@ -553,7 +553,13 @@ dup_error:
-+ static int provide_client_cert(gnutls_session_t session,
-+                                const gnutls_datum_t *req_ca_rdn, int nreqs,
-+                                const gnutls_pk_algorithm_t *sign_algos,
-+-                               int sign_algos_length, gnutls_retr_st *st)
-++                               int sign_algos_length,
-++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
-++    gnutls_retr2_st* st
-++#else
-++    gnutls_retr_st *st
-++#endif
-++    )
-+ {
-+     ne_session *sess = gnutls_session_get_ptr(session);
-+     
-+@@ -617,8 +623,11 @@ static int provide_client_cert(gnutls_se
-+ #endif
-+             ) {
-+             NE_DEBUG(NE_DBG_SSL, "Supplying client certificate.\n");
-+-
-++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
-++            st->cert_type = type;
-++#else
-+             st->type = type;
-++#endif
-+             st->ncerts = 1;
-+             st->cert.x509 = &sess->client_cert->cert.subject;
-+             st->key.x509 = sess->client_cert->pkey;
-diff --git a/meta/recipes-support/neon/neon_0.30.1.bb b/meta/recipes-support/neon/neon_0.30.1.bb
-index 9245244..bac5bac 100644
---- a/meta/recipes-support/neon/neon_0.30.1.bb
-+++ b/meta/recipes-support/neon/neon_0.30.1.bb
-@@ -10,7 +10,8 @@ DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
- BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_3.1.1.bb
+similarity index 48%
+rename from meta/recipes-support/nettle/nettle_2.7.1.bb
+rename to meta/recipes-support/nettle/nettle_3.1.1.bb
+index f53afcc..ce5e756 100644
+--- a/meta/recipes-support/nettle/nettle_2.7.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.1.1.bb
+@@ -1,17 +1,17 @@
+ SUMMARY = "A low level cryptographic library"
+ HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
+ SECTION = "libs"
+-LICENSE = "LGPLv2.1 & GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+-                    file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
+-                    file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
++LICENSE = "GPLv2+ & GPLv3 & LGPLv3+"
++LIC_FILES_CHKSUM = "file://COPYINGv2;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548 \
++                    file://COPYINGv3;beginline=1;endline=2;md5=d1c727712ceba52db52e0ee449cadf43  \
++                    file://COPYING.LESSERv3;beginline=1;endline=2;md5=ff44a06d461487fb65f84ad672a1d1c8"
  
- SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
--           file://pkgconfig.patch"
-+           file://pkgconfig.patch \
-+           file://gnutls_4.3_fixup.patch"
- SRC_URI[md5sum] = "231adebe5c2f78fded3e3df6e958878e"
- SRC_URI[sha256sum] = "00c626c0dc18d094ab374dbd9a354915bfe4776433289386ed489c2ec0845cdd"
+ DEPENDS += "gmp"
+ 
+ SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
+ 
+-SRC_URI[md5sum] = "003d5147911317931dd453520eb234a5"
+-SRC_URI[sha256sum] = "bc71ebd43435537d767799e414fce88e521b7278d48c860651216e1fc6555b40"
++SRC_URI[md5sum] = "b40fa88dc32f37a182b6b42092ebb144"
++SRC_URI[sha256sum] = "5fd4d25d64d8ddcb85d0d897572af73b05b4d163c6cc49438a5bfbb8ff293d4c"
+ 
+ EXTRA_OECONF = "--disable-openssl"
  
 -- 
 1.9.1
