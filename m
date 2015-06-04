@@ -1,36 +1,40 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 820947574D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
+	[209.85.223.173])
+	by mail.openembedded.org (Postfix) with ESMTP id BA5C473BBE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 03:31:26 +0000 (UTC)
-Received: by pdbki1 with SMTP id ki1so21142344pdb.1
+	Thu,  4 Jun 2015 04:53:13 +0000 (UTC)
+Received: by iesa3 with SMTP id a3so28602678ies.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jun 2015 20:31:27 -0700 (PDT)
+	Wed, 03 Jun 2015 21:53:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Nnj76z3fpymDiUe4xXm4Z5dy3e2hUZlQrwzIW4yVtSw=;
-	b=oKOjbHPImt/aal8TrVz8ZmiCcC7CHC9EYKqSU49XnOgpyMFsvRr5cQc1Qt9PO+xbR2
-	OtXfRX5Atqb7vYZFw3/OVbzf+SIrXyNg0pPQMclIdx21iTy+G6UV+WUkPbXDZFlptNn7
-	RxCsMWq8TUQTNwiIBfIQ9VLFSsy+lDMhZt2S59eHrP0VQsgTiEf1incfO+kY1MMw4dwg
-	jEpibWT7EvRMNgECIYwXspaKWEixmk6bMcXOaJKHG1gQMxMXb0QDSHx4ANHBMW5+6nEX
-	XTZZM/eFdPTKHu0/mgom416lpkXrkMYFWuLUrWlahQ/4VI4L3sef6AbR2g28GJgqgSYu
-	vBpA==
-X-Received: by 10.70.133.66 with SMTP id pa2mr65591202pdb.164.1433388687843;
-	Wed, 03 Jun 2015 20:31:27 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id ms7sm2144901pdb.11.2015.06.03.20.31.26
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 03 Jun 2015 20:31:27 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Jun 2015 20:31:06 -0700
-Message-Id: <1433388666-8923-4-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1433388666-8923-1-git-send-email-armccurdy@gmail.com>
-References: <1433388666-8923-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 4/4] x264: duplicate i586 over-ride for i686
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=SSxQaC+avw+SzzzB3RX4K8zi5CdmmxIScx/mJS2AIvE=;
+	b=D/cIRO3cXLSVk0lWotNwvpkpztTCM6A+P+SP+mBDRZv2gjn+Zj5D/bpe6c38Vhmy35
+	ZLPOffUconO+AJgIJwHrFspZaDKwtnmC9ejX0vNCkMiUerQNbZke+G+Ls07BA5RAvK3t
+	DJkcxHufHld5R7raLiiHA2Enco8jDlcnt4IRpsUcd4vG6ACl/TQVHWbWqAcK32+H0jHl
+	AWkujBywmAdQDa0ZVZM50UwjsM+mHgEm03f0MFv7IeiDf0prwIE7MUZRVuv4sfmE4ifv
+	MGczeEtRk5klTUXYXx1M5i9pNLrefmUHx5S0/2Wbfkqy+Y5dWtTzZxNu7QLwAv1fJ5Jh
+	9h0A==
+X-Received: by 10.43.17.135 with SMTP id qc7mr2321635icb.14.1433393594938;
+	Wed, 03 Jun 2015 21:53:14 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.3.166 with HTTP; Wed, 3 Jun 2015 21:52:44 -0700 (PDT)
+In-Reply-To: <1433330298.2898.0.camel@tkkaskin-mobl3.ger.corp.intel.com>
+References: <cover.1432320274.git.tanu.kaskinen@linux.intel.com>
+	<e5260dbf168f3c51d9114e4c4cb1fca49abc83b1.1432320274.git.tanu.kaskinen@linux.intel.com>
+	<1432448758.12832.67.camel@linuxfoundation.org>
+	<3ABA6702-FFD6-448B-99B2-5DD5723A3AD3@gmail.com>
+	<CAMKF1sqm97zeLZ5v70-BKW=+tPCn+w_bDibFkM2q6714kpABJg@mail.gmail.com>
+	<1433330298.2898.0.camel@tkkaskin-mobl3.ger.corp.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 3 Jun 2015 21:52:44 -0700
+Message-ID: <CAMKF1sr+=ebq-FQbSpPZNyr0yBc4m=uZBib1QGuv0abvejQn8w@mail.gmail.com>
+To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/5] alsa-plugins: initial recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,24 +47,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 03:31:26 -0000
+X-List-Received-Date: Thu, 04 Jun 2015 04:53:17 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-multimedia/x264/x264_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+On Wed, Jun 3, 2015 at 4:18 AM, Tanu Kaskinen
+<tanu.kaskinen@linux.intel.com> wrote:
+> I now sent a fix for these warnings.
 
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index 0e856b3..9d893f0 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -52,4 +52,5 @@ do_install() {
- 
- # PIC can't be enabled for 32-bit x86
- INSANE_SKIP_${PN}_append_i586 = " textrel"
-+INSANE_SKIP_${PN}_append_i686 = " textrel"
- 
--- 
-1.9.1
-
+thanks
 
