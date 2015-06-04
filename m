@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 78601757EB
+	by mail.openembedded.org (Postfix) with ESMTP id 76BFE757E9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 10:44:19 +0000 (UTC)
+	Thu,  4 Jun 2015 10:44:21 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Jun 2015 03:44:03 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 04 Jun 2015 03:44:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,552,1427785200"; d="scan'208";a="720634381"
+X-IronPort-AV: E=Sophos;i="5.13,552,1427785200"; d="scan'208";a="720634392"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Jun 2015 03:44:02 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 04 Jun 2015 03:44:05 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jun 2015 13:44:18 +0300
-Message-Id: <0a56ca40b060ecb7d1c42ca1272b8351c024023b.1433414236.git.jussi.kukkonen@intel.com>
+Date: Thu,  4 Jun 2015 13:44:20 +0300
+Message-Id: <81bc54c716d05c3d0c28fe7858738a1b8d3fe1d9.1433414236.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <4168ccc0ec9736fcb82ae9273e46e38df46b778e.1433414236.git.jussi.kukkonen@intel.com>
 References: <4168ccc0ec9736fcb82ae9273e46e38df46b778e.1433414236.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1433414236.git.jussi.kukkonen@intel.com>
 References: <cover.1433414236.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 2/6] xf86-input-keyboard: Upgrade 1.8.0 -> 1.8.1
+Subject: [PATCH 4/6] xf86-video-omap: Upgrade to 0.4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +33,123 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 04 Jun 2015 10:44:21 -0000
 
+Use last release instead of slightly older git revision, drop the
+upstreamed patch.
+
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../{xf86-input-keyboard_1.8.0.bb => xf86-input-keyboard_1.8.1.bb}    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-driver/{xf86-input-keyboard_1.8.0.bb => xf86-input-keyboard_1.8.1.bb} (73%)
+ .../xorg-driver/xf86-video-omap/configure.patch    | 74 ----------------------
+ ...-video-omap_git.bb => xf86-video-omap_0.4.3.bb} | 11 +---
+ 2 files changed, 3 insertions(+), 82 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap/configure.patch
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-omap_git.bb => xf86-video-omap_0.4.3.bb} (85%)
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.8.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.8.1.bb
-similarity index 73%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.8.0.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.8.1.bb
-index f138918..6fe51ac 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.8.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-keyboard_1.8.1.bb
-@@ -9,5 +9,5 @@ core keyboard."
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap/configure.patch b/meta/recipes-graphics/xorg-driver/xf86-video-omap/configure.patch
+deleted file mode 100644
+index d298d5d..0000000
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-omap/configure.patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-Upstream-Status: Submitted [https://bugs.freedesktop.org/show_bug.cgi?id=57386]
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From fc7b6045aaec583c7e29021bd23c20a877b20546 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Wed, 21 Nov 2012 23:39:18 +0000
+-Subject: [PATCH] build: rationalise DRI checks
+-
+-The existing logic around DRI was complicated and defined a number of variables
+-that were not used, when in reality DRI is required.
+-
+-Move the glproto check to the main pkg-config check, and remove everything else.
+-
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- configure.ac |   33 +--------------------------------
+- 1 file changed, 1 insertion(+), 32 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 11238b1..c321b98 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -44,47 +44,16 @@ XORG_DRIVER_CHECK_EXT(XV, videoproto)
+- XORG_DRIVER_CHECK_EXT(DPMSExtension, xextproto)
+- 
+- # Checks for pkg-config packages
+--PKG_CHECK_MODULES(XORG, [xorg-server >= 1.3] xproto fontsproto [libdrm >= 2.4.36] libdrm_omap xf86driproto $REQUIRED_MODULES)
+--sdkdir=$(pkg-config --variable=sdkdir xorg-server)
+-+PKG_CHECK_MODULES(XORG, [xorg-server >= 1.3] xproto fontsproto [libdrm >= 2.4.36] libdrm_omap xf86driproto glproto $REQUIRED_MODULES)
+- 
+- # Checks for header files.
+- AC_HEADER_STDC
+- 
+--save_CFLAGS="$CFLAGS"
+--CFLAGS="$XORG_CFLAGS $DRI_CFLAGS $DRM_CFLAGS"
+--CPPFLAGS="$XORG_CFLAGS $DRI_CFLAGS $DRM_CFLAGS"
+--AC_MSG_CHECKING([whether to include DRI support])
+--if test x$DRI != xno; then
+--        AC_CHECK_FILE([${sdkdir}/dri.h],
+--                      [have_dri_h="yes"], [have_dri_h="no"])
+--        AC_CHECK_FILE([${sdkdir}/dristruct.h],
+--                      [have_dristruct_h="yes"], [have_dristruct_h="no"])
+--fi
+--AC_MSG_CHECKING([whether to include DRI support])
+--if test x$DRI = xauto; then
+--        if test "$have_dri_h" = yes -a \
+--                "$have_dristruct_h" = yes; then
+--                DRI="yes"
+--        else
+--                DRI="no"
+--        fi
+--fi
+--AC_MSG_RESULT([$DRI])
+--CFLAGS="$save_CFLAGS $DEBUGFLAGS"
+--
+--AM_CONDITIONAL(DRI, test x$DRI = xyes)
+--if test "$DRI" = yes; then
+--        PKG_CHECK_MODULES(DRI, [xf86driproto glproto])
+--        AC_DEFINE(XF86DRI,1,[Enable DRI driver support])
+--        AC_DEFINE(XF86DRI_DEVEL,1,[Enable developmental DRI driver support])
+--fi
+--
+- AM_CONDITIONAL(VIDEO_DEBUG, test x$VIDEO_DEBUG = xyes)
+- if test "$VIDEO_DEBUG" = yes; then
+- 	AC_DEFINE(VIDEO_DEBUG,1,[Enable debug support])
+- fi
+- 
+--AC_SUBST([DRI_CFLAGS])
+- 
+- DRIVER_NAME=omap
+- AC_SUBST([DRIVER_NAME])
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.3.bb
+similarity index 85%
+rename from meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
+rename to meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.3.bb
+index 454d0a1..95de4ba 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-omap_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap_0.4.3.bb
+@@ -24,15 +24,10 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=10ce5de3b111315ea652a5f74ec0c602"
+ DEPENDS += "virtual/libx11 libdrm xf86driproto"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=ea2099d24ac9e316a6d4b9f20b3d4e10"
+-SRCREV = "ae0394e687f1a77e966cf72f895da91840dffb8f"
+-PR = "${INC_PR}.3"
+-PV = "0.4.2+gitr${SRCPV}"
+-
+-SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-omap \
+-           file://configure.patch \
+-"
++SRC_URI[md5sum] = "be35daf6fa4b75092cc4a8978c437bc5"
++SRC_URI[sha256sum] = "db1e0e69fd4c4c8fdca5ef2cb0447bccd7518a718495876a6904bef57b39986d"
  
--SRC_URI[md5sum] = "ce936e219682bacf5a4a9c4ab940edb8"
--SRC_URI[sha256sum] = "41c51c4e0a87aad6a1c4973c68a8de23b61162d0223f4ab36c627c307830cb5b"
-+SRC_URI[md5sum] = "96ccc43d389b970afbd3893875dfd678"
-+SRC_URI[sha256sum] = "1ac8ff39bf9da7d2fc7fd6c24515726e8138340c0518ab8c606e008cf93ca211"
+-S = "${WORKDIR}/git"
++PR = "${INC_PR}.3"
+ 
+ CFLAGS += " -I${STAGING_INCDIR}/xorg "
+ 
 -- 
 2.1.4
 
