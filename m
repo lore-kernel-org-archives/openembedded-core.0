@@ -1,41 +1,37 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C7B77580D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 41DEF609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 19:37:15 +0000 (UTC)
-Received: by qkoo18 with SMTP id o18so29548551qko.1
+	Thu,  4 Jun 2015 20:07:13 +0000 (UTC)
+Received: by qgep100 with SMTP id p100so21279145qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jun 2015 12:37:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=UwrEFxz0ka4jcPPQi9Gx14Kny+ZRbxs8tV2nubvIM/E=;
-	b=s504vQ2JMb4YEEB0Vwm9n4Zzc05mq+p+OsFPVmb6AqhULSF1L8FUqyk6Xp3dWIHSUo
-	ROc6yYL2BTFmH4PiwK6RmpQOrJ3kcvlTYGQKnm0KfFH8TY5A2HZcZMtemxrDFkQpL0nV
-	WC/mDU3rjB7CEtGbuSwmFL5v+5XgmVd4lWtqWoq4ojxu8mOa9JkhkKsdPvMXBaoAisAI
-	iPaPH0+NX/gZ4GJEowkNcA/5zqeZH3St+WVPXTMSpsReeGHMLGB1/TRSQi/bNQn1Y/qp
-	stBaXZT6gIHwzInSIsF/zf5u/ouSampQib+gZ54YR+2l2Aq5PMIjOtLDKrkdnPBVCIMx
-	Gjkg==
-X-Received: by 10.140.33.21 with SMTP id i21mr44289905qgi.4.1433446637107;
-	Thu, 04 Jun 2015 12:37:17 -0700 (PDT)
-Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id j62sm2869295qhc.33.2015.06.04.12.37.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Jun 2015 12:37:15 -0700 (PDT)
-Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id CDEB2FC91F1; Thu,  4 Jun 2015 12:37:09 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jun 2015 12:37:07 -0700
-Message-Id: <6c7c4b20a65422884d29efaa109b9b8b5961f300.1433446500.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1433446500.git.akuster808@gmail.com>
-References: <cover.1433446500.git.akuster808@gmail.com>
-In-Reply-To: <cover.1433446500.git.akuster808@gmail.com>
-References: <cover.1433446500.git.akuster808@gmail.com>
-Subject: [PATCH 2/3] gnutls: update to 3.4.1
+	Thu, 04 Jun 2015 13:07:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=7t4M3zRtFaHy/6i5aUoDsQ7weY1jJ1ehKYJk4RWisXA=;
+	b=jcj+pynUQLB41KC8EBq0rgFCENZ/rE6Cn5MGkHDka09ZpEVjTQCJZBz/OkPHAndb3X
+	Hvbpv6uGgrsMSNvbiFcmWIzNPIlspJGuavjcgwgX3XJFzMPrfIhlE3GTplAraO6Hz03u
+	fOOFD2cGwxMk6flFwER2DApIFg+lfM/Ar9CX7EOXPBi7yx5BWNZjAgVwQ8dp7rgMrqGs
+	NPDe2v22MkbCSuiPfA49XOAF9R8s+nj/VdgP65WlSTd6xkLCx5qy2K9omSZT9i+4IyRL
+	Cs4GPNR4K1UYLYy52UsNrAI+b4OTopz3aPkeoQAGMojOZaGJQx6fR9rtp7y/h25lxDiH
+	C4vA==
+X-Gm-Message-State: ALoCoQkMZ/bDJKmp4cZd27WQojjhoarPRj4M6Y7fzQg/cXITc5eb+5C0OWS3tJpWG5diVQ8MIEol
+X-Received: by 10.55.18.155 with SMTP id 27mr75125958qks.36.1433448434979;
+	Thu, 04 Jun 2015 13:07:14 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Thu, 4 Jun 2015 13:06:54 -0700 (PDT)
+In-Reply-To: <814ba904a75c25027560113d0317fbc092e9d8b7.1433443273.git.anibal.limon@linux.intel.com>
+References: <cover.1433443273.git.anibal.limon@linux.intel.com>
+	<814ba904a75c25027560113d0317fbc092e9d8b7.1433443273.git.anibal.limon@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Jun 2015 21:06:54 +0100
+Message-ID: <CAJTo0Laqurme0RPGf7AQ1b5P-esYmwW48nA=VfzHtcfq8i1DmQ@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 4/4] distrodata: Use Python CSV instead of did by hand
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,111 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 19:37:19 -0000
+X-List-Received-Date: Thu, 04 Jun 2015 20:07:16 -0000
+Content-Type: multipart/alternative; boundary=001a11473796c56ac50517b6b852
 
-This version supports the nettle 3.x and higher and requires that version.
+--001a11473796c56ac50517b6b852
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-this include a security fix:
-GNUTLS-SA-2015-2
-no CVE assigned to date.
+On 4 June 2015 at 19:42, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.c=
+om> wrote:
 
-enable openssl compat via PACKAGECONFIG as iputils needs gnutls/openssl.h
+> Fix CSV generation in distrodata class using Python CSV
+> module before it some errors happen when read due to
+> incorrect quoting/delimiters.
+>
 
-for migration info:
-http://www.gnutls.org/manual/gnutls.html#Upgrading-from-previous-versions
+So whereas before the SRC_URI field in checkpkg.cvs generally just listed
+the first entry (the main source) it now lists the entire of SRC_URI.
+Presumably this bug fix is desired behaviour?
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-support/gnutls/gnutls.inc             |  3 ++-
- .../gnutls/configure.ac-fix-sed-command.patch      | 29 ++++++++++------------
- meta/recipes-support/gnutls/gnutls_3.3.14.bb       |  8 ------
- meta/recipes-support/gnutls/gnutls_3.4.1.bb        |  8 ++++++
- 4 files changed, 23 insertions(+), 25 deletions(-)
- delete mode 100644 meta/recipes-support/gnutls/gnutls_3.3.14.bb
- create mode 100644 meta/recipes-support/gnutls/gnutls_3.4.1.bb
+Ross
 
-diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
-index e9b138a..6928cb9 100644
---- a/meta/recipes-support/gnutls/gnutls.inc
-+++ b/meta/recipes-support/gnutls/gnutls.inc
-@@ -34,9 +34,10 @@ do_configure_prepend() {
- 	done
- }
- 
--PACKAGECONFIG ??= "zlib"
-+PACKAGECONFIG ??= "zlib openssl_compat"
- PACKAGECONFIG[tpm] = "--with-tpm, --without-tpm, trousers"
- PACKAGECONFIG[zlib] = "--with-zlib, --without-zlib, zlib"
-+PACKAGECONFIG[openssl_compat] = "--enable-openssl-compatibility,,"
- 
- PACKAGES =+ "${PN}-openssl ${PN}-xx"
- 
-diff --git a/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch b/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
-index 44a9934..342143f 100644
---- a/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
-+++ b/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
-@@ -13,19 +13,16 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/configure.ac b/configure.ac
--index c6818a0..1c4582d 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -466,7 +466,7 @@ if test "$NEED_LIBOPTS_DIR" = "true";then
-- 	dnl replace libopts-generated files with distributed backups, if present
-- 	missing_baks=
-- 	for i in ${srcdir}/src/*-args.c.bak ${srcdir}/src/*-args.h.bak; do
---		nam=`echo $i|sed 's/.bak//g'`
--+		nam=`echo $i|sed 's/\.bak$//'`
-- 		if test -f $i;then
-- 			cp -f $i $nam
-- 		else
---- 
--2.0.1
--
-+Index: gnutls-3.4.1/configure.ac
-+===================================================================
-+--- gnutls-3.4.1.orig/configure.ac
-++++ gnutls-3.4.1/configure.ac
-+@@ -530,7 +530,7 @@ if test "$enable_tools" != "no" || test
-+ 		dnl replace libopts-generated files with distributed backups, if present
-+ 		missing_baks=
-+ 		for i in ${srcdir}/src/*-args.c.bak ${srcdir}/src/*-args.h.bak; do
-+-			nam=`echo $i|sed 's/.bak//g'`
-++			nam=`echo $i|sed 's/\.bak$//'`
-+ 			if test -f $i;then
-+ 				cp -f $i $nam
-+ 			else
-diff --git a/meta/recipes-support/gnutls/gnutls_3.3.14.bb b/meta/recipes-support/gnutls/gnutls_3.3.14.bb
-deleted file mode 100644
-index f41d183..0000000
---- a/meta/recipes-support/gnutls/gnutls_3.3.14.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--require gnutls.inc
--
--SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
--            file://configure.ac-fix-sed-command.patch \
--            file://use-pkg-config-to-locate-zlib.patch \
--           "
--SRC_URI[md5sum] = "7f4465f8c564cf9cb8f5cb38b909f7ca"
--SRC_URI[sha256sum] = "0dfa0030faad8909c1e904105198232d6bc0123cae8cf4933b2bac85ee7cec52"
-diff --git a/meta/recipes-support/gnutls/gnutls_3.4.1.bb b/meta/recipes-support/gnutls/gnutls_3.4.1.bb
-new file mode 100644
-index 0000000..1b64813
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls_3.4.1.bb
-@@ -0,0 +1,8 @@
-+require gnutls.inc
-+
-+SRC_URI += "file://correct_rpl_gettimeofday_signature.patch  \
-+            file://configure.ac-fix-sed-command.patch \
-+            file://use-pkg-config-to-locate-zlib.patch \
-+          "
-+SRC_URI[md5sum] = "2d04f34fa25b45f9dcb9104c0394e12e"
-+SRC_URI[sha256sum] = "e9b5f58becf34756464216056cd5abbf04315eda80a374d02699dee83f80b12e"
--- 
-1.9.1
+--001a11473796c56ac50517b6b852
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 June 2015 at 19:42, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.limon@l=
+inux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ style=3D"overflow:hidden">Fix CSV generation in distrodata class using Pyt=
+hon CSV<br>
+module before it some errors happen when read due to<br>
+incorrect quoting/delimiters.</div></blockquote></div><br>So whereas before=
+ the SRC_URI field in checkpkg.cvs generally just listed the first entry (t=
+he main source) it now lists the entire of SRC_URI.=C2=A0 Presumably this b=
+ug fix is desired behaviour?</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
 
+--001a11473796c56ac50517b6b852--
