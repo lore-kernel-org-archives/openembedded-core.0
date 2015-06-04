@@ -1,39 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id AB5406AC43
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 614766AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 08:47:44 +0000 (UTC)
-Received: by wibdt2 with SMTP id dt2so41043087wib.1
+	Thu,  4 Jun 2015 08:52:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
+   d="scan'208";a="96439418"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 04 Jun 2015 16:57:07 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t548pECV023946
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jun 2015 01:47:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=pF1nsn8cyfkbBmRvAsjLTxM5iNtqGDn5m2DrdWUrcZA=;
-	b=SZ2fL8eCDUtd0K0g9u4QMqvmwPqplPoKGHPn05dveunxthtcvVZxaJ0E1fyqB8yiDq
-	qIGqUEV26V5wIx1/8emrV0sog1wwwriXKua7Wykvw/HB5oSIWaKUPcNbvlp8te4PpAbM
-	idh0GntvIAdiHaagAAtAr39xOA39fbv3O1V2T+i5NnL6Esp4/Bdf1kW6/geYZD6hcoka
-	OK50kV9ny29GOHEc32GYrHrljvwfyuDfUaGQj0oe91z9+mh3tqGjpoSwlbFMmjKFDhN2
-	YVGrJofJhSC9z3FOXVedqxljGPKkP4vHNq1zCaqNqumeMaw6eJr6KDdfvPhTdD76qnKR
-	i4dQ==
-X-Received: by 10.180.73.10 with SMTP id h10mr5640030wiv.3.1433407665199;
-	Thu, 04 Jun 2015 01:47:45 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id m2sm30177399wiy.7.2015.06.04.01.47.44
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Jun 2015 01:47:44 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 4 Jun 2015 10:48:05 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150604084805.GF2376@jama>
-References: <1432207476-32627-1-git-send-email-Martin.Jansa@gmail.com>
+	Thu, 4 Jun 2015 16:51:15 +0800
+Received: from localhost.localdomain (10.167.226.47) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 4 Jun 2015 16:52:44 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Jun 2015 16:52:36 +0800
+Message-ID: <1433407956-1948-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-In-Reply-To: <1432207476-32627-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [fido][PATCH] squashfs-tools: build and install unsquashfs as well
+X-Originating-IP: [10.167.226.47]
+Subject: [PATCH] base-files: Fix LSB NG Cases.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 08:47:46 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 04 Jun 2015 08:52:49 -0000
+Content-Type: text/plain
 
-On Thu, May 21, 2015 at 01:24:36PM +0200, Martin Jansa wrote:
-> * it's useful for debugging corrupt squashfs images from mksquashfs
+-/tset/LSB.fhs/var/tmp/tmp-tc.
 
-ping
+The LSB Core test requires the /var/tmp directory supports creation of files.
+And the mount tmpfs on /var/volatile cause the /var/tmp directory can't be
+writable for non-root users.
 
-> 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-> index d36f0fe..19d555e1 100644
-> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_4.3.bb
-> @@ -27,11 +27,12 @@ SPDX_S = "${WORKDIR}/squashfs${PV}"
->  EXTRA_OEMAKE = "MAKEFLAGS= LZMA_SUPPORT=1 LZMA_DIR=../.. XZ_SUPPORT=1 LZO_SUPPORT=1 LZ4_SUPPORT=1"
->  
->  do_compile() {
-> -        oe_runmake mksquashfs
-> +	oe_runmake mksquashfs unsquashfs
->  }
->  do_install () {
->          install -d ${D}${sbindir}
->          install -m 0755 mksquashfs ${D}${sbindir}/
-> +	install -m 0755 unsquashfs ${D}${sbindir}/
->  }
->  
->  ARM_INSTRUCTION_SET = "arm"
-> -- 
-> 2.4.1
-> 
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ meta/recipes-core/base-files/base-files/fstab | 1 -
+ 1 file changed, 1 deletion(-)
 
+diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
+index d79a016..458ec70 100644
+--- a/meta/recipes-core/base-files/base-files/fstab
++++ b/meta/recipes-core/base-files/base-files/fstab
+@@ -4,7 +4,6 @@
+ proc                 /proc                proc       defaults              0  0
+ devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
+ tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
+-tmpfs                /var/volatile        tmpfs      defaults              0  0
+ 
+ # uncomment this if your device has a SD/MMC/Transflash slot
+ #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto  0  0
 -- 
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+1.8.4.2
+
 
