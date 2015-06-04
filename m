@@ -1,23 +1,27 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
+Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 06A1A75823
+	by mail.openembedded.org (Postfix) with ESMTP id A86E173BBE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 16:32:10 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Jun 2015 09:32:13 -0700
+	Thu,  4 Jun 2015 16:53:15 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 04 Jun 2015 09:52:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,553,1427785200"; d="scan'208";a="705387242"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 04 Jun 2015 09:32:11 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jun 2015 19:31:54 +0300
-Message-Id: <1433435514-28677-11-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1433435514-28677-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1433435514-28677-1-git-send-email-markus.lehtonen@linux.intel.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 10/10] devtool: use DevtoolError for error handling
+X-IronPort-AV: E=Sophos;i="5.13,553,1427785200"; d="scan'208";a="720846563"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.173])
+	([10.219.4.173])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Jun 2015 09:52:59 -0700
+Message-ID: <557082C8.2090907@linux.intel.com>
+Date: Thu, 04 Jun 2015 11:54:32 -0500
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1433274434.git.anibal.limon@linux.intel.com>
+	<CAJTo0LbAsutsVamsW4mYt8rKHL069DKFKhWMYhwMK-o9tcabwQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LbAsutsVamsW4mYt8rKHL069DKFKhWMYhwMK-o9tcabwQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] recipeutils adds get_recipe_upstream_version and distrodata fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,474 +34,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 16:32:11 -0000
+X-List-Received-Date: Thu, 04 Jun 2015 16:53:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Use DevtoolError exception more widely for handling error cases. This
-exception is now caught in the main script and raising it can be used to
-exit with an error. This hopefully simplifies error handling. The
-change also makes exit codes more consistent, always returning '1' when
-an error occurs.
+Hi Ross,
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/devtool                 |   8 ++-
- scripts/lib/devtool/__init__.py |   6 ++
- scripts/lib/devtool/deploy.py   |  31 ++++----
- scripts/lib/devtool/standard.py | 152 ++++++++++++++++++----------------------
- 4 files changed, 97 insertions(+), 100 deletions(-)
+The problem is i forget to add v2 to the patch [1] that is a new version 
+of the patch [2], sorry
+about that.
 
-diff --git a/scripts/devtool b/scripts/devtool
-index 307846a..7fd4da3 100755
---- a/scripts/devtool
-+++ b/scripts/devtool
-@@ -35,6 +35,7 @@ context = None
- scripts_path = os.path.dirname(os.path.realpath(__file__))
- lib_path = scripts_path + '/lib'
- sys.path = sys.path + [lib_path]
-+from devtool import DevtoolError
- import scriptutils
- logger = scriptutils.logger_create('devtool')
- 
-@@ -249,7 +250,12 @@ def main():
-     if args.subparser_name != 'create-workspace':
-         read_workspace()
- 
--    ret = args.func(args, config, basepath, workspace)
-+    try:
-+        ret = args.func(args, config, basepath, workspace)
-+    except DevtoolError as err:
-+        if str(err):
-+            logger.error(str(err))
-+        ret = 1
- 
-     return ret
- 
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 9ec1ef6..ea0b63e 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -25,6 +25,12 @@ import logging
- 
- logger = logging.getLogger('devtool')
- 
-+
-+class DevtoolError(Exception):
-+    """Exception for handling devtool errors"""
-+    pass
-+
-+
- def exec_build_env_command(init_path, builddir, cmd, watch=False, **options):
-     """Run a program in bitbake build context"""
-     import bb
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index 92a3cb4..ca74a8e 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -19,7 +19,7 @@
- import os
- import subprocess
- import logging
--from devtool import exec_build_env_command, setup_tinfoil
-+from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
- 
- logger = logging.getLogger('devtool')
- 
-@@ -34,8 +34,8 @@ def deploy(args, config, basepath, workspace):
-     import oe.recipeutils
- 
-     if not args.recipename in workspace:
--        logger.error("no recipe named %s in your workspace" % args.recipename)
--        return -1
-+        raise DevtoolError("no recipe named %s in your workspace" %
-+                           args.recipename)
-     try:
-         host, destdir = args.target.split(':')
-     except ValueError:
-@@ -50,12 +50,13 @@ def deploy(args, config, basepath, workspace):
-     try:
-         rd = oe.recipeutils.parse_recipe_simple(tinfoil.cooker, args.recipename, tinfoil.config_data)
-     except Exception as e:
--        logger.error('Exception parsing recipe %s: %s' % (args.recipename, e))
--        return 2
-+        raise DevtoolError('Exception parsing recipe %s: %s' %
-+                           (args.recipename, e))
-     recipe_outdir = rd.getVar('D', True)
-     if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
--        logger.error('No files to deploy - have you built the %s recipe? If so, the install step has not installed any files.' % args.recipename)
--        return -1
-+        raise DevtoolError('No files to deploy - have you built the %s '
-+                           'recipe? If so, the install step has not installed '
-+                           'any files.' % args.recipename)
- 
-     if args.dry_run:
-         print('Files to be deployed for %s on target %s:' % (args.recipename, args.target))
-@@ -67,7 +68,7 @@ def deploy(args, config, basepath, workspace):
-     if os.path.exists(deploy_file):
-         if undeploy(args, config, basepath, workspace):
-             # Error already shown
--            return -1
-+            return 1
- 
-     extraoptions = ''
-     if args.no_host_check:
-@@ -76,8 +77,8 @@ def deploy(args, config, basepath, workspace):
-         extraoptions += ' -q'
-     ret = subprocess.call('scp -r %s %s/* %s:%s' % (extraoptions, recipe_outdir, args.target, destdir), shell=True)
-     if ret != 0:
--        logger.error('Deploy failed - rerun with -s to get a complete error message')
--        return ret
-+        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
-+                           'error message')
- 
-     logger.info('Successfully deployed %s' % recipe_outdir)
- 
-@@ -99,8 +100,7 @@ def undeploy(args, config, basepath, workspace):
-     """Entry point for the devtool 'undeploy' subcommand"""
-     deploy_file = os.path.join(basepath, 'target_deploy', args.target, args.recipename + '.list')
-     if not os.path.exists(deploy_file):
--        logger.error('%s has not been deployed' % args.recipename)
--        return -1
-+        raise DevtoolError('%s has not been deployed' % args.recipename)
- 
-     if args.dry_run:
-         print('Previously deployed files to be un-deployed for %s on target %s:' % (args.recipename, args.target))
-@@ -117,15 +117,16 @@ def undeploy(args, config, basepath, workspace):
- 
-     ret = subprocess.call("scp %s %s %s:/tmp" % (extraoptions, deploy_file, args.target), shell=True)
-     if ret != 0:
--        logger.error('Failed to copy file list to %s - rerun with -s to get a complete error message' % args.target)
--        return -1
-+        raise DevtoolError('Failed to copy file list to %s - rerun with -s to '
-+                           'get a complete error message' % args.target)
- 
-     ret = subprocess.call("ssh %s %s 'xargs -n1 rm -f </tmp/%s'" % (extraoptions, args.target, os.path.basename(deploy_file)), shell=True)
-     if ret == 0:
-         logger.info('Successfully undeployed %s' % args.recipename)
-         os.remove(deploy_file)
-     else:
--        logger.error('Undeploy failed - rerun with -s to get a complete error message')
-+        raise DevtoolError('Undeploy failed - rerun with -s to get a complete '
-+                           'error message')
- 
-     return ret
- 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 2c48d69..86a4f15 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -25,16 +25,11 @@ import logging
- import argparse
- import scriptutils
- import errno
--from devtool import exec_build_env_command, setup_tinfoil
-+from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
- 
- logger = logging.getLogger('devtool')
- 
- 
--class DevtoolError(Exception):
--    """Exception for handling devtool errors"""
--    pass
--
--
- def plugin_init(pluginlist):
-     """Plugin initialization"""
-     pass
-@@ -46,25 +41,24 @@ def add(args, config, basepath, workspace):
-     import oe.recipeutils
- 
-     if args.recipename in workspace:
--        logger.error("recipe %s is already in your workspace" % args.recipename)
--        return -1
-+        raise DevtoolError("recipe %s is already in your workspace" %
-+                            args.recipename)
- 
-     reason = oe.recipeutils.validate_pn(args.recipename)
-     if reason:
--        logger.error(reason)
--        return -1
-+        raise DevtoolError(reason)
- 
-     srctree = os.path.abspath(args.srctree)
-     if os.path.exists(srctree) and args.fetch:
-         if not os.path.isdir(srctree):
--            logger.error("Cannot fetch into source tree path %s as it exists and is not a directory" % srctree)
--            return 1
-+            raise DevtoolError("Cannot fetch into source tree path %s as it "
-+                               "exists and is not a directory" % srctree)
-         elif os.listdir(srctree):
--            logger.error("Cannot fetch into source tree path %s as it already exists and is non-empty" % srctree)
--            return 1
-+            raise DevtoolError("Cannot fetch into source tree path %s as it "
-+                               "already exists and is non-empty" % srctree)
-     elif not args.fetch:
--        logger.error("Specified source tree %s could not be found" % srctree)
--        return 1
-+        raise DevtoolError("Specified source tree %s could not be found" %
-+                           srctree)
- 
-     appendpath = os.path.join(config.workspace_path, 'appends')
-     if not os.path.exists(appendpath):
-@@ -75,8 +69,7 @@ def add(args, config, basepath, workspace):
-     rfv = None
-     if args.version:
-         if '_' in args.version or ' ' in args.version:
--            logger.error('Invalid version string "%s"' % args.version)
--            return -1
-+            raise DevtoolError('Invalid version string "%s"' % args.version)
-         rfv = args.version
-     if args.fetch:
-         if args.fetch.startswith('git://'):
-@@ -106,8 +99,7 @@ def add(args, config, basepath, workspace):
-         stdout, _ = exec_build_env_command(config.init_path, basepath, 'recipetool --color=%s create -o %s "%s" %s' % (color, recipefile, source, extracmdopts))
-         logger.info('Recipe %s has been automatically created; further editing may be required to make it fully functional' % recipefile)
-     except bb.process.ExecutionError as e:
--        logger.error('Command \'%s\' failed:\n%s' % (e.command, e.stdout))
--        return 1
-+        raise DevtoolError('Command \'%s\' failed:\n%s' % (e.command, e.stdout))
- 
-     _add_md5(config, args.recipename, recipefile)
- 
-@@ -133,35 +125,33 @@ def add(args, config, basepath, workspace):
- def _check_compatible_recipe(pn, d):
-     """Check if the recipe is supported by devtool"""
-     if pn == 'perf':
--        logger.error("The perf recipe does not actually check out source and thus cannot be supported by this tool")
--        return False
-+        raise DevtoolError("The perf recipe does not actually check out "
-+                           "source and thus cannot be supported by this tool")
- 
-     if pn in ['kernel-devsrc', 'package-index'] or pn.startswith('gcc-source'):
--        logger.error("The %s recipe is not supported by this tool" % pn)
--        return False
-+        raise DevtoolError("The %s recipe is not supported by this tool" % pn)
- 
-     if bb.data.inherits_class('image', d):
--        logger.error("The %s recipe is an image, and therefore is not supported by this tool" % pn)
--        return False
-+        raise DevtoolError("The %s recipe is an image, and therefore is not "
-+                           "supported by this tool" % pn)
- 
-     if bb.data.inherits_class('populate_sdk', d):
--        logger.error("The %s recipe is an SDK, and therefore is not supported by this tool" % pn)
--        return False
-+        raise DevtoolError("The %s recipe is an SDK, and therefore is not "
-+                           "supported by this tool" % pn)
- 
-     if bb.data.inherits_class('packagegroup', d):
--        logger.error("The %s recipe is a packagegroup, and therefore is not supported by this tool" % pn)
--        return False
-+        raise DevtoolError("The %s recipe is a packagegroup, and therefore is "
-+                           "not supported by this tool" % pn)
- 
-     if bb.data.inherits_class('meta', d):
--        logger.error("The %s recipe is a meta-recipe, and therefore is not supported by this tool" % pn)
--        return False
-+        raise DevtoolError("The %s recipe is a meta-recipe, and therefore is "
-+                           "not supported by this tool" % pn)
- 
-     if bb.data.inherits_class('externalsrc', d) and d.getVar('EXTERNALSRC', True):
--        logger.error("externalsrc is currently enabled for the %s recipe. This prevents the normal do_patch task from working. You will need to disable this first." % pn)
--        return False
--
--    return True
--
-+        raise DevtoolError("externalsrc is currently enabled for the %s "
-+                           "recipe. This prevents the normal do_patch task "
-+                           "from working. You will need to disable this "
-+                           "first." % pn)
- 
- def _get_recipe_file(cooker, pn):
-     """Find recipe file corresponding a package name"""
-@@ -208,14 +198,14 @@ def extract(args, config, basepath, workspace):
- 
-     rd = _parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
--        return -1
-+        return 1
- 
-     srctree = os.path.abspath(args.srctree)
-     initial_rev = _extract_source(srctree, args.keep_temp, args.branch, rd)
-     if initial_rev:
-         return 0
-     else:
--        return -1
-+        return 1
- 
- class BbTaskExecutor(object):
-     """Class for executing bitbake tasks for a recipe
-@@ -261,16 +251,15 @@ def _extract_source(srctree, keep_temp, devbranch, d):
- 
-     pn = d.getVar('PN', True)
- 
--    if not _check_compatible_recipe(pn, d):
--        return None
-+    _check_compatible_recipe(pn, d)
- 
-     if os.path.exists(srctree):
-         if not os.path.isdir(srctree):
--            logger.error("output path %s exists and is not a directory" % srctree)
--            return None
-+            raise DevtoolError("output path %s exists and is not a directory" %
-+                               srctree)
-         elif os.listdir(srctree):
--            logger.error("output path %s already exists and is non-empty" % srctree)
--            return None
-+            raise DevtoolError("output path %s already exists and is "
-+                               "non-empty" % srctree)
- 
-     # Prepare for shutil.move later on
-     bb.utils.mkdirhier(srctree)
-@@ -340,8 +329,8 @@ def _extract_source(srctree, keep_temp, devbranch, d):
-             initial_rev = stdout.rstrip()
-         else:
-             if not os.listdir(srcsubdir):
--                logger.error("no source unpacked to S, perhaps the %s recipe doesn't use any source?" % pn)
--                return None
-+                raise DevtoolError("no source unpacked to S, perhaps the %s "
-+                                   "recipe doesn't use any source?" % pn)
- 
-             if not os.path.exists(os.path.join(srcsubdir, '.git')):
-                 bb.process.run('git init', cwd=srcsubdir)
-@@ -422,22 +411,22 @@ def modify(args, config, basepath, workspace):
-     import oe.recipeutils
- 
-     if args.recipename in workspace:
--        logger.error("recipe %s is already in your workspace" % args.recipename)
--        return -1
-+        raise DevtoolError("recipe %s is already in your workspace" %
-+                           args.recipename)
- 
-     if not args.extract and not os.path.isdir(args.srctree):
--        logger.error("directory %s does not exist or not a directory (specify -x to extract source from recipe)" % args.srctree)
--        return -1
-+        raise DevtoolError("directory %s does not exist or not a directory "
-+                           "(specify -x to extract source from recipe)" %
-+                           args.srctree)
- 
-     tinfoil = setup_tinfoil()
- 
-     rd = _parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
--        return -1
-+        return 1
-     recipefile = rd.getVar('FILE', True)
- 
--    if not _check_compatible_recipe(args.recipename, rd):
--        return -1
-+    _check_compatible_recipe(args.recipename, rd)
- 
-     initial_rev = None
-     commits = []
-@@ -445,7 +434,7 @@ def modify(args, config, basepath, workspace):
-     if args.extract:
-         initial_rev = _extract_source(args.srctree, False, args.branch, rd)
-         if not initial_rev:
--            return -1
-+            return 1
-         # Get list of commits since this revision
-         (stdout, _) = bb.process.run('git rev-list --reverse %s..HEAD' % initial_rev, cwd=args.srctree)
-         commits = stdout.split()
-@@ -758,22 +747,22 @@ def _update_recipe_patch(args, config, srctree, rd, config_data):
- def update_recipe(args, config, basepath, workspace):
-     """Entry point for the devtool 'update-recipe' subcommand"""
-     if not args.recipename in workspace:
--        logger.error("no recipe named %s in your workspace" % args.recipename)
--        return -1
-+        raise DevtoolError("no recipe named %s in your workspace" %
-+                           args.recipename)
- 
-     if args.append:
-         if not os.path.exists(args.append):
--            logger.error('bbappend destination layer directory "%s" does not exist' % args.append)
--            return 2
-+            raise DevtoolError('bbappend destination layer directory "%s" '
-+                               'does not exist' % args.append)
-         if not os.path.exists(os.path.join(args.append, 'conf', 'layer.conf')):
--            logger.error('conf/layer.conf not found in bbappend destination layer "%s"' % args.append)
--            return 2
-+            raise DevtoolError('conf/layer.conf not found in bbappend '
-+                               'destination layer "%s"' % args.append)
- 
-     tinfoil = setup_tinfoil()
- 
-     rd = _parse_recipe(config, tinfoil, args.recipename, True)
-     if not rd:
--        return -1
-+        return 1
- 
-     orig_src_uri = rd.getVar('SRC_URI', False) or ''
-     if args.mode == 'auto':
-@@ -786,17 +775,12 @@ def update_recipe(args, config, basepath, workspace):
- 
-     srctree = workspace[args.recipename]
- 
--    try:
--        if mode == 'srcrev':
--            _update_recipe_srcrev(args, srctree, rd, tinfoil.config_data)
--        elif mode == 'patch':
--            _update_recipe_patch(args, config, srctree, rd,
--                                 tinfoil.config_data)
--        else:
--            raise DevtoolError('update_recipe: invalid mode %s' % mode)
--    except DevtoolError as err:
--        logger.error(err)
--        return 1
-+    if mode == 'srcrev':
-+        _update_recipe_srcrev(args, srctree, rd, tinfoil.config_data)
-+    elif mode == 'patch':
-+        _update_recipe_patch(args, config, srctree, rd, tinfoil.config_data)
-+    else:
-+        raise DevtoolError('update_recipe: invalid mode %s' % mode)
- 
-     return 0
- 
-@@ -816,15 +800,13 @@ def reset(args, config, basepath, workspace):
-     import bb
-     if args.recipename:
-         if args.all:
--            logger.error("Recipe cannot be specified if -a/--all is used")
--            return -1
-+            raise DevtoolError("Recipe cannot be specified if -a/--all is used")
-         elif not args.recipename in workspace:
--            logger.error("no recipe named %s in your workspace" % args.recipename)
--            return -1
-+            raise DevtoolError("no recipe named %s in your workspace" %
-+                               args.recipename)
-     elif not args.all:
--        logger.error("Recipe must be specified, or specify -a/--all to reset all recipes")
--        return -1
--
-+        raise DevtoolError("Recipe must be specified, or specify -a/--all to "
-+                           "reset all recipes")
-     if args.all:
-         recipes = workspace
-     else:
-@@ -836,8 +818,10 @@ def reset(args, config, basepath, workspace):
-             try:
-                 exec_build_env_command(config.init_path, basepath, 'bitbake -c clean %s' % pn)
-             except bb.process.ExecutionError as e:
--                logger.error('Command \'%s\' failed, output:\n%s\nIf you wish, you may specify -n/--no-clean to skip running this command when resetting' % (e.command, e.stdout))
--                return 1
-+                raise DevtoolError('Command \'%s\' failed, output:\n%s\nIf you '
-+                                   'wish, you may specify -n/--no-clean to '
-+                                   'skip running this command when resetting' %
-+                                   (e.command, e.stdout))
- 
-         _check_preserve(config, pn)
- 
-@@ -861,8 +845,8 @@ def build(args, config, basepath, workspace):
-     """Entry point for the devtool 'build' subcommand"""
-     import bb
-     if not args.recipename in workspace:
--        logger.error("no recipe named %s in your workspace" % args.recipename)
--        return -1
-+        raise DevtoolError("no recipe named %s in your workspace" %
-+                           args.recipename)
-     build_task = config.get('Build', 'build_task', 'populate_sysroot')
-     try:
-         exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s' % (build_task, args.recipename), watch=True)
--- 
-2.1.4
+Kind regards,
+     alimon
+
+[1] 
+http://lists.openembedded.org/pipermail/openembedded-core/2015-June/105576.html
+[2] 
+http://lists.openembedded.org/pipermail/openembedded-core/2015-June/105534.html
+
+On 04/06/15 11:09, Burton, Ross wrote:
+> On 2 June 2015 at 20:49, Aníbal Limón <anibal.limon@linux.intel.com> wrote:
+>
+>> Aníbal Limón (4):
+>>    recipeutils: Add get_recipe_upstream_version and
+>>      get_recipe_pv_without_srcpv functions
+>>    distrodata: Remove unnecessary include of package_regex.inc
+>>    distrodata: checkpkg make usage of
+>>      oe.recipeutils.get_recipe_upstream_version
+>>    distrodata: Use Python CSV instead of did by hand
+>>
+> This series is causing this error if I run core-image-sato -c checkpkgall:
+>
+> ERROR: Error executing a python function in
+> /home/ross/Yocto/poky/meta/recipes-graphics/xorg-lib/libxcalibrate_git.bb:
+>
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'do_checkpkg', lineno: 126, function: <module>
+>       0122:            f.close()
+>       0123:        bb.utils.unlockfile(lf)
+>       0124:
+>       0125:
+>   *** 0126:do_checkpkg(d)
+>       0127:
+> File: 'do_checkpkg', lineno: 87, function: do_checkpkg
+>       0083:        """Set upstream version status"""
+>       0084:        if not pupver:
+>       0085:            pupver = "N/A"
+>       0086:        else:
+>   *** 0087:            pv, _, _ =
+> oe.recipeutils.get_recipe_pv_without_srcpv(pversion, uri_type)
+>       0088:            upv, _, _ =
+> oe.recipeutils.get_recipe_pv_without_srcpv(pupver, uri_type)
+>       0089:
+>       0090:            cmp = vercmp_string(pv, upv)
+>       0091:            if cmp == -1:
+> File: '/home/ross/Yocto/poky/meta/lib/oe/recipeutils.py', lineno: 641,
+> function: get_recipe_pv_without_srcpv
+>       0637:    pfx = ''
+>       0638:    sfx = ''
+>       0639:
+>       0640:    if uri_type == 'git':
+>   *** 0641:        rd_tmp = rd.createCopy()
+>       0642:
+>       0643:        rd_tmp.setVar('SRCPV', '')
+>       0644:        pv = rd_tmp.getVar('PV', True)
+>       0645:
+> Exception: AttributeError: 'str' object has no attribute 'createCopy'
+>
+> Ross
+>
 
 
