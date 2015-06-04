@@ -1,34 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 43DEA734DA
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 921F76AD0D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 11:37:21 +0000 (UTC)
-Received: by wibut5 with SMTP id ut5so18410005wib.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jun 2015 04:37:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=/apXJjR5u9glzyV41gs/QXfl1GwTZdT/kRL3pRaLUVU=;
-	b=ouCE4vjqtGzhau84D2u3SQhWjmkv+0e5skogfQ/kF+SWlbhSA5RzBAPJX2L00bmrpS
-	IMctOxEeJJvNe/koMohtZDr+H85VsbCdZBL8Gi32+JoTLRCNEUu8OnU9MsfwEJJd/QtZ
-	rUU7UD2s3/YwDxtItIcpFtPacxTTHFcClYiy6xe5wCHzOlbs6c/+XBTckE7fNmUQw8eK
-	iRYD4u8FaBQ5U+sD0mJrPsI4Npge9/UY12Ta08ndbJHuwFNZyGwOPRMEmZPFMXgsif8D
-	1nJrpfZLSCb9C6TSYM9o3nYPPj1bpzLe1c6OGdkW6ctjH/FmOB0wNo4/vQd+Rktkknsf
-	SFzw==
-X-Received: by 10.194.71.226 with SMTP id y2mr54319409wju.34.1433417842594;
-	Thu, 04 Jun 2015 04:37:22 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id w11sm5370131wjr.48.2015.06.04.04.37.21
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Jun 2015 04:37:21 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jun 2015 13:37:41 +0200
-Message-Id: <1433417861-18786-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.4.2
-Subject: [dizzy][PATCH] license.bbclass: set dirs for do_populate_lic_setscene
+	Thu,  4 Jun 2015 13:12:08 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 04 Jun 2015 06:12:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,552,1427785200"; d="scan'208";a="705271984"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga001.jf.intel.com with ESMTP; 04 Jun 2015 06:12:08 -0700
+Message-ID: <1433423527.12084.22.camel@linux.intel.com>
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Thu, 04 Jun 2015 16:12:07 +0300
+In-Reply-To: <1883118.cJJW02ZV6v@peggleto-mobl.ger.corp.intel.com>
+References: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1883118.cJJW02ZV6v@peggleto-mobl.ger.corp.intel.com>
+X-Mailer: Evolution 3.12.11 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] devtool: improve handling of local source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,46 +32,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 11:37:22 -0000
+X-List-Received-Date: Thu, 04 Jun 2015 13:12:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Robert Yang <liezhi.yang@windriver.com>
+Hi,
 
-Fixed:
-ERROR: Build of do_populate_lic failed
-ERROR: Traceback (most recent call last):
-  File "bitbake/lib/bb/build.py", line 497, in exec_task
-    return _exec_task(fn, task, d, quieterr)
-  File "bitbake/lib/bb/build.py", line 437, in _exec_task
-    exec_func(func, localdata)
-  File "bitbake/lib/bb/build.py", line 212, in exec_func
-    exec_func_python(func, d, runfile, cwd=adir)
-  File "/home/nxadm/nx/ala-blade44.1/builds-2015-03-09-163005/qemuppc_world_oe_bp/bitbake/lib/bb/build.py", line 237, in exec_func_python
-    os.chdir(cwd)
-OSError: [Errno 2] No such file or directory: 'bitbake_build/tmp/work/ppc7400-wrs-linux/taglib/1.9.1-r0/build'
+On Tue, 2015-05-12 at 19:01 +0100, Paul Eggleton wrote:
+> Hi Markus,
+> 
+> On Thursday 30 April 2015 12:16:06 Markus Lehtonen wrote:
+> > This patchset tries to improve handling of local source files (i.e. file://
+> > in SRC_URI). First, it improves packages for which S=WORKDIR (that possibly
+> > only have local sources. Second, it makes local sources available in the
+> > srctree for all packages.
+> > 
+> > See yocto bug #7602
+> 
+> I've finally looked at these, apologies for the delay. Some comments:
+> 
+> * I don't think we really want the local files to become part of the git 
+> repository by default - they shouldn't be committed. Once users have finished 
+> with devtool, we want them to be able to push the source tree to their own 
+> repo and point to that within the recipe, whilst keeping the local files next 
+> to the recipe.
 
-When running setscene, the cwd is $B which maybe removed by
-autotools.bbclass or cmake.bbclass when rebuild.
+So you suggest to add a new command line option to devtool extract and
+modify (--local-files or smth)? What to do when there are only local
+files (no source tarball / repo) - automatically enable --local-files in
+this case?
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/license.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index 14d3107..d03b9eb 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -389,6 +389,8 @@ do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
- 
- ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
- 
-+do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
-+do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
- python do_populate_lic_setscene () {
-     sstate_setscene(d)
- }
--- 
-2.4.2
+> * This implies that new files added to the local files dir when we do devtool 
+> update-recipe should not be added as a patch, they should be copied next to 
+> the recipe and added to SRC_URI. I'm more than happy for us to implement this 
+> separately as a follow-up (i.e. we could start by not handling adding files to 
+> the local files directory at all.)
+
+Yeah, I actually have this WIP. Currently (i.e. with the current
+patchset), new files added to 'local-files' are just ignored. They are
+not copied and no patches is generated out of these.
+
+
+> * The local-files directory needs to be named specific to OE - "oe-local-files" 
+> would be ideal. If we could have one place in the code where this was defined 
+> that would be ideal as well (maybe at some point we'd allow it to be 
+> configured).
+
+This is not a big deal. Should it perhaps be "bb-local-files" instead?
+
+
+Thanks,
+  Markus
 
 
