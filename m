@@ -1,41 +1,40 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
-	[209.85.216.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B125757EB
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B5DF757A7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 17:51:19 +0000 (UTC)
-Received: by qcmi9 with SMTP id i9so20786360qcm.0
+	Thu,  4 Jun 2015 17:54:30 +0000 (UTC)
+Received: by qkoo18 with SMTP id o18so28014847qko.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jun 2015 10:51:21 -0700 (PDT)
+	Thu, 04 Jun 2015 10:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=message-id:date:from:user-agent:mime-version:to:subject:references
 	:in-reply-to:content-type:content-transfer-encoding;
-	bh=IE/P1vMwRh4vd9ziBcj+dP8ZwJ6bvt/bxoPxKRfm744=;
-	b=ahM9LJd+CzsRtaoGh+HkSTjnB39B7iUbZcVDhYVTwuInMX3Q2Uq+JKHOdhkvUeXCv0
-	PzMR1QRW09mC9MPVM8Oyp/thmBPZ2BJmVnAkx5x3TDilQSStkCKDS50vZzZbn//9mAvh
-	24Tow+QzEXrkQDHrjdpZl7HlHhsIFgerJQ0bPy5uua6GWEu2jmgqkAlR5Jw8VZtBmake
-	YAzdikFPUjYsaqLYlavND4RB/4/e2vLVBmPhM/PGwjWv1qJvgED0IO7iB/gGCuoI0DZ2
-	wxxnUufreHhGlaQt91j8pUeBdncBTOAR3p9jdY7jDfY4cvfI8zyH6VOXW569xcAROsss
-	4hSg==
-X-Received: by 10.55.16.165 with SMTP id 37mr72513610qkq.76.1433440281281;
-	Thu, 04 Jun 2015 10:51:21 -0700 (PDT)
+	bh=lnbcL9mnhDs6/PG8TZBn6HGicS9HkHEc7A/a4vwdVDA=;
+	b=AKxlDoD8paKDVLZ6ae9+Aw6zk9NLImdv/ozkstrRUoSCBdScM1I3/UDS6ZT10W61pl
+	3Qqy2f7jOKI3TFdaqodbvPxd6LyIDHWpdzrUWqcH9LMdw6NsgUUXeEtOdP9B3Do8ns0h
+	0OW2fthVUazZbvlj09Qw6FBtYVo8KbJa/T4V7WyMih7nlVHWfen3HwsK1qg84tf5oHUV
+	1G6C5pvk5fnAUJHu/J787xRTqyuuSP64ituFd4ja9dkKRyK1aTQHhCgWADOATG4+tSB5
+	/HwFJ0hZkvaSFi6bNlyCh7An2Ll0H9t7JActcmWCF6Pb1P8ueQq1VeutuEks7n8snHzx
+	39Pg==
+X-Received: by 10.140.150.209 with SMTP id 200mr46842609qhw.31.1433440471608; 
+	Thu, 04 Jun 2015 10:54:31 -0700 (PDT)
 Received: from ?IPv6:2601:c:a700:3ba7:64ea:8623:c8c5:b8b9?
 	([2601:c:a700:3ba7:64ea:8623:c8c5:b8b9])
-	by mx.google.com with ESMTPSA id 6sm2746154qks.37.2015.06.04.10.51.20
+	by mx.google.com with ESMTPSA id e78sm2718653qhc.0.2015.06.04.10.54.29
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Jun 2015 10:51:20 -0700 (PDT)
-Message-ID: <55709013.1070201@gmail.com>
-Date: Thu, 04 Jun 2015 10:51:15 -0700
+	Thu, 04 Jun 2015 10:54:30 -0700 (PDT)
+Message-ID: <557090D3.4030003@gmail.com>
+Date: Thu, 04 Jun 2015 10:54:27 -0700
 From: akuster808 <akuster808@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-References: <1431752355-17659-1-git-send-email-Martin.Jansa@gmail.com>
-	<20150604083648.GB2376@jama>
-In-Reply-To: <20150604083648.GB2376@jama>
-Subject: Re: [dizzy][PATCH] e2fsprogs: install populate-extfs.sh
+References: <1433417861-18786-1-git-send-email-Martin.Jansa@gmail.com>
+In-Reply-To: <1433417861-18786-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: Re: [dizzy][PATCH] license.bbclass: set dirs for do_populate_lic_setscene
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,47 +47,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 17:51:21 -0000
+X-List-Received-Date: Thu, 04 Jun 2015 17:54:31 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-done
+merged to staging.
 
-On 06/04/2015 01:36 AM, Martin Jansa wrote:
-> On Sat, May 16, 2015 at 06:59:15AM +0200, Martin Jansa wrote:
->> From: Martin Jansa <martin.jansa@gmail.com>
+- armin
+
+On 06/04/2015 04:37 AM, Martin Jansa wrote:
+> From: Robert Yang <liezhi.yang@windriver.com>
 >
-> ping
+> Fixed:
+> ERROR: Build of do_populate_lic failed
+> ERROR: Traceback (most recent call last):
+>    File "bitbake/lib/bb/build.py", line 497, in exec_task
+>      return _exec_task(fn, task, d, quieterr)
+>    File "bitbake/lib/bb/build.py", line 437, in _exec_task
+>      exec_func(func, localdata)
+>    File "bitbake/lib/bb/build.py", line 212, in exec_func
+>      exec_func_python(func, d, runfile, cwd=adir)
+>    File "/home/nxadm/nx/ala-blade44.1/builds-2015-03-09-163005/qemuppc_world_oe_bp/bitbake/lib/bb/build.py", line 237, in exec_func_python
+>      os.chdir(cwd)
+> OSError: [Errno 2] No such file or directory: 'bitbake_build/tmp/work/ppc7400-wrs-linux/taglib/1.9.1-r0/build'
 >
->>
->> * install populate-extfs.sh from contrib, be aware that in order
->>    to use it you need to set DEBUGFS shell variable, otherwise it will
->>    try to use debugfs from relative path which is almost always
->>    incorrect:
->>      CONTRIB_DIR=$(dirname $(readlink -f $0))
->>      DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
->>
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> ---
->>   meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
->> index 70ccdfd..95c612c 100644
->> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
->> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
->> @@ -54,6 +54,8 @@ do_install () {
->>   	oe_multilib_header ext2fs/ext2_types.h
->>   	install -d ${D}${base_bindir}
->>   	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
->> +
->> +	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
->>   }
->>
->>   do_install_append_class-target() {
->> --
->> 2.4.0
->>
+> When running setscene, the cwd is $B which maybe removed by
+> autotools.bbclass or cmake.bbclass when rebuild.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   meta/classes/license.bbclass | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+> index 14d3107..d03b9eb 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -389,6 +389,8 @@ do_populate_lic[sstate-outputdirs] = "${LICENSE_DIRECTORY}/"
+>
+>   ROOTFS_POSTPROCESS_COMMAND_prepend = "write_package_manifest; license_create_manifest; "
+>
+> +do_populate_lic_setscene[dirs] = "${LICSSTATEDIR}/${PN}"
+> +do_populate_lic_setscene[cleandirs] = "${LICSSTATEDIR}"
+>   python do_populate_lic_setscene () {
+>       sstate_setscene(d)
+>   }
 >
 
