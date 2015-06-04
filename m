@@ -1,35 +1,40 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 51EFE736BA
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 515586AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 08:39:39 +0000 (UTC)
-Received: by oiww2 with SMTP id w2so26500545oiw.0
+	Thu,  4 Jun 2015 08:47:19 +0000 (UTC)
+Received: by wibdt2 with SMTP id dt2so41030191wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jun 2015 01:39:40 -0700 (PDT)
+	Thu, 04 Jun 2015 01:47:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=g1XjAVY7cGTxgelOUoMzE7Ut+Inm5HWG4eYlH79wrz8=;
-	b=rHVtCAe49O2w/+Q2o/UsEe8EcoRprZCOtG1NNtNiAJtmLJTnyAGhCNenLOtgFVhVj8
-	g4iUXvPIg9uipnanb0kuuopLvmUazgRobu+FK54xPHNxKnl7i7LRUzfp1rKxz2mKMo0u
-	2hIE4cL5c0itJwx5YXoq/grvGIUNC3lXl8SGN9vLXzDNUvrvJhb60vPhO8IBdZIvOX9Y
-	cSgZ59bjTZIJmyrYinQuwFRSPw9rMozakTqvIVKnCapyGYZ6HrudDAhioa2cjWukMieQ
-	tDsX/xKtDzcz9htHg1rlc1caeBhrWNruDy4nXjT1yqFisuJqu7ljOrmMX5Gq62HeWqDL
-	1CwQ==
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=soawLZOzJRbJoFIX11Yqo/efVfriphMqOhDmHtHKCoQ=;
+	b=rIAJX4iKXPas7/264GTG8cfo1g/Hst3E4WWM/JxN+pd8iD9vU3Tn3PT7CFgWifI4bG
+	BRfRLFkQFxpr1p9dPyG/1r1wZdx1aelFpHNZVGVPbh9AqZFc+j+Kbw7b6lsLWyNw0Yts
+	A6H9QGzRcSdgY6OgaZXkd1pzaKdnLFr3eu0rWIw+s8MC13S5wuAjQlP3k3tIvxCUTdXJ
+	KpQDsaS70l+qNeDYPJugbYnypdRLYBnhBj/ddEVvMatNtBiHwsya8X5ivFRdDvQeyTy8
+	qDXtY3bhuGxGKwxoX+UwZ7B7R17Yz9AmHCbHiEunmXIp13e6QM236QMe515qICskhF8t
+	vKOg==
+X-Received: by 10.180.37.200 with SMTP id a8mr50684396wik.11.1433407640336;
+	Thu, 04 Jun 2015 01:47:20 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id x10sm4699974wjf.45.2015.06.04.01.47.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Jun 2015 01:47:19 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 4 Jun 2015 10:47:40 +0200
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150604084740.GE2376@jama>
+References: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-X-Received: by 10.182.181.103 with SMTP id dv7mr30999369obc.25.1433407180337; 
-	Thu, 04 Jun 2015 01:39:40 -0700 (PDT)
-Received: by 10.202.44.23 with HTTP; Thu, 4 Jun 2015 01:39:40 -0700 (PDT)
-In-Reply-To: <1640EBA1-D4F4-4878-810B-4F968E8D871C@gmail.com>
-References: <1433388666-8923-1-git-send-email-armccurdy@gmail.com>
-	<1640EBA1-D4F4-4878-810B-4F968E8D871C@gmail.com>
-Date: Thu, 4 Jun 2015 01:39:40 -0700
-Message-ID: <CAJ86T=V=ygyy8=Sw2gZkVzvx46dcbdU0Qx6zLEEAy=YXkK2ZDQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] python-numpy: duplicate i586 over-ride for i686
+In-Reply-To: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [fido][PATCH] e2fsprogs: install populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +47,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 08:39:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 04 Jun 2015 08:47:21 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 3, 2015 at 11:30 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Jun 3, 2015, at 8:31 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->> meta/recipes-devtools/python/python-numpy_1.7.0.bb | 4 ++++
->> 1 file changed, 4 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/python/python-numpy_1.7.0.bb b/meta/r=
-ecipes-devtools/python/python-numpy_1.7.0.bb
->> index d4fd279..28ad97f 100644
->> --- a/meta/recipes-devtools/python/python-numpy_1.7.0.bb
->> +++ b/meta/recipes-devtools/python/python-numpy_1.7.0.bb
->> @@ -30,6 +30,10 @@ CONFIGFILESURI_i586 =3D " \
->>     file://config.h \
->>     file://numpyconfig.h \
->> "
->> +CONFIGFILESURI_i686 =3D " \
->> +    file://config.h \
->> +    file://numpyconfig.h \
->> +=E2=80=9D
->
->
-> can we use x86 override instead ?
+On Sat, May 16, 2015 at 06:58:43AM +0200, Martin Jansa wrote:
+> From: Martin Jansa <martin.jansa@gmail.com>
 
-Yes, I'll send a v2.
+ping
 
-I'm hopeful that this set of fixes will be acceptable for fido, which
-is why I initially went for adding i686 over-rides instead of a more
-widespread clean-up to replace i586 with x86.
+>=20
+> * install populate-extfs.sh from contrib, be aware that in order
+>   to use it you need to set DEBUGFS shell variable, otherwise it will
+>   try to use debugfs from relative path which is almost always
+>   incorrect:
+>     CONTRIB_DIR=3D$(dirname $(readlink -f $0))
+>     DEBUGFS=3D"$CONTRIB_DIR/../debugfs/debugfs"
+>=20
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/r=
+ecipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+> index 66065bc..abc959f 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+> @@ -54,6 +54,8 @@ do_install () {
+>  	oe_multilib_header ext2fs/ext2_types.h
+>  	install -d ${D}${base_bindir}
+>  	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
+> +
+> +	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
+>  }
+> =20
+>  do_install_append_class-target() {
+> --=20
+> 2.4.0
+>=20
 
->> CONFIGFILESURI_x86-64 =3D " \
->>     file://config.h \
->>     file://_numpyconfig.h \
->> --
->> 1.9.1
->>
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
