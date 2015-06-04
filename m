@@ -1,40 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id BA5C473BBE
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39F6E72120
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 04:53:13 +0000 (UTC)
-Received: by iesa3 with SMTP id a3so28602678ies.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jun 2015 21:53:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=SSxQaC+avw+SzzzB3RX4K8zi5CdmmxIScx/mJS2AIvE=;
-	b=D/cIRO3cXLSVk0lWotNwvpkpztTCM6A+P+SP+mBDRZv2gjn+Zj5D/bpe6c38Vhmy35
-	ZLPOffUconO+AJgIJwHrFspZaDKwtnmC9ejX0vNCkMiUerQNbZke+G+Ls07BA5RAvK3t
-	DJkcxHufHld5R7raLiiHA2Enco8jDlcnt4IRpsUcd4vG6ACl/TQVHWbWqAcK32+H0jHl
-	AWkujBywmAdQDa0ZVZM50UwjsM+mHgEm03f0MFv7IeiDf0prwIE7MUZRVuv4sfmE4ifv
-	MGczeEtRk5klTUXYXx1M5i9pNLrefmUHx5S0/2Wbfkqy+Y5dWtTzZxNu7QLwAv1fJ5Jh
-	9h0A==
-X-Received: by 10.43.17.135 with SMTP id qc7mr2321635icb.14.1433393594938;
-	Wed, 03 Jun 2015 21:53:14 -0700 (PDT)
+	Thu,  4 Jun 2015 06:04:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5464Fhj019584
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 3 Jun 2015 23:04:15 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Wed, 3 Jun 2015 23:04:15 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <ross.burton@intel.com>
+Date: Thu, 4 Jun 2015 13:57:58 +0800
+Message-ID: <1433397478-3927-1-git-send-email-kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.3.166 with HTTP; Wed, 3 Jun 2015 21:52:44 -0700 (PDT)
-In-Reply-To: <1433330298.2898.0.camel@tkkaskin-mobl3.ger.corp.intel.com>
-References: <cover.1432320274.git.tanu.kaskinen@linux.intel.com>
-	<e5260dbf168f3c51d9114e4c4cb1fca49abc83b1.1432320274.git.tanu.kaskinen@linux.intel.com>
-	<1432448758.12832.67.camel@linuxfoundation.org>
-	<3ABA6702-FFD6-448B-99B2-5DD5723A3AD3@gmail.com>
-	<CAMKF1sqm97zeLZ5v70-BKW=+tPCn+w_bDibFkM2q6714kpABJg@mail.gmail.com>
-	<1433330298.2898.0.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 3 Jun 2015 21:52:44 -0700
-Message-ID: <CAMKF1sr+=ebq-FQbSpPZNyr0yBc4m=uZBib1QGuv0abvejQn8w@mail.gmail.com>
-To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/5] alsa-plugins: initial recipe
+X-Originating-IP: [128.224.153.152]
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] alsa-tools: add dependency glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,12 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 04:53:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 04 Jun 2015 06:04:17 -0000
+Content-Type: text/plain
 
-On Wed, Jun 3, 2015 at 4:18 AM, Tanu Kaskinen
-<tanu.kaskinen@linux.intel.com> wrote:
-> I now sent a fix for these warnings.
+Add dependency glib-2.0 for alsa-tools. It is required by new added
+sub-component hdajacksensetest.
 
-thanks
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb b/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
+index 9133012..b5b9cc4 100644
+--- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
++++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.alsa-project.org"
+ BUGTRACKER = "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
+ SECTION = "console/utils"
+ LICENSE = "GPLv2 & LGPLv2+"
+-DEPENDS = "alsa-lib ncurses"
++DEPENDS = "alsa-lib ncurses glib-2.0"
+ 
+ LIC_FILES_CHKSUM = "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+                     file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
+-- 
+1.9.1
+
 
