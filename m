@@ -1,29 +1,21 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A91C275742
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id A0266756C8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 16:56:29 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 04 Jun 2015 09:56:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,553,1427785200"; d="scan'208";a="582178935"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.173])
-	([10.219.4.173])
-	by orsmga003.jf.intel.com with ESMTP; 04 Jun 2015 09:56:30 -0700
-Message-ID: <5570839A.9050704@linux.intel.com>
-Date: Thu, 04 Jun 2015 11:58:02 -0500
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+	Thu,  4 Jun 2015 17:13:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 5CB81601437
+Message-ID: <55708752.7080500@collabora.co.uk>
+Date: Thu, 04 Jun 2015 18:13:54 +0100
+From: Joshua Lock <joshua.lock@collabora.co.uk>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1433274434.git.anibal.limon@linux.intel.com>
-	<CAJTo0LbAsutsVamsW4mYt8rKHL069DKFKhWMYhwMK-o9tcabwQ@mail.gmail.com>
-	<557082C8.2090907@linux.intel.com>
-	<CAJTo0LZkSUFvQWm2zL25keDCZYq0h_iW==5F8a+RKdmnpCcgmw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZkSUFvQWm2zL25keDCZYq0h_iW==5F8a+RKdmnpCcgmw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] recipeutils adds get_recipe_upstream_version and distrodata fixes
+To: openembedded-core@lists.openembedded.org
+References: <1431752323-17235-1-git-send-email-Martin.Jansa@gmail.com>
+	<20150604084740.GE2376@jama>
+In-Reply-To: <20150604084740.GE2376@jama>
+Subject: Re: [fido][PATCH] e2fsprogs: install populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +28,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 16:56:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 04 Jun 2015 17:13:59 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-
-On 04/06/15 11:54, Burton, Ross wrote:
-> On 4 June 2015 at 17:54, Aníbal Limón <anibal.limon@linux.intel.com> wrote:
+On 04/06/15 09:47, Martin Jansa wrote:
+> On Sat, May 16, 2015 at 06:58:43AM +0200, Martin Jansa wrote:
+>> From: Martin Jansa <martin.jansa@gmail.com>
 >
->> The problem is i forget to add v2 to the patch [1] that is a new version
->> of the patch [2], sorry
->> about that.
+> ping
+
+This has been queued in my fido-next branch[1] for a while, I'm hoping 
+to do an autobuilder run and propose it for merge to fido over the next 
+few days.
+
+Regards,
+
+Joshua
+
 >>
-> The problem is we merged v1 of that patch into master.  Can you rebase and
-> fix what's in master?
-Sure,
-     alimon
->
-> Ross
+>> * install populate-extfs.sh from contrib, be aware that in order
+>>    to use it you need to set DEBUGFS shell variable, otherwise it will
+>>    try to use debugfs from relative path which is almost always
+>>    incorrect:
+>>      CONTRIB_DIR=$(dirname $(readlink -f $0))
+>>      DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
+>>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>>   meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>> index 66065bc..abc959f 100644
+>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>> @@ -54,6 +54,8 @@ do_install () {
+>>   	oe_multilib_header ext2fs/ext2_types.h
+>>   	install -d ${D}${base_bindir}
+>>   	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
+>> +
+>> +	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
+>>   }
+>>
+>>   do_install_append_class-target() {
+>> --
+>> 2.4.0
+>>
 >
 
 
