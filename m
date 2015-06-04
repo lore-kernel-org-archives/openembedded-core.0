@@ -1,42 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
-	[209.85.216.181])
-	by mail.openembedded.org (Postfix) with ESMTP id BBE74734B8
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B125757EB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jun 2015 17:51:08 +0000 (UTC)
-Received: by qcmi9 with SMTP id i9so20784071qcm.0
+	Thu,  4 Jun 2015 17:51:19 +0000 (UTC)
+Received: by qcmi9 with SMTP id i9so20786360qcm.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jun 2015 10:51:09 -0700 (PDT)
+	Thu, 04 Jun 2015 10:51:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=vAiVuGc45zC5/Qw+6cU2W5MhuhDZLIRBcvZh4IB5ygA=;
-	b=NvC9fUi5kvsy+Hcjoqg8cgnOXJm/K7JATE022r9OvL+0PbZ84EpQPj/MW8t7r1vSZm
-	frcQ/i97NERP1BRKR8fqV+hwUeNweK5c6+Xtb63fc4EPNdZaDJaTsih1J9zc3O0wObOd
-	fIGEFniweephJ103LgMSson6gZOer+Vuv3NHqbRAfyf4BxFeuNhvEu4virUvg2druCJK
-	rov1M0tU0wK8Sb3cKIujSXXSlWnQ81XR7ONL/Km+SFzXlVWmBksNnXEeZP0ouY0yBRLj
-	KfO75p3+kf07QqUk1QmB58VSnAz7VZ32eRSYC3RA1B2x+MryAAcLqSNjNSqQ59nQmr44
-	QrDA==
-X-Received: by 10.55.22.4 with SMTP id g4mr71828081qkh.10.1433440269188;
-	Thu, 04 Jun 2015 10:51:09 -0700 (PDT)
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=IE/P1vMwRh4vd9ziBcj+dP8ZwJ6bvt/bxoPxKRfm744=;
+	b=ahM9LJd+CzsRtaoGh+HkSTjnB39B7iUbZcVDhYVTwuInMX3Q2Uq+JKHOdhkvUeXCv0
+	PzMR1QRW09mC9MPVM8Oyp/thmBPZ2BJmVnAkx5x3TDilQSStkCKDS50vZzZbn//9mAvh
+	24Tow+QzEXrkQDHrjdpZl7HlHhsIFgerJQ0bPy5uua6GWEu2jmgqkAlR5Jw8VZtBmake
+	YAzdikFPUjYsaqLYlavND4RB/4/e2vLVBmPhM/PGwjWv1qJvgED0IO7iB/gGCuoI0DZ2
+	wxxnUufreHhGlaQt91j8pUeBdncBTOAR3p9jdY7jDfY4cvfI8zyH6VOXW569xcAROsss
+	4hSg==
+X-Received: by 10.55.16.165 with SMTP id 37mr72513610qkq.76.1433440281281;
+	Thu, 04 Jun 2015 10:51:21 -0700 (PDT)
 Received: from ?IPv6:2601:c:a700:3ba7:64ea:8623:c8c5:b8b9?
 	([2601:c:a700:3ba7:64ea:8623:c8c5:b8b9])
-	by mx.google.com with ESMTPSA id
-	b109sm2760244qga.48.2015.06.04.10.51.07
+	by mx.google.com with ESMTPSA id 6sm2746154qks.37.2015.06.04.10.51.20
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Jun 2015 10:51:08 -0700 (PDT)
-Message-ID: <55709009.90508@gmail.com>
-Date: Thu, 04 Jun 2015 10:51:05 -0700
+	Thu, 04 Jun 2015 10:51:20 -0700 (PDT)
+Message-ID: <55709013.1070201@gmail.com>
+Date: Thu, 04 Jun 2015 10:51:15 -0700
 From: akuster808 <akuster808@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1430502462-26698-1-git-send-email-Martin.Jansa@gmail.com>
-	<5547FB9B.5080102@gmail.com> <20150604083617.GA2376@jama>
-In-Reply-To: <20150604083617.GA2376@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [dizzy][PATCH] mesa: update --with-llvm-shared-libs configure option
+To: openembedded-core@lists.openembedded.org
+References: <1431752355-17659-1-git-send-email-Martin.Jansa@gmail.com>
+	<20150604083648.GB2376@jama>
+In-Reply-To: <20150604083648.GB2376@jama>
+Subject: Re: [dizzy][PATCH] e2fsprogs: install populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,51 +48,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jun 2015 17:51:10 -0000
+X-List-Received-Date: Thu, 04 Jun 2015 17:51:21 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
 done
 
 On 06/04/2015 01:36 AM, Martin Jansa wrote:
-> On Mon, May 04, 2015 at 04:07:07PM -0700, akuster808 wrote:
->> merged to staging.
->> - armin
+> On Sat, May 16, 2015 at 06:59:15AM +0200, Martin Jansa wrote:
+>> From: Martin Jansa <martin.jansa@gmail.com>
 >
-> Ping for merging staging to dizzy branch
+> ping
 >
->> On 05/01/2015 10:47 AM, Martin Jansa wrote:
->>> From: Andre McCurdy <armccurdy@gmail.com>
->>>
->>> As per the Mesa 10.2 release notes, "--with-llvm-shared-libs"
->>> has been renamed to "--enable-llvm-shared-libs".
->>>
->>>     http://www.mesa3d.org/relnotes/10.2.html
->>>
->>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->>> Signed-off-by: Ross Burton <ross.burton@intel.com>
->>> ---
->>>    meta/recipes-graphics/mesa/mesa.inc | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
->>> index 1857f3c..658bd3a 100644
->>> --- a/meta/recipes-graphics/mesa/mesa.inc
->>> +++ b/meta/recipes-graphics/mesa/mesa.inc
->>> @@ -62,7 +62,7 @@ PACKAGECONFIG[gallium]      = "--with-gallium-drivers=${GALLIUMDRIVERS}, --witho
->>>    PACKAGECONFIG[gallium-egl]  = "--enable-gallium-egl, --disable-gallium-egl"
->>>    PACKAGECONFIG[gallium-gbm]  = "--enable-gallium-gbm, --disable-gallium-gbm"
->>>    MESA_LLVM_RELEASE ?= "3.3"
->>> -PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --with-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
->>> +PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --enable-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
->>>                                   ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
->>>    export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
->>>
->>>
+>>
+>> * install populate-extfs.sh from contrib, be aware that in order
+>>    to use it you need to set DEBUGFS shell variable, otherwise it will
+>>    try to use debugfs from relative path which is almost always
+>>    incorrect:
+>>      CONTRIB_DIR=$(dirname $(readlink -f $0))
+>>      DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
+>>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>>   meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>> index 70ccdfd..95c612c 100644
+>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+>> @@ -54,6 +54,8 @@ do_install () {
+>>   	oe_multilib_header ext2fs/ext2_types.h
+>>   	install -d ${D}${base_bindir}
+>>   	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
+>> +
+>> +	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
+>>   }
+>>
+>>   do_install_append_class-target() {
 >> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> 2.4.0
+>>
 >
 
