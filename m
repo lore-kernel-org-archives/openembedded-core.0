@@ -1,38 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B7CE8606E8
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 542CE72491
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 09:34:34 +0000 (UTC)
-Received: by qcxw10 with SMTP id w10so27845846qcx.3
+	Fri,  5 Jun 2015 10:34:25 +0000 (UTC)
+Received: by wgez8 with SMTP id z8so53402664wge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Jun 2015 02:34:35 -0700 (PDT)
+	Fri, 05 Jun 2015 03:34:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=nC0j58wBnKQfK4OHsSR354ZS0RO/0QkB6REGRLdnn58=;
-	b=JC+L0orHoZs5//3AWwNe1ZPY/5fCwRya4DrKX935oUUNmH7EXfSO8eLynvWOzqwExM
-	b/XXl6LT6rPjVp4HlHAnMqlbrppoPB4tnN9q1rPRjcQjlPgrzgX/KGHF4zcJ9jV9+/Lc
-	fZWfh45Lc7ix/K58VXASJSsd7KjqvZ6YM2CAf1INCjPGDYKkePzpVvoMv6/mk48dLMq9
-	qHHOpVlfk8TYe7I1Gf67kgXgPFFoPhi+s5j2CsOng5FH0OY3ZL49rvZF7MiLr64S+CPa
-	ZNBKgMs/LWI2HPPaUg+5z/qg1Anpq3NCUCRPpy0lslg2L3+Kf34NgRsVqRY0kAL9reRK
-	bmmw==
-X-Gm-Message-State: ALoCoQlLhxibkfcgeBYzloUtAGsE26iFcYHiVEuqr43u9UcslM3PXR64X7x12zz84adk5i7ygwMx
-X-Received: by 10.140.235.195 with SMTP id g186mr3093194qhc.64.1433496875501; 
-	Fri, 05 Jun 2015 02:34:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 5 Jun 2015 02:34:15 -0700 (PDT)
-In-Reply-To: <55716C4B.7070100@communistcode.co.uk>
-References: <1433397478-3927-1-git-send-email-kai.kang@windriver.com>
-	<55701920.2050101@communistcode.co.uk> <5571005A.8020401@windriver.com>
-	<55716C4B.7070100@communistcode.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Jun 2015 10:34:15 +0100
-Message-ID: <CAJTo0LaDfrLb+HTMfbouMH0B8BQWLK=gi5F30jWEeEKS8DG9Jg@mail.gmail.com>
-To: Jack Mitchell <ml@communistcode.co.uk>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] alsa-tools: add dependency glib-2.0
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=sH90WeO1dtCqNPlPGDbQvU4T/Hk06QKzsB2HrQSAnDQ=;
+	b=lH4AtyNDld41arT4Mcu3333O2GmeMPV8kH8VUI5/w3BHdolBwqeNLA5WWvGvkatx6T
+	XbF276L01LSfTZbs3WwzLsBA1FhnOrf/t4jYJFO8ZvHASAFn+h+4AHBrmJ0h7YFIx33S
+	IHzUbncbSTN4ccEiLp+tyn+Z9vvIYICbO+RwntBHwPXgRVRloSDrI7W3c0YsT08LQKe+
+	gQDSUWkUwNtBqELmBjNvB6fUMgE/Ykr/Pe7aRXJmEFhOLtFnP+iweW2cxaP2VTXrqfaB
+	U+aCxF/fgOX3jNAlrmBtYqsZ4ZTrobmiKv6hF1x3kWdQD9C8cDFGDKpA/QnK1QWXGxft
+	9JMg==
+X-Gm-Message-State: ALoCoQkeYjkl9+0+UNgSf2EVEGvkTIvij02IWC6HsxCotrR8aitqaE6/Xzse0yj7bypbsd4L4ZBs
+X-Received: by 10.180.13.175 with SMTP id i15mr3083441wic.30.1433500465862;
+	Fri, 05 Jun 2015 03:34:25 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id fa8sm2633779wib.14.2015.06.05.03.34.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 05 Jun 2015 03:34:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Jun 2015 11:29:48 +0100
+Message-Id: <1433500188-11209-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] xserver-xorg: always enable DRI2 by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 09:34:36 -0000
-Content-Type: multipart/alternative; boundary=001a11354c8a0d1fca0517c20040
+X-List-Received-Date: Fri, 05 Jun 2015 10:34:28 -0000
 
---001a11354c8a0d1fca0517c20040
-Content-Type: text/plain; charset=UTF-8
+DRI2 is more abstract than the original DRI and isn't tied to OpenGL or any
+other rendering system, and as such is being used by more than OpenGL support in
+xserver.  In particular, the new modesettings driver uses DRI2 to accelerate
+drawing, so enable DRI2 by default.
 
-On 5 June 2015 at 10:30, Jack Mitchell <ml@communistcode.co.uk> wrote:
+This was spotted because the "nodistro" DISTRO doesn't enable OpenGL, so xserver
+failed to build as dri2proto wasn't built.
 
-> Ok, it's just quite a heavy dependancy for a package which is feasible to
-> be installed on very small systems; as you have proved by glib-2.0 not
-> beiing available in a non-x11 build. In this case I guess the way round it
-> would be to split out the alsa-tools packages, but that is also a lot of
-> work. The patch is fine and I don't use alsa-tools so I have no strong
-> feelings; I just like to keep and eye on and question bloat.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If someone feels strongly they can submit a patch to alsa-tools to make the
-glib dependency optional.
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 04289f8..02a170a 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -122,7 +122,7 @@ EXTRA_OECONF += "--with-fop=no \
+                  ac_cv_file__usr_share_sgml_X11_defs_ent=no \
+ "
+ 
+-PACKAGECONFIG ??= "udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri2 glx', '', d)} \
++PACKAGECONFIG ??= "dri2 udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri glx', '', d)} \
+                    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "xwayland", "", d)} \
+ "
+ 
+-- 
+2.1.4
 
-Alternatively, split the alsa-tools packaging in some way.
 
-Ross
-
---001a11354c8a0d1fca0517c20040
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 June 2015 at 10:30, Jack Mitchell <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:ml@communistcode.co.uk" target=3D"_blank">ml@communistcode.co.uk</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":293" class=3D=
-"a3s" style=3D"overflow:hidden">Ok, it&#39;s just quite a heavy dependancy =
-for a package which is feasible to be installed on very small systems; as y=
-ou have proved by glib-2.0 not beiing available in a non-x11 build. In this=
- case I guess the way round it would be to split out the alsa-tools package=
-s, but that is also a lot of work. The patch is fine and I don&#39;t use al=
-sa-tools so I have no strong feelings; I just like to keep and eye on and q=
-uestion bloat.<br></div></blockquote></div><br>If someone feels strongly th=
-ey can submit a patch to alsa-tools to make the glib dependency optional.</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Alterna=
-tively, split the alsa-tools packaging in some way.</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11354c8a0d1fca0517c20040--
