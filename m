@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1934575843
+	by mail.openembedded.org (Postfix) with ESMTP id 332CB757B4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  5 Jun 2015 09:06:52 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2015 02:06:32 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2015 02:06:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,557,1427785200"; d="scan'208";a="582585199"
+X-IronPort-AV: E=Sophos;i="5.13,557,1427785200"; d="scan'208";a="582585236"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 05 Jun 2015 02:06:28 -0700
+	by orsmga003.jf.intel.com with ESMTP; 05 Jun 2015 02:06:33 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 2C0426A4083;
-	Fri,  5 Jun 2015 02:05:53 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 846F46A4083;
+	Fri,  5 Jun 2015 02:05:59 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jun 2015 10:12:22 +0300
-Message-Id: <1433488349-4178-9-git-send-email-ed.bartosh@linux.intel.com>
+Date: Fri,  5 Jun 2015 10:12:26 +0300
+Message-Id: <1433488349-4178-13-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1433488349-4178-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1433488349-4178-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 5/9] wic: add parameter 'uuid' to Image.add_partition method
+Subject: [wic][PATCH 7/9] wic: Use partition UUID in directdisk-gpt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +34,23 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 05 Jun 2015 09:06:52 -0000
 
-With this parameter it's possible to pass generated UUID
-into Image class to set it for partition when it's created.
+Used --use-uuid option for root partition in directdisk-gpt.wks
+This is useful to have example of image with UUID support.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 36150c9..2290ecd 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -272,7 +272,8 @@ class DirectImageCreator(BaseImageCreator):
-                                        boot=p.active,
-                                        align=p.align,
-                                        no_table=p.no_table,
--                                       part_type=p.part_type)
-+                                       part_type=p.part_type,
-+                                       uuid=p.uuid)
+diff --git a/scripts/lib/image/canned-wks/directdisk-gpt.wks b/scripts/lib/image/canned-wks/directdisk-gpt.wks
+index 76fda1f..2355259 100644
+--- a/scripts/lib/image/canned-wks/directdisk-gpt.wks
++++ b/scripts/lib/image/canned-wks/directdisk-gpt.wks
+@@ -4,7 +4,7 @@
  
-         self._restore_fstab(fstab)
  
-diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index 902548f..a6e2e4f 100644
---- a/scripts/lib/wic/utils/partitionedfs.py
-+++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -86,7 +86,7 @@ class Image(object):
+ part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+-part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
++part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024 --use-uuid
  
-     def add_partition(self, size, disk_name, mountpoint, source_file=None, fstype=None,
-                       label=None, fsopts=None, boot=False, align=None, no_table=False,
--                      part_type=None):
-+                      part_type=None, uuid=None):
-         """ Add the next partition. Prtitions have to be added in the
-         first-to-last order. """
- 
-@@ -110,7 +110,8 @@ class Image(object):
-                     'boot': boot, # Bootable flag
-                     'align': align, # Partition alignment
-                     'no_table' : no_table, # Partition does not appear in partition table
--                    'part_type' : part_type} # Partition type
-+                    'part_type' : part_type, # Partition type
-+                    'uuid': uuid} # Partition UUID
- 
-             self.__add_partition(part)
+ bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
  
 -- 
 2.1.4
