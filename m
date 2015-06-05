@@ -1,35 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 731D86AC43
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AA7E4756A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 15:07:32 +0000 (UTC)
-Received: by qgf75 with SMTP id 75so28688450qgf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Jun 2015 08:07:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=5ol8aNIQ5JqCizSWIPstqObHmxs4KUB0TGEFJvnrX3M=;
-	b=eRODvbc8xEkiHHYA0I6+r2YK7poC0mJm9wqvSVzC0sN85DhYxWSfComtuG13VHnUWb
-	05ojV9O/jupmbklQnsSSBUwi/XEqqOQZC/m6uCWFUjearHuZE1eeFkWtdbR1GyOSvjFZ
-	MgXSb/Q5o2Vsjx54RccWYF5iqqw9TbZfBhSj5F23A2JBPOYd1XhPWShQcHR7IlEd8jGg
-	8t4Qgpn7jvKJ+8IMFAEMfOTQixsk4TH69lmUSEX//d+HTbM0fa4ZKk4Z4viYHKcgyBA1
-	iLo31IfkE/kovLjZemUI1K5X9/N5mFvoioC6KMMiJbOUVilKCh5dzXh54QZWc3XvF4QZ
-	txHQ==
-X-Gm-Message-State: ALoCoQmP/TInHnnGYdlTrfT5YBOuNS5HGnnOMMh6f+2Z+0I3icAu2FASivceMSqMmR3M+62bdtSb
-X-Received: by 10.140.235.19 with SMTP id g19mr4792904qhc.52.1433516853813;
-	Fri, 05 Jun 2015 08:07:33 -0700 (PDT)
+	Fri,  5 Jun 2015 15:13:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t55FDYdL023975
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 5 Jun 2015 08:13:34 -0700 (PDT)
+Received: from server.local (128.224.20.64) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 5 Jun 2015 08:13:33 -0700
+Message-ID: <5571BC9C.5030704@windriver.com>
+Date: Fri, 5 Jun 2015 11:13:32 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 5 Jun 2015 08:07:13 -0700 (PDT)
-In-Reply-To: <c954cdeeaf11fb5bd8f4fbf63ddf0904998f2ca4.1433477519.git.bruce.ashfield@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <cover.1433477519.git.bruce.ashfield@windriver.com>
 	<c954cdeeaf11fb5bd8f4fbf63ddf0904998f2ca4.1433477519.git.bruce.ashfield@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Jun 2015 16:07:13 +0100
-Message-ID: <CAJTo0LYE8Oe6=aK0GekB+vb0TPZVZLCAtNUjecD9BZv3EZWEFQ@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
+	<CAJTo0LYE8Oe6=aK0GekB+vb0TPZVZLCAtNUjecD9BZv3EZWEFQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYE8Oe6=aK0GekB+vb0TPZVZLCAtNUjecD9BZv3EZWEFQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] linux-yocto: update beaglebone, mpc8315e and edgerouter to 3.19
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,72 +36,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 15:07:33 -0000
-Content-Type: multipart/alternative; boundary=001a11376dacd9f6b30517c6a6fd
+X-List-Received-Date: Fri, 05 Jun 2015 15:13:37 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11376dacd9f6b30517c6a6fd
-Content-Type: text/plain; charset=UTF-8
-
-On 5 June 2015 at 05:13, Bruce Ashfield <bruce.ashfield@windriver.com>
-wrote:
-
-> Bumping the linux-yocto SRCREVs to integrate fixes for the h/w reference
-> BSPs to the 3.19 kernel.
+On 2015-06-05 11:07 AM, Burton, Ross wrote:
+>
+> On 5 June 2015 at 05:13, Bruce Ashfield <bruce.ashfield@windriver.com
+> <mailto:bruce.ashfield@windriver.com>> wrote:
+>
+>     Bumping the linux-yocto SRCREVs to integrate fixes for the h/w reference
+>     BSPs to the 3.19 kernel.
+>
+>
+> edgerouter fails for me:
 >
 
-edgerouter fails for me:
+It's Kevin you should be cc'ing .. I'm just the guy that merges
+these ones :)
 
-|
-/data/poky-master/tmp/work-shared/edgerouter/kernel-source/fs/aufs/i_op.c:
-In function 'au_pin_hdir_set_owner':
-|
-/data/poky-master/tmp/work-shared/edgerouter/kernel-source/fs/aufs/i_op.c:445:28:
-error: 'struct mutex' has no member named 'owner'
-|   p->hdir->hi_inode->i_mutex.owner = task;
-|                             ^
-|   LD      drivers/idle/built-in.o
-|   CC      fs/aufs/i_op_del.o
-|   LD      drivers/i2c/busses/built-in.o
-|   CC      drivers/base/module.o
-|   LD      drivers/i2c/muxes/built-in.o
-|
-/data/poky-master/tmp/work-shared/edgerouter/kernel-source/scripts/Makefile.build:257:
-recipe for target 'fs/aufs/i_op.o' failed
-| make[4]: *** [fs/aufs/i_op.o] Error 1
+Kevin did fix this though .. I wonder if I did drop a patch, so I'll
+double check (maybe I was the right guy to cc' ')
 
-Ross
+Bruce
 
---001a11376dacd9f6b30517c6a6fd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> |
+> /data/poky-master/tmp/work-shared/edgerouter/kernel-source/fs/aufs/i_op.c:
+> In function 'au_pin_hdir_set_owner':
+> |
+> /data/poky-master/tmp/work-shared/edgerouter/kernel-source/fs/aufs/i_op.c:445:28:
+> error: 'struct mutex' has no member named 'owner'
+> |   p->hdir->hi_inode->i_mutex.owner = task;
+> |                             ^
+> |   LD      drivers/idle/built-in.o
+> |   CC      fs/aufs/i_op_del.o
+> |   LD      drivers/i2c/busses/built-in.o
+> |   CC      drivers/base/module.o
+> |   LD      drivers/i2c/muxes/built-in.o
+> |
+> /data/poky-master/tmp/work-shared/edgerouter/kernel-source/scripts/Makefile.build:257:
+> recipe for target 'fs/aufs/i_op.o' failed
+> | make[4]: *** [fs/aufs/i_op.o] Error 1
+>
+> Ross
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 5 June 2015 at 05:13, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@windriv=
-er.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,20=
-4,204);border-left-style:solid;padding-left:1ex"><div id=3D":kh" class=3D""=
- style=3D"overflow:hidden">Bumping the linux-yocto SRCREVs to integrate fix=
-es for the h/w reference<br>
-BSPs to the 3.19 kernel.</div></blockquote></div><br>edgerouter fails for m=
-e:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><di=
-v class=3D"gmail_extra">| /data/poky-master/tmp/work-shared/edgerouter/kern=
-el-source/fs/aufs/i_op.c: In function &#39;au_pin_hdir_set_owner&#39;:</div=
-><div class=3D"gmail_extra">| /data/poky-master/tmp/work-shared/edgerouter/=
-kernel-source/fs/aufs/i_op.c:445:28: error: &#39;struct mutex&#39; has no m=
-ember named &#39;owner&#39;</div><div class=3D"gmail_extra">| =C2=A0 p-&gt;=
-hdir-&gt;hi_inode-&gt;i_mutex.owner =3D task;</div><div class=3D"gmail_extr=
-a">| =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ^</div><div class=3D"gmail_extra">| =C2=A0 LD =
-=C2=A0 =C2=A0 =C2=A0drivers/idle/built-in.o</div><div class=3D"gmail_extra"=
->| =C2=A0 CC =C2=A0 =C2=A0 =C2=A0fs/aufs/i_op_del.o</div><div class=3D"gmai=
-l_extra">| =C2=A0 LD =C2=A0 =C2=A0 =C2=A0drivers/i2c/busses/built-in.o</div=
-><div class=3D"gmail_extra">| =C2=A0 CC =C2=A0 =C2=A0 =C2=A0drivers/base/mo=
-dule.o</div><div class=3D"gmail_extra">| =C2=A0 LD =C2=A0 =C2=A0 =C2=A0driv=
-ers/i2c/muxes/built-in.o</div><div class=3D"gmail_extra">| /data/poky-maste=
-r/tmp/work-shared/edgerouter/kernel-source/scripts/Makefile.build:257: reci=
-pe for target &#39;fs/aufs/i_op.o&#39; failed</div><div class=3D"gmail_extr=
-a">| make[4]: *** [fs/aufs/i_op.o] Error 1</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">Ross</div></div></div>
 
---001a11376dacd9f6b30517c6a6fd--
