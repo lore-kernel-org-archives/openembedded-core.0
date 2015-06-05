@@ -1,25 +1,19 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AD5BD757B4
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 434DB606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 09:11:08 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 05 Jun 2015 02:11:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,557,1427785200"; d="scan'208";a="737586465"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2015 02:11:09 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id EA5BC6A4083;
-	Fri,  5 Jun 2015 02:10:34 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Fri,  5 Jun 2015 09:30:42 +0000 (UTC)
+Message-ID: <55716C4B.7070100@communistcode.co.uk>
+Date: Fri, 05 Jun 2015 10:30:51 +0100
+From: Jack Mitchell <ml@communistcode.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jun 2015 10:17:16 +0300
-Message-Id: <1433488636-4540-10-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1433488636-4540-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1433488636-4540-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 9/9] wic: Add help for --part-type and --use-uuid options
+References: <1433397478-3927-1-git-send-email-kai.kang@windriver.com>	<55701920.2050101@communistcode.co.uk>
+	<5571005A.8020401@windriver.com>
+In-Reply-To: <5571005A.8020401@windriver.com>
+Subject: Re: [PATCH] alsa-tools: add dependency glib-2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +26,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 09:11:10 -0000
+X-List-Received-Date: Fri, 05 Jun 2015 09:30:46 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Added help for two wks partition options specific to
-GUID partition table and globally unique identificators (GUID).
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
-index e365a07..14f0ff1 100644
---- a/scripts/lib/image/help.py
-+++ b/scripts/lib/image/help.py
-@@ -757,6 +757,15 @@ DESCRIPTION
-                             equal to 1.
-                             The default value is 1.3.
- 
-+         --part-type: This option is specific to wic. It specifies partition
-+                      type GUID for GPT partitions.
-+                      List of partition type GUIDS can be found here:
-+                      http://en.wikipedia.org/wiki/GUID_Partition_Table#Partition_type_GUIDs
-+
-+         --use-uuid: This option is specific to wic. It makes wic to generate
-+                     random globally unique identifier (GUID) for the partition
-+                     and use it in bootloader configuration to specify root partition.
-+
-     * bootloader
- 
-       This command allows the user to specify various bootloader
--- 
-2.1.4
+On 05/06/15 02:50, Kang Kai wrote:
+> On 2015年06月04日 17:23, Jack Mitchell wrote:
+>> On 04/06/15 06:57, Kai Kang wrote:
+>>> Add dependency glib-2.0 for alsa-tools. It is required by new added
+>>> sub-component hdajacksensetest.
+>>>
+>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>> ---
+>>>   meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb 
+>>> b/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
+>>> index 9133012..b5b9cc4 100644
+>>> --- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
+>>> +++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
+>>> @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.alsa-project.org"
+>>>   BUGTRACKER = 
+>>> "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
+>>>   SECTION = "console/utils"
+>>>   LICENSE = "GPLv2 & LGPLv2+"
+>>> -DEPENDS = "alsa-lib ncurses"
+>>> +DEPENDS = "alsa-lib ncurses glib-2.0"
+>>>     LIC_FILES_CHKSUM = 
+>>> "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>>> file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
+>>
+>> It would be nice to put this behind a hdajacksensetest packageconfig 
+>> if possible.
+>
+> The hdajacksensetest is just a sub-directory/component not a feature, 
+> and it can't be built without library glib.
+> If make it as a package config, we have to find a way to remove 
+> hdajacksensetes. I suppose it is not proper to
+> add it as a packageconfig.
+>
+> BTW, the dependency on glib-2.0 for alsa-tools is passed by depending 
+> on gtk+3 if 'x11' in distro feauture. If without 'x11',
+> not such dependency, then build hdajacksensetest fails. So add 
+> 'glib-2.0' to DEPENDS.
+>
+> Thanks,
+>
 
+Ok, it's just quite a heavy dependancy for a package which is feasible 
+to be installed on very small systems; as you have proved by glib-2.0 
+not beiing available in a non-x11 build. In this case I guess the way 
+round it would be to split out the alsa-tools packages, but that is also 
+a lot of work. The patch is fine and I don't use alsa-tools so I have no 
+strong feelings; I just like to keep and eye on and question bloat.
+
+Cheers,
 
