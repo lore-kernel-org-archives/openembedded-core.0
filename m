@@ -1,28 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 152D760962;
-	Fri,  5 Jun 2015 12:14:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t55CEmXo016131; Fri, 5 Jun 2015 13:14:48 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yGxI9a5BuwvX; Fri,  5 Jun 2015 13:14:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t55CEWAu016107
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 5 Jun 2015 13:14:43 +0100
-Message-ID: <1433506472.19831.18.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: bitbake-devel <bitbake-devel@lists.openembedded.org>
-Date: Fri, 05 Jun 2015 13:14:32 +0100
-In-Reply-To: <1432766602.404.90.camel@linuxfoundation.org>
-References: <1432766602.404.90.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: RFC: update_data removal
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id A9AE1757C2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  5 Jun 2015 13:17:43 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 05 Jun 2015 06:17:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,558,1427785200"; d="scan'208";a="737702340"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 05 Jun 2015 06:17:31 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id BBA2F6A4083;
+	Fri,  5 Jun 2015 06:16:57 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Jun 2015 16:27:19 +0300
+Message-Id: <1433510839-4786-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/selftest: added auto-test for btrfs image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +30,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 12:14:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Jun 2015 13:17:43 -0000
 
-On Wed, 2015-05-27 at 23:43 +0100, Richard Purdie wrote:
-> I've been experimenting with this and I do have a branch which basically
-> works:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rpurdie/noupdatedata5
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/selftest/buildoptions.py | 33 ++++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
 
-Testing showed up some issues. I've addressed those and this code is now
-as a bitbake branch at:
-
-http://git.openembedded.org/bitbake/log/?h=noupdatedata
-
-This now builds ok on the autobuilder. There is a small issue with
-bitbake-selftest, I've a patch pending to address that (its a minor
-tweak).
-
-I've also sent a few patches to OE-Core to address issues these changes
-showed up which I believe are omissions in the metadata.
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index 926ffe9..e48bd04 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -2,6 +2,10 @@ import unittest
+ import os
+ import logging
+ import re
++from time import sleep
++import pexpect as p
++import glob as g
++
+ 
+ from oeqa.selftest.base import oeSelfTest
+ from oeqa.selftest.buildhistory import BuildhistoryBase
+@@ -119,8 +123,27 @@ class BuildhistoryTests(BuildhistoryBase):
+         self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
+         self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
+ 
+-
+-
+-
+-
+-
++class BuildImagesTest(oeSelfTest):
++    @testcase(283)
++    def test_btrfs(self):
++        """
++        This method is used to test the build of an image with btrfs file system. After building it, qemu is launched
++        and the test searches for the "login" keyword that it expects in order to consider an image as functional.
++        Please note that "runquemu" requires sudo access. In order to solve this please add to visudo (sudo visudo)
++        the following line:  your_username  ALL=NOPASSWD:       ALL
++        The above setting was tested in Ubuntu
++        """
++        self.add_command_to_tearDown('cleanup-workdir')
++        self.write_config("MACHINE = \"qemux86\"\nIMAGE_FSTYPES = \"btrfs\"\nKERNEL_FEATURES_append = \" cfg/fs/btrfs \"")
++        self.res = bitbake("core-image-sato").status
++        self.remove_config("MACHINE = \"qemux86\"\nIMAGE_FSTYPES = \"btrfs\"\nKERNEL_FEATURES_append = \" cfg/fs/btrfs \"")
++        self.assertEqual(self.res, 0, "\nbtrfs core-image-sato failed to build. Please check logs for further details.\n")
++        self.prc = p.spawn("runqemu qemux86 core-image-sato nographic")
++        try:
++          self.prc.expect("login", timeout=150)
++          self.prc.kill(9)
++          self.assertTrue(True, "couldn't start qemu")
++        except:
++          self.prc.kill(9)
++          self.log.error("It is possible that runquemu didn't start correctly. Add this line your_username  ALL=NOPASSWD:       ALL\nto your visudo")
++          self.assertTrue(False, "Couldn't start qemu")
+\ No newline at end of file
+-- 
+2.1.4
 
 
