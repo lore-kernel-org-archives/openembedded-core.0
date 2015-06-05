@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A398757B4
+	by mail.openembedded.org (Postfix) with ESMTP id F365C757B4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 09:06:44 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2015 02:06:26 -0700
+	Fri,  5 Jun 2015 09:06:49 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2015 02:06:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,557,1427785200"; d="scan'208";a="705793651"
+X-IronPort-AV: E=Sophos;i="5.13,557,1427785200"; d="scan'208";a="503157630"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 05 Jun 2015 02:06:26 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 05 Jun 2015 02:06:27 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 686126A4083;
-	Fri,  5 Jun 2015 02:05:51 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id C37456A4087;
+	Fri,  5 Jun 2015 02:05:52 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jun 2015 10:12:20 +0300
-Message-Id: <1433488349-4178-7-git-send-email-ed.bartosh@linux.intel.com>
+Date: Fri,  5 Jun 2015 10:12:21 +0300
+Message-Id: <1433488349-4178-8-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1433488349-4178-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1433488349-4178-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 4/9] wic: refactored getting root device name
+Subject: [wic][PATCH 4/9] wic: Refactored getting root device name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 09:06:45 -0000
+X-List-Received-Date: Fri, 05 Jun 2015 09:06:50 -0000
 
 Replaced DirectImageCreator._get_boot_config private method
 with a 'rootdev' property.
