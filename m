@@ -1,18 +1,18 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA7E4756A4
+	by mail.openembedded.org (Postfix) with ESMTP id D0FE2756A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 15:13:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t55FDYdL023975
+	Fri,  5 Jun 2015 15:22:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t55FMZhc025491
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 5 Jun 2015 08:13:34 -0700 (PDT)
-Received: from server.local (128.224.20.64) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 5 Jun 2015 08:13:33 -0700
-Message-ID: <5571BC9C.5030704@windriver.com>
-Date: Fri, 5 Jun 2015 11:13:32 -0400
+	Fri, 5 Jun 2015 08:22:35 -0700 (PDT)
+Received: from server.local (128.224.20.64) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 5 Jun 2015 08:22:35 -0700
+Message-ID: <5571BEBA.8090306@windriver.com>
+Date: Fri, 5 Jun 2015 11:22:34 -0400
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
 	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 15:13:37 -0000
+X-List-Received-Date: Fri, 05 Jun 2015 15:22:39 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -51,15 +51,6 @@ On 2015-06-05 11:07 AM, Burton, Ross wrote:
 >
 > edgerouter fails for me:
 >
-
-It's Kevin you should be cc'ing .. I'm just the guy that merges
-these ones :)
-
-Kevin did fix this though .. I wonder if I did drop a patch, so I'll
-double check (maybe I was the right guy to cc' ')
-
-Bruce
-
 > |
 > /data/poky-master/tmp/work-shared/edgerouter/kernel-source/fs/aufs/i_op.c:
 > In function 'au_pin_hdir_set_owner':
@@ -77,6 +68,42 @@ Bruce
 > /data/poky-master/tmp/work-shared/edgerouter/kernel-source/scripts/Makefile.build:257:
 > recipe for target 'fs/aufs/i_op.o' failed
 > | make[4]: *** [fs/aufs/i_op.o] Error 1
+
+Indeed, we have this fix:
+
+commit 6c21811060c03100a32d0acc493df5fb3743b7c8
+Author: Kevin Hao <kexin.hao@windriver.com>
+Date:   Wed May 27 20:19:12 2015 +0800
+
+     fs: aufs: fix a build error for archs which doesn't support 
+MUTEX_SPIN_ON_OWNER
+
+     For struct mutex, the member "owner" only exist when either
+     DEBUG_MUTEXES or MUTEX_SPIN_ON_OWNER is enabled. The SMP is a necessary
+     condition, but not a sufficiency condition for MUTEX_SPIN_ON_OWNER.
+     So we would get build error on arch such as mpis due to SMP is
+     enabled and both DEBUG_MUTEXES and MUTEX_SPIN_ON_OWNER are disabled.
+     Replace the SMP with MUTEX_SPIN_ON_OWNER to fix it.
+
+     Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+:100644 100644 f0edd021102b... 268a8a54ebfc... M        fs/aufs/i_op.c
+
+---------
+
+And it is on the edgerouter branch.
+
+So either the fix isn't complete, or we are building a different config
+here, or the revs are wrong.
+
+... and indeed, that isn't part of the patch Kevin sent, so you are building
+and old SRCREV.
+
+I'll send a follow up patch shortly.
+
+Bruce
+
 >
 > Ross
 
