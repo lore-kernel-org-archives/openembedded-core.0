@@ -1,29 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 958AF73BBE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 216C772491
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 15:29:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t55FT2a8030645; Fri, 5 Jun 2015 16:29:02 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 6MlcJtcX5fal; Fri,  5 Jun 2015 16:29:02 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t55FSnhB030629
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 5 Jun 2015 16:29:00 +0100
-Message-ID: <1433518128.19831.19.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Costin Constantin <costin.c.constantin@intel.com>
-Date: Fri, 05 Jun 2015 16:28:48 +0100
-In-Reply-To: <1433511227-4899-1-git-send-email-costin.c.constantin@intel.com>
-References: <1433511227-4899-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] oeqa/selftest: added auto-test for directfb image on arm architecture
+	Fri,  5 Jun 2015 16:33:19 +0000 (UTC)
+Received: by wiwd19 with SMTP id d19so26616490wiw.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Jun 2015 09:33:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=HgZwANsLRBzl03bhEMWQeqi3X5qomF/J3ME+XmWF+2c=;
+	b=mqYtv9zjkt172gjCQr7ULDz3EI8iE5WWqVHtIqpcuydQGXTiQgZdzyHfiVH3RI8SXu
+	IYtGyl5FuKp76WJEcadVdcKfecUJ4pYcU11vsQ+ZrD7tzvQ+mdlfx3oqAcOAJxNe1kNY
+	jEX8z8fTebeWpbL5Vdy5IjHKfrZOSbk3tMJv465cCN5h35vM2ZWtNaWX/zx8xZWLDYpg
+	kPzdnYh8bqxEdAzft7Tad1yKa2cGHuM/2R+RV3u5z+KNgjZndRc4bPIftQC2jgoA2fVt
+	KfHxBoYBPiqoJn20nU1I1q713epBw5LG9GdXY2zDRgotOdeHbeWr9FVE6u7x4Qfxq5ls
+	F5PQ==
+X-Gm-Message-State: ALoCoQnDQtS4CUgfBKidQauTX5ugjmsBfVDWsSOUAG846+wgymhwZRjabmi+Tyxp57jFxYoeNIHP
+X-Received: by 10.194.90.171 with SMTP id bx11mr7563474wjb.129.1433522000045; 
+	Fri, 05 Jun 2015 09:33:20 -0700 (PDT)
+Received: from blackadder-2.local (35.106.2.81.in-addr.arpa. [81.2.106.35])
+	by mx.google.com with ESMTPSA id pf4sm6657477wjb.23.2015.06.05.09.33.18
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Jun 2015 09:33:19 -0700 (PDT)
+Message-ID: <5571CF48.6060009@intel.com>
+Date: Fri, 05 Jun 2015 17:33:12 +0100
+From: Ross Burton <ross.burton@intel.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.1.1
+MIME-Version: 1.0
+To: Ed Bartosh <ed.bartosh@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1433484789-304-1-git-send-email-ed.bartosh@linux.intel.com>
+	<1433484789-304-4-git-send-email-ed.bartosh@linux.intel.com>
+In-Reply-To: <1433484789-304-4-git-send-email-ed.bartosh@linux.intel.com>
+Subject: Re: [wic][PATCH 3/4] wic: replaced __run_parted with exec_native_cmd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,34 +50,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 15:29:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 05 Jun 2015 16:33:21 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-06-05 at 16:33 +0300, Costin Constantin wrote:
-> Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
-> ---
->  meta/lib/oeqa/selftest/buildoptions.py | 29 +++++++++--------------------
->  1 file changed, 9 insertions(+), 20 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-> index e48bd04..620fd77 100644
-> --- a/meta/lib/oeqa/selftest/buildoptions.py
-> +++ b/meta/lib/oeqa/selftest/buildoptions.py
-> @@ -124,26 +124,15 @@ class BuildhistoryTests(BuildhistoryBase):
->          self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
->  
->  class BuildImagesTest(oeSelfTest):
-> -    @testcase(283)
-> -    def test_btrfs(self):
-> +    @testcase(563)
-> +    def test_directfb(self):
+On 05/06/2015 07:13, Ed Bartosh wrote:
+ > There is no need for yet another wrapper around exec_native_cmd.
 
-These patches seem a little confused, doesn't this remove the btrfs test
-you just added?
+This doesn't appear to apply to master, can you rebase?
 
-Cheers,
+(or does it depend on your other series?)
 
-Richard
-
+Ross
 
