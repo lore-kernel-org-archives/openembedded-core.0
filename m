@@ -1,28 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 617EC757A7
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D441E65C63
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 01:50:19 +0000 (UTC)
+	Fri,  5 Jun 2015 03:10:10 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t551oKFo018494
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t553AB2J016600
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Jun 2015 18:50:20 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 4 Jun 2015 18:50:20 -0700
-Message-ID: <5571005A.8020401@windriver.com>
-Date: Fri, 5 Jun 2015 09:50:18 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
+	Thu, 4 Jun 2015 20:10:11 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 4 Jun 2015 20:10:11 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1433397478-3927-1-git-send-email-kai.kang@windriver.com>
-	<55701920.2050101@communistcode.co.uk>
-In-Reply-To: <55701920.2050101@communistcode.co.uk>
-Subject: Re: [PATCH] alsa-tools: add dependency glib-2.0
+Date: Fri, 5 Jun 2015 11:03:55 +0800
+Message-ID: <1433473435-29346-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] autogen: redirect the log file to build dir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,54 +31,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 01:50:20 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Jun 2015 03:10:11 -0000
+Content-Type: text/plain
 
-On 2015年06月04日 17:23, Jack Mitchell wrote:
-> On 04/06/15 06:57, Kai Kang wrote:
->> Add dependency glib-2.0 for alsa-tools. It is required by new added
->> sub-component hdajacksensetest.
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb 
->> b/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
->> index 9133012..b5b9cc4 100644
->> --- a/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
->> +++ b/meta/recipes-multimedia/alsa/alsa-tools_1.0.29.bb
->> @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.alsa-project.org"
->>   BUGTRACKER = 
->> "https://bugtrack.alsa-project.org/alsa-bug/login_page.php"
->>   SECTION = "console/utils"
->>   LICENSE = "GPLv2 & LGPLv2+"
->> -DEPENDS = "alsa-lib ncurses"
->> +DEPENDS = "alsa-lib ncurses glib-2.0"
->>     LIC_FILES_CHKSUM = 
->> "file://hdsploader/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
->> file://ld10k1/COPYING.LIB;md5=7fbc338309ac38fefcd64b04bb903e34"
->
-> It would be nice to put this behind a hdajacksensetest packageconfig 
-> if possible.
+From: Roy Li <rongqing.li@windriver.com>
 
-The hdajacksensetest is just a sub-directory/component not a feature, 
-and it can't be built without library glib.
-If make it as a package config, we have to find a way to remove 
-hdajacksensetes. I suppose it is not proper to
-add it as a packageconfig.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../autogen/autogen-native_5.18.4.bb               |  4 +++-
+ .../autogen/autogen/redirect-output-dir.patch      | 28 ++++++++++++++++++++++
+ 2 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/autogen/autogen/redirect-output-dir.patch
 
-BTW, the dependency on glib-2.0 for alsa-tools is passed by depending on 
-gtk+3 if 'x11' in distro feauture. If without 'x11',
-not such dependency, then build hdajacksensetest fails. So add 
-'glib-2.0' to DEPENDS.
-
-Thanks,
-
+diff --git a/meta/recipes-devtools/autogen/autogen-native_5.18.4.bb b/meta/recipes-devtools/autogen/autogen-native_5.18.4.bb
+index 302ba79..5fd6b7e 100644
+--- a/meta/recipes-devtools/autogen/autogen-native_5.18.4.bb
++++ b/meta/recipes-devtools/autogen/autogen-native_5.18.4.bb
+@@ -11,7 +11,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SRC_URI = "${GNU_MIRROR}/autogen/rel${PV}/autogen-${PV}.tar.gz \
+            file://guile.patch \
+            file://increase-timeout-limit.patch \
+-           file://mk-tpl-config.sh-force-exit-value-to-be-0-in-subproc.patch"
++           file://mk-tpl-config.sh-force-exit-value-to-be-0-in-subproc.patch \
++           file://redirect-output-dir.patch \
++"
+ 
+ SRC_URI[md5sum] = "6f48029cc839303d28496e1609868938"
+ SRC_URI[sha256sum] = "3cd9f81a8ae7c6865bb9bbbe16c4307a243a1373d0b315a83571cbba1fff725d"
+diff --git a/meta/recipes-devtools/autogen/autogen/redirect-output-dir.patch b/meta/recipes-devtools/autogen/autogen/redirect-output-dir.patch
+new file mode 100644
+index 0000000..de126ed
+--- /dev/null
++++ b/meta/recipes-devtools/autogen/autogen/redirect-output-dir.patch
+@@ -0,0 +1,28 @@
++[PATCH] redirect the dir of mklibsrc-log.tx
++
++Upstream-Statue: Pending
++
++redirect mklibsrc-log.tx to builddir, not /tmp; otherwise mklibsrc-log.tx
++maybe unable to be written if other users is building autogen at the same time.
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ pkg/libopts/mklibsrc.sh | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pkg/libopts/mklibsrc.sh b/pkg/libopts/mklibsrc.sh
++index 416b402..d612fbc 100644
++--- a/pkg/libopts/mklibsrc.sh
+++++ b/pkg/libopts/mklibsrc.sh
++@@ -19,7 +19,7 @@
++ ##  with this program.  If not, see <http://www.gnu.org/licenses/>.
++ 
++ set -ex
++-exec 2> /tmp/mklibsrc-log.tx
+++exec 2> $top_builddir/mklibsrc-log.tx
++ 
++ top_builddir=`cd $top_builddir ; pwd`
++ top_srcdir=`cd $top_srcdir ; pwd`
++-- 
++1.9.1
++
 -- 
-Regards,
-Neil | Kai Kang
+1.9.1
 
 
