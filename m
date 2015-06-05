@@ -1,26 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B36273BBE
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 86C1A73BBE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 11:40:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t55BeHTq013016; Fri, 5 Jun 2015 12:40:17 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id PIf9XU9ciVCU; Fri,  5 Jun 2015 12:40:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t55Be4jT012966
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 5 Jun 2015 12:40:15 +0100
-Message-ID: <1433504404.19831.15.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 05 Jun 2015 12:40:04 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: gcc5 status
+	Fri,  5 Jun 2015 11:47:48 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2015 04:47:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,558,1427785200"; d="scan'208";a="503213992"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 05 Jun 2015 04:47:49 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 36D7D6A4083;
+	Fri,  5 Jun 2015 04:47:15 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Jun 2015 12:54:08 +0300
+Message-Id: <1433498048-5468-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: Move validation of --ptable option to wks parser
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,20 +30,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 11:40:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 05 Jun 2015 11:47:49 -0000
 
-I ran another gcc5 build and the errors are appearing at:
+bootloader --ptable option has two valid choices: gpt and msdos
+Moved this check to wks parser by changing option type to 'choice'.
 
-http://errors.yoctoproject.org/Errors/Search/Args/?items=10&query=ebc22dc1509fcc925bc0edd6649c9b80e34334ab
+Removed similar checks from 5 other places.
 
-Note that this build also has the noupdatedata bitbake patches applied,
-I don't believe that is the cause of any of these issues though and was
-just done for wider testing of that code.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/kickstart/custom_commands/micboot.py |  3 ++-
+ scripts/lib/wic/plugins/source/bootimg-efi.py        | 15 ++-------------
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py     |  8 ++------
+ scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py  |  8 ++------
+ scripts/lib/wic/utils/partitionedfs.py               |  4 ----
+ 5 files changed, 8 insertions(+), 30 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/scripts/lib/wic/kickstart/custom_commands/micboot.py b/scripts/lib/wic/kickstart/custom_commands/micboot.py
+index d162142..358b0ea 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/micboot.py
++++ b/scripts/lib/wic/kickstart/custom_commands/micboot.py
+@@ -44,6 +44,7 @@ class Mic_Bootloader(F8_Bootloader):
+     def _getParser(self):
+         op = F8_Bootloader._getParser(self)
+         op.add_option("--menus", dest="menus")
+-        op.add_option("--ptable", dest="ptable", type="string")
++        op.add_option("--ptable", dest="ptable", choices=("msdos", "gpt"),
++                      default="msdos")
+         return op
+ 
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 39ce9f3..d3b8468 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -60,13 +60,8 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+         kernel = "/bzImage"
+ 
+-        if cr.ptable_format in ('msdos', 'gpt'):
+-            rootstr = cr.rootdev
+-        else:
+-            raise ImageError("Unsupported partition table format found")
+-
+         grubefi_conf += "linux %s root=%s rootwait %s\n" \
+-            % (kernel, rootstr, options)
++            % (kernel, cr.rootdev, options)
+         grubefi_conf += "}\n"
+ 
+         msger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg" \
+@@ -104,16 +99,10 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+         kernel = "/bzImage"
+ 
+-        if cr.ptable_format in ('msdos', 'gpt'):
+-            rootstr = cr.rootdev
+-        else:
+-            raise ImageError("Unsupported partition table format found")
+-
+         boot_conf = ""
+         boot_conf += "title boot\n"
+         boot_conf += "linux %s\n" % kernel
+-        boot_conf += "options LABEL=Boot root=%s %s\n" \
+-            % (rootstr, options)
++        boot_conf += "options LABEL=Boot root=%s %s\n" % (cr.rootdev, options)
+ 
+         msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
+                         % cr_workdir)
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index dd49480..5caffbc 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -103,12 +103,8 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         kernel = "/vmlinuz"
+         syslinux_conf += "KERNEL " + kernel + "\n"
+ 
+-        if cr.ptable_format in ('msdos', 'gpt'):
+-            rootstr = cr.rootdev
+-        else:
+-            raise ImageError("Unsupported partition table format found")
+-
+-        syslinux_conf += "APPEND label=boot root=%s %s\n" % (rootstr, options)
++        syslinux_conf += "APPEND label=boot root=%s %s\n" % \
++                             (cr.rootdev, options)
+ 
+         msger.debug("Writing syslinux config %s/hdd/boot/syslinux.cfg" \
+                     % cr_workdir)
+diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
+index 90dac05..533eaa7 100644
+--- a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
++++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
+@@ -100,12 +100,8 @@ class RootfsPlugin(SourcePlugin):
+         syslinux_conf += "LABEL linux\n"
+         syslinux_conf += "  KERNEL /boot/bzImage\n"
+ 
+-        if image_creator.ptable_format in ('msdos', 'gpt'):
+-            rootstr = image_creator.rootdev
+-        else:
+-            raise ImageError("Unsupported partition table format found")
+-
+-        syslinux_conf += "  APPEND label=boot root=%s %s\n" % (rootstr, options)
++        syslinux_conf += "  APPEND label=boot root=%s %s\n" % \
++                             (image_creator.rootdev, options)
+ 
+         syslinux_cfg = os.path.join(image_creator.rootfs_dir['ROOTFS_DIR'], "boot", "syslinux.cfg")
+         msger.debug("Writing syslinux config %s" % syslinux_cfg)
+diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
+index 1eb1f01..e093ec5 100644
+--- a/scripts/lib/wic/utils/partitionedfs.py
++++ b/scripts/lib/wic/utils/partitionedfs.py
+@@ -122,10 +122,6 @@ class Image(object):
+ 
+         msger.debug("Assigning %s partitions to disks" % ptable_format)
+ 
+-        if ptable_format not in ('msdos', 'gpt'):
+-            raise ImageError("Unknown partition table format '%s', supported " \
+-                             "formats are: 'msdos'" % ptable_format)
+-
+         if self._partitions_layed_out:
+             return
+ 
+-- 
+2.1.4
 
 
