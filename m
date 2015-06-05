@@ -1,29 +1,29 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D0FE2756A4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 958AF73BBE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 15:22:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t55FMZhc025491
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 5 Jun 2015 08:22:35 -0700 (PDT)
-Received: from server.local (128.224.20.64) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 5 Jun 2015 08:22:35 -0700
-Message-ID: <5571BEBA.8090306@windriver.com>
-Date: Fri, 5 Jun 2015 11:22:34 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1433477519.git.bruce.ashfield@windriver.com>
-	<c954cdeeaf11fb5bd8f4fbf63ddf0904998f2ca4.1433477519.git.bruce.ashfield@windriver.com>
-	<CAJTo0LYE8Oe6=aK0GekB+vb0TPZVZLCAtNUjecD9BZv3EZWEFQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYE8Oe6=aK0GekB+vb0TPZVZLCAtNUjecD9BZv3EZWEFQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto: update beaglebone, mpc8315e and edgerouter to 3.19
+	Fri,  5 Jun 2015 15:29:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t55FT2a8030645; Fri, 5 Jun 2015 16:29:02 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 6MlcJtcX5fal; Fri,  5 Jun 2015 16:29:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t55FSnhB030629
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 5 Jun 2015 16:29:00 +0100
+Message-ID: <1433518128.19831.19.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Costin Constantin <costin.c.constantin@intel.com>
+Date: Fri, 05 Jun 2015 16:28:48 +0100
+In-Reply-To: <1433511227-4899-1-git-send-email-costin.c.constantin@intel.com>
+References: <1433511227-4899-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] oeqa/selftest: added auto-test for directfb image on arm architecture
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,75 +36,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 15:22:39 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 05 Jun 2015 15:29:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2015-06-05 11:07 AM, Burton, Ross wrote:
->
-> On 5 June 2015 at 05:13, Bruce Ashfield <bruce.ashfield@windriver.com
-> <mailto:bruce.ashfield@windriver.com>> wrote:
->
->     Bumping the linux-yocto SRCREVs to integrate fixes for the h/w reference
->     BSPs to the 3.19 kernel.
->
->
-> edgerouter fails for me:
->
-> |
-> /data/poky-master/tmp/work-shared/edgerouter/kernel-source/fs/aufs/i_op.c:
-> In function 'au_pin_hdir_set_owner':
-> |
-> /data/poky-master/tmp/work-shared/edgerouter/kernel-source/fs/aufs/i_op.c:445:28:
-> error: 'struct mutex' has no member named 'owner'
-> |   p->hdir->hi_inode->i_mutex.owner = task;
-> |                             ^
-> |   LD      drivers/idle/built-in.o
-> |   CC      fs/aufs/i_op_del.o
-> |   LD      drivers/i2c/busses/built-in.o
-> |   CC      drivers/base/module.o
-> |   LD      drivers/i2c/muxes/built-in.o
-> |
-> /data/poky-master/tmp/work-shared/edgerouter/kernel-source/scripts/Makefile.build:257:
-> recipe for target 'fs/aufs/i_op.o' failed
-> | make[4]: *** [fs/aufs/i_op.o] Error 1
+On Fri, 2015-06-05 at 16:33 +0300, Costin Constantin wrote:
+> Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+> ---
+>  meta/lib/oeqa/selftest/buildoptions.py | 29 +++++++++--------------------
+>  1 file changed, 9 insertions(+), 20 deletions(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+> index e48bd04..620fd77 100644
+> --- a/meta/lib/oeqa/selftest/buildoptions.py
+> +++ b/meta/lib/oeqa/selftest/buildoptions.py
+> @@ -124,26 +124,15 @@ class BuildhistoryTests(BuildhistoryBase):
+>          self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
+>  
+>  class BuildImagesTest(oeSelfTest):
+> -    @testcase(283)
+> -    def test_btrfs(self):
+> +    @testcase(563)
+> +    def test_directfb(self):
 
-Indeed, we have this fix:
+These patches seem a little confused, doesn't this remove the btrfs test
+you just added?
 
-commit 6c21811060c03100a32d0acc493df5fb3743b7c8
-Author: Kevin Hao <kexin.hao@windriver.com>
-Date:   Wed May 27 20:19:12 2015 +0800
+Cheers,
 
-     fs: aufs: fix a build error for archs which doesn't support 
-MUTEX_SPIN_ON_OWNER
-
-     For struct mutex, the member "owner" only exist when either
-     DEBUG_MUTEXES or MUTEX_SPIN_ON_OWNER is enabled. The SMP is a necessary
-     condition, but not a sufficiency condition for MUTEX_SPIN_ON_OWNER.
-     So we would get build error on arch such as mpis due to SMP is
-     enabled and both DEBUG_MUTEXES and MUTEX_SPIN_ON_OWNER are disabled.
-     Replace the SMP with MUTEX_SPIN_ON_OWNER to fix it.
-
-     Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-
-:100644 100644 f0edd021102b... 268a8a54ebfc... M        fs/aufs/i_op.c
-
----------
-
-And it is on the edgerouter branch.
-
-So either the fix isn't complete, or we are building a different config
-here, or the revs are wrong.
-
-... and indeed, that isn't part of the patch Kevin sent, so you are building
-and old SRCREV.
-
-I'll send a follow up patch shortly.
-
-Bruce
-
->
-> Ross
+Richard
 
 
