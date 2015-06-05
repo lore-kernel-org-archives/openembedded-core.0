@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ED75757B4
+	by mail.openembedded.org (Postfix) with ESMTP id 63BC875806
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 09:06:19 +0000 (UTC)
+	Fri,  5 Jun 2015 09:06:20 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 05 Jun 2015 02:06:20 -0700
+	by orsmga101.jf.intel.com with ESMTP; 05 Jun 2015 02:06:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,557,1427785200"; d="scan'208";a="721240974"
+X-IronPort-AV: E=Sophos;i="5.13,557,1427785200"; d="scan'208";a="721240978"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2015 02:06:21 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 05 Jun 2015 02:06:22 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 0E5286A4083;
-	Fri,  5 Jun 2015 02:05:45 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 625796A4087;
+	Fri,  5 Jun 2015 02:05:47 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jun 2015 10:12:16 +0300
-Message-Id: <1433488349-4178-3-git-send-email-ed.bartosh@linux.intel.com>
+Date: Fri,  5 Jun 2015 10:12:17 +0300
+Message-Id: <1433488349-4178-4-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1433488349-4178-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1433488349-4178-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 2/9] wic: generate random uuid for partition
+Subject: [wic][PATCH 2/9] wic: Generate random uuid for partition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 09:06:19 -0000
+X-List-Received-Date: Fri, 05 Jun 2015 09:06:20 -0000
 
 'uuid' attribute of partition object is set to generated uuid
 when --use-uuid option is used for partition in .wks file.
