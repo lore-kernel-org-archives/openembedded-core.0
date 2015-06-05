@@ -1,41 +1,24 @@
-Return-Path: <stephen.arnold42@gmail.com>
-Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
-	[209.85.218.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 154CE6AC43
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 69D0D60962
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 05:17:47 +0000 (UTC)
-Received: by oihb142 with SMTP id b142so46343830oih.3
+	Fri,  5 Jun 2015 07:51:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t557pYDj021122
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jun 2015 22:17:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=g66qXndQHIZboyD4LjvlAMLVsncT1Fivor96j6PyPwM=;
-	b=IaCD5hXH0h4y+7DOJzqQ+zQzqXNPxaUH+hzig/TVOp3oCek+dwuqpnnJ+0LYJmp3/i
-	cnmEoP2DE8bbDT4LPpeF30svAZr8qLZv3oRswnoXRemYvCfhyTCDJrXig0Aj8V+aLpz5
-	6y+S+MQ9HSfp4hKvrh45/kq3iJVL+7mm2AxQL5kNJxmp1vj4FkQbZjsLCUTl/IEDxWb/
-	I7cA1Fyguoywp3is5+GDTd+wrsF9+JdJkdpz4QhuAjkCGG7nD2l4JrXqYrSrawQmjwsA
-	NI3q6IKcBdSd8DdJh/Gmb2qCfVk2dgbhKL6RvTSCUuAhl9uRshuyRlD1w3n0YxNfbGwL
-	t6fw==
+	Fri, 5 Jun 2015 00:51:34 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 5 Jun 2015 00:51:34 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 5 Jun 2015 15:48:15 +0800
+Message-ID: <1433490495-15270-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.182.103.231 with SMTP id fz7mr1371827obb.33.1433481467721;
-	Thu, 04 Jun 2015 22:17:47 -0700 (PDT)
-Received: by 10.182.197.161 with HTTP; Thu, 4 Jun 2015 22:17:47 -0700 (PDT)
-In-Reply-To: <CAEaCVQjNRXpA0QB5T0qyA_Wz4_He5XrdM5UTDUA2sc9XN+W0xA@mail.gmail.com>
-References: <CAOLEWZUq-ig-fVZgdgd7P15U-jCKaG0FnJM9zYVgPYvxqXDmyw@mail.gmail.com>
-	<556E355B.8010604@balister.org>
-	<CAEaCVQhNeXoTyLDtXGnKkHyXj9D5yrjwiYV0=K6k_bjsP-BibA@mail.gmail.com>
-	<CAOLEWZUhy1csD3WfDr7T5F10wrYvs-+UoucyXps3dYjY=gmHww@mail.gmail.com>
-	<CAEaCVQjNRXpA0QB5T0qyA_Wz4_He5XrdM5UTDUA2sc9XN+W0xA@mail.gmail.com>
-Date: Thu, 4 Jun 2015 22:17:47 -0700
-Message-ID: <CAOLEWZVJHF=gR8RyE3vwvxq75hCqN0T0Pxe5fyYeC5aJ7mPG=g@mail.gmail.com>
-From: Stephen Arnold <stephen.arnold42@gmail.com>
-To: Eduardo Silva <eduardo@monkey.io>
-Cc: "Diego Turcios \(Google+\)"
-	<reply-112495897811760115712@profiles.google.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Fwd: open source conference in Honduras needs Yocto Project/Openembedded/OpenHardware speaker
+Subject: [PATCH] libsndfile: Security Advisory - libsndfile - CVE-2014-9496
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,137 +31,312 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 05:17:54 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 05 Jun 2015 07:51:36 -0000
+Content-Type: text/plain
 
-I can't (formally) speak for Diego, but that sounds awesome (I think
-he will be happy).  The LinuxCon abstract looks promising, but I
-better shutup and let DIego respond when's able to.
+From: Yue Tao <Yue.Tao@windriver.com>
 
-Thanks, and you're entirely welcome (and hopefully I can see it in person...)
+Backport two commits from libsndfile upstream to fix a segfault and
+two potential buffer overflows.
 
-Steve
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+---
+ ...src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch | 211 +++++++++++++++++++++
+ ...c-Fix-two-potential-buffer-read-overflows.patch |  49 +++++
+ .../libsndfile/libsndfile1_1.0.25.bb               |   5 +-
+ 3 files changed, 264 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-two-potential-buffer-read-overflows.patch
 
-On Thu, Jun 4, 2015 at 8:50 PM, Eduardo Silva <eduardo@monkey.io> wrote:
-> Hi Stephen and Diego,
->
-> Our work is basically data collection from a end-to-end point of view with
-> Open Source tools that we develop and distribute. It covers embedded
-> (openembedded/yocto) and common system applications, the project involved
-> are:
->
-> 1. Fluentd / http://fluentd.org : open source data collector
-> 2. Fluent Bit / http://fluentbit.io : open source data collector with a
-> strong focus in Embedded Linux
-> 3. Monkey Server / http://monkey-project.com : a scalable web server for
-> embedded linux and others.
-> 4. Duda I/O / http://duda.io: a web services framework for Linux and
-> embedded Linux.
->
-> note: all projects are licensed under the Apache v2 License
->
-> we have international experience, at the moment (in 1 hour) I will be
-> presenting at LinuxCon Japan:
->
->   http://sched.co/2mgz
->
-> We can cover the travel costs, If you like the proposal I will only need to
-> re-check my schedule to validate availability. Please let me know if this
-> works.
->
-> thanks for your time,
->
->
->
-> On Thu, Jun 4, 2015 at 10:27 AM, Stephen Arnold <stephen.arnold42@gmail.com>
-> wrote:
->>
->> That works if you have some travel
->> coverage, unfortunately I just
->> heard Diego is in the hospital (no details yet) so there may be a
->> short delay in reply...
->>
->> They are very interested in open source (both hardware and software)
->> so feel free to propose suitable topics (depends on what you've been
->> working on recently I guess).  I was going to do Gentoo embedded but
->> I'm not sure if I can even go yet...
->>
->> Steve
->>
->> On Tue, Jun 2, 2015 at 6:36 PM, Eduardo Silva <eduardo@monkey.io> wrote:
->> > HI Stephen,
->> >
->> > I just read on the OpenEmbedded List that you are looking for candidates
->> > to
->> > talk about Yocto or related technology.
->> >
->> > I work for the Open Source team at Treasure Data and we are a Linux
->> > Foundation member. As I am based in Costa Rica I see a good chance to
->> > participate.
->> >
->> > If you are interested let me know so we can discuss more in detail,
->> >
->> > thanks in advance,
->> >
->> >
->> > On Tue, Jun 2, 2015 at 4:59 PM, Philip Balister <philip@balister.org>
->> > wrote:
->> >>
->> >> Speaking opportunity in Honduras.
->> >>
->> >> Contact Steve, not me.
->> >>
->> >> Philip
->> >>
->> >>
->> >> -------- Forwarded Message --------
->> >> Subject: [OE-core] open source conference in Honduras needs Yocto
->> >> Project/Openembedded/OpenHardware speaker
->> >> Date: Tue, 2 Jun 2015 14:45:22 -0700
->> >> From: Stephen Arnold <stephen.arnold42@gmail.com>
->> >> To: Patches and discussions about the oe-core layer
->> >> <openembedded-core@lists.openembedded.org>
->> >>
->> >> There seems to be plenty of room (only 2 or 3 speakers signed up so
->> >> far) and they'd love to have an "official" LF (or just embedded linux)
->> >> speaker.  I've been invited to speak, and they can cover the normal
->> >> fees/lodging/food for speakers (just not the travel costs, so I'm
->> >> still working things out with my wife...)
->> >>
->> >> http://ecsl2015.softwarelibre.ca/
->> >>
->> >> I guess I was hoping Linux Foundation (or member companies) had enough
->> >> support to maybe send an openembedded developer to speak as an
->> >> outreach sort of thing.
->> >>
->> >> Steve Arnold
->> >> aka nerdboy/mr_science
->> >> --
->> >> _______________________________________________
->> >> Openembedded-core mailing list
->> >> Openembedded-core@lists.openembedded.org
->> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> >>
->> >>
->> >>
->> >>
->> >> --
->> >> _______________________________________________
->> >> Openembedded-devel mailing list
->> >> Openembedded-devel@lists.openembedded.org
->> >> http://lists.openembedded.org/mailman/listinfo/openembedded-devel
->> >
->> >
->> >
->> >
->> > --
->> > Eduardo Silva
->> >
->
->
->
->
-> --
-> Eduardo Silva
-> Monkey Software
+diff --git a/meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch b/meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch
+new file mode 100644
+index 0000000..cd48710
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch
+@@ -0,0 +1,211 @@
++From 9341e9c6e70cd3ad76c901c3cf052d4cb52fd827 Mon Sep 17 00:00:00 2001
++From: Erik de Castro Lopo <erikd@mega-nerd.com>
++Date: Thu, 27 Jun 2013 18:04:03 +1000
++Subject: [PATCH] src/sd2.c : Fix segfault in SD2 RSRC parser.
++
++(Upstream commit 9341e9c6e70cd3ad76c901c3cf052d4cb52fd827)
++
++A specially crafted resource fork for an SD2 file can cause
++the SD2 RSRC parser to read data from outside a dynamically
++defined buffer. The data that is read is converted into a
++short or int and used during further processing.
++
++Since no write occurs, this is unlikely to be exploitable.
++
++Bug reported by The Mayhem Team from Cylab, Carnegie Mellon
++Univeristy. Paper is:
++http://users.ece.cmu.edu/~arebert/papers/mayhem-oakland-12.pdf
++
++Upstream-Status: Backport
++
++Signed-off-by: Yue Tao <yue.tao@windriver.com>
++---
++ src/sd2.c |   93 ++++++++++++++++++++++++++++++++++++-------------------------
++ 1 file changed, 55 insertions(+), 38 deletions(-)
++
++diff --git a/src/sd2.c b/src/sd2.c
++index 35ce36b..6be150c 100644
++--- a/src/sd2.c
+++++ b/src/sd2.c
++@@ -1,5 +1,5 @@
++ /*
++-** Copyright (C) 2001-2011 Erik de Castro Lopo <erikd@mega-nerd.com>
+++** Copyright (C) 2001-2013 Erik de Castro Lopo <erikd@mega-nerd.com>
++ ** Copyright (C) 2004 Paavo Jumppanen
++ **
++ ** This program is free software; you can redistribute it and/or modify
++@@ -371,44 +371,61 @@ sd2_write_rsrc_fork (SF_PRIVATE *psf, int UNUSED (calc_length))
++ */
++ 
++ static inline int
++-read_char (const unsigned char * data, int offset)
++-{	return data [offset] ;
++-} /* read_char */
+++read_rsrc_char (const SD2_RSRC *prsrc, int offset)
+++{	const unsigned char * data = prsrc->rsrc_data ;
+++	if (offset < 0 || offset >= prsrc->rsrc_len)
+++		return 0 ;
+++	return data [offset] ;
+++} /* read_rsrc_char */
++ 
++ static inline int
++-read_short (const unsigned char * data, int offset)
++-{	return (data [offset] << 8) + data [offset + 1] ;
++-} /* read_short */
+++read_rsrc_short (const SD2_RSRC *prsrc, int offset)
+++{	const unsigned char * data = prsrc->rsrc_data ;
+++	if (offset < 0 || offset + 1 >= prsrc->rsrc_len)
+++		return 0 ;
+++	return (data [offset] << 8) + data [offset + 1] ;
+++} /* read_rsrc_short */
++ 
++ static inline int
++-read_int (const unsigned char * data, int offset)
++-{	return (data [offset] << 24) + (data [offset + 1] << 16) + (data [offset + 2] << 8) + data [offset + 3] ;
++-} /* read_int */
+++read_rsrc_int (const SD2_RSRC *prsrc, int offset)
+++{	const unsigned char * data = prsrc->rsrc_data ;
+++	if (offset < 0 || offset + 3 >= prsrc->rsrc_len)
+++		return 0 ;
+++	return (data [offset] << 24) + (data [offset + 1] << 16) + (data [offset + 2] << 8) + data [offset + 3] ;
+++} /* read_rsrc_int */
++ 
++ static inline int
++-read_marker (const unsigned char * data, int offset)
++-{
+++read_rsrc_marker (const SD2_RSRC *prsrc, int offset)
+++{	const unsigned char * data = prsrc->rsrc_data ;
+++
+++	if (offset < 0 || offset + 3 >= prsrc->rsrc_len)
+++		return 0 ;
+++
++ 	if (CPU_IS_BIG_ENDIAN)
++ 		return (data [offset] << 24) + (data [offset + 1] << 16) + (data [offset + 2] << 8) + data [offset + 3] ;
++-	else if (CPU_IS_LITTLE_ENDIAN)
+++	if (CPU_IS_LITTLE_ENDIAN)
++ 		return data [offset] + (data [offset + 1] << 8) + (data [offset + 2] << 16) + (data [offset + 3] << 24) ;
++-	else
++-		return 0x666 ;
++-} /* read_marker */
+++
+++	return 0 ;
+++} /* read_rsrc_marker */
++ 
++ static void
++-read_str (const unsigned char * data, int offset, char * buffer, int buffer_len)
++-{	int k ;
+++read_rsrc_str (const SD2_RSRC *prsrc, int offset, char * buffer, int buffer_len)
+++{	const unsigned char * data = prsrc->rsrc_data ;
+++	int k ;
++ 
++ 	memset (buffer, 0, buffer_len) ;
++ 
+++	if (offset < 0 || offset + buffer_len >= prsrc->rsrc_len)
+++		return ;
+++
++ 	for (k = 0 ; k < buffer_len - 1 ; k++)
++ 	{	if (psf_isprint (data [offset + k]) == 0)
++ 			return ;
++ 		buffer [k] = data [offset + k] ;
++ 		} ;
++ 	return ;
++-} /* read_str */
+++} /* read_rsrc_str */
++ 
++ static int
++ sd2_parse_rsrc_fork (SF_PRIVATE *psf)
++@@ -435,17 +452,17 @@ sd2_parse_rsrc_fork (SF_PRIVATE *psf)
++ 	/* Reset the header storage because we have changed to the rsrcdes. */
++ 	psf->headindex = psf->headend = rsrc.rsrc_len ;
++ 
++-	rsrc.data_offset = read_int (rsrc.rsrc_data, 0) ;
++-	rsrc.map_offset = read_int (rsrc.rsrc_data, 4) ;
++-	rsrc.data_length = read_int (rsrc.rsrc_data, 8) ;
++-	rsrc.map_length = read_int (rsrc.rsrc_data, 12) ;
+++	rsrc.data_offset = read_rsrc_int (&rsrc, 0) ;
+++	rsrc.map_offset = read_rsrc_int (&rsrc, 4) ;
+++	rsrc.data_length = read_rsrc_int (&rsrc, 8) ;
+++	rsrc.map_length = read_rsrc_int (&rsrc, 12) ;
++ 
++ 	if (rsrc.data_offset == 0x51607 && rsrc.map_offset == 0x20000)
++ 	{	psf_log_printf (psf, "Trying offset of 0x52 bytes.\n") ;
++-		rsrc.data_offset = read_int (rsrc.rsrc_data, 0x52 + 0) + 0x52 ;
++-		rsrc.map_offset = read_int (rsrc.rsrc_data, 0x52 + 4) + 0x52 ;
++-		rsrc.data_length = read_int (rsrc.rsrc_data, 0x52 + 8) ;
++-		rsrc.map_length = read_int (rsrc.rsrc_data, 0x52 + 12) ;
+++		rsrc.data_offset = read_rsrc_int (&rsrc, 0x52 + 0) + 0x52 ;
+++		rsrc.map_offset = read_rsrc_int (&rsrc, 0x52 + 4) + 0x52 ;
+++		rsrc.data_length = read_rsrc_int (&rsrc, 0x52 + 8) ;
+++		rsrc.map_length = read_rsrc_int (&rsrc, 0x52 + 12) ;
++ 		} ;
++ 
++ 	psf_log_printf (psf, "  data offset : 0x%04X\n  map  offset : 0x%04X\n"
++@@ -488,7 +505,7 @@ sd2_parse_rsrc_fork (SF_PRIVATE *psf)
++ 		goto parse_rsrc_fork_cleanup ;
++ 		} ;
++ 
++-	rsrc.string_offset = rsrc.map_offset + read_short (rsrc.rsrc_data, rsrc.map_offset + 26) ;
+++	rsrc.string_offset = rsrc.map_offset + read_rsrc_short (&rsrc, rsrc.map_offset + 26) ;
++ 	if (rsrc.string_offset > rsrc.rsrc_len)
++ 	{	psf_log_printf (psf, "Bad string offset (%d).\n", rsrc.string_offset) ;
++ 		error = SFE_SD2_BAD_RSRC ;
++@@ -497,7 +514,7 @@ sd2_parse_rsrc_fork (SF_PRIVATE *psf)
++ 
++ 	rsrc.type_offset = rsrc.map_offset + 30 ;
++ 
++-	rsrc.type_count = read_short (rsrc.rsrc_data, rsrc.map_offset + 28) + 1 ;
+++	rsrc.type_count = read_rsrc_short (&rsrc, rsrc.map_offset + 28) + 1 ;
++ 	if (rsrc.type_count < 1)
++ 	{	psf_log_printf (psf, "Bad type count.\n") ;
++ 		error = SFE_SD2_BAD_RSRC ;
++@@ -513,11 +530,11 @@ sd2_parse_rsrc_fork (SF_PRIVATE *psf)
++ 
++ 	rsrc.str_index = -1 ;
++ 	for (k = 0 ; k < rsrc.type_count ; k ++)
++-	{	marker = read_marker (rsrc.rsrc_data, rsrc.type_offset + k * 8) ;
+++	{	marker = read_rsrc_marker (&rsrc, rsrc.type_offset + k * 8) ;
++ 
++ 		if (marker == STR_MARKER)
++ 		{	rsrc.str_index = k ;
++-			rsrc.str_count = read_short (rsrc.rsrc_data, rsrc.type_offset + k * 8 + 4) + 1 ;
+++			rsrc.str_count = read_rsrc_short (&rsrc, rsrc.type_offset + k * 8 + 4) + 1 ;
++ 			error = parse_str_rsrc (psf, &rsrc) ;
++ 			goto parse_rsrc_fork_cleanup ;
++ 			} ;
++@@ -549,26 +566,26 @@ parse_str_rsrc (SF_PRIVATE *psf, SD2_RSRC * rsrc)
++ 	for (k = 0 ; data_offset + data_len < rsrc->rsrc_len ; k++)
++ 	{	int slen ;
++ 
++-		slen = read_char (rsrc->rsrc_data, str_offset) ;
++-		read_str (rsrc->rsrc_data, str_offset + 1, name, SF_MIN (SIGNED_SIZEOF (name), slen + 1)) ;
+++		slen = read_rsrc_char (rsrc, str_offset) ;
+++		read_rsrc_str (rsrc, str_offset + 1, name, SF_MIN (SIGNED_SIZEOF (name), slen + 1)) ;
++ 		str_offset += slen + 1 ;
++ 
++-		rsrc_id = read_short (rsrc->rsrc_data, rsrc->item_offset + k * 12) ;
+++		rsrc_id = read_rsrc_short (rsrc, rsrc->item_offset + k * 12) ;
++ 
++-		data_offset = rsrc->data_offset + read_int (rsrc->rsrc_data, rsrc->item_offset + k * 12 + 4) ;
+++		data_offset = rsrc->data_offset + read_rsrc_int (rsrc, rsrc->item_offset + k * 12 + 4) ;
++ 		if (data_offset < 0 || data_offset > rsrc->rsrc_len)
++ 		{	psf_log_printf (psf, "Exiting parser on data offset of %d.\n", data_offset) ;
++ 			break ;
++ 			} ;
++ 
++-		data_len = read_int (rsrc->rsrc_data, data_offset) ;
+++		data_len = read_rsrc_int (rsrc, data_offset) ;
++ 		if (data_len < 0 || data_len > rsrc->rsrc_len)
++ 		{	psf_log_printf (psf, "Exiting parser on data length of %d.\n", data_len) ;
++ 			break ;
++ 			} ;
++ 
++-		slen = read_char (rsrc->rsrc_data, data_offset + 4) ;
++-		read_str (rsrc->rsrc_data, data_offset + 5, value, SF_MIN (SIGNED_SIZEOF (value), slen + 1)) ;
+++		slen = read_rsrc_char (rsrc, data_offset + 4) ;
+++		read_rsrc_str (rsrc, data_offset + 5, value, SF_MIN (SIGNED_SIZEOF (value), slen + 1)) ;
++ 
++ 		psf_log_printf (psf, "  0x%04x     %4d     %4d     %3d    '%s'\n", data_offset, rsrc_id, data_len, slen, value) ;
++ 
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-two-potential-buffer-read-overflows.patch b/meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-two-potential-buffer-read-overflows.patch
+new file mode 100644
+index 0000000..fa6473d
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/files/0001-src-sd2.c-Fix-two-potential-buffer-read-overflows.patch
+@@ -0,0 +1,49 @@
++From dbe14f00030af5d3577f4cabbf9861db59e9c378 Mon Sep 17 00:00:00 2001
++From: Erik de Castro Lopo <erikd@mega-nerd.com>
++Date: Thu, 25 Dec 2014 19:23:12 +1100
++Subject: [PATCH] src/sd2.c : Fix two potential buffer read overflows.
++
++(Upstream commit dbe14f00030af5d3577f4cabbf9861db59e9c378)
++
++Closes: https://github.com/erikd/libsndfile/issues/93
++
++Upstream-Status: Backport
++
++Signed-off-by: Yue Tao <yue.tao@windriver.com>
++---
++ src/sd2.c |   12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/src/sd2.c b/src/sd2.c
++index 0b4e5af..a70a1f1 100644
++--- a/src/sd2.c
+++++ b/src/sd2.c
++@@ -517,6 +517,11 @@ sd2_parse_rsrc_fork (SF_PRIVATE *psf)
++ 
++ 	rsrc.type_offset = rsrc.map_offset + 30 ;
++ 
+++	if (rsrc.map_offset + 28 > rsrc.rsrc_len)
+++	{	psf_log_printf (psf, "Bad map offset.\n") ;
+++		goto parse_rsrc_fork_cleanup ;
+++		} ;
+++
++ 	rsrc.type_count = read_rsrc_short (&rsrc, rsrc.map_offset + 28) + 1 ;
++ 	if (rsrc.type_count < 1)
++ 	{	psf_log_printf (psf, "Bad type count.\n") ;
++@@ -533,7 +538,12 @@ sd2_parse_rsrc_fork (SF_PRIVATE *psf)
++ 
++ 	rsrc.str_index = -1 ;
++ 	for (k = 0 ; k < rsrc.type_count ; k ++)
++-	{	marker = read_rsrc_marker (&rsrc, rsrc.type_offset + k * 8) ;
+++	{	if (rsrc.type_offset + k * 8 > rsrc.rsrc_len)
+++		{	psf_log_printf (psf, "Bad rsrc marker.\n") ;
+++			goto parse_rsrc_fork_cleanup ;
+++			} ;
+++
+++		marker = read_rsrc_marker (&rsrc, rsrc.type_offset + k * 8) ;
++ 
++ 		if (marker == STR_MARKER)
++ 		{	rsrc.str_index = k ;
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
+index 9246298..3e02f4e 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.25.bb
+@@ -6,7 +6,10 @@ SECTION = "libs/multimedia"
+ LICENSE = "LGPLv2.1"
+ PR = "r2"
+ 
+-SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz"
++SRC_URI = "http://www.mega-nerd.com/libsndfile/files/libsndfile-${PV}.tar.gz \
++           file://0001-src-sd2.c-Fix-segfault-in-SD2-RSRC-parser.patch \
++           file://0001-src-sd2.c-Fix-two-potential-buffer-read-overflows.patch \
++"
+ 
+ SRC_URI[md5sum] = "e2b7bb637e01022c7d20f95f9c3990a2"
+ SRC_URI[sha256sum] = "59016dbd326abe7e2366ded5c344c853829bebfd1702ef26a07ef662d6aa4882"
+-- 
+1.9.1
+
 
