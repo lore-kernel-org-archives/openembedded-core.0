@@ -1,23 +1,36 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 86C1A73BBE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D0AAE6AC43
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 11:47:48 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 05 Jun 2015 04:47:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,558,1427785200"; d="scan'208";a="503213992"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 05 Jun 2015 04:47:49 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 36D7D6A4083;
-	Fri,  5 Jun 2015 04:47:15 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Jun 2015 12:54:08 +0300
-Message-Id: <1433498048-5468-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: Move validation of --ptable option to wks parser
+	Fri,  5 Jun 2015 12:02:37 +0000 (UTC)
+Received: by qgg3 with SMTP id 3so5005969qgg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 05 Jun 2015 05:02:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=rebqQvxPmFnqACDtTOI7N47IbzallsVQLYmMxDMbCNk=;
+	b=Iu/qk/w6ahZS58dkraPT3UkRfp7XVnNyqh+pb/liKvd5HuCP1SLKjtxggw/autIdbF
+	MHJ67oS7lN7EB0IkWJ6zA9Y16W9zhf9Fi0qqJqczqg2MeI6XoYAzjurqjNEAJOl8pd8w
+	gHZBy5WGWaMu0E+GrAs5ULhQtFZWp3FyG2/ER+X9IvCxmXK8+nMmgCpL9g35W3dw4y1X
+	tdIJJxYGo7v36hKPZ2nx0Kq3xtd5PEq0F31BPrPmzgojLKaKjilZQjF5TmUZO2NaeQEL
+	90VWfpvU7XEn4QV4nfSpfWLGYWuuuaU2tIIG6QTmtGBuPzt/YasZhWc+OaS/AdHAAPl7
+	9v0g==
+X-Gm-Message-State: ALoCoQlG/BXKdHCx7B5E0zCMAsMhHNfltcewYzPQR/JTpG1Uc81Ly3Bye2DLH1g/6bR+2czGilwD
+X-Received: by 10.229.185.68 with SMTP id cn4mr3725228qcb.12.1433505758082;
+	Fri, 05 Jun 2015 05:02:38 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Fri, 5 Jun 2015 05:02:17 -0700 (PDT)
+In-Reply-To: <1433492619-21508-1-git-send-email-wenzong.fan@windriver.com>
+References: <1433492619-21508-1-git-send-email-wenzong.fan@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 5 Jun 2015 13:02:17 +0100
+Message-ID: <CAJTo0LZtQh3Z4f+mvuQ4Um6mqeDxg2wNeQQOgoE1eRwpuZwq3A@mail.gmail.com>
+To: wenzong fan <wenzong.fan@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libxml2: Security Advisory - libxml2 - CVE-2015-1819
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,126 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 11:47:49 -0000
+X-List-Received-Date: Fri, 05 Jun 2015 12:02:38 -0000
+Content-Type: multipart/alternative; boundary=001a1134a4747ebc570517c41132
 
-bootloader --ptable option has two valid choices: gpt and msdos
-Moved this check to wks parser by changing option type to 'choice'.
+--001a1134a4747ebc570517c41132
+Content-Type: text/plain; charset=UTF-8
 
-Removed similar checks from 5 other places.
+On 5 June 2015 at 09:23, <wenzong.fan@windriver.com> wrote:
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/wic/kickstart/custom_commands/micboot.py |  3 ++-
- scripts/lib/wic/plugins/source/bootimg-efi.py        | 15 ++-------------
- scripts/lib/wic/plugins/source/bootimg-pcbios.py     |  8 ++------
- scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py  |  8 ++------
- scripts/lib/wic/utils/partitionedfs.py               |  4 ----
- 5 files changed, 8 insertions(+), 30 deletions(-)
+> +From 213f1fe0d76d30eaed6e5853057defc43e6df2c9 Mon Sep 17 00:00:00 2001
+> +From: Daniel Veillard <veillard@redhat.com>
+> +Date: Tue, 14 Apr 2015 17:41:48 +0800
+> +Subject: [PATCH] CVE-2015-1819 Enforce the reader to run in constant
+> memory
+> +
+> +One of the operation on the reader could resolve entities
+> +leading to the classic expansion issue. Make sure the
+> +buffer used for xmlreader operation is bounded.
+> +Introduce a new allocation type for the buffers for this effect.
+> +
+> +Upstream-Status: Backport
+>
 
-diff --git a/scripts/lib/wic/kickstart/custom_commands/micboot.py b/scripts/lib/wic/kickstart/custom_commands/micboot.py
-index d162142..358b0ea 100644
---- a/scripts/lib/wic/kickstart/custom_commands/micboot.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/micboot.py
-@@ -44,6 +44,7 @@ class Mic_Bootloader(F8_Bootloader):
-     def _getParser(self):
-         op = F8_Bootloader._getParser(self)
-         op.add_option("--menus", dest="menus")
--        op.add_option("--ptable", dest="ptable", type="string")
-+        op.add_option("--ptable", dest="ptable", choices=("msdos", "gpt"),
-+                      default="msdos")
-         return op
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 39ce9f3..d3b8468 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -60,13 +60,8 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         kernel = "/bzImage"
- 
--        if cr.ptable_format in ('msdos', 'gpt'):
--            rootstr = cr.rootdev
--        else:
--            raise ImageError("Unsupported partition table format found")
--
-         grubefi_conf += "linux %s root=%s rootwait %s\n" \
--            % (kernel, rootstr, options)
-+            % (kernel, cr.rootdev, options)
-         grubefi_conf += "}\n"
- 
-         msger.debug("Writing grubefi config %s/hdd/boot/EFI/BOOT/grub.cfg" \
-@@ -104,16 +99,10 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         kernel = "/bzImage"
- 
--        if cr.ptable_format in ('msdos', 'gpt'):
--            rootstr = cr.rootdev
--        else:
--            raise ImageError("Unsupported partition table format found")
--
-         boot_conf = ""
-         boot_conf += "title boot\n"
-         boot_conf += "linux %s\n" % kernel
--        boot_conf += "options LABEL=Boot root=%s %s\n" \
--            % (rootstr, options)
-+        boot_conf += "options LABEL=Boot root=%s %s\n" % (cr.rootdev, options)
- 
-         msger.debug("Writing gummiboot config %s/hdd/boot/loader/entries/boot.conf" \
-                         % cr_workdir)
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index dd49480..5caffbc 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -103,12 +103,8 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         kernel = "/vmlinuz"
-         syslinux_conf += "KERNEL " + kernel + "\n"
- 
--        if cr.ptable_format in ('msdos', 'gpt'):
--            rootstr = cr.rootdev
--        else:
--            raise ImageError("Unsupported partition table format found")
--
--        syslinux_conf += "APPEND label=boot root=%s %s\n" % (rootstr, options)
-+        syslinux_conf += "APPEND label=boot root=%s %s\n" % \
-+                             (cr.rootdev, options)
- 
-         msger.debug("Writing syslinux config %s/hdd/boot/syslinux.cfg" \
-                     % cr_workdir)
-diff --git a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-index 90dac05..533eaa7 100644
---- a/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-+++ b/scripts/lib/wic/plugins/source/rootfs_pcbios_ext.py
-@@ -100,12 +100,8 @@ class RootfsPlugin(SourcePlugin):
-         syslinux_conf += "LABEL linux\n"
-         syslinux_conf += "  KERNEL /boot/bzImage\n"
- 
--        if image_creator.ptable_format in ('msdos', 'gpt'):
--            rootstr = image_creator.rootdev
--        else:
--            raise ImageError("Unsupported partition table format found")
--
--        syslinux_conf += "  APPEND label=boot root=%s %s\n" % (rootstr, options)
-+        syslinux_conf += "  APPEND label=boot root=%s %s\n" % \
-+                             (image_creator.rootdev, options)
- 
-         syslinux_cfg = os.path.join(image_creator.rootfs_dir['ROOTFS_DIR'], "boot", "syslinux.cfg")
-         msger.debug("Writing syslinux config %s" % syslinux_cfg)
-diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index 1eb1f01..e093ec5 100644
---- a/scripts/lib/wic/utils/partitionedfs.py
-+++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -122,10 +122,6 @@ class Image(object):
- 
-         msger.debug("Assigning %s partitions to disks" % ptable_format)
- 
--        if ptable_format not in ('msdos', 'gpt'):
--            raise ImageError("Unknown partition table format '%s', supported " \
--                             "formats are: 'msdos'" % ptable_format)
--
-         if self._partitions_layed_out:
-             return
- 
--- 
-2.1.4
+No signed-off-by.
 
+Ross
 
+--001a1134a4747ebc570517c41132
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 5 June 2015 at 09:23,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenzong.f=
+an@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":3lt" class=3D"a3s" s=
+tyle=3D"overflow:hidden">+From 213f1fe0d76d30eaed6e5853057defc43e6df2c9 Mon=
+ Sep 17 00:00:00 2001<br>
++From: Daniel Veillard &lt;<a href=3D"mailto:veillard@redhat.com">veillard@=
+redhat.com</a>&gt;<br>
++Date: Tue, 14 Apr 2015 17:41:48 +0800<br>
++Subject: [PATCH] CVE-2015-1819 Enforce the reader to run in constant memor=
+y<br>
++<br>
++One of the operation on the reader could resolve entities<br>
++leading to the classic expansion issue. Make sure the<br>
++buffer used for xmlreader operation is bounded.<br>
++Introduce a new allocation type for the buffers for this effect.<br>
++<br>
++Upstream-Status: Backport</div></blockquote></div><br>No signed-off-by.</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
+
+--001a1134a4747ebc570517c41132--
