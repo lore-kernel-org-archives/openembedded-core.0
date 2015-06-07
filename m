@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 276E9756A4
+	by mail.openembedded.org (Postfix) with ESMTP id 40C9F732B1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jun 2015 22:53:24 +0000 (UTC)
+	Sun,  7 Jun 2015 07:20:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t55MrOg3013360; Fri, 5 Jun 2015 23:53:24 +0100
+	t577INeS022492 for <openembedded-core@lists.openembedded.org>;
+	Sun, 7 Jun 2015 08:20:25 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WYk_89ipZmx8; Fri,  5 Jun 2015 23:53:24 +0100 (BST)
+	with LMTP id lix31VWtN5Qz
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  7 Jun 2015 08:20:25 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t55Mr7Ok013333
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 5 Jun 2015 23:53:19 +0100
-Message-ID: <1433544787.28975.48.camel@linuxfoundation.org>
+	t577KC0X022601
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 7 Jun 2015 08:20:23 +0100
+Message-ID: <1433661612.28975.63.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Amy Fong <amy.fong@windriver.com>
-Date: Fri, 05 Jun 2015 23:53:07 +0100
-In-Reply-To: <20150605171815.GA20636@windriver.com>
-References: <20150605171815.GA20636@windriver.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 07 Jun 2015 08:20:12 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] External modules fail to load due to unknown symbols
+Subject: [PATCH RFC] sstate: Add eventhandler which cleans up stale recipe data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,75 +37,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jun 2015 22:53:27 -0000
+X-List-Received-Date: Sun, 07 Jun 2015 07:20:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-06-05 at 13:18 -0400, Amy Fong wrote:
-> From da12fa5e6daca0c0b7bb15df030b1c79fbefa089 Mon Sep 17 00:00:00 2001
-> From: Amy Fong <amy.fong@windriver.com>
-> Date: Mon, 1 Jun 2015 13:16:20 -0400
-> Subject: [PATCH] External modules fail to load due to unknown symbols
-> 
-> When building external kernel modules, a failure can happen
-> when the module has dependencies on other kernel modules.
-> In such cases, the build looks at Module.symvers to do
-> symbol lookups of the other kernel modules that it depends on.
-> 
-> Module.symvers gets copied by do_shared_workdir
-> after do_compile and Module.symvers gets updated during
-> do_compile_kernelmodules.
-> 
-> do_compile_kernelmodules is modified to explicitly copy Module.symvers
-> to the shared workdir.
-> 
-> Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> ---
->  meta/classes/kernel.bbclass | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 4f22cde..4a177b1 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -215,6 +215,14 @@ do_compile_kernelmodules() {
->  	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
->  	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
->  		oe_runmake ${PARALLEL_MAKE} modules CC="${KERNEL_CC}" LD="${KERNEL_LD}" ${KERNEL_EXTRA_ARGS}
-> +
-> +		# Module.symvers gets updated during the 
-> +		# building of the kernel modules. We need to
-> +		# update this in the shared workdir since some
-> +		# external kernel modules has a dependency on
-> +		# other kernel modules and will look at this
-> +		# file to do symbol lookups
-> +		cp Module.symvers ${STAGING_KERNEL_BUILDDIR}
->  	else
->  		bbnote "no modules to compile"
->  	fi
+"Incremental builds do not work well when renaming recipes or changing
+architecture" is a long standing issue which causes people considerable
+pain. We've struggled for a long time to come up with a way to
+generically address the problem.
 
-Sadly this will give rise to a race. shared_workdir is defined as:
+There are additional issues where removal of a layer caused data to
+continue to exist and additionally, changing DISTRO_FEATURES also caused
+problems in an existing TMPDIR.
 
-addtask shared_workdir after do_compile before do_compile_kernelmodule
+This patch attempts to address this by adding a mapping between stamp
+files and manifests. After parsing we can easily tell which stamp files
+are still reachable, if any manifest has a stamp that can no longer be
+reached, we can remove it. Since this code ties this to the sstate
+architecture list, it will not remove data from other than the current
+MACHINE (and its active architectures). It does not clean the sstate
+cache so if another build activates something which was cleaned, it
+should reinstall from sstate.
 
-and other modules depend on the shared_workdir task. Your other modules
-could therefore compile before the code in compile_kernelmodule has run.
+We can also go one step further, depending on the setting of
+SSTATE_PRUNE_OBSOLETEWORKDIR, workdirs which are no longer active can
+also be removed. This avoids the buildup of many old copies of data in
+WORKDIR for example when versions are upgraded.
 
-At a guess you will next suggest we change shared_workdir to be after
-compile_kernelmodules. The problem there is one of performance. We had
-bug reports from the community and Wind River people about the fact that
-shared_workdir executes when building kernel modules and doesn't come
-from sstate. Forcing shared_workdir to run more tasks every time isn't
-going to make people happy either :(
+The one thing which may surprise people with this change is if you
+remove a layer, data added by that layer will be "uninstalled" before
+the next build continues. I believe this is a feature and a good thing
+to do though.
 
-So I'm not sure how we solve this but it is going to need more thought
-and the above patch isn't right.
+This code is safe with existing builds. If something isn't in the new
+index it simply isn't removed. Since changes to the sstate code trigger
+a rebuild, after this merges, we can assume the code will start to
+detect changes from that point onwards.
 
-Cheers,
+[Right now this is an RFC, it appeared to do the right things in some
+brief local tests and I am pretty excited that this could solve a long
+standing usability issue in a clean and effective way. There is a bug
+related to DISTRO_FEATURES changes right now since even skipped recipes
+will still show active stamps meaning systemd isn't removed from a
+sysvinit build and vice versa. I should be able to fix that next week
+before merging. This patch depends on the patch on the bitbake list for
+the event it needs. Before merging I will bump version number
+requirements to ensure people have it. I also want to improve the log
+output so it tells users what its doing rather than the obtuse
+bb.error().]
 
-Richard
+[YOCTO #4102]
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 949ba4a..c5a974a 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -33,6 +33,15 @@ SSTATE_SCAN_CMD ?= 'find ${SSTATE_BUILDDIR} \( -name "${@"\" -o -name \"".join(d
+ 
+ BB_HASHFILENAME = "${SSTATE_EXTRAPATH} ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}"
+ 
++SSTATE_ARCHS = " \
++    ${BUILD_ARCH} \
++    ${BUILD_ARCH}_${SDK_ARCH}_${SDK_OS} \
++    ${BUILD_ARCH}_${TARGET_ARCH} \
++    ${SDK_ARCH}_${SDK_OS} \
++    ${SDK_ARCH}_${PACKAGE_ARCH} \
++    allarch \
++    ${PACKAGE_ARCH}"
++
+ SSTATE_MANMACH ?= "${SSTATE_PKGARCH}"
+ 
+ SSTATECREATEFUNCS = "sstate_hardcode_path"
+@@ -233,6 +242,20 @@ def sstate_install(ss, d):
+         f.write(di + "\n")
+     f.close()
+ 
++    # Append to the list of manifests for this PACKAGE_ARCH
++
++    i = d.expand("${SSTATE_MANIFESTS}/index-${SSTATE_MANMACH}")
++    l = bb.utils.lockfile(i + ".lock")
++    filedata = d.getVar("STAMP", True) + " " + d.getVar("SSTATE_MANFILEPREFIX", True) + " " + d.getVar("WORKDIR", True) + "\n"
++    manifests = []
++    if os.path.exists(i):
++        with open(i, "r") as f:
++            manifests = f.readlines()
++    if filedata not in manifests:
++        with open(i, "a+") as f:
++            f.write(filedata)
++    bb.utils.unlockfile(l)
++
+     # Run the actual file install
+     for state in ss['dirs']:
+         if os.path.exists(state[1]):
+@@ -858,3 +881,41 @@ python sstate_eventhandler() {
+         bb.siggen.dump_this_task(sstatepkg + '_' + taskname + ".tgz" ".siginfo", d)
+ }
+ 
++SSTATE_PRUNE_OBSOLETEWORKDIR = "1"
++
++# Event handler which removes manifests and stamps file for
++# recipes which are no longer reachable in a build where they
++# once were.
++# Also optionally removes the workdir of those tasks/recipes
++#
++addhandler sstate_eventhandler2
++sstate_eventhandler2[eventmask] = "bb.event.ReachableStamps"
++python sstate_eventhandler2() {
++    import glob
++    d = e.data
++    stamps = e.stamps.values()
++    toremove = []
++    removeworkdir = (d.getVar("SSTATE_PRUNE_OBSOLETEWORKDIR") == "1")
++    for a in d.getVar("SSTATE_ARCHS", True).split():
++        i = d.expand("${SSTATE_MANIFESTS}/index-" + a)
++        if not os.path.exists(i):
++            continue
++        with open(i, "r") as f:
++            lines = f.readlines()
++            for l in lines:
++                (stamp, manifest, workdir) = l.split()
++                if stamp not in stamps:
++                    toremove.append(l)
++                    bb.error("Stamp %s is not reachable" % stamp)
++        for r in toremove:
++            (stamp, manifest, workdir) = r.split()
++            for m in glob.glob(manifest + ".*"):
++                sstate_clean_manifest(m, d)
++            bb.utils.remove(stamp + "*")
++            if removeworkdir:
++                bb.utils.remove(workdir, recurse = True)
++            lines.remove(r)
++        with open(i, "w") as f:
++            for l in lines:
++                f.write(l)
++}
 
 
 
