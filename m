@@ -1,42 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B317B73BBE
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id DF6386AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jun 2015 15:20:50 +0000 (UTC)
-Received: by wibdq8 with SMTP id dq8so89205568wib.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Jun 2015 08:20:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=UlQiLLMo5qzPmfSTJsOUtil3nxeP0Gb1KWL853YytSc=;
-	b=col9IqnMZRlkWNhHZSz8C6OBZk00C9y4bojr45X7RWtJxNnGSWyQjG1jXEQ3euotdd
-	DCdyBVvACr9syH1Y890I3cjyzf4lHkPMMIP7+oc84LAKWeqn45kUvvOfcQNQ9SIeY8o0
-	SMkpffhb2iZ2aQS0r5w0BHhjjoKb0Hm7BAA+P29YQZ6nCuJft153Sq4GtAaZtt2qpCLS
-	u98N8z024UFGyPhxsd/UOkg/n7/tQUnowqiW7EW/LL6hYI18QOLiG2DKQDqVPoD++zZO
-	8NUrqrwNT3hSh5T4lGySNS4qqA/nmYuSHfJdd4DnR9ZCFQ+6LTKv9ivCsn9eeMgXl1NO
-	CGww==
-X-Received: by 10.194.188.107 with SMTP id fz11mr22974396wjc.98.1433776851718; 
-	Mon, 08 Jun 2015 08:20:51 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id k2sm1527838wix.4.2015.06.08.08.20.50
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Jun 2015 08:20:51 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 8 Jun 2015 17:20:56 +0200
-To: Moritz Blume <moritz.blume@bmw-carit.de>
-Message-ID: <20150608152056.GC2384@jama>
-References: <1433339853-29869-1-git-send-email-moritz.blume@bmw-carit.de>
-	<1433339853-29869-2-git-send-email-moritz.blume@bmw-carit.de>
-	<20150603145520.GB2380@jama> <5575A66B.6040607@bmw-carit.de>
+	Mon,  8 Jun 2015 15:31:45 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Jun 2015 08:25:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,574,1427785200"; 
+	d="scan'208,217";a="584101493"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+	by orsmga003.jf.intel.com with ESMTP; 08 Jun 2015 08:25:08 -0700
+Received: from orsmsx113.amr.corp.intel.com (10.22.240.9) by
+	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Mon, 8 Jun 2015 08:25:08 -0700
+Received: from orsmsx109.amr.corp.intel.com ([169.254.2.160]) by
+	ORSMSX113.amr.corp.intel.com ([169.254.7.126]) with mapi id
+	14.03.0224.002; Mon, 8 Jun 2015 08:25:08 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [PATCH 7/7] core-image-minimal-vms: new recipe to build images
+	for VM
+Thread-Index: AQHQnihq4dxflVv/tUCCXzi+a6tfFp2jNNiA//+M/sA=
+Date: Mon, 8 Jun 2015 15:25:07 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101A6F53@ORSMSX109.amr.corp.intel.com>
+References: <1433354849-16843-1-git-send-email-juro.bystricky@intel.com>
+	<1433354849-16843-8-git-send-email-juro.bystricky@intel.com>
+	<CAJTo0LbT2pH3HBQz0RXkf_UqVj4oCv8TthkvGRTC8LtgU=2LCw@mail.gmail.com>
+In-Reply-To: <CAJTo0LbT2pH3HBQz0RXkf_UqVj4oCv8TthkvGRTC8LtgU=2LCw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-In-Reply-To: <5575A66B.6040607@bmw-carit.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] cmake: Upgrade 2.8.12.2 -> 3.2.2
+Cc: Juro Bystricky <jurobystricky@hotmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/7] core-image-minimal-vms: new recipe to build images for VM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,602 +47,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jun 2015 15:20:54 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Jun 2015 15:31:46 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B6101A6F53ORSMSX109amrcor_"
 
-On Mon, Jun 08, 2015 at 04:27:55PM +0200, Moritz Blume wrote:
-> On 03.06.2015 16:55, Martin Jansa wrote:
-> > On Wed, Jun 03, 2015 at 03:57:33PM +0200, Moritz Blume wrote:
-> >> Patches "qt4-fail-silent.patch" and "support-oe-qt4-tools-names.patch"
-> >> were adapted in order to fit to CMake 3.2.2 (refer to the commit
-> >> message in the respective patch for details).
-> >> Patch "cmake-2.8.11.2-FindFreetype.patch" was dropped since it was
-> >> rejected upstream and its functionality otherwise implemented in the
-> >> meantime.
-> >>
-> >> The "Ugly hack" in cmake.inc is removed since these things belong
-> >> to QT related recipes, not CMake.
-> > No, it's issue in CMake build trying to find Qt files, so it has to be
-> > fixed in CMake build. This hack used to be part of meta-qt5 (which
-> > provides these files which are causing CMake build to fail, but it was
-> > moved to oe-core so that people don't need to adjust the cmake bbappends
-> > when they are using different branches of oe-core and meta-qt5.
->=20
-> Can you please tell me how to reproduce the error? I tried some of the=20
-> meta-qt5 recipes and they all build.
+--_000_6E51916E4A1F32428260031F4C7CD2B6101A6F53ORSMSX109amrcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-cmake-native doesn't depend on qtbase-native, but it's detecting files from
-qtbase-native, when it finds them in do_configure it will fail with the
-message shown in recipe or sometimes there is different error message
-when qtbase-native is removed from sysroot while cmake-native build is
-trying to use these files from sysroot.
+QWdyZWVkLiBOb3QgbmVlZGVkIHBlciBzZSwganVzdCBhbiBleGFtcGxlIHJlY2lwZS4NCkkgdXNl
+ZCBpdCBmb3IgdGVzdGluZyBvZiB0aGUgbmV3IGJiY2xhc3MuDQoNCkZyb206IEJ1cnRvbiwgUm9z
+cyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IE1vbmRheSwgSnVuZSA4LCAy
+MDE1IDg6MTUgQU0NClRvOiBCeXN0cmlja3ksIEp1cm8NCkNjOiBPRS1jb3JlOyBKdXJvIEJ5c3Ry
+aWNreTsgU2F1bCBXb2xkDQpTdWJqZWN0OiBSZTogW1BBVENIIDcvN10gY29yZS1pbWFnZS1taW5p
+bWFsLXZtczogbmV3IHJlY2lwZSB0byBidWlsZCBpbWFnZXMgZm9yIFZNDQoNCg0KT24gMyBKdW5l
+IDIwMTUgYXQgMTk6MDcsIEp1cm8gQnlzdHJpY2t5IDxqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb208
+bWFpbHRvOmp1cm8uYnlzdHJpY2t5QGludGVsLmNvbT4+IHdyb3RlOg0KU2ltcGxlIHJlY2lwZSB0
+aGF0IGJ1aWxkcyBjb3JlLWltYWdlLW1pbmltYWwgaW4gYm90aCBzdXBwb3J0ZWQgVk0gZm9ybWF0
+czoNClZESSAoVmlydHVhbEJveCkgYW5kIFZNREsgKFZNIHBsYXllcikNCg0KSSdtIG5vdCBjb252
+aW5jZWQgd2UgbmVlZCB0aGlzIGluIG9lLWNvcmUgYXMgaXQncyBqdXN0IGEgSU1BR0VfRlNUWVBF
+UyBhc3NpZ25tZW50IGluIGxvY2FsLmNvbmYgZm9yIHRoZSBlbmQgdXNlci4NCg0KUm9zcw0K
 
->=20
-> Cheers,
-> Moritz.
->=20
-> >
-> >> Note that CMake 3 needs to have the full compiler path in the toolchain
-> >> file (see cmake.bbclass).
-> > Does it work correctly when sstate is reused on host with different
-> > paths?
-> >
-> >> Signed-off-by: Moritz Blume <moritz.blume@bmw-carit.de>
-> >> ---
-> >>   meta/classes/cmake.bbclass                         |  8 ++-
-> >>   .../cmake/cmake-native_2.8.12.2.bb                 | 19 ------
-> >>   meta/recipes-devtools/cmake/cmake-native_3.2.2.bb  | 19 ++++++
-> >>   meta/recipes-devtools/cmake/cmake.inc              | 25 +-------
-> >>   .../cmake/cmake/cmake-2.8.11.2-FindFreetype.patch  | 47 ------------=
----
-> >>   .../cmake/cmake/qt4-fail-silent.patch              | 30 ++++++++--
-> >>   .../cmake/cmake/support-oe-qt4-tools-names.patch   | 70 ++++++++++--=
-----------
-> >>   meta/recipes-devtools/cmake/cmake_2.8.12.2.bb      | 52 ------------=
-----
-> >>   meta/recipes-devtools/cmake/cmake_3.2.2.bb         | 56 ++++++++++++=
-+++++
-> >>   9 files changed, 140 insertions(+), 186 deletions(-)
-> >>   delete mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.12.2=
-=2Ebb
-> >>   create mode 100644 meta/recipes-devtools/cmake/cmake-native_3.2.2.bb
-> >>   delete mode 100644 meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-=
-FindFreetype.patch
-> >>   delete mode 100644 meta/recipes-devtools/cmake/cmake_2.8.12.2.bb
-> >>   create mode 100644 meta/recipes-devtools/cmake/cmake_3.2.2.bb
-> >>
-> >> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> >> index 1ebb936..c97fd02 100644
-> >> --- a/meta/classes/cmake.bbclass
-> >> +++ b/meta/classes/cmake.bbclass
-> >> @@ -10,9 +10,11 @@ CCACHE =3D ""
-> >>   # We want the staging and installing functions from autotools
-> >>   inherit autotools
-> >>  =20
-> >> -# C/C++ Compiler (without cpu arch/tune arguments)
-> >> -OECMAKE_C_COMPILER ?=3D "`echo ${CC} | sed 's/^\([^ ]*\).*/\1/'`"
-> >> -OECMAKE_CXX_COMPILER ?=3D "`echo ${CXX} | sed 's/^\([^ ]*\).*/\1/'`"
-> >> +# Full path to C/C++ Compiler (without cpu arch/tune arguments)
-> >> +C_COMPILER =3D "$(echo ${CC} | sed 's/^\([^ ]*\).*/\1/')"
-> >> +CXX_COMPILER =3D "$(echo ${CXX} | sed 's/^\([^ ]*\).*/\1/')"
-> >> +OECMAKE_C_COMPILER ?=3D "$(which ${C_COMPILER})"
-> >> +OECMAKE_CXX_COMPILER ?=3D "$(which ${CXX_COMPILER})"
-> >>   OECMAKE_AR ?=3D "${AR}"
-> >>  =20
-> >>   # Compiler flags
-> >> diff --git a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb b/me=
-ta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> >> deleted file mode 100644
-> >> index e40dfdd..0000000
-> >> --- a/meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
-> >> +++ /dev/null
-> >> @@ -1,19 +0,0 @@
-> >> -require cmake.inc
-> >> -inherit native
-> >> -
-> >> -# Using cmake's internal libarchive, so some dependencies are needed
-> >> -DEPENDS +=3D "bzip2-native zlib-native"
-> >> -
-> >> -SRC_URI +=3D "\
-> >> -    file://cmlibarchive-disable-ext2fs.patch \
-> >> -"
-> >> -
-> >> -SRC_URI[md5sum] =3D "17c6513483d23590cbce6957ec6d1e66"
-> >> -SRC_URI[sha256sum] =3D "8c6574e9afabcb9fc66f463bb1f2f051958d86c85c37f=
-ccf067eb1a44a120e5e"
-> >> -
-> >> -# Disable ccmake since we don't depend on ncurses
-> >> -CMAKE_EXTRACONF =3D "\
-> >> -    -DBUILD_CursesDialog=3D0 \
-> >> -    -DENABLE_ACL=3D0 -DHAVE_ACL_LIBACL_H=3D0 \
-> >> -    -DHAVE_SYS_ACL_H=3D0 \
-> >> -"
-> >> diff --git a/meta/recipes-devtools/cmake/cmake-native_3.2.2.bb b/meta/=
-recipes-devtools/cmake/cmake-native_3.2.2.bb
-> >> new file mode 100644
-> >> index 0000000..17e9e2c
-> >> --- /dev/null
-> >> +++ b/meta/recipes-devtools/cmake/cmake-native_3.2.2.bb
-> >> @@ -0,0 +1,19 @@
-> >> +require cmake.inc
-> >> +inherit native
-> >> +
-> >> +# Using cmake's internal libarchive, so some dependencies are needed
-> >> +DEPENDS +=3D "bzip2-native zlib-native"
-> >> +
-> >> +SRC_URI +=3D "\
-> >> +    file://cmlibarchive-disable-ext2fs.patch \
-> >> +"
-> >> +
-> >> +SRC_URI[md5sum] =3D "2da57308071ea98b10253a87d2419281"
-> >> +SRC_URI[sha256sum] =3D "ade94e6e36038774565f2aed8866415443444fb7a362e=
-b0ea5096e40d5407c78"
-> >> +
-> >> +# Disable ccmake since we don't depend on ncurses
-> >> +CMAKE_EXTRACONF =3D "\
-> >> +    -DBUILD_CursesDialog=3D0 \
-> >> +    -DENABLE_ACL=3D0 -DHAVE_ACL_LIBACL_H=3D0 \
-> >> +    -DHAVE_SYS_ACL_H=3D0 \
-> >> +"
-> >> diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devt=
-ools/cmake/cmake.inc
-> >> index 28b7f2d..226b12f 100644
-> >> --- a/meta/recipes-devtools/cmake/cmake.inc
-> >> +++ b/meta/recipes-devtools/cmake/cmake.inc
-> >> @@ -6,7 +6,7 @@ HOMEPAGE =3D "http://www.cmake.org/"
-> >>   BUGTRACKER =3D "http://public.kitware.com/Bug/my_view_page.php"
-> >>   SECTION =3D "console/utils"
-> >>   LICENSE =3D "BSD"
-> >> -LIC_FILES_CHKSUM =3D "file://Copyright.txt;md5=3Dbb2fa3a08736b842556f=
-6171bb9e8ae1 \
-> >> +LIC_FILES_CHKSUM =3D "file://Copyright.txt;md5=3D3ba5a6c34481652ce573=
-e5c4e1d707e4 \
-> >>                       file://Source/cmake.h;beginline=3D1;endline=3D10=
-;md5=3D341736dae83c9e344b53eeb1bc7d7bc2"
-> >>  =20
-> >>   CMAKE_MAJOR_VERSION =3D "${@'.'.join(d.getVar('PV',1).split('.')[0:2=
-])}"
-> >> @@ -14,35 +14,12 @@ CMAKE_MAJOR_VERSION =3D "${@'.'.join(d.getVar('PV'=
-,1).split('.')[0:2])}"
-> >>   SRC_URI =3D "http://www.cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmak=
-e-${PV}.tar.gz \
-> >>              file://support-oe-qt4-tools-names.patch \
-> >>              file://qt4-fail-silent.patch \
-> >> -           file://cmake-2.8.11.2-FindFreetype.patch \
-> >>              "
-> >>  =20
-> >>   PR =3D "r1"
-> >>  =20
-> >>   inherit autotools
-> >>  =20
-> >> -# Ugly hack to work around undefined OE_QMAKE_PATH_EXTERNAL_HOST_BINS=
- variable
-> >> -# and possibly missing qmake binary (qtbase-native can be removed fro=
-m sysroot
-> >> -# e.g. in order to upgrade it, even when there is target qtbase)
-> >> -
-> >> -# Fixes errors like this in cmake(-native).do_configure:
-> >> -#| -- Performing Test run_pic_test - Success
-> >> -#| CMake Error at tmp-eglibc/sysroots/qemuarm/usr/lib/cmake/Qt5Core/Q=
-t5CoreConfig.cmake:27 (message):
-> >> -#|   The imported target "Qt5::Core" references the file
-> >> -#|
-> >> -#|      "/qmake"
-> >> -#|
-> >> -#|   but this file does not exist.  Possible reasons include:
-> >> -
-> >> -do_configure_prepend() {
-> >> -	sed -i 's/^find_package(Qt5Core QUIET)$/#find_package(Qt5Core QUIET)=
-/g' ${S}/Tests/RunCMake/CMakeLists.txt
-> >> -	sed -i 's/^find_package(Qt5Core REQUIRED)/#find_package(Qt5Core REQU=
-IRED)/g' ${S}/Tests/RunCMake/IncompatibleQt/IncompatibleQt.cmake
-> >> -	sed -i 's/^  find_package(Qt5Widgets REQUIRED)/#  find_package(Qt5Wi=
-dgets REQUIRED)/g' ${S}/Tests/QtAutomoc/CMakeLists.txt
-> >> -	sed -i 's/^find_package(Qt5Core REQUIRED)/#find_package(Qt5Core REQU=
-IRED)/g' ${S}/Tests/Qt4And5Automoc/CMakeLists.txt
-> >> -	sed -i 's/^  find_package(Qt5Widgets QUIET NO_MODULE)/#  find_packag=
-e(Qt5Widgets QUIET NO_MODULE)/g' ${S}/Tests/CMakeLists.txt
-> >> -	sed -i 's/^find_package(Qt5Widgets QUIET)/#find_package(Qt5Widgets Q=
-UIET)/g' ${S}/Source/QtDialog/CMakeLists.txt
-> >> -}
-> >> -
-> >>   # Extra flags to pass to cmake invoked by bootstrap
-> >>   CMAKE_EXTRACONF =3D ""
-> >>  =20
-> >> diff --git a/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFree=
-type.patch b/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.=
-patch
-> >> deleted file mode 100644
-> >> index 1b523c0..0000000
-> >> --- a/meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.pa=
-tch
-> >> +++ /dev/null
-> >> @@ -1,47 +0,0 @@
-> >> -From: Julian Ospald <hasufell@gentoo.org>
-> >> -Date: Sun Dec  8 13:38:06 UTC 2013
-> >> -Subject: fix check for freetype-2.5.1
-> >> -
-> >> -Upstream-Status: Submitted http://www.cmake.org/Bug/view.php?id=3D146=
-01
-> >> -
-> >> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> >> -
-> >> ---- old/Modules/FindFreetype.cmake
-> >> -+++ new/Modules/FindFreetype.cmake
-> >> -@@ -64,6 +64,19 @@
-> >> -   PATH_SUFFIXES include/freetype2 include
-> >> - )
-> >> -
-> >> -+if(NOT FREETYPE_INCLUDE_DIR_freetype2)
-> >> -+  find_path(FREETYPE_INCLUDE_DIR_freetype2 config/ftheader.h
-> >> -+    HINTS
-> >> -+      ENV FREETYPE_DIR
-> >> -+    PATHS
-> >> -+      /usr/X11R6
-> >> -+      /usr/local/X11R6
-> >> -+      /usr/local/X11
-> >> -+      /usr/freeware
-> >> -+    PATH_SUFFIXES include/freetype2 include
-> >> -+  )
-> >> -+endif()
-> >> -+
-> >> - find_library(FREETYPE_LIBRARY
-> >> -   NAMES freetype libfreetype freetype219
-> >> -   HINTS
-> >> -@@ -82,8 +95,14 @@
-> >> - endif()
-> >> - set(FREETYPE_LIBRARIES "${FREETYPE_LIBRARY}")
-> >> -
-> >> --if(FREETYPE_INCLUDE_DIR_freetype2 AND EXISTS "${FREETYPE_INCLUDE_DIR=
-_freetype2}/freetype/freetype.h")
-> >> --    file(STRINGS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetyp=
-e.h" freetype_version_str
-> >> -+if(EXISTS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetype.h")
-> >> -+  set(FREETYPE_H "${FREETYPE_INCLUDE_DIR_freetype2}/freetype/freetyp=
-e.h")
-> >> -+elseif(EXISTS "${FREETYPE_INCLUDE_DIR_freetype2}/freetype.h")
-> >> -+  set(FREETYPE_H "${FREETYPE_INCLUDE_DIR_freetype2}/freetype.h")
-> >> -+endif()
-> >> -+
-> >> -+if(FREETYPE_INCLUDE_DIR_freetype2 AND FREETYPE_H)
-> >> -+    file(STRINGS "${FREETYPE_H}" freetype_version_str
-> >> -          REGEX "^#[\t ]*define[\t ]+FREETYPE_(MAJOR|MINOR|PATCH)[\t =
-]+[0-9]+$")
-> >> -
-> >> -     unset(FREETYPE_VERSION_STRING)
-> >> diff --git a/meta/recipes-devtools/cmake/cmake/qt4-fail-silent.patch b=
-/meta/recipes-devtools/cmake/cmake/qt4-fail-silent.patch
-> >> index fd39f3f..80fc277 100644
-> >> --- a/meta/recipes-devtools/cmake/cmake/qt4-fail-silent.patch
-> >> +++ b/meta/recipes-devtools/cmake/cmake/qt4-fail-silent.patch
-> >> @@ -13,10 +13,21 @@ Upstream-Status: Pending
-> >>  =20
-> >>   Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> >>  =20
-> >> ---- cmake-2.8.11/Modules/FindQt4.cmake	2013-07-04 10:20:42.092848274 =
-+0100
-> >> -+++ cmake-2.8.11/Modules/FindQt4.cmake	2013-07-04 10:52:15.693380555 =
-+0100
-> >> -@@ -1025,21 +1025,22 @@
-> >> -     set(_configs)
-> >> +The patch was slightly adapted in order to match cmake 3.2.2:
-> >> +Another set_property was introduced which had to be included
-> >> +within the if(QT_QTCORE_FOUND) statement.
-> >> +
-> >> +Signed-off-by: Moritz Blume <moritz.blume@bmw-carit.de>
-> >> +---
-> >> + Modules/FindQt4.cmake | 39 ++++++++++++++++++++-------------------
-> >> + 1 file changed, 20 insertions(+), 19 deletions(-)
-> >> +
-> >> +diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
-> >> +index 6704769..9048e35 100644
-> >> +--- a/Modules/FindQt4.cmake
-> >> ++++ b/Modules/FindQt4.cmake
-> >> +@@ -1000,25 +1000,26 @@ if (QT_QMAKE_EXECUTABLE AND
-> >> +     endif()
-> >>      endmacro()
-> >>   =20
-> >>   -
-> >> @@ -28,6 +39,10 @@ Signed-off-by: Paul Eggleton <paul.eggleton@linux.i=
-ntel.com>
-> >>   -      "${QT_MKSPECS_DIR}/default"
-> >>   -      ${QT_INCLUDE_DIR}
-> >>   -  )
-> >> +-  set_property(TARGET Qt4::QtCore APPEND PROPERTY
-> >> +-    INTERFACE_COMPILE_DEFINITIONS
-> >> +-      $<$<NOT:$<CONFIG:Debug>>:QT_NO_DEBUG>
-> >> +-  )
-> >>   -  set_property(TARGET Qt4::QtCore PROPERTY
-> >>   -    INTERFACE_QT_MAJOR_VERSION 4
-> >>   -  )
-> >> @@ -43,6 +58,10 @@ Signed-off-by: Paul Eggleton <paul.eggleton@linux.i=
-ntel.com>
-> >>   +        "${QT_MKSPECS_DIR}/default"
-> >>   +        ${QT_INCLUDE_DIR}
-> >>   +    )
-> >> ++    set_property(TARGET Qt4::QtCore APPEND PROPERTY
-> >> ++      INTERFACE_COMPILE_DEFINITIONS
-> >> ++        $<$<NOT:$<CONFIG:Debug>>:QT_NO_DEBUG>
-> >> ++    )
-> >>   +    set_property(TARGET Qt4::QtCore PROPERTY
-> >>   +      INTERFACE_QT_MAJOR_VERSION 4
-> >>   +    )
-> >> @@ -53,3 +72,6 @@ Signed-off-by: Paul Eggleton <paul.eggleton@linux.in=
-tel.com>
-> >>   =20
-> >>      foreach(QT_MODULE ${QT_MODULES})
-> >>        _QT4_ADJUST_LIB_VARS(${QT_MODULE})
-> >> +--
-> >> +1.9.1
-> >> +
-> >> diff --git a/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-na=
-mes.patch b/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.pa=
-tch
-> >> index 0e311f7..15cbca8 100644
-> >> --- a/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.pat=
-ch
-> >> +++ b/meta/recipes-devtools/cmake/cmake/support-oe-qt4-tools-names.pat=
-ch
-> >> @@ -11,11 +11,19 @@ Upstream-Status: Inappropriate [embedded specific]
-> >>  =20
-> >>   Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> >>  =20
-> >> -Index: cmake-2.8.11/Modules/FindQt4.cmake
-> >> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >> ---- cmake-2.8.11.orig/Modules/FindQt4.cmake
-> >> -+++ cmake-2.8.11/Modules/FindQt4.cmake
-> >> -@@ -569,7 +569,7 @@ endfunction()
-> >> +The patch was slightly adapted in order to match cmake 3.2.2:
-> >> +Instead of find_program, _find_qt4_program is now used.
-> >> +
-> >> +Signed-off-by: Moritz Blume <moritz.blume@bmw-carit.de>
-> >> +---
-> >> + Modules/FindQt4.cmake | 10 +++++-----
-> >> + 1 file changed, 5 insertions(+), 5 deletions(-)
-> >> +
-> >> +diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
-> >> +index 11091b5..6704769 100644
-> >> +--- a/Modules/FindQt4.cmake
-> >> ++++ b/Modules/FindQt4.cmake
-> >> +@@ -522,7 +522,7 @@ endfunction()
-> >>   =20
-> >>    set(QT4_INSTALLED_VERSION_TOO_OLD FALSE)
-> >>   =20
-> >> @@ -23,36 +31,24 @@ Index: cmake-2.8.11/Modules/FindQt4.cmake
-> >>   +set(_QT4_QMAKE_NAMES qmake qmake2 qmake4 qmake-qt4 qmake-mac)
-> >>    _qt4_find_qmake("${_QT4_QMAKE_NAMES}" QT_QMAKE_EXECUTABLE QTVERSION)
-> >>   =20
-> >> - if (QT_QMAKE_EXECUTABLE AND QTVERSION)
-> >> -@@ -1157,19 +1157,19 @@ if (QT_QMAKE_EXECUTABLE AND QTVERSION)
-> >> -     )
-> >> -
-> >> -   find_program(QT_RCC_EXECUTABLE
-> >> --    NAMES rcc
-> >> -+    NAMES rcc4 rcc
-> >> -     PATHS ${QT_BINARY_DIR}
-> >> -     NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH
-> >> -     )
-> >> + if (QT_QMAKE_EXECUTABLE AND
-> >> +@@ -1148,12 +1148,12 @@ if (QT_QMAKE_EXECUTABLE AND
-> >> +   _find_qt4_program(QT_MOC_EXECUTABLE Qt4::moc moc-qt4 moc4 moc)
-> >> +   _find_qt4_program(QT_UIC_EXECUTABLE Qt4::uic uic-qt4 uic4 uic)
-> >> +   _find_qt4_program(QT_UIC3_EXECUTABLE Qt4::uic3 uic3)
-> >> +-  _find_qt4_program(QT_RCC_EXECUTABLE Qt4::rcc rcc)
-> >> +-  _find_qt4_program(QT_DBUSCPP2XML_EXECUTABLE Qt4::qdbuscpp2xml qdbu=
-scpp2xml)
-> >> +-  _find_qt4_program(QT_DBUSXML2CPP_EXECUTABLE Qt4::qdbusxml2cpp qdbu=
-sxml2cpp)
-> >> ++  _find_qt4_program(QT_RCC_EXECUTABLE Qt4::rcc rcc4 rcc)
-> >> ++  _find_qt4_program(QT_DBUSCPP2XML_EXECUTABLE Qt4::qdbuscpp2xml qdbu=
-scpp2xml4 qdbuscpp2xml)
-> >> ++  _find_qt4_program(QT_DBUSXML2CPP_EXECUTABLE Qt4::qdbusxml2cpp qdbu=
-sxml2cpp4 qdbusxml2cpp)
-> >> +   _find_qt4_program(QT_LUPDATE_EXECUTABLE Qt4::lupdate lupdate-qt4 l=
-update4 lupdate)
-> >> +   _find_qt4_program(QT_LRELEASE_EXECUTABLE Qt4::lrelease lrelease-qt=
-4 lrelease4 lrelease)
-> >> +-  _find_qt4_program(QT_QCOLLECTIONGENERATOR_EXECUTABLE Qt4::qcollect=
-iongenerator qcollectiongenerator-qt4 qcollectiongenerator)
-> >> ++  _find_qt4_program(QT_QCOLLECTIONGENERATOR_EXECUTABLE Qt4::qcollect=
-iongenerator qcollectiongenerator-qt4 qcollectiongenerator qcollectiongener=
-ator4)
-> >> +   _find_qt4_program(QT_DESIGNER_EXECUTABLE Qt4::designer designer-qt=
-4 designer4 designer)
-> >> +   _find_qt4_program(QT_LINGUIST_EXECUTABLE Qt4::linguist linguist-qt=
-4 linguist4 linguist)
-> >>   =20
-> >> -   find_program(QT_DBUSCPP2XML_EXECUTABLE
-> >> --    NAMES qdbuscpp2xml
-> >> -+    NAMES qdbuscpp2xml4 qdbuscpp2xml
-> >> -     PATHS ${QT_BINARY_DIR}
-> >> -     NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH
-> >> -     )
-> >> -
-> >> -   find_program(QT_DBUSXML2CPP_EXECUTABLE
-> >> --    NAMES qdbusxml2cpp
-> >> -+    NAMES qdbusxml2cp4 qdbusxml2cpp
-> >> -     PATHS ${QT_BINARY_DIR}
-> >> -     NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH
-> >> -     )
-> >> -@@ -1187,7 +1187,7 @@ if (QT_QMAKE_EXECUTABLE AND QTVERSION)
-> >> -     )
-> >> -
-> >> -   find_program(QT_QCOLLECTIONGENERATOR_EXECUTABLE
-> >> --    NAMES qcollectiongenerator-qt4 qcollectiongenerator
-> >> -+    NAMES qcollectiongenerator-qt4 qcollectiongenerator qcollectiong=
-enerator4
-> >> -     PATHS ${QT_BINARY_DIR}
-> >> -     NO_DEFAULT_PATH NO_CMAKE_FIND_ROOT_PATH
-> >> -     )
-> >> +--
-> >> +1.9.1
-> >> +
-> >> diff --git a/meta/recipes-devtools/cmake/cmake_2.8.12.2.bb b/meta/reci=
-pes-devtools/cmake/cmake_2.8.12.2.bb
-> >> deleted file mode 100644
-> >> index 66a6af6..0000000
-> >> --- a/meta/recipes-devtools/cmake/cmake_2.8.12.2.bb
-> >> +++ /dev/null
-> >> @@ -1,52 +0,0 @@
-> >> -require cmake.inc
-> >> -
-> >> -inherit cmake
-> >> -
-> >> -DEPENDS +=3D "curl expat zlib libarchive"
-> >> -
-> >> -SRC_URI +=3D "file://dont-run-cross-binaries.patch"
-> >> -
-> >> -SRC_URI_append_class-nativesdk =3D " \
-> >> -    file://OEToolchainConfig.cmake \
-> >> -    file://environment.d-cmake.sh"
-> >> -
-> >> -SRC_URI[md5sum] =3D "17c6513483d23590cbce6957ec6d1e66"
-> >> -SRC_URI[sha256sum] =3D "8c6574e9afabcb9fc66f463bb1f2f051958d86c85c37f=
-ccf067eb1a44a120e5e"
-> >> -
-> >> -# Strip ${prefix} from ${docdir}, set result into docdir_stripped
-> >> -python () {
-> >> -    prefix=3Dd.getVar("prefix", True)
-> >> -    docdir=3Dd.getVar("docdir", True)
-> >> -
-> >> -    if not docdir.startswith(prefix):
-> >> -        raise bb.build.FuncFailed('docdir must contain prefix as its =
-prefix')
-> >> -
-> >> -    docdir_stripped =3D docdir[len(prefix):]
-> >> -    if len(docdir_stripped) > 0 and docdir_stripped[0] =3D=3D '/':
-> >> -        docdir_stripped =3D docdir_stripped[1:]
-> >> -
-> >> -    d.setVar("docdir_stripped", docdir_stripped)
-> >> -}
-> >> -
-> >> -EXTRA_OECMAKE=3D" \
-> >> -    -DCMAKE_DOC_DIR=3D${docdir_stripped}/cmake-${CMAKE_MAJOR_VERSION}=
- \
-> >> -    -DCMAKE_USE_SYSTEM_LIBRARIES=3D1 \
-> >> -    -DKWSYS_CHAR_IS_SIGNED=3D1 \
-> >> -    -DBUILD_CursesDialog=3D0 \
-> >> -    ${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '-DKWSYS_LFS=
-_WORKS=3D1', '-DKWSYS_LFS_DISABLE=3D1', d)} \
-> >> -"
-> >> -
-> >> -do_install_append_class-nativesdk() {
-> >> -    mkdir -p ${D}${datadir}/cmake
-> >> -    install -m 644 ${WORKDIR}/OEToolchainConfig.cmake ${D}${datadir}/=
-cmake/
-> >> -
-> >> -    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
-> >> -    install -m 644 ${WORKDIR}/environment.d-cmake.sh ${D}${SDKPATHNAT=
-IVE}/environment-setup.d/cmake.sh
-> >> -}
-> >> -
-> >> -FILES_${PN}_append_class-nativesdk =3D " ${SDKPATHNATIVE}"
-> >> -
-> >> -FILES_${PN} +=3D "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
-> >> -FILES_${PN}-doc +=3D "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
-> >> -
-> >> -BBCLASSEXTEND =3D "nativesdk"
-> >> diff --git a/meta/recipes-devtools/cmake/cmake_3.2.2.bb b/meta/recipes=
--devtools/cmake/cmake_3.2.2.bb
-> >> new file mode 100644
-> >> index 0000000..4765f6c
-> >> --- /dev/null
-> >> +++ b/meta/recipes-devtools/cmake/cmake_3.2.2.bb
-> >> @@ -0,0 +1,56 @@
-> >> +require cmake.inc
-> >> +
-> >> +inherit cmake
-> >> +
-> >> +DEPENDS +=3D "curl expat zlib libarchive xz ncurses bzip2"
-> >> +
-> >> +SRC_URI_append_class-nativesdk =3D " \
-> >> +    file://OEToolchainConfig.cmake \
-> >> +    file://environment.d-cmake.sh"
-> >> +
-> >> +SRC_URI[md5sum] =3D "2da57308071ea98b10253a87d2419281"
-> >> +SRC_URI[sha256sum] =3D "ade94e6e36038774565f2aed8866415443444fb7a362e=
-b0ea5096e40d5407c78"
-> >> +
-> >> +# Strip ${prefix} from ${docdir}, set result into docdir_stripped
-> >> +python () {
-> >> +    prefix=3Dd.getVar("prefix", True)
-> >> +    docdir=3Dd.getVar("docdir", True)
-> >> +
-> >> +    if not docdir.startswith(prefix):
-> >> +        raise bb.build.FuncFailed('docdir must contain prefix as its =
-prefix')
-> >> +
-> >> +    docdir_stripped =3D docdir[len(prefix):]
-> >> +    if len(docdir_stripped) > 0 and docdir_stripped[0] =3D=3D '/':
-> >> +        docdir_stripped =3D docdir_stripped[1:]
-> >> +
-> >> +    d.setVar("docdir_stripped", docdir_stripped)
-> >> +}
-> >> +
-> >> +EXTRA_OECMAKE=3D" \
-> >> +    -DCMAKE_DOC_DIR=3D${docdir_stripped}/cmake-${CMAKE_MAJOR_VERSION}=
- \
-> >> +    -DCMAKE_USE_SYSTEM_LIBRARY_BZIP2=3D1 \
-> >> +    -DCMAKE_USE_SYSTEM_LIBRARY_CURL=3D1 \
-> >> +    -DCMAKE_USE_SYSTEM_LIBRARY_EXPAT=3D1 \
-> >> +    -DCMAKE_USE_SYSTEM_LIBRARY_FORM=3D1 \
-> >> +    -DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=3D1 \
-> >> +    -DCMAKE_USE_SYSTEM_LIBRARY_LIBLZMA=3D1 \
-> >> +    -DCMAKE_USE_SYSTEM_LIBRARY_ZLIB=3D1 \
-> >> +    -DKWSYS_CHAR_IS_SIGNED=3D1 \
-> >> +    -DBUILD_CursesDialog=3D0 \
-> >> +    ${@bb.utils.contains('DISTRO_FEATURES', 'largefile', '-DKWSYS_LFS=
-_WORKS=3D1', '-DKWSYS_LFS_DISABLE=3D1', d)} \
-> >> +"
-> >> +
-> >> +do_install_append_class-nativesdk() {
-> >> +    mkdir -p ${D}${datadir}/cmake
-> >> +    install -m 644 ${WORKDIR}/OEToolchainConfig.cmake ${D}${datadir}/=
-cmake/
-> >> +
-> >> +    mkdir -p ${D}${SDKPATHNATIVE}/environment-setup.d
-> >> +    install -m 644 ${WORKDIR}/environment.d-cmake.sh ${D}${SDKPATHNAT=
-IVE}/environment-setup.d/cmake.sh
-> >> +}
-> >> +
-> >> +FILES_${PN}_append_class-nativesdk =3D " ${SDKPATHNATIVE}"
-> >> +
-> >> +FILES_${PN} +=3D "${datadir}/cmake-${CMAKE_MAJOR_VERSION}"
-> >> +FILES_${PN}-doc +=3D "${docdir}/cmake-${CMAKE_MAJOR_VERSION}"
-> >> +
-> >> +BBCLASSEXTEND =3D "nativesdk"
-> >> --=20
-> >> 1.9.1
-> >>
-> >> --=20
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-> --=20
-> BMW Car IT GmbH
-> Dr. Moritz Blume
-> Spezialist Entwicklung
-> Petuelring 116
-> 80809 M=FCnchen
->=20
-> Tel.: =AD+49 89 189311-25
-> Fax:  +49 89 189311-20
-> Mail: moritz.blume@bmw-carit.de
-> Web: http://www.bmw-carit.de
->=20
-> -------------------------------------------------------------
-> BMW Car IT GmbH
-> Gesch=E4ftsf=FChrer: Michael W=FCrtenberger und Reinhard Stolle
-> Sitz und Registergericht: M=FCnchen HRB 134810
-> ------------------------------------------------------------
->=20
+--_000_6E51916E4A1F32428260031F4C7CD2B6101A6F53ORSMSX109amrcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLmlsDQoJe21zby1zdHls
+ZS1uYW1lOmlsO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
+LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5
+N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9u
+dC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3Np
+emU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYu
+V29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBn
+dGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIx
+MDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
+aGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIg
+Lz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxh
+bmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRT
+ZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
+LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFG
+NDk3RCI+QWdyZWVkLiBOb3QgbmVlZGVkIHBlciBzZSwganVzdCBhbiBleGFtcGxlIHJlY2lwZS48
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
+aWY7Y29sb3I6IzFGNDk3RCI+SSB1c2VkIGl0IGZvciB0ZXN0aW5nIG9mIHRoZSBuZXcgYmJjbGFz
+cy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
+ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMt
+c2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBz
+dHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBp
+biAwaW4gMGluIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXIt
+dG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3Bh
+biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
+LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21d
+DQo8YnI+DQo8Yj5TZW50OjwvYj4gTW9uZGF5LCBKdW5lIDgsIDIwMTUgODoxNSBBTTxicj4NCjxi
+PlRvOjwvYj4gQnlzdHJpY2t5LCBKdXJvPGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlOyBKdXJvIEJ5
+c3RyaWNreTsgU2F1bCBXb2xkPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbUEFUQ0ggNy83XSBj
+b3JlLWltYWdlLW1pbmltYWwtdm1zOiBuZXcgcmVjaXBlIHRvIGJ1aWxkIGltYWdlcyBmb3IgVk08
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9u
+IDMgSnVuZSAyMDE1IGF0IDE5OjA3LCBKdXJvIEJ5c3RyaWNreSAmbHQ7PGEgaHJlZj0ibWFpbHRv
+Omp1cm8uYnlzdHJpY2t5QGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmp1cm8uYnlzdHJpY2t5
+QGludGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5
+bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzow
+aW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxk
+aXYgaWQ9IjoxeWciPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+U2ltcGxlIHJlY2lwZSB0aGF0IGJ1
+aWxkcyBjb3JlLWltYWdlLW1pbmltYWwgaW4gYm90aCBzdXBwb3J0ZWQNCjxzcGFuIGNsYXNzPSJp
+bCI+Vk08L3NwYW4+IGZvcm1hdHM6PGJyPg0KVkRJIChWaXJ0dWFsQm94KSBhbmQgVk1ESyAoPHNw
+YW4gY2xhc3M9ImlsIj5WTTwvc3Bhbj4gcGxheWVyKTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCkknbSBub3Qg
+Y29udmluY2VkIHdlIG5lZWQgdGhpcyBpbiBvZS1jb3JlIGFzIGl0J3MganVzdCBhIElNQUdFX0ZT
+VFlQRVMgYXNzaWdubWVudCBpbiBsb2NhbC5jb25mIGZvciB0aGUgZW5kIHVzZXIuPG86cD48L286
+cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1s
+Pg0K
 
+--_000_6E51916E4A1F32428260031F4C7CD2B6101A6F53ORSMSX109amrcor_--
