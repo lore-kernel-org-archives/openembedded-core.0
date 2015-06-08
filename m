@@ -1,33 +1,33 @@
 Return-Path: <elizabeth.flanagan@intel.com>
-Received: from mail-vn0-f48.google.com (mail-vn0-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 063C6732B1
+Received: from mail-vn0-f52.google.com (mail-vn0-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 97D7773BB7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jun 2015 18:43:46 +0000 (UTC)
-Received: by vnbf190 with SMTP id f190so19006470vnb.5
+	Mon,  8 Jun 2015 18:47:32 +0000 (UTC)
+Received: by vnbf190 with SMTP id f190so19022853vnb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Jun 2015 11:43:47 -0700 (PDT)
+	Mon, 08 Jun 2015 11:47:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc:content-type;
-	bh=nKqHsr8ODSIzT5U5TaAVciXG6drU31fQ9OGM4yAcrls=;
-	b=f20gZ354YCBX5OInf+ecf3uW+XdV60q82bdiIVYyJ4de1nhr16iAFsBoKC+37GKiwV
-	j1Wjp+uydm1xdrJ7XRCjQ+bwcwWX8scF8spYo4nF+vx7ni14Tq5JHxeryjwBkixfZ3A2
-	ApJhOwlJU6ncAT6gUnJfzv53bZ3xPvOr7TriWE0tm778I7XcfsqAtKUwsQviCIMoIecN
-	bBKENjA6uCBngv0KyR6P5zi6B14cu6vdqZekIu3+A5UhbdwxLMN6Duurh7vMgpFhOsgS
-	mRziH3cLTyEQadWpQzX9/5ybZer+usrGwHSitvj1w9ny7D/rAyEjzQ32Sh3y+DtphoVs
-	ty1w==
-X-Gm-Message-State: ALoCoQn7MdVqjFykyXxV1+jJ+ZBFRc5xwZp6eI7hKi9fDrv5hshPpcuDLP3tELCpvIkTBcxnm+Uq
+	bh=9YcNK+89qX3fDpCghtQjwMdQWRw0aoTn5KgbH8129fg=;
+	b=c2s1sO4ehMk12yqkAUfXy8JW6pkrsLoybC/U3jniGeGQX67xSscFMAu9VouwHLi7Lc
+	OAmXCoWMgEpYEZupCTRBPAmsNH7gGXQ2QG5uHXQY9PYWxnj6gix5dBbPsAmEKCkxcYAK
+	VJOPyxdzadaN0QVvThePrQvbnSekBuW/Iq+hH/pud5fSV09hPdSBQodv1JynavbfoGZK
+	cO6wtQRDzpmga82jHlucMVXYkQJLLv0hUCdTt2gbC00NsBzabFbaWw1uz8h5XX4Svm9Z
+	1vtLdMp6Q2vSCadpjO3N+BGWeTqMxLHvzshC7698EUGHuu1UUN2NZvVKffUBbTUoNG5v
+	S0Ww==
+X-Gm-Message-State: ALoCoQnFEU/L66hIUYe4+OEnIBHMLqhvOPQTutZOuxEOIfW8ivA1oNmPble1KHVrj9H7hy90zuRt
 MIME-Version: 1.0
-X-Received: by 10.52.190.131 with SMTP id gq3mr25181102vdc.70.1433789027269;
-	Mon, 08 Jun 2015 11:43:47 -0700 (PDT)
-Received: by 10.52.233.105 with HTTP; Mon, 8 Jun 2015 11:43:47 -0700 (PDT)
+X-Received: by 10.52.135.4 with SMTP id po4mr33940486vdb.78.1433789253976;
+	Mon, 08 Jun 2015 11:47:33 -0700 (PDT)
+Received: by 10.52.233.105 with HTTP; Mon, 8 Jun 2015 11:47:33 -0700 (PDT)
 In-Reply-To: <1433759139-9297-2-git-send-email-leimaohui@cn.fujitsu.com>
 References: <1433759139-9297-1-git-send-email-leimaohui@cn.fujitsu.com>
 	<1433759139-9297-2-git-send-email-leimaohui@cn.fujitsu.com>
-Date: Mon, 8 Jun 2015 19:43:47 +0100
-Message-ID: <CAPhnLPBkLmj2-7XW=Ntud1VdWnjvaGdL=gWLmf2JjECoH6QyoA@mail.gmail.com>
+Date: Mon, 8 Jun 2015 19:47:33 +0100
+Message-ID: <CAPhnLPCyaF9D58cisRxeO0dBR-2nwvJ8pkeN5V8eocU9cMcJJw@mail.gmail.com>
 From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
 To: Lei Maohui <leimaohui@cn.fujitsu.com>
 Cc: Patches and discussions about the oe-core layer
@@ -45,7 +45,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jun 2015 18:43:47 -0000
+X-List-Received-Date: Mon, 08 Jun 2015 18:47:33 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 8 June 2015 at 11:25, Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
@@ -69,11 +69,6 @@ On 8 June 2015 at 11:25, Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
 > -SPDX_MANIFEST_DIR = "/home/yocto/fossology_scans"
 > +SPDX_TEMP_DIR ?= "${WORKDIR}/spdx_temp"
 > +SPDX_MANIFEST_DIR ?= "/home/yocto/fossology_scans"
-
-We should probably find a relative path here for where to put the
-manifest that isn't /home/yocto/. I'd suggest
-${TMPDIR}/fossology_scans or something like that.
-
 >
 >  ## SPDX Format info
 > -SPDX_VERSION = "SPDX-1.1"
@@ -83,6 +78,13 @@ ${TMPDIR}/fossology_scans or something like that.
 > +## Reference to http://www.fossology.org/projects/fossology/wiki/Release_Notes
 > +LICENSELISTVERSION = "1.19"
 > +CREATOR_TOOL = "yocto+fossology-spdx"
+
+Can we also get a prefix to these? LICENSELISTVERSION is hard to debug
+if I happen to run across it. If you notice above and below we're
+using SPDX_ or FOSS_. Can we decide on one of these for DATA_LICENSE
+CREATOR_TOOL and LICENSELISTVERSION (which should be shortened
+perhaps)?
+
 > +
 > +# FOSSologySPDX instance server.
 > +FOSS_SERVER ?= "http://127.0.0.1/repo/ --noproxy 127.0.0.1"
@@ -94,6 +96,9 @@ ${TMPDIR}/fossology_scans or something like that.
 > +#    Skipping this option equals setting to "false".
 > +# 3) fullSPDXFlag: true/false. Only when this option is set to "true", low definition of full SPDX contents are output.
 > +#    This option should be set as "true" when user want to generate SPDX file from command line.
+
+There's some trailing whitespace above.
+
 >
 > -## Fossology scan information
 > -# You can set option to control if the copyright information will be skipped
