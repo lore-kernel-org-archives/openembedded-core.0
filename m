@@ -1,40 +1,27 @@
-Return-Path: <juro.bystricky@intel.com>
+Return-Path: <anibal.limon@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DF6386AC24
+	by mail.openembedded.org (Postfix) with ESMTP id B318873D8C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jun 2015 15:31:45 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Jun 2015 08:25:09 -0700
+	Mon,  8 Jun 2015 18:03:13 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Jun 2015 11:02:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,574,1427785200"; 
-	d="scan'208,217";a="584101493"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by orsmga003.jf.intel.com with ESMTP; 08 Jun 2015 08:25:08 -0700
-Received: from orsmsx113.amr.corp.intel.com (10.22.240.9) by
-	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 8 Jun 2015 08:25:08 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.2.160]) by
-	ORSMSX113.amr.corp.intel.com ([169.254.7.126]) with mapi id
-	14.03.0224.002; Mon, 8 Jun 2015 08:25:08 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [PATCH 7/7] core-image-minimal-vms: new recipe to build images
-	for VM
-Thread-Index: AQHQnihq4dxflVv/tUCCXzi+a6tfFp2jNNiA//+M/sA=
-Date: Mon, 8 Jun 2015 15:25:07 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101A6F53@ORSMSX109.amr.corp.intel.com>
-References: <1433354849-16843-1-git-send-email-juro.bystricky@intel.com>
-	<1433354849-16843-8-git-send-email-juro.bystricky@intel.com>
-	<CAJTo0LbT2pH3HBQz0RXkf_UqVj4oCv8TthkvGRTC8LtgU=2LCw@mail.gmail.com>
-In-Reply-To: <CAJTo0LbT2pH3HBQz0RXkf_UqVj4oCv8TthkvGRTC8LtgU=2LCw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+X-IronPort-AV: E=Sophos;i="5.13,574,1427785200"; d="scan'208";a="504940952"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.173])
+	([10.219.4.173])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Jun 2015 11:02:45 -0700
+Message-ID: <5575D924.5090001@linux.intel.com>
+Date: Mon, 08 Jun 2015 13:04:20 -0500
+From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Cc: Juro Bystricky <jurobystricky@hotmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] core-image-minimal-vms: new recipe to build images for VM
+To: Pau Espin Pedrol <pespin.shar@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1433761851-26152-1-git-send-email-pau.espin@aweurope.be>
+In-Reply-To: <1433761851-26152-1-git-send-email-pau.espin@aweurope.be>
+Cc: anibal.limon@intel.com
+Subject: Re: [PATCH][Daisy] mesa: Avoid leaving empty sysconfdir in mesa package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,98 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jun 2015 15:31:46 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B6101A6F53ORSMSX109amrcor_"
+X-List-Received-Date: Mon, 08 Jun 2015 18:03:14 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
---_000_6E51916E4A1F32428260031F4C7CD2B6101A6F53ORSMSX109amrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Hi,
 
-QWdyZWVkLiBOb3QgbmVlZGVkIHBlciBzZSwganVzdCBhbiBleGFtcGxlIHJlY2lwZS4NCkkgdXNl
-ZCBpdCBmb3IgdGVzdGluZyBvZiB0aGUgbmV3IGJiY2xhc3MuDQoNCkZyb206IEJ1cnRvbiwgUm9z
-cyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NClNlbnQ6IE1vbmRheSwgSnVuZSA4LCAy
-MDE1IDg6MTUgQU0NClRvOiBCeXN0cmlja3ksIEp1cm8NCkNjOiBPRS1jb3JlOyBKdXJvIEJ5c3Ry
-aWNreTsgU2F1bCBXb2xkDQpTdWJqZWN0OiBSZTogW1BBVENIIDcvN10gY29yZS1pbWFnZS1taW5p
-bWFsLXZtczogbmV3IHJlY2lwZSB0byBidWlsZCBpbWFnZXMgZm9yIFZNDQoNCg0KT24gMyBKdW5l
-IDIwMTUgYXQgMTk6MDcsIEp1cm8gQnlzdHJpY2t5IDxqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb208
-bWFpbHRvOmp1cm8uYnlzdHJpY2t5QGludGVsLmNvbT4+IHdyb3RlOg0KU2ltcGxlIHJlY2lwZSB0
-aGF0IGJ1aWxkcyBjb3JlLWltYWdlLW1pbmltYWwgaW4gYm90aCBzdXBwb3J0ZWQgVk0gZm9ybWF0
-czoNClZESSAoVmlydHVhbEJveCkgYW5kIFZNREsgKFZNIHBsYXllcikNCg0KSSdtIG5vdCBjb252
-aW5jZWQgd2UgbmVlZCB0aGlzIGluIG9lLWNvcmUgYXMgaXQncyBqdXN0IGEgSU1BR0VfRlNUWVBF
-UyBhc3NpZ25tZW50IGluIGxvY2FsLmNvbmYgZm9yIHRoZSBlbmQgdXNlci4NCg0KUm9zcw0K
+Looks good for me i tested with rpm and deb package_classes.
 
---_000_6E51916E4A1F32428260031F4C7CD2B6101A6F53ORSMSX109amrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Cheers,
+     alimon
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLmlsDQoJe21zby1zdHls
-ZS1uYW1lOmlsO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5
-N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9u
-dC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3Np
-emU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYu
-V29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBn
-dGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIx
-MDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpz
-aGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIg
-Lz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxh
-bmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRT
-ZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEx
-LjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFG
-NDk3RCI+QWdyZWVkLiBOb3QgbmVlZGVkIHBlciBzZSwganVzdCBhbiBleGFtcGxlIHJlY2lwZS48
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
-aWY7Y29sb3I6IzFGNDk3RCI+SSB1c2VkIGl0IGZvciB0ZXN0aW5nIG9mIHRoZSBuZXcgYmJjbGFz
-cy48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMt
-c2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBz
-dHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBp
-biAwaW4gMGluIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXIt
-dG9wOnNvbGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21d
-DQo8YnI+DQo8Yj5TZW50OjwvYj4gTW9uZGF5LCBKdW5lIDgsIDIwMTUgODoxNSBBTTxicj4NCjxi
-PlRvOjwvYj4gQnlzdHJpY2t5LCBKdXJvPGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlOyBKdXJvIEJ5
-c3RyaWNreTsgU2F1bCBXb2xkPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbUEFUQ0ggNy83XSBj
-b3JlLWltYWdlLW1pbmltYWwtdm1zOiBuZXcgcmVjaXBlIHRvIGJ1aWxkIGltYWdlcyBmb3IgVk08
-bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPk9u
-IDMgSnVuZSAyMDE1IGF0IDE5OjA3LCBKdXJvIEJ5c3RyaWNreSAmbHQ7PGEgaHJlZj0ibWFpbHRv
-Omp1cm8uYnlzdHJpY2t5QGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmp1cm8uYnlzdHJpY2t5
-QGludGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzow
-aW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxk
-aXYgaWQ9IjoxeWciPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+U2ltcGxlIHJlY2lwZSB0aGF0IGJ1
-aWxkcyBjb3JlLWltYWdlLW1pbmltYWwgaW4gYm90aCBzdXBwb3J0ZWQNCjxzcGFuIGNsYXNzPSJp
-bCI+Vk08L3NwYW4+IGZvcm1hdHM6PGJyPg0KVkRJIChWaXJ0dWFsQm94KSBhbmQgVk1ESyAoPHNw
-YW4gY2xhc3M9ImlsIj5WTTwvc3Bhbj4gcGxheWVyKTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-L2Jsb2NrcXVvdGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCkknbSBub3Qg
-Y29udmluY2VkIHdlIG5lZWQgdGhpcyBpbiBvZS1jb3JlIGFzIGl0J3MganVzdCBhIElNQUdFX0ZT
-VFlQRVMgYXNzaWdubWVudCBpbiBsb2NhbC5jb25mIGZvciB0aGUgZW5kIHVzZXIuPG86cD48L286
-cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwv
-bzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1s
-Pg0K
+On 08/06/15 06:10, Pau Espin Pedrol wrote:
+> Signed-off-by: Pau Espin Pedrol <pau.espin@aweurope.be>
+Acked-by: Aníbal Limón <anibal.limon@linux.intel.com>
+> ---
+>   meta/recipes-graphics/mesa/mesa.inc | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index 96313b5..f88b2a4 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -99,6 +99,11 @@ do_install_append () {
+>       
+>       # it was packaged in libdricore9.1.3-1 and preventing upgrades when debian.bbclass was used
+>       rm -f ${D}${sysconfdir}/drirc
+> +
+> +    # /etc is sometimes left as an empty directory and it ends up into 'mesa' package, which is then a non-empty package
+> +    if [ -d ${D}${sysconfdir} ]; then
+> +        rmdir --ignore-fail-on-non-empty ${D}${sysconfdir}
+> +    fi
+>   }
+>   
+>   # For the packages that make up the OpenGL interfaces, inject variables so that
 
---_000_6E51916E4A1F32428260031F4C7CD2B6101A6F53ORSMSX109amrcor_--
+
