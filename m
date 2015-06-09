@@ -1,28 +1,27 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D00BE72491
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 775D17568B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 09:56:19 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jun 2015 02:56:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,579,1427785200"; d="scan'208";a="723759491"
-Received: from alefebvr-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.29.139])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2015 02:56:19 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Date: Tue, 09 Jun 2015 10:56:19 +0100
-Message-ID: <2113977.Z7JFxjnESr@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/4.0.4-202.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <5576A8EF.7070800@topic.nl>
-References: <1432276145-31264-1-git-send-email-mike.looijmans@topic.nl>
-	<1432276145-31264-4-git-send-email-mike.looijmans@topic.nl>
-	<5576A8EF.7070800@topic.nl>
+	Tue,  9 Jun 2015 10:00:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t599xtvc011789
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Jun 2015 02:59:55 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 9 Jun 2015 02:59:55 -0700
+Message-ID: <5576B919.9010808@windriver.com>
+Date: Tue, 9 Jun 2015 17:59:53 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 3/3] bitbake.conf: Set GITPKGV variable
+To: Costin Constantin <costin.c.constantin@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1433843066-7433-1-git-send-email-costin.c.constantin@intel.com>
+In-Reply-To: <1433843066-7433-1-git-send-email-costin.c.constantin@intel.com>
+Subject: Re: [PATCH] meta/testimage.bbclass: corrected the bug that prevented test cases to be loaded from layers other than meta when using TEST_SUITES = "auto"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,53 +34,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 09:56:19 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 09 Jun 2015 10:00:17 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Mike,
 
-On Tuesday 09 June 2015 10:50:55 Mike Looijmans wrote:
-> On 22-05-15 08:29, Mike Looijmans wrote:
-> > Set GITPKGV to mimic the meta-openembedded 'gitpkgv' class. This allows
-> > a recipe to simply set:
-> > PKGV="1.2+${GITPKGV}"
-> > And no longer needs to inherit gitpkgv class.
-> > ---
-> > 
-> >   conf/bitbake.conf | 1 +
-> >   1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/conf/bitbake.conf b/conf/bitbake.conf
-> > index a35219d..5dafd52 100644
-> > --- a/conf/bitbake.conf
-> > +++ b/conf/bitbake.conf
-> > @@ -47,3 +47,4 @@ TARGET_ARCH = "${BUILD_ARCH}"
-> > 
-> >   TMPDIR = "${TOPDIR}/tmp"
-> >   WORKDIR = "${TMPDIR}/work/${PF}"
-> >   PERSISTENT_DIR = "${TMPDIR}/cache"
-> > 
-> > +GITPKGV = "${@bb.fetch2.get_srcrev(d, 'gitpkgv_revision')}"
-> 
-> This looked okay, but when put to a practical test, I noticed that this did
-> not work at all. The GITPKGV variable is not set when building recipes,
-> resulting in the literal string ${GITPKGV} appearing in version numbers of
-> packages that try to use it.
-> 
-> It does work when I add this line to local.conf, but apparently bitbake.conf
-> never actually gets parsed?
+Hi Costin,
 
-This is because you patched the bitbake.conf in bitbake rather than OE-Core - 
-the bitbake one is really just an example and you're right, in an OE context 
-it never gets used. I think Richard skipped this one as a result, so what we'd 
-need is a patch against OE-Core's bitbake.conf to finish this off.
+I think that the subject line should be less than 50 characters, usually.
 
-Cheers,
-Paul
+// Robert
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+On 06/09/2015 05:44 PM, Costin Constantin wrote:
+> Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+> ---
+>   meta/classes/testimage.bbclass | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+> index 4074ff7..aadee45 100644
+> --- a/meta/classes/testimage.bbclass
+> +++ b/meta/classes/testimage.bbclass
+> @@ -88,19 +88,20 @@ def get_tests_list(d, type="runtime"):
+>
+>       if "auto" in testsuites:
+>           def add_auto_list(path):
+> -            if not os.path.exists(os.path.join(path, '__init__.py')):
+> -                bb.fatal('Tests directory %s exists but is missing __init__.py' % path)
+>               files = sorted([f for f in os.listdir(path) if f.endswith('.py') and not f.startswith('_')])
+>               for f in files:
+>                   module = 'oeqa.' + type + '.' + f[:-3]
+>                   if module not in testslist:
+>                       testslist.append(module)
+> -
+> +        tests_found = False
+>           for p in bbpath:
+>               testpath = os.path.join(p, 'lib', 'oeqa', type)
+>               bb.debug(2, 'Searching for tests in %s' % testpath)
+> -            if os.path.exists(testpath):
+> +            if os.path.exists(os.path.join(testpath, '__init__.py')):
+>                   add_auto_list(testpath)
+> +                tests_found = True
+> +        if not tests_found:
+> +            bb.fatal('Couldn\'t find any test files inside  meta*/lib/oeqa/runtime or meta*/lib/oeqa/sdk directories.')
+>
+>       return testslist
+>
+>
 
