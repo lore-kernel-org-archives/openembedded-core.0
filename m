@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 972F57579D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FCEC75751
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 09:04:45 +0000 (UTC)
+	Tue,  9 Jun 2015 09:04:46 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5994kKQ004226
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5994l9W009324
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 9 Jun 2015 02:04:47 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 9 Jun 2015 02:04:46 -0700
+	Tue, 9 Jun 2015 02:04:47 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jun 2015 02:04:45 -0700
-Message-ID: <3dad7b58e258a4fb34e78dc8a3145efe2525f6e2.1433840650.git.liezhi.yang@windriver.com>
+Date: Tue, 9 Jun 2015 02:04:46 -0700
+Message-ID: <9b300b48a521a5c1535785459915cf495a3b2583.1433840650.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1433840650.git.liezhi.yang@windriver.com>
 References: <cover.1433840650.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] libpostproc: fix installed-vs-shipped
+Subject: [PATCH 2/2] gcc-source.inc: fix STAMPCLEAN to avoid race issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +36,59 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 09 Jun 2015 09:04:47 -0000
 Content-Type: text/plain
 
-When MACHINE=qemux86-64 and enable multilib:
-ERROR: QA Issue: libpostproc: Files/directories were installed but not shipped in any package:
-  /usr/lib
-  /usr/lib/libpostproc.so.52.3.0
-  /usr/lib/libpostproc.so
-  /usr/lib/libpostproc.so.52
-  /usr/lib/.debug
-  /usr/lib/.debug/libpostproc.so.52.3.0
-Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install. [installed-vs-shipped]
+Fixed race issue when build more than one gcc-source and inherit
+rm_work, for example:
+$ bitbake gcc-source-4.9.2 gcc-source-5.1.0
+
+File "/path/to/bitbake/lib/bb/build.py", line 512, in exec_task
+  return _exec_task(fn, task, d, quieterr)
+File "/path/to/bitbake/lib/bb/build.py", line 489, in _exec_task
+  make_stamp(task, localdata)
+File "/path/to/bitbake/lib/bb/build.py", line 599, in make_stamp
+  os.unlink(name)
+OSError: [Errno 2] No such file or directory: '/path/to/tmp/stamps/work-shared/gcc-4.9.2-r0.do_rm_work_all.02cf1ed9b79d4edb0a51d3b913b7f9ba'
+
+This is because make_stamp() uses glob.glob() to remove the old stamps
+before create the new one, when gcc-source-5.1.0 removes gcc-4.9.2-r0's
+stamp, we may get the error.
+
+We can't use deltask do_rm_work_all as do_rm_work since it is a
+recrdeptask, otherwise:
+ERROR: Command execution failed: Traceback (most recent call last):
+  File "/path/to/bitbake/lib/bb/command.py", line 102, in runAsyncCommand
+    commandmethod(self.cmds_async, self, options)
+  File "/path/to/bitbake/lib/bb/command.py", line 324, in generateDotGraph
+    command.cooker.generateDotGraphFiles(pkgs_to_build, task)
+  File "/path/to/bitbake/lib/bb/cooker.py", line 847, in generateDotGraphFiles
+    depgraph = self.generateTaskDepTreeData(pkgs_to_build, task)
+  File "/path/to/bitbake/lib/bb/cooker.py", line 672, in generateTaskDepTreeData
+    rq.rqdata.prepare()
+  File "/path/to/bitbake/lib/bb/runqueue.py", line 587, in prepare
+    generate_recdeps(dep)
+  File "/path/to/bitbake/lib/bb/runqueue.py", line 575, in generate_recdeps
+    add_resolved_dependencies([taskData.tasks_fnid[t]], tasknames, newdeps)
+TypeError: list indices must be integers, not NoneType
+
+Update STAMPCLEAN to contain ${PV} to fix the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-multimedia/libav/libpostproc_git.bb |    1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/gcc/gcc-source.inc |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libav/libpostproc_git.bb b/meta/recipes-multimedia/libav/libpostproc_git.bb
-index 88891db..4aaa50f 100644
---- a/meta/recipes-multimedia/libav/libpostproc_git.bb
-+++ b/meta/recipes-multimedia/libav/libpostproc_git.bb
-@@ -38,6 +38,7 @@ EXTRA_OECONF = " \
-     --extra-cflags="${TARGET_CFLAGS} ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}" \
-     --extra-ldflags="${TARGET_LDFLAGS}" \
-     --sysroot="${STAGING_DIR_TARGET}" \
-+    --shlibdir="${libdir}" \
-     ${EXTRA_FFCONF} \
- "
+diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
+index 529b8e0..794fd4d 100644
+--- a/meta/recipes-devtools/gcc/gcc-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-source.inc
+@@ -16,7 +16,7 @@ WORKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
+ SSTATE_SWSPEC = "sstate:gcc::${PV}:${PR}::${SSTATE_VERSION}:"
  
+ STAMP = "${STAMPS_DIR}/work-shared/gcc-${PV}-${PR}"
+-STAMPCLEAN = "${STAMPS_DIR}/work-shared/gcc-[0-9]*-*"
++STAMPCLEAN = "${STAMPS_DIR}/work-shared/gcc-${PV}-*"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ DEPENDS = ""
 -- 
 1.7.9.5
 
