@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 65239758BC
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6177D758D7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 20:16:38 +0000 (UTC)
-Received: by qcnj1 with SMTP id j1so10201082qcn.0
+	Tue,  9 Jun 2015 20:22:32 +0000 (UTC)
+Received: by qkhq76 with SMTP id q76so14922094qkh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jun 2015 13:16:39 -0700 (PDT)
+	Tue, 09 Jun 2015 13:22:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=YGAzWC4QWPZPz4uOI/WwKXrpu0kCS4dk+B24loSfJ/8=;
-	b=C1Nz4VLPsvsV836hmj361HvinTuNiaU3Yf4/xvEaUXFMrdwuRly2Z5zzkQ4LLYc7eC
-	K6YABdiHBADTmdFFXjDybScM/+OOKvZpY2NBgpGXeC3e3XzWaTQqsAz4KuDO6DHklRdn
-	Uv651HukWKVmVkCXG1TiV0GUcw3DLwn+sq8Pbt2C19ZcDEqQjcNKfIoXyaHcfxM5j7eL
-	9BRMsTBgm1FIe+AybP7IvVc9tDgfxlgE2KKF3O4erkc9UDRL2yNEvA3ZGJJfWTxDo8uY
-	K0hzaxTPBbeNjxhO5o8ETYaoO6LMoNHuHA0rd0bUEtdPg+rWc2mjcd0I1sICjYcC/WGn
-	d1qQ==
-X-Gm-Message-State: ALoCoQljfvh5uKNI2YYDT1/nx5Gpv3rOnfbG9DsQ5zwQV2B0yxINyHcWXI5JJoqx/61U5bljG8ra
-X-Received: by 10.55.43.130 with SMTP id r2mr47100017qkr.14.1433880999250;
-	Tue, 09 Jun 2015 13:16:39 -0700 (PDT)
+	bh=uyDx3PFy2p/YmRD2FSP2xpF9KvdODwwrqPkMIIt3D3g=;
+	b=E8r5MIC2K7j1cbnS7euKxOXLddDX48DdXoaPqx0RYwzLfEn1j77LGbCKTncYhxe98g
+	4/RoU1gsBe1Bc+fhINeUIQ5Puh8+kBZfsuGNwaRuRBGo1kIKDj+g62a889DUvX8ElDHm
+	BldOz1PNubbnOunPGHOoAyTKSDv6FhGK9wntCyDtFxqKvuo1X8x7asGfAj7/py9ARYJr
+	+pWZckV/+399+CNouTdWpKLj1MCiWFgUFSfrUdVZvGE6wiza+TgGTBFYkJCu5+bbt8AN
+	vvM/ZOXqSsy2+/Yf30JanQ3Lf3+OAbYrcwQTtLKO2H3txq/nfXDn4DlIDnOnghq6DXWy
+	EsMQ==
+X-Gm-Message-State: ALoCoQmPpRH0m5fmX7wPKZQXlntNMKMq89kMRcXI7yub4E26n5WqmRZQf5L/hWaYrogsY2Rr09/k
+X-Received: by 10.140.235.195 with SMTP id g186mr30143148qhc.64.1433881353583; 
+	Tue, 09 Jun 2015 13:22:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 9 Jun 2015 13:16:18 -0700 (PDT)
-In-Reply-To: <1433878226-21350-1-git-send-email-akuster808@gmail.com>
-References: <1433878226-21350-1-git-send-email-akuster808@gmail.com>
+Received: by 10.140.102.231 with HTTP; Tue, 9 Jun 2015 13:22:12 -0700 (PDT)
+In-Reply-To: <1433871515-528-1-git-send-email-henning@itconsulting-heinold.de>
+References: <1433871515-528-1-git-send-email-henning@itconsulting-heinold.de>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Jun 2015 21:16:18 +0100
-Message-ID: <CAJTo0LbixBMU_CFPAegnVpnmFmTq_VpQK6SMnLsyBfUsMq3VwA@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
+Date: Tue, 9 Jun 2015 21:22:12 +0100
+Message-ID: <CAJTo0LZfi9uQuXAjR0axNR0D=F1UZLWQ=PSiRr26fzGTb+RDkw@mail.gmail.com>
+To: Henning Heinold <henning@itconsulting-heinold.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] gnutls update to 3.4.1
+Subject: Re: [PATCH] python-2.7/3.4-manifest.inc: add missing dependencies for python-netserver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 20:16:39 -0000
-Content-Type: multipart/alternative; boundary=001a1147afb09c629705181b6fc6
+X-List-Received-Date: Tue, 09 Jun 2015 20:22:34 -0000
+Content-Type: multipart/alternative; boundary=001a11354c8abb181e05181b84e6
 
---001a1147afb09c629705181b6fc6
+--001a11354c8abb181e05181b84e6
 Content-Type: text/plain; charset=UTF-8
 
-On 9 June 2015 at 20:30, Armin Kuster <akuster808@gmail.com> wrote:
+On 9 June 2015 at 18:38, Henning Heinold <henning@itconsulting-heinold.de>
+wrote:
 
-> re-sending as I think I may have done it incorrectly before. did not see
-> it in patch queue.
+> * raised the PR number as mentioned in python.inc
 >
 
-You sent fine it but it results in neon not linking correctly (silently,
-unless you apply a patch I sent earlier).  Can you have a look?
+This isn't required anymore, please leave it at r1 (yes, the comment should
+be deleted, feel free to send a patch doing that too).
 
 Ross
 
---001a1147afb09c629705181b6fc6
+--001a11354c8abb181e05181b84e6
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 June 2015 at 20:30, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2fs" class=3D"a3s"=
- style=3D"overflow:hidden">re-sending as I think I may have done it incorre=
-ctly before. did not see it in patch queue.<br></div></blockquote></div><br=
->You sent fine it but it results in neon not linking correctly (silently, u=
-nless you apply a patch I sent earlier).=C2=A0 Can you have a look?</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
-iv>
+On 9 June 2015 at 18:38, Henning Heinold <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:henning@itconsulting-heinold.de" target=3D"_blank">henning@itconsulti=
+ng-heinold.de</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+id=3D":2i7" class=3D"a3s" style=3D"overflow:hidden">* raised the PR number =
+as mentioned in python.inc<br></div></blockquote></div><br>This isn&#39;t r=
+equired anymore, please leave it at r1 (yes, the comment should be deleted,=
+ feel free to send a patch doing that too).</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1147afb09c629705181b6fc6--
+--001a11354c8abb181e05181b84e6--
