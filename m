@@ -1,24 +1,37 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0360273695
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 174866AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 16:13:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t59GDlOX016344
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  9 Jun 2015 16:50:38 +0000 (UTC)
+Received: by qkoo18 with SMTP id o18so12642638qko.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Jun 2015 09:13:47 -0700 (PDT)
-Received: from co-op.wrs.com (128.224.56.206) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 9 Jun 2015 09:13:47 -0700
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jun 2015 12:13:51 -0400
-Message-ID: <1433866431-12391-1-git-send-email-paul.gortmaker@windriver.com>
-X-Mailer: git-send-email 2.4.2
+	Tue, 09 Jun 2015 09:50:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=8fNvj2GnX+gWbFBcsK2BG7p7XTzIEBW7gycx323g6ZI=;
+	b=JGkcrb7RkCIlMwwJDygOIG1Wv+8f5SjsDq76ExHOYX0yKySDKJYa7GV9STQ3CHDz27
+	sJcB/U4uaa+QaKlWZL4NmCO2pKWsPMD5VmbTudWxf4HATGm5yKqxe3Qcy0j+by4/5CSl
+	GXG7KvciDn7fls9bROPyt8+uNSkjrKSJa2C0YTURmz7rwyMfC/DrNGwyI6CBPFZnXqb+
+	DAJKk0Rj0yP2TrK3Hf0LsfCEqRVZXKQjPQpPy/TsJvCvuaTDhUxHXpXrXwATQl7rEG2J
+	RZVaC/MFwvtnOE8yux0h0F0ac+DVM6bH+vdRCosYkjX+9Ago/bgAqxS8cj09VTKF2/o1
+	EV5A==
+X-Gm-Message-State: ALoCoQmLdkL7hugV6BwMPecKTl4y0UFJnmdKEs3/dlXcYoiMUOLUyRPptyXfigGQvI4cZsJGMkfR
+X-Received: by 10.140.43.228 with SMTP id e91mr26777114qga.80.1433868639542;
+	Tue, 09 Jun 2015 09:50:39 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] bind: ensure searching for json headers searches sysroot
+Received: by 10.140.102.231 with HTTP; Tue, 9 Jun 2015 09:50:19 -0700 (PDT)
+In-Reply-To: <4a0a666e39c7a9a7a608a07bed7aa1d082018514.1433842738.git.liezhi.yang@windriver.com>
+References: <cover.1433842738.git.liezhi.yang@windriver.com>
+	<4a0a666e39c7a9a7a608a07bed7aa1d082018514.1433842738.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Jun 2015 17:50:19 +0100
+Message-ID: <CAJTo0LYX4=vyLko7jJgdsTonCV6b6Obaq-HVCuKDcjkrj2JNeA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 10/12] blktrace: 1.0.5 -> 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,83 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 16:13:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Jun 2015 16:50:41 -0000
+Content-Type: multipart/alternative; boundary=001a113a34bcea3afb0518188e4c
 
-Bind can fail configure by detecting headers w/o libs, or
-it can fail the host contamination check.  More details
-are within the commit log in the contained patch.
+--001a113a34bcea3afb0518188e4c
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+On 9 June 2015 at 15:51, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-new file mode 100644
-index 000000000000..dedc437507cd
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-@@ -0,0 +1,49 @@
-+From 9473d29843579802e96b0293a3e953fed93de82c Mon Sep 17 00:00:00 2001
-+From: Paul Gortmaker <paul.gortmaker@windriver.com>
-+Date: Tue, 9 Jun 2015 11:22:00 -0400
-+Subject: [PATCH] bind: ensure searching for json headers searches sysroot
-+
-+Bind can fail configure by detecting headers w/o libs[1], or
-+it can fail the host contamination check as per below:
-+
-+ERROR: This autoconf log indicates errors, it looked at host include and/or library paths while determining system capabilities.
-+Rerun configure task after fixing this. The path was 'build/tmp/work/core2-64-poky-linux/bind/9.10.2-r1/build'
-+ERROR: Function failed: do_qa_configure
-+ERROR: Logfile of failure stored in: build/tmp/work/core2-64-poky-linux/bind/9.10.2-r1/temp/log.do_configure.5242
-+ERROR: Task 5 (meta/recipes-connectivity/bind/bind_9.10.2.bb, do_configure) failed with exit code '1'
-+NOTE: Tasks Summary: Attempted 773 tasks of which 768 didn't need to be rerun and 1 failed.
-+No currently running tasks (773 of 781)
-+
-+Summary: 1 task failed:
-+  /meta/recipes-connectivity/bind/bind_9.10.2.bb, do_configure
-+
-+One way to fix it would be to unconditionally disable json in bind
-+configure[2] but here we fix it by using the path to where we would
-+put the header if we had json in the sysroot, in case someone wants
-+to make use of the combination some day.
-+
-+[1] https://trac.macports.org/ticket/45305
-+[2] https://trac.macports.org/changeset/126406
-+
-+Upstream-status: Inappropriate [OE Specific]
-+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-+---
-+ configure.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.in b/configure.in
-+index c9ef3a601343..17a1f613e9ac 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -2139,7 +2139,7 @@ case "$use_libjson" in
-+ 		libjson_libs=""
-+ 		;;
-+ 	auto|yes)
-+-		for d in /usr /usr/local /opt/local
-++		for d in "${STAGING_INCDIR}"
-+ 		do
-+ 			if test -f "${d}/include/json/json.h"
-+ 			then
-+-- 
-+2.4.2
-+
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.2.bb b/meta/recipes-connectivity/bind/bind_9.10.2.bb
-index 1dc15a9da739..43f17984b524 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.2.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.2.bb
-@@ -18,6 +18,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://init.d-add-support-for-read-only-rootfs.patch \
-            file://bind-confgen-build-unix.o-once.patch \
-            file://0001-build-use-pkg-config-to-find-libxml2.patch \
-+           file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
-            "
- 
- SRC_URI[md5sum] = "dca7a9967947bffa98547fca6130fc04"
--- 
-2.4.2
+>  SRCREV = "d6918c8832793b4205ed3bfede78c2f915c23385"
+>
+> -PR = "r6"
+> -PV = "1.0.5+git${SRCPV}"
+> +PV = "1.1.0+git${SRCPV}"
+>
 
+You forgot to change SRCREV :)
 
+Ross
+
+--001a113a34bcea3afb0518188e4c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 June 2015 at 15:51, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3ql" clas=
+s=3D"a3s" style=3D"overflow:hidden">=C2=A0SRCREV =3D &quot;d6918c8832793b42=
+05ed3bfede78c2f915c23385&quot;<br>
+<br>
+-PR =3D &quot;r6&quot;<br>
+-PV =3D &quot;1.0.5+git${SRCPV}&quot;<br>
++PV =3D &quot;1.1.0+git${SRCPV}&quot;</div></blockquote></div><br>You forgo=
+t to change SRCREV :)</div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--001a113a34bcea3afb0518188e4c--
