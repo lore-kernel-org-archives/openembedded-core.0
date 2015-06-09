@@ -1,30 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BE0C73BB7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id B6E2865C78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 06:41:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t596fZUw007598
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jun 2015 23:41:35 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 8 Jun 2015 23:41:35 -0700
-Message-ID: <55768AB1.9090607@windriver.com>
-Date: Tue, 9 Jun 2015 14:41:53 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1432706896.git.Qi.Chen@windriver.com>
-	<de9a7a991afa09fbb3994443ae4a0a8d354e5840.1432706896.git.Qi.Chen@windriver.com>
-	<4741340.pDCvDy9tKk@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <4741340.pDCvDy9tKk@peggleto-mobl.ger.corp.intel.com>
-X-Originating-IP: [128.224.162.211]
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/3] populate_sdk_ext: consider custom configuration in local.conf
+	Tue,  9 Jun 2015 07:34:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t597YtdS004818; Tue, 9 Jun 2015 08:34:55 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id fe47NEQQtWfX; Tue,  9 Jun 2015 08:34:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t597Ygkp004799
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 9 Jun 2015 08:34:54 +0100
+Message-ID: <1433835282.28975.118.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 09 Jun 2015 08:34:42 +0100
+In-Reply-To: <CABcZANmPrTTK1KCCmmauYDak9tK1mA3xaxt0Kkc31pphe85NgA@mail.gmail.com>
+References: <1433802492.28975.112.camel@linuxfoundation.org>
+	<CABcZANmPrTTK1KCCmmauYDak9tK1mA3xaxt0Kkc31pphe85NgA@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] sstate: Add eventhandler which cleans up stale recipe data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,105 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 06:41:35 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jun 2015 07:34:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 06/04/2015 10:11 PM, Paul Eggleton wrote:
-> Hi Qi,
+On Mon, 2015-06-08 at 21:36 -0500, Christopher Larson wrote:
+> On Mon, Jun 8, 2015 at 5:28 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>         +    for a in d.getVar("SSTATE_ARCHS", True).split():
+>         +        toremove = []
+>         +        i = d.expand("${SSTATE_MANIFESTS}/index-" + a)
+>         +        if not os.path.exists(i):
+>         +            continue
+>         +        with open(i, "r") as f:
+>         +            lines = f.readlines()
+>         +            for l in lines:
+>         +                (stamp, manifest, workdir) = l.split()
+>         +                if stamp not in stamps:
+>         +                    toremove.append(l)
+>         +                    if stamp not in seen:
+>         +                        bb.note("Stamp %s is not reachable,
+>         removing related manifests" % stamp)
+>         +                        seen.append(stamp)
+>         +        for r in toremove:
+>         +            (stamp, manifest, workdir) = r.split()
+>         +            for m in glob.glob(manifest + ".*"):
+>         +                sstate_clean_manifest(m, d)
+>         +            bb.utils.remove(stamp + "*")
+>         +            if removeworkdir:
+>         +                bb.utils.remove(workdir, recurse = True)
 >
-> On Wednesday 27 May 2015 14:09:39 Chen Qi wrote:
->> Copy the contents of local.conf under TOPDIR into the final generated
->> local.conf. In this way, custom settings are also made into the final
->> local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx, etc.
->>
->> Before this change, installing extensible SDK would usually report failure
->> when preparing the build system if the user has custom configuration for
->> DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in
->> local.conf also don't get built correctly.
->>
->> This patch solves the above problem.
->>
->> A blacklist mechanism is also introduced so that we can blacklist variables
->> that should not be copied into the final local.conf file. Currently, the
->> blacklist contains 'TMPDIR', 'SSTATE_DIR', 'DL_DIR', 'STAMPS_DIR',
->> 'BASE_WORKDIR' and 'DEPLOY_DIR'. What these variables have in common is
->> that they are set in bitbake.conf using '?=' or '??='.
->>
->> In addition, we check to avoid any setting that might lead to host path
->> bleeding into SDK's configuration.
->>
->> [YOCTO #7616]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/populate_sdk_ext.bbclass | 23 +++++++++++++++++++++++
->>   1 file changed, 23 insertions(+)
->>
->> diff --git a/meta/classes/populate_sdk_ext.bbclass
->> b/meta/classes/populate_sdk_ext.bbclass index 2fc4c11..49ba26b 100644
->> --- a/meta/classes/populate_sdk_ext.bbclass
->> +++ b/meta/classes/populate_sdk_ext.bbclass
->> @@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = "
->> ${SDK_TARGETS}" SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
->>
->>   SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
->> +SDK_META_CONF_BLACKLIST ?= "TMPDIR DL_DIR SSTATE_DIR STAMPS_DIR
->> BASE_WORKDIR DEPLOY_DIR"
->>
->>   SDK_TARGETS ?= "${PN}"
->>   OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
->> @@ -114,6 +115,28 @@ python copy_buildsystem () {
->>           f.write('# this configuration provides, it is strongly suggested
->> that you set\n') f.write('# up a proper instance of the full build system
->> and use that instead.\n\n')
->>
->> +        # Copy configurations from the current local.conf
->> +        builddir = d.getVar('TOPDIR', True)
->> +        with open(builddir + '/conf/local.conf', 'r') as lf:
->> +            varblacklist = d.getVar('SDK_META_CONF_BLACKLIST',
->> True).split() +            skip = False
->> +            for line in lf:
->> +                line = line.lstrip()
->> +                if line.startswith('#'):
->> +                    continue
->> +                # avoid host path bleeding into SDK configuration
->> +                if line.find('"/') != -1:
->> +                    continue
->> +                for varname in varblacklist:
->> +                    if line.startswith(varname):
->> +                        skip = True
->> +                        break
->> +                if not skip:
->> +                    f.write(line)
->> +                skip = False
->> +        f.write('\n')
->> +
->> +        # Configurations in local.conf which are specific for extensible
->> SDK f.write('INHERIT += "%s"\n\n' % 'uninative')
->>           f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION'))
-> I've been thinking about this; since I've recently added edit_metadata() in
-> bitbake's lib/bb/utils.py, it would make sense to use that rather than adding
-> another piece of code that effectively parses bitbake configuration files (though
-> I know this isn't adding much). I know this series has been going back and
-> forth for a while now and the delays have largely been my fault, so I'd be
-> happy to make this change and resend the series - it's up to you.
->
-> Cheers,
-> Paul
->
+> This looks like it’ll solve a lot of headaches for folks.
+>  
+> Should the removal of workdir bit be outside the ‘for r in toremove’
+> block?
 
-Hi Paul,
+I don't think so since each item in toremove may have a different
+workdir?
 
-Thanks for your suggestion.
-I've been looking into edit_metadata(). But it seems that it's used to 
-modify *specific* variables.
-In this case, we don't know which variables we are going to skip in 
-local.conf. We just know that they start with '/'. So I don't see how to 
-do it.
-I'm not sure if I understand things wrong. Please point it out directly 
-if I've missed something.
+Cheers,
 
-Best Regards,
-Chen Qi
+Richard
+
+
 
