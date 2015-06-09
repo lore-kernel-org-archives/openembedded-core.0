@@ -1,36 +1,22 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by mail.openembedded.org (Postfix) with ESMTP id F22AB758C9
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 72468758A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 19:30:33 +0000 (UTC)
-Received: by qkbx78 with SMTP id x78so3210547qkb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jun 2015 12:30:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=gCmbJA0mr0gYUSFuukmJLZbtJxiqrOQJAS6MEhxHv9U=;
-	b=zghghZ2yk0me7VZyHXLsCUVdo0SPvuZAYiWmGNTadEcLGgtuP/bAdmm99wfBFq2nKr
-	UYgWuPH62V8bx6b2+AfqSvV8dkXVIGvamJDV2mFsJu4wXss/5QPctiZfylHnd6iBMAHO
-	AWYawnuhPSp+RQV7caxd//fEviAdDhHwvZJfjYPYnrgKq0UORhETayHBRDqnnD6OibmW
-	ihTclVhD7hjLJoaREwweF03TEGHstjqD1iPASHurmudAdEpNy/+rRPxktEYFzCiKV7ZO
-	zEUASGmgDI61GeSHzu/ePKD4vxj7ArzmykvO/iMFis0hAbnHiXHHFIk9bMuUKjKfdLZ9
-	yBwA==
-X-Received: by 10.229.248.199 with SMTP id mh7mr29420301qcb.23.1433878234888; 
-	Tue, 09 Jun 2015 12:30:34 -0700 (PDT)
-Received: from Pahoa2.mvista.com (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
-	by mx.google.com with ESMTPSA id 138sm3074610qhx.18.2015.06.09.12.30.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 09 Jun 2015 12:30:34 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jun 2015 12:30:26 -0700
-Message-Id: <1433878226-21350-4-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.3.5
-In-Reply-To: <1433878226-21350-1-git-send-email-akuster808@gmail.com>
-References: <1433878226-21350-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 3/3] neon: fix compat issues with gnutls 4.3
+	Tue,  9 Jun 2015 19:38:29 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Jun 2015 12:26:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,582,1427785200"; d="scan'208";a="724088916"
+Received: from kchoi15-mobl1.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.252.141.149])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2015 12:26:19 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue,  9 Jun 2015 12:26:17 -0700
+Message-Id: <1433877977-30094-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v2] poky-tiny: Update kernel to 3.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,89 +29,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 19:30:34 -0000
+X-List-Received-Date: Tue, 09 Jun 2015 19:38:33 -0000
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Additionally, allow PREFERRED_VERSION for linux-yocto-tiny to be overridden
+
+This addresses the warnings from the kernel configcheck:
+
+WARNING: [kernel config]: specified values did not make it into the kernel's final configuration:
+
+Value requested for CONFIG_ATA_PIIX not in final ".config"
+Requested value: "CONFIG_ATA_PIIX=y"
+Actual value set: ""
+
+Value requested for CONFIG_BRCMFMAC_SDIO not in final ".config"
+Requested value: "CONFIG_BRCMFMAC_SDIO=y"
+Actual value set: ""
+
+Value requested for CONFIG_NR_CPUS not in final ".config"
+Requested value: "CONFIG_NR_CPUS=64"
+Actual value set: "CONFIG_NR_CPUS=8"
+
+Value requested for CONFIG_PM not in final ".config"
+Requested value: "CONFIG_PM=y"
+Actual value set: ""
+
+[YOCTO #7478]
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+
 ---
- .../neon/neon/gnutls_4.3_fixup.patch               | 53 ++++++++++++++++++++++
- meta/recipes-support/neon/neon_0.30.1.bb           |  3 +-
- 2 files changed, 55 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
+ meta-yocto/conf/distro/poky-tiny.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch b/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
-new file mode 100644
-index 0000000..0020330
---- /dev/null
-+++ b/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
-@@ -0,0 +1,53 @@
-+replace deprecated GnuTLS functions with newer ones if available 
-+
-+Upstream Status: Pending
-+
-+Signed-off-by: Armin Kuster <akuster808@gmail.com>
-+
-+Index: neon-0.30.1/macros/neon.m4
-+===================================================================
-+--- neon-0.30.1.orig/macros/neon.m4
-++++ neon-0.30.1/macros/neon.m4
-+@@ -987,6 +987,10 @@ gnutls)
-+                   gnutls_certificate_get_x509_cas \
-+                   gnutls_x509_crt_sign2])
-+ 
-++   # gnutls 4.3 check
-++   AC_CHECK_LIB(gnutls, gnutls_global_init)
-++   AC_CHECK_FUNCS(gnutls_certificate_set_retrieve_function,,)
-++
-+    # fail if gnutls_x509_crt_sign2 is not found (it was introduced in 1.2.0, which is required)
-+    if test x${ac_cv_func_gnutls_x509_crt_sign2} != xyes; then
-+        AC_MSG_ERROR([GnuTLS version predates gnutls_x509_crt_sign2, newer version required (at least 1.2.0)])
-+Index: neon-0.30.1/src/ne_gnutls.c
-+===================================================================
-+--- neon-0.30.1.orig/src/ne_gnutls.c
-++++ neon-0.30.1/src/ne_gnutls.c
-+@@ -553,7 +553,13 @@ dup_error:
-+ static int provide_client_cert(gnutls_session_t session,
-+                                const gnutls_datum_t *req_ca_rdn, int nreqs,
-+                                const gnutls_pk_algorithm_t *sign_algos,
-+-                               int sign_algos_length, gnutls_retr_st *st)
-++                               int sign_algos_length,
-++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
-++    gnutls_retr2_st* st
-++#else
-++    gnutls_retr_st *st
-++#endif
-++    )
-+ {
-+     ne_session *sess = gnutls_session_get_ptr(session);
-+     
-+@@ -617,8 +623,11 @@ static int provide_client_cert(gnutls_se
-+ #endif
-+             ) {
-+             NE_DEBUG(NE_DBG_SSL, "Supplying client certificate.\n");
-+-
-++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
-++            st->cert_type = type;
-++#else
-+             st->type = type;
-++#endif
-+             st->ncerts = 1;
-+             st->cert.x509 = &sess->client_cert->cert.subject;
-+             st->key.x509 = sess->client_cert->pkey;
-diff --git a/meta/recipes-support/neon/neon_0.30.1.bb b/meta/recipes-support/neon/neon_0.30.1.bb
-index 9245244..bac5bac 100644
---- a/meta/recipes-support/neon/neon_0.30.1.bb
-+++ b/meta/recipes-support/neon/neon_0.30.1.bb
-@@ -10,7 +10,8 @@ DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
- BBCLASSEXTEND = "native"
+diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
+index aa60e77..f4a772e 100644
+--- a/meta-yocto/conf/distro/poky-tiny.conf
++++ b/meta-yocto/conf/distro/poky-tiny.conf
+@@ -37,7 +37,7 @@ DISTRO = "poky-tiny"
+ # Distro config is evaluated after the machine config, so we have to explicitly
+ # set the kernel provider to override a machine config.
+ PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-tiny"
+-PREFERRED_VERSION_linux-yocto-tiny = "3.14%"
++PREFERRED_VERSION_linux-yocto-tiny ?= "3.19%"
  
- SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
--           file://pkgconfig.patch"
-+           file://pkgconfig.patch \
-+           file://gnutls_4.3_fixup.patch"
- SRC_URI[md5sum] = "231adebe5c2f78fded3e3df6e958878e"
- SRC_URI[sha256sum] = "00c626c0dc18d094ab374dbd9a354915bfe4776433289386ed489c2ec0845cdd"
- 
+ # We can use packagegroup-core-boot, but in the future we may need a new packagegroup-core-tiny
+ #POKY_DEFAULT_EXTRA_RDEPENDS += "packagegroup-core-boot"
 -- 
-2.3.5
+2.1.0
 
 
