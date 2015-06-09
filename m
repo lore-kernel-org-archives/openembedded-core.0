@@ -1,37 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 174866AC37
+Return-Path: <sgw@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id DEB746AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 16:50:38 +0000 (UTC)
-Received: by qkoo18 with SMTP id o18so12642638qko.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jun 2015 09:50:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=8fNvj2GnX+gWbFBcsK2BG7p7XTzIEBW7gycx323g6ZI=;
-	b=JGkcrb7RkCIlMwwJDygOIG1Wv+8f5SjsDq76ExHOYX0yKySDKJYa7GV9STQ3CHDz27
-	sJcB/U4uaa+QaKlWZL4NmCO2pKWsPMD5VmbTudWxf4HATGm5yKqxe3Qcy0j+by4/5CSl
-	GXG7KvciDn7fls9bROPyt8+uNSkjrKSJa2C0YTURmz7rwyMfC/DrNGwyI6CBPFZnXqb+
-	DAJKk0Rj0yP2TrK3Hf0LsfCEqRVZXKQjPQpPy/TsJvCvuaTDhUxHXpXrXwATQl7rEG2J
-	RZVaC/MFwvtnOE8yux0h0F0ac+DVM6bH+vdRCosYkjX+9Ago/bgAqxS8cj09VTKF2/o1
-	EV5A==
-X-Gm-Message-State: ALoCoQmLdkL7hugV6BwMPecKTl4y0UFJnmdKEs3/dlXcYoiMUOLUyRPptyXfigGQvI4cZsJGMkfR
-X-Received: by 10.140.43.228 with SMTP id e91mr26777114qga.80.1433868639542;
-	Tue, 09 Jun 2015 09:50:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 9 Jun 2015 09:50:19 -0700 (PDT)
-In-Reply-To: <4a0a666e39c7a9a7a608a07bed7aa1d082018514.1433842738.git.liezhi.yang@windriver.com>
-References: <cover.1433842738.git.liezhi.yang@windriver.com>
-	<4a0a666e39c7a9a7a608a07bed7aa1d082018514.1433842738.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Jun 2015 17:50:19 +0100
-Message-ID: <CAJTo0LYX4=vyLko7jJgdsTonCV6b6Obaq-HVCuKDcjkrj2JNeA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 10/12] blktrace: 1.0.5 -> 1.1.0
+	Tue,  9 Jun 2015 16:54:24 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Jun 2015 09:33:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,581,1427785200"; d="scan'208";a="708016314"
+Received: from kchoi15-mobl1.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.252.141.149])
+	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2015 09:33:32 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue,  9 Jun 2015 09:33:29 -0700
+Message-Id: <1433867609-26266-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH] poky-tiny: Update kernel to 3.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 16:50:41 -0000
-Content-Type: multipart/alternative; boundary=001a113a34bcea3afb0518188e4c
+X-List-Received-Date: Tue, 09 Jun 2015 16:54:26 -0000
 
---001a113a34bcea3afb0518188e4c
-Content-Type: text/plain; charset=UTF-8
+Additionally, allow both PREFERRED_VERSION and PREFERRED_PROVIDE to be overridden
 
-On 9 June 2015 at 15:51, Robert Yang <liezhi.yang@windriver.com> wrote:
+[YOCTO #7478]
 
->  SRCREV = "d6918c8832793b4205ed3bfede78c2f915c23385"
->
-> -PR = "r6"
-> -PV = "1.0.5+git${SRCPV}"
-> +PV = "1.1.0+git${SRCPV}"
->
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta-yocto/conf/distro/poky-tiny.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-You forgot to change SRCREV :)
+diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
+index aa60e77..63bbd88 100644
+--- a/meta-yocto/conf/distro/poky-tiny.conf
++++ b/meta-yocto/conf/distro/poky-tiny.conf
+@@ -36,8 +36,8 @@ DISTRO = "poky-tiny"
+ 
+ # Distro config is evaluated after the machine config, so we have to explicitly
+ # set the kernel provider to override a machine config.
+-PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-tiny"
+-PREFERRED_VERSION_linux-yocto-tiny = "3.14%"
++PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto-tiny"
++PREFERRED_VERSION_linux-yocto-tiny ?= "3.19%"
+ 
+ # We can use packagegroup-core-boot, but in the future we may need a new packagegroup-core-tiny
+ #POKY_DEFAULT_EXTRA_RDEPENDS += "packagegroup-core-boot"
+-- 
+2.1.0
 
-Ross
 
---001a113a34bcea3afb0518188e4c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 June 2015 at 15:51, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3ql" clas=
-s=3D"a3s" style=3D"overflow:hidden">=C2=A0SRCREV =3D &quot;d6918c8832793b42=
-05ed3bfede78c2f915c23385&quot;<br>
-<br>
--PR =3D &quot;r6&quot;<br>
--PV =3D &quot;1.0.5+git${SRCPV}&quot;<br>
-+PV =3D &quot;1.1.0+git${SRCPV}&quot;</div></blockquote></div><br>You forgo=
-t to change SRCREV :)</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
-
---001a113a34bcea3afb0518188e4c--
