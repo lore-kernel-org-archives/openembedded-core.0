@@ -1,38 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
-	[209.85.216.180])
-	by mail.openembedded.org (Postfix) with ESMTP id C8AFA72491
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D00BE72491
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 09:55:18 +0000 (UTC)
-Received: by qcxw10 with SMTP id w10so4068485qcx.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jun 2015 02:55:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=h8t/xVMJyAL/D1xSEfdptZoksiEo5ABIqTE6CdHRBrU=;
-	b=SEOau8xZfrgkHJmcFIPSZJx9fM2Fcj/lgvt17pPMfIwskDp8ULleqMRkm5MnPOY2qd
-	5NpdQlYjoS3EOFH8gzIcU1jB43wTHt+jE5Gi9WHW1411AqzB66aGRlOAp5OJcb6b0bRp
-	8FN6AcdCFi+B3shnMqavC+Y1INzNQHEZILGvoEWW2V1VmVB360qsQenItv3H4noQO8SC
-	sARWTQ8fD2LAfqDGhex6NXkRdzZg8H6jsk9HA4TMfatKh+aRPXQNrcTAmmS1jhC86Ii6
-	04SMWsG9y2ud463Ejcx/XyvXE4FBgDugWPi/dL8Mn/bvFLvkOOq4t6RyOp24JO3IoojV
-	vW5g==
-X-Gm-Message-State: ALoCoQmcemR8RpeTNr3vhcN5aDkv5C24zR1/T53ssOHYA/AjV4bp4ZAJ9Z7uV3vq6R9oWxyAST9Q
-X-Received: by 10.55.43.130 with SMTP id r2mr41148852qkr.14.1433843719580;
-	Tue, 09 Jun 2015 02:55:19 -0700 (PDT)
+	Tue,  9 Jun 2015 09:56:19 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 09 Jun 2015 02:56:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,579,1427785200"; d="scan'208";a="723759491"
+Received: from alefebvr-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.29.139])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2015 02:56:19 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Date: Tue, 09 Jun 2015 10:56:19 +0100
+Message-ID: <2113977.Z7JFxjnESr@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/4.0.4-202.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <5576A8EF.7070800@topic.nl>
+References: <1432276145-31264-1-git-send-email-mike.looijmans@topic.nl>
+	<1432276145-31264-4-git-send-email-mike.looijmans@topic.nl>
+	<5576A8EF.7070800@topic.nl>
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 9 Jun 2015 02:54:59 -0700 (PDT)
-In-Reply-To: <1433803556.28975.117.camel@linuxfoundation.org>
-References: <1433661612.28975.63.camel@linuxfoundation.org>
-	<20150608124313.GB2384@jama>
-	<1433803556.28975.117.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Jun 2015 10:54:59 +0100
-Message-ID: <CAJTo0Lb-pPf9P2w-NfYyxoidL0goDtQgi9szBxW2ZFPgD3zq9w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RFC] sstate: Add eventhandler which cleans up stale recipe data
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 3/3] bitbake.conf: Set GITPKGV variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,37 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 09:55:19 -0000
-Content-Type: multipart/alternative; boundary=001a1147afb091c2eb051812c1c2
+X-List-Received-Date: Tue, 09 Jun 2015 09:56:19 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a1147afb091c2eb051812c1c2
-Content-Type: text/plain; charset=UTF-8
+Hi Mike,
 
-On 8 June 2015 at 23:45, Richard Purdie <richard.purdie@linuxfoundation.org>
-wrote:
+On Tuesday 09 June 2015 10:50:55 Mike Looijmans wrote:
+> On 22-05-15 08:29, Mike Looijmans wrote:
+> > Set GITPKGV to mimic the meta-openembedded 'gitpkgv' class. This allows
+> > a recipe to simply set:
+> > PKGV="1.2+${GITPKGV}"
+> > And no longer needs to inherit gitpkgv class.
+> > ---
+> > 
+> >   conf/bitbake.conf | 1 +
+> >   1 file changed, 1 insertion(+)
+> > 
+> > diff --git a/conf/bitbake.conf b/conf/bitbake.conf
+> > index a35219d..5dafd52 100644
+> > --- a/conf/bitbake.conf
+> > +++ b/conf/bitbake.conf
+> > @@ -47,3 +47,4 @@ TARGET_ARCH = "${BUILD_ARCH}"
+> > 
+> >   TMPDIR = "${TOPDIR}/tmp"
+> >   WORKDIR = "${TMPDIR}/work/${PF}"
+> >   PERSISTENT_DIR = "${TMPDIR}/cache"
+> > 
+> > +GITPKGV = "${@bb.fetch2.get_srcrev(d, 'gitpkgv_revision')}"
+> 
+> This looked okay, but when put to a practical test, I noticed that this did
+> not work at all. The GITPKGV variable is not set when building recipes,
+> resulting in the literal string ${GITPKGV} appearing in version numbers of
+> packages that try to use it.
+> 
+> It does work when I add this line to local.conf, but apparently bitbake.conf
+> never actually gets parsed?
 
-> I'm quietly excited with this change as I think it should improve
-> people's experiences in a number of ways.
->
+This is because you patched the bitbake.conf in bitbake rather than OE-Core - 
+the bitbake one is really just an example and you're right, in an OE context 
+it never gets used. I think Richard skipped this one as a result, so what we'd 
+need is a patch against OE-Core's bitbake.conf to finish this off.
 
-Whereas I'm bouncing up and down with glee.  Thanks, Richard!
+Cheers,
+Paul
 
-Ross
+-- 
 
---001a1147afb091c2eb051812c1c2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Paul Eggleton
+Intel Open Source Technology Centre
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 June 2015 at 23:45, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@l=
-inuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<div id=3D":po" class=3D"a3s" style=3D"overflow:hidden">I&#39;m quietly exc=
-ited with this change as I think it should improve<br>
-people&#39;s experiences in a number of ways.</div></blockquote></div><br>W=
-hereas I&#39;m bouncing up and down with glee.=C2=A0 Thanks, Richard!</div>=
-<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
-/div>
-
---001a1147afb091c2eb051812c1c2--
