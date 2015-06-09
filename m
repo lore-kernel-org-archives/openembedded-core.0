@@ -1,27 +1,18 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C5682757AF
+Return-Path: <changhyeok.bae@lge.com>
+Received: from lgeamrelo01.lge.com (lgeamrelo01.lge.com [156.147.1.125])
+	by mail.openembedded.org (Postfix) with ESMTP id 50D6A7589E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 05:05:06 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t59555u5023919
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jun 2015 22:05:05 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 8 Jun 2015 22:05:04 -0700
-Message-ID: <557673FF.7080002@windriver.com>
-Date: Tue, 9 Jun 2015 13:05:03 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: issta Hu <hcu5555@gmail.com>, Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>
-References: <CAD5oO7mM0cuEU9eJ7oyG2ieMy1m5-Vb-KOKnFhpfvwagmmoebQ@mail.gmail.com>
-In-Reply-To: <CAD5oO7mM0cuEU9eJ7oyG2ieMy1m5-Vb-KOKnFhpfvwagmmoebQ@mail.gmail.com>
-Subject: Re: [bitbake-devel] build yocto error
+	Tue,  9 Jun 2015 05:08:25 +0000 (UTC)
+Received: from unknown (HELO changhyeok.bae) (10.177.222.197)
+	by 156.147.1.125 with ESMTP; 9 Jun 2015 14:08:25 +0900
+X-Original-SENDERIP: 10.177.222.197
+X-Original-MAILFROM: changhyeok.bae@lge.com
+From: Changhyeok Bae <changhyeok.bae@lge.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Jun 2015 14:08:25 +0900
+Message-Id: <1433826505-23893-1-git-send-email-changhyeok.bae@lge.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH] {python,python3}-native: fix TypeError
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,79 +25,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 05:05:09 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jun 2015 05:08:32 -0000
 
-Hi issta,
+g-ir-core in meta-gir is building with python-native.
+When the g-ir-core(v1.42.0) is building, following error is occurred.
 
-This email should go into oe-core, not bitbake-devel, can you add the file
-/chunyun/share/yocto/ZC702/tmp/work/cortexa9-vfp-neon-poky-linux-gnueabi/init-ifupdown/1.0-r7/temp/log.do_package_write_rpm.8848, 
-please ?
+Error in g-ir-core:
+EXEC_PREFIX = os.path.normpath(sys.exec_prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
+| TypeError: expected a character buffer object
 
-// Robert
+Signed-off-by: Changhyeok Bae <changhyeok.bae@lge.com>
+---
+ ...2-distutils-prefix-is-inside-staging-area.patch |    4 ++--
+ .../recipes-devtools/python/python-native_2.7.9.bb |    2 +-
+ .../python/python3-native_3.4.3.bb                 |    2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
+diff --git a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+index f89aaff..b9cc4d9 100644
+--- a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
++++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-staging-area.patch
+@@ -12,8 +12,8 @@ Upstream-Status: Inappropriate [embedded specific]
+  # These are needed in a couple of spots, so just compute them once.
+ -PREFIX = os.path.normpath(sys.prefix)
+ -EXEC_PREFIX = os.path.normpath(sys.exec_prefix)
+-+PREFIX = os.path.normpath(sys.prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
+-+EXEC_PREFIX = os.path.normpath(sys.exec_prefix).replace( os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
+++PREFIX = os.path.normpath(sys.prefix).replace( str(os.getenv("BUILD_SYS")), str(os.getenv("HOST_SYS")) )
+++EXEC_PREFIX = os.path.normpath(sys.exec_prefix).replace( str(os.getenv("BUILD_SYS")), str(os.getenv("HOST_SYS")) )
+  
+  # Path to the base directory of the project. On Windows the binary may
+  # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
+diff --git a/meta/recipes-devtools/python/python-native_2.7.9.bb b/meta/recipes-devtools/python/python-native_2.7.9.bb
+index 34f5c29..5be7bb9 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.9.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.9.bb
+@@ -2,7 +2,7 @@ require python.inc
+ 
+ EXTRANATIVEPATH += "bzip2-native"
+ DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native"
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ 
+ SRC_URI += "\
+             file://05-enable-ctypes-cross-build.patch \
+diff --git a/meta/recipes-devtools/python/python3-native_3.4.3.bb b/meta/recipes-devtools/python/python3-native_3.4.3.bb
+index 464ff05..105c0c9 100644
+--- a/meta/recipes-devtools/python/python3-native_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3-native_3.4.3.bb
+@@ -1,6 +1,6 @@
+ require recipes-devtools/python/python.inc
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ PYTHON_MAJMIN = "3.4"
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+-- 
+1.7.9.5
 
-
-On 06/09/2015 11:27 AM, issta Hu wrote:
-> chunyun@ubuntu:~/share/yocto/ZC702$ bitbake core-image-minimal
-> Loading cache: 100%
-> |#################################################################################################|
-> ETA:  00:00:00
-> Loaded 1303 entries from dependency cache.
-> Parsing recipes: 100%
-> |###############################################################################################|
-> Time: 00:00:00
-> Parsing of 896 .bb files complete (894 cached, 2 parsed). 1303 targets, 58
-> skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION        = "1.27.0"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Ubuntu-14.04"
-> TARGET_SYS        = "arm-poky-linux-gnueabi"
-> MACHINE           = "zc702-zynq7"
-> DISTRO            = "poky"
-> DISTRO_VERSION    = "1.8+snapshot-20150609"
-> TUNE_FEATURES     = "arm armv7a vfp neon cortexa9"
-> TARGET_FPU        = "vfp-neon"
-> meta              = "fido:b5ba70b47fff227e4381fcac93defccb79e3d8f1"
-> meta-xilinx       = "fido:5aa58bbbf8ddcc59f8746805d62fd156d7cff461"
-> meta-yocto
-> meta-yocto-bsp    = "fido:b5ba70b47fff227e4381fcac93defccb79e3d8f1"
->
-> NOTE: Preparing RunQueue
-> NOTE: Executing SetScene Tasks
-> NOTE: Executing RunQueue Tasks
-> ERROR: Function failed: write_specfile
-> ERROR: Logfile of failure stored in:
-> /home/chunyun/share/yocto/ZC702/tmp/work/cortexa9-vfp-neon-poky-linux-gnueabi/init-ifupdown/1.0-r7/temp/log.do_package_write_rpm.8848
-> Log data follows:
-> | DEBUG: Executing python function sstate_task_prefunc
-> | DEBUG: Python function sstate_task_prefunc finished
-> | DEBUG: Executing python function do_package_write_rpm
-> | DEBUG: Executing python function read_subpackage_metadata
-> | DEBUG: Python function read_subpackage_metadata finished
-> | DEBUG: Executing python function do_package_rpm
-> | DEBUG: Executing python function write_specfile
-> | DEBUG: Python function write_specfile finished
-> | DEBUG: Python function do_package_rpm finished
-> | DEBUG: Python function do_package_write_rpm finished
-> | ERROR: Function failed: write_specfile
-> ERROR: Task 833
-> (/home/chunyun/share/yocto/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-> <http://init-ifupdown_1.0.bb>, do_package_write_rpm) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 1396 tasks of which 1395 didn't need to be rerun
-> and 1 failed.
-> No currently running tasks (1395 of 1889)
->
-> Summary: 1 task failed:
->
-> /home/chunyun/share/yocto/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-> <http://init-ifupdown_1.0.bb>, do_package_write_rpm
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->
->
->
 
