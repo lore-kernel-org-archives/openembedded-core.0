@@ -1,23 +1,38 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id D3A9A6AC37
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f180.google.com (mail-qc0-f180.google.com
+	[209.85.216.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C8AFA72491
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 09:34:35 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jun 2015 02:34:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,579,1427785200"; d="scan'208";a="723750297"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2015 02:34:32 -0700
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 7E12E6A4083;
-	Tue,  9 Jun 2015 02:33:57 -0700 (PDT)
-From: Costin Constantin <costin.c.constantin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jun 2015 12:44:26 +0300
-Message-Id: <1433843066-7433-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] meta/testimage.bbclass: corrected the bug that prevented test cases to be loaded from layers other than meta when using TEST_SUITES = "auto"
+	Tue,  9 Jun 2015 09:55:18 +0000 (UTC)
+Received: by qcxw10 with SMTP id w10so4068485qcx.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Jun 2015 02:55:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=h8t/xVMJyAL/D1xSEfdptZoksiEo5ABIqTE6CdHRBrU=;
+	b=SEOau8xZfrgkHJmcFIPSZJx9fM2Fcj/lgvt17pPMfIwskDp8ULleqMRkm5MnPOY2qd
+	5NpdQlYjoS3EOFH8gzIcU1jB43wTHt+jE5Gi9WHW1411AqzB66aGRlOAp5OJcb6b0bRp
+	8FN6AcdCFi+B3shnMqavC+Y1INzNQHEZILGvoEWW2V1VmVB360qsQenItv3H4noQO8SC
+	sARWTQ8fD2LAfqDGhex6NXkRdzZg8H6jsk9HA4TMfatKh+aRPXQNrcTAmmS1jhC86Ii6
+	04SMWsG9y2ud463Ejcx/XyvXE4FBgDugWPi/dL8Mn/bvFLvkOOq4t6RyOp24JO3IoojV
+	vW5g==
+X-Gm-Message-State: ALoCoQmcemR8RpeTNr3vhcN5aDkv5C24zR1/T53ssOHYA/AjV4bp4ZAJ9Z7uV3vq6R9oWxyAST9Q
+X-Received: by 10.55.43.130 with SMTP id r2mr41148852qkr.14.1433843719580;
+	Tue, 09 Jun 2015 02:55:19 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Tue, 9 Jun 2015 02:54:59 -0700 (PDT)
+In-Reply-To: <1433803556.28975.117.camel@linuxfoundation.org>
+References: <1433661612.28975.63.camel@linuxfoundation.org>
+	<20150608124313.GB2384@jama>
+	<1433803556.28975.117.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Jun 2015 10:54:59 +0100
+Message-ID: <CAJTo0Lb-pPf9P2w-NfYyxoidL0goDtQgi9szBxW2ZFPgD3zq9w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH RFC] sstate: Add eventhandler which cleans up stale recipe data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,43 +45,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 09:34:37 -0000
+X-List-Received-Date: Tue, 09 Jun 2015 09:55:19 -0000
+Content-Type: multipart/alternative; boundary=001a1147afb091c2eb051812c1c2
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- meta/classes/testimage.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+--001a1147afb091c2eb051812c1c2
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 4074ff7..aadee45 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -88,19 +88,20 @@ def get_tests_list(d, type="runtime"):
- 
-     if "auto" in testsuites:
-         def add_auto_list(path):
--            if not os.path.exists(os.path.join(path, '__init__.py')):
--                bb.fatal('Tests directory %s exists but is missing __init__.py' % path)
-             files = sorted([f for f in os.listdir(path) if f.endswith('.py') and not f.startswith('_')])
-             for f in files:
-                 module = 'oeqa.' + type + '.' + f[:-3]
-                 if module not in testslist:
-                     testslist.append(module)
--
-+        tests_found = False
-         for p in bbpath:
-             testpath = os.path.join(p, 'lib', 'oeqa', type)
-             bb.debug(2, 'Searching for tests in %s' % testpath)
--            if os.path.exists(testpath):
-+            if os.path.exists(os.path.join(testpath, '__init__.py')):
-                 add_auto_list(testpath)
-+                tests_found = True
-+        if not tests_found:
-+            bb.fatal('Couldn\'t find any test files inside  meta*/lib/oeqa/runtime or meta*/lib/oeqa/sdk directories.')
- 
-     return testslist
- 
--- 
-2.1.4
+On 8 June 2015 at 23:45, Richard Purdie <richard.purdie@linuxfoundation.org>
+wrote:
 
+> I'm quietly excited with this change as I think it should improve
+> people's experiences in a number of ways.
+>
 
+Whereas I'm bouncing up and down with glee.  Thanks, Richard!
+
+Ross
+
+--001a1147afb091c2eb051812c1c2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 8 June 2015 at 23:45, Richard Purdie <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@l=
+inuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<div id=3D":po" class=3D"a3s" style=3D"overflow:hidden">I&#39;m quietly exc=
+ited with this change as I think it should improve<br>
+people&#39;s experiences in a number of ways.</div></blockquote></div><br>W=
+hereas I&#39;m bouncing up and down with glee.=C2=A0 Thanks, Richard!</div>=
+<div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div><=
+/div>
+
+--001a1147afb091c2eb051812c1c2--
