@@ -1,27 +1,36 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D437758BC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 65239758BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 20:12:20 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jun 2015 13:12:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,583,1427785200"; d="scan'208";a="708141269"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.173])
-	([10.219.4.173])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2015 13:12:19 -0700
-Message-ID: <55774904.8080002@linux.intel.com>
-Date: Tue, 09 Jun 2015 15:13:56 -0500
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Tue,  9 Jun 2015 20:16:38 +0000 (UTC)
+Received: by qcnj1 with SMTP id j1so10201082qcn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Jun 2015 13:16:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=YGAzWC4QWPZPz4uOI/WwKXrpu0kCS4dk+B24loSfJ/8=;
+	b=C1Nz4VLPsvsV836hmj361HvinTuNiaU3Yf4/xvEaUXFMrdwuRly2Z5zzkQ4LLYc7eC
+	K6YABdiHBADTmdFFXjDybScM/+OOKvZpY2NBgpGXeC3e3XzWaTQqsAz4KuDO6DHklRdn
+	Uv651HukWKVmVkCXG1TiV0GUcw3DLwn+sq8Pbt2C19ZcDEqQjcNKfIoXyaHcfxM5j7eL
+	9BRMsTBgm1FIe+AybP7IvVc9tDgfxlgE2KKF3O4erkc9UDRL2yNEvA3ZGJJfWTxDo8uY
+	K0hzaxTPBbeNjxhO5o8ETYaoO6LMoNHuHA0rd0bUEtdPg+rWc2mjcd0I1sICjYcC/WGn
+	d1qQ==
+X-Gm-Message-State: ALoCoQljfvh5uKNI2YYDT1/nx5Gpv3rOnfbG9DsQ5zwQV2B0yxINyHcWXI5JJoqx/61U5bljG8ra
+X-Received: by 10.55.43.130 with SMTP id r2mr47100017qkr.14.1433880999250;
+	Tue, 09 Jun 2015 13:16:39 -0700 (PDT)
 MIME-Version: 1.0
-To: leonardo.sandoval.gonzalez@linux.intel.com, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1433851301.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<a84e1f64b2783720ef881c11bdd28b3f5467eb1d.1433851301.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <a84e1f64b2783720ef881c11bdd28b3f5467eb1d.1433851301.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: Re: [PATCH 1/1] libgpg-error: Upgrade 1.18 -> 1.19
+Received: by 10.140.102.231 with HTTP; Tue, 9 Jun 2015 13:16:18 -0700 (PDT)
+In-Reply-To: <1433878226-21350-1-git-send-email-akuster808@gmail.com>
+References: <1433878226-21350-1-git-send-email-akuster808@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Jun 2015 21:16:18 +0100
+Message-ID: <CAJTo0LbixBMU_CFPAegnVpnmFmTq_VpQK6SMnLsyBfUsMq3VwA@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] gnutls update to 3.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,133 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 20:12:21 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jun 2015 20:16:39 -0000
+Content-Type: multipart/alternative; boundary=001a1147afb09c629705181b6fc6
 
-Hi Leo,
+--001a1147afb09c629705181b6fc6
+Content-Type: text/plain; charset=UTF-8
 
-Can you please describe the reasons of upstream patch changes?
+On 9 June 2015 at 20:30, Armin Kuster <akuster808@gmail.com> wrote:
 
-Regards,
-     alimon
-
-On 09/06/15 07:05, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> re-sending as I think I may have done it incorrectly before. did not see
+> it in patch queue.
 >
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->   .../libgpg-error/libgpg-error/pkgconfig.patch      | 45 +++++++++++-----------
->   .../{libgpg-error_1.18.bb => libgpg-error_1.19.bb} |  6 +--
->   2 files changed, 26 insertions(+), 25 deletions(-)
->   rename meta/recipes-support/libgpg-error/{libgpg-error_1.18.bb => libgpg-error_1.19.bb} (89%)
->
-> diff --git a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-> index 96476ba..9ffeedb 100644
-> --- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-> +++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-> @@ -9,9 +9,9 @@ Index: libgpg-error-1.17/configure.ac
->   ===================================================================
->   --- libgpg-error-1.17.orig/configure.ac
->   +++ libgpg-error-1.17/configure.ac
-> -@@ -521,6 +521,7 @@ AC_CONFIG_FILES([src/Makefile tests/Make
-> +@@ -529,6 +529,7 @@ AC_CONFIG_FILES([src/Makefile tests/Make
->    AC_CONFIG_FILES([lang/Makefile lang/cl/Makefile lang/cl/gpg-error.asd])
-> - AC_CONFIG_FILES([src/versioninfo.rc])
-> + AC_CONFIG_FILES([src/versioninfo.rc src/gpg-error.w32-manifest])
->    AC_CONFIG_FILES([src/gpg-error-config], [chmod +x src/gpg-error-config])
->   +AC_CONFIG_FILES([src/gpg-error.pc])
->    
-> @@ -21,7 +21,7 @@ Index: libgpg-error-1.17/src/Makefile.am
->   ===================================================================
->   --- libgpg-error-1.17.orig/src/Makefile.am
->   +++ libgpg-error-1.17/src/Makefile.am
-> -@@ -74,13 +74,15 @@ nodist_include_HEADERS = gpg-error.h
-> +@@ -75,6 +75,8 @@ nodist_include_HEADERS = gpg-error.h
->    bin_SCRIPTS = gpg-error-config
->    m4datadir = $(datadir)/aclocal
->    m4data_DATA = gpg-error.m4
-> @@ -30,30 +30,15 @@ Index: libgpg-error-1.17/src/Makefile.am
->    
->    EXTRA_DIST = mkstrtable.awk err-sources.h.in err-codes.h.in \
->    	mkerrnos.awk errnos.in README \
-> - 	mkerrcodes.awk mkerrcodes1.awk mkerrcodes2.awk mkerrcodes.c \
-> +@@ -82,7 +84,7 @@ EXTRA_DIST = mkstrtable.awk err-sources.
->    	mkheader.c gpg-error.h.in mkw32errmap.c w32-add.h w32ce-add.h \
->    	err-sources.h err-codes.h gpg-error-config.in gpg-error.m4 \
-> --	gpg-error.vers gpg-error.def.in versioninfo.rc.in \
-> -+	gpg-error.vers gpg-error.def.in versioninfo.rc.in gpg-error.pc \
-> + 	gpg-error.vers gpg-error.def.in \
-> +-        versioninfo.rc.in gpg-error.w32-manifest.in \
-> ++        versioninfo.rc.in gpg-error.w32-manifest.in gpg-error.pc \
->    	$(lock_obj_pub)
->    
->    BUILT_SOURCES = err-sources.h err-codes.h code-to-errno.h code-from-errno.h \
-> -Index: libgpg-error-1.17/src/gpg-error.pc.in
-> -===================================================================
-> ---- /dev/null
-> -+++ libgpg-error-1.17/src/gpg-error.pc.in
-> -@@ -0,0 +1,11 @@
-> -+prefix=@prefix@
-> -+exec_prefix=@exec_prefix@
-> -+libdir=@libdir@
-> -+includedir=@includedir@
-> -+host=@GPG_ERROR_CONFIG_HOST@
-> -+
-> -+Name: gpg-error
-> -+Description: a library that defines common error values for all GnuPG components
-> -+Version: @VERSION@
-> -+Libs: -L${libdir} -lgpg-error
-> -+Cflags: -I${includedir}
->   Index: libgpg-error-1.17/src/gpg-error.m4
->   ===================================================================
->   --- libgpg-error-1.17.orig/src/gpg-error.m4
-> @@ -147,3 +132,19 @@ Index: libgpg-error-1.17/src/gpg-error.m4
->        ifelse([$3], , :, [$3])
->      fi
->      AC_SUBST(GPG_ERROR_CFLAGS)
-> +Index: libgpg-error-1.17/src/gpg-error.pc.in
-> +===================================================================
-> +--- /dev/null
-> ++++ libgpg-error-1.17/src/gpg-error.pc.in
-> +@@ -0,0 +1,11 @@
-> ++prefix=@prefix@
-> ++exec_prefix=@exec_prefix@
-> ++libdir=@libdir@
-> ++includedir=@includedir@
-> ++host=@GPG_ERROR_CONFIG_HOST@
-> ++
-> ++Name: gpg-error
-> ++Description: a library that defines common error values for all GnuPG components
-> ++Version: @VERSION@
-> ++Libs: -L${libdir} -lgpg-error
-> ++Cflags: -I${includedir}
-> diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-> similarity index 89%
-> rename from meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-> rename to meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-> index c9a47a3..39dbbcf 100644
-> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-> @@ -13,8 +13,8 @@ SECTION = "libs"
->   
->   SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
->              file://pkgconfig.patch"
-> -SRC_URI[md5sum] = "12312802d2065774b787cbfc22cc04e9"
-> -SRC_URI[sha256sum] = "9ff1d6e61d4cef7c1d0607ceef6d40dc33f3da7a3094170c3718c00153d80810"
-> +SRC_URI[md5sum] = "c04c16245b92829281f43b5bef7d16da"
-> +SRC_URI[sha256sum] = "53120e1333d5c5d28d87ff2854e9e98719c8e214152f17ad5291704d25c4978b"
->   
->   BINCONFIG = "${bindir}/gpg-error-config"
->   
-> @@ -30,7 +30,7 @@ do_compile_prepend() {
->   	  aarch64_be) TUPLE=aarch64-unknown-linux-gnu ;;
->   	  arm)	      TUPLE=arm-unknown-linux-gnueabi ;;
->   	  armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
-> -	  i586|i686)  TUPLE=i486-pc-linux-gnu ;;
-> +	  i586|i686)  TUPLE=i686-pc-linux-gnu ;;
->   	  mips64el)   TUPLE=mipsel-unknown-linux-gnu ;;
->   	  mips64)     TUPLE=mips-unknown-linux-gnu ;;
->   	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
 
+You sent fine it but it results in neon not linking correctly (silently,
+unless you apply a patch I sent earlier).  Can you have a look?
 
+Ross
+
+--001a1147afb09c629705181b6fc6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 June 2015 at 20:30, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2fs" class=3D"a3s"=
+ style=3D"overflow:hidden">re-sending as I think I may have done it incorre=
+ctly before. did not see it in patch queue.<br></div></blockquote></div><br=
+>You sent fine it but it results in neon not linking correctly (silently, u=
+nless you apply a patch I sent earlier).=C2=A0 Can you have a look?</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
+iv>
+
+--001a1147afb09c629705181b6fc6--
