@@ -1,23 +1,23 @@
 Return-Path: <costin.c.constantin@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DDA1672491
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 123946AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 11:25:05 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Jun 2015 04:25:04 -0700
+	Tue,  9 Jun 2015 11:59:18 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 09 Jun 2015 04:59:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,579,1427785200"; d="scan'208";a="743564182"
+X-IronPort-AV: E=Sophos;i="5.13,579,1427785200"; d="scan'208";a="723815204"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 09 Jun 2015 04:25:05 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2015 04:59:19 -0700
 Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 3E5DC6A4083;
-	Tue,  9 Jun 2015 04:24:29 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 08B9D6A4083;
+	Tue,  9 Jun 2015 04:58:43 -0700 (PDT)
 From: Costin Constantin <costin.c.constantin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jun 2015 14:34:58 +0300
-Message-Id: <1433849698-21978-1-git-send-email-costin.c.constantin@intel.com>
+Date: Tue,  9 Jun 2015 15:09:13 +0300
+Message-Id: <1433851753-1117-1-git-send-email-costin.c.constantin@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] lib/oeqa/selftest/buildoptions.py: added auto test for image build with GPL licenses for containing packages
+Subject: [PATCH] lib/oeqa/selftest/buildoptions.py: added auto test for archiving the work directory and exporting the source files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +30,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 11:25:11 -0000
+X-List-Received-Date: Tue, 09 Jun 2015 11:59:22 -0000
 
 Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
 ---
- meta/lib/oeqa/selftest/buildoptions.py | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ meta/lib/oeqa/selftest/buildoptions.py | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index a3297fd..cddfa48 100644
+index cddfa48..be75311 100644
 --- a/meta/lib/oeqa/selftest/buildoptions.py
 +++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -156,3 +156,32 @@ class BuildImagesTest(oeSelfTest):
-           self.prc.kill(9)
-           self.log.error("It is possible that runquemu didn't start correctly. Add this line your_username  ALL=NOPASSWD:       ALL\nto your visudo")
-           self.assertTrue(False, "Couldn't start qemu")
+@@ -2,6 +2,8 @@ import unittest
+ import os
+ import logging
+ import re
++import glob as g
++import pexpect as p
+ 
+ from oeqa.selftest.base import oeSelfTest
+ from oeqa.selftest.buildhistory import BuildhistoryBase
+@@ -9,6 +11,7 @@ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+ import oeqa.utils.ftools as ftools
+ from oeqa.utils.decorators import testcase
+ 
 +
-+class ArchiverTest(oeSelfTest):
-+    @testcase(929)
-+    def test_gpl_licenses(self):
+ class ImageOptionsTests(oeSelfTest):
+ 
+     @testcase(761)
+@@ -133,7 +136,7 @@ class BuildImagesTest(oeSelfTest):
+         self.remove_config("DISTRO_FEATURES_remove = \"x11\"\nDISTRO_FEATURES_append = \" directfb\"\nMACHINE ??= \"qemuarm\"")
+         self.assertEqual(self.res, 0, "\ncore-image-directfb failed to build. Please check logs for further details.\n")
+ 
+-   @testcase(283)
++    @testcase(283)
+     def test_btrfs(self):
+         """
+         This method is used to test the build of an image with btrfs file system. After building it, qemu is launched
+@@ -184,4 +187,19 @@ class ArchiverTest(oeSelfTest):
+         self.license_dir = self.builddir + "/tmp/deploy/licenses/"
+         for i in self.pkgs:
+           if os.path.isdir(self.license_dir + i):
+-            self.assertTrue(g.glob(self.license_dir + i + "/*GPL*"), "couldn't find GPL license in " + self.license_dir + i)
+\ No newline at end of file
++            self.assertTrue(g.glob(self.license_dir + i + "/*GPL*"), "couldn't find GPL license in " + self.license_dir + i)
++
++    @testcase(926)
++    def test_arch_work_dir_and_export_source(self):
 +        """
-+        Test for checking that correct GPL licenses are used when explicitly required.
++        Test for archiving the work directory and exporting the source files.
 +        """
 +        self.add_command_to_tearDown('cleanup-workdir')
-+        self.write_config("MACHINE = \"qemux86\"\nINHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nCOPYLEFT_LICENSE_INCLUDE = \"GPLv2* GPLv3*\"")
-+        self.res = bitbake("core-image-minimal").status
-+        self.remove_config("MACHINE = \"qemux86\"\nINHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nCOPYLEFT_LICENSE_INCLUDE = \"GPLv2* GPLv3*\"")
-+        self.assertEqual(self.res, 0, "core-image-minimal didn't build. Please check logs for further details")
-+        self.built_pkgs_list = os.listdir(self.builddir + "/tmp/deploy/sources/i586-poky-linux/")# the list containing built pkgs with ver.
-+        self.pkg_name_split = [i.split("-") for i in self.built_pkgs_list]
-+        self.pkgs = [] # this will contain the pkgs name as found in tmp/deploy/licenses
-+        for i in self.pkg_name_split:
-+          self.name = ""
-+          for j in i:
-+            if i.index(j) == 0:
-+              self.name = j
-+            elif j.isalpha() and i.index(j) != 0:
-+              self.name = self.name + "-" + j
-+            else:
-+              self.pkgs.append(self.name)
-+              break
-+        self.license_dir = self.builddir + "/tmp/deploy/licenses/"
-+        for i in self.pkgs:
-+          if os.path.isdir(self.license_dir + i):
-+            self.assertTrue(g.glob(self.license_dir + i + "/*GPL*"), "couldn't find GPL license in " + self.license_dir + i)
++        self.write_config("INHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nARCHIVER_MODE[srpm] = \"1\"")
++        self.res = bitbake("xcursor-transparent-theme").status
++        self.remove_config("INHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nARCHIVER_MODE[srpm] = \"1\"")
++        self.assertEqual(self.res, 0, "\nCouldn't build xcursor-transparent-theme.\n")
++        self.pkgs_path = g.glob(str(self.builddir) + "/tmp/deploy/sources/allarch*/xcurs*")
++        self.src_file_glob = str(self.pkgs_path[0]) + "/xcursor*.src.rpm"
++        self.tar_file_glob = str(self.pkgs_path[0]) + "/xcursor*.tar.gz"
++        self.assertTrue((g.glob(self.src_file_glob) and g.glob(self.tar_file_glob)), "Couldn't find .src.rpm and .tar.gz files under tmp/deploy/sources/allarch*/xcursor*")
 \ No newline at end of file
 -- 
 2.1.4
