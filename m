@@ -1,26 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 470B6758B8
+Return-Path: <diego.sueiro@gmail.com>
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 06B12758A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 14:51:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t59EpwSK012253
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  9 Jun 2015 14:53:43 +0000 (UTC)
+Received: by obcej4 with SMTP id ej4so14914571obc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Jun 2015 07:51:58 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 9 Jun 2015 07:51:58 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jun 2015 07:51:46 -0700
-Message-ID: <e09c98c95c9d4f9f693d774210be607392f2b166.1433842738.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1433842738.git.liezhi.yang@windriver.com>
-References: <cover.1433842738.git.liezhi.yang@windriver.com>
+	Tue, 09 Jun 2015 07:53:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=InsqFOB1AosNM4rOcnlPV+iCAq3mB1mxrfGAvWT6GDc=;
+	b=EAeWuTKB591QWICXcyX8X7DaB2+t61SiN6X9quSzAL7ye2RkjrUxBNXpDHwGs88Rjr
+	oSNWS3UA/eZL7P31SW44E/g6OI7B4A6pF8VAKylArisvarJVRJm81FJ7/FyRD+PggL5w
+	DTLUK0LF93AMUJ2ca+tTMy558oohi8s+QhZfbYtdO6bjdj9aulzvbmx4uEKypp2p2wJq
+	SoukqLonbL0HygVMHzwe/zLtx3k4nFF/Ce1T+wS14x1pXys16+9ROBP4F0Fyi2u9NMHV
+	m2rI69Q4ilJBWKoKgcqkahEXn4JZknpb4ALtZx1wcp6w/OpP/0Ps3SAEKaw+gxumldda
+	cY6A==
+X-Received: by 10.182.18.7 with SMTP id s7mr16206538obd.40.1433861624348; Tue,
+	09 Jun 2015 07:53:44 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 01/12] libpfm4: 4.3.0 -> 4.6.0
+Received: by 10.76.20.13 with HTTP; Tue, 9 Jun 2015 07:53:23 -0700 (PDT)
+In-Reply-To: <CAJTo0LadVJPTXNb5MLV6AHhbcS9_rEN1qYz0D+cp0nmB4uv9aQ@mail.gmail.com>
+References: <CAMCfZKFgggP5Y21S58+jq8n_se3a3Tg06f2HTFTj8j0Go3ATUA@mail.gmail.com>
+	<CAJTo0LadVJPTXNb5MLV6AHhbcS9_rEN1qYz0D+cp0nmB4uv9aQ@mail.gmail.com>
+From: Diego Sueiro <diego.sueiro@gmail.com>
+Date: Tue, 9 Jun 2015 11:53:23 -0300
+Message-ID: <CAMCfZKGuZoHJGAYK4VgRM-q_GXWbn6VaEyrnnUFBvwXEdtMV2w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-qt5] Issue on linking qtwebengine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +43,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 14:52:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Jun 2015 14:53:45 -0000
+Content-Type: multipart/alternative; boundary=001a11c2dc80c6c621051816ec27
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../libpfm/{libpfm4_4.3.0.bb => libpfm4_4.6.0.bb}  |    7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-kernel/libpfm/{libpfm4_4.3.0.bb => libpfm4_4.6.0.bb} (78%)
+--001a11c2dc80c6c621051816ec27
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-similarity index 78%
-rename from meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
-rename to meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-index 98852f6..b66fbd1 100644
---- a/meta/recipes-kernel/libpfm/libpfm4_4.3.0.bb
-+++ b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-@@ -10,13 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0de488f3bd4424e308e2e399cb99c788"
- 
- SECTION = "devel"
- 
--PR = "r1"
- COMPATIBLE_HOST = "powerpc64"
- 
--SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/libpfm4/libpfm-4.3.0.tar.gz"
-+SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/${BPN}/libpfm-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "0ab272dbdbb759b852ba8bd06db030ef"
--SRC_URI[sha256sum] = "a23eb9affbff279e13563a39317c0ad71c4de28908d4243c8bc109138430cc3b"
-+SRC_URI[md5sum] = "5077b9022440e4951d96f2d0e73bd487"
-+SRC_URI[sha256sum] = "5ab1e5b0472550f9037a8800834f6bc3b927690070f69fac0b67284b4b05fd5f"
- 
- EXTRA_OEMAKE = "DESTDIR=\"${D}\" PREFIX=\"${prefix}\" LIBDIR=\"${libdir}\" LDCONFIG=\"true\""
- EXTRA_OEMAKE_append_powerpc = " ARCH=\"powerpc\""
--- 
-1.7.9.5
+Ross,
+
+2015-06-09 10:09 GMT-03:00 Burton, Ross <ross.burton@intel.com>:
+
+> On 9 June 2015 at 13:58, Diego Sueiro <diego.sueiro@gmail.com> wrote:
+>
+>> I'm using fido branch and I'm getting the linker killed due to out of
+>> memory in a machine with 8GB of RAM.
+>>
+>
+> I guess you'll want to pass the same options to the linker that we already
+> pass to webkitgtk:
+>
+> LDFLAGS += "-Wl,--no-keep-memory"
+>
+
+Thanks, that did the trick.
+
+But now I have another issue. :-(
+
+When qtwebengine compile task are running in parallel with another task I
+get an "file not recognized: File format not recognized" error.
+
+I put PARALLEL_MAKE="" but the compile task still uses all CPUs.
+
+Is there a way to tell openembedded to run a task without any other in
+parallel?
 
 
+Regards,
+
+--
+*dS
+Diego Sueiro
+
+Administrador do Embarcados
+www.embarcados.com.br
+<http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
+
+/*long live rock 'n roll*/
+
+--001a11c2dc80c6c621051816ec27
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">Ross,</div><div class=3D"gmail_=
+extra"><br><div class=3D"gmail_quote">2015-06-09 10:09 GMT-03:00 Burton, Ro=
+ss <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D=
+"_blank">ross.burton@intel.com</a>&gt;</span>:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-lef=
+t-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div cla=
+ss=3D"gmail_extra"><span class=3D""><div class=3D"gmail_quote">On 9 June 20=
+15 at 13:58, Diego Sueiro <span dir=3D"ltr">&lt;<a href=3D"mailto:diego.sue=
+iro@gmail.com" target=3D"_blank">diego.sueiro@gmail.com</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:s=
+olid;padding-left:1ex"><div>I&#39;m using fido branch and I&#39;m getting t=
+he linker killed due to out of memory in a machine with 8GB of RAM.</div><d=
+iv></div></blockquote></div><br></span>I guess you&#39;ll want to pass the =
+same options to the linker that we already pass to webkitgtk:</div><div cla=
+ss=3D"gmail_extra"><br></div><div class=3D"gmail_extra">LDFLAGS +=3D &quot;=
+-Wl,--no-keep-memory&quot;<div class=3D""><div id=3D":11l" class=3D"" tabin=
+dex=3D"0"></div></div></div></blockquote></div><br>Thanks, that did the tri=
+ck.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Bu=
+t now I have another issue. :-(</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">When qtwebengine compile task are running in para=
+llel with another task I get an &quot;file not recognized: File format not =
+recognized&quot; error.</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">I put PARALLEL_MAKE=3D&quot;&quot; but the compile task s=
+till uses all CPUs.</div><div class=3D"gmail_extra"><br></div><div class=3D=
+"gmail_extra">Is there a way to tell openembedded to run a task without any=
+ other in parallel?</div><div class=3D"gmail_extra"><br><br clear=3D"all"><=
+div><div class=3D"gmail_signature"><div dir=3D"ltr"><div>Regards,</div><div=
+><br></div>--<br>*dS<br>Diego Sueiro<br><br>Administrador do Embarcados<br>=
+<a href=3D"http://www.embarcados.com.br/?utm_source=3Dassinatura_diego&amp;=
+utm_medium=3De-mail&amp;utm_campaign=3DAssinatura%20Email%20Diego" target=
+=3D"_blank">www.embarcados.com.br</a><br><br>/*long live rock &#39;n roll*/=
+<br></div></div></div>
+</div></div>
+
+--001a11c2dc80c6c621051816ec27--
