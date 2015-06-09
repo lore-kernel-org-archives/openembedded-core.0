@@ -1,56 +1,28 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx12-out5.antispamcloud.com (mx12-out5.antispamcloud.com
-	[46.165.232.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F56265C78
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 68E0565C78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 08:51:09 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx12.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1Z2FFI-0006s2-Fz for openembedded-core@lists.openembedded.org;
-	Tue, 09 Jun 2015 10:51:09 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Tue, 9 Jun 2015 10:51:15 +0200
-Message-ID: <5576A8EF.7070800@topic.nl>
-Date: Tue, 9 Jun 2015 10:50:55 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Tue,  9 Jun 2015 08:59:23 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Jun 2015 01:59:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,579,1427785200"; d="scan'208";a="743502134"
+Received: from alefebvr-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.29.139])
+	by orsmga002.jf.intel.com with ESMTP; 09 Jun 2015 01:59:24 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Date: Tue, 09 Jun 2015 09:59:23 +0100
+Message-ID: <238975671.6klxb71QiN@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/4.0.4-202.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <55768AB1.9090607@windriver.com>
+References: <cover.1432706896.git.Qi.Chen@windriver.com>
+	<4741340.pDCvDy9tKk@peggleto-mobl.ger.corp.intel.com>
+	<55768AB1.9090607@windriver.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1432276145-31264-1-git-send-email-mike.looijmans@topic.nl>
-	<1432276145-31264-4-git-send-email-mike.looijmans@topic.nl>
-In-Reply-To: <1432276145-31264-4-git-send-email-mike.looijmans@topic.nl>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrV4rjKlPRsz+BPhtitYwGwSZTiSAFpJoNW13v
-	/+GWkQ08CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
-	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
-	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
-	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
-	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh+h+CzXS8eUe
-	C5gEulNqQ4FWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lokhecaVqDL9uaaBYOuxasEpt
-	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJcFIkh7yuznlTeFPLSNUgKbJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: ham
-X-Spampanel-Outgoing-Evidence: Combined (0.03)
-X-Recommended-Action: accept
-Subject: Re: [PATCH v2 3/3] bitbake.conf: Set GITPKGV variable
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] populate_sdk_ext: consider custom configuration in local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,61 +35,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 08:51:13 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Jun 2015 08:59:25 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-=EF=BB=BFOn 22-05-15 08:29, Mike Looijmans wrote:
-> Set GITPKGV to mimic the meta-openembedded 'gitpkgv' class. This allows
-> a recipe to simply set:
-> PKGV=3D"1.2+${GITPKGV}"
-> And no longer needs to inherit gitpkgv class.
-> ---
->   conf/bitbake.conf | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/conf/bitbake.conf b/conf/bitbake.conf
-> index a35219d..5dafd52 100644
-> --- a/conf/bitbake.conf
-> +++ b/conf/bitbake.conf
-> @@ -47,3 +47,4 @@ TARGET_ARCH =3D "${BUILD_ARCH}"
->   TMPDIR =3D "${TOPDIR}/tmp"
->   WORKDIR =3D "${TMPDIR}/work/${PF}"
->   PERSISTENT_DIR =3D "${TMPDIR}/cache"
-> +GITPKGV =3D "${@bb.fetch2.get_srcrev(d, 'gitpkgv_revision')}"
->
+On Tuesday 09 June 2015 14:41:53 ChenQi wrote:
+> On 06/04/2015 10:11 PM, Paul Eggleton wrote:
+> > On Wednesday 27 May 2015 14:09:39 Chen Qi wrote:
+> >> Copy the contents of local.conf under TOPDIR into the final generated
+> >> local.conf. In this way, custom settings are also made into the final
+> >> local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx, etc.
+> >> 
+> >> Before this change, installing extensible SDK would usually report
+> >> failure
+> >> when preparing the build system if the user has custom configuration for
+> >> DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in
+> >> local.conf also don't get built correctly.
+> >> 
+> >> This patch solves the above problem.
+> >> 
+> >> A blacklist mechanism is also introduced so that we can blacklist
+> >> variables
+> >> that should not be copied into the final local.conf file. Currently, the
+> >> blacklist contains 'TMPDIR', 'SSTATE_DIR', 'DL_DIR', 'STAMPS_DIR',
+> >> 'BASE_WORKDIR' and 'DEPLOY_DIR'. What these variables have in common is
+> >> that they are set in bitbake.conf using '?=' or '??='.
+> >> 
+> >> In addition, we check to avoid any setting that might lead to host path
+> >> bleeding into SDK's configuration.
+> >> 
+> >> [YOCTO #7616]
+> >> 
+> >> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> >> ---
+> >> 
+> >>   meta/classes/populate_sdk_ext.bbclass | 23 +++++++++++++++++++++++
+> >>   1 file changed, 23 insertions(+)
+> >> 
+> >> diff --git a/meta/classes/populate_sdk_ext.bbclass
+> >> b/meta/classes/populate_sdk_ext.bbclass index 2fc4c11..49ba26b 100644
+> >> --- a/meta/classes/populate_sdk_ext.bbclass
+> >> +++ b/meta/classes/populate_sdk_ext.bbclass
+> >> @@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = "
+> >> ${SDK_TARGETS}" SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
+> >> 
+> >>   SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
+> >> 
+> >> +SDK_META_CONF_BLACKLIST ?= "TMPDIR DL_DIR SSTATE_DIR STAMPS_DIR
+> >> BASE_WORKDIR DEPLOY_DIR"
+> >> 
+> >>   SDK_TARGETS ?= "${PN}"
+> >>   OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
+> >> 
+> >> @@ -114,6 +115,28 @@ python copy_buildsystem () {
+> >> 
+> >>           f.write('# this configuration provides, it is strongly
+> >>           suggested
+> >> 
+> >> that you set\n') f.write('# up a proper instance of the full build system
+> >> and use that instead.\n\n')
+> >> 
+> >> +        # Copy configurations from the current local.conf
+> >> +        builddir = d.getVar('TOPDIR', True)
+> >> +        with open(builddir + '/conf/local.conf', 'r') as lf:
+> >> +            varblacklist = d.getVar('SDK_META_CONF_BLACKLIST',
+> >> True).split() +            skip = False
+> >> +            for line in lf:
+> >> +                line = line.lstrip()
+> >> +                if line.startswith('#'):
+> >> +                    continue
+> >> +                # avoid host path bleeding into SDK configuration
+> >> +                if line.find('"/') != -1:
+> >> +                    continue
+> >> +                for varname in varblacklist:
+> >> +                    if line.startswith(varname):
+> >> +                        skip = True
+> >> +                        break
+> >> +                if not skip:
+> >> +                    f.write(line)
+> >> +                skip = False
+> >> +        f.write('\n')
+> >> +
+> >> +        # Configurations in local.conf which are specific for extensible
+> >> SDK f.write('INHERIT += "%s"\n\n' % 'uninative')
+> >> 
+> >>           f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION'))
+> > 
+> > I've been thinking about this; since I've recently added edit_metadata()
+> > in
+> > bitbake's lib/bb/utils.py, it would make sense to use that rather than
+> > adding another piece of code that effectively parses bitbake
+> > configuration files (though I know this isn't adding much). I know this
+> > series has been going back and forth for a while now and the delays have
+> > largely been my fault, so I'd be happy to make this change and resend the
+> > series - it's up to you.
+> > 
+> > Cheers,
+> > Paul
+> 
+> Hi Paul,
+> 
+> Thanks for your suggestion.
+> I've been looking into edit_metadata(). But it seems that it's used to
+> modify *specific* variables.
+> In this case, we don't know which variables we are going to skip in
+> local.conf. We just know that they start with '/'. So I don't see how to
+> do it.
 
-This looked okay, but when put to a practical test, I noticed that this did=
-=20
-not work at all. The GITPKGV variable is not set when building recipes,=20
-resulting in the literal string ${GITPKGV} appearing in version numbers of=
-=20
-packages that try to use it.
+Well, what you pass in actually goes into a regex, so you can just match
+any variable with it - you just need to take care that it doesn't match
+characters it shouldn't. Here's an example I just tested - you can place
+it in scripts/ in order to try it out:
 
-It does work when I add this line to local.conf, but apparently bitbake.con=
-f=20
-never actually gets parsed?
+------------- snip ------------
+import sys
+import os
 
+scripts_path = os.path.dirname(os.path.realpath(__file__))
+lib_path = scripts_path + '/lib'
+sys.path = sys.path + [lib_path]
 
+import scriptpath
+bitbakepath = scriptpath.add_bitbake_lib_path()
 
+import bb.utils
 
-Kind regards,
+whitelist = ['BBMASK']
+def handle_var(varname, origvalue, op, newlines):
+    print '%s "%s"' % (varname, origvalue)
+    if '/' in origvalue and (not ':/' in value or varname in whitelist):
+        newlines.append('# Removed original setting of %s\n' % varname)
+        return None, op, 0, True
+    else:
+        return origvalue, op, 0, True
 
-Mike Looijmans
-System Expert
+varlist = ['[^#=+ ]*']
+with open('conf/local.conf', 'r') as f:
+    oldlines = f.readlines()
+(updated, newlines) = bb.utils.edit_metadata(oldlines, varlist, handle_var)
 
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
+with open('conf/local.conf.newedit', 'w') as f:
+    for line in newlines:
+        f.write(line)
 
-Please consider the environment before printing this e-mail
+------------- snip ------------
 
+We really ought not to have to care about matching #, that's probably
+a bug in edit_metadata().  While looking at my own local.conf I noticed that
+BBMASK might have / in it and we'd probably want to allow it through; I
+don't know if there are other reasonable examples. I suspect we ought
+to have a variable for this to allow for some flexibility. As in the example
+we probably also want to default to allowing variable values that contain
+URLs as well.
 
+Cheers,
+Paul
 
+-- 
 
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
