@@ -1,26 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 30C4E6AC37
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 156906AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 18:47:20 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 09 Jun 2015 11:45:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,582,1427785200"; d="scan'208";a="740291266"
-Received: from kchoi15-mobl1.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.252.141.149])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2015 11:45:42 -0700
-Message-ID: <55773456.1060101@linux.intel.com>
-Date: Tue, 09 Jun 2015 11:45:42 -0700
-From: Saul Wold <sgw@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org
-References: <1433867609-26266-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1433867609-26266-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH] poky-tiny: Update kernel to 3.19
+	Tue,  9 Jun 2015 18:50:37 +0000 (UTC)
+Received: by wibut5 with SMTP id ut5so26397027wib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Jun 2015 11:50:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=XiKCJPIEJiGe/zHNEDvIgHG9OKllraoHCrBZNEkwFA4=;
+	b=jGiIC2sIakRZtUl8uNy+HFcYf6WNPFI5VILObh0V7ezoIu6GqZ8odIj9Kvh3iQKo4w
+	s0bN41lfbhlnDOQ1MWdFRYSsDprgSq3dutTt+gZ1a2azMnsxbWoytzb4jHwJkszPyp7f
+	CnERgLoByVTgl+e1od9KEce27PFVGdrdGyQW3WYZM780ISF8+uUjJy3xb5SeGd+Bxeum
+	jbqJZTloEM41zuHr9OePBtiOAZ3F0ziBrMHLhSJM0JjcFfjdwx9v/TD4aDYH/QSqWN75
+	YY/jLw6+yinGHwuvjedqzMdeRCyEXjZiJUZ8pC6IyoiZTHrTrh98oM4RF/L+/0v5qvOC
+	TVTQ==
+X-Gm-Message-State: ALoCoQmEcIpTJ7i93T+63Q+XIMVuFvqmHmEPnvVolPK0IfDyG7Wou5LZsCkSzqsvwQ/GD5g4cLdE
+X-Received: by 10.194.184.174 with SMTP id ev14mr43498088wjc.95.1433875836186; 
+	Tue, 09 Jun 2015 11:50:36 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id fx7sm8178019wjb.10.2015.06.09.11.50.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 09 Jun 2015 11:50:35 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Jun 2015 19:45:55 +0100
+Message-Id: <1433875555-26521-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] cups: clean up autotools use
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 18:47:24 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jun 2015 18:50:38 -0000
 
-On 06/09/2015 09:33 AM, Saul Wold wrote:
-> Additionally, allow both PREFERRED_VERSION and PREFERRED_PROVIDE to be overridden
->
-> [YOCTO #7478]
->
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->   meta-yocto/conf/distro/poky-tiny.conf | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
-> index aa60e77..63bbd88 100644
-> --- a/meta-yocto/conf/distro/poky-tiny.conf
-> +++ b/meta-yocto/conf/distro/poky-tiny.conf
-> @@ -36,8 +36,8 @@ DISTRO = "poky-tiny"
->
->   # Distro config is evaluated after the machine config, so we have to explicitly
->   # set the kernel provider to override a machine config.
-> -PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-tiny"
-> -PREFERRED_VERSION_linux-yocto-tiny = "3.14%"
-> +PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto-tiny"
-> +PREFERRED_VERSION_linux-yocto-tiny ?= "3.19%"
->
->   # We can use packagegroup-core-boot, but in the future we may need a new packagegroup-core-tiny
->   #POKY_DEFAULT_EXTRA_RDEPENDS += "packagegroup-core-boot"
->
+Instead of hand-rolling a do_configure() simply use autotools and disable
+autoheader (upstream uses a hand-generated config.h.in).
 
-Drop this patch please, the ?= change was masked by something I had in 
-my local.conf and does not actually work correct.  The qemu.inc has a 
-PREFERRED_PROVIDER ?= already and actually causes this to be not used as 
-the first ?= found wins.
+Also do_compile() doesn't need to pass SSLLIBS as configure uses pkgconfig to
+find gnutls, LIBPNG and LIBJPEG are not used anywhere in the build system, and
+LIBZ is detected correctly.
 
-Sau!
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/cups/cups.inc | 14 ++------------
+ 1 file changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index df47c81..ba50296 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -43,13 +43,7 @@ EXTRA_OECONF = " \
+                --without-java \
+                "
+ 
+-
+-do_configure() {
+-	gnu-configize
+-	libtoolize --force
+-	autoconf --force
+-	DSOFLAGS="${LDFLAGS}" SERVERBIN="${libdir}/cups" oe_runconf
+-}
++EXTRA_AUTORECONF += "--exclude=autoheader"
+ 
+ do_compile () {
+ 	sed -i s:STRIP:NOSTRIP: Makedefs
+@@ -63,11 +57,7 @@ do_compile () {
+ 	echo "install-headers:" >> man/Makefile
+ 	echo "install-libs:" >> man/Makefile
+ 
+-	oe_runmake "SSLLIBS=-lgnutls -L${STAGING_LIBDIR}" \
+-		   "LIBPNG=-lpng -lm -L${STAGING_LIBDIR}" \
+-		   "LIBJPEG=-ljpeg -L${STAGING_LIBDIR}" \
+-		   "LIBZ=-lz -L${STAGING_LIBDIR}" \
+-		   "-I."
++	oe_runmake
+ }
+ 
+ do_install () {
+-- 
+2.1.4
+
 
