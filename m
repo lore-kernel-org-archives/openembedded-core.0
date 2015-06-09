@@ -1,23 +1,23 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 238FA758DA
+	by mail.openembedded.org (Postfix) with ESMTP id 2714E758DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 20:40:53 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 09 Jun 2015 13:40:53 -0700
+	Tue,  9 Jun 2015 20:53:44 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 09 Jun 2015 13:53:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,583,1427785200"; d="scan'208";a="708154373"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by orsmga001.jf.intel.com with ESMTP; 09 Jun 2015 13:40:53 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
+X-IronPort-AV: E=Sophos;i="5.13,583,1427785200"; d="scan'208";a="505741888"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Jun 2015 13:53:09 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jun 2015 12:36:52 +0000
-Message-Id: <85cde0f4eec2458367d6a92706890b876ff8ee0b.1433852999.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Tue,  9 Jun 2015 12:46:48 +0000
+Message-Id: <a28814625cb2316ef4c9b164cde11ee38bb95205.1433853790.git.mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1433852999.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1433852999.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v2] libgpg-error: Upgrade 1.18 -> 1.19
+In-Reply-To: <cover.1433853790.git.mariano.lopez@linux.intel.com>
+References: <cover.1433853790.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] copyleft_filter.bbclass: Allow to filter on name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,128 +30,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 20:41:02 -0000
+X-List-Received-Date: Tue, 09 Jun 2015 20:53:45 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-The patch pkgconfig.patch has not being integrated into upstream
-repository, so rebasing it. Another change occurred inside the recipe,
-the TUPLE's name changed for i586/i686 target architectures.
+The archiver uses a license based filter to provide the source code.
+This patch allows to search on name based on two new variables (COPYLEFT_PN_INCLUDE,
+COPYLEFT_PN_EXCLUDE). Both variables are empty by default.
+The filter by name has higher priority than the license filter.
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+[YOCTO # 6929]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- .../libgpg-error/libgpg-error/pkgconfig.patch      | 45 +++++++++++-----------
- .../{libgpg-error_1.18.bb => libgpg-error_1.19.bb} |  6 +--
- 2 files changed, 26 insertions(+), 25 deletions(-)
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.18.bb => libgpg-error_1.19.bb} (89%)
+ meta/classes/archiver.bbclass        | 14 ++++++--------
+ meta/classes/copyleft_filter.bbclass | 25 +++++++++++++++++++++----
+ 2 files changed, 27 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-index 96476ba..9ffeedb 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/pkgconfig.patch
-@@ -9,9 +9,9 @@ Index: libgpg-error-1.17/configure.ac
- ===================================================================
- --- libgpg-error-1.17.orig/configure.ac
- +++ libgpg-error-1.17/configure.ac
--@@ -521,6 +521,7 @@ AC_CONFIG_FILES([src/Makefile tests/Make
-+@@ -529,6 +529,7 @@ AC_CONFIG_FILES([src/Makefile tests/Make
-  AC_CONFIG_FILES([lang/Makefile lang/cl/Makefile lang/cl/gpg-error.asd])
-- AC_CONFIG_FILES([src/versioninfo.rc])
-+ AC_CONFIG_FILES([src/versioninfo.rc src/gpg-error.w32-manifest])
-  AC_CONFIG_FILES([src/gpg-error-config], [chmod +x src/gpg-error-config])
- +AC_CONFIG_FILES([src/gpg-error.pc])
-  
-@@ -21,7 +21,7 @@ Index: libgpg-error-1.17/src/Makefile.am
- ===================================================================
- --- libgpg-error-1.17.orig/src/Makefile.am
- +++ libgpg-error-1.17/src/Makefile.am
--@@ -74,13 +74,15 @@ nodist_include_HEADERS = gpg-error.h
-+@@ -75,6 +75,8 @@ nodist_include_HEADERS = gpg-error.h
-  bin_SCRIPTS = gpg-error-config
-  m4datadir = $(datadir)/aclocal
-  m4data_DATA = gpg-error.m4
-@@ -30,30 +30,15 @@ Index: libgpg-error-1.17/src/Makefile.am
-  
-  EXTRA_DIST = mkstrtable.awk err-sources.h.in err-codes.h.in \
-  	mkerrnos.awk errnos.in README \
-- 	mkerrcodes.awk mkerrcodes1.awk mkerrcodes2.awk mkerrcodes.c \
-+@@ -82,7 +84,7 @@ EXTRA_DIST = mkstrtable.awk err-sources.
-  	mkheader.c gpg-error.h.in mkw32errmap.c w32-add.h w32ce-add.h \
-  	err-sources.h err-codes.h gpg-error-config.in gpg-error.m4 \
---	gpg-error.vers gpg-error.def.in versioninfo.rc.in \
--+	gpg-error.vers gpg-error.def.in versioninfo.rc.in gpg-error.pc \
-+ 	gpg-error.vers gpg-error.def.in \
-+-        versioninfo.rc.in gpg-error.w32-manifest.in \
-++        versioninfo.rc.in gpg-error.w32-manifest.in gpg-error.pc \
-  	$(lock_obj_pub)
-  
-  BUILT_SOURCES = err-sources.h err-codes.h code-to-errno.h code-from-errno.h \
--Index: libgpg-error-1.17/src/gpg-error.pc.in
--===================================================================
----- /dev/null
--+++ libgpg-error-1.17/src/gpg-error.pc.in
--@@ -0,0 +1,11 @@
--+prefix=@prefix@
--+exec_prefix=@exec_prefix@
--+libdir=@libdir@
--+includedir=@includedir@
--+host=@GPG_ERROR_CONFIG_HOST@
--+
--+Name: gpg-error
--+Description: a library that defines common error values for all GnuPG components
--+Version: @VERSION@
--+Libs: -L${libdir} -lgpg-error
--+Cflags: -I${includedir}
- Index: libgpg-error-1.17/src/gpg-error.m4
- ===================================================================
- --- libgpg-error-1.17.orig/src/gpg-error.m4
-@@ -147,3 +132,19 @@ Index: libgpg-error-1.17/src/gpg-error.m4
-      ifelse([$3], , :, [$3])
-    fi
-    AC_SUBST(GPG_ERROR_CFLAGS)
-+Index: libgpg-error-1.17/src/gpg-error.pc.in
-+===================================================================
-+--- /dev/null
-++++ libgpg-error-1.17/src/gpg-error.pc.in
-+@@ -0,0 +1,11 @@
-++prefix=@prefix@
-++exec_prefix=@exec_prefix@
-++libdir=@libdir@
-++includedir=@includedir@
-++host=@GPG_ERROR_CONFIG_HOST@
-++
-++Name: gpg-error
-++Description: a library that defines common error values for all GnuPG components
-++Version: @VERSION@
-++Libs: -L${libdir} -lgpg-error
-++Cflags: -I${includedir}
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-similarity index 89%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-index c9a47a3..39dbbcf 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.18.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.19.bb
-@@ -13,8 +13,8 @@ SECTION = "libs"
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index b598aa3..7b5274d 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -52,14 +52,12 @@ do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
+ python () {
+     pn = d.getVar('PN', True)
  
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch"
--SRC_URI[md5sum] = "12312802d2065774b787cbfc22cc04e9"
--SRC_URI[sha256sum] = "9ff1d6e61d4cef7c1d0607ceef6d40dc33f3da7a3094170c3718c00153d80810"
-+SRC_URI[md5sum] = "c04c16245b92829281f43b5bef7d16da"
-+SRC_URI[sha256sum] = "53120e1333d5c5d28d87ff2854e9e98719c8e214152f17ad5291704d25c4978b"
+-    if d.getVar('COPYLEFT_LICENSE_INCLUDE', True) or \
+-            d.getVar('COPYLEFT_LICENSE_EXCLUDE', True):
+-        included, reason = copyleft_should_include(d)
+-        if not included:
+-            bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
+-            return
+-        else:
+-            bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
++    included, reason = copyleft_should_include(d)
++    if not included:
++        bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
++        return
++    else:
++        bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
  
- BINCONFIG = "${bindir}/gpg-error-config"
+     ar_src = d.getVarFlag('ARCHIVER_MODE', 'src', True)
+     ar_dumpdata = d.getVarFlag('ARCHIVER_MODE', 'dumpdata', True)
+diff --git a/meta/classes/copyleft_filter.bbclass b/meta/classes/copyleft_filter.bbclass
+index 2c1d8f1..46be7f7 100644
+--- a/meta/classes/copyleft_filter.bbclass
++++ b/meta/classes/copyleft_filter.bbclass
+@@ -25,6 +25,14 @@ COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-
+ COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
+ COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
  
-@@ -30,7 +30,7 @@ do_compile_prepend() {
- 	  aarch64_be) TUPLE=aarch64-unknown-linux-gnu ;;
- 	  arm)	      TUPLE=arm-unknown-linux-gnueabi ;;
- 	  armeb)      TUPLE=arm-unknown-linux-gnueabi ;;
--	  i586|i686)  TUPLE=i486-pc-linux-gnu ;;
-+	  i586|i686)  TUPLE=i686-pc-linux-gnu ;;
- 	  mips64el)   TUPLE=mipsel-unknown-linux-gnu ;;
- 	  mips64)     TUPLE=mips-unknown-linux-gnu ;;
- 	  x86_64)     TUPLE=x86_64-pc-linux-gnu ;;
++COPYLEFT_PN_INCLUDE ?= ''
++COPYLEFT_PN_INCLUDE[type] = 'list'
++COPYLEFT_PN_INCLUDE[doc] = 'Space separated list of recipe names to include'
++
++COPYLEFT_PN_EXCLUDE ?= ''
++COPYLEFT_PN_EXCLUDE[type] = 'list'
++COPYLEFT_PN_EXCLUDE[doc] = 'Space separated list of recipe names to exclude'
++
+ def copyleft_recipe_type(d):
+     for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
+         if oe.utils.inherits(d, recipe_type):
+@@ -39,9 +47,11 @@ def copyleft_should_include(d):
+     import oe.license
+     from fnmatch import fnmatchcase as fnmatch
+ 
++    included, motive = False, 'recipe did not match anything'
++
+     recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE', True)
+     if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
+-        return False, 'recipe type "%s" is excluded' % recipe_type
++        include, motive = False, 'recipe type "%s" is excluded' % recipe_type
+ 
+     include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
+     exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
+@@ -53,10 +63,17 @@ def copyleft_should_include(d):
+     else:
+         if is_included:
+             if reason:
+-                return True, 'recipe has included licenses: %s' % ', '.join(reason)
++                included, motive = True, 'recipe has included licenses: %s' % ', '.join(reason)
+             else:
+-                return False, 'recipe does not include a copyleft license'
++                included, motive = False, 'recipe does not include a copyleft license'
+         else:
+-            return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
++            included, motive = False, 'recipe has excluded licenses: %s' % ', '.join(reason)
+ 
++    if any(fnmatch(d.getVar('PN', True), name) \
++            for name in oe.data.typed_value('COPYLEFT_PN_INCLUDE', d)):
++        included, motive =  True, 'recipe included by name'
++    if any(fnmatch(d.getVar('PN', True), name) \
++            for name in oe.data.typed_value('COPYLEFT_PN_EXCLUDE', d)):
++        included, motive = False, 'recipe excluded by name'
+ 
++    return included, motive
 -- 
 1.8.4.5
 
