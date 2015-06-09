@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 74BAC73BB7
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BE0C73BB7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 06:37:58 +0000 (UTC)
+	Tue,  9 Jun 2015 06:41:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t596bw2D007577
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t596fZUw007598
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jun 2015 23:37:58 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 8 Jun 2015 23:37:58 -0700
-Message-ID: <557689C4.1010504@windriver.com>
-Date: Tue, 9 Jun 2015 14:37:56 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Mon, 8 Jun 2015 23:41:35 -0700 (PDT)
+Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Mon, 8 Jun 2015 23:41:35 -0700
+Message-ID: <55768AB1.9090607@windriver.com>
+Date: Tue, 9 Jun 2015 14:41:53 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-To: issta Hu <hcu5555@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <CAD5oO7mBCi=DoXVCwy5yytdkbJaj1k4GN6MZnv5ATGPxqT7QNg@mail.gmail.com>
-In-Reply-To: <CAD5oO7mBCi=DoXVCwy5yytdkbJaj1k4GN6MZnv5ATGPxqT7QNg@mail.gmail.com>
-Subject: Re: build yocto error
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <cover.1432706896.git.Qi.Chen@windriver.com>
+	<de9a7a991afa09fbb3994443ae4a0a8d354e5840.1432706896.git.Qi.Chen@windriver.com>
+	<4741340.pDCvDy9tKk@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <4741340.pDCvDy9tKk@peggleto-mobl.ger.corp.intel.com>
+X-Originating-IP: [128.224.162.211]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] populate_sdk_ext: consider custom configuration in local.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,84 +37,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 06:38:00 -0000
+X-List-Received-Date: Tue, 09 Jun 2015 06:41:35 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
+On 06/04/2015 10:11 PM, Paul Eggleton wrote:
+> Hi Qi,
+>
+> On Wednesday 27 May 2015 14:09:39 Chen Qi wrote:
+>> Copy the contents of local.conf under TOPDIR into the final generated
+>> local.conf. In this way, custom settings are also made into the final
+>> local.conf like IMAGE_INSTALL, DISTRO_FEATURES, VIRTUAL-RUNTIME_xxx, etc.
+>>
+>> Before this change, installing extensible SDK would usually report failure
+>> when preparing the build system if the user has custom configuration for
+>> DISTRO_FEATURES in local.conf. Also, items in IMAGE_INSTALL_append in
+>> local.conf also don't get built correctly.
+>>
+>> This patch solves the above problem.
+>>
+>> A blacklist mechanism is also introduced so that we can blacklist variables
+>> that should not be copied into the final local.conf file. Currently, the
+>> blacklist contains 'TMPDIR', 'SSTATE_DIR', 'DL_DIR', 'STAMPS_DIR',
+>> 'BASE_WORKDIR' and 'DEPLOY_DIR'. What these variables have in common is
+>> that they are set in bitbake.conf using '?=' or '??='.
+>>
+>> In addition, we check to avoid any setting that might lead to host path
+>> bleeding into SDK's configuration.
+>>
+>> [YOCTO #7616]
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/populate_sdk_ext.bbclass | 23 +++++++++++++++++++++++
+>>   1 file changed, 23 insertions(+)
+>>
+>> diff --git a/meta/classes/populate_sdk_ext.bbclass
+>> b/meta/classes/populate_sdk_ext.bbclass index 2fc4c11..49ba26b 100644
+>> --- a/meta/classes/populate_sdk_ext.bbclass
+>> +++ b/meta/classes/populate_sdk_ext.bbclass
+>> @@ -16,6 +16,7 @@ SDK_RDEPENDS_append_task-populate-sdk-ext = "
+>> ${SDK_TARGETS}" SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
+>>
+>>   SDK_META_CONF_WHITELIST ?= "MACHINE DISTRO PACKAGE_CLASSES"
+>> +SDK_META_CONF_BLACKLIST ?= "TMPDIR DL_DIR SSTATE_DIR STAMPS_DIR
+>> BASE_WORKDIR DEPLOY_DIR"
+>>
+>>   SDK_TARGETS ?= "${PN}"
+>>   OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
+>> @@ -114,6 +115,28 @@ python copy_buildsystem () {
+>>           f.write('# this configuration provides, it is strongly suggested
+>> that you set\n') f.write('# up a proper instance of the full build system
+>> and use that instead.\n\n')
+>>
+>> +        # Copy configurations from the current local.conf
+>> +        builddir = d.getVar('TOPDIR', True)
+>> +        with open(builddir + '/conf/local.conf', 'r') as lf:
+>> +            varblacklist = d.getVar('SDK_META_CONF_BLACKLIST',
+>> True).split() +            skip = False
+>> +            for line in lf:
+>> +                line = line.lstrip()
+>> +                if line.startswith('#'):
+>> +                    continue
+>> +                # avoid host path bleeding into SDK configuration
+>> +                if line.find('"/') != -1:
+>> +                    continue
+>> +                for varname in varblacklist:
+>> +                    if line.startswith(varname):
+>> +                        skip = True
+>> +                        break
+>> +                if not skip:
+>> +                    f.write(line)
+>> +                skip = False
+>> +        f.write('\n')
+>> +
+>> +        # Configurations in local.conf which are specific for extensible
+>> SDK f.write('INHERIT += "%s"\n\n' % 'uninative')
+>>           f.write('CONF_VERSION = "%s"\n\n' % d.getVar('CONF_VERSION'))
+> I've been thinking about this; since I've recently added edit_metadata() in
+> bitbake's lib/bb/utils.py, it would make sense to use that rather than adding
+> another piece of code that effectively parses bitbake configuration files (though
+> I know this isn't adding much). I know this series has been going back and
+> forth for a while now and the delays have largely been my fault, so I'd be
+> happy to make this change and resend the series - it's up to you.
+>
+> Cheers,
+> Paul
+>
 
-I read log.do_package_write_rpm, there isn't many more info, have you tried:
+Hi Paul,
 
-bitbake init-ifupdown -ccleansstate
-bitbake init-ifupdown
+Thanks for your suggestion.
+I've been looking into edit_metadata(). But it seems that it's used to 
+modify *specific* variables.
+In this case, we don't know which variables we are going to skip in 
+local.conf. We just know that they start with '/'. So I don't see how to 
+do it.
+I'm not sure if I understand things wrong. Please point it out directly 
+if I've missed something.
 
-// Robert
-
-On 06/09/2015 02:25 PM, issta Hu wrote:
-> hi ,
->
-> I am very trouble in build the yocto. The error log is like this.
->
-> chunyun@ubuntu:~/share/yocto/ZC702$ bitbake core-image-minimal
-> Loading cache: 100%
-> |#################################################################################################|
-> ETA:  00:00:00
-> Loaded 1303 entries from dependency cache.
-> Parsing recipes: 100%
-> |###############################################################################################|
-> Time: 00:00:00
-> Parsing of 896 .bb files complete (894 cached, 2 parsed). 1303 targets, 58
-> skipped, 0 masked, 0 errors.
-> NOTE: Resolving any missing task queue dependencies
->
-> Build Configuration:
-> BB_VERSION        = "1.27.0"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Ubuntu-14.04"
-> TARGET_SYS        = "arm-poky-linux-gnueabi"
-> MACHINE           = "zc702-zynq7"
-> DISTRO            = "poky"
-> DISTRO_VERSION    = "1.8+snapshot-20150609"
-> TUNE_FEATURES     = "arm armv7a vfp neon cortexa9"
-> TARGET_FPU        = "vfp-neon"
-> meta              = "fido:b5ba70b47fff227e4381fcac93defccb79e3d8f1"
-> meta-xilinx       = "fido:5aa58bbbf8ddcc59f8746805d62fd156d7cff461"
-> meta-yocto
-> meta-yocto-bsp    = "fido:b5ba70b47fff227e4381fcac93defccb79e3d8f1"
->
-> NOTE: Preparing RunQueue
-> NOTE: Executing SetScene Tasks
-> NOTE: Executing RunQueue Tasks
-> ERROR: Function failed: write_specfile
-> ERROR: Logfile of failure stored in:
-> /home/chunyun/share/yocto/ZC702/tmp/work/cortexa9-vfp-neon-poky-linux-gnueabi/init-ifupdown/1.0-r7/temp/log.do_package_write_rpm.8848
-> Log data follows:
-> | DEBUG: Executing python function sstate_task_prefunc
-> | DEBUG: Python function sstate_task_prefunc finished
-> | DEBUG: Executing python function do_package_write_rpm
-> | DEBUG: Executing python function read_subpackage_metadata
-> | DEBUG: Python function read_subpackage_metadata finished
-> | DEBUG: Executing python function do_package_rpm
-> | DEBUG: Executing python function write_specfile
-> | DEBUG: Python function write_specfile finished
-> | DEBUG: Python function do_package_rpm finished
-> | DEBUG: Python function do_package_write_rpm finished
-> | ERROR: Function failed: write_specfile
-> ERROR: Task 833
-> (/home/chunyun/share/yocto/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-> <http://init-ifupdown_1.0.bb>, do_package_write_rpm) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 1396 tasks of which 1395 didn't need to be rerun
-> and 1 failed.
-> No currently running tasks (1395 of 1889)
->
-> Summary: 1 task failed:
->
-> /home/chunyun/share/yocto/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
-> <http://init-ifupdown_1.0.bb>, do_package_write_rpm
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->
-> The
-> /home/chunyun/share/yocto/ZC702/tmp/work/cortexa9-vfp-neon-poky-linux-gnueabi/init-ifupdown/1.0-r7/temp/log.do_package_write_rpm.8848
-> can see the affix.
->
->
+Best Regards,
+Chen Qi
 
