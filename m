@@ -1,35 +1,27 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 2881F757C4
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C5682757AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 04:48:11 +0000 (UTC)
-Received: by payr10 with SMTP id r10so5891739pay.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Jun 2015 21:48:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ksfhYi6Nf0Y+xoDO8pCMbpgPQo8PeWLvIVgK74diRKg=;
-	b=ljqT5DuXjfgraJHFEnaAKCz82P+Fz2pdq0bzlAX/+An9DsZR27sSFyZa5oAAQRS4rv
-	BBg7ubldUvJQi+ULRMPSaPiU84bcSp/fPVUKHPFSFSB8Hdf5A5FGSFgHFStxwRDiGgz4
-	hOPdVt8KoeCtyEQ4DXEOnPhLEcLDfiOfytfxf4Q6SQJMTfG+jVVpFy6JGLGVYkjbsrvu
-	Hnc6ye9Oe0ehTiLQ2tqGbcLyNFIwOZ4dNt9dsJPp1E1o2gc+T9eeIFK7N1nqQj/IVnw/
-	9/Ngvo62FqarUQp9SoFwMgJDOzH36CtB6OQKjqLGmHCae5WoFx7VIl/etULAYcfdimjt
-	y3Jg==
-X-Gm-Message-State: ALoCoQnTAe7rudvRJcoNUJNtJJpv0av962MXQ2XF9vV1rbVH2xh8Mhe7B7g8i/XhcQ3v+XyvN9fm
-X-Received: by 10.66.250.106 with SMTP id zb10mr35517348pac.36.1433825292445; 
-	Mon, 08 Jun 2015 21:48:12 -0700 (PDT)
-Received: from ubuntu64.mvista.com ([111.93.218.67])
-	by mx.google.com with ESMTPSA id x3sm4059530pbt.93.2015.06.08.21.48.10
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 08 Jun 2015 21:48:11 -0700 (PDT)
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jun 2015 10:18:06 +0530
-Message-Id: <1433825286-925-1-git-send-email-jkrishnanjanappa@mvista.com>
-X-Mailer: git-send-email 1.8.2.3
-Subject: [PATCH][fido] runqemu: add support to boot arm64 qemu target from NFS
+	Tue,  9 Jun 2015 05:05:06 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t59555u5023919
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 8 Jun 2015 22:05:05 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 8 Jun 2015 22:05:04 -0700
+Message-ID: <557673FF.7080002@windriver.com>
+Date: Tue, 9 Jun 2015 13:05:03 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: issta Hu <hcu5555@gmail.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>
+References: <CAD5oO7mM0cuEU9eJ7oyG2ieMy1m5-Vb-KOKnFhpfvwagmmoebQ@mail.gmail.com>
+In-Reply-To: <CAD5oO7mM0cuEU9eJ7oyG2ieMy1m5-Vb-KOKnFhpfvwagmmoebQ@mail.gmail.com>
+Subject: Re: [bitbake-devel] build yocto error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,104 +34,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 04:48:11 -0000
+X-List-Received-Date: Tue, 09 Jun 2015 05:05:09 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The other changes include,
-runqemu - fix MACHINE type being detected as qemuarm when qemuarm64 kernel
-          image name is given.
+Hi issta,
 
-runqemu-internal - Added console=ttyAMA0,115200 as one of the boot parameters
-                   for qemuarm, in order to print bootlog messages on the
-                   console.
+This email should go into oe-core, not bitbake-devel, can you add the file
+/chunyun/share/yocto/ZC702/tmp/work/cortexa9-vfp-neon-poky-linux-gnueabi/init-ifupdown/1.0-r7/temp/log.do_package_write_rpm.8848, 
+please ?
 
-                 - Use "-nographic" option only if "serial" option is not
-                   specified. Otherwise we get below error when
-                   'runqemu <kernel_image> <rootfs_image> serial' is executed,
+// Robert
 
-(snip)
-QEMU 2.2.0 monitor - type 'help' for more information
-(qemu) qemu-system-aarch64: -serial stdio: cannot use stdio by multiple character devices
--- CUT --
 
-qemuarm64 NFS booting has been tested successfully on Ubuntu 14.04 host.
 
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
----
- scripts/runqemu          |  4 ++--
- scripts/runqemu-internal | 20 +++++++++++++++-----
- 2 files changed, 17 insertions(+), 7 deletions(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 84ece4d..09c507d 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -232,13 +232,13 @@ fi
- 
- if [ -z "$MACHINE" ]; then
-     if [ "x$FSTYPE" = "xvmdk" ]; then
--        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from vmdk filename [$VM]"
-         fi
-         echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
-     else
--        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from kernel filename [$KERNEL]"
-         fi
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 2db5566..e346c64 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -275,9 +275,6 @@ else
- 
-         KERNCMDLINE="mem=$QEMU_MEMORY"
-         QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
--        if [ $MACHINE = 'qemuarm64' ]; then
--            QEMU_UI_OPTIONS="-nographic"
--        fi
- 
-         NFS_INSTANCE=`echo $TAP | sed 's/tap//'`
-         export NFS_INSTANCE
-@@ -368,7 +365,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
-             cleanup
-             return 1
-         fi
--        KERNCMDLINE="root=/dev/nfs nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-+        KERNCMDLINE="root=/dev/nfs nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw console=ttyAMA0,115200 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} --no-reboot $QEMU_UI_OPTIONS"
-     fi
-     if [ "$MACHINE" = "qemuarmv6" ]; then
-@@ -383,12 +380,25 @@ if [ "$MACHINE" = "qemuarm64" ]; then
-     QEMU=qemu-system-aarch64
- 
-     export QEMU_AUDIO_DRV="none"
--    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
-+    if [ "x$SERIALSTDIO" = "x" ] ; then
-+        QEMU_UI_OPTIONS="-nographic"
-+    else
-+        QEMU_UI_OPTIONS=""
-+    fi
-     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="root=/dev/vda rw console=ttyAMA0,38400 mem=$QEMU_MEMORY highres=off $KERNEL_NETWORK_CMD"
-         # qemu-system-aarch64 only support '-machine virt -cpu cortex-a57' for now
-         QEMUOPTIONS="$QEMU_NETWORK_CMD -machine virt -cpu cortex-a57 $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
-     fi
-+    if [ "$FSTYPE" = "nfs" ]; then
-+        if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
-+            echo "Error: NFS mount point $ROOTFS doesn't exist"
-+            cleanup
-+            return 1
-+        fi
-+        KERNCMDLINE="root=/dev/nfs nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw console=ttyAMA0,38400 mem=$QEMU_MEMORY highres=off $KERNEL_NETWORK_CMD"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -machine virt -cpu cortex-a57 $QEMU_UI_OPTIONS"
-+    fi
- fi
- 
- 
--- 
-1.8.2.3
-
+On 06/09/2015 11:27 AM, issta Hu wrote:
+> chunyun@ubuntu:~/share/yocto/ZC702$ bitbake core-image-minimal
+> Loading cache: 100%
+> |#################################################################################################|
+> ETA:  00:00:00
+> Loaded 1303 entries from dependency cache.
+> Parsing recipes: 100%
+> |###############################################################################################|
+> Time: 00:00:00
+> Parsing of 896 .bb files complete (894 cached, 2 parsed). 1303 targets, 58
+> skipped, 0 masked, 0 errors.
+> NOTE: Resolving any missing task queue dependencies
+>
+> Build Configuration:
+> BB_VERSION        = "1.27.0"
+> BUILD_SYS         = "x86_64-linux"
+> NATIVELSBSTRING   = "Ubuntu-14.04"
+> TARGET_SYS        = "arm-poky-linux-gnueabi"
+> MACHINE           = "zc702-zynq7"
+> DISTRO            = "poky"
+> DISTRO_VERSION    = "1.8+snapshot-20150609"
+> TUNE_FEATURES     = "arm armv7a vfp neon cortexa9"
+> TARGET_FPU        = "vfp-neon"
+> meta              = "fido:b5ba70b47fff227e4381fcac93defccb79e3d8f1"
+> meta-xilinx       = "fido:5aa58bbbf8ddcc59f8746805d62fd156d7cff461"
+> meta-yocto
+> meta-yocto-bsp    = "fido:b5ba70b47fff227e4381fcac93defccb79e3d8f1"
+>
+> NOTE: Preparing RunQueue
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> ERROR: Function failed: write_specfile
+> ERROR: Logfile of failure stored in:
+> /home/chunyun/share/yocto/ZC702/tmp/work/cortexa9-vfp-neon-poky-linux-gnueabi/init-ifupdown/1.0-r7/temp/log.do_package_write_rpm.8848
+> Log data follows:
+> | DEBUG: Executing python function sstate_task_prefunc
+> | DEBUG: Python function sstate_task_prefunc finished
+> | DEBUG: Executing python function do_package_write_rpm
+> | DEBUG: Executing python function read_subpackage_metadata
+> | DEBUG: Python function read_subpackage_metadata finished
+> | DEBUG: Executing python function do_package_rpm
+> | DEBUG: Executing python function write_specfile
+> | DEBUG: Python function write_specfile finished
+> | DEBUG: Python function do_package_rpm finished
+> | DEBUG: Python function do_package_write_rpm finished
+> | ERROR: Function failed: write_specfile
+> ERROR: Task 833
+> (/home/chunyun/share/yocto/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+> <http://init-ifupdown_1.0.bb>, do_package_write_rpm) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 1396 tasks of which 1395 didn't need to be rerun
+> and 1 failed.
+> No currently running tasks (1395 of 1889)
+>
+> Summary: 1 task failed:
+>
+> /home/chunyun/share/yocto/poky/meta/recipes-core/init-ifupdown/init-ifupdown_1.0.bb
+> <http://init-ifupdown_1.0.bb>, do_package_write_rpm
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>
+>
+>
 
