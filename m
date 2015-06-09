@@ -1,26 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FCEC75751
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D3A9A6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 09:04:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5994l9W009324
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Jun 2015 02:04:47 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 9 Jun 2015 02:04:47 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jun 2015 02:04:46 -0700
-Message-ID: <9b300b48a521a5c1535785459915cf495a3b2583.1433840650.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1433840650.git.liezhi.yang@windriver.com>
-References: <cover.1433840650.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] gcc-source.inc: fix STAMPCLEAN to avoid race issue
+	Tue,  9 Jun 2015 09:34:35 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jun 2015 02:34:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,579,1427785200"; d="scan'208";a="723750297"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Jun 2015 02:34:32 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id 7E12E6A4083;
+	Tue,  9 Jun 2015 02:33:57 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Jun 2015 12:44:26 +0300
+Message-Id: <1433843066-7433-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] meta/testimage.bbclass: corrected the bug that prevented test cases to be loaded from layers other than meta when using TEST_SUITES = "auto"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 09:04:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Jun 2015 09:34:37 -0000
 
-Fixed race issue when build more than one gcc-source and inherit
-rm_work, for example:
-$ bitbake gcc-source-4.9.2 gcc-source-5.1.0
-
-File "/path/to/bitbake/lib/bb/build.py", line 512, in exec_task
-  return _exec_task(fn, task, d, quieterr)
-File "/path/to/bitbake/lib/bb/build.py", line 489, in _exec_task
-  make_stamp(task, localdata)
-File "/path/to/bitbake/lib/bb/build.py", line 599, in make_stamp
-  os.unlink(name)
-OSError: [Errno 2] No such file or directory: '/path/to/tmp/stamps/work-shared/gcc-4.9.2-r0.do_rm_work_all.02cf1ed9b79d4edb0a51d3b913b7f9ba'
-
-This is because make_stamp() uses glob.glob() to remove the old stamps
-before create the new one, when gcc-source-5.1.0 removes gcc-4.9.2-r0's
-stamp, we may get the error.
-
-We can't use deltask do_rm_work_all as do_rm_work since it is a
-recrdeptask, otherwise:
-ERROR: Command execution failed: Traceback (most recent call last):
-  File "/path/to/bitbake/lib/bb/command.py", line 102, in runAsyncCommand
-    commandmethod(self.cmds_async, self, options)
-  File "/path/to/bitbake/lib/bb/command.py", line 324, in generateDotGraph
-    command.cooker.generateDotGraphFiles(pkgs_to_build, task)
-  File "/path/to/bitbake/lib/bb/cooker.py", line 847, in generateDotGraphFiles
-    depgraph = self.generateTaskDepTreeData(pkgs_to_build, task)
-  File "/path/to/bitbake/lib/bb/cooker.py", line 672, in generateTaskDepTreeData
-    rq.rqdata.prepare()
-  File "/path/to/bitbake/lib/bb/runqueue.py", line 587, in prepare
-    generate_recdeps(dep)
-  File "/path/to/bitbake/lib/bb/runqueue.py", line 575, in generate_recdeps
-    add_resolved_dependencies([taskData.tasks_fnid[t]], tasknames, newdeps)
-TypeError: list indices must be integers, not NoneType
-
-Update STAMPCLEAN to contain ${PV} to fix the problem.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
 ---
- meta/recipes-devtools/gcc/gcc-source.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/testimage.bbclass | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-source.inc b/meta/recipes-devtools/gcc/gcc-source.inc
-index 529b8e0..794fd4d 100644
---- a/meta/recipes-devtools/gcc/gcc-source.inc
-+++ b/meta/recipes-devtools/gcc/gcc-source.inc
-@@ -16,7 +16,7 @@ WORKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
- SSTATE_SWSPEC = "sstate:gcc::${PV}:${PR}::${SSTATE_VERSION}:"
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 4074ff7..aadee45 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -88,19 +88,20 @@ def get_tests_list(d, type="runtime"):
  
- STAMP = "${STAMPS_DIR}/work-shared/gcc-${PV}-${PR}"
--STAMPCLEAN = "${STAMPS_DIR}/work-shared/gcc-[0-9]*-*"
-+STAMPCLEAN = "${STAMPS_DIR}/work-shared/gcc-${PV}-*"
+     if "auto" in testsuites:
+         def add_auto_list(path):
+-            if not os.path.exists(os.path.join(path, '__init__.py')):
+-                bb.fatal('Tests directory %s exists but is missing __init__.py' % path)
+             files = sorted([f for f in os.listdir(path) if f.endswith('.py') and not f.startswith('_')])
+             for f in files:
+                 module = 'oeqa.' + type + '.' + f[:-3]
+                 if module not in testslist:
+                     testslist.append(module)
+-
++        tests_found = False
+         for p in bbpath:
+             testpath = os.path.join(p, 'lib', 'oeqa', type)
+             bb.debug(2, 'Searching for tests in %s' % testpath)
+-            if os.path.exists(testpath):
++            if os.path.exists(os.path.join(testpath, '__init__.py')):
+                 add_auto_list(testpath)
++                tests_found = True
++        if not tests_found:
++            bb.fatal('Couldn\'t find any test files inside  meta*/lib/oeqa/runtime or meta*/lib/oeqa/sdk directories.')
  
- INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS = ""
+     return testslist
+ 
 -- 
-1.7.9.5
+2.1.4
 
 
