@@ -1,35 +1,26 @@
-Return-Path: <henning@itconsulting-heinold.de>
-X-Greylist: delayed 523 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 09 Jun 2015 17:47:26 UTC
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id BE99C6AC37
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 30C4E6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 17:47:26 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id AE2C0D40356
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 19:38:42 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 4489ED40046
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 19:38:41 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from rhein2.am93.sysmocom.de
-	(ip5b41c286.dynamic.kabel-deutschland.de [91.65.194.134])
-	by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 19:38:40 +0200 (CEST)
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jun 2015 19:38:35 +0200
-Message-Id: <1433871515-528-1-git-send-email-henning@itconsulting-heinold.de>
-X-Mailer: git-send-email 1.9.1
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: [PATCH] python-2.7/3.4-manifest.inc: add missing dependencies for python-netserver
+	Tue,  9 Jun 2015 18:47:20 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Jun 2015 11:45:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,582,1427785200"; d="scan'208";a="740291266"
+Received: from kchoi15-mobl1.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.252.141.149])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jun 2015 11:45:42 -0700
+Message-ID: <55773456.1060101@linux.intel.com>
+Date: Tue, 09 Jun 2015 11:45:42 -0700
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+MIME-Version: 1.0
+To: openembedded-core@lists.openembedded.org, 
+	richard.purdie@linuxfoundation.org
+References: <1433867609-26266-1-git-send-email-sgw@linux.intel.com>
+In-Reply-To: <1433867609-26266-1-git-send-email-sgw@linux.intel.com>
+Subject: Re: [PATCH] poky-tiny: Update kernel to 3.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,101 +33,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 17:47:28 -0000
+X-List-Received-Date: Tue, 09 Jun 2015 18:47:24 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* SimpleHTTPServer imports shutil so we need
-  definitly python-shell
+On 06/09/2015 09:33 AM, Saul Wold wrote:
+> Additionally, allow both PREFERRED_VERSION and PREFERRED_PROVIDE to be overridden
+>
+> [YOCTO #7478]
+>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>   meta-yocto/conf/distro/poky-tiny.conf | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta-yocto/conf/distro/poky-tiny.conf b/meta-yocto/conf/distro/poky-tiny.conf
+> index aa60e77..63bbd88 100644
+> --- a/meta-yocto/conf/distro/poky-tiny.conf
+> +++ b/meta-yocto/conf/distro/poky-tiny.conf
+> @@ -36,8 +36,8 @@ DISTRO = "poky-tiny"
+>
+>   # Distro config is evaluated after the machine config, so we have to explicitly
+>   # set the kernel provider to override a machine config.
+> -PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-tiny"
+> -PREFERRED_VERSION_linux-yocto-tiny = "3.14%"
+> +PREFERRED_PROVIDER_virtual/kernel ?= "linux-yocto-tiny"
+> +PREFERRED_VERSION_linux-yocto-tiny ?= "3.19%"
+>
+>   # We can use packagegroup-core-boot, but in the future we may need a new packagegroup-core-tiny
+>   #POKY_DEFAULT_EXTRA_RDEPENDS += "packagegroup-core-boot"
+>
 
-* SocketServer can be run without the threading modul,
-  but I think we should run the full blown stuff, so
-  let us add python-threading
+Drop this patch please, the ?= change was masked by something I had in 
+my local.conf and does not actually work correct.  The qemu.inc has a 
+PREFERRED_PROVIDER ?= already and actually causes this to be not used as 
+the first ?= found wins.
 
-* raised the PR number as mentioned in python.inc
-
-* this work was sponsored by sysmocom GmbH
-
-Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
- meta/recipes-devtools/python/python-3.4-manifest.inc | 4 ++--
- meta/recipes-devtools/python/python.inc              | 2 +-
- scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
- scripts/contrib/python/generate-manifest-3.4.py      | 2 +-
- 5 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index 4cd7a0c..9ba9c7f 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -170,7 +170,7 @@ RDEPENDS_${PN}-netclient="${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-l
- FILES_${PN}-netclient="${libdir}/python2.7/*Cookie*.* ${libdir}/python2.7/base64.* ${libdir}/python2.7/cookielib.* ${libdir}/python2.7/ftplib.* ${libdir}/python2.7/gopherlib.* ${libdir}/python2.7/hmac.* ${libdir}/python2.7/httplib.* ${libdir}/python2.7/mimetypes.* ${libdir}/python2.7/nntplib.* ${libdir}/python2.7/poplib.* ${libdir}/python2.7/smtplib.* ${libdir}/python2.7/telnetlib.* ${libdir}/python2.7/urllib.* ${libdir}/python2.7/urllib2.* ${libdir}/python2.7/urlparse.* ${libdir}/python2.7/uuid.* ${libdir}/python2.7/rfc822.* ${libdir}/python2.7/mimetools.* "
- 
- SUMMARY_${PN}-netserver="Python Internet Protocol servers"
--RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient"
-+RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading"
- FILES_${PN}-netserver="${libdir}/python2.7/cgi.* ${libdir}/python2.7/*HTTPServer.* ${libdir}/python2.7/SocketServer.* "
- 
- SUMMARY_${PN}-numbers="Python number APIs"
-diff --git a/meta/recipes-devtools/python/python-3.4-manifest.inc b/meta/recipes-devtools/python/python-3.4-manifest.inc
-index b0f46c3..557acdf 100644
---- a/meta/recipes-devtools/python/python-3.4-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.4-manifest.inc
-@@ -1,6 +1,6 @@
- 
- # WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
--# Generator: './generate-manifest-3.4.py' Version 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
-+# Generator: '../../../scripts/contrib/python/generate-manifest-3.4.py' Version 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
- # Visit the Python for Embedded Systems Site => http://www.Vanille.de/projects/python.spy
- 
-  
-@@ -154,7 +154,7 @@ RDEPENDS_${PN}-netclient="${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-l
- FILES_${PN}-netclient="${libdir}/python3.4/*Cookie*.* ${libdir}/python3.4/base64.* ${libdir}/python3.4/cookielib.* ${libdir}/python3.4/ftplib.* ${libdir}/python3.4/gopherlib.* ${libdir}/python3.4/hmac.* ${libdir}/python3.4/httplib.* ${libdir}/python3.4/mimetypes.* ${libdir}/python3.4/nntplib.* ${libdir}/python3.4/poplib.* ${libdir}/python3.4/smtplib.* ${libdir}/python3.4/telnetlib.* ${libdir}/python3.4/urllib ${libdir}/python3.4/uuid.* ${libdir}/python3.4/rfc822.* ${libdir}/python3.4/mimetools.* "
- 
- SUMMARY_${PN}-netserver="Python Internet Protocol servers"
--RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient"
-+RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading"
- FILES_${PN}-netserver="${libdir}/python3.4/cgi.* ${libdir}/python3.4/*HTTPServer.* ${libdir}/python3.4/SocketServer.* "
- 
- SUMMARY_${PN}-numbers="Python number APIs"
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index e18ab8e..ca21931 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
- LICENSE = "PSFv2"
- SECTION = "devel/python"
- # bump this on every change in contrib/python/generate-manifest-2.7.py
--INC_PR = "r1"
-+INC_PR = "r2"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=dff3d00f049545862992d2d097831a13"
- 
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 922ebe4..a368c8a 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -310,7 +310,7 @@ if __name__ == "__main__":
-     "*Cookie*.* " +
-     "base64.* cookielib.* ftplib.* gopherlib.* hmac.* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib.* urllib2.* urlparse.* uuid.* rfc822.* mimetools.*" )
- 
--    m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient",
-+    m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading",
-     "cgi.* *HTTPServer.* SocketServer.*" )
- 
-     m.addPackage( "${PN}-numbers", "Python number APIs", "${PN}-core ${PN}-lang ${PN}-re",
-diff --git a/scripts/contrib/python/generate-manifest-3.4.py b/scripts/contrib/python/generate-manifest-3.4.py
-index 427367c..569fd3c 100755
---- a/scripts/contrib/python/generate-manifest-3.4.py
-+++ b/scripts/contrib/python/generate-manifest-3.4.py
-@@ -310,7 +310,7 @@ if __name__ == "__main__":
-     "*Cookie*.* " +
-     "base64.* cookielib.* ftplib.* gopherlib.* hmac.* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
- 
--    m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient",
-+    m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading",
-     "cgi.* *HTTPServer.* SocketServer.*" )
- 
-     m.addPackage( "${PN}-numbers", "Python number APIs", "${PN}-core ${PN}-lang ${PN}-re",
--- 
-1.9.1
+Sau!
 
