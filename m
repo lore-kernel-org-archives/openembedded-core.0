@@ -1,27 +1,27 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 775D17568B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DEF95732B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 10:00:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t599xtvc011789
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 9 Jun 2015 02:59:55 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 9 Jun 2015 02:59:55 -0700
-Message-ID: <5576B919.9010808@windriver.com>
-Date: Tue, 9 Jun 2015 17:59:53 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Tue,  9 Jun 2015 10:01:01 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Jun 2015 03:01:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,579,1427785200"; d="scan'208";a="743530061"
+Received: from alefebvr-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.29.139])
+	by orsmga002.jf.intel.com with ESMTP; 09 Jun 2015 03:01:01 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Date: Tue, 09 Jun 2015 11:01 +0100
+Message-ID: <14059572.S7Ebuh4W14@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/4.0.4-202.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <55763532.9010809@gmail.com>
+References: <cover.1433771147.git.alejandro.hernandez@linux.intel.com>
+	<55763532.9010809@gmail.com>
 MIME-Version: 1.0
-To: Costin Constantin <costin.c.constantin@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1433843066-7433-1-git-send-email-costin.c.constantin@intel.com>
-In-Reply-To: <1433843066-7433-1-git-send-email-costin.c.constantin@intel.com>
-Subject: Re: [PATCH] meta/testimage.bbclass: corrected the bug that prevented test cases to be loaded from layers other than meta when using TEST_SUITES = "auto"
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2][dizzy] python-nose and python-contextlib backports to dizzy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,51 +34,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 10:00:17 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jun 2015 10:01:02 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
+Alejandro / Armin
 
-Hi Costin,
+When we backport things, ideally we should be backporting the patch that 
+originally added them (assuming it was a single patch). Otherwise we definitely 
+want some kind of context in the commit message.
 
-I think that the subject line should be less than 50 characters, usually.
+Alejandro, since we're backporting to dizzy, can you also confirm none of these 
+patches are needed for fido? It looks like they aren't, but I can't be sure.
 
-// Robert
+Cheers,
+Paul
 
-On 06/09/2015 05:44 PM, Costin Constantin wrote:
-> Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
-> ---
->   meta/classes/testimage.bbclass | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-> index 4074ff7..aadee45 100644
-> --- a/meta/classes/testimage.bbclass
-> +++ b/meta/classes/testimage.bbclass
-> @@ -88,19 +88,20 @@ def get_tests_list(d, type="runtime"):
->
->       if "auto" in testsuites:
->           def add_auto_list(path):
-> -            if not os.path.exists(os.path.join(path, '__init__.py')):
-> -                bb.fatal('Tests directory %s exists but is missing __init__.py' % path)
->               files = sorted([f for f in os.listdir(path) if f.endswith('.py') and not f.startswith('_')])
->               for f in files:
->                   module = 'oeqa.' + type + '.' + f[:-3]
->                   if module not in testslist:
->                       testslist.append(module)
-> -
-> +        tests_found = False
->           for p in bbpath:
->               testpath = os.path.join(p, 'lib', 'oeqa', type)
->               bb.debug(2, 'Searching for tests in %s' % testpath)
-> -            if os.path.exists(testpath):
-> +            if os.path.exists(os.path.join(testpath, '__init__.py')):
->                   add_auto_list(testpath)
-> +                tests_found = True
-> +        if not tests_found:
-> +            bb.fatal('Couldn\'t find any test files inside  meta*/lib/oeqa/runtime or meta*/lib/oeqa/sdk directories.')
->
->       return testslist
->
->
+On Monday 08 June 2015 17:37:06 akuster808 wrote:
+> Alejandro,
+> 
+> great.  I pull these in.
+> 
+> 
+> thanks,
+> - armin
+> 
+> On 06/08/2015 06:56 AM, Alejandro Hernandez wrote:
+> > I would like to backport both python-nose and python-contextlib to dizzy,
+> > they were added to master in the following commits respectively:
+> > 
+> > 
+> > http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=7282635343e0ccf7
+> > a82ffdb35905bdc2db6093d3
+> > http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=7f58a85337a0712
+> > 802bdb604a58985a8800b6477
+> > 
+> > I would like to include python-scipy, and these are build dependencies for
+> > it, more specifically for iot builds which currently use the dizzy branch> 
+> > The following changes since commit 
+9c4ff467f66428488b1cd9798066a8cb5d6b4c3b:
+> >    split_and_strip_files: regroup hardlinks to make build deterministic
+> >    (2015-05-15 18:13:40 +0100)> 
+> > are available in the git repository at:
+> >    git://git.yoctoproject.org/poky-contrib hsalejandro/iot_backports
+> >    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=hsalejandro/io
+> >    t_backports> 
+> > Alejandro Hernandez (2):
+> >    python-contextlib: backport to dizzy
+> >    python-nose: backport it to dizzy
+> >   
+> >   meta/recipes-devtools/python/python-2.7-manifest.inc | 10 +++++++---
+> >   meta/recipes-devtools/python/python-nose_1.3.6.bb    | 16
+> >   ++++++++++++++++
+> >   scripts/contrib/python/generate-manifest-2.7.py      |  3 +++
+> >   3 files changed, 26 insertions(+), 3 deletions(-)
+> >   create mode 100644 meta/recipes-devtools/python/python-nose_1.3.6.bb
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
