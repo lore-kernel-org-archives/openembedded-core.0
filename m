@@ -1,31 +1,37 @@
-Return-Path: <diego.sueiro@gmail.com>
-Received: from mail-ob0-f182.google.com (mail-ob0-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 6339F734D2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CDF26AC36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jun 2015 12:58:53 +0000 (UTC)
-Received: by obbir4 with SMTP id ir4so12068415obb.1
+	Tue,  9 Jun 2015 13:09:31 +0000 (UTC)
+Received: by qkoo18 with SMTP id o18so8855054qko.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jun 2015 05:58:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:from:date:message-id:subject:to:content-type;
-	bh=DRXQcvFgySE3BqtgOdSTDRHzGCDUpRzxGkcpiBiYVcU=;
-	b=dNGPJQ0vMK41aOv78HaXa4toD4wJqSfl3Kgc7Qg8weWtzif2qA0njlly7cVCs5pbJm
-	zkRtJsbQaFlmbMRBTX5JhJo1mlimq7qAAsPYZDZtuiZ5R1PNyv2yKXvlG2jzWlgrtSaM
-	ycQS08k6TQQ66uJNDW1t5bvDEUzRQIerbG6IJTi2AOxqpUnctgFDBnBWWGszFVe8HZZq
-	NXJwjU3pvV01lcbb5y0QEaylg2qjprhPCF7JcRF3nQr0q6rp3Sq+1UrqcqVd80ehpDuO
-	m+iyZLz+hD+OgScAhlqsQyQaHoMOWp1quRIDnrRfneGBotP1MXtd3cNy8WBPALnqDb9P
-	b6Gw==
-X-Received: by 10.60.92.131 with SMTP id cm3mr19024762oeb.23.1433854734808;
-	Tue, 09 Jun 2015 05:58:54 -0700 (PDT)
+	Tue, 09 Jun 2015 06:09:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Ayuku3lTzvug+i/uBYhqZngZQ92sh8Jj6WdY/xWKXQc=;
+	b=hZ1wlkeHvHx56JpnHAJhGcZrVxPU5/53M5AyR/LV3ggaYRwI/8uu81JLHRcNwhCpge
+	nb+2e923KyidjDLlL5Gg55BOmz8n3zxwJt0Vs4hq8OXKQbT0OvugFv9ZdO8BEVlwkVnC
+	fqq01H33YJaI7pOOkogHbbd4PbVDz5JZkWYC0lj+v02XBSAIvsD7BU84sDrPPb3PJiEw
+	4ZzMbAKzUmyWu7Jo8NrfZx2H7hiFxreVVavdoX51+Z/pTjIXlIo38K654qS1N6TD0n1z
+	REY6gOR9PE8RDMK0jYX64wJ+Zqr9vHZQ1OQSndBC/AcGHl3phIbKCQ6lMEnfGaxgv6i1
+	hZXA==
+X-Gm-Message-State: ALoCoQl/tVcalHY11gOOZlp3jWWZZtvkEccjNH0ENBcOdUyAR/oxmDvDqAzpY2f3sC/Rkx+1DAs2
+X-Received: by 10.140.43.228 with SMTP id e91mr25404959qga.80.1433855372276;
+	Tue, 09 Jun 2015 06:09:32 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.76.20.13 with HTTP; Tue, 9 Jun 2015 05:58:34 -0700 (PDT)
-From: Diego Sueiro <diego.sueiro@gmail.com>
-Date: Tue, 9 Jun 2015 09:58:34 -0300
-Message-ID: <CAMCfZKFgggP5Y21S58+jq8n_se3a3Tg06f2HTFTj8j0Go3ATUA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+Received: by 10.140.102.231 with HTTP; Tue, 9 Jun 2015 06:09:11 -0700 (PDT)
+In-Reply-To: <CAMCfZKFgggP5Y21S58+jq8n_se3a3Tg06f2HTFTj8j0Go3ATUA@mail.gmail.com>
+References: <CAMCfZKFgggP5Y21S58+jq8n_se3a3Tg06f2HTFTj8j0Go3ATUA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Jun 2015 14:09:11 +0100
+Message-ID: <CAJTo0LadVJPTXNb5MLV6AHhbcS9_rEN1qYz0D+cp0nmB4uv9aQ@mail.gmail.com>
+To: Diego Sueiro <diego.sueiro@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: [meta-qt5] Issue on linking qtwebengine
+Subject: Re: [meta-qt5] Issue on linking qtwebengine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,58 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jun 2015 12:58:57 -0000
-Content-Type: multipart/alternative; boundary=047d7b33d81220bc88051815523d
+X-List-Received-Date: Tue, 09 Jun 2015 13:09:33 -0000
+Content-Type: multipart/alternative; boundary=001a113a34bc1fce5d0518157826
 
---047d7b33d81220bc88051815523d
+--001a113a34bc1fce5d0518157826
 Content-Type: text/plain; charset=UTF-8
 
-Folks,
+On 9 June 2015 at 13:58, Diego Sueiro <diego.sueiro@gmail.com> wrote:
 
-I'm using fido branch and I'm getting the linker killed due to out of
-memory in a machine with 8GB of RAM.
+> I'm using fido branch and I'm getting the linker killed due to out of
+> memory in a machine with 8GB of RAM.
+>
 
-I saw this article talking about this:
-http://www.phoronix.com/scan.php?page=news_item&px=QtWebEngine-Mess-Debian
+I guess you'll want to pass the same options to the linker that we already
+pass to webkitgtk:
 
-Is there something in which can be done on openembedded side?
+LDFLAGS += "-Wl,--no-keep-memory"
 
-Is there someone who can reproduce this on fido branch?
+Ross
 
-I'm using raspberrypi2 machine.
-
-
-Regards,
-
---
-*dS
-Diego Sueiro
-
-Administrador do Embarcados
-www.embarcados.com.br
-<http://www.embarcados.com.br/?utm_source=assinatura_diego&utm_medium=e-mail&utm_campaign=Assinatura%20Email%20Diego>
-
-/*long live rock 'n roll*/
-
---047d7b33d81220bc88051815523d
+--001a113a34bc1fce5d0518157826
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Folks,<div><br></div><div>I&#39;m using fido branch and I&=
-#39;m getting the linker killed due to out of memory in a machine with 8GB =
-of RAM.</div><div><br></div><div>I saw this article talking about this:</di=
-v><div><a href=3D"http://www.phoronix.com/scan.php?page=3Dnews_item&amp;px=
-=3DQtWebEngine-Mess-Debian">http://www.phoronix.com/scan.php?page=3Dnews_it=
-em&amp;px=3DQtWebEngine-Mess-Debian</a><br></div><div><br></div><div>Is the=
-re something in which can be done on openembedded side?</div><div><br></div=
-><div>Is there someone who can reproduce this on fido branch?</div><div><br=
-></div><div>I&#39;m using raspberrypi2 machine.</div><div><br></div><div><b=
-r clear=3D"all"><div><div class=3D"gmail_signature"><div dir=3D"ltr"><div>R=
-egards,</div><div><br></div>--<br>*dS<br>Diego Sueiro<br><br>Administrador =
-do Embarcados<br><a href=3D"http://www.embarcados.com.br/?utm_source=3Dassi=
-natura_diego&amp;utm_medium=3De-mail&amp;utm_campaign=3DAssinatura%20Email%=
-20Diego" target=3D"_blank">www.embarcados.com.br</a><br><br>/*long live roc=
-k &#39;n roll*/<br></div></div></div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 June 2015 at 13:58, Diego Sueiro <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:diego.sueiro@gmail.com" target=3D"_blank">diego.sueiro@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-=
+left-style:solid;padding-left:1ex"><div>I&#39;m using fido branch and I&#39=
+;m getting the linker killed due to out of memory in a machine with 8GB of =
+RAM.</div><div></div></blockquote></div><br>I guess you&#39;ll want to pass=
+ the same options to the linker that we already pass to webkitgtk:</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">LDFLAGS +=3D &=
+quot;-Wl,--no-keep-memory&quot;<br></div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
 
---047d7b33d81220bc88051815523d--
+--001a113a34bc1fce5d0518157826--
