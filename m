@@ -1,23 +1,37 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 87E9B6AC36
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C41F6AC36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 10:55:27 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 10 Jun 2015 03:55:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,587,1427785200"; d="scan'208";a="744208149"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 10 Jun 2015 03:55:10 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id 6FA066A4005;
-	Wed, 10 Jun 2015 03:54:35 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jun 2015 13:52:40 +0300
-Message-Id: <1433933560-24318-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/utils: Added timeout decorator for testcases.
+	Wed, 10 Jun 2015 11:00:16 +0000 (UTC)
+Received: by qgep100 with SMTP id p100so14736711qge.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Jun 2015 04:00:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=6ZyrwzHNJ8ESS90A2ZlY0CZAq5m5ilENdE31V7gOYgM=;
+	b=J1f/OLIWbzN1pWMnvSOfDhidb3BOlhY7JYvu4egNwGV6i7ny0Rpi9REbeAFLCdh/wN
+	+V7RXjpo6n0E+99osmQHVbjw14sRAcJd33jJGcEvI9HQSsW/Lb+fpmGwV++5+i/z+hle
+	mY9/SE5LxittcYYZO9Zuww7BqBnonIMqXUtNKanX9ZGgq8wh63F6pM+VjMru5nMoonWv
+	mQUshpe7dBJQS9PcOBLnsHTv+M4mNRzqAGb0/6DDDjcbWYLwF4hbKyI3y9zuBJCHj3QT
+	KtSy7A2SQWMM9y0mphT5wXhi1hBEi6oPLhwvDP/WtFUzCWqrbuGmyDChR+VWdjLJ3lfx
+	MqQw==
+X-Gm-Message-State: ALoCoQkYmpiSbdK2HszyRvcxmljKzuxKafkOA9ZFujtbWNID++Tg88pLax0UaB22UA8tYo1fTb7k
+X-Received: by 10.140.43.228 with SMTP id e91mr2949781qga.80.1433934017444;
+	Wed, 10 Jun 2015 04:00:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Wed, 10 Jun 2015 03:59:57 -0700 (PDT)
+In-Reply-To: <3dad7b58e258a4fb34e78dc8a3145efe2525f6e2.1433840650.git.liezhi.yang@windriver.com>
+References: <cover.1433840650.git.liezhi.yang@windriver.com>
+	<3dad7b58e258a4fb34e78dc8a3145efe2525f6e2.1433840650.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Jun 2015 11:59:57 +0100
+Message-ID: <CAJTo0LbWKgtFa0zvr7GVeKgN+ZAb643RhicforGSz_BBpO1AxQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] libpostproc: fix installed-vs-shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,56 +44,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 10:55:28 -0000
+X-List-Received-Date: Wed, 10 Jun 2015 11:00:20 -0000
+Content-Type: multipart/alternative; boundary=001a113a34bcbdd25a051827c7d6
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/utils/decorators.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+--001a113a34bcbdd25a051827c7d6
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
-index 61a1a73..b9fc76c 100644
---- a/meta/lib/oeqa/utils/decorators.py
-+++ b/meta/lib/oeqa/utils/decorators.py
-@@ -11,6 +11,8 @@ import logging
- import sys
- import unittest
- import threading
-+import signal
-+from functools import wraps
- 
- #get the "result" object from one of the upper frames provided that one of these upper frames is a unittest.case frame
- class getResults(object):
-@@ -160,3 +162,27 @@ def LogResults(original_class):
- 
-     original_class.run = run
-     return original_class
-+
-+class TimeOut(BaseException):
-+    pass
-+
-+def timeout(seconds):
-+    def decorator(fn):
-+        if hasattr(signal, 'alarm'):
-+            @wraps(fn)
-+            def wrapped_f(*args, **kw):
-+                current_frame = sys._getframe()
-+                def raiseTimeOut(signal, frame):
-+                    if frame is not current_frame:
-+                        raise TimeOut('%s seconds' % seconds)
-+                prev_handler = signal.signal(signal.SIGALRM, raiseTimeOut)
-+                try:
-+                    signal.alarm(seconds)
-+                    return fn(*args, **kw)
-+                finally:
-+                    signal.alarm(0)
-+                    signal.signal(signal.SIGALRM, prev_handler)
-+            return wrapped_f
-+        else:
-+            return fn
-+    return decorator
-\ No newline at end of file
--- 
-2.1.4
+On 9 June 2015 at 10:04, Robert Yang <liezhi.yang@windriver.com> wrote:
 
+> When MACHINE=qemux86-64 and enable multilib:
+> ERROR: QA Issue: libpostproc: Files/directories were installed but not
+> shipped in any package:
+>   /usr/lib
+>   /usr/lib/libpostproc.so.52.3.0
+>   /usr/lib/libpostproc.so
+>   /usr/lib/libpostproc.so.52
+>   /usr/lib/.debug
+>   /usr/lib/.debug/libpostproc.so.52.3.0
+> Please set FILES such that these items are packaged. Alternatively if they
+> are unneeded, avoid installing them or delete them within do_install.
+> [installed-vs-shipped]
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>
 
+This commit log tells us in exact detail that there was a QA error when
+multilib is enabled, but never mentions what the actual problem is or what
+the fix is.  A more useful commit would be something like:
+
+"libpostproc: pass correct libdir
+
+Pass the right libdir to configure as otherwise it assumes $prefix/lib
+which may be wrong"
+
+Ross
+
+--001a113a34bcbdd25a051827c7d6
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">On 9 June 2015 at 10:04, Robert=
+ Yang <span dir=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com" ta=
+rget=3D"_blank">liezhi.yang@windriver.com</a>&gt;</span> wrote:<br><div cla=
+ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":102" class=3D=
+"a3s" style=3D"overflow:hidden">When MACHINE=3Dqemux86-64 and enable multil=
+ib:<br>
+ERROR: QA Issue: libpostproc: Files/directories were installed but not ship=
+ped in any package:<br>
+=C2=A0 /usr/lib<br>
+=C2=A0 /usr/lib/libpostproc.so.52.3.0<br>
+=C2=A0 /usr/lib/libpostproc.so<br>
+=C2=A0 /usr/lib/libpostproc.so.52<br>
+=C2=A0 /usr/lib/.debug<br>
+=C2=A0 /usr/lib/.debug/libpostproc.so.52.3.0<br>
+Please set FILES such that these items are packaged. Alternatively if they =
+are unneeded, avoid installing them or delete them within do_install. [inst=
+alled-vs-shipped]<br>
+<br>
+Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
+>liezhi.yang@windriver.com</a>&gt;</div></blockquote><div><br></div><div>Th=
+is commit log tells us in exact detail that there was a QA error when multi=
+lib is enabled, but never mentions what the actual problem is or what the f=
+ix is.=C2=A0 A more useful commit would be something like:</div><div><br></=
+div><div>&quot;libpostproc: pass correct libdir</div><div><br></div><div>Pa=
+ss the right libdir to configure as otherwise it assumes $prefix/lib which =
+may be wrong&quot;</div><div><br></div><div>Ross</div></div></div></div>
+
+--001a113a34bcbdd25a051827c7d6--
