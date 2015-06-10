@@ -1,23 +1,23 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id A8FCA609B2
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B839609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 16:58:37 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Jun 2015 09:58:39 -0700
+	Wed, 10 Jun 2015 16:59:31 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2015 09:59:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,588,1427785200"; d="scan'208";a="724741437"
+X-IronPort-AV: E=Sophos;i="5.13,588,1427785200"; d="scan'208";a="708687638"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2015 09:58:38 -0700
+	by orsmga001.jf.intel.com with ESMTP; 10 Jun 2015 09:59:31 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 50A7B6A4005;
-	Wed, 10 Jun 2015 09:58:01 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 08A7F6A4005;
+	Wed, 10 Jun 2015 09:58:55 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jun 2015 18:04:49 +0300
-Message-Id: <1433948689-3533-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Wed, 10 Jun 2015 18:05:48 +0300
+Message-Id: <1433948748-3606-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] image-live: Set syslinux timeout to 5s
+Subject: [PATCH] initramfs-live-install: Add gptdisk to initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,29 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 16:58:41 -0000
+X-List-Received-Date: Wed, 10 Jun 2015 16:59:32 -0000
 
-Increased syslinux timeout to 5s as 1s default 1s timeout
-is not enough to notice syslinux prompt on some devices.
+This is a part of the work to support partiion UUID in installer.
+gptdisk is going to be used to get partition UUID.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image-live.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 7b770fb..52b6de7 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -3,7 +3,7 @@ AUTO_SYSLINUXCFG = "1"
- INITRD_IMAGE ?= "core-image-minimal-initramfs"
- INITRD ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE}-${MACHINE}.cpio.gz"
- SYSLINUX_ROOT = "root=/dev/ram0"
--SYSLINUX_TIMEOUT ?= "10"
-+SYSLINUX_TIMEOUT ?= "50"
- SYSLINUX_LABELS ?= "boot install"
- LABELS_append = " ${SYSLINUX_LABELS} "
+diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
+index b0994d7..f98ce25 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-live-install-efi_1.0.bb
+@@ -5,7 +5,7 @@ SRC_URI = "file://init-install-efi.sh"
  
+ PR = "r1"
+ 
+-RDEPENDS_${PN} = "parted e2fsprogs-mke2fs dosfstools"
++RDEPENDS_${PN} = "parted e2fsprogs-mke2fs dosfstools gptfdisk"
+ 
+ S = "${WORKDIR}"
+ 
+diff --git a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
+index 6241a90..bf24364 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-live-install_1.0.bb
+@@ -7,7 +7,7 @@ PR = "r9"
+ 
+ S = "${WORKDIR}"
+ 
+-RDEPENDS_${PN} = "grub parted e2fsprogs-mke2fs"
++RDEPENDS_${PN} = "grub parted e2fsprogs-mke2fs gptfdisk"
+ 
+ do_install() {
+         install -m 0755 ${WORKDIR}/init-install.sh ${D}/install.sh
 -- 
 2.1.4
 
