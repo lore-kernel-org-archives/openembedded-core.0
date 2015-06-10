@@ -1,32 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 833D6758A4
+Return-Path: <martinstolpe@gmail.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E4F3672491
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 13:21:36 +0000 (UTC)
-Received: by ieclw1 with SMTP id lw1so34090169iec.3
+	Wed, 10 Jun 2015 13:27:39 +0000 (UTC)
+Received: by igbpi8 with SMTP id pi8so35303610igb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 06:21:37 -0700 (PDT)
+	Wed, 10 Jun 2015 06:27:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=YkWb3/vLjrV4YoNQ09fv0bjU4vzG1+u//202WBl1qMw=;
-	b=Fy3cR27QWNum+gFb1WxLe/eyXTNC/vXFq2F6EY7dzFWHF7+f+wxd3Djnqmre5uWUEh
-	jFLq/J4t+wDZELl4T1j88olWXblfiWsnQMIWE7I6LMVPsbBNGiRTx3mGJPMDmpdnYXAe
-	tSzoI/lMaaZnuwW+8fqqghz/QxMCp/C9OFx966iwdclLvIxGFzgpLlZxyHALeNubKIoF
-	pri4Fm+xbr6ZOFHcQOjRIOiS5bVO6DYoBliry9ZhoNcoT2IKAT8Bke6hsbySUxq7BrRN
-	HB3TZeVkXMaRV0vYjcGAtAj1fT+8JaUgs4QgBjdC6Dg4y96cc2QNcQyqAq88WjNNPvWS
-	CDHA==
-X-Received: by 10.50.30.105 with SMTP id r9mr27899780igh.11.1433942497910;
-	Wed, 10 Jun 2015 06:21:37 -0700 (PDT)
+	bh=CTxnywQAMTyfj2NOlNgf+zOkfBfGPepEcTuC898c9kc=;
+	b=B1qZSTHehk4zwItj+jzxBgiCWXSqbPcvuV2DuLkcurBsrqzDoTYl2G9Wq4tlPdxKgR
+	8O1xYkbFQmwJx/hcupmXGb4w4SwLCXcOI70Ivr1A4D41ZjoziE8Qgrbd2sPN/hQbhjUJ
+	1gB/e7yevQCrWWQxmqF8mCiHs7F4o96R9bOEdzUFehZFHgoLLd+YrwJoQlcunOGQfsQh
+	5GN7Jw3eDcQBQipyQHtXapxrF+iW+QGo8IPO4T5nLvU0tVvcXRkHr/ofWB1w8GdKpDIm
+	jTteHjZFngyw6bUn4IyHETSK3n+Gg5F2PDdinsflO7IwKNv6eR1mzGszBl3HnYTfjSfj
+	ra7A==
 MIME-Version: 1.0
-Received: by 10.107.20.83 with HTTP; Wed, 10 Jun 2015 06:21:07 -0700 (PDT)
-In-Reply-To: <1433941677-9681-1-git-send-email-martin.stolpe@gmail.com>
+X-Received: by 10.50.141.164 with SMTP id rp4mr27990775igb.2.1433942860677;
+	Wed, 10 Jun 2015 06:27:40 -0700 (PDT)
+Received: by 10.36.79.146 with HTTP; Wed, 10 Jun 2015 06:27:40 -0700 (PDT)
+In-Reply-To: <CAMKF1sqbdiykJXaR5DboOHqnVqgnhygRPfgpFmKziQFEu5BUEQ@mail.gmail.com>
 References: <1433941677-9681-1-git-send-email-martin.stolpe@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 10 Jun 2015 09:21:07 -0400
-Message-ID: <CAMKF1sqbdiykJXaR5DboOHqnVqgnhygRPfgpFmKziQFEu5BUEQ@mail.gmail.com>
-To: Martin Stolpe <martinstolpe@gmail.com>
+	<CAMKF1sqbdiykJXaR5DboOHqnVqgnhygRPfgpFmKziQFEu5BUEQ@mail.gmail.com>
+Date: Wed, 10 Jun 2015 15:27:40 +0200
+Message-ID: <CAPHZmLZyCTG9MGuBrBRaMV_hdq_ASJ17TaxCD0D-3CNgVsMi3Q@mail.gmail.com>
+From: Martin Stolpe <martinstolpe@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Martin Stolpe <martin.stolpe@gmail.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -43,12 +44,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 13:21:40 -0000
+X-List-Received-Date: Wed, 10 Jun 2015 13:27:43 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jun 10, 2015 at 9:07 AM, Martin Stolpe <martinstolpe@gmail.com> wrote:
-> -BUILD_CPPFLAGS += "-D_GNU_SOURCE"
-> +BUILD_CPPFLAGS += "-D_GNU_SOURCE -P"
+Ok, then I was too slow in sending the patch. Haven't seen that it was
+fixed already.
 
-We have fixed this do we need this ? whats error.
+2015-06-10 15:21 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
+> On Wed, Jun 10, 2015 at 9:07 AM, Martin Stolpe <martinstolpe@gmail.com> wrote:
+>> -BUILD_CPPFLAGS += "-D_GNU_SOURCE"
+>> +BUILD_CPPFLAGS += "-D_GNU_SOURCE -P"
+>
+> We have fixed this do we need this ? whats error.
 
