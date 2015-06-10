@@ -1,23 +1,23 @@
-Return-Path: <ed.bartosh@linux.intel.com>
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2949F609B2
+	by mail.openembedded.org (Postfix) with ESMTP id 3127E756A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 17:01:36 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2015 10:01:29 -0700
+	Wed, 10 Jun 2015 17:47:56 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 10 Jun 2015 10:47:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,588,1427785200"; d="scan'208";a="585496267"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 10 Jun 2015 10:01:29 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id A28C76A4005;
-	Wed, 10 Jun 2015 10:00:53 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.13,588,1427785200"; d="scan'208";a="724769152"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by fmsmga001.fm.intel.com with ESMTP; 10 Jun 2015 10:47:57 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jun 2015 18:07:45 +0300
-Message-Id: <1433948865-3729-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] init-install-efi: Implement UUID support
+Date: Wed, 10 Jun 2015 09:44:03 +0000
+Message-Id: <d2f0d2911c1db921dba223d55940fb2deec71cc9.1433928968.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1433928968.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1433928968.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH] mklibs-native: Remove the dpkg-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,74 +30,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 17:01:37 -0000
+X-List-Received-Date: Wed, 10 Jun 2015 17:47:57 -0000
 
-Using UUID in favor of device names is more reliable as
-UUID names are persistent.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Device names can change as the order of adding device nodes
-is arbitrary. This sometimes results in device names switching
-on each boot, which can cause system fail to boot.
-Persistent naming solves these issues.
+The 'dpkg-native' dependency introduced on 0a08dc is not neccesary
+needed if the mklibs-native code is secured with a try/catch statement
+when calling the dpkg-native application.
 
-Used partition UUID in kernel command line to specify root partition.
-Used partition UUID in /etc/fstab to specify boot and swap partitions.
+[YOCTO #3782]
 
-[YOCTO #6101]
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- .../recipes-core/initrdscripts/files/init-install-efi.sh | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ .../mklibs/mklibs-native_0.1.40.bb                 |   3 +-
+ .../mklibs/catch-exception-if-dpkg-architect.patch | 103 +++++++++++++++++++++
+ 2 files changed, 105 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/mklibs/mklibs/catch-exception-if-dpkg-architect.patch
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 8dd2749..d03d087 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -158,14 +158,22 @@ mkdir /tgt_root
- mkdir /src_root
- mkdir -p /boot
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
+index b2fcae5..ff3fe08 100644
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
+@@ -4,12 +4,13 @@ HOMEPAGE = "https://launchpad.net/mklibs"
+ SECTION = "devel"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
+-DEPENDS = "python-native dpkg-native"
++DEPENDS = "python-native"
  
-+# Get partition UUIDs
-+get_partuuid() {
-+    sgdisk -i$2 /dev/$1 | sed -n 's/Partition unique GUID: \(.*\)/\1/p'
-+}
-+bootuuid=$(get_partuuid $device 1)
-+rootuuid=$(get_partuuid $device 2)
-+swapuuid=$(get_partuuid $device 3)
+ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.xz \
+ 	file://ac_init_fix.patch\
+ 	file://fix_STT_GNU_IFUNC.patch\
+ 	file://sysrooted-ldso.patch \
++	file://catch-exception-if-dpkg-architect.patch \
+ "
+ 
+ SRC_URI[md5sum] = "e1dafe5f962caa9dc5f2651c0723812a"
+diff --git a/meta/recipes-devtools/mklibs/mklibs/catch-exception-if-dpkg-architect.patch b/meta/recipes-devtools/mklibs/mklibs/catch-exception-if-dpkg-architect.patch
+new file mode 100644
+index 0000000..55ff0a7
+--- /dev/null
++++ b/meta/recipes-devtools/mklibs/mklibs/catch-exception-if-dpkg-architect.patch
+@@ -0,0 +1,103 @@
++From 78a1245b5217ea42fc122b339684ff8d59059037 Mon Sep 17 00:00:00 2001
++From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
++Date: Wed, 10 Jun 2015 07:24:23 +0000
++Subject: [PATCH] mklibs,mklibs-copy: Catch exception if dpkg-architecture not
++ found
 +
- # Handling of the target root partition
- mount $rootfs /tgt_root
- mount -o rw,loop,noatime,nodiratime /run/media/$1/$2 /src_root
- echo "Copying rootfs files..."
- cp -a /src_root/* /tgt_root
- if [ -d /tgt_root/etc/ ] ; then
--    echo "$swap                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
--    echo "$bootfs              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
-+    echo "PARTUUID=$swapuuid                swap             swap       defaults              0  0" >> /tgt_root/etc/fstab
-+    echo "PARTUUID=$bootuuid              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
-     # We dont want udev to mount our root device while we're booting...
-     if [ -d /tgt_root/etc/udev/ ] ; then
- 	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
-@@ -196,7 +204,7 @@ if [ -f /run/media/$1/EFI/BOOT/grub.cfg ]; then
-     # Delete any root= strings
-     sed -i "s/ root=[^ ]*/ /" $GRUBCFG
-     # Add the root= and other standard boot options
--    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=$rootfs rw $rootwait quiet @" $GRUBCFG
-+    sed -i "s@linux /vmlinuz *@linux /vmlinuz root=PARTUUID=$rootuuid rw $rootwait quiet @" $GRUBCFG
- fi
- 
- if [ -d /run/media/$1/loader ]; then
-@@ -212,7 +220,7 @@ if [ -d /run/media/$1/loader ]; then
-     # delete any root= strings
-     sed -i "s/ root=[^ ]*/ /" $GUMMIBOOT_CFGS
-     # add the root= and other standard boot options
--    sed -i "s@options *@options root=$rootfs rw $rootwait quiet @" $GUMMIBOOT_CFGS
-+    sed -i "s@options *@options root=PARTUUID=$rootuuid rw $rootwait quiet @" $GUMMIBOOT_CFGS
- fi
- 
- umount /tgt_root
++Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
++---
++ src/mklibs      | 33 ++++++++++++++++++---------------
++ src/mklibs-copy | 33 ++++++++++++++++++---------------
++ 2 files changed, 36 insertions(+), 30 deletions(-)
++
++diff --git a/src/mklibs b/src/mklibs
++index a3533c0..75d2bb4 100755
++--- a/src/mklibs
+++++ b/src/mklibs
++@@ -272,21 +272,24 @@ def extract_soname(so_file):
++     return ""
++ 
++ def multiarch(paths):
++-    devnull = open('/dev/null', 'w')
++-    dpkg_architecture = subprocess.Popen(
++-        ['dpkg-architecture', '-qDEB_HOST_MULTIARCH'],
++-        stdout=subprocess.PIPE, stderr=devnull)
++-    devnull.close()
++-    deb_host_multiarch, _ = dpkg_architecture.communicate()
++-    if dpkg_architecture.returncode == 0:
++-        deb_host_multiarch = deb_host_multiarch.rstrip('\n')
++-        new_paths = []
++-        for path in paths:
++-            new_paths.append(
++-                path.replace('/lib', '/lib/%s' % deb_host_multiarch, 1))
++-            new_paths.append(path)
++-        return new_paths
++-    else:
+++    try:
+++        devnull = open('/dev/null', 'w')
+++        dpkg_architecture = subprocess.Popen(
+++            ['dpkg-architecture', '-qDEB_HOST_MULTIARCH'],
+++            stdout=subprocess.PIPE, stderr=devnull)
+++        devnull.close()
+++        deb_host_multiarch, _ = dpkg_architecture.communicate()
+++        if dpkg_architecture.returncode == 0:
+++            deb_host_multiarch = deb_host_multiarch.rstrip('\n')
+++            new_paths = []
+++            for path in paths:
+++                new_paths.append(
+++                    path.replace('/lib', '/lib/%s' % deb_host_multiarch, 1))
+++                new_paths.append(path)
+++                return new_paths
+++            else:
+++                return paths
+++    except OSError:
++         return paths
++ 
++ def usage(was_err):
++diff --git a/src/mklibs-copy b/src/mklibs-copy
++index c33985d..fc93ea1 100755
++--- a/src/mklibs-copy
+++++ b/src/mklibs-copy
++@@ -116,21 +116,24 @@ def extract_soname(so_file):
++     return ""
++ 
++ def multiarch(paths):
++-    devnull = open('/dev/null', 'w')
++-    dpkg_architecture = subprocess.Popen(
++-        ['dpkg-architecture', '-qDEB_HOST_MULTIARCH'],
++-        stdout=subprocess.PIPE, stderr=devnull)
++-    devnull.close()
++-    deb_host_multiarch, _ = dpkg_architecture.communicate()
++-    if dpkg_architecture.returncode == 0:
++-        deb_host_multiarch = deb_host_multiarch.rstrip('\n')
++-        new_paths = []
++-        for path in paths:
++-            new_paths.append(
++-                path.replace('/lib', '/lib/%s' % deb_host_multiarch, 1))
++-            new_paths.append(path)
++-        return new_paths
++-    else:
+++    try:
+++        devnull = open('/dev/null', 'w')
+++        dpkg_architecture = subprocess.Popen(
+++            ['dpkg-architecture', '-qDEB_HOST_MULTIARCH'],
+++            stdout=subprocess.PIPE, stderr=devnull)
+++        devnull.close()
+++        deb_host_multiarch, _ = dpkg_architecture.communicate()
+++        if dpkg_architecture.returncode == 0:
+++            deb_host_multiarch = deb_host_multiarch.rstrip('\n')
+++            new_paths = []
+++            for path in paths:
+++                new_paths.append(
+++                    path.replace('/lib', '/lib/%s' % deb_host_multiarch, 1))
+++                new_paths.append(path)
+++                return new_paths
+++            else:
+++                return paths
+++    except OSError:
++         return paths
++ 
++ def version(vers):
++-- 
++1.8.4.5
++
 -- 
-2.1.4
+1.8.4.5
 
 
