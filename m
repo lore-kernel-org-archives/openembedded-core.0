@@ -1,30 +1,39 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 5688D75678
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id AED436AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 10:09:15 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
-   d="scan'208";a="96785864"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 10 Jun 2015 18:13:28 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5AA7dgt019167
+	Wed, 10 Jun 2015 10:24:56 +0000 (UTC)
+Received: by qcxw10 with SMTP id w10so15707305qcx.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 18:07:39 +0800
-Received: from localhost.localdomain (10.167.226.26) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Wed, 10 Jun 2015 18:09:15 +0800
-From: Lei Maohui <leimaohui@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jun 2015 18:09:14 +0800
-Message-ID: <1433930954-31813-4-git-send-email-leimaohui@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1433930954-31813-1-git-send-email-leimaohui@cn.fujitsu.com>
-References: <1433930954-31813-1-git-send-email-leimaohui@cn.fujitsu.com>
+	Wed, 10 Jun 2015 03:24:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=UgjghlbDd0BwgUkpvVtz8HyFhONNrz12TOhMKgzawAo=;
+	b=bOfd4g4Y7ZrwmAHEmi8wwkRO2JBzD6U4sJGbwvZ4iKy++zliFlZDPSDGohd+EBHAjp
+	AjebgS1mIoh6OyC3suLn6MIHOVVIGHB5rPzutosCW0PstrxGzxI3GLujjYtyGLJRDyiF
+	hgPef49Gvm4sd2TEyaqgkUFfU6VOLHktdqmEw3VV5dzN9PcN0eNA8LffiSrXP6Uf9R+6
+	9HZvubPYgb31q6NExZR0QiDH6kKpN6lc1hUsCBftBSFWRKiav9wLl9TOtxgOAdvLY5Ba
+	b+gaSNyh+ug3WbaB4wo5NVTgm0s0Kt/llWMUZ8tsiy24yyQq81MBlqUQwslrEqUsh7GE
+	FgjQ==
+X-Gm-Message-State: ALoCoQmo4/ORNbMLBJiolzjljkYQ02QlVYCK2DYwtuF2Es0mLWavviVO92mQw59+EBKwBJ0Z/ACH
+X-Received: by 10.140.89.104 with SMTP id u95mr2780105qgd.15.1433931898203;
+	Wed, 10 Jun 2015 03:24:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.26]
-Subject: [PATCH v4 3/3] spdx: create a directory to save source code
+Received: by 10.140.102.231 with HTTP; Wed, 10 Jun 2015 03:24:37 -0700 (PDT)
+In-Reply-To: <20150610100353.GA2400@jama>
+References: <CAJTo0LY2C3d6ewKs7f1V0U9k7vqMQ47kCnANetzGz1OhMtfTFg@mail.gmail.com>
+	<1554329.HKQRZb0eD9@peggleto-mobl.ger.corp.intel.com>
+	<20150610100353.GA2400@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Jun 2015 11:24:37 +0100
+Message-ID: <CAJTo0LaCSsGVpMahP9sVRLdW9-nt_BGMRJzqYrKbCRmctfqUWQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC] remove neon from oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,84 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 10:09:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Jun 2015 10:24:59 -0000
+Content-Type: multipart/alternative; boundary=001a11c135f66cc66505182749c4
 
-In order to avoid the SPDX_S be polluted in the rebuild, create ${WORKDIR}/${SPDX_TEMP_DIR} to save the source.
+--001a11c135f66cc66505182749c4
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
----
- meta/classes/spdx.bbclass | 34 +++++++++++++++++++++++++++++++++-
- meta/conf/licenses.conf   |  2 ++
- 2 files changed, 35 insertions(+), 1 deletion(-)
+On 10 June 2015 at 11:03, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-diff --git a/meta/classes/spdx.bbclass b/meta/classes/spdx.bbclass
-index c0f42ad..5421ae1 100644
---- a/meta/classes/spdx.bbclass
-+++ b/meta/classes/spdx.bbclass
-@@ -64,6 +64,7 @@ python do_spdx () {
- 
-     ## get everything from cache.  use it to decide if 
-     ## something needs to be rerun
-+    d.setVar('WORKDIR', d.getVar('SPDX_TEMP_DIR', True))
-     info['sourcedir'] = d.getVar('SPDX_S', True)
-     cur_ver_code = get_ver_code(info['sourcedir']).split()[0]
-     cache_cur = False
-@@ -94,8 +95,39 @@ python do_spdx () {
-             bb.warn('Can\'t get the spdx file ' + info['pn'] + '. Please check your fossylogy server.')
-     if os.path.exists(info['tar_file']):
-         remove_file(info['tar_file'])
-+    d.setVar('WORKDIR', info['workdir'])
- }
--addtask spdx after do_patch before do_configure
-+#Get the src after do_patch.
-+python do_get_spdx_s() {
-+    import shutil
-+    #The source of gcc is too large to get it's spdx.So,give up.
-+    bpn = d.getVar('BPN', True)
-+    if ((bpn == "gcc") or (bpn == "libgcc")):
-+        return None
-+    # Change the WORKDIR to make do_unpack do_patch run in another dir.
-+    d.setVar('WORKDIR', d.getVar('SPDX_TEMP_DIR', True))
-+    # The changed 'WORKDIR' also casued 'B' changed, create dir 'B' for the
-+    # possibly requiring of the following tasks (such as some recipes's
-+    # do_patch required 'B' existed).
-+    bb.utils.mkdirhier(d.getVar('B', True))
-+
-+    # The kernel source is ready after do_validate_branches
-+    if bb.data.inherits_class('kernel-yocto', d):
-+        kernel_workdir = d.getVar('WORKDIR', True) + "/kernel-source"
-+        if os.path.exists(kernel_workdir):
-+            bb.utils.remove(kernel_workdir)
-+        shutil.copytree(d.getVar('S', True), kernel_workdir, symlinks=True) 
-+        return None
-+    else:
-+        bb.build.exec_func('do_unpack', d)
-+    # The S of the gcc source is work-share
-+    if ((bpn == "gcc") or (bpn == "libgcc")):
-+        d.setVar('S', d.getVar('WORKDIR', True) + "/gcc-" + d.getVar('PV', True))
-+    bb.build.exec_func('do_patch', d)
-+}
-+
-+addtask get_spdx_s after do_patch before do_configure
-+addtask spdx after do_get_spdx_s before do_configure
- 
- def create_manifest(info,sstatefile):
-     import shutil
-diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-index be7602e..9e6856e 100644
---- a/meta/conf/licenses.conf
-+++ b/meta/conf/licenses.conf
-@@ -121,6 +121,8 @@ SPDXLICENSEMAP[SGIv1] = "SGI-1"
- # both COPY_LIC_MANIFEST and COPY_LIC_DIRS
- #COPY_LIC_DIRS = "1"
- 
-+## SPDX temporary directory
-+SPDX_TEMP_DIR ?= "${WORKDIR}/spdx_temp"
- ## SPDX manifest directory
- SPDX_MANIFEST_DIR ?= "${TMPDIR}/fossology_scans"
- 
--- 
-1.8.4.2
+> Yes, meta-legacy not included in my world builds looks much better than
+> dumping untested changes to meta-oe (both gstreamer-0.10 and bluez-4
+> dumps didn't even parse in form how they were sent to oe-devel ML).
+>
 
+The patches not parsing is obviously a bad thing, I'll try and ensure that
+doesn't happen again.
 
+Ross
+
+--001a11c135f66cc66505182749c4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 June 2015 at 11:03, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":dp" class=3D"=
+a3s" style=3D"overflow:hidden">Yes, meta-legacy not included in my world bu=
+ilds looks much better than<br>
+dumping untested changes to meta-oe (both gstreamer-0.10 and bluez-4<br>
+dumps didn&#39;t even parse in form how they were sent to oe-devel ML).</di=
+v></blockquote></div><br>The patches not parsing is obviously a bad thing, =
+I&#39;ll try and ensure that doesn&#39;t happen again.</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11c135f66cc66505182749c4--
