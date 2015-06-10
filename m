@@ -1,36 +1,36 @@
-Return-Path: <martinstolpe@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 30FA56AC24
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 833D6758A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 13:08:15 +0000 (UTC)
-Received: by wifx6 with SMTP id x6so46807375wif.0
+	Wed, 10 Jun 2015 13:21:36 +0000 (UTC)
+Received: by ieclw1 with SMTP id lw1so34090169iec.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 06:08:15 -0700 (PDT)
+	Wed, 10 Jun 2015 06:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=W712XNnfM44cMcqHvuRpqGuJj4rqmB2QggL0GSNyDqw=;
-	b=0E/EL5YoA7ixPdmlD9UgpTdXi6yluJrI8YJ2u/4Qj0yVA1vh1LJ/WMBV5ixOhRfsCf
-	dZLk+e+/hFMhBwXpk+3QGAuhzFu7b8ERbE73npmI0/99CMdNfl8B6fTNo+NTnDMkSg2g
-	tVT8XVcsN8t41vquaeSfbyp5DwVDfdN1uSP2+eFcV19IPHX+L/eXLdA1pbBwVphZTTUt
-	8Xw7KBwSkOPwd3CfNMXPpLd30yWfEo40I3auJfKuc24hHQ47Ag+LladhzFdT0xvuduqL
-	8vTN2/2f/DwXljMAoZqGFsVuvedRkNLVimnHOA9mZuwh0R20p/7TUqtc3ZbScWFIOMoc
-	7q5A==
-X-Received: by 10.180.83.135 with SMTP id q7mr8238559wiy.17.1433941695737;
-	Wed, 10 Jun 2015 06:08:15 -0700 (PDT)
-Received: from archlinux-vm.localdomain
-	(dslb-188-099-229-087.188.099.pools.vodafone-ip.de. [188.99.229.87])
-	by mx.google.com with ESMTPSA id q4sm14484652wja.24.2015.06.10.06.08.14
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Jun 2015 06:08:14 -0700 (PDT)
-From: Martin Stolpe <martinstolpe@gmail.com>
-X-Google-Original-From: Martin Stolpe <martin.stolpe@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jun 2015 15:07:57 +0200
-Message-Id: <1433941677-9681-1-git-send-email-martin.stolpe@gmail.com>
-X-Mailer: git-send-email 2.4.2
-Cc: Martin Stolpe <martin.stolpe@gmail.com>
-Subject: [PATCH] ncurses: fix native builds when host has gcc5
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=YkWb3/vLjrV4YoNQ09fv0bjU4vzG1+u//202WBl1qMw=;
+	b=Fy3cR27QWNum+gFb1WxLe/eyXTNC/vXFq2F6EY7dzFWHF7+f+wxd3Djnqmre5uWUEh
+	jFLq/J4t+wDZELl4T1j88olWXblfiWsnQMIWE7I6LMVPsbBNGiRTx3mGJPMDmpdnYXAe
+	tSzoI/lMaaZnuwW+8fqqghz/QxMCp/C9OFx966iwdclLvIxGFzgpLlZxyHALeNubKIoF
+	pri4Fm+xbr6ZOFHcQOjRIOiS5bVO6DYoBliry9ZhoNcoT2IKAT8Bke6hsbySUxq7BrRN
+	HB3TZeVkXMaRV0vYjcGAtAj1fT+8JaUgs4QgBjdC6Dg4y96cc2QNcQyqAq88WjNNPvWS
+	CDHA==
+X-Received: by 10.50.30.105 with SMTP id r9mr27899780igh.11.1433942497910;
+	Wed, 10 Jun 2015 06:21:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.20.83 with HTTP; Wed, 10 Jun 2015 06:21:07 -0700 (PDT)
+In-Reply-To: <1433941677-9681-1-git-send-email-martin.stolpe@gmail.com>
+References: <1433941677-9681-1-git-send-email-martin.stolpe@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 10 Jun 2015 09:21:07 -0400
+Message-ID: <CAMKF1sqbdiykJXaR5DboOHqnVqgnhygRPfgpFmKziQFEu5BUEQ@mail.gmail.com>
+To: Martin Stolpe <martinstolpe@gmail.com>
+Cc: Martin Stolpe <martin.stolpe@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ncurses: fix native builds when host has gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +43,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 13:08:20 -0000
+X-List-Received-Date: Wed, 10 Jun 2015 13:21:40 -0000
+Content-Type: text/plain; charset=UTF-8
 
-GCC"s preprocessor starts to add newlines which are not
-handled properly by ncurses build system startin from
-version 5.0.
+On Wed, Jun 10, 2015 at 9:07 AM, Martin Stolpe <martinstolpe@gmail.com> wrote:
+> -BUILD_CPPFLAGS += "-D_GNU_SOURCE"
+> +BUILD_CPPFLAGS += "-D_GNU_SOURCE -P"
 
-	See also: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7870
-
-Signed-off-by: Martin Stolpe <martin.stolpe@gmail.com>
----
- meta/recipes-core/ncurses/ncurses.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index 10f7dd1..a7a265d 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -26,7 +26,7 @@ ENABLE_WIDEC ?= "true"
- # _GNU_SOURCE is required for widec stuff and is detected automatically
- # for target objects.  But it must be set manually for native and sdk
- # builds.
--BUILD_CPPFLAGS += "-D_GNU_SOURCE"
-+BUILD_CPPFLAGS += "-D_GNU_SOURCE -P"
- 
- # natives don't generally look in base_libdir
- base_libdir_class-native = "${libdir}"
--- 
-2.4.2
-
+We have fixed this do we need this ? whats error.
 
