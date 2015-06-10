@@ -1,23 +1,39 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C35760670
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 10F9960670
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 15:35:18 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 10 Jun 2015 08:35:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,588,1427785200"; d="scan'208";a="708642689"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 10 Jun 2015 08:35:19 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id AE6686A4005;
-	Wed, 10 Jun 2015 08:34:44 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jun 2015 18:32:50 +0300
-Message-Id: <1433950370-23762-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/parselogs: The logs are now copied and parsed locally.
+	Wed, 10 Jun 2015 15:37:56 +0000 (UTC)
+Received: by ieclw1 with SMTP id lw1so37000281iec.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Jun 2015 08:37:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=A2G51MSXRgvCNPwT9hV50Nr0vt1l7T1repgZONnLI2o=;
+	b=DK4eLxsFsx5Mk2ARro1YftdHuQViliez7uM6n0E/ZCY185nQXHMkM02gemDqRouq9o
+	yJB0IVVaWz8k0RupYTEInTdrXrKKUKqB6RCqEvzk2ti8wv0H/+feXphWFN2MkVtyHLE/
+	02EBOfKJX1oiFHW4BYlvnQuzFcq2cLJ0v2bunVAsn2W9J263nto/aOGEqfAu+teDK3wT
+	8RAVlrTe1QWx1w84j2W2W/azgK5tMRCtdASQ253i5nNi44icKWIfJnjDjXGPcPBm93QO
+	Ldw7CNPzxI/6b6CBLfUP0ET2Lwxd4NW49mGZkyffEp6+ZrmIkur7htNcHOi0grQVnjwz
+	uPfQ==
+X-Received: by 10.42.83.212 with SMTP id i20mr5459445icl.91.1433950677477;
+	Wed, 10 Jun 2015 08:37:57 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.20.83 with HTTP; Wed, 10 Jun 2015 08:37:27 -0700 (PDT)
+In-Reply-To: <CAJTo0LY3xydx4dtEf2ZtfMhO0yM0XaO_BacU1t1r=ZZXVUerLg@mail.gmail.com>
+References: <1433941677-9681-1-git-send-email-martin.stolpe@gmail.com>
+	<CAMKF1sqbdiykJXaR5DboOHqnVqgnhygRPfgpFmKziQFEu5BUEQ@mail.gmail.com>
+	<CAPHZmLZyCTG9MGuBrBRaMV_hdq_ASJ17TaxCD0D-3CNgVsMi3Q@mail.gmail.com>
+	<CAJTo0LY3xydx4dtEf2ZtfMhO0yM0XaO_BacU1t1r=ZZXVUerLg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 10 Jun 2015 11:37:27 -0400
+Message-ID: <CAMKF1sq=cJ+mJSqJCTz18f5HXvPr0C+p4p1Zj0pJpDR59vXaOg@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Martin Stolpe <martin.stolpe@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ncurses: fix native builds when host has gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,92 +46,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 15:35:26 -0000
+X-List-Received-Date: Wed, 10 Jun 2015 15:37:57 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This is to fix a problem with reaching the limit of the whitelist size.
+On Wed, Jun 10, 2015 at 9:54 AM, Burton, Ross <ross.burton@intel.com> wrote:
+> FWIW, the fix is oe-core 47f67fa (ncurses upgrade).  Of course that won't
+> help anyone running fido on a host with gcc5, but I'm not sure we support
+> that...
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/runtime/parselogs.py | 30 +++++++++++++++++++++++-------
- 1 file changed, 23 insertions(+), 7 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
-index e9ccd0c..e641366 100644
---- a/meta/lib/oeqa/runtime/parselogs.py
-+++ b/meta/lib/oeqa/runtime/parselogs.py
-@@ -1,5 +1,6 @@
- import os
- import unittest
-+import subprocess
- from oeqa.oetest import oeRuntimeTest
- from oeqa.utils.decorators import *
- 
-@@ -132,6 +133,20 @@ class ParseLogsTest(oeRuntimeTest):
-                             logs.append(os.path.join(location,str(logfile)))
-         return logs
- 
-+    #copy the log files to be parsed locally
-+    def transfer_logs(self, log_list):
-+        target_logs = 'target_logs'
-+        if not os.path.exists(target_logs):
-+            os.makedirs(target_logs)
-+        for f in log_list:
-+            self.target.copy_from(f, target_logs)
-+
-+    #get the local list of logs
-+    def get_local_log_list(self, log_locations):
-+        self.transfer_logs(self.getLogList(log_locations))
-+        logs = [ os.path.join('target_logs',f) for f in os.listdir('target_logs') if os.path.isfile(os.path.join('target_logs',f)) ]
-+        return logs
-+
-     #build the grep command to be used with filters and exclusions
-     def build_grepcmd(self, errors, ignore_errors, log):
-         grepcmd = "grep "
-@@ -163,21 +178,22 @@ class ParseLogsTest(oeRuntimeTest):
-         results = {}
-         rez = []
-         for log in logs:
-+            result = None
-             thegrep = self.build_grepcmd(errors, ignore_errors, log)
-             try:
--                (status, result) = self.target.run(thegrep)
-+                result = subprocess.check_output(thegrep, shell=True)
-             except:
-                 pass
--            if result:
--                results[log] = {}
-+            if (result is not None):
-+                results[log.replace('target_logs/','')] = {}
-                 rez = result.splitlines()
-                 for xrez in rez:
-                     command = "grep \"\\"+str(xrez)+"\" -B "+str(lines_before)+" -A "+str(lines_after)+" "+str(log)
-                     try:
--                        (status, yrez) = self.target.run(command)
-+                        yrez = subprocess.check_output(command, shell=True)
-                     except:
-                         pass
--                    results[log][xrez]=yrez
-+                    results[log.replace('target_logs/','')][xrez]=yrez
-         return results
- 
-     #get the output of dmesg and write it in a file. This file is added to log_locations.
-@@ -189,7 +205,7 @@ class ParseLogsTest(oeRuntimeTest):
-     @skipUnlessPassed('test_ssh')
-     def test_parselogs(self):
-         self.write_dmesg()
--        log_list = self.getLogList(self.log_locations)
-+        log_list = self.get_local_log_list(self.log_locations)
-         result = self.parse_logs(self.errors, self.ignore_errors, log_list)
-         print self.getHardwareInfo()
-         errcount = 0
-@@ -203,4 +219,4 @@ class ParseLogsTest(oeRuntimeTest):
-                 self.msg +=  result[str(log)][str(error)]+"\n"
-                 self.msg +=  "***********************\n"
-         self.msg += "%s errors found in logs." % errcount
--        self.assertEqual(errcount, 0, msg=self.msg)
-+        self.assertEqual(errcount, 0, msg=self.msg)
-\ No newline at end of file
--- 
-2.1.4
-
+right.
 
