@@ -1,39 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 10F9960670
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id F384F60670
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 15:37:56 +0000 (UTC)
-Received: by ieclw1 with SMTP id lw1so37000281iec.3
+	Wed, 10 Jun 2015 15:43:15 +0000 (UTC)
+Received: by igbzc4 with SMTP id zc4so38707701igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 08:37:57 -0700 (PDT)
+	Wed, 10 Jun 2015 08:43:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=A2G51MSXRgvCNPwT9hV50Nr0vt1l7T1repgZONnLI2o=;
-	b=DK4eLxsFsx5Mk2ARro1YftdHuQViliez7uM6n0E/ZCY185nQXHMkM02gemDqRouq9o
-	yJB0IVVaWz8k0RupYTEInTdrXrKKUKqB6RCqEvzk2ti8wv0H/+feXphWFN2MkVtyHLE/
-	02EBOfKJX1oiFHW4BYlvnQuzFcq2cLJ0v2bunVAsn2W9J263nto/aOGEqfAu+teDK3wT
-	8RAVlrTe1QWx1w84j2W2W/azgK5tMRCtdASQ253i5nNi44icKWIfJnjDjXGPcPBm93QO
-	Ldw7CNPzxI/6b6CBLfUP0ET2Lwxd4NW49mGZkyffEp6+ZrmIkur7htNcHOi0grQVnjwz
-	uPfQ==
-X-Received: by 10.42.83.212 with SMTP id i20mr5459445icl.91.1433950677477;
-	Wed, 10 Jun 2015 08:37:57 -0700 (PDT)
+	bh=GJGTcwXpSCzXEiTDJ8/mG6mOkMu9DB0JJDdJlOy75Pc=;
+	b=wBmQPqrewNgka6AyhL/YlYthgr9IKenx1BpGRYfCpFUuJvOFhVNwgGVWwJL3CliM8M
+	NRGg7LcM1Z6iIH+XqaRCv3TnOLiLP7rYxhs4eAYPlSrtOF/x3xgih6ddtaSW5neYiZbI
+	w72dwbeAx+YuZy6ZX2vZhJg6ImY3boxwbUhw9rWQcC6v1XkrJ8dvboMlwI1O3XTspOta
+	Pjobl8xmw6D1ciBuR923vBoJfUglkNY+kEbH1qPdYOEa13nRehB2oQbuC52AcmZOPuqu
+	sfDiSPpT+DudCCdQf4ZfCF/JXUOvc5XYU0lkoUCligq1KKbMQ4DRKSkSskuMZ4yq1Qdp
+	Xu2A==
+X-Received: by 10.107.157.205 with SMTP id g196mr5209960ioe.57.1433950996936; 
+	Wed, 10 Jun 2015 08:43:16 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.20.83 with HTTP; Wed, 10 Jun 2015 08:37:27 -0700 (PDT)
-In-Reply-To: <CAJTo0LY3xydx4dtEf2ZtfMhO0yM0XaO_BacU1t1r=ZZXVUerLg@mail.gmail.com>
-References: <1433941677-9681-1-git-send-email-martin.stolpe@gmail.com>
-	<CAMKF1sqbdiykJXaR5DboOHqnVqgnhygRPfgpFmKziQFEu5BUEQ@mail.gmail.com>
-	<CAPHZmLZyCTG9MGuBrBRaMV_hdq_ASJ17TaxCD0D-3CNgVsMi3Q@mail.gmail.com>
-	<CAJTo0LY3xydx4dtEf2ZtfMhO0yM0XaO_BacU1t1r=ZZXVUerLg@mail.gmail.com>
+Received: by 10.107.20.83 with HTTP; Wed, 10 Jun 2015 08:42:46 -0700 (PDT)
+In-Reply-To: <1433946366-54477-1-git-send-email-martin.stolpe@gmail.com>
+References: <1433946366-54477-1-git-send-email-martin.stolpe@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 10 Jun 2015 11:37:27 -0400
-Message-ID: <CAMKF1sq=cJ+mJSqJCTz18f5HXvPr0C+p4p1Zj0pJpDR59vXaOg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Jun 2015 11:42:46 -0400
+Message-ID: <CAMKF1srsEC8EmOzDPAowKozKPADozZn+QqtNsBtMTt-sexDyjg@mail.gmail.com>
+To: Martin Stolpe <martinstolpe@gmail.com>
 Cc: Martin Stolpe <martin.stolpe@gmail.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ncurses: fix native builds when host has gcc5
+Subject: Re: [PATCH] [fido] binutils: fix native builds when host has gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,13 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 15:37:57 -0000
+X-List-Received-Date: Wed, 10 Jun 2015 15:43:20 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jun 10, 2015 at 9:54 AM, Burton, Ross <ross.burton@intel.com> wrote:
-> FWIW, the fix is oe-core 47f67fa (ncurses upgrade).  Of course that won't
-> help anyone running fido on a host with gcc5, but I'm not sure we support
-> that...
+On Wed, Jun 10, 2015 at 10:26 AM, Martin Stolpe <martinstolpe@gmail.com> wrote:
+> Problem is that when building binutils using GCC >=5.0
+> warnings will be treated as errors which will cause
+> the build to fail.
+>
+> Signed-off-by: Martin Stolpe <martin.stolpe@gmail.com>
+> ---
+>  meta/recipes-devtools/binutils/binutils_2.24.bb | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/binutils/binutils_2.24.bb b/meta/recipes-devtools/binutils/binutils_2.24.bb
+> index 738aaee..bc34a14 100644
+> --- a/meta/recipes-devtools/binutils/binutils_2.24.bb
+> +++ b/meta/recipes-devtools/binutils/binutils_2.24.bb
+> @@ -7,12 +7,15 @@ EXTRA_OECONF += "--with-sysroot=/ \
+>                  --enable-install-libbfd \
+>                  --enable-install-libiberty \
+>                  --enable-shared \
+> +                --disable-werror \
+>                  "
+>
+>  EXTRA_OECONF_class-native = "--enable-targets=all \
+>                               --enable-64-bit-bfd \
+>                               --enable-install-libiberty \
+> -                             --enable-install-libbfd"
+> +                             --enable-install-libbfd \
+> +                             --disable-werror \
+> +                             "
 
-right.
+lowering the guards is not the right approach. I understand you want
+to compile fido with distros that are released after fido.
+but better would be to backport relevant fixed into component itself.
+
+>
+>  do_install_class-native () {
+>         autotools_do_install
+> --
+> 2.4.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
