@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A89B46AC38
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A532734D2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 07:25:03 +0000 (UTC)
+	Wed, 10 Jun 2015 07:25:05 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5A7P5kQ023938
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5A7P6Lm017519
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 00:25:05 -0700 (PDT)
+	Wed, 10 Jun 2015 00:25:06 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 10 Jun 2015 00:25:04 -0700
+	14.3.224.2; Wed, 10 Jun 2015 00:25:06 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jun 2015 15:25:22 +0800
-Message-ID: <47e7d91a824b72ade9e18a070e1ca8b7ea893ba9.1433920984.git.Qi.Chen@windriver.com>
+Date: Wed, 10 Jun 2015 15:25:23 +0800
+Message-ID: <ad1346cbfd8a0bbd3f3c958b339003169a00791b.1433920984.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1433920984.git.Qi.Chen@windriver.com>
 References: <cover.1433920984.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/3] populate_sdk_ext: install the latest buildtools-tarball
+Subject: [PATCH V2 2/3] copy_buildsystem: make sure bitbake directory is copied
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,43 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 10 Jun 2015 07:25:05 -0000
 Content-Type: text/plain
 
-If we do `bitbake buildtools-tarball' and then after one day do `bitbake
-core-image-minimal -c populate_sdk_ext', we would meet errors like below.
-
-| install: cannot stat '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
-poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalone
--1.8+snapshot-20150429.sh': No such file or directory
-
-The problem is that the output name for buildtools-tarball has ${DATE} in it.
-So if populate_sdk_ext task is executed but buildtools-tarball is not rebuilt,
-the above error appears.
-
-Instead of hardcoding ${DISTRO_VERSION} which consists of ${DATE} in the
-install_tools() function, we should find the latest buildtools-tarball based
-on the modification time and install it.
-
-[YOCTO #7674]
+The previous code assumes that bitbake/ directory is under the core layer.
+This is the case for Yocto project. But users might clone oe-core and bitbake
+separately. So we use bb.__file__ to locate the bitbake directory to make sure
+it's copied into the extensible SDK.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oe/copy_buildsystem.py | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index dc2c58e..2fc4c11 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -168,7 +168,9 @@ install_tools() {
- 	ln -sr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool
- 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index cf7fada..979578c 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -28,11 +28,10 @@ class BuildSystem(object):
+         layers.append(corebase)
  
--	install ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh ${SDK_OUTPUT}/${SDKPATH}
-+	# find latest buildtools-tarball and install it
-+	buildtools_path=`ls -t1 ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-*.sh | head -n1`
-+	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+         corebase_files = self.d.getVar('COREBASE_FILES', True).split()
+-
+-        # bitbake belongs in corebase so make sure it goes there
+-        if "bitbake" not in corebase_files:
+-            corebase_files.append("bitbake")
+         corebase_files = [corebase + '/' +x for x in corebase_files]
++        # Make sure bitbake goes in
++        bitbake_dir = bb.__file__.rsplit('/', 3)[0]
++        corebase_files.append(bitbake_dir)
  
- 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
- }
+         for layer in layers:
+             layerconf = os.path.join(layer, 'conf', 'layer.conf')
 -- 
 1.9.1
 
