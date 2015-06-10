@@ -1,27 +1,36 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3ED236AC24
+Return-Path: <martinstolpe@gmail.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 30FA56AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 12:29:01 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 10 Jun 2015 05:29:01 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,587,1427785200"; d="scan'208";a="585343873"
-Received: from cpmcinty-mobl5.ger.corp.intel.com (HELO [10.252.0.209])
-	([10.252.0.209])
-	by orsmga003.jf.intel.com with ESMTP; 10 Jun 2015 05:28:59 -0700
-User-Agent: Microsoft-MacOutlook/14.5.0.150423
-Date: Wed, 10 Jun 2015 15:28:59 +0300
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <D19E080E.51B21%markus.lehtonen@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 00/10] devtool refactoring
-References: <1433435514-28677-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<6837948.BxYHk4oixu@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <6837948.BxYHk4oixu@peggleto-mobl.ger.corp.intel.com>
-Mime-version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/10] devtool refactoring
+	Wed, 10 Jun 2015 13:08:15 +0000 (UTC)
+Received: by wifx6 with SMTP id x6so46807375wif.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Jun 2015 06:08:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=W712XNnfM44cMcqHvuRpqGuJj4rqmB2QggL0GSNyDqw=;
+	b=0E/EL5YoA7ixPdmlD9UgpTdXi6yluJrI8YJ2u/4Qj0yVA1vh1LJ/WMBV5ixOhRfsCf
+	dZLk+e+/hFMhBwXpk+3QGAuhzFu7b8ERbE73npmI0/99CMdNfl8B6fTNo+NTnDMkSg2g
+	tVT8XVcsN8t41vquaeSfbyp5DwVDfdN1uSP2+eFcV19IPHX+L/eXLdA1pbBwVphZTTUt
+	8Xw7KBwSkOPwd3CfNMXPpLd30yWfEo40I3auJfKuc24hHQ47Ag+LladhzFdT0xvuduqL
+	8vTN2/2f/DwXljMAoZqGFsVuvedRkNLVimnHOA9mZuwh0R20p/7TUqtc3ZbScWFIOMoc
+	7q5A==
+X-Received: by 10.180.83.135 with SMTP id q7mr8238559wiy.17.1433941695737;
+	Wed, 10 Jun 2015 06:08:15 -0700 (PDT)
+Received: from archlinux-vm.localdomain
+	(dslb-188-099-229-087.188.099.pools.vodafone-ip.de. [188.99.229.87])
+	by mx.google.com with ESMTPSA id q4sm14484652wja.24.2015.06.10.06.08.14
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 10 Jun 2015 06:08:14 -0700 (PDT)
+From: Martin Stolpe <martinstolpe@gmail.com>
+X-Google-Original-From: Martin Stolpe <martin.stolpe@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jun 2015 15:07:57 +0200
+Message-Id: <1433941677-9681-1-git-send-email-martin.stolpe@gmail.com>
+X-Mailer: git-send-email 2.4.2
+Cc: Martin Stolpe <martin.stolpe@gmail.com>
+Subject: [PATCH] ncurses: fix native builds when host has gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +43,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 12:29:03 -0000
-Content-type: text/plain;
-	charset="US-ASCII"
-Content-transfer-encoding: 7bit
+X-List-Received-Date: Wed, 10 Jun 2015 13:08:20 -0000
 
-Hi,
+GCC"s preprocessor starts to add newlines which are not
+handled properly by ncurses build system startin from
+version 5.0.
 
-On 09/06/15 18:01, "Paul Eggleton" <paul.eggleton@linux.intel.com> wrote:
+	See also: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7870
 
->Hi Markus,
->
->On Thursday 04 June 2015 19:31:44 Markus Lehtonen wrote:
->> This patchset contains contains some refactoring of the devtool code,
->> hopefully making the code more maintainable and somewhat easier to read.
->
->Unfortunately something in here breaks the QA tests - and this time I've
->double-checked that they pass without this patchset (well, deploy_target
->seems 
->to be failing on one of my machines but not another - am looking into
->that). 
->
->Could you please investigate?
+Signed-off-by: Martin Stolpe <martin.stolpe@gmail.com>
+---
+ meta/recipes-core/ncurses/ncurses.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hmm, strange. I will investigate and get back to this.
-
-
-Thanks,
-   Markus
-
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index 10f7dd1..a7a265d 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -26,7 +26,7 @@ ENABLE_WIDEC ?= "true"
+ # _GNU_SOURCE is required for widec stuff and is detected automatically
+ # for target objects.  But it must be set manually for native and sdk
+ # builds.
+-BUILD_CPPFLAGS += "-D_GNU_SOURCE"
++BUILD_CPPFLAGS += "-D_GNU_SOURCE -P"
+ 
+ # natives don't generally look in base_libdir
+ base_libdir_class-native = "${libdir}"
+-- 
+2.4.2
 
 
