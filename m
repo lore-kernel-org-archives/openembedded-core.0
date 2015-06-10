@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E566B60670
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 85E837586F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 07:34:20 +0000 (UTC)
+	Wed, 10 Jun 2015 07:34:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5A7YMJ5024034
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5A7YM31019553
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Jun 2015 00:34:22 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 10 Jun 2015 00:34:21 -0700
+	Wed, 10 Jun 2015 00:34:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jun 2015 00:34:19 -0700
-Message-ID: <60fa3f123ff45ab9bac61d5cc9cc05450ca6e7f7.1433921605.git.liezhi.yang@windriver.com>
+Date: Wed, 10 Jun 2015 00:34:20 -0700
+Message-ID: <1a26f30aac797bea6fd90819ae6046437a365ecc.1433921605.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1433921605.git.liezhi.yang@windriver.com>
 References: <cover.1433921605.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] sysstat: DEPENDS on base-passwd
+Subject: [PATCH 2/2] mtools: add PACKAGECONFIG for libbsd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +37,43 @@ X-List-Received-Date: Wed, 10 Jun 2015 07:34:21 -0000
 Content-Type: text/plain
 
 Fixed:
-| install -m 644 -g man man/sa1.8 /path/to/tmp/work/i586-poky-linux/sysstat/11.1.4-r0/image/usr/share/man/man8
-| install: invalid group `man'
+ld: cannot find -lbsd
+collect2: error: ld returned 1 exit status
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-extended/sysstat/sysstat.inc |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/mtools/mtools_3.9.9.bb  |    3 +++
+ meta/recipes-devtools/mtools/mtools_4.0.18.bb |    3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 566cb08..4063007 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -8,6 +8,8 @@ SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.xz \
-            file://99_sysstat \
-           "
+diff --git a/meta/recipes-devtools/mtools/mtools_3.9.9.bb b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+index 9cd1c57..c284a71 100644
+--- a/meta/recipes-devtools/mtools/mtools_3.9.9.bb
++++ b/meta/recipes-devtools/mtools/mtools_3.9.9.bb
+@@ -46,6 +46,9 @@ EXTRA_OECONF = "--without-x"
  
-+DEPENDS += "base-passwd"
+ BBCLASSEXTEND = "native nativesdk"
+ 
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[libbsd] = "ac_cv_lib_bsd_main=yes,ac_cv_lib_bsd_main=no,libbsd"
 +
- inherit autotools-brokensep gettext
+ do_install_prepend () {
+     # Create bindir to fix parallel installation issues
+     mkdir -p ${D}/${bindir}
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.18.bb b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+index b2cfe9a..52decfd 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.18.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.18.bb
+@@ -37,6 +37,9 @@ EXTRA_OECONF = "--without-x"
  
- EXTRA_OECONF += "--disable-sensors"
+ BBCLASSEXTEND = "native nativesdk"
+ 
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[libbsd] = "ac_cv_lib_bsd_main=yes,ac_cv_lib_bsd_main=no,libbsd"
++
+ do_install_prepend () {
+     # Create bindir to fix parallel installation issues
+     mkdir -p ${D}/${bindir}
 -- 
 1.7.9.5
 
