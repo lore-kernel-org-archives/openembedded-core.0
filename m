@@ -1,37 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C41F6AC36
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ED236AC24
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 11:00:16 +0000 (UTC)
-Received: by qgep100 with SMTP id p100so14736711qge.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 04:00:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=6ZyrwzHNJ8ESS90A2ZlY0CZAq5m5ilENdE31V7gOYgM=;
-	b=J1f/OLIWbzN1pWMnvSOfDhidb3BOlhY7JYvu4egNwGV6i7ny0Rpi9REbeAFLCdh/wN
-	+V7RXjpo6n0E+99osmQHVbjw14sRAcJd33jJGcEvI9HQSsW/Lb+fpmGwV++5+i/z+hle
-	mY9/SE5LxittcYYZO9Zuww7BqBnonIMqXUtNKanX9ZGgq8wh63F6pM+VjMru5nMoonWv
-	mQUshpe7dBJQS9PcOBLnsHTv+M4mNRzqAGb0/6DDDjcbWYLwF4hbKyI3y9zuBJCHj3QT
-	KtSy7A2SQWMM9y0mphT5wXhi1hBEi6oPLhwvDP/WtFUzCWqrbuGmyDChR+VWdjLJ3lfx
-	MqQw==
-X-Gm-Message-State: ALoCoQkYmpiSbdK2HszyRvcxmljKzuxKafkOA9ZFujtbWNID++Tg88pLax0UaB22UA8tYo1fTb7k
-X-Received: by 10.140.43.228 with SMTP id e91mr2949781qga.80.1433934017444;
-	Wed, 10 Jun 2015 04:00:17 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 10 Jun 2015 03:59:57 -0700 (PDT)
-In-Reply-To: <3dad7b58e258a4fb34e78dc8a3145efe2525f6e2.1433840650.git.liezhi.yang@windriver.com>
-References: <cover.1433840650.git.liezhi.yang@windriver.com>
-	<3dad7b58e258a4fb34e78dc8a3145efe2525f6e2.1433840650.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 10 Jun 2015 11:59:57 +0100
-Message-ID: <CAJTo0LbWKgtFa0zvr7GVeKgN+ZAb643RhicforGSz_BBpO1AxQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] libpostproc: fix installed-vs-shipped
+	Wed, 10 Jun 2015 12:29:01 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 10 Jun 2015 05:29:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,587,1427785200"; d="scan'208";a="585343873"
+Received: from cpmcinty-mobl5.ger.corp.intel.com (HELO [10.252.0.209])
+	([10.252.0.209])
+	by orsmga003.jf.intel.com with ESMTP; 10 Jun 2015 05:28:59 -0700
+User-Agent: Microsoft-MacOutlook/14.5.0.150423
+Date: Wed, 10 Jun 2015 15:28:59 +0300
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Message-ID: <D19E080E.51B21%markus.lehtonen@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 00/10] devtool refactoring
+References: <1433435514-28677-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<6837948.BxYHk4oixu@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <6837948.BxYHk4oixu@peggleto-mobl.ger.corp.intel.com>
+Mime-version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/10] devtool refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,71 +34,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 11:00:20 -0000
-Content-Type: multipart/alternative; boundary=001a113a34bcbdd25a051827c7d6
+X-List-Received-Date: Wed, 10 Jun 2015 12:29:03 -0000
+Content-type: text/plain;
+	charset="US-ASCII"
+Content-transfer-encoding: 7bit
 
---001a113a34bcbdd25a051827c7d6
-Content-Type: text/plain; charset=UTF-8
+Hi,
 
-On 9 June 2015 at 10:04, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 09/06/15 18:01, "Paul Eggleton" <paul.eggleton@linux.intel.com> wrote:
 
-> When MACHINE=qemux86-64 and enable multilib:
-> ERROR: QA Issue: libpostproc: Files/directories were installed but not
-> shipped in any package:
->   /usr/lib
->   /usr/lib/libpostproc.so.52.3.0
->   /usr/lib/libpostproc.so
->   /usr/lib/libpostproc.so.52
->   /usr/lib/.debug
->   /usr/lib/.debug/libpostproc.so.52.3.0
-> Please set FILES such that these items are packaged. Alternatively if they
-> are unneeded, avoid installing them or delete them within do_install.
-> [installed-vs-shipped]
+>Hi Markus,
 >
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>On Thursday 04 June 2015 19:31:44 Markus Lehtonen wrote:
+>> This patchset contains contains some refactoring of the devtool code,
+>> hopefully making the code more maintainable and somewhat easier to read.
 >
+>Unfortunately something in here breaks the QA tests - and this time I've
+>double-checked that they pass without this patchset (well, deploy_target
+>seems 
+>to be failing on one of my machines but not another - am looking into
+>that). 
+>
+>Could you please investigate?
 
-This commit log tells us in exact detail that there was a QA error when
-multilib is enabled, but never mentions what the actual problem is or what
-the fix is.  A more useful commit would be something like:
+Hmm, strange. I will investigate and get back to this.
 
-"libpostproc: pass correct libdir
 
-Pass the right libdir to configure as otherwise it assumes $prefix/lib
-which may be wrong"
+Thanks,
+   Markus
 
-Ross
 
---001a113a34bcbdd25a051827c7d6
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">On 9 June 2015 at 10:04, Robert=
- Yang <span dir=3D"ltr">&lt;<a href=3D"mailto:liezhi.yang@windriver.com" ta=
-rget=3D"_blank">liezhi.yang@windriver.com</a>&gt;</span> wrote:<br><div cla=
-ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":102" class=3D=
-"a3s" style=3D"overflow:hidden">When MACHINE=3Dqemux86-64 and enable multil=
-ib:<br>
-ERROR: QA Issue: libpostproc: Files/directories were installed but not ship=
-ped in any package:<br>
-=C2=A0 /usr/lib<br>
-=C2=A0 /usr/lib/libpostproc.so.52.3.0<br>
-=C2=A0 /usr/lib/libpostproc.so<br>
-=C2=A0 /usr/lib/libpostproc.so.52<br>
-=C2=A0 /usr/lib/.debug<br>
-=C2=A0 /usr/lib/.debug/libpostproc.so.52.3.0<br>
-Please set FILES such that these items are packaged. Alternatively if they =
-are unneeded, avoid installing them or delete them within do_install. [inst=
-alled-vs-shipped]<br>
-<br>
-Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.com"=
->liezhi.yang@windriver.com</a>&gt;</div></blockquote><div><br></div><div>Th=
-is commit log tells us in exact detail that there was a QA error when multi=
-lib is enabled, but never mentions what the actual problem is or what the f=
-ix is.=C2=A0 A more useful commit would be something like:</div><div><br></=
-div><div>&quot;libpostproc: pass correct libdir</div><div><br></div><div>Pa=
-ss the right libdir to configure as otherwise it assumes $prefix/lib which =
-may be wrong&quot;</div><div><br></div><div>Ross</div></div></div></div>
-
---001a113a34bcbdd25a051827c7d6--
