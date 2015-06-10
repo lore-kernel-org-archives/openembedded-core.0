@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 630426AC37
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A89B46AC38
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Jun 2015 07:25:03 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5A7P32e017454
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5A7P5kQ023938
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 00:25:04 -0700 (PDT)
+	Wed, 10 Jun 2015 00:25:05 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 10 Jun 2015 00:25:03 -0700
+	14.3.224.2; Wed, 10 Jun 2015 00:25:04 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jun 2015 15:25:21 +0800
-Message-ID: <cover.1433920984.git.Qi.Chen@windriver.com>
+Date: Wed, 10 Jun 2015 15:25:22 +0800
+Message-ID: <47e7d91a824b72ade9e18a070e1ca8b7ea893ba9.1433920984.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1433920984.git.Qi.Chen@windriver.com>
+References: <cover.1433920984.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 0/3] Extensible SDK: 3 fixes
+Subject: [PATCH V2 1/3] populate_sdk_ext: install the latest buildtools-tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +36,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 10 Jun 2015 07:25:05 -0000
 Content-Type: text/plain
 
-Changes since V1:
-*) Make use of bb.utils.edit_metadata.
-*) Introduce a whitelist mechanism to allow exceptions.
+If we do `bitbake buildtools-tarball' and then after one day do `bitbake
+core-image-minimal -c populate_sdk_ext', we would meet errors like below.
 
-The following changes since commit de6a26b95a7f7bd8f9dc47ab35d8b07ba671f4eb:
+| install: cannot stat '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
+poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalone
+-1.8+snapshot-20150429.sh': No such file or directory
 
-  x264: use x86 over-ride instead of i586 (2015-06-08 17:32:46 +0100)
+The problem is that the output name for buildtools-tarball has ${DATE} in it.
+So if populate_sdk_ext task is executed but buildtools-tarball is not rebuilt,
+the above error appears.
 
-are available in the git repository at:
+Instead of hardcoding ${DISTRO_VERSION} which consists of ${DATE} in the
+install_tools() function, we should find the latest buildtools-tarball based
+on the modification time and install it.
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/ext-sdk-3-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/ext-sdk-3-fixes
+[YOCTO #7674]
 
-Chen Qi (3):
-  populate_sdk_ext: install the latest buildtools-tarball
-  copy_buildsystem: make sure bitbake directory is copied
-  populate_sdk_ext: consider custom configuration in local.conf
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/classes/populate_sdk_ext.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
- meta/classes/populate_sdk_ext.bbclass | 21 ++++++++++++++++++++-
- meta/lib/oe/copy_buildsystem.py       |  7 +++----
- 2 files changed, 23 insertions(+), 5 deletions(-)
-
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index dc2c58e..2fc4c11 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -168,7 +168,9 @@ install_tools() {
+ 	ln -sr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool
+ 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
+ 
+-	install ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh ${SDK_OUTPUT}/${SDKPATH}
++	# find latest buildtools-tarball and install it
++	buildtools_path=`ls -t1 ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-*.sh | head -n1`
++	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
+ 
+ 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
+ }
 -- 
 1.9.1
 
