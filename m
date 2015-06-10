@@ -1,40 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DF446AC28
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 87FA973B90
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 10:03:44 +0000 (UTC)
-Received: by wgez8 with SMTP id z8so31715069wge.0
+	Wed, 10 Jun 2015 10:09:10 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
+   d="scan'208";a="96785858"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 10 Jun 2015 18:13:25 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5AA7aLA019153
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 03:03:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:content-transfer-encoding
-	:in-reply-to:user-agent;
-	bh=WGzfBlxRQ9cilkN47ROYewFD8QEu1GRozkwjK+jd3+U=;
-	b=uTeo6ARz6tiWnBQILpOsOSjxFIanEnnI1jx07dqfZ4iPfZGc1944Ug58KHVOGsMNsk
-	I5+jZotf9VPyOeTT+zlz8DCDlnT3nlHs7S8AeqSuAp7rhkv4iAxcAgDwNL0fzQr3ENsj
-	2Ql1LNB1C7UBtI9Jlkhc/rKh+m4DOtGmkJ9YGIHhrTCzBxEAhzBBKpX3oSiHWB5z3mEK
-	QVhs+EV7fwD4V785MgMWH71oFRiKVdDFjylvssuRpb5u8DlfErtUJJo7spxWcfpAxOx8
-	AXLESh1GfyAAQD0ZTZ55t7yeoK1hXAa+M4skabPdSJQ06lHRpsCAffgduqBmGBl4+fBm
-	+IdQ==
-X-Received: by 10.180.76.8 with SMTP id g8mr17071203wiw.79.1433930624855;
-	Wed, 10 Jun 2015 03:03:44 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id r6sm7134095wiy.13.2015.06.10.03.03.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 10 Jun 2015 03:03:43 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 10 Jun 2015 12:03:53 +0200
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20150610100353.GA2400@jama>
-References: <CAJTo0LY2C3d6ewKs7f1V0U9k7vqMQ47kCnANetzGz1OhMtfTFg@mail.gmail.com>
-	<1554329.HKQRZb0eD9@peggleto-mobl.ger.corp.intel.com>
+	Wed, 10 Jun 2015 18:07:36 +0800
+Received: from localhost.localdomain (10.167.226.26) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Wed, 10 Jun 2015 18:09:13 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Jun 2015 18:09:11 +0800
+Message-ID: <1433930954-31813-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1554329.HKQRZb0eD9@peggleto-mobl.ger.corp.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC] remove neon from oe-core
+X-Originating-IP: [10.167.226.26]
+Subject: [PATCH v4 0/3] These patches aim to make the spdx file be compliant with the SPDX 1.2 Specification.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,44 +35,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 10:03:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 10 Jun 2015 10:09:14 -0000
+Content-Type: text/plain
 
-On Wed, Jun 10, 2015 at 10:17:53AM +0100, Paul Eggleton wrote:
-> Hi Ross,
->=20
-> On Tuesday 09 June 2015 20:14:15 Burton, Ross wrote:
-> > Since Subversion moved away from neon it appears the only user of it in
-> > oe-core is GStreamer as a HTTP client plugin.  By virtue of being
-> > maintained I suspect the libsoup plugin is generally the better choice
-> > there, so as neon is now unmaintained upstream (last release September
-> > 2014, doesn't work with latest GnuTLS release) I propose moving it to
-> > meta-oe.
-> >=20
-> > Any comments?
->=20
-> I have to be honest and say I don't like meta-oe continuing to be a dumpi=
-ng=20
-> ground for old things that only a few (or no) people are using - if we mu=
-st=20
-> keep these recipes around, I'd rather they go into a different layer even=
- if=20
-> that layer's only grouping factor is "legacy items", at least then they a=
-re=20
-> labelled appropriately. GStreamer 0.10 and BlueZ 4 were recent examples,=
-=20
-> perhaps I should have spoken up earlier, although I don't necessarily thi=
-nk=20
-> it's too late.
->=20
-> Martin - what do you think?
+Those patches aim to make the spdx file be compliant with the SPDX 1.2 Specification.
+If you want to use this feature,you need to do:
+1. Make sure your fossology+spdx server works well.You can get spdx file with the following command.
+   curl http://127.0.0.1/repo/ --noproxy 127.0.0.1 -k -F mod=spdx_license_once -F noCopyright=false
+   -F jsonOutput=false -F fullSPDXFlag=true -F file=@xxx.tar.gz -o xxx.spdx
 
-Yes, meta-legacy not included in my world builds looks much better than
-dumping untested changes to meta-oe (both gstreamer-0.10 and bluez-4
-dumps didn't even parse in form how they were sent to oe-devel ML).
+2. Add the following INHERIT statement and set the SPDX_MANIFEST_DIR at the end of your conf/local.conf file found in the Build Directory.
+   INHERIT += "spdx"
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+Lei Maohui (3):
+  licenses.conf: Modified parameters for new spdx.bbclass
+  spdx.bbclass: Create the spdx file which is compliant      with SPDX
+    1.2 Specification
+  spdx: create a directory to save source code
+
+ meta/classes/spdx.bbclass | 431 +++++++++++++++++-----------------------------
+ meta/conf/licenses.conf   |  86 +++------
+ 2 files changed, 184 insertions(+), 333 deletions(-)
+
+-- 
+1.8.4.2
+
 
