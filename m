@@ -1,40 +1,36 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 61B2672491
+Return-Path: <erik.boto@pelagicore.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 73E3273E36
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 07:50:31 +0000 (UTC)
-Received: by igblz2 with SMTP id lz2so1175199igb.1
+	Thu, 11 Jun 2015 08:39:13 +0000 (UTC)
+Received: by qgfa66 with SMTP id a66so104190qgf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 00:50:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=sLcd1RIJ0nT+9iQfAIpY1TsSct/+4Bceq1Hl1uvqZVk=;
-	b=PZr2rOIvyT02iNSSJuTWKwJ4o9iaQbW9WBl18Pc9yIzBu4F29cM68sQttInz8QA8Ju
-	2rb8RJsRWaAOtOsJFMT3mSNfpOlCfJXvU92JJXcBUBsswNJDEaSpalZmV/vwqUshdezs
-	y2j0Cmidan01Pv8oduePorFPUCl9T0rrBcYtPxz8C7W26YXRx3Inz2BtDj5XhmJSTk+x
-	YQqGpfdBWakWa1LeTMrLG+0qx5tCx2vDLF84Fmfkmw3qBylwKTJmb3aKVwS8UriWjSep
-	CLyOAjAjXNXIuoR3QTeKW/PPW8anTaD8xfOa7yYQObKs2qEZ6fCMBRhZ35vN45ogYOIq
-	GFVw==
+	Thu, 11 Jun 2015 01:39:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=8DZIxC2vZ8EkN18gjr2nYvNlhe6bCjmZPr0O5eQ2eUM=;
+	b=GZNWnEiCvkhF5arIpjOCOQsLZxo/F5/jjxxKmT00zNjO6AS5m/GQvYB0vgx3U3KK6o
+	eJ3ggfME6npmS8maOMUBEWX22nZkk+kJqngbTvB6luZ/Fs3Fd71reYDT5jLyJMLjt0Mw
+	k+OY1RQRH7Ugyw7ZT4MIH7AC5wS9P+RD/T9Sv01tlt/xCH/474yOXqbWMG+n4UjEiXdY
+	aYVwdQa2x2hTcotuMP91rozSQ8oujwkYVwQt01Bk0Ii4dC6wWxX0wAxKnQMxgRkBzhoV
+	b6UnWAlw3FheBKNjPKe8hYJGgamPVf5SfjuYCF/kBpOw1bAbKFAwac1ABDtgI7anZTjn
+	0o0Q==
+X-Gm-Message-State: ALoCoQlMFDO8FhxK27vLKjKiupW9x4aLVKwcBRYgWND2FRyKqT0Qr0f4aMvHc7MduRf9xZljmNBQ
 MIME-Version: 1.0
-X-Received: by 10.50.79.196 with SMTP id l4mr33402668igx.48.1434009033090;
-	Thu, 11 Jun 2015 00:50:33 -0700 (PDT)
-Received: by 10.36.19.3 with HTTP; Thu, 11 Jun 2015 00:50:32 -0700 (PDT)
-In-Reply-To: <55792352.8060505@topic.nl>
-References: <55641868.1080406@topic.nl>
-	<CADkTA4NaTjRoydVSh63HB6QgvSnQis-z9RnaYZkT3Ng1cm1bWg@mail.gmail.com>
-	<55641D0C.5020408@topic.nl> <55642019.3060305@topic.nl>
-	<55642B75.8050909@topic.nl> <55642EFB.4070102@topic.nl>
-	<CAAQYJAvzu1Jb76SgenWQPhs=9N_+aqqUece_hBhs-8_6nMbojg@mail.gmail.com>
-	<556436D1.80906@topic.nl> <5579207E.1050506@topic.nl>
-	<55792352.8060505@topic.nl>
-Date: Thu, 11 Jun 2015 09:50:32 +0200
-Message-ID: <CAAQYJAsjx81yCRUJ3Af8uBg=JL5ZstX_g3Td+kK93dVH2GGJjA@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: "bitbake -c menuconfig virtual/kernel" fails on ncurses dependency
+X-Received: by 10.55.16.67 with SMTP id a64mr16192898qkh.31.1434011954792;
+	Thu, 11 Jun 2015 01:39:14 -0700 (PDT)
+Received: by 10.96.184.134 with HTTP; Thu, 11 Jun 2015 01:39:14 -0700 (PDT)
+In-Reply-To: <1432309362-3275-1-git-send-email-dave.lerner@windriver.com>
+References: <1432309362-3275-1-git-send-email-dave.lerner@windriver.com>
+Date: Thu, 11 Jun 2015 10:39:14 +0200
+Message-ID: <CA+AhUGx_O0zSnPQbqtH8rUwGDj3ru5zrb68z87Ze00ZKsH8yaw@mail.gmail.com>
+From: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
+To: Dave Lerner <dave.lerner@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] valgrind: remove arm tests that don't compile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,148 +43,188 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 07:50:32 -0000
+X-List-Received-Date: Thu, 11 Jun 2015 08:39:15 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jun 11, 2015 at 7:57 AM, Mike Looijmans <mike.looijmans@topic.nl> wrote:
-> On 11-06-15 07:45, Mike Looijmans wrote:
->>
->> On 26-05-15 11:03, Mike Looijmans wrote:
->>>
->>> On 26-05-15 10:40, Andrea Adami wrote:
->>>>
->>>> On Tue, May 26, 2015 at 10:29 AM, Mike Looijmans
->>>> <mike.looijmans@topic.nl> wrote:
->>>>>
->>>>> On 26-05-15 10:14, Mike Looijmans wrote:
->>>>>>
->>>>>>
->>>>>> On 26-05-15 09:26, Mike Looijmans wrote:
->>>>>>>
->>>>>>>
->>>>>>> On 26-05-15 09:13, Mike Looijmans wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>> On 26-05-15 09:02, Bruce Ashfield wrote:
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> On Tue, May 26, 2015 at 2:53 AM, Mike Looijmans
->>>>>>>>> <mike.looijmans@topic.nl>
->>>>>>>>> wrote:
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> I get this when running
->>>>>>>>>> bitbake -c menuconfig virtual/kernel
->>>>>>>>>>
->>>>>>>>>> scripts/kconfig/mconf.o: In function `show_help':
->>>>>>>>>> mconf.c:(.text+0x884): undefined reference to `stdscr'
->>>>>>>>>> scripts/kconfig/lxdialog/checklist.o: In function `print_arrows':
->>>>>>>>>> checklist.c:(.text+0x2c): undefined reference to `wmove'
->>>>>>>>>> checklist.c:(.text+0x4c): undefined reference to `acs_map'
->>>>>>>>>> checklist.c:(.text+0x54): undefined reference to `waddch'
->>>>>>>>>> checklist.c:(.text+0x66): undefined reference to `waddnstr'
->>>>>>>>>> checklist.c:(.text+0x76): undefined reference to `wmove'
->>>>>>>>>
->>>>>>>>>
->>>>>>>>>
->>>>>>>>> This has popped up on and off for several years now, and we have
->>>>>>>>> a few
->>>>>>>>> bugzilla
->>>>>>>>> entries that track it. The fix is never as simple as we would like.
->>>>>>>>>
->>>>>>>>> The most recent version is here:
->>>>>>>>>
->>>>>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7609
->>>>>>>>>
->>>>>>>>> If you have more details about your enviroment, adding them to
->>>>>>>>> that bug
->>>>>>>>> would
->>>>>>>>> be idea.
->>>>>>>>>
->>>>>>>>> The problem with using the -native version, or the host, is that at
->>>>>>>>> times
->>>>>>>>> menu
->>>>>>>>> config is rendered unusable. The fix isn't only in the
->>>>>>>>> dependencies,
->>>>>>>>> but in
->>>>>>>>> the
->>>>>>>>> way that menuconfig is build within the kernel environment.
->>>>>>>>>
->>>>>>>>> This older bug tracks the details of that:
->>>>>>>>>
->>>>>>>>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=3898
->>>>>>>>
->>>>>>>>
->>>>>>>>
->>>>>>>> I have an Ubuntu 14 system. The weird thing is, that I have several
->>>>>>>> almost
->>>>>>>> identical machines, and some of them fail and some don't.
->>>>>>>>
->>>>>>>> This one works fine:
->>>>>>>> MACHINE=topic-miami-florida-med-xc7z030
->>>>>>>>
->>>>>>>> This one fails:
->>>>>>>> MACHINE=topic-miami-florida-gen-xc7z030
->>>>>>>>
->>>>>>>> They all use the same kernel recipe, version, git tag, etc. These
->>>>>>>> two
->>>>>>>> even
->>>>>>>> share the very same defconfig. Their builds run within the same OE
->>>>>>>> environment, so the native sysroot for both is the same too!
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> I output "bitbake -c menuconfig virtual/kernel -e" for both
->>>>>>> machines into
->>>>>>> two
->>>>>>> files, then did a find/replace "med" with "gen", and then looked
->>>>>>> the the
->>>>>>> differences with meld. Both machines use the same environments all
->>>>>>> over,
->>>>>>> only
->>>>>>> differences are time stamps and task checksums.
->>>>>>>
->>>>>>> Next I'm gonna try the old "remove tmp" trick.
->>>>>>
->>>>>>
->>>> I was there, it will fail (Ubuntu 14.04 fwiw).
->>>>
->>>>>>
->>>>>> Removing tmp did not help either. Forcibly rebuilding ncurses-native
->>>>>> also
->>>>>> did
->>>>>> not help.
->>>>
->>>>
->>>> Yes, as strange as it is, you need to bitbake ncurses.
->>>
->>>
->>> Wow, indeed, "bitbake ncurses -c populate_sysroot -f" made the
->>> menuconfig work again.
->>>
->>> Looks like ncurses "fixes" something that ncurses-native broke.
->>
->>
->> Waaah. I just got this very same problem back, but whatever I try, I
->> can't get it to work properly again using the above workaround.
+Hi,
+
+I'd like to see this backported into fido if possible, I saw that it's
+now merged in master.
+
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=d1ce219960c031c00b48bf454b740b8bffcfbc43
+
+Cheers,
+Erik
+
+On Fri, May 22, 2015 at 5:42 PM, Dave Lerner <dave.lerner@windriver.com> wrote:
+> [Yocto #7453]
 >
+> Corrects the original commit for the patch that removed ARM ptest CFLAGS
+> settings. Since the flags could be set by a user, the flags should
+> be kept in place during compilation.  By keeping the original up-stream
+> CFLAGS for the tests, then additional tests successfully compile
+> for all tested ARM tunings.
 >
-> The only horrible hack that got menuconfig working again was to install
-> ncurses-dev on the build host.
+> However, there were still two tests listed below that did not compile
+> for any beaglebone tuning that is valid for valgrind. With the updated
+> patch, the set of excluded ARM ptests and their respective build
+> failures are:
+>   intdiv - fails for all beaglebone tunings with 2 errors:
+>   {standard input}:(40 or 41): Error: selected processor does not
+>        support Thumb mode `udiv r3,r9,r10'
+>   {standard input}:(72 or 73): Error: selected processor does not
+>        support Thumb mode `sdiv r3,r9,r10'
 >
+>   vcvt_fixed_float_VFP - fails for all beaglebone tunings in one of
+>   two ways:
+>     with neon tuning (-mfpu=neon) fails with Internal Compiler Error
+>     without neon tuning fails with 3 errors:
+>     {standard input}:33: Error: selected FPU does not support
+>       instruction -- `vcvt.f32.s32 s15,s15,#1'
+>     {standard input}:58: Error: selected FPU does not support
+>       instruction -- `vcvt.f32.s32 s15,s15,#32'
+>     {standard input}:136: Error: selected FPU does not support
+>       instruction -- `vcvt.f32.u32 s15,s15,#1'
+>
+> After applying this commit, the valgrind ARM ptests compile without
+> errors for tunings:
+>   armv7[t][hf][b][-neon] cortexa8[t][hf][-neon]
+> where the tuning [option] was successfully compiled, both with
+> and without the 'option', and in combination with all other options.
+>
+> Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+> ---
+>  .../valgrind/remove-arm-variant-specific.patch     | 99 +++++++++++-----------
+>  1 file changed, 48 insertions(+), 51 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+> index f84bf9a..2319ab9 100644
+> --- a/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+> +++ b/meta/recipes-devtools/valgrind/valgrind/remove-arm-variant-specific.patch
+> @@ -1,69 +1,66 @@
+> -Remove tests that require thumb compiler flags
+> -
+> -Default compiler options for arm machines are incompatible with the
+> -'-mthumb' compiler option imposed by the intdiv and lrt test
+> -applications, so those two are removed from the ptest build.
+> +Remove arm tests that don't compile
+>
+>  Upstream-Status: Pending
+>
+> +Corrects the original commit for the patch that removed ARM ptest CFLAGS
+> +settings. Since the flags could be set by a user, the flags should
+> +be kept in place during compilation.  By keeping the original up-stream
+> +CFLAGS for the tests, then additional tests successfully compile
+> +for all tested ARM tunings.
+> +
+> +However, there were still two tests listed below that did not compile
+> +for any beaglebone tuning that is valid for valgrind. With the updated
+> +patch, the set of excluded ARM ptests and their respective build
+> +failures are:
+> +  intdiv - fails for all beaglebone tunings with 2 errors:
+> +  {standard input}:(40 or 41): Error: selected processor does not
+> +       support Thumb mode `udiv r3,r9,r10'
+> +  {standard input}:(72 or 73): Error: selected processor does not
+> +       support Thumb mode `sdiv r3,r9,r10'
+> +
+> +  vcvt_fixed_float_VFP - fails for all beaglebone tunings in one of
+> +  two ways:
+> +    with neon tuning (-mfpu=neon) fails with Internal Compiler Error
+> +    without neon tuning fails with 3 errors:
+> +    {standard input}:33: Error: selected FPU does not support
+> +      instruction -- `vcvt.f32.s32 s15,s15,#1'
+> +    {standard input}:58: Error: selected FPU does not support
+> +      instruction -- `vcvt.f32.s32 s15,s15,#32'
+> +    {standard input}:136: Error: selected FPU does not support
+> +      instruction -- `vcvt.f32.u32 s15,s15,#1'
+> +
+> +After applying this commit, the valgrind ARM ptests compile without
+> +errors for tunings:
+> +  armv7[t][hf][b][-neon] cortexa8[t][hf][-neon]
+> +where the tuning [option] was successfully compiled, both with
+> +and without the 'option', and in combination with all other options.
+> +
+>  Signed-off-by: Dave Lerner <dave.lerner@windriver.com>
+>
+> -Index: valgrind-3.10.0/none/tests/arm/Makefile.am
+> +Index: valgrind-3.10.1/none/tests/arm/Makefile.am
+>  ===================================================================
+> ---- valgrind-3.10.0.orig/none/tests/arm/Makefile.am
+> -+++ valgrind-3.10.0/none/tests/arm/Makefile.am
+> -@@ -17,15 +17,16 @@ EXTRA_DIST = \
+> +--- valgrind-3.10.1.orig/none/tests/arm/Makefile.am    2015-05-19 15:11:59.224842927 -0500
+> ++++ valgrind-3.10.1/none/tests/arm/Makefile.am 2015-05-19 15:14:20.808847028 -0500
+> +@@ -17,9 +17,13 @@
+>         vfp.stdout.exp vfp.stderr.exp vfp.vgtest \
+>         vfpv4_fma.stdout.exp vfpv4_fma.stderr.exp vfpv4_fma.vgtest
+>
+> -+# For yocto:
+> -+#  Only include tests that don't require Thumb.
+> -+#  Only use CFLAGS passed in by the build system.
+> -+# Some tests may fail, but all tests must compile.
+> ++# Remove the following tests which cause compiler errors for all tunings
+> ++#  available for beagle bone (see remove-arm-variant-specific.patch):
+> ++#     intdiv
+> ++#     vcvt_fixed_float_VFP
+> ++
+>   check_PROGRAMS = \
+>         allexec \
+>  -      intdiv \
+> --      ldrt \
+> +       ldrt \
+>         ldrt_arm \
+>         neon128 \
+> -       neon64 \
+> +@@ -27,7 +31,6 @@
+>         v6intARM \
+> --      v6intThumb \
+> +       v6intThumb \
+>         v6media \
+> -       vcvt_fixed_float_VFP \
+> +-      vcvt_fixed_float_VFP \
+>         vfp \
+> -@@ -36,34 +37,3 @@ AM_CXXFLAGS  += @FLAG_M32@
+> - AM_CCASFLAGS += @FLAG_M32@
+> +       vfpv4_fma
+>
+> - allexec_CFLAGS                = $(AM_CFLAGS) @FLAG_W_NO_NONNULL@
+> --
+> --# These two are specific to their ARM/Thumb respectively and so we
+> --# hardwire -marm/-mthumb.  neon64 and neon128 are compilable on both,
+> --# however, ask for them to be compiled on thumb, as that looks
+> --# like that's going to be the more common use case.  They also
+> --# need special helping w.r.t -mfpu and -mfloat-abi, though.
+> --# Also force -O0 since -O takes hundreds of MB of memory
+> --# for v6intThumb.c.
+> --v6intARM_CFLAGS   = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -marm
+> --v6intThumb_CFLAGS = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -mthumb
+> --
+> --v6media_CFLAGS    = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 -mthumb
+> --
+> --vfp_CFLAGS        = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
+> --                      -mfpu=neon \
+> --                      -mthumb
+> --
+> --
+> --neon128_CFLAGS    = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
+> --                      -mfpu=neon \
+> --                      -mthumb
+> --
+> --neon64_CFLAGS     = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a8 \
+> --                      -mfpu=neon \
+> --                      -mthumb
+> --
+> --intdiv_CFLAGS   = $(AM_CFLAGS) -g -mcpu=cortex-a15 -mthumb
+> --ldrt_CFLAGS     = $(AM_CFLAGS) -g -mcpu=cortex-a8 -mthumb
+> --ldrt_arm_CFLAGS         = $(AM_CFLAGS) -g -mcpu=cortex-a8 -marm
+> --
+> --vfpv4_fma_CFLAGS  = $(AM_CFLAGS) -g -O0 -mcpu=cortex-a15 -mfpu=vfpv4 -marm
+> --
+> 1.9.1
 >
 > --
-> Mike Looijmans
-
-I see the common point here is Ubuntu 14.x.
-This never happens on my old Gentoo buildhost, where you don't have
-the split with -dev packages.
-
-Neverthless, reading the comments in the Yocto bugzilla it looks like
-the kernel could be the culprit.
-I'll try to debug that once 4.1 is out.
-
-Cheers
-
-Andrea
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
