@@ -1,25 +1,30 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-X-Greylist: delayed 583 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 11 Jun 2015 17:24:04 UTC
-Received: from dd5638.kasserver.com (dd5638.kasserver.com [85.13.130.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 00C02757C4
+Return-Path: <denis@denix.org>
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A1C560962
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 17:24:04 +0000 (UTC)
-Received: from [192.168.1.100] (unknown [176.0.85.151])
-	by dd5638.kasserver.com (Postfix) with ESMTPSA id 02DED5600081;
-	Thu, 11 Jun 2015 19:14:19 +0200 (CEST)
-Message-ID: <5579C1E5.7030307@herbrechtsmeier.net>
-Date: Thu, 11 Jun 2015 19:14:13 +0200
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Moritz Blume <moritz.blume@bmw-carit.de>, 
-	openembedded-core@lists.openembedded.org
-References: <1433921778-1835-1-git-send-email-moritz.blume@bmw-carit.de>
-	<1433921778-1835-2-git-send-email-moritz.blume@bmw-carit.de>
-In-Reply-To: <1433921778-1835-2-git-send-email-moritz.blume@bmw-carit.de>
-Subject: Re: [PATCH v3 2/2] cmake: Upgrade 2.8.12.2 -> 3.2.2
+	Thu, 11 Jun 2015 19:08:14 +0000 (UTC)
+Received: from gandalf.denix.org ([108.51.169.48]) by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NPS00FCLNT95S00@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Thu, 11 Jun 2015 14:07:58 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=Jp0M15MC c=1 sm=1 tr=0	a=x3PDphkivVtATbYodTxRAw==:117
+	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=-9mUelKeXuEA:10 a=XAFQembCKUMA:10
+	a=sozttTNsAAAA:8	a=HZ0uepUFdSjJEhG47tkA:9 a=TjakIkvq5rAA:10
+	a=EQI-s8DoeD4A:10 a=arjBxkBb8twA:10
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id 9A718161A9A;	Thu,
+	11 Jun 2015 15:07:57 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jun 2015 15:07:54 -0400
+Message-id: <1434049675-15986-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.2.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [daisy][PATCH 0/1] Backport BAD_RECOMMENDATIONS fix from master/dizzy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,24 +37,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 17:24:07 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Jun 2015 19:08:18 -0000
 
-Am 10.06.2015 um 09:36 schrieb Moritz Blume:
-> Patches "qt4-fail-silent.patch" and "support-oe-qt4-tools-names.patch"
-> were adapted in order to fit to CMake 3.2.2 (refer to the commit
-> message in the respective patch for details).
-> Patch "cmake-2.8.11.2-FindFreetype.patch" was dropped since it was
-> rejected upstream and its functionality otherwise implemented in the
-> meantime.
->
-> Note that CMake 3 needs to have the full compiler path in the toolchain
-> file (see cmake.bbclass).
-Have you try the new CMake 3 toolchain file variables CMAKE_SYSROOT [1] 
-and CMAKE_STAGING_PREFIX [2]?
+From: Denys Dmytriyenko <denys@ti.com>
 
-[1] http://www.cmake.org/cmake/help/v3.2/variable/CMAKE_SYSROOT.html
-[2] http://www.cmake.org/cmake/help/v3.2/variable/CMAKE_STAGING_PREFIX.html
+This is a self-contained clean backport of BAD_RECOMMENDATIONS fix for opkg.
+Please consider applying to daisy.
+
+Paul Barker (1):
+  package_manager: Fix BAD_RECOMMENDATIONS for opkg
+
+ meta/lib/oe/package_manager.py | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+-- 
+2.2.0
 
 
