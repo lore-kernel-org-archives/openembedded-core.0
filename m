@@ -1,28 +1,37 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9936B60017
+Return-Path: <martinstolpe@gmail.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id A2B7F75841
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 01:42:22 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
-   d="scan'208";a="96827325"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Jun 2015 09:46:38 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5B1eodt016526
+	Thu, 11 Jun 2015 05:27:19 +0000 (UTC)
+Received: by igbzc4 with SMTP id zc4so49336847igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 09:40:50 +0800
-Received: from localhost.localdomain (10.167.226.85) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Thu, 11 Jun 2015 09:42:33 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jun 2015 09:42:19 +0800
-Message-ID: <1433986939-1704-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 10 Jun 2015 22:27:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=d07GNbRaDDRpsPopodnhx+wgWHdQ1Iu3+5yN4g3u3hs=;
+	b=UlNSpJbPdosP+c2q4clANMmOXlqHJg+UXDhsXyzTgoFDgv6MjasfhvUHwJYqx26qVP
+	LsgM+zxnvQnvin2JqZdMS/6MIdeFCvoLXY7l3aS7ozxlRvS2iCtAblssv5DvtWwjS02b
+	6DbnkbQjyFWJapdQ+F09Qn1QS5KnyqBlwV9RJ8oOrhxhxkLsBQiin1qhlGlg4sBR6Qmq
+	G27KX8KbjEIV31wY0eX9w/ax7QUHhnRj/5A262lI7xcQR6IDLoen3PJsnPwvtN3uEAuT
+	61YTfz/s+7OyX6x4ZFjDzHATS1VokFrvCGwpKjBo1pLZv2A+fGeZHGsipJZVrcWHLAus
+	oPFg==
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.85]
-Subject: [PATCH] bind: add systemd file bind-chroot.service
+X-Received: by 10.50.176.228 with SMTP id cl4mr10551646igc.2.1434000440484;
+	Wed, 10 Jun 2015 22:27:20 -0700 (PDT)
+Received: by 10.36.79.146 with HTTP; Wed, 10 Jun 2015 22:27:20 -0700 (PDT)
+In-Reply-To: <CAMKF1srsEC8EmOzDPAowKozKPADozZn+QqtNsBtMTt-sexDyjg@mail.gmail.com>
+References: <1433946366-54477-1-git-send-email-martin.stolpe@gmail.com>
+	<CAMKF1srsEC8EmOzDPAowKozKPADozZn+QqtNsBtMTt-sexDyjg@mail.gmail.com>
+Date: Thu, 11 Jun 2015 07:27:20 +0200
+Message-ID: <CAPHZmLbqstteh_AV2FHbJo_kgcQX504D9UfoKv4ENXLCJyYDBw@mail.gmail.com>
+From: Martin Stolpe <martinstolpe@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Martin Stolpe <martin.stolpe@gmail.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] [fido] binutils: fix native builds when host has gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,93 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 01:42:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Jun 2015 05:27:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- .../bind/bind/bind-chroot.service                  | 26 ++++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.10.2.bb      | 13 +++++++----
- 2 files changed, 35 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/bind-chroot.service
+Yes, it would be better to fix these warnings. But on the other hand
+this patch would just restore the previous behavior. So as a long term
+solution I agree with you that these warnings should be fixed but why
+not use a workaround until the problems are fixed? I wouldn't dare to
+try to fix these warnings on my own as these are just my first steps
+with Yocto and programming and I wouldn't be confident that my changes
+would be correct.
 
-diff --git a/meta/recipes-connectivity/bind/bind/bind-chroot.service b/meta/recipes-connectivity/bind/bind/bind-chroot.service
-new file mode 100644
-index 0000000..f204d11
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/bind-chroot.service
-@@ -0,0 +1,26 @@
-+[Unit]
-+Description=Berkeley Internet Name Domain (DNS)
-+Wants=nss-lookup.target
-+Before=nss-lookup.target
-+After=network.target
-+
-+[Service]
-+Type=forking
-+EnvironmentFile=-/etc/sysconfig/named
-+Environment=KRB5_KTNAME=/etc/named.keytab
-+PIDFile=/var/named/chroot/var/run/named/named.pid
-+
-+ExecStartPre=@BASE_BINDIR@/mkdir -p /var/cache/bind
-+ExecStartPre=@SBINDIR@/rndc-confgen -a -t /var/named/chroot -k rndckey
-+ExecStartPre=@SBINDIR@/named-checkconf -t /var/named/chroot -z /etc/bind/named.conf
-+ExecStart=@SBINDIR@/named -t /var/named/chroot $OPTIONS
-+
-+ExecReload=@BASE_BINDIR@/sh -c '@SBINDIR@/rndc reload > /dev/null 2>&1 || @BASE_BINDIR@/kill -HUP $MAINPID'
-+
-+ExecStop=@BASE_BINDIR@/sh -c '@SBINDIR@/rndc stop > /dev/null 2>&1 || @BASE_BINDIR@/kill -TERM $MAINPID'
-+
-+PrivateTmp=true
-+
-+[Install]
-+WantedBy=multi-user.target
-+
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.2.bb b/meta/recipes-connectivity/bind/bind_9.10.2.bb
-index 1dc15a9..bb1be24 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.2.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.2.bb
-@@ -18,6 +18,7 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://init.d-add-support-for-read-only-rootfs.patch \
-            file://bind-confgen-build-unix.o-once.patch \
-            file://0001-build-use-pkg-config-to-find-libxml2.patch \
-+           file://bind-chroot.service \
-            "
- 
- SRC_URI[md5sum] = "dca7a9967947bffa98547fca6130fc04"
-@@ -45,7 +46,7 @@ USERADD_PARAM_${PN} = "--system --home /var/cache/bind --no-create-home \
- INITSCRIPT_NAME = "bind"
- INITSCRIPT_PARAMS = "defaults"
- 
--SYSTEMD_SERVICE_${PN} = "named.service"
-+SYSTEMD_SERVICE_${PN} = "named.service bind-chroot.service"
- 
- PARALLEL_MAKE = ""
- 
-@@ -81,10 +82,15 @@ do_install_append() {
- 	install -m 755 ${WORKDIR}/generate-rndc-key.sh ${D}${sbindir}
- 	install -d ${D}${systemd_unitdir}/system
- 	install -m 0644 ${WORKDIR}/named.service ${D}${systemd_unitdir}/system
-+        install -m 0644 ${WORKDIR}/bind-chroot.service ${D}${systemd_unitdir}/system
- 	sed -i -e 's,@BASE_BINDIR@,${base_bindir},g' \
- 	       -e 's,@SBINDIR@,${sbindir},g' \
--	       ${D}${systemd_unitdir}/system/named.service
--
-+	       ${D}${systemd_unitdir}/system/*.service
-+	install -d "${D}${localstatedir}/named/chroot/${sysconfdir}/bind"
-+	install -d "${D}${localstatedir}/named/chroot/${localstatedir}/named"
-+	install -d "${D}${localstatedir}/named/chroot/${localstatedir}/cache/bind"
-+	install -d "${D}${localstatedir}/named/chroot/${localstatedir}/run/named"
-+	install -m 644 ${S}/conf/* "${D}${localstatedir}/named/chroot/${sysconfdir}/bind/"
- 	install -d ${D}${sysconfdir}/default
- 	install -m 0644 ${WORKDIR}/bind9 ${D}${sysconfdir}/default
- }
-@@ -99,4 +105,3 @@ CONFFILES_${PN} = " \
- 	${sysconfdir}/bind/db.local \
- 	${sysconfdir}/bind/db.root \
- 	"
--
--- 
-1.8.4.2
-
+2015-06-10 17:42 GMT+02:00 Khem Raj <raj.khem@gmail.com>:
+> On Wed, Jun 10, 2015 at 10:26 AM, Martin Stolpe <martinstolpe@gmail.com> wrote:
+>> Problem is that when building binutils using GCC >=5.0
+>> warnings will be treated as errors which will cause
+>> the build to fail.
+>>
+>> Signed-off-by: Martin Stolpe <martin.stolpe@gmail.com>
+>> ---
+>>  meta/recipes-devtools/binutils/binutils_2.24.bb | 5 ++++-
+>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/binutils/binutils_2.24.bb b/meta/recipes-devtools/binutils/binutils_2.24.bb
+>> index 738aaee..bc34a14 100644
+>> --- a/meta/recipes-devtools/binutils/binutils_2.24.bb
+>> +++ b/meta/recipes-devtools/binutils/binutils_2.24.bb
+>> @@ -7,12 +7,15 @@ EXTRA_OECONF += "--with-sysroot=/ \
+>>                  --enable-install-libbfd \
+>>                  --enable-install-libiberty \
+>>                  --enable-shared \
+>> +                --disable-werror \
+>>                  "
+>>
+>>  EXTRA_OECONF_class-native = "--enable-targets=all \
+>>                               --enable-64-bit-bfd \
+>>                               --enable-install-libiberty \
+>> -                             --enable-install-libbfd"
+>> +                             --enable-install-libbfd \
+>> +                             --disable-werror \
+>> +                             "
+>
+> lowering the guards is not the right approach. I understand you want
+> to compile fido with distros that are released after fido.
+> but better would be to backport relevant fixed into component itself.
+>
+>>
+>>  do_install_class-native () {
+>>         autotools_do_install
+>> --
+>> 2.4.2
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
