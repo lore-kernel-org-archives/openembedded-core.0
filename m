@@ -1,30 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C1A18758D8
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 907D460670
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 22:32:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5BMWeff002114 for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 23:32:40 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tcj9PEudEXU3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 23:32:40 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5BMWOlM002109
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 23:32:36 +0100
-Message-ID: <1434061944.28975.247.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jun 2015 23:32:24 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] package_ipk/deb/rpm: Improve OVERRIDES handling
+	Thu, 11 Jun 2015 22:40:11 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2015 15:40:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,598,1427785200"; d="scan'208";a="586337518"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by orsmga003.jf.intel.com with ESMTP; 11 Jun 2015 15:40:09 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jun 2015 15:38:54 +0000
+Message-Id: <1434037134-4898-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Cc: roosesweb@gmail.com
+Subject: [PATCH] distutils: regenerate pyc files after being modified by sed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 22:32:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Jun 2015 22:40:17 -0000
 
-Current code doesn't handle dynamic overrides so removing all
-existing OVERRIDES works ok. In future this may not be the case
-so ensure we add to existing overrides, not overwrite them.
+py files are edited by sed and therefore *.pyc files are recreated on first boot, but if you have a read-only filesystem this is not possible. This patch creates pyc files directly after the py files are modified.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[YOCTO #7722]
 
-diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
-index 9d7c59b..d797663 100644
---- a/meta/classes/package_deb.bbclass
-+++ b/meta/classes/package_deb.bbclass
-@@ -75,7 +75,7 @@ python do_package_deb () {
-             pkgname = pkg
-         localdata.setVar('PKG', pkgname)
- 
--        localdata.setVar('OVERRIDES', pkg)
-+        localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + pkg)
- 
-         bb.data.update_data(localdata)
-         basedir = os.path.join(os.path.dirname(root))
-diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
-index dba6804..9fb9d53 100644
---- a/meta/classes/package_ipk.bbclass
-+++ b/meta/classes/package_ipk.bbclass
-@@ -58,7 +58,7 @@ python do_package_ipk () {
-             pkgname = pkg
-         localdata.setVar('PKG', pkgname)
- 
--        localdata.setVar('OVERRIDES', pkg)
-+        localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + pkg)
- 
-         bb.data.update_data(localdata)
-         basedir = os.path.join(os.path.dirname(root))
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index e305e8b..3988b73 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -330,7 +330,7 @@ python write_specfile () {
-             pkgname = pkg
-         localdata.setVar('PKG', pkgname)
- 
--        localdata.setVar('OVERRIDES', pkg)
-+        localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + pkg)
- 
-         bb.data.update_data(localdata)
- 
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: Thomas Roos <roosesweb@gmail.com>
+---
+ meta/classes/distutils.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index c0bb573..2498685 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -42,8 +42,8 @@ distutils_do_install() {
+         bbfatal "${PYTHON_PN} setup.py install execution failed."
+ 
+         # support filenames with *spaces*
+-        # only modify file if it contains path to avoid recompilation on the target
+-        find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i -e s:${D}::g {} \;
++        # only modify file if it contains path  and recompile it
++        find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i -e s:${D}::g {} \; -exec ${STAGING_BINDIR_NATIVE}/python-native/python -mcompileall {} \;
+ 
+         if test -e ${D}${bindir} ; then	
+             for i in ${D}${bindir}/* ; do \
+-- 
+1.8.4.5
 
 
