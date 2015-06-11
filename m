@@ -1,24 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B51BE73E36
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D9D8273E36
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 09:07:10 +0000 (UTC)
+	Thu, 11 Jun 2015 09:08:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5B977qq010572
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5B98hV3013229
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 02:07:07 -0700 (PDT)
+	Thu, 11 Jun 2015 02:08:44 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 11 Jun 2015 02:07:07 -0700
+	Thu, 11 Jun 2015 02:08:43 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jun 2015 02:07:05 -0700
-Message-ID: <cover.1434013599.git.liezhi.yang@windriver.com>
+Date: Thu, 11 Jun 2015 02:08:40 -0700
+Message-ID: <cover.1434013682.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 0/1] beecrypt: DEPENDS on icu
+Subject: [PATCH 0/3] Fixes for PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 09:07:10 -0000
+X-List-Received-Date: Thu, 11 Jun 2015 09:08:43 -0000
 Content-Type: text/plain
 
 The following changes since commit 7f85e74d5c53b34e5f470967fdbdbd19fed1929a:
@@ -40,14 +40,18 @@ The following changes since commit 7f85e74d5c53b34e5f470967fdbdbd19fed1929a:
 
 are available in the git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/beecrypt
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/beecrypt
+  git://git.openembedded.org/openembedded-core-contrib rbt/pkgconfig
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pkgconfig
 
-Robert Yang (1):
-  beecrypt: DEPENDS on icu
+Robert Yang (3):
+  base.class: warn for invalid PACKAGECONFIG
+  bluez5: remove alsa from PACKAGECONFIG
+  libpcap: fix PACKAGECONFIG
 
- meta/recipes-support/beecrypt/beecrypt_4.2.1.bb |    2 ++
- 1 file changed, 2 insertions(+)
+ meta/classes/base.bbclass                     |    5 +++++
+ meta/recipes-connectivity/bluez5/bluez5.inc   |    2 +-
+ meta/recipes-connectivity/libpcap/libpcap.inc |    2 +-
+ 3 files changed, 7 insertions(+), 2 deletions(-)
 
 -- 
 1.7.9.5
