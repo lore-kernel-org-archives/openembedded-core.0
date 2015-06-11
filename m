@@ -1,38 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f175.google.com (mail-qc0-f175.google.com
-	[209.85.216.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A9647589E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B9E6758F5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 19:42:09 +0000 (UTC)
-Received: by qcej9 with SMTP id j9so21057906qce.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jun 2015 12:42:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=J3mdO1Tv5N+tLTP018qAFqTalFdrz4vykqYIqzYMYOo=;
-	b=NWkBS3Mt4O1r0VGoKFSrpalmS9P9Apg23NlZuC6JZ9eQLtSXmomI5PI9Aik8o0jHCF
-	brlCP6A5OvVPpfAjHfbhdCMQvQW5gvlvwfMbSzAkEvUwHOlRsQn7gf6VGif7dN93f5pW
-	aJVjwr7XRT6DW4mddDgcYBcrDUvJ7eV9ju9SKBZ19Qk/VaYqi0Vrz7xtiyVu2DgmWlUz
-	VqzyJhw3Zs1lCo+wvrwkWYvqpePsCdwVWw4ocO696OCe0qSOaq/PweZRQzylPJnbd13B
-	mi3K54MKg/o353a4uTW9rx/hpvpV/jo4qYJJPI3+mBvYhF65jRY5KBYOEC+dKequipTD
-	/TxA==
-X-Gm-Message-State: ALoCoQlcddMHdncLLgi+/jH1z1HDhnhcl+jImW31klCZNRqOvR44XqyfF4hWn4QvCm/WD5OoQnts
-X-Received: by 10.55.18.155 with SMTP id 27mr10537116qks.36.1433965330610;
-	Wed, 10 Jun 2015 12:42:10 -0700 (PDT)
+	Thu, 11 Jun 2015 01:17:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5B1Hblo017017
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 10 Jun 2015 18:17:37 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 10 Jun 2015 18:17:37 -0700
+Message-ID: <5578E1AF.7060704@windriver.com>
+Date: Thu, 11 Jun 2015 09:17:35 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 10 Jun 2015 12:41:50 -0700 (PDT)
-In-Reply-To: <CAJTo0LYZY_8ZC2pLBL6YKg+Da+6TS5h0d+2gmsLRmJxWwzfGZQ@mail.gmail.com>
-References: <1433921778-1835-1-git-send-email-moritz.blume@bmw-carit.de>
-	<1433921778-1835-2-git-send-email-moritz.blume@bmw-carit.de>
-	<CAJTo0LYZY_8ZC2pLBL6YKg+Da+6TS5h0d+2gmsLRmJxWwzfGZQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 10 Jun 2015 20:41:50 +0100
-Message-ID: <CAJTo0LZdjrVrYb9cjun+YPYt8mRp9PE7AOGqQKQgGw0no78NYQ@mail.gmail.com>
-To: Moritz Blume <moritz.blume@bmw-carit.de>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1433840650.git.liezhi.yang@windriver.com>
+	<3dad7b58e258a4fb34e78dc8a3145efe2525f6e2.1433840650.git.liezhi.yang@windriver.com>
+	<CAJTo0LbWKgtFa0zvr7GVeKgN+ZAb643RhicforGSz_BBpO1AxQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LbWKgtFa0zvr7GVeKgN+ZAb643RhicforGSz_BBpO1AxQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 2/2] cmake: Upgrade 2.8.12.2 -> 3.2.2
+Subject: Re: [PATCH 1/2] libpostproc: fix installed-vs-shipped
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,36 +36,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 19:42:12 -0000
-Content-Type: multipart/alternative; boundary=001a1147379626cd5305182f129e
+X-List-Received-Date: Thu, 11 Jun 2015 01:17:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1147379626cd5305182f129e
-Content-Type: text/plain; charset=UTF-8
 
-On 10 June 2015 at 17:49, Burton, Ross <ross.burton@intel.com> wrote:
-
-> I see this causes piglit to fail to build, which is a problem if we want
-> this in oe-core.   I'm having a quick look to see if upgrading piglit helps
-> but right now this is blocking merging.
+On 06/10/2015 06:59 PM, Burton, Ross wrote:
+> On 9 June 2015 at 10:04, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
 >
+>     When MACHINE=qemux86-64 and enable multilib:
+>     ERROR: QA Issue: libpostproc: Files/directories were installed but not
+>     shipped in any package:
+>        /usr/lib
+>        /usr/lib/libpostproc.so.52.3.0
+>        /usr/lib/libpostproc.so
+>        /usr/lib/libpostproc.so.52
+>        /usr/lib/.debug
+>        /usr/lib/.debug/libpostproc.so.52.3.0
+>     Please set FILES such that these items are packaged. Alternatively if they
+>     are unneeded, avoid installing them or delete them within do_install.
+>     [installed-vs-shipped]
+>
+>     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
+>     <mailto:liezhi.yang@windriver.com>>
+>
+>
+> This commit log tells us in exact detail that there was a QA error when multilib
+> is enabled, but never mentions what the actual problem is or what the fix is.  A
+> more useful commit would be something like:
+>
+> "libpostproc: pass correct libdir
+>
+> Pass the right libdir to configure as otherwise it assumes $prefix/lib which may
+> be wrong"
 
-Upgrading piglit seemed to help, re-running a world build now.
+Thanks, updated in the repo:
 
-Ross
+   git://git.openembedded.org/openembedded-core-contrib rbt/2fixes
 
---001a1147379626cd5305182f129e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+     libpostproc: pass correct libdir
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 June 2015 at 17:49, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">I see this=
- causes piglit to fail to build, which is a problem if we want this in oe-c=
-ore. =C2=A0 I&#39;m having a quick look to see if upgrading piglit helps bu=
-t right now this is blocking merging.</div></blockquote><div><br></div><div=
->Upgrading piglit seemed to help, re-running a world build now.</div><div><=
-br></div><div>Ross=C2=A0</div></div></div></div>
+     When MACHINE=qemux86-64 and enable multilib:
+     ERROR: QA Issue: libpostproc: Files/directories were installed but not 
+shipped in any package:
+       /usr/lib
+       /usr/lib/libpostproc.so.52.3.0
+       /usr/lib/libpostproc.so
+       /usr/lib/libpostproc.so.52
+       /usr/lib/.debug
+       /usr/lib/.debug/libpostproc.so.52.3.0
+     Please set FILES such that these items are packaged. Alternatively if they 
+are unneeded, avoid installing them or delete them within do_install. 
+[installed-vs-shipped]
 
---001a1147379626cd5305182f129e--
+     Pass the right libdir to configure as otherwise it assumes $prefix/lib
+     which may be wrong.
+
+// Robert
+
+
+>
+> Ross
+
