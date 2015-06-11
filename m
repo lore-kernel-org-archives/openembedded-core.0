@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D9D8273E36
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BC7F758FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 09:08:42 +0000 (UTC)
+	Thu, 11 Jun 2015 09:08:43 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5B98hV3013229
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5B98iXn010587
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 11 Jun 2015 02:08:44 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 11 Jun 2015 02:08:43 -0700
+	Thu, 11 Jun 2015 02:08:44 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jun 2015 02:08:40 -0700
-Message-ID: <cover.1434013682.git.liezhi.yang@windriver.com>
+Date: Thu, 11 Jun 2015 02:08:41 -0700
+Message-ID: <36f39e2c2edf08ab582347c3e1aeb3b9eb82824b.1434013682.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1434013682.git.liezhi.yang@windriver.com>
+References: <cover.1434013682.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] Fixes for PACKAGECONFIG
+Subject: [PATCH 1/3] base.class: warn for invalid PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 09:08:43 -0000
+X-List-Received-Date: Thu, 11 Jun 2015 09:08:44 -0000
 Content-Type: text/plain
 
-The following changes since commit 7f85e74d5c53b34e5f470967fdbdbd19fed1929a:
+There may be typos or out of date values in PACKAGECONFIG, check and
+warn them.
 
-  sysvinit: Only enable recipe in builds where its applicable (2015-06-10 12:03:14 +0100)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/base.bbclass |    5 +++++
+ 1 file changed, 5 insertions(+)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/pkgconfig
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pkgconfig
-
-Robert Yang (3):
-  base.class: warn for invalid PACKAGECONFIG
-  bluez5: remove alsa from PACKAGECONFIG
-  libpcap: fix PACKAGECONFIG
-
- meta/classes/base.bbclass                     |    5 +++++
- meta/recipes-connectivity/bluez5/bluez5.inc   |    2 +-
- meta/recipes-connectivity/libpcap/libpcap.inc |    2 +-
- 3 files changed, 7 insertions(+), 2 deletions(-)
-
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 8637f9f..46762d9 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -341,6 +341,11 @@ python () {
+     if pkgconfigflags:
+         pkgconfig = (d.getVar('PACKAGECONFIG', True) or "").split()
+         pn = d.getVar("PN", True)
++
++        for pconfig in pkgconfig:
++            if pconfig not in pkgconfigflags:
++                bb.warn("%s: invalid PACKAGECONFIG: %s" % (pn, pconfig))
++
+         mlprefix = d.getVar("MLPREFIX", True)
+ 
+         def expandFilter(appends, extension, prefix):
 -- 
 1.7.9.5
 
