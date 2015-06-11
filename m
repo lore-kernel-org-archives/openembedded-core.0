@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9390075886
+	by mail.openembedded.org (Postfix) with ESMTP id C57007589F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 13:24:54 +0000 (UTC)
+	Thu, 11 Jun 2015 13:24:58 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Jun 2015 06:24:27 -0700
+	by orsmga101.jf.intel.com with ESMTP; 11 Jun 2015 06:24:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,595,1427785200"; d="scan'208";a="744929082"
+X-IronPort-AV: E=Sophos;i="5.13,595,1427785200"; d="scan'208";a="744929098"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga002.jf.intel.com with ESMTP; 11 Jun 2015 06:24:27 -0700
+	by orsmga002.jf.intel.com with ESMTP; 11 Jun 2015 06:24:29 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jun 2015 16:24:48 +0300
-Message-Id: <fc9cd13a0a0e26a31ec40351ee0f087a953302bc.1434028277.git.jussi.kukkonen@intel.com>
+Date: Thu, 11 Jun 2015 16:24:49 +0300
+Message-Id: <c8823c9704493a4d96760ed54468e8ea96d9fd48.1434028277.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <bb62c4c42bf4e34d21678cb7a84f453b93c4fb5a.1434028277.git.jussi.kukkonen@intel.com>
 References: <bb62c4c42bf4e34d21678cb7a84f453b93c4fb5a.1434028277.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1434028277.git.jussi.kukkonen@intel.com>
 References: <cover.1434028277.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 4/6] adwaita-icon-theme: Add new icon theme for GTK+
+Subject: [PATCH 5/6] sato-icon-theme: Inherit Adwaita, not gnome-icon-theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,247 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 13:24:54 -0000
+X-List-Received-Date: Thu, 11 Jun 2015 13:24:58 -0000
 
-Adwaita is a complete icon theme for GTK+, and the current GNOME icon
-theme. Most importantly it includes the symbolic icons used extensively
-in GTK+3 widgets.
-* Package the icon theme and cursor theme separately
-* Backport a build fix for the cursor theme to cut installed size by
-  11MB.
+Adwaita is the current GNOME icon set and provides the
+symbolic icons gnome-icon-theme does not.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../Create-symlinks-when-installing-cursors.patch  | 178 +++++++++++++++++++++
- .../gnome/adwaita-icon-theme_3.16.2.1.bb           |  34 ++++
- 2 files changed, 212 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
- create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
+ .../sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
-new file mode 100644
-index 0000000..446f9c9
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
-@@ -0,0 +1,178 @@
-+Create symlinks when installing cursors
-+
-+This cuts down the installed size by ~11MB.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+
-+
-+From 1e8c0dd0a2de5e1d5ff60ff11f131e88510c7f50 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?=D0=A0=D1=83=D1=81=D0=BB=D0=B0=D0=BD=20=D0=98=D0=B6=D0=B1?=
-+ =?UTF-8?q?=D1=83=D0=BB=D0=B0=D1=82=D0=BE=D0=B2?= <lrn1986@gmail.com>
-+Date: Sat, 16 May 2015 07:49:19 +0000
-+Subject: [PATCH] Create symlinks when installing cursors
-+
-+Also support creating symlinks for W32 cursors (including L and XL variants).
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=749223
-+---
-+ Makefile.am  | 93 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ configure.ac | 24 ++++++++++++++++
-+ 2 files changed, 117 insertions(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index fed3972..4d00268 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -6,6 +6,17 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-+ 
-+ cursordir = $(datadir)/icons/Adwaita/cursors
-+ cursor_DATA = $(wildcard $(srcdir)/Adwaita/cursors/*)
-++if ENABLE_L_XL_VARIANTS
-++cursorldir = $(datadir)/icons/Adwaita-Large/cursors
-++cursorl_DATA = $(wildcard $(srcdir)/Adwaita-Large/cursors/*)
-++cursorxldir = $(datadir)/icons/Adwaita-ExtraLarge/cursors
-++cursorxl_DATA = $(wildcard $(srcdir)/Adwaita-ExtraLarge/cursors/*)
-++else
-++cursorldir =
-++cursorl_DATA =
-++cursorxldir =
-++cursorxl_DATA =
-++endif
-+ 
-+ theme_in_files = index.theme.in.in
-+ theme_DATA = $(theme_in_files:.theme.in.in=.theme)
-+@@ -99,6 +110,88 @@ install-data-local:
-+ 	fi
-+ 
-+ install-data-hook:
-++	cd $(DESTDIR)$(cursordir) && \
-++	if test "x$(enable_w32_cursors)" = "xyes"; \
-++	then \
-++		cur=.cur && \
-++		ani=.ani; \
-++	else \
-++		cur= && \
-++		ani= ; \
-++	fi; \
-++	if test "x$(enable_l_xl_variants)" = "xyes"; \
-++	then \
-++		themedirs="$(cursordir) $(cursorldir) $(cursorxldir)"; \
-++	else \
-++		themedirs="$(cursordir)"; \
-++	fi; \
-++	for d in $$themedirs; \
-++	do \
-++		cd $(DESTDIR)$$d && \
-++		echo Creating symlinks in $(DESTDIR)$$d && \
-++		$(LN_S) -f  dotbox$$cur			draped_box$$cur && \
-++		$(LN_S) -f  dotbox$$cur			icon$$cur && \
-++		$(LN_S) -f  dotbox$$cur			target$$cur && \
-++		$(LN_S) -f  dotbox$$cur			dot_box_mask$$cur && \
-++		$(LN_S) -f  X_cursor$$cur		pirate$$cur && \
-++		$(LN_S) -f  left_ptr_watch$$ani		08e8e1c95fe2fc01f976f1e063a24ccd$$ani && \
-++		$(LN_S) -f  left_ptr_watch$$ani		3ecb610c1bf2410f44200f48c40d3599$$ani && \
-++		$(LN_S) -f  left_ptr$$cur		arrow$$cur && \
-++		$(LN_S) -f  left_ptr$$cur		top_left_arrow$$cur && \
-++		$(LN_S) -f  right_ptr$$cur		draft_large$$cur && \
-++		$(LN_S) -f  right_ptr$$cur		draft_small$$cur && \
-++		$(LN_S) -f  move$$cur			4498f0e0c1937ffe01fd06f973665830$$cur && \
-++		$(LN_S) -f  move$$cur			9081237383d90e509aa00f00170e968f$$cur && \
-++		$(LN_S) -f  copy$$cur			1081e37283d90000800003c07f3ef6bf$$cur && \
-++		$(LN_S) -f  copy$$cur			6407b0e94181790501fd1e167b474872$$cur && \
-++		$(LN_S) -f  cross$$cur			cross_reverse$$cur && \
-++		$(LN_S) -f  cross$$cur			diamond_cross$$cur && \
-++		$(LN_S) -f  hand1$$cur			grab$$cur && \
-++		$(LN_S) -f  hand2$$cur			9d800788f1b08800ae810202380a0822$$cur && \
-++		$(LN_S) -f  hand2$$cur			e29285e634086352946a0e7090d73106$$cur && \
-++		$(LN_S) -f  hand2$$cur			hand$$cur && \
-++		$(LN_S) -f  grabbing$$cur		fleur$$cur && \
-++		$(LN_S) -f  question_arrow$$cur		d9ce0ab605698f320427677b458ad60b$$cur && \
-++		$(LN_S) -f  question_arrow$$cur		5c6cd98b3f3ebcb1f9c7f1c204630408$$cur && \
-++		$(LN_S) -f  question_arrow$$cur		help$$cur && \
-++		$(LN_S) -f  question_arrow$$cur		left_ptr_help$$cur && \
-++		$(LN_S) -f  link$$cur			3085a0e285430894940527032f8b26df$$cur && \
-++		$(LN_S) -f  link$$cur			640fb0e74195791501fd1ed57b41487f$$cur && \
-++		$(LN_S) -f  crossed_circle$$cur		03b6e0fcb3499374a867c041f52298f0$$cur && \
-++		$(LN_S) -f  fd_double_arrow$$cur	fcf1c3c7cd4491d801f1e1c78f100000$$cur && \
-++		$(LN_S) -f  bd_double_arrow$$cur	c7088f0f3e6c8088236ef8e1e3e70000$$cur && \
-++		$(LN_S) -f  sb_h_double_arrow$$cur 	h_double_arrow$$cur && \
-++		$(LN_S) -f  sb_h_double_arrow$$cur	14fef782d02440884392942c11205230$$cur && \
-++		$(LN_S) -f  h_double_arrow$$cur		028006030e0e7ebffc7f7070c0600140$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur 	double_arrow$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur 	v_double_arrow$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur	2870a09082c103050810ffdffffe0204$$cur && \
-++		$(LN_S) -f  v_double_arrow$$cur		00008160000006810000408080010102$$cur && \
-++		$(LN_S) -f  left_ptr$$cur		default$$cur && \
-++		$(LN_S) -f  hand$$cur			pointer$$cur && \
-++		$(LN_S) -f  left_ptr_watch$$ani		progress$$ani && \
-++		$(LN_S) -f  watch$$ani			wait$$ani && \
-++		$(LN_S) -f  cross$$cur			crosshair$$cur && \
-++		$(LN_S) -f  xterm$$cur			text$$cur && \
-++		$(LN_S) -f  dnd-link$$cur		alias$$cur && \
-++		$(LN_S) -f  dnd-copy$$cur		copy$$cur && \
-++		$(LN_S) -f  dnd-none$$cur		no-drop$$cur && \
-++		$(LN_S) -f  crossed_circle$$cur		not-allowed$$cur && \
-++		$(LN_S) -f  sb_h_double_arrow$$cur	col-resize$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur	row-resize$$cur && \
-++		$(LN_S) -f  top_side$$cur		n-resize$$cur && \
-++		$(LN_S) -f  right_side$$cur		e-resize$$cur && \
-++		$(LN_S) -f  bottom_side$$cur		s-resize$$cur && \
-++		$(LN_S) -f  left_side$$cur		w-resize$$cur && \
-++		$(LN_S) -f  top_right_corner$$cur	ne-resize$$cur && \
-++		$(LN_S) -f  top_left_corner$$cur	nw-resize$$cur && \
-++		$(LN_S) -f  bottom_right_corner$$cur	se-resize$$cur && \
-++		$(LN_S) -f  bottom_left_corner$$cur	sw-resize$$cur && \
-++		$(LN_S) -f  sb_h_double_arrow$$cur	ew-resize$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur	ns-resize$$cur && \
-++		$(LN_S) -f  fd_double_arrow$$cur	nesw-resize$$cur && \
-++		$(LN_S) -f  bd_double_arrow$$cur	nwse-resize$$cur; \
-++	done
-+ 	if test -z "$(DESTDIR)" && test -n "$(GTK_UPDATE_ICON_CACHE)" ; then \
-+ 		$(GTK_UPDATE_ICON_CACHE) -q $(DESTDIR)$(themedir); \
-+ 	fi
-+diff --git a/configure.ac b/configure.ac
-+index 9e4d8a0..312b24c 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -31,6 +31,7 @@ AC_SUBST([render_sizes], ["8x8 16x16 22x22 24x24 32x32 48x48 256x256"])
-+ AC_SUBST([symbolic_render_sizes], [""])
-+ AC_SUBST([install_sizes], ["8x8 16x16 22x22 24x24 32x32 48x48 64x64 96x96 256x256"])
-+ 
-++AC_PROG_LN_S
-+ AC_PATH_PROG(GTK_UPDATE_ICON_CACHE, gtk-update-icon-cache)
-+ 
-+ # need git, icontool, and inkscape for rendering
-+@@ -56,6 +57,29 @@ if test "x$GTK_ENCODE_SYMBOLIC_SVG" = "xfalse"; then
-+ fi
-+ AC_SUBST(symbolic_encode_sizes)
-+ 
-++AC_ARG_ENABLE([w32-cursors],
-++  [AS_HELP_STRING([--enable-w32-cursors],
-++    [Make and install Windows cursors (.cur and .ani) instead of X cursors])],
-++  [case "${enableval}" in
-++    yes) enable_w32_cursors=yes ;;
-++    no)  enable_w32_cursors=no ;;
-++    *) AC_MSG_ERROR([bad value ${enableval} for --enable-w32-cursors]) ;;
-++   esac],
-++  [enable_w32_cursors=no])
-++AC_SUBST(enable_w32_cursors)
-++
-++AC_ARG_ENABLE([l-xl-variants],
-++  [AS_HELP_STRING([--enable-l-xl-variants],
-++    [Also make and install Large and Extra Large Windows cursor versions])],
-++  [case "${enableval}" in
-++    yes) enable_l_xl_variants=yes ;;
-++    no)  enable_l_xl_variants=no ;;
-++    *) AC_MSG_ERROR([bad value ${enableval} for --enable-l-xl-variants]) ;;
-++   esac],
-++  [enable_l_xl_variants=no])
-++AC_SUBST(enable_l_xl_variants)
-++AM_CONDITIONAL([ENABLE_L_XL_VARIANTS], [test x$enable_l_xl_variants = xyes])
-++
-+ AC_CONFIG_FILES([
-+ Makefile
-+ adwaita-icon-theme.pc
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
-new file mode 100644
-index 0000000..c656179
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
-@@ -0,0 +1,34 @@
-+SUMMARY = "GTK+ icon theme"
-+HOMEPAGE = "http://ftp.gnome.org/pub/GNOME/sources/adwaita-icon-theme/"
-+BUGTRACKER = "https://bugzilla.gnome.org/"
-+SECTION = "x11/gnome"
-+
-+LICENSE = "LGPL-3.0 | CC-BY-SA-3.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c"
-+
-+inherit autotools pkgconfig gettext gtk-icon-cache
-+
-+DEPENDS += "intltool-native"
-+
-+MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-+           file://Create-symlinks-when-installing-cursors.patch \
-+          "
-+
-+SRC_URI[md5sum] = "9ef86952c947aa27a1a888b7735d60b3"
-+SRC_URI[sha256sum] = "b4556dfbf555d4fac12d4d5c12f7519de0d43ec42a1b649611439a50bf7acb96"
-+
-+do_install_append() {
-+	# Build uses gtk-encode-symbolic-svg to create png versions:
-+        # no need to store the svgs anymore.
-+	rm -f ${D}${prefix}/share/icons/Adwaita/scalable/*/*-symbolic.svg \
-+	      ${D}${prefix}/share/icons/Adwaita/scalable/*/*-symbolic-rtl.svg
-+}
-+
-+PACKAGES = "${PN}-cursors ${PN}"
-+
-+FILES_${PN}-cursors = "${prefix}/share/icons/Adwaita/cursors/"
-+FILES_${PN} = "${prefix}/share/icons/Adwaita/ \
-+               ${prefix}/share/pkgconfig/adwaita-icon-theme.pc"
-+
-+RRECOMMENDS_${PN} += "librsvg-gtk"
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch b/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
+index fa595dc..2c176ee 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
+@@ -22,7 +22,7 @@ index c4b03a7..688fbbf 100644
+  [Icon Theme]
+  Name=Sato
+  Comment=Sato icon theme
+-+Inherits=gnome
+++Inherits=Adwaita
+  
+  Directories=16x16/apps,16x16/status,16x16/stock,16x16/places,16x16/mimetypes,16x16/devices,16x16/actions,22x22/apps,22x22/status,22x22/stock,22x22/places,22x22/mimetypes,22x22/devices,22x22/actions,32x32/apps,32x32/status,32x32/stock,32x32/places,32x32/mimetypes,32x32/devices,32x32/actions,48x48/apps,48x48/status,48x48/stock,48x48/places,48x48/mimetypes,48x48/devices,48x48/actions,64x64/apps,64x64/status,64x64/stock,64x64/places,64x64/mimetypes,64x64/devices,64x64/actions,
+  
 -- 
 2.1.4
 
