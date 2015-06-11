@@ -1,27 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B5986758D6
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FCAA75678
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 09:26:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5B9QWqL010757
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 02:26:33 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 11 Jun 2015 02:26:32 -0700
-Message-ID: <55795446.9030106@windriver.com>
-Date: Thu, 11 Jun 2015 17:26:30 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1434013599.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1434013599.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 0/1] beecrypt: DEPENDS on icu
+	Thu, 11 Jun 2015 11:34:19 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2015 04:34:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,595,1427785200"; d="scan'208";a="709156447"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2015 04:34:20 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jun 2015 14:34:08 +0300
+Message-Id: <1434022456-26266-3-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1434022456-26266-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1434022456-26266-1-git-send-email-markus.lehtonen@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH v2 02/10] devtool: refactor bb task execution into a separate class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +30,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 09:26:35 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Jun 2015 11:34:23 -0000
 
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py | 50 ++++++++++++++++++++++++-----------------
+ 1 file changed, 30 insertions(+), 20 deletions(-)
 
-Sorry, please drop this patch, we don't need it, I met this
-error when I made something wrong in base.bbclass.
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 1e99413..aed76ea 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -213,6 +213,32 @@ def extract(args, config, basepath, workspace):
+     else:
+         return -1
+ 
++class BbTaskExecutor(object):
++    """Class for executing bitbake tasks for a recipe
++
++    FIXME: This is very awkward. Unfortunately it's not currently easy to
++    properly execute tasks outside of bitbake itself, until then this has to
++    suffice if we are to handle e.g. linux-yocto's extra tasks
++    """
++
++    def __init__(self, rdata):
++        self.rdata = rdata
++        self.executed = []
++
++    def exec_func(self, func, report):
++        """Run bitbake task function"""
++        if not func in self.executed:
++            deps = self.rdata.getVarFlag(func, 'deps')
++            if deps:
++                for taskdepfunc in deps:
++                    self.exec_func(taskdepfunc, True)
++            if report:
++                logger.info('Executing %s...' % func)
++            fn = self.rdata.getVar('FILE', True)
++            localdata = bb.build._task_data(fn, func, self.rdata)
++            bb.build.exec_func(func, localdata)
++            self.executed.append(func)
++
+ 
+ def _extract_source(srctree, keep_temp, devbranch, d):
+     """Extract sources of a recipe"""
+@@ -270,28 +296,12 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+             # We don't want to move the source to STAGING_KERNEL_DIR here
+             crd.setVar('STAGING_KERNEL_DIR', '${S}')
+ 
+-        # FIXME: This is very awkward. Unfortunately it's not currently easy to properly
+-        # execute tasks outside of bitbake itself, until then this has to suffice if we
+-        # are to handle e.g. linux-yocto's extra tasks
+-        executed = []
+-        def exec_task_func(func, report):
+-            """Run specific bitbake task for a recipe"""
+-            if not func in executed:
+-                deps = crd.getVarFlag(func, 'deps')
+-                if deps:
+-                    for taskdepfunc in deps:
+-                        exec_task_func(taskdepfunc, True)
+-                if report:
+-                    logger.info('Executing %s...' % func)
+-                fn = d.getVar('FILE', True)
+-                localdata = bb.build._task_data(fn, func, crd)
+-                bb.build.exec_func(func, localdata)
+-                executed.append(func)
++        task_executor = BbTaskExecutor(crd)
+ 
+         logger.info('Fetching %s...' % pn)
+-        exec_task_func('do_fetch', False)
++        task_executor.exec_func('do_fetch', False)
+         logger.info('Unpacking...')
+-        exec_task_func('do_unpack', False)
++        task_executor.exec_func('do_unpack', False)
+         srcsubdir = crd.getVar('S', True)
+         if srcsubdir == workdir:
+             # Find non-patch sources that were "unpacked" to srctree directory
+@@ -343,7 +353,7 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+             crd.setVar('PATCHTOOL', 'git')
+ 
+         logger.info('Patching...')
+-        exec_task_func('do_patch', False)
++        task_executor.exec_func('do_patch', False)
+ 
+         bb.process.run('git tag -f devtool-patched', cwd=srcsubdir)
+ 
+-- 
+2.1.4
 
-// Robert
-
-On 06/11/2015 05:07 PM, Robert Yang wrote:
-> The following changes since commit 7f85e74d5c53b34e5f470967fdbdbd19fed1929a:
->
->    sysvinit: Only enable recipe in builds where its applicable (2015-06-10 12:03:14 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib rbt/beecrypt
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/beecrypt
->
-> Robert Yang (1):
->    beecrypt: DEPENDS on icu
->
->   meta/recipes-support/beecrypt/beecrypt_4.2.1.bb |    2 ++
->   1 file changed, 2 insertions(+)
->
 
