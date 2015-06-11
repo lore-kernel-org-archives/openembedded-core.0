@@ -1,26 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 36742758FE
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B5986758D6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 09:08:43 +0000 (UTC)
+	Thu, 11 Jun 2015 09:26:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5B98jDI013246
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5B9QWqL010757
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 02:08:45 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 11 Jun 2015 02:08:45 -0700
+	Thu, 11 Jun 2015 02:26:33 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 11 Jun 2015 02:26:32 -0700
+Message-ID: <55795446.9030106@windriver.com>
+Date: Thu, 11 Jun 2015 17:26:30 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jun 2015 02:08:42 -0700
-Message-ID: <5958f85e68ae5909f4689807b2d9a9d2f665774b.1434013682.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1434013682.git.liezhi.yang@windriver.com>
-References: <cover.1434013682.git.liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Subject: [PATCH 2/3] bluez5: remove alsa from PACKAGECONFIG
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1434013599.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1434013599.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/1] beecrypt: DEPENDS on icu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 09:08:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Jun 2015 09:26:35 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The PACKAGECONFIG[alsa] had been removed when upgraded to 5.12 since it
-was not supported any more.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-connectivity/bluez5/bluez5.inc |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Sorry, please drop this patch, we don't need it, I met this
+error when I made something wrong in base.bbclass.
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 67aafbb..ae9402f 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -12,7 +12,7 @@ RPROVIDES_${PN} += "bluez-hcidump"
- 
- RCONFLICTS_${PN} = "bluez4"
- 
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} obex-profiles"
-+PACKAGECONFIG ??= "obex-profiles"
- PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
- PACKAGECONFIG[experimental] = "--enable-experimental,--disable-experimental,"
- 
--- 
-1.7.9.5
+// Robert
 
+On 06/11/2015 05:07 PM, Robert Yang wrote:
+> The following changes since commit 7f85e74d5c53b34e5f470967fdbdbd19fed1929a:
+>
+>    sysvinit: Only enable recipe in builds where its applicable (2015-06-10 12:03:14 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/beecrypt
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/beecrypt
+>
+> Robert Yang (1):
+>    beecrypt: DEPENDS on icu
+>
+>   meta/recipes-support/beecrypt/beecrypt_4.2.1.bb |    2 ++
+>   1 file changed, 2 insertions(+)
+>
 
