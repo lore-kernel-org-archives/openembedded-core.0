@@ -1,24 +1,36 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 040EA758F7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f41.google.com (mail-wg0-f41.google.com [74.125.82.41])
+	by mail.openembedded.org (Postfix) with ESMTP id AAFDB6E277
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 13:24:59 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 11 Jun 2015 06:24:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,595,1427785200"; d="scan'208";a="744929111"
-Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga002.jf.intel.com with ESMTP; 11 Jun 2015 06:24:30 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Thu, 11 Jun 2015 13:43:28 +0000 (UTC)
+Received: by wgme6 with SMTP id e6so5552568wgm.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jun 2015 06:43:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=qP++rQKCpyQKbiP/2W82U/Us8psX0RKIwmHcCjdne8o=;
+	b=I2sfuV8y/yd4HYvYeJ1PGzcVoaWmyhC7ntYScSkk6sumUbdvtn2Mp8rjiYFeCrTzz3
+	mM1HS0tcbKEI8Uy2XyX+s9pqv6HBiGPFvM7sezzbKQtWXETfdDeqQ+wwhpXbOEWXu4cY
+	UGckp/uL/rL/loDrDX5cGLBFKgcMt8TEn3ajrswtwqU8uJhMeLaS1ujiV8ItMryQfvmB
+	Zlb/+Qjv4FwZf81USO4pvlXJcvcAXikOAaBVjSxd8YKoyFg3aTbKU+irzxO3N/MSZrdo
+	d4RmodEL+zcmTLsMBvgb/nnO00RvSX5zpYJJIjKpjoP2tophGk+ChoPI1xqP2q6r2QET
+	5uQA==
+X-Gm-Message-State: ALoCoQn3YSBYe7cDvIdYBksHHCg8rgasoJ1OAC3uttON/rYkTldNdiz/smEJQOVu1IOVoRKKxSks
+X-Received: by 10.180.36.103 with SMTP id p7mr19514404wij.88.1434030208587;
+	Thu, 11 Jun 2015 06:43:28 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by mx.google.com with ESMTPSA id f8sm1733763wiy.7.2015.06.11.06.43.27
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 11 Jun 2015 06:43:27 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jun 2015 16:24:50 +0300
-Message-Id: <fafb8fcc291dcda89a88f8b88d86b0f0195d182c.1434028277.git.jussi.kukkonen@intel.com>
+Date: Thu, 11 Jun 2015 14:38:41 +0100
+Message-Id: <1434029921-16556-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <bb62c4c42bf4e34d21678cb7a84f453b93c4fb5a.1434028277.git.jussi.kukkonen@intel.com>
-References: <bb62c4c42bf4e34d21678cb7a84f453b93c4fb5a.1434028277.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1434028277.git.jussi.kukkonen@intel.com>
-References: <cover.1434028277.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 6/6] midori: Depend on Adwaita, not gnome-icon-theme
+Subject: [PATCH] cmake: extend CMAKE_MODULE_PATH instead of setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 13:24:59 -0000
+X-List-Received-Date: Thu, 11 Jun 2015 13:43:29 -0000
 
-Adwaita is the current GNOME icon theme and provides the
-symbolic icons gnome-icon-theme does not.
+Some (e.g. piglit) CMakeList.txt files will extend CMAKE_MODULE_PATH before
+calling project(), which is when the toolchain.cmake file is parsed.  In this
+situation the CMAKE_MODULE_PATH is overwritten, so handle this by appending in
+toolchain.cmake instead of assigning.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-sato/midori/midori_0.5.8.bb | 2 +-
+ meta/classes/cmake.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
-index aa1b395..1c027fe4 100644
---- a/meta/recipes-sato/midori/midori_0.5.8.bb
-+++ b/meta/recipes-sato/midori/midori_0.5.8.bb
-@@ -26,6 +26,6 @@ EXTRA_OECMAKE = " \
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 1ebb936..b0a3972 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -62,7 +62,7 @@ set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
+ set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
  
- TARGET_CC_ARCH += "${LDFLAGS}"
+ # Use native cmake modules
+-set( CMAKE_MODULE_PATH ${STAGING_DATADIR}/cmake/Modules/ )
++list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
  
--RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
-+RRECOMMENDS_${PN} += "glib-networking ca-certificates adwaita-icon-theme"
- 
- FILES_${PN} += "${datadir}/appdata"
+ # add for non /usr/lib libdir, e.g. /usr/lib64
+ set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
 -- 
 2.1.4
 
