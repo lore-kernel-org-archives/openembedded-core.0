@@ -1,27 +1,20 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C57C173695
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AF695755FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jun 2015 12:53:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 11 Jun 2015 05:53:10 -0700
+	Thu, 11 Jun 2015 13:23:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 11 Jun 2015 06:23:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,595,1427785200"; d="scan'208";a="709195202"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 11 Jun 2015 05:53:08 -0700
-Message-ID: <1434027187.12084.54.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 11 Jun 2015 15:53:07 +0300
-In-Reply-To: <4504055.vUCZMjBN1g@peggleto-mobl.ger.corp.intel.com>
-References: <1430385372-6975-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1883118.cJJW02ZV6v@peggleto-mobl.ger.corp.intel.com>
-	<1433423527.12084.22.camel@linux.intel.com>
-	<4504055.vUCZMjBN1g@peggleto-mobl.ger.corp.intel.com>
-X-Mailer: Evolution 3.12.11 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/6] devtool: improve handling of local source files
+X-IronPort-AV: E=Sophos;i="5.13,595,1427785200"; d="scan'208";a="725335533"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by fmsmga001.fm.intel.com with ESMTP; 11 Jun 2015 06:23:50 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jun 2015 16:24:09 +0300
+Message-Id: <cover.1434028277.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/6] GTK+3 upgrade and related changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,88 +27,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jun 2015 12:53:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Jun 2015 13:23:51 -0000
 
-Hi Paul,
+Patch set upgrades GTK+3 and adds adwaita-icon-theme: Current GTK+
+requires a theme with "symbolic" (single color) icons for the
+widgets to look decent -- and gnome-icon-theme does not provide them.
+In practice Adwaita is the successor of now unmaintained
+gnome-icon-theme so dropping gnome-icon-theme at some point would
+make sense.
 
-On Thu, 2015-06-04 at 14:49 +0100, Paul Eggleton wrote:
-> On Thursday 04 June 2015 16:12:07 Markus Lehtonen wrote:
-> > On Tue, 2015-05-12 at 19:01 +0100, Paul Eggleton wrote:
-> > > On Thursday 30 April 2015 12:16:06 Markus Lehtonen wrote:
-> > > > This patchset tries to improve handling of local source files (i.e.
-> > > > file://
-> > > > in SRC_URI). First, it improves packages for which S=WORKDIR (that
-> > > > possibly
-> > > > only have local sources. Second, it makes local sources available in the
-> > > > srctree for all packages.
-> > > > 
-> > > > See yocto bug #7602
-> > > 
-> > > I've finally looked at these, apologies for the delay. Some comments:
-> > > 
-> > > * I don't think we really want the local files to become part of the git
-> > > repository by default - they shouldn't be committed. Once users have
-> > > finished with devtool, we want them to be able to push the source tree to
-> > > their own repo and point to that within the recipe, whilst keeping the
-> > > local files next to the recipe.
-> > 
-> > So you suggest to add a new command line option to devtool extract and
-> > modify (--local-files or smth)? What to do when there are only local
-> > files (no source tarball / repo) - automatically enable --local-files in
-> > this case?
-> 
-> Is another option really required? Unless I'm missing something, I would have 
-> thought the behaviour for local files ought to be the same regardless of 
-> whether they are in addition to the upstream source, or the only files in 
-> SRC_URI.
+Adwaita includes lots of symbolic svg icons: The build uses
+gtk-encode-symbolic-svg at install time to convert them to png. This
+means both smaller installed size and faster rendering on target but
+takes a moment at install time: >2 minutes on my fairly beefy
+machine.
 
-Currently, the local files are already committed into Git in some cases
-(i.e. basically when S==WORKDIR, e.g. with makedevs).
-
-What would you suggest to do with the local files? Copy the files to git
-repo worktree but add them to .git/info/exclude? Or not copy them at
-all? In this case some packages would not be supported anymore (e.g. the
-makedevs mentioned before).
-
-I agree that the behavior should be consistent and the same regardless
-of the existence of upstream sources.
+The new symbolic icons have also increased the installed size:
+    gnome-icon-theme: 14 MB
+    adwaita-icon-theme: 24 MB
+    adwaita-icon-theme-cursors: 12 MB
+(gnome-icon-theme does not include cursors at all)
 
 
-> > > * This implies that new files added to the local files dir when we do
-> > > devtool update-recipe should not be added as a patch, they should be
-> > > copied next to the recipe and added to SRC_URI. I'm more than happy for
-> > > us to implement this separately as a follow-up (i.e. we could start by
-> > > not handling adding files to the local files directory at all.)
-> > 
-> > Yeah, I actually have this WIP. Currently (i.e. with the current
-> > patchset), new files added to 'local-files' are just ignored. They are
-> > not copied and no patches is generated out of these.
-> 
-> OK, then it sounds like the behaviour for added files is reasonable for the 
-> moment and we can extend it as a follow-up.
-
-OK, thanks.
+Cheers,
+ Jussi
 
 
-> > > * The local-files directory needs to be named specific to OE -
-> > > "oe-local-files" would be ideal. If we could have one place in the code
-> > > where this was defined that would be ideal as well (maybe at some point
-> > > we'd allow it to be configured).
-> > 
-> > This is not a big deal. Should it perhaps be "bb-local-files" instead?
-> 
-> Well strictly speaking all of this is being defined in OE, not bitbake, hence 
-> my suggestion of "oe-local-files".
+The following changes since commit 062678c4ab88fa94ed38efa6520c3b4e2d88ca73:
 
-OK, "oe-local-files" is probably fine. I was just thinking about Poky or
-some other derived project where the files might not be from OE.
+  sysvinit: Only enable recipe in builds where its applicable (2015-06-10 12:03:19 +0100)
 
+are available in the git repository at:
 
-Thanks,
-  Markus
+  git://git.yoctoproject.org/poky-contrib jku/update-gtk3
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/update-gtk3
 
+Jussi Kukkonen (6):
+  gtk+3: Upgrade to 3.16.3
+  gtk-update-icon-cache-native: Upgrade, add binary
+  matchbox-session-sato: set GTK_CSD env var
+  adwaita-icon-theme: Add new icon theme for GTK+
+  sato-icon-theme: Inherit Adwaita, not gnome-icon-theme
+  midori: Depend on Adwaita, not gnome-icon-theme
 
+ .../Create-symlinks-when-installing-cursors.patch  | 178 +++++++++++++++++++++
+ .../gnome/adwaita-icon-theme_3.16.2.1.bb           |  34 ++++
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |  14 +-
+ meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch | 118 ++++++++++++++
+ .../gtk+/gtk+3/fix-flags-for-native.patch          |  33 ----
+ .../gtk+/{gtk+3_3.12.2.bb => gtk+3_3.16.3.bb}      |   6 +-
+ ...4.bb => gtk-update-icon-cache-native_3.16.3.bb} |  41 +++--
+ ...k-dependency-from-gtk-encode-symbolic-svg.patch | 102 ++++++++++++
+ .../matchbox-sato/matchbox-session-sato/session    |   4 +
+ meta/recipes-sato/midori/midori_0.5.8.bb           |   2 +-
+ .../0001-Inherit-the-GNOME-icon-theme.patch        |   2 +-
+ 11 files changed, 475 insertions(+), 59 deletions(-)
+ create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
+ create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.12.2.bb => gtk+3_3.16.3.bb} (75%)
+ rename meta/recipes-gnome/gtk+/{gtk-update-icon-cache-native_3.4.4.bb => gtk-update-icon-cache-native_3.16.3.bb} (42%)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+
+-- 
+2.1.4
 
 
