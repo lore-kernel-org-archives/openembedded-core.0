@@ -1,28 +1,34 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D14E75886
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 52BA9758E8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 03:40:43 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
-   d="scan'208";a="96899554"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Jun 2015 11:44:57 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5C3d953020687
+	Fri, 12 Jun 2015 05:09:57 +0000 (UTC)
+Received: by iebmu5 with SMTP id mu5so17647620ieb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 11:39:09 +0800
-Received: from localhost.localdomain (10.167.226.85) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 12 Jun 2015 11:40:42 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Jun 2015 11:40:36 +0800
-Message-ID: <1434080436-1650-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.85]
-Subject: [PATCH] curl: Modify PACKAGECONFIG to enable openssl
+	Thu, 11 Jun 2015 22:09:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=P6ZvZ4ZmI+M4ndBurZPtOftDG68kwdV0wLm2Q4FB8fg=;
+	b=Iaw+voCfJRt2It0mV0WyjFaQ7l9lF9WcuKztU4ZsePBdRHOs9bdECJQ/iltpLOTh+u
+	B0oYiLbDVRV/pdmRWke84PMrRH2MKn/7U9a90+MPEOR5PikD3sTXSD+nvGttGh80ln1G
+	xCkvxGLZiI5MTyRYO5HV9zHxRBqjbvB9PNlqR78sb0tIS5Q+virwaTipKT8+Joukd6UV
+	pkM4R+p5VUP4MG3IZUl+gDdJO5Q2UCDrpbxH52PUL9TJOLhaJP+Uc6OaTUsUOVnWMCDs
+	mrHJ3rquJ7SVR9SuIHnDlPiNVGoKFNsasXm9//DsZFSjvjS+48qNN27e7wdgSCqrnDR4
+	NN2Q==
+X-Received: by 10.42.142.66 with SMTP id r2mr14981066icu.87.1434085798662;
+	Thu, 11 Jun 2015 22:09:58 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id fm3sm942215igb.1.2015.06.11.22.09.57
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 11 Jun 2015 22:09:57 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Jun 2015 22:09:49 -0700
+Message-Id: <1434085789-27225-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [RFC][PATCH] populate_sdk_base.bbclass: use pbzip2 to compress SDK tar file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,38 +41,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jun 2015 03:40:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 12 Jun 2015 05:10:00 -0000
 
-Enabled openssl defalutly to use https, just like Ubuntu and Red Hat do.
+Just a rough proof of concept, but the benefits seem worthwhile. Time to
+run 'bitbake -c populate_sdk <myimage>' on a 12 core build server reduces
+from 5m8 to 3m35.
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-support/curl/curl_7.42.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/populate_sdk_base.bbclass        |  6 +++---
+ meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb | 27 +++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
 
-diff --git a/meta/recipes-support/curl/curl_7.42.1.bb b/meta/recipes-support/curl/curl_7.42.1.bb
-index 8b0ccb8..ce39892 100644
---- a/meta/recipes-support/curl/curl_7.42.1.bb
-+++ b/meta/recipes-support/curl/curl_7.42.1.bb
-@@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "e2905973391ec2dfd7743a8034ad10eeb58dab8b3a297e7892a41a7999
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 7f7a87f..f3a2e75 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -40,7 +40,7 @@ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
  
- inherit autotools pkgconfig binconfig multilib_header
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+-SDK_DEPENDS = "virtual/fakeroot-native"
++SDK_DEPENDS = "virtual/fakeroot-native pbzip2-native"
  
--PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} gnutls zlib"
-+PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "ipv6", "ipv6", "", d)} ssl zlib"
- PACKAGECONFIG_class-native = "ipv6 ssl zlib"
- PACKAGECONFIG_class-nativesdk = "ipv6 ssl zlib"
+ # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
+ # could be set to the MACHINE_ARCH
+@@ -108,13 +108,13 @@ fakeroot create_sdk_files() {
+ 	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+ }
  
-@@ -36,6 +36,7 @@ EXTRA_OECONF = "--without-libidn \
-                 --disable-ldap \
-                 --disable-ldaps \
-                 --with-ca-bundle=${sysconfdir}/ssl/certs/ca-certificates.crt \
-+                --with-libssh2 \
- "
- # see https://lists.yoctoproject.org/pipermail/poky/2013-December/009435.html
- # We should ideally drop ac_cv_sizeof_off_t from site files but until then
+-SDKTAROPTS = "--owner=root --group=root -j"
++SDKTAROPTS = "--owner=root --group=root"
+ 
+ fakeroot tar_sdk() {
+ 	# Package it up
+ 	mkdir -p ${SDK_DEPLOY}
+ 	cd ${SDK_OUTPUT}/${SDKPATH}
+-	tar ${SDKTAROPTS} -c --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
++	tar ${SDKTAROPTS} -cf - . | pbzip2 > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2
+ }
+ 
+ fakeroot create_shar() {
+diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
+new file mode 100644
+index 0000000..fb70d0c
+--- /dev/null
++++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "PBZIP2 is a parallel implementation of bzip2"
++DESCRIPTION = "PBZIP2 is a parallel implementation of the bzip2 block-sorting \
++file compressor that uses pthreads and achieves near-linear speedup on SMP \
++machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
++newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
++HOMEPAGE = "http://compression.ca/pbzip2/"
++SECTION = "console/utils"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4c4f2edec9679d5abef3514a816b54a4"
++
++DEPENDS = "bzip2"
++
++SRC_URI = "https://launchpad.net/${BPN}/1.1/${PV}/+download/${BP}.tar.gz"
++
++SRC_URI[md5sum] = "91a4911b13305850423840eb0fa6f4f9"
++SRC_URI[sha256sum] = "573bb358a5a7d3bf5f42f881af324cedf960c786e8d66dd03d448ddd8a0166ee"
++
++do_configure[noexec] = "1"
++
++EXTRA_OEMAKE = "CXX='${CXX} ${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
++
++do_install() {
++    install -d ${D}${bindir}
++    install -m 0755 pbzip2 ${D}${bindir}/
++}
++
++BBCLASSEXTEND = "native"
 -- 
-1.8.4.2
+1.9.1
 
 
