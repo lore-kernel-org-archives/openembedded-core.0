@@ -1,20 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4165C755FA
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E8ED75997
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 13:11:22 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 12 Jun 2015 06:11:05 -0700
+	Fri, 12 Jun 2015 13:11:49 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 12 Jun 2015 06:11:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,602,1427785200"; d="scan'208";a="742133800"
+X-IronPort-AV: E=Sophos;i="5.13,602,1427785200"; d="scan'208";a="507220781"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2015 06:11:04 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Jun 2015 06:11:17 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jun 2015 16:11:36 +0300
-Message-Id: <cover.1434114213.git.jussi.kukkonen@intel.com>
+Date: Fri, 12 Jun 2015 16:11:40 +0300
+Message-Id: <7321ee7236ec75dd68269421edafaefc52df6a88.1434114213.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2 0/6] GTK+3 upgrade and related changes
+In-Reply-To: <cover.1434114213.git.jussi.kukkonen@intel.com>
+References: <cover.1434114213.git.jussi.kukkonen@intel.com>
+Subject: [PATCH v2 1/6] gtk+3: Upgrade to 3.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,74 +29,271 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jun 2015 13:11:25 -0000
+X-List-Received-Date: Fri, 12 Jun 2015 13:11:52 -0000
 
-Patch set upgrades GTK+3 and adds adwaita-icon-theme: Current GTK+
-requires a theme with "symbolic" (single color) icons for the
-widgets to look decent -- and gnome-icon-theme does not provide them.
-In practice Adwaita is the successor of now unmaintained
-gnome-icon-theme so dropping gnome-icon-theme at some point would
-make sense.
+* Drop --disable-gtk2-dependency and the patch for
+  gtk/native/Makefile.am: gtk-update-icon-cache is no longer used at
+  build time and as a result the option was removed.
+* Add dependency to libepoxy
+* Add dependency to virtual/mesa for wayland-egl
+* Package new binaries gtk3-icon-browser and gtk-encode-symbolic-svg
+* Add a backported patch that allows server side window decorations
+  in all cases
 
-Adwaita includes lots of symbolic svg icons: The build uses
-gtk-encode-symbolic-svg at install time to convert them to png. This
-means both smaller installed size and faster rendering on target but
-takes a moment at install time: >2 minutes on my fairly beefy
-machine.
-
-The new symbolic icons have also increased the installed size:
-    gnome-icon-theme: 14 MB
-    adwaita-icon-theme: 24 MB
-    adwaita-icon-theme-cursors: 12 MB
-(gnome-icon-theme does not include cursors at all)
-
-Version 2 of this patch set only modifies gtk-update-icon-cache-native
-patch by depending on librsvg-native and forcing its sysroot
-population.
-
-
-Cheers,
- Jussi
-
-The following changes since commit 062678c4ab88fa94ed38efa6520c3b4e2d88ca73:
-
-  sysvinit: Only enable recipe in builds where its applicable (2015-06-10 12:03:19 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/update-gtk3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/update-gtk3
-
-Jussi Kukkonen (6):
-  gtk+3: Upgrade to 3.16.3
-  gtk-update-icon-cache-native: Upgrade, add binary
-  matchbox-session-sato: set GTK_CSD env var
-  adwaita-icon-theme: Add new icon theme for GTK+
-  sato-icon-theme: Inherit Adwaita, not gnome-icon-theme
-  midori: Depend on Adwaita, not gnome-icon-theme
-
- .../Create-symlinks-when-installing-cursors.patch  | 178 +++++++++++++++++++++
- .../gnome/adwaita-icon-theme_3.16.2.1.bb           |  34 ++++
- meta/recipes-gnome/gtk+/gtk+3.inc                  |  14 +-
- meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch | 118 ++++++++++++++
- .../gtk+/gtk+3/fix-flags-for-native.patch          |  33 ----
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |  14 +--
+ meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch | 118 +++++++++++++++++++++
+ .../gtk+/gtk+3/fix-flags-for-native.patch          |  33 ------
  .../gtk+/{gtk+3_3.12.2.bb => gtk+3_3.16.3.bb}      |   6 +-
- .../gtk+/gtk-update-icon-cache-native_3.16.3.bb    |  63 ++++++++
- .../gtk+/gtk-update-icon-cache-native_3.4.4.bb     |  47 ------
- ...k-dependency-from-gtk-encode-symbolic-svg.patch | 102 ++++++++++++
- .../matchbox-sato/matchbox-session-sato/session    |   4 +
- meta/recipes-sato/midori/midori_0.5.8.bb           |   2 +-
- .../0001-Inherit-the-GNOME-icon-theme.patch        |   2 +-
- 12 files changed, 511 insertions(+), 92 deletions(-)
- create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
- create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
+ 4 files changed, 128 insertions(+), 43 deletions(-)
  create mode 100644 meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch
  delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch
  rename meta/recipes-gnome/gtk+/{gtk+3_3.12.2.bb => gtk+3_3.16.3.bb} (75%)
- create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.16.3.bb
- delete mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
- create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
 
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 3e36676..3823fb3 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
+ SECTION = "libs"
+ 
+ DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf \
+-           docbook-utils-native gdk-pixbuf-native"
++           docbook-utils-native gdk-pixbuf-native libepoxy"
+ 
+ LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+ 
+@@ -22,10 +22,7 @@ do_configure_prepend() {
+     ln -s ${TARGET_PREFIX}libtool libtool
+ }
+ 
+-# Forcibly disable the GTK+ 2 dependency as we don't want to natively build the
+-# entire GTK+ stack, or need GTK+ 2 for gtk-update-icon-cache.
+ EXTRA_OECONF += " \
+-                 --disable-gtk2-dependency \
+                  --disable-glibtest \
+                  --disable-xinerama \
+                  --enable-modules \
+@@ -37,7 +34,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "x11", "x11", "", d)}
+                    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "wayland", "", d)}"
+ 
+ PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes"
+-PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland libxkbcommon"
++PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland libxkbcommon virtual/mesa"
+ 
+ do_install_append() {
+ 	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
+@@ -48,12 +45,14 @@ LIBV = "3.0.0"
+ 
+ FILES_${PN}-demo = "${bindir}/gtk3-demo \
+                     ${bindir}/gtk3-demo-application \
++                    ${bindir}/gtk3-icon-browser \
+                     ${bindir}/gtk3-widget-factory \
+                     ${datadir}/gtk-3.0/demo \
+                     ${datadir}/applications/gtk3-demo.desktop \
++                    ${datadir}/applications/gtk3-icon-browser.desktop \
+                     ${datadir}/applications/gtk3-widget-factory.desktop \
+-                    ${datadir}/icons/hicolor/*/apps/gtk3-demo.png \
+-                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory.png"
++                    ${datadir}/icons/hicolor/*/apps/gtk3-demo*.png \
++                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory*.png"
+ 
+ # The demo uses PNG files and mime type sniffing, so ensure that these
+ # dependencies are present.
+@@ -62,6 +61,7 @@ RDEPENDS_${PN}-demo += "gdk-pixbuf-loader-png shared-mime-info"
+ FILES_${PN} = "${bindir}/gtk-update-icon-cache-3.0 \
+                ${bindir}/gtk-query-immodules-3.0 \
+                ${bindir}/gtk-launch \
++               ${bindir}/gtk-encode-symbolic-svg \
+                ${libdir}/lib*${SOLIBS} \
+                ${datadir}/themes ${sysconfdir} ${datadir}/glib-2.0/schemas/ \
+                ${libdir}/gtk-3.0/${LIBV}/engines/libpixmap.so \
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch b/meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch
+new file mode 100644
+index 0000000..32d8a84
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch
+@@ -0,0 +1,118 @@
++window: Check if we can use CSD before enabling them
++
++Upstream-Status: Backport
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
++
++From c5e5ee67490e7e7af56052d8f8beb75db002c2f1 Mon Sep 17 00:00:00 2001
++From: Emmanuele Bassi <ebassi@gnome.org>
++Date: Wed, 3 Jun 2015 14:07:29 +0100
++Subject: window: Check if we can use CSD before enabling them
++
++The change in 03213b9509fc1df16c66194ea168aed6c15110e9 changed the rules
++as to when CSD can be enabled, but it also unconditionally enables CSD
++with the implicit assumption that client-side shadows were the real
++issue, and that we could work around that by drawing our own borders.
++This also means that setting a titlebar for a GtkWindow will enable CSD
++unconditionally.
++
++In reality, some window managers (like Matchbox) *only* support
++server-side decorations, and will ignore all hints to the contrary, to
++the point of drawing decorations at random locations on top of the
++window.
++
++Since CSD are enabled unconditionally, the GTK_CSD environment variable
++is also not a suitable escape hatch.
++
++In the grand tradition of asking ourselves if we should do something
++just because we can, we should split the environment checks from the
++checks on what the user requested; by doing that, we can also check
++when enabling client-side decorations, and ideally bail out if needed.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=750343
++
++diff --git a/gtk/gtkwindow.c b/gtk/gtkwindow.c
++index 423c6bd..9fe882f 100644
++--- a/gtk/gtkwindow.c
+++++ b/gtk/gtkwindow.c
++@@ -4056,6 +4056,32 @@ gtk_window_supports_client_shadow (GtkWindow *window)
++   return TRUE;
++ }
++ 
+++static gboolean
+++gtk_window_can_use_csd (GtkWindow *window)
+++{
+++  const gchar *csd_env;
+++
+++#ifdef GDK_WINDOWING_BROADWAY
+++  if (GDK_IS_BROADWAY_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
+++    return TRUE;
+++#endif
+++
+++#ifdef GDK_WINDOWING_WAYLAND
+++  if (GDK_IS_WAYLAND_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
+++    return TRUE;
+++#endif
+++
+++#ifdef GDK_WINDOWING_MIR
+++  if (GDK_IS_MIR_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
+++    return TRUE;
+++#endif
+++
+++  csd_env = g_getenv ("GTK_CSD");
+++
+++  /* If GTK_CSD is unset we default to CSD support */
+++  return csd_env == NULL || (strcmp (csd_env, "1") == 0);
+++}
+++
++ static void
++ gtk_window_enable_csd (GtkWindow *window)
++ {
++@@ -4063,6 +4089,10 @@ gtk_window_enable_csd (GtkWindow *window)
++   GtkWidget *widget = GTK_WIDGET (window);
++   GdkVisual *visual;
++ 
+++  /* If the environment does not support CSD, then there's no point in enabling them */
+++  if (!gtk_window_can_use_csd (window))
+++    return;
+++
++   /* We need a visual with alpha for client shadows */
++   if (priv->use_client_shadow)
++     {
++@@ -5839,7 +5869,6 @@ static gboolean
++ gtk_window_should_use_csd (GtkWindow *window)
++ {
++   GtkWindowPrivate *priv = window->priv;
++-  const gchar *csd_env;
++ 
++   if (priv->csd_requested)
++     return TRUE;
++@@ -5850,24 +5879,7 @@ gtk_window_should_use_csd (GtkWindow *window)
++   if (priv->type == GTK_WINDOW_POPUP)
++     return FALSE;
++ 
++-#ifdef GDK_WINDOWING_BROADWAY
++-  if (GDK_IS_BROADWAY_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
++-    return TRUE;
++-#endif
++-
++-#ifdef GDK_WINDOWING_WAYLAND
++-  if (GDK_IS_WAYLAND_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
++-    return TRUE;
++-#endif
++-
++-#ifdef GDK_WINDOWING_MIR
++-  if (GDK_IS_MIR_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
++-    return TRUE;
++-#endif
++-
++-  csd_env = g_getenv ("GTK_CSD");
++-
++-  return (g_strcmp0 (csd_env, "1") == 0);
+++  return gtk_window_can_use_csd (window);
++ }
++ 
++ static void
++-- 
++cgit v0.10.2
++
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch b/meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch
+deleted file mode 100644
+index 9ae1088..0000000
+--- a/meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 5e16904f94b5f5961f8f6e75716e6d7d228de119 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Fri, 28 Mar 2014 03:10:12 +0000
+-Subject: [PATCH] gtk/native/Makefile.am: unset target FLAGS for native build
+-
+-The target gtk+3 does a native build in its "native" directory, we need
+-unset the target FLAGS for native build, otherwise, there might be build
+-failures.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- gtk/native/Makefile.am | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/gtk/native/Makefile.am b/gtk/native/Makefile.am
+-index 64899e9..a1c814a 100644
+---- a/gtk/native/Makefile.am
+-+++ b/gtk/native/Makefile.am
+-@@ -3,6 +3,9 @@ AM_CFLAGS = @CFLAGS_FOR_BUILD@
+- CPP = @CPP_FOR_BUILD@
+- AM_CPPFLAGS = @CPPFLAGS_FOR_BUILD@
+- AM_LDFLAGS = @LDFLAGS_FOR_BUILD@
+-+CFLAGS =
+-+CPPFLAGS =
+-+LDFLAGS =
+- 
+- if CROSS_COMPILING
+- if !USE_EXTERNAL_ICON_CACHE
+--- 
+-1.8.3.4
+-
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb b/meta/recipes-gnome/gtk+/gtk+3_3.16.3.bb
+similarity index 75%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.16.3.bb
+index f4f1971..b73789e 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.16.3.bb
+@@ -4,11 +4,11 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+            file://hardcoded_libtool.patch \
+-           file://fix-flags-for-native.patch \
++           file://Dont-force-csd.patch \
+           "
+ 
+-SRC_URI[md5sum] = "0d6d8f9f79132b3b47475d047b369b1c"
+-SRC_URI[sha256sum] = "61d74eea74231b1ea4b53084a9d6fc9917ab0e1d71b69d92cbf60a4b4fb385d0"
++SRC_URI[md5sum] = "af22a1a753ea9b182babfed9d8b38228"
++SRC_URI[sha256sum] = "2943fd4a6b02c2a9b2edd231c1d8f7a1d2f8d36996f14310d34f503dca9ebea4"
+ 
+ S = "${WORKDIR}/gtk+-${PV}"
+ 
 -- 
 2.1.4
 
