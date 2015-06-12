@@ -1,28 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6451C75949
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id C665A7324E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 08:40:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 12 Jun 2015 01:40:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,601,1427785200"; d="scan'208";a="742015437"
-Received: from sgwillia-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.2.70])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2015 01:40:53 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Fri, 12 Jun 2015 09:40:52 +0100
-Message-ID: <1557617.mLfaxnFia7@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.7 (Linux/4.0.4-202.fc21.x86_64; KDE/4.14.7; x86_64; ; )
-In-Reply-To: <557A4FDF.7060304@windriver.com>
-References: <cover.1433842738.git.liezhi.yang@windriver.com>
-	<7189f3ea9eb20d08f73abf3af4715a43f73740c0.1433842738.git.liezhi.yang@windriver.com>
-	<557A4FDF.7060304@windriver.com>
+	Fri, 12 Jun 2015 08:53:03 +0000 (UTC)
+Received: by oihb142 with SMTP id b142so17857673oih.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jun 2015 01:53:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=e2ZjOj5N+3O4Rqo2GW+jc3OK4v4HdaeargmpDNRPeFs=;
+	b=T4P/qtAu7uFGuR8xQKTd9Bhx1afTp6+L0trFE0hpvXi0CTWT1Wzc/c39zvLUCy7rgb
+	1aj8jsxREjy0hkpiMKTbNQ9bB2ORvq0U0kxBeJJpbSM1RAfd+mvhSUlKAQSCY3B4+dmv
+	Oj/lf1/hm1ea8z89saBX6fkYci0MKhKhIJ1gdN2Pzb/EjVn8IKmfH9cbmDaovcEaSjDd
+	jqOXG3cDA9CwmrPcE5s5QCYrRjOdNfrsKxDpGEZVFG+PVe+VW6RocHXu4iSqpsZEM/r6
+	MU0168bXyt0I6mMNJs/8/j59ShG1OeZrQOLor8ZVEkpdWyfLx58EyXi4FMACK7rdMZtI
+	TO4A==
+X-Gm-Message-State: ALoCoQkzR49JlagbgHJh1x/1Gup5OnChCN8RHmuIF9SGSWgf6VXWyQFif8ItsGAcH/q6d/IPh2Z/
+X-Received: by 10.60.47.165 with SMTP id e5mr11247924oen.52.1434099184843;
+	Fri, 12 Jun 2015 01:53:04 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 06/12] libav: 9.18 -> 11.4
+Received: by 10.202.225.2 with HTTP; Fri, 12 Jun 2015 01:52:34 -0700 (PDT)
+In-Reply-To: <ee45da59fce99a5a283a7d9a50a8d85aea7f4f30.1434028277.git.jussi.kukkonen@intel.com>
+References: <cover.1434028277.git.jussi.kukkonen@intel.com>
+	<ee45da59fce99a5a283a7d9a50a8d85aea7f4f30.1434028277.git.jussi.kukkonen@intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Fri, 12 Jun 2015 11:52:34 +0300
+Message-ID: <CAHiDW_HhdeN5R39vw0NAzWQFUsYgSst=7nwxf3ZnKMUtzMguXQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] gtk-update-icon-cache-native: Upgrade, add binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,268 +44,433 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jun 2015 08:40:53 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 12 Jun 2015 08:53:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-I didn't talk to Richard about it but I think there may have been some=20=
+Please don't pull this yet:
 
-discussion on this list about the possibility of 9->10->11 breaking API=
-=20
-compatibility with applications. Did you do testing with recipes in met=
-a-
-oe/meta-multimedia that depend upon libav?
+I seem to still be missing a dependency on this recipe as building
+adwaita after wiping sysroot gives these errors from running
+gtk-encode-symbolic-svg:
+> Can't load file: Unrecognized image file format
 
-On Friday 12 June 2015 11:19:59 Robert Yang wrote:
-> Hello,
->=20
-> Other patches had been merged except this one, any comments on it, pl=
-ease ?
->=20
-> // Robert
->=20
-> On 06/09/2015 10:51 PM, Robert Yang wrote:
-> > * Remove the backport patch libav-fix-CVE-2014-9676.patch.
-> > * Backport a patch from debain to fix the build for i586 with gcc.
-> >=20
-> > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > ---
-> >=20
-> >   meta/recipes-multimedia/libav/libav.inc            |    4 +-
-> >   .../libav/libav/libav-fix-CVE-2014-9676.patch      |   98
-> >   -------------------- ...rkaround-to-build-libav-for-i586-with-gcc=
-.patch
-> >   |   26 ++++++
-> >   meta/recipes-multimedia/libav/libav_11.4.bb        |    4 +
-> >   meta/recipes-multimedia/libav/libav_9.18.bb        |    6 --
-> >   5 files changed, 33 insertions(+), 105 deletions(-)
-> >   delete mode 100644
-> >   meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch=
+Jussi
 
-> >   create mode 100644
-> >   meta/recipes-multimedia/libav/libav/workaround-to-build-libav-for=
--i586-
-> >   with-gcc.patch create mode 100644
-> >   meta/recipes-multimedia/libav/libav_11.4.bb
-> >   delete mode 100644 meta/recipes-multimedia/libav/libav_9.18.bb
-> >=20
-> > diff --git a/meta/recipes-multimedia/libav/libav.inc
-> > b/meta/recipes-multimedia/libav/libav.inc index 6ef273b..6cd04c7 10=
-0644
-> > --- a/meta/recipes-multimedia/libav/libav.inc
-> > +++ b/meta/recipes-multimedia/libav/libav.inc
-> > @@ -15,7 +15,9 @@ LIC_FILES_CHKSUM =3D
-> > "file://COPYING.GPLv2;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \>=20
-> >                       file://COPYING.LGPLv2.1;md5=3Dbd7a443320af8c8=
-12e4c18d1
-> >                       b79df004 \
-> >                       file://COPYING.LGPLv3;md5=3De6a600fd5e1d9cbde=
-2d9836802
-> >                       33ad02"
-> >=20
-> > -SRC_URI =3D "http://libav.org/releases/${BP}.tar.xz"
-> > +SRC_URI =3D "http://libav.org/releases/${BP}.tar.xz \
-> > +           file://workaround-to-build-libav-for-i586-with-gcc.patc=
-h \
-> > +"
-> >=20
-> >   # Provides ffmpeg compat, see http://libav.org/about.html
-> >   PROVIDES =3D "ffmpeg"
-> >=20
-> > diff --git
-> > a/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch=
+On 11 June 2015 at 16:24, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+> * Upgrade to GTK+ 3.16.3
+> * Add gtk-encode-symbolic-svg binary: it is used by icon themes
+>   (e.g. Adwaita) to generate png versions of svg icons.
+> * Add a patch that removes Gdk dependency from gtk-encode-symbolic-svg:
+>   this way the native build stays slim.
+>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  ...4.bb => gtk-update-icon-cache-native_3.16.3.bb} |  41 ++++++---
+>  ...k-dependency-from-gtk-encode-symbolic-svg.patch | 102 +++++++++++++++++++++
+>  2 files changed, 129 insertions(+), 14 deletions(-)
+>  rename meta/recipes-gnome/gtk+/{gtk-update-icon-cache-native_3.4.4.bb => gtk-update-icon-cache-native_3.16.3.bb} (42%)
+>  create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+>
+> diff --git a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.16.3.bb
+> similarity index 42%
+> rename from meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
+> rename to meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.16.3.bb
+> index 73b7644..9f1c2f0 100644
+> --- a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
+> +++ b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.16.3.bb
+> @@ -1,20 +1,23 @@
+> -SUMMARY = "gtk-update-icon-cache built natively"
+> -DESCRIPTION = "Just gtk-update-icon-cache built from GTK+ natively, for on-host postinst script execution."
+> +SUMMARY = "Native icon utils for GTK+"
+> +DESCRIPTION = "gtk-update-icon-cache and gtk-encode-symbolic-svg built from GTK+ natively, for build time and on-host postinst script execution."
+>  SECTION = "libs"
+>
+> -DEPENDS = "gdk-pixbuf-native"
+> +DEPENDS = "glib-2.0-native gdk-pixbuf-native"
+>
+>  LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+>
+> +MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+> +
+> +SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+> +          file://Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch"
+> +SRC_URI[md5sum] = "af22a1a753ea9b182babfed9d8b38228"
+> +SRC_URI[sha256sum] = "2943fd4a6b02c2a9b2edd231c1d8f7a1d2f8d36996f14310d34f503dca9ebea4"
+> +
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+>                      file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
+>                      file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
+>                      file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
+>
+> -SRC_URI = "http://download.gnome.org/sources/gtk+/3.4/gtk+-${PV}.tar.xz"
+> -SRC_URI[md5sum] = "1b2cf29502a6394e8d4b30f7f5bb9131"
+> -SRC_URI[sha256sum] = "f154e460075034da4c0ce89c320025dcd459da2a1fdf32d92a09522eaca242c7"
+> -
+>  S = "${WORKDIR}/gtk+-${PV}"
+>
+>  inherit pkgconfig native
+> @@ -22,26 +25,36 @@ inherit pkgconfig native
+>  PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
+>
+>  do_configure() {
+> -       # Quite ugly but defines enough to compile the tool.
+> +       # Quite ugly but defines enough to compile the tools.
+>         if ! test -f gtk/config.h; then
+>                 echo "#define GETTEXT_PACKAGE \"gtk30\"" >> gtk/config.h
+>                 echo "#define HAVE_UNISTD_H 1" >> gtk/config.h
+>                 echo "#define HAVE_FTW_H 1" >> gtk/config.h
+> -
+> +       fi
+> +       if ! test -f gdk/config.h; then
+> +               touch gdk/config.h
+>         fi
+>  }
+>
+>  do_compile() {
+> -       ${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} ${S}/gtk/updateiconcache.c \
+> -       $(${PKG_CONFIG_FOR_BUILD} --cflags --libs gdk-pixbuf-2.0) \
+> -               -o gtk-update-icon-cache
+> +       ${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} \
+> +               ${S}/gtk/updateiconcache.c \
+> +               $(${PKG_CONFIG_FOR_BUILD} --cflags --libs gdk-pixbuf-2.0) \
+> +               -o gtk-update-icon-cache
+> +
+> +       ${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} \
+> +               ${S}/gtk/encodesymbolic.c \
+> +               $(${PKG_CONFIG_FOR_BUILD} --cflags --libs gio-2.0 gdk-pixbuf-2.0) \
+> +               -o gtk-encode-symbolic-svg
+>  }
+>
+>  do_install() {
+>         install -d ${D}${bindir}
+> -        install -m 0755 ${B}/gtk-update-icon-cache ${D}${bindir}
+> +       install -m 0755 ${B}/gtk-update-icon-cache ${D}${bindir}
+> +       install -m 0755 ${B}/gtk-encode-symbolic-svg ${D}${bindir}
+>
+>         create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
+>                 GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
+> -
+> +       create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
+> +               GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
+>  }
+> diff --git a/meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch b/meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+> new file mode 100644
+> index 0000000..237f803
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+> @@ -0,0 +1,102 @@
+> +From 4d09ff324419fe4e671233044e424378da53969b Mon Sep 17 00:00:00 2001
+> +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> +Date: Tue, 9 Jun 2015 14:20:30 +0300
+> +Subject: [PATCH] Remove Gdk-dependency from gtk-encode-symbolic-svg
+> +
+> +Building gtk-encode-symbolic-svg without building Gdk is useful
+> +as only the icon tools are needed on the native build: this makes
+> +native build much faster and requires much less dependencies.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> +---
+> + gtk/encodesymbolic.c | 36 ++++++++++--------------------------
+> + 1 file changed, 10 insertions(+), 26 deletions(-)
+> +
+> +diff --git a/gtk/encodesymbolic.c b/gtk/encodesymbolic.c
+> +index 9f7d015..1f07563 100644
+> +--- a/gtk/encodesymbolic.c
+> ++++ b/gtk/encodesymbolic.c
+> +@@ -19,7 +19,6 @@
+> +
+> + #include <glib.h>
+> + #include <gdk-pixbuf/gdk-pixdata.h>
+> +-#include <gdk/gdk.h>
+> + #include <glib/gi18n.h>
+> +
+> + #ifdef HAVE_UNISTD_H
+> +@@ -43,30 +42,18 @@ static GdkPixbuf *
+> + load_symbolic_svg (char *file_data, gsize file_len,
+> +                    int width,
+> +                    int height,
+> +-                   const GdkRGBA  *fg,
+> +-                   const GdkRGBA  *success_color,
+> +-                   const GdkRGBA  *warning_color,
+> +-                   const GdkRGBA  *error_color,
+> ++                   const char *css_fg,
+> ++                   const char *css_success,
+> ++                   const char *css_warning,
+> ++                   const char *css_error,
+> +                    GError        **error)
+> + {
+> +   GInputStream *stream;
+> +   GdkPixbuf *pixbuf;
+> +-  gchar *css_fg;
+> +-  gchar *css_success;
+> +-  gchar *css_warning;
+> +-  gchar *css_error;
+> +   gchar *data;
+> +   gchar *svg_width, *svg_height;
+> +   gchar *escaped_file_data;
+> +
+> +-  css_fg = gdk_rgba_to_string (fg);
+> +-
+> +-  css_success = css_warning = css_error = NULL;
+> +-
+> +-  css_warning = gdk_rgba_to_string (warning_color);
+> +-  css_error = gdk_rgba_to_string (error_color);
+> +-  css_success = gdk_rgba_to_string (success_color);
+> +-
+> +   /* Fetch size from the original icon */
+> +   stream = g_memory_input_stream_new_from_data (file_data, file_len, NULL);
+> +   pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, error);
+> +@@ -105,10 +92,6 @@ load_symbolic_svg (char *file_data, gsize file_len,
+> +                       "</svg>",
+> +                       NULL);
+> +   g_free (escaped_file_data);
+> +-  g_free (css_fg);
+> +-  g_free (css_warning);
+> +-  g_free (css_error);
+> +-  g_free (css_success);
+> +   g_free (svg_width);
+> +   g_free (svg_height);
+> +
+> +@@ -167,7 +150,8 @@ make_symbolic_pixbuf (char *file,
+> +                       GError        **error)
+> +
+> + {
+> +-  GdkRGBA r = { 1,0,0,1}, g = {0,1,0,1};
+> ++  const char r[] = "rgba(255,0,0,1)";
+> ++  const char g[] = "rgba(0,255,0,1)";
+> +   GdkPixbuf *loaded;
+> +   GdkPixbuf *pixbuf;
+> +   int plane;
+> +@@ -196,10 +180,10 @@ make_symbolic_pixbuf (char *file,
+> +        * the "rest", as all color fractions should add up to 1.
+> +        */
+> +       loaded = load_symbolic_svg (file_data, file_len, width, height,
+> +-                                  &g,
+> +-                                  plane == 0 ? &r : &g,
+> +-                                  plane == 1 ? &r : &g,
+> +-                                  plane == 2 ? &r : &g,
+> ++                                  g,
+> ++                                  plane == 0 ? r : g,
+> ++                                  plane == 1 ? r : g,
+> ++                                  plane == 2 ? r : g,
+> +                                   error);
+> +       if (loaded == NULL)
+> +         return NULL;
+> +--
+> +2.1.4
+> +
+> --
+> 2.1.4
+>
 
-> > b/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.patch=
-
-> > deleted file mode 100644
-> > index 1e31caa..0000000
-> > --- a/meta/recipes-multimedia/libav/libav/libav-fix-CVE-2014-9676.p=
-atch
-> > +++ /dev/null
-> > @@ -1,98 +0,0 @@
-> > -Upstream-Status: Backport
-> > -
-> > -Backport patch to fix CVE-2014-9676.
-> > -
-> > -https://security-tracker.debian.org/tracker/CVE-2014-9676
-> > -https://git.libav.org/?p=3Dlibav.git;a=3Dcommit;h=3Db3f04657368a32=
-a9903406395f8
-> > 65e230b1de348 -
-> > -Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > ----
-> > -From b3f04657368a32a9903406395f865e230b1de348 Mon Sep 17 00:00:00 =
-2001
-> > -From: Luca Barbato <lu_zero@gentoo.org>
-> > -Date: Mon, 5 Jan 2015 10:40:41 +0100
-> > -Subject: [PATCH] segment: Fix the failure paths
-> > -
-> > -A failure in segment_end() or segment_start() would lead to freein=
-g
-> > -a dangling pointer and in general further calls to seg_write_packe=
-t()
-> > -or to seg_write_trailer() would have the same faulty behaviour.
-> > -
-> > -CC: libav-stable@libav.org
-> > -Reported-By: luodalongde@gmail.com
-> > ----
-> > - libavformat/segment.c | 32 ++++++++++++++++++++------------
-> > - 1 file changed, 20 insertions(+), 12 deletions(-)
-> > -
-> > -diff --git a/libavformat/segment.c b/libavformat/segment.c
-> > -index 52da6b9..bcfd1f9 100644
-> > ---- a/libavformat/segment.c
-> > -+++ b/libavformat/segment.c
-> > -@@ -184,6 +184,13 @@ static void close_null_ctx(AVIOContext *pb)
-> > -     av_free(pb);
-> > - }
-> > -
-> > -+static void seg_free_context(SegmentContext *seg)
-> > -+{
-> > -+    avio_closep(&seg->pb);
-> > -+    avformat_free_context(seg->avf);
-> > -+    seg->avf =3D NULL;
-> > -+}
-> > -+
-> > - static int seg_write_header(AVFormatContext *s)
-> > - {
-> > -     SegmentContext *seg =3D s->priv_data;
-> > -@@ -265,12 +272,9 @@ static int seg_write_header(AVFormatContext *=
-s)
-> > -     }
-> > -
-> > - fail:
-> > --    if (ret) {
-> > --        if (seg->list)
-> > --            avio_close(seg->pb);
-> > --        if (seg->avf)
-> > --            avformat_free_context(seg->avf);
-> > --    }
-> > -+    if (ret < 0)
-> > -+        seg_free_context(seg);
-> > -+
-> > -     return ret;
-> > - }
-> > -
-> > -@@ -282,6 +286,9 @@ static int seg_write_packet(AVFormatContext *s=
-,
-> > AVPacket *pkt) -     int64_t end_pts =3D seg->recording_time * seg-=
->number;
-> > -     int ret, can_split =3D 1;
-> > -
-> > -+    if (!oc)
-> > -+        return AVERROR(EINVAL);
-> > -+
-> > -     if (seg->has_video) {
-> > -         can_split =3D st->codec->codec_type =3D=3D AVMEDIA_TYPE_V=
-IDEO &&
-> > -                     pkt->flags & AV_PKT_FLAG_KEY;
-> > -@@ -322,11 +329,8 @@ static int seg_write_packet(AVFormatContext *=
-s,
-> > AVPacket *pkt) -     ret =3D ff_write_chained(oc, pkt->stream_index=
-, pkt,
-> > s);
-> > -
-> > - fail:
-> > --    if (ret < 0) {
-> > --        if (seg->list)
-> > --            avio_close(seg->pb);
-> > --        avformat_free_context(oc);
-> > --    }
-> > -+    if (ret < 0)
-> > -+        seg_free_context(seg);
-> > -
-> > -     return ret;
-> > - }
-> > -@@ -335,7 +339,11 @@ static int seg_write_trailer(struct AVFormatC=
-ontext
-> > *s) - {
-> > -     SegmentContext *seg =3D s->priv_data;
-> > -     AVFormatContext *oc =3D seg->avf;
-> > --    int ret;
-> > -+    int ret =3D 0;
-> > -+
-> > -+    if (!oc)
-> > -+        goto fail;
-> > -+
-> > -     if (!seg->write_header_trailer) {
-> > -         if ((ret =3D segment_end(oc, 0)) < 0)
-> > -             goto fail;
-> > ---
-> > -2.4.1.314.g9532ead
-> > -
-> > diff --git
-> > a/meta/recipes-multimedia/libav/libav/workaround-to-build-libav-for=
--i586-
-> > with-gcc.patch
-> > b/meta/recipes-multimedia/libav/libav/workaround-to-build-libav-for=
--i586-
-> > with-gcc.patch new file mode 100644
-> > index 0000000..36f6ded
-> > --- /dev/null
-> > +++
-> > b/meta/recipes-multimedia/libav/libav/workaround-to-build-libav-for=
--i586-
-> > with-gcc.patch @@ -0,0 +1,26 @@
-> > +Description: Workaround to build libav for i586 with gcc 4.9.2 by
-> > avoiding memset +Author: Bernhard =EF=BF=BDbelacker <bernhardu@vr-w=
-eb.de>
-> > +
-> > +---
-> > +Bug-Debian: https://bugs.debian.org/783082
-> > +Last-Update: 2015-04-28
-> > +
-> > +Upstream-Status: Backport [debian]
-> > +
-> > +Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> > +
-> > +--- libav-11.3.orig/libavcodec/h264_cabac.c
-> > ++++ libav-11.3/libavcodec/h264_cabac.c
-> > +@@ -2020,7 +2020,11 @@ decode_intra_mb:
-> > +         // In deblocking, the quantizer is 0
-> > +         h->cur_pic.qscale_table[mb_xy] =3D 0;
-> > +         // All coeffs are present
-> > +-        memset(h->non_zero_count[mb_xy], 16, 48);
-> > ++        /*memset(h->non_zero_count[mb_xy], 16, 48);*/
-> > ++            /* avoiding this memset because it leads at least wit=
-h
-> > gcc4.9.2 to error: 'asm' operand has impossible constraints */ ++  =
-    =20
-> > for (size_t i =3D 0; i < 48; i++) {
-> > ++            ( (unsigned char*)(h->non_zero_count[mb_xy]) ) [i] =3D=
- 16;
-> > ++        }
-> > +         h->cur_pic.mb_type[mb_xy] =3D mb_type;
-> > +         h->last_qscale_diff =3D 0;
-> > +         return 0;
-> > diff --git a/meta/recipes-multimedia/libav/libav_11.4.bb
-> > b/meta/recipes-multimedia/libav/libav_11.4.bb new file mode 100644
-> > index 0000000..dde7094
-> > --- /dev/null
-> > +++ b/meta/recipes-multimedia/libav/libav_11.4.bb
-> > @@ -0,0 +1,4 @@
-> > +require libav.inc
-> > +
-> > +SRC_URI[md5sum] =3D "98c264530a3a5e569543f60b917c3daa"
-> > +SRC_URI[sha256sum] =3D
-> > "0b7dabc2605f3a254ee410bb4b1a857945696aab495fe21b34c3b6544ff5d525" =
-diff
-> > --git a/meta/recipes-multimedia/libav/libav_9.18.bb
-> > b/meta/recipes-multimedia/libav/libav_9.18.bb deleted file mode 100=
-644
-> > index 210a649..0000000
-> > --- a/meta/recipes-multimedia/libav/libav_9.18.bb
-> > +++ /dev/null
-> > @@ -1,6 +0,0 @@
-> > -require libav.inc
-> > -
-> > -SRC_URI[md5sum] =3D "75e838068a75fb88e1b4ea0546bc16f0"
-> > -SRC_URI[sha256sum] =3D
-> > "0875e835da683eef1a7bac75e1884634194149d7479d1538ba9fbe1614d066d7" =
--
-> > -SRC_URI +=3D "file://libav-fix-CVE-2014-9676.patch"
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
+On 11 June 2015 at 16:24, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+> * Upgrade to GTK+ 3.16.3
+> * Add gtk-encode-symbolic-svg binary: it is used by icon themes
+>   (e.g. Adwaita) to generate png versions of svg icons.
+> * Add a patch that removes Gdk dependency from gtk-encode-symbolic-svg:
+>   this way the native build stays slim.
+>
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  ...4.bb => gtk-update-icon-cache-native_3.16.3.bb} |  41 ++++++---
+>  ...k-dependency-from-gtk-encode-symbolic-svg.patch | 102 +++++++++++++++++++++
+>  2 files changed, 129 insertions(+), 14 deletions(-)
+>  rename meta/recipes-gnome/gtk+/{gtk-update-icon-cache-native_3.4.4.bb => gtk-update-icon-cache-native_3.16.3.bb} (42%)
+>  create mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+>
+> diff --git a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.16.3.bb
+> similarity index 42%
+> rename from meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
+> rename to meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.16.3.bb
+> index 73b7644..9f1c2f0 100644
+> --- a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
+> +++ b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.16.3.bb
+> @@ -1,20 +1,23 @@
+> -SUMMARY = "gtk-update-icon-cache built natively"
+> -DESCRIPTION = "Just gtk-update-icon-cache built from GTK+ natively, for on-host postinst script execution."
+> +SUMMARY = "Native icon utils for GTK+"
+> +DESCRIPTION = "gtk-update-icon-cache and gtk-encode-symbolic-svg built from GTK+ natively, for build time and on-host postinst script execution."
+>  SECTION = "libs"
+>
+> -DEPENDS = "gdk-pixbuf-native"
+> +DEPENDS = "glib-2.0-native gdk-pixbuf-native"
+>
+>  LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+>
+> +MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+> +
+> +SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+> +          file://Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch"
+> +SRC_URI[md5sum] = "af22a1a753ea9b182babfed9d8b38228"
+> +SRC_URI[sha256sum] = "2943fd4a6b02c2a9b2edd231c1d8f7a1d2f8d36996f14310d34f503dca9ebea4"
+> +
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+>                      file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
+>                      file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
+>                      file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
+>
+> -SRC_URI = "http://download.gnome.org/sources/gtk+/3.4/gtk+-${PV}.tar.xz"
+> -SRC_URI[md5sum] = "1b2cf29502a6394e8d4b30f7f5bb9131"
+> -SRC_URI[sha256sum] = "f154e460075034da4c0ce89c320025dcd459da2a1fdf32d92a09522eaca242c7"
+> -
+>  S = "${WORKDIR}/gtk+-${PV}"
+>
+>  inherit pkgconfig native
+> @@ -22,26 +25,36 @@ inherit pkgconfig native
+>  PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
+>
+>  do_configure() {
+> -       # Quite ugly but defines enough to compile the tool.
+> +       # Quite ugly but defines enough to compile the tools.
+>         if ! test -f gtk/config.h; then
+>                 echo "#define GETTEXT_PACKAGE \"gtk30\"" >> gtk/config.h
+>                 echo "#define HAVE_UNISTD_H 1" >> gtk/config.h
+>                 echo "#define HAVE_FTW_H 1" >> gtk/config.h
+> -
+> +       fi
+> +       if ! test -f gdk/config.h; then
+> +               touch gdk/config.h
+>         fi
+>  }
+>
+>  do_compile() {
+> -       ${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} ${S}/gtk/updateiconcache.c \
+> -       $(${PKG_CONFIG_FOR_BUILD} --cflags --libs gdk-pixbuf-2.0) \
+> -               -o gtk-update-icon-cache
+> +       ${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} \
+> +               ${S}/gtk/updateiconcache.c \
+> +               $(${PKG_CONFIG_FOR_BUILD} --cflags --libs gdk-pixbuf-2.0) \
+> +               -o gtk-update-icon-cache
+> +
+> +       ${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} \
+> +               ${S}/gtk/encodesymbolic.c \
+> +               $(${PKG_CONFIG_FOR_BUILD} --cflags --libs gio-2.0 gdk-pixbuf-2.0) \
+> +               -o gtk-encode-symbolic-svg
+>  }
+>
+>  do_install() {
+>         install -d ${D}${bindir}
+> -        install -m 0755 ${B}/gtk-update-icon-cache ${D}${bindir}
+> +       install -m 0755 ${B}/gtk-update-icon-cache ${D}${bindir}
+> +       install -m 0755 ${B}/gtk-encode-symbolic-svg ${D}${bindir}
+>
+>         create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
+>                 GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
+> -
+> +       create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
+> +               GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
+>  }
+> diff --git a/meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch b/meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+> new file mode 100644
+> index 0000000..237f803
+> --- /dev/null
+> +++ b/meta/recipes-gnome/gtk+/gtk-update-icon-cache/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+> @@ -0,0 +1,102 @@
+> +From 4d09ff324419fe4e671233044e424378da53969b Mon Sep 17 00:00:00 2001
+> +From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> +Date: Tue, 9 Jun 2015 14:20:30 +0300
+> +Subject: [PATCH] Remove Gdk-dependency from gtk-encode-symbolic-svg
+> +
+> +Building gtk-encode-symbolic-svg without building Gdk is useful
+> +as only the icon tools are needed on the native build: this makes
+> +native build much faster and requires much less dependencies.
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> +---
+> + gtk/encodesymbolic.c | 36 ++++++++++--------------------------
+> + 1 file changed, 10 insertions(+), 26 deletions(-)
+> +
+> +diff --git a/gtk/encodesymbolic.c b/gtk/encodesymbolic.c
+> +index 9f7d015..1f07563 100644
+> +--- a/gtk/encodesymbolic.c
+> ++++ b/gtk/encodesymbolic.c
+> +@@ -19,7 +19,6 @@
+> +
+> + #include <glib.h>
+> + #include <gdk-pixbuf/gdk-pixdata.h>
+> +-#include <gdk/gdk.h>
+> + #include <glib/gi18n.h>
+> +
+> + #ifdef HAVE_UNISTD_H
+> +@@ -43,30 +42,18 @@ static GdkPixbuf *
+> + load_symbolic_svg (char *file_data, gsize file_len,
+> +                    int width,
+> +                    int height,
+> +-                   const GdkRGBA  *fg,
+> +-                   const GdkRGBA  *success_color,
+> +-                   const GdkRGBA  *warning_color,
+> +-                   const GdkRGBA  *error_color,
+> ++                   const char *css_fg,
+> ++                   const char *css_success,
+> ++                   const char *css_warning,
+> ++                   const char *css_error,
+> +                    GError        **error)
+> + {
+> +   GInputStream *stream;
+> +   GdkPixbuf *pixbuf;
+> +-  gchar *css_fg;
+> +-  gchar *css_success;
+> +-  gchar *css_warning;
+> +-  gchar *css_error;
+> +   gchar *data;
+> +   gchar *svg_width, *svg_height;
+> +   gchar *escaped_file_data;
+> +
+> +-  css_fg = gdk_rgba_to_string (fg);
+> +-
+> +-  css_success = css_warning = css_error = NULL;
+> +-
+> +-  css_warning = gdk_rgba_to_string (warning_color);
+> +-  css_error = gdk_rgba_to_string (error_color);
+> +-  css_success = gdk_rgba_to_string (success_color);
+> +-
+> +   /* Fetch size from the original icon */
+> +   stream = g_memory_input_stream_new_from_data (file_data, file_len, NULL);
+> +   pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, error);
+> +@@ -105,10 +92,6 @@ load_symbolic_svg (char *file_data, gsize file_len,
+> +                       "</svg>",
+> +                       NULL);
+> +   g_free (escaped_file_data);
+> +-  g_free (css_fg);
+> +-  g_free (css_warning);
+> +-  g_free (css_error);
+> +-  g_free (css_success);
+> +   g_free (svg_width);
+> +   g_free (svg_height);
+> +
+> +@@ -167,7 +150,8 @@ make_symbolic_pixbuf (char *file,
+> +                       GError        **error)
+> +
+> + {
+> +-  GdkRGBA r = { 1,0,0,1}, g = {0,1,0,1};
+> ++  const char r[] = "rgba(255,0,0,1)";
+> ++  const char g[] = "rgba(0,255,0,1)";
+> +   GdkPixbuf *loaded;
+> +   GdkPixbuf *pixbuf;
+> +   int plane;
+> +@@ -196,10 +180,10 @@ make_symbolic_pixbuf (char *file,
+> +        * the "rest", as all color fractions should add up to 1.
+> +        */
+> +       loaded = load_symbolic_svg (file_data, file_len, width, height,
+> +-                                  &g,
+> +-                                  plane == 0 ? &r : &g,
+> +-                                  plane == 1 ? &r : &g,
+> +-                                  plane == 2 ? &r : &g,
+> ++                                  g,
+> ++                                  plane == 0 ? r : g,
+> ++                                  plane == 1 ? r : g,
+> ++                                  plane == 2 ? r : g,
+> +                                   error);
+> +       if (loaded == NULL)
+> +         return NULL;
+> +--
+> +2.1.4
+> +
+> --
+> 2.1.4
+>
 
