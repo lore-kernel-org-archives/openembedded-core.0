@@ -1,36 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C99D7595E
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D1CA27595F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 11:26:23 +0000 (UTC)
-Received: by qgf75 with SMTP id 75so10422897qgf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 04:26:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=KbivSlvH+P6T2YmheWsBrYyVBTgF6kd+N1nYkYuA9QQ=;
-	b=j3xtPLfWNnwA04E8XaLV4GvPWFpEAyDZPEmHRg808RqS2uc+KX2LSSHvy/OjdXsmx0
-	eCFMbc/wpiU3oeOxkqB4JsTz3atdv3/GFnIrSowfCh34rv1tZtGCEZOIx42EAOfwaKu2
-	9mPa6+2sXLpRMF5uMVeEZHzFB3ELFYCcKLob6zFO9j96cZbyAJiSe3Pdu/vEdXXWFQjb
-	dvI21YjWJ4K7JYdhqObPH8fttjq6P/V1qXIxvPfCwjPLql014qR93E4lwSIhKsd3eIhn
-	4AS5ne387ri2Ww/bLOeUj8uOKKqHXmTOUfXi2dv/BoiIABMgQZ4SmIWUd9z8BuWxFZ8p
-	X1+g==
-X-Gm-Message-State: ALoCoQl6UNUpCbE23CQ/ETHp1jCsG5zqjuBJQZANX27Af5+eFzircNnHRfpKMLNIoD0I+tGfJEOr
-X-Received: by 10.140.133.199 with SMTP id 190mr18599677qhf.17.1434108384230; 
-	Fri, 12 Jun 2015 04:26:24 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 12 Jun 2015 04:26:03 -0700 (PDT)
-In-Reply-To: <1434102524-2036-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-References: <1434102524-2036-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Jun 2015 12:26:03 +0100
-Message-ID: <CAJTo0Lb9f6OG79hS9=tVfNthSQxqpXr457q-1N7PyYFudJopWQ@mail.gmail.com>
-To: Li xin <lixin.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libnewt-python: add native support
+	Fri, 12 Jun 2015 12:15:16 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 12 Jun 2015 05:15:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,601,1427785200"; d="scan'208";a="745528889"
+Received: from lpalcu-linux.rb.intel.com ([10.237.104.62])
+	by orsmga002.jf.intel.com with ESMTP; 12 Jun 2015 05:15:16 -0700
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Ross Burton <ross.burton@intel.com>
+Date: Fri, 12 Jun 2015 15:15:17 +0300
+Message-Id: <1434111318-12593-1-git-send-email-laurentiu.palcu@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] scripts: Add cleanup-downloads-dir tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,45 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jun 2015 11:26:23 -0000
-Content-Type: multipart/alternative; boundary=001a11353390cfd488051850606f
+X-List-Received-Date: Fri, 12 Jun 2015 12:15:24 -0000
 
---001a11353390cfd488051850606f
-Content-Type: text/plain; charset=UTF-8
+Hi all,
 
-On 12 June 2015 at 10:48, Li xin <lixin.fnst@cn.fujitsu.com> wrote:
+A few days ago I noticed I had no space on disk and decided to make some
+space. Since my downloads directory was never deleted since denzil, it
+consumed 25GB of space which I needed. However, I wanted to delete only old
+and unneeded tarbals/git repos and keep the ones that my current Yocto
+version needed, so I wrote this tool.
 
-> +BBCLASSEXTEND = "native"
->
+After running it, my downloads size became 7GB.
 
-Have you actually tested this in oe-core?
+I also tested on a brand new downloads directory, after doing a
+core-image-minimal build, and it didn't find any obsolete files (which
+is kind of normal). :)
 
-$ bitbake libnewt-python-native
-ERROR: Nothing PROVIDES 'libnewt-native' (but
-virtual:native:/home/ross/Yocto/poky/meta/recipes-extended/newt/
-libnewt-python_0.52.18.bb DEPENDS on or otherwise requires it)
+I hope someone finds it helpful. Also, I encourage you to give it a
+test. Don't worry, it will not delete anything unless you allow it and
+you can review the list of files to be removed. If you see anything
+suspicious, let me know.
 
-Ross
+laurentiu
 
---001a11353390cfd488051850606f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Laurentiu Palcu (1):
+  scripts: Add cleanup-downloads-dir tool
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 June 2015 at 10:48, Li xin <span dir=3D"ltr">&lt;<a href=3D"mailto:li=
-xin.fnst@cn.fujitsu.com" target=3D"_blank">lixin.fnst@cn.fujitsu.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border=
--left-style:solid;padding-left:1ex"><div id=3D":11d" class=3D"" style=3D"ov=
-erflow:hidden">+BBCLASSEXTEND =3D &quot;native&quot;<div class=3D""><div id=
-=3D":10x" class=3D"" tabindex=3D"0"></div></div></div></blockquote></div><b=
-r>Have you actually tested this in oe-core?</div><div class=3D"gmail_extra"=
-><br></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">$ bitbake =
-libnewt-python-native</div><div class=3D"gmail_extra">ERROR: Nothing PROVID=
-ES &#39;libnewt-native&#39; (but virtual:native:/home/ross/Yocto/poky/meta/=
-recipes-extended/newt/<a href=3D"http://libnewt-python_0.52.18.bb">libnewt-=
-python_0.52.18.bb</a> DEPENDS on or otherwise requires it)<br></div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></=
-div>
+ scripts/cleanup-downloads-dir | 158 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 158 insertions(+)
+ create mode 100755 scripts/cleanup-downloads-dir
 
---001a11353390cfd488051850606f--
+-- 
+1.9.1
+
+
