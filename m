@@ -1,42 +1,38 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 84175605B3
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C2C2375932
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 20:32:15 +0000 (UTC)
-Received: by qkbx78 with SMTP id x78so5162581qkb.1
+	Fri, 12 Jun 2015 20:50:55 +0000 (UTC)
+Received: by wifx6 with SMTP id x6so26618582wif.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 13:32:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=P4ZtYMt8apT346QAj3Hc38CIKHrQfud9GMSjxxDjdog=;
-	b=yFL0o5UEwx1ceaxs7Sfi84wPEgvR8XZb+w/NS04vMAsW8/sq3LwGWXkDjhsmzLJGv8
-	eHyOliCeO/eTg5ogeCiwdob9QRDxe4GYlXHvRJfjXFJG6uhczwvS+cHjlu2jKMICBxN6
-	rBIfq8CVrMtQ4yxWyk7gtx/4x6sakiGlBWfnEP9cup1knIGVZazb44nwvjT7gMegd+Yf
-	xFNsvUC+gyK1cc5KMnOH4qQ907/5VaP/tH6HPv6W/ghMOuxn17YVXz/rGjN20RzpSWjX
-	kKLSpXhX4gNMnGANv56rKAzv1J1FAIfa9zH4wtD7BhUSRoV8lvt6zwsixZxELVzsaBEm
-	QJvQ==
-X-Received: by 10.140.134.83 with SMTP id 80mr21736336qhg.28.1434141135888;
-	Fri, 12 Jun 2015 13:32:15 -0700 (PDT)
-Received: from ?IPv6:2601:c:a700:3ba7:c068:52f2:f8c5:dff1?
-	([2601:c:a700:3ba7:c068:52f2:f8c5:dff1])
-	by mx.google.com with ESMTPSA id c13sm2147166qkh.15.2015.06.12.13.32.13
+	Fri, 12 Jun 2015 13:50:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=WYQa5vZ+pdzY7arl7NI0M15+NGi3DyFYmC9HigBofB4=;
+	b=Cjw1k4ZKQInsvkKS1L7WnDJYG+WYYE57Cf1+Tz0cPgB32eNpCXRaX0/sKupLFt/P/0
+	MCTvWGsLob5AgNPY4TigAZev6X4eigLn50EjzWg9kBnV4ot9Eedu3+QJTN6BopO1I86r
+	jwxUE2pWZ0mkVg4WpVs8ss7N0PLpXuxaH90PP0HMSK92FviS+Mgl9xY86u+t6skiEOLQ
+	K4wLANDYERNmu3uoPcf4D1W3LoKGkIs0/ILQWaYckXjYw2gfUSItksRJK5g/4XmnAU/t
+	DyGXXIV+TkPd2hN6R4E4eJNDloNimOcuq+IH82pSvTnGCBHkGvYyDS4PacBSMSaLIHrO
+	EBrA==
+X-Received: by 10.194.78.175 with SMTP id c15mr1108245wjx.136.1434142255010;
+	Fri, 12 Jun 2015 13:50:55 -0700 (PDT)
+Received: from localhost.localdomain (p5B0A2E88.dip0.t-ipconnect.de.
+	[91.10.46.136])
+	by mx.google.com with ESMTPSA id ib8sm4470456wjb.12.2015.06.12.13.50.53
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 12 Jun 2015 13:32:14 -0700 (PDT)
-Message-ID: <557B41C4.2090607@gmail.com>
-Date: Fri, 12 Jun 2015 13:32:04 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Fri, 12 Jun 2015 13:50:53 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Jun 2015 22:50:43 +0200
+Message-Id: <1434142243-2093-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1433446500.git.akuster808@gmail.com>
-	<f1d8a6d07dbe8a5093fb327bccd2b4744b570b1f.1433446500.git.akuster808@gmail.com>
-	<CAJTo0LYABsnZBRP64=vx0a9prDvUuBmpg_6BYn1FcTGf_rokyw@mail.gmail.com>
-In-Reply-To: <CAJTo0LYABsnZBRP64=vx0a9prDvUuBmpg_6BYn1FcTGf_rokyw@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] neon: build fix
+Subject: [PATCH] libsdl2: PACKAGECONFIGize
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,44 +45,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jun 2015 20:32:16 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Jun 2015 20:50:57 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+* DEPENDS + EXTRA_OECONF -> PACKAGECONFIG for directfb / opengl / x11
+* added PACKAGECONFIG for gles2 / pulseaudio / tslib / wayland
 
-Ok, I got this working. I will submit a new pull request soon.
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
+---
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb | 39 ++++++++++++++++----------
+ 1 file changed, 24 insertions(+), 15 deletions(-)
 
-- armin
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
+index 197f962..97f64f3 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.3.bb
+@@ -12,14 +12,9 @@ LIC_FILES_CHKSUM = "file://COPYING.txt;md5=67dcb7fae16952557bc5f96e9eb5d188"
+ 
+ PROVIDES = "virtual/libsdl2"
+ 
+-DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
+-           tslib"
+ DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+ 
+-SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
+-       "
++SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz"
+ 
+ S = "${WORKDIR}/SDL2-${PV}"
+ 
+@@ -31,16 +26,30 @@ inherit autotools lib_package binconfig pkgconfig
+ EXTRA_OECONF = "--disable-oss --disable-esd --disable-arts \
+                 --disable-diskaudio --disable-nas --disable-esd-shared --disable-esdtest \
+                 --disable-video-dummy \
+-                --enable-input-tslib --enable-pthreads \
+-                ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', '--enable-video-directfb', '--disable-video-directfb', d)} \
+-                ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '--enable-video-opengl', '--disable-video-opengl', d)} \
+-                ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '--enable-video-x11', '--disable-video-x11', d)} \
++                --enable-pthreads \
+                 --enable-sdl-dlopen \
+-                --disable-rpath \
+-                --disable-pulseaudio"
+-
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)}"
+-PACKAGECONFIG[alsa] = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
++                --disable-rpath"
++
++# opengl packageconfig factored out to make it easy for distros
++# and BSP layers to pick either (desktop) opengl, gles2, or no GL
++PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl', '', d)}"
++
++PACKAGECONFIG ??= " \
++    ${PACKAGECONFIG_GL} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
++"
++PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
++PACKAGECONFIG[directfb]   = "--enable-video-directfb --disable-video-directfb,directfb"
++PACKAGECONFIG[gles2]      = "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
++PACKAGECONFIG[opengl]     = "--enable-video-opengl,--disable-video-opengl,virtual/libgl"
++PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
++PACKAGECONFIG[tslib]      = "--enable-input-tslib,--disable-input-tslib,tslib"
++PACKAGECONFIG[wayland]    = "--enable-video-wayland,--disable-video-wayland,wayland"
++PACKAGECONFIG[x11]        = "--enable-video-x11,--disable-video-x11,virtual/libx11 libxext libxrandr libxrender"
+ 
+ EXTRA_AUTORECONF += "--include=acinclude --exclude=autoheader"
+ 
+-- 
+1.9.3
 
-On 06/09/2015 12:02 PM, Burton, Ross wrote:
-> On 4 June 2015 at 20:37, Armin Kuster <akuster808@gmail.com
-> <mailto:akuster808@gmail.com>> wrote:
->
->     fixup to allow building with api changes in gnutls.
->
->
-> My world builds shows that libmusicbrainz was failing due to neon not
-> linking, and to demonstrate this I added this to neon.bb <http://neon.bb>:
->
-> do_compile_append() {
-> oe_runmake -C test
-> }
->
-> Et voila:
->
-> | ../x86_64-poky-linux-libtool --silent --mode=link
-> x86_64-poky-linux-gcc  -m64 -march=corei7 -mtune=corei7 -mfpmath=sse
-> -msse4.2 --sysroot=/data/poky-master/tmp/sysroots/intel-corei7-64
-> -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -no-install -o lock lock.lo
-> libtest.la <http://libtest.la>
-> |
-> /data/poky-master/tmp/work/corei7-64-poky-linux/neon/0.30.1-r0/build/src/.libs/libneon.so:
-> undefined reference to `gnutls_certificate_client_set_retrieve_function'
-> |
-> /data/poky-master/tmp/work/corei7-64-poky-linux/neon/0.30.1-r0/build/src/.libs/libneon.so:
-> undefined reference to `gnutls_certificate_client_set_retrieve_function'
->
-> Neon still doesn't build with the new gnutls.
->
-> Ross
 
