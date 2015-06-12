@@ -1,37 +1,39 @@
 Return-Path: <ross.burton@intel.com>
 Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
 	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E25C73FF2
+	by mail.openembedded.org (Postfix) with ESMTP id 9C92D7422B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 11:06:24 +0000 (UTC)
-Received: by qgfa66 with SMTP id a66so10323055qgf.0
+	Fri, 12 Jun 2015 11:11:23 +0000 (UTC)
+Received: by qgf75 with SMTP id 75so10322290qgf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 04:06:25 -0700 (PDT)
+	Fri, 12 Jun 2015 04:11:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=ogK1yW0fOxnNE4juAaj9iFP7H1+z91hmx5w4WqJ2QTc=;
-	b=Jak9/VuMKoMcCAm3LDUq4ibhuNxdf5hqNi81Ihv+dg/xAPmBoggRf8auTHHlLNFwc8
-	R5ZGTrL07yiH7meMVjYLK3T1g8jeebxWQAAUG+EGK1FY/ZhbU/Z172flccuzxCs1Yyb8
-	OC57jsdO3OQqtDOjT9zogoQF8PXYdtEPiL8gKi3uRbHiWTO8ouKAGRe4CmKT6U95L9rk
-	oc7KCplereuCzcHnbeJ71BOknn8ENU4SyCI2AIFF4zxtzQQDJKjHWmvHT8aDWsRDt+pa
-	WFFanK2NENcKOY8/dGBeKjRtDbfPioMgVt2W2TayKM37RklxTgyrKpLYVBa1s2NJZP09
-	XYMA==
-X-Gm-Message-State: ALoCoQnY5MtkmkXnzz8mM9QXsLs/rfMCNidySx7wy+/xpaRMhtXe1+ZaUM21mA+BDHRAKVGQBPlL
-X-Received: by 10.140.43.100 with SMTP id d91mr17682676qga.77.1434107185829;
-	Fri, 12 Jun 2015 04:06:25 -0700 (PDT)
+	bh=Qhq/VWQ7M9Jy3Z2neH7Ix6G7f4PYb3Q3zUS1uIsf53w=;
+	b=Safb4j9d74Kt7TU0IU4vM2QAEpLwL4U9Xdd4tCkfjj8F9omrw0EBr1IqLoaO0R4Ycg
+	M9rQmjEsOxEfWVNi5iI+rsJy3cPkZbVEAyc7Ng1vTDvgV0RAntBLGT8TGaEC9OY9lbLJ
+	cAaffHr65/NnHY4QNA5231qqA425rW4ConyAG4sjNNKZG2Ns8j+QiqFXDurJI/3KsvPp
+	YcrnSlXoruYq14cZLLGEwbtTjg8KGHEdkFIcaFht0QW5lOVwOEg704660B1yTm1fxrmp
+	N+LP8Le3SkM7Ak66gucTfpndyHit2ww3PxjK2S+GLECrwFHQmVMdvzpf/L2S5e5HVy6A
+	akew==
+X-Gm-Message-State: ALoCoQkwA5q8hjWaXYKEAZ17HiuqqPOc1oAXqkrj1Ejuix9WLxiT1U0j/bFqGGH0SXZ2fT6VyXt6
+X-Received: by 10.140.89.104 with SMTP id u95mr17518633qgd.15.1434107484475;
+	Fri, 12 Jun 2015 04:11:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 12 Jun 2015 04:06:05 -0700 (PDT)
-In-Reply-To: <2fbbbb9e2098904f488bc585288cb7ca1b88ff2e.1434079315.git.liezhi.yang@windriver.com>
-References: <cover.1434079315.git.liezhi.yang@windriver.com>
-	<2fbbbb9e2098904f488bc585288cb7ca1b88ff2e.1434079315.git.liezhi.yang@windriver.com>
+Received: by 10.140.102.231 with HTTP; Fri, 12 Jun 2015 04:11:04 -0700 (PDT)
+In-Reply-To: <1557617.mLfaxnFia7@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1433842738.git.liezhi.yang@windriver.com>
+	<7189f3ea9eb20d08f73abf3af4715a43f73740c0.1433842738.git.liezhi.yang@windriver.com>
+	<557A4FDF.7060304@windriver.com>
+	<1557617.mLfaxnFia7@peggleto-mobl.ger.corp.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Jun 2015 12:06:05 +0100
-Message-ID: <CAJTo0LaAv9NoBrGgW=52aTg0dRUTAvAP4SNw+3B4jVu5a3GM6w@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 12 Jun 2015 12:11:04 +0100
+Message-ID: <CAJTo0LZ1eNH8KScAf=3bJbGGVFV=OCU5GXodPp8=LMVc34pAJQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] insane.bbclass: check invalid ac_cv value
+Subject: Re: [PATCH 06/12] libav: 9.18 -> 11.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,80 +46,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jun 2015 11:06:25 -0000
-Content-Type: multipart/alternative; boundary=001a113a989c61b1fe05185019aa
+X-List-Received-Date: Fri, 12 Jun 2015 11:11:25 -0000
+Content-Type: multipart/alternative; boundary=001a11c135f62ea7150518502b96
 
---001a113a989c61b1fe05185019aa
+--001a11c135f62ea7150518502b96
 Content-Type: text/plain; charset=UTF-8
 
-On 12 June 2015 at 04:23, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 12 June 2015 at 09:40, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-> +        for var in tocheck.split():
-> +            if var.startswith('ac_cv_'):
-> +                varname = var.split('=')[0]
-> +                cfgscript=d.expand("${S}/configure")
-> +                if os.path.exists(cfgscript):
-> +                    statement = "grep -q -F %s  %s > /dev/null" %
-> (varname, cfgscript)
+> I didn't talk to Richard about it but I think there may have been some
+> discussion on this list about the possibility of 9->10->11 breaking API
+> compatibility with applications. Did you do testing with recipes in meta-
+> oe/meta-multimedia that depend upon libav?
 >
 
-So your assumption that ac_cv_* variables are referenced in full in
-configure is bad.  This is what strace has for the giant AC_CHECK_HEADERS
-block:
+Yes, that's exactly why I didn't merge it into MUT: more research needed as
+this upgrade was proposed by Kai a few weeks back and there was a
+discussion there.
 
-for ac_header in asm/cachectl.h asm/sysmips.h bluetooth/bluetooth.h elf.h
-inttypes.h ioctls.h linux/bsg.h linux/falloc.h linux/filter.h
-linux/hiddev.h linux/mmtimer.h linux/perf_event.h linux/seccomp.h
-linux/securebits.h linux/utsname.h mqueue.h netinet/sctp.h poll.h scsi/sg.h
-stropts.h sys/conf.h sys/epoll.h sys/fanotify.h sys/filio.h sys/ioctl.h
-sys/poll.h sys/reg.h sys/vfs.h sys/xattr.h
-do :
-  as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
-ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header"
-"$ac_includes_default"
-
-The variable name is constructed, so this test can't work.
+I wasn't rejecting the upgrade, just needed a good look and didn't get
+around to it yet.  The big question is upgrade path: does everything in
+oe-core still build, and is there a sufficient amount of recipes outside of
+oe-core using libav 9 that we should keep it around?
 
 Ross
 
---001a113a989c61b1fe05185019aa
+--001a11c135f62ea7150518502b96
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 June 2015 at 04:23, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><div id=3D":2yy" class=3D"" style=
-=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for var in tocheck.split(=
-):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if var.startswith(&#39;ac_cv_&#3=
-9;):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 varname =3D var.sp=
-lit(&#39;=3D&#39;)[0]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cfgscript=3Dd.expa=
-nd(&quot;${S}/configure&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(=
-cfgscript):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stat=
-ement =3D &quot;grep -q -F %s=C2=A0 %s &gt; /dev/null&quot; % (varname, cfg=
-script)</div></blockquote></div><br>So your assumption that ac_cv_* variabl=
-es are referenced in full in configure is bad.=C2=A0 This is what strace ha=
-s for the giant AC_CHECK_HEADERS block:</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra"><div class=3D"gmail_extra">for ac_header =
-in asm/cachectl.h asm/sysmips.h bluetooth/bluetooth.h elf.h inttypes.h ioct=
-ls.h linux/bsg.h linux/falloc.h linux/filter.h linux/hiddev.h linux/mmtimer=
-.h linux/perf_event.h linux/seccomp.h linux/securebits.h linux/utsname.h mq=
-ueue.h netinet/sctp.h poll.h scsi/sg.h stropts.h sys/conf.h sys/epoll.h sys=
-/fanotify.h sys/filio.h sys/ioctl.h sys/poll.h sys/reg.h sys/vfs.h sys/xatt=
-r.h</div><div class=3D"gmail_extra">do :</div><div class=3D"gmail_extra">=
-=C2=A0 as_ac_Header=3D`$as_echo &quot;ac_cv_header_$ac_header&quot; | $as_t=
-r_sh`</div><div class=3D"gmail_extra">ac_fn_c_check_header_mongrel &quot;$L=
-INENO&quot; &quot;$ac_header&quot; &quot;$as_ac_Header&quot; &quot;$ac_incl=
-udes_default&quot;</div><div class=3D"gmail_extra"><br></div><div class=3D"=
-gmail_extra">The variable name is constructed, so this test can&#39;t work.=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
-/div></div></div>
+On 12 June 2015 at 09:40, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.i=
+ntel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":2xq" class=3D"a3s" style=3D"overflow:hidden">I didn&#39;t talk to Rich=
+ard about it but I think there may have been some<br>
+discussion on this list about the possibility of 9-&gt;10-&gt;11 breaking A=
+PI<br>
+compatibility with applications. Did you do testing with recipes in meta-<b=
+r>
+oe/meta-multimedia that depend upon libav?</div></blockquote></div><br>Yes,=
+ that&#39;s exactly why I didn&#39;t merge it into MUT: more research neede=
+d as this upgrade was proposed by Kai a few weeks back and there was a disc=
+ussion there.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">I wasn&#39;t rejecting the upgrade, just needed a good look and did=
+n&#39;t get around to it yet.=C2=A0 The big question is upgrade path: does =
+everything in oe-core still build, and is there a sufficient amount of reci=
+pes outside of oe-core using libav 9 that we should keep it around?</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
+iv>
 
---001a113a989c61b1fe05185019aa--
+--001a11c135f62ea7150518502b96--
