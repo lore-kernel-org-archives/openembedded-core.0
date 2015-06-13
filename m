@@ -1,34 +1,26 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FA217599C
+Return-Path: <mac@mcrowe.com>
+X-Greylist: delayed 382 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 13 Jun 2015 18:52:57 UTC
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id 39508758F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 22:17:40 +0000 (UTC)
-Received: by igblz2 with SMTP id lz2so19120790igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jun 2015 15:17:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=pmJf2mLRV+vkDNNfvs09QiYVm/JOv25TlPZWYEL80Pk=;
-	b=or6ZEaqlFOmTeDMkdVK1RfxdylObDL+fSuinFN8atVWfAAmZTufGCz3XiGCIyXOiuB
-	J9Gn8sSQ65i6kJgmC+i6+bbEMaAtPbrDvDN9XnOqb1lZa8K9KCfvvLBrJjj/wUZh7j56
-	GBzpVdzGaUQlVeYCaUO+fXC1cIfRCiJWqBfhhMspPvosirAOuHqedTWQboeN38fjIb97
-	qW9aLB3PFgh4uDAzQOALfON/2rUci9ihQs/Yj7onfig5ciKXKcfRVsrd8fLw91XVBR4p
-	Y/KsiMJId0FF8GjvTUOK28KPTD/bm6+DKuFQupD8ZQBeFWptG1fbpFThxMGtXC2GNdBX
-	ZqLA==
-X-Received: by 10.42.204.4 with SMTP id fk4mr18535713icb.72.1434147461337;
-	Fri, 12 Jun 2015 15:17:41 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id qt1sm2052914igb.5.2015.06.12.15.17.40
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 12 Jun 2015 15:17:40 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Sat, 13 Jun 2015 18:52:57 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.13,608,1427756400"; d="scan'208";a="59954639"
+Received: from deneb.mcrowe.com (HELO deneb) ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 13 Jun 2015 19:46:35 +0100
+Received: from mac by deneb with local (Exim 4.84)
+	(envelope-from <mac@mcrowe.com>) id 1Z3qRu-0004cd-Uu
+	for openembedded-core@lists.openembedded.org;
+	Sat, 13 Jun 2015 19:46:34 +0100
+Date: Sat, 13 Jun 2015 19:46:34 +0100
+From: Mike Crowe <mac@mcrowe.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jun 2015 15:17:34 -0700
-Message-Id: <1434147454-6643-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] security_flags.inc: remove duplicated over-rides
+Message-ID: <20150613184634.GA17587@mcrowe.com>
+References: <1434221081-4286-1-git-send-email-mac@mcrowe.com>
+MIME-Version: 1.0
+In-Reply-To: <1434221081-4286-1-git-send-email-mac@mcrowe.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [PATCH] pixbufcache: Ensure that jpeg-native is available for postinst if necessary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,39 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jun 2015 22:17:42 -0000
+X-List-Received-Date: Sat, 13 Jun 2015 18:52:58 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The following over-rides were both defined twice:
+On Saturday 13 June 2015 at 19:44:41 +0100, Mike Crowe wrote:
+> pixbufcache_sstate_postinst expects to be able to call
+> gdk-pixbuf-query-loaders which may be linked against libjpeg.so.8 so we'd
+> better make sure jpeg-native is available in the sysroot.
+> 
+> Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> ---
+>  meta/classes/pixbufcache.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+> index 9e6ecc8..755a654 100644
+> --- a/meta/classes/pixbufcache.bbclass
+> +++ b/meta/classes/pixbufcache.bbclass
+> @@ -72,6 +72,7 @@ PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
+>      glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene \
+>      libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene \
+>      harfbuzz-native:do_populate_sysroot_setscene \
+> +    ${@bb.utils.contains('PACKAGECONFIG', 'jpeg', 'jpeg-native:do_populate_sysroot_setscene', '', d)} \
 
-  SECURITY_CFLAGS_pn-grub-efi-x86-64-native
-  SECURITY_CFLAGS_pn-ltp
+If this patch is deemed acceptable then perhaps a similar check against
+PACKAGECONFIG should be added to libpng-native?
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/conf/distro/include/security_flags.inc | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index 9608c7f..104a6cb 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -47,7 +47,6 @@ SECURITY_CFLAGS_pn-grub = ""
- SECURITY_CFLAGS_pn-grub-efi = ""
- SECURITY_CFLAGS_pn-grub-efi-native = ""
- SECURITY_CFLAGS_pn-grub-efi-x86-native = ""
--SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
- SECURITY_CFLAGS_pn-grub-efi-i586-native = ""
- SECURITY_CFLAGS_pn-grub-efi-x86-64-native = ""
- SECURITY_CFLAGS_pn-gst-plugins-bad = "${SECURITY_NO_PIE_CFLAGS}"
-@@ -65,7 +64,6 @@ SECURITY_CFLAGS_pn-libglu = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libpcap = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libpcre = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-libproxy = "${SECURITY_NO_PIE_CFLAGS}"
--SECURITY_CFLAGS_pn-ltp = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-lttng-ust = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-mesa = "${SECURITY_NO_PIE_CFLAGS}"
- SECURITY_CFLAGS_pn-mesa-gl = "${SECURITY_NO_PIE_CFLAGS}"
--- 
-1.9.1
-
+Mike.
 
