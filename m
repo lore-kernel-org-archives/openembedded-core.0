@@ -1,39 +1,39 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 7181B605B3
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id AF23C60557
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Jun 2015 05:37:22 +0000 (UTC)
-Received: by pacgb13 with SMTP id gb13so15106942pac.1
+	Sun, 14 Jun 2015 05:37:23 +0000 (UTC)
+Received: by pacgb13 with SMTP id gb13so15107235pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Jun 2015 22:37:23 -0700 (PDT)
+	Sat, 13 Jun 2015 22:37:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=0d0MYmm5MKI1jIWYLgINYVm5p3sj9IvRqPy6ZtjGTUM=;
-	b=L8P1062izZkD5TWN6rCkUkhxDCPfnYUJL0irtsxXo5XQHWPhvwHT+Oswda79XZ/o9t
-	ZX6FBDCLxYtGLWkFTgTl7ztLkwuJGlWD8rHhkYXirOJKZrOOUrbn8syYxloJddIZpXJZ
-	Fy1r+8pW/axTMf5Di+41NF5pgi7M1EUZ0SkoOm2k93Z9TKiOVmgXjtZeDwA+Jo5KVB8l
-	bjz2OLuHb6zOxFXF3K1tidTI08jgnPp/OOkggBpegTmiP0Wpetuw8hnwIgCXgLZiOhqW
-	SOpCg1ylpuo+Y2cqYPpM+Zd/ikJguX7ro72sVN/Ej/cfEhTii3L4WvfgT8wAL2OYWz+d
-	czSg==
-X-Received: by 10.68.205.33 with SMTP id ld1mr37590097pbc.22.1434260243036;
-	Sat, 13 Jun 2015 22:37:23 -0700 (PDT)
+	:references; bh=Jw6bBZNKmT9fqm3xwjLaLL4WbKgr4Srk9SkPCBXBo88=;
+	b=WBQ2jappid5QzEGubFWLe1BbX88vdnjfeI5GFGsl5Z9RV/0n+01n1fIFBnG1GzNmDv
+	X0036SG91CIBYu70StiTUg2OSJOAH/ZBR6NNNLA20zRYCxNPVJDDKpQ9pL7hCt/D1ngI
+	xSePY0AjQDVgXnEeaDSfAMzovoxyIl8naCWYkV/5Sh+Izw7Y8nSqGh64GSnSHICJzxA4
+	GSD407Dm4fVbNt/ljb1uqTcr7P2tg0edg7mzL9MlIu7JbXuBSF3YgmVGtn4tWjaWUtQQ
+	9oMkqFCS6gqWyoPo4pAxNZSq6cujd/SyCOwpM9oTvRXn0wSGMjU8lYwW6WEHcNdifQb4
+	EVNg==
+X-Received: by 10.68.88.33 with SMTP id bd1mr14206944pbb.124.1434260244814;
+	Sat, 13 Jun 2015 22:37:24 -0700 (PDT)
 Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207])
-	by mx.google.com with ESMTPSA id g2sm8253328pdh.11.2015.06.13.22.37.21
+	by mx.google.com with ESMTPSA id g2sm8253328pdh.11.2015.06.13.22.37.23
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 13 Jun 2015 22:37:22 -0700 (PDT)
+	Sat, 13 Jun 2015 22:37:23 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Jun 2015 22:37:12 -0700
-Message-Id: <8ca9bd71b111710ee28668c983b549a720b7b4ae.1434259784.git.akuster808@gmail.com>
+Date: Sat, 13 Jun 2015 22:37:13 -0700
+Message-Id: <25c4ff3c454ec38bec5e68498d7230e6aaf8dc64.1434259784.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
 In-Reply-To: <cover.1434259784.git.akuster808@gmail.com>
 References: <cover.1434259784.git.akuster808@gmail.com>
 In-Reply-To: <cover.1434259784.git.akuster808@gmail.com>
 References: <cover.1434259784.git.akuster808@gmail.com>
-Subject: [PATCH 1/3] nettle: update package to 3.1.1 version.
+Subject: [PATCH 2/3] gnutls: update to 3.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,47 +46,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Jun 2015 05:37:22 -0000
+X-List-Received-Date: Sun, 14 Jun 2015 05:37:23 -0000
 
-this requires the gnutls 3.4.1  update or the current gnutils build will break.
+This version supports the nettle 3.x and higher and requires that version.
+
+this include a security fix:
+GNUTLS-SA-2015-2
+no CVE assigned to date.
+
+enable openssl compat via PACKAGECONFIG as iputils needs gnutls/openssl.h
+
+for migration info:
+http://www.gnutls.org/manual/gnutls.html#Upgrading-from-previous-versions
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../nettle/{nettle_2.7.1.bb => nettle_3.1.1.bb}              | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-support/nettle/{nettle_2.7.1.bb => nettle_3.1.1.bb} (48%)
+ meta/recipes-support/gnutls/gnutls.inc             |  3 ++-
+ .../gnutls/configure.ac-fix-sed-command.patch      | 29 ++++++++++------------
+ meta/recipes-support/gnutls/gnutls_3.3.14.bb       |  8 ------
+ meta/recipes-support/gnutls/gnutls_3.4.1.bb        |  8 ++++++
+ 4 files changed, 23 insertions(+), 25 deletions(-)
+ delete mode 100644 meta/recipes-support/gnutls/gnutls_3.3.14.bb
+ create mode 100644 meta/recipes-support/gnutls/gnutls_3.4.1.bb
 
-diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_3.1.1.bb
-similarity index 48%
-rename from meta/recipes-support/nettle/nettle_2.7.1.bb
-rename to meta/recipes-support/nettle/nettle_3.1.1.bb
-index f53afcc..ce5e756 100644
---- a/meta/recipes-support/nettle/nettle_2.7.1.bb
-+++ b/meta/recipes-support/nettle/nettle_3.1.1.bb
-@@ -1,17 +1,17 @@
- SUMMARY = "A low level cryptographic library"
- HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
- SECTION = "libs"
--LICENSE = "LGPLv2.1 & GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
--                    file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
--                    file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
-+LICENSE = "GPLv2+ & GPLv3 & LGPLv3+"
-+LIC_FILES_CHKSUM = "file://COPYINGv2;beginline=1;endline=2;md5=c70d8d3310941dcdfcd1e02800a1f548 \
-+                    file://COPYINGv3;beginline=1;endline=2;md5=d1c727712ceba52db52e0ee449cadf43  \
-+                    file://COPYING.LESSERv3;beginline=1;endline=2;md5=ff44a06d461487fb65f84ad672a1d1c8"
+diff --git a/meta/recipes-support/gnutls/gnutls.inc b/meta/recipes-support/gnutls/gnutls.inc
+index e9b138a..6928cb9 100644
+--- a/meta/recipes-support/gnutls/gnutls.inc
++++ b/meta/recipes-support/gnutls/gnutls.inc
+@@ -34,9 +34,10 @@ do_configure_prepend() {
+ 	done
+ }
  
- DEPENDS += "gmp"
+-PACKAGECONFIG ??= "zlib"
++PACKAGECONFIG ??= "zlib openssl_compat"
+ PACKAGECONFIG[tpm] = "--with-tpm, --without-tpm, trousers"
+ PACKAGECONFIG[zlib] = "--with-zlib, --without-zlib, zlib"
++PACKAGECONFIG[openssl_compat] = "--enable-openssl-compatibility,,"
  
- SRC_URI = "http://www.lysator.liu.se/~nisse/archive/${BP}.tar.gz"
+ PACKAGES =+ "${PN}-openssl ${PN}-xx"
  
--SRC_URI[md5sum] = "003d5147911317931dd453520eb234a5"
--SRC_URI[sha256sum] = "bc71ebd43435537d767799e414fce88e521b7278d48c860651216e1fc6555b40"
-+SRC_URI[md5sum] = "b40fa88dc32f37a182b6b42092ebb144"
-+SRC_URI[sha256sum] = "5fd4d25d64d8ddcb85d0d897572af73b05b4d163c6cc49438a5bfbb8ff293d4c"
+diff --git a/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch b/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
+index 44a9934..342143f 100644
+--- a/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
++++ b/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
+@@ -13,19 +13,16 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- EXTRA_OECONF = "--disable-openssl"
- 
+-diff --git a/configure.ac b/configure.ac
+-index c6818a0..1c4582d 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -466,7 +466,7 @@ if test "$NEED_LIBOPTS_DIR" = "true";then
+- 	dnl replace libopts-generated files with distributed backups, if present
+- 	missing_baks=
+- 	for i in ${srcdir}/src/*-args.c.bak ${srcdir}/src/*-args.h.bak; do
+--		nam=`echo $i|sed 's/.bak//g'`
+-+		nam=`echo $i|sed 's/\.bak$//'`
+- 		if test -f $i;then
+- 			cp -f $i $nam
+- 		else
+--- 
+-2.0.1
+-
++Index: gnutls-3.4.1/configure.ac
++===================================================================
++--- gnutls-3.4.1.orig/configure.ac
+++++ gnutls-3.4.1/configure.ac
++@@ -530,7 +530,7 @@ if test "$enable_tools" != "no" || test
++ 		dnl replace libopts-generated files with distributed backups, if present
++ 		missing_baks=
++ 		for i in ${srcdir}/src/*-args.c.bak ${srcdir}/src/*-args.h.bak; do
++-			nam=`echo $i|sed 's/.bak//g'`
+++			nam=`echo $i|sed 's/\.bak$//'`
++ 			if test -f $i;then
++ 				cp -f $i $nam
++ 			else
+diff --git a/meta/recipes-support/gnutls/gnutls_3.3.14.bb b/meta/recipes-support/gnutls/gnutls_3.3.14.bb
+deleted file mode 100644
+index f41d183..0000000
+--- a/meta/recipes-support/gnutls/gnutls_3.3.14.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require gnutls.inc
+-
+-SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+-            file://configure.ac-fix-sed-command.patch \
+-            file://use-pkg-config-to-locate-zlib.patch \
+-           "
+-SRC_URI[md5sum] = "7f4465f8c564cf9cb8f5cb38b909f7ca"
+-SRC_URI[sha256sum] = "0dfa0030faad8909c1e904105198232d6bc0123cae8cf4933b2bac85ee7cec52"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.4.1.bb b/meta/recipes-support/gnutls/gnutls_3.4.1.bb
+new file mode 100644
+index 0000000..1b64813
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls_3.4.1.bb
+@@ -0,0 +1,8 @@
++require gnutls.inc
++
++SRC_URI += "file://correct_rpl_gettimeofday_signature.patch  \
++            file://configure.ac-fix-sed-command.patch \
++            file://use-pkg-config-to-locate-zlib.patch \
++          "
++SRC_URI[md5sum] = "2d04f34fa25b45f9dcb9104c0394e12e"
++SRC_URI[sha256sum] = "e9b5f58becf34756464216056cd5abbf04315eda80a374d02699dee83f80b12e"
 -- 
 2.3.5
 
