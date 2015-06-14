@@ -1,41 +1,36 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 95E907599C
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E8443608B6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Jun 2015 05:56:28 +0000 (UTC)
-Received: by pacyx8 with SMTP id yx8so45443618pac.2
+	Sun, 14 Jun 2015 10:26:08 +0000 (UTC)
+Received: by pdbnf5 with SMTP id nf5so52389752pdb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Jun 2015 22:56:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=Cqw9Ogjzwx8KcDxPypPj0C2F/Sii3dT44xVTV/Dqpc4=;
-	b=TOhABzG0qvMPwcD0/ncUWuztqabGMX9crVvkftIqriNk0lI9hu45XEEf/X+QpdKYrX
-	dzMilBNirFFEHMfHd/dZKeSJMGDSlyhl79tq21tTBVvYh08Lqr8Yy2sF+DnFjJBFvFhu
-	2Fv2eBucf+O4Po0RyElBMsgSc0sVJINzFYycyD/VlvMO8vu0C1wBMFNAyjAggEa6i1Nm
-	80fYC5UmJ0T9nevF55cAFZuyvSTaMF3+ZSUIv/m1qkOu39v2Jb6jLhMZ2MN7haWu404k
-	OwU59JgdSEK5YL3SDeNQdaV8qAxLyFaQeZIkgEEjthY/hAAg14jVsp0RR+gXuT2YT+Ul
-	tSiQ==
-X-Received: by 10.68.235.38 with SMTP id uj6mr37202130pbc.57.1434261389627;
-	Sat, 13 Jun 2015 22:56:29 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:a0d2:eb66:b71d:4aa7?
-	([2601:202:4000:1239:a0d2:eb66:b71d:4aa7])
-	by mx.google.com with ESMTPSA id ym6sm8309470pac.32.2015.06.13.22.56.27
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 13 Jun 2015 22:56:28 -0700 (PDT)
-Message-ID: <557D178A.5050509@gmail.com>
-Date: Sat, 13 Jun 2015 22:56:26 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Sun, 14 Jun 2015 03:26:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=N4FqFRTx++9EnZBXYP7aRF4dOhu17A30RWjipGDRCgo=;
+	b=UFb8y7zUZ0vsyxR3etgN+aJL8dmJ5FzbDS39U9TlO00PzdHsLh8QmHxRYphYay5uHR
+	rh/RLYFXyiuVVkQH7I7dfoa3DyauAmZ1C8nFfadb0NYngVBNzIr/5EjXdn/XfWOLafGa
+	HEjlZaKeHxEBILKLHjeizBzQ8hB9Tg/Qw8UwflAevLe1KHd6TIzd1c5GrWHr4DBhQRZN
+	6BHI56w6VeeEsQmlaLDrRg3b/f97cp78SozdQGDl4kckKaP0i7cAE8nrk850SQwVedAQ
+	RvvNLDn8F6TzP4gI7rPdcaW2vfi/cxymrDhHVPgdCObxBpd5HT+JEn9pNwFh58kfHB+D
+	C/Gw==
 MIME-Version: 1.0
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1433771147.git.alejandro.hernandez@linux.intel.com>
-	<c677cd4c037f5eea0ecc49300baac9731c41b1c0.1433771147.git.alejandro.hernandez@linux.intel.com>
-In-Reply-To: <c677cd4c037f5eea0ecc49300baac9731c41b1c0.1433771147.git.alejandro.hernandez@linux.intel.com>
-Subject: Re: [PATCH 2/2][dizzy] python-nose: backport it to dizzy
+X-Received: by 10.70.47.9 with SMTP id z9mr38745755pdm.69.1434277569762; Sun,
+	14 Jun 2015 03:26:09 -0700 (PDT)
+Received: by 10.70.44.41 with HTTP; Sun, 14 Jun 2015 03:26:09 -0700 (PDT)
+In-Reply-To: <1434229118-31859-1-git-send-email-costin.c.constantin@intel.com>
+References: <1434229118-31859-1-git-send-email-costin.c.constantin@intel.com>
+Date: Sun, 14 Jun 2015 12:26:09 +0200
+Message-ID: <CALbNGRTirxOBPjdpbvrWe6KBsJNJLJEMeJ2yiFCD=+nDWpQnfA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Costin Constantin <costin.c.constantin@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] scripts/oe-selftest: enhancement 7865
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,45 +43,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Jun 2015 05:56:30 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 14 Jun 2015 10:26:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Alejandro,
+A bit more love for commit message please
 
-This looks to be a new recipe. I don't believe dizzy is taking new 
-features.
-
-- armin
-
-On 06/08/2015 06:56 AM, Alejandro Hernandez wrote:
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->   meta/recipes-devtools/python/python-nose_1.3.6.bb | 16 ++++++++++++++++
->   1 file changed, 16 insertions(+)
->   create mode 100644 meta/recipes-devtools/python/python-nose_1.3.6.bb
->
-> diff --git a/meta/recipes-devtools/python/python-nose_1.3.6.bb b/meta/recipes-devtools/python/python-nose_1.3.6.bb
-> new file mode 100644
-> index 0000000..d6e8fc1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python-nose_1.3.6.bb
-> @@ -0,0 +1,16 @@
-> +DESCRIPTION = "nose extends the test loading and running features of unittest, \
-> +making it easier to write, find and run tests."
-> +SECTION = "devel/python"
-> +LICENSE = "LGPLv2.1"
-> +LIC_FILES_CHKSUM = "file://lgpl.txt;md5=a6f89e2100d9b6cdffcea4f398e37343"
-> +
-> +SRC_URI = "http://pypi.python.org/packages/source/n/nose/nose-${PV}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "0ca546d81ca8309080fc80cb389e7a16"
-> +SRC_URI[sha256sum] = "f61e0909a743eed37b1207e38a8e7b4a2fe0a82185e36f2be252ef1b3f901758"
-> +
-> +S = "${WORKDIR}/nose-${PV}"
-> +
-> +inherit setuptools
-> +
-> +BBCLASSEXTEND = "native nativesdk"
->
+Andreas
 
