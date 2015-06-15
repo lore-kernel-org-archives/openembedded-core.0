@@ -1,39 +1,20 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 075DF75695
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AF433606BF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 12:17:26 +0000 (UTC)
-Received: by igboe5 with SMTP id oe5so28034420igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 05:17:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:organization
-	:content-type:mime-version:content-transfer-encoding;
-	bh=yetTC3uWvvBx9gkaS/S3FidleSds6wlGDkkQH3B1iL0=;
-	b=YhqS3ILyHdbJ1JsP4g+3ILBB547T7Ils9PCzgWQEqPWaOg/QGQjxb+IfdxjlvoHI2a
-	X/+0fqTFI+ukMnLp9DiYYSrRAYUWvWT32uQSgcmDgg9ZrqxVh0RnI4APABbZnZDScpWT
-	oesHMTAeEdOSxyR9UnZO1o8Y1Nt4aSx40ZQmaOm+IhHmUeeSPsn4gIpfUO755ws/ths4
-	pBQ+DoTxNGRg8Z2yGCck7onSggPhF7Gm99J+e2R7MZxoVUTNQdGCE3jSioCSN9q2NUZz
-	q7KT1C9E18IQ2MmH3SUftPOmKPURei8kJVCGGFgTviQybzinN/zbnNcyJfD1NzFMeTLO
-	sDuQ==
-X-Gm-Message-State: ALoCoQmcL/WAwTWpXIWzBYVW/iJDYXNez0FymdbgPi+mjNL6fRNUYPqPsw933LwotC9QR/YIkowu
-X-Received: by 10.107.131.200 with SMTP id n69mr25791372ioi.53.1434370647875; 
-	Mon, 15 Jun 2015 05:17:27 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8CA13.dip0.t-ipconnect.de. [93.232.202.19])
-	by mx.google.com with ESMTPSA id u38sm8704510ioi.0.2015.06.15.05.17.25
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 15 Jun 2015 05:17:26 -0700 (PDT)
-Message-ID: <1434370643.9085.98.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: OpenEmbedded <openembedded-core@lists.openembedded.org>, Bruce Ashfield
-	<bruce.ashfield@windriver.com>
-Date: Mon, 15 Jun 2015 14:17:23 +0200
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: KCONF_AUDIT_LEVEL + kernel_configcheck
+	Mon, 15 Jun 2015 13:23:38 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 15 Jun 2015 06:23:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,618,1427785200"; d="scan'208";a="743673465"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2015 06:23:27 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jun 2015 16:23:43 +0300
+Message-Id: <1434374623-7671-1-git-send-email-jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] gtk+: Upgrade 2.24.27 -> 2.24.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,133 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 12:17:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Jun 2015 13:23:38 -0000
 
-Hello!
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-gnome/gtk+/{gtk+_2.24.27.bb => gtk+_2.24.28.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/gtk+/{gtk+_2.24.27.bb => gtk+_2.24.28.bb} (90%)
 
-In Fido and master, the following patch changed the default value of
-KCONF_AUDIT_LEVEL:
-
-$ git annotate origin/fido -- meta/classes/kernel-yocto.bbclass | grep KCONF_AUDIT_LEVEL
-ad4d5949	(Bruce Ashfield	2015-02-18 16:15:35 -0500	308)    config_check_visibility = int(d.getVar( "KCONF_AUDIT_LEVEL", True ) or 0)
-$ git annotate origin/master -- meta/classes/kernel-yocto.bbclass | grep KCONF_AUDIT_LEVEL
-ad4d5949	(Bruce Ashfield	2015-02-18 16:15:35 -0500	309)    config_check_visibility = int(d.getVar( "KCONF_AUDIT_LEVEL", True ) or 0)
-
-At least if I read it right, that wasn't the intention. The commit
-explicitly says that the default should be 1:
-
-    The visibility of auditing is controlled by KCONF_AUDIT_LEVEL:
-    
-       0: no reporting
-       1: report options that are specified, but not in the final config
-       2: report options that are not hardware related, but set by a BSP
-    
-    The default level is 1, with level 2 and above being for BSP development
-    only.
-
-I found that while investigating why having an unsupported config option
-in one of my kernel fragments did not result in a warning. However, even
-with KCONF_AUDIT_LEVEL="2" in my local.conf, I still only get warnings
-about the BSP, but not my unsupported option.
-
-To reproduce, modify poky master as follows and build the default
-configuration:
-
-------------------------------------
-$ git diff --cached
-diff --git a/meta/recipes-kernel/linux/linux-yocto/foobar.cfg b/meta/recipes-kernel/linux/linux-yocto/foobar.cfg
-new file mode 100644
-index 0000000..f40043a
---- /dev/null
-+++ b/meta/recipes-kernel/linux/linux-yocto/foobar.cfg
-@@ -0,0 +1,2 @@
-+CONFIG_FOOBAR=y
-+CONFIG_SECURITY_SMACK=y
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-index 6218c02..d4b9437 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-@@ -38,3 +38,5 @@ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
- KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
- KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
- KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
-+
-+SRC_URI += "file://foobar.cfg"
-
-...
-
-$ bitbake -f -c kernel_configcheck linux-yocto
-Loading cache: 100% |########################################################################################################################################################################################################| ETA:  00:00:00
-Loaded 1288 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION        = "1.27.1"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "Debian-8.0"
-TARGET_SYS        = "i586-poky-linux"
-MACHINE           = "qemux86"
-DISTRO            = "poky"
-DISTRO_VERSION    = "1.8+snapshot-20150615"
-TUNE_FEATURES     = "m32 i586"
-TARGET_FPU        = ""
-meta              
-meta-yocto        
-meta-yocto-bsp    = "master:379a030702c985c6e69831173f765a47dfeb8841"
-
-NOTE: Preparing RunQueue
-NOTE: Tainting hash to force rebuild of task /work/poky/meta/recipes-kernel/linux/linux-yocto_3.19.bb, do_kernel_configcheck
-WARNING: /work/poky/meta/recipes-kernel/linux/linux-yocto_3.19.bb.do_configure is tainted from a forced run
-WARNING: /work/poky/meta/recipes-kernel/linux/linux-yocto_3.19.bb.do_kernel_configcheck is tainted from a forced run
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-WARNING: [kernel config]: BSP specified non-hw configuration:
-
-CONFIG_BLOCK
-CONFIG_BT
-CONFIG_BT_6LOWPAN
-CONFIG_BT_BNEP
-CONFIG_BT_BNEP_MC_FILTER
-CONFIG_BT_BNEP_PROTO_FILTER
-CONFIG_BT_CMTP
-CONFIG_BT_HIDP
-CONFIG_BT_RFCOMM
-CONFIG_BT_RFCOMM_TTY
-CONFIG_CFG80211_WEXT
-CONFIG_CORDIC
-CONFIG_CRC8
-CONFIG_EFIVAR_FS
-CONFIG_EFI_PARTITION
-CONFIG_NET
-CONFIG_NETDEVICES
-CONFIG_PARTITION_ADVANCED
-CONFIG_WEXT_CORE
-CONFIG_WEXT_PROC
-CONFIG_WIRELESS
-------------------------------------
-
-foobar.cfg is used (the CONFIG_SECURITY_SMACK part is used) but the
-CONFIG_FOOBAR part of course is not. Shouldn't this trigger the
-"specified values did not make it into the kernel's final
-configuration"?
-
-There is no mismatch.cfg, only a nonhw_report.cfg. This seems to point
-towards an error in the configure task, if I understand the kernel
-recipes correctly.
-
-Speaking of nonhw_report.cfg, are there plans to make the core BSPs
-clean enough to pass the check without warnings?
-
+diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.28.bb
+similarity index 90%
+rename from meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
+rename to meta/recipes-gnome/gtk+/gtk+_2.24.28.bb
+index 4f664e4..e343773 100644
+--- a/meta/recipes-gnome/gtk+/gtk+_2.24.27.bb
++++ b/meta/recipes-gnome/gtk+/gtk+_2.24.28.bb
+@@ -12,8 +12,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
+            file://strict-prototypes.patch \
+ 	  "
+ 
+-SRC_URI[md5sum] = "b1e890e15602c5bcb40d85b13fe046fd"
+-SRC_URI[sha256sum] = "20cb10cae43999732a9af2e9aac4d1adebf2a9c2e1ba147050976abca5cd24f4"
++SRC_URI[md5sum] = "bfacf87b2ea67e4e5c7866a9003e6526"
++SRC_URI[sha256sum] = "b2c6441e98bc5232e5f9bba6965075dcf580a8726398f7374d39f90b88ed4656"
+ 
+ EXTRA_OECONF = "--enable-xkb --disable-glibtest --disable-cups --disable-xinerama"
+ 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.1.4
 
 
