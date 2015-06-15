@@ -1,37 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DB86574115
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C724973CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 13:36:00 +0000 (UTC)
-Received: by qkhq76 with SMTP id q76so53608702qkh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 06:36:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=FFf2MCrzkPROJv+k1M7zWfv6QpU9b0VESAJaN9DnVUk=;
-	b=jn3IAZYRRQv6vWSGuL5UCITRRKPTtw23VvSDHgfXqX2/6w5UaoFefsd4suxY8YQtEU
-	pG1JT5e/YaByqWzdHDDT3TZj8VYmevBmjy53vaWPlWPSbxml4+WpqR2V55VMUcg38eiO
-	JG+x7YTM9DglENWs6CBkJJdrrDJx59LAAUMVOkm+3Ypn2yei5z/RCYYA6Y5zIZm5XuyK
-	X79Y90/A3rLmbUEuf38EGVj6aVWNIF+1TQoaTHf9gC7qPqDhvTQvthfsI4m4EIxzUsQB
-	FgL7DIvqboPceAF28O1dbsS1neae6fjnPrulbTzKkxiRkbB2hZc9CyqhR7JuhjEvm+eW
-	5zUg==
-X-Gm-Message-State: ALoCoQlaN+kgY2f2tOZu3Ia75sHb3mncH2hHwHALdVk0148VelPgeyOVdjWjTdyHyTycA4trG5vy
-X-Received: by 10.140.133.199 with SMTP id 190mr37662244qhf.17.1434375361384; 
-	Mon, 15 Jun 2015 06:36:01 -0700 (PDT)
+	Mon, 15 Jun 2015 14:22:43 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Jun 2015 07:22:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,618,1427785200"; d="scan'208";a="746981483"
+Received: from irsmsx108.ger.corp.intel.com ([163.33.3.3])
+	by orsmga002.jf.intel.com with ESMTP; 15 Jun 2015 07:22:44 -0700
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.217]) by
+	IRSMSX108.ger.corp.intel.com ([169.254.11.59]) with mapi id
+	14.03.0224.002; Mon, 15 Jun 2015 15:22:42 +0100
+From: "Constantin, Costin C" <costin.c.constantin@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] scripts/oe-selftest: enhancement 7865
+Thread-Index: AQHQphpYn+DYq3ow8E619ZP7mejghp2toQ4g
+Date: Mon, 15 Jun 2015 14:22:42 +0000
+Message-ID: <2B8B4B6BB45F5242AFEC714E022A4B4A28A7BB67@IRSMSX101.ger.corp.intel.com>
+References: <1434229118-31859-1-git-send-email-costin.c.constantin@intel.com>
+In-Reply-To: <1434229118-31859-1-git-send-email-costin.c.constantin@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 15 Jun 2015 06:35:41 -0700 (PDT)
-In-Reply-To: <7321ee7236ec75dd68269421edafaefc52df6a88.1434114213.git.jussi.kukkonen@intel.com>
-References: <cover.1434114213.git.jussi.kukkonen@intel.com>
-	<7321ee7236ec75dd68269421edafaefc52df6a88.1434114213.git.jussi.kukkonen@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Jun 2015 14:35:41 +0100
-Message-ID: <CAJTo0LZjSiQ7LU+3PaF3AHV7Y5aSkP5Re6bm+L_G+Cs3zYKxeg@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/6] gtk+3: Upgrade to 3.16.3
+Subject: Re: [PATCH] scripts/oe-selftest: enhancement 7865
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +39,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 13:36:04 -0000
-Content-Type: multipart/alternative; boundary=001a11353390e4177305188e89a5
-
---001a11353390e4177305188e89a5
-Content-Type: text/plain; charset=UTF-8
-
-On 12 June 2015 at 14:11, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
-
-> +           docbook-utils-native gdk-pixbuf-native libepoxy"
->
-
-Note that libepoxy currently doesn't know how to be a "no implementation"
-stub of OpenGL so this does mean that GTK+ 3 now has a hard dependency on
-OpenGL.   Upstream GTK+ 3 has no interest in making this an option so if
-anyone is bothered by this, they'll have to step up and submit patches.
-
-Ross
-
---001a11353390e4177305188e89a5
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Mon, 15 Jun 2015 14:22:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 12 June 2015 at 14:11, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1b4" cl=
-ass=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0docbook-utils-native gdk-pixbuf-native libepoxy&quot;<br></div></bloc=
-kquote><div><br></div><div>Note that libepoxy currently doesn&#39;t know ho=
-w to be a &quot;no implementation&quot; stub of OpenGL so this does mean th=
-at GTK+ 3 now has a hard dependency on OpenGL. =C2=A0 Upstream GTK+ 3 has n=
-o interest in making this an option so if anyone is bothered by this, they&=
-#39;ll have to step up and submit patches.</div><div><br></div><div>Ross</d=
-iv></div></div></div>
+Hello,
 
---001a11353390e4177305188e89a5--
+Please don't consider this patch. It was intended for 7865, but a better pa=
+tch was proposed for this
+
+-----Original Message-----
+From: Constantin, Costin C=20
+Sent: Saturday, June 13, 2015 11:59 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Constantin, Costin C
+Subject: [PATCH] scripts/oe-selftest: enhancement 7865
+
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ scripts/oe-selftest | 36 ++++++++++++++++++++++++------------
+ 1 file changed, 24 insertions(+), 12 deletions(-)
+
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest index a04e9fc..1a89c=
+31 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -16,7 +16,10 @@
+ # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+=20
+ # DESCRIPTION
+-# This script runs tests defined in meta/lib/selftest/
++# This script runs tests defined in meta/lib/selftest/ for all=20
++$BUILDDIR/../meta* layers # In order to work, each meta* layer needs to ha=
+ve a relative lib/oeqa/selftest path to it.
++# Subdirectories to this relative path are accepted.
++# Test module names need to be unique between all layers.
+ # It's purpose is to automate the testing of different bitbake tools.
+ # To use it you just need to source your build environment setup script an=
+d  # add the meta-selftest layer to your BBLAYERS.
+@@ -24,15 +27,26 @@
+ # Call the script as: "oe-selftest <module>.<Class>.<method>" to run just =
+a single test  # E.g: "oe-selftest bboutput.BitbakeLayers" will run just th=
+e BitbakeLayers class from meta/lib/selftest/bboutput.py
+=20
+-
+ import os
+ import sys
+ import unittest
+ import logging
+ import argparse
++import glob as g
+=20
+ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),=
+ '..', 'meta/lib')))
+=20
++tests_path =3D g.glob(os.path.abspath(os.path.join(os.getenv("BUILDDIR"),=
+=20
++"..", "meta*/lib/oeqa/selftest"))) # adding tests paths to the sys.path=20
++enabling dynamic import further on # support for subdirectories is also=20
++added test_subdirs =3D [] for pth in tests_path:
++    sys.path.insert(0, pth)
++    for sbd in g.glob(pth + "/*"):
++        if os.path.isdir(sbd):
++            sys.path.append(sbd)
++            test_subdirs.append(sbd)
++
+ import oeqa.selftest
+ import oeqa.utils.ftools as ftools
+ from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer @@ -125=
+,14 +139,13 @@ def remove_inc_files():
+ def get_tests(exclusive_modules=3D[], include_hidden=3DFalse):
+     testslist =3D []
+     for x in exclusive_modules:
+-        testslist.append('oeqa.selftest.' + x)
++        testslist.append(x)
+     if not testslist:
+-        testpath =3D os.path.abspath(os.path.dirname(oeqa.selftest.__file_=
+_))
+-        files =3D sorted([f for f in os.listdir(testpath) if f.endswith('.=
+py') and not (f.startswith('_') and not include_hidden) and not f.startswit=
+h('__') and f !=3D 'base.py'])
+-        for f in files:
+-            module =3D 'oeqa.selftest.' + f[:-3]
+-            testslist.append(module)
+-
++        for pth in (tests_path + test_subdirs) :
++            files =3D sorted([f for f in os.listdir(pth) if f.endswith('.p=
+y') and not (f.startswith('_') and not include_hidden) and not f.startswith=
+('__') and f !=3D 'base.py'])
++            for f in files:
++                module =3D f[:-3]
++                testslist.append(module)
+     return testslist
+=20
+ def main():
+@@ -145,8 +158,7 @@ def main():
+     if args.list_modules:
+         log.info('Listing all available test modules:')
+         testslist =3D get_tests(include_hidden=3DTrue)
+-        for test in testslist:
+-            module =3D test.split('.')[-1]
++        for module in testslist:
+             info =3D ''
+             if module.startswith('_'):
+                 info =3D ' (hidden)'
+@@ -154,7 +166,7 @@ def main():
+             if args.list_allclasses:
+                 try:
+                     import importlib
+-                    modlib =3D importlib.import_module(test)
++                    modlib =3D importlib.import_module(module)
+                     for v in vars(modlib):
+                         t =3D vars(modlib)[v]
+                         if isinstance(t, type(oeSelfTest)) and issubclass(=
+t, oeSelfTest) and t!=3DoeSelfTest:
+--
+2.1.4
+
+
