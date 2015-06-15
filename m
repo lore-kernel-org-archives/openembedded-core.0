@@ -1,38 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
-	[209.85.216.174])
-	by mail.openembedded.org (Postfix) with ESMTP id DD15D7413A
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id CD3B873CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 15:25:27 +0000 (UTC)
-Received: by qcwx2 with SMTP id x2so3781421qcw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 08:25:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=YrnLLvV8WTbVv52qXmhXeItT3bn83HjQ6ExaPohcQGQ=;
-	b=HqR+j42GBSBEGAkcPvy+Aoc3fUqenzi/jkROFdwLqSJCTWlNpvwh/75C21QZzAygnr
-	0bs1s237Lo8o/gX5A7gFNdLZZRg5amQpVYyK7YAtWf9KEtwo6Avhnv+/4rPyvU+Wf1oR
-	0ry2ZJ/9VkKFzWHxnJbiNA+0ivRpsxd7+rdaZa/GGaOLi02c7tybobFYY1gRks/nlHOg
-	bWu8o+4CpZ9ZmJ6Jnktq5TzovI+DIFT5ER/eyIfHiklDjesZ8keSEAOwrO3qNu1vEiVO
-	ik8iFpU3vKQutk3FnKTMabhx7DN05YUzR1MxtRrsWSjSxfR5rzZlHdbxgMkaUu5ygJqE
-	cthw==
-X-Gm-Message-State: ALoCoQm2HN8i48FEOZdgwEtenE/I7HNr+tzudrLDD0DyaqDQZj1K61gfRVdtgT1AVlWokwYMd49u
-X-Received: by 10.55.25.150 with SMTP id 22mr60839706qkz.105.1434381928760;
-	Mon, 15 Jun 2015 08:25:28 -0700 (PDT)
+	Mon, 15 Jun 2015 15:27:06 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 15 Jun 2015 08:27:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,618,1427785200"; d="scan'208";a="747015314"
+Received: from sosalmel-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.29.110])
+	by orsmga002.jf.intel.com with ESMTP; 15 Jun 2015 08:27:07 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Jun 2015 16:27:06 +0100
+Message-ID: <6055885.RHuLqL3pbe@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/4.0.4-202.fc21.x86_64; KDE/4.14.7; x86_64; ; )
+In-Reply-To: <a28814625cb2316ef4c9b164cde11ee38bb95205.1433853790.git.mariano.lopez@linux.intel.com>
+References: <cover.1433853790.git.mariano.lopez@linux.intel.com>
+	<a28814625cb2316ef4c9b164cde11ee38bb95205.1433853790.git.mariano.lopez@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 15 Jun 2015 08:25:08 -0700 (PDT)
-In-Reply-To: <A0A03D4442F2EC4DBF5A0F72D4A3DA01B344CF@SHSMSX103.ccr.corp.intel.com>
-References: <A0A03D4442F2EC4DBF5A0F72D4A3DA01B344CF@SHSMSX103.ccr.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Jun 2015 16:25:08 +0100
-Message-ID: <CAJTo0LbvAPsD3fSOF4sHg9Vkk=6ydSL=jbw1LnZbzf4dO7MrLw@mail.gmail.com>
-To: "Liu, Sharron" <sharron.liu@intel.com>
-Cc: "Yu, Ling L" <ling.l.yu@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: FW: 7865 patch
+Subject: Re: [PATCH 1/1] copyleft_filter.bbclass: Allow to filter on name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,46 +33,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 15:25:30 -0000
-Content-Type: multipart/alternative; boundary=001a1147b3b0561a8005189011aa
+X-List-Received-Date: Mon, 15 Jun 2015 15:27:10 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a1147b3b0561a8005189011aa
-Content-Type: text/plain; charset=UTF-8
+On Tuesday 09 June 2015 12:46:48 mariano.lopez@linux.intel.com wrote:
+> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+> 
+> The archiver uses a license based filter to provide the source code.
+> This patch allows to search on name based on two new variables
+> (COPYLEFT_PN_INCLUDE, COPYLEFT_PN_EXCLUDE). Both variables are empty by
+> default.
+> The filter by name has higher priority than the license filter.
+> 
+> [YOCTO # 6929]
+> 
+> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> ---
+>  meta/classes/archiver.bbclass        | 14 ++++++--------
+>  meta/classes/copyleft_filter.bbclass | 25 +++++++++++++++++++++----
+>  2 files changed, 27 insertions(+), 12 deletions(-)
+> 
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index b598aa3..7b5274d 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -52,14 +52,12 @@ do_ar_original[dirs] = "${ARCHIVER_OUTDIR}
+> ${ARCHIVER_WORKDIR}" python () {
+>      pn = d.getVar('PN', True)
+> 
+> -    if d.getVar('COPYLEFT_LICENSE_INCLUDE', True) or \
+> -            d.getVar('COPYLEFT_LICENSE_EXCLUDE', True):
+> -        included, reason = copyleft_should_include(d)
+> -        if not included:
+> -            bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
+> -            return
+> -        else:
+> -            bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
+> +    included, reason = copyleft_should_include(d)
+> +    if not included:
+> +        bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
+> +        return
+> +    else:
+> +        bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
+> 
+>      ar_src = d.getVarFlag('ARCHIVER_MODE', 'src', True)
+>      ar_dumpdata = d.getVarFlag('ARCHIVER_MODE', 'dumpdata', True)
+> diff --git a/meta/classes/copyleft_filter.bbclass
+> b/meta/classes/copyleft_filter.bbclass index 2c1d8f1..46be7f7 100644
+> --- a/meta/classes/copyleft_filter.bbclass
+> +++ b/meta/classes/copyleft_filter.bbclass
+> @@ -25,6 +25,14 @@ COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native
+> nativesdk cross crosssdk cross- COPYLEFT_AVAILABLE_RECIPE_TYPES[type] =
+> 'list'
+>  COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available
+> recipe types'
+> 
+> +COPYLEFT_PN_INCLUDE ?= ''
+> +COPYLEFT_PN_INCLUDE[type] = 'list'
+> +COPYLEFT_PN_INCLUDE[doc] = 'Space separated list of recipe names to
+> include' +
+> +COPYLEFT_PN_EXCLUDE ?= ''
+> +COPYLEFT_PN_EXCLUDE[type] = 'list'
+> +COPYLEFT_PN_EXCLUDE[doc] = 'Space separated list of recipe names to
+> exclude' +
+>  def copyleft_recipe_type(d):
+>      for recipe_type in
+> oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d): if
+> oe.utils.inherits(d, recipe_type):
+> @@ -39,9 +47,11 @@ def copyleft_should_include(d):
+>      import oe.license
+>      from fnmatch import fnmatchcase as fnmatch
+> 
+> +    included, motive = False, 'recipe did not match anything'
+> +
+>      recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE', True)
+>      if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
+> -        return False, 'recipe type "%s" is excluded' % recipe_type
+> +        include, motive = False, 'recipe type "%s" is excluded' %
+> recipe_type
+> 
+>      include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
+>      exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
+> @@ -53,10 +63,17 @@ def copyleft_should_include(d):
+>      else:
+>          if is_included:
+>              if reason:
+> -                return True, 'recipe has included licenses: %s' % ',
+> '.join(reason) +                included, motive = True, 'recipe has
+> included licenses: %s' % ', '.join(reason) else:
+> -                return False, 'recipe does not include a copyleft license'
+> +                included, motive = False, 'recipe does not include a
+> copyleft license' else:
+> -            return False, 'recipe has excluded licenses: %s' % ',
+> '.join(reason) +            included, motive = False, 'recipe has excluded
+> licenses: %s' % ', '.join(reason)
+> 
+> +    if any(fnmatch(d.getVar('PN', True), name) \
+> +            for name in oe.data.typed_value('COPYLEFT_PN_INCLUDE', d)):
+> +        included, motive =  True, 'recipe included by name'
+> +    if any(fnmatch(d.getVar('PN', True), name) \
+> +            for name in oe.data.typed_value('COPYLEFT_PN_EXCLUDE', d)):
+> +        included, motive = False, 'recipe excluded by name'
+> 
+> +    return included, motive
 
-Hi Sharron,
+Changes look good.
 
-On 15 June 2015 at 08:04, Liu, Sharron <sharron.liu@intel.com> wrote:
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
-> Here attached the patch to 7865
-> <https://bugzilla.yoctoproject.org/show_bug.cgi?id=7865> (component:
-> automated build testing).
->
-> Patch status: reviewed and agreed by Costin (in copy), issue owner.
->
->
-Can you send this as a proper git patch with a commit log so we can see
-what the patch does and you get attribution?
+-- 
 
-Ross
+Paul Eggleton
+Intel Open Source Technology Centre
 
---001a1147b3b0561a8005189011aa
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Sharron,</div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 15 June 2015 at 08:04, Liu, =
-Sharron <span dir=3D"ltr">&lt;<a href=3D"mailto:sharron.liu@intel.com" targ=
-et=3D"_blank">sharron.liu@intel.com</a>&gt;</span> wrote:<br><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><p class=3D"MsoNormal"><span lang=3D"EN-US">Here attached =
-the patch to <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=
-=3D7865" target=3D"_blank">
-7865</a> (component: automated build testing). <u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Patch status: reviewed and agre=
-ed by Costin (in copy), issue owner.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"></p></blockquote></div><br>Can you send this as a pr=
-oper git patch with a commit log so we can see what the patch does and you =
-get attribution?</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">Ross</div></div>
-
---001a1147b3b0561a8005189011aa--
