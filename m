@@ -1,30 +1,29 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 5113B75943
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F01E974115
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 02:50:03 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.01,1,1399996800"; 
-   d="scan'208";a="97037852"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Jun 2015 10:54:11 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5F2mOq4007480
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 10:48:24 +0800
-Received: from localhost.localdomain (10.167.226.85) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Mon, 15 Jun 2015 10:50:04 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Jun 2015 10:49:50 +0800
-Message-ID: <1434336590-1631-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <CAJTo0Lb9f6OG79hS9=tVfNthSQxqpXr457q-1N7PyYFudJopWQ@mail.gmail.com>
-References: <CAJTo0Lb9f6OG79hS9=tVfNthSQxqpXr457q-1N7PyYFudJopWQ@mail.gmail.com>
+	Mon, 15 Jun 2015 05:21:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5F5L8eK024626
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 14 Jun 2015 22:21:08 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Sun, 14 Jun 2015 22:21:07 -0700
+Message-ID: <557E60C0.90708@windriver.com>
+Date: Mon, 15 Jun 2015 13:21:04 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.85]
-Subject: [PATCH v2] libnewt-python: add native support and modify its depends
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1434079315.git.liezhi.yang@windriver.com>
+	<2fbbbb9e2098904f488bc585288cb7ca1b88ff2e.1434079315.git.liezhi.yang@windriver.com>
+	<CAJTo0LaAv9NoBrGgW=52aTg0dRUTAvAP4SNw+3B4jVu5a3GM6w@mail.gmail.com>
+In-Reply-To: <CAJTo0LaAv9NoBrGgW=52aTg0dRUTAvAP4SNw+3B4jVu5a3GM6w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] insane.bbclass: check invalid ac_cv value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 02:50:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Jun 2015 05:21:10 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-extended/newt/libnewt-python_0.52.18.bb | 2 ++
- meta/recipes-extended/newt/libnewt_0.52.18.bb        | 2 ++
- meta/recipes-extended/slang/slang_2.2.4.bb           | 2 ++
- 3 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.18.bb b/meta/recipes-extended/newt/libnewt-python_0.52.18.bb
-index ecc670e..94a41a3 100644
---- a/meta/recipes-extended/newt/libnewt-python_0.52.18.bb
-+++ b/meta/recipes-extended/newt/libnewt-python_0.52.18.bb
-@@ -25,3 +25,5 @@ PACKAGES_remove = "whiptail"
- 
- FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
- FILES_${PN}-dbg += "${PYTHON_SITEPACKAGES_DIR}/.debug/"
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.18.bb b/meta/recipes-extended/newt/libnewt_0.52.18.bb
-index fa2493b..302e418 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.18.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.18.bb
-@@ -52,3 +52,5 @@ do_compile_prepend() {
- }
- 
- FILES_whiptail = "${bindir}/whiptail"
-+
-+BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-index ed1190a..25f1b0c 100644
---- a/meta/recipes-extended/slang/slang_2.2.4.bb
-+++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-@@ -49,3 +49,5 @@ FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
- FILES_${PN}-dbg += "${libdir}/${BPN}/v2/modules/.debug"
- 
- PARALLEL_MAKE = ""
-+
-+BBCLASSEXTEND = "native"
--- 
-1.8.4.2
 
+On 06/12/2015 07:06 PM, Burton, Ross wrote:
+>
+> On 12 June 2015 at 04:23, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     +        for var in tocheck.split():
+>     +            if var.startswith('ac_cv_'):
+>     +                varname = var.split('=')[0]
+>     +                cfgscript=d.expand("${S}/configure")
+>     +                if os.path.exists(cfgscript):
+>     +                    statement = "grep -q -F %s  %s > /dev/null" % (varname,
+>     cfgscript)
+>
+>
+> So your assumption that ac_cv_* variables are referenced in full in configure is
+> bad.  This is what strace has for the giant AC_CHECK_HEADERS block:
+
+Yes, it doesn't work well, I will try to figure out other ways.
+
+// Robert
+
+>
+> for ac_header in asm/cachectl.h asm/sysmips.h bluetooth/bluetooth.h elf.h
+> inttypes.h ioctls.h linux/bsg.h linux/falloc.h linux/filter.h linux/hiddev.h
+> linux/mmtimer.h linux/perf_event.h linux/seccomp.h linux/securebits.h
+> linux/utsname.h mqueue.h netinet/sctp.h poll.h scsi/sg.h stropts.h sys/conf.h
+> sys/epoll.h sys/fanotify.h sys/filio.h sys/ioctl.h sys/poll.h sys/reg.h
+> sys/vfs.h sys/xattr.h
+> do :
+>    as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
+> ac_fn_c_check_header_mongrel "$LINENO" "$ac_header" "$as_ac_Header"
+> "$ac_includes_default"
+>
+> The variable name is constructed, so this test can't work.
+>
+> Ross
 
