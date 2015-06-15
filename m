@@ -1,32 +1,38 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B07CC74115;
-	Mon, 15 Jun 2015 14:44:11 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 15 Jun 2015 07:44:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,618,1427785200"; d="scan'208";a="743720424"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
-	([10.237.68.143])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2015 07:44:11 -0700
-Message-ID: <557EE4C2.501@linux.intel.com>
-Date: Mon, 15 Jun 2015 17:44:18 +0300
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f174.google.com (mail-qc0-f174.google.com
+	[209.85.216.174])
+	by mail.openembedded.org (Postfix) with ESMTP id DD15D7413A
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jun 2015 15:25:27 +0000 (UTC)
+Received: by qcwx2 with SMTP id x2so3781421qcw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jun 2015 08:25:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=YrnLLvV8WTbVv52qXmhXeItT3bn83HjQ6ExaPohcQGQ=;
+	b=HqR+j42GBSBEGAkcPvy+Aoc3fUqenzi/jkROFdwLqSJCTWlNpvwh/75C21QZzAygnr
+	0bs1s237Lo8o/gX5A7gFNdLZZRg5amQpVYyK7YAtWf9KEtwo6Avhnv+/4rPyvU+Wf1oR
+	0ry2ZJ/9VkKFzWHxnJbiNA+0ivRpsxd7+rdaZa/GGaOLi02c7tybobFYY1gRks/nlHOg
+	bWu8o+4CpZ9ZmJ6Jnktq5TzovI+DIFT5ER/eyIfHiklDjesZ8keSEAOwrO3qNu1vEiVO
+	ik8iFpU3vKQutk3FnKTMabhx7DN05YUzR1MxtRrsWSjSxfR5rzZlHdbxgMkaUu5ygJqE
+	cthw==
+X-Gm-Message-State: ALoCoQm2HN8i48FEOZdgwEtenE/I7HNr+tzudrLDD0DyaqDQZj1K61gfRVdtgT1AVlWokwYMd49u
+X-Received: by 10.55.25.150 with SMTP id 22mr60839706qkz.105.1434381928760;
+	Mon, 15 Jun 2015 08:25:28 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?=
-	<schnitzeltony@googlemail.com>
-References: <557E9EFE.1030703@linux.intel.com>
-	<CALbNGRS9UWjVQQh8POPc5zVYOeYa9VaeC7dEfzH3AMs4k9Mjzw@mail.gmail.com>
-	<CAJTo0LbRVqw3h_3igs59=DTnaz6nf4w=A5ZpXepmh6xiKtVdPA@mail.gmail.com>
-In-Reply-To: <CAJTo0LbRVqw3h_3igs59=DTnaz6nf4w=A5ZpXepmh6xiKtVdPA@mail.gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Received: by 10.140.102.231 with HTTP; Mon, 15 Jun 2015 08:25:08 -0700 (PDT)
+In-Reply-To: <A0A03D4442F2EC4DBF5A0F72D4A3DA01B344CF@SHSMSX103.ccr.corp.intel.com>
+References: <A0A03D4442F2EC4DBF5A0F72D4A3DA01B344CF@SHSMSX103.ccr.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Jun 2015 16:25:08 +0100
+Message-ID: <CAJTo0LbvAPsD3fSOF4sHg9Vkk=6ydSL=jbw1LnZbzf4dO7MrLw@mail.gmail.com>
+To: "Liu, Sharron" <sharron.liu@intel.com>
+Cc: "Yu, Ling L" <ling.l.yu@intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Webkit-gtk will be updated to latest upstream; midori browser to be replaced with Epiphany
+Subject: Re: FW: 7865 patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,27 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 14:44:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Jun 2015 15:25:30 -0000
+Content-Type: multipart/alternative; boundary=001a1147b3b0561a8005189011aa
 
-On 06/15/2015 05:24 PM, Burton, Ross wrote:
+--001a1147b3b0561a8005189011aa
+Content-Type: text/plain; charset=UTF-8
 
-> If you actually compare the build dependencies, you'll see that Midori
-> and Epiphany are actually almost identical.
+Hi Sharron,
+
+On 15 June 2015 at 08:04, Liu, Sharron <sharron.liu@intel.com> wrote:
+
+> Here attached the patch to 7865
+> <https://bugzilla.yoctoproject.org/show_bug.cgi?id=7865> (component:
+> automated build testing).
 >
-> We need to upgrade WebKit as the release we're shipping has known
-> security flaws and is very old - and the community is rightly moaning
-> about that.  However Midori doesn't build with a recent WebKit... if you
-> have an alternative solution then your thoughts are welcome.
+> Patch status: reviewed and agreed by Costin (in copy), issue owner.
+>
+>
+Can you send this as a proper git patch with a commit log so we can see
+what the patch does and you get attribution?
 
-Also, Webkit2 itself ships with a tiny browser wrapper called MiniBrowser:
+Ross
 
-http://blogs.igalia.com/carlosgc/2011/11/04/webkit2-gtk-minibrowser-ported-to-gtk-api/
+--001a1147b3b0561a8005189011aa
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-That may be enough for many people's needs, and they can simply not 
-include Epiphany into their images if it's too big and bloated or whatever.
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Sharron,</div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On 15 June 2015 at 08:04, Liu, =
+Sharron <span dir=3D"ltr">&lt;<a href=3D"mailto:sharron.liu@intel.com" targ=
+et=3D"_blank">sharron.liu@intel.com</a>&gt;</span> wrote:<br><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex"><p class=3D"MsoNormal"><span lang=3D"EN-US">Here attached =
+the patch to <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=
+=3D7865" target=3D"_blank">
+7865</a> (component: automated build testing). <u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">Patch status: reviewed and agre=
+ed by Costin (in copy), issue owner.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"></p></blockquote></div><br>Can you send this as a pr=
+oper git patch with a commit log so we can see what the patch does and you =
+get attribution?</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></div>
 
-
-Alex
-
+--001a1147b3b0561a8005189011aa--
