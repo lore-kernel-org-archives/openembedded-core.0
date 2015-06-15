@@ -1,32 +1,37 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BB4F601F7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B2EA0759DE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 21:33:55 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Jun 2015 14:33:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,621,1427785200"; d="scan'208";a="711494885"
-Received: from irsmsx152.ger.corp.intel.com ([163.33.192.66])
-	by orsmga001.jf.intel.com with ESMTP; 15 Jun 2015 14:33:56 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.73]) by
-	IRSMSX152.ger.corp.intel.com ([169.254.6.148]) with mapi id
-	14.03.0224.002; Mon, 15 Jun 2015 22:33:56 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH V2] openssl: fix building on x32 systems
-Thread-Index: AQHQp7LHgo42JX+7y0OBVYFkJn6+iZ2uFl6g
-Date: Mon, 15 Jun 2015 21:33:55 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB44AD479C@irsmsx105.ger.corp.intel.com>
-References: <1434403935-20264-1-git-send-email-cristian.iorga@intel.com>
-In-Reply-To: <1434403935-20264-1-git-send-email-cristian.iorga@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
+	Mon, 15 Jun 2015 22:38:20 +0000 (UTC)
+Received: by qcsf5 with SMTP id f5so8278856qcs.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jun 2015 15:38:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4uXGnpIrSmGBdQK/apx6pjTqMuqd1sHukv2FSTVMAp8=;
+	b=KkkDO7JOuDhrtRptMJ4TpmylsDVhXzUk4SH+MEJz1F+kY8Y7B2mGp65wWh86ylal5S
+	aaUEs/oXZYnpYuECtChsPjnd+L9t06Uu8g/1TS4Wsh13gXF289NTAiylIqVyj8583FAC
+	wR983iy6X1ReQPi4xyhlZoDso2h7enMGqpWlGG+LPhrHr6vZL0ckyrYalP9pS9mkcCow
+	B8Y5nJ0KzyYPqBigtS4dq7pKrDKsd76mNqxUuKWDhXQeTjF5f3R78TJmF+ZiVNJg4+Qc
+	FnMfHwrQIRXxlXtf4P0sI05v3KPPthXXinq2fJhdGcvrQEwdCj/zofbWmL/AiY1oI0lT
+	NbuQ==
+X-Gm-Message-State: ALoCoQkcLPdExNWgVCqZzz130Nh9YogNSAcknT2L2GNkgGcjgVoyTyO4L9xYjhhVl6egY3FkNGd1
+X-Received: by 10.140.43.228 with SMTP id e91mr38438120qga.80.1434407901652;
+	Mon, 15 Jun 2015 15:38:21 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH V2] openssl: fix building on x32 systems
+Received: by 10.140.102.231 with HTTP; Mon, 15 Jun 2015 15:38:01 -0700 (PDT)
+In-Reply-To: <1434111318-12593-1-git-send-email-laurentiu.palcu@intel.com>
+References: <1434111318-12593-1-git-send-email-laurentiu.palcu@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 15 Jun 2015 23:38:01 +0100
+Message-ID: <CAJTo0LYnsO=8GnT+6U1dOssUAbcgWNEEVD1y_niOLyaED4ak3Q@mail.gmail.com>
+To: Laurentiu Palcu <laurentiu.palcu@intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] scripts: Add cleanup-downloads-dir tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,108 +44,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 21:33:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 15 Jun 2015 22:38:21 -0000
+Content-Type: multipart/alternative; boundary=001a113a34bc7100790518961d91
+
+--001a113a34bc7100790518961d91
+Content-Type: text/plain; charset=UTF-8
+
+On 12 June 2015 at 13:15, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+
+> A few days ago I noticed I had no space on disk and decided to make some
+> space. Since my downloads directory was never deleted since denzil, it
+> consumed 25GB of space which I needed. However, I wanted to delete only old
+> and unneeded tarbals/git repos and keep the ones that my current Yocto
+> version needed, so I wrote this tool.
+>
+
+Something is not quite right, after running this and causing a rebuild I
+got this:
+
+ERROR: No checksum specified for
+/home/ross/Yocto/downloads/git2_git.lttng.org.lttng-modules.git.tar.gz,
+please add at least one to the recipe:
+SRC_URI[md5sum] = "c32ceb7d4b208b2b1d8132c3bbc7d638"
+SRC_URI[sha256sum] =
+"d593cca435003770e981c8ae5def3db0e95d72bc3f83f3d43a18287ea1f6d165"
+ERROR: Function failed: Fetcher failure for URL: '
+http://downloads.yoctoproject.org/mirror/sources/git2_git.lttng.org.lttng-modules.git.tar.gz'.
+Missing SRC_URI checksum
+
+A few too many files pruned?
+
+Ross
+
+--001a113a34bc7100790518961d91
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Signed off the original patch for V2.
-/Cristian
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 June 2015 at 13:15, Laurentiu Palcu <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:laurentiu.palcu@intel.com" target=3D"_blank">laurentiu.palcu@intel.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,20=
+4);border-left-style:solid;padding-left:1ex"><div id=3D":2vy" class=3D"" st=
+yle=3D"overflow:hidden">A few days ago I noticed I had no space on disk and=
+ decided to make some<br>
+space. Since my downloads directory was never deleted since denzil, it<br>
+consumed 25GB of space which I needed. However, I wanted to delete only old=
+<br>
+and unneeded tarbals/git repos and keep the ones that my current Yocto<br>
+version needed, so I wrote this tool.</div></blockquote></div><br>Something=
+ is not quite right, after running this and causing a rebuild I got this:</=
+div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"><div cl=
+ass=3D"gmail_extra">ERROR: No checksum specified for /home/ross/Yocto/downl=
+oads/git2_git.lttng.org.lttng-modules.git.tar.gz, please add at least one t=
+o the recipe:</div><div class=3D"gmail_extra">SRC_URI[md5sum] =3D &quot;c32=
+ceb7d4b208b2b1d8132c3bbc7d638&quot;</div><div class=3D"gmail_extra">SRC_URI=
+[sha256sum] =3D &quot;d593cca435003770e981c8ae5def3db0e95d72bc3f83f3d43a182=
+87ea1f6d165&quot;</div><div class=3D"gmail_extra">ERROR: Function failed: F=
+etcher failure for URL: &#39;<a href=3D"http://downloads.yoctoproject.org/m=
+irror/sources/git2_git.lttng.org.lttng-modules.git.tar.gz">http://downloads=
+.yoctoproject.org/mirror/sources/git2_git.lttng.org.lttng-modules.git.tar.g=
+z</a>&#39;. Missing SRC_URI checksum</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra">A few too many files pruned?</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div=
+>
 
------Original Message-----
-From: Iorga, Cristian=20
-Sent: Tuesday, June 16, 2015 12:32 AM
-To: openembedded-core@lists.openembedded.org
-Cc: Iorga, Cristian
-Subject: [PATCH V2] openssl: fix building on x32 systems
-
-Fix build on Fedora 21 i686.
-
-When building on x32 systems where the default type is 32bit, make sure tha=
-t 64bit integers can be represented transparently.
-
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../openssl/openssl/openssl-1.0.2a-x32-asm.patch   | 46 ++++++++++++++++++=
-++++
- .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-1.0.2=
-a-x32-asm.patch
-
-diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-a=
-sm.patch b/meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-asm=
-.patch
-new file mode 100644
-index 0000000..1e5bfa1
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-asm.p
-+++ atch
-@@ -0,0 +1,46 @@
-+https://rt.openssl.org/Ticket/Display.html?id=3D3759&user=3Dguest&pass=3Dg=
-ues
-+t
-+
-+From 6257d59b3a68d2feb9d64317a1c556dc3813ee61 Mon Sep 17 00:00:00 2001
-+From: Mike Frysinger <vapier@gentoo.org>
-+Date: Sat, 21 Mar 2015 06:01:25 -0400
-+Subject: [PATCH] crypto: use bigint in x86-64 perl
-+
-+Upstream-Status: Pending
-+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-+
-+When building on x32 systems where the default type is 32bit, make sure=20
-+we can transparently represent 64bit integers.  Otherwise we end up=20
-+with build errors like:
-+/usr/bin/perl asm/ghash-x86_64.pl elf > ghash-x86_64.s Integer overflow=20
-+in hexadecimal number at asm/../../perlasm/x86_64-xlate.pl line 201, <> li=
-ne 890.
-+...
-+ghash-x86_64.s: Assembler messages:
-+ghash-x86_64.s:890: Error: junk '.15473355479995e+19' after expression
-+
-+We don't enable this globally as there are some cases where we'd get=20
-+32bit values interpreted as unsigned when we need them as signed.
-+
-+Reported-by: Bertrand Jacquin <bertrand@jacquin.bzh>
-+URL: https://bugs.gentoo.org/542618
-+---
-+ crypto/perlasm/x86_64-xlate.pl | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/crypto/perlasm/x86_64-xlate.pl=20
-+b/crypto/perlasm/x86_64-xlate.pl index aae8288..0bf9774 100755
-+--- a/crypto/perlasm/x86_64-xlate.pl
-++++ b/crypto/perlasm/x86_64-xlate.pl
-+@@ -195,6 +195,10 @@ my %globals;
-+     sub out {
-+     	my $self =3D shift;
-+=20
-++	# When building on x32 ABIs, the expanded hex value might be too
-++	# big to fit into 32bits.  Enable transparent 64bit support here
-++	# so we can safely print it out.
-++	use bigint;
-+ 	if ($gas) {
-+ 	    # Solaris /usr/ccs/bin/as can't handle multiplications
-+ 	    # in $self->{value}
-+--
-+2.3.3
-+
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/rec=
-ipes-connectivity/openssl/openssl_1.0.2a.bb
-index f4006f6..d7f0259 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-@@ -37,6 +37,7 @@ SRC_URI +=3D "file://configure-targets.patch \
-             file://run-ptest \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
-             file://0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.pa=
-tch \
-+            file://openssl-1.0.2a-x32-asm.patch \
-            "
-=20
- SRC_URI[md5sum] =3D "a06c547dac9044161a477211049f60ef"
---
-2.1.4
-
-
+--001a113a34bc7100790518961d91--
