@@ -1,25 +1,23 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E2175977
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 5414565C78
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 18:05:11 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 15 Jun 2015 11:04:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,620,1427785200"; d="scan'208";a="508663709"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Jun 2015 11:04:50 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 224676A4083;
-	Mon, 15 Jun 2015 11:04:13 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Jun 2015 19:10:45 +0300
-Message-Id: <1434384647-2901-9-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1434384647-2901-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1434384647-2901-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [PATCH 08/10] init-install: Specify partition name in parted command line
+	Mon, 15 Jun 2015 18:37:25 +0000 (UTC)
+Received: from svr-orw-fem-04.mgc.mentorg.com ([147.34.97.41])
+	by relay1.mentorg.com with esmtp 
+	id 1Z4ZGA-0007XG-68 from Nathan_Lynch@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 15 Jun 2015 11:37:26 -0700
+Received: from localhost (147.34.91.1) by SVR-ORW-FEM-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Mon, 15 Jun 2015 11:37:25 -0700
+From: Nathan Lynch <nathan_lynch@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Jun 2015 13:37:24 -0500
+Message-ID: <1434393444-4959-1-git-send-email-nathan_lynch@mentor.com>
+X-Mailer: git-send-email 2.1.0
+MIME-Version: 1.0
+Subject: [PATCH] lttng-modules: drop makefile patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,68 +30,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 18:05:12 -0000
+X-List-Received-Date: Mon, 15 Jun 2015 18:37:30 -0000
+Content-Type: text/plain
 
-parted allows to use names for partitions if GPT partition table
-is used on the device. msdos partitioning can have only partition
-types: 'primary', 'logical' or 'extended'.
+The lttng-modules Makefile allows us to specify the kernel we're
+building against via the KERNELDIR variable on the build command line.
+Use that and drop the patch (which tends to need updating whenever the
+upstream Makefile changes).
 
-Used meaningful partition names in parted command line for GPT
-partitioning.
+Signed-off-by: Nathan Lynch <nathan_lynch@mentor.com>
+---
+ ...modules-replace-KERNELDIR-with-KERNEL_SRC.patch | 71 ----------------------
+ meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb   |  6 +-
+ 2 files changed, 2 insertions(+), 75 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 7f3e889..a6a8679 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -134,14 +134,14 @@ echo "Creating new partition table on /dev/${device} ..."
- parted /dev/${device} mklabel gpt
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch b/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
+deleted file mode 100644
+index ccc6c54f8122..000000000000
+--- a/meta/recipes-kernel/lttng/lttng-modules/lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch
++++ /dev/null
+@@ -1,71 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-lttng-modules: replace KERNELDIR with KERNEL_SRC
+-
+-Since lttng-modules uses the default way of module.bbclass to
+-build and install lttng-modules, we do this replacement for
+-it as-is.
+-
+-Signed-off-by: Zumeng Chen <zumeng.chen@windriver.com>
+-[sgw - rebased for 2.6.1]
+-Signed-off-by: Saul wold <sgw@linux.intel.com>
+-
+-Index: git/Makefile
+-===================================================================
+---- git.orig/Makefile
+-+++ git/Makefile
+-@@ -68,19 +68,19 @@ obj-m += lib/
+- endif # CONFIG_TRACEPOINTS
+- 
+- else # KERNELRELEASE
+--	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+--	PWD := $(shell pwd)
+--	CFLAGS = $(EXTCFLAGS)
+--
+-+	KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
+-+ 	PWD := $(shell pwd)
+-+ 	CFLAGS = $(EXTCFLAGS)
+-+ 
+- default:
+--	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+-+	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
+- 
+- modules_install:
+--	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+-+	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
+- 
+- clean:
+--	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+-+	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
+- 
+- %.i: %.c
+--	LTTNG_KERNELDIR=$(KERNELDIR) $(MAKE) -C $(KERNELDIR) M=$(PWD) $@
+-+	LTTNG_KERNELDIR=$(KERNEL_SRC) $(MAKE) -C $(KERNEL_SRC) M=$(PWD) $@
+- endif # KERNELRELEASE
+-Index: git/probes/Makefile
+-===================================================================
+---- git.orig/probes/Makefile
+-+++ git/probes/Makefile
+-@@ -267,18 +267,18 @@ endif
+- endif
+- 
+- else
+--	KERNELDIR ?= /lib/modules/$(shell uname -r)/build
+-+	KERNEL_SRC ?= /lib/modules/$(shell uname -r)/build
+- 	PWD := $(shell pwd)
+- 	CFLAGS = $(EXTCFLAGS)
+- 
+- default:
+--	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+-+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules
+- 
+- modules_install:
+--	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules_install
+-+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) modules_install
+- 	/sbin/depmod -a
+- 
+- clean:
+--	$(MAKE) -C $(KERNELDIR) M=$(PWD) clean
+-+	$(MAKE) -C $(KERNEL_SRC) M=$(PWD) clean
+- 
+- endif
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb b/meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
+index be09a82f823e..5bde7ec2132e 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.6.1.bb
+@@ -12,13 +12,11 @@ SRCREV = "62080b2248fd8ec4111ffc379d0bc5eaf0a5c16d"
  
- echo "Creating boot partition on $bootfs"
--parted /dev/${device} mkpart primary fat32 0% $boot_size
-+parted /dev/${device} mkpart boot fat32 0% $boot_size
- parted /dev/${device} set 1 boot on
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|arm).*-linux'
  
- echo "Creating rootfs partition on $rootfs"
--parted /dev/${device} mkpart primary ext3 $rootfs_start $rootfs_end
-+parted /dev/${device} mkpart root ext3 $rootfs_start $rootfs_end
+-SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.6 \
+-           file://lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch \
+-           "
++SRC_URI = "git://git.lttng.org/lttng-modules.git;branch=stable-2.6"
  
- echo "Creating swap partition on $swap"
--parted /dev/${device} mkpart primary linux-swap $swap_start 100%
-+parted /dev/${device} mkpart swap linux-swap $swap_start 100%
+ export INSTALL_MOD_DIR="kernel/lttng-modules"
+-export KERNEL_SRC="${STAGING_KERNEL_DIR}"
  
- parted /dev/${device} print
++EXTRA_OEMAKE += "KERNELDIR='${STAGING_KERNEL_DIR}'"
  
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index ee191a4..2c5d530 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -163,17 +163,19 @@ if [ $grub_version -eq 0 ] ; then
- else
-     parted /dev/${device} mktable gpt
-     echo "Creating BIOS boot partition on $bios_boot"
--    parted /dev/${device} mkpart primary 0% $bios_boot_size
-+    parted /dev/${device} mkpart bios_boot 0% $bios_boot_size
-     parted /dev/${device} set 1 bios_grub on
-     echo "Creating boot partition on $bootfs"
--    parted /dev/${device} mkpart primary ext3 $boot_start $boot_size
-+    parted /dev/${device} mkpart boot ext3 $boot_start $boot_size
- fi
- 
- echo "Creating rootfs partition on $rootfs"
--parted /dev/${device} mkpart primary ext3 $rootfs_start $rootfs_end
-+[ $grub_version -eq 0 ] && pname='primary' || pname='root'
-+parted /dev/${device} mkpart $pname ext3 $rootfs_start $rootfs_end
- 
- echo "Creating swap partition on $swap"
--parted /dev/${device} mkpart primary linux-swap $swap_start 100%
-+[ $grub_version -eq 0 ] && pname='primary' || pname='swap'
-+parted /dev/${device} mkpart $pname linux-swap $swap_start 100%
- 
- parted /dev/${device} print
+ S = "${WORKDIR}/git"
  
 -- 
-2.1.4
+2.1.0
 
 
