@@ -1,32 +1,22 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D00CA75998
+Return-Path: <changhyeok.bae@lge.com>
+Received: from lgeamrelo04.lge.com (lgeamrelo04.lge.com [156.147.1.127])
+	by mail.openembedded.org (Postfix) with ESMTP id 5616B7598B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 05:35:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5F5ZSdl021586
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 14 Jun 2015 22:35:28 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Sun, 14 Jun 2015 22:35:27 -0700
-Message-ID: <557E641E.5040300@windriver.com>
-Date: Mon, 15 Jun 2015 13:35:26 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Mon, 15 Jun 2015 06:48:53 +0000 (UTC)
+Received: from unknown (HELO CHBae0915) (10.177.222.197)
+	by 156.147.1.127 with ESMTP; 15 Jun 2015 15:48:53 +0900
+X-Original-SENDERIP: 10.177.222.197
+X-Original-MAILFROM: changhyeok.bae@lge.com
+From: "Changhyeok Bae" <changhyeok.bae@lge.com>
+To: <openembedded-core@lists.openembedded.org>
+References: <1433826505-23893-1-git-send-email-changhyeok.bae@lge.com>
+In-Reply-To: <1433826505-23893-1-git-send-email-changhyeok.bae@lge.com>
+Date: Mon, 15 Jun 2015 15:48:56 +0900
+Message-ID: <008001d0a737$5a096770$0e1c3650$@lge.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-References: <cover.1433842738.git.liezhi.yang@windriver.com>
-	<7189f3ea9eb20d08f73abf3af4715a43f73740c0.1433842738.git.liezhi.yang@windriver.com>
-	<557A4FDF.7060304@windriver.com>
-	<1557617.mLfaxnFia7@peggleto-mobl.ger.corp.intel.com>
-	<CAJTo0LZ1eNH8KScAf=3bJbGGVFV=OCU5GXodPp8=LMVc34pAJQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ1eNH8KScAf=3bJbGGVFV=OCU5GXodPp8=LMVc34pAJQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 06/12] libav: 9.18 -> 11.4
+X-Mailer: Microsoft Outlook 14.0
+Thread-Index: AQE5Pu0PBGRk/iwSOoynevCgWOFdWZ7b8M9w
+Subject: Re: [PATCH] {python, python3}-native: fix TypeError
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,37 +29,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 05:35:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Mon, 15 Jun 2015 06:48:58 -0000
+Content-Type: text/plain;
+	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+Content-Language: ko
 
+ping
 
+-----Original Message-----
+From: Changhyeok Bae [mailto:changhyeok.bae@lge.com] 
+Sent: Tuesday, June 09, 2015 2:08 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Changhyeok Bae
+Subject: [OE-Core][PATCH] {python,python3}-native: fix TypeError
 
-On 06/12/2015 07:11 PM, Burton, Ross wrote:
->
-> On 12 June 2015 at 09:40, Paul Eggleton <paul.eggleton@linux.intel.com
-> <mailto:paul.eggleton@linux.intel.com>> wrote:
->
->     I didn't talk to Richard about it but I think there may have been some
->     discussion on this list about the possibility of 9->10->11 breaking API
->     compatibility with applications. Did you do testing with recipes in meta-
->     oe/meta-multimedia that depend upon libav?
->
->
-> Yes, that's exactly why I didn't merge it into MUT: more research needed as this
-> upgrade was proposed by Kai a few weeks back and there was a discussion there.
->
-> I wasn't rejecting the upgrade, just needed a good look and didn't get around to
-> it yet.  The big question is upgrade path: does everything in oe-core still
-> build, and is there a sufficient amount of recipes outside of oe-core using
-> libav 9 that we should keep it around?
+g-ir-core in meta-gir is building with python-native.
+When the g-ir-core(v1.42.0) is building, following error is occurred.
 
-I've tested all oe-core's related recipes with set commercial license flags,
-but didn't test the recipes outside of oe-core, I will test the recipes in
-meta-oe/meta-multimedia.
+Error in g-ir-core:
+EXEC_PREFIX = os.path.normpath(sys.exec_prefix).replace(
+os.getenv("BUILD_SYS"), os.getenv("HOST_SYS") )
+| TypeError: expected a character buffer object
 
-// Robert
+Signed-off-by: Changhyeok Bae <changhyeok.bae@lge.com>
+---
+ ...2-distutils-prefix-is-inside-staging-area.patch |    4 ++--
+ .../recipes-devtools/python/python-native_2.7.9.bb |    2 +-
+ .../python/python3-native_3.4.3.bb                 |    2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
->
-> Ross
+diff --git
+a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-s
+taging-area.patch
+b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-s
+taging-area.patch
+index f89aaff..b9cc4d9 100644
+---
+a/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-inside-s
+taging-area.patch
++++ b/meta/recipes-devtools/python/python-native/12-distutils-prefix-is-
++++ inside-staging-area.patch
+@@ -12,8 +12,8 @@ Upstream-Status: Inappropriate [embedded specific]
+  # These are needed in a couple of spots, so just compute them once.
+ -PREFIX = os.path.normpath(sys.prefix)
+ -EXEC_PREFIX = os.path.normpath(sys.exec_prefix)
+-+PREFIX = os.path.normpath(sys.prefix).replace( os.getenv("BUILD_SYS"), 
+-+os.getenv("HOST_SYS") ) EXEC_PREFIX = 
+-+os.path.normpath(sys.exec_prefix).replace( os.getenv("BUILD_SYS"), 
+-+os.getenv("HOST_SYS") )
+++PREFIX = os.path.normpath(sys.prefix).replace( 
+++str(os.getenv("BUILD_SYS")), str(os.getenv("HOST_SYS")) ) EXEC_PREFIX 
+++= os.path.normpath(sys.exec_prefix).replace( 
+++str(os.getenv("BUILD_SYS")), str(os.getenv("HOST_SYS")) )
+  
+  # Path to the base directory of the project. On Windows the binary may
+  # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
+diff --git a/meta/recipes-devtools/python/python-native_2.7.9.bb
+b/meta/recipes-devtools/python/python-native_2.7.9.bb
+index 34f5c29..5be7bb9 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.9.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.9.bb
+@@ -2,7 +2,7 @@ require python.inc
+ 
+ EXTRANATIVEPATH += "bzip2-native"
+ DEPENDS = "openssl-native bzip2-replacement-native zlib-native
+readline-native sqlite3-native"
+-PR = "${INC_PR}.1"
++PR = "${INC_PR}.2"
+ 
+ SRC_URI += "\
+             file://05-enable-ctypes-cross-build.patch \ diff --git
+a/meta/recipes-devtools/python/python3-native_3.4.3.bb
+b/meta/recipes-devtools/python/python3-native_3.4.3.bb
+index 464ff05..105c0c9 100644
+--- a/meta/recipes-devtools/python/python3-native_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3-native_3.4.3.bb
+@@ -1,6 +1,6 @@
+ require recipes-devtools/python/python.inc
+ 
+-PR = "${INC_PR}.0"
++PR = "${INC_PR}.1"
+ PYTHON_MAJMIN = "3.4"
+ DISTRO_SRC_URI ?= "file://sitecustomize.py"
+ DISTRO_SRC_URI_linuxstdbase = ""
+--
+1.7.9.5
+
 
