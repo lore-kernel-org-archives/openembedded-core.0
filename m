@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1367E737AF
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DCA77601F7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 20:57:38 +0000 (UTC)
-Received: by qgal13 with SMTP id l13so9596662qga.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 13:57:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=LvzEOV5sDNv7h4NUoVMVlP/ariE7/ma8K6WIvLeZUvo=;
-	b=BN3EybqB4NX233XgxFDVH1puZC2HTtwDvdZYFd665lSa/CkvW1yahNp6nsR7ENrT/4
-	JYJmV0jldzl/wH90Dd4aaobWZ4j/11WzBzITb95cOFj3LKyg9LjC4btcX3j1m7jV56p7
-	sycrrRYDYmejzJYNxvP6adrI8u8pS5QPEWjjCM7iURxs0ZOWzK8tgrXUwgZQZtMLUZm1
-	0IwFxBhbCv7l59rmNdgrDDls1gLDmjzU0oYzmXqziB0HzT7WDds9aOvaHjDPbZmcwGtI
-	1MObCDCAqdzwPNl/Q0aMb3pLFsWmuVX/7UkSuBXrd4l5t9z9jzOCfFtLKXm6Rk6HwoGz
-	Haww==
-X-Gm-Message-State: ALoCoQkY7c5fxgsK+l01GPLV7EfSEyqwUpTD0qjuOt8ag+xZxJHpI2s88SS1aQTTimEvncmWBGm0
-X-Received: by 10.55.43.130 with SMTP id r2mr64264479qkr.14.1434401859894;
-	Mon, 15 Jun 2015 13:57:39 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 15 Jun 2015 13:57:19 -0700 (PDT)
-In-Reply-To: <1434400486-21168-1-git-send-email-cristian.iorga@intel.com>
-References: <1434400486-21168-1-git-send-email-cristian.iorga@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 15 Jun 2015 21:57:19 +0100
-Message-ID: <CAJTo0LbtPB2jOQnndML2qktEQoVVH2JJ47mLe1Z4_D7SwQ4OkQ@mail.gmail.com>
-To: Cristian Iorga <cristian.iorga@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] openssl: fix building on x32 systems
+	Mon, 15 Jun 2015 21:32:24 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 15 Jun 2015 14:32:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,621,1427785200"; d="scan'208";a="743953154"
+Received: from sentry.rb.intel.com ([10.237.105.157])
+	by fmsmga002.fm.intel.com with ESMTP; 15 Jun 2015 14:32:24 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jun 2015 00:32:15 +0300
+Message-Id: <1434403935-20264-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH V2] openssl: fix building on x32 systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,34 +27,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 20:57:45 -0000
-Content-Type: multipart/alternative; boundary=001a1147afb05316a2051894b5cb
+X-List-Received-Date: Mon, 15 Jun 2015 21:32:30 -0000
 
---001a1147afb05316a2051894b5cb
-Content-Type: text/plain; charset=UTF-8
+Fix build on Fedora 21 i686.
 
-On 15 June 2015 at 21:34, Cristian Iorga <cristian.iorga@intel.com> wrote:
+When building on x32 systems where the default type is 32bit,
+make sure that 64bit integers can be represented transparently.
 
-> +Upstream-Status: Pending
->
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../openssl/openssl/openssl-1.0.2a-x32-asm.patch   | 46 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.0.2a.bb |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-asm.patch
 
-You need a signed-off-by in the patch too.
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-asm.patch b/meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-asm.patch
+new file mode 100644
+index 0000000..1e5bfa1
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/openssl-1.0.2a-x32-asm.patch
+@@ -0,0 +1,46 @@
++https://rt.openssl.org/Ticket/Display.html?id=3759&user=guest&pass=guest
++
++From 6257d59b3a68d2feb9d64317a1c556dc3813ee61 Mon Sep 17 00:00:00 2001
++From: Mike Frysinger <vapier@gentoo.org>
++Date: Sat, 21 Mar 2015 06:01:25 -0400
++Subject: [PATCH] crypto: use bigint in x86-64 perl
++
++Upstream-Status: Pending
++Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
++
++When building on x32 systems where the default type is 32bit, make sure
++we can transparently represent 64bit integers.  Otherwise we end up with
++build errors like:
++/usr/bin/perl asm/ghash-x86_64.pl elf > ghash-x86_64.s
++Integer overflow in hexadecimal number at asm/../../perlasm/x86_64-xlate.pl line 201, <> line 890.
++...
++ghash-x86_64.s: Assembler messages:
++ghash-x86_64.s:890: Error: junk '.15473355479995e+19' after expression
++
++We don't enable this globally as there are some cases where we'd get
++32bit values interpreted as unsigned when we need them as signed.
++
++Reported-by: Bertrand Jacquin <bertrand@jacquin.bzh>
++URL: https://bugs.gentoo.org/542618
++---
++ crypto/perlasm/x86_64-xlate.pl | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/crypto/perlasm/x86_64-xlate.pl b/crypto/perlasm/x86_64-xlate.pl
++index aae8288..0bf9774 100755
++--- a/crypto/perlasm/x86_64-xlate.pl
+++++ b/crypto/perlasm/x86_64-xlate.pl
++@@ -195,6 +195,10 @@ my %globals;
++     sub out {
++     	my $self = shift;
++ 
+++	# When building on x32 ABIs, the expanded hex value might be too
+++	# big to fit into 32bits.  Enable transparent 64bit support here
+++	# so we can safely print it out.
+++	use bigint;
++ 	if ($gas) {
++ 	    # Solaris /usr/ccs/bin/as can't handle multiplications
++ 	    # in $self->{value}
++-- 
++2.3.3
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
+index f4006f6..d7f0259 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
+@@ -37,6 +37,7 @@ SRC_URI += "file://configure-targets.patch \
+             file://run-ptest \
+             file://crypto_use_bigint_in_x86-64_perl.patch \
+             file://0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch \
++            file://openssl-1.0.2a-x32-asm.patch \
+            "
+ 
+ SRC_URI[md5sum] = "a06c547dac9044161a477211049f60ef"
+-- 
+2.1.4
 
-Cheers
-Ross
 
---001a1147afb05316a2051894b5cb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 June 2015 at 21:34, Cristian Iorga <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:cristian.iorga@intel.com" target=3D"_blank">cristian.iorga@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":17g" cl=
-ass=3D"a3s" style=3D"overflow:hidden">+Upstream-Status: Pending<br></div></=
-blockquote></div><br>You need a signed-off-by in the patch too.</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Cheers</div><div =
-class=3D"gmail_extra">Ross</div></div>
-
---001a1147afb05316a2051894b5cb--
