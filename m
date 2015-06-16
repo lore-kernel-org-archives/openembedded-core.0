@@ -1,35 +1,28 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
-	[209.85.218.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 198CC737AF
+Return-Path: <leandro.maciel.dorileo@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7224660557
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 18:13:00 +0000 (UTC)
-Received: by oiyy130 with SMTP id y130so249098oiy.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 11:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=xbFG526MsmNYmjjsd0iDAGzITOKakqu0TFQQIVpb3SI=;
-	b=C2SMOPPdGZ01vPFgdEflHpTsJ9Az4q0uqBSqqtXauUgWHriK1Sq9VZEa3tpSoPgNzq
-	Nv3pWYurmj5dHuKiCqysvqhbuWCIkfWvZtEwRD7Y8RPVCBGJOZjuhp32PDCaGhKRsT3D
-	eBxdfJgbQ8kjIYcQcX1OuHC3J+RhAK9A3Wu6IqI+203Y9oVPCCDFpv+QqS013KT/a3yo
-	vYZ/Ii/JH2XC/JMpF9v6CrCk0UYCNM/fvPWYLH1fV38NB3S2BZU1VQWpmGMBtHZCA4iS
-	pGPGvjBliZ1+LaMMdMy44YUf4dRBITvYe9riMdBuYnkq+hFn9leiIEeCLcMv82DiA8xa
-	pjiw==
-X-Received: by 10.182.213.37 with SMTP id np5mr1304529obc.42.1434478381869;
-	Tue, 16 Jun 2015 11:13:01 -0700 (PDT)
-Received: from george-i7.localdomain (mail.novatech-llc.com. [64.126.95.172])
-	by mx.google.com with ESMTPSA id
-	v145sm837203oie.17.2015.06.16.11.13.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 16 Jun 2015 11:13:01 -0700 (PDT)
-From: George McCollister <george.mccollister@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jun 2015 13:12:34 -0500
-Message-Id: <1434478354-13409-1-git-send-email-george.mccollister@gmail.com>
-X-Mailer: git-send-email 2.4.3
-Cc: martin.stolpe@gmail.com
-Subject: [PATCH][fido] binutils: fix native builds when host has gcc5
+	Tue, 16 Jun 2015 18:20:59 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 16 Jun 2015 11:21:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,627,1427785200"; d="scan'208";a="712129245"
+Received: from unknown (HELO [10.218.100.102]) ([10.218.100.102])
+	by orsmga001.jf.intel.com with ESMTP; 16 Jun 2015 11:21:00 -0700
+To: Andreas Oberritter <obi@opendreambox.org>,
+	Bruno Bottazzini <bruno.bottazzini@intel.com>,
+	openembedded-core@lists.openembedded.org
+References: <1431553871-23972-1-git-send-email-bruno.bottazzini@intel.com>
+	<1431553871-23972-4-git-send-email-bruno.bottazzini@intel.com>
+	<5553D30E.9010201@opendreambox.org>
+From: Leandro Dorileo <leandro.maciel.dorileo@intel.com>
+Message-ID: <5580690B.9070908@intel.com>
+Date: Tue, 16 Jun 2015 15:20:59 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.0.1
+MIME-Version: 1.0
+In-Reply-To: <5553D30E.9010201@opendreambox.org>
+Subject: Re: [PATCH V5 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,113 +35,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 18:13:01 -0000
+X-List-Received-Date: Tue, 16 Jun 2015 18:21:00 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Cherry pick upstream commit to fix -Werror=logical-not-parentheses error
-when building with native gcc5.
+On 05/13/2015 07:41 PM, Andreas Oberritter wrote:
+> Hello Bruno,
+>
+> On 13.05.2015 23:51, Bruno Bottazzini wrote:
+>> +########################################################################
+>> +# Aggregation of Split Packages
+>> +########################################################################
+>> +PACKAGES =+ "${PN}-services-base"
+>> +SUMMARY_${PN}-services-base = "Base services aggregation"
+>> +ALLOW_EMPTY_${PN}-services-base = "1"
+>> +RDEPENDS_${PN}-services-base = " \
+>
+> I think it would be better to use RRECOMMENDS, in order to support
+> BAD_RECOMMENDATIONS per image. This would also remove the need to use
+> bb.utils.contains, because unavailable recommended packages get ignored
+> by the package managers.
 
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
----
- meta/recipes-devtools/binutils/binutils-2.24.inc   |  1 +
- ...86.c-Werror-logical-not-parentheses-error.patch | 76 ++++++++++++++++++++++
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.24.inc b/meta/recipes-devtools/binutils/binutils-2.24.inc
-index 63c9287..2fb56eb 100644
---- a/meta/recipes-devtools/binutils/binutils-2.24.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.24.inc
-@@ -40,6 +40,7 @@ SRC_URI = "\
-      file://binutils_CVE-2014-8503.patch \
-      file://binutils_CVE-2014-8504.patch \
-      file://binutils_CVE-2014-8737.patch \
-+     file://Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch \
-      "
- 
- SRC_URI[md5sum] = "e0f71a7b2ddab0f8612336ac81d9636b"
-diff --git a/meta/recipes-devtools/binutils/binutils/Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch b/meta/recipes-devtools/binutils/binutils/Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
-new file mode 100644
-index 0000000..0511c39
---- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
-@@ -0,0 +1,76 @@
-+From 360ddc990a941bc506576f45a3858d38f508410b Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Fri, 12 Sep 2014 09:46:30 +0930
-+Subject: [PATCH] Fix tc-i386.c -Werror=logical-not-parentheses error
-+
-+	* config/tc-i386.c (match_template): Remove redundant "!!" testing
-+	single-bit bitfields.
-+	(build_modrm_byte): Don't compare single-bit bitfields to "1".
-+
-+Upstream commit:
-+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=ac4eb736520174305bf6e691827f7473b858cff1
-+
-+Manually resolved gas/ChangeLog conflict by placing the change at the
-+top of the file.
-+gas/config/tc-i386.c patched with offset
-+
-+Signed-off-by: George McCollister <george.mccollister@gmail.com>
-+---
-+ gas/ChangeLog        |  6 ++++++
-+ gas/config/tc-i386.c | 12 ++++++------
-+ 2 files changed, 12 insertions(+), 6 deletions(-)
-+
-+diff --git a/gas/ChangeLog b/gas/ChangeLog
-+index 7fafa26..c6e60c9 100644
-+--- a/gas/ChangeLog
-++++ b/gas/ChangeLog
-+@@ -1,3 +1,9 @@
-++2014-09-12  Alan Modra  <amodra@gmail.com>
-++
-++	* config/tc-i386.c (match_template): Remove redundant "!!" testing
-++	single-bit bitfields.
-++	(build_modrm_byte): Don't compare single-bit bitfields to "1".
-++
-+ 2013-11-18  H.J. Lu  <hongjiu.lu@intel.com>
-+ 
-+ 	* config/tc-i386.c (lex_got): Add a dummy "int bnd_prefix"
-+diff --git a/gas/config/tc-i386.c b/gas/config/tc-i386.c
-+index 3c423da..4464091 100644
-+--- a/gas/config/tc-i386.c
-++++ b/gas/config/tc-i386.c
-+@@ -4672,9 +4672,9 @@ match_template (void)
-+ 	       && !operand_types[0].bitfield.regymm
-+ 	       && !operand_types[0].bitfield.regzmm)
-+ 	      || (!operand_types[t->operands > 1].bitfield.regmmx
-+-		  && !!operand_types[t->operands > 1].bitfield.regxmm
-+-		  && !!operand_types[t->operands > 1].bitfield.regymm
-+-		  && !!operand_types[t->operands > 1].bitfield.regzmm))
-++		  && operand_types[t->operands > 1].bitfield.regxmm
-++		  && operand_types[t->operands > 1].bitfield.regymm
-++		  && operand_types[t->operands > 1].bitfield.regzmm))
-+ 	  && (t->base_opcode != 0x0fc7
-+ 	      || t->extension_opcode != 1 /* cmpxchg8b */))
-+ 	continue;
-+@@ -4689,7 +4689,7 @@ match_template (void)
-+ 	       && ((!operand_types[0].bitfield.regmmx
-+ 		    && !operand_types[0].bitfield.regxmm)
-+ 		   || (!operand_types[t->operands > 1].bitfield.regmmx
-+-		       && !!operand_types[t->operands > 1].bitfield.regxmm)))
-++		       && operand_types[t->operands > 1].bitfield.regxmm)))
-+ 	continue;
-+ 
-+       /* Do not verify operands when there are none.  */
-+@@ -6139,8 +6139,8 @@ build_modrm_byte (void)
-+ 	      op = i.tm.operand_types[vvvv];
-+ 	      op.bitfield.regmem = 0;
-+ 	      if ((dest + 1) >= i.operands
-+-		  || (op.bitfield.reg32 != 1
-+-		      && !op.bitfield.reg64 != 1
-++		  || (!op.bitfield.reg32
-++		      && op.bitfield.reg64
-+ 		      && !operand_type_equal (&op, &regxmm)
-+ 		      && !operand_type_equal (&op, &regymm)
-+ 		      && !operand_type_equal (&op, &regzmm)
-+-- 
-+2.4.3
-+
--- 
-2.4.3
+In the end, isn't it just a different approach? a different way of
+doing the same thing? By the way, from my point of view, semantically
+we're saying "we want a given package feature" besides the "we want a
+given distro feature", don't you think?
+
+
+>
+> Besides that, I wonder whether ${PN}-services would be a better name,
+> because the -base suffix suggests that it contained only the most
+> important services.
+
+Ok, here I agree. Bruno, could you please do the rename suggested here
+by Andreas?
+
+>
+> Btw., sorry for commenting late again, but it's quite a big patch.
+>
+> Regards,
+> Andreas
+>
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'ask-password', '${PN}-services-ask-password', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'backlight', '${PN}-services-backlight', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-services-binfmt', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'dbus', '${PN}-services-dbus', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'firstboot', '${PN}-services-firstboot', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'fuse', '${PN}-services-fuse', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'quota', '${PN}-services-quota', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'rfkill', '${PN}-services-rfkill', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '${PN}-services-timesyncd', '', d)}  \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'update', '${PN}-services-update', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'vconsole', '${PN}-services-vconsole', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'filesystems', '${PN}-generators-filesystems', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'preset', '${PN}-preset', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'fsck', '${PN}-services-fsck', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'journal', '${PN}-services-journal', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'modules-load', '${PN}-services-modules-load', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'randomseed', '${PN}-services-randomseed', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'sleep', '${PN}-services-sleep', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'sysctl', '${PN}-services-sysctl', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'sysusers', '${PN}-services-sysusers', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'tmpfiles', '${PN}-services-tmpfiles', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'udev', '${PN}-services-udev', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'tools', '${PN}-tools', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'bash', '${PN}-bash', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'initramfs', '${PN}-initramfs', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'kernel-install', '${PN}-kernel-install', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'rpm-macros', '${PN}-rpm-macros', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'zsh', '${PN}-zsh', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'bootchart', '${PN}-services-bootchart', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'debug', '${PN}-services-debug', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'machined', '${PN}-services-machined', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'nspawn', '${PN}-services-nspawn', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'sysvcompat', '${PN}-services-sysvcompat', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-generators-getty', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-services-getty', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'ldconfig', '${PN}-services-ldconfig', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-hostnamed', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-localed', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-logind', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-timedated', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PN}-pam', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-services-networkd', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-networkd', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-journal-gatewayd', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'cryptsetup', '${PN}-services-cryptsetup', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'gudev', 'udev-dbg', '', d)} \
+>> +        ${@bb.utils.contains('PACKAGECONFIG', 'x11', '${PN}-services-multi-seat-x', '', d)} \
+>> +"
+>
 
 
