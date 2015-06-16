@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 47E0373C63
+	by mail.openembedded.org (Postfix) with ESMTP id 733F973C63
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 14:22:44 +0000 (UTC)
+	Tue, 16 Jun 2015 14:22:47 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Jun 2015 07:22:46 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 16 Jun 2015 07:22:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,626,1427785200"; d="scan'208";a="744450001"
+X-IronPort-AV: E=Sophos;i="5.13,626,1427785200"; d="scan'208";a="744450016"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2015 07:22:30 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2015 07:22:39 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jun 2015 17:22:56 +0300
-Message-Id: <7caff07dc78b34099f3dcb5f5a76bd824ac6f36e.1434464336.git.jussi.kukkonen@intel.com>
+Date: Tue, 16 Jun 2015 17:22:57 +0300
+Message-Id: <f695a9f8ea4c35b040d98d2793153fba91771ec5.1434464336.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <7ef640d8e47d0705c7f06afdbc1ba24ad52eca5b.1434464336.git.jussi.kukkonen@intel.com>
 References: <7ef640d8e47d0705c7f06afdbc1ba24ad52eca5b.1434464336.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1434464336.git.jussi.kukkonen@intel.com>
 References: <cover.1434464336.git.jussi.kukkonen@intel.com>
-Subject: [PATCH v3 4/6] matchbox-session-sato: set GTK_CSD env var
+Subject: [PATCH v3 5/6] sato-icon-theme: Inherit Adwaita, not gnome-icon-theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 14:22:46 -0000
+X-List-Received-Date: Tue, 16 Jun 2015 14:22:47 -0000
 
-Sato practically requires server side decorations as matchbox panel
-draws on top of the title bar. Setting "GTK_CSD=0" informs GTK+3
-that we really want server side decorations even for apps designed
-for CSD.
+Adwaita is the current GNOME icon theme.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-sato/matchbox-sato/matchbox-session-sato/session | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-index a3138b6..42ce483 100644
---- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-+++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato/session
-@@ -14,6 +14,10 @@ else
-     KEYBOARD_APPLET="keyboard"
- fi
- 
-+# Tell GTK+3 we really want server side decorations, even with
-+# GtkHeaderBar using applications: Without that mb-panel will render
-+# on top of the client side decorations.
-+export GTK_CSD=0
- 
- matchbox-desktop &
- 
+diff --git a/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch b/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
+index fa595dc..2c176ee 100644
+--- a/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
++++ b/meta/recipes-sato/sato-icon-theme/sato-icon-theme/0001-Inherit-the-GNOME-icon-theme.patch
+@@ -22,7 +22,7 @@ index c4b03a7..688fbbf 100644
+  [Icon Theme]
+  Name=Sato
+  Comment=Sato icon theme
+-+Inherits=gnome
+++Inherits=Adwaita
+  
+  Directories=16x16/apps,16x16/status,16x16/stock,16x16/places,16x16/mimetypes,16x16/devices,16x16/actions,22x22/apps,22x22/status,22x22/stock,22x22/places,22x22/mimetypes,22x22/devices,22x22/actions,32x32/apps,32x32/status,32x32/stock,32x32/places,32x32/mimetypes,32x32/devices,32x32/actions,48x48/apps,48x48/status,48x48/stock,48x48/places,48x48/mimetypes,48x48/devices,48x48/actions,64x64/apps,64x64/status,64x64/stock,64x64/places,64x64/mimetypes,64x64/devices,64x64/actions,
+  
 -- 
 2.1.4
 
