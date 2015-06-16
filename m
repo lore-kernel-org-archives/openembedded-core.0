@@ -1,35 +1,38 @@
 Return-Path: <jkrishnanjanappa@mvista.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E26374051
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by mail.openembedded.org (Postfix) with ESMTP id ED2A274051
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 10:48:38 +0000 (UTC)
-Received: by pacyx8 with SMTP id yx8so10544089pac.2
+	Tue, 16 Jun 2015 10:48:46 +0000 (UTC)
+Received: by pdbki1 with SMTP id ki1so11848930pdb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 03:48:40 -0700 (PDT)
+	Tue, 16 Jun 2015 03:48:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cOkoJ3M9WopaoDcQZizdQGIOZGxSuFgwRsg213mEqGg=;
-	b=ltNmzS44FOt90dxoG8ubUqjefFk+U2GwR2C/MkD4PjVPxgybgA3kfg7lL2+5NbnA9n
-	bYPEHPcmDVgmmE3dXYvoyVvgBBKpySPehJCxARLgZfLxtGKURjrMg/ELk8EKfH7BmA12
-	XrX2FVUvUO5KvFysBKm5iFcYK6mwU0770vkzpFpmxs3ihfnBxJaGoLffQxHvpcOxGf/w
-	ot2NmeLyQUW30YRbRssNUZT7VmRkqiLwaFHQqpnDT0g29jBFurpjLAKiYKLnzBNoROn5
-	tq+yFqGulSJSdVkE5lT0HZ0ZN1ExfA30lq56GujD9BE++ZClnnjRN475liK1z5KmUmLg
-	bzww==
-X-Gm-Message-State: ALoCoQl0iUTE9Xq3rLhczLp9w1TZPROuVSKKDXHLZ2pm9lZpTVN3u6M7+jpHUon4FMHerLjGCr8b
-X-Received: by 10.70.22.131 with SMTP id d3mr57331284pdf.67.1434451720001;
-	Tue, 16 Jun 2015 03:48:40 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=AhKnc3+EsOZWg+Di8cjKxndwmMzlsyMhBHXzG71xGpY=;
+	b=CyB0wqvVXaYBuf7nIwq7CoAritO99fIKKKCJGYt8uLX3Zf229KVM9WImLqlOFHW+lQ
+	HZqR3D0+E8E2n6pW8omK3uMgJy5Da3aEquBd0LZMebG1KYD6u0kXlhZ5ona1lft1FC1A
+	rKMbf7fDEeDh+YCRbMbleT0+Ei72wrQ/msITADqrB+jht0Bp5IvP6ebaFQlhaJErIW/5
+	SwS3vhYEe3XNojV3h0uT8RYPidNny4zlHWodAybmFueO8CwW+8ew6msKpd2xRlm+5uui
+	XfPVjTM/KKPMz58Zi6nQHNlylbmWa/q0vOGLATORHPmSt09l498L5VwcZRKIFsVYlRMK
+	k5FA==
+X-Gm-Message-State: ALoCoQmeDICk0trXDgurR9Mcge4ouZhdMFGObfjXkqglVTF5dNtPVWSKMk5hUbVkVIKoTEm8FEXa
+X-Received: by 10.68.218.231 with SMTP id pj7mr46938310pbc.155.1434451728069; 
+	Tue, 16 Jun 2015 03:48:48 -0700 (PDT)
 Received: from ubuntu64.mvista.com ([111.93.218.67])
-	by mx.google.com with ESMTPSA id cf1sm955541pdb.41.2015.06.16.03.48.38
+	by mx.google.com with ESMTPSA id cf1sm955541pdb.41.2015.06.16.03.48.46
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 16 Jun 2015 03:48:39 -0700 (PDT)
+	Tue, 16 Jun 2015 03:48:47 -0700 (PDT)
 From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jun 2015 16:18:27 +0530
-Message-Id: <1434451710-2526-1-git-send-email-jkrishnanjanappa@mvista.com>
+Date: Tue, 16 Jun 2015 16:18:28 +0530
+Message-Id: <1434451710-2526-2-git-send-email-jkrishnanjanappa@mvista.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH v2][fido 1/4] runqemu: fix MACHINE being detected as qemuarm for qemuarm64 kernel image
+In-Reply-To: <1434451710-2526-1-git-send-email-jkrishnanjanappa@mvista.com>
+References: <1434451710-2526-1-git-send-email-jkrishnanjanappa@mvista.com>
+Subject: [PATCH v2][fido 2/4] runqemu-script: define console for qemuarm NFS booting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,39 +45,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 10:48:39 -0000
+X-List-Received-Date: Tue, 16 Jun 2015 10:48:47 -0000
 
-Basically, runqemu script autodetects MACHINE type based on the
-kernel image name; if MACHINE name is not specified. Since 'qemuarm'
-string is common in both qemuarm amnd qemuarm64 kernel image names, the
-MACHINE type is considered as 'qemuarm' even when qemuarm64 kernel
-image name is given in command line.
+Add console=ttyAMA0,115200 as one of the boot parameters
+for qemuarm, in order to print bootlog messages on the
+console.
 
 Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 ---
- scripts/runqemu | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/runqemu-internal | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 84ece4d..09c507d 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -232,13 +232,13 @@ fi
- 
- if [ -z "$MACHINE" ]; then
-     if [ "x$FSTYPE" = "xvmdk" ]; then
--        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $VM | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from vmdk filename [$VM]"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 2db5566..dc0e053 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -368,7 +368,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
+             cleanup
+             return 1
          fi
-         echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
-     else
--        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-+        MACHINE=`basename $KERNEL | sed -n 's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
-         if [ -z "$MACHINE" ]; then
-             error "Unable to set MACHINE from kernel filename [$KERNEL]"
-         fi
+-        KERNCMDLINE="root=/dev/nfs nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
++        KERNCMDLINE="root=/dev/nfs nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw console=ttyAMA0,115200 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+         QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} --no-reboot $QEMU_UI_OPTIONS"
+     fi
+     if [ "$MACHINE" = "qemuarmv6" ]; then
 -- 
 1.9.1
 
