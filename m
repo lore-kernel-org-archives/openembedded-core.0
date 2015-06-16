@@ -1,30 +1,38 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id EFDEB60557
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 3046860557
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 18:24:53 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id C2BF9D40050;
-	Tue, 16 Jun 2015 20:24:53 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id AD1ADD40040;
-	Tue, 16 Jun 2015 20:24:52 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=0.2 required=5.0 tests=BAYES_00,RDNS_DYNAMIC
-	autolearn=no version=3.3.2
-Received: from rhein2.am93.sysmocom.de
-	(ip5b41c286.dynamic.kabel-deutschland.de [91.65.194.134])
-	by mail.familie-heinold.de (Postfix) with ESMTPSA;
-	Tue, 16 Jun 2015 20:24:52 +0200 (CEST)
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jun 2015 20:24:49 +0200
-Message-Id: <1434479089-7405-1-git-send-email-henning@itconsulting-heinold.de>
-X-Mailer: git-send-email 1.9.1
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: [PATCH V2] python-2.7/3.4-manifest.inc: add missing dependencies for python-netserver
+	Tue, 16 Jun 2015 18:46:41 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 537973156282;
+	Tue, 16 Jun 2015 20:46:41 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id xQ5eKudMcX-0; Tue, 16 Jun 2015 20:46:37 +0200 (CEST)
+Received: from [172.22.22.61] (55d44892.access.ecotel.net [85.212.72.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 98B323155608;
+	Tue, 16 Jun 2015 20:46:37 +0200 (CEST)
+Message-ID: <55806F0C.2080902@opendreambox.org>
+Date: Tue, 16 Jun 2015 20:46:36 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+References: <1431553871-23972-1-git-send-email-bruno.bottazzini@intel.com>	
+	<1431553871-23972-4-git-send-email-bruno.bottazzini@intel.com>	
+	<5553D30E.9010201@opendreambox.org>	
+	<1432041528.13734.8.camel@bottazzini-ThinkPad-T430>	
+	<1433523167.26250.16.camel@bottazzini-ThinkPad-T430>
+	<1434478275.2661.3.camel@bottazzini-ThinkPad-T430>
+In-Reply-To: <1434478275.2661.3.camel@bottazzini-ThinkPad-T430>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V5 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,85 +45,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 18:25:03 -0000
+X-List-Received-Date: Tue, 16 Jun 2015 18:46:45 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-* SimpleHTTPServer imports shutil so we need
-  definitly python-shell
+Hello Bruno,
 
-* SocketServer can be run without the threading modul,
-  but I think we should run the full blown stuff, so
-  let us add python-threading
+On 16.06.2015 20:11, Bottazzini, Bruno wrote:
+> Ping
+> 
+> On Sex, 2015-06-05 at 13:52 -0300, Bottazzini, Bruno wrote:
+>> Ping.
+>>
+>> On Ter, 2015-05-19 at 10:18 -0300, Bottazzini, Bruno wrote:
+>>> On Qui, 2015-05-14 at 00:41 +0200, Andreas Oberritter wrote:
+>>>> Hello Bruno,
+>>>>
+>>>> On 13.05.2015 23:51, Bruno Bottazzini wrote:
+>>>>> +########################################################################
+>>>>> +# Aggregation of Split Packages
+>>>>> +########################################################################
+>>>>> +PACKAGES =+ "${PN}-services-base"
+>>>>> +SUMMARY_${PN}-services-base = "Base services aggregation"
+>>>>> +ALLOW_EMPTY_${PN}-services-base = "1"
+>>>>> +RDEPENDS_${PN}-services-base = " \
+>>>>
+>>>> I think it would be better to use RRECOMMENDS, in order to support
+>>>> BAD_RECOMMENDATIONS per image. This would also remove the need to use
+>>>> bb.utils.contains, because unavailable recommended packages get ignored
+>>>> by the package managers.
+>>>
+>>> I don't think if we should use RRECOMENDS. 
+>>>
+>>> There are some packages described in services-base that it is not on the
+>>> default PACKAGECONFIG.
+>>>
+>>> With RRECOMENDS and with out bb.utils.contains, it will install all the
+>>> packages that it is described on the recipe and this is not the behavior
+>>> we are looking for.
+>>>
+>>>>
+>>>> Besides that, I wonder whether ${PN}-services would be a better name,
+>>>> because the -base suffix suggests that it contained only the most
+>>>> important services.
+>>>
+>>> Sure, we can change it.
+>>>
 
-* this work was sponsored by sysmocom GmbH
+I guess your patch wasn't applied, because your last answer let expect a
+follow-up patch.
 
-Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
- meta/recipes-devtools/python/python-3.4-manifest.inc | 4 ++--
- scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
- scripts/contrib/python/generate-manifest-3.4.py      | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
+There may be other reasons I don't know about (complexity for example).
+Note that I'm not the maintainer of this recipe. I just shared my
+thoughts as a user.
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index 4cd7a0c..9ba9c7f 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -170,7 +170,7 @@ RDEPENDS_${PN}-netclient="${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-l
- FILES_${PN}-netclient="${libdir}/python2.7/*Cookie*.* ${libdir}/python2.7/base64.* ${libdir}/python2.7/cookielib.* ${libdir}/python2.7/ftplib.* ${libdir}/python2.7/gopherlib.* ${libdir}/python2.7/hmac.* ${libdir}/python2.7/httplib.* ${libdir}/python2.7/mimetypes.* ${libdir}/python2.7/nntplib.* ${libdir}/python2.7/poplib.* ${libdir}/python2.7/smtplib.* ${libdir}/python2.7/telnetlib.* ${libdir}/python2.7/urllib.* ${libdir}/python2.7/urllib2.* ${libdir}/python2.7/urlparse.* ${libdir}/python2.7/uuid.* ${libdir}/python2.7/rfc822.* ${libdir}/python2.7/mimetools.* "
- 
- SUMMARY_${PN}-netserver="Python Internet Protocol servers"
--RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient"
-+RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading"
- FILES_${PN}-netserver="${libdir}/python2.7/cgi.* ${libdir}/python2.7/*HTTPServer.* ${libdir}/python2.7/SocketServer.* "
- 
- SUMMARY_${PN}-numbers="Python number APIs"
-diff --git a/meta/recipes-devtools/python/python-3.4-manifest.inc b/meta/recipes-devtools/python/python-3.4-manifest.inc
-index b0f46c3..557acdf 100644
---- a/meta/recipes-devtools/python/python-3.4-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.4-manifest.inc
-@@ -1,6 +1,6 @@
- 
- # WARNING: This file is AUTO GENERATED: Manual edits will be lost next time I regenerate the file.
--# Generator: './generate-manifest-3.4.py' Version 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
-+# Generator: '../../../scripts/contrib/python/generate-manifest-3.4.py' Version 20140131 (C) 2002-2010 Michael 'Mickey' Lauer <mlauer@vanille-media.de>
- # Visit the Python for Embedded Systems Site => http://www.Vanille.de/projects/python.spy
- 
-  
-@@ -154,7 +154,7 @@ RDEPENDS_${PN}-netclient="${PN}-core ${PN}-crypt ${PN}-datetime ${PN}-io ${PN}-l
- FILES_${PN}-netclient="${libdir}/python3.4/*Cookie*.* ${libdir}/python3.4/base64.* ${libdir}/python3.4/cookielib.* ${libdir}/python3.4/ftplib.* ${libdir}/python3.4/gopherlib.* ${libdir}/python3.4/hmac.* ${libdir}/python3.4/httplib.* ${libdir}/python3.4/mimetypes.* ${libdir}/python3.4/nntplib.* ${libdir}/python3.4/poplib.* ${libdir}/python3.4/smtplib.* ${libdir}/python3.4/telnetlib.* ${libdir}/python3.4/urllib ${libdir}/python3.4/uuid.* ${libdir}/python3.4/rfc822.* ${libdir}/python3.4/mimetools.* "
- 
- SUMMARY_${PN}-netserver="Python Internet Protocol servers"
--RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient"
-+RDEPENDS_${PN}-netserver="${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading"
- FILES_${PN}-netserver="${libdir}/python3.4/cgi.* ${libdir}/python3.4/*HTTPServer.* ${libdir}/python3.4/SocketServer.* "
- 
- SUMMARY_${PN}-numbers="Python number APIs"
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index 922ebe4..a368c8a 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -310,7 +310,7 @@ if __name__ == "__main__":
-     "*Cookie*.* " +
-     "base64.* cookielib.* ftplib.* gopherlib.* hmac.* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib.* urllib2.* urlparse.* uuid.* rfc822.* mimetools.*" )
- 
--    m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient",
-+    m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading",
-     "cgi.* *HTTPServer.* SocketServer.*" )
- 
-     m.addPackage( "${PN}-numbers", "Python number APIs", "${PN}-core ${PN}-lang ${PN}-re",
-diff --git a/scripts/contrib/python/generate-manifest-3.4.py b/scripts/contrib/python/generate-manifest-3.4.py
-index 427367c..569fd3c 100755
---- a/scripts/contrib/python/generate-manifest-3.4.py
-+++ b/scripts/contrib/python/generate-manifest-3.4.py
-@@ -310,7 +310,7 @@ if __name__ == "__main__":
-     "*Cookie*.* " +
-     "base64.* cookielib.* ftplib.* gopherlib.* hmac.* httplib.* mimetypes.* nntplib.* poplib.* smtplib.* telnetlib.* urllib  uuid.* rfc822.* mimetools.*" )
- 
--    m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient",
-+    m.addPackage( "${PN}-netserver", "Python Internet Protocol servers", "${PN}-core ${PN}-netclient ${PN}-shell ${PN}-threading",
-     "cgi.* *HTTPServer.* SocketServer.*" )
- 
-     m.addPackage( "${PN}-numbers", "Python number APIs", "${PN}-core ${PN}-lang ${PN}-re",
--- 
-1.9.1
+Regards,
+Andreas
 
