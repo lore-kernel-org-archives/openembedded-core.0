@@ -1,30 +1,23 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B64AC6AC37;
-	Tue, 16 Jun 2015 12:39:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jun 2015 05:39:25 -0700
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7386F73F9E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jun 2015 13:23:06 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jun 2015 06:23:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,626,1427785200"; d="scan'208";a="747612327"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
-	([10.237.68.143])
-	by orsmga002.jf.intel.com with ESMTP; 16 Jun 2015 05:39:22 -0700
-Message-ID: <55801903.4040905@linux.intel.com>
-Date: Tue, 16 Jun 2015 15:39:31 +0300
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
-MIME-Version: 1.0
-To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>
-References: <557E9EFE.1030703@linux.intel.com>	<CALbNGRS9UWjVQQh8POPc5zVYOeYa9VaeC7dEfzH3AMs4k9Mjzw@mail.gmail.com>	<CAJTo0LbRVqw3h_3igs59=DTnaz6nf4w=A5ZpXepmh6xiKtVdPA@mail.gmail.com>	<557EE4C2.501@linux.intel.com>
-	<CALbNGRS-xR52wapA2viFa0oZJ6kotFdjhXpb6kyOtpRyn--5=A@mail.gmail.com>
-In-Reply-To: <CALbNGRS-xR52wapA2viFa0oZJ6kotFdjhXpb6kyOtpRyn--5=A@mail.gmail.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-Subject: Re: Webkit-gtk will be updated to latest upstream; midori browser to be replaced with Epiphany
+X-IronPort-AV: E=Sophos;i="5.13,626,1427785200"; d="scan'208";a="509160649"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Jun 2015 06:23:09 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 58E7A6A4005;
+	Tue, 16 Jun 2015 06:22:31 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jun 2015 14:29:20 +0300
+Message-Id: <1434454160-6541-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH v2] wic: Return error code when wic fails to invoke command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,29 +30,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 12:39:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 16 Jun 2015 13:23:07 -0000
 
-On 06/16/2015 09:50 AM, Andreas Müller wrote:
+Return 1 if command doesn't exist or wic is called without
+any commmand.
+Return result of invoke_command as wic return code.
 
-> How about doing same as others do e.g fedora [1-2]: Keep two version
-> of webkit-gtk based on same recent code:
->
-> * gtk2/webkit1
-> * gtk3/webkit2
+Added tests for unsupported command and no command.
 
-Before showing how, you need to explain why. Fedora has to package 
-webkit1 because they have a lot of apps in the Gnome stack that still 
-haven't been ported to webkit2. Oe-core on the other hand has only one 
-such app: midori.
+Fixed typo in test case test02_createhelp spotted by this fix.
 
-Also, webkit1 has been deprecated for years, and there is no commitment 
-from upstream to maintain the 2.4.x series which is the last that still 
-has it in the source tree; they may cease to do it at any moment. So 
-once again, why keep it in oe-core?
+[YOCTO #7856]
 
-Regards,
-Alex
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 11 ++++++++++-
+ scripts/lib/image/help.py     |  2 ++
+ scripts/wic                   |  2 +-
+ 3 files changed, 13 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 0e3f1f6..ca8fe99 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -52,7 +52,7 @@ class Wic(oeSelfTest):
+ 
+     def test02_createhelp(self):
+         """Test wic create --help"""
+-        self.assertEqual(0, runCmd('wic creat --help').status)
++        self.assertEqual(0, runCmd('wic create --help').status)
+ 
+     def test03_listhelp(self):
+         """Test wic list --help"""
+@@ -82,3 +82,12 @@ class Wic(oeSelfTest):
+         self.assertEqual(0, runCmd("wic create directdisk-gpt "
+                                    "--image-name core-image-minimal").status)
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
++
++    def test07_unsupported_subcommand(self):
++        """Test unsupported subcommand"""
++        self.assertEqual(1, runCmd('wic unsupported',
++                         ignore_status=True).status)
++
++    def test08_no_command(self):
++        """Test wic without command"""
++        self.assertEqual(1, runCmd('wic', ignore_status=True).status)
+diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
+index adfe976..a546c7c 100644
+--- a/scripts/lib/image/help.py
++++ b/scripts/lib/image/help.py
+@@ -63,11 +63,13 @@ def invoke_subcommand(args, parser, main_command_usage, subcommands):
+     if not args:
+         logging.error("No subcommand specified, exiting")
+         parser.print_help()
++        return 1
+     elif args[0] == "help":
+         wic_help(args, main_command_usage, subcommands)
+     elif args[0] not in subcommands:
+         logging.error("Unsupported subcommand %s, exiting\n" % (args[0]))
+         parser.print_help()
++        return 1
+     else:
+         usage = subcommands.get(args[0], subcommand_error)[1]
+         subcommands.get(args[0], subcommand_error)[0](args[1:], usage)
+diff --git a/scripts/wic b/scripts/wic
+index cf96859..d48e45d 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -305,7 +305,7 @@ def main(argv):
+                 parser.print_help()
+                 sys.exit(1)
+ 
+-    hlp.invoke_subcommand(args, parser, hlp.wic_help_usage, subcommands)
++    return hlp.invoke_subcommand(args, parser, hlp.wic_help_usage, subcommands)
+ 
+ 
+ if __name__ == "__main__":
+-- 
+2.1.4
 
 
