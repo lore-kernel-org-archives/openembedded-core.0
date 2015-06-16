@@ -1,24 +1,32 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7418A758DE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D7A67413A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 14:22:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Jun 2015 07:22:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,626,1427785200"; d="scan'208";a="744450027"
-Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2015 07:22:40 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jun 2015 17:22:58 +0300
-Message-Id: <864f523c235db3e1df75e35e5fb640e129ad12f3.1434464336.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <7ef640d8e47d0705c7f06afdbc1ba24ad52eca5b.1434464336.git.jussi.kukkonen@intel.com>
-References: <7ef640d8e47d0705c7f06afdbc1ba24ad52eca5b.1434464336.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1434464336.git.jussi.kukkonen@intel.com>
-References: <cover.1434464336.git.jussi.kukkonen@intel.com>
-Subject: [PATCH v3 6/6] midori: Depend on Adwaita, not gnome-icon-theme
+	Tue, 16 Jun 2015 14:32:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5GEWssY013718; Tue, 16 Jun 2015 15:32:54 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id F5N_YLRgAxPB; Tue, 16 Jun 2015 15:32:54 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5GEWffM013709
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 16 Jun 2015 15:32:53 +0100
+Message-ID: <1434465161.19270.17.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Changhyeok Bae <changhyeok.bae@lge.com>
+Date: Tue, 16 Jun 2015 15:32:41 +0100
+In-Reply-To: <022401d0a7f5$f1102e60$d3308b20$@lge.com>
+References: <1433826505-23893-1-git-send-email-changhyeok.bae@lge.com>
+	<1434351291.28975.265.camel@linuxfoundation.org>
+	<022401d0a7f5$f1102e60$d3308b20$@lge.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: =?UTF-8?Q?=EC=9D=B4=EB=AA=85=EA=B5=AC?= <myonggu.lee@lge.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] {python, python3}-native: fix TypeError
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +39,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 14:22:49 -0000
+X-List-Received-Date: Tue, 16 Jun 2015 14:33:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Adwaita is the current GNOME icon theme.
+On Tue, 2015-06-16 at 14:33 +0900, Changhyeok Bae wrote:
+> Doesn't this mean BUILD_SYS or HOST_SYS weren't set in the environment?
+> -> You're right. The default env value of BUILD_SYS and HOST_SYS is "" (empty).
+> -> I wonder that the original patch (12-distutils-prefix-is-inside-staging-area.patch) to add  is required?
+> 
+> Wouldn't this patch just mean you get a value of something like "None"?
+> -> My patch is to prevent errors in runtime.
+> -> Do you have any other good idea?
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-sato/midori/midori_0.5.8.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+My concern is that just having a value of "None" means the code trying
+to use this variable will probably do the wrong thing. We should try and
+fix the underlying problem of BUILD_SYS bot being set when it should be,
+rather than just hide the runtime error.
 
-diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
-index aa1b395..1c027fe4 100644
---- a/meta/recipes-sato/midori/midori_0.5.8.bb
-+++ b/meta/recipes-sato/midori/midori_0.5.8.bb
-@@ -26,6 +26,6 @@ EXTRA_OECMAKE = " \
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
- 
--RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
-+RRECOMMENDS_${PN} += "glib-networking ca-certificates adwaita-icon-theme"
- 
- FILES_${PN} += "${datadir}/appdata"
--- 
-2.1.4
+How you do that depends on when the runtime error is occurring which I
+know little about...
+
+Cheers,
+
+Richard
+
+
 
 
