@@ -1,36 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
-	by mail.openembedded.org (Postfix) with ESMTP id EF86A601F7;
-	Tue, 16 Jun 2015 14:40:06 +0000 (UTC)
-Received: by wgv5 with SMTP id 5so13953539wgv.1;
-	Tue, 16 Jun 2015 07:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=3g+5qgT+Qb7OCSrUS2FTPcp0HLrxcuVBvsnUQNXWP4g=;
-	b=p90ns+IkOYh3SvaHo3/W+NkAPKKC8CrjRZFks7/D+BXjIdtvK3o4j7jNj3xXEndR5n
-	eUwmxacUbJINFn9vVk8KRez7SLZBeHsrJWy767xq4pSnv+7yYXlQ/yaieezdmoUJ7ozs
-	r405LgdiK+FYQiwvrJCbfFLzxRl69ebsvjTQCNnGZxSkp+16BgmgU8E9tjjyr2ODKA4u
-	pDIee16kfktUlBvIRBFo45sVZP0VJ4xOOnhXSv2krrnStu3rj/LUjXj1OouhlT3Q/Ykd
-	6f9WWE9Nhk1dJH5GqlbMQ4lEKv63B5DmyQTHBcM8ska91xU4CSmU2tmebQcYTnTncvua
-	76Jw==
-X-Received: by 10.180.20.12 with SMTP id j12mr43056226wie.4.1434465604912;
-	Tue, 16 Jun 2015 07:40:04 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id yz3sm1967586wjc.19.2015.06.16.07.40.03
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 16 Jun 2015 07:40:03 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 16 Jun 2015 16:40:13 +0200
-To: openembedded-devel@lists.openembedded.org
-Message-ID: <20150616144013.GC17938@jama>
-References: <55802EE1.6040703@dresearch-fe.de>
-MIME-Version: 1.0
-In-Reply-To: <55802EE1.6040703@dresearch-fe.de>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] multiple git repos vs. AUTOREV?
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5835160557
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jun 2015 18:12:29 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 16 Jun 2015 11:12:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,627,1427785200"; d="scan'208";a="744599760"
+Received: from bottazzini-thinkpad-t430 (HELO [10.218.98.27]) ([10.218.98.27])
+	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2015 11:12:04 -0700
+Message-ID: <1434478275.2661.3.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Date: Tue, 16 Jun 2015 15:11:15 -0300
+In-Reply-To: <1433523167.26250.16.camel@bottazzini-ThinkPad-T430>
+References: <1431553871-23972-1-git-send-email-bruno.bottazzini@intel.com>
+	<1431553871-23972-4-git-send-email-bruno.bottazzini@intel.com>
+	<5553D30E.9010201@opendreambox.org>
+	<1432041528.13734.8.camel@bottazzini-ThinkPad-T430>
+	<1433523167.26250.16.camel@bottazzini-ThinkPad-T430>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V5 3/3] systemd: split modules into packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,61 +35,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 14:40:10 -0000
-X-Groupsio-MsgNum: 66804
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="+nBD6E3TurpgldQp"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 16 Jun 2015 18:12:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---+nBD6E3TurpgldQp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ping
 
-On Tue, Jun 16, 2015 at 04:12:49PM +0200, Steffen Sledz wrote:
-> For development purposes we use this method to build always from the HEAD=
- revision of a git repository.
->=20
-> -------------> snip <--------------
-> SRCREV=3D"${AUTOREV}"
-> PV =3D "gitr${SRCPV}"
->=20
-> SRC_URI =3D "git://git@bitbucket.org/.../foo.git;protocol=3Dssh"
-> -------------> snap <--------------
->=20
-> Now we like to do the same in one recipe which uses sources from two git =
-repos.
->=20
-> Our first try was this one. But if failed..
->=20
-> -------------> snip <--------------
-> SRCREV_foo=3D"${AUTOREV_foo}"
-> SRCREV_bar=3D"${AUTOREV_bar}"
-> PV =3D "gitr${SRCPV_foo}+${SRCPV_bar}"
->=20
-> SRC_URI =3D " \
-> 	git://git@bitbucket.org/.../foo.git;protocol=3Dssh,name=3Dfoo \
-> 	git://git@bitbucket.org/.../bar.git;protocol=3Dssh,name=3Dbar \
-> "
-> -------------> snap <--------------
->=20
-> Is it possible to do what we want? And what's the right way to do it?
+On Sex, 2015-06-05 at 13:52 -0300, Bottazzini, Bruno wrote:
+> Ping.
+> 
+> On Ter, 2015-05-19 at 10:18 -0300, Bottazzini, Bruno wrote:
+> > On Qui, 2015-05-14 at 00:41 +0200, Andreas Oberritter wrote:
+> > > Hello Bruno,
+> > > 
+> > > On 13.05.2015 23:51, Bruno Bottazzini wrote:
+> > > > +########################################################################
+> > > > +# Aggregation of Split Packages
+> > > > +########################################################################
+> > > > +PACKAGES =+ "${PN}-services-base"
+> > > > +SUMMARY_${PN}-services-base = "Base services aggregation"
+> > > > +ALLOW_EMPTY_${PN}-services-base = "1"
+> > > > +RDEPENDS_${PN}-services-base = " \
+> > > 
+> > > I think it would be better to use RRECOMMENDS, in order to support
+> > > BAD_RECOMMENDATIONS per image. This would also remove the need to use
+> > > bb.utils.contains, because unavailable recommended packages get ignored
+> > > by the package managers.
+> > 
+> > I don't think if we should use RRECOMENDS. 
+> > 
+> > There are some packages described in services-base that it is not on the
+> > default PACKAGECONFIG.
+> > 
+> > With RRECOMENDS and with out bb.utils.contains, it will install all the
+> > packages that it is described on the recipe and this is not the behavior
+> > we are looking for.
+> > 
+> > > 
+> > > Besides that, I wonder whether ${PN}-services would be a better name,
+> > > because the -base suffix suggests that it contained only the most
+> > > important services.
+> > 
+> > Sure, we can change it.
+> > 
+> > > 
+> > > Btw., sorry for commenting late again, but it's quite a big patch
+> > > 
+> > > Regards,
+> > > Andreas
+> > > 
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'ask-password', '${PN}-services-ask-password', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'backlight', '${PN}-services-backlight', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-services-binfmt', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'dbus', '${PN}-services-dbus', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'firstboot', '${PN}-services-firstboot', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'fuse', '${PN}-services-fuse', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'quota', '${PN}-services-quota', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'rfkill', '${PN}-services-rfkill', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '${PN}-services-timesyncd', '', d)}  \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'update', '${PN}-services-update', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'vconsole', '${PN}-services-vconsole', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'filesystems', '${PN}-generators-filesystems', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'preset', '${PN}-preset', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'fsck', '${PN}-services-fsck', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'journal', '${PN}-services-journal', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'modules-load', '${PN}-services-modules-load', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'randomseed', '${PN}-services-randomseed', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'sleep', '${PN}-services-sleep', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'sysctl', '${PN}-services-sysctl', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'sysusers', '${PN}-services-sysusers', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'tmpfiles', '${PN}-services-tmpfiles', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'udev', '${PN}-services-udev', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'tools', '${PN}-tools', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'bash', '${PN}-bash', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'initramfs', '${PN}-initramfs', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'kernel-install', '${PN}-kernel-install', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'rpm-macros', '${PN}-rpm-macros', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'zsh', '${PN}-zsh', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'bootchart', '${PN}-services-bootchart', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'debug', '${PN}-services-debug', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'machined', '${PN}-services-machined', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'nspawn', '${PN}-services-nspawn', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'sysvcompat', '${PN}-services-sysvcompat', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-generators-getty', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-services-getty', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'ldconfig', '${PN}-services-ldconfig', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-hostnamed', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-localed', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-logind', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-timedated', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PN}-pam', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-services-networkd', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-networkd', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-journal-gatewayd', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'cryptsetup', '${PN}-services-cryptsetup', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'gudev', 'udev-dbg', '', d)} \
+> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'x11', '${PN}-services-multi-seat-x', '', d)} \
+> > > > +"
+> > > 
+> > 
+> > 
+> > 
+> 
+> 
 
-You need to set SRCREV_FORMAT variable.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---+nBD6E3TurpgldQp
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWANU0ACgkQN1Ujt2V2gBwWlwCfWE7OgBkljhULTw49TjXXH0uM
-/wgAn0vIoe3bsctOaFW9asZ2d1HTfKN6
-=C8Y+
------END PGP SIGNATURE-----
-
---+nBD6E3TurpgldQp--
