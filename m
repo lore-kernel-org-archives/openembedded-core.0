@@ -1,28 +1,24 @@
-Return-Path: <Liezhi.Yang@windriver.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 16525740C4
+	by mail.openembedded.org (Postfix) with ESMTP id B414460962
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 02:20:24 +0000 (UTC)
+	Tue, 16 Jun 2015 02:57:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5G2KOXt013504
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Jun 2015 19:20:24 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 15 Jun 2015 19:20:24 -0700
-Message-ID: <557F87E6.3000002@windriver.com>
-Date: Tue, 16 Jun 2015 10:20:22 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5G2v7F9015901
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Jun 2015 19:57:07 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 15 Jun 2015 19:57:07 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Jun 2015 10:50:04 +0800
+Message-ID: <1434423004-14647-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1434013682.git.liezhi.yang@windriver.com>	<135be24d84523a7ccfc166283a659109f238c713.1434013682.git.liezhi.yang@windriver.com>	<CAJTo0LZgSPeeWf02swV4d7Aq_XxdywM+kogYboMuvTRUtAD66w@mail.gmail.com>
-	<557F81FE.5050106@windriver.com>
-In-Reply-To: <557F81FE.5050106@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libpcap: fix PACKAGECONFIG
+Subject: [PATCH] babeltrace: Fix invalid pointer free with trace collection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,91 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 02:20:27 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jun 2015 02:57:08 -0000
+Content-Type: text/plain
 
+From: Roy Li <rongqing.li@windriver.com>
 
+This fixed the bug https://bugs.lttng.org/issues/790
 
-On 06/16/2015 09:55 AM, Robert Yang wrote:
->
-> On 06/15/2015 07:52 PM, Burton, Ross wrote:
->>
->> On 11 June 2015 at 10:08, Robert Yang <liezhi.yang@windriver.com
->> <mailto:liezhi.yang@windriver.com>> wrote:
->>
->>     The BLUEZ is default to bluez5, but there is only PACKAGECONFIG[bluez4],
->>     no PACKAGECONFIG[bluez5], and the current version of libpcap (or the
->>     higher version 1.7.3) only supports bluez4, we can't use
->>     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
->>     for PACKAGECONFIG any more since BLUEZ is default to bluez5, and not
->>     supported, and there is no bluez4 in oe-core any more, set PACKAGECONFIG
->> to ""
->>     by default, other layers where bluez4 is available can enable it via
->> bbappend.
->>
->>
->> So the point of this logic is that simply removing bluez5 from DISTRO_FEATURES
->> results in bluez4 being enabled where relevant, which you're removing.
->>
->> Would a better fix would be to have a dummy (empty) bluez5 stanza?
->
-> Hi Ross,
->
-> The code was:
-> PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth',
-> '${BLUEZ}', '', d)}"
-> PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
->
-> BLUEZ is default to bluez5, did you mean that we add a line like:
-> PACKAGECONFIG[bluez5] = ",,"
-> or
-> PACKAGECONFIG[bluez5] = ",--disable-bluetooth,"
-
-Hi Ross,
-
-After more thoughts, add a dummy PACKAGECONFIG can avoid confusing
-the user, and avoid the warning, so I updated in the repo:
-
-   git://git.openembedded.org/openembedded-core-contrib rbt/pkgconfig
-
-
-The BLUEZ is default to bluez5, but there is only PACKAGECONFIG[bluez4],
-no PACKAGECONFIG[bluez5], add a dummy PACKAGECONFIG for bluez5 to avoid
-confusing the user, and avoid the warning.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
-  meta/recipes-connectivity/libpcap/libpcap.inc |    2 ++
-  1 file changed, 2 insertions(+)
+ ...nvalid-pointer-free-with-trace-collection.patch | 44 ++++++++++++++++++++++
+ meta/recipes-kernel/lttng/babeltrace_1.2.4.bb      |  4 +-
+ 2 files changed, 47 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap.inc 
-b/meta/recipes-connectivity/libpcap/libpcap.inc
-index 9b059d7..0873c24 100644
---- a/meta/recipes-connectivity/libpcap/libpcap.inc
-+++ b/meta/recipes-connectivity/libpcap/libpcap.inc
-@@ -22,6 +22,8 @@ EXTRA_OECONF = "--with-pcap=linux"
+diff --git a/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch b/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
+new file mode 100644
+index 0000000..3e2c4e1
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/babeltrace/0001-Fix-invalid-pointer-free-with-trace-collection.patch
+@@ -0,0 +1,44 @@
++From e4cad900994cf286d971796a947fea782dfc6651 Mon Sep 17 00:00:00 2001
++From: Francis Giraldeau <francis.giraldeau@gmail.com>
++Date: Mon, 15 Jun 2015 11:43:02 -0400
++Subject: [PATCH] Fix invalid pointer free with trace collection
++
++Upstream-Status: Submitted
++
++Patch proposed by Li RongQing related to bug# 790
++
++Signed-off-by: Mikael Beckius <mikael.beckius@windriver.com>
++Signed-off-by: Francis Giraldeau <francis.giraldeau@gmail.com>
++---
++ lib/context.c | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
++
++diff --git a/lib/context.c b/lib/context.c
++index 45aab34..8d3770f 100644
++--- a/lib/context.c
+++++ b/lib/context.c
++@@ -79,7 +79,7 @@ int bt_context_add_trace(struct bt_context *ctx, const char *path,
++ 	struct bt_trace_descriptor *td;
++ 	struct bt_format *fmt;
++ 	struct bt_trace_handle *handle;
++-	int ret, closeret;
+++	int ret;
++ 
++ 	if (!ctx || !format_name || (!path && !stream_list))
++ 		return -EINVAL;
++@@ -159,10 +159,8 @@ int bt_context_add_trace(struct bt_context *ctx, const char *path,
++ 	return handle->id;
++ 
++ error:
++-	closeret = fmt->close_trace(td);
++-	if (closeret) {
++-		fprintf(stderr, "Error in close_trace callback\n");
++-	}
+++	if (handle)
+++		bt_context_remove_trace(ctx, handle->id);
++ end:
++ 	return ret;
++ }
++-- 
++1.9.1
++
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.2.4.bb b/meta/recipes-kernel/lttng/babeltrace_1.2.4.bb
+index f616146..536be41 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.2.4.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.2.4.bb
+@@ -13,7 +13,9 @@ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+ SRCREV = "90395824efc007de88787a6b8e400a07c980be1c"
+ PV = "1.2.4+git${SRCPV}"
+ 
+-SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.2"
++SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-1.2 \
++           file://0001-Fix-invalid-pointer-free-with-trace-collection.patch \
++"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+1.9.1
 
-  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 
-'${BLUEZ}', '', d)}"
-  PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
-+# Add a dummy PACKAGECONFIG for bluez5 since it is not supported by libpcap.
-+PACKAGECONFIG[bluez5] = ",,"
-  PACKAGECONFIG[canusb] = "--enable-canusb,--enable-canusb=no,libusb"
-  PACKAGECONFIG[dbus] = "--enable-dbus,--disable-dbus,dbus"
-  PACKAGECONFIG[libnl] = "--with-libnl,--without-libnl,libnl"
-
-// Robert
-
->
-> But we didn't need such a line, since when PACKAGECONFIG != bluez4, the
-> --disable-bluetooth will be used.
->
-> Maybe we can simply drop this patch ? I made this patch to avoid confusing
-> the user.
->
-> // Robert
->
->>
->> Ross
 
