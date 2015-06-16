@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DA39F759ED
+	by mail.openembedded.org (Postfix) with ESMTP id 3EDC4759ED
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 08:07:51 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jun 2015 01:07:53 -0700
+	Tue, 16 Jun 2015 08:07:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jun 2015 01:07:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,624,1427785200"; d="scan'208";a="728218271"
+X-IronPort-AV: E=Sophos;i="5.13,624,1427785200"; d="scan'208";a="747464865"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 16 Jun 2015 01:07:52 -0700
+	by orsmga002.jf.intel.com with ESMTP; 16 Jun 2015 01:07:54 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id A24D66A4005;
-	Tue, 16 Jun 2015 01:07:15 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 0B29B6A4005;
+	Tue, 16 Jun 2015 01:07:16 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 16 Jun 2015 09:13:51 +0300
-Message-Id: <1434435234-4892-9-git-send-email-ed.bartosh@linux.intel.com>
+Date: Tue, 16 Jun 2015 09:13:52 +0300
+Message-Id: <1434435234-4892-10-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1434435234-4892-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1434435234-4892-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [PATCH v2 08/11] init-install: Specify partition name in parted command line
+Subject: [PATCH v2 09/11] init-install: code cleanup: Replace tabs with spaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,65 +34,202 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 16 Jun 2015 08:07:52 -0000
 
-parted allows to use names for partitions if GPT partition table
-is used on the device. msdos partitioning can have only partition
-types: 'primary', 'logical' or 'extended'.
-
-Used meaningful partition names in parted command line for GPT
-partitioning.
+Cleaned up spaces from init-install* shell scripts.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
 diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index 7f3e889..a6a8679 100644
+index a6a8679..dca1432 100644
 --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
 +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -134,14 +134,14 @@ echo "Creating new partition table on /dev/${device} ..."
- parted /dev/${device} mklabel gpt
+@@ -24,22 +24,22 @@ echo "Searching for hard drives ..."
  
- echo "Creating boot partition on $bootfs"
--parted /dev/${device} mkpart primary fat32 0% $boot_size
-+parted /dev/${device} mkpart boot fat32 0% $boot_size
- parted /dev/${device} set 1 boot on
+ for device in `ls /sys/block/`; do
+     case $device in
+-	loop*)
++        loop*)
+             # skip loop device
+-	    ;;
+-	sr*)
++            ;;
++        sr*)
+             # skip CDROM device
+-	    ;;
+-	ram*)
++            ;;
++        ram*)
+             # skip ram device
+-	    ;;
+-	*)
+-	    # skip the device LiveOS is on
+-	    # Add valid hard drive name to the list
+-	    if [ $device != $live_dev_name -a -e /dev/$device ]; then
+-		hdnamelist="$hdnamelist $device"
+-	    fi
+-	    ;;
++            ;;
++        *)
++            # skip the device LiveOS is on
++            # Add valid hard drive name to the list
++            if [ $device != $live_dev_name -a -e /dev/$device ]; then
++                hdnamelist="$hdnamelist $device"
++            fi
++            ;;
+     esac
+ done
  
- echo "Creating rootfs partition on $rootfs"
--parted /dev/${device} mkpart primary ext3 $rootfs_start $rootfs_end
-+parted /dev/${device} mkpart root ext3 $rootfs_start $rootfs_end
+@@ -49,8 +49,8 @@ for hdname in $hdnamelist; do
+     echo "-------------------------------"
+     echo /dev/$hdname
+     if [ -r /sys/block/$hdname/device/vendor ]; then
+-	echo -n "VENDOR="
+-	cat /sys/block/$hdname/device/vendor
++        echo -n "VENDOR="
++        cat /sys/block/$hdname/device/vendor
+     fi
+     if [ -r /sys/block/$hdname/device/model ]; then
+         echo -n "MODEL="
+@@ -63,18 +63,17 @@ for hdname in $hdnamelist; do
+     echo
+     # Get user choice
+     while true; do
+-	echo -n "Do you want to install this image there? [y/n] "
+-	read answer
+-	if [ "$answer" = "y" -o "$answer" = "n" ]; then
+-	    break
+-	fi
+-	echo "Please answer y or n"
++        echo -n "Do you want to install this image there? [y/n] "
++        read answer
++        if [ "$answer" = "y" -o "$answer" = "n" ]; then
++            break
++        fi
++        echo "Please answer y or n"
+     done
+     if [ "$answer" = "y" ]; then
+-	TARGET_DEVICE_NAME=$hdname
+-	break
++        TARGET_DEVICE_NAME=$hdname
++        break
+     fi
+-
+ done
  
- echo "Creating swap partition on $swap"
--parted /dev/${device} mkpart primary linux-swap $swap_start 100%
-+parted /dev/${device} mkpart swap linux-swap $swap_start 100%
- 
- parted /dev/${device} print
- 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
-index 10aed07..c57a0f3 100644
---- a/meta/recipes-core/initrdscripts/files/init-install.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh
-@@ -163,17 +163,19 @@ if [ $grub_version -eq 0 ] ; then
- else
-     parted /dev/${device} mktable gpt
-     echo "Creating BIOS boot partition on $bios_boot"
--    parted /dev/${device} mkpart primary 0% $bios_boot_size
-+    parted /dev/${device} mkpart bios_boot 0% $bios_boot_size
-     parted /dev/${device} set 1 bios_grub on
-     echo "Creating boot partition on $bootfs"
--    parted /dev/${device} mkpart primary ext3 $boot_start $boot_size
-+    parted /dev/${device} mkpart boot ext3 $boot_start $boot_size
+ if [ -n "$TARGET_DEVICE_NAME" ]; then
+@@ -170,7 +169,7 @@ if [ -d /tgt_root/etc/ ] ; then
+     echo "UUID=$boot_uuid              /boot            vfat       defaults              1  2" >> /tgt_root/etc/fstab
+     # We dont want udev to mount our root device while we're booting...
+     if [ -d /tgt_root/etc/udev/ ] ; then
+-	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
++        echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
+     fi
  fi
  
- echo "Creating rootfs partition on $rootfs"
--parted /dev/${device} mkpart primary ext3 $rootfs_start $rootfs_end
-+[ $grub_version -eq 0 ] && pname='primary' || pname='root'
-+parted /dev/${device} mkpart $pname ext3 $rootfs_start $rootfs_end
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index c57a0f3..e1e7cb1 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -23,22 +23,22 @@ echo "Searching for hard drives ..."
  
- echo "Creating swap partition on $swap"
--parted /dev/${device} mkpart primary linux-swap $swap_start 100%
-+[ $grub_version -eq 0 ] && pname='primary' || pname='swap'
-+parted /dev/${device} mkpart $pname linux-swap $swap_start 100%
+ for device in `ls /sys/block/`; do
+     case $device in
+-	loop*)
++        loop*)
+             # skip loop device
+-	    ;;
+-	sr*)
++            ;;
++        sr*)
+             # skip CDROM device
+-	    ;;
+-	ram*)
++            ;;
++        ram*)
+             # skip ram device
+-	    ;;
+-	*)
+-	    # skip the device LiveOS is on
+-	    # Add valid hard drive name to the list
+-	    if [ $device != $live_dev_name -a -e /dev/$device ]; then
+-		hdnamelist="$hdnamelist $device"
+-	    fi
+-	    ;;
++            ;;
++        *)
++            # skip the device LiveOS is on
++            # Add valid hard drive name to the list
++            if [ $device != $live_dev_name -a -e /dev/$device ]; then
++                hdnamelist="$hdnamelist $device"
++            fi
++            ;;
+     esac
+ done
  
- parted /dev/${device} print
+@@ -48,8 +48,8 @@ for hdname in $hdnamelist; do
+     echo "-------------------------------"
+     echo /dev/$hdname
+     if [ -r /sys/block/$hdname/device/vendor ]; then
+-	echo -n "VENDOR="
+-	cat /sys/block/$hdname/device/vendor
++        echo -n "VENDOR="
++        cat /sys/block/$hdname/device/vendor
+     fi
+     if [ -r /sys/block/$hdname/device/model ]; then
+         echo -n "MODEL="
+@@ -62,16 +62,16 @@ for hdname in $hdnamelist; do
+     echo
+     # Get user choice
+     while true; do
+-	echo -n "Do you want to install this image there? [y/n] "
+-	read answer
+-	if [ "$answer" = "y" -o "$answer" = "n" ]; then
+-	    break
+-	fi
+-	echo "Please answer y or n"
++        echo -n "Do you want to install this image there? [y/n] "
++        read answer
++        if [ "$answer" = "y" -o "$answer" = "n" ]; then
++            break
++        fi
++        echo "Please answer y or n"
+     done
+     if [ "$answer" = "y" ]; then
+-	TARGET_DEVICE_NAME=$hdname
+-	break
++        TARGET_DEVICE_NAME=$hdname
++        break
+     fi
+ done
  
+@@ -101,7 +101,7 @@ fi
+ 
+ mkdir -p /tmp
+ if [ ! -L /etc/mtab ]; then
+-	cat /proc/mounts > /etc/mtab
++    cat /proc/mounts > /etc/mtab
+ fi
+ 
+ disk_size=$(parted /dev/${device} unit mb print | grep Disk | cut -d" " -f 3 | sed -e "s/MB//")
+@@ -130,8 +130,8 @@ swap_start=$((rootfs_end))
+ rootwait=""
+ part_prefix=""
+ if [ ! "${device#mmcblk}" = "${device}" ]; then
+-	part_prefix="p"
+-	rootwait="rootwait"
++    part_prefix="p"
++    rootwait="rootwait"
+ fi
+ 
+ if [ $grub_version -eq 0 ] ; then
+@@ -211,7 +211,7 @@ if [ -d /tgt_root/etc/ ] ; then
+     echo "$bootdev              /boot            ext3       defaults              1  2" >> /tgt_root/etc/fstab
+     # We dont want udev to mount our root device while we're booting...
+     if [ -d /tgt_root/etc/udev/ ] ; then
+-	echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
++        echo "/dev/${device}" >> /tgt_root/etc/udev/mount.blacklist
+     fi
+ fi
+ umount /tgt_root
 -- 
 2.1.4
 
