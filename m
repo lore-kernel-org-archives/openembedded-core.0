@@ -1,36 +1,23 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id ADD8665C78
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 9421D60962
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 19:09:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 95FBD3155F7D;
-	Tue, 16 Jun 2015 21:09:38 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id CLdu-ngxUpU2; Tue, 16 Jun 2015 21:09:36 +0200 (CEST)
-Received: from [172.22.22.61] (55d44892.access.ecotel.net [85.212.72.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 282A33155F42;
-	Tue, 16 Jun 2015 21:09:36 +0200 (CEST)
-Message-ID: <5580746F.8000305@opendreambox.org>
-Date: Tue, 16 Jun 2015 21:09:35 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Tue, 16 Jun 2015 21:25:24 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 16 Jun 2015 23:25:23 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 116C928BA1E;
+	Tue, 16 Jun 2015 23:25:24 +0200 (CEST)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 16 Jun 2015 23:25:07 +0200
+Message-ID: <1434489907-40606-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Leandro Dorileo <leandro.maciel.dorileo@intel.com>, 
-	Bruno Bottazzini <bruno.bottazzini@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <1431553871-23972-1-git-send-email-bruno.bottazzini@intel.com>
-	<1431553871-23972-4-git-send-email-bruno.bottazzini@intel.com>
-	<5553D30E.9010201@opendreambox.org> <5580690B.9070908@intel.com>
-In-Reply-To: <5580690B.9070908@intel.com>
-Subject: Re: [PATCH V5 3/3] systemd: split modules into packages
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] rt-tests: bump version to v0.92
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,57 +30,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 19:09:41 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jun 2015 21:25:27 -0000
+Content-Type: text/plain
 
-Hello Leandro,
+Version upgrade to v0.92
+Rebased below listed patch to newer source code:
+	added-missing-dependencies.patch
 
-On 16.06.2015 20:20, Leandro Dorileo wrote:
-> On 05/13/2015 07:41 PM, Andreas Oberritter wrote:
->> Hello Bruno,
->>
->> On 13.05.2015 23:51, Bruno Bottazzini wrote:
->>> +########################################################################
->>>
->>> +# Aggregation of Split Packages
->>> +########################################################################
->>>
->>> +PACKAGES =+ "${PN}-services-base"
->>> +SUMMARY_${PN}-services-base = "Base services aggregation"
->>> +ALLOW_EMPTY_${PN}-services-base = "1"
->>> +RDEPENDS_${PN}-services-base = " \
->>
->> I think it would be better to use RRECOMMENDS, in order to support
->> BAD_RECOMMENDATIONS per image. This would also remove the need to use
->> bb.utils.contains, because unavailable recommended packages get ignored
->> by the package managers.
-> 
-> 
-> In the end, isn't it just a different approach? a different way of
-> doing the same thing?
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ .../files/added-missing-dependencies.patch         | 36 +++++++++-------------
+ .../{hwlatdetect_0.91.bb => hwlatdetect_0.92.bb}   |  0
+ meta/recipes-rt/rt-tests/rt-tests.inc              |  6 ++--
+ .../{rt-tests_0.91.bb => rt-tests_0.92.bb}         |  0
+ 4 files changed, 17 insertions(+), 25 deletions(-)
+ rename meta/recipes-rt/rt-tests/{hwlatdetect_0.91.bb => hwlatdetect_0.92.bb} (100%)
+ rename meta/recipes-rt/rt-tests/{rt-tests_0.91.bb => rt-tests_0.92.bb} (100%)
 
-No. Although recommended packages get installed by default, just like
-depended-upon packages, the difference is that you can choose to
-uninstall these packages selectively or to disable automatic
-installation using "BAD_RECOMMENDATIONS".
+diff --git a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch b/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+index e420282..0bf768e 100644
+--- a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
++++ b/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+@@ -1,50 +1,42 @@
+-From 82d28701486ba5a699544a168448bf93b1ccd7b1 Mon Sep 17 00:00:00 2001
+-From: Jackie Huang <jackie.huang@windriver.com>
+-Date: Thu, 6 Dec 2012 11:26:14 +0800
++From 3f948f22d9106a2b957d1d430b16a7c51ccfc067 Mon Sep 17 00:00:00 2001
++From: "Maxin B. John" <maxin.john@enea.com>
++Date: Tue, 16 Jun 2015 22:53:23 +0200
+ Subject: [PATCH] Added missing dependencies
+ 
+ Upstream-Status: Submitted [linux-rt-users]
+ 
+ The following targets missed dependency on librttest.a:
+-pi_stress
+ rt-migrate-test
+ hackbench
+ 
+ Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++Signed-off-by: Maxin B. John <maxin.john@enea.com>
+ ---
+- Makefile |    6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
++ Makefile | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Makefile b/Makefile
+-index fd3cdb3..60707a7 100644
++index a48e759..7a3f192 100644
+ --- a/Makefile
+ +++ b/Makefile
+-@@ -68,14 +68,14 @@ cyclictest: cyclictest.o librttest.a
+- signaltest: signaltest.o librttest.a
+- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+- 
+--pi_stress: pi_stress.o
+-+pi_stress: pi_stress.o librttest.a
+- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
+- 
+- hwlatdetect:  src/hwlatdetect/hwlatdetect.py
++@@ -85,7 +85,7 @@ hwlatdetect:  src/hwlatdetect/hwlatdetect.py
+  	chmod +x src/hwlatdetect/hwlatdetect.py
+  	ln -s src/hwlatdetect/hwlatdetect.py hwlatdetect
+  
+ -rt-migrate-test: rt-migrate-test.o
+ +rt-migrate-test: rt-migrate-test.o librttest.a
+- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
++ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS)
+  
+  ptsematest: ptsematest.o librttest.a
+-@@ -96,7 +96,7 @@ sendme: sendme.o librttest.a
++@@ -106,7 +106,7 @@ sendme: sendme.o librttest.a
+  pip_stress: pip_stress.o librttest.a
+- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
++ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS) $(RTTESTLIB)
+  
+ -hackbench: hackbench.o
+ +hackbench: hackbench.o librttest.a
+- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(LIBS)
++ 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS)
+  
+- librttest.a: rt-utils.o error.o rt-get_cpu.o
++ librttest.a: rt-utils.o error.o rt-get_cpu.o rt-sched.o
+ -- 
+-1.7.9.5
++1.9.1
+ 
+diff --git a/meta/recipes-rt/rt-tests/hwlatdetect_0.91.bb b/meta/recipes-rt/rt-tests/hwlatdetect_0.92.bb
+similarity index 100%
+rename from meta/recipes-rt/rt-tests/hwlatdetect_0.91.bb
+rename to meta/recipes-rt/rt-tests/hwlatdetect_0.92.bb
+diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
+index 68a972a..e63182a 100644
+--- a/meta/recipes-rt/rt-tests/rt-tests.inc
++++ b/meta/recipes-rt/rt-tests/rt-tests.inc
+@@ -1,6 +1,6 @@
+-# Version v0.91
+-PV = "0.91"
+-SRCREV = "3fed00ff8d2c0cdbc5ba078cbd60ce3cfcee615f"
++# Version v0.92
++PV = "0.92"
++SRCREV = "5f9f1e3fe327440a9d405f4af8feb16ff7a909eb"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git \
+            file://0001-rt-tests-Allow-for-user-specified-PYLIB.patch \
+diff --git a/meta/recipes-rt/rt-tests/rt-tests_0.91.bb b/meta/recipes-rt/rt-tests/rt-tests_0.92.bb
+similarity index 100%
+rename from meta/recipes-rt/rt-tests/rt-tests_0.91.bb
+rename to meta/recipes-rt/rt-tests/rt-tests_0.92.bb
+-- 
+1.9.1
 
-If you choose this route, then it doesn't make a difference whether you
-use bb.utils.contains(...) for each package or not when declaring the
-relationship between packages (unless you keep old packages on your
-update feeds). I just mentioned that, because the patch is already hard
-to read and any simplification in syntax may be a plus. I don't think
-it's important though.
-
-> By the way, from my point of view, semantically
-> we're saying "we want a given package feature" besides the "we want a
-> given distro feature", don't you think?
-
-I can't follow you, sorry. At this point, PACKAGECONFIG already
-determined which files got built, installed and packaged. I fail to
-connect this to distro features in this context, besides its use for
-sane defaults of the PACKAGECONFIG variable.
-
-Regards,
-Andreas
 
