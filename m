@@ -1,28 +1,35 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5835160557
+Return-Path: <george.mccollister@gmail.com>
+Received: from mail-oi0-f46.google.com (mail-oi0-f46.google.com
+	[209.85.218.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 198CC737AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 18:12:29 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 16 Jun 2015 11:12:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,627,1427785200"; d="scan'208";a="744599760"
-Received: from bottazzini-thinkpad-t430 (HELO [10.218.98.27]) ([10.218.98.27])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jun 2015 11:12:04 -0700
-Message-ID: <1434478275.2661.3.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Andreas Oberritter <obi@opendreambox.org>
-Date: Tue, 16 Jun 2015 15:11:15 -0300
-In-Reply-To: <1433523167.26250.16.camel@bottazzini-ThinkPad-T430>
-References: <1431553871-23972-1-git-send-email-bruno.bottazzini@intel.com>
-	<1431553871-23972-4-git-send-email-bruno.bottazzini@intel.com>
-	<5553D30E.9010201@opendreambox.org>
-	<1432041528.13734.8.camel@bottazzini-ThinkPad-T430>
-	<1433523167.26250.16.camel@bottazzini-ThinkPad-T430>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V5 3/3] systemd: split modules into packages
+	Tue, 16 Jun 2015 18:13:00 +0000 (UTC)
+Received: by oiyy130 with SMTP id y130so249098oiy.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jun 2015 11:13:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=xbFG526MsmNYmjjsd0iDAGzITOKakqu0TFQQIVpb3SI=;
+	b=C2SMOPPdGZ01vPFgdEflHpTsJ9Az4q0uqBSqqtXauUgWHriK1Sq9VZEa3tpSoPgNzq
+	Nv3pWYurmj5dHuKiCqysvqhbuWCIkfWvZtEwRD7Y8RPVCBGJOZjuhp32PDCaGhKRsT3D
+	eBxdfJgbQ8kjIYcQcX1OuHC3J+RhAK9A3Wu6IqI+203Y9oVPCCDFpv+QqS013KT/a3yo
+	vYZ/Ii/JH2XC/JMpF9v6CrCk0UYCNM/fvPWYLH1fV38NB3S2BZU1VQWpmGMBtHZCA4iS
+	pGPGvjBliZ1+LaMMdMy44YUf4dRBITvYe9riMdBuYnkq+hFn9leiIEeCLcMv82DiA8xa
+	pjiw==
+X-Received: by 10.182.213.37 with SMTP id np5mr1304529obc.42.1434478381869;
+	Tue, 16 Jun 2015 11:13:01 -0700 (PDT)
+Received: from george-i7.localdomain (mail.novatech-llc.com. [64.126.95.172])
+	by mx.google.com with ESMTPSA id
+	v145sm837203oie.17.2015.06.16.11.13.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 16 Jun 2015 11:13:01 -0700 (PDT)
+From: George McCollister <george.mccollister@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jun 2015 13:12:34 -0500
+Message-Id: <1434478354-13409-1-git-send-email-george.mccollister@gmail.com>
+X-Mailer: git-send-email 2.4.3
+Cc: martin.stolpe@gmail.com
+Subject: [PATCH][fido] binutils: fix native builds when host has gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,109 +42,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 18:12:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jun 2015 18:13:01 -0000
 
-Ping
+Cherry pick upstream commit to fix -Werror=logical-not-parentheses error
+when building with native gcc5.
 
-On Sex, 2015-06-05 at 13:52 -0300, Bottazzini, Bruno wrote:
-> Ping.
-> 
-> On Ter, 2015-05-19 at 10:18 -0300, Bottazzini, Bruno wrote:
-> > On Qui, 2015-05-14 at 00:41 +0200, Andreas Oberritter wrote:
-> > > Hello Bruno,
-> > > 
-> > > On 13.05.2015 23:51, Bruno Bottazzini wrote:
-> > > > +########################################################################
-> > > > +# Aggregation of Split Packages
-> > > > +########################################################################
-> > > > +PACKAGES =+ "${PN}-services-base"
-> > > > +SUMMARY_${PN}-services-base = "Base services aggregation"
-> > > > +ALLOW_EMPTY_${PN}-services-base = "1"
-> > > > +RDEPENDS_${PN}-services-base = " \
-> > > 
-> > > I think it would be better to use RRECOMMENDS, in order to support
-> > > BAD_RECOMMENDATIONS per image. This would also remove the need to use
-> > > bb.utils.contains, because unavailable recommended packages get ignored
-> > > by the package managers.
-> > 
-> > I don't think if we should use RRECOMENDS. 
-> > 
-> > There are some packages described in services-base that it is not on the
-> > default PACKAGECONFIG.
-> > 
-> > With RRECOMENDS and with out bb.utils.contains, it will install all the
-> > packages that it is described on the recipe and this is not the behavior
-> > we are looking for.
-> > 
-> > > 
-> > > Besides that, I wonder whether ${PN}-services would be a better name,
-> > > because the -base suffix suggests that it contained only the most
-> > > important services.
-> > 
-> > Sure, we can change it.
-> > 
-> > > 
-> > > Btw., sorry for commenting late again, but it's quite a big patch
-> > > 
-> > > Regards,
-> > > Andreas
-> > > 
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'ask-password', '${PN}-services-ask-password', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'backlight', '${PN}-services-backlight', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-services-binfmt', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'dbus', '${PN}-services-dbus', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'firstboot', '${PN}-services-firstboot', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'fuse', '${PN}-services-fuse', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'quota', '${PN}-services-quota', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'rfkill', '${PN}-services-rfkill', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '${PN}-services-timesyncd', '', d)}  \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'update', '${PN}-services-update', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'vconsole', '${PN}-services-vconsole', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'filesystems', '${PN}-generators-filesystems', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'preset', '${PN}-preset', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'fsck', '${PN}-services-fsck', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'journal', '${PN}-services-journal', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'modules-load', '${PN}-services-modules-load', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'randomseed', '${PN}-services-randomseed', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'sleep', '${PN}-services-sleep', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'sysctl', '${PN}-services-sysctl', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'sysusers', '${PN}-services-sysusers', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'tmpfiles', '${PN}-services-tmpfiles', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'udev', '${PN}-services-udev', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'tools', '${PN}-tools', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'bash', '${PN}-bash', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'initramfs', '${PN}-initramfs', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'kernel-install', '${PN}-kernel-install', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'rpm-macros', '${PN}-rpm-macros', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'zsh', '${PN}-zsh', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'bootchart', '${PN}-services-bootchart', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'debug', '${PN}-services-debug', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'machined', '${PN}-services-machined', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'nspawn', '${PN}-services-nspawn', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'sysvcompat', '${PN}-services-sysvcompat', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-generators-getty', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'getty', '${PN}-services-getty', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'ldconfig', '${PN}-services-ldconfig', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-hostnamed', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-localed', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-logind', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${PN}-services-timedated', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PN}-pam', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'networkd', '${PN}-services-networkd', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-networkd', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-services-journal-gatewayd', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'cryptsetup', '${PN}-services-cryptsetup', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'gudev', 'udev-dbg', '', d)} \
-> > > > +        ${@bb.utils.contains('PACKAGECONFIG', 'x11', '${PN}-services-multi-seat-x', '', d)} \
-> > > > +"
-> > > 
-> > 
-> > 
-> > 
-> 
-> 
+Signed-off-by: George McCollister <george.mccollister@gmail.com>
+---
+ meta/recipes-devtools/binutils/binutils-2.24.inc   |  1 +
+ ...86.c-Werror-logical-not-parentheses-error.patch | 76 ++++++++++++++++++++++
+ 2 files changed, 77 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.24.inc b/meta/recipes-devtools/binutils/binutils-2.24.inc
+index 63c9287..2fb56eb 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.24.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.24.inc
+@@ -40,6 +40,7 @@ SRC_URI = "\
+      file://binutils_CVE-2014-8503.patch \
+      file://binutils_CVE-2014-8504.patch \
+      file://binutils_CVE-2014-8737.patch \
++     file://Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch \
+      "
+ 
+ SRC_URI[md5sum] = "e0f71a7b2ddab0f8612336ac81d9636b"
+diff --git a/meta/recipes-devtools/binutils/binutils/Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch b/meta/recipes-devtools/binutils/binutils/Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
+new file mode 100644
+index 0000000..0511c39
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch
+@@ -0,0 +1,76 @@
++From 360ddc990a941bc506576f45a3858d38f508410b Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Fri, 12 Sep 2014 09:46:30 +0930
++Subject: [PATCH] Fix tc-i386.c -Werror=logical-not-parentheses error
++
++	* config/tc-i386.c (match_template): Remove redundant "!!" testing
++	single-bit bitfields.
++	(build_modrm_byte): Don't compare single-bit bitfields to "1".
++
++Upstream commit:
++https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=ac4eb736520174305bf6e691827f7473b858cff1
++
++Manually resolved gas/ChangeLog conflict by placing the change at the
++top of the file.
++gas/config/tc-i386.c patched with offset
++
++Signed-off-by: George McCollister <george.mccollister@gmail.com>
++---
++ gas/ChangeLog        |  6 ++++++
++ gas/config/tc-i386.c | 12 ++++++------
++ 2 files changed, 12 insertions(+), 6 deletions(-)
++
++diff --git a/gas/ChangeLog b/gas/ChangeLog
++index 7fafa26..c6e60c9 100644
++--- a/gas/ChangeLog
+++++ b/gas/ChangeLog
++@@ -1,3 +1,9 @@
+++2014-09-12  Alan Modra  <amodra@gmail.com>
+++
+++	* config/tc-i386.c (match_template): Remove redundant "!!" testing
+++	single-bit bitfields.
+++	(build_modrm_byte): Don't compare single-bit bitfields to "1".
+++
++ 2013-11-18  H.J. Lu  <hongjiu.lu@intel.com>
++ 
++ 	* config/tc-i386.c (lex_got): Add a dummy "int bnd_prefix"
++diff --git a/gas/config/tc-i386.c b/gas/config/tc-i386.c
++index 3c423da..4464091 100644
++--- a/gas/config/tc-i386.c
+++++ b/gas/config/tc-i386.c
++@@ -4672,9 +4672,9 @@ match_template (void)
++ 	       && !operand_types[0].bitfield.regymm
++ 	       && !operand_types[0].bitfield.regzmm)
++ 	      || (!operand_types[t->operands > 1].bitfield.regmmx
++-		  && !!operand_types[t->operands > 1].bitfield.regxmm
++-		  && !!operand_types[t->operands > 1].bitfield.regymm
++-		  && !!operand_types[t->operands > 1].bitfield.regzmm))
+++		  && operand_types[t->operands > 1].bitfield.regxmm
+++		  && operand_types[t->operands > 1].bitfield.regymm
+++		  && operand_types[t->operands > 1].bitfield.regzmm))
++ 	  && (t->base_opcode != 0x0fc7
++ 	      || t->extension_opcode != 1 /* cmpxchg8b */))
++ 	continue;
++@@ -4689,7 +4689,7 @@ match_template (void)
++ 	       && ((!operand_types[0].bitfield.regmmx
++ 		    && !operand_types[0].bitfield.regxmm)
++ 		   || (!operand_types[t->operands > 1].bitfield.regmmx
++-		       && !!operand_types[t->operands > 1].bitfield.regxmm)))
+++		       && operand_types[t->operands > 1].bitfield.regxmm)))
++ 	continue;
++ 
++       /* Do not verify operands when there are none.  */
++@@ -6139,8 +6139,8 @@ build_modrm_byte (void)
++ 	      op = i.tm.operand_types[vvvv];
++ 	      op.bitfield.regmem = 0;
++ 	      if ((dest + 1) >= i.operands
++-		  || (op.bitfield.reg32 != 1
++-		      && !op.bitfield.reg64 != 1
+++		  || (!op.bitfield.reg32
+++		      && op.bitfield.reg64
++ 		      && !operand_type_equal (&op, &regxmm)
++ 		      && !operand_type_equal (&op, &regymm)
++ 		      && !operand_type_equal (&op, &regzmm)
++-- 
++2.4.3
++
+-- 
+2.4.3
 
 
