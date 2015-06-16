@@ -1,38 +1,23 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C6A27601DF;
-	Tue, 16 Jun 2015 08:46:03 +0000 (UTC)
-Received: by labbc20 with SMTP id bc20so6370842lab.1;
-	Tue, 16 Jun 2015 01:46:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=eFyebD481cEnRENMtfZQIJVQICAZZENd5km2ajrYdEA=;
-	b=gFOr256oOQhKQlSAoyEciPUGRBrr+JGYtqHtMHG77zISUDE7nNlxGuEIv3M3a5KpH6
-	4iVbEsaUzrBtByrKcP93gM45zdqryO4h4HDSaPyDK+j+Khhm7YjCW8pRB9TbJAKoB3e2
-	leK7bfH8w5dtAcgT9KLo9odr6yKlSyQ1zz7xhbA/NNzu1fyuHm8NHB5+kbRohqBhc+UL
-	fMBwSZj2wfc6eDxTheZsiDIpY9ierEc30BPAI8DiT5ZQHx+OYOc3itezUo2vDa+bZpn3
-	kUyU2H1UezX5LWm88ho9a4p/90cBzEWs0kKIHCRYhedVf7pvKNs8u3KAPEE5RA5azRaI
-	MtQQ==
-X-Received: by 10.152.8.168 with SMTP id s8mr32233337laa.116.1434444364480;
-	Tue, 16 Jun 2015 01:46:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.27.71 with HTTP; Tue, 16 Jun 2015 01:45:44 -0700 (PDT)
-In-Reply-To: <CAMKF1spnp0qX9Fczd8+Y0BOyZ9jDiYnHobyjFe5KU2LtCU=eEg@mail.gmail.com>
-References: <1433858847-31079-1-git-send-email-ricardo.ribalda@gmail.com>
-	<CAMKF1spnp0qX9Fczd8+Y0BOyZ9jDiYnHobyjFe5KU2LtCU=eEg@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Tue, 16 Jun 2015 10:45:44 +0200
-Message-ID: <CAPybu_020CO0Hn4bRy=ZgqLtrMLdR=q6-3Dfnb2P4iGYsfQG0Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <openembedded-devel@lists.openembedded.org>
-Subject: Re: [PATCH v2] [meta-oe] opencv: Add OpenCV 3.0
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E111601DF
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jun 2015 08:47:46 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 16 Jun 2015 01:47:48 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,625,1427785200"; d="scan'208";a="588668452"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 16 Jun 2015 01:47:48 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 855576A4005;
+	Tue, 16 Jun 2015 01:47:11 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Jun 2015 09:53:57 +0300
+Message-Id: <1434437637-21465-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] oe-selftest: wic: Fix testcase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,220 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 08:46:06 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Jun 2015 08:47:47 -0000
 
-Hello Khem
+Fixed test05_build_artifacts testcase by using values of MACHINE
+and BUILD_SYS bitbake variables in paths to artifacts.
 
-Unfortunately It uses the same header file names :(
+Test was failing because of hardcoded machine(qemux86) and
+build_sys(qemux86-poky-linux) in artifact paths.
 
-Regards!
+[YOCTO #7730]
 
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 358f09e..0e3f1f6 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -29,7 +29,7 @@ from glob import glob
+ from shutil import rmtree
+ 
+ from oeqa.selftest.base import oeSelfTest
+-from oeqa.utils.commands import runCmd, bitbake
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+ 
+ class Wic(oeSelfTest):
+     """Wic test class."""
+@@ -66,12 +66,15 @@ class Wic(oeSelfTest):
+ 
+     def test05_build_artifacts(self):
+         """Test wic create directdisk providing all artifacts."""
+-        self.assertEqual(0, runCmd("wic create directdisk "
+-                                   "-b tmp/sysroots/qemux86/usr/share "
+-                                   "-k tmp/deploy/images/qemux86 "
+-                                   "-n tmp/sysroots/x86_64-linux "
+-                                   "-r tmp/work/qemux86-poky-linux/"
+-                                   "core-image-minimal/1.0-r0/rootfs").status)
++        vars = {'machine': get_bb_var('MACHINE'),
++                'buildsys': get_bb_var('BUILD_SYS')}
++        status = runCmd("wic create directdisk "
++                        "-b tmp/sysroots/%(machine)s/usr/share "
++                        "-k tmp/deploy/images/%(machine)s "
++                        "-n tmp/sysroots/%(buildsys)s "
++                        "-r tmp/work/%(machine)s-poky-linux/"
++                        "core-image-minimal/1.0-r0/rootfs" % vars).status
++        self.assertEqual(0, status)
+         self.assertEqual(1, len(glob(self.resultdir + "directdisk-*.direct")))
+ 
+     def test06_gpt_image(self):
+-- 
+2.1.4
 
-On Sun, Jun 14, 2015 at 5:42 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Tue, Jun 9, 2015 at 10:07 AM, Ricardo Ribalda Delgado
-> <ricardo.ribalda@gmail.com> wrote:
->> -Support for new PACKAGECONFIGS
->> -Merge with opencv-samples
->>
->> Since it is not backward compatible with 2.x and cannot be installed in
->> parallel it has a DEFAULT_PREFERENCE of -1.
->
-> I would have thought that ABI breakages like this should be parallel
-> installable to facilitate migration path. Are you sure it can not live
-> together with opencv2 ?
-> if it could I would have suggested to call the recipe opencv3_xx.bb
->
->>
->> Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
->> ---
->>  meta-oe/recipes-support/opencv/opencv_3.0.bb | 127 ++++++++++++++++++++=
-+++++++
->>  1 file changed, 127 insertions(+)
->>  create mode 100644 meta-oe/recipes-support/opencv/opencv_3.0.bb
->>
->> diff --git a/meta-oe/recipes-support/opencv/opencv_3.0.bb b/meta-oe/reci=
-pes-support/opencv/opencv_3.0.bb
->> new file mode 100644
->> index 000000000000..60a96af1fe68
->> --- /dev/null
->> +++ b/meta-oe/recipes-support/opencv/opencv_3.0.bb
->> @@ -0,0 +1,127 @@
->> +SUMMARY =3D "Opencv : The Open Computer Vision Library"
->> +HOMEPAGE =3D "http://opencv.willowgarage.com/wiki/"
->> +SECTION =3D "libs"
->> +
->> +LICENSE =3D "BSD"
->> +LIC_FILES_CHKSUM =3D "file://include/opencv2/opencv.hpp;endline=3D41;md=
-5=3D6d690d8488a6fca7a2c192932466bb14"
->> +
->> +ARM_INSTRUCTION_SET =3D "arm"
->> +
->> +DEPENDS =3D "python-numpy libtool swig swig-native python bzip2 zlib gl=
-ib-2.0 oracle-jse-jdk ant"
->> +
->> +DEFAULT_PREFERENCE =3D "-1"
->> +
->> +SRCREV_opencv =3D "424c2bddb39dae97dc4639a24eaa0e0c8fbb8e69"
->> +SRCREV_contrib =3D "844c30e8b2f2f4b34b96a169fafe9beea3c45e87"
->> +SRCREV_FORMAT =3D "opencv"
->> +SRC_URI =3D "git://github.com/Itseez/opencv.git;nobranch=3D1;name=3Dope=
-ncv \
->> +          git://github.com/Itseez/opencv_contrib.git;nobranch=3D1;dests=
-uffix=3Dcontrib;name=3Dcontrib"
->> +
->> +PV =3D "3.0+git${SRCPV}"
->> +
->> +S =3D "${WORKDIR}/git"
->> +
->> +EXTRA_OECMAKE =3D "-DPYTHON2_NUMPY_INCLUDE_DIRS:PATH=3D${STAGING_LIBDIR=
-}/${PYTHON_DIR}/site-packages/numpy/core/include \
->> +                -DOPENCV_EXTRA_MODULES_PATH=3D${WORKDIR}/contrib/module=
-s \
->> +                 -DWITH_1394=3DOFF \
->> +                 -DCMAKE_SKIP_RPATH=3DON \
->> +                 ${@bb.utils.contains("TARGET_CC_ARCH", "-msse3", "-DEN=
-ABLE_SSE=3D1 -DENABLE_SSE2=3D1 -DENABLE_SSE3=3D1 -DENABLE_SSSE3=3D1", "", d=
-)} \
->> +                 ${@base_conditional("libdir", "/usr/lib64", "-DLIB_SUF=
-FIX=3D64", "", d)} \
->> +                 ${@base_conditional("libdir", "/usr/lib32", "-DLIB_SUF=
-FIX=3D32", "", d)} \
->> +"
->> +
->> +PACKAGECONFIG ??=3D "eigen jpeg libav png tiff v4l tbb samples\
->> +                   ${@bb.utils.contains("DISTRO_FEATURES", "x11", "gtk"=
-, "", d)}"
->> +PACKAGECONFIG[eigen] =3D "-DWITH_EIGEN=3DON,-DWITH_EIGEN=3DOFF,libeigen=
-,"
->> +PACKAGECONFIG[gtk] =3D "-DWITH_GTK=3DON,-DWITH_GTK=3DOFF,gtk+3,"
->> +PACKAGECONFIG[jpeg] =3D "-DWITH_JPEG=3DON,-DWITH_JPEG=3DOFF,jpeg,"
->> +PACKAGECONFIG[libav] =3D "-DWITH_FFMPEG=3DON,-DWITH_FFMPEG=3DOFF,libav,=
-"
->> +PACKAGECONFIG[png] =3D "-DWITH_PNG=3DON,-DWITH_PNG=3DOFF,libpng,"
->> +PACKAGECONFIG[tiff] =3D "-DWITH_TIFF=3DON,-DWITH_TIFF=3DOFF,tiff,"
->> +PACKAGECONFIG[v4l] =3D "-DWITH_V4L=3DON,-DWITH_V4L=3DOFF,v4l-utils,"
->> +PACKAGECONFIG[jasper] =3D "-DWITH_JASPER=3DON,-DWITH_JASPER=3DOFF,jaspe=
-r,"
->> +PACKAGECONFIG[amdblas] =3D "-DWITH_OPENCLAMDBLAS=3DON,-DWITH_OPENCLAMDB=
-LAS=3DOFF,libclamdblas,"
->> +PACKAGECONFIG[amdfft] =3D "-DWITH_OPENCLAMDFFT=3DON,-DWITH_OPENCLAMDFFT=
-=3DOFF,libclamdfft,"
->> +PACKAGECONFIG[opencl] =3D "-DWITH_OPENCL=3DON,-DWITH_OPENCL=3DOFF,openc=
-l-headers,"
->> +PACKAGECONFIG[gstreamer] =3D "-DWITH_GSTREAMER=3DON,-DWITH_GSTREAMER=3D=
-OFF,gstreamer1.0 gstreamer1.0-plugins-base,"
->> +PACKAGECONFIG[oracle-java-amd64] =3D "-DJAVA_INCLUDE_PATH=3D${JAVA_HOME=
-}/include -DJAVA_INCLUDE_PATH2=3D${JAVA_HOME}/include/linux -DJAVA_AWT_INCL=
-UDE_PATH=3D${JAVA_HOME}/include -DJAVA_AWT_LIBRARY=3D${JAVA_HOME}/lib/amd64=
-/libjawt.so -DJAVA_JVM_LIBRARY=3D${JAVA_HOME}/lib/amd64/server/libjvm.so,,o=
-racle-jse-jdk ant,"
->> +PACKAGECONFIG[samples] =3D "-DBUILD_EXAMPLES=3DON -DINSTALL_PYTHON_EXAM=
-PLES=3DON,-DBUILD_EXAMPLES=3DOFF,,"
->> +PACKAGECONFIG[tbb] =3D "-DWITH_TBB=3DON,-DWITH_TBB=3DOFF,tbb,"
->> +
->> +inherit distutils-base pkgconfig cmake
->> +
->> +export BUILD_SYS
->> +export HOST_SYS
->> +export PYTHON_CSPEC=3D"-I${STAGING_INCDIR}/${PYTHON_DIR}"
->> +export PYTHON=3D"${STAGING_BINDIR_NATIVE}/python"
->> +export JAVA_HOME=3D"${STAGING_DIR_TARGET}/usr/share/java/"
->> +export ANT_DIR=3D"${STAGING_DIR_TARGET}/usr/share/ant/"
->> +
->> +TARGET_CC_ARCH +=3D "-I${S}/include "
->> +
->> +PACKAGES +=3D "${PN}-java-dbg ${PN}-java ${PN}-samples-dbg ${PN}-sample=
-s ${PN}-apps python-opencv"
->> +
->> +python populate_packages_prepend () {
->> +    cv_libdir =3D d.expand('${libdir}')
->> +    cv_libdir_dbg =3D d.expand('${libdir}/.debug')
->> +    do_split_packages(d, cv_libdir, '^lib(.*)\.so$', 'lib%s-dev', 'Open=
-CV %s development package', extra_depends=3D'${PN}-dev', allow_links=3DTrue=
-)
->> +    do_split_packages(d, cv_libdir, '^lib(.*)\.la$', 'lib%s-dev', 'Open=
-CV %s development package', extra_depends=3D'${PN}-dev')
->> +    do_split_packages(d, cv_libdir, '^lib(.*)\.a$', 'lib%s-dev', 'OpenC=
-V %s development package', extra_depends=3D'${PN}-dev')
->> +    do_split_packages(d, cv_libdir, '^lib(.*)\.so\.*', 'lib%s', 'OpenCV=
- %s library', extra_depends=3D'', allow_links=3DTrue)
->> +
->> +    pn =3D d.getVar('PN', 1)
->> +    metapkg =3D  pn + '-dev'
->> +    d.setVar('ALLOW_EMPTY_' + metapkg, "1")
->> +    blacklist =3D [ metapkg ]
->> +    metapkg_rdepends =3D [ ]
->> +    packages =3D d.getVar('PACKAGES', 1).split()
->> +    for pkg in packages[1:]:
->> +        if not pkg in blacklist and not pkg in metapkg_rdepends and pkg=
-.endswith('-dev'):
->> +            metapkg_rdepends.append(pkg)
->> +    d.setVar('RRECOMMENDS_' + metapkg, ' '.join(metapkg_rdepends))
->> +
->> +    blacklist =3D [ metapkg ]
->> +    metapkg_rdepends =3D [ ]
->> +    for pkg in packages[1:]:
->> +        if not pkg in blacklist and not pkg in metapkg_rdepends and not=
- pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.endswith('-d=
-oc') :
->> +            metapkg_rdepends.append(pkg)
->> +    bb.data.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends), d=
-)
->> +
->> +}
->> +
->> +PACKAGES_DYNAMIC +=3D "^libopencv-.*"
->> +
->> +FILES_${PN} =3D ""
->> +FILES_${PN}-apps =3D "${bindir}/* ${datadir}/OpenCV"
->> +FILES_${PN}-dbg +=3D "${libdir}/.debug"
->> +FILES_${PN}-dev =3D "${includedir} ${libdir}/pkgconfig"
->> +FILES_${PN}-doc =3D "${datadir}/OpenCV/doc"
->> +FILES_${PN}-java =3D "${datadir}/OpenCV/java"
->> +FILES_${PN}-java-dbg =3D "${datadir}/OpenCV/java/.debug/"
->> +FILES_${PN}-samples =3D "${datadir}/OpenCV/samples/"
->> +FILES_${PN}-samples-dbg =3D "${datadir}/OpenCV/samples/bin/.debug"
->> +
->> +INSANE_SKIP_${PN}-apps =3D "staticdev"
->> +INSANE_SKIP_${PN}-java =3D "libdir"
->> +INSANE_SKIP_${PN}-java-dbg =3D "libdir"
->> +
->> +ALLOW_EMPTY_${PN} =3D "1"
->> +
->> +INSANE_SKIP_python-opencv =3D "True"
->> +SUMMARY_python-opencv =3D "Python bindings to opencv"
->> +FILES_python-opencv =3D "${PYTHON_SITEPACKAGES_DIR}/*"
->> +RDEPENDS_python-opencv =3D "python-core python-numpy"
->> +
->> +do_install_append() {
->> +    cp ${S}/include/opencv/*.h ${D}${includedir}/opencv/
->> +    sed -i '/blobtrack/d' ${D}${includedir}/opencv/cvaux.h
->> +
->> +    # Move Python files into correct library folder (for multilib build=
-)
->> +    if [ "$libdir" !=3D "/usr/lib" ]; then
->> +        mv ${D}/usr/lib/* ${D}/${libdir}/
->> +        rm -rf ${D}/usr/lib
->> +    fi
->> +
->> +    install -d ${D}${datadir}/OpenCV/samples/bin/
->> +    cp -f bin/*-tutorial-* bin/*-example-* ${D}${datadir}/OpenCV/sample=
-s/bin/
->> +}
->> --
->> 2.1.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
---=20
-Ricardo Ribalda
 
