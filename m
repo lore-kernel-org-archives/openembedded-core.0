@@ -1,40 +1,21 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-pd0-f179.google.com (mail-pd0-f179.google.com
-	[209.85.192.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 983C174051;
-	Tue, 16 Jun 2015 06:50:49 +0000 (UTC)
-Received: by pdbki1 with SMTP id ki1so7650849pdb.1;
-	Mon, 15 Jun 2015 23:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TCUs/TqQXq+RPOjI8f7bMNAq0Aku+29Mw8y9aeeZSkY=;
-	b=nKt7YaiV+u6P615j8SjtRneDgRxNvCtdjI4QDO9wIa6vGx5sXQ+gRYNJH/QcRAKG8+
-	+6hScH6rlvV2KOOJJSGf316cItsQNO3S1YyoedcEZmQomt24WUPB+Mzk0b+mUvOt/p+J
-	QhX2Me2TYQmUfig1rjIkK7LbJcceoefXT82BTh1Xa/OSuWvHpWTgHXaA7O4jcHOtMZKi
-	np7rmMUQzpaYF+f51zU6y+xwhmXDR0GZVj+tjx52D+jv0T/xGJ/ps9rA4Ag65xGo3j4A
-	LDqSyBd+yWs2OpUa8IQpe7dmKahZaQs6lHbZjkGrPrMpwxhDEEWi/fzS9DxKnwFXQL+I
-	cVVA==
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id C286873772
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jun 2015 07:07:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id B54AF11A8473
+Message-ID: <557FCB46.7050006@collabora.co.uk>
+Date: Tue, 16 Jun 2015 08:07:50 +0100
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.68.57.170 with SMTP id j10mr56048769pbq.150.1434437450552;
-	Mon, 15 Jun 2015 23:50:50 -0700 (PDT)
-Received: by 10.70.44.41 with HTTP; Mon, 15 Jun 2015 23:50:50 -0700 (PDT)
-In-Reply-To: <557EE4C2.501@linux.intel.com>
-References: <557E9EFE.1030703@linux.intel.com>
-	<CALbNGRS9UWjVQQh8POPc5zVYOeYa9VaeC7dEfzH3AMs4k9Mjzw@mail.gmail.com>
-	<CAJTo0LbRVqw3h_3igs59=DTnaz6nf4w=A5ZpXepmh6xiKtVdPA@mail.gmail.com>
-	<557EE4C2.501@linux.intel.com>
-Date: Tue, 16 Jun 2015 08:50:50 +0200
-Message-ID: <CALbNGRS-xR52wapA2viFa0oZJ6kotFdjhXpb6kyOtpRyn--5=A@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Yocto Project <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-Subject: Re: Webkit-gtk will be updated to latest upstream; midori browser to be replaced with Epiphany
+To: openembedded-core@lists.openembedded.org
+References: <1433825286-925-1-git-send-email-jkrishnanjanappa@mvista.com>
+	<CAD3vsf7_24-urKVJjC-L9zsBrpvnD1i1Ag6DqJ8Kb-ip4c+wtA@mail.gmail.com>
+In-Reply-To: <CAD3vsf7_24-urKVJjC-L9zsBrpvnD1i1Ag6DqJ8Kb-ip4c+wtA@mail.gmail.com>
+Subject: Re: [PATCH][fido] runqemu: add support to boot arm64 qemu target from NFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,38 +28,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 06:50:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 16 Jun 2015 07:07:58 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 15, 2015 at 4:44 PM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 06/15/2015 05:24 PM, Burton, Ross wrote:
->
->> If you actually compare the build dependencies, you'll see that Midori
->> and Epiphany are actually almost identical.
->>
->> We need to upgrade WebKit as the release we're shipping has known
->> security flaws and is very old - and the community is rightly moaning
->> about that.  However Midori doesn't build with a recent WebKit... if you
->> have an alternative solution then your thoughts are welcome.
->
->
-> Also, Webkit2 itself ships with a tiny browser wrapper called MiniBrowser:
->
-> http://blogs.igalia.com/carlosgc/2011/11/04/webkit2-gtk-minibrowser-ported-to-gtk-api/
->
-> That may be enough for many people's needs, and they can simply not include
-> Epiphany into their images if it's too big and bloated or whatever.
->
->
-How about doing same as others do e.g fedora [1-2]: Keep two version
-of webkit-gtk based on same recent code:
+On 15/06/15 17:56, Jagadeesh Krishnanjanappa wrote:
+> Ping.
 
-* gtk2/webkit1
-* gtk3/webkit2
 
-Andreas
+Is this change intended for fido or master? Usually fixes like this 
+would go into master first and then be backported to the stable branch.
 
-[1] http://pkgs.fedoraproject.org/cgit/webkitgtk.git/tree/webkitgtk.spec
-[2] http://pkgs.fedoraproject.org/cgit/webkitgtk3.git/tree/webkitgtk3.spec
+Regards,
+
+Joshua
+
+> Regards,
+> Jagadeesh
+>
+> On Tue, Jun 9, 2015 at 10:18 AM, Jagadeesh Krishnanjanappa
+> <jkrishnanjanappa@mvista.com <mailto:jkrishnanjanappa@mvista.com>> wrote:
+>
+>     The other changes include,
+>     runqemu - fix MACHINE type being detected as qemuarm when qemuarm64
+>     kernel
+>                image name is given.
+>
+>     runqemu-internal - Added console=ttyAMA0,115200 as one of the boot
+>     parameters
+>                         for qemuarm, in order to print bootlog messages
+>     on the
+>                         console.
+>
+>                       - Use "-nographic" option only if "serial" option
+>     is not
+>                         specified. Otherwise we get below error when
+>                         'runqemu <kernel_image> <rootfs_image> serial'
+>     is executed,
+>
+>     (snip)
+>     QEMU 2.2.0 monitor - type 'help' for more information
+>     (qemu) qemu-system-aarch64: -serial stdio: cannot use stdio by
+>     multiple character devices
+>     -- CUT --
+>
+>     qemuarm64 NFS booting has been tested successfully on Ubuntu 14.04 host.
+>
+>     Signed-off-by: Jagadeesh Krishnanjanappa
+>     <jkrishnanjanappa@mvista.com <mailto:jkrishnanjanappa@mvista.com>>
+>     ---
+>       scripts/runqemu          |  4 ++--
+>       scripts/runqemu-internal | 20 +++++++++++++++-----
+>       2 files changed, 17 insertions(+), 7 deletions(-)
+>
+>     diff --git a/scripts/runqemu b/scripts/runqemu
+>     index 84ece4d..09c507d 100755
+>     --- a/scripts/runqemu
+>     +++ b/scripts/runqemu
+>     @@ -232,13 +232,13 @@ fi
+>
+>       if [ -z "$MACHINE" ]; then
+>           if [ "x$FSTYPE" = "xvmdk" ]; then
+>     -        MACHINE=`basename $VM | sed -n
+>     's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
+>     +        MACHINE=`basename $VM | sed -n
+>     's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
+>               if [ -z "$MACHINE" ]; then
+>                   error "Unable to set MACHINE from vmdk filename [$VM]"
+>               fi
+>               echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
+>           else
+>     -        MACHINE=`basename $KERNEL | sed -n
+>     's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
+>     +        MACHINE=`basename $KERNEL | sed -n
+>     's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
+>               if [ -z "$MACHINE" ]; then
+>                   error "Unable to set MACHINE from kernel filename
+>     [$KERNEL]"
+>               fi
+>     diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+>     index 2db5566..e346c64 100755
+>     --- a/scripts/runqemu-internal
+>     +++ b/scripts/runqemu-internal
+>     @@ -275,9 +275,6 @@ else
+>
+>               KERNCMDLINE="mem=$QEMU_MEMORY"
+>               QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
+>     -        if [ $MACHINE = 'qemuarm64' ]; then
+>     -            QEMU_UI_OPTIONS="-nographic"
+>     -        fi
+>
+>               NFS_INSTANCE=`echo $TAP | sed 's/tap//'`
+>               export NFS_INSTANCE
+>     @@ -368,7 +365,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" =
+>     "qemuarmv6" -o "$MACHINE" = "qemuarm
+>                   cleanup
+>                   return 1
+>               fi
+>     -        KERNCMDLINE="root=/dev/nfs
+>     nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD
+>     mem=$QEMU_MEMORY"
+>     +        KERNCMDLINE="root=/dev/nfs
+>     nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw console=ttyAMA0,115200
+>     $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
+>               QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE}
+>     --no-reboot $QEMU_UI_OPTIONS"
+>           fi
+>           if [ "$MACHINE" = "qemuarmv6" ]; then
+>     @@ -383,12 +380,25 @@ if [ "$MACHINE" = "qemuarm64" ]; then
+>           QEMU=qemu-system-aarch64
+>
+>           export QEMU_AUDIO_DRV="none"
+>     -    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
+>     +    if [ "x$SERIALSTDIO" = "x" ] ; then
+>     +        QEMU_UI_OPTIONS="-nographic"
+>     +    else
+>     +        QEMU_UI_OPTIONS=""
+>     +    fi
+>           if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
+>               KERNCMDLINE="root=/dev/vda rw console=ttyAMA0,38400
+>     mem=$QEMU_MEMORY highres=off $KERNEL_NETWORK_CMD"
+>               # qemu-system-aarch64 only support '-machine virt -cpu
+>     cortex-a57' for now
+>               QEMUOPTIONS="$QEMU_NETWORK_CMD -machine virt -cpu
+>     cortex-a57 $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
+>           fi
+>     +    if [ "$FSTYPE" = "nfs" ]; then
+>     +        if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
+>     +            echo "Error: NFS mount point $ROOTFS doesn't exist"
+>     +            cleanup
+>     +            return 1
+>     +        fi
+>     +        KERNCMDLINE="root=/dev/nfs
+>     nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw console=ttyAMA0,38400
+>     mem=$QEMU_MEMORY highres=off $KERNEL_NETWORK_CMD"
+>     +        QEMUOPTIONS="$QEMU_NETWORK_CMD -machine virt -cpu
+>     cortex-a57 $QEMU_UI_OPTIONS"
+>     +    fi
+>       fi
+>
+>
+>     --
+>     1.8.2.3
+>
+>
+>
+>
+
 
