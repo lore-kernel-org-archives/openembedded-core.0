@@ -1,29 +1,39 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4495773BBE
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E57373E44
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 13:48:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5GDmN4v015513
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Jun 2015 06:48:23 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 16 Jun 2015 06:48:22 -0700
-Message-ID: <55802926.7020009@windriver.com>
-Date: Tue, 16 Jun 2015 09:48:22 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+	Tue, 16 Jun 2015 14:12:51 +0000 (UTC)
+Received: by wiga1 with SMTP id a1so110333198wig.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Jun 2015 07:12:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:subject:content-type:content-transfer-encoding;
+	bh=CgCbhILKANCWwW80sMuX3SJU5kNJEUrho1lpqUWbd/A=;
+	b=bxyFwqZYK0aw2oPXxC2WQkMtvYssCnu1TAKcheiiTL1kukywZ2JXO7bOCInkcu5fhi
+	4nYDXIchIQ/PcTBTK/h08eQeZcQ+qn2w67fVtGhEchLbU2PlWJSPvTuqh/8lD/5gnavT
+	a1kwwyqHTLcdc0TVa+qDhYEjXMXShQkKFsHpUd3yIgNGZwPxMABUpxdOR4JnqZUh1zwi
+	HZdwPhlnGOIsHRUijjgprwqBBSrGAub/0+GouKN5kwtgCSVKXKFAqrA9/u0H0NYlfNRU
+	3KUXAIzmyCkEA4I8iEt4IxXjbYkHxoE09M4CHxANTfdRcmN2duZY5QLevDx3dOwzhW9F
+	OlDw==
+X-Gm-Message-State: ALoCoQn6QHJVB6BpFP18tQ5R7P0cxaMT3BMvofFqdkJAicgujED7cIVrdFOdUIlKyfJFRuDVNPhY
+X-Received: by 10.180.20.198 with SMTP id p6mr7396265wie.38.1434463972142;
+	Tue, 16 Jun 2015 07:12:52 -0700 (PDT)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPSA id ul1sm1854277wjc.30.2015.06.16.07.12.50
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 16 Jun 2015 07:12:51 -0700 (PDT)
+Message-ID: <55802EE1.6040703@dresearch-fe.de>
+Date: Tue, 16 Jun 2015 16:12:49 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-To: Patrick Ohly <patrick.ohly@intel.com>
-References: <1434370643.9085.98.camel@intel.com>	
-	<557F2BF1.5000605@windriver.com>
-	<1434441993.9085.152.camel@intel.com>
-In-Reply-To: <1434441993.9085.152.camel@intel.com>
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Subject: Re: KCONF_AUDIT_LEVEL + kernel_configcheck
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-devel <openembedded-devel@lists.openembedded.org>
+Subject: multiple git repos vs. AUTOREV?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,78 +46,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 13:48:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jun 2015 14:12:56 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On 2015-06-16 04:06 AM, Patrick Ohly wrote:
-> On Mon, 2015-06-15 at 15:48 -0400, Bruce Ashfield wrote:
->> On 2015-06-15 8:17 AM, Patrick Ohly wrote:
->>> Hello!
->>>
->>> In Fido and master, the following patch changed the default value of
->>> KCONF_AUDIT_LEVEL:
->>>
->>> $ git annotate origin/fido -- meta/classes/kernel-yocto.bbclass | grep KCONF_AUDIT_LEVEL
->>> ad4d5949	(Bruce Ashfield	2015-02-18 16:15:35 -0500	308)    config_check_visibility = int(d.getVar( "KCONF_AUDIT_LEVEL", True ) or 0)
->>> $ git annotate origin/master -- meta/classes/kernel-yocto.bbclass | grep KCONF_AUDIT_LEVEL
->>> ad4d5949	(Bruce Ashfield	2015-02-18 16:15:35 -0500	309)    config_check_visibility = int(d.getVar( "KCONF_AUDIT_LEVEL", True ) or 0)
->>>
->>> At least if I read it right, that wasn't the intention. The commit
->>> explicitly says that the default should be 1:
->>>
->>>       The visibility of auditing is controlled by KCONF_AUDIT_LEVEL:
->>>
->>>          0: no reporting
->>>          1: report options that are specified, but not in the final config
->>>          2: report options that are not hardware related, but set by a BSP
->>>
->>>       The default level is 1, with level 2 and above being for BSP development
->>>       only.
->>
->> The line is correct, since we don't want it warning for non linux-yocto
->> meta-data enabled kernels. The default is indeed 1, since I set it in
->> the common include file. That was the default I was referring to in that
->> change.
->
-> Ah, I missed that other part of the patch. You are right of course.
->
->>> foobar.cfg is used (the CONFIG_SECURITY_SMACK part is used) but the
->>> CONFIG_FOOBAR part of course is not. Shouldn't this trigger the
->>> "specified values did not make it into the kernel's final
->>> configuration"?
->>
->> To keep the noise down, I'm only emitting partial audit information and
->> the warnings only apply to options that are tagged as "hardware", since
->> that is also a synonym to 'required' in the configuration scheme.
->>
->> .. and no. That isn't common knowledge, since I've been slowly changing
->> and making the audit information more visible, but don't want to flood
->> too many warnings, or create an ABI that limits how we can change things.
->
-> That explains it then. I don't remember how I learned about this kernel
-> configuration check (might have seen the error message at some point)
-> and came away with the impression that it applies to all configuration
-> options.
+For development purposes we use this method to build always from the HEAD revision of a git repository.
 
+-------------> snip <--------------
+SRCREV="${AUTOREV}"
+PV = "gitr${SRCPV}"
 
-It was visible, then hidden, and then made visible again. So it has
-been a balancing act all along.
+SRC_URI = "git://git@bitbucket.org/.../foo.git;protocol=ssh"
+-------------> snap <--------------
 
->
-> I cannot say how much noise it would create in practice, but at least I
-> had one specific case where I was using a non-hardware configuration not
-> supported by the kernel and would have appreciated a warning about
-> that ;-}
+Now we like to do the same in one recipe which uses sources from two git repos.
 
-This is good feedback, and I am planning to expose more of the output,
-including some dependency information (since without giving hints on how
-to fix a warning .. more warnings are not all that helpful :)
+Our first try was this one. But if failed..
 
-Cheers,
+-------------> snip <--------------
+SRCREV_foo="${AUTOREV_foo}"
+SRCREV_bar="${AUTOREV_bar}"
+PV = "gitr${SRCPV_foo}+${SRCPV_bar}"
 
-Bruce
+SRC_URI = " \
+	git://git@bitbucket.org/.../foo.git;protocol=ssh,name=foo \
+	git://git@bitbucket.org/.../bar.git;protocol=ssh,name=bar \
+"
+-------------> snap <--------------
 
->
+Is it possible to do what we want? And what's the right way to do it?
 
+Thx,
+Steffen
+
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
