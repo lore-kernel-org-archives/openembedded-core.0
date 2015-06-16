@@ -1,24 +1,20 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with SMTP id F02557413A
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E1C074051
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 11:33:19 +0000 (UTC)
-Received: (qmail 17023 invoked by uid 1003); 16 Jun 2015 11:33:19 -0000
-Received: from unknown (HELO ?192.168.11.121?)
-	(philip@opensdr.com@71.171.14.12)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	16 Jun 2015 11:33:19 -0000
-Message-ID: <5580097E.1000607@balister.org>
-Date: Tue, 16 Jun 2015 07:33:18 -0400
-From: Philip Balister <philip@balister.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
+	Tue, 16 Jun 2015 11:38:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 16 Jun 2015 04:38:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,626,1427785200"; d="scan'208";a="711879809"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by orsmga001.jf.intel.com with ESMTP; 16 Jun 2015 04:38:33 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1433189842-17654-1-git-send-email-philip@balister.org>
-	<1433189842-17654-2-git-send-email-philip@balister.org>
-In-Reply-To: <1433189842-17654-2-git-send-email-philip@balister.org>
-Subject: Re: [PATCH 2/2] packagegroup-core-tools-profile.bb: Remove oprofile.
+Date: Tue, 16 Jun 2015 14:38:57 +0300
+Message-Id: <cover.1434454325.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] Upgrade D-Bus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +27,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 11:33:20 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jun 2015 11:38:36 -0000
 
-Ping
+Upgrade dbus and bring dbus-test to matching version.
 
-On 06/01/2015 04:17 PM, Philip Balister wrote:
-> Oprofile functions duplicate perf. Since perf is easier to use drop oprofile
-> from the core-tools-profile package.
-> 
-> Also, the oprofile-ui package opens a port on the device. removing this
-> package reduces a possible security issue for devices with profiling tools.
-> 
-> Signed-off-by: Philip Balister <philip@balister.org>
-> ---
->  meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> index 6f4842f..80f5933 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> @@ -19,15 +19,12 @@ PROFILE_TOOLS_SYSTEMD = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'sys
->  RRECOMMENDS_${PN} = "\
->      perf \
->      trace-cmd \
-> -    kernel-module-oprofile \
->      blktrace \
->      ${PROFILE_TOOLS_X} \
->      ${PROFILE_TOOLS_SYSTEMD} \
->      "
->  
->  PROFILETOOLS = "\
-> -    oprofile \
-> -    oprofileui-server \
->      powertop \
->      latencytop \
->      "
-> 
+Ptests pass.
+
+
+The following changes since commit 379a030702c985c6e69831173f765a47dfeb8841:
+
+  bitbake: toastergui: prevent contamination of libtoaster context (2015-06-12 00:01:50 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/dbus
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/dbus
+
+Jussi Kukkonen (2):
+  dbus: Upgrade 1.8.16 -> 1.8.18
+  dbus-test: Upgrade 1.8.10 -> 1.8.18
+
+ meta/recipes-core/dbus/{dbus-test_1.8.10.bb => dbus-test_1.8.18.bb} | 4 ++--
+ meta/recipes-core/dbus/dbus_1.8.16.bb                               | 4 ----
+ meta/recipes-core/dbus/dbus_1.8.18.bb                               | 4 ++++
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.8.10.bb => dbus-test_1.8.18.bb} (93%)
+ delete mode 100644 meta/recipes-core/dbus/dbus_1.8.16.bb
+ create mode 100644 meta/recipes-core/dbus/dbus_1.8.18.bb
+
+-- 
+2.1.4
+
 
