@@ -1,33 +1,29 @@
-Return-Path: <denis@denix.org>
-X-Greylist: delayed 3602 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 15 Jun 2015 23:59:23 UTC
-Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
-	[206.46.173.17])
-	by mail.openembedded.org (Postfix) with ESMTP id CA203740C4
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B6D473779
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Jun 2015 23:59:23 +0000 (UTC)
-Received: from gandalf.denix.org ([108.51.169.48]) by vms173017.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NQ000BX5D64T990@vms173017.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Mon, 15 Jun 2015 17:59:07 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=S6gku9YP c=1 sm=1 tr=0	a=x3PDphkivVtATbYodTxRAw==:117
-	a=jLWw55sr_RoA:10 a=kj9zAlcOel0A:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
-	a=-9mUelKeXuEA:10 a=XAFQembCKUMA:10	a=sozttTNsAAAA:8 a=Q4-j1AaZAAAA:8
-	a=d_Hx7kMDtuSz4J9EYnEA:9	a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 28501161AA9; Mon,
-	15 Jun 2015 18:58:52 -0400 (EDT)
-Date: Mon, 15 Jun 2015 18:58:52 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-id: <20150615225852.GF2465@denix.org>
-References: <1434049675-15986-1-git-send-email-denis@denix.org>
-MIME-version: 1.0
-In-reply-to: <1434049675-15986-1-git-send-email-denis@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [daisy][PATCH 0/1] Backport BAD_RECOMMENDATIONS fix from master/dizzy
+	Tue, 16 Jun 2015 01:55:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5G1tCac008733
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 15 Jun 2015 18:55:12 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 15 Jun 2015 18:55:11 -0700
+Message-ID: <557F81FE.5050106@windriver.com>
+Date: Tue, 16 Jun 2015 09:55:10 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1434013682.git.liezhi.yang@windriver.com>
+	<135be24d84523a7ccfc166283a659109f238c713.1434013682.git.liezhi.yang@windriver.com>
+	<CAJTo0LZgSPeeWf02swV4d7Aq_XxdywM+kogYboMuvTRUtAD66w@mail.gmail.com>
+In-Reply-To: <CAJTo0LZgSPeeWf02swV4d7Aq_XxdywM+kogYboMuvTRUtAD66w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] libpcap: fix PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,35 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Jun 2015 23:59:23 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
-
-I know Daisy is rather old, but is there any chance to get this fix pulled in? 
-Or should I look for a local workaround instead? Thanks!
-
--- 
-Denys
+X-List-Received-Date: Tue, 16 Jun 2015 01:55:14 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-On Thu, Jun 11, 2015 at 03:07:54PM -0400, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
-> 
-> This is a self-contained clean backport of BAD_RECOMMENDATIONS fix for opkg.
-> Please consider applying to daisy.
-> 
-> Paul Barker (1):
->   package_manager: Fix BAD_RECOMMENDATIONS for opkg
-> 
->  meta/lib/oe/package_manager.py | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> -- 
-> 2.2.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On 06/15/2015 07:52 PM, Burton, Ross wrote:
+>
+> On 11 June 2015 at 10:08, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     The BLUEZ is default to bluez5, but there is only PACKAGECONFIG[bluez4],
+>     no PACKAGECONFIG[bluez5], and the current version of libpcap (or the
+>     higher version 1.7.3) only supports bluez4, we can't use
+>     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)}
+>     for PACKAGECONFIG any more since BLUEZ is default to bluez5, and not
+>     supported, and there is no bluez4 in oe-core any more, set PACKAGECONFIG to ""
+>     by default, other layers where bluez4 is available can enable it via bbappend.
+>
+>
+> So the point of this logic is that simply removing bluez5 from DISTRO_FEATURES
+> results in bluez4 being enabled where relevant, which you're removing.
+>
+> Would a better fix would be to have a dummy (empty) bluez5 stanza?
+
+Hi Ross,
+
+The code was:
+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', 
+'${BLUEZ}', '', d)}"
+PACKAGECONFIG[bluez4] = "--enable-bluetooth,--disable-bluetooth,bluez4"
+
+BLUEZ is default to bluez5, did you mean that we add a line like:
+PACKAGECONFIG[bluez5] = ",,"
+or
+PACKAGECONFIG[bluez5] = ",--disable-bluetooth,"
+
+But we didn't need such a line, since when PACKAGECONFIG != bluez4, the
+--disable-bluetooth will be used.
+
+Maybe we can simply drop this patch ? I made this patch to avoid confusing
+the user.
+
+// Robert
+
+>
+> Ross
 
