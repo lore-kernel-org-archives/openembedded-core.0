@@ -1,21 +1,26 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id C286873772
+Return-Path: <laurentiu.palcu@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 96A0473772
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Jun 2015 07:07:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id B54AF11A8473
-Message-ID: <557FCB46.7050006@collabora.co.uk>
-Date: Tue, 16 Jun 2015 08:07:50 +0100
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Tue, 16 Jun 2015 07:50:54 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 16 Jun 2015 00:50:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,624,1427785200"; d="scan'208";a="747456279"
+Received: from lpalcu-linux.rb.intel.com (HELO lpalcu-linux) ([10.237.104.62])
+	by orsmga002.jf.intel.com with ESMTP; 16 Jun 2015 00:50:32 -0700
+Date: Tue, 16 Jun 2015 10:50:40 +0300
+From: Laurentiu Palcu <laurentiu.palcu@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20150616075040.GA10146@lpalcu-linux>
+References: <1434111318-12593-1-git-send-email-laurentiu.palcu@intel.com>
+	<CAJTo0LYnsO=8GnT+6U1dOssUAbcgWNEEVD1y_niOLyaED4ak3Q@mail.gmail.com>
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1433825286-925-1-git-send-email-jkrishnanjanappa@mvista.com>
-	<CAD3vsf7_24-urKVJjC-L9zsBrpvnD1i1Ag6DqJ8Kb-ip4c+wtA@mail.gmail.com>
-In-Reply-To: <CAD3vsf7_24-urKVJjC-L9zsBrpvnD1i1Ag6DqJ8Kb-ip4c+wtA@mail.gmail.com>
-Subject: Re: [PATCH][fido] runqemu: add support to boot arm64 qemu target from NFS
+In-Reply-To: <CAJTo0LYnsO=8GnT+6U1dOssUAbcgWNEEVD1y_niOLyaED4ak3Q@mail.gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] scripts: Add cleanup-downloads-dir tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,151 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 07:07:58 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 16 Jun 2015 07:50:56 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 15/06/15 17:56, Jagadeesh Krishnanjanappa wrote:
-> Ping.
+Hi Ross,
 
+On Mon, Jun 15, 2015 at 11:38:01PM +0100, Burton, Ross wrote:
+> 
+> On 12 June 2015 at 13:15, Laurentiu Palcu <laurentiu.palcu@intel.com> wrote:
+> 
+>     A few days ago I noticed I had no space on disk and decided to make some
+>     space. Since my downloads directory was never deleted since denzil, it
+>     consumed 25GB of space which I needed. However, I wanted to delete only old
+>     and unneeded tarbals/git repos and keep the ones that my current Yocto
+>     version needed, so I wrote this tool.
+> 
+> 
+> Something is not quite right, after running this and causing a rebuild I got this:
+> 
+> ERROR: No checksum specified for /home/ross/Yocto/downloads/git2_git.lttng.org.lttng-modules.git.tar.gz, please add at least one to
+> the recipe:
+> SRC_URI[md5sum] = "c32ceb7d4b208b2b1d8132c3bbc7d638"
+> SRC_URI[sha256sum] = "d593cca435003770e981c8ae5def3db0e95d72bc3f83f3d43a18287ea1f6d165"
+> ERROR: Function failed: Fetcher failure for URL: 'http://downloads.yoctoproject.org/mirror/sources/
+> git2_git.lttng.org.lttng-modules.git.tar.gz'. Missing SRC_URI checksum
+> 
+> A few too many files pruned?
+Thanks for giving this a test. However, I have no idea why this happens
+for you... I ran it on my side, after compiling lttng-modules (so it
+fetches the latest, etc), and the tarballs were not removed. Actually,
+nothing was removed since I ran it on master, after doing a fresh
+core-image-minimal build... See below. Can you please try a: 'bitbake
+lttng-modules' followed by a 'cleanup-downloads-dir'? Do you get the
+same behavior on the first rebuid? Could there's something else going on
+at your side?
 
-Is this change intended for fido or master? Usually fixes like this 
-would go into master first and then be backported to the stable branch.
+test@test-machine:/ssd/work/yp1/test$ bitbake lttng-modules
+...
+build output skipped
+...
+test@test-machine:/ssd/work/yp1/test$ cleanup-downloads-dir
+Parsing recipes..done.
+Generating unused files list... done
 
-Regards,
+No obsolete files found in /ssd/work/yp1/test/downloads.
+test@test-machine:/ssd/work/yp1/test$ ls -la downloads/ |grep lttng-modules
+-rw-rw-r--  1 test test   1861595 May 13 11:26 git2_git.lttng.org.lttng-modules.git.tar.gz
+-rw-rw-r--  1 test test         0 Jun 16 09:45 git2_git.lttng.org.lttng-modules.git.tar.gz.done
+-rw-rw-r--  1 test test       125 Jun 16 09:45 lttng-modules-replace-KERNELDIR-with-KERNEL_SRC.patch.done
+test@test-machine:/ssd/work/yp1/test$ ll downloads/git2 |grep lttng-modules
+drwxr-xr-x  7 test test  4096 May 13 11:26 git.lttng.org.lttng-modules.git/
+-rw-rw-r--  1 test test     6 Jun 16 09:45 git.lttng.org.lttng-modules.git.done
 
-Joshua
-
-> Regards,
-> Jagadeesh
->
-> On Tue, Jun 9, 2015 at 10:18 AM, Jagadeesh Krishnanjanappa
-> <jkrishnanjanappa@mvista.com <mailto:jkrishnanjanappa@mvista.com>> wrote:
->
->     The other changes include,
->     runqemu - fix MACHINE type being detected as qemuarm when qemuarm64
->     kernel
->                image name is given.
->
->     runqemu-internal - Added console=ttyAMA0,115200 as one of the boot
->     parameters
->                         for qemuarm, in order to print bootlog messages
->     on the
->                         console.
->
->                       - Use "-nographic" option only if "serial" option
->     is not
->                         specified. Otherwise we get below error when
->                         'runqemu <kernel_image> <rootfs_image> serial'
->     is executed,
->
->     (snip)
->     QEMU 2.2.0 monitor - type 'help' for more information
->     (qemu) qemu-system-aarch64: -serial stdio: cannot use stdio by
->     multiple character devices
->     -- CUT --
->
->     qemuarm64 NFS booting has been tested successfully on Ubuntu 14.04 host.
->
->     Signed-off-by: Jagadeesh Krishnanjanappa
->     <jkrishnanjanappa@mvista.com <mailto:jkrishnanjanappa@mvista.com>>
->     ---
->       scripts/runqemu          |  4 ++--
->       scripts/runqemu-internal | 20 +++++++++++++++-----
->       2 files changed, 17 insertions(+), 7 deletions(-)
->
->     diff --git a/scripts/runqemu b/scripts/runqemu
->     index 84ece4d..09c507d 100755
->     --- a/scripts/runqemu
->     +++ b/scripts/runqemu
->     @@ -232,13 +232,13 @@ fi
->
->       if [ -z "$MACHINE" ]; then
->           if [ "x$FSTYPE" = "xvmdk" ]; then
->     -        MACHINE=`basename $VM | sed -n
->     's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
->     +        MACHINE=`basename $VM | sed -n
->     's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
->               if [ -z "$MACHINE" ]; then
->                   error "Unable to set MACHINE from vmdk filename [$VM]"
->               fi
->               echo "Set MACHINE to [$MACHINE] based on vmdk [$VM]"
->           else
->     -        MACHINE=`basename $KERNEL | sed -n
->     's/.*\(qemux86-64\|qemux86\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
->     +        MACHINE=`basename $KERNEL | sed -n
->     's/.*\(qemux86-64\|qemux86\|qemuarm64\|qemuarm\|qemumips64\|qemumips\|qemuppc\|qemush4\).*/\1/p'`
->               if [ -z "$MACHINE" ]; then
->                   error "Unable to set MACHINE from kernel filename
->     [$KERNEL]"
->               fi
->     diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
->     index 2db5566..e346c64 100755
->     --- a/scripts/runqemu-internal
->     +++ b/scripts/runqemu-internal
->     @@ -275,9 +275,6 @@ else
->
->               KERNCMDLINE="mem=$QEMU_MEMORY"
->               QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
->     -        if [ $MACHINE = 'qemuarm64' ]; then
->     -            QEMU_UI_OPTIONS="-nographic"
->     -        fi
->
->               NFS_INSTANCE=`echo $TAP | sed 's/tap//'`
->               export NFS_INSTANCE
->     @@ -368,7 +365,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" =
->     "qemuarmv6" -o "$MACHINE" = "qemuarm
->                   cleanup
->                   return 1
->               fi
->     -        KERNCMDLINE="root=/dev/nfs
->     nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw $KERNEL_NETWORK_CMD
->     mem=$QEMU_MEMORY"
->     +        KERNCMDLINE="root=/dev/nfs
->     nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw console=ttyAMA0,115200
->     $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
->               QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE}
->     --no-reboot $QEMU_UI_OPTIONS"
->           fi
->           if [ "$MACHINE" = "qemuarmv6" ]; then
->     @@ -383,12 +380,25 @@ if [ "$MACHINE" = "qemuarm64" ]; then
->           QEMU=qemu-system-aarch64
->
->           export QEMU_AUDIO_DRV="none"
->     -    QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS"
->     +    if [ "x$SERIALSTDIO" = "x" ] ; then
->     +        QEMU_UI_OPTIONS="-nographic"
->     +    else
->     +        QEMU_UI_OPTIONS=""
->     +    fi
->           if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
->               KERNCMDLINE="root=/dev/vda rw console=ttyAMA0,38400
->     mem=$QEMU_MEMORY highres=off $KERNEL_NETWORK_CMD"
->               # qemu-system-aarch64 only support '-machine virt -cpu
->     cortex-a57' for now
->               QEMUOPTIONS="$QEMU_NETWORK_CMD -machine virt -cpu
->     cortex-a57 $ROOTFS_OPTIONS $QEMU_UI_OPTIONS"
->           fi
->     +    if [ "$FSTYPE" = "nfs" ]; then
->     +        if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
->     +            echo "Error: NFS mount point $ROOTFS doesn't exist"
->     +            cleanup
->     +            return 1
->     +        fi
->     +        KERNCMDLINE="root=/dev/nfs
->     nfsroot=$NFS_SERVER:$NFS_DIR,$UNFS_OPTS rw console=ttyAMA0,38400
->     mem=$QEMU_MEMORY highres=off $KERNEL_NETWORK_CMD"
->     +        QEMUOPTIONS="$QEMU_NETWORK_CMD -machine virt -cpu
->     cortex-a57 $QEMU_UI_OPTIONS"
->     +    fi
->       fi
->
->
->     --
->     1.8.2.3
->
->
->
->
-
+laurentiu
 
