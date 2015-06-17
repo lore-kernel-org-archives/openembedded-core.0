@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B69CF756E9
+	by mail.openembedded.org (Postfix) with ESMTP id A1422758F6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 13:19:39 +0000 (UTC)
+	Wed, 17 Jun 2015 13:19:40 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 06:19:41 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 06:19:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205429"
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205442"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:39 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:41 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 16:19:16 +0300
-Message-Id: <1434547172-24620-7-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Wed, 17 Jun 2015 16:19:17 +0300
+Message-Id: <1434547172-24620-8-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
 References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 06/22] Add a recipe for giflib
+Subject: [PATCH 07/22] Add a recipe for libyaml
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,42 +29,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 13:19:39 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 13:19:40 -0000
 
-This is a dependency of libwebp (which is a dependency of webkit)
+libyaml is a dependency of ruby
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/giflib/giflib_5.1.1.bb | 20 ++++++++++++++++++++
+ meta/recipes-support/libyaml/libyaml_0.1.6.bb | 20 ++++++++++++++++++++
  1 file changed, 20 insertions(+)
- create mode 100644 meta/recipes-devtools/giflib/giflib_5.1.1.bb
+ create mode 100644 meta/recipes-support/libyaml/libyaml_0.1.6.bb
 
-diff --git a/meta/recipes-devtools/giflib/giflib_5.1.1.bb b/meta/recipes-devtools/giflib/giflib_5.1.1.bb
+diff --git a/meta/recipes-support/libyaml/libyaml_0.1.6.bb b/meta/recipes-support/libyaml/libyaml_0.1.6.bb
 new file mode 100644
-index 0000000..0553f57
+index 0000000..8a624f7
 --- /dev/null
-+++ b/meta/recipes-devtools/giflib/giflib_5.1.1.bb
++++ b/meta/recipes-support/libyaml/libyaml_0.1.6.bb
 @@ -0,0 +1,20 @@
-+SUMMARY = "shared library for GIF images"
-+SECTION = "libs"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=ae11c61b04b2917be39b11f78d71519a"
-+PR = "r3"
++SUMMARY = "LibYAML is a YAML 1.1 parser and emitter written in C."
++DESCRIPTION = "LibYAML is a C library for parsing and emitting data in YAML 1.1, \
++a human-readable data serialization format. "
++HOMEPAGE = "http://pyyaml.org/wiki/LibYAML"
++SECTION = "libs/devel"
 +
-+SRC_URI = "${SOURCEFORGE_MIRROR}/giflib/${BP}.tar.bz2"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=6015f088759b10e0bc2bf64898d4ae17"
++
++SRC_URI = "http://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz \
++          "
++
++SRC_URI[md5sum] = "5fe00cda18ca5daeb43762b80c38e06e"
++SRC_URI[sha256sum] = "7da6971b4bd08a986dd2a61353bc422362bd0edcc67d7ebaac68c95f74182749"
++
++S = "${WORKDIR}/yaml-${PV}"
 +
 +inherit autotools
 +
-+PACKAGES += "${PN}-utils"
-+FILES_${PN} = "${libdir}/libgif.so.*"
-+FILES_${PN}-utils = "${bindir}"
-+
 +BBCLASSEXTEND = "native"
-+
-+RDEPENDS_${PN}-utils = "perl"
-+
-+SRC_URI[md5sum] = "1c39333192712788c6568c78a949f13e"
-+SRC_URI[sha256sum] = "391014aceb21c8b489dc7b0d0b6a917c4e32cc014ce2426d47ca376d02fe2ffc"
 -- 
 2.1.4
 
