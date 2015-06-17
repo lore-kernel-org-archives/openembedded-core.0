@@ -1,33 +1,20 @@
-Return-Path: <sbabic@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E5A965C63
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7268E73BB7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 13:16:06 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3mBRjd6hYJz3hhTp;
-	Wed, 17 Jun 2015 15:16:05 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
-	[88.217.136.221])
-	by mail.mnet-online.de (Postfix) with ESMTP id 3mBRjd4dZfzvjDx;
-	Wed, 17 Jun 2015 15:16:05 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id 46AC5454091E;
-	Wed, 17 Jun 2015 15:16:05 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id mfeu5DYYvHI3; Wed, 17 Jun 2015 15:15:58 +0200 (CEST)
-Received: from papero.fritz.box (papero.fritz.box [192.168.178.20])
-	by babic.homelinux.org (Postfix) with ESMTP id 8076745408DA;
-	Wed, 17 Jun 2015 15:15:57 +0200 (CEST)
-From: Stefano Babic <sbabic@denx.de>
+	Wed, 17 Jun 2015 13:19:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jun 2015 06:19:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205320"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:26 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 15:15:40 +0200
-Message-Id: <1434546940-21914-1-git-send-email-sbabic@denx.de>
-X-Mailer: git-send-email 1.9.1
-Cc: marex@denx.de, paul.eggleton@linux.intel.com, koen@dominion.thruhere.net
-Subject: [PATCH] ICU: libicudata corrupt on big endian systems
+Date: Wed, 17 Jun 2015 16:19:10 +0300
+Message-Id: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/22] Update webkitgtk to latest stable upstream; replace midori with epiphany
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,153 +27,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 13:16:10 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 13:19:27 -0000
 
-Tools to generate libicudata are not able
-to write the library according to the endianess.
+This patch series updates webkitgtk to latest stable upstream release
+and replaces midori browser with epiphany.
 
-Signed-off-by: Stefano Babic <sbabic@denx.de>
----
+These patches should be applied on top of Jussi Kukkonen's gtk3 update to 3.16.
 
-Issue was described in a previous:
+Alexander Kanavin (22):
+  Change tarball compression to xz for gnome recipes
+  Enable icu feature in harfbuzz recipe
+  Add arch conversion routine to cmake.bbclass
+  Update jpeg recipe to version 9a
+  Update libnotify to version 0.7.6
+  Add a recipe for giflib
+  Add a recipe for libyaml
+  Add a recipe for ruby
+  Add a recipe for libsecret
+  Add a recipe for libwebp
+  Add a recipe for webkitgtk 2.8.3
+  Add a recipe for p11-kit
+  Add a recipe for gcr
+  Add a recipe for iso-codes
+  Add a recipe for libwnck3
+  Add a recipe for gnome-desktop3
+  Add a warning suppression patch to glib
+  Add a recipe gsettings-desktop-schemas
+  Add a recipe for epiphany
+  Remove the recipe for the obsolete webkit-gtk 1.8.3
+  Remove the midori recipe and replace references to midori with
+    epiphany
+  poky: update distro files related to webkitgtk update and epiphany
+    addition
 
-https://www.mail-archive.com/openembedded-core@lists.openembedded.org/msg65155.html
+ meta-yocto/conf/distro/include/distro_alias.inc    |    2 +-
+ meta-yocto/conf/distro/include/maintainers.inc     |    4 +-
+ meta-yocto/conf/distro/include/package_regex.inc   |    5 +-
+ .../distro/include/poky-floating-revisions.inc     |    1 -
+ meta-yocto/conf/distro/include/recipe_color.inc    |    1 -
+ .../conf/distro/include/upstream_tracking.inc      |    2 -
+ meta/classes/cmake.bbclass                         |   12 +-
+ meta/classes/gnomebase.bbclass                     |    2 +-
+ meta/conf/distro/include/security_flags.inc        |    2 -
+ ...warning-about-deprecated-paths-in-schemas.patch |   32 +
+ meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb      |    1 +
+ .../glib-networking/glib-networking_2.44.0.bb      |    2 -
+ .../jpeg/jpeg-8d/debian-libjpeg7_7-1.diff          | 1070 --------------------
+ .../jpeg/jpeg-8d/fix_for_automake_1.12.1.patch     |   44 -
+ meta/recipes-core/jpeg/{jpeg_8d.bb => jpeg_9a.bb}  |   28 +-
+ .../packagegroups/packagegroup-self-hosted.bb      |   10 +-
+ meta/recipes-devtools/giflib/giflib_5.1.1.bb       |   20 +
+ meta/recipes-devtools/ruby/ruby.inc                |   40 +
+ meta/recipes-devtools/ruby/ruby/extmk.patch        |   13 +
+ meta/recipes-devtools/ruby/ruby_2.2.2.bb           |   42 +
+ meta/recipes-gnome/epiphany/epiphany_3.16.1.bb     |   23 +
+ meta/recipes-gnome/gcr/gcr_3.16.0.bb               |   18 +
+ .../gnome-desktop/gnome-desktop3_3.16.2.bb         |   25 +
+ meta/recipes-gnome/gnome/gnome-common_3.14.0.bb    |    2 -
+ .../recipes-gnome/gnome/gnome-doc-utils_0.20.10.bb |    2 -
+ meta/recipes-gnome/gnome/gnome-mime-data_2.18.0.bb |    1 +
+ .../gsettings-desktop-schemas_3.16.1.bb            |   13 +
+ .../gtk-engines/gtk-engines_2.20.2.bb              |    1 +
+ meta/recipes-gnome/json-glib/json-glib_1.0.4.bb    |    2 -
+ meta/recipes-gnome/libglade/libglade_2.6.4.bb      |    1 +
+ .../{libnotify_0.6.0.bb => libnotify_0.7.6.bb}     |    8 +-
+ meta/recipes-gnome/librsvg/librsvg_2.40.9.bb       |    2 -
+ meta/recipes-gnome/libsecret/libsecret_0.18.2.bb   |   12 +
+ meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb      |   17 +
+ .../builder/files/builder_hob_start.sh             |    8 +-
+ meta/recipes-graphics/harfbuzz/harfbuzz_0.9.40.bb  |    2 +-
+ meta/recipes-graphics/pango/pango_1.36.8.bb        |    2 -
+ meta/recipes-multimedia/webp/libwebp_0.4.3.bb      |   47 +
+ meta/recipes-sato/midori/midori/liststore.patch    |   29 -
+ meta/recipes-sato/midori/midori_0.5.8.bb           |   31 -
+ .../packagegroups/packagegroup-core-x11-sato.bb    |    2 +-
+ meta/recipes-sato/webkit/files/bison-2.6.patch     |  558 ----------
+ meta/recipes-sato/webkit/files/no-gtkdoc.patch     |   20 -
+ meta/recipes-sato/webkit/files/nodolt.patch        |   19 -
+ .../webgit-gtk_fix_build_with_automake_1.12.patch  |   62 --
+ ...bkit-gtk-ANGLE-doesn-t-build-with-bison-3.patch |   26 -
+ .../0001-Enable-mips64-build.patch                 |   69 --
+ .../webkit/webkit-gtk-1.8.3/aarch64.patch          |   41 -
+ .../obsolete_automake_macros.patch                 |   14 -
+ meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb       |  116 ---
+ meta/recipes-sato/webkit/webkitgtk_2.8.3.bb        |   58 ++
+ meta/recipes-support/atk/atk_2.16.0.bb             |    2 -
+ meta/recipes-support/iso-codes/iso-codes_3.58.bb   |   15 +
+ meta/recipes-support/libcroco/libcroco_0.6.8.bb    |    2 -
+ meta/recipes-support/libyaml/libyaml_0.1.6.bb      |   20 +
+ meta/recipes-support/p11-kit/p11-kit_0.22.1.bb     |   18 +
+ meta/recipes-support/vte/vte_0.28.2.bb             |    4 +-
+ 57 files changed, 455 insertions(+), 2170 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+ delete mode 100644 meta/recipes-core/jpeg/jpeg-8d/debian-libjpeg7_7-1.diff
+ delete mode 100644 meta/recipes-core/jpeg/jpeg-8d/fix_for_automake_1.12.1.patch
+ rename meta/recipes-core/jpeg/{jpeg_8d.bb => jpeg_9a.bb} (55%)
+ create mode 100644 meta/recipes-devtools/giflib/giflib_5.1.1.bb
+ create mode 100644 meta/recipes-devtools/ruby/ruby.inc
+ create mode 100644 meta/recipes-devtools/ruby/ruby/extmk.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby_2.2.2.bb
+ create mode 100644 meta/recipes-gnome/epiphany/epiphany_3.16.1.bb
+ create mode 100644 meta/recipes-gnome/gcr/gcr_3.16.0.bb
+ create mode 100644 meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
+ create mode 100644 meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
+ rename meta/recipes-gnome/libnotify/{libnotify_0.6.0.bb => libnotify_0.7.6.bb} (66%)
+ create mode 100644 meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
+ create mode 100644 meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
+ create mode 100644 meta/recipes-multimedia/webp/libwebp_0.4.3.bb
+ delete mode 100644 meta/recipes-sato/midori/midori/liststore.patch
+ delete mode 100644 meta/recipes-sato/midori/midori_0.5.8.bb
+ delete mode 100644 meta/recipes-sato/webkit/files/bison-2.6.patch
+ delete mode 100644 meta/recipes-sato/webkit/files/no-gtkdoc.patch
+ delete mode 100644 meta/recipes-sato/webkit/files/nodolt.patch
+ delete mode 100644 meta/recipes-sato/webkit/files/webgit-gtk_fix_build_with_automake_1.12.patch
+ delete mode 100644 meta/recipes-sato/webkit/files/webkit-gtk-ANGLE-doesn-t-build-with-bison-3.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkit-gtk-1.8.3/0001-Enable-mips64-build.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkit-gtk-1.8.3/aarch64.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkit-gtk-1.8.3/obsolete_automake_macros.patch
+ delete mode 100644 meta/recipes-sato/webkit/webkit-gtk_1.8.3.bb
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk_2.8.3.bb
+ create mode 100644 meta/recipes-support/iso-codes/iso-codes_3.58.bb
+ create mode 100644 meta/recipes-support/libyaml/libyaml_0.1.6.bb
+ create mode 100644 meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
 
- meta/recipes-support/icu/icu/0001-target.patch     | 35 +++++++++++++
- .../icu/icu/native_big_endian.patch                | 60 ++++++++++++++++++++++
- meta/recipes-support/icu/icu_54.1.bb               |  4 ++
- 3 files changed, 99 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/0001-target.patch
- create mode 100644 meta/recipes-support/icu/icu/native_big_endian.patch
-
-diff --git a/meta/recipes-support/icu/icu/0001-target.patch b/meta/recipes-support/icu/icu/0001-target.patch
-new file mode 100644
-index 0000000..f13ab69
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/0001-target.patch
-@@ -0,0 +1,35 @@
-+From 1878e1bfcd116dd3ed9519dd891bf18f860072b7 Mon Sep 17 00:00:00 2001
-+From: Stefano Babic <sbabic@denx.de>
-+Date: Thu, 4 Jun 2015 17:53:30 +0200
-+Subject: [PATCH] target
-+
-+Signed-off-by: Stefano Babic <sbabic@denx.de>
-+---
-+ source/data/Makefile.in | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/source/data/Makefile.in b/source/data/Makefile.in
-+index e600a84..67fedab 100644
-+--- a/data/Makefile.in
-++++ b/data/Makefile.in
-+@@ -45,6 +45,7 @@ ifeq ($(CURDIR),)
-+ CURDIR=.
-+ endif
-+ PKGDATA = $(TOOLBINDIR)/pkgdata $(PKGDATA_OPTS) -q -c -s $(CURDIR)/out/build/$(ICUDATA_PLATFORM_NAME) -d $(ICUPKGDATA_OUTDIR)
-++GENCCODE = $(TOOLBINDIR)/genccode
-+ OS390_PDS_NAME = -z -L $(BATCH_STUB_TARGET)
-+
-+ ifeq ($(OS390_STUBDATA),1)
-+@@ -180,6 +181,10 @@ endif
-+ endif
-+ ifneq ($(ICUDATA_SOURCE_IS_NATIVE_TARGET),YES)
-+	$(PKGDATA_INVOKE) $(PKGDATA) -e $(ICUDATA_ENTRY_POINT) -T $(OUTTMPDIR) -p $(ICUDATA_NAME) -m $(PKGDATA_MODE) $(PKGDATA_VERSIONING) $(PKGDATA_LIBNAME) $(PKGDATA_LIST)
-++	cp $(OUTDIR)/$(ICUDATA_NAME).dat $(OUTDIR)/$(ICUDATA_BASENAME_VERSION).dat
-++	$(INVOKE) $(GENCCODE) $(OUTDIR)/$(ICUDATA_BASENAME_VERSION).dat
-++	$(INVOKE) $(COMPILE.c) -I$(top_srcdir)/common -I$(top_builddir)/common -o $(OUTDIR)/$(ICUDATA_BASENAME_VERSION)_dat.o -c $(ICUDATA_BASENAME_VERSION)_dat.c
-++	$(INVOKE) $(SHLIB.c) -o ../lib/$(LIB_ICUDATA_NAME).so.$(VERSION) $(OUTDIR)/$(ICUDATA_BASENAME_VERSION)_dat.o -Wl,-soname -Wl,$(LIB_ICUDATA_NAME).so.$(VERSION)
-+ ifeq ($(OS390BATCH),1)
-+	$(PKGDATA_INVOKE) $(PKGDATA) -e $(ICUDATA_ENTRY_POINT) -T $(OUTTMPDIR) -p $(ICUDATA_NAME) -m $(PKGDATA_MODE) $(PKGDATA_VERSIONING) $(OS390_PDS_NAME) $(PKGDATA_LIST)
-+ endif
-+--
-+1.9.3
-diff --git a/meta/recipes-support/icu/icu/native_big_endian.patch b/meta/recipes-support/icu/icu/native_big_endian.patch
-new file mode 100644
-index 0000000..b0270c9
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/native_big_endian.patch
-@@ -0,0 +1,60 @@
-+diff --git a/tools/icupkg/icupkg.cpp b/tools/icupkg/icupkg.cpp
-+index 4ae7ac4..0d9c261 100644
-+--- a/tools/icupkg/icupkg.cpp
-++++ b/tools/icupkg/icupkg.cpp
-+@@ -27,6 +27,8 @@
-+ *   Will not work with data DLLs (shared libraries).
-+ */
-+
-++#define U_IS_BIG_ENDIAN 1
-++
-+ #include "unicode/utypes.h"
-+ #include "unicode/putil.h"
-+ #include "cstring.h"
-+diff --git a/tools/toolutil/pkg_genc.c b/tools/toolutil/pkg_genc.c
-+index 5c041e9..a3ef4de 100644
-+--- a/tools/toolutil/pkg_genc.c
-++++ b/tools/toolutil/pkg_genc.c
-+@@ -3,6 +3,7 @@
-+  *   Corporation and others.  All Rights Reserved.
-+  *******************************************************************************
-+  */
-++#define U_IS_BIG_ENDIAN 1
-+ #include "unicode/utypes.h"
-+
-+ #if U_PLATFORM_HAS_WIN32_API
-+@@ -411,9 +412,8 @@ writeCCode(const char *filename, const char *destdir, const char *optName, const
-+         "#endif\n"
-+         "U_CDECL_BEGIN\n"
-+         "const struct {\n"
-+-        "    double bogus;\n"
-+         "    uint8_t bytes[%ld]; \n"
-+-        "} %s={ 0.0, {\n",
-++        "} %s={ {\n",
-+         (long)T_FileStream_size(in), entry);
-+     T_FileStream_writeLine(out, buffer);
-+
-+diff --git a/tools/toolutil/pkg_icu.cpp b/tools/toolutil/pkg_icu.cpp
-+index 87ed091..79ba616 100644
-+--- a/tools/toolutil/pkg_icu.cpp
-++++ b/tools/toolutil/pkg_icu.cpp
-+@@ -3,6 +3,7 @@
-+  *   Corporation and others.  All Rights Reserved.
-+  *******************************************************************************
-+  */
-++#define U_IS_BIG_ENDIAN 1
-+ #include "unicode/utypes.h"
-+ #include "unicode/putil.h"
-+ #include "cstring.h"
-+diff --git a/tools/toolutil/pkg_icu.h b/tools/toolutil/pkg_icu.h
-+index 8451f8d..cb2f48b 100644
-+--- a/tools/toolutil/pkg_icu.h
-++++ b/tools/toolutil/pkg_icu.h
-+@@ -7,6 +7,7 @@
-+ #ifndef __PKG_ICU_H__
-+ #define __PKG_ICU_H__
-+
-++#define U_IS_BIG_ENDIAN 1
-+ #include "unicode/utypes.h"
-+
-+ #define U_PKG_RESERVED_CHARS "\"%&'()*+,-./:;<=>?_"
-diff --git a/meta/recipes-support/icu/icu_54.1.bb b/meta/recipes-support/icu/icu_54.1.bb
-index 45b5cb6..875b39b 100644
---- a/meta/recipes-support/icu/icu_54.1.bb
-+++ b/meta/recipes-support/icu/icu_54.1.bb
-@@ -11,11 +11,15 @@ ICU_PV = "${@icu_download_version(d)}"
- BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV}-src.tgz"
- SRC_URI = "${BASE_SRC_URI} \
-            file://icu-pkgdata-large-cmd.patch \
-+	   ${@base_conditional('SITEINFO_ENDIANNESS', 'le', '', 'file://0001-target.patch ', d)} \
-           "
- 
-+
-+SRC_URI_append_class-native = "${@base_conditional('TUNE_ARCH', 'powerpc', 'file://native_big_endian.patch', '', d)}"
- SRC_URI_append_class-target = "\
-            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
-           "
- SRC_URI[md5sum] = "e844caed8f2ca24c088505b0d6271bc0"
- SRC_URI[sha256sum] = "d42bc9a8ca6a91c55eb0925c279f49e5b508d51ef26ac9850d9be55de5bb8ab3"
- 
-+EXTRA_OECONF_append_class-native = "${@base_conditional('TUNE_ARCH', 'powerpc', '--with-data-packaging=files', '', d)}"
 -- 
-1.9.1
+2.1.4
 
 
