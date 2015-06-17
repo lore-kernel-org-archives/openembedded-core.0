@@ -1,29 +1,23 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B545601DF
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FA6A73E65
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 13:32:08 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id B7490F811D8; Wed, 17 Jun 2015 07:32:09 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 495F2F811D7;
-	Wed, 17 Jun 2015 07:32:09 -0600 (MDT)
-Message-ID: <558176ED.1050809@mlbassoc.com>
-Date: Wed, 17 Jun 2015 07:32:29 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
+	Wed, 17 Jun 2015 13:53:16 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jun 2015 06:53:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="748356999"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 17 Jun 2015 06:53:16 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 095CD6A4083;
+	Wed, 17 Jun 2015 06:52:39 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <557E9EFE.1030703@linux.intel.com>	<CALbNGRS9UWjVQQh8POPc5zVYOeYa9VaeC7dEfzH3AMs4k9Mjzw@mail.gmail.com>	<CAJTo0LbRVqw3h_3igs59=DTnaz6nf4w=A5ZpXepmh6xiKtVdPA@mail.gmail.com>	<557EE4C2.501@linux.intel.com>	<CALbNGRS-xR52wapA2viFa0oZJ6kotFdjhXpb6kyOtpRyn--5=A@mail.gmail.com>	<55801903.4040905@linux.intel.com>	<CALbNGRTJeh4eCD45cGUOx-DRZPHSeKTqndq1Jk+7V-ANQtAPNA@mail.gmail.com>	<558024F3.5030604@mlbassoc.com>
-	<CALbNGRTP0mHQB2opa0QMxj0CAQBqkVKS08_h89nTnhUESkaR_g@mail.gmail.com>
-In-Reply-To: <CALbNGRTP0mHQB2opa0QMxj0CAQBqkVKS08_h89nTnhUESkaR_g@mail.gmail.com>
-Subject: Re: Webkit-gtk will be updated to latest upstream; midori browser to be replaced with Epiphany
+Date: Wed, 17 Jun 2015 16:52:41 +0300
+Message-Id: <1434549161-12235-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: removed unused command line option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,58 +30,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 13:32:13 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Jun 2015 13:53:20 -0000
 
-On 2015-06-16 07:36, Andreas Müller wrote:
-> On Tue, Jun 16, 2015 at 3:30 PM, Gary Thomas <gary@mlbassoc.com> wrote:
->> On 2015-06-16 07:27, Andreas Müller wrote:
->>>
->>> On Tue, Jun 16, 2015 at 2:39 PM, Alexander Kanavin
->>> <alexander.kanavin@linux.intel.com> wrote:
->>>>
->>>> On 06/16/2015 09:50 AM, Andreas Müller wrote:
->>>>
->>>>> How about doing same as others do e.g fedora [1-2]: Keep two version
->>>>> of webkit-gtk based on same recent code:
->>>>>
->>>>> * gtk2/webkit1
->>>>> * gtk3/webkit2
->>>>
->>>>
->>>>
->>>> Before showing how, you need to explain why. Fedora has to package
->>>> webkit1
->>>> because they have a lot of apps in the Gnome stack that still haven't
->>>> been
->>>> ported to webkit2. Oe-core on the other hand has only one such app:
->>>> midori.
->>>
->>> Yes and midori is the only working browser in Yocto (I know): firefox
->>> crashes since very long time for illegal ARM instruction and chromium
->>> does not start at all.
->>
->>
->> What platform are you using?  Are you building these from meta-browser?
->>
->> I routinely use both firefox and chromium on ARM (i.MX6) with no problems.
-> Hmm - I was wondering why nobody took care.
->
-> All my plattforms fail:
-> * i.MX6 base
-> * gumstix
-> * raspberry Pi2
->
-> I'll put this browser issue on my TODO currently I have no further
-> time to take care.
+Removed -i/--infile wic command line option.
+Removed properties_file and properties arguments of
+wic_create function.
 
-BTW, I just tested both chromium and firefox on the i.MX6Q and RPi2
-and they worked just fine.  Built from meta-browser:0cc0419a
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/image/engine.py | 7 ++-----
+ scripts/wic                 | 8 +++-----
+ 2 files changed, 5 insertions(+), 10 deletions(-)
 
+diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
+index c568d69..29099ee 100644
+--- a/scripts/lib/image/engine.py
++++ b/scripts/lib/image/engine.py
+@@ -178,9 +178,8 @@ def list_source_plugins():
+         print "  %s" % plugin
+ 
+ 
+-def wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+-               native_sysroot, scripts_path, image_output_dir, debug,
+-               properties_file, properties=None):
++def wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
++               native_sysroot, scripts_path, image_output_dir, debug):
+     """Create image
+ 
+     wks_file - user-defined OE kickstart file
+@@ -190,8 +189,6 @@ def wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+     native_sysroot - absolute path to the build's native sysroots dir
+     scripts_path - absolute path to /scripts dir
+     image_output_dir - dirname to create for image
+-    properties_file - use values from this file if nonempty i.e no prompting
+-    properties - use values from this string if nonempty i.e no prompting
+ 
+     Normally, the values for the build artifacts values are determined
+     by 'wic -e' from the output of the 'bitbake -e' command given an
+diff --git a/scripts/wic b/scripts/wic
+index a38ecc0..7b0c3b2 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -91,8 +91,6 @@ def wic_create_subcommand(args, usage_str):
+ 
+     parser.add_option("-o", "--outdir", dest="outdir",
+                       action="store", help="name of directory to create image in")
+-    parser.add_option("-i", "--infile", dest="properties_file",
+-                      action="store", help="name of file containing the values for image properties as a JSON file")
+     parser.add_option("-e", "--image-name", dest="image_name",
+                       action="store", help="name of the image to use the artifacts from e.g. core-image-sato")
+     parser.add_option("-r", "--rootfs-dir", dest="rootfs_dir",
+@@ -132,7 +130,7 @@ def wic_create_subcommand(args, usage_str):
+     if not options.image_name:
+         options.build_check = False
+ 
+-    if options.build_check and not options.properties_file:
++    if options.build_check:
+         print "Checking basic build environment..."
+         if not engine.verify_build_env():
+             print "Couldn't verify build environment, exiting\n"
+@@ -225,9 +223,9 @@ def wic_create_subcommand(args, usage_str):
+     rootfs_dir = rootfs_dir_to_args(krootfs_dir)
+ 
+     print "Creating image(s)...\n"
+-    engine.wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
++    engine.wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+                       native_sysroot, scripts_path, image_output_dir,
+-                      options.debug, options.properties_file)
++                      options.debug)
+ 
+ 
+ def wic_list_subcommand(args, usage_str):
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.1.4
+
 
