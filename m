@@ -1,26 +1,25 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CB02760557
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 914FA73E3B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 17:04:44 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5HH4joJ013140
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 10:04:45 -0700 (PDT)
-Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 17 Jun 2015 10:04:45 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jun 2015 12:04:42 -0500
-Message-ID: <1434560682-89221-4-git-send-email-mark.hatle@windriver.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1434560682-89221-1-git-send-email-mark.hatle@windriver.com>
-References: <1434560682-89221-1-git-send-email-mark.hatle@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] rpm: Generate per distribution and multilib macro files
+	Wed, 17 Jun 2015 17:23:37 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 10:23:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,634,1427785200"; d="scan'208";a="729357410"
+Received: from apulli-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.1.212])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 10:23:36 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jun 2015 18:23:23 +0100
+Message-Id: <cffc9a8527591cf6a47973075e3097f23d92fb52.1434559829.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+References: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+References: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/5] recipetool: appendfile: clarify help text
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,124 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 17:04:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Jun 2015 17:23:41 -0000
 
-The distribution and multilib macro files are required for rpmbuild, on the
-target, to work properly.  These override the default settings from the
-upstream macro files with the proper values for the OE configuration.
+Add a long description and tweak some of the argument descriptions so
+that it's clearer what the appendfile subcommand does and how it works.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/recipes-devtools/rpm/rpm_5.4.14.bb | 80 +++++++++++++++++++++++++++++++++
- 1 file changed, 80 insertions(+)
+ scripts/lib/recipetool/append.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index fb81f12..35c86bd 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -107,6 +107,9 @@ inherit autotools gettext
+diff --git a/scripts/lib/recipetool/append.py b/scripts/lib/recipetool/append.py
+index 39117c1..28015c6 100644
+--- a/scripts/lib/recipetool/append.py
++++ b/scripts/lib/recipetool/append.py
+@@ -349,12 +349,12 @@ def appendfile(args):
  
- acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
- 
-+# The local distribution macro directory
-+distromacrodir = "${libdir}/rpm/${DISTRO}"
-+
- # Specify the default rpm macros in terms of adjustable variables
- rpm_macros = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros"
- rpm_macros_class-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:~/.oerpmmacros"
-@@ -331,6 +334,7 @@ FILES_${PN}-build = "${prefix}/src/rpm \
- 		${libdir}/rpm/vpkg-provides.sh \
- 		${libdir}/rpm/vpkg-provides2.sh \
- 		${libdir}/rpm/perfile_rpmdeps.sh \
-+		${distromacrodir} \
- 		"
- RDEPENDS_${PN} = "base-files run-postinsts"
- RDEPENDS_${PN}_class-native = ""
-@@ -472,6 +476,82 @@ do_install_append() {
- 
- }
- 
-+do_install_append_class-target() {
-+	# Create and install distribution specific macros
-+	mkdir -p ${D}/${distromacrodir}
-+	cat << EOF > ${D}/${distromacrodir}/macros
-+%_defaultdocdir		${docdir}
-+
-+%_prefix                ${prefix}
-+%_exec_prefix           ${exec_prefix}
-+%_datarootdir           ${datadir}
-+%_bindir                ${bindir}
-+%_sbindir               ${sbindir}
-+%_libexecdir            %{_libdir}/%{name}
-+%_datadir               ${datadir}
-+%_sysconfdir            ${sysconfdir}
-+%_sharedstatedir        ${sharedstatedir}
-+%_localstatedir         ${localstatedir}
-+%_lib                   lib
-+%_libdir                %{_exec_prefix}/%{_lib}
-+%_includedir            ${includedir}
-+%_oldincludedir         ${oldincludedir}
-+%_infodir               ${infodir}
-+%_mandir                ${mandir}
-+%_localedir             %{_libdir}/locale
-+EOF
-+
-+	# Create and install multilib specific macros
-+	${@multilib_rpmmacros(d)}
-+}
-+
-+def multilib_rpmmacros(d):
-+    localdata = d.createCopy()
-+    # We need to clear the TOOLCHAIN_OPTIONS (--sysroot)
-+    localdata.delVar('TOOLCHAIN_OPTIONS')
-+
-+    # Set it to the consistent of 'd'.
-+    localdata.setVar('distromacrodir', d.getVar('distromacrodir', True))
-+    localdata.setVar('WORKDIR', d.getVar('WORKDIR', True))
-+
-+    ret = gen_arch_macro(localdata)
-+
-+    variants = d.getVar("MULTILIB_VARIANTS", True) or ""
-+    for item in variants.split():
-+        # Load overrides from 'd' to avoid having to reset the value...
-+        overrides = d.getVar("OVERRIDES", False) + ":virtclass-multilib-" + item
-+        localdata.setVar("OVERRIDES", overrides)
-+        localdata.setVar("MLPREFIX", item + "-")
-+        bb.data.update_data(localdata)
-+        ret += gen_arch_macro(localdata)
-+    return ret
-+
-+def gen_arch_macro(d):
-+    # Generate shell script to produce the file as part of do_install
-+    val  = "mkdir -p ${D}/${distromacrodir}/${TARGET_ARCH}-${TARGET_OS}\n"
-+    val += "cat << EOF > ${D}/${distromacrodir}/${TARGET_ARCH}-${TARGET_OS}/macros\n"
-+    val += "%_lib               ${baselib}\n"
-+    val += "%_libdir            ${libdir}\n"
-+    val += "%_localedir         ${localedir}\n"
-+    val += "\n"
-+    val += "# Toolchain configuration\n"
-+    val += "%TOOLCHAIN_OPTIONS  %{nil}\n"
-+    val += "%__ar               ${@d.getVar('AR', True).replace('$','%')}\n"
-+    val += "%__as               ${@d.getVar('AS', True).replace('$','%')}\n"
-+    val += "%__cc               ${@d.getVar('CC', True).replace('$','%')}\n"
-+    val += "%__cpp              ${@d.getVar('CPP', True).replace('$','%')}\n"
-+    val += "%__cxx              ${@d.getVar('CXX', True).replace('$','%')}\n"
-+    val += "%__ld               ${@d.getVar('LD', True).replace('$','%')}\n"
-+    val += "%__nm               ${@d.getVar('NM', True).replace('$','%')}\n"
-+    val += "%__objcopy          ${@d.getVar('OBJCOPY', True).replace('$','%')}\n"
-+    val += "%__objdump          ${@d.getVar('OBJDUMP', True).replace('$','%')}\n"
-+    val += "%__ranlib           ${@d.getVar('RANLIB', True).replace('$','%')}\n"
-+    val += "%__strip            ${@d.getVar('STRIP', True).replace('$','%')}\n"
-+    val += "EOF\n"
-+    val += "\n"
-+    return d.expand(val)
-+
-+
- add_native_wrapper() {
-         create_wrapper ${D}/${bindir}/rpm \
- 		RPM_USRLIBRPM='`dirname $''realpath`'/${@os.path.relpath(d.getVar('libdir', True), d.getVar('bindir', True))}/rpm \
+ def register_command(subparsers):
+     parser_appendfile = subparsers.add_parser('appendfile',
+-                                                    help='Create a bbappend to replace a file',
+-                                                    description='')
+-    parser_appendfile.add_argument('destlayer', help='Destination layer to write the bbappend to')
+-    parser_appendfile.add_argument('targetpath', help='Path within the image to the file to be replaced')
+-    parser_appendfile.add_argument('newfile', help='Custom file to replace it with')
+-    parser_appendfile.add_argument('-r', '--recipe', help='Override recipe to apply to (default is to find which recipe already packages it)')
++                                                help='Create/update a bbappend to replace a file',
++                                                description='Creates a bbappend (or updates an existing one) to replace the specified file that appears in the target system, determining the recipe that packages the file and the required path and name for the bbappend automatically. Note that the ability to determine the recipe packaging a particular file depends upon the recipe\'s do_packagedata task having already run prior to running this command (which it will have when the recipe has been built successfully, which in turn will have happened if one or more of the recipe\'s packages is included in an image that has been built successfully).')
++    parser_appendfile.add_argument('destlayer', help='Base directory of the destination layer to write the bbappend to')
++    parser_appendfile.add_argument('targetpath', help='Path to the file to be replaced (as it would appear within the target image, e.g. /etc/motd)')
++    parser_appendfile.add_argument('newfile', help='Custom file to replace the target file with')
++    parser_appendfile.add_argument('-r', '--recipe', help='Override recipe to apply to (default is to find which recipe already packages the file)')
+     parser_appendfile.add_argument('-m', '--machine', help='Make bbappend changes specific to a machine only', metavar='MACHINE')
+     parser_appendfile.add_argument('-w', '--wildcard-version', help='Use wildcard to make the bbappend apply to any recipe version', action='store_true')
+     parser_appendfile.set_defaults(func=appendfile, parserecipes=True)
 -- 
-1.9.3
+2.1.0
 
 
