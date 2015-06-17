@@ -1,27 +1,44 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D6A4C73F7F
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 6704F72491
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 07:25:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5H7PJjZ009772
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 17 Jun 2015 07:27:45 +0000 (UTC)
+Received: by wiwd19 with SMTP id d19so123919727wiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 00:25:19 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Wed, 17 Jun 2015 00:25:19 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jun 2015 15:17:53 +0800
-Message-ID: <b62d3aef444f2957fd916847561e0d1b1e57a88c.1434525397.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1434525397.git.kai.kang@windriver.com>
-References: <cover.1434525397.git.kai.kang@windriver.com>
+	Wed, 17 Jun 2015 00:27:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
+	:cc:subject:references:in-reply-to:content-type
+	:content-transfer-encoding;
+	bh=YmPs/tIDnwPcBbsv1G5EJyHS/Le+qe4pldiQFky87mo=;
+	b=f0rANThrHjBM7QJeY5F8kXzySxQDv4cHqdQB0vkLvinmB91SG1UWEDlErykuqti0HS
+	LdjsJgQr241rsN/PwOTIiaGcZUjbEEI/4OqMW8qAP7RDYpy5cDp1qj8YxHgc5j9Q0f9P
+	D9hYCkc0SITd3EZkfhmpKh8rPEsVzm0/NvARhZfI7ZViSnX/PUta5hOnUitp0QlRlrkz
+	1f5qjhUbqRSyXZxxnnl7GfEAKjDI7zAmnUUOAzayIp7C+htqgRlUKFaT73tSLLJLz/x2
+	ZdkO+x9sycvZOzXMHjoEmvhJhtpZRYqXFP17ZSyCUB8HjpZ+SaoWieHrvPIebuPREQ4I
+	9tBw==
+X-Gm-Message-State: ALoCoQlqNOhpp9nJAaWt2dIhvQifhh+lg5go4+kWc+W7KWNGrPByTlwLkgoDiurSebmq+1Is6UMG
+X-Received: by 10.180.95.10 with SMTP id dg10mr14968806wib.41.1434526066097;
+	Wed, 17 Jun 2015 00:27:46 -0700 (PDT)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by mx.google.com with ESMTPSA id yz3sm5268611wjc.19.2015.06.17.00.27.44
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 Jun 2015 00:27:45 -0700 (PDT)
+Message-ID: <5581216F.7080503@dresearch-fe.de>
+Date: Wed, 17 Jun 2015 09:27:43 +0200
+From: Steffen Sledz <sledz@dresearch-fe.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Subject: [PATCH 1/1] cups: upgrade from 2.0.2 to 2.0.3
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <55802EE1.6040703@dresearch-fe.de>
+	<3080821.5ZItofk0yx@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <3080821.5ZItofk0yx@peggleto-mobl.ger.corp.intel.com>
+Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: multiple git repos vs. AUTOREV?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +51,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 07:25:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Jun 2015 07:27:46 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 8bit
 
-Upgrade cups from 2.0.2 to 2.0.3. In its release log, it fixes
-CERT VU #810572/CVE-2015-1158/CVE-2015-1159.
+On 16.06.2015 16:20, Paul Eggleton wrote:
+> On Tuesday 16 June 2015 16:12:49 Steffen Sledz wrote:
+>> For development purposes we use this method to build always from the HEAD
+>> revision of a git repository.
+>> ...
+>> Now we like to do the same in one recipe which uses sources from two git
+>> repos.
+>> ...
+> 
+> I believe this should work:
+> 
+> -------------> snip <--------------
+> SRCREV_FORMAT = "foo_bar"
+> SRCREV_foo = "${AUTOREV}"
+> SRCREV_bar = "${AUTOREV}"
+> PV = "gitr${SRCPV}"
+>  
+> SRC_URI = " \
+> 	git://git@bitbucket.org/.../foo.git;protocol=ssh,name=foo \
+>  	git://git@bitbucket.org/.../bar.git;protocol=ssh,name=bar \
+>  "
+> -------------> snap <--------------
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-extended/cups/{cups_2.0.2.bb => cups_2.0.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/cups/{cups_2.0.2.bb => cups_2.0.3.bb} (40%)
+Thanx.
 
-diff --git a/meta/recipes-extended/cups/cups_2.0.2.bb b/meta/recipes-extended/cups/cups_2.0.3.bb
-similarity index 40%
-rename from meta/recipes-extended/cups/cups_2.0.2.bb
-rename to meta/recipes-extended/cups/cups_2.0.3.bb
-index 96c24cd..edff955 100644
---- a/meta/recipes-extended/cups/cups_2.0.2.bb
-+++ b/meta/recipes-extended/cups/cups_2.0.3.bb
-@@ -2,5 +2,5 @@ require cups.inc
- 
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=6c5a350596fba02754bd96eb6df3afd0"
- 
--SRC_URI[md5sum] = "6e0ea72dbafcf5baaa1cf4178e71096d"
--SRC_URI[sha256sum] = "858720f76b66fd0441ae2a16f7cabd9554c8c64607e28ffacf16c36c53a3b18b"
-+SRC_URI[md5sum] = "8d98b85edbdab7ab03739c9622f570e8"
-+SRC_URI[sha256sum] = "bc3167048690a7379f29a37d9fbd2143cf0ca033b54eedd9333ddfc4ee258881"
+Now we have a similar but little different problem definition. We like to integrate the code of an own kernel driver into the current linux-boundary recipe. Because the driver is under development we like to use the HEAD revision of this repo. My first try was this bbappend.
+
+-------------> snip <--------------
+SRCREV_FORMAT_append += "_mydriver"
+SRCREV_mydriver = "${AUTOREV}"
+PV_append = "gitr${SRCPV}"
+
+SRC_URI_append = " \
+	git://github.com/.../mydriver.git;protocol=https;destsuffix=git.mydriver;name=mydriver \
+"
+
+...
+-------------> snap <--------------
+
+But this leads to an error.
+
+ERROR: ExpansionError during parsing /.../meta-fsl-arm-extra/recipes-kernel/linux/linux-boundary_3.10.53.bb: Failure expanding variable pkg_postrm_kernel-devicetree: ExpansionError: Failure expanding variable KERNEL_PRIORITY, expression was ${@int(d.getVar('PV',1).split('-')[0].split('+')[0].split('.')[0]) * 10000 +                        int(d.getVar('PV',1).split('-')[0].split('+')[0].split('.')[1]) * 100 +                        int(d.getVar('PV',1).split('-')[0].split('+')[0].split('.')[-1])} which triggered exception ValueError: invalid literal for int() with base 10: '53gitrAUTOINC'
+
+Without the PV_append line everything builds well but the resulting package version does not contain a part for the additional repo version. :(
+
+Any ideas on this one?
+
+Steffen
+
 -- 
-1.9.1
-
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
