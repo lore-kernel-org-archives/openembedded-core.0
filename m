@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9248B73E65
+	by mail.openembedded.org (Postfix) with ESMTP id 9323F757C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 17:23:36 +0000 (UTC)
+	Wed, 17 Jun 2015 17:23:38 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 10:23:35 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 10:23:37 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,634,1427785200"; d="scan'208";a="729357407"
+X-IronPort-AV: E=Sophos;i="5.13,634,1427785200"; d="scan'208";a="729357415"
 Received: from apulli-mobl2.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.1.212])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 10:23:35 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 10:23:37 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 18:23:22 +0100
-Message-Id: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+Date: Wed, 17 Jun 2015 18:23:24 +0100
+Message-Id: <fc3443f502efe26bc00f740f0a14ce10829c9f83.1434559829.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/5] devtool/recipetool and related fixes
+In-Reply-To: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+References: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+References: <cover.1434559829.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 2/5] recipetool: appendfile: fix file command error handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +34,40 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 17 Jun 2015 17:23:41 -0000
 
-A couple of fixes for errors thrown up by oe-selftest tests on one of
-my machines (plus one of the autobuilders), a supporting fix for
-get_bb_var(), a bugfix for externalsrc, and an improvement for
-recipetool appendfile's help text.
+* It turns out that not all versions of the file command support the -E
+  option - the version in Ubuntu 14.04 doesn't support it for example.
+  This option is supposed to force file to return an error if the file
+  can't be opened - since we can't rely upon it then fall back to
+  looking at the output instead. (The results of this issue were simply
+  that we didn't notice if the file was executable and give a warning,
+  which tripped an oe-selftest failure - so it was minor.)
+* If we receive an error there's not much point looking at the output to
+  see what type was returned because there wasn't one.
 
-NOTE: These have been rebased on top of Markus's devtool refactoring
-branch (marquiz/devtool/refactor), so that needs to be merged first.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/recipetool/append.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-
-The following changes since commit 5a4eb3a7b6402384e05d47cb897c685c530a8c3b:
-
-  devtool: use DevtoolError for error handling (2015-06-17 14:09:20 +0300)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool-fixes4
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-fixes4
-
-Paul Eggleton (5):
-  recipetool: appendfile: clarify help text
-  recipetool: appendfile: fix file command error handling
-  classes/externalsrc: handle tasks with existing lockfiles
-  lib/oeqa/utils/commands: ensure get_bb_var() works when value contains =
-  devtool: deploy: fix preservation of symlinks and permissions/ownership
-
- meta/classes/externalsrc.bbclass  |  2 +-
- meta/lib/oeqa/selftest/devtool.py | 48 +++++++++++++++++++++++++++++++++++++--
- meta/lib/oeqa/utils/commands.py   |  2 +-
- scripts/lib/devtool/__init__.py   | 16 +++++++++++++
- scripts/lib/devtool/deploy.py     | 10 +++++---
- scripts/lib/recipetool/append.py  | 18 ++++++++-------
- 6 files changed, 81 insertions(+), 15 deletions(-)
-
+diff --git a/scripts/lib/recipetool/append.py b/scripts/lib/recipetool/append.py
+index 28015c6..ed4ce4a 100644
+--- a/scripts/lib/recipetool/append.py
++++ b/scripts/lib/recipetool/append.py
+@@ -262,10 +262,12 @@ def appendfile(args):
+ 
+     stdout = ''
+     try:
+-        (stdout, _) = bb.process.run('LANG=C file -E -b %s' % args.newfile, shell=True)
++        (stdout, _) = bb.process.run('LANG=C file -b %s' % args.newfile, shell=True)
++        if 'cannot open' in stdout:
++            raise bb.process.ExecutionError(stdout)
+     except bb.process.ExecutionError as err:
+         logger.debug('file command returned error: %s' % err)
+-        pass
++        stdout = ''
+     if stdout:
+         logger.debug('file command output: %s' % stdout.rstrip())
+         if ('executable' in stdout and not 'shell script' in stdout) or 'shared object' in stdout:
 -- 
 2.1.0
 
