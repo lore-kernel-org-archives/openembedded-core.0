@@ -1,36 +1,24 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 66D7260557
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AC7F60557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 16:52:22 +0000 (UTC)
-Received: by pdjm12 with SMTP id m12so44134091pdj.3
+	Wed, 17 Jun 2015 17:04:42 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5HH4h3h006092
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 09:52:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:date:message-id:subject:from:to:cc:content-type; 
-	bh=EifYh0XotCfRGL80NCX2mEV87xt2o2u2bOfqaZyM9iM=;
-	b=ux7vGLdtpJ4tfWn5A7PPxUVyxU8lSuTzj8kvtjvw+4pCEuiph5TYyWP37kFv4t6y+k
-	CXham4uSzm5RotRwNb6mJ5eb112DZ/wFrieo/ta97/GixA9Md+sC6B5k6573tQRPzpZy
-	GXVANHYjeZ6h3DqCXIQeUNmBBeXoIH/Qb8vrUopqt0BIJJW3Rcc3FVCDxn3ClJsgaJRo
-	MmR4NgYbYFJJw/E6OiEEskCV27AnQ6oN9Ac3tb+Wt8TcwRyyKx+ohwzv/5Y3rEM7PQIN
-	pp3qIsbVLd+CCUUyRMHMYypeMEoY0nUgTqNTLjPHPkh9cXTno8PqKv469QoKJdhlJ+va
-	KELw==
+	Wed, 17 Jun 2015 10:04:43 -0700 (PDT)
+Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 17 Jun 2015 10:04:43 -0700
+From: Mark Hatle <mark.hatle@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jun 2015 12:04:39 -0500
+Message-ID: <1434560682-89221-1-git-send-email-mark.hatle@windriver.com>
+X-Mailer: git-send-email 1.9.3
 MIME-Version: 1.0
-X-Received: by 10.66.141.12 with SMTP id rk12mr12434415pab.97.1434559944135;
-	Wed, 17 Jun 2015 09:52:24 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.70.34.109 with HTTP; Wed, 17 Jun 2015 09:52:24 -0700 (PDT)
-Date: Wed, 17 Jun 2015 13:52:24 -0300
-X-Google-Sender-Auth: VeX5frYTWPru_uDD3_aTltUYYG4
-Message-ID: <CAP9ODKos=R6O6XtwYtUL+_KZaJz+WxD0YxGRHU5+Qqs1VOP-9A@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: "Lock, Joshua" <joshua.lock@intel.com>,
-	Daiane Angolini <daiane.angolini@freescale.com>,
-	Randy Krakora <randy.krakora@freescale.com>
-Subject: [for-fido] Valgrind fixes backporting
+Subject: [PATCH 0/3] RPM bug fixes...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,26 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 16:52:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 17 Jun 2015 17:04:43 -0000
+Content-Type: text/plain
 
-Hello folks,
+This set fixes a few problems that I recently noticed with RPM5.
 
-There are two patches which should be backported for fido:
+The first item is a pure bug fix, the second and third are either bugs or an 
+enhancements depending on how you look at it.
 
-OE-Core: 53afa26655d0b5f75ef2dd6bccef76281a14655c
-OE-Core: 2fb0edcb47a14e47780d545f60885b36e71fca71
+To test the first bug, you will need to enable 'lua' in the rpm recipe's
+PACKAGECONFIG.  You can then verify behavor by running:
 
-This fixes the build issues some customers has been experiencing in
-Valgrind build.
+rpm --eval "%{_defaultdocdir} %{lua:print 'after'}"
 
-The issue has been reported by Randy Krakora and Daiane Angolini, both
-from Freescale.
+If 'after' appears BEFORE the defaultdocdir value, then the bug is not fixed.
 
-Best Regards,
+For the second/third items, if you install the necessary runtime environment
+to use rpmbuild, you can attempt to build various spec files that use the
+updated variables and verify the usage was correct.  (Not all spec files use
+__cc, __cxx, etc.. so you may have to hand craft them.)
+
+Mark Hatle (3):
+  rpm: Fix lua 'print' statement capture
+  rpm: Rebrand rpm custom macro paths to be distro specific
+  rpm: Generate per distribution and multilib macro files
+
+ .../rpm/rpm/rpm-lua-fix-print.patch                | 104 +++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  87 ++++++++++++++++-
+ 2 files changed, 188 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua-fix-print.patch
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.9.3
+
 
