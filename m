@@ -1,23 +1,23 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 370A773CF5
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id CB27773CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 11:26:04 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 17 Jun 2015 04:26:06 -0700
+	Wed, 17 Jun 2015 11:52:00 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 17 Jun 2015 04:51:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729135785"
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="745084817"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 04:26:06 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2015 04:51:34 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 17C276A4083;
-	Wed, 17 Jun 2015 04:25:28 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 64DED6A4083;
+	Wed, 17 Jun 2015 04:50:57 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 14:25:23 +0300
-Message-Id: <1434540323-8308-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Wed, 17 Jun 2015 14:50:59 +0300
+Message-Id: <1434541859-9267-1-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH] wic: Code cleanup: bad-classmethod-argument
+Subject: [wic][PATCH] wic: code cleanup: superfluous-parens
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,293 +30,231 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 11:26:07 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 11:52:01 -0000
 
-Fixed wrong name for the first argument in class methods.
-Pylint complains about the issue this way:
-    Class method should have 'cls' as first argument
+Removed unncecessary parents after 'if' 'del' and 'print' keywords.
+Fixed pyling warning: Unnecessary parens after 'xxx' keyword
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/pluginbase.py                       |  8 ++++----
- scripts/lib/wic/plugins/imager/direct_plugin.py     |  6 +++---
- scripts/lib/wic/plugins/source/bootimg-efi.py       | 12 ++++++------
- scripts/lib/wic/plugins/source/bootimg-partition.py |  6 +++---
- scripts/lib/wic/plugins/source/bootimg-pcbios.py    |  6 +++---
- scripts/lib/wic/plugins/source/fsimage.py           |  6 +++---
- scripts/lib/wic/plugins/source/rawcopy.py           |  6 +++---
- scripts/lib/wic/plugins/source/rootfs.py            |  4 ++--
- 8 files changed, 27 insertions(+), 27 deletions(-)
+ scripts/lib/image/engine.py                            |  6 +++---
+ scripts/lib/image/help.py                              |  2 +-
+ scripts/lib/wic/3rdparty/pykickstart/options.py        | 10 +++++-----
+ scripts/lib/wic/kickstart/custom_commands/partition.py | 14 +++++++-------
+ scripts/lib/wic/plugin.py                              |  2 +-
+ scripts/lib/wic/plugins/source/fsimage.py              |  2 +-
+ scripts/lib/wic/plugins/source/rawcopy.py              |  4 ++--
+ scripts/lib/wic/utils/oe/misc.py                       |  6 +++---
+ 8 files changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/scripts/lib/wic/pluginbase.py b/scripts/lib/wic/pluginbase.py
-index 72bcad2..50e442d 100644
---- a/scripts/lib/wic/pluginbase.py
-+++ b/scripts/lib/wic/pluginbase.py
-@@ -52,7 +52,7 @@ class SourcePlugin(_Plugin):
+diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
+index 05c2638..c568d69 100644
+--- a/scripts/lib/image/engine.py
++++ b/scripts/lib/image/engine.py
+@@ -70,13 +70,13 @@ def find_artifacts(image_name):
+     rootfs_dir = kernel_dir = bootimg_dir = native_sysroot = ""
+ 
+     for line in bitbake_env_lines.split('\n'):
+-        if (misc.get_line_val(line, "IMAGE_ROOTFS")):
++        if misc.get_line_val(line, "IMAGE_ROOTFS"):
+             rootfs_dir = misc.get_line_val(line, "IMAGE_ROOTFS")
+             continue
+-        if (misc.get_line_val(line, "DEPLOY_DIR_IMAGE")):
++        if misc.get_line_val(line, "DEPLOY_DIR_IMAGE"):
+             kernel_dir = misc.get_line_val(line, "DEPLOY_DIR_IMAGE")
+             continue
+-        if (misc.get_line_val(line, "STAGING_DIR_NATIVE")):
++        if misc.get_line_val(line, "STAGING_DIR_NATIVE"):
+             native_sysroot = misc.get_line_val(line, "STAGING_DIR_NATIVE")
+             continue
+ 
+diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
+index 9321149..886437b 100644
+--- a/scripts/lib/image/help.py
++++ b/scripts/lib/image/help.py
+@@ -53,7 +53,7 @@ def wic_help(args, usage_str, subcommands):
+     Subcommand help dispatcher.
      """
- 
-     @classmethod
--    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
-+    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
-                         bootimg_dir, kernel_dir, native_sysroot):
-         """
-         Called after all partitions have been prepared and assembled into a
-@@ -62,7 +62,7 @@ class SourcePlugin(_Plugin):
-         msger.debug("SourcePlugin: do_install_disk: disk: %s" % disk_name)
- 
-     @classmethod
--    def do_stage_partition(self, part, source_params, cr, cr_workdir,
-+    def do_stage_partition(cls, part, source_params, cr, cr_workdir,
-                            oe_builddir, bootimg_dir, kernel_dir,
-                            native_sysroot):
-         """
-@@ -79,7 +79,7 @@ class SourcePlugin(_Plugin):
-         msger.debug("SourcePlugin: do_stage_partition: part: %s" % part)
- 
-     @classmethod
--    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
-                                native_sysroot):
-         """
-@@ -90,7 +90,7 @@ class SourcePlugin(_Plugin):
-         msger.debug("SourcePlugin: do_configure_partition: part: %s" % part)
- 
-     @classmethod
--    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir, rootfs_dir,
-                              native_sysroot):
-         """
-diff --git a/scripts/lib/wic/plugins/imager/direct_plugin.py b/scripts/lib/wic/plugins/imager/direct_plugin.py
-index ff974b2..07811bd 100644
---- a/scripts/lib/wic/plugins/imager/direct_plugin.py
-+++ b/scripts/lib/wic/plugins/imager/direct_plugin.py
-@@ -45,7 +45,7 @@ class DirectPlugin(ImagerPlugin):
-     name = 'direct'
- 
-     @classmethod
--    def __rootfs_dir_to_dict(self, rootfs_dirs):
-+    def __rootfs_dir_to_dict(cls, rootfs_dirs):
-         """
-         Gets a string that contain 'connection=dir' splitted by
-         space and return a dict
-@@ -58,7 +58,7 @@ class DirectPlugin(ImagerPlugin):
-         return krootfs_dir
- 
-     @classmethod
--    def do_create(self, subcmd, opts, *args):
-+    def do_create(cls, subcmd, opts, *args):
-         """
-         Create direct image, called from creator as 'direct' cmd
-         """
-@@ -76,7 +76,7 @@ class DirectPlugin(ImagerPlugin):
-         image_output_dir = args[5]
-         oe_builddir = args[6]
- 
--        krootfs_dir = self.__rootfs_dir_to_dict(rootfs_dir)
-+        krootfs_dir = cls.__rootfs_dir_to_dict(rootfs_dir)
- 
-         configmgr._ksconf = ksconf
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index f47fc82..903b478 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -42,7 +42,7 @@ class BootimgEFIPlugin(SourcePlugin):
-     name = 'bootimg-efi'
- 
-     @classmethod
--    def do_configure_grubefi(self, hdddir, cr, cr_workdir):
-+    def do_configure_grubefi(cls, hdddir, cr, cr_workdir):
-         """
-         Create loader-specific (grub-efi) config
-         """
-@@ -76,7 +76,7 @@ class BootimgEFIPlugin(SourcePlugin):
-         cfg.close()
- 
-     @classmethod
--    def do_configure_gummiboot(self, hdddir, cr, cr_workdir):
-+    def do_configure_gummiboot(cls, hdddir, cr, cr_workdir):
-         """
-         Create loader-specific (gummiboot) config
-         """
-@@ -117,7 +117,7 @@ class BootimgEFIPlugin(SourcePlugin):
+     if len(args) == 1 or not display_help(args[1], subcommands):
+-        print(usage_str)
++        print usage_str
  
  
-     @classmethod
--    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
-                                native_sysroot):
-         """
-@@ -132,9 +132,9 @@ class BootimgEFIPlugin(SourcePlugin):
+ def get_wic_plugins_help():
+diff --git a/scripts/lib/wic/3rdparty/pykickstart/options.py b/scripts/lib/wic/3rdparty/pykickstart/options.py
+index b2d8e3e..ebc23ed 100644
+--- a/scripts/lib/wic/3rdparty/pykickstart/options.py
++++ b/scripts/lib/wic/3rdparty/pykickstart/options.py
+@@ -145,19 +145,19 @@ def _check_string(option, opt, value):
  
-         try:
-             if source_params['loader'] == 'grub-efi':
--                self.do_configure_grubefi(hdddir, cr, cr_workdir)
-+                cls.do_configure_grubefi(hdddir, cr, cr_workdir)
-             elif source_params['loader'] == 'gummiboot':
--                self.do_configure_gummiboot(hdddir, cr, cr_workdir)
-+                cls.do_configure_gummiboot(hdddir, cr, cr_workdir)
-             else:
-                 msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
-         except KeyError:
-@@ -142,7 +142,7 @@ class BootimgEFIPlugin(SourcePlugin):
+ def _check_size(option, opt, value):
+     # Former default was MB
+-    if (value.isdigit()):
++    if value.isdigit():
+         return int(value) * 1024L
  
+     mapping = {"opt": opt, "value": value}
+-    if (not value[:-1].isdigit()):
++    if not value[:-1].isdigit():
+         raise OptionValueError(_("Option %(opt)s: invalid size value: %(value)r") % mapping)
  
-     @classmethod
--    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-         """
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index 9168dd0..bc2ca0f 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -40,7 +40,7 @@ class BootimgPartitionPlugin(SourcePlugin):
-     name = 'bootimg-partition'
+     size = int(value[:-1])
+-    if (value.endswith("k") or value.endswith("K")):
++    if value.endswith("k") or value.endswith("K"):
+         return size
+-    if (value.endswith("M")):
++    if value.endswith("M"):
+         return size * 1024L
+-    if (value.endswith("G")):
++    if value.endswith("G"):
+         return size * 1024L * 1024L
+     raise OptionValueError(_("Option %(opt)s: invalid size value: %(value)r") % mapping)
  
-     @classmethod
--    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
-+    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
-                         bootimg_dir, kernel_dir, native_sysroot):
-         """
-         Called after all partitions have been prepared and assembled into a
-@@ -49,7 +49,7 @@ class BootimgPartitionPlugin(SourcePlugin):
-         pass
+diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
+index 40c2772..324ea69 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/partition.py
++++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
+@@ -268,7 +268,7 @@ class Wic_PartData(Mic_PartData):
+         extra_imagecmd = "-i 8192"
  
-     @classmethod
--    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
-                                native_sysroot):
-         """
-@@ -60,7 +60,7 @@ class BootimgPartitionPlugin(SourcePlugin):
-         pass
+         label_str = ""
+-        if (self.label):
++        if self.label:
+             label_str = "-L %s" % self.label
  
-     @classmethod
--    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-         """
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index bfde93a..6ca68f6 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -41,7 +41,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-     name = 'bootimg-pcbios'
+         mkfs_cmd = "mkfs.%s -F %s %s %s -d %s" % \
+@@ -315,7 +315,7 @@ class Wic_PartData(Mic_PartData):
+         exec_cmd(dd_cmd)
  
-     @classmethod
--    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
-+    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
-                         bootimg_dir, kernel_dir, native_sysroot):
-         """
-         Called after all partitions have been prepared and assembled into a
-@@ -68,7 +68,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-             raise ImageError("Unable to set MBR to %s" % full_path)
+         label_str = ""
+-        if (self.label):
++        if self.label:
+             label_str = "-L %s" % self.label
  
-     @classmethod
--    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
-                                native_sysroot):
-         """
-@@ -117,7 +117,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-         cfg.close()
+         mkfs_cmd = "mkfs.%s -b %d -r %s %s %s" % \
+@@ -361,7 +361,7 @@ class Wic_PartData(Mic_PartData):
+             blocks += (16 - (blocks % 16))
  
-     @classmethod
--    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-         """
+         label_str = "-n boot"
+-        if (self.label):
++        if self.label:
+             label_str = "-n %s" % self.label
+ 
+         dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, rootfs, blocks)
+@@ -436,7 +436,7 @@ class Wic_PartData(Mic_PartData):
+         extra_imagecmd = "-i 8192"
+ 
+         label_str = ""
+-        if (self.label):
++        if self.label:
+             label_str = "-L %s" % self.label
+ 
+         mkfs_cmd = "mkfs.%s -F %s %s %s" % \
+@@ -460,7 +460,7 @@ class Wic_PartData(Mic_PartData):
+         exec_cmd(dd_cmd)
+ 
+         label_str = ""
+-        if (self.label):
++        if self.label:
+             label_str = "-L %s" % self.label
+ 
+         mkfs_cmd = "mkfs.%s -b %d %s %s" % \
+@@ -482,7 +482,7 @@ class Wic_PartData(Mic_PartData):
+         blocks = self.size
+ 
+         label_str = "-n boot"
+-        if (self.label):
++        if self.label:
+             label_str = "-n %s" % self.label
+ 
+         dosfs_cmd = "mkdosfs %s -S 512 -C %s %d" % (label_str, fs, blocks)
+@@ -553,7 +553,7 @@ class Wic_Partition(Mic_Partition):
+ 
+     def _getParser(self):
+         def overhead_cb (option, opt_str, value, parser):
+-            if (value < 1):
++            if value < 1:
+                 raise OptionValueError("Option %s: invalid value: %r" % (option, value))
+             setattr(parser.values, option.dest, value)
+ 
+diff --git a/scripts/lib/wic/plugin.py b/scripts/lib/wic/plugin.py
+index 9872d20..fff02c0 100644
+--- a/scripts/lib/wic/plugin.py
++++ b/scripts/lib/wic/plugin.py
+@@ -103,7 +103,7 @@ class PluginMgr(object):
+                                 % (os.path.basename(pdir), mod, err)
+                             msger.warning(msg)
+ 
+-            del(sys.path[0])
++            del sys.path[0]
+ 
+     def get_plugins(self, ptype):
+         """ the return value is dict of name:class pairs """
 diff --git a/scripts/lib/wic/plugins/source/fsimage.py b/scripts/lib/wic/plugins/source/fsimage.py
-index 3751ff2..98f02a1 100644
+index 98f02a1..f894e89 100644
 --- a/scripts/lib/wic/plugins/source/fsimage.py
 +++ b/scripts/lib/wic/plugins/source/fsimage.py
-@@ -29,7 +29,7 @@ class FSImagePlugin(SourcePlugin):
-     name = 'fsimage'
+@@ -62,7 +62,7 @@ class FSImagePlugin(SourcePlugin):
  
-     @classmethod
--    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
-+    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
-                         bootimg_dir, kernel_dir, native_sysroot):
-         """
-         Called after all partitions have been prepared and assembled into a
-@@ -38,7 +38,7 @@ class FSImagePlugin(SourcePlugin):
-         pass
+         msger.debug('Bootimg dir: %s' % bootimg_dir)
  
-     @classmethod
--    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
-                                native_sysroot):
-         """
-@@ -48,7 +48,7 @@ class FSImagePlugin(SourcePlugin):
-         pass
+-        if ('file' not in source_params):
++        if 'file' not in source_params:
+             msger.error("No file specified\n")
+             return
  
-     @classmethod
--    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-         """
 diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index 848b9b7..071b2d2 100644
+index 071b2d2..f0691ba 100644
 --- a/scripts/lib/wic/plugins/source/rawcopy.py
 +++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -29,7 +29,7 @@ class RawCopyPlugin(SourcePlugin):
-     name = 'rawcopy'
+@@ -62,14 +62,14 @@ class RawCopyPlugin(SourcePlugin):
  
-     @classmethod
--    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
-+    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
-                         bootimg_dir, kernel_dir, native_sysroot):
-         """
-         Called after all partitions have been prepared and assembled into a
-@@ -38,7 +38,7 @@ class RawCopyPlugin(SourcePlugin):
-         pass
+         msger.debug('Bootimg dir: %s' % bootimg_dir)
  
-     @classmethod
--    def do_configure_partition(self, part, source_params, cr, cr_workdir,
-+    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
-                                oe_builddir, bootimg_dir, kernel_dir,
-                                native_sysroot):
-         """
-@@ -48,7 +48,7 @@ class RawCopyPlugin(SourcePlugin):
-         pass
+-        if ('file' not in source_params):
++        if 'file' not in source_params:
+             msger.error("No file specified\n")
+             return
  
-     @classmethod
--    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              rootfs_dir, native_sysroot):
-         """
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index ca3d398..12fbf67 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -58,7 +58,7 @@ class RootfsPlugin(SourcePlugin):
-         return image_rootfs_dir
+         src = os.path.join(bootimg_dir, source_params['file'])
+         dst = src
  
-     @classmethod
--    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
-+    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-                              krootfs_dir, native_sysroot):
-         """
-@@ -81,7 +81,7 @@ class RootfsPlugin(SourcePlugin):
-                 msg += " or it is not a valid path, exiting"
-                 msger.error(msg % part.rootfs)
+-        if ('skip' in source_params):
++        if 'skip' in source_params:
+             dst = os.path.join(cr_workdir, source_params['file'])
+             dd_cmd = "dd if=%s of=%s ibs=%s skip=1 conv=notrunc" % \
+                     (src, dst, source_params['skip'])
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index f08ff15..2f916dd 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -38,7 +38,7 @@ def __exec_cmd(cmd_and_args, as_shell=False, catch=3):
+     args = cmd_and_args.split()
+     msger.debug(args)
  
--        real_rootfs_dir = self.__get_rootfs_dir(rootfs_dir)
-+        real_rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
+-    if (as_shell):
++    if as_shell:
+         rc, out = runner.runtool(cmd_and_args, catch)
+     else:
+         rc, out = runner.runtool(args, catch)
+@@ -142,7 +142,7 @@ def find_artifact(bitbake_env_lines, variable):
+     retval = ""
  
-         part.set_rootfs(real_rootfs_dir)
-         part.prepare_rootfs(cr_workdir, oe_builddir, real_rootfs_dir, native_sysroot)
+     for line in bitbake_env_lines.split('\n'):
+-        if (get_line_val(line, variable)):
++        if get_line_val(line, variable):
+             retval = get_line_val(line, variable)
+             break
+ 
+@@ -160,7 +160,7 @@ def get_line_val(line, key):
+ 
+ def get_bitbake_var(key):
+     for line in __bitbake_env_lines.split('\n'):
+-        if (get_line_val(line, key)):
++        if get_line_val(line, key):
+             val = get_line_val(line, key)
+             return val
+     return None
 -- 
 2.1.4
 
