@@ -1,32 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0777C73E3B
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FF1173E3B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 21:03:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5HL3Znp014833 for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 22:03:35 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 5uyfyDYUozgR
+	Wed, 17 Jun 2015 22:08:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5HM8KQJ005896
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 22:03:35 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5HL3NJP014825
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 22:03:34 +0100
-Message-ID: <1434575003.14710.38.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jun 2015 22:03:23 +0100
-In-Reply-To: <1434546648.14710.25.camel@linuxfoundation.org>
-References: <1434546648.14710.25.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: Re: [PATCH] python: Add performance patches from upstream 2.7 branch
+	Wed, 17 Jun 2015 15:08:21 -0700 (PDT)
+Received: from seebs-worktop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 17 Jun 2015 15:08:21 -0700
+Date: Wed, 17 Jun 2015 17:08:19 -0500
+From: Peter Seebach <peter.seebach@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Message-ID: <20150617170819.12ca4c30@seebs-worktop>
+X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
+Subject: RFC: meta-bootlace (bootloader management layer)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,25 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 21:03:39 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 17 Jun 2015 22:08:25 -0000
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2015-06-17 at 14:10 +0100, Richard Purdie wrote:
-> These performance patches result in about a 25% speed up of our parsing
-> speed with bitbake. They're already applied in 1.7 upstream and backported
-> from 3.X so worth applying for 2.7 too.
+If a system is up for a while, you might want to issue kernel patches. For
+desktop distributions, this is pretty easy and reasonably well-understood;
+there's a grub config file somewhere, you modify that, you reboot, everything
+is good.
 
-Sadly, this was too good to be true. I'd messed up the test environment
-and the 25% is Ubuntu's python verses the one from OE. Ubuntu's uses PGO
-whereas ours does not which is likely where the speed comes from. The
-patches in this series do give a small speedup, but its more like
-0.5-1%. Shows that PGO is likely worth investigating further though.
+For embedded systems with bootloaders that aren't grub, or are grub but in a
+configuration where the partition it loads kernels from isn't usually mounted,
+it's not quite so easy. Worse, if you support a range of embedded boards, you
+don't even have a specific single bootloader in mind; you have a large range
+of bootloaders that you might need to deal with.
 
-Cheers,
+Bootlace is an attempt to provide a reasonably simple and fairly minimal
+abstraction layer over the most commonly-used functionality: "I have a new
+kernel, I want the next boot to use it." The idea is that a BSP can select a
+backend that suits its design or configuration, and then that backend does
+the actual heavy lifting, but everything else (such as a kernel postinst
+script) just sees a fairly generic interface that doesn't require any specific
+knowledge of the BSP.
 
-Richard
+I've put up the current tree in contrib:
 
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=seebs/meta-bootlace
 
+The only actually-working backend right now is specific to the way one of our
+default install targets uses grub-efi, where the system boots from the kernel
+installed as "vmlinuz" on a separate FAT32 partition that isn't normally
+mounted while the system is running. The default backend just helpfully
+prints a diagnostic saying that it can't actually change what kernel gets
+selected.
 
+We'd like to see this considered for inclusion in oe-core, once it has some
+more backends. (In particular, once it has a grub backend, it could in
+principle replace the existing kernel-grub bbclass.)
+
+-s
+-- 
+Listen, get this.  Nobody with a good compiler needs to be justified.
 
