@@ -1,26 +1,38 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 986E2758C4
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
+	[209.85.218.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B3E1F60962
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 14:47:30 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 17 Jun 2015 07:47:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,633,1427785200"; d="scan'208";a="745181152"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Jun 2015 07:47:31 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 06:43:11 +0000
-Message-Id: <9ddc5eb5f5735a4e6c958703083f9a59da64f452.1434522878.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1434522878.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1434522878.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1434522878.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1434522878.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: matt.fleming@intel.com, ricardo.neri@intel.com
-Subject: [PATCH 2/2] runqemu: Define OECORE_MACHINE_SYSROOT on setup_sysroot
+	Wed, 17 Jun 2015 14:59:49 +0000 (UTC)
+Received: by oiyy130 with SMTP id y130so19015398oiy.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jun 2015 07:59:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=XGPpIkFlLCwAYexDINXrNFeltK93igYQkVv7WFubNZs=;
+	b=KiQWlMzK7H0A0WCVj6s9du4RIPNd5g+6wlzOVLVW/LhX5O3YRQ/zWfAWr2laEww5f8
+	R14Qy8d9PxxeB+wLKrbfeSWIZW3Iltj6JEYhJnLcBzxqkbC7XvIcyso2VIUkXVcfBj2E
+	eoLB6rbDiBSmivlOYO24fe8kVWyaUWPUtPj0UhLromdW8g5+JxLvssBdsw8+YLoisqWv
+	T7RM8SkNkufAvX2OKEJJ41a3pGy1VKPm/d0gbDRbTS5BpVSULWZ22eEYeqWtnmpK3koO
+	pIMCLqerZMxord98du8VbzxyXipX91XAihajMbNrUURG3w+NYw09tjE1JlEBDzJZ2NcY
+	/3iA==
+X-Gm-Message-State: ALoCoQkyVo3alp5BkNFtBwzGBHoXe/pJlNi4velMMTyU8fF3mvE2caMtot8//ubP5P+PFVDaNhfR
+X-Received: by 10.202.108.84 with SMTP id h81mr4669401oic.5.1434553190213;
+	Wed, 17 Jun 2015 07:59:50 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.225.2 with HTTP; Wed, 17 Jun 2015 07:59:19 -0700 (PDT)
+In-Reply-To: <1434547172-24620-6-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<1434547172-24620-6-git-send-email-alexander.kanavin@linux.intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 17 Jun 2015 17:59:19 +0300
+Message-ID: <CAHiDW_EwLwe52-VXnJTctjMS5+4pevuOE1CZwHuEbc_xRQ=4Zw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/22] Update libnotify to version 0.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,74 +45,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 14:47:30 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 14:59:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On 17 June 2015 at 16:19, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> New webkit requires at least version 0.7
 
-At least the OVFM (UEFI Firmware for Qemu and KVM) recipe stores the BIOS
-under $OE_TMPDIR/sysroots/$MACHINE, now defined as OECORE_MACHINE_SYSROOT.
-The latter is used when searching BIOS, VGA BIOS and keymaps. As a example,
-to boot a OVFM BIOS, one can run the following command:
+0.6 is the last release that supports GTK+2 and changing this might
+annoy people who are avoiding GTK+3 and are using some of the recipes
+in meta-oe that depend on libnotify.
 
-$ runqemu qemux86 core-image-minimal \
-    biosdir=usr/share/ovmf  \
-    biosfilename=bios.bin \
-    nographic
+I believe the GTK dependency is only there for tests: Modifying the
+build so it doesn't build tests and doesn't depend on GTK should not
+be difficult.
 
-Note the bios* parameters: these two are needed to specify the subfolder
-(parent folder is OECORE_MACHINE_SYSROOT) and BIOS filename (without it,
-it picks a BIOS named bios-256k.bin).
+ - Jussi
 
-[YOCTO #5654]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- scripts/runqemu | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
-
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 84ece4d..155824b 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -397,6 +397,13 @@ setup_sysroot() {
- 
-         OECORE_NATIVE_SYSROOT=$OE_TMPDIR/sysroots/$BUILD_SYS
-     fi 
-+
-+    # Some recipes store the BIOS under $OE_TMPDIR/sysroots/$MACHINE,
-+    # now defined as OECORE_MACHINE_SYSROOT. The latter is used when searching
-+    # BIOS, VGA BIOS and keymaps.
-+    if [ -z "$OECORE_MACHINE_SYSROOT" ]; then
-+        OECORE_MACHINE_SYSROOT=$OE_TMPDIR/sysroots/$MACHINE
-+    fi
- }
- 
- # Locate a rootfs image to boot which matches our expected
-@@ -486,7 +493,7 @@ fi
- echo "FSTYPE: [$FSTYPE]"
- 
- setup_sysroot
--# OECORE_NATIVE_SYSROOT is now set for all cases
-+# OECORE_NATIVE_SYSROOT and OECORE_MACHINE_SYSROOT are now set for all cases
- 
- INTERNAL_SCRIPT="$0-internal"
- if [ ! -f "$INTERNAL_SCRIPT" -o ! -r "$INTERNAL_SCRIPT" ]; then
-@@ -498,10 +505,14 @@ if [ ! -z "$CUSTOMBIOSDIR" ]; then
-     if [ -d "$OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR" ]; then
-         echo "Assuming biosdir is $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-         SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-+    elif [ -d "$OECORE_MACHINE_SYSROOT/$CUSTOMBIOSDIR" ]; then
-+        echo "Assuming biosdir is $OECORE_MACHINE_SYSROOT/$CUSTOMBIOSDIR"
-+        SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_MACHINE_SYSROOT/$CUSTOMBIOSDIR"
-     else
-         if [ ! -d "$CUSTOMBIOSDIR" ]; then
-             echo "Custom BIOS directory not found. Tried: $CUSTOMBIOSDIR"
-             echo "and $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-+            echo "and $OECORE_MACHINE_SYSROOT/$CUSTOMBIOSDIR"
-             exit 1;
-         fi
-         echo "Assuming biosdir is $CUSTOMBIOSDIR"
--- 
-1.8.4.5
-
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  .../libnotify/{libnotify_0.6.0.bb => libnotify_0.7.6.bb}          | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>  rename meta/recipes-gnome/libnotify/{libnotify_0.6.0.bb => libnotify_0.7.6.bb} (66%)
+>
+> diff --git a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+> similarity index 66%
+> rename from meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
+> rename to meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+> index e6ee89b..e9363e8 100644
+> --- a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
+> +++ b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+> @@ -5,15 +5,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+>
+>  PR = "r1"
+>
+> -DEPENDS = "dbus gtk+ dbus-glib"
+> +DEPENDS = "dbus gtk+3 dbus-glib"
+>
+> -inherit gnomebase distro_features_check
+> +inherit gnomebase distro_features_check gtk-doc
+>
+>  # Requires gdk/gdkx.h which is provided by gtk when x11 in DISTRO_FEATURES
+>  REQUIRED_DISTRO_FEATURES = "x11"
+>
+> -SRC_URI[archive.md5sum] = "732c9d2cd5eb6a9069264a319d330516"
+> -SRC_URI[archive.sha256sum] = "73b16a79bb2fed62dcf146b11c4405776cb96a09dce66379ca541da7dbd64210"
+> +SRC_URI[archive.md5sum] = "a4997019d08f46f3bf57b78e6f795a59"
+> +SRC_URI[archive.sha256sum] = "0ef61ca400d30e28217979bfa0e73a7406b19c32dd76150654ec5b2bdf47d837"
+>
+>  do_configure_prepend() {
+>      sed -i /GTK3/d ${S}/configure.ac
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
