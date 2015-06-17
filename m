@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3479A759D0
+	by mail.openembedded.org (Postfix) with ESMTP id 8CC4F758DD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 13:19:47 +0000 (UTC)
+	Wed, 17 Jun 2015 13:19:50 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 06:19:48 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 06:19:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205462"
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205466"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:47 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:48 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 16:19:22 +0300
-Message-Id: <1434547172-24620-13-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Wed, 17 Jun 2015 16:19:23 +0300
+Message-Id: <1434547172-24620-14-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
 References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 12/22] Add a recipe for p11-kit
+Subject: [PATCH 13/22] Add a recipe for gcr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,40 +29,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 13:19:47 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 13:19:50 -0000
 
-p11-kit is a dependency of gcr (which is a dependency of epiphany)
+gcr is a dependency of epiphany
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/p11-kit/p11-kit_0.22.1.bb | 18 ++++++++++++++++++
+ meta/recipes-gnome/gcr/gcr_3.16.0.bb | 18 ++++++++++++++++++
  1 file changed, 18 insertions(+)
- create mode 100644 meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+ create mode 100644 meta/recipes-gnome/gcr/gcr_3.16.0.bb
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+diff --git a/meta/recipes-gnome/gcr/gcr_3.16.0.bb b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
 new file mode 100644
-index 0000000..7ad9626e
+index 0000000..8b5b6e4
 --- /dev/null
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
++++ b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
 @@ -0,0 +1,18 @@
-+SUMMARY = "Provides a way to load and enumerate PKCS#11 modules"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=02933887f609807fbb57aa4237d14a50"
++SUMMARY = "A library for bits of crypto UI and parsing etc"
++HOMEPAGE = "http://www.gnome.org/"
++BUGTRACKER = "https://bugzilla.gnome.org/"
 +
-+inherit autotools gettext pkgconfig
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
 +
-+DEPENDS = "libtasn1 libffi"
++DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt vala"
 +
-+SRC_URI = "http://p11-glue.freedesktop.org/releases/${BP}.tar.gz"
-+SRC_URI[md5sum] = "4e9bea1106628ffb820bdad24a819fac"
-+SRC_URI[sha256sum] = "ef3a339fcf6aa0e32c8c23f79ba7191e57312be2bda8b24e6d121c2670539a5c"
++inherit autotools gnomebase gtk-icon-cache gtk-doc
 +
-+FILES_${PN}-dev += " \
-+    ${libdir}/p11-kit-proxy.so \
-+    ${libdir}/pkcs11/p11-kit-trust.so \
++SRC_URI[archive.md5sum] = "d5835680be0b6a838e02a528d5378d9c"
++SRC_URI[archive.sha256sum] = "ecfe8df41cc88158364bb15addc670b11e539fe844742983629ba2323888d075"
++
++FILES_${PN} += " \
++    ${datadir}/dbus-1 \
++    ${datadir}/gcr-3 \
 +"
-+FILES_${PN}-dev += "${libdir}/pkcs11/*.la"
-+FILES_${PN}-dbg += "${libdir}/pkcs11/.debug"
 -- 
 2.1.4
 
