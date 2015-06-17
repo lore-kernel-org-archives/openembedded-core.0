@@ -1,27 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 386566AC1E
+	by mail.openembedded.org (Postfix) with ESMTP id 81AE6737AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 02:27:18 +0000 (UTC)
+	Wed, 17 Jun 2015 07:25:17 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5H2RJXY024834
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 16 Jun 2015 19:27:19 -0700 (PDT)
-Received: from pek-kkang-d1.wrs.com (128.224.162.231) by
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5H7PI19027062
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Jun 2015 00:25:18 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Tue, 16 Jun 2015 19:27:18 -0700
+	(TLS) id 14.3.224.2; Wed, 17 Jun 2015 00:25:18 -0700
 From: Kai Kang <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Wed, 17 Jun 2015 10:27:09 +0800
-Message-ID: <cover.1434507721.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 2.4.1
-In-Reply-To: <1434504767-17802-2-git-send-email-kai.kang@windriver.com>
-References: <1434504767-17802-2-git-send-email-kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 17 Jun 2015 15:17:52 +0800
+Message-ID: <cover.1434525397.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.231]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] Pull to restore qt4 arm64 patches
+X-Originating-IP: [128.224.153.152]
+Subject: [PATCH 0/1] Upgrade cups from 2.0.2 to 2.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,10 +32,8 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 02:27:19 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 07:25:18 -0000
 Content-Type: text/plain
-
-Push to poky-contrib for merge easily.
 
 The following changes since commit 1675ff6fff53dda89fa8d4f3a2c292c23fd346d7:
 
@@ -45,22 +41,17 @@ The following changes since commit 1675ff6fff53dda89fa8d4f3a2c292c23fd346d7:
 
 are available in the git repository at:
 
-  git://git.yoctoproject.org/poky-contrib kangkai/qt4
-  https://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=kangkai%2Fqt4
+  git://git.pokylinux.org/poky-contrib kangkai/cups
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/cups
 
 Kai Kang (1):
-  qt4-4.8.7: restore arm64 patches which are dropped by mistake
+  cups: upgrade from 2.0.2 to 2.0.3
 
- meta/recipes-qt/qt4/qt4-4.8.7.inc                  |   3 +
- .../0030-aarch64_arm64_qatomic_support.patch       | 491 +++++++++++++++++++++
- .../qt4/qt4-4.8.7/0031-aarch64_arm64_mkspecs.patch | 124 ++++++
- .../qt4/qt4-4.8.7/0032-aarch64_add_header.patch    |  18 +
- 4 files changed, 636 insertions(+)
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0030-aarch64_arm64_qatomic_support.patch
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0031-aarch64_arm64_mkspecs.patch
- create mode 100644 meta/recipes-qt/qt4/qt4-4.8.7/0032-aarch64_add_header.patch
+ meta/recipes-extended/cups/{cups_2.0.2.bb => cups_2.0.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/cups/{cups_2.0.2.bb => cups_2.0.3.bb} (40%)
 
 -- 
-2.4.1
+1.9.1
 
 
