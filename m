@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 24FFE758D6
+	by mail.openembedded.org (Postfix) with ESMTP id 793AA759DE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 13:19:51 +0000 (UTC)
+	Wed, 17 Jun 2015 13:19:52 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 06:19:52 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 06:19:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205480"
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205490"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:51 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:52 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 16:19:24 +0300
-Message-Id: <1434547172-24620-15-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Wed, 17 Jun 2015 16:19:25 +0300
+Message-Id: <1434547172-24620-16-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
 References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 14/22] Add a recipe for iso-codes
+Subject: [PATCH 15/22] Add a recipe for libwnck3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,37 +29,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 13:19:51 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 13:19:52 -0000
 
-iso-codes is a dependency of epiphany
+libwnck is a dependency of epiphany
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-support/iso-codes/iso-codes_3.58.bb | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
- create mode 100644 meta/recipes-support/iso-codes/iso-codes_3.58.bb
+ meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
 
-diff --git a/meta/recipes-support/iso-codes/iso-codes_3.58.bb b/meta/recipes-support/iso-codes/iso-codes_3.58.bb
+diff --git a/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
 new file mode 100644
-index 0000000..3df2ea9
+index 0000000..6bc625a
 --- /dev/null
-+++ b/meta/recipes-support/iso-codes/iso-codes_3.58.bb
-@@ -0,0 +1,15 @@
-+SUMMARY = "ISO language, territory, currency, script codes and their translations"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=fbc093901857fcd118f065f900982c24"
++++ b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
+@@ -0,0 +1,17 @@
++SUMMARY = "Window navigation construction toolkit"
++LICENSE = "LGPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
 +
-+SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
-+SRC_URI[md5sum] = "34097a0085f0979e28f9db66ec274c5e"
-+SRC_URI[sha256sum] = "86af5735dce6e4eff2b983e5d8aa9a3dea1b8db702333ff20be89e45f7f35a72"
++BPN = "libwnck"
 +
-+# inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
-+# are inhibited by allarch
-+DEPENDS = "gettext-native"
++SECTION = "x11/libs"
++DEPENDS = "gobject-introspection-stub gtk+3 gdk-pixbuf-native libxres"
 +
-+inherit autotools allarch
++PR = "r1"
 +
-+FILES_${PN} += "${datadir}/xml/"
++PACKAGECONFIG ??= "startup-notification"
++PACKAGECONFIG[startup-notification] = "--enable-startup-notification,--disable-startup-notification,startup-notification"
++
++inherit gnomebase
++SRC_URI[archive.md5sum] = "4538672e0d775fadedf10abeb8020047"
++SRC_URI[archive.sha256sum] = "f5080076346609b4c36394b879f3a86b92ced3b90a37cb54c8e9a14f00e7921c"
 -- 
 2.1.4
 
