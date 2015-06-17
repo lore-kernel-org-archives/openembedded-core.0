@@ -1,27 +1,23 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DE8B272491
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DE7F872491
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 08:48:05 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,625,1427731200"; d="scan'208";a="97193257"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 Jun 2015 16:52:16 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5H8kV2A021965
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 16:46:31 +0800
-Received: from localhost.localdomain (10.167.226.85) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Wed, 17 Jun 2015 16:48:16 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jun 2015 16:48:01 +0800
-Message-ID: <1434530881-2119-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.85]
-Subject: [PATCH] busybox: enable httpd su install
+	Wed, 17 Jun 2015 08:50:29 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 01:50:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="712488020"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 17 Jun 2015 01:50:30 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id AEE686A4083;
+	Wed, 17 Jun 2015 01:49:53 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jun 2015 09:56:44 +0300
+Message-Id: <1434524204-13115-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: Integrated plugin docstrings into 'wic help plugins' output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,122 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 08:48:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 17 Jun 2015 08:50:30 -0000
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Added mechanism to show docstrings of plugin classes as a part of
+plugins help page.
+For missing plugins the following warning message is shown:
+<class '<plugin class spec>'> is missing docstring.
+
+[YOCTO #7118]
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc       |  1 +
- meta/recipes-core/busybox/busybox/defconfig | 53 +++++++++++++++--------------
- 2 files changed, 28 insertions(+), 26 deletions(-)
+ scripts/lib/image/help.py | 18 ++++++++++++++++++
+ scripts/wic               |  2 +-
+ 2 files changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 0769d92..3886457 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -39,6 +39,7 @@ INITSCRIPT_NAME_${PN}-udhcpd = "busybox-udhcpd"
+diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
+index a546c7c..9321149 100644
+--- a/scripts/lib/image/help.py
++++ b/scripts/lib/image/help.py
+@@ -28,6 +28,7 @@
+ import subprocess
+ import logging
  
- SYSTEMD_PACKAGES = "${PN}-syslog"
- SYSTEMD_SERVICE_${PN}-syslog = "busybox-syslog.service"
-+SYSTEMD_AUTO_ENABLE_${PN}-syslog = "disable"
++from wic.plugin import pluginmgr, PLUGIN_TYPES
  
- CONFFILES_${PN}-syslog = "${sysconfdir}/syslog-startup.conf.${BPN}"
- CONFFILES_${PN}-mdev = "${sysconfdir}/mdev.conf"
-diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index c200ee0..667928b 100644
---- a/meta/recipes-core/busybox/busybox/defconfig
-+++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -227,8 +227,8 @@ CONFIG_FALSE=y
- # CONFIG_FSYNC is not set
- CONFIG_HEAD=y
- # CONFIG_FEATURE_FANCY_HEAD is not set
--# CONFIG_INSTALL is not set
--# CONFIG_FEATURE_INSTALL_LONG_OPTIONS is not set
-+CONFIG_INSTALL=y
-+CONFIG_FEATURE_INSTALL_LONG_OPTIONS=y
- CONFIG_LN=y
- CONFIG_LOGNAME=y
- CONFIG_LS=y
-@@ -431,15 +431,15 @@ CONFIG_XARGS=y
- CONFIG_HALT=y
- # CONFIG_FEATURE_CALL_TELINIT is not set
- CONFIG_TELINIT_PATH=""
--# CONFIG_INIT is not set
--# CONFIG_FEATURE_USE_INITTAB is not set
--# CONFIG_FEATURE_KILL_REMOVED is not set
-+CONFIG_INIT=y
-+CONFIG_FEATURE_USE_INITTAB=y
-+CONFIG_FEATURE_KILL_REMOVED=y
- CONFIG_FEATURE_KILL_DELAY=0
--# CONFIG_FEATURE_INIT_SCTTY is not set
-+CONFIG_FEATURE_INIT_SCTTY=y
- # CONFIG_FEATURE_INIT_SYSLOG is not set
--# CONFIG_FEATURE_EXTRA_QUIET is not set
--# CONFIG_FEATURE_INIT_COREDUMPS is not set
--# CONFIG_FEATURE_INITRD is not set
-+CONFIG_FEATURE_EXTRA_QUIET=y
-+CONFIG_FEATURE_INIT_COREDUMPS=y
-+CONFIG_FEATURE_INITRD=y
- CONFIG_INIT_TERMINAL_TYPE=""
- CONFIG_MESG=y
- # CONFIG_FEATURE_MESG_ENABLE_ONLY_GROUP is not set
-@@ -477,7 +477,7 @@ CONFIG_LAST_SYSTEM_ID=999
- # CONFIG_CRYPTPW is not set
- # CONFIG_CHPASSWD is not set
- CONFIG_FEATURE_DEFAULT_PASSWD_ALGO=""
--# CONFIG_SU is not set
-+CONFIG_SU=y
- # CONFIG_FEATURE_SU_SYSLOG is not set
- # CONFIG_FEATURE_SU_CHECKS_SHELLS is not set
- # CONFIG_SULOGIN is not set
-@@ -752,19 +752,20 @@ CONFIG_FEATURE_PREFER_IPV4_ADDRESS=y
- # CONFIG_FTPPUT is not set
- # CONFIG_FEATURE_FTPGETPUT_LONG_OPTIONS is not set
- CONFIG_HOSTNAME=y
--# CONFIG_HTTPD is not set
--# CONFIG_FEATURE_HTTPD_RANGES is not set
--# CONFIG_FEATURE_HTTPD_USE_SENDFILE is not set
--# CONFIG_FEATURE_HTTPD_SETUID is not set
--# CONFIG_FEATURE_HTTPD_BASIC_AUTH is not set
--# CONFIG_FEATURE_HTTPD_AUTH_MD5 is not set
--# CONFIG_FEATURE_HTTPD_CGI is not set
--# CONFIG_FEATURE_HTTPD_CONFIG_WITH_SCRIPT_INTERPR is not set
--# CONFIG_FEATURE_HTTPD_SET_REMOTE_PORT_TO_ENV is not set
--# CONFIG_FEATURE_HTTPD_ENCODE_URL_STR is not set
--# CONFIG_FEATURE_HTTPD_ERROR_PAGES is not set
--# CONFIG_FEATURE_HTTPD_PROXY is not set
--# CONFIG_FEATURE_HTTPD_GZIP is not set
-+CONFIG_HTTPD=y
-+CONFIG_FEATURE_HTTPD_RANGES=y
-+CONFIG_FEATURE_HTTPD_USE_SENDFILE=y
-+CONFIG_FEATURE_HTTPD_SETUID=y
-+CONFIG_FEATURE_HTTPD_BASIC_AUTH=y
-+CONFIG_FEATURE_HTTPD_AUTH_MD5=y
-+CONFIG_FEATURE_HTTPD_CGI=y
-+CONFIG_FEATURE_HTTPD_CONFIG_WITH_SCRIPT_INTERPR=y
-+CONFIG_FEATURE_HTTPD_SET_REMOTE_PORT_TO_ENV=y
-+CONFIG_FEATURE_HTTPD_ENCODE_URL_STR=y
-+CONFIG_FEATURE_HTTPD_ERROR_PAGES=y
-+CONFIG_FEATURE_HTTPD_PROXY=y
-+CONFIG_FEATURE_HTTPD_GZIP=y
+ def subcommand_error(args):
+     logging.info("invalid subcommand %s" % args[0])
+@@ -55,6 +56,23 @@ def wic_help(args, usage_str, subcommands):
+         print(usage_str)
+ 
+ 
++def get_wic_plugins_help():
++    """
++    Combine wic_plugins_help with the help for every known
++    source plugin.
++    """
++    result = wic_plugins_help
++    for plugin_type in PLUGIN_TYPES:
++        result += '\n\n%s PLUGINS\n\n' % plugin_type.upper()
++        for name, plugin in pluginmgr.get_plugins(plugin_type).iteritems():
++            result += "\n %s plugin:\n" % name
++            if plugin.__doc__:
++                result += plugin.__doc__
++            else:
++                result += "\n    %s is missing docstring\n" % plugin
++    return result
 +
- CONFIG_IFCONFIG=y
- CONFIG_FEATURE_IFCONFIG_STATUS=y
- # CONFIG_FEATURE_IFCONFIG_SLIP is not set
-@@ -802,9 +803,9 @@ CONFIG_FEATURE_IP_TUNNEL=y
- # CONFIG_IPROUTE is not set
- # CONFIG_IPTUNNEL is not set
- # CONFIG_IPRULE is not set
--# CONFIG_IPCALC is not set
--# CONFIG_FEATURE_IPCALC_FANCY is not set
--# CONFIG_FEATURE_IPCALC_LONG_OPTIONS is not set
-+CONFIG_IPCALC=y
-+CONFIG_FEATURE_IPCALC_FANCY=y
-+CONFIG_FEATURE_IPCALC_LONG_OPTIONS=y
- CONFIG_NETSTAT=y
- # CONFIG_FEATURE_NETSTAT_WIDE is not set
- # CONFIG_FEATURE_NETSTAT_PRG is not set
++
+ def invoke_subcommand(args, parser, main_command_usage, subcommands):
+     """
+     Dispatch to subcommand handler borrowed from combo-layer.
+diff --git a/scripts/wic b/scripts/wic
+index d48e45d..a38ecc0 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -277,7 +277,7 @@ subcommands = {
+                   hlp.wic_list_help],
+     "plugins":   [wic_help_topic_subcommand,
+                   wic_help_topic_usage,
+-                  hlp.wic_plugins_help],
++                  hlp.get_wic_plugins_help()],
+     "overview":  [wic_help_topic_subcommand,
+                   wic_help_topic_usage,
+                   hlp.wic_overview_help],
 -- 
-1.8.4.2
+2.1.4
 
 
