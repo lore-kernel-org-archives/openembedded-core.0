@@ -1,22 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CC4F758DD
+	by mail.openembedded.org (Postfix) with ESMTP id 24FFE758D6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 13:19:50 +0000 (UTC)
+	Wed, 17 Jun 2015 13:19:51 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
 	by fmsmga103.fm.intel.com with ESMTP; 17 Jun 2015 06:19:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205466"
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729205480"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:48 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 06:19:51 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 16:19:23 +0300
-Message-Id: <1434547172-24620-14-git-send-email-alexander.kanavin@linux.intel.com>
+Date: Wed, 17 Jun 2015 16:19:24 +0300
+Message-Id: <1434547172-24620-15-git-send-email-alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
 References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
-Subject: [PATCH 13/22] Add a recipe for gcr
+Subject: [PATCH 14/22] Add a recipe for iso-codes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,40 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 13:19:50 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 13:19:51 -0000
 
-gcr is a dependency of epiphany
+iso-codes is a dependency of epiphany
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/gcr/gcr_3.16.0.bb | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
- create mode 100644 meta/recipes-gnome/gcr/gcr_3.16.0.bb
+ meta/recipes-support/iso-codes/iso-codes_3.58.bb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 meta/recipes-support/iso-codes/iso-codes_3.58.bb
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.16.0.bb b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
+diff --git a/meta/recipes-support/iso-codes/iso-codes_3.58.bb b/meta/recipes-support/iso-codes/iso-codes_3.58.bb
 new file mode 100644
-index 0000000..8b5b6e4
+index 0000000..3df2ea9
 --- /dev/null
-+++ b/meta/recipes-gnome/gcr/gcr_3.16.0.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "A library for bits of crypto UI and parsing etc"
-+HOMEPAGE = "http://www.gnome.org/"
-+BUGTRACKER = "https://bugzilla.gnome.org/"
++++ b/meta/recipes-support/iso-codes/iso-codes_3.58.bb
+@@ -0,0 +1,15 @@
++SUMMARY = "ISO language, territory, currency, script codes and their translations"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fbc093901857fcd118f065f900982c24"
 +
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
++SRC_URI = "https://pkg-isocodes.alioth.debian.org/downloads/iso-codes-${PV}.tar.xz"
++SRC_URI[md5sum] = "34097a0085f0979e28f9db66ec274c5e"
++SRC_URI[sha256sum] = "86af5735dce6e4eff2b983e5d8aa9a3dea1b8db702333ff20be89e45f7f35a72"
 +
-+DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt vala"
++# inherit gettext cannot be used, because it adds gettext-native to BASEDEPENDS which
++# are inhibited by allarch
++DEPENDS = "gettext-native"
 +
-+inherit autotools gnomebase gtk-icon-cache gtk-doc
++inherit autotools allarch
 +
-+SRC_URI[archive.md5sum] = "d5835680be0b6a838e02a528d5378d9c"
-+SRC_URI[archive.sha256sum] = "ecfe8df41cc88158364bb15addc670b11e539fe844742983629ba2323888d075"
-+
-+FILES_${PN} += " \
-+    ${datadir}/dbus-1 \
-+    ${datadir}/gcr-3 \
-+"
++FILES_${PN} += "${datadir}/xml/"
 -- 
 2.1.4
 
