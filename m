@@ -1,16 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 40490737AF
+	by mail.openembedded.org (Postfix) with ESMTP id 64C07737AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 08:33:25 +0000 (UTC)
+	Wed, 17 Jun 2015 08:33:27 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 591C16002A0
+	(Authenticated sender: joshuagl) with ESMTPSA id A5FF86002AA
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 09:33:17 +0100
-Message-Id: <cover.1434529133.git.joshua.lock@collabora.co.uk>
+Date: Wed, 17 Jun 2015 09:33:18 +0100
+Message-Id: <60ee19f41687e06d43b491091a4e0cebfb09eb26.1434529133.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.4.3
-Subject: [PATCH 0/1] distutils-common-base: add to, don't set, FILES_${PN}
+In-Reply-To: <cover.1434529133.git.joshua.lock@collabora.co.uk>
+References: <cover.1434529133.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <cover.1434529133.git.joshua.lock@collabora.co.uk>
+References: <cover.1434529133.git.joshua.lock@collabora.co.uk>
+Subject: [PATCH 1/1] distutils-common-base: add to, don't set, FILES_${PN}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,40 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 08:33:26 -0000
+X-List-Received-Date: Wed, 17 Jun 2015 08:33:27 -0000
 
-A recipe I was working on which indirectly inherited both
-distutils-common-base and gtk-icon-cache was reporting installed but not
-shipped errors for icons in the path gtk-icon-cache explicitly adds to
-FILES_${PN}.
+If we set FILES_${PN} and a recipe inherits other classes that
+modify FILES_${PN} *before* distutils-common-base is included, any
+changes to FILES_${PN} made by those classes are lost.
 
-This turns out to be because distutils-common-base sets (=) rather than
-appends (+= or _append) FILES_${PN} and gtk-icon-cache was ahead of
-distutils-common-base in the inherit order.
+Instead, append the additional directories we want to include in
+FILES_${PN}
 
-The proposed fix here, appending rather then settings FILES_${PN}, works for
-the recipe I am working on and doesn't introduce errors for any recipe in 
-meta/recipes-devtools/python.
-
-Cheers,
-
-Joshua
-
-The following changes since commit 45b368427accf6d519078812d5335ec250bacef8:
-
-  packagedata: Fix to ensure variables expand correctly (2015-06-16 14:20:17 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/distutils
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/distutils
-
-Joshua Lock (1):
-  distutils-common-base: add to, don't set, FILES_${PN}
-
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+---
  meta/classes/distutils-common-base.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/classes/distutils-common-base.bbclass b/meta/classes/distutils-common-base.bbclass
+index 9a608eb..427275b 100644
+--- a/meta/classes/distutils-common-base.bbclass
++++ b/meta/classes/distutils-common-base.bbclass
+@@ -7,7 +7,7 @@ export STAGING_LIBDIR
+ 
+ PACKAGES = "${PN}-staticdev ${PN}-dev ${PN}-dbg ${PN}-doc ${PN}"
+ 
+-FILES_${PN} = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
++FILES_${PN} += "${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+ 
+ FILES_${PN}-staticdev += "\
+   ${PYTHON_SITEPACKAGES_DIR}/*.a \
 -- 
 2.1.0
 
