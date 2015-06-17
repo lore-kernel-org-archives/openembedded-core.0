@@ -1,27 +1,23 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
+Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C61E973CF5
+	by mail.openembedded.org (Postfix) with ESMTP id 370A773CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 11:20:24 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 Jun 2015 04:20:26 -0700
+	Wed, 17 Jun 2015 11:26:04 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 17 Jun 2015 04:26:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; 
-	d="scan'208,223";a="712552118"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 17 Jun 2015 04:20:25 -0700
-Message-ID: <1434540023.12084.69.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Wed, 17 Jun 2015 14:20:23 +0300
-In-Reply-To: <2071087.3Bvkg31YSM@peggleto-mobl.ger.corp.intel.com>
-References: <1434022456-26266-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1434022456-26266-10-git-send-email-markus.lehtonen@linux.intel.com>
-	<2071087.3Bvkg31YSM@peggleto-mobl.ger.corp.intel.com>
-X-Mailer: Evolution 3.12.11 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 09/10] devtool: remove some unused return values
+X-IronPort-AV: E=Sophos;i="5.13,632,1427785200"; d="scan'208";a="729135785"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jun 2015 04:26:06 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 17C276A4083;
+	Wed, 17 Jun 2015 04:25:28 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Jun 2015 14:25:23 +0300
+Message-Id: <1434540323-8308-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] wic: Code cleanup: bad-classmethod-argument
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,84 +30,294 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 11:20:30 -0000
-X-Groupsio-MsgNum: 66835
-Content-Type: multipart/mixed; boundary="=-54yo8cy+CJKafU6WKCmg"
+X-List-Received-Date: Wed, 17 Jun 2015 11:26:07 -0000
 
---=-54yo8cy+CJKafU6WKCmg
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Fixed wrong name for the first argument in class methods.
+Pylint complains about the issue this way:
+    Class method should have 'cls' as first argument
 
-Hi Paul,
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/pluginbase.py                       |  8 ++++----
+ scripts/lib/wic/plugins/imager/direct_plugin.py     |  6 +++---
+ scripts/lib/wic/plugins/source/bootimg-efi.py       | 12 ++++++------
+ scripts/lib/wic/plugins/source/bootimg-partition.py |  6 +++---
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py    |  6 +++---
+ scripts/lib/wic/plugins/source/fsimage.py           |  6 +++---
+ scripts/lib/wic/plugins/source/rawcopy.py           |  6 +++---
+ scripts/lib/wic/plugins/source/rootfs.py            |  4 ++--
+ 8 files changed, 27 insertions(+), 27 deletions(-)
 
-On Wed, 2015-06-17 at 10:36 +0100, Paul Eggleton wrote:
-> On Thursday 11 June 2015 14:34:15 Markus Lehtonen wrote:
-> > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> > ---
-> >  scripts/devtool                 | 1 -
-> >  scripts/lib/devtool/standard.py | 3 ---
-> >  2 files changed, 4 deletions(-)
-> > 
-> > diff --git a/scripts/devtool b/scripts/devtool
-> > index 0100eb8..307846a 100755
-> > --- a/scripts/devtool
-> > +++ b/scripts/devtool
-> > @@ -157,7 +157,6 @@ def _enable_workspace_layer(workspacedir, config,
-> > basepath): bblayers_conf = os.path.join(basepath, 'conf', 'bblayers.conf')
-> > if not os.path.exists(bblayers_conf):
-> >          logger.error('Unable to find bblayers.conf')
-> > -        return -1
-> 
-> I appreciate the actually returned value might not be used, but simply 
-> dropping the return entirely allows the function to continue after the error, 
-> which is wrong.
+diff --git a/scripts/lib/wic/pluginbase.py b/scripts/lib/wic/pluginbase.py
+index 72bcad2..50e442d 100644
+--- a/scripts/lib/wic/pluginbase.py
++++ b/scripts/lib/wic/pluginbase.py
+@@ -52,7 +52,7 @@ class SourcePlugin(_Plugin):
+     """
+ 
+     @classmethod
+-    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
++    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
+                         bootimg_dir, kernel_dir, native_sysroot):
+         """
+         Called after all partitions have been prepared and assembled into a
+@@ -62,7 +62,7 @@ class SourcePlugin(_Plugin):
+         msger.debug("SourcePlugin: do_install_disk: disk: %s" % disk_name)
+ 
+     @classmethod
+-    def do_stage_partition(self, part, source_params, cr, cr_workdir,
++    def do_stage_partition(cls, part, source_params, cr, cr_workdir,
+                            oe_builddir, bootimg_dir, kernel_dir,
+                            native_sysroot):
+         """
+@@ -79,7 +79,7 @@ class SourcePlugin(_Plugin):
+         msger.debug("SourcePlugin: do_stage_partition: part: %s" % part)
+ 
+     @classmethod
+-    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+                                native_sysroot):
+         """
+@@ -90,7 +90,7 @@ class SourcePlugin(_Plugin):
+         msger.debug("SourcePlugin: do_configure_partition: part: %s" % part)
+ 
+     @classmethod
+-    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir, rootfs_dir,
+                              native_sysroot):
+         """
+diff --git a/scripts/lib/wic/plugins/imager/direct_plugin.py b/scripts/lib/wic/plugins/imager/direct_plugin.py
+index ff974b2..07811bd 100644
+--- a/scripts/lib/wic/plugins/imager/direct_plugin.py
++++ b/scripts/lib/wic/plugins/imager/direct_plugin.py
+@@ -45,7 +45,7 @@ class DirectPlugin(ImagerPlugin):
+     name = 'direct'
+ 
+     @classmethod
+-    def __rootfs_dir_to_dict(self, rootfs_dirs):
++    def __rootfs_dir_to_dict(cls, rootfs_dirs):
+         """
+         Gets a string that contain 'connection=dir' splitted by
+         space and return a dict
+@@ -58,7 +58,7 @@ class DirectPlugin(ImagerPlugin):
+         return krootfs_dir
+ 
+     @classmethod
+-    def do_create(self, subcmd, opts, *args):
++    def do_create(cls, subcmd, opts, *args):
+         """
+         Create direct image, called from creator as 'direct' cmd
+         """
+@@ -76,7 +76,7 @@ class DirectPlugin(ImagerPlugin):
+         image_output_dir = args[5]
+         oe_builddir = args[6]
+ 
+-        krootfs_dir = self.__rootfs_dir_to_dict(rootfs_dir)
++        krootfs_dir = cls.__rootfs_dir_to_dict(rootfs_dir)
+ 
+         configmgr._ksconf = ksconf
+ 
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index f47fc82..903b478 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -42,7 +42,7 @@ class BootimgEFIPlugin(SourcePlugin):
+     name = 'bootimg-efi'
+ 
+     @classmethod
+-    def do_configure_grubefi(self, hdddir, cr, cr_workdir):
++    def do_configure_grubefi(cls, hdddir, cr, cr_workdir):
+         """
+         Create loader-specific (grub-efi) config
+         """
+@@ -76,7 +76,7 @@ class BootimgEFIPlugin(SourcePlugin):
+         cfg.close()
+ 
+     @classmethod
+-    def do_configure_gummiboot(self, hdddir, cr, cr_workdir):
++    def do_configure_gummiboot(cls, hdddir, cr, cr_workdir):
+         """
+         Create loader-specific (gummiboot) config
+         """
+@@ -117,7 +117,7 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+ 
+     @classmethod
+-    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+                                native_sysroot):
+         """
+@@ -132,9 +132,9 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+         try:
+             if source_params['loader'] == 'grub-efi':
+-                self.do_configure_grubefi(hdddir, cr, cr_workdir)
++                cls.do_configure_grubefi(hdddir, cr, cr_workdir)
+             elif source_params['loader'] == 'gummiboot':
+-                self.do_configure_gummiboot(hdddir, cr, cr_workdir)
++                cls.do_configure_gummiboot(hdddir, cr, cr_workdir)
+             else:
+                 msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
+         except KeyError:
+@@ -142,7 +142,7 @@ class BootimgEFIPlugin(SourcePlugin):
+ 
+ 
+     @classmethod
+-    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir,
+                              rootfs_dir, native_sysroot):
+         """
+diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
+index 9168dd0..bc2ca0f 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-partition.py
++++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
+@@ -40,7 +40,7 @@ class BootimgPartitionPlugin(SourcePlugin):
+     name = 'bootimg-partition'
+ 
+     @classmethod
+-    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
++    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
+                         bootimg_dir, kernel_dir, native_sysroot):
+         """
+         Called after all partitions have been prepared and assembled into a
+@@ -49,7 +49,7 @@ class BootimgPartitionPlugin(SourcePlugin):
+         pass
+ 
+     @classmethod
+-    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+                                native_sysroot):
+         """
+@@ -60,7 +60,7 @@ class BootimgPartitionPlugin(SourcePlugin):
+         pass
+ 
+     @classmethod
+-    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir,
+                              rootfs_dir, native_sysroot):
+         """
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index bfde93a..6ca68f6 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -41,7 +41,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
+     name = 'bootimg-pcbios'
+ 
+     @classmethod
+-    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
++    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
+                         bootimg_dir, kernel_dir, native_sysroot):
+         """
+         Called after all partitions have been prepared and assembled into a
+@@ -68,7 +68,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
+             raise ImageError("Unable to set MBR to %s" % full_path)
+ 
+     @classmethod
+-    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+                                native_sysroot):
+         """
+@@ -117,7 +117,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         cfg.close()
+ 
+     @classmethod
+-    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir,
+                              rootfs_dir, native_sysroot):
+         """
+diff --git a/scripts/lib/wic/plugins/source/fsimage.py b/scripts/lib/wic/plugins/source/fsimage.py
+index 3751ff2..98f02a1 100644
+--- a/scripts/lib/wic/plugins/source/fsimage.py
++++ b/scripts/lib/wic/plugins/source/fsimage.py
+@@ -29,7 +29,7 @@ class FSImagePlugin(SourcePlugin):
+     name = 'fsimage'
+ 
+     @classmethod
+-    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
++    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
+                         bootimg_dir, kernel_dir, native_sysroot):
+         """
+         Called after all partitions have been prepared and assembled into a
+@@ -38,7 +38,7 @@ class FSImagePlugin(SourcePlugin):
+         pass
+ 
+     @classmethod
+-    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+                                native_sysroot):
+         """
+@@ -48,7 +48,7 @@ class FSImagePlugin(SourcePlugin):
+         pass
+ 
+     @classmethod
+-    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir,
+                              rootfs_dir, native_sysroot):
+         """
+diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
+index 848b9b7..071b2d2 100644
+--- a/scripts/lib/wic/plugins/source/rawcopy.py
++++ b/scripts/lib/wic/plugins/source/rawcopy.py
+@@ -29,7 +29,7 @@ class RawCopyPlugin(SourcePlugin):
+     name = 'rawcopy'
+ 
+     @classmethod
+-    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
++    def do_install_disk(cls, disk, disk_name, cr, workdir, oe_builddir,
+                         bootimg_dir, kernel_dir, native_sysroot):
+         """
+         Called after all partitions have been prepared and assembled into a
+@@ -38,7 +38,7 @@ class RawCopyPlugin(SourcePlugin):
+         pass
+ 
+     @classmethod
+-    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++    def do_configure_partition(cls, part, source_params, cr, cr_workdir,
+                                oe_builddir, bootimg_dir, kernel_dir,
+                                native_sysroot):
+         """
+@@ -48,7 +48,7 @@ class RawCopyPlugin(SourcePlugin):
+         pass
+ 
+     @classmethod
+-    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir,
+                              rootfs_dir, native_sysroot):
+         """
+diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+index ca3d398..12fbf67 100644
+--- a/scripts/lib/wic/plugins/source/rootfs.py
++++ b/scripts/lib/wic/plugins/source/rootfs.py
+@@ -58,7 +58,7 @@ class RootfsPlugin(SourcePlugin):
+         return image_rootfs_dir
+ 
+     @classmethod
+-    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++    def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+                              oe_builddir, bootimg_dir, kernel_dir,
+                              krootfs_dir, native_sysroot):
+         """
+@@ -81,7 +81,7 @@ class RootfsPlugin(SourcePlugin):
+                 msg += " or it is not a valid path, exiting"
+                 msger.error(msg % part.rootfs)
+ 
+-        real_rootfs_dir = self.__get_rootfs_dir(rootfs_dir)
++        real_rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
+ 
+         part.set_rootfs(real_rootfs_dir)
+         part.prepare_rootfs(cr_workdir, oe_builddir, real_rootfs_dir, native_sysroot)
+-- 
+2.1.4
 
-Uh oh, stupid mistake. Thanks for spotting that!
 
-You can find a fixed patch, attached. I also pushed a fixed version of
-the patchset to
-git://git.openembedded.org/openembedded-core-contrib
-marquiz/devtool/refactor
-
-
-
-Thanks,
-  Markus
-
---=-54yo8cy+CJKafU6WKCmg
-Content-Disposition: attachment;
-	filename="v3-0009-devtool-remove-some-unused-return-values.patch"
-Content-Type: text/x-patch;
-	name="v3-0009-devtool-remove-some-unused-return-values.patch";
-	charset="UTF-8"
-Content-Transfer-Encoding: base64
-
-RnJvbSAzMDQwMWE0ZjA3NTA1N2UwYzhlY2E5YWFhYWU3ZTQ1NTkxYmFmN2M0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBNYXJrdXMgTGVodG9uZW4gPG1hcmt1cy5sZWh0b25lbkBsaW51
-eC5pbnRlbC5jb20+CkRhdGU6IFdlZCwgMjcgTWF5IDIwMTUgMTc6NDA6NDkgKzAzMDAKU3ViamVj
-dDogW1BBVENIIHYzIDA5LzEwXSBkZXZ0b29sOiByZW1vdmUgc29tZSB1bnVzZWQgcmV0dXJuIHZh
-bHVlcwoKU2lnbmVkLW9mZi1ieTogTWFya3VzIExlaHRvbmVuIDxtYXJrdXMubGVodG9uZW5AbGlu
-dXguaW50ZWwuY29tPgotLS0KIHNjcmlwdHMvZGV2dG9vbCAgICAgICAgICAgICAgICAgfCAyICst
-CiBzY3JpcHRzL2xpYi9kZXZ0b29sL3N0YW5kYXJkLnB5IHwgMyAtLS0KIDIgZmlsZXMgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKyksIDQgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvc2NyaXB0cy9k
-ZXZ0b29sIGIvc2NyaXB0cy9kZXZ0b29sCmluZGV4IDAxMDBlYjguLmZkNGFmOTggMTAwNzU1Ci0t
-LSBhL3NjcmlwdHMvZGV2dG9vbAorKysgYi9zY3JpcHRzL2RldnRvb2wKQEAgLTE1Nyw3ICsxNTcs
-NyBAQCBkZWYgX2VuYWJsZV93b3Jrc3BhY2VfbGF5ZXIod29ya3NwYWNlZGlyLCBjb25maWcsIGJh
-c2VwYXRoKToKICAgICBiYmxheWVyc19jb25mID0gb3MucGF0aC5qb2luKGJhc2VwYXRoLCAnY29u
-ZicsICdiYmxheWVycy5jb25mJykKICAgICBpZiBub3Qgb3MucGF0aC5leGlzdHMoYmJsYXllcnNf
-Y29uZik6CiAgICAgICAgIGxvZ2dlci5lcnJvcignVW5hYmxlIHRvIGZpbmQgYmJsYXllcnMuY29u
-ZicpCi0gICAgICAgIHJldHVybiAtMQorICAgICAgICByZXR1cm4KICAgICBfLCBhZGRlZCA9IGJi
-LnV0aWxzLmVkaXRfYmJsYXllcnNfY29uZihiYmxheWVyc19jb25mLCB3b3Jrc3BhY2VkaXIsIGNv
-bmZpZy53b3Jrc3BhY2VfcGF0aCkKICAgICBpZiBhZGRlZDoKICAgICAgICAgbG9nZ2VyLmluZm8o
-J0VuYWJsaW5nIHdvcmtzcGFjZSBsYXllciBpbiBiYmxheWVycy5jb25mJykKZGlmZiAtLWdpdCBh
-L3NjcmlwdHMvbGliL2RldnRvb2wvc3RhbmRhcmQucHkgYi9zY3JpcHRzL2xpYi9kZXZ0b29sL3N0
-YW5kYXJkLnB5CmluZGV4IGZiM2NjNzguLjE0OTEyYTkgMTAwNjQ0Ci0tLSBhL3NjcmlwdHMvbGli
-L2RldnRvb2wvc3RhbmRhcmQucHkKKysrIGIvc2NyaXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5w
-eQpAQCAtNDE3LDkgKzQxNyw2IEBAIGRlZiBfY2hlY2tfcHJlc2VydmUoY29uZmlnLCByZWNpcGVu
-YW1lKToKICAgICAgICAgICAgICAgICAgICAgdGYud3JpdGUobGluZSkKICAgICBvcy5yZW5hbWUo
-bmV3ZmlsZSwgb3JpZ2ZpbGUpCiAKLSAgICByZXR1cm4gRmFsc2UKLQotCiBkZWYgbW9kaWZ5KGFy
-Z3MsIGNvbmZpZywgYmFzZXBhdGgsIHdvcmtzcGFjZSk6CiAgICAgIiIiRW50cnkgcG9pbnQgZm9y
-IHRoZSBkZXZ0b29sICdtb2RpZnknIHN1YmNvbW1hbmQiIiIKICAgICBpbXBvcnQgYmIKLS0gCjIu
-MS40Cgo=
-
---=-54yo8cy+CJKafU6WKCmg--
