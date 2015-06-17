@@ -1,24 +1,26 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AC7F60557
+	by mail.openembedded.org (Postfix) with ESMTP id 8CAFB60962
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 17:04:42 +0000 (UTC)
+	Wed, 17 Jun 2015 17:04:43 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5HH4h3h006092
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5HH4iao006095
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 10:04:43 -0700 (PDT)
+	Wed, 17 Jun 2015 10:04:45 -0700 (PDT)
 Received: from msp-dhcp23.wrs.com (172.25.34.23) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 17 Jun 2015 10:04:43 -0700
+	Wed, 17 Jun 2015 10:04:44 -0700
 From: Mark Hatle <mark.hatle@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Jun 2015 12:04:39 -0500
-Message-ID: <1434560682-89221-1-git-send-email-mark.hatle@windriver.com>
+Date: Wed, 17 Jun 2015 12:04:41 -0500
+Message-ID: <1434560682-89221-3-git-send-email-mark.hatle@windriver.com>
 X-Mailer: git-send-email 1.9.3
+In-Reply-To: <1434560682-89221-1-git-send-email-mark.hatle@windriver.com>
+References: <1434560682-89221-1-git-send-email-mark.hatle@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] RPM bug fixes...
+Subject: [PATCH 2/3] rpm: Rebrand rpm custom macro paths to be distro specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +36,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 17 Jun 2015 17:04:43 -0000
 Content-Type: text/plain
 
-This set fixes a few problems that I recently noticed with RPM5.
+RPM was previously hard coded to use the 'poky' directory.  We really want
+the directory name to be distribution specific.
 
-The first item is a pure bug fix, the second and third are either bugs or an 
-enhancements depending on how you look at it.
+Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+---
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-To test the first bug, you will need to enable 'lua' in the rpm recipe's
-PACKAGECONFIG.  You can then verify behavor by running:
-
-rpm --eval "%{_defaultdocdir} %{lua:print 'after'}"
-
-If 'after' appears BEFORE the defaultdocdir value, then the bug is not fixed.
-
-For the second/third items, if you install the necessary runtime environment
-to use rpmbuild, you can attempt to build various spec files that use the
-updated variables and verify the usage was correct.  (Not all spec files use
-__cc, __cxx, etc.. so you may have to hand craft them.)
-
-Mark Hatle (3):
-  rpm: Fix lua 'print' statement capture
-  rpm: Rebrand rpm custom macro paths to be distro specific
-  rpm: Generate per distribution and multilib macro files
-
- .../rpm/rpm/rpm-lua-fix-print.patch                | 104 +++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  87 ++++++++++++++++-
- 2 files changed, 188 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-lua-fix-print.patch
-
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index eac3b8f..fb81f12 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -108,9 +108,9 @@ inherit autotools gettext
+ acpaths = "-I ${S}/db/dist/aclocal -I ${S}/db/dist/aclocal_java"
+ 
+ # Specify the default rpm macros in terms of adjustable variables
+-rpm_macros = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros"
+-rpm_macros_class-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros"
+-rpm_macros_class-nativesdk = "%{_usrlibrpm}/macros:%{_usrlibrpm}/poky/macros:%{_usrlibrpm}/poky/%{_target}/macros:~/.oerpmmacros"
++rpm_macros = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:%{_etcrpm}/macros.*:%{_etcrpm}/macros:%{_etcrpm}/%{_target}/macros:~/.oerpmmacros"
++rpm_macros_class-native = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:~/.oerpmmacros"
++rpm_macros_class-nativesdk = "%{_usrlibrpm}/macros:%{_usrlibrpm}/${DISTRO}/macros:%{_usrlibrpm}/${DISTRO}/%{_target}/macros:~/.oerpmmacros"
+ 
+ # sqlite lua tcl augeas nss gcrypt neon xz xar keyutils perl selinux
+ 
 -- 
 1.9.3
 
