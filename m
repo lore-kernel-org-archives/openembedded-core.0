@@ -1,37 +1,28 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
-	[209.85.215.41])
-	by mail.openembedded.org (Postfix) with ESMTP id A473B759E9
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0823D601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 13:13:29 +0000 (UTC)
-Received: by laka10 with SMTP id a10so54139592lak.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 06:13:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=irn6ORqMcMwDcI8a7/GQvBKErSNr6p/6McAf4h8OKMs=;
-	b=URyCnv6WcOU2OsX2aGJwljPIA0WiXUdZVsz6PDWFDmzWV/nZemkGU9aQk968v5IHmJ
-	U85/1riiFOMLkS0tlw7HFDo/SWMp7DifnQmqOQCN2LPmW8MbmuNHBhpDWILtYK0ca3O5
-	B8I46eaYr983dpUbGerKsoIN434TIKbDWlwNMWYJBsyWcd0RHPG16hmVXdpS92nSkmRi
-	00/Ff4bGTeHWn+VUNF56W7tnUAiC6mDs6VenqEgVL1lo3ty2/2ngFRvGMw1AjP8+sXlR
-	gesB32OStpyRkMqH48oONQLybE6xxgq5ZRq+1XHde9HtJjeZGleUKDKPpeQDFHv8m28Q
-	vK5A==
-X-Received: by 10.112.171.101 with SMTP id at5mr13112127lbc.66.1434633210236; 
-	Thu, 18 Jun 2015 06:13:30 -0700 (PDT)
-Received: from anuminas.rup.mentorg.com
-	(ppp89-110-12-206.pppoe.avangarddsl.ru. [89.110.12.206])
-	by mx.google.com with ESMTPSA id ja1sm1770636lbc.38.2015.06.18.06.13.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 18 Jun 2015 06:13:29 -0700 (PDT)
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jun 2015 16:13:08 +0300
-Message-Id: <1434633188-3434-3-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
-References: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 3/3] cross.bbclass: override MULTIMACH_TARGET_SYS
+	Thu, 18 Jun 2015 13:16:49 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 18 Jun 2015 06:16:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,638,1427785200"; d="scan'208";a="729934208"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
+	([10.237.68.143])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Jun 2015 06:16:28 -0700
+Message-ID: <5582C4B8.4010408@linux.intel.com>
+Date: Thu, 18 Jun 2015 16:16:40 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
+MIME-Version: 1.0
+To: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@googlemail.com>
+References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>	<1434547172-24620-6-git-send-email-alexander.kanavin@linux.intel.com>	<CAHiDW_EwLwe52-VXnJTctjMS5+4pevuOE1CZwHuEbc_xRQ=4Zw@mail.gmail.com>	<5582AA4A.9000202@linux.intel.com>
+	<CALbNGRQ5C5cMEPZEyYe03dJfMdAkyH-WiaWjoZCH77Y-DJ+f4A@mail.gmail.com>
+In-Reply-To: <CALbNGRQ5C5cMEPZEyYe03dJfMdAkyH-WiaWjoZCH77Y-DJ+f4A@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/22] Update libnotify to version 0.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +35,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 13:13:30 -0000
+X-List-Received-Date: Thu, 18 Jun 2015 13:16:54 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Cross packages are built for BUILD_VENDOR/BUILD_OS, rather than
-TARGET_VENDOR/TARGET_OS. E.g. there is no point in hardcoding the
-target's LIBCEXTENSION and ABIEXTENSION into the STAMPDIR/WORKDIR
-variables (set using MULTIMACH_TARGET_SYS).
+On 06/18/2015 03:35 PM, Andreas Müller wrote:
 
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
----
- meta/classes/cross.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+> I think gtk3 is not the problem here it is the API change libnotify
+> 0.6 -> 0.7 which cannot (or only by ugly hacks) be installed parallel.
+> Do we know what happens to meta-gnome/meta-xfce?
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index 28fd211..5ee32b2 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -21,6 +21,8 @@ STAGING_DIR_HOST = "${STAGING_DIR}/${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}"
- 
- PACKAGE_ARCH = "${BUILD_ARCH}"
- 
-+MULTIMACH_TARGET_SYS = "${PACKAGE_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
-+
- export PKG_CONFIG_DIR = "${exec_prefix}/lib/pkgconfig"
- export PKG_CONFIG_SYSROOT_DIR = ""
- 
--- 
-2.1.4
+The packages in meta-gnome that fail because of new libnotify are all 
+five year old, unmaintained 2.32.something versions.
 
+Let's just accept that meta-gnome needs to get a massive update to 3.x, 
+those who don't like gnome 3.x need to seek alternative desktops and 
+move on.
+
+Regards,
+Alex
 
