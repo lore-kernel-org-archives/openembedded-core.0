@@ -1,25 +1,25 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C3CB73306
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E2B473306
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 09:02:28 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 18 Jun 2015 02:02:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,638,1427785200"; d="scan'208";a="729809394"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 18 Jun 2015 02:02:29 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 876C92E055B;
-	Thu, 18 Jun 2015 02:01:52 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jun 2015 12:01:54 +0300
-Message-Id: <1434618114-18021-1-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1434549161-12235-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1434549161-12235-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [PATCH v2] wic: removed unused command line option
+	Thu, 18 Jun 2015 09:10:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5I9A4m1013947
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jun 2015 02:10:04 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Thu, 18 Jun 2015 02:10:04 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Jun 2015 17:02:41 +0800
+Message-ID: <cover.1434618027.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [128.224.153.152]
+Subject: [PATCH 0/1] Backport patches of qemu to fix CVE issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,104 +32,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 09:02:31 -0000
+X-List-Received-Date: Thu, 18 Jun 2015 09:10:06 -0000
+Content-Type: text/plain
 
-Removed -i/--infile wic command line option.
-Removed properties_file and properties arguments of
-wic_create function.
+The following changes since commit 1675ff6fff53dda89fa8d4f3a2c292c23fd346d7:
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- scripts/lib/image/engine.py | 7 ++-----
- scripts/lib/image/help.py   | 7 -------
- scripts/wic                 | 8 +++-----
- 3 files changed, 5 insertions(+), 17 deletions(-)
+  bitbake: tests/data: Add new data tests (2015-06-12 00:02:28 +0100)
 
-diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
-index c568d69..29099ee 100644
---- a/scripts/lib/image/engine.py
-+++ b/scripts/lib/image/engine.py
-@@ -178,9 +178,8 @@ def list_source_plugins():
-         print "  %s" % plugin
- 
- 
--def wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
--               native_sysroot, scripts_path, image_output_dir, debug,
--               properties_file, properties=None):
-+def wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
-+               native_sysroot, scripts_path, image_output_dir, debug):
-     """Create image
- 
-     wks_file - user-defined OE kickstart file
-@@ -190,8 +189,6 @@ def wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
-     native_sysroot - absolute path to the build's native sysroots dir
-     scripts_path - absolute path to /scripts dir
-     image_output_dir - dirname to create for image
--    properties_file - use values from this file if nonempty i.e no prompting
--    properties - use values from this string if nonempty i.e no prompting
- 
-     Normally, the values for the build artifacts values are determined
-     by 'wic -e' from the output of the 'bitbake -e' command given an
-diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
-index 886437b..fe66548 100644
---- a/scripts/lib/image/help.py
-+++ b/scripts/lib/image/help.py
-@@ -149,7 +149,6 @@ NAME
- 
- SYNOPSIS
-     wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
--        [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
-         [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
-         [-r, --rootfs-dir] [-b, --bootimg-dir]
-         [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
-@@ -219,12 +218,6 @@ DESCRIPTION
-     The -o option can be used to place the image in a directory with a
-     different name and location.
- 
--    As an alternative to the wks file, the image-specific properties
--    that define the values that will be used to generate a particular
--    image can be specified on the command-line using the -i option and
--    supplying a JSON object consisting of the set of name:value pairs
--    needed by image creation.
--
-     The set of properties available for a given image type can be
-     listed using the 'wic list' command.
- """
-diff --git a/scripts/wic b/scripts/wic
-index a38ecc0..7b0c3b2 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -91,8 +91,6 @@ def wic_create_subcommand(args, usage_str):
- 
-     parser.add_option("-o", "--outdir", dest="outdir",
-                       action="store", help="name of directory to create image in")
--    parser.add_option("-i", "--infile", dest="properties_file",
--                      action="store", help="name of file containing the values for image properties as a JSON file")
-     parser.add_option("-e", "--image-name", dest="image_name",
-                       action="store", help="name of the image to use the artifacts from e.g. core-image-sato")
-     parser.add_option("-r", "--rootfs-dir", dest="rootfs_dir",
-@@ -132,7 +130,7 @@ def wic_create_subcommand(args, usage_str):
-     if not options.image_name:
-         options.build_check = False
- 
--    if options.build_check and not options.properties_file:
-+    if options.build_check:
-         print "Checking basic build environment..."
-         if not engine.verify_build_env():
-             print "Couldn't verify build environment, exiting\n"
-@@ -225,9 +223,9 @@ def wic_create_subcommand(args, usage_str):
-     rootfs_dir = rootfs_dir_to_args(krootfs_dir)
- 
-     print "Creating image(s)...\n"
--    engine.wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
-+    engine.wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
-                       native_sysroot, scripts_path, image_output_dir,
--                      options.debug, options.properties_file)
-+                      options.debug)
- 
- 
- def wic_list_subcommand(args, usage_str):
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib kangkai/qemu
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/qemu
+
+Kai Kang (1):
+  qemu: backport patches to fix CVE issues
+
+ ...f-modified-PCI-CFG-contents-CVE-2015-4103.patch | 140 +++++++++++
+ ...o-control-MSI-mask-register-CVE-2015-4104.patch | 194 +++++++++++++++
+ ...-MSI-X-limit-error-messages-CVE-2015-4105.patch |  90 +++++++
+ ...s-through-of-enable-bit-mod-CVE-2015-4106.patch |  76 ++++++
+ ...date-PM-capability-emu_mask-CVE-2015-4106.patch |  86 +++++++
+ ...rectly-handle-PM-status-bit-CVE-2015-4106.patch |  38 +++
+ ...ulation-of-throughable-mask-CVE-2015-4106.patch | 265 +++++++++++++++++++++
+ ...e-capability-bits-read-only-CVE-2015-4106.patch |  38 +++
+ ...-in-PCI-config-space-fields-CVE-2015-4106.patch |  94 ++++++++
+ ...ig-space-field-descriptions-CVE-2015-4106.patch |  77 ++++++
+ ...e-fields-should-be-readonly-CVE-2015-4106.patch | 137 +++++++++++
+ meta/recipes-devtools/qemu/qemu_2.3.0.bb           |  13 +-
+ 12 files changed, 1247 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/01-xen-properly-gate-host-writes-of-modified-PCI-CFG-contents-CVE-2015-4103.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/02-xen-dont-allow-guest-to-control-MSI-mask-register-CVE-2015-4104.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/03-xen-MSI-X-limit-error-messages-CVE-2015-4105.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/04-xen-MSI-dont-open-code-pass-through-of-enable-bit-mod-CVE-2015-4106.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/05-xen-pt-consolidate-PM-capability-emu_mask-CVE-2015-4106.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/06-xen-pt-correctly-handle-PM-status-bit-CVE-2015-4106.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/07-xen-pt-split-out-calculation-of-throughable-mask-CVE-2015-4106.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/08-xen-pt-mark-all-PCIe-capability-bits-read-only-CVE-2015-4106.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/09-xen-pt-mark-reserved-bits-in-PCI-config-space-fields-CVE-2015-4106.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/10-xen-pt-add-a-few-PCI-config-space-field-descriptions-CVE-2015-4106.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/11-xen-pt-unknown-PCI-config-space-fields-should-be-readonly-CVE-2015-4106.patch
+
 -- 
-2.1.4
+1.9.1
 
 
