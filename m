@@ -1,24 +1,39 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-Received: from dd5638.kasserver.com (dd5638.kasserver.com [85.13.130.155])
-	by mail.openembedded.org (Postfix) with ESMTP id BFC4073F7F
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 309F973F7F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 12:33:27 +0000 (UTC)
-Received: from [129.70.144.65] (astra.TechFak.Uni-Bielefeld.DE [129.70.144.65])
-	by dd5638.kasserver.com (Postfix) with ESMTPSA id BC8425600975;
-	Thu, 18 Jun 2015 14:33:26 +0200 (CEST)
-To: Moritz Blume <moritz.blume@bmw-carit.de>,
-	openembedded-core@lists.openembedded.org
-References: <1433921778-1835-1-git-send-email-moritz.blume@bmw-carit.de>
-	<1433921778-1835-2-git-send-email-moritz.blume@bmw-carit.de>
-	<5579DD2D.10104@herbrechtsmeier.net> <55818872.5000102@bmw-carit.de>
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Message-ID: <5582B9C9.1060307@herbrechtsmeier.net>
-Date: Thu, 18 Jun 2015 14:30:01 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.0.1
+	Thu, 18 Jun 2015 12:35:19 +0000 (UTC)
+Received: by padev16 with SMTP id ev16so60701655pad.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jun 2015 05:35:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=1J6JHvk/xCfu/W9hfQcCAMnOyd7qvChOqWpfLmh6w60=;
+	b=quow09iXNGbdmubY2vo+1BETG7a4YYFNBVoLcMqGVPYt4su0CQDoEtIvJYA4bfqb3n
+	3QO4Unx8VnsvV84sky68W6PL0pQHIg/4K+eoYo6eMIZraLEX42LlcFDPeTGgYiIqATox
+	PdM9i4Xr28eBUf8Iro6e/aFUttj5MGh46flExiGfa/Ae3BFLUSYnAsepOizWTjxlDWB1
+	EtUbqVGEwMLzYbm8lvPmTcPlFae79wtszl6ifm5NioHgu23nUkSIBpUFAGlWo2YOX2vW
+	MXzcJ53nisj453ej4EPCfl9QMBqEWmOtxphEQCv53lSeooNykGAYEwcIPn1WGV961tbD
+	UYnA==
 MIME-Version: 1.0
-In-Reply-To: <55818872.5000102@bmw-carit.de>
-Subject: Re: [PATCH v3 2/2] cmake: Upgrade 2.8.12.2 -> 3.2.2
+X-Received: by 10.70.127.140 with SMTP id ng12mr21060595pdb.94.1434630920770; 
+	Thu, 18 Jun 2015 05:35:20 -0700 (PDT)
+Received: by 10.70.44.41 with HTTP; Thu, 18 Jun 2015 05:35:20 -0700 (PDT)
+In-Reply-To: <5582AA4A.9000202@linux.intel.com>
+References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<1434547172-24620-6-git-send-email-alexander.kanavin@linux.intel.com>
+	<CAHiDW_EwLwe52-VXnJTctjMS5+4pevuOE1CZwHuEbc_xRQ=4Zw@mail.gmail.com>
+	<5582AA4A.9000202@linux.intel.com>
+Date: Thu, 18 Jun 2015 14:35:20 +0200
+Message-ID: <CALbNGRQ5C5cMEPZEyYe03dJfMdAkyH-WiaWjoZCH77Y-DJ+f4A@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/22] Update libnotify to version 0.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,159 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 12:33:30 -0000
-Content-Type: multipart/alternative;
-	boundary="------------050904060902050004020808"
+X-List-Received-Date: Thu, 18 Jun 2015 12:35:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
---------------050904060902050004020808
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Am 17.06.2015 um 16:47 schrieb Moritz Blume:
-> On 11.06.2015 21:10, Stefan Herbrechtsmeier wrote:
->> Am 10.06.2015 um 09:36 schrieb Moritz Blume:
->>> Patches "qt4-fail-silent.patch" and "support-oe-qt4-tools-names.patch"
->>> were adapted in order to fit to CMake 3.2.2 (refer to the commit
->>> message in the respective patch for details).
->>> Patch "cmake-2.8.11.2-FindFreetype.patch" was dropped since it was
->>> rejected upstream and its functionality otherwise implemented in the
->>> meantime.
->>>
->>> Note that CMake 3 needs to have the full compiler path in the toolchain
->>> file (see cmake.bbclass).
->> Why is the full path needed?
->
-> https://public.kitware.com/Bug/view.php?id=15251
->
-> "Having a full path to the compiler is a new requirement starting in 
-> CMake 3.0. The incompatibility was introduced across a major version 
-> number bump and is considered acceptable. The project will have to be 
-> fixed to use a full path."
-The documentions [1] says something else:
-The CMAKE_<LANG>_COMPILER variables may be set to full paths, or to 
-names of compilers to search for in standard locations
-
-> Without a full path, you get the following error message:
->
-> CMake Error at CMakeLists.txt:5 (project):
-> | The CMAKE_C_COMPILER:
-> |
-> | gcc
-> |
-> | is not a full path and was not found in the PATH.
-> |
-> | Tell CMake where to find the compiler by setting either the environment
-> | variable "CC" or the CMake cache entry CMAKE_C_COMPILER to the full 
-> path to
-> | the compiler, or to the compiler name if it is in the PATH.
->
-But this messages also says that the compiler was not found in the PATH.
-
+On Thu, Jun 18, 2015 at 1:23 PM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 06/17/2015 05:59 PM, Jussi Kukkonen wrote:
 >>
->> Have you try to add STAGING_BINDIR_TOOLCHAIN to the 
->> CMAKE_FIND_ROOT_PATH?
+>> 0.6 is the last release that supports GTK+2 and changing this might
+>> annoy people who are avoiding GTK+3 and are using some of the recipes
+>> in meta-oe that depend on libnotify.
+>>
+>> I believe the GTK dependency is only there for tests: Modifying the
+>> build so it doesn't build tests and doesn't depend on GTK should not
+>> be difficult.
 >
-> I don't understand, is this related to the compiler path?
-Yes, but this doesn't helps as CMAKE_<LAND>_COMPILER is not inside a 
-/bin path. CMake use find_program to get the full path in 
-Modules/CMakeDetermineCompiler.cmake.
+>
+> There is no way to switch off tests building in libnotify, so dropping the
+> gtk3 dependency means developing a custom source patch. I'd rather do that
+> only if there are specific complaints.
+>
+I think gtk3 is not the problem here it is the API change libnotify
+0.6 -> 0.7 which cannot (or only by ugly hacks) be installed parallel.
+Do we know what happens to meta-gnome/meta-xfce?
 
-<snip>
+Andreas
 
-[1] 
-http://www.cmake.org/cmake/help/v3.2/manual/cmake-toolchains.7.html#cross-compiling-for-linux
-
-
---------------050904060902050004020808
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <div class="moz-cite-prefix">Am 17.06.2015 um 16:47 schrieb Moritz
-      Blume:<br>
-    </div>
-    <blockquote cite="mid:55818872.5000102@bmw-carit.de" type="cite">
-      <meta content="text/html; charset=windows-1252"
-        http-equiv="Content-Type">
-      On 11.06.2015 21:10, Stefan Herbrechtsmeier wrote:<br>
-      <blockquote cite="mid:5579DD2D.10104@herbrechtsmeier.net"
-        type="cite">Am 10.06.2015 um 09:36 schrieb Moritz Blume: <br>
-        <blockquote type="cite">Patches "qt4-fail-silent.patch" and
-          "support-oe-qt4-tools-names.patch" <br>
-          were adapted in order to fit to CMake 3.2.2 (refer to the
-          commit <br>
-          message in the respective patch for details). <br>
-          Patch "cmake-2.8.11.2-FindFreetype.patch" was dropped since it
-          was <br>
-          rejected upstream and its functionality otherwise implemented
-          in the <br>
-          meantime. <br>
-          <br>
-          Note that CMake 3 needs to have the full compiler path in the
-          toolchain <br>
-          file (see cmake.bbclass). <br>
-        </blockquote>
-        Why is the full path needed? <br>
-      </blockquote>
-      <br>
-      <a moz-do-not-send="true" class="moz-txt-link-freetext"
-        href="https://public.kitware.com/Bug/view.php?id=15251">https://public.kitware.com/Bug/view.php?id=15251</a><br>
-      <br>
-      "Having a full path to the compiler is a new requirement starting
-      in CMake 3.0. The incompatibility was introduced across a major
-      version number bump and is considered acceptable. The project will
-      have to be fixed to use a full path."<br>
-    </blockquote>
-    <font size="3">The documentions [1] says something else:<br>
-      The CMAKE_&lt;LANG&gt;_COMPILER variables may be set to full
-      paths, or to names of compilers to search for in standard
-      locations<br>
-      <br>
-    </font>
-    <blockquote cite="mid:55818872.5000102@bmw-carit.de" type="cite">
-      Without a full path, you get the following error message:<br>
-      <br>
-      <font size="3">CMake Error at CMakeLists.txt:5 (project):<br>
-        | The CMAKE_C_COMPILER:<br>
-        | <br>
-        | gcc<br>
-        | <br>
-        | is not a full path and was not found in the PATH.<br>
-        | <br>
-        | Tell CMake where to find the compiler by setting either the
-        environment<br>
-        | variable "CC" or the CMake cache entry CMAKE_C_COMPILER to the
-        full path to<br>
-        | the compiler, or to the compiler name if it is in the PATH.</font><br>
-      <br>
-    </blockquote>
-    <font size="3">But this messages also says that the compiler was not
-      found in the PATH.<br>
-    </font><br>
-    <blockquote cite="mid:55818872.5000102@bmw-carit.de" type="cite">
-      <blockquote cite="mid:5579DD2D.10104@herbrechtsmeier.net"
-        type="cite"> <br>
-        Have you try to add STAGING_BINDIR_TOOLCHAIN to the
-        CMAKE_FIND_ROOT_PATH? <br>
-      </blockquote>
-      <br>
-      I don't understand, is this related to the compiler path?<br>
-    </blockquote>
-    Yes, but this doesn't helps as <font size="3">CMAKE_&lt;LAND&gt;_COMPILER
-      is not inside a /bin path. CMake use find_program to get the full
-      path in Modules/CMakeDetermineCompiler.cmake.<br>
-      <br>
-      &lt;snip&gt;<br>
-    </font><br>
-    [1]
-<a class="moz-txt-link-freetext" href="http://www.cmake.org/cmake/help/v3.2/manual/cmake-toolchains.7.html#cross-compiling-for-linux">http://www.cmake.org/cmake/help/v3.2/manual/cmake-toolchains.7.html#cross-compiling-for-linux</a><br>
-    <br>
-  </body>
-</html>
-
---------------050904060902050004020808--
