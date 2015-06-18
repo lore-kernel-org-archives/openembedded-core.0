@@ -1,41 +1,42 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D37617564B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 79FD2759D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 14:42:16 +0000 (UTC)
-Received: by pabvl15 with SMTP id vl15so16756751pab.1
+	Thu, 18 Jun 2015 15:57:04 +0000 (UTC)
+Received: by pdjm12 with SMTP id m12so69359982pdj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 07:42:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=CdsAEhhuOyyZ7G3SwFF8eaRTIQhZXbP4dHyv9kwsP6w=;
-	b=uIIZJkQ/uJAxo5iC+JioNuNJ1SWRieHCb6kSmVJh3SayBA74+0l8GdEQMJaCzE9Vxk
-	Gpt7H9jejoOsbUz6MAzivshLpuIuuZ35wDZ+mymZQo363KegKQdl/T58uoGtH1mZg1tP
-	nqoa9gsovFXuvjLae17N0udbar4/gKXztt5EgFQnbBGlt1TE1lGIFHKsLJBiT4gyiDdr
-	jh59Q7J4GxLPt1e5Fs/eBBuc1fWVBJcL26wLqvTKRaWT4HF7yhYMllmPdkfWMOlrhVlt
-	xA5ltgJFIevdwBBF4TQ/hNjPF2TwgTGrCWL0d5Q+GVA1b+FLOmigPkS887vZI8EOPOHQ
-	NDGQ==
+	Thu, 18 Jun 2015 08:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=NOvBnjTPJWk+pneBvMiWJuSJ+fsJbAptj6VkQUYZxcE=;
+	b=Adj9eJPt2yJ1D/rfwurSkqVPXq7OHmZtVI7CsGSJBVGo9gbsy1+4NkI98tYIWN+tiA
+	QZ9u7AaqvjAcQZGzqONS1BsLXRG07FjAWcX/xlm8i+hh/paLmEiAsoDsIp4WguVPYByI
+	ezIVqOyk8qaMknTI8uBVF/ovd6QMgjfNojMxMhlSDqF+3fz5KkkZkaLwV3rgrVjp3xAY
+	B1HeJ+5yoMGnoYifH7O4QythbSWXiZp0rCVHouR5gmxPVsY5xhl5O9AFC4WWofg9x4B3
+	9wsCFiq+hHYnQexLy8unGrUKFhyqiZvGypuEEAmQpynAiM8XSMKcGvf0wUEk7O4zCa6o
+	tHrQ==
+X-Received: by 10.70.44.138 with SMTP id e10mr22109660pdm.121.1434643025943;
+	Thu, 18 Jun 2015 08:57:05 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:b82d:2591:e47:b5a4?
+	([2601:202:4000:1239:b82d:2591:e47:b5a4])
+	by mx.google.com with ESMTPSA id dd3sm8561374pad.45.2015.06.18.08.57.03
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 Jun 2015 08:57:04 -0700 (PDT)
+Message-ID: <5582EA4D.2010100@gmail.com>
+Date: Thu, 18 Jun 2015 08:57:01 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.70.127.140 with SMTP id ng12mr22077604pdb.94.1434638537382; 
-	Thu, 18 Jun 2015 07:42:17 -0700 (PDT)
-Received: by 10.70.44.41 with HTTP; Thu, 18 Jun 2015 07:42:17 -0700 (PDT)
-In-Reply-To: <5582C4B8.4010408@linux.intel.com>
-References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<1434547172-24620-6-git-send-email-alexander.kanavin@linux.intel.com>
-	<CAHiDW_EwLwe52-VXnJTctjMS5+4pevuOE1CZwHuEbc_xRQ=4Zw@mail.gmail.com>
-	<5582AA4A.9000202@linux.intel.com>
-	<CALbNGRQ5C5cMEPZEyYe03dJfMdAkyH-WiaWjoZCH77Y-DJ+f4A@mail.gmail.com>
-	<5582C4B8.4010408@linux.intel.com>
-Date: Thu, 18 Jun 2015 16:42:17 +0200
-Message-ID: <CALbNGRRJjqzrfeJAY0ximXfCa0HpLxYB-2d51vfJDDvOgnfpkg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/22] Update libnotify to version 0.7.6
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1434259784.git.akuster808@gmail.com>
+	<25c4ff3c454ec38bec5e68498d7230e6aaf8dc64.1434259784.git.akuster808@gmail.com>
+	<CAJTo0LZ5uHLs-aP266_MYNkaBikPZ9=LDmOM+Vvr7SBkAqvJbw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ5uHLs-aP266_MYNkaBikPZ9=LDmOM+Vvr7SBkAqvJbw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] gnutls: update to 3.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,33 +49,177 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 14:42:18 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 18 Jun 2015 15:57:05 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 18, 2015 at 3:16 PM, Alexander Kanavin
-<alexander.kanavin@linux.intel.com> wrote:
-> On 06/18/2015 03:35 PM, Andreas M=C3=BCller wrote:
->
->> I think gtk3 is not the problem here it is the API change libnotify
->> 0.6 -> 0.7 which cannot (or only by ugly hacks) be installed parallel.
->> Do we know what happens to meta-gnome/meta-xfce?
->
->
-> The packages in meta-gnome that fail because of new libnotify are all fiv=
-e
-> year old, unmaintained 2.32.something versions.
->
-> Let's just accept that meta-gnome needs to get a massive update to 3.x,
-> those who don't like gnome 3.x need to seek alternative desktops and move
-> on.
->
-Cool: you send patches having no idea what efforts are caused and give
-helping hints as 'let's move on'. From my experience guys like you
-will not give any support in 'moving on' as the only scope is academic
-'core-image-sato' building green for quemux86.
+Ross,
 
-Over and out
+  I could not reproduce these warnings but found a configure option to 
+build without libidn so I added that in my last submit.
 
-Andreas
+Thanks again,
+
+kind regards,
+Armin
+
+On 06/15/2015 03:13 AM, Burton, Ross wrote:
+> So this happens:
+>
+> WARNING: QA Issue: gnutls-openssl rdepends on libidn, but it isn't a
+> build dependency? [build-deps]
+> WARNING: QA Issue: gnutls-xx rdepends on libidn, but it isn't a build
+> dependency? [build-deps]
+> WARNING: QA Issue: gnutls-dev rdepends on libidn, but it isn't a build
+> dependency? [build-deps]
+> WARNING: QA Issue: gnutls-bin rdepends on libidn, but it isn't a build
+> dependency? [build-deps]
+> WARNING: QA Issue: gnutls rdepends on libidn, but it isn't a build
+> dependency? [build-deps]
+>
+> Ross
+>
+> On 14 June 2015 at 06:37, Armin Kuster <akuster808@gmail.com
+> <mailto:akuster808@gmail.com>> wrote:
+>
+>     This version supports the nettle 3.x and higher and requires that
+>     version.
+>
+>     this include a security fix:
+>     GNUTLS-SA-2015-2
+>     no CVE assigned to date.
+>
+>     enable openssl compat via PACKAGECONFIG as iputils needs
+>     gnutls/openssl.h
+>
+>     for migration info:
+>     http://www.gnutls.org/manual/gnutls.html#Upgrading-from-previous-versions
+>
+>     Signed-off-by: Armin Kuster <akuster808@gmail.com
+>     <mailto:akuster808@gmail.com>>
+>     ---
+>       meta/recipes-support/gnutls/gnutls.inc             |  3 ++-
+>       .../gnutls/configure.ac-fix-sed-command.patch      | 29
+>     ++++++++++------------
+>       meta/recipes-support/gnutls/gnutls_3.3.14.bb
+>     <http://gnutls_3.3.14.bb>       |  8 ------
+>       meta/recipes-support/gnutls/gnutls_3.4.1.bb
+>     <http://gnutls_3.4.1.bb>        |  8 ++++++
+>       4 files changed, 23 insertions(+), 25 deletions(-)
+>       delete mode 100644 meta/recipes-support/gnutls/gnutls_3.3.14.bb
+>     <http://gnutls_3.3.14.bb>
+>       create mode 100644 meta/recipes-support/gnutls/gnutls_3.4.1.bb
+>     <http://gnutls_3.4.1.bb>
+>
+>     diff --git a/meta/recipes-support/gnutls/gnutls.inc
+>     b/meta/recipes-support/gnutls/gnutls.inc
+>     index e9b138a..6928cb9 100644
+>     --- a/meta/recipes-support/gnutls/gnutls.inc
+>     +++ b/meta/recipes-support/gnutls/gnutls.inc
+>     @@ -34,9 +34,10 @@ do_configure_prepend() {
+>              done
+>       }
+>
+>     -PACKAGECONFIG ??= "zlib"
+>     +PACKAGECONFIG ??= "zlib openssl_compat"
+>       PACKAGECONFIG[tpm] = "--with-tpm, --without-tpm, trousers"
+>       PACKAGECONFIG[zlib] = "--with-zlib, --without-zlib, zlib"
+>     +PACKAGECONFIG[openssl_compat] = "--enable-openssl-compatibility,,"
+>
+>       PACKAGES =+ "${PN}-openssl ${PN}-xx"
+>
+>     diff --git
+>     a/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
+>     b/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
+>     index 44a9934..342143f 100644
+>     ---
+>     a/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
+>     +++
+>     b/meta/recipes-support/gnutls/gnutls/configure.ac-fix-sed-command.patch
+>     @@ -13,19 +13,16 @@ Signed-off-by: Robert Yang
+>     <liezhi.yang@windriver.com <mailto:liezhi.yang@windriver.com>>
+>     configure.ac <http://configure.ac> | 2 +-
+>        1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>     -diff --git a/configure.ac <http://configure.ac> b/configure.ac
+>     <http://configure.ac>
+>     -index c6818a0..1c4582d 100644
+>     ---- a/configure.ac <http://configure.ac>
+>     -+++ b/configure.ac <http://configure.ac>
+>     -@@ -466,7 +466,7 @@ if test "$NEED_LIBOPTS_DIR" = "true";then
+>     -       dnl replace libopts-generated files with distributed
+>     backups, if present
+>     -       missing_baks=
+>     -       for i in ${srcdir}/src/*-args.c.bak
+>     ${srcdir}/src/*-args.h.bak; do
+>     --              nam=`echo $i|sed 's/.bak//g'`
+>     -+              nam=`echo $i|sed 's/\.bak$//'`
+>     -               if test -f $i;then
+>     -                       cp -f $i $nam
+>     -               else
+>     ---
+>     -2.0.1
+>     -
+>     +Index: gnutls-3.4.1/configure.ac <http://configure.ac>
+>     +===================================================================
+>     +--- gnutls-3.4.1.orig/configure.ac <http://configure.ac>
+>     ++++ gnutls-3.4.1/configure.ac <http://configure.ac>
+>     +@@ -530,7 +530,7 @@ if test "$enable_tools" != "no" || test
+>     +               dnl replace libopts-generated files with distributed
+>     backups, if present
+>     +               missing_baks=
+>     +               for i in ${srcdir}/src/*-args.c.bak
+>     ${srcdir}/src/*-args.h.bak; do
+>     +-                      nam=`echo $i|sed 's/.bak//g'`
+>     ++                      nam=`echo $i|sed 's/\.bak$//'`
+>     +                       if test -f $i;then
+>     +                               cp -f $i $nam
+>     +                       else
+>     diff --git a/meta/recipes-support/gnutls/gnutls_3.3.14.bb
+>     <http://gnutls_3.3.14.bb>
+>     b/meta/recipes-support/gnutls/gnutls_3.3.14.bb <http://gnutls_3.3.14.bb>
+>     deleted file mode 100644
+>     index f41d183..0000000
+>     --- a/meta/recipes-support/gnutls/gnutls_3.3.14.bb
+>     <http://gnutls_3.3.14.bb>
+>     +++ /dev/null
+>     @@ -1,8 +0,0 @@
+>     -require gnutls.inc
+>     -
+>     -SRC_URI += "file://correct_rpl_gettimeofday_signature.patch \
+>     -            file://configure.ac-fix-sed-command.patch \
+>     -            file://use-pkg-config-to-locate-zlib.patch \
+>     -           "
+>     -SRC_URI[md5sum] = "7f4465f8c564cf9cb8f5cb38b909f7ca"
+>     -SRC_URI[sha256sum] =
+>     "0dfa0030faad8909c1e904105198232d6bc0123cae8cf4933b2bac85ee7cec52"
+>     diff --git a/meta/recipes-support/gnutls/gnutls_3.4.1.bb
+>     <http://gnutls_3.4.1.bb>
+>     b/meta/recipes-support/gnutls/gnutls_3.4.1.bb <http://gnutls_3.4.1.bb>
+>     new file mode 100644
+>     index 0000000..1b64813
+>     --- /dev/null
+>     +++ b/meta/recipes-support/gnutls/gnutls_3.4.1.bb
+>     <http://gnutls_3.4.1.bb>
+>     @@ -0,0 +1,8 @@
+>     +require gnutls.inc
+>     +
+>     +SRC_URI += "file://correct_rpl_gettimeofday_signature.patch  \
+>     +            file://configure.ac-fix-sed-command.patch \
+>     +            file://use-pkg-config-to-locate-zlib.patch \
+>     +          "
+>     +SRC_URI[md5sum] = "2d04f34fa25b45f9dcb9104c0394e12e"
+>     +SRC_URI[sha256sum] =
+>     "e9b5f58becf34756464216056cd5abbf04315eda80a374d02699dee83f80b12e"
+>     --
+>     2.3.5
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
