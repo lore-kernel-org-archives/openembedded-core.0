@@ -1,35 +1,37 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 95831601DF
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 065D9601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 13:13:25 +0000 (UTC)
-Received: by labbc20 with SMTP id bc20so54099835lab.1
+	Thu, 18 Jun 2015 13:13:27 +0000 (UTC)
+Received: by lbbvz5 with SMTP id vz5so3896615lbb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 06:13:26 -0700 (PDT)
+	Thu, 18 Jun 2015 06:13:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=YVc/rtxGqt8sQ13O6lwSMrjYysSsFyS/YhZO7D//cYw=;
-	b=fdmhu80BdylffsI/kmdjH08dkkaDw9hTzOkPY0PRdBtOvaLtf+pqh1MWH5edPqOBox
-	UyUNy0FvhhkL82sN6m/xy6llqhsIq8HFRHqgk2cBrt4uWekMNOE6Jh8PaeT8EPKPGZDD
-	vlV0rIlDRv6PBROeV5Z9mGeAeqEGqh0S1HMWWIob4dyF0TeDPF398UdACcmqMLQwDgqt
-	C+zJ/OVNfh119lp6ScZcZX9ywfeE/fAgXB71y24BGNDyTdlfLVVMWEebM0l9fcTqYk4o
-	JYQ1vf2EMVWUd1UwJozm+wq89R1mIwtcQ9E+I/hluTr3N8Y8agRX6cht7C/ERLG1jNCN
-	z5Ig==
-X-Received: by 10.112.185.100 with SMTP id fb4mr12973320lbc.79.1434633206487; 
-	Thu, 18 Jun 2015 06:13:26 -0700 (PDT)
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=aFoTst8SPJ0Dxosv1KucH1vUCUuWNOyEW/jk6hcSa1E=;
+	b=JoTr7Rb8EgXbmOQpZmc2HuluDShcjzhOUSqhpTIlqmvmYoDBordYrRsY8dFTnElhXn
+	SHM9dciwCwvg3lxGExrSU+/PINmxpxEiPL+OnVQWJcsVVSphY0zpLP0kCxWCuoTIeRAF
+	ew2mRqhb0opXh0+122FqLMo442sFHYpOAdt3YayQHMV2NK1Jc2h0TnT1mzA7iFv6IGZd
+	cFSDlEP/35LZ/37B6y+OXpcEvb/dAExW/nhsYozGZvU9awN3MHaa+9MbFjBTO18zn/SL
+	kmrhYfUgrJD/8z/fKsjteLrse7nn8V+DmF/plkh/+bpW83FNy89NwGXgv6NspnNHPG1V
+	7A0Q==
+X-Received: by 10.112.163.35 with SMTP id yf3mr12668480lbb.107.1434633208541; 
+	Thu, 18 Jun 2015 06:13:28 -0700 (PDT)
 Received: from anuminas.rup.mentorg.com
 	(ppp89-110-12-206.pppoe.avangarddsl.ru. [89.110.12.206])
-	by mx.google.com with ESMTPSA id ja1sm1770636lbc.38.2015.06.18.06.13.23
+	by mx.google.com with ESMTPSA id ja1sm1770636lbc.38.2015.06.18.06.13.26
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 18 Jun 2015 06:13:24 -0700 (PDT)
+	Thu, 18 Jun 2015 06:13:27 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jun 2015 16:13:06 +0300
-Message-Id: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
+Date: Thu, 18 Jun 2015 16:13:07 +0300
+Message-Id: <1434633188-3434-2-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/3] arch-mips.inc: don't override TRANSLATED_TARGET_ARCH
+In-Reply-To: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
+References: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
+Subject: [PATCH 2/3] packagegroups-cross-canadian: don't override TRANSLATED_TARGET_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +44,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 13:13:27 -0000
+X-List-Received-Date: Thu, 18 Jun 2015 13:13:28 -0000
 
-Currently MIPS64 N32 is broken. There is internal disagreement
-between TARGET_ARCH (which doesn't contain ABIEXTENSION) and
-TRANSLATED_TARGET_ARCH (which contains ABIEXTENSION). ABI is already
-encoded into the TARGET_OS. ARM tunes in the same situation override
-neither the TARGET_ARCH nor the TRANSLATED_TARGET_ARCH. So let's drop
-this override.
+There is no point in overriding TRANSLATED_TARGET_ARCH in
+packagegroups-cross-canadian recipe. The cross-canadian class sets the
+PACKAGE_ARCH variable, thus allarch class (inherited through
+packagegroup class) doesn't change variables.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/conf/machine/include/mips/arch-mips.inc | 4 ----
- 1 file changed, 4 deletions(-)
+ meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index c41fa5e..02626d3 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -100,7 +100,3 @@ TUNE_FEATURES_tune-mips64el-nf = "n64"
- BASE_LIB_tune-mips64el-nf = "lib64"
- MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+index e3b1c18..34e6e2b 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+@@ -2,9 +2,6 @@ SUMMARY = "Host SDK package for cross canadian toolchain"
+ PN = "packagegroup-cross-canadian-${MACHINE}"
+ LICENSE = "MIT"
+ 
+-# Save TRANSLATED_TARGET_ARCH before allarch tramples it
+-TRANSLATED_TARGET_ARCH = "${@d.getVar('TUNE_ARCH', True).replace('_', '-')}"
 -
--# On mips we need to redefine this to include the ABIEXTENSION
--# we can avoid the python bit as there are no _ or - to translate
--TRANSLATED_TARGET_ARCH = "${TARGET_ARCH}${ABIEXTENSION}"
+ inherit cross-canadian packagegroup
+ 
+ PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
 -- 
 2.1.4
 
