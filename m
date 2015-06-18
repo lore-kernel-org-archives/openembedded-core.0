@@ -1,26 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id ED51073306;
-	Thu, 18 Jun 2015 14:17:42 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5IEHhMr027850; Thu, 18 Jun 2015 15:17:43 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id PIgW0ms89NVd; Thu, 18 Jun 2015 15:17:43 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5IEHSK7027844
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 18 Jun 2015 15:17:39 +0100
-Message-ID: <1434637048.14710.99.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: bitbake-devel <bitbake-devel@lists.openembedded.org>
-Date: Thu, 18 Jun 2015 15:17:28 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: [RFC PATCH] data_smart: Drop expand parameter default
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id D37617564B
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jun 2015 14:42:16 +0000 (UTC)
+Received: by pabvl15 with SMTP id vl15so16756751pab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jun 2015 07:42:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=CdsAEhhuOyyZ7G3SwFF8eaRTIQhZXbP4dHyv9kwsP6w=;
+	b=uIIZJkQ/uJAxo5iC+JioNuNJ1SWRieHCb6kSmVJh3SayBA74+0l8GdEQMJaCzE9Vxk
+	Gpt7H9jejoOsbUz6MAzivshLpuIuuZ35wDZ+mymZQo363KegKQdl/T58uoGtH1mZg1tP
+	nqoa9gsovFXuvjLae17N0udbar4/gKXztt5EgFQnbBGlt1TE1lGIFHKsLJBiT4gyiDdr
+	jh59Q7J4GxLPt1e5Fs/eBBuc1fWVBJcL26wLqvTKRaWT4HF7yhYMllmPdkfWMOlrhVlt
+	xA5ltgJFIevdwBBF4TQ/hNjPF2TwgTGrCWL0d5Q+GVA1b+FLOmigPkS887vZI8EOPOHQ
+	NDGQ==
+MIME-Version: 1.0
+X-Received: by 10.70.127.140 with SMTP id ng12mr22077604pdb.94.1434638537382; 
+	Thu, 18 Jun 2015 07:42:17 -0700 (PDT)
+Received: by 10.70.44.41 with HTTP; Thu, 18 Jun 2015 07:42:17 -0700 (PDT)
+In-Reply-To: <5582C4B8.4010408@linux.intel.com>
+References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<1434547172-24620-6-git-send-email-alexander.kanavin@linux.intel.com>
+	<CAHiDW_EwLwe52-VXnJTctjMS5+4pevuOE1CZwHuEbc_xRQ=4Zw@mail.gmail.com>
+	<5582AA4A.9000202@linux.intel.com>
+	<CALbNGRQ5C5cMEPZEyYe03dJfMdAkyH-WiaWjoZCH77Y-DJ+f4A@mail.gmail.com>
+	<5582C4B8.4010408@linux.intel.com>
+Date: Thu, 18 Jun 2015 16:42:17 +0200
+Message-ID: <CALbNGRRJjqzrfeJAY0ximXfCa0HpLxYB-2d51vfJDDvOgnfpkg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/22] Update libnotify to version 0.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +48,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 14:17:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Jun 2015 14:42:18 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Rather than just d.getVar(X), force the use of the more explict d.getVar(X, False)
-since at some point in the future, having the default of expansion would
-be nice. This is the first step towards that.
+On Thu, Jun 18, 2015 at 3:16 PM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 06/18/2015 03:35 PM, Andreas M=C3=BCller wrote:
+>
+>> I think gtk3 is not the problem here it is the API change libnotify
+>> 0.6 -> 0.7 which cannot (or only by ugly hacks) be installed parallel.
+>> Do we know what happens to meta-gnome/meta-xfce?
+>
+>
+> The packages in meta-gnome that fail because of new libnotify are all fiv=
+e
+> year old, unmaintained 2.32.something versions.
+>
+> Let's just accept that meta-gnome needs to get a massive update to 3.x,
+> those who don't like gnome 3.x need to seek alternative desktops and move
+> on.
+>
+Cool: you send patches having no idea what efforts are caused and give
+helping hints as 'let's move on'. From my experience guys like you
+will not give any support in 'moving on' as the only scope is academic
+'core-image-sato' building green for quemux86.
 
-Layers can update to this calling convention with a command along the lines of:
+Over and out
 
-sed -e 's:\(getVar([^,()]*\)\s*):\1, False):g' -i `grep -ril getVar *`
-
-Patches for OE-Core and Bitbake are on the mailing lists. Its an open question
-whether we want to do this, on what timescale and whether we do the same
-with getVarFLag at the same time?
-
-Paul confirmed that other layers don't have too many of these unexpanded
-getVar calls.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/bitbake/lib/bb/data_smart.py b/bitbake/lib/bb/data_smart.py
-index 9384ffd..1316671 100644
---- a/bitbake/lib/bb/data_smart.py
-+++ b/bitbake/lib/bb/data_smart.py
-@@ -516,7 +516,7 @@ class DataSmart(MutableMapping):
-                 if len(shortvar) == 0:
-                     override = None
- 
--    def getVar(self, var, expand=False, noweakdefault=False, parsing=False):
-+    def getVar(self, var, expand, noweakdefault=False, parsing=False):
-         return self.getVarFlag(var, "_content", expand, noweakdefault, parsing)
- 
-     def _clearOverrides(self, key):
-
-
+Andreas
 
