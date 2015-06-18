@@ -1,26 +1,38 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 54E97759FD
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qc0-f181.google.com (mail-qc0-f181.google.com
+	[209.85.216.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B04AA759F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 19:26:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Jun 2015 12:26:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,640,1427785200"; d="scan'208";a="749202779"
-Received: from mlopezva-mobl2.zpn.intel.com (HELO [10.219.24.120])
-	([10.219.24.120])
-	by orsmga002.jf.intel.com with ESMTP; 18 Jun 2015 12:26:24 -0700
-Message-ID: <55831B60.2020802@linux.intel.com>
-Date: Thu, 18 Jun 2015 14:26:24 -0500
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1433853790.git.mariano.lopez@linux.intel.com>
-	<a28814625cb2316ef4c9b164cde11ee38bb95205.1433853790.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <a28814625cb2316ef4c9b164cde11ee38bb95205.1433853790.git.mariano.lopez@linux.intel.com>
-Subject: Re: [PATCH 1/1] copyleft_filter.bbclass: Allow to filter on name
+	Thu, 18 Jun 2015 20:20:06 +0000 (UTC)
+Received: by qcet6 with SMTP id t6so5745766qce.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 18 Jun 2015 13:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=Gce0nbi7mCpD2FKNdU+RZkrvG2OFS7WDod/xcNpZZ+0=;
+	b=gAtQEYt/jhnrVwvWimO28mrLNFGVSCNMre7QPWAXR0yeiWkVULbpMjhxC9UsX49EJo
+	VMepcE7N7kE8gbXtc36I0IveWuqAHSEBgHUubp4u6pn0d6+qkTUp5zg3+raNlSP703FI
+	AmnQHA9ZvvPqnR+CVeldDDCzhuOtwk2NsLFsZVz76+nUSLoQI2FYIwB6T2FlA9hIBg3u
+	2LUowMgyU21uxf3GUxws/hZsJXEVj7jSGyU46oo1q7F3WMDw0+RA27eUCEetFbm963aL
+	OQkAtVQ3KkscdA007AtexMyHtFKED3Qw/fIPTrhMhah55FBy6nWmNDz9eNTn9v8nGpWf
+	+2YA==
+X-Received: by 10.140.35.230 with SMTP id n93mr16794690qgn.7.1434658807036;
+	Thu, 18 Jun 2015 13:20:07 -0700 (PDT)
+Received: from localhost ([177.100.226.57])
+	by mx.google.com with ESMTPSA id 140sm4442590qhg.16.2015.06.18.13.20.03
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 Jun 2015 13:20:05 -0700 (PDT)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+Received: by localhost (sSMTP sendmail emulation);
+	Thu, 18 Jun 2015 17:19:59 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Thu, 18 Jun 2015 17:19:58 -0300
+Message-Id: <1434658798-20459-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.4.3
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] Revert "wpa-supplicant: Make SystemD D-Bus config conditional"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,108 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 19:26:24 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Jun 2015 20:20:06 -0000
 
-ping
+The D-Bus config is not SystemD specific. It is required for the D-Bus
+communication to be operational.
 
+This reverts commit OE-Core:e658ee16.
 
-On 06/09/2015 07:46 AM, mariano.lopez@linux.intel.com wrote:
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->
-> The archiver uses a license based filter to provide the source code.
-> This patch allows to search on name based on two new variables (COPYLEFT_PN_INCLUDE,
-> COPYLEFT_PN_EXCLUDE). Both variables are empty by default.
-> The filter by name has higher priority than the license filter.
->
-> [YOCTO # 6929]
->
-> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> ---
->   meta/classes/archiver.bbclass        | 14 ++++++--------
->   meta/classes/copyleft_filter.bbclass | 25 +++++++++++++++++++++----
->   2 files changed, 27 insertions(+), 12 deletions(-)
->
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-> index b598aa3..7b5274d 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -52,14 +52,12 @@ do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
->   python () {
->       pn = d.getVar('PN', True)
->   
-> -    if d.getVar('COPYLEFT_LICENSE_INCLUDE', True) or \
-> -            d.getVar('COPYLEFT_LICENSE_EXCLUDE', True):
-> -        included, reason = copyleft_should_include(d)
-> -        if not included:
-> -            bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
-> -            return
-> -        else:
-> -            bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
-> +    included, reason = copyleft_should_include(d)
-> +    if not included:
-> +        bb.debug(1, 'archiver: %s is excluded: %s' % (pn, reason))
-> +        return
-> +    else:
-> +        bb.debug(1, 'archiver: %s is included: %s' % (pn, reason))
->   
->       ar_src = d.getVarFlag('ARCHIVER_MODE', 'src', True)
->       ar_dumpdata = d.getVarFlag('ARCHIVER_MODE', 'dumpdata', True)
-> diff --git a/meta/classes/copyleft_filter.bbclass b/meta/classes/copyleft_filter.bbclass
-> index 2c1d8f1..46be7f7 100644
-> --- a/meta/classes/copyleft_filter.bbclass
-> +++ b/meta/classes/copyleft_filter.bbclass
-> @@ -25,6 +25,14 @@ COPYLEFT_AVAILABLE_RECIPE_TYPES = 'target native nativesdk cross crosssdk cross-
->   COPYLEFT_AVAILABLE_RECIPE_TYPES[type] = 'list'
->   COPYLEFT_AVAILABLE_RECIPE_TYPES[doc] = 'Space separated list of available recipe types'
->   
-> +COPYLEFT_PN_INCLUDE ?= ''
-> +COPYLEFT_PN_INCLUDE[type] = 'list'
-> +COPYLEFT_PN_INCLUDE[doc] = 'Space separated list of recipe names to include'
-> +
-> +COPYLEFT_PN_EXCLUDE ?= ''
-> +COPYLEFT_PN_EXCLUDE[type] = 'list'
-> +COPYLEFT_PN_EXCLUDE[doc] = 'Space separated list of recipe names to exclude'
-> +
->   def copyleft_recipe_type(d):
->       for recipe_type in oe.data.typed_value('COPYLEFT_AVAILABLE_RECIPE_TYPES', d):
->           if oe.utils.inherits(d, recipe_type):
-> @@ -39,9 +47,11 @@ def copyleft_should_include(d):
->       import oe.license
->       from fnmatch import fnmatchcase as fnmatch
->   
-> +    included, motive = False, 'recipe did not match anything'
-> +
->       recipe_type = d.getVar('COPYLEFT_RECIPE_TYPE', True)
->       if recipe_type not in oe.data.typed_value('COPYLEFT_RECIPE_TYPES', d):
-> -        return False, 'recipe type "%s" is excluded' % recipe_type
-> +        include, motive = False, 'recipe type "%s" is excluded' % recipe_type
->   
->       include = oe.data.typed_value('COPYLEFT_LICENSE_INCLUDE', d)
->       exclude = oe.data.typed_value('COPYLEFT_LICENSE_EXCLUDE', d)
-> @@ -53,10 +63,17 @@ def copyleft_should_include(d):
->       else:
->           if is_included:
->               if reason:
-> -                return True, 'recipe has included licenses: %s' % ', '.join(reason)
-> +                included, motive = True, 'recipe has included licenses: %s' % ', '.join(reason)
->               else:
-> -                return False, 'recipe does not include a copyleft license'
-> +                included, motive = False, 'recipe does not include a copyleft license'
->           else:
-> -            return False, 'recipe has excluded licenses: %s' % ', '.join(reason)
-> +            included, motive = False, 'recipe has excluded licenses: %s' % ', '.join(reason)
->   
-> +    if any(fnmatch(d.getVar('PN', True), name) \
-> +            for name in oe.data.typed_value('COPYLEFT_PN_INCLUDE', d)):
-> +        included, motive =  True, 'recipe included by name'
-> +    if any(fnmatch(d.getVar('PN', True), name) \
-> +            for name in oe.data.typed_value('COPYLEFT_PN_EXCLUDE', d)):
-> +        included, motive = False, 'recipe excluded by name'
->   
-> +    return included, motive
+Fixes [YOCTO: #7769]
 
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+index f95e91c..6f0de3c 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant.inc
+@@ -86,13 +86,12 @@ do_install () {
+ 	cd ${D}${sysconfdir}/network/ && \
+ 	ln -sf ../if-pre-up.d/wpa-supplicant if-post-down.d/wpa-supplicant
+ 
++	install -d ${D}/${sysconfdir}/dbus-1/system.d
++	install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
+ 	install -d ${D}/${datadir}/dbus-1/system-services
+ 	install -m 644 ${S}/wpa_supplicant/dbus/*.service ${D}/${datadir}/dbus-1/system-services
+ 
+ 	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+-		install -d ${D}/${sysconfdir}/dbus-1/system.d
+-		install -m 644 ${S}/wpa_supplicant/dbus/dbus-wpa_supplicant.conf ${D}/${sysconfdir}/dbus-1/system.d
+-
+ 		install -d ${D}/${systemd_unitdir}/system
+ 		install -m 644 ${S}/wpa_supplicant/systemd/*.service ${D}/${systemd_unitdir}/system
+ 	fi
 -- 
-Mariano Lopez
+2.4.3
+
 
