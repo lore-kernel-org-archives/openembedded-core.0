@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E86FB75906
+	by mail.openembedded.org (Postfix) with ESMTP id 601DA75A27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 12:36:01 +0000 (UTC)
+	Thu, 18 Jun 2015 12:36:03 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 18 Jun 2015 05:36:04 -0700
+	by orsmga103.jf.intel.com with ESMTP; 18 Jun 2015 05:36:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,638,1427785200"; d="scan'208";a="745804139"
+X-IronPort-AV: E=Sophos;i="5.13,638,1427785200"; d="scan'208";a="745804171"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Jun 2015 05:36:02 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 18 Jun 2015 05:36:03 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jun 2015 15:35:49 +0300
-Message-Id: <a0d2457c90c8a96e8f4be71b62a8cf17e8fccf34.1434630758.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 18 Jun 2015 15:35:50 +0300
+Message-Id: <4249712b425aac884a3d8e01b462d9b21cdd92b2.1434630758.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <6ef0af09f1d738f8f447f286ccefb0b74c4511de.1434630758.git.alexander.kanavin@linux.intel.com>
 References: <6ef0af09f1d738f8f447f286ccefb0b74c4511de.1434630758.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1434630758.git.alexander.kanavin@linux.intel.com>
 References: <cover.1434630758.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCHv2 11/21] webkitgtk: add a new recipe for version 2.8.3
+Subject: [PATCHv2 12/21] p11-kit: add a recipe from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,80 +31,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 12:36:02 -0000
+X-List-Received-Date: Thu, 18 Jun 2015 12:36:03 -0000
 
-Recipe for webkit-gtk 1.8.3 is removed in a separate commit
+p11-kit is a dependency of gcr (which is a dependency of epiphany)
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.8.3.bb | 58 +++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk_2.8.3.bb
+ meta/recipes-support/p11-kit/p11-kit_0.22.1.bb | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.3.bb
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
 new file mode 100644
-index 0000000..2386a7c
+index 0000000..7ad9626e
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.8.3.bb
-@@ -0,0 +1,58 @@
-+SUMMARY = "WebKit web rendering engine for the GTK+ platform"
-+HOMEPAGE = "http://www.webkitgtk.org/"
-+BUGTRACKER = "http://bugs.webkit.org/"
++++ b/meta/recipes-support/p11-kit/p11-kit_0.22.1.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "Provides a way to load and enumerate PKCS#11 modules"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=02933887f609807fbb57aa4237d14a50"
 +
-+LICENSE = "BSD & LGPLv2+"
-+LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d84286dda758da57bd691 \
-+                    file://Source/WebKit/LICENSE;md5=4646f90082c40bcf298c285f8bab0b12 \
-+                    file://Source/WebCore/LICENSE-APPLE;md5=4646f90082c40bcf298c285f8bab0b12 \
-+		    file://Source/WebCore/LICENSE-LGPL-2;md5=36357ffde2b64ae177b2494445b79d21 \
-+		    file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 \
-+		   "
++inherit autotools gettext pkgconfig
 +
-+SRC_URI = "\
-+  http://www.webkitgtk.org/releases/${PN}-${PV}.tar.xz \
-+  "
-+SRC_URI[md5sum] = "29b92a0aacc819d0e5e5df03895fb98e"
-+SRC_URI[sha256sum] = "b3de60c8676ed54bb3d6201c742bbd702ee176fdfef5ca06f2fc514783792f16"
++DEPENDS = "libtasn1 libffi"
 +
-+inherit cmake lib_package pkgconfig perlnative pythonnative
++SRC_URI = "http://p11-glue.freedesktop.org/releases/${BP}.tar.gz"
++SRC_URI[md5sum] = "4e9bea1106628ffb820bdad24a819fac"
++SRC_URI[sha256sum] = "ef3a339fcf6aa0e32c8c23f79ba7191e57312be2bda8b24e6d121c2670539a5c"
 +
-+DEPENDS = "zlib enchant libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
-+           gtk+ gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
-+	   pango icu bison-native gnome-common gawk intltool-native libwebp \
-+	   atk udev harfbuzz jpeg libpng pulseaudio librsvg libtheora libvorbis libxcomposite libxtst \
-+	   ruby-native libsecret libnotify gstreamer1.0-plugins-bad \
-+          "
-+DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)}"
-+
-+EXTRA_OECMAKE = " \
-+		-DPORT=GTK \
-+		-DCMAKE_BUILD_TYPE=Release \
-+		-DENABLE_INTROSPECTION=False \
-+		-DENABLE_MINIBROWSER=True \
-+	        ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '-DENABLE_WEBGL=True', '-DENABLE_WEBGL=False', d)} \
-+		"
-+
-+# Javascript JIT is not supported on powerpc
-+# FIXME: This might be needed on powerpc64 as well, but can't be easily tested in poky.
-+EXTRA_OECMAKE_append_powerpc = " -DENABLE_JIT=False "
-+
-+# ARM JIT code does not build on ARMv5/6 anymore, apparently they test only on v7 onwards
-+EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=False "
-+EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=False "
-+
-+# binutils 2.25 has a bug on aarch64:
-+# https://sourceware.org/bugzilla/show_bug.cgi?id=18430
-+EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=False "
-+
-+# JIT not supported on MIPS either
-+EXTRA_OECMAKE_append_mips = " -DENABLE_JIT=False "
-+
-+# Note: does not currently build on mips64 due to incorrect type size assumptions
-+# Bug filed here: https://bugs.webkit.org/show_bug.cgi?id=146058
-+
-+FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
-+FILES_${PN}-dbg += "${libdir}/webkit2gtk-4.0/injected-bundle/.debug/libwebkit2gtkinjectedbundle.so"
-+FILES_${PN}-dbg += "${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
-+
++FILES_${PN}-dev += " \
++    ${libdir}/p11-kit-proxy.so \
++    ${libdir}/pkcs11/p11-kit-trust.so \
++"
++FILES_${PN}-dev += "${libdir}/pkcs11/*.la"
++FILES_${PN}-dbg += "${libdir}/pkcs11/.debug"
 -- 
 2.1.4
 
