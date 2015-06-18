@@ -1,29 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DFA673306
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C3CB73306
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 08:16:02 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5I8Fx9I007457; Thu, 18 Jun 2015 09:15:59 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ogV3KanYPuHY; Thu, 18 Jun 2015 09:15:59 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5I8FjWm007437
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 18 Jun 2015 09:15:56 +0100
-Message-ID: <1434615345.14710.49.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bian Naimeng <biannm@cn.fujitsu.com>
-Date: Thu, 18 Jun 2015 09:15:45 +0100
-In-Reply-To: <1434612286-52367-1-git-send-email-biannm@cn.fujitsu.com>
-References: <1434612286-52367-1-git-send-email-biannm@cn.fujitsu.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] libmpc: add a GPLv2 recipe
+	Thu, 18 Jun 2015 09:02:28 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 18 Jun 2015 02:02:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,638,1427785200"; d="scan'208";a="729809394"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 18 Jun 2015 02:02:29 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 876C92E055B;
+	Thu, 18 Jun 2015 02:01:52 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Jun 2015 12:01:54 +0300
+Message-Id: <1434618114-18021-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1434549161-12235-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1434549161-12235-1-git-send-email-ed.bartosh@linux.intel.com>
+Subject: [PATCH v2] wic: removed unused command line option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +32,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 08:16:08 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Jun 2015 09:02:31 -0000
 
-On Thu, 2015-06-18 at 15:24 +0800, Bian Naimeng wrote:
-> Same as other recipe such as bash, we should provide both GPLv3 and !GPLv3 recipe
+Removed -i/--infile wic command line option.
+Removed properties_file and properties arguments of
+wic_create function.
 
-libmpc is not really the same class of recipe as bash. Its mainly used
-by gcc and we don't have GPLv2 versions of gcc so this doesn't make much
-sense. 
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/image/engine.py | 7 ++-----
+ scripts/lib/image/help.py   | 7 -------
+ scripts/wic                 | 8 +++-----
+ 3 files changed, 5 insertions(+), 17 deletions(-)
 
-Why do you need a GPLv2 version of libmpc?
-
-Cheers,
-
-Richard
+diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
+index c568d69..29099ee 100644
+--- a/scripts/lib/image/engine.py
++++ b/scripts/lib/image/engine.py
+@@ -178,9 +178,8 @@ def list_source_plugins():
+         print "  %s" % plugin
+ 
+ 
+-def wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+-               native_sysroot, scripts_path, image_output_dir, debug,
+-               properties_file, properties=None):
++def wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
++               native_sysroot, scripts_path, image_output_dir, debug):
+     """Create image
+ 
+     wks_file - user-defined OE kickstart file
+@@ -190,8 +189,6 @@ def wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+     native_sysroot - absolute path to the build's native sysroots dir
+     scripts_path - absolute path to /scripts dir
+     image_output_dir - dirname to create for image
+-    properties_file - use values from this file if nonempty i.e no prompting
+-    properties - use values from this string if nonempty i.e no prompting
+ 
+     Normally, the values for the build artifacts values are determined
+     by 'wic -e' from the output of the 'bitbake -e' command given an
+diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
+index 886437b..fe66548 100644
+--- a/scripts/lib/image/help.py
++++ b/scripts/lib/image/help.py
+@@ -149,7 +149,6 @@ NAME
+ 
+ SYNOPSIS
+     wic create <wks file or image name> [-o <DIRNAME> | --outdir <DIRNAME>]
+-        [-i <JSON PROPERTY FILE> | --infile <JSON PROPERTY_FILE>]
+         [-e | --image-name] [-s, --skip-build-check] [-D, --debug]
+         [-r, --rootfs-dir] [-b, --bootimg-dir]
+         [-k, --kernel-dir] [-n, --native-sysroot] [-f, --build-rootfs]
+@@ -219,12 +218,6 @@ DESCRIPTION
+     The -o option can be used to place the image in a directory with a
+     different name and location.
+ 
+-    As an alternative to the wks file, the image-specific properties
+-    that define the values that will be used to generate a particular
+-    image can be specified on the command-line using the -i option and
+-    supplying a JSON object consisting of the set of name:value pairs
+-    needed by image creation.
+-
+     The set of properties available for a given image type can be
+     listed using the 'wic list' command.
+ """
+diff --git a/scripts/wic b/scripts/wic
+index a38ecc0..7b0c3b2 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -91,8 +91,6 @@ def wic_create_subcommand(args, usage_str):
+ 
+     parser.add_option("-o", "--outdir", dest="outdir",
+                       action="store", help="name of directory to create image in")
+-    parser.add_option("-i", "--infile", dest="properties_file",
+-                      action="store", help="name of file containing the values for image properties as a JSON file")
+     parser.add_option("-e", "--image-name", dest="image_name",
+                       action="store", help="name of the image to use the artifacts from e.g. core-image-sato")
+     parser.add_option("-r", "--rootfs-dir", dest="rootfs_dir",
+@@ -132,7 +130,7 @@ def wic_create_subcommand(args, usage_str):
+     if not options.image_name:
+         options.build_check = False
+ 
+-    if options.build_check and not options.properties_file:
++    if options.build_check:
+         print "Checking basic build environment..."
+         if not engine.verify_build_env():
+             print "Couldn't verify build environment, exiting\n"
+@@ -225,9 +223,9 @@ def wic_create_subcommand(args, usage_str):
+     rootfs_dir = rootfs_dir_to_args(krootfs_dir)
+ 
+     print "Creating image(s)...\n"
+-    engine.wic_create(args, wks_file, rootfs_dir, bootimg_dir, kernel_dir,
++    engine.wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
+                       native_sysroot, scripts_path, image_output_dir,
+-                      options.debug, options.properties_file)
++                      options.debug)
+ 
+ 
+ def wic_list_subcommand(args, usage_str):
+-- 
+2.1.4
 
 
