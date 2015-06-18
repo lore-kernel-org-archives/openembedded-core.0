@@ -1,42 +1,29 @@
-Return-Path: <nicolas.guyomard@open.eurogiciel.org>
-Received: from mail-wg0-f45.google.com (mail-wg0-f45.google.com [74.125.82.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 14C5A601F7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DFA673306
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 07:37:39 +0000 (UTC)
-Received: by wgbhy7 with SMTP id hy7so55914820wgb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 00:37:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=open.eurogiciel.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=k23QNlZwMqldLcOnXBz5uJ9rOfzLnVJ9E4iLG6ofUfc=;
-	b=FcWRXrfhGiLaGmR0j2+DnRHX4q3oeNno9fV0lq8zlBDnCyd7w8HOPaavF6wgRzu7XD
-	sTSCRK+NnhSWPitwmEeZgKNI+ardqSyv6dz+Ztnx6iF2tn8yu1kvKH79qtzn5WSMd0Mu
-	C7AxP0imuwfamZxImJsWxSFTJ54nmIL8tZyXQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=k23QNlZwMqldLcOnXBz5uJ9rOfzLnVJ9E4iLG6ofUfc=;
-	b=gnUC0fVsLJ2DJWFQmYpu0aOWuugtrMMmAgZzwzGv8bSZ73V77/QtTFP3znaXVvYhWH
-	d/PkeZFWaclXWqnibKyLSZ/1KSUe5djk0MOWwCNwcpsPHPCYuH4AOCVSSvT3PrgX5FMY
-	EQsQGnib4w0tR701gY34em/NR3xZCkOIScDQnEd7W8QlZFAYpl8Qy21zIVo6DGxPtk9p
-	acK+oKnmDaS3eKPZnpUg4CwzWPzlkAKed2MlUA5/ZI/fiKWPMpaRX5gzaTPHIYGQ5J4y
-	9uIvrRKq+tu2MqwP2sY73UlzY+zES4/KltjasB26QjtN1m2ADsD+XT9v/TLkot8epGeu
-	tX1Q==
-X-Gm-Message-State: ALoCoQn6OuHfkr24wdcG2US6SW37VLBPf0zdtXOXsidWGZgJENGrodVsiaAnPr0KSDCSVN6VIBSB
-X-Received: by 10.180.104.197 with SMTP id gg5mr62654063wib.27.1434613060437; 
-	Thu, 18 Jun 2015 00:37:40 -0700 (PDT)
-Received: from PCL131018.eurogiciel.fr (130.167.26.109.rev.sfr.net.
-	[109.26.167.130])
-	by mx.google.com with ESMTPSA id bh7sm10819279wjb.8.2015.06.18.00.37.39
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 18 Jun 2015 00:37:39 -0700 (PDT)
-From: Nicolas Guyomard <nicolas.guyomard@open.eurogiciel.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Jun 2015 09:43:04 +0200
-Message-Id: <1434613384-12857-1-git-send-email-nicolas.guyomard@open.eurogiciel.org>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] grub-efi: Allow to use file name different from grub.cfg in GRUBCFG
+	Thu, 18 Jun 2015 08:16:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5I8Fx9I007457; Thu, 18 Jun 2015 09:15:59 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ogV3KanYPuHY; Thu, 18 Jun 2015 09:15:59 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5I8FjWm007437
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 18 Jun 2015 09:15:56 +0100
+Message-ID: <1434615345.14710.49.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bian Naimeng <biannm@cn.fujitsu.com>
+Date: Thu, 18 Jun 2015 09:15:45 +0100
+In-Reply-To: <1434612286-52367-1-git-send-email-biannm@cn.fujitsu.com>
+References: <1434612286-52367-1-git-send-email-biannm@cn.fujitsu.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] libmpc: add a GPLv2 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,31 +36,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 07:37:40 -0000
+X-List-Received-Date: Thu, 18 Jun 2015 08:16:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-To generate a same image both in live image type and boot-directdisk image type
-and make boot-direct image boot directly on the rootfs partition without using
-an initramfs we need to have the ability to generate several grub.cfg files.
+On Thu, 2015-06-18 at 15:24 +0800, Bian Naimeng wrote:
+> Same as other recipe such as bash, we should provide both GPLv3 and !GPLv3 recipe
 
-Signed-off-by: Nicolas Guyomard <nicolas.guyomard@open.eurogiciel.org>
----
- meta/classes/grub-efi.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+libmpc is not really the same class of recipe as bash. Its mainly used
+by gcc and we don't have GPLv2 versions of gcc so this doesn't make much
+sense. 
 
-diff --git a/meta/classes/grub-efi.bbclass b/meta/classes/grub-efi.bbclass
-index 47bd35e..6d58d48 100644
---- a/meta/classes/grub-efi.bbclass
-+++ b/meta/classes/grub-efi.bbclass
-@@ -39,7 +39,7 @@ efi_populate() {
- 	fi
- 	install -m 0644 ${DEPLOY_DIR_IMAGE}/${GRUB_IMAGE} ${DEST}${EFIDIR}
- 
--	install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}
-+	install -m 0644 ${GRUBCFG} ${DEST}${EFIDIR}/grub.cfg
- }
- 
- efi_iso_populate() {
--- 
-1.9.1
+Why do you need a GPLv2 version of libmpc?
+
+Cheers,
+
+Richard
 
 
