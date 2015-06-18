@@ -1,37 +1,24 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 0377D60670
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 269CD6AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 04:50:16 +0000 (UTC)
-Received: by pdbnf5 with SMTP id nf5so57629010pdb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 21:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=KHDu5v8wRNPVE8K2swZSGHBbjDoQpvw0aY2ovc1RgPQ=;
-	b=gPxkmlPZte1vgPO71Mf1nGngftkgsCrJ2SSGR7IjoN0D2fpQvvFpBFtCO/P0DEqBIG
-	hhjZVH+B2CGz1I0fEY/wEX9HNc51Y0Fks+ydlCb9xyjEkgjI73elbpZREEOYjORB3ZDU
-	kEpjSmmunT5YGPYdjFYqqEPAEFdFOHalU5Eu31dLra+NDKU+WAlcgFXZwJ5AuUwUii0y
-	qSAmPK+TOIthLCBvEu5PnjSn7EDOzB+bsmyb2Qh09Smk3EAi11pxwnMJdabrweCCHkjW
-	YDtQ6kGm/T7U+YrwvsEt47Yro5N2K4GjHBCodK9BuBe/S8mpl7mKRrZBwZdpJ5LtUFTN
-	bvQw==
-X-Received: by 10.66.197.134 with SMTP id iu6mr17976118pac.50.1434603017863;
-	Wed, 17 Jun 2015 21:50:17 -0700 (PDT)
-Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207])
-	by mx.google.com with ESMTPSA id ja1sm6409728pbc.51.2015.06.17.21.50.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Jun 2015 21:50:16 -0700 (PDT)
-Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id BC6D0FC2A1E; Wed, 17 Jun 2015 21:50:11 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Jun 2015 21:50:06 -0700
-Message-Id: <cover.1434601375.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/3] [v3] Gntls update to 4.3.1
+	Thu, 18 Jun 2015 06:59:33 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 11CCE600318
+Message-ID: <55826C52.6050004@collabora.co.uk>
+Date: Thu, 18 Jun 2015 07:59:30 +0100
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Otavio Salvador <otavio@ossystems.com.br>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <CAP9ODKos=R6O6XtwYtUL+_KZaJz+WxD0YxGRHU5+Qqs1VOP-9A@mail.gmail.com>
+In-Reply-To: <CAP9ODKos=R6O6XtwYtUL+_KZaJz+WxD0YxGRHU5+Qqs1VOP-9A@mail.gmail.com>
+Cc: Randy Krakora <randy.krakora@freescale.com>,
+	Daiane Angolini <daiane.angolini@freescale.com>
+Subject: Re: [for-fido] Valgrind fixes backporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 04:50:20 -0000
+X-List-Received-Date: Thu, 18 Jun 2015 06:59:38 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-THe nettle and gnutls updates must be done as a pair.
+On 17/06/15 17:52, Otavio Salvador wrote:
+> Hello folks,
+>
+> There are two patches which should be backported for fido:
+>
+> OE-Core: 53afa26655d0b5f75ef2dd6bccef76281a14655c
+> OE-Core: 2fb0edcb47a14e47780d545f60885b36e71fca71
+>
+> This fixes the build issues some customers has been experiencing in
+> Valgrind build.
 
-The following changes since commit 1675ff6fff53dda89fa8d4f3a2c292c23fd346d7:
+Thanks, I've included both in my fido-next branch[1] which I'll be 
+submitting as soon as it has passed an autobuilder run.
 
-  bitbake: tests/data: Add new data tests (2015-06-12 00:02:28 +0100)
+1. 
+http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshuagl/fido-next
 
-are available in the git repository at:
+Regards,
 
-  git://git.yoctoproject.org/poky-contrib akuster/gnutls-update
-  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/gnutls-update
-
-Armin Kuster (3):
-  nettle: update package to 3.1.1 version.
-  gnutls: update to 3.4.1
-  neon: fix compat issues with gnutls 4.3
-
- meta/recipes-support/gnutls/gnutls.inc             |  4 +-
- .../gnutls/configure.ac-fix-sed-command.patch      | 29 +++++----
- meta/recipes-support/gnutls/gnutls_3.3.14.bb       |  8 ---
- meta/recipes-support/gnutls/gnutls_3.4.1.bb        |  8 +++
- .../neon/neon/gnutls_4.3_fixup.patch               | 68 ++++++++++++++++++++++
- meta/recipes-support/neon/neon_0.30.1.bb           |  3 +-
- .../nettle/{nettle_2.7.1.bb => nettle_3.1.1.bb}    | 12 ++--
- 7 files changed, 100 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-support/gnutls/gnutls_3.3.14.bb
- create mode 100644 meta/recipes-support/gnutls/gnutls_3.4.1.bb
- create mode 100644 meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
- rename meta/recipes-support/nettle/{nettle_2.7.1.bb => nettle_3.1.1.bb} (48%)
-
--- 
-1.9.1
+Joshua
 
 
