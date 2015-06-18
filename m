@@ -1,24 +1,27 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FF1173E3B
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DBFA758A4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 22:08:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5HM8KQJ005896
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 18 Jun 2015 02:14:06 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.13,625,1427731200"; d="scan'208";a="97238553"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Jun 2015 10:18:15 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5I2CUUU024435
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Jun 2015 15:08:21 -0700 (PDT)
-Received: from seebs-worktop (172.25.40.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 17 Jun 2015 15:08:21 -0700
-Date: Wed, 17 Jun 2015 17:08:19 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
+	Thu, 18 Jun 2015 10:12:30 +0800
+Received: from localhost.localdomain (10.167.226.85) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 18 Jun 2015 10:14:05 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Message-ID: <20150617170819.12ca4c30@seebs-worktop>
-X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
+Date: Thu, 18 Jun 2015 10:14:00 +0800
+Message-ID: <1434593640-1708-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: RFC: meta-bootlace (bootloader management layer)
+X-Originating-IP: [10.167.226.85]
+Subject: [PATCH] dhcp: modify dhcpd.service to make it start successfully and add systemd service files dhcpd6.service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +34,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jun 2015 22:08:25 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Jun 2015 02:14:09 -0000
+Content-Type: text/plain
 
-If a system is up for a while, you might want to issue kernel patches. For
-desktop distributions, this is pretty easy and reasonably well-understood;
-there's a grub config file somewhere, you modify that, you reboot, everything
-is good.
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ meta/recipes-connectivity/dhcp/dhcp.inc             | 12 ++++++++----
+ meta/recipes-connectivity/dhcp/files/dhcpd.service  |  8 ++++++--
+ meta/recipes-connectivity/dhcp/files/dhcpd6.service | 15 +++++++++++++++
+ 3 files changed, 29 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcp/files/dhcpd6.service
 
-For embedded systems with bootloaders that aren't grub, or are grub but in a
-configuration where the partition it loads kernels from isn't usually mounted,
-it's not quite so easy. Worse, if you support a range of embedded boards, you
-don't even have a specific single bootloader in mind; you have a large range
-of bootloaders that you might need to deal with.
-
-Bootlace is an attempt to provide a reasonably simple and fairly minimal
-abstraction layer over the most commonly-used functionality: "I have a new
-kernel, I want the next boot to use it." The idea is that a BSP can select a
-backend that suits its design or configuration, and then that backend does
-the actual heavy lifting, but everything else (such as a kernel postinst
-script) just sees a fairly generic interface that doesn't require any specific
-knowledge of the BSP.
-
-I've put up the current tree in contrib:
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=seebs/meta-bootlace
-
-The only actually-working backend right now is specific to the way one of our
-default install targets uses grub-efi, where the system boots from the kernel
-installed as "vmlinuz" on a separate FAT32 partition that isn't normally
-mounted while the system is running. The default backend just helpfully
-prints a diagnostic saying that it can't actually change what kernel gets
-selected.
-
-We'd like to see this considered for inclusion in oe-core, once it has some
-more backends. (In particular, once it has a grub backend, it could in
-principle replace the existing kernel-grub bbclass.)
-
--s
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index 6ced775..3bf1ea9 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -17,12 +17,13 @@ SRC_URI = "ftp://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+            file://init-relay file://default-relay \
+            file://init-server file://default-server \
+            file://dhclient.conf file://dhcpd.conf \
+-           file://dhcpd.service file://dhcrelay.service"
++           file://dhcpd.service file://dhcrelay.service \
++           file://dhcpd6.service "
+ 
+ inherit autotools systemd
+ 
+ SYSTEMD_PACKAGES = "${PN}-server ${PN}-relay"
+-SYSTEMD_SERVICE_${PN}-server = "dhcpd.service"
++SYSTEMD_SERVICE_${PN}-server = "dhcpd.service dhcpd6.service"
+ SYSTEMD_AUTO_ENABLE_${PN}-server = "disable"
+ 
+ SYSTEMD_SERVICE_${PN}-relay = "dhcrelay.service"
+@@ -59,9 +60,12 @@ do_install_append () {
+ 	# Install systemd unit files
+ 	install -d ${D}${systemd_unitdir}/system
+ 	install -m 0644 ${WORKDIR}/dhcpd.service ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/dhcpd6.service ${D}${systemd_unitdir}/system
+ 	install -m 0644 ${WORKDIR}/dhcrelay.service ${D}${systemd_unitdir}/system
+-	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/dhcpd.service ${D}${systemd_unitdir}/system/dhcrelay.service
+-	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' ${D}${systemd_unitdir}/system/dhcpd.service
++	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/dhcpd*.service ${D}${systemd_unitdir}/system/dhcrelay.service
++	sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' ${D}${systemd_unitdir}/system/dhcpd*.service
++	sed -i -e 's,@base_bindir@,${base_bindir},g' ${D}${systemd_unitdir}/system/dhcpd*.service
++	sed -i -e 's,@localstatedir@,${localstatedir},g' ${D}${systemd_unitdir}/system/dhcpd*.service
+ }
+ 
+ PACKAGES += "dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+diff --git a/meta/recipes-connectivity/dhcp/files/dhcpd.service b/meta/recipes-connectivity/dhcp/files/dhcpd.service
+index 8648f1a..ae4f93e 100644
+--- a/meta/recipes-connectivity/dhcp/files/dhcpd.service
++++ b/meta/recipes-connectivity/dhcp/files/dhcpd.service
+@@ -1,11 +1,15 @@
+ [Unit]
+-Description=DHCP Server Daemon
++Description=DHCPv4 Server Daemon
++Documentation=man:dhcpd(8) man:dhcpd.conf(5)
+ After=network.target
+ After=time-sync.target
+ 
+ [Service]
++PIDFile=@localstatedir@/run/dhcpd.pid
+ EnvironmentFile=@SYSCONFDIR@/default/dhcp-server
+-ExecStart=-@SBINDIR@/dhcpd -q $INTERFACES
++EnvironmentFile=-@SYSCONFDIR@/sysconfig/dhcp-server
++ExecStartPre=@base_bindir@/touch @localstatedir@/lib/dhcp/dhcpd.leases
++ExecStart=@SBINDIR@/dhcpd -f -cf @SYSCONFDIR@/dhcp/dhcpd.conf -pf @localstatedir@/run/dhcpd.pid $DHCPDARGS -q $INTERFACES
+ 
+ [Install]
+ WantedBy=multi-user.target
+diff --git a/meta/recipes-connectivity/dhcp/files/dhcpd6.service b/meta/recipes-connectivity/dhcp/files/dhcpd6.service
+new file mode 100644
+index 0000000..ca96abb
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/files/dhcpd6.service
+@@ -0,0 +1,15 @@
++[Unit]
++Description=DHCPv6 Server Daemon
++Documentation=man:dhcpd(8) man:dhcpd.conf(5)
++After=network.target
++After=time-sync.target
++
++[Service]
++PIDFile=@localstatedir@/run/dhcpd6.pid
++EnvironmentFile=@SYSCONFDIR@/default/dhcp-server
++EnvironmentFile=-@SYSCONFDIR@/sysconfig/dhcpd6
++ExecStartPre=@base_bindir@/touch @localstatedir@/lib/dhcp/dhcpd6.leases
++ExecStart=@SBINDIR@/dhcpd -f -6 -cf @SYSCONFDIR@/dhcp/dhcpd.conf -pf @localstatedir@/run/dhcpd6.pid $DHCPDARGS -q $INTERFACES
++
++[Install]
++WantedBy=multi-user.target
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+1.8.4.2
+
 
