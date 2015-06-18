@@ -1,44 +1,27 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 37BD860670
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DB1D759E9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 09:51:57 +0000 (UTC)
-Received: by igbzc4 with SMTP id zc4so123223015igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Jun 2015 02:51:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=xx8yG+7YIrw7/l0q516pWI56sku72R/8I/dmPNQdkN4=;
-	b=UCx4jZh08g4CIs8S+tcfzMASNcUrOawTvViy1GAo65lIJsmuz9pUv68NNtPOrVk7yz
-	SbFIGQJoTUOPyFlvTbL5OQcsRJMvx4Ty60sC/hi8sxnUd/K3jczv6Fjwzl0b7zHTjQAv
-	/zmGQyvD39DZPKkJX5+DvkbbX3PEJvLMt1gVeeMH0n8GymNeH6rTAFIJANUh5lrkGjda
-	4xYPSqS1GWSmkZATqcWLermfRLSFSWoggNAiwRfxGIasOzdQGF6Iny7kb64pwL/7icp8
-	uda/5+2nv9rlmAcMOwWdvvbS+xTyJmhe7kHw3NDTnuP4gYcnA92sckvQ/1BznYvXuuwJ
-	Aj9Q==
-X-Gm-Message-State: ALoCoQkP40izE2FFMEgZcmqdIfMWy7Fo8JgDRJtAedEt5VNhAHnIQEQpxKdL+B6Bp+GN4xGAesI0
-X-Received: by 10.107.164.70 with SMTP id n67mr13851302ioe.8.1434621118576;
-	Thu, 18 Jun 2015 02:51:58 -0700 (PDT)
-Received: from pohly-mobl1 (p57A579B2.dip0.t-ipconnect.de. [87.165.121.178])
-	by mx.google.com with ESMTPSA id h10sm4580730iod.44.2015.06.18.02.51.56
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 18 Jun 2015 02:51:57 -0700 (PDT)
-Message-ID: <1434621114.29550.41.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Date: Thu, 18 Jun 2015 11:51:54 +0200
-In-Reply-To: <55802926.7020009@windriver.com>
-References: <1434370643.9085.98.camel@intel.com>
-	<557F2BF1.5000605@windriver.com> <1434441993.9085.152.camel@intel.com>
-	<55802926.7020009@windriver.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Subject: Re: KCONF_AUDIT_LEVEL + kernel_configcheck
+	Thu, 18 Jun 2015 11:22:00 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 18 Jun 2015 04:22:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,638,1427785200"; d="scan'208";a="748931566"
+Received: from mcurley-mobl6.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.31.154])
+	by orsmga002.jf.intel.com with ESMTP; 18 Jun 2015 04:22:00 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Gaurang Shastri <gmshastri@gmail.com>
+Date: Thu, 18 Jun 2015 12:21:59 +0100
+Message-ID: <1709068.8NqlUxtOsX@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.7 (Linux/4.0.4-202.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <CAE_REAtpX=fJdSPUnbGxq5TYXiyS3WQV1pKBuRO2o4_uM+dfzg@mail.gmail.com>
+References: <CAE_REAtpX=fJdSPUnbGxq5TYXiyS3WQV1pKBuRO2o4_uM+dfzg@mail.gmail.com>
+MIME-Version: 1.0
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Having Yocto Sandbox information on target in any form
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,48 +34,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 09:51:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 18 Jun 2015 11:22:01 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, 2015-06-16 at 09:48 -0400, Bruce Ashfield wrote:
-> On 2015-06-16 04:06 AM, Patrick Ohly wrote:
-> > I cannot say how much noise it would create in practice, but at least I
-> > had one specific case where I was using a non-hardware configuration not
-> > supported by the kernel and would have appreciated a warning about
-> > that ;-}
+Hi Gaurang,
+
+On Thursday 18 June 2015 01:40:14 Gaurang Shastri wrote:
+> I am trying to figure out in existing Yocto/OE , is there any way on
+> target, i will get my build path information:
 > 
-> This is good feedback, and I am planning to expose more of the output,
-> including some dependency information (since without giving hints on how
-> to fix a warning .. more warnings are not all that helpful :)
+> Ex,.
+> # cat /etc/yocto_version (on target):
+> ==
+> Yocto_SDK=1.8
+> Yocto_Build_Path=/home/gaurang/yocto-1.8/build
+> Image_name=core-image-sato
+> ==
+> 
+> 
+> I don't know if anything like above exist for Yocto/OE ? This will very
+> helpful sometime to cross debug the things.
 
-FWIW, my use case is the meta-security-smack layer, which is intended to
-be BSP independent, but needs to turn on certain kernel configuration
-options:
+In 1.8 we introduced an image-buildinfo class - you can inherit this and set 
+IMAGE_BUILDINFO_VARS to the list of variables you want to write to the file.
 
-https://github.com/01org/meta-intel-iot-security/tree/master/meta-security-smack/recipes-kernel/linux-yocto/linux-yocto
-
-This depends on a recent enough kernel or with the right patches
-back-ported, which is hard to test for in that layer, so warnings from
-the kernel configuration phase would be useful.
-
-Ideally, the warning should tell the user where the unsupported
-configuration option came from, because that's where the README is which
-explains the expectations of the layer regarding the underlying BSP.
-
-Speaking of that layer, I understand that not all kernels are called
-"linux-yocto", and not all kernels support configuration fragments, so
-the linux-yocto_%.bbappend is not ideal, but the best I could come up
-with.
+Cheers,
+Paul
 
 -- 
-Best Regards, Patrick Ohly
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
