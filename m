@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BECB759DC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 1695075618
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 09:06:27 +0000 (UTC)
-Received: by qgeu36 with SMTP id u36so34304660qge.2
+	Fri, 19 Jun 2015 09:09:53 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5J99sef009376 for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jun 2015 10:09:54 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id lkJIkrrIfZ-8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 02:06:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=oI8NUteDD//AuG1gORPyZhD/r0nFt+ZV9OyZ4pkhegA=;
-	b=ju+zghuA/WGgtAvI/HsNTi5eATmyxuY2LPtXMX2wAj6zppV7lNvNUjxYHySD/ppD00
-	6/6V48jE0JDDlKLQ9SJ7saB13Wr7elVffRzjSzibyZtkz9VqKdKkp3IwRiNsSRm+GfEi
-	yHR9x1f0YvFKRuXxbA++kLRZRy+FZwG1hSJsDCtIEf+qGcdOXRNyW5JNZH7VyFMOZS2Y
-	8x3LA6NALEcrIMKGlLHIQhB1QCdbC1GxMlCuHxxq1OCpi7ZpQX/ha4gfTbOOo8ZXNRIp
-	FlBoDFqrIBWj85yfJ6tNaG6KceXv4fE4Bph1U82Of20RsAa8qFxtO9XvyEH9qf9RazGI
-	BWNw==
-X-Gm-Message-State: ALoCoQl//SSiesi4iUPZOPPRfCyOIRpzh9Fy4EogsbUyOAiS8Mvo449fgU3RlM9+DvBnlHMACeWF
-X-Received: by 10.140.20.99 with SMTP id 90mr19866646qgi.87.1434704788707;
-	Fri, 19 Jun 2015 02:06:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 19 Jun 2015 02:06:08 -0700 (PDT)
-In-Reply-To: <3911744e218766f685c9957a57d415cd9839a66e.1434601375.git.akuster808@gmail.com>
-References: <cover.1434601375.git.akuster808@gmail.com>
-	<3911744e218766f685c9957a57d415cd9839a66e.1434601375.git.akuster808@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 19 Jun 2015 10:06:08 +0100
-Message-ID: <CAJTo0LZ31Sa8O83bzGEHi_=4KCaqW0nf_rjs6OhT0J2VePs-SQ@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] gnutls: update to 3.4.1
+	Fri, 19 Jun 2015 10:09:54 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5J99eTZ009371
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jun 2015 10:09:51 +0100
+Message-ID: <1434704980.14710.108.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Jun 2015 10:09:40 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] staging: Strip files in sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +37,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jun 2015 09:06:31 -0000
-Content-Type: multipart/alternative; boundary=001a11c125d44a0a630518db3d98
+X-List-Received-Date: Fri, 19 Jun 2015 09:09:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11c125d44a0a630518db3d98
-Content-Type: text/plain; charset=UTF-8
+Add functionality to strip binaries/libraries going into the sysroot. Whilst
+this does fractionally slow down the build, it also significantly reduces the
+size of the sstate cache files.
 
-On 18 June 2015 at 05:50, Armin Kuster <akuster808@gmail.com> wrote:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-> +PACKAGECONFIG[openssl_compat] = "--enable-openssl-compatibility,,"
-> +PACKAGECONFIG[libind] = ",--without-idn, libidn"
->
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 10198fd..7732e16 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -57,6 +57,101 @@ sysroot_stage_all() {
+ 	sysroot_stage_dirs ${D} ${SYSROOT_DESTDIR}
+ }
+ 
++python sysroot_strip () {
++    import stat, errno
++
++    dvar = d.getVar('SYSROOT_DESTDIR', True)
++    pn = d.getVar('PN', True)
++
++    os.chdir(dvar)
++
++    # Return type (bits):
++    # 0 - not elf
++    # 1 - ELF
++    # 2 - stripped
++    # 4 - executable
++    # 8 - shared library
++    # 16 - kernel module
++    def isELF(path):
++        type = 0
++        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
++
++        if ret:
++            bb.error("split_and_strip_files: 'file %s' failed" % path)
++            return type
++
++        # Not stripped
++        if "ELF" in result:
++            type |= 1
++            if "not stripped" not in result:
++                type |= 2
++            if "executable" in result:
++                type |= 4
++            if "shared" in result:
++                type |= 8
++        return type
++
++
++    elffiles = {}
++    inodes = {}
++    libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir", True))
++    baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir", True))
++    if (d.getVar('INHIBIT_SYSROOT_STRIP', True) != '1'):
++        #
++        # First lets figure out all of the files we may have to process
++        #
++        for root, dirs, files in os.walk(dvar):
++            for f in files:
++                file = os.path.join(root, f)
++
++                try:
++                    ltarget = oe.path.realpath(file, dvar, False)
++                    s = os.lstat(ltarget)
++                except OSError as e:
++                    (err, strerror) = e.args
++                    if err != errno.ENOENT:
++                        raise
++                    # Skip broken symlinks
++                    continue
++                if not s:
++                    continue
++                # Check its an excutable
++                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
++                        or ((file.startswith(libdir) or file.startswith(baselibdir)) and ".so" in f):
++                    # If it's a symlink, and points to an ELF file, we capture the readlink target
++                    if os.path.islink(file):
++                        continue
++
++                    # It's a file (or hardlink), not a link
++                    # ...but is it ELF, and is it already stripped?
++                    elf_file = isELF(file)
++                    if elf_file & 1:
++                        if elf_file & 2:
++                            bb.warn("File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn))
++                            continue
++
++                        if s.st_ino in inodes:
++                            os.unlink(file)
++                            os.link(inodes[s.st_ino], file)
++                        else:
++                            inodes[s.st_ino] = file
++                            # break hardlink
++                            bb.utils.copyfile(file, file)
++                            elffiles[file] = elf_file
++
++        #
++        # Now strip them (in parallel)
++        #
++        strip = d.getVar("STRIP", True)
++        sfiles = []
++        for file in elffiles:
++            elf_file = int(elffiles[file])
++            #bb.note("Strip %s" % file)
++            sfiles.append((file, elf_file, strip))
++
++        oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
++}
++
+ do_populate_sysroot[dirs] = "${SYSROOT_DESTDIR}"
+ do_populate_sysroot[umask] = "022"
+ 
+@@ -90,6 +185,7 @@ def sysroot_checkhashes(covered, tasknames, fnids, fns, d, invalidtasks = None):
+ 
+ python do_populate_sysroot () {
+     bb.build.exec_func("sysroot_stage_all", d)
++    bb.build.exec_func("sysroot_strip", d)
+     for f in (d.getVar('SYSROOT_PREPROCESS_FUNCS', True) or '').split():
+         bb.build.exec_func(f, d)
+     pn = d.getVar("PN", True)
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 984362e..8ea5915 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -17,6 +17,8 @@ python __anonymous () {
+ # Set this to zero if you don't want ldconfig in the output package
+ USE_LDCONFIG ?= "1"
+ 
++INHIBIT_SYSROOT_STRIP = "1"
++
+ PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode ${PN}-utils glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+ 
+ # The ld.so in this glibc supports the GNU_HASH
 
-For clarity always pass both enable and disable options, in case upstream
-changes their default behaviour.  The autoconf macros AC_ARG_WITH and
-_ENABLE always support both their enable/disable and with/without forms.
 
-Ross
 
---001a11c125d44a0a630518db3d98
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 June 2015 at 05:50, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":48" class=3D"a3s"=
- style=3D"overflow:hidden">+PACKAGECONFIG[openssl_compat] =3D &quot;--enabl=
-e-openssl-compatibility,,&quot;<br>
-+PACKAGECONFIG[libind] =3D &quot;,--without-idn, libidn&quot;</div></blockq=
-uote></div><br>For clarity always pass both enable and disable options, in =
-case upstream changes their default behaviour.=C2=A0 The autoconf macros AC=
-_ARG_WITH and _ENABLE always support both their enable/disable and with/wit=
-hout forms.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
-xtra">Ross</div></div>
-
---001a11c125d44a0a630518db3d98--
