@@ -1,37 +1,42 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 97C3F75A28
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F8706AD0D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 17:47:40 +0000 (UTC)
-Received: by igblr2 with SMTP id lr2so18159228igb.0
+	Fri, 19 Jun 2015 21:41:09 +0000 (UTC)
+Received: by pabvl15 with SMTP id vl15so46726123pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 10:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Fri, 19 Jun 2015 14:41:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=l18zXJNGKdlnNjpYHtRjoZK7NkgwKPL5HOOCVt/9JH8=;
-	b=xMMAL0+P92iBtWTcxpSggf/VkDreRIn3PgmshivCT98407ZTmSPQOrgxo9zoJGbI5K
-	BAsprPdePyr+xIZ1BUecI0BK59qtms4nbnKqGQUtn2MZZwsoFwvZO9qCihNDVgkk+i2L
-	izrp9LnhpoBbN1jL5IKPW4MVNk7XD8YhG4IQL3UhGkBq/Qmay0ppNNTESRobWQjOdwmm
-	dnM+pbUWzQz38xh1cVxMIAwVcCYbQCKo3ObqTMbjhZ71/ZJCzQSE32+1Vty5z+YffmqJ
-	YlQYAvkmwcD1iXalrsr/fK45UGB7X/35AI7dI5PD5NXS6HxlpHGxAGj31A70py4aq/zl
-	INtg==
+	:cc:content-type:content-transfer-encoding;
+	bh=BdURp6AjPi/Tz+G+L2K6ZrhKOtU6tfGej8PqaNMEJog=;
+	b=UXk/Bni8l7Vnt06xpOJrrV+XYIuYLLJ70y0Jn+ccfixxZT8f3nVaoYa8/4U7JM336v
+	BilpIkfLVYgVsC+9V2H4kBWHG4ceQRB6tK+IChXuj1lgzYV/BxY/qmE7OJ0Ss2d6dpL2
+	YVRjgsd03lVIRPDF85IxKXggFTMWVXzwkJczQvs6blItR5V631DzEePHbDunxlV2bslp
+	gMfCbr/FjkFIYJpJXWyVQVEX8gXrN8efJJJESy1DzbfxPxm26UZLD/ajAmqPUHOz/cSf
+	bbs6DnHyAkootdXlGBEtET6Pwk48CiiFsO0NZfmEOQbzdPaWDgoyHVhKP/vVv+tRai3a
+	bNjQ==
 MIME-Version: 1.0
-X-Received: by 10.107.137.42 with SMTP id l42mr23249477iod.60.1434736062066;
-	Fri, 19 Jun 2015 10:47:42 -0700 (PDT)
-Received: by 10.64.130.201 with HTTP; Fri, 19 Jun 2015 10:47:41 -0700 (PDT)
-In-Reply-To: <558420A0.309@windriver.com>
-References: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
-	<CALT56yOBxbjc=F96unuigiBAR9En9kYKce9ZqWmtkneOGYVQqQ@mail.gmail.com>
-	<558420A0.309@windriver.com>
-Date: Fri, 19 Jun 2015 20:47:41 +0300
-Message-ID: <CALT56yMvhOncAfjbkxfW_jveY82YXXKAi4qYM9QUX24q79zwpw@mail.gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
+X-Received: by 10.70.126.200 with SMTP id na8mr10547561pdb.167.1434750070450; 
+	Fri, 19 Jun 2015 14:41:10 -0700 (PDT)
+Received: by 10.70.44.41 with HTTP; Fri, 19 Jun 2015 14:41:10 -0700 (PDT)
+In-Reply-To: <CALbNGRRJjqzrfeJAY0ximXfCa0HpLxYB-2d51vfJDDvOgnfpkg@mail.gmail.com>
+References: <1434547172-24620-1-git-send-email-alexander.kanavin@linux.intel.com>
+	<1434547172-24620-6-git-send-email-alexander.kanavin@linux.intel.com>
+	<CAHiDW_EwLwe52-VXnJTctjMS5+4pevuOE1CZwHuEbc_xRQ=4Zw@mail.gmail.com>
+	<5582AA4A.9000202@linux.intel.com>
+	<CALbNGRQ5C5cMEPZEyYe03dJfMdAkyH-WiaWjoZCH77Y-DJ+f4A@mail.gmail.com>
+	<5582C4B8.4010408@linux.intel.com>
+	<CALbNGRRJjqzrfeJAY0ximXfCa0HpLxYB-2d51vfJDDvOgnfpkg@mail.gmail.com>
+Date: Fri, 19 Jun 2015 23:41:10 +0200
+Message-ID: <CALbNGRTj_Z-UqkrAXVCXqpKUgpYX+mewKFe6kgdeV0+XY60-Og@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] arch-mips.inc: don't override TRANSLATED_TARGET_ARCH
+Subject: Re: [PATCH 05/22] Update libnotify to version 0.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,73 +49,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jun 2015 17:47:42 -0000
+X-List-Received-Date: Fri, 19 Jun 2015 21:41:16 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-2015-06-19 17:01 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
-> On 6/19/15 4:23 AM, Dmitry Eremin-Solenikov wrote:
->>> On 6/18/15 8:13 AM, Dmitry Eremin-Solenikov wrote:
->>>> Currently MIPS64 N32 is broken. There is internal disagreement
->>>> between TARGET_ARCH (which doesn't contain ABIEXTENSION) and
->>>> TRANSLATED_TARGET_ARCH (which contains ABIEXTENSION). ABI is already
->>>> encoded into the TARGET_OS. ARM tunes in the same situation override
->>>> neither the TARGET_ARCH nor the TRANSLATED_TARGET_ARCH. So let's drop
->>>> this override.
->>>
->>> This series won't work properly, unless I'm reading something incorrectly.
->>>
->>> You won't be able to build/install a tri-lib system after this change, as
->>> something needs to be there to differential between MIPS32 (o32), MIPS64 (n32)
->>> and MIPS64 (n64).
->>>
->>> Currently this is done via the ABIEXTENSION value.
+On Thu, Jun 18, 2015 at 4:42 PM, Andreas M=C3=BCller
+<schnitzeltony@googlemail.com> wrote:
+> On Thu, Jun 18, 2015 at 3:16 PM, Alexander Kanavin
+> <alexander.kanavin@linux.intel.com> wrote:
+>> On 06/18/2015 03:35 PM, Andreas M=C3=BCller wrote:
 >>
->> Why do you need this differentiation in the TARGET_ARCH? We have TARGET_SYS
->> (triplets) for that, don't we? And the compilers for the N64/N32 (the
->> only thing IIRC
->> that is really dependent on the TARGET_ARCH) should be interchangeable, AFAIU.
+>>> I think gtk3 is not the problem here it is the API change libnotify
+>>> 0.6 -> 0.7 which cannot (or only by ugly hacks) be installed parallel.
+>>> Do we know what happens to meta-gnome/meta-xfce?
+>>
+>>
+>> The packages in meta-gnome that fail because of new libnotify are all fi=
+ve
+>> year old, unmaintained 2.32.something versions.
+>>
+>> Let's just accept that meta-gnome needs to get a massive update to 3.x,
+>> those who don't like gnome 3.x need to seek alternative desktops and mov=
+e
+>> on.
+>>
+> Cool: you send patches having no idea what efforts are caused and give
+> helping hints as 'let's move on'. From my experience guys like you
+> will not give any support in 'moving on' as the only scope is academic
+> 'core-image-sato' building green for quemux86.
 >
-> The triplet for o32 is:
+> Over and out
 >
-> mips-os-linux
->
-> The triplet to n64 is:
->
-> mips64-os-linux
->
-> The triplet to n32 is:
->
-> mips64-os-linux
->
-> thus w/o the ABI extension there is no mechanism to distinguish between n64 and n32.
->
->> Can you point me, please, how to create a tri-ABI SDK and/or image?
->
-> Configure with a MIPS64 capable machine (yes qemumips64 is adequate).  Then add
-> the following to your local.conf:
->
-> require conf/multilib.conf
-> DEFAULTTUNE = "mips32r2"
->
-> MULTILIBS = "multilib:lib32 multilib:lib64"
-> DEFAULTTUNE_virtclass-multilib-lib32 = "mips64-n32"
-> DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
->
->
-> This will set the default ABI to 'o32', with optional n32 and n64 support.  (You
-> can switch around the defaulttune values to change which is default and which is
-> optional.  A common config is n32 default, o32 / n64 optional.)
+Hi Alexander,
 
+Emotional part: I am sorry for my last email's style and I hope this
+does not cause lack of motivation on your side. This was definitely
+not an email that should have gone out this way.
 
-I tried adding these settings to a special machine config (but there
-should be no
-difference with adding them to local.conf) and got a lot of errors from QA on
-linux-yocto (because of 32 vs 64 bitness missmatch on kernel objects). Are you
-sure that this config works out of box for you?
+Technical part: Although your patches break things I think _now_ that
+they point in the right direction. The old gnome stuff turns into a
+maintenance burden with every new tool/library introduced. As Martin
+pointed out: I have tried to update libnotify two years ago and
+stopped due to huge fallout.
+Now we expect same but the situation is different: We have stable
+releases of better quality than two years ago. If still interested in
+gnome 2 style user experience and not accepting gnome 3 one could work
+with releases (or implement/use alternatives Mate/Xfce..).
+One note regarding gnome 3: I played around with gnome 3 long time ago
+but stopped messing around with gobject-introspection which looked
+mandatory for some packages. I think if we want to migrate meta-gnome
+to gnome 3 we should think of migrating meta-gir to meta-gnome.
 
--- 
-With best wishes
-Dmitry
+Andreas
 
