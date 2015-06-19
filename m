@@ -1,33 +1,30 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 354F973772
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CF04373772
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 09:23:53 +0000 (UTC)
-Received: by iefd2 with SMTP id d2so14757044ief.2
+	Fri, 19 Jun 2015 10:24:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5JAOqEH012293 for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jun 2015 11:24:52 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 3Rn5bdg7TziF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 02:23:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=/lLJKHoMksL7cIDkqnCJISxUWa6a33S0tAQNLKTlSVI=;
-	b=ohF3MeyZuVzG8Oe+Bvna+GH9UP0N4XHBKy7QaWJb05Gn0hlP9HPDdZWGbRCId1LlAW
-	egwqvA4Rqz7/honoB+wLlp7r28mFw4dJS+YQliU5pFEmnsZMVJGV0b7G/QNs1Ev0pZ2R
-	yA4GL20pyy8nk2yBadPizazS4dOh48SFSnMKHpkEkXGvoeWOm5O1TOiHKN9jV3o7S4+b
-	RDCV/kt84xZ3/jhMbaS1R/gdduwsiCG5hgys+tap21tdu+/L2bAyszH0diG/rA/D+IK+
-	iSH/YOVmOsSh5jQCuqp9Rpqd3VYTOtgtjiuhUNgvlTuEAzLt+tjpPDRWHSgORSfrbd4Z
-	QutA==
-MIME-Version: 1.0
-X-Received: by 10.50.79.169 with SMTP id k9mr3028306igx.44.1434705834414; Fri,
-	19 Jun 2015 02:23:54 -0700 (PDT)
-Received: by 10.64.130.201 with HTTP; Fri, 19 Jun 2015 02:23:54 -0700 (PDT)
-In-Reply-To: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
-References: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
-Date: Fri, 19 Jun 2015 12:23:54 +0300
-Message-ID: <CALT56yOBxbjc=F96unuigiBAR9En9kYKce9ZqWmtkneOGYVQqQ@mail.gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, mark.hatle@windriver.com
-Subject: Re: [PATCH 1/3] arch-mips.inc: don't override TRANSLATED_TARGET_ARCH
+	Fri, 19 Jun 2015 11:24:52 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5JAOdOa012288
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jun 2015 11:24:50 +0100
+Message-ID: <1434709479.14710.113.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Jun 2015 11:24:39 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] toolchain-scrpts: Fix sitecache issues with multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,69 +37,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jun 2015 09:23:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 19 Jun 2015 10:24:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> On 6/18/15 8:13 AM, Dmitry Eremin-Solenikov wrote:
->> Currently MIPS64 N32 is broken. There is internal disagreement
->> between TARGET_ARCH (which doesn't contain ABIEXTENSION) and
->> TRANSLATED_TARGET_ARCH (which contains ABIEXTENSION). ABI is already
->> encoded into the TARGET_OS. ARM tunes in the same situation override
->> neither the TARGET_ARCH nor the TRANSLATED_TARGET_ARCH. So let's drop
->> this override.
->
-> This series won't work properly, unless I'm reading something incorrectly.
->
-> You won't be able to build/install a tri-lib system after this change, as
-> something needs to be there to differential between MIPS32 (o32), MIPS64 (n32)
-> and MIPS64 (n64).
->
-> Currently this is done via the ABIEXTENSION value.
+The use of TCLIBC in TOOLCHAIN_NEED_CONFIGSITE_CACHE is problematic
+since a multilib may have both uclibc and glibc for different multilibs
+yet switching between them doesn't change TCLIBC. This would result
+in "lib32-glibc" being attempted when lib32 was actually uclibc.
 
-Why do you need this differentiation in the TARGET_ARCH? We have TARGET_SYS
-(triplets) for that, don't we? And the compilers for the N64/N32 (the
-only thing IIRC
-that is really dependent on the TARGET_ARCH) should be interchangeable, AFAIU.
+The fix here is to use the virtual providers which bitbake switches
+to point correctly at the right things.
 
-Can you point me, please, how to create a tri-ABI SDK and/or image?
+This does mean we need to resolve virtual providers but we can do this using
+sysroot-providers.
 
->
-> What is currently broken w/ MIPS64 N32?  We put in a number of fixes for this
-> problem and SDK generation in the YP 1.8 time frame.  Perhaps something has
-> changed since then or maybe the fixes were not as complete as we thought?
+[YCOTO #7607]
 
-Quite simple configuration (MIPS64 N32 image) fails to build.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-
-lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
-NOTE: Started PRServer with DBfile:
-/home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
-15895
-Loading cache: 100%
-|########################################################################################################################|
-ETA:  00:00:00
-Loaded 1302 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
-/home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
-RDEPENDS on or otherwise requires it)
-NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
-removing...
-Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
-NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
-unbuildable, removing...
-Missing or unbuildable dependency chain was:
-['packagegroup-cross-canadian-qemumips64n32',
-'binutils-cross-canadian-mips64']
-ERROR: Required build target 'core-image-base' has no buildable providers.
-Missing or unbuildable dependency chain was: ['core-image-base',
-'packagegroup-cross-canadian-qemumips64n32',
-'binutils-cross-canadian-mips64']
+diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+index 59a122f..16db511 100644
+--- a/meta/classes/toolchain-scripts.bbclass
++++ b/meta/classes/toolchain-scripts.bbclass
+@@ -98,7 +98,7 @@ EOF
+ #we get the cached site config in the runtime
+ TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
+ TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
+-TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "${TCLIBC} ncurses"
++TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/libc ncurses"
+ 
+ #This function create a site config file
+ toolchain_create_sdk_siteconfig () {
+@@ -113,6 +113,12 @@ toolchain_create_sdk_siteconfig () {
+ 
+ 	#get cached site config
+ 	for sitefile in ${TOOLCHAIN_NEED_CONFIGSITE_CACHE}; do
++		# Resolve virtual/* names to the real recipe name using sysroot-providers info
++		case $sitefile in virtual/*)
++			sitefile=`echo $sitefile | tr / _`
++			sitefile=`cat ${STAGING_DIR_TARGET}/sysroot-providers/$sitefile`
++		esac
++
+ 		if [ -r ${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${sitefile}_config ]; then
+ 			cat ${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${sitefile}_config >> $siteconfig
+ 		fi
 
 
-
-
--- 
-With best wishes
-Dmitry
 
