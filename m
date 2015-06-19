@@ -1,30 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1695075618
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 354F973772
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 09:09:53 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5J99sef009376 for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 10:09:54 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lkJIkrrIfZ-8
+	Fri, 19 Jun 2015 09:23:53 +0000 (UTC)
+Received: by iefd2 with SMTP id d2so14757044ief.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 10:09:54 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5J99eTZ009371
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 10:09:51 +0100
-Message-ID: <1434704980.14710.108.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jun 2015 10:09:40 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] staging: Strip files in sysroot
+	Fri, 19 Jun 2015 02:23:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=/lLJKHoMksL7cIDkqnCJISxUWa6a33S0tAQNLKTlSVI=;
+	b=ohF3MeyZuVzG8Oe+Bvna+GH9UP0N4XHBKy7QaWJb05Gn0hlP9HPDdZWGbRCId1LlAW
+	egwqvA4Rqz7/honoB+wLlp7r28mFw4dJS+YQliU5pFEmnsZMVJGV0b7G/QNs1Ev0pZ2R
+	yA4GL20pyy8nk2yBadPizazS4dOh48SFSnMKHpkEkXGvoeWOm5O1TOiHKN9jV3o7S4+b
+	RDCV/kt84xZ3/jhMbaS1R/gdduwsiCG5hgys+tap21tdu+/L2bAyszH0diG/rA/D+IK+
+	iSH/YOVmOsSh5jQCuqp9Rpqd3VYTOtgtjiuhUNgvlTuEAzLt+tjpPDRWHSgORSfrbd4Z
+	QutA==
+MIME-Version: 1.0
+X-Received: by 10.50.79.169 with SMTP id k9mr3028306igx.44.1434705834414; Fri,
+	19 Jun 2015 02:23:54 -0700 (PDT)
+Received: by 10.64.130.201 with HTTP; Fri, 19 Jun 2015 02:23:54 -0700 (PDT)
+In-Reply-To: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
+References: <1434633188-3434-1-git-send-email-dbaryshkov@gmail.com>
+Date: Fri, 19 Jun 2015 12:23:54 +0300
+Message-ID: <CALT56yOBxbjc=F96unuigiBAR9En9kYKce9ZqWmtkneOGYVQqQ@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, mark.hatle@windriver.com
+Subject: Re: [PATCH 1/3] arch-mips.inc: don't override TRANSLATED_TARGET_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,143 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jun 2015 09:09:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Jun 2015 09:23:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add functionality to strip binaries/libraries going into the sysroot. Whilst
-this does fractionally slow down the build, it also significantly reduces the
-size of the sstate cache files.
+> On 6/18/15 8:13 AM, Dmitry Eremin-Solenikov wrote:
+>> Currently MIPS64 N32 is broken. There is internal disagreement
+>> between TARGET_ARCH (which doesn't contain ABIEXTENSION) and
+>> TRANSLATED_TARGET_ARCH (which contains ABIEXTENSION). ABI is already
+>> encoded into the TARGET_OS. ARM tunes in the same situation override
+>> neither the TARGET_ARCH nor the TRANSLATED_TARGET_ARCH. So let's drop
+>> this override.
+>
+> This series won't work properly, unless I'm reading something incorrectly.
+>
+> You won't be able to build/install a tri-lib system after this change, as
+> something needs to be there to differential between MIPS32 (o32), MIPS64 (n32)
+> and MIPS64 (n64).
+>
+> Currently this is done via the ABIEXTENSION value.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Why do you need this differentiation in the TARGET_ARCH? We have TARGET_SYS
+(triplets) for that, don't we? And the compilers for the N64/N32 (the
+only thing IIRC
+that is really dependent on the TARGET_ARCH) should be interchangeable, AFAIU.
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 10198fd..7732e16 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -57,6 +57,101 @@ sysroot_stage_all() {
- 	sysroot_stage_dirs ${D} ${SYSROOT_DESTDIR}
- }
- 
-+python sysroot_strip () {
-+    import stat, errno
-+
-+    dvar = d.getVar('SYSROOT_DESTDIR', True)
-+    pn = d.getVar('PN', True)
-+
-+    os.chdir(dvar)
-+
-+    # Return type (bits):
-+    # 0 - not elf
-+    # 1 - ELF
-+    # 2 - stripped
-+    # 4 - executable
-+    # 8 - shared library
-+    # 16 - kernel module
-+    def isELF(path):
-+        type = 0
-+        ret, result = oe.utils.getstatusoutput("file \"%s\"" % path.replace("\"", "\\\""))
-+
-+        if ret:
-+            bb.error("split_and_strip_files: 'file %s' failed" % path)
-+            return type
-+
-+        # Not stripped
-+        if "ELF" in result:
-+            type |= 1
-+            if "not stripped" not in result:
-+                type |= 2
-+            if "executable" in result:
-+                type |= 4
-+            if "shared" in result:
-+                type |= 8
-+        return type
-+
-+
-+    elffiles = {}
-+    inodes = {}
-+    libdir = os.path.abspath(dvar + os.sep + d.getVar("libdir", True))
-+    baselibdir = os.path.abspath(dvar + os.sep + d.getVar("base_libdir", True))
-+    if (d.getVar('INHIBIT_SYSROOT_STRIP', True) != '1'):
-+        #
-+        # First lets figure out all of the files we may have to process
-+        #
-+        for root, dirs, files in os.walk(dvar):
-+            for f in files:
-+                file = os.path.join(root, f)
-+
-+                try:
-+                    ltarget = oe.path.realpath(file, dvar, False)
-+                    s = os.lstat(ltarget)
-+                except OSError as e:
-+                    (err, strerror) = e.args
-+                    if err != errno.ENOENT:
-+                        raise
-+                    # Skip broken symlinks
-+                    continue
-+                if not s:
-+                    continue
-+                # Check its an excutable
-+                if (s[stat.ST_MODE] & stat.S_IXUSR) or (s[stat.ST_MODE] & stat.S_IXGRP) or (s[stat.ST_MODE] & stat.S_IXOTH) \
-+                        or ((file.startswith(libdir) or file.startswith(baselibdir)) and ".so" in f):
-+                    # If it's a symlink, and points to an ELF file, we capture the readlink target
-+                    if os.path.islink(file):
-+                        continue
-+
-+                    # It's a file (or hardlink), not a link
-+                    # ...but is it ELF, and is it already stripped?
-+                    elf_file = isELF(file)
-+                    if elf_file & 1:
-+                        if elf_file & 2:
-+                            bb.warn("File '%s' from %s was already stripped, this will prevent future debugging!" % (file[len(dvar):], pn))
-+                            continue
-+
-+                        if s.st_ino in inodes:
-+                            os.unlink(file)
-+                            os.link(inodes[s.st_ino], file)
-+                        else:
-+                            inodes[s.st_ino] = file
-+                            # break hardlink
-+                            bb.utils.copyfile(file, file)
-+                            elffiles[file] = elf_file
-+
-+        #
-+        # Now strip them (in parallel)
-+        #
-+        strip = d.getVar("STRIP", True)
-+        sfiles = []
-+        for file in elffiles:
-+            elf_file = int(elffiles[file])
-+            #bb.note("Strip %s" % file)
-+            sfiles.append((file, elf_file, strip))
-+
-+        oe.utils.multiprocess_exec(sfiles, oe.package.runstrip)
-+}
-+
- do_populate_sysroot[dirs] = "${SYSROOT_DESTDIR}"
- do_populate_sysroot[umask] = "022"
- 
-@@ -90,6 +185,7 @@ def sysroot_checkhashes(covered, tasknames, fnids, fns, d, invalidtasks = None):
- 
- python do_populate_sysroot () {
-     bb.build.exec_func("sysroot_stage_all", d)
-+    bb.build.exec_func("sysroot_strip", d)
-     for f in (d.getVar('SYSROOT_PREPROCESS_FUNCS', True) or '').split():
-         bb.build.exec_func(f, d)
-     pn = d.getVar("PN", True)
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 984362e..8ea5915 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -17,6 +17,8 @@ python __anonymous () {
- # Set this to zero if you don't want ldconfig in the output package
- USE_LDCONFIG ?= "1"
- 
-+INHIBIT_SYSROOT_STRIP = "1"
-+
- PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode ${PN}-utils glibc-thread-db ${PN}-pic libcidn libmemusage libsegfault ${PN}-pcprofile libsotruss ${PN} glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
- 
- # The ld.so in this glibc supports the GNU_HASH
+Can you point me, please, how to create a tri-ABI SDK and/or image?
+
+>
+> What is currently broken w/ MIPS64 N32?  We put in a number of fixes for this
+> problem and SDK generation in the YP 1.8 time frame.  Perhaps something has
+> changed since then or maybe the fixes were not as complete as we thought?
+
+Quite simple configuration (MIPS64 N32 image) fails to build.
 
 
+lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
+NOTE: Started PRServer with DBfile:
+/home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
+15895
+Loading cache: 100%
+|########################################################################################################################|
+ETA:  00:00:00
+Loaded 1302 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
+/home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+RDEPENDS on or otherwise requires it)
+NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
+removing...
+Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
+NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
+unbuildable, removing...
+Missing or unbuildable dependency chain was:
+['packagegroup-cross-canadian-qemumips64n32',
+'binutils-cross-canadian-mips64']
+ERROR: Required build target 'core-image-base' has no buildable providers.
+Missing or unbuildable dependency chain was: ['core-image-base',
+'packagegroup-cross-canadian-qemumips64n32',
+'binutils-cross-canadian-mips64']
+
+
+
+
+-- 
+With best wishes
+Dmitry
 
