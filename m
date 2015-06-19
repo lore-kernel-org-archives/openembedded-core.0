@@ -1,35 +1,21 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D182860017
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A708C75618
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 05:14:27 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,625,1427731200"; d="scan'208";a="97310521"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Jun 2015 13:18:36 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5J5Cpbo031763
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 13:12:52 +0800
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0181.006; Fri, 19 Jun 2015 13:14:28 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v4 0/3] These patches aim to make the spdx file be
-	compliant with the SPDX 1.2 Specification.
-Thread-Index: AQHQo2WAF5RK7vRO10izvmzFSTmxy52zVqWA
-Date: Fri, 19 Jun 2015 05:14:29 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FDB26B8C@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1433930954-31813-1-git-send-email-leimaohui@cn.fujitsu.com>
-In-Reply-To: <1433930954-31813-1-git-send-email-leimaohui@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.26]
-MIME-Version: 1.0
-Subject: Re: [PATCH v4 0/3] These patches aim to make the spdx file be compliant with the SPDX 1.2 Specification.
+	Fri, 19 Jun 2015 07:46:23 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 19 Jun 2015 00:46:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,643,1427785200"; d="scan'208";a="730491483"
+Received: from weiteeng-ilbpg1.png.intel.com ([10.88.227.45])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Jun 2015 00:46:24 -0700
+From: wei.tee.ng@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Jun 2015 15:46:18 +0800
+Message-Id: <1434699981-8983-1-git-send-email-wei.tee.ng@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: wei.tee.ng@intel.com
+Subject: [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +28,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jun 2015 05:14:31 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 19 Jun 2015 07:46:26 -0000
 
-DQpwaW5nDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTGVpLCBNYW9o
-dWkNCj4gU2VudDogV2VkbmVzZGF5LCBKdW5lIDEwLCAyMDE1IDY6MDkgUE0NCj4gVG86IG9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IExlaSwgTWFvaHVpDQo+
-IFN1YmplY3Q6IFtQQVRDSCB2NCAwLzNdIFRoZXNlIHBhdGNoZXMgYWltIHRvIG1ha2UgdGhlIHNw
-ZHggZmlsZSBiZSBjb21wbGlhbnQgd2l0aCB0aGUNCj4gU1BEWCAxLjIgU3BlY2lmaWNhdGlvbi4N
-Cj4gDQo+IFRob3NlIHBhdGNoZXMgYWltIHRvIG1ha2UgdGhlIHNwZHggZmlsZSBiZSBjb21wbGlh
-bnQgd2l0aCB0aGUgU1BEWCAxLjIgU3BlY2lmaWNhdGlvbi4NCj4gSWYgeW91IHdhbnQgdG8gdXNl
-IHRoaXMgZmVhdHVyZSx5b3UgbmVlZCB0byBkbzoNCj4gMS4gTWFrZSBzdXJlIHlvdXIgZm9zc29s
-b2d5K3NwZHggc2VydmVyIHdvcmtzIHdlbGwuWW91IGNhbiBnZXQgc3BkeCBmaWxlIHdpdGggdGhl
-DQo+IGZvbGxvd2luZyBjb21tYW5kLg0KPiAgICBjdXJsIGh0dHA6Ly8xMjcuMC4wLjEvcmVwby8g
-LS1ub3Byb3h5IDEyNy4wLjAuMSAtayAtRiBtb2Q9c3BkeF9saWNlbnNlX29uY2UgLUYNCj4gbm9D
-b3B5cmlnaHQ9ZmFsc2UNCj4gICAgLUYganNvbk91dHB1dD1mYWxzZSAtRiBmdWxsU1BEWEZsYWc9
-dHJ1ZSAtRiBmaWxlPUB4eHgudGFyLmd6IC1vIHh4eC5zcGR4DQo+IA0KPiAyLiBBZGQgdGhlIGZv
-bGxvd2luZyBJTkhFUklUIHN0YXRlbWVudCBhbmQgc2V0IHRoZSBTUERYX01BTklGRVNUX0RJUiBh
-dCB0aGUgZW5kIG9mDQo+IHlvdXIgY29uZi9sb2NhbC5jb25mIGZpbGUgZm91bmQgaW4gdGhlIEJ1
-aWxkIERpcmVjdG9yeS4NCj4gICAgSU5IRVJJVCArPSAic3BkeCINCj4gDQo+IA0KPiBMZWkgTWFv
-aHVpICgzKToNCj4gICBsaWNlbnNlcy5jb25mOiBNb2RpZmllZCBwYXJhbWV0ZXJzIGZvciBuZXcg
-c3BkeC5iYmNsYXNzDQo+ICAgc3BkeC5iYmNsYXNzOiBDcmVhdGUgdGhlIHNwZHggZmlsZSB3aGlj
-aCBpcyBjb21wbGlhbnQgICAgICB3aXRoIFNQRFgNCj4gICAgIDEuMiBTcGVjaWZpY2F0aW9uDQo+
-ICAgc3BkeDogY3JlYXRlIGEgZGlyZWN0b3J5IHRvIHNhdmUgc291cmNlIGNvZGUNCj4gDQo+ICBt
-ZXRhL2NsYXNzZXMvc3BkeC5iYmNsYXNzIHwgNDMxICsrKysrKysrKysrKysrKysrLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gIG1ldGEvY29uZi9saWNlbnNlcy5jb25mICAgfCAgODYg
-KysrLS0tLS0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDE4NCBpbnNlcnRpb25zKCspLCAzMzMgZGVs
-ZXRpb25zKC0pDQo+IA0KPiAtLQ0KPiAxLjguNC4yDQoNCg==
+From: Ng Wei Tee <wei.tee.ng@intel.com>
+
+Hi all,
+
+I would like to add hostapd and iw configuration for enabling
+Marvell 8897 Wifi feature. Hostapd and iw configuration were
+created in the recipes-connectivity layer to enable Marvell 8897
+module function in AP Mode and STA mode.
+
+This also package the Marvell pci8897 and usb8897 in the
+recipes-kernel/linux-firmware and intel iwlwifi firmware copyright
+years changed. Please review and provide feedback if any.
+
+This patch is target to merge in openembedded-core dizzy branch.
+
+Regards,
+Wei Tee
+
+Ng Shui Lei (2):
+  recipes-connectivity: Add hostapd configuration for enabling Marvell
+    8897 WiFi feature
+  recipes-connectivity: Add iw configuration for enabling Marvell 8897
+    WiFi feature
+
+Ng Wei Tee (1):
+  linux-firmware: Package Marvell pci8897 and usb8897 firmware
+
+ .../hostapd/hostapd-2.2/defconfig                  |  145 ++++++++++++++++++++
+ .../hostapd/hostapd-2.2/hostapd.service            |   11 ++
+ meta/recipes-connectivity/hostapd/hostapd-2.2/init |   58 ++++++++
+ meta/recipes-connectivity/hostapd/hostapd_2.2.bb   |   48 +++++++
+ ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++
+ meta/recipes-connectivity/iw/iw_3.8.bb             |   27 ++++
+ .../linux-firmware/linux-firmware_git.bb           |   19 ++-
+ 7 files changed, 345 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/defconfig
+ create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/hostapd.service
+ create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/init
+ create mode 100644 meta/recipes-connectivity/hostapd/hostapd_2.2.bb
+ create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+ create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
+
+-- 
+1.7.9.5
+
 
