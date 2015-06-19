@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CF04373772
+	by mail.openembedded.org (Postfix) with ESMTP id 48ABC75803
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 10:24:52 +0000 (UTC)
+	Fri, 19 Jun 2015 10:25:24 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5JAOqEH012293 for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 11:24:52 +0100
+	t5JAPPXU012322 for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Jun 2015 11:25:25 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3Rn5bdg7TziF
+	with LMTP id iUr5X5bz6F43
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 11:24:52 +0100 (BST)
+	Fri, 19 Jun 2015 11:25:24 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5JAOdOa012288
+	t5JAPCl1012303
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 11:24:50 +0100
-Message-ID: <1434709479.14710.113.camel@linuxfoundation.org>
+	Fri, 19 Jun 2015 11:25:23 +0100
+Message-ID: <1434709512.14710.114.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Jun 2015 11:24:39 +0100
+Date: Fri, 19 Jun 2015 11:25:12 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] toolchain-scrpts: Fix sitecache issues with multilib
+Subject: [PATCH] meta-environment: Ensure we append to the default TOOLCHAIN_NEED_CONFIGSITE_CACHE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Jun 2015 10:24:55 -0000
+X-List-Received-Date: Fri, 19 Jun 2015 10:25:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The use of TCLIBC in TOOLCHAIN_NEED_CONFIGSITE_CACHE is problematic
-since a multilib may have both uclibc and glibc for different multilibs
-yet switching between them doesn't change TCLIBC. This would result
-in "lib32-glibc" being attempted when lib32 was actually uclibc.
-
-The fix here is to use the virtual providers which bitbake switches
-to point correctly at the right things.
-
-This does mean we need to resolve virtual providers but we can do this using
-sysroot-providers.
-
-[YCOTO #7607]
+The toolchain-scripts class was changed to assign to the variable using ??=
+which allows users to override it. We therefore need to _append instead
+of += to have the change take effect as intended.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 59a122f..16db511 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -98,7 +98,7 @@ EOF
- #we get the cached site config in the runtime
- TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
- TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
--TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "${TCLIBC} ncurses"
-+TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/libc ncurses"
+diff --git a/meta/recipes-core/meta/meta-environment.bb b/meta/recipes-core/meta/meta-environment.bb
+index 5d72e38..49d45f6 100644
+--- a/meta/recipes-core/meta/meta-environment.bb
++++ b/meta/recipes-core/meta/meta-environment.bb
+@@ -11,7 +11,7 @@ MODIFYTOS = "0"
+ REAL_MULTIMACH_TARGET_SYS = "${TUNE_PKGARCH}${TARGET_VENDOR}-${TARGET_OS}"
  
- #This function create a site config file
- toolchain_create_sdk_siteconfig () {
-@@ -113,6 +113,12 @@ toolchain_create_sdk_siteconfig () {
+ inherit toolchain-scripts
+-TOOLCHAIN_NEED_CONFIGSITE_CACHE += "zlib"
++TOOLCHAIN_NEED_CONFIGSITE_CACHE_append = " zlib"
  
- 	#get cached site config
- 	for sitefile in ${TOOLCHAIN_NEED_CONFIGSITE_CACHE}; do
-+		# Resolve virtual/* names to the real recipe name using sysroot-providers info
-+		case $sitefile in virtual/*)
-+			sitefile=`echo $sitefile | tr / _`
-+			sitefile=`cat ${STAGING_DIR_TARGET}/sysroot-providers/$sitefile`
-+		esac
-+
- 		if [ -r ${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${sitefile}_config ]; then
- 			cat ${TOOLCHAIN_CONFIGSITE_SYSROOTCACHE}/${sitefile}_config >> $siteconfig
- 		fi
+ SDK_DIR = "${WORKDIR}/sdk"
+ SDK_OUTPUT = "${SDK_DIR}/image"
 
 
 
