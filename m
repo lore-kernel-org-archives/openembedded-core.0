@@ -1,30 +1,39 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 08288759DD
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jun 2015 03:00:30 +0000 (UTC)
-Received: by obbsn1 with SMTP id sn1so85091672obb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Jun 2015 20:00:31 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 3314073FF2;
+	Sat, 20 Jun 2015 10:37:03 +0000 (UTC)
+Received: by wiga1 with SMTP id a1so38478478wig.0;
+	Sat, 20 Jun 2015 03:37:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=i4wSInCqjM6tZTPS6a29sKCHMYEihGmuKWGxy9C7cKo=;
-	b=hdGbs8hwjda4/ZHs2/7H10S/BYBz45aoDftw0FGkzoou/m9GqhBZIVuycumAHI9QW8
-	dWSO974oCn2t7g5/bt4SheV7ElzgODWcjaZWL1RrIK4lWp6UGUZgTuzDO/c5CGeUcF2d
-	bJTM/MtTSgkp/En3AEk3FeGN+5kN5DdrFPPQ03zKNpb1Bxn1nCS50hvElqNMIzqvUtFs
-	v9dWtrUv+LdI3hmMJgc+Pkvryyl+SvC25oNUBRcd5rTTHKcj5qsIu1Is9iAxGMF+aVCr
-	OvrS11KSYsVkDfyhqYzaChk4WvhNajHEO0VbLKLtk3ZG6JNCCYltdMGy9F1JxMkooJTM
-	YIWQ==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=ktLqFz/Usk01TQegdNSymRy9w4fCJ4/1ii1bdSRJCX0=;
+	b=yGG7zNCFw1gGd7cZIqxCGX4fuejQgQFgRzyJ0o7icoFNc8FBPBbzxuSkofJJAVsFLl
+	3zG5hmvGAca4FVYB75uu3hSXxE3KNp9um5AIrF3aYRewjvZ5OABMH8hdQIAMCWuQVjHZ
+	J2aJKnyNoIVKIXgPV3LUXpsJAXtjxLhzKMpYSYWvQgmDUV1Cs5BWsaxW9DkfDBkGOZeJ
+	gdCx2Ua0YtdeVuJF6NixAZWjbBv8NgqxFVm1H5SCrhxwtZhNYQHkuVTpZNwqBFxSByS4
+	qnEjGco140RhmTD1YrfQ3MTkc7T+tURSzxAMxEeQyApu7WH31kZmAPhbKQKU609GqAlg
+	5HSg==
+X-Received: by 10.180.74.210 with SMTP id w18mr14433652wiv.77.1434796624069;
+	Sat, 20 Jun 2015 03:37:04 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id
+	pf4sm20910074wjb.23.2015.06.20.03.37.02
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 20 Jun 2015 03:37:02 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Sat, 20 Jun 2015 12:37:30 +0200
+To: openembedded-core@lists.openembedded.org,
+	Robert Yang <liezhi.yang@windriver.com>, valentin.popa@intel.com
+Message-ID: <20150620103730.GD2398@jama>
+References: <20150514104421.2FCAA50539@opal.openembedded.org>
 MIME-Version: 1.0
-X-Received: by 10.60.56.97 with SMTP id z1mr16242016oep.59.1434769231556; Fri,
-	19 Jun 2015 20:00:31 -0700 (PDT)
-Received: by 10.202.64.130 with HTTP; Fri, 19 Jun 2015 20:00:31 -0700 (PDT)
-Date: Fri, 19 Jun 2015 20:00:31 -0700
-Message-ID: <CAJ86T=W1YVmDnA6PfkUDRaGsftRt8+1MhWcN2U-DFUAjzoct5g@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Incomplete runtime dependencies for gdb python PACKAGECONFIG
+In-Reply-To: <20150514104421.2FCAA50539@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Robert Yang : mesa: fix do_install_append
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +46,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jun 2015 03:00:34 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 20 Jun 2015 10:37:07 -0000
+X-Groupsio-MsgNum: 66989
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EP0wieDxd4TSJjHq"
+Content-Disposition: inline
 
-The runtime dependencies for gdb seem to be incomplete when python
-support is enabled via gdb's PACKAGECONFIG.
+--EP0wieDxd4TSJjHq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-gdb ends up with a runtime dependency on libpython, but not on python
-or any python modules, and gdb then fails to run:
+On Thu, May 14, 2015 at 10:44:21AM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 3a464d67b60f70b865f7db768e7edc53e40ff450
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D3a464d67b60f70b865f7db768e7edc53e40ff450
+>=20
+> Author: Robert Yang <liezhi.yang@windriver.com>
+> Date:   Wed May  6 00:08:35 2015 -0700
+>=20
+> mesa: fix do_install_append
+>=20
+> "ifdef MESA_EGL_NO_X11_HEADERS" -> "if defined(MESA_EGL_NO_X11_HEADERS)"
+>=20
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>=20
+> ---
+>=20
+>  meta/recipes-graphics/mesa/mesa_10.5.4.bb | 2 +-
+>  meta/recipes-graphics/mesa/mesa_git.bb    | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa_10.5.4.bb b/meta/recipes-gra=
+phics/mesa/mesa_10.5.4.bb
+> index 150c664..03c9ecf 100644
+> --- a/meta/recipes-graphics/mesa/mesa_10.5.4.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_10.5.4.bb
+> @@ -9,6 +9,6 @@ SRC_URI[sha256sum] =3D "b51e723f3a20d842c88a92d809435b229=
+fc4744ca0dbec0317d9d4a3ac
+>  #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+>  do_install_append() {
+>      if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}=
+; then
+> -        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.con=
+tains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplat=
+form.h
+> +        sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)/#if ${@bb.uti=
+ls.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/e=
+glplatform.h
+>      fi
+>  }
+> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphi=
+cs/mesa/mesa_git.bb
+> index 0260617..8f70f67 100644
+> --- a/meta/recipes-graphics/mesa/mesa_git.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
+> @@ -17,6 +17,6 @@ inherit pythonnative
+>  #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+>  do_install_append() {
+>      if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}=
+; then
+> -        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.con=
+tains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplat=
+form.h
+> +        sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)/#if ${@bb.uti=
+ls.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/e=
+glplatform.h
+>      fi
 
-  root@7401:~# gdb
-  Could not find platform independent libraries <prefix>
-  Could not find platform dependent libraries <exec_prefix>
-  Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
-  ImportError: No module named site
+BTW: this is still breaking qtdeclarative which is using "None" symbol
+which conflicts with "None" defined in Xlib.h
 
-Manually installing python and all python modules seems to be a fix,
-but I haven't narrowed down which specific python modules are
-required.
+I've suggested renaming "None" in qtdeclarative to something more
+specific, but it was rejected upstream (understandably as it's already
+part of public API and needs changes in 5 qt components, see patch here:
+https://github.com/webOS-ports/meta-webos-ports/commit/31aa85787a7513e27916=
+5a25f6f06ea72c576314)
+and they suggested to undef None before qsgtexture.h is included.
 
-The issue is a little more serious for anyone using meta-qt5, since
-meta-qt5 (fido and later) contains a .bbappend for gdb which enables
-the python PACKAGECONFIG by default:
+Do you remember why we don't respect MESA_EGL_NO_X11_HEADERS here? If
+it's to fix application not using pkg-config to pass
+MESA_EGL_NO_X11_HEADERS shouldn't we respect both like this:
+sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)/#if defined(MESA_EGL_NO_=
+X11_HEADERS) and ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}=
+/' ${D}${includedir}/EGL/eglplatform.h
 
-  https://github.com/meta-qt5/meta-qt5/commit/9d17546d56b5e710a6420b482514202236f410e3
++Valentin as it was introduced first in this commit (without any
+explanation in commit message)
 
+commit a5ebdb6ad8e4f94ac819275d55575230e057e4ae
+Author: Valentin Popa <valentin.popa@intel.com>
+Date:   Tue Feb 18 13:32:16 2014 +0200
+
+    mesa: upgrade to 9.2.5
+   =20
+?
+
+>  }
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--EP0wieDxd4TSJjHq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlWFQmkACgkQN1Ujt2V2gBxBKwCbBy4xrFZlxs3kAZogoKDz3nDI
+RsoAnAhR0Yvovp70fJeGvHy7uVlHGWw5
+=GwNW
+-----END PGP SIGNATURE-----
+
+--EP0wieDxd4TSJjHq--
