@@ -1,35 +1,23 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id ACC9B758E1
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DAD9475A0E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jun 2015 15:11:14 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 9036331565E8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jun 2015 17:11:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id lTMGSh-t83_S
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jun 2015 17:11:10 +0200 (CEST)
-Received: from [172.22.22.61] (55d46f31.access.ecotel.net [85.212.111.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id AD2BA31565E5
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Jun 2015 17:11:09 +0200 (CEST)
-Message-ID: <5585828D.90002@opendreambox.org>
-Date: Sat, 20 Jun 2015 17:11:09 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
+	Mon, 22 Jun 2015 09:29:23 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 22 Jun 2015 02:29:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,658,1427785200"; d="scan'208";a="748037114"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Jun 2015 02:29:19 -0700
+Received: from ubuntu-ws.rb.intel.com (ubuntu-ws.rb.intel.com [10.237.105.32])
+	by linux.intel.com (Postfix) with ESMTP id A7ED46A4005;
+	Mon, 22 Jun 2015 02:28:41 -0700 (PDT)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <CAJ86T=W1YVmDnA6PfkUDRaGsftRt8+1MhWcN2U-DFUAjzoct5g@mail.gmail.com>
-In-Reply-To: <CAJ86T=W1YVmDnA6PfkUDRaGsftRt8+1MhWcN2U-DFUAjzoct5g@mail.gmail.com>
-Subject: Re: Incomplete runtime dependencies for gdb python PACKAGECONFIG
+Date: Mon, 22 Jun 2015 12:28:41 +0300
+Message-Id: <1434965322-16583-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] oeqa/selftest: Added 3 new selftest testcases.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +30,228 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Jun 2015 15:11:17 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Jun 2015 09:29:24 -0000
 
-Hello Andre,
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta/lib/oeqa/selftest/imagefeatures.py | 206 ++++++++++++++++++++++++++++++++
+ 1 file changed, 206 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/imagefeatures.py
 
-On 20.06.2015 05:00, Andre McCurdy wrote:
-> The runtime dependencies for gdb seem to be incomplete when python
-> support is enabled via gdb's PACKAGECONFIG.
-> 
-> gdb ends up with a runtime dependency on libpython, but not on python
-> or any python modules, and gdb then fails to run:
-> 
->   root@7401:~# gdb
+diff --git a/meta/lib/oeqa/selftest/imagefeatures.py b/meta/lib/oeqa/selftest/imagefeatures.py
+new file mode 100644
+index 0000000..f697956
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/imagefeatures.py
+@@ -0,0 +1,206 @@
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import runCmd, bitbake 
++from oeqa.utils.decorators import testcase
++import pexpect
++from os.path import expanduser
++from os import system
++
++class ImageFeatures(oeSelfTest):
++
++    @testcase(1107)
++    def test_non_root_user_can_connect_via_ssh_without_password(self):
++        """
++        Summary: Check if non root user can connect via ssh without password
++        Expected: 1. Connection to the image via ssh using root user without providing a password should be allowed.
++                  2. Connection to the image via ssh using tester user without providing a password should be allowed.
++        Product: oe-core
++        Author: Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        test_user = 'tester'
++        root_user = 'root'
++        prompt = r'qemux86:\S+[$#]\s+'
++        tap_inf_ip = '192.168.7.2'
++
++        features = 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh empty-root-password"\n'
++        features += 'INHERIT += "extrausers"\n'
++        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(test_user, test_user)
++
++        # Append 'features' to local.conf
++        self.append_config(features)
++
++        # Build a core-image-minimal
++        ret = bitbake('core-image-minimal')
++        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
++
++        rm_ssh_keys_cmd = 'ssh-keygen -f "{}/.ssh/known_hosts" -R {}'.format(expanduser('~'), tap_inf_ip)
++        # Delete the ssh keys for 192.168.7.2 (qemu)
++        ret = runCmd(rm_ssh_keys_cmd)
++        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host.')
++
++        # Boot qemu image
++        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
++        try:
++            proc_qemu.expect('qemux86 login:', timeout=100)
++        except:
++            system('pkill qemu')
++            proc_qemu.close()
++            self.fail('Failed to start qemu.')
++
++        # Attempt to ssh with each user into qemu with empty password
++        for user in [root_user, test_user]:
++            proc_ssh = pexpect.spawn('ssh {} -l {}'.format(tap_inf_ip, user))
++            index = proc_ssh.expect(['Are you sure you want to continue connecting', prompt, pexpect.TIMEOUT, pexpect.EOF])
++            if index == 0:
++                proc_ssh.sendline('yes')
++                try:
++                    proc_ssh.expect(prompt)
++                except:
++                    system('pkill qemu')
++                    proc_qemu.close()
++                    proc_ssh.terminate()
++                    self.fail('Failed to ssh with {} user into qemu.'.format(user))
++            elif index == 1:
++                # user successfully logged in with empty password
++                pass
++            elif index == 2:
++                system('pkill qemu')
++                proc_qemu.close()
++                proc_ssh.terminate()
++                self.fail('Failed to ssh with {} user into qemu (timeout).'.format(user))
++            else:
++                system('pkill qemu')
++                proc_qemu.close()
++                proc_ssh.terminate()
++                self.fail('Failed to ssh with {} user into qemu (eof).'.format(user))
++
++        # Cleanup
++        system('pkill qemu')
++        proc_qemu.close()
++        proc_ssh.terminate()
++        ret = runCmd(rm_ssh_keys_cmd)
++        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host (at cleanup).')
++
++    @testcase(1115)
++    def test_all_users_can_connect_via_ssh_without_password(self):
++        """
++        Summary:     Check if all users can connect via ssh without password
++        Expected:    1. Connection to the image via ssh using root or tester user without providing a password should be allowed.
++        Product:     oe-core
++        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++        test_user = 'tester'
++        root_user = 'root'
++        prompt = r'qemux86:\S+[$#]\s+'
++        tap_inf_ip = '192.168.7.2'
++
++        features = 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh allow-empty-password"\n'
++        features += 'INHERIT += "extrausers"\n'
++        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(test_user, test_user)
++
++        # Append 'features' to local.conf
++        self.append_config(features)
++
++        # Build a core-image-minimal
++        ret = bitbake('core-image-minimal')
++        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
++
++        rm_ssh_keys_cmd = 'ssh-keygen -f "{}/.ssh/known_hosts" -R {}'.format(expanduser('~'), tap_inf_ip)
++        # Delete the ssh keys for 192.168.7.2 (qemu)
++        ret = runCmd(rm_ssh_keys_cmd)
++        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host.')
++
++        # Boot qemu image
++        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
++        try:
++            proc_qemu.expect('qemux86 login:', timeout=100)
++        except:
++            system('pkill qemu')
++            proc_qemu.close()
++            self.fail('Failed to start qemu.')
++
++        # Attempt to ssh with each user into qemu with empty password
++        for user in [root_user, test_user]:
++            proc_ssh = pexpect.spawn('ssh {} -l {}'.format(tap_inf_ip, user))
++            index = proc_ssh.expect(['Are you sure you want to continue connecting', prompt, pexpect.TIMEOUT, pexpect.EOF])
++            if index == 0:
++                proc_ssh.sendline('yes')
++                try:
++                    proc_ssh.expect(prompt)
++                except:
++                    system('pkill qemu')
++                    proc_qemu.close()
++                    proc_ssh.terminate()
++                    self.fail('Failed to ssh with {} user into qemu.'.format(user))
++            elif index == 1:
++                # user successfully logged in with empty password
++                pass
++            elif index == 2:
++                system('pkill qemu')
++                proc_qemu.close()
++                proc_ssh.terminate()
++                self.fail('Failed to ssh with {} user into qemu (timeout).'.format(user))
++            else:
++                system('pkill qemu')
++                proc_qemu.close()
++                proc_ssh.terminate()
++                self.fail('Failed to ssh with {} user into qemu (eof).'.format(user))
++
++        # Cleanup
++        system('pkill qemu')
++        proc_qemu.close()
++        proc_ssh.terminate()
++        ret = runCmd(rm_ssh_keys_cmd)
++        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host (at cleanup).')
++
++    @testcase(1114)
++    def test_rpm_version_4_support_on_image(self):
++        """
++        Summary:     Check rpm version 4 support on image
++        Expected:    Rpm version must be 4.11.2
++        Product:     oe-core
++        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        root_user = 'root'
++        prompt = '{}@qemux86:~# '.format(root_user)
++        rpm_version = '4.11.2'
++        features = 'IMAGE_INSTALL_append = " rpm"\n'
++        features += 'PREFERRED_VERSION_rpm = "{}"\n'.format(rpm_version)
++        features += 'PREFERRED_VERSION_rpm-native = "{}"\n'.format(rpm_version)
++        features += 'RPMROOTFSDEPENDS_remove = "rpmresolve-native:do_populate_sysroot"'
++
++        # Append 'features' to local.conf
++        self.append_config(features)
++
++        # Build a core-image-minimal
++        ret = bitbake('core-image-minimal')
++        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
++
++        # Boot qemu image & get rpm version
++        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
++        try:
++            proc_qemu.expect('qemux86 login:', timeout=100)
++            proc_qemu.sendline(root_user)
++            proc_qemu.expect(prompt)
++            proc_qemu.sendline('rpm --version')
++            proc_qemu.expect(prompt)
++        except:
++            system('pkill qemu')
++            proc_qemu.close()
++            self.fail('Failed to boot qemu.')
++
++        found_rpm_version = proc_qemu.before
++
++        # Make sure the retrieved rpm version is the expected one
++        if rpm_version not in found_rpm_version:
++            system('pkill qemu')
++            proc_qemu.close()
++            self.fail('RPM version is not {}, found instead {}.'.format(rpm_version, found_rpm_version))
++
++        # Cleanup (close qemu)
++        system('pkill qemu')
++        proc_qemu.close()
+\ No newline at end of file
+-- 
+2.1.4
 
-just curious, is this a BCM7401?
-
->   Could not find platform independent libraries <prefix>
->   Could not find platform dependent libraries <exec_prefix>
->   Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
->   ImportError: No module named site
-> 
-> Manually installing python and all python modules seems to be a fix,
-> but I haven't narrowed down which specific python modules are
-> required.
-> 
-> The issue is a little more serious for anyone using meta-qt5, since
-> meta-qt5 (fido and later) contains a .bbappend for gdb which enables
-> the python PACKAGECONFIG by default:
-> 
->   https://github.com/meta-qt5/meta-qt5/commit/9d17546d56b5e710a6420b482514202236f410e3
-> 
-
-Here's a patch for fido that I was going to submit after testing
-with master, whenever that may be.
-
-http://git.openembedded.org/openembedded-core-contrib/commit/?h=obi/fido&id=5461b4a6db9b9429132952ce31d293550c945179
-
-Feel free to adapt, test and submit.
-
-Regards,
-Andreas
 
