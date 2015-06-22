@@ -1,34 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B4B673905
+Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
+	[209.85.216.171])
+	by mail.openembedded.org (Postfix) with ESMTP id F08D875A6D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jun 2015 10:43:36 +0000 (UTC)
-Received: by qkeo142 with SMTP id o142so80961258qke.1
+	Mon, 22 Jun 2015 11:07:45 +0000 (UTC)
+Received: by qcji3 with SMTP id i3so5831287qcj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jun 2015 03:43:37 -0700 (PDT)
+	Mon, 22 Jun 2015 04:07:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-type;
-	bh=lMjklm5lh+yYmX27vm7kfpmgcb6qnK6GXbHm68LVo4I=;
-	b=jcpKqzg+gSCG+ioyK3S6IlBs8ITzaFwqJ6ROCIbjjdg+EIJ4Z6pmhS2uGH4cg2xT5e
-	QWCwnbDsE3bWt3P5yaRvgXvxG2pAuS3gosQ/8qeDKP/I6t7xMazeS4DB7G43wostQk3Y
-	vfFwgKBwHCI3BNDrtXnS7Nb69IYKyuVmp5IJP+iHwamqO3A8okQrsEhaaWYiuoH+K6fR
-	vVhHemktdPVzYuk2sWTM8X0dIxPJiikK7ZviQATeMX8wvcgZWVXwVUWKOU4N9VJ8zjmY
-	bqakwx6wIWf7dhk8IzvHLwAOIZFg0iVBoDmaCYYwsH/kDDKxSw4xybeMvtNmAPcUI7kA
-	snYg==
-X-Gm-Message-State: ALoCoQllnqksbqERVkDpg5pijWFzVGlCmBM7YYaHioMPb8vYsg5RtYQGwvlXnXqtrqf7w+3Yitmm
-X-Received: by 10.140.89.104 with SMTP id u95mr36390434qgd.15.1434969817130;
-	Mon, 22 Jun 2015 03:43:37 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=LSWC8B9zaF7Mwg3c1m5e2KzxvxeeF32JFnsUwhuJ2wI=;
+	b=IsXueeo6mfFxmT8BW65iIoRZwo2J8zzBBmjPN6Thi0vkw8ksroU1+R/hAec2k7kqUS
+	n2S0VS4ER9bNJ6NaeIJmmKtfr/R5zL5PsrIOLLSbdTPfJ1hW0pwIjPqRBJcakve4sE4K
+	nrLeM24+GKY4cNsgz5Kmy0JP+fuwojCyjPdQstqXo/vVXviDMze5Zp52WQn+l+BXgL0V
+	GilCmgZ/eCFpjQjDfbwfDdTvXijlToDyAeECwCO7uWzxlcGRqegLIditfANd7V0Yl+zJ
+	ME1S7H/jPXhLM3kqGXYx+rsy1mkHje7Aj1z+vVPXQ7tuK8DWCyBc8IkMaSEpu7VT1ofQ
+	YC0Q==
+X-Gm-Message-State: ALoCoQlOLW32iS6w1cCZ5mGFIQN9LCHPf1gKuTBFFvGk17dkOR2qUpKhrkblgIclcEO4wERpbOf7
+X-Received: by 10.140.235.19 with SMTP id g19mr38584152qhc.52.1434971266652;
+	Mon, 22 Jun 2015 04:07:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 22 Jun 2015 03:43:17 -0700 (PDT)
+Received: by 10.140.102.231 with HTTP; Mon, 22 Jun 2015 04:07:27 -0700 (PDT)
+In-Reply-To: <20150619165245.GB2398@jama>
+References: <20150619165245.GB2398@jama>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Jun 2015 11:43:17 +0100
-Message-ID: <CAJTo0LaKEvtznsdfz8gLWFSLyb6Rx2XsgbYG_cfOrAm+W2UfEg@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org
-Subject: Future of Qt4 recipes
+Date: Mon, 22 Jun 2015 12:07:27 +0100
+Message-ID: <CAJTo0LZBZJdUbqPWNDsJ6SmgPHmpio0JwVE=xfsen-2OoB0RnQ@mail.gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] State of bitbake world, Failed tasks 2015-06-19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,52 +43,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jun 2015 10:43:36 -0000
-Content-Type: multipart/alternative; boundary=001a11c135f636c210051918f2d1
+X-List-Received-Date: Mon, 22 Jun 2015 11:07:49 -0000
+Content-Type: multipart/alternative; boundary=001a11376dac9cb15505191948cf
 
---001a11c135f636c210051918f2d1
+--001a11376dac9cb15505191948cf
 Content-Type: text/plain; charset=UTF-8
 
 Hi,
 
-So, Qt 4.8.7 was released last month[1].  Support for Qt4 stops at the end
-of 2015, and 4.8.7 is planned to be the last ever release of Qt4. It's
-still mandated by the long-awaited LSB 5 but I think it's fair to say that
-the majority of developers have moved to Qt5. So, what should we do with
-Qt4 moving forward?[2]  I see several options:
+On 19 June 2015 at 17:52, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-1) There's still lots of people using Qt4 in production, please keep it in
-oe-core!  (and revisit in six months time)
-2) Move Qt4 recipes and classes to a meta-qt4 layer now so that oe-core 1.9
-ships without Qt4, and anyone wanting full LSB compliance or Qt4 will need
-to add that layer to their distro.
+> qt-mobility-embedded-1.2.0: qt-mobility-embedded rdepends on
+> libgstapp-0.10, but it isn't a build dependency? [build-deps]
+> qt-mobility-embedded-1.2.0: qt-mobility-embedded rdepends on
+> libgstvideo-0.10, but it isn't a build dependency? [build-deps]
+> qt-mobility-x11-1.2.0: qt-mobility-x11 rdepends on libgstapp-0.10, but it
+> isn't a build dependency? [build-deps]
+> qt-mobility-x11-1.2.0: qt-mobility-x11 rdepends on libgstinterfaces-0.10,
+> but it isn't a build dependency? [build-deps]
+> qt-mobility-x11-1.2.0: qt-mobility-x11 rdepends on libgstvideo-0.10, but
+> it isn't a build dependency? [build-deps]
+> qt-mobility-x11-1.2.0: qt-mobility-x11 rdepends on libxv, but it isn't a
+> build dependency? [build-deps]
+> qt5-creator-3.3.1: qt5-creator rdepends on qt-creator, but it isn't a
+> build dependency? [build-deps]
+>
 
-Personally, I vote for (2).  Any other comments?
+I've just filed a bug for this chunk, looks like we missed something when
+disabling GStreamer 0.10 in Qt.
+
+Nice to see nothing in oe-core break in this build. :)
 
 Ross
 
-[1] https://blog.qt.io/blog/2015/05/26/qt-4-8-7-released/
-[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=7812
-
---001a11c135f636c210051918f2d1
+--001a11376dac9cb15505191948cf
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<br><br><div>So, Qt 4.8.7 was released last month[1].=
-=C2=A0 Support for Qt4 stops at the end of 2015, and 4.8.7 is planned to be=
- the last ever release of Qt4. It&#39;s still mandated by the long-awaited =
-LSB 5 but I think it&#39;s fair to say that the majority of developers have=
- moved to Qt5. So, what should we do with Qt4 moving forward?[2] =C2=A0I se=
-e several options:</div><div><br></div><div>1) There&#39;s still lots of pe=
-ople using Qt4 in production, please keep it in oe-core! =C2=A0(and revisit=
- in six months time)</div><div>2) Move Qt4 recipes and classes to a meta-qt=
-4 layer now so that oe-core 1.9 ships without Qt4, and anyone wanting full =
-LSB compliance or Qt4 will need to add that layer to their distro.</div><di=
-v><br></div><div>Personally, I vote for (2).=C2=A0 Any other comments?</div=
-><div><br></div><div>Ross</div><div><br></div><div>[1] <a href=3D"https://b=
-log.qt.io/blog/2015/05/26/qt-4-8-7-released/">https://blog.qt.io/blog/2015/=
-05/26/qt-4-8-7-released/</a></div><div>[2]=C2=A0<a href=3D"https://bugzilla=
-.yoctoproject.org/show_bug.cgi?id=3D7812">https://bugzilla.yoctoproject.org=
-/show_bug.cgi?id=3D7812</a></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi,</div><div class=3D"gmail_ex=
+tra"><br><div class=3D"gmail_quote">On 19 June 2015 at 17:52, Martin Jansa =
+<span dir=3D"ltr">&lt;<a href=3D"mailto:martin.jansa@gmail.com" target=3D"_=
+blank">martin.jansa@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D=
+"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
+-left:1ex"><div id=3D":zk" class=3D"a3s" style=3D"overflow:hidden">qt-mobil=
+ity-embedded-1.2.0: qt-mobility-embedded rdepends on libgstapp-0.10, but it=
+ isn&#39;t a build dependency? [build-deps]<br>
+qt-mobility-embedded-1.2.0: qt-mobility-embedded rdepends on libgstvideo-0.=
+10, but it isn&#39;t a build dependency? [build-deps]<br>
+qt-mobility-x11-1.2.0: qt-mobility-x11 rdepends on libgstapp-0.10, but it i=
+sn&#39;t a build dependency? [build-deps]<br>
+qt-mobility-x11-1.2.0: qt-mobility-x11 rdepends on libgstinterfaces-0.10, b=
+ut it isn&#39;t a build dependency? [build-deps]<br>
+qt-mobility-x11-1.2.0: qt-mobility-x11 rdepends on libgstvideo-0.10, but it=
+ isn&#39;t a build dependency? [build-deps]<br>
+qt-mobility-x11-1.2.0: qt-mobility-x11 rdepends on libxv, but it isn&#39;t =
+a build dependency? [build-deps]<br>
+qt5-creator-3.3.1: qt5-creator rdepends on qt-creator, but it isn&#39;t a b=
+uild dependency? [build-deps]</div></blockquote></div><br>I&#39;ve just fil=
+ed a bug for this chunk, looks like we missed something when disabling GStr=
+eamer 0.10 in Qt.</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
+mail_extra">Nice to see nothing in oe-core break in this build. :)</div><di=
+v class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></di=
+v>
 
---001a11c135f636c210051918f2d1--
+--001a11376dac9cb15505191948cf--
