@@ -1,37 +1,32 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f171.google.com (mail-qc0-f171.google.com
-	[209.85.216.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B1B44607BB
+Return-Path: <denis@denix.org>
+Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
+	[206.46.173.21])
+	by mail.openembedded.org (Postfix) with ESMTP id D441D60962
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jun 2015 22:15:13 +0000 (UTC)
-Received: by qcji3 with SMTP id i3so11684862qcj.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jun 2015 15:15:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=sOhIHb8WfDQnmriuEP03WOQiVh5cbpQE7R5t0xV4vkI=;
-	b=augBP/0h9jg98fzLE85MFENkmuLonzaAHMhy/+cS0S6XoMLGHDj1tubI6D8COM8btH
-	5Uc+Rfu2eO1AZqRxJTt/t8u0xuX5MzXVz/kfwDEyPeYFvbrUQt2DECqCphKgByzAC71b
-	IUyBwBb4e6QfSyeJerJPjNm8gyMfiwDGAQXipyY8+Na6rAiyx4O5z+RNYzeOjprpLhyI
-	c++BrtAkdH98mpPaNrr+6Ke7VFgG/MgEeJvouYhLATNzpc/CsnbrvgY3xEUbujpTJdK7
-	0S7JIuaW1yWyTW0D+uCkwGJbemoX2u1PL4drc89R0ErXnCsX7zcMqN2D8Oqgue6Hpre5
-	SNeg==
-X-Gm-Message-State: ALoCoQmTAHKDa1Csoacdi0K6w2usVTv4oQvxIwjgeBd29Bs1YaFIeROo35FmwrDJNiyXucGjxSAc
-X-Received: by 10.140.43.199 with SMTP id e65mr6321222qga.80.1435011314806;
-	Mon, 22 Jun 2015 15:15:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 22 Jun 2015 15:14:55 -0700 (PDT)
-In-Reply-To: <55888523.8090203@balister.org>
-References: <CAJTo0LaKEvtznsdfz8gLWFSLyb6Rx2XsgbYG_cfOrAm+W2UfEg@mail.gmail.com>
-	<558882AB.2060703@kernelconcepts.de> <55888523.8090203@balister.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 22 Jun 2015 23:14:55 +0100
-Message-ID: <CAJTo0Lbkh11ucPqu1cJdEeXbjxRVt89TFpjt82xt_rfkXrFj=w@mail.gmail.com>
-To: Philip Balister <philip@balister.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Future of Qt4 recipes
+	Mon, 22 Jun 2015 22:28:38 +0000 (UTC)
+Received: from gandalf.denix.org ([108.51.169.48]) by vms173021.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NQD00II2AFQRL10@vms173021.mailsrvcs.net>; Mon,
+	22 Jun 2015 17:28:39 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=KZwvylsD c=1 sm=1 tr=0	a=x3PDphkivVtATbYodTxRAw==:117
+	a=jLWw55sr_RoA:10 a=8nJEP1OIZ-IA:10	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8
+	a=-9mUelKeXuEA:10 a=XAFQembCKUMA:10	a=Q4-j1AaZAAAA:8
+	a=etzRbmcrs3KgnPDfePQA:9 a=wPNLvfGTeEIA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id C3D0A161ABD; Mon,
+	22 Jun 2015 18:28:38 -0400 (EDT)
+Date: Mon, 22 Jun 2015 18:28:38 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-members@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-id: <20150622222838.GN2465@denix.org>
+References: <20150504222711.GD5885@denix.org>
+MIME-version: 1.0
+In-reply-to: <20150504222711.GD5885@denix.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: Re: OpenEmbedded e.V. membership status announcement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +39,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jun 2015 22:15:18 -0000
-Content-Type: multipart/alternative; boundary=001a113a9baaab200e0519229b6c
+X-List-Received-Date: Mon, 22 Jun 2015 22:28:39 -0000
+Content-type: text/plain; charset=iso-8859-1
+Content-disposition: inline
+Content-transfer-encoding: 8bit
 
---001a113a9baaab200e0519229b6c
-Content-Type: text/plain; charset=UTF-8
+Sorry for the delay. The Board of Directors has finally finalized the 
+membership list and would like to announce the following individuals have 
+been reinstated as active members of OpenEmbedded e.V. with voting rights:
 
-On 22 June 2015 at 22:58, Philip Balister <philip@balister.org> wrote:
+===========================
+Andreas Oberritter
+Andrei Gherzan
+Chris Larson
+Cliff Brake
+Joshua Lock
+Michael Lauer
+Tom King
+Tom Rini
+===========================
 
-> That said, it will be unsupported before the next release goes unsupported.
->
+-- 
+Denys Dmytriyenko
+OpenEmbedded e.V. Board of Directors
 
-Exactly: a few months after 1.9 ships, Qt4 is officially dead.   So the
-question remains, is Qt4 actually heavily used, or has everyone moved to
-Qt5 already? (note that both Qt3 and Qt5 are maintained in their own
-layers).
 
-Ross
+On Mon, May 04, 2015 at 06:27:11PM -0400, Denys Dmytriyenko wrote:
+> All,
+> 
+> In accordance with OpenEmbedded e.V. statutes, members that were absent from 
+> two or more consecutive annual General Assembly meetings and didn't have 
+> anyone representing them by proxy, forfeit their active membership status and 
+> can no longer vote in any OE e.V. election. Thus, the current up-to-date 
+> membership roster is one of the blocking items for any election process.
+> 
+> After collating the attendance records and all gathered proxy forms from past 
+> years GA meetings, the Board of Directors came up with the following list of 
+> inactive members - see below.
+> 
+> Realizing, that some people may still be active in other capacities in the 
+> OpenEmbedded e.V. organization, or just wish to renew their active status, the 
+> Board of Directors would like to open up a two-week period for inactive 
+> members to state their intent to become active, after which we should be able 
+> to vote for reinstating them back.
+> 
+> The Board will make an effort to contact inactive members directly by email, 
+> or please feel free to reply to this announcement with your intent. Thanks.
+> 
+> The list of e.V. members to become inactive, based on GA attendance:
+> 
+> ===========================
+> Alessandro Gardich
+> Andreas Oberritter
+> Andrei Gherzan
+> Chris Larson
+> Cliff Brake
+> Daniel Willmann
+> Dirk Hohndel
+> Dirk Opfer
+> Dmitry Eremin­Solenikov
+> Esben Haabendal
+> Florian Boor
+> Frans Meulenbrooks
+> Graham Gower
+> Holger Freyther
+> Jan Lübbe
+> Jason Kridner
+> John Willis
+> Joshua Lock
+> Ken Gilmer
+> Liam Girdwood
+> Marcin Juszkiewicz
+> Mark Brown
+> Michael Lauer
+> Michael Smith
+> Philip Blundell
+> Phillip Zabel
+> Robert Schuster
+> Roman I Khimov
+> Steve Sakoman
+> Tom King
+> Tom Rini
+> Yu Ke
+> Yury Bushmelev
+> ===========================
+> 
+> Please let us know of any concerns or comments. Thanks.
+> 
+> -- 
+> Denys Dmytriyenko
+> OpenEmbedded e.V. Board of Directors
+> -- 
+> _______________________________________________
+> Openembedded-members mailing list
+> Openembedded-members@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-members
 
---001a113a9baaab200e0519229b6c
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 22 June 2015 at 22:58, Philip Balister <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:philip@balister.org" target=3D"_blank">philip@balister.org</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":19e" class=3D"a3=
-s" style=3D"overflow:hidden">That said, it will be unsupported before the n=
-ext release goes unsupported.<br></div></blockquote></div><br>Exactly: a fe=
-w months after 1.9 ships, Qt4 is officially dead. =C2=A0 So the question re=
-mains, is Qt4 actually heavily used, or has everyone moved to Qt5 already? =
-(note that both Qt3 and Qt5 are maintained in their own layers).</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113a9baaab200e0519229b6c--
