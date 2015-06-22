@@ -1,38 +1,27 @@
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id AC6CC75A67
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jun 2015 11:56:48 +0000 (UTC)
-Received: by wicnd19 with SMTP id nd19so74180187wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jun 2015 04:56:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=x7ciiTgpuU9GVD6tJyByhwDSXhW1QSO/ZEJSn1LlfpY=;
-	b=oaIOcQIUReCaytzG1H/XtBv3Rj6ehbk+xgF+AZwhNeTGMbKc4jjo9EQJWld3nXGJ2c
-	MLujBYaMW4MviO36oWJbuoQXrlrrFOokkSeW7oJoK/wifJ+74uvVGN2NNj5R5AMn3s45
-	DHqarNHRj4fyTV7TC6jIOWFZxNpv7KRnCzxZbLG7zlSSoK4qtIK0tB3QuYHmgJVGxvU1
-	6FgUANjEd6qNfRi6DaaDGNn2nB8yAdk0fPwGqA+X2yqtQNgI/H/UQ/+g3rlmY0mND7aK
-	NUunOxmpzVbVj0PauvbPDwkg8JOm2QzGvu485kP4JlVs+ikVehqZ2f1Wm/oCSOEefziF
-	hTqA==
-X-Received: by 10.194.248.227 with SMTP id yp3mr41048844wjc.32.1434974208168; 
-	Mon, 22 Jun 2015 04:56:48 -0700 (PDT)
-Received: from wsadrian.lan.ffah.ch (c-82-192-249-249.customer.ggaweb.ch.
-	[82.192.249.249])
-	by mx.google.com with ESMTPSA id q4sm30184358wju.14.2015.06.22.04.56.46
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Jun 2015 04:56:47 -0700 (PDT)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jun 2015 13:56:07 +0200
-Message-Id: <1434974169-19875-2-git-send-email-adrian.freihofer@gmail.com>
-X-Mailer: git-send-email 2.4.3
-In-Reply-To: <1434974169-19875-1-git-send-email-adrian.freihofer@gmail.com>
-References: <1434974169-19875-1-git-send-email-adrian.freihofer@gmail.com>
-Cc: paul.eggleton@linux.intel.com,
-	Adrian Freihofer <adrian.freihofer@gmail.com>
-Subject: [PATCH 1/3] connman: fix qemu config
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D3F5075A0E;
+	Mon, 22 Jun 2015 12:22:20 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Jun 2015 05:22:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,659,1427785200"; d="scan'208";a="592493731"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
+	([10.237.68.143])
+	by orsmga003.jf.intel.com with ESMTP; 22 Jun 2015 05:22:21 -0700
+Message-ID: <5587FE0C.5040705@linux.intel.com>
+Date: Mon, 22 Jun 2015 15:22:36 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
+MIME-Version: 1.0
+To: openembedded-devel@lists.openembedded.org, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <20150619165245.GB2398@jama>
+	<CAJTo0LZBZJdUbqPWNDsJ6SmgPHmpio0JwVE=xfsen-2OoB0RnQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZBZJdUbqPWNDsJ6SmgPHmpio0JwVE=xfsen-2OoB0RnQ@mail.gmail.com>
+Subject: Re: [oe] State of bitbake world, Failed tasks 2015-06-19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,50 +34,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Jun 2015 11:56:51 -0000
+X-List-Received-Date: Mon, 22 Jun 2015 12:22:27 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-If a network interface is configured by kernel boot parameters
-and the image is booted in qemu, connman takes the IP settings
-from /proc/cmdline for this NIC.
-The regex for parsing /proc/cmdline is invalid.
+On 06/22/2015 02:07 PM, Burton, Ross wrote:
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
----
- meta/recipes-connectivity/connman/connman-conf.bb                  | 2 +-
- meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+> I've just filed a bug for this chunk, looks like we missed something when
+> disabling GStreamer 0.10 in Qt.
 
-diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/recipes-connectivity/connman/connman-conf.bb
-index 2358d9d..4271a37 100644
---- a/meta/recipes-connectivity/connman/connman-conf.bb
-+++ b/meta/recipes-connectivity/connman/connman-conf.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/GPL-2.0;md5=80
- SRC_URI_append_qemuall = "file://wired.config \
-                           file://wired-setup \
-                          "
--PR = "r2"
-+PR = "r3"
- 
- S = "${WORKDIR}"
- 
-diff --git a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
-index c46899e..4a61513 100644
---- a/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
-+++ b/meta/recipes-connectivity/connman/connman-conf/qemuall/wired-setup
-@@ -2,8 +2,10 @@
- 
- CONFIGF=/var/lib/connman/wired.config
- 
--# Extract wired network config from /proc/cmdline
--NET_CONF=`cat /proc/cmdline |sed -ne 's/^.*ip=\([^ ]*\):\([^ ]*\):\([^ ]*\):\([^ ]*\).*$/\1\/\4\/\3/p'`
-+# Extract wired network config (IPv4 = <client-ip>/<netmask>/<gw-ip>) from /proc/cmdline
-+# "ip=<client-ip>:<server-ip>:<gw-ip>:<netmask>:<hostname>:<device>:<autoconf>:<dns0-ip>:<dns1-ip> "
-+NET_CONF=`cat /proc/cmdline |sed -ne 's/^.*ip=\([0-9.]*\):\([0-9.]*\):\([0-9.]*\):\([0-9.]*\).*$/\1\/\4\/\3/p'`
-+NET_CONF=${NET_CONF=%/}
- 
- # Check if eth0 is already set via kernel cmdline
- if [ "x$NET_CONF" = "x" ]; then
--- 
-2.4.3
+Not really; the recipes for qt-mobility were moved from oe-core to 
+meta-oe as they were, without any modifications.
+
+This looks like a simple missing dependency issue, but I don't know why 
+it wasn't reported earlier. Note that there are also missing 
+dependencies for libxv and qt-creator, so it's not gstreamer-specific
+
+
+Alex
 
 
