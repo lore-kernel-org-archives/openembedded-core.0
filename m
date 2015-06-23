@@ -1,34 +1,35 @@
-Return-Path: <wei.tee.ng@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 299D260125
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
+	[209.85.217.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A29265C63
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 02:07:15 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 22 Jun 2015 19:07:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,663,1427785200"; d="scan'208";a="732643462"
-Received: from pgsmsx102.gar.corp.intel.com ([10.221.44.80])
-	by fmsmga001.fm.intel.com with ESMTP; 22 Jun 2015 19:07:16 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.200]) by
-	PGSMSX102.gar.corp.intel.com ([10.221.44.80]) with mapi id
-	14.03.0224.002; Tue, 23 Jun 2015 10:06:23 +0800
-From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
-To: akuster808 <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi feature
-Thread-Index: AQHQrVedzSPeiS08O0etgQL/bJTODp25VQNg
-Date: Tue, 23 Jun 2015 02:06:23 +0000
-Message-ID: <B4FF7F2787593E4CA07131C98D4AD41A01C435C9@PGSMSX101.gar.corp.intel.com>
-References: <1434699981-8983-1-git-send-email-wei.tee.ng@intel.com>
-	<5588BC3C.7020800@gmail.com>
-In-Reply-To: <5588BC3C.7020800@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.20.206]
+	Tue, 23 Jun 2015 05:01:08 +0000 (UTC)
+Received: by lbbvz5 with SMTP id vz5so73142568lbb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 22 Jun 2015 22:01:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=n38nEKlY3WOZ5wKW95288Iu8YC1oGHQuInuyKpd7aPg=;
+	b=yFqhBw9F5wd8/4bFRFWkIUHir9XRnolg3Jocm3mUB3vJlEhmHKvnd63w6YD54ODPDM
+	G3Z14wYzwkGqEj1pxRQ5jQFYYLgh4rRmHGJPOsfejU6nppUG8uEzLhL3fdhVzXFdA6AL
+	OjKcpiSDL06yoeOVgpvtkjetoy7f1WlbpU2eccWh0sPM1FLznRMN/heC44LxBzihF3PU
+	IYKAW4NK/gIBZ3ONPCD83UN9g2bOL50XrdmvshL0AMJj8lt8NUZtffo1+is1NPFdrQoE
+	SxR7Ze8KxlzsIEJshXvyKvUKFrMSyMtspSJ0nDqUd/UbQrd6hQHHrNU4zns/sBPH6SgR
+	Pd+Q==
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi feature
+X-Received: by 10.112.168.102 with SMTP id zv6mr33181379lbb.45.1435035668014; 
+	Mon, 22 Jun 2015 22:01:08 -0700 (PDT)
+Received: by 10.112.126.166 with HTTP; Mon, 22 Jun 2015 22:01:07 -0700 (PDT)
+In-Reply-To: <5585828D.90002@opendreambox.org>
+References: <CAJ86T=W1YVmDnA6PfkUDRaGsftRt8+1MhWcN2U-DFUAjzoct5g@mail.gmail.com>
+	<5585828D.90002@opendreambox.org>
+Date: Mon, 22 Jun 2015 22:01:07 -0700
+Message-ID: <CAJ86T=XiGhw9Svv-hDh17ntzdiObyVVvR1nGtnSSQ1SawKkPJA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: Incomplete runtime dependencies for gdb python PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,84 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 02:07:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Jun 2015 05:01:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Armin,
+Hi Andreas,
 
-Thanks for accepting the linux-firmware changes in dizzy branch.
+On Sat, Jun 20, 2015 at 8:11 AM, Andreas Oberritter
+<obi@opendreambox.org> wrote:
+> Hello Andre,
+>
+> On 20.06.2015 05:00, Andre McCurdy wrote:
+>> The runtime dependencies for gdb seem to be incomplete when python
+>> support is enabled via gdb's PACKAGECONFIG.
+>>
+>> gdb ends up with a runtime dependency on libpython, but not on python
+>> or any python modules, and gdb then fails to run:
+>>
+>>   root@7401:~# gdb
+>
+> just curious, is this a BCM7401?
 
-Regarding to the two new recipes, is it possible to add the two new recipes=
- in master branch
-so that it can be backport to dizzy/fido branch? My target is to enable hos=
-tapd and iw features
-in dizzy branch. Hope to get some advice from you. Thank you
+No, just a coincidence. 7401 is the code name for the box. CPU is
+Intel's CE4200.
 
-Regards,
-Wei Tee
+>>   Could not find platform independent libraries <prefix>
+>>   Could not find platform dependent libraries <exec_prefix>
+>>   Consider setting $PYTHONHOME to <prefix>[:<exec_prefix>]
+>>   ImportError: No module named site
+>>
+>> Manually installing python and all python modules seems to be a fix,
+>> but I haven't narrowed down which specific python modules are
+>> required.
+>>
+>> The issue is a little more serious for anyone using meta-qt5, since
+>> meta-qt5 (fido and later) contains a .bbappend for gdb which enables
+>> the python PACKAGECONFIG by default:
+>>
+>>   https://github.com/meta-qt5/meta-qt5/commit/9d17546d56b5e710a6420b482514202236f410e3
+>>
+>
+> Here's a patch for fido that I was going to submit after testing
+> with master, whenever that may be.
+>
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=obi/fido&id=5461b4a6db9b9429132952ce31d293550c945179
+>
+> Feel free to adapt, test and submit.
 
-> -----Original Message-----
-> From: akuster808 [mailto:akuster808@gmail.com]
-> Sent: Tuesday, June 23, 2015 9:54 AM
-> To: Ng, Wei Tee; openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi featu=
-re
->=20
-> Wei Tee,
->=20
-> I am ok with the firmware change but not adding two new recipes. A better
-> place may be in fido.
->=20
-> regards,
-> Armin
->=20
-> On 06/19/2015 12:46 AM, wei.tee.ng@intel.com wrote:
-> > From: Ng Wei Tee <wei.tee.ng@intel.com>
-> >
-> > Hi all,
-> >
-> > I would like to add hostapd and iw configuration for enabling Marvell
-> > 8897 Wifi feature. Hostapd and iw configuration were created in the
-> > recipes-connectivity layer to enable Marvell 8897 module function in
-> > AP Mode and STA mode.
-> >
-> > This also package the Marvell pci8897 and usb8897 in the
-> > recipes-kernel/linux-firmware and intel iwlwifi firmware copyright
-> > years changed. Please review and provide feedback if any.
-> >
-> > This patch is target to merge in openembedded-core dizzy branch.
-> >
-> > Regards,
-> > Wei Tee
-> >
-> > Ng Shui Lei (2):
-> >    recipes-connectivity: Add hostapd configuration for enabling Marvell
-> >      8897 WiFi feature
-> >    recipes-connectivity: Add iw configuration for enabling Marvell 8897
-> >      WiFi feature
-> >
-> > Ng Wei Tee (1):
-> >    linux-firmware: Package Marvell pci8897 and usb8897 firmware
-> >
-> >   .../hostapd/hostapd-2.2/defconfig                  |  145 +++++++++++=
-+++++++++
-> >   .../hostapd/hostapd-2.2/hostapd.service            |   11 ++
-> >   meta/recipes-connectivity/hostapd/hostapd-2.2/init |   58 ++++++++
-> >   meta/recipes-connectivity/hostapd/hostapd_2.2.bb   |   48 +++++++
-> >   ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++
-> >   meta/recipes-connectivity/iw/iw_3.8.bb             |   27 ++++
-> >   .../linux-firmware/linux-firmware_git.bb           |   19 ++-
-> >   7 files changed, 345 insertions(+), 3 deletions(-)
-> >   create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
-> 2.2/defconfig
-> >   create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
-> 2.2/hostapd.service
-> >   create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/init
-> >   create mode 100644 meta/recipes-connectivity/hostapd/hostapd_2.2.bb
-> >   create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-
-> version.sh-don-t-use-git-describe-for-versioning.patch
-> >   create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
-> >
+Yes, that fixes the issue - tested with both fido and master. Thanks!
+
+I'll submit your patch for both branches. Hopefully it can be included
+in the next fido update.
+
+> Regards,
+> Andreas
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
