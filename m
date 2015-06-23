@@ -1,25 +1,31 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 97D3873E36
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 232BF60557
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 16:48:01 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 23 Jun 2015 09:48:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,666,1427785200"; d="scan'208";a="593327650"
-Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.55])
-	by orsmga003.jf.intel.com with ESMTP; 23 Jun 2015 09:48:02 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jun 2015 11:49:54 -0500
-Message-Id: <ee1783181d643156ef483c088b899b1d53945ef0.1435078109.git.anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1435078109.git.anibal.limon@linux.intel.com>
-References: <cover.1435078109.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1435078109.git.anibal.limon@linux.intel.com>
-References: <cover.1435078109.git.anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] oe/utils.py: Add support for init/end helper functions in ThreadWorker.
+	Tue, 23 Jun 2015 16:56:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5NGuTIK005853; Tue, 23 Jun 2015 17:56:29 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eB98S_HaWznE; Tue, 23 Jun 2015 17:56:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5NGuGnl005831
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 23 Jun 2015 17:56:27 +0100
+Message-ID: <1435078576.11489.96.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Crowe <mac@mcrowe.com>
+Date: Tue, 23 Jun 2015 17:56:16 +0100
+In-Reply-To: <20150623152501.GA26456@mcrowe.com>
+References: <1434221081-4286-1-git-send-email-mac@mcrowe.com>
+	<1435072346.2483.417.camel@pbcl.net>
+	<20150623152501.GA26456@mcrowe.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pixbufcache: Ensure that jpeg-native is available for postinst if necessary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,90 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 16:48:01 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 23 Jun 2015 16:56:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add init/end helper functions for ThreadWorker also pass ThreadWorker
-as first argument to init/end/func functions this enables per-thread
-storage handling.
+On Tue, 2015-06-23 at 16:25 +0100, Mike Crowe wrote:
+> On Tuesday 23 June 2015 at 16:12:26 +0100, Phil Blundell wrote:
+> > On Sat, 2015-06-13 at 19:44 +0100, Mike Crowe wrote:
+> > > diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+> > > index 9e6ecc8..755a654 100644
+> > > --- a/meta/classes/pixbufcache.bbclass
+> > > +++ b/meta/classes/pixbufcache.bbclass
+> > > @@ -72,6 +72,7 @@ PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
+> > >      glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene \
+> > >      libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene \
+> > >      harfbuzz-native:do_populate_sysroot_setscene \
+> > > +    ${@bb.utils.contains('PACKAGECONFIG', 'jpeg', 'jpeg-native:do_populate_sysroot_setscene', '', d)} \
+> > 
+> > I'm not sure this is quite right.  PACKAGECONFIG at the point this is
+> > expanded will be the PACKAGECONFIG for whatever recipe is currently
+> > inheriting pixbufcache.bbclass, whereas I think what you really need
+> > here is the PACKAGECONFIG that gdk-pixbuf itself was built with.  Or,
+> > er, something.
+> 
+> The problem I was seeing was with gdk-pixbuf itself so it sounds like I
+> need to add the dependency only when '${BPN}' == 'gdk-pixbuf' itself. I'll
+> have a go at that.
 
-classes/sstate.bbclass: Add thread_worker argument to checkstatus
-function.
+I'm still not convinced this is the right route to go down. I'd much
+rather find a way to improve my other patch with the right abstractions,
+or just accept the ugliness in base.bbclass...
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/sstate.bbclass |  2 +-
- meta/lib/oe/utils.py        | 17 +++++++++++++----
- 2 files changed, 14 insertions(+), 5 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index a80d1ce..1e2d4f6 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -739,7 +739,7 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-         if localdata.getVar('BB_NO_NETWORK', True) == "1" and localdata.getVar('SSTATE_MIRROR_ALLOW_NETWORK', True) == "1":
-             localdata.delVar('BB_NO_NETWORK')
- 
--        def checkstatus(arg):
-+        def checkstatus(thread_worker, arg):
-             (task, sstatefile) = arg
- 
-             localdata2 = bb.data.createCopy(localdata)
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index f0d3c14..cee087f 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -218,22 +218,30 @@ from threading import Thread
- 
- class ThreadedWorker(Thread):
-     """Thread executing tasks from a given tasks queue"""
--    def __init__(self, tasks):
-+    def __init__(self, tasks, worker_init, worker_end):
-         Thread.__init__(self)
-         self.tasks = tasks
-         self.daemon = True
- 
-+        self.worker_init = worker_init
-+        self.worker_end = worker_end
-+
-     def run(self):
-         from Queue import Empty
- 
-+        if self.worker_init is not None:
-+            self.worker_init(self)
-+
-         while True:
-             try:
-                 func, args, kargs = self.tasks.get(block=False)
-             except Empty:
-+                if self.worker_end is not None:
-+                    self.worker_end(self)
-                 break
- 
-             try:
--                func(*args, **kargs)
-+                func(self, *args, **kargs)
-             except Exception, e:
-                 print e
-             finally:
-@@ -241,12 +249,13 @@ class ThreadedWorker(Thread):
- 
- class ThreadedPool:
-     """Pool of threads consuming tasks from a queue"""
--    def __init__(self, num_workers, num_tasks):
-+    def __init__(self, num_workers, num_tasks, worker_init=None,
-+            worker_end=None):
-         self.tasks = Queue(num_tasks)
-         self.workers = []
- 
-         for _ in range(num_workers):
--            worker = ThreadedWorker(self.tasks)
-+            worker = ThreadedWorker(self.tasks, worker_init, worker_end)
-             self.workers.append(worker)
- 
-     def start(self):
--- 
-1.9.1
+Richard
+
 
 
