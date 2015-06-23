@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B12C65C9D
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 8091A65C9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 16:28:44 +0000 (UTC)
-Received: by qkfe185 with SMTP id e185so7608866qkf.3
+	Tue, 23 Jun 2015 16:31:32 +0000 (UTC)
+Received: by qkbp125 with SMTP id p125so7657460qkb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 09:28:45 -0700 (PDT)
+	Tue, 23 Jun 2015 09:31:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=uyTp/mlmJdEYMefTWdJc41p3MeIXKGVE0nYBKJIxtkE=;
-	b=NwK/wHu7tGSGF3SiuJSY08WaoBEO7zPNUltT+JUqFSThtbZaxH3zVFL4Y+JppmVSxy
-	rCnfATmbAZ3ASvpLm7sTTD/E4c2r0dtfdGwMW/W+bJaucysxAQ6HqjcqmzQgwHY4gtv8
-	l3ONzX1N9aSMYXZEx7ZECOmjj/KkpMIsqgpvajP+6O23m0mIwLLVDOXBYfRzvw/SWGEw
-	0V4JeBOKVKZmccBFQyNJyOCOZ93WrsX52re2Gnz4W014ENa6UI+WxpCXPhw0p2E/Tvlq
-	MaISP4kF5g/bfQHxwXDW21lhE+E++ZvnpDn5K1nTSCHxP+Tq730DYOEDyQHytdd2bE71
-	XtCQ==
-X-Gm-Message-State: ALoCoQmZ/kqIfovuUo+9o/Mt/Lcx22ii2gyK4uXs2GKRfhq4BSXF+ocgciVNPUxo5/zh4TkyMK7L
-X-Received: by 10.55.23.218 with SMTP id 87mr37395107qkx.36.1435076925551;
-	Tue, 23 Jun 2015 09:28:45 -0700 (PDT)
+	bh=pfuuSJqxfVE7SswjR/gvlYPZ/SylAQCuOOHBhAzeh9c=;
+	b=FYKYwhYRMKyPLboRywO/Ds/VT93XDcyu9YFAwpPtdgub60V180VuMuI1gDHc5ZdYfo
+	WWuOeSAmFvfnsDjctSOUCLc8OeuB2kC0kYti6F4NOb4muvA734a1eX99srpvW6DkrYlz
+	8Ak9VskgBRRSvUsIk7+1rQHi7xzDy6r08m4Ve0Y8JjUtjaRqjAYN+osKatjjG0Z050WV
+	r+WEgbt62WJZbCFx5mfOiTs2TuB6GdwX+ITkC0dm74KwvVHFaQBh8032YDTeDgHjoFLp
+	Bj5U0ImrN4N1ytNcffHffJGkSYmYpPCewNCEwjODOR+VBDnp2ea4GCvP7d67f/eJarES
+	IoQA==
+X-Gm-Message-State: ALoCoQn/BDYmIllSzRlut2HKIqHAS1YSaXxkEHAex9tPuQGsl1+Ry5xnnB+RaKeory7epCPCPSaH
+X-Received: by 10.55.18.102 with SMTP id c99mr41188238qkh.58.1435077093657;
+	Tue, 23 Jun 2015 09:31:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 23 Jun 2015 09:28:26 -0700 (PDT)
-In-Reply-To: <97b3f2e7b6b28d7540a1f69c65c319e4775e936f.1435022780.git.akuster808@gmail.com>
-References: <cover.1435022780.git.akuster808@gmail.com>
-	<97b3f2e7b6b28d7540a1f69c65c319e4775e936f.1435022780.git.akuster808@gmail.com>
+Received: by 10.140.102.231 with HTTP; Tue, 23 Jun 2015 09:31:14 -0700 (PDT)
+In-Reply-To: <1434595386-11377-1-git-send-email-rongqing.li@windriver.com>
+References: <1434595386-11377-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jun 2015 17:28:26 +0100
-Message-ID: <CAJTo0LZGNuW-7PjXY5PubOsnok_J8suFD53sy9JY8E80KHyXuQ@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
+Date: Tue, 23 Jun 2015 17:31:14 +0100
+Message-ID: <CAJTo0LZPX-hrN_rQ=pwWRJ4T1zYRzcTs77j=2iP7rw427njHSg@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>,
+	Kang Kai <Kai.Kang@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] gnutls: update to 3.4.1
+Subject: Re: [PATCH] openssl: upgrade to 1.0.2c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 16:28:48 -0000
-Content-Type: multipart/alternative; boundary=001a114694845f8d5a051931e229
+X-List-Received-Date: Tue, 23 Jun 2015 16:31:36 -0000
+Content-Type: multipart/alternative; boundary=001a1143728064aaf2051931ec70
 
---001a114694845f8d5a051931e229
+--001a1143728064aaf2051931ec70
 Content-Type: text/plain; charset=UTF-8
 
-On 23 June 2015 at 02:37, Armin Kuster <akuster808@gmail.com> wrote:
+On 18 June 2015 at 03:43, <rongqing.li@windriver.com> wrote:
 
-> +PACKAGECONFIG[openssl_compat] = "--enable-openssl-compatibility,,"
+> upgrade to fix the CVE: CVE-2015-1788..CVE-2015-1792 and CVE-2014-8176
+> remove a backport patch
+> update the c_rehash-compat.patch
 >
 
-Also add --disable-openssl-compatibility (and remove the redundant trailing
-commas).
+This doesn't apply to master since some more patches were added, can one of
+you please rebase and re-submit?
 
-+PACKAGECONFIG[libind] = "--with-idn,--without-idn, libidn"
->
-
-The flag name has a typo.
-
+Cheers,
 Ross
 
---001a114694845f8d5a051931e229
+--001a1143728064aaf2051931ec70
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 June 2015 at 02:37, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1a7" class=3D"a3s=
-" style=3D"overflow:hidden">+PACKAGECONFIG[openssl_compat] =3D &quot;--enab=
-le-openssl-compatibility,,&quot;<br></div></blockquote><div><br></div><div>=
-Also add --disable-openssl-compatibility (and remove the redundant trailing=
- commas).</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1a=
-7" class=3D"a3s" style=3D"overflow:hidden">
-+PACKAGECONFIG[libind] =3D &quot;--with-idn,--without-idn, libidn&quot;</di=
-v></blockquote><div><br></div><div>The flag name has a typo.</div><div><br>=
-</div><div>Ross=C2=A0</div></div></div></div>
+On 18 June 2015 at 03:43,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
+.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":10d" class=3D"a3s" =
+style=3D"overflow:hidden">upgrade to fix the CVE: CVE-2015-1788..CVE-2015-1=
+792 and CVE-2014-8176<br>
+remove a backport patch<br>
+update the c_rehash-compat.patch</div></blockquote></div><br>This doesn&#39=
+;t apply to master since some more patches were added, can one of you pleas=
+e rebase and re-submit?</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">Cheers,</div><div class=3D"gmail_extra">Ross</div></div>
 
---001a114694845f8d5a051931e229--
+--001a1143728064aaf2051931ec70--
