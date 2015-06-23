@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DF2E74056
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 245066AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 14:35:19 +0000 (UTC)
-Received: by wicgi11 with SMTP id gi11so18842964wic.0
+	Tue, 23 Jun 2015 14:35:20 +0000 (UTC)
+Received: by wiwl6 with SMTP id l6so68449354wiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 07:35:20 -0700 (PDT)
+	Tue, 23 Jun 2015 07:35:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=U3wxlY/OtO02LLQj+KKXuMc1YjtloQToQOzxjat0lsM=;
-	b=mANOdnGgueF+DADaS01zTytOUWscS+zPbE0goT6gQJAtvkmMojtTlR2PBdc03JLWYp
-	T2kzA8Xpbyuipv7hrnRiPXGAORf1VP9hIz+9t+swnt3r2iJjKRuQtgdItX+mF2w9KE21
-	3kfK0vZJDpPva0w5undo9exCY4WmlgHvpq4i7bbeH9zFomWNCkSJthVyctOKWcnF0FYO
-	Cuo7iXYI8uoijqJR/KD6sTcbiBVdsFS9NuuM0qPyHLGIFnfD86RuP1+mdMbhJRpcs83p
-	kT704bz8pLvS2pzJT4qV249jsCmZYgj5Krmz0sbhH1DfJByssWPC+B+h0z8XGS3LKE9m
-	cq/Q==
-X-Gm-Message-State: ALoCoQlidXFHU7pw6URHCKp3stncUj86a7rXi/XuNml1CZDH+y2m9Sna/FoDK4nnU7Pj9pgGqL4o
-X-Received: by 10.180.24.40 with SMTP id r8mr4223883wif.24.1435070120203;
-	Tue, 23 Jun 2015 07:35:20 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=IC0TpdHj5lsivhZwWvvKlgIkJ722D+mwFAS8lWS997Y=;
+	b=MSx/KuNTVJFQrIDU+1v9DzwF4OzhuRlgy7uUZk1Trtqom6h8RmE5t5u83Q2IppWkH2
+	xm0DzFkxkRbccl5dgoZMxaypLlMLoaQSesuheUpTqbuRwpG+haLrO+9zLp7TbkbT3Z38
+	4gB1NnSv2YH7QDVAXXGEz78urLhUE/EqWSVa+RMsoa9kyuGzZFaEHk9Mkcryt5XWe7r+
+	qkwRuDm45wSeOpEvOJ03fSAOW0CUFGrIY/ppGSwsnEVXNEsoaAY887+LiuqpqFdkqxaT
+	/goAwwn5wHPVg/wOaMk64r113EiLFfrhw9B5l9KeVbAXfMX5WryqOr7myKOd+d31jZFU
+	dYUg==
+X-Gm-Message-State: ALoCoQn/CwAo3IidHXOrL+1adTmLBLdrGZMTG9jsCWhBT1uof3YPGBchlNF7/e2Yzqbmk2aESBDd
+X-Received: by 10.194.77.179 with SMTP id t19mr60479723wjw.30.1435070121260;
+	Tue, 23 Jun 2015 07:35:21 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by mx.google.com with ESMTPSA id z9sm12982900wiv.9.2015.06.23.07.35.19
+	by mx.google.com with ESMTPSA id z9sm12982900wiv.9.2015.06.23.07.35.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 23 Jun 2015 07:35:19 -0700 (PDT)
+	Tue, 23 Jun 2015 07:35:20 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jun 2015 15:30:01 +0100
-Message-Id: <1435069807-13557-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 23 Jun 2015 15:30:02 +0100
+Message-Id: <1435069807-13557-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [RFC] Move libexecdir to $prefix/libexec
+In-Reply-To: <1435069807-13557-1-git-send-email-ross.burton@intel.com>
+References: <1435069807-13557-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 1/6] eglibc: WIP fix paths for libexec
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,25 +49,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 23 Jun 2015 14:35:22 -0000
 
-Hi,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, I'm bringing this up again. :)
-
-Our default of libexecdir=$libdir/$BPN is contrary to both the FHS[1] and GNU
-Coding Standards[2], mainly because the key point is that libexecdir should be
-global and not change per-recipe.  The new FHS allows /usr/libexec so this
-series changes the default to that, and fixes up the recipes which need fixing.
-
-Several of the recipe fixes are unrelated to the change and will be submitted to
-master shortly, but others (eg sudo) are intimately tied to the change.
-
-I've done basic multilib-enabled builds but more testing welcome.  I'd say that
-in general multilib problems this exposes are in fact problems with the recipe:
-for example GConf should install the binaries once and libraries in each libdir.
-
-Ross
-
-[1] http://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04s07.html
-[2] https://www.gnu.org/prep/standards/html_node/Directory-Variables.html
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 984362e..2425c82 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -35,7 +35,7 @@ libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${ba
+ libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
+ INSANE_SKIP_glibc_append_aarch64 = " libdir"
+ 
+-FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
++FILES_${PN} = "${libc_baselibs} ${libexecdir} ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
+ FILES_ldd = "${bindir}/ldd"
+ FILES_libsegfault = "${base_libdir}/libSegFault*"
+ FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
+-- 
+2.1.4
 
 
