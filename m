@@ -1,23 +1,25 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D01A0741CF
+Return-Path: <mac@mcrowe.com>
+Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
+	by mail.openembedded.org (Postfix) with ESMTP id D0534741CF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 15:22:47 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 23 Jun 2015 08:22:48 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,666,1427785200"; d="scan'208";a="733054208"
-Received: from josuerfi-mobl1.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.254.73.119])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Jun 2015 08:22:48 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Tue, 23 Jun 2015 08:22:47 -0700
-Message-Id: <1435072967-10333-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Cc: dvhart@linux.intel.com
-Subject: [PATCH] tune-i586-nlp: Add new tune file to support Quark/X1000 CPU
+	Tue, 23 Jun 2015 15:25:14 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.13,666,1427756400"; d="scan'208";a="129532866"
+Received: from deneb.mcrowe.com (HELO deneb) ([82.152.148.4])
+	by smtpout.karoo.kcom.com with ESMTP; 23 Jun 2015 16:25:01 +0100
+Received: from mac by deneb with local (Exim 4.84)
+	(envelope-from <mac@mcrowe.com>)
+	id 1Z7Q4L-0006yW-34; Tue, 23 Jun 2015 16:25:01 +0100
+Date: Tue, 23 Jun 2015 16:25:01 +0100
+From: Mike Crowe <mac@mcrowe.com>
+To: Phil Blundell <pb@pbcl.net>
+Message-ID: <20150623152501.GA26456@mcrowe.com>
+References: <1434221081-4286-1-git-send-email-mac@mcrowe.com>
+	<1435072346.2483.417.camel@pbcl.net>
+MIME-Version: 1.0
+In-Reply-To: <1435072346.2483.417.camel@pbcl.net>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pixbufcache: Ensure that jpeg-native is available for postinst if necessary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 15:22:47 -0000
+X-List-Received-Date: Tue, 23 Jun 2015 15:25:19 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This tune file is needed to enable a GAS option specific to this cpu family
-in order to disable the usage of lock prefix instructions.
+On Tuesday 23 June 2015 at 16:12:26 +0100, Phil Blundell wrote:
+> On Sat, 2015-06-13 at 19:44 +0100, Mike Crowe wrote:
+> > diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+> > index 9e6ecc8..755a654 100644
+> > --- a/meta/classes/pixbufcache.bbclass
+> > +++ b/meta/classes/pixbufcache.bbclass
+> > @@ -72,6 +72,7 @@ PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
+> >      glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene \
+> >      libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene \
+> >      harfbuzz-native:do_populate_sysroot_setscene \
+> > +    ${@bb.utils.contains('PACKAGECONFIG', 'jpeg', 'jpeg-native:do_populate_sysroot_setscene', '', d)} \
+> 
+> I'm not sure this is quite right.  PACKAGECONFIG at the point this is
+> expanded will be the PACKAGECONFIG for whatever recipe is currently
+> inheriting pixbufcache.bbclass, whereas I think what you really need
+> here is the PACKAGECONFIG that gdk-pixbuf itself was built with.  Or,
+> er, something.
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/conf/machine/include/tune-i586-nlp.inc | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-i586-nlp.inc
+The problem I was seeing was with gdk-pixbuf itself so it sounds like I
+need to add the dependency only when '${BPN}' == 'gdk-pixbuf' itself. I'll
+have a go at that.
 
-diff --git a/meta/conf/machine/include/tune-i586-nlp.inc b/meta/conf/machine/include/tune-i586-nlp.inc
-new file mode 100644
-index 0000000..6815a16
---- /dev/null
-+++ b/meta/conf/machine/include/tune-i586-nlp.inc
-@@ -0,0 +1,20 @@
-+#
-+# Settings for the GAS(1) cpu-type quark/x1000 which has issues
-+# with lock-prefix so use that option to omit them.
-+#
-+
-+DEFAULTTUNE ?= "i586-nlp"
-+
-+# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
-+require conf/machine/include/tune-i586.inc
-+
-+# x86 with no lock prefix
-+TUNEVALID[nlp] = "IA32 with Lock Prefix omitted"
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "nlp", " -Wa,-momit-lock-prefix=yes", "", d)}"
-+
-+# Quark tune feature 
-+AVAILTUNES = "i586-nlp"
-+TUNE_FEATURES_tune-i586-nlp = "${TUNE_FEATURES_tune-i586} nlp"
-+TUNE_PKGARCH_tune-i586-nlp = "i586-nlp"
-+PACKAGE_EXTRA_ARCHS_tune-i586-nlp = "${PACKAGE_EXTRA_ARCHS_tune-i586} i586-nlp"
-+
--- 
-2.1.0
+Thanks.
+
+Mike.
 
 
