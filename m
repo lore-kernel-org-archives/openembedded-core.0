@@ -1,23 +1,31 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 04C9875A1A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CE6775A1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 22:53:47 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 23 Jun 2015 15:53:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,668,1427785200"; d="scan'208";a="749178657"
-Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.55])
-	by fmsmga002.fm.intel.com with ESMTP; 23 Jun 2015 15:53:36 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Jun 2015 17:55:29 -0500
-Message-Id: <1435100129-31148-2-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1435100129-31148-1-git-send-email-anibal.limon@linux.intel.com>
-References: <1435100129-31148-1-git-send-email-anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCHv2 1/1] classes/sstate.bbclass: Improve checkstatus using connection cache.
+	Tue, 23 Jun 2015 22:55:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5NMtDb4018044; Tue, 23 Jun 2015 23:55:13 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id eVqlsHeoJmNy; Tue, 23 Jun 2015 23:55:13 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5NMsxUc018032
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 23 Jun 2015 23:55:10 +0100
+Message-ID: <1435100099.11489.115.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 23 Jun 2015 23:54:59 +0100
+In-Reply-To: <5589E159.4080909@linux.intel.com>
+References: <1435087374-18117-1-git-send-email-sgw@linux.intel.com>
+	<1435096427.11489.102.camel@linuxfoundation.org>
+	<5589E159.4080909@linux.intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][master&fido] image.bbclass: Disable USE_DEPMOD for the dummy kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,60 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 22:53:48 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 23 Jun 2015 22:55:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Use FetcherConnectionCache to improve times when do checkstatus over
-sstate resources.
+On Tue, 2015-06-23 at 15:44 -0700, Saul Wold wrote:
+> On 06/23/2015 02:53 PM, Richard Purdie wrote:
+> > On Tue, 2015-06-23 at 12:22 -0700, Saul Wold wrote:
+> >> The image bbclass will try to find the kernel-abiversion file which is not part
+> >> of the linux-dummy kernel since there is no actual kernel. In this case using
+> >> depmod also does not make sense since there should not be any kernel module built.
+> >>
+> >> [YOCTO #7884]
+> >>
+> >> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> >> ---
+> >>   meta/classes/image.bbclass | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> >> index 01f8b3f..be245e9 100644
+> >> --- a/meta/classes/image.bbclass
+> >> +++ b/meta/classes/image.bbclass
+> >> @@ -66,7 +66,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
+> >>   EXCLUDE_FROM_WORLD = "1"
+> >>
+> >>   USE_DEVFS ?= "1"
+> >> -USE_DEPMOD ?= "1"
+> >> +USE_DEPMOD ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-dummy", "0", "1", d)}'
+> >>
+> >
+> > I'm not convinced this is the right way to solve this. How about we
+> > teach the code in rootfs.py not to generate a modules.dep file if there
+> > are no kernel modules to generate dependency information for?
+> >
+> I guess we could check for /lib/modules, but I think checking for 
+> virtual/kernel is cleaner and safer since we know we don't want to run 
+> this for linux-dummy, but if some random recipe happens to create 
+> /lib/modules it will break.
+> 
+> Unless you has some other check in mind to verify no modules are created
 
-[YOCTO #7796]
+Something like "find -name *.ko" on /lib/modules was what I was
+wondering about. Extrapolating, perhaps this code should iterate any
+version directories here in case multiple sets of modules for different
+kernel versions were installed? That way it wouldn't need to know about
+the kernel-abiversion file?
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/classes/sstate.bbclass | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+> I also thought about a change to linux-dummy to place an 
+> kernel-abiversion, but that had other dangers.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 1e2d4f6..5b64b49 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -739,6 +739,13 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-         if localdata.getVar('BB_NO_NETWORK', True) == "1" and localdata.getVar('SSTATE_MIRROR_ALLOW_NETWORK', True) == "1":
-             localdata.delVar('BB_NO_NETWORK')
- 
-+        from bb.fetch2 import FetchConnectionCache
-+        def checkstatus_init(thread_worker):
-+            thread_worker.connection_cache = FetchConnectionCache()
-+
-+        def checkstatus_end(thread_worker):
-+            thread_worker.connection_cache.close_connections()
-+
-         def checkstatus(thread_worker, arg):
-             (task, sstatefile) = arg
- 
-@@ -748,7 +755,8 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-             bb.debug(2, "SState: Attempting to fetch %s" % srcuri)
- 
-             try:
--                fetcher = bb.fetch2.Fetch(srcuri.split(), localdata2)
-+                fetcher = bb.fetch2.Fetch(srcuri.split(), localdata2,
-+                            connection_cache=thread_worker.connection_cache)
-                 fetcher.checkstatus()
-                 bb.debug(2, "SState: Successful fetch test for %s" % srcuri)
-                 ret.append(task)
-@@ -771,7 +779,9 @@ def sstate_checkhashes(sq_fn, sq_task, sq_hash, sq_hashfn, d, siginfo=False):
-             bb.note("Checking sstate mirror object availability (for %s objects)" % len(tasklist))
-             import multiprocessing
-             nproc = min(multiprocessing.cpu_count(), len(tasklist))
--            pool = oe.utils.ThreadedPool(nproc, len(tasklist))
-+
-+            pool = oe.utils.ThreadedPool(nproc, len(tasklist),
-+                    worker_init=checkstatus_init, worker_end=checkstatus_end)
-             for t in tasklist:
-                 pool.add_task(checkstatus, t)
-             pool.start()
--- 
-1.9.1
+Right. Unfortunately this file is used to populate KERNEL_VERSION
+elsewhere and we may also have problems in those places with linux-dummy
+too :/
+
+Cheers,
+
+Richard
 
 
