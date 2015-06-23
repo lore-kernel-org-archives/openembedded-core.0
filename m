@@ -1,29 +1,21 @@
 Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B411E601E0
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id E590C75A06
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 22:49:55 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Jun 2015 15:49:56 -0700
+	Tue, 23 Jun 2015 22:53:46 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 23 Jun 2015 15:53:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,668,1427785200"; d="scan'208";a="593540053"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.55])
-	([10.219.4.55])
-	by orsmga003.jf.intel.com with ESMTP; 23 Jun 2015 15:49:55 -0700
-Message-ID: <5589E306.6020807@linux.intel.com>
-Date: Tue, 23 Jun 2015 17:51:50 -0500
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+X-IronPort-AV: E=Sophos;i="5.13,668,1427785200"; d="scan'208";a="749178647"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.55])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Jun 2015 15:53:36 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Jun 2015 17:55:28 -0500
+Message-Id: <1435100129-31148-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Christopher Larson <clarson@kergoth.com>
-References: <1435089761-27337-1-git-send-email-anibal.limon@linux.intel.com>
-	<1435089761-27337-2-git-send-email-anibal.limon@linux.intel.com>
-	<CABcZAN=VA7n8WucUUgWiPXK+bqoNB6Qz2dznOyVNQtKbaukmHQ@mail.gmail.com>
-In-Reply-To: <CABcZAN=VA7n8WucUUgWiPXK+bqoNB6Qz2dznOyVNQtKbaukmHQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] classes/sstate.bbclass: Improve checkstatus using connection cache.
+Subject: [PATCHv2 0/1] Improve checkstatus using connection cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,26 +28,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 22:49:58 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 23 Jun 2015 22:53:48 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+This patch depends on changes did in bitbake [1] and oe/utils.py [2], don't merge
+before it.
 
+For complete review exist an integration branch at,
 
-On 23/06/15 16:42, Christopher Larson wrote:
-> On Tue, Jun 23, 2015 at 1:02 PM, Aníbal Limón <anibal.limon@linux.intel.com>
-> wrote:
->
->> Use FetcherConnectionCache to improve times when do checkstatus over
->> sstate resources.
->>
->> Add debug message about how many SState objecs are available also
->> how many time takes to get it.
->
-> If this is an RFC, it should be marked as such in the subject. If not, and
-> you actually want it applied, I don’t think including debug messages with
-> performance metrics is appropriate.
-I agree, sending v2 removing debug messages.
-     alimon
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=alimon/fetch2-wget-checkstatus
+
+[1] http://lists.openembedded.org/pipermail/bitbake-devel/2015-June/005912.html
+[2] http://lists.openembedded.org/pipermail/openembedded-core/2015-June/106430.html
+
+Aníbal Limón (1):
+  classes/sstate.bbclass: Improve checkstatus using connection cache.
+
+ meta/classes/sstate.bbclass | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
+
+-- 
+1.9.1
 
 
