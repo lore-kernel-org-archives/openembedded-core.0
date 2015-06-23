@@ -1,30 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BD7D601E0
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 89926601E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 11:13:16 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5NBDGDl015135 for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 12:13:16 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 24Si1EXqR7j7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 12:13:16 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5NBD2vX015131
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 12:13:14 +0100
-Message-ID: <1435057982.11489.43.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 23 Jun 2015 12:13:02 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] testimage: Handle ipk/deb packaging format tests correctly
+	Tue, 23 Jun 2015 11:22:49 +0000 (UTC)
+Received: (qmail 25754 invoked by uid 1003); 23 Jun 2015 11:22:50 -0000
+Received: from unknown (HELO ?192.168.11.121?)
+	(philip@opensdr.com@108.44.110.39)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	23 Jun 2015 11:22:50 -0000
+Message-ID: <55894189.50102@balister.org>
+Date: Tue, 23 Jun 2015 07:22:49 -0400
+From: Philip Balister <philip@balister.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Ed Bartosh <ed.bartosh@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1435053182-8028-1-git-send-email-ed.bartosh@linux.intel.com>
+	<1435053182-8028-5-git-send-email-ed.bartosh@linux.intel.com>
+In-Reply-To: <1435053182-8028-5-git-send-email-ed.bartosh@linux.intel.com>
+Subject: Re: [wic][PATCH 4/6] wic: Implement image compressing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +32,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 11:13:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 23 Jun 2015 11:22:51 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-The default test list only works for rpm packaging. This fixes it for
-deb and ipk too.
+Can you add a way to enable multiple threads for xz? I found this helps
+speed up file creation.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Philip
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 4074ff7..ddacd1f 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -34,8 +34,10 @@ TEST_EXPORT_ONLY ?= "0"
- 
- DEFAULT_TEST_SUITES = "ping auto"
- DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
--DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date rpm smart dmesg python parselogs"
--DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc rpm smart kernelmodule dmesg python parselogs"
-+DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date dmesg parselogs \
-+    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python smart rpm', '', d)}"
-+DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc kernelmodule dmesg python parselogs \
-+    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'smart rpm', '', d)}"
- DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
- TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
- 
-
-
+On 06/23/2015 05:53 AM, Ed Bartosh wrote:
+> Implemented compressing result image with specified compressor.
+> Updated reporting code to show compressed image.
+> 
+> [YOCTO #7593]
+> 
+> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> 
+> diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+> index f3f20e0..2ea7e4e 100644
+> --- a/scripts/lib/wic/imager/direct.py
+> +++ b/scripts/lib/wic/imager/direct.py
+> @@ -33,6 +33,7 @@ from wic.utils.partitionedfs import Image
+>  from wic.utils.errors import CreatorError, ImageError
+>  from wic.imager.baseimager import BaseImageCreator
+>  from wic.plugin import pluginmgr
+> +from wic.utils.oe.misc import exec_cmd
+>  
+>  disk_methods = {
+>      "do_install_disk":None,
+> @@ -71,6 +72,7 @@ class DirectImageCreator(BaseImageCreator):
+>          self.bootimg_dir = bootimg_dir
+>          self.kernel_dir = kernel_dir
+>          self.native_sysroot = native_sysroot
+> +        self.compressor = compressor
+>  
+>      def __get_part_num(self, num, parts):
+>          """calculate the real partition number, accounting for partitions not
+> @@ -318,6 +320,13 @@ class DirectImageCreator(BaseImageCreator):
+>                                                          self.bootimg_dir,
+>                                                          self.kernel_dir,
+>                                                          self.native_sysroot)
+> +        # Compress the image
+> +        if self.compressor:
+> +            for disk_name, disk in self.__image.disks.items():
+> +                full_path = self._full_path(self.__imgdir, disk_name, "direct")
+> +                msger.debug("Compressing disk %s with %s" % \
+> +                            (disk_name, self.compressor))
+> +                exec_cmd("%s %s" % (self.compressor, full_path))
+>  
+>      def print_outimage_info(self):
+>          """
+> @@ -328,7 +337,11 @@ class DirectImageCreator(BaseImageCreator):
+>          parts = self._get_parts()
+>  
+>          for disk_name, disk in self.__image.disks.items():
+> -            full_path = self._full_path(self.__imgdir, disk_name, "direct")
+> +            extension = "direct" + {"gzip": ".gz",
+> +                                    "bzip2": ".bz2",
+> +                                    "xz": ".xz",
+> +                                    "": ""}.get(self.compressor)
+> +            full_path = self._full_path(self.__imgdir, disk_name, extension)
+>              msg += '  %s\n\n' % full_path
+>  
+>          msg += 'The following build artifacts were used to create the image(s):\n'
+> 
 
