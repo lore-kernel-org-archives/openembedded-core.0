@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
-	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 23542605B3
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 766DB60670
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 01:38:13 +0000 (UTC)
-Received: by pdcu2 with SMTP id u2so23626017pdc.3
+	Tue, 23 Jun 2015 01:47:52 +0000 (UTC)
+Received: by pdcu2 with SMTP id u2so23775159pdc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jun 2015 18:38:14 -0700 (PDT)
+	Mon, 22 Jun 2015 18:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=0PCCRKRA7esKo/k6h44DtLhiYnNpIYKRDJCPMAbI4fs=;
-	b=CT5X62tQSOIVIsQZXDP6iWI2qNsniy9H6W+jItwBRMrGHZbIuY1JjK3+11RRABuQ3f
-	rCJKCLx7xnLf5BGE1toEJPzr6VyHzUP6+UUrfvPaRfywwIbrDjUCGNaVzhQJppLiO5YL
-	L5EyKlIld0KTeYdJKF7FNC3qdO8bpp+HHjcopnDkJ+xWk9vrcuRlt7wFbQqDLwxOPJbz
-	9FjQvhz/Z+zwQAuMz/XpPf2in/BPmyThLnQieX9tVIju6awi81FZ9QIhVugz2wbKBpR/
-	TpOS1yzPTvQuZHyjhv0NYeBa00bWY9+tL2EV3Rsm9svtiqs+zz1bRA2etuhM6Nr4Bo4F
-	L8wA==
-X-Received: by 10.70.63.104 with SMTP id f8mr64803344pds.49.1435023494642;
-	Mon, 22 Jun 2015 18:38:14 -0700 (PDT)
-Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	mt1sm21148189pbb.70.2015.06.22.18.38.00
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=dngflnP555SgKE6GiJGk/KV/NO3RzTm6JCMWks/daSk=;
+	b=R0qb3Ce/bCmZnE8CFwRuHu0kPfOs+peRhDWsmBBAmNp3JaHrhTidvEK1oP5FXAehFk
+	nsyFmCw+IEy1aPULjZplrtGY0+N0y33TegoGE9ZVUMWiqHLDWdLMsU0jPDeHMk1FyjU4
+	YQxT+Kk0B9esQZlLcAjapFjLNCyj8KPYW1iv3jc0itrdG/wDIjmd08uWFCof/oomLsIi
+	/TEWo94KWY5dyaVsqbjepbYbOunp123/ejzO5QPr7VQyOaIUJYC2YvtG4UtslntpSfeQ
+	wkfe82dsfFe7bAKr4Gp9BlkFO5W8jB35u9vRWhEoByP4M28WmpOnkg844YvxHo6geUZQ
+	HHdA==
+X-Received: by 10.68.180.131 with SMTP id do3mr64052466pbc.42.1435024074066;
+	Mon, 22 Jun 2015 18:47:54 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:eccd:4297:a72a:d01f?
+	([2601:202:4000:1239:eccd:4297:a72a:d01f])
+	by mx.google.com with ESMTPSA id
+	iv7sm21183211pbc.20.2015.06.22.18.47.52
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Jun 2015 18:38:01 -0700 (PDT)
-Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id A0AD2FC46ED; Mon, 22 Jun 2015 18:37:58 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jun 2015 18:37:56 -0700
-Message-Id: <aa74e661b9abd64455b30d580dd41c600f046382.1435022780.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <2bcc164faf8bbe473eb08c5046a636ca69e25dd1.1435022780.git.akuster808@gmail.com>
-References: <2bcc164faf8bbe473eb08c5046a636ca69e25dd1.1435022780.git.akuster808@gmail.com>
-In-Reply-To: <cover.1435022780.git.akuster808@gmail.com>
-References: <cover.1435022780.git.akuster808@gmail.com>
-Subject: [PATCH 3/3] neon: fix compat issues with gnutls 4.3
+	Mon, 22 Jun 2015 18:47:52 -0700 (PDT)
+Message-ID: <5588BAC3.9070204@gmail.com>
+Date: Mon, 22 Jun 2015 18:47:47 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <5584374B.9040201@gmail.com> <20150619165928.GC2398@jama>
+In-Reply-To: <20150619165928.GC2398@jama>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: DIzzy - Call for patches for OE-core by June 26th
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,106 +48,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 01:38:13 -0000
+X-List-Received-Date: Tue, 23 Jun 2015 01:47:53 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-V2: fix missing 4.3 work around
+I had 1/2 of them. got all of them now.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- .../neon/neon/gnutls_4.3_fixup.patch               | 68 ++++++++++++++++++++++
- meta/recipes-support/neon/neon_0.30.1.bb           |  3 +-
- 2 files changed, 70 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
+thanks.
+- armin
 
-diff --git a/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch b/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
-new file mode 100644
-index 0000000..a76560a
---- /dev/null
-+++ b/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
-@@ -0,0 +1,68 @@
-+replace deprecated GnuTLS functions with newer ones if available 
-+
-+Upstream Status: Pending
-+
-+Signed-off-by: Armin Kuster <akuster808@gmail.com>
-+
-+Index: neon-0.30.1/macros/neon.m4
-+===================================================================
-+--- neon-0.30.1.orig/macros/neon.m4
-++++ neon-0.30.1/macros/neon.m4
-+@@ -987,6 +987,10 @@ gnutls)
-+                   gnutls_certificate_get_x509_cas \
-+                   gnutls_x509_crt_sign2])
-+ 
-++   # gnutls 4.3 check
-++   AC_CHECK_LIB(gnutls, gnutls_global_init)
-++   AC_CHECK_FUNCS(gnutls_certificate_set_retrieve_function,,)
-++
-+    # fail if gnutls_x509_crt_sign2 is not found (it was introduced in 1.2.0, which is required)
-+    if test x${ac_cv_func_gnutls_x509_crt_sign2} != xyes; then
-+        AC_MSG_ERROR([GnuTLS version predates gnutls_x509_crt_sign2, newer version required (at least 1.2.0)])
-+Index: neon-0.30.1/src/ne_gnutls.c
-+===================================================================
-+--- neon-0.30.1.orig/src/ne_gnutls.c
-++++ neon-0.30.1/src/ne_gnutls.c
-+@@ -553,7 +553,13 @@ dup_error:
-+ static int provide_client_cert(gnutls_session_t session,
-+                                const gnutls_datum_t *req_ca_rdn, int nreqs,
-+                                const gnutls_pk_algorithm_t *sign_algos,
-+-                               int sign_algos_length, gnutls_retr_st *st)
-++                               int sign_algos_length,
-++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
-++    gnutls_retr2_st* st
-++#else
-++    gnutls_retr_st *st
-++#endif
-++    )
-+ {
-+     ne_session *sess = gnutls_session_get_ptr(session);
-+     
-+@@ -617,8 +623,11 @@ static int provide_client_cert(gnutls_se
-+ #endif
-+             ) {
-+             NE_DEBUG(NE_DBG_SSL, "Supplying client certificate.\n");
-+-
-++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
-++            st->cert_type = type;
-++#else
-+             st->type = type;
-++#endif
-+             st->ncerts = 1;
-+             st->cert.x509 = &sess->client_cert->cert.subject;
-+             st->key.x509 = sess->client_cert->pkey;
-+@@ -649,8 +658,14 @@ ne_ssl_context *ne_ssl_context_create(in
-+     ne_ssl_context *ctx = ne_calloc(sizeof *ctx);
-+     gnutls_certificate_allocate_credentials(&ctx->cred);
-+     if (flags == NE_SSL_CTX_CLIENT) {
-++
-++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
-++        gnutls_certificate_set_retrieve_function(ctx->cred,
-++                                                       provide_client_cert);
-++#else
-+         gnutls_certificate_client_set_retrieve_function(ctx->cred,
-+                                                         provide_client_cert);
-++#endif
-+     }
-+     gnutls_certificate_set_verify_flags(ctx->cred, 
-+                                         GNUTLS_VERIFY_ALLOW_X509_V1_CA_CRT);
-diff --git a/meta/recipes-support/neon/neon_0.30.1.bb b/meta/recipes-support/neon/neon_0.30.1.bb
-index fd170bc..0244314 100644
---- a/meta/recipes-support/neon/neon_0.30.1.bb
-+++ b/meta/recipes-support/neon/neon_0.30.1.bb
-@@ -10,7 +10,8 @@ DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
- BBCLASSEXTEND = "native"
- 
- SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
--           file://pkgconfig.patch"
-+           file://pkgconfig.patch \
-+           file://gnutls_4.3_fixup.patch"
- SRC_URI[md5sum] = "231adebe5c2f78fded3e3df6e958878e"
- SRC_URI[sha256sum] = "00c626c0dc18d094ab374dbd9a354915bfe4776433289386ed489c2ec0845cdd"
- 
--- 
-1.9.1
-
+On 06/19/2015 09:59 AM, Martin Jansa wrote:
+> On Fri, Jun 19, 2015 at 08:37:47AM -0700, akuster808 wrote:
+>> thanks,
+>> Armin
+>
+> Are these already included?
+>
+> OE @ ~/openembedded-core $ git log origin/dizzy..contrib/jansa/dizzy-backports  --oneline
+> 11db5b7 license.bbclass: set dirs for do_populate_lic_setscene
+> 777db3a perf: add LIBNUMA_DEFINES
+> d79409f squashfs-tools: build and install unsquashfs as well
+> f369677 e2fsprogs: install populate-extfs.sh
+> 2dbb375 mesa: update --with-llvm-shared-libs configure option
+> d68cb5e test-dependencies.sh: strip only .bb suffix
+>
 
