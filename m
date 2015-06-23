@@ -1,22 +1,21 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4845C73F9E
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DB0B75843
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 19:23:00 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 23 Jun 2015 12:23:02 -0700
+	Tue, 23 Jun 2015 20:00:47 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Jun 2015 13:00:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,667,1427785200"; d="scan'208";a="751930156"
-Received: from josuerfi-mobl1.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.254.73.119])
-	by orsmga002.jf.intel.com with ESMTP; 23 Jun 2015 12:22:55 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Tue, 23 Jun 2015 12:22:54 -0700
-Message-Id: <1435087374-18117-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH][master&fido] image.bbclass: Disable USE_DEPMOD for the dummy kernel
+X-IronPort-AV: E=Sophos;i="5.13,667,1427785200"; d="scan'208";a="749087922"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.55])
+	by fmsmga002.fm.intel.com with ESMTP; 23 Jun 2015 13:00:48 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Jun 2015 15:02:40 -0500
+Message-Id: <1435089761-27337-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] classes/sstate.bbclass: Improve checkstatus using connection cache.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,33 +28,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 19:23:01 -0000
+X-List-Received-Date: Tue, 23 Jun 2015 20:00:53 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The image bbclass will try to find the kernel-abiversion file which is not part
-of the linux-dummy kernel since there is no actual kernel. In this case using
-depmod also does not make sense since there should not be any kernel module built.
+This patch depends on changes did in bitbake [1] and oe/utils.py [2], don't merge
+before it.
 
-[YOCTO #7884]
+For complete review exist an integration branch at,
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/classes/image.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=alimon/fetch2-wget-checkstatus
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 01f8b3f..be245e9 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -66,7 +66,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
- EXCLUDE_FROM_WORLD = "1"
- 
- USE_DEVFS ?= "1"
--USE_DEPMOD ?= "1"
-+USE_DEPMOD ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-dummy", "0", "1", d)}'
- 
- PID = "${@os.getpid()}"
- 
+[1] http://lists.openembedded.org/pipermail/bitbake-devel/2015-June/005912.html
+[2] http://lists.openembedded.org/pipermail/openembedded-core/2015-June/106430.html
+
+Aníbal Limón (1):
+  classes/sstate.bbclass: Improve checkstatus using connection cache.
+
+ meta/classes/sstate.bbclass | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
+
 -- 
-2.1.0
+1.9.1
 
 
