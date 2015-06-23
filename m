@@ -1,26 +1,22 @@
-Return-Path: <mac@mcrowe.com>
-Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F17360125
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 4845C73F9E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 18:46:27 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,667,1427756400"; d="scan'208";a="61459525"
-Received: from deneb.mcrowe.com (HELO deneb) ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 23 Jun 2015 19:46:28 +0100
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>)
-	id 1Z7TDH-0008P5-SJ; Tue, 23 Jun 2015 19:46:27 +0100
-Date: Tue, 23 Jun 2015 19:46:27 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20150623184627.GA31536@mcrowe.com>
-References: <1434221081-4286-1-git-send-email-mac@mcrowe.com>
-	<1435072346.2483.417.camel@pbcl.net>
-	<1435072851.11489.86.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1435072851.11489.86.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pixbufcache: Ensure that jpeg-native is available for postinst if necessary
+	Tue, 23 Jun 2015 19:23:00 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 23 Jun 2015 12:23:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,667,1427785200"; d="scan'208";a="751930156"
+Received: from josuerfi-mobl1.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.254.73.119])
+	by orsmga002.jf.intel.com with ESMTP; 23 Jun 2015 12:22:55 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue, 23 Jun 2015 12:22:54 -0700
+Message-Id: <1435087374-18117-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH][master&fido] image.bbclass: Disable USE_DEPMOD for the dummy kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 18:46:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 23 Jun 2015 19:23:01 -0000
 
-On Tuesday 23 June 2015 at 16:20:51 +0100, Richard Purdie wrote:
-> On Tue, 2015-06-23 at 16:12 +0100, Phil Blundell wrote:
-> > On Sat, 2015-06-13 at 19:44 +0100, Mike Crowe wrote:
-> > > diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-> > > index 9e6ecc8..755a654 100644
-> > > --- a/meta/classes/pixbufcache.bbclass
-> > > +++ b/meta/classes/pixbufcache.bbclass
-> > > @@ -72,6 +72,7 @@ PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
-> > >      glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene \
-> > >      libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene \
-> > >      harfbuzz-native:do_populate_sysroot_setscene \
-> > > +    ${@bb.utils.contains('PACKAGECONFIG', 'jpeg', 'jpeg-native:do_populate_sysroot_setscene', '', d)} \
-> > 
-> > I'm not sure this is quite right.  PACKAGECONFIG at the point this is
-> > expanded will be the PACKAGECONFIG for whatever recipe is currently
-> > inheriting pixbufcache.bbclass, whereas I think what you really need
-> > here is the PACKAGECONFIG that gdk-pixbuf itself was built with.  Or,
-> > er, something.
-> 
-> Right, its not that simple. As it happens I was just looking at this
-> patch:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=32afecae2495b0486a044b66154573caf39144c7
-> 
-> which I proposed a while ago which does solve this problem, with some
-> ugliness in base.bbclass. I know Ross doesn't like it, neither do I, I
-> do prefer it to the pretty horrible things PIXBUFCACHE_SYSROOT_DEPS does
-> though.
+The image bbclass will try to find the kernel-abiversion file which is not part
+of the linux-dummy kernel since there is no actual kernel. In this case using
+depmod also does not make sense since there should not be any kernel module built.
 
-Based on my (probably incomplete) understanding of the problem and your
-solution:
+[YOCTO #7884]
 
-The setscene tasks for libpng-native, jpeg-native etc. will all be run
-automatically as setscene tasks. The problem is that they might not run
-before pixbufcache_sstate_postinst does.
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/classes/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The existing hack, which I extended inexpertly, ensured that the setscene
-tasks run in the right order so that libpng-native, jpeg-native etc. are
-definitely present in the sysroot prior to pixbufcache_sstate_postinst
-running.
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 01f8b3f..be245e9 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -66,7 +66,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
+ EXCLUDE_FROM_WORLD = "1"
+ 
+ USE_DEVFS ?= "1"
+-USE_DEPMOD ?= "1"
++USE_DEPMOD ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-dummy", "0", "1", d)}'
+ 
+ PID = "${@os.getpid()}"
+ 
+-- 
+2.1.0
 
-Would it be possible to make your change less "ugly" by making it more
-generic. For example, adding a companion to SSTATEPOSTINSTFUNCS named
-SSTATELATEPOSTINSTFUNCS that runs at the sceneQueueComplete event?
-
-Alternatively, I'm afraid that I don't understand why pixbufcache.bbclass
-can't have its own event handler which would at least keep the ugliness in
-a single file.
-
-Having said all that, I'm slightly worried about what would happen if
-gdk-pixbuf-native were to be resurrected from sstate but jpeg-native could
-not be (e.g. perhaps the file has gone missing.) The end of setscene would
-still be too early to run the postinst in that case. I've not experimented
-to see if this can really happen though.
-
-I'm prepared to have a go at trying to fix this in an acceptable way but
-I'm not really sure how to go about it. :(
-
-Thanks.
-
-Mike.
 
