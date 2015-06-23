@@ -1,25 +1,27 @@
-Return-Path: <mac@mcrowe.com>
-Received: from smtpout.karoo.kcom.com (smtpout.karoo.kcom.com [212.50.160.34])
-	by mail.openembedded.org (Postfix) with ESMTP id D0534741CF
+Return-Path: <moritz.blume@bmw-carit.de>
+Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id D04576AC37
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 15:25:14 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,666,1427756400"; d="scan'208";a="129532866"
-Received: from deneb.mcrowe.com (HELO deneb) ([82.152.148.4])
-	by smtpout.karoo.kcom.com with ESMTP; 23 Jun 2015 16:25:01 +0100
-Received: from mac by deneb with local (Exim 4.84)
-	(envelope-from <mac@mcrowe.com>)
-	id 1Z7Q4L-0006yW-34; Tue, 23 Jun 2015 16:25:01 +0100
-Date: Tue, 23 Jun 2015 16:25:01 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: Phil Blundell <pb@pbcl.net>
-Message-ID: <20150623152501.GA26456@mcrowe.com>
-References: <1434221081-4286-1-git-send-email-mac@mcrowe.com>
-	<1435072346.2483.417.camel@pbcl.net>
+	Tue, 23 Jun 2015 15:50:10 +0000 (UTC)
+Received: from exchange2010.bmw-carit.intra ([192.168.100.28]:50153
+	helo=mail.bmw-carit.de)
+	by mail.bmw-carit.de with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Moritz.Blume@bmw-carit.de>)
+	id 1Z7QSZ-0005Ji-2N for openembedded-core@lists.openembedded.org;
+	Tue, 23 Jun 2015 17:50:03 +0200
+Received: from localhost (192.168.101.32) by Exchange2010.bmw-carit.intra
+	(192.168.100.28) with Microsoft SMTP Server (TLS) id 14.1.218.12;
+	Tue, 23 Jun 2015 17:50:03 +0200
+X-CTCH-RefID: str=0001.0A0C0205.5589802B.01F0, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+From: Moritz Blume <moritz.blume@bmw-carit.de>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Jun 2015 17:50:00 +0200
+Message-ID: <cover.1435073627.git.moritz.blume@bmw-carit.de>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1435072346.2483.417.camel@pbcl.net>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] pixbufcache: Ensure that jpeg-native is available for postinst if necessary
+X-Originating-IP: [192.168.101.32]
+Subject: [PATCH v5 0/2] cmake: Upgrade 2.8.12.2 -> 3.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 15:25:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 23 Jun 2015 15:50:11 -0000
+Content-Type: text/plain
 
-On Tuesday 23 June 2015 at 16:12:26 +0100, Phil Blundell wrote:
-> On Sat, 2015-06-13 at 19:44 +0100, Mike Crowe wrote:
-> > diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-> > index 9e6ecc8..755a654 100644
-> > --- a/meta/classes/pixbufcache.bbclass
-> > +++ b/meta/classes/pixbufcache.bbclass
-> > @@ -72,6 +72,7 @@ PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
-> >      glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene \
-> >      libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene \
-> >      harfbuzz-native:do_populate_sysroot_setscene \
-> > +    ${@bb.utils.contains('PACKAGECONFIG', 'jpeg', 'jpeg-native:do_populate_sysroot_setscene', '', d)} \
-> 
-> I'm not sure this is quite right.  PACKAGECONFIG at the point this is
-> expanded will be the PACKAGECONFIG for whatever recipe is currently
-> inheriting pixbufcache.bbclass, whereas I think what you really need
-> here is the PACKAGECONFIG that gdk-pixbuf itself was built with.  Or,
-> er, something.
+The changes to the cmake.bbclass file were removed, the absolute
+compiler path is not necessary.
 
-The problem I was seeing was with gdk-pixbuf itself so it sounds like I
-need to add the dependency only when '${BPN}' == 'gdk-pixbuf' itself. I'll
-have a go at that.
+Moritz Blume (2):
+  cmake: Whitespace fix
+  cmake: Upgrade 2.8.12.2 -> 3.2.2
 
-Thanks.
+ meta/classes/cmake.bbclass                         |  2 +-
+ .../cmake/cmake-native_2.8.12.2.bb                 | 19 ------
+ meta/recipes-devtools/cmake/cmake-native_3.2.2.bb  | 19 ++++++
+ meta/recipes-devtools/cmake/cmake.inc              | 12 ++--
+ .../cmake/cmake/cmake-2.8.11.2-FindFreetype.patch  | 47 ---------------
+ .../cmake/cmake/qt4-fail-silent.patch              | 30 ++++++++--
+ .../cmake/cmake/support-oe-qt4-tools-names.patch   | 70 ++++++++++------------
+ meta/recipes-devtools/cmake/cmake_2.8.12.2.bb      | 52 ----------------
+ meta/recipes-devtools/cmake/cmake_3.2.2.bb         | 56 +++++++++++++++++
+ 9 files changed, 140 insertions(+), 167 deletions(-)
+ delete mode 100644 meta/recipes-devtools/cmake/cmake-native_2.8.12.2.bb
+ create mode 100644 meta/recipes-devtools/cmake/cmake-native_3.2.2.bb
+ delete mode 100644 meta/recipes-devtools/cmake/cmake/cmake-2.8.11.2-FindFreetype.patch
+ delete mode 100644 meta/recipes-devtools/cmake/cmake_2.8.12.2.bb
+ create mode 100644 meta/recipes-devtools/cmake/cmake_3.2.2.bb
 
-Mike.
+-- 
+1.9.1
 
 
