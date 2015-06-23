@@ -1,36 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CAC3C73905
+Return-Path: <hugo.saldanha@aker.com.br>
+X-Greylist: delayed 608 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 23 Jun 2015 14:54:41 UTC
+Received: from asmg.aker.com.br (asmg.aker.com.br [177.159.144.67])
+	by mail.openembedded.org (Postfix) with SMTP id 59DD873905
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 14:47:43 +0000 (UTC)
-Received: by qcbcf1 with SMTP id cf1so3228896qcb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 07:47:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=QfeYwDoyezlYsquCIZlR07sVVUc3BDuKioFOyxvU+Kg=;
-	b=I5ZduBKnVMWCL8b9K1sw+Y+kVkZgLWO3ff8xGT4RhhwxgP1IUE2UUJV5vlusyMCr4U
-	Ohu+fOtNnUtLlyVwaCDTbAem3wudOPKV7rKwwcLNqMhS45b5mYUdci/0MLc12h5dejc1
-	pT24rJfs+HSzhd1QHBZSBINt5OlXUZNH4C3yg1YchT2GOrTqoXC/dQpaNJ+NC24eAIbY
-	RoJEib7+K5KptMtvtlC2xova69A5vPperyToIHOLpHzogQb/9xQ7I8RheVjNRm+hTuMR
-	eGjftecaW5ll0VFH8sNyTC8HhOyaSdaO+HIARtLstHbX/I5GDwe7BBBP+cf3dswywDQf
-	0ujw==
-X-Gm-Message-State: ALoCoQkUwRK2u4nQpn7mWOct7w38uBE3sYvdsxGlzvrTTyr7c8lllzPFYpc0CRojDk8zPC8ngIjb
-X-Received: by 10.140.43.199 with SMTP id e65mr10616019qga.80.1435070863989;
-	Tue, 23 Jun 2015 07:47:43 -0700 (PDT)
+	Tue, 23 Jun 2015 14:54:41 +0000 (UTC)
+Received: from mail.aker.com.br (bat.bsb.aker.com.br [10.0.0.20])
+	by asmg.aker.com.br [10.0.1.3]; Tue, 23 Jun 2015 11:54:36 -0300
+	(envelope-from hugo.saldanha@aker.com.br)
+Received: from saldanha.aker.com.br (10.4.3.1) by mail.aker.com.br (10.0.0.20)
+	with Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Tue, 23 Jun 2015 11:44:31 -0300
+From: Hugo Vasconcelos Saldanha <hugo.saldanha@aker.com.br>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Jun 2015 11:48:23 -0300
+Message-ID: <1435070903-24433-1-git-send-email-hugo.saldanha@aker.com.br>
+X-Mailer: git-send-email 2.4.4
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 23 Jun 2015 07:47:23 -0700 (PDT)
-In-Reply-To: <1435069807-13557-1-git-send-email-ross.burton@intel.com>
-References: <1435069807-13557-1-git-send-email-ross.burton@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Jun 2015 15:47:23 +0100
-Message-ID: <CAJTo0LYpcKWFAgDHcQ3FFsFypdHp6J8FBYkUGo3aQoJ6yRy4ng@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [RFC] Move libexecdir to $prefix/libexec
+X-AkerSMTPGW-ServerID: efa1de5243ffebe9bf836ee14063171c1764dbbe
+X-AkerSMTPGW-MessageID: ea8b55c32c6786c8848694b3575743eff0efe161-10o
+Subject: [dizzy][PATCH] openssl: upgrade to v1.0.1o
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,88 +32,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 14:47:45 -0000
-Content-Type: multipart/alternative; boundary=001a113a9baa13ae93051930790b
+X-List-Received-Date: Tue, 23 Jun 2015 14:54:43 -0000
+Content-Type: text/plain
 
---001a113a9baa13ae93051930790b
-Content-Type: text/plain; charset=UTF-8
+The upgrade fixes the following CVEs:
 
-Forgot to cross-post oe-devel...
+CVE-2015-4000
+CVE-2015-1788
+CVE-2015-1789
+CVE-2015-1790
+CVE-2015-1792
+CVE-2015-1791
 
-On 23 June 2015 at 15:30, Ross Burton <ross.burton@intel.com> wrote:
+A patch was updated so it could be applied cleanly to the new version.
 
-> Hi,
->
-> Yes, I'm bringing this up again. :)
->
-> Our default of libexecdir=$libdir/$BPN is contrary to both the FHS[1] and
-> GNU
-> Coding Standards[2], mainly because the key point is that libexecdir
-> should be
-> global and not change per-recipe.  The new FHS allows /usr/libexec so this
-> series changes the default to that, and fixes up the recipes which need
-> fixing.
->
-> Several of the recipe fixes are unrelated to the change and will be
-> submitted to
-> master shortly, but others (eg sudo) are intimately tied to the change.
->
-> I've done basic multilib-enabled builds but more testing welcome.  I'd say
-> that
-> in general multilib problems this exposes are in fact problems with the
-> recipe:
-> for example GConf should install the binaries once and libraries in each
-> libdir.
->
-> Ross
->
-> [1] http://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04s07.html
-> [2] https://www.gnu.org/prep/standards/html_node/Directory-Variables.html
->
->
+Signed-off-by: Hugo Vasconcelos Saldanha <hugo.saldanha@aker.com.br>
+---
+ .../openssl/openssl/debian/man-section.patch                | 13 ++++++-------
+ .../openssl/{openssl_1.0.1m.bb => openssl_1.0.1o.bb}        |  4 ++--
+ 2 files changed, 8 insertions(+), 9 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.1m.bb => openssl_1.0.1o.bb} (92%)
 
---001a113a9baa13ae93051930790b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
+index 21c1d1a..583b5d8 100644
+--- a/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
++++ b/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
+@@ -1,11 +1,10 @@
+ Upstream-Status: Backport [debian]
+ 
+-Index: openssl-1.0.0c/Makefile.org
+-===================================================================
+---- openssl-1.0.0c.orig/Makefile.org	2010-12-12 16:11:37.000000000 +0100
+-+++ openssl-1.0.0c/Makefile.org	2010-12-12 16:13:28.000000000 +0100
++diff -ur openssl-1.0.1o.orig/Makefile.org openssl-1.0.1o/Makefile.org
++--- openssl-1.0.1o.orig/Makefile.org	2015-06-12 12:17:52.000000000 -0300
+++++ openssl-1.0.1o/Makefile.org	2015-06-23 09:57:43.929893419 -0300
+ @@ -160,7 +160,8 @@
+- MANDIR=/usr/share/man
++ MANDIR=$(OPENSSLDIR)/man
+  MAN1=1
+  MAN3=3
+ -MANSUFFIX=
+@@ -14,7 +13,7 @@ Index: openssl-1.0.0c/Makefile.org
+  HTMLSUFFIX=html
+  HTMLDIR=$(OPENSSLDIR)/html
+  SHELL=/bin/sh
+-@@ -651,7 +652,7 @@
++@@ -642,7 +643,7 @@
+  		echo "installing man$$sec/$$fn.$${sec}$(MANSUFFIX)"; \
+  		(cd `$(PERL) util/dirname.pl $$i`; \
+  		sh -c "$$pod2man \
+@@ -23,7 +22,7 @@ Index: openssl-1.0.0c/Makefile.org
+  			--release=$(VERSION) `basename $$i`") \
+  			>  $(INSTALL_PREFIX)$(MANDIR)/man$$sec/$$fn.$${sec}$(MANSUFFIX); \
+  		$(PERL) util/extract-names.pl < $$i | \
+-@@ -668,7 +669,7 @@
++@@ -659,7 +660,7 @@
+  		echo "installing man$$sec/$$fn.$${sec}$(MANSUFFIX)"; \
+  		(cd `$(PERL) util/dirname.pl $$i`; \
+  		sh -c "$$pod2man \
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1m.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
+similarity index 92%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.1m.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
+index cab6b3f..44d4d27 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1m.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
+@@ -37,8 +37,8 @@ SRC_URI += "file://configure-targets.patch \
+             file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "d143d1555d842a069cb7cc34ba745a06"
+-SRC_URI[sha256sum] = "095f0b7b09116c0c5526422088058dc7e6e000aa14d22acca6a4e2babcdfef74"
++SRC_URI[md5sum] = "af1096f500a612e2e2adacb958d7eab1"
++SRC_URI[sha256sum] = "16e678c6a05f2502811e075f2c4059ac01c878d091c9c585afc49ebc541f7b13"
+ 
+ PACKAGES =+ " \
+ 	${PN}-engines \
+-- 
+2.4.4
 
-<div dir=3D"ltr">Forgot to cross-post oe-devel...</div><div class=3D"gmail_=
-extra"><br><div class=3D"gmail_quote">On 23 June 2015 at 15:30, Ross Burton=
- <span dir=3D"ltr">&lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_=
-blank">ross.burton@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">Hi,<br>
-<br>
-Yes, I&#39;m bringing this up again. :)<br>
-<br>
-Our default of libexecdir=3D$libdir/$BPN is contrary to both the FHS[1] and=
- GNU<br>
-Coding Standards[2], mainly because the key point is that libexecdir should=
- be<br>
-global and not change per-recipe.=C2=A0 The new FHS allows /usr/libexec so =
-this<br>
-series changes the default to that, and fixes up the recipes which need fix=
-ing.<br>
-<br>
-Several of the recipe fixes are unrelated to the change and will be submitt=
-ed to<br>
-master shortly, but others (eg sudo) are intimately tied to the change.<br>
-<br>
-I&#39;ve done basic multilib-enabled builds but more testing welcome.=C2=A0=
- I&#39;d say that<br>
-in general multilib problems this exposes are in fact problems with the rec=
-ipe:<br>
-for example GConf should install the binaries once and libraries in each li=
-bdir.<br>
-<br>
-Ross<br>
-<br>
-[1] <a href=3D"http://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch04s07.html=
-" rel=3D"noreferrer" target=3D"_blank">http://refspecs.linuxfoundation.org/=
-FHS_3.0/fhs/ch04s07.html</a><br>
-[2] <a href=3D"https://www.gnu.org/prep/standards/html_node/Directory-Varia=
-bles.html" rel=3D"noreferrer" target=3D"_blank">https://www.gnu.org/prep/st=
-andards/html_node/Directory-Variables.html</a><br>
-<br>
-</blockquote></div><br></div>
 
---001a113a9baa13ae93051930790b--
+
