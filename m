@@ -1,36 +1,41 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
 	[209.85.192.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 450FE6AC1E
+	by mail.openembedded.org (Postfix) with ESMTP id 23542605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 01:38:03 +0000 (UTC)
-Received: by pdbci14 with SMTP id ci14so91356719pdb.2
+	Tue, 23 Jun 2015 01:38:13 +0000 (UTC)
+Received: by pdcu2 with SMTP id u2so23626017pdc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Jun 2015 18:38:05 -0700 (PDT)
+	Mon, 22 Jun 2015 18:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=iTHpVI8G8Aln4nGGqNti+XHwQ8uF0moaeMU56YkM+uE=;
-	b=hzdfmQPwbxOuCqeYAOrAHNfn52w0kTyvB4NmItma1eb4WbmcIygQtSQGaxlA5Hz04F
-	VqkzVO52NiQGX/2Ll6LItF+60PrHR3VoYQ+DSexjkm07p01ZyOoCYgy+GHwlo6InfDCm
-	TF+k8wzAes1KjSf27PbCsvK/PqbCiPa3G4/kipA06EuSf6akWHzZkqStTszn152SUFya
-	2ozT5/Ed+5ck+6PF1FYHTektVh+0SKsARgiFQ0usTPGDn8J/2FBRFrX5tr+EP0HZjybZ
-	A5JpWdRSItZEJjCWYJe+Ca2VXCJoJ2ix6rcKcir+GGnrMWlICXAeG7XmfenrhszLPSlu
-	PqTw==
-X-Received: by 10.70.127.231 with SMTP id nj7mr64640421pdb.63.1435023485268;
-	Mon, 22 Jun 2015 18:38:05 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=0PCCRKRA7esKo/k6h44DtLhiYnNpIYKRDJCPMAbI4fs=;
+	b=CT5X62tQSOIVIsQZXDP6iWI2qNsniy9H6W+jItwBRMrGHZbIuY1JjK3+11RRABuQ3f
+	rCJKCLx7xnLf5BGE1toEJPzr6VyHzUP6+UUrfvPaRfywwIbrDjUCGNaVzhQJppLiO5YL
+	L5EyKlIld0KTeYdJKF7FNC3qdO8bpp+HHjcopnDkJ+xWk9vrcuRlt7wFbQqDLwxOPJbz
+	9FjQvhz/Z+zwQAuMz/XpPf2in/BPmyThLnQieX9tVIju6awi81FZ9QIhVugz2wbKBpR/
+	TpOS1yzPTvQuZHyjhv0NYeBa00bWY9+tL2EV3Rsm9svtiqs+zz1bRA2etuhM6Nr4Bo4F
+	L8wA==
+X-Received: by 10.70.63.104 with SMTP id f8mr64803344pds.49.1435023494642;
+	Mon, 22 Jun 2015 18:38:14 -0700 (PDT)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by mx.google.com with ESMTPSA id
-	fo5sm21157965pbb.41.2015.06.22.18.38.03
+	mt1sm21148189pbb.70.2015.06.22.18.38.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Jun 2015 18:38:03 -0700 (PDT)
+	Mon, 22 Jun 2015 18:38:01 -0700 (PDT)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 3EA09FC46EA; Mon, 22 Jun 2015 18:37:56 -0700 (PDT)
+	id A0AD2FC46ED; Mon, 22 Jun 2015 18:37:58 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Jun 2015 18:37:54 -0700
-Message-Id: <cover.1435022780.git.akuster808@gmail.com>
+Date: Mon, 22 Jun 2015 18:37:56 -0700
+Message-Id: <aa74e661b9abd64455b30d580dd41c600f046382.1435022780.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/3] Update gnutls 3.4.1
+In-Reply-To: <2bcc164faf8bbe473eb08c5046a636ca69e25dd1.1435022780.git.akuster808@gmail.com>
+References: <2bcc164faf8bbe473eb08c5046a636ca69e25dd1.1435022780.git.akuster808@gmail.com>
+In-Reply-To: <cover.1435022780.git.akuster808@gmail.com>
+References: <cover.1435022780.git.akuster808@gmail.com>
+Subject: [PATCH 3/3] neon: fix compat issues with gnutls 4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +48,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 01:38:07 -0000
+X-List-Received-Date: Tue, 23 Jun 2015 01:38:13 -0000
 
-The nettle and gnutls updates must be done as a pair.
+V2: fix missing 4.3 work around
 
-The following changes since commit c40eb563fe771740f98aaa197d82af71de874c44:
-
-  bitbake: runqueue: Sanity check BB_NUMBER_THREADS (2015-06-20 06:50:50 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akuster/gnutls_update
-  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/gnutls_update
-
-Armin Kuster (3):
-  nettle: update package to 3.1.1 version.
-  gnutls: update to 3.4.1
-  neon: fix compat issues with gnutls 4.3
-
- meta/recipes-support/gnutls/gnutls.inc             |  4 +-
- .../gnutls/configure.ac-fix-sed-command.patch      | 29 +++++----
- meta/recipes-support/gnutls/gnutls_3.3.14.bb       |  8 ---
- meta/recipes-support/gnutls/gnutls_3.4.1.bb        |  8 +++
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
  .../neon/neon/gnutls_4.3_fixup.patch               | 68 ++++++++++++++++++++++
  meta/recipes-support/neon/neon_0.30.1.bb           |  3 +-
- .../nettle/{nettle_2.7.1.bb => nettle_3.1.1.bb}    | 12 ++--
- 7 files changed, 100 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-support/gnutls/gnutls_3.3.14.bb
- create mode 100644 meta/recipes-support/gnutls/gnutls_3.4.1.bb
+ 2 files changed, 70 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
- rename meta/recipes-support/nettle/{nettle_2.7.1.bb => nettle_3.1.1.bb} (48%)
 
+diff --git a/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch b/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
+new file mode 100644
+index 0000000..a76560a
+--- /dev/null
++++ b/meta/recipes-support/neon/neon/gnutls_4.3_fixup.patch
+@@ -0,0 +1,68 @@
++replace deprecated GnuTLS functions with newer ones if available 
++
++Upstream Status: Pending
++
++Signed-off-by: Armin Kuster <akuster808@gmail.com>
++
++Index: neon-0.30.1/macros/neon.m4
++===================================================================
++--- neon-0.30.1.orig/macros/neon.m4
+++++ neon-0.30.1/macros/neon.m4
++@@ -987,6 +987,10 @@ gnutls)
++                   gnutls_certificate_get_x509_cas \
++                   gnutls_x509_crt_sign2])
++ 
+++   # gnutls 4.3 check
+++   AC_CHECK_LIB(gnutls, gnutls_global_init)
+++   AC_CHECK_FUNCS(gnutls_certificate_set_retrieve_function,,)
+++
++    # fail if gnutls_x509_crt_sign2 is not found (it was introduced in 1.2.0, which is required)
++    if test x${ac_cv_func_gnutls_x509_crt_sign2} != xyes; then
++        AC_MSG_ERROR([GnuTLS version predates gnutls_x509_crt_sign2, newer version required (at least 1.2.0)])
++Index: neon-0.30.1/src/ne_gnutls.c
++===================================================================
++--- neon-0.30.1.orig/src/ne_gnutls.c
+++++ neon-0.30.1/src/ne_gnutls.c
++@@ -553,7 +553,13 @@ dup_error:
++ static int provide_client_cert(gnutls_session_t session,
++                                const gnutls_datum_t *req_ca_rdn, int nreqs,
++                                const gnutls_pk_algorithm_t *sign_algos,
++-                               int sign_algos_length, gnutls_retr_st *st)
+++                               int sign_algos_length,
+++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
+++    gnutls_retr2_st* st
+++#else
+++    gnutls_retr_st *st
+++#endif
+++    )
++ {
++     ne_session *sess = gnutls_session_get_ptr(session);
++     
++@@ -617,8 +623,11 @@ static int provide_client_cert(gnutls_se
++ #endif
++             ) {
++             NE_DEBUG(NE_DBG_SSL, "Supplying client certificate.\n");
++-
+++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
+++            st->cert_type = type;
+++#else
++             st->type = type;
+++#endif
++             st->ncerts = 1;
++             st->cert.x509 = &sess->client_cert->cert.subject;
++             st->key.x509 = sess->client_cert->pkey;
++@@ -649,8 +658,14 @@ ne_ssl_context *ne_ssl_context_create(in
++     ne_ssl_context *ctx = ne_calloc(sizeof *ctx);
++     gnutls_certificate_allocate_credentials(&ctx->cred);
++     if (flags == NE_SSL_CTX_CLIENT) {
+++
+++#if HAVE_GNUTLS_CERTIFICATE_SET_RETRIEVE_FUNCTION
+++        gnutls_certificate_set_retrieve_function(ctx->cred,
+++                                                       provide_client_cert);
+++#else
++         gnutls_certificate_client_set_retrieve_function(ctx->cred,
++                                                         provide_client_cert);
+++#endif
++     }
++     gnutls_certificate_set_verify_flags(ctx->cred, 
++                                         GNUTLS_VERIFY_ALLOW_X509_V1_CA_CRT);
+diff --git a/meta/recipes-support/neon/neon_0.30.1.bb b/meta/recipes-support/neon/neon_0.30.1.bb
+index fd170bc..0244314 100644
+--- a/meta/recipes-support/neon/neon_0.30.1.bb
++++ b/meta/recipes-support/neon/neon_0.30.1.bb
+@@ -10,7 +10,8 @@ DEPENDS_class-native = "zlib-native libxml2-native expat-native gnutls-native"
+ BBCLASSEXTEND = "native"
+ 
+ SRC_URI = "http://www.webdav.org/${BPN}/${BPN}-${PV}.tar.gz \
+-           file://pkgconfig.patch"
++           file://pkgconfig.patch \
++           file://gnutls_4.3_fixup.patch"
+ SRC_URI[md5sum] = "231adebe5c2f78fded3e3df6e958878e"
+ SRC_URI[sha256sum] = "00c626c0dc18d094ab374dbd9a354915bfe4776433289386ed489c2ec0845cdd"
+ 
 -- 
 1.9.1
 
