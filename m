@@ -1,39 +1,34 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F3B759D0;
-	Tue, 23 Jun 2015 23:13:15 +0000 (UTC)
-Received: by pdbki1 with SMTP id ki1so16731710pdb.1;
-	Tue, 23 Jun 2015 16:13:16 -0700 (PDT)
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id DEB51759FD
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Jun 2015 23:28:10 +0000 (UTC)
+Received: by pdbci14 with SMTP id ci14so16900821pdb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Jun 2015 16:28:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=VlSuu8r312h+so5zgSNYM577U1i7drVtEKwcqrSN/2U=;
-	b=e3BN3olu4wMXOAEJMeKqPnWsJy67cRocam2pzlMP0ODPPLkTL7w8JurXwfh+YKbH5v
-	eEXREtQEsYJW6eeHrim83Wak62NxhWmwWogeLupJ2h+zzOaS1kiuJnAK9ZalmdvDVnJR
-	dyQ4iuLhOZ28I+55kFtzfQr8tO3uTKxUw+R6sDpo7HkyTeV91XukcpXMShPKM/pABZYO
-	BAw14aIr2l5GZioCqtxBN0nnPLPiRvqsGlypYfsCxD3nHEOwMo64NZE/ckOV0RWwbeCS
-	ds4+ECbVkJMKGYdnkyogCwCBkfCMNL0HHchA6tBqcCTvYhOUb7IxUWCLzTvDRVu+mRCQ
-	1Raw==
-X-Received: by 10.66.155.36 with SMTP id vt4mr75090966pab.32.1435101196777;
-	Tue, 23 Jun 2015 16:13:16 -0700 (PDT)
-Received: from [10.43.100.29] (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
-	by mx.google.com with ESMTPSA id
-	ks7sm24410076pbc.34.2015.06.23.16.13.14
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Jun 2015 16:13:15 -0700 (PDT)
-Message-ID: <5589E809.8060000@gmail.com>
-Date: Tue, 23 Jun 2015 16:13:13 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, 
-	OE-core <openembedded-core@lists.openembedded.org>,
-	openembedded-devel@lists.openembedded.org
-References: <CAJTo0LaKEvtznsdfz8gLWFSLyb6Rx2XsgbYG_cfOrAm+W2UfEg@mail.gmail.com>
-In-Reply-To: <CAJTo0LaKEvtznsdfz8gLWFSLyb6Rx2XsgbYG_cfOrAm+W2UfEg@mail.gmail.com>
-Subject: Re: Future of Qt4 recipes
+	h=from:to:cc:subject:date:message-id;
+	bh=kR1qaylY5fpJntGy67JiEXKKPHI/GnYXLzKDbcJ/TZc=;
+	b=tOefaCL90A79Cj8SHax/u3UQ/4ADCOoeVf7oZV//vy4dpWMnc6yApAR4QZodKveIfm
+	q6+su2ARgxDYETa5YCHhyWt0mOzCJJcN3FbfG8LgykVHwzfb3LOLkOh83PG4JaBtO7pe
+	Zx7+VegixZfvaUczJuOLv5FzFip8s1bRxCXPnXcRZeWyz3DOM5oJfMe1AGgMOvcaFEXT
+	ojKsSM1RDQx09dIsqx3i68XvavxsI5dau46HNFG+Md2/3crnLlR0cfB5W1WDiugpFLi+
+	0W3tKJWUVorLUKw6WTCUKDveswFeolRJyLFSnClD9BZ1cRy+o+rco4zIQLBOLkqMLmWU
+	yL+A==
+X-Received: by 10.70.128.104 with SMTP id nn8mr16173945pdb.28.1435102092153;
+	Tue, 23 Jun 2015 16:28:12 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id x7sm22086074pas.28.2015.06.23.16.28.10
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 23 Jun 2015 16:28:11 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Jun 2015 16:27:57 -0700
+Message-Id: <1435102077-18544-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] tune-core2.inc: set X86ARCH32 to i686 (instead of i586)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,39 +41,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Jun 2015 23:13:16 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Jun 2015 23:28:12 -0000
 
+Use i686 as TARGET_ARCH for 32bit core2 (and corei7 and atom) builds.
 
+In most cases, i586 and i686 are equivalent values for TARGET_ARCH, however
+one important exception is glibc. When configured for i686, glibc enables
+optimised string functions (SSE, SSE2, etc), which are not used when
+building for i586.
 
-On 06/22/2015 03:43 AM, Burton, Ross wrote:
-> Hi,
->
-> So, Qt 4.8.7 was released last month[1].  Support for Qt4 stops at the
-> end of 2015, and 4.8.7 is planned to be the last ever release of Qt4.
-> It's still mandated by the long-awaited LSB 5 but I think it's fair to
-> say that the majority of developers have moved to Qt5. So, what should
-> we do with Qt4 moving forward?[2]  I see several options:
->
-> 1) There's still lots of people using Qt4 in production, please keep it
-> in oe-core!  (and revisit in six months time)
-> 2) Move Qt4 recipes and classes to a meta-qt4 layer now so that oe-core
-> 1.9 ships without Qt4, and anyone wanting full LSB compliance or Qt4
-> will need to add that layer to their distro.
->
-> Personally, I vote for (2).  Any other comments?
+The benefits of i686 optimised string functions vary depending on the
+application and the CPU, however in some cases the improvements are
+significant. In one test, a 50% increase in FPS was seen when running the
+'smashcat' benchmark [1] in a qtwebkit browser on an Intel Atom based SoC.
+The gain seems to comes from a 3x improvement in memcpy performance when
+copying graphics buffer lines (5120 bytes, or 1280 x 4 bytes/pixel), from
+the CPU to GPU. Note that very large memcpy's (e.g. 32MB) on the same
+machine show no particular performance increase between i586 and i686.
 
-#2 sounds fine.
+  [1] http://www.smashcat.org/av/canvas_test/
 
-would recipes-lsb move out to its own layer too?
+Warning: The change in TARGET_ARCH means that _i586 architecture specific
+over-rides will no longer take effect. Both oe-core and meta-oe have been
+updated to replace _i586 over-rides with _x86, however other layers may
+still need review and updating.
 
-- Armin
->
-> Ross
->
-> [1] https://blog.qt.io/blog/2015/05/26/qt-4-8-7-released/
-> [2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=7812
->
->
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/machine/include/tune-core2.inc | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/conf/machine/include/tune-core2.inc b/meta/conf/machine/include/tune-core2.inc
+index 078e22d..9a4cb70 100644
+--- a/meta/conf/machine/include/tune-core2.inc
++++ b/meta/conf/machine/include/tune-core2.inc
+@@ -8,6 +8,9 @@
+ #
+ DEFAULTTUNE ?= "core2-32"
+ 
++# Set x86 target arch to i686, so that glibc enables SSE optimised memcpy, etc.
++X86ARCH32 ?= "i686"
++
+ # Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
+ require conf/machine/include/tune-i586.inc
+ 
+-- 
+1.9.1
+
 
