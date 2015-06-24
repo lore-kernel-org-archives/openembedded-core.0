@@ -1,24 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 045CA75A36
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E1BB75ABD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jun 2015 02:17:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5O2HtWV029309
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 24 Jun 2015 03:14:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.13,665,1427731200"; d="scan'208";a="97680205"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 24 Jun 2015 11:18:59 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5O3DG9v029694
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 19:17:56 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 23 Jun 2015 19:17:55 -0700
-From: <rongqing.li@windriver.com>
+	Wed, 24 Jun 2015 11:13:16 +0800
+Received: from localhost.localdomain (10.167.226.85) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Wed, 24 Jun 2015 11:14:58 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Jun 2015 10:10:18 +0800
-Message-ID: <1435111818-21600-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Wed, 24 Jun 2015 11:14:42 +0800
+Message-ID: <1435115682-1625-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH][v2] openssl: upgrade to 1.0.2c
+X-Originating-IP: [10.167.226.85]
+Subject: [PATCH] glibc: add systemd support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,134 +34,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jun 2015 02:17:56 -0000
+X-List-Received-Date: Wed, 24 Jun 2015 03:14:56 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+add systemd service files nscd.service and nscd.socket
 
-upgrade to fix the CVE: CVE-2015-1788..CVE-2015-1792 and CVE-2014-8176
-remove a backport patch
-update the c_rehash-compat.patch
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- ...lcl.h-fix-MIPS-specific-gcc-version-check.patch | 30 ----------------------
- .../openssl/openssl/debian/c_rehash-compat.patch   | 22 +++++++---------
- .../{openssl_1.0.2a.bb => openssl_1.0.2c.bb}       |  5 ++--
- 3 files changed, 11 insertions(+), 46 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.0.2a.bb => openssl_1.0.2c.bb} (89%)
+ meta/recipes-core/glibc/glibc-package.inc  |  2 +-
+ meta/recipes-core/glibc/glibc.inc          | 20 +++++++++++++++++++-
+ meta/recipes-core/glibc/glibc/nscd.service | 16 ++++++++++++++++
+ meta/recipes-core/glibc/glibc/nscd.socket  |  8 ++++++++
+ meta/recipes-core/glibc/glibc_2.21.bb      |  2 ++
+ 5 files changed, 46 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/glibc/glibc/nscd.service
+ create mode 100644 meta/recipes-core/glibc/glibc/nscd.socket
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch b/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
-deleted file mode 100644
-index 7308f8f..0000000
---- a/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 60c268b21ac81cc6b1af5c5470282a613b96f6fd Mon Sep 17 00:00:00 2001
--From: Andy Polyakov <appro@openssl.org>
--Date: Mon, 25 May 2015 10:17:14 +0200
--Subject: [PATCH] bn/bn_lcl.h: fix MIPS-specific gcc version check.
--
--RT#3859
--
--Reviewed-by: Tim Hudson <tjh@openssl.org>
-----
--Upstream-Status: Backport
--
-- crypto/bn/bn_lcl.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/crypto/bn/bn_lcl.h b/crypto/bn/bn_lcl.h
--index 196df7e..b9d124a 100644
----- a/crypto/bn/bn_lcl.h
--+++ b/crypto/bn/bn_lcl.h
--@@ -443,7 +443,7 @@ unsigned __int64 _umul128(unsigned __int64 a, unsigned __int64 b,
-- #   endif
-- #  elif defined(__mips) && (defined(SIXTY_FOUR_BIT) || defined(SIXTY_FOUR_BIT_LONG))
-- #   if defined(__GNUC__) && __GNUC__>=2
---#    if __GNUC__>=4 && __GNUC_MINOR__>=4
--+#    if __GNUC__>4 || (__GNUC__>=4 && __GNUC_MINOR__>=4)
--                                      /* "h" constraint is no more since 4.4 */
-- #     define BN_UMULT_HIGH(a,b)          (((__uint128_t)(a)*(b))>>64)
-- #     define BN_UMULT_LOHI(low,high,a,b) ({     \
---- 
--2.1.4
--
-diff --git a/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch
-index 3943e2c..68e54d5 100644
---- a/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch
-+++ b/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch
-@@ -5,14 +5,10 @@ Subject: [PATCH] also create old hash for compatibility
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 984362e..4897479 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -47,7 +47,7 @@ FILES_libsotruss = "${libdir}/audit/sotruss-lib.so"
+ FILES_SOLIBSDEV = "${libdir}/lib*${SOLIBSDEV}"
+ FILES_${PN}-dev += "${bindir}/rpcgen ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
+ FILES_${PN}-staticdev += "${libdir}/*.a ${base_libdir}/*.a"
+-FILES_nscd = "${sbindir}/nscd*"
++FILES_nscd = "${sbindir}/nscd* ${sysconfdir}/nscd.conf ${sysconfdir}/init.d/nscd ${localstatedir}/db ${systemd_unitdir}/system/nscd.*"
+ FILES_${PN}-mtrace = "${bindir}/mtrace"
+ FILES_tzcode = "${bindir}/tzselect ${sbindir}/zic ${sbindir}/zdump"
+ FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index da56bc9..4c28461 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -41,7 +41,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers
+ #RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
+ PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
+ PROVIDES += "virtual/libintl virtual/libiconv"
+-inherit autotools texinfo distro_features_check
++inherit autotools texinfo distro_features_check systemd
+ require glibc-options.inc
  
- Upstream-Status: Backport [debian]
+ # The main purpose of setting this variable is to prevent users from accidently
+@@ -95,4 +95,22 @@ do_configure_append() {
+ 	sed -i 's/^OPTION_EGLIBC_NSSWITCH_FIXED_\(.*\)="\(.*\)"$/OPTION_EGLIBC_NSSWITCH_FIXED_\1=\2/' option-groups.config
+ }
  
-----
-- tools/c_rehash.in |    8 +++++++-
-- 1 files changed, 7 insertions(+), 1 deletions(-)
--
--Index: openssl-1.0.2~beta3/tools/c_rehash.in
--===================================================================
----- openssl-1.0.2~beta3.orig/tools/c_rehash.in
--+++ openssl-1.0.2~beta3/tools/c_rehash.in
-+diff --git a/tools/c_rehash.in b/tools/c_rehash.in
-+index b086ff9..b777d79 100644
-+--- a/tools/c_rehash.in
-++++ b/tools/c_rehash.in
- @@ -8,8 +8,6 @@ my $prefix;
-  
-  my $openssl = $ENV{OPENSSL} || "openssl";
-@@ -23,14 +19,14 @@ Index: openssl-1.0.2~beta3/tools/c_rehash.in
-  my $symlink_exists=eval {symlink("",""); 1};
-  my $removelinks = 1;
- @@ -18,10 +16,7 @@ my $removelinks = 1;
-- while ( $ARGV[0] =~ '-.*' ) {
-+ while ( $ARGV[0] =~ /^-/ ) {
-      my $flag = shift @ARGV;
-      last if ( $flag eq '--');
---    if ( $flag =~ /-old/) {
-+-    if ( $flag eq '-old') {
- -	    $x509hash = "-subject_hash_old";
- -	    $crlhash = "-hash_old";
---    } elsif ( $flag =~ /-h/) {
--+    if ( $flag =~ /-h/) {
-+-    } elsif ( $flag eq '-h') {
-++    if ( $flag eq '-h') {
-  	    help();
-      } elsif ( $flag eq '-n' ) {
-  	    $removelinks = 0;
-@@ -52,7 +48,7 @@ Index: openssl-1.0.2~beta3/tools/c_rehash.in
-  		$fname =~ s/'/'\\''/g;
-  		my ($hash, $fprint) = `"$openssl" x509 $x509hash -fingerprint -noout -in "$fname"`;
-  		chomp $hash;
--@@ -177,10 +175,20 @@ sub link_hash_cert {
-+@@ -176,11 +174,21 @@ sub link_hash_cert {
-  		$hashlist{$hash} = $fprint;
-  }
-  
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
-similarity index 89%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
-index d7f0259..fd4ba6c 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
-@@ -36,12 +36,11 @@ SRC_URI += "file://configure-targets.patch \
-             file://ptest-deps.patch \
-             file://run-ptest \
-             file://crypto_use_bigint_in_x86-64_perl.patch \
--            file://0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch \
-             file://openssl-1.0.2a-x32-asm.patch \
-            "
- 
--SRC_URI[md5sum] = "a06c547dac9044161a477211049f60ef"
--SRC_URI[sha256sum] = "15b6393c20030aab02c8e2fe0243cb1d1d18062f6c095d67bca91871dc7f324a"
-+SRC_URI[md5sum] = "8c8d81a9ae7005276e486702edbcd4b6"
-+SRC_URI[sha256sum] = "0038ba37f35a6367c58f17a7a7f687953ef8ce4f9684bbdec63e62515ed36a83"
- 
- PACKAGES =+ " \
- 	${PN}-engines \
++do_install_append() {
++	install -d ${D}/${sysconfdir}
++	install -m 0644 ${S}/nscd/nscd.conf ${D}/${sysconfdir}/nscd.conf
++	install -d ${D}/${sysconfdir}/init.d
++	install -m 0755 ${S}/nscd/nscd.init ${D}/${sysconfdir}/init.d/nscd
++	install -m 755 -d ${D}/${localstatedir}/db
++	install -m 755 -d ${D}/${localstatedir}/db/nscd
++
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/nscd.service ${D}${systemd_unitdir}/system/
++	install -m 0644 ${WORKDIR}/nscd.socket ${D}${systemd_unitdir}/system/
++	sed -i -e 's,@localstatedir@,${localstatedir},g' ${D}${systemd_unitdir}/system/*
++	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/*
++	sed -i -e 's,@base_bindir@,${base_bindir},g' ${D}${systemd_unitdir}/system/*
++}
++
++
+ GLIBC_ADDONS ?= "nptl,libidn"
++
+diff --git a/meta/recipes-core/glibc/glibc/nscd.service b/meta/recipes-core/glibc/glibc/nscd.service
+new file mode 100644
+index 0000000..014103e
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/nscd.service
+@@ -0,0 +1,16 @@
++[Unit]
++Description=Name Service Cache Daemon
++After=syslog.target
++
++[Service]
++Type=forking
++ExecStartPre=@base_bindir@/mkdir -p @localstatedir@/run/nscd
++ExecStartPre=@base_bindir@/mkdir -p @localstatedir@/db/nscd
++ExecStart=@SBINDIR@/nscd
++ExecStop=@SBINDIR@/nscd --shutdown
++Restart=always
++PIDFile=@localstatedir@/run/nscd/nscd.pid
++
++[Install]
++WantedBy=multi-user.target
++Also=nscd.socket
+diff --git a/meta/recipes-core/glibc/glibc/nscd.socket b/meta/recipes-core/glibc/glibc/nscd.socket
+new file mode 100644
+index 0000000..fc63453
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/nscd.socket
+@@ -0,0 +1,8 @@
++[Unit]
++Description=Name Service Cache Daemon Socket
++
++[Socket]
++ListenDatagram=@localstatedir@/run/nscd/socket
++ 
++[Install]
++WantedBy=sockets.target
+diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+index 8197c29..4230630 100644
+--- a/meta/recipes-core/glibc/glibc_2.21.bb
++++ b/meta/recipes-core/glibc/glibc_2.21.bb
+@@ -30,6 +30,8 @@ SRC_URI = "git://sourceware.org/git/glibc.git;branch=${BRANCH} \
+            file://Fix-__memcpy_chk-on-non-SSE2-CPUs.patch \
+            ${EGLIBCPATCHES} \
+            ${CVEPATCHES} \
++           file://nscd.service \
++           file://nscd.socket \
+           "
+ EGLIBCPATCHES = "\
+            file://timezone-re-written-tzselect-as-posix-sh.patch \
 -- 
-1.9.1
+1.8.4.2
 
 
