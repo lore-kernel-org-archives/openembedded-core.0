@@ -1,28 +1,29 @@
 Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 88D9875A2C;
-	Wed, 24 Jun 2015 02:08:38 +0000 (UTC)
-Received: by igblr2 with SMTP id lr2so66413403igb.0;
-	Tue, 23 Jun 2015 19:08:40 -0700 (PDT)
+Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E705075A36
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jun 2015 02:10:15 +0000 (UTC)
+Received: by iecvh10 with SMTP id vh10so24290005iec.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Jun 2015 19:10:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:date:message-id:subject:from:to:content-type;
 	bh=QecNKfQH8uzRauQw4WkvwigYWQYErFZ1UUXdgchtf34=;
-	b=hO4F9kVttDGyByvYnhJJq3czspLJHXU0KiohSb6oBwjTmff93l+rj9DH1wFeZ/vT43
-	aq1WtSJAW9xgjxPQGKIc3+Nk0Jbba4XyOLVdTATn0kZB+cikp5mvusZtdPGv6q2JwYDY
-	qx3ZZKjVWK4c8zxIi/W+1Ox+XyslcARlOQN7wY9r5kLuuOnTXplGPhqEbHlPQRgKn+dg
-	3wNtDfsTJhHLlOl0t+lhf1SuRYWU91QXXrg+BQngjzW3UwjR3DdTZr8bWJPbBaRGeAYr
-	Y5//BlU0tonBv0ku5c+Tt+Z4LkPnPJZEQzZP0YteB9mF5k5xUPKz47e08g8908USayNV
-	25Bg==
+	b=qdl+Qfz/qy6iF9QKM6N5DtwDn83b1cNNQ/m80LqwOmEQgq3QYPfugyzVKlEYi89s8H
+	NN+YzZLOkVabBeIAZr7okeM0VKAVGb2BG1lB7rd4k+7pM0GoiQKEDlaNMOI5l7N8RtCA
+	szEooYdfWhZwvP96IW010cbIfJ/090lvY4/oC89BcD0h0IAX2SeJHkPhez7EOr1qGQys
+	tfnUNZF5ih2rURRpgagqtnqu0FdbbaL7ZKMauzMAYfunuiDSyyRh78lvxlwX3fX9IKPd
+	I4ovYCj3CI+LzHaNQ+R5Xl9nk0HMf9PWKKASOOcXoOSIhbRHAMAr/miiLftF+kKyZ4nz
+	LJcQ==
 MIME-Version: 1.0
-X-Received: by 10.107.16.159 with SMTP id 31mr22495ioq.62.1435111719985; Tue,
-	23 Jun 2015 19:08:39 -0700 (PDT)
-Received: by 10.36.24.74 with HTTP; Tue, 23 Jun 2015 19:08:39 -0700 (PDT)
-Date: Wed, 24 Jun 2015 10:08:39 +0800
-Message-ID: <CADwFkYc6Q=wT0Tv55xre35o514x7MVb-Uc9=toy-KKnHG+5wkw@mail.gmail.com>
+X-Received: by 10.107.3.227 with SMTP id e96mr14913648ioi.50.1435111817291;
+	Tue, 23 Jun 2015 19:10:17 -0700 (PDT)
+Received: by 10.36.24.74 with HTTP; Tue, 23 Jun 2015 19:10:17 -0700 (PDT)
+Date: Wed, 24 Jun 2015 10:10:17 +0800
+Message-ID: <CADwFkYfdEMKpzhzJnyDXn0yMDotpdDJ4-jXeYbvu4aAcEBHgOQ@mail.gmail.com>
 From: Yi Qingliang <niqingliang2003@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: zImage-dtb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -36,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jun 2015 02:08:42 -0000
+X-List-Received-Date: Wed, 24 Jun 2015 02:10:19 -0000
 Content-Type: text/plain; charset=UTF-8
 
 Hello,
