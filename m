@@ -1,22 +1,34 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C14896AC37
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D29696AC1E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jun 2015 20:06:12 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jun 2015 13:06:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,673,1427785200"; d="scan'208";a="717054495"
-Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga001.jf.intel.com with ESMTP; 24 Jun 2015 13:06:12 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Wed, 24 Jun 2015 22:17:42 +0000 (UTC)
+Received: by iecvh10 with SMTP id vh10so42848143iec.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jun 2015 15:17:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=JiXCgCZj6KTK+sW9K0jSG51MzccjOoxZcqVj2BNvSyY=;
+	b=BfkoNZQL3nSVyCnIW7Cehtrpo8q2q3RWLftkAOTvK8gdi2Sd3uaHt+6SmddVM3E3UY
+	BUsmzH2NkY1b5tFGjybxjJnMaOcggBaO/yL4/oCUq5vZ3LsIMJBrJ9Y5r7C5cyhQ6/RR
+	01//cJzvSJwHStlsbYTXMtW1BrwudpVzAt+TqSd9yW5edO3vuJ51HgrMU5KTrlhJKF12
+	9cja+w+OpnM24xoptH4SwiH1+ELtObrB49v02sU54MMBcg5e7Zl8/YThARN5srYW62N1
+	mZtN9PGFI/3fHUZSXn2J4s9QP4FnS0yAlLk67VizJpubeYkIcc3AZn1ZOirZYVvtH7WX
+	VMYg==
+X-Received: by 10.50.59.211 with SMTP id b19mr41165igr.42.1435184263459;
+	Wed, 24 Jun 2015 15:17:43 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id r4sm1971015igh.9.2015.06.24.15.17.41
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 24 Jun 2015 15:17:42 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Jun 2015 23:06:46 +0300
-Message-Id: <0c6156d62bf9efb1b6982987a67049ce25410ee0.1435174534.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1435174534.git.jussi.kukkonen@intel.com>
-References: <cover.1435174534.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/1] dbus: CVE-2015-0245: prevent forged ActivationFailure
+Date: Wed, 24 Jun 2015 15:17:22 -0700
+Message-Id: <cover.1435183929.git.kergoth@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH 0/3] recipetool: add appendsrcfile(s) sub-commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,86 +41,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jun 2015 20:06:14 -0000
+X-List-Received-Date: Wed, 24 Jun 2015 22:17:43 -0000
 
-Fix CVE-2015-0245 by preventing non-root and non-systemd processes
-from fooling the dbus daemon into thinking systemd service activation
-failed.
+This adds the `appendsrcfile` and `appendsrcfiles` sub-commands, which let the
+user add or replace one or more files in the recipe sources, either in a path
+relative to `S` or `WORKDIR`. Each file gets added to `SRC_URI` as a file://
+URI, using the subdir= parameter to specify the destination directory.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-core/dbus/dbus.inc                    |  1 +
- ...015-0245-prevent-forged-ActivationFailure.patch | 48 ++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch
+Examples:
 
-diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
-index fb5d017..f1744c8 100644
---- a/meta/recipes-core/dbus/dbus.inc
-+++ b/meta/recipes-core/dbus/dbus.inc
-@@ -17,6 +17,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-            file://dbus-1.init \
-            file://os-test.patch \
-            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
-+           file://CVE-2015-0245-prevent-forged-ActivationFailure.patch \
- "
- 
- inherit useradd autotools pkgconfig gettext update-rc.d
-diff --git a/meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch b/meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch
-new file mode 100644
-index 0000000..59363b3
---- /dev/null
-+++ b/meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch
-@@ -0,0 +1,48 @@
-+CVE-2015-0245: prevent forged ActivationFailure from non-root processes
-+
-+Upstream has fixed this in code but suggests using this as a easily
-+backportable fix: https://bugs.freedesktop.org/show_bug.cgi?id=88811
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+
-+
-+
-+From 91eb2ea3362630190e08c1c777c47bae065ac828 Mon Sep 17 00:00:00 2001
-+From: Simon McVittie <simon.mcvittie@collabora.co.uk>
-+Date: Mon, 26 Jan 2015 20:09:56 +0000
-+Subject: [PATCH 1/3] CVE-2015-0245: prevent forged ActivationFailure from
-+ non-root processes
-+
-+Without either this rule or better checking in dbus-daemon, non-systemd
-+processes can make dbus-daemon think systemd failed to activate a system
-+service, resulting in an error reply back to the requester.
-+
-+This is redundant with the fix in the C code (which I consider to be
-+the real solution), but is likely to be easier to backport.
-+---
-+ bus/system.conf.in | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/bus/system.conf.in b/bus/system.conf.in
-+index 92f4cc4..851b9e6 100644
-+--- a/bus/system.conf.in
-++++ b/bus/system.conf.in
-+@@ -68,6 +68,14 @@
-+     <deny send_destination="org.freedesktop.DBus"
-+           send_interface="org.freedesktop.DBus"
-+           send_member="UpdateActivationEnvironment"/>
-++    <deny send_destination="org.freedesktop.DBus"
-++          send_interface="org.freedesktop.systemd1.Activator"/>
-++  </policy>
-++
-++  <!-- Only systemd, which runs as root, may report activation failures. -->
-++  <policy user="root">
-++    <allow send_destination="org.freedesktop.DBus"
-++           send_interface="org.freedesktop.systemd1.Activator"/>
-+   </policy>
-+ 
-+   <!-- Config files are placed here that among other things, punch 
-+-- 
-+2.1.4
-+
+    # Adds our defconfig as file://defconfig. If it's already in SRC_URI, it
+    # won't be duplicated.
+    recipetool appendsrcfile --workdir meta-mylayer linux-mel defconfig
+    recipetool appendsrcfiles --workdir meta-mylayer linux-mel defconfig
+
+    # Does the same, handling the different local filename
+    recipetool appendsrcfile --workdir meta-mylayer linux-mel defconfig.mine defconfig
+
+    # Adds our device tree files to the source tree
+    recipetool appendsrcfiles --destdir arch/arm/boot/dts meta-mylayer linux-mel *.dts
+
+Of course, for the latter example to be of use, the new dts files would need
+to be added to `KERNEL_DEVICETREE` as well, and depending on the kernel,
+`DEFCONFIG` or `KERNEL_DEFCONFIG` may need to be set.
+
+The following changes since commit 2587b83faabdc8858e8746201805369ed8d53ba8:
+
+  wpa-supplicant: Revert "Make SystemD D-Bus config conditional" (2015-06-24 14:03:25 +0100)
+
+are available in the git repository at:
+
+  git@github.com:kergoth/openembedded-core recipetool-appendsrc
+
+for you to fetch changes up to 375bea6b623a20b529a2d26c226c55785a21f9e8:
+
+  recipetool: add appendsrcfile(s) sub-commands (2015-06-24 15:10:55 -0700)
+
+----------------------------------------------------------------
+Christopher Larson (3):
+  oe.recipeutils: fix line.split error in bbappend_recipe
+  recipetool.append: use argparse types for validation
+  recipetool: add appendsrcfile(s) sub-commands
+
+ meta/lib/oe/recipeutils.py       |   2 +-
+ scripts/lib/recipetool/append.py | 147 +++++++++++++++++++++++++++++++++------
+ 2 files changed, 126 insertions(+), 23 deletions(-)
+
 -- 
-2.1.4
+2.2.1
 
 
