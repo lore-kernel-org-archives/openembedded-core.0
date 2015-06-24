@@ -1,30 +1,24 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E705075A36
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 045CA75A36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jun 2015 02:10:15 +0000 (UTC)
-Received: by iecvh10 with SMTP id vh10so24290005iec.3
+	Wed, 24 Jun 2015 02:17:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5O2HtWV029309
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Jun 2015 19:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=QecNKfQH8uzRauQw4WkvwigYWQYErFZ1UUXdgchtf34=;
-	b=qdl+Qfz/qy6iF9QKM6N5DtwDn83b1cNNQ/m80LqwOmEQgq3QYPfugyzVKlEYi89s8H
-	NN+YzZLOkVabBeIAZr7okeM0VKAVGb2BG1lB7rd4k+7pM0GoiQKEDlaNMOI5l7N8RtCA
-	szEooYdfWhZwvP96IW010cbIfJ/090lvY4/oC89BcD0h0IAX2SeJHkPhez7EOr1qGQys
-	tfnUNZF5ih2rURRpgagqtnqu0FdbbaL7ZKMauzMAYfunuiDSyyRh78lvxlwX3fX9IKPd
-	I4ovYCj3CI+LzHaNQ+R5Xl9nk0HMf9PWKKASOOcXoOSIhbRHAMAr/miiLftF+kKyZ4nz
-	LJcQ==
+	Tue, 23 Jun 2015 19:17:56 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 23 Jun 2015 19:17:55 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Jun 2015 10:10:18 +0800
+Message-ID: <1435111818-21600-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.107.3.227 with SMTP id e96mr14913648ioi.50.1435111817291;
-	Tue, 23 Jun 2015 19:10:17 -0700 (PDT)
-Received: by 10.36.24.74 with HTTP; Tue, 23 Jun 2015 19:10:17 -0700 (PDT)
-Date: Wed, 24 Jun 2015 10:10:17 +0800
-Message-ID: <CADwFkYfdEMKpzhzJnyDXn0yMDotpdDJ4-jXeYbvu4aAcEBHgOQ@mail.gmail.com>
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: zImage-dtb
+Subject: [PATCH][v2] openssl: upgrade to 1.0.2c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,14 +31,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jun 2015 02:10:19 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 24 Jun 2015 02:17:56 -0000
+Content-Type: text/plain
 
-Hello,
-    has someone used the "zImage-dtb"?
+From: Roy Li <rongqing.li@windriver.com>
 
-    the "zImage-dtb" will concatenate multiple dtbs append to zImage.
-    How the kernel select dtb in running time?
+upgrade to fix the CVE: CVE-2015-1788..CVE-2015-1792 and CVE-2014-8176
+remove a backport patch
+update the c_rehash-compat.patch
 
-Yi Qingliang
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ ...lcl.h-fix-MIPS-specific-gcc-version-check.patch | 30 ----------------------
+ .../openssl/openssl/debian/c_rehash-compat.patch   | 22 +++++++---------
+ .../{openssl_1.0.2a.bb => openssl_1.0.2c.bb}       |  5 ++--
+ 3 files changed, 11 insertions(+), 46 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.2a.bb => openssl_1.0.2c.bb} (89%)
+
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch b/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
+deleted file mode 100644
+index 7308f8f..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 60c268b21ac81cc6b1af5c5470282a613b96f6fd Mon Sep 17 00:00:00 2001
+-From: Andy Polyakov <appro@openssl.org>
+-Date: Mon, 25 May 2015 10:17:14 +0200
+-Subject: [PATCH] bn/bn_lcl.h: fix MIPS-specific gcc version check.
+-
+-RT#3859
+-
+-Reviewed-by: Tim Hudson <tjh@openssl.org>
+----
+-Upstream-Status: Backport
+-
+- crypto/bn/bn_lcl.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/crypto/bn/bn_lcl.h b/crypto/bn/bn_lcl.h
+-index 196df7e..b9d124a 100644
+---- a/crypto/bn/bn_lcl.h
+-+++ b/crypto/bn/bn_lcl.h
+-@@ -443,7 +443,7 @@ unsigned __int64 _umul128(unsigned __int64 a, unsigned __int64 b,
+- #   endif
+- #  elif defined(__mips) && (defined(SIXTY_FOUR_BIT) || defined(SIXTY_FOUR_BIT_LONG))
+- #   if defined(__GNUC__) && __GNUC__>=2
+--#    if __GNUC__>=4 && __GNUC_MINOR__>=4
+-+#    if __GNUC__>4 || (__GNUC__>=4 && __GNUC_MINOR__>=4)
+-                                      /* "h" constraint is no more since 4.4 */
+- #     define BN_UMULT_HIGH(a,b)          (((__uint128_t)(a)*(b))>>64)
+- #     define BN_UMULT_LOHI(low,high,a,b) ({     \
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch b/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch
+index 3943e2c..68e54d5 100644
+--- a/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch
++++ b/meta/recipes-connectivity/openssl/openssl/debian/c_rehash-compat.patch
+@@ -5,14 +5,10 @@ Subject: [PATCH] also create old hash for compatibility
+ 
+ Upstream-Status: Backport [debian]
+ 
+----
+- tools/c_rehash.in |    8 +++++++-
+- 1 files changed, 7 insertions(+), 1 deletions(-)
+-
+-Index: openssl-1.0.2~beta3/tools/c_rehash.in
+-===================================================================
+---- openssl-1.0.2~beta3.orig/tools/c_rehash.in
+-+++ openssl-1.0.2~beta3/tools/c_rehash.in
++diff --git a/tools/c_rehash.in b/tools/c_rehash.in
++index b086ff9..b777d79 100644
++--- a/tools/c_rehash.in
+++++ b/tools/c_rehash.in
+ @@ -8,8 +8,6 @@ my $prefix;
+  
+  my $openssl = $ENV{OPENSSL} || "openssl";
+@@ -23,14 +19,14 @@ Index: openssl-1.0.2~beta3/tools/c_rehash.in
+  my $symlink_exists=eval {symlink("",""); 1};
+  my $removelinks = 1;
+ @@ -18,10 +16,7 @@ my $removelinks = 1;
+- while ( $ARGV[0] =~ '-.*' ) {
++ while ( $ARGV[0] =~ /^-/ ) {
+      my $flag = shift @ARGV;
+      last if ( $flag eq '--');
+--    if ( $flag =~ /-old/) {
++-    if ( $flag eq '-old') {
+ -	    $x509hash = "-subject_hash_old";
+ -	    $crlhash = "-hash_old";
+--    } elsif ( $flag =~ /-h/) {
+-+    if ( $flag =~ /-h/) {
++-    } elsif ( $flag eq '-h') {
+++    if ( $flag eq '-h') {
+  	    help();
+      } elsif ( $flag eq '-n' ) {
+  	    $removelinks = 0;
+@@ -52,7 +48,7 @@ Index: openssl-1.0.2~beta3/tools/c_rehash.in
+  		$fname =~ s/'/'\\''/g;
+  		my ($hash, $fprint) = `"$openssl" x509 $x509hash -fingerprint -noout -in "$fname"`;
+  		chomp $hash;
+-@@ -177,10 +175,20 @@ sub link_hash_cert {
++@@ -176,11 +174,21 @@ sub link_hash_cert {
+  		$hashlist{$hash} = $fprint;
+  }
+  
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
+similarity index 89%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
+index d7f0259..fd4ba6c 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2a.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
+@@ -36,12 +36,11 @@ SRC_URI += "file://configure-targets.patch \
+             file://ptest-deps.patch \
+             file://run-ptest \
+             file://crypto_use_bigint_in_x86-64_perl.patch \
+-            file://0001-bn-bn_lcl.h-fix-MIPS-specific-gcc-version-check.patch \
+             file://openssl-1.0.2a-x32-asm.patch \
+            "
+ 
+-SRC_URI[md5sum] = "a06c547dac9044161a477211049f60ef"
+-SRC_URI[sha256sum] = "15b6393c20030aab02c8e2fe0243cb1d1d18062f6c095d67bca91871dc7f324a"
++SRC_URI[md5sum] = "8c8d81a9ae7005276e486702edbcd4b6"
++SRC_URI[sha256sum] = "0038ba37f35a6367c58f17a7a7f687953ef8ce4f9684bbdec63e62515ed36a83"
+ 
+ PACKAGES =+ " \
+ 	${PN}-engines \
+-- 
+1.9.1
+
 
