@@ -1,28 +1,38 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B5E04605D2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 09:41:09 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5P9fAcq020603
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 02:41:10 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 25 Jun 2015 02:41:10 -0700
-Message-ID: <558BCCB5.2050607@windriver.com>
-Date: Thu, 25 Jun 2015 17:41:09 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 62926601E0;
+	Thu, 25 Jun 2015 10:58:46 +0000 (UTC)
+Received: by wibdq8 with SMTP id dq8so72091936wib.1;
+	Thu, 25 Jun 2015 03:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=O5N6bmYrHmoWDNxNoT898I9opBmkV2JJwxubbEN3f1o=;
+	b=ls0+xIE+u1a5nIDZOtKJplkYX5WmOy4R8pZL6pNZmx4Vwcyx1lq7mJzEd4aYpEmWys
+	KRmXnteVI81cZhOM7vv6RYh+BuxBPYzCiQ4JVKFKcWpu74vQnZv7Rje363iGMH3+TgvG
+	wx1Si/XAN8rTmvzXW79qauPScNaiOMqU97T6WNZz7Z8qsxKKvEDatcebXmjPOa1h5sHJ
+	8aaw0z3kOzFJVY8pLRfnZWEeRBucM4AKUT3Cn62uWqzRtwBPQ1IHT2RuX9BQgR94Q+Y8
+	ddMhonaymAFNDxV2DeAJGgHb2HUG5VC3+NnDEj7izSX58cH5iu/ujLy6731P7Ud7fP6P
+	B5Hw==
+X-Received: by 10.194.109.229 with SMTP id hv5mr81000950wjb.119.1435229927312; 
+	Thu, 25 Jun 2015 03:58:47 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id p2sm7010555wix.11.2015.06.25.03.58.46
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 25 Jun 2015 03:58:46 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 25 Jun 2015 12:59:06 +0200
+To: akuster808 <akuster808@gmail.com>
+Message-ID: <20150625105906.GA2394@jama>
+References: <558B6EE7.5090107@gmail.com>
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1435224137.git.liezhi.yang@windriver.com>
-	<86e000cec70be79f0bb6054bc3a8684fac87faa6.1435224137.git.liezhi.yang@windriver.com>
-In-Reply-To: <86e000cec70be79f0bb6054bc3a8684fac87faa6.1435224137.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 2/2] runqemu: enable kvm when use tap under sudo
+In-Reply-To: <558B6EE7.5090107@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: google mercurial repo issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,113 +45,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 09:41:10 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jun 2015 10:58:49 -0000
+X-Groupsio-MsgNum: 67148
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
+Content-Disposition: inline
 
+--liOOAslEiF7prFVr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Jun 24, 2015 at 08:00:55PM -0700, akuster808 wrote:
+> Hello all,
+>=20
+> I have run into an issue trying to build vim.
 
-On 06/25/2015 05:24 PM, Robert Yang wrote:
-> Enable kvm support automatically when use tap interface under sudo, the
-> thought is, if sudo works well, and qemu-native has been built with kvm
-> support, and kvm can be enabled, then enable it, it can be disabled by
-> nokvm option.
->
-> The previous command:
-> $ runqemu qemux86 kvm
-> may not work since it checks the current user's read/write permission on
-> /dev/kvm and /dev/vhost-net but failed without sudo, it can't use sudo
-> to check them since sudo is not a must, sudo is only required when need
-> create tap interface, this patch can enable it automatically.
->
-> Enable kvm can improve qemu's performance a lot, when test perl-5.22's
-> lib/warnings.t on qemux86-64, 70 times improved.
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   scripts/runqemu          |    9 +++++++--
->   scripts/runqemu-internal |   15 +++++++++++++++
->   2 files changed, 22 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index d9e91af..926d76e 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -33,6 +33,7 @@ usage() {
->       echo "    nographic - disables video console"
->       echo "    serial - enables a serial console on /dev/ttyS0"
->       echo "    kvm - enables KVM when running qemux86/qemux86-64 (VT-capable CPU required)"
-> +    echo "    nokvm - disables KVM"
->       echo "    publicvnc - enable a VNC server open to all hosts"
->       echo "  qemuparams=\"xyz\" - specify custom parameters to QEMU"
->       echo "  bootparams=\"xyz\" - specify custom kernel parameters during boot"
-> @@ -68,8 +69,10 @@ SCRIPT_QEMU_OPT=""
->   SCRIPT_QEMU_EXTRA_OPT=""
->   SCRIPT_KERNEL_OPT=""
->   SERIALSTDIO=""
-> -KVM_ENABLED="no"
-> +KVM_ENABLED="maybe"
-> +KVM_CAPABLE="`grep -q 'vmx\|svm' /proc/cpuinfo && echo 1`"
->   KVM_ACTIVE="no"
-> +KVM_SUDO=""
->   GRAPHIC="yes"
->
->   # Determine whether the file is a kernel or QEMU image, and set the
-> @@ -180,7 +183,9 @@ while true; do
->               ;;
->           "kvm")
->               KVM_ENABLED="yes"
-> -            KVM_CAPABLE=`grep -q 'vmx\|svm' /proc/cpuinfo && echo 1`
-> +            ;;
-> +        "nokvm")
-> +            KVM_ENABLED="no"
->               ;;
->           "slirp")
->               SLIRP_ENABLED="yes"
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index 694815f..91385ba 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -217,6 +217,19 @@ else
->                   sudo $QEMUIFUP $USERID $GROUPID $OECORE_NATIVE_SYSROOT
->                   return 1
->               fi
-> +
-> +            # Enale kvm when possible since sudo works well, if
-> +            # /usr/include/linux/kvm.h exists, qemu-native is built with kvm
-> +            # support.
-> +            if [ "$KVM_ENABLED" = "maybe" -a -n "$KVM_CAPABLE" -a \
-> +                -e /dev/kvm -a -e /dev/vhost-net -a -f /usr/include/linux/kvm.h ] && \
-> +               [ "$MACHINE" = "qemux86" -o "$MACHINE" = "qemux86-64" ]; then
-> +                    echo "Enabling KVM automatically, can be disabled by nokvm option"
-> +                    SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm"
-> +                    KVM_ACTIVE="yes"
-> +                    KVM_SUDO="sudo"
-> +            fi
-> +
->               LOCKFILE="$LOCKDIR/$tap"
->               echo "Acquiring lockfile for $tap..."
->               acquire_lock $LOCKFILE
-> @@ -237,6 +250,7 @@ else
->               echo "Releasing lockfile of preconfigured tap device '$TAP'"
->               release_lock $LOCKFILE
->
-> +
+That's broken for a while (see world reports), because bitbake mercurial
+fetcher is broken.
 
-Sorry, I removed this blank line in the repo.
+> /usr/bin/env hg pull=20
+> /home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim
+> | DEBUG: Python function base_do_unpack finished
+> | DEBUG: Python function do_unpack finished
+> | ERROR: Function failed: Fetcher failure: Fetch command failed with=20
+> exit code 255, output:
+> | abort: repository=20
+> /home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim not found!
+>=20
+>=20
+> there is a note on google regarding their hg repos: "We have some known=
+=20
+> issues with hg repositories."
+> =09
+> https://groups.google.com/forum/#!topic/google-code-hosting/Gh3kl9MrzY4
+>=20
+>=20
+> is anyone else seeing this?
+>=20
+> - armin
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-// Robert
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
->               if [ "$NFSRUNNING" = "true" ]; then
->                   echo "Shutting down the userspace NFS server..."
->                   echo "runqemu-export-rootfs stop $ROOTFS"
-> @@ -685,6 +699,7 @@ if [ "x$SERIALSTDIO" = "x1" ]; then
->   fi
->
->   echo "Running $QEMU..."
-> +[ -n "$KVM_SUDO" ] && QEMUBIN="$KVM_SUDO $QEMUBIN"
->   # -no-reboot is a mandatory option - see bug #100
->   if [ "$FSTYPE" = "vmdk" ]; then
->       echo $QEMUBIN $VM $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT
->
+--liOOAslEiF7prFVr
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlWL3vkACgkQN1Ujt2V2gBzLCgCgnM10P3S9EWXlVR+XiU6Nsgoy
+qW4AoJsytsDWrIq0DAyqG+KLUEHYuiEa
+=DLC8
+-----END PGP SIGNATURE-----
+
+--liOOAslEiF7prFVr--
