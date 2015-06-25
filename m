@@ -1,28 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C12E475A33
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2016175A0A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 15:09:28 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5PF9Qv7004462; Thu, 25 Jun 2015 16:09:26 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9CIkNA4yuiPQ; Thu, 25 Jun 2015 16:09:26 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5PF9ECO004444
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 25 Jun 2015 16:09:25 +0100
-Message-ID: <1435244954.10583.13.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Jun 2015 16:09:14 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: "markus.Lehtonen" <markus.Lehtonen@intel.com>, "Eggleton,
-	Paul" <paul.eggleton@intel.com>
-Subject: [PATCH] lib/devtool/standard: Fix patch cleanup
+	Thu, 25 Jun 2015 15:18:41 +0000 (UTC)
+Received: by qged89 with SMTP id d89so25771607qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jun 2015 08:18:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=lbm+1g0fW6Dkq/eXY/7yQ7Y8dv/PsYsg3YnhJB7kWa8=;
+	b=RPdzLAg8y3HwCLX/l+A468jAZbVRBL0ndUgKs3c0fQBzqqe/SMHYzFtNgTP8s1JixL
+	uP+IOTHwlZAzw7yEvCMnWRhN7+oAza7nnnnMxt0N0RcAlXtKVJ70qqILRn6OXwGTfdZM
+	3Ea0tbt8i6nWlls6dKyd/JUac/q9UHLhTl0sSVh2/V3kgWrUlmHCP4H40XxNbjp8R3Bx
+	BIfhOlTXEIju7bsSIJEZdw3Fd9AOFjqqMRojSUia55UcyPrd80i7BLJho9gMwM/Gr7wX
+	7aDUs0qyV4wkcuZltakVg+fPj0FiYWgL0mJ6v0zrLlEUeEPqLc1yfbQiuEjefnbJCxuQ
+	IHMA==
+X-Gm-Message-State: ALoCoQloDH/fRS/8Mgy3VLlUkd0o/v6Ed+fp9Ckt3svbpdnEh9cbf7yx2syqtw+042MuAfOWVS1O
+X-Received: by 10.140.88.5 with SMTP id s5mr59139977qgd.59.1435245522340; Thu,
+	25 Jun 2015 08:18:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Thu, 25 Jun 2015 08:18:22 -0700 (PDT)
+In-Reply-To: <558BCABE.609@windriver.com>
+References: <cover.1435135356.git.liezhi.yang@windriver.com>
+	<bf978a7894f51c909ede7f64c28b6da5495d981a.1435135356.git.liezhi.yang@windriver.com>
+	<CAJTo0LZBzMKzzswgtsk0o3uohK+03a4kPB0niwhvyYqxpQBhYg@mail.gmail.com>
+	<558B6646.2050809@windriver.com>
+	<CAJTo0LbE33NkdmiA_+=NmHAS3hRJY6tdsoGHSQKo2ARAsCgpqA@mail.gmail.com>
+	<558BCABE.609@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 Jun 2015 16:18:22 +0100
+Message-ID: <CAJTo0LYmdJ1fcx=AttjnpETy_THas_M1yV=d3Uzv6hMh_nSphg@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/5] file: 5.22 -> 5.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,43 +48,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 15:09:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jun 2015 15:18:44 -0000
+Content-Type: multipart/alternative; boundary=001a11c118748669db05195923f4
 
-If patches fail to apply with git, quilt it used as a fallback. If that
-happens, the code in this class is meant to handle cleanup of these patch
-files. In the case where ${S} is a subdir of the git tree, the code doesn't
-correctly set the patches directory.
+--001a11c118748669db05195923f4
+Content-Type: text/plain; charset=UTF-8
 
-This change correctly sets the patches directory (which is different to the
-location of the git repository).
+On 25 June 2015 at 10:32, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-[YOCTO #7911]
+> Thanks, let's wait for 5.24.
+>
+> Btw, it doesn't work for me now, either, now.
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+FWIW, the FTP server appears to be back now.  The known problem with long
+options does mean we should either backport the fix or wait for .24 though.
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 4d3ff02..ea21877 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -299,6 +299,7 @@ def _extract_source(srctree, keep_temp, devbranch, d):
-         logger.info('Unpacking...')
-         task_executor.exec_func('do_unpack', False)
-         srcsubdir = crd.getVar('S', True)
-+        patchsubdir = srcsubdir
-         if srcsubdir == workdir:
-             # Find non-patch sources that were "unpacked" to srctree directory
-             recipe_patches = [os.path.basename(patch) for patch in
-@@ -319,7 +320,7 @@ def _extract_source(srctree, keep_temp, devbranch, d):
- 
-         scriptutils.git_convert_standalone_clone(srcsubdir)
- 
--        patchdir = os.path.join(srcsubdir, 'patches')
-+        patchdir = os.path.join(patchsubdir, 'patches')
-         haspatches = False
-         if os.path.exists(patchdir):
-             if os.listdir(patchdir):
+Ross
 
+--001a11c118748669db05195923f4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 June 2015 at 10:32, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":169" cla=
+ss=3D"a3s" style=3D"overflow:hidden">Thanks, let&#39;s wait for 5.24.<br>
+<br>
+Btw, it doesn&#39;t work for me now, either, now.<br></div></blockquote></d=
+iv><br>FWIW, the FTP server appears to be back now.=C2=A0 The known problem=
+ with long options does mean we should either backport the fix or wait for =
+.24 though.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
 
+--001a11c118748669db05195923f4--
