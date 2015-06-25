@@ -1,37 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B8528737AF
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1078D60125
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 19:47:08 +0000 (UTC)
-Received: by pdbci14 with SMTP id ci14so59526380pdb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 12:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dLcF7JVxQL1Fruo0VU93EBu7jsFdxZ4pj66MvlPXZtc=;
-	b=j8P/TjM5wD1NWgr23COGk3rR/VO1J+mE4IvZlWsvvfT0pmiec5g+9z49sSDG8f9Mfi
-	qdiYZQIGYCdeHESKghyu2w2GoDRR6I28Eq1dFi1dEAms3P9rpIGEGiORyjqFyIdixhiA
-	LSv0CNP8ttQebfk/ckE4+4bvrMmYQxpaBLxHa3ysZM3hje1ZhqNKfmWAFYRpGDvcBJmL
-	gN7MYmC3JmiXV6jXmL2uDE6PKjmZQ6+T/iq/aPVRNTRfudN0re7dPkUKGtmTk3+xCgF/
-	QdHINGYXgMdLmHM3xFLJch4xMAGycRrgWpNzHkNe7rI7MheAWS3ndFAGADbKJDRd+QFG
-	He3g==
-X-Received: by 10.68.250.194 with SMTP id ze2mr3065568pbc.24.1435261630045;
-	Thu, 25 Jun 2015 12:47:10 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id
-	i10sm30936327pdr.78.2015.06.25.12.47.09
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 Jun 2015 12:47:09 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
+	Thu, 25 Jun 2015 20:03:09 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jun 2015 13:03:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,679,1427785200"; d="scan'208";a="734745172"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.4.55])
+	([10.219.4.55])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jun 2015 13:03:09 -0700
+Message-ID: <558C5EED.70000@linux.intel.com>
+Date: Thu, 25 Jun 2015 15:05:01 -0500
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jun 2015 12:46:47 -0700
-Message-Id: <1435261607-2512-3-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1435261607-2512-1-git-send-email-armccurdy@gmail.com>
-References: <1435261607-2512-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 3/3] populate_sdk_base.bbclass: use pbzip2 to compress SDK tarfiles
+Subject: Automatic Upgrade Helper Announcement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 19:47:09 -0000
+X-List-Received-Date: Thu, 25 Jun 2015 20:03:13 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/classes/populate_sdk_base.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hi all,
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 781b279..a4a0193 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -40,7 +40,7 @@ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
- 
- SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
--SDK_DEPENDS = "virtual/fakeroot-native"
-+SDK_DEPENDS = "virtual/fakeroot-native pbzip2-native"
- 
- # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
- # could be set to the MACHINE_ARCH
-@@ -121,13 +121,13 @@ fakeroot create_sdk_files() {
- 	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
- }
- 
--SDKTAROPTS = "--owner=root --group=root -j"
-+SDKTAROPTS = "--owner=root --group=root"
- 
- fakeroot tar_sdk() {
- 	# Package it up
- 	mkdir -p ${SDK_DEPLOY}
- 	cd ${SDK_OUTPUT}/${SDKPATH}
--	tar ${SDKTAROPTS} -c --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
-+	tar ${SDKTAROPTS} -cf - . | pbzip2 > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2
- }
- 
- fakeroot create_shar() {
--- 
-1.9.1
+I'm glad to announce the enabling of Automatic Upgrade Helper (a.k.a. 
+AUH), the AUH is a service
+that provides recipe upgrades and will be run on weekly basis.
 
+If you are a maintainer (listed in [1]) you will receive AUH emails with 
+Recipe upgrades when AUH
+detects that upgrade is needed.
+
+The development of AUH continues with adding capabilities like 
+buildhistory support and image
+testing for upgraded recipes planned for Yocto 1.9 release [2], 
+contributions are welcome the code
+can be found at [3].
+
+Any comment or concern please contact me.
+
+Cheers,
+     alimon
+
+[1] 
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-yocto/conf/distro/include/maintainers.inc 
+
+[2] 
+https://bugzilla.yoctoproject.org/buglist.cgi?product=Maintenance%20Tools&component=Automated%20Update%20Handler 
+
+[3] http://git.yoctoproject.org/cgit/cgit.cgi/auto-upgrade-helper/
 
