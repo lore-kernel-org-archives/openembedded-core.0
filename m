@@ -1,29 +1,32 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 80782601E0
+Return-Path: <niqingliang2003@gmail.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 9620B60167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 02:24:07 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5P2O81p029908
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Jun 2015 19:24:08 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 24 Jun 2015 19:24:07 -0700
-Message-ID: <558B6646.2050809@windriver.com>
-Date: Thu, 25 Jun 2015 10:24:06 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Thu, 25 Jun 2015 02:40:11 +0000 (UTC)
+Received: by igin14 with SMTP id n14so46677566igi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Jun 2015 19:40:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=ecFo+oQKq4Bf7tbSngdYRs1wg6u4QdcJyxYkYLBUh9I=;
+	b=US2u0sRZ59oZ9OSvX8rPa9HxYeJtZ4aN8JKa5qs3P3nsa4X2JWletN0bxH2EIfVfz5
+	ObmKQjGPqmfh8sch/Ppf+0tg8rGPZYmEZxAG61ReE/+qvwcDMV0MGzNWcJbgTyqgPDyo
+	RFylMqj8ty8y6HZnOg4dndeQP31/PIdPWXVWApKvQj4XnhwieC/gK+ra8hQqVe/yCEP/
+	y2HcSTa9fXRk/MjtPHg4iPIrlUca4jcWNP67ebslnOlbYZvo58rPAfTi68s69c9CtwYr
+	akLVdUckDhIwp3wxMoT6DhlHqz+i5ISBZMEmo+Zq9sMbjmnFvDrw+MrDZyJmZz3P7/O7
+	i2VQ==
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1435135356.git.liezhi.yang@windriver.com>
-	<bf978a7894f51c909ede7f64c28b6da5495d981a.1435135356.git.liezhi.yang@windriver.com>
-	<CAJTo0LZBzMKzzswgtsk0o3uohK+03a4kPB0niwhvyYqxpQBhYg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZBzMKzzswgtsk0o3uohK+03a4kPB0niwhvyYqxpQBhYg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] file: 5.22 -> 5.23
+X-Received: by 10.107.17.137 with SMTP id 9mr36399317ior.28.1435200012385;
+	Wed, 24 Jun 2015 19:40:12 -0700 (PDT)
+Received: by 10.36.24.74 with HTTP; Wed, 24 Jun 2015 19:40:12 -0700 (PDT)
+In-Reply-To: <CADwFkYfdEMKpzhzJnyDXn0yMDotpdDJ4-jXeYbvu4aAcEBHgOQ@mail.gmail.com>
+References: <CADwFkYfdEMKpzhzJnyDXn0yMDotpdDJ4-jXeYbvu4aAcEBHgOQ@mail.gmail.com>
+Date: Thu, 25 Jun 2015 10:40:12 +0800
+Message-ID: <CADwFkYd=w3P2SPZOKH9KA9e1YCqMth=oQ5bpavu5wDBK3Hf6Dw@mail.gmail.com>
+From: Yi Qingliang <niqingliang2003@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: zImage-dtb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +39,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 02:24:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jun 2015 02:40:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
+Oh, forgot one thing.
+it looks like a function android provided.
 
-
-On 06/24/2015 07:56 PM, Burton, Ross wrote:
+On Wed, Jun 24, 2015 at 10:10 AM, Yi Qingliang
+<niqingliang2003@gmail.com> wrote:
+> Hello,
+>     has someone used the "zImage-dtb"?
 >
-> On 24 June 2015 at 09:55, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
+>     the "zImage-dtb" will concatenate multiple dtbs append to zImage.
+>     How the kernel select dtb in running time?
 >
->     Updated 0001-Add-P-prompt-into-Usage-info.patch.
->
->     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
->     <mailto:liezhi.yang@windriver.com>>
->
->
-> Currently this fails to fetch:
->
-> WARNING: Failed to fetch URL ftp://ftp.astron.com/pub/file/file-5.23.tar.gz,
-> attempting MIRRORS if available
-> ERROR: Fetcher failure: Fetch command failed with exit code 6, output:
-> Login incorrect.
->
-> Hopefully this is a transient failure but is this still the best source location?
-
-It works now, I think that it should be a transient failure. And I think that
-it is still the best source location since it is suggested by the homepage.
-
-// Robert
-
->
-> Ross
+> Yi Qingliang
 
