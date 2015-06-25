@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 76BCC605D2
+	by mail.openembedded.org (Postfix) with ESMTP id 78D68607BB
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 25 Jun 2015 09:24:32 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5P9OXxx029402
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5P9OYBI029408
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 02:24:33 -0700 (PDT)
+	Thu, 25 Jun 2015 02:24:34 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 25 Jun 2015 02:24:33 -0700
+	Thu, 25 Jun 2015 02:24:34 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Jun 2015 02:24:30 -0700
-Message-ID: <cover.1435224137.git.liezhi.yang@windriver.com>
+Date: Thu, 25 Jun 2015 02:24:32 -0700
+Message-ID: <86e000cec70be79f0bb6054bc3a8684fac87faa6.1435224137.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1435224137.git.liezhi.yang@windriver.com>
+References: <cover.1435224137.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] 2 fixes for runqemu
+Subject: [PATCH 2/2] runqemu: enable kvm when use tap under sudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,29 +36,102 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 25 Jun 2015 09:24:35 -0000
 Content-Type: text/plain
 
-Hello,
+Enable kvm support automatically when use tap interface under sudo, the
+thought is, if sudo works well, and qemu-native has been built with kvm
+support, and kvm can be enabled, then enable it, it can be disabled by
+nokvm option.
 
-The 2 patches will make qemu easier to use.
+The previous command:
+$ runqemu qemux86 kvm
+may not work since it checks the current user's read/write permission on
+/dev/kvm and /dev/vhost-net but failed without sudo, it can't use sudo
+to check them since sudo is not a must, sudo is only required when need
+create tap interface, this patch can enable it automatically.
 
-// Robert
+Enable kvm can improve qemu's performance a lot, when test perl-5.22's
+lib/warnings.t on qemux86-64, 70 times improved.
 
-The following changes since commit 2587b83faabdc8858e8746201805369ed8d53ba8:
-
-  wpa-supplicant: Revert "Make SystemD D-Bus config conditional" (2015-06-24 14:03:25 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/qemu
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/qemu
-
-Robert Yang (2):
-  runqemu: disable graphic when no DISPLAY
-  runqemu: enable kvm when use tap under sudo
-
- scripts/runqemu          |   20 ++++++++++++++++----
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ scripts/runqemu          |    9 +++++++--
  scripts/runqemu-internal |   15 +++++++++++++++
- 2 files changed, 31 insertions(+), 4 deletions(-)
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
+diff --git a/scripts/runqemu b/scripts/runqemu
+index d9e91af..926d76e 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -33,6 +33,7 @@ usage() {
+     echo "    nographic - disables video console"
+     echo "    serial - enables a serial console on /dev/ttyS0"
+     echo "    kvm - enables KVM when running qemux86/qemux86-64 (VT-capable CPU required)"
++    echo "    nokvm - disables KVM"
+     echo "    publicvnc - enable a VNC server open to all hosts"
+     echo "  qemuparams=\"xyz\" - specify custom parameters to QEMU"
+     echo "  bootparams=\"xyz\" - specify custom kernel parameters during boot"
+@@ -68,8 +69,10 @@ SCRIPT_QEMU_OPT=""
+ SCRIPT_QEMU_EXTRA_OPT=""
+ SCRIPT_KERNEL_OPT=""
+ SERIALSTDIO=""
+-KVM_ENABLED="no"
++KVM_ENABLED="maybe"
++KVM_CAPABLE="`grep -q 'vmx\|svm' /proc/cpuinfo && echo 1`"
+ KVM_ACTIVE="no"
++KVM_SUDO=""
+ GRAPHIC="yes"
+ 
+ # Determine whether the file is a kernel or QEMU image, and set the
+@@ -180,7 +183,9 @@ while true; do
+             ;;
+         "kvm")
+             KVM_ENABLED="yes"
+-            KVM_CAPABLE=`grep -q 'vmx\|svm' /proc/cpuinfo && echo 1`
++            ;;
++        "nokvm")
++            KVM_ENABLED="no"
+             ;;
+         "slirp")
+             SLIRP_ENABLED="yes"
+diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+index 694815f..91385ba 100755
+--- a/scripts/runqemu-internal
++++ b/scripts/runqemu-internal
+@@ -217,6 +217,19 @@ else
+                 sudo $QEMUIFUP $USERID $GROUPID $OECORE_NATIVE_SYSROOT
+                 return 1
+             fi
++
++            # Enale kvm when possible since sudo works well, if
++            # /usr/include/linux/kvm.h exists, qemu-native is built with kvm
++            # support.
++            if [ "$KVM_ENABLED" = "maybe" -a -n "$KVM_CAPABLE" -a \
++                -e /dev/kvm -a -e /dev/vhost-net -a -f /usr/include/linux/kvm.h ] && \
++               [ "$MACHINE" = "qemux86" -o "$MACHINE" = "qemux86-64" ]; then
++                    echo "Enabling KVM automatically, can be disabled by nokvm option"
++                    SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm"
++                    KVM_ACTIVE="yes"
++                    KVM_SUDO="sudo"
++            fi
++
+             LOCKFILE="$LOCKDIR/$tap"
+             echo "Acquiring lockfile for $tap..."
+             acquire_lock $LOCKFILE
+@@ -237,6 +250,7 @@ else
+             echo "Releasing lockfile of preconfigured tap device '$TAP'"
+             release_lock $LOCKFILE
+ 
++
+             if [ "$NFSRUNNING" = "true" ]; then
+                 echo "Shutting down the userspace NFS server..."
+                 echo "runqemu-export-rootfs stop $ROOTFS"
+@@ -685,6 +699,7 @@ if [ "x$SERIALSTDIO" = "x1" ]; then
+ fi
+ 
+ echo "Running $QEMU..."
++[ -n "$KVM_SUDO" ] && QEMUBIN="$KVM_SUDO $QEMUBIN"
+ # -no-reboot is a mandatory option - see bug #100
+ if [ "$FSTYPE" = "vmdk" ]; then
+     echo $QEMUBIN $VM $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT
 -- 
 1.7.9.5
 
