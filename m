@@ -1,37 +1,37 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 54806758E1
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id B8528737AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 19:47:01 +0000 (UTC)
-Received: by pdcu2 with SMTP id u2so59588055pdc.3
+	Thu, 25 Jun 2015 19:47:08 +0000 (UTC)
+Received: by pdbci14 with SMTP id ci14so59526380pdb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 12:47:03 -0700 (PDT)
+	Thu, 25 Jun 2015 12:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=f+eJlR6GJKt8arw1TDzhPqsdlQgfn1628yoiUL5ZN0s=;
-	b=Esc5gp7etbWmVUa9J0uQevRwoTN9TTI2pp6tycdNfPpFagKmL3p1p3RvaJIxB9KlnM
-	oipOGnLAWyUUOdf+XVav3W3maYPYxlHvrnHwvcA/+8xdTrN5WvJ0eRA6HtQ2J8S+pYxE
-	vSj3OQcxxHeIXEM6lplQSbM7gxEt7tgxbyU6KhFx1TIkrR4CYQkiRsJSPxS07NMU8vUO
-	lzxgMmem1jDeiK9XSLA0b1cZRJJ0XnWyLFOfU8/Kyk6Ufr0iTdK6k8Q0aVwhefvVp7og
-	MAsiF01Z8eCqzmTKpr7fBEeNF1IvZFxg6WoTIAe81FvejI8FOcu0lkkjRzsr55qHvitB
-	NiQw==
-X-Received: by 10.66.234.134 with SMTP id ue6mr93543011pac.146.1435261623309; 
-	Thu, 25 Jun 2015 12:47:03 -0700 (PDT)
+	bh=dLcF7JVxQL1Fruo0VU93EBu7jsFdxZ4pj66MvlPXZtc=;
+	b=j8P/TjM5wD1NWgr23COGk3rR/VO1J+mE4IvZlWsvvfT0pmiec5g+9z49sSDG8f9Mfi
+	qdiYZQIGYCdeHESKghyu2w2GoDRR6I28Eq1dFi1dEAms3P9rpIGEGiORyjqFyIdixhiA
+	LSv0CNP8ttQebfk/ckE4+4bvrMmYQxpaBLxHa3ysZM3hje1ZhqNKfmWAFYRpGDvcBJmL
+	gN7MYmC3JmiXV6jXmL2uDE6PKjmZQ6+T/iq/aPVRNTRfudN0re7dPkUKGtmTk3+xCgF/
+	QdHINGYXgMdLmHM3xFLJch4xMAGycRrgWpNzHkNe7rI7MheAWS3ndFAGADbKJDRd+QFG
+	He3g==
+X-Received: by 10.68.250.194 with SMTP id ze2mr3065568pbc.24.1435261630045;
+	Thu, 25 Jun 2015 12:47:10 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by mx.google.com with ESMTPSA id
-	i10sm30936327pdr.78.2015.06.25.12.47.01
+	i10sm30936327pdr.78.2015.06.25.12.47.09
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 25 Jun 2015 12:47:02 -0700 (PDT)
+	Thu, 25 Jun 2015 12:47:09 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jun 2015 12:46:46 -0700
-Message-Id: <1435261607-2512-2-git-send-email-armccurdy@gmail.com>
+Date: Thu, 25 Jun 2015 12:46:47 -0700
+Message-Id: <1435261607-2512-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1435261607-2512-1-git-send-email-armccurdy@gmail.com>
 References: <1435261607-2512-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/3] image_types.bbclass: use pbzip2 for images requiring bz2 compression
+Subject: [PATCH 3/3] populate_sdk_base.bbclass: use pbzip2 to compress SDK tarfiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 19:47:03 -0000
+X-List-Received-Date: Thu, 25 Jun 2015 19:47:09 -0000
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/classes/image_types.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/populate_sdk_base.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index d86d108..9668bad 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -162,13 +162,13 @@ IMAGE_TYPES = " \
- COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
- COMPRESS_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}.rootfs.${type}"
- COMPRESS_CMD_gz = "gzip -f -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.gz"
--COMPRESS_CMD_bz2 = "bzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
-+COMPRESS_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}.rootfs.${type}"
- COMPRESS_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_THREADS} --check=${XZ_INTEGRITY_CHECK} ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.xz"
- COMPRESS_CMD_lz4 = "lz4c -9 -c ${IMAGE_NAME}.rootfs.${type} > ${IMAGE_NAME}.rootfs.${type}.lz4"
- COMPRESS_CMD_sum = "sumtool -i ${IMAGE_NAME}.rootfs.${type} -o ${IMAGE_NAME}.rootfs.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
- COMPRESS_DEPENDS_lzma = "xz-native"
- COMPRESS_DEPENDS_gz = ""
--COMPRESS_DEPENDS_bz2 = ""
-+COMPRESS_DEPENDS_bz2 = "pbzip2-native"
- COMPRESS_DEPENDS_xz = "xz-native"
- COMPRESS_DEPENDS_lz4 = "lz4-native"
- COMPRESS_DEPENDS_sum = "mtd-utils-native"
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 781b279..a4a0193 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -40,7 +40,7 @@ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+ 
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+-SDK_DEPENDS = "virtual/fakeroot-native"
++SDK_DEPENDS = "virtual/fakeroot-native pbzip2-native"
+ 
+ # We want the MULTIARCH_TARGET_SYS to point to the TUNE_PKGARCH, not PACKAGE_ARCH as it
+ # could be set to the MACHINE_ARCH
+@@ -121,13 +121,13 @@ fakeroot create_sdk_files() {
+ 	sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+ }
+ 
+-SDKTAROPTS = "--owner=root --group=root -j"
++SDKTAROPTS = "--owner=root --group=root"
+ 
+ fakeroot tar_sdk() {
+ 	# Package it up
+ 	mkdir -p ${SDK_DEPLOY}
+ 	cd ${SDK_OUTPUT}/${SDKPATH}
+-	tar ${SDKTAROPTS} -c --file=${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2 .
++	tar ${SDKTAROPTS} -cf - . | pbzip2 > ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.tar.bz2
+ }
+ 
+ fakeroot create_shar() {
 -- 
 1.9.1
 
