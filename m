@@ -1,37 +1,35 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1677E605B3;
-	Thu, 25 Jun 2015 03:00:58 +0000 (UTC)
-Received: by pdcu2 with SMTP id u2so43330214pdc.3;
-	Wed, 24 Jun 2015 20:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=HcKkLTIUojdDJN68a1F5nz8aWtFrq0DQwZ8N58VAmR4=;
-	b=VAJ/hmrRG88bKQ6MABInc0DIIf5YfmJoYL5eeVmbsYEmzWK8eeWEAN9+SqN75feE7k
-	ZN0b0A2tDoZwzBoDPzeJklRwEcfXd3oL6/xYLkU2ILSnm0F8icDL0De4VvV2wjuOdTrV
-	81hrtAI65abdXQ7R/IIgwlkBDL92MB4xQU+RZDyrKcNnv19MaYP+fcSVhZyy1MIO6Lfc
-	PZCQH98RYN8SWOg4EqM6kcF72M0vFQ4D5xynYTYwLPt9YPwFP77jJuwbCPr6w2dQhoc+
-	2jkJMVKYF5JnvQoq3ABfvmJZCC1y10SAWwKhsKDYiVkeOIGxZJ+cFTO9Bno8iluPSI9Y
-	L4yA==
-X-Received: by 10.66.101.9 with SMTP id fc9mr14352491pab.37.1435201259437;
-	Wed, 24 Jun 2015 20:00:59 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:64c5:89fd:13b4:1d00?
-	([2601:202:4000:1239:64c5:89fd:13b4:1d00])
-	by mx.google.com with ESMTPSA id
-	qs8sm28169329pbc.38.2015.06.24.20.00.56
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Jun 2015 20:00:58 -0700 (PDT)
-Message-ID: <558B6EE7.5090107@gmail.com>
-Date: Wed, 24 Jun 2015 20:00:55 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D10F6E6CC
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jun 2015 05:28:32 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Jun 2015 22:28:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,674,1427785200"; d="scan'208";a="750062465"
+Received: from kmsmsx153.gar.corp.intel.com ([172.21.73.88])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Jun 2015 22:28:33 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.200]) by
+	KMSMSX153.gar.corp.intel.com ([169.254.5.131]) with mapi id
+	14.03.0224.002; Thu, 25 Jun 2015 13:27:23 +0800
+From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+To: 'akuster808' <akuster808@gmail.com>,
+	"'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi feature
+Thread-Index: AQHQrVedzSPeiS08O0etgQL/bJTODp25VQNggANe1gA=
+Date: Thu, 25 Jun 2015 05:27:22 +0000
+Message-ID: <B4FF7F2787593E4CA07131C98D4AD41A01C43D12@PGSMSX101.gar.corp.intel.com>
+References: <1434699981-8983-1-git-send-email-wei.tee.ng@intel.com>
+	<5588BC3C.7020800@gmail.com>
+	<B4FF7F2787593E4CA07131C98D4AD41A01C435C9@PGSMSX101.gar.corp.intel.com>
+In-Reply-To: <B4FF7F2787593E4CA07131C98D4AD41A01C435C9@PGSMSX101.gar.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Subject: google mercurial repo issues
+Subject: Re: [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,31 +42,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 03:01:02 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jun 2015 05:28:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hello all,
+Hi, are these included?
 
-I have run into an issue trying to build vim.
+Best Regards,
+Wei Tee
 
-/usr/bin/env hg pull 
-/home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim
-| DEBUG: Python function base_do_unpack finished
-| DEBUG: Python function do_unpack finished
-| ERROR: Function failed: Fetcher failure: Fetch command failed with 
-exit code 255, output:
-| abort: repository 
-/home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim not found!
-
-
-there is a note on google regarding their hg repos: "We have some known 
-issues with hg repositories."
-	
-https://groups.google.com/forum/#!topic/google-code-hosting/Gh3kl9MrzY4
-
-
-is anyone else seeing this?
-
-- armin
+> -----Original Message-----
+> From: Ng, Wei Tee
+> Sent: Tuesday, June 23, 2015 10:06 AM
+> To: akuster808; openembedded-core@lists.openembedded.org
+> Subject: RE: [OE-core] [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi featu=
+re
+>=20
+> Hi Armin,
+>=20
+> Thanks for accepting the linux-firmware changes in dizzy branch.
+>=20
+> Regarding to the two new recipes, is it possible to add the two new recip=
+es in
+> master branch so that it can be backport to dizzy/fido branch? My target =
+is to
+> enable hostapd and iw features in dizzy branch. Hope to get some advice f=
+rom
+> you. Thank you
+>=20
+> Regards,
+> Wei Tee
+>=20
+> > -----Original Message-----
+> > From: akuster808 [mailto:akuster808@gmail.com]
+> > Sent: Tuesday, June 23, 2015 9:54 AM
+> > To: Ng, Wei Tee; openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi
+> > feature
+> >
+> > Wei Tee,
+> >
+> > I am ok with the firmware change but not adding two new recipes. A
+> > better place may be in fido.
+> >
+> > regards,
+> > Armin
+> >
+> > On 06/19/2015 12:46 AM, wei.tee.ng@intel.com wrote:
+> > > From: Ng Wei Tee <wei.tee.ng@intel.com>
+> > >
+> > > Hi all,
+> > >
+> > > I would like to add hostapd and iw configuration for enabling
+> > > Marvell
+> > > 8897 Wifi feature. Hostapd and iw configuration were created in the
+> > > recipes-connectivity layer to enable Marvell 8897 module function in
+> > > AP Mode and STA mode.
+> > >
+> > > This also package the Marvell pci8897 and usb8897 in the
+> > > recipes-kernel/linux-firmware and intel iwlwifi firmware copyright
+> > > years changed. Please review and provide feedback if any.
+> > >
+> > > This patch is target to merge in openembedded-core dizzy branch.
+> > >
+> > > Regards,
+> > > Wei Tee
+> > >
+> > > Ng Shui Lei (2):
+> > >    recipes-connectivity: Add hostapd configuration for enabling Marve=
+ll
+> > >      8897 WiFi feature
+> > >    recipes-connectivity: Add iw configuration for enabling Marvell 88=
+97
+> > >      WiFi feature
+> > >
+> > > Ng Wei Tee (1):
+> > >    linux-firmware: Package Marvell pci8897 and usb8897 firmware
+> > >
+> > >   .../hostapd/hostapd-2.2/defconfig                  |  145 +++++++++=
++++++++++++
+> > >   .../hostapd/hostapd-2.2/hostapd.service            |   11 ++
+> > >   meta/recipes-connectivity/hostapd/hostapd-2.2/init |   58 ++++++++
+> > >   meta/recipes-connectivity/hostapd/hostapd_2.2.bb   |   48 +++++++
+> > >   ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++
+> > >   meta/recipes-connectivity/iw/iw_3.8.bb             |   27 ++++
+> > >   .../linux-firmware/linux-firmware_git.bb           |   19 ++-
+> > >   7 files changed, 345 insertions(+), 3 deletions(-)
+> > >   create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
+> > 2.2/defconfig
+> > >   create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
+> > 2.2/hostapd.service
+> > >   create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/in=
+it
+> > >   create mode 100644 meta/recipes-connectivity/hostapd/hostapd_2.2.bb
+> > >   create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-
+> > version.sh-don-t-use-git-describe-for-versioning.patch
+> > >   create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
+> > >
 
