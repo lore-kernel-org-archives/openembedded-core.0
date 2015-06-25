@@ -1,26 +1,40 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 78D68607BB
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 989536AC15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 09:24:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5P9OYBI029408
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 25 Jun 2015 09:30:30 +0000 (UTC)
+Received: by qkfe185 with SMTP id e185so35526553qkf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 02:24:34 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 25 Jun 2015 02:24:34 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Jun 2015 02:24:32 -0700
-Message-ID: <86e000cec70be79f0bb6054bc3a8684fac87faa6.1435224137.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1435224137.git.liezhi.yang@windriver.com>
-References: <cover.1435224137.git.liezhi.yang@windriver.com>
+	Thu, 25 Jun 2015 02:30:31 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=RDXAe0F0WINzhdvtGs1yoZoFTKkz3tTcqnuOpxcSw+s=;
+	b=DwsgExq8Re/z2JsyNEFst+pe8k+pmxiYMQeotmfgrIyWysZgoonAj44InZXg1apDum
+	RsLzebvKpU+i8tTix8UUy4XuBqsKZBqVwsTFY5RtHQJkDvljXDcwxl4qhLIvwbr6eMzY
+	5XiCfH7IJaIR9tfMGXAcIW0MrpEJzeiMZntowlbkFF5WWvfnuSoaNWOHMEMl6haxSuIP
+	ASUyekujdQnTI9cYYnICQ60SrpMxaaB+pZaTdnuOD7bGDW9gvCei38pc7CEjwjROuABR
+	yPsjp2Dda47mlig5zNxD55FULgwihHHUIDvribeXdEwMBnzN95wr5g7SnacjrsQIvKIa
+	LXiA==
+X-Gm-Message-State: ALoCoQmumdnTvFCrf6x6//pyyI3l57Q9dUMJhUoFLswk+TC3Djy6wnhWRg/3HPLgfnE+DsF4U/j/
+X-Received: by 10.140.231.19 with SMTP id b19mr58868329qhc.22.1435224631224;
+	Thu, 25 Jun 2015 02:30:31 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] runqemu: enable kvm when use tap under sudo
+Received: by 10.140.102.231 with HTTP; Thu, 25 Jun 2015 02:30:11 -0700 (PDT)
+In-Reply-To: <558BA6BB.10301@windriver.com>
+References: <1433294684-10258-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0LZxzFL=DHq9NxVvcs=VNmPnCe=Z2V6ksAaBmLQ0+FAHxQ@mail.gmail.com>
+	<558A0AF1.8060204@windriver.com>
+	<CAJTo0LZx+nUqwQKwGcO7G7xHHQkYF0Gp8p2bsGageFKLcM74Lw@mail.gmail.com>
+	<558BA6BB.10301@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 Jun 2015 10:30:11 +0100
+Message-ID: <CAJTo0LYqkTMDbo7dYLP6dMjfR3vzsKv4Ln=j84fMN8Y2Ksyv_w@mail.gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][v4] mmc-utils: fix the building failure when DEBUG_BUILD is 1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,106 +47,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 09:24:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 25 Jun 2015 09:30:38 -0000
+Content-Type: multipart/alternative; boundary=001a11c12f00513f2d05195446a3
 
-Enable kvm support automatically when use tap interface under sudo, the
-thought is, if sudo works well, and qemu-native has been built with kvm
-support, and kvm can be enabled, then enable it, it can be disabled by
-nokvm option.
+--001a11c12f00513f2d05195446a3
+Content-Type: text/plain; charset=UTF-8
 
-The previous command:
-$ runqemu qemux86 kvm
-may not work since it checks the current user's read/write permission on
-/dev/kvm and /dev/vhost-net but failed without sudo, it can't use sudo
-to check them since sudo is not a must, sudo is only required when need
-create tap interface, this patch can enable it automatically.
+On 25 June 2015 at 07:59, Rongqing Li <rongqing.li@windriver.com> wrote:
 
-Enable kvm can improve qemu's performance a lot, when test perl-5.22's
-lib/warnings.t on qemux86-64, 70 times improved.
+> How about the below patch
+>
+> From 6de0180f5332880195e315fdaf4899406dc54d99 Mon Sep 17 00:00:00 2001
+> From: Roy Li <rongqing.li@windriver.com>
+> Date: Thu, 25 Jun 2015 14:44:05 +0800
+> Subject: [PATCH] mmc-utils: fix the building failure when DEBUG_BUILD is 1
+>
+> AM_CFLAGS in Makefile includes -D_FORTIFY_SOURCE=2 which will lead
+> to building failure when DEBUG_BUILD is 1.
+> Cancel the definition of _FORTIFY_SOURCE by passing -U_FORTIFY_SOURCE
+> via TARGET_CPPFLAGS; this does not effect the security cflags usage,
+> since the cflags is equal to:
+> CFLAGS="${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION} ${SECURITY_CFLAGS}"
+>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- scripts/runqemu          |    9 +++++++--
- scripts/runqemu-internal |   15 +++++++++++++++
- 2 files changed, 22 insertions(+), 2 deletions(-)
+You're still globally turning off fortify when it's only a *warning* that
+fortify and debug builds are mutually exclusive.  Disabling -Werror is the
+best thing to do here.
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index d9e91af..926d76e 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -33,6 +33,7 @@ usage() {
-     echo "    nographic - disables video console"
-     echo "    serial - enables a serial console on /dev/ttyS0"
-     echo "    kvm - enables KVM when running qemux86/qemux86-64 (VT-capable CPU required)"
-+    echo "    nokvm - disables KVM"
-     echo "    publicvnc - enable a VNC server open to all hosts"
-     echo "  qemuparams=\"xyz\" - specify custom parameters to QEMU"
-     echo "  bootparams=\"xyz\" - specify custom kernel parameters during boot"
-@@ -68,8 +69,10 @@ SCRIPT_QEMU_OPT=""
- SCRIPT_QEMU_EXTRA_OPT=""
- SCRIPT_KERNEL_OPT=""
- SERIALSTDIO=""
--KVM_ENABLED="no"
-+KVM_ENABLED="maybe"
-+KVM_CAPABLE="`grep -q 'vmx\|svm' /proc/cpuinfo && echo 1`"
- KVM_ACTIVE="no"
-+KVM_SUDO=""
- GRAPHIC="yes"
- 
- # Determine whether the file is a kernel or QEMU image, and set the
-@@ -180,7 +183,9 @@ while true; do
-             ;;
-         "kvm")
-             KVM_ENABLED="yes"
--            KVM_CAPABLE=`grep -q 'vmx\|svm' /proc/cpuinfo && echo 1`
-+            ;;
-+        "nokvm")
-+            KVM_ENABLED="no"
-             ;;
-         "slirp")
-             SLIRP_ENABLED="yes"
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 694815f..91385ba 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -217,6 +217,19 @@ else
-                 sudo $QEMUIFUP $USERID $GROUPID $OECORE_NATIVE_SYSROOT
-                 return 1
-             fi
-+
-+            # Enale kvm when possible since sudo works well, if
-+            # /usr/include/linux/kvm.h exists, qemu-native is built with kvm
-+            # support.
-+            if [ "$KVM_ENABLED" = "maybe" -a -n "$KVM_CAPABLE" -a \
-+                -e /dev/kvm -a -e /dev/vhost-net -a -f /usr/include/linux/kvm.h ] && \
-+               [ "$MACHINE" = "qemux86" -o "$MACHINE" = "qemux86-64" ]; then
-+                    echo "Enabling KVM automatically, can be disabled by nokvm option"
-+                    SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -enable-kvm"
-+                    KVM_ACTIVE="yes"
-+                    KVM_SUDO="sudo"
-+            fi
-+
-             LOCKFILE="$LOCKDIR/$tap"
-             echo "Acquiring lockfile for $tap..."
-             acquire_lock $LOCKFILE
-@@ -237,6 +250,7 @@ else
-             echo "Releasing lockfile of preconfigured tap device '$TAP'"
-             release_lock $LOCKFILE
- 
-+
-             if [ "$NFSRUNNING" = "true" ]; then
-                 echo "Shutting down the userspace NFS server..."
-                 echo "runqemu-export-rootfs stop $ROOTFS"
-@@ -685,6 +699,7 @@ if [ "x$SERIALSTDIO" = "x1" ]; then
- fi
- 
- echo "Running $QEMU..."
-+[ -n "$KVM_SUDO" ] && QEMUBIN="$KVM_SUDO $QEMUBIN"
- # -no-reboot is a mandatory option - see bug #100
- if [ "$FSTYPE" = "vmdk" ]; then
-     echo $QEMUBIN $VM $QEMUOPTIONS $SERIALOPTS -no-reboot $SCRIPT_QEMU_OPT $SCRIPT_QEMU_EXTRA_OPT
--- 
-1.7.9.5
+Ross
 
+--001a11c12f00513f2d05195446a3
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 25 June 2015 at 07:59, Rongqing Li <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:rongqing.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1vk" cla=
+ss=3D"a3s" style=3D"overflow:hidden">How about the below patch<br>
+<br>
+From 6de0180f5332880195e315fdaf4899406dc54d99 Mon Sep 17 00:00:00 2001<br>
+From: Roy Li &lt;<a href=3D"mailto:rongqing.li@windriver.com" target=3D"_bl=
+ank">rongqing.li@windriver.com</a>&gt;<br>
+Date: Thu, 25 Jun 2015 14:44:05 +0800<br>
+Subject: [PATCH] mmc-utils: fix the building failure when DEBUG_BUILD is 1<=
+span class=3D""><br>
+<br>
+AM_CFLAGS in Makefile includes -D_FORTIFY_SOURCE=3D2 which will lead<br>
+to building failure when DEBUG_BUILD is 1.<br>
+Cancel the definition of _FORTIFY_SOURCE by passing -U_FORTIFY_SOURCE<br></=
+span>
+via TARGET_CPPFLAGS; this does not effect the security cflags usage,<br>
+since the cflags is equal to:<br>
+CFLAGS=3D&quot;${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION} ${SECURITY_CFLAG=
+S}&quot;</div></blockquote></div><br>You&#39;re still globally turning off =
+fortify when it&#39;s only a *warning* that fortify and debug builds are mu=
+tually exclusive.=C2=A0 Disabling -Werror is the best thing to do here.</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
+
+--001a11c12f00513f2d05195446a3--
