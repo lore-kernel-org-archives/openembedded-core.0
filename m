@@ -1,33 +1,36 @@
 Return-Path: <vomegaz@gmail.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F2FBD6AC15
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 84398757CE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 11:24:11 +0000 (UTC)
-Received: by wguu7 with SMTP id u7so59735901wgu.3
+	Thu, 25 Jun 2015 11:24:13 +0000 (UTC)
+Received: by wiga1 with SMTP id a1so161349819wig.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 04:24:12 -0700 (PDT)
+	Thu, 25 Jun 2015 04:24:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=nWD+9ru8MftBL41axNvf1Z8fP6iBqvWRz/Kjc8OsifQ=;
-	b=DN+rB+Tzo3Y5gPivZLblGudqErM7zq2zpUkYoYgSiNid962o3SDUiEygTdwT7T+gJ3
-	4pPMgYitVdUb+ZLrkzDanrbSG+j4F3JI7rRWIodVD6z0yPh44YkKBBClDyRWsF+J2965
-	0MNHJveKHB7cBLyR34q+E41OnpOMfn2+Drx6Q4pDR/HOcoknBv97QvI9lfCJ7c5U/IHS
-	AFYkYjZE/jd1kn6FgZGLEgHp486sZtU/g6N8Kdfn2P7Zhw8g8ANhGyd22L4GaReQ5fs4
-	jg/yAtXG+eXYY2PMTlI3+lv7ID2TC1DwNtAjpMQAfz/REtc4o5gzV2nUtViCIn4ig2Ik
-	xV7g==
-X-Received: by 10.181.29.100 with SMTP id jv4mr4786760wid.4.1435231452385;
-	Thu, 25 Jun 2015 04:24:12 -0700 (PDT)
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=BlNPhFFbh3WtS3bApxO7MdqgOLXGn2PM7fRhrgZk1CM=;
+	b=mKX6yFadp7LvPrWxjBlLDDelIruy40abg1PJ50RBJIM+YvzT+NtrlaBah9RJHLBoFl
+	bnP3IxWM51vMU1Iy4HnZS1X4EcS5gxVSbo3kByVo89sB9vLDmwnt7RP1CZjLOxl/SdqF
+	/8sHBCd06k0E128S4pVPPlyTOw38P97zCk2OTREeCNn1RM1u68soLSSg62qvdb1p5/mX
+	lQzvQSAorgYBOeYpBMrHlN0qOsnEce8aA83W28671FgLJMvsboVvWhxMJbQzNVvhWKg6
+	LnHjRkVrbqkv0Cq2vtzp0wsZ746d5HgPtldmXzEl8pteL2kd0YqSo7F+f4qPrUFqPWJy
+	YEwA==
+X-Received: by 10.180.187.232 with SMTP id fv8mr4959259wic.28.1435231454940;
+	Thu, 25 Jun 2015 04:24:14 -0700 (PDT)
 Received: from X220.tupi.fr ([37.163.120.64])
-	by mx.google.com with ESMTPSA id b5sm7113324wic.3.2015.06.25.04.24.11
+	by mx.google.com with ESMTPSA id b5sm7113324wic.3.2015.06.25.04.24.13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Jun 2015 04:24:11 -0700 (PDT)
+	Thu, 25 Jun 2015 04:24:14 -0700 (PDT)
 Sender: Thomas PERROT <vomegaz@gmail.com>
 From: Thomas Perrot <thomas.perrot@tupi.fr>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jun 2015 13:24:03 +0200
-Message-Id: <1435231444-30705-1-git-send-email-thomas.perrot@tupi.fr>
+Date: Thu, 25 Jun 2015 13:24:04 +0200
+Message-Id: <1435231444-30705-2-git-send-email-thomas.perrot@tupi.fr>
 X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH 1/2] Set S to fix QA warning on systemd-serialgetty.
+In-Reply-To: <1435231444-30705-1-git-send-email-thomas.perrot@tupi.fr>
+References: <1435231444-30705-1-git-send-email-thomas.perrot@tupi.fr>
+Subject: [PATCH 2/2] Set S to fix QA warning on volatile-binds.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,26 +43,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 11:24:13 -0000
+X-List-Received-Date: Thu, 25 Jun 2015 11:24:15 -0000
 
 Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
 ---
- meta/recipes-core/systemd/systemd-serialgetty.bb |    2 ++
+ meta/recipes-core/volatile-binds/volatile-binds.bb |    2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-index 1c34d5c..399a88f 100644
---- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-+++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-@@ -8,6 +8,8 @@ SERIAL_CONSOLE ?= "115200 ttyS0"
- 
- SRC_URI = "file://serial-getty@.service"
+diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
+index 694ba1e..c5d7b5b 100644
+--- a/meta/recipes-core/volatile-binds/volatile-binds.bb
++++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
+@@ -9,6 +9,8 @@ SRC_URI = "\
+     file://volatile-binds.service.in \
+ "
  
 +S = "${WORKDIR}/${PN}-${PV}"
 +
- do_install() {
- 	if [ ! -z "${SERIAL_CONSOLES}" ] ; then
- 		default_baudrate=`echo "${SERIAL_CONSOLES}" | sed 's/\;.*//'`
+ inherit allarch systemd distro_features_check
+ 
+ REQUIRED_DISTRO_FEATURES = "systemd"
 -- 
 1.7.10.4
 
