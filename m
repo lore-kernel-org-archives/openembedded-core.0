@@ -1,30 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id BED297596C
+Return-Path: <vomegaz@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 65CCE7596C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 15:47:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5PFlg7k006800 for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 16:47:42 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id G4E4OJ7Me4qH
+	Thu, 25 Jun 2015 18:01:12 +0000 (UTC)
+Received: by wiga1 with SMTP id a1so171635160wig.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 16:47:42 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5PFlSID006797
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 16:47:40 +0100
-Message-ID: <1435247248.10583.15.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Jun 2015 16:47:28 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] oeqa/selftest/recipetool: Fix appendfile_binary test on opensuse131
+	Thu, 25 Jun 2015 11:01:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=gS4su9KrIHR9OgF8NJ8g/KwOQ9S5IAPDojuEbM4ScYM=;
+	b=F06zeEO3ankNWkr64Mke141imJeJeK4E7mZp7l/rrzawxIZweIb4cIiorSMcLYf+qI
+	k7jVXgdWtDAZbLhKgCEnjYHHypOZoytSNTmNpOTZZcR2YHFvKGKaDflu8x3J4eIqofjh
+	TDRNzM1I+c74wVUfxaZPudnP+1JkKqfvyr4pYcSx7Wst2M4b/odhK8HQ9BPazHBfwFyC
+	blJj3uiazNjK8KVt/g3HlwOHnHIsr4lYmOiiJHbuUydDT/v99CcVhlnTMnU+magu2DNj
+	1tEAIP0D6J/fHUE/tGkCH6N+bgUsPqEudj1ej90sATwxHprGI80eXPQXEoke5X48Z+VJ
+	ABKw==
+X-Received: by 10.194.9.161 with SMTP id a1mr82753171wjb.39.1435255273862;
+	Thu, 25 Jun 2015 11:01:13 -0700 (PDT)
+Received: from X220.tupi.fr ([37.160.80.150])
+	by mx.google.com with ESMTPSA id i6sm46880068wjf.29.2015.06.25.11.01.12
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 25 Jun 2015 11:01:13 -0700 (PDT)
+Sender: Thomas PERROT <vomegaz@gmail.com>
+From: Thomas Perrot <thomas.perrot@tupi.fr>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jun 2015 20:01:08 +0200
+Message-Id: <1435255269-1761-1-git-send-email-thomas.perrot@tupi.fr>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH v2 1/2] Set S to prevent QA warning on systemd-serialgetty.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,42 +41,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 15:47:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 25 Jun 2015 18:01:16 -0000
 
-On OpenSUSE 13.1, /bin/ls is a symlink to /usr/bin/ls. This means the
-test doesn't use a binary file an fails on that system.
+Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
+---
+ meta/recipes-core/systemd/systemd-serialgetty.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-Ensure we resolve any symlink using readlink to avoid this failure.
-
-======================================================================
-FAIL: test_recipetool_appendfile_binary (oeqa.selftest.recipetool.RecipetoolTests)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-oe-selftest/build/meta/lib/oeqa/selftest/recipetool.py", line 115, in test_recipetool_appendfile_binary
-    self.assertIn('WARNING: ', result.output)
-AssertionError: 'WARNING: ' not found in 'Parsing recipes..done.\nNOTE: Writing append file /tmp/recipetoolqai0NY8l/recipes-core/coreutils/coreutils_8.23.bbappend\nNOTE: Copying /bin/ls to /tmp/recipetoolqai0NY8l/recipes-core/coreutils/coreutils/ls'
-
-[YOCTO #7920]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
-index f3ad493..c08b2e4 100644
---- a/meta/lib/oeqa/selftest/recipetool.py
-+++ b/meta/lib/oeqa/selftest/recipetool.py
-@@ -111,7 +111,9 @@ class RecipetoolTests(DevtoolBase):
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
+index 1c34d5c..768b130 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -8,6 +8,8 @@ SERIAL_CONSOLE ?= "115200 ttyS0"
  
-     def test_recipetool_appendfile_binary(self):
-         # Try appending a binary file
--        result = runCmd('recipetool appendfile %s /bin/ls /bin/ls -r coreutils' % templayerdir)
-+        # /bin/ls can be a symlink to /usr/bin/ls
-+        ls = os.readlink("/bin/ls")
-+        result = runCmd('recipetool appendfile %s /bin/ls %s -r coreutils' % (templayerdir, ls))
-         self.assertIn('WARNING: ', result.output)
-         self.assertIn('is a binary', result.output)
+ SRC_URI = "file://serial-getty@.service"
  
-
++S = "${WORKDIR}"
++
+ do_install() {
+ 	if [ ! -z "${SERIAL_CONSOLES}" ] ; then
+ 		default_baudrate=`echo "${SERIAL_CONSOLES}" | sed 's/\;.*//'`
+-- 
+1.7.10.4
 
 
