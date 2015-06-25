@@ -1,32 +1,37 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 9620B60167
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 02:40:11 +0000 (UTC)
-Received: by igin14 with SMTP id n14so46677566igi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Jun 2015 19:40:12 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 1677E605B3;
+	Thu, 25 Jun 2015 03:00:58 +0000 (UTC)
+Received: by pdcu2 with SMTP id u2so43330214pdc.3;
+	Wed, 24 Jun 2015 20:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=ecFo+oQKq4Bf7tbSngdYRs1wg6u4QdcJyxYkYLBUh9I=;
-	b=US2u0sRZ59oZ9OSvX8rPa9HxYeJtZ4aN8JKa5qs3P3nsa4X2JWletN0bxH2EIfVfz5
-	ObmKQjGPqmfh8sch/Ppf+0tg8rGPZYmEZxAG61ReE/+qvwcDMV0MGzNWcJbgTyqgPDyo
-	RFylMqj8ty8y6HZnOg4dndeQP31/PIdPWXVWApKvQj4XnhwieC/gK+ra8hQqVe/yCEP/
-	y2HcSTa9fXRk/MjtPHg4iPIrlUca4jcWNP67ebslnOlbYZvo58rPAfTi68s69c9CtwYr
-	akLVdUckDhIwp3wxMoT6DhlHqz+i5ISBZMEmo+Zq9sMbjmnFvDrw+MrDZyJmZz3P7/O7
-	i2VQ==
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=HcKkLTIUojdDJN68a1F5nz8aWtFrq0DQwZ8N58VAmR4=;
+	b=VAJ/hmrRG88bKQ6MABInc0DIIf5YfmJoYL5eeVmbsYEmzWK8eeWEAN9+SqN75feE7k
+	ZN0b0A2tDoZwzBoDPzeJklRwEcfXd3oL6/xYLkU2ILSnm0F8icDL0De4VvV2wjuOdTrV
+	81hrtAI65abdXQ7R/IIgwlkBDL92MB4xQU+RZDyrKcNnv19MaYP+fcSVhZyy1MIO6Lfc
+	PZCQH98RYN8SWOg4EqM6kcF72M0vFQ4D5xynYTYwLPt9YPwFP77jJuwbCPr6w2dQhoc+
+	2jkJMVKYF5JnvQoq3ABfvmJZCC1y10SAWwKhsKDYiVkeOIGxZJ+cFTO9Bno8iluPSI9Y
+	L4yA==
+X-Received: by 10.66.101.9 with SMTP id fc9mr14352491pab.37.1435201259437;
+	Wed, 24 Jun 2015 20:00:59 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:64c5:89fd:13b4:1d00?
+	([2601:202:4000:1239:64c5:89fd:13b4:1d00])
+	by mx.google.com with ESMTPSA id
+	qs8sm28169329pbc.38.2015.06.24.20.00.56
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 24 Jun 2015 20:00:58 -0700 (PDT)
+Message-ID: <558B6EE7.5090107@gmail.com>
+Date: Wed, 24 Jun 2015 20:00:55 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.107.17.137 with SMTP id 9mr36399317ior.28.1435200012385;
-	Wed, 24 Jun 2015 19:40:12 -0700 (PDT)
-Received: by 10.36.24.74 with HTTP; Wed, 24 Jun 2015 19:40:12 -0700 (PDT)
-In-Reply-To: <CADwFkYfdEMKpzhzJnyDXn0yMDotpdDJ4-jXeYbvu4aAcEBHgOQ@mail.gmail.com>
-References: <CADwFkYfdEMKpzhzJnyDXn0yMDotpdDJ4-jXeYbvu4aAcEBHgOQ@mail.gmail.com>
-Date: Thu, 25 Jun 2015 10:40:12 +0800
-Message-ID: <CADwFkYd=w3P2SPZOKH9KA9e1YCqMth=oQ5bpavu5wDBK3Hf6Dw@mail.gmail.com>
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: zImage-dtb
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Subject: google mercurial repo issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,19 +44,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 02:40:14 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 25 Jun 2015 03:01:02 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Oh, forgot one thing.
-it looks like a function android provided.
+Hello all,
 
-On Wed, Jun 24, 2015 at 10:10 AM, Yi Qingliang
-<niqingliang2003@gmail.com> wrote:
-> Hello,
->     has someone used the "zImage-dtb"?
->
->     the "zImage-dtb" will concatenate multiple dtbs append to zImage.
->     How the kernel select dtb in running time?
->
-> Yi Qingliang
+I have run into an issue trying to build vim.
+
+/usr/bin/env hg pull 
+/home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim
+| DEBUG: Python function base_do_unpack finished
+| DEBUG: Python function do_unpack finished
+| ERROR: Function failed: Fetcher failure: Fetch command failed with 
+exit code 255, output:
+| abort: repository 
+/home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim not found!
+
+
+there is a note on google regarding their hg repos: "We have some known 
+issues with hg repositories."
+	
+https://groups.google.com/forum/#!topic/google-code-hosting/Gh3kl9MrzY4
+
+
+is anyone else seeing this?
+
+- armin
 
