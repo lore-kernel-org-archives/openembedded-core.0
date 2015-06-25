@@ -1,40 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 989536AC15
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A6F9605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 09:30:30 +0000 (UTC)
-Received: by qkfe185 with SMTP id e185so35526553qkf.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 02:30:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=RDXAe0F0WINzhdvtGs1yoZoFTKkz3tTcqnuOpxcSw+s=;
-	b=DwsgExq8Re/z2JsyNEFst+pe8k+pmxiYMQeotmfgrIyWysZgoonAj44InZXg1apDum
-	RsLzebvKpU+i8tTix8UUy4XuBqsKZBqVwsTFY5RtHQJkDvljXDcwxl4qhLIvwbr6eMzY
-	5XiCfH7IJaIR9tfMGXAcIW0MrpEJzeiMZntowlbkFF5WWvfnuSoaNWOHMEMl6haxSuIP
-	ASUyekujdQnTI9cYYnICQ60SrpMxaaB+pZaTdnuOD7bGDW9gvCei38pc7CEjwjROuABR
-	yPsjp2Dda47mlig5zNxD55FULgwihHHUIDvribeXdEwMBnzN95wr5g7SnacjrsQIvKIa
-	LXiA==
-X-Gm-Message-State: ALoCoQmumdnTvFCrf6x6//pyyI3l57Q9dUMJhUoFLswk+TC3Djy6wnhWRg/3HPLgfnE+DsF4U/j/
-X-Received: by 10.140.231.19 with SMTP id b19mr58868329qhc.22.1435224631224;
-	Thu, 25 Jun 2015 02:30:31 -0700 (PDT)
+	Thu, 25 Jun 2015 09:32:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5P9WlcF020541
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Jun 2015 02:32:47 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 25 Jun 2015 02:32:47 -0700
+Message-ID: <558BCABE.609@windriver.com>
+Date: Thu, 25 Jun 2015 17:32:46 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 25 Jun 2015 02:30:11 -0700 (PDT)
-In-Reply-To: <558BA6BB.10301@windriver.com>
-References: <1433294684-10258-1-git-send-email-rongqing.li@windriver.com>
-	<CAJTo0LZxzFL=DHq9NxVvcs=VNmPnCe=Z2V6ksAaBmLQ0+FAHxQ@mail.gmail.com>
-	<558A0AF1.8060204@windriver.com>
-	<CAJTo0LZx+nUqwQKwGcO7G7xHHQkYF0Gp8p2bsGageFKLcM74Lw@mail.gmail.com>
-	<558BA6BB.10301@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 25 Jun 2015 10:30:11 +0100
-Message-ID: <CAJTo0LYqkTMDbo7dYLP6dMjfR3vzsKv4Ln=j84fMN8Y2Ksyv_w@mail.gmail.com>
-To: Rongqing Li <rongqing.li@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1435135356.git.liezhi.yang@windriver.com>
+	<bf978a7894f51c909ede7f64c28b6da5495d981a.1435135356.git.liezhi.yang@windriver.com>
+	<CAJTo0LZBzMKzzswgtsk0o3uohK+03a4kPB0niwhvyYqxpQBhYg@mail.gmail.com>
+	<558B6646.2050809@windriver.com>
+	<CAJTo0LbE33NkdmiA_+=NmHAS3hRJY6tdsoGHSQKo2ARAsCgpqA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbE33NkdmiA_+=NmHAS3hRJY6tdsoGHSQKo2ARAsCgpqA@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][v4] mmc-utils: fix the building failure when DEBUG_BUILD is 1
+Subject: Re: [PATCH 1/5] file: 5.22 -> 5.23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,64 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 09:30:38 -0000
-Content-Type: multipart/alternative; boundary=001a11c12f00513f2d05195446a3
+X-List-Received-Date: Thu, 25 Jun 2015 09:32:47 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
---001a11c12f00513f2d05195446a3
-Content-Type: text/plain; charset=UTF-8
 
-On 25 June 2015 at 07:59, Rongqing Li <rongqing.li@windriver.com> wrote:
 
-> How about the below patch
+On 06/25/2015 05:06 PM, Burton, Ross wrote:
 >
-> From 6de0180f5332880195e315fdaf4899406dc54d99 Mon Sep 17 00:00:00 2001
-> From: Roy Li <rongqing.li@windriver.com>
-> Date: Thu, 25 Jun 2015 14:44:05 +0800
-> Subject: [PATCH] mmc-utils: fix the building failure when DEBUG_BUILD is 1
+> On 25 June 2015 at 03:24, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
 >
-> AM_CFLAGS in Makefile includes -D_FORTIFY_SOURCE=2 which will lead
-> to building failure when DEBUG_BUILD is 1.
-> Cancel the definition of _FORTIFY_SOURCE by passing -U_FORTIFY_SOURCE
-> via TARGET_CPPFLAGS; this does not effect the security cflags usage,
-> since the cflags is equal to:
-> CFLAGS="${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION} ${SECURITY_CFLAGS}"
+>     It works now, I think that it should be a transient failure. And I think that
+>     it is still the best source location since it is suggested by the homepage.
 >
+>
+> $ wget ftp://ftp.astron.com/pub/file/file-5.23.tar.gz
+> --2015-06-25 09:58:02-- ftp://ftp.astron.com/pub/file/file-5.23.tar.gz
+>             => ‘file-5.23.tar.gz’
+> Resolving ftp.astron.com <http://ftp.astron.com> (ftp.astron.com
+> <http://ftp.astron.com>)... 38.117.134.18
+> Connecting to ftp.astron.com <http://ftp.astron.com> (ftp.astron.com
+> <http://ftp.astron.com>)|38.117.134.18|:21... connected.
+> Logging in as anonymous ...
+> Login incorrect.
+>
+> Still doesn't work for me.  Anyway, 5.23 is moderately broken (long options
+> don't work) so we probably want to wait for 5.24 or take the patch from upstream.
 
-You're still globally turning off fortify when it's only a *warning* that
-fortify and debug builds are mutually exclusive.  Disabling -Werror is the
-best thing to do here.
+Thanks, let's wait for 5.24.
 
-Ross
+Btw, it doesn't work for me now, either, now.
 
---001a11c12f00513f2d05195446a3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+// Robert
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 June 2015 at 07:59, Rongqing Li <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:rongqing.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1vk" cla=
-ss=3D"a3s" style=3D"overflow:hidden">How about the below patch<br>
-<br>
-From 6de0180f5332880195e315fdaf4899406dc54d99 Mon Sep 17 00:00:00 2001<br>
-From: Roy Li &lt;<a href=3D"mailto:rongqing.li@windriver.com" target=3D"_bl=
-ank">rongqing.li@windriver.com</a>&gt;<br>
-Date: Thu, 25 Jun 2015 14:44:05 +0800<br>
-Subject: [PATCH] mmc-utils: fix the building failure when DEBUG_BUILD is 1<=
-span class=3D""><br>
-<br>
-AM_CFLAGS in Makefile includes -D_FORTIFY_SOURCE=3D2 which will lead<br>
-to building failure when DEBUG_BUILD is 1.<br>
-Cancel the definition of _FORTIFY_SOURCE by passing -U_FORTIFY_SOURCE<br></=
-span>
-via TARGET_CPPFLAGS; this does not effect the security cflags usage,<br>
-since the cflags is equal to:<br>
-CFLAGS=3D&quot;${TARGET_CPPFLAGS} ${SELECTED_OPTIMIZATION} ${SECURITY_CFLAG=
-S}&quot;</div></blockquote></div><br>You&#39;re still globally turning off =
-fortify when it&#39;s only a *warning* that fortify and debug builds are mu=
-tually exclusive.=C2=A0 Disabling -Werror is the best thing to do here.</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
+>
+> Ross
 
---001a11c12f00513f2d05195446a3--
