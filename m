@@ -1,24 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 994A5737AF
+	by mail.openembedded.org (Postfix) with ESMTP id 991216AC15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 11:19:51 +0000 (UTC)
+	Thu, 25 Jun 2015 11:19:50 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 25 Jun 2015 04:19:30 -0700
+	by orsmga103.jf.intel.com with ESMTP; 25 Jun 2015 04:19:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,675,1427785200"; d="scan'208";a="514055699"
+X-IronPort-AV: E=Sophos;i="5.13,675,1427785200"; d="scan'208";a="514055685"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Jun 2015 04:19:30 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Jun 2015 04:19:29 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jun 2015 14:20:01 +0300
-Message-Id: <7334bed178a16addccb10982ff9c198baed8d699.1435228589.git.jussi.kukkonen@intel.com>
+Date: Thu, 25 Jun 2015 14:20:00 +0300
+Message-Id: <100fc04eb4b127d562f5d5515a2f2b4b895470de.1435228589.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <100fc04eb4b127d562f5d5515a2f2b4b895470de.1435228589.git.jussi.kukkonen@intel.com>
-References: <100fc04eb4b127d562f5d5515a2f2b4b895470de.1435228589.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1435228589.git.jussi.kukkonen@intel.com>
 References: <cover.1435228589.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 2/4] mesa: Upgrade 10.5.6 -> 10.5.8
+Subject: [PATCH 1/4] freetype: Upgrade 2.5.5 -> 2.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +33,28 @@ X-List-Received-Date: Thu, 25 Jun 2015 11:19:52 -0000
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-graphics/mesa/{mesa-gl_10.5.6.bb => mesa-gl_10.5.8.bb} | 0
- meta/recipes-graphics/mesa/{mesa_10.5.6.bb => mesa_10.5.8.bb}       | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_10.5.6.bb => mesa-gl_10.5.8.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_10.5.6.bb => mesa_10.5.8.bb} (77%)
+ meta/recipes-graphics/freetype/{freetype_2.5.5.bb => freetype_2.6.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/freetype/{freetype_2.5.5.bb => freetype_2.6.bb} (92%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_10.5.6.bb b/meta/recipes-graphics/mesa/mesa-gl_10.5.8.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_10.5.6.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_10.5.8.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_10.5.6.bb b/meta/recipes-graphics/mesa/mesa_10.5.8.bb
-similarity index 77%
-rename from meta/recipes-graphics/mesa/mesa_10.5.6.bb
-rename to meta/recipes-graphics/mesa/mesa_10.5.8.bb
-index 70cc8aa..7cfef0c 100644
---- a/meta/recipes-graphics/mesa/mesa_10.5.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_10.5.8.bb
-@@ -2,8 +2,8 @@ require ${BPN}.inc
+diff --git a/meta/recipes-graphics/freetype/freetype_2.5.5.bb b/meta/recipes-graphics/freetype/freetype_2.6.bb
+similarity index 92%
+rename from meta/recipes-graphics/freetype/freetype_2.5.5.bb
+rename to meta/recipes-graphics/freetype/freetype_2.6.bb
+index dd4c3b0..70599c6 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.5.5.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.6.bb
+@@ -14,8 +14,8 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=c017ff17fc6f0794adf93db5559ccd56
+ SECTION = "libs"
  
- SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/mesa-${PV}.tar.xz"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "2a7a314927011d5030903179cf183be0"
+-SRC_URI[sha256sum] = "387bcc4b780b12484aa2ec9f7db1a55d8286eb5639f45fbc0fbba7a4e5a1afb9"
++SRC_URI[md5sum] = "5682890cb0267f6671dd3de6eabd3e69"
++SRC_URI[sha256sum] = "8469fb8124764f85029cc8247c31e132a2c5e51084ddce2a44ea32ee4ae8347e"
  
--SRC_URI[md5sum] = "7a845c50fc8aaae4c9373e795c1f491d"
--SRC_URI[sha256sum] = "66017853bde5f7a6647db3eede30512a091a3491daa1708e0ad8027c328ba595"
-+SRC_URI[md5sum] = "5332a3576c5e3a0c3947ee6668dd4157"
-+SRC_URI[sha256sum] = "2866b855c5299a4aed066338c77ff6467c389b2c30ada7647be8758663da2b54"
+ BINCONFIG = "${bindir}/freetype-config"
  
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
 2.1.4
 
