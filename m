@@ -1,25 +1,35 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C73007596C
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id C23B96AC15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 18:21:39 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 25 Jun 2015 11:19:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,678,1427785200"; d="scan'208";a="514251215"
-Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.4.55])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Jun 2015 11:19:21 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+	Thu, 25 Jun 2015 19:46:54 +0000 (UTC)
+Received: by pabvl15 with SMTP id vl15so55300374pab.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jun 2015 12:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=t/QuOF6EoZvUpyIUIKxFSNJ/Mwk3vtCVwTmpaVw4k8Q=;
+	b=pj8USwo36rM6SyEgVfM7e06jqOnx5zQYANKUP6hC+p407xv2ts5nEoDexK1rwwveYY
+	xiK5xzolK46alqX7ByCmh21re9bOO/MIEn9d5ecDbQa9se0rCSKbe2d776fo9mCn0mmc
+	dWK0LhqLSE6Hr1czwc41c/lUHLluXeYugd+VfaKNSxWGNNqz8/918DYVB40xE4OhZYV2
+	tZPL2pG6LgomPISidBZbObLjz4xlUvBA9CZJ4uU4e3aE0MVUkQWKpRcr7RNbtRHF8jbv
+	u9A45XDBZe/00IM1gYZSLjBsnLL9Yv3hAqfVjWCrlA5VIDqstAAkK1nfxmPV/CvbTxRI
+	QvNg==
+X-Received: by 10.66.65.195 with SMTP id z3mr57766796pas.6.1435261615376;
+	Thu, 25 Jun 2015 12:46:55 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id
+	i10sm30936327pdr.78.2015.06.25.12.46.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 25 Jun 2015 12:46:54 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jun 2015 13:21:15 -0500
-Message-Id: <7d6abaedbcf580c9e71d5f54cb03d1d0638a7806.1435255972.git.anibal.limon@linux.intel.com>
+Date: Thu, 25 Jun 2015 12:46:45 -0700
+Message-Id: <1435261607-2512-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1435255972.git.anibal.limon@linux.intel.com>
-References: <cover.1435255972.git.anibal.limon@linux.intel.com>
-In-Reply-To: <cover.1435255972.git.anibal.limon@linux.intel.com>
-References: <cover.1435255972.git.anibal.limon@linux.intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/2] oe/rootfs.py: DpkgRootfs/OpkgRootfs add support for dependency handling in postinsts scripts.
+Subject: [PATCH 1/3] pbzip2: add initial recipe, pbzip2 v1.1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,223 +42,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 18:21:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 25 Jun 2015 19:46:57 -0000
 
-The old code don't take into account package dependencies causing
-undefined execution order in postinsts scripts, in order to fix:
-
-Add DpkgOpkgRootfs class for store common operations in DpkgRootfs
-and OpkgRootfs.
-
-Add _get_delayed_postinsts_common method that process Depends from
-status file in dpkg/opkg and resolve dependency order causing an
-execption if found circular dependencies.
-
-[YOCTO #5318]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/lib/oe/rootfs.py | 156 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 101 insertions(+), 55 deletions(-)
+ meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 48e5754..327c8ea 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -495,8 +495,98 @@ class RpmRootfs(Rootfs):
-         if os.path.isdir(self.pm.install_dir_path) and not os.listdir(self.pm.install_dir_path):
-            bb.utils.remove(self.pm.install_dir_path, True)
- 
-+class DpkgOpkgRootfs(Rootfs):
-+    def __init__(self, d):
-+        super(DpkgOpkgRootfs, self).__init__(d)
+diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
+new file mode 100644
+index 0000000..fb70d0c
+--- /dev/null
++++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
+@@ -0,0 +1,27 @@
++SUMMARY = "PBZIP2 is a parallel implementation of bzip2"
++DESCRIPTION = "PBZIP2 is a parallel implementation of the bzip2 block-sorting \
++file compressor that uses pthreads and achieves near-linear speedup on SMP \
++machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
++newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
++HOMEPAGE = "http://compression.ca/pbzip2/"
++SECTION = "console/utils"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4c4f2edec9679d5abef3514a816b54a4"
 +
-+    def _get_pkgs_postinsts(self, status_file):
-+        def _get_pkg_depends_list(pkg_depends):
-+            pkg_depends_list = []
-+            # filter version requirements like libc (>= 1.1)
-+            for dep in pkg_depends.split(', '):
-+                m_dep = re.match("^(.*) \(.*\)$", dep)
-+                if m_dep:
-+                    dep = m_dep.group(1)
-+                pkg_depends_list.append(dep)
++DEPENDS = "bzip2"
 +
-+            return pkg_depends_list
++SRC_URI = "https://launchpad.net/${BPN}/1.1/${PV}/+download/${BP}.tar.gz"
 +
-+        pkgs = {}
-+        pkg_name = ""
-+        pkg_status_match = False
-+        pkg_depends = ""
++SRC_URI[md5sum] = "91a4911b13305850423840eb0fa6f4f9"
++SRC_URI[sha256sum] = "573bb358a5a7d3bf5f42f881af324cedf960c786e8d66dd03d448ddd8a0166ee"
 +
-+        with open(status_file) as status:
-+            data = status.read()
-+            status.close()
-+            for line in data.split('\n'):
-+                m_pkg = re.match("^Package: (.*)", line)
-+                m_status = re.match("^Status:.*unpacked", line)
-+                m_depends = re.match("^Depends: (.*)", line)
++do_configure[noexec] = "1"
 +
-+                if m_pkg is not None:
-+                    if pkg_name and pkg_status_match:
-+                        pkgs[pkg_name] = _get_pkg_depends_list(pkg_depends)
++EXTRA_OEMAKE = "CXX='${CXX} ${CXXFLAGS}' LDFLAGS='${LDFLAGS}'"
 +
-+                    pkg_name = m_pkg.group(1)
-+                    pkg_status_match = False
-+                    pkg_depends = ""
-+                elif m_status is not None:
-+                    pkg_status_match = True
-+                elif m_depends is not None:
-+                    pkg_depends = m_depends.group(1)
++do_install() {
++    install -d ${D}${bindir}
++    install -m 0755 pbzip2 ${D}${bindir}/
++}
 +
-+        # remove package dependencies not in postinsts
-+        pkg_names = pkgs.keys()
-+        for pkg_name in pkg_names:
-+            deps = pkgs[pkg_name][:]
-+
-+            for d in deps:
-+                if d not in pkg_names:
-+                    pkgs[pkg_name].remove(d)
-+
-+        return pkgs
-+
-+    def _get_delayed_postinsts_common(self, status_file):
-+        def _dep_resolve(graph, node, resolved, seen):
-+            seen.append(node)
-+
-+            for edge in graph[node]:
-+                if edge not in resolved:
-+                    if edge in seen:
-+                        raise RuntimeError("Packages %s and %s have " \
-+                                "a circular dependency in postinsts scripts." \
-+                                % (node, edge))
-+                    _dep_resolve(graph, edge, resolved, seen)
-+
-+            resolved.append(node)
-+
-+        pkg_list = []
- 
--class DpkgRootfs(Rootfs):
-+        pkgs = self._get_pkgs_postinsts(status_file)
-+        if pkgs:
-+            root = "__packagegroup_postinst__"
-+            pkgs[root] = pkgs.keys()
-+            _dep_resolve(pkgs, root, pkg_list, [])
-+            pkg_list.remove(root)
-+
-+        if len(pkg_list) == 0:
-+            return None
-+
-+        return pkg_list
-+
-+    def _save_postinsts_common(self, dst_postinst_dir, src_postinst_dir):
-+        num = 0
-+        for p in self._get_delayed_postinsts():
-+            bb.utils.mkdirhier(dst_postinst_dir)
-+
-+            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
-+                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
-+                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
-+
-+            num += 1
-+
-+class DpkgRootfs(DpkgOpkgRootfs):
-     def __init__(self, d, manifest_dir):
-         super(DpkgRootfs, self).__init__(d)
-         self.log_check_regex = '^E:'
-@@ -540,34 +630,13 @@ class DpkgRootfs(Rootfs):
-         return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMAND']
- 
-     def _get_delayed_postinsts(self):
--        pkg_list = []
--        with open(self.image_rootfs + "/var/lib/dpkg/status") as status:
--            for line in status:
--                m_pkg = re.match("^Package: (.*)", line)
--                m_status = re.match("^Status:.*unpacked", line)
--                if m_pkg is not None:
--                    pkg_name = m_pkg.group(1)
--                elif m_status is not None:
--                    pkg_list.append(pkg_name)
--
--        if len(pkg_list) == 0:
--            return None
--
--        return pkg_list
-+        status_file = self.image_rootfs + "/var/lib/dpkg/status"
-+        return self._get_delayed_postinsts_common(status_file)
- 
-     def _save_postinsts(self):
--        num = 0
--        for p in self._get_delayed_postinsts():
--            dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts")
--            src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/info")
--
--            bb.utils.mkdirhier(dst_postinst_dir)
--
--            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
--                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
--                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
--
--            num += 1
-+        dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/deb-postinsts")
-+        src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/info")
-+        return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
- 
-     def _handle_intercept_failure(self, registered_pkgs):
-         self.pm.mark_packages("unpacked", registered_pkgs.split())
-@@ -580,7 +649,7 @@ class DpkgRootfs(Rootfs):
-         pass
- 
- 
--class OpkgRootfs(Rootfs):
-+class OpkgRootfs(DpkgOpkgRootfs):
-     def __init__(self, d, manifest_dir):
-         super(OpkgRootfs, self).__init__(d)
-         self.log_check_regex = '(exit 1|Collected errors)'
-@@ -810,38 +879,15 @@ class OpkgRootfs(Rootfs):
-         return ['IPKGCONF_SDK', 'IPK_FEED_URIS', 'DEPLOY_DIR_IPK', 'IPKGCONF_TARGET', 'INC_IPK_IMAGE_GEN', 'OPKG_ARGS', 'OPKGLIBDIR', 'OPKG_PREPROCESS_COMMANDS', 'OPKG_POSTPROCESS_COMMANDS', 'OPKGLIBDIR']
- 
-     def _get_delayed_postinsts(self):
--        pkg_list = []
-         status_file = os.path.join(self.image_rootfs,
-                                    self.d.getVar('OPKGLIBDIR', True).strip('/'),
-                                    "opkg", "status")
--
--        with open(status_file) as status:
--            for line in status:
--                m_pkg = re.match("^Package: (.*)", line)
--                m_status = re.match("^Status:.*unpacked", line)
--                if m_pkg is not None:
--                    pkg_name = m_pkg.group(1)
--                elif m_status is not None:
--                    pkg_list.append(pkg_name)
--
--        if len(pkg_list) == 0:
--            return None
--
--        return pkg_list
-+        return self._get_delayed_postinsts_common(status_file)
- 
-     def _save_postinsts(self):
--        num = 0
--        for p in self._get_delayed_postinsts():
--            dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/ipk-postinsts")
--            src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/info")
--
--            bb.utils.mkdirhier(dst_postinst_dir)
--
--            if os.path.exists(os.path.join(src_postinst_dir, p + ".postinst")):
--                shutil.copy(os.path.join(src_postinst_dir, p + ".postinst"),
--                            os.path.join(dst_postinst_dir, "%03d-%s" % (num, p)))
--
--            num += 1
-+        dst_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/ipk-postinsts")
-+        src_postinst_dir = self.d.expand("${IMAGE_ROOTFS}${OPKGLIBDIR}/opkg/info")
-+        return self._save_postinsts_common(dst_postinst_dir, src_postinst_dir)
- 
-     def _handle_intercept_failure(self, registered_pkgs):
-         self.pm.mark_packages("unpacked", registered_pkgs.split())
++BBCLASSEXTEND = "native"
 -- 
 1.9.1
 
