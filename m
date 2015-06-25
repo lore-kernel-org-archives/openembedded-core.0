@@ -1,36 +1,36 @@
-Return-Path: <vomegaz@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 84398757CE
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 028A66AC15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 11:24:13 +0000 (UTC)
-Received: by wiga1 with SMTP id a1so161349819wig.0
+	Thu, 25 Jun 2015 11:24:44 +0000 (UTC)
+Received: by oiax193 with SMTP id x193so50073209oia.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 04:24:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BlNPhFFbh3WtS3bApxO7MdqgOLXGn2PM7fRhrgZk1CM=;
-	b=mKX6yFadp7LvPrWxjBlLDDelIruy40abg1PJ50RBJIM+YvzT+NtrlaBah9RJHLBoFl
-	bnP3IxWM51vMU1Iy4HnZS1X4EcS5gxVSbo3kByVo89sB9vLDmwnt7RP1CZjLOxl/SdqF
-	/8sHBCd06k0E128S4pVPPlyTOw38P97zCk2OTREeCNn1RM1u68soLSSg62qvdb1p5/mX
-	lQzvQSAorgYBOeYpBMrHlN0qOsnEce8aA83W28671FgLJMvsboVvWhxMJbQzNVvhWKg6
-	LnHjRkVrbqkv0Cq2vtzp0wsZ746d5HgPtldmXzEl8pteL2kd0YqSo7F+f4qPrUFqPWJy
-	YEwA==
-X-Received: by 10.180.187.232 with SMTP id fv8mr4959259wic.28.1435231454940;
-	Thu, 25 Jun 2015 04:24:14 -0700 (PDT)
-Received: from X220.tupi.fr ([37.163.120.64])
-	by mx.google.com with ESMTPSA id b5sm7113324wic.3.2015.06.25.04.24.13
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Jun 2015 04:24:14 -0700 (PDT)
-Sender: Thomas PERROT <vomegaz@gmail.com>
-From: Thomas Perrot <thomas.perrot@tupi.fr>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Jun 2015 13:24:04 +0200
-Message-Id: <1435231444-30705-2-git-send-email-thomas.perrot@tupi.fr>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1435231444-30705-1-git-send-email-thomas.perrot@tupi.fr>
-References: <1435231444-30705-1-git-send-email-thomas.perrot@tupi.fr>
-Subject: [PATCH 2/2] Set S to fix QA warning on volatile-binds.
+	Thu, 25 Jun 2015 04:24:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ilLfHuMZU34aJgyWM2o9VVAXb97zGhp2Orx/omF/Fdg=;
+	b=hgsN8eNP/53yDhcAwVvJOMv7DPBCkmQrY968K+K9WooAqrAwSnyWW6hOCLtZVHad5J
+	wu1Ovl5GJ6B1iiz+uhT4Z7DNFnywQHyv6NikB9PtqRmITAuePNbtRWBd2DSuwUaceRQP
+	pfjzw/YGVBafwxFyDt3R7qQ71MGFunoRjNzFkmtCdhTuvZYG440xj0iigXZ6pBEacLHh
+	KaIp6mawol1KFZp6+Wi6Wc53OCA1R2/koIibGx62fEDoR8QWRHmC42dawn9sObwt3IY2
+	a0kUA4b2m4gSMC7dzGDs4L+ulBVZbMRnOiwZd2dTzTAJV75Nzy9Rcg51TWj5zR5sxhNn
+	amyA==
+X-Gm-Message-State: ALoCoQnp03TnlJfGijVv1UvWDUe50a76C+TGzNY/yGFzFqi/AvbQphPVtuPyIIgb3/iKZizeuQcC
+X-Received: by 10.202.76.150 with SMTP id z144mr2141297oia.54.1435231485908;
+	Thu, 25 Jun 2015 04:24:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.225.2 with HTTP; Thu, 25 Jun 2015 04:24:16 -0700 (PDT)
+In-Reply-To: <cover.1435228589.git.jussi.kukkonen@intel.com>
+References: <cover.1435228589.git.jussi.kukkonen@intel.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 25 Jun 2015 14:24:16 +0300
+Message-ID: <CAHiDW_H1Nmg-5NmuRHkqr4CE+cyEOCwQfPrtyUot8T5oy8OOTw@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Point upgrades (X, mesa, freetype)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 11:24:15 -0000
+X-List-Received-Date: Thu, 25 Jun 2015 11:24:45 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
----
- meta/recipes-core/volatile-binds/volatile-binds.bb |    2 ++
- 1 file changed, 2 insertions(+)
+On 25 June 2015 at 14:19, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+> The following changes since commit 18e902b2dc17746af453869bcc1fba4dbae7c94f:
+>
+>   wpa-supplicant: Revert "Make SystemD D-Bus config conditional" (2015-06-24 14:04:14 +0100)
+>
+> are available in the git repository at:
+>
+>   git://git.yoctoproject.org/poky-contrib jku/upgrades
+>   http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/upgrades
+>
+> Jussi Kukkonen (4):
+>   freetype: Upgrade 2.5.5 -> 2.6
 
-diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
-index 694ba1e..c5d7b5b 100644
---- a/meta/recipes-core/volatile-binds/volatile-binds.bb
-+++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
-@@ -9,6 +9,8 @@ SRC_URI = "\
-     file://volatile-binds.service.in \
- "
- 
-+S = "${WORKDIR}/${PN}-${PV}"
-+
- inherit allarch systemd distro_features_check
- 
- REQUIRED_DISTRO_FEATURES = "systemd"
--- 
-1.7.10.4
+To avoid misleading anyone: the freetype upgrade is more like a major
+than a point release, unlike the email subject suggests.
 
+Cheers,
+  Jussi
+
+>   mesa: Upgrade 10.5.6 -> 10.5.8
+>   xorg-xserver: Upgrade 1.17.1 -> 1.17.2
+>   xf86-video-vesa: Upgrade 2.3.3 -> 2.3.4
+>
+>  .../{freetype_2.5.5.bb => freetype_2.6.bb}         |  4 +-
+>  .../mesa/{mesa-gl_10.5.6.bb => mesa-gl_10.5.8.bb}  |  0
+>  .../mesa/{mesa_10.5.6.bb => mesa_10.5.8.bb}        |  4 +-
+>  ...ideo-vesa_2.3.3.bb => xf86-video-vesa_2.3.4.bb} |  4 +-
+>  ...Fix-error-check-for-pci_device_map_legacy.patch | 50 ----------------------
+>  ...sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch | 48 ---------------------
+>  .../fix_open_max_preprocessor_error.patch          | 15 -------
+>  .../xserver-xorg/xorg-CVE-2013-6424.patch          | 31 --------------
+>  .../xorg-xserver/xserver-xorg/xtrans.patch         | 38 ----------------
+>  ...erver-xorg_1.17.1.bb => xserver-xorg_1.17.2.bb} | 13 ++----
+>  10 files changed, 9 insertions(+), 198 deletions(-)
+>  rename meta/recipes-graphics/freetype/{freetype_2.5.5.bb => freetype_2.6.bb} (92%)
+>  rename meta/recipes-graphics/mesa/{mesa-gl_10.5.6.bb => mesa-gl_10.5.8.bb} (100%)
+>  rename meta/recipes-graphics/mesa/{mesa_10.5.6.bb => mesa_10.5.8.bb} (77%)
+>  rename meta/recipes-graphics/xorg-driver/{xf86-video-vesa_2.3.3.bb => xf86-video-vesa_2.3.4.bb} (80%)
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-int10-Fix-error-check-for-pci_device_map_legacy.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/fix_open_max_preprocessor_error.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/xorg-CVE-2013-6424.patch
+>  delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/xtrans.patch
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.17.1.bb => xserver-xorg_1.17.2.bb} (62%)
+>
+> --
+> 2.1.4
+>
 
