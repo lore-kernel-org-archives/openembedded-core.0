@@ -1,38 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 62926601E0;
-	Thu, 25 Jun 2015 10:58:46 +0000 (UTC)
-Received: by wibdq8 with SMTP id dq8so72091936wib.1;
-	Thu, 25 Jun 2015 03:58:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=O5N6bmYrHmoWDNxNoT898I9opBmkV2JJwxubbEN3f1o=;
-	b=ls0+xIE+u1a5nIDZOtKJplkYX5WmOy4R8pZL6pNZmx4Vwcyx1lq7mJzEd4aYpEmWys
-	KRmXnteVI81cZhOM7vv6RYh+BuxBPYzCiQ4JVKFKcWpu74vQnZv7Rje363iGMH3+TgvG
-	wx1Si/XAN8rTmvzXW79qauPScNaiOMqU97T6WNZz7Z8qsxKKvEDatcebXmjPOa1h5sHJ
-	8aaw0z3kOzFJVY8pLRfnZWEeRBucM4AKUT3Cn62uWqzRtwBPQ1IHT2RuX9BQgR94Q+Y8
-	ddMhonaymAFNDxV2DeAJGgHb2HUG5VC3+NnDEj7izSX58cH5iu/ujLy6731P7Ud7fP6P
-	B5Hw==
-X-Received: by 10.194.109.229 with SMTP id hv5mr81000950wjb.119.1435229927312; 
-	Thu, 25 Jun 2015 03:58:47 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id p2sm7010555wix.11.2015.06.25.03.58.46
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 25 Jun 2015 03:58:46 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 25 Jun 2015 12:59:06 +0200
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20150625105906.GA2394@jama>
-References: <558B6EE7.5090107@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <558B6EE7.5090107@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: google mercurial repo issues
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 36AF36AC15
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Jun 2015 11:18:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 25 Jun 2015 04:19:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,675,1427785200"; d="scan'208";a="750211086"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by fmsmga002.fm.intel.com with ESMTP; 25 Jun 2015 04:18:58 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Jun 2015 14:19:30 +0300
+Message-Id: <cover.1435228589.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] Point upgrades (X, mesa, freetype)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,64 +27,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jun 2015 10:58:49 -0000
-X-Groupsio-MsgNum: 67148
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="liOOAslEiF7prFVr"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 25 Jun 2015 11:18:59 -0000
 
---liOOAslEiF7prFVr
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 18e902b2dc17746af453869bcc1fba4dbae7c94f:
 
-On Wed, Jun 24, 2015 at 08:00:55PM -0700, akuster808 wrote:
-> Hello all,
->=20
-> I have run into an issue trying to build vim.
+  wpa-supplicant: Revert "Make SystemD D-Bus config conditional" (2015-06-24 14:04:14 +0100)
 
-That's broken for a while (see world reports), because bitbake mercurial
-fetcher is broken.
+are available in the git repository at:
 
-> /usr/bin/env hg pull=20
-> /home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim
-> | DEBUG: Python function base_do_unpack finished
-> | DEBUG: Python function do_unpack finished
-> | ERROR: Function failed: Fetcher failure: Fetch command failed with=20
-> exit code 255, output:
-> | abort: repository=20
-> /home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim not found!
->=20
->=20
-> there is a note on google regarding their hg repos: "We have some known=
-=20
-> issues with hg repositories."
-> =09
-> https://groups.google.com/forum/#!topic/google-code-hosting/Gh3kl9MrzY4
->=20
->=20
-> is anyone else seeing this?
->=20
-> - armin
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  git://git.yoctoproject.org/poky-contrib jku/upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/upgrades
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Jussi Kukkonen (4):
+  freetype: Upgrade 2.5.5 -> 2.6
+  mesa: Upgrade 10.5.6 -> 10.5.8
+  xorg-xserver: Upgrade 1.17.1 -> 1.17.2
+  xf86-video-vesa: Upgrade 2.3.3 -> 2.3.4
 
---liOOAslEiF7prFVr
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+ .../{freetype_2.5.5.bb => freetype_2.6.bb}         |  4 +-
+ .../mesa/{mesa-gl_10.5.6.bb => mesa-gl_10.5.8.bb}  |  0
+ .../mesa/{mesa_10.5.6.bb => mesa_10.5.8.bb}        |  4 +-
+ ...ideo-vesa_2.3.3.bb => xf86-video-vesa_2.3.4.bb} |  4 +-
+ ...Fix-error-check-for-pci_device_map_legacy.patch | 50 ----------------------
+ ...sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch | 48 ---------------------
+ .../fix_open_max_preprocessor_error.patch          | 15 -------
+ .../xserver-xorg/xorg-CVE-2013-6424.patch          | 31 --------------
+ .../xorg-xserver/xserver-xorg/xtrans.patch         | 38 ----------------
+ ...erver-xorg_1.17.1.bb => xserver-xorg_1.17.2.bb} | 13 ++----
+ 10 files changed, 9 insertions(+), 198 deletions(-)
+ rename meta/recipes-graphics/freetype/{freetype_2.5.5.bb => freetype_2.6.bb} (92%)
+ rename meta/recipes-graphics/mesa/{mesa-gl_10.5.6.bb => mesa-gl_10.5.8.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_10.5.6.bb => mesa_10.5.8.bb} (77%)
+ rename meta/recipes-graphics/xorg-driver/{xf86-video-vesa_2.3.3.bb => xf86-video-vesa_2.3.4.bb} (80%)
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-int10-Fix-error-check-for-pci_device_map_legacy.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-sdksyms.sh-Make-sdksyms.sh-work-with-gcc5.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/fix_open_max_preprocessor_error.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/xorg-CVE-2013-6424.patch
+ delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xorg/xtrans.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.17.1.bb => xserver-xorg_1.17.2.bb} (62%)
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+-- 
+2.1.4
 
-iEYEARECAAYFAlWL3vkACgkQN1Ujt2V2gBzLCgCgnM10P3S9EWXlVR+XiU6Nsgoy
-qW4AoJsytsDWrIq0DAyqG+KLUEHYuiEa
-=DLC8
------END PGP SIGNATURE-----
 
---liOOAslEiF7prFVr--
