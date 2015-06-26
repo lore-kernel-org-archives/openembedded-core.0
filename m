@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 564EE600B3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D8C6A60167
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 03:06:15 +0000 (UTC)
+	Fri, 26 Jun 2015 06:23:21 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5Q36GMs002912
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5Q6NM3n021081
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Jun 2015 20:06:16 -0700 (PDT)
+	Thu, 25 Jun 2015 23:23:22 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Thu, 25 Jun 2015 20:06:16 -0700
+	Thu, 25 Jun 2015 23:23:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Jun 2015 20:06:15 -0700
-Message-ID: <cover.1435287954.git.liezhi.yang@windriver.com>
+Date: Thu, 25 Jun 2015 23:23:21 -0700
+Message-ID: <7eaec2a8209ca34e5d8b247f31935af496134aea.1435299778.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1435299778.git.liezhi.yang@windriver.com>
+References: <cover.1435299778.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] toolchain-scripts: fix for multilib
+Subject: [PATCH 1/1] sanity.bbclass: check /bin/sh is dash or bash
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 03:06:17 -0000
+X-List-Received-Date: Fri, 26 Jun 2015 06:23:23 -0000
 Content-Type: text/plain
 
-The following changes since commit 2587b83faabdc8858e8746201805369ed8d53ba8:
+The build would fail when /bin/sh links to ksh or csh, we only test dash
+and bash AFAIK.
 
-  wpa-supplicant: Revert "Make SystemD D-Bus config conditional" (2015-06-24 14:03:25 +0100)
+* When /bin/sh -> csh:
+  $ bitbake quilt-native
+$ bitbake quilt-native -cfetch
+Illegal variable name.
+Illegal variable name.
+[snip]
+uname: extra operand `2'
+Try `uname --help' for more information.
 
-are available in the git repository at:
+* When /bin/sh -> ksh:
+  If there are only a few tasks running, for example,
+  "bitbake quilt-native", the build would be OK, but it would fail if we
+  run "bitbake world" for a while, there would be a lot of "Broken pipe"
+  errors:
+Exception: CalledProcessError: Command
+'cd /path/to/xx; find . -type d -print | tar -cf - -C /path/to/sysroot-destdir -p --files-from - --no-recursion | tar -xf - -C /path/to/xxx'
+returned non-zero exit status 2 with output tar: This does not look like a tar archive
+tar: Exiting with failure status due to previous errors
+find: `standard output': Broken pipe
+find: write error
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/tc
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/tc
+[YOCTO #7917]
 
-Robert Yang (1):
-  toolchain-scripts: fix for multilib
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/sanity.bbclass |    4 ++++
+ 1 file changed, 4 insertions(+)
 
- meta/classes/toolchain-scripts.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index d9eff90..2855941 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -835,6 +835,10 @@ def check_sanity_everybuild(status, d):
+     if 'vdi' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
+         status.addresult("Error, IMAGE_FSTYPES vdi and live can't be built together\n")
+ 
++    # Check /bin/sh links to dash or bash
++    real_sh = os.path.realpath('/bin/sh')
++    if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
++        status.addresult("Error, /bin/sh links to %s, must be dash or bash\n" % real_sh)
+ 
+ def check_sanity(sanity_data):
+     class SanityStatus(object):
 -- 
 1.7.9.5
 
