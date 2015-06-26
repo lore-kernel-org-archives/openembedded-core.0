@@ -1,36 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 5643560132
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C71960132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 15:19:50 +0000 (UTC)
-Received: by qgev13 with SMTP id v13so36285220qge.1
+	Fri, 26 Jun 2015 15:20:02 +0000 (UTC)
+Received: by pabvl15 with SMTP id vl15so70489069pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 08:19:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=N68Y3neCtcMEMxiOCVJjihoLCCQrAtNCZADvPlBCfQ8=;
-	b=l4F6lrchFB2MXM9LoCduImtDYm+oC5jixvxNwKl22IdmTuGkVfvIDQDU3lVBmwdX2k
-	ITgvfhI9CMBc+nzu76laQRoS3TAZLll9Fl1kSkdGzeaP7Rdt3W3CbfcqLq31oNI0TQhW
-	nwmh4K/3Stle/PvVpG8F5ORhPHDkBgF1nP2xLRNp1ZiljTFcGIe1img8wUsBuCLHWQcT
-	SgGV48W2EM/Ss8NX1TXJr52IPpqFrjMHM2DAeKJIflLxr0HRvp467h44fz7yaWj1kKlf
-	np8CaieHRPgoUceintz6CLzr2N68RdtJfZpvwmn60ToCiQlg4A7G5eFYPB+HFs/37CIg
-	cysA==
-X-Gm-Message-State: ALoCoQnSei+louk+FVEaPSjBGckhkaeFRU0B/4EuGfbrgll3A9YDwO+ZBujznAYiJ64RNAbHa1Ra
-X-Received: by 10.55.27.11 with SMTP id b11mr4904563qkb.105.1435331991755;
-	Fri, 26 Jun 2015 08:19:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 26 Jun 2015 08:19:32 -0700 (PDT)
-In-Reply-To: <558D07C7.5000203@jp.fujitsu.com>
-References: <558D07C7.5000203@jp.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Jun 2015 16:19:32 +0100
-Message-ID: <CAJTo0LYdeaZMRkEMmd+k4Qy91aMC1fYSRcQGBBfzgqKXt79pqw@mail.gmail.com>
-To: "fan.xin" <fan.xin@jp.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wpa-supplicant: Fix CVE-2015-4142
+	Fri, 26 Jun 2015 08:20:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=JvDCqBdGBCanqBz2tTBGhGBF8okk0bqA+vE9pLdd83Y=;
+	b=IYRqMQSQUCMjCM3DV54E21mVafdqoB4GZ0FdKQoC9hHNZ+h++V2wyzL6s3S2rnR5GW
+	HgkaD2om7KXj+CEqu5XH7d/Xj2YrA1geVqySXPewm5KNouxUPEvLf/nFcZQshUOyPOLd
+	C9tDREYnMbBQ1lFJA5QXqlDo3J3yLLlfv8vqMDFY8m8IYOlXQ8zGlpYwGCqYrmogVuha
+	bhdDm0Yh0mTqkCAkYKXtxjyKZSnbPrm5ygNJI2qvV95/9jek5n3r1AqTKtYqKNn3B4L6
+	Ur6cqh+YQCij7okrLC+3Fp0hwVHnsJWxUROXDWCbQcZOR2SweyVRIeJj7vRjfdkWn4Mu
+	zLgw==
+X-Received: by 10.68.224.10 with SMTP id qy10mr4428305pbc.23.1435332004186;
+	Fri, 26 Jun 2015 08:20:04 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:2066:6681:69d4:7422?
+	([2601:646:8601:4580:2066:6681:69d4:7422])
+	by mx.google.com with ESMTPSA id
+	je4sm33658126pbb.17.2015.06.26.08.20.03
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 26 Jun 2015 08:20:03 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0Lb0S_b4Wnb0dWmVae9Ezmn=dB0G2=DFyEjD2nivoa6Jfw@mail.gmail.com>
+Date: Fri, 26 Jun 2015 08:19:58 -0700
+Message-Id: <AB12494C-E7B7-4FD0-B3E2-72E5E91F3714@gmail.com>
+References: <cover.1433349512.git.raj.khem@gmail.com>
+	<0d3de82d935f6408e5c04ff980a2b3fd4a9e4ac3.1433349512.git.raj.khem@gmail.com>
+	<CAHiDW_GjW0PSnNRGekiYkg+qdhg=xbbmiVhWY95cv6GxQPJ1Bw@mail.gmail.com>
+	<5E0378F8-62E0-4A7F-AB07-0209CD229BF3@gmail.com>
+	<CAJTo0Lb0S_b4Wnb0dWmVae9Ezmn=dB0G2=DFyEjD2nivoa6Jfw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2102)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] wayland/weston/libinput: Upgrade to 1.6.0 -> 1.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,76 +53,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 15:19:54 -0000
-Content-Type: multipart/alternative; boundary=001a1147f32e80ed0b05196d45b3
+X-List-Received-Date: Fri, 26 Jun 2015 15:20:04 -0000
+X-Groupsio-MsgNum: 67213
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_C9E7F5E7-DBB0-4DCC-BBCC-F274A9F90F21";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a1147f32e80ed0b05196d45b3
-Content-Type: text/plain; charset=UTF-8
+--Apple-Mail=_C9E7F5E7-DBB0-4DCC-BBCC-F274A9F90F21
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_46D5814B-9A5F-42CF-B515-C2FCCEA59F48"
 
-On 26 June 2015 at 09:05, fan.xin <fan.xin@jp.fujitsu.com> wrote:
-
-> +From ef566a4d4f74022e1fdb0a2addfe81e6de9f4aae Mon Sep 17 00:00:00 2001
-> +From: Jouni Malinen <j@w1.fi>
-> +Date: Wed, 29 Apr 2015 02:21:53 +0300
-> +Subject: [PATCH] AP WMM: Fix integer underflow in WMM Action frame parser
-> +
-> +The length of the WMM Action frame was not properly validated and the
-> +length of the information elements (int left) could end up being
-> +negative. This would result in reading significantly past the stack
-> +buffer while parsing the IEs in ieee802_11_parse_elems() and while doing
-> +so, resulting in segmentation fault.
-> +
-> +This can result in an invalid frame being used for a denial of service
-> +attack (hostapd process killed) against an AP with a driver that uses
-> +hostapd for management frame processing (e.g., all mac80211-based
-> +drivers).
-> +
-> +Thanks to Kostya Kortchinsky of Google security team for discovering and
-> +reporting this issue.
-> +
-> +Signed-off-by: Jouni Malinen <j@w1.fi>
->
-
-This patch needs an Upstream-Status (backport?) and Signed-off-by in the
-patch header.
-
-Ross
-
---001a1147f32e80ed0b05196d45b3
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_46D5814B-9A5F-42CF-B515-C2FCCEA59F48
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 26 June 2015 at 09:05, fan.xin <span dir=3D"ltr">&lt;<a href=3D"mailto:f=
-an.xin@jp.fujitsu.com" target=3D"_blank">fan.xin@jp.fujitsu.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2jd" class=3D"a3s"=
- style=3D"overflow:hidden">+From ef566a4d4f74022e1fdb0a2addfe81e6de9f4aae M=
-on Sep 17 00:00:00 2001<br>
-+From: Jouni Malinen &lt;<a href=3D"mailto:j@w1.fi">j@w1.fi</a>&gt;<br>
-+Date: Wed, 29 Apr 2015 02:21:53 +0300<br>
-+Subject: [PATCH] AP WMM: Fix integer underflow in WMM Action frame parser<=
-br>
-+<br>
-+The length of the WMM Action frame was not properly validated and the<br>
-+length of the information elements (int left) could end up being<br>
-+negative. This would result in reading significantly past the stack<br>
-+buffer while parsing the IEs in ieee802_11_parse_elems() and while doing<b=
-r>
-+so, resulting in segmentation fault.<br>
-+<br>
-+This can result in an invalid frame being used for a denial of service<br>
-+attack (hostapd process killed) against an AP with a driver that uses<br>
-+hostapd for management frame processing (e.g., all mac80211-based<br>
-+drivers).<br>
-+<br>
-+Thanks to Kostya Kortchinsky of Google security team for discovering and<b=
-r>
-+reporting this issue.<br>
-+<br>
-+Signed-off-by: Jouni Malinen &lt;<a href=3D"mailto:j@w1.fi">j@w1.fi</a>&gt=
-;</div></blockquote></div><br>This patch needs an Upstream-Status (backport=
-?) and Signed-off-by in the patch header.</div><div class=3D"gmail_extra"><=
-br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1147f32e80ed0b05196d45b3--
+> On Jun 26, 2015, at 7:47 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 3 June 2015 at 22:21, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> > Can you explain why? The revision looks like 0.16.0 release.
+>=20
+> its easy to develop libinput and prepare/test upstream patches since =
+all upstreams want the patches against their latest master and its easy =
+to switch to AUTOREV locally and do it.
+>=20
+> That's not a great reason and I'm against using git fetches when =
+there's perfectly good tarballs available.
+>=20
+
+=46rom a system integrators point of view, I agree with your sentiments. =
+=46rom a developers point of view not so much. We already have many =
+recipes already fetching from git and more and more switching to use it =
+see qt5 lately, there are perfectly fine tarballs released for QT5 too, =
+just because its simpler to developer and integrate packages.
+
+
+> Ross
+
+
+--Apple-Mail=_46D5814B-9A5F-42CF-B515-C2FCCEA59F48
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Jun 26, 2015, at 7:47 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 3 June 2015 at 22:21, Khem Raj <span dir=3D"ltr" =
+class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank" =
+class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
+class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; =
+Can you explain why? The revision looks like 0.16.0 release.<br =
+class=3D"">
+<br class=3D"">
+</span>its easy to develop libinput and prepare/test upstream patches =
+since all upstreams want the patches against their latest master and its =
+easy to switch to AUTOREV locally and do it.</blockquote><div =
+class=3D""><br class=3D""></div><div class=3D"">That's not a great =
+reason and I'm against using git fetches when there's perfectly good =
+tarballs available.</div><div class=3D""><br =
+class=3D""></div></div></div></div></div></blockquote><div><br =
+class=3D""></div><div>=46rom a system integrators point of view, I agree =
+with your sentiments. =46rom a developers point of view not so much. We =
+already have many recipes already fetching from git and more and more =
+switching to use it see qt5 lately, there are perfectly fine tarballs =
+released for QT5 too, just because its simpler to developer and =
+integrate packages.</div><div><br class=3D""></div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
+dir=3D"ltr" class=3D""><div class=3D"gmail_extra"><div =
+class=3D"gmail_quote"><div class=3D"">Ross&nbsp;</div></div></div></div>
+</div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_46D5814B-9A5F-42CF-B515-C2FCCEA59F48--
+
+--Apple-Mail=_C9E7F5E7-DBB0-4DCC-BBCC-F274A9F90F21
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlWNbaIACgkQuwUzVZGdMxQxjACfX5clKYyx8VbkJRRah/HvEPo+
+92QAnj0P/vKdv4N5atdCEd03jZrMbNln
+=oMd9
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_C9E7F5E7-DBB0-4DCC-BBCC-F274A9F90F21--
