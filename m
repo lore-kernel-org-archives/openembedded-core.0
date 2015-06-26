@@ -1,27 +1,37 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F399605B3
+Return-Path: <fan.xin@jp.fujitsu.com>
+X-Greylist: delayed 622 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 26 Jun 2015 08:14:53 UTC
+Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D44D601E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 08:03:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5Q83kdU003149
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 26 Jun 2015 08:14:53 +0000 (UTC)
+Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
+	mgwym04.jp.fujitsu.com with smtp
+	id 6394_103b_2f6af931_a730_4a79_bf7b_51527be6c589;
+	Fri, 26 Jun 2015 17:04:31 +0900
+Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
+	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
+	by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 341BCAC05BE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 01:03:46 -0700 (PDT)
-Received: from [128.224.162.138] (128.224.162.138) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 26 Jun 2015 01:03:46 -0700
-Message-ID: <558D0760.2090304@windriver.com>
-Date: Fri, 26 Jun 2015 16:03:44 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
+	Fri, 26 Jun 2015 17:04:30 +0900 (JST)
+Received: from G01JPEXCHKW13.g01.fujitsu.local
+	(G01JPEXCHKW13.g01.fujitsu.local [10.0.194.52])
+	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
+	56B1A6923B0 for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jun 2015 17:03:23 +0900 (JST)
+Received: from [10.24.19.99] (10.24.19.99) by G01JPEXCHKW13.g01.fujitsu.local
+	(10.0.194.52) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 26 Jun 2015 17:03:23 +0900
+Message-ID: <558D07C7.5000203@jp.fujitsu.com>
+Date: Fri, 26 Jun 2015 17:05:27 +0900
+From: fan.xin <fan.xin@jp.fujitsu.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-To: Li Zhou <li.zhou@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1432625185-12163-1-git-send-email-li.zhou@windriver.com>
-In-Reply-To: <1432625185-12163-1-git-send-email-li.zhou@windriver.com>
-Subject: Re: [PATCH v3] opkg-utils: Change alternatives lib path from /usr/lib/opkg to /var/lib/opkg
+To: <openembedded-core@lists.openembedded.org>
+X-SecurityPolicyCheck-GC: OK by FENCE-Mail
+X-TM-AS-MML: disable
+Subject: [PATCH] wpa-supplicant: Fix CVE-2015-4142
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,48 +44,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 08:03:45 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 Jun 2015 08:14:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-ping
+    
+    Description on [1] and patch taken from [2]
+    
+    [1]https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-4142
+    [2]http://w1.fi/security/2015-3/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
+    
+    Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
 
--R
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
+new file mode 100644
+index 0000000..79c5af8
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
+@@ -0,0 +1,41 @@
++From ef566a4d4f74022e1fdb0a2addfe81e6de9f4aae Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Wed, 29 Apr 2015 02:21:53 +0300
++Subject: [PATCH] AP WMM: Fix integer underflow in WMM Action frame parser
++
++The length of the WMM Action frame was not properly validated and the
++length of the information elements (int left) could end up being
++negative. This would result in reading significantly past the stack
++buffer while parsing the IEs in ieee802_11_parse_elems() and while doing
++so, resulting in segmentation fault.
++
++This can result in an invalid frame being used for a denial of service
++attack (hostapd process killed) against an AP with a driver that uses
++hostapd for management frame processing (e.g., all mac80211-based
++drivers).
++
++Thanks to Kostya Kortchinsky of Google security team for discovering and
++reporting this issue.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++---
++ src/ap/wmm.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/src/ap/wmm.c b/src/ap/wmm.c
++index 6d4177c..314e244 100644
++--- a/src/ap/wmm.c
+++++ b/src/ap/wmm.c
++@@ -274,6 +274,9 @@ void hostapd_wmm_action(struct hostapd_data *hapd,
++               return;
++       }
++ 
+++      if (left < 0)
+++              return; /* not a valid WMM Action frame */
+++
++       /* extract the tspec info element */
++       if (ieee802_11_parse_elems(pos, left, &elems, 1) == ParseFailed) {
++               hostapd_logger(hapd, mgmt->sa, HOSTAPD_MODULE_IEEE80211,
++-- 
++1.9.1
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
+index ebae239..fee8384 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
+@@ -25,6 +25,7 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+            file://wpa_supplicant.conf-sane \
+            file://99_wpa_supplicant \
+            file://0001-P2P-Validate-SSID-element-length-before-copying-it-C.patch \
++           file://0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch \
+           "
+ SRC_URI[md5sum] = "f0037dbe03897dcaf2ad2722e659095d"
+ SRC_URI[sha256sum] = "058dc832c096139a059e6df814080f50251a8d313c21b13364c54a1e70109122"
 
-On 2015年05月26日 15:26, Li Zhou wrote:
-> When update-alternatives is moved from opkg to opkg-utils, a line in
-> the file is changed
-> from <ad="$OPKG_OFFLINE_ROOT@opkglibdir@/opkg/alternatives">
-> to <ad="$OPKG_OFFLINE_ROOT/usr/lib/opkg/alternatives">.
-> But opkglibdir doesn't equal to "/usr/lib" here, but equal to "/var/lib"
->   in oe-core build by configuring --with-opkglibdir.
-> opkg-utils can't get the var value in opkg, so here define OPKGLIBDIR to
-> set the path.
->
-> Signed-off-by: Li Zhou <li.zhou@windriver.com>
-> ---
->   meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> index 2800a5d..9c1c995 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> @@ -22,8 +22,11 @@ PYTHONRDEPS_class-native = ""
->   PACKAGECONFIG = "python"
->   PACKAGECONFIG[python] = ",,,${PYTHONRDEPS}"
->
-> +OPKGLIBDIR ?= "/var/lib"
-> +
->   do_install() {
->   	oe_runmake PREFIX=${prefix} DESTDIR=${D} install
-> +	sed -i s:/usr/lib/opkg:${OPKGLIBDIR}/opkg: ${D}${bindir}/update-alternatives
->   }
->
->   PACKAGES =+ "update-alternatives-opkg"
->
-
--- 
-Best Reagrds,
-Roy | RongQing Li
 
