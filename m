@@ -1,40 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A7ABE7404A
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BFF9360132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 14:48:02 +0000 (UTC)
-Received: by qkei195 with SMTP id i195so17797434qke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 07:48:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=wrFHUax7mlX80owKjTWnEs1Q5ph8bXHzOgLQplD1sZ8=;
-	b=JkRu31OF7A5adMGNoUolXp98eYKIe9CTg/eBoIn2b9LbB3UZoV011Lk+7RY08LMort
-	dIq1vkrm5Ug8nNL/GghkYTTJULsvpCLM5cTShRWScfKBUYCkPbHUwpwCujQdZfKNFOzq
-	+DEuwCpriFoShhZvU4D3Nk/dMJtSTB9nF+ewpRFUIxaZBgVQkFqFzO4nknaG4UJaJCtE
-	4ndCo4Hz09ObyJZXyVm7wTBXBzQh+n9qndKvV989PgLzIHrRz0Hn6kQPZrihFrmFIc5c
-	jHHMJ5AWLfWNaYtxCVfB1+FeszNaVovqdsGosjhhR+oW78CejisqJ/xz8cHpHVHw2kQT
-	G8wg==
-X-Gm-Message-State: ALoCoQkhlchL9vQRw4Pvxa4/S0zAdrHZsgPwXtiATLndryLofG8XE6sWwkTKy1Vi4eBieW2vBuS/
-X-Received: by 10.55.40.20 with SMTP id o20mr4607913qkh.14.1435330083711; Fri,
-	26 Jun 2015 07:48:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 26 Jun 2015 07:47:43 -0700 (PDT)
-In-Reply-To: <5E0378F8-62E0-4A7F-AB07-0209CD229BF3@gmail.com>
-References: <cover.1433349512.git.raj.khem@gmail.com>
-	<0d3de82d935f6408e5c04ff980a2b3fd4a9e4ac3.1433349512.git.raj.khem@gmail.com>
-	<CAHiDW_GjW0PSnNRGekiYkg+qdhg=xbbmiVhWY95cv6GxQPJ1Bw@mail.gmail.com>
-	<5E0378F8-62E0-4A7F-AB07-0209CD229BF3@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Jun 2015 15:47:43 +0100
-Message-ID: <CAJTo0Lb0S_b4Wnb0dWmVae9Ezmn=dB0G2=DFyEjD2nivoa6Jfw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] wayland/weston/libinput: Upgrade to 1.6.0 -> 1.8.0
+	Fri, 26 Jun 2015 15:07:36 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 26 Jun 2015 08:07:37 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,685,1427785200"; d="scan'208";a="595315625"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 26 Jun 2015 08:07:32 -0700
+Received: from localhost.localdomain (unknown [10.237.112.249])
+	by linux.intel.com (Postfix) with ESMTP id C2B146A4005;
+	Fri, 26 Jun 2015 08:06:53 -0700 (PDT)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Jun 2015 18:07:06 +0300
+Message-Id: <1435331227-25862-2-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1435331227-25862-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+References: <1435331227-25862-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+Subject: [PATCH 2/3] Added methods for manipulating bblayer.conf file in the same manner as local.conf file: - write_bblayers_config - append_bblayers_config - remove_bblayers_config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,42 +32,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 14:48:04 -0000
-Content-Type: multipart/alternative; boundary=001a1142ea98c676bd05196cd33b
+X-List-Received-Date: Fri, 26 Jun 2015 15:07:42 -0000
 
---001a1142ea98c676bd05196cd33b
-Content-Type: text/plain; charset=UTF-8
+---
+ meta/lib/oeqa/selftest/base.py | 22 ++++++++++++++++++++++
+ scripts/oe-selftest            | 16 +++++++++++++++-
+ 2 files changed, 37 insertions(+), 1 deletion(-)
 
-On 3 June 2015 at 22:21, Khem Raj <raj.khem@gmail.com> wrote:
+diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
+index 80b9b4b..b2faa66 100644
+--- a/meta/lib/oeqa/selftest/base.py
++++ b/meta/lib/oeqa/selftest/base.py
+@@ -27,6 +27,8 @@ class oeSelfTest(unittest.TestCase):
+         self.builddir = os.environ.get("BUILDDIR")
+         self.localconf_path = os.path.join(self.builddir, "conf/local.conf")
+         self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
++        self.local_bblayers_path = os.path.join(self.builddir, "conf/bblayers.conf")
++        self.testinc_bblayers_path = os.path.join(self.builddir, "conf/bblayers.inc")
+         self.testlayer_path = oeSelfTest.testlayer_path
+         self._extra_tear_down_commands = []
+         self._track_for_cleanup = []
+@@ -45,6 +47,11 @@ class oeSelfTest(unittest.TestCase):
+             for f in files:
+                 if f == 'test_recipe.inc':
+                     os.remove(os.path.join(root, f))
++        try:
++            os.remove(self.testinc_bblayers_path)
++        except OSError as e:
++            if e.errno != errno.ENOENT:
++                raise
+         # tests might need their own setup
+         # but if they overwrite this one they have to call
+         # super each time, so let's give them an alternative
+@@ -129,3 +136,18 @@ class oeSelfTest(unittest.TestCase):
+         except OSError as e:
+             if e.errno != errno.ENOENT:
+                 raise
++
++    # write to <builddir>/conf/bblayers.inc
++    def write_bblayers_config(self, data):
++        self.log.debug("Writing to: %s\n%s\n" % (self.testinc_bblayers_path, data))
++        ftools.write_file(self.testinc_bblayers_path, data)
++
++    # append to <builddir>/conf/bblayers.inc
++    def append_bblayers_config(self, data):
++        self.log.debug("Appending to: %s\n%s\n" % (self.testinc_bblayers_path, data))
++        ftools.append_file(self.testinc_bblayers_path, data)
++
++    # remove data from <builddir>/conf/bblayers.inc
++    def remove_bblayers_config(self, data):
++        self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers_path, data))
++        ftools.remove_from_file(self.testinc_bblayers_path, data)
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index a04e9fc..049a94e 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -100,6 +100,11 @@ def add_include():
+             ftools.append_file(os.path.join(builddir, "conf/local.conf"), \
+                     "\n#include added by oe-selftest.py\ninclude selftest.inc")
+ 
++    if "#include added by oe-selftest.py" \
++        not in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
++            log.info("Adding: \"include bblayers.inc\" in bblayers.conf")
++            ftools.append_file(os.path.join(builddir, "conf/bblayers.conf"), \
++                    "\n#include added by oe-selftest.py\ninclude bblayers.inc")
+ 
+ def remove_include():
+     builddir = os.environ.get("BUILDDIR")
+@@ -111,6 +116,11 @@ def remove_include():
+             ftools.remove_from_file(os.path.join(builddir, "conf/local.conf"), \
+                     "#include added by oe-selftest.py\ninclude selftest.inc")
+ 
++    if "#include added by oe-selftest.py" \
++        in ftools.read_file(os.path.join(builddir, "conf/bblayers.conf")):
++            log.info("Removing the include from bblayers.conf")
++            ftools.remove_from_file(os.path.join(builddir, "conf/bblayers.conf"), \
++                    "#include added by oe-selftest.py\ninclude bblayers.inc")
+ 
+ def remove_inc_files():
+     try:
+@@ -122,6 +132,11 @@ def remove_inc_files():
+     except (AttributeError, OSError,) as e:    # AttributeError may happen if BUILDDIR is not set
+         pass
+ 
++    try:
++        os.remove(os.path.join(os.environ.get("BUILDDIR"), "conf/bblayers.inc"))
++    except:
++        pass
++
+ def get_tests(exclusive_modules=[], include_hidden=False):
+     testslist = []
+     for x in exclusive_modules:
+@@ -167,7 +182,6 @@ def main():
+                     print e
+                     pass
+ 
+-
+     if args.run_tests or args.run_all_tests:
+         if not preflight_check():
+             return 1
+-- 
+2.1.4
 
-> > Can you explain why? The revision looks like 0.16.0 release.
->
-> its easy to develop libinput and prepare/test upstream patches since all
-> upstreams want the patches against their latest master and its easy to
-> switch to AUTOREV locally and do it.
 
-
-That's not a great reason and I'm against using git fetches when there's
-perfectly good tarballs available.
-
-Ross
-
---001a1142ea98c676bd05196cd33b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 June 2015 at 22:21, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:r=
-aj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><span class=3D"">&gt; Can you explain =
-why? The revision looks like 0.16.0 release.<br>
-<br>
-</span>its easy to develop libinput and prepare/test upstream patches since=
- all upstreams want the patches against their latest master and its easy to=
- switch to AUTOREV locally and do it.</blockquote><div><br></div><div>That&=
-#39;s not a great reason and I&#39;m against using git fetches when there&#=
-39;s perfectly good tarballs available.</div><div><br></div><div>Ross=C2=A0=
-</div></div></div></div>
-
---001a1142ea98c676bd05196cd33b--
