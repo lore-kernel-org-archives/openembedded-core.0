@@ -1,19 +1,19 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id AB99260132
+	by mail.openembedded.org (Postfix) with ESMTP id AC7477404A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 14:30:11 +0000 (UTC)
+	Fri, 26 Jun 2015 14:30:13 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 5DDB25188035
-Message-ID: <1435329007.3376.4.camel@collabora.co.uk>
+	(Authenticated sender: joshuagl) with ESMTPSA id 7C6F65188032
+Message-ID: <1435329008.3376.5.camel@collabora.co.uk>
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jun 2015 15:30:07 +0100
-In-Reply-To: <1434468553-26749-1-git-send-email-alejandro.hernandez@linux.intel.com>
-References: <1434468553-26749-1-git-send-email-alejandro.hernandez@linux.intel.com>
+Date: Fri, 26 Jun 2015 15:30:08 +0100
+In-Reply-To: <1435164582-31218-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1435164582-31218-1-git-send-email-anibal.limon@linux.intel.com>
 X-Mailer: Evolution 3.16.3 (3.16.3-2.fc22) 
 Mime-Version: 1.0
-Subject: Re: [PATCH][fido] python3-ctypes: Fix cross compilation for arm targets
+Subject: Re: [PATCH][fido] classes/license.bbclass: Improve generic license copy validation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,14 +30,13 @@ X-List-Received-Date: Fri, 26 Jun 2015 14:30:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, 2015-06-16 at 15:29 +0000, Alejandro Hernandez wrote:
-> When cross compiling for arm targets ctypes compilation fails because
-> it uses _sysconfigdata from the HOST, this patches makes it use the
-> one from TARGET fixing compilation of this module
+On Wed, 2015-06-24 at 11:49 -0500, Aníbal Limón wrote:
+> Remove + char in any position for cover cases when license has
+> the form like GPL-2.0+-with-OpenSSL-exception.
 > 
-> [YOCTO #7873]
+> [YOCTO #7584]
 
-Thanks Alejandro,
+Thanks Aníbal,
 
 This is queued in my fido-next branch[1].
 
@@ -49,31 +48,38 @@ Joshua
 -contrib/log/?h=joshuagl/fido-next
 
 > 
-> Signed-off-by: Alejandro Hernandez <
-> alejandro.hernandez@linux.intel.com>
-> Signed-off-by: Jonas Göransson <jonas.goransson@qmatic.com>
+> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
 > ---
->  meta/recipes-devtools/python/python3_3.3.3.bb | 4 ++++
->  1 file changed, 4 insertions(+)
+>  meta/classes/license.bbclass | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/meta/recipes-devtools/python/python3_3.3.3.bb 
-> b/meta/recipes-devtools/python/python3_3.3.3.bb
-> index 6147408..22ea651 100644
-> --- a/meta/recipes-devtools/python/python3_3.3.3.bb
-> +++ b/meta/recipes-devtools/python/python3_3.3.3.bb
-> @@ -72,6 +72,10 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
->  export _PYTHON_PROJECT_BASE = "${B}"
->  export _PYTHON_PROJECT_SRC = "${S}"
+> diff --git a/meta/classes/license.bbclass 
+> b/meta/classes/license.bbclass
+> index 73a0e97..e00a695 100644
+> --- a/meta/classes/license.bbclass
+> +++ b/meta/classes/license.bbclass
+> @@ -71,8 +71,12 @@ license_create_manifest() {
 >  
-> +# Fix ctypes cross compilation
-> +export CROSSPYTHONPATH = "${B}/build/lib.linux-${TARGET_ARCH}
-> -${PYTHON_MAJMIN}:${S}/Lib:${S}/Lib/plat-linux"
+>  		lics="$(echo ${pkged_lic} | sed "s/[|&()*]/ /g" | 
+> sed "s/  */ /g" )"
+>  		for lic in ${lics}; do
+> +			# remove + chars in any position this cover 
+> cases like
+> +			# GPL-2.0+-with-OpenSSL-exception -> GPL-2.0
+> -with-OpenSSL-exception
+> +			lic="$(echo ${lic} | sed "s/\+//g")"
 > +
-> +
->  # No ctypes option for python 3
->  PYTHONLSBOPTS = ""
->  
+>  			# to reference a license file trim trailing 
+> + symbol
+> -			if ! [ -e 
+> "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic%+}" ]; then
+> +			if ! [ -e 
+> "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic}" ]; then
+>  				bbwarn "The license listed ${lic} 
+> was not in the licenses collected for ${pkged_pn}"
+>  			fi
+>  		done
 > -- 
-> 1.8.4.5
+> 1.9.1
 > 
 
