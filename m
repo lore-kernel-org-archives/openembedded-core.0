@@ -1,24 +1,28 @@
 Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E85F9605B3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 75868605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 20:27:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5QKRwGB025769
+	Fri, 26 Jun 2015 20:34:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5QKY6hp013571
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 13:27:58 -0700 (PDT)
-Received: from yow-rmacleod-lx3.wrs.com (128.224.56.85) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Fri, 26 Jun 2015 13:27:57 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 26 Jun 2015 16:27:51 -0400
-Message-ID: <1435350471-17216-1-git-send-email-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Fri, 26 Jun 2015 13:34:06 -0700 (PDT)
+Received: from [128.224.56.84] (128.224.56.84) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 26 Jun 2015 13:34:05 -0700
+Message-ID: <558DB73D.6050708@windriver.com>
+Date: Fri, 26 Jun 2015 16:34:05 -0400
+From: Randy MacLeod <randy.macleod@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Subject: [PATCH] tiff: Update to 4.0.4
+To: <openembedded-core@lists.openembedded.org>
+References: <1435350471-17216-1-git-send-email-Randy.MacLeod@windriver.com>
+In-Reply-To: <1435350471-17216-1-git-send-email-Randy.MacLeod@windriver.com>
+X-Originating-IP: [128.224.56.84]
+Subject: Re: [PATCH] tiff: Update to 4.0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,1257 +35,1285 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 20:27:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Jun 2015 20:34:06 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Update tiff to latest version. None of the local CVE patches
-are needed based on reviewing the ChangeLog so remove them.
+On 2015-06-26 04:27 PM, Randy MacLeod wrote:
+> Update tiff to latest version. None of the local CVE patches
+> are needed based on reviewing the ChangeLog so remove them.
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- .../libtiff/files/libtiff-CVE-2013-1960.patch      | 151 ----
- .../libtiff/files/libtiff-CVE-2013-1961.patch      | 786 ---------------------
- .../libtiff/files/libtiff-CVE-2013-4231.patch      |  44 --
- .../libtiff/files/libtiff-CVE-2013-4232.patch      |  15 -
- .../libtiff/files/libtiff-CVE-2013-4243.patch      |  40 --
- .../libtiff/files/libtiff-CVE-2013-4244.patch      |  19 -
- .../libtiff/files/tiff-CVE-2012-4564.patch         |  99 ---
- .../libtiff/{tiff_4.0.3.bb => tiff_4.0.4.bb}       |  14 +-
- 8 files changed, 4 insertions(+), 1164 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
- delete mode 100644 meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
- rename meta/recipes-multimedia/libtiff/{tiff_4.0.3.bb => tiff_4.0.4.bb} (78%)
+I didn't want to clutter the long log but I also built for
+all qemu arches. On qemux86-64, core-image-sato, I installed
+the libtiff-util rpms and ran:
 
-diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
-deleted file mode 100644
-index e4348f1..0000000
---- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
-+++ /dev/null
-@@ -1,151 +0,0 @@
--This patch comes from: http://pkgs.fedoraproject.org/cgit/libtiff.git/plain/libtiff-CVE-2013-1960.patch
--
--Upstream-Status: Pending
--
--Signed-off-by: Ming Liu <ming.liu@windriver.com>
--
--diff -Naur a/tools/tiff2pdf.c b/tools/tiff2pdf.c
----- a/tools/tiff2pdf.c	2012-07-25 22:56:43.000000000 -0400
--+++ b/tools/tiff2pdf.c	2013-05-02 12:04:49.057090227 -0400
--@@ -3341,33 +3341,56 @@
-- 	uint32 height){
-- 
-- 	tsize_t i=0;
---	uint16 ri =0;
---	uint16 v_samp=1;
---	uint16 h_samp=1;
---	int j=0;
---	
---	i++;
---	
---	while(i<(*striplength)){
--+
--+	while (i < *striplength) {
--+		tsize_t datalen;
--+		uint16 ri;
--+		uint16 v_samp;
--+		uint16 h_samp;
--+		int j;
--+		int ncomp;
--+
--+		/* marker header: one or more FFs */
--+		if (strip[i] != 0xff)
--+			return(0);
--+		i++;
--+		while (i < *striplength && strip[i] == 0xff)
--+			i++;
--+		if (i >= *striplength)
--+			return(0);
--+		/* SOI is the only pre-SOS marker without a length word */
--+		if (strip[i] == 0xd8)
--+			datalen = 0;
--+		else {
--+			if ((*striplength - i) <= 2)
--+				return(0);
--+			datalen = (strip[i+1] << 8) | strip[i+2];
--+			if (datalen < 2 || datalen >= (*striplength - i))
--+				return(0);
--+		}
-- 		switch( strip[i] ){
---			case 0xd8:
---				/* SOI - start of image */
--+			case 0xd8:	/* SOI - start of image */
-- 				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), 2);
-- 				*bufferoffset+=2;
---				i+=2;
-- 				break;
---			case 0xc0:
---			case 0xc1:
---			case 0xc3:
---			case 0xc9:
---			case 0xca:
--+			case 0xc0:	/* SOF0 */
--+			case 0xc1:	/* SOF1 */
--+			case 0xc3:	/* SOF3 */
--+			case 0xc9:	/* SOF9 */
--+			case 0xca:	/* SOF10 */
-- 				if(no==0){
---					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
---					for(j=0;j<buffer[*bufferoffset+9];j++){
---						if( (buffer[*bufferoffset+11+(2*j)]>>4) > h_samp) 
---							h_samp = (buffer[*bufferoffset+11+(2*j)]>>4);
---						if( (buffer[*bufferoffset+11+(2*j)] & 0x0f) > v_samp) 
---							v_samp = (buffer[*bufferoffset+11+(2*j)] & 0x0f);
--+					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
--+					ncomp = buffer[*bufferoffset+9];
--+					if (ncomp < 1 || ncomp > 4)
--+						return(0);
--+					v_samp=1;
--+					h_samp=1;
--+					for(j=0;j<ncomp;j++){
--+						uint16 samp = buffer[*bufferoffset+11+(3*j)];
--+						if( (samp>>4) > h_samp) 
--+							h_samp = (samp>>4);
--+						if( (samp & 0x0f) > v_samp) 
--+							v_samp = (samp & 0x0f);
-- 					}
-- 					v_samp*=8;
-- 					h_samp*=8;
--@@ -3381,45 +3404,43 @@
--                                           (unsigned char) ((height>>8) & 0xff);
-- 					buffer[*bufferoffset+6]=
--                                             (unsigned char) (height & 0xff);
---					*bufferoffset+=strip[i+2]+2;
---					i+=strip[i+2]+2;
---
--+					*bufferoffset+=datalen+2;
--+					/* insert a DRI marker */
-- 					buffer[(*bufferoffset)++]=0xff;
-- 					buffer[(*bufferoffset)++]=0xdd;
-- 					buffer[(*bufferoffset)++]=0x00;
-- 					buffer[(*bufferoffset)++]=0x04;
-- 					buffer[(*bufferoffset)++]=(ri >> 8) & 0xff;
-- 					buffer[(*bufferoffset)++]= ri & 0xff;
---				} else {
---					i+=strip[i+2]+2;
-- 				}
-- 				break;
---			case 0xc4:
---			case 0xdb:
---				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
---				*bufferoffset+=strip[i+2]+2;
---				i+=strip[i+2]+2;
--+			case 0xc4: /* DHT */
--+			case 0xdb: /* DQT */
--+				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
--+				*bufferoffset+=datalen+2;
-- 				break;
---			case 0xda:
--+			case 0xda: /* SOS */
-- 				if(no==0){
---					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
---					*bufferoffset+=strip[i+2]+2;
---					i+=strip[i+2]+2;
--+					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
--+					*bufferoffset+=datalen+2;
-- 				} else {
-- 					buffer[(*bufferoffset)++]=0xff;
-- 					buffer[(*bufferoffset)++]=
--                                             (unsigned char)(0xd0 | ((no-1)%8));
---					i+=strip[i+2]+2;
-- 				}
---				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), (*striplength)-i-1);
---				*bufferoffset+=(*striplength)-i-1;
--+				i += datalen + 1;
--+				/* copy remainder of strip */
--+				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i]), *striplength - i);
--+				*bufferoffset+= *striplength - i;
-- 				return(1);
-- 			default:
---				i+=strip[i+2]+2;
--+				/* ignore any other marker */
--+				break;
-- 		}
--+		i += datalen + 1;
-- 	}
---	
-- 
--+	/* failed to find SOS marker */
-- 	return(0);
-- }
-- #endif
-diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
-deleted file mode 100644
-index fc4adb5..0000000
---- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
-+++ /dev/null
-@@ -1,786 +0,0 @@
--libtiff: fix CVE-2013-1961.
--
--Upstream-Status: Backported
--
--Issue Description: CVE-2013-1961
--Stack-based buffer overflow in the t2p_write_pdf_page function in tiff2pdf
--in libtiff before 4.0.3 allows remote attackers to cause a denial of service
--(application crash) via a crafted image length and resolution in a TIFF image file.
--
--Fix Description: Replace sprintf with snprintf
--
--Signed-off-by: Priyanka Shobhan <priyanka_shobhan@mentor.com>
-----
--
--diff --git a/contrib/dbs/xtiff/xtiff.c b/contrib/dbs/xtiff/xtiff.c
--index 2634030..97e4ffe 100644
----- a/contrib/dbs/xtiff/xtiff.c
--+++ b/contrib/dbs/xtiff/xtiff.c
--@@ -512,9 +512,9 @@ SetNameLabel()
--     Arg args[1];
-- 
--     if (tfMultiPage)
---        sprintf(buffer, "%s - page %d", fileName, tfDirectory);
--+        snprintf(buffer, sizeof(buffer), "%s - page %d", fileName, tfDirectory);
--     else
---        strcpy(buffer, fileName);
--+        snprintf(buffer, sizeof(buffer), "%s", fileName);
--     XtSetArg(args[0], XtNlabel, buffer);
--     XtSetValues(labelWidget, args, 1);
-- }
--diff --git a/libtiff/tif_codec.c b/libtiff/tif_codec.c
--index e201667..703e87d 100644
----- a/libtiff/tif_codec.c
--+++ b/libtiff/tif_codec.c
--@@ -108,7 +108,8 @@ _notConfigured(TIFF* tif)
-- 	const TIFFCodec* c = TIFFFindCODEC(tif->tif_dir.td_compression);
--         char compression_code[20];
--         
---        sprintf( compression_code, "%d", tif->tif_dir.td_compression );
--+        snprintf(compression_code, sizeof(compression_code), "%d",
--+		 tif->tif_dir.td_compression );
-- 	TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
--                      "%s compression support is not configured", 
--                      c ? c->name : compression_code );
--diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
--index d319931..4dae5e5 100644
----- a/libtiff/tif_dirinfo.c
--+++ b/libtiff/tif_dirinfo.c
--@@ -711,7 +711,7 @@ _TIFFCreateAnonField(TIFF *tif, uint32 tag, TIFFDataType field_type)
-- 	 * note that this name is a special sign to TIFFClose() and
-- 	 * _TIFFSetupFields() to free the field
-- 	 */
---	sprintf(fld->field_name, "Tag %d", (int) tag);
--+	snprintf(fld->field_name, 32, "Tag %d", (int) tag);
-- 
-- 	return fld;    
-- }
--diff --git a/tools/rgb2ycbcr.c b/tools/rgb2ycbcr.c
--index 162aac1..a3eeb03 100644
----- a/tools/rgb2ycbcr.c
--+++ b/tools/rgb2ycbcr.c
--@@ -332,7 +332,8 @@ tiffcvt(TIFF* in, TIFF* out)
-- 	TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
-- 	{ char buf[2048];
-- 	  char *cp = strrchr(TIFFFileName(in), '/');
---	  sprintf(buf, "YCbCr conversion of %s", cp ? cp+1 : TIFFFileName(in));
--+	  snprintf(buf, sizeof(buf), "YCbCr conversion of %s",
--+		   cp ? cp+1 : TIFFFileName(in));
-- 	  TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, buf);
-- 	}
-- 	TIFFSetField(out, TIFFTAG_SOFTWARE, TIFFGetVersion());
--diff --git a/tools/tiff2bw.c b/tools/tiff2bw.c
--index bda754a..7ffaca0 100644
----- a/tools/tiff2bw.c
--+++ b/tools/tiff2bw.c
--@@ -205,7 +205,7 @@ main(int argc, char* argv[])
-- 		}
-- 	}
-- 	TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
---	sprintf(thing, "B&W version of %s", argv[optind]);
--+	snprintf(thing, sizeof(thing), "B&W version of %s", argv[optind]);
-- 	TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, thing);
-- 	TIFFSetField(out, TIFFTAG_SOFTWARE, "tiff2bw");
-- 	outbuf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
--diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
--index 356328c..957fd9f 100644
----- a/tools/tiff2pdf.c
--+++ b/tools/tiff2pdf.c
--@@ -3609,7 +3609,9 @@ tsize_t t2p_write_pdf_header(T2P* t2p, TIFF* output){
-- 	char buffer[16];
-- 	int buflen=0;
-- 	
---	buflen=sprintf(buffer, "%%PDF-%u.%u ", t2p->pdf_majorversion&0xff, t2p->pdf_minorversion&0xff);
--+	buflen = snprintf(buffer, sizeof(buffer), "%%PDF-%u.%u ",
--+			  t2p->pdf_majorversion&0xff,
--+			  t2p->pdf_minorversion&0xff);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t)"\n%\342\343\317\323\n", 7);
-- 
--@@ -3623,10 +3625,10 @@ tsize_t t2p_write_pdf_header(T2P* t2p, TIFF* output){
-- tsize_t t2p_write_pdf_obj_start(uint32 number, TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 
---	buflen=sprintf(buffer, "%lu", (unsigned long)number);
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)number);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen );
-- 	written += t2pWriteFile(output, (tdata_t) " 0 obj\n", 7);
-- 
--@@ -3665,13 +3667,13 @@ tsize_t t2p_write_pdf_name(unsigned char* name, TIFF* output){
-- 	written += t2pWriteFile(output, (tdata_t) "/", 1);
-- 	for (i=0;i<namelen;i++){
-- 		if ( ((unsigned char)name[i]) < 0x21){
---			sprintf(buffer, "#%.2X", name[i]);
--+			snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
-- 			buffer[sizeof(buffer) - 1] = '\0';
-- 			written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 			nextchar=1;
-- 		}
-- 		if ( ((unsigned char)name[i]) > 0x7E){
---			sprintf(buffer, "#%.2X", name[i]);
--+			snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
-- 			buffer[sizeof(buffer) - 1] = '\0';
-- 			written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 			nextchar=1;
--@@ -3679,57 +3681,57 @@ tsize_t t2p_write_pdf_name(unsigned char* name, TIFF* output){
-- 		if (nextchar==0){
-- 			switch (name[i]){
-- 				case 0x23:
---					sprintf(buffer, "#%.2X", name[i]);
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x25:
---					sprintf(buffer, "#%.2X", name[i]);
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x28:
---					sprintf(buffer, "#%.2X", name[i]);
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x29:
---					sprintf(buffer, "#%.2X", name[i]); 
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x2F:
---					sprintf(buffer, "#%.2X", name[i]); 
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x3C:
---					sprintf(buffer, "#%.2X", name[i]); 
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x3E:
---					sprintf(buffer, "#%.2X", name[i]);
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x5B:
---					sprintf(buffer, "#%.2X", name[i]); 
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x5D:
---					sprintf(buffer, "#%.2X", name[i]);
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x7B:
---					sprintf(buffer, "#%.2X", name[i]); 
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
-- 				case 0x7D:
---					sprintf(buffer, "#%.2X", name[i]); 
--+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
-- 					buffer[sizeof(buffer) - 1] = '\0';
-- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
-- 					break;
--@@ -3844,14 +3846,14 @@ tsize_t t2p_write_pdf_stream_end(TIFF* output){
-- tsize_t t2p_write_pdf_stream_dict(tsize_t len, uint32 number, TIFF* output){
-- 	
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 	
-- 	written += t2pWriteFile(output, (tdata_t) "/Length ", 8);
-- 	if(len!=0){
-- 		written += t2p_write_pdf_stream_length(len, output);
-- 	} else {
---		buflen=sprintf(buffer, "%lu", (unsigned long)number);
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)number);
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
-- 	}
--@@ -3892,10 +3894,10 @@ tsize_t t2p_write_pdf_stream_dict_end(TIFF* output){
-- tsize_t t2p_write_pdf_stream_length(tsize_t len, TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 
---	buflen=sprintf(buffer, "%lu", (unsigned long)len);
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)len);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) "\n", 1);
-- 
--@@ -3909,7 +3911,7 @@ tsize_t t2p_write_pdf_stream_length(tsize_t len, TIFF* output){
-- tsize_t t2p_write_pdf_catalog(T2P* t2p, TIFF* output)
-- {
-- 	tsize_t written = 0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen = 0;
-- 
-- 	written += t2pWriteFile(output, 
--@@ -3948,7 +3950,6 @@ tsize_t t2p_write_pdf_info(T2P* t2p, TIFF* input, TIFF* output)
-- 		written += t2p_write_pdf_string(t2p->pdf_datetime, output);
-- 	}
-- 	written += t2pWriteFile(output, (tdata_t) "\n/Producer ", 11);
---	_TIFFmemset((tdata_t)buffer, 0x00, sizeof(buffer));
-- 	snprintf(buffer, sizeof(buffer), "libtiff / tiff2pdf - %d", TIFFLIB_VERSION);
-- 	written += t2p_write_pdf_string(buffer, output);
-- 	written += t2pWriteFile(output, (tdata_t) "\n", 1);
--@@ -4089,7 +4090,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
-- {
-- 	tsize_t written=0;
-- 	tdir_t i=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 
-- 	int page=0;
--@@ -4097,7 +4098,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
-- 		(tdata_t) "<< \n/Type /Pages \n/Kids [ ", 26);
-- 	page = t2p->pdf_pages+1;
-- 	for (i=0;i<t2p->tiff_pagecount;i++){
---		buflen=sprintf(buffer, "%d", page);
--+		buflen=snprintf(buffer, sizeof(buffer), "%d", page);
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
-- 		if ( ((i+1)%8)==0 ) {
--@@ -4112,8 +4113,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
-- 		}
-- 	}
-- 	written += t2pWriteFile(output, (tdata_t) "] \n/Count ", 10);
---	_TIFFmemset(buffer, 0x00, 16);
---	buflen=sprintf(buffer, "%d", t2p->tiff_pagecount);
--+	buflen=snprintf(buffer, sizeof(buffer), "%d", t2p->tiff_pagecount);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) " \n>> \n", 6);
-- 
--@@ -4128,28 +4128,28 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
-- 
-- 	unsigned int i=0;
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[256];
-- 	int buflen=0;
-- 
-- 	written += t2pWriteFile(output, (tdata_t) "<<\n/Type /Page \n/Parent ", 24);
---	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_pages);
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_pages);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
-- 	written += t2pWriteFile(output, (tdata_t) "/MediaBox [", 11); 
---	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.x1);
--+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.x1);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) " ", 1); 
---	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.y1);
--+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.y1);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) " ", 1); 
---	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.x2);
--+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.x2);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) " ", 1); 
---	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.y2);
--+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.y2);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) "] \n", 3); 
-- 	written += t2pWriteFile(output, (tdata_t) "/Contents ", 10);
---	buflen=sprintf(buffer, "%lu", (unsigned long)(object + 1));
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(object + 1));
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
-- 	written += t2pWriteFile(output, (tdata_t) "/Resources << \n", 15);
--@@ -4157,15 +4157,13 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
-- 		written += t2pWriteFile(output, (tdata_t) "/XObject <<\n", 12);
-- 		for(i=0;i<t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount;i++){
-- 			written += t2pWriteFile(output, (tdata_t) "/Im", 3);
---			buflen = sprintf(buffer, "%u", t2p->pdf_page+1);
--+			buflen = snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
-- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 			written += t2pWriteFile(output, (tdata_t) "_", 1);
---			buflen = sprintf(buffer, "%u", i+1);
--+			buflen = snprintf(buffer, sizeof(buffer), "%u", i+1);
-- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 			written += t2pWriteFile(output, (tdata_t) " ", 1);
---			buflen = sprintf(
---				buffer, 
---				"%lu", 
--+			buflen = snprintf(buffer, sizeof(buffer), "%lu",
-- 				(unsigned long)(object+3+(2*i)+t2p->tiff_pages[t2p->pdf_page].page_extra)); 
-- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 			written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
--@@ -4177,12 +4175,10 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
-- 	} else {
-- 			written += t2pWriteFile(output, (tdata_t) "/XObject <<\n", 12);
-- 			written += t2pWriteFile(output, (tdata_t) "/Im", 3);
---			buflen = sprintf(buffer, "%u", t2p->pdf_page+1);
--+			buflen = snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
-- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 			written += t2pWriteFile(output, (tdata_t) " ", 1);
---			buflen = sprintf(
---				buffer, 
---				"%lu", 
--+			buflen = snprintf(buffer, sizeof(buffer), "%lu",
-- 				(unsigned long)(object+3+(2*i)+t2p->tiff_pages[t2p->pdf_page].page_extra)); 
-- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 			written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
--@@ -4191,9 +4187,7 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
-- 	if(t2p->tiff_transferfunctioncount != 0) {
-- 		written += t2pWriteFile(output, (tdata_t) "/ExtGState <<", 13);
-- 		t2pWriteFile(output, (tdata_t) "/GS1 ", 5);
---		buflen = sprintf(
---			buffer, 
---			"%lu", 
--+		buflen = snprintf(buffer, sizeof(buffer), "%lu",
-- 			(unsigned long)(object + 3)); 
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
--@@ -4566,7 +4560,7 @@ tsize_t t2p_write_pdf_page_content_stream(T2P* t2p, TIFF* output){
-- 	if(t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount>0){ 
-- 		for(i=0;i<t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount; i++){
-- 			box=t2p->tiff_tiles[t2p->pdf_page].tiles_tiles[i].tile_box;
---			buflen=sprintf(buffer, 
--+			buflen=snprintf(buffer, sizeof(buffer), 
-- 				"q %s %.4f %.4f %.4f %.4f %.4f %.4f cm /Im%d_%ld Do Q\n", 
-- 				t2p->tiff_transferfunctioncount?"/GS1 gs ":"",
-- 				box.mat[0],
--@@ -4581,7 +4575,7 @@ tsize_t t2p_write_pdf_page_content_stream(T2P* t2p, TIFF* output){
-- 		}
-- 	} else {
-- 		box=t2p->pdf_imagebox;
---		buflen=sprintf(buffer, 
--+		buflen=snprintf(buffer, sizeof(buffer), 
-- 			"q %s %.4f %.4f %.4f %.4f %.4f %.4f cm /Im%d Do Q\n", 
-- 			t2p->tiff_transferfunctioncount?"/GS1 gs ":"",
-- 			box.mat[0],
--@@ -4606,59 +4600,48 @@ tsize_t t2p_write_pdf_xobject_stream_dict(ttile_t tile,
-- 												TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 
-- 	written += t2p_write_pdf_stream_dict(0, t2p->pdf_xrefcount+1, output); 
-- 	written += t2pWriteFile(output, 
-- 		(tdata_t) "/Type /XObject \n/Subtype /Image \n/Name /Im", 
-- 		42);
---	buflen=sprintf(buffer, "%u", t2p->pdf_page+1);
--+	buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	if(tile != 0){
-- 		written += t2pWriteFile(output, (tdata_t) "_", 1);
---		buflen=sprintf(buffer, "%lu", (unsigned long)tile);
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)tile);
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	}
-- 	written += t2pWriteFile(output, (tdata_t) "\n/Width ", 8);
---	_TIFFmemset((tdata_t)buffer, 0x00, 16);
-- 	if(tile==0){
---		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->tiff_width);
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->tiff_width);
-- 	} else {
-- 		if(t2p_tile_is_right_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)!=0){
---			buflen=sprintf(
---				buffer, 
---				"%lu", 
--+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilewidth);
-- 		} else {
---			buflen=sprintf(
---				buffer, 
---				"%lu", 
--+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilewidth);
-- 		}
-- 	}
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) "\n/Height ", 9);
---	_TIFFmemset((tdata_t)buffer, 0x00, 16);
-- 	if(tile==0){
---		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->tiff_length);
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->tiff_length);
-- 	} else {
-- 		if(t2p_tile_is_bottom_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)!=0){
---			buflen=sprintf(
---				buffer, 
---				"%lu", 
--+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilelength);
-- 		} else {
---			buflen=sprintf(
---				buffer, 
---				"%lu", 
--+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilelength);
-- 		}
-- 	}
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) "\n/BitsPerComponent ", 19);
---	_TIFFmemset((tdata_t)buffer, 0x00, 16);
---	buflen=sprintf(buffer, "%u", t2p->tiff_bitspersample);
--+	buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_bitspersample);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) "\n/ColorSpace ", 13);
-- 	written += t2p_write_pdf_xobject_cs(t2p, output);
--@@ -4702,11 +4685,10 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
-- 		t2p->pdf_colorspace ^= T2P_CS_PALETTE;
-- 		written += t2p_write_pdf_xobject_cs(t2p, output);
-- 		t2p->pdf_colorspace |= T2P_CS_PALETTE;
---		buflen=sprintf(buffer, "%u", (0x0001 << t2p->tiff_bitspersample)-1 );
--+		buflen=snprintf(buffer, sizeof(buffer), "%u", (0x0001 << t2p->tiff_bitspersample)-1 );
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " ", 1);
---		_TIFFmemset(buffer, 0x00, 16);
---		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_palettecs ); 
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_palettecs ); 
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " 0 R ]\n", 7);
-- 		return(written);
--@@ -4740,10 +4722,10 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
-- 			X_W /= Y_W;
-- 			Z_W /= Y_W;
-- 			Y_W = 1.0F;
---			buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
--+			buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
-- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 			written += t2pWriteFile(output, (tdata_t) "/Range ", 7);
---			buflen=sprintf(buffer, "[%d %d %d %d] \n", 
--+			buflen=snprintf(buffer, sizeof(buffer), "[%d %d %d %d] \n", 
-- 				t2p->pdf_labrange[0], 
-- 				t2p->pdf_labrange[1], 
-- 				t2p->pdf_labrange[2], 
--@@ -4759,26 +4741,26 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
-- tsize_t t2p_write_pdf_transfer(T2P* t2p, TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 
-- 	written += t2pWriteFile(output, (tdata_t) "<< /Type /ExtGState \n/TR ", 25);
-- 	if(t2p->tiff_transferfunctioncount == 1){
---		buflen=sprintf(buffer, "%lu",
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 			       (unsigned long)(t2p->pdf_xrefcount + 1));
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
-- 	} else {
-- 		written += t2pWriteFile(output, (tdata_t) "[ ", 2);
---		buflen=sprintf(buffer, "%lu",
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 			       (unsigned long)(t2p->pdf_xrefcount + 1));
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
---		buflen=sprintf(buffer, "%lu",
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 			       (unsigned long)(t2p->pdf_xrefcount + 2));
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
---		buflen=sprintf(buffer, "%lu",
--+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 			       (unsigned long)(t2p->pdf_xrefcount + 3));
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
--@@ -4800,7 +4782,7 @@ tsize_t t2p_write_pdf_transfer_dict(T2P* t2p, TIFF* output, uint16 i){
-- 	written += t2pWriteFile(output, (tdata_t) "/FunctionType 0 \n", 17);
-- 	written += t2pWriteFile(output, (tdata_t) "/Domain [0.0 1.0] \n", 19);
-- 	written += t2pWriteFile(output, (tdata_t) "/Range [0.0 1.0] \n", 18);
---	buflen=sprintf(buffer, "/Size [%u] \n", (1<<t2p->tiff_bitspersample));
--+	buflen=snprintf(buffer, sizeof(buffer), "/Size [%u] \n", (1<<t2p->tiff_bitspersample));
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) "/BitsPerSample 16 \n", 19);
-- 	written += t2p_write_pdf_stream_dict(((tsize_t)1)<<(t2p->tiff_bitspersample+1), 0, output);
--@@ -4827,7 +4809,7 @@ tsize_t t2p_write_pdf_transfer_stream(T2P* t2p, TIFF* output, uint16 i){
-- tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[128];
--+	char buffer[256];
-- 	int buflen=0;
-- 	
-- 	float X_W=0.0;
--@@ -4895,16 +4877,16 @@ tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
-- 	written += t2pWriteFile(output, (tdata_t) "<< \n", 4);
-- 	if(t2p->pdf_colorspace & T2P_CS_CALGRAY){
-- 		written += t2pWriteFile(output, (tdata_t) "/WhitePoint ", 12);
---		buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
--+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) "/Gamma 2.2 \n", 12);
-- 	}
-- 	if(t2p->pdf_colorspace & T2P_CS_CALRGB){
-- 		written += t2pWriteFile(output, (tdata_t) "/WhitePoint ", 12);
---		buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
--+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
-- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 		written += t2pWriteFile(output, (tdata_t) "/Matrix ", 8);
---		buflen=sprintf(buffer, "[%.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f] \n", 
--+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f] \n", 
-- 			X_R, Y_R, Z_R, 
-- 			X_G, Y_G, Z_G, 
-- 			X_B, Y_B, Z_B); 
--@@ -4923,11 +4905,11 @@ tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
-- tsize_t t2p_write_pdf_xobject_icccs(T2P* t2p, TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 	
-- 	written += t2pWriteFile(output, (tdata_t) "[/ICCBased ", 11);
---	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_icccs);
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_icccs);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) " 0 R] \n", 7);
-- 
--@@ -4937,11 +4919,11 @@ tsize_t t2p_write_pdf_xobject_icccs(T2P* t2p, TIFF* output){
-- tsize_t t2p_write_pdf_xobject_icccs_dict(T2P* t2p, TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 	
-- 	written += t2pWriteFile(output, (tdata_t) "/N ", 3);
---	buflen=sprintf(buffer, "%u \n", t2p->tiff_samplesperpixel);
--+	buflen=snprintf(buffer, sizeof(buffer), "%u \n", t2p->tiff_samplesperpixel);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) "/Alternate ", 11);
-- 	t2p->pdf_colorspace ^= T2P_CS_ICCBASED;
--@@ -5006,7 +4988,7 @@ tsize_t t2p_write_pdf_xobject_decode(T2P* t2p, TIFF* output){
-- tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[16];
--+	char buffer[32];
-- 	int buflen=0;
-- 
-- 	if(t2p->pdf_compression==T2P_COMPRESS_NONE){
--@@ -5021,41 +5003,33 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
-- 			written += t2pWriteFile(output, (tdata_t) "<< /K -1 ", 9);
-- 			if(tile==0){
-- 				written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
---				buflen=sprintf(buffer, "%lu",
--+				buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 					       (unsigned long)t2p->tiff_width);
-- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
---				buflen=sprintf(buffer, "%lu",
--+				buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 					       (unsigned long)t2p->tiff_length);
-- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 			} else {
-- 				if(t2p_tile_is_right_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)==0){
-- 					written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
---					buflen=sprintf(
---						buffer, 
---						"%lu", 
--+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilewidth);
-- 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				} else {
-- 					written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
---					buflen=sprintf(
---						buffer, 
---						"%lu", 
--+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilewidth);
-- 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				}
-- 				if(t2p_tile_is_bottom_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)==0){
-- 					written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
---					buflen=sprintf(
---						buffer, 
---						"%lu", 
--+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilelength);
-- 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				} else {
-- 					written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
---					buflen=sprintf(
---						buffer, 
---						"%lu", 
--+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
-- 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilelength);
-- 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				}
--@@ -5082,21 +5056,17 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
-- 			if(t2p->pdf_compressionquality%100){
-- 				written += t2pWriteFile(output, (tdata_t) "/DecodeParms ", 13);
-- 				written += t2pWriteFile(output, (tdata_t) "<< /Predictor ", 14);
---				_TIFFmemset(buffer, 0x00, 16);
---				buflen=sprintf(buffer, "%u", t2p->pdf_compressionquality%100);
--+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_compressionquality%100);
-- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				written += t2pWriteFile(output, (tdata_t) " /Columns ", 10);
---				_TIFFmemset(buffer, 0x00, 16);
---				buflen = sprintf(buffer, "%lu",
--+				buflen = snprintf(buffer, sizeof(buffer), "%lu",
-- 						 (unsigned long)t2p->tiff_width);
-- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				written += t2pWriteFile(output, (tdata_t) " /Colors ", 9);
---				_TIFFmemset(buffer, 0x00, 16);
---				buflen=sprintf(buffer, "%u", t2p->tiff_samplesperpixel);
--+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_samplesperpixel);
-- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				written += t2pWriteFile(output, (tdata_t) " /BitsPerComponent ", 19);
---				_TIFFmemset(buffer, 0x00, 16);
---				buflen=sprintf(buffer, "%u", t2p->tiff_bitspersample);
--+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_bitspersample);
-- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 				written += t2pWriteFile(output, (tdata_t) ">>\n", 3);
-- 			}
--@@ -5116,16 +5086,16 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
-- tsize_t t2p_write_pdf_xreftable(T2P* t2p, TIFF* output){
-- 
-- 	tsize_t written=0;
---	char buffer[21];
--+	char buffer[64];
-- 	int buflen=0;
-- 	uint32 i=0;
-- 
-- 	written += t2pWriteFile(output, (tdata_t) "xref\n0 ", 7);
---	buflen=sprintf(buffer, "%lu", (unsigned long)(t2p->pdf_xrefcount + 1));
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(t2p->pdf_xrefcount + 1));
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
-- 	written += t2pWriteFile(output, (tdata_t) " \n0000000000 65535 f \n", 22);
-- 	for (i=0;i<t2p->pdf_xrefcount;i++){
---		sprintf(buffer, "%.10lu 00000 n \n",
--+		snprintf(buffer, sizeof(buffer), "%.10lu 00000 n \n",
-- 			(unsigned long)t2p->pdf_xrefoffsets[i]);
-- 		written += t2pWriteFile(output, (tdata_t) buffer, 20);
-- 	}
--@@ -5149,17 +5119,14 @@ tsize_t t2p_write_pdf_trailer(T2P* t2p, TIFF* output)
-- 		snprintf(t2p->pdf_fileid + i, 9, "%.8X", rand());
-- 
-- 	written += t2pWriteFile(output, (tdata_t) "trailer\n<<\n/Size ", 17);
---	buflen = sprintf(buffer, "%lu", (unsigned long)(t2p->pdf_xrefcount+1));
--+	buflen = snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(t2p->pdf_xrefcount+1));
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
---	_TIFFmemset(buffer, 0x00, 32);	
-- 	written += t2pWriteFile(output, (tdata_t) "\n/Root ", 7);
---	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_catalog);
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_catalog);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
---	_TIFFmemset(buffer, 0x00, 32);	
-- 	written += t2pWriteFile(output, (tdata_t) " 0 R \n/Info ", 12);
---	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_info);
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_info);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
---	_TIFFmemset(buffer, 0x00, 32);	
-- 	written += t2pWriteFile(output, (tdata_t) " 0 R \n/ID[<", 11);
-- 	written += t2pWriteFile(output, (tdata_t) t2p->pdf_fileid,
-- 				sizeof(t2p->pdf_fileid) - 1);
--@@ -5167,9 +5134,8 @@ tsize_t t2p_write_pdf_trailer(T2P* t2p, TIFF* output)
-- 	written += t2pWriteFile(output, (tdata_t) t2p->pdf_fileid,
-- 				sizeof(t2p->pdf_fileid) - 1);
-- 	written += t2pWriteFile(output, (tdata_t) ">]\n>>\nstartxref\n", 16);
---	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_startxref);
--+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_startxref);
-- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
---	_TIFFmemset(buffer, 0x00, 32);	
-- 	written += t2pWriteFile(output, (tdata_t) "\n%%EOF\n", 7);
-- 
-- 	return(written);
--diff --git a/tools/tiff2ps.c b/tools/tiff2ps.c
--index 3330750..7a9a816 100644
----- a/tools/tiff2ps.c
--+++ b/tools/tiff2ps.c
--@@ -1789,8 +1789,8 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
-- 		imageOp = "imagemask";
-- 
-- 	(void)strcpy(im_x, "0");
---	(void)sprintf(im_y, "%lu", (long) h);
---	(void)sprintf(im_h, "%lu", (long) h);
--+	(void)snprintf(im_y, sizeof(im_y), "%lu", (long) h);
--+	(void)snprintf(im_h, sizeof(im_h), "%lu", (long) h);
-- 	tile_width = w;
-- 	tile_height = h;
-- 	if (TIFFIsTiled(tif)) {
--@@ -1811,7 +1811,7 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
-- 		}
-- 		if (tile_height < h) {
-- 			fputs("/im_y 0 def\n", fd);
---			(void)sprintf(im_y, "%lu im_y sub", (unsigned long) h);
--+			(void)snprintf(im_y, sizeof(im_y), "%lu im_y sub", (unsigned long) h);
-- 		}
-- 	} else {
-- 		repeat_count = tf_numberstrips;
--@@ -1823,7 +1823,7 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
-- 			fprintf(fd, "/im_h %lu def\n",
-- 			    (unsigned long) tile_height);
-- 			(void)strcpy(im_h, "im_h");
---			(void)sprintf(im_y, "%lu im_y sub", (unsigned long) h);
--+			(void)snprintf(im_y, sizeof(im_y), "%lu im_y sub", (unsigned long) h);
-- 		}
-- 	}
-- 
--diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
--index 9cd5d86..a2443aa 100644
----- a/tools/tiffcrop.c
--+++ b/tools/tiffcrop.c
--@@ -2077,7 +2077,7 @@ update_output_file (TIFF **tiffout, char *mode, int autoindex,
--         return 1;
--         }
-- 
---      sprintf (filenum, "-%03d%s", findex, export_ext);
--+      snprintf(filenum, sizeof(filenum), "-%03d%s", findex, export_ext);
--       filenum[14] = '\0';
--       strncat (exportname, filenum, 15);
--       }
--@@ -2230,8 +2230,8 @@ main(int argc, char* argv[])
-- 
--           /* dump.infilename is guaranteed to be NUL termimated and have 20 bytes 
--              fewer than PATH_MAX */ 
---          memset (temp_filename, '\0', PATH_MAX + 1);              
---          sprintf (temp_filename, "%s-read-%03d.%s", dump.infilename, dump_images,
--+          snprintf(temp_filename, sizeof(temp_filename), "%s-read-%03d.%s",
--+		   dump.infilename, dump_images,
--                   (dump.format == DUMP_TEXT) ? "txt" : "raw");
--           if ((dump.infile = fopen(temp_filename, dump.mode)) == NULL)
--             {
--@@ -2249,8 +2249,8 @@ main(int argc, char* argv[])
-- 
--           /* dump.outfilename is guaranteed to be NUL termimated and have 20 bytes 
--              fewer than PATH_MAX */ 
---          memset (temp_filename, '\0', PATH_MAX + 1);              
---          sprintf (temp_filename, "%s-write-%03d.%s", dump.outfilename, dump_images,
--+          snprintf(temp_filename, sizeof(temp_filename), "%s-write-%03d.%s",
--+		   dump.outfilename, dump_images,
--                   (dump.format == DUMP_TEXT) ? "txt" : "raw");
--           if ((dump.outfile = fopen(temp_filename, dump.mode)) == NULL)
--             {
--diff --git a/tools/tiffdither.c b/tools/tiffdither.c
--index f2f0f20..4308946 100644
----- a/tools/tiffdither.c
--+++ b/tools/tiffdither.c
--@@ -260,7 +260,7 @@ main(int argc, char* argv[])
-- 		TIFFSetField(out, TIFFTAG_FILLORDER, fillorder);
-- 	else
-- 		CopyField(TIFFTAG_FILLORDER, shortv);
---	sprintf(thing, "Dithered B&W version of %s", argv[optind]);
--+	snprintf(thing, sizeof(thing), "Dithered B&W version of %s", argv[optind]);
-- 	TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, thing);
-- 	CopyField(TIFFTAG_PHOTOMETRIC, shortv);
-- 	CopyField(TIFFTAG_ORIENTATION, shortv);
---- 
--1.8.3.rc3
--
--
-diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
-deleted file mode 100644
-index d8d4e96..0000000
---- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--Upstream-Status: Backport
--
--Multiple buffer overflows in libtiff before 4.0.3 allow remote attackers
--to cause a denial of service (out-of-bounds write) via a crafted (1)
--extension block in a GIF image or (2) GIF raster image to
--tools/gif2tiff.c or (3) a long filename for a TIFF image to
--tools/rgb2ycbcr.c. NOTE: vectors 1 and 3 are disputed by Red Hat, which
--states that the input cannot exceed the allocated buffer size.
--
--http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4231Multiple
--buffer overflows in libtiff before 4.0.3 allow remote attackers to cause
--a denial of service (out-of-bounds write) via a crafted (1) extension
--block in a GIF image or (2) GIF raster image to tools/gif2tiff.c or (3)
--a long filename for a TIFF image to tools/rgb2ycbcr.c. NOTE: vectors 1
--and 3 are disputed by Red Hat, which states that the input cannot exceed
--the allocated buffer size.
--
--http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4231
--
--Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
--
--Index: tools/gif2tiff.c
--===================================================================
--RCS file: /cvs/maptools/cvsroot/libtiff/tools/gif2tiff.c,v
--retrieving revision 1.12
--retrieving revision 1.13
--diff -u -r1.12 -r1.13
----- a/tools/gif2tiff.c	15 Dec 2010 00:22:44 -0000	1.12
--+++ b/tools/gif2tiff.c	14 Aug 2013 05:18:53 -0000	1.13
--@@ -1,4 +1,4 @@
---/* $Id: gif2tiff.c,v 1.12 2010-12-15 00:22:44 faxguy Exp $ */
--+/* $Id: gif2tiff.c,v 1.13 2013-08-14 05:18:53 fwarmerdam Exp $ */
-- 
-- /*
--  * Copyright (c) 1990-1997 Sam Leffler
--@@ -333,6 +333,8 @@
--     int status = 1;
-- 
--     datasize = getc(infile);
--+    if (datasize > 12)
--+	return 0;
--     clear = 1 << datasize;
--     eoi = clear + 1;
--     avail = clear + 2;
-diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
-deleted file mode 100644
-index 9ebf8f9..0000000
---- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
-+++ /dev/null
-@@ -1,15 +0,0 @@
--This patch comes from: http://bugzilla.maptools.org/attachment.cgi?id=513&action=diff 
--
--Upstream-Status: Pending
--
--Signed-off-by: Baogen shang <baogen.shang@windriver.com>
----- a/tools/tiff2pdf.c	2013-10-21 10:36:38.214170346 +0800
--+++ b/tools/tiff2pdf.c	2013-10-21 10:38:58.246170329 +0800
--@@ -2387,6 +2387,7 @@
-- 					TIFFFileName(input));
-- 				t2p->t2p_error = T2P_ERR_ERROR;
-- 			  _TIFFfree(buffer);
--+			  return(0);
-- 			} else {
-- 				buffer=samplebuffer;
-- 				t2p->tiff_datasize *= t2p->tiff_samplesperpixel;
-diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
-deleted file mode 100644
-index 642a117..0000000
---- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--This patch comes from: http://bugzilla.maptools.org/attachment.cgi?id=518&action=diff#tools/gif2tiff.c_sec2
--
--Upstream-Status: Pending
--
--Signed-off-by: Baogen shang <baogen.shang@windriver.com>
----- a/tools/gif2tiff.c	2013-10-14 17:08:43.966239709 +0800
--+++ b/tools/gif2tiff.c	2013-10-14 17:18:22.994239638 +0800
--@@ -280,6 +280,10 @@
--         fprintf(stderr, "no colormap present for image\n");
--         return (0);
--     }
--+    if (width == 0 || height == 0) {
--+        fprintf(stderr, "Invalid value of width or height\n");
--+        return(0);
--+    }
--     if ((raster = (unsigned char*) _TIFFmalloc(width*height+EXTRAFUDGE)) == NULL) {
--         fprintf(stderr, "not enough memory for image\n");
--         return (0);
--@@ -397,6 +401,10 @@
-- 	return 1;
--     }
-- 
--+    if (*fill >= raster + width*height) {
--+        fprintf(stderr, "raster full before eoi code\n");
--+        return 0;
--+    }
--     if (oldcode == -1) {
-- 	*(*fill)++ = suffix[code];
-- 	firstchar = oldcode = code;
--@@ -428,6 +436,10 @@
--     }
--     oldcode = incode;
--     do {
--+    if (*fill >= raster + width*height) {
--+        fprintf(stderr, "raster full before eoi code\n");
--+        return 0;
--+    }
-- 	*(*fill)++ = *--stackp;
--     } while (stackp > stack);
--     return 1;
-diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
-deleted file mode 100644
-index 1a66830..0000000
---- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
-+++ /dev/null
-@@ -1,19 +0,0 @@
--This patch comes from: https://github.com/vadz/libtiff/commit/ce6841d9e41d621ba23cf18b190ee6a23b2cc833
--
--Upstream-Status: Backport
--
--Signed-off-by: Baogen shang <baogen.shang@windriver.com>
----- a/tools/gif2tiff.c	2013-12-17 16:46:02.160814995 +0800
--+++ b/tools/gif2tiff.c	2013-12-17 16:52:25.140814949 +0800
--@@ -406,6 +406,11 @@
--         return 0;
--     }
--     if (oldcode == -1) {
--+    if (code >= clear) {
--+        fprintf(stderr, "bad input: code=%d is larger than clear=%d\n",code, clear);
--+        return 0;
--+	}
--+
-- 	*(*fill)++ = suffix[code];
-- 	firstchar = oldcode = code;
-- 	return 1;
-diff --git a/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch b/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
-deleted file mode 100644
-index 2364979..0000000
---- a/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--Upstream-Status: Backport
--
--Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
--Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
--
--Index: tools/ppm2tiff.c
--===================================================================
--RCS file: /cvs/maptools/cvsroot/libtiff/tools/ppm2tiff.c,v
--retrieving revision 1.16
--retrieving revision 1.18
--diff -u -r1.16 -r1.18
----- a/tools/ppm2tiff.c	10 Apr 2010 19:22:34 -0000	1.16
--+++ b/tools/ppm2tiff.c	10 Dec 2012 18:19:11 -0000	1.18
--@@ -1,4 +1,4 @@
---/* $Id: ppm2tiff.c,v 1.16 2010-04-10 19:22:34 bfriesen Exp $ */
--+/* $Id: ppm2tiff.c,v 1.18 2012-12-10 18:19:11 tgl Exp $ */
-- 
-- /*
--  * Copyright (c) 1991-1997 Sam Leffler
--@@ -72,6 +72,17 @@
-- 	exit(-2);
-- }
-- 
--+static tmsize_t
--+multiply_ms(tmsize_t m1, tmsize_t m2)
--+{
--+	tmsize_t bytes = m1 * m2;
--+
--+	if (m1 && bytes / m1 != m2)
--+		bytes = 0;
--+
--+	return bytes;
--+}
--+
-- int
-- main(int argc, char* argv[])
-- {
--@@ -79,7 +90,7 @@
-- 	uint32 rowsperstrip = (uint32) -1;
-- 	double resolution = -1;
-- 	unsigned char *buf = NULL;
---	tsize_t linebytes = 0;
--+	tmsize_t linebytes = 0;
-- 	uint16 spp = 1;
-- 	uint16 bpp = 8;
-- 	TIFF *out;
--@@ -89,6 +100,7 @@
-- 	int c;
-- 	extern int optind;
-- 	extern char* optarg;
--+	tmsize_t scanline_size;
-- 
-- 	if (argc < 2) {
-- 	    fprintf(stderr, "%s: Too few arguments\n", argv[0]);
--@@ -221,7 +233,8 @@
-- 	}
-- 	switch (bpp) {
-- 		case 1:
---			linebytes = (spp * w + (8 - 1)) / 8;
--+			/* if round-up overflows, result will be zero, OK */
--+			linebytes = (multiply_ms(spp, w) + (8 - 1)) / 8;
-- 			if (rowsperstrip == (uint32) -1) {
-- 				TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, h);
-- 			} else {
--@@ -230,15 +243,31 @@
-- 			}
-- 			break;
-- 		case 8:
---			linebytes = spp * w;
--+			linebytes = multiply_ms(spp, w);
-- 			TIFFSetField(out, TIFFTAG_ROWSPERSTRIP,
-- 			    TIFFDefaultStripSize(out, rowsperstrip));
-- 			break;
-- 	}
---	if (TIFFScanlineSize(out) > linebytes)
--+	if (linebytes == 0) {
--+		fprintf(stderr, "%s: scanline size overflow\n", infile);
--+		(void) TIFFClose(out);
--+		exit(-2);					
--+	}
--+	scanline_size = TIFFScanlineSize(out);
--+	if (scanline_size == 0) {
--+		/* overflow - TIFFScanlineSize already printed a message */
--+		(void) TIFFClose(out);
--+		exit(-2);					
--+	}
--+	if (scanline_size < linebytes)
-- 		buf = (unsigned char *)_TIFFmalloc(linebytes);
-- 	else
---		buf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
--+		buf = (unsigned char *)_TIFFmalloc(scanline_size);
--+	if (buf == NULL) {
--+		fprintf(stderr, "%s: Not enough memory\n", infile);
--+		(void) TIFFClose(out);
--+		exit(-2);
--+	}
-- 	if (resolution > 0) {
-- 		TIFFSetField(out, TIFFTAG_XRESOLUTION, resolution);
-- 		TIFFSetField(out, TIFFTAG_YRESOLUTION, resolution);
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
-similarity index 78%
-rename from meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
-rename to meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
-index 62e6256..cf3a5f0 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
-@@ -5,16 +5,10 @@ HOMEPAGE = "http://www.remotesensing.org/libtiff/"
- 
- SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
-            file://libtool2.patch \
--           file://libtiff-CVE-2013-1960.patch \
--           file://libtiff-CVE-2013-1961.patch \
--           file://libtiff-CVE-2013-4232.patch \
--           file://libtiff-CVE-2013-4243.patch \
--           file://libtiff-CVE-2013-4244.patch \
--           file://libtiff-CVE-2013-4231.patch \
--           file://tiff-CVE-2012-4564.patch "
--
--SRC_URI[md5sum] = "051c1068e6a0627f461948c365290410"
--SRC_URI[sha256sum] = "ea1aebe282319537fb2d4d7805f478dd4e0e05c33d0928baba76a7c963684872"
-+          "
-+
-+SRC_URI[md5sum] = "9aee7107408a128c0c7b24286c0db900"
-+SRC_URI[sha256sum] = "8cb1d90c96f61cdfc0bcf036acc251c9dbe6320334da941c7a83cfe1576ef890"
- 
- inherit autotools
- 
+# tiffinfo /tmp/gmarbles.tif
+TIFF Directory at offset 0x8 (8)
+   Subfile Type: (0 = 0x0)
+   Image Width: 1419 Image Length: 1001
+   Resolution: 300, 300 pixels/inch
+   Bits/Sample: 8
+   Compression Scheme: LZW
+   Photometric Interpretation: min-is-black
+   Samples/Pixel: 1
+   Rows/Strip: 5
+   Planar Configuration: single image plane
+   Photoshop Data: <present>, 272 bytes
+   Predictor: horizontal differencing 2 (0x2)
+
+I could do more testing but this appears to be bug fixes only.
+
+../Randy
+>
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>   .../libtiff/files/libtiff-CVE-2013-1960.patch      | 151 ----
+>   .../libtiff/files/libtiff-CVE-2013-1961.patch      | 786 ---------------------
+>   .../libtiff/files/libtiff-CVE-2013-4231.patch      |  44 --
+>   .../libtiff/files/libtiff-CVE-2013-4232.patch      |  15 -
+>   .../libtiff/files/libtiff-CVE-2013-4243.patch      |  40 --
+>   .../libtiff/files/libtiff-CVE-2013-4244.patch      |  19 -
+>   .../libtiff/files/tiff-CVE-2012-4564.patch         |  99 ---
+>   .../libtiff/{tiff_4.0.3.bb => tiff_4.0.4.bb}       |  14 +-
+>   8 files changed, 4 insertions(+), 1164 deletions(-)
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
+>   delete mode 100644 meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
+>   rename meta/recipes-multimedia/libtiff/{tiff_4.0.3.bb => tiff_4.0.4.bb} (78%)
+>
+> diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
+> deleted file mode 100644
+> index e4348f1..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
+> +++ /dev/null
+> @@ -1,151 +0,0 @@
+> -This patch comes from: http://pkgs.fedoraproject.org/cgit/libtiff.git/plain/libtiff-CVE-2013-1960.patch
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Ming Liu <ming.liu@windriver.com>
+> -
+> -diff -Naur a/tools/tiff2pdf.c b/tools/tiff2pdf.c
+> ---- a/tools/tiff2pdf.c	2012-07-25 22:56:43.000000000 -0400
+> -+++ b/tools/tiff2pdf.c	2013-05-02 12:04:49.057090227 -0400
+> -@@ -3341,33 +3341,56 @@
+> - 	uint32 height){
+> -
+> - 	tsize_t i=0;
+> --	uint16 ri =0;
+> --	uint16 v_samp=1;
+> --	uint16 h_samp=1;
+> --	int j=0;
+> --	
+> --	i++;
+> --	
+> --	while(i<(*striplength)){
+> -+
+> -+	while (i < *striplength) {
+> -+		tsize_t datalen;
+> -+		uint16 ri;
+> -+		uint16 v_samp;
+> -+		uint16 h_samp;
+> -+		int j;
+> -+		int ncomp;
+> -+
+> -+		/* marker header: one or more FFs */
+> -+		if (strip[i] != 0xff)
+> -+			return(0);
+> -+		i++;
+> -+		while (i < *striplength && strip[i] == 0xff)
+> -+			i++;
+> -+		if (i >= *striplength)
+> -+			return(0);
+> -+		/* SOI is the only pre-SOS marker without a length word */
+> -+		if (strip[i] == 0xd8)
+> -+			datalen = 0;
+> -+		else {
+> -+			if ((*striplength - i) <= 2)
+> -+				return(0);
+> -+			datalen = (strip[i+1] << 8) | strip[i+2];
+> -+			if (datalen < 2 || datalen >= (*striplength - i))
+> -+				return(0);
+> -+		}
+> - 		switch( strip[i] ){
+> --			case 0xd8:
+> --				/* SOI - start of image */
+> -+			case 0xd8:	/* SOI - start of image */
+> - 				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), 2);
+> - 				*bufferoffset+=2;
+> --				i+=2;
+> - 				break;
+> --			case 0xc0:
+> --			case 0xc1:
+> --			case 0xc3:
+> --			case 0xc9:
+> --			case 0xca:
+> -+			case 0xc0:	/* SOF0 */
+> -+			case 0xc1:	/* SOF1 */
+> -+			case 0xc3:	/* SOF3 */
+> -+			case 0xc9:	/* SOF9 */
+> -+			case 0xca:	/* SOF10 */
+> - 				if(no==0){
+> --					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
+> --					for(j=0;j<buffer[*bufferoffset+9];j++){
+> --						if( (buffer[*bufferoffset+11+(2*j)]>>4) > h_samp)
+> --							h_samp = (buffer[*bufferoffset+11+(2*j)]>>4);
+> --						if( (buffer[*bufferoffset+11+(2*j)] & 0x0f) > v_samp)
+> --							v_samp = (buffer[*bufferoffset+11+(2*j)] & 0x0f);
+> -+					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
+> -+					ncomp = buffer[*bufferoffset+9];
+> -+					if (ncomp < 1 || ncomp > 4)
+> -+						return(0);
+> -+					v_samp=1;
+> -+					h_samp=1;
+> -+					for(j=0;j<ncomp;j++){
+> -+						uint16 samp = buffer[*bufferoffset+11+(3*j)];
+> -+						if( (samp>>4) > h_samp)
+> -+							h_samp = (samp>>4);
+> -+						if( (samp & 0x0f) > v_samp)
+> -+							v_samp = (samp & 0x0f);
+> - 					}
+> - 					v_samp*=8;
+> - 					h_samp*=8;
+> -@@ -3381,45 +3404,43 @@
+> -                                           (unsigned char) ((height>>8) & 0xff);
+> - 					buffer[*bufferoffset+6]=
+> -                                             (unsigned char) (height & 0xff);
+> --					*bufferoffset+=strip[i+2]+2;
+> --					i+=strip[i+2]+2;
+> --
+> -+					*bufferoffset+=datalen+2;
+> -+					/* insert a DRI marker */
+> - 					buffer[(*bufferoffset)++]=0xff;
+> - 					buffer[(*bufferoffset)++]=0xdd;
+> - 					buffer[(*bufferoffset)++]=0x00;
+> - 					buffer[(*bufferoffset)++]=0x04;
+> - 					buffer[(*bufferoffset)++]=(ri >> 8) & 0xff;
+> - 					buffer[(*bufferoffset)++]= ri & 0xff;
+> --				} else {
+> --					i+=strip[i+2]+2;
+> - 				}
+> - 				break;
+> --			case 0xc4:
+> --			case 0xdb:
+> --				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
+> --				*bufferoffset+=strip[i+2]+2;
+> --				i+=strip[i+2]+2;
+> -+			case 0xc4: /* DHT */
+> -+			case 0xdb: /* DQT */
+> -+				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
+> -+				*bufferoffset+=datalen+2;
+> - 				break;
+> --			case 0xda:
+> -+			case 0xda: /* SOS */
+> - 				if(no==0){
+> --					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
+> --					*bufferoffset+=strip[i+2]+2;
+> --					i+=strip[i+2]+2;
+> -+					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
+> -+					*bufferoffset+=datalen+2;
+> - 				} else {
+> - 					buffer[(*bufferoffset)++]=0xff;
+> - 					buffer[(*bufferoffset)++]=
+> -                                             (unsigned char)(0xd0 | ((no-1)%8));
+> --					i+=strip[i+2]+2;
+> - 				}
+> --				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), (*striplength)-i-1);
+> --				*bufferoffset+=(*striplength)-i-1;
+> -+				i += datalen + 1;
+> -+				/* copy remainder of strip */
+> -+				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i]), *striplength - i);
+> -+				*bufferoffset+= *striplength - i;
+> - 				return(1);
+> - 			default:
+> --				i+=strip[i+2]+2;
+> -+				/* ignore any other marker */
+> -+				break;
+> - 		}
+> -+		i += datalen + 1;
+> - 	}
+> --	
+> -
+> -+	/* failed to find SOS marker */
+> - 	return(0);
+> - }
+> - #endif
+> diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
+> deleted file mode 100644
+> index fc4adb5..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
+> +++ /dev/null
+> @@ -1,786 +0,0 @@
+> -libtiff: fix CVE-2013-1961.
+> -
+> -Upstream-Status: Backported
+> -
+> -Issue Description: CVE-2013-1961
+> -Stack-based buffer overflow in the t2p_write_pdf_page function in tiff2pdf
+> -in libtiff before 4.0.3 allows remote attackers to cause a denial of service
+> -(application crash) via a crafted image length and resolution in a TIFF image file.
+> -
+> -Fix Description: Replace sprintf with snprintf
+> -
+> -Signed-off-by: Priyanka Shobhan <priyanka_shobhan@mentor.com>
+> ----
+> -
+> -diff --git a/contrib/dbs/xtiff/xtiff.c b/contrib/dbs/xtiff/xtiff.c
+> -index 2634030..97e4ffe 100644
+> ---- a/contrib/dbs/xtiff/xtiff.c
+> -+++ b/contrib/dbs/xtiff/xtiff.c
+> -@@ -512,9 +512,9 @@ SetNameLabel()
+> -     Arg args[1];
+> -
+> -     if (tfMultiPage)
+> --        sprintf(buffer, "%s - page %d", fileName, tfDirectory);
+> -+        snprintf(buffer, sizeof(buffer), "%s - page %d", fileName, tfDirectory);
+> -     else
+> --        strcpy(buffer, fileName);
+> -+        snprintf(buffer, sizeof(buffer), "%s", fileName);
+> -     XtSetArg(args[0], XtNlabel, buffer);
+> -     XtSetValues(labelWidget, args, 1);
+> - }
+> -diff --git a/libtiff/tif_codec.c b/libtiff/tif_codec.c
+> -index e201667..703e87d 100644
+> ---- a/libtiff/tif_codec.c
+> -+++ b/libtiff/tif_codec.c
+> -@@ -108,7 +108,8 @@ _notConfigured(TIFF* tif)
+> - 	const TIFFCodec* c = TIFFFindCODEC(tif->tif_dir.td_compression);
+> -         char compression_code[20];
+> -
+> --        sprintf( compression_code, "%d", tif->tif_dir.td_compression );
+> -+        snprintf(compression_code, sizeof(compression_code), "%d",
+> -+		 tif->tif_dir.td_compression );
+> - 	TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
+> -                      "%s compression support is not configured",
+> -                      c ? c->name : compression_code );
+> -diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
+> -index d319931..4dae5e5 100644
+> ---- a/libtiff/tif_dirinfo.c
+> -+++ b/libtiff/tif_dirinfo.c
+> -@@ -711,7 +711,7 @@ _TIFFCreateAnonField(TIFF *tif, uint32 tag, TIFFDataType field_type)
+> - 	 * note that this name is a special sign to TIFFClose() and
+> - 	 * _TIFFSetupFields() to free the field
+> - 	 */
+> --	sprintf(fld->field_name, "Tag %d", (int) tag);
+> -+	snprintf(fld->field_name, 32, "Tag %d", (int) tag);
+> -
+> - 	return fld;
+> - }
+> -diff --git a/tools/rgb2ycbcr.c b/tools/rgb2ycbcr.c
+> -index 162aac1..a3eeb03 100644
+> ---- a/tools/rgb2ycbcr.c
+> -+++ b/tools/rgb2ycbcr.c
+> -@@ -332,7 +332,8 @@ tiffcvt(TIFF* in, TIFF* out)
+> - 	TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+> - 	{ char buf[2048];
+> - 	  char *cp = strrchr(TIFFFileName(in), '/');
+> --	  sprintf(buf, "YCbCr conversion of %s", cp ? cp+1 : TIFFFileName(in));
+> -+	  snprintf(buf, sizeof(buf), "YCbCr conversion of %s",
+> -+		   cp ? cp+1 : TIFFFileName(in));
+> - 	  TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, buf);
+> - 	}
+> - 	TIFFSetField(out, TIFFTAG_SOFTWARE, TIFFGetVersion());
+> -diff --git a/tools/tiff2bw.c b/tools/tiff2bw.c
+> -index bda754a..7ffaca0 100644
+> ---- a/tools/tiff2bw.c
+> -+++ b/tools/tiff2bw.c
+> -@@ -205,7 +205,7 @@ main(int argc, char* argv[])
+> - 		}
+> - 	}
+> - 	TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+> --	sprintf(thing, "B&W version of %s", argv[optind]);
+> -+	snprintf(thing, sizeof(thing), "B&W version of %s", argv[optind]);
+> - 	TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, thing);
+> - 	TIFFSetField(out, TIFFTAG_SOFTWARE, "tiff2bw");
+> - 	outbuf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
+> -diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
+> -index 356328c..957fd9f 100644
+> ---- a/tools/tiff2pdf.c
+> -+++ b/tools/tiff2pdf.c
+> -@@ -3609,7 +3609,9 @@ tsize_t t2p_write_pdf_header(T2P* t2p, TIFF* output){
+> - 	char buffer[16];
+> - 	int buflen=0;
+> - 	
+> --	buflen=sprintf(buffer, "%%PDF-%u.%u ", t2p->pdf_majorversion&0xff, t2p->pdf_minorversion&0xff);
+> -+	buflen = snprintf(buffer, sizeof(buffer), "%%PDF-%u.%u ",
+> -+			  t2p->pdf_majorversion&0xff,
+> -+			  t2p->pdf_minorversion&0xff);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t)"\n%\342\343\317\323\n", 7);
+> -
+> -@@ -3623,10 +3625,10 @@ tsize_t t2p_write_pdf_header(T2P* t2p, TIFF* output){
+> - tsize_t t2p_write_pdf_obj_start(uint32 number, TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> -
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)number);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)number);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen );
+> - 	written += t2pWriteFile(output, (tdata_t) " 0 obj\n", 7);
+> -
+> -@@ -3665,13 +3667,13 @@ tsize_t t2p_write_pdf_name(unsigned char* name, TIFF* output){
+> - 	written += t2pWriteFile(output, (tdata_t) "/", 1);
+> - 	for (i=0;i<namelen;i++){
+> - 		if ( ((unsigned char)name[i]) < 0x21){
+> --			sprintf(buffer, "#%.2X", name[i]);
+> -+			snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 			buffer[sizeof(buffer) - 1] = '\0';
+> - 			written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 			nextchar=1;
+> - 		}
+> - 		if ( ((unsigned char)name[i]) > 0x7E){
+> --			sprintf(buffer, "#%.2X", name[i]);
+> -+			snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 			buffer[sizeof(buffer) - 1] = '\0';
+> - 			written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 			nextchar=1;
+> -@@ -3679,57 +3681,57 @@ tsize_t t2p_write_pdf_name(unsigned char* name, TIFF* output){
+> - 		if (nextchar==0){
+> - 			switch (name[i]){
+> - 				case 0x23:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x25:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x28:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x29:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x2F:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x3C:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x3E:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x5B:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x5D:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x7B:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> - 				case 0x7D:
+> --					sprintf(buffer, "#%.2X", name[i]);
+> -+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+> - 					buffer[sizeof(buffer) - 1] = '\0';
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+> - 					break;
+> -@@ -3844,14 +3846,14 @@ tsize_t t2p_write_pdf_stream_end(TIFF* output){
+> - tsize_t t2p_write_pdf_stream_dict(tsize_t len, uint32 number, TIFF* output){
+> - 	
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> - 	
+> - 	written += t2pWriteFile(output, (tdata_t) "/Length ", 8);
+> - 	if(len!=0){
+> - 		written += t2p_write_pdf_stream_length(len, output);
+> - 	} else {
+> --		buflen=sprintf(buffer, "%lu", (unsigned long)number);
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)number);
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
+> - 	}
+> -@@ -3892,10 +3894,10 @@ tsize_t t2p_write_pdf_stream_dict_end(TIFF* output){
+> - tsize_t t2p_write_pdf_stream_length(tsize_t len, TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> -
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)len);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)len);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) "\n", 1);
+> -
+> -@@ -3909,7 +3911,7 @@ tsize_t t2p_write_pdf_stream_length(tsize_t len, TIFF* output){
+> - tsize_t t2p_write_pdf_catalog(T2P* t2p, TIFF* output)
+> - {
+> - 	tsize_t written = 0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen = 0;
+> -
+> - 	written += t2pWriteFile(output,
+> -@@ -3948,7 +3950,6 @@ tsize_t t2p_write_pdf_info(T2P* t2p, TIFF* input, TIFF* output)
+> - 		written += t2p_write_pdf_string(t2p->pdf_datetime, output);
+> - 	}
+> - 	written += t2pWriteFile(output, (tdata_t) "\n/Producer ", 11);
+> --	_TIFFmemset((tdata_t)buffer, 0x00, sizeof(buffer));
+> - 	snprintf(buffer, sizeof(buffer), "libtiff / tiff2pdf - %d", TIFFLIB_VERSION);
+> - 	written += t2p_write_pdf_string(buffer, output);
+> - 	written += t2pWriteFile(output, (tdata_t) "\n", 1);
+> -@@ -4089,7 +4090,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
+> - {
+> - 	tsize_t written=0;
+> - 	tdir_t i=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> -
+> - 	int page=0;
+> -@@ -4097,7 +4098,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
+> - 		(tdata_t) "<< \n/Type /Pages \n/Kids [ ", 26);
+> - 	page = t2p->pdf_pages+1;
+> - 	for (i=0;i<t2p->tiff_pagecount;i++){
+> --		buflen=sprintf(buffer, "%d", page);
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%d", page);
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+> - 		if ( ((i+1)%8)==0 ) {
+> -@@ -4112,8 +4113,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
+> - 		}
+> - 	}
+> - 	written += t2pWriteFile(output, (tdata_t) "] \n/Count ", 10);
+> --	_TIFFmemset(buffer, 0x00, 16);
+> --	buflen=sprintf(buffer, "%d", t2p->tiff_pagecount);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%d", t2p->tiff_pagecount);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) " \n>> \n", 6);
+> -
+> -@@ -4128,28 +4128,28 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
+> -
+> - 	unsigned int i=0;
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[256];
+> - 	int buflen=0;
+> -
+> - 	written += t2pWriteFile(output, (tdata_t) "<<\n/Type /Page \n/Parent ", 24);
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_pages);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_pages);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
+> - 	written += t2pWriteFile(output, (tdata_t) "/MediaBox [", 11);
+> --	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.x1);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.x1);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) " ", 1);
+> --	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.y1);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.y1);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) " ", 1);
+> --	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.x2);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.x2);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) " ", 1);
+> --	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.y2);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.y2);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) "] \n", 3);
+> - 	written += t2pWriteFile(output, (tdata_t) "/Contents ", 10);
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)(object + 1));
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(object + 1));
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
+> - 	written += t2pWriteFile(output, (tdata_t) "/Resources << \n", 15);
+> -@@ -4157,15 +4157,13 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
+> - 		written += t2pWriteFile(output, (tdata_t) "/XObject <<\n", 12);
+> - 		for(i=0;i<t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount;i++){
+> - 			written += t2pWriteFile(output, (tdata_t) "/Im", 3);
+> --			buflen = sprintf(buffer, "%u", t2p->pdf_page+1);
+> -+			buflen = snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
+> - 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 			written += t2pWriteFile(output, (tdata_t) "_", 1);
+> --			buflen = sprintf(buffer, "%u", i+1);
+> -+			buflen = snprintf(buffer, sizeof(buffer), "%u", i+1);
+> - 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 			written += t2pWriteFile(output, (tdata_t) " ", 1);
+> --			buflen = sprintf(
+> --				buffer,
+> --				"%lu",
+> -+			buflen = snprintf(buffer, sizeof(buffer), "%lu",
+> - 				(unsigned long)(object+3+(2*i)+t2p->tiff_pages[t2p->pdf_page].page_extra));
+> - 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 			written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+> -@@ -4177,12 +4175,10 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
+> - 	} else {
+> - 			written += t2pWriteFile(output, (tdata_t) "/XObject <<\n", 12);
+> - 			written += t2pWriteFile(output, (tdata_t) "/Im", 3);
+> --			buflen = sprintf(buffer, "%u", t2p->pdf_page+1);
+> -+			buflen = snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
+> - 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 			written += t2pWriteFile(output, (tdata_t) " ", 1);
+> --			buflen = sprintf(
+> --				buffer,
+> --				"%lu",
+> -+			buflen = snprintf(buffer, sizeof(buffer), "%lu",
+> - 				(unsigned long)(object+3+(2*i)+t2p->tiff_pages[t2p->pdf_page].page_extra));
+> - 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 			written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+> -@@ -4191,9 +4187,7 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
+> - 	if(t2p->tiff_transferfunctioncount != 0) {
+> - 		written += t2pWriteFile(output, (tdata_t) "/ExtGState <<", 13);
+> - 		t2pWriteFile(output, (tdata_t) "/GS1 ", 5);
+> --		buflen = sprintf(
+> --			buffer,
+> --			"%lu",
+> -+		buflen = snprintf(buffer, sizeof(buffer), "%lu",
+> - 			(unsigned long)(object + 3));
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+> -@@ -4566,7 +4560,7 @@ tsize_t t2p_write_pdf_page_content_stream(T2P* t2p, TIFF* output){
+> - 	if(t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount>0){
+> - 		for(i=0;i<t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount; i++){
+> - 			box=t2p->tiff_tiles[t2p->pdf_page].tiles_tiles[i].tile_box;
+> --			buflen=sprintf(buffer,
+> -+			buflen=snprintf(buffer, sizeof(buffer),
+> - 				"q %s %.4f %.4f %.4f %.4f %.4f %.4f cm /Im%d_%ld Do Q\n",
+> - 				t2p->tiff_transferfunctioncount?"/GS1 gs ":"",
+> - 				box.mat[0],
+> -@@ -4581,7 +4575,7 @@ tsize_t t2p_write_pdf_page_content_stream(T2P* t2p, TIFF* output){
+> - 		}
+> - 	} else {
+> - 		box=t2p->pdf_imagebox;
+> --		buflen=sprintf(buffer,
+> -+		buflen=snprintf(buffer, sizeof(buffer),
+> - 			"q %s %.4f %.4f %.4f %.4f %.4f %.4f cm /Im%d Do Q\n",
+> - 			t2p->tiff_transferfunctioncount?"/GS1 gs ":"",
+> - 			box.mat[0],
+> -@@ -4606,59 +4600,48 @@ tsize_t t2p_write_pdf_xobject_stream_dict(ttile_t tile,
+> - 												TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> -
+> - 	written += t2p_write_pdf_stream_dict(0, t2p->pdf_xrefcount+1, output);
+> - 	written += t2pWriteFile(output,
+> - 		(tdata_t) "/Type /XObject \n/Subtype /Image \n/Name /Im",
+> - 		42);
+> --	buflen=sprintf(buffer, "%u", t2p->pdf_page+1);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	if(tile != 0){
+> - 		written += t2pWriteFile(output, (tdata_t) "_", 1);
+> --		buflen=sprintf(buffer, "%lu", (unsigned long)tile);
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)tile);
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	}
+> - 	written += t2pWriteFile(output, (tdata_t) "\n/Width ", 8);
+> --	_TIFFmemset((tdata_t)buffer, 0x00, 16);
+> - 	if(tile==0){
+> --		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->tiff_width);
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->tiff_width);
+> - 	} else {
+> - 		if(t2p_tile_is_right_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)!=0){
+> --			buflen=sprintf(
+> --				buffer,
+> --				"%lu",
+> -+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilewidth);
+> - 		} else {
+> --			buflen=sprintf(
+> --				buffer,
+> --				"%lu",
+> -+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilewidth);
+> - 		}
+> - 	}
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) "\n/Height ", 9);
+> --	_TIFFmemset((tdata_t)buffer, 0x00, 16);
+> - 	if(tile==0){
+> --		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->tiff_length);
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->tiff_length);
+> - 	} else {
+> - 		if(t2p_tile_is_bottom_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)!=0){
+> --			buflen=sprintf(
+> --				buffer,
+> --				"%lu",
+> -+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilelength);
+> - 		} else {
+> --			buflen=sprintf(
+> --				buffer,
+> --				"%lu",
+> -+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilelength);
+> - 		}
+> - 	}
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) "\n/BitsPerComponent ", 19);
+> --	_TIFFmemset((tdata_t)buffer, 0x00, 16);
+> --	buflen=sprintf(buffer, "%u", t2p->tiff_bitspersample);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_bitspersample);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) "\n/ColorSpace ", 13);
+> - 	written += t2p_write_pdf_xobject_cs(t2p, output);
+> -@@ -4702,11 +4685,10 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
+> - 		t2p->pdf_colorspace ^= T2P_CS_PALETTE;
+> - 		written += t2p_write_pdf_xobject_cs(t2p, output);
+> - 		t2p->pdf_colorspace |= T2P_CS_PALETTE;
+> --		buflen=sprintf(buffer, "%u", (0x0001 << t2p->tiff_bitspersample)-1 );
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%u", (0x0001 << t2p->tiff_bitspersample)-1 );
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " ", 1);
+> --		_TIFFmemset(buffer, 0x00, 16);
+> --		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_palettecs );
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_palettecs );
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " 0 R ]\n", 7);
+> - 		return(written);
+> -@@ -4740,10 +4722,10 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
+> - 			X_W /= Y_W;
+> - 			Z_W /= Y_W;
+> - 			Y_W = 1.0F;
+> --			buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+> -+			buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+> - 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 			written += t2pWriteFile(output, (tdata_t) "/Range ", 7);
+> --			buflen=sprintf(buffer, "[%d %d %d %d] \n",
+> -+			buflen=snprintf(buffer, sizeof(buffer), "[%d %d %d %d] \n",
+> - 				t2p->pdf_labrange[0],
+> - 				t2p->pdf_labrange[1],
+> - 				t2p->pdf_labrange[2],
+> -@@ -4759,26 +4741,26 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
+> - tsize_t t2p_write_pdf_transfer(T2P* t2p, TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> -
+> - 	written += t2pWriteFile(output, (tdata_t) "<< /Type /ExtGState \n/TR ", 25);
+> - 	if(t2p->tiff_transferfunctioncount == 1){
+> --		buflen=sprintf(buffer, "%lu",
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 			       (unsigned long)(t2p->pdf_xrefcount + 1));
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+> - 	} else {
+> - 		written += t2pWriteFile(output, (tdata_t) "[ ", 2);
+> --		buflen=sprintf(buffer, "%lu",
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 			       (unsigned long)(t2p->pdf_xrefcount + 1));
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+> --		buflen=sprintf(buffer, "%lu",
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 			       (unsigned long)(t2p->pdf_xrefcount + 2));
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+> --		buflen=sprintf(buffer, "%lu",
+> -+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 			       (unsigned long)(t2p->pdf_xrefcount + 3));
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+> -@@ -4800,7 +4782,7 @@ tsize_t t2p_write_pdf_transfer_dict(T2P* t2p, TIFF* output, uint16 i){
+> - 	written += t2pWriteFile(output, (tdata_t) "/FunctionType 0 \n", 17);
+> - 	written += t2pWriteFile(output, (tdata_t) "/Domain [0.0 1.0] \n", 19);
+> - 	written += t2pWriteFile(output, (tdata_t) "/Range [0.0 1.0] \n", 18);
+> --	buflen=sprintf(buffer, "/Size [%u] \n", (1<<t2p->tiff_bitspersample));
+> -+	buflen=snprintf(buffer, sizeof(buffer), "/Size [%u] \n", (1<<t2p->tiff_bitspersample));
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) "/BitsPerSample 16 \n", 19);
+> - 	written += t2p_write_pdf_stream_dict(((tsize_t)1)<<(t2p->tiff_bitspersample+1), 0, output);
+> -@@ -4827,7 +4809,7 @@ tsize_t t2p_write_pdf_transfer_stream(T2P* t2p, TIFF* output, uint16 i){
+> - tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[128];
+> -+	char buffer[256];
+> - 	int buflen=0;
+> - 	
+> - 	float X_W=0.0;
+> -@@ -4895,16 +4877,16 @@ tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
+> - 	written += t2pWriteFile(output, (tdata_t) "<< \n", 4);
+> - 	if(t2p->pdf_colorspace & T2P_CS_CALGRAY){
+> - 		written += t2pWriteFile(output, (tdata_t) "/WhitePoint ", 12);
+> --		buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+> -+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) "/Gamma 2.2 \n", 12);
+> - 	}
+> - 	if(t2p->pdf_colorspace & T2P_CS_CALRGB){
+> - 		written += t2pWriteFile(output, (tdata_t) "/WhitePoint ", 12);
+> --		buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+> -+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 		written += t2pWriteFile(output, (tdata_t) "/Matrix ", 8);
+> --		buflen=sprintf(buffer, "[%.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f] \n",
+> -+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f] \n",
+> - 			X_R, Y_R, Z_R,
+> - 			X_G, Y_G, Z_G,
+> - 			X_B, Y_B, Z_B);
+> -@@ -4923,11 +4905,11 @@ tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
+> - tsize_t t2p_write_pdf_xobject_icccs(T2P* t2p, TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> - 	
+> - 	written += t2pWriteFile(output, (tdata_t) "[/ICCBased ", 11);
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_icccs);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_icccs);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) " 0 R] \n", 7);
+> -
+> -@@ -4937,11 +4919,11 @@ tsize_t t2p_write_pdf_xobject_icccs(T2P* t2p, TIFF* output){
+> - tsize_t t2p_write_pdf_xobject_icccs_dict(T2P* t2p, TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> - 	
+> - 	written += t2pWriteFile(output, (tdata_t) "/N ", 3);
+> --	buflen=sprintf(buffer, "%u \n", t2p->tiff_samplesperpixel);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%u \n", t2p->tiff_samplesperpixel);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) "/Alternate ", 11);
+> - 	t2p->pdf_colorspace ^= T2P_CS_ICCBASED;
+> -@@ -5006,7 +4988,7 @@ tsize_t t2p_write_pdf_xobject_decode(T2P* t2p, TIFF* output){
+> - tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[16];
+> -+	char buffer[32];
+> - 	int buflen=0;
+> -
+> - 	if(t2p->pdf_compression==T2P_COMPRESS_NONE){
+> -@@ -5021,41 +5003,33 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
+> - 			written += t2pWriteFile(output, (tdata_t) "<< /K -1 ", 9);
+> - 			if(tile==0){
+> - 				written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
+> --				buflen=sprintf(buffer, "%lu",
+> -+				buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 					       (unsigned long)t2p->tiff_width);
+> - 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
+> --				buflen=sprintf(buffer, "%lu",
+> -+				buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 					       (unsigned long)t2p->tiff_length);
+> - 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 			} else {
+> - 				if(t2p_tile_is_right_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)==0){
+> - 					written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
+> --					buflen=sprintf(
+> --						buffer,
+> --						"%lu",
+> -+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilewidth);
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				} else {
+> - 					written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
+> --					buflen=sprintf(
+> --						buffer,
+> --						"%lu",
+> -+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilewidth);
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				}
+> - 				if(t2p_tile_is_bottom_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)==0){
+> - 					written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
+> --					buflen=sprintf(
+> --						buffer,
+> --						"%lu",
+> -+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilelength);
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				} else {
+> - 					written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
+> --					buflen=sprintf(
+> --						buffer,
+> --						"%lu",
+> -+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
+> - 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilelength);
+> - 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				}
+> -@@ -5082,21 +5056,17 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
+> - 			if(t2p->pdf_compressionquality%100){
+> - 				written += t2pWriteFile(output, (tdata_t) "/DecodeParms ", 13);
+> - 				written += t2pWriteFile(output, (tdata_t) "<< /Predictor ", 14);
+> --				_TIFFmemset(buffer, 0x00, 16);
+> --				buflen=sprintf(buffer, "%u", t2p->pdf_compressionquality%100);
+> -+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_compressionquality%100);
+> - 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				written += t2pWriteFile(output, (tdata_t) " /Columns ", 10);
+> --				_TIFFmemset(buffer, 0x00, 16);
+> --				buflen = sprintf(buffer, "%lu",
+> -+				buflen = snprintf(buffer, sizeof(buffer), "%lu",
+> - 						 (unsigned long)t2p->tiff_width);
+> - 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				written += t2pWriteFile(output, (tdata_t) " /Colors ", 9);
+> --				_TIFFmemset(buffer, 0x00, 16);
+> --				buflen=sprintf(buffer, "%u", t2p->tiff_samplesperpixel);
+> -+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_samplesperpixel);
+> - 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				written += t2pWriteFile(output, (tdata_t) " /BitsPerComponent ", 19);
+> --				_TIFFmemset(buffer, 0x00, 16);
+> --				buflen=sprintf(buffer, "%u", t2p->tiff_bitspersample);
+> -+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_bitspersample);
+> - 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 				written += t2pWriteFile(output, (tdata_t) ">>\n", 3);
+> - 			}
+> -@@ -5116,16 +5086,16 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
+> - tsize_t t2p_write_pdf_xreftable(T2P* t2p, TIFF* output){
+> -
+> - 	tsize_t written=0;
+> --	char buffer[21];
+> -+	char buffer[64];
+> - 	int buflen=0;
+> - 	uint32 i=0;
+> -
+> - 	written += t2pWriteFile(output, (tdata_t) "xref\n0 ", 7);
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)(t2p->pdf_xrefcount + 1));
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(t2p->pdf_xrefcount + 1));
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> - 	written += t2pWriteFile(output, (tdata_t) " \n0000000000 65535 f \n", 22);
+> - 	for (i=0;i<t2p->pdf_xrefcount;i++){
+> --		sprintf(buffer, "%.10lu 00000 n \n",
+> -+		snprintf(buffer, sizeof(buffer), "%.10lu 00000 n \n",
+> - 			(unsigned long)t2p->pdf_xrefoffsets[i]);
+> - 		written += t2pWriteFile(output, (tdata_t) buffer, 20);
+> - 	}
+> -@@ -5149,17 +5119,14 @@ tsize_t t2p_write_pdf_trailer(T2P* t2p, TIFF* output)
+> - 		snprintf(t2p->pdf_fileid + i, 9, "%.8X", rand());
+> -
+> - 	written += t2pWriteFile(output, (tdata_t) "trailer\n<<\n/Size ", 17);
+> --	buflen = sprintf(buffer, "%lu", (unsigned long)(t2p->pdf_xrefcount+1));
+> -+	buflen = snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(t2p->pdf_xrefcount+1));
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> --	_TIFFmemset(buffer, 0x00, 32);	
+> - 	written += t2pWriteFile(output, (tdata_t) "\n/Root ", 7);
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_catalog);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_catalog);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> --	_TIFFmemset(buffer, 0x00, 32);	
+> - 	written += t2pWriteFile(output, (tdata_t) " 0 R \n/Info ", 12);
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_info);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_info);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> --	_TIFFmemset(buffer, 0x00, 32);	
+> - 	written += t2pWriteFile(output, (tdata_t) " 0 R \n/ID[<", 11);
+> - 	written += t2pWriteFile(output, (tdata_t) t2p->pdf_fileid,
+> - 				sizeof(t2p->pdf_fileid) - 1);
+> -@@ -5167,9 +5134,8 @@ tsize_t t2p_write_pdf_trailer(T2P* t2p, TIFF* output)
+> - 	written += t2pWriteFile(output, (tdata_t) t2p->pdf_fileid,
+> - 				sizeof(t2p->pdf_fileid) - 1);
+> - 	written += t2pWriteFile(output, (tdata_t) ">]\n>>\nstartxref\n", 16);
+> --	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_startxref);
+> -+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_startxref);
+> - 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+> --	_TIFFmemset(buffer, 0x00, 32);	
+> - 	written += t2pWriteFile(output, (tdata_t) "\n%%EOF\n", 7);
+> -
+> - 	return(written);
+> -diff --git a/tools/tiff2ps.c b/tools/tiff2ps.c
+> -index 3330750..7a9a816 100644
+> ---- a/tools/tiff2ps.c
+> -+++ b/tools/tiff2ps.c
+> -@@ -1789,8 +1789,8 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
+> - 		imageOp = "imagemask";
+> -
+> - 	(void)strcpy(im_x, "0");
+> --	(void)sprintf(im_y, "%lu", (long) h);
+> --	(void)sprintf(im_h, "%lu", (long) h);
+> -+	(void)snprintf(im_y, sizeof(im_y), "%lu", (long) h);
+> -+	(void)snprintf(im_h, sizeof(im_h), "%lu", (long) h);
+> - 	tile_width = w;
+> - 	tile_height = h;
+> - 	if (TIFFIsTiled(tif)) {
+> -@@ -1811,7 +1811,7 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
+> - 		}
+> - 		if (tile_height < h) {
+> - 			fputs("/im_y 0 def\n", fd);
+> --			(void)sprintf(im_y, "%lu im_y sub", (unsigned long) h);
+> -+			(void)snprintf(im_y, sizeof(im_y), "%lu im_y sub", (unsigned long) h);
+> - 		}
+> - 	} else {
+> - 		repeat_count = tf_numberstrips;
+> -@@ -1823,7 +1823,7 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
+> - 			fprintf(fd, "/im_h %lu def\n",
+> - 			    (unsigned long) tile_height);
+> - 			(void)strcpy(im_h, "im_h");
+> --			(void)sprintf(im_y, "%lu im_y sub", (unsigned long) h);
+> -+			(void)snprintf(im_y, sizeof(im_y), "%lu im_y sub", (unsigned long) h);
+> - 		}
+> - 	}
+> -
+> -diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+> -index 9cd5d86..a2443aa 100644
+> ---- a/tools/tiffcrop.c
+> -+++ b/tools/tiffcrop.c
+> -@@ -2077,7 +2077,7 @@ update_output_file (TIFF **tiffout, char *mode, int autoindex,
+> -         return 1;
+> -         }
+> -
+> --      sprintf (filenum, "-%03d%s", findex, export_ext);
+> -+      snprintf(filenum, sizeof(filenum), "-%03d%s", findex, export_ext);
+> -       filenum[14] = '\0';
+> -       strncat (exportname, filenum, 15);
+> -       }
+> -@@ -2230,8 +2230,8 @@ main(int argc, char* argv[])
+> -
+> -           /* dump.infilename is guaranteed to be NUL termimated and have 20 bytes
+> -              fewer than PATH_MAX */
+> --          memset (temp_filename, '\0', PATH_MAX + 1);
+> --          sprintf (temp_filename, "%s-read-%03d.%s", dump.infilename, dump_images,
+> -+          snprintf(temp_filename, sizeof(temp_filename), "%s-read-%03d.%s",
+> -+		   dump.infilename, dump_images,
+> -                   (dump.format == DUMP_TEXT) ? "txt" : "raw");
+> -           if ((dump.infile = fopen(temp_filename, dump.mode)) == NULL)
+> -             {
+> -@@ -2249,8 +2249,8 @@ main(int argc, char* argv[])
+> -
+> -           /* dump.outfilename is guaranteed to be NUL termimated and have 20 bytes
+> -              fewer than PATH_MAX */
+> --          memset (temp_filename, '\0', PATH_MAX + 1);
+> --          sprintf (temp_filename, "%s-write-%03d.%s", dump.outfilename, dump_images,
+> -+          snprintf(temp_filename, sizeof(temp_filename), "%s-write-%03d.%s",
+> -+		   dump.outfilename, dump_images,
+> -                   (dump.format == DUMP_TEXT) ? "txt" : "raw");
+> -           if ((dump.outfile = fopen(temp_filename, dump.mode)) == NULL)
+> -             {
+> -diff --git a/tools/tiffdither.c b/tools/tiffdither.c
+> -index f2f0f20..4308946 100644
+> ---- a/tools/tiffdither.c
+> -+++ b/tools/tiffdither.c
+> -@@ -260,7 +260,7 @@ main(int argc, char* argv[])
+> - 		TIFFSetField(out, TIFFTAG_FILLORDER, fillorder);
+> - 	else
+> - 		CopyField(TIFFTAG_FILLORDER, shortv);
+> --	sprintf(thing, "Dithered B&W version of %s", argv[optind]);
+> -+	snprintf(thing, sizeof(thing), "Dithered B&W version of %s", argv[optind]);
+> - 	TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, thing);
+> - 	CopyField(TIFFTAG_PHOTOMETRIC, shortv);
+> - 	CopyField(TIFFTAG_ORIENTATION, shortv);
+> ---
+> -1.8.3.rc3
+> -
+> -
+> diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
+> deleted file mode 100644
+> index d8d4e96..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
+> +++ /dev/null
+> @@ -1,44 +0,0 @@
+> -Upstream-Status: Backport
+> -
+> -Multiple buffer overflows in libtiff before 4.0.3 allow remote attackers
+> -to cause a denial of service (out-of-bounds write) via a crafted (1)
+> -extension block in a GIF image or (2) GIF raster image to
+> -tools/gif2tiff.c or (3) a long filename for a TIFF image to
+> -tools/rgb2ycbcr.c. NOTE: vectors 1 and 3 are disputed by Red Hat, which
+> -states that the input cannot exceed the allocated buffer size.
+> -
+> -http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4231Multiple
+> -buffer overflows in libtiff before 4.0.3 allow remote attackers to cause
+> -a denial of service (out-of-bounds write) via a crafted (1) extension
+> -block in a GIF image or (2) GIF raster image to tools/gif2tiff.c or (3)
+> -a long filename for a TIFF image to tools/rgb2ycbcr.c. NOTE: vectors 1
+> -and 3 are disputed by Red Hat, which states that the input cannot exceed
+> -the allocated buffer size.
+> -
+> -http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4231
+> -
+> -Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+> -
+> -Index: tools/gif2tiff.c
+> -===================================================================
+> -RCS file: /cvs/maptools/cvsroot/libtiff/tools/gif2tiff.c,v
+> -retrieving revision 1.12
+> -retrieving revision 1.13
+> -diff -u -r1.12 -r1.13
+> ---- a/tools/gif2tiff.c	15 Dec 2010 00:22:44 -0000	1.12
+> -+++ b/tools/gif2tiff.c	14 Aug 2013 05:18:53 -0000	1.13
+> -@@ -1,4 +1,4 @@
+> --/* $Id: gif2tiff.c,v 1.12 2010-12-15 00:22:44 faxguy Exp $ */
+> -+/* $Id: gif2tiff.c,v 1.13 2013-08-14 05:18:53 fwarmerdam Exp $ */
+> -
+> - /*
+> -  * Copyright (c) 1990-1997 Sam Leffler
+> -@@ -333,6 +333,8 @@
+> -     int status = 1;
+> -
+> -     datasize = getc(infile);
+> -+    if (datasize > 12)
+> -+	return 0;
+> -     clear = 1 << datasize;
+> -     eoi = clear + 1;
+> -     avail = clear + 2;
+> diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
+> deleted file mode 100644
+> index 9ebf8f9..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
+> +++ /dev/null
+> @@ -1,15 +0,0 @@
+> -This patch comes from: http://bugzilla.maptools.org/attachment.cgi?id=513&action=diff
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Baogen shang <baogen.shang@windriver.com>
+> ---- a/tools/tiff2pdf.c	2013-10-21 10:36:38.214170346 +0800
+> -+++ b/tools/tiff2pdf.c	2013-10-21 10:38:58.246170329 +0800
+> -@@ -2387,6 +2387,7 @@
+> - 					TIFFFileName(input));
+> - 				t2p->t2p_error = T2P_ERR_ERROR;
+> - 			  _TIFFfree(buffer);
+> -+			  return(0);
+> - 			} else {
+> - 				buffer=samplebuffer;
+> - 				t2p->tiff_datasize *= t2p->tiff_samplesperpixel;
+> diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
+> deleted file mode 100644
+> index 642a117..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -This patch comes from: http://bugzilla.maptools.org/attachment.cgi?id=518&action=diff#tools/gif2tiff.c_sec2
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Baogen shang <baogen.shang@windriver.com>
+> ---- a/tools/gif2tiff.c	2013-10-14 17:08:43.966239709 +0800
+> -+++ b/tools/gif2tiff.c	2013-10-14 17:18:22.994239638 +0800
+> -@@ -280,6 +280,10 @@
+> -         fprintf(stderr, "no colormap present for image\n");
+> -         return (0);
+> -     }
+> -+    if (width == 0 || height == 0) {
+> -+        fprintf(stderr, "Invalid value of width or height\n");
+> -+        return(0);
+> -+    }
+> -     if ((raster = (unsigned char*) _TIFFmalloc(width*height+EXTRAFUDGE)) == NULL) {
+> -         fprintf(stderr, "not enough memory for image\n");
+> -         return (0);
+> -@@ -397,6 +401,10 @@
+> - 	return 1;
+> -     }
+> -
+> -+    if (*fill >= raster + width*height) {
+> -+        fprintf(stderr, "raster full before eoi code\n");
+> -+        return 0;
+> -+    }
+> -     if (oldcode == -1) {
+> - 	*(*fill)++ = suffix[code];
+> - 	firstchar = oldcode = code;
+> -@@ -428,6 +436,10 @@
+> -     }
+> -     oldcode = incode;
+> -     do {
+> -+    if (*fill >= raster + width*height) {
+> -+        fprintf(stderr, "raster full before eoi code\n");
+> -+        return 0;
+> -+    }
+> - 	*(*fill)++ = *--stackp;
+> -     } while (stackp > stack);
+> -     return 1;
+> diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
+> deleted file mode 100644
+> index 1a66830..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
+> +++ /dev/null
+> @@ -1,19 +0,0 @@
+> -This patch comes from: https://github.com/vadz/libtiff/commit/ce6841d9e41d621ba23cf18b190ee6a23b2cc833
+> -
+> -Upstream-Status: Backport
+> -
+> -Signed-off-by: Baogen shang <baogen.shang@windriver.com>
+> ---- a/tools/gif2tiff.c	2013-12-17 16:46:02.160814995 +0800
+> -+++ b/tools/gif2tiff.c	2013-12-17 16:52:25.140814949 +0800
+> -@@ -406,6 +406,11 @@
+> -         return 0;
+> -     }
+> -     if (oldcode == -1) {
+> -+    if (code >= clear) {
+> -+        fprintf(stderr, "bad input: code=%d is larger than clear=%d\n",code, clear);
+> -+        return 0;
+> -+	}
+> -+
+> - 	*(*fill)++ = suffix[code];
+> - 	firstchar = oldcode = code;
+> - 	return 1;
+> diff --git a/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch b/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
+> deleted file mode 100644
+> index 2364979..0000000
+> --- a/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
+> +++ /dev/null
+> @@ -1,99 +0,0 @@
+> -Upstream-Status: Backport
+> -
+> -Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+> -Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> -
+> -Index: tools/ppm2tiff.c
+> -===================================================================
+> -RCS file: /cvs/maptools/cvsroot/libtiff/tools/ppm2tiff.c,v
+> -retrieving revision 1.16
+> -retrieving revision 1.18
+> -diff -u -r1.16 -r1.18
+> ---- a/tools/ppm2tiff.c	10 Apr 2010 19:22:34 -0000	1.16
+> -+++ b/tools/ppm2tiff.c	10 Dec 2012 18:19:11 -0000	1.18
+> -@@ -1,4 +1,4 @@
+> --/* $Id: ppm2tiff.c,v 1.16 2010-04-10 19:22:34 bfriesen Exp $ */
+> -+/* $Id: ppm2tiff.c,v 1.18 2012-12-10 18:19:11 tgl Exp $ */
+> -
+> - /*
+> -  * Copyright (c) 1991-1997 Sam Leffler
+> -@@ -72,6 +72,17 @@
+> - 	exit(-2);
+> - }
+> -
+> -+static tmsize_t
+> -+multiply_ms(tmsize_t m1, tmsize_t m2)
+> -+{
+> -+	tmsize_t bytes = m1 * m2;
+> -+
+> -+	if (m1 && bytes / m1 != m2)
+> -+		bytes = 0;
+> -+
+> -+	return bytes;
+> -+}
+> -+
+> - int
+> - main(int argc, char* argv[])
+> - {
+> -@@ -79,7 +90,7 @@
+> - 	uint32 rowsperstrip = (uint32) -1;
+> - 	double resolution = -1;
+> - 	unsigned char *buf = NULL;
+> --	tsize_t linebytes = 0;
+> -+	tmsize_t linebytes = 0;
+> - 	uint16 spp = 1;
+> - 	uint16 bpp = 8;
+> - 	TIFF *out;
+> -@@ -89,6 +100,7 @@
+> - 	int c;
+> - 	extern int optind;
+> - 	extern char* optarg;
+> -+	tmsize_t scanline_size;
+> -
+> - 	if (argc < 2) {
+> - 	    fprintf(stderr, "%s: Too few arguments\n", argv[0]);
+> -@@ -221,7 +233,8 @@
+> - 	}
+> - 	switch (bpp) {
+> - 		case 1:
+> --			linebytes = (spp * w + (8 - 1)) / 8;
+> -+			/* if round-up overflows, result will be zero, OK */
+> -+			linebytes = (multiply_ms(spp, w) + (8 - 1)) / 8;
+> - 			if (rowsperstrip == (uint32) -1) {
+> - 				TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, h);
+> - 			} else {
+> -@@ -230,15 +243,31 @@
+> - 			}
+> - 			break;
+> - 		case 8:
+> --			linebytes = spp * w;
+> -+			linebytes = multiply_ms(spp, w);
+> - 			TIFFSetField(out, TIFFTAG_ROWSPERSTRIP,
+> - 			    TIFFDefaultStripSize(out, rowsperstrip));
+> - 			break;
+> - 	}
+> --	if (TIFFScanlineSize(out) > linebytes)
+> -+	if (linebytes == 0) {
+> -+		fprintf(stderr, "%s: scanline size overflow\n", infile);
+> -+		(void) TIFFClose(out);
+> -+		exit(-2);					
+> -+	}
+> -+	scanline_size = TIFFScanlineSize(out);
+> -+	if (scanline_size == 0) {
+> -+		/* overflow - TIFFScanlineSize already printed a message */
+> -+		(void) TIFFClose(out);
+> -+		exit(-2);					
+> -+	}
+> -+	if (scanline_size < linebytes)
+> - 		buf = (unsigned char *)_TIFFmalloc(linebytes);
+> - 	else
+> --		buf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
+> -+		buf = (unsigned char *)_TIFFmalloc(scanline_size);
+> -+	if (buf == NULL) {
+> -+		fprintf(stderr, "%s: Not enough memory\n", infile);
+> -+		(void) TIFFClose(out);
+> -+		exit(-2);
+> -+	}
+> - 	if (resolution > 0) {
+> - 		TIFFSetField(out, TIFFTAG_XRESOLUTION, resolution);
+> - 		TIFFSetField(out, TIFFTAG_YRESOLUTION, resolution);
+> diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
+> similarity index 78%
+> rename from meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
+> rename to meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
+> index 62e6256..cf3a5f0 100644
+> --- a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
+> +++ b/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
+> @@ -5,16 +5,10 @@ HOMEPAGE = "http://www.remotesensing.org/libtiff/"
+>
+>   SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
+>              file://libtool2.patch \
+> -           file://libtiff-CVE-2013-1960.patch \
+> -           file://libtiff-CVE-2013-1961.patch \
+> -           file://libtiff-CVE-2013-4232.patch \
+> -           file://libtiff-CVE-2013-4243.patch \
+> -           file://libtiff-CVE-2013-4244.patch \
+> -           file://libtiff-CVE-2013-4231.patch \
+> -           file://tiff-CVE-2012-4564.patch "
+> -
+> -SRC_URI[md5sum] = "051c1068e6a0627f461948c365290410"
+> -SRC_URI[sha256sum] = "ea1aebe282319537fb2d4d7805f478dd4e0e05c33d0928baba76a7c963684872"
+> +          "
+> +
+> +SRC_URI[md5sum] = "9aee7107408a128c0c7b24286c0db900"
+> +SRC_URI[sha256sum] = "8cb1d90c96f61cdfc0bcf036acc251c9dbe6320334da941c7a83cfe1576ef890"
+>
+>   inherit autotools
+>
+>
+
+
 -- 
-1.9.1
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
