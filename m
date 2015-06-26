@@ -1,28 +1,23 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8555275662
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A8FE75662
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 14:00:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5QE0oUw010168
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 07:00:50 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.234) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Fri, 26 Jun 2015 07:00:50 -0700
-Message-ID: <558D5B11.7020900@windriver.com>
-Date: Fri, 26 Jun 2015 09:00:49 -0500
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1435301841-15924-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1435301841-15924-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH] rpm-5.4.14: disable external key server
+	Fri, 26 Jun 2015 14:03:00 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 26 Jun 2015 07:02:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,685,1427785200"; d="scan'208";a="514674564"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Jun 2015 07:02:38 -0700
+From: mariano.lopez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Jun 2015 05:56:00 +0000
+Message-Id: <e70f95d9bb6247ec0f305966894b22f681135013.1435297800.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1435297800.git.mariano.lopez@linux.intel.com>
+References: <cover.1435297800.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] report-error.bbclass: Added file syncronization.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +30,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 14:00:57 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Jun 2015 14:03:07 -0000
 
-On 6/26/15 1:57 AM, rongqing.li@windriver.com wrote:
-> From: yzhu1 <yanjun.zhu@windriver.com>
-> 
-> When rpm makes header verification, rpm will send request to the
-> extern server, this is a potential risk.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Just to explain what this is.  When RPM experiences a signed package, with a
-signature that it does NOT know.  By default it will send the -fingerprint- (and
-only the 16 digit fingerprint) to an external HKP server, trying to get the key
-down.
+errorreport_handler would fail if several errors are
+triggered at the same time because of two proccess
+writting to the same file. This patch add the required
+syncronization to handle concurrent process.
 
-This is probably not a reasonable default behavior for the system to do, instead
-it should simply fail the key lookup.  If someone wants to enable the HKP server
-it's easy enough to do by enabling the necessary macros.
+[YP #7899]
 
-> Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
-> ---
->  .../rpm-macros.in-disable-external-key-server.patch | 21 +++++++++++++++++++++
->  meta/recipes-devtools/rpm/rpm_5.4.14.bb             |  1 +
->  2 files changed, 22 insertions(+)
->  create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
-> 
-> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch b/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
-> new file mode 100644
-> index 0000000..206f258
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
-> @@ -0,0 +1,21 @@
-> +disable external key server
-> +
-> +Upstream-Status: Pending
-> +
-> +When rpm makes header verification, rpm will send request to the
-> +extern server, this is a potential risk.
-> +
-> +Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
-> +--- a/macros/macros.in
-> ++++ b/macros/macros.in
-> +@@ -546,8 +546,8 @@ $_arbitrary_tags_tests	Foo:Bar
-> + # Horowitz Key Protocol server configuration
-> + #
-> + #%_hkp_keyserver         hkp://keys.n3npq.net
-> +-%_hkp_keyserver         hkp://pool.sks-keyservers.net
-> +-%_hkp_keyserver_query   %{_hkp_keyserver}/pks/lookup?op=get&search=
-> ++#%_hkp_keyserver         hkp://pool.sks-keyservers.net
-> ++#%_hkp_keyserver_query   %{_hkp_keyserver}/pks/lookup?op=get&search=
-> + 
-> + 
-> + %_nssdb_path	/etc/pki/nssdb
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> index 75b1ae2..666a68e 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> @@ -92,6 +92,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
->  	   file://rpm-realpath.patch \
->  	   file://0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch \
->  	   file://no-ldflags-in-pkgconfig.patch \
-> +	   file://rpm-macros.in-disable-external-key-server.patch \
->  	  "
->  
->  # Uncomment the following line to enable platform score debugging
-> 
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/classes/report-error.bbclass | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+index c5aaaa8..11eee9b 100644
+--- a/meta/classes/report-error.bbclass
++++ b/meta/classes/report-error.bbclass
+@@ -18,7 +18,6 @@ def errorreport_getdata(e):
+ def errorreport_savedata(e, newdata, file):
+     import json
+     logpath = e.data.getVar('ERR_REPORT_DIR', True)
+-    bb.utils.mkdirhier(logpath)
+     datafile = os.path.join(logpath, file)
+     with open(datafile, "w") as f:
+         json.dump(newdata, f, indent=4, sort_keys=True)
+@@ -27,7 +26,11 @@ def errorreport_savedata(e, newdata, file):
+ python errorreport_handler () {
+         import json
+ 
++        logpath = e.data.getVar('ERR_REPORT_DIR', True)
++        datafile = os.path.join(logpath, "error-report.txt")
++
+         if isinstance(e, bb.event.BuildStarted):
++            bb.utils.mkdirhier(logpath)
+             data = {}
+             machine = e.data.getVar("MACHINE", False)
+             data['machine'] = machine
+@@ -38,7 +41,9 @@ python errorreport_handler () {
+             data['failures'] = []
+             data['component'] = e.getPkgs()[0]
+             data['branch_commit'] = base_detect_branch(e.data) + ": " + base_detect_revision(e.data)
++            lock = bb.utils.lockfile(datafile + '.lock')
+             errorreport_savedata(e, data, "error-report.txt")
++            bb.utils.unlockfile(lock)
+ 
+         elif isinstance(e, bb.build.TaskFailed):
+             task = e.task
+@@ -56,12 +61,16 @@ python errorreport_handler () {
+ 
+             else:
+                 taskdata['log'] = "No Log"
++            lock = bb.utils.lockfile(datafile + '.lock')
+             jsondata = json.loads(errorreport_getdata(e))
+             jsondata['failures'].append(taskdata)
+             errorreport_savedata(e, jsondata, "error-report.txt")
++            bb.utils.unlockfile(lock)
+ 
+         elif isinstance(e, bb.event.BuildCompleted):
++            lock = bb.utils.lockfile(datafile + '.lock')
+             jsondata = json.loads(errorreport_getdata(e))
++            bb.utils.unlockfile(lock)
+             failures = jsondata['failures']
+             if(len(failures) > 0):
+                 filename = "error_report_" + e.data.getVar("BUILDNAME", False)+".txt"
+-- 
+1.8.4.5
 
 
