@@ -1,37 +1,24 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ob0-f179.google.com (mail-ob0-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 797576AC37
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E85F9605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 20:23:53 +0000 (UTC)
-Received: by obctg8 with SMTP id tg8so73707120obc.3
+	Fri, 26 Jun 2015 20:27:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5QKRwGB025769
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 13:23:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=E5wvwMnEr+cqTbivI1u6czdPB3rNFuGEbQ8hroMMEHc=;
-	b=Tng0wrofaCPDYfOYghONYugSCW/cf3H1606LzR96aPg1GELvXZ/fxJS8hixjyMLe8k
-	d+nx9Df1POmy39uUfvvyoTS/EOlzpXJK2DaTyCdsQn0g+acEGlt4k9lDCuPulX5vKbC6
-	WT8Ugi1cNLs0PoN97zGEpZFqX4OAJp09i2YN4voF+ZiTPzr/BqH6yGUARso9VO6BXAYC
-	AUC0VunOBI1Ab3G9IqNzUbh8o5e7KXlqIFto94z8GFK/xLMIrSPegsdD1aMqlowGI6dq
-	A2fRIw/jhxrO/lv1/ORaWXgbbqzXKKRNn0FvyIO8EM1P2IQlkrMwwQ/d0zA9LyfdJnQ1
-	R9Hg==
-X-Gm-Message-State: ALoCoQnhJN5q6qQeVGua1QYb5u4Yua2NvGuRlwImnCNBYcqiiv4aOqH+S2zsQlsdBRAfqZeK6LaO
-X-Received: by 10.182.65.194 with SMTP id z2mr3056546obs.30.1435350234712;
-	Fri, 26 Jun 2015 13:23:54 -0700 (PDT)
+	Fri, 26 Jun 2015 13:27:58 -0700 (PDT)
+Received: from yow-rmacleod-lx3.wrs.com (128.224.56.85) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 26 Jun 2015 13:27:57 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Jun 2015 16:27:51 -0400
+Message-ID: <1435350471-17216-1-git-send-email-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.202.49.6 with HTTP; Fri, 26 Jun 2015 13:23:25 -0700 (PDT)
-In-Reply-To: <1435312530-1963-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-References: <1435312530-1963-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 26 Jun 2015 23:23:25 +0300
-Message-ID: <CAHiDW_G67Fc7N8Xh74SbthQ8TtTH_EQuPSDaU6UJyCHFzHgLDQ@mail.gmail.com>
-To: Li xin <lixin.fnst@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mtd-utils: 1) extend nativesdk support
+Subject: [PATCH] tiff: Update to 4.0.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,1592 +31,1257 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 20:23:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Jun 2015 20:27:58 -0000
+Content-Type: text/plain
 
-On 26 June 2015 at 12:55, Li xin <lixin.fnst@cn.fujitsu.com> wrote:
-> 2) install bin2nand and nand2bin
-> taken from:
-> http://git.infradead.org/mtd-utils.git/tree/3c3674a6e1d3f59554b0ff68ca59be2fd4134e0c:/ubi-utils/old-utils/src
+Update tiff to latest version. None of the local CVE patches
+are needed based on reviewing the ChangeLog so remove them.
 
-Back in 2010 when upstream decided to completely remove these files,
-the message was
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
+ .../libtiff/files/libtiff-CVE-2013-1960.patch      | 151 ----
+ .../libtiff/files/libtiff-CVE-2013-1961.patch      | 786 ---------------------
+ .../libtiff/files/libtiff-CVE-2013-4231.patch      |  44 --
+ .../libtiff/files/libtiff-CVE-2013-4232.patch      |  15 -
+ .../libtiff/files/libtiff-CVE-2013-4243.patch      |  40 --
+ .../libtiff/files/libtiff-CVE-2013-4244.patch      |  19 -
+ .../libtiff/files/tiff-CVE-2012-4564.patch         |  99 ---
+ .../libtiff/{tiff_4.0.3.bb => tiff_4.0.4.bb}       |  14 +-
+ 8 files changed, 4 insertions(+), 1164 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
+ delete mode 100644 meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
+ rename meta/recipes-multimedia/libtiff/{tiff_4.0.3.bb => tiff_4.0.4.bb} (78%)
 
-    The utilities are unmaintained for long time, and many of them
-    do not even work, just compile, and no on complains about this.
-    This suggests they are unused and we can now safely kill them.
+diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
+deleted file mode 100644
+index e4348f1..0000000
+--- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1960.patch
++++ /dev/null
+@@ -1,151 +0,0 @@
+-This patch comes from: http://pkgs.fedoraproject.org/cgit/libtiff.git/plain/libtiff-CVE-2013-1960.patch
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Ming Liu <ming.liu@windriver.com>
+-
+-diff -Naur a/tools/tiff2pdf.c b/tools/tiff2pdf.c
+---- a/tools/tiff2pdf.c	2012-07-25 22:56:43.000000000 -0400
+-+++ b/tools/tiff2pdf.c	2013-05-02 12:04:49.057090227 -0400
+-@@ -3341,33 +3341,56 @@
+- 	uint32 height){
+- 
+- 	tsize_t i=0;
+--	uint16 ri =0;
+--	uint16 v_samp=1;
+--	uint16 h_samp=1;
+--	int j=0;
+--	
+--	i++;
+--	
+--	while(i<(*striplength)){
+-+
+-+	while (i < *striplength) {
+-+		tsize_t datalen;
+-+		uint16 ri;
+-+		uint16 v_samp;
+-+		uint16 h_samp;
+-+		int j;
+-+		int ncomp;
+-+
+-+		/* marker header: one or more FFs */
+-+		if (strip[i] != 0xff)
+-+			return(0);
+-+		i++;
+-+		while (i < *striplength && strip[i] == 0xff)
+-+			i++;
+-+		if (i >= *striplength)
+-+			return(0);
+-+		/* SOI is the only pre-SOS marker without a length word */
+-+		if (strip[i] == 0xd8)
+-+			datalen = 0;
+-+		else {
+-+			if ((*striplength - i) <= 2)
+-+				return(0);
+-+			datalen = (strip[i+1] << 8) | strip[i+2];
+-+			if (datalen < 2 || datalen >= (*striplength - i))
+-+				return(0);
+-+		}
+- 		switch( strip[i] ){
+--			case 0xd8:
+--				/* SOI - start of image */
+-+			case 0xd8:	/* SOI - start of image */
+- 				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), 2);
+- 				*bufferoffset+=2;
+--				i+=2;
+- 				break;
+--			case 0xc0:
+--			case 0xc1:
+--			case 0xc3:
+--			case 0xc9:
+--			case 0xca:
+-+			case 0xc0:	/* SOF0 */
+-+			case 0xc1:	/* SOF1 */
+-+			case 0xc3:	/* SOF3 */
+-+			case 0xc9:	/* SOF9 */
+-+			case 0xca:	/* SOF10 */
+- 				if(no==0){
+--					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
+--					for(j=0;j<buffer[*bufferoffset+9];j++){
+--						if( (buffer[*bufferoffset+11+(2*j)]>>4) > h_samp) 
+--							h_samp = (buffer[*bufferoffset+11+(2*j)]>>4);
+--						if( (buffer[*bufferoffset+11+(2*j)] & 0x0f) > v_samp) 
+--							v_samp = (buffer[*bufferoffset+11+(2*j)] & 0x0f);
+-+					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
+-+					ncomp = buffer[*bufferoffset+9];
+-+					if (ncomp < 1 || ncomp > 4)
+-+						return(0);
+-+					v_samp=1;
+-+					h_samp=1;
+-+					for(j=0;j<ncomp;j++){
+-+						uint16 samp = buffer[*bufferoffset+11+(3*j)];
+-+						if( (samp>>4) > h_samp) 
+-+							h_samp = (samp>>4);
+-+						if( (samp & 0x0f) > v_samp) 
+-+							v_samp = (samp & 0x0f);
+- 					}
+- 					v_samp*=8;
+- 					h_samp*=8;
+-@@ -3381,45 +3404,43 @@
+-                                           (unsigned char) ((height>>8) & 0xff);
+- 					buffer[*bufferoffset+6]=
+-                                             (unsigned char) (height & 0xff);
+--					*bufferoffset+=strip[i+2]+2;
+--					i+=strip[i+2]+2;
+--
+-+					*bufferoffset+=datalen+2;
+-+					/* insert a DRI marker */
+- 					buffer[(*bufferoffset)++]=0xff;
+- 					buffer[(*bufferoffset)++]=0xdd;
+- 					buffer[(*bufferoffset)++]=0x00;
+- 					buffer[(*bufferoffset)++]=0x04;
+- 					buffer[(*bufferoffset)++]=(ri >> 8) & 0xff;
+- 					buffer[(*bufferoffset)++]= ri & 0xff;
+--				} else {
+--					i+=strip[i+2]+2;
+- 				}
+- 				break;
+--			case 0xc4:
+--			case 0xdb:
+--				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
+--				*bufferoffset+=strip[i+2]+2;
+--				i+=strip[i+2]+2;
+-+			case 0xc4: /* DHT */
+-+			case 0xdb: /* DQT */
+-+				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
+-+				*bufferoffset+=datalen+2;
+- 				break;
+--			case 0xda:
+-+			case 0xda: /* SOS */
+- 				if(no==0){
+--					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), strip[i+2]+2);
+--					*bufferoffset+=strip[i+2]+2;
+--					i+=strip[i+2]+2;
+-+					_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), datalen+2);
+-+					*bufferoffset+=datalen+2;
+- 				} else {
+- 					buffer[(*bufferoffset)++]=0xff;
+- 					buffer[(*bufferoffset)++]=
+-                                             (unsigned char)(0xd0 | ((no-1)%8));
+--					i+=strip[i+2]+2;
+- 				}
+--				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i-1]), (*striplength)-i-1);
+--				*bufferoffset+=(*striplength)-i-1;
+-+				i += datalen + 1;
+-+				/* copy remainder of strip */
+-+				_TIFFmemcpy(&(buffer[*bufferoffset]), &(strip[i]), *striplength - i);
+-+				*bufferoffset+= *striplength - i;
+- 				return(1);
+- 			default:
+--				i+=strip[i+2]+2;
+-+				/* ignore any other marker */
+-+				break;
+- 		}
+-+		i += datalen + 1;
+- 	}
+--	
+- 
+-+	/* failed to find SOS marker */
+- 	return(0);
+- }
+- #endif
+diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
+deleted file mode 100644
+index fc4adb5..0000000
+--- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-1961.patch
++++ /dev/null
+@@ -1,786 +0,0 @@
+-libtiff: fix CVE-2013-1961.
+-
+-Upstream-Status: Backported
+-
+-Issue Description: CVE-2013-1961
+-Stack-based buffer overflow in the t2p_write_pdf_page function in tiff2pdf
+-in libtiff before 4.0.3 allows remote attackers to cause a denial of service
+-(application crash) via a crafted image length and resolution in a TIFF image file.
+-
+-Fix Description: Replace sprintf with snprintf
+-
+-Signed-off-by: Priyanka Shobhan <priyanka_shobhan@mentor.com>
+----
+-
+-diff --git a/contrib/dbs/xtiff/xtiff.c b/contrib/dbs/xtiff/xtiff.c
+-index 2634030..97e4ffe 100644
+---- a/contrib/dbs/xtiff/xtiff.c
+-+++ b/contrib/dbs/xtiff/xtiff.c
+-@@ -512,9 +512,9 @@ SetNameLabel()
+-     Arg args[1];
+- 
+-     if (tfMultiPage)
+--        sprintf(buffer, "%s - page %d", fileName, tfDirectory);
+-+        snprintf(buffer, sizeof(buffer), "%s - page %d", fileName, tfDirectory);
+-     else
+--        strcpy(buffer, fileName);
+-+        snprintf(buffer, sizeof(buffer), "%s", fileName);
+-     XtSetArg(args[0], XtNlabel, buffer);
+-     XtSetValues(labelWidget, args, 1);
+- }
+-diff --git a/libtiff/tif_codec.c b/libtiff/tif_codec.c
+-index e201667..703e87d 100644
+---- a/libtiff/tif_codec.c
+-+++ b/libtiff/tif_codec.c
+-@@ -108,7 +108,8 @@ _notConfigured(TIFF* tif)
+- 	const TIFFCodec* c = TIFFFindCODEC(tif->tif_dir.td_compression);
+-         char compression_code[20];
+-         
+--        sprintf( compression_code, "%d", tif->tif_dir.td_compression );
+-+        snprintf(compression_code, sizeof(compression_code), "%d",
+-+		 tif->tif_dir.td_compression );
+- 	TIFFErrorExt(tif->tif_clientdata, tif->tif_name,
+-                      "%s compression support is not configured", 
+-                      c ? c->name : compression_code );
+-diff --git a/libtiff/tif_dirinfo.c b/libtiff/tif_dirinfo.c
+-index d319931..4dae5e5 100644
+---- a/libtiff/tif_dirinfo.c
+-+++ b/libtiff/tif_dirinfo.c
+-@@ -711,7 +711,7 @@ _TIFFCreateAnonField(TIFF *tif, uint32 tag, TIFFDataType field_type)
+- 	 * note that this name is a special sign to TIFFClose() and
+- 	 * _TIFFSetupFields() to free the field
+- 	 */
+--	sprintf(fld->field_name, "Tag %d", (int) tag);
+-+	snprintf(fld->field_name, 32, "Tag %d", (int) tag);
+- 
+- 	return fld;    
+- }
+-diff --git a/tools/rgb2ycbcr.c b/tools/rgb2ycbcr.c
+-index 162aac1..a3eeb03 100644
+---- a/tools/rgb2ycbcr.c
+-+++ b/tools/rgb2ycbcr.c
+-@@ -332,7 +332,8 @@ tiffcvt(TIFF* in, TIFF* out)
+- 	TIFFSetField(out, TIFFTAG_PLANARCONFIG, PLANARCONFIG_CONTIG);
+- 	{ char buf[2048];
+- 	  char *cp = strrchr(TIFFFileName(in), '/');
+--	  sprintf(buf, "YCbCr conversion of %s", cp ? cp+1 : TIFFFileName(in));
+-+	  snprintf(buf, sizeof(buf), "YCbCr conversion of %s",
+-+		   cp ? cp+1 : TIFFFileName(in));
+- 	  TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, buf);
+- 	}
+- 	TIFFSetField(out, TIFFTAG_SOFTWARE, TIFFGetVersion());
+-diff --git a/tools/tiff2bw.c b/tools/tiff2bw.c
+-index bda754a..7ffaca0 100644
+---- a/tools/tiff2bw.c
+-+++ b/tools/tiff2bw.c
+-@@ -205,7 +205,7 @@ main(int argc, char* argv[])
+- 		}
+- 	}
+- 	TIFFSetField(out, TIFFTAG_PHOTOMETRIC, PHOTOMETRIC_MINISBLACK);
+--	sprintf(thing, "B&W version of %s", argv[optind]);
+-+	snprintf(thing, sizeof(thing), "B&W version of %s", argv[optind]);
+- 	TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, thing);
+- 	TIFFSetField(out, TIFFTAG_SOFTWARE, "tiff2bw");
+- 	outbuf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
+-diff --git a/tools/tiff2pdf.c b/tools/tiff2pdf.c
+-index 356328c..957fd9f 100644
+---- a/tools/tiff2pdf.c
+-+++ b/tools/tiff2pdf.c
+-@@ -3609,7 +3609,9 @@ tsize_t t2p_write_pdf_header(T2P* t2p, TIFF* output){
+- 	char buffer[16];
+- 	int buflen=0;
+- 	
+--	buflen=sprintf(buffer, "%%PDF-%u.%u ", t2p->pdf_majorversion&0xff, t2p->pdf_minorversion&0xff);
+-+	buflen = snprintf(buffer, sizeof(buffer), "%%PDF-%u.%u ",
+-+			  t2p->pdf_majorversion&0xff,
+-+			  t2p->pdf_minorversion&0xff);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t)"\n%\342\343\317\323\n", 7);
+- 
+-@@ -3623,10 +3625,10 @@ tsize_t t2p_write_pdf_header(T2P* t2p, TIFF* output){
+- tsize_t t2p_write_pdf_obj_start(uint32 number, TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 
+--	buflen=sprintf(buffer, "%lu", (unsigned long)number);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)number);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen );
+- 	written += t2pWriteFile(output, (tdata_t) " 0 obj\n", 7);
+- 
+-@@ -3665,13 +3667,13 @@ tsize_t t2p_write_pdf_name(unsigned char* name, TIFF* output){
+- 	written += t2pWriteFile(output, (tdata_t) "/", 1);
+- 	for (i=0;i<namelen;i++){
+- 		if ( ((unsigned char)name[i]) < 0x21){
+--			sprintf(buffer, "#%.2X", name[i]);
+-+			snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+- 			buffer[sizeof(buffer) - 1] = '\0';
+- 			written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 			nextchar=1;
+- 		}
+- 		if ( ((unsigned char)name[i]) > 0x7E){
+--			sprintf(buffer, "#%.2X", name[i]);
+-+			snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+- 			buffer[sizeof(buffer) - 1] = '\0';
+- 			written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 			nextchar=1;
+-@@ -3679,57 +3681,57 @@ tsize_t t2p_write_pdf_name(unsigned char* name, TIFF* output){
+- 		if (nextchar==0){
+- 			switch (name[i]){
+- 				case 0x23:
+--					sprintf(buffer, "#%.2X", name[i]);
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x25:
+--					sprintf(buffer, "#%.2X", name[i]);
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x28:
+--					sprintf(buffer, "#%.2X", name[i]);
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x29:
+--					sprintf(buffer, "#%.2X", name[i]); 
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x2F:
+--					sprintf(buffer, "#%.2X", name[i]); 
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x3C:
+--					sprintf(buffer, "#%.2X", name[i]); 
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x3E:
+--					sprintf(buffer, "#%.2X", name[i]);
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x5B:
+--					sprintf(buffer, "#%.2X", name[i]); 
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x5D:
+--					sprintf(buffer, "#%.2X", name[i]);
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]);
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x7B:
+--					sprintf(buffer, "#%.2X", name[i]); 
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+- 				case 0x7D:
+--					sprintf(buffer, "#%.2X", name[i]); 
+-+					snprintf(buffer, sizeof(buffer), "#%.2X", name[i]); 
+- 					buffer[sizeof(buffer) - 1] = '\0';
+- 					written += t2pWriteFile(output, (tdata_t) buffer, 3);
+- 					break;
+-@@ -3844,14 +3846,14 @@ tsize_t t2p_write_pdf_stream_end(TIFF* output){
+- tsize_t t2p_write_pdf_stream_dict(tsize_t len, uint32 number, TIFF* output){
+- 	
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 	
+- 	written += t2pWriteFile(output, (tdata_t) "/Length ", 8);
+- 	if(len!=0){
+- 		written += t2p_write_pdf_stream_length(len, output);
+- 	} else {
+--		buflen=sprintf(buffer, "%lu", (unsigned long)number);
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)number);
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
+- 	}
+-@@ -3892,10 +3894,10 @@ tsize_t t2p_write_pdf_stream_dict_end(TIFF* output){
+- tsize_t t2p_write_pdf_stream_length(tsize_t len, TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 
+--	buflen=sprintf(buffer, "%lu", (unsigned long)len);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)len);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) "\n", 1);
+- 
+-@@ -3909,7 +3911,7 @@ tsize_t t2p_write_pdf_stream_length(tsize_t len, TIFF* output){
+- tsize_t t2p_write_pdf_catalog(T2P* t2p, TIFF* output)
+- {
+- 	tsize_t written = 0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen = 0;
+- 
+- 	written += t2pWriteFile(output, 
+-@@ -3948,7 +3950,6 @@ tsize_t t2p_write_pdf_info(T2P* t2p, TIFF* input, TIFF* output)
+- 		written += t2p_write_pdf_string(t2p->pdf_datetime, output);
+- 	}
+- 	written += t2pWriteFile(output, (tdata_t) "\n/Producer ", 11);
+--	_TIFFmemset((tdata_t)buffer, 0x00, sizeof(buffer));
+- 	snprintf(buffer, sizeof(buffer), "libtiff / tiff2pdf - %d", TIFFLIB_VERSION);
+- 	written += t2p_write_pdf_string(buffer, output);
+- 	written += t2pWriteFile(output, (tdata_t) "\n", 1);
+-@@ -4089,7 +4090,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
+- {
+- 	tsize_t written=0;
+- 	tdir_t i=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 
+- 	int page=0;
+-@@ -4097,7 +4098,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
+- 		(tdata_t) "<< \n/Type /Pages \n/Kids [ ", 26);
+- 	page = t2p->pdf_pages+1;
+- 	for (i=0;i<t2p->tiff_pagecount;i++){
+--		buflen=sprintf(buffer, "%d", page);
+-+		buflen=snprintf(buffer, sizeof(buffer), "%d", page);
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+- 		if ( ((i+1)%8)==0 ) {
+-@@ -4112,8 +4113,7 @@ tsize_t t2p_write_pdf_pages(T2P* t2p, TIFF* output)
+- 		}
+- 	}
+- 	written += t2pWriteFile(output, (tdata_t) "] \n/Count ", 10);
+--	_TIFFmemset(buffer, 0x00, 16);
+--	buflen=sprintf(buffer, "%d", t2p->tiff_pagecount);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%d", t2p->tiff_pagecount);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) " \n>> \n", 6);
+- 
+-@@ -4128,28 +4128,28 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
+- 
+- 	unsigned int i=0;
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[256];
+- 	int buflen=0;
+- 
+- 	written += t2pWriteFile(output, (tdata_t) "<<\n/Type /Page \n/Parent ", 24);
+--	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_pages);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_pages);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
+- 	written += t2pWriteFile(output, (tdata_t) "/MediaBox [", 11); 
+--	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.x1);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.x1);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) " ", 1); 
+--	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.y1);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.y1);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) " ", 1); 
+--	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.x2);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.x2);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) " ", 1); 
+--	buflen=sprintf(buffer, "%.4f",t2p->pdf_mediabox.y2);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%.4f",t2p->pdf_mediabox.y2);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) "] \n", 3); 
+- 	written += t2pWriteFile(output, (tdata_t) "/Contents ", 10);
+--	buflen=sprintf(buffer, "%lu", (unsigned long)(object + 1));
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(object + 1));
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) " 0 R \n", 6);
+- 	written += t2pWriteFile(output, (tdata_t) "/Resources << \n", 15);
+-@@ -4157,15 +4157,13 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
+- 		written += t2pWriteFile(output, (tdata_t) "/XObject <<\n", 12);
+- 		for(i=0;i<t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount;i++){
+- 			written += t2pWriteFile(output, (tdata_t) "/Im", 3);
+--			buflen = sprintf(buffer, "%u", t2p->pdf_page+1);
+-+			buflen = snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
+- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 			written += t2pWriteFile(output, (tdata_t) "_", 1);
+--			buflen = sprintf(buffer, "%u", i+1);
+-+			buflen = snprintf(buffer, sizeof(buffer), "%u", i+1);
+- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 			written += t2pWriteFile(output, (tdata_t) " ", 1);
+--			buflen = sprintf(
+--				buffer, 
+--				"%lu", 
+-+			buflen = snprintf(buffer, sizeof(buffer), "%lu",
+- 				(unsigned long)(object+3+(2*i)+t2p->tiff_pages[t2p->pdf_page].page_extra)); 
+- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 			written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+-@@ -4177,12 +4175,10 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
+- 	} else {
+- 			written += t2pWriteFile(output, (tdata_t) "/XObject <<\n", 12);
+- 			written += t2pWriteFile(output, (tdata_t) "/Im", 3);
+--			buflen = sprintf(buffer, "%u", t2p->pdf_page+1);
+-+			buflen = snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
+- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 			written += t2pWriteFile(output, (tdata_t) " ", 1);
+--			buflen = sprintf(
+--				buffer, 
+--				"%lu", 
+-+			buflen = snprintf(buffer, sizeof(buffer), "%lu",
+- 				(unsigned long)(object+3+(2*i)+t2p->tiff_pages[t2p->pdf_page].page_extra)); 
+- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 			written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+-@@ -4191,9 +4187,7 @@ tsize_t t2p_write_pdf_page(uint32 object, T2P* t2p, TIFF* output){
+- 	if(t2p->tiff_transferfunctioncount != 0) {
+- 		written += t2pWriteFile(output, (tdata_t) "/ExtGState <<", 13);
+- 		t2pWriteFile(output, (tdata_t) "/GS1 ", 5);
+--		buflen = sprintf(
+--			buffer, 
+--			"%lu", 
+-+		buflen = snprintf(buffer, sizeof(buffer), "%lu",
+- 			(unsigned long)(object + 3)); 
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+-@@ -4566,7 +4560,7 @@ tsize_t t2p_write_pdf_page_content_stream(T2P* t2p, TIFF* output){
+- 	if(t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount>0){ 
+- 		for(i=0;i<t2p->tiff_tiles[t2p->pdf_page].tiles_tilecount; i++){
+- 			box=t2p->tiff_tiles[t2p->pdf_page].tiles_tiles[i].tile_box;
+--			buflen=sprintf(buffer, 
+-+			buflen=snprintf(buffer, sizeof(buffer), 
+- 				"q %s %.4f %.4f %.4f %.4f %.4f %.4f cm /Im%d_%ld Do Q\n", 
+- 				t2p->tiff_transferfunctioncount?"/GS1 gs ":"",
+- 				box.mat[0],
+-@@ -4581,7 +4575,7 @@ tsize_t t2p_write_pdf_page_content_stream(T2P* t2p, TIFF* output){
+- 		}
+- 	} else {
+- 		box=t2p->pdf_imagebox;
+--		buflen=sprintf(buffer, 
+-+		buflen=snprintf(buffer, sizeof(buffer), 
+- 			"q %s %.4f %.4f %.4f %.4f %.4f %.4f cm /Im%d Do Q\n", 
+- 			t2p->tiff_transferfunctioncount?"/GS1 gs ":"",
+- 			box.mat[0],
+-@@ -4606,59 +4600,48 @@ tsize_t t2p_write_pdf_xobject_stream_dict(ttile_t tile,
+- 												TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 
+- 	written += t2p_write_pdf_stream_dict(0, t2p->pdf_xrefcount+1, output); 
+- 	written += t2pWriteFile(output, 
+- 		(tdata_t) "/Type /XObject \n/Subtype /Image \n/Name /Im", 
+- 		42);
+--	buflen=sprintf(buffer, "%u", t2p->pdf_page+1);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_page+1);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	if(tile != 0){
+- 		written += t2pWriteFile(output, (tdata_t) "_", 1);
+--		buflen=sprintf(buffer, "%lu", (unsigned long)tile);
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)tile);
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	}
+- 	written += t2pWriteFile(output, (tdata_t) "\n/Width ", 8);
+--	_TIFFmemset((tdata_t)buffer, 0x00, 16);
+- 	if(tile==0){
+--		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->tiff_width);
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->tiff_width);
+- 	} else {
+- 		if(t2p_tile_is_right_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)!=0){
+--			buflen=sprintf(
+--				buffer, 
+--				"%lu", 
+-+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilewidth);
+- 		} else {
+--			buflen=sprintf(
+--				buffer, 
+--				"%lu", 
+-+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilewidth);
+- 		}
+- 	}
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) "\n/Height ", 9);
+--	_TIFFmemset((tdata_t)buffer, 0x00, 16);
+- 	if(tile==0){
+--		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->tiff_length);
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->tiff_length);
+- 	} else {
+- 		if(t2p_tile_is_bottom_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)!=0){
+--			buflen=sprintf(
+--				buffer, 
+--				"%lu", 
+-+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilelength);
+- 		} else {
+--			buflen=sprintf(
+--				buffer, 
+--				"%lu", 
+-+			buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 				(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilelength);
+- 		}
+- 	}
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) "\n/BitsPerComponent ", 19);
+--	_TIFFmemset((tdata_t)buffer, 0x00, 16);
+--	buflen=sprintf(buffer, "%u", t2p->tiff_bitspersample);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_bitspersample);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) "\n/ColorSpace ", 13);
+- 	written += t2p_write_pdf_xobject_cs(t2p, output);
+-@@ -4702,11 +4685,10 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
+- 		t2p->pdf_colorspace ^= T2P_CS_PALETTE;
+- 		written += t2p_write_pdf_xobject_cs(t2p, output);
+- 		t2p->pdf_colorspace |= T2P_CS_PALETTE;
+--		buflen=sprintf(buffer, "%u", (0x0001 << t2p->tiff_bitspersample)-1 );
+-+		buflen=snprintf(buffer, sizeof(buffer), "%u", (0x0001 << t2p->tiff_bitspersample)-1 );
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " ", 1);
+--		_TIFFmemset(buffer, 0x00, 16);
+--		buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_palettecs ); 
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_palettecs ); 
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " 0 R ]\n", 7);
+- 		return(written);
+-@@ -4740,10 +4722,10 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
+- 			X_W /= Y_W;
+- 			Z_W /= Y_W;
+- 			Y_W = 1.0F;
+--			buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+-+			buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+- 			written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 			written += t2pWriteFile(output, (tdata_t) "/Range ", 7);
+--			buflen=sprintf(buffer, "[%d %d %d %d] \n", 
+-+			buflen=snprintf(buffer, sizeof(buffer), "[%d %d %d %d] \n", 
+- 				t2p->pdf_labrange[0], 
+- 				t2p->pdf_labrange[1], 
+- 				t2p->pdf_labrange[2], 
+-@@ -4759,26 +4741,26 @@ tsize_t t2p_write_pdf_xobject_cs(T2P* t2p, TIFF* output){
+- tsize_t t2p_write_pdf_transfer(T2P* t2p, TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 
+- 	written += t2pWriteFile(output, (tdata_t) "<< /Type /ExtGState \n/TR ", 25);
+- 	if(t2p->tiff_transferfunctioncount == 1){
+--		buflen=sprintf(buffer, "%lu",
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 			       (unsigned long)(t2p->pdf_xrefcount + 1));
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+- 	} else {
+- 		written += t2pWriteFile(output, (tdata_t) "[ ", 2);
+--		buflen=sprintf(buffer, "%lu",
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 			       (unsigned long)(t2p->pdf_xrefcount + 1));
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+--		buflen=sprintf(buffer, "%lu",
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 			       (unsigned long)(t2p->pdf_xrefcount + 2));
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+--		buflen=sprintf(buffer, "%lu",
+-+		buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 			       (unsigned long)(t2p->pdf_xrefcount + 3));
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) " 0 R ", 5);
+-@@ -4800,7 +4782,7 @@ tsize_t t2p_write_pdf_transfer_dict(T2P* t2p, TIFF* output, uint16 i){
+- 	written += t2pWriteFile(output, (tdata_t) "/FunctionType 0 \n", 17);
+- 	written += t2pWriteFile(output, (tdata_t) "/Domain [0.0 1.0] \n", 19);
+- 	written += t2pWriteFile(output, (tdata_t) "/Range [0.0 1.0] \n", 18);
+--	buflen=sprintf(buffer, "/Size [%u] \n", (1<<t2p->tiff_bitspersample));
+-+	buflen=snprintf(buffer, sizeof(buffer), "/Size [%u] \n", (1<<t2p->tiff_bitspersample));
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) "/BitsPerSample 16 \n", 19);
+- 	written += t2p_write_pdf_stream_dict(((tsize_t)1)<<(t2p->tiff_bitspersample+1), 0, output);
+-@@ -4827,7 +4809,7 @@ tsize_t t2p_write_pdf_transfer_stream(T2P* t2p, TIFF* output, uint16 i){
+- tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[128];
+-+	char buffer[256];
+- 	int buflen=0;
+- 	
+- 	float X_W=0.0;
+-@@ -4895,16 +4877,16 @@ tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
+- 	written += t2pWriteFile(output, (tdata_t) "<< \n", 4);
+- 	if(t2p->pdf_colorspace & T2P_CS_CALGRAY){
+- 		written += t2pWriteFile(output, (tdata_t) "/WhitePoint ", 12);
+--		buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+-+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) "/Gamma 2.2 \n", 12);
+- 	}
+- 	if(t2p->pdf_colorspace & T2P_CS_CALRGB){
+- 		written += t2pWriteFile(output, (tdata_t) "/WhitePoint ", 12);
+--		buflen=sprintf(buffer, "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+-+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f] \n", X_W, Y_W, Z_W);
+- 		written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 		written += t2pWriteFile(output, (tdata_t) "/Matrix ", 8);
+--		buflen=sprintf(buffer, "[%.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f] \n", 
+-+		buflen=snprintf(buffer, sizeof(buffer), "[%.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f %.4f] \n", 
+- 			X_R, Y_R, Z_R, 
+- 			X_G, Y_G, Z_G, 
+- 			X_B, Y_B, Z_B); 
+-@@ -4923,11 +4905,11 @@ tsize_t t2p_write_pdf_xobject_calcs(T2P* t2p, TIFF* output){
+- tsize_t t2p_write_pdf_xobject_icccs(T2P* t2p, TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 	
+- 	written += t2pWriteFile(output, (tdata_t) "[/ICCBased ", 11);
+--	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_icccs);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_icccs);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) " 0 R] \n", 7);
+- 
+-@@ -4937,11 +4919,11 @@ tsize_t t2p_write_pdf_xobject_icccs(T2P* t2p, TIFF* output){
+- tsize_t t2p_write_pdf_xobject_icccs_dict(T2P* t2p, TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 	
+- 	written += t2pWriteFile(output, (tdata_t) "/N ", 3);
+--	buflen=sprintf(buffer, "%u \n", t2p->tiff_samplesperpixel);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%u \n", t2p->tiff_samplesperpixel);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) "/Alternate ", 11);
+- 	t2p->pdf_colorspace ^= T2P_CS_ICCBASED;
+-@@ -5006,7 +4988,7 @@ tsize_t t2p_write_pdf_xobject_decode(T2P* t2p, TIFF* output){
+- tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[16];
+-+	char buffer[32];
+- 	int buflen=0;
+- 
+- 	if(t2p->pdf_compression==T2P_COMPRESS_NONE){
+-@@ -5021,41 +5003,33 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
+- 			written += t2pWriteFile(output, (tdata_t) "<< /K -1 ", 9);
+- 			if(tile==0){
+- 				written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
+--				buflen=sprintf(buffer, "%lu",
+-+				buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 					       (unsigned long)t2p->tiff_width);
+- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
+--				buflen=sprintf(buffer, "%lu",
+-+				buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 					       (unsigned long)t2p->tiff_length);
+- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 			} else {
+- 				if(t2p_tile_is_right_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)==0){
+- 					written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
+--					buflen=sprintf(
+--						buffer, 
+--						"%lu", 
+-+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilewidth);
+- 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				} else {
+- 					written += t2pWriteFile(output, (tdata_t) "/Columns ", 9);
+--					buflen=sprintf(
+--						buffer, 
+--						"%lu", 
+-+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilewidth);
+- 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				}
+- 				if(t2p_tile_is_bottom_edge(t2p->tiff_tiles[t2p->pdf_page], tile-1)==0){
+- 					written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
+--					buflen=sprintf(
+--						buffer, 
+--						"%lu", 
+-+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_tilelength);
+- 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				} else {
+- 					written += t2pWriteFile(output, (tdata_t) " /Rows ", 7);
+--					buflen=sprintf(
+--						buffer, 
+--						"%lu", 
+-+					buflen=snprintf(buffer, sizeof(buffer), "%lu",
+- 						(unsigned long)t2p->tiff_tiles[t2p->pdf_page].tiles_edgetilelength);
+- 					written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				}
+-@@ -5082,21 +5056,17 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
+- 			if(t2p->pdf_compressionquality%100){
+- 				written += t2pWriteFile(output, (tdata_t) "/DecodeParms ", 13);
+- 				written += t2pWriteFile(output, (tdata_t) "<< /Predictor ", 14);
+--				_TIFFmemset(buffer, 0x00, 16);
+--				buflen=sprintf(buffer, "%u", t2p->pdf_compressionquality%100);
+-+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->pdf_compressionquality%100);
+- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				written += t2pWriteFile(output, (tdata_t) " /Columns ", 10);
+--				_TIFFmemset(buffer, 0x00, 16);
+--				buflen = sprintf(buffer, "%lu",
+-+				buflen = snprintf(buffer, sizeof(buffer), "%lu",
+- 						 (unsigned long)t2p->tiff_width);
+- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				written += t2pWriteFile(output, (tdata_t) " /Colors ", 9);
+--				_TIFFmemset(buffer, 0x00, 16);
+--				buflen=sprintf(buffer, "%u", t2p->tiff_samplesperpixel);
+-+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_samplesperpixel);
+- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				written += t2pWriteFile(output, (tdata_t) " /BitsPerComponent ", 19);
+--				_TIFFmemset(buffer, 0x00, 16);
+--				buflen=sprintf(buffer, "%u", t2p->tiff_bitspersample);
+-+				buflen=snprintf(buffer, sizeof(buffer), "%u", t2p->tiff_bitspersample);
+- 				written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 				written += t2pWriteFile(output, (tdata_t) ">>\n", 3);
+- 			}
+-@@ -5116,16 +5086,16 @@ tsize_t t2p_write_pdf_xobject_stream_filter(ttile_t tile, T2P* t2p, TIFF* output
+- tsize_t t2p_write_pdf_xreftable(T2P* t2p, TIFF* output){
+- 
+- 	tsize_t written=0;
+--	char buffer[21];
+-+	char buffer[64];
+- 	int buflen=0;
+- 	uint32 i=0;
+- 
+- 	written += t2pWriteFile(output, (tdata_t) "xref\n0 ", 7);
+--	buflen=sprintf(buffer, "%lu", (unsigned long)(t2p->pdf_xrefcount + 1));
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(t2p->pdf_xrefcount + 1));
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+- 	written += t2pWriteFile(output, (tdata_t) " \n0000000000 65535 f \n", 22);
+- 	for (i=0;i<t2p->pdf_xrefcount;i++){
+--		sprintf(buffer, "%.10lu 00000 n \n",
+-+		snprintf(buffer, sizeof(buffer), "%.10lu 00000 n \n",
+- 			(unsigned long)t2p->pdf_xrefoffsets[i]);
+- 		written += t2pWriteFile(output, (tdata_t) buffer, 20);
+- 	}
+-@@ -5149,17 +5119,14 @@ tsize_t t2p_write_pdf_trailer(T2P* t2p, TIFF* output)
+- 		snprintf(t2p->pdf_fileid + i, 9, "%.8X", rand());
+- 
+- 	written += t2pWriteFile(output, (tdata_t) "trailer\n<<\n/Size ", 17);
+--	buflen = sprintf(buffer, "%lu", (unsigned long)(t2p->pdf_xrefcount+1));
+-+	buflen = snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)(t2p->pdf_xrefcount+1));
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+--	_TIFFmemset(buffer, 0x00, 32);	
+- 	written += t2pWriteFile(output, (tdata_t) "\n/Root ", 7);
+--	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_catalog);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_catalog);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+--	_TIFFmemset(buffer, 0x00, 32);	
+- 	written += t2pWriteFile(output, (tdata_t) " 0 R \n/Info ", 12);
+--	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_info);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_info);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+--	_TIFFmemset(buffer, 0x00, 32);	
+- 	written += t2pWriteFile(output, (tdata_t) " 0 R \n/ID[<", 11);
+- 	written += t2pWriteFile(output, (tdata_t) t2p->pdf_fileid,
+- 				sizeof(t2p->pdf_fileid) - 1);
+-@@ -5167,9 +5134,8 @@ tsize_t t2p_write_pdf_trailer(T2P* t2p, TIFF* output)
+- 	written += t2pWriteFile(output, (tdata_t) t2p->pdf_fileid,
+- 				sizeof(t2p->pdf_fileid) - 1);
+- 	written += t2pWriteFile(output, (tdata_t) ">]\n>>\nstartxref\n", 16);
+--	buflen=sprintf(buffer, "%lu", (unsigned long)t2p->pdf_startxref);
+-+	buflen=snprintf(buffer, sizeof(buffer), "%lu", (unsigned long)t2p->pdf_startxref);
+- 	written += t2pWriteFile(output, (tdata_t) buffer, buflen);
+--	_TIFFmemset(buffer, 0x00, 32);	
+- 	written += t2pWriteFile(output, (tdata_t) "\n%%EOF\n", 7);
+- 
+- 	return(written);
+-diff --git a/tools/tiff2ps.c b/tools/tiff2ps.c
+-index 3330750..7a9a816 100644
+---- a/tools/tiff2ps.c
+-+++ b/tools/tiff2ps.c
+-@@ -1789,8 +1789,8 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
+- 		imageOp = "imagemask";
+- 
+- 	(void)strcpy(im_x, "0");
+--	(void)sprintf(im_y, "%lu", (long) h);
+--	(void)sprintf(im_h, "%lu", (long) h);
+-+	(void)snprintf(im_y, sizeof(im_y), "%lu", (long) h);
+-+	(void)snprintf(im_h, sizeof(im_h), "%lu", (long) h);
+- 	tile_width = w;
+- 	tile_height = h;
+- 	if (TIFFIsTiled(tif)) {
+-@@ -1811,7 +1811,7 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
+- 		}
+- 		if (tile_height < h) {
+- 			fputs("/im_y 0 def\n", fd);
+--			(void)sprintf(im_y, "%lu im_y sub", (unsigned long) h);
+-+			(void)snprintf(im_y, sizeof(im_y), "%lu im_y sub", (unsigned long) h);
+- 		}
+- 	} else {
+- 		repeat_count = tf_numberstrips;
+-@@ -1823,7 +1823,7 @@ PS_Lvl2ImageDict(FILE* fd, TIFF* tif, uint32 w, uint32 h)
+- 			fprintf(fd, "/im_h %lu def\n",
+- 			    (unsigned long) tile_height);
+- 			(void)strcpy(im_h, "im_h");
+--			(void)sprintf(im_y, "%lu im_y sub", (unsigned long) h);
+-+			(void)snprintf(im_y, sizeof(im_y), "%lu im_y sub", (unsigned long) h);
+- 		}
+- 	}
+- 
+-diff --git a/tools/tiffcrop.c b/tools/tiffcrop.c
+-index 9cd5d86..a2443aa 100644
+---- a/tools/tiffcrop.c
+-+++ b/tools/tiffcrop.c
+-@@ -2077,7 +2077,7 @@ update_output_file (TIFF **tiffout, char *mode, int autoindex,
+-         return 1;
+-         }
+- 
+--      sprintf (filenum, "-%03d%s", findex, export_ext);
+-+      snprintf(filenum, sizeof(filenum), "-%03d%s", findex, export_ext);
+-       filenum[14] = '\0';
+-       strncat (exportname, filenum, 15);
+-       }
+-@@ -2230,8 +2230,8 @@ main(int argc, char* argv[])
+- 
+-           /* dump.infilename is guaranteed to be NUL termimated and have 20 bytes 
+-              fewer than PATH_MAX */ 
+--          memset (temp_filename, '\0', PATH_MAX + 1);              
+--          sprintf (temp_filename, "%s-read-%03d.%s", dump.infilename, dump_images,
+-+          snprintf(temp_filename, sizeof(temp_filename), "%s-read-%03d.%s",
+-+		   dump.infilename, dump_images,
+-                   (dump.format == DUMP_TEXT) ? "txt" : "raw");
+-           if ((dump.infile = fopen(temp_filename, dump.mode)) == NULL)
+-             {
+-@@ -2249,8 +2249,8 @@ main(int argc, char* argv[])
+- 
+-           /* dump.outfilename is guaranteed to be NUL termimated and have 20 bytes 
+-              fewer than PATH_MAX */ 
+--          memset (temp_filename, '\0', PATH_MAX + 1);              
+--          sprintf (temp_filename, "%s-write-%03d.%s", dump.outfilename, dump_images,
+-+          snprintf(temp_filename, sizeof(temp_filename), "%s-write-%03d.%s",
+-+		   dump.outfilename, dump_images,
+-                   (dump.format == DUMP_TEXT) ? "txt" : "raw");
+-           if ((dump.outfile = fopen(temp_filename, dump.mode)) == NULL)
+-             {
+-diff --git a/tools/tiffdither.c b/tools/tiffdither.c
+-index f2f0f20..4308946 100644
+---- a/tools/tiffdither.c
+-+++ b/tools/tiffdither.c
+-@@ -260,7 +260,7 @@ main(int argc, char* argv[])
+- 		TIFFSetField(out, TIFFTAG_FILLORDER, fillorder);
+- 	else
+- 		CopyField(TIFFTAG_FILLORDER, shortv);
+--	sprintf(thing, "Dithered B&W version of %s", argv[optind]);
+-+	snprintf(thing, sizeof(thing), "Dithered B&W version of %s", argv[optind]);
+- 	TIFFSetField(out, TIFFTAG_IMAGEDESCRIPTION, thing);
+- 	CopyField(TIFFTAG_PHOTOMETRIC, shortv);
+- 	CopyField(TIFFTAG_ORIENTATION, shortv);
+--- 
+-1.8.3.rc3
+-
+-
+diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
+deleted file mode 100644
+index d8d4e96..0000000
+--- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4231.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-Upstream-Status: Backport
+-
+-Multiple buffer overflows in libtiff before 4.0.3 allow remote attackers
+-to cause a denial of service (out-of-bounds write) via a crafted (1)
+-extension block in a GIF image or (2) GIF raster image to
+-tools/gif2tiff.c or (3) a long filename for a TIFF image to
+-tools/rgb2ycbcr.c. NOTE: vectors 1 and 3 are disputed by Red Hat, which
+-states that the input cannot exceed the allocated buffer size.
+-
+-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4231Multiple
+-buffer overflows in libtiff before 4.0.3 allow remote attackers to cause
+-a denial of service (out-of-bounds write) via a crafted (1) extension
+-block in a GIF image or (2) GIF raster image to tools/gif2tiff.c or (3)
+-a long filename for a TIFF image to tools/rgb2ycbcr.c. NOTE: vectors 1
+-and 3 are disputed by Red Hat, which states that the input cannot exceed
+-the allocated buffer size.
+-
+-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2013-4231
+-
+-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+-
+-Index: tools/gif2tiff.c
+-===================================================================
+-RCS file: /cvs/maptools/cvsroot/libtiff/tools/gif2tiff.c,v
+-retrieving revision 1.12
+-retrieving revision 1.13
+-diff -u -r1.12 -r1.13
+---- a/tools/gif2tiff.c	15 Dec 2010 00:22:44 -0000	1.12
+-+++ b/tools/gif2tiff.c	14 Aug 2013 05:18:53 -0000	1.13
+-@@ -1,4 +1,4 @@
+--/* $Id: gif2tiff.c,v 1.12 2010-12-15 00:22:44 faxguy Exp $ */
+-+/* $Id: gif2tiff.c,v 1.13 2013-08-14 05:18:53 fwarmerdam Exp $ */
+- 
+- /*
+-  * Copyright (c) 1990-1997 Sam Leffler
+-@@ -333,6 +333,8 @@
+-     int status = 1;
+- 
+-     datasize = getc(infile);
+-+    if (datasize > 12)
+-+	return 0;
+-     clear = 1 << datasize;
+-     eoi = clear + 1;
+-     avail = clear + 2;
+diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
+deleted file mode 100644
+index 9ebf8f9..0000000
+--- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4232.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-This patch comes from: http://bugzilla.maptools.org/attachment.cgi?id=513&action=diff 
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Baogen shang <baogen.shang@windriver.com>
+---- a/tools/tiff2pdf.c	2013-10-21 10:36:38.214170346 +0800
+-+++ b/tools/tiff2pdf.c	2013-10-21 10:38:58.246170329 +0800
+-@@ -2387,6 +2387,7 @@
+- 					TIFFFileName(input));
+- 				t2p->t2p_error = T2P_ERR_ERROR;
+- 			  _TIFFfree(buffer);
+-+			  return(0);
+- 			} else {
+- 				buffer=samplebuffer;
+- 				t2p->tiff_datasize *= t2p->tiff_samplesperpixel;
+diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
+deleted file mode 100644
+index 642a117..0000000
+--- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4243.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-This patch comes from: http://bugzilla.maptools.org/attachment.cgi?id=518&action=diff#tools/gif2tiff.c_sec2
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Baogen shang <baogen.shang@windriver.com>
+---- a/tools/gif2tiff.c	2013-10-14 17:08:43.966239709 +0800
+-+++ b/tools/gif2tiff.c	2013-10-14 17:18:22.994239638 +0800
+-@@ -280,6 +280,10 @@
+-         fprintf(stderr, "no colormap present for image\n");
+-         return (0);
+-     }
+-+    if (width == 0 || height == 0) {
+-+        fprintf(stderr, "Invalid value of width or height\n");
+-+        return(0);
+-+    }
+-     if ((raster = (unsigned char*) _TIFFmalloc(width*height+EXTRAFUDGE)) == NULL) {
+-         fprintf(stderr, "not enough memory for image\n");
+-         return (0);
+-@@ -397,6 +401,10 @@
+- 	return 1;
+-     }
+- 
+-+    if (*fill >= raster + width*height) {
+-+        fprintf(stderr, "raster full before eoi code\n");
+-+        return 0;
+-+    }
+-     if (oldcode == -1) {
+- 	*(*fill)++ = suffix[code];
+- 	firstchar = oldcode = code;
+-@@ -428,6 +436,10 @@
+-     }
+-     oldcode = incode;
+-     do {
+-+    if (*fill >= raster + width*height) {
+-+        fprintf(stderr, "raster full before eoi code\n");
+-+        return 0;
+-+    }
+- 	*(*fill)++ = *--stackp;
+-     } while (stackp > stack);
+-     return 1;
+diff --git a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch b/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
+deleted file mode 100644
+index 1a66830..0000000
+--- a/meta/recipes-multimedia/libtiff/files/libtiff-CVE-2013-4244.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-This patch comes from: https://github.com/vadz/libtiff/commit/ce6841d9e41d621ba23cf18b190ee6a23b2cc833
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Baogen shang <baogen.shang@windriver.com>
+---- a/tools/gif2tiff.c	2013-12-17 16:46:02.160814995 +0800
+-+++ b/tools/gif2tiff.c	2013-12-17 16:52:25.140814949 +0800
+-@@ -406,6 +406,11 @@
+-         return 0;
+-     }
+-     if (oldcode == -1) {
+-+    if (code >= clear) {
+-+        fprintf(stderr, "bad input: code=%d is larger than clear=%d\n",code, clear);
+-+        return 0;
+-+	}
+-+
+- 	*(*fill)++ = suffix[code];
+- 	firstchar = oldcode = code;
+- 	return 1;
+diff --git a/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch b/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
+deleted file mode 100644
+index 2364979..0000000
+--- a/meta/recipes-multimedia/libtiff/files/tiff-CVE-2012-4564.patch
++++ /dev/null
+@@ -1,99 +0,0 @@
+-Upstream-Status: Backport
+-
+-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+-
+-Index: tools/ppm2tiff.c
+-===================================================================
+-RCS file: /cvs/maptools/cvsroot/libtiff/tools/ppm2tiff.c,v
+-retrieving revision 1.16
+-retrieving revision 1.18
+-diff -u -r1.16 -r1.18
+---- a/tools/ppm2tiff.c	10 Apr 2010 19:22:34 -0000	1.16
+-+++ b/tools/ppm2tiff.c	10 Dec 2012 18:19:11 -0000	1.18
+-@@ -1,4 +1,4 @@
+--/* $Id: ppm2tiff.c,v 1.16 2010-04-10 19:22:34 bfriesen Exp $ */
+-+/* $Id: ppm2tiff.c,v 1.18 2012-12-10 18:19:11 tgl Exp $ */
+- 
+- /*
+-  * Copyright (c) 1991-1997 Sam Leffler
+-@@ -72,6 +72,17 @@
+- 	exit(-2);
+- }
+- 
+-+static tmsize_t
+-+multiply_ms(tmsize_t m1, tmsize_t m2)
+-+{
+-+	tmsize_t bytes = m1 * m2;
+-+
+-+	if (m1 && bytes / m1 != m2)
+-+		bytes = 0;
+-+
+-+	return bytes;
+-+}
+-+
+- int
+- main(int argc, char* argv[])
+- {
+-@@ -79,7 +90,7 @@
+- 	uint32 rowsperstrip = (uint32) -1;
+- 	double resolution = -1;
+- 	unsigned char *buf = NULL;
+--	tsize_t linebytes = 0;
+-+	tmsize_t linebytes = 0;
+- 	uint16 spp = 1;
+- 	uint16 bpp = 8;
+- 	TIFF *out;
+-@@ -89,6 +100,7 @@
+- 	int c;
+- 	extern int optind;
+- 	extern char* optarg;
+-+	tmsize_t scanline_size;
+- 
+- 	if (argc < 2) {
+- 	    fprintf(stderr, "%s: Too few arguments\n", argv[0]);
+-@@ -221,7 +233,8 @@
+- 	}
+- 	switch (bpp) {
+- 		case 1:
+--			linebytes = (spp * w + (8 - 1)) / 8;
+-+			/* if round-up overflows, result will be zero, OK */
+-+			linebytes = (multiply_ms(spp, w) + (8 - 1)) / 8;
+- 			if (rowsperstrip == (uint32) -1) {
+- 				TIFFSetField(out, TIFFTAG_ROWSPERSTRIP, h);
+- 			} else {
+-@@ -230,15 +243,31 @@
+- 			}
+- 			break;
+- 		case 8:
+--			linebytes = spp * w;
+-+			linebytes = multiply_ms(spp, w);
+- 			TIFFSetField(out, TIFFTAG_ROWSPERSTRIP,
+- 			    TIFFDefaultStripSize(out, rowsperstrip));
+- 			break;
+- 	}
+--	if (TIFFScanlineSize(out) > linebytes)
+-+	if (linebytes == 0) {
+-+		fprintf(stderr, "%s: scanline size overflow\n", infile);
+-+		(void) TIFFClose(out);
+-+		exit(-2);					
+-+	}
+-+	scanline_size = TIFFScanlineSize(out);
+-+	if (scanline_size == 0) {
+-+		/* overflow - TIFFScanlineSize already printed a message */
+-+		(void) TIFFClose(out);
+-+		exit(-2);					
+-+	}
+-+	if (scanline_size < linebytes)
+- 		buf = (unsigned char *)_TIFFmalloc(linebytes);
+- 	else
+--		buf = (unsigned char *)_TIFFmalloc(TIFFScanlineSize(out));
+-+		buf = (unsigned char *)_TIFFmalloc(scanline_size);
+-+	if (buf == NULL) {
+-+		fprintf(stderr, "%s: Not enough memory\n", infile);
+-+		(void) TIFFClose(out);
+-+		exit(-2);
+-+	}
+- 	if (resolution > 0) {
+- 		TIFFSetField(out, TIFFTAG_XRESOLUTION, resolution);
+- 		TIFFSetField(out, TIFFTAG_YRESOLUTION, resolution);
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
+similarity index 78%
+rename from meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
+rename to meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
+index 62e6256..cf3a5f0 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.3.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.4.bb
+@@ -5,16 +5,10 @@ HOMEPAGE = "http://www.remotesensing.org/libtiff/"
+ 
+ SRC_URI = "ftp://ftp.remotesensing.org/pub/libtiff/tiff-${PV}.tar.gz \
+            file://libtool2.patch \
+-           file://libtiff-CVE-2013-1960.patch \
+-           file://libtiff-CVE-2013-1961.patch \
+-           file://libtiff-CVE-2013-4232.patch \
+-           file://libtiff-CVE-2013-4243.patch \
+-           file://libtiff-CVE-2013-4244.patch \
+-           file://libtiff-CVE-2013-4231.patch \
+-           file://tiff-CVE-2012-4564.patch "
+-
+-SRC_URI[md5sum] = "051c1068e6a0627f461948c365290410"
+-SRC_URI[sha256sum] = "ea1aebe282319537fb2d4d7805f478dd4e0e05c33d0928baba76a7c963684872"
++          "
++
++SRC_URI[md5sum] = "9aee7107408a128c0c7b24286c0db900"
++SRC_URI[sha256sum] = "8cb1d90c96f61cdfc0bcf036acc251c9dbe6320334da941c7a83cfe1576ef890"
+ 
+ inherit autotools
+ 
+-- 
+1.9.1
 
-Would it maybe be more appropriate to try and get these tools back
-upstream (or setup a new project to maintain them) if you disagree
-with that assessment?
-
-- Jussi
-
->
-> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-> ---
->  .../mtd/mtd-utils/add-bin2nand-nand2bin.patch      | 1524 ++++++++++++++++++++
->  meta/recipes-devtools/mtd/mtd-utils_git.bb         |    3 +-
->  2 files changed, 1526 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/mtd/mtd-utils/add-bin2nand-nand2bin.patch
->
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils/add-bin2nand-nand2bin.patch b/meta/recipes-devtools/mtd/mtd-utils/add-bin2nand-nand2bin.patch
-> new file mode 100644
-> index 0000000..b3a624e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/mtd/mtd-utils/add-bin2nand-nand2bin.patch
-> @@ -0,0 +1,1524 @@
-> +diff -Nurp git.org/bin2nand.c git/bin2nand.c
-> +--- git.org/bin2nand.c 1970-01-01 09:00:00.000000000 +0900
-> ++++ git/bin2nand.c     2013-05-10 12:12:34.569591044 +0900
-> +@@ -0,0 +1,344 @@
-> ++/*
-> ++ * Copyright (c) International Business Machines Corp., 2007
-> ++ *
-> ++ * This program is free software; you can redistribute it and/or modify
-> ++ * it under the terms of the GNU General Public License as published by
-> ++ * the Free Software Foundation; either version 2 of the License, or
-> ++ * (at your option) any later version.
-> ++ *
-> ++ * This program is distributed in the hope that it will be useful,
-> ++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-> ++ * the GNU General Public License for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU General Public License
-> ++ * along with this program; if not, write to the Free Software
-> ++ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-> ++ *
-> ++ * Author: Oliver Lohmann
-> ++ */
-> ++
-> ++/*
-> ++ * Create a flashable NAND image from a binary image
-> ++ *
-> ++ * History:
-> ++ * 1.0 Initial release (tglx)
-> ++ * 1.1 Understands hex and dec input parameters (tglx)
-> ++ * 1.2 Generates separated OOB data, if needed. (oloh)
-> ++ * 1.3 Padds data/oob to a given size. (oloh)
-> ++ * 1.4 Removed argp because we want to use uClibc.
-> ++ * 1.5 Minor cleanup
-> ++ * 1.6 written variable not initialized (-j did not work) (haver)
-> ++ */
-> ++
-> ++#include <unistd.h>
-> ++#include <stdio.h>
-> ++#include <stdint.h>
-> ++#include <stdlib.h>
-> ++#include <string.h>
-> ++#include <fcntl.h>
-> ++#include <getopt.h>
-> ++#include <unistd.h>
-> ++#include <sys/types.h>
-> ++#include <sys/stat.h>
-> ++#include <errno.h>
-> ++
-> ++#include "error.h"
-> ++#include "config.h"
-> ++#include "nandecc.h"
-> ++
-> ++#define PROGRAM_VERSION "1.6"
-> ++
-> ++#define CHECK_ENDP(option, endp) do {                 \
-> ++      if (*endp) {                                    \
-> ++              fprintf(stderr,                         \
-> ++                      "Parse error option \'%s\'. "   \
-> ++                      "No correct numeric value.\n"   \
-> ++                      , option);                      \
-> ++              exit(EXIT_FAILURE);                     \
-> ++      }                                               \
-> ++} while(0)
-> ++
-> ++typedef enum action_t {
-> ++      ACT_NORMAL          = 0x00000001,
-> ++} action_t;
-> ++
-> ++#define PAGESIZE      2048
-> ++#define PADDING                  0 /* 0 means, do not adjust anything */
-> ++#define BUFSIZE               4096
-> ++
-> ++static char doc[] = "\nVersion: " PROGRAM_VERSION "\n"
-> ++      "bin2nand - a tool for adding OOB information to a "
-> ++      "binary input file.\n";
-> ++
-> ++static const char *optionsstr =
-> ++"  -c, --copyright          Print copyright informatoin.\n"
-> ++"  -j, --padding=<num>      Padding in Byte/Mi/ki. Default = no padding\n"
-> ++"  -p, --pagesize=<num>     Pagesize in Byte/Mi/ki. Default = 2048\n"
-> ++"  -o, --output=<fname>     Output filename.  Interleaved Data/OOB if\n"
-> ++"                           output-oob not specified.\n"
-> ++"  -q, --output-oob=<fname> Write OOB data in separate file.\n"
-> ++"  -?, --help               Give this help list\n"
-> ++"      --usage              Give a short usage message\n"
-> ++"  -V, --version            Print program version\n";
-> ++
-> ++static const char *usage =
-> ++"Usage: bin2nand [-c?V] [-j <num>] [-p <num>] [-o <fname>] [-q <fname>]\n"
-> ++"            [--copyright] [--padding=<num>] [--pagesize=<num>]\n"
-> ++"            [--output=<fname>] [--output-oob=<fname>] [--help] [--usage]\n"
-> ++"            [--version]\n";
-> ++
-> ++struct option long_options[] = {
-> ++      { .name = "copyright", .has_arg = 0, .flag = NULL, .val = 'c' },
-> ++      { .name = "padding", .has_arg = 1, .flag = NULL, .val = 'j' },
-> ++      { .name = "pagesize", .has_arg = 1, .flag = NULL, .val = 'p' },
-> ++      { .name = "output", .has_arg = 1, .flag = NULL, .val = 'o' },
-> ++      { .name = "output-oob", .has_arg = 1, .flag = NULL, .val = 'q' },
-> ++      { .name = "help", .has_arg = 0, .flag = NULL, .val = '?' },
-> ++      { .name = "usage", .has_arg = 0, .flag = NULL, .val = 0 },
-> ++      { .name = "version", .has_arg = 0, .flag = NULL, .val = 'V' },
-> ++      { NULL, 0, NULL, 0}
-> ++};
-> ++
-> ++static const char copyright [] __attribute__((unused)) =
-> ++      "Copyright IBM Corp. 2006";
-> ++
-> ++typedef struct myargs {
-> ++      action_t action;
-> ++
-> ++      size_t pagesize;
-> ++      size_t padding;
-> ++
-> ++      FILE* fp_in;
-> ++      char *file_out_data; /* Either: Data and OOB interleaved
-> ++                              or plain data */
-> ++      char *file_out_oob; /* OOB Data only. */
-> ++
-> ++      /* special stuff needed to get additional arguments */
-> ++      char *arg1;
-> ++      char **options;                 /* [STRING...] */
-> ++} myargs;
-> ++
-> ++
-> ++static int ustrtoull(const char *cp, char **endp, unsigned int base)
-> ++{
-> ++      unsigned long long res = strtoull(cp, endp, base);
-> ++
-> ++      switch (**endp) {
-> ++      case 'G':
-> ++              res *= 1024;
-> ++      case 'M':
-> ++              res *= 1024;
-> ++      case 'k':
-> ++      case 'K':
-> ++              res *= 1024;
-> ++      /* "Ki", "ki", "Mi" or "Gi" are to be used. */
-> ++              if ((*endp)[1] == 'i')
-> ++                      (*endp) += 2;
-> ++      }
-> ++      return res;
-> ++}
-> ++
-> ++static int
-> ++parse_opt(int argc, char **argv, myargs *args)
-> ++{
-> ++      char* endp;
-> ++
-> ++      while (1) {
-> ++              int key;
-> ++
-> ++              key = getopt_long(argc, argv, "cj:p:o:q:?V", long_options, NULL);
-> ++              if (key == -1)
-> ++                      break;
-> ++
-> ++              switch (key) {
-> ++                      case 'p': /* pagesize */
-> ++                              args->pagesize = (size_t)
-> ++                                      ustrtoull(optarg, &endp, 0);
-> ++                              CHECK_ENDP("p", endp);
-> ++                              break;
-> ++                      case 'j': /* padding */
-> ++                              args->padding = (size_t)
-> ++                                      ustrtoull(optarg, &endp, 0);
-> ++                              CHECK_ENDP("j", endp);
-> ++                              break;
-> ++                      case 'o': /* output */
-> ++                              args->file_out_data = optarg;
-> ++                              break;
-> ++                      case 'q': /* output oob */
-> ++                              args->file_out_oob = optarg;
-> ++                              break;
-> ++                      case '?': /* help */
-> ++                              printf("%s", doc);
-> ++                              printf("%s", optionsstr);
-> ++                              exit(0);
-> ++                              break;
-> ++                      case 'V':
-> ++                              printf("%s\n", PROGRAM_VERSION);
-> ++                              exit(0);
-> ++                              break;
-> ++                      case 'c':
-> ++                              printf("%s\n", copyright);
-> ++                              exit(0);
-> ++                      default:
-> ++                              printf("%s", usage);
-> ++                              exit(-1);
-> ++              }
-> ++      }
-> ++
-> ++      if (optind < argc) {
-> ++              args->fp_in = fopen(argv[optind++], "rb");
-> ++              if ((args->fp_in) == NULL) {
-> ++                      err_quit("Cannot open file %s for input\n",
-> ++                               argv[optind++]);
-> ++              }
-> ++      }
-> ++
-> ++      return 0;
-> ++}
-> ++
-> ++static int
-> ++process_page(uint8_t* buf, size_t pagesize,
-> ++      FILE *fp_data, FILE* fp_oob, size_t* written)
-> ++{
-> ++      int eccpoi, oobsize;
-> ++      size_t i;
-> ++      uint8_t oobbuf[64];
-> ++
-> ++      memset(oobbuf, 0xff, sizeof(oobbuf));
-> ++
-> ++      switch(pagesize) {
-> ++      case 2048: oobsize = 64; eccpoi = 64 / 2; break;
-> ++      case 512:  oobsize = 16; eccpoi = 16 / 2; break;
-> ++      default:
-> ++              err_msg("Unsupported page size: %d\n", pagesize);
-> ++              return -EINVAL;
-> ++      }
-> ++
-> ++      for (i = 0; i < pagesize; i += 256, eccpoi += 3) {
-> ++              oobbuf[eccpoi++] = 0x0;
-> ++              /* Calculate ECC */
-> ++              nand_calculate_ecc(&buf[i], &oobbuf[eccpoi]);
-> ++      }
-> ++
-> ++      /* write data */
-> ++      *written += fwrite(buf, 1, pagesize, fp_data);
-> ++
-> ++      /* either separate oob or interleave with data */
-> ++      if (fp_oob) {
-> ++              i = fwrite(oobbuf, 1, oobsize, fp_oob);
-> ++              if (ferror(fp_oob)) {
-> ++                      err_msg("IO error\n");
-> ++                      return -EIO;
-> ++              }
-> ++      }
-> ++      else {
-> ++              i = fwrite(oobbuf, 1, oobsize, fp_data);
-> ++              if (ferror(fp_data)) {
-> ++                      err_msg("IO error\n");
-> ++                      return -EIO;
-> ++              }
-> ++      }
-> ++
-> ++      return 0;
-> ++}
-> ++
-> ++int main (int argc, char** argv)
-> ++{
-> ++      int rc = -1;
-> ++      int res = 0;
-> ++      size_t written = 0, read;
-> ++      myargs args = {
-> ++              .action   = ACT_NORMAL,
-> ++              .pagesize = PAGESIZE,
-> ++              .padding  = PADDING,
-> ++              .fp_in    = NULL,
-> ++              .file_out_data = NULL,
-> ++              .file_out_oob = NULL,
-> ++      };
-> ++
-> ++      FILE* fp_out_data = stdout;
-> ++      FILE* fp_out_oob = NULL;
-> ++
-> ++      parse_opt(argc, argv, &args);
-> ++
-> ++      uint8_t* buf = calloc(1, BUFSIZE);
-> ++      if (!buf) {
-> ++              err_quit("Cannot allocate page buffer.\n");
-> ++      }
-> ++
-> ++      if (!args.fp_in) {
-> ++              err_msg("No input image specified!\n");
-> ++              goto err;
-> ++      }
-> ++
-> ++      if (args.file_out_data) {
-> ++              fp_out_data = fopen(args.file_out_data, "wb");
-> ++              if (fp_out_data == NULL) {
-> ++                      err_sys("Cannot open file %s for output\n",
-> ++                                      args.file_out_data);
-> ++                      goto err;
-> ++              }
-> ++      }
-> ++
-> ++      if (args.file_out_oob) {
-> ++              fp_out_oob = fopen(args.file_out_oob, "wb");
-> ++              if (fp_out_oob == NULL) {
-> ++                      err_sys("Cannot open file %s for output\n",
-> ++                                      args.file_out_oob);
-> ++                      goto err;
-> ++              }
-> ++      }
-> ++
-> ++
-> ++      while(1) {
-> ++              read = fread(buf, 1, args.pagesize, args.fp_in);
-> ++              if (feof(args.fp_in) && read == 0)
-> ++                      break;
-> ++
-> ++              if (read < args.pagesize) {
-> ++                      err_msg("Image not page aligned\n");
-> ++                      goto err;
-> ++              }
-> ++
-> ++              if (ferror(args.fp_in)) {
-> ++                      err_msg("Read error\n");
-> ++                      goto err;
-> ++              }
-> ++
-> ++              res = process_page(buf, args.pagesize, fp_out_data,
-> ++                              fp_out_oob, &written);
-> ++              if (res != 0)
-> ++                      goto err;
-> ++      }
-> ++
-> ++      while (written < args.padding) {
-> ++              memset(buf, 0xff, args.pagesize);
-> ++              res = process_page(buf, args.pagesize, fp_out_data,
-> ++                              fp_out_oob, &written);
-> ++              if (res != 0)
-> ++                      goto err;
-> ++      }
-> ++
-> ++      rc = 0;
-> ++err:
-> ++      free(buf);
-> ++
-> ++      if (args.fp_in)
-> ++              fclose(args.fp_in);
-> ++
-> ++      if (fp_out_oob)
-> ++              fclose(fp_out_oob);
-> ++
-> ++      if (fp_out_data && fp_out_data != stdout)
-> ++              fclose(fp_out_data);
-> ++
-> ++      if (rc != 0) {
-> ++              err_msg("Error during conversion. rc: %d\n", rc);
-> ++              if (args.file_out_data)
-> ++                      remove(args.file_out_data);
-> ++              if (args.file_out_oob)
-> ++                      remove(args.file_out_oob);
-> ++      }
-> ++      return rc;
-> ++}
-> +diff -Nurp git.org/config.h git/config.h
-> +--- git.org/config.h   1970-01-01 09:00:00.000000000 +0900
-> ++++ git/config.h       2013-05-10 12:12:34.569591044 +0900
-> +@@ -0,0 +1,28 @@
-> ++#ifndef __CONFIG_H__
-> ++#define __CONFIG_H__
-> ++/*
-> ++ * Copyright (c) International Business Machines Corp., 2006
-> ++ *
-> ++ * This program is free software; you can redistribute it and/or modify
-> ++ * it under the terms of the GNU General Public License as published by
-> ++ * the Free Software Foundation; either version 2 of the License, or
-> ++ * (at your option) any later version.
-> ++ *
-> ++ * This program is distributed in the hope that it will be useful,
-> ++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-> ++ * the GNU General Public License for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU General Public License
-> ++ * along with this program; if not, write to the Free Software
-> ++ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-> ++ *
-> ++ * Author: Frank Haverkamp
-> ++ */
-> ++
-> ++#define PACKAGE_BUGREPORT                                             \
-> ++      "haver@vnet.ibm.com, dedekind@linutronix.de, or tglx@linutronix.de"
-> ++
-> ++#define ubi_unused __attribute__((unused))
-> ++
-> ++#endif
-> +diff -Nurp git.org/error.c git/error.c
-> +--- git.org/error.c    1970-01-01 09:00:00.000000000 +0900
-> ++++ git/error.c        2013-05-10 12:12:34.569591044 +0900
-> +@@ -0,0 +1,240 @@
-> ++/*
-> ++ * Copyright (c) International Business Machines Corp., 2006
-> ++ *
-> ++ * This program is free software; you can redistribute it and/or modify
-> ++ * it under the terms of the GNU General Public License as published by
-> ++ * the Free Software Foundation; either version 2 of the License, or
-> ++ * (at your option) any later version.
-> ++ *
-> ++ * This program is distributed in the hope that it will be useful,
-> ++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-> ++ * the GNU General Public License for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU General Public License
-> ++ * along with this program; if not, write to the Free Software
-> ++ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-> ++ */
-> ++
-> ++#include <stdio.h>
-> ++#include <stdarg.h>
-> ++#include <syslog.h>
-> ++#include <stdlib.h>
-> ++#include <sys/errno.h>
-> ++#include <string.h>
-> ++#include "error.h"
-> ++
-> ++#define MAXLINE 4096
-> ++#define MAXWIDTH 80
-> ++
-> ++static FILE *logfp = NULL;
-> ++
-> ++static void err_doit(int, int, const char *, va_list);
-> ++
-> ++int
-> ++read_procfile(FILE *fp_out, const char *procfile)
-> ++{
-> ++      FILE *fp;
-> ++
-> ++      if (!fp_out)
-> ++              return -ENXIO;
-> ++
-> ++      fp = fopen(procfile, "r");
-> ++      if (!fp)
-> ++              return -ENOENT;
-> ++
-> ++      while(!feof(fp)) {
-> ++              int c = fgetc(fp);
-> ++
-> ++              if (c == EOF)
-> ++                      return 0;
-> ++
-> ++              if (putc(c, fp_out) == EOF)
-> ++                      return -EIO;
-> ++
-> ++              if (ferror(fp))
-> ++                      return -EIO;
-> ++      }
-> ++      return fclose(fp);
-> ++}
-> ++
-> ++void
-> ++error_initlog(const char *logfile)
-> ++{
-> ++      if (!logfile)
-> ++              return;
-> ++
-> ++      logfp = fopen(logfile, "a+");
-> ++      read_procfile(logfp, "/proc/cpuinfo");
-> ++}
-> ++
-> ++void
-> ++info_msg(const char *fmt, ...)
-> ++{
-> ++      FILE* fpout;
-> ++      char buf[MAXLINE + 1];
-> ++      va_list ap;
-> ++      int n;
-> ++
-> ++      fpout = stdout;
-> ++
-> ++      va_start(ap, fmt);
-> ++      vsnprintf(buf, MAXLINE, fmt, ap);
-> ++      n = strlen(buf);
-> ++      strcat(buf, "\n");
-> ++
-> ++      fputs(buf, fpout);
-> ++      fflush(fpout);
-> ++      if (fpout != stdout)
-> ++              fclose(fpout);
-> ++
-> ++      va_end(ap);
-> ++      return;
-> ++}
-> ++
-> ++void
-> ++__err_ret(const char *fmt, ...)
-> ++{
-> ++      va_list         ap;
-> ++
-> ++      va_start(ap, fmt);
-> ++      err_doit(1, LOG_INFO, fmt, ap);
-> ++      va_end(ap);
-> ++      return;
-> ++}
-> ++
-> ++void
-> ++__err_sys(const char *fmt, ...)
-> ++{
-> ++      va_list         ap;
-> ++
-> ++      va_start(ap, fmt);
-> ++      err_doit(1, LOG_ERR, fmt, ap);
-> ++      va_end(ap);
-> ++      exit(EXIT_FAILURE);
-> ++}
-> ++
-> ++
-> ++void
-> ++__err_msg(const char *fmt, ...)
-> ++{
-> ++      va_list ap;
-> ++
-> ++      va_start(ap, fmt);
-> ++      err_doit(0, LOG_INFO, fmt, ap);
-> ++      va_end(ap);
-> ++
-> ++      return;
-> ++}
-> ++
-> ++void
-> ++__err_quit(const char *fmt, ...)
-> ++{
-> ++      va_list         ap;
-> ++
-> ++      va_start(ap, fmt);
-> ++      err_doit(0, LOG_ERR, fmt, ap);
-> ++      va_end(ap);
-> ++      exit(EXIT_FAILURE);
-> ++}
-> ++
-> ++void
-> ++__err_dump(const char *fmt, ...)
-> ++{
-> ++      va_list         ap;
-> ++
-> ++      va_start(ap, fmt);
-> ++      err_doit(1, LOG_ERR, fmt, ap);
-> ++      va_end(ap);
-> ++      abort();                /* dump core and terminate */
-> ++      exit(EXIT_FAILURE);     /* shouldn't get here */
-> ++}
-> ++
-> ++/**
-> ++ * If a logfile is used we must not print on stderr and stdout
-> ++ * anymore. Since pfilfash might be used in a server context, it is
-> ++ * even dangerous to write to those descriptors.
-> ++ */
-> ++static void
-> ++err_doit(int errnoflag, int level __attribute__((unused)),
-> ++       const char *fmt, va_list ap)
-> ++{
-> ++      FILE* fpout;
-> ++      int errno_save, n;
-> ++      char buf[MAXLINE + 1];
-> ++      fpout = stderr;
-> ++
-> ++      errno_save = errno; /* value caller might want printed */
-> ++
-> ++      vsnprintf(buf, MAXLINE, fmt, ap); /* safe */
-> ++
-> ++      n = strlen(buf);
-> ++
-> ++      if (errnoflag)
-> ++              snprintf(buf + n, MAXLINE - n, ": %s", strerror(errno_save));
-> ++      strcat(buf, "\n");
-> ++
-> ++      if (logfp) {
-> ++              fputs(buf, logfp);
-> ++              fflush(logfp);
-> ++              return;         /* exit when logging completes */
-> ++      }
-> ++
-> ++      if (fpout == stderr) {
-> ++              /* perform line wrap when outputting to stderr */
-> ++              int word_len, post_len, chars;
-> ++              char *buf_ptr;
-> ++              const char *frmt = "%*s%n %n";
-> ++
-> ++              chars = 0;
-> ++              buf_ptr = buf;
-> ++              while (sscanf(buf_ptr, frmt, &word_len, &post_len) != EOF) {
-> ++                      int i;
-> ++                      char word[word_len + 1];
-> ++                      char post[post_len + 1];
-> ++
-> ++                      strncpy(word, buf_ptr, word_len);
-> ++                      word[word_len] = '\0';
-> ++                      buf_ptr += word_len;
-> ++                      post_len -= word_len;
-> ++
-> ++                      if (chars + word_len > MAXWIDTH) {
-> ++                              fputc('\n', fpout);
-> ++                              chars = 0;
-> ++                      }
-> ++                      fputs(word, fpout);
-> ++                      chars += word_len;
-> ++
-> ++                      if (post_len > 0) {
-> ++                              strncpy(post, buf_ptr, post_len);
-> ++                              post[post_len] = '\0';
-> ++                              buf_ptr += post_len;
-> ++                      }
-> ++                      for (i = 0; i < post_len; i++) {
-> ++                              int inc = 1, chars_new;
-> ++
-> ++                              if (post[i] == '\t')
-> ++                                      inc = 8;
-> ++                              if (post[i] == '\n') {
-> ++                                      inc = 0;
-> ++                                      chars_new = 0;
-> ++                              } else
-> ++                                      chars_new = chars + inc;
-> ++
-> ++                              if (chars_new > MAXWIDTH) {
-> ++                                      fputc('\n', fpout);
-> ++                                      chars_new = inc;
-> ++                              }
-> ++                              fputc(post[i], fpout);
-> ++                              chars = chars_new;
-> ++                      }
-> ++              }
-> ++      }
-> ++      else
-> ++              fputs(buf, fpout);
-> ++      fflush(fpout);
-> ++      if (fpout != stderr)
-> ++              fclose(fpout);
-> ++
-> ++      return;
-> ++}
-> +diff -Nurp git.org/error.h git/error.h
-> +--- git.org/error.h    1970-01-01 09:00:00.000000000 +0900
-> ++++ git/error.h        2013-05-10 12:12:34.569591044 +0900
-> +@@ -0,0 +1,84 @@
-> ++#ifndef __ERROR_H__
-> ++#define __ERROR_H__
-> ++/*
-> ++ * Copyright (c) International Business Machines Corp., 2006
-> ++ *
-> ++ * This program is free software; you can redistribute it and/or modify
-> ++ * it under the terms of the GNU General Public License as published by
-> ++ * the Free Software Foundation; either version 2 of the License, or
-> ++ * (at your option) any later version.
-> ++ *
-> ++ * This program is distributed in the hope that it will be useful,
-> ++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-> ++ * the GNU General Public License for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU General Public License
-> ++ * along with this program; if not, write to the Free Software
-> ++ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-> ++ */
-> ++
-> ++#include <stdio.h>
-> ++
-> ++void error_initlog(const char *logfile);
-> ++int read_procfile(FILE *fp_out, const char *procfile);
-> ++
-> ++void __err_ret(const char *fmt, ...);
-> ++void __err_sys(const char *fmt, ...);
-> ++void __err_msg(const char *fmt, ...);
-> ++void __err_quit(const char *fmt, ...);
-> ++void __err_dump(const char *fmt, ...);
-> ++
-> ++void info_msg(const char *fmt, ...);
-> ++
-> ++#ifdef DEBUG
-> ++#define __loc_msg(str) do {                                   \
-> ++      __err_msg("[%s. FILE: %s FUNC: %s LINE: %d]\n",         \
-> ++              str, __FILE__, __FUNCTION__, __LINE__);         \
-> ++} while (0)
-> ++#else
-> ++#define __loc_msg(str)
-> ++#endif
-> ++
-> ++
-> ++#define err_dump(fmt, ...) do {                                       \
-> ++      __loc_msg("ErrDump");                                   \
-> ++      __err_dump(fmt, ##__VA_ARGS__);                         \
-> ++} while (0)
-> ++
-> ++#define err_quit(fmt, ...) do {                                       \
-> ++      __loc_msg("ErrQuit");                                   \
-> ++      __err_quit(fmt, ##__VA_ARGS__);                         \
-> ++} while (0)
-> ++
-> ++
-> ++#define err_ret(fmt, ...) do {                                        \
-> ++      __loc_msg("ErrRet");                                    \
-> ++      __err_ret(fmt, ##__VA_ARGS__);                          \
-> ++} while (0)
-> ++
-> ++#define err_sys(fmt, ...) do {                                        \
-> ++      __loc_msg("ErrSys");                                    \
-> ++      __err_sys(fmt, ##__VA_ARGS__);                          \
-> ++} while (0)
-> ++
-> ++#define err_msg(fmt, ...) do {                                        \
-> ++      __loc_msg("ErrMsg");                                    \
-> ++      __err_msg(fmt, ##__VA_ARGS__);                          \
-> ++} while (0)
-> ++
-> ++#define log_msg(fmt, ...) do {                                        \
-> ++              /* __loc_msg("LogMsg"); */                      \
-> ++      __err_msg(fmt, ##__VA_ARGS__);                          \
-> ++} while (0)
-> ++
-> ++#ifdef DEBUG
-> ++#define dbg_msg(fmt, ...) do {                                        \
-> ++      __loc_msg("DbgMsg");                                    \
-> ++      __err_msg(fmt, ##__VA_ARGS__);                          \
-> ++} while (0)
-> ++#else
-> ++#define dbg_msg(fmt, ...) do {} while (0)
-> ++#endif
-> ++
-> ++#endif /* __ERROR_H__ */
-> +diff -Nurp git.org/Makefile git/Makefile
-> +--- git.org/Makefile   2013-02-22 00:53:07.000000000 +0900
-> ++++ git/Makefile       2013-05-10 12:14:22.512590255 +0900
-> +@@ -24,6 +24,7 @@ MTD_BINS = \
-> +       nftldump nftl_format docfdisk \
-> +       rfddump rfdformat \
-> +       serve_image recv_image \
-> ++      bin2nand nand2bin \
-> +       sumtool jffs2reader
-> + UBI_BINS = \
-> +       ubiupdatevol ubimkvol ubirmvol ubicrc32 ubinfo ubiattach \
-> +@@ -87,6 +88,9 @@ obj-mkfs.jffs2 = compr_rtime.o compr_zli
-> + LDFLAGS_mkfs.jffs2 = $(ZLIBLDFLAGS) $(LZOLDFLAGS)
-> + LDLIBS_mkfs.jffs2  = -lz $(LZOLDLIBS)
-> +
-> ++obj-bin2nand = bin2nand.o error.o nandecc.o
-> ++obj-nand2bin = nand2bin.o error.o nandecc.o nandcorr.o
-> ++
-> + LDFLAGS_jffs2reader = $(ZLIBLDFLAGS) $(LZOLDFLAGS)
-> + LDLIBS_jffs2reader  = -lz $(LZOLDLIBS)
-> +
-> +diff -Nurp git.org/nand2bin.c git/nand2bin.c
-> +--- git.org/nand2bin.c 1970-01-01 09:00:00.000000000 +0900
-> ++++ git/nand2bin.c     2013-05-10 12:12:44.134590273 +0900
-> +@@ -0,0 +1,492 @@
-> ++/*
-> ++ * Copyright (c) International Business Machines Corp., 2006, 2007
-> ++ *
-> ++ * This program is free software; you can redistribute it and/or modify
-> ++ * it under the terms of the GNU General Public License as published by
-> ++ * the Free Software Foundation; either version 2 of the License, or
-> ++ * (at your option) any later version.
-> ++ *
-> ++ * This program is distributed in the hope that it will be useful,
-> ++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-> ++ * the GNU General Public License for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU General Public License
-> ++ * along with this program; if not, write to the Free Software
-> ++ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-> ++ *
-> ++ * Author: Frank Haverkamp
-> ++ *
-> ++ * An utility to decompose NAND images and strip OOB off. Not yet finished ...
-> ++ *
-> ++ * 1.2 Removed argp because we want to use uClibc.
-> ++ * 1.3 Minor cleanup
-> ++ * 1.4 Fixed OOB output file
-> ++ * 1.5 Added verbose output and option to set blocksize.
-> ++ *     Added split block mode for more convenient analysis.
-> ++ * 1.6 Fixed ECC error detection and correction.
-> ++ */
-> ++
-> ++#include <errno.h>
-> ++#include <fcntl.h>
-> ++#include <stdio.h>
-> ++#include <stdint.h>
-> ++#include <getopt.h>
-> ++#include <stdarg.h>
-> ++#include <stdlib.h>
-> ++#include <string.h>
-> ++#include <unistd.h>
-> ++#include <sys/ioctl.h>
-> ++#include <sys/stat.h>
-> ++#include <sys/types.h>
-> ++
-> ++#include "config.h"
-> ++#include "nandecc.h"
-> ++
-> ++#define PROGRAM_VERSION "1.6"
-> ++
-> ++#define MAXPATH               1024
-> ++#define MIN(x,y)      ((x)<(y)?(x):(y))
-> ++
-> ++struct args {
-> ++      const char *oob_file;
-> ++      const char *output_file;
-> ++      size_t pagesize;
-> ++      size_t blocksize;
-> ++      int split_blocks;
-> ++      size_t in_len;          /* size of input file */
-> ++      int correct_ecc;
-> ++
-> ++      /* special stuff needed to get additional arguments */
-> ++      char *arg1;
-> ++      char **options;         /* [STRING...] */
-> ++};
-> ++
-> ++static struct args myargs = {
-> ++      .output_file = "data.bin",
-> ++      .oob_file = "oob.bin",
-> ++      .pagesize = 2048,
-> ++      .blocksize = 128 * 1024,
-> ++      .in_len = 0,
-> ++      .split_blocks = 0,
-> ++      .correct_ecc = 0,
-> ++      .arg1 = NULL,
-> ++      .options = NULL,
-> ++};
-> ++
-> ++static char doc[] = "\nVersion: " PROGRAM_VERSION "\n"
-> ++      "nand2bin - split data and OOB.\n";
-> ++
-> ++static const char *optionsstr =
-> ++"  -o, --output=<output>      Data output file\n"
-> ++"  -O, --oob=<oob>            OOB output file\n"
-> ++"  -p, --pagesize=<pagesize>  NAND pagesize\n"
-> ++"  -b, --blocksize=<blocksize> NAND blocksize\n"
-> ++"  -s, --split-blocks         generate binaries for each block\n"
-> ++"  -e, --correct-ecc          Correct data according to ECC info\n"
-> ++"  -v, --verbose              verbose output\n"
-> ++"  -?, --help                 Give this help list\n"
-> ++"      --usage                Give a short usage message\n";
-> ++
-> ++static const char *usage =
-> ++"Usage: nand2bin [-?] [-o <output>] [-O <oob>] [-p <pagesize>]\n"
-> ++"          [--output=<output>] [--oob=<oob>] [--pagesize=<pagesize>] [--help]\n"
-> ++"          [--usage] input.mif\n";
-> ++
-> ++static int verbose = 0;
-> ++
-> ++static struct option long_options[] = {
-> ++      { .name = "output", .has_arg = 1, .flag = NULL, .val = 'o' },
-> ++      { .name = "oob", .has_arg = 1, .flag = NULL, .val = 'O' },
-> ++      { .name = "pagesize", .has_arg = 1, .flag = NULL, .val = 'p' },
-> ++      { .name = "blocksize", .has_arg = 1, .flag = NULL, .val = 'b' },
-> ++      { .name = "split-blocks", .has_arg = 0, .flag = NULL, .val = 's' },
-> ++      { .name = "correct-ecc", .has_arg = 0, .flag = NULL, .val = 'e' },
-> ++      { .name = "verbose", .has_arg = 0, .flag = NULL, .val = 'v' },
-> ++      { .name = "help", .has_arg = 0, .flag = NULL, .val = '?' },
-> ++      { .name = "usage", .has_arg = 0, .flag = NULL, .val = 0 },
-> ++      { NULL, 0, NULL, 0}
-> ++};
-> ++
-> ++/*
-> ++ * str_to_num - Convert string into number and cope with endings like
-> ++ *              k, K, kib, KiB for kilobyte
-> ++ *              m, M, mib, MiB for megabyte
-> ++ */
-> ++static uint32_t str_to_num(char *str)
-> ++{
-> ++      char *s = str;
-> ++      ulong num = strtoul(s, &s, 0);
-> ++
-> ++      if (*s != '\0') {
-> ++              if (strcmp(s, "KiB") == 0)
-> ++                      num *= 1024;
-> ++              else if (strcmp(s, "MiB") == 0)
-> ++                      num *= 1024*1024;
-> ++              else {
-> ++                      fprintf(stderr, "WARNING: Wrong number format "
-> ++                              "\"%s\", check your paramters!\n", str);
-> ++              }
-> ++      }
-> ++      return num;
-> ++}
-> ++
-> ++/*
-> ++ * @brief Parse the arguments passed into the test case.
-> ++ *
-> ++ * @param argc           The number of arguments
-> ++ * @param argv           The argument list
-> ++ * @param args           Pointer to program args structure
-> ++ *
-> ++ * @return error
-> ++ *
-> ++ */
-> ++static int parse_opt(int argc, char **argv, struct args *args)
-> ++{
-> ++      while (1) {
-> ++              int key;
-> ++
-> ++              key = getopt_long(argc, argv, "b:eo:O:p:sv?", long_options, NULL);
-> ++              if (key == -1)
-> ++                      break;
-> ++
-> ++              switch (key) {
-> ++              case 'p': /* --pagesize<pagesize> */
-> ++                      args->pagesize = str_to_num(optarg);
-> ++                      break;
-> ++
-> ++              case 'b': /* --blocksize<blocksize> */
-> ++                      args->blocksize = str_to_num(optarg);
-> ++                      break;
-> ++
-> ++              case 'v': /* --verbose */
-> ++                      verbose++;
-> ++                      break;
-> ++
-> ++              case 's': /* --split-blocks */
-> ++                      args->split_blocks = 1;
-> ++                      break;
-> ++
-> ++              case 'e': /* --correct-ecc */
-> ++                      args->correct_ecc = 1;
-> ++                      break;
-> ++
-> ++              case 'o': /* --output=<output.bin> */
-> ++                      args->output_file = optarg;
-> ++                      break;
-> ++
-> ++              case 'O': /* --oob=<oob.bin> */
-> ++                      args->oob_file = optarg;
-> ++                      break;
-> ++
-> ++              case '?': /* help */
-> ++                      printf("Usage: nand2bin [OPTION...] input.mif\n");
-> ++                      printf("%s", doc);
-> ++                      printf("%s", optionsstr);
-> ++                      printf("\nReport bugs to %s\n",
-> ++                             PACKAGE_BUGREPORT);
-> ++                      exit(0);
-> ++                      break;
-> ++
-> ++              case 'V':
-> ++                      printf("%s\n", PROGRAM_VERSION);
-> ++                      exit(0);
-> ++                      break;
-> ++
-> ++              default:
-> ++                      printf("%s", usage);
-> ++                      exit(-1);
-> ++              }
-> ++      }
-> ++
-> ++      if (optind < argc)
-> ++              args->arg1 = argv[optind++];
-> ++
-> ++      return 0;
-> ++}
-> ++
-> ++static int calc_oobsize(size_t pagesize)
-> ++{
-> ++      switch (pagesize) {
-> ++      case 512:  return 16;
-> ++      case 2048: return 64;
-> ++      default:
-> ++              exit(EXIT_FAILURE);
-> ++      }
-> ++      return 0;
-> ++}
-> ++
-> ++static inline void hexdump(FILE *fp, const uint8_t *buf, ssize_t size)
-> ++{
-> ++      int k;
-> ++
-> ++      for (k = 0; k < size; k++) {
-> ++              fprintf(fp, "%02x ", buf[k]);
-> ++              if ((k & 15) == 15)
-> ++                      fprintf(fp, "\n");
-> ++      }
-> ++}
-> ++
-> ++static int process_page(uint8_t* buf, uint8_t *oobbuf, size_t pagesize)
-> ++{
-> ++      int eccpoi, oobsize;
-> ++      size_t i;
-> ++
-> ++      switch (pagesize) {
-> ++      case 2048: oobsize = 64; eccpoi = 64 / 2; break;
-> ++      case 512:  oobsize = 16; eccpoi = 16 / 2; break;
-> ++      default:
-> ++              fprintf(stderr, "Unsupported page size: %zd\n", pagesize);
-> ++              return -EINVAL;
-> ++      }
-> ++      memset(oobbuf, 0xff, oobsize);
-> ++
-> ++      for (i = 0; i < pagesize; i += 256, eccpoi += 3) {
-> ++              oobbuf[eccpoi++] = 0x0;
-> ++              /* Calculate ECC */
-> ++              nand_calculate_ecc(&buf[i], &oobbuf[eccpoi]);
-> ++      }
-> ++      return 0;
-> ++}
-> ++
-> ++static int bad_marker_offs_in_oob(int pagesize)
-> ++{
-> ++      switch (pagesize) {
-> ++      case 2048: return 0;
-> ++      case 512:  return 5;
-> ++      }
-> ++      return -EINVAL;
-> ++}
-> ++
-> ++static int decompose_image(struct args *args, FILE *in_fp,
-> ++                         FILE *bin_fp, FILE *oob_fp)
-> ++{
-> ++      int read, rc, page = 0;
-> ++      size_t oobsize = calc_oobsize(args->pagesize);
-> ++      uint8_t *buf = malloc(args->pagesize);
-> ++      uint8_t *oob = malloc(oobsize);
-> ++      uint8_t *calc_oob = malloc(oobsize);
-> ++      uint8_t *calc_buf = malloc(args->pagesize);
-> ++      uint8_t *page_buf;
-> ++      int pages_per_block = args->blocksize / args->pagesize;
-> ++      int eccpoi = 0, eccpoi_start;
-> ++      unsigned int i;
-> ++      int badpos = bad_marker_offs_in_oob(args->pagesize);
-> ++
-> ++      switch (args->pagesize) {
-> ++      case 2048: eccpoi_start = 64 / 2; break;
-> ++      case 512:  eccpoi_start = 16 / 2; break;
-> ++      default:   exit(EXIT_FAILURE);
-> ++      }
-> ++
-> ++      if (!buf)
-> ++              exit(EXIT_FAILURE);
-> ++      if (!oob)
-> ++              exit(EXIT_FAILURE);
-> ++      if (!calc_oob)
-> ++              exit(EXIT_FAILURE);
-> ++      if (!calc_buf)
-> ++              exit(EXIT_FAILURE);
-> ++
-> ++      while (!feof(in_fp)) {
-> ++              /* read page by page */
-> ++              read = fread(buf, 1, args->pagesize, in_fp);
-> ++              if (ferror(in_fp)) {
-> ++                      fprintf(stderr, "I/O Error.");
-> ++                      exit(EXIT_FAILURE);
-> ++              }
-> ++              if (read != (ssize_t)args->pagesize)
-> ++                      break;
-> ++
-> ++              read = fread(oob, 1, oobsize, in_fp);
-> ++              if (ferror(in_fp)) {
-> ++                      fprintf(stderr, "I/O Error.");
-> ++                      exit(EXIT_FAILURE);
-> ++              }
-> ++
-> ++              page_buf = buf; /* default is unmodified data */
-> ++
-> ++              if ((page == 0 || page == 1) && (oob[badpos] != 0xff)) {
-> ++                      if (verbose)
-> ++                              printf("Block %d is bad\n",
-> ++                                     page / pages_per_block);
-> ++                      goto write_data;
-> ++              }
-> ++              if (args->correct_ecc)
-> ++                      page_buf = calc_buf;
-> ++
-> ++              process_page(buf, calc_oob, args->pagesize);
-> ++              memcpy(calc_buf, buf, args->pagesize);
-> ++
-> ++              /*
-> ++               * Our oob format uses only the last 3 bytes out of 4.
-> ++               * The first byte is 0x00 when the ECC is generated by
-> ++               * our toolset and 0xff when generated by Linux. This
-> ++               * is to be fixed when we want nand2bin work for other
-> ++               * ECC layouts too.
-> ++               */
-> ++              for (i = 0, eccpoi = eccpoi_start; i < args->pagesize;
-> ++                   i += 256, eccpoi += 4)
-> ++                      oob[eccpoi] = calc_oob[eccpoi] = 0xff;
-> ++
-> ++              if (verbose && memcmp(oob, calc_oob, oobsize) != 0) {
-> ++                      printf("\nECC compare mismatch found at block %d page %d!\n",
-> ++                             page / pages_per_block, page % pages_per_block);
-> ++
-> ++                      printf("Read out OOB Data:\n");
-> ++                      hexdump(stdout, oob, oobsize);
-> ++
-> ++                      printf("Calculated OOB Data:\n");
-> ++                      hexdump(stdout, calc_oob, oobsize);
-> ++              }
-> ++
-> ++              /* Do correction on subpage base */
-> ++              for (i = 0, eccpoi = eccpoi_start; i < args->pagesize;
-> ++                   i += 256, eccpoi += 4) {
-> ++                      rc = nand_correct_data(calc_buf + i, &oob[eccpoi + 1],
-> ++                                             &calc_oob[eccpoi + 1]);
-> ++
-> ++                      if (rc == -1)
-> ++                              fprintf(stdout, "Uncorrectable ECC error at "
-> ++                                      "block %d page %d/%d\n",
-> ++                                      page / pages_per_block,
-> ++                                      page % pages_per_block, i / 256);
-> ++                      else if (rc > 0)
-> ++                              fprintf(stdout, "Correctable ECC error at "
-> ++                                      "block %d page %d/%d\n",
-> ++                                      page / pages_per_block,
-> ++                                      page % pages_per_block, i / 256);
-> ++              }
-> ++
-> ++      write_data:
-> ++              rc = fwrite(page_buf, 1, args->pagesize, bin_fp);
-> ++              if (ferror(bin_fp)) {
-> ++                      fprintf(stderr, "I/O Error.");
-> ++                      exit(EXIT_FAILURE);
-> ++              }
-> ++              rc = fwrite(oob, 1, oobsize, oob_fp);
-> ++              if (ferror(bin_fp)) {
-> ++                      fprintf(stderr, "I/O Error.");
-> ++                      exit(EXIT_FAILURE);
-> ++              }
-> ++
-> ++              page++;
-> ++      }
-> ++      free(calc_buf);
-> ++      free(calc_oob);
-> ++      free(oob);
-> ++      free(buf);
-> ++      return 0;
-> ++}
-> ++
-> ++static int split_blocks(struct args *args, FILE *in_fp)
-> ++{
-> ++      uint8_t *buf;
-> ++      size_t oobsize = calc_oobsize(args->pagesize);
-> ++      int pages_per_block = args->blocksize / args->pagesize;
-> ++      int block_len = pages_per_block * (args->pagesize + oobsize);
-> ++      int blocks = args->in_len / block_len;
-> ++      char bname[256] = { 0, };
-> ++      int badpos = bad_marker_offs_in_oob(args->pagesize);
-> ++      int bad_blocks = 0, i, bad_block = 0;
-> ++      ssize_t rc;
-> ++      FILE *b;
-> ++
-> ++      buf = malloc(block_len);
-> ++      if (!buf) {
-> ++              perror("Not enough memory");
-> ++              exit(EXIT_FAILURE);
-> ++      }
-> ++
-> ++      for (i = 0; i < blocks; i++) {
-> ++              rc = fread(buf, 1, block_len, in_fp);
-> ++              if (rc != block_len) {
-> ++                      fprintf(stderr, "cannot read enough data!\n");
-> ++                      exit(EXIT_FAILURE);
-> ++              }
-> ++
-> ++              /* do block analysis */
-> ++              bad_block = 0;
-> ++              if ((buf[args->pagesize + badpos] != 0xff) ||
-> ++                  (buf[2 * args->pagesize + oobsize + badpos] != 0xff)) {
-> ++                      bad_blocks++;
-> ++                      bad_block = 1;
-> ++              }
-> ++              if ((verbose && bad_block) || (verbose > 1)) {
-> ++                      printf("-- (block %d oob of page 0 and 1)\n", i);
-> ++                      hexdump(stdout, buf + args->pagesize, oobsize);
-> ++                      printf("--\n");
-> ++                      hexdump(stdout, buf + 2 * args->pagesize +
-> ++                              oobsize, oobsize);
-> ++              }
-> ++
-> ++              /* write complete block out */
-> ++              snprintf(bname, sizeof(bname) - 1, "%s.%d", args->arg1, i);
-> ++              b = fopen(bname, "w+");
-> ++              if (!b) {
-> ++                      perror("Cannot open file");
-> ++                      exit(EXIT_FAILURE);
-> ++              }
-> ++              rc = fwrite(buf, 1, block_len, b);
-> ++              if (rc != block_len) {
-> ++                      fprintf(stderr, "could not write all data!\n");
-> ++                      exit(EXIT_FAILURE);
-> ++              }
-> ++              fclose(b);
-> ++      }
-> ++
-> ++      free(buf);
-> ++      if (bad_blocks || verbose)
-> ++              fprintf(stderr, "%d blocks, %d bad blocks\n",
-> ++                      blocks, bad_blocks);
-> ++      return 0;
-> ++}
-> ++
-> ++int
-> ++main(int argc, char *argv[])
-> ++{
-> ++      FILE *in, *bin = NULL, *oob = NULL;
-> ++      struct stat file_info;
-> ++
-> ++      parse_opt(argc, argv, &myargs);
-> ++
-> ++      if (!myargs.arg1) {
-> ++              fprintf(stderr, "Please specify input file!\n");
-> ++              exit(EXIT_FAILURE);
-> ++      }
-> ++
-> ++      if (stat(myargs.arg1, &file_info) != 0) {
-> ++              perror("Cannot fetch file size from input file.\n");
-> ++              exit(EXIT_FAILURE);
-> ++      }
-> ++      myargs.in_len = file_info.st_size;
-> ++
-> ++      in = fopen(myargs.arg1, "r");
-> ++      if (!in) {
-> ++              perror("Cannot open file");
-> ++              exit(EXIT_FAILURE);
-> ++      }
-> ++
-> ++      if (myargs.split_blocks) {
-> ++              split_blocks(&myargs, in);
-> ++              goto out;
-> ++      }
-> ++
-> ++      bin = fopen(myargs.output_file, "w+");
-> ++      if (!bin) {
-> ++              perror("Cannot open file");
-> ++              exit(EXIT_FAILURE);
-> ++      }
-> ++      oob = fopen(myargs.oob_file, "w+");
-> ++      if (!oob) {
-> ++              perror("Cannot open file");
-> ++              exit(EXIT_FAILURE);
-> ++      }
-> ++      decompose_image(&myargs, in, bin, oob);
-> ++
-> ++ out:
-> ++      if (in)  fclose(in);
-> ++      if (bin) fclose(bin);
-> ++      if (oob) fclose(oob);
-> ++      exit(EXIT_SUCCESS);
-> ++}
-> +diff -Nurp git.org/nandcorr.c git/nandcorr.c
-> +--- git.org/nandcorr.c 1970-01-01 09:00:00.000000000 +0900
-> ++++ git/nandcorr.c     2013-05-10 12:12:34.569591044 +0900
-> +@@ -0,0 +1,95 @@
-> ++/*
-> ++ * Copyright (c) International Business Machines Corp., 2006
-> ++ *
-> ++ * This program is free software; you can redistribute it and/or modify
-> ++ * it under the terms of the GNU General Public License as published by
-> ++ * the Free Software Foundation; either version 2 of the License, or
-> ++ * (at your option) any later version.
-> ++ *
-> ++ * This program is distributed in the hope that it will be useful,
-> ++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-> ++ * the GNU General Public License for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU General Public License
-> ++ * along with this program; if not, write to the Free Software
-> ++ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-> ++ */
-> ++
-> ++/*
-> ++ * ECC algorithm for NAND FLASH. Detects and corrects 1 bit errors in
-> ++ * a 256 bytes of data.
-> ++ *
-> ++ * Reimplement by Thomas Gleixner after staring long enough at the
-> ++ * mess in drivers/mtd/nand/nandecc.c
-> ++ *
-> ++ */
-> ++
-> ++#include "nandecc.h"
-> ++
-> ++static int countbits(uint32_t byte)
-> ++{
-> ++      int res = 0;
-> ++
-> ++      for (;byte; byte >>= 1)
-> ++              res += byte & 0x01;
-> ++      return res;
-> ++}
-> ++
-> ++/**
-> ++ * @dat:       data which should be corrected
-> ++ * @read_ecc:  ecc information read from flash
-> ++ * @calc_ecc:  calculated ecc information from the data
-> ++ * @return:    number of corrected bytes
-> ++ *             or -1 when no correction is possible
-> ++ */
-> ++int nand_correct_data(uint8_t *dat, const uint8_t *read_ecc,
-> ++                    const uint8_t *calc_ecc)
-> ++{
-> ++      uint8_t s0, s1, s2;
-> ++
-> ++      /*
-> ++       * Do error detection
-> ++       *
-> ++       * Be careful, the index magic is due to a pointer to a
-> ++       * uint32_t.
-> ++       */
-> ++      s0 = calc_ecc[0] ^ read_ecc[0];
-> ++      s1 = calc_ecc[1] ^ read_ecc[1];
-> ++      s2 = calc_ecc[2] ^ read_ecc[2];
-> ++
-> ++      if ((s0 | s1 | s2) == 0)
-> ++              return 0;
-> ++
-> ++      /* Check for a single bit error */
-> ++      if( ((s0 ^ (s0 >> 1)) & 0x55) == 0x55 &&
-> ++          ((s1 ^ (s1 >> 1)) & 0x55) == 0x55 &&
-> ++          ((s2 ^ (s2 >> 1)) & 0x54) == 0x54) {
-> ++
-> ++              uint32_t byteoffs, bitnum;
-> ++
-> ++              byteoffs = (s1 << 0) & 0x80;
-> ++              byteoffs |= (s1 << 1) & 0x40;
-> ++              byteoffs |= (s1 << 2) & 0x20;
-> ++              byteoffs |= (s1 << 3) & 0x10;
-> ++
-> ++              byteoffs |= (s0 >> 4) & 0x08;
-> ++              byteoffs |= (s0 >> 3) & 0x04;
-> ++              byteoffs |= (s0 >> 2) & 0x02;
-> ++              byteoffs |= (s0 >> 1) & 0x01;
-> ++
-> ++              bitnum = (s2 >> 5) & 0x04;
-> ++              bitnum |= (s2 >> 4) & 0x02;
-> ++              bitnum |= (s2 >> 3) & 0x01;
-> ++
-> ++              dat[byteoffs] ^= (1 << bitnum);
-> ++
-> ++              return 1;
-> ++      }
-> ++
-> ++      if(countbits(s0 | ((uint32_t)s1 << 8) | ((uint32_t)s2 <<16)) == 1)
-> ++              return 1;
-> ++
-> ++      return -1;
-> ++}
-> ++
-> +diff -Nurp git.org/nandecc.c git/nandecc.c
-> +--- git.org/nandecc.c  1970-01-01 09:00:00.000000000 +0900
-> ++++ git/nandecc.c      2013-05-10 12:12:34.569591044 +0900
-> +@@ -0,0 +1,159 @@
-> ++/*
-> ++ * This file contains an ECC algorithm from Toshiba that detects and
-> ++ * corrects 1 bit errors in a 256 byte block of data.
-> ++ *
-> ++ * drivers/mtd/nand/nand_ecc.c
-> ++ *
-> ++ * Copyright (C) 2000-2004 Steven J. Hill (sjhill@realitydiluted.com)
-> ++ *                       Toshiba America Electronics Components, Inc.
-> ++ *
-> ++ * This file is free software; you can redistribute it and/or modify it
-> ++ * under the terms of the GNU General Public License as published by the
-> ++ * Free Software Foundation; either version 2 or (at your option) any
-> ++ * later version.
-> ++ *
-> ++ * This file is distributed in the hope that it will be useful, but WITHOUT
-> ++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> ++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-> ++ * for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU General Public License along
-> ++ * with this file; if not, write to the Free Software Foundation, Inc.,
-> ++ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.
-> ++ *
-> ++ * As a special exception, if other files instantiate templates or use
-> ++ * macros or inline functions from these files, or you compile these
-> ++ * files and link them with other works to produce a work based on these
-> ++ * files, these files do not by themselves cause the resulting work to be
-> ++ * covered by the GNU General Public License. However the source code for
-> ++ * these files must still be made available in accordance with section (3)
-> ++ * of the GNU General Public License.
-> ++ *
-> ++ * This exception does not invalidate any other reasons why a work based on
-> ++ * this file might be covered by the GNU General Public License.
-> ++ */
-> ++
-> ++#include "nandecc.h"
-> ++
-> ++/*
-> ++ * Pre-calculated 256-way 1 byte column parity
-> ++ */
-> ++static const uint8_t nand_ecc_precalc_table[] = {
-> ++      0x00, 0x55, 0x56, 0x03, 0x59, 0x0c, 0x0f, 0x5a,
-> ++      0x5a, 0x0f, 0x0c, 0x59, 0x03, 0x56, 0x55, 0x00,
-> ++      0x65, 0x30, 0x33, 0x66, 0x3c, 0x69, 0x6a, 0x3f,
-> ++      0x3f, 0x6a, 0x69, 0x3c, 0x66, 0x33, 0x30, 0x65,
-> ++      0x66, 0x33, 0x30, 0x65, 0x3f, 0x6a, 0x69, 0x3c,
-> ++      0x3c, 0x69, 0x6a, 0x3f, 0x65, 0x30, 0x33, 0x66,
-> ++      0x03, 0x56, 0x55, 0x00, 0x5a, 0x0f, 0x0c, 0x59,
-> ++      0x59, 0x0c, 0x0f, 0x5a, 0x00, 0x55, 0x56, 0x03,
-> ++      0x69, 0x3c, 0x3f, 0x6a, 0x30, 0x65, 0x66, 0x33,
-> ++      0x33, 0x66, 0x65, 0x30, 0x6a, 0x3f, 0x3c, 0x69,
-> ++      0x0c, 0x59, 0x5a, 0x0f, 0x55, 0x00, 0x03, 0x56,
-> ++      0x56, 0x03, 0x00, 0x55, 0x0f, 0x5a, 0x59, 0x0c,
-> ++      0x0f, 0x5a, 0x59, 0x0c, 0x56, 0x03, 0x00, 0x55,
-> ++      0x55, 0x00, 0x03, 0x56, 0x0c, 0x59, 0x5a, 0x0f,
-> ++      0x6a, 0x3f, 0x3c, 0x69, 0x33, 0x66, 0x65, 0x30,
-> ++      0x30, 0x65, 0x66, 0x33, 0x69, 0x3c, 0x3f, 0x6a,
-> ++      0x6a, 0x3f, 0x3c, 0x69, 0x33, 0x66, 0x65, 0x30,
-> ++      0x30, 0x65, 0x66, 0x33, 0x69, 0x3c, 0x3f, 0x6a,
-> ++      0x0f, 0x5a, 0x59, 0x0c, 0x56, 0x03, 0x00, 0x55,
-> ++      0x55, 0x00, 0x03, 0x56, 0x0c, 0x59, 0x5a, 0x0f,
-> ++      0x0c, 0x59, 0x5a, 0x0f, 0x55, 0x00, 0x03, 0x56,
-> ++      0x56, 0x03, 0x00, 0x55, 0x0f, 0x5a, 0x59, 0x0c,
-> ++      0x69, 0x3c, 0x3f, 0x6a, 0x30, 0x65, 0x66, 0x33,
-> ++      0x33, 0x66, 0x65, 0x30, 0x6a, 0x3f, 0x3c, 0x69,
-> ++      0x03, 0x56, 0x55, 0x00, 0x5a, 0x0f, 0x0c, 0x59,
-> ++      0x59, 0x0c, 0x0f, 0x5a, 0x00, 0x55, 0x56, 0x03,
-> ++      0x66, 0x33, 0x30, 0x65, 0x3f, 0x6a, 0x69, 0x3c,
-> ++      0x3c, 0x69, 0x6a, 0x3f, 0x65, 0x30, 0x33, 0x66,
-> ++      0x65, 0x30, 0x33, 0x66, 0x3c, 0x69, 0x6a, 0x3f,
-> ++      0x3f, 0x6a, 0x69, 0x3c, 0x66, 0x33, 0x30, 0x65,
-> ++      0x00, 0x55, 0x56, 0x03, 0x59, 0x0c, 0x0f, 0x5a,
-> ++      0x5a, 0x0f, 0x0c, 0x59, 0x03, 0x56, 0x55, 0x00
-> ++};
-> ++
-> ++/**
-> ++ * nand_trans_result - [GENERIC] create non-inverted ECC
-> ++ * @reg2:     line parity reg 2
-> ++ * @reg3:     line parity reg 3
-> ++ * @ecc_code: ecc
-> ++ *
-> ++ * Creates non-inverted ECC code from line parity
-> ++ */
-> ++static void nand_trans_result(uint8_t reg2, uint8_t reg3,
-> ++      uint8_t *ecc_code)
-> ++{
-> ++      uint8_t a, b, i, tmp1, tmp2;
-> ++
-> ++      /* Initialize variables */
-> ++      a = b = 0x80;
-> ++      tmp1 = tmp2 = 0;
-> ++
-> ++      /* Calculate first ECC byte */
-> ++      for (i = 0; i < 4; i++) {
-> ++              if (reg3 & a)           /* LP15,13,11,9 --> ecc_code[0] */
-> ++                      tmp1 |= b;
-> ++              b >>= 1;
-> ++              if (reg2 & a)           /* LP14,12,10,8 --> ecc_code[0] */
-> ++                      tmp1 |= b;
-> ++              b >>= 1;
-> ++              a >>= 1;
-> ++      }
-> ++
-> ++      /* Calculate second ECC byte */
-> ++      b = 0x80;
-> ++      for (i = 0; i < 4; i++) {
-> ++              if (reg3 & a)           /* LP7,5,3,1 --> ecc_code[1] */
-> ++                      tmp2 |= b;
-> ++              b >>= 1;
-> ++              if (reg2 & a)           /* LP6,4,2,0 --> ecc_code[1] */
-> ++                      tmp2 |= b;
-> ++              b >>= 1;
-> ++              a >>= 1;
-> ++      }
-> ++
-> ++      /* Store two of the ECC bytes */
-> ++      ecc_code[1] = tmp1;
-> ++      ecc_code[0] = tmp2;
-> ++}
-> ++
-> ++/**
-> ++ * nand_calculate_ecc - [NAND Interface] Calculate 3 byte ECC code for
-> ++ * 256 byte block
-> ++ *
-> ++ * @dat:      raw data
-> ++ * @ecc_code: buffer for ECC
-> ++ */
-> ++int nand_calculate_ecc(const uint8_t *dat, uint8_t *ecc_code)
-> ++{
-> ++      uint8_t idx, reg1, reg2, reg3;
-> ++      int j;
-> ++
-> ++      /* Initialize variables */
-> ++      reg1 = reg2 = reg3 = 0;
-> ++      ecc_code[0] = ecc_code[1] = ecc_code[2] = 0;
-> ++
-> ++      /* Build up column parity */
-> ++      for(j = 0; j < 256; j++) {
-> ++
-> ++              /* Get CP0 - CP5 from table */
-> ++              idx = nand_ecc_precalc_table[dat[j]];
-> ++              reg1 ^= (idx & 0x3f);
-> ++
-> ++              /* All bit XOR = 1 ? */
-> ++              if (idx & 0x40) {
-> ++                      reg3 ^= (uint8_t) j;
-> ++                      reg2 ^= ~((uint8_t) j);
-> ++              }
-> ++      }
-> ++
-> ++      /* Create non-inverted ECC code from line parity */
-> ++      nand_trans_result(reg2, reg3, ecc_code);
-> ++
-> ++      /* Calculate final ECC code */
-> ++      ecc_code[0] = ~ecc_code[0];
-> ++      ecc_code[1] = ~ecc_code[1];
-> ++      ecc_code[2] = ((~reg1) << 2) | 0x03;
-> ++      return 0;
-> ++}
-> +diff -Nurp git.org/nandecc.h git/nandecc.h
-> +--- git.org/nandecc.h  1970-01-01 09:00:00.000000000 +0900
-> ++++ git/nandecc.h      2013-05-10 12:12:34.569591044 +0900
-> +@@ -0,0 +1,29 @@
-> ++#ifndef _NAND_ECC_H
-> ++#define _NAND_ECC_H
-> ++/*
-> ++ * Copyright (c) International Business Machines Corp., 2006
-> ++ *
-> ++ * This program is free software; you can redistribute it and/or modify
-> ++ * it under the terms of the GNU General Public License as published by
-> ++ * the Free Software Foundation; either version 2 of the License, or
-> ++ * (at your option) any later version.
-> ++ *
-> ++ * This program is distributed in the hope that it will be useful,
-> ++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> ++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See
-> ++ * the GNU General Public License for more details.
-> ++ *
-> ++ * You should have received a copy of the GNU General Public License
-> ++ * along with this program; if not, write to the Free Software
-> ++ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-> ++ *
-> ++ * NAND ecc functions
-> ++ */
-> ++
-> ++#include <stdint.h>
-> ++
-> ++int nand_calculate_ecc(const uint8_t *dat, uint8_t *ecc_code);
-> ++int nand_correct_data(uint8_t *dat, const uint8_t *read_ecc,
-> ++                    const uint8_t *calc_ecc);
-> ++
-> ++#endif
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> index 7010cac..61673bd 100644
-> --- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> +++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> @@ -15,6 +15,7 @@ SRC_URI = "git://git.infradead.org/mtd-utils.git \
->             file://fix-armv7-neon-alignment.patch \
->             file://0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch \
->             file://mtd-utils-fix-corrupt-cleanmarker-with-flash_erase--j-command.patch \
-> +           file://add-bin2nand-nand2bin.patch \
->  "
->
->  S = "${WORKDIR}/git/"
-> @@ -31,7 +32,7 @@ FILES_mtd-utils-jffs2 = "${sbindir}/mkfs.jffs2 ${sbindir}/jffs2dump ${sbindir}/j
->  FILES_mtd-utils-ubifs = "${sbindir}/mkfs.ubifs ${sbindir}/ubi*"
->  FILES_mtd-utils-misc = "${sbindir}/nftl* ${sbindir}/ftl* ${sbindir}/rfd* ${sbindir}/doc* ${sbindir}/serve_image ${sbindir}/recv_image"
->
-> -BBCLASSEXTEND = "native"
-> +BBCLASSEXTEND = "native nativesdk"
->
->  # git/.compr.c.dep:46: warning: NUL character seen; rest of line ignored
->  # git/.compr.c.dep:47: *** missing separator.  Stop.
-> --
-> 1.8.4.2
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
