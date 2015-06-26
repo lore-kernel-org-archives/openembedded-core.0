@@ -1,38 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 36C5960132
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8555275662
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 13:17:42 +0000 (UTC)
-Received: by qgem68 with SMTP id m68so944475qge.0
+	Fri, 26 Jun 2015 14:00:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5QE0oUw010168
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 06:17:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=f5bvPPPNbzdY0MlmCifK/L8JGxK5ikbcjiNDTOVi9OY=;
-	b=IHbIL1OsyxSd36SXFjVEJ1a9limiK9MYdCYWUN0ii1OmM//Tk4hFiGB7jnp4PNEcsL
-	IMxVQRAk8A/PB+ajSyyZxNWRYxnGSztKLo06j3JLu5YysP+JEIU8MVuV3dednpn4zmbI
-	8RKOAO2HZn5VkfZeixTos0hnDIABbXXuief73BLQ6tJm9TE6fUdOtnvi3MWY1+c8Bpne
-	DWAtpOho51Hh2aZz6GEaBqy6mqaA94adocnF6TspttQlDoSaACO4colY9RLnVVhRIRVR
-	SP3F3ZD/0TWahzkT3Ktwa5xbPB+LFfV7cTVF7rl5A/fteoyx97xXv+xviCNtby0S3Udj
-	LXVw==
-X-Gm-Message-State: ALoCoQkeKnFR/469bK2A89fas6Z8kzKjGOBLv4BNGnYvSwVC3bCvi5iiY7twWDWvSUQWeolUifC7
-X-Received: by 10.140.196.129 with SMTP id r123mr2142903qha.93.1435324663731; 
-	Fri, 26 Jun 2015 06:17:43 -0700 (PDT)
+	Fri, 26 Jun 2015 07:00:50 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.234) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 26 Jun 2015 07:00:50 -0700
+Message-ID: <558D5B11.7020900@windriver.com>
+Date: Fri, 26 Jun 2015 09:00:49 -0500
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 26 Jun 2015 06:17:24 -0700 (PDT)
-In-Reply-To: <558C5E43.6010709@linux.intel.com>
-References: <558C5E43.6010709@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 26 Jun 2015 14:17:24 +0100
-Message-ID: <CAJTo0LZ_zE0ZZcAaSRJyN6wN4rKH35oRwUj4bvkH1VOSfTy1uw@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Poky Project <poky@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [poky] Automatic Upgrade Helper Announcement
+To: <openembedded-core@lists.openembedded.org>
+References: <1435301841-15924-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1435301841-15924-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH] rpm-5.4.14: disable external key server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 13:17:45 -0000
-Content-Type: multipart/alternative; boundary=001a11433952b8316a05196b9043
+X-List-Received-Date: Fri, 26 Jun 2015 14:00:57 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
---001a11433952b8316a05196b9043
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 6/26/15 1:57 AM, rongqing.li@windriver.com wrote:
+> From: yzhu1 <yanjun.zhu@windriver.com>
+> 
+> When rpm makes header verification, rpm will send request to the
+> extern server, this is a potential risk.
 
-On 25 June 2015 at 21:02, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.=
-com> wrote:
+Just to explain what this is.  When RPM experiences a signed package, with a
+signature that it does NOT know.  By default it will send the -fingerprint- (and
+only the 16 digit fingerprint) to an external HKP server, trying to get the key
+down.
 
-> I'm glad to announce the enabling of Automatic Upgrade Helper (a.k.a.
-> AUH), the AUH is a service
-> that provides recipe upgrades and will be run on weekly basis.
->
+This is probably not a reasonable default behavior for the system to do, instead
+it should simply fail the key lookup.  If someone wants to enable the HKP server
+it's easy enough to do by enabling the necessary macros.
 
-Excellent news, thanks Anibal for working on this!
+> Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
+> ---
+>  .../rpm-macros.in-disable-external-key-server.patch | 21 +++++++++++++++++++++
+>  meta/recipes-devtools/rpm/rpm_5.4.14.bb             |  1 +
+>  2 files changed, 22 insertions(+)
+>  create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
+> 
+> diff --git a/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch b/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
+> new file mode 100644
+> index 0000000..206f258
+> --- /dev/null
+> +++ b/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
+> @@ -0,0 +1,21 @@
+> +disable external key server
+> +
+> +Upstream-Status: Pending
+> +
+> +When rpm makes header verification, rpm will send request to the
+> +extern server, this is a potential risk.
+> +
+> +Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
+> +--- a/macros/macros.in
+> ++++ b/macros/macros.in
+> +@@ -546,8 +546,8 @@ $_arbitrary_tags_tests	Foo:Bar
+> + # Horowitz Key Protocol server configuration
+> + #
+> + #%_hkp_keyserver         hkp://keys.n3npq.net
+> +-%_hkp_keyserver         hkp://pool.sks-keyservers.net
+> +-%_hkp_keyserver_query   %{_hkp_keyserver}/pks/lookup?op=get&search=
+> ++#%_hkp_keyserver         hkp://pool.sks-keyservers.net
+> ++#%_hkp_keyserver_query   %{_hkp_keyserver}/pks/lookup?op=get&search=
+> + 
+> + 
+> + %_nssdb_path	/etc/pki/nssdb
+> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> index 75b1ae2..666a68e 100644
+> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+> @@ -92,6 +92,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+>  	   file://rpm-realpath.patch \
+>  	   file://0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch \
+>  	   file://no-ldflags-in-pkgconfig.patch \
+> +	   file://rpm-macros.in-disable-external-key-server.patch \
+>  	  "
+>  
+>  # Uncomment the following line to enable platform score debugging
+> 
 
-(one day I'll figure out where i-acute is on my keyboard)
 
-Ross
-
---001a11433952b8316a05196b9043
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 25 June 2015 at 21:02, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.limon@=
-linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
-v id=3D":3j1" class=3D"a3s" style=3D"overflow:hidden">I&#39;m glad to annou=
-nce the enabling of Automatic Upgrade Helper (a.k.a. AUH), the AUH is a ser=
-vice<br>
-that provides recipe upgrades and will be run on weekly basis.<br></div></b=
-lockquote></div><br>Excellent news, thanks Anibal for working on this!</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(one day I=
-&#39;ll figure out where i-acute is on my keyboard)</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11433952b8316a05196b9043--
