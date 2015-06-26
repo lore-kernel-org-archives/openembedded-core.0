@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id EDCC3605B3
+	by mail.openembedded.org (Postfix) with ESMTP id 0BA8F605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 22:36:09 +0000 (UTC)
+	Fri, 26 Jun 2015 22:40:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5QMa9lA013723; Fri, 26 Jun 2015 23:36:09 +0100
+	t5QMesZV013837 for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jun 2015 23:40:54 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TVuYaYvcNoTs; Fri, 26 Jun 2015 23:36:08 +0100 (BST)
+	with LMTP id o7AvHAnAKxsD
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jun 2015 23:40:54 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5QMZvB1013715
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 26 Jun 2015 23:36:08 +0100
-Message-ID: <1435358156.10583.34.camel@linuxfoundation.org>
+	t5QMefSi013834
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Jun 2015 23:40:52 +0100
+Message-ID: <1435358441.10583.35.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 26 Jun 2015 23:35:56 +0100
-In-Reply-To: <1435261607-2512-1-git-send-email-armccurdy@gmail.com>
-References: <1435261607-2512-1-git-send-email-armccurdy@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Jun 2015 23:40:41 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] pbzip2: add initial recipe, pbzip2 v1.1.12
+Subject: [PATCH] subversion: Fix subversion-native on Fedora22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,52 +37,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 22:36:11 -0000
+X-List-Received-Date: Fri, 26 Jun 2015 22:40:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-06-25 at 12:46 -0700, Andre McCurdy wrote:
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
->  create mode 100644 meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
-> 
-> diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
-> new file mode 100644
-> index 0000000..fb70d0c
-> --- /dev/null
-> +++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.12.bb
-> @@ -0,0 +1,27 @@
-> +SUMMARY = "PBZIP2 is a parallel implementation of bzip2"
-> +DESCRIPTION = "PBZIP2 is a parallel implementation of the bzip2 block-sorting \
-> +file compressor that uses pthreads and achieves near-linear speedup on SMP \
-> +machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
-> +newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
-> +HOMEPAGE = "http://compression.ca/pbzip2/"
-> +SECTION = "console/utils"
-> +LICENSE = "BSD"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=4c4f2edec9679d5abef3514a816b54a4"
-> +
-> +DEPENDS = "bzip2"
+Similarly to:
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=9b19d6548a345009a6de79a6820c07a72054d961
 
-http://errors.yoctoproject.org/Errors/Details/12617/
+we also need to fix the subversion-native case with gcc5 by using
+the same fix to the BUILD_CPPFLAGS.
 
-probably as bzip2-native is in ASSUME_PROVIDED at a guess and the bzip2
-headers weren't installed :/.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We might have to force this to build bzip2-native, the only issue with
-that is installing bzip2 itself into the sysroot will cause a race like
-we've had with tar and gzip :(. We might have to teach it to install the
-libs but not the binaries in the native case (and do a PROVIDES +=
-"bzip2-replacement-native" or something so we can depend on the right
-thing.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-devtools/subversion/subversion_1.8.13.bb b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+index 7ef7dfb..a98be67 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.8.13.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+@@ -32,6 +32,7 @@ inherit autotools
+ 
+ export LDFLAGS += " -L${STAGING_LIBDIR} "
+ CPPFLAGS += "-P"
++BUILD_CPPFLAGS += "-P"
+ 
+ acpaths = "-I build/ -I build/ac-macros/"
+ 
 
 
 
