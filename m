@@ -1,23 +1,19 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A8FE75662
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id AB99260132
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 14:03:00 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Jun 2015 07:02:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,685,1427785200"; d="scan'208";a="514674564"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 26 Jun 2015 07:02:38 -0700
-From: mariano.lopez@linux.intel.com
+	Fri, 26 Jun 2015 14:30:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 5DDB25188035
+Message-ID: <1435329007.3376.4.camel@collabora.co.uk>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Jun 2015 05:56:00 +0000
-Message-Id: <e70f95d9bb6247ec0f305966894b22f681135013.1435297800.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1435297800.git.mariano.lopez@linux.intel.com>
-References: <cover.1435297800.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1] report-error.bbclass: Added file syncronization.
+Date: Fri, 26 Jun 2015 15:30:07 +0100
+In-Reply-To: <1434468553-26749-1-git-send-email-alejandro.hernandez@linux.intel.com>
+References: <1434468553-26749-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: Evolution 3.16.3 (3.16.3-2.fc22) 
+Mime-Version: 1.0
+Subject: Re: [PATCH][fido] python3-ctypes: Fix cross compilation for arm targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,74 +26,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 14:03:07 -0000
+X-List-Received-Date: Fri, 26 Jun 2015 14:30:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On Tue, 2015-06-16 at 15:29 +0000, Alejandro Hernandez wrote:
+> When cross compiling for arm targets ctypes compilation fails because
+> it uses _sysconfigdata from the HOST, this patches makes it use the
+> one from TARGET fixing compilation of this module
+> 
+> [YOCTO #7873]
 
-errorreport_handler would fail if several errors are
-triggered at the same time because of two proccess
-writting to the same file. This patch add the required
-syncronization to handle concurrent process.
+Thanks Alejandro,
 
-[YP #7899]
+This is queued in my fido-next branch[1].
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/report-error.bbclass | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+Regards,
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index c5aaaa8..11eee9b 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -18,7 +18,6 @@ def errorreport_getdata(e):
- def errorreport_savedata(e, newdata, file):
-     import json
-     logpath = e.data.getVar('ERR_REPORT_DIR', True)
--    bb.utils.mkdirhier(logpath)
-     datafile = os.path.join(logpath, file)
-     with open(datafile, "w") as f:
-         json.dump(newdata, f, indent=4, sort_keys=True)
-@@ -27,7 +26,11 @@ def errorreport_savedata(e, newdata, file):
- python errorreport_handler () {
-         import json
- 
-+        logpath = e.data.getVar('ERR_REPORT_DIR', True)
-+        datafile = os.path.join(logpath, "error-report.txt")
-+
-         if isinstance(e, bb.event.BuildStarted):
-+            bb.utils.mkdirhier(logpath)
-             data = {}
-             machine = e.data.getVar("MACHINE", False)
-             data['machine'] = machine
-@@ -38,7 +41,9 @@ python errorreport_handler () {
-             data['failures'] = []
-             data['component'] = e.getPkgs()[0]
-             data['branch_commit'] = base_detect_branch(e.data) + ": " + base_detect_revision(e.data)
-+            lock = bb.utils.lockfile(datafile + '.lock')
-             errorreport_savedata(e, data, "error-report.txt")
-+            bb.utils.unlockfile(lock)
- 
-         elif isinstance(e, bb.build.TaskFailed):
-             task = e.task
-@@ -56,12 +61,16 @@ python errorreport_handler () {
- 
-             else:
-                 taskdata['log'] = "No Log"
-+            lock = bb.utils.lockfile(datafile + '.lock')
-             jsondata = json.loads(errorreport_getdata(e))
-             jsondata['failures'].append(taskdata)
-             errorreport_savedata(e, jsondata, "error-report.txt")
-+            bb.utils.unlockfile(lock)
- 
-         elif isinstance(e, bb.event.BuildCompleted):
-+            lock = bb.utils.lockfile(datafile + '.lock')
-             jsondata = json.loads(errorreport_getdata(e))
-+            bb.utils.unlockfile(lock)
-             failures = jsondata['failures']
-             if(len(failures) > 0):
-                 filename = "error_report_" + e.data.getVar("BUILDNAME", False)+".txt"
--- 
-1.8.4.5
+Joshua
 
+1. http://cgit.openembedded.org/openembedded-core
+-contrib/log/?h=joshuagl/fido-next
+
+> 
+> Signed-off-by: Alejandro Hernandez <
+> alejandro.hernandez@linux.intel.com>
+> Signed-off-by: Jonas Göransson <jonas.goransson@qmatic.com>
+> ---
+>  meta/recipes-devtools/python/python3_3.3.3.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/meta/recipes-devtools/python/python3_3.3.3.bb 
+> b/meta/recipes-devtools/python/python3_3.3.3.bb
+> index 6147408..22ea651 100644
+> --- a/meta/recipes-devtools/python/python3_3.3.3.bb
+> +++ b/meta/recipes-devtools/python/python3_3.3.3.bb
+> @@ -72,6 +72,10 @@ export CROSS_COMPILE = "${TARGET_PREFIX}"
+>  export _PYTHON_PROJECT_BASE = "${B}"
+>  export _PYTHON_PROJECT_SRC = "${S}"
+>  
+> +# Fix ctypes cross compilation
+> +export CROSSPYTHONPATH = "${B}/build/lib.linux-${TARGET_ARCH}
+> -${PYTHON_MAJMIN}:${S}/Lib:${S}/Lib/plat-linux"
+> +
+> +
+>  # No ctypes option for python 3
+>  PYTHONLSBOPTS = ""
+>  
+> -- 
+> 1.8.4.5
+> 
 
