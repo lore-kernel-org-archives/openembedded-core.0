@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 572FA6AC15
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 564EE600B3
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 26 Jun 2015 03:06:15 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5Q36GDv010222
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5Q36GMs002912
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 25 Jun 2015 20:06:16 -0700 (PDT)
@@ -14,13 +14,11 @@ Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	Thu, 25 Jun 2015 20:06:16 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 25 Jun 2015 20:06:16 -0700
-Message-ID: <c0323391e0ad842b95309a326049baf124e6e8b5.1435287954.git.liezhi.yang@windriver.com>
+Date: Thu, 25 Jun 2015 20:06:15 -0700
+Message-ID: <cover.1435287954.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1435287954.git.liezhi.yang@windriver.com>
-References: <cover.1435287954.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] toolchain-scripts: fix for multilib
+Subject: [PATCH 0/1] toolchain-scripts: fix for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +34,21 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 26 Jun 2015 03:06:17 -0000
 Content-Type: text/plain
 
-Use MLPREFIX to fix:
-| cat: /path/to/sysroots/lib32-qemux86-64/sysroot-providers/virtual_libc: No such file or directory
+The following changes since commit 2587b83faabdc8858e8746201805369ed8d53ba8:
 
-[YOCTO #7924]
+  wpa-supplicant: Revert "Make SystemD D-Bus config conditional" (2015-06-24 14:03:25 +0100)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/tc
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/tc
+
+Robert Yang (1):
+  toolchain-scripts: fix for multilib
+
  meta/classes/toolchain-scripts.bbclass |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index b62bbf3..9378918 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -98,7 +98,7 @@ EOF
- #we get the cached site config in the runtime
- TOOLCHAIN_CONFIGSITE_NOCACHE = "${@siteinfo_get_files(d, True)}"
- TOOLCHAIN_CONFIGSITE_SYSROOTCACHE = "${STAGING_DIR}/${MLPREFIX}${MACHINE}/${target_datadir}/${TARGET_SYS}_config_site.d"
--TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/libc ncurses"
-+TOOLCHAIN_NEED_CONFIGSITE_CACHE ??= "virtual/${MLPREFIX}libc ncurses"
- 
- #This function create a site config file
- toolchain_create_sdk_siteconfig () {
 -- 
 1.7.9.5
 
