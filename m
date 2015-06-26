@@ -1,37 +1,36 @@
-Return-Path: <fan.xin@jp.fujitsu.com>
-X-Greylist: delayed 622 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 26 Jun 2015 08:14:53 UTC
-Received: from mgwym04.jp.fujitsu.com (mgwym04.jp.fujitsu.com [211.128.242.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D44D601E0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EBB52607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 08:14:53 +0000 (UTC)
-Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
-	mgwym04.jp.fujitsu.com with smtp
-	id 6394_103b_2f6af931_a730_4a79_bf7b_51527be6c589;
-	Fri, 26 Jun 2015 17:04:31 +0900
-Received: from g01jpfmpwkw01.exch.g01.fujitsu.local
-	(g01jpfmpwkw01.exch.g01.fujitsu.local [10.0.193.38])
-	by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 341BCAC05BE
+	Fri, 26 Jun 2015 08:28:17 +0000 (UTC)
+Received: by qkei195 with SMTP id i195so13293945qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 17:04:30 +0900 (JST)
-Received: from G01JPEXCHKW13.g01.fujitsu.local
-	(G01JPEXCHKW13.g01.fujitsu.local [10.0.194.52])
-	by g01jpfmpwkw01.exch.g01.fujitsu.local (Postfix) with ESMTP id
-	56B1A6923B0 for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Jun 2015 17:03:23 +0900 (JST)
-Received: from [10.24.19.99] (10.24.19.99) by G01JPEXCHKW13.g01.fujitsu.local
-	(10.0.194.52) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 26 Jun 2015 17:03:23 +0900
-Message-ID: <558D07C7.5000203@jp.fujitsu.com>
-Date: Fri, 26 Jun 2015 17:05:27 +0900
-From: fan.xin <fan.xin@jp.fujitsu.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
+	Fri, 26 Jun 2015 01:28:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=tYM6Tf6mMi1z+/bEfsde/GDuwW/22y41iIfg62YdlDQ=;
+	b=hBpa1y6bg6GuhlIdD1INxLSGyn/hIpdCbY74JMWSs3NEosYj5PRKv6BYhYdcFuznt8
+	q06XAX17uullBLUG++zuU8sAp2kqv63qYlHw+buvN9ln9TawzcUHbIm6DEPQosnnuCYK
+	syeLKFcKpXBHZreXrKXacawu7GCvgIjHU7aDyxzJRD4Aps/d3rQMw7C+jpr5q5yFipGb
+	bDQtMLBKlW3BzqJ6KMOdsrxXo7Xt4rCjvH3L3SF0fROaCrAh3DdN3MeleciKNI5dmpBX
+	GTGzK5JkBwvNEXvvSoPTqxqt0CpeVO5VqapdpDCHvkfQDIONJp183npu6/uZKecI8LSp
+	XPgA==
+X-Gm-Message-State: ALoCoQldXDNYoQxPlbuhmCtEENCDjFMsS25XOl9u7NJOfI1OU8pFAQQjHv7hrp6sY5Z00dYxuqXo
+X-Received: by 10.140.89.104 with SMTP id u95mr543679qgd.15.1435307299174;
+	Fri, 26 Jun 2015 01:28:19 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-X-SecurityPolicyCheck-GC: OK by FENCE-Mail
-X-TM-AS-MML: disable
-Subject: [PATCH] wpa-supplicant: Fix CVE-2015-4142
+Received: by 10.140.102.231 with HTTP; Fri, 26 Jun 2015 01:27:59 -0700 (PDT)
+In-Reply-To: <558D0204.8080304@topic.nl>
+References: <558D0204.8080304@topic.nl>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 26 Jun 2015 09:27:59 +0100
+Message-ID: <CAJTo0LZDwYJtVrcS4+d-ZyuAm3bpHDkTwj3pFittc6wKAd2zvA@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Any "desktop" layers?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,76 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Jun 2015 08:14:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Jun 2015 08:28:21 -0000
+Content-Type: multipart/alternative; boundary=001a11c135f6b615df0519678538
 
-    
-    Description on [1] and patch taken from [2]
-    
-    [1]https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-4142
-    [2]http://w1.fi/security/2015-3/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
-    
-    Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+--001a11c135f6b615df0519678538
+Content-Type: text/plain; charset=UTF-8
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
-new file mode 100644
-index 0000000..79c5af8
---- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
-@@ -0,0 +1,41 @@
-+From ef566a4d4f74022e1fdb0a2addfe81e6de9f4aae Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Wed, 29 Apr 2015 02:21:53 +0300
-+Subject: [PATCH] AP WMM: Fix integer underflow in WMM Action frame parser
-+
-+The length of the WMM Action frame was not properly validated and the
-+length of the information elements (int left) could end up being
-+negative. This would result in reading significantly past the stack
-+buffer while parsing the IEs in ieee802_11_parse_elems() and while doing
-+so, resulting in segmentation fault.
-+
-+This can result in an invalid frame being used for a denial of service
-+attack (hostapd process killed) against an AP with a driver that uses
-+hostapd for management frame processing (e.g., all mac80211-based
-+drivers).
-+
-+Thanks to Kostya Kortchinsky of Google security team for discovering and
-+reporting this issue.
-+
-+Signed-off-by: Jouni Malinen <j@w1.fi>
-+---
-+ src/ap/wmm.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/ap/wmm.c b/src/ap/wmm.c
-+index 6d4177c..314e244 100644
-+--- a/src/ap/wmm.c
-++++ b/src/ap/wmm.c
-+@@ -274,6 +274,9 @@ void hostapd_wmm_action(struct hostapd_data *hapd,
-+               return;
-+       }
-+ 
-++      if (left < 0)
-++              return; /* not a valid WMM Action frame */
-++
-+       /* extract the tspec info element */
-+       if (ieee802_11_parse_elems(pos, left, &elems, 1) == ParseFailed) {
-+               hostapd_logger(hapd, mgmt->sa, HOSTAPD_MODULE_IEEE80211,
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
-index ebae239..fee8384 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
-            file://wpa_supplicant.conf-sane \
-            file://99_wpa_supplicant \
-            file://0001-P2P-Validate-SSID-element-length-before-copying-it-C.patch \
-+           file://0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch \
-           "
- SRC_URI[md5sum] = "f0037dbe03897dcaf2ad2722e659095d"
- SRC_URI[sha256sum] = "058dc832c096139a059e6df814080f50251a8d313c21b13364c54a1e70109122"
+On 26 June 2015 at 08:40, Mike Looijmans <mike.looijmans@topic.nl> wrote:
 
+> So I'd like to forward this one to the list. There's plenty boards out
+> there now with big CPUs and supporting big screens and all. If I wanted to
+> turn such not-so-mainstream board into a real desktop, how does one do that?
+>
 
+meta-xfce is fairly well used and up to date.
+
+Ross
+
+--001a11c135f6b615df0519678538
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 26 June 2015 at 08:40, Mike Looijmans <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.nl</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":hf" class=
+=3D"a3s" style=3D"overflow:hidden">So I&#39;d like to forward this one to t=
+he list. There&#39;s plenty boards out there now with big CPUs and supporti=
+ng big screens and all. If I wanted to turn such not-so-mainstream board in=
+to a real desktop, how does one do that?<br></div></blockquote></div><br>me=
+ta-xfce is fairly well used and up to date.</div><div class=3D"gmail_extra"=
+><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11c135f6b615df0519678538--
