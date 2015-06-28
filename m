@@ -1,40 +1,44 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id DCB3860132
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id EA87860132
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jun 2015 13:24:22 +0000 (UTC)
-Received: by pdbci14 with SMTP id ci14so101046475pdb.2
+	Sun, 28 Jun 2015 13:33:24 +0000 (UTC)
+Received: by pactm7 with SMTP id tm7so91281177pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Jun 2015 06:24:23 -0700 (PDT)
+	Sun, 28 Jun 2015 06:33:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=wKPsxDmJ2Dp0KmPORwMJbEgAxv4sY25qR01oaY43qA0=;
-	b=zO7VAxpYOqLeWCu128hszX0/DcKbP0yQQDzJmDaJhRlGxABGm2xeRQ0qlTl7W30csH
-	4NeF/5lSSa3ktQ0FOMJIpShULbUlFaekgqm3rgJFA4mj2k2vB0851717wHIBEovtx2Sr
-	FfO0lj9vXgi2zRcalfrea7+NnvBPqpG1cZpASMAJnLHplZ7x2nMzMX9Bo11HGvlaky9t
-	oaT0s1SeHdhPM0T0oFJ/YYWjepardkHCKX0nF38LQIgLaY2a/Tn101NIk5jfbCMeE4jp
-	/iRLnNHCcTTBnqsBV4sngfCb8de+o6wKvxTa6u6KgrbD2L8MrmGJCHIaVMhuTb3wXHiF
-	jwog==
-X-Received: by 10.70.127.203 with SMTP id ni11mr22332063pdb.74.1435497863686; 
-	Sun, 28 Jun 2015 06:24:23 -0700 (PDT)
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=h+pQpSiYMdD/Dz8dAVSfSm4kdXo1s6zqVtyDzv6vYcQ=;
+	b=xYq6YDeRP3qbjSJ//lMOAXbW/NSzTsJK09pgG+u40trdA6At9LYA3/H3g+U5Bv43VS
+	VCC1qne23NNy6QoxjWhqXSuY3eZKCXo49UK1ooVC03Yz1c/wYCRZYUyOafNB1rOiyOYy
+	P3lzW5Sgz0J92NcdBsvUOesV7j9eOR8i3gaAYgAtZYidCslQvchhJ2Xj5qgbCcnsVzAu
+	s55jLvufZEhvlhknxxUI/QWBgmIGO4a7iZKHrq4AzF8Pomvsa+Wr5t7EAC3rEv+aOa3d
+	bI8PJFZ2sHhjMrxNjZXyr03EzezVI8oNmZS++KhR/PaLxdwYAUX9ILIwvKge7vPS3JhB
+	1xQw==
+X-Received: by 10.66.122.5 with SMTP id lo5mr22112627pab.141.1435498405008;
+	Sun, 28 Jun 2015 06:33:25 -0700 (PDT)
 Received: from ?IPv6:2601:202:4000:1239:3ce4:949d:70b:5e6c?
 	([2601:202:4000:1239:3ce4:949d:70b:5e6c])
-	by mx.google.com with ESMTPSA id x2sm39157414pda.31.2015.06.28.06.24.21
+	by mx.google.com with ESMTPSA id i4sm4621139pdk.74.2015.06.28.06.33.22
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 28 Jun 2015 06:24:22 -0700 (PDT)
-Message-ID: <558FF57A.1000905@gmail.com>
-Date: Sun, 28 Jun 2015 06:24:10 -0700
+	Sun, 28 Jun 2015 06:33:23 -0700 (PDT)
+Message-ID: <558FF797.3040602@gmail.com>
+Date: Sun, 28 Jun 2015 06:33:11 -0700
 From: akuster808 <akuster808@gmail.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1435174534.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1435174534.git.jussi.kukkonen@intel.com>
-Subject: Re: [PATCH 0/1][fido][dizzy] dbus: Fix CVE-2015-0245
+To: "Ng, Wei Tee" <wei.tee.ng@intel.com>, 
+	"'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+References: <1434699981-8983-1-git-send-email-wei.tee.ng@intel.com>
+	<5588BC3C.7020800@gmail.com>
+	<B4FF7F2787593E4CA07131C98D4AD41A01C435C9@PGSMSX101.gar.corp.intel.com>
+	<B4FF7F2787593E4CA07131C98D4AD41A01C43D12@PGSMSX101.gar.corp.intel.com>
+In-Reply-To: <B4FF7F2787593E4CA07131C98D4AD41A01C43D12@PGSMSX101.gar.corp.intel.com>
+Subject: Re: [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,47 +51,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Jun 2015 13:24:23 -0000
+X-List-Received-Date: Sun, 28 Jun 2015 13:33:25 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
 merged to staging
 
-thanks,
-armin
+- armin
 
-On 06/24/2015 01:04 PM, Jussi Kukkonen wrote:
-> This is for fido and possibly dizzy, not master.
+On 06/24/2015 10:27 PM, Ng, Wei Tee wrote:
+> Hi, are these included?
 >
-> D-Bus 1.8.16 fixes CVE-2015-0245 "prevent forged ActivationFailure from
-> non-root processes". This patch does not contain the same fix but a
-> configuration change that upstream suggests as a easily backportable
-> fix.
+> Best Regards,
+> Wei Tee
 >
-> The issue is only a local denial of service so not terribly dangerous,
-> but should be worth fixing since the patch is not intrusive.
->
-> I've only tested this on fido, so the [dizzy] is just a suggestion.
->
-> Cheers, Jussi
->
->
->
-> The following changes since commit eb4a134a60e3ac26a48379675ad6346a44010339:
->
->    scripts/combo-layer: Fix exit codes and tty handling (2015-06-11 15:00:20 +0100)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib jku/dbus-fix-for-fido
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/dbus-fix-for-fido
->
-> Jussi Kukkonen (1):
->    dbus: CVE-2015-0245: prevent forged ActivationFailure
->
->   meta/recipes-core/dbus/dbus.inc                    |  1 +
->   ...015-0245-prevent-forged-ActivationFailure.patch | 48 ++++++++++++++++++++++
->   2 files changed, 49 insertions(+)
->   create mode 100644 meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch
->
+>> -----Original Message-----
+>> From: Ng, Wei Tee
+>> Sent: Tuesday, June 23, 2015 10:06 AM
+>> To: akuster808; openembedded-core@lists.openembedded.org
+>> Subject: RE: [OE-core] [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi feature
+>>
+>> Hi Armin,
+>>
+>> Thanks for accepting the linux-firmware changes in dizzy branch.
+>>
+>> Regarding to the two new recipes, is it possible to add the two new recipes in
+>> master branch so that it can be backport to dizzy/fido branch? My target is to
+>> enable hostapd and iw features in dizzy branch. Hope to get some advice from
+>> you. Thank you
+>>
+>> Regards,
+>> Wei Tee
+>>
+>>> -----Original Message-----
+>>> From: akuster808 [mailto:akuster808@gmail.com]
+>>> Sent: Tuesday, June 23, 2015 9:54 AM
+>>> To: Ng, Wei Tee; openembedded-core@lists.openembedded.org
+>>> Subject: Re: [OE-core] [PATCH 0/3] [dizzy] Enable Marvell 8897 Wifi
+>>> feature
+>>>
+>>> Wei Tee,
+>>>
+>>> I am ok with the firmware change but not adding two new recipes. A
+>>> better place may be in fido.
+>>>
+>>> regards,
+>>> Armin
+>>>
+>>> On 06/19/2015 12:46 AM, wei.tee.ng@intel.com wrote:
+>>>> From: Ng Wei Tee <wei.tee.ng@intel.com>
+>>>>
+>>>> Hi all,
+>>>>
+>>>> I would like to add hostapd and iw configuration for enabling
+>>>> Marvell
+>>>> 8897 Wifi feature. Hostapd and iw configuration were created in the
+>>>> recipes-connectivity layer to enable Marvell 8897 module function in
+>>>> AP Mode and STA mode.
+>>>>
+>>>> This also package the Marvell pci8897 and usb8897 in the
+>>>> recipes-kernel/linux-firmware and intel iwlwifi firmware copyright
+>>>> years changed. Please review and provide feedback if any.
+>>>>
+>>>> This patch is target to merge in openembedded-core dizzy branch.
+>>>>
+>>>> Regards,
+>>>> Wei Tee
+>>>>
+>>>> Ng Shui Lei (2):
+>>>>     recipes-connectivity: Add hostapd configuration for enabling Marvell
+>>>>       8897 WiFi feature
+>>>>     recipes-connectivity: Add iw configuration for enabling Marvell 8897
+>>>>       WiFi feature
+>>>>
+>>>> Ng Wei Tee (1):
+>>>>     linux-firmware: Package Marvell pci8897 and usb8897 firmware
+>>>>
+>>>>    .../hostapd/hostapd-2.2/defconfig                  |  145 ++++++++++++++++++++
+>>>>    .../hostapd/hostapd-2.2/hostapd.service            |   11 ++
+>>>>    meta/recipes-connectivity/hostapd/hostapd-2.2/init |   58 ++++++++
+>>>>    meta/recipes-connectivity/hostapd/hostapd_2.2.bb   |   48 +++++++
+>>>>    ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++
+>>>>    meta/recipes-connectivity/iw/iw_3.8.bb             |   27 ++++
+>>>>    .../linux-firmware/linux-firmware_git.bb           |   19 ++-
+>>>>    7 files changed, 345 insertions(+), 3 deletions(-)
+>>>>    create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
+>>> 2.2/defconfig
+>>>>    create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
+>>> 2.2/hostapd.service
+>>>>    create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/init
+>>>>    create mode 100644 meta/recipes-connectivity/hostapd/hostapd_2.2.bb
+>>>>    create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-
+>>> version.sh-don-t-use-git-describe-for-versioning.patch
+>>>>    create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
+>>>>
 
