@@ -1,29 +1,23 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 104CD6AD0D
+Return-Path: <daniel.alexandrux.istrate@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B05E60024
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 08:31:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5T8VuYI003906
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Jun 2015 01:31:56 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 29 Jun 2015 01:31:55 -0700
-Message-ID: <55910279.7030901@windriver.com>
-Date: Mon, 29 Jun 2015 16:31:53 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1435135356.git.liezhi.yang@windriver.com>	
-	<bf978a7894f51c909ede7f64c28b6da5495d981a.1435135356.git.liezhi.yang@windriver.com>
-	<1435566069.7287.22.camel@linuxfoundation.org>
-In-Reply-To: <1435566069.7287.22.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/5] file: 5.22 -> 5.23
+	Mon, 29 Jun 2015 08:59:56 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 29 Jun 2015 01:59:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,698,1427785200"; d="scan'208";a="719458791"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2015 01:59:48 -0700
+Received: from localhost.localdomain (unknown [10.237.112.249])
+	by linux.intel.com (Postfix) with ESMTP id D58706A4083;
+	Mon, 29 Jun 2015 01:59:08 -0700 (PDT)
+From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jun 2015 11:59:41 +0300
+Message-Id: <1435568381-12011-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/selftest: Add methods to manipulate bblayers.conf in base.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,49 +30,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 08:32:02 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jun 2015 08:59:59 -0000
 
+Added methods for manipulating bblayers.conf file in the same manner as local.conf file:
+    - write_bblayers_config
+    - append_bblayers_config
+    - remove_bblayers_config
 
+Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+---
+ meta/lib/oeqa/selftest/base.py | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-On 06/29/2015 04:21 PM, Richard Purdie wrote:
-> On Wed, 2015-06-24 at 01:55 -0700, Robert Yang wrote:
->> Updated 0001-Add-P-prompt-into-Usage-info.patch.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   .../file/0001-Add-P-prompt-into-Usage-info.patch   |    6 +++---
->>   .../file/{file_5.22.bb => file_5.23.bb}            |    6 +++---
->>   2 files changed, 6 insertions(+), 6 deletions(-)
->>   rename meta/recipes-devtools/file/{file_5.22.bb => file_5.23.bb} (81%)
->
-> I've noticed an additional problem with the file recipe, specifically
-> that it tries to run the file it just built (in the -native case) and
-> this links against libmagic.so. When it runs, it can use
-> the /usr/lib/libmagic instead of the one in WORKDIR. If you have file
-> 2.22 on your system (e.g. Ubuntu 15.04), you can get an error.
->
-> The fix I found was to add an LD_LIBRBARY_PATH to the Makefile:
->
-> 	LD_LIBRARY_PATH=$(top_builddir)/src/.libs $(FILE_COMPILE) -C -m magic
->
-> which is ugly but appeared to fix the error I was seeing. There was a
-> bug a while back I was unable to reproduce and this is likely the cause
-> of that too, it all depends which version of libmagic you have on your
-> system.
+diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
+index 80b9b4b..b2faa66 100644
+--- a/meta/lib/oeqa/selftest/base.py
++++ b/meta/lib/oeqa/selftest/base.py
+@@ -27,6 +27,8 @@ class oeSelfTest(unittest.TestCase):
+         self.builddir = os.environ.get("BUILDDIR")
+         self.localconf_path = os.path.join(self.builddir, "conf/local.conf")
+         self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
++        self.local_bblayers_path = os.path.join(self.builddir, "conf/bblayers.conf")
++        self.testinc_bblayers_path = os.path.join(self.builddir, "conf/bblayers.inc")
+         self.testlayer_path = oeSelfTest.testlayer_path
+         self._extra_tear_down_commands = []
+         self._track_for_cleanup = []
+@@ -45,6 +47,11 @@ class oeSelfTest(unittest.TestCase):
+             for f in files:
+                 if f == 'test_recipe.inc':
+                     os.remove(os.path.join(root, f))
++        try:
++            os.remove(self.testinc_bblayers_path)
++        except OSError as e:
++            if e.errno != errno.ENOENT:
++                raise
+         # tests might need their own setup
+         # but if they overwrite this one they have to call
+         # super each time, so let's give them an alternative
+@@ -129,3 +136,18 @@ class oeSelfTest(unittest.TestCase):
+         except OSError as e:
+             if e.errno != errno.ENOENT:
+                 raise
++
++    # write to <builddir>/conf/bblayers.inc
++    def write_bblayers_config(self, data):
++        self.log.debug("Writing to: %s\n%s\n" % (self.testinc_bblayers_path, data))
++        ftools.write_file(self.testinc_bblayers_path, data)
++
++    # append to <builddir>/conf/bblayers.inc
++    def append_bblayers_config(self, data):
++        self.log.debug("Appending to: %s\n%s\n" % (self.testinc_bblayers_path, data))
++        ftools.append_file(self.testinc_bblayers_path, data)
++
++    # remove data from <builddir>/conf/bblayers.inc
++    def remove_bblayers_config(self, data):
++        self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers_path, data))
++        ftools.remove_from_file(self.testinc_bblayers_path, data)
+-- 
+2.1.4
 
-Thanks, I will fix it when upgrade to 5.24.
-
-// Robert
-
->
-> Cheers,
->
-> Richard
->
->
->
->
->
 
