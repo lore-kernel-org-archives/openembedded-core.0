@@ -1,19 +1,41 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 75D8575620
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 30E9460670
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 10:19:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 50ACC60003E
-Message-ID: <1435573194.3287.13.camel@collabora.co.uk>
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Jun 2015 11:19:54 +0100
-In-Reply-To: <1435486480.10583.85.camel@linuxfoundation.org>
-References: <1435486480.10583.85.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.16.3 (3.16.3-2.fc22) 
-Mime-Version: 1.0
-Subject: Re: fido status
+	Mon, 29 Jun 2015 11:18:33 +0000 (UTC)
+Received: by wiar9 with SMTP id r9so526593wia.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jun 2015 04:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=je1MhJxkVW5jSrs/fhRVC+3gDZ41Yolvr0JOKQAxiuE=;
+	b=MlGjnmTyl0C7ppzufhhwddw7dctGc2sxZ3FkaddTzOSRSpKVE7JBbQ4ZOToc5fz9BR
+	Z4a3FrCEnnDS2kzRSzwJoI5YE43sPXTX04x388uF/IepJgWcT3M0cBQVfTjwvGmVXVvw
+	JkTjDe03HIsgCS8wtwbi2zGx2TscotJKh7cT1ikK6dcGIHaMq+Q2Rn4lv6UnfPno7QrD
+	k5TK/hcL7yQe6/M6KHxryG4wF3kc9ayx6ojpNevWw7dK10Bw+bP0OMLoSqZt4hKoDIjh
+	+qJNMTUW+hN/2cay5cXlAnmKSqB7ZqIXEmduqaZs4mLB4SEAy9dn0Lnn1nTf5Q8arKrL
+	vwyg==
+X-Received: by 10.180.74.132 with SMTP id t4mr22514957wiv.55.1435576714432;
+	Mon, 29 Jun 2015 04:18:34 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id u7sm11674825wif.3.2015.06.29.04.18.33
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Jun 2015 04:18:33 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 29 Jun 2015 13:18:39 +0200
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20150629111839.GB2393@jama>
+References: <cover.1435297800.git.mariano.lopez@linux.intel.com>
+	<e70f95d9bb6247ec0f305966894b22f681135013.1435297800.git.mariano.lopez@linux.intel.com>
+	<CAJTo0LZrsr7u7a-jRhoG6nKP51vXBGCiuRsm51YoySiK_YSxsg@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZrsr7u7a-jRhoG6nKP51vXBGCiuRsm51YoySiK_YSxsg@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] report-error.bbclass: Added file syncronization.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,49 +48,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 10:19:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jun 2015 11:18:34 -0000
+X-Groupsio-MsgNum: 67274
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="eJnRUKwClWJh1Khz"
+Content-Disposition: inline
 
-On Sun, 2015-06-28 at 11:14 +0100, Richard Purdie wrote:
-> I just wanted to let people know what is going on with Fido.
-> 
-> Joshua has had a branch in testing for a while. The autobuilder gave
-> mixed feedback for it. Partly, there was a problem since we'd 
-> introduced
-> a new autobuilder (Fedora 22) and this introduced some problems with
-> subversion-native and gcc5. Partly there were also networking issues 
-> on
-> the autobuilders related to runqemu.
-> 
-> Thanks to some help from Michael, we've tracked down and sorted the
-> networking issue (we hope!). I therefore took the decision to merge
-> Joshua's fido-next branch myself, now, with the addition of the
-> subversion fixes to the fido branch.
+--eJnRUKwClWJh1Khz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for merging Richard, the number of patches was starting to get
-unwieldy so I'm pleased to see this happen.
+On Fri, Jun 26, 2015 at 04:17:01PM +0100, Burton, Ross wrote:
+> On 26 June 2015 at 06:56, <mariano.lopez@linux.intel.com> wrote:
+>=20
+> > errorreport_handler would fail if several errors are
+> > triggered at the same time because of two proccess
+> > writting to the same file. This patch add the required
+> > syncronization to handle concurrent process.
+> >
+>=20
+> The code in the autobuilder that sends error reports doesn't care for the
+> filenames, just that they're under error-reports/.  Instead of locking
+> around a single file - which surely will replace errors with lost reports=
+ -
+> just write each report to a unique filename.
 
-> 
-> I've triggered another build which is underway at the moment and I'm
-> confident the result should be reasonable. What I am expecting is
-> failures for oe-selftest and for nightly-aarm64 and nightly-mips64.
-> There are fixes just merged into master which resolve issues in all
-> three areas, I'm hoping we can queue up a fido-next with those in and
-> get fido building green quickly. Those issues are less of an issue 
-> given
-> we know what the issues are and they are testing issues, not 'real'
-> bugs.
+This is about multiple TaskFailed events being processed at the same
+time, isn't it? So it's still part of the same report and unrelated to
+uploading to web app.
 
-Your prediction was very accurate. I've merged a bunch of fixes for the
-issues you highlighted (and a couple of others) into my fido-next
-branch[1]. I shall endeavour to get this tested on the autobuilder and
-submitted for merge over the next couple of days.
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Thanks again,
+--eJnRUKwClWJh1Khz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Joshua
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
-1. http://cgit.openembedded.org/openembedded-core
--contrib/log/?h=joshuagl/fido-next
+iEYEARECAAYFAlWRKY4ACgkQN1Ujt2V2gBzu7QCgtYADx8LwE0FbSs2oK4yl5QdJ
+CI0AoKwsATlqyyico4foFH60bMr9CpCL
+=GiN/
+-----END PGP SIGNATURE-----
 
+--eJnRUKwClWJh1Khz--
