@@ -1,32 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D43D06AB99
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 986D865CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 07:29:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5T7T2Va025931; Mon, 29 Jun 2015 08:29:02 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TzR21kuHXFpm; Mon, 29 Jun 2015 08:29:02 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5T7SmOr025903
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 29 Jun 2015 08:28:59 +0100
-Message-ID: <1435562928.7287.15.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>
-Date: Mon, 29 Jun 2015 08:28:48 +0100
-In-Reply-To: <1435562320.7287.12.camel@linuxfoundation.org>
-References: <cover.1435126503.git.liezhi.yang@windriver.com>
-	<1435514866.7287.3.camel@linuxfoundation.org>
-	<5590D7BA.5030306@windriver.com>
-	<1435562320.7287.12.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/8] perl 5.20.0 -> 5.22.0 and fix test cases
+	Mon, 29 Jun 2015 08:07:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5T87BFZ002002
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jun 2015 01:07:12 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 29 Jun 2015 01:07:11 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Jun 2015 16:06:57 +0800
+Message-ID: <1435565217-24812-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] unzip: drop 12-cve-2014-9636-test-compr-eb.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,54 +31,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 07:29:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 29 Jun 2015 08:07:11 -0000
+Content-Type: text/plain
 
-On Mon, 2015-06-29 at 08:18 +0100, Richard Purdie wrote:
-> On Mon, 2015-06-29 at 13:29 +0800, Robert Yang wrote:
-> > 
-> > On 06/29/2015 02:07 AM, Richard Purdie wrote:
-> > > On Tue, 2015-06-23 at 23:26 -0700, Robert Yang wrote:
-> > >> * Upgrade perl 5.20.0 -> 5.22.0
-> > >> * Tested on qemux86, qemuarm, qemuarm64, qemuppc, qemumips, qemux86-64.
-> > >> * Fix for test cases, the test result:
-> > >>    Failed 9 tests out of 2269, 99.60% okay.
-> > >
-> > > This series seems to cause:
-> > >
-> > > https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/367/steps/BuildImages/logs/stdio
-> > >
-> > > on non-gplv3 builds.
-> > 
-> > Yes, it would fail when non-gplv3 build, here is a patch to fix
-> > the problem:
-> 
-> Thanks!
-> 
-> More puzzlingly, selftest also failed in that build with:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/45
-> 
-> Which looks similar but isn't GPLv3 excluded. Any ideas on that?
-> 
-> I just realised there is no DEPENDS on gdbm-native in perl-native as far
-> as I can tell?
+From: Roy Li <rongqing.li@windriver.com>
 
-perl-native has		-Ui_gdbm 
+12-cve-2014-9636-test-compr-eb.patch is same as unzip-6.0_overflow3.diff,
+is to fix CVE-2014-9636
 
-and gdbm should be disabled for that so its not an issue. I thought it
-was -native that failed but it wasn't.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../unzip/12-cve-2014-9636-test-compr-eb.patch     | 45 ----------------------
+ meta/recipes-extended/unzip/unzip_6.0.bb           |  1 -
+ 2 files changed, 46 deletions(-)
+ delete mode 100644 meta/recipes-extended/unzip/unzip/12-cve-2014-9636-test-compr-eb.patch
 
-I discovered that GPLv3 exclusion is left behind in local.conf in one of
-the other selftest sanity tests and this results in the above failure,
-same cause as the other one.
-
-So I think we should have this sorts (but need to fix the sanity test
-that left this behind)
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/unzip/unzip/12-cve-2014-9636-test-compr-eb.patch b/meta/recipes-extended/unzip/unzip/12-cve-2014-9636-test-compr-eb.patch
+deleted file mode 100644
+index b64dd99..0000000
+--- a/meta/recipes-extended/unzip/unzip/12-cve-2014-9636-test-compr-eb.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From: mancha <mancha1 AT zoho DOT com>
+-Date: Mon, 3 Nov 2014
+-Subject: Info-ZIP UnZip buffer overflow
+-Bug-Debian: http://bugs.debian.org/776589
+-
+-By carefully crafting a corrupt ZIP archive with "extra fields" that
+-purport to have compressed blocks larger than the corresponding
+-uncompressed blocks in STORED no-compression mode, an attacker can
+-trigger a heap overflow that can result in application crash or
+-possibly have other unspecified impact.
+-
+-This patch ensures that when extra fields use STORED mode, the
+-"compressed" and uncompressed block sizes match.
+-
+-The patch comes from unzip_6.0-8+deb7u2.debian.tar.gz
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+-
+---- a/extract.c
+-+++ b/extract.c
+-@@ -2229,6 +2229,7 @@ static int test_compr_eb(__G__ eb, eb_size, compr_offset, test_uc_ebdata)
+-     uch *eb_ucptr;
+-     int r;
+-     ush method;
+-+    ush eb_compr_method;
+- 
+-     if (compr_offset < 4)                /* field is not compressed: */
+-         return PK_OK;                    /* do nothing and signal OK */
+-@@ -2244,6 +2245,14 @@
+-      ((eb_ucsize > 0L) && (eb_size <= (compr_offset + EB_CMPRHEADLEN))))
+-         return IZ_EF_TRUNC;             /* no/bad compressed data! */
+- 
+-+    /* 2014-11-03 Michal Zalewski, SMS.
+-+     * For STORE method, compressed and uncompressed sizes must agree.
+-+     * http://www.info-zip.org/phpBB3/viewtopic.php?f=7&t=450
+-+     */
+-+    eb_compr_method = makeword( eb + (EB_HEADSIZE + compr_offset));
+-+    if ((eb_compr_method == STORED) && (eb_size - compr_offset != eb_ucsize))
+-+        return PK_ERR;
+-+
+-     if (
+- #ifdef INT_16BIT
+-         (((ulg)(extent)eb_ucsize) != eb_ucsize) ||
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index b022f21..4a0a713 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -14,7 +14,6 @@ SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
+ 	file://09-cve-2014-8139-crc-overflow.patch \
+ 	file://10-cve-2014-8140-test-compr-eb.patch \
+ 	file://11-cve-2014-8141-getzip64data.patch \
+-	file://12-cve-2014-9636-test-compr-eb.patch \
+ "
+ 
+ SRC_URI[md5sum] = "62b490407489521db863b523a7f86375"
+-- 
+1.9.1
 
 
