@@ -1,37 +1,37 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 3362C7320C
+Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
+	[209.85.216.182])
+	by mail.openembedded.org (Postfix) with ESMTP id B130E6070C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 20:50:03 +0000 (UTC)
-Received: by wgjx7 with SMTP id x7so77798824wgj.2
+	Mon, 29 Jun 2015 21:48:49 +0000 (UTC)
+Received: by qczu9 with SMTP id u9so20527688qcz.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 13:50:04 -0700 (PDT)
+	Mon, 29 Jun 2015 14:48:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=/ASbEyiyV6kBH5jrU8xJGRXWhTJQQa6a4MXIEUNoblA=;
-	b=B4mt7CBe1N3TZwzlLJFOj3MYSluYsSnvoJMzU2N+co+04Ose9lee/wjHawjnryRTeQ
-	jg/agOrBHr7HWGjklhRf6xKMAQFVPpYtYgWnLXqhGHm7DoEeJ+cNr3AUNZdW+YQrbAXh
-	4HL5jBGn1IqlUY2P/ocr6fTLC5Qv3bpfXeoCsrMkU7zQJmBCwN9nJ+IB/XiNuD4STP1K
-	h6LWciGsKma6+kppP8hIwnrZOAG4q9q9pzrhrpTXNdYRWwQEQIvy/6acjUc/5IBnufpu
-	EaBsBwItNIoiAAGVClK+BpB0GEF0PlkWlG2XuiSTDIVgqtJTPRglg7PDt3KgJAXHnvgu
-	uhVg==
-X-Received: by 10.194.243.230 with SMTP id xb6mr32468274wjc.13.1435611004233; 
-	Mon, 29 Jun 2015 13:50:04 -0700 (PDT)
-Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id a19sm13834151wiv.2.2015.06.29.13.50.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Jun 2015 13:50:03 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2015 13:50:07 -0700
-Message-Id: <974591c62ec573ee96badb28786aacd3df35ca53.1435610769.git.kergoth@gmail.com>
-X-Mailer: git-send-email 2.2.1
-In-Reply-To: <56786ff2078de10d157e2b211ce3d57141e673a8.1435610769.git.kergoth@gmail.com>
-References: <56786ff2078de10d157e2b211ce3d57141e673a8.1435610769.git.kergoth@gmail.com>
-In-Reply-To: <cover.1435610769.git.kergoth@gmail.com>
-References: <cover.1435610769.git.kergoth@gmail.com>
-Subject: [PATCH 3/3] recipetool.append: add extralines arg to appendsrc
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=f4a5RjiVg+aBwCrwzZbE6DwS5ZJu8PU1i87UbApHsE8=;
+	b=wNiiFOjNZctsjzpUoL4vfqdq1IT7gsycPULldTuTDw8FIaAj4xsmSXCqQYCRBBP+Wo
+	brmf8mKj/fZVVuCaFdIlC07RhfVYOaQwXBl7cgy9S1xK3GCxd170CBqsQoI0j5gL+Wy+
+	T/mOpLGUmTLKRCWr/la5XUaNcNSc8e/PPUlbSrv4/nST5KtVNeeeqHSDGgvUpJgF7OYL
+	e5sIwUiRslUhwuGA6ufQou2q4i5D8QKM9+aVXJ5s+xwofxTcTwDMdhofyPMawFq9VCU9
+	C9KTp2aJwoaUY0I05iDw+dxFVNPirs7DoVbiyfJ6W3jHQb+q0C4/ChHW3zZcWsgOp9NN
+	oKvQ==
+X-Received: by 10.140.43.199 with SMTP id e65mr21709840qga.80.1435614529908;
+	Mon, 29 Jun 2015 14:48:49 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.140.108.73 with HTTP; Mon, 29 Jun 2015 14:48:30 -0700 (PDT)
+In-Reply-To: <1435605033-11509-5-git-send-email-ed.bartosh@linux.intel.com>
+References: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
+	<1435605033-11509-5-git-send-email-ed.bartosh@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 29 Jun 2015 14:48:30 -0700
+X-Google-Sender-Auth: gN9lu7ZeoUn0oFdv5VVtmPof548
+Message-ID: <CABcZANk_vhTvj+rAyo+T8CbUpPd2SGxGk6m3Mt8WwB-M0LGq0Q@mail.gmail.com>
+To: Ed Bartosh <ed.bartosh@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [wic][PATCH 04/20] wic: Refactor getting bitbake variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 20:50:04 -0000
+X-List-Received-Date: Mon, 29 Jun 2015 21:48:52 -0000
+Content-Type: multipart/alternative; boundary=001a113a9baa16f8990519af0ea2
 
-This makes the function more reusable for other sub-commands.
+--001a113a9baa16f8990519af0ea2
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- scripts/lib/recipetool/append.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, Jun 29, 2015 at 12:10 PM, Ed Bartosh <ed.bartosh@linux.intel.com>
+wrote:
 
-diff --git a/scripts/lib/recipetool/append.py b/scripts/lib/recipetool/append.py
-index 9903871..24a7903 100644
---- a/scripts/lib/recipetool/append.py
-+++ b/scripts/lib/recipetool/append.py
-@@ -334,7 +334,7 @@ def appendfile(args):
-         return 3
- 
- 
--def appendsrc(args, files, rd):
-+def appendsrc(args, files, rd, extralines=None):
-     import oe.recipeutils
- 
-     srcdir = rd.getVar('S', True)
-@@ -349,7 +349,7 @@ def appendsrc(args, files, rd):
-         simplified[simple_uri] = uri
- 
-     copyfiles = {}
--    extralines = []
-+    extralines = extralines or []
-     for newfile, srcfile in files.iteritems():
-         src_destdir = os.path.dirname(srcfile)
-         if not args.use_workdir:
--- 
-2.2.1
+> +    global _BITBAKE_VARS
+> +
+> +    if image not in _BITBAKE_VARS:
+>
 
+In general, I=E2=80=99d suggest using a cache class/object rather than glob=
+als,
+similar to how it=E2=80=99s handled in bb.checksum, or a transparent LRU. W=
+henever
+a cache is involved, it=E2=80=99s best to consider what its lifetime is.
+Admittedly, wic isn=E2=80=99t long-running, but best not to get into bad ha=
+bits.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a113a9baa16f8990519af0ea2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra">On Mon, Jun 29, 2015 at 12:10 P=
+M, Ed Bartosh <span dir=3D"ltr">&lt;<a href=3D"mailto:ed.bartosh@linux.inte=
+l.com" target=3D"_blank">ed.bartosh@linux.intel.com</a>&gt;</span> wrote:<b=
+r><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5b"=
+ class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 global _BITBAKE_VAR=
+S<br>
++<br>
++=C2=A0 =C2=A0 if image not in _BITBAKE_VARS:</div></blockquote></div><br>I=
+n general, I=E2=80=99d suggest using a cache class/object rather than globa=
+ls, similar to how it=E2=80=99s handled in bb.checksum, or a transparent LR=
+U. Whenever a cache is involved, it=E2=80=99s best to consider what its lif=
+etime is. Admittedly, wic isn=E2=80=99t long-running, but best not to get i=
+nto bad habits.<br>-- <br><div class=3D"gmail_signature">Christopher Larson=
+<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaur=
+us<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a113a9baa16f8990519af0ea2--
