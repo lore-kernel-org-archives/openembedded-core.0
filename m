@@ -1,24 +1,30 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DF0F065CF5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F366E6AD0D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 08:08:01 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5T882dw002005
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 29 Jun 2015 08:16:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5T8GODe031684 for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jun 2015 09:16:24 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id AwdqFnnQX6uM
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 01:08:02 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 29 Jun 2015 01:08:02 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Jun 2015 16:07:48 +0800
-Message-ID: <1435565268-25156-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH][v2] mklibs-native: avoid failure on symbol provided by application
+	Mon, 29 Jun 2015 09:16:24 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5T8GBj1031652
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jun 2015 09:16:22 +0100
+Message-ID: <1435565771.7287.16.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Jun 2015 09:16:11 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] oeqa/bbtests: Improve error handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,146 +37,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 08:08:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Jun 2015 08:16:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+Currently if a test fails the cleanup isn't performed, leading to cascade
+failures in other tests. We can do better.
 
-Undefined symbols in a library can be provided by the application
-that links to the library, such as `logsink' in libmultipath.so.0.
-This fix checks the type of object in which the symbol is needed
-and the existence of the symbol in application, when a symbol
-cannot be provided by libraries. It prevents false alarm on absence
-of symbols.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
----
- ...failure-on-symbol-provided-by-application.patch | 102 +++++++++++++++++++++
- .../mklibs/mklibs-native_0.1.40.bb                 |   1 +
- 2 files changed, 103 insertions(+)
- create mode 100644 meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
-
-diff --git a/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch b/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
-new file mode 100644
-index 0000000..7d6d62e
---- /dev/null
-+++ b/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
-@@ -0,0 +1,102 @@
-+From f172101130604e4a9efa5746f4d8d30de99a0fdc Mon Sep 17 00:00:00 2001
-+From: Yuanjie Huang <yuanjie.huang@windriver.com>
-+Date: Fri, 17 Apr 2015 14:48:20 +0800
-+Subject: [PATCH] avoid failure on symbol provided by application
-+
-+Upstream-Status: Pending
-+
-+Undefined symbols in a library can be provided by the application
-+that links to the library, such as `logsink' in libmultipath.so.0.
-+This fix checks the type of object in which the symbol is needed
-+and the existence of the symbol in application, when a symbol
-+cannot be provided by libraries. It prevents false alarm on absence
-+of symbols.
-+
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ src/mklibs | 28 ++++++++++++++++++++++++----
-+ 1 file changed, 24 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/mklibs b/src/mklibs
-+index c5614ea..b0d9034 100755
-+--- a/src/mklibs
-++++ b/src/mklibs
-+@@ -133,9 +133,9 @@ class Symbol(object):
-+         return '@'.join(ret)
-+ 
-+ class UndefinedSymbol(Symbol):
-+-    def __init__(self, name, weak, version, library):
-++    def __init__(self, name, weak, version, library, object):
-+         super(UndefinedSymbol, self).__init__(name, version, library)
-+-        self.weak, self.library = weak, library
-++        self.weak, self.library, self.object = weak, library, object
-+ 
-+ # Return undefined symbols in an object as a set of tuples (name, weakness)
-+ def undefined_symbols(obj):
-+@@ -144,6 +144,11 @@ def undefined_symbols(obj):
-+ 
-+     output = command("mklibs-readelf", "--print-symbols-undefined", obj)
-+ 
-++    if len(obj) > len(dest_path) and obj[:len(dest_path)] == dest_path:
-++        object = obj[len(dest_path) + 1:-len('-so-stripped')]
-++    else:
-++        object = obj
-++
-+     result = []
-+     for line in output:
-+         name, weak_string, version_string, library_string = line.split()[:4]
-+@@ -160,7 +165,7 @@ def undefined_symbols(obj):
-+         if library_string.lower() != 'none':
-+             library = library_string
-+ 
-+-        result.append(UndefinedSymbol(name, weak, version, library))
-++        result.append(UndefinedSymbol(name, weak, version, library, object))
-+ 
-+     return result
-+ 
-+@@ -495,12 +500,13 @@ while 1:
-+                      and re.search("^ps_", str(symbol)))
-+                 and not (re.search("ld-linux.so.3$", str(symbol)))
-+                 and not (re.search("^__gnu_local_gp", str(symbol)))):
-+-                debug(DEBUG_SPAM, "needed_symbols adding %s, weak: %s" % (symbol, symbol.weak))
-++                debug(DEBUG_SPAM, "needed_symbols adding %s, weak: %s, for %s" % (symbol, symbol.weak, obj))
-+                 needed_symbols[str(symbol)] = symbol
-+         libraries.update(library_depends(obj))
-+ 
-+     # calculate what symbols are present in small_libs and available_libs
-+     present_symbols = {}
-++    present_symbol_progs = {}
-+     checked_libs = small_libs
-+     checked_libs.extend(available_libs)
-+     checked_libs.append(ldlib)
-+@@ -510,6 +516,12 @@ while 1:
-+             names = symbol.base_names()
-+             for name in names:
-+                 present_symbols[name] = symbol
-++            if not so_pattern.match(lib):
-++                debug(DEBUG_SPAM, "present_symbol_progs adding %s, from executable %s" % (' '.join(names), lib))
-++                for name in names:
-++                    progs = present_symbol_progs.get(name, set())
-++                    progs.add(lib)
-++                    present_symbol_progs[name] = progs
-+ 
-+     # are we finished?
-+     num_unresolved = 0
-+@@ -565,6 +577,14 @@ while 1:
-+     for name in needed_symbols:
-+         if not name in symbol_provider:
-+             if not needed_symbols[name].weak:
-++                # WORKAROUND: Undefined symbols in a library can be provided by the application
-++                # that links to the library. So if the object which requires the symbol is a library
-++                # and some application can provide the symbol, the undefined symbol is skipped.
-++                symbol = needed_symbols[name]
-++                if so_pattern.match(symbol.object) and present_symbol_progs.get(name, None):
-++                    debug(DEBUG_SPAM, "symbol %s in library %s is provided by executable %s" \
-++                          % (name, symbol.object, ' '.join(present_symbol_progs[name])))
-++                    continue
-+                 raise Exception("No library provides non-weak %s" % name)
-+         else:
-+             lib = symbol_provider[name]
-+-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-index b2fcae5..0bb5f21 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.x
- 	file://ac_init_fix.patch\
- 	file://fix_STT_GNU_IFUNC.patch\
- 	file://sysrooted-ldso.patch \
-+	file://avoid-failure-on-symbol-provided-by-application.patch \
- "
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index b301d8f..0dae160 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -121,9 +121,9 @@ class BitbakeTests(oeSelfTest):
+     @testcase(1028)
+     def test_environment(self):
+         self.append_config("TEST_ENV=\"localconf\"")
++        self.addCleanup(self.remove_config, "TEST_ENV=\"localconf\"")
+         result = runCmd('bitbake -e | grep TEST_ENV=')
+         self.assertTrue('localconf' in result.output)
+-        self.remove_config("TEST_ENV=\"localconf\"")
  
- SRC_URI[md5sum] = "e1dafe5f962caa9dc5f2651c0723812a"
--- 
-1.9.1
+     @testcase(1029)
+     def test_dry_run(self):
+@@ -149,9 +149,9 @@ class BitbakeTests(oeSelfTest):
+         result = runCmd('bitbake -r conf/prefile.conf -e | grep TEST_PREFILE=')
+         self.assertTrue('prefile' in result.output)
+         self.append_config("TEST_PREFILE=\"localconf\"")
++        self.addCleanup(self.remove_config, "TEST_PREFILE=\"localconf\"")
+         result = runCmd('bitbake -r conf/prefile.conf -e | grep TEST_PREFILE=')
+         self.assertTrue('localconf' in result.output)
+-        self.remove_config("TEST_PREFILE=\"localconf\"")
+ 
+     @testcase(1033)
+     def test_postfile(self):
+@@ -159,9 +159,9 @@ class BitbakeTests(oeSelfTest):
+         self.track_for_cleanup(postconf)
+         ftools.write_file(postconf , "TEST_POSTFILE=\"postfile\"")
+         self.append_config("TEST_POSTFILE=\"localconf\"")
++        self.addCleanup(remove_config, "TEST_POSTFILE=\"localconf\"")
+         result = runCmd('bitbake -R conf/postfile.conf -e | grep TEST_POSTFILE=')
+         self.assertTrue('postfile' in result.output)
+-        self.remove_config("TEST_POSTFILE=\"localconf\"")
+ 
+     @testcase(1034)
+     def test_checkuri(self):
+@@ -183,8 +183,8 @@ class BitbakeTests(oeSelfTest):
+         data = 'INCOMPATIBLE_LICENSE = "GPLv3"'
+         conf = os.path.join(self.builddir, 'conf/local.conf')
+         ftools.append_file(conf ,data)
++        self.addCleanup(ftools.remove_from_file, conf ,data)
+         result = bitbake('readline', ignore_status=True)
+         self.assertEqual(result.status, 0)
+         self.assertFalse(os.path.isfile(os.path.join(self.builddir, 'tmp/deploy/licenses/readline/generic_GPLv3')))
+         self.assertTrue(os.path.isfile(os.path.join(self.builddir, 'tmp/deploy/licenses/readline/generic_GPLv2')))
+-        ftools.remove_from_file(conf ,data)
+\ No newline at end of file
+
 
 
