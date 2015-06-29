@@ -1,24 +1,23 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 74C7575C40
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id CCF45738AE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 15:04:45 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 29 Jun 2015 08:04:32 -0700
+	Mon, 29 Jun 2015 15:26:55 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 29 Jun 2015 08:26:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,699,1427785200"; d="scan'208";a="596768034"
-Received: from sentry.rb.intel.com ([10.237.105.157])
-	by orsmga003.jf.intel.com with ESMTP; 29 Jun 2015 08:03:02 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+X-IronPort-AV: E=Sophos;i="5.13,699,1427785200"; d="scan'208";a="736960609"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2015 08:26:56 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2015 18:03:11 +0300
-Message-Id: <78fec302449585cc3514146d0cb3f0d5e9f36d06.1435590134.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1435590134.git.cristian.iorga@intel.com>
-References: <cover.1435590134.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1435590134.git.cristian.iorga@intel.com>
-References: <cover.1435590134.git.cristian.iorga@intel.com>
-Subject: [PATCH 1/1] runqemu-internal: correctly set format for root FS as raw
+Date: Mon, 29 Jun 2015 07:20:10 +0000
+Message-Id: <f3ca504d666948a1f8fcdd990b2e829a576a36e0.1435562155.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1435562155.git.mariano.lopez@linux.intel.com>
+References: <cover.1435562155.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/1] sanity.bbclass: Check if /tmp is writable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +30,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 15:04:45 -0000
+X-List-Received-Date: Mon, 29 Jun 2015 15:26:58 -0000
 
-qemu guesses via probing the format of root FS, but
-gives a warning and restricts write operations on block 0.
-Fix it by setting correctly the format as raw for more
-machines and non-KVM machines.
-In some cases, replaced the way machine disk is set for qemu.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-Fix for [YOCTO #7918]
+If /tmp can't be written, bitbake gaves an unrelated error.
+This checks if /tmp can be written in every build.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+[YOCTO #7922]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- scripts/runqemu-internal | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ meta/classes/sanity.bbclass | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 694815f..6878251 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -127,7 +127,7 @@ if [ "$SLIRP_ENABLED" = "yes" ]; then
-     else
-         QEMU_NETWORK_CMD=""
-         DROOT="/dev/hda"
--        ROOTFS_OPTIONS="-hda $ROOTFS"
-+        ROOTFS_OPTIONS="-drive file=$ROOTFS,if=ide,format=raw"
-     fi
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 2855941..7a580da 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -704,6 +704,19 @@ def check_sanity_everybuild(status, d):
+     if "." in paths or "./" in paths or "" in paths:
+         status.addresult("PATH contains '.', './' or '' (empty element), which will break the build, please remove this.\nParsed PATH is " + str(paths) + "\n")
  
- else
-@@ -265,12 +265,12 @@ else
-         else
-             QEMU_NETWORK_CMD="-net nic,vlan=0 $QEMU_TAP_CMD"
-             DROOT="/dev/hda"
--            ROOTFS_OPTIONS="-hda $ROOTFS"
-+            ROOTFS_OPTIONS="-drive file=$ROOTFS,if=ide,format=raw"
-         fi
-         if [ "$MACHINE" = "qemuarm64" ]; then
-             QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no -device virtio-net-device,netdev=net0 "
-             DROOT="/dev/vda"
--            ROOTFS_OPTIONS="-drive id=disk0,file=$ROOTFS -device virtio-blk-device,drive=disk0"
-+            ROOTFS_OPTIONS="-drive id=disk0,file=$ROOTFS,format=raw -device virtio-blk-device,drive=disk0"
-         fi
- 
-         KERNCMDLINE="mem=$QEMU_MEMORY"
-@@ -357,7 +357,7 @@ if [ "$MACHINE" = "qemuarm" -o "$MACHINE" = "qemuarmv6" -o "$MACHINE" = "qemuarm
-     # QEMU_UI_OPTIONS="$QEMU_UI_OPTIONS -force-pointer"
-     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="root=/dev/sda rw console=ttyAMA0,115200 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY highres=off"
--        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -M ${MACHINE_SUBTYPE} -drive file=$ROOTFS,format=raw -no-reboot $QEMU_UI_OPTIONS"
-     fi
-     if [ "$FSTYPE" = "nfs" ]; then
-         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
-@@ -501,7 +501,7 @@ if [ "$MACHINE" = "qemumips" -o "$MACHINE" = "qemumipsel" -o "$MACHINE" = "qemum
-     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         #KERNCMDLINE="root=/dev/hda console=ttyS0 console=tty0 $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         KERNCMDLINE="root=/dev/hda rw console=ttyS0 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
--        QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -M $MACHINE_SUBTYPE -drive file=$ROOTFS,format=raw -no-reboot $QEMU_UI_OPTIONS"
-     fi
-     if [ "$FSTYPE" = "nfs" ]; then
-         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
-@@ -526,7 +526,7 @@ if [ "$MACHINE" = "qemuppc" ]; then
-     fi
-     if [ "${FSTYPE:0:3}" = "ext" -o "$FSTYPE" = "btrfs" ]; then
-         KERNCMDLINE="root=/dev/hda rw console=ttyS0 console=tty $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
--        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -hda $ROOTFS -no-reboot $QEMU_UI_OPTIONS"
-+        QEMUOPTIONS="$QEMU_NETWORK_CMD -cpu $CPU_SUBTYPE -M $MACHINE_SUBTYPE -drive file=$ROOTFS,format=raw -no-reboot $QEMU_UI_OPTIONS"
-     fi
-     if [ "$FSTYPE" = "nfs" ]; then
-         if [ "$NFS_SERVER" = "192.168.7.1" -a ! -d "$NFS_DIR" ]; then
++    # Check if /tmp is writable
++    from string import ascii_letters
++    from random import choice
++    filename = "bb_writetest.%s" % os.getpid()
++    testfile = os.path.join("/tmp", filename)
++    try:
++        f = open(testfile, "w")
++        f.write("".join(choice(ascii_letters) for x in range(1024)))
++        f.close()
++        os.remove(testfile)
++    except:
++        status.addresult("Failed to write into /tmp. Please verify your filesystem.")
++
+     # Check that the DISTRO is valid, if set
+     # need to take into account DISTRO renaming DISTRO
+     distro = d.getVar('DISTRO', True)
 -- 
-2.1.4
+1.8.4.5
 
 
