@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id B61CE75C49
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 07D9F75C40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 14:45:03 +0000 (UTC)
-Received: by qkei195 with SMTP id i195so57030233qke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 07:45:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=/TU54nRhku3AaOJvjhSmsPi4LYj7rdQIFqKJ0GVdGBI=;
-	b=k/0sG0PzK5A8hV/bsAOOcw8dz407vTDqAShE/3W1Lvo0gFMPlVXmHT0URc8fpK9wwU
-	mQCvgtOnKGpxOT2pbZk6g/MTW9QdQ4FKIiNMzpmEs5iFVr4fpiG7JbLlc4zY+C9X0akY
-	5txdhXksvBxdf7ctwc+Ro8+2XkPQfMsOrICJnD1WHRjhS7Wq0cmeZF7/A8Wse1gd29wK
-	l8eOH6+Y2Y0PzLEMFYlQfRZePZFr/R6JWi+pLYANKtS3XRsCJ3ibinAeaUH6VRCLlMfK
-	cm8X2EnLxjlSu9IolbtikGsyBrTXNflDcyfRumML90TUYRzUGn9WDhTOmQIcKWN+9fPc
-	fMcQ==
-X-Gm-Message-State: ALoCoQlwp2RuOhuSwCz0qr0HhcA1Zq02RQBHtJgDzzy1foca2SwbWJjKBu0UTtKWv+hFAVrWejYM
-X-Received: by 10.55.27.11 with SMTP id b11mr32643104qkb.105.1435589104207;
-	Mon, 29 Jun 2015 07:45:04 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 29 Jun 2015 07:44:44 -0700 (PDT)
-In-Reply-To: <1435565217-24812-1-git-send-email-rongqing.li@windriver.com>
-References: <1435565217-24812-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Jun 2015 15:44:44 +0100
-Message-ID: <CAJTo0LZHuiNu0W1N_LU4_L-rsoPzBrm1Ur2nX5No+kogfjqvwg@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] unzip: drop 12-cve-2014-9636-test-compr-eb.patch
+	Mon, 29 Jun 2015 15:04:43 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 29 Jun 2015 08:04:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,699,1427785200"; d="scan'208";a="596767932"
+Received: from sentry.rb.intel.com ([10.237.105.157])
+	by orsmga003.jf.intel.com with ESMTP; 29 Jun 2015 08:02:59 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jun 2015 18:03:10 +0300
+Message-Id: <cover.1435590134.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/1] Fix for bug YOCTO #7918
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,41 +27,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 14:45:06 -0000
-Content-Type: multipart/alternative; boundary=001a1147f32e99a33e0519a92297
+X-List-Received-Date: Mon, 29 Jun 2015 15:04:45 -0000
 
---001a1147f32e99a33e0519a92297
-Content-Type: text/plain; charset=UTF-8
+The following changes since commit 2578ff3dfe55a1c07208401861f96e2e327eacaf:
 
-On 29 June 2015 at 09:06, <rongqing.li@windriver.com> wrote:
+  bitbake: codeparser: Add repr() methods (2015-06-27 22:51:21 +0100)
 
-> 12-cve-2014-9636-test-compr-eb.patch is same as unzip-6.0_overflow3.diff,
-> is to fix CVE-2014-9636
->
+are available in the git repository at:
 
-This is going to be sound really picky, but when a patch fixes a CVE I'd
-like to start moving towards the patch naming reflecting that (for CVE
-verification purposes).  Can you update this patch so it removes the
-overflow3 patch instead?
+  git://git.yoctoproject.org/poky-contrib ciorga/YB7918
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/YB7918
 
-Ross
+Cristian Iorga (1):
+  runqemu-internal: correctly set format for root FS as raw
 
---001a1147f32e99a33e0519a92297
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ scripts/runqemu-internal | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 June 2015 at 09:06,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
-.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":260" class=3D"a3s" =
-style=3D"overflow:hidden">12-cve-2014-9636-test-compr-eb.patch is same as u=
-nzip-6.0_overflow3.diff,<br>
-is to fix CVE-2014-9636<br></div></blockquote></div><br>This is going to be=
- sound really picky, but when a patch fixes a CVE I&#39;d like to start mov=
-ing towards the patch naming reflecting that (for CVE verification purposes=
-).=C2=A0 Can you update this patch so it removes the overflow3 patch instea=
-d?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
-s</div></div>
+-- 
+2.1.4
 
---001a1147f32e99a33e0519a92297--
+
