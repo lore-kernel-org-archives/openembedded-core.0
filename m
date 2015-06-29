@@ -1,23 +1,25 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 3507260555
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E3E5E60053
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 18:23:51 +0000 (UTC)
-Received: from svr-orw-fem-03.mgc.mentorg.com ([147.34.97.39])
-	by relay1.mentorg.com with esmtp 
-	id 1Z9dii-0000o8-3u from drew_moseley@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Mon, 29 Jun 2015 11:23:52 -0700
-Received: from sb-ubuntu-1404-64bit.alm.mentorg.com (147.34.91.1) by
-	svr-orw-fem-03.mgc.mentorg.com (147.34.97.39) with Microsoft SMTP
-	Server id 14.3.224.2; Mon, 29 Jun 2015 11:23:51 -0700
-From: Drew Moseley <drew_moseley@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Jun 2015 14:23:50 -0400
-Message-ID: <1435602230-12093-1-git-send-email-drew_moseley@mentor.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] mesa: Add blank r600 PACKAGECONFIG
+	Mon, 29 Jun 2015 19:11:21 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jun 2015 12:11:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,371,1432623600"; d="scan'208";a="516109060"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2015 12:11:22 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 56BAB6A4083;
+	Mon, 29 Jun 2015 12:10:43 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jun 2015 22:10:16 +0300
+Message-Id: <1435605033-11509-4-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
+Subject: [wic][PATCH 03/20] wic: Test rootfs plugin using rootfs paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,31 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 18:23:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Jun 2015 19:11:22 -0000
 
-Fixes warnings such as:
-    WARNING: mesa: invalid PACKAGECONFIG: r600
-when building with the r600 configuration.
+Added testcase to create multi-rootfs images using rootfs plugin
+with paths to rootfs directories in wic command line.
 
-Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 1 +
- 1 file changed, 1 insertion(+)
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 97ed02f..09e80e8 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -53,6 +53,7 @@ PACKAGECONFIG[openvg] = "--enable-openvg, --disable-openvg"
- 
- GALLIUMDRIVERS = "swrast"
- GALLIUMDRIVERS_LLVM33 = "${@bb.utils.contains('PACKAGECONFIG', 'r600', 'radeonsi,r600', '', d)}"
-+PACKAGECONFIG[r600] = ""
- GALLIUMDRIVERS_LLVM33_ENABLED = "${@base_version_less_or_equal('MESA_LLVM_RELEASE', '3.2', False, len('${GALLIUMDRIVERS_LLVM33}') > 0, d)}"
- GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 3cfc2ff..0c503ef 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -143,3 +143,20 @@ class Wic(oeSelfTest):
+                                    "--rootfs rootfs2=core-image-minimal" \
+                                    % wks).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
++
++    def test17_rootfs_artifacts(self):
++        """Test usage of rootfs plugin with rootfs paths"""
++        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
++                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
++                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
++        vars['wks'] = "directdisk-multi-rootfs"
++        status = runCmd("wic create %(wks)s "
++                        "-b %(staging_datadir)s "
++                        "-k %(deploy_dir_image)s "
++                        "-n %(staging_dir_native)s "
++                        "--rootfs-dir rootfs1=%(image_rootfs)s "
++                        "--rootfs-dir rootfs2=%(image_rootfs)s" \
++                        % vars).status
++        self.assertEqual(0, status)
++        self.assertEqual(1, len(glob(self.resultdir + \
++                                     "%(wks)s-*.direct" % vars)))
 -- 
-1.9.1
+2.1.4
 
 
