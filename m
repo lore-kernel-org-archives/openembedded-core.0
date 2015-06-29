@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F8E66AC15
+	by mail.openembedded.org (Postfix) with ESMTP id 09DE960053
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 19:11:38 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Jun 2015 12:11:39 -0700
+	Mon, 29 Jun 2015 19:11:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 29 Jun 2015 12:11:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,371,1432623600"; d="scan'208";a="596920011"
+X-IronPort-AV: E=Sophos;i="5.15,371,1432623600"; d="scan'208";a="737099257"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 29 Jun 2015 12:11:40 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2015 12:11:41 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 4EF1F6A4083;
-	Mon, 29 Jun 2015 12:11:00 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id B2DCD6A4083;
+	Mon, 29 Jun 2015 12:11:01 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2015 22:10:28 +0300
-Message-Id: <1435605033-11509-16-git-send-email-ed.bartosh@linux.intel.com>
+Date: Mon, 29 Jun 2015 22:10:29 +0300
+Message-Id: <1435605033-11509-17-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 15/20] wic: Add --uuid partition option
+Subject: [wic][PATCH 16/20] wic: Refactor fstab update code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +32,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 19:11:38 -0000
+X-List-Received-Date: Mon, 29 Jun 2015 19:11:40 -0000
 
-Added --uuid option to the configuration of wks parser.
-This option specifies partition UUID. The code to process
-it is already in place. It was implemented for --use-uuid
-option.
+Made the code to backup and restore fstab only if it's modified.
+
+Cleaned up the code. Made it more pythonic.
+
+Improved code readability by moving code from several tiny
+methods into one place.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
-index c8b2fab..0666d80 100644
---- a/scripts/lib/image/help.py
-+++ b/scripts/lib/image/help.py
-@@ -787,6 +787,11 @@ DESCRIPTION
-                      random globally unique identifier (GUID) for the partition
-                      and use it in bootloader configuration to specify root partition.
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index 58a9e9d..561c396 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -90,74 +90,50 @@ class DirectImageCreator(BaseImageCreator):
+                     return realnum + 1
+                 return realnum
  
-+         --uuid: This option is specific to wic. It specifies partition UUID.
-+                 It's useful if preconfigured partition UUID is added to kernel command line
-+                 in bootloader configuration before running wic. In this case .wks file can
-+                 be generated or modified to set preconfigured parition UUID using this option.
+-    def __write_fstab(self, image_rootfs):
++    def _write_fstab(self, image_rootfs):
+         """overriden to generate fstab (temporarily) in rootfs. This is called
+         from _create, make sure it doesn't get called from
+         BaseImage.create()
+         """
+-        if image_rootfs is None:
+-            return None
++        if not image_rootfs:
++            return
 +
-     * bootloader
++        fstab_path = image_rootfs + "/etc/fstab"
++        if not os.path.isfile(fstab_path):
++            return
  
-       This command allows the user to specify various bootloader
-diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
-index 874b207..fea4d6d 100644
---- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-@@ -53,7 +53,7 @@ class Wic_PartData(Mic_PartData):
-         self.extra_space = kwargs.get("extra-space", "10M")
-         self.overhead_factor = kwargs.get("overhead-factor", 1.3)
-         self._use_uuid = False
--        self.uuid = None
-+        self.uuid = kwargs.get("uuid", None)
-         self.use_uuid = kwargs.get("use-uuid", False)
-         self.source_file = ""
-         self.size = 0
-@@ -71,6 +71,8 @@ class Wic_PartData(Mic_PartData):
-             retval += " --no-table"
-         if self.use_uuid:
-             retval += " --use-uuid"
-+        if self.uuid:
-+            retval += " --uuid=%s" % self.uuid
-         retval += " --extra-space=%s" % self.extra_space
-         retval += " --overhead-factor=%f" % self.overhead_factor
+-        fstab = image_rootfs + "/etc/fstab"
+-        if not os.path.isfile(fstab):
+-            return None
++        with open(fstab_path) as fstab:
++            fstab_lines = fstab.readlines()
  
-@@ -491,5 +493,6 @@ class Wic_Partition(Mic_Partition):
-                       nargs=1, default=1.3)
-         op.add_option("--use-uuid", dest="use_uuid", action="store_true",
-                       default=False)
-+        op.add_option("--uuid")
+-        parts = self._get_parts()
++        if self._update_fstab(fstab_lines, self._get_parts()):
++            shutil.copyfile(fstab_path, fstab_path + ".orig")
  
-         return op
+-        self._save_fstab(fstab)
+-        fstab_lines = self._get_fstab(fstab, parts)
+-        self._update_fstab(fstab_lines, parts)
+-        self._write_fstab(fstab, fstab_lines)
++            with open(fstab_path, "w") as fstab:
++                fstab.writelines(fstab_lines)
+ 
+-        return fstab
++            return fstab_path
+ 
+     def _update_fstab(self, fstab_lines, parts):
+         """Assume partition order same as in wks"""
+-        for num, p in enumerate(parts, 1):
++        updated = False
++        for num, part in enumerate(parts, 1):
+             pnum = self.__get_part_num(num, parts)
+-            if not p.mountpoint or p.mountpoint == "/" or p.mountpoint == "/boot" or pnum == 0:
++            if not pnum or not part.mountpoint \
++               or part.mountpoint in ("/", "/boot"):
+                 continue
+ 
+-            part = ''
+             # mmc device partitions are named mmcblk0p1, mmcblk0p2..
+-            if p.disk.startswith('mmcblk'):
+-                part = 'p'
+-
+-            device_name = "/dev/" + p.disk + part + str(pnum)
+-
+-            opts = "defaults"
+-            if p.fsopts:
+-                opts = p.fsopts
+-
+-            fstab_entry = device_name + "\t" + \
+-                          p.mountpoint + "\t" + \
+-                          p.fstype + "\t" + \
+-                          opts + "\t0\t0\n"
+-            fstab_lines.append(fstab_entry)
+-
+-    def _write_fstab(self, fstab, fstab_lines):
+-        fstab = open(fstab, "w")
+-        for line in fstab_lines:
+-            fstab.write(line)
+-        fstab.close()
+-
+-    def _save_fstab(self, fstab):
+-        """Save the current fstab in rootfs"""
+-        shutil.copyfile(fstab, fstab + ".orig")
+-
+-    def _restore_fstab(self, fstab):
+-        """Restore the saved fstab in rootfs"""
+-        if fstab is None:
+-            return
+-        shutil.move(fstab + ".orig", fstab)
++            prefix = 'p' if  part.disk.startswith('mmcblk') else ''
++            device_name = "/dev/%s%s%d" % (part.disk, prefix, pnum)
++
++            opts = part.fsopts if part.fsopts else "defaults"
++            line = "\t".join([device_name, part.mountpoint, part.fstype,
++                              opts, "0", "0"]) + "\n"
+ 
+-    def _get_fstab(self, fstab, parts):
+-        """Return the desired contents of /etc/fstab."""
+-        f = open(fstab, "r")
+-        fstab_contents = f.readlines()
+-        f.close()
++            fstab_lines.append(line)
++            updated = True
+ 
+-        return fstab_contents
++        return updated
+ 
+     def set_bootimg_dir(self, bootimg_dir):
+         """
+@@ -250,7 +226,7 @@ class DirectImageCreator(BaseImageCreator):
+             if not self.ks.handler.bootloader.source and p.mountpoint == "/boot":
+                 self.ks.handler.bootloader.source = p.source
+ 
+-        fstab = self.__write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
++        fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
+ 
+         for p in parts:
+             # need to create the filesystems in order to get their
+@@ -277,7 +253,8 @@ class DirectImageCreator(BaseImageCreator):
+                                        part_type=p.part_type,
+                                        uuid=p.uuid)
+ 
+-        self._restore_fstab(fstab)
++        if fstab_path:
++            shutil.move(fstab_path + ".orig", fstab_path)
+ 
+         self.__image.layout_partitions(self.ptable_format)
+ 
 -- 
 2.1.4
 
