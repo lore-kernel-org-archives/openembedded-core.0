@@ -1,23 +1,23 @@
 Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B05E60024
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 23F1460024
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 08:59:56 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 29 Jun 2015 01:59:57 -0700
+	Mon, 29 Jun 2015 09:05:05 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 29 Jun 2015 02:05:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,698,1427785200"; d="scan'208";a="719458791"
+X-IronPort-AV: E=Sophos;i="5.13,698,1427785200"; d="scan'208";a="752356273"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2015 01:59:48 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jun 2015 02:05:07 -0700
 Received: from localhost.localdomain (unknown [10.237.112.249])
-	by linux.intel.com (Postfix) with ESMTP id D58706A4083;
-	Mon, 29 Jun 2015 01:59:08 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id DBEB16A4083;
+	Mon, 29 Jun 2015 02:04:27 -0700 (PDT)
 From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2015 11:59:41 +0300
-Message-Id: <1435568381-12011-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+Date: Mon, 29 Jun 2015 12:04:59 +0300
+Message-Id: <1435568699-12180-1-git-send-email-daniel.alexandrux.istrate@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/selftest: Add methods to manipulate bblayers.conf in base.py
+Subject: [PATCH] oeqa/selftest: Added new testsuite for image features.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,62 +30,309 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 08:59:59 -0000
+X-List-Received-Date: Mon, 29 Jun 2015 09:05:09 -0000
 
-Added methods for manipulating bblayers.conf file in the same manner as local.conf file:
-    - write_bblayers_config
-    - append_bblayers_config
-    - remove_bblayers_config
+ Automated 5 oe-selftest testcase:
+    - 1107: Check if non root user can connect via ssh without password
+    - 1115: Check if all users can connect via ssh without password
+    - 1114: Check rpm version 4 support on image
+    - 1101: Check if efi/gummiboot images can be buit
+    - 1103: Check that wic command can create efi/gummiboot installation images
 
 Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
 ---
- meta/lib/oeqa/selftest/base.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ meta/lib/oeqa/selftest/imagefeatures.py | 282 ++++++++++++++++++++++++++++++++
+ 1 file changed, 282 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/imagefeatures.py
 
-diff --git a/meta/lib/oeqa/selftest/base.py b/meta/lib/oeqa/selftest/base.py
-index 80b9b4b..b2faa66 100644
---- a/meta/lib/oeqa/selftest/base.py
-+++ b/meta/lib/oeqa/selftest/base.py
-@@ -27,6 +27,8 @@ class oeSelfTest(unittest.TestCase):
-         self.builddir = os.environ.get("BUILDDIR")
-         self.localconf_path = os.path.join(self.builddir, "conf/local.conf")
-         self.testinc_path = os.path.join(self.builddir, "conf/selftest.inc")
-+        self.local_bblayers_path = os.path.join(self.builddir, "conf/bblayers.conf")
-+        self.testinc_bblayers_path = os.path.join(self.builddir, "conf/bblayers.inc")
-         self.testlayer_path = oeSelfTest.testlayer_path
-         self._extra_tear_down_commands = []
-         self._track_for_cleanup = []
-@@ -45,6 +47,11 @@ class oeSelfTest(unittest.TestCase):
-             for f in files:
-                 if f == 'test_recipe.inc':
-                     os.remove(os.path.join(root, f))
+diff --git a/meta/lib/oeqa/selftest/imagefeatures.py b/meta/lib/oeqa/selftest/imagefeatures.py
+new file mode 100644
+index 0000000..e49f498
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/imagefeatures.py
+@@ -0,0 +1,282 @@
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import runCmd, bitbake, get_bb_var
++from oeqa.utils.decorators import testcase
++import pexpect
++from os.path import expanduser, isfile
++from os import system
++import glob
++
++
++class ImageFeatures(oeSelfTest):
++
++    @testcase(1107)
++    def test_non_root_user_can_connect_via_ssh_without_password(self):
++        """
++        Summary: Check if non root user can connect via ssh without password
++        Expected: 1. Connection to the image via ssh using root user without providing a password should be allowed.
++                  2. Connection to the image via ssh using tester user without providing a password should be allowed.
++        Product: oe-core
++        Author: Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        test_user = 'tester'
++        root_user = 'root'
++        prompt = r'qemux86:\S+[$#]\s+'
++        tap_inf_ip = '192.168.7.2'
++
++        features = 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh empty-root-password"\n'
++        features += 'INHERIT += "extrausers"\n'
++        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(test_user, test_user)
++
++        # Append 'features' to local.conf
++        self.append_config(features)
++
++        # Build a core-image-minimal
++        ret = bitbake('core-image-minimal')
++        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
++
++        rm_ssh_keys_cmd = 'ssh-keygen -f "{}/.ssh/known_hosts" -R {}'.format(expanduser('~'), tap_inf_ip)
++        # Delete the ssh keys for 192.168.7.2 (qemu)
++        ret = runCmd(rm_ssh_keys_cmd)
++        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host.')
++
++        # Boot qemu image
++        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
 +        try:
-+            os.remove(self.testinc_bblayers_path)
-+        except OSError as e:
-+            if e.errno != errno.ENOENT:
-+                raise
-         # tests might need their own setup
-         # but if they overwrite this one they have to call
-         # super each time, so let's give them an alternative
-@@ -129,3 +136,18 @@ class oeSelfTest(unittest.TestCase):
-         except OSError as e:
-             if e.errno != errno.ENOENT:
-                 raise
++            proc_qemu.expect('qemux86 login:', timeout=100)
++        except:
++            system('pkill qemu')
++            proc_qemu.close()
++            self.fail('Failed to start qemu.')
 +
-+    # write to <builddir>/conf/bblayers.inc
-+    def write_bblayers_config(self, data):
-+        self.log.debug("Writing to: %s\n%s\n" % (self.testinc_bblayers_path, data))
-+        ftools.write_file(self.testinc_bblayers_path, data)
++        # Attempt to ssh with each user into qemu with empty password
++        for user in [root_user, test_user]:
++            proc_ssh = pexpect.spawn('ssh {} -l {}'.format(tap_inf_ip, user))
++            index = proc_ssh.expect(['Are you sure you want to continue connecting', prompt, pexpect.TIMEOUT, pexpect.EOF])
++            if index == 0:
++                proc_ssh.sendline('yes')
++                try:
++                    proc_ssh.expect(prompt)
++                except:
++                    system('pkill qemu')
++                    proc_qemu.close()
++                    proc_ssh.terminate()
++                    self.fail('Failed to ssh with {} user into qemu.'.format(user))
++            elif index == 1:
++                # user successfully logged in with empty password
++                pass
++            elif index == 2:
++                system('pkill qemu')
++                proc_qemu.close()
++                proc_ssh.terminate()
++                self.fail('Failed to ssh with {} user into qemu (timeout).'.format(user))
++            else:
++                system('pkill qemu')
++                proc_qemu.close()
++                proc_ssh.terminate()
++                self.fail('Failed to ssh with {} user into qemu (eof).'.format(user))
 +
-+    # append to <builddir>/conf/bblayers.inc
-+    def append_bblayers_config(self, data):
-+        self.log.debug("Appending to: %s\n%s\n" % (self.testinc_bblayers_path, data))
-+        ftools.append_file(self.testinc_bblayers_path, data)
++        # Cleanup
++        system('pkill qemu')
++        proc_qemu.close()
++        proc_ssh.terminate()
++        ret = runCmd(rm_ssh_keys_cmd)
++        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host (at cleanup).')
 +
-+    # remove data from <builddir>/conf/bblayers.inc
-+    def remove_bblayers_config(self, data):
-+        self.log.debug("Removing from: %s\n\%s\n" % (self.testinc_bblayers_path, data))
-+        ftools.remove_from_file(self.testinc_bblayers_path, data)
++    @testcase(1115)
++    def test_all_users_can_connect_via_ssh_without_password(self):
++        """
++        Summary:     Check if all users can connect via ssh without password
++        Expected:    1. Connection to the image via ssh using root or tester user without providing a password should be allowed.
++        Product:     oe-core
++        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++        test_user = 'tester'
++        root_user = 'root'
++        prompt = r'qemux86:\S+[$#]\s+'
++        tap_inf_ip = '192.168.7.2'
++
++        features = 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh allow-empty-password"\n'
++        features += 'INHERIT += "extrausers"\n'
++        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(test_user, test_user)
++
++        # Append 'features' to local.conf
++        self.append_config(features)
++
++        # Build a core-image-minimal
++        ret = bitbake('core-image-minimal')
++        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
++
++        rm_ssh_keys_cmd = 'ssh-keygen -f "{}/.ssh/known_hosts" -R {}'.format(expanduser('~'), tap_inf_ip)
++        # Delete the ssh keys for 192.168.7.2 (qemu)
++        ret = runCmd(rm_ssh_keys_cmd)
++        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host.')
++
++        # Boot qemu image
++        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
++        try:
++            proc_qemu.expect('qemux86 login:', timeout=100)
++        except:
++            system('pkill qemu')
++            proc_qemu.close()
++            self.fail('Failed to start qemu.')
++
++        # Attempt to ssh with each user into qemu with empty password
++        for user in [root_user, test_user]:
++            proc_ssh = pexpect.spawn('ssh {} -l {}'.format(tap_inf_ip, user))
++            index = proc_ssh.expect(['Are you sure you want to continue connecting', prompt, pexpect.TIMEOUT, pexpect.EOF])
++            if index == 0:
++                proc_ssh.sendline('yes')
++                try:
++                    proc_ssh.expect(prompt)
++                except:
++                    system('pkill qemu')
++                    proc_qemu.close()
++                    proc_ssh.terminate()
++                    self.fail('Failed to ssh with {} user into qemu.'.format(user))
++            elif index == 1:
++                # user successfully logged in with empty password
++                pass
++            elif index == 2:
++                system('pkill qemu')
++                proc_qemu.close()
++                proc_ssh.terminate()
++                self.fail('Failed to ssh with {} user into qemu (timeout).'.format(user))
++            else:
++                system('pkill qemu')
++                proc_qemu.close()
++                proc_ssh.terminate()
++                self.fail('Failed to ssh with {} user into qemu (eof).'.format(user))
++
++        # Cleanup
++        system('pkill qemu')
++        proc_qemu.close()
++        proc_ssh.terminate()
++        ret = runCmd(rm_ssh_keys_cmd)
++        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host (at cleanup).')
++
++    @testcase(1114)
++    def test_rpm_version_4_support_on_image(self):
++        """
++        Summary:     Check rpm version 4 support on image
++        Expected:    Rpm version must be 4.11.2
++        Product:     oe-core
++        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        root_user = 'root'
++        prompt = '{}@qemux86:~# '.format(root_user)
++        rpm_version = '4.11.2'
++        features = 'IMAGE_INSTALL_append = " rpm"\n'
++        features += 'PREFERRED_VERSION_rpm = "{}"\n'.format(rpm_version)
++        features += 'PREFERRED_VERSION_rpm-native = "{}"\n'.format(rpm_version)
++        features += 'RPMROOTFSDEPENDS_remove = "rpmresolve-native:do_populate_sysroot"'
++
++        # Append 'features' to local.conf
++        self.append_config(features)
++
++        # Build a core-image-minimal
++        ret = bitbake('core-image-minimal')
++        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
++
++        # Boot qemu image & get rpm version
++        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
++        try:
++            proc_qemu.expect('qemux86 login:', timeout=100)
++            proc_qemu.sendline(root_user)
++            proc_qemu.expect(prompt)
++            proc_qemu.sendline('rpm --version')
++            proc_qemu.expect(prompt)
++        except:
++            system('pkill qemu')
++            proc_qemu.close()
++            self.fail('Failed to boot qemu.')
++
++        found_rpm_version = proc_qemu.before
++
++        # Make sure the retrieved rpm version is the expected one
++        if rpm_version not in found_rpm_version:
++            system('pkill qemu')
++            proc_qemu.close()
++            self.fail('RPM version is not {}, found instead {}.'.format(rpm_version, found_rpm_version))
++
++        # Cleanup (close qemu)
++        system('pkill qemu')
++        proc_qemu.close()
++
++
++class Gummiboot(oeSelfTest):
++
++    meta_intel_dir = ''
++
++    def setUpLocal(self):
++        """
++        Common setup for test cases: 1101, 1103
++        """
++
++        self.meta_intel_dir = get_bb_var('COREBASE') + '/meta-intel'
++        meta_nuc_dir = self.meta_intel_dir + '/meta-nuc'
++        meta_intel_repo = 'http://git.yoctoproject.org/git/meta-intel'
++
++        # Delete meta_intel_dir
++        system('rm -rf ' + self.meta_intel_dir)
++
++        # Delete meta-intel dir even if the setUp fails
++        self.add_command_to_tearDown('rm -rf ' + self.meta_intel_dir)
++
++        # Clone meta-intel
++        ret = runCmd('git clone ' + meta_intel_repo + ' ' + self.meta_intel_dir)
++        self.assertEqual(0, ret.status, 'Failed to clone meta-intel.')
++
++        # Add meta-intel and meta-nuc layers in conf/bblayers.conf
++        features = 'BBLAYERS += "' + self.meta_intel_dir + ' ' + meta_nuc_dir + '"'
++        self.append_bblayers_config(features)
++
++        # Set EFI_PROVIDER = "gummiboot" and MACHINE = "nuc" in conf/local.conf
++        features = 'EFI_PROVIDER = "gummiboot"\n'
++        features += 'MACHINE = "nuc"'
++        self.append_config(features)
++
++        # Run "bitbake core-image-minimal" to build a nuc efi/gummiboot image
++        ret = bitbake('core-image-minimal')
++        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
++
++    @testcase(1101)
++    def test_efi_gummiboot_images_can_be_build(self):
++        """
++        Summary:     Check if efi/gummiboot images can be buit
++        Expected:    1. File gummibootx64.efi should be available in build/tmp/deploy/images/nuc
++                     2. Efi/gummiboot images can be built
++        Product:     oe-core
++        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        look_for_file = 'gummibootx64.efi'
++        file_location = get_bb_var('COREBASE') + '/build/tmp/deploy/images/nuc/'
++
++        found = isfile(file_location + look_for_file)
++        self.assertTrue(found, 'File {} not found under {}.'.format(look_for_file, file_location))
++
++    @testcase(1103)
++    def test_wic_command_can_create_efi_gummiboot_installation_images(self):
++        """
++        Summary:     Check that wic command can create efi/gummiboot installation images
++        Expected:    A .direct file in folder /var/tmp/wic/ must be created.
++        Product:     oe-core
++        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
++        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
++        """
++
++        # Create efi/gummiboot installation images
++        wic_create_cmd = 'wic create mkgummidisk -e core-image-minimal'
++        ret = runCmd(wic_create_cmd)
++        self.assertEqual(0, ret.status, 'Failed to create efi/gummiboot installation images.')
++
++        # Verify that a .direct file was created
++        direct_file = '/var/tmp/wic/build/*.direct'
++        ret = glob.glob(direct_file)
++        self.assertEqual(1, len(ret), 'Failed to find the .direct file')
 -- 
 2.1.4
 
