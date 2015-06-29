@@ -1,35 +1,33 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by mail.openembedded.org (Postfix) with ESMTP id B6EB86FA45
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 17973601DF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 20:25:52 +0000 (UTC)
-Received: by oigx81 with SMTP id x81so126475783oig.1
+	Mon, 29 Jun 2015 20:49:51 +0000 (UTC)
+Received: by wiar9 with SMTP id r9so15925463wia.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 13:25:53 -0700 (PDT)
+	Mon, 29 Jun 2015 13:49:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=RWpsZ7RmPqN4Gk575FdajwASvfsi2cqOrmSJ/cGStDA=;
-	b=cTbQIWclMMu7djX0n7zfc1MM4UbBV4QekofxNxcEbQD3h4ubAi45PfaFZ5KVx20MX7
-	VVCBMeqjapkAyINl7gEgHDgxS2c/bztsUPzTV0gK+iQeBDctIaKy/inIswx4TU6mRgQ/
-	ysGtCqMnpbABVus7ENzXZ5kHX8hk1TtFfvPsghylzkmCCpIl14W/xrcFDQalNWVbmidp
-	a+jeOTl+4Z4DEW+71ukcETwsuQ5md0S526q50RGfSkoKOK9Zah67PpoJk3SJXoRccgxo
-	OXOzpymVfxhPCb+EG9R3UNM0JHbHYfz3Xdg7m0AB13V2a2By3bEHqRGEaZ1I4Ee0YMuU
-	mZCA==
-MIME-Version: 1.0
-X-Received: by 10.182.87.36 with SMTP id u4mr13355026obz.50.1435609553174;
-	Mon, 29 Jun 2015 13:25:53 -0700 (PDT)
-Received: by 10.202.64.130 with HTTP; Mon, 29 Jun 2015 13:25:53 -0700 (PDT)
-In-Reply-To: <1435573194.3287.13.camel@collabora.co.uk>
-References: <1435486480.10583.85.camel@linuxfoundation.org>
-	<1435573194.3287.13.camel@collabora.co.uk>
-Date: Mon, 29 Jun 2015 13:25:53 -0700
-Message-ID: <CAJ86T=WvDKfhK_DTcZmBEZkuTJ-bQWTKqmR8bCak6tr9vkKwuw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Joshua Lock <joshua.lock@collabora.co.uk>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: fido status
+	h=from:to:cc:subject:date:message-id;
+	bh=BboxKi3GXEkhMsxKalAOnLEOB0gvJIu0p45RD3s5LTw=;
+	b=zv0O/uz/Poursm5shVqedlnE3yv3SOjbg9BwLBHqFy5c4E8cFkPyDSG7+qK1xjfnen
+	p1FMLnBkj5MNccqpY/HSEofAQoKmKrZ6+Rvz6T365S7rsLzoaZ2x3zHQ9DAg2wC2m69u
+	Mr7JteBKlcgXyMA5JahyCi83rNBhfXIJUQv5ed9RlPntUeMvto5bf5sqJcVHoDSYn0wo
+	Qon0d2I0OFVzbmpCICH5krbVZdju4pnx/ucv68VsKySvhxST+9YcidI4aYNuf6BSzMdB
+	iHogGhYLsBl5v2oJbNZXoH7YFY6xRfxoH8+9pn5/o26GVHwQ5j/g0V5jLb5tQLiv6EhM
+	vFqQ==
+X-Received: by 10.194.189.80 with SMTP id gg16mr32573965wjc.9.1435610992129;
+	Mon, 29 Jun 2015 13:49:52 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id fm8sm13781415wib.9.2015.06.29.13.49.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Jun 2015 13:49:50 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jun 2015 13:49:58 -0700
+Message-Id: <cover.1435610769.git.kergoth@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Subject: [PATCH 0/3] One recipetool fix and a couple enhancements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,66 +40,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 20:25:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 29 Jun 2015 20:49:56 -0000
 
-On Mon, Jun 29, 2015 at 3:19 AM, Joshua Lock
-<joshua.lock@collabora.co.uk> wrote:
-> On Sun, 2015-06-28 at 11:14 +0100, Richard Purdie wrote:
->> I just wanted to let people know what is going on with Fido.
->>
->> Joshua has had a branch in testing for a while. The autobuilder gave
->> mixed feedback for it. Partly, there was a problem since we'd
->> introduced
->> a new autobuilder (Fedora 22) and this introduced some problems with
->> subversion-native and gcc5. Partly there were also networking issues
->> on
->> the autobuilders related to runqemu.
->>
->> Thanks to some help from Michael, we've tracked down and sorted the
->> networking issue (we hope!). I therefore took the decision to merge
->> Joshua's fido-next branch myself, now, with the addition of the
->> subversion fixes to the fido branch.
->
-> Thanks for merging Richard, the number of patches was starting to get
-> unwieldy so I'm pleased to see this happen.
->
->>
->> I've triggered another build which is underway at the moment and I'm
->> confident the result should be reasonable. What I am expecting is
->> failures for oe-selftest and for nightly-aarm64 and nightly-mips64.
->> There are fixes just merged into master which resolve issues in all
->> three areas, I'm hoping we can queue up a fido-next with those in and
->> get fido building green quickly. Those issues are less of an issue
->> given
->> we know what the issues are and they are testing issues, not 'real'
->> bugs.
->
-> Your prediction was very accurate. I've merged a bunch of fixes for the
-> issues you highlighted (and a couple of others) into my fido-next
-> branch[1]. I shall endeavour to get this tested on the autobuilder and
-> submitted for merge over the next couple of days.
+With this in, we can add custom recipetool commands in layers, which is
+a useful capability. For Mentor, I intend to add
+https://gist.github.com/kergoth/14ea8d0932f321b60d49 into
+meta-mentor/meta-mel/lib/recipetool/ to get some convenience sub-commands available:
 
-One minor comment on the patches already merged. This change:
+    $ recipetool kernel_set_defconfig meta-mylayer /path/to/defconfig
+    $ recipetool kernel_add_fragments meta-mylayer one.cfg two.cfg
+    $ recipetool kernel_set_configs meta-mylayer CONFIG_LOCALVERSION_AUTO=n CONFIG_LOCALVERSION=-test
+    $ recipetool kernel_add_dts meta-mylayer *.dts
 
-  http://git.openembedded.org/openembedded-core/commit/?h=fido&id=f46c2ac0fd05f0e10258d8f03bfb2ebd0c2bcbe3
+The following changes since commit 592a1d94a7b0e80059016adb59c4c61e256206f0:
 
-was reported to cause problems for multilib [1]. It needs this follow-on fix:
+  oeqa/parselogs: Whitelist qemumips64 runtime error (2015-06-27 22:49:49 +0100)
 
-  http://git.openembedded.org/openembedded-core/commit/?h=master-next&id=78a0e916882a747c267808c08ab8bc615198b5a8
+are available in the git repository at:
 
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2015-May/105351.html
+  git@github.com:kergoth/openembedded-core recipetool-bits
 
+for you to fetch changes up to 974591c62ec573ee96badb28786aacd3df35ca53:
 
-> Thanks again,
->
-> Joshua
->
-> 1. http://cgit.openembedded.org/openembedded-core
-> -contrib/log/?h=joshuagl/fido-next
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  recipetool.append: add extralines arg to appendsrc (2015-06-29 08:31:45 -0700)
+
+----------------------------------------------------------------
+Christopher Larson (3):
+  recipetool: catch BBHandledException from parsing
+  recipetool: also load plugins from BBPATH
+  recipetool.append: add extralines arg to appendsrc
+
+ scripts/lib/recipetool/append.py |  4 +--
+ scripts/recipetool               | 73 ++++++++++++++++++++++++----------------
+ 2 files changed, 46 insertions(+), 31 deletions(-)
+
+-- 
+2.2.1
+
 
