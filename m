@@ -1,41 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
-	[209.85.216.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CB7775C40
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id B61CE75C49
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 14:43:15 +0000 (UTC)
-Received: by qcbcf1 with SMTP id cf1so43506207qcb.0
+	Mon, 29 Jun 2015 14:45:03 +0000 (UTC)
+Received: by qkei195 with SMTP id i195so57030233qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 07:43:16 -0700 (PDT)
+	Mon, 29 Jun 2015 07:45:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=avmzgx4+HTlz/l1juzYjqJXACZSM/Bx8sMN7RSrNhEI=;
-	b=RYPkinUxQhQ+SQffDvWyt0uCHO1ZDn5i3Nr1A/ocwCtmRde8Qi3FmF6DXATY8WFd/5
-	DG2ZH/z80+bX1Fu8e1IjQ2julKjPVutHBlrkw2rEHRTAN4NB+QqMPlaYvqQnUqOap+vA
-	G0Y5dGBeiakdj+zg4hFBLD454dOo7YSzFybvLRovADsiaKuHntEW0p0ZkvYSfW38fSeS
-	1xmKtblN24WY4mZxXBbBSrDO1QU2FTLukLun45Rher9qBm/5BAxPlz1ku/G8zjIMiL8v
-	yeP8uXzgBmX/+hFd46rhQqydgHAsntON2AYfYsVZkzQtrxYqkIVN3H49oQBNrN2sBVsz
-	yD5w==
-X-Gm-Message-State: ALoCoQksB3xTmj6wr+fP2PZtR/LjaCnIj/2GtH4yfJJPAu28jAM2Jqj9po2HU2C9K7uBwhh9jl+v
-X-Received: by 10.55.18.158 with SMTP id 30mr31556753qks.17.1435588995865;
-	Mon, 29 Jun 2015 07:43:15 -0700 (PDT)
+	bh=/TU54nRhku3AaOJvjhSmsPi4LYj7rdQIFqKJ0GVdGBI=;
+	b=k/0sG0PzK5A8hV/bsAOOcw8dz407vTDqAShE/3W1Lvo0gFMPlVXmHT0URc8fpK9wwU
+	mQCvgtOnKGpxOT2pbZk6g/MTW9QdQ4FKIiNMzpmEs5iFVr4fpiG7JbLlc4zY+C9X0akY
+	5txdhXksvBxdf7ctwc+Ro8+2XkPQfMsOrICJnD1WHRjhS7Wq0cmeZF7/A8Wse1gd29wK
+	l8eOH6+Y2Y0PzLEMFYlQfRZePZFr/R6JWi+pLYANKtS3XRsCJ3ibinAeaUH6VRCLlMfK
+	cm8X2EnLxjlSu9IolbtikGsyBrTXNflDcyfRumML90TUYRzUGn9WDhTOmQIcKWN+9fPc
+	fMcQ==
+X-Gm-Message-State: ALoCoQlwp2RuOhuSwCz0qr0HhcA1Zq02RQBHtJgDzzy1foca2SwbWJjKBu0UTtKWv+hFAVrWejYM
+X-Received: by 10.55.27.11 with SMTP id b11mr32643104qkb.105.1435589104207;
+	Mon, 29 Jun 2015 07:45:04 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 29 Jun 2015 07:42:56 -0700 (PDT)
-In-Reply-To: <20150629124512.GE2393@jama>
-References: <cover.1435297800.git.mariano.lopez@linux.intel.com>
-	<e70f95d9bb6247ec0f305966894b22f681135013.1435297800.git.mariano.lopez@linux.intel.com>
-	<CAJTo0LZrsr7u7a-jRhoG6nKP51vXBGCiuRsm51YoySiK_YSxsg@mail.gmail.com>
-	<20150629111839.GB2393@jama>
-	<CAJTo0LZ4fC8k889WXqfgvqLxGMZgZvQoCe3RGZTEvYxaf0xjow@mail.gmail.com>
-	<20150629124512.GE2393@jama>
+Received: by 10.140.102.231 with HTTP; Mon, 29 Jun 2015 07:44:44 -0700 (PDT)
+In-Reply-To: <1435565217-24812-1-git-send-email-rongqing.li@windriver.com>
+References: <1435565217-24812-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Jun 2015 15:42:56 +0100
-Message-ID: <CAJTo0La8ntx8ejNG0Dg_V34aBMXCRGJCGMMXUYAXmW+0P89AyQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 29 Jun 2015 15:44:44 +0100
+Message-ID: <CAJTo0LZHuiNu0W1N_LU4_L-rsoPzBrm1Ur2nX5No+kogfjqvwg@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] report-error.bbclass: Added file syncronization.
+Subject: Re: [PATCH] unzip: drop 12-cve-2014-9636-test-compr-eb.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,35 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 14:43:18 -0000
-Content-Type: multipart/alternative; boundary=001a1146f48224759a0519a91c11
+X-List-Received-Date: Mon, 29 Jun 2015 14:45:06 -0000
+Content-Type: multipart/alternative; boundary=001a1147f32e99a33e0519a92297
 
---001a1146f48224759a0519a91c11
+--001a1147f32e99a33e0519a92297
 Content-Type: text/plain; charset=UTF-8
 
-On 29 June 2015 at 13:45, Martin Jansa <martin.jansa@gmail.com> wrote:
+On 29 June 2015 at 09:06, <rongqing.li@windriver.com> wrote:
 
-> Even the last task parses the file before appending additional
-> task failure and dumping it back to the same filename.
+> 12-cve-2014-9636-test-compr-eb.patch is same as unzip-6.0_overflow3.diff,
+> is to fix CVE-2014-9636
 >
 
-You're right Martin, turns out I can't read code...
+This is going to be sound really picky, but when a patch fixes a CVE I'd
+like to start moving towards the patch naming reflecting that (for CVE
+verification purposes).  Can you update this patch so it removes the
+overflow3 patch instead?
 
 Ross
 
---001a1146f48224759a0519a91c11
+--001a1147f32e99a33e0519a92297
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 June 2015 at 13:45, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":22c" class=3D=
-"a3s" style=3D"overflow:hidden">Even the last task parses the file before a=
-ppending additional<br>
-task failure and dumping it back to the same filename.<br></div></blockquot=
-e><div><br></div><div>You&#39;re right Martin, turns out I can&#39;t read c=
-ode...</div><div><br></div><div>Ross</div></div><br></div></div>
+On 29 June 2015 at 09:06,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
+.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":260" class=3D"a3s" =
+style=3D"overflow:hidden">12-cve-2014-9636-test-compr-eb.patch is same as u=
+nzip-6.0_overflow3.diff,<br>
+is to fix CVE-2014-9636<br></div></blockquote></div><br>This is going to be=
+ sound really picky, but when a patch fixes a CVE I&#39;d like to start mov=
+ing towards the patch naming reflecting that (for CVE verification purposes=
+).=C2=A0 Can you update this patch so it removes the overflow3 patch instea=
+d?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ros=
+s</div></div>
 
---001a1146f48224759a0519a91c11--
+--001a1147f32e99a33e0519a92297--
