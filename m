@@ -1,25 +1,39 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 2544472E99
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C69CE75C67
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 19:11:45 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 29 Jun 2015 12:11:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,371,1432623600"; d="scan'208";a="737099314"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2015 12:11:47 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 7AA196A4083;
-	Mon, 29 Jun 2015 12:11:07 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2015 22:10:33 +0300
-Message-Id: <1435605033-11509-21-git-send-email-ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
-References: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 20/20] wic: Code cleanup: unused imports
+	Mon, 29 Jun 2015 19:32:42 +0000 (UTC)
+Received: by wibdq8 with SMTP id dq8so81268526wib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jun 2015 12:32:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=wc/TsAS9ZvxS1CG72eeDUjvDbUQAZcqlYTehJoh367s=;
+	b=pzwmEQU6QBdZ6l5zDGLk1UVG+GprCZOrJgT9aU7JzykMp0F0zyS7KkT67Z7pOp64cS
+	o2Vdpxz8tHtN243EXrBiWKmxOXVJNV0s/yjniCwuIgWatpyoihKqZNIt8P3u+ICu1khf
+	UYXM90Llyqul/QmYxP8fTqSNQOkV2qJbtiGx1kuulEG/BXl0V+PDSBBsXHqqB/Hp/79r
+	58v0ofxnx9xSbqFnCmF1MciUZ3/+BoeDycJswRJBcCVFwZt44ADJDEWwGhBS7G4rCASp
+	g3FA8+oTk/34aA7Me6Wp0RhGqBa+kNkUxKDG8lhLHqx3gtlySVgiE5aLN39cpbzB7H7k
+	bBTg==
+X-Received: by 10.180.88.8 with SMTP id bc8mr25485876wib.19.1435606363574;
+	Mon, 29 Jun 2015 12:32:43 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id u7sm13562527wif.3.2015.06.29.12.32.42
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Jun 2015 12:32:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 29 Jun 2015 21:32:48 +0200
+To: Drew Moseley <drew_moseley@mentor.com>
+Message-ID: <20150629193248.GG2393@jama>
+References: <1435602230-12093-1-git-send-email-drew_moseley@mentor.com>
+MIME-Version: 1.0
+In-Reply-To: <1435602230-12093-1-git-send-email-drew_moseley@mentor.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa: Add blank r600 PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,131 +46,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 19:11:46 -0000
+X-List-Received-Date: Mon, 29 Jun 2015 19:32:47 -0000
+X-Groupsio-MsgNum: 67315
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="I3tAPq1Rm2pUxvsp"
+Content-Disposition: inline
 
-Fixed pylint warning unused-import
+--I3tAPq1Rm2pUxvsp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+On Mon, Jun 29, 2015 at 02:23:50PM -0400, Drew Moseley wrote:
+> Fixes warnings such as:
+>     WARNING: mesa: invalid PACKAGECONFIG: r600
+> when building with the r600 configuration.
 
-diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
-index 0dc7920..73e8f8b 100644
---- a/scripts/lib/image/engine.py
-+++ b/scripts/lib/image/engine.py
-@@ -30,18 +30,10 @@
- 
- import os
- import sys
--from abc import ABCMeta, abstractmethod
--import shlex
--import json
--import subprocess
--import shutil
- 
--import os, sys, errno
- from wic import msger, creator
--from wic.utils import cmdln, misc, errors
--from wic.conf import configmgr
-+from wic.utils import misc
- from wic.plugin import pluginmgr
--from wic.__version__ import VERSION
- from wic.utils.oe import misc
- 
- 
-diff --git a/scripts/lib/wic/conf.py b/scripts/lib/wic/conf.py
-index cecf396..402ed62 100644
---- a/scripts/lib/wic/conf.py
-+++ b/scripts/lib/wic/conf.py
-@@ -19,7 +19,7 @@ import os
- 
- from wic import msger
- from wic import kickstart
--from wic.utils import misc, runner, errors
-+from wic.utils import misc
- 
- 
- def get_siteconf():
-diff --git a/scripts/lib/wic/imager/baseimager.py b/scripts/lib/wic/imager/baseimager.py
-index 0afbc2c..67a2d01 100644
---- a/scripts/lib/wic/imager/baseimager.py
-+++ b/scripts/lib/wic/imager/baseimager.py
-@@ -21,10 +21,9 @@ import os
- import tempfile
- import shutil
- 
--from wic import kickstart
- from wic import msger
- from wic.utils.errors import CreatorError
--from wic.utils import misc, runner, fs_related as fs
-+from wic.utils import runner
- 
- class BaseImageCreator(object):
-     """Base class for image creation.
-diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 561c396..359f09b 100644
---- a/scripts/lib/wic/imager/direct.py
-+++ b/scripts/lib/wic/imager/direct.py
-@@ -28,7 +28,7 @@ import os
- import shutil
- 
- from wic import kickstart, msger
--from wic.utils import fs_related, runner, misc
-+from wic.utils import fs_related
- from wic.utils.partitionedfs import Image
- from wic.utils.errors import CreatorError, ImageError
- from wic.imager.baseimager import BaseImageCreator
-diff --git a/scripts/lib/wic/pluginbase.py b/scripts/lib/wic/pluginbase.py
-index 50e442d..6d96de2 100644
---- a/scripts/lib/wic/pluginbase.py
-+++ b/scripts/lib/wic/pluginbase.py
-@@ -16,7 +16,6 @@
- # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- 
- from wic import msger
--from wic.utils import errors
- 
- class _Plugin(object):
-     class __metaclass__(type):
-diff --git a/scripts/lib/wic/plugins/imager/direct_plugin.py b/scripts/lib/wic/plugins/imager/direct_plugin.py
-index db01c41..eb17e8d 100644
---- a/scripts/lib/wic/plugins/imager/direct_plugin.py
-+++ b/scripts/lib/wic/plugins/imager/direct_plugin.py
-@@ -24,10 +24,8 @@
- # Tom Zanussi <tom.zanussi (at] linux.intel.com>
- #
- 
--from wic import msger
--from wic.utils import misc, fs_related, errors, runner, cmdln
-+from wic.utils import errors
- from wic.conf import configmgr
--from wic.plugin import pluginmgr
- 
- import wic.imager.direct as direct
- from wic.pluginbase import ImagerPlugin
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 903b478..49d5c8a 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -27,7 +27,6 @@
- import os
- import shutil
- 
--from wic.utils.errors import ImageError
- from wic import kickstart, msger
- from wic.pluginbase import SourcePlugin
- from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
-diff --git a/scripts/lib/wic/utils/cmdln.py b/scripts/lib/wic/utils/cmdln.py
-index b099473..d8f1c05 100644
---- a/scripts/lib/wic/utils/cmdln.py
-+++ b/scripts/lib/wic/utils/cmdln.py
-@@ -43,7 +43,6 @@ import sys
- import re
- import cmd
- import optparse
--from pprint import pprint
- import sys
- 
- 
--- 
-2.1.4
+Shouldn't you fix your PACKAGECONFIG value instead (wherever it's set to
+include r600)?
 
+>=20
+> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+> ---
+>  meta/recipes-graphics/mesa/mesa.inc | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+> index 97ed02f..09e80e8 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -53,6 +53,7 @@ PACKAGECONFIG[openvg] =3D "--enable-openvg, --disable-o=
+penvg"
+> =20
+>  GALLIUMDRIVERS =3D "swrast"
+>  GALLIUMDRIVERS_LLVM33 =3D "${@bb.utils.contains('PACKAGECONFIG', 'r600',=
+ 'radeonsi,r600', '', d)}"
+> +PACKAGECONFIG[r600] =3D ""
+>  GALLIUMDRIVERS_LLVM33_ENABLED =3D "${@base_version_less_or_equal('MESA_L=
+LVM_RELEASE', '3.2', False, len('${GALLIUMDRIVERS_LLVM33}') > 0, d)}"
+>  GALLIUMDRIVERS_LLVM =3D "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}'=
+ if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+>  GALLIUMDRIVERS_append_x86 =3D "${@bb.utils.contains('PACKAGECONFIG', 'ga=
+llium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--I3tAPq1Rm2pUxvsp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlWRnWAACgkQN1Ujt2V2gBymLQCfSE+oOUMivbifx4QZhOK7hO8H
+WmoAoLN0arR2B2JCAfeOEd3WtLwfccB5
+=KI3u
+-----END PGP SIGNATURE-----
+
+--I3tAPq1Rm2pUxvsp--
