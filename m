@@ -1,29 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 347B560670
+	by mail.openembedded.org (Postfix) with ESMTP id 683616AB99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 07:05:59 +0000 (UTC)
+	Mon, 29 Jun 2015 07:18:53 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5T75xbJ022612; Mon, 29 Jun 2015 08:05:59 +0100
+	t5T7IsPJ024406; Mon, 29 Jun 2015 08:18:54 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KiBj3twrOjPm; Mon, 29 Jun 2015 08:05:59 +0100 (BST)
+	with LMTP id AAemshnd3jnN; Mon, 29 Jun 2015 08:18:54 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t5T75i2f022582
+	t5T7Ie6R024373
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 29 Jun 2015 08:05:56 +0100
-Message-ID: <1435561544.7287.10.camel@linuxfoundation.org>
+	Mon, 29 Jun 2015 08:18:51 +0100
+Message-ID: <1435562320.7287.12.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: rongqing.li@windriver.com
-Date: Mon, 29 Jun 2015 08:05:44 +0100
-In-Reply-To: <1435546323-11539-1-git-send-email-rongqing.li@windriver.com>
-References: <1435546323-11539-1-git-send-email-rongqing.li@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 29 Jun 2015 08:18:40 +0100
+In-Reply-To: <5590D7BA.5030306@windriver.com>
+References: <cover.1435126503.git.liezhi.yang@windriver.com>
+	<1435514866.7287.3.camel@linuxfoundation.org>
+	<5590D7BA.5030306@windriver.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mklibs-native: avoid failure on symbol provided by application
+Subject: Re: [PATCH 0/8] perl 5.20.0 -> 5.22.0 and fix test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +38,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 07:06:07 -0000
+X-List-Received-Date: Mon, 29 Jun 2015 07:18:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2015-06-29 at 10:52 +0800, rongqing.li@windriver.com wrote:
-> From: Yuanjie Huang <yuanjie.huang@windriver.com>
+On Mon, 2015-06-29 at 13:29 +0800, Robert Yang wrote:
 > 
-> Undefined symbols in a library can be provided by the application
-> that links to the library, such as `logsink' in libmultipath.so.0.
-> This fix checks the type of object in which the symbol is needed
-> and the existence of the symbol in application, when a symbol
-> cannot be provided by libraries. It prevents false alarm on absence
-> of symbols.
+> On 06/29/2015 02:07 AM, Richard Purdie wrote:
+> > On Tue, 2015-06-23 at 23:26 -0700, Robert Yang wrote:
+> >> * Upgrade perl 5.20.0 -> 5.22.0
+> >> * Tested on qemux86, qemuarm, qemuarm64, qemuppc, qemumips, qemux86-64.
+> >> * Fix for test cases, the test result:
+> >>    Failed 9 tests out of 2269, 99.60% okay.
+> >
+> > This series seems to cause:
+> >
+> > https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/367/steps/BuildImages/logs/stdio
+> >
+> > on non-gplv3 builds.
 > 
-> Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> ---
->  ...failure-on-symbol-provided-by-application.patch | 100 +++++++++++++++++++++
->  .../mklibs/mklibs-native_0.1.40.bb                 |   1 +
->  2 files changed, 101 insertions(+)
->  create mode 100644 meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
-> 
-> diff --git a/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch b/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
-> new file mode 100644
-> index 0000000..798212a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/mklibs/files/avoid-failure-on-symbol-provided-by-application.patch
-> @@ -0,0 +1,100 @@
-> +From f172101130604e4a9efa5746f4d8d30de99a0fdc Mon Sep 17 00:00:00 2001
-> +From: Yuanjie Huang <yuanjie.huang@windriver.com>
-> +Date: Fri, 17 Apr 2015 14:48:20 +0800
-> +Subject: [PATCH] avoid failure on symbol provided by application
-> +
-> +Undefined symbols in a library can be provided by the application
-> +that links to the library, such as `logsink' in libmultipath.so.0.
-> +This fix checks the type of object in which the symbol is needed
-> +and the existence of the symbol in application, when a symbol
-> +cannot be provided by libraries. It prevents false alarm on absence
-> +of symbols.
-> +
-> +Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+> Yes, it would fail when non-gplv3 build, here is a patch to fix
+> the problem:
 
-No Upstream-Status?
+Thanks!
+
+More puzzlingly, selftest also failed in that build with:
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/45
+
+Which looks similar but isn't GPLv3 excluded. Any ideas on that?
+
+I just realised there is no DEPENDS on gdbm-native in perl-native as far
+as I can tell?
 
 Cheers,
 
