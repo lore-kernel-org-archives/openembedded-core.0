@@ -1,38 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 2458B7413A
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 3507260555
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 16:42:08 +0000 (UTC)
-Received: by qgii30 with SMTP id i30so8826628qgi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 09:42:09 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=X0uJZ0DGqM3xCl5EpEUT2N36SSvD0HA0AfCFb67mvqk=;
-	b=hd1ONwUM7WxQgWMS4lhfoHJ8VvlxGJT3HmIDfPT1HOkZeRugvVyW0RAT2KJVgx7Vbb
-	SaD7tvdsCMi96zq2IfpzhxRkBc58lQewAtTjd/l4FcuTYuhA+2+5ofq3d/j2vn9O5AQ/
-	zjEBR391yB4+7Bqg2/44epkX3ilfVbKCAQXd3IUgnexT7GkTVV7+jS9b1Gybfx5wjfP3
-	hGM2JTPWnK+MlxMAdsdcIkUdoda/jlwMpD6oPPydpNZO9ux2/SV17tEUVIcokFZ4msNs
-	FAMiGCP8as3JZK00LDl3OEAlcZlJMGjgHL6KsYfNfnj7UCXetqE/zQhaOWH2bmg9Jqli
-	QDsw==
-X-Gm-Message-State: ALoCoQn9bQjBo0kKf0Osm1/ate4Yr0xyxTa9A+eLIF9lZ6Mq3GNZlcbjEQgF12Bv0c54iL90LZiZ
-X-Received: by 10.140.231.19 with SMTP id b19mr20568836qhc.22.1435596129624;
-	Mon, 29 Jun 2015 09:42:09 -0700 (PDT)
+	Mon, 29 Jun 2015 18:23:51 +0000 (UTC)
+Received: from svr-orw-fem-03.mgc.mentorg.com ([147.34.97.39])
+	by relay1.mentorg.com with esmtp 
+	id 1Z9dii-0000o8-3u from drew_moseley@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Mon, 29 Jun 2015 11:23:52 -0700
+Received: from sb-ubuntu-1404-64bit.alm.mentorg.com (147.34.91.1) by
+	svr-orw-fem-03.mgc.mentorg.com (147.34.97.39) with Microsoft SMTP
+	Server id 14.3.224.2; Mon, 29 Jun 2015 11:23:51 -0700
+From: Drew Moseley <drew_moseley@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Jun 2015 14:23:50 -0400
+Message-ID: <1435602230-12093-1-git-send-email-drew_moseley@mentor.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Mon, 29 Jun 2015 09:41:50 -0700 (PDT)
-In-Reply-To: <558A610C.2060600@windriver.com>
-References: <cover.1435126503.git.liezhi.yang@windriver.com>
-	<bb310561fc74eda7e03e10ccd7b3c29e7ad50992.1435126503.git.liezhi.yang@windriver.com>
-	<558A610C.2060600@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 29 Jun 2015 17:41:50 +0100
-Message-ID: <CAJTo0LaE__10br7LoZit8OTaZ=-oqC4KegoGJeKuG45LCLN07A@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 8/8] perl-ptest: fix RDEPENDS
+Subject: [PATCH] mesa: Add blank r600 PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,37 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 16:42:12 -0000
-Content-Type: multipart/alternative; boundary=001a11c12f0058fd0c0519aac578
+X-List-Received-Date: Mon, 29 Jun 2015 18:23:54 -0000
+Content-Type: text/plain
 
---001a11c12f0058fd0c0519aac578
-Content-Type: text/plain; charset=UTF-8
+Fixes warnings such as:
+    WARNING: mesa: invalid PACKAGECONFIG: r600
+when building with the r600 configuration.
 
-On 24 June 2015 at 08:49, Robert Yang <liezhi.yang@windriver.com> wrote:
+Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Sorry, please drop the last patch [PATCH 8/8] , I copy it from
-> IMAGE_INSTALL, but it isn't correct, other patches are fine.
->
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 97ed02f..09e80e8 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -53,6 +53,7 @@ PACKAGECONFIG[openvg] = "--enable-openvg, --disable-openvg"
+ 
+ GALLIUMDRIVERS = "swrast"
+ GALLIUMDRIVERS_LLVM33 = "${@bb.utils.contains('PACKAGECONFIG', 'r600', 'radeonsi,r600', '', d)}"
++PACKAGECONFIG[r600] = ""
+ GALLIUMDRIVERS_LLVM33_ENABLED = "${@base_version_less_or_equal('MESA_LLVM_RELEASE', '3.2', False, len('${GALLIUMDRIVERS_LLVM33}') > 0, d)}"
+ GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ GALLIUMDRIVERS_append_x86 = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+-- 
+1.9.1
 
-Will there be a follow-up patch to fix the rdepends so they're complete?
-Or is the current set good as it is?
 
-Ross
-
---001a11c12f0058fd0c0519aac578
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 June 2015 at 08:49, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ul" clas=
-s=3D"a3s" style=3D"overflow:hidden">Sorry, please drop the last patch [PATC=
-H 8/8] , I copy it from<br>
-IMAGE_INSTALL, but it isn&#39;t correct, other patches are fine.</div></blo=
-ckquote><div><br></div><div>Will there be a follow-up patch to fix the rdep=
-ends so they&#39;re complete?=C2=A0 Or is the current set good as it is?</d=
-iv><div><br></div><div>Ross</div></div></div></div>
-
---001a11c12f0058fd0c0519aac578--
