@@ -1,43 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id BE95C6AC15
+Return-Path: <sgw@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E1D0609B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 12:45:06 +0000 (UTC)
-Received: by wiga1 with SMTP id a1so70236539wig.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 05:45:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=qwANp91FrMExl6HOI+MlExarfqXXcpsWkmpi7RbI4nQ=;
-	b=jLK02RwD6aANo+KD1Y50+KP1TadgvE0hl73Mmx81C9JAeybKCxHZsQ4VJbuWeHEx3S
-	SUmWLW1xmVfx7yxthmByzYGLl7tXBTWDPgQVQAMg5DP9BJ5KhP065pU4+rDVkgcfL9Nz
-	Jq/ahFl7pyCd/u0EQDpjF3TVnWCYtxc5EHCueP11VVGDIw2Dp1ycvvOdXU6EJmhQYyPR
-	kM50IpMDEQ8A+FY8sY0EuLXlvT3H+rXCvgofWXGMnejy4kRZSUq1Q53+OkpLJdAv218S
-	CDYTSJbiQPAW6fnw9Pear2vhfBCbJHX0R6vG8AYWBbD1PKX2qpfzuLLyH+I7nKhYreeY
-	w2GA==
-X-Received: by 10.180.14.193 with SMTP id r1mr21262461wic.47.1435581906918;
-	Mon, 29 Jun 2015 05:45:06 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id ex8sm7090778wjc.34.2015.06.29.05.45.06
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Jun 2015 05:45:06 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 29 Jun 2015 14:45:12 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150629124512.GE2393@jama>
-References: <cover.1435297800.git.mariano.lopez@linux.intel.com>
-	<e70f95d9bb6247ec0f305966894b22f681135013.1435297800.git.mariano.lopez@linux.intel.com>
-	<CAJTo0LZrsr7u7a-jRhoG6nKP51vXBGCiuRsm51YoySiK_YSxsg@mail.gmail.com>
-	<20150629111839.GB2393@jama>
-	<CAJTo0LZ4fC8k889WXqfgvqLxGMZgZvQoCe3RGZTEvYxaf0xjow@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZ4fC8k889WXqfgvqLxGMZgZvQoCe3RGZTEvYxaf0xjow@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] report-error.bbclass: Added file syncronization.
+	Mon, 29 Jun 2015 14:10:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 29 Jun 2015 07:10:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.13,699,1427785200"; d="scan'208";a="736908879"
+Received: from ashussai-mobl1.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.254.105.108])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2015 07:10:51 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Mon, 29 Jun 2015 07:10:50 -0700
+Message-Id: <1435587050-18517-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Cc: dvhart@linux.intel.com
+Subject: [PATCH] tune-i586-nlp: Add new tune file to support Quark/X1000 CPU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,46 +30,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 12:45:07 -0000
-X-Groupsio-MsgNum: 67280
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EXKGNeO8l0xGFBjy"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 29 Jun 2015 14:10:56 -0000
 
---EXKGNeO8l0xGFBjy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This tune file is needed to enable a GAS option specific to this cpu family
+in order to disable the usage of lock prefix instructions.
 
-On Mon, Jun 29, 2015 at 12:43:04PM +0100, Burton, Ross wrote:
-> On 29 June 2015 at 12:18, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > This is about multiple TaskFailed events being processed at the same
-> > time, isn't it? So it's still part of the same report and unrelated to
-> > uploading to web app.
-> >
->=20
-> In which case the last task wins, as they're all writing to the same
-> filename right?
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
+---
+ meta/conf/machine/include/tune-i586-nlp.inc | 19 +++++++++++++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-i586-nlp.inc
 
-No, if the locking is implemented correctly.
+diff --git a/meta/conf/machine/include/tune-i586-nlp.inc b/meta/conf/machine/include/tune-i586-nlp.inc
+new file mode 100644
+index 0000000..94e22c1
+--- /dev/null
++++ b/meta/conf/machine/include/tune-i586-nlp.inc
+@@ -0,0 +1,19 @@
++# Settings for the GCC(1) cpu-type "quark":
++#
++#
++#
++DEFAULTTUNE ?= "i586-nlp-32"
++
++# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
++require conf/machine/include/x86/arch-x86.inc
++
++# x86 with no lock prefix
++TUNEVALID[i586-nlp] = "IA32 with Lock Prefix omitted"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "i586-nlp", " -march=i586 -Wa,-momit-lock-prefix=yes", "", d)}"
++
++# Quark tune feature
++AVAILTUNES = "i586-nlp-32"
++TUNE_FEATURES_tune-i586-nlp-32 = "${TUNE_FEATURES_tune-x86} i586-nlp"
++BASE_LIB_tune-i586-nlp-32 = "lib"
++TUNE_PKGARCH_tune-i586-nlp-32 = "i586-nlp-32"
++PACKAGE_EXTRA_ARCHS_tune-i586-nlp-32 = "i586-nlp-32"
+-- 
+2.1.0
 
-Even the last task parses the file before appending additional
-task failure and dumping it back to the same filename.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---EXKGNeO8l0xGFBjy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWRPdcACgkQN1Ujt2V2gBxXyACfRod/spdsfZEM+g/5HUXNEZ9r
-t3sAn1YdIII88UCZ+Qjcn889XLeIvUF6
-=tgsV
------END PGP SIGNATURE-----
-
---EXKGNeO8l0xGFBjy--
