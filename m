@@ -1,26 +1,41 @@
-Return-Path: <hugo.saldanha@aker.com.br>
-Received: from asmg.aker.com.br (asmg.aker.com.br [177.159.144.67])
-	by mail.openembedded.org (Postfix) with SMTP id 5941E7564B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qc0-f178.google.com (mail-qc0-f178.google.com
+	[209.85.216.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9CB7775C40
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 14:32:11 +0000 (UTC)
-Received: from mail.aker.com.br (bat.bsb.aker.com.br [10.0.0.20])
-	by asmg.aker.com.br [10.0.1.3]; Mon, 29 Jun 2015 11:32:05 -0300
-	(envelope-from hugo.saldanha@aker.com.br)
-Received: from localhost (10.4.3.1) by mail.aker.com.br (10.0.0.20) with
-	Microsoft SMTP Server (TLS) id 8.3.342.0;
-	Mon, 29 Jun 2015 11:32:10 -0300
-Date: Mon, 29 Jun 2015 11:36:48 -0300
-From: Hugo Vasconcelos Saldanha <hugo.saldanha@aker.com.br>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20150629143648.GB2195@saldanha.aker.com.br>
-References: <1435070903-24433-1-git-send-email-hugo.saldanha@aker.com.br>
+	Mon, 29 Jun 2015 14:43:15 +0000 (UTC)
+Received: by qcbcf1 with SMTP id cf1so43506207qcb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Jun 2015 07:43:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=avmzgx4+HTlz/l1juzYjqJXACZSM/Bx8sMN7RSrNhEI=;
+	b=RYPkinUxQhQ+SQffDvWyt0uCHO1ZDn5i3Nr1A/ocwCtmRde8Qi3FmF6DXATY8WFd/5
+	DG2ZH/z80+bX1Fu8e1IjQ2julKjPVutHBlrkw2rEHRTAN4NB+QqMPlaYvqQnUqOap+vA
+	G0Y5dGBeiakdj+zg4hFBLD454dOo7YSzFybvLRovADsiaKuHntEW0p0ZkvYSfW38fSeS
+	1xmKtblN24WY4mZxXBbBSrDO1QU2FTLukLun45Rher9qBm/5BAxPlz1ku/G8zjIMiL8v
+	yeP8uXzgBmX/+hFd46rhQqydgHAsntON2AYfYsVZkzQtrxYqkIVN3H49oQBNrN2sBVsz
+	yD5w==
+X-Gm-Message-State: ALoCoQksB3xTmj6wr+fP2PZtR/LjaCnIj/2GtH4yfJJPAu28jAM2Jqj9po2HU2C9K7uBwhh9jl+v
+X-Received: by 10.55.18.158 with SMTP id 30mr31556753qks.17.1435588995865;
+	Mon, 29 Jun 2015 07:43:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1435070903-24433-1-git-send-email-hugo.saldanha@aker.com.br>
-User-Agent: Mutt/1.5.23+89 (0255b37be491) (2014-03-12)
-X-AkerSMTPGW-ServerID: efa1de5243ffebe9bf836ee14063171c1764dbbe
-X-AkerSMTPGW-MessageID: f1e7ee7048204954a3604974f18b8029b45e5a1e-10o
-Subject: Re: [dizzy][PATCH] openssl: upgrade to v1.0.1o
+Received: by 10.140.102.231 with HTTP; Mon, 29 Jun 2015 07:42:56 -0700 (PDT)
+In-Reply-To: <20150629124512.GE2393@jama>
+References: <cover.1435297800.git.mariano.lopez@linux.intel.com>
+	<e70f95d9bb6247ec0f305966894b22f681135013.1435297800.git.mariano.lopez@linux.intel.com>
+	<CAJTo0LZrsr7u7a-jRhoG6nKP51vXBGCiuRsm51YoySiK_YSxsg@mail.gmail.com>
+	<20150629111839.GB2393@jama>
+	<CAJTo0LZ4fC8k889WXqfgvqLxGMZgZvQoCe3RGZTEvYxaf0xjow@mail.gmail.com>
+	<20150629124512.GE2393@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Jun 2015 15:42:56 +0100
+Message-ID: <CAJTo0La8ntx8ejNG0Dg_V34aBMXCRGJCGMMXUYAXmW+0P89AyQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] report-error.bbclass: Added file syncronization.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,92 +48,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 14:32:15 -0000
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 29 Jun 2015 14:43:18 -0000
+Content-Type: multipart/alternative; boundary=001a1146f48224759a0519a91c11
 
-ping
+--001a1146f48224759a0519a91c11
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, Jun 23, 2015 at 11:48:23AM -0300, Hugo Vasconcelos Saldanha wrote:
-> The upgrade fixes the following CVEs:
-> 
-> CVE-2015-4000
-> CVE-2015-1788
-> CVE-2015-1789
-> CVE-2015-1790
-> CVE-2015-1792
-> CVE-2015-1791
-> 
-> A patch was updated so it could be applied cleanly to the new version.
-> 
-> Signed-off-by: Hugo Vasconcelos Saldanha <hugo.saldanha@aker.com.br>
-> ---
->  .../openssl/openssl/debian/man-section.patch                | 13 ++++++-------
->  .../openssl/{openssl_1.0.1m.bb => openssl_1.0.1o.bb}        |  4 ++--
->  2 files changed, 8 insertions(+), 9 deletions(-)
->  rename meta/recipes-connectivity/openssl/{openssl_1.0.1m.bb => openssl_1.0.1o.bb} (92%)
-> 
-> diff --git a/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
-> index 21c1d1a..583b5d8 100644
-> --- a/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
-> +++ b/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
-> @@ -1,11 +1,10 @@
->  Upstream-Status: Backport [debian]
->  
-> -Index: openssl-1.0.0c/Makefile.org
-> -===================================================================
-> ---- openssl-1.0.0c.orig/Makefile.org	2010-12-12 16:11:37.000000000 +0100
-> -+++ openssl-1.0.0c/Makefile.org	2010-12-12 16:13:28.000000000 +0100
-> +diff -ur openssl-1.0.1o.orig/Makefile.org openssl-1.0.1o/Makefile.org
-> +--- openssl-1.0.1o.orig/Makefile.org	2015-06-12 12:17:52.000000000 -0300
-> ++++ openssl-1.0.1o/Makefile.org	2015-06-23 09:57:43.929893419 -0300
->  @@ -160,7 +160,8 @@
-> - MANDIR=/usr/share/man
-> + MANDIR=$(OPENSSLDIR)/man
->   MAN1=1
->   MAN3=3
->  -MANSUFFIX=
-> @@ -14,7 +13,7 @@ Index: openssl-1.0.0c/Makefile.org
->   HTMLSUFFIX=html
->   HTMLDIR=$(OPENSSLDIR)/html
->   SHELL=/bin/sh
-> -@@ -651,7 +652,7 @@
-> +@@ -642,7 +643,7 @@
->   		echo "installing man$$sec/$$fn.$${sec}$(MANSUFFIX)"; \
->   		(cd `$(PERL) util/dirname.pl $$i`; \
->   		sh -c "$$pod2man \
-> @@ -23,7 +22,7 @@ Index: openssl-1.0.0c/Makefile.org
->   			--release=$(VERSION) `basename $$i`") \
->   			>  $(INSTALL_PREFIX)$(MANDIR)/man$$sec/$$fn.$${sec}$(MANSUFFIX); \
->   		$(PERL) util/extract-names.pl < $$i | \
-> -@@ -668,7 +669,7 @@
-> +@@ -659,7 +660,7 @@
->   		echo "installing man$$sec/$$fn.$${sec}$(MANSUFFIX)"; \
->   		(cd `$(PERL) util/dirname.pl $$i`; \
->   		sh -c "$$pod2man \
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1m.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
-> similarity index 92%
-> rename from meta/recipes-connectivity/openssl/openssl_1.0.1m.bb
-> rename to meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
-> index cab6b3f..44d4d27 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1m.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
-> @@ -37,8 +37,8 @@ SRC_URI += "file://configure-targets.patch \
->              file://run-ptest \
->             "
->  
-> -SRC_URI[md5sum] = "d143d1555d842a069cb7cc34ba745a06"
-> -SRC_URI[sha256sum] = "095f0b7b09116c0c5526422088058dc7e6e000aa14d22acca6a4e2babcdfef74"
-> +SRC_URI[md5sum] = "af1096f500a612e2e2adacb958d7eab1"
-> +SRC_URI[sha256sum] = "16e678c6a05f2502811e075f2c4059ac01c878d091c9c585afc49ebc541f7b13"
->  
->  PACKAGES =+ " \
->  	${PN}-engines \
-> -- 
-> 2.4.4
-> 
+On 29 June 2015 at 13:45, Martin Jansa <martin.jansa@gmail.com> wrote:
 
--- 
-		Hugo
+> Even the last task parses the file before appending additional
+> task failure and dumping it back to the same filename.
+>
 
+You're right Martin, turns out I can't read code...
 
+Ross
+
+--001a1146f48224759a0519a91c11
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 June 2015 at 13:45, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":22c" class=3D=
+"a3s" style=3D"overflow:hidden">Even the last task parses the file before a=
+ppending additional<br>
+task failure and dumping it back to the same filename.<br></div></blockquot=
+e><div><br></div><div>You&#39;re right Martin, turns out I can&#39;t read c=
+ode...</div><div><br></div><div>Ross</div></div><br></div></div>
+
+--001a1146f48224759a0519a91c11--
