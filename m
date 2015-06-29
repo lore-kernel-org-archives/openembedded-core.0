@@ -1,38 +1,31 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C69CE75C67
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id E6FF07320D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 19:32:42 +0000 (UTC)
-Received: by wibdq8 with SMTP id dq8so81268526wib.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 12:32:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=wc/TsAS9ZvxS1CG72eeDUjvDbUQAZcqlYTehJoh367s=;
-	b=pzwmEQU6QBdZ6l5zDGLk1UVG+GprCZOrJgT9aU7JzykMp0F0zyS7KkT67Z7pOp64cS
-	o2Vdpxz8tHtN243EXrBiWKmxOXVJNV0s/yjniCwuIgWatpyoihKqZNIt8P3u+ICu1khf
-	UYXM90Llyqul/QmYxP8fTqSNQOkV2qJbtiGx1kuulEG/BXl0V+PDSBBsXHqqB/Hp/79r
-	58v0ofxnx9xSbqFnCmF1MciUZ3/+BoeDycJswRJBcCVFwZt44ADJDEWwGhBS7G4rCASp
-	g3FA8+oTk/34aA7Me6Wp0RhGqBa+kNkUxKDG8lhLHqx3gtlySVgiE5aLN39cpbzB7H7k
-	bBTg==
-X-Received: by 10.180.88.8 with SMTP id bc8mr25485876wib.19.1435606363574;
-	Mon, 29 Jun 2015 12:32:43 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id u7sm13562527wif.3.2015.06.29.12.32.42
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Jun 2015 12:32:42 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 29 Jun 2015 21:32:48 +0200
-To: Drew Moseley <drew_moseley@mentor.com>
-Message-ID: <20150629193248.GG2393@jama>
+	Mon, 29 Jun 2015 19:44:44 +0000 (UTC)
+Received: from svr-orw-fem-03.mgc.mentorg.com ([147.34.97.39])
+	by relay1.mentorg.com with esmtp 
+	id 1Z9eyz-0006lW-Bw from drew_moseley@mentor.com ;
+	Mon, 29 Jun 2015 12:44:45 -0700
+Received: from NA-MBX-03.mgc.mentorg.com ([fe80::9a:1569:df57:45b8]) by
+	SVR-ORW-FEM-03.mgc.mentorg.com ([147.34.97.39]) with mapi id
+	14.03.0224.002; Mon, 29 Jun 2015 12:44:44 -0700
+From: "Moseley, Drew" <drew_moseley@mentor.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH] mesa: Add blank r600 PACKAGECONFIG
+Thread-Index: AQHQspjOTgsvFmoYwEWAQXGfbi62lZ3EVOkAgAADUwA=
+Date: Mon, 29 Jun 2015 19:44:44 +0000
+Message-ID: <AA8A0B9B-E310-4C1C-9DF9-884455D6FC14@mentor.com>
 References: <1435602230-12093-1-git-send-email-drew_moseley@mentor.com>
+	<20150629193248.GG2393@jama>
+In-Reply-To: <20150629193248.GG2393@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.34.91.1]
 MIME-Version: 1.0
-In-Reply-To: <1435602230-12093-1-git-send-email-drew_moseley@mentor.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] mesa: Add blank r600 PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -46,71 +39,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 19:32:47 -0000
-X-Groupsio-MsgNum: 67315
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="I3tAPq1Rm2pUxvsp"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 29 Jun 2015 19:44:49 -0000
+X-Groupsio-MsgNum: 67316
+Content-Language: en-US
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_F19C3355-88E2-4F09-AF6C-7F90C74F0030";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---I3tAPq1Rm2pUxvsp
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_F19C3355-88E2-4F09-AF6C-7F90C74F0030
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-On Mon, Jun 29, 2015 at 02:23:50PM -0400, Drew Moseley wrote:
-> Fixes warnings such as:
->     WARNING: mesa: invalid PACKAGECONFIG: r600
-> when building with the r600 configuration.
 
-Shouldn't you fix your PACKAGECONFIG value instead (wherever it's set to
-include r600)?
+> On Jun 29, 2015, at 3:32 PM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
+>=20
+> On Mon, Jun 29, 2015 at 02:23:50PM -0400, Drew Moseley wrote:
+>> Fixes warnings such as:
+>>    WARNING: mesa: invalid PACKAGECONFIG: r600
+>> when building with the r600 configuration.
+>=20
+> Shouldn't you fix your PACKAGECONFIG value instead (wherever it's set =
+to
+> include r600)?
+
+It=E2=80=99s very possible that this is not the best solution for the =
+warning.  The line that sets the GALLIUMDRIVERS_LLVM33 variable right =
+above the line I added is ultimately what I=E2=80=99m trying to have =
+behave properly.  Previously setting PACKAGECONFIG+=3D=E2=80=9Cr600=E2=80=9D=
+ was sufficient to enable this setting but with commit hash =
+c2cbe0f60e6d19ab9a8321be74d636d2c36671a8 this now throws a warning.  Any =
+suggestions for a cleaner solution?
+
+Drew
 
 >=20
-> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 1 +
->  1 file changed, 1 insertion(+)
+>>=20
+>> Signed-off-by: Drew Moseley <drew_moseley@mentor.com>
+>> ---
+>> meta/recipes-graphics/mesa/mesa.inc | 1 +
+>> 1 file changed, 1 insertion(+)
+>>=20
+>> diff --git a/meta/recipes-graphics/mesa/mesa.inc =
+b/meta/recipes-graphics/mesa/mesa.inc
+>> index 97ed02f..09e80e8 100644
+>> --- a/meta/recipes-graphics/mesa/mesa.inc
+>> +++ b/meta/recipes-graphics/mesa/mesa.inc
+>> @@ -53,6 +53,7 @@ PACKAGECONFIG[openvg] =3D "--enable-openvg, =
+--disable-openvg"
+>>=20
+>> GALLIUMDRIVERS =3D "swrast"
+>> GALLIUMDRIVERS_LLVM33 =3D "${@bb.utils.contains('PACKAGECONFIG', =
+'r600', 'radeonsi,r600', '', d)}"
+>> +PACKAGECONFIG[r600] =3D ""
+>> GALLIUMDRIVERS_LLVM33_ENABLED =3D =
+"${@base_version_less_or_equal('MESA_LLVM_RELEASE', '3.2', False, =
+len('${GALLIUMDRIVERS_LLVM33}') > 0, d)}"
+>> GALLIUMDRIVERS_LLVM =3D =
+"r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if =
+${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+>> GALLIUMDRIVERS_append_x86 =3D "${@bb.utils.contains('PACKAGECONFIG', =
+'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+>> --
+>> 1.9.1
+>>=20
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >=20
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-> index 97ed02f..09e80e8 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -53,6 +53,7 @@ PACKAGECONFIG[openvg] =3D "--enable-openvg, --disable-o=
-penvg"
-> =20
->  GALLIUMDRIVERS =3D "swrast"
->  GALLIUMDRIVERS_LLVM33 =3D "${@bb.utils.contains('PACKAGECONFIG', 'r600',=
- 'radeonsi,r600', '', d)}"
-> +PACKAGECONFIG[r600] =3D ""
->  GALLIUMDRIVERS_LLVM33_ENABLED =3D "${@base_version_less_or_equal('MESA_L=
-LVM_RELEASE', '3.2', False, len('${GALLIUMDRIVERS_LLVM33}') > 0, d)}"
->  GALLIUMDRIVERS_LLVM =3D "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}'=
- if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
->  GALLIUMDRIVERS_append_x86 =3D "${@bb.utils.contains('PACKAGECONFIG', 'ga=
-llium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---I3tAPq1Rm2pUxvsp
+--Apple-Mail=_F19C3355-88E2-4F09-AF6C-7F90C74F0030
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="signature.asc"
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Comment: GPGTools - http://gpgtools.org
 
-iEYEARECAAYFAlWRnWAACgkQN1Ujt2V2gBymLQCfSE+oOUMivbifx4QZhOK7hO8H
-WmoAoLN0arR2B2JCAfeOEd3WtLwfccB5
-=KI3u
+iD8DBQFVkaAr++E4Rrql4XYRAloiAKCZvjG6Ae31zmY1GSCZHrdT+cmvZgCghN8Y
+wXzP2v8xhPWQKsmTwUMdbRQ=
+=kmuS
 -----END PGP SIGNATURE-----
 
---I3tAPq1Rm2pUxvsp--
+--Apple-Mail=_F19C3355-88E2-4F09-AF6C-7F90C74F0030--
