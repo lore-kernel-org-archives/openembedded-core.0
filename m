@@ -1,23 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E1D0609B2
+Return-Path: <hugo.saldanha@aker.com.br>
+Received: from asmg.aker.com.br (asmg.aker.com.br [177.159.144.67])
+	by mail.openembedded.org (Postfix) with SMTP id 5941E7564B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 14:10:50 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 29 Jun 2015 07:10:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,699,1427785200"; d="scan'208";a="736908879"
-Received: from ashussai-mobl1.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.254.105.108])
-	by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2015 07:10:51 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org
-Date: Mon, 29 Jun 2015 07:10:50 -0700
-Message-Id: <1435587050-18517-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Cc: dvhart@linux.intel.com
-Subject: [PATCH] tune-i586-nlp: Add new tune file to support Quark/X1000 CPU
+	Mon, 29 Jun 2015 14:32:11 +0000 (UTC)
+Received: from mail.aker.com.br (bat.bsb.aker.com.br [10.0.0.20])
+	by asmg.aker.com.br [10.0.1.3]; Mon, 29 Jun 2015 11:32:05 -0300
+	(envelope-from hugo.saldanha@aker.com.br)
+Received: from localhost (10.4.3.1) by mail.aker.com.br (10.0.0.20) with
+	Microsoft SMTP Server (TLS) id 8.3.342.0;
+	Mon, 29 Jun 2015 11:32:10 -0300
+Date: Mon, 29 Jun 2015 11:36:48 -0300
+From: Hugo Vasconcelos Saldanha <hugo.saldanha@aker.com.br>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20150629143648.GB2195@saldanha.aker.com.br>
+References: <1435070903-24433-1-git-send-email-hugo.saldanha@aker.com.br>
+MIME-Version: 1.0
+In-Reply-To: <1435070903-24433-1-git-send-email-hugo.saldanha@aker.com.br>
+User-Agent: Mutt/1.5.23+89 (0255b37be491) (2014-03-12)
+X-AkerSMTPGW-ServerID: efa1de5243ffebe9bf836ee14063171c1764dbbe
+X-AkerSMTPGW-MessageID: f1e7ee7048204954a3604974f18b8029b45e5a1e-10o
+Subject: Re: [dizzy][PATCH] openssl: upgrade to v1.0.1o
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,43 +33,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 14:10:56 -0000
+X-List-Received-Date: Mon, 29 Jun 2015 14:32:15 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-This tune file is needed to enable a GAS option specific to this cpu family
-in order to disable the usage of lock prefix instructions.
+ping
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/conf/machine/include/tune-i586-nlp.inc | 19 +++++++++++++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 meta/conf/machine/include/tune-i586-nlp.inc
+On Tue, Jun 23, 2015 at 11:48:23AM -0300, Hugo Vasconcelos Saldanha wrote:
+> The upgrade fixes the following CVEs:
+> 
+> CVE-2015-4000
+> CVE-2015-1788
+> CVE-2015-1789
+> CVE-2015-1790
+> CVE-2015-1792
+> CVE-2015-1791
+> 
+> A patch was updated so it could be applied cleanly to the new version.
+> 
+> Signed-off-by: Hugo Vasconcelos Saldanha <hugo.saldanha@aker.com.br>
+> ---
+>  .../openssl/openssl/debian/man-section.patch                | 13 ++++++-------
+>  .../openssl/{openssl_1.0.1m.bb => openssl_1.0.1o.bb}        |  4 ++--
+>  2 files changed, 8 insertions(+), 9 deletions(-)
+>  rename meta/recipes-connectivity/openssl/{openssl_1.0.1m.bb => openssl_1.0.1o.bb} (92%)
+> 
+> diff --git a/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch b/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
+> index 21c1d1a..583b5d8 100644
+> --- a/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
+> +++ b/meta/recipes-connectivity/openssl/openssl/debian/man-section.patch
+> @@ -1,11 +1,10 @@
+>  Upstream-Status: Backport [debian]
+>  
+> -Index: openssl-1.0.0c/Makefile.org
+> -===================================================================
+> ---- openssl-1.0.0c.orig/Makefile.org	2010-12-12 16:11:37.000000000 +0100
+> -+++ openssl-1.0.0c/Makefile.org	2010-12-12 16:13:28.000000000 +0100
+> +diff -ur openssl-1.0.1o.orig/Makefile.org openssl-1.0.1o/Makefile.org
+> +--- openssl-1.0.1o.orig/Makefile.org	2015-06-12 12:17:52.000000000 -0300
+> ++++ openssl-1.0.1o/Makefile.org	2015-06-23 09:57:43.929893419 -0300
+>  @@ -160,7 +160,8 @@
+> - MANDIR=/usr/share/man
+> + MANDIR=$(OPENSSLDIR)/man
+>   MAN1=1
+>   MAN3=3
+>  -MANSUFFIX=
+> @@ -14,7 +13,7 @@ Index: openssl-1.0.0c/Makefile.org
+>   HTMLSUFFIX=html
+>   HTMLDIR=$(OPENSSLDIR)/html
+>   SHELL=/bin/sh
+> -@@ -651,7 +652,7 @@
+> +@@ -642,7 +643,7 @@
+>   		echo "installing man$$sec/$$fn.$${sec}$(MANSUFFIX)"; \
+>   		(cd `$(PERL) util/dirname.pl $$i`; \
+>   		sh -c "$$pod2man \
+> @@ -23,7 +22,7 @@ Index: openssl-1.0.0c/Makefile.org
+>   			--release=$(VERSION) `basename $$i`") \
+>   			>  $(INSTALL_PREFIX)$(MANDIR)/man$$sec/$$fn.$${sec}$(MANSUFFIX); \
+>   		$(PERL) util/extract-names.pl < $$i | \
+> -@@ -668,7 +669,7 @@
+> +@@ -659,7 +660,7 @@
+>   		echo "installing man$$sec/$$fn.$${sec}$(MANSUFFIX)"; \
+>   		(cd `$(PERL) util/dirname.pl $$i`; \
+>   		sh -c "$$pod2man \
+> diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1m.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
+> similarity index 92%
+> rename from meta/recipes-connectivity/openssl/openssl_1.0.1m.bb
+> rename to meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
+> index cab6b3f..44d4d27 100644
+> --- a/meta/recipes-connectivity/openssl/openssl_1.0.1m.bb
+> +++ b/meta/recipes-connectivity/openssl/openssl_1.0.1o.bb
+> @@ -37,8 +37,8 @@ SRC_URI += "file://configure-targets.patch \
+>              file://run-ptest \
+>             "
+>  
+> -SRC_URI[md5sum] = "d143d1555d842a069cb7cc34ba745a06"
+> -SRC_URI[sha256sum] = "095f0b7b09116c0c5526422088058dc7e6e000aa14d22acca6a4e2babcdfef74"
+> +SRC_URI[md5sum] = "af1096f500a612e2e2adacb958d7eab1"
+> +SRC_URI[sha256sum] = "16e678c6a05f2502811e075f2c4059ac01c878d091c9c585afc49ebc541f7b13"
+>  
+>  PACKAGES =+ " \
+>  	${PN}-engines \
+> -- 
+> 2.4.4
+> 
 
-diff --git a/meta/conf/machine/include/tune-i586-nlp.inc b/meta/conf/machine/include/tune-i586-nlp.inc
-new file mode 100644
-index 0000000..94e22c1
---- /dev/null
-+++ b/meta/conf/machine/include/tune-i586-nlp.inc
-@@ -0,0 +1,19 @@
-+# Settings for the GCC(1) cpu-type "quark":
-+#
-+#
-+#
-+DEFAULTTUNE ?= "i586-nlp-32"
-+
-+# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
-+require conf/machine/include/x86/arch-x86.inc
-+
-+# x86 with no lock prefix
-+TUNEVALID[i586-nlp] = "IA32 with Lock Prefix omitted"
-+TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "i586-nlp", " -march=i586 -Wa,-momit-lock-prefix=yes", "", d)}"
-+
-+# Quark tune feature
-+AVAILTUNES = "i586-nlp-32"
-+TUNE_FEATURES_tune-i586-nlp-32 = "${TUNE_FEATURES_tune-x86} i586-nlp"
-+BASE_LIB_tune-i586-nlp-32 = "lib"
-+TUNE_PKGARCH_tune-i586-nlp-32 = "i586-nlp-32"
-+PACKAGE_EXTRA_ARCHS_tune-i586-nlp-32 = "i586-nlp-32"
 -- 
-2.1.0
+		Hugo
 
 
