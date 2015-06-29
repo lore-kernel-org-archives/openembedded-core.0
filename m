@@ -1,23 +1,19 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 23F1460024
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 73CB765CF5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 09:05:05 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 29 Jun 2015 02:05:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.13,698,1427785200"; d="scan'208";a="752356273"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 29 Jun 2015 02:05:07 -0700
-Received: from localhost.localdomain (unknown [10.237.112.249])
-	by linux.intel.com (Postfix) with ESMTP id DBEB16A4083;
-	Mon, 29 Jun 2015 02:04:27 -0700 (PDT)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
+	Mon, 29 Jun 2015 10:11:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 74A1F6002BA
+Message-ID: <1435572664.3287.4.camel@collabora.co.uk>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2015 12:04:59 +0300
-Message-Id: <1435568699-12180-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/selftest: Added new testsuite for image features.
+Date: Mon, 29 Jun 2015 11:11:04 +0100
+In-Reply-To: <1435353776-7886-1-git-send-email-sgw@linux.intel.com>
+References: <1435353776-7886-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.16.3 (3.16.3-2.fc22) 
+Mime-Version: 1.0
+Subject: Re: [PATCH v2][Fido ONLY] binutils: Add -momit-lock-prefix support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,310 +26,304 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 09:05:09 -0000
+X-List-Received-Date: Mon, 29 Jun 2015 10:11:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
- Automated 5 oe-selftest testcase:
-    - 1107: Check if non root user can connect via ssh without password
-    - 1115: Check if all users can connect via ssh without password
-    - 1114: Check rpm version 4 support on image
-    - 1101: Check if efi/gummiboot images can be buit
-    - 1103: Check that wic command can create efi/gummiboot installation images
+On Fri, 2015-06-26 at 14:22 -0700, Saul Wold wrote:
+> This patch is needed for certain cpus and has been accepted into 
+> upstream
 
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
----
- meta/lib/oeqa/selftest/imagefeatures.py | 282 ++++++++++++++++++++++++++++++++
- 1 file changed, 282 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/imagefeatures.py
+Merged to my fido-next branch, thanks Saul.
 
-diff --git a/meta/lib/oeqa/selftest/imagefeatures.py b/meta/lib/oeqa/selftest/imagefeatures.py
-new file mode 100644
-index 0000000..e49f498
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/imagefeatures.py
-@@ -0,0 +1,282 @@
-+from oeqa.selftest.base import oeSelfTest
-+from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-+from oeqa.utils.decorators import testcase
-+import pexpect
-+from os.path import expanduser, isfile
-+from os import system
-+import glob
-+
-+
-+class ImageFeatures(oeSelfTest):
-+
-+    @testcase(1107)
-+    def test_non_root_user_can_connect_via_ssh_without_password(self):
-+        """
-+        Summary: Check if non root user can connect via ssh without password
-+        Expected: 1. Connection to the image via ssh using root user without providing a password should be allowed.
-+                  2. Connection to the image via ssh using tester user without providing a password should be allowed.
-+        Product: oe-core
-+        Author: Ionut Chisanovici <ionutx.chisanovici@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        test_user = 'tester'
-+        root_user = 'root'
-+        prompt = r'qemux86:\S+[$#]\s+'
-+        tap_inf_ip = '192.168.7.2'
-+
-+        features = 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh empty-root-password"\n'
-+        features += 'INHERIT += "extrausers"\n'
-+        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(test_user, test_user)
-+
-+        # Append 'features' to local.conf
-+        self.append_config(features)
-+
-+        # Build a core-image-minimal
-+        ret = bitbake('core-image-minimal')
-+        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
-+
-+        rm_ssh_keys_cmd = 'ssh-keygen -f "{}/.ssh/known_hosts" -R {}'.format(expanduser('~'), tap_inf_ip)
-+        # Delete the ssh keys for 192.168.7.2 (qemu)
-+        ret = runCmd(rm_ssh_keys_cmd)
-+        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host.')
-+
-+        # Boot qemu image
-+        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
-+        try:
-+            proc_qemu.expect('qemux86 login:', timeout=100)
-+        except:
-+            system('pkill qemu')
-+            proc_qemu.close()
-+            self.fail('Failed to start qemu.')
-+
-+        # Attempt to ssh with each user into qemu with empty password
-+        for user in [root_user, test_user]:
-+            proc_ssh = pexpect.spawn('ssh {} -l {}'.format(tap_inf_ip, user))
-+            index = proc_ssh.expect(['Are you sure you want to continue connecting', prompt, pexpect.TIMEOUT, pexpect.EOF])
-+            if index == 0:
-+                proc_ssh.sendline('yes')
-+                try:
-+                    proc_ssh.expect(prompt)
-+                except:
-+                    system('pkill qemu')
-+                    proc_qemu.close()
-+                    proc_ssh.terminate()
-+                    self.fail('Failed to ssh with {} user into qemu.'.format(user))
-+            elif index == 1:
-+                # user successfully logged in with empty password
-+                pass
-+            elif index == 2:
-+                system('pkill qemu')
-+                proc_qemu.close()
-+                proc_ssh.terminate()
-+                self.fail('Failed to ssh with {} user into qemu (timeout).'.format(user))
-+            else:
-+                system('pkill qemu')
-+                proc_qemu.close()
-+                proc_ssh.terminate()
-+                self.fail('Failed to ssh with {} user into qemu (eof).'.format(user))
-+
-+        # Cleanup
-+        system('pkill qemu')
-+        proc_qemu.close()
-+        proc_ssh.terminate()
-+        ret = runCmd(rm_ssh_keys_cmd)
-+        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host (at cleanup).')
-+
-+    @testcase(1115)
-+    def test_all_users_can_connect_via_ssh_without_password(self):
-+        """
-+        Summary:     Check if all users can connect via ssh without password
-+        Expected:    1. Connection to the image via ssh using root or tester user without providing a password should be allowed.
-+        Product:     oe-core
-+        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+        test_user = 'tester'
-+        root_user = 'root'
-+        prompt = r'qemux86:\S+[$#]\s+'
-+        tap_inf_ip = '192.168.7.2'
-+
-+        features = 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh allow-empty-password"\n'
-+        features += 'INHERIT += "extrausers"\n'
-+        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh {};"'.format(test_user, test_user)
-+
-+        # Append 'features' to local.conf
-+        self.append_config(features)
-+
-+        # Build a core-image-minimal
-+        ret = bitbake('core-image-minimal')
-+        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
-+
-+        rm_ssh_keys_cmd = 'ssh-keygen -f "{}/.ssh/known_hosts" -R {}'.format(expanduser('~'), tap_inf_ip)
-+        # Delete the ssh keys for 192.168.7.2 (qemu)
-+        ret = runCmd(rm_ssh_keys_cmd)
-+        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host.')
-+
-+        # Boot qemu image
-+        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
-+        try:
-+            proc_qemu.expect('qemux86 login:', timeout=100)
-+        except:
-+            system('pkill qemu')
-+            proc_qemu.close()
-+            self.fail('Failed to start qemu.')
-+
-+        # Attempt to ssh with each user into qemu with empty password
-+        for user in [root_user, test_user]:
-+            proc_ssh = pexpect.spawn('ssh {} -l {}'.format(tap_inf_ip, user))
-+            index = proc_ssh.expect(['Are you sure you want to continue connecting', prompt, pexpect.TIMEOUT, pexpect.EOF])
-+            if index == 0:
-+                proc_ssh.sendline('yes')
-+                try:
-+                    proc_ssh.expect(prompt)
-+                except:
-+                    system('pkill qemu')
-+                    proc_qemu.close()
-+                    proc_ssh.terminate()
-+                    self.fail('Failed to ssh with {} user into qemu.'.format(user))
-+            elif index == 1:
-+                # user successfully logged in with empty password
-+                pass
-+            elif index == 2:
-+                system('pkill qemu')
-+                proc_qemu.close()
-+                proc_ssh.terminate()
-+                self.fail('Failed to ssh with {} user into qemu (timeout).'.format(user))
-+            else:
-+                system('pkill qemu')
-+                proc_qemu.close()
-+                proc_ssh.terminate()
-+                self.fail('Failed to ssh with {} user into qemu (eof).'.format(user))
-+
-+        # Cleanup
-+        system('pkill qemu')
-+        proc_qemu.close()
-+        proc_ssh.terminate()
-+        ret = runCmd(rm_ssh_keys_cmd)
-+        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu host (at cleanup).')
-+
-+    @testcase(1114)
-+    def test_rpm_version_4_support_on_image(self):
-+        """
-+        Summary:     Check rpm version 4 support on image
-+        Expected:    Rpm version must be 4.11.2
-+        Product:     oe-core
-+        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        root_user = 'root'
-+        prompt = '{}@qemux86:~# '.format(root_user)
-+        rpm_version = '4.11.2'
-+        features = 'IMAGE_INSTALL_append = " rpm"\n'
-+        features += 'PREFERRED_VERSION_rpm = "{}"\n'.format(rpm_version)
-+        features += 'PREFERRED_VERSION_rpm-native = "{}"\n'.format(rpm_version)
-+        features += 'RPMROOTFSDEPENDS_remove = "rpmresolve-native:do_populate_sysroot"'
-+
-+        # Append 'features' to local.conf
-+        self.append_config(features)
-+
-+        # Build a core-image-minimal
-+        ret = bitbake('core-image-minimal')
-+        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
-+
-+        # Boot qemu image & get rpm version
-+        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
-+        try:
-+            proc_qemu.expect('qemux86 login:', timeout=100)
-+            proc_qemu.sendline(root_user)
-+            proc_qemu.expect(prompt)
-+            proc_qemu.sendline('rpm --version')
-+            proc_qemu.expect(prompt)
-+        except:
-+            system('pkill qemu')
-+            proc_qemu.close()
-+            self.fail('Failed to boot qemu.')
-+
-+        found_rpm_version = proc_qemu.before
-+
-+        # Make sure the retrieved rpm version is the expected one
-+        if rpm_version not in found_rpm_version:
-+            system('pkill qemu')
-+            proc_qemu.close()
-+            self.fail('RPM version is not {}, found instead {}.'.format(rpm_version, found_rpm_version))
-+
-+        # Cleanup (close qemu)
-+        system('pkill qemu')
-+        proc_qemu.close()
-+
-+
-+class Gummiboot(oeSelfTest):
-+
-+    meta_intel_dir = ''
-+
-+    def setUpLocal(self):
-+        """
-+        Common setup for test cases: 1101, 1103
-+        """
-+
-+        self.meta_intel_dir = get_bb_var('COREBASE') + '/meta-intel'
-+        meta_nuc_dir = self.meta_intel_dir + '/meta-nuc'
-+        meta_intel_repo = 'http://git.yoctoproject.org/git/meta-intel'
-+
-+        # Delete meta_intel_dir
-+        system('rm -rf ' + self.meta_intel_dir)
-+
-+        # Delete meta-intel dir even if the setUp fails
-+        self.add_command_to_tearDown('rm -rf ' + self.meta_intel_dir)
-+
-+        # Clone meta-intel
-+        ret = runCmd('git clone ' + meta_intel_repo + ' ' + self.meta_intel_dir)
-+        self.assertEqual(0, ret.status, 'Failed to clone meta-intel.')
-+
-+        # Add meta-intel and meta-nuc layers in conf/bblayers.conf
-+        features = 'BBLAYERS += "' + self.meta_intel_dir + ' ' + meta_nuc_dir + '"'
-+        self.append_bblayers_config(features)
-+
-+        # Set EFI_PROVIDER = "gummiboot" and MACHINE = "nuc" in conf/local.conf
-+        features = 'EFI_PROVIDER = "gummiboot"\n'
-+        features += 'MACHINE = "nuc"'
-+        self.append_config(features)
-+
-+        # Run "bitbake core-image-minimal" to build a nuc efi/gummiboot image
-+        ret = bitbake('core-image-minimal')
-+        self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
-+
-+    @testcase(1101)
-+    def test_efi_gummiboot_images_can_be_build(self):
-+        """
-+        Summary:     Check if efi/gummiboot images can be buit
-+        Expected:    1. File gummibootx64.efi should be available in build/tmp/deploy/images/nuc
-+                     2. Efi/gummiboot images can be built
-+        Product:     oe-core
-+        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        look_for_file = 'gummibootx64.efi'
-+        file_location = get_bb_var('COREBASE') + '/build/tmp/deploy/images/nuc/'
-+
-+        found = isfile(file_location + look_for_file)
-+        self.assertTrue(found, 'File {} not found under {}.'.format(look_for_file, file_location))
-+
-+    @testcase(1103)
-+    def test_wic_command_can_create_efi_gummiboot_installation_images(self):
-+        """
-+        Summary:     Check that wic command can create efi/gummiboot installation images
-+        Expected:    A .direct file in folder /var/tmp/wic/ must be created.
-+        Product:     oe-core
-+        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        # Create efi/gummiboot installation images
-+        wic_create_cmd = 'wic create mkgummidisk -e core-image-minimal'
-+        ret = runCmd(wic_create_cmd)
-+        self.assertEqual(0, ret.status, 'Failed to create efi/gummiboot installation images.')
-+
-+        # Verify that a .direct file was created
-+        direct_file = '/var/tmp/wic/build/*.direct'
-+        ret = glob.glob(direct_file)
-+        self.assertEqual(1, len(ret), 'Failed to find the .direct file')
--- 
-2.1.4
+Cheers,
 
+Joshua
+
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+> v2: rebased patch against fido-next
+> This patch is already in 2.25 which is  in master so this is Fido 
+> ONLY
+> 
+>  meta/recipes-devtools/binutils/binutils-2.24.inc   |   1 +
+>  .../0001-Add-momit_lock_prefix-no-yes-option.patch | 236 
+> +++++++++++++++++++++
+>  2 files changed, 237 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/0001-Add
+> -momit_lock_prefix-no-yes-option.patch
+> 
+> diff --git a/meta/recipes-devtools/binutils/binutils-2.24.inc 
+> b/meta/recipes-devtools/binutils/binutils-2.24.inc
+> index 2fb56eb..e71a110 100644
+> --- a/meta/recipes-devtools/binutils/binutils-2.24.inc
+> +++ b/meta/recipes-devtools/binutils/binutils-2.24.inc
+> @@ -41,6 +41,7 @@ SRC_URI = "\
+>       file://binutils_CVE-2014-8504.patch \
+>       file://binutils_CVE-2014-8737.patch \
+>       file://Fix-tc-i386.c-Werror-logical-not-parentheses-error.patch 
+> \
+> +     file://0001-Add-momit_lock_prefix-no-yes-option.patch \
+>       "
+>  
+>  SRC_URI[md5sum] = "e0f71a7b2ddab0f8612336ac81d9636b"
+> diff --git a/meta/recipes-devtools/binutils/binutils/0001-Add
+> -momit_lock_prefix-no-yes-option.patch b/meta/recipes
+> -devtools/binutils/binutils/0001-Add-momit_lock_prefix-no-yes
+> -option.patch
+> new file mode 100644
+> index 0000000..e56891f
+> --- /dev/null
+> +++ b/meta/recipes-devtools/binutils/binutils/0001-Add
+> -momit_lock_prefix-no-yes-option.patch
+> @@ -0,0 +1,236 @@
+> +From ee57d586166f36f4a6bddaa2305fd66a7752f967 Mon Sep 17 00:00:00 
+> 2001
+> +From: Ilya Tocar <ilya.tocar@intel.com>
+> +Date: Fri, 1 Aug 2014 17:58:32 +0400
+> +Subject: [PATCH] Add -momit_lock_prefix=[no|yes] option
+> +
+> +This option serves as a workaround for processors, which fail on 
+> lock
+> +prefix.
+> +
+> +gas/
+> +	* config/tc-i386.c (omit_lock_prefix): New.
+> +	(output_insn): Omit lock prefix if omit_lock_prefix is true.
+> +	(OPTION_omit_lock_prefix): New.
+> +	(md_longopts): Add momit-lock-prefix.
+> +	(md_parse_option): Handle momit-lock-prefix.
+> +	(md_show_usage): Add momit-lock-prefix=[no|yes].
+> +	* doc/c-i386.texi (momit-lock-prefix): Document.
+> +
+> +gas/testsuite/
+> +
+> +	* gas/i386/i386.exp: Run new tests.
+> +	* gas/i386/omit-lock-no.d: New.
+> +	* gas/i386/omit-lock-yes.d: Ditto.
+> +	* gas/i386/omit-lock.s: Ditto.
+> +
+> +Cherry-pick from git://sourceware.org/git/binutils-gdb.git
+> +rev d022bddd4fd93428a7fa3cc7ad404c912ed20dbf
+> +into binutils v2.24
+> +
+> +Upstream-Status: [Accepted]
+> +Signed-off-by: Ong Boon Leong <boon.leong.ong@intel.com>
+> +Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> +---
+> + gas/ChangeLog                          |   10 ++++++++++
+> + gas/config/tc-i386.c                   |   27 
+> +++++++++++++++++++++++++++
+> + gas/doc/c-i386.texi                    |   12 ++++++++++++
+> + gas/testsuite/ChangeLog                |    7 +++++++
+> + gas/testsuite/gas/i386/i386.exp        |    2 ++
+> + gas/testsuite/gas/i386/omit-lock-no.d  |   12 ++++++++++++
+> + gas/testsuite/gas/i386/omit-lock-yes.d |   12 ++++++++++++
+> + gas/testsuite/gas/i386/omit-lock.s     |    6 ++++++
+> + 8 files changed, 88 insertions(+)
+> + create mode 100644 gas/testsuite/gas/i386/omit-lock-no.d
+> + create mode 100644 gas/testsuite/gas/i386/omit-lock-yes.d
+> + create mode 100644 gas/testsuite/gas/i386/omit-lock.s
+> +
+> +Index: binutils-2.24/gas/ChangeLog
+> +===================================================================
+> +--- binutils-2.24.orig/gas/ChangeLog
+> ++++ binutils-2.24/gas/ChangeLog
+> +@@ -4,6 +4,17 @@
+> + 	single-bit bitfields.
+> + 	(build_modrm_byte): Don't compare single-bit bitfields to 
+> "1".
+> + 
+> ++2014-08-06  Ilya Tocar  <ilya.tocar@intel.com>
+> ++
+> ++       * config/tc-i386.c (omit_lock_prefix): New.
+> ++       (output_insn): Omit lock prefix if omit_lock_prefix is true.
+> ++       (OPTION_omit_lock_prefix): New.
+> ++       (md_longopts): Add momit-lock-prefix.
+> ++       (md_parse_option): Handle momit-lock-prefix.
+> ++       (md_show_usage): Add momit-lock-prefix=[no|yes].
+> ++       * doc/c-i386.texi (momit-lock-prefix): Document.
+> ++
+> ++
+> + 2013-11-18  H.J. Lu  <hongjiu.lu@intel.com>
+> + 
+> + 	* config/tc-i386.c (lex_got): Add a dummy "int bnd_prefix"
+> +Index: binutils-2.24/gas/config/tc-i386.c
+> +===================================================================
+> +--- binutils-2.24.orig/gas/config/tc-i386.c
+> ++++ binutils-2.24/gas/config/tc-i386.c
+> +@@ -541,6 +541,10 @@ static int add_bnd_prefix = 0;
+> + /* 1 if pseudo index register, eiz/riz, is allowed .  */
+> + static int allow_index_reg = 0;
+> + 
+> ++/* 1 if the assembler should ignore LOCK prefix, even if it was
+> ++   specified explicitly.  */
+> ++static int omit_lock_prefix = 0;
+> ++
+> + static enum check_kind
+> +   {
+> +     check_none = 0,
+> +@@ -6910,6 +6914,15 @@ output_insn (void)
+> +       unsigned int j;
+> +       unsigned int prefix;
+> + 
+> ++      /* Some processors fail on LOCK prefix. This options makes
+> ++	 assembler ignore LOCK prefix and serves as a workaround. 
+>  */
+> ++      if (omit_lock_prefix)
+> ++	{
+> ++	  if (i.tm.base_opcode == LOCK_PREFIX_OPCODE)
+> ++	    return;
+> ++	  i.prefix[LOCK_PREFIX] = 0;
+> ++	}
+> ++
+> +       /* Since the VEX/EVEX prefix contains the implicit prefix, we
+> + 	 don't need the explicit prefix.  */
+> +       if (!i.tm.opcode_modifier.vex && !i.tm.opcode_modifier.evex)
+> +@@ -9483,6 +9496,7 @@ const char *md_shortopts = "qn";
+> + #define OPTION_MADD_BND_PREFIX (OPTION_MD_BASE + 15)
+> + #define OPTION_MEVEXLIG (OPTION_MD_BASE + 16)
+> + #define OPTION_MEVEXWIG (OPTION_MD_BASE + 17)
+> ++#define OPTION_omit_lock_prefix (OPTION_MD_BASE + 18)
+> + 
+> + struct option md_longopts[] =
+> + {
+> +@@ -9509,6 +9523,7 @@ struct option md_longopts[] =
+> +   {"madd-bnd-prefix", no_argument, NULL, OPTION_MADD_BND_PREFIX},
+> +   {"mevexlig", required_argument, NULL, OPTION_MEVEXLIG},
+> +   {"mevexwig", required_argument, NULL, OPTION_MEVEXWIG},
+> ++  {"momit-lock-prefix", required_argument, NULL, 
+> OPTION_omit_lock_prefix},
+> +   {NULL, no_argument, NULL, 0}
+> + };
+> + size_t md_longopts_size = sizeof (md_longopts);
+> +@@ -9790,6 +9805,15 @@ md_parse_option (int c, char *arg)
+> + 	as_fatal (_("invalid -mevexwig= option: `%s'"), arg);
+> +       break;
+> + 
+> ++    case OPTION_omit_lock_prefix:
+> ++      if (strcasecmp (arg, "yes") == 0)
+> ++        omit_lock_prefix = 1;
+> ++      else if (strcasecmp (arg, "no") == 0)
+> ++        omit_lock_prefix = 0;
+> ++      else
+> ++        as_fatal (_("invalid -momit-lock-prefix= option: `%s'"), 
+> arg);
+> ++      break;
+> ++
+> +     default:
+> +       return 0;
+> +     }
+> +@@ -9942,6 +9966,9 @@ md_show_usage (FILE *stream)
+> +   -mold-gcc               support old (<= 2.8.1) versions of 
+> gcc\n"));
+> +   fprintf (stream, _("\
+> +   -madd-bnd-prefix        add BND prefix for all valid 
+> branches\n"));
+> ++  fprintf (stream, _("\
+> ++  -momit-lock-prefix=[no|yes]\n\
+> ++                          strip all lock prefixes\n"));
+> + }
+> + 
+> + #if ((defined (OBJ_MAYBE_COFF) && defined (OBJ_MAYBE_AOUT)) \
+> +Index: binutils-2.24/gas/doc/c-i386.texi
+> +===================================================================
+> +--- binutils-2.24.orig/gas/doc/c-i386.texi
+> ++++ binutils-2.24/gas/doc/c-i386.texi
+> +@@ -282,6 +282,18 @@ The @code{.att_syntax} and @code{.intel_
+> + This option forces the assembler to add BND prefix to all branches, 
+> even
+> + if such prefix was not explicitly specified in the source code.
+> + 
+> ++@cindex @samp{-momit-lock-prefix=} option, i386
+> ++@cindex @samp{-momit-lock-prefix=} option, x86-64
+> ++@item -momit-lock-prefix=@var{no}
+> ++@itemx -momit-lock-prefix=@var{yes}
+> ++These options control how the assembler should encode lock prefix.
+> ++This option is intended as a workaround for processors, that fail 
+> on
+> ++lock prefix. This option can only be safely used with single-core,
+> ++single-thread computers
+> ++@option{-momit-lock-prefix=@var{yes}} will omit all lock prefixes.
+> ++@option{-momit-lock-prefix=@var{no}} will encode lock prefix as 
+> usual,
+> ++which is the default.
+> ++
+> + @end table
+> + @c man end
+> + 
+> +Index: binutils-2.24/gas/testsuite/ChangeLog
+> +===================================================================
+> +--- binutils-2.24.orig/gas/testsuite/ChangeLog
+> ++++ binutils-2.24/gas/testsuite/ChangeLog
+> +@@ -1,3 +1,10 @@
+> ++2014-08-06  Ilya Tocar  <ilya.tocar@intel.com>
+> ++
+> ++	* gas/i386/i386.exp: Run new tests.
+> ++	* gas/i386/omit-lock-no.d: New.
+> ++	* gas/i386/omit-lock-yes.d: Ditto.
+> ++	* gas/i386/omit-lock.s: Ditto.+
+> ++
+> + 2013-11-20  Yufeng Zhang  <yufeng.zhang@arm.com>
+> + 
+> + 	* gas/aarch64/msr.s: Add tests.
+> +Index: binutils-2.24/gas/testsuite/gas/i386/i386.exp
+> +===================================================================
+> +--- binutils-2.24.orig/gas/testsuite/gas/i386/i386.exp
+> ++++ binutils-2.24/gas/testsuite/gas/i386/i386.exp
+> +@@ -267,6 +267,8 @@ if [expr ([istarget "i*86-*-*"] ||  [ist
+> +     run_list_test "mpx-inval-1" "-al"
+> +     run_dump_test "mpx-add-bnd-prefix"
+> +     run_dump_test "sha"
+> ++    run_dump_test "omit-lock-yes"
+> ++    run_dump_test "omit-lock-no"
+> + 
+> +     # These tests require support for 8 and 16 bit relocs,
+> +     # so we only run them for ELF and COFF targets.
+> +Index: binutils-2.24/gas/testsuite/gas/i386/omit-lock-no.d
+> +===================================================================
+> +--- /dev/null
+> ++++ binutils-2.24/gas/testsuite/gas/i386/omit-lock-no.d
+> +@@ -0,0 +1,12 @@
+> ++#source: omit-lock.s
+> ++#as: -momit-lock-prefix=yes  -momit-lock-prefix=no
+> ++#objdump: -dw
+> ++#name: i386  omit lock = no
+> ++
+> ++.*: +file format .*i386.*
+> ++
+> ++Disassembly of section .text:
+> ++
+> ++0+ <main>:
+> ++   0:	f0 f0 83 00 01       	lock lock addl \$0x1,\(%eax\)
+> ++#pass
+> +Index: binutils-2.24/gas/testsuite/gas/i386/omit-lock-yes.d
+> +===================================================================
+> +--- /dev/null
+> ++++ binutils-2.24/gas/testsuite/gas/i386/omit-lock-yes.d
+> +@@ -0,0 +1,12 @@
+> ++#source: omit-lock.s
+> ++#as: -momit-lock-prefix=yes
+> ++#objdump: -dw
+> ++#name: i386  omit lock = yes
+> ++
+> ++.*: +file format .*i386.*
+> ++
+> ++Disassembly of section .text:
+> ++
+> ++0+ <main>:
+> ++   0:	83 00 01             	addl   \$0x1,\(%eax\)
+> ++#pass
+> +Index: binutils-2.24/gas/testsuite/gas/i386/omit-lock.s
+> +===================================================================
+> +--- /dev/null
+> ++++ binutils-2.24/gas/testsuite/gas/i386/omit-lock.s
+> +@@ -0,0 +1,6 @@
+> ++        .code32
+> ++.globl main
+> ++        .type   main, @function
+> ++main:
+> ++        lock
+> ++        lock addl $0x1,(%eax)
 
