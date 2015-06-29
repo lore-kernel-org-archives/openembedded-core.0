@@ -1,28 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EA5A72D64
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D43D06AB99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 07:24:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5T7O9ef001545
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 29 Jun 2015 00:24:09 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 29 Jun 2015 00:24:08 -0700
-Message-ID: <5590F297.9060108@windriver.com>
-Date: Mon, 29 Jun 2015 15:24:07 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1435126503.git.liezhi.yang@windriver.com>	
-	<1435514866.7287.3.camel@linuxfoundation.org>	
+	Mon, 29 Jun 2015 07:29:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5T7T2Va025931; Mon, 29 Jun 2015 08:29:02 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id TzR21kuHXFpm; Mon, 29 Jun 2015 08:29:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t5T7SmOr025903
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 29 Jun 2015 08:28:59 +0100
+Message-ID: <1435562928.7287.15.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 29 Jun 2015 08:28:48 +0100
+In-Reply-To: <1435562320.7287.12.camel@linuxfoundation.org>
+References: <cover.1435126503.git.liezhi.yang@windriver.com>
+	<1435514866.7287.3.camel@linuxfoundation.org>
 	<5590D7BA.5030306@windriver.com>
 	<1435562320.7287.12.camel@linuxfoundation.org>
-In-Reply-To: <1435562320.7287.12.camel@linuxfoundation.org>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/8] perl 5.20.0 -> 5.22.0 and fix test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,52 +39,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 07:24:12 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Mon, 29 Jun 2015 07:29:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-
-On 06/29/2015 03:18 PM, Richard Purdie wrote:
+On Mon, 2015-06-29 at 08:18 +0100, Richard Purdie wrote:
 > On Mon, 2015-06-29 at 13:29 +0800, Robert Yang wrote:
->>
->> On 06/29/2015 02:07 AM, Richard Purdie wrote:
->>> On Tue, 2015-06-23 at 23:26 -0700, Robert Yang wrote:
->>>> * Upgrade perl 5.20.0 -> 5.22.0
->>>> * Tested on qemux86, qemuarm, qemuarm64, qemuppc, qemumips, qemux86-64.
->>>> * Fix for test cases, the test result:
->>>>     Failed 9 tests out of 2269, 99.60% okay.
->>>
->>> This series seems to cause:
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/367/steps/BuildImages/logs/stdio
->>>
->>> on non-gplv3 builds.
->>
->> Yes, it would fail when non-gplv3 build, here is a patch to fix
->> the problem:
->
+> > 
+> > On 06/29/2015 02:07 AM, Richard Purdie wrote:
+> > > On Tue, 2015-06-23 at 23:26 -0700, Robert Yang wrote:
+> > >> * Upgrade perl 5.20.0 -> 5.22.0
+> > >> * Tested on qemux86, qemuarm, qemuarm64, qemuppc, qemumips, qemux86-64.
+> > >> * Fix for test cases, the test result:
+> > >>    Failed 9 tests out of 2269, 99.60% okay.
+> > >
+> > > This series seems to cause:
+> > >
+> > > https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/367/steps/BuildImages/logs/stdio
+> > >
+> > > on non-gplv3 builds.
+> > 
+> > Yes, it would fail when non-gplv3 build, here is a patch to fix
+> > the problem:
+> 
 > Thanks!
->
+> 
 > More puzzlingly, selftest also failed in that build with:
->
+> 
 > https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/45
->
+> 
 > Which looks similar but isn't GPLv3 excluded. Any ideas on that?
-
-It seems that it is the same error, it builds gdbm-1.8.3, which is a GPLv2,
-while the higher version is gdbm-1.11.
-
-// Robert
-
->
+> 
 > I just realised there is no DEPENDS on gdbm-native in perl-native as far
 > as I can tell?
->
-> Cheers,
->
-> Richard
->
->
->
+
+perl-native has		-Ui_gdbm 
+
+and gdbm should be disabled for that so its not an issue. I thought it
+was -native that failed but it wasn't.
+
+I discovered that GPLv3 exclusion is left behind in local.conf in one of
+the other selftest sanity tests and this results in the above failure,
+same cause as the other one.
+
+So I think we should have this sorts (but need to fix the sanity test
+that left this behind)
+
+Cheers,
+
+Richard
+
 
