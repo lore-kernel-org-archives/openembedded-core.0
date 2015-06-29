@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E3E5E60053
+	by mail.openembedded.org (Postfix) with ESMTP id E4D4E6070C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 19:11:21 +0000 (UTC)
+	Mon, 29 Jun 2015 19:11:18 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 29 Jun 2015 12:11:23 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jun 2015 12:11:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,371,1432623600"; d="scan'208";a="516109060"
+X-IronPort-AV: E=Sophos;i="5.15,371,1432623600"; d="scan'208";a="516109039"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2015 12:11:22 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 29 Jun 2015 12:11:20 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 56BAB6A4083;
-	Mon, 29 Jun 2015 12:10:43 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 8337A6A4087;
+	Mon, 29 Jun 2015 12:10:40 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2015 22:10:16 +0300
-Message-Id: <1435605033-11509-4-git-send-email-ed.bartosh@linux.intel.com>
+Date: Mon, 29 Jun 2015 22:10:14 +0300
+Message-Id: <1435605033-11509-2-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 03/20] wic: Test rootfs plugin using rootfs paths
+Subject: [wic][PATCH 01/20] wic: Fix misleading message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,36 +34,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 29 Jun 2015 19:11:22 -0000
 
-Added testcase to create multi-rootfs images using rootfs plugin
-with paths to rootfs directories in wic command line.
+Due to usage of incorrect variable wic produces strange message
+"No image named None found, exiting." when specified canned .wks
+doesn't exist.
+
+Fixed by replacing wks_file -> argv[0]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 3cfc2ff..0c503ef 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -143,3 +143,20 @@ class Wic(oeSelfTest):
-                                    "--rootfs rootfs2=core-image-minimal" \
-                                    % wks).status)
-         self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
-+
-+    def test17_rootfs_artifacts(self):
-+        """Test usage of rootfs plugin with rootfs paths"""
-+        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
-+                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
-+                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
-+        vars['wks'] = "directdisk-multi-rootfs"
-+        status = runCmd("wic create %(wks)s "
-+                        "-b %(staging_datadir)s "
-+                        "-k %(deploy_dir_image)s "
-+                        "-n %(staging_dir_native)s "
-+                        "--rootfs-dir rootfs1=%(image_rootfs)s "
-+                        "--rootfs-dir rootfs2=%(image_rootfs)s" \
-+                        % vars).status
-+        self.assertEqual(0, status)
-+        self.assertEqual(1, len(glob(self.resultdir + \
-+                                     "%(wks)s-*.direct" % vars)))
+diff --git a/scripts/wic b/scripts/wic
+index f9be972..a39ec95 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -173,7 +173,7 @@ def wic_create_subcommand(args, usage_str):
+     if not wks_file.endswith(".wks"):
+         wks_file = engine.find_canned_image(scripts_path, wks_file)
+         if not wks_file:
+-            print "No image named %s found, exiting.  (Use 'wic list images' to list available images, or specify a fully-qualified OE kickstart (.wks) filename)\n" % wks_file
++            print "No image named %s found, exiting.  (Use 'wic list images' to list available images, or specify a fully-qualified OE kickstart (.wks) filename)\n" % args[0]
+             sys.exit(1)
+ 
+     image_output_dir = ""
 -- 
 2.1.4
 
