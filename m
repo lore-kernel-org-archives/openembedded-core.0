@@ -1,22 +1,19 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id BB42B6AC15
+	by mail.openembedded.org (Postfix) with ESMTP id 9D32473C63
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 15:07:03 +0000 (UTC)
+	Tue, 30 Jun 2015 15:07:34 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 9432511A8489
-Message-ID: <1435676821.3178.4.camel@collabora.co.uk>
+	(Authenticated sender: joshuagl) with ESMTPSA id DF41660003E
+Message-ID: <1435676852.3178.6.camel@collabora.co.uk>
 From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 30 Jun 2015 16:07:01 +0100
-In-Reply-To: <CAJ86T=WvDKfhK_DTcZmBEZkuTJ-bQWTKqmR8bCak6tr9vkKwuw@mail.gmail.com>
-References: <1435486480.10583.85.camel@linuxfoundation.org>
-	<1435573194.3287.13.camel@collabora.co.uk>
-	<CAJ86T=WvDKfhK_DTcZmBEZkuTJ-bQWTKqmR8bCak6tr9vkKwuw@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Jun 2015 16:07:32 +0100
+In-Reply-To: <1435644409-6631-1-git-send-email-armccurdy@gmail.com>
+References: <1435644409-6631-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: Evolution 3.16.3 (3.16.3-2.fc22) 
 Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: fido status
+Subject: Re: [fido][PATCH] gst-plugins-bad: fix CVE-2015-0797
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,78 +26,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 15:07:09 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 15:07:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2015-06-29 at 13:25 -0700, Andre McCurdy wrote:
-> On Mon, Jun 29, 2015 at 3:19 AM, Joshua Lock
-> <joshua.lock@collabora.co.uk> wrote:
-> > On Sun, 2015-06-28 at 11:14 +0100, Richard Purdie wrote:
-> > > I just wanted to let people know what is going on with Fido.
-> > > 
-> > > Joshua has had a branch in testing for a while. The autobuilder 
-> > > gave
-> > > mixed feedback for it. Partly, there was a problem since we'd
-> > > introduced
-> > > a new autobuilder (Fedora 22) and this introduced some problems 
-> > > with
-> > > subversion-native and gcc5. Partly there were also networking 
-> > > issues
-> > > on
-> > > the autobuilders related to runqemu.
-> > > 
-> > > Thanks to some help from Michael, we've tracked down and sorted 
-> > > the
-> > > networking issue (we hope!). I therefore took the decision to 
-> > > merge
-> > > Joshua's fido-next branch myself, now, with the addition of the
-> > > subversion fixes to the fido branch.
-> > 
-> > Thanks for merging Richard, the number of patches was starting to 
-> > get
-> > unwieldy so I'm pleased to see this happen.
-> > 
-> > > 
-> > > I've triggered another build which is underway at the moment and 
-> > > I'm
-> > > confident the result should be reasonable. What I am expecting is
-> > > failures for oe-selftest and for nightly-aarm64 and nightly
-> > > -mips64.
-> > > There are fixes just merged into master which resolve issues in 
-> > > all
-> > > three areas, I'm hoping we can queue up a fido-next with those in 
-> > > and
-> > > get fido building green quickly. Those issues are less of an 
-> > > issue
-> > > given
-> > > we know what the issues are and they are testing issues, not 
-> > > 'real'
-> > > bugs.
-> > 
-> > Your prediction was very accurate. I've merged a bunch of fixes for 
-> > the
-> > issues you highlighted (and a couple of others) into my fido-next
-> > branch[1]. I shall endeavour to get this tested on the autobuilder 
-> > and
-> > submitted for merge over the next couple of days.
+On Mon, 2015-06-29 at 23:06 -0700, Andre McCurdy wrote:
+> From: Kang Kai <kai.kang@windriver.com>
 > 
-> One minor comment on the patches already merged. This change:
+> Backport patch from debian to fix CVE-2015-0797.
 > 
->   http://git.openembedded.org/openembedded
-> -core/commit/?h=fido&id=f46c2ac0fd05f0e10258d8f03bfb2ebd0c2bcbe3
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=784220
+> https://sources.debian.net/data/main/g/gst-plugins-bad0.10/0.10.23
+> -7.1+deb7u2/debian/patches/buffer-overflow-mp4.patch
 > 
-> was reported to cause problems for multilib [1]. It needs this follow
-> -on fix:
+> Backported to oe-core fido from meta-oe/meta-multimedia:
 > 
->   http://git.openembedded.org/openembedded-core/commit/?h=master
-> -next&id=78a0e916882a747c267808c08ab8bc615198b5a8
+> http://git.openembedded.org/meta
+> -openembedded/commit/?id=6cb3b63559bf33946f1c5d43626413d9a651e83f
 > 
-> [1] http://lists.openembedded.org/pipermail/openembedded-core/2015
-> -May/105351.html
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 
-Thanks for raising this Andre - I've included the above change in my
-fido-next branch[1].
+Queued in my fido-next branch[1] - thanks!
 
 Regards,
 
@@ -108,4 +56,80 @@ Joshua
 
 1. http://cgit.openembedded.org/openembedded-core
 -contrib/log/?h=joshuagl/fido-next
+
+> ---
+>  .../gst-plugins-bad/buffer-overflow-mp4.patch      | 36 
+> ++++++++++++++++++++++
+>  .../gstreamer/gst-plugins-bad_0.10.23.bb           |  2 ++
+>  2 files changed, 38 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins
+> -bad/buffer-overflow-mp4.patch
+> 
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer
+> -overflow-mp4.patch b/meta/recipes-multimedia/gstreamer/gst-plugins
+> -bad/buffer-overflow-mp4.patch
+> new file mode 100644
+> index 0000000..235acda
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer
+> -overflow-mp4.patch
+> @@ -0,0 +1,36 @@
+> +Description: Fix buffer overflow in mp4 parsing
+> +Author: Ralph Giles <giles@mozilla.com>
+> +---
+> +Backport patch from debian to fix CVE-2015-0797.
+> +https://sources.debian.net/data/main/g/gst-plugins-bad0.10/0.10.23
+> -7.1+deb7u2/debian/patches/buffer-overflow-mp4.patch
+> +
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +---
+> +--- gst-plugins-bad0.10-0.10.23.orig/gst/videoparsers/gsth264parse.c
+> ++++ gst-plugins-bad0.10-0.10.23/gst/videoparsers/gsth264parse.c
+> +@@ -384,6 +384,11 @@ gst_h264_parse_wrap_nal (GstH264Parse *
+> + 
+> +   GST_DEBUG_OBJECT (h264parse, "nal length %d", size);
+> + 
+> ++  if (size > G_MAXUINT32 - nl) {
+> ++    GST_ELEMENT_ERROR (h264parse, STREAM, FAILED, (NULL),
+> ++        ("overflow in nal size"));
+> ++    return NULL;
+> ++  }
+> +   buf = gst_buffer_new_and_alloc (size + nl + 4);
+> +   if (format == GST_H264_PARSE_FORMAT_AVC) {
+> +     GST_WRITE_UINT32_BE (GST_BUFFER_DATA (buf), size << (32 - 8 * 
+> nl));
+> +@@ -452,6 +457,11 @@ gst_h264_parse_process_nal (GstH264Parse
+> +     GST_DEBUG_OBJECT (h264parse, "not processing nal size %u", nalu
+> ->size);
+> +     return;
+> +   }
+> ++  if (G_UNLIKELY (nalu->size > 20 * 1024 * 1024)) {
+> ++    GST_DEBUG_OBJECT (h264parse, "not processing nal size %u (too 
+> big)",
+> ++        nalu->size);
+> ++    return;
+> ++  }
+> + 
+> +   /* we have a peek as well */
+> +   nal_type = nalu->type;
+> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins
+> -bad_0.10.23.bb b/meta/recipes-multimedia/gstreamer/gst-plugins
+> -bad_0.10.23.bb
+> index 0f64871..4d94483 100644
+> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+> @@ -10,6 +10,8 @@ DEPENDS += "gst-plugins-base"
+>  
+>  PR = "r4"
+>  
+> +SRC_URI += "file://buffer-overflow-mp4.patch"
+> +
+>  inherit gettext gsettings
+>  
+>  EXTRA_OECONF += "--disable-experimental \
+> -- 
+> 1.9.1
+> 
 
