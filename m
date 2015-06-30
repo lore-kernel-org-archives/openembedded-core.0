@@ -1,36 +1,23 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
-	[209.85.223.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C9ED60053
+Return-Path: <sgw@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 3606360053
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 22:29:09 +0000 (UTC)
-Received: by iecuq6 with SMTP id uq6so22635809iec.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 15:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Ao6anHMFGlJD3By4kP2ebqd+/POUXfXJVpcr8o4LoKQ=;
-	b=PX9I+uHwNFfyJarUAYIXAAO2K3z6lM8yKGBz5JJEY8AHHjoMSf2YbwXAl4LB1SoSaJ
-	fVSg3yhyasmA/50h7y8PYrK2mFg+18ofwkAMRvee5pUe4djxnzKZC/9opB5YQAn8iLbG
-	ksc1mJ/xOecDyplCVyDpySiDA2PC/4ydHa/dU9TZEK4F5HilRET2r9k0dah87Zm3Ofp/
-	0he6DlGdCwfPu4lldvSei1Hw563mNOjoKbmfQ/SyeRw1zWwgGXr7y7faKiVC488erk9F
-	vtR/V/n8lIcnZJxT8HlGQv/HaEzuC0CD8pqa5ISNvpf4yxVI0gWnxM2lz8DnxtSAbZhG
-	l+bg==
-X-Received: by 10.42.200.13 with SMTP id eu13mr9714icb.29.1435703350288;
-	Tue, 30 Jun 2015 15:29:10 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by mx.google.com with ESMTPSA id p4sm224239igg.20.2015.06.30.15.29.09
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 30 Jun 2015 15:29:09 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 15:28:50 -0700
-Message-Id: <1435703330-15892-3-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1435703330-15892-1-git-send-email-armccurdy@gmail.com>
-References: <1435703330-15892-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 3/3] libav: update i586 TARGET_ARCH test to also handle i686
+	Tue, 30 Jun 2015 22:48:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 30 Jun 2015 15:48:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,381,1432623600"; d="scan'208";a="756126805"
+Received: from ashussai-mobl1.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.254.105.108])
+	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2015 15:48:03 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org
+Date: Tue, 30 Jun 2015 15:48:02 -0700
+Message-Id: <1435704482-14423-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Cc: dvhart@linux.intel.com
+Subject: [PATCH] core-image-kernel-dev: Define a correct subset of TEST_SUITES to run for this image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +30,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 22:29:10 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 22:48:04 -0000
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Since this is image can be built with both poky and poky-lsb, ensure the correct
+tests are run in both cases, the auto detection does not quite work right in the
+poky-lsb case since not all the Posix cmdline utilites are added. Add connman and
+connman test for network sanity
+
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/recipes-multimedia/libav/libav.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/images/core-image-kernel-dev.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/libav/libav.inc b/meta/recipes-multimedia/libav/libav.inc
-index 6ef273b..d3f4b1b 100644
---- a/meta/recipes-multimedia/libav/libav.inc
-+++ b/meta/recipes-multimedia/libav/libav.inc
-@@ -138,7 +138,7 @@ python populate_packages_prepend() {
-                       prepend=True,
-                       allow_links=True)
+diff --git a/meta/recipes-extended/images/core-image-kernel-dev.bb b/meta/recipes-extended/images/core-image-kernel-dev.bb
+index e1aa71a..6b636ed 100644
+--- a/meta/recipes-extended/images/core-image-kernel-dev.bb
++++ b/meta/recipes-extended/images/core-image-kernel-dev.bb
+@@ -4,7 +4,7 @@ sensitive to kernel updates and version changes"
+ # Could also be core-image-basic, but we'll keep this small for now
+ require recipes-core/images/core-image-minimal.bb
  
--    if d.getVar('TARGET_ARCH', True) == 'i586':
-+    if d.getVar('TARGET_ARCH', True) in [ 'i586', 'i686' ]:
-         # libav can't be build with -fPIC for 32-bit x86
-         pkgs = d.getVar('PACKAGES', True).split()
-         for pkg in pkgs:
+-KERNEL_DEV_UTILS ?= "dropbear"
++KERNEL_DEV_UTILS ?= "dropbear connman"
+ KERNEL_DEV_TOOLS ?= "packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
+ KERNEL_DEV_MODULE ?= "kernel-modules"
+ 
+@@ -15,3 +15,6 @@ CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
+ 
+ # We need extra space for things like kernel builds, etc.
+ IMAGE_ROOTFS_EXTRA_SPACE_append += "+ 3000000"
++
++# Let's define our own subset to test, we can later add a on-target kernel build even!
++DEFAULT_TEST_SUITES = "ping ssh df connman syslog scp date dmesg parselogs"
 -- 
-1.9.1
+2.1.0
 
 
