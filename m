@@ -1,37 +1,21 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qc0-f182.google.com (mail-qc0-f182.google.com
-	[209.85.216.182])
-	by mail.openembedded.org (Postfix) with ESMTP id B130E6070C
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 38CCE6E645
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 21:48:49 +0000 (UTC)
-Received: by qczu9 with SMTP id u9so20527688qcz.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 14:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=f4a5RjiVg+aBwCrwzZbE6DwS5ZJu8PU1i87UbApHsE8=;
-	b=wNiiFOjNZctsjzpUoL4vfqdq1IT7gsycPULldTuTDw8FIaAj4xsmSXCqQYCRBBP+Wo
-	brmf8mKj/fZVVuCaFdIlC07RhfVYOaQwXBl7cgy9S1xK3GCxd170CBqsQoI0j5gL+Wy+
-	T/mOpLGUmTLKRCWr/la5XUaNcNSc8e/PPUlbSrv4/nST5KtVNeeeqHSDGgvUpJgF7OYL
-	e5sIwUiRslUhwuGA6ufQou2q4i5D8QKM9+aVXJ5s+xwofxTcTwDMdhofyPMawFq9VCU9
-	C9KTp2aJwoaUY0I05iDw+dxFVNPirs7DoVbiyfJ6W3jHQb+q0C4/ChHW3zZcWsgOp9NN
-	oKvQ==
-X-Received: by 10.140.43.199 with SMTP id e65mr21709840qga.80.1435614529908;
-	Mon, 29 Jun 2015 14:48:49 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.140.108.73 with HTTP; Mon, 29 Jun 2015 14:48:30 -0700 (PDT)
-In-Reply-To: <1435605033-11509-5-git-send-email-ed.bartosh@linux.intel.com>
-References: <1435605033-11509-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1435605033-11509-5-git-send-email-ed.bartosh@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 29 Jun 2015 14:48:30 -0700
-X-Google-Sender-Auth: gN9lu7ZeoUn0oFdv5VVtmPof548
-Message-ID: <CABcZANk_vhTvj+rAyo+T8CbUpPd2SGxGk6m3Mt8WwB-M0LGq0Q@mail.gmail.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [wic][PATCH 04/20] wic: Refactor getting bitbake variables
+	Tue, 30 Jun 2015 00:19:49 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 29 Jun 2015 17:19:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,373,1432623600"; d="scan'208";a="719937870"
+Received: from linux-vcyq.jf.intel.com ([10.7.198.80])
+	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2015 17:19:51 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jun 2015 17:16:57 -0700
+Message-Id: <1435623417-18133-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 2.1.4
+Cc: richard.purdie@intel.com
+Subject: [PATCH] qemu: OpenSUSE 13.2 configure error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,55 +28,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Jun 2015 21:48:52 -0000
-Content-Type: multipart/alternative; boundary=001a113a9baa16f8990519af0ea2
+X-List-Received-Date: Tue, 30 Jun 2015 00:19:51 -0000
 
---001a113a9baa16f8990519af0ea2
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Under some circumstances, on OpenSUSE 13.2 qemu-native configure
+can fail with the error:
 
-On Mon, Jun 29, 2015 at 12:10 PM, Ed Bartosh <ed.bartosh@linux.intel.com>
-wrote:
+ERROR: User requested feature sdl
+        configure was not able to find it
 
-> +    global _BITBAKE_VARS
-> +
-> +    if image not in _BITBAKE_VARS:
->
+The following sequence can reproduce the build error:
 
-In general, I=E2=80=99d suggest using a cache class/object rather than glob=
-als,
-similar to how it=E2=80=99s handled in bb.checksum, or a transparent LRU. W=
-henever
-a cache is involved, it=E2=80=99s best to consider what its lifetime is.
-Admittedly, wic isn=E2=80=99t long-running, but best not to get into bad ha=
-bits.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+$ bitbake libgpg-error-native
+$ bitbake qemu-native
 
---001a113a9baa16f8990519af0ea2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Qemu configure tests for the presence/existance of SDL by
+trying to link against libSDL. libSDL in turn attempts to load
+libcrypt which will then attempt to load libgpg-error.
+The bitbaked libgpg-error will be built with ABI incompatible
+with the one required by libcrypt.
+The remedy is to force qemu configure to use the host's
+libgpg-error instead. This is achieved by modifying the linker
+library search order.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">On Mon, Jun 29, 2015 at 12:10 P=
-M, Ed Bartosh <span dir=3D"ltr">&lt;<a href=3D"mailto:ed.bartosh@linux.inte=
-l.com" target=3D"_blank">ed.bartosh@linux.intel.com</a>&gt;</span> wrote:<b=
-r><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":5b"=
- class=3D"a3s" style=3D"overflow:hidden">+=C2=A0 =C2=A0 global _BITBAKE_VAR=
-S<br>
-+<br>
-+=C2=A0 =C2=A0 if image not in _BITBAKE_VARS:</div></blockquote></div><br>I=
-n general, I=E2=80=99d suggest using a cache class/object rather than globa=
-ls, similar to how it=E2=80=99s handled in bb.checksum, or a transparent LR=
-U. Whenever a cache is involved, it=E2=80=99s best to consider what its lif=
-etime is. Admittedly, wic isn=E2=80=99t long-running, but best not to get i=
-nto bad habits.<br>-- <br><div class=3D"gmail_signature">Christopher Larson=
-<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaur=
-us<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
+[YOCTO#7469]
 
---001a113a9baa16f8990519af0ea2--
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ .../qemu/files/qemu-libcrypt-search-path-fix.patch | 37 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_1.7.0.bb           |  4 ++-
+ 2 files changed, 40 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
+
+diff --git a/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch b/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
+new file mode 100644
+index 0000000..e44d883
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
+@@ -0,0 +1,37 @@
++--- a/configure
+++++ b/configure
++@@ -1802,6 +1802,8 @@ if test -n "$cross_prefix" && test "$(ba
++ fi
++ 
++ sdl_too_old=no
+++sdl_cflags_ex="-L/usr/lib  -L/usr/lib64 -Wl,-rpath-link,/usr/lib  -Wl,-rpath-link,/usr/lib64"
+++ 
++ if test "$sdl" != "no" ; then
++   cat > $TMPC << EOF
++ #include <SDL.h>
++@@ -1814,7 +1816,7 @@ EOF
++   else
++     sdl_libs=`$sdlconfig --libs 2> /dev/null`
++   fi
++-  if compile_prog "$sdl_cflags" "$sdl_libs" ; then
+++  if compile_prog "$sdl_cflags $sdl_cflags_ex" "$sdl_libs" ; then
++     if test "$_sdlversion" -lt 121 ; then
++       sdl_too_old=yes
++     else
++@@ -1853,7 +1855,7 @@ if test "$sdl" = "yes" ; then
++ #endif
++ int main(void) { return 0; }
++ EOF
++-  if compile_prog "$sdl_cflags" "$sdl_libs" ; then
+++  if compile_prog "$sdl_cflags $sdl_cflags_ex" "$sdl_libs" ; then
++     sdl_libs="$sdl_libs -lX11"
++   fi
++   libs_softmmu="$sdl_libs $libs_softmmu"
++@@ -4287,6 +4289,7 @@ echo "OBJCOPY=$objcopy" >> $config_host_
++ echo "LD=$ld" >> $config_host_mak
++ echo "WINDRES=$windres" >> $config_host_mak
++ echo "LIBTOOL=$libtool" >> $config_host_mak
+++CFLAGS="$CFLAGS $sdl_cflags_ex"
++ echo "CFLAGS=$CFLAGS" >> $config_host_mak
++ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
++ echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
+diff --git a/meta/recipes-devtools/qemu/qemu_1.7.0.bb b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
+index a519645..a44a6f7 100644
+--- a/meta/recipes-devtools/qemu/qemu_1.7.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
+@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+ SRC_URI += "file://fxrstorssefix.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+-            file://ide-CVE-2014-2894.patch"
++            file://ide-CVE-2014-2894.patch \
++            file://qemu-libcrypt-search-path-fix.patch \
++            "
+ 
+ SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
+ SRC_URI[md5sum] = "32893941d40d052a5e649efcf06aca06"
+-- 
+2.1.4
+
+
