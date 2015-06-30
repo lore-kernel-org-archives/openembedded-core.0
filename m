@@ -1,19 +1,37 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D32473C63
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 24FE472D64
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 15:07:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id DF41660003E
-Message-ID: <1435676852.3178.6.camel@collabora.co.uk>
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 16:07:32 +0100
-In-Reply-To: <1435644409-6631-1-git-send-email-armccurdy@gmail.com>
-References: <1435644409-6631-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: Evolution 3.16.3 (3.16.3-2.fc22) 
-Mime-Version: 1.0
-Subject: Re: [fido][PATCH] gst-plugins-bad: fix CVE-2015-0797
+	Tue, 30 Jun 2015 15:39:38 +0000 (UTC)
+Received: by qget71 with SMTP id t71so5702717qge.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jun 2015 08:39:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9cLzBdnAS6DkkJDJFpVLrU1gJQdINOXapSaSvmy6+l8=;
+	b=YSk0WDP9G2LstIm/aYM8uwQIIQiy2BSBqsXyTcC727d8BQfZ5WePgT2S6vdfzS6UDI
+	KxlOho81DY8cHUEC2xz5CyLVY1S98JW5gqpobG1UySxSH/OdlpDhuJLu+My95H47mwzD
+	MeY8VIqpeutV/rfK1jg4F4uIsDrX/5JelOq7ScaJehWCEtv3xPLpnFwBpy8RE4NjQSQl
+	oKd2HoghLq6qskq9ao6tC/RNeYMVV6KZb3XCgOBw8KVsWJscJ7DtTsYq+EDCb+Wtn8SX
+	AVxlXLMz3CJfy/WbQZeH6l51NMy9cV3yNGBd54bTl0euQedO+Ern+EgwEQnbPJoT9c8G
+	cuKA==
+X-Gm-Message-State: ALoCoQkzyoR+KgXXZYOjPWafLiRkDH89GPdfA1AbrNNrPxeruo/DwA3VoTefCsVwa+K0fOAt5aqQ
+X-Received: by 10.140.43.199 with SMTP id e65mr26634066qga.80.1435678778692;
+	Tue, 30 Jun 2015 08:39:38 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Tue, 30 Jun 2015 08:39:19 -0700 (PDT)
+In-Reply-To: <f695a9f8ea4c35b040d98d2793153fba91771ec5.1434464336.git.jussi.kukkonen@intel.com>
+References: <cover.1434464336.git.jussi.kukkonen@intel.com>
+	<f695a9f8ea4c35b040d98d2793153fba91771ec5.1434464336.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Jun 2015 16:39:19 +0100
+Message-ID: <CAJTo0LaNMDtNSrOad5=Vd6ZqJ_MCiT0oez7e-3zmn4BjWfkVpw@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 5/6] sato-icon-theme: Inherit Adwaita, not gnome-icon-theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,110 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 15:07:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jun 2015 15:39:41 -0000
+Content-Type: multipart/alternative; boundary=001a113a9baa9daa840519be03b5
 
-On Mon, 2015-06-29 at 23:06 -0700, Andre McCurdy wrote:
-> From: Kang Kai <kai.kang@windriver.com>
-> 
-> Backport patch from debian to fix CVE-2015-0797.
-> 
-> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=784220
-> https://sources.debian.net/data/main/g/gst-plugins-bad0.10/0.10.23
-> -7.1+deb7u2/debian/patches/buffer-overflow-mp4.patch
-> 
-> Backported to oe-core fido from meta-oe/meta-multimedia:
-> 
-> http://git.openembedded.org/meta
-> -openembedded/commit/?id=6cb3b63559bf33946f1c5d43626413d9a651e83f
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+--001a113a9baa9daa840519be03b5
+Content-Type: text/plain; charset=UTF-8
 
-Queued in my fido-next branch[1] - thanks!
+On 16 June 2015 at 15:22, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-Regards,
+> -+Inherits=gnome
+> ++Inherits=Adwaita
+>
 
-Joshua
+Doesn't this also need a RDEPENDS on adwaita-icon-theme?
 
-1. http://cgit.openembedded.org/openembedded-core
--contrib/log/?h=joshuagl/fido-next
+Ross
 
-> ---
->  .../gst-plugins-bad/buffer-overflow-mp4.patch      | 36 
-> ++++++++++++++++++++++
->  .../gstreamer/gst-plugins-bad_0.10.23.bb           |  2 ++
->  2 files changed, 38 insertions(+)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins
-> -bad/buffer-overflow-mp4.patch
-> 
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer
-> -overflow-mp4.patch b/meta/recipes-multimedia/gstreamer/gst-plugins
-> -bad/buffer-overflow-mp4.patch
-> new file mode 100644
-> index 0000000..235acda
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer
-> -overflow-mp4.patch
-> @@ -0,0 +1,36 @@
-> +Description: Fix buffer overflow in mp4 parsing
-> +Author: Ralph Giles <giles@mozilla.com>
-> +---
-> +Backport patch from debian to fix CVE-2015-0797.
-> +https://sources.debian.net/data/main/g/gst-plugins-bad0.10/0.10.23
-> -7.1+deb7u2/debian/patches/buffer-overflow-mp4.patch
-> +
-> +Upstream-Status: Backport
-> +
-> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> +---
-> +--- gst-plugins-bad0.10-0.10.23.orig/gst/videoparsers/gsth264parse.c
-> ++++ gst-plugins-bad0.10-0.10.23/gst/videoparsers/gsth264parse.c
-> +@@ -384,6 +384,11 @@ gst_h264_parse_wrap_nal (GstH264Parse *
-> + 
-> +   GST_DEBUG_OBJECT (h264parse, "nal length %d", size);
-> + 
-> ++  if (size > G_MAXUINT32 - nl) {
-> ++    GST_ELEMENT_ERROR (h264parse, STREAM, FAILED, (NULL),
-> ++        ("overflow in nal size"));
-> ++    return NULL;
-> ++  }
-> +   buf = gst_buffer_new_and_alloc (size + nl + 4);
-> +   if (format == GST_H264_PARSE_FORMAT_AVC) {
-> +     GST_WRITE_UINT32_BE (GST_BUFFER_DATA (buf), size << (32 - 8 * 
-> nl));
-> +@@ -452,6 +457,11 @@ gst_h264_parse_process_nal (GstH264Parse
-> +     GST_DEBUG_OBJECT (h264parse, "not processing nal size %u", nalu
-> ->size);
-> +     return;
-> +   }
-> ++  if (G_UNLIKELY (nalu->size > 20 * 1024 * 1024)) {
-> ++    GST_DEBUG_OBJECT (h264parse, "not processing nal size %u (too 
-> big)",
-> ++        nalu->size);
-> ++    return;
-> ++  }
-> + 
-> +   /* we have a peek as well */
-> +   nal_type = nalu->type;
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins
-> -bad_0.10.23.bb b/meta/recipes-multimedia/gstreamer/gst-plugins
-> -bad_0.10.23.bb
-> index 0f64871..4d94483 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
-> @@ -10,6 +10,8 @@ DEPENDS += "gst-plugins-base"
->  
->  PR = "r4"
->  
-> +SRC_URI += "file://buffer-overflow-mp4.patch"
-> +
->  inherit gettext gsettings
->  
->  EXTRA_OECONF += "--disable-experimental \
-> -- 
-> 1.9.1
-> 
+--001a113a9baa9daa840519be03b5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 June 2015 at 15:22, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2uw" cl=
+ass=3D"a3s" style=3D"overflow:hidden">-+Inherits=3Dgnome<br>
+++Inherits=3DAdwaita</div></blockquote></div><br>Doesn&#39;t this also need=
+ a RDEPENDS on adwaita-icon-theme?</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113a9baa9daa840519be03b5--
