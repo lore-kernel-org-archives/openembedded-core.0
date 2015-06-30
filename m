@@ -1,36 +1,37 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-X-Greylist: delayed 901 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 30 Jun 2015 10:25:06 UTC
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id 8384660088
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 0705C75C54
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 10:25:06 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1Z9sUO-0007Me-6L for openembedded-core@lists.openembedded.org;
-	Tue, 30 Jun 2015 12:10:04 +0200
-Received: from ip4da2a5ae.direct-adsl.nl ([77.162.165.174])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 12:10:04 +0200
-Received: from koen by ip4da2a5ae.direct-adsl.nl with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
+	Tue, 30 Jun 2015 10:32:27 +0000 (UTC)
+Received: by qget71 with SMTP id t71so1693990qge.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 12:10:04 +0200
-X-Injected-Via-Gmane: http://gmane.org/
-To: openembedded-core@lists.openembedded.org
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Tue, 30 Jun 2015 12:00:26 +0200
-Message-ID: <mmtpbq$67d$2@ger.gmane.org>
-References: <5591E548.8090706@gmail.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: ip4da2a5ae.direct-adsl.nl
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-In-Reply-To: <5591E548.8090706@gmail.com>
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: cmake update broke mariadb
+	Tue, 30 Jun 2015 03:32:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=E85JyBsX1O+0rEm9TVsnkP31IjDiBTuz44nk7Z3nhAc=;
+	b=CaKPM8Hdi3N8BTrfIHwzPog5gEX88IPLjfJv6UGX1tjL+YFcKUys+6iOQZ4vtQ163X
+	gAA4ofl1AJ+IFffv4XlpNzFAFhxMgiUTbzCbC8OlIAVbGM3yO6PGmKHwXEjs+AudOXTT
+	qRnigsE5kbGqbJxDWOkNtIFMZE4zBjfKecRHZmyfypor8ygewhnuZZy/pm9fYgeTTdYv
+	JUvS7CtVAaoMPZG+Ervfh47FwzuQmoisQNLpsy/GjAnhPjM1o4Ui8jyKt2sUPm5UfqD0
+	PFyqLhcwHOnJ8xO6ySPGH4UHmTBjFYPuUeCM/F9jIlqsZy1wh6hl+Y8SlYCThYydqSJG
+	Kvnw==
+X-Gm-Message-State: ALoCoQkJ5LfgYQ8Im9VKpWGs3MnuDnKBlroAR07qlgUAgGoc4tz0v1kgXMXpF8NDUHLNe5P/Z+Yl
+X-Received: by 10.140.43.199 with SMTP id e65mr24775132qga.80.1435660348410;
+	Tue, 30 Jun 2015 03:32:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Tue, 30 Jun 2015 03:32:08 -0700 (PDT)
+In-Reply-To: <1435623417-18133-1-git-send-email-juro.bystricky@intel.com>
+References: <1435623417-18133-1-git-send-email-juro.bystricky@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Jun 2015 11:32:08 +0100
+Message-ID: <CAJTo0LaOUcu7qRdmYvXm3jqoYQx48_wsKRDM5bxsMZVj_ew-CQ@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: OpenSUSE 13.2 configure error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 10:25:07 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jun 2015 10:32:28 -0000
+Content-Type: multipart/alternative; boundary=001a113a9baa160ef40519b9b967
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+--001a113a9baa160ef40519b9b967
+Content-Type: text/plain; charset=UTF-8
 
-akuster808 schreef op 30-06-15 om 02:39:
-> 
-> Hello,
-> 
-> eo-core commit f8661aa "cmake: Upgrade 2.8.12.2 -> 3.2.2" broke mariadb
-> in meta-oe.
-> 
-> DOes  the person who updated cmake need to fix this or the person who is 
-> feeling the pain will be fixing it ?
+On 30 June 2015 at 01:16, Juro Bystricky <juro.bystricky@intel.com> wrote:
 
-I've been looking at this mariadb error and I've made no progress beyond
-upgrading it to the latest 5.5.x, which shows the same cmake problem
+> Qemu configure tests for the presence/existance of SDL by
+> trying to link against libSDL. libSDL in turn attempts to load
+> libcrypt which will then attempt to load libgpg-error.
+> The bitbaked libgpg-error will be built with ABI incompatible
+> with the one required by libcrypt.
+> The remedy is to force qemu configure to use the host's
+> libgpg-error instead. This is achieved by modifying the linker
+> library search order.
+>
 
-regards,
+I think seeing this summary will send Saul into a quivering wreck as this
+was a massive source of pain in the previous release.  Interesting solution
+but I'd like Saul's opinion.
 
-Koen
+The patch should probably only be applied for native and nativesdk builds,
+as I suspect that's going to break a target build quite badly.  Also, it
+needs signed-of-by and upstream-status (inappropriate, I imagine) tags in
+the patch header.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.5 (Darwin)
-Comment: GPGTools - http://gpgtools.org
+Ross
 
-iD8DBQFVkmi6MkyGM64RGpERAmrsAJ0bCkH5omgOzpnB0dT8A6amMrYH6gCfU50x
-ZObEl6kQHbI+QDeiui3GxfU=
-=E2ZF
------END PGP SIGNATURE-----
+--001a113a9baa160ef40519b9b967
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 June 2015 at 01:16, Juro Bystricky <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky@intel.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1y5" cl=
+ass=3D"a3s" style=3D"overflow:hidden">Qemu configure tests for the presence=
+/existance of SDL by<br>
+trying to link against libSDL. libSDL in turn attempts to load<br>
+libcrypt which will then attempt to load libgpg-error.<br>
+The bitbaked libgpg-error will be built with ABI incompatible<br>
+with the one required by libcrypt.<br>
+The remedy is to force qemu configure to use the host&#39;s<br>
+libgpg-error instead. This is achieved by modifying the linker<br>
+library search order.</div></blockquote></div><br>I think seeing this summa=
+ry will send Saul into a quivering wreck as this was a massive source of pa=
+in in the previous release.=C2=A0 Interesting solution but I&#39;d like Sau=
+l&#39;s opinion.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">The patch should probably only be applied for native and natives=
+dk builds, as I suspect that&#39;s going to break a target build quite badl=
+y.=C2=A0 Also, it needs signed-of-by and upstream-status (inappropriate, I =
+imagine) tags in the patch header.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
 
+--001a113a9baa160ef40519b9b967--
