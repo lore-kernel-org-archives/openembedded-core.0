@@ -1,35 +1,22 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 541527561C
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id BB42B6AC15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 14:14:52 +0000 (UTC)
-Received: by wicgi11 with SMTP id gi11so18121193wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 07:14:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=7d7PEK4Ux1DOfuyvZoPY+Y1xwp2lE/jFd5yZm7fmZqY=;
-	b=k8crstMPPAz08PpyJX7idLRtGBfOkev2hkpnGYAGgvf0cUoHlU7hDfnO51EgPIf319
-	bw9c2RQJ/XbgkLmaAatnlMtV+tHCQ+fNUf5Qmh/sGyhZ7vtPtFkeZjm7BHIdwEbuVSuZ
-	TJLVd2kP+G8Ajf+xaT0ixr2+HUMvgug3Oa8CdL8SlvLLHOnUwwT7UVnAvuT0nsoOh5Rg
-	xIYmmXa60FXqXQSbceb9Lc776nTWLh9g0xxv5tzb69Q3XPPf1BkNEfKp3CDc8kLBtZWI
-	xCOOjHHsEWU+x//KTtt/xHgtJsFoLXlACGn9Lwq/NfY5jkfIEkPc/zAFc3AJrRrVkVnz
-	dMhQ==
-X-Received: by 10.180.230.199 with SMTP id ta7mr12878403wic.1.1435673693602;
-	Tue, 30 Jun 2015 07:14:53 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id
-	df1sm17264074wib.12.2015.06.30.07.14.52
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Jun 2015 07:14:52 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 16:15:00 +0200
-Message-Id: <1435673700-10076-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.4.4
-Subject: [PATCH] feature-arm-thumb.inc: Fix ARMPKGSFX_THUMB value
+	Tue, 30 Jun 2015 15:07:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 9432511A8489
+Message-ID: <1435676821.3178.4.camel@collabora.co.uk>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Tue, 30 Jun 2015 16:07:01 +0100
+In-Reply-To: <CAJ86T=WvDKfhK_DTcZmBEZkuTJ-bQWTKqmR8bCak6tr9vkKwuw@mail.gmail.com>
+References: <1435486480.10583.85.camel@linuxfoundation.org>
+	<1435573194.3287.13.camel@collabora.co.uk>
+	<CAJ86T=WvDKfhK_DTcZmBEZkuTJ-bQWTKqmR8bCak6tr9vkKwuw@mail.gmail.com>
+X-Mailer: Evolution 3.16.3 (3.16.3-2.fc22) 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: fido status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,54 +29,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 14:14:59 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 15:07:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* my previous thumb related commit:
-  commit 3e760031f91fb87c3e2f62b77a117eb41164f259
-  Author: Martin Jansa <martin.jansa@gmail.com>
-  Date:   Wed Feb 18 15:40:35 2015 +0100
+On Mon, 2015-06-29 at 13:25 -0700, Andre McCurdy wrote:
+> On Mon, Jun 29, 2015 at 3:19 AM, Joshua Lock
+> <joshua.lock@collabora.co.uk> wrote:
+> > On Sun, 2015-06-28 at 11:14 +0100, Richard Purdie wrote:
+> > > I just wanted to let people know what is going on with Fido.
+> > > 
+> > > Joshua has had a branch in testing for a while. The autobuilder 
+> > > gave
+> > > mixed feedback for it. Partly, there was a problem since we'd
+> > > introduced
+> > > a new autobuilder (Fedora 22) and this introduced some problems 
+> > > with
+> > > subversion-native and gcc5. Partly there were also networking 
+> > > issues
+> > > on
+> > > the autobuilders related to runqemu.
+> > > 
+> > > Thanks to some help from Michael, we've tracked down and sorted 
+> > > the
+> > > networking issue (we hope!). I therefore took the decision to 
+> > > merge
+> > > Joshua's fido-next branch myself, now, with the addition of the
+> > > subversion fixes to the fido branch.
+> > 
+> > Thanks for merging Richard, the number of patches was starting to 
+> > get
+> > unwieldy so I'm pleased to see this happen.
+> > 
+> > > 
+> > > I've triggered another build which is underway at the moment and 
+> > > I'm
+> > > confident the result should be reasonable. What I am expecting is
+> > > failures for oe-selftest and for nightly-aarm64 and nightly
+> > > -mips64.
+> > > There are fixes just merged into master which resolve issues in 
+> > > all
+> > > three areas, I'm hoping we can queue up a fido-next with those in 
+> > > and
+> > > get fido building green quickly. Those issues are less of an 
+> > > issue
+> > > given
+> > > we know what the issues are and they are testing issues, not 
+> > > 'real'
+> > > bugs.
+> > 
+> > Your prediction was very accurate. I've merged a bunch of fixes for 
+> > the
+> > issues you highlighted (and a couple of others) into my fido-next
+> > branch[1]. I shall endeavour to get this tested on the autobuilder 
+> > and
+> > submitted for merge over the next couple of days.
+> 
+> One minor comment on the patches already merged. This change:
+> 
+>   http://git.openembedded.org/openembedded
+> -core/commit/?h=fido&id=f46c2ac0fd05f0e10258d8f03bfb2ebd0c2bcbe3
+> 
+> was reported to cause problems for multilib [1]. It needs this follow
+> -on fix:
+> 
+>   http://git.openembedded.org/openembedded-core/commit/?h=master
+> -next&id=78a0e916882a747c267808c08ab8bc615198b5a8
+> 
+> [1] http://lists.openembedded.org/pipermail/openembedded-core/2015
+> -May/105351.html
 
-    feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb
-    suffix
+Thanks for raising this Andre - I've included the above change in my
+fido-next branch[1].
 
-  unfortunately removed conditional on "thumb" in TUNE_FEATURES, when
-  setting ARMPKGSFX_THUMB
+Regards,
 
-* in case we have MACHINE without "thumb" in TUNE_FEATURES and distro
-  setting ARM_INSTRUCTION_SET to "thumb" we end with:
-  ARM_INSTRUCTION_SET="thumb"
-  ARM_THUMB_OPT="thumb"
-  ARM_M_OPT="thumb"
+Joshua
 
-  # TUNE_CCARGS correctly not adding -mthumb
-  TUNE_CCARGS=" -march=armv7-a  -mthumb-interwork -mfloat-abi=softfp -mfpu=neon"
-
-  # but ARMPKGSFX_THUMB and TUNE_PKGARCH including "t2":
-  ARMPKGSFX_THUMB="t2"
-  TUNE_PKGARCH="armv7at2-vfp-neon"
-
-  # causing following error:
-  Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (armv7at2-vfp-neon).
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/conf/machine/include/arm/feature-arm-thumb.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-index 9746c7b..5632171 100644
---- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
-+++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
-@@ -33,7 +33,7 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' -m${ARM_M_OPT}'
- OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ':thumb', '', d)}"
- 
- # Add suffix from ARM_THUMB_SUFFIX only if after all this we still set ARM_M_OPT to thumb
--ARMPKGSFX_THUMB .= "${@ d.getVar('ARM_THUMB_SUFFIX', True) if d.getVar('ARM_M_OPT', True) == 'thumb' else ''}"
-+ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_SUFFIX}', '', d) if d.getVar('ARM_M_OPT', True) == 'thumb' else ''}"
- 
- # Whether to compile with code to allow interworking between the two
- # instruction sets. This allows thumb code to be executed on a primarily
--- 
-2.4.4
-
+1. http://cgit.openembedded.org/openembedded-core
+-contrib/log/?h=joshuagl/fido-next
 
