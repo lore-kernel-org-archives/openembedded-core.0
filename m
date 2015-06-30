@@ -1,35 +1,38 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f181.google.com (mail-ob0-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 379E77196D
+Return-Path: <fan.xin@jp.fujitsu.com>
+Received: from mgwym03.jp.fujitsu.com (mgwym03.jp.fujitsu.com [211.128.242.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 59A647196D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 01:57:34 +0000 (UTC)
-Received: by obpn3 with SMTP id n3so116654652obp.0
+	Tue, 30 Jun 2015 02:19:54 +0000 (UTC)
+Received: from yt-mxq.gw.nic.fujitsu.com (unknown [192.168.229.66]) by
+	mgwym03.jp.fujitsu.com with smtp
+	id 4761_ab74_5830b795_1e0d_474f_8028_75606d5f614f;
+	Tue, 30 Jun 2015 11:19:54 +0900
+Received: from m3051.s.css.fujitsu.com (m3051.s.css.fujitsu.com
+	[10.134.21.209])
+	by yt-mxq.gw.nic.fujitsu.com (Postfix) with ESMTP id 618CFAC01F4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 18:57:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=gfhVUCqsfyzuIPy0yNJQoWNbO4p9ljZEo3NLe5uTigo=;
-	b=zLAmyFVOU15OrTWDeCuYcOcNMaGNYcl2IJninMOYqergRLL97/qt5XOudUIFZvLBGJ
-	SLAxfsQGfO5gtZKLCqhrpVrwIg4XAFOVP+putGstTvsnq2hXEyZzr8P8vXdVW9LYqLta
-	7WUdWKEnzkh688iCSf2IBHUJ363f8u/7m2eRAVC98sQuI1pUh+q8M0VZ/NOcJz4gVAYj
-	kUfZYLLhnebcUfOPhLn39VWOXExbTVtyVx6NBczDIjzd11mSqc+1UHTIrk/zD63bDMhu
-	avD2VEJnn7czGSGz0MWkyCYlbrkjTHsAB5mdH1MIRjVRtuhGYV+zqQo221jfICPDVLC4
-	6AlA==
+	Tue, 30 Jun 2015 11:19:53 +0900 (JST)
+Received: from omame (omame.fct.css.fujitsu.com [10.24.14.171])
+	by m3051.s.css.fujitsu.com (Postfix) with ESMTP id 59424131;
+	Tue, 30 Jun 2015 11:19:53 +0900 (JST)
+Received: from [10.24.19.99] (fan1.utsfd.cs.fujitsu.co.jp [10.24.19.99])
+	by omame (Postfix) with ESMTPSA id 3995B1E0087;
+	Tue, 30 Jun 2015 11:19:53 +0900 (JST)
+Message-ID: <5591FD43.7080306@jp.fujitsu.com>
+Date: Tue, 30 Jun 2015 11:21:55 +0900
+From: "fan.xin" <fan.xin@jp.fujitsu.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
 MIME-Version: 1.0
-X-Received: by 10.60.56.97 with SMTP id z1mr17783952oep.59.1435629455861; Mon,
-	29 Jun 2015 18:57:35 -0700 (PDT)
-Received: by 10.202.64.130 with HTTP; Mon, 29 Jun 2015 18:57:35 -0700 (PDT)
-In-Reply-To: <1435240007-1878-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-References: <1435240007-1878-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Mon, 29 Jun 2015 18:57:35 -0700
-Message-ID: <CAJ86T=XJNHC1+eQKdYZ_US8EmjkmWCRLaK9LKe3A1EKiDXp_rg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: leonardo.sandoval.gonzalez@linux.intel.com
-Cc: swg@linux.intel.com,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] buildhistory.bbclass: Create a files-in-<pkg>.txt containg recipe's pkg files
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <558D07C7.5000203@jp.fujitsu.com>
+	<CAJTo0LYdeaZMRkEMmd+k4Qy91aMC1fYSRcQGBBfzgqKXt79pqw@mail.gmail.com>
+	<5590FD9F.9090204@jp.fujitsu.com>
+	<CAJTo0LYGb84kOe9hdRxfedEwwq4vgvt9CXMPynQVUpK4KvV_Qw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYGb84kOe9hdRxfedEwwq4vgvt9CXMPynQVUpK4KvV_Qw@mail.gmail.com>
+X-TM-AS-MML: disable
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] wpa-supplicant: Fix CVE-2015-4142
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,108 +45,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 01:57:37 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 02:19:58 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Leonardo,
+wpa-supplicant: backport patch to fix CVE-2015-4142
 
-On Thu, Jun 25, 2015 at 6:46 AM,
-<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->
-> A file similar (in format) to files-in-image.txt is created for each
-> recipe's build package. This would allow to easily see what the
-> recipe's package may install when including it into an image.
->
-> These files reside on the specific buildhistory recipe package (i.e.
-> buildhistory/packages/i586-poky-linux/busybox/busybox-dev/files-in-busybox-dev.txt
-> for busybox-dev package)
->
-> [YOCTO #5870]
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Backport patch to fix CVE-2015-4142. This patch is originally from:
 
-I'm seeing build errors since this patch got merged to oe-core master:
+http://w1.fi/security/2015-3/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
 
-...
-NOTE: recipe cairo-1.14.2-r0: task do_packagedata: Started
-ERROR: Function failed: buildhistory_list_pkg_files (log file is
-located at /work/build-7401/tmp/work/core2-32-rdk-linux/cairo/1.14.2-r0/temp/log.do_packagedata.41874)
-ERROR: Logfile of failure stored in:
-/work/build-7401/tmp/work/core2-32-rdk-linux/cairo/1.14.2-r0/temp/log.do_packagedata.41874
-Log data follows:
-| DEBUG: Executing python function sstate_task_prefunc
-| DEBUG: Python function sstate_task_prefunc finished
-| DEBUG: SITE files ['endian-little', 'bit-32', 'ix86-common',
-'common-linux', 'common-glibc', 'i686-linux', 'common']
-| DEBUG: Executing shell function do_packagedata
-| DEBUG: Shell function do_packagedata finished
-| DEBUG: Executing python function sstate_task_postfunc
-| DEBUG: Staging files from
-/work/build-7401/tmp/work/core2-32-rdk-linux/cairo/1.14.2-r0/pkgdata
-to /work/build-7401/tmp/sysroots/7401/pkgdata
-| DEBUG: Executing python function buildhistory_emit_pkghistory
-| DEBUG: Writing recipe history
-| DEBUG: Writing package history for package cairo-gobject
-| DEBUG: Writing package history for package cairo-dev
-| DEBUG: Writing package history for package cairo
-| DEBUG: Executing shell function buildhistory_list_pkg_files
-| /work/build-7401/tmp/work/core2-32-rdk-linux/cairo/1.14.2-r0/temp/run.buildhistory_list_pkg_files.41874:
-line 124: /work/build-7401/buildhistory/packages/core2-32-rdk-linux/cairo/cairo-dbg/files-in-cairo-dbg.txt:
-No such file or directory
-| WARNING: /work/build-7401/tmp/work/core2-32-rdk-linux/cairo/1.14.2-r0/temp/run.buildhistory_list_pkg_files.41874:1
-exit 1 from
-|   buildhistory_list_files ${pkgdir} ${outfile}
-| DEBUG: Python function buildhistory_emit_pkghistory finished
-| DEBUG: Python function sstate_task_postfunc finished
-| ERROR: Function failed: buildhistory_list_pkg_files (log file is
-located at /work/build-7401/tmp/work/core2-32-rdk-linux/cairo/1.14.2-r0/temp/log.do_packagedata.41874)
-NOTE: recipe cairo-1.14.2-r0: task do_packagedata: Failed
-ERROR: Task 2397
-(/work/openembedded-core/meta/recipes-graphics/cairo/cairo_1.14.2.bb,
-do_packagedata) failed with exit code '1'
+Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
+---
+ ...integer-underflow-in-WMM-Action-frame-par.patch | 45 ++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
+
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
+new file mode 100644
+index 0000000..882674f
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
+@@ -0,0 +1,45 @@
++Upstream-Status: Backport
++
++Signed-off-by: Fan Xin <fan.xin@jp.fujitsu.com>
++
++From ef566a4d4f74022e1fdb0a2addfe81e6de9f4aae Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Wed, 29 Apr 2015 02:21:53 +0300
++Subject: [PATCH] AP WMM: Fix integer underflow in WMM Action frame parser
++
++The length of the WMM Action frame was not properly validated and the
++length of the information elements (int left) could end up being
++negative. This would result in reading significantly past the stack
++buffer while parsing the IEs in ieee802_11_parse_elems() and while doing
++so, resulting in segmentation fault.
++
++This can result in an invalid frame being used for a denial of service
++attack (hostapd process killed) against an AP with a driver that uses
++hostapd for management frame processing (e.g., all mac80211-based
++drivers).
++
++Thanks to Kostya Kortchinsky of Google security team for discovering and
++reporting this issue.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++---
++ src/ap/wmm.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/src/ap/wmm.c b/src/ap/wmm.c
++index 6d4177c..314e244 100644
++--- a/src/ap/wmm.c
+++++ b/src/ap/wmm.c
++@@ -274,6 +274,9 @@ void hostapd_wmm_action(struct hostapd_data *hapd,
++ 		return;
++ 	}
++ 
+++	if (left < 0)
+++		return; /* not a valid WMM Action frame */
+++
++ 	/* extract the tspec info element */
++ 	if (ieee802_11_parse_elems(pos, left, &elems, 1) == ParseFailed) {
++ 		hostapd_logger(hapd, mgmt->sa, HOSTAPD_MODULE_IEEE80211,
++-- 
++1.9.1
++
+-- 
+1.8.4.2
 
 
->  meta/classes/buildhistory.bbclass | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-> index 777aabc..8fc8a3a 100644
-> --- a/meta/classes/buildhistory.bbclass
-> +++ b/meta/classes/buildhistory.bbclass
-> @@ -242,6 +242,9 @@ python buildhistory_emit_pkghistory() {
->          pkginfo.size = int(pkgdata['PKGSIZE'])
->
->          write_pkghistory(pkginfo, d)
-> +
-> +    # Create files-in-<package-name>.txt files containing a list of files of each recipe's package
-> +    bb.build.exec_func("buildhistory_list_pkg_files", d)
->  }
->
->
-> @@ -435,6 +438,16 @@ buildhistory_list_files() {
->         ( cd $1 && find . -printf "%M %-10u %-10g %10s %p -> %l\n" | sort -k5 | sed 's/ * -> $//' > $2 )
->  }
->
-> +buildhistory_list_pkg_files() {
-> +        file_prefix="files-in-"
-> +
-> +        # Create individual files-in-package for each recipe's package
-> +        for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
-> +                pkgname=$(basename ${pkgdir})
-> +                outfile="${BUILDHISTORY_DIR_PACKAGE}/${pkgname}/${file_prefix}${pkgname}.txt"
-> +                buildhistory_list_files ${pkgdir} ${outfile}
-> +        done
-> +}
->
->  buildhistory_get_imageinfo() {
->         if [ "${@bb.utils.contains('BUILDHISTORY_FEATURES', 'image', '1', '0', d)}" = "0" ] ; then
-> --
-> 1.8.4.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On 2015年06月29日 20:43, Burton, Ross wrote:
+> 
+> On 29 June 2015 at 09:11, fan.xin <fan.xin@jp.fujitsu.com <mailto:fan.xin@jp.fujitsu.com>> wrote:
+> 
+>     Upstream-Status: Backport
+> 
+> 
+> This and signed-off-by In the patch header, not the commit message.
+> 
+> Ross
 
