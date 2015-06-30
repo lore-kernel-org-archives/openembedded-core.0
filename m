@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 0705C75C54
+Return-Path: <stefan@herbrechtsmeier.net>
+Received: from dd5638.kasserver.com (dd5638.kasserver.com [85.13.130.155])
+	by mail.openembedded.org (Postfix) with ESMTP id E291775C54
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 10:32:27 +0000 (UTC)
-Received: by qget71 with SMTP id t71so1693990qge.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 03:32:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=E85JyBsX1O+0rEm9TVsnkP31IjDiBTuz44nk7Z3nhAc=;
-	b=CaKPM8Hdi3N8BTrfIHwzPog5gEX88IPLjfJv6UGX1tjL+YFcKUys+6iOQZ4vtQ163X
-	gAA4ofl1AJ+IFffv4XlpNzFAFhxMgiUTbzCbC8OlIAVbGM3yO6PGmKHwXEjs+AudOXTT
-	qRnigsE5kbGqbJxDWOkNtIFMZE4zBjfKecRHZmyfypor8ygewhnuZZy/pm9fYgeTTdYv
-	JUvS7CtVAaoMPZG+Ervfh47FwzuQmoisQNLpsy/GjAnhPjM1o4Ui8jyKt2sUPm5UfqD0
-	PFyqLhcwHOnJ8xO6ySPGH4UHmTBjFYPuUeCM/F9jIlqsZy1wh6hl+Y8SlYCThYydqSJG
-	Kvnw==
-X-Gm-Message-State: ALoCoQkJ5LfgYQ8Im9VKpWGs3MnuDnKBlroAR07qlgUAgGoc4tz0v1kgXMXpF8NDUHLNe5P/Z+Yl
-X-Received: by 10.140.43.199 with SMTP id e65mr24775132qga.80.1435660348410;
-	Tue, 30 Jun 2015 03:32:28 -0700 (PDT)
+	Tue, 30 Jun 2015 10:35:32 +0000 (UTC)
+Received: from [129.70.144.65] (astra.TechFak.Uni-Bielefeld.DE [129.70.144.65])
+	by dd5638.kasserver.com (Postfix) with ESMTPSA id 312EC56012C4;
+	Tue, 30 Jun 2015 12:35:32 +0200 (CEST)
+To: openembedded-devel@lists.openembedded.org
+References: <5591E548.8090706@gmail.com>
+	<CAJTo0LbVgo+rn3rPPbj=ho-aDc6WuHTq83UcR8Y=HNAique81w@mail.gmail.com>
+	<mmtpa9$67d$1@ger.gmane.org>
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Message-ID: <55927020.3010605@herbrechtsmeier.net>
+Date: Tue, 30 Jun 2015 12:32:00 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.0.1
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 30 Jun 2015 03:32:08 -0700 (PDT)
-In-Reply-To: <1435623417-18133-1-git-send-email-juro.bystricky@intel.com>
-References: <1435623417-18133-1-git-send-email-juro.bystricky@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 30 Jun 2015 11:32:08 +0100
-Message-ID: <CAJTo0LaOUcu7qRdmYvXm3jqoYQx48_wsKRDM5bxsMZVj_ew-CQ@mail.gmail.com>
-To: Juro Bystricky <juro.bystricky@intel.com>
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: OpenSUSE 13.2 configure error
+In-Reply-To: <mmtpa9$67d$1@ger.gmane.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [oe] cmake update broke mariadb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,60 +31,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 10:32:28 -0000
-Content-Type: multipart/alternative; boundary=001a113a9baa160ef40519b9b967
+X-List-Received-Date: Tue, 30 Jun 2015 10:35:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113a9baa160ef40519b9b967
-Content-Type: text/plain; charset=UTF-8
+Am 30.06.2015 um 11:59 schrieb Koen Kooi:
+> Burton, Ross schreef op 30-06-15 om 11:44:
+>> On 30 June 2015 at 01:39, akuster808 <akuster808@gmail.com> wrote:
+>>
+>>> eo-core commit f8661aa "cmake: Upgrade 2.8.12.2 -> 3.2.2" broke mariadb
+>>> in meta-oe.
+>>>
+>>> DOes  the person who updated cmake need to fix this or the person who
+>>> is feeling the pain will be fixing it ?
+>>>
+>> Depends on what the breakage is really.  Can you provide build logs?
+> ERROR: Function failed: do_configure (log file is located at
+> /build/linaro/build/build/tmp-glibc/work/x86_64-linux/mariadb-native/5.5.44-r0/temp/log.do_configure.25603)
+> ERROR: Logfile of failure stored in:
+> /build/linaro/build/build/tmp-glibc/work/x86_64-linux/mariadb-native/5.5.44-r0/temp/log.do_configure.25603
+> Log data follows:
+> | DEBUG: Executing python function sysroot_cleansstate
+> | DEBUG: Python function sysroot_cleansstate finished
+> | DEBUG: Executing shell function autotools_preconfigure
+> | DEBUG: Shell function autotools_preconfigure finished
+> | DEBUG: Executing python function autotools_copy_aclocals
+> | DEBUG: Python function autotools_copy_aclocals finished
+> | DEBUG: Executing shell function do_configure
+> | -- Running cmake version 3.2.2
+> | -- The C compiler identification is GNU 4.8.3
+> | -- The CXX compiler identification is GNU 4.8.3
+> | CMake Error at CMakeLists.txt:86 (PROJECT):
+> |   The CMAKE_C_COMPILER:
+> |
+> |     gcc
+> |
+> |   is not a full path and was not found in the PATH.
+> |
+> |   Tell CMake where to find the compiler by setting either the environment
+> |   variable "CC" or the CMake cache entry CMAKE_C_COMPILER to the full path to
+> |   the compiler, or to the compiler name if it is in the PATH.
+> |
+> |
+> | CMake Error at CMakeLists.txt:86 (PROJECT):
+> |   The CMAKE_CXX_COMPILER:
+> |
+> |     g++
+> |
+> |   is not a full path and was not found in the PATH.
+> |
+> |   Tell CMake where to find the compiler by setting either the environment
+> |   variable "CXX" or the CMake cache entry CMAKE_CXX_COMPILER to the full path
+> |   to the compiler, or to the compiler name if it is in the PATH.
+> |
+> |
+> | -- Configuring incomplete, errors occurred!
+The problem should be the usage of cmake for a native package.
 
-On 30 June 2015 at 01:16, Juro Bystricky <juro.bystricky@intel.com> wrote:
+The cmake.bbclass disables the host path and thereby CMake could not 
+find the gcc binary.
 
-> Qemu configure tests for the presence/existance of SDL by
-> trying to link against libSDL. libSDL in turn attempts to load
-> libcrypt which will then attempt to load libgpg-error.
-> The bitbaked libgpg-error will be built with ABI incompatible
-> with the one required by libcrypt.
-> The remedy is to force qemu configure to use the host's
-> libgpg-error instead. This is achieved by modifying the linker
-> library search order.
->
+I think the cmake.bbclass need to distinguish between cross and native 
+build and set the following for native build:
+set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH )
+set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY BOTH )
+set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE BOTH )
 
-I think seeing this summary will send Saul into a quivering wreck as this
-was a massive source of pain in the previous release.  Interesting solution
-but I'd like Saul's opinion.
+This allows CMake to search the binaries, libraries and includes first 
+in the CMAKE_FIND_ROOT_PATH, then in the CMAKE_SYSROOT and then in the 
+non-rooted directories.
 
-The patch should probably only be applied for native and nativesdk builds,
-as I suspect that's going to break a target build quite badly.  Also, it
-needs signed-of-by and upstream-status (inappropriate, I imagine) tags in
-the patch header.
 
-Ross
-
---001a113a9baa160ef40519b9b967
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 June 2015 at 01:16, Juro Bystricky <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1y5" cl=
-ass=3D"a3s" style=3D"overflow:hidden">Qemu configure tests for the presence=
-/existance of SDL by<br>
-trying to link against libSDL. libSDL in turn attempts to load<br>
-libcrypt which will then attempt to load libgpg-error.<br>
-The bitbaked libgpg-error will be built with ABI incompatible<br>
-with the one required by libcrypt.<br>
-The remedy is to force qemu configure to use the host&#39;s<br>
-libgpg-error instead. This is achieved by modifying the linker<br>
-library search order.</div></blockquote></div><br>I think seeing this summa=
-ry will send Saul into a quivering wreck as this was a massive source of pa=
-in in the previous release.=C2=A0 Interesting solution but I&#39;d like Sau=
-l&#39;s opinion.</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
-ail_extra">The patch should probably only be applied for native and natives=
-dk builds, as I suspect that&#39;s going to break a target build quite badl=
-y.=C2=A0 Also, it needs signed-of-by and upstream-status (inappropriate, I =
-imagine) tags in the patch header.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
-
---001a113a9baa160ef40519b9b967--
