@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F3317564B
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B92C775C97
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 08:53:10 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 30 Jun 2015 01:53:12 -0700
+	Tue, 30 Jun 2015 08:53:11 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jun 2015 01:53:13 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="597305257"
+X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="516463074"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 30 Jun 2015 01:53:11 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Jun 2015 01:53:13 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 3A4866A4005;
-	Tue, 30 Jun 2015 01:52:32 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 9CD086A4005;
+	Tue, 30 Jun 2015 01:52:33 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 11:51:51 +0300
-Message-Id: <1435654312-18177-20-git-send-email-ed.bartosh@linux.intel.com>
+Date: Tue, 30 Jun 2015 11:51:52 +0300
+Message-Id: <1435654312-18177-21-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 19/20] wic: Code cleanup: long lines, identation and whitespaces
+Subject: [wic][PATCH v2 20/20] wic: Code cleanup: unused imports
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,294 +32,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 08:53:10 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 08:53:12 -0000
 
-Fixed pylint warnings bad-continuation, bad-continuation and
-line-too-long.
+Fixed pylint warning unused-import
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
 diff --git a/scripts/lib/image/engine.py b/scripts/lib/image/engine.py
-index 92dcc5a..0dc7920 100644
+index 0dc7920..73e8f8b 100644
 --- a/scripts/lib/image/engine.py
 +++ b/scripts/lib/image/engine.py
-@@ -236,7 +236,10 @@ def wic_list(args, scripts_path, properties_file):
-             wks_file = args[0]
-             fullpath = find_canned_image(scripts_path, wks_file)
-             if not fullpath:
--                print "No image named %s found, exiting.  (Use 'wic list images' to list available images, or specify a fully-qualified OE kickstart (.wks) filename)\n" % wks_file
-+                print "No image named %s found, exiting. "\
-+                      "(Use 'wic list images' to list available images, or "\
-+                      "specify a fully-qualified OE kickstart (.wks) "\
-+                      "filename)\n" % wks_file
-                 sys.exit(1)
-             list_canned_image_help(scripts_path, fullpath)
-             return True
+@@ -30,18 +30,10 @@
+ 
+ import os
+ import sys
+-from abc import ABCMeta, abstractmethod
+-import shlex
+-import json
+-import subprocess
+-import shutil
+ 
+-import os, sys, errno
+ from wic import msger, creator
+-from wic.utils import cmdln, misc, errors
+-from wic.conf import configmgr
++from wic.utils import misc
+ from wic.plugin import pluginmgr
+-from wic.__version__ import VERSION
+ from wic.utils.oe import misc
+ 
+ 
 diff --git a/scripts/lib/wic/conf.py b/scripts/lib/wic/conf.py
-index ff6e2ca..cecf396 100644
+index cecf396..402ed62 100644
 --- a/scripts/lib/wic/conf.py
 +++ b/scripts/lib/wic/conf.py
-@@ -30,20 +30,18 @@ def get_siteconf():
-     return scripts_path + "/lib/image/config/wic.conf"
+@@ -19,7 +19,7 @@ import os
  
- class ConfigMgr(object):
--    DEFAULTS = {'common': {
--                    "distro_name": "Default Distribution",
--                    "plugin_dir": "/usr/lib/wic/plugins", # TODO use prefix also?
--                },
--                'create': {
--                    "tmpdir": '/var/tmp/wic',
--                    "outdir": './wic-output',
--
--                    "release": None,
--                    "logfile": None,
--                    "name_prefix": None,
--                    "name_suffix": None,
--                },
--               }
-+    DEFAULTS = {
-+        'common': {
-+            "distro_name": "Default Distribution",
-+            "plugin_dir": "/usr/lib/wic/plugins"}, # TODO use prefix also?
-+        'create': {
-+            "tmpdir": '/var/tmp/wic',
-+            "outdir": './wic-output',
-+            "release": None,
-+            "logfile": None,
-+            "name_prefix": None,
-+            "name_suffix": None}
-+        }
+ from wic import msger
+ from wic import kickstart
+-from wic.utils import misc, runner, errors
++from wic.utils import misc
  
-     # make the manager class as singleton
-     _instance = None
+ 
+ def get_siteconf():
+diff --git a/scripts/lib/wic/imager/baseimager.py b/scripts/lib/wic/imager/baseimager.py
+index 0afbc2c..67a2d01 100644
+--- a/scripts/lib/wic/imager/baseimager.py
++++ b/scripts/lib/wic/imager/baseimager.py
+@@ -21,10 +21,9 @@ import os
+ import tempfile
+ import shutil
+ 
+-from wic import kickstart
+ from wic import msger
+ from wic.utils.errors import CreatorError
+-from wic.utils import misc, runner, fs_related as fs
++from wic.utils import runner
+ 
+ class BaseImageCreator(object):
+     """Base class for image creation.
 diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index 561c396..e2f8058 100644
+index e2f8058..57b1335 100644
 --- a/scripts/lib/wic/imager/direct.py
 +++ b/scripts/lib/wic/imager/direct.py
-@@ -179,8 +179,8 @@ class DirectImageCreator(BaseImageCreator):
+@@ -28,7 +28,7 @@ import os
+ import shutil
  
-             if parts[i].mountpoint and not parts[i].fstype:
-                 raise CreatorError("Failed to create disks, no --fstype "
--                                    "specified for partition with mountpoint "
--                                    "'%s' in the ks file")
-+                                   "specified for partition with mountpoint "
-+                                   "'%s' in the ks file")
- 
-             self._disk_names.append(disk_name)
- 
-diff --git a/scripts/lib/wic/kickstart/custom_commands/micboot.py b/scripts/lib/wic/kickstart/custom_commands/micboot.py
-index 358b0ea..1fa282b 100644
---- a/scripts/lib/wic/kickstart/custom_commands/micboot.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/micboot.py
-@@ -27,7 +27,7 @@ class Mic_Bootloader(F8_Bootloader):
-                  forceLBA=False, location="", md5pass="", password="",
-                  upgrade=False, menus=""):
-         F8_Bootloader.__init__(self, writePriority, appendLine, driveorder,
--                                forceLBA, location, md5pass, password, upgrade)
-+                               forceLBA, location, md5pass, password, upgrade)
- 
-         self.menus = ""
-         self.ptable = "msdos"
-diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
-index fea4d6d..045b290 100644
---- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-@@ -157,7 +157,9 @@ class Wic_PartData(Mic_PartData):
- 
-         if not self.source:
-             if not self.size:
--                msger.error("The %s partition has a size of zero.  Please specify a non-zero --size for that partition." % self.mountpoint)
-+                msger.error("The %s partition has a size of zero.  Please "
-+                            "specify a non-zero --size for that partition." % \
-+                            self.mountpoint)
-             if self.fstype and self.fstype == "swap":
-                 self.prepare_swap_partition(cr_workdir, oe_builddir,
-                                             native_sysroot)
-@@ -178,9 +180,14 @@ class Wic_PartData(Mic_PartData):
-         plugins = pluginmgr.get_source_plugins()
- 
-         if self.source not in plugins:
--            msger.error("The '%s' --source specified for %s doesn't exist.\n\tSee 'wic list source-plugins' for a list of available --sources.\n\tSee 'wic help source-plugins' for details on adding a new source plugin." % (self.source, self.mountpoint))
--
--        self._source_methods = pluginmgr.get_source_plugin_methods(self.source, partition_methods)
-+            msger.error("The '%s' --source specified for %s doesn't exist.\n\t"
-+                        "See 'wic list source-plugins' for a list of available"
-+                        " --sources.\n\tSee 'wic help source-plugins' for "
-+                        "details on adding a new source plugin." % \
-+                        (self.source, self.mountpoint))
-+
-+        self._source_methods = pluginmgr.get_source_plugin_methods(\
-+                                   self.source, partition_methods)
-         self._source_methods["do_configure_partition"](self, self.sourceparams_dict,
-                                                        cr, cr_workdir,
-                                                        oe_builddir,
-@@ -466,9 +473,10 @@ class Wic_Partition(Mic_Partition):
-     removedAttrs = Mic_Partition.removedAttrs
- 
-     def _getParser(self):
--        def overhead_cb (option, opt_str, value, parser):
-+        def overhead_cb(option, opt_str, value, parser):
-             if value < 1:
--                raise OptionValueError("Option %s: invalid value: %r" % (option, value))
-+                raise OptionValueError("Option %s: invalid value: %r" % \
-+                                       (option, value))
-             setattr(parser.values, option.dest, value)
- 
-         op = Mic_Partition._getParser(self)
-diff --git a/scripts/lib/wic/msger.py b/scripts/lib/wic/msger.py
-index 35b705b..1b60980 100644
---- a/scripts/lib/wic/msger.py
-+++ b/scripts/lib/wic/msger.py
-@@ -16,7 +16,8 @@
- # with this program; if not, write to the Free Software Foundation, Inc., 59
+ from wic import kickstart, msger
+-from wic.utils import fs_related, runner, misc
++from wic.utils import fs_related
+ from wic.utils.partitionedfs import Image
+ from wic.utils.errors import CreatorError, ImageError
+ from wic.imager.baseimager import BaseImageCreator
+diff --git a/scripts/lib/wic/pluginbase.py b/scripts/lib/wic/pluginbase.py
+index 50e442d..6d96de2 100644
+--- a/scripts/lib/wic/pluginbase.py
++++ b/scripts/lib/wic/pluginbase.py
+@@ -16,7 +16,6 @@
  # Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  
--import os,sys
-+import os
-+import sys
+ from wic import msger
+-from wic.utils import errors
+ 
+ class _Plugin(object):
+     class __metaclass__(type):
+diff --git a/scripts/lib/wic/plugins/imager/direct_plugin.py b/scripts/lib/wic/plugins/imager/direct_plugin.py
+index db01c41..eb17e8d 100644
+--- a/scripts/lib/wic/plugins/imager/direct_plugin.py
++++ b/scripts/lib/wic/plugins/imager/direct_plugin.py
+@@ -24,10 +24,8 @@
+ # Tom Zanussi <tom.zanussi (at] linux.intel.com>
+ #
+ 
+-from wic import msger
+-from wic.utils import misc, fs_related, errors, runner, cmdln
++from wic.utils import errors
+ from wic.conf import configmgr
+-from wic.plugin import pluginmgr
+ 
+ import wic.imager.direct as direct
+ from wic.pluginbase import ImagerPlugin
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 903b478..49d5c8a 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -27,7 +27,6 @@
+ import os
+ import shutil
+ 
+-from wic.utils.errors import ImageError
+ from wic import kickstart, msger
+ from wic.pluginbase import SourcePlugin
+ from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var, \
+diff --git a/scripts/lib/wic/utils/cmdln.py b/scripts/lib/wic/utils/cmdln.py
+index b099473..d8f1c05 100644
+--- a/scripts/lib/wic/utils/cmdln.py
++++ b/scripts/lib/wic/utils/cmdln.py
+@@ -43,7 +43,6 @@ import sys
  import re
- import time
+ import cmd
+ import optparse
+-from pprint import pprint
+ import sys
  
-@@ -37,8 +38,8 @@ __ALL__ = ['set_mode',
- # COLORs in ANSI
- INFO_COLOR = 32 # green
- WARN_COLOR = 33 # yellow
--ERR_COLOR  = 31 # red
--ASK_COLOR  = 34 # blue
-+ERR_COLOR = 31 # red
-+ASK_COLOR = 34 # blue
- NO_COLOR = 0
  
- PREFIX_RE = re.compile('^<(.*?)>\s*(.*)', re.S)
-@@ -47,12 +48,12 @@ INTERACTIVE = True
- 
- LOG_LEVEL = 1
- LOG_LEVELS = {
--                'quiet': 0,
--                'normal': 1,
--                'verbose': 2,
--                'debug': 3,
--                'never': 4,
--             }
-+    'quiet': 0,
-+    'normal': 1,
-+    'verbose': 2,
-+    'debug': 3,
-+    'never': 4,
-+}
- 
- LOG_FILE_FP = None
- LOG_CONTENT = ''
-@@ -75,7 +76,7 @@ def _general_print(head, color, msg=None, stream=None, level='normal'):
- 
-     errormsg = ''
-     if CATCHERR_BUFFILE_FD > 0:
--        size = os.lseek(CATCHERR_BUFFILE_FD , 0, os.SEEK_END)
-+        size = os.lseek(CATCHERR_BUFFILE_FD, 0, os.SEEK_END)
-         os.lseek(CATCHERR_BUFFILE_FD, 0, os.SEEK_SET)
-         errormsg = os.read(CATCHERR_BUFFILE_FD, size)
-         os.ftruncate(CATCHERR_BUFFILE_FD, 0)
-@@ -158,7 +159,7 @@ def _split_msg(head, msg):
-     return head, msg
- 
- def get_loglevel():
--    return (k for k,v in LOG_LEVELS.items() if v==LOG_LEVEL).next()
-+    return (k for k, v in LOG_LEVELS.items() if v == LOG_LEVEL).next()
- 
- def set_loglevel(level):
-     global LOG_LEVEL
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index 6ca68f6..721c524 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -56,7 +56,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
-             msger.error("Unsupported partition table: %s" % cr.ptable_format)
- 
-         if not os.path.exists(mbrfile):
--            msger.error("Couldn't find %s.  If using the -e option, do you have the right MACHINE set in local.conf?  If not, is the bootimg_dir path correct?" % mbrfile)
-+            msger.error("Couldn't find %s.  If using the -e option, do you "
-+                        "have the right MACHINE set in local.conf?  If not, "
-+                        "is the bootimg_dir path correct?" % mbrfile)
- 
-         full_path = cr._full_path(workdir, disk_name, "direct")
-         msger.debug("Installing MBR on disk %s as %s with size %s bytes" \
-diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index ca4b1f0..2f884a3 100644
---- a/scripts/lib/wic/utils/partitionedfs.py
-+++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -302,9 +302,8 @@ class Image(object):
-                 msger.debug("partition %d: set UUID to %s" % \
-                             (p['num'], p['uuid']))
-                 exec_native_cmd("sgdisk --partition-guid=%d:%s %s" % \
--                                         (p['num'], p['uuid'],
--                                          d['disk'].device),
--                                        self.native_sysroot)
-+                                (p['num'], p['uuid'], d['disk'].device),
-+                                self.native_sysroot)
- 
-             if p['boot']:
-                 flag_name = "legacy_boot" if d['ptable_format'] == 'gpt' else "boot"
-diff --git a/scripts/lib/wic/utils/runner.py b/scripts/lib/wic/utils/runner.py
-index 2ae9f41..8d48f68 100644
---- a/scripts/lib/wic/utils/runner.py
-+++ b/scripts/lib/wic/utils/runner.py
-@@ -89,7 +89,7 @@ def show(cmdln_or_args):
-     else:
-         cmd = cmdln_or_args
- 
--    msg =  'running command: "%s"' % cmd
-+    msg = 'running command: "%s"' % cmd
-     if out: out = out.strip()
-     if out:
-         msg += ', with output::'
-diff --git a/scripts/wic b/scripts/wic
-index ac272c6..9435ce0 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -90,18 +90,24 @@ def wic_create_subcommand(args, usage_str):
-     parser = optparse.OptionParser(usage=usage_str)
- 
-     parser.add_option("-o", "--outdir", dest="outdir",
--                      action="store", help="name of directory to create image in")
-+                      help="name of directory to create image in")
-     parser.add_option("-e", "--image-name", dest="image_name",
--                      action="store", help="name of the image to use the artifacts from e.g. core-image-sato")
--    parser.add_option("-r", "--rootfs-dir", dest="rootfs_dir",
--                      action="callback", callback=callback_rootfs_dir, type="string",
--                      help="path to the /rootfs dir to use as the .wks rootfs source")
-+                      help="name of the image to use the artifacts from "
-+                           "e.g. core-image-sato")
-+    parser.add_option("-r", "--rootfs-dir", dest="rootfs_dir", type="string",
-+                      action="callback", callback=callback_rootfs_dir,
-+                      help="path to the /rootfs dir to use as the "
-+                           ".wks rootfs source")
-     parser.add_option("-b", "--bootimg-dir", dest="bootimg_dir",
--                      action="store", help="path to the dir containing the boot artifacts (e.g. /EFI or /syslinux dirs) to use as the .wks bootimg source")
-+                      help="path to the dir containing the boot artifacts "
-+                           "(e.g. /EFI or /syslinux dirs) to use as the "
-+                           ".wks bootimg source")
-     parser.add_option("-k", "--kernel-dir", dest="kernel_dir",
--                      action="store", help="path to the dir containing the kernel to use in the .wks bootimg")
-+                      help="path to the dir containing the kernel to use "
-+                           "in the .wks bootimg")
-     parser.add_option("-n", "--native-sysroot", dest="native_sysroot",
--                      action="store", help="path to the native sysroot containing the tools to use to build the image")
-+                      help="path to the native sysroot containing the tools "
-+                           "to use to build the image")
-     parser.add_option("-p", "--skip-build-check", dest="build_check",
-                       action="store_false", default=True, help="skip the build check")
-     parser.add_option("-f", "--build-rootfs", action="store_true", help="build rootfs")
-@@ -173,7 +179,9 @@ def wic_create_subcommand(args, usage_str):
-     if not wks_file.endswith(".wks"):
-         wks_file = engine.find_canned_image(scripts_path, wks_file)
-         if not wks_file:
--            print "No image named %s found, exiting.  (Use 'wic list images' to list available images, or specify a fully-qualified OE kickstart (.wks) filename)\n" % args[0]
-+            print "No image named %s found, exiting.  (Use 'wic list images' "\
-+                  "to list available images, or specify a fully-qualified OE "\
-+                  "kickstart (.wks) filename)\n" % args[0]
-             sys.exit(1)
- 
-     image_output_dir = ""
 -- 
 2.1.4
 
