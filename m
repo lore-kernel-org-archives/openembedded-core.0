@@ -1,21 +1,36 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 38CCE6E645
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 00:19:49 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 29 Jun 2015 17:19:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,373,1432623600"; d="scan'208";a="719937870"
-Received: from linux-vcyq.jf.intel.com ([10.7.198.80])
-	by orsmga001.jf.intel.com with ESMTP; 29 Jun 2015 17:19:51 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Jun 2015 17:16:57 -0700
-Message-Id: <1435623417-18133-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 2.1.4
-Cc: richard.purdie@intel.com
-Subject: [PATCH] qemu: OpenSUSE 13.2 configure error
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 23C876E645;
+	Tue, 30 Jun 2015 00:39:42 +0000 (UTC)
+Received: by pdjd13 with SMTP id d13so492760pdj.0;
+	Mon, 29 Jun 2015 17:39:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject
+	:content-type:content-transfer-encoding;
+	bh=lfEu3jld2DHfxuN7CkpcnaKAaHNuM7lBkbDEtse9rHw=;
+	b=vl/k9+w8FLOf9/APoQsENiXubjufppB243e7z+13KJzzVa52ay47S3jel4famkH4Zg
+	ePHtJgaXf28V5yVqqvpHeVz5q1qtBT493vHqKVZSppF2zSnO1R/angd68BdsjxTckPhU
+	22U8XpoHV1h67A8dbHM9hDjPt9SXCP0ujix+pyNNWrwJpyMM3KyVxAUuX8qXEq63wJAz
+	74rVH/ci7CNfmASQ0qnl8vc40WObPxdm3/Dyc3dDsIU6ZR45F3Z9+plzwcEikdUnzUhA
+	lXVPWKCQPYOWJ+3sM0nuTylT6TA9RLHJkbW0Ki2GIyw5lhfNVNfz28JYWjifGOax+LLr
+	osBA==
+X-Received: by 10.69.27.33 with SMTP id jd1mr37309739pbd.34.1435624783404;
+	Mon, 29 Jun 2015 17:39:43 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:b8d5:58:2bde:8361?
+	([2601:202:4000:1239:b8d5:58:2bde:8361])
+	by mx.google.com with ESMTPSA id m3sm40805270pdd.29.2015.06.29.17.39.41
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Jun 2015 17:39:42 -0700 (PDT)
+Message-ID: <5591E548.8090706@gmail.com>
+Date: Mon, 29 Jun 2015 17:39:36 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: OE-core <openembedded-core@lists.openembedded.org>, 
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Subject: cmake update broke mariadb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,96 +43,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 00:19:51 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 00:39:43 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Under some circumstances, on OpenSUSE 13.2 qemu-native configure
-can fail with the error:
 
-ERROR: User requested feature sdl
-        configure was not able to find it
+Hello,
 
-The following sequence can reproduce the build error:
+eo-core commit f8661aa "cmake: Upgrade 2.8.12.2 -> 3.2.2" broke mariadb 
+in meta-oe.
 
-$ bitbake libgpg-error-native
-$ bitbake qemu-native
+DOes  the person who updated cmake need to fix this or the person who is 
+feeling the pain will be fixing it ?
 
-Qemu configure tests for the presence/existance of SDL by
-trying to link against libSDL. libSDL in turn attempts to load
-libcrypt which will then attempt to load libgpg-error.
-The bitbaked libgpg-error will be built with ABI incompatible
-with the one required by libcrypt.
-The remedy is to force qemu configure to use the host's
-libgpg-error instead. This is achieved by modifying the linker
-library search order.
-
-[YOCTO#7469]
-
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- .../qemu/files/qemu-libcrypt-search-path-fix.patch | 37 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_1.7.0.bb           |  4 ++-
- 2 files changed, 40 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
-
-diff --git a/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch b/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
-new file mode 100644
-index 0000000..e44d883
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/files/qemu-libcrypt-search-path-fix.patch
-@@ -0,0 +1,37 @@
-+--- a/configure
-++++ b/configure
-+@@ -1802,6 +1802,8 @@ if test -n "$cross_prefix" && test "$(ba
-+ fi
-+ 
-+ sdl_too_old=no
-++sdl_cflags_ex="-L/usr/lib  -L/usr/lib64 -Wl,-rpath-link,/usr/lib  -Wl,-rpath-link,/usr/lib64"
-++ 
-+ if test "$sdl" != "no" ; then
-+   cat > $TMPC << EOF
-+ #include <SDL.h>
-+@@ -1814,7 +1816,7 @@ EOF
-+   else
-+     sdl_libs=`$sdlconfig --libs 2> /dev/null`
-+   fi
-+-  if compile_prog "$sdl_cflags" "$sdl_libs" ; then
-++  if compile_prog "$sdl_cflags $sdl_cflags_ex" "$sdl_libs" ; then
-+     if test "$_sdlversion" -lt 121 ; then
-+       sdl_too_old=yes
-+     else
-+@@ -1853,7 +1855,7 @@ if test "$sdl" = "yes" ; then
-+ #endif
-+ int main(void) { return 0; }
-+ EOF
-+-  if compile_prog "$sdl_cflags" "$sdl_libs" ; then
-++  if compile_prog "$sdl_cflags $sdl_cflags_ex" "$sdl_libs" ; then
-+     sdl_libs="$sdl_libs -lX11"
-+   fi
-+   libs_softmmu="$sdl_libs $libs_softmmu"
-+@@ -4287,6 +4289,7 @@ echo "OBJCOPY=$objcopy" >> $config_host_
-+ echo "LD=$ld" >> $config_host_mak
-+ echo "WINDRES=$windres" >> $config_host_mak
-+ echo "LIBTOOL=$libtool" >> $config_host_mak
-++CFLAGS="$CFLAGS $sdl_cflags_ex"
-+ echo "CFLAGS=$CFLAGS" >> $config_host_mak
-+ echo "QEMU_CFLAGS=$QEMU_CFLAGS" >> $config_host_mak
-+ echo "QEMU_INCLUDES=$QEMU_INCLUDES" >> $config_host_mak
-diff --git a/meta/recipes-devtools/qemu/qemu_1.7.0.bb b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
-index a519645..a44a6f7 100644
---- a/meta/recipes-devtools/qemu/qemu_1.7.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_1.7.0.bb
-@@ -6,7 +6,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
- SRC_URI += "file://fxrstorssefix.patch \
-             file://qemu-enlarge-env-entry-size.patch \
-             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
--            file://ide-CVE-2014-2894.patch"
-+            file://ide-CVE-2014-2894.patch \
-+            file://qemu-libcrypt-search-path-fix.patch \
-+            "
- 
- SRC_URI_prepend = "http://wiki.qemu.org/download/qemu-${PV}.tar.bz2"
- SRC_URI[md5sum] = "32893941d40d052a5e649efcf06aca06"
--- 
-2.1.4
-
+- armin
 
