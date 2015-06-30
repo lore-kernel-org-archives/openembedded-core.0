@@ -1,21 +1,35 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-Received: from dd5638.kasserver.com (dd5638.kasserver.com [85.13.130.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A6DB75C81
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 541527561C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 13:32:28 +0000 (UTC)
-Received: from [129.70.144.65] (astra.TechFak.Uni-Bielefeld.DE [129.70.144.65])
-	by dd5638.kasserver.com (Postfix) with ESMTPSA id 32A975602CD1;
-	Tue, 30 Jun 2015 15:32:28 +0200 (CEST)
-To: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
-References: <1435670336-17154-1-git-send-email-koen.kooi@linaro.org>
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-Message-ID: <55929998.8020209@herbrechtsmeier.net>
-Date: Tue, 30 Jun 2015 15:28:56 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.0.1
-MIME-Version: 1.0
-In-Reply-To: <1435670336-17154-1-git-send-email-koen.kooi@linaro.org>
-Subject: Re: [PATCH] cmake bbclass: fix support for native builds
+	Tue, 30 Jun 2015 14:14:52 +0000 (UTC)
+Received: by wicgi11 with SMTP id gi11so18121193wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jun 2015 07:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=7d7PEK4Ux1DOfuyvZoPY+Y1xwp2lE/jFd5yZm7fmZqY=;
+	b=k8crstMPPAz08PpyJX7idLRtGBfOkev2hkpnGYAGgvf0cUoHlU7hDfnO51EgPIf319
+	bw9c2RQJ/XbgkLmaAatnlMtV+tHCQ+fNUf5Qmh/sGyhZ7vtPtFkeZjm7BHIdwEbuVSuZ
+	TJLVd2kP+G8Ajf+xaT0ixr2+HUMvgug3Oa8CdL8SlvLLHOnUwwT7UVnAvuT0nsoOh5Rg
+	xIYmmXa60FXqXQSbceb9Lc776nTWLh9g0xxv5tzb69Q3XPPf1BkNEfKp3CDc8kLBtZWI
+	xCOOjHHsEWU+x//KTtt/xHgtJsFoLXlACGn9Lwq/NfY5jkfIEkPc/zAFc3AJrRrVkVnz
+	dMhQ==
+X-Received: by 10.180.230.199 with SMTP id ta7mr12878403wic.1.1435673693602;
+	Tue, 30 Jun 2015 07:14:53 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id
+	df1sm17264074wib.12.2015.06.30.07.14.52
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Jun 2015 07:14:52 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Jun 2015 16:15:00 +0200
+Message-Id: <1435673700-10076-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.4.4
+Subject: [PATCH] feature-arm-thumb.inc: Fix ARMPKGSFX_THUMB value
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,51 +42,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 13:32:30 -0000
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jun 2015 14:14:59 -0000
 
-Am 30.06.2015 um 15:18 schrieb Koen Kooi:
-> For native builds  of recipes (e.g. mariadb-native) cmake *must* look outside of its sysroot to find the compiler, so instruct it to do so.
->
-> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
-> ---
->   meta/classes/cmake.bbclass | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index b0a3972..29a78e5 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -27,6 +27,9 @@ OECMAKE_RPATH ?= ""
->   OECMAKE_PERLNATIVE_DIR ??= ""
->   OECMAKE_EXTRA_ROOT_PATH ?= ""
->   
-> +OECMAKE_PATHS ?= ""
-> +OECMAKE_PATHS_class-native = "set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH )"
-> +
->   cmake_do_generate_toolchain_file() {
->   	cat > ${WORKDIR}/toolchain.cmake <<EOF
->   # CMake system name must be something like "Linux".
-> @@ -67,6 +70,8 @@ list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
->   # add for non /usr/lib libdir, e.g. /usr/lib64
->   set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
->   
-> +${OECMAKE_PATHS}
-> +
->   EOF
->   }
->   
-This would generate a second set of the 
-CMAKE_FIND_ROOT_PATH_MODE_PROGRAM with a different value.
+* my previous thumb related commit:
+  commit 3e760031f91fb87c3e2f62b77a117eb41164f259
+  Author: Martin Jansa <martin.jansa@gmail.com>
+  Date:   Wed Feb 18 15:40:35 2015 +0100
 
-Why not add a new variable and use it in the existing set:
+    feature-arm-thumb.inc: respect ARM_INSTRUCTION_SET when adding thumb
+    suffix
 
-+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
-+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
+  unfortunately removed conditional on "thumb" in TUNE_FEATURES, when
+  setting ARMPKGSFX_THUMB
 
--set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
-+set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM 
-${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM})
+* in case we have MACHINE without "thumb" in TUNE_FEATURES and distro
+  setting ARM_INSTRUCTION_SET to "thumb" we end with:
+  ARM_INSTRUCTION_SET="thumb"
+  ARM_THUMB_OPT="thumb"
+  ARM_M_OPT="thumb"
+
+  # TUNE_CCARGS correctly not adding -mthumb
+  TUNE_CCARGS=" -march=armv7-a  -mthumb-interwork -mfloat-abi=softfp -mfpu=neon"
+
+  # but ARMPKGSFX_THUMB and TUNE_PKGARCH including "t2":
+  ARMPKGSFX_THUMB="t2"
+  TUNE_PKGARCH="armv7at2-vfp-neon"
+
+  # causing following error:
+  Error, the PACKAGE_ARCHS variable does not contain TUNE_PKGARCH (armv7at2-vfp-neon).
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/conf/machine/include/arm/feature-arm-thumb.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/conf/machine/include/arm/feature-arm-thumb.inc b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+index 9746c7b..5632171 100644
+--- a/meta/conf/machine/include/arm/feature-arm-thumb.inc
++++ b/meta/conf/machine/include/arm/feature-arm-thumb.inc
+@@ -33,7 +33,7 @@ TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ' -m${ARM_M_OPT}'
+ OVERRIDES .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', ':thumb', '', d)}"
+ 
+ # Add suffix from ARM_THUMB_SUFFIX only if after all this we still set ARM_M_OPT to thumb
+-ARMPKGSFX_THUMB .= "${@ d.getVar('ARM_THUMB_SUFFIX', True) if d.getVar('ARM_M_OPT', True) == 'thumb' else ''}"
++ARMPKGSFX_THUMB .= "${@bb.utils.contains('TUNE_FEATURES', 'thumb', '${ARM_THUMB_SUFFIX}', '', d) if d.getVar('ARM_M_OPT', True) == 'thumb' else ''}"
+ 
+ # Whether to compile with code to allow interworking between the two
+ # instruction sets. This allows thumb code to be executed on a primarily
+-- 
+2.4.4
 
 
