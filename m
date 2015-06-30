@@ -1,24 +1,35 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 042F56E646
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 7277565CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 05:17:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5U5HF0C004136
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 30 Jun 2015 06:07:23 +0000 (UTC)
+Received: by pactm7 with SMTP id tm7so116765607pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 22:17:15 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 29 Jun 2015 22:17:14 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Jun 2015 13:16:56 +0800
-Message-ID: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
+	Mon, 29 Jun 2015 23:07:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=abQ3sBikIEShZNbthelv9jWa2tj47OKuyDPJAn/UkRU=;
+	b=Nm/lxL24X3tWKy03cz66TuPah1HY3mDyz9QAsVaQL0o3swpAopxsw2Oq0ftbWD3gWb
+	XJoVUF1ozmz6QqrGM6Adsx4Er3j4iID4/VlsoH6bfJwAk+9n3i9AdLoz+QLtMJ5idFgZ
+	CVcKGq3tMyZVEUhPwKWiDZ20anZzq+7kNAzuaG+m1WvewXr2u3w+TDmIaUU4PzV1sLtn
+	H5N+TGwojZe6iFATw+i3zTsHGsa1X8nm/+UE/CcFP+++p21GNSkcooBxlf8ivE9Fx33I
+	c4XAHByPV9tDizVQzd4UxzCO5rzJyWThJVQ3cUsBRMkM4ev3RUDyOVV7neHq5x2YhqWE
+	AUlw==
+X-Received: by 10.69.27.39 with SMTP id jd7mr40193801pbd.49.1435644445045;
+	Mon, 29 Jun 2015 23:07:25 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id
+	gp1sm44134875pbd.64.2015.06.29.23.07.23
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 29 Jun 2015 23:07:24 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Jun 2015 23:06:49 -0700
+Message-Id: <1435644409-6631-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] systemd: fix systemd-udev-hwdb-update service
+Subject: [fido][PATCH] gst-plugins-bad: fix CVE-2015-0797
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +42,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 05:17:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Jun 2015 06:07:24 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Kang Kai <kai.kang@windriver.com>
 
-The new version of systemd has implemented the following feature.
-Opointer.de/blog/projects/stateless.html
+Backport patch from debian to fix CVE-2015-0797.
 
-As a result, the systemd-udev-hwdb-update.service would always run
-at first boot. This will cause failure if the target device doesn't
-have enough storage space. Besides, as we run `udevadm hwdb --update' as
-a postinst of udev-hwdb at rootfs time, there's no need to run this
-again at system start-up.
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=784220
+https://sources.debian.net/data/main/g/gst-plugins-bad0.10/0.10.23-7.1+deb7u2/debian/patches/buffer-overflow-mp4.patch
 
-The purpose of this patch is as follows.
-If `udev hwdb --update' fails at rootfs time, systemd-udev-hwdb-update.service
-is executed at first boot; otherwise, the service is not executed.
+Backported to oe-core fido from meta-oe/meta-multimedia:
 
-This patch achieves the above goal by setting CondistonNeedsUpdate to
-"/etc/udev" in the service file, and creating /etc/udev/.updated file if the
-postinst succeeds.
+http://git.openembedded.org/meta-openembedded/commit/?id=6cb3b63559bf33946f1c5d43626413d9a651e83f
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/systemd/systemd_219.bb | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ .../gst-plugins-bad/buffer-overflow-mp4.patch      | 36 ++++++++++++++++++++++
+ .../gstreamer/gst-plugins-bad_0.10.23.bb           |  2 ++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer-overflow-mp4.patch
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 6ed4fe0..dc5c7b3 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -180,6 +180,10 @@ do_install() {
- 	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
- 		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
- 	fi
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer-overflow-mp4.patch b/meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer-overflow-mp4.patch
+new file mode 100644
+index 0000000..235acda
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer-overflow-mp4.patch
+@@ -0,0 +1,36 @@
++Description: Fix buffer overflow in mp4 parsing
++Author: Ralph Giles <giles@mozilla.com>
++---
++Backport patch from debian to fix CVE-2015-0797.
++https://sources.debian.net/data/main/g/gst-plugins-bad0.10/0.10.23-7.1+deb7u2/debian/patches/buffer-overflow-mp4.patch
 +
-+	# Make systemd-udev-hwdb-update to check /etc/udev
-+	cp ${D}${systemd_unitdir}/system/systemd-udev-hwdb-update.service ${D}${sysconfdir}/systemd/system
-+	sed -i -e 's#ConditionNeedsUpdate=/etc#ConditionNeedsUpdate=/etc/udev#g' ${D}${sysconfdir}/systemd/system/systemd-udev-hwdb-update.service
- }
++Upstream-Status: Backport
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++--- gst-plugins-bad0.10-0.10.23.orig/gst/videoparsers/gsth264parse.c
+++++ gst-plugins-bad0.10-0.10.23/gst/videoparsers/gsth264parse.c
++@@ -384,6 +384,11 @@ gst_h264_parse_wrap_nal (GstH264Parse *
++ 
++   GST_DEBUG_OBJECT (h264parse, "nal length %d", size);
++ 
+++  if (size > G_MAXUINT32 - nl) {
+++    GST_ELEMENT_ERROR (h264parse, STREAM, FAILED, (NULL),
+++        ("overflow in nal size"));
+++    return NULL;
+++  }
++   buf = gst_buffer_new_and_alloc (size + nl + 4);
++   if (format == GST_H264_PARSE_FORMAT_AVC) {
++     GST_WRITE_UINT32_BE (GST_BUFFER_DATA (buf), size << (32 - 8 * nl));
++@@ -452,6 +457,11 @@ gst_h264_parse_process_nal (GstH264Parse
++     GST_DEBUG_OBJECT (h264parse, "not processing nal size %u", nalu->size);
++     return;
++   }
+++  if (G_UNLIKELY (nalu->size > 20 * 1024 * 1024)) {
+++    GST_DEBUG_OBJECT (h264parse, "not processing nal size %u (too big)",
+++        nalu->size);
+++    return;
+++  }
++ 
++   /* we have a peek as well */
++   nal_type = nalu->type;
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+index 0f64871..4d94483 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-plugins-bad_0.10.23.bb
+@@ -10,6 +10,8 @@ DEPENDS += "gst-plugins-base"
  
- do_install_ptest () {
-@@ -381,10 +385,18 @@ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+ PR = "r4"
  
- pkg_postinst_udev-hwdb () {
- 	if test -n "$D"; then
--		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
--			--root $D
-+		if ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-+			--root $D; then
-+			touch $D/etc/udev/.updated
-+		else
-+			exit 1
-+		fi
- 	else
--		udevadm hwdb --update
-+		if udevadm hwdb --update; then
-+			touch $D/etc/udev/.updated
-+		else
-+			exit 1
-+		fi
- 	fi
- }
++SRC_URI += "file://buffer-overflow-mp4.patch"
++
+ inherit gettext gsettings
  
+ EXTRA_OECONF += "--disable-experimental \
 -- 
 1.9.1
 
