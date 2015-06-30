@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C622F72E97
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CC03275C41
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 30 Jun 2015 03:06:38 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t5U36dbF013968
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5U36eYQ024538
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Jun 2015 20:06:39 -0700 (PDT)
+	Mon, 29 Jun 2015 20:06:40 -0700 (PDT)
 Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 29 Jun 2015 20:06:39 -0700
+	Mon, 29 Jun 2015 20:06:40 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Jun 2015 20:06:37 -0700
-Message-ID: <82d0f12fe1c3750f2436caedc066b280d51112ab.1435633566.git.liezhi.yang@windriver.com>
+Date: Mon, 29 Jun 2015 20:06:38 -0700
+Message-ID: <beba9071becefdf378f14bf74dd52d651473887d.1435633566.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1435633566.git.liezhi.yang@windriver.com>
 References: <cover.1435633566.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] bootimg.bbclass:iso: use mkisofs -iso-level 3 for large iso
+Subject: [PATCH 2/2] bootimg.bbclass:hddimg: check the size of rootfs.img for hddimg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,59 +36,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 30 Jun 2015 03:06:39 -0000
 Content-Type: text/plain
 
-There will be problems when rootfs.img is larger than 4GB:
-mkisofs: Value too large for defined data type. File /path/to/iso/rootfs.img is too large for current mkisofs settings - ignoring
+The hddimg uses FAT, so the single file size should be less than 4GB,
+otherwise errors, check that and error out.
 
-And will get a wrong iso.
-
-Check the size of ${ISODIR}/rootfs.img, use mkisofs -iso-level 3
-when it exceeds 3.8GB, the specification is 4G - 1 bytes, we need
-leave a few space for other files.
+Another way might be use ext2/3/4 rather than FAT, but EFI only supports
+FAT, if we make EFI use FAT, and non-EFI use extX, that would the code
+very different, which seems not worth.
 
 [YOCTO #6449]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/bootimg.bbclass |   15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+ meta/classes/bootimg.bbclass |   13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
 diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 4abe00e..605edc9 100644
+index 605edc9..ab1d1bd 100644
 --- a/meta/classes/bootimg.bbclass
 +++ b/meta/classes/bootimg.bbclass
-@@ -136,19 +136,30 @@ build_iso() {
- 		mkisofs_compress_opts="-r"
- 	fi
+@@ -249,6 +249,19 @@ build_hddimg() {
+ 			efi_hddimg_populate ${HDDDIR}
+ 		fi
  
-+	# Check the size of ${ISODIR}/rootfs.img, use mkisofs -iso-level 3
-+	# when it exceeds 3.8GB, the specification is 4G - 1 bytes, we need
-+	# leave a few space for other files.
-+	mkisofs_iso_level=""
-+	rootfs_img_size=`stat -c '%s' ${ISODIR}/rootfs.img`
-+	# 4080218931 = 3.8 * 1024 * 1024 * 1024
-+	if [ $rootfs_img_size -gt 4080218931 ]; then
-+		bbnote "${ISODIR}/rootfs.img execeeds 3.8GB, using '-iso-level 3' for mkisofs"
-+		mkisofs_iso_level="-iso-level 3"
-+	fi
++		# Check the size of ${HDDDIR}/rootfs.img, error out if it
++		# exceeds 4GB, it is the single file's max size of FAT fs.
++		if [ -f ${HDDDIR}/rootfs.img ]; then
++			rootfs_img_size=`stat -c '%s' ${HDDDIR}/rootfs.img`
++			max_size=`expr 4 \* 1024 \* 1024 \* 1024`
++			if [ $rootfs_img_size -gt $max_size ]; then
++				bberror "${HDDDIR}/rootfs.img execeeds 4GB,"
++				bberror "this doesn't work on FAT filesystem, you can try either of:"
++				bberror "1) Reduce the size of rootfs.img"
++				bbfatal "2) Use iso, vmdk or vdi to instead of hddimg\n"
++			fi
++		fi
 +
- 	if [ "${PCBIOS}" = "1" ] && [ "${EFI}" != "1" ] ; then
- 		# PCBIOS only media
- 		mkisofs -V ${BOOTIMG_VOLUME_ID} \
- 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
- 			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} \
- 			$mkisofs_compress_opts \
--			${MKISOFS_OPTIONS} ${ISODIR}
-+			${MKISOFS_OPTIONS} $mkisofs_iso_level ${ISODIR}
- 	else
- 		# EFI only OR EFI+PCBIOS
- 		mkisofs -A ${BOOTIMG_VOLUME_ID} -V ${BOOTIMG_VOLUME_ID} \
- 		        -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.iso \
- 			-b ${ISO_BOOTIMG} -c ${ISO_BOOTCAT} \
--			$mkisofs_compress_opts ${MKISOFS_OPTIONS} \
-+			$mkisofs_compress_opts ${MKISOFS_OPTIONS} $mkisofs_iso_level \
- 			-eltorito-alt-boot -eltorito-platform efi \
- 			-b efi.img -no-emul-boot \
- 			${ISODIR}
+ 		build_fat_img ${HDDDIR} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hddimg
+ 
+ 		if [ "${PCBIOS}" = "1" ]; then
 -- 
 1.7.9.5
 
