@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F2DEE75C80
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D018475C87
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 08:52:54 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2015 01:52:56 -0700
+	Tue, 30 Jun 2015 08:52:53 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 30 Jun 2015 01:52:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="755700443"
+X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="720168246"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2015 01:52:56 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Jun 2015 01:52:55 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id E22F36A4005;
-	Tue, 30 Jun 2015 01:52:16 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 72E7D6A4005;
+	Tue, 30 Jun 2015 01:52:15 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 11:51:40 +0300
-Message-Id: <1435654312-18177-9-git-send-email-ed.bartosh@linux.intel.com>
+Date: Tue, 30 Jun 2015 11:51:39 +0300
+Message-Id: <1435654312-18177-8-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 08/20] wic: Refactor prepare_rootfs API
+Subject: [wic][PATCH v2 07/20] wic: Turn off debug output for 'bitbake -e'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,113 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 08:52:55 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 08:52:56 -0000
 
-Moved code out of prepare_roots* methods to avoid code duplication.
+Switched debug level to 'normal' to prevent huge 'bitbake -e'
+output to go into wic debug output. This should help to make
+wic debug info much more clean and easier to read.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
-index 324ea69..489ebe3 100644
---- a/scripts/lib/wic/kickstart/custom_commands/partition.py
-+++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
-@@ -219,34 +219,36 @@ class Wic_PartData(Mic_PartData):
-         pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
-         pseudo += "%s/usr/bin/pseudo " % native_sysroot
- 
-+        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
-+        if os.path.isfile(rootfs):
-+            os.remove(rootfs)
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index 1de6f46..2f9f515 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -122,7 +122,12 @@ def get_bitbake_var(var, image=None):
+         cmd = "bitbake -e"
+         if image:
+             cmd += " %s" % image
 +
-         if self.fstype.startswith("ext"):
--            return self.prepare_rootfs_ext(cr_workdir, oe_builddir,
-+            return self.prepare_rootfs_ext(rootfs, oe_builddir,
-                                            rootfs_dir, native_sysroot,
-                                            pseudo)
-         elif self.fstype.startswith("btrfs"):
--            return self.prepare_rootfs_btrfs(cr_workdir, oe_builddir,
-+            return self.prepare_rootfs_btrfs(rootfs, oe_builddir,
-                                              rootfs_dir, native_sysroot,
-                                              pseudo)
- 
-         elif self.fstype.startswith("vfat"):
--            return self.prepare_rootfs_vfat(cr_workdir, oe_builddir,
-+            return self.prepare_rootfs_vfat(rootfs, oe_builddir,
-                                             rootfs_dir, native_sysroot,
-                                             pseudo)
-         elif self.fstype.startswith("squashfs"):
--            return self.prepare_rootfs_squashfs(cr_workdir, oe_builddir,
-+            return self.prepare_rootfs_squashfs(rootfs, oe_builddir,
-                                                 rootfs_dir, native_sysroot,
-                                                 pseudo)
- 
--    def prepare_rootfs_ext(self, cr_workdir, oe_builddir, rootfs_dir,
-+    def prepare_rootfs_ext(self, rootfs, oe_builddir, rootfs_dir,
-                            native_sysroot, pseudo):
-         """
-         Prepare content for an ext2/3/4 rootfs partition.
-         """
- 
-         image_rootfs = rootfs_dir
--        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
- 
--        os.path.isfile(rootfs) and os.remove(rootfs)
-         du_cmd = "du -ks %s" % image_rootfs
-         out = exec_cmd(du_cmd)
-         actual_rootfs_size = int(out.split()[0])
-@@ -285,7 +287,7 @@ class Wic_PartData(Mic_PartData):
- 
-         return 0
- 
--    def prepare_rootfs_btrfs(self, cr_workdir, oe_builddir, rootfs_dir,
-+    def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
-                              native_sysroot, pseudo):
-         """
-         Prepare content for a btrfs rootfs partition.
-@@ -293,9 +295,7 @@ class Wic_PartData(Mic_PartData):
-         Currently handles ext2/3/4 and btrfs.
-         """
-         image_rootfs = rootfs_dir
--        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
- 
--        os.path.isfile(rootfs) and os.remove(rootfs)
-         du_cmd = "du -ks %s" % image_rootfs
-         out = exec_cmd(du_cmd)
-         actual_rootfs_size = int(out.split()[0])
-@@ -330,15 +330,13 @@ class Wic_PartData(Mic_PartData):
-         self.size = rootfs_size
-         self.source_file = rootfs
- 
--    def prepare_rootfs_vfat(self, cr_workdir, oe_builddir, rootfs_dir,
-+    def prepare_rootfs_vfat(self, rootfs, oe_builddir, rootfs_dir,
-                             native_sysroot, pseudo):
-         """
-         Prepare content for a vfat rootfs partition.
-         """
-         image_rootfs = rootfs_dir
--        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
- 
--        os.path.isfile(rootfs) and os.remove(rootfs)
-         du_cmd = "du -bks %s" % image_rootfs
-         out = exec_cmd(du_cmd)
-         blocks = int(out.split()[0])
-@@ -381,15 +379,13 @@ class Wic_PartData(Mic_PartData):
-         self.set_size(rootfs_size)
-         self.set_source_file(rootfs)
- 
--    def prepare_rootfs_squashfs(self, cr_workdir, oe_builddir, rootfs_dir,
-+    def prepare_rootfs_squashfs(self, rootfs, oe_builddir, rootfs_dir,
-                                 native_sysroot, pseudo):
-         """
-         Prepare content for a squashfs rootfs partition.
-         """
-         image_rootfs = rootfs_dir
--        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
- 
--        os.path.isfile(rootfs) and os.remove(rootfs)
-         squashfs_cmd = "mksquashfs %s %s -noappend" % \
-                        (image_rootfs, rootfs)
-         exec_native_cmd(pseudo + squashfs_cmd, native_sysroot)
++        log_level = msger.get_loglevel()
++        msger.set_loglevel('normal')
+         rc, lines = __exec_cmd(cmd)
++        msger.set_loglevel(log_level)
++
+         if rc:
+             print "Couldn't get '%s' output." % cmd
+             print "Bitbake failed with error:\n%s\n" % lines
 -- 
 2.1.4
 
