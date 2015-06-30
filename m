@@ -1,37 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 699D375C97
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id ABE9075C82
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 15:50:47 +0000 (UTC)
-Received: by qkei195 with SMTP id i195so9326187qke.3
+	Tue, 30 Jun 2015 15:56:18 +0000 (UTC)
+Received: by qkeo142 with SMTP id o142so9488193qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 08:50:48 -0700 (PDT)
+	Tue, 30 Jun 2015 08:56:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=eEXHUWwWj2zTl6Lh37RRZnZEZ+nLBa89UpUBo/0bb28=;
-	b=lUAAdAP4NwGH2sWa0GMAEQpdkT/yD5ZzJmiqNOV8Rc4PzlAiy1yod7Jt/I3c5/TsjH
-	/3/4M2UKsZHN+WAFrjRYSOcDA4Nmd53wGYO5Hr+b6xH+MDilhNHk5ji00BTE+YkYmDT2
-	a1CT8BaF3d4HsZwSrkAVm8gIsX39GedJerWIzgnSm6QqrUN8dvXKCfmp35CpKTvLBAgd
-	GHe8T9AVtr5txnahSHyDji8RdxBbX7qIrlExBD8GUZyD9ad1+f6bYEYTtHqJJ7QrZ0XV
-	D0r8BgzPAjGS9g/2GMO+fbLOxn2zB/0Z/tQ1zE3nOy3rnh7X6cNzC5y0TDdxmMio8IcB
-	tvvQ==
-X-Gm-Message-State: ALoCoQl8xf/ZsKJKCejJfR9sgxRaOiKi4jE+raz+a9ga3HK3lgwunTfR9pVWZKB7Z52U0SPW1W81
-X-Received: by 10.140.43.100 with SMTP id d91mr27405908qga.77.1435679448431;
-	Tue, 30 Jun 2015 08:50:48 -0700 (PDT)
+	bh=hnALOu64oETZMo53+ed1rKjKdVMfqUdE0OE4BB7EhME=;
+	b=VH7dQW0romlVRwi4cP6ezfTTdXSjySwqP4tqCJd6iPeqm1Gs69YFhLonaiETjsV90U
+	9lovy6pq1RxC0tfSdMC40LVd9pNk5FiwXQgtcyUBANsBwbg87Xz40KAwF+5fSjtz0dm6
+	FJI9hcm+Uvwny1ou7T1YrIHMHGOxy+C+STIVmkoJO00i90S6sjvTMjPAfN/SLQazFShT
+	S8Xaj1oNyvP9gjLV+qRDe68bqK8qfAia24gNNHY+q7tB+OIpugsx0K6cIbmb+yRhwAYm
+	+X5/txg9bWu/4cbQpDQEcfLe2+dscFTPLaJQVHUa3TA0RECKgMd2geP/7Jvy2VYmZ9g3
+	d/fg==
+X-Gm-Message-State: ALoCoQlsGi6oSKAsdi/xgrnZLXA+rwueGmE+cLc6/knr0uwpro1i9bWrv5oBBJM9SoHVJH7AuAMu
+X-Received: by 10.140.231.19 with SMTP id b19mr27372153qhc.22.1435679779677;
+	Tue, 30 Jun 2015 08:56:19 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 30 Jun 2015 08:50:28 -0700 (PDT)
-In-Reply-To: <7ef640d8e47d0705c7f06afdbc1ba24ad52eca5b.1434464336.git.jussi.kukkonen@intel.com>
+Received: by 10.140.102.231 with HTTP; Tue, 30 Jun 2015 08:55:59 -0700 (PDT)
+In-Reply-To: <9445f8200ebe59ee467ee0af8763fbc886f579d7.1434464336.git.jussi.kukkonen@intel.com>
 References: <cover.1434464336.git.jussi.kukkonen@intel.com>
-	<7ef640d8e47d0705c7f06afdbc1ba24ad52eca5b.1434464336.git.jussi.kukkonen@intel.com>
+	<9445f8200ebe59ee467ee0af8763fbc886f579d7.1434464336.git.jussi.kukkonen@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 30 Jun 2015 16:50:28 +0100
-Message-ID: <CAJTo0LaGR+cRrNCjaaufqviMpBwi6znfhPbEkj8DWGOXitJ-OQ@mail.gmail.com>
+Date: Tue, 30 Jun 2015 16:55:59 +0100
+Message-ID: <CAJTo0LZLWUA34KpL683ZSuu4Rb861YotwJUGWaVU9_4c+eCuLw@mail.gmail.com>
 To: Jussi Kukkonen <jussi.kukkonen@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/6] gtk-update-icon-cache-native: Upgrade, add binary
+Subject: Re: [PATCH v3 3/6] gtk+3: Upgrade to 3.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 15:50:52 -0000
-Content-Type: multipart/alternative; boundary=001a113a989c892ccd0519be2b02
+X-List-Received-Date: Tue, 30 Jun 2015 15:56:20 -0000
+Content-Type: multipart/alternative; boundary=001a11c12f004789500519be3f20
 
---001a113a989c892ccd0519be2b02
+--001a11c12f004789500519be3f20
 Content-Type: text/plain; charset=UTF-8
 
 On 16 June 2015 at 15:22, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-> * Upgrade to GTK+ 3.16.3
-> * Add gtk-encode-symbolic-svg binary: it is used by icon themes
->   (e.g. Adwaita) to generate png versions of svg icons.
-> * Depend on librsvg-native for gtk-encode-symbolic-svg
-> * Add a patch that removes Gdk dependency from gtk-encode-symbolic-svg:
->   this way the native build stays slim.
+> * Package new binaries gtk3-icon-browser and gtk-encode-symbolic-svg
 >
 
-As oe-core master can now handle recipes renaming, so we could rename this
-recipe to something more generic if you wish now.
+Should encode-symbolic-svg be in the -dev package?
 
 Ross
 
---001a113a989c892ccd0519be2b02
+--001a11c12f004789500519be3f20
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
@@ -73,19 +67,11 @@ Content-Transfer-Encoding: quoted-printable
 On 16 June 2015 at 15:22, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"m=
 ailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com<=
 /a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1w0" cl=
-ass=3D"a3s" style=3D"overflow:hidden">* Upgrade to <span class=3D"il">GTK</=
-span>+ 3.16.3<br>
-* Add <span class=3D"il">gtk</span>-encode-symbolic-svg binary: it is used =
-by icon themes<br>
-=C2=A0 (e.g. Adwaita) to generate png versions of svg icons.<br>
-* Depend on librsvg-native for <span class=3D"il">gtk</span>-encode-symboli=
-c-svg<br>
-* Add a patch that removes Gdk dependency from <span class=3D"il">gtk</span=
->-encode-symbolic-svg:<br>
-=C2=A0 this way the native build stays slim.</div></blockquote></div><br>As=
- oe-core master can now handle recipes renaming, so we could rename this re=
-cipe to something more generic if you wish now.</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ad" cl=
+ass=3D"a3s" style=3D"overflow:hidden">* Package new binaries <span class=3D=
+"il">gtk3</span>-icon-browser and <span class=3D"il">gtk</span>-encode-symb=
+olic-svg<br></div></blockquote></div><br>Should encode-symbolic-svg be in t=
+he -dev package?</div><div class=3D"gmail_extra"><br></div><div class=3D"gm=
+ail_extra">Ross</div></div>
 
---001a113a989c892ccd0519be2b02--
+--001a11c12f004789500519be3f20--
