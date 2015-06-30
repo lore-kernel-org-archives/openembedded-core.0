@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 49CBB75C4E
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 30CBE75C81
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 08:52:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2015 01:52:48 -0700
+	Tue, 30 Jun 2015 08:52:48 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jun 2015 01:52:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="755700393"
+X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="516462890"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2015 01:52:48 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Jun 2015 01:52:49 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 7EC516A4005;
-	Tue, 30 Jun 2015 01:52:08 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id E29316A4005;
+	Tue, 30 Jun 2015 01:52:09 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 11:51:34 +0300
-Message-Id: <1435654312-18177-3-git-send-email-ed.bartosh@linux.intel.com>
+Date: Tue, 30 Jun 2015 11:51:35 +0300
+Message-Id: <1435654312-18177-4-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 02/20] wic: Test rootfs plugin using image recipes
+Subject: [wic][PATCH v2 03/20] wic: Test rootfs plugin using rootfs paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +32,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 08:52:47 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 08:52:48 -0000
 
-Added canned wks and testcase to create multi-rootfs images referring
-bitbake image recipes.
+Added testcase to create multi-rootfs images using rootfs plugin
+with paths to rootfs directories in wic command line.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
- create mode 100644 scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
-
 diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 5385562..3cfc2ff 100644
+index 3cfc2ff..0c503ef 100644
 --- a/meta/lib/oeqa/selftest/wic.py
 +++ b/meta/lib/oeqa/selftest/wic.py
-@@ -133,3 +133,13 @@ class Wic(oeSelfTest):
-         self.assertEqual(2, runCmd("wic create directdisk "
-                                    "--image-name core-image-minimal "
-                                    "-c wrong", ignore_status=True).status)
+@@ -143,3 +143,20 @@ class Wic(oeSelfTest):
+                                    "--rootfs rootfs2=core-image-minimal" \
+                                    % wks).status)
+         self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
 +
-+    def test16_rootfs_indirect_recipes(self):
-+        """Test usage of rootfs plugin with rootfs recipes"""
-+        wks = "directdisk-multi-rootfs"
-+        self.assertEqual(0, runCmd("wic create %s "
-+                                   "--image-name core-image-minimal "
-+                                   "--rootfs rootfs1=core-image-minimal "
-+                                   "--rootfs rootfs2=core-image-minimal" \
-+                                   % wks).status)
-+        self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
-diff --git a/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks b/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
-new file mode 100644
-index 0000000..f3c6df5
---- /dev/null
-+++ b/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
-@@ -0,0 +1,23 @@
-+# short-description: Create multi rootfs image using rootfs plugin
-+# long-description: Creates a partitioned disk image with two rootfs partitions
-+# using rootfs plugin.
-+#
-+# Partitions can use either
-+#   - indirect rootfs references to image recipe(s):
-+#     wic create directdisk-multi-indirect-recipes -e core-image-minimal \
-+#         --rootfs-dir rootfs1=core-image-minimal
-+#         --rootfs-dir rootfs2=core-image-minimal-dev
-+#
-+#   - or paths to rootfs directories:
-+#     wic create directdisk-multi-rootfs \
-+#         --rootfs-dir rootfs1=tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/
-+#         --rootfs-dir rootfs2=tmp/work/qemux86_64-poky-linux/core-image-minimal-dev/1.0-r0/rootfs/
-+#
-+#   - or any combinations of -r and --rootfs command line options
-+
-+part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --rootfs-dir=rootfs1 --ondisk sda --fstype=ext3 --label platform --align 1024
-+part /rescue --source rootfs --rootfs-dir=rootfs2 --ondisk sda --fstype=ext3 --label secondary --align 1024
-+
-+bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
-+
++    def test17_rootfs_artifacts(self):
++        """Test usage of rootfs plugin with rootfs paths"""
++        vars = dict((var.lower(), get_bb_var(var, 'core-image-minimal')) \
++                        for var in ('STAGING_DATADIR', 'DEPLOY_DIR_IMAGE',
++                                    'STAGING_DIR_NATIVE', 'IMAGE_ROOTFS'))
++        vars['wks'] = "directdisk-multi-rootfs"
++        status = runCmd("wic create %(wks)s "
++                        "-b %(staging_datadir)s "
++                        "-k %(deploy_dir_image)s "
++                        "-n %(staging_dir_native)s "
++                        "--rootfs-dir rootfs1=%(image_rootfs)s "
++                        "--rootfs-dir rootfs2=%(image_rootfs)s" \
++                        % vars).status
++        self.assertEqual(0, status)
++        self.assertEqual(1, len(glob(self.resultdir + \
++                                     "%(wks)s-*.direct" % vars)))
 -- 
 2.1.4
 
