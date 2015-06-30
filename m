@@ -1,23 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A487C75C54
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 49CBB75C4E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 08:52:44 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Jun 2015 01:52:45 -0700
+	Tue, 30 Jun 2015 08:52:46 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2015 01:52:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="597305080"
+X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="755700393"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 30 Jun 2015 01:52:45 -0700
+	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2015 01:52:48 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id B577C6A4005;
-	Tue, 30 Jun 2015 01:52:05 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 7EC516A4005;
+	Tue, 30 Jun 2015 01:52:08 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 11:51:32 +0300
-Message-Id: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
+Date: Tue, 30 Jun 2015 11:51:34 +0300
+Message-Id: <1435654312-18177-3-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [wic][PATCH v2 00/20] miscellaneous fixes. poky-conrib:ed/wic/misc
+In-Reply-To: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
+References: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
+Subject: [wic][PATCH v2 02/20] wic: Test rootfs plugin using image recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,69 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 08:52:46 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 08:52:47 -0000
 
-Hi,
+Added canned wks and testcase to create multi-rootfs images referring
+bitbake image recipes.
 
-This patchset includes usability fixes, new functionality,
-code cleanup, refactoring and 2 new test cases for wic.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-The work was done during verification of multi-rootfs EFI images.
-
-Fixes YOCTO #7854 and #7912
-
-Changes in v2:
- - removed global statement in get_bitbake_var. Thanks to Christopher Larson to point that out to me
- - added one indentation fix
-
-Ed Bartosh (20):
-  wic: Fix misleading message
-  wic: Test rootfs plugin using image recipes
-  wic: Test rootfs plugin using rootfs paths
-  wic: Refactor getting bitbake variables
-  wic: Include mount point into image report
-  wic: Remove annoing debug message
-  wic: Turn off debug output for 'bitbake -e'
-  wic: Refactor prepare_rootfs API
-  wic: Rename partition images
-  wic: Get rid of useless variable 'image_rootfs'
-  wic: Call methods better way
-  wic: Refactor prepare_empty_partition API
-  wic: Remove duplicated code
-  wic: Fix naming conflict
-  wic: Add --uuid partition option
-  wic: Refactor fstab update code
-  wic: Remove __write_partition method
-  wic: Fix confusing error message
-  wic: Code cleanup: long lines, identation and whitespaces
-  wic: Code cleanup: unused imports
-
- meta/lib/oeqa/selftest/wic.py                      |  27 +++
- .../image/canned-wks/directdisk-multi-rootfs.wks   |  23 +++
- scripts/lib/image/engine.py                        |  38 +---
- scripts/lib/image/help.py                          |   5 +
- scripts/lib/wic/conf.py                            |  28 ++-
- scripts/lib/wic/imager/baseimager.py               |   3 +-
- scripts/lib/wic/imager/direct.py                   |  91 ++++-----
- .../lib/wic/kickstart/custom_commands/micboot.py   |   2 +-
- .../lib/wic/kickstart/custom_commands/partition.py | 209 +++++++--------------
- scripts/lib/wic/msger.py                           |  23 +--
- scripts/lib/wic/plugin.py                          |   2 -
- scripts/lib/wic/pluginbase.py                      |   1 -
- scripts/lib/wic/plugins/imager/direct_plugin.py    |   4 +-
- scripts/lib/wic/plugins/source/bootimg-efi.py      |   1 -
- scripts/lib/wic/plugins/source/bootimg-pcbios.py   |   4 +-
- scripts/lib/wic/plugins/source/rootfs.py           |   9 +-
- .../lib/wic/plugins/source/rootfs_pcbios_ext.py    |   6 +-
- scripts/lib/wic/utils/cmdln.py                     |   1 -
- scripts/lib/wic/utils/oe/misc.py                   |  87 ++++-----
- scripts/lib/wic/utils/partitionedfs.py             |  41 ++--
- scripts/lib/wic/utils/runner.py                    |   2 +-
- scripts/wic                                        |  66 +++----
- 22 files changed, 282 insertions(+), 391 deletions(-)
  create mode 100644 scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
 
---
-Ed
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 5385562..3cfc2ff 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -133,3 +133,13 @@ class Wic(oeSelfTest):
+         self.assertEqual(2, runCmd("wic create directdisk "
+                                    "--image-name core-image-minimal "
+                                    "-c wrong", ignore_status=True).status)
++
++    def test16_rootfs_indirect_recipes(self):
++        """Test usage of rootfs plugin with rootfs recipes"""
++        wks = "directdisk-multi-rootfs"
++        self.assertEqual(0, runCmd("wic create %s "
++                                   "--image-name core-image-minimal "
++                                   "--rootfs rootfs1=core-image-minimal "
++                                   "--rootfs rootfs2=core-image-minimal" \
++                                   % wks).status)
++        self.assertEqual(1, len(glob(self.resultdir + "%s*.direct" % wks)))
+diff --git a/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks b/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
+new file mode 100644
+index 0000000..f3c6df5
+--- /dev/null
++++ b/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
+@@ -0,0 +1,23 @@
++# short-description: Create multi rootfs image using rootfs plugin
++# long-description: Creates a partitioned disk image with two rootfs partitions
++# using rootfs plugin.
++#
++# Partitions can use either
++#   - indirect rootfs references to image recipe(s):
++#     wic create directdisk-multi-indirect-recipes -e core-image-minimal \
++#         --rootfs-dir rootfs1=core-image-minimal
++#         --rootfs-dir rootfs2=core-image-minimal-dev
++#
++#   - or paths to rootfs directories:
++#     wic create directdisk-multi-rootfs \
++#         --rootfs-dir rootfs1=tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs/
++#         --rootfs-dir rootfs2=tmp/work/qemux86_64-poky-linux/core-image-minimal-dev/1.0-r0/rootfs/
++#
++#   - or any combinations of -r and --rootfs command line options
++
++part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
++part / --source rootfs --rootfs-dir=rootfs1 --ondisk sda --fstype=ext3 --label platform --align 1024
++part /rescue --source rootfs --rootfs-dir=rootfs2 --ondisk sda --fstype=ext3 --label secondary --align 1024
++
++bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
++
+-- 
+2.1.4
 
 
