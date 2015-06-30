@@ -1,36 +1,30 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
-	[209.85.192.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 23C876E645;
-	Tue, 30 Jun 2015 00:39:42 +0000 (UTC)
-Received: by pdjd13 with SMTP id d13so492760pdj.0;
-	Mon, 29 Jun 2015 17:39:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject
-	:content-type:content-transfer-encoding;
-	bh=lfEu3jld2DHfxuN7CkpcnaKAaHNuM7lBkbDEtse9rHw=;
-	b=vl/k9+w8FLOf9/APoQsENiXubjufppB243e7z+13KJzzVa52ay47S3jel4famkH4Zg
-	ePHtJgaXf28V5yVqqvpHeVz5q1qtBT493vHqKVZSppF2zSnO1R/angd68BdsjxTckPhU
-	22U8XpoHV1h67A8dbHM9hDjPt9SXCP0ujix+pyNNWrwJpyMM3KyVxAUuX8qXEq63wJAz
-	74rVH/ci7CNfmASQ0qnl8vc40WObPxdm3/Dyc3dDsIU6ZR45F3Z9+plzwcEikdUnzUhA
-	lXVPWKCQPYOWJ+3sM0nuTylT6TA9RLHJkbW0Ki2GIyw5lhfNVNfz28JYWjifGOax+LLr
-	osBA==
-X-Received: by 10.69.27.33 with SMTP id jd1mr37309739pbd.34.1435624783404;
-	Mon, 29 Jun 2015 17:39:43 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:b8d5:58:2bde:8361?
-	([2601:202:4000:1239:b8d5:58:2bde:8361])
-	by mx.google.com with ESMTPSA id m3sm40805270pdd.29.2015.06.29.17.39.41
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Jun 2015 17:39:42 -0700 (PDT)
-Message-ID: <5591E548.8090706@gmail.com>
-Date: Mon, 29 Jun 2015 17:39:36 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8262B7196D
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jun 2015 01:26:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5U1QsSk017343
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 29 Jun 2015 18:26:54 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 29 Jun 2015 18:26:53 -0700
+Message-ID: <5591F05C.3000403@windriver.com>
+Date: Tue, 30 Jun 2015 09:26:52 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-To: OE-core <openembedded-core@lists.openembedded.org>, 
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
-Subject: cmake update broke mariadb
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1435126503.git.liezhi.yang@windriver.com>
+	<bb310561fc74eda7e03e10ccd7b3c29e7ad50992.1435126503.git.liezhi.yang@windriver.com>
+	<558A610C.2060600@windriver.com>
+	<CAJTo0LaE__10br7LoZit8OTaZ=-oqC4KegoGJeKuG45LCLN07A@mail.gmail.com>
+In-Reply-To: <CAJTo0LaE__10br7LoZit8OTaZ=-oqC4KegoGJeKuG45LCLN07A@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/8] perl-ptest: fix RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,18 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 00:39:43 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 30 Jun 2015 01:26:55 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Hello,
+On 06/30/2015 12:41 AM, Burton, Ross wrote:
+>
+> On 24 June 2015 at 08:49, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     Sorry, please drop the last patch [PATCH 8/8] , I copy it from
+>     IMAGE_INSTALL, but it isn't correct, other patches are fine.
+>
+>
+> Will there be a follow-up patch to fix the rdepends so they're complete?  Or is
+> the current set good as it is?
 
-eo-core commit f8661aa "cmake: Upgrade 2.8.12.2 -> 3.2.2" broke mariadb 
-in meta-oe.
+I'm trying to figure it out, maybe we need modify the package_qa for ptest
+checking.
 
-DOes  the person who updated cmake need to fix this or the person who is 
-feeling the pain will be fixing it ?
+// Robert
 
-- armin
+>
+> Ross
 
