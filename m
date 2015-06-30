@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A56675C66
+	by mail.openembedded.org (Postfix) with ESMTP id 06CFA75C95
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 08:53:07 +0000 (UTC)
+	Tue, 30 Jun 2015 08:53:08 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Jun 2015 01:53:09 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jun 2015 01:53:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="516463049"
+X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="516463058"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Jun 2015 01:53:09 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Jun 2015 01:53:10 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 71CBF6A4087;
-	Tue, 30 Jun 2015 01:52:29 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id D489E6A4005;
+	Tue, 30 Jun 2015 01:52:30 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 11:51:49 +0300
-Message-Id: <1435654312-18177-18-git-send-email-ed.bartosh@linux.intel.com>
+Date: Tue, 30 Jun 2015 11:51:50 +0300
+Message-Id: <1435654312-18177-19-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 17/20] wic: Remove __write_partition method
+Subject: [wic][PATCH v2 18/20] wic: Fix confusing error message
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,63 +32,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 08:53:07 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 08:53:09 -0000
 
-Moved code of __write_partition to 'assemble' method.
-This way it should be more readable.
+Wic throws this message when any of the build artifacts are
+not provided:
+  Build artifacts not completely specified, exiting.
+    (Use 'wic -e' or 'wic -r -b -k -n' to specify artifacts)
+It was not clear which artifact was not specified.
+
+Reworked the code to specify list of missed artifacts.
+Now the message looks like this:
+  The following build artifacts are not specified:
+    bootimg-dir, kernel-dir, native-sysroot
+
+[YOCTO #7912]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-diff --git a/scripts/lib/wic/utils/partitionedfs.py b/scripts/lib/wic/utils/partitionedfs.py
-index d61087a..ca4b1f0 100644
---- a/scripts/lib/wic/utils/partitionedfs.py
-+++ b/scripts/lib/wic/utils/partitionedfs.py
-@@ -334,30 +334,24 @@ class Image(object):
-                 except:
-                     pass
+diff --git a/scripts/wic b/scripts/wic
+index b75d122..ac272c6 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -122,13 +122,18 @@ def wic_create_subcommand(args, usage_str):
+         logging.error("Can't build roofs as bitbake is not in the $PATH")
+         sys.exit(1)
  
--    def __write_partition(self, num, source_file, start, size, image_file):
--        """
--        Install source_file contents into a partition.
--        """
--        if not source_file: # nothing to write
--            return
--
--        # Start is included in the size so need to substract one from the end.
--        end = start + size - 1
--        msger.debug("Installed %s in partition %d, sectors %d-%d, "
--                    "size %d sectors" % (source_file, num, start, end, size))
--
--        dd_cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc" % \
--            (source_file, image_file, self.sector_size, start, size)
--        exec_cmd(dd_cmd)
--
--
-     def assemble(self, image_file):
-         msger.debug("Installing partitions")
+-    if not options.image_name and not (options.rootfs_dir and
+-                                       options.bootimg_dir and
+-                                       options.kernel_dir and
+-                                       options.native_sysroot):
+-        print "Build artifacts not completely specified, exiting."
+-        print "  (Use 'wic -e' or 'wic -r -b -k -n' to specify artifacts)"
+-        sys.exit(1)
++    if not options.image_name:
++        missed = []
++        for val, opt in [(options.rootfs_dir, 'rootfs-dir'),
++                         (options.bootimg_dir, 'bootimg-dir'),
++                         (options.kernel_dir, 'kernel-dir'),
++                         (options.native_sysroot, 'native-sysroot')]:
++            if not val:
++                missed.append(opt)
++        if missed:
++            print "The following build artifacts are not specified:"
++            print "  " + ", ".join(missed)
++            sys.exit(1)
  
--        for p in self.partitions:
--            self.__write_partition(p['num'], p['source_file'],
--                                   p['start'], p['size'], image_file)
--            os.rename(p['source_file'], image_file + '.p%d' % p['num'])
-+        for part in self.partitions:
-+            source = part['source_file']
-+            if source:
-+                # install source_file contents into a partition
-+                cmd = "dd if=%s of=%s bs=%d seek=%d count=%d conv=notrunc" % \
-+                      (source, image_file, self.sector_size,
-+                       part['start'], part['size'])
-+                exec_cmd(cmd)
-+
-+                msger.debug("Installed %s in partition %d, sectors %d-%d, "
-+                            "size %d sectors" % \
-+                            (source, part['num'], part['start'],
-+                             part['start'] + part['size'] - 1, part['size']))
-+
-+                os.rename(source, image_file + '.p%d' % part['num'])
- 
-     def create(self):
-         for dev in self.disks.keys():
+     if not options.image_name:
+         options.build_check = False
 -- 
 2.1.4
 
