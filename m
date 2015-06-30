@@ -1,28 +1,37 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DDF775C8C
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 09:10:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5U9A1jV001811
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 02:10:01 -0700 (PDT)
-Received: from [128.224.162.176] (128.224.162.176) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 30 Jun 2015 02:10:00 -0700
-Message-ID: <55925CE6.2080702@windriver.com>
-Date: Tue, 30 Jun 2015 17:09:58 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 24CA475C54
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jun 2015 09:45:09 +0000 (UTC)
+Received: by qkei195 with SMTP id i195so2220544qke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Jun 2015 02:45:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=t1T40kiZZkA4fPdZYoMKY++JqRIMfTbaWhjfo4bxEbg=;
+	b=PlfeKxKQCEex71Oic48bhL+CM0a77o5MCPBwvutoB/02ZmWwauEhTe6s3/X7cw8aqT
+	ca4vyb9n7wxxdEIRu2oCh5jCDlYDoY7ErMsgI6Tl3RAo+vIlzVXCuX5x8VB5v0mVM4+y
+	uIrzq/JKDa0hjg3JUvks0GaQC/vR6/1iMArtmN1Yam8HAd37Bpsg0b66uWMvn9lr3t64
+	9RnFGqYl4BRBCjwwERXZM4UqhOpr/E3HduEGTWt1Z4aT3/GUIpin1/UBMKnwCWrRyCl+
+	0j5sUeZhheRkcFk4/Z5+KIQ+FGJWyJ9BRwEKEu58pYh5AyMYWHCY1iqcbKPma9/8+TEc
+	zQTg==
+X-Gm-Message-State: ALoCoQnyD0ZN0y1/ui2ztBUdgoNT3veRlmB5VycXAQ5f/udvsyyyZQ/SYROe1iYuzx2PIHzv+NnG
+X-Received: by 10.55.23.86 with SMTP id i83mr41046154qkh.100.1435657510652;
+	Tue, 30 Jun 2015 02:45:10 -0700 (PDT)
 MIME-Version: 1.0
-To: Robert Yang <liezhi.yang@windriver.com>, cdong <chuang.dong@windriver.com>,
-	<Openembedded-core@lists.openembedded.org>
-References: <556EB568.30901@windriver.com> <558CF39F.80401@windriver.com>
-In-Reply-To: <558CF39F.80401@windriver.com>
-Subject: Re: ltp: vma03 fix the alginment of page size
+Received: by 10.140.102.231 with HTTP; Tue, 30 Jun 2015 02:44:50 -0700 (PDT)
+In-Reply-To: <5591E548.8090706@gmail.com>
+References: <5591E548.8090706@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Jun 2015 10:44:50 +0100
+Message-ID: <CAJTo0LbVgo+rn3rPPbj=ho-aDc6WuHTq83UcR8Y=HNAique81w@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: cmake update broke mariadb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 09:10:00 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Jun 2015 09:45:11 -0000
+Content-Type: multipart/alternative; boundary=001a11470c8af123050519b90f61
 
-Hi guys,
+--001a11470c8af123050519b90f61
+Content-Type: text/plain; charset=UTF-8
 
-I have updated the patch format and sent V2 for reviewing...
+On 30 June 2015 at 01:39, akuster808 <akuster808@gmail.com> wrote:
 
-Thanks
-Wenzong
-
-On 06/26/2015 02:39 PM, Robert Yang wrote:
+> eo-core commit f8661aa "cmake: Upgrade 2.8.12.2 -> 3.2.2" broke mariadb in
+> meta-oe.
 >
-> Hi Dong,
+> DOes  the person who updated cmake need to fix this or the person who is
+> feeling the pain will be fixing it ?
 >
-> Please don't send the patch as attachment, you can use git send-email
-> to send the patch. And please add the "Upstream-Status: Submitted"
-> inside the patch 0001-ltp-vma03-fix-the-alginment-of-page-size.patch,
-> right before the Signed-off-by line.
->
-> // Robert
->
-> On 06/03/2015 04:06 PM, cdong wrote:
->> Hi,
->>      This patch fix a vma03 bug,the info below detail it:
->>
->>      the offset which is parameter of mmap2() function doesn't align the
->>      page size,but,this parameter is allowed multiple of the page size
->>      as returned by sysconf(_SC_PAGE_SIZE),meanwhile offset * 4096
->> must be
->>      a multiple of the system page size,so modify the input parameter
->>      pgoff = (ULONG_MAX - 1)&(~((pgsz-1)>>12));
->>
->>      Regards
->>      Chuang
->>
->>
 
+Depends on what the breakage is really.  Can you provide build logs?
+
+Ross
+
+--001a11470c8af123050519b90f61
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 June 2015 at 01:39, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":1kd" class=3D"a3s" =
+style=3D"overflow:hidden">eo-core commit f8661aa &quot;cmake: Upgrade 2.8.1=
+2.2 -&gt; 3.2.2&quot; broke mariadb in meta-oe.<br>
+<br>
+DOes=C2=A0 the person who updated cmake need to fix this or the person who =
+is feeling the pain will be fixing it ?<br></div></blockquote></div><br>Dep=
+ends on what the breakage is really.=C2=A0 Can you provide build logs?</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
+</div>
+
+--001a11470c8af123050519b90f61--
