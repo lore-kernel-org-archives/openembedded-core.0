@@ -1,25 +1,25 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EEB775C73
+	by mail.openembedded.org (Postfix) with ESMTP id F2DEE75C80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 08:52:52 +0000 (UTC)
+	Tue, 30 Jun 2015 08:52:54 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2015 01:52:53 -0700
+	by orsmga102.jf.intel.com with ESMTP; 30 Jun 2015 01:52:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="755700422"
+X-IronPort-AV: E=Sophos;i="5.15,376,1432623600"; d="scan'208";a="755700443"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2015 01:52:53 -0700
+	by orsmga002.jf.intel.com with ESMTP; 30 Jun 2015 01:52:56 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 0EC1C6A4005;
-	Tue, 30 Jun 2015 01:52:13 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id E22F36A4005;
+	Tue, 30 Jun 2015 01:52:16 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Jun 2015 11:51:38 +0300
-Message-Id: <1435654312-18177-7-git-send-email-ed.bartosh@linux.intel.com>
+Date: Tue, 30 Jun 2015 11:51:40 +0300
+Message-Id: <1435654312-18177-9-git-send-email-ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
 References: <1435654312-18177-1-git-send-email-ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH v2 06/20] wic: Remove annoing debug message
+Subject: [wic][PATCH v2 08/20] wic: Refactor prepare_rootfs API
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,29 +32,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jun 2015 08:52:52 -0000
+X-List-Received-Date: Tue, 30 Jun 2015 08:52:55 -0000
 
-Wic tries to find plugins in every layer and prints a message
-'Plugin dir is not a directory or does not exist' if layer
-doesn't have plugin dir. It causes a lot of duplicated
-messages in the debug output, which makes it hard to find
-useful info there.
+Moved code out of prepare_roots* methods to avoid code duplication.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 
-diff --git a/scripts/lib/wic/plugin.py b/scripts/lib/wic/plugin.py
-index fff02c0..d714b6d 100644
---- a/scripts/lib/wic/plugin.py
-+++ b/scripts/lib/wic/plugin.py
-@@ -74,8 +74,6 @@ class PluginMgr(object):
-         path = os.path.abspath(os.path.expanduser(path))
+diff --git a/scripts/lib/wic/kickstart/custom_commands/partition.py b/scripts/lib/wic/kickstart/custom_commands/partition.py
+index 324ea69..489ebe3 100644
+--- a/scripts/lib/wic/kickstart/custom_commands/partition.py
++++ b/scripts/lib/wic/kickstart/custom_commands/partition.py
+@@ -219,34 +219,36 @@ class Wic_PartData(Mic_PartData):
+         pseudo += "export PSEUDO_NOSYMLINKEXP=%s;" % p_nosymlinkexp
+         pseudo += "%s/usr/bin/pseudo " % native_sysroot
  
-         if not os.path.isdir(path):
--            msger.debug("Plugin dir is not a directory or does not exist: %s"\
--                          % path)
-             return
++        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
++        if os.path.isfile(rootfs):
++            os.remove(rootfs)
++
+         if self.fstype.startswith("ext"):
+-            return self.prepare_rootfs_ext(cr_workdir, oe_builddir,
++            return self.prepare_rootfs_ext(rootfs, oe_builddir,
+                                            rootfs_dir, native_sysroot,
+                                            pseudo)
+         elif self.fstype.startswith("btrfs"):
+-            return self.prepare_rootfs_btrfs(cr_workdir, oe_builddir,
++            return self.prepare_rootfs_btrfs(rootfs, oe_builddir,
+                                              rootfs_dir, native_sysroot,
+                                              pseudo)
  
-         if path not in self.plugin_dirs:
+         elif self.fstype.startswith("vfat"):
+-            return self.prepare_rootfs_vfat(cr_workdir, oe_builddir,
++            return self.prepare_rootfs_vfat(rootfs, oe_builddir,
+                                             rootfs_dir, native_sysroot,
+                                             pseudo)
+         elif self.fstype.startswith("squashfs"):
+-            return self.prepare_rootfs_squashfs(cr_workdir, oe_builddir,
++            return self.prepare_rootfs_squashfs(rootfs, oe_builddir,
+                                                 rootfs_dir, native_sysroot,
+                                                 pseudo)
+ 
+-    def prepare_rootfs_ext(self, cr_workdir, oe_builddir, rootfs_dir,
++    def prepare_rootfs_ext(self, rootfs, oe_builddir, rootfs_dir,
+                            native_sysroot, pseudo):
+         """
+         Prepare content for an ext2/3/4 rootfs partition.
+         """
+ 
+         image_rootfs = rootfs_dir
+-        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
+ 
+-        os.path.isfile(rootfs) and os.remove(rootfs)
+         du_cmd = "du -ks %s" % image_rootfs
+         out = exec_cmd(du_cmd)
+         actual_rootfs_size = int(out.split()[0])
+@@ -285,7 +287,7 @@ class Wic_PartData(Mic_PartData):
+ 
+         return 0
+ 
+-    def prepare_rootfs_btrfs(self, cr_workdir, oe_builddir, rootfs_dir,
++    def prepare_rootfs_btrfs(self, rootfs, oe_builddir, rootfs_dir,
+                              native_sysroot, pseudo):
+         """
+         Prepare content for a btrfs rootfs partition.
+@@ -293,9 +295,7 @@ class Wic_PartData(Mic_PartData):
+         Currently handles ext2/3/4 and btrfs.
+         """
+         image_rootfs = rootfs_dir
+-        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
+ 
+-        os.path.isfile(rootfs) and os.remove(rootfs)
+         du_cmd = "du -ks %s" % image_rootfs
+         out = exec_cmd(du_cmd)
+         actual_rootfs_size = int(out.split()[0])
+@@ -330,15 +330,13 @@ class Wic_PartData(Mic_PartData):
+         self.size = rootfs_size
+         self.source_file = rootfs
+ 
+-    def prepare_rootfs_vfat(self, cr_workdir, oe_builddir, rootfs_dir,
++    def prepare_rootfs_vfat(self, rootfs, oe_builddir, rootfs_dir,
+                             native_sysroot, pseudo):
+         """
+         Prepare content for a vfat rootfs partition.
+         """
+         image_rootfs = rootfs_dir
+-        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label, self.fstype)
+ 
+-        os.path.isfile(rootfs) and os.remove(rootfs)
+         du_cmd = "du -bks %s" % image_rootfs
+         out = exec_cmd(du_cmd)
+         blocks = int(out.split()[0])
+@@ -381,15 +379,13 @@ class Wic_PartData(Mic_PartData):
+         self.set_size(rootfs_size)
+         self.set_source_file(rootfs)
+ 
+-    def prepare_rootfs_squashfs(self, cr_workdir, oe_builddir, rootfs_dir,
++    def prepare_rootfs_squashfs(self, rootfs, oe_builddir, rootfs_dir,
+                                 native_sysroot, pseudo):
+         """
+         Prepare content for a squashfs rootfs partition.
+         """
+         image_rootfs = rootfs_dir
+-        rootfs = "%s/rootfs_%s.%s" % (cr_workdir, self.label ,self.fstype)
+ 
+-        os.path.isfile(rootfs) and os.remove(rootfs)
+         squashfs_cmd = "mksquashfs %s %s -noappend" % \
+                        (image_rootfs, rootfs)
+         exec_native_cmd(pseudo + squashfs_cmd, native_sysroot)
 -- 
 2.1.4
 
