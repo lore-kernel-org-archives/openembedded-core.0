@@ -1,36 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 15BF860017
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C6DA60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 10:37:42 +0000 (UTC)
-Received: by qkbp125 with SMTP id p125so25894619qkb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 03:37:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=QsSyhBOMXbO7YBxWiQ+AfOo9aZNpxZbWFfWUM6spAHg=;
-	b=avX3rTNGwup0wZWyzzYPbAcDx3HyIhCW/DGjV7dtNOFPg4G8MMYOOzCiSyaXhN/jMO
-	ak3DWanGZmfiCP83rxOWcldcTx8JS/vTKCeS/cCpQtm8D30OkPGhstvzCFqwDvo5laCk
-	yUKhSc7gmtOsS319ZENd1C+FgQqkq79HULKlIyCkS9iaOnpurmFJ3UsBTP9K+9odm+W9
-	80LmYtZCilXZNIl3P8TLFtTwijdKoCS9d6P+6zlIlI2zsKt7Mv0l5WsMixTR0RPHoDiD
-	FLbd3+y81ET4OhQsFwzCPBf5rdcLrxdWNLKfkc2RGpe4HlvUCdaFgX+CwF1xh8fcWHmA
-	R7Ig==
-X-Gm-Message-State: ALoCoQmUjGAxopKJTCDAWbe5VcCxUTXXfYS8iqf5xaax3Awn4yXZHs9VCTqMs1HzC1h42mKExXCg
-X-Received: by 10.55.15.129 with SMTP id 1mr54103239qkp.29.1435747061978; Wed,
-	01 Jul 2015 03:37:41 -0700 (PDT)
+	Wed,  1 Jul 2015 12:54:55 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 01 Jul 2015 05:54:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,385,1432623600"; d="scan'208";a="720988821"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.21.60])
+	by orsmga001.jf.intel.com with ESMTP; 01 Jul 2015 05:54:55 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: leonardo.sandoval.gonzalez@linux.intel.com
+Date: Wed, 01 Jul 2015 13:54:53 +0100
+Message-ID: <1693409.84CV3Pd8dR@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.0.5-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1435663180-43011-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+References: <1435663180-43011-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 1 Jul 2015 03:37:22 -0700 (PDT)
-In-Reply-To: <5593BC65.60807@windriver.com>
-References: <5593BC65.60807@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 Jul 2015 11:37:22 +0100
-Message-ID: <CAJTo0Lb9AkKLfaQf_EfBtNrocAJx+STY8dk0fnfNoe3152EwiQ@mail.gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Cherry-pick request: oe-core rev 2471f9b on branch dizzy
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] buildhistory.bbclass: Check output folder is present before creating files-in-$pkg.txt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +32,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 10:37:44 -0000
-Content-Type: multipart/alternative; boundary=001a1146f1009dedb60519cde9c2
+X-List-Received-Date: Wed, 01 Jul 2015 12:54:57 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a1146f1009dedb60519cde9c2
-Content-Type: text/plain; charset=UTF-8
+Hi Leonardo,
 
-On 1 July 2015 at 11:09, Kang Kai <Kai.Kang@windriver.com> wrote:
+On Tuesday 30 June 2015 11:19:40 leonardo.sandoval.gonzalez@linux.intel.com 
+wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> 
+> This is just a safe check to make sure the output folder is present, before
+> creating the files-in-$pkg.txt file.
+> 
+> Signed-off-by: Leonardo Sandoval
+> <leonardo.sandoval.gonzalez@linux.intel.com> ---
+>  meta/classes/buildhistory.bbclass | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/buildhistory.bbclass
+> b/meta/classes/buildhistory.bbclass index 8fc8a3a..cad5116 100644
+> --- a/meta/classes/buildhistory.bbclass
+> +++ b/meta/classes/buildhistory.bbclass
+> @@ -444,7 +444,13 @@ buildhistory_list_pkg_files() {
+>          # Create individual files-in-package for each recipe's package
+>          for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
+>                  pkgname=$(basename ${pkgdir})
+> -               
+> outfile="${BUILDHISTORY_DIR_PACKAGE}/${pkgname}/${file_prefix}${pkgname}.tx
+> t" +                outfolder="${BUILDHISTORY_DIR_PACKAGE}/${pkgname}" +    
+>            outfile="${outfolder}/${file_prefix}${pkgname}.txt" +           
+>     # Make sure the output folder, exist so we can create the
+> files-in-$pkgname.txt file +                if [ ! -d ${outfolder} ] ; then
+> +                        bbdebug 2 "Folder ${outfolder} does not exist, file
+> ${outfile} not created" +                        continue
 
-> Would you like to cherry-pick one commit  2471f9b  which is useful from
-> branch dizzy to master, please?
->
+This isn't the way we normally handle this sort of situation - we should be 
+simply creating the directory unconditionally before writing the file.
 
-How did that get into dizzy without going through master... :/
+In any case, how is it that the directory doesn't exist at this point?
 
-This doesn't apply to master anymore - would you be able to port and verify
-it works correctly?
+Cheers,
+Paul
 
-Ross
+-- 
 
---001a1146f1009dedb60519cde9c2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Paul Eggleton
+Intel Open Source Technology Centre
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 July 2015 at 11:09, Kang Kai <span dir=3D"ltr">&lt;<a href=3D"mailto:K=
-ai.Kang@windriver.com" target=3D"_blank">Kai.Kang@windriver.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><font size=3D"+1">Would you li=
-ke to cherry-pick one commit=C2=A0 2471f9b=C2=A0 which is useful
-      from branch dizzy to master, please?<br></font></blockquote></div><br=
->How did that get into dizzy without going through master... :/</div><div c=
-lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">This doesn&#39;t =
-apply to master anymore - would you be able to port and verify it works cor=
-rectly?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
-">Ross</div></div>
-
---001a1146f1009dedb60519cde9c2--
