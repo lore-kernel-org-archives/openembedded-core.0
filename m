@@ -1,36 +1,38 @@
-Return-Path: <koen.kooi@linaro.org>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 656D360017
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4484B60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 06:57:32 +0000 (UTC)
-Received: by wiwl6 with SMTP id l6so154562244wiw.0
+	Wed,  1 Jul 2015 07:21:47 +0000 (UTC)
+Received: by obbkm3 with SMTP id km3so22696356obb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 23:57:32 -0700 (PDT)
+	Wed, 01 Jul 2015 00:21:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vO4j1infRdzTuBbzKkyjLTi5MvAd/7HLNQ8cc8cYxEE=;
-	b=i0rrx+hHQKIjVlRIZQkGObJAarHTuVMim9KkHR7/0nJAfw+0CnMqNZN8ns/e8kvhi6
-	2WTf7XM/jHNak1vK1/t6XYWcED/i4OUurJ5YqDbs4E5R4e834+cnA2lh9HhXhDV72Jxw
-	C9JDUZ547DL4zxTmbFSAC4RU7k4tInGOHVneqoMVzegLfO2TE9n00YWcb5jLGh99VEFv
-	xAK17vynrigG2BEoZje1ckY6QS54XJGljcjj9YHVein6XKJ7tS3yDxfXu0tpG1lLe5Jv
-	EGrfNgf2qC6k8Br7qLwOo39/gWf6lk+sb4mMmHrcoeTENn90rNjOrhesc2FCfRI/gNaP
-	Zq8g==
-X-Gm-Message-State: ALoCoQlOanzBUkXHM1gNpLIeaR/DS4F0Ad15Ygd2cMnVHyd/AQ3WxSb9q+OjV7d5Kd7ZWyaCHIyb
-X-Received: by 10.194.121.34 with SMTP id lh2mr22953142wjb.101.1435733852549; 
-	Tue, 30 Jun 2015 23:57:32 -0700 (PDT)
-Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
-	by mx.google.com with ESMTPSA id c7sm1362990wjb.19.2015.06.30.23.57.31
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Jun 2015 23:57:31 -0700 (PDT)
-From: Koen Kooi <koen.kooi@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jul 2015 08:57:25 +0200
-Message-Id: <1435733845-5742-1-git-send-email-koen.kooi@linaro.org>
-X-Mailer: git-send-email 1.9.3
-Cc: Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH v2] cmake bbclass: fix support for native builds
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=/vf6WsHQ06Ewg6yV4lSSTwLiFMkmB5b/3LXniAm2Fgw=;
+	b=RtfE/INFiV41Ch3fzZQBm0JRlIamLU6v7vw201fsKh1mBNzY1UOKelJWFre/4Y1zY6
+	mmM8OcoPozzRvlV0C6aJsJAlduPQlp5BHqCc8X/Olf7PLPWwNYbeXc1nIfbsDImnyoFv
+	n3g3TjsM6zKHSKLTBj8fS3MBIq/f4vNvznfpOW4mPunQYM7nDOsaJPUwxDswf2FB2GVx
+	FyKBHAr//21uXuyl4utX+XFyQVeceU9lfXRSI1cpQWKl0Nv23Esfnby3WeQgn0Uad0jO
+	aGYvfzcIZ6JLZ7mv1w8vlPHZpWEVbOuTKoifFG+VlBa7OebrEoBeIWUzm8W3xylzXGkW
+	rqzg==
+X-Gm-Message-State: ALoCoQnKwnDQPTQVdQ6YrQg9+UbUQRgEeOWxknvBUcBnV6kgTZV7nwHjs9OKpu+reD3X9meE/5ns
+X-Received: by 10.182.48.231 with SMTP id p7mr21158963obn.19.1435735307211;
+	Wed, 01 Jul 2015 00:21:47 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.225.2 with HTTP; Wed, 1 Jul 2015 00:21:17 -0700 (PDT)
+In-Reply-To: <CAJTo0LaNMDtNSrOad5=Vd6ZqJ_MCiT0oez7e-3zmn4BjWfkVpw@mail.gmail.com>
+References: <cover.1434464336.git.jussi.kukkonen@intel.com>
+	<f695a9f8ea4c35b040d98d2793153fba91771ec5.1434464336.git.jussi.kukkonen@intel.com>
+	<CAJTo0LaNMDtNSrOad5=Vd6ZqJ_MCiT0oez7e-3zmn4BjWfkVpw@mail.gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Wed, 1 Jul 2015 10:21:17 +0300
+Message-ID: <CAHiDW_GjyvdFHNt7JP=xzOxzx5RMJ7qXqrBd1_MVPL8d5Tew0w@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 5/6] sato-icon-theme: Inherit Adwaita, not gnome-icon-theme
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +45,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 06:57:36 -0000
+X-List-Received-Date: Wed, 01 Jul 2015 07:21:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-For native builds  of recipes (e.g. mariadb-native) cmake *must* look outside of its sysroot to find the compiler, so instruct it to do so.
+On 30 June 2015 at 18:39, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 16 June 2015 at 15:22, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>>
+>> -+Inherits=gnome
+>> ++Inherits=Adwaita
+>
+> Doesn't this also need a RDEPENDS on adwaita-icon-theme?
 
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
----
- meta/classes/cmake.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+So far there has not been a hard dependency on the icon theme from
+anywhere, except from applications that actually need the icons. I've
+not changed this basic idea in this patch set, except for setting
+"RRECOMMEND adwaita-icon-theme-symbolic" in gtk+3 recipe (because GTK+
+widgets expect symbolic icons to be there).
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index b0a3972..c174246 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -27,6 +27,9 @@ OECMAKE_RPATH ?= ""
- OECMAKE_PERLNATIVE_DIR ??= ""
- OECMAKE_EXTRA_ROOT_PATH ?= ""
- 
-+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
-+OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
-+
- cmake_do_generate_toolchain_file() {
- 	cat > ${WORKDIR}/toolchain.cmake <<EOF
- # CMake system name must be something like "Linux".
-@@ -50,7 +53,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
- # up libraries and tools from the native build machine
- set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
- set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
--set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
-+set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
- set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
- set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
- 
--- 
-1.9.3
+E.g. core-image-sato does not have gnome-icon-theme installed
+currently (just sato-icon-theme and hicolor-icon-theme) and I think we
+can still keep it that way with Adwaita.
 
+Jussi
 
