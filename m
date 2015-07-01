@@ -1,27 +1,27 @@
-Return-Path: <dvhart@linux.intel.com>
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 59A437561F
+	by mail.openembedded.org (Postfix) with ESMTP id DE1167589F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 16:03:00 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 01 Jul 2015 09:03:01 -0700
+	Wed,  1 Jul 2015 16:55:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 01 Jul 2015 09:55:26 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,386,1432623600"; d="scan'208";a="754125751"
-Received: from npeddire-mobl.amr.corp.intel.com (HELO dvhart-mac02.local)
-	([10.254.76.50])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Jul 2015 09:02:59 -0700
-Message-ID: <55940F38.9060603@linux.intel.com>
-Date: Wed, 01 Jul 2015 09:03:04 -0700
-From: Darren Hart <dvhart@linux.intel.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+X-IronPort-AV: E=Sophos;i="5.15,387,1432623600"; d="scan'208";a="738630942"
+Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.4.163])
+	([10.219.4.163])
+	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2015 09:55:26 -0700
+Message-ID: <55941B9E.3080009@linux.intel.com>
+Date: Wed, 01 Jul 2015 11:55:58 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-To: Saul Wold <sgw@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, pb@pbcl.net
-References: <1435587050-18517-1-git-send-email-sgw@linux.intel.com>
-In-Reply-To: <1435587050-18517-1-git-send-email-sgw@linux.intel.com>
-Subject: Re: [PATCH] tune-i586-nlp: Add new tune file to support Quark/X1000 CPU
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+References: <1435663180-43011-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+	<1693409.84CV3Pd8dR@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <1693409.84CV3Pd8dR@peggleto-mobl.ger.corp.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] buildhistory.bbclass: Check output folder is present before creating files-in-$pkg.txt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 16:03:04 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Wed, 01 Jul 2015 16:55:33 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 6/29/15 7:10 AM, Saul Wold wrote:
-> This tune file is needed to enable a GAS option specific to this cpu family
-> in order to disable the usage of lock prefix instructions.
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/conf/machine/include/tune-i586-nlp.inc | 19 +++++++++++++++++++++++++++++
->  1 file changed, 19 insertions(+)
->  create mode 100644 meta/conf/machine/include/tune-i586-nlp.inc
-> 
-> diff --git a/meta/conf/machine/include/tune-i586-nlp.inc b/meta/conf/machine/include/tune-i586-nlp.inc
-> new file mode 100644
-> index 0000000..94e22c1
-> --- /dev/null
-> +++ b/meta/conf/machine/include/tune-i586-nlp.inc
-> @@ -0,0 +1,19 @@
-> +# Settings for the GCC(1) cpu-type "quark":
-> +#
-> +#
-> +#
-> +DEFAULTTUNE ?= "i586-nlp-32"
-> +
-> +# Include the previous tune to pull in PACKAGE_EXTRA_ARCHS
-> +require conf/machine/include/x86/arch-x86.inc
-> +
-> +# x86 with no lock prefix
-> +TUNEVALID[i586-nlp] = "IA32 with Lock Prefix omitted"
-> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "i586-nlp", " -march=i586 -Wa,-momit-lock-prefix=yes", "", d)}"
-> +
-> +# Quark tune feature
-> +AVAILTUNES = "i586-nlp-32"
-> +TUNE_FEATURES_tune-i586-nlp-32 = "${TUNE_FEATURES_tune-x86} i586-nlp"
-> +BASE_LIB_tune-i586-nlp-32 = "lib"
-> +TUNE_PKGARCH_tune-i586-nlp-32 = "i586-nlp-32"
-> +PACKAGE_EXTRA_ARCHS_tune-i586-nlp-32 = "i586-nlp-32"
-> 
 
-I believe this explicit assignment, instead of appending to tune-i586,
-addresses the issue Phil raised?
+Hi Paul,
 
-Reviewed-by: Darren Hart <dvhart@linux.intel.com>
-
--- 
-Darren Hart
-Intel Open Source Technology Center
+On 07/01/2015 07:54 AM, Paul Eggleton wrote:
+> Hi Leonardo,
+>
+> On Tuesday 30 June 2015 11:19:40 leonardo.sandoval.gonzalez@linux.intel.com
+> wrote:
+>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>>
+>> This is just a safe check to make sure the output folder is present, before
+>> creating the files-in-$pkg.txt file.
+>>
+>> Signed-off-by: Leonardo Sandoval
+>> <leonardo.sandoval.gonzalez@linux.intel.com> ---
+>>   meta/classes/buildhistory.bbclass | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/buildhistory.bbclass
+>> b/meta/classes/buildhistory.bbclass index 8fc8a3a..cad5116 100644
+>> --- a/meta/classes/buildhistory.bbclass
+>> +++ b/meta/classes/buildhistory.bbclass
+>> @@ -444,7 +444,13 @@ buildhistory_list_pkg_files() {
+>>           # Create individual files-in-package for each recipe's package
+>>           for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
+>>                   pkgname=$(basename ${pkgdir})
+>> -
+>> outfile="${BUILDHISTORY_DIR_PACKAGE}/${pkgname}/${file_prefix}${pkgname}.tx
+>> t" +                outfolder="${BUILDHISTORY_DIR_PACKAGE}/${pkgname}" +
+>>             outfile="${outfolder}/${file_prefix}${pkgname}.txt" +
+>>      # Make sure the output folder, exist so we can create the
+>> files-in-$pkgname.txt file +                if [ ! -d ${outfolder} ] ; then
+>> +                        bbdebug 2 "Folder ${outfolder} does not exist, file
+>> ${outfile} not created" +                        continue
+>
+> This isn't the way we normally handle this sort of situation - we should be
+> simply creating the directory unconditionally before writing the file.
+>
+> In any case, how is it that the directory doesn't exist at this point?
+>
+files-in-$pkg.txt files are created and placed on top of the 
+corresponding buildhistory/packages folders. By the time this task is 
+done, the latter folders are *already* created, so that is why in the 
+first patch version, I did not include the check. BTW, I could not 
+reproduce the issue that Andre had (failed on cairo) so I will ask him 
+more detail on his setup.
+> Cheers,
+> Paul
+>
 
