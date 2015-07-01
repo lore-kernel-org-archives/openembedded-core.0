@@ -1,35 +1,35 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 19F1165CBF
+Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
+	[209.85.215.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 99A7865CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 14:02:44 +0000 (UTC)
-Received: by lbnk3 with SMTP id k3so13536495lbn.1
+	Wed,  1 Jul 2015 14:02:41 +0000 (UTC)
+Received: by lagc2 with SMTP id c2so41405054lag.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 07:02:43 -0700 (PDT)
+	Wed, 01 Jul 2015 07:02:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=vmjPVswUvOlkPnO0c9Duzxzi91mbJYaI4oQLniOENvc=;
-	b=Xx6XyI+Nuykj5GfbWpXuWb6788CzoiZMWwTr48X1278WvgjHr2nUgEPl9udEq95noc
-	yLjyBKZplVVXh25EhDFNKlJwm2sCsWP7ZHRwyWndJ3ZZaYCUGUe6dNswV5MJJQkOFPLR
-	VbndnRs0AoMZBDExuSJBfQBRRhBm6wwPdP2MZbyfTynQWrilkBcvmv+XoenT3bkyAZxJ
-	s//rMOh3FNMVGgAeCCqEYz0N461rUgxDfBI12D8MUMpqtboVKbPJq81znfvrga+k94Zo
-	Llu+OvMAR4mT7PAaoJIg8icqnKyWYQ45AaEr81Xgr2DoZ7igHiUaULQsXs+4xZbPg7S+
-	Vt2w==
-X-Received: by 10.112.10.166 with SMTP id j6mr23145713lbb.120.1435759363699;
-	Wed, 01 Jul 2015 07:02:43 -0700 (PDT)
+	bh=XVxjCC17p02PSMCDacGLQhrjcZBxMBfCv8eIW83f/LU=;
+	b=px9PBREszpis6+PYuvdpvgOn2435ygVo3HVOsjC+qIkDpVuK3ViR1mdlbWPoc6xefa
+	SgrU65njjRWRr892kDEgIl5bXVproqHDBZ7XBaQ1wmt7hIrGiiPcq5OZKfEfNbLy37Ic
+	BEfGRyxOmEc6j9tHgffA51z/OBDW/ZiCVw/6M1sx3sCM5eS/4+xhRyZ9FV183reqCin8
+	S/vn6uJOHqM2G7l9Kr/67Jp/uZGeSnIKqA6Nj84/KAv9ORsanU9J5jfDxWbmT8wEFZtF
+	AYioS1n0CY2G7RVyKnKlO7rlOLYym10dl/WEb8cZcguGbil6M2/3JSpWFuDYCLEc9u20
+	NcFg==
+X-Received: by 10.152.28.73 with SMTP id z9mr25308733lag.93.1435759361963;
+	Wed, 01 Jul 2015 07:02:41 -0700 (PDT)
 Received: from anuminas.office.auriga.msk ([37.153.55.32])
-	by mx.google.com with ESMTPSA id du2sm533722lbc.44.2015.07.01.07.02.42
+	by mx.google.com with ESMTPSA id du2sm533722lbc.44.2015.07.01.07.02.40
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 01 Jul 2015 07:02:42 -0700 (PDT)
+	Wed, 01 Jul 2015 07:02:40 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jul 2015 17:02:21 +0300
-Message-Id: <1435759342-5312-4-git-send-email-dbaryshkov@gmail.com>
+Date: Wed,  1 Jul 2015 17:02:20 +0300
+Message-Id: <1435759342-5312-3-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
 References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 3/4] cross.bbclass: override MULTIMACH_TARGET_SYS
+Subject: [PATCH 2/4] packagegroups-cross-canadian: don't override TRANSLATED_TARGET_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +44,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 01 Jul 2015 14:02:44 -0000
 
-Cross packages are built for BUILD_VENDOR/BUILD_OS, rather than
-TARGET_VENDOR/TARGET_OS. E.g. there is no point in hardcoding the
-target's LIBCEXTENSION and ABIEXTENSION into the STAMPDIR/WORKDIR
-variables (set using MULTIMACH_TARGET_SYS).
+There is no point in overriding TRANSLATED_TARGET_ARCH in
+packagegroups-cross-canadian recipe. The cross-canadian class sets the
+PACKAGE_ARCH variable, thus allarch class (inherited through
+packagegroup class) doesn't change variables.
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/classes/cross.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index 28fd211..5ee32b2 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -21,6 +21,8 @@ STAGING_DIR_HOST = "${STAGING_DIR}/${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+index e3b1c18..34e6e2b 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+@@ -2,9 +2,6 @@ SUMMARY = "Host SDK package for cross canadian toolchain"
+ PN = "packagegroup-cross-canadian-${MACHINE}"
+ LICENSE = "MIT"
  
- PACKAGE_ARCH = "${BUILD_ARCH}"
+-# Save TRANSLATED_TARGET_ARCH before allarch tramples it
+-TRANSLATED_TARGET_ARCH = "${@d.getVar('TUNE_ARCH', True).replace('_', '-')}"
+-
+ inherit cross-canadian packagegroup
  
-+MULTIMACH_TARGET_SYS = "${PACKAGE_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
-+
- export PKG_CONFIG_DIR = "${exec_prefix}/lib/pkgconfig"
- export PKG_CONFIG_SYSROOT_DIR = ""
- 
+ PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
 -- 
 1.9.1
 
