@@ -1,25 +1,36 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ECA5D60017
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 15BF860017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 10:09:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t61A9f7d020136
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 1 Jul 2015 03:09:41 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 1 Jul 2015 03:09:41 -0700
-Message-ID: <5593BC65.60807@windriver.com>
-Date: Wed, 1 Jul 2015 18:09:41 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Wed,  1 Jul 2015 10:37:42 +0000 (UTC)
+Received: by qkbp125 with SMTP id p125so25894619qkb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Jul 2015 03:37:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=QsSyhBOMXbO7YBxWiQ+AfOo9aZNpxZbWFfWUM6spAHg=;
+	b=avX3rTNGwup0wZWyzzYPbAcDx3HyIhCW/DGjV7dtNOFPg4G8MMYOOzCiSyaXhN/jMO
+	ak3DWanGZmfiCP83rxOWcldcTx8JS/vTKCeS/cCpQtm8D30OkPGhstvzCFqwDvo5laCk
+	yUKhSc7gmtOsS319ZENd1C+FgQqkq79HULKlIyCkS9iaOnpurmFJ3UsBTP9K+9odm+W9
+	80LmYtZCilXZNIl3P8TLFtTwijdKoCS9d6P+6zlIlI2zsKt7Mv0l5WsMixTR0RPHoDiD
+	FLbd3+y81ET4OhQsFwzCPBf5rdcLrxdWNLKfkc2RGpe4HlvUCdaFgX+CwF1xh8fcWHmA
+	R7Ig==
+X-Gm-Message-State: ALoCoQmUjGAxopKJTCDAWbe5VcCxUTXXfYS8iqf5xaax3Awn4yXZHs9VCTqMs1HzC1h42mKExXCg
+X-Received: by 10.55.15.129 with SMTP id 1mr54103239qkp.29.1435747061978; Wed,
+	01 Jul 2015 03:37:41 -0700 (PDT)
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Cherry-pick request: oe-core rev 2471f9b on branch dizzy
+Received: by 10.140.102.231 with HTTP; Wed, 1 Jul 2015 03:37:22 -0700 (PDT)
+In-Reply-To: <5593BC65.60807@windriver.com>
+References: <5593BC65.60807@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 1 Jul 2015 11:37:22 +0100
+Message-ID: <CAJTo0Lb9AkKLfaQf_EfBtNrocAJx+STY8dk0fnfNoe3152EwiQ@mail.gmail.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Cherry-pick request: oe-core rev 2471f9b on branch dizzy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,51 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 10:09:43 -0000
-Content-Type: multipart/alternative;
-	boundary="------------060002020000050703060101"
+X-List-Received-Date: Wed, 01 Jul 2015 10:37:44 -0000
+Content-Type: multipart/alternative; boundary=001a1146f1009dedb60519cde9c2
 
---------------060002020000050703060101
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+--001a1146f1009dedb60519cde9c2
+Content-Type: text/plain; charset=UTF-8
 
-Hi Ross,
+On 1 July 2015 at 11:09, Kang Kai <Kai.Kang@windriver.com> wrote:
 
-Would you like to cherry-pick one commit  2471f9b  which is useful from 
-branch dizzy to master, please?
+> Would you like to cherry-pick one commit  2471f9b  which is useful from
+> branch dizzy to master, please?
+>
 
-http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/valgrind?h=dizzy&id=2471f9b32a96bcb64a5a04d53456818cad57befe
+How did that get into dizzy without going through master... :/
 
-Thanks.
+This doesn't apply to master anymore - would you be able to port and verify
+it works correctly?
 
--- 
-Regards,
-Neil | Kai Kang
+Ross
 
+--001a1146f1009dedb60519cde9c2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---------------060002020000050703060101
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 1 July 2015 at 11:09, Kang Kai <span dir=3D"ltr">&lt;<a href=3D"mailto:K=
+ai.Kang@windriver.com" target=3D"_blank">Kai.Kang@windriver.com</a>&gt;</sp=
+an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><font size=3D"+1">Would you li=
+ke to cherry-pick one commit=C2=A0 2471f9b=C2=A0 which is useful
+      from branch dizzy to master, please?<br></font></blockquote></div><br=
+>How did that get into dizzy without going through master... :/</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">This doesn&#39;t =
+apply to master anymore - would you be able to port and verify it works cor=
+rectly?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
 
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <font size="+1">Hi Ross,<br>
-      <br>
-      Would you like to cherry-pick one commit  2471f9b  which is useful
-      from branch dizzy to master, please?<br>
-    </font><br>
-    <font size="+1"><font size="+1"><a class="moz-txt-link-freetext" href="http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/valgrind?h=dizzy&amp;id=2471f9b32a96bcb64a5a04d53456818cad57befe">http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/valgrind?h=dizzy&amp;id=2471f9b32a96bcb64a5a04d53456818cad57befe</a></font><br>
-    </font>
-    <br>
-    <font size="+1">Thanks.</font><br>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------060002020000050703060101--
+--001a1146f1009dedb60519cde9c2--
