@@ -1,36 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
 	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B79565C89
+	by mail.openembedded.org (Postfix) with ESMTP id CFBA965C89
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 18:24:49 +0000 (UTC)
-Received: by ieqy10 with SMTP id y10so40785692ieq.0
+	Wed,  1 Jul 2015 18:25:03 +0000 (UTC)
+Received: by iebmu5 with SMTP id mu5so40534776ieb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 11:24:49 -0700 (PDT)
+	Wed, 01 Jul 2015 11:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=laIB+e5EZBvHU2DoUmzwWr/3fSfN8+iXU+2RTtEN6GE=;
-	b=H+I/ucc791Ff7JisrM7ce0AhsNlxDk7U8gMejoVRDb/TX92jadyPvS7O1pInLbEGPB
-	egIthEPjDW0Okqkfj4ajUR9Po4U9AsQEZ5NDPoFGL9KjYpdM2GgM1hQcB4qXfC8lyyn/
-	fowYFaVsWLxhuYPz9QzULru8LsXjByg0UGnMKai8XYbdgyuqcfU9HHr5XY++QLgpDCFW
-	b2dGbxE13pm1r1CxPYZGnjzE49VQi0bNFzpqO44XoAdZHoskizHMPB2518B/JOMv21KV
-	aVZUgyAU7i+BHy48jtsBrUhpK1Tkuj+0ngLBP/14R76QJ0Gs1HQ/oSvy2UxoWmqnFzw+
-	6iIQ==
-X-Received: by 10.42.176.8 with SMTP id bc8mr5928235icb.22.1435775089616;
-	Wed, 01 Jul 2015 11:24:49 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=jO9yUawSMJZjHC170NSOqHTDpRlEvCmvnsXQA8cqj4g=;
+	b=DJ9OnUA3lNR9khH/MeJTU9Ca0KXzXDybWWWVjaOpGNZT06NTJRHoRsD7y+2Ye1BrnD
+	3nwscyMSnWWN6YtikbqTZw72kFzqamUnqtAShjeUiDQCkTMHIvqBtHHVi8ufTCmeTA+J
+	W1Vffe7aM9tYBz4g2PIg2yGZsPboB9LJNdiDaBKs7wmEQVAzsfFZkVIz0nz0RIX0WBhO
+	+HStHVUxy8i2TZ6vrq2EKODDC7e14S9wbKyEk0rlW5DVYZmhp1C/E6rQz7puTZZ0qdUl
+	HeIWZgtyBCkHBvZJvmZ5L2PNEF83QcFSdi1e4ww+xVUY0XugNzL1wDDcdRKueDvBXucm
+	Ei7w==
+X-Received: by 10.50.43.227 with SMTP id z3mr36345666igl.22.1435775103414;
+	Wed, 01 Jul 2015 11:25:03 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by mx.google.com with ESMTPSA id d96sm1920125ioj.37.2015.07.01.11.24.48
+	by mx.google.com with ESMTPSA id p4sm2229179igg.20.2015.07.01.11.25.02
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 01 Jul 2015 11:24:48 -0700 (PDT)
+	Wed, 01 Jul 2015 11:25:02 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jul 2015 11:24:41 -0700
-Message-Id: <cover.1435774899.git.raj.khem@gmail.com>
+Date: Wed,  1 Jul 2015 11:24:52 -0700
+Message-Id: <4ce9590460509b82d8fec5b0423049b1be8912b2.1435774899.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-Subject: [PATCH 0/6] wayland/weston 1.8 upgrade
+In-Reply-To: <cover.1435774899.git.raj.khem@gmail.com>
+References: <cover.1435774899.git.raj.khem@gmail.com>
+Subject: [PATCH 1/6] libinput: Upgrade 0.7.0 -> 0.18.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 18:24:54 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 01 Jul 2015 18:25:03 -0000
 
-Addresses comments on wayland upgrade to use tarballs
-runqemu patch is needed for wayland/weston to work
-libpicaccess and gdb patches make musl support better
+Upgrade is also required for wayland/weston 1.8.x
 
-Khem Raj (6):
-  libinput: Upgrade 0.7.0 -> 0.18.0
-  wayland: Upgrade 1.6.0 -> 1.8.1
-  weston: Upgrade weston_1.6.0.bb -> weston_1.8.0.bb
-  runqemu-internal: Replace wacom-tablet with tablet for usbdevice
-  libpciaccess: Upgrade to 0.13.4
-  gdb: Disable lttng support for musl
+libinput license changes are
+- COPYING: note that having linux/input.h in the tree does not make libinput GPL
+- Updated to 2015 where appropriate, added where missing.
+- filter: add Simon's copyright
+  This code was largely lifted from the X server in
+  bb25b2ad297891430606c367bfabc but didn't take the copyright messages
+  that applied to that code.
 
- meta/recipes-devtools/gdb/gdb-common.inc           |   1 +
- .../{libinput_0.7.0.bb => libinput_0.18.0.bb}      |   9 +-
- .../wayland/{wayland_1.6.0.bb => wayland_1.8.1.bb} |   5 +-
- .../wayland/weston/0001-make-error-portable.patch  |  80 +++++++++
- .../weston/disable-wayland-scanner-pkg-check.patch |  20 ++-
- .../wayland/{weston_1.6.0.bb => weston_1.8.0.bb}   |  22 ++-
- ...clude-config.h-before-anything-else-in-.c.patch | 187 +++++++++++++++++++++
- .../libpciaccess/0002-Fix-quoting-issue.patch      |  34 ++++
- ...nux_sysfs.c-Include-limits.h-for-PATH_MAX.patch |  32 ++++
- .../0004-Don-t-include-sys-io.h-on-arm.patch       |  28 +++
- .../xorg-lib/libpciaccess/limits.patch             |  17 --
- ...bpciaccess_0.13.3.bb => libpciaccess_0.13.4.bb} |  13 +-
- scripts/runqemu-internal                           |   4 +-
- 13 files changed, 407 insertions(+), 45 deletions(-)
+- Change MIT X11 to MIT Expat license
+
+  see
+
+  http://cgit.freedesktop.org/wayland/libinput/commit/?id=bc9f16b40e23a1d25c105a4207b97d65253f0d98
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../wayland/{libinput_0.7.0.bb => libinput_0.18.0.bb}            | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
  rename meta/recipes-graphics/wayland/{libinput_0.7.0.bb => libinput_0.18.0.bb} (50%)
- rename meta/recipes-graphics/wayland/{wayland_1.6.0.bb => wayland_1.8.1.bb} (92%)
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
- rename meta/recipes-graphics/wayland/{weston_1.6.0.bb => weston_1.8.0.bb} (84%)
- create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0001-Include-config.h-before-anything-else-in-.c.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0002-Fix-quoting-issue.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0003-linux_sysfs.c-Include-limits.h-for-PATH_MAX.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0004-Don-t-include-sys-io.h-on-arm.patch
- delete mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/limits.patch
- rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.13.3.bb => libpciaccess_0.13.4.bb} (44%)
 
+diff --git a/meta/recipes-graphics/wayland/libinput_0.7.0.bb b/meta/recipes-graphics/wayland/libinput_0.18.0.bb
+similarity index 50%
+rename from meta/recipes-graphics/wayland/libinput_0.7.0.bb
+rename to meta/recipes-graphics/wayland/libinput_0.18.0.bb
+index 98d2942..0fe1c6c 100644
+--- a/meta/recipes-graphics/wayland/libinput_0.7.0.bb
++++ b/meta/recipes-graphics/wayland/libinput_0.18.0.bb
+@@ -3,12 +3,15 @@ HOMEPAGE = "http://www.freedesktop.org/wiki/Software/libinput/"
+ SECTION = "libs"
+ 
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=673e626420c7f859fbe2be3a9c13632d"
++LIC_FILES_CHKSUM = "file://COPYING;md5=2184aef38ff137ed33ce9a63b9d1eb8f"
+ 
+ DEPENDS = "libevdev udev mtdev"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
+-SRC_URI[md5sum] = "381b61396de28c12716ef7a5475fea50"
+-SRC_URI[sha256sum] = "129f485afe5e4a9394641293991c97cb99f5f3338340d0d65b704ff463d1579e"
++SRC_URI[md5sum] = "0ddbb0d53d58dec0a86de6791560011a"
++SRC_URI[sha256sum] = "64a70f96bab17a22eaf2fd7af17cf83def3388374096c7623be9448f62808cda"
+ 
+ inherit autotools pkgconfig
++
++FILES_${PN} += "${libdir}/udev/"
++FILES_${PN}-dbg += "${libdir}/udev/.debug"
 -- 
 2.1.4
 
