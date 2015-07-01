@@ -1,35 +1,35 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C137E65CBF
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 19F1165CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 14:02:41 +0000 (UTC)
-Received: by lagh6 with SMTP id h6so41370390lag.2
+	Wed,  1 Jul 2015 14:02:44 +0000 (UTC)
+Received: by lbnk3 with SMTP id k3so13536495lbn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 07:02:40 -0700 (PDT)
+	Wed, 01 Jul 2015 07:02:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=bOYdzosS2tJ1Ny8kmUmjMtBmb+nfXkA6J+/U/Zme168=;
-	b=TqPzbvYfA4ad+kvEK9kuf3cTSimscRdttzn4yyqsmHsoMBoxBjHzC345UkGxuIo1EE
-	EFNFTeLGV97GpKEOuWeAMBCC3EQYwaylJRYSZGBJwbFx0yqPjV58AsYoGBuBLshkhkr7
-	dcV63+QYyVsB68XQ2yPp1N7FuSMaUke1OazAtCmUUD59RFxAYq8zeAr9vwIVNd1FSyCv
-	ChEfL417E40sTGTh4kjPf+X7Fmmdo7UIgkkBP2NGsCbbXoupmtNh6jrgteift7OuXkBV
-	VweTCYhva5KsUTOVZSTOQvvdlnOGQIRiqmO6dTN796UrK33CzRZ0J9om748DVy/guJV/
-	Kg1Q==
-X-Received: by 10.152.20.228 with SMTP id q4mr26064183lae.12.1435759360411;
-	Wed, 01 Jul 2015 07:02:40 -0700 (PDT)
+	bh=vmjPVswUvOlkPnO0c9Duzxzi91mbJYaI4oQLniOENvc=;
+	b=Xx6XyI+Nuykj5GfbWpXuWb6788CzoiZMWwTr48X1278WvgjHr2nUgEPl9udEq95noc
+	yLjyBKZplVVXh25EhDFNKlJwm2sCsWP7ZHRwyWndJ3ZZaYCUGUe6dNswV5MJJQkOFPLR
+	VbndnRs0AoMZBDExuSJBfQBRRhBm6wwPdP2MZbyfTynQWrilkBcvmv+XoenT3bkyAZxJ
+	s//rMOh3FNMVGgAeCCqEYz0N461rUgxDfBI12D8MUMpqtboVKbPJq81znfvrga+k94Zo
+	Llu+OvMAR4mT7PAaoJIg8icqnKyWYQ45AaEr81Xgr2DoZ7igHiUaULQsXs+4xZbPg7S+
+	Vt2w==
+X-Received: by 10.112.10.166 with SMTP id j6mr23145713lbb.120.1435759363699;
+	Wed, 01 Jul 2015 07:02:43 -0700 (PDT)
 Received: from anuminas.office.auriga.msk ([37.153.55.32])
-	by mx.google.com with ESMTPSA id du2sm533722lbc.44.2015.07.01.07.02.38
+	by mx.google.com with ESMTPSA id du2sm533722lbc.44.2015.07.01.07.02.42
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 01 Jul 2015 07:02:39 -0700 (PDT)
+	Wed, 01 Jul 2015 07:02:42 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jul 2015 17:02:19 +0300
-Message-Id: <1435759342-5312-2-git-send-email-dbaryshkov@gmail.com>
+Date: Wed,  1 Jul 2015 17:02:21 +0300
+Message-Id: <1435759342-5312-4-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
 References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 1/4] arch-mips.inc: don't override TRANSLATED_TARGET_ARCH
+Subject: [PATCH 3/4] cross.bbclass: override MULTIMACH_TARGET_SYS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 14:02:43 -0000
+X-List-Received-Date: Wed, 01 Jul 2015 14:02:44 -0000
 
-Currently MIPS64 N32 is broken. There is internal disagreement
-between TARGET_ARCH (which doesn't contain ABIEXTENSION) and
-TRANSLATED_TARGET_ARCH (which contains ABIEXTENSION). ABI is already
-encoded into the TARGET_OS. ARM tunes in the same situation override
-neither the TARGET_ARCH nor the TRANSLATED_TARGET_ARCH. So let's drop
-this override.
+Cross packages are built for BUILD_VENDOR/BUILD_OS, rather than
+TARGET_VENDOR/TARGET_OS. E.g. there is no point in hardcoding the
+target's LIBCEXTENSION and ABIEXTENSION into the STAMPDIR/WORKDIR
+variables (set using MULTIMACH_TARGET_SYS).
 
 Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 ---
- meta/conf/machine/include/mips/arch-mips.inc | 4 ----
- 1 file changed, 4 deletions(-)
+ meta/classes/cross.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
-index c41fa5e..02626d3 100644
---- a/meta/conf/machine/include/mips/arch-mips.inc
-+++ b/meta/conf/machine/include/mips/arch-mips.inc
-@@ -100,7 +100,3 @@ TUNE_FEATURES_tune-mips64el-nf = "n64"
- BASE_LIB_tune-mips64el-nf = "lib64"
- MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
- PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
--
--# On mips we need to redefine this to include the ABIEXTENSION
--# we can avoid the python bit as there are no _ or - to translate
--TRANSLATED_TARGET_ARCH = "${TARGET_ARCH}${ABIEXTENSION}"
+diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
+index 28fd211..5ee32b2 100644
+--- a/meta/classes/cross.bbclass
++++ b/meta/classes/cross.bbclass
+@@ -21,6 +21,8 @@ STAGING_DIR_HOST = "${STAGING_DIR}/${HOST_ARCH}${HOST_VENDOR}-${HOST_OS}"
+ 
+ PACKAGE_ARCH = "${BUILD_ARCH}"
+ 
++MULTIMACH_TARGET_SYS = "${PACKAGE_ARCH}${BUILD_VENDOR}-${BUILD_OS}"
++
+ export PKG_CONFIG_DIR = "${exec_prefix}/lib/pkgconfig"
+ export PKG_CONFIG_SYSROOT_DIR = ""
+ 
 -- 
 1.9.1
 
