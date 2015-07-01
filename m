@@ -1,33 +1,35 @@
 Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 6137E65CBF
+Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id C137E65CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 14:02:38 +0000 (UTC)
-Received: by lbbpo10 with SMTP id po10so13506150lbb.3
+	Wed,  1 Jul 2015 14:02:41 +0000 (UTC)
+Received: by lagh6 with SMTP id h6so41370390lag.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 07:02:38 -0700 (PDT)
+	Wed, 01 Jul 2015 07:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=TeDqpxjbUXZ9NIN0hr/JsOg/tivxSrA/7QpDFuQyJpw=;
-	b=cf7mueXKjvaYdMfZrTW7svr+v9WxHSL8YN+yqwT9zxumK8t4bk0LN3S9jLxAhSnDs9
-	BFa8rURmoZ8H0SfHLES+sb92ngrfEIbtqSeI5HDCn71DZH+9X6bDjeG1G+DWDAeLZeKn
-	YI8bKY4/PpICDXqRnALtqoJLM3HADZNfCToVsJ35LTLb5bISxy4Cr5OxEtuLqScB65Gc
-	0Zkcw9ufg22V/nTcksfRtex+ofe7AxQrDAGeZIJNH3siS8W0CMrxkIxg0DCbb/Av/++5
-	hmyU0UhPSPhv1diSOM1AqDR5fBhGSKKb7/Cy/zClaPOqK9Cc8U9WzKSfTG9aNce9gDnZ
-	9UWg==
-X-Received: by 10.152.44.132 with SMTP id e4mr25874708lam.34.1435759358535;
-	Wed, 01 Jul 2015 07:02:38 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=bOYdzosS2tJ1Ny8kmUmjMtBmb+nfXkA6J+/U/Zme168=;
+	b=TqPzbvYfA4ad+kvEK9kuf3cTSimscRdttzn4yyqsmHsoMBoxBjHzC345UkGxuIo1EE
+	EFNFTeLGV97GpKEOuWeAMBCC3EQYwaylJRYSZGBJwbFx0yqPjV58AsYoGBuBLshkhkr7
+	dcV63+QYyVsB68XQ2yPp1N7FuSMaUke1OazAtCmUUD59RFxAYq8zeAr9vwIVNd1FSyCv
+	ChEfL417E40sTGTh4kjPf+X7Fmmdo7UIgkkBP2NGsCbbXoupmtNh6jrgteift7OuXkBV
+	VweTCYhva5KsUTOVZSTOQvvdlnOGQIRiqmO6dTN796UrK33CzRZ0J9om748DVy/guJV/
+	Kg1Q==
+X-Received: by 10.152.20.228 with SMTP id q4mr26064183lae.12.1435759360411;
+	Wed, 01 Jul 2015 07:02:40 -0700 (PDT)
 Received: from anuminas.office.auriga.msk ([37.153.55.32])
-	by mx.google.com with ESMTPSA id du2sm533722lbc.44.2015.07.01.07.02.36
+	by mx.google.com with ESMTPSA id du2sm533722lbc.44.2015.07.01.07.02.38
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 01 Jul 2015 07:02:37 -0700 (PDT)
+	Wed, 01 Jul 2015 07:02:39 -0700 (PDT)
 From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jul 2015 17:02:18 +0300
-Message-Id: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+Date: Wed,  1 Jul 2015 17:02:19 +0300
+Message-Id: <1435759342-5312-2-git-send-email-dbaryshkov@gmail.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/4] Fix builds for MIPS64 N32
+In-Reply-To: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+Subject: [PATCH 1/4] arch-mips.inc: don't override TRANSLATED_TARGET_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,37 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 14:02:39 -0000
+X-List-Received-Date: Wed, 01 Jul 2015 14:02:43 -0000
 
-Quite simple configuration (MIPS64 N32 image) fails to build (see below).
-I have verified these patches in both single lib and in multilib cases.
-Tri-lib images and SDK for MIPS build fine with these patches.
+Currently MIPS64 N32 is broken. There is internal disagreement
+between TARGET_ARCH (which doesn't contain ABIEXTENSION) and
+TRANSLATED_TARGET_ARCH (which contains ABIEXTENSION). ABI is already
+encoded into the TARGET_OS. ARM tunes in the same situation override
+neither the TARGET_ARCH nor the TRANSLATED_TARGET_ARCH. So let's drop
+this override.
 
-Current situation:
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ meta/conf/machine/include/mips/arch-mips.inc | 4 ----
+ 1 file changed, 4 deletions(-)
 
-lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
-NOTE: Started PRServer with DBfile:
-/home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
-15895
-Loading cache: 100%
-|########################################################################################################################|
-ETA:  00:00:00
-Loaded 1302 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
-/home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
-RDEPENDS on or otherwise requires it)
-NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
-removing...
-Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
-NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
-unbuildable, removing...
-Missing or unbuildable dependency chain was:
-['packagegroup-cross-canadian-qemumips64n32',
-'binutils-cross-canadian-mips64']
-ERROR: Required build target 'core-image-base' has no buildable providers.
-Missing or unbuildable dependency chain was: ['core-image-base',
-'packagegroup-cross-canadian-qemumips64n32',
-'binutils-cross-canadian-mips64']
+diff --git a/meta/conf/machine/include/mips/arch-mips.inc b/meta/conf/machine/include/mips/arch-mips.inc
+index c41fa5e..02626d3 100644
+--- a/meta/conf/machine/include/mips/arch-mips.inc
++++ b/meta/conf/machine/include/mips/arch-mips.inc
+@@ -100,7 +100,3 @@ TUNE_FEATURES_tune-mips64el-nf = "n64"
+ BASE_LIB_tune-mips64el-nf = "lib64"
+ MIPSPKGSFX_VARIANT_tune-mips64el-nf = "${TUNE_ARCH}"
+ PACKAGE_EXTRA_ARCHS_tune-mips64el-nf = "mips64el-nf"
+-
+-# On mips we need to redefine this to include the ABIEXTENSION
+-# we can avoid the python bit as there are no _ or - to translate
+-TRANSLATED_TARGET_ARCH = "${TARGET_ARCH}${ABIEXTENSION}"
+-- 
+1.9.1
 
 
