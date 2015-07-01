@@ -1,24 +1,42 @@
-Return-Path: <Jian.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F243E65C5F
+Return-Path: <koen@dominion.thruhere.net>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 07AE260017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 06:16:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t616Gv4f000063
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  1 Jul 2015 06:49:20 +0000 (UTC)
+Received: by wiwl6 with SMTP id l6so154374631wiw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 23:16:57 -0700 (PDT)
-Received: from localhost.localdomain (128.224.153.43) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 30 Jun 2015 23:16:58 -0700
-From: Jian Liu <jian.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Jul 2015 14:16:56 +0800
-Message-ID: <1435731416-31190-1-git-send-email-jian.liu@windriver.com>
-X-Mailer: git-send-email 1.7.0.5
-MIME-Version: 1.0
-Subject: [PATCH] kernel-devsrc: missing tools for building modules
+	Tue, 30 Jun 2015 23:49:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:content-type:mime-version:subject:from
+	:in-reply-to:date:cc:content-transfer-encoding:message-id:references
+	:to; bh=usYi80co+l4959neC0HjF2Uubr22oQXTzh8aZ/Tzzxg=;
+	b=UyRG0Qg+EdbcdnbdS0PZmB4jqVFKb5Eqry+pJjiXmQXIdrmnPUj5OStNiQBDT8fPk2
+	VADhWrWJSAW1LqIXpTlRQN1iOpGKn6edXmY6uwLg0RWlCJG7MEmRK7phId+rhxp7Ay4B
+	NveK/Iok5gFm5VzFFsmtDMNA5LcYjkk3dpU64Y4agsKZvyAIGE4pCoKHcZiMgk+k7Ghl
+	9JKi423xuJFjXgIqSIsFR9vl3TY1ZSwBlD9X/iXncPwiYYIViKasHesKR49fIhxT1SZp
+	MCGoui5aAmLpVUpCzXCAX+jVwLJ5XABsLwZGvWFy/flEUfEGjfCLwBtOSrx8wP5yoc2l
+	j0sw==
+X-Gm-Message-State: ALoCoQmJ0FIj3haJu5zmTZ03Q90PxFh+SOVc1gqRpsYps/ZvynzhoeP7M0OILoxX7uoIQ6hhZksM
+X-Received: by 10.194.216.230 with SMTP id ot6mr46611563wjc.68.1435733360517; 
+	Tue, 30 Jun 2015 23:49:20 -0700 (PDT)
+Received: from [172.20.0.187] (ip4da2a5ae.direct-adsl.nl. [77.162.165.174])
+	by mx.google.com with ESMTPSA id
+	fb3sm20470119wib.21.2015.06.30.23.49.19
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 30 Jun 2015 23:49:19 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2098\))
+From: Koen Kooi <koen@dominion.thruhere.net>
+In-Reply-To: <55929998.8020209@herbrechtsmeier.net>
+Date: Wed, 1 Jul 2015 08:49:17 +0200
+Message-Id: <E41ABE09-0361-4226-A554-DD199D29B42B@dominion.thruhere.net>
+References: <1435670336-17154-1-git-send-email-koen.kooi@linaro.org>
+	<55929998.8020209@herbrechtsmeier.net>
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+X-Mailer: Apple Mail (2.2098)
+Cc: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cmake bbclass: fix support for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,44 +49,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 06:17:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 01 Jul 2015 06:49:24 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Some tools under scripts are missed and this can cause error
-during building modules on the target
-Build these tools by "make script".
 
-Also handle the .debug directories.
+> Op 30 jun. 2015, om 15:28 heeft Stefan Herbrechtsmeier =
+<stefan@herbrechtsmeier.net> het volgende geschreven:
+>=20
+> Am 30.06.2015 um 15:18 schrieb Koen Kooi:
+>> For native builds  of recipes (e.g. mariadb-native) cmake *must* look =
+outside of its sysroot to find the compiler, so instruct it to do so.
+>>=20
+>> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+>> ---
+>>  meta/classes/cmake.bbclass | 5 +++++
+>>  1 file changed, 5 insertions(+)
+>>=20
+>> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+>> index b0a3972..29a78e5 100644
+>> --- a/meta/classes/cmake.bbclass
+>> +++ b/meta/classes/cmake.bbclass
+>> @@ -27,6 +27,9 @@ OECMAKE_RPATH ?=3D ""
+>>  OECMAKE_PERLNATIVE_DIR ??=3D ""
+>>  OECMAKE_EXTRA_ROOT_PATH ?=3D ""
+>>  +OECMAKE_PATHS ?=3D ""
+>> +OECMAKE_PATHS_class-native =3D "set( =
+CMAKE_FIND_ROOT_PATH_MODE_PROGRAM BOTH )"
+>> +
+>>  cmake_do_generate_toolchain_file() {
+>>  	cat > ${WORKDIR}/toolchain.cmake <<EOF
+>>  # CMake system name must be something like "Linux".
+>> @@ -67,6 +70,8 @@ list(APPEND CMAKE_MODULE_PATH =
+"${STAGING_DATADIR}/cmake/Modules/")
+>>  # add for non /usr/lib libdir, e.g. /usr/lib64
+>>  set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
+>>  +${OECMAKE_PATHS}
+>> +
+>>  EOF
+>>  }
+>> =20
+> This would generate a second set of the =
+CMAKE_FIND_ROOT_PATH_MODE_PROGRAM with a different value.
+>=20
+> Why not add a new variable and use it in the existing set:
+>=20
+> +OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM =3D "ONLY"
+> +OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native =3D "BOTH"
+>=20
+> -set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
+> +set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM =
+${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM})
 
-Signed-off-by: Jian Liu <jian.liu@windriver.com>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index dd65788..ff03d4e 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -57,6 +57,9 @@ do_install() {
-         # architecture (since scripts and helpers are native format).
-         KBUILD_OUTPUT="$kerneldir"
-         oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
-+        # Tools under scripts/ is necessary.
-+        cross_tool_prefix=${@d.getVar('TARGET_RAW_PREFIX', True) or ""}
-+        make -C $kerneldir CROSS_COMPILE=$cross_tool_prefix scripts
- 
-         # As of Linux kernel version 3.0.1, the clean target removes
-         # arch/powerpc/lib/crtsavres.o which is present in
-@@ -71,6 +74,7 @@ do_install() {
- # Ensure we don't race against "make scripts" during cpio
- do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
- 
--PACKAGES = "kernel-devsrc"
-+PACKAGES = "kernel-devsrc-dbg kernel-devsrc"
-+FILES_${PN}-dbg = "${KERNEL_SRC_PATH}/scripts/.debug ${KERNEL_SRC_PATH}/scripts/*/.debug"
- FILES_${PN} = "${KERNEL_SRC_PATH}"
- RDEPENDS_${PN} = "bc"
--- 
-1.8.5.2.233.g932f7e4
-
+That=E2=80=99s a much better solution, v2 coming up. Thanks for the =
+feedback!=
 
