@@ -1,40 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A859065C89
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B5EC65C89
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 20:38:14 +0000 (UTC)
-Received: by qkbp125 with SMTP id p125so38363193qkb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 13:38:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=8YobOfTtZhuvreB5+8fjfwt0iXjjR3C9ixYxCeZ3J4M=;
-	b=d1+poBIXA6NsoTVG++/1BPp75ibrU8OA1WQxMrwLAzBCwZd5IMT51NhN1qOYHyH54u
-	k/bZxBWeQlRRJyIqID3LwmIBrHgXtUBh+hDt2wmpOgbR+S1vrz37KFA0qIvXFdrOh48i
-	n6b+zalRZAf397bu0GSCY2kludWsnTs6AREuRSoIpgqkw/AyivpEB+H+TtIdx6W9Rilj
-	WaCSw/FCnbraDYUgiSMfjs7p2VRzc7u/JNi8XwbKuVsThofuTK5x9yI0ZP1AWatwr3VJ
-	CojidCybdJnHd/aNrLR+AeWjtJbaNwZm9m8VDBbb5X66f0BI6GA7gDLoKTHdLKbIcykf
-	hNCQ==
-X-Gm-Message-State: ALoCoQlN4haYXQhEhjxb2sop44hTQPfJn7P10fv2K332e4+6lC+Cmrf9pzz1+P0b2t9V5jNoE5G7
-X-Received: by 10.55.53.193 with SMTP id c184mr46656136qka.62.1435783094971;
-	Wed, 01 Jul 2015 13:38:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 1 Jul 2015 13:37:55 -0700 (PDT)
-In-Reply-To: <CAMKF1sq_n8fFTunuJ2jg_6hv0OjdAsUr4Z-UNPyRoGfNHO+3HA@mail.gmail.com>
-References: <cover.1435774899.git.raj.khem@gmail.com>
-	<2112607f62fe5c4abf6ff958c88c03d066a719c7.1435774899.git.raj.khem@gmail.com>
-	<20150701184816.GK2409@jama>
-	<CAMKF1sq_n8fFTunuJ2jg_6hv0OjdAsUr4Z-UNPyRoGfNHO+3HA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 Jul 2015 21:37:55 +0100
-Message-ID: <CAJTo0LZQ+uuo93aNFE9HegvvyQAK-qUR8+HUg0u9OAsXSOmf4Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] wayland: Upgrade 1.6.0 -> 1.8.1
+	Wed,  1 Jul 2015 21:03:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Jul 2015 14:02:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,388,1432623600"; d="scan'208";a="598450684"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga003.jf.intel.com with ESMTP; 01 Jul 2015 14:02:24 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Jul 2015 12:57:48 +0000
+Message-Id: <1435755468-33642-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] gcc-target.inc: Remove non-related gcc headers from include_fixed folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +28,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 20:38:16 -0000
-Content-Type: multipart/alternative; boundary=001a11476f145aba0e0519d64df9
+X-List-Received-Date: Wed, 01 Jul 2015 21:03:26 -0000
 
---001a11476f145aba0e0519d64df9
-Content-Type: text/plain; charset=UTF-8
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-On 1 July 2015 at 21:25, Khem Raj <raj.khem@gmail.com> wrote:
+Without this patch, the D's include_fixed folder may change after building it
+(due to the gcc's fixinc.sh script, executed on the do_compile task) and changes
+depend on the current sysroot headers, making the gcc's builds non-deterministic.
 
-> amended both weston and wayland commit messages on pull branch.
->
+[YOCTO #7882]
 
-This is kraj/for-master, right?
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ meta/recipes-devtools/gcc/gcc-target.inc | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-Ross
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index 5d31446..1f91107 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -168,6 +168,37 @@ do_install () {
+ 	chown -R root:root ${D}
+ }
+ 
++do_install_append () {
++        #
++        # Thefixinc.sh script, run on the gcc's compile phase, looks into sysroot header
++        # files and places the modified files into
++        # {D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed folder. This makes the
++        # build not deterministic. The following code prunes all those headers
++        # except those under include-fixed/linux, *limits.h and README, yielding
++        # the same include-fixed folders no matter what sysroot
++
++        include_fixed="${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed"
++        for f in $(find ${include_fixed} -type f); do
++                case $f in
++                */include-fixed/linux/*)
++                    continue
++                    ;;
++                */include-fixed/*limits.h)
++                    continue
++                    ;;
++                */include-fixed/README)
++                    continue
++                    ;;
++                *)
++                    # remove file and directory if empty
++                    bbdebug 2 "Pruning $f"
++                    rm $f
++                    find $(dirname $f) -maxdepth 0 -empty -exec rmdir {} \;
++                    ;;
++                esac
++        done
++}
++
+ # Installing /usr/lib/gcc/* means we'd have two copies, one from gcc-cross
+ # and one from here. These can confuse gcc cross where includes use #include_next
+ # and builds track file dependencies (e.g. perl and its makedepends code).
+-- 
+1.8.4.5
 
---001a11476f145aba0e0519d64df9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 July 2015 at 21:25, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:r=
-aj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> wrot=
-e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><div style=3D"overflow:hidden">amended=
- both weston and wayland commit messages on pull branch.<br></div></blockqu=
-ote></div><br>This is kraj/for-master, right?</div><div class=3D"gmail_extr=
-a"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11476f145aba0e0519d64df9--
