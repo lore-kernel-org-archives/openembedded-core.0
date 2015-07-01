@@ -1,27 +1,36 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1167589F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f181.google.com (mail-ie0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B79565C89
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 16:55:26 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 01 Jul 2015 09:55:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,387,1432623600"; d="scan'208";a="738630942"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.4.163])
-	([10.219.4.163])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2015 09:55:26 -0700
-Message-ID: <55941B9E.3080009@linux.intel.com>
-Date: Wed, 01 Jul 2015 11:55:58 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Wed,  1 Jul 2015 18:24:49 +0000 (UTC)
+Received: by ieqy10 with SMTP id y10so40785692ieq.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Jul 2015 11:24:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=laIB+e5EZBvHU2DoUmzwWr/3fSfN8+iXU+2RTtEN6GE=;
+	b=H+I/ucc791Ff7JisrM7ce0AhsNlxDk7U8gMejoVRDb/TX92jadyPvS7O1pInLbEGPB
+	egIthEPjDW0Okqkfj4ajUR9Po4U9AsQEZ5NDPoFGL9KjYpdM2GgM1hQcB4qXfC8lyyn/
+	fowYFaVsWLxhuYPz9QzULru8LsXjByg0UGnMKai8XYbdgyuqcfU9HHr5XY++QLgpDCFW
+	b2dGbxE13pm1r1CxPYZGnjzE49VQi0bNFzpqO44XoAdZHoskizHMPB2518B/JOMv21KV
+	aVZUgyAU7i+BHy48jtsBrUhpK1Tkuj+0ngLBP/14R76QJ0Gs1HQ/oSvy2UxoWmqnFzw+
+	6iIQ==
+X-Received: by 10.42.176.8 with SMTP id bc8mr5928235icb.22.1435775089616;
+	Wed, 01 Jul 2015 11:24:49 -0700 (PDT)
+Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
+	[96.119.89.79])
+	by mx.google.com with ESMTPSA id d96sm1920125ioj.37.2015.07.01.11.24.48
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 01 Jul 2015 11:24:48 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Jul 2015 11:24:41 -0700
+Message-Id: <cover.1435774899.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1435663180-43011-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-	<1693409.84CV3Pd8dR@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <1693409.84CV3Pd8dR@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] buildhistory.bbclass: Check output folder is present before creating files-in-$pkg.txt
+Subject: [PATCH 0/6] wayland/weston 1.8 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,57 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 16:55:33 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Jul 2015 18:24:54 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Addresses comments on wayland upgrade to use tarballs
+runqemu patch is needed for wayland/weston to work
+libpicaccess and gdb patches make musl support better
 
-Hi Paul,
+Khem Raj (6):
+  libinput: Upgrade 0.7.0 -> 0.18.0
+  wayland: Upgrade 1.6.0 -> 1.8.1
+  weston: Upgrade weston_1.6.0.bb -> weston_1.8.0.bb
+  runqemu-internal: Replace wacom-tablet with tablet for usbdevice
+  libpciaccess: Upgrade to 0.13.4
+  gdb: Disable lttng support for musl
 
-On 07/01/2015 07:54 AM, Paul Eggleton wrote:
-> Hi Leonardo,
->
-> On Tuesday 30 June 2015 11:19:40 leonardo.sandoval.gonzalez@linux.intel.com
-> wrote:
->> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->>
->> This is just a safe check to make sure the output folder is present, before
->> creating the files-in-$pkg.txt file.
->>
->> Signed-off-by: Leonardo Sandoval
->> <leonardo.sandoval.gonzalez@linux.intel.com> ---
->>   meta/classes/buildhistory.bbclass | 8 +++++++-
->>   1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/buildhistory.bbclass
->> b/meta/classes/buildhistory.bbclass index 8fc8a3a..cad5116 100644
->> --- a/meta/classes/buildhistory.bbclass
->> +++ b/meta/classes/buildhistory.bbclass
->> @@ -444,7 +444,13 @@ buildhistory_list_pkg_files() {
->>           # Create individual files-in-package for each recipe's package
->>           for pkgdir in $(find ${PKGDEST}/* -maxdepth 0 -type d); do
->>                   pkgname=$(basename ${pkgdir})
->> -
->> outfile="${BUILDHISTORY_DIR_PACKAGE}/${pkgname}/${file_prefix}${pkgname}.tx
->> t" +                outfolder="${BUILDHISTORY_DIR_PACKAGE}/${pkgname}" +
->>             outfile="${outfolder}/${file_prefix}${pkgname}.txt" +
->>      # Make sure the output folder, exist so we can create the
->> files-in-$pkgname.txt file +                if [ ! -d ${outfolder} ] ; then
->> +                        bbdebug 2 "Folder ${outfolder} does not exist, file
->> ${outfile} not created" +                        continue
->
-> This isn't the way we normally handle this sort of situation - we should be
-> simply creating the directory unconditionally before writing the file.
->
-> In any case, how is it that the directory doesn't exist at this point?
->
-files-in-$pkg.txt files are created and placed on top of the 
-corresponding buildhistory/packages folders. By the time this task is 
-done, the latter folders are *already* created, so that is why in the 
-first patch version, I did not include the check. BTW, I could not 
-reproduce the issue that Andre had (failed on cairo) so I will ask him 
-more detail on his setup.
-> Cheers,
-> Paul
->
+ meta/recipes-devtools/gdb/gdb-common.inc           |   1 +
+ .../{libinput_0.7.0.bb => libinput_0.18.0.bb}      |   9 +-
+ .../wayland/{wayland_1.6.0.bb => wayland_1.8.1.bb} |   5 +-
+ .../wayland/weston/0001-make-error-portable.patch  |  80 +++++++++
+ .../weston/disable-wayland-scanner-pkg-check.patch |  20 ++-
+ .../wayland/{weston_1.6.0.bb => weston_1.8.0.bb}   |  22 ++-
+ ...clude-config.h-before-anything-else-in-.c.patch | 187 +++++++++++++++++++++
+ .../libpciaccess/0002-Fix-quoting-issue.patch      |  34 ++++
+ ...nux_sysfs.c-Include-limits.h-for-PATH_MAX.patch |  32 ++++
+ .../0004-Don-t-include-sys-io.h-on-arm.patch       |  28 +++
+ .../xorg-lib/libpciaccess/limits.patch             |  17 --
+ ...bpciaccess_0.13.3.bb => libpciaccess_0.13.4.bb} |  13 +-
+ scripts/runqemu-internal                           |   4 +-
+ 13 files changed, 407 insertions(+), 45 deletions(-)
+ rename meta/recipes-graphics/wayland/{libinput_0.7.0.bb => libinput_0.18.0.bb} (50%)
+ rename meta/recipes-graphics/wayland/{wayland_1.6.0.bb => wayland_1.8.1.bb} (92%)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-make-error-portable.patch
+ rename meta/recipes-graphics/wayland/{weston_1.6.0.bb => weston_1.8.0.bb} (84%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0001-Include-config.h-before-anything-else-in-.c.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0002-Fix-quoting-issue.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0003-linux_sysfs.c-Include-limits.h-for-PATH_MAX.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/0004-Don-t-include-sys-io.h-on-arm.patch
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libpciaccess/limits.patch
+ rename meta/recipes-graphics/xorg-lib/{libpciaccess_0.13.3.bb => libpciaccess_0.13.4.bb} (44%)
+
+-- 
+2.1.4
+
 
