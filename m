@@ -1,24 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B60560088
+	by mail.openembedded.org (Postfix) with ESMTP id 4E19660088
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 01:54:36 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t611sZG0018782
+	Wed,  1 Jul 2015 02:48:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t612m8s4027097
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Jun 2015 18:54:35 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 30 Jun 2015 18:54:35 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Jul 2015 09:54:14 +0800
-Message-ID: <1435715654-11793-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 30 Jun 2015 19:48:09 -0700 (PDT)
+Received: from [128.224.162.176] (128.224.162.176) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 30 Jun 2015 19:48:09 -0700
+Message-ID: <559354E7.8080409@windriver.com>
+Date: Wed, 1 Jul 2015 10:48:07 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Subject: [PATCH][v2] bootchart2: add runtime dependency
+To: <openembedded-core@lists.openembedded.org>
+References: <1431667783-27190-1-git-send-email-shan.hai@windriver.com>
+In-Reply-To: <1431667783-27190-1-git-send-email-shan.hai@windriver.com>
+Subject: Re: [PATCH 0/1] util-linux: add runuser PAM config files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +34,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 01:54:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 01 Jul 2015 02:48:09 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+Ping ...
 
-Bootchartd needs the command lsb_release and pidof to run, pidof maybe
-provided by sysvinit or procpus;
-To native bootchart2, only pybootchartgui is used, and which is not needed
-both pidof and lsb_release
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-devtools/bootchart2/bootchart2_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_git.bb b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-index 5fc7211..ea9f179 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-@@ -143,6 +143,8 @@ do_install () {
- PACKAGES =+ "pybootchartgui"
- FILES_pybootchartgui += "${libdir}/python*/site-packages/pybootchartgui ${bindir}/pybootchartgui"
- RDEPENDS_pybootchartgui = "python-pycairo python-compression python-image python-textutils python-shell python-compression python-codecs"
-+RDEPENDS_${PN}_class-target += "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit-pidof', 'procps', d)}"
-+RDEPENDS_${PN}_class-target += "lsb"
- DEPENDS_append_class-native = " python-pycairo-native"
- 
- PACKAGES =+ "bootchartd-stop-initscript"
--- 
-1.9.1
-
+On 05/15/2015 01:29 PM, Shan Hai wrote:
+>
+> Add PAM config files for util-linux to fix a runtime failure of the
+> runuser command.
+>
+> meta/recipes-core/util-linux/util-linux.inc            | 8 ++++++++
+>   meta/recipes-core/util-linux/util-linux/runuser-l.pamd | 4 ++++
+>   meta/recipes-core/util-linux/util-linux/runuser.pamd   | 5 +++++
+>   meta/recipes-core/util-linux/util-linux_2.24.2.bb      | 2 ++
+>   4 files changed, 19 insertions(+)
+>   create mode 100644 meta/recipes-core/util-linux/util-linux/runuser-l.pamd
+>   create mode 100644 meta/recipes-core/util-linux/util-linux/runuser.pamd
+>
+> Thanks
+> Shan Hai
+>
 
