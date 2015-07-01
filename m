@@ -1,35 +1,39 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-yk0-f179.google.com (mail-yk0-f179.google.com
-	[209.85.160.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2114B75C5B
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id DC03265C9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 14:48:45 +0000 (UTC)
-Received: by ykfy125 with SMTP id y125so40903716ykf.1
+	Wed,  1 Jul 2015 15:08:52 +0000 (UTC)
+Received: by pdbep18 with SMTP id ep18so27329292pdb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 07:48:45 -0700 (PDT)
+	Wed, 01 Jul 2015 08:08:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=5wBhYDyXzTxj/AH3HtL+omd0S8FT1ynlJrebr9AfhQA=;
-	b=u1Dri3ykCkzo2g145oxUnayXrjO1Rb+nfr0yJr8lFs7O5nlXIMTYCmP4meAn7lqQlp
-	lful1k9Hu03kQkaaUmfKLamHLyrpzrb3nDmdy7jhdTG4VdddwnhNo1qD7vLuaqvrg7Cd
-	dsB27kJp9StXv8CeRa+Cjx6ihgbZeUzWN6R1xGmpStnhDfQ5ykwpCEptE/ToEgnP7pNX
-	Q8r6YW1G2e2fY1C/W52dyaJ1nDbQjDEBCso6Y0bQKY4Gryebtbg+MM95VC8lLgo+T5hD
-	cOLBjahz92lEHcopNGNh6MnKIPw7GRo1JLGdvKVl2/bAerT/R0GhJR7M+IrWEnAYl9nn
-	0ajA==
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=F0r2Z5ulHgg/y5RJXGNBTN/Jbup8rccbkprhNw1ir9o=;
+	b=v1qosw62M3tjB3/0T7h/4TBBKVKLUUsD3/LaVMuFUiqXSur3NCM3YEYvB4Cbo7QQ5w
+	QxpxsMe2Ecmv64tbpC5jMUISDHvkBmWNPrjI7lBZ3tELsACJw1khQ4iz3qO9WvIJLdia
+	SDW8ZyqQGwx2CzpZBhtpLUb5VrmkCcf2aBKlgcKfGX6O07HCjfiiw/HLmObnp60WAvzY
+	g09lbJ5Q/XAJLj4Hys7uvaDtdUp404TTsEkoGru9oCTT2Fz9IrhGfipX03P/x5155BiN
+	E3HU9ISx2OAqFHO3kiBTKq/yaf9QQxB2WpP8vqIuJwqAoJyGy4yb0QgjMIBFTyH6nbDe
+	3AOQ==
+X-Received: by 10.70.23.196 with SMTP id o4mr28881987pdf.164.1435763332352;
+	Wed, 01 Jul 2015 08:08:52 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:4802:479d:bed2:1af1?
+	([2601:202:4000:1239:4802:479d:bed2:1af1])
+	by mx.google.com with ESMTPSA id qs8sm2607224pbc.38.2015.07.01.08.08.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 01 Jul 2015 08:08:51 -0700 (PDT)
+Message-ID: <55940280.2020806@gmail.com>
+Date: Wed, 01 Jul 2015 08:08:48 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.13.198.2 with SMTP id i2mr33523120ywd.123.1435762125397;
-	Wed, 01 Jul 2015 07:48:45 -0700 (PDT)
-Received: by 10.129.128.2 with HTTP; Wed, 1 Jul 2015 07:48:45 -0700 (PDT)
-In-Reply-To: <1435731416-31190-1-git-send-email-jian.liu@windriver.com>
-References: <1435731416-31190-1-git-send-email-jian.liu@windriver.com>
-Date: Wed, 1 Jul 2015 10:48:45 -0400
-Message-ID: <CADkTA4NwLTbU3O=NVc2cU13OctN_k0RD_cb8t9vtMrY0V4pS6Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Jian Liu <jian.liu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: missing tools for building modules
+To: Koen Kooi <koen.kooi@linaro.org>, openembedded-core@lists.openembedded.org
+References: <1435733845-5742-1-git-send-email-koen.kooi@linaro.org>
+In-Reply-To: <1435733845-5742-1-git-send-email-koen.kooi@linaro.org>
+Subject: Re: [PATCH v2] cmake bbclass: fix support for native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,70 +46,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 14:48:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 01 Jul 2015 15:08:55 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jul 1, 2015 at 2:16 AM, Jian Liu <jian.liu@windriver.com> wrote:
-> Some tools under scripts are missed and this can cause error
-> during building modules on the target
-> Build these tools by "make script".
 
-We have a bugzilla for this, but the change was pending some other
-re-organizations
-of the kernel source packaging.
 
-The problem with packing this is that we used to get QA errors since
-the tools don't
-match the target arch.
-
-Can you confirm that you've built, packaged and installed this on a
-non-x86 architecture ?
-
-Bruce
-
+On 06/30/2015 11:57 PM, Koen Kooi wrote:
+> For native builds  of recipes (e.g. mariadb-native) cmake *must* look outside of its sysroot to find the compiler, so instruct it to do so.
 >
-> Also handle the .debug directories.
->
-> Signed-off-by: Jian Liu <jian.liu@windriver.com>
+> Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+
+Works for me. Thanks Koen.
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+
+if you need it.
+
+
 > ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>   meta/classes/cmake.bbclass | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index dd65788..ff03d4e 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -57,6 +57,9 @@ do_install() {
->          # architecture (since scripts and helpers are native format).
->          KBUILD_OUTPUT="$kerneldir"
->          oe_runmake -C $kerneldir CC="${KERNEL_CC}" LD="${KERNEL_LD}" clean _mrproper_scripts
-> +        # Tools under scripts/ is necessary.
-> +        cross_tool_prefix=${@d.getVar('TARGET_RAW_PREFIX', True) or ""}
-> +        make -C $kerneldir CROSS_COMPILE=$cross_tool_prefix scripts
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index b0a3972..c174246 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -27,6 +27,9 @@ OECMAKE_RPATH ?= ""
+>   OECMAKE_PERLNATIVE_DIR ??= ""
+>   OECMAKE_EXTRA_ROOT_PATH ?= ""
 >
->          # As of Linux kernel version 3.0.1, the clean target removes
->          # arch/powerpc/lib/crtsavres.o which is present in
-> @@ -71,6 +74,7 @@ do_install() {
->  # Ensure we don't race against "make scripts" during cpio
->  do_install[lockfiles] = "${TMPDIR}/kernel-scripts.lock"
+> +OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
+> +OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
+> +
+>   cmake_do_generate_toolchain_file() {
+>   	cat > ${WORKDIR}/toolchain.cmake <<EOF
+>   # CMake system name must be something like "Linux".
+> @@ -50,7 +53,7 @@ set( CMAKE_CXX_LINK_FLAGS "${OECMAKE_CXX_LINK_FLAGS}" CACHE STRING "LDFLAGS" )
+>   # up libraries and tools from the native build machine
+>   set( CMAKE_FIND_ROOT_PATH ${STAGING_DIR_HOST} ${STAGING_DIR_NATIVE} ${CROSS_DIR} ${OECMAKE_PERLNATIVE_DIR} ${OECMAKE_EXTRA_ROOT_PATH} ${EXTERNAL_TOOLCHAIN})
+>   set( CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY )
+> -set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY )
+> +set( CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ${OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM} )
+>   set( CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY )
+>   set( CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY )
 >
-> -PACKAGES = "kernel-devsrc"
-> +PACKAGES = "kernel-devsrc-dbg kernel-devsrc"
-> +FILES_${PN}-dbg = "${KERNEL_SRC_PATH}/scripts/.debug ${KERNEL_SRC_PATH}/scripts/*/.debug"
->  FILES_${PN} = "${KERNEL_SRC_PATH}"
->  RDEPENDS_${PN} = "bc"
-> --
-> 1.8.5.2.233.g932f7e4
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
