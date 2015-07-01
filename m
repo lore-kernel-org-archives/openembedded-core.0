@@ -1,24 +1,24 @@
 Return-Path: <Yuanjie.Huang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A5CE60017
+	by mail.openembedded.org (Postfix) with ESMTP id 048CC60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 09:35:27 +0000 (UTC)
+	Wed,  1 Jul 2015 09:39:23 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t619ZR9T001827
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t619dN4l001862
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Jul 2015 02:35:27 -0700 (PDT)
+	Wed, 1 Jul 2015 02:39:23 -0700 (PDT)
 Received: from Flora.corp.ad.wrs.com (128.224.162.184) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 1 Jul 2015 02:35:27 -0700
+	14.3.224.2; Wed, 1 Jul 2015 02:39:22 -0700
 From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 1 Jul 2015 17:36:45 +0800
-Message-ID: <1435743405-25140-1-git-send-email-Yuanjie.Huang@windriver.com>
+Date: Wed, 1 Jul 2015 17:40:43 +0800
+Message-ID: <1435743643-25276-1-git-send-email-Yuanjie.Huang@windriver.com>
 X-Mailer: git-send-email 2.4.1
 MIME-Version: 1.0
-Subject: [PATCH V2] ldconfig-native: Add 64-bit flag for ELF64 entries
+Subject: [PATCH V3] ldconfig-native: Add 64-bit flag for ELF64 entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 09:35:28 -0000
+X-List-Received-Date: Wed, 01 Jul 2015 09:39:25 -0000
 Content-Type: text/plain
 
 From: Yuanjie Huang <yuanjie.huang@windriver.com>
@@ -44,8 +44,6 @@ creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
 
 Since the host's elf.h may not have definition for new AArch64 machine
 type, a work-around is added to correctly flag 64-bit ARM libraries.
-
-Upstream-status: Inappropriate [embedded specific]
 
 Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 ---
@@ -70,6 +68,8 @@ index 0000000..d42f7a1
 +Due to this defect, ctypes.util.find_library() python function fails to
 +detect any library due to the old file format that ldconfig-native
 +creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
++
++Upstream-status: Inappropriate [embedded specific]
 +
 +Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 +---
