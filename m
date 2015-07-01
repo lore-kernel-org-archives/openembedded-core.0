@@ -1,40 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E84A65C89
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 6137E65CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 13:23:34 +0000 (UTC)
-Received: by wibdq8 with SMTP id dq8so45326380wib.1
+	Wed,  1 Jul 2015 14:02:38 +0000 (UTC)
+Received: by lbbpo10 with SMTP id po10so13506150lbb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 06:23:34 -0700 (PDT)
+	Wed, 01 Jul 2015 07:02:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=nPaWbyCVtcb+hbZzi//L0eAB3N/0XJUfaVWF8OJ511M=;
-	b=VpVNNVqaVXmec23v4ql6fTjxna9RtPmsNM0XeKE7Hp8KCSyiMOkKE2mkuH8GWoH8ii
-	MKJjsFmUXZBFPT7/gdvUzg/K1GwmSeZbVWzp5x4P4KqaeUxOg9sS9D8H7l9oDcset8il
-	tHcOJuqtTs+1Rwx7vzbYMlwGSvrtaEFzZHkHa4k9QzFr8xORdF+mI1Ln2OYoQ3Qns+6/
-	XWC/3CxOR84yKkZrBYGAvUlpoxq28rgHYTvxSaXblUCzdiYlOXUAuKRUTLK1K201qbBd
-	oKLI5dTDyzbmvKgC7QL8CAIkYQwz+pE/SvbROVOS79f+q++f7887TNRg9rWMAMWtd0cG
-	/0KA==
-X-Received: by 10.180.20.198 with SMTP id p6mr6612407wie.38.1435757014628;
-	Wed, 01 Jul 2015 06:23:34 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id
-	ma15sm22078653wic.20.2015.07.01.06.23.33
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 Jul 2015 06:23:33 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 1 Jul 2015 15:23:56 +0200
+	h=from:to:cc:subject:date:message-id;
+	bh=TeDqpxjbUXZ9NIN0hr/JsOg/tivxSrA/7QpDFuQyJpw=;
+	b=cf7mueXKjvaYdMfZrTW7svr+v9WxHSL8YN+yqwT9zxumK8t4bk0LN3S9jLxAhSnDs9
+	BFa8rURmoZ8H0SfHLES+sb92ngrfEIbtqSeI5HDCn71DZH+9X6bDjeG1G+DWDAeLZeKn
+	YI8bKY4/PpICDXqRnALtqoJLM3HADZNfCToVsJ35LTLb5bISxy4Cr5OxEtuLqScB65Gc
+	0Zkcw9ufg22V/nTcksfRtex+ofe7AxQrDAGeZIJNH3siS8W0CMrxkIxg0DCbb/Av/++5
+	hmyU0UhPSPhv1diSOM1AqDR5fBhGSKKb7/Cy/zClaPOqK9Cc8U9WzKSfTG9aNce9gDnZ
+	9UWg==
+X-Received: by 10.152.44.132 with SMTP id e4mr25874708lam.34.1435759358535;
+	Wed, 01 Jul 2015 07:02:38 -0700 (PDT)
+Received: from anuminas.office.auriga.msk ([37.153.55.32])
+	by mx.google.com with ESMTPSA id du2sm533722lbc.44.2015.07.01.07.02.36
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 01 Jul 2015 07:02:37 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20150701132356.GJ2409@jama>
-References: <1432207395-31589-1-git-send-email-Martin.Jansa@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1432207395-31589-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [daisy][PATCH] squashfs-tools: enable building unsquashfs and fix squashfs-4.2-fix-CVE-2012-4025.patch
+Date: Wed,  1 Jul 2015 17:02:18 +0300
+Message-Id: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] Fix builds for MIPS64 N32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,37 +40,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 13:23:34 -0000
-X-Groupsio-MsgNum: 67413
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="iK/wEI4vkfDmI6Zw"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 01 Jul 2015 14:02:39 -0000
 
---iK/wEI4vkfDmI6Zw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Quite simple configuration (MIPS64 N32 image) fails to build (see below).
+I have verified these patches in both single lib and in multilib cases.
+Tri-lib images and SDK for MIPS build fine with these patches.
 
-On Thu, May 21, 2015 at 01:23:15PM +0200, Martin Jansa wrote:
-> * build unsqaushfs, useful when debuging corrupt squashfs from
->   mksquashfs
-> * squashfs-4.2-fix-CVE-2012-4025.patch fixes CVE in unsquashfs which we
->   weren't building and it actually breaks building it, because someone
->   missed squashfs_fs.h change from the original change
-> * add git headers in all patches and fix references to new github
->   repository
+Current situation:
 
-Ping
+lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
+NOTE: Started PRServer with DBfile:
+/home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
+15895
+Loading cache: 100%
+|########################################################################################################################|
+ETA:  00:00:00
+Loaded 1302 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
+/home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+RDEPENDS on or otherwise requires it)
+NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
+removing...
+Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
+NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
+unbuildable, removing...
+Missing or unbuildable dependency chain was:
+['packagegroup-cross-canadian-qemumips64n32',
+'binutils-cross-canadian-mips64']
+ERROR: Required build target 'core-image-base' has no buildable providers.
+Missing or unbuildable dependency chain was: ['core-image-base',
+'packagegroup-cross-canadian-qemumips64n32',
+'binutils-cross-canadian-mips64']
 
---iK/wEI4vkfDmI6Zw
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWT6esACgkQN1Ujt2V2gByiEwCeO4qo4TUqr9rNwTb9uB4CjuXE
-kNMAn1SY4Z83oKN78UXiwGLrc+Zxv33s
-=/WOC
------END PGP SIGNATURE-----
-
---iK/wEI4vkfDmI6Zw--
