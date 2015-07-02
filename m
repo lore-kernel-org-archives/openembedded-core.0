@@ -1,24 +1,24 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C7D99607BB
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 34950607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jul 2015 06:42:24 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t626gOl6014239
+	Thu,  2 Jul 2015 07:19:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t627JP6a026709
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Jul 2015 23:42:24 -0700 (PDT)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 1 Jul 2015 23:42:23 -0700
-From: <jackie.huang@windriver.com>
+	Thu, 2 Jul 2015 00:19:25 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 2 Jul 2015 00:19:25 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Jul 2015 14:42:38 +0800
-Message-ID: <1435819358-9462-1-git-send-email-jackie.huang@windriver.com>
+Date: Thu, 2 Jul 2015 15:18:59 +0800
+Message-ID: <1435821539-20315-1-git-send-email-rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] qemu: CVE-2014-3689
+Subject: [PATCH] image_types_uboot: remove the middle file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,101 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jul 2015 06:42:30 -0000
+X-List-Received-Date: Thu, 02 Jul 2015 07:19:27 -0000
 Content-Type: text/plain
 
-From: Li Wang <li.wang@windriver.com>
+From: Yue Tao <Yue.Tao@windriver.com>
 
-Issue: LIN7-2153
+The .gz, .bz2 or .lzma are middle files for making gz.u-boot,
+bz2.u-boot, or lzma.u-boot. It should be removed once the final
+image is generated. Otherwise, even RM_OLD_IMAGE = 1, it can't
+be removed, moreover more and more middle files are genrated via
+'bitbake *-image'
 
-the patch comes from:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3689
-http://git.qemu.org/?p=qemu.git;a=commit;h=83afa38eb20ca27e30683edc7729880e091387fc
-
-vmware-vga: CVE-2014-3689: turn off hw accel
-
-Quick & easy stopgap for CVE-2014-3689:  We just compile out the
-hardware acceleration functions which lack sanity checks.  Thankfully
-we have capability bits for them (SVGA_CAP_RECT_COPY and
-SVGA_CAP_RECT_FILL), so guests should deal just fine, in theory.
-
-Subsequent patches will add the missing checks and re-enable the
-hardware acceleration emulation.
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Don Koch <dkoch@verizon.com>
-Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- .../qemu/qemu/qemu-CVE-2014-3689.patch             | 46 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.3.0.bb           |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-CVE-2014-3689.patch
+ meta/classes/image_types_uboot.bbclass | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-CVE-2014-3689.patch b/meta/recipes-devtools/qemu/qemu/qemu-CVE-2014-3689.patch
-new file mode 100644
-index 0000000..a0c3931
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-CVE-2014-3689.patch
-@@ -0,0 +1,46 @@
-+qemu: CVE-2014-3689
-+
-+the patch comes from:
-+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3689
-+http://git.qemu.org/?p=qemu.git;a=commit;h=83afa38eb20ca27e30683edc7729880e091387fc
-+
-+vmware-vga: CVE-2014-3689: turn off hw accel
-+
-+Quick & easy stopgap for CVE-2014-3689:  We just compile out the
-+hardware acceleration functions which lack sanity checks.  Thankfully
-+we have capability bits for them (SVGA_CAP_RECT_COPY and
-+SVGA_CAP_RECT_FILL), so guests should deal just fine, in theory.
-+
-+Subsequent patches will add the missing checks and re-enable the
-+hardware acceleration emulation.
-+
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Reviewed-by: Don Koch <dkoch@verizon.com>
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ hw/display/vmware_vga.c |    2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-+index 591b645..99a97fe 100644
-+--- a/hw/display/vmware_vga.c
-++++ b/hw/display/vmware_vga.c
-+@@ -29,9 +29,11 @@
-+ #include "hw/pci/pci.h"
-+ 
-+ #undef VERBOSE
-++#if 0
-+ #define HW_RECT_ACCEL
-+ #define HW_FILL_ACCEL
-+ #define HW_MOUSE_ACCEL
-++#endif
-+ 
-+ #include "vga_int.h"
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_2.3.0.bb b/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-index ec1b101..917febe 100644
---- a/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-@@ -18,6 +18,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://09-xen-pt-mark-reserved-bits-in-PCI-config-space-fields-CVE-2015-4106.patch \
-             file://10-xen-pt-add-a-few-PCI-config-space-field-descriptions-CVE-2015-4106.patch \
-             file://11-xen-pt-unknown-PCI-config-space-fields-should-be-readonly-CVE-2015-4106.patch \
-+            file://qemu-CVE-2014-3689.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "2fab3ea4460de9b57192e5b8b311f221"
+diff --git a/meta/classes/image_types_uboot.bbclass b/meta/classes/image_types_uboot.bbclass
+index 07837b5..081bca2 100644
+--- a/meta/classes/image_types_uboot.bbclass
++++ b/meta/classes/image_types_uboot.bbclass
+@@ -3,6 +3,9 @@ inherit image_types kernel-arch
+ oe_mkimage () {
+     mkimage -A ${UBOOT_ARCH} -O linux -T ramdisk -C $2 -n ${IMAGE_NAME} \
+         -d ${DEPLOY_DIR_IMAGE}/$1 ${DEPLOY_DIR_IMAGE}/$1.u-boot
++    if [ x$3 = x"clean" ]; then
++        rm $1
++    fi
+ }
+ 
+ COMPRESSIONTYPES += "gz.u-boot bz2.u-boot lzma.u-boot u-boot"
+@@ -11,13 +14,13 @@ COMPRESS_DEPENDS_u-boot = "u-boot-mkimage-native"
+ COMPRESS_CMD_u-boot      = "oe_mkimage ${IMAGE_NAME}.rootfs.${type} none"
+ 
+ COMPRESS_DEPENDS_gz.u-boot = "u-boot-mkimage-native"
+-COMPRESS_CMD_gz.u-boot      = "${COMPRESS_CMD_gz}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.gz gzip"
++COMPRESS_CMD_gz.u-boot      = "${COMPRESS_CMD_gz}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.gz gzip clean"
+ 
+ COMPRESS_DEPENDS_bz2.u-boot = "u-boot-mkimage-native"
+-COMPRESS_CMD_bz2.u-boot      = "${COMPRESS_CMD_bz2}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.bz2 bzip2"
++COMPRESS_CMD_bz2.u-boot      = "${COMPRESS_CMD_bz2}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.bz2 bzip2 clean"
+ 
+ COMPRESS_DEPENDS_lzma.u-boot = "u-boot-mkimage-native"
+-COMPRESS_CMD_lzma.u-boot      = "${COMPRESS_CMD_lzma}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lzma lzma"
++COMPRESS_CMD_lzma.u-boot      = "${COMPRESS_CMD_lzma}; oe_mkimage ${IMAGE_NAME}.rootfs.${type}.lzma lzma clean"
+ 
+ IMAGE_TYPES += "ext2.u-boot ext2.gz.u-boot ext2.bz2.u-boot ext2.lzma.u-boot ext3.gz.u-boot ext4.gz.u-boot"
+ 
 -- 
 1.9.1
 
