@@ -1,38 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 31707607A4
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E8EA6607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jul 2015 12:01:14 +0000 (UTC)
-Received: by qkei195 with SMTP id i195so49768542qke.3
+	Thu,  2 Jul 2015 12:16:03 +0000 (UTC)
+Received: by qkhu186 with SMTP id u186so49993306qkh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jul 2015 05:01:14 -0700 (PDT)
+	Thu, 02 Jul 2015 05:16:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:content-type;
-	bh=9GWmN1fBG1hyquObYuXl3u9bYxTybFzn/Q2h5G73x3A=;
-	b=ThU0L2QV/y4/t2dVs4RoyR1n0bx1oVRIEFGTQAMRMaX+fuMYpY+bU2Cv/09MeFD4la
-	z595TFIU3Ykl48s+qmIVvGUBY2JQ/XlOB3GVOGMwIAz0VHb9iD0kl/goc7kSZ3KyhZjB
-	89HsU7pV2oYDqUPiboyZU6YBbsjjxJ4ztFsEsUKvUWe8bMtnOyboqshINt2KUMGIPdSG
-	PDT1/FJ0vpisn6cT/G7r9dpfIPZ9frXkOLRK8KZmBseAjtWaQgss7a/etXRxL8TrEMaM
-	ptzWLJKCCQpDArLr7L6kSUnpzhp1IRhlu/qKunjQ+SbZ9tyS5p70mi3R0IdANlUV4Z3C
-	k2IA==
-X-Gm-Message-State: ALoCoQm16F2klC/Eg2nPxrY46id6nEQTyU25Sxgd6Zy9MlGV+tn4qsoFI2g1yf26tQ0ajfslJenJ
-X-Received: by 10.140.88.5 with SMTP id s5mr40980927qgd.59.1435838474746; Thu,
-	02 Jul 2015 05:01:14 -0700 (PDT)
+	:message-id:subject:to:cc:content-type;
+	bh=iriO3FAb6sA05+/SfXtgw0aweSzuiYCVbVYPpf592dU=;
+	b=PCO5bHJX1OgwAHzMxLtCoTa5fPP13wBgqbtVQJs+MbG7gKE5DvRM05KkKb5hwkn+rr
+	othaH52C8deh/F6FKMELoSstxdTSBHSTgctWAfs9tcjpIj2VXE3qoIQPECkOGZ+T4is/
+	5H5N+FOy4cXU+yzZpXKR4TbBAWF6QRIWB7o2G+HxeBCjJl+1byrn79dvshwh9iqkYmYS
+	bxRYenEpsUYXVRXwksUaheoTmI4SSf1Rm7IfT++xSXdKXZUWZqlMhn/QecrBzxnumNgC
+	bm6KoeQAWRs18iU78XyC8So31CAXFAvQyvUQFLhGX86udwNLZP+VjudfufYfeRA0MDJa
+	+9zg==
+X-Gm-Message-State: ALoCoQlk7/B8BO4WH7zkJpRaPTUqXDZiJOSfy8fgVDQ9qHRK9C87nbtxa6wAefzl8r48nQlC+4fZ
+X-Received: by 10.140.20.99 with SMTP id 90mr41452818qgi.87.1435839363289;
+	Thu, 02 Jul 2015 05:16:03 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 2 Jul 2015 05:00:55 -0700 (PDT)
-In-Reply-To: <20150702113046.GB9269@ad.chargestorm.se>
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
-	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
-	<20150702113046.GB9269@ad.chargestorm.se>
+Received: by 10.140.102.231 with HTTP; Thu, 2 Jul 2015 05:15:43 -0700 (PDT)
+In-Reply-To: <CAHiDW_FFK9XPCeQG+nUxC_SbrAsuNRB4gRgwL6CEMcFWXbBDyg@mail.gmail.com>
+References: <cover.1434464336.git.jussi.kukkonen@intel.com>
+	<0c7f245a788abe31dc96f33860465b32300c05dd.1434464336.git.jussi.kukkonen@intel.com>
+	<CAJTo0Lb2doffPRhcsfrr_M37XOxdSL13=juHkvLtbjL4=_3qdg@mail.gmail.com>
+	<CAHiDW_FFK9XPCeQG+nUxC_SbrAsuNRB4gRgwL6CEMcFWXbBDyg@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 Jul 2015 13:00:55 +0100
-Message-ID: <CAJTo0LZRxkWufaH1o1q6=hO7dgFrxGXxtFG9CqjfDNGkQ9JOdQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+Date: Thu, 2 Jul 2015 13:15:43 +0100
+Message-ID: <CAJTo0Lb=DBkXg3j1kv2=shwx2HL3mVhCOdAWSmQJwfHEqurifQ@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/6] adwaita-icon-theme: Add new icon theme for GTK+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +46,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jul 2015 12:01:17 -0000
-Content-Type: multipart/alternative; boundary=001a11c118743e0f750519e33258
+X-List-Received-Date: Thu, 02 Jul 2015 12:16:08 -0000
+Content-Type: multipart/alternative; boundary=001a11c125d4342f8c0519e36751
 
---001a11c118743e0f750519e33258
+--001a11c125d4342f8c0519e36751
 Content-Type: text/plain; charset=UTF-8
 
-On 2 July 2015 at 12:30, Anders Darander <anders@chargestorm.se> wrote:
+On 2 July 2015 at 09:15, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-> Without looking too much at this specific issue, I'd say that we should
-> keep the older version in oe-core. Just as we normally try to do when it
-> comes to GPLv2 / GPLv3 upgrades.
+> Not with my autotools fu... adwaita has a couple of strings they want
+> translated so they use intltool. intltool.m4 decides to do a compile
+> test (because of a Solaris corner case) and this naturally leads to a
+> configure failure on allarch. Search for "Set DATADIRNAME correctly"
+> in intltool.m4 if you want to see it.
 >
-> In my opinion, having as much as possible build in a non-GPLv3 build is
-> a desirable goal.
+> Hints on how to fix that are welcome -- allarch would be helpful as
+> install really does take quite a while.
 >
 
-I neglected to leave my opinion in my mail, but that's also my thought.
+If the compile tests are limited to bug detection on Solaris, we know we're
+not running on Solaris so could patch those out.  Not having intltool break
+allarch would be helpful (not you mention it I remember hitting this before
+too).
 
 Ross
 
---001a11c118743e0f750519e33258
+--001a11c125d4342f8c0519e36751
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 2 July 2015 at 12:30, Anders Darander <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:anders@chargestorm.se" target=3D"_blank">anders@chargestorm.se</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ps" class=3D=
-"a3s" style=3D"overflow:hidden">Without looking too much at this specific i=
-ssue, I&#39;d say that we should<br>
-keep the older version in oe-core. Just as we normally try to do when it<br=
->
-comes to GPLv2 / GPLv3 upgrades.<br>
+On 2 July 2015 at 09:15, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1nl" cla=
+ss=3D"a3s" style=3D"overflow:hidden">Not with my autotools fu... adwaita ha=
+s a couple of strings they want<br>
+translated so they use intltool. intltool.m4 decides to do a compile<br>
+test (because of a Solaris corner case) and this naturally leads to a<br>
+configure failure on allarch. Search for &quot;Set DATADIRNAME correctly&qu=
+ot;<br>
+in intltool.m4 if you want to see it.<br>
 <br>
-In my opinion, having as much as possible build in a non-GPLv3 build is<br>
-a desirable goal.</div></blockquote></div><br>I neglected to leave my opini=
-on in my mail, but that&#39;s also my thought.</div><div class=3D"gmail_ext=
-ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+Hints on how to fix that are welcome -- allarch would be helpful as<br>
+install really does take quite a while.<br></div></blockquote><div><br></di=
+v><div>If the compile tests are limited to bug detection on Solaris, we kno=
+w we&#39;re not running on Solaris so could patch those out.=C2=A0 Not havi=
+ng intltool break allarch would be helpful (not you mention it I remember h=
+itting this before too).</div><div><br></div><div>Ross=C2=A0</div></div></d=
+iv></div>
 
---001a11c118743e0f750519e33258--
+--001a11c125d4342f8c0519e36751--
