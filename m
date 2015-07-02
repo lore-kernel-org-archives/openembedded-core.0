@@ -1,44 +1,43 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 66E7065C60
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C48765C60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jul 2015 22:02:37 +0000 (UTC)
-Received: by pdjd13 with SMTP id d13so51800507pdj.0
+	Thu,  2 Jul 2015 22:06:37 +0000 (UTC)
+Received: by pdjd13 with SMTP id d13so51845598pdj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jul 2015 15:02:38 -0700 (PDT)
+	Thu, 02 Jul 2015 15:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=YdN70Bt7qTA0uYhmXqJHKKel1eQ+c4FpGQE0pBT7Alw=;
-	b=gQ7NZjcJE/XZiIPXMOrTUWGYlvWB7jEjn7sTEEoEGtkX5zZKTpkMC2NOm8oJnR5RW1
-	Rl3227Om8R/QpIx919neMfi5AdL98mHxrk7hZkBIwJBxdNvnKKFUVwFwyQlo13ip8++L
-	St6ymgpuNMi7RNugOipHEUwkKtnB2Bz6vVP/ViMJ3732Uii8ljXQat/kWqg4VGZ8lf1e
-	0w1eDjGbok3rZnEv3E92WYf5X1IvFaSHNON4U7Ka2swPHtEr5gbwMqNALp7v3+JaWJwN
-	9yCfAHUB/oo9Occ8NkRcKABSHqdlE2Y4RO/hlGcicXvsT82OYKdC+4lQmzuQRjv2JFXS
-	vOBA==
-X-Received: by 10.66.66.197 with SMTP id h5mr71845462pat.29.1435874558011;
-	Thu, 02 Jul 2015 15:02:38 -0700 (PDT)
-Received: from Akusters-laptop-2.local
-	([2601:202:4000:1239:e48a:78dd:6de2:ec73])
-	by mx.google.com with ESMTPSA id oh4sm6747431pdb.42.2015.07.02.15.02.35
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 Jul 2015 15:02:36 -0700 (PDT)
-Message-ID: <5595B4FA.7080908@gmail.com>
-Date: Thu, 02 Jul 2015 15:02:34 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
-	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
-	<55956F2C.2040301@gmail.com>
-	<CAJTo0La4vOUHj6me+vw75u2AAdPvmGvJT8cx8wR_NP55AfE0=w@mail.gmail.com>
-In-Reply-To: <CAJTo0La4vOUHj6me+vw75u2AAdPvmGvJT8cx8wR_NP55AfE0=w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=+zZXiCvOCvwXqBBDnx12y14HwxIghSVini1Gxp+1XDU=;
+	b=wetAST11Jkx1jxvex2cW9fSWJ+eBvP6F0JCleOmLOYnpJerGg+eA7GbI5tP3Dtiwpi
+	xM2I+wiXiNfLnVdPj3yaD3ppdSHYXEYtg+F0KWqt8CoI9xOBgXu/8w9rn92PBETLbMz1
+	dfFgfjhWy876tKfc0TLWguzuCD4LltSc0bpupHZUuDAX0gugz6s5GfwDVrW5oDPqic89
+	KjuqGYNKRTRNBETruTGVeOTiQ3hHqP+/odZ3v1r/rYs/Qa+qHMVeT1z/iJq+oAKeQuTq
+	ZEUvoNQVhj7Rb8U+daXcl9sqPUTIbPGUwjM8O+N77HdXwrJXpwRFCROM8uELMpE2kwOh
+	+Ozw==
+X-Received: by 10.68.131.65 with SMTP id ok1mr71878747pbb.16.1435874798390;
+	Thu, 02 Jul 2015 15:06:38 -0700 (PDT)
+Received: from ?IPv6:2601:647:4c02:370d:c41c:adff:6c16:9169?
+	([2601:647:4c02:370d:c41c:adff:6c16:9169])
+	by mx.google.com with ESMTPSA id fy5sm6736625pdb.93.2015.07.02.15.06.37
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 02 Jul 2015 15:06:37 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <55941B9E.3080009@linux.intel.com>
+Date: Thu, 2 Jul 2015 15:06:32 -0700
+Message-Id: <4DCB7F37-2120-45FC-869B-09AAB14F7DCD@gmail.com>
+References: <1435663180-43011-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+	<1693409.84CV3Pd8dR@peggleto-mobl.ger.corp.intel.com>
+	<55941B9E.3080009@linux.intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: Apple Mail (2.2102)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] buildhistory.bbclass: Check output folder is present before creating files-in-$pkg.txt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,28 +50,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jul 2015 22:02:40 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 02 Jul 2015 22:06:39 -0000
+X-Groupsio-MsgNum: 67483
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_F5F31578-EF32-4092-982F-8554681150E7";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_F5F31578-EF32-4092-982F-8554681150E7
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+
+> On Jul 1, 2015, at 9:55 AM, Leonardo Sandoval =
+<leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+>=20
+>=20
+> files-in-$pkg.txt files are created and placed on top of the =
+corresponding buildhistory/packages folders. By the time this task is =
+done, the latter folders are *already* created, so that is why in the =
+first patch version, I did not include the check. BTW, I could not =
+reproduce the issue that Andre had (failed on cairo) so I will ask him =
+more detail on his setup.
+>=20
+
+disable GPL3, add
+
+INCOMPATIBLE_LICENSE =3D "GPLv3.0 GPLv3 GPL-3.0 GPLv3+ LGPLv3.0 LGPLv3 =
+LGPL-3.0 LGPLv3+=E2=80=9D
+GCCVERSION =3D "5.1%=E2=80=9D
+SDKGCCVERSION  =3D "5.1%=E2=80=9D
+
+to local.conf
+
+then try
+
+bitbake gcc-runtime
+
+
+
+
+--Apple-Mail=_F5F31578-EF32-4092-982F-8554681150E7
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On 7/2/15 11:46 AM, Burton, Ross wrote:
->
-> On 2 July 2015 at 18:04, akuster808 <akuster808@gmail.com
-> <mailto:akuster808@gmail.com>> wrote:
->
->     The current version of nettle 2.7 has one file that is GPL v3.
->     mini-gmp.*
->
->     so the license for 2.7 should be updated IMHO. So wont that put us
->     in the same boat as the upgrade?
->
->
-> Yes.  Ouch.
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-So what now then? meta-oe-core-GPLv3  ; )
+iEYEARECAAYFAlWVtewACgkQuwUzVZGdMxQimwCdHkr1+mK995t/VnsLEkWP8gxQ
+ZoUAnRl74PLQbS07Y7LQsit/+QO1rhdj
+=m60V
+-----END PGP SIGNATURE-----
 
-- armin
->
-> Ross
-
-
+--Apple-Mail=_F5F31578-EF32-4092-982F-8554681150E7--
