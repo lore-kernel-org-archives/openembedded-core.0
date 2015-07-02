@@ -1,37 +1,24 @@
-Return-Path: <cathy.shen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EBE0965C89
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 542D865C89
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jul 2015 01:52:14 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 01 Jul 2015 18:52:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,389,1432623600"; d="scan'208";a="738911716"
-Received: from kmsmsx152.gar.corp.intel.com ([172.21.73.87])
-	by fmsmga001.fm.intel.com with ESMTP; 01 Jul 2015 18:52:14 -0700
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
-	KMSMSX152.gar.corp.intel.com (172.21.73.87) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Thu, 2 Jul 2015 09:52:13 +0800
-Received: from shsmsx103.ccr.corp.intel.com ([169.254.4.46]) by
-	SHSMSX101.ccr.corp.intel.com ([169.254.1.246]) with mapi id
-	14.03.0224.002; Thu, 2 Jul 2015 09:52:12 +0800
-From: "Shen, Cathy" <cathy.shen@intel.com>
-To: "Zhang, JunhuiX" <junhuix.zhang@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] testimage: Support full TC path such
-	oeqa.runtime.pnp.get_memory_size in TEST_SUITES
-Thread-Index: AQHQrYlU7wTR2Ch2EkCs+q9Wy32k+53HeCJA
-Date: Thu, 2 Jul 2015 01:52:12 +0000
-Message-ID: <9CF54C48BF4DE04F9D8FBEB712F28E401106CCF7@SHSMSX103.ccr.corp.intel.com>
-References: <1435046066-2894-1-git-send-email-junhuix.zhang@intel.com>
-In-Reply-To: <1435046066-2894-1-git-send-email-junhuix.zhang@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
+	Thu,  2 Jul 2015 02:32:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t622WuPE012948
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 1 Jul 2015 19:32:56 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 1 Jul 2015 19:32:55 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Jul 2015 10:32:31 +0800
+Message-ID: <1435804351-5018-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] testimage: Support full TC path such	oeqa.runtime.pnp.get_memory_size in TEST_SUITES
+Subject: [PATCH] archiver: set permissions for backup files of patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +31,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jul 2015 01:52:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 02 Jul 2015 02:32:59 -0000
+Content-Type: text/plain
 
-Are we OK with this patch?
+From: Jian Liu <jian.liu@windriver.com>
 
--Cathy
+For the program patch with version before 2.6, backup files
+for nonexisting files are created with mode 0. During making
+tarball for these files, this will cause permission error.
 
->-----Original Message-----
->From: openembedded-core-bounces@lists.openembedded.org
->[mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of zjh
->Sent: Tuesday, June 23, 2015 3:54 PM
->To: openembedded-core@lists.openembedded.org
->Subject: [OE-core] [PATCH 1/2] testimage: Support full TC path such
->oeqa.runtime.pnp.get_memory_size in TEST_SUITES
->
->https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7834
->
->If a TC name start with "oeqa", it is thought as a full TC path. if not,
->follow original logic (assume under oeqa.runtime), and this case will be  =
-  7 load by
->loadTests.
->for example:
->TEST_SUITES =3D "oeqa.runtime.pnp.get_memory_size oeqa.runtime.sanity.rebo=
-ot"
->this will run these two case when bitbake -c testimage
->
->Signed-off-by: zjh <junhuix.zhang@intel.com>
->---
-> meta/classes/testimage.bbclass | 3 +++
-> 1 file changed, 3 insertions(+)
->
->diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbcla=
-ss
->index 4074ff7..5d74fe4 100644
->--- a/meta/classes/testimage.bbclass
->+++ b/meta/classes/testimage.bbclass
->@@ -77,6 +77,9 @@ def get_tests_list(d, type=3D"runtime"):
->     testslist =3D []
->     for testname in testsuites:
->         if testname !=3D "auto":
->+            if testname.startswith("oeqa."):
->+                testslist.append(testname)
->+                continue
->             found =3D False
->             for p in bbpath:
->                 if os.path.exists(os.path.join(p, 'lib', 'oeqa', type, te=
-stname +
->'.py')):
->--
->1.9.1
->
->--
->_______________________________________________
->Openembedded-core mailing list
->Openembedded-core@lists.openembedded.org
->http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Jian Liu <jian.liu@windriver.com>
+---
+ meta/classes/archiver.bbclass | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 7b5274d..f5cdb77 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -224,7 +224,7 @@ def create_tarball(d, srcdir, suffix, ar_outdir, pf=None):
+     """
+     create the tarball from srcdir
+     """
+-    import tarfile
++    import tarfile, subprocess, errno
+ 
+     bb.utils.mkdirhier(ar_outdir)
+     if pf:
+@@ -239,7 +239,21 @@ def create_tarball(d, srcdir, suffix, ar_outdir, pf=None):
+     os.chdir(dirname)
+     bb.note('Creating %s' % tarname)
+     tar = tarfile.open(tarname, 'w:gz')
+-    tar.add(basename)
++    # For patch before 2.6 backup files for
++    # nonexisting files are created with mode 0.
++    # Change the permission of backup files.
++    # In future, this can be deleted if patch-2.6 and above
++    # is used widely.
++    try:
++        tar.add(basename)
++    except IOError as exc:
++        if exc.errno == errno.EACCES:
++            # Make sure the probable back up patches have read permission
++            subprocess.call('chmod a+r -R %s/.pc* >/dev/null 2>&1 | true' %
++                            basename, shell=True)
++            tar.add(basename)
++        else:
++            raise IOError("I/O error({0}): {1}".format(exc.errno, exc.strerror))
+     tar.close()
+ 
+ # creating .diff.gz between source.orig and source
+-- 
+1.9.1
+
 
