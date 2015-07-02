@@ -1,36 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
-	[209.85.220.177])
-	by mail.openembedded.org (Postfix) with ESMTP id F3742607A4
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 66E7065C60
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jul 2015 19:40:10 +0000 (UTC)
-Received: by qkhu186 with SMTP id u186so59371985qkh.0
+	Thu,  2 Jul 2015 22:02:37 +0000 (UTC)
+Received: by pdjd13 with SMTP id d13so51800507pdj.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jul 2015 12:40:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=r34/zsvK5SVpOsRTWsYMSInudIZwbLMYro8hQY0LF4o=;
-	b=G2GBNz5o8k1ALjAkZ6nEHBm2G086CRghz7VAV72NmfypOycL1yEeA5KQm7plbYrzYy
-	VEUsi1a7EUzF0QqkhnUsdhrVNxAjWYsTmBAHPsqe9t97RiZZY6YNE4f0rJGKzNKa8aNq
-	1lU01HtfYOSDEKoIQjzxwq8M97HkvUEfWS0tjBwSTRcTpw32ltxzPIj+9Ww6wxsh5qLK
-	Ykx0K4ZQEAUSu2NuYnpLVbVbIuABfkcXzNdQYPiVjOQkIFw2m57a8FbZ3mgF/6qAADdc
-	XMFi2AA7UMaZkXVlpAvuauWaFCcamXq6I4A//VMoHgwcWcxaG6NJFbA3wTNdIfPGYz2q
-	N4zw==
-X-Gm-Message-State: ALoCoQmQAP/YNcndJyr6zjs/IGfHwRm6pL7QYXhhXEFjCpUzo+jCN6030Zxp5sWWBdV495MlHKUR
-X-Received: by 10.140.235.19 with SMTP id g19mr47385954qhc.52.1435866010728;
-	Thu, 02 Jul 2015 12:40:10 -0700 (PDT)
+	Thu, 02 Jul 2015 15:02:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=YdN70Bt7qTA0uYhmXqJHKKel1eQ+c4FpGQE0pBT7Alw=;
+	b=gQ7NZjcJE/XZiIPXMOrTUWGYlvWB7jEjn7sTEEoEGtkX5zZKTpkMC2NOm8oJnR5RW1
+	Rl3227Om8R/QpIx919neMfi5AdL98mHxrk7hZkBIwJBxdNvnKKFUVwFwyQlo13ip8++L
+	St6ymgpuNMi7RNugOipHEUwkKtnB2Bz6vVP/ViMJ3732Uii8ljXQat/kWqg4VGZ8lf1e
+	0w1eDjGbok3rZnEv3E92WYf5X1IvFaSHNON4U7Ka2swPHtEr5gbwMqNALp7v3+JaWJwN
+	9yCfAHUB/oo9Occ8NkRcKABSHqdlE2Y4RO/hlGcicXvsT82OYKdC+4lQmzuQRjv2JFXS
+	vOBA==
+X-Received: by 10.66.66.197 with SMTP id h5mr71845462pat.29.1435874558011;
+	Thu, 02 Jul 2015 15:02:38 -0700 (PDT)
+Received: from Akusters-laptop-2.local
+	([2601:202:4000:1239:e48a:78dd:6de2:ec73])
+	by mx.google.com with ESMTPSA id oh4sm6747431pdb.42.2015.07.02.15.02.35
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 02 Jul 2015 15:02:36 -0700 (PDT)
+Message-ID: <5595B4FA.7080908@gmail.com>
+Date: Thu, 02 Jul 2015 15:02:34 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 2 Jul 2015 12:39:51 -0700 (PDT)
-In-Reply-To: <1435737141-31961-1-git-send-email-jackie.huang@windriver.com>
-References: <1435737141-31961-1-git-send-email-jackie.huang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 2 Jul 2015 20:39:51 +0100
-Message-ID: <CAJTo0LacneDbjFJR+uPQs__cqx+FVwXEuyCXe5zVui+Gu9tbpg@mail.gmail.com>
-To: "jackie.huang@windriver.com" <jackie.huang@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1435497302.git.akuster808@gmail.com>
+	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
+	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
+	<55956F2C.2040301@gmail.com>
+	<CAJTo0La4vOUHj6me+vw75u2AAdPvmGvJT8cx8wR_NP55AfE0=w@mail.gmail.com>
+In-Reply-To: <CAJTo0La4vOUHj6me+vw75u2AAdPvmGvJT8cx8wR_NP55AfE0=w@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xorg-proto-common: allow the empty package
+Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,48 +51,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jul 2015 19:40:12 -0000
-Content-Type: multipart/alternative; boundary=001a11376dac83cb350519e99b7b
+X-List-Received-Date: Thu, 02 Jul 2015 22:02:40 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
---001a11376dac83cb350519e99b7b
-Content-Type: text/plain; charset=UTF-8
-
-On 1 July 2015 at 08:52, <jackie.huang@windriver.com> wrote:
-
->  # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
-> +# and allow ${PN} to be created empty
-> +ALLOW_EMPTY_${PN} = "1"
->  RDEPENDS_${PN}-dev = ""
->  RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
+On 7/2/15 11:46 AM, Burton, Ross wrote:
 >
+> On 2 July 2015 at 18:04, akuster808 <akuster808@gmail.com
+> <mailto:akuster808@gmail.com>> wrote:
+>
+>     The current version of nettle 2.7 has one file that is GPL v3.
+>     mini-gmp.*
+>
+>     so the license for 2.7 should be updated IMHO. So wont that put us
+>     in the same boat as the upgrade?
+>
+>
+> Yes.  Ouch.
 
-As the comment and surrounding lines state, the dependencies on PN from
-PN-dev and PN-dbg are already removed.  What other package has a runtime
-dependency on PN, and when you find it a better solution is to remove the
-dependency instead of creating empty packages.
+So what now then? meta-oe-core-GPLv3  ; )
 
-Ross
+- armin
+>
+> Ross
 
---001a11376dac83cb350519e99b7b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 1 July 2015 at 08:52,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jackie.hu=
-ang@windriver.com" target=3D"_blank">jackie.huang@windriver.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex"><div id=3D":va" class=3D"a3s" =
-style=3D"overflow:hidden">=C2=A0# ${PN} is empty so we need to tweak -dev a=
-nd -dbg package dependencies<br>
-+# and allow ${PN} to be created empty<br>
-+ALLOW_EMPTY_${PN} =3D &quot;1&quot;<br>
-=C2=A0RDEPENDS_${PN}-dev =3D &quot;&quot;<br>
-=C2=A0RRECOMMENDS_${PN}-dbg =3D &quot;${PN}-dev (=3D ${EXTENDPKGV})&quot;</=
-div></blockquote></div><br>As the comment and surrounding lines state, the =
-dependencies on PN from PN-dev and PN-dbg are already removed.=C2=A0 What o=
-ther package has a runtime dependency on PN, and when you find it a better =
-solution is to remove the dependency instead of creating empty packages.</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
-
---001a11376dac83cb350519e99b7b--
