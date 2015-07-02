@@ -1,24 +1,24 @@
 Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 21282738FB
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BD3E607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jul 2015 09:01:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6291Mfk015439
+	Thu,  2 Jul 2015 09:10:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t629AbYK019955
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jul 2015 02:01:22 -0700 (PDT)
+	Thu, 2 Jul 2015 02:10:37 -0700 (PDT)
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 2 Jul 2015 02:01:21 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 2 Jul 2015 02:10:36 -0700
 From: <jackie.huang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Jul 2015 17:01:36 +0800
-Message-ID: <1435827696-10546-1-git-send-email-jackie.huang@windriver.com>
+Date: Thu, 2 Jul 2015 17:10:51 +0800
+Message-ID: <1435828251-10712-1-git-send-email-jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH v2] qemu: CVE-2014-3689
+Subject: [PATCH] security_flags: eliminate FORTIFY_SOURCE for debug builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,99 +31,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jul 2015 09:01:22 -0000
+X-List-Received-Date: Thu, 02 Jul 2015 09:10:39 -0000
 Content-Type: text/plain
 
-From: Li Wang <li.wang@windriver.com>
+From: Joe Slater <jslater@windriver.com>
 
-the patch comes from:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3689
-http://git.qemu.org/?p=qemu.git;a=commit;h=83afa38eb20ca27e30683edc7729880e091387fc
+If -D_FORTIFY_SOURCE=2 is included in CFLAGS for debug builds,
+many warnings will be generated and some packages will fail to
+build.  So, only conditionally include it.
 
-vmware-vga: CVE-2014-3689: turn off hw accel
-
-Quick & easy stopgap for CVE-2014-3689:  We just compile out the
-hardware acceleration functions which lack sanity checks.  Thankfully
-we have capability bits for them (SVGA_CAP_RECT_COPY and
-SVGA_CAP_RECT_FILL), so guests should deal just fine, in theory.
-
-Subsequent patches will add the missing checks and re-enable the
-hardware acceleration emulation.
-
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Don Koch <dkoch@verizon.com>
-Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Joe Slater <jslater@windriver.com>
 ---
- .../qemu/qemu/qemu-CVE-2014-3689.patch             | 46 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.3.0.bb           |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-CVE-2014-3689.patch
+ meta/conf/distro/include/security_flags.inc | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-CVE-2014-3689.patch b/meta/recipes-devtools/qemu/qemu/qemu-CVE-2014-3689.patch
-new file mode 100644
-index 0000000..a0c3931
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-CVE-2014-3689.patch
-@@ -0,0 +1,46 @@
-+qemu: CVE-2014-3689
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 104a6cb..9dbce57 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -5,13 +5,18 @@
+ # From a Yocto Project perspective, this file is included and tested
+ # in the DISTRO="poky-lsb" configuration.
+ 
+-SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie -D_FORTIFY_SOURCE=2"
+-SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++# _FORTIFY_SOURCE does not play well with debug builds
++#
++lcl_maybe_fortify = "${@base_conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=2',d)}"
 +
-+the patch comes from:
-+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2014-3689
-+http://git.qemu.org/?p=qemu.git;a=commit;h=83afa38eb20ca27e30683edc7729880e091387fc
++SECURITY_CFLAGS ?= "-fstack-protector-all -pie -fpie ${lcl_maybe_fortify}"
++SECURITY_NO_PIE_CFLAGS ?= "-fstack-protector-all ${lcl_maybe_fortify}"
 +
-+vmware-vga: CVE-2014-3689: turn off hw accel
-+
-+Quick & easy stopgap for CVE-2014-3689:  We just compile out the
-+hardware acceleration functions which lack sanity checks.  Thankfully
-+we have capability bits for them (SVGA_CAP_RECT_COPY and
-+SVGA_CAP_RECT_FILL), so guests should deal just fine, in theory.
-+
-+Subsequent patches will add the missing checks and re-enable the
-+hardware acceleration emulation.
-+
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+Reviewed-by: Don Koch <dkoch@verizon.com>
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ hw/display/vmware_vga.c |    2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-+index 591b645..99a97fe 100644
-+--- a/hw/display/vmware_vga.c
-++++ b/hw/display/vmware_vga.c
-+@@ -29,9 +29,11 @@
-+ #include "hw/pci/pci.h"
-+ 
-+ #undef VERBOSE
-++#if 0
-+ #define HW_RECT_ACCEL
-+ #define HW_FILL_ACCEL
-+ #define HW_MOUSE_ACCEL
-++#endif
-+ 
-+ #include "vga_int.h"
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_2.3.0.bb b/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-index ec1b101..917febe 100644
---- a/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-@@ -18,6 +18,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://09-xen-pt-mark-reserved-bits-in-PCI-config-space-fields-CVE-2015-4106.patch \
-             file://10-xen-pt-add-a-few-PCI-config-space-field-descriptions-CVE-2015-4106.patch \
-             file://11-xen-pt-unknown-PCI-config-space-fields-should-be-readonly-CVE-2015-4106.patch \
-+            file://qemu-CVE-2014-3689.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "2fab3ea4460de9b57192e5b8b311f221"
+ SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
+ SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
+ 
+ # powerpc does not get on with pie for reasons not looked into as yet
+-SECURITY_CFLAGS_powerpc = "-fstack-protector-all -D_FORTIFY_SOURCE=2"
++SECURITY_CFLAGS_powerpc = "-fstack-protector-all ${lcl_maybe_fortify}"
+ # Deal with ppc specific linker failures when using the cflags
+ SECURITY_CFLAGS_pn-dbus_powerpc = ""
+ SECURITY_CFLAGS_pn-dbus-ptest_powerpc = ""
 -- 
 1.9.1
 
