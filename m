@@ -1,25 +1,42 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 42725755C3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 7326C65CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jul 2015 01:30:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t621U5Hp012590
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  2 Jul 2015 01:38:30 +0000 (UTC)
+Received: by pactm7 with SMTP id tm7so31473516pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 1 Jul 2015 18:30:05 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 1 Jul 2015 18:30:05 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 2 Jul 2015 09:25:00 +0800
-Message-ID: <1435800300-6257-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Cc: Yue.Tao@windriver.com
-Subject: [PATCH] man: replace ',' with '#'
+	Wed, 01 Jul 2015 18:38:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=KxU34RSwHynMmWbtLBMyCKupfJtyrFd93gTD+yKos4s=;
+	b=mKWFjArhh97XzYfsQpUD/1/WtmpCG00r6k8vgvL9bYbQOWv4feSpIVJDNj2hlbPeIL
+	lT/owwELOl3X/k0Bzs1N0supZCAuCnwGEWYgIQDMf1EyjSuPHJYDe5SqQe9JrT6Jm180
+	+9sjPUIMyElcmjWibYJsx5u/3XpyTi3uhB5Cx5C3aYveMbpORFJq9LCKGRbr8voo+OHw
+	UvuXFz412gCuUJ2jn/U9ml2ZID8nDTRSTWFT/Ll8LqaUKcdFleWPyJxjnFHdbVB98wYH
+	r2vda4VjEEmMyCgmGQSkNBTVK7YYFqxcL7ghnW/FEzmGUJji+z93vNPhMkDrcfdppBLc
+	pLwQ==
+X-Received: by 10.68.130.226 with SMTP id oh2mr59632402pbb.156.1435801111249; 
+	Wed, 01 Jul 2015 18:38:31 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:4166:d3:8246:e1a0?
+	([2601:646:8601:4580:4166:d3:8246:e1a0])
+	by mx.google.com with ESMTPSA id dd3sm3619744pad.45.2015.07.01.18.38.30
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 01 Jul 2015 18:38:30 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LZdPcAh-bQCkO=WN49b_SAa3Gj8yPLTPPpKD+jVn_mG7Q@mail.gmail.com>
+Date: Wed, 1 Jul 2015 18:38:26 -0700
+Message-Id: <EA10218E-4D41-4B06-8479-9D06D6F588AB@gmail.com>
+References: <cover.1435774899.git.raj.khem@gmail.com>
+	<efc583454a3f6cce0b15d122320258aa8636b92c.1435774899.git.raj.khem@gmail.com>
+	<CAJTo0LZdPcAh-bQCkO=WN49b_SAa3Gj8yPLTPPpKD+jVn_mG7Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2102)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/6] weston: Upgrade weston_1.6.0.bb -> weston_1.8.0.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +49,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jul 2015 01:30:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 02 Jul 2015 01:38:31 -0000
+X-Groupsio-MsgNum: 67444
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_A0CCD00A-6806-4098-9401-2B33C06ECC7F";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Yue Tao <Yue.Tao@windriver.com>
+--Apple-Mail=_A0CCD00A-6806-4098-9401-2B33C06ECC7F
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_DBCE4056-C511-4A36-936D-FA2244410253"
 
-Sometimes, the parameters of CC contains the ',', which
-cause the sed command failed, so replace the ',' with '#'
-
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
----
- meta/recipes-extended/man/man/configure_sed.patch | 22 ++++++++++++++++++++++
- meta/recipes-extended/man/man_1.6g.bb             |  1 +
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-extended/man/man/configure_sed.patch
-
-diff --git a/meta/recipes-extended/man/man/configure_sed.patch b/meta/recipes-extended/man/man/configure_sed.patch
-new file mode 100644
-index 0000000..6c047ac
---- /dev/null
-+++ b/meta/recipes-extended/man/man/configure_sed.patch
-@@ -0,0 +1,22 @@
-+man: replace ',' with '#'
-+
-+Sometimes, the parameters of CC contains the ',', which
-+cause the sed command failed, so replace the ',' with '#'
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-+---
-+diff --git a/configure.old b/configure
-+index 9f62cf9..b439055 100755
-+--- a/configure.old
-++++ b/configure
-+@@ -1321,7 +1321,7 @@ do
-+   echo "Creating $infile from $infile.in"
-+   sed -e '
-+ s,@version@,$version,
-+-s,@CC@,$CC,
-++s#@CC@#$CC#
-+ s,@EXEEXT@,$EXEEXT,
-+ s,@BUILD_CC@,$BUILD_CC,
-+ s,@INSTALL@,$INSTALL,
-diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
-index d4a4b26..6a4c734 100644
---- a/meta/recipes-extended/man/man_1.6g.bb
-+++ b/meta/recipes-extended/man/man_1.6g.bb
-@@ -52,6 +52,7 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
-            file://man.conf \
-            file://manpath.5.gz;unpack=false \
-            file://man-1.6g-whatis3.patch \
-+           file://configure_sed.patch \
- "
- 
- SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
--- 
-1.9.1
+--Apple-Mail=_DBCE4056-C511-4A36-936D-FA2244410253
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Jul 1, 2015, at 3:07 PM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 1 July 2015 at 19:24, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> Make error() portable, Fix build on musl
+>=20
+> Upstream points out that theres lots of other GNU-specific bits in =
+Weston (such as gnu-specific printf formats).  Does musl support those =
+or is this a token step towards being musl-friendly?
+>=20
+
+No, certain construct like %m which are used in weston are already part =
+of musl. As of now it builds and boots fine with latest musl release and =
+we will address any future issues
+if they arise. moreover upstream wayland/weston is very receptive for =
+musl changes. Now regarding this patch, I will redo it and submit it =
+upstream to incorporate the feedback,
+however the patch itself is ok its just the mechanics of it which needs =
+to be changed.
+
+> Ross
+
+
+--Apple-Mail=_DBCE4056-C511-4A36-936D-FA2244410253
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Jul 1, 2015, at 3:07 PM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 1 July 2015 at 19:24, Khem Raj <span dir=3D"ltr" =
+class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank" =
+class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
+class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":19g" =
+class=3D"a3s" style=3D"overflow:hidden">Make error() portable, Fix build =
+on musl<br class=3D""></div></blockquote></div><br class=3D"">Upstream =
+points out that theres lots of other GNU-specific bits in Weston (such =
+as gnu-specific printf formats).&nbsp; Does musl support those or is =
+this a token step towards being musl-friendly?</div><div =
+class=3D"gmail_extra"><br =
+class=3D""></div></div></div></blockquote><div><br =
+class=3D""></div><div>No, certain construct like %m which are used in =
+weston are already part of musl. As of now it builds and boots fine with =
+latest musl release and we will address any future issues</div><div>if =
+they arise. moreover upstream wayland/weston is very receptive for musl =
+changes. Now regarding this patch, I will redo it and submit it upstream =
+to incorporate the feedback,</div><div>however the patch itself is ok =
+its just the mechanics of it which needs to be changed.</div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
+dir=3D"ltr" class=3D""><div class=3D"gmail_extra">Ross</div></div>
+</div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_DBCE4056-C511-4A36-936D-FA2244410253--
+
+--Apple-Mail=_A0CCD00A-6806-4098-9401-2B33C06ECC7F
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlWUlhUACgkQuwUzVZGdMxS9VACfS/7rRm5n4eV8fxTPwzF4tTgq
+RLwAn3FBzV2xskBRqsF3souJuEQ/tLN8
+=phHg
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_A0CCD00A-6806-4098-9401-2B33C06ECC7F--
