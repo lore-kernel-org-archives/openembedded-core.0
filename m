@@ -1,37 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 581C073C63
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id EA42965C89
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jul 2015 22:42:45 +0000 (UTC)
-Received: by qgat90 with SMTP id t90so6794413qga.0
+	Thu,  2 Jul 2015 01:29:41 +0000 (UTC)
+Received: by pdbep18 with SMTP id ep18so35050199pdb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 Jul 2015 15:42:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=GKbpSEEwAQ117VthObvD90rx/zMqLO9F1QZfVCxExxw=;
-	b=MVvD5ytrj4w9pkOw+ZVXAeYdni7+IBxyQfbZUVDIO5ZF2SZ3rnuvhJa0ZojnBnbP7w
-	Hd8RG1NpWdUahmfSEfl7Bp+OdhmhLRpo02M45szG0dmYwLKj9BB1dCnA5CiMHe44J9G9
-	WQ+YyMiZ56TEEjHma0WZ4zmdAU4ElW2oAl29qLzbzzcjs/Brm/63JsPidAWEP3JF36k1
-	nkdX5tdAIrE6UiWQk03UGkOH5PEVRKAWqJNTpT0qU5xJ6ehDzqjwzq5aRywRz38vtiU7
-	v+FIBjGjGe9pUCe/uyH9w6CEUL8vgiaWdnZsk8JLQuXGhfjWiLN8H1mymq7UKUjM93Eo
-	KLcg==
-X-Gm-Message-State: ALoCoQlw77KG61aV+OnebPXd1Qo5B4DpS5vv7ljK4PvNMRFLBEzAhBdI7HBn8PHHF2GS8OM8Zx8k
-X-Received: by 10.55.15.129 with SMTP id 1mr59829437qkp.29.1435790565208; Wed,
-	01 Jul 2015 15:42:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 1 Jul 2015 15:42:25 -0700 (PDT)
-In-Reply-To: <6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 Jul 2015 23:42:25 +0100
-Message-ID: <CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+	Wed, 01 Jul 2015 18:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=h7P+68iTHClSBCJ6OEyJXPUNTbtrIPSU4cHY+6iSfQc=;
+	b=WTgXFKjXs5hhpInnzlA6QMgi0F8rT/e5CD29Mj53u4KvMyVxkT3MYRIdplaGYAxu08
+	OocpF4bCM56Kohb2hfn5vVzzhOw4QukwEqMXnpi0qdJDhvznshQ/AL/wrLQwfLvCH6mh
+	cQQ5Kp+ZSmtqo6Hjy9FZmlVVq8cVOp0ziFvoqxkh99KTqaVTEfvCSk8qtx6zLLFMKkzl
+	W9tKbe2Gjngln4BVilXvsK1sddJaHcrgy98CRQDoj/Vr9hiNeL5avzLAEcxZXBoU0i86
+	ZZ2gsyjpRyQ+FuLdj3fXwkdncHpNhMF5stligcysJ016VSocrpJWSBWOenxBpKAAAAWb
+	76zQ==
+X-Received: by 10.70.40.164 with SMTP id y4mr60715718pdk.25.1435800581643;
+	Wed, 01 Jul 2015 18:29:41 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:4166:d3:8246:e1a0?
+	([2601:646:8601:4580:4166:d3:8246:e1a0])
+	by mx.google.com with ESMTPSA id kp2sm3615331pab.12.2015.07.01.18.29.39
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 01 Jul 2015 18:29:40 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LZQ+uuo93aNFE9HegvvyQAK-qUR8+HUg0u9OAsXSOmf4Q@mail.gmail.com>
+Date: Wed, 1 Jul 2015 18:29:34 -0700
+Message-Id: <20A7D6DE-3D49-4723-BA57-3AF7A5F8065C@gmail.com>
+References: <cover.1435774899.git.raj.khem@gmail.com>
+	<2112607f62fe5c4abf6ff958c88c03d066a719c7.1435774899.git.raj.khem@gmail.com>
+	<20150701184816.GK2409@jama>
+	<CAMKF1sq_n8fFTunuJ2jg_6hv0OjdAsUr4Z-UNPyRoGfNHO+3HA@mail.gmail.com>
+	<CAJTo0LZQ+uuo93aNFE9HegvvyQAK-qUR8+HUg0u9OAsXSOmf4Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2102)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] wayland: Upgrade 1.6.0 -> 1.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +52,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jul 2015 22:42:48 -0000
-Content-Type: multipart/alternative; boundary=001a1146f1009c84d50519d80ac5
+X-List-Received-Date: Thu, 02 Jul 2015 01:29:42 -0000
+X-Groupsio-MsgNum: 67442
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_D6BF9371-27C1-496C-AD42-3DCAE6C47853";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---001a1146f1009c84d50519d80ac5
-Content-Type: text/plain; charset=UTF-8
+--Apple-Mail=_D6BF9371-27C1-496C-AD42-3DCAE6C47853
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_4A6FB9D6-D45E-44AB-8F54-E48185B42BC0"
 
-On 28 June 2015 at 14:18, Armin Kuster <akuster808@gmail.com> wrote:
-
-> this requires the gnutls 3.4.1  update or the current gnutils build will
-> break.
->
-
-This appears to brake our partial support for building core-image-base
-without GPLv3:
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/372/steps/BuildImages/logs/stdio
-
-Either we trim down what we consider buildable without v3, disable gnutls
-in iputils, or include the older versions in oe-core.
-
-Any thoughts?
-
-Ross
-
---001a1146f1009c84d50519d80ac5
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_4A6FB9D6-D45E-44AB-8F54-E48185B42BC0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 June 2015 at 14:18, Armin Kuster <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-lef=
-t-style:solid;padding-left:1ex"><div id=3D":10m" class=3D"" style=3D"overfl=
-ow:hidden">this requires the gnutls 3.4.1=C2=A0 update or the current gnuti=
-ls build will break.<br></div></blockquote><div><br></div><div>This appears=
- to brake our partial support for building core-image-base without GPLv3:</=
-div><div><br></div><div><a href=3D"https://autobuilder.yoctoproject.org/mai=
-n/builders/nightly-non-gpl3/builds/372/steps/BuildImages/logs/stdio">https:=
-//autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/372/st=
-eps/BuildImages/logs/stdio</a></div><div><br></div><div>Either we trim down=
- what we consider buildable without v3, disable gnutls in iputils, or inclu=
-de the older versions in oe-core.</div><div><br></div><div>Any thoughts?</d=
-iv><div><br></div><div>Ross</div></div></div></div>
 
---001a1146f1009c84d50519d80ac5--
+> On Jul 1, 2015, at 1:37 PM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 1 July 2015 at 21:25, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> amended both weston and wayland commit messages on pull branch.
+>=20
+> This is kraj/for-master, right?
+
+yes
+
+>=20
+> Ross
+
+
+--Apple-Mail=_4A6FB9D6-D45E-44AB-8F54-E48185B42BC0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Jul 1, 2015, at 1:37 PM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 1 July 2015 at 21:25, Khem Raj <span dir=3D"ltr" =
+class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank" =
+class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
+class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div =
+style=3D"overflow:hidden" class=3D"">amended both weston and wayland =
+commit messages on pull branch.<br class=3D""></div></blockquote></div><br=
+ class=3D"">This is kraj/for-master, =
+right?</div></div></div></blockquote><div><br =
+class=3D""></div>yes</div><div><br class=3D""><blockquote type=3D"cite" =
+class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
+class=3D"gmail_extra"><br class=3D""></div><div =
+class=3D"gmail_extra">Ross</div></div>
+</div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_4A6FB9D6-D45E-44AB-8F54-E48185B42BC0--
+
+--Apple-Mail=_D6BF9371-27C1-496C-AD42-3DCAE6C47853
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlWUlAMACgkQuwUzVZGdMxQGkQCfVfGMWDQ+eYbCOQrRjnvygaz5
+Y/0AnjLTMAaLpCowzhKKQjhhX21VTCdz
+=5VPi
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_D6BF9371-27C1-496C-AD42-3DCAE6C47853--
