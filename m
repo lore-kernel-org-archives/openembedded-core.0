@@ -1,40 +1,22 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
-	[209.85.192.178])
-	by mail.openembedded.org (Postfix) with ESMTP id DE59475CEE;
-	Fri,  3 Jul 2015 02:16:26 +0000 (UTC)
-Received: by pdjd13 with SMTP id d13so54852297pdj.0;
-	Thu, 02 Jul 2015 19:16:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=0/E7gjlrEijN45/6q8p/9gqUR963mGxFpuzPeXnDtkg=;
-	b=fJtJGG5sywLQThWuWqrCz3scd6NC5a3yZx2zPN5a5cuJ0aI1hh3gP2ux/L9itgbhuG
-	LA1GtubNizhQwLzlzT0p9Gtch/TstBXmwywmSR71hJobrYiwsjB97lpNcsuh8q99bOmg
-	vAsWT9ZxVB0sKdpmI+P4+f1kAtbEDo3TuJo38kAMR8nEdjfVOU0yrENONVITb1GCv220
-	PsQ1H1juq1zVV9NcWOiNWraBpE4E/aI1CBPQ2LGaFdahn8UwX8EiMQV3uGTw1++JpqMP
-	K0Q8dVX74ViL4k8fVkoOTb27BzGjaD85TdII0+WuXzsir1w7fnZbWC9zU7/EX7tRWV2i
-	RIag==
-X-Received: by 10.68.202.7 with SMTP id ke7mr72234159pbc.114.1435889786924;
-	Thu, 02 Jul 2015 19:16:26 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:fd0f:148b:b7ea:7d8b?
-	([2601:202:4000:1239:fd0f:148b:b7ea:7d8b])
-	by mx.google.com with ESMTPSA id
-	ri11sm7069115pbb.92.2015.07.02.19.16.24
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 Jul 2015 19:16:25 -0700 (PDT)
-Message-ID: <5595F075.5010309@gmail.com>
-Date: Thu, 02 Jul 2015 19:16:21 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 2B7E775D06
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Jul 2015 02:25:08 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Fri, 3 Jul 2015
+	04:25:06 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 0A47628BA1E;
+	Fri,  3 Jul 2015 04:25:07 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 3 Jul 2015 04:25:05 +0200
+Message-ID: <1435890305-23163-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <558B6EE7.5090107@gmail.com> <20150625105906.GA2394@jama>
-In-Reply-To: <20150625105906.GA2394@jama>
-Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: google mercurial repo issues
+Received-SPF: None (SESTOEX08.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [dizzy] [PATCH] python: Backport CVE-2013-1752 fix from upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,46 +29,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 02:16:31 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Jul 2015 02:25:10 -0000
+Content-Type: text/plain
 
-It seems to be working today. wonder if it is do to mercurial-native update?
+This back ported patch fixes CVE-2013-1752 for httplib
+References:
+http://bugs.python.org/issue16037
+https://access.redhat.com/security/cve/CVE-2013-1752
 
-- armin
+The httplib module / package can read arbitrary amounts of data
+from its socket when it's parsing the HTTP header. This may lead
+to issues when a user connects to a broken HTTP server or
+something that isn't a HTTP at all
 
-On 06/25/2015 03:59 AM, Martin Jansa wrote:
-> On Wed, Jun 24, 2015 at 08:00:55PM -0700, akuster808 wrote:
->> Hello all,
->>
->> I have run into an issue trying to build vim.
->
-> That's broken for a while (see world reports), because bitbake mercurial
-> fetcher is broken.
->
->> /usr/bin/env hg pull
->> /home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim
->> | DEBUG: Python function base_do_unpack finished
->> | DEBUG: Python function do_unpack finished
->> | ERROR: Function failed: Fetcher failure: Fetch command failed with
->> exit code 255, output:
->> | abort: repository
->> /home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim not found!
->>
->>
->> there is a note on google regarding their hg repos: "We have some known
->> issues with hg repositories."
->> 	
->> https://groups.google.com/forum/#!topic/google-code-hosting/Gh3kl9MrzY4
->>
->>
->> is anyone else seeing this?
->>
->> - armin
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
+---
+ .../python-2.7.3-CVE-2013-1752-httplib-fix.patch   | 45 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch
+
+diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch
+new file mode 100644
+index 0000000..e68f53f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch
+@@ -0,0 +1,45 @@
++Upstream-Status: Backport
++
++CVE-2013-1752: httplib: HTTPMessage.readheaders() raises an HTTPException 
++when more than 100 headers are read.
++Patch by Jyrki Pulliainen and Daniel Eriksson.
++
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
++---
++diff -r 133ee2b48e52 Lib/httplib.py
++--- a/Lib/httplib.py	Fri Aug 01 23:51:51 2014 -0700
+++++ b/Lib/httplib.py	Sat Aug 02 13:59:25 2014 +0000
++@@ -214,6 +214,7 @@
++ 
++ # maximal line length when calling readline().
++ _MAXLINE = 65536
+++_MAXHEADERS = 100
++ 
++ class HTTPMessage(mimetools.Message):
++ 
++@@ -271,6 +272,8 @@
++         elif self.seekable:
++             tell = self.fp.tell
++         while True:
+++            if len(hlist) > _MAXHEADERS:
+++                raise HTTPException("got more than %d headers" % _MAXHEADERS)
++             if tell:
++                 try:
++                     startofline = tell()
++diff -r 133ee2b48e52 Lib/test/test_httplib.py
++--- a/Lib/test/test_httplib.py	Fri Aug 01 23:51:51 2014 -0700
+++++ b/Lib/test/test_httplib.py	Sat Aug 02 13:59:25 2014 +0000
++@@ -262,6 +262,13 @@
++         if resp.read() != "":
++             self.fail("Did not expect response from HEAD request")
++ 
+++    def test_too_many_headers(self):
+++        headers = '\r\n'.join('Header%d: foo' % i for i in xrange(200)) + '\r\n'
+++        text = ('HTTP/1.1 200 OK\r\n' + headers)
+++        s = FakeSocket(text)
+++        r = httplib.HTTPResponse(s)
+++        self.assertRaises(httplib.HTTPException, r.begin)
+++
++     def test_send_file(self):
++         expected = 'GET /foo HTTP/1.1\r\nHost: example.com\r\n' \
++                    'Accept-Encoding: identity\r\nContent-Length:'
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index cbe8d7f..d603587 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -40,6 +40,7 @@ SRC_URI += "\
+   file://posix_close.patch \
+   file://python-2.7.3-CVE-2014-7185.patch \
+   file://python2.7.3-nossl3.patch \
++  file://python-2.7.3-CVE-2013-1752-httplib-fix.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
+-- 
+1.9.1
+
 
