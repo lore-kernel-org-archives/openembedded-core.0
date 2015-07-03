@@ -1,26 +1,21 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 760EC74248
+Return-Path: <jose.a.lamego@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 252FD75C57
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 15:25:07 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 03 Jul 2015 08:25:08 -0700
+	Fri,  3 Jul 2015 15:36:40 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 03 Jul 2015 08:36:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,400,1432623600"; d="scan'208";a="722440640"
-Received: from rsarasw1-mobl6.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.1.191])
-	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2015 08:25:06 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.15,400,1432623600"; d="scan'208";a="755547260"
+Received: from yctb04.ostc.intel.com (HELO yctb04.otcr.jf.intel.com)
+	([10.23.219.53])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2015 08:36:40 -0700
+From: jose.a.lamego@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 03 Jul 2015 16:25:04 +0100
-Message-ID: <3326083.4mhhfWbi2H@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.6-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <CAJTo0Lb9AkKLfaQf_EfBtNrocAJx+STY8dk0fnfNoe3152EwiQ@mail.gmail.com>
-References: <5593BC65.60807@windriver.com>
-	<CAJTo0Lb9AkKLfaQf_EfBtNrocAJx+STY8dk0fnfNoe3152EwiQ@mail.gmail.com>
-MIME-Version: 1.0
-Subject: Re: Cherry-pick request: oe-core rev 2471f9b on branch dizzy
+Date: Fri,  3 Jul 2015 07:34:50 +0000
+Message-Id: <1435908890-27463-1-git-send-email-jose.a.lamego@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] subversion_1.8.13.bb: Regex modified to allow '-D' in paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,29 +28,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 15:25:11 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 03 Jul 2015 15:36:42 -0000
 
-On Wednesday 01 July 2015 11:37:22 Burton, Ross wrote:
-> On 1 July 2015 at 11:09, Kang Kai <Kai.Kang@windriver.com> wrote:
-> > Would you like to cherry-pick one commit  2471f9b  which is useful from
-> > branch dizzy to master, please?
-> 
-> How did that get into dizzy without going through master... :/
+From: Jose Lamego <jose.a.lamego@linux.intel.com>
 
-I'd like to state for the record that in the absence of the submitter taking 
-care of it, the responsibility rests with stable branch maintainers to ensure 
-that any patch taken into the branch they maintain has been merged into all 
-newer branches first, unless it isn't applicable to those branches. It's a 
-pain, but we don't have any automatic mechanism to pick up this situation so 
-for now we rely on it being done manually. 
+Modified the regex sed in serf.m4 to allow the use of '-D' characters
+in project folder names without having compilation error from
+subversion-native.
 
-Cheers,
-Paul
+[YOCTO #7874]
 
+Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
+---
+ ...erf.m4-Regex-modified-to-allow-D-in-paths.patch | 28 ++++++++++++++++++++++
+ .../subversion/subversion_1.8.13.bb                |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/subversion/subversion-1.8.13/serf.m4-Regex-modified-to-allow-D-in-paths.patch
+
+diff --git a/meta/recipes-devtools/subversion/subversion-1.8.13/serf.m4-Regex-modified-to-allow-D-in-paths.patch b/meta/recipes-devtools/subversion/subversion-1.8.13/serf.m4-Regex-modified-to-allow-D-in-paths.patch
+new file mode 100644
+index 0000000..713b5eb
+--- /dev/null
++++ b/meta/recipes-devtools/subversion/subversion-1.8.13/serf.m4-Regex-modified-to-allow-D-in-paths.patch
+@@ -0,0 +1,28 @@
++From f1b6e49f12a18eabe88eb732b578a16281d09499 Mon Sep 17 00:00:00 2001
++From: Jose Lamego <jose.a.lamego@linux.intel.com>
++Date: Thu, 2 Jul 2015 11:37:43 +0000
++Subject: [PATCH] serf.m4: Regex modified to allow '-D' in paths
++
++Upstream-Status: Pending
++
++Signed-off-by: Jose Lamego <jose.a.lamego@linux.intel.com>
++---
++ build/ac-macros/serf.m4 | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/build/ac-macros/serf.m4 b/build/ac-macros/serf.m4
++index ae11e75..ff8cbae 100644
++--- a/build/ac-macros/serf.m4
+++++ b/build/ac-macros/serf.m4
++@@ -143,7 +143,7 @@ AC_DEFUN(SVN_SERF_PKG_CONFIG,
++         if $PKG_CONFIG $serf_major --atleast-version=$serf_check_version; then
++           AC_MSG_RESULT([yes])
++           serf_found=yes
++-          SVN_SERF_INCLUDES=[`$PKG_CONFIG $serf_major --cflags | $SED -e 's/-D[^ ]*//g'`]
+++          SVN_SERF_INCLUDES=[`$PKG_CONFIG $serf_major --cflags | $SED -e 's/[[:space:]]-D[^ ]*//g' -e 's/^-D[^ ]*//g'`]
++           SVN_SERF_LIBS=`$PKG_CONFIG $serf_major --libs` 
++           break
++         else
++-- 
++1.8.4.5
++
+diff --git a/meta/recipes-devtools/subversion/subversion_1.8.13.bb b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+index a98be67..f843b95 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.8.13.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+@@ -12,6 +12,7 @@ inherit gettext pythonnative
+ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://libtool2.patch \
+            file://disable_macos.patch \
++           file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
+ "
+ SRC_URI[md5sum] = "4413417b529d7bdf82f74e50df02e88b"
+ SRC_URI[sha256sum] = "1099cc68840753b48aedb3a27ebd1e2afbcc84ddb871412e5d500e843d607579"
 -- 
+1.8.4.5
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
