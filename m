@@ -1,29 +1,38 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 69A3F75D3E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 060C965CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 09:53:57 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,665,1427731200"; d="scan'208";a="98054435"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 03 Jul 2015 17:57:54 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t639qEZ3011582
+	Fri,  3 Jul 2015 10:12:51 +0000 (UTC)
+Received: by qgeg89 with SMTP id g89so44368425qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jul 2015 17:52:16 +0800
-Received: from localhost.localdomain (10.167.226.85) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 3 Jul 2015 17:53:55 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Jul 2015 17:53:42 +0800
-Message-ID: <1435917222-1676-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <CAJTo0LbkWxCnc05b+y3MFPL3U5Y00wuVRPYgUgDjy_1pDh-VoQ@mail.gmail.com>
-References: <CAJTo0LbkWxCnc05b+y3MFPL3U5Y00wuVRPYgUgDjy_1pDh-VoQ@mail.gmail.com>
+	Fri, 03 Jul 2015 03:12:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=EDV59XRUYhN6Y9YZj5W55W7EujPUQb9vpicerbEn9Vo=;
+	b=PPbKAW5GvKA0xuNuUjwzTFg/4r2+KyMG/xgQ4yiYd9vZQcnt/GyEyiw30UN9C02TEz
+	0+VIzLhCz+0+C/BbrwtKGW0EXkALhH4mj+jBTMv3HM54xuOUKZCTRkyixa64gauiTJoQ
+	wvuOTt5A5iqII/9NQo+eOFR0hKsVUACQKU4DtrPkhbjJeXfx6ftxU+DE/jEy+f7xmXYZ
+	oninh1VoPFdUqzDHEACckp9JF7cPfPldY8BDiMEmZZkVfFgKpygFH9GiVNijDdZFMWhn
+	2p7/vtxM/50+hankLUVplMNPIJ5LWdePSfKqPFF6JARvVv6Ww1nriwiwJrxsh3vuCyHa
+	VavA==
+X-Gm-Message-State: ALoCoQkdQXRdGeIqjaWhGvFNWOMVPG39uLL53eCQ49PJaZti+tk7lEP+wRo42uaECCm9IXkttXuf
+X-Received: by 10.140.235.19 with SMTP id g19mr52205272qhc.52.1435918370725;
+	Fri, 03 Jul 2015 03:12:50 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.85]
-Subject: [PATCH v2] mesa-demos: rename clear
+Received: by 10.140.102.231 with HTTP; Fri, 3 Jul 2015 03:12:31 -0700 (PDT)
+In-Reply-To: <81B0EC78FE09F04E8E0FF9B9C2BF8A364939A858@deeres07.ebgroup.elektrobit.com>
+References: <81B0EC78FE09F04E8E0FF9B9C2BF8A364939A836@deeres07.ebgroup.elektrobit.com>
+	<CAHiDW_FZoQudwPMdV-zTF-SZ2OVoAjNXuoYY8vUTkSQfoMXDtQ@mail.gmail.com>
+	<81B0EC78FE09F04E8E0FF9B9C2BF8A364939A858@deeres07.ebgroup.elektrobit.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 3 Jul 2015 11:12:31 +0100
+Message-ID: <CAJTo0LaTPtegrTJMA6nmsNwhY96ckVGO0QWBojF7_a1A=2Y-dQ@mail.gmail.com>
+To: Steffen.Pankratz@elektrobit.com
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libdrm: Upgrade to 2.4.62
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 09:54:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 03 Jul 2015 10:12:54 -0000
+Content-Type: multipart/alternative; boundary=001a11376dac69f5420519f5ccb1
 
-ncurses have already provided clear,so rename it to clear.mesa-demos.
+--001a11376dac69f5420519f5ccb1
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 3 July 2015 at 09:30, <Steffen.Pankratz@elektrobit.com> wrote:
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-index e565442..cadfc8e 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_8.2.0.bb
-@@ -50,4 +50,5 @@ PACKAGECONFIG[glu] = "--enable-glu,--disable-glu,virtual/libgl"
- do_install_append() {
-     # it can be completely empty when all PACKAGECONFIG options are disabled
-     rmdir --ignore-fail-on-non-empty ${D}${bindir}
-+    mv ${D}${bindir}/clear ${D}${bindir}/clear.mesa-demos
- }
--- 
-1.8.4.2
+> +# Valgrind support is enabled by default currently
+> +# already fixed upstream:
+> http://cgit.freedesktop.org/mesa/drm/commit/?id=676c806d0221a7ea375676b2eab514c426fcacd3
+> +EXTRA_OECONF += "--disable-valgrind"
+>
 
+No need for this comment.  We'd need the --disable-valgrind when that
+commit is in a release as then libdrm will enable/disable valgrind support
+depending on the sysroot, and non-determinism is bad.
 
+(To avoid a cycle I'll pull this into staging but delete the comment)
+
+Ross
+
+--001a11376dac69f5420519f5ccb1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 July 2015 at 09:30,  <span dir=3D"ltr">&lt;<a href=3D"mailto:Steffen.P=
+ankratz@elektrobit.com" target=3D"_blank">Steffen.Pankratz@elektrobit.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":bo" clas=
+s=3D"a3s" style=3D"overflow:hidden">+# Valgrind support is enabled by defau=
+lt currently<br>
++# already fixed upstream: <a href=3D"http://cgit.freedesktop.org/mesa/drm/=
+commit/?id=3D676c806d0221a7ea375676b2eab514c426fcacd3" rel=3D"noreferrer" t=
+arget=3D"_blank">http://cgit.freedesktop.org/mesa/drm/commit/?id=3D676c806d=
+0221a7ea375676b2eab514c426fcacd3</a><br>
++EXTRA_OECONF +=3D &quot;--disable-valgrind&quot;</div></blockquote></div><=
+br>No need for this comment.=C2=A0 We&#39;d need the --disable-valgrind whe=
+n that commit is in a release as then libdrm will enable/disable valgrind s=
+upport depending on the sysroot, and non-determinism is bad.</div><div clas=
+s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(To avoid a cycle I&=
+#39;ll pull this into staging but delete the comment)</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11376dac69f5420519f5ccb1--
