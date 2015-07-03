@@ -1,51 +1,53 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D50C4607A4
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx12-out14.antispamcloud.com (mx12-out14.antispamcloud.com
+	[46.165.232.184])
+	by mail.openembedded.org (Postfix) with ESMTP id F00E675CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 07:07:20 +0000 (UTC)
-Received: by lbcpe5 with SMTP id pe5so44697570lbc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Jul 2015 00:07:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-type:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=HPLfm7jYjx2ZayaTL/j9EKPqNSh6frXjn/u3LiMOHR4=;
-	b=Nlr7IULczqb/xPnR85ybIHcCiORdWTcpp2wwkoyBOA2zHXMiCg1xCa6NBYc9ZLyi6s
-	MJ/0lmg1WC625sY85KRHnkgok2QJ+4X19Dr2kbezLknKIFUyp8PPWXmVFBSQ2IA/I01B
-	j+fKzn59/aqKec765fLT2g7qYghvPJpU5sMeH+Bkw8q6hxxdfnpfYbO4yAZXJ8Zkc4pv
-	GmSvcJKrX+ALU5AkaEeCEMyRuUF7eC0cIN+6TWcQlAmLYEtbltx4vph4PoEFqtAB/xLm
-	MFGfhTwU9sD2rn61M3+8BvFyIEGi8KRJZu+2guwGySQssd6sheyY40V5ih5t/MPE51c3
-	IWYA==
-X-Gm-Message-State: ALoCoQlPHHh6ptRDiDQZM4n8RwI4aS9R4skcaFSHxhG0AM9TUK2yBf/oPr6Cc32oAwgEUT+qRNkp
-X-Received: by 10.112.63.201 with SMTP id i9mr34220762lbs.93.1435907239113;
-	Fri, 03 Jul 2015 00:07:19 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84])
-	by mx.google.com with ESMTPSA id h3sm2088263lbj.19.2015.07.03.00.07.17
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Jul 2015 00:07:18 -0700 (PDT)
-Date: Fri, 3 Jul 2015 09:07:16 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150703070716.GA21416@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
-	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
-	<55956F2C.2040301@gmail.com>
+	Fri,  3 Jul 2015 07:23:24 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx12.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1ZAvJd-0001Bm-47 for openembedded-core@lists.openembedded.org;
+	Fri, 03 Jul 2015 09:23:23 +0200
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Fri, 3 Jul 2015 09:23:23 +0200
+Message-ID: <55963864.2030604@topic.nl>
+Date: Fri, 3 Jul 2015 09:23:16 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-In-Reply-To: <55956F2C.2040301@gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+To: <openembedded-core@lists.openembedded.org>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
+	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJrzdCgy2NVPVbJoZFBZPCpd5iAoruyr7Wm8bcd
+	TNfDzgI8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
+	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
+	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
+	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
+	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh+h+CzXS8eUe
+	C5gEulNqQ4FWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lokhecaVqDL9uaaBYOuxasEpt
+	pbQqVsjuh0JlrWxsIcuBhkb6GDdB6OAsNDDRIxpg15xifUD173ICRv+qGaUPXf0=
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJcFIkh7yuznlTeFPLSNUgKbJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: ham
+X-Spampanel-Outgoing-Evidence: Combined (0.00)
+X-Recommended-Action: accept
+Subject: Getting rid of "The license listed internal was not in the licenses collected" warnings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +60,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 07:07:22 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 03 Jul 2015 07:23:29 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-* akuster808 <akuster808@gmail.com> [150702 19:05]:
+=EF=BB=BFIn my layer.conf I have:
 
-> The current version of nettle 2.7 has one file that is GPL v3.
-> mini-gmp.*
+LICENSE_PATH +=3D "${LAYERDIR}/licenses"
 
-> so the license for 2.7 should be updated IMHO. So wont that put us in the
-> same boat as the upgrade?
 
-Ouch, that's no good!
+In that path, there's a license file called "internal" containing the=20
+following short text:
 
-Ideally, we should look at that file and see for how long it's been part
-of nettle. If it's just for a short time, maybe we could go back to a
-point in time just prior to the inclusion (or license change) of that
-file.
+For TOPIC internal use only.
+Do not distribute.
 
-Has it been like this for far too long, well, then we either have to see
-what impact this has on non-GPLv3 builds...
 
-One option, depending on the age etc, could be to check if it's possible
-to get that single file re-licensed. Short-term, we have to fix the
-license and backport that fix to all supported versions that are
-affected, even though that might introduce regressions in images around
-the world... 
+Now on each build I get warnings like this for every recipe that refers to=
+=20
+this license:
+"WARNING: The license listed internal was not in the licenses collected for=
+=20
+recipe ..."
 
-Cheers,
-Anders
 
--- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+As far as I know, I did everything right, but I can't figure out what else =
+I=20
+need to do here. How do I get this license into the "license collected"?
+
+Mike.
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
+
 
