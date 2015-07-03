@@ -1,36 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 86CAB75D4F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f51.google.com (mail-wg0-f51.google.com [74.125.82.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B4F375D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 10:26:48 +0000 (UTC)
-Received: by wgjx7 with SMTP id x7so84608988wgj.2
+	Fri,  3 Jul 2015 10:34:14 +0000 (UTC)
+Received: by wgqq4 with SMTP id q4so84963889wgq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Jul 2015 03:26:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=D759tekleCcO9WIEN9cXcQRdNr00fOiXwRTY0Sid+ao=;
-	b=KZocX9JqTsNHUCQxt5JKe2Wg90ZR+M6DSE7FjaXVhzCHUS5mjqqrt1rCFI6fEkaKoX
-	OsyzdAtoE2VIs4QSyXgzNXEWkJidfg2ZAlYm8W2BNhxBQ86k3T4e75UFIr/WT7yW4f7a
-	BAUfUwbhtGuT8EtH+aSGTvBnhWdmtF+I4CyjwDf6hKS1NsGIM119oALmJTYmYHsPevby
-	yZ9Cm6YOvkSBx4cITLmpGSzDyCJe5bLyKSN8lbBgFOv4CkD4cr7QR8szJ//Vycnn+lfc
-	Rx7bkL5euV0nmHX9yYsbJOnZwfQvJrUc7qFLy2836IzHnm1uAf9vFnmJdPWXKUSWQ3OP
-	g3YA==
-X-Gm-Message-State: ALoCoQmrtB3Ya27sRvA+Bs6uRBQ/fQtX4xVbxvTynXTfcwcbz4dQbhjJKM+FsEC+2KgsNl1Vbovn
-X-Received: by 10.194.93.226 with SMTP id cx2mr19428739wjb.28.1435919208990;
-	Fri, 03 Jul 2015 03:26:48 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by mx.google.com with ESMTPSA id
-	ul1sm12672153wjc.30.2015.07.03.03.26.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 03 Jul 2015 03:26:48 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jul 2015 11:21:25 +0100
-Message-Id: <1435918885-12200-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] libdrm: remove git recipe, merge inc
+	Fri, 03 Jul 2015 03:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=kMapnx5aOYivZ5vjVPcx2Qy2EP5Fpo2wqyPmBg4pM40=;
+	b=lZ/t32YPrP/IzijFBx8VljhD9RIF1/Djf5qgjd2PtHjTvE0XB3N2ITmoIvUxkKU2Jt
+	Ko04EeEAA560+nVHSNw6971o6pYNMB9DL2ACHUMixinfyYi4rI0T4LcW36MmiBUCZ/Ok
+	83UUSMTVY/H14E/3WFffuSxjM1A8WQlZaG99Uy4OeiIBG13Ec1BjuMCRVkLcWPxuLdAz
+	x+eUTcODwk77vBSbe75eMFqEzZ5iJ1S1gWx2peYTDq9jeomEnfCpAHyp+M/xyZiTL+Ox
+	7ESt3DX739rqDdS9Xn32ZeAAlgUtelgi1kPLq0MqefvhZmw+l4aiD5dEdR6bXqrej6EW
+	eIyQ==
+X-Received: by 10.180.206.33 with SMTP id ll1mr62759228wic.91.1435919653700;
+	Fri, 03 Jul 2015 03:34:13 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by mx.google.com with ESMTPSA id js3sm12714826wjc.5.2015.07.03.03.34.12
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 Jul 2015 03:34:12 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Fri, 3 Jul 2015 12:34:46 +0200
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+Message-ID: <20150703103446.GB2436@jama>
+References: <1435737141-31961-1-git-send-email-jackie.huang@windriver.com>
+	<CAJTo0LacneDbjFJR+uPQs__cqx+FVwXEuyCXe5zVui+Gu9tbpg@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AAF11F6D32@ALA-MBB.corp.ad.wrs.com>
+	<20150703090405.GA2436@jama>
+	<CAJTo0Lbdq1=ZgX5VQApdvhDfX1uF3MkT0sD_MXfQr3coN18t1A@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AAF11F7414@ALA-MBB.corp.ad.wrs.com>
+	<CAJTo0LZDcTfLFE8wsCU04m0LR1mNOb-Q1zjO2d8hRTQfTmvuHw@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AAF11F7479@ALA-MBB.corp.ad.wrs.com>
+MIME-Version: 1.0
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AAF11F7479@ALA-MBB.corp.ad.wrs.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xorg-proto-common: allow the empty package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,135 +52,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 10:26:49 -0000
+X-List-Received-Date: Fri, 03 Jul 2015 10:34:21 -0000
+X-Groupsio-MsgNum: 67525
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ftEhullJWpWg/VHq"
+Content-Disposition: inline
 
-The git recipe hasn't been touched since 2012 and is out of date, so simplify
-the recipe by removing the git form and merging the remaining bb and inc file.
+--ftEhullJWpWg/VHq
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/drm/libdrm.inc       | 41 ------------------------------
- meta/recipes-graphics/drm/libdrm_2.4.59.bb | 41 +++++++++++++++++++++++++++---
- meta/recipes-graphics/drm/libdrm_git.bb    | 12 ---------
- 3 files changed, 38 insertions(+), 56 deletions(-)
- delete mode 100644 meta/recipes-graphics/drm/libdrm.inc
- delete mode 100644 meta/recipes-graphics/drm/libdrm_git.bb
+On Fri, Jul 03, 2015 at 10:16:09AM +0000, Huang, Jie (Jackie) wrote:
+> Thanks for the explanation. I think you=E2=80=99re suggesting that we do =
+nothing for such issue or
+> just tell the user to use PN-dev for this kind of packages, right?
 
-diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
-deleted file mode 100644
-index d3e1e92..0000000
---- a/meta/recipes-graphics/drm/libdrm.inc
-+++ /dev/null
-@@ -1,41 +0,0 @@
--SUMMARY = "Userspace interface to the kernel DRM services"
--DESCRIPTION = "The runtime library for accessing the kernel DRM services.  DRM \
--stands for \"Direct Rendering Manager\", which is the kernel portion of the \
--\"Direct Rendering Infrastructure\" (DRI).  DRI is required for many hardware \
--accelerated OpenGL drivers."
--HOMEPAGE = "http://dri.freedesktop.org"
--SECTION = "x11/base"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
--SRC_URI = "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
--PROVIDES = "drm"
--DEPENDS = "libpthread-stubs udev"
--
--# be aware that libdrm_2.4.44.bb ignores this
--INC_PR = "r4"
--
--#libpciaccess is required starting from libdrm 2.4.26
--DEPENDS += " libpciaccess"
--
--inherit autotools pkgconfig
--
--EXTRA_OECONF += "--disable-cairo-tests \
--                 --enable-omap-experimental-api \
--                 --enable-install-test-programs \
--                 --disable-manpages \
--                "
--ALLOW_EMPTY_${PN}-drivers = "1"
--PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
--             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno"
--
--RRECOMMENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
--                             ${PN}-exynos ${PN}-freedreno"
--
--FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode* ${bindir}/*test"
--FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
--FILES_${PN}-nouveau = "${libdir}/libdrm_nouveau.so.*"
--FILES_${PN}-omap = "${libdir}/libdrm_omap.so.*"
--FILES_${PN}-intel = "${libdir}/libdrm_intel.so.*"
--FILES_${PN}-exynos = "${libdir}/libdrm_exynos.so.*"
--FILES_${PN}-kms = "${libdir}/libkms*.so.*"
--FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.59.bb b/meta/recipes-graphics/drm/libdrm_2.4.59.bb
-index 14bf44a..97f75ff 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.59.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.59.bb
-@@ -1,6 +1,41 @@
--require libdrm.inc
--
--SRC_URI += "file://installtests.patch "
-+SUMMARY = "Userspace interface to the kernel DRM services"
-+DESCRIPTION = "The runtime library for accessing the kernel DRM services.  DRM \
-+stands for \"Direct Rendering Manager\", which is the kernel portion of the \
-+\"Direct Rendering Infrastructure\" (DRI).  DRI is required for many hardware \
-+accelerated OpenGL drivers."
-+HOMEPAGE = "http://dri.freedesktop.org"
-+SECTION = "x11/base"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
-+PROVIDES = "drm"
-+DEPENDS = "libpthread-stubs udev libpciaccess"
- 
-+SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-+           file://installtests.patch "
- SRC_URI[md5sum] = "d32a1d37c2546ee11fc5924abeedb23e"
- SRC_URI[sha256sum] = "68d26e1fd85582f4243d66864f9b43ca4ee93662825de32b5506fc8e181ea41b"
-+
-+inherit autotools pkgconfig
-+
-+EXTRA_OECONF += "--disable-cairo-tests \
-+                 --enable-omap-experimental-api \
-+                 --enable-install-test-programs \
-+                 --disable-manpages \
-+                "
-+
-+ALLOW_EMPTY_${PN}-drivers = "1"
-+PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
-+             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno"
-+
-+RRECOMMENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
-+                             ${PN}-exynos ${PN}-freedreno"
-+
-+FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode* ${bindir}/*test"
-+FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
-+FILES_${PN}-nouveau = "${libdir}/libdrm_nouveau.so.*"
-+FILES_${PN}-omap = "${libdir}/libdrm_omap.so.*"
-+FILES_${PN}-intel = "${libdir}/libdrm_intel.so.*"
-+FILES_${PN}-exynos = "${libdir}/libdrm_exynos.so.*"
-+FILES_${PN}-kms = "${libdir}/libkms*.so.*"
-+FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
-+
-diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-graphics/drm/libdrm_git.bb
-deleted file mode 100644
-index d7245ee..0000000
---- a/meta/recipes-graphics/drm/libdrm_git.bb
-+++ /dev/null
-@@ -1,12 +0,0 @@
--require libdrm.inc
--
--SRC_URI = "git://anongit.freedesktop.org/git/mesa/drm"
--
--S = "${WORKDIR}/git"
--
--DEFAULT_PREFERENCE = "-1"
--
--SRCREV = "e01d68f9f3acfc35fe164283904b5d058c2ab378"
--PV = "2.4.40+git${SRCPV}"
--PR = "${INC_PR}.0"
--
--- 
-2.1.4
+Yes, if user wants to install PN-dev, then he should add PN-dev to
+IMAGE_INSTALL not PN.
 
+> From: Burton, Ross [mailto:ross.burton@intel.com]
+> Sent: Friday, July 03, 2015 5:39 PM
+> To: Huang, Jie (Jackie)
+> Cc: Martin Jansa; OE-core
+> Subject: Re: [OE-core] [PATCH] xorg-proto-common: allow the empty package
+>=20
+>=20
+> On 3 July 2015 at 10:34, Huang, Jie (Wind River) <jackie.huang@windriver.=
+com<mailto:jackie.huang@windriver.com>> wrote:
+>=20
+> I see your point, I think we can make the empty PN rdepends on PN-dev(but=
+ the dev-deps QA check need to be skipped),
+>=20
+> then when user try to add PN, PN-dev will also be installed, so it=E2=80=
+=99s not an useless empty package.
+>=20
+> bigreqsproto is development headers.  Therefore its in the bigreqsproto-d=
+ev package.  This is not hard to understand, nor should we start filling th=
+e feeds up with empty packages just to please users who can't verify the pa=
+ckage names.
+>=20
+> Didn't we have this discussion a few months ago?  There are some recipes =
+where PN not existing is unusual (avahi was a good example, and I had a par=
+tial branch to fix that), but for recipes which entirely consist of develop=
+ment files, there only being a development package is reasonable and predic=
+table.
+>=20
+> (If I *had* to do this, I'd have RPROVIDES_${PN}-dev +=3D ${PN})
+>=20
+> I see that openssh has similar situation, PN is allowed empty, but it rde=
+pends on =E2=80=9C${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen=E2=80=9D.
+> That's a different use case entirely: pulling in the entire SSH suite in =
+a single package whilst still allowing resource-constrained or secure syste=
+ms to pull in only the parts they want.
+>=20
+> Ross
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--ftEhullJWpWg/VHq
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlWWZUUACgkQN1Ujt2V2gBwEwwCfWtfd2vtMyZcLNoIYtv9K63ur
+CnYAoIUWh7XGRc3f6ui6sqIIXd6MuyGQ
+=8T7k
+-----END PGP SIGNATURE-----
+
+--ftEhullJWpWg/VHq--
