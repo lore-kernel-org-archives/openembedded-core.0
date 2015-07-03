@@ -1,39 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id F280D6AB9F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E814F6AB9F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 09:03:32 +0000 (UTC)
-Received: by wibdq8 with SMTP id dq8so94537696wib.1
+	Fri,  3 Jul 2015 09:13:52 +0000 (UTC)
+Received: by qkeo142 with SMTP id o142so69150070qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Jul 2015 02:03:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=ssW3mysXLzHGg2+RuxVYQtbNIpj2za5/vKnauaazzP4=;
-	b=kqq9hA1ht7WrXxIgY3U3LkKJOZT23NXtRrkm2gxFMPjZiifsfpGSRU1OXvbgycXVf5
-	v4hVE1MKcSwhI7Puw+qaxTbM93gvUDy/26Cjgq0HqFBoZNSDP2kfAro7yAMhl7cHvYnL
-	mgLpNc+z/Ks7TIjbyI7fNUU5QpboXXQwWQgIT4lcPeU2esZAuH01eSRboPx0t4R+6JdN
-	hCDXT7Sj6/7hXiv/E7q/4I7usfEVA6pA4/HD1lXvA3L4lk+/a2A2bZ7WubBzmkPzco4U
-	i889t5vN+OeJ1VXMBYBWuGE9JL7ufmF6lJd6AYLbTizXOE4jZrbp1qmqegydEdXT3p5c
-	eVnA==
-X-Received: by 10.194.184.14 with SMTP id eq14mr65164475wjc.58.1435914211777; 
-	Fri, 03 Jul 2015 02:03:31 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id k2sm12853579wif.4.2015.07.03.02.03.30
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 Jul 2015 02:03:30 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 3 Jul 2015 11:04:05 +0200
-To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-Message-ID: <20150703090405.GA2436@jama>
+	Fri, 03 Jul 2015 02:13:52 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=139Lz3e+XWPdcMDEl4jAFaKlafVoSszpNRTOe+teFPk=;
+	b=iUtXyqj7u9oKIA2XbW1nU4drKHpdlVu89GHrMPBklk8j0mzBGm5K5b4/jNLa1FE7hY
+	UHPSVANG/5PAq7IwTC5ePMzUDM3f90fAT7uNw3n56whVsHKa+uSjmCwFLMeKFA0Z0t4L
+	xyCbsVidjay4GoY7YC4hKilCUDQb4qtSvbkLHd13xBf/1y1XiyPgu5nT0rpwL0gmr1Qg
+	EC1UGNb6ZDE+YseQGnnBviIRETateck7283f5SE7qKcFOnp783IlPTBy3ghGGG8JKupA
+	8tfD2ty2DcMAYk6/PWp0+bYIifiNPYiE69QK09sfo5VHHl067gp4cbXtOJDZuVpNZm0P
+	YndQ==
+X-Gm-Message-State: ALoCoQnkh9en0Y4j2wC2zdXHhNg/7CCqoTWNwYCYFzA5xZLOFqfcHMwf60ISQsQpKHJsnTflD1Jh
+X-Received: by 10.55.18.197 with SMTP id 66mr53132291qks.13.1435914832344;
+	Fri, 03 Jul 2015 02:13:52 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Fri, 3 Jul 2015 02:13:32 -0700 (PDT)
+In-Reply-To: <20150703090405.GA2436@jama>
 References: <1435737141-31961-1-git-send-email-jackie.huang@windriver.com>
 	<CAJTo0LacneDbjFJR+uPQs__cqx+FVwXEuyCXe5zVui+Gu9tbpg@mail.gmail.com>
 	<1B858668EC6A94408DCA5225FDFA85AAF11F6D32@ALA-MBB.corp.ad.wrs.com>
-MIME-Version: 1.0
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AAF11F6D32@ALA-MBB.corp.ad.wrs.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+	<20150703090405.GA2436@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 3 Jul 2015 10:13:32 +0100
+Message-ID: <CAJTo0Lbdq1=ZgX5VQApdvhDfX1uF3MkT0sD_MXfQr3coN18t1A@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] xorg-proto-common: allow the empty package
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,77 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 09:03:35 -0000
-X-Groupsio-MsgNum: 67514
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="KsGdsel6WgEHnImy"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 03 Jul 2015 09:13:54 -0000
+Content-Type: multipart/alternative; boundary=001a11474faa828c920519f4f9ec
 
---KsGdsel6WgEHnImy
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--001a11474faa828c920519f4f9ec
+Content-Type: text/plain; charset=UTF-8
+
+On 3 July 2015 at 10:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> I as a customer would definitely prefer error message even later in the
+> build then getting completely useless empty package installed in my
+> image and blame you for installing it when I was expecting to find
+> bigreqsproto in my rootfs.
+>
+
+Agreed.  Installing bigreqsproto and not getting anything is far more
+annoying than the error and following epiphany that if you want the
+development headers for bigreqsproto you should install bigreqsproto-dev.
+
+Ross
+
+--001a11474faa828c920519f4f9ec
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 03, 2015 at 01:34:31AM +0000, Huang, Jie (Jackie) wrote:
-> Yeah I know it=E2=80=99s not good to have the empty package and we can re=
-move dependencies to void error, but
-> our customer may add the package through IMAGE_INSTALL in local.conf and =
-blame it fails until do_rootfs:
->=20
-> ERROR: bigreqsproto not found in the base feeds (intel_x86_64 core2-64 x8=
-6_64 noarch any all).
->=20
-> Do we have a way to find out a PN package is empty at an earlier time so =
-that we may warn the user not
-> to add this package into image?
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 July 2015 at 10:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":fg" class=3D"a=
+3s" style=3D"overflow:hidden">I as a customer would definitely prefer error=
+ message even later in the<br>
+build then getting completely useless empty package installed in my<br>
+image and blame you for installing it when I was expecting to find<br>
+bigreqsproto in my rootfs.</div></blockquote></div><br>Agreed.=C2=A0 Instal=
+ling bigreqsproto and not getting anything is far more annoying than the er=
+ror and following epiphany that if you want the development headers for big=
+reqsproto you should install bigreqsproto-dev.</div><div class=3D"gmail_ext=
+ra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-I as a customer would definitely prefer error message even later in the
-build then getting completely useless empty package installed in my
-image and blame you for installing it when I was expecting to find
-bigreqsproto in my rootfs.
-
-> From: Burton, Ross [mailto:ross.burton@intel.com]
-> Sent: Friday, July 03, 2015 3:40 AM
-> To: Huang, Jie (Jackie)
-> Cc: OE-core
-> Subject: Re: [OE-core] [PATCH] xorg-proto-common: allow the empty package
->=20
->=20
-> On 1 July 2015 at 08:52, <jackie.huang@windriver.com<mailto:jackie.huang@=
-windriver.com>> wrote:
->  # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
-> +# and allow ${PN} to be created empty
-> +ALLOW_EMPTY_${PN} =3D "1"
->  RDEPENDS_${PN}-dev =3D ""
->  RRECOMMENDS_${PN}-dbg =3D "${PN}-dev (=3D ${EXTENDPKGV})"
->=20
-> As the comment and surrounding lines state, the dependencies on PN from P=
-N-dev and PN-dbg are already removed.  What other package has a runtime dep=
-endency on PN, and when you find it a better solution is to remove the depe=
-ndency instead of creating empty packages.
->=20
-> Ross
-
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---KsGdsel6WgEHnImy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWWT/8ACgkQN1Ujt2V2gBwuRwCguHdax+xPh0NAnjHL7yGJsCxI
-Q8YAn32GUP8gWxC4kJKMwoyYWkjBstow
-=AUDn
------END PGP SIGNATURE-----
-
---KsGdsel6WgEHnImy--
+--001a11474faa828c920519f4f9ec--
