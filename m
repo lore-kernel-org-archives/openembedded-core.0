@@ -1,25 +1,35 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7374475D10
+Return-Path: <obi@opendreambox.org>
+Received: from mail.dream-property.net (mail.dream-property.net
+	[82.149.226.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C33E65CCC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 07:24:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t637OSYl028059
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  3 Jul 2015 08:00:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.dream-property.net (Postfix) with ESMTP id 7DD0D315748B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jul 2015 00:24:28 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Fri, 3 Jul 2015 00:24:27 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Jul 2015 15:23:48 +0800
-Message-ID: <cover.1435908151.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Fri,  3 Jul 2015 10:00:46 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
+Received: from mail.dream-property.net ([127.0.0.1])
+	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 5KGIlRV9OjLe
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Jul 2015 10:00:41 +0200 (CEST)
+Received: from [172.22.22.61] (55d44c7e.access.ecotel.net [85.212.76.126])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id D53DC31572F5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 Jul 2015 10:00:40 +0200 (CEST)
+Message-ID: <55964128.4090607@opendreambox.org>
+Date: Fri, 03 Jul 2015 10:00:40 +0200
+From: Andreas Oberritter <obi@opendreambox.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Subject: [PATCH 0/1] Update alternatives of man pages
+To: openembedded-core@lists.openembedded.org
+References: <1435905732-15169-1-git-send-email-xiao.zhang@windriver.com>
+In-Reply-To: <1435905732-15169-1-git-send-email-xiao.zhang@windriver.com>
+Subject: Re: [PATCH] systemd: bug fix for the path of systemd.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +42,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 07:24:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 03 Jul 2015 08:00:54 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-It is ok to be installed by rpm, but failed with smart.
+Hello Zhang Xiao,
 
-The following changes since commit 8ad9a434c9fd0300cf5c38c368b181b78421e95a:
+On 03.07.2015 08:42, Zhang Xiao wrote:
+> tmpfiles.d/systemd.conf lies in {prefix}/lib not {libdir}.
+> Fix it.
+> 
+> Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
+> ---
+>  meta/recipes-core/systemd/systemd_219.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+> index 6ed4fe0..04db47b 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -178,7 +178,7 @@ do_install() {
+>  	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
+>  	# for existence else it fails
+>  	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; the
+> -		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
+> +		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${prefix}/lib/tmpfiles.d/systemd.conf', d)}
 
-  bitbake: tests/data: Add new data tests (2015-07-01 15:40:21 +0100)
+wouldn't it be appropriate to change the conditional above, too?
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib kangkai/alternatives
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kangkai/alternatives
-
-Kai Kang (1):
-  Update alternatives of man pages
-
- meta/recipes-core/coreutils/coreutils_8.23.bb       | 7 ++++++-
- meta/recipes-core/util-linux/util-linux.inc         | 8 +++++++-
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 6 ++++++
- meta/recipes-devtools/ossp-uuid/ossp-uuid_1.6.2.bb  | 6 +++++-
- meta/recipes-extended/mktemp/mktemp_1.7.bb          | 4 ++++
- meta/recipes-extended/procps/procps_3.3.10.bb       | 4 ++++
- meta/recipes-extended/shadow/shadow.inc             | 3 ++-
- meta/recipes-extended/stat/stat_3.3.bb              | 3 +++
- 8 files changed, 37 insertions(+), 4 deletions(-)
-
--- 
-1.9.1
-
+Regards,
+Andreas
 
