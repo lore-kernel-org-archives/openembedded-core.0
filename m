@@ -1,38 +1,40 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E25D741CF
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
+	[209.85.213.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D62DB757F4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 17:04:13 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Jul 2015 10:04:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,401,1432623600"; 
-	d="scan'208,217";a="740159968"
-Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Jul 2015 10:03:56 -0700
-Received: from orsmsx115.amr.corp.intel.com (10.22.240.11) by
-	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Fri, 3 Jul 2015 10:03:56 -0700
-Received: from fmsmsx117.amr.corp.intel.com (10.18.116.17) by
-	ORSMSX115.amr.corp.intel.com (10.22.240.11) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Fri, 3 Jul 2015 10:03:55 -0700
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.65]) by
-	fmsmsx117.amr.corp.intel.com ([169.254.3.141]) with mapi id
-	14.03.0224.002; Fri, 3 Jul 2015 10:03:55 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Status WW27
-Thread-Index: AdC1sj5JTk/7JxfNSKeqpcjUNa6LAA==
-Date: Fri, 3 Jul 2015 17:03:55 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E5553A0D6@fmsmsx111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.107]
+	Fri,  3 Jul 2015 17:06:24 +0000 (UTC)
+Received: by igblr2 with SMTP id lr2so80554666igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Jul 2015 10:06:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=Ts9Zlj8UDpXizOjwzYbDObJrzRTeEUf4NMkf89yxOkg=;
+	b=XxRXiWECGy3GRYLRr7cYV0D46/PRhEY3zqZbJDtyML7nbs8WDwojj7OpPecegnNe1Y
+	T2IOpha3Jnp0tlEMoIwLR/UYF/FzZKiL9SPrsI8p+tO0hPr2Cunh9PBfvhpnIMXFLDT3
+	tJt/mOmqwvMdCaw3SIF/ANoVztyIM+ObHEux+ZcB0GxaBn1Xnt+wjQjMVOWxnQNLORKc
+	COyiE0Or9nc/aIJ9yhKR5xScfJ8Yib2Jzvj80HH1N7AwRcgcrMQVWXzwHA+/zotgSU+1
+	Yo5lipR0aGXo6tK9E5nSEDj86GFGQ8kELeM8M7jbUsUg0pfNwQjA5906d/lNRNgMOWu2
+	Fu4Q==
 MIME-Version: 1.0
-Subject: Yocto Project Status WW27
+X-Received: by 10.107.18.84 with SMTP id a81mr52687087ioj.14.1435943184549;
+	Fri, 03 Jul 2015 10:06:24 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.36.218.7 with HTTP; Fri, 3 Jul 2015 10:06:24 -0700 (PDT)
+In-Reply-To: <CAD1M061y-fAmn+d0HLoMmK0yMj4Y8obk4yy6FQY0Ph9Zzms+jg@mail.gmail.com>
+References: <1429921386-17007-1-git-send-email-psidhu@gateworks.com>
+	<1429921386-17007-2-git-send-email-psidhu@gateworks.com>
+	<CAD1M060jUQOR4XQZvNTtkZyscV3O-+e5D5mdEiN=5UXNErDwLg@mail.gmail.com>
+	<CAD1M061y-fAmn+d0HLoMmK0yMj4Y8obk4yy6FQY0Ph9Zzms+jg@mail.gmail.com>
+Date: Fri, 3 Jul 2015 14:06:24 -0300
+X-Google-Sender-Auth: Py2mpqPzIHl5ppai3WQogZb-xYI
+Message-ID: <CAP9ODKrbi6PEN6+7Jeg1yJbHR_AwP_zHz8T+iEBw6MbWsx+Wcw@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: Pushpal Sidhu <psidhu@gateworks.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] image_types.bbclass: add support for multiple ubi sizes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,342 +47,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 17:04:14 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5553A0D6fmsmsx111amrcor_"
+X-List-Received-Date: Fri, 03 Jul 2015 17:06:25 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5553A0D6fmsmsx111amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-Current Dev Position: 1.9 Milestone 2 (M2)
-Next Deadline: M2 cut off of July 27th at noon GMT
+I really like this and it keeps the backward compatibility which is very good.
 
-SWAT team rotation: Saul -> Paul
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+I think this should be merged as is, as it does improve the current
+situation and new improvements can be done as new patches.
 
-Key Status/Updates:
-Fido updated successfully with gcc 5 fixes and other updates (thanks Joshua=
-/Ross)
-Seeing many diverse 'random' failures on the autobuilder. Setting up high p=
-riority bugs to try and identify and fix issues. Right now near impossible =
-to tell if patches introduce regressions or not so master is stalling. Will=
- see a spike in high priority bugs.
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-Key YP 1.9 Dates:
-1.9 Feature Freeze Date/M3 Cut off: Aug. 24, 2015 noon GMT
-YP Final/M4 Cut off: Sept. 28, 2015 noon GMT
-1.9 M1 Release Target: Before July 10, 2015
-1.9 M2 Release Target: Before Aug. 14, 2015
-1.9 M3 Release Target: Before Sept. 11 2015
-1.9 final Release Target: Before Oct. 30, 2015
-
-Key Status Links for YP:
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v1.9_Status
-https://wiki.yoctoproject.org/wiki/Yocto_1.9_Schedule
-https://wiki.yoctoproject.org/wiki/Yocto_1.9_Features
-
-Tracking Metrics:
-            WDD 1640 (last week 1724)
-(https://wiki.yoctoproject.org/charts/combo.html)
-
-[If anyone has suggestions for other information you'd like to see on this =
-weekly status update, let us know!]
-
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*   Work Telephone:          (503) 712-0534
-*    Cell:                                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5553A0D6fmsmsx111amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:p=3D"urn:schemas-m=
-icrosoft-com:office:powerpoint" xmlns:a=3D"urn:schemas-microsoft-com:office=
-:access" xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:s=3D"=
-uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" xmlns:rs=3D"urn:schemas-microsof=
-t-com:rowset" xmlns:z=3D"#RowsetSchema" xmlns:b=3D"urn:schemas-microsoft-co=
-m:office:publisher" xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadshee=
-t" xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" xmlns=
-:odc=3D"urn:schemas-microsoft-com:office:odc" xmlns:oa=3D"urn:schemas-micro=
-soft-com:office:activation" xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" xmlns:rtc=3D"http://m=
-icrosoft.com/officenet/conferencing" xmlns:D=3D"DAV:" xmlns:Repl=3D"http://=
-schemas.microsoft.com/repl/" xmlns:mt=3D"http://schemas.microsoft.com/share=
-point/soap/meetings/" xmlns:x2=3D"http://schemas.microsoft.com/office/excel=
-/2003/xml" xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" xmlns:ois=
-=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" xmlns:dir=3D"http://=
-schemas.microsoft.com/sharepoint/soap/directory/" xmlns:ds=3D"http://www.w3=
-.org/2000/09/xmldsig#" xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint=
-/dsp" xmlns:udc=3D"http://schemas.microsoft.com/data/udc" xmlns:xsd=3D"http=
-://www.w3.org/2001/XMLSchema" xmlns:sub=3D"http://schemas.microsoft.com/sha=
-repoint/soap/2002/1/alerts/" xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#"=
- xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" xmlns:sps=3D"http://=
-schemas.microsoft.com/sharepoint/soap/" xmlns:xsi=3D"http://www.w3.org/2001=
-/XMLSchema-instance" xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/so=
-ap" xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" xmlns:udc=
-p2p=3D"http://schemas.microsoft.com/data/udc/parttopart" xmlns:wf=3D"http:/=
-/schemas.microsoft.com/sharepoint/soap/workflow/" xmlns:dsss=3D"http://sche=
-mas.microsoft.com/office/2006/digsig-setup" xmlns:dssi=3D"http://schemas.mi=
-crosoft.com/office/2006/digsig" xmlns:mdssi=3D"http://schemas.openxmlformat=
-s.org/package/2006/digital-signature" xmlns:mver=3D"http://schemas.openxmlf=
-ormats.org/markup-compatibility/2006" xmlns:m=3D"http://schemas.microsoft.c=
-om/office/2004/12/omml" xmlns:mrels=3D"http://schemas.openxmlformats.org/pa=
-ckage/2006/relationships" xmlns:spwp=3D"http://microsoft.com/sharepoint/web=
-partpages" xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/20=
-06/types" xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/200=
-6/messages" xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/Sli=
-deLibrary/" xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortal=
-Server/PublishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" xmlns:=
-st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Tue, Jun 30, 2015 at 7:50 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
+> ping
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p
-	{mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:12.0pt;
-	font-family:"Times New Roman","serif";}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-span.apple-tab-span
-	{mso-style-name:apple-tab-span;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Current Dev Position: 1.9 Milestone 2 (M2)</sp=
-an><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,=
-&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Next Deadline: M2 cut off of July 27th at noon=
- GMT</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roma=
-n&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">SWAT team rotation: Saul -&gt; Paul</span><spa=
-n style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;s=
-erif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11.0pt;fo=
-nt-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_=
-Build_Failure_Swat_Team</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key Status/Updates:</span><span style=3D"font-=
-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p=
-></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Fido updated succes=
-sfully with gcc 5 fixes and other updates (thanks Joshua/Ross)</span><span =
-style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;ser=
-if&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">Seeing many diverse=
- &#8216;random&#8217; failures on the autobuilder. Setting up high priority=
- bugs to try and identify and fix issues. Right now near impossible to
- tell if patches introduce regressions or not so master is stalling. Will s=
-ee a spike in high priority bugs.</span><span style=3D"font-size:12.0pt;fon=
-t-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key YP 1.9 Dates:</span><span style=3D"font-si=
-ze:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p><=
-/o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 Feature Freeze =
-Date/M3 Cut off: Aug. 24, 2015 noon GMT
-</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP Final/M4 Cut off=
-: Sept. 28, 2015 noon GMT
-</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 M1 Release Targ=
-et: Before July 10, 2015</span><span style=3D"font-size:12.0pt;font-family:=
-&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 M2 Release Targ=
-et: Before Aug. 14, 2015</span><span style=3D"font-size:12.0pt;font-family:=
-&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 M3 Release Targ=
-et: Before Sept. 11 2015</span><span style=3D"font-size:12.0pt;font-family:=
-&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 final Release T=
-arget: Before Oct. 30, 2015</span><span style=3D"font-size:12.0pt;font-fami=
-ly:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key Status Links for YP:</span><span style=3D"=
-font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"=
-><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_Project_v1.9_Status"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_Proj=
-ect_v1.9_Status</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_1.9_Schedule"><span style=3D"font-size:11.0pt;font-family:C=
-onsolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_1.9_Schedul=
-e</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_1.9_Features"><span style=3D"font-size:11.0pt;font-family:C=
-onsolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_1.9_Feature=
-s</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Tracking Metrics:</span><span style=3D"font-si=
-ze:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p><=
-/o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; WDD 1640 (last week 1724)</span><span style=3D"font-si=
-ze:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p><=
-/o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-indent:.5in"><span style=3D"font-famil=
-y:Consolas;color:black">(</span><span style=3D"font-size:12.0pt;font-family=
-:&quot;Times New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoc=
-toproject.org/charts/combo.html"><span style=3D"font-size:11.0pt;font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#1155CC">https://wiki.yoct=
-oproject.org/charts/combo.html</span></a></span><span style=3D"font-family:=
-Consolas;color:black">)</span><span style=3D"font-size:12.0pt;font-family:&=
-quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Consolas;color:black">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-<span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&qu=
-ot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">[If anyone has suggestions for other informati=
-on you&#8217;d like to see on this weekly status update, let us know!]</spa=
-n><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&=
-quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;;color:purple">Stephen K. Jolley</span></i></b><b><i><=
-span style=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-se=
-rif&quot;;color:purple"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
-/span><span style=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">
-</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
-;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-size:8.0pt;font-fami=
-ly:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</span></b><span sty=
-le=3D"font-family:&quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(503) 712-0534<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-">(208) 244-4460<span style=3D"color:black"><o:p></o:p></span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;;color:teal">:</span><span lang=
-=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,&q=
-uot;sans-serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+> - Pushpal
+>
+> On Mon, May 18, 2015 at 4:05 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
+>> Richard,
+>>
+>> Can I get some feedback/consumption on this?
+>>
+>> - Pushpal
+>>
+>> On Fri, Apr 24, 2015 at 5:23 PM, Pushpal Sidhu <psidhu@gateworks.com> wrote:
+>>> Add new FSTYPE called 'multiubi'. This new type has the ability to
+>>> create multple ubi's, something that's extremely useful on boards that
+>>> can include varying flash sizes (e.g. 256MB vs 2GB).
+>>>
+>>> Because we don't want to reuse code, I extracted the mkfs and ubinize
+>>> commands out to a new function that will handle the creation of both
+>>> multiple ubi's, as well as the 'ubi' FSTYPE (so as not to break current
+>>> boards).
+>>>
+>>> Due to the single processes nature of the OE when doing it's
+>>> 'create_image', this new multiubi_mkfs function also creates it's own
+>>> symlinks as well as cleans up it's own cfg file.
+>>>
+>>> Signed-off-by: Pushpal Sidhu <psidhu@gateworks.com>
+>>> ---
+>>>  meta/classes/image_types.bbclass | 55 +++++++++++++++++++++++++++++++---------
+>>>  1 file changed, 43 insertions(+), 12 deletions(-)
+>>>
+>>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+>>> index 72c7337..b250dbd 100644
+>>> --- a/meta/classes/image_types.bbclass
+>>> +++ b/meta/classes/image_types.bbclass
+>>> @@ -97,18 +97,48 @@ IMAGE_TYPEDEP_elf = "cpio.gz"
+>>>
+>>>  UBI_VOLNAME ?= "${MACHINE}-rootfs"
+>>>
+>>> -IMAGE_CMD_ubi () {
+>>> -       echo \[ubifs\] > ubinize.cfg
+>>> -       echo mode=ubi >> ubinize.cfg
+>>> -       echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs >> ubinize.cfg
+>>> -       echo vol_id=0 >> ubinize.cfg
+>>> -       echo vol_type=dynamic >> ubinize.cfg
+>>> -       echo vol_name=${UBI_VOLNAME} >> ubinize.cfg
+>>> -       echo vol_flags=autoresize >> ubinize.cfg
+>>> -       mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}
+>>> -       ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubi ${UBINIZE_ARGS} ubinize.cfg
+>>> +multiubi_mkfs() {
+>>> +       local mkubifs_args="$1"
+>>> +       local ubinize_args="$2"
+>>> +       local vname="_$3"
+>>> +
+>>> +       echo \[ubifs\] > ubinize${vname}.cfg
+>>> +       echo mode=ubi >> ubinize${vname}.cfg
+>>> +       echo image=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs >> ubinize${vname}.cfg
+>>> +       echo vol_id=0 >> ubinize${vname}.cfg
+>>> +       echo vol_type=dynamic >> ubinize${vname}.cfg
+>>> +       echo vol_name=${UBI_VOLNAME} >> ubinize${vname}.cfg
+>>> +       echo vol_flags=autoresize >> ubinize${vname}.cfg
+>>> +       mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubifs ${mkubifs_args}
+>>> +       ubinize -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}${vname}.rootfs.ubi ${ubinize_args} ubinize${vname}.cfg
+>>> +
+>>> +       # Cleanup cfg file
+>>> +       mv ubinize${vname}.cfg ${DEPLOY_DIR_IMAGE}/
+>>> +
+>>> +       # Create own symlink
+>>> +       cd ${DEPLOY_DIR_IMAGE}
+>>> +       if [ -e ${IMAGE_NAME}${vname}.rootfs.ubifs ]; then
+>>> +               ln -sf ${IMAGE_NAME}${vname}.rootfs.ubifs \
+>>> +               ${IMAGE_LINK_NAME}${vname}.ubifs
+>>> +       fi
+>>> +       if [ -e ${IMAGE_NAME}${vname}.rootfs.ubi ]; then
+>>> +               ln -sf ${IMAGE_NAME}${vname}.rootfs.ubi \
+>>> +               ${IMAGE_LINK_NAME}${vname}.ubi
+>>> +       fi
+>>> +       cd -
+>>> +}
+>>> +
+>>> +IMAGE_CMD_multiubi () {
+>>> +       # Split MKUBIFS_ARGS_<name> and UBINIZE_ARGS_<name>
+>>> +       for name in ${MULTIUBI_BUILD}; do
+>>> +               eval local mkubifs_args=\"\$MKUBIFS_ARGS_${name}\"
+>>> +               eval local ubinize_args=\"\$UBINIZE_ARGS_${name}\"
+>>> +
+>>> +               multiubi_mkfs "${mkubifs_args}" "${ubinize_args}" "${name}"
+>>> +       done
+>>>  }
+>>> -IMAGE_TYPEDEP_ubi = "ubifs"
+>>> +
+>>> +IMAGE_CMD_ubi = "multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "${UBI_VOLNAME}""
+>>>
+>>>  IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
+>>>
+>>> @@ -139,6 +169,7 @@ IMAGE_DEPENDS_squashfs-lzo = "squashfs-tools-native"
+>>>  IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+>>>  IMAGE_DEPENDS_ubi = "mtd-utils-native"
+>>>  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+>>> +IMAGE_DEPENDS_multiubi = "mtd-utils-native"
+>>>
+>>>  # This variable is available to request which values are suitable for IMAGE_FSTYPES
+>>>  IMAGE_TYPES = " \
+>>> @@ -151,7 +182,7 @@ IMAGE_TYPES = " \
+>>>      iso \
+>>>      hddimg \
+>>>      squashfs squashfs-xz squashfs-lzo \
+>>> -    ubi ubifs \
+>>> +    ubi ubifs multiubi \
+>>>      tar tar.gz tar.bz2 tar.xz tar.lz4 \
+>>>      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+>>>      vmdk \
+>>> --
+>>> 2.3.5
+>>>
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E5553A0D6fmsmsx111amrcor_--
+
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
