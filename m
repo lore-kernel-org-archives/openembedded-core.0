@@ -1,33 +1,34 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DAC9C6E5F5
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id CBDC075CD0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 01:34:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t631YV2O010049
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  3 Jul 2015 01:45:53 +0000 (UTC)
+Received: by igrv9 with SMTP id v9so68856278igr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jul 2015 18:34:31 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.3.80]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0224.002;
-	Thu, 2 Jul 2015 18:34:31 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] xorg-proto-common: allow the empty package
-Thread-Index: AQHQtP7tzyChVLEBEk+vaJ5YwB9BXJ3I8KBA
-Date: Fri, 3 Jul 2015 01:34:31 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AAF11F6D32@ALA-MBB.corp.ad.wrs.com>
-References: <1435737141-31961-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0LacneDbjFJR+uPQs__cqx+FVwXEuyCXe5zVui+Gu9tbpg@mail.gmail.com>
-In-Reply-To: <CAJTo0LacneDbjFJR+uPQs__cqx+FVwXEuyCXe5zVui+Gu9tbpg@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xorg-proto-common: allow the empty package
+	Thu, 02 Jul 2015 18:45:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=rK6ZPQ3eoaHYkOWll+aXFQPy6wGpDsEcO1G2rUAFoXY=;
+	b=ocFcphGA7smL0M6a0JTazzV71Xnx3RoPJY06Evz+QbATk/wjo0KaeH2phhotZaZqfF
+	goPqPUgGd+67DgJVF09IInM9cwNYaTcl6qIMKdCVNj8X3csjApeT1LD2egpjZaoVfGbw
+	RLdohZv4pbhqdA7l3fKIcj7odd4wiHDyU8PIP7Mgyssq4h6amk//7EjSWrMCyUSjaRRa
+	Lwp/9aRVarTPfLH3nKm6W+aXi7d3SK6N8w4dFR2eCeRqDAhI7yNmfnG9hqp1e3bsdg4I
+	Q9tlYZTL7dNTUwhWPgxpo5GzW/ycJh/C179AUdtyk3RxKhlIAYCAH+6nqHQpbjFT23Ra
+	gyZw==
+X-Received: by 10.50.79.129 with SMTP id j1mr45706998igx.12.1435887953609;
+	Thu, 02 Jul 2015 18:45:53 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id x4sm5233578iod.26.2015.07.02.18.45.52
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 02 Jul 2015 18:45:52 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Jul 2015 18:45:38 -0700
+Message-Id: <1435887942-20254-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/4] refresh busybox defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,141 +41,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 01:34:36 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AAF11F6D32ALAMBBcorpadwrs_"
+X-List-Received-Date: Fri, 03 Jul 2015 01:45:54 -0000
 
---_000_1B858668EC6A94408DCA5225FDFA85AAF11F6D32ALAMBBcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+The oe-core busybox defconfig file is based on busybox v1.20.2,
+therefore any new configure options introduced in busybox v1.21.x,
+v1.22.x and v1.23.x take on default values when the oe-core defconfig
+is run through busybox v1.23.2 'make oldconfig'.
 
-WWVhaCBJIGtub3cgaXTigJlzIG5vdCBnb29kIHRvIGhhdmUgdGhlIGVtcHR5IHBhY2thZ2UgYW5k
-IHdlIGNhbiByZW1vdmUgZGVwZW5kZW5jaWVzIHRvIHZvaWQgZXJyb3IsIGJ1dA0Kb3VyIGN1c3Rv
-bWVyIG1heSBhZGQgdGhlIHBhY2thZ2UgdGhyb3VnaCBJTUFHRV9JTlNUQUxMIGluIGxvY2FsLmNv
-bmYgYW5kIGJsYW1lIGl0IGZhaWxzIHVudGlsIGRvX3Jvb3RmczoNCg0KRVJST1I6IGJpZ3JlcXNw
-cm90byBub3QgZm91bmQgaW4gdGhlIGJhc2UgZmVlZHMgKGludGVsX3g4Nl82NCBjb3JlMi02NCB4
-ODZfNjQgbm9hcmNoIGFueSBhbGwpLg0KDQpEbyB3ZSBoYXZlIGEgd2F5IHRvIGZpbmQgb3V0IGEg
-UE4gcGFja2FnZSBpcyBlbXB0eSBhdCBhbiBlYXJsaWVyIHRpbWUgc28gdGhhdCB3ZSBtYXkgd2Fy
-biB0aGUgdXNlciBub3QNCnRvIGFkZCB0aGlzIHBhY2thZ2UgaW50byBpbWFnZT8NCg0KVGhhbmtz
-LA0KSmFja2llDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVs
-LmNvbV0NClNlbnQ6IEZyaWRheSwgSnVseSAwMywgMjAxNSAzOjQwIEFNDQpUbzogSHVhbmcsIEpp
-ZSAoSmFja2llKQ0KQ2M6IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSB4
-b3JnLXByb3RvLWNvbW1vbjogYWxsb3cgdGhlIGVtcHR5IHBhY2thZ2UNCg0KDQpPbiAxIEp1bHkg
-MjAxNSBhdCAwODo1MiwgPGphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPG1haWx0bzpqYWNraWUu
-aHVhbmdAd2luZHJpdmVyLmNvbT4+IHdyb3RlOg0KICMgJHtQTn0gaXMgZW1wdHkgc28gd2UgbmVl
-ZCB0byB0d2VhayAtZGV2IGFuZCAtZGJnIHBhY2thZ2UgZGVwZW5kZW5jaWVzDQorIyBhbmQgYWxs
-b3cgJHtQTn0gdG8gYmUgY3JlYXRlZCBlbXB0eQ0KK0FMTE9XX0VNUFRZXyR7UE59ID0gIjEiDQog
-UkRFUEVORFNfJHtQTn0tZGV2ID0gIiINCiBSUkVDT01NRU5EU18ke1BOfS1kYmcgPSAiJHtQTn0t
-ZGV2ICg9ICR7RVhURU5EUEtHVn0pIg0KDQpBcyB0aGUgY29tbWVudCBhbmQgc3Vycm91bmRpbmcg
-bGluZXMgc3RhdGUsIHRoZSBkZXBlbmRlbmNpZXMgb24gUE4gZnJvbSBQTi1kZXYgYW5kIFBOLWRi
-ZyBhcmUgYWxyZWFkeSByZW1vdmVkLiAgV2hhdCBvdGhlciBwYWNrYWdlIGhhcyBhIHJ1bnRpbWUg
-ZGVwZW5kZW5jeSBvbiBQTiwgYW5kIHdoZW4geW91IGZpbmQgaXQgYSBiZXR0ZXIgc29sdXRpb24g
-aXMgdG8gcmVtb3ZlIHRoZSBkZXBlbmRlbmN5IGluc3RlYWQgb2YgY3JlYXRpbmcgZW1wdHkgcGFj
-a2FnZXMuDQoNClJvc3MNCg==
+This patch series just refreshes the oe-core defconfig file, it does
+not try to 'fix' any options for which the upstream default may not be
+ideal for oe-core (if such cases exist, they should be addressed in a
+separate commit).
 
---_000_1B858668EC6A94408DCA5225FDFA85AAF11F6D32ALAMBBcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Andre McCurdy (4):
+  busybox: merge login-utilities.cfg into defconfig
+  busybox: re-order defconfig to align with busybox 1.23.2
+  busybox: remove CONFIG_FEATURE_VI_OPTIMIZE_CURSOR from defconfig
+  busybox: refresh defconfig for busybox v1.23.2
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+WWVhaCBJIGtub3cgaXTigJlzIG5vdCBnb29kIHRvIGhh
-dmUgdGhlIGVtcHR5IHBhY2thZ2UgYW5kIHdlIGNhbiByZW1vdmUgZGVwZW5kZW5jaWVzIHRvIHZv
-aWQgZXJyb3IsIGJ1dDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5vdXIgY3VzdG9tZXIg
-bWF5IGFkZCB0aGUgcGFja2FnZSB0aHJvdWdoIElNQUdFX0lOU1RBTEwgaW4gbG9jYWwuY29uZiBh
-bmQgYmxhbWUgaXQgZmFpbHMgdW50aWwgZG9fcm9vdGZzOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjoj
-MUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+RVJST1I6IGJpZ3Jl
-cXNwcm90byBub3QgZm91bmQgaW4gdGhlIGJhc2UgZmVlZHMgKGludGVsX3g4Nl82NCBjb3JlMi02
-NCB4ODZfNjQgbm9hcmNoIGFueSBhbGwpLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48
-bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZx
-dW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+RG8gd2UgaGF2ZSBhIHdheSB0byBm
-aW5kIG91dCBhIFBOIHBhY2thZ2UgaXMgZW1wdHkgYXQgYW4gZWFybGllciB0aW1lIHNvIHRoYXQg
-d2UgbWF5IHdhcm4gdGhlIHVzZXIgbm90PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPnRv
-IGFkZCB0aGlzIHBhY2thZ2UgaW50byBpbWFnZT88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3
-RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlRoYW5rcyw8bzpwPjwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
-OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYm
-cXVvdDs7Y29sb3I6IzFGNDk3RCI+SmFja2llPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0Qi
-PjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2Jv
-cmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowaW4gMGluIDBpbiA0LjBwdCI+DQo8
-ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjQjVDNERGIDEu
-MHB0O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1
-b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0i
-Zm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fu
-cy1zZXJpZiZxdW90OyI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNv
-bV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIEp1bHkgMDMsIDIwMTUgMzo0MCBBTTxicj4N
-CjxiPlRvOjwvYj4gSHVhbmcsIEppZSAoSmFja2llKTxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxi
-cj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0geG9yZy1wcm90by1jb21t
-b246IGFsbG93IHRoZSBlbXB0eSBwYWNrYWdlPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+
-DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAxIEp1bHkgMjAxNSBhdCAwODo1MiwgJmx0Ozxh
-IGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbSIgdGFyZ2V0PSJfYmxhbmsi
-PmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+
-DQo8ZGl2IGlkPSI6dmEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7IyAke1BOfSBpcyBl
-bXB0eSBzbyB3ZSBuZWVkIHRvIHR3ZWFrIC1kZXYgYW5kIC1kYmcgcGFja2FnZSBkZXBlbmRlbmNp
-ZXM8YnI+DQomIzQzOyMgYW5kIGFsbG93ICR7UE59IHRvIGJlIGNyZWF0ZWQgZW1wdHk8YnI+DQom
-IzQzO0FMTE9XX0VNUFRZXyR7UE59ID0gJnF1b3Q7MSZxdW90Ozxicj4NCiZuYnNwO1JERVBFTkRT
-XyR7UE59LWRldiA9ICZxdW90OyZxdW90Ozxicj4NCiZuYnNwO1JSRUNPTU1FTkRTXyR7UE59LWRi
-ZyA9ICZxdW90OyR7UE59LWRldiAoPSAke0VYVEVORFBLR1Z9KSZxdW90OzxvOnA+PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxicj4NCkFzIHRoZSBjb21t
-ZW50IGFuZCBzdXJyb3VuZGluZyBsaW5lcyBzdGF0ZSwgdGhlIGRlcGVuZGVuY2llcyBvbiBQTiBm
-cm9tIFBOLWRldiBhbmQgUE4tZGJnIGFyZSBhbHJlYWR5IHJlbW92ZWQuJm5ic3A7IFdoYXQgb3Ro
-ZXIgcGFja2FnZSBoYXMgYSBydW50aW1lIGRlcGVuZGVuY3kgb24gUE4sIGFuZCB3aGVuIHlvdSBm
-aW5kIGl0IGEgYmV0dGVyIHNvbHV0aW9uIGlzIHRvIHJlbW92ZSB0aGUgZGVwZW5kZW5jeSBpbnN0
-ZWFkIG9mIGNyZWF0aW5nIGVtcHR5IHBhY2thZ2VzLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4N
-CjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+ meta/recipes-core/busybox/busybox/defconfig        | 158 +++++++++++++--------
+ .../busybox/busybox/login-utilities.cfg            |  13 --
+ meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 -
+ meta/recipes-core/busybox/busybox_git.bb           |   1 -
+ 4 files changed, 98 insertions(+), 75 deletions(-)
+ delete mode 100644 meta/recipes-core/busybox/busybox/login-utilities.cfg
 
---_000_1B858668EC6A94408DCA5225FDFA85AAF11F6D32ALAMBBcorpadwrs_--
+-- 
+1.9.1
+
+
