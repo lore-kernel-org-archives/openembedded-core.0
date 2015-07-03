@@ -1,26 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B3F2975D25
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A0B1D75D2D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 08:40:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t638elAX016425
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 3 Jul 2015 01:40:47 -0700 (PDT)
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Fri, 3 Jul 2015 01:40:47 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Jul 2015 01:40:46 -0700
-Message-ID: <1f153bbbdc6b7db05529fda3b36464f646f8fcb8.1435912813.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1435912813.git.liezhi.yang@windriver.com>
-References: <cover.1435912813.git.liezhi.yang@windriver.com>
+	Fri,  3 Jul 2015 08:41:54 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Jul 2015 01:41:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,399,1432623600"; d="scan'208";a="755374944"
+Received: from ndelough-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.2.173])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2015 01:41:53 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org, akuster808 <akuster808@gmail.com>
+Date: Fri, 03 Jul 2015 09:41:51 +0100
+Message-ID: <1744996.JjukX86N4O@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.0.6-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <20150703070716.GA21416@ad.chargestorm.se>
+References: <cover.1435497302.git.akuster808@gmail.com>
+	<55956F2C.2040301@gmail.com>
+	<20150703070716.GA21416@ad.chargestorm.se>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] multilib_global.bbclass: fix PREFERRED_VERSION for cross-canadian
+Cc: Anders Darander <anders@chargestorm.se>
+Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,75 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 08:40:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 03 Jul 2015 08:41:54 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Fixed:
-When both gcc 4.9 and 5.1 are in the layer, and set these in local.conf:
-GCCVERSION = "4.9%"
-MACHINE = "qemux86-64"
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+On Friday 03 July 2015 09:07:16 Anders Darander wrote:
+> * akuster808 <akuster808@gmail.com> [150702 19:05]:
+> > The current version of nettle 2.7 has one file that is GPL v3.
+> > mini-gmp.*
+> > 
+> > so the license for 2.7 should be updated IMHO. So wont that put us in the
+> > same boat as the upgrade?
+> 
+> Ouch, that's no good!
+> 
+> Ideally, we should look at that file and see for how long it's been part
+> of nettle. If it's just for a short time, maybe we could go back to a
+> point in time just prior to the inclusion (or license change) of that
+> file.
+> 
+> Has it been like this for far too long, well, then we either have to see
+> what impact this has on non-GPLv3 builds...
+> 
+> One option, depending on the age etc, could be to check if it's possible
+> to get that single file re-licensed. Short-term, we have to fix the
+> license and backport that fix to all supported versions that are
+> affected, even though that might introduce regressions in images around
+> the world...
 
-$ bitbake gcc-cross-canadian-i586
+We also ought to poke upstream because as far as I can tell they have not 
+noted the addition of this differently licensed source in any of the license 
+notices shipped with it (other than in the added GPLv3 source files themselves, 
+of course).
 
-Then gcc 5.1 would be built rather than 4.9, it is because
-multilib_virtclass_handler() doesn't reset PN such as gcc-cross-canadian
-to lib32-gcc-cross-canadian, but preferred_ml_updates() rename
-PREFERRED_VERSION_gcc-cross-canadian to
-PREFERRED_VERSION_lib32-gcc-cross-canadian, so it can't get the required
-value PREFERRED_VERSION_gcc-cross-canadian, and then gcc 5.1 would be
-used, don't reset it in preferred_ml_updates() will fix the problem.
+Armin, is that something you'd be able to take care of?
 
-[YOCTO #7950]
+Cheers,
+Paul
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/multilib_global.bbclass |   15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index 67bd70d..a9c0efc 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -30,7 +30,16 @@ def preferred_ml_updates(d):
-                 override = ":virtclass-multilib-" + p
-                 localdata.setVar("OVERRIDES", localdata.getVar("OVERRIDES", False) + override)
-                 bb.data.update_data(localdata)
--                newname = localdata.expand(v).replace("PREFERRED_VERSION_", "PREFERRED_VERSION_" + p + '-')
-+                # Because multilib_virtclass_handler() doesn't reset PN such as
-+                # gcc-cross-canadian to lib32-gcc-cross-canadian, so don't
-+                # reset PREFERRED_VERSION_gcc-cross-canadian to
-+                # PREFERRED_VERSION_lib32-gcc-cross-canadian, just expand v
-+                # (need expand TRANSLATED_TARGET_ARCH) and set
-+                # PREFERRED_VERSION_gcc-cross-canadian again.
-+                if '-cross-canadian-' in pkg:
-+                    newname = localdata.expand(v)
-+                else:
-+                    newname = localdata.expand(v).replace("PREFERRED_VERSION_", "PREFERRED_VERSION_" + p + '-')
-                 if newname != v:
-                     newval = localdata.expand(val)
-                     d.setVar(newname, newval)
-@@ -49,7 +58,7 @@ def preferred_ml_updates(d):
-         pkg = prov.replace("PREFERRED_PROVIDER_", "")
-         if pkg.endswith("-native") or "-crosssdk-" in pkg or pkg.startswith(("nativesdk-", "virtual/nativesdk-")):
-             continue
--        if 'cross-canadian' in pkg:
-+        if '-cross-canadian-' in pkg:
-             for p in prefixes:
-                 localdata = bb.data.createCopy(d)
-                 override = ":virtclass-multilib-" + p
-@@ -94,7 +103,7 @@ def preferred_ml_updates(d):
-     mp = (d.getVar("MULTI_PROVIDER_WHITELIST", True) or "").split()
-     extramp = []
-     for p in mp:
--        if p.endswith("-native") or "-crosssdk-" in p or p.startswith(("nativesdk-", "virtual/nativesdk-")) or 'cross-canadian' in p:
-+        if p.endswith("-native") or "-crosssdk-" in p or p.startswith(("nativesdk-", "virtual/nativesdk-")) or '-cross-canadian-' in p:
-             continue
-         virt = ""
-         if p.startswith("virtual/"):
 -- 
-1.7.9.5
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
