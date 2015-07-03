@@ -1,20 +1,36 @@
-Return-Path: <junhuix.zhang@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CCCA75D2F
+Return-Path: <Jackie.Huang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3546375D2F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 09:28:07 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 03 Jul 2015 02:28:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,399,1432623600"; d="scan'208";a="722301257"
-Received: from dddd.sh.intel.com ([10.239.52.71])
-	by orsmga001.jf.intel.com with ESMTP; 03 Jul 2015 02:28:06 -0700
-From: zjh <junhuix.zhang@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jul 2015 17:32:35 +0800
-Message-Id: <1435915955-2095-1-git-send-email-junhuix.zhang@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 2/2] testimage.bbclass: add support for test suites manifest files 7848
+	Fri,  3 Jul 2015 09:34:31 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t639YTGX022925
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 3 Jul 2015 02:34:30 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.3.80]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0224.002;
+	Fri, 3 Jul 2015 02:34:29 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>, Martin Jansa
+	<martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH] xorg-proto-common: allow the empty package
+Thread-Index: AQHQtP7tzyChVLEBEk+vaJ5YwB9BXJ3I8KBAgACGlJiAAAAwYA==
+Date: Fri, 3 Jul 2015 09:34:28 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AAF11F7414@ALA-MBB.corp.ad.wrs.com>
+References: <1435737141-31961-1-git-send-email-jackie.huang@windriver.com>
+	<CAJTo0LacneDbjFJR+uPQs__cqx+FVwXEuyCXe5zVui+Gu9tbpg@mail.gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AAF11F6D32@ALA-MBB.corp.ad.wrs.com>
+	<20150703090405.GA2436@jama>
+	<CAJTo0Lbdq1=ZgX5VQApdvhDfX1uF3MkT0sD_MXfQr3coN18t1A@mail.gmail.com>
+In-Reply-To: <CAJTo0Lbdq1=ZgX5VQApdvhDfX1uF3MkT0sD_MXfQr3coN18t1A@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.131]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xorg-proto-common: allow the empty package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,58 +43,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 09:28:12 -0000
+X-List-Received-Date: Fri, 03 Jul 2015 09:34:33 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_1B858668EC6A94408DCA5225FDFA85AAF11F7414ALAMBBcorpadwrs_"
 
-Signed-off-by: zjh <junhuix.zhang@intel.com>
----
- meta/classes/testimage.bbclass | 26 ++++++++++++++++++++++++--
- 1 file changed, 24 insertions(+), 2 deletions(-)
+--_000_1B858668EC6A94408DCA5225FDFA85AAF11F7414ALAMBBcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 5d74fe4..2c66b5d 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -66,15 +66,37 @@ do_testsdk[nostamp] = "1"
- do_testsdk[depends] += "${TESTIMAGEDEPENDS}"
- do_testsdk[lockfiles] += "${TESTIMAGELOCK}"
- 
-+# get testcase list from specified file
-+# if path is a relative path, then relative to build/conf/
-+def read_testlist(d, fpath):
-+    if not os.path.isabs(fpath):
-+        builddir = d.getVar("TOPDIR", True)
-+        fpath = os.path.join(builddir, "conf", fpath)
-+    if not os.path.exists(fpath):
-+        bb.fatal("No such manifest file: ", fpath)
-+    tcs = []
-+    for line in open(fpath).readlines():
-+        line = line.strip()
-+        if line and not line.startswith("#"):
-+            tcs.append(line)
-+    return " ".join(tcs)
-+
- def get_tests_list(d, type="runtime"):
--    testsuites = d.getVar("TEST_SUITES", True).split()
-+    testsuites = []
-+    testslist = []
-+    manifests = d.getVar("TEST_SUITES_MANIFEST", True)
-+    if manifests is not None:
-+        manifests = manifests.split()
-+        for manifest in manifests:
-+            testsuites.extend(read_testlist(d, manifest).split())
-+    else:
-+        testsuites = d.getVar("TEST_SUITES", True).split()
-     if type == "sdk":
-         testsuites = (d.getVar("TEST_SUITES_SDK", True) or "auto").split()
-     bbpath = d.getVar("BBPATH", True).split(':')
- 
-     # This relies on lib/ under each directory in BBPATH being added to sys.path
-     # (as done by default in base.bbclass)
--    testslist = []
-     for testname in testsuites:
-         if testname != "auto":
-             if testname.startswith("oeqa."):
--- 
-1.9.1
+SSBzZWUgeW91ciBwb2ludCwgSSB0aGluayB3ZSBjYW4gbWFrZSB0aGUgZW1wdHkgUE4gcmRlcGVu
+ZHMgb24gUE4tZGV2KGJ1dCB0aGUgZGV2LWRlcHMgUUEgY2hlY2sgbmVlZCB0byBiZSBza2lwcGVk
+KSwNCg0KdGhlbiB3aGVuIHVzZXIgdHJ5IHRvIGFkZCBQTiwgUE4tZGV2IHdpbGwgYWxzbyBiZSBp
+bnN0YWxsZWQsIHNvIGl04oCZcyBub3QgYW4gdXNlbGVzcyBlbXB0eSBwYWNrYWdlLg0KDQoNCg0K
+SSBzZWUgdGhhdCBvcGVuc3NoIGhhcyBzaW1pbGFyIHNpdHVhdGlvbiwgUE4gaXMgYWxsb3dlZCBl
+bXB0eSwgYnV0IGl0IHJkZXBlbmRzIG9uIOKAnCR7UE59LXNjcCAke1BOfS1zc2ggJHtQTn0tc3No
+ZCAke1BOfS1rZXlnZW7igJ0uDQoNCg0KDQpEb2VzIGl0IG1ha2Ugc2Vuc2UgdG8geW91Pw0KDQoN
+Cg0KVGhhbmtzLA0KDQpKYWNraWUNCg0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3Nz
+LmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBGcmlkYXksIEp1bHkgMDMsIDIwMTUgNToxNCBQTQ0K
+VG86IE1hcnRpbiBKYW5zYQ0KQ2M6IEh1YW5nLCBKaWUgKEphY2tpZSk7IE9FLWNvcmUNClN1Ympl
+Y3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSB4b3JnLXByb3RvLWNvbW1vbjogYWxsb3cgdGhlIGVt
+cHR5IHBhY2thZ2UNCg0KDQpPbiAzIEp1bHkgMjAxNSBhdCAxMDowNCwgTWFydGluIEphbnNhIDxt
+YXJ0aW4uamFuc2FAZ21haWwuY29tPG1haWx0bzptYXJ0aW4uamFuc2FAZ21haWwuY29tPj4gd3Jv
+dGU6DQpJIGFzIGEgY3VzdG9tZXIgd291bGQgZGVmaW5pdGVseSBwcmVmZXIgZXJyb3IgbWVzc2Fn
+ZSBldmVuIGxhdGVyIGluIHRoZQ0KYnVpbGQgdGhlbiBnZXR0aW5nIGNvbXBsZXRlbHkgdXNlbGVz
+cyBlbXB0eSBwYWNrYWdlIGluc3RhbGxlZCBpbiBteQ0KaW1hZ2UgYW5kIGJsYW1lIHlvdSBmb3Ig
+aW5zdGFsbGluZyBpdCB3aGVuIEkgd2FzIGV4cGVjdGluZyB0byBmaW5kDQpiaWdyZXFzcHJvdG8g
+aW4gbXkgcm9vdGZzLg0KDQpBZ3JlZWQuICBJbnN0YWxsaW5nIGJpZ3JlcXNwcm90byBhbmQgbm90
+IGdldHRpbmcgYW55dGhpbmcgaXMgZmFyIG1vcmUgYW5ub3lpbmcgdGhhbiB0aGUgZXJyb3IgYW5k
+IGZvbGxvd2luZyBlcGlwaGFueSB0aGF0IGlmIHlvdSB3YW50IHRoZSBkZXZlbG9wbWVudCBoZWFk
+ZXJzIGZvciBiaWdyZXFzcHJvdG8geW91IHNob3VsZCBpbnN0YWxsIGJpZ3JlcXNwcm90by1kZXYu
+DQoNClJvc3MNCg==
 
+--_000_1B858668EC6A94408DCA5225FDFA85AAF11F7414ALAMBBcorpadwrs_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
+b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
+dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
+MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
+MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
+Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
+Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
+bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
+bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
+bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
+aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
+bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
+dW5kZXJsaW5lO30NCnAuTXNvUGxhaW5UZXh0LCBsaS5Nc29QbGFpblRleHQsIGRpdi5Nc29QbGFp
+blRleHQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJQbGFpbiBU
+ZXh0IENoYXIiOw0KCW1hcmdpbjowaW47DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQt
+c2l6ZToxMS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9DQpzcGFu
+LkVtYWlsU3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZh
+bWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi5QbGFp
+blRleHRDaGFyDQoJe21zby1zdHlsZS1uYW1lOiJQbGFpbiBUZXh0IENoYXIiOw0KCW1zby1zdHls
+ZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoiUGxhaW4gVGV4dCI7DQoJZm9udC1mYW1p
+bHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUt
+dHlwZTpleHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
+MS4yNWluIDEuMGluIDEuMjVpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rp
+b24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1
+bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEt
+LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzpp
+ZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtl
+bmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0i
+cHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvUGxhaW5U
+ZXh0Ij48c3BhbiBzdHlsZT0iY29sb3I6YmxhY2siPkkgc2VlIHlvdXIgcG9pbnQsIEkgdGhpbmsg
+d2UgY2FuIG1ha2UgdGhlIGVtcHR5IFBOIHJkZXBlbmRzIG9uIFBOLWRldihidXQgdGhlIGRldi1k
+ZXBzIFFBIGNoZWNrIG5lZWQgdG8gYmUgc2tpcHBlZCksDQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBzdHlsZT0iY29sb3I6YmxhY2siPnRoZW4g
+d2hlbiB1c2VyIHRyeSB0byBhZGQgUE4sIFBOLWRldiB3aWxsIGFsc28gYmUgaW5zdGFsbGVkLCBz
+byBpdOKAmXMgbm90IGFuIHVzZWxlc3MgZW1wdHkgcGFja2FnZS48bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBzdHlsZT0iY29sb3I6YmxhY2siPjxv
+OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29QbGFpblRleHQiPjxzcGFu
+IHN0eWxlPSJjb2xvcjpibGFjayI+SSBzZWUgdGhhdCBvcGVuc3NoIGhhcyBzaW1pbGFyIHNpdHVh
+dGlvbiwgUE4gaXMgYWxsb3dlZCBlbXB0eSwgYnV0IGl0IHJkZXBlbmRzIG9uIOKAnCR7UE59LXNj
+cCAke1BOfS1zc2ggJHtQTn0tc3NoZCAke1BOfS1rZXlnZW7igJ0uPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gc3R5bGU9ImNvbG9yOmJsYWNrIj48
+bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3Bh
+biBzdHlsZT0iY29sb3I6YmxhY2siPkRvZXMgaXQgbWFrZSBzZW5zZSB0byB5b3U/PG86cD48L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb1BsYWluVGV4dCI+PHNwYW4gc3R5bGU9ImNvbG9y
+OmJsYWNrIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5U
+ZXh0Ij48c3BhbiBzdHlsZT0iY29sb3I6YmxhY2siPlRoYW5rcyw8bzpwPjwvbzpwPjwvc3Bhbj48
+L3A+DQo8cCBjbGFzcz0iTXNvUGxhaW5UZXh0Ij48c3BhbiBzdHlsZT0iY29sb3I6YmxhY2siPkph
+Y2tpZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1
+b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7
+Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0i
+Ym9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBpbiAwaW4g
+MGluIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNv
+bGlkICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTom
+cXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9i
+PjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZx
+dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5i
+dXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IEZyaWRheSwgSnVseSAwMywgMjAx
+NSA1OjE0IFBNPGJyPg0KPGI+VG86PC9iPiBNYXJ0aW4gSmFuc2E8YnI+DQo8Yj5DYzo8L2I+IEh1
+YW5nLCBKaWUgKEphY2tpZSk7IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1j
+b3JlXSBbUEFUQ0hdIHhvcmctcHJvdG8tY29tbW9uOiBhbGxvdyB0aGUgZW1wdHkgcGFja2FnZTxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24g
+MyBKdWx5IDIwMTUgYXQgMTA6MDQsIE1hcnRpbiBKYW5zYSAmbHQ7PGEgaHJlZj0ibWFpbHRvOm1h
+cnRpbi5qYW5zYUBnbWFpbC5jb20iIHRhcmdldD0iX2JsYW5rIj5tYXJ0aW4uamFuc2FAZ21haWwu
+Y29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3A+DQo8ZGl2IGlkPSI6ZmciPg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+SSBhcyBhIGN1c3RvbWVyIHdvdWxkIGRlZmluaXRlbHkgcHJlZmVyIGVy
+cm9yIG1lc3NhZ2UgZXZlbiBsYXRlciBpbiB0aGU8YnI+DQpidWlsZCB0aGVuIGdldHRpbmcgY29t
+cGxldGVseSB1c2VsZXNzIGVtcHR5IHBhY2thZ2UgaW5zdGFsbGVkIGluIG15PGJyPg0KaW1hZ2Ug
+YW5kIGJsYW1lIHlvdSBmb3IgaW5zdGFsbGluZyBpdCB3aGVuIEkgd2FzIGV4cGVjdGluZyB0byBm
+aW5kPGJyPg0KYmlncmVxc3Byb3RvIGluIG15IHJvb3Rmcy48bzpwPjwvbzpwPjwvcD4NCjwvZGl2
+Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpBZ3JlZWQuJm5ic3A7IEluc3Rh
+bGxpbmcgYmlncmVxc3Byb3RvIGFuZCBub3QgZ2V0dGluZyBhbnl0aGluZyBpcyBmYXIgbW9yZSBh
+bm5veWluZyB0aGFuIHRoZSBlcnJvciBhbmQgZm9sbG93aW5nIGVwaXBoYW55IHRoYXQgaWYgeW91
+IHdhbnQgdGhlIGRldmVsb3BtZW50IGhlYWRlcnMgZm9yIGJpZ3JlcXNwcm90byB5b3Ugc2hvdWxk
+IGluc3RhbGwgYmlncmVxc3Byb3RvLWRldi48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rp
+dj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+
+--_000_1B858668EC6A94408DCA5225FDFA85AAF11F7414ALAMBBcorpadwrs_--
