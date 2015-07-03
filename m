@@ -1,23 +1,22 @@
-Return-Path: <Yuanjie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C69D6AC3D
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id B8F9075D01
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 01:47:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t631lJ3b010950
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 2 Jul 2015 18:47:19 -0700 (PDT)
-Received: from Flora.corp.ad.wrs.com (128.224.162.184) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 2 Jul 2015 18:47:18 -0700
-From: Yuanjie Huang <Yuanjie.Huang@windriver.com>
+	Fri,  3 Jul 2015 01:54:11 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2; Fri, 3 Jul 2015
+	03:54:05 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id D997728BA1E;
+	Fri,  3 Jul 2015 03:54:05 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Jul 2015 09:48:37 +0800
-Message-ID: <1435888117-32610-1-git-send-email-Yuanjie.Huang@windriver.com>
-X-Mailer: git-send-email 2.4.1
+Date: Fri, 3 Jul 2015 03:54:03 +0200
+Message-ID: <1435888443-1560-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH v4] ldconfig-native: Add 64-bit flag for ELF64 entries
+Received-SPF: None (SESTOEX03.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [daisy] [PATCH 1/1] python: Backport CVE-2013-1752 fix from upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,149 +29,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 01:47:20 -0000
+X-List-Received-Date: Fri, 03 Jul 2015 01:54:13 -0000
 Content-Type: text/plain
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+This back ported patch fixes CVE-2013-1752 for httplib
+References:
+http://bugs.python.org/issue16037
+https://access.redhat.com/security/cve/CVE-2013-1752
 
-ldconfig-native was grepped from an old version of glibc, and its output
-lacks neccessary 64bit flag in entries.
-Due to this defect, ctypes.util.find_library() python function fails to
-detect any library due to the old file format that ldconfig-native
-creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
+The httplib module / package can read arbitrary amounts of data
+from its socket when it's parsing the HTTP header. This may lead
+to issues when a user connects to a broken HTTP server or 
+something that isn't a HTTP at all
 
-Since the host's elf.h may not have definition for new AArch64 machine
-type, a work-around is added to correctly flag 64-bit ARM libraries.
-
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 ---
- .../add-64-bit-flag-for-ELF64-entries.patch        | 103 +++++++++++++++++++++
- meta/recipes-core/glibc/ldconfig-native_2.12.1.bb  |   1 +
- 2 files changed, 104 insertions(+)
- create mode 100644 meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
+ .../python-2.7.3-CVE-2013-1752-httplib-fix.patch   | 47 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.3.bb       |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch
 
-diff --git a/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
+diff --git a/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch
 new file mode 100644
-index 0000000..a0fabae
+index 0000000..86d08f0
 --- /dev/null
-+++ b/meta/recipes-core/glibc/ldconfig-native-2.12.1/add-64-bit-flag-for-ELF64-entries.patch
-@@ -0,0 +1,103 @@
-+From 9d62544090b08849218cd1fc52a36cdd5d90363e Mon Sep 17 00:00:00 2001
-+From: Yuanjie Huang <yuanjie.huang@windriver.com>
-+Date: Fri, 24 Apr 2015 03:29:31 +0000
-+Subject: [PATCH] Add 64-bit flag for ELF64 entries.
++++ b/meta/recipes-devtools/python/python/python-2.7.3-CVE-2013-1752-httplib-fix.patch
+@@ -0,0 +1,45 @@
++Upstream-Status: Backport
 +
-+ldconfig-native was grepped from an old version of glibc, and its output
-+lacks neccessary 64bit flag in entries.
-+Due to this defect, ctypes.util.find_library() python function fails to
-+detect any library due to the old file format that ldconfig-native
-+creates. This fix sets architecture-dependent 64bit flags for 64-bit ELF.
++CVE-2013-1752: httplib: HTTPMessage.readheaders() raises an HTTPException 
++when more than 100 headers are read.
++Patch by Jyrki Pulliainen and Daniel Eriksson.
 +
-+Upstream-status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
++Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 +---
-+ cache.c      |  4 ++++
-+ ldconfig.h   |  4 ++++
-+ readelflib.c | 34 ++++++++++++++++++++++++++++++++++
-+ 3 files changed, 42 insertions(+)
-+
-+diff --git a/cache.c b/cache.c
-+index a904d44..c4f5411 100644
-+--- a/cache.c
-++++ b/cache.c
-+@@ -121,6 +121,10 @@ print_entry (const char *lib, int flag, unsigned int osversion,
-+       break;
-+     case FLAG_MIPS64_LIBN64:
-+       fputs (",64bit", stdout);
-++      break;
-++    case FLAG_AARCH64_LIB64:
-++      fputs (",AArch64", stdout);
-++      break;
-+     case 0:
-+       break;
-+     default:
-+diff --git a/ldconfig.h b/ldconfig.h
-+index fadd5ec..6a8a750 100644
-+--- a/ldconfig.h
-++++ b/ldconfig.h
-+@@ -34,6 +34,10 @@
-+ #define FLAG_POWERPC_LIB64	0x0500
-+ #define FLAG_MIPS64_LIBN32	0x0600
-+ #define FLAG_MIPS64_LIBN64	0x0700
-++#define FLAG_X8664_LIBX32		0x0800
-++#define FLAG_ARM_LIBHF			0x0900
-++#define FLAG_AARCH64_LIB64		0x0a00
-++#define FLAG_ARM_LIBSF			0x0b00
++diff -r 133ee2b48e52 Lib/httplib.py
++--- a/Lib/httplib.py	Fri Aug 01 23:51:51 2014 -0700
+++++ b/Lib/httplib.py	Sat Aug 02 13:59:25 2014 +0000
++@@ -214,6 +214,7 @@
 + 
-+ /* Name of auxiliary cache.  */
-+ #define _PATH_LDCONFIG_AUX_CACHE "/var/cache/ldconfig/aux-cache"
-+diff --git a/readelflib.c b/readelflib.c
-+index 0bf0de3..6e87afc 100644
-+--- a/readelflib.c
-++++ b/readelflib.c
-+@@ -28,6 +28,11 @@
++ # maximal line length when calling readline().
++ _MAXLINE = 65536
+++_MAXHEADERS = 100
 + 
-+ #include "endian_extra.h"
++ class HTTPMessage(mimetools.Message):
 + 
-++/* Work-around for old host that does not have AArch64 defined in elf.h. */
-++#ifndef EM_AARCH64
-++#define EM_AARCH64	183		/* ARM AARCH64 */
-++#endif
++@@ -271,6 +272,8 @@
++         elif self.seekable:
++             tell = self.fp.tell
++         while True:
+++            if len(hlist) > _MAXHEADERS:
+++                raise HTTPException("got more than %d headers" % _MAXHEADERS)
++             if tell:
++                 try:
++                     startofline = tell()
++diff -r 133ee2b48e52 Lib/test/test_httplib.py
++--- a/Lib/test/test_httplib.py	Fri Aug 01 23:51:51 2014 -0700
+++++ b/Lib/test/test_httplib.py	Sat Aug 02 13:59:25 2014 +0000
++@@ -262,6 +262,13 @@
++         if resp.read() != "":
++             self.fail("Did not expect response from HEAD request")
++ 
+++    def test_too_many_headers(self):
+++        headers = '\r\n'.join('Header%d: foo' % i for i in xrange(200)) + '\r\n'
+++        text = ('HTTP/1.1 200 OK\r\n' + headers)
+++        s = FakeSocket(text)
+++        r = httplib.HTTPResponse(s)
+++        self.assertRaises(httplib.HTTPException, r.begin)
 ++
-+ #undef check_ptr
-+ #define check_ptr(ptr)						\
-+ do								\
-+@@ -290,6 +295,35 @@ process_elf_file64 (const char *file_name, const char *lib, int *flag,
-+      libc5/libc6.  */
-+   *flag = FLAG_ELF;
-+ 
-++  /* Set flags according to information in ELF header to align with target
-++     ldconfig */
-++  switch (elf_header->e_machine)
-++    {
-++    case EM_IA_64:
-++      *flag |= FLAG_IA64_LIB64;
-++      break;
-++    case EM_X86_64:
-++      *flag |= FLAG_X8664_LIB64;
-++      break;
-++    case EM_S390:
-++      *flag |= FLAG_S390_LIB64;
-++      break;
-++    case EM_PPC64:
-++      *flag |= FLAG_POWERPC_LIB64;
-++      break;
-++    case EM_MIPS:
-++    case EM_MIPS_RS3_LE:
-++      *flag |= FLAG_MIPS64_LIBN64;
-++      break;
-++    case EM_AARCH64:
-++      *flag |= FLAG_AARCH64_LIB64;
-++      break;
-++    default:
-++      error(0, 0, "%s is a 64-bit ELF for unknown machine %lx\n",
-++            file_name, (long)elf_header->e_machine);
-++      break;
-++    }
-++
-+   loadaddr = -1;
-+   dynamic_addr = 0;
-+   dynamic_size = 0;
-+-- 
-diff --git a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-index 1debf8e..93c0b18 100644
---- a/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-+++ b/meta/recipes-core/glibc/ldconfig-native_2.12.1.bb
-@@ -13,6 +13,7 @@ SRC_URI = "file://ldconfig-native-2.12.1.tar.bz2 \
-            file://endianess-header.patch \
-            file://ldconfig-default-to-all-multilib-dirs.patch \
-            file://endian-ness_handling_fix.patch \
-+           file://add-64-bit-flag-for-ELF64-entries.patch \
++     def test_send_file(self):
++         expected = 'GET /foo HTTP/1.1\r\nHost: example.com\r\n' \
++                    'Accept-Encoding: identity\r\nContent-Length:'
+diff --git a/meta/recipes-devtools/python/python_2.7.3.bb b/meta/recipes-devtools/python/python_2.7.3.bb
+index 0d9ca45..bde7a70 100644
+--- a/meta/recipes-devtools/python/python_2.7.3.bb
++++ b/meta/recipes-devtools/python/python_2.7.3.bb
+@@ -38,6 +38,7 @@ SRC_URI += "\
+   file://python-2.7.3-CVE-2014-1912.patch \
+   file://python2.7.3-nossl3.patch \
+   file://python-2.7.3-CVE-2014-7185.patch \
++  file://python-2.7.3-CVE-2013-1752-httplib-fix.patch \
  "
  
- PR = "r2"
+ S = "${WORKDIR}/Python-${PV}"
 -- 
-2.1.4
+1.9.1
 
 
