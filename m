@@ -1,24 +1,34 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BE4875CC1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 05:43:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t635h1bU027359
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jul 2015 22:43:01 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 2 Jul 2015 22:43:00 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Jul 2015 13:42:31 +0800
-Message-ID: <1435902151-4217-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 71930757F4;
+	Fri,  3 Jul 2015 06:16:55 +0000 (UTC)
+Received: by widjy10 with SMTP id jy10so101401593wid.1;
+	Thu, 02 Jul 2015 23:16:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=dq6f8Hnvpmew3gKd4Ix41pZSgEQNO5mZ9Q8mLA0iIqg=;
+	b=AGIkbhbhj8VmfchnBYRVgyl5tCRpOxzZkA2FJI1FmS6epfCos4jQzwwwYoRQNhOlFT
+	q0ew7QjR6YhB68qzWDonJ8Q7xCd85vu6NL3LGnF21b/sSol9g2Qi7WYLrs2zQocUshTj
+	T13W2fyfKR2BXChBBHwrG8k4jBgn5mjPovw6ijl67CX8hAuUEoIUKcczvuBC6vNNJz2J
+	E64wrOYd8YHVwURuFNwyJGy4tRVUi+DICmbLSGiJCU2PP7BpsjQEuWZ1tSI/7EdgBUYI
+	4sG2Y7sh+90yA19qesHzUKh5Zzb1LDFT0eXycMe7Tg8q6hndjs81YE0ajdSDD50pOJ87
+	xQtQ==
 MIME-Version: 1.0
-Subject: [PATCH] mklibs-native: two fixes
+X-Received: by 10.194.2.161 with SMTP id 1mr63461844wjv.143.1435904215064;
+	Thu, 02 Jul 2015 23:16:55 -0700 (PDT)
+Received: by 10.28.167.2 with HTTP; Thu, 2 Jul 2015 23:16:54 -0700 (PDT)
+In-Reply-To: <5595F075.5010309@gmail.com>
+References: <558B6EE7.5090107@gmail.com> <20150625105906.GA2394@jama>
+	<5595F075.5010309@gmail.com>
+Date: Fri, 3 Jul 2015 08:16:54 +0200
+Message-ID: <CA+chaQeCV9gvoGDAz5NQrzNaR1WJNkW1u4Bg_CLwzLCVrZMr0A@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: google mercurial repo issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,168 +41,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 05:43:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 03 Jul 2015 06:17:02 -0000
+Content-Type: multipart/alternative; boundary=047d7b3a8410abc5800519f280ec
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+--047d7b3a8410abc5800519f280ec
+Content-Type: text/plain; charset=UTF-8
 
-1. Show GNU unique symbols as provided symbols
-2. Remove dependency on dpkg
-Both have been submitted to mklibs maillist:
-https://lists.debian.org/debian-boot/2015/07/msg00018.html
-https://lists.debian.org/debian-boot/2015/07/msg00004.html
+No, the bitbake fix was merged yesterday:
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../mklibs/files/fix_cross_compile.patch           | 81 ++++++++++++++++++++++
- ...ow-GNU-unique-symbols-as-provided-symbols.patch | 34 +++++++++
- .../mklibs/mklibs-native_0.1.40.bb                 |  2 +
- 3 files changed, 117 insertions(+)
- create mode 100644 meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
- create mode 100644 meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
+http://git.openembedded.org/bitbake/commit/?id=378647281ae883dd726f1e1b775dd35ef6a0e8d1
 
-diff --git a/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch b/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
-new file mode 100644
-index 0000000..7eb8659
---- /dev/null
-+++ b/meta/recipes-devtools/mklibs/files/fix_cross_compile.patch
-@@ -0,0 +1,81 @@
-+Remove dependency on dpkg
-+
-+Upstream-Status Submitted
-+
-+Asking the host OS whether it supports multiarch is not useful
-+in a cross-compilation environment, or if the user has specified
-+a libdir explicitly. So this patch, based on the work of Mentor
-+Graphics, removes mklibs's dependency on dpkg package.
-+
-+Signed-off-by: Yuanjie Huang <Yuanjie.Huang@windriver.com>
-+ src/mklibs | 30 +++++++++++++++++++-----------
-+ 1 file changed, 19 insertions(+), 11 deletions(-)
-+
-+diff --git a/src/mklibs b/src/mklibs
-+index d9b784b..c5614ea 100755
-+--- a/src/mklibs
-++++ b/src/mklibs
-+@@ -261,6 +261,11 @@ def extract_soname(so_file):
-+     return ""
-+ 
-+ def multiarch(paths):
-++    # Asking the host OS whether it supports multiarch is not useful
-++    # in a cross-compilation environment, or if the user has specified
-++    # a libdir explicitly.
-++    if sysroot != "" or libdir != "":
-++        return paths
-+     devnull = open('/dev/null', 'w')
-+     dpkg_architecture = subprocess.Popen(
-+         ['dpkg-architecture', '-qDEB_HOST_MULTIARCH'],
-+@@ -340,7 +345,7 @@ lib_path = []
-+ dest_path = "DEST"
-+ ldlib = "LDLIB"
-+ include_default_lib_path = "yes"
-+-default_lib_path = multiarch(["/lib/", "/usr/lib/", "/usr/X11R6/lib/"])
-++default_lib_path = ["/lib/", "/usr/lib/", "/usr/X11R6/lib/"]
-+ libc_extras_dir = "/usr/lib/libc_pic"
-+ libc_extras_dir_default = True
-+ libdir = "lib"
-+@@ -386,7 +391,7 @@ for opt, arg in optlist:
-+     elif opt == "--libdir":
-+         libdir = arg
-+     elif opt in ("--help", "-h"):
-+-	usage(0)
-++        usage(0)
-+         sys.exit(0)
-+     elif opt in ("--version", "-V"):
-+         version(vers)
-+@@ -395,6 +400,7 @@ for opt, arg in optlist:
-+         print "WARNING: unknown option: " + opt + "\targ: " + arg
-+ 
-+ if include_default_lib_path == "yes":
-++    default_lib_path = multiarch(default_lib_path)
-+     lib_path.extend([a.replace("/lib/", "/" + libdir + "/") for a in default_lib_path])
-+ 
-+ if libc_extras_dir_default:
-+@@ -661,16 +669,16 @@ ld_path_name = os.path.dirname(ldlib)
-+ ld_full_path = "../" + ldlib
-+ ld_file = find_lib(ld_file_name)
-+ 
-+-if ld_path_name != "/lib":
-+-    if os.access(dest_path + "/" + ld_file_name, os.F_OK):
-+-        os.remove(dest_path + "/" + ld_file_name)
-++#if ld_path_name != "/lib":
-++#    if os.access(dest_path + "/" + ld_file_name, os.F_OK):
-++#        os.remove(dest_path + "/" + ld_file_name)
-+ 
-+-if not os.path.exists(dest_path + "/../" + ld_path_name):
-+-    os.mkdir(dest_path + "/../" + ld_path_name)
-++#if not os.path.exists(dest_path + "/../" + ld_path_name):
-++#    os.mkdir(dest_path + "/../" + ld_path_name)
-+ 
-+-if not os.access(dest_path + "/" + ld_full_path, os.F_OK):
-+-    debug(DEBUG_NORMAL, "I: stripping and copying dynamic linker to " + ld_full_path)
-++if not os.access(dest_path + "/" + ld_file_name, os.F_OK):
-++    debug(DEBUG_NORMAL, "I: stripping and copying dynamic linker to " + ld_file_name)
-+     command(target + "objcopy", "--strip-unneeded -R .note -R .comment",
-+-            ld_file, dest_path + "/" + ld_full_path)
-++            ld_file, dest_path + "/" + ld_file_name)
-+ 
-+-os.chmod(dest_path + "/" + ld_full_path, 0755)
-++os.chmod(dest_path + "/" + ld_file_name, 0755)
-diff --git a/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch b/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
-new file mode 100644
-index 0000000..3f14ca1
---- /dev/null
-+++ b/meta/recipes-devtools/mklibs/files/show-GNU-unique-symbols-as-provided-symbols.patch
-@@ -0,0 +1,34 @@
-+From eddf04c7f8312e9c29cdb24e431b7e4fb2cc70ed Mon Sep 17 00:00:00 2001
-+From: Yuanjie Huang <yuanjie.huang@windriver.com>
-+Date: Wed, 15 Apr 2015 14:00:06 +0800
-+Subject: [PATCH] Show GNU unique symbols as provided symbols
-+
-+Upstream-Status Submitted
-+
-+GNU Unique symbol is a GNU extension employed by new version of GCC
-+by default. Even Standard C++ library in GCC 4.9 provides some symbols,
-+such as _ZNSs4_Rep20_S_empty_rep_storageE in this binding type instead
-+of ELF standard weak binding.
-+This patch adds support of this new binding type to mklibs-readelf.
-+
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ src/mklibs-readelf/main.cpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/mklibs-readelf/main.cpp b/src/mklibs-readelf/main.cpp
-+index 56d93f8..0134530 100644
-+--- a/src/mklibs-readelf/main.cpp
-++++ b/src/mklibs-readelf/main.cpp
-+@@ -88,7 +88,7 @@ static void process_symbols_provided (const Elf::section_type<Elf::section_type_
-+     uint8_t type = symbol->get_type ();
-+     const std::string &name = symbol->get_name_string ();
-+ 
-+-    if (bind != STB_GLOBAL && bind != STB_WEAK)
-++    if (bind != STB_GLOBAL && bind != STB_WEAK && bind != STB_GNU_UNIQUE)
-+       continue;
-+     if (shndx == SHN_UNDEF || shndx == SHN_ABS)
-+       continue;
-+-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-index 0bb5f21..d6905ac 100644
---- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-+++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
-@@ -11,6 +11,8 @@ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.x
- 	file://fix_STT_GNU_IFUNC.patch\
- 	file://sysrooted-ldso.patch \
- 	file://avoid-failure-on-symbol-provided-by-application.patch \
-+	file://show-GNU-unique-symbols-as-provided-symbols.patch \
-+	file://fix_cross_compile.patch \
- "
- 
- SRC_URI[md5sum] = "e1dafe5f962caa9dc5f2651c0723812a"
--- 
-1.9.1
+On Fri, Jul 3, 2015 at 4:16 AM, akuster808 <akuster808@gmail.com> wrote:
 
+> It seems to be working today. wonder if it is do to mercurial-native
+> update?
+>
+> - armin
+>
+>
+> On 06/25/2015 03:59 AM, Martin Jansa wrote:
+>
+>> On Wed, Jun 24, 2015 at 08:00:55PM -0700, akuster808 wrote:
+>>
+>>> Hello all,
+>>>
+>>> I have run into an issue trying to build vim.
+>>>
+>>
+>> That's broken for a while (see world reports), because bitbake mercurial
+>> fetcher is broken.
+>>
+>>  /usr/bin/env hg pull
+>>> /home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim
+>>> | DEBUG: Python function base_do_unpack finished
+>>> | DEBUG: Python function do_unpack finished
+>>> | ERROR: Function failed: Fetcher failure: Fetch command failed with
+>>> exit code 255, output:
+>>> | abort: repository
+>>> /home/akuster/oss/downloads/hg/vim.googlecode.com/hg/vim not found!
+>>>
+>>>
+>>> there is a note on google regarding their hg repos: "We have some known
+>>> issues with hg repositories."
+>>>
+>>> https://groups.google.com/forum/#!topic/google-code-hosting/Gh3kl9MrzY4
+>>>
+>>>
+>>> is anyone else seeing this?
+>>>
+>>> - armin
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>>
+>>
+>>
 
+--047d7b3a8410abc5800519f280ec
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">No, the bitbake fix was merged yesterday:<div><br></div><d=
+iv><a href=3D"http://git.openembedded.org/bitbake/commit/?id=3D378647281ae8=
+83dd726f1e1b775dd35ef6a0e8d1">http://git.openembedded.org/bitbake/commit/?i=
+d=3D378647281ae883dd726f1e1b775dd35ef6a0e8d1</a><br></div></div><div class=
+=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Jul 3, 2015 at 4:16=
+ AM, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mailto:akuster808@gmail.co=
+m" target=3D"_blank">akuster808@gmail.com</a>&gt;</span> wrote:<br><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">It seems to be working today. wonder if it is do to =
+mercurial-native update?<br>
+<br>
+- armin<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+On 06/25/2015 03:59 AM, Martin Jansa wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+On Wed, Jun 24, 2015 at 08:00:55PM -0700, akuster808 wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+Hello all,<br>
+<br>
+I have run into an issue trying to build vim.<br>
+</blockquote>
+<br>
+That&#39;s broken for a while (see world reports), because bitbake mercuria=
+l<br>
+fetcher is broken.<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+/usr/bin/env hg pull<br>
+/home/akuster/oss/downloads/hg/<a href=3D"http://vim.googlecode.com/hg/vim"=
+ rel=3D"noreferrer" target=3D"_blank">vim.googlecode.com/hg/vim</a><br>
+| DEBUG: Python function base_do_unpack finished<br>
+| DEBUG: Python function do_unpack finished<br>
+| ERROR: Function failed: Fetcher failure: Fetch command failed with<br>
+exit code 255, output:<br>
+| abort: repository<br>
+/home/akuster/oss/downloads/hg/<a href=3D"http://vim.googlecode.com/hg/vim"=
+ rel=3D"noreferrer" target=3D"_blank">vim.googlecode.com/hg/vim</a> not fou=
+nd!<br>
+<br>
+<br>
+there is a note on google regarding their hg repos: &quot;We have some know=
+n<br>
+issues with hg repositories.&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>
+<a href=3D"https://groups.google.com/forum/#!topic/google-code-hosting/Gh3k=
+l9MrzY4" rel=3D"noreferrer" target=3D"_blank">https://groups.google.com/for=
+um/#!topic/google-code-hosting/Gh3kl9MrzY4</a><br>
+<br>
+<br>
+is anyone else seeing this?<br>
+<br>
+- armin<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote>
+<br>
+</blockquote>
+</div></div></blockquote></div><br></div>
+
+--047d7b3a8410abc5800519f280ec--
