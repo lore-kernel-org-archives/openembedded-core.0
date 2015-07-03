@@ -1,35 +1,24 @@
-Return-Path: <obi@opendreambox.org>
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C33E65CCC
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 20B4575CF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 08:00:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 7DD0D315748B
+	Fri,  3 Jul 2015 08:13:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t638DtQ1011876
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 10:00:46 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 5KGIlRV9OjLe
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 10:00:41 +0200 (CEST)
-Received: from [172.22.22.61] (55d44c7e.access.ecotel.net [85.212.76.126])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id D53DC31572F5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 10:00:40 +0200 (CEST)
-Message-ID: <55964128.4090607@opendreambox.org>
-Date: Fri, 03 Jul 2015 10:00:40 +0200
-From: Andreas Oberritter <obi@opendreambox.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Fri, 3 Jul 2015 01:13:55 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 3 Jul 2015 01:13:54 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 3 Jul 2015 16:08:45 +0800
+Message-ID: <1435910925-27865-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1435905732-15169-1-git-send-email-xiao.zhang@windriver.com>
-In-Reply-To: <1435905732-15169-1-git-send-email-xiao.zhang@windriver.com>
-Subject: Re: [PATCH] systemd: bug fix for the path of systemd.conf
+Subject: [PATCH] gettext-minimal-native: use MKIDR_P in Makefile.in.in
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,34 +31,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 08:00:54 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 03 Jul 2015 08:13:58 -0000
+Content-Type: text/plain
 
-Hello Zhang Xiao,
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-On 03.07.2015 08:42, Zhang Xiao wrote:
-> tmpfiles.d/systemd.conf lies in {prefix}/lib not {libdir}.
-> Fix it.
-> 
-> Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
-> ---
->  meta/recipes-core/systemd/systemd_219.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-> index 6ed4fe0..04db47b 100644
-> --- a/meta/recipes-core/systemd/systemd_219.bb
-> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> @@ -178,7 +178,7 @@ do_install() {
->  	# this file is needed to exist if networkd is disabled but timesyncd is still in use since timesyncd checks it
->  	# for existence else it fails
->  	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; the
-> -		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
-> +		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${prefix}/lib/tmpfiles.d/systemd.conf', d)}
+The Makefile.in.in provided by gettext-minimal-native will be copied
+to many packages that need gettext to produce multi-lingual messages.
 
-wouldn't it be appropriate to change the conditional above, too?
+Replace mkdir_p with MKDIR_P to fix below errors from those packages'
+install logs:
 
-Regards,
-Andreas
+  /bin/sh: 6: @mkdir_p@: not found
+  /usr/bin/install: cannot create regular file 'xxx'
+
+As automake manual:
+
+From Automake 1.8 to 1.9.6 AM_PROG_MKDIR_P used to define the output
+variable mkdir_p to one of mkdir -p, install-sh -d, or mkinstalldirs.
+
+Nowadays Autoconf provides a similar functionality with AC_PROG_MKDIR_P,
+it will set output variable MKDIR_P.
+
+Automake manual advises to switch ASAP to the more modern Autoconf-provided
+interface instead; both the macro and the variable have been removed from
+Automake 1.12.1 and later releases.
+
+Signe-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ .../gettext/gettext-minimal-0.19.4/Makefile.in.in      | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
+
+diff --git a/meta/recipes-core/gettext/gettext-minimal-0.19.4/Makefile.in.in b/meta/recipes-core/gettext/gettext-minimal-0.19.4/Makefile.in.in
+index 65184f6..8906ba0 100644
+--- a/meta/recipes-core/gettext/gettext-minimal-0.19.4/Makefile.in.in
++++ b/meta/recipes-core/gettext/gettext-minimal-0.19.4/Makefile.in.in
+@@ -33,17 +33,7 @@ gettextsrcdir = $(datadir)/gettext/po
+ INSTALL = @INSTALL@
+ INSTALL_DATA = @INSTALL_DATA@
+ 
+-# We use $(mkdir_p).
+-# In automake <= 1.9.x, $(mkdir_p) is defined either as "mkdir -p --" or as
+-# "$(mkinstalldirs)" or as "$(install_sh) -d". For these automake versions,
+-# @install_sh@ does not start with $(SHELL), so we add it.
+-# In automake >= 1.10, @mkdir_p@ is derived from ${MKDIR_P}, which is defined
+-# either as "/path/to/mkdir -p" or ".../install-sh -c -d". For these automake
+-# versions, $(mkinstalldirs) and $(install_sh) are unused.
+-mkinstalldirs = $(SHELL) @install_sh@ -d
+-install_sh = $(SHELL) @install_sh@
+ MKDIR_P = @MKDIR_P@
+-mkdir_p = @mkdir_p@
+ 
+ GMSGFMT_ = @GMSGFMT@
+ GMSGFMT_no = @GMSGFMT@
+@@ -242,7 +232,7 @@ install: install-exec install-data
+ install-exec:
+ install-data: install-data-@USE_NLS@
+ 	if test "$(PACKAGE)" = "gettext-tools"; then \
+-	  $(mkdir_p) $(DESTDIR)$(gettextsrcdir); \
++	  $(MKDIR_P) $(DESTDIR)$(gettextsrcdir); \
+ 	  for file in $(DISTFILES.common) Makevars.template; do \
+ 	    $(INSTALL_DATA) $(srcdir)/$$file \
+ 			    $(DESTDIR)$(gettextsrcdir)/$$file; \
+@@ -260,7 +250,7 @@ install-data-yes: all
+ 	  cat=`basename $$cat`; \
+ 	  lang=`echo $$cat | sed -e 's/\.gmo$$//'`; \
+ 	  dir=$(localedir)/$$lang/LC_MESSAGES; \
+-	  $(mkdir_p) $(DESTDIR)$$dir; \
++	  $(MKDIR_P) $(DESTDIR)$$dir; \
+ 	  if test -r $$cat; then realcat=$$cat; else realcat=$(srcdir)/$$cat; fi; \
+ 	  $(INSTALL_DATA) $$realcat $(DESTDIR)$$dir/$(DOMAIN).mo; \
+ 	  echo "installing $$realcat as $(DESTDIR)$$dir/$(DOMAIN).mo"; \
+@@ -300,7 +290,7 @@ installdirs: installdirs-exec installdirs-data
+ installdirs-exec:
+ installdirs-data: installdirs-data-@USE_NLS@
+ 	if test "$(PACKAGE)" = "gettext-tools"; then \
+-	  $(mkdir_p) $(DESTDIR)$(gettextsrcdir); \
++	  $(MKDIR_P) $(DESTDIR)$(gettextsrcdir); \
+ 	else \
+ 	  : ; \
+ 	fi
+@@ -311,7 +301,7 @@ installdirs-data-yes:
+ 	  cat=`basename $$cat`; \
+ 	  lang=`echo $$cat | sed -e 's/\.gmo$$//'`; \
+ 	  dir=$(localedir)/$$lang/LC_MESSAGES; \
+-	  $(mkdir_p) $(DESTDIR)$$dir; \
++	  $(MKDIR_P) $(DESTDIR)$$dir; \
+ 	  for lc in '' $(EXTRA_LOCALE_CATEGORIES); do \
+ 	    if test -n "$$lc"; then \
+ 	      if (cd $(DESTDIR)$(localedir)/$$lang && LC_ALL=C ls -l -d $$lc 2>/dev/null) | grep ' -> ' >/dev/null; then \
+-- 
+1.9.1
+
 
