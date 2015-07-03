@@ -1,43 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 14DD675D50
+Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 86CAB75D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 10:26:37 +0000 (UTC)
-Received: by qgat90 with SMTP id t90so25492961qga.0
+	Fri,  3 Jul 2015 10:26:48 +0000 (UTC)
+Received: by wgjx7 with SMTP id x7so84608988wgj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Jul 2015 03:26:38 -0700 (PDT)
+	Fri, 03 Jul 2015 03:26:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=fF+mari+fiI/ybPkhLAo4WDooExlARQMfn7LYRsyCRE=;
-	b=PJ8/P6+g9Voc1DZ9nrWIc8A2YJa0rNxQspSp3xu2VkvQscgLYK/GgZ3SyGk/WN5dCC
-	PVyhxYwFSvJEginvm0ORmV5x40ztV0uYb+RETrlAH4DeaFlZ/XuOjS1g6ucrWr6sf5yL
-	UjVj/JEU3ff4UjDGGAqP4UxmVeiGRbJ8kXNcnODIHcXsIEeG8hS5RmvheNkIgkl7Z1KH
-	gG8dgvsqGbW+s6v2pOMUzpsaf2RK6Czyq/t2jo0nU/78vdE389CodeB3NHqquzkkjipD
-	4G5c7/90LdMuE0fjnOY8y+RfsbhdKrfK5OcrQtLZ/ITRB5bSzpmBiwaS+JOBvEIlXAJu
-	G3SQ==
-X-Gm-Message-State: ALoCoQmN45Z8kh6B0D9SrGfpJ69bcVAjgtOqw/Jjc9WvnFYa26efyBf5RQrbGf3M9UgVfAKqMfB8
-X-Received: by 10.140.133.199 with SMTP id 190mr52550343qhf.17.1435919197944; 
-	Fri, 03 Jul 2015 03:26:37 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 3 Jul 2015 03:26:18 -0700 (PDT)
-In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AAF11F7479@ALA-MBB.corp.ad.wrs.com>
-References: <1435737141-31961-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0LacneDbjFJR+uPQs__cqx+FVwXEuyCXe5zVui+Gu9tbpg@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AAF11F6D32@ALA-MBB.corp.ad.wrs.com>
-	<20150703090405.GA2436@jama>
-	<CAJTo0Lbdq1=ZgX5VQApdvhDfX1uF3MkT0sD_MXfQr3coN18t1A@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AAF11F7414@ALA-MBB.corp.ad.wrs.com>
-	<CAJTo0LZDcTfLFE8wsCU04m0LR1mNOb-Q1zjO2d8hRTQfTmvuHw@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AAF11F7479@ALA-MBB.corp.ad.wrs.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 3 Jul 2015 11:26:18 +0100
-Message-ID: <CAJTo0LaCmxm_wytA4uRVxor7U2n2SfLErATERJ3g09ampPrpow@mail.gmail.com>
-To: "Huang, Jie (Wind River)" <jackie.huang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xorg-proto-common: allow the empty package
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=D759tekleCcO9WIEN9cXcQRdNr00fOiXwRTY0Sid+ao=;
+	b=KZocX9JqTsNHUCQxt5JKe2Wg90ZR+M6DSE7FjaXVhzCHUS5mjqqrt1rCFI6fEkaKoX
+	OsyzdAtoE2VIs4QSyXgzNXEWkJidfg2ZAlYm8W2BNhxBQ86k3T4e75UFIr/WT7yW4f7a
+	BAUfUwbhtGuT8EtH+aSGTvBnhWdmtF+I4CyjwDf6hKS1NsGIM119oALmJTYmYHsPevby
+	yZ9Cm6YOvkSBx4cITLmpGSzDyCJe5bLyKSN8lbBgFOv4CkD4cr7QR8szJ//Vycnn+lfc
+	Rx7bkL5euV0nmHX9yYsbJOnZwfQvJrUc7qFLy2836IzHnm1uAf9vFnmJdPWXKUSWQ3OP
+	g3YA==
+X-Gm-Message-State: ALoCoQmrtB3Ya27sRvA+Bs6uRBQ/fQtX4xVbxvTynXTfcwcbz4dQbhjJKM+FsEC+2KgsNl1Vbovn
+X-Received: by 10.194.93.226 with SMTP id cx2mr19428739wjb.28.1435919208990;
+	Fri, 03 Jul 2015 03:26:48 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by mx.google.com with ESMTPSA id
+	ul1sm12672153wjc.30.2015.07.03.03.26.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 03 Jul 2015 03:26:48 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 Jul 2015 11:21:25 +0100
+Message-Id: <1435918885-12200-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] libdrm: remove git recipe, merge inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,45 +43,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 10:26:39 -0000
-Content-Type: multipart/alternative; boundary=001a11353390b853040519f5fd73
+X-List-Received-Date: Fri, 03 Jul 2015 10:26:49 -0000
 
---001a11353390b853040519f5fd73
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The git recipe hasn't been touched since 2012 and is out of date, so simplify
+the recipe by removing the git form and merging the remaining bb and inc file.
 
-On 3 July 2015 at 11:16, Huang, Jie (Wind River) <jackie.huang@windriver.co=
-m
-> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-graphics/drm/libdrm.inc       | 41 ------------------------------
+ meta/recipes-graphics/drm/libdrm_2.4.59.bb | 41 +++++++++++++++++++++++++++---
+ meta/recipes-graphics/drm/libdrm_git.bb    | 12 ---------
+ 3 files changed, 38 insertions(+), 56 deletions(-)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm.inc
+ delete mode 100644 meta/recipes-graphics/drm/libdrm_git.bb
 
-> Thanks for the explanation. I think you=E2=80=99re suggesting that we do =
-nothing
-> for such issue or
->
-> just tell the user to use PN-dev for this kind of packages, right?
->
->
-Correct.
+diff --git a/meta/recipes-graphics/drm/libdrm.inc b/meta/recipes-graphics/drm/libdrm.inc
+deleted file mode 100644
+index d3e1e92..0000000
+--- a/meta/recipes-graphics/drm/libdrm.inc
++++ /dev/null
+@@ -1,41 +0,0 @@
+-SUMMARY = "Userspace interface to the kernel DRM services"
+-DESCRIPTION = "The runtime library for accessing the kernel DRM services.  DRM \
+-stands for \"Direct Rendering Manager\", which is the kernel portion of the \
+-\"Direct Rendering Infrastructure\" (DRI).  DRI is required for many hardware \
+-accelerated OpenGL drivers."
+-HOMEPAGE = "http://dri.freedesktop.org"
+-SECTION = "x11/base"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
+-SRC_URI = "http://dri.freedesktop.org/libdrm/libdrm-${PV}.tar.bz2"
+-PROVIDES = "drm"
+-DEPENDS = "libpthread-stubs udev"
+-
+-# be aware that libdrm_2.4.44.bb ignores this
+-INC_PR = "r4"
+-
+-#libpciaccess is required starting from libdrm 2.4.26
+-DEPENDS += " libpciaccess"
+-
+-inherit autotools pkgconfig
+-
+-EXTRA_OECONF += "--disable-cairo-tests \
+-                 --enable-omap-experimental-api \
+-                 --enable-install-test-programs \
+-                 --disable-manpages \
+-                "
+-ALLOW_EMPTY_${PN}-drivers = "1"
+-PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
+-             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno"
+-
+-RRECOMMENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
+-                             ${PN}-exynos ${PN}-freedreno"
+-
+-FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode* ${bindir}/*test"
+-FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
+-FILES_${PN}-nouveau = "${libdir}/libdrm_nouveau.so.*"
+-FILES_${PN}-omap = "${libdir}/libdrm_omap.so.*"
+-FILES_${PN}-intel = "${libdir}/libdrm_intel.so.*"
+-FILES_${PN}-exynos = "${libdir}/libdrm_exynos.so.*"
+-FILES_${PN}-kms = "${libdir}/libkms*.so.*"
+-FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.59.bb b/meta/recipes-graphics/drm/libdrm_2.4.59.bb
+index 14bf44a..97f75ff 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.59.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.59.bb
+@@ -1,6 +1,41 @@
+-require libdrm.inc
+-
+-SRC_URI += "file://installtests.patch "
++SUMMARY = "Userspace interface to the kernel DRM services"
++DESCRIPTION = "The runtime library for accessing the kernel DRM services.  DRM \
++stands for \"Direct Rendering Manager\", which is the kernel portion of the \
++\"Direct Rendering Infrastructure\" (DRI).  DRI is required for many hardware \
++accelerated OpenGL drivers."
++HOMEPAGE = "http://dri.freedesktop.org"
++SECTION = "x11/base"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c530816761e949dc71"
++PROVIDES = "drm"
++DEPENDS = "libpthread-stubs udev libpciaccess"
+ 
++SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
++           file://installtests.patch "
+ SRC_URI[md5sum] = "d32a1d37c2546ee11fc5924abeedb23e"
+ SRC_URI[sha256sum] = "68d26e1fd85582f4243d66864f9b43ca4ee93662825de32b5506fc8e181ea41b"
++
++inherit autotools pkgconfig
++
++EXTRA_OECONF += "--disable-cairo-tests \
++                 --enable-omap-experimental-api \
++                 --enable-install-test-programs \
++                 --disable-manpages \
++                "
++
++ALLOW_EMPTY_${PN}-drivers = "1"
++PACKAGES =+ "${PN}-tests ${PN}-drivers ${PN}-radeon ${PN}-nouveau ${PN}-omap \
++             ${PN}-intel ${PN}-exynos ${PN}-kms ${PN}-freedreno"
++
++RRECOMMENDS_${PN}-drivers = "${PN}-radeon ${PN}-nouveau ${PN}-omap ${PN}-intel \
++                             ${PN}-exynos ${PN}-freedreno"
++
++FILES_${PN}-tests = "${bindir}/dr* ${bindir}/mode* ${bindir}/*test"
++FILES_${PN}-radeon = "${libdir}/libdrm_radeon.so.*"
++FILES_${PN}-nouveau = "${libdir}/libdrm_nouveau.so.*"
++FILES_${PN}-omap = "${libdir}/libdrm_omap.so.*"
++FILES_${PN}-intel = "${libdir}/libdrm_intel.so.*"
++FILES_${PN}-exynos = "${libdir}/libdrm_exynos.so.*"
++FILES_${PN}-kms = "${libdir}/libkms*.so.*"
++FILES_${PN}-freedreno = "${libdir}/libdrm_freedreno.so.*"
++
+diff --git a/meta/recipes-graphics/drm/libdrm_git.bb b/meta/recipes-graphics/drm/libdrm_git.bb
+deleted file mode 100644
+index d7245ee..0000000
+--- a/meta/recipes-graphics/drm/libdrm_git.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-require libdrm.inc
+-
+-SRC_URI = "git://anongit.freedesktop.org/git/mesa/drm"
+-
+-S = "${WORKDIR}/git"
+-
+-DEFAULT_PREFERENCE = "-1"
+-
+-SRCREV = "e01d68f9f3acfc35fe164283904b5d058c2ab378"
+-PV = "2.4.40+git${SRCPV}"
+-PR = "${INC_PR}.0"
+-
+-- 
+2.1.4
 
-Ross
 
---001a11353390b853040519f5fd73
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 July 2015 at 11:16, Huang, Jie (Wind River) <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:jackie.huang@windriver.com" target=3D"_blank">jackie.huang@wi=
-ndriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p clas=
-s=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&q=
-uot;,&quot;sans-serif&quot;;color:#1f497d">Thanks for the explanation. I th=
-ink you=E2=80=99re suggesting that we do nothing for such issue or
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,&quot;sans-serif&quot;;color:#1f497d">just tell the user to use=
- PN-dev for this kind of packages, right?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"></p></blockquote></div><br>Correct.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11353390b853040519f5fd73--
