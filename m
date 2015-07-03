@@ -1,37 +1,38 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6446D75D44
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B98275D4F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 10:16:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t63AGAs9002114
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 3 Jul 2015 03:16:10 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.3.80]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0224.002;
-	Fri, 3 Jul 2015 03:16:10 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] xorg-proto-common: allow the empty package
-Thread-Index: AQHQtP7tzyChVLEBEk+vaJ5YwB9BXJ3I8KBAgACGlJiAAAAwYIAAfAKA//+Sq7A=
-Date: Fri, 3 Jul 2015 10:16:09 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AAF11F7479@ALA-MBB.corp.ad.wrs.com>
-References: <1435737141-31961-1-git-send-email-jackie.huang@windriver.com>
-	<CAJTo0LacneDbjFJR+uPQs__cqx+FVwXEuyCXe5zVui+Gu9tbpg@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AAF11F6D32@ALA-MBB.corp.ad.wrs.com>
-	<20150703090405.GA2436@jama>
-	<CAJTo0Lbdq1=ZgX5VQApdvhDfX1uF3MkT0sD_MXfQr3coN18t1A@mail.gmail.com>
-	<1B858668EC6A94408DCA5225FDFA85AAF11F7414@ALA-MBB.corp.ad.wrs.com>
-	<CAJTo0LZDcTfLFE8wsCU04m0LR1mNOb-Q1zjO2d8hRTQfTmvuHw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZDcTfLFE8wsCU04m0LR1mNOb-Q1zjO2d8hRTQfTmvuHw@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
+	Fri,  3 Jul 2015 10:21:48 +0000 (UTC)
+Received: by qkbp125 with SMTP id p125so69788443qkb.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 Jul 2015 03:21:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=CbYQ+C7bu9EIkcEk1ph3AnEXQKR5UA1K2iGR4EH6GtA=;
+	b=HTu+vPaFI6uVBEXUTgmsXDMJOiDtSI0BQKAWruox7ZhVPWQwgULHlEO+/xEHTQwktw
+	A/lephsQyUpcbUWMfSNCk+yuRWPJBTS1p5B73OMEe3h6tXKkBK40KrQ0bvomzscHyCqH
+	Kg8BTpOjGmE2KlYf1mLGLnxKi7Xwj7f8xxUQkyBbDyPJhG+DJdSI7CpohQRxJ5ZdQBVF
+	8uygtzvt36sDSFws1FQl0UHRQjgrtoTZnXB6SVTfuUa/06QlLBWVP3+qJfVr+k63oNt9
+	wo3+b+sqFMPvRb2mboPlYH7xHTcKGYBMebIK46MRmQeC8EYUWgPLf0iTSc9YrPmm5/2x
+	y5RQ==
+X-Gm-Message-State: ALoCoQnkI/RvZXly0qkFA/KAMk+iC8F3tLyS/04WWwoI8kszLKBUaJrscq4J/wnCFJe6Q4hJr0d/
+X-Received: by 10.140.43.199 with SMTP id e65mr49328579qga.80.1435918908471;
+	Fri, 03 Jul 2015 03:21:48 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Fri, 3 Jul 2015 03:21:28 -0700 (PDT)
+In-Reply-To: <81B0EC78FE09F04E8E0FF9B9C2BF8A364939A858@deeres07.ebgroup.elektrobit.com>
+References: <81B0EC78FE09F04E8E0FF9B9C2BF8A364939A836@deeres07.ebgroup.elektrobit.com>
+	<CAHiDW_FZoQudwPMdV-zTF-SZ2OVoAjNXuoYY8vUTkSQfoMXDtQ@mail.gmail.com>
+	<81B0EC78FE09F04E8E0FF9B9C2BF8A364939A858@deeres07.ebgroup.elektrobit.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 3 Jul 2015 11:21:28 +0100
+Message-ID: <CAJTo0LZaxAkJtQm6cTnLxaEDESRqiQPWbRNwDTjOt+0g3MVZ=Q@mail.gmail.com>
+To: Steffen.Pankratz@elektrobit.com
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xorg-proto-common: allow the empty package
+Subject: Re: [PATCH] libdrm: Upgrade to 2.4.62
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,155 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 10:16:14 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AAF11F7479ALAMBBcorpadwrs_"
+X-List-Received-Date: Fri, 03 Jul 2015 10:21:51 -0000
+Content-Type: multipart/alternative; boundary=001a113a9baa7753df0519f5ec08
 
---_000_1B858668EC6A94408DCA5225FDFA85AAF11F7479ALAMBBcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a113a9baa7753df0519f5ec08
+Content-Type: text/plain; charset=UTF-8
 
-VGhhbmtzIGZvciB0aGUgZXhwbGFuYXRpb24uIEkgdGhpbmsgeW914oCZcmUgc3VnZ2VzdGluZyB0
-aGF0IHdlIGRvIG5vdGhpbmcgZm9yIHN1Y2ggaXNzdWUgb3INCmp1c3QgdGVsbCB0aGUgdXNlciB0
-byB1c2UgUE4tZGV2IGZvciB0aGlzIGtpbmQgb2YgcGFja2FnZXMsIHJpZ2h0Pw0KDQpUaGFua3Ms
-DQpKYWNraWUNCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwu
-Y29tXQ0KU2VudDogRnJpZGF5LCBKdWx5IDAzLCAyMDE1IDU6MzkgUE0NClRvOiBIdWFuZywgSmll
-IChKYWNraWUpDQpDYzogTWFydGluIEphbnNhOyBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIFtQQVRDSF0geG9yZy1wcm90by1jb21tb246IGFsbG93IHRoZSBlbXB0eSBwYWNrYWdlDQoN
-Cg0KT24gMyBKdWx5IDIwMTUgYXQgMTA6MzQsIEh1YW5nLCBKaWUgKFdpbmQgUml2ZXIpIDxqYWNr
-aWUuaHVhbmdAd2luZHJpdmVyLmNvbTxtYWlsdG86amFja2llLmh1YW5nQHdpbmRyaXZlci5jb20+
-PiB3cm90ZToNCg0KSSBzZWUgeW91ciBwb2ludCwgSSB0aGluayB3ZSBjYW4gbWFrZSB0aGUgZW1w
-dHkgUE4gcmRlcGVuZHMgb24gUE4tZGV2KGJ1dCB0aGUgZGV2LWRlcHMgUUEgY2hlY2sgbmVlZCB0
-byBiZSBza2lwcGVkKSwNCg0KdGhlbiB3aGVuIHVzZXIgdHJ5IHRvIGFkZCBQTiwgUE4tZGV2IHdp
-bGwgYWxzbyBiZSBpbnN0YWxsZWQsIHNvIGl04oCZcyBub3QgYW4gdXNlbGVzcyBlbXB0eSBwYWNr
-YWdlLg0KDQpiaWdyZXFzcHJvdG8gaXMgZGV2ZWxvcG1lbnQgaGVhZGVycy4gIFRoZXJlZm9yZSBp
-dHMgaW4gdGhlIGJpZ3JlcXNwcm90by1kZXYgcGFja2FnZS4gIFRoaXMgaXMgbm90IGhhcmQgdG8g
-dW5kZXJzdGFuZCwgbm9yIHNob3VsZCB3ZSBzdGFydCBmaWxsaW5nIHRoZSBmZWVkcyB1cCB3aXRo
-IGVtcHR5IHBhY2thZ2VzIGp1c3QgdG8gcGxlYXNlIHVzZXJzIHdobyBjYW4ndCB2ZXJpZnkgdGhl
-IHBhY2thZ2UgbmFtZXMuDQoNCkRpZG4ndCB3ZSBoYXZlIHRoaXMgZGlzY3Vzc2lvbiBhIGZldyBt
-b250aHMgYWdvPyAgVGhlcmUgYXJlIHNvbWUgcmVjaXBlcyB3aGVyZSBQTiBub3QgZXhpc3Rpbmcg
-aXMgdW51c3VhbCAoYXZhaGkgd2FzIGEgZ29vZCBleGFtcGxlLCBhbmQgSSBoYWQgYSBwYXJ0aWFs
-IGJyYW5jaCB0byBmaXggdGhhdCksIGJ1dCBmb3IgcmVjaXBlcyB3aGljaCBlbnRpcmVseSBjb25z
-aXN0IG9mIGRldmVsb3BtZW50IGZpbGVzLCB0aGVyZSBvbmx5IGJlaW5nIGEgZGV2ZWxvcG1lbnQg
-cGFja2FnZSBpcyByZWFzb25hYmxlIGFuZCBwcmVkaWN0YWJsZS4NCg0KKElmIEkgKmhhZCogdG8g
-ZG8gdGhpcywgSSdkIGhhdmUgUlBST1ZJREVTXyR7UE59LWRldiArPSAke1BOfSkNCg0KSSBzZWUg
-dGhhdCBvcGVuc3NoIGhhcyBzaW1pbGFyIHNpdHVhdGlvbiwgUE4gaXMgYWxsb3dlZCBlbXB0eSwg
-YnV0IGl0IHJkZXBlbmRzIG9uIOKAnCR7UE59LXNjcCAke1BOfS1zc2ggJHtQTn0tc3NoZCAke1BO
-fS1rZXlnZW7igJ0uDQpUaGF0J3MgYSBkaWZmZXJlbnQgdXNlIGNhc2UgZW50aXJlbHk6IHB1bGxp
-bmcgaW4gdGhlIGVudGlyZSBTU0ggc3VpdGUgaW4gYSBzaW5nbGUgcGFja2FnZSB3aGlsc3Qgc3Rp
-bGwgYWxsb3dpbmcgcmVzb3VyY2UtY29uc3RyYWluZWQgb3Igc2VjdXJlIHN5c3RlbXMgdG8gcHVs
-bCBpbiBvbmx5IHRoZSBwYXJ0cyB0aGV5IHdhbnQuDQoNClJvc3MNCg==
+On 3 July 2015 at 09:30, <Steffen.Pankratz@elektrobit.com> wrote:
 
---_000_1B858668EC6A94408DCA5225FDFA85AAF11F7479ALAMBBcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> +SRC_URI += "file://installtests.patch "
+>
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnANCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCW1zby1tYXJnaW4tdG9w
-LWFsdDphdXRvOw0KCW1hcmdpbi1yaWdodDowaW47DQoJbXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1
-dG87DQoJbWFyZ2luLWxlZnQ6MGluOw0KCWZvbnQtc2l6ZToxMi4wcHQ7DQoJZm9udC1mYW1pbHk6
-IlRpbWVzIE5ldyBSb21hbiIsInNlcmlmIjt9DQpzcGFuLkVtYWlsU3R5bGUxOA0KCXttc28tc3R5
-bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2Vy
-aWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6
-ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9DQpAcGFn
-ZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMjVp
-biAxLjBpbiAxLjI1aW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9
-DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2
-OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYg
-Z3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAg
-djpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZd
-LS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBs
-ZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlRoYW5rcyBmb3IgdGhlIGV4
-cGxhbmF0aW9uLiBJIHRoaW5rIHlvdeKAmXJlIHN1Z2dlc3RpbmcgdGhhdCB3ZSBkbyBub3RoaW5n
-IGZvciBzdWNoIGlzc3VlIG9yDQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+anVzdCB0
-ZWxsIHRoZSB1c2VyIHRvIHVzZSBQTi1kZXYgZm9yIHRoaXMga2luZCBvZiBwYWNrYWdlcywgcmln
-aHQ/PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
-bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVv
-dDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
-PjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztj
-b2xvcjojMUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
-Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkphY2tp
-ZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxl
-PSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7
-c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48
-L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0
-O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpu
-b25lO2JvcmRlci10b3A6c29saWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4g
-MGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAu
-MHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7
-Ij5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQ7Zm9udC1mYW1p
-bHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsiPiBCdXJ0b24sIFJv
-c3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gRnJp
-ZGF5LCBKdWx5IDAzLCAyMDE1IDU6MzkgUE08YnI+DQo8Yj5Ubzo8L2I+IEh1YW5nLCBKaWUgKEph
-Y2tpZSk8YnI+DQo8Yj5DYzo8L2I+IE1hcnRpbiBKYW5zYTsgT0UtY29yZTxicj4NCjxiPlN1Ympl
-Y3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0geG9yZy1wcm90by1jb21tb246IGFsbG93IHRo
-ZSBlbXB0eSBwYWNrYWdlPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj5PbiAzIEp1bHkgMjAxNSBhdCAxMDozNCwgSHVhbmcsIEppZSAoV2luZCBS
-aXZlcikgJmx0OzxhIGhyZWY9Im1haWx0bzpqYWNraWUuaHVhbmdAd2luZHJpdmVyLmNvbSIgdGFy
-Z2V0PSJfYmxhbmsiPmphY2tpZS5odWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86
-cD48L286cD48L3A+DQo8cD48c3BhbiBzdHlsZT0iY29sb3I6YmxhY2siPkkgc2VlIHlvdXIgcG9p
-bnQsIEkgdGhpbmsgd2UgY2FuIG1ha2UgdGhlIGVtcHR5IFBOIHJkZXBlbmRzIG9uIFBOLWRldihi
-dXQgdGhlIGRldi1kZXBzIFFBIGNoZWNrIG5lZWQgdG8gYmUgc2tpcHBlZCksDQo8L3NwYW4+PG86
-cD48L286cD48L3A+DQo8cD48c3BhbiBzdHlsZT0iY29sb3I6YmxhY2siPnRoZW4gd2hlbiB1c2Vy
-IHRyeSB0byBhZGQgUE4sIFBOLWRldiB3aWxsIGFsc28gYmUgaW5zdGFsbGVkLCBzbyBpdOKAmXMg
-bm90IGFuIHVzZWxlc3MgZW1wdHkgcGFja2FnZS48L3NwYW4+PG86cD48L286cD48L3A+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5iaWdyZXFzcHJvdG8gaXMgZGV2ZWxvcG1lbnQgaGVh
-ZGVycy4mbmJzcDsgVGhlcmVmb3JlIGl0cyBpbiB0aGUgYmlncmVxc3Byb3RvLWRldiBwYWNrYWdl
-LiZuYnNwOyBUaGlzIGlzIG5vdCBoYXJkIHRvIHVuZGVyc3RhbmQsIG5vciBzaG91bGQgd2Ugc3Rh
-cnQgZmlsbGluZyB0aGUgZmVlZHMgdXAgd2l0aCBlbXB0eSBwYWNrYWdlcyBqdXN0IHRvIHBsZWFz
-ZSB1c2VycyB3aG8gY2FuJ3QgdmVyaWZ5IHRoZSBwYWNrYWdlIG5hbWVzLjxvOnA+PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48
-L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5EaWRuJ3Qgd2UgaGF2ZSB0
-aGlzIGRpc2N1c3Npb24gYSBmZXcgbW9udGhzIGFnbz8mbmJzcDsgVGhlcmUgYXJlIHNvbWUgcmVj
-aXBlcyB3aGVyZSBQTiBub3QgZXhpc3RpbmcgaXMgdW51c3VhbCAoYXZhaGkgd2FzIGEgZ29vZCBl
-eGFtcGxlLCBhbmQgSSBoYWQgYSBwYXJ0aWFsIGJyYW5jaCB0byBmaXggdGhhdCksIGJ1dCBmb3Ig
-cmVjaXBlcyB3aGljaCBlbnRpcmVseSBjb25zaXN0IG9mIGRldmVsb3BtZW50IGZpbGVzLCB0aGVy
-ZQ0KIG9ubHkgYmVpbmcgYSBkZXZlbG9wbWVudCBwYWNrYWdlIGlzIHJlYXNvbmFibGUgYW5kIHBy
-ZWRpY3RhYmxlLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj4oSWYgSSAqaGFkKiB0byBkbyB0aGlzLCBJJ2QgaGF2ZSBSUFJPVklERVNfJHtQTn0t
-ZGV2ICYjNDM7PSAke1BOfSk8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5
-bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzow
-aW4gMGluIDBpbiA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxw
-PjxzcGFuIHN0eWxlPSJjb2xvcjpibGFjayI+SSBzZWUgdGhhdCBvcGVuc3NoIGhhcyBzaW1pbGFy
-IHNpdHVhdGlvbiwgUE4gaXMgYWxsb3dlZCBlbXB0eSwgYnV0IGl0IHJkZXBlbmRzIG9uIOKAnCR7
-UE59LXNjcCAke1BOfS1zc2ggJHtQTn0tc3NoZCAke1BOfS1rZXlnZW7igJ0uPC9zcGFuPjxvOnA+
-PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5U
-aGF0J3MgYSBkaWZmZXJlbnQgdXNlIGNhc2UgZW50aXJlbHk6IHB1bGxpbmcgaW4gdGhlIGVudGly
-ZSBTU0ggc3VpdGUgaW4gYSBzaW5nbGUgcGFja2FnZSB3aGlsc3Qgc3RpbGwgYWxsb3dpbmcgcmVz
-b3VyY2UtY29uc3RyYWluZWQgb3Igc2VjdXJlIHN5c3RlbXMgdG8gcHVsbCBpbiBvbmx5IHRoZSBw
-YXJ0cyB0aGV5IHdhbnQuPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4N
-CjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+This patch doesn't apply.
 
---_000_1B858668EC6A94408DCA5225FDFA85AAF11F7479ALAMBBcorpadwrs_--
+ERROR: Command Error: exit status: 1  Output:
+Applying patch installtests.patch
+patching file tests/Makefile.am
+Hunk #1 FAILED at 6.
+1 out of 1 hunk FAILED -- rejects in file tests/Makefile.am
+Patch installtests.patch does not apply (enforce with -f)
+
+Ross
+
+--001a113a9baa7753df0519f5ec08
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 3 July 2015 at 09:30,  <span dir=3D"ltr">&lt;<a href=3D"mailto:Steffen.P=
+ankratz@elektrobit.com" target=3D"_blank">Steffen.Pankratz@elektrobit.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
+order-left-style:solid;padding-left:1ex"><div id=3D":bo" class=3D"" style=
+=3D"overflow:hidden">+SRC_URI +=3D &quot;file://installtests.patch &quot;<b=
+r></div></blockquote></div><div class=3D"gmail_extra"><br></div>This patch =
+doesn&#39;t apply.</div><div class=3D"gmail_extra"><br><div class=3D"gmail_=
+extra">ERROR: Command Error: exit status: 1 =C2=A0Output:</div><div class=
+=3D"gmail_extra">Applying patch installtests.patch</div><div class=3D"gmail=
+_extra">patching file tests/Makefile.am</div><div class=3D"gmail_extra">Hun=
+k #1 FAILED at 6.</div><div class=3D"gmail_extra">1 out of 1 hunk FAILED --=
+ rejects in file tests/Makefile.am</div><div class=3D"gmail_extra">Patch in=
+stalltests.patch does not apply (enforce with -f)</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div></div>
+
+--001a113a9baa7753df0519f5ec08--
