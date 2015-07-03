@@ -1,28 +1,24 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A0B1D75D2D
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DD4975D29
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jul 2015 08:41:54 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Jul 2015 01:41:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,399,1432623600"; d="scan'208";a="755374944"
-Received: from ndelough-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.2.173])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Jul 2015 01:41:53 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org, akuster808 <akuster808@gmail.com>
-Date: Fri, 03 Jul 2015 09:41:51 +0100
-Message-ID: <1744996.JjukX86N4O@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.6-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <20150703070716.GA21416@ad.chargestorm.se>
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<55956F2C.2040301@gmail.com>
-	<20150703070716.GA21416@ad.chargestorm.se>
+	Fri,  3 Jul 2015 08:59:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t638x7NR028903
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 3 Jul 2015 01:59:07 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 3 Jul 2015 01:59:06 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 3 Jul 2015 16:53:56 +0800
+Message-ID: <1435913636-26231-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: Anders Darander <anders@chargestorm.se>
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+Subject: [PATCH v2] man: replace ',' with '#'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,46 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jul 2015 08:41:54 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 03 Jul 2015 08:59:07 -0000
+Content-Type: text/plain
 
-On Friday 03 July 2015 09:07:16 Anders Darander wrote:
-> * akuster808 <akuster808@gmail.com> [150702 19:05]:
-> > The current version of nettle 2.7 has one file that is GPL v3.
-> > mini-gmp.*
-> > 
-> > so the license for 2.7 should be updated IMHO. So wont that put us in the
-> > same boat as the upgrade?
-> 
-> Ouch, that's no good!
-> 
-> Ideally, we should look at that file and see for how long it's been part
-> of nettle. If it's just for a short time, maybe we could go back to a
-> point in time just prior to the inclusion (or license change) of that
-> file.
-> 
-> Has it been like this for far too long, well, then we either have to see
-> what impact this has on non-GPLv3 builds...
-> 
-> One option, depending on the age etc, could be to check if it's possible
-> to get that single file re-licensed. Short-term, we have to fix the
-> license and backport that fix to all supported versions that are
-> affected, even though that might introduce regressions in images around
-> the world...
+From: Yue Tao <Yue.Tao@windriver.com>
 
-We also ought to poke upstream because as far as I can tell they have not 
-noted the addition of this differently licensed source in any of the license 
-notices shipped with it (other than in the added GPLv3 source files themselves, 
-of course).
+Sometimes, the parameters of CC/BUILD_CC contains the ',', which
+cause the sed command failed, so replace the ',' with '#'
 
-Armin, is that something you'd be able to take care of?
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ meta/recipes-extended/man/man/configure_sed.patch | 32 +++++++++++++++++++++++
+ meta/recipes-extended/man/man_1.6g.bb             |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-extended/man/man/configure_sed.patch
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-extended/man/man/configure_sed.patch b/meta/recipes-extended/man/man/configure_sed.patch
+new file mode 100644
+index 0000000..d49e683
+--- /dev/null
++++ b/meta/recipes-extended/man/man/configure_sed.patch
+@@ -0,0 +1,32 @@
++man: replace ',' with '#'
++
++Sometimes, the parameters of CC/BUILD_CC contains the ',', which
++cause the sed command failed, so replace the ',' with '#'
++
++Upstream-Status: Pending
++
++Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++---
++ configure | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure b/configure
++index 9f62cf9..9a565ae 100755
++--- a/configure
+++++ b/configure
++@@ -1321,9 +1321,9 @@ do
++   echo "Creating $infile from $infile.in"
++   sed -e '
++ s,@version@,$version,
++-s,@CC@,$CC,
+++s#@CC@#$CC#
++ s,@EXEEXT@,$EXEEXT,
++-s,@BUILD_CC@,$BUILD_CC,
+++s#@BUILD_CC@#$BUILD_CC#
++ s,@INSTALL@,$INSTALL,
++ s,@DEFS@,$DEFS,
++ s,@LIBS@,$LIBS,
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/man/man_1.6g.bb b/meta/recipes-extended/man/man_1.6g.bb
+index d4a4b26..6a4c734 100644
+--- a/meta/recipes-extended/man/man_1.6g.bb
++++ b/meta/recipes-extended/man/man_1.6g.bb
+@@ -52,6 +52,7 @@ SRC_URI = "http://pkgs.fedoraproject.org/lookaside/pkgs/man2html/${BP}.tar.gz/ba
+            file://man.conf \
+            file://manpath.5.gz;unpack=false \
+            file://man-1.6g-whatis3.patch \
++           file://configure_sed.patch \
+ "
+ 
+ SRC_URI[md5sum] = "ba154d5796928b841c9c69f0ae376660"
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
