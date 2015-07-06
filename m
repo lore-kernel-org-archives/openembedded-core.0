@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id C06AD75D80
+	by mail.openembedded.org (Postfix) with ESMTP id 1039A75D41
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jul 2015 12:28:16 +0000 (UTC)
+	Mon,  6 Jul 2015 12:28:18 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2015 05:28:17 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2015 05:28:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,414,1432623600"; d="scan'208";a="741416756"
+X-IronPort-AV: E=Sophos;i="5.15,414,1432623600"; d="scan'208";a="741416762"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2015 05:28:16 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2015 05:28:17 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jul 2015 15:28:56 +0300
-Message-Id: <c18f9dcbedb23291ec932995223e59b8c624395f.1436184775.git.jussi.kukkonen@intel.com>
+Date: Mon,  6 Jul 2015 15:28:57 +0300
+Message-Id: <1feff73a1885d9e6d6cf0b6c42783bbff9c30098.1436184775.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <a446be1baf28f8ba1d89f00c5b78e47a81a2ac11.1436184775.git.jussi.kukkonen@intel.com>
 References: <a446be1baf28f8ba1d89f00c5b78e47a81a2ac11.1436184775.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1436184775.git.jussi.kukkonen@intel.com>
 References: <cover.1436184775.git.jussi.kukkonen@intel.com>
-Subject: [PATCH v4 3/7] adwaita-icon-theme: Add new icon theme for GTK+
+Subject: [PATCH v4 4/7] gtk+3: Upgrade to 3.16.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,247 +31,287 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jul 2015 12:28:17 -0000
+X-List-Received-Date: Mon, 06 Jul 2015 12:28:18 -0000
 
-Adwaita is a complete icon theme for GTK+, and the current GNOME icon
-theme. Most importantly it includes the symbolic icons used extensively
-in GTK+3 widgets.
-* Package icons, large icons, symbolic icons and cursors separately
-* Backport a build fix for the cursor theme to cut installed size by
-  11MB.
+* Drop --disable-gtk2-dependency and the patch for
+  gtk/native/Makefile.am: gtk-update-icon-cache is no longer used at
+  build time and as a result the option was removed.
+* Add dependency to libepoxy
+* Add dependency to virtual/mesa for wayland-egl
+* Package new binaries gtk3-icon-browser and gtk-encode-symbolic-svg
+* Add a backported patch that allows server side window decorations
+  in all cases
+* RRECOMMEND adwaita-icon-theme-symbolic: GTK+ widgets expect a
+  symbolic theme to be installed
+
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+
+gtk+3: SQUASH
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../Create-symlinks-when-installing-cursors.patch  | 178 +++++++++++++++++++++
- .../gnome/adwaita-icon-theme_3.16.2.1.bb           |  34 ++++
- 2 files changed, 212 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
- create mode 100644 meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
+ meta/recipes-gnome/gtk+/gtk+3.inc                  |  17 +--
+ meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch | 118 +++++++++++++++++++++
+ .../gtk+/gtk+3/fix-flags-for-native.patch          |  33 ------
+ .../gtk+/{gtk+3_3.12.2.bb => gtk+3_3.16.4.bb}      |   6 +-
+ 4 files changed, 130 insertions(+), 44 deletions(-)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.12.2.bb => gtk+3_3.16.4.bb} (75%)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 3e36676..f29f0d3 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -6,7 +6,7 @@ BUGTRACKER = "https://bugzilla.gnome.org/"
+ SECTION = "libs"
+ 
+ DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf \
+-           docbook-utils-native gdk-pixbuf-native"
++           docbook-utils-native gdk-pixbuf-native libepoxy"
+ 
+ LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+ 
+@@ -22,10 +22,7 @@ do_configure_prepend() {
+     ln -s ${TARGET_PREFIX}libtool libtool
+ }
+ 
+-# Forcibly disable the GTK+ 2 dependency as we don't want to natively build the
+-# entire GTK+ stack, or need GTK+ 2 for gtk-update-icon-cache.
+ EXTRA_OECONF += " \
+-                 --disable-gtk2-dependency \
+                  --disable-glibtest \
+                  --disable-xinerama \
+                  --enable-modules \
+@@ -37,7 +34,7 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "x11", "x11", "", d)}
+                    ${@bb.utils.contains("DISTRO_FEATURES", "wayland", "wayland", "", d)}"
+ 
+ PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes"
+-PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland libxkbcommon"
++PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,wayland libxkbcommon virtual/mesa"
+ 
+ do_install_append() {
+ 	mv ${D}${bindir}/gtk-update-icon-cache ${D}${bindir}/gtk-update-icon-cache-3.0
+@@ -48,12 +45,14 @@ LIBV = "3.0.0"
+ 
+ FILES_${PN}-demo = "${bindir}/gtk3-demo \
+                     ${bindir}/gtk3-demo-application \
++                    ${bindir}/gtk3-icon-browser \
+                     ${bindir}/gtk3-widget-factory \
+                     ${datadir}/gtk-3.0/demo \
+                     ${datadir}/applications/gtk3-demo.desktop \
++                    ${datadir}/applications/gtk3-icon-browser.desktop \
+                     ${datadir}/applications/gtk3-widget-factory.desktop \
+-                    ${datadir}/icons/hicolor/*/apps/gtk3-demo.png \
+-                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory.png"
++                    ${datadir}/icons/hicolor/*/apps/gtk3-demo*.png \
++                    ${datadir}/icons/hicolor/*/apps/gtk3-widget-factory*.png"
+ 
+ # The demo uses PNG files and mime type sniffing, so ensure that these
+ # dependencies are present.
+@@ -76,7 +75,8 @@ FILES_${PN}-dev += " \
+                     ${libdir}/gtk-3.0/3.0.0/printbackends/*.la \
+                     ${libdir}/gtk-3.0/${LIBV}/engines/*.la \
+                     ${libdir}/gtk-3.0/modules/*.la \
+-                    ${bindir}/gtk-builder-convert"
++                    ${bindir}/gtk-builder-convert \
++                    ${bindir}/gtk-encode-symbolic-svg"
+ 
+ FILES_${PN}-dbg += " \
+                     ${libdir}/gtk-3.0/${LIBV}/loaders/.debug \
+@@ -85,6 +85,7 @@ FILES_${PN}-dbg += " \
+                     ${libdir}/gtk-3.0/${LIBV}/printbackends/.debug \
+                     ${libdir}/gtk-3.0/modules/.debug"
+ 
++RRECOMMENDS_${PN} = "adwaita-icon-theme-symbolic"
+ 
+ PACKAGES_DYNAMIC += "^gtk3-immodule-.* ^gtk3-printbackend-.*"
+ 
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch b/meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch
 new file mode 100644
-index 0000000..446f9c9
+index 0000000..32d8a84
 --- /dev/null
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/Create-symlinks-when-installing-cursors.patch
-@@ -0,0 +1,178 @@
-+Create symlinks when installing cursors
-+
-+This cuts down the installed size by ~11MB.
++++ b/meta/recipes-gnome/gtk+/gtk+3/Dont-force-csd.patch
+@@ -0,0 +1,118 @@
++window: Check if we can use CSD before enabling them
 +
 +Upstream-Status: Backport
 +Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 +
 +
-+From 1e8c0dd0a2de5e1d5ff60ff11f131e88510c7f50 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?=D0=A0=D1=83=D1=81=D0=BB=D0=B0=D0=BD=20=D0=98=D0=B6=D0=B1?=
-+ =?UTF-8?q?=D1=83=D0=BB=D0=B0=D1=82=D0=BE=D0=B2?= <lrn1986@gmail.com>
-+Date: Sat, 16 May 2015 07:49:19 +0000
-+Subject: [PATCH] Create symlinks when installing cursors
++From c5e5ee67490e7e7af56052d8f8beb75db002c2f1 Mon Sep 17 00:00:00 2001
++From: Emmanuele Bassi <ebassi@gnome.org>
++Date: Wed, 3 Jun 2015 14:07:29 +0100
++Subject: window: Check if we can use CSD before enabling them
 +
-+Also support creating symlinks for W32 cursors (including L and XL variants).
++The change in 03213b9509fc1df16c66194ea168aed6c15110e9 changed the rules
++as to when CSD can be enabled, but it also unconditionally enables CSD
++with the implicit assumption that client-side shadows were the real
++issue, and that we could work around that by drawing our own borders.
++This also means that setting a titlebar for a GtkWindow will enable CSD
++unconditionally.
 +
-+https://bugzilla.gnome.org/show_bug.cgi?id=749223
-+---
-+ Makefile.am  | 93 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ configure.ac | 24 ++++++++++++++++
-+ 2 files changed, 117 insertions(+)
++In reality, some window managers (like Matchbox) *only* support
++server-side decorations, and will ignore all hints to the contrary, to
++the point of drawing decorations at random locations on top of the
++window.
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index fed3972..4d00268 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -6,6 +6,17 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
++Since CSD are enabled unconditionally, the GTK_CSD environment variable
++is also not a suitable escape hatch.
++
++In the grand tradition of asking ourselves if we should do something
++just because we can, we should split the environment checks from the
++checks on what the user requested; by doing that, we can also check
++when enabling client-side decorations, and ideally bail out if needed.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=750343
++
++diff --git a/gtk/gtkwindow.c b/gtk/gtkwindow.c
++index 423c6bd..9fe882f 100644
++--- a/gtk/gtkwindow.c
+++++ b/gtk/gtkwindow.c
++@@ -4056,6 +4056,32 @@ gtk_window_supports_client_shadow (GtkWindow *window)
++   return TRUE;
++ }
 + 
-+ cursordir = $(datadir)/icons/Adwaita/cursors
-+ cursor_DATA = $(wildcard $(srcdir)/Adwaita/cursors/*)
-++if ENABLE_L_XL_VARIANTS
-++cursorldir = $(datadir)/icons/Adwaita-Large/cursors
-++cursorl_DATA = $(wildcard $(srcdir)/Adwaita-Large/cursors/*)
-++cursorxldir = $(datadir)/icons/Adwaita-ExtraLarge/cursors
-++cursorxl_DATA = $(wildcard $(srcdir)/Adwaita-ExtraLarge/cursors/*)
-++else
-++cursorldir =
-++cursorl_DATA =
-++cursorxldir =
-++cursorxl_DATA =
-++endif
-+ 
-+ theme_in_files = index.theme.in.in
-+ theme_DATA = $(theme_in_files:.theme.in.in=.theme)
-+@@ -99,6 +110,88 @@ install-data-local:
-+ 	fi
-+ 
-+ install-data-hook:
-++	cd $(DESTDIR)$(cursordir) && \
-++	if test "x$(enable_w32_cursors)" = "xyes"; \
-++	then \
-++		cur=.cur && \
-++		ani=.ani; \
-++	else \
-++		cur= && \
-++		ani= ; \
-++	fi; \
-++	if test "x$(enable_l_xl_variants)" = "xyes"; \
-++	then \
-++		themedirs="$(cursordir) $(cursorldir) $(cursorxldir)"; \
-++	else \
-++		themedirs="$(cursordir)"; \
-++	fi; \
-++	for d in $$themedirs; \
-++	do \
-++		cd $(DESTDIR)$$d && \
-++		echo Creating symlinks in $(DESTDIR)$$d && \
-++		$(LN_S) -f  dotbox$$cur			draped_box$$cur && \
-++		$(LN_S) -f  dotbox$$cur			icon$$cur && \
-++		$(LN_S) -f  dotbox$$cur			target$$cur && \
-++		$(LN_S) -f  dotbox$$cur			dot_box_mask$$cur && \
-++		$(LN_S) -f  X_cursor$$cur		pirate$$cur && \
-++		$(LN_S) -f  left_ptr_watch$$ani		08e8e1c95fe2fc01f976f1e063a24ccd$$ani && \
-++		$(LN_S) -f  left_ptr_watch$$ani		3ecb610c1bf2410f44200f48c40d3599$$ani && \
-++		$(LN_S) -f  left_ptr$$cur		arrow$$cur && \
-++		$(LN_S) -f  left_ptr$$cur		top_left_arrow$$cur && \
-++		$(LN_S) -f  right_ptr$$cur		draft_large$$cur && \
-++		$(LN_S) -f  right_ptr$$cur		draft_small$$cur && \
-++		$(LN_S) -f  move$$cur			4498f0e0c1937ffe01fd06f973665830$$cur && \
-++		$(LN_S) -f  move$$cur			9081237383d90e509aa00f00170e968f$$cur && \
-++		$(LN_S) -f  copy$$cur			1081e37283d90000800003c07f3ef6bf$$cur && \
-++		$(LN_S) -f  copy$$cur			6407b0e94181790501fd1e167b474872$$cur && \
-++		$(LN_S) -f  cross$$cur			cross_reverse$$cur && \
-++		$(LN_S) -f  cross$$cur			diamond_cross$$cur && \
-++		$(LN_S) -f  hand1$$cur			grab$$cur && \
-++		$(LN_S) -f  hand2$$cur			9d800788f1b08800ae810202380a0822$$cur && \
-++		$(LN_S) -f  hand2$$cur			e29285e634086352946a0e7090d73106$$cur && \
-++		$(LN_S) -f  hand2$$cur			hand$$cur && \
-++		$(LN_S) -f  grabbing$$cur		fleur$$cur && \
-++		$(LN_S) -f  question_arrow$$cur		d9ce0ab605698f320427677b458ad60b$$cur && \
-++		$(LN_S) -f  question_arrow$$cur		5c6cd98b3f3ebcb1f9c7f1c204630408$$cur && \
-++		$(LN_S) -f  question_arrow$$cur		help$$cur && \
-++		$(LN_S) -f  question_arrow$$cur		left_ptr_help$$cur && \
-++		$(LN_S) -f  link$$cur			3085a0e285430894940527032f8b26df$$cur && \
-++		$(LN_S) -f  link$$cur			640fb0e74195791501fd1ed57b41487f$$cur && \
-++		$(LN_S) -f  crossed_circle$$cur		03b6e0fcb3499374a867c041f52298f0$$cur && \
-++		$(LN_S) -f  fd_double_arrow$$cur	fcf1c3c7cd4491d801f1e1c78f100000$$cur && \
-++		$(LN_S) -f  bd_double_arrow$$cur	c7088f0f3e6c8088236ef8e1e3e70000$$cur && \
-++		$(LN_S) -f  sb_h_double_arrow$$cur 	h_double_arrow$$cur && \
-++		$(LN_S) -f  sb_h_double_arrow$$cur	14fef782d02440884392942c11205230$$cur && \
-++		$(LN_S) -f  h_double_arrow$$cur		028006030e0e7ebffc7f7070c0600140$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur 	double_arrow$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur 	v_double_arrow$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur	2870a09082c103050810ffdffffe0204$$cur && \
-++		$(LN_S) -f  v_double_arrow$$cur		00008160000006810000408080010102$$cur && \
-++		$(LN_S) -f  left_ptr$$cur		default$$cur && \
-++		$(LN_S) -f  hand$$cur			pointer$$cur && \
-++		$(LN_S) -f  left_ptr_watch$$ani		progress$$ani && \
-++		$(LN_S) -f  watch$$ani			wait$$ani && \
-++		$(LN_S) -f  cross$$cur			crosshair$$cur && \
-++		$(LN_S) -f  xterm$$cur			text$$cur && \
-++		$(LN_S) -f  dnd-link$$cur		alias$$cur && \
-++		$(LN_S) -f  dnd-copy$$cur		copy$$cur && \
-++		$(LN_S) -f  dnd-none$$cur		no-drop$$cur && \
-++		$(LN_S) -f  crossed_circle$$cur		not-allowed$$cur && \
-++		$(LN_S) -f  sb_h_double_arrow$$cur	col-resize$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur	row-resize$$cur && \
-++		$(LN_S) -f  top_side$$cur		n-resize$$cur && \
-++		$(LN_S) -f  right_side$$cur		e-resize$$cur && \
-++		$(LN_S) -f  bottom_side$$cur		s-resize$$cur && \
-++		$(LN_S) -f  left_side$$cur		w-resize$$cur && \
-++		$(LN_S) -f  top_right_corner$$cur	ne-resize$$cur && \
-++		$(LN_S) -f  top_left_corner$$cur	nw-resize$$cur && \
-++		$(LN_S) -f  bottom_right_corner$$cur	se-resize$$cur && \
-++		$(LN_S) -f  bottom_left_corner$$cur	sw-resize$$cur && \
-++		$(LN_S) -f  sb_h_double_arrow$$cur	ew-resize$$cur && \
-++		$(LN_S) -f  sb_v_double_arrow$$cur	ns-resize$$cur && \
-++		$(LN_S) -f  fd_double_arrow$$cur	nesw-resize$$cur && \
-++		$(LN_S) -f  bd_double_arrow$$cur	nwse-resize$$cur; \
-++	done
-+ 	if test -z "$(DESTDIR)" && test -n "$(GTK_UPDATE_ICON_CACHE)" ; then \
-+ 		$(GTK_UPDATE_ICON_CACHE) -q $(DESTDIR)$(themedir); \
-+ 	fi
-+diff --git a/configure.ac b/configure.ac
-+index 9e4d8a0..312b24c 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -31,6 +31,7 @@ AC_SUBST([render_sizes], ["8x8 16x16 22x22 24x24 32x32 48x48 256x256"])
-+ AC_SUBST([symbolic_render_sizes], [""])
-+ AC_SUBST([install_sizes], ["8x8 16x16 22x22 24x24 32x32 48x48 64x64 96x96 256x256"])
-+ 
-++AC_PROG_LN_S
-+ AC_PATH_PROG(GTK_UPDATE_ICON_CACHE, gtk-update-icon-cache)
-+ 
-+ # need git, icontool, and inkscape for rendering
-+@@ -56,6 +57,29 @@ if test "x$GTK_ENCODE_SYMBOLIC_SVG" = "xfalse"; then
-+ fi
-+ AC_SUBST(symbolic_encode_sizes)
-+ 
-++AC_ARG_ENABLE([w32-cursors],
-++  [AS_HELP_STRING([--enable-w32-cursors],
-++    [Make and install Windows cursors (.cur and .ani) instead of X cursors])],
-++  [case "${enableval}" in
-++    yes) enable_w32_cursors=yes ;;
-++    no)  enable_w32_cursors=no ;;
-++    *) AC_MSG_ERROR([bad value ${enableval} for --enable-w32-cursors]) ;;
-++   esac],
-++  [enable_w32_cursors=no])
-++AC_SUBST(enable_w32_cursors)
+++static gboolean
+++gtk_window_can_use_csd (GtkWindow *window)
+++{
+++  const gchar *csd_env;
 ++
-++AC_ARG_ENABLE([l-xl-variants],
-++  [AS_HELP_STRING([--enable-l-xl-variants],
-++    [Also make and install Large and Extra Large Windows cursor versions])],
-++  [case "${enableval}" in
-++    yes) enable_l_xl_variants=yes ;;
-++    no)  enable_l_xl_variants=no ;;
-++    *) AC_MSG_ERROR([bad value ${enableval} for --enable-l-xl-variants]) ;;
-++   esac],
-++  [enable_l_xl_variants=no])
-++AC_SUBST(enable_l_xl_variants)
-++AM_CONDITIONAL([ENABLE_L_XL_VARIANTS], [test x$enable_l_xl_variants = xyes])
+++#ifdef GDK_WINDOWING_BROADWAY
+++  if (GDK_IS_BROADWAY_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
+++    return TRUE;
+++#endif
 ++
-+ AC_CONFIG_FILES([
-+ Makefile
-+ adwaita-icon-theme.pc
+++#ifdef GDK_WINDOWING_WAYLAND
+++  if (GDK_IS_WAYLAND_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
+++    return TRUE;
+++#endif
+++
+++#ifdef GDK_WINDOWING_MIR
+++  if (GDK_IS_MIR_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
+++    return TRUE;
+++#endif
+++
+++  csd_env = g_getenv ("GTK_CSD");
+++
+++  /* If GTK_CSD is unset we default to CSD support */
+++  return csd_env == NULL || (strcmp (csd_env, "1") == 0);
+++}
+++
++ static void
++ gtk_window_enable_csd (GtkWindow *window)
++ {
++@@ -4063,6 +4089,10 @@ gtk_window_enable_csd (GtkWindow *window)
++   GtkWidget *widget = GTK_WIDGET (window);
++   GdkVisual *visual;
++ 
+++  /* If the environment does not support CSD, then there's no point in enabling them */
+++  if (!gtk_window_can_use_csd (window))
+++    return;
+++
++   /* We need a visual with alpha for client shadows */
++   if (priv->use_client_shadow)
++     {
++@@ -5839,7 +5869,6 @@ static gboolean
++ gtk_window_should_use_csd (GtkWindow *window)
++ {
++   GtkWindowPrivate *priv = window->priv;
++-  const gchar *csd_env;
++ 
++   if (priv->csd_requested)
++     return TRUE;
++@@ -5850,24 +5879,7 @@ gtk_window_should_use_csd (GtkWindow *window)
++   if (priv->type == GTK_WINDOW_POPUP)
++     return FALSE;
++ 
++-#ifdef GDK_WINDOWING_BROADWAY
++-  if (GDK_IS_BROADWAY_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
++-    return TRUE;
++-#endif
++-
++-#ifdef GDK_WINDOWING_WAYLAND
++-  if (GDK_IS_WAYLAND_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
++-    return TRUE;
++-#endif
++-
++-#ifdef GDK_WINDOWING_MIR
++-  if (GDK_IS_MIR_DISPLAY (gtk_widget_get_display (GTK_WIDGET (window))))
++-    return TRUE;
++-#endif
++-
++-  csd_env = g_getenv ("GTK_CSD");
++-
++-  return (g_strcmp0 (csd_env, "1") == 0);
+++  return gtk_window_can_use_csd (window);
++ }
++ 
++ static void
 +-- 
-+2.1.4
++cgit v0.10.2
 +
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
-new file mode 100644
-index 0000000..526e699
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.16.2.1.bb
-@@ -0,0 +1,34 @@
-+SUMMARY = "GTK+ icon theme"
-+HOMEPAGE = "http://ftp.gnome.org/pub/GNOME/sources/adwaita-icon-theme/"
-+BUGTRACKER = "https://bugzilla.gnome.org/"
-+SECTION = "x11/gnome"
-+
-+LICENSE = "LGPL-3.0 | CC-BY-SA-3.0"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c84cac88e46fc07647ea07e6c24eeb7c"
-+
-+inherit allarch autotools pkgconfig gettext gtk-icon-cache
-+
-+DEPENDS += "intltool-native"
-+
-+MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-+           file://Create-symlinks-when-installing-cursors.patch \
-+          "
-+
-+SRC_URI[md5sum] = "9ef86952c947aa27a1a888b7735d60b3"
-+SRC_URI[sha256sum] = "b4556dfbf555d4fac12d4d5c12f7519de0d43ec42a1b649611439a50bf7acb96"
-+
-+do_install_append() {
-+	# Build uses gtk-encode-symbolic-svg to create png versions:
-+        # no need to store the svgs anymore.
-+	rm -f ${D}${prefix}/share/icons/Adwaita/scalable/*/*-symbolic.svg \
-+	      ${D}${prefix}/share/icons/Adwaita/scalable/*/*-symbolic-rtl.svg
-+}
-+
-+PACKAGES = "${PN}-cursors ${PN}-symbolic ${PN}-hires ${PN}"
-+
-+FILES_${PN}-cursors = "${prefix}/share/icons/Adwaita/cursors/"
-+FILES_${PN}-symbolic = "${prefix}/share/icons/Adwaita/*/*/*.symbolic.png"
-+FILES_${PN}-hires = "${prefix}/share/icons/Adwaita/256x256/"
-+FILES_${PN} = "${prefix}/share/icons/Adwaita/ \
-+               ${prefix}/share/pkgconfig/adwaita-icon-theme.pc"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch b/meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch
+deleted file mode 100644
+index 9ae1088..0000000
+--- a/meta/recipes-gnome/gtk+/gtk+3/fix-flags-for-native.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 5e16904f94b5f5961f8f6e75716e6d7d228de119 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Fri, 28 Mar 2014 03:10:12 +0000
+-Subject: [PATCH] gtk/native/Makefile.am: unset target FLAGS for native build
+-
+-The target gtk+3 does a native build in its "native" directory, we need
+-unset the target FLAGS for native build, otherwise, there might be build
+-failures.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- gtk/native/Makefile.am | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/gtk/native/Makefile.am b/gtk/native/Makefile.am
+-index 64899e9..a1c814a 100644
+---- a/gtk/native/Makefile.am
+-+++ b/gtk/native/Makefile.am
+-@@ -3,6 +3,9 @@ AM_CFLAGS = @CFLAGS_FOR_BUILD@
+- CPP = @CPP_FOR_BUILD@
+- AM_CPPFLAGS = @CPPFLAGS_FOR_BUILD@
+- AM_LDFLAGS = @LDFLAGS_FOR_BUILD@
+-+CFLAGS =
+-+CPPFLAGS =
+-+LDFLAGS =
+- 
+- if CROSS_COMPILING
+- if !USE_EXTERNAL_ICON_CACHE
+--- 
+-1.8.3.4
+-
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb b/meta/recipes-gnome/gtk+/gtk+3_3.16.4.bb
+similarity index 75%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.16.4.bb
+index f4f1971..3a45afc 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.12.2.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.16.4.bb
+@@ -4,11 +4,11 @@ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
+ 
+ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
+            file://hardcoded_libtool.patch \
+-           file://fix-flags-for-native.patch \
++           file://Dont-force-csd.patch \
+           "
+ 
+-SRC_URI[md5sum] = "0d6d8f9f79132b3b47475d047b369b1c"
+-SRC_URI[sha256sum] = "61d74eea74231b1ea4b53084a9d6fc9917ab0e1d71b69d92cbf60a4b4fb385d0"
++SRC_URI[md5sum] = "c7497aaf6730524a127597b768a73bd7"
++SRC_URI[sha256sum] = "1ee5dbd7a4cb81a91eaa1b7ae64ba5a3eab6a3c0a764155583ab96524590fc8e"
+ 
+ S = "${WORKDIR}/gtk+-${PV}"
+ 
 -- 
 2.1.4
 
