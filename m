@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0609A75D41
+	by mail.openembedded.org (Postfix) with ESMTP id 9210175D73
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jul 2015 12:28:14 +0000 (UTC)
+	Mon,  6 Jul 2015 12:28:15 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2015 05:28:14 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2015 05:28:16 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,414,1432623600"; d="scan'208";a="741416740"
+X-IronPort-AV: E=Sophos;i="5.15,414,1432623600"; d="scan'208";a="741416748"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2015 05:28:13 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2015 05:28:14 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jul 2015 15:28:54 +0300
-Message-Id: <a446be1baf28f8ba1d89f00c5b78e47a81a2ac11.1436184775.git.jussi.kukkonen@intel.com>
+Date: Mon,  6 Jul 2015 15:28:55 +0300
+Message-Id: <795e3e8241a892e87c077b0eea02e66ec6902fd5.1436184775.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <a446be1baf28f8ba1d89f00c5b78e47a81a2ac11.1436184775.git.jussi.kukkonen@intel.com>
+References: <a446be1baf28f8ba1d89f00c5b78e47a81a2ac11.1436184775.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1436184775.git.jussi.kukkonen@intel.com>
 References: <cover.1436184775.git.jussi.kukkonen@intel.com>
-Subject: [PATCH v4 1/7] intltool: Upgrade 0.50.2 -> 0.51.0
+Subject: [PATCH v4 2/7] gtk-icon-utils: Rename, upgrade, add binary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,89 +33,310 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 Jul 2015 12:28:15 -0000
 
-* Remove uclibc.patch as the whole localedir guessing code has been
-  removed upstream.
+* Rename from gtk-update-icon-cache to gtk-icon-utils to better
+  reflect the content. Fix references in other recipes and classes
+* Upgrade to GTK+ 3.16.4
+* Add gtk-encode-symbolic-svg binary: it is used by icon themes
+  (e.g. Adwaita) to generate png versions of svg icons.
+* Depend on librsvg-native for gtk-encode-symbolic-svg
+* Add a patch that removes Gdk dependency from gtk-encode-symbolic-svg:
+  this way the native build stays slim.
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../intltool/intltool-0.50.2/uclibc.patch             | 19 -------------------
- .../intltool-nowarn.patch                             |  0
- .../{intltool-0.50.2 => intltool}/noperlcheck.patch   |  0
- .../remove-xml-check.patch                            |  0
- .../use-nativeperl.patch                              |  0
- .../{intltool_0.50.2.bb => intltool_0.51.0.bb}        |  5 ++---
- 6 files changed, 2 insertions(+), 22 deletions(-)
- delete mode 100644 meta/recipes-devtools/intltool/intltool-0.50.2/uclibc.patch
- rename meta/recipes-devtools/intltool/{intltool-0.50.2 => intltool}/intltool-nowarn.patch (100%)
- rename meta/recipes-devtools/intltool/{intltool-0.50.2 => intltool}/noperlcheck.patch (100%)
- rename meta/recipes-devtools/intltool/{intltool-0.50.2 => intltool}/remove-xml-check.patch (100%)
- rename meta/recipes-devtools/intltool/{intltool-0.50.2 => intltool}/use-nativeperl.patch (100%)
- rename meta/recipes-devtools/intltool/{intltool_0.50.2.bb => intltool_0.51.0.bb} (76%)
+ meta-yocto/conf/distro/include/distro_alias.inc    |   2 +-
+ meta-yocto/conf/distro/include/maintainers.inc     |   2 +-
+ meta/classes/gtk-icon-cache.bbclass                |   2 +-
+ meta/classes/sstate.bbclass                        |   2 +-
+ .../gtk+/gtk-icon-utils-native_3.16.4.bb           |  63 +++++++++++++
+ ...k-dependency-from-gtk-encode-symbolic-svg.patch | 102 +++++++++++++++++++++
+ .../gtk+/gtk-update-icon-cache-native_3.4.4.bb     |  47 ----------
+ 7 files changed, 169 insertions(+), 51 deletions(-)
+ create mode 100644 meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.16.4.bb
+ create mode 100644 meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
 
-diff --git a/meta/recipes-devtools/intltool/intltool-0.50.2/uclibc.patch b/meta/recipes-devtools/intltool/intltool-0.50.2/uclibc.patch
+diff --git a/meta-yocto/conf/distro/include/distro_alias.inc b/meta-yocto/conf/distro/include/distro_alias.inc
+index 0f8ed55..af35f90 100644
+--- a/meta-yocto/conf/distro/include/distro_alias.inc
++++ b/meta-yocto/conf/distro/include/distro_alias.inc
+@@ -160,7 +160,7 @@ DISTRO_PN_ALIAS_pn-gtk-doc-stub = "Fedora=gtk-doc Ubuntu=gtk-doc"
+ DISTRO_PN_ALIAS_pn-gtk-engines = "Fedora=gtk2-engines OpenSuSE=gtk2-engines Ubuntu=gtk2-engines Mandriva=gtk-engines2 Debian=gtk2-engines"
+ DISTRO_PN_ALIAS_pn-gtk-sato-engine = "OpenedHand"
+ DISTRO_PN_ALIAS_pn-gtk-theme-torturer = "OSPDT upstream=http://wiki.laptop.org/go/GTK_for_OLPC"
+-DISTRO_PN_ALIAS_pn-gtk-update-icon-cache-native = "OSPDT"
++DISTRO_PN_ALIAS_pn-gtk-icon-utils-native = "OSPDT"
+ DISTRO_PN_ALIAS_pn-gummiboot = "Debian=gummiboot Fedora=gummiboot"
+ DISTRO_PN_ALIAS_pn-hello-mod = "OE-Core"
+ DISTRO_PN_ALIAS_pn-hostap-conf = "OE-Core"
+diff --git a/meta-yocto/conf/distro/include/maintainers.inc b/meta-yocto/conf/distro/include/maintainers.inc
+index b80f0c9..f3414ce 100644
+--- a/meta-yocto/conf/distro/include/maintainers.inc
++++ b/meta-yocto/conf/distro/include/maintainers.inc
+@@ -219,7 +219,7 @@ RECIPE_MAINTAINER_pn-gtk-doc = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-gtk-engines = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-gtk-sato-engine = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-gtk-theme-torturer = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+-RECIPE_MAINTAINER_pn-gtk-update-icon-cache-native = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
++RECIPE_MAINTAINER_pn-gtk-icon-utils-native = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-gtk+ = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-gtk+3 = "Jussi Kukkonen <jussi.kukkonen@intel.com>"
+ RECIPE_MAINTAINER_pn-guile = "Robert Yang <liezhi.yang@windriver.com>"
+diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+index 16e31b9..12358e3 100644
+--- a/meta/classes/gtk-icon-cache.bbclass
++++ b/meta/classes/gtk-icon-cache.bbclass
+@@ -1,6 +1,6 @@
+ FILES_${PN} += "${datadir}/icons/hicolor"
+ 
+-DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk-update-icon-cache-native"
++DEPENDS += "${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk-icon-utils-native"
+ 
+ gtk_icon_cache_postinst() {
+ if [ "x$D" != "x" ]; then
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 1e2d4f6..4986323 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -807,7 +807,7 @@ def setscene_depvalid(task, taskdependees, notneeded, d):
+         return x.endswith("-native") or "-cross-" in x or "-crosssdk" in x
+ 
+     def isPostInstDep(x):
+-        if x in ["qemu-native", "gdk-pixbuf-native", "qemuwrapper-cross", "depmodwrapper-cross", "systemd-systemctl-native", "gtk-update-icon-cache-native"]:
++        if x in ["qemu-native", "gdk-pixbuf-native", "qemuwrapper-cross", "depmodwrapper-cross", "systemd-systemctl-native", "gtk-icon-utils-native"]:
+             return True
+         return False
+ 
+diff --git a/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.16.4.bb b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.16.4.bb
+new file mode 100644
+index 0000000..d433b90
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk-icon-utils-native_3.16.4.bb
+@@ -0,0 +1,63 @@
++SUMMARY = "Native icon utils for GTK+"
++DESCRIPTION = "gtk-update-icon-cache and gtk-encode-symbolic-svg built from GTK+ natively, for build time and on-host postinst script execution."
++SECTION = "libs"
++
++DEPENDS = "glib-2.0-native gdk-pixbuf-native librsvg-native"
++
++LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
++
++MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
++
++SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar.xz \
++          file://Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch"
++SRC_URI[md5sum] = "c7497aaf6730524a127597b768a73bd7"
++SRC_URI[sha256sum] = "1ee5dbd7a4cb81a91eaa1b7ae64ba5a3eab6a3c0a764155583ab96524590fc8e"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
++                    file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
++                    file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
++                    file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
++
++S = "${WORKDIR}/gtk+-${PV}"
++
++inherit pkgconfig native
++
++PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
++
++do_configure() {
++	# Quite ugly but defines enough to compile the tools.
++	if ! test -f gtk/config.h; then
++		echo "#define GETTEXT_PACKAGE \"gtk30\"" >> gtk/config.h
++		echo "#define HAVE_UNISTD_H 1" >> gtk/config.h
++		echo "#define HAVE_FTW_H 1" >> gtk/config.h
++	fi
++	if ! test -f gdk/config.h; then
++		touch gdk/config.h
++	fi
++}
++
++do_compile() {
++	${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} \
++		${S}/gtk/updateiconcache.c \
++		$(${PKG_CONFIG_FOR_BUILD} --cflags --libs gdk-pixbuf-2.0) \
++		-o gtk-update-icon-cache
++
++	${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} \
++		${S}/gtk/encodesymbolic.c \
++		$(${PKG_CONFIG_FOR_BUILD} --cflags --libs gio-2.0 gdk-pixbuf-2.0) \
++		-o gtk-encode-symbolic-svg
++}
++
++do_install() {
++	install -d ${D}${bindir}
++	install -m 0755 ${B}/gtk-update-icon-cache ${D}${bindir}
++	install -m 0755 ${B}/gtk-encode-symbolic-svg ${D}${bindir}
++
++	create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
++		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
++	create_wrapper ${D}/${bindir}/gtk-encode-symbolic-svg \
++		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
++}
++
++# Prevent bitbake from optimizing away the native librsvg sysroot population
++do_populate_sysroot_setscene[depends] += "librsvg-native:do_populate_sysroot_setscene"
+diff --git a/meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch b/meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+new file mode 100644
+index 0000000..237f803
+--- /dev/null
++++ b/meta/recipes-gnome/gtk+/gtk-icon-utils/Remove-Gdk-dependency-from-gtk-encode-symbolic-svg.patch
+@@ -0,0 +1,102 @@
++From 4d09ff324419fe4e671233044e424378da53969b Mon Sep 17 00:00:00 2001
++From: Jussi Kukkonen <jussi.kukkonen@intel.com>
++Date: Tue, 9 Jun 2015 14:20:30 +0300
++Subject: [PATCH] Remove Gdk-dependency from gtk-encode-symbolic-svg
++
++Building gtk-encode-symbolic-svg without building Gdk is useful
++as only the icon tools are needed on the native build: this makes
++native build much faster and requires much less dependencies.
++
++Upstream-Status: Pending
++
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++---
++ gtk/encodesymbolic.c | 36 ++++++++++--------------------------
++ 1 file changed, 10 insertions(+), 26 deletions(-)
++
++diff --git a/gtk/encodesymbolic.c b/gtk/encodesymbolic.c
++index 9f7d015..1f07563 100644
++--- a/gtk/encodesymbolic.c
+++++ b/gtk/encodesymbolic.c
++@@ -19,7 +19,6 @@
++ 
++ #include <glib.h>
++ #include <gdk-pixbuf/gdk-pixdata.h>
++-#include <gdk/gdk.h>
++ #include <glib/gi18n.h>
++ 
++ #ifdef HAVE_UNISTD_H
++@@ -43,30 +42,18 @@ static GdkPixbuf *
++ load_symbolic_svg (char *file_data, gsize file_len,
++                    int width,
++                    int height,
++-                   const GdkRGBA  *fg,
++-                   const GdkRGBA  *success_color,
++-                   const GdkRGBA  *warning_color,
++-                   const GdkRGBA  *error_color,
+++                   const char *css_fg,
+++                   const char *css_success,
+++                   const char *css_warning,
+++                   const char *css_error,
++                    GError        **error)
++ {
++   GInputStream *stream;
++   GdkPixbuf *pixbuf;
++-  gchar *css_fg;
++-  gchar *css_success;
++-  gchar *css_warning;
++-  gchar *css_error;
++   gchar *data;
++   gchar *svg_width, *svg_height;
++   gchar *escaped_file_data;
++ 
++-  css_fg = gdk_rgba_to_string (fg);
++-
++-  css_success = css_warning = css_error = NULL;
++-
++-  css_warning = gdk_rgba_to_string (warning_color);
++-  css_error = gdk_rgba_to_string (error_color);
++-  css_success = gdk_rgba_to_string (success_color);
++-
++   /* Fetch size from the original icon */
++   stream = g_memory_input_stream_new_from_data (file_data, file_len, NULL);
++   pixbuf = gdk_pixbuf_new_from_stream (stream, NULL, error);
++@@ -105,10 +92,6 @@ load_symbolic_svg (char *file_data, gsize file_len,
++                       "</svg>",
++                       NULL);
++   g_free (escaped_file_data);
++-  g_free (css_fg);
++-  g_free (css_warning);
++-  g_free (css_error);
++-  g_free (css_success);
++   g_free (svg_width);
++   g_free (svg_height);
++ 
++@@ -167,7 +150,8 @@ make_symbolic_pixbuf (char *file,
++                       GError        **error)
++ 
++ {
++-  GdkRGBA r = { 1,0,0,1}, g = {0,1,0,1};
+++  const char r[] = "rgba(255,0,0,1)";
+++  const char g[] = "rgba(0,255,0,1)";
++   GdkPixbuf *loaded;
++   GdkPixbuf *pixbuf;
++   int plane;
++@@ -196,10 +180,10 @@ make_symbolic_pixbuf (char *file,
++        * the "rest", as all color fractions should add up to 1.
++        */
++       loaded = load_symbolic_svg (file_data, file_len, width, height,
++-                                  &g,
++-                                  plane == 0 ? &r : &g,
++-                                  plane == 1 ? &r : &g,
++-                                  plane == 2 ? &r : &g,
+++                                  g,
+++                                  plane == 0 ? r : g,
+++                                  plane == 1 ? r : g,
+++                                  plane == 2 ? r : g,
++                                   error);
++       if (loaded == NULL)
++         return NULL;
++-- 
++2.1.4
++
+diff --git a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb b/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
 deleted file mode 100644
-index 145c181..0000000
---- a/meta/recipes-devtools/intltool/intltool-0.50.2/uclibc.patch
+index 73b7644..0000000
+--- a/meta/recipes-gnome/gtk+/gtk-update-icon-cache-native_3.4.4.bb
 +++ /dev/null
-@@ -1,19 +0,0 @@
--on uclibc systems localedir should point to /usr/'share' as usual.
+@@ -1,47 +0,0 @@
+-SUMMARY = "gtk-update-icon-cache built natively"
+-DESCRIPTION = "Just gtk-update-icon-cache built from GTK+ natively, for on-host postinst script execution."
+-SECTION = "libs"
 -
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-DEPENDS = "gdk-pixbuf-native"
 -
--Index: intltool-0.50.2/intltool.m4
--===================================================================
----- intltool-0.50.2.orig/intltool.m4	2014-03-15 22:09:01.016627665 -0700
--+++ intltool-0.50.2/intltool.m4	2014-03-15 22:12:09.732631206 -0700
--@@ -173,6 +173,9 @@
--     AC_CHECK_FUNC(bind_textdomain_codeset,
--       [DATADIRNAME=share], [DATADIRNAME=lib])
--     ;;
--+    *-*-*uclibc*)
--+    [DATADIRNAME=share]
--+    ;;
--     *)
--     [DATADIRNAME=lib]
--     ;;
-diff --git a/meta/recipes-devtools/intltool/intltool-0.50.2/intltool-nowarn.patch b/meta/recipes-devtools/intltool/intltool/intltool-nowarn.patch
-similarity index 100%
-rename from meta/recipes-devtools/intltool/intltool-0.50.2/intltool-nowarn.patch
-rename to meta/recipes-devtools/intltool/intltool/intltool-nowarn.patch
-diff --git a/meta/recipes-devtools/intltool/intltool-0.50.2/noperlcheck.patch b/meta/recipes-devtools/intltool/intltool/noperlcheck.patch
-similarity index 100%
-rename from meta/recipes-devtools/intltool/intltool-0.50.2/noperlcheck.patch
-rename to meta/recipes-devtools/intltool/intltool/noperlcheck.patch
-diff --git a/meta/recipes-devtools/intltool/intltool-0.50.2/remove-xml-check.patch b/meta/recipes-devtools/intltool/intltool/remove-xml-check.patch
-similarity index 100%
-rename from meta/recipes-devtools/intltool/intltool-0.50.2/remove-xml-check.patch
-rename to meta/recipes-devtools/intltool/intltool/remove-xml-check.patch
-diff --git a/meta/recipes-devtools/intltool/intltool-0.50.2/use-nativeperl.patch b/meta/recipes-devtools/intltool/intltool/use-nativeperl.patch
-similarity index 100%
-rename from meta/recipes-devtools/intltool/intltool-0.50.2/use-nativeperl.patch
-rename to meta/recipes-devtools/intltool/intltool/use-nativeperl.patch
-diff --git a/meta/recipes-devtools/intltool/intltool_0.50.2.bb b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
-similarity index 76%
-rename from meta/recipes-devtools/intltool/intltool_0.50.2.bb
-rename to meta/recipes-devtools/intltool/intltool_0.51.0.bb
-index 483239d..35293c6 100644
---- a/meta/recipes-devtools/intltool/intltool_0.50.2.bb
-+++ b/meta/recipes-devtools/intltool/intltool_0.51.0.bb
-@@ -3,7 +3,6 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
- 
- SRC_URI += "file://intltool-nowarn.patch \
--           file://uclibc.patch \
-            ${NATIVEPATCHES} \
-            "
- 
-@@ -15,5 +14,5 @@ NATIVEPATCHES = "file://noperlcheck.patch \
-                  file://remove-xml-check.patch"
- NATIVEPATCHES_class-native = "file://use-nativeperl.patch" 
- 
--SRC_URI[md5sum] = "23fbd879118253cb99aeac067da5f591"
--SRC_URI[sha256sum] = "67f25c5c6fb71d095793a7f895b245e65e829e8bde68c6c8b4c912144ff34406"
-+SRC_URI[md5sum] = "12e517cac2b57a0121cda351570f1e63"
-+SRC_URI[sha256sum] = "67c74d94196b153b774ab9f89b2fa6c6ba79352407037c8c14d5aeb334e959cd"
+-LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2 \
+-                    file://gtk/gtk.h;endline=25;md5=1d8dc0fccdbfa26287a271dce88af737 \
+-                    file://gdk/gdk.h;endline=25;md5=c920ce39dc88c6f06d3e7c50e08086f2 \
+-                    file://tests/testgtk.c;endline=25;md5=cb732daee1d82af7a2bf953cf3cf26f1"
+-
+-SRC_URI = "http://download.gnome.org/sources/gtk+/3.4/gtk+-${PV}.tar.xz"
+-SRC_URI[md5sum] = "1b2cf29502a6394e8d4b30f7f5bb9131"
+-SRC_URI[sha256sum] = "f154e460075034da4c0ce89c320025dcd459da2a1fdf32d92a09522eaca242c7"
+-
+-S = "${WORKDIR}/gtk+-${PV}"
+-
+-inherit pkgconfig native
+-
+-PKG_CONFIG_FOR_BUILD = "${STAGING_BINDIR_NATIVE}/pkg-config-native"
+-
+-do_configure() {
+-	# Quite ugly but defines enough to compile the tool.
+-	if ! test -f gtk/config.h; then
+-		echo "#define GETTEXT_PACKAGE \"gtk30\"" >> gtk/config.h
+-		echo "#define HAVE_UNISTD_H 1" >> gtk/config.h
+-		echo "#define HAVE_FTW_H 1" >> gtk/config.h
+-
+-	fi
+-}
+-
+-do_compile() {
+-	${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS} ${S}/gtk/updateiconcache.c \
+-	$(${PKG_CONFIG_FOR_BUILD} --cflags --libs gdk-pixbuf-2.0) \
+-		-o gtk-update-icon-cache 
+-}
+-
+-do_install() {
+-	install -d ${D}${bindir}
+-        install -m 0755 ${B}/gtk-update-icon-cache ${D}${bindir}
+-
+-	create_wrapper ${D}/${bindir}/gtk-update-icon-cache \
+-		GDK_PIXBUF_MODULE_FILE=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/2.10.0/loaders.cache
+-
+-}
 -- 
 2.1.4
 
