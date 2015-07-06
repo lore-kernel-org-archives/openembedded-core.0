@@ -1,27 +1,25 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BF007561F
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5118175D41
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Jul 2015 11:38:57 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Jul 2015 04:38:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,405,1432623600"; d="scan'208";a="740482219"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com) ([10.252.8.80])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Jul 2015 04:38:57 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: akuster808 <akuster808@gmail.com>
-Date: Sat, 04 Jul 2015 12:38:55 +0100
-Message-ID: <1548004.RNEmCtHdiu@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.6-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <5597048E.40401@gmail.com>
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<20150703070716.GA21416@ad.chargestorm.se>
-	<5597048E.40401@gmail.com>
+	Mon,  6 Jul 2015 02:00:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6620K6w020421
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 5 Jul 2015 19:00:20 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Sun, 5 Jul 2015 19:00:20 -0700
+From: Kai Kang <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 6 Jul 2015 09:59:29 +0800
+Message-ID: <cover.1436147616.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+X-Originating-IP: [128.224.153.152]
+Subject: [PATCH 0/1] Fix can not stop systemd service var-volatile-lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +32,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Jul 2015 11:38:59 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 06 Jul 2015 02:00:23 -0000
+Content-Type: text/plain
 
-Hi Armin,
+The following changes since commit 8ad9a434c9fd0300cf5c38c368b181b78421e95a:
 
-On Friday 03 July 2015 14:54:22 akuster808 wrote:
-> On 07/03/2015 12:07 AM, Anders Darander wrote:
-> > * akuster808 <akuster808@gmail.com> [150702 19:05]:
-> >> The current version of nettle 2.7 has one file that is GPL v3.
-> >> mini-gmp.*
-> >> 
-> >> so the license for 2.7 should be updated IMHO. So wont that put us in the
-> >> same boat as the upgrade?
-> > 
-> > Ouch, that's no good!
-> > 
-> > Ideally, we should look at that file and see for how long it's been part
-> > of nettle. If it's just for a short time, maybe we could go back to a
-> > point in time just prior to the inclusion (or license change) of that
-> > file.
-> 
-> this file has been in nettle for two years. It was introduced with th
-> 2.7 release.  Parts of that file are pulled from the gmp project.
-> 
-> > Has it been like this for far too long, well, then we either have to see
-> > what impact this has on non-GPLv3 builds...
-> 
-> Does "Lesser" GPLv3 count? Looked a the file again and 'Lesser' is near
-> the beginning of the paragraph before 'version 3'.
-> 
-> Does this change things for nettle 2.7?
+  bitbake: tests/data: Add new data tests (2015-07-01 15:40:21 +0100)
 
-Well, at minimum for our purposes LGPLv3 (or LGPLv3+?) needs to be added to 
-LICENSE in the nettle recipe (with &). Whether or not someone chooses to 
-exclude that license in their configuration through INCOMPATIBLE_LICENSE is a 
-completely separate matter (and that is, as you allude to, a distinct license 
-from GPLv3).
+are available in the git repository at:
 
-I just think it's something that upstream ought to be noting in their license 
-statement, because they don't appear to be at the moment.
+  git://git.yoctoproject.org/poky-contrib kangkai/volatile-binds
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kangkai/volatile-binds
 
-Cheers,
-Paul
+Kai Kang (1):
+  volatile-binds: correct path of command umount
+
+ meta/recipes-core/volatile-binds/volatile-binds.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
