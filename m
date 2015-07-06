@@ -1,24 +1,19 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DE8C775D71
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B40175D85
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jul 2015 12:28:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 06 Jul 2015 05:28:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,414,1432623600"; d="scan'208";a="741416780"
-Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Jul 2015 05:28:21 -0700
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+	Mon,  6 Jul 2015 12:30:15 +0000 (UTC)
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jul 2015 15:29:00 +0300
-Message-Id: <2cb5e94b9880dc09dc13420d75c74308ce3fa0d2.1436184775.git.jussi.kukkonen@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <a446be1baf28f8ba1d89f00c5b78e47a81a2ac11.1436184775.git.jussi.kukkonen@intel.com>
-References: <a446be1baf28f8ba1d89f00c5b78e47a81a2ac11.1436184775.git.jussi.kukkonen@intel.com>
-In-Reply-To: <cover.1436184775.git.jussi.kukkonen@intel.com>
-References: <cover.1436184775.git.jussi.kukkonen@intel.com>
-Subject: [PATCH v4 7/7] midori: Depend on Adwaita, not gnome-icon-theme
+References: <5596A293.8020606@communistcode.co.uk>
+	<559A67FE.4050000@communistcode.co.uk>
+From: Jack Mitchell <ml@communistcode.co.uk>
+Message-ID: <559A74E7.8080803@communistcode.co.uk>
+Date: Mon, 6 Jul 2015 13:30:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.0.1
+MIME-Version: 1.0
+In-Reply-To: <559A67FE.4050000@communistcode.co.uk>
+Subject: Re: SDK extract errors on master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +26,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jul 2015 12:28:22 -0000
+X-List-Received-Date: Mon, 06 Jul 2015 12:30:16 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Adwaita is the current GNOME icon theme.
+On 06/07/15 12:35, Jack Mitchell wrote:
+> On 03/07/15 15:56, Jack Mitchell wrote:
+>> Built an SDK today on 7eb0abc5f4d971d9a511c93cfb2eb52b72e6f228 and 
+>> when I tried to install it I got the following error:
+>>
+>> Setting it up...ls: cannot access 
+>> /home/jack/Work/build/openembedded/sdk/1/x86_64/environment-setup-*: 
+>> No such file or directory
+>>
+>> I have been messing about with the SDK install path and at one point 
+>> it did spew out a load of files installed vs shipped warnings I 
+>> assume due to a change of path and it getting upset about it, but 
+>> since then I deleted the tmp directory and rebuilt a new SDK without 
+>> warnings. However, both acted in the same way.
+>>
+>> The SDK then sits without installing, seemingly stuck on: grep 
+>> OECORE_NATIVE_SYSROOT, which I assume means it's looking for the 
+>> (non-existant) environment file.
+>>
+>> Any clues? Is this broken for anyone else?
+>>
+>> Cheers,
+>> Jack.
+>
+> Ok, I figured out how I broke it; I used a relative path in SDKPATH. i.e.
+>
+> SDKPATH=/path/to/sdk/../rel-sdk
+>
+> So, first off; should this be supported? Secondly, the use-case I was 
+> trying to get at was to position an SDK relative to the build dir, i.e.
+>
+> SDKPATH=${TOPDIR}/../sdk
+>
+> Is there a better way to do this. I guess this problem could be solved 
+> somewhere in an SDK class by changing the relative path to an absolute 
+> path. Ideas?
+>
+> Cheers,
+> Jack.
 
-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
----
- meta/recipes-sato/midori/midori_0.5.8.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I found an ugly work-around but it would be nice for this to be 
+supported in the future, or at least error on a relative path.
 
-diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
-index aa1b395..1c027fe4 100644
---- a/meta/recipes-sato/midori/midori_0.5.8.bb
-+++ b/meta/recipes-sato/midori/midori_0.5.8.bb
-@@ -26,6 +26,6 @@ EXTRA_OECMAKE = " \
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
- 
--RRECOMMENDS_${PN} += "glib-networking ca-certificates gnome-icon-theme"
-+RRECOMMENDS_${PN} += "glib-networking ca-certificates adwaita-icon-theme"
- 
- FILES_${PN} += "${datadir}/appdata"
--- 
-2.1.4
+SDKPATH := "${@os.path.abspath(d.getVar('TOPDIR', 
+True)+"/../sdk/"+d.getVar('SDK_VERSION', True)+"/"+d.getVar('SDK_ARCH', 
+True))}"
 
+Cheers,
 
