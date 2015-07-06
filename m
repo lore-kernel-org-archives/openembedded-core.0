@@ -1,19 +1,39 @@
-Return-Path: <ml@communistcode.co.uk>
-Received: from owm.eumx.net (eumx.net [91.82.101.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B40175D85
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id DE76A75D41
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jul 2015 12:30:15 +0000 (UTC)
-To: openembedded-core@lists.openembedded.org
-References: <5596A293.8020606@communistcode.co.uk>
-	<559A67FE.4050000@communistcode.co.uk>
-From: Jack Mitchell <ml@communistcode.co.uk>
-Message-ID: <559A74E7.8080803@communistcode.co.uk>
-Date: Mon, 6 Jul 2015 13:30:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.0.1
+	Mon,  6 Jul 2015 13:05:05 +0000 (UTC)
+Received: by qkei195 with SMTP id i195so116235977qke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Jul 2015 06:05:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=oEqqEpEMzbiHmRq36mAiUQ7VYSXITFsPK86aTpe6jY4=;
+	b=eAWpn4OxJ8XY76DakEMMU8fk+aFYNivYLToxih+5XyQZEDexmMWC+iAzkrki8cqQ8Z
+	sFyIbdL7BihTfTkIygO9PUqxwfG0Eqe6bNdOgKrwGgJ9txnejepNaR/E/R2GbsHqLfS0
+	UoJpDBvRI8ldVskNHMyRGSdjlxRUHHoaVvVMBQ9CIUQD6jZjOKnnHetlV6MlotuiaYdW
+	jhnRgX4djaKTVqfP8C/BS0I8tfBLAUAZVtbYj1Xso57K7XeTzTIKcX4KG6+Vem0EjrsZ
+	OCvS7TOlEZ6ko26Bx1Tu6sekwk5YUkfTdTTA7ujBRkXDVWEtfuTLpUrLYuZjPjviUlUJ
+	M88g==
+X-Gm-Message-State: ALoCoQk+f3XkRlcDhPFw9yY1qvGfM6yn3SND7sAPWK8dUHxZUmAxVQkmIJUXrCTZFk419soszvJo
+X-Received: by 10.140.231.19 with SMTP id b19mr72378494qhc.22.1436187905821;
+	Mon, 06 Jul 2015 06:05:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <559A67FE.4050000@communistcode.co.uk>
-Subject: Re: SDK extract errors on master
+Received: by 10.140.102.231 with HTTP; Mon, 6 Jul 2015 06:04:46 -0700 (PDT)
+In-Reply-To: <1548004.RNEmCtHdiu@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1435497302.git.akuster808@gmail.com>
+	<20150703070716.GA21416@ad.chargestorm.se>
+	<5597048E.40401@gmail.com>
+	<1548004.RNEmCtHdiu@peggleto-mobl.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 6 Jul 2015 14:04:46 +0100
+Message-ID: <CAJTo0LYcEcQfGQTKhq9tkRJNLJTw=LQHEp65e9NqMf7xtPCgMQ@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,56 +46,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jul 2015 12:30:16 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 06 Jul 2015 13:05:07 -0000
+Content-Type: multipart/alternative; boundary=001a11c12f00f522a0051a348d26
 
-On 06/07/15 12:35, Jack Mitchell wrote:
-> On 03/07/15 15:56, Jack Mitchell wrote:
->> Built an SDK today on 7eb0abc5f4d971d9a511c93cfb2eb52b72e6f228 and 
->> when I tried to install it I got the following error:
->>
->> Setting it up...ls: cannot access 
->> /home/jack/Work/build/openembedded/sdk/1/x86_64/environment-setup-*: 
->> No such file or directory
->>
->> I have been messing about with the SDK install path and at one point 
->> it did spew out a load of files installed vs shipped warnings I 
->> assume due to a change of path and it getting upset about it, but 
->> since then I deleted the tmp directory and rebuilt a new SDK without 
->> warnings. However, both acted in the same way.
->>
->> The SDK then sits without installing, seemingly stuck on: grep 
->> OECORE_NATIVE_SYSROOT, which I assume means it's looking for the 
->> (non-existant) environment file.
->>
->> Any clues? Is this broken for anyone else?
->>
->> Cheers,
->> Jack.
->
-> Ok, I figured out how I broke it; I used a relative path in SDKPATH. i.e.
->
-> SDKPATH=/path/to/sdk/../rel-sdk
->
-> So, first off; should this be supported? Secondly, the use-case I was 
-> trying to get at was to position an SDK relative to the build dir, i.e.
->
-> SDKPATH=${TOPDIR}/../sdk
->
-> Is there a better way to do this. I guess this problem could be solved 
-> somewhere in an SDK class by changing the relative path to an absolute 
-> path. Ideas?
->
-> Cheers,
-> Jack.
+--001a11c12f00f522a0051a348d26
+Content-Type: text/plain; charset=UTF-8
 
-I found an ugly work-around but it would be nice for this to be 
-supported in the future, or at least error on a relative path.
+On 4 July 2015 at 12:38, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-SDKPATH := "${@os.path.abspath(d.getVar('TOPDIR', 
-True)+"/../sdk/"+d.getVar('SDK_VERSION', True)+"/"+d.getVar('SDK_ARCH', 
-True))}"
+> Well, at minimum for our purposes LGPLv3 (or LGPLv3+?) needs to be added to
+> LICENSE in the nettle recipe (with &). Whether or not someone chooses to
+> exclude that license in their configuration through INCOMPATIBLE_LICENSE
+> is a
+> completely separate matter (and that is, as you allude to, a distinct
+> license
+> from GPLv3).
+>
 
-Cheers,
+FWIW the YP documentation states to mark GPL LGPL and AGPL v3 in
+INCOMPATIBLE_LICENSE to build a GPLv3 image, on the rationale that the
+usual clauses that upset people are not specific to the GPL variation.  The
+autobuilder just excludes GPL right now, but there's a bug to fix this.
 
+Of course IANAL and the opinion of someone who actually does use
+INCOMPATIBLE_LICENSE to remove GPLv3 software would be appreciated!
+
+Ross
+
+--001a11c12f00f522a0051a348d26
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 July 2015 at 12:38, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.in=
+tel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
+:1ge" class=3D"a3s" style=3D"overflow:hidden">Well, at minimum for our purp=
+oses LGPLv3 (or LGPLv3+?) needs to be added to<br>
+LICENSE in the nettle recipe (with &amp;). Whether or not someone chooses t=
+o<br>
+exclude that license in their configuration through INCOMPATIBLE_LICENSE is=
+ a<br>
+completely separate matter (and that is, as you allude to, a distinct licen=
+se<br>
+from GPLv3).</div></blockquote></div><br>FWIW the YP documentation states t=
+o mark GPL LGPL and AGPL v3 in INCOMPATIBLE_LICENSE to build a GPLv3 image,=
+ on the rationale that the usual clauses that upset people are not specific=
+ to the GPL variation.=C2=A0 The autobuilder just excludes GPL right now, b=
+ut there&#39;s a bug to fix this.</div><div class=3D"gmail_extra"><br></div=
+><div class=3D"gmail_extra">Of course IANAL and the opinion of someone who =
+actually does use INCOMPATIBLE_LICENSE to remove GPLv3 software would be ap=
+preciated!</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div>
+
+--001a11c12f00f522a0051a348d26--
