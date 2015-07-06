@@ -1,40 +1,34 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id C7FDA65CCC
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7183465CCC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jul 2015 20:09:43 +0000 (UTC)
-Received: by widjy10 with SMTP id jy10so170630081wid.1
+	Mon,  6 Jul 2015 20:50:37 +0000 (UTC)
+Received: by iecvh10 with SMTP id vh10so121757580iec.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Jul 2015 13:09:43 -0700 (PDT)
+	Mon, 06 Jul 2015 13:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=IOeKdCfFbcQPKZqJyc2pa9KYTbBGo/IVFoUcgCmvp+Q=;
-	b=ZeCwshyRI8HIGW4Ep99n5jUyS1k86EDLFNV3BfELftkUFYbpGJCDPeqEpZXgtFdTG6
-	4JYFcfEL/fNEDHLl5l+/aDiOw2rkTvACciVjPHGQ4/Gy61sbZfCbysxdQjlYXqb4b8ug
-	xiwJHDeflahbzzu9OuFiteCKgKVIVSoZw3pWtVQp/WiP6kBgdwUE0nsWS4ssRMyp9ZoN
-	th18MjNmPqj42d1EXKCq/aUAD6U4nlPn2uky9imRiz0NWn/WVSc9+wnyth8Q6BZ8PB7y
-	u6TzhkHnMrFTAim4lQ3UIv/lkp6AVrnajtrOeNRwG5N9i95voM+v0gwTuDJix/Hu+br6
-	raGw==
-X-Received: by 10.180.187.167 with SMTP id ft7mr92385614wic.26.1436213383163; 
-	Mon, 06 Jul 2015 13:09:43 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by mx.google.com with ESMTPSA id k16sm29808114wjr.7.2015.07.06.13.09.40
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Jul 2015 13:09:40 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 6 Jul 2015 22:10:18 +0200
-To: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-Message-ID: <20150706201018.GD2436@jama>
-References: <cover.1436177709.git.alejandro.hernandez@linux.intel.com>
-	<41e68bf09d809269524babaae2911a7c41e38351.1436177709.git.alejandro.hernandez@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <41e68bf09d809269524babaae2911a7c41e38351.1436177709.git.alejandro.hernandez@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] opkg-build: Ignore tar error due to hardlinks issue when creating ipk files
+	h=from:to:cc:subject:date:message-id;
+	bh=e1XJrhVIdJ8TD8iC0EgXnm1Qo2dIz+Tcc8ujQxVtRN8=;
+	b=l96s2Csy1pzwTsscZTNX5x25zh7pqpETaRtREen4YfEoPP3lYfwEGOWvPaqtcLrbms
+	keS6TCL2azezh5HWWnHwXDh7GODhp6NzNpZ22fm9P+anF/7FBXovNxRB9gnZH4eESuAr
+	3zKOxbB4GyVoOwml6yDz7KdmVaLlQhVHancVGmlOku3T9/L48MYc7TuQ6MJHshPqmm1v
+	e4XIZ43SEBQV1F02DuO/MVh5QMWEra47X9eH5mjz4cln0ZZ+o08U1zN+P6sltBDcLRnk
+	kQCJ2mclOUT1cV03yL9cTNt2bCb+IhEOHv79BSl+LFUTBnyAFRQp/BxzYQNRmheXLq1i
+	o4HA==
+X-Received: by 10.107.34.193 with SMTP id i184mr1241541ioi.56.1436215837893;
+	Mon, 06 Jul 2015 13:50:37 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by mx.google.com with ESMTPSA id c41sm13182955iod.8.2015.07.06.13.50.36
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 06 Jul 2015 13:50:37 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Jul 2015 13:49:57 -0700
+Message-Id: <1436215810-23722-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 00/13] fix 'Upstream-Status: Inappropriate' typos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,147 +41,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jul 2015 20:09:48 -0000
-X-Groupsio-MsgNum: 67571
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="3Pql8miugIZX0722"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 06 Jul 2015 20:50:38 -0000
 
---3Pql8miugIZX0722
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Upsteam -> Upstream
+Various variations on Inappropriate -> Inappropriate
 
-On Mon, Jul 06, 2015 at 10:17:19AM +0000, Alejandro Hernandez wrote:
-> If a the number of hard links decreases or increases while creating
-> the tar files used for an ipk package, tar fails with error code 1,
-> if this is the case we ignore the error and continue to create the ipk fi=
-le
->=20
-> [YOCTO #7933]
->=20
-> Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> ---
->  .../opkg-utils/opkg-utils/tar_ignore_error.patch   | 47 ++++++++++++++++=
-++++++
->  meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  4 +-
->  2 files changed, 50 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignor=
-e_error.patch
->=20
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error=
-=2Epatch b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.pat=
-ch
-> new file mode 100644
-> index 0000000..4bcae4954
-> --- /dev/null
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-> @@ -0,0 +1,47 @@
-> +If a the number of hard links decreases or increases while creating
-> +the tar files used for an ipk package, tar fails with error code 1:
-> +
-> +| DEBUG: Executing python function do_package_ipk
-> +| tar: ./usr/src/debug/gperf/3.0.4-r0/gperf-3.0.4/src/main.cc: file chan=
-ged as we read it
-> +NOTE: recipe gperf-3.0.4-r0: task do_package_write_ipk: Failed
-> +ERROR: Task 6539 (recipes-extended/gperf/gperf_3.0.4.bb, do_package_writ=
-e_ipk) failed with exit code '1'
-> +
-> +
-> +We detect if the error code produced by tar is 1 and in this case ignore=
- it.
-> +
-> +This a similar behavior to the one on dpkg:
-> +http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D40731942515e=
-c8d80c727ad561174986d4f05818
-> +
-> +Upsteam-Status: Inappropriate
+Andre McCurdy (13):
+  distrodata.bbclass: fix typo, Upsteam -> Upstream
+  dpkg: fix typo in tar-error-code.patch, Upsteam -> Upstream
+  base-passwd: fix typo in add_shutdown.patch
+  glibc: fix typo in add_resource_h_to_wait_h.patch
+  dosfstools: fix typo in nofat32_autoselect.patch
+  flex: fix typo in do_not_create_pdf_doc.patch
+  pkgconfig: fix typo in fix-glib-configure-libtool-usage.patch
+  python-numpy: fix typo in no-host-paths.patch
+  rpm: fix typo in rpm-realpath.patch
+  rpm: fix typo in rpm-reloc-macros.patch
+  valgrind: fix typo in valgrind-remove-rpath.patch
+  texinfo: fix typo in dont-depend-on-help2man.patch
+  libffi: fix typo in fix-libffi.la-location.patch
 
-Typo and why is it inappropriate? Looks like bugfix to me, even for
-issue which usually happens in OE way of using opkg-build.
+ meta/classes/distrodata.bbclass                                         | 2 +-
+ meta/recipes-core/base-passwd/base-passwd/add_shutdown.patch            | 2 +-
+ meta/recipes-core/glibc/glibc/add_resource_h_to_wait_h.patch            | 2 +-
+ meta/recipes-devtools/dosfstools/dosfstools/nofat32_autoselect.patch    | 2 +-
+ meta/recipes-devtools/dpkg/dpkg/tar-error-code.patch                    | 2 +-
+ meta/recipes-devtools/flex/files/do_not_create_pdf_doc.patch            | 2 +-
+ .../pkgconfig/pkgconfig/fix-glib-configure-libtool-usage.patch          | 2 +-
+ meta/recipes-devtools/python/python-numpy/no-host-paths.patch           | 2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-realpath.patch                        | 2 +-
+ meta/recipes-devtools/rpm/rpm/rpm-reloc-macros.patch                    | 2 +-
+ meta/recipes-devtools/valgrind/valgrind/valgrind-remove-rpath.patch     | 2 +-
+ meta/recipes-extended/texinfo/texinfo/dont-depend-on-help2man.patch     | 2 +-
+ meta/recipes-gnome/libffi/libffi/fix-libffi.la-location.patch           | 2 +-
+ 13 files changed, 13 insertions(+), 13 deletions(-)
 
-> +
-> +Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-> +
-> +
-> +Index: git/opkg-build
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +--- git.orig/opkg-build
-> ++++ git/opkg-build
-> +@@ -250,8 +250,21 @@ tmp_dir=3D$dest_dir/IPKG_BUILD.$$
-> + mkdir $tmp_dir
-> +=20
-> + echo $CONTROL > $tmp_dir/tarX
-> +-( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -cz $tarformat -f $tmp_di=
-r/data.tar.gz . )
-> +-( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/contro=
-l.tar.gz . )
-> ++
-> ++
-> ++# Ignore error code 1, caused by modifying the number of hard links whi=
-le creating the tar file
-> ++rc=3D0
-> ++( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -cz $tarformat -f $tmp_di=
-r/data.tar.gz . ) || rc=3D$?
-> ++if [[ $rc -ne 1 ]] && [[ $rc -ne 0 ]] ;then
-> ++        exit $rc=20
-> ++fi
-> ++
-> ++rc=3D0
-> ++( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/contro=
-l.tar.gz . ) || rc=3D$?
-> ++if [[ $rc -ne 1 ]] && [[ $rc -ne 0 ]] ;then
-> ++        exit $rc
-> ++fi
-> ++
-> + rm $tmp_dir/tarX
-> +=20
-> + echo "2.0" > $tmp_dir/debian-binary
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/re=
-cipes-devtools/opkg-utils/opkg-utils_git.bb
-> index 2800a5d..74b974d 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-> @@ -10,7 +10,9 @@ PROVIDES +=3D "virtual/update-alternatives"
->  SRCREV =3D "53274f087565fd45d8452c5367997ba6a682a37a"
->  PV =3D "0.1.8+git${SRCPV}"
-> =20
-> -SRC_URI =3D "git://git.yoctoproject.org/opkg-utils"
-> +SRC_URI =3D "git://git.yoctoproject.org/opkg-utils "=20
-> +
-> +SRC_URI_append_class-native =3D "file://tar_ignore_error.patch"
+-- 
+1.9.1
 
-Add leading space in append not in original SRC_URI variable.
 
-Why is it applied only for native anyway?
-
-> =20
->  S =3D "${WORKDIR}/git"
-> =20
-> --=20
-> 1.8.4.5
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---3Pql8miugIZX0722
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWa4KkACgkQN1Ujt2V2gBwY8QCdHU45LRzipkVKfptgebHRdo3R
-3+cAoKJXzSoXMzFaYioOYtSCvZdx/mCv
-=lIwb
------END PGP SIGNATURE-----
-
---3Pql8miugIZX0722--
