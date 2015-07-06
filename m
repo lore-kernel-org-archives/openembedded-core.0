@@ -1,24 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 443E675796
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 35B3575D6E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jul 2015 10:00:35 +0000 (UTC)
+	Mon,  6 Jul 2015 10:01:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t66A0Z0o023567
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t66A1U9F010947
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jul 2015 03:00:35 -0700 (PDT)
+	Mon, 6 Jul 2015 03:01:30 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 6 Jul 2015 03:00:35 -0700
+	Mon, 6 Jul 2015 03:01:30 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Jul 2015 03:00:34 -0700
-Message-ID: <cover.1436176809.git.liezhi.yang@windriver.com>
+Date: Mon, 6 Jul 2015 03:01:29 -0700
+Message-ID: <cover.1436176865.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Subject: [PATCH 0/1] file: fix long-options
+Subject: [PATCH 0/1] insane.bbclass: skip dev-deps QA checking for ptest package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jul 2015 10:00:38 -0000
+X-List-Received-Date: Mon, 06 Jul 2015 10:01:32 -0000
 Content-Type: text/plain
 
 The following changes since commit dd09fab685de2eaf04aa5ab60f8220b89c1deae9:
@@ -40,18 +40,14 @@ The following changes since commit dd09fab685de2eaf04aa5ab60f8220b89c1deae9:
 
 are available in the git repository at:
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/file
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/file
+  git://git.openembedded.org/openembedded-core-contrib rbt/insane
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/insane
 
 Robert Yang (1):
-  file: fix long-options
+  insane.bbclass: skip dev-deps QA checking for ptest package
 
- ...h-long-options-and-explicitly-number-them.patch |  116 ++++++++++++++++++++
- .../file/0002-fix-bug-with-5.23-long-options.patch |   26 +++++
- meta/recipes-devtools/file/file_5.23.bb            |    2 +
- 3 files changed, 144 insertions(+)
- create mode 100644 meta/recipes-devtools/file/file/0001-Fix-bug-with-long-options-and-explicitly-number-them.patch
- create mode 100644 meta/recipes-devtools/file/file/0002-fix-bug-with-5.23-long-options.patch
+ meta/classes/insane.bbclass |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 -- 
 1.7.9.5
