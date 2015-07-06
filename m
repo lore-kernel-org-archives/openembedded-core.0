@@ -1,26 +1,18 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5128475D85
+Return-Path: <ml@communistcode.co.uk>
+Received: from owm.eumx.net (eumx.net [91.82.101.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F95075D62
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jul 2015 10:35:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t66AZaxI026430
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jul 2015 03:35:39 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Mon, 6 Jul 2015 03:35:36 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Jul 2015 03:35:34 -0700
-Message-ID: <fde60b0b9e20af88c8c031ca4ce3f9cda6bc342d.1436178756.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1436178756.git.liezhi.yang@windriver.com>
-References: <cover.1436178756.git.liezhi.yang@windriver.com>
+	Mon,  6 Jul 2015 11:35:11 +0000 (UTC)
+To: openembedded-core@lists.openembedded.org
+References: <5596A293.8020606@communistcode.co.uk>
+From: Jack Mitchell <ml@communistcode.co.uk>
+Message-ID: <559A67FE.4050000@communistcode.co.uk>
+Date: Mon, 6 Jul 2015 12:35:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.0.1
 MIME-Version: 1.0
-Subject: [PATCH 1/2] gcc: remove EXTRA_OECONF_INTERMEDIATE
+In-Reply-To: <5596A293.8020606@communistcode.co.uk>
+Subject: Re: SDK extract errors on master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,95 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jul 2015 10:35:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 06 Jul 2015 11:35:16 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The gcc-intermediate had been gone, so remove EXTRA_OECONF_INTERMEDIATE.
+On 03/07/15 15:56, Jack Mitchell wrote:
+> Built an SDK today on 7eb0abc5f4d971d9a511c93cfb2eb52b72e6f228 and 
+> when I tried to install it I got the following error:
+>
+> Setting it up...ls: cannot access 
+> /home/jack/Work/build/openembedded/sdk/1/x86_64/environment-setup-*: 
+> No such file or directory
+>
+> I have been messing about with the SDK install path and at one point 
+> it did spew out a load of files installed vs shipped warnings I assume 
+> due to a change of path and it getting upset about it, but since then 
+> I deleted the tmp directory and rebuilt a new SDK without warnings. 
+> However, both acted in the same way.
+>
+> The SDK then sits without installing, seemingly stuck on: grep 
+> OECORE_NATIVE_SYSROOT, which I assume means it's looking for the 
+> (non-existant) environment file.
+>
+> Any clues? Is this broken for anyone else?
+>
+> Cheers,
+> Jack.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-4.8.inc              |   10 ----------
- meta/recipes-devtools/gcc/gcc-4.9.inc              |   10 ----------
- meta/recipes-devtools/gcc/gcc-5.1.inc              |   10 ----------
- meta/recipes-devtools/gcc/gcc-configure-common.inc |    1 -
- 4 files changed, 31 deletions(-)
+Ok, I figured out how I broke it; I used a relative path in SDKPATH. i.e.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.8.inc b/meta/recipes-devtools/gcc/gcc-4.8.inc
-index 476aaf9..6a2454d 100644
---- a/meta/recipes-devtools/gcc/gcc-4.8.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.8.inc
-@@ -107,16 +107,6 @@ EXTRA_OECONF_INITIAL = "\
-     --enable-decimal-float=no \
- "
- 
--EXTRA_OECONF_INTERMEDIATE = "\
--    --disable-libmudflap \
--    --disable-libgomp \
--    --disable-libquadmath \
--    --with-system-zlib \
--    --disable-lto \
--    --disable-plugin \
--    --disable-libssp \
--"
--
- EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
- 
- EXTRA_OECONF_PATHS = "\ 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 9ed3e09..6f53d1f 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -117,16 +117,6 @@ EXTRA_OECONF_INITIAL = "\
-     --enable-decimal-float=no \
- "
- 
--EXTRA_OECONF_INTERMEDIATE = "\
--    --disable-libmudflap \
--    --disable-libgomp \
--    --disable-libquadmath \
--    --with-system-zlib \
--    --disable-lto \
--    --disable-plugin \
--    --disable-libssp \
--"
--
- EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
- 
- EXTRA_OECONF_PATHS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-5.1.inc b/meta/recipes-devtools/gcc/gcc-5.1.inc
-index 1d64f9e..63669a9 100644
---- a/meta/recipes-devtools/gcc/gcc-5.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-5.1.inc
-@@ -107,16 +107,6 @@ EXTRA_OECONF_INITIAL = "\
-     --enable-decimal-float=no \
- "
- 
--EXTRA_OECONF_INTERMEDIATE = "\
--    --disable-libmudflap \
--    --disable-libgomp \
--    --disable-libquadmath \
--    --with-system-zlib \
--    --disable-lto \
--    --disable-plugin \
--    --disable-libssp \
--"
--
- EXTRA_OECONF_append_libc-uclibc = " --disable-decimal-float "
- 
- EXTRA_OECONF_PATHS = "\
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index 6c60cf9..a14be73 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -25,7 +25,6 @@ OPTSPACE = '${@bb.utils.contains("SPECIAL_ARCH_LIST", "${TARGET_ARCH}", "", "--e
- EXTRA_OECONF_BASE ?= ""
- EXTRA_OECONF_PATHS ?= ""
- EXTRA_OECONF_INITIAL ?= ""
--EXTRA_OECONF_INTERMEDIATE ?= ""
- 
- GCCMULTILIB ?= "--disable-multilib"
- GCCTHREADS ?= "posix"
--- 
-1.7.9.5
+SDKPATH=/path/to/sdk/../rel-sdk
 
+So, first off; should this be supported? Secondly, the use-case I was 
+trying to get at was to position an SDK relative to the build dir, i.e.
+
+SDKPATH=${TOPDIR}/../sdk
+
+Is there a better way to do this. I guess this problem could be solved 
+somewhere in an SDK class by changing the relative path to an absolute 
+path. Ideas?
+
+Cheers,
+Jack.
 
