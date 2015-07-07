@@ -1,23 +1,41 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E2326AB9F
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 160A873E36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 11:36:45 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 07 Jul 2015 04:36:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,422,1432623600"; d="scan'208";a="742114977"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Jul 2015 04:36:45 -0700
-Received: from localhost.localdomain (unknown [10.237.112.249])
-	by linux.intel.com (Postfix) with ESMTP id C4C896A4083;
-	Tue,  7 Jul 2015 04:36:04 -0700 (PDT)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jul 2015 14:36:58 +0300
-Message-Id: <1436269018-24615-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/selftest: Added 2 testcases and updated setup for other two in imagefeatures.
+	Tue,  7 Jul 2015 12:17:56 +0000 (UTC)
+Received: by igcqs7 with SMTP id qs7so31103699igc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jul 2015 05:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:date:message-id:subject
+	:from:to:cc:content-type;
+	bh=ciuhDBcmgaBqWAV1pOSJeR4INYlLi4yl+ubBIjXUPZY=;
+	b=Rur6+MHy31vbE2IZxtei/m9qz9DUVADVhdf++TX92t6Z3p6ZLeMedCSSGE3MwWdSyX
+	zJxXLGrMbOAmR3P9YO3bVf2gtKaBZr8V+J6q8GAciWzfocNhKcKnZCG4FX+xg7QvuRFm
+	989LbbZnePt+XWQ5EUTL2NIzQkV8Uz4Et4lIDy3hyUgvCeuj59XZimkVQlMz3RiUeES3
+	kIVNiABY5yE1VWFudk30BMyt7DAn/gUxz8rlvz5W/BHe8D1g/jxqJEorcopK4G4z5UAm
+	hfK2t5Qc6XtuQK/boEiP8g88cT+B2Q9rxwKhlXgN6PO4bILQTa74ZwlbnGfvnoeuh7R/
+	VTzw==
+MIME-Version: 1.0
+X-Received: by 10.42.206.5 with SMTP id fs5mr16640656icb.19.1436271477154;
+	Tue, 07 Jul 2015 05:17:57 -0700 (PDT)
+Sender: otavio.salvador@gmail.com
+Received: by 10.36.218.7 with HTTP; Tue, 7 Jul 2015 05:17:57 -0700 (PDT)
+In-Reply-To: <CAJTo0Lb1Nth4VGocNqTDWFnrzO4_FGFbeg6Akk7ZmSvFLPP6Ew@mail.gmail.com>
+References: <alpine.LFD.2.11.1502190508290.29947@localhost>
+	<CAF3SDA6sUY=4cg-pihtftzTNDREm5cKMS7MqQp4DJ9M81ez5UQ@mail.gmail.com>
+	<87vbdwy88m.fsf@weregild.amer.corp.natinst.com>
+	<CAJTo0Lb1Nth4VGocNqTDWFnrzO4_FGFbeg6Akk7ZmSvFLPP6Ew@mail.gmail.com>
+Date: Tue, 7 Jul 2015 09:17:57 -0300
+X-Google-Sender-Auth: ub8JrFCRBBIMt2YHUH-GzI9238Y
+Message-ID: <CAP9ODKpctCYLujwOt9FyCit1qrpn8p_=CdM5g6Ov4zkVJSEOeA@mail.gmail.com>
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	"Daniel." <danielhilst@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cross-localedef-native_2.20.bb: fix for gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,81 +48,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 11:36:48 -0000
+X-List-Received-Date: Tue, 07 Jul 2015 12:17:58 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Automated 2 oe-selftest testcases:
-- 1116: Check if clutter image can be built
-- 1117: Check Wayland support in image
+On Tue, Jul 7, 2015 at 5:29 AM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 7 July 2015 at 03:54, Richard Tollerton <rich.tollerton@ni.com> wrote:
+>>
+>> The build of cross-localedef-native is observed to fail under gcc5 hosts
+>> with multiple definition errors, e.g.:
+>
+>
+> Is this patch intended for fido?  Master doesn't have 2.20 anymore (2.21)
+> and I believe that works with gcc5 hosts.
 
-Updated setup for test_efi_gummiboot_images_can_be_build and
-test_wic_command_can_create_efi_gummiboot_installation_images
-to accomodate latest wic changes.
+I would prefer to upgrade to 2.21, if this is tthe case.
 
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
----
- meta/lib/oeqa/selftest/imagefeatures.py | 41 +++++++++++++++++++++++++++++++--
- 1 file changed, 39 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/imagefeatures.py b/meta/lib/oeqa/selftest/imagefeatures.py
-index e49f498..e0e424d 100644
---- a/meta/lib/oeqa/selftest/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/imagefeatures.py
-@@ -207,6 +207,41 @@ class ImageFeatures(oeSelfTest):
-         system('pkill qemu')
-         proc_qemu.close()
- 
-+    @testcase(1116)
-+    def test_clutter_image_can_be_built(self):
-+        """
-+        Summary:     Check if clutter image can be built
-+        Expected:    1. core-image-clutter can be built
-+        Product:     oe-core
-+        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        # Build a core-image-clutter
-+        ret = bitbake('core-image-clutter')
-+        self.assertEqual(0, ret.status, 'Failed to build core-image-clutter')
-+
-+    @testcase(1117)
-+    def test_wayland_support_in_image(self):
-+        """
-+        Summary:     Check Wayland support in image
-+        Expected:    1. Wayland image can be build
-+                     2. Wayland feature can be installed
-+        Product:     oe-core
-+        Author:      Ionut Chisanovici <ionutx.chisanovici@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        features = 'DISTRO_FEATURES_append = " wayland"\n'
-+        features += 'CORE_IMAGE_EXTRA_INSTALL += "wayland weston"'
-+
-+        # Append 'features' to local.conf
-+        self.append_config(features)
-+
-+        # Build a core-image-weston
-+        ret = bitbake('core-image-weston')
-+        self.assertEqual(0, ret.status, 'Failed to build a core-image-weston')
-+
- 
- class Gummiboot(oeSelfTest):
- 
-@@ -240,8 +275,10 @@ class Gummiboot(oeSelfTest):
-         features += 'MACHINE = "nuc"'
-         self.append_config(features)
- 
--        # Run "bitbake core-image-minimal" to build a nuc efi/gummiboot image
--        ret = bitbake('core-image-minimal')
-+        # Run "bitbake syslinux syslinux-native parted-native dosfstools-native mtools-native core-image-minimal "
-+        # to build a nuc/efi gummiboot image
-+
-+        ret = bitbake('syslinux syslinux-native parted-native dosfstools-native mtools-native core-image-minimal')
-         self.assertEqual(0, ret.status, 'Failed to build a core-image-minimal')
- 
-     @testcase(1101)
 -- 
-2.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
