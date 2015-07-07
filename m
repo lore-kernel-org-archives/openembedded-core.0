@@ -1,22 +1,38 @@
-Return-Path: <chia.chuan.wu@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DEF875D39
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 28AF175D26
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 10:40:17 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 07 Jul 2015 03:40:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,422,1432623600"; d="scan'208";a="724247865"
-Received: from ssid-ilbpg4.png.intel.com ([10.88.227.68])
-	by orsmga001.jf.intel.com with ESMTP; 07 Jul 2015 03:40:16 -0700
-From: chia.chuan.wu@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jul 2015 18:40:08 +0800
-Message-Id: <1436265608-27383-2-git-send-email-chia.chuan.wu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1436265608-27383-1-git-send-email-chia.chuan.wu@intel.com>
-References: <1436265608-27383-1-git-send-email-chia.chuan.wu@intel.com>
-Subject: [meta-oe][dizzy][PATCH] libxml2: fix python path and add libxml2-python
+	Tue,  7 Jul 2015 10:40:59 +0000 (UTC)
+Received: by qgef3 with SMTP id f3so31941724qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jul 2015 03:41:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:content-type;
+	bh=MDBGfTFwpBKd2GEJqBiC4zjAf2vEYCPzI8ywjovtfoQ=;
+	b=CkY3AyKsbKTvF/eq3oVhFA2dGi9prTN7d0w5avke4YHRyjQ5xEooTdl2j5vITIomHi
+	JikggS+THvVorVGKPCTzaAf1KxjycTrUB8ixNKGRnK4ewWfknnU/d9mKdfvkJq6tlz8B
+	VgadlSrSvYA8kytVXvTZgwLYFe02GAUR66oI9KqgcmRoLvwGbOPlgicSAytz1ycj+jeP
+	vzjqjnBVKutyumAY/Iw+zMIwPtUPALRCjwS/PWdBHi2PzyPg/f2AE1lDf6CpWsovgGZq
+	XFXVwtrvRabLhV1jBUaezdBCYD5krL+ex+fTRFyNMOik9W6sN3XgkD1nuM6QG/ybcUOI
+	B6SQ==
+X-Gm-Message-State: ALoCoQk90SjzaFP5hAvdalttx9bgfH6lWp5lVWeUht4bSYCLB91sondWc3Qh69mJKyVL3a7N/gVL
+X-Received: by 10.140.235.19 with SMTP id g19mr5903985qhc.52.1436265660010;
+	Tue, 07 Jul 2015 03:41:00 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Tue, 7 Jul 2015 03:40:40 -0700 (PDT)
+In-Reply-To: <20150707053411.GA17548@ad.chargestorm.se>
+References: <cover.1435497302.git.akuster808@gmail.com>
+	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
+	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
+	<55956F2C.2040301@gmail.com> <20150707053411.GA17548@ad.chargestorm.se>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 Jul 2015 11:40:40 +0100
+Message-ID: <CAJTo0Lb87w=NO5o-0_vcz29UO0JrVTahEg5c1VhQnVDNCma2wQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,82 +45,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 10:40:17 -0000
+X-List-Received-Date: Tue, 07 Jul 2015 10:41:01 -0000
+Content-Type: multipart/alternative; boundary=001a11376dac77eb7a051a46a82a
 
-From: Robert Yang <liezhi.yang@windriver.com>
+--001a11376dac77eb7a051a46a82a
+Content-Type: text/plain; charset=UTF-8
 
-We have libxml2-python for native and nativesdk, but don't have it for
-target, and can't find the reason from the git log, libxml2-python is
-widely used, after looked into it's configure.in, we can add it
-by PACKAGECONFIG.
+On 7 July 2015 at 06:34, Anders Darander <anders@chargestorm.se> wrote:
+>
+> So could you double check the 3.1.1 release, and verify whether it only
+> consists of LGPLv3 | GPLv2+ licensed files, or if there actually are any
+> files having the GPLv3(+) restriction?
 
-The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
-acted as work becase it's conigure can check automatically, python is in
-${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
-${PYTHON}.
+The nettle manual says quite clearly:
 
-Add python to PACKAGECONFIG, since createrepo rdepends on
-libxml2-python, otherwise the target createrepo can't work.
+"Nettle is dual licenced under the GNU General Public License version 2
+or later, and the GNU Lesser General Public License version 3 or later"
+<https://git.lysator.liu.se/nettle/nettle/blob/master/nettle.texinfo#L147>
+(https://git.lysator.liu.se/nettle/nettle/blob/master/nettle.texinfo#L147)
 
-(From OE-Core rev: ed72e123724599e70eb4d283f06fca3e56a8b50a)
+An updated recipe that puts the "or" operator in the LICENSE field will
+solve all the problems.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 212d9d4245cef2343f21d65fa1ee7cfd537432a3)
+Ross
 
-Signed-off-by: WU CHIA CHUAN <chia.chuan.wu@intel.com>
----
- meta/recipes-core/libxml/libxml2.inc |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+--001a11376dac77eb7a051a46a82a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index c729c19..6f01128 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
-                     file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
-                     file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
- 
--DEPENDS_class-nativesdk = "nativesdk-python"
--DEPENDS_class-native = "python-native"
- DEPENDS =+ "zlib"
- 
- SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-@@ -30,6 +28,8 @@ inherit autotools pkgconfig binconfig-disabled pythonnative ptest
- 
- RDEPENDS_${PN}-ptest += "python-core"
- 
-+RDEPENDS_${PN}-python += "python-core"
-+
- RDEPENDS_${PN}-ptest_append_libc-glibc += "glibc-gconv-ebcdic-us glibc-gconv-ibm1141"
- 
- # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
-@@ -37,16 +37,16 @@ do_configure_prepend () {
- 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
- }
- 
--do_configure_prepend_class-nativesdk () {
--	# Ensure we get the correct site-packages path
--	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
--}
-+export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
-+
-+PACKAGECONFIG ??= "python"
- 
-+PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python"
- # WARNING: zlib is require for RPM use
--EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
--EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
--EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
--EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
-+EXTRA_OECONF_class-native = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
- 
- # required for pythong binding
- export HOST_SYS
--- 
-1.7.9.5
+<div dir=3D"ltr"><br>On 7 July 2015 at 06:34, Anders Darander &lt;<a href=
+=3D"mailto:anders@chargestorm.se">anders@chargestorm.se</a>&gt; wrote:<br>&=
+gt;<br>&gt; So could you double check the 3.1.1 release, and verify whether=
+ it only<br>&gt; consists of LGPLv3 | GPLv2+ licensed files, or if there ac=
+tually are any<br>&gt; files having the GPLv3(+) restriction?<br><br>The ne=
+ttle manual says quite clearly:<br><br>&quot;Nettle is dual licenced under =
+the GNU General Public License version 2<br>or later, and the GNU Lesser Ge=
+neral Public License version 3 or later&quot;<div><a href=3D"https://git.ly=
+sator.liu.se/nettle/nettle/blob/master/nettle.texinfo#L147"></a><br></div><=
+div>(<a href=3D"https://git.lysator.liu.se/nettle/nettle/blob/master/nettle=
+.texinfo#L147">https://git.lysator.liu.se/nettle/nettle/blob/master/nettle.=
+texinfo#L147</a>)</div><div><br></div><div>An updated recipe that puts the =
+&quot;or&quot; operator in the LICENSE field will solve all the problems.</=
+div><div><br></div><div>Ross</div></div>
 
-
+--001a11376dac77eb7a051a46a82a--
