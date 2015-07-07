@@ -1,26 +1,46 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EF4E7391D
+Return-Path: <olof.johansson@axis.com>
+X-Greylist: delayed 377 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 07 Jul 2015 07:24:29 UTC
+Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
+	by mail.openembedded.org (Postfix) with ESMTP id BA3B16AB9F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 07:17:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t677HMS3006367
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Jul 2015 00:17:22 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 7 Jul 2015 00:17:22 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Jul 2015 00:17:20 -0700
-Message-ID: <b43e9f344635ef03616702689d946a769132e171.1436253346.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1436253346.git.liezhi.yang@windriver.com>
-References: <cover.1436253346.git.liezhi.yang@windriver.com>
+	Tue,  7 Jul 2015 07:24:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bes.se.axis.com (Postfix) with ESMTP id 9709F2E446;
+	Tue,  7 Jul 2015 09:18:11 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id Qoe2GkOKYfLL; Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bes.se.axis.com (Postfix) with ESMTP id 5E0A22E44E;
+	Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 465ADFF3;
+	Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 388F9B8B;
+	Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by seth.se.axis.com (Postfix) with ESMTP id 368C13E049;
+	Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
+	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0;
+	Tue, 7 Jul 2015 09:18:08 +0200
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id E33609C68B; 
+	Tue,  7 Jul 2015 09:18:08 +0200 (CEST)
+From: Olof Johansson <olof.johansson@axis.com>
+To: "wenzong.fan@windriver.com" <wenzong.fan@windriver.com>
+In-Reply-To: <1436248608-29008-1-git-send-email-wenzong.fan@windriver.com>
+References: <1436248608-29008-1-git-send-email-wenzong.fan@windriver.com>
+Date: Tue, 7 Jul 2015 09:18:08 +0200
+Message-ID: <1436253280-sup-824@axis.com>
+User-Agent: Sup/0.20.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] toolchain-scripts.bbclass: use MLPREFIX to instead of MULTILIB_VARIANTS
+Cc: "openembedded-core@"
+	<lists.openembedded.orgopenembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash: define NON_INTERACTIVE_LOGIN_SHELLS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,66 +53,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 07:17:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Jul 2015 07:24:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Fixed when enable multilib:
-require conf/multilib.conf
-MULTILIBS = "multilib:lib32"
-DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+Excerpts from wenzong.fan@windriver.com's message of 2015-07-07 07:56:48 +0200:
+> From: Li Wang <li.wang@windriver.com>
+> 
+> Allow login shells to read the startup files, even if they are not
+> interactive.
+> 
+> The patch comes from:
+> * bash-3.2-30.fc10.src.rpm - bash-2.03-profile.patch
 
-$ bitbake core-image-minimal
+How is this different from
 
-No lib32 package should be built since we don't build
-lib32-core-image-minimal, but a lot them are built:
-lib32-opkg-utils
-lib32-cryptodev-linux
-lib32-sqlite3
-lib32-libtool-cross
-lib32-ncurses
-lib32-db
-lib32-diffutils
-lib32-zlib
-lib32-gcc-cross-i686
-lib32-gcc-cross-initial-i686
-lib32-flex
-lib32-libgcc-initial
-lib32-libffi
-lib32-linux-libc-headers
-lib32-expat
-lib32-openssl
-lib32-glibc
-lib32-binutils-cross-i686
-lib32-gcc-runtime
+commit 3985cef24de2da3b6895e67f4d577d4806c032b0
+Author: Chen Qi <Qi.Chen@windriver.com>
+Date:   Tue Apr 21 17:30:47 2015 +0800
 
-This is because MULTILIB_VARIANTS is always avaliable when multlib is
-enabled, use MLPREFIX to fix the problem so that lib32/lib64 packages will
-only be built when build lib32/lib64-core-image-minimal.
+    bash: explicitly define NON_INTERACTIVE_LOGIN_SHELLS in CFLAGS
 
-[YOCTO #7961]
+    If NON_INTERACTIVE_LOGIN_SHELLS is defined, all login shells read the
+    startup files, even if they are not interactive.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/toolchain-scripts.bbclass |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+    This is the behaviour of other major distros like Ubuntu and Fedora.
+    We also need to set it so that when executing `su -l xxx -c env' command,
+    /etc/profile is parsed.
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 9378918..d05a5a3 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -144,8 +144,9 @@ python __anonymous () {
-     deps = ""
-     for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
-         deps += " %s:do_populate_sysroot" % dep
--        for variant in (d.getVar('MULTILIB_VARIANTS', True) or "").split():
--            clsextend = oe.classextend.ClassExtender(variant, d)
-+        mlprefix = d.getVar('MLPREFIX', True)
-+        if mlprefix:
-+            clsextend = oe.classextend.ClassExtender(mlprefix[:-1], d)
-             newdep = clsextend.extend_name(dep)
-             deps += " %s:do_populate_sysroot" % newdep
-     d.appendVarFlag('do_configure', 'depends', deps)
+    [YOCTO #5359]
+    [YOCTO #7137]
+
+?
+
 -- 
-1.7.9.5
-
+olof johansson
 
