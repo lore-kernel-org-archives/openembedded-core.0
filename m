@@ -1,24 +1,24 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BB81175D25
+Return-Path: <Awais_Belal@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E13D75D25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 07:43:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t677hcrC006567
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Jul 2015 00:43:38 -0700 (PDT)
-Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 7 Jul 2015 00:43:38 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
+	Tue,  7 Jul 2015 07:43:44 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-01.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ZCNXc-0006yR-Cm from Awais_Belal@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Tue, 07 Jul 2015 00:43:44 -0700
+Received: from awais-Precision-M4700.world.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
+	Server id 14.3.224.2; Tue, 7 Jul 2015 08:43:42 +0100
+From: Awais Belal <awais_belal@mentor.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Jul 2015 15:43:58 +0800
-Message-ID: <1436255038-22106-1-git-send-email-zhixiong.chi@windriver.com>
+Date: Tue, 7 Jul 2015 12:43:37 +0500
+Message-ID: <1436255017-950-1-git-send-email-awais_belal@mentor.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] db: add debug_lock option to show diagnostic info
+Subject: [PATCH] initrdscripts: handle mmc device as installer medium
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,182 +31,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 07:43:38 -0000
+X-List-Received-Date: Tue, 07 Jul 2015 07:43:45 -0000
 Content-Type: text/plain
 
-Add debug_lock option to show lock diagnostic information instead of
-outputing directly.
-We can enable it with using "./configure ... --enable-debug_lock".
+Platforms which have the capability of using the MMC as an
+installer medium will present the same MMC device as an
+installation candidate. This happens because the MMC
+devices appear as mmcblk<X> and the current script strips
+up the <X> which is needed to identify an MMC device
+uniqely.
+This patch now updates the way device identifier stripping
+is done and handles the exclusion of installer device from
+installation candidates more generically.
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Signed-off-by: Awais Belal <awais_belal@mentor.com>
 ---
- .../db/db/db-add-debug-lock-option.patch           | 144 +++++++++++++++++++++
- meta/recipes-support/db/db_6.0.30.bb               |   1 +
- 2 files changed, 145 insertions(+)
- create mode 100644 meta/recipes-support/db/db/db-add-debug-lock-option.patch
+ .../initrdscripts/files/init-install-efi.sh          | 20 ++++++++++++++++----
+ .../recipes-core/initrdscripts/files/init-install.sh | 20 ++++++++++++++++----
+ 2 files changed, 32 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-support/db/db/db-add-debug-lock-option.patch b/meta/recipes-support/db/db/db-add-debug-lock-option.patch
-new file mode 100644
-index 0000000..dff6642
---- /dev/null
-+++ b/meta/recipes-support/db/db/db-add-debug-lock-option.patch
-@@ -0,0 +1,144 @@
-+Index: db-6.0.30/dist/config.hin
-+===================================================================
-+--- db-6.0.30.orig/dist/config.hin	2015-07-07 15:25:16.737736844 +0800
-++++ db-6.0.30/dist/config.hin	2015-07-07 15:31:44.097735878 +0800
-+@@ -21,6 +21,9 @@
-+ /* Define to 1 if you want a version that logs write operations. */
-+ #undef DEBUG_WOP
-+ 
-++/* Define to 1 if you want a version that logs write/read lock operations. */
-++#undef DEBUG_LOCK
-++
-+ /* Define to 1 if you want a version with run-time diagnostic checking. */
-+ #undef DIAGNOSTIC
-+ 
-+Index: db-6.0.30/dist/configure
-+===================================================================
-+--- db-6.0.30.orig/dist/configure	2015-07-07 15:25:16.737736844 +0800
-++++ db-6.0.30/dist/configure	2015-07-07 15:34:45.841735425 +0800
-+@@ -862,6 +862,7 @@
-+ enable_debug
-+ enable_debug_rop
-+ enable_debug_wop
-++enable_debug_lock
-+ enable_diagnostic
-+ enable_dump185
-+ enable_java
-+@@ -1556,6 +1557,7 @@
-+   --enable-debug          Build a debugging version.
-+   --enable-debug_rop      Build a version that logs read operations.
-+   --enable-debug_wop      Build a version that logs write operations.
-++  --enable-debug_lock     Build a version that logs write/read lock operations.
-+   --enable-diagnostic     Build a version with run-time diagnostics.
-+   --enable-dump185        Build db_dump185(1) to dump 1.85 databases.
-+   --enable-java           Build Java API.
-+@@ -3323,6 +3325,18 @@
-+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $db_cv_debug_wop" >&5
-+ $as_echo "$db_cv_debug_wop" >&6; }
-+ 
-++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if --enable-debug_lock option specified" >&5
-++$as_echo_n "checking if --enable-debug_lock option specified... " >&6; }
-++# Check whether --enable-debug_lock was given.
-++if test "${enable_debug_lock+set}" = set; then :
-++  enableval=$enable_debug_lock; db_cv_debug_lock="$enable_debug_lock"
-++else
-++  db_cv_debug_lock="no"
-++fi
-++
-++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $db_cv_debug_lock" >&5
-++$as_echo "$db_cv_debug_lock" >&6; }
-++
-+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking if --enable-diagnostic option specified" >&5
-+ $as_echo_n "checking if --enable-diagnostic option specified... " >&6; }
-+ # Check whether --enable-diagnostic was given.
-+@@ -3835,6 +3849,11 @@
-+ 
-+ 
-+ fi
-++if test "$db_cv_debug_lock" = "yes"; then
-++       $as_echo "#define DEBUG_LOCK 1" >>confdefs.h
-++
-++
-++fi
-+ if test "$db_cv_umrw" = "yes"; then
-+ 	$as_echo "#define UMRW 1" >>confdefs.h
-+ 
-+Index: db-6.0.30/dist/configure.ac
-+===================================================================
-+--- db-6.0.30.orig/dist/configure.ac	2015-07-07 15:25:16.737736844 +0800
-++++ db-6.0.30/dist/configure.ac	2015-07-07 15:35:12.465735359 +0800
-+@@ -134,6 +134,11 @@
-+ 	AH_TEMPLATE(DEBUG_WOP,
-+     [Define to 1 if you want a version that logs write operations.])
-+ fi
-++if test "$db_cv_debug_lock" = "yes"; then
-++       AC_DEFINE(DEBUG_LOCK)
-++       AH_TEMPLATE(DEBUG_LOCK,
-++    [Define to 1 if you want a version that logs write/read lock operations.])
-++fi
-+ if test "$db_cv_umrw" = "yes"; then
-+ 	AC_DEFINE(UMRW)
-+ 	AH_TEMPLATE(UMRW,
-+Index: db-6.0.30/src/common/db_err.c
-+===================================================================
-+--- db-6.0.30.orig/src/common/db_err.c	2015-07-07 15:25:16.737736844 +0800
-++++ db-6.0.30/src/common/db_err.c	2015-07-07 15:36:45.329735127 +0800
-+@@ -648,6 +648,32 @@
-+ }
-+ 
-+ /*
-++ * __db_lock_msg --
-++ *     Standard DB lock stat message routine.
-++ *
-++ * PUBLIC: void __db_lock_msg __P((const ENV *, const char *, ...))
-++ * PUBLIC:    __attribute__ ((__format__ (__printf__, 2, 3)));
-++ */
-++void
-++#ifdef STDC_HEADERS
-++__db_lock_msg(const ENV *env, const char *fmt, ...)
-++#else
-++__db_lock_msg(env, fmt, va_alist)
-++       const ENV *env;
-++       const char *fmt;
-++       va_dcl
-++#endif
-++{
-++       DB_ENV *dbenv;
-++
-++       dbenv = env == NULL ? NULL : env->dbenv;
-++#if defined(DEBUG_LOCK)
-++       DB_REAL_MSG(dbenv, fmt);
-++#endif
-++}
-++
-++
-++/*
-+  * __db_repmsg --
-+  *	Replication system message routine.
-+  *
-+Index: db-6.0.30/src/lock/lock_failchk.c
-+===================================================================
-+--- db-6.0.30.orig/src/lock/lock_failchk.c	2015-07-07 15:25:16.737736844 +0800
-++++ db-6.0.30/src/lock/lock_failchk.c	2015-07-07 15:37:03.169735082 +0800
-+@@ -80,7 +80,7 @@
-+ 			 * Discard the locker and its read locks.
-+ 			 */
-+ 			if (!SH_LIST_EMPTY(&lip->heldby)) {
-+-				__db_msg(env, DB_STR_A("2053",
-++				__db_lock_msg(env, DB_STR_A("2053",
-+ 				    "Freeing read locks for locker %#lx: %s",
-+ 				    "%#lx %s"), (u_long)lip->id,
-+ 				    dbenv->thread_id_string(
-+Index: db-6.0.30/src/mutex/mut_failchk.c
-+===================================================================
-+--- db-6.0.30.orig/src/mutex/mut_failchk.c	2015-07-07 15:25:16.737736844 +0800
-++++ db-6.0.30/src/mutex/mut_failchk.c	2015-07-07 15:37:30.897735013 +0800
-+@@ -60,7 +60,7 @@
-+ 		    dbenv, mutexp->pid, unused, DB_MUTEX_PROCESS_ONLY))
-+ 			continue;
-+ 
-+-		__db_msg(env, DB_STR_A("2017",
-++		__db_lock_msg(env, DB_STR_A("2017",
-+ 		    "Freeing mutex %lu for process: %s", "%lu %s"), (u_long)i,
-+ 		    dbenv->thread_id_string(dbenv, mutexp->pid, unused, buf));
-+ 
-diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
-index 9eae5c7..c1f315c 100644
---- a/meta/recipes-support/db/db_6.0.30.bb
-+++ b/meta/recipes-support/db/db_6.0.30.bb
-@@ -19,6 +19,7 @@ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
- SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
-             file://fix-parallel-build.patch \
-             file://Makefile-let-libso_target-depend-on-bt_rec.patch \
-+            file://db-add-debug-lock-option.patch \
-            "
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index 14939ac..f339b30 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -18,7 +18,14 @@ swap_ratio=5
+ hdnamelist=""
+ live_dev_name=`cat /proc/mounts | grep ${1%/} | awk '{print $1}'`
+ live_dev_name=${live_dev_name#\/dev/}
+-live_dev_name=${live_dev_name%%[0-9]*}
++# Only strip the digit identifier if the device is not an mmc
++case $live_dev_name in
++    mmcblk*)
++    ;;
++    *)
++        live_dev_name=${live_dev_name%%[0-9]*}
++    ;;
++esac
  
- SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
+ echo "Searching for hard drives ..."
+ 
+@@ -36,9 +43,14 @@ for device in `ls /sys/block/`; do
+         *)
+             # skip the device LiveOS is on
+             # Add valid hard drive name to the list
+-            if [ $device != $live_dev_name -a -e /dev/$device ]; then
+-                hdnamelist="$hdnamelist $device"
+-            fi
++            case $device in
++                $live_dev_name*)
++                # skip the device we are running from
++                ;;
++                *)
++                    hdnamelist="$hdnamelist $device"
++                ;;
++            esac
+             ;;
+     esac
+ done
+diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/recipes-core/initrdscripts/files/init-install.sh
+index 7fccdde..f9e9768 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install.sh
+@@ -17,7 +17,14 @@ swap_ratio=5
+ hdnamelist=""
+ live_dev_name=`cat /proc/mounts | grep ${1%/} | awk '{print $1}'`
+ live_dev_name=${live_dev_name#\/dev/}
+-live_dev_name=${live_dev_name%%[0-9]*}
++# Only strip the digit identifier if the device is not an mmc
++case $live_dev_name in
++    mmcblk*)
++    ;;
++    *)
++        live_dev_name=${live_dev_name%%[0-9]*}
++    ;;
++esac
+ 
+ echo "Searching for hard drives ..."
+ 
+@@ -35,9 +42,14 @@ for device in `ls /sys/block/`; do
+         *)
+             # skip the device LiveOS is on
+             # Add valid hard drive name to the list
+-            if [ $device != $live_dev_name -a -e /dev/$device ]; then
+-                hdnamelist="$hdnamelist $device"
+-            fi
++            case $device in
++                $live_dev_name*)
++                # skip the device we are running from
++                ;;
++                *)
++                    hdnamelist="$hdnamelist $device"
++                ;;
++            esac
+             ;;
+     esac
+ done
 -- 
 1.9.1
 
