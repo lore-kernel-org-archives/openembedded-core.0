@@ -1,41 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by mail.openembedded.org (Postfix) with ESMTP id C90A273779
+Return-Path: <ashcharles@gmail.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7244173905
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 21:03:53 +0000 (UTC)
-Received: by oihr66 with SMTP id r66so95509089oih.2
+	Tue,  7 Jul 2015 21:22:55 +0000 (UTC)
+Received: by pabvl15 with SMTP id vl15so119165923pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Jul 2015 14:03:53 -0700 (PDT)
+	Tue, 07 Jul 2015 14:22:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=0zLI1YaXbcbxa9qPa14bHm9if3N/6450/J3hSlUw3FI=;
-	b=cHWQ0QQLW7XKntT0kF1xZ9knRHJLOO0983gUrKwZDwh4fAYL8PdLS6BJyk6KwtbqIe
-	AukFNsf4xrqVKbz44Mxm9jt/G+neX4sc1mpKKdu/xw2s0W3LRiZdkEqtPcq4In2vEOc+
-	B7drGiK9URY+S6I3TV5rsZbAOcBeKGFrHo4trRJHLiipu70Y+kSMmbb/qJer3V4YLR60
-	S1aM8vitvBJam+ZhxkLMg9SwUYKmTyZF6iiqK17E27LxittM/BC4SByOp/R9QTA70zGK
-	nw9f+PY2rr0DBARVjRT6cIXHpXkVgYA99PlRihyRZz/fW/q5+xZfTbLgeD7/dTtxbsAo
-	L5Pg==
-MIME-Version: 1.0
-X-Received: by 10.182.165.71 with SMTP id yw7mr6159525obb.16.1436303033369;
-	Tue, 07 Jul 2015 14:03:53 -0700 (PDT)
-Received: by 10.202.64.130 with HTTP; Tue, 7 Jul 2015 14:03:53 -0700 (PDT)
-In-Reply-To: <CAJTo0LYLzjMAWYJQH3g0sGzZgdPtPXjthJCAgVuh=ux1mgm5Kw@mail.gmail.com>
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
-	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
-	<55956F2C.2040301@gmail.com>
-	<20150707053411.GA17548@ad.chargestorm.se>
-	<CAJTo0Lb87w=NO5o-0_vcz29UO0JrVTahEg5c1VhQnVDNCma2wQ@mail.gmail.com>
-	<559C320F.4020707@gmail.com>
-	<CAJTo0LYLzjMAWYJQH3g0sGzZgdPtPXjthJCAgVuh=ux1mgm5Kw@mail.gmail.com>
-Date: Tue, 7 Jul 2015 14:03:53 -0700
-Message-ID: <CAJ86T=Vb889E6fcJJyN93MRwUfbShLrSa1S-79sQyoSHChYnYg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+	h=from:to:subject:date:message-id;
+	bh=REcroGm5d11wgQLvJ7Nmul4VkAxixLxgsR89gaHgCuQ=;
+	b=Hn6HMYuACYh4A40s9Nie7H7AWIxs5Yw0pX7Z8KRYZ/LXBSaKF+7U069vQBM18WpRdh
+	IpuX96mMudGIys1g2PsTHSAIV6tu0ys+r2eaV1bCNqQ64NCdpo0Nc+bSIyDS9BRKKnJF
+	HMdTbMOZguSWZvYvZ6HBvyZEbxGcicU6uR8tPC0WNHPhj6rWvR18M0/KlYzk4t5htqQJ
+	RItoLCRL5Oyw386G43tIv1HzEmta7e22y5Tn99eCaZn6lXGW9KtaRyw7C/TWqgA6CqIi
+	Dy2KTPIiwrP2ywNScG5WyzcrXnoWPeIgD9mDaOK+NluNUmZad+F/NsvZA+hkh04SS564
+	DQaA==
+X-Received: by 10.68.243.9 with SMTP id wu9mr12950532pbc.28.1436304176011;
+	Tue, 07 Jul 2015 14:22:56 -0700 (PDT)
+Received: from gumstux.mystix.com (s206-116-3-180.bc.hsia.telus.net.
+	[206.116.3.180])
+	by smtp.gmail.com with ESMTPSA id pq3sm67605pbb.24.2015.07.07.14.22.55
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 07 Jul 2015 14:22:55 -0700 (PDT)
+From: Ash Charles <ashcharles@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 Jul 2015 14:22:54 -0700
+Message-Id: <1436304174-24460-1-git-send-email-ashcharles@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] python-io: Add runtime dependency on contextlib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,39 +42,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 21:04:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 07 Jul 2015 21:23:02 -0000
 
-On Tue, Jul 7, 2015 at 1:30 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> On 7 July 2015 at 21:09, akuster808 <akuster808@gmail.com> wrote:
->>
->> which recipe? 2.7.1 / 3.1 or both?
->>
->> - armin
->> ( sucks at this licensing stuff)
->
->
-> So: 2.7.1 is "LGPL" (v2).
->
-> 3.1.1 is GPLv2+ or LGPLv3+.
->
-> An "interesting" choice to say the least. Because the v2 bit is not L, I'm
-> wondering if we will need to keep both versions.  But a 3.1.1 recipe with
-> GPLv2+ *or* LGPLv3+ would be a good start.
+The python-io package includes ssl.py module which imports the
+contextlib library.
 
-I'd vote YES to keeping the LGPLv2 version available.
+This applied to Python 2.7.9 but not 3.3.
 
-GPL libraries are normally off limits for closed source apps, so the
-new licensing options would be a problem for anyone with a proprietary
-application using nettle in a distro which can't use [L]GPLv3. (I'm in
-that category...).
+Signed-off-by: Ash Charles <ashcharles@gmail.com>
+---
+ meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
+ scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
+index 9ba9c7f..dd8d825 100644
+--- a/meta/recipes-devtools/python/python-2.7-manifest.inc
++++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
+@@ -130,7 +130,7 @@ RDEPENDS_${PN}-importlib="${PN}-core"
+ FILES_${PN}-importlib="${libdir}/python2.7/importlib "
+ 
+ SUMMARY_${PN}-io="Python low-level I/O"
+-RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient"
++RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient ${PN}-contextlib"
+ FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
+ 
+ SUMMARY_${PN}-json="Python JSON support"
+diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
+index a368c8a..936522e 100755
+--- a/scripts/contrib/python/generate-manifest-2.7.py
++++ b/scripts/contrib/python/generate-manifest-2.7.py
+@@ -275,7 +275,7 @@ if __name__ == "__main__":
+     m.addPackage( "${PN}-image", "Python graphical image handling", "${PN}-core",
+     "colorsys.* imghdr.* lib-dynload/imageop.so lib-dynload/rgbimg.so" )
+ 
+-    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient",
++    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient ${PN}-contextlib",
+     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
+     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
+ 
+-- 
+2.1.4
+
 
