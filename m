@@ -1,24 +1,40 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 321F175D26
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id ABD9475C49
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 08:19:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t678JRDR018478
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  7 Jul 2015 08:29:29 +0000 (UTC)
+Received: by qkhu186 with SMTP id u186so134866562qkh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Jul 2015 01:19:27 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 7 Jul 2015 01:19:27 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Jul 2015 16:14:00 +0800
-Message-ID: <1436256840-1930-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 07 Jul 2015 01:29:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=VwtKRa+DUrKNvhj38qJRv5VPs1dfnnWMjegcLEIYJ8M=;
+	b=U6OTCdvMrsptzY+prkqedR+7qlqiZuM2CkhfiSSXt4zH0XdLP2fcNWMLq4PNMb6lxb
+	hegFUG2Gq3iEPul7y85/emYokWmW2nrunbiZXaAXReMvRUBsbcSWtbeEHufzdotKP6ay
+	q+jPMG9kDzVtz8Zfb3Nw+5kzJe/PnHlqjuvcANPYUq499l9Y7TGM+F3cwFVioEYlxDXI
+	fhATIrq2jozRv75mprw7EaBQwMrHV0ruQxB4eTAXoGqyDF0ahsRaHLYJuqYDBzrH8XfP
+	sCC7g7OdOC8lWPkVsYqt4e1p3qMYAxk7+GyrM5eISSQRA3vf3xbgdDj67pyz4yWcFzxi
+	2CeA==
+X-Gm-Message-State: ALoCoQkYMMbZjh2+zHsu7I/Z5b/D95Bqi6Rzgm7aX7HaQE7Jn97mt7pwtyrB6Kksjuum6Un5wsrl
+X-Received: by 10.55.53.193 with SMTP id c184mr4766986qka.62.1436257769545;
+	Tue, 07 Jul 2015 01:29:29 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] grub: Add support for net_default_mac and net_default_ip variables
+Received: by 10.140.102.231 with HTTP; Tue, 7 Jul 2015 01:29:10 -0700 (PDT)
+In-Reply-To: <87vbdwy88m.fsf@weregild.amer.corp.natinst.com>
+References: <alpine.LFD.2.11.1502190508290.29947@localhost>
+	<CAF3SDA6sUY=4cg-pihtftzTNDREm5cKMS7MqQp4DJ9M81ez5UQ@mail.gmail.com>
+	<87vbdwy88m.fsf@weregild.amer.corp.natinst.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 Jul 2015 09:29:10 +0100
+Message-ID: <CAJTo0Lb1Nth4VGocNqTDWFnrzO4_FGFbeg6Akk7ZmSvFLPP6Ew@mail.gmail.com>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	"Daniel." <danielhilst@gmail.com>,
+	Yocto discussion list <yocto@yoctoproject.org>
+Subject: Re: [PATCH] cross-localedef-native_2.20.bb: fix for gcc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,171 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 08:19:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Jul 2015 08:29:29 -0000
+Content-Type: multipart/alternative; boundary=001a11476f1428fdbc051a44d28c
 
-From: Lijun Guo <Lijun.Guo@windriver.com>
+--001a11476f1428fdbc051a44d28c
+Content-Type: text/plain; charset=UTF-8
 
-Using "-c" parameter, grub-mkimage can embed a configuration file into
-the grub image. However grub 2.0 doesn't support net_default_mac and
-net_default_ip variables in the configuration file.
+On 7 July 2015 at 03:54, Richard Tollerton <rich.tollerton@ni.com> wrote:
 
-Backport upstream commit to fix the issue:
-* commit id: 2aa072d76a9c7df837a6a81bf80958094a522740
+> The build of cross-localedef-native is observed to fail under gcc5 hosts
+> with multiple definition errors, e.g.:
+>
 
-Signed-off-by: Lijun Guo <Lijun.Guo@windriver.com>
----
- ...-to-determine-MAC-IP-of-default-interface.patch | 127 +++++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc                    |   1 +
- 2 files changed, 128 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/New-variables-to-determine-MAC-IP-of-default-interface.patch
+Is this patch intended for fido?  Master doesn't have 2.20 anymore (2.21)
+and I believe that works with gcc5 hosts.
 
-diff --git a/meta/recipes-bsp/grub/files/New-variables-to-determine-MAC-IP-of-default-interface.patch b/meta/recipes-bsp/grub/files/New-variables-to-determine-MAC-IP-of-default-interface.patch
-new file mode 100644
-index 0000000..b1b028e
---- /dev/null
-+++ b/meta/recipes-bsp/grub/files/New-variables-to-determine-MAC-IP-of-default-interface.patch
-@@ -0,0 +1,127 @@
-+From 2aa072d76a9c7df837a6a81bf80958094a522740 Mon Sep 17 00:00:00 2001
-+From: Vladimir 'phcoder' Serbinenko <phcoder@gmail.com>
-+Date: Tue, 7 May 2013 12:05:36 +0200
-+Subject: [PATCH] New variables 'net_default_*' to determine MAC/IP of
-+ default interface.
-+
-+commit 2aa072d76a9c7df837a6a81bf80958094a522740 upstream
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Lijun Guo <lijun.guo@windriver.com>
-+
-+---
-+ grub-core/net/bootp.c |  3 +++
-+ grub-core/net/net.c   | 69 ++++++++++++++++++++++++++++++++++++++++++++++++++-
-+ 2 files changed, 71 insertions(+), 1 deletion(-)
-+
-+diff --git a/grub-core/net/bootp.c b/grub-core/net/bootp.c
-+index 33f860a..c8ef4d6 100644
-+--- a/grub-core/net/bootp.c
-++++ b/grub-core/net/bootp.c
-+@@ -211,6 +211,9 @@ grub_net_configure_by_dhcp_ack (const char *name,
-+       grub_print_error ();
-+     }
-+ 
-++  if (is_def)
-++    grub_env_set ("net_default_interface", name);
-++
-+   if (device && !*device && bp->server_ip)
-+     {
-+       *device = grub_xasprintf ("tftp,%d.%d.%d.%d",
-+diff --git a/grub-core/net/net.c b/grub-core/net/net.c
-+index aebbe4b..8ea6906 100644
-+--- a/grub-core/net/net.c
-++++ b/grub-core/net/net.c
-+@@ -1,6 +1,6 @@
-+ /*
-+  *  GRUB  --  GRand Unified Bootloader
-+- *  Copyright (C) 2010,2011  Free Software Foundation, Inc.
-++ *  Copyright (C) 2010,2011,2012,2013  Free Software Foundation, Inc.
-+  *
-+  *  GRUB is free software: you can redistribute it and/or modify
-+  *  it under the terms of the GNU General Public License as published by
-+@@ -813,6 +813,69 @@ defserver_get_env (struct grub_env_var *var __attribute__ ((unused)),
-+   return grub_net_default_server ? : "";
-+ }
-+ 
-++static const char *
-++defip_get_env (struct grub_env_var *var __attribute__ ((unused)),
-++	       const char *val __attribute__ ((unused)))
-++{
-++  const char *intf = grub_env_get ("net_default_interface");
-++  const char *ret = NULL;
-++  if (intf)
-++    {
-++      char *buf = grub_xasprintf ("net_%s_ip", intf);
-++      if (buf)
-++	ret = grub_env_get (buf);
-++      grub_free (buf);
-++    }
-++  return ret;
-++}
-++
-++static char *
-++defip_set_env (struct grub_env_var *var __attribute__ ((unused)),
-++	       const char *val)
-++{
-++  const char *intf = grub_env_get ("net_default_interface");
-++  if (intf)
-++    {
-++      char *buf = grub_xasprintf ("net_%s_ip", intf);
-++      if (buf)
-++	grub_env_set (buf, val);
-++      grub_free (buf);
-++    }
-++  return NULL;
-++}
-++
-++
-++static const char *
-++defmac_get_env (struct grub_env_var *var __attribute__ ((unused)),
-++	       const char *val __attribute__ ((unused)))
-++{
-++  const char *intf = grub_env_get ("net_default_interface");
-++  const char *ret = NULL;
-++  if (intf)
-++    {
-++      char *buf = grub_xasprintf ("net_%s_mac", intf);
-++      if (buf)
-++	ret = grub_env_get (buf);
-++      grub_free (buf);
-++    }
-++  return ret;
-++}
-++
-++static char *
-++defmac_set_env (struct grub_env_var *var __attribute__ ((unused)),
-++	       const char *val)
-++{
-++  const char *intf = grub_env_get ("net_default_interface");
-++  if (intf)
-++    {
-++      char *buf = grub_xasprintf ("net_%s_mac", intf);
-++      if (buf)
-++	grub_env_set (buf, val);
-++      grub_free (buf);
-++    }
-++  return NULL;
-++}
-++
-+ 
-+ static void
-+ grub_net_network_level_interface_register (struct grub_net_network_level_interface *inter)
-+@@ -1560,6 +1623,10 @@ GRUB_MOD_INIT(net)
-+ 			       defserver_set_env);
-+   grub_register_variable_hook ("pxe_default_server", defserver_get_env,
-+ 			       defserver_set_env);
-++  grub_register_variable_hook ("net_default_ip", defip_get_env,
-++			       defip_set_env);
-++  grub_register_variable_hook ("net_default_mac", defmac_get_env,
-++			       defmac_set_env);
-+ 
-+   cmd_addaddr = grub_register_command ("net_add_addr", grub_cmd_addaddr,
-+ 					/* TRANSLATORS: HWADDRESS stands for
-+-- 
-+1.8.5.2.233.g932f7e4
-+
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 312771b..07be851 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -27,6 +27,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch \
-            file://grub2-fix-initrd-size-bug.patch \
-+           file://New-variables-to-determine-MAC-IP-of-default-interface.patch \
-             "
- 
- DEPENDS = "flex-native bison-native xz"
--- 
-1.9.1
+Ross
 
+--001a11476f1428fdbc051a44d28c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 July 2015 at 03:54, Richard Tollerton <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2es" class=
+=3D"a3s" style=3D"overflow:hidden">The build of cross-localedef-native is o=
+bserved to fail under gcc5 hosts<br>
+with multiple definition errors, e.g.:<br></div></blockquote></div><br>Is t=
+his patch intended for fido?=C2=A0 Master doesn&#39;t have 2.20 anymore (2.=
+21) and I believe that works with gcc5 hosts.</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11476f1428fdbc051a44d28c--
