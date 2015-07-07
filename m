@@ -1,27 +1,39 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A9B9A7391D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id AA78B7391D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 08:18:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t678IquM006871
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  7 Jul 2015 08:19:08 +0000 (UTC)
+Received: by qgii30 with SMTP id i30so80799085qgi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Jul 2015 01:18:53 -0700 (PDT)
-Received: from [128.224.162.227] (128.224.162.227) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 7 Jul 2015 01:18:52 -0700
-Message-ID: <559B8B80.90506@windriver.com>
-Date: Tue, 7 Jul 2015 16:19:12 +0800
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Tue, 07 Jul 2015 01:19:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=j88DDX+RzoUw7WlDvz+o54gFO07vAvMGD5rDV23dzFQ=;
+	b=es2GKXJLM9YQ4fsWF6SYTfDnNtP7ZTDwqKNZKt1GcJwVRNwbUdFKfg98fYb1GDgm4D
+	32j9dGGM/+Q5qvv82dfo9G4rAdnpXw5BxqbJeaBS4QYcZ4xH58b2eKsqkjdgNGrUkS0e
+	4AYj6tALmqxTm7iN6LJmG6aoyRs46qXVUHO+L9m4QyoIJUMUw6JMh+fZAMN7b8BPccFz
+	bgVqZQXi5kZkxTI9Xcm7TJet9MBevKVSVIc6X6N3xuAJvtHr6f80r/p3O/fk7yHQjk3s
+	Ny5pmtcOBKtD8YGBGnQtgmbjV+KUSTuJKvxqq5+SZqbqqgoyMn8/pHr+p1kwcbBczxgz
+	dawA==
+X-Gm-Message-State: ALoCoQkuYRtFX7sZZEGcXE/fxBdWWVbSzdW1/5HFOJAwRxupnxbEsrZHlNtO2At9MKZsgIvo8Gnc
+X-Received: by 10.140.235.19 with SMTP id g19mr5178235qhc.52.1436257148093;
+	Tue, 07 Jul 2015 01:19:08 -0700 (PDT)
 MIME-Version: 1.0
-To: <liezhi.yang@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1436257069-1908-1-git-send-email-zhixiong.chi@windriver.com>
-In-Reply-To: <1436257069-1908-1-git-send-email-zhixiong.chi@windriver.com>
-Subject: Re: [PATCH][V2] db: add debug_lock option to show diagnostic info
+Received: by 10.140.102.231 with HTTP; Tue, 7 Jul 2015 01:18:48 -0700 (PDT)
+In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FDB29591@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1436147494-44348-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<CAJ86T=XJeo31ntBEw16vCPuTyAwYvsij_Aoq=EKgRyhCnYyzOw@mail.gmail.com>
+	<1B56A49860EB2D45ADE3731B15C959FDB29591@G08CNEXMBPEKD01.g08.fujitsu.local>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 Jul 2015 09:18:48 +0100
+Message-ID: <CAJTo0LZx5mPc+2_wmO8WfYs-s5smFuZYyAmYfZS4Bv+BoW7SEA@mail.gmail.com>
+To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: FW: [oe] [meta-oe][PATCH] parted_1.8.6.bb: add parted that not GPLv3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,200 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 08:18:53 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Jul 2015 08:19:10 -0000
+Content-Type: multipart/alternative; boundary=001a11376dac1e631c051a44ad26
 
-Changes:
-1. add upstream-status and sob
-2.modify the error in .bb file
+--001a11376dac1e631c051a44ad26
+Content-Type: text/plain; charset=UTF-8
 
-On 2015年07月07日 16:17, Zhixiong Chi wrote:
-> Add debug_lock option to show lock diagnostic information instead of
-> outputing directly.
-> We can enable it with using "./configure ... --enable-debug_lock".
+On 7 July 2015 at 04:50, Lei, Maohui <leimaohui@cn.fujitsu.com> wrote:
+
+> Can non-GPLv3 parted be added into oe-core? I think not everybody wants to
+> use the GPLv3 version.
 >
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ---
->   .../db/db/db-add-debug-lock-option.patch           | 151 +++++++++++++++++++++
->   meta/recipes-support/db/db_6.0.30.bb               |   1 +
->   2 files changed, 152 insertions(+)
->   create mode 100644 meta/recipes-support/db/db/db-add-debug-lock-option.patch
->
-> diff --git a/meta/recipes-support/db/db/db-add-debug-lock-option.patch b/meta/recipes-support/db/db/db-add-debug-lock-option.patch
-> new file mode 100644
-> index 0000000..72bdb84
-> --- /dev/null
-> +++ b/meta/recipes-support/db/db/db-add-debug-lock-option.patch
-> @@ -0,0 +1,151 @@
-> +Summary: db: add debug_lock option to show diagnostic info
-> +
-> +add debug_lock into configure to show diagnostic info
-> +
-> +Upstream-Status: Submitted
-> +
-> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> +Index: db-6.0.30/dist/config.hin
-> +===================================================================
-> +--- db-6.0.30.orig/dist/config.hin	2015-07-07 15:25:16.737736844 +0800
-> ++++ db-6.0.30/dist/config.hin	2015-07-07 15:31:44.097735878 +0800
-> +@@ -21,6 +21,9 @@
-> + /* Define to 1 if you want a version that logs write operations. */
-> + #undef DEBUG_WOP
-> +
-> ++/* Define to 1 if you want a version that logs write/read lock operations. */
-> ++#undef DEBUG_LOCK
-> ++
-> + /* Define to 1 if you want a version with run-time diagnostic checking. */
-> + #undef DIAGNOSTIC
-> +
-> +Index: db-6.0.30/dist/configure
-> +===================================================================
-> +--- db-6.0.30.orig/dist/configure	2015-07-07 15:25:16.737736844 +0800
-> ++++ db-6.0.30/dist/configure	2015-07-07 15:34:45.841735425 +0800
-> +@@ -862,6 +862,7 @@
-> + enable_debug
-> + enable_debug_rop
-> + enable_debug_wop
-> ++enable_debug_lock
-> + enable_diagnostic
-> + enable_dump185
-> + enable_java
-> +@@ -1556,6 +1557,7 @@
-> +   --enable-debug          Build a debugging version.
-> +   --enable-debug_rop      Build a version that logs read operations.
-> +   --enable-debug_wop      Build a version that logs write operations.
-> ++  --enable-debug_lock     Build a version that logs write/read lock operations.
-> +   --enable-diagnostic     Build a version with run-time diagnostics.
-> +   --enable-dump185        Build db_dump185(1) to dump 1.85 databases.
-> +   --enable-java           Build Java API.
-> +@@ -3323,6 +3325,18 @@
-> + { $as_echo "$as_me:${as_lineno-$LINENO}: result: $db_cv_debug_wop" >&5
-> + $as_echo "$db_cv_debug_wop" >&6; }
-> +
-> ++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if --enable-debug_lock option specified" >&5
-> ++$as_echo_n "checking if --enable-debug_lock option specified... " >&6; }
-> ++# Check whether --enable-debug_lock was given.
-> ++if test "${enable_debug_lock+set}" = set; then :
-> ++  enableval=$enable_debug_lock; db_cv_debug_lock="$enable_debug_lock"
-> ++else
-> ++  db_cv_debug_lock="no"
-> ++fi
-> ++
-> ++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $db_cv_debug_lock" >&5
-> ++$as_echo "$db_cv_debug_lock" >&6; }
-> ++
-> + { $as_echo "$as_me:${as_lineno-$LINENO}: checking if --enable-diagnostic option specified" >&5
-> + $as_echo_n "checking if --enable-diagnostic option specified... " >&6; }
-> + # Check whether --enable-diagnostic was given.
-> +@@ -3835,6 +3849,11 @@
-> +
-> +
-> + fi
-> ++if test "$db_cv_debug_lock" = "yes"; then
-> ++       $as_echo "#define DEBUG_LOCK 1" >>confdefs.h
-> ++
-> ++
-> ++fi
-> + if test "$db_cv_umrw" = "yes"; then
-> + 	$as_echo "#define UMRW 1" >>confdefs.h
-> +
-> +Index: db-6.0.30/dist/configure.ac
-> +===================================================================
-> +--- db-6.0.30.orig/dist/configure.ac	2015-07-07 15:25:16.737736844 +0800
-> ++++ db-6.0.30/dist/configure.ac	2015-07-07 15:35:12.465735359 +0800
-> +@@ -134,6 +134,11 @@
-> + 	AH_TEMPLATE(DEBUG_WOP,
-> +     [Define to 1 if you want a version that logs write operations.])
-> + fi
-> ++if test "$db_cv_debug_lock" = "yes"; then
-> ++       AC_DEFINE(DEBUG_LOCK)
-> ++       AH_TEMPLATE(DEBUG_LOCK,
-> ++    [Define to 1 if you want a version that logs write/read lock operations.])
-> ++fi
-> + if test "$db_cv_umrw" = "yes"; then
-> + 	AC_DEFINE(UMRW)
-> + 	AH_TEMPLATE(UMRW,
-> +Index: db-6.0.30/src/common/db_err.c
-> +===================================================================
-> +--- db-6.0.30.orig/src/common/db_err.c	2015-07-07 15:25:16.737736844 +0800
-> ++++ db-6.0.30/src/common/db_err.c	2015-07-07 15:36:45.329735127 +0800
-> +@@ -648,6 +648,32 @@
-> + }
-> +
-> + /*
-> ++ * __db_lock_msg --
-> ++ *     Standard DB lock stat message routine.
-> ++ *
-> ++ * PUBLIC: void __db_lock_msg __P((const ENV *, const char *, ...))
-> ++ * PUBLIC:    __attribute__ ((__format__ (__printf__, 2, 3)));
-> ++ */
-> ++void
-> ++#ifdef STDC_HEADERS
-> ++__db_lock_msg(const ENV *env, const char *fmt, ...)
-> ++#else
-> ++__db_lock_msg(env, fmt, va_alist)
-> ++       const ENV *env;
-> ++       const char *fmt;
-> ++       va_dcl
-> ++#endif
-> ++{
-> ++       DB_ENV *dbenv;
-> ++
-> ++       dbenv = env == NULL ? NULL : env->dbenv;
-> ++#if defined(DEBUG_LOCK)
-> ++       DB_REAL_MSG(dbenv, fmt);
-> ++#endif
-> ++}
-> ++
-> ++
-> ++/*
-> +  * __db_repmsg --
-> +  *	Replication system message routine.
-> +  *
-> +Index: db-6.0.30/src/lock/lock_failchk.c
-> +===================================================================
-> +--- db-6.0.30.orig/src/lock/lock_failchk.c	2015-07-07 15:25:16.737736844 +0800
-> ++++ db-6.0.30/src/lock/lock_failchk.c	2015-07-07 15:37:03.169735082 +0800
-> +@@ -80,7 +80,7 @@
-> + 			 * Discard the locker and its read locks.
-> + 			 */
-> + 			if (!SH_LIST_EMPTY(&lip->heldby)) {
-> +-				__db_msg(env, DB_STR_A("2053",
-> ++				__db_lock_msg(env, DB_STR_A("2053",
-> + 				    "Freeing read locks for locker %#lx: %s",
-> + 				    "%#lx %s"), (u_long)lip->id,
-> + 				    dbenv->thread_id_string(
-> +Index: db-6.0.30/src/mutex/mut_failchk.c
-> +===================================================================
-> +--- db-6.0.30.orig/src/mutex/mut_failchk.c	2015-07-07 15:25:16.737736844 +0800
-> ++++ db-6.0.30/src/mutex/mut_failchk.c	2015-07-07 15:37:30.897735013 +0800
-> +@@ -60,7 +60,7 @@
-> + 		    dbenv, mutexp->pid, unused, DB_MUTEX_PROCESS_ONLY))
-> + 			continue;
-> +
-> +-		__db_msg(env, DB_STR_A("2017",
-> ++		__db_lock_msg(env, DB_STR_A("2017",
-> + 		    "Freeing mutex %lu for process: %s", "%lu %s"), (u_long)i,
-> + 		    dbenv->thread_id_string(dbenv, mutexp->pid, unused, buf));
-> +
-> diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
-> index 9eae5c7..6e2600c 100644
-> --- a/meta/recipes-support/db/db_6.0.30.bb
-> +++ b/meta/recipes-support/db/db_6.0.30.bb
-> @@ -19,6 +19,7 @@ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
->   SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
->               file://fix-parallel-build.patch \
->               file://Makefile-let-libso_target-depend-on-bt_rec.patch \
-> +            file://db-add-debug-lock-option.patch;patchdir=.. \
->              "
->   
->   SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
 
--- 
----------------------
-Thanks,
-Zhixiong Chi
-Tel: +86-10-8477-7036
+There's a good argument for this, so send a tested patch and it can be
+reviewed.
 
+Ross
 
+--001a11376dac1e631c051a44ad26
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 July 2015 at 04:50, Lei, Maohui <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:leimaohui@cn.fujitsu.com" target=3D"_blank">leimaohui@cn.fujitsu.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":32k" class=
+=3D"a3s" style=3D"overflow:hidden">Can non-GPLv3 parted be added into oe-co=
+re? I think not everybody wants to use the GPLv3 version.<br></div></blockq=
+uote><div><br></div><div>There&#39;s a good argument for this, so send a te=
+sted patch and it can be reviewed.</div><div><br></div><div>Ross=C2=A0</div=
+></div></div></div>
+
+--001a11376dac1e631c051a44ad26--
