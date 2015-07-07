@@ -1,41 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0282A73779
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id F10DF73905
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 20:30:51 +0000 (UTC)
-Received: by qkbp125 with SMTP id p125so148765832qkb.2
+	Tue,  7 Jul 2015 20:37:08 +0000 (UTC)
+Received: by qkeo142 with SMTP id o142so149052491qke.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Jul 2015 13:30:51 -0700 (PDT)
+	Tue, 07 Jul 2015 13:37:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=ZqXN1Xgu9w/Cu4VjE9GAk19/y3Szeu7OpFFxzYQJJAU=;
-	b=cr+Bfbg1nf0Y9/Kdq+u3syPKWAmqVuTKcGKZEAOyMPjrNlKCm0MKzh10ILrlAqnOlY
-	79sLPf0h1Cp1KFDZF/QcNKaPUm6e40AgtJqzTXvwUyEfya4oTw3w/qFGl906fT2rTXaR
-	gfizbyTlkS8eU/slDfjQMwzgVi5imkboFx+iD9SZa9dd3a6Laie3DArnB8APFisxEkLn
-	DHLWbCLn54gtWkBZAUI4/c5mChmiErAh6h666JuBOi7bQNqAtB1a16/gu2DABdOPYSU7
-	ob9+F0kuBVXbikviRJ2vo6ddPTT0mcSMY/18EsWUKA8YYO15DC4178nC5WPlBoJCTB51
-	7iKQ==
-X-Gm-Message-State: ALoCoQnWPQf1HKdAalgRoek/Y/Zh8vayRb5xNsoHqdbpB2s7pWDUkxCRgbTB1o3DK40yoOUE0TeW
-X-Received: by 10.55.15.129 with SMTP id 1mr9949679qkp.29.1436301051703; Tue,
-	07 Jul 2015 13:30:51 -0700 (PDT)
+	bh=Ks+F4Sh/KfW1HS2Upj4GNc2meKRTkYQD8X27Su3VoLs=;
+	b=KairjfGkEUzfvdwaQTtav1T36+fuBXeQJrgwmzDFiFu1nnUj9yG4yRdKIjQbvVijHD
+	Yb1+Z9mNayA9uhZkLffNdBTCtRUg/anm5QtgA+gR5YRGKf/0lcfIVTqIKJku0AiTYCZc
+	xP8v/UJD6M6d5TWlANOgW2xtTLbd+DSWlaPYL92BfOcjHz6dITx8ZfYR0QMe6cQigaU/
+	CtptE/PQpbiLfUAp3+fP4itw0Y76KlRhgOwT4Z8X4YTMNlWpmdXG63iReuv0gVqY1rXr
+	G23ceDfNd/jpZn9fZRqFJPWN3yVw2fih74kSVuDpc9K9sRVu/k9WWhLWyH3lRv2NMDPk
+	4XiA==
+X-Gm-Message-State: ALoCoQlqxzxyD9Mc0nm//sTT22B2TC8gadMs8FE5W9vuNfWgPtSc3xqcD2b5bV4lk8E2bIxKHfBq
+X-Received: by 10.140.196.129 with SMTP id r123mr10710542qha.93.1436301428866; 
+	Tue, 07 Jul 2015 13:37:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 7 Jul 2015 13:30:32 -0700 (PDT)
-In-Reply-To: <559C320F.4020707@gmail.com>
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
-	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
-	<55956F2C.2040301@gmail.com> <20150707053411.GA17548@ad.chargestorm.se>
-	<CAJTo0Lb87w=NO5o-0_vcz29UO0JrVTahEg5c1VhQnVDNCma2wQ@mail.gmail.com>
-	<559C320F.4020707@gmail.com>
+Received: by 10.140.102.231 with HTTP; Tue, 7 Jul 2015 13:36:49 -0700 (PDT)
+In-Reply-To: <CAJTo0LboyrFCD25jeEXzM4+J0BehC8XwJW2a0rOvyXKAqMQhUg@mail.gmail.com>
+References: <1435231444-30705-1-git-send-email-thomas.perrot@tupi.fr>
+	<CAJTo0LZXnV=-PWRhekYvkqgPkjy1pit_zMxGXErUs77eC5NNMg@mail.gmail.com>
+	<CAGXeWgk2Cn-487Vw0UrYy+3Ti0ShtJZgc3P732hq3yJCdhYydw@mail.gmail.com>
+	<CAJTo0LboyrFCD25jeEXzM4+J0BehC8XwJW2a0rOvyXKAqMQhUg@mail.gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 7 Jul 2015 21:30:32 +0100
-Message-ID: <CAJTo0LYLzjMAWYJQH3g0sGzZgdPtPXjthJCAgVuh=ux1mgm5Kw@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
+Date: Tue, 7 Jul 2015 21:36:49 +0100
+Message-ID: <CAJTo0LazGKAzYqTPXhfrj54kVrmMBqvwFVrHp=SxgfknGvMbGA@mail.gmail.com>
+To: Thomas PERROT <thomas.perrot@tupi.fr>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+Subject: Re: [PATCH 1/2] Set S to fix QA warning on systemd-serialgetty.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,51 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 20:30:54 -0000
-Content-Type: multipart/alternative; boundary=001a1146f100fa49e8051a4ee5f0
+X-List-Received-Date: Tue, 07 Jul 2015 20:37:14 -0000
+Content-Type: multipart/alternative; boundary=001a11433952755899051a4efca1
 
---001a1146f100fa49e8051a4ee5f0
+--001a11433952755899051a4efca1
 Content-Type: text/plain; charset=UTF-8
 
-On 7 July 2015 at 21:09, akuster808 <akuster808@gmail.com> wrote:
+On 26 June 2015 at 16:35, Burton, Ross <ross.burton@intel.com> wrote:
+> So a good question is why don't I see that warning?  :)
 
-> which recipe? 2.7.1 / 3.1 or both?
->
-> - armin
-> ( sucks at this licensing stuff)
->
->>
-So: 2.7.1 is "LGPL" (v2).
+So this was bugging me and Richard was also concerned about why neither of
+us saw it, nor the autobuilder.
 
-3.1.1 is GPLv2+ or LGPLv3+.
-
-An "interesting" choice to say the least. Because the v2 bit is not L, I'm
-wondering if we will need to keep both versions.  But a 3.1.1 recipe with
-GPLv2+ *or* LGPLv3+ would be a good start.
+Turns out to be an old default behaviour (#4634) triggered by having
+buildhistory enabled.  Suffice to say this patch is unblocked now and
+should be merged soon now it's understood: it was obviously right but the
+lack of the warning triggering was worrying.
 
 Ross
 
---001a1146f100fa49e8051a4ee5f0
+--001a11433952755899051a4efca1
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra">On 7 July 2015 at 21:09, akuste=
-r808 <span dir=3D"ltr">&lt;<a href=3D"mailto:akuster808@gmail.com" target=
-=3D"_blank">akuster808@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gma=
-il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div id=3D":2og" class=3D"a3s" sty=
-le=3D"overflow:hidden">which recipe? 2.7.1 / 3.1 or both?<br>
-<br>
-- armin<br>
-( sucks at this licensing stuff)<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"></blockquote></div></blockquote></div><br>So=
-: 2.7.1 is &quot;LGPL&quot; (v2).</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">3.1.1 is GPLv2+ or LGPLv3+.</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">An &quot;interesting&quot=
-; choice to say the least. Because the v2 bit is not L, I&#39;m wondering i=
-f we will need to keep both versions.=C2=A0 But a 3.1.1 recipe with GPLv2+ =
-*or* LGPLv3+ would be a good start.</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Ross</div></div>
+<div dir=3D"ltr">On 26 June 2015 at 16:35, Burton, Ross &lt;<a href=3D"mail=
+to:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>&gt; So a=
+ good question is why don&#39;t I see that warning? =C2=A0:)<div><br></div>=
+<div>So this was bugging me and Richard was also concerned about why neithe=
+r of us saw it, nor the autobuilder.</div><div><br></div><div>Turns out to =
+be an old default behaviour (#4634) triggered by having buildhistory enable=
+d.=C2=A0 Suffice to say this patch is unblocked now and should be merged so=
+on now it&#39;s understood: it was obviously right but the lack of the warn=
+ing triggering was worrying.</div><div><br></div><div>Ross</div></div>
 
---001a1146f100fa49e8051a4ee5f0--
+--001a11433952755899051a4efca1--
