@@ -1,27 +1,28 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D014975D07
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F9D2734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 09:43:56 +0000 (UTC)
+	Tue,  7 Jul 2015 09:49:25 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t679huqB007525
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t679nPMw029653
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Jul 2015 02:43:56 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Tue, 7 Jul 2015 02:43:56 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 7 Jul 2015 17:43:02 +0800
-Message-ID: <91f81f2888d54fb4fd0fbd15cb71a5c878fe67b5.1436261380.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1436261380.git.kai.kang@windriver.com>
-References: <cover.1436261380.git.kai.kang@windriver.com>
+	Tue, 7 Jul 2015 02:49:25 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 7 Jul 2015 02:49:25 -0700
+Message-ID: <559BA0A6.20400@windriver.com>
+Date: Tue, 7 Jul 2015 17:49:26 +0800
+From: Kang Kai <Kai.Kang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Subject: [PATCH 1/1] qemu: fix CVE-2015-3209
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1436172370.git.kai.kang@windriver.com>
+	<51025622cf3d8ae07bbf858b4ea9f55cda576fea.1436172370.git.kai.kang@windriver.com>
+In-Reply-To: <51025622cf3d8ae07bbf858b4ea9f55cda576fea.1436172370.git.kai.kang@windriver.com>
+Subject: Re: [PATCH 1/1] initscripts: add /sbin/sushell for systemd service debug-shell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,92 +35,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 09:43:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Jul 2015 09:49:25 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Backport patch to fix CVE-2015-3209.
+On 2015年07月06日 16:47, Kai Kang wrote:
+> Add file /sbin/sushell for systemd service debug-shell which starts with
+> /bin/sushell when SELinux is enabled. Copy and add sushell file from
+> Fedora 22.
+>
+> Add runtime dependency bash as well when systemd is enabled to eliminate
+> QA warning:
+>
+> WARNING: QA Issue: /sbin/sushell_initscripts contained in package initscripts
+> requires /bin/bash, but no providers found in its RDEPENDS [file-rdeps]
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-core/initscripts/initscripts-1.0/sushell |  5 +++++
+>   meta/recipes-core/initscripts/initscripts_1.0.bb      | 10 +++++++++-
+>   2 files changed, 14 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-core/initscripts/initscripts-1.0/sushell
+>
+> diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sushell b/meta/recipes-core/initscripts/initscripts-1.0/sushell
+> new file mode 100644
+> index 0000000..7d96941
+> --- /dev/null
+> +++ b/meta/recipes-core/initscripts/initscripts-1.0/sushell
+> @@ -0,0 +1,5 @@
+> +#!/bin/bash
+> +
+> +[ -z "$SUSHELL" ] && SUSHELL=/bin/bash
+> +
+> +exec $SUSHELL
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> index a086591..c2e815f 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -33,6 +33,7 @@ SRC_URI = "file://functions \
+>              file://GPLv2.patch \
+>              file://dmesg.sh \
+>              file://logrotate-dmesg.conf \
+> +           ${@bb.utils.contains('DISTRO_FEATURES','systemd','file://sushell','',d)} \
 
-http://git.qemu.org/?p=qemu.git;a=commit;h=9f7c594
+It should check distro feature selinux rather than systemd that only 
+when selinux is enabled, debug-shell.service from systemd starts with 
+sushell.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../qemu/qemu/qemu-fix-CVE-2015-3209.patch         | 53 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.3.0.bb           |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-fix-CVE-2015-3209.patch
+I'll send V2.
 
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-fix-CVE-2015-3209.patch b/meta/recipes-devtools/qemu/qemu/qemu-fix-CVE-2015-3209.patch
-new file mode 100644
-index 0000000..d2dbb94
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-fix-CVE-2015-3209.patch
-@@ -0,0 +1,53 @@
-+Upstream-Status: Backport
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 9f7c594c006289ad41169b854d70f5da6e400a2a Mon Sep 17 00:00:00 2001
-+From: Petr Matousek <pmatouse@redhat.com>
-+Date: Sun, 24 May 2015 10:53:44 +0200
-+Subject: [PATCH] pcnet: force the buffer access to be in bounds during tx
-+
-+4096 is the maximum length per TMD and it is also currently the size of
-+the relay buffer pcnet driver uses for sending the packet data to QEMU
-+for further processing. With packet spanning multiple TMDs it can
-+happen that the overall packet size will be bigger than sizeof(buffer),
-+which results in memory corruption.
-+
-+Fix this by only allowing to queue maximum sizeof(buffer) bytes.
-+
-+This is CVE-2015-3209.
-+
-+[Fixed 3-space indentation to QEMU's 4-space coding standard.
-+--Stefan]
-+
-+Signed-off-by: Petr Matousek <pmatouse@redhat.com>
-+Reported-by: Matt Tait <matttait@google.com>
-+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-+---
-+ hw/net/pcnet.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
-+index bdfd38f..68b9981 100644
-+--- a/hw/net/pcnet.c
-++++ b/hw/net/pcnet.c
-+@@ -1241,6 +1241,14 @@ static void pcnet_transmit(PCNetState *s)
-+         }
-+ 
-+         bcnt = 4096 - GET_FIELD(tmd.length, TMDL, BCNT);
-++
-++        /* if multi-tmd packet outsizes s->buffer then skip it silently.
-++           Note: this is not what real hw does */
-++        if (s->xmit_pos + bcnt > sizeof(s->buffer)) {
-++            s->xmit_pos = -1;
-++            goto txdone;
-++        }
-++
-+         s->phys_mem_read(s->dma_opaque, PHYSADDR(s, tmd.tbadr),
-+                          s->buffer + s->xmit_pos, bcnt, CSR_BSWP(s));
-+         s->xmit_pos += bcnt;
-+-- 
-+2.4.1
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_2.3.0.bb b/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-index ec1b101..cae0ad1 100644
---- a/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-@@ -18,6 +18,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://09-xen-pt-mark-reserved-bits-in-PCI-config-space-fields-CVE-2015-4106.patch \
-             file://10-xen-pt-add-a-few-PCI-config-space-field-descriptions-CVE-2015-4106.patch \
-             file://11-xen-pt-unknown-PCI-config-space-fields-should-be-readonly-CVE-2015-4106.patch \
-+            file://qemu-fix-CVE-2015-3209.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "2fab3ea4460de9b57192e5b8b311f221"
+Thanks,
+Kai
+
+
+>   "
+>   
+>   S = "${WORKDIR}"
+> @@ -46,7 +47,9 @@ DEPENDS_append = " update-rc.d-native"
+>   DEPENDS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd-systemctl-native','',d)}"
+>   
+>   PACKAGES =+ "${PN}-functions"
+> -RDEPENDS_${PN} = "${PN}-functions"
+> +RDEPENDS_${PN} = "${PN}-functions \
+> +                  ${@bb.utils.contains('DISTRO_FEATURES','systemd','bash','',d)} \
+> +		 "
+>   FILES_${PN}-functions = "${sysconfdir}/init.d/functions*"
+>   
+>   ALTERNATIVE_PRIORITY_${PN}-functions = "90"
+> @@ -104,6 +107,11 @@ do_install () {
+>   	if [ "${TARGET_ARCH}" = "arm" ]; then
+>   		install -m 0755 ${WORKDIR}/alignment.sh	${D}${sysconfdir}/init.d
+>   	fi
+> +
+> +	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+> +		install -d ${D}/${base_sbindir}
+> +		install -m 0755 ${WORKDIR}/sushell ${D}/${base_sbindir}
+> +	fi
+>   #
+>   # Install device dependent scripts
+>   #
+
+
 -- 
-1.9.1
+Regards,
+Neil | Kai Kang
 
 
