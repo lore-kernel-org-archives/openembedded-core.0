@@ -1,35 +1,30 @@
-Return-Path: <ashcharles@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 7244173905
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A584737F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 21:22:55 +0000 (UTC)
-Received: by pabvl15 with SMTP id vl15so119165923pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Jul 2015 14:22:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=REcroGm5d11wgQLvJ7Nmul4VkAxixLxgsR89gaHgCuQ=;
-	b=Hn6HMYuACYh4A40s9Nie7H7AWIxs5Yw0pX7Z8KRYZ/LXBSaKF+7U069vQBM18WpRdh
-	IpuX96mMudGIys1g2PsTHSAIV6tu0ys+r2eaV1bCNqQ64NCdpo0Nc+bSIyDS9BRKKnJF
-	HMdTbMOZguSWZvYvZ6HBvyZEbxGcicU6uR8tPC0WNHPhj6rWvR18M0/KlYzk4t5htqQJ
-	RItoLCRL5Oyw386G43tIv1HzEmta7e22y5Tn99eCaZn6lXGW9KtaRyw7C/TWqgA6CqIi
-	Dy2KTPIiwrP2ywNScG5WyzcrXnoWPeIgD9mDaOK+NluNUmZad+F/NsvZA+hkh04SS564
-	DQaA==
-X-Received: by 10.68.243.9 with SMTP id wu9mr12950532pbc.28.1436304176011;
-	Tue, 07 Jul 2015 14:22:56 -0700 (PDT)
-Received: from gumstux.mystix.com (s206-116-3-180.bc.hsia.telus.net.
-	[206.116.3.180])
-	by smtp.gmail.com with ESMTPSA id pq3sm67605pbb.24.2015.07.07.14.22.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 07 Jul 2015 14:22:55 -0700 (PDT)
-From: Ash Charles <ashcharles@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jul 2015 14:22:54 -0700
-Message-Id: <1436304174-24460-1-git-send-email-ashcharles@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] python-io: Add runtime dependency on contextlib
+	Tue,  7 Jul 2015 22:14:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t67MEmme002574; Tue, 7 Jul 2015 23:14:48 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NgbrGioXC_KU; Tue,  7 Jul 2015 23:14:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t67MEYkV002569
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 7 Jul 2015 23:14:45 +0100
+Message-ID: <1436307274.27597.197.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>
+Date: Tue, 07 Jul 2015 23:14:34 +0100
+In-Reply-To: <b43e9f344635ef03616702689d946a769132e171.1436253346.git.liezhi.yang@windriver.com>
+References: <cover.1436253346.git.liezhi.yang@windriver.com>
+	<b43e9f344635ef03616702689d946a769132e171.1436253346.git.liezhi.yang@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] toolchain-scripts.bbclass: use MLPREFIX to instead of MULTILIB_VARIANTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +37,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 21:23:02 -0000
+X-List-Received-Date: Tue, 07 Jul 2015 22:14:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The python-io package includes ssl.py module which imports the
-contextlib library.
+On Tue, 2015-07-07 at 00:17 -0700, Robert Yang wrote:
+> Fixed when enable multilib:
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+> 
+> $ bitbake core-image-minimal
+> 
+> No lib32 package should be built since we don't build
+> lib32-core-image-minimal, but a lot them are built:
+> lib32-opkg-utils
+> lib32-cryptodev-linux
+> lib32-sqlite3
+> lib32-libtool-cross
+> lib32-ncurses
+> lib32-db
+> lib32-diffutils
+> lib32-zlib
+> lib32-gcc-cross-i686
+> lib32-gcc-cross-initial-i686
+> lib32-flex
+> lib32-libgcc-initial
+> lib32-libffi
+> lib32-linux-libc-headers
+> lib32-expat
+> lib32-openssl
+> lib32-glibc
+> lib32-binutils-cross-i686
+> lib32-gcc-runtime
+> 
+> This is because MULTILIB_VARIANTS is always avaliable when multlib is
+> enabled, use MLPREFIX to fix the problem so that lib32/lib64 packages will
+> only be built when build lib32/lib64-core-image-minimal.
+> 
+> [YOCTO #7961]
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/toolchain-scripts.bbclass |    5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+> index 9378918..d05a5a3 100644
+> --- a/meta/classes/toolchain-scripts.bbclass
+> +++ b/meta/classes/toolchain-scripts.bbclass
+> @@ -144,8 +144,9 @@ python __anonymous () {
+>      deps = ""
+>      for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
+>          deps += " %s:do_populate_sysroot" % dep
+> -        for variant in (d.getVar('MULTILIB_VARIANTS', True) or "").split():
+> -            clsextend = oe.classextend.ClassExtender(variant, d)
+> +        mlprefix = d.getVar('MLPREFIX', True)
+> +        if mlprefix:
+> +            clsextend = oe.classextend.ClassExtender(mlprefix[:-1], d)
+>              newdep = clsextend.extend_name(dep)
+>              deps += " %s:do_populate_sysroot" % newdep
+>      d.appendVarFlag('do_configure', 'depends', deps)
 
-This applied to Python 2.7.9 but not 3.3.
+I'm starting to get mildly annoyed with this. Back in 2014 it was
+insisted the correct behaviour here was that the cache artefacts for
+*all* multilibs shoul be pulled into the SDK. This was done with:
 
-Signed-off-by: Ash Charles <ashcharles@gmail.com>
----
- meta/recipes-devtools/python/python-2.7-manifest.inc | 2 +-
- scripts/contrib/python/generate-manifest-2.7.py      | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=bb213d8e60746d61d80505487d5f14a4eb45231b
 
-diff --git a/meta/recipes-devtools/python/python-2.7-manifest.inc b/meta/recipes-devtools/python/python-2.7-manifest.inc
-index 9ba9c7f..dd8d825 100644
---- a/meta/recipes-devtools/python/python-2.7-manifest.inc
-+++ b/meta/recipes-devtools/python/python-2.7-manifest.inc
-@@ -130,7 +130,7 @@ RDEPENDS_${PN}-importlib="${PN}-core"
- FILES_${PN}-importlib="${libdir}/python2.7/importlib "
- 
- SUMMARY_${PN}-io="Python low-level I/O"
--RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient"
-+RDEPENDS_${PN}-io="${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient ${PN}-contextlib"
- FILES_${PN}-io="${libdir}/python2.7/lib-dynload/_socket.so ${libdir}/python2.7/lib-dynload/_io.so ${libdir}/python2.7/lib-dynload/_ssl.so ${libdir}/python2.7/lib-dynload/select.so ${libdir}/python2.7/lib-dynload/termios.so ${libdir}/python2.7/lib-dynload/cStringIO.so ${libdir}/python2.7/pipes.* ${libdir}/python2.7/socket.* ${libdir}/python2.7/ssl.* ${libdir}/python2.7/tempfile.* ${libdir}/python2.7/StringIO.* ${libdir}/python2.7/io.* ${libdir}/python2.7/_pyio.* "
- 
- SUMMARY_${PN}-json="Python JSON support"
-diff --git a/scripts/contrib/python/generate-manifest-2.7.py b/scripts/contrib/python/generate-manifest-2.7.py
-index a368c8a..936522e 100755
---- a/scripts/contrib/python/generate-manifest-2.7.py
-+++ b/scripts/contrib/python/generate-manifest-2.7.py
-@@ -275,7 +275,7 @@ if __name__ == "__main__":
-     m.addPackage( "${PN}-image", "Python graphical image handling", "${PN}-core",
-     "colorsys.* imghdr.* lib-dynload/imageop.so lib-dynload/rgbimg.so" )
- 
--    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient",
-+    m.addPackage( "${PN}-io", "Python low-level I/O", "${PN}-core ${PN}-math ${PN}-textutils ${PN}-netclient ${PN}-contextlib",
-     "lib-dynload/_socket.so lib-dynload/_io.so lib-dynload/_ssl.so lib-dynload/select.so lib-dynload/termios.so lib-dynload/cStringIO.so " +
-     "pipes.* socket.* ssl.* tempfile.* StringIO.* io.* _pyio.*" )
- 
--- 
-2.1.4
+where the code quite clearly iterates MULTILIB_VARIANTS for this reason.
+We've therefore gone to some lengths to preserve that.
+
+So which is this code supposed to do? I don't honestly know any more. I
+do agree its extremely annoying that the images trigger the multilib
+builds though and I think we need to fix that. This class is used from:
+
+populate_sdk_base
+meta-ide-support
+meta-environment
+
+so perhaps the best way to do this is have a function like:
+
+def toolchain_get_depends(d):
+    import oe.classextend
+    deps = ""
+    for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
+        deps += " %s:do_populate_sysroot" % dep
+        for variant in (d.getVar('MULTILIB_VARIANTS', True) or "").split():
+            clsextend = oe.classextend.ClassExtender(variant, d)
+            newdep = clsextend.extend_name(dep)
+            deps += " %s:do_populate_sysroot" % newdep
+    return deps
+
+then meta-ide-support can do:
+
+do_populate_ide_support[depends] += "${@toolchain_get_depends(d)}"
+
+meta-environment can do:
+
+do_generate_content[depends] += "${@toolchain_get_depends(d)}"
+
+and I can't actually see why populate_sdk_base needs the
+toolchain-scripts class at all. Perhaps someone can spot why it needs
+the inherit or the dependency?
+
+Cheers,
+
+Richard
+
 
 
