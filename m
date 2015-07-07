@@ -1,41 +1,30 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 160A873E36
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DB16775CC8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 12:17:56 +0000 (UTC)
-Received: by igcqs7 with SMTP id qs7so31103699igc.0
+	Tue,  7 Jul 2015 12:22:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t67CMSbR028319 for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 Jul 2015 13:22:28 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id w2Sf6pybu-_3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Jul 2015 05:17:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=ciuhDBcmgaBqWAV1pOSJeR4INYlLi4yl+ubBIjXUPZY=;
-	b=Rur6+MHy31vbE2IZxtei/m9qz9DUVADVhdf++TX92t6Z3p6ZLeMedCSSGE3MwWdSyX
-	zJxXLGrMbOAmR3P9YO3bVf2gtKaBZr8V+J6q8GAciWzfocNhKcKnZCG4FX+xg7QvuRFm
-	989LbbZnePt+XWQ5EUTL2NIzQkV8Uz4Et4lIDy3hyUgvCeuj59XZimkVQlMz3RiUeES3
-	kIVNiABY5yE1VWFudk30BMyt7DAn/gUxz8rlvz5W/BHe8D1g/jxqJEorcopK4G4z5UAm
-	hfK2t5Qc6XtuQK/boEiP8g88cT+B2Q9rxwKhlXgN6PO4bILQTa74ZwlbnGfvnoeuh7R/
-	VTzw==
-MIME-Version: 1.0
-X-Received: by 10.42.206.5 with SMTP id fs5mr16640656icb.19.1436271477154;
-	Tue, 07 Jul 2015 05:17:57 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.36.218.7 with HTTP; Tue, 7 Jul 2015 05:17:57 -0700 (PDT)
-In-Reply-To: <CAJTo0Lb1Nth4VGocNqTDWFnrzO4_FGFbeg6Akk7ZmSvFLPP6Ew@mail.gmail.com>
-References: <alpine.LFD.2.11.1502190508290.29947@localhost>
-	<CAF3SDA6sUY=4cg-pihtftzTNDREm5cKMS7MqQp4DJ9M81ez5UQ@mail.gmail.com>
-	<87vbdwy88m.fsf@weregild.amer.corp.natinst.com>
-	<CAJTo0Lb1Nth4VGocNqTDWFnrzO4_FGFbeg6Akk7ZmSvFLPP6Ew@mail.gmail.com>
-Date: Tue, 7 Jul 2015 09:17:57 -0300
-X-Google-Sender-Auth: ub8JrFCRBBIMt2YHUH-GzI9238Y
-Message-ID: <CAP9ODKpctCYLujwOt9FyCit1qrpn8p_=CdM5g6Ov4zkVJSEOeA@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	"Daniel." <danielhilst@gmail.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cross-localedef-native_2.20.bb: fix for gcc5
+	Tue,  7 Jul 2015 13:22:28 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t67CMFbC028315
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 Jul 2015 13:22:26 +0100
+Message-ID: <1436271735.27597.180.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 07 Jul 2015 13:22:15 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] oeqa/bbtests: Fix race over DL_DIR and SSTATE_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,24 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 12:17:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 07 Jul 2015 12:22:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 7, 2015 at 5:29 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 7 July 2015 at 03:54, Richard Tollerton <rich.tollerton@ni.com> wrote:
->>
->> The build of cross-localedef-native is observed to fail under gcc5 hosts
->> with multiple definition errors, e.g.:
->
->
-> Is this patch intended for fido?  Master doesn't have 2.20 anymore (2.21)
-> and I believe that works with gcc5 hosts.
+Running "-c cleanall" on shared DL_DIR and SSTATE_DIR is antisocial.
+It leads to hard to debug races where we wonder why files disappear
+and reappear from those directories.
 
-I would prefer to upgrade to 2.21, if this is tthe case.
+Fix this by using a specific set of directories for these tests. This
+avoids a long standing bug on the autobuilder where aspell and man
+sources would disappear.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+[YOCTO #6276]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index 9bd34ee..ffe0ea5 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -98,6 +98,8 @@ class BitbakeTests(oeSelfTest):
+     def test_invalid_recipe_src_uri(self):
+         data = 'SRC_URI = "file://invalid"'
+         self.write_recipeinc('man', data)
++        self.write_config("DL_DIR = \"${TOPDIR}/download-selftest\"")
++        self.write_config("SSTATE_DIR = \"${TOPDIR}/download-selftest\"")
+         bitbake('-ccleanall man')
+         result = bitbake('-c fetch man', ignore_status=True)
+         bitbake('-ccleanall man')
+@@ -108,6 +110,8 @@ class BitbakeTests(oeSelfTest):
+ 
+     @testcase(171)
+     def test_rename_downloaded_file(self):
++        self.write_config("DL_DIR = \"${TOPDIR}/download-selftest\"")
++        self.write_config("SSTATE_DIR = \"${TOPDIR}/download-selftest\"")
+         data = 'SRC_URI_append = ";downloadfilename=test-aspell.tar.gz"'
+         self.write_recipeinc('aspell', data)
+         bitbake('-ccleanall aspell')
+@@ -170,6 +174,8 @@ class BitbakeTests(oeSelfTest):
+ 
+     @testcase(1035)
+     def test_continue(self):
++        self.write_config("DL_DIR = \"${TOPDIR}/download-selftest\"")
++        self.write_config("SSTATE_DIR = \"${TOPDIR}/download-selftest\"")
+         self.write_recipeinc('man',"\ndo_fail_task () {\nexit 1 \n}\n\naddtask do_fail_task before do_fetch\n" )
+         runCmd('bitbake -c cleanall man xcursor-transparent-theme')
+         result = runCmd('bitbake man xcursor-transparent-theme -k', ignore_status=True)
+
+
 
