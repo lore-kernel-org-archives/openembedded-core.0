@@ -1,46 +1,24 @@
-Return-Path: <olof.johansson@axis.com>
-X-Greylist: delayed 377 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 07 Jul 2015 07:24:29 UTC
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id BA3B16AB9F
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BB81175D25
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 07:24:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 9709F2E446;
-	Tue,  7 Jul 2015 09:18:11 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Qoe2GkOKYfLL; Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 5E0A22E44E;
-	Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 465ADFF3;
-	Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 388F9B8B;
-	Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id 368C13E049;
-	Tue,  7 Jul 2015 09:18:09 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0;
-	Tue, 7 Jul 2015 09:18:08 +0200
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id E33609C68B; 
-	Tue,  7 Jul 2015 09:18:08 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
-To: "wenzong.fan@windriver.com" <wenzong.fan@windriver.com>
-In-Reply-To: <1436248608-29008-1-git-send-email-wenzong.fan@windriver.com>
-References: <1436248608-29008-1-git-send-email-wenzong.fan@windriver.com>
-Date: Tue, 7 Jul 2015 09:18:08 +0200
-Message-ID: <1436253280-sup-824@axis.com>
-User-Agent: Sup/0.20.0
+	Tue,  7 Jul 2015 07:43:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t677hcrC006567
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 7 Jul 2015 00:43:38 -0700 (PDT)
+Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 7 Jul 2015 00:43:38 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 7 Jul 2015 15:43:58 +0800
+Message-ID: <1436255038-22106-1-git-send-email-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: "openembedded-core@"
-	<lists.openembedded.orgopenembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash: define NON_INTERACTIVE_LOGIN_SHELLS
+Subject: [PATCH] db: add debug_lock option to show diagnostic info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,39 +31,183 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 07:24:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Jul 2015 07:43:38 -0000
+Content-Type: text/plain
 
-Excerpts from wenzong.fan@windriver.com's message of 2015-07-07 07:56:48 +0200:
-> From: Li Wang <li.wang@windriver.com>
-> 
-> Allow login shells to read the startup files, even if they are not
-> interactive.
-> 
-> The patch comes from:
-> * bash-3.2-30.fc10.src.rpm - bash-2.03-profile.patch
+Add debug_lock option to show lock diagnostic information instead of
+outputing directly.
+We can enable it with using "./configure ... --enable-debug_lock".
 
-How is this different from
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+---
+ .../db/db/db-add-debug-lock-option.patch           | 144 +++++++++++++++++++++
+ meta/recipes-support/db/db_6.0.30.bb               |   1 +
+ 2 files changed, 145 insertions(+)
+ create mode 100644 meta/recipes-support/db/db/db-add-debug-lock-option.patch
 
-commit 3985cef24de2da3b6895e67f4d577d4806c032b0
-Author: Chen Qi <Qi.Chen@windriver.com>
-Date:   Tue Apr 21 17:30:47 2015 +0800
-
-    bash: explicitly define NON_INTERACTIVE_LOGIN_SHELLS in CFLAGS
-
-    If NON_INTERACTIVE_LOGIN_SHELLS is defined, all login shells read the
-    startup files, even if they are not interactive.
-
-    This is the behaviour of other major distros like Ubuntu and Fedora.
-    We also need to set it so that when executing `su -l xxx -c env' command,
-    /etc/profile is parsed.
-
-    [YOCTO #5359]
-    [YOCTO #7137]
-
-?
-
+diff --git a/meta/recipes-support/db/db/db-add-debug-lock-option.patch b/meta/recipes-support/db/db/db-add-debug-lock-option.patch
+new file mode 100644
+index 0000000..dff6642
+--- /dev/null
++++ b/meta/recipes-support/db/db/db-add-debug-lock-option.patch
+@@ -0,0 +1,144 @@
++Index: db-6.0.30/dist/config.hin
++===================================================================
++--- db-6.0.30.orig/dist/config.hin	2015-07-07 15:25:16.737736844 +0800
+++++ db-6.0.30/dist/config.hin	2015-07-07 15:31:44.097735878 +0800
++@@ -21,6 +21,9 @@
++ /* Define to 1 if you want a version that logs write operations. */
++ #undef DEBUG_WOP
++ 
+++/* Define to 1 if you want a version that logs write/read lock operations. */
+++#undef DEBUG_LOCK
+++
++ /* Define to 1 if you want a version with run-time diagnostic checking. */
++ #undef DIAGNOSTIC
++ 
++Index: db-6.0.30/dist/configure
++===================================================================
++--- db-6.0.30.orig/dist/configure	2015-07-07 15:25:16.737736844 +0800
+++++ db-6.0.30/dist/configure	2015-07-07 15:34:45.841735425 +0800
++@@ -862,6 +862,7 @@
++ enable_debug
++ enable_debug_rop
++ enable_debug_wop
+++enable_debug_lock
++ enable_diagnostic
++ enable_dump185
++ enable_java
++@@ -1556,6 +1557,7 @@
++   --enable-debug          Build a debugging version.
++   --enable-debug_rop      Build a version that logs read operations.
++   --enable-debug_wop      Build a version that logs write operations.
+++  --enable-debug_lock     Build a version that logs write/read lock operations.
++   --enable-diagnostic     Build a version with run-time diagnostics.
++   --enable-dump185        Build db_dump185(1) to dump 1.85 databases.
++   --enable-java           Build Java API.
++@@ -3323,6 +3325,18 @@
++ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $db_cv_debug_wop" >&5
++ $as_echo "$db_cv_debug_wop" >&6; }
++ 
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if --enable-debug_lock option specified" >&5
+++$as_echo_n "checking if --enable-debug_lock option specified... " >&6; }
+++# Check whether --enable-debug_lock was given.
+++if test "${enable_debug_lock+set}" = set; then :
+++  enableval=$enable_debug_lock; db_cv_debug_lock="$enable_debug_lock"
+++else
+++  db_cv_debug_lock="no"
+++fi
+++
+++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $db_cv_debug_lock" >&5
+++$as_echo "$db_cv_debug_lock" >&6; }
+++
++ { $as_echo "$as_me:${as_lineno-$LINENO}: checking if --enable-diagnostic option specified" >&5
++ $as_echo_n "checking if --enable-diagnostic option specified... " >&6; }
++ # Check whether --enable-diagnostic was given.
++@@ -3835,6 +3849,11 @@
++ 
++ 
++ fi
+++if test "$db_cv_debug_lock" = "yes"; then
+++       $as_echo "#define DEBUG_LOCK 1" >>confdefs.h
+++
+++
+++fi
++ if test "$db_cv_umrw" = "yes"; then
++ 	$as_echo "#define UMRW 1" >>confdefs.h
++ 
++Index: db-6.0.30/dist/configure.ac
++===================================================================
++--- db-6.0.30.orig/dist/configure.ac	2015-07-07 15:25:16.737736844 +0800
+++++ db-6.0.30/dist/configure.ac	2015-07-07 15:35:12.465735359 +0800
++@@ -134,6 +134,11 @@
++ 	AH_TEMPLATE(DEBUG_WOP,
++     [Define to 1 if you want a version that logs write operations.])
++ fi
+++if test "$db_cv_debug_lock" = "yes"; then
+++       AC_DEFINE(DEBUG_LOCK)
+++       AH_TEMPLATE(DEBUG_LOCK,
+++    [Define to 1 if you want a version that logs write/read lock operations.])
+++fi
++ if test "$db_cv_umrw" = "yes"; then
++ 	AC_DEFINE(UMRW)
++ 	AH_TEMPLATE(UMRW,
++Index: db-6.0.30/src/common/db_err.c
++===================================================================
++--- db-6.0.30.orig/src/common/db_err.c	2015-07-07 15:25:16.737736844 +0800
+++++ db-6.0.30/src/common/db_err.c	2015-07-07 15:36:45.329735127 +0800
++@@ -648,6 +648,32 @@
++ }
++ 
++ /*
+++ * __db_lock_msg --
+++ *     Standard DB lock stat message routine.
+++ *
+++ * PUBLIC: void __db_lock_msg __P((const ENV *, const char *, ...))
+++ * PUBLIC:    __attribute__ ((__format__ (__printf__, 2, 3)));
+++ */
+++void
+++#ifdef STDC_HEADERS
+++__db_lock_msg(const ENV *env, const char *fmt, ...)
+++#else
+++__db_lock_msg(env, fmt, va_alist)
+++       const ENV *env;
+++       const char *fmt;
+++       va_dcl
+++#endif
+++{
+++       DB_ENV *dbenv;
+++
+++       dbenv = env == NULL ? NULL : env->dbenv;
+++#if defined(DEBUG_LOCK)
+++       DB_REAL_MSG(dbenv, fmt);
+++#endif
+++}
+++
+++
+++/*
++  * __db_repmsg --
++  *	Replication system message routine.
++  *
++Index: db-6.0.30/src/lock/lock_failchk.c
++===================================================================
++--- db-6.0.30.orig/src/lock/lock_failchk.c	2015-07-07 15:25:16.737736844 +0800
+++++ db-6.0.30/src/lock/lock_failchk.c	2015-07-07 15:37:03.169735082 +0800
++@@ -80,7 +80,7 @@
++ 			 * Discard the locker and its read locks.
++ 			 */
++ 			if (!SH_LIST_EMPTY(&lip->heldby)) {
++-				__db_msg(env, DB_STR_A("2053",
+++				__db_lock_msg(env, DB_STR_A("2053",
++ 				    "Freeing read locks for locker %#lx: %s",
++ 				    "%#lx %s"), (u_long)lip->id,
++ 				    dbenv->thread_id_string(
++Index: db-6.0.30/src/mutex/mut_failchk.c
++===================================================================
++--- db-6.0.30.orig/src/mutex/mut_failchk.c	2015-07-07 15:25:16.737736844 +0800
+++++ db-6.0.30/src/mutex/mut_failchk.c	2015-07-07 15:37:30.897735013 +0800
++@@ -60,7 +60,7 @@
++ 		    dbenv, mutexp->pid, unused, DB_MUTEX_PROCESS_ONLY))
++ 			continue;
++ 
++-		__db_msg(env, DB_STR_A("2017",
+++		__db_lock_msg(env, DB_STR_A("2017",
++ 		    "Freeing mutex %lu for process: %s", "%lu %s"), (u_long)i,
++ 		    dbenv->thread_id_string(dbenv, mutexp->pid, unused, buf));
++ 
+diff --git a/meta/recipes-support/db/db_6.0.30.bb b/meta/recipes-support/db/db_6.0.30.bb
+index 9eae5c7..c1f315c 100644
+--- a/meta/recipes-support/db/db_6.0.30.bb
++++ b/meta/recipes-support/db/db_6.0.30.bb
+@@ -19,6 +19,7 @@ SRC_URI = "http://download.oracle.com/berkeley-db/db-${PV}.tar.gz"
+ SRC_URI += "file://arm-thumb-mutex_db5.patch;patchdir=.. \
+             file://fix-parallel-build.patch \
+             file://Makefile-let-libso_target-depend-on-bt_rec.patch \
++            file://db-add-debug-lock-option.patch \
+            "
+ 
+ SRC_URI[md5sum] = "ad28eb86ad3203b5422844db179c585b"
 -- 
-olof johansson
+1.9.1
+
 
