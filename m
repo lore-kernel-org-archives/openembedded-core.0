@@ -1,38 +1,51 @@
-Return-Path: <rich.tollerton@ni.com>
-X-Greylist: delayed 2966 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 07 Jul 2015 03:58:31 UTC
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 41CFC65CCD
+Return-Path: <anders@chargestorm.se>
+Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
+	[209.85.215.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BBA273223
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 03:58:31 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t6738v1h012667; Mon, 6 Jul 2015 22:08:57 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015070622085661-680571 ;
-	Mon, 6 Jul 2015 22:08:56 -0500 
-Message-Id: <87vbdwy88m.fsf@weregild.amer.corp.natinst.com>
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: "Daniel." <danielhilst@gmail.com>,
-	"Robert P. J. Day" <rpjday@crashcourse.ca>
-In-Reply-To: <CAF3SDA6sUY=4cg-pihtftzTNDREm5cKMS7MqQp4DJ9M81ez5UQ@mail.gmail.com>
-Date: Mon, 6 Jul 2015 21:54:41 -0500
-References: <alpine.LFD.2.11.1502190508290.29947@localhost>
-	<CAF3SDA6sUY=4cg-pihtftzTNDREm5cKMS7MqQp4DJ9M81ez5UQ@mail.gmail.com>
-User-Agent: Notmuch/0.20.1 (http://notmuchmail.org) Emacs/24.5.2
-	(x86_64-unknown-linux-gnu)
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 07/06/2015 10:08:56 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 07/06/2015 10:08:56 PM,
-	Serialize complete at 07/06/2015 10:08:56 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-07-07_01:, , signatures=0
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	openembedded-core@lists.openembedded.org
-Subject: [PATCH] cross-localedef-native_2.20.bb: fix for gcc5
+	Tue,  7 Jul 2015 05:34:14 +0000 (UTC)
+Received: by laar3 with SMTP id r3so181622546laa.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Jul 2015 22:34:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
+	:references:mime-version:content-type:content-disposition
+	:in-reply-to:organization:user-agent;
+	bh=Bvwf7DkRje+ClkHEKgzd2x/V268ArRT2wBrADRW8YWk=;
+	b=Y4nBQXwAOzNVkOnlhgj9JcKqxnUnjSlzD3QkpLs4rdnKw0CZZ5sy946GIUaJwKeBv1
+	QWADc0gOM9WeU1JraTXYCvzQOZ6UQImTW6oV0P8OG2LlipoJQAPZLmUKxh4XXcBmWeX9
+	VUjeqz/ULEdGYULiqZwMOJ0nQK9A9pZKLqK2VkowqWtcIAhzZ8MSzUekwh11c3uQXF+F
+	YglEc5ijdGcvJ+98tSw4QTXa4Uv5py2SWgYlnDuNaObOXqvOilVtuUvvWxWuLKuTQahJ
+	VlSPiu+Q6gAx25D7pdGVreeTSdglkrDXskNPRvLgFSDH3/hDKTUXCjAwHusywxl8rcEI
+	C7fg==
+X-Gm-Message-State: ALoCoQnV0Sbe1Yo6jdmhtZc39CP/Kj8iATbqlbdaC/BnLRJAJlbFhjdsAO59DLbcDLxoGzjQvslo
+X-Received: by 10.112.89.201 with SMTP id bq9mr2245986lbb.39.1436247253286;
+	Mon, 06 Jul 2015 22:34:13 -0700 (PDT)
+Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
+	[213.64.219.84])
+	by mx.google.com with ESMTPSA id oq2sm5307808lbb.34.2015.07.06.22.34.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 Jul 2015 22:34:12 -0700 (PDT)
+Date: Tue, 7 Jul 2015 07:34:11 +0200
+From: Anders Darander <anders@chargestorm.se>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150707053411.GA17548@ad.chargestorm.se>
+Mail-Followup-To: openembedded-core@lists.openembedded.org
+References: <cover.1435497302.git.akuster808@gmail.com>
+	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
+	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
+	<55956F2C.2040301@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <55956F2C.2040301@gmail.com>
+X-Accept-Language: sv, en, de
+X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
+X-GPG-Key-Id: 0x920E938C
+X-GPG-Keyserver: hkp://keys.gnupg.net
+Organization: ChargeStorm AB
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,46 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 03:58:33 -0000
+X-List-Received-Date: Tue, 07 Jul 2015 05:34:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Message-ID: <87wpycy88v.fsf@weregild.amer.corp.natinst.com>
-MIME-Version: 1.0
-Content-Type: text/plain
---text follows this line--
-The build of cross-localedef-native is observed to fail under gcc5 hosts
-with multiple definition errors, e.g.:
+* akuster808 <akuster808@gmail.com> [150702 19:05]:
 
-argp-help.o: In function `argp_fmtstream_write':
-argp-help.c:(.text+0x1da0): multiple definition of `argp_fmtstream_write'
-argp-fmtstream.o:argp-fmtstream.c:(.text+0x7a0): first defined here
+> The current version of nettle 2.7 has one file that is GPL v3.
+> mini-gmp.*
 
-The problem is the change of the default C standard from gnu89 to gnu11
-which changes the semantics of 'inline'. The issue is described in the
-Porting guide at https://gcc.gnu.org/gcc-5/porting_to.html. Adding the
-'-fgnu89-inline' option fixes the issue.
+> so the license for 2.7 should be updated IMHO. So wont that put us in the
+> same boat as the upgrade?
 
-(This fix, including the above explanation, was shamelessly copied from
-http://git.vahanus.net/?p=csc/ptxdist-kp.git;a=commit;h=2f04a3587bd33c74ccc9be6e115a8b1fde620841.)
+Well, after looking a little bit at the repo in question, my
+understanding is that all files (well, those few I looked at, including
+mini-gmp.*) is dual licensed LGPLv3 /or/ GPLv2+, in the current master
+branch. It looks like this was done 2014-04-12, in 12 commits.
 
-Signed-off-by: Richard Tollerton <rich.tollerton@ni.com>
----
- meta/recipes-core/glibc/cross-localedef-native_2.20.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So could you double check the 3.1.1 release, and verify whether it only
+consists of LGPLv3 | GPLv2+ licensed files, or if there actually are any
+files having the GPLv3(+) restriction?
 
-diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
-index ccf56a9..38f2af4 100644
---- a/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
-+++ b/meta/recipes-core/glibc/cross-localedef-native_2.20.bb
-@@ -39,7 +39,7 @@ SRCREV_localedef = "c833367348d39dad7ba018990bfdaffaec8e9ed3"
- S = "${WORKDIR}/git"
- 
- EXTRA_OECONF = "--with-glibc=${S}"
--CFLAGS += "-DNOT_IN_libc=1"
-+CFLAGS += "-DNOT_IN_libc=1 -fgnu89-inline"
- 
- do_configure () {
- 	${S}/localedef/configure ${EXTRA_OECONF}
+At least the commits from 2014-04-12 suggests that the whole nettle repo
+was clarified to be dual-licensed as  LGPLv3 | GPLv2+ (though there's of
+course a risk that some files are left untouched). Though, it also
+suggests that upstream is willing to ensure that GPLv2 compatibility
+remains as an option.
+
+Cheers,
+Anders
+
 -- 
-2.4.4
-
+Anders Darander
+ChargeStorm AB / eStorm AB
 
