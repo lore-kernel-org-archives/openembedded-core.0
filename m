@@ -1,24 +1,24 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A25773F9E
+	by mail.openembedded.org (Postfix) with ESMTP id 35B0173B10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 03:08:02 +0000 (UTC)
+	Wed,  8 Jul 2015 03:20:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t68382SL004813
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t683Kf12005649
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Jul 2015 20:08:02 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	Tue, 7 Jul 2015 20:20:41 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 7 Jul 2015 20:08:02 -0700
-From: <rongqing.li@windriver.com>
+	14.3.224.2; Tue, 7 Jul 2015 20:20:41 -0700
+From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jul 2015 11:07:12 +0800
-Message-ID: <1436324832-25173-1-git-send-email-rongqing.li@windriver.com>
+Date: Wed, 8 Jul 2015 11:15:11 +0800
+Message-ID: <1436325311-9236-1-git-send-email-wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] dhcp: add exec script when dhclient run
+Subject: [PATCH] gdb: Fix detection of 64-bit PPC inferior in gdbserver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,145 +31,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 03:08:03 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 03:20:44 -0000
 Content-Type: text/plain
 
-From: Li Wang <li.wang@windriver.com>
+From: Yuanjie Huang <yuanjie.huang@windriver.com>
 
-make dhclient-script to call ntp/nis script to get the extra data from server
+Fix 64-bit detection according to PowerISA Boot III-S.
 
-Signed-off-by: Li Wang <li.wang@windriver.com>
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+https://sourceware.org/ml/gdb-patches/2014-12/msg00239.html
+Written by: Yao Qi <yao@codesourcery.com>
+
+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 ---
- .../dhcp/dhcp/dhcp-add-exec-script-function.patch  | 93 ++++++++++++++++++++++
- meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb       |  1 +
- meta/recipes-connectivity/dhcp/files/dhclient.conf |  1 +
- 3 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+ meta/recipes-devtools/gdb/gdb.inc                  |  1 +
+ ...ction-of-64-bit-PPC-inferior-in-gdbserver.patch | 56 ++++++++++++++++++++++
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
+index 5466a7d..88c0213 100644
+--- a/meta/recipes-devtools/gdb/gdb.inc
++++ b/meta/recipes-devtools/gdb/gdb.inc
+@@ -4,6 +4,7 @@ inherit gettext
+ 
+ SRC_URI += "file://0002-Change-order-of-CFLAGS.patch \
+             file://0003-Add-support-for-Renesas-SH-sh4-architecture.patch \
++            file://fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch \
+            "
+ #LDFLAGS_append = " -s"
+ #export CFLAGS_append=" -L${STAGING_LIBDIR}"
+diff --git a/meta/recipes-devtools/gdb/gdb/fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch b/meta/recipes-devtools/gdb/gdb/fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch
 new file mode 100644
-index 0000000..40faba3
+index 0000000..2854352
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
-@@ -0,0 +1,93 @@
-+dhclient: add exec script function
++++ b/meta/recipes-devtools/gdb/gdb/fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch
+@@ -0,0 +1,56 @@
++From 4fe67dbafa1bee679daecc12ed30621d5c2605de Mon Sep 17 00:00:00 2001
++From: Yao Qi <yao@codesourcery.com>
++Date: Mon, 11 May 2015 10:57:33 +0800
++Subject: [PATCH] Fix detection of 64-bit PPC inferior in gdbserver
++
++Issue #16775
++
++* gdbserver/linux-ppc-low.c (ppc_arch_setup): Change variable msr to type
++'unsigned long'.  Check bit 63 or bit 31 is one.
++
++https://sourceware.org/ml/gdb-patches/2014-12/msg00239.html
++Written by: Yao Qi <yao@codesourcery.com>
 +
 +Upstream-Status: Pending
 +
-+make dhclient to call /etc/dhcp/dhclient.d/*.sh
-+
-+Signed-off-by: Li Wang <li.wang@windriver.com>
++Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
 +---
-+ client/scripts/linux |   23 ++++++++++++++++++++++-
-+ 1 file changed, 22 insertions(+), 1 deletion(-)
++ gdb/gdbserver/linux-ppc-low.c | 11 +++++++----
++ 1 file changed, 7 insertions(+), 4 deletions(-)
 +
-+diff --git a/client/scripts/linux b/client/scripts/linux
-+index 3c3575e..4ea1e4f 100755
-+--- a/client/scripts/linux
-++++ b/client/scripts/linux
-+@@ -24,6 +24,7 @@
++diff --git a/gdb/gdbserver/linux-ppc-low.c b/gdb/gdbserver/linux-ppc-low.c
++index 63d4218..a62cf22 100644
++--- a/gdb/gdbserver/linux-ppc-low.c
+++++ b/gdb/gdbserver/linux-ppc-low.c
++@@ -374,7 +374,7 @@ ppc_arch_setup (void)
++ {
++   const struct target_desc *tdesc;
++ #ifdef __powerpc64__
++-  long msr;
+++  unsigned long msr;
++   struct regcache *regcache;
 + 
-+ # 'ip' just looks too weird.  /sbin/ip looks less weird.
-+ ip=/sbin/ip
-++ETCDIR="/etc/dhcp"
++   /* On a 64-bit host, assume 64-bit inferior process with no
++@@ -384,13 +384,16 @@ ppc_arch_setup (void)
++   current_process ()->tdesc = tdesc;
++   ppc_hwcap = 0;
 + 
-+ make_resolv_conf() {
-+   if [ x"$new_domain_name_servers" != x ]; then
-+@@ -84,6 +85,20 @@ exit_with_hooks() {
-+   exit $exit_status
-+ }
-+ 
-++execute_client_side_configuration_scripts() {
-++# execute any additional client side configuration scripts we have
-++    if [ "${1}" == "config" ] || [ "${1}" == "restore" ]; then
-++        for f in ${ETCDIR}/dhclient.d/*.sh ; do
-++            if [ -x ${f} ]; then
-++                subsystem="${f%.sh}"
-++                subsystem="${subsystem##*/}"
-++                . ${f}
-++                "${subsystem}_${1}"
-++            fi
-++        done
-++    fi
-++}
-++
-+ # Invoke the local dhcp client enter hooks, if they exist.
-+ if [ -f /etc/dhclient-enter-hooks ]; then
-+   exit_status=0
-+@@ -201,11 +216,14 @@ if [ x$reason = xBOUND ] || [ x$reason = xRENEW ] || \
-+     route add -host $alias_ip_address $interface:0
-+   fi
-+   make_resolv_conf
-++  execute_client_side_configuration_scripts "config"
-+   exit_with_hooks 0
-+ fi
-+ 
-+ if [ x$reason = xEXPIRE ] || [ x$reason = xFAIL ] || [ x$reason = xRELEASE ] \
-+    || [ x$reason = xSTOP ]; then
-++  execute_client_side_configuration_scripts "restore"
-++
-+   if [ x$alias_ip_address != x ]; then
-+     # Turn off alias interface.
-+     ifconfig $interface:0- inet 0
-+@@ -277,7 +295,7 @@ if [ x$reason = xBOUND6 ] ; then
-+ 
-+   # Check for nameserver options.
-+   make_resolv_conf
-+-
-++  execute_client_side_configuration_scripts "config"
-+   exit_with_hooks 0
-+ fi
-+ 
-+@@ -297,6 +315,7 @@ if [ x$reason = xRENEW6 ] || [ x$reason = xREBIND6 ] ; then
-+     make_resolv_conf
-+   fi
-+ 
-++  execute_client_side_configuration_scripts "config"
-+   exit_with_hooks 0
-+ fi
-+ 
-+@@ -308,6 +327,7 @@ if [ x$reason = xDEPREF6 ] ; then
-+   ${ip} -f inet6 addr change ${new_ip6_address}/${new_ip6_prefixlen} \
-+        dev ${interface} scope global preferred_lft 0
-+ 
-++  execute_client_side_configuration_scripts "config"
-+   exit_with_hooks 0
-+ fi
-+ 
-+@@ -316,6 +336,8 @@ if [ x$reason = xEXPIRE6 -o x$reason = xRELEASE6 -o x$reason = xSTOP6 ] ; then
-+     exit_with_hooks 2;
-+   fi
-+ 
-++  execute_client_side_configuration_scripts "restore"
-++
-+   ${ip} -f inet6 addr del ${old_ip6_address}/${old_ip6_prefixlen} \
-+ 	dev ${interface}
-+ 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-index b4a05fc..a73d31f 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
-             file://fixsepbuild.patch \
-             file://dhclient-script-drop-resolv.conf.dhclient.patch \
-             file://replace-ifconfig-route.patch \
-+            file://dhcp-add-exec-script-function.patch \
-            "
- 
- SRC_URI[md5sum] = "5a284875dd2c12ddd388416d69156a67"
-diff --git a/meta/recipes-connectivity/dhcp/files/dhclient.conf b/meta/recipes-connectivity/dhcp/files/dhclient.conf
-index 0e6dcf9..0f7d42f 100644
---- a/meta/recipes-connectivity/dhcp/files/dhclient.conf
-+++ b/meta/recipes-connectivity/dhcp/files/dhclient.conf
-@@ -17,6 +17,7 @@
- #supersede domain-name "fugue.com home.vix.com";
- #prepend domain-name-servers 127.0.0.1;
- request subnet-mask, broadcast-address, time-offset, routers,
-+	nis-domain, nis-servers, domain-search, ntp-servers,
- 	domain-name, domain-name-servers, host-name,
- 	netbios-name-servers, netbios-scope;
- #require subnet-mask, domain-name-servers;
++-  /* Only if the high bit of the MSR is set, we actually have
++-     a 64-bit inferior.  */
+++  /* We actually have a 64-bit inferior only if the certain bit of the
+++     MSR is set.  The PowerISA Book III-S MSR is different from the
+++     PowerISA Book III-E MSR.  The Book III-S MSR is 64 bits wide, and
+++     its MSR[SF] is the bit 0 of a 64-bit value.  Book III-E MSR is 32
+++     bits wide, and its MSR[CM] is the bit 0 of a 32-bit value.  */
++   regcache = new_register_cache (tdesc);
++   fetch_inferior_registers (regcache, find_regno (tdesc, "msr"));
++   collect_register_by_name (regcache, "msr", &msr);
++   free_register_cache (regcache);
++-  if (msr < 0)
+++  if (msr & 0x8000000080000000)
++     {
++       ppc_get_hwcap (&ppc_hwcap);
++       if (ppc_hwcap & PPC_FEATURE_CELL)
++-- 
++1.8.5.2.233.g932f7e4
++
 -- 
 1.9.1
 
