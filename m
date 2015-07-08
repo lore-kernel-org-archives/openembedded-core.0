@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BB776E5F6
+	by mail.openembedded.org (Postfix) with ESMTP id 9828775D07
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 11:55:41 +0000 (UTC)
+	Wed,  8 Jul 2015 11:56:25 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t68BsueC001041 for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jul 2015 12:55:40 +0100
+	t68BuMsg001186 for <openembedded-core@lists.openembedded.org>;
+	Wed, 8 Jul 2015 12:56:24 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id tGSJBSG_gdQr
+	with LMTP id xEYth0NCZRwc
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 12:55:40 +0100 (BST)
+	Wed,  8 Jul 2015 12:56:24 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t68BtSXu001087
+	t68BuDgP001149
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jul 2015 12:55:39 +0100
-Message-ID: <1436356528.27597.208.camel@linuxfoundation.org>
+	Wed, 8 Jul 2015 12:56:24 +0100
+Message-ID: <1436356573.27597.209.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 08 Jul 2015 12:55:28 +0100
+Date: Wed, 08 Jul 2015 12:56:13 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] oeqa/bbtests: Fix to ensure DL_DIR is set
+Subject: [PATCH] oeqa/sstatetests: Add test for comparing 32 and 64 bit sstate checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +37,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 11:55:42 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 11:56:26 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-write_config overwrites the config rather than appends to it, so
-ensure we write both variables in one go.
+The sstate checksums for both native and target should not vary whether
+they're built on a 32 or 64 bit system. Rather than requiring two different
+build machines and running a builds, override the variables calling uname()
+manually and check using bitbake -S.
+
+[YOCTO #5970]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
-index ffe0ea5..7df6b2f 100644
---- a/meta/lib/oeqa/selftest/bbtests.py
-+++ b/meta/lib/oeqa/selftest/bbtests.py
-@@ -98,8 +98,9 @@ class BitbakeTests(oeSelfTest):
-     def test_invalid_recipe_src_uri(self):
-         data = 'SRC_URI = "file://invalid"'
-         self.write_recipeinc('man', data)
--        self.write_config("DL_DIR = \"${TOPDIR}/download-selftest\"")
--        self.write_config("SSTATE_DIR = \"${TOPDIR}/download-selftest\"")
-+        self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
-+SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
+index d578ddd..6281d50 100644
+--- a/meta/lib/oeqa/selftest/sstatetests.py
++++ b/meta/lib/oeqa/selftest/sstatetests.py
+@@ -202,3 +202,38 @@ class SStateTests(SStateBase):
+         global_config.append('MACHINE = "qemux86"')
+         target_config.append('')
+         self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
++
++    def test_sstate_32_64_same_hash(self):
++        """
++        The sstate checksums for both native and target should not vary whether
++        they're built on a 32 or 64 bit system. Rather than requiring two different 
++        build machines and running a builds, override the variables calling uname()
++        manually and check using bitbake -S.
++        """
++
++        topdir = get_bb_var('TOPDIR')
++        targetvendor = get_bb_var('TARGET_VENDOR')
++        self.write_config("""
++TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
++BUILD_ARCH = \"x86_64\"
++BUILD_OS = \"linux\"
 +""")
-         bitbake('-ccleanall man')
-         result = bitbake('-c fetch man', ignore_status=True)
-         bitbake('-ccleanall man')
-@@ -110,8 +111,9 @@ class BitbakeTests(oeSelfTest):
- 
-     @testcase(171)
-     def test_rename_downloaded_file(self):
--        self.write_config("DL_DIR = \"${TOPDIR}/download-selftest\"")
--        self.write_config("SSTATE_DIR = \"${TOPDIR}/download-selftest\"")
-+        self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
-+SSTATE_DIR = \"${TOPDIR}/download-selftest\"
++        self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
++        bitbake("core-image-sato -S printdiff", ignore_status=True)
++        self.write_config("""
++TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
++BUILD_ARCH = \"i686\"
++BUILD_OS = \"linux\"
 +""")
-         data = 'SRC_URI_append = ";downloadfilename=test-aspell.tar.gz"'
-         self.write_recipeinc('aspell', data)
-         bitbake('-ccleanall aspell')
-@@ -174,8 +176,9 @@ class BitbakeTests(oeSelfTest):
- 
-     @testcase(1035)
-     def test_continue(self):
--        self.write_config("DL_DIR = \"${TOPDIR}/download-selftest\"")
--        self.write_config("SSTATE_DIR = \"${TOPDIR}/download-selftest\"")
-+        self.write_config("""DL_DIR = \"${TOPDIR}/download-selftest\"
-+SSTATE_DIR = \"${TOPDIR}/download-selftest\"
-+""")
-         self.write_recipeinc('man',"\ndo_fail_task () {\nexit 1 \n}\n\naddtask do_fail_task before do_fetch\n" )
-         runCmd('bitbake -c cleanall man xcursor-transparent-theme')
-         result = runCmd('bitbake man xcursor-transparent-theme -k', ignore_status=True)
++        self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
++        bitbake("core-image-sato -S printdiff", ignore_status=True)
++
++        def get_files(d):
++            f = []
++            for root, dirs, files in os.walk(d):
++                f.extend(os.path.join(root, name) for name in files)
++            return f
++        files1 = get_files(topdir + "/tmp-sstatesamehash/stamps/")
++        files2 = get_files(topdir + "/tmp-sstatesamehash2/stamps/")
++        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash").replace("i686-linux", "x86_64-linux").replace("i686" + targetvendor + "-linux", "x86_64" + targetvendor + "-linux", ) for x in files2]
++        self.assertItemsEqual(files1, files2)
 
 
 
