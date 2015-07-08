@@ -1,37 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 2578075D64
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B58B75D88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 10:59:11 +0000 (UTC)
-Received: by widjy10 with SMTP id jy10so213594283wid.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jul 2015 03:59:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=0TuIDYu1TSiHJ/zwhm32Qju9/cECam5ik0sNWCD7oKw=;
-	b=VrWw/XcHFDxAT0lRwUwSM0ZLvyKHD6KqG0rqAVetZJFFDcWv8ietdP/XE7+vviiAOg
-	xWajYLqamQYJgfFEUpmymCu0HFDLS4hd6CyxIGncOHip51+MCIdOnyC+Ay4gASNauC9c
-	MzJdR8EvxJocy6jAuvJiNLCGzRqgQCwNH985iTuMNuEESGFIsf+9YUoMp18NIEw1x9tt
-	oxfntpulExz3JyEPNL0aXgNQrTFJEIpQ5KVa7lNv7JCkLbdr63xILcplUuNjeaSeSsRx
-	RTaD72DqPOjBpJI9jK320IKEZteZ6b3jRCSNWj6eHRaarEbyi3MrMJAA8jGgAH1ns2A0
-	AzIw==
-X-Gm-Message-State: ALoCoQkQMQw4QWyP7jWFff96DuXJ/RWXCu/vznINw+0ltoVCYHx8XNBvdQf8vyBkQVdWUAqPcf6R
-X-Received: by 10.181.25.234 with SMTP id it10mr76113642wid.0.1436353151091;
-	Wed, 08 Jul 2015 03:59:11 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id eu2sm2310516wic.8.2015.07.08.03.59.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Jul 2015 03:59:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed,  8 Jul 2015 10:59:52 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Jul 2015 03:59:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,431,1432623600"; d="scan'208";a="520745267"
+Received: from marquiz.fi.intel.com ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2015 03:59:51 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jul 2015 11:53:44 +0100
-Message-Id: <1436352824-10663-1-git-send-email-ross.burton@intel.com>
+Date: Wed,  8 Jul 2015 13:59:48 +0300
+Message-Id: <1436353189-21566-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] report-error: expand all variables
+In-Reply-To: <1436353189-21566-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1436353189-21566-1-git-send-email-markus.lehtonen@linux.intel.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/2] combo-layer: only allow fast-forward when pulling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +30,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 10:59:14 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 10:59:54 -0000
 
-BUILDNAME is now composed from ${DATE} and ${TIME} so needs to be expanded to
-useful.  Whilst fixing this some other variables were explicitly not expanded
-for no clear reason, so expand those too.
+Only allow fast-forward merges in the component repositories when doing
+git-pull. This makes it possible to spot problems (i.e. rewriting of
+history) in the component upstream . Also, this change prevents the
+creation of local-only merge commits in the component repositories.
+These merges cause "last_revision" field of the combo-layer config to
+point to a git commit that is only present in the users local component
+repository but nowhere in upstream.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 ---
- meta/classes/report-error.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ scripts/combo-layer | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
-index 11eee9b..cabd98c 100644
---- a/meta/classes/report-error.bbclass
-+++ b/meta/classes/report-error.bbclass
-@@ -32,11 +32,11 @@ python errorreport_handler () {
-         if isinstance(e, bb.event.BuildStarted):
-             bb.utils.mkdirhier(logpath)
-             data = {}
--            machine = e.data.getVar("MACHINE", False)
-+            machine = e.data.getVar("MACHINE", True)
-             data['machine'] = machine
-             data['build_sys'] = e.data.getVar("BUILD_SYS", True)
--            data['nativelsb'] = e.data.getVar("NATIVELSBSTRING", False)
--            data['distro'] = e.data.getVar("DISTRO", False)
-+            data['nativelsb'] = e.data.getVar("NATIVELSBSTRING", True)
-+            data['distro'] = e.data.getVar("DISTRO", True)
-             data['target_sys'] = e.data.getVar("TARGET_SYS", True)
-             data['failures'] = []
-             data['component'] = e.getPkgs()[0]
-@@ -73,7 +73,7 @@ python errorreport_handler () {
-             bb.utils.unlockfile(lock)
-             failures = jsondata['failures']
-             if(len(failures) > 0):
--                filename = "error_report_" + e.data.getVar("BUILDNAME", False)+".txt"
-+                filename = "error_report_" + e.data.getVar("BUILDNAME", True)+".txt"
-                 datafile = errorreport_savedata(e, jsondata, filename)
-                 bb.note("The errors for this build are stored in %s\nYou can send the errors to a reports server by running:\n  send-error-report %s [-s server]" % (datafile, datafile))
-                 bb.note("The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.")
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 2d100be..8637add 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -587,7 +587,7 @@ def action_pull(conf, args):
+         branch = repo.get('branch', "master")
+         runcmd("git checkout %s" % branch, ldir)
+         logger.info("git pull for component repo %s in %s ..." % (name, ldir))
+-        output=runcmd("git pull", ldir)
++        output=runcmd("git pull --ff-only", ldir)
+         logger.info(output)
+ 
+ def action_update(conf, args):
 -- 
 2.1.4
 
