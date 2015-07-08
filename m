@@ -1,24 +1,24 @@
 Return-Path: <Wenzong.Fan@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D491373E36
+	by mail.openembedded.org (Postfix) with ESMTP id 4E0A373B10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 07:38:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t687c15d007330
+	Wed,  8 Jul 2015 07:58:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t687wn7A007476
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jul 2015 00:38:01 -0700 (PDT)
+	Wed, 8 Jul 2015 00:58:50 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 8 Jul 2015 00:38:00 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Wed, 8 Jul 2015 00:58:49 -0700
 From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jul 2015 15:32:30 +0800
-Message-ID: <1436340750-18379-1-git-send-email-wenzong.fan@windriver.com>
+Date: Wed, 8 Jul 2015 15:53:19 +0800
+Message-ID: <1436341999-14362-1-git-send-email-wenzong.fan@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] Fix packet discards HTTP redirect.
+Subject: [PATCH v2] apr: Fix packet discards HTTP redirect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 07:38:02 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 07:58:53 -0000
 Content-Type: text/plain
 
 From: Li Wang <li.wang@windriver.com>
