@@ -1,24 +1,26 @@
-Return-Path: <Wenzong.Fan@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E0A373B10
+	by mail.openembedded.org (Postfix) with ESMTP id 9219574248
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 07:58:49 +0000 (UTC)
+	Wed,  8 Jul 2015 08:07:07 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t687wn7A007476
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t68877vK007588
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jul 2015 00:58:50 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	Wed, 8 Jul 2015 01:07:07 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 8 Jul 2015 00:58:49 -0700
-From: <wenzong.fan@windriver.com>
+	14.3.224.2; Wed, 8 Jul 2015 01:07:07 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jul 2015 15:53:19 +0800
-Message-ID: <1436341999-14362-1-git-send-email-wenzong.fan@windriver.com>
+Date: Wed, 8 Jul 2015 16:07:44 +0800
+Message-ID: <d22002f92ef1c2c4031e92378de8434f0b3d2f5c.1436342667.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1436342667.git.Qi.Chen@windriver.com>
+References: <cover.1436342667.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2] apr: Fix packet discards HTTP redirect
+Subject: [PATCH 1/1] nfs-utils: fix to start nfs-server correctly in systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,73 +33,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 07:58:53 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 08:07:08 -0000
 Content-Type: text/plain
 
-From: Li Wang <li.wang@windriver.com>
+1. Change RRECOMMENDS to RDEPENDS for kernel-module-nfsd because this kernel
+   module is a necessity for nfs server.
 
-Disconnect the connection by poll() timeout.
-If timeout=0 and apr_wait_for_io_or_timeout()=APR_TIMEUP then
-apr_socket_recv() returns EAGAIN.
+2. Add proc-fs-nfsd.mount systemd unit file because it's needed for nfs server
+   to start correctly.
 
-Signed-off-by: Noriaki Yoshitane <yoshitane.nrs@cnt.ncos.nec.co.jp>
-Signed-off-by: Li Wang <li.wang@windriver.com>
+After this change, in a systemd based image, we can use `systemctl start
+nfs-server' to start the nfs server and things would work correctly.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../apr/Fix-packet-discards-HTTP-redirect.patch    | 32 ++++++++++++++++++++++
- meta/recipes-support/apr/apr_1.5.2.bb              |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr/Fix-packet-discards-HTTP-redirect.patch
+ .../nfs-utils/nfs-utils/proc-fs-nfsd.mount                   |  8 ++++++++
+ meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb       | 12 +++++++++++-
+ 2 files changed, 19 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount
 
-diff --git a/meta/recipes-support/apr/apr/Fix-packet-discards-HTTP-redirect.patch b/meta/recipes-support/apr/apr/Fix-packet-discards-HTTP-redirect.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount b/meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount
 new file mode 100644
-index 0000000..6805b8b
+index 0000000..630801b
 --- /dev/null
-+++ b/meta/recipes-support/apr/apr/Fix-packet-discards-HTTP-redirect.patch
-@@ -0,0 +1,32 @@
-+Fix packet discards HTTP redirect.
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount
+@@ -0,0 +1,8 @@
++[Unit]
++Description=NFSD configuration filesystem
++After=systemd-modules-load.service
 +
-+Disconnect the connection by poll() timeout.
-+If timeout=0 and apr_wait_for_io_or_timeout()=APR_TIMEUP then
-+apr_socket_recv() returns EAGAIN.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Noriaki Yoshitane <yoshitane.nrs@cnt.ncos.nec.co.jp>
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+---
-+ network_io/unix/sendrecv.c |    4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/network_io/unix/sendrecv.c b/network_io/unix/sendrecv.c
-+index c133a26..e8faf15 100644
-+--- a/network_io/unix/sendrecv.c
-++++ b/network_io/unix/sendrecv.c
-+@@ -85,6 +85,10 @@ apr_status_t apr_socket_recv(apr_socket_t *sock, char *buf, apr_size_t *len)
-+                       && (sock->timeout > 0)) {
-+ do_select:
-+         arv = apr_wait_for_io_or_timeout(NULL, sock, 1);
-++        if ((arv == APR_TIMEUP) && (sock->timeout == 0)) {
-++            *len = 0;
-++            return EAGAIN;
-++        }
-+         if (arv != APR_SUCCESS) {
-+             *len = 0;
-+             return arv;
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-support/apr/apr_1.5.2.bb b/meta/recipes-support/apr/apr_1.5.2.bb
-index aac6276..c1f7f38 100644
---- a/meta/recipes-support/apr/apr_1.5.2.bb
-+++ b/meta/recipes-support/apr/apr_1.5.2.bb
-@@ -15,6 +15,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://configfix.patch \
-            file://run-ptest \
-            file://upgrade-and-fix-1.5.1.patch \
-+           file://Fix-packet-discards-HTTP-redirect.patch \
- "
++[Mount]
++What=nfsd
++Where=/proc/fs/nfsd
++Type=nfsd
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+index 0bcd65e..fa56c1f 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
+ DEPENDS = "libcap libnfsidmap libevent util-linux sqlite3"
+ RDEPENDS_${PN}-client = "rpcbind bash"
+ RDEPENDS_${PN} = "${PN}-client bash"
+-RRECOMMENDS_${PN} = "kernel-module-nfsd"
++RDEPENDS_${PN} = "kernel-module-nfsd"
  
- SRC_URI[md5sum] = "4e9769f3349fe11fc0a5e1b224c236aa"
+ inherit useradd
+ 
+@@ -28,6 +28,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://nfs-server.service \
+            file://nfs-mountd.service \
+            file://nfs-statd.service \
++           file://proc-fs-nfsd.mount \
+            file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
+            file://nfs-utils-debianize-start-statd.patch \
+ "
+@@ -87,6 +88,8 @@ FILES_${PN}-client = "${base_sbindir}/*mount.nfs* ${sbindir}/*statd \
+ FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
+ RDEPENDS_${PN}-stats = "python"
+ 
++FILES_${PN} += "${systemd_unitdir}"
++
+ # Make clean needed because the package comes with
+ # precompiled 64-bit objects that break the build
+ do_compile_prepend() {
+@@ -108,6 +111,13 @@ do_install_append () {
+ 	sed -i -e 's,@SBINDIR@,${sbindir},g' \
+ 		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+ 		${D}${systemd_unitdir}/system/*.service
++	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++	    install -d ${D}${sysconfdir}/modules-load.d
++	    echo "nfsd" > ${D}${sysconfdir}/modules-load.d/nfsd.conf
++	    install -m 0644 ${WORKDIR}/proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/
++	    install -d ${D}${systemd_unitdir}/system/sysinit.target.wants/
++	    ln -sf ../proc-fs-nfsd.mount ${D}${systemd_unitdir}/system/sysinit.target.wants/proc-fs-nfsd.mount
++	fi
+ 
+ 	# kernel code as of 3.8 hard-codes this path as a default
+ 	install -d ${D}/var/lib/nfs/v4recovery
 -- 
 1.9.1
 
