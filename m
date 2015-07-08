@@ -1,20 +1,24 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EB8A075CFB
+Return-Path: <petter@technux.se>
+X-Greylist: delayed 365 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 08 Jul 2015 19:08:08 UTC
+Received: from bin-vsp-out-02.atm.binero.net (vsp-authed01.binero.net
+	[195.74.38.224])
+	by mail.openembedded.org (Postfix) with ESMTP id C620375E3A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 17:57:38 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 08 Jul 2015 10:57:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,433,1432623600"; d="scan'208";a="602496436"
-Received: from sentry.rb.intel.com ([10.237.105.63])
-	by orsmga003.jf.intel.com with ESMTP; 08 Jul 2015 10:57:37 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Wed,  8 Jul 2015 19:08:08 +0000 (UTC)
+X-Halon-ID: ce81db0c-25a3-11e5-bc2f-005056917f90
+Authorized-sender: petter@technux.se
+Received: from elxbvzzwp1-cy.lan (unknown [81.229.90.163])
+	by bin-vsp-out-02.atm.binero.net (Halon Mail Gateway) with ESMTPSA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Jul 2015 21:01:57 +0200 (CEST)
+From: =?UTF-8?q?Petter=20Mab=C3=A4cker?= <petter@technux.se>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jul 2015 20:57:52 +0300
-Message-Id: <cover.1436378222.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/1] harfbuzz: upgrade to 0.9.41
+Date: Wed,  8 Jul 2015 21:02:02 +0200
+Message-Id: <cover.1436381838.git.petter@technux.se>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] kernel-yocto: fix machine_srcrev check in do_patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,7 +31,9 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 17:57:40 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 19:08:11 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 The following changes since commit 0aaa67a790ab211b35eed58173efa115ceb6e243:
 
@@ -35,17 +41,16 @@ The following changes since commit 0aaa67a790ab211b35eed58173efa115ceb6e243:
 
 are available in the git repository at:
 
-  git://git.yoctoproject.org/poky-contrib ciorga/PUs
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/PUs
+  git://git.yoctoproject.org/poky-contrib petmab/fix_faulty_srcrev_check
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=petmab/fix_faulty_srcrev_check
 
-Cristian Iorga (1):
-  harfbuzz: upgrade to 0.9.41
+Petter Mabäcker (1):
+  kernel-yocto: fix machine_srcrev check in do_patch
 
- .../harfbuzz/{harfbuzz_0.9.40.bb => harfbuzz_0.9.41.bb}               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.40.bb => harfbuzz_0.9.41.bb} (88%)
+ meta/classes/kernel-yocto.bbclass | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 -- 
-2.1.4
+1.9.1
 
 
