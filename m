@@ -1,20 +1,16 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CE0E75D79
+	by mail.openembedded.org (Postfix) with ESMTP id 2E48373BB4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 09:36:12 +0000 (UTC)
+	Wed,  8 Jul 2015 10:07:17 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 965205188046
+	(Authenticated sender: joshuagl) with ESMTPSA id 0E1595188047
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jul 2015 10:35:55 +0100
-Message-Id: <e381d47cd09ba3b95f9a1bcb15c5a864a0b0761e.1436347958.git.joshua.lock@collabora.co.uk>
+Date: Wed,  8 Jul 2015 11:06:59 +0100
+Message-Id: <cover.1436349671.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1436347958.git.joshua.lock@collabora.co.uk>
-References: <cover.1436347958.git.joshua.lock@collabora.co.uk>
-In-Reply-To: <cover.1436347958.git.joshua.lock@collabora.co.uk>
-References: <cover.1436347958.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH 1/1] systemd: fix immediate unmount of mountpoints not in fstab
+Subject: [PATCH 00/18] Proposed changes for fido
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,76 +23,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 09:36:14 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 10:07:22 -0000
 
-Systemd 219 immediately unmounts any mounts which don't exist
-in fstab. See FDo bug #89383:
-https://bugs.freedesktop.org/show_bug.cgi?id=89383
+Please merge the changes on my joshuagl/fido-next branch into fido.
 
-Patch from Fedora:
-http://pkgs.fedoraproject.org/cgit/systemd.git/commit/?h=f22&id=9bbe0e92dc59d5a42258c729b105a7d9901eb35e
+Most of the patches are for CVE fixes or fixes for gcc 5 related issues.
 
-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
----
- ...-mount-add-dependencies-to-dynamically-mo.patch | 36 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_219.bb           |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch
+Cheers,
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch b/meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch
-new file mode 100644
-index 0000000..d69cfe0
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch
-@@ -0,0 +1,36 @@
-+From eb7a760052667c5a35637901de9359c377263804 Mon Sep 17 00:00:00 2001
-+From: Colin Walters <walters@verbum.org>
-+Date: Tue, 24 Feb 2015 10:12:28 -0500
-+Subject: [PATCH] Revert "core/mount: add dependencies to dynamically mounted
-+ mounts too"
-+
-+This reverts commit 06e97888883e2cc12eb6514e80c7f0014295f59b.
-+
-+This patch was imported from Fedora (http://pkgs.fedoraproject.org/cgit/systemd.git/commit/?h=f22&id=9bbe0e92dc59d5a42258c729b105a7d9901eb35e).
-+
-+It fixes an issue where mount points not listed in fstab are immediately
-+unmounted after a call to mount.
-+
-+Upstream-Status: Inappropriate [fixed upstream]
-+
-+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
-+---
-+ src/core/mount.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/core/mount.c b/src/core/mount.c
-+index 40037e7..cddb5e2 100644
-+--- a/src/core/mount.c
-++++ b/src/core/mount.c
-+@@ -295,7 +295,7 @@ static int mount_add_device_links(Mount *m) {
-+ 
-+         assert(m);
-+ 
-+-        p = get_mount_parameters(m);
-++        p = get_mount_parameters_fragment(m);
-+         if (!p)
-+                 return 0;
-+ 
-+-- 
-+1.8.3.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 6ed4fe0..bac2784 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -44,6 +44,7 @@ SRC_URI = "git://anongit.freedesktop.org/systemd/systemd-stable;branch=v219-stab
-            file://0014-Revert-rules-remove-firmware-loading-rules.patch \
-            file://0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch \
-            file://tmpfiles-pam.patch \
-+           file://0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch \
-            file://touchscreen.rules \
-            file://00-create-volatile.conf \
-            file://init \
+Joshua
+
+The following changes since commit 7d445547df528aa9e5bfb85568a7270e27f633ef:
+
+  subversion: Fix subversion-native on Fedora22 (2015-06-28 09:45:37 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/fido-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/fido-next
+
+Andre McCurdy (1):
+  gnutls: use pkg-config to locate zlib
+
+Andreas Oberritter (1):
+  gdb: Add missing runtime dependency for python option
+
+Kang Kai (1):
+  gst-plugins-bad: fix CVE-2015-0797
+
+Khem Raj (2):
+  u-boot-mkimage: Backport fix from upstream to fix build with gcc-5
+  mtd-utils: update to latest and fix static inlining
+
+Leonardo Sandoval (1):
+  terminal.py: Allow devshell/menuconfig on recent gnome-terminal
+
+Mariano Lopez (1):
+  report-error.bbclass: Added file syncronization.
+
+Paul Eggleton (1):
+  oe-selftest: devtool: fix test_devtool_update_recipe_git
+
+Richard Purdie (6):
+  oeqa/parselogs: Whitelist qemuarm64 runtime errors
+  testimage: Don't test xorg/vnc on qemuarm64
+  oeqa/parselogs: Whitelist qemumips64 runtime error
+  lib/oe/patch: Fix git patch application for source in subdirectory
+  lib/devtool/standard: Fix patch cleanup
+  oeqa/bbtests: Fix race over DL_DIR and SSTATE_DIR
+
+Roy Li (1):
+  unzip: fix four CVE defects
+
+Saul Wold (2):
+  binutils: Add -momit-lock-prefix support
+  rootfs.py: Add check for kernel modules before running depmod
+
+fan.xin (1):
+  wpa-supplicant: Fix CVE-2015-4142
+
+ meta/classes/report-error.bbclass                  |  11 +-
+ meta/classes/testimage.bbclass                     |   4 +
+ meta/lib/oe/patch.py                               |   6 +-
+ meta/lib/oe/rootfs.py                              |  18 +-
+ meta/lib/oe/terminal.py                            |   6 +
+ meta/lib/oeqa/runtime/parselogs.py                 |   7 +
+ meta/lib/oeqa/selftest/bbtests.py                  |   6 +
+ meta/lib/oeqa/selftest/devtool.py                  |  26 ++-
+ meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch  |  91 ++++++++
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb  |   4 +-
+ ...integer-underflow-in-WMM-Action-frame-par.patch |  45 ++++
+ meta/recipes-devtools/binutils/binutils-2.24.inc   |   1 +
+ .../0001-Add-momit_lock_prefix-no-yes-option.patch | 236 +++++++++++++++++++++
+ meta/recipes-devtools/gdb/gdb_7.8.1.bb             |   2 +-
+ ...emove-duplicate-hashtable_iterator_value-.patch |  64 ++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |   1 +
+ .../unzip/09-cve-2014-8139-crc-overflow.patch      |  52 +++++
+ .../unzip/10-cve-2014-8140-test-compr-eb.patch     |  33 +++
+ .../unzip/11-cve-2014-8141-getzip64data.patch      | 144 +++++++++++++
+ .../unzip/12-cve-2014-9636-test-compr-eb.patch     |  45 ++++
+ meta/recipes-extended/unzip/unzip_6.0.bb           |   4 +
+ .../gst-plugins-bad/buffer-overflow-mp4.patch      |  36 ++++
+ .../gstreamer/gst-plugins-bad_0.10.23.bb           |   2 +
+ .../gnutls/use-pkg-config-to-locate-zlib.patch     |  67 ++++++
+ meta/recipes-support/gnutls/gnutls_3.3.12.bb       |   1 +
+ scripts/lib/devtool/standard.py                    |   3 +-
+ 26 files changed, 897 insertions(+), 18 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0001-Add-momit_lock_prefix-no-yes-option.patch
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-hashtable-Remove-duplicate-hashtable_iterator_value-.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/09-cve-2014-8139-crc-overflow.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/10-cve-2014-8140-test-compr-eb.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/11-cve-2014-8141-getzip64data.patch
+ create mode 100644 meta/recipes-extended/unzip/unzip/12-cve-2014-9636-test-compr-eb.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-bad/buffer-overflow-mp4.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/use-pkg-config-to-locate-zlib.patch
+
 -- 
 2.1.4
 
