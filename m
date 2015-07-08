@@ -1,26 +1,22 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D485E75D64
+	by mail.openembedded.org (Postfix) with ESMTP id E327E75D8A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 16:25:19 +0000 (UTC)
+	Wed,  8 Jul 2015 16:25:20 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2015 09:25:14 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,432,1432623600"; d="scan'208";a="602437085"
+X-IronPort-AV: E=Sophos;i="5.15,432,1432623600"; d="scan'208";a="602437083"
 Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
 	([10.23.219.54])
 	by orsmga003.jf.intel.com with ESMTP; 08 Jul 2015 09:25:13 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jul 2015 08:20:27 +0000
-Message-Id: <3f3a8a447bcaa06e2336551aeaed74c220ac2d21.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Wed,  8 Jul 2015 08:20:25 +0000
+Message-Id: <cover.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
 Cc: matt.fleming@intel.com, ricardo.neri@intel.com
-Subject: [PATCH V2 2/2] runqemu: Define OECORE_MACHINE_SYSROOT on setup_sysroot
+Subject: [PATCH V2 0/2] Add UEFI firmware for qemux86*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,69 +33,34 @@ X-List-Received-Date: Wed, 08 Jul 2015 16:25:21 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-At least the OVFM (UEFI Firmware for Qemu and KVM) recipe stores the BIOS
-under $OE_TMPDIR/sysroots/$MACHINE, now defined as OECORE_MACHINE_SYSROOT.
-The latter is used when searching BIOS, VGA BIOS and keymaps. As a example,
-to boot a OVFM BIOS, one can run the following command:
+These two patches include:
 
-$ runqemu qemux86 core-image-minimal \
-    biosdir=usr/share/ovmf  \
-    biosfilename=bios.bin \
-    nographic
-
-Note the bios* parameters: these two are needed to specify the subfolder
-(parent folder is OECORE_MACHINE_SYSROOT) and BIOS filename (without it,
-it picks a BIOS named bios-256k.bin).
+    1. Recipe: Including the OVMF recipe (taken from luv-yocto repository) into OE-Core
+    2. Boot script: Instrumenting runqemu to include OECORE_MACHINE_SYSROOT, 
+    so the OVMF BIOS can be found.
 
 [YOCTO #5654]
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- scripts/runqemu | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+The following changes since commit 0aaa67a790ab211b35eed58173efa115ceb6e243:
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 09c507d..f68dba1 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -397,6 +397,13 @@ setup_sysroot() {
- 
-         OECORE_NATIVE_SYSROOT=$OE_TMPDIR/sysroots/$BUILD_SYS
-     fi 
-+
-+    # Some recipes store the BIOS under $OE_TMPDIR/sysroots/$MACHINE,
-+    # now defined as OECORE_MACHINE_SYSROOT. The latter is used when searching
-+    # BIOS, VGA BIOS and keymaps.
-+    if [ -z "$OECORE_MACHINE_SYSROOT" ]; then
-+        OECORE_MACHINE_SYSROOT=$OE_TMPDIR/sysroots/$MACHINE
-+    fi
- }
- 
- # Locate a rootfs image to boot which matches our expected
-@@ -486,7 +493,7 @@ fi
- echo "FSTYPE: [$FSTYPE]"
- 
- setup_sysroot
--# OECORE_NATIVE_SYSROOT is now set for all cases
-+# OECORE_NATIVE_SYSROOT and OECORE_MACHINE_SYSROOT are now set for all cases
- 
- INTERNAL_SCRIPT="$0-internal"
- if [ ! -f "$INTERNAL_SCRIPT" -o ! -r "$INTERNAL_SCRIPT" ]; then
-@@ -498,10 +505,14 @@ if [ ! -z "$CUSTOMBIOSDIR" ]; then
-     if [ -d "$OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR" ]; then
-         echo "Assuming biosdir is $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-         SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-+    elif [ -d "$OECORE_MACHINE_SYSROOT/$CUSTOMBIOSDIR" ]; then
-+        echo "Assuming biosdir is $OECORE_MACHINE_SYSROOT/$CUSTOMBIOSDIR"
-+        SCRIPT_QEMU_OPT="$SCRIPT_QEMU_OPT -L $OECORE_MACHINE_SYSROOT/$CUSTOMBIOSDIR"
-     else
-         if [ ! -d "$CUSTOMBIOSDIR" ]; then
-             echo "Custom BIOS directory not found. Tried: $CUSTOMBIOSDIR"
-             echo "and $OECORE_NATIVE_SYSROOT/$CUSTOMBIOSDIR"
-+            echo "and $OECORE_MACHINE_SYSROOT/$CUSTOMBIOSDIR"
-             exit 1;
-         fi
-         echo "Assuming biosdir is $CUSTOMBIOSDIR"
+  oeqa/bbtests: Fix to ensure DL_DIR is set (2015-07-08 13:09:28 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lsandov1/efi-qemux86
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/efi-qemux86
+
+Leonardo Sandoval (2):
+  ovmf: Recipe taken from luv-yocto repository
+  runqemu: Define OECORE_MACHINE_SYSROOT on setup_sysroot
+
+ ...s-Force-tools-variables-to-host-toolchain.patch | 50 ++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb                 | 61 ++++++++++++++++++++++
+ scripts/runqemu                                    | 13 ++++-
+ 3 files changed, 123 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf_git.bb
+
 -- 
 1.8.4.5
 
