@@ -1,31 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 33CC175D07
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D5CD575D07
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 15:24:30 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t68FOSEC028891; Wed, 8 Jul 2015 16:24:28 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Dg9rL0SBRgvg; Wed,  8 Jul 2015 16:24:28 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t68FOFgI028878
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 8 Jul 2015 16:24:26 +0100
-Message-ID: <1436369055.9778.7.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Shen, Cathy" <cathy.shen@intel.com>
-Date: Wed, 08 Jul 2015 16:24:15 +0100
-In-Reply-To: <9CF54C48BF4DE04F9D8FBEB712F28E401106CCF7@SHSMSX103.ccr.corp.intel.com>
-References: <1435046066-2894-1-git-send-email-junhuix.zhang@intel.com>
-	<9CF54C48BF4DE04F9D8FBEB712F28E401106CCF7@SHSMSX103.ccr.corp.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] testimage: Support full TC path such oeqa.runtime.pnp.get_memory_size in TEST_SUITES
+	Wed,  8 Jul 2015 15:28:24 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 08 Jul 2015 08:28:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,432,1432623600"; d="scan'208";a="602404499"
+Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.4.159])
+	([10.219.4.159])
+	by orsmga003.jf.intel.com with ESMTP; 08 Jul 2015 08:28:25 -0700
+Message-ID: <559D41B7.30108@linux.intel.com>
+Date: Wed, 08 Jul 2015 10:28:55 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1434522878.git.leonardo.sandoval.gonzalez@linux.intel.com>	
+	<559BEF37.4040300@linux.intel.com>
+	<1436366183.9778.0.camel@linuxfoundation.org>
+In-Reply-To: <1436366183.9778.0.camel@linuxfoundation.org>
+Cc: matt.fleming@intel.com, ricardo.neri@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Add UEFI firmware for qemux86*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +36,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 15:24:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 08 Jul 2015 15:28:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-07-02 at 01:52 +0000, Shen, Cathy wrote:
-> Are we OK with this patch?
+Feedback was related to the one of the commit's log (I used the word 
+Poky instead of OE-Core). I will send a V2 patch and send it.
 
-To be honest, I was a bit confused as it said 1/2 and there never was a
-2/2 until a week later and I didn't connect the two.
+Leo
 
-For future reference, the correct way to reference bugzilla in the
-commit message is:
-
-[YOCTO #7834]
-
-The 2/2 patch also had no explanation of what it did in the commit
-message body.
-
-I've tweaked the commit messages for these two and queued in
-master-next.
-
-Cheers,
-
-Richard
-
-
+On 07/08/2015 09:36 AM, Richard Purdie wrote:
+> On Tue, 2015-07-07 at 10:24 -0500, Leonardo Sandoval wrote:
+>> ping
+>
+> There was a piece of feedback on the series which you've not done
+> anything about?
+>
+> Cheers,
+>
+> Richard
+>
 
