@@ -1,43 +1,24 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 71F6F60034
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A25773F9E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jul 2015 23:56:46 +0000 (UTC)
-Received: by obbgp5 with SMTP id gp5so27581374obb.0
+	Wed,  8 Jul 2015 03:08:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t68382SL004813
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 Jul 2015 16:56:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=jCtSoxyoWZzjUDvGArauswUUIhS0m3Re4HFSYLWQifE=;
-	b=rqdInI53GucgQL3H78tVBX8e9ChqErBFh8yFedhtGKdHYBGTYp9Ssva6n76lro4gE3
-	0hYJzr1jPNhEtnLB/6ToCghqwxrnO2R8czdomzWCh+fzj8UjnsUFJgM39grM8tV9tlFh
-	lOSSIiOlqLmpftjB/ph6Hikzlj82uAMP1C3+agTru0WSO/OF5n2TfRfE+HL5vwh3M9eL
-	WLzDZERrbwOf2Tc/wij2GDnKB3Hum/lvY2xOiEGCqUIREKZhhBJyuVxl/DUKKQF1PLhH
-	7Ev0Cn5s4ryq4gex7teL9hQkUAtOZ4TndpAPoefjuLPGKpDywZV63s5Zm7uGtyktpx7I
-	htTA==
+	Tue, 7 Jul 2015 20:08:02 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 7 Jul 2015 20:08:02 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Jul 2015 11:07:12 +0800
+Message-ID: <1436324832-25173-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.202.94.215 with SMTP id s206mr6396321oib.15.1436313407063;
-	Tue, 07 Jul 2015 16:56:47 -0700 (PDT)
-Received: by 10.202.64.130 with HTTP; Tue, 7 Jul 2015 16:56:46 -0700 (PDT)
-In-Reply-To: <1436310276.27597.198.camel@linuxfoundation.org>
-References: <cover.1435497302.git.akuster808@gmail.com>
-	<6769ffd59132415288582211bed1c32739a52430.1435497302.git.akuster808@gmail.com>
-	<CAJTo0LZ58Ojrb=9ctie+VvB7F9BQJHSKsVghsSgedSn0EbnRQg@mail.gmail.com>
-	<55956F2C.2040301@gmail.com>
-	<20150707053411.GA17548@ad.chargestorm.se>
-	<CAJTo0Lb87w=NO5o-0_vcz29UO0JrVTahEg5c1VhQnVDNCma2wQ@mail.gmail.com>
-	<559C320F.4020707@gmail.com>
-	<CAJTo0LYLzjMAWYJQH3g0sGzZgdPtPXjthJCAgVuh=ux1mgm5Kw@mail.gmail.com>
-	<CAJ86T=Vb889E6fcJJyN93MRwUfbShLrSa1S-79sQyoSHChYnYg@mail.gmail.com>
-	<1436310276.27597.198.camel@linuxfoundation.org>
-Date: Tue, 7 Jul 2015 16:56:46 -0700
-Message-ID: <CAJ86T=WDOYytxxtGDgTRj2wOTp4JqtcymC1bH9q69qyAfmDU9Q@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] nettle: update package to 3.1.1 version.
+Subject: [PATCH] dhcp: add exec script when dhclient run
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,66 +31,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jul 2015 23:56:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 08 Jul 2015 03:08:03 -0000
+Content-Type: text/plain
 
-On Tue, Jul 7, 2015 at 4:04 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2015-07-07 at 14:03 -0700, Andre McCurdy wrote:
->> On Tue, Jul 7, 2015 at 1:30 PM, Burton, Ross <ross.burton@intel.com> wrote:
->> > On 7 July 2015 at 21:09, akuster808 <akuster808@gmail.com> wrote:
->> >>
->> >> which recipe? 2.7.1 / 3.1 or both?
->> >>
->> >> - armin
->> >> ( sucks at this licensing stuff)
->> >
->> >
->> > So: 2.7.1 is "LGPL" (v2).
->> >
->> > 3.1.1 is GPLv2+ or LGPLv3+.
->> >
->> > An "interesting" choice to say the least. Because the v2 bit is not L, I'm
->> > wondering if we will need to keep both versions.  But a 3.1.1 recipe with
->> > GPLv2+ *or* LGPLv3+ would be a good start.
->>
->> I'd vote YES to keeping the LGPLv2 version available.
->>
->> GPL libraries are normally off limits for closed source apps, so the
->> new licensing options would be a problem for anyone with a proprietary
->> application using nettle in a distro which can't use [L]GPLv3. (I'm in
->> that category...).
->
-> Surely if you can't use [L]GPLv3, you want the 3.1.1 version which is
-> GPLv2 (or other things)?
+From: Li Wang <li.wang@windriver.com>
 
-There are two separate issues.
+make dhclient-script to call ntp/nis script to get the extra data from server
 
-Both GPLv3 and LGPLv3 block 'Tivoization', which rules out [L]GPLv3
-for anyone needing to create signed firmware images which can not be
-modified by the end user.
+Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../dhcp/dhcp/dhcp-add-exec-script-function.patch  | 93 ++++++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb       |  1 +
+ meta/recipes-connectivity/dhcp/files/dhclient.conf |  1 +
+ 3 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
 
-  http://www.gnu.org/licenses/rms-why-gplv3.en.html
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+new file mode 100644
+index 0000000..40faba3
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+@@ -0,0 +1,93 @@
++dhclient: add exec script function
++
++Upstream-Status: Pending
++
++make dhclient to call /etc/dhcp/dhclient.d/*.sh
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ client/scripts/linux |   23 ++++++++++++++++++++++-
++ 1 file changed, 22 insertions(+), 1 deletion(-)
++
++diff --git a/client/scripts/linux b/client/scripts/linux
++index 3c3575e..4ea1e4f 100755
++--- a/client/scripts/linux
+++++ b/client/scripts/linux
++@@ -24,6 +24,7 @@
++ 
++ # 'ip' just looks too weird.  /sbin/ip looks less weird.
++ ip=/sbin/ip
+++ETCDIR="/etc/dhcp"
++ 
++ make_resolv_conf() {
++   if [ x"$new_domain_name_servers" != x ]; then
++@@ -84,6 +85,20 @@ exit_with_hooks() {
++   exit $exit_status
++ }
++ 
+++execute_client_side_configuration_scripts() {
+++# execute any additional client side configuration scripts we have
+++    if [ "${1}" == "config" ] || [ "${1}" == "restore" ]; then
+++        for f in ${ETCDIR}/dhclient.d/*.sh ; do
+++            if [ -x ${f} ]; then
+++                subsystem="${f%.sh}"
+++                subsystem="${subsystem##*/}"
+++                . ${f}
+++                "${subsystem}_${1}"
+++            fi
+++        done
+++    fi
+++}
+++
++ # Invoke the local dhcp client enter hooks, if they exist.
++ if [ -f /etc/dhclient-enter-hooks ]; then
++   exit_status=0
++@@ -201,11 +216,14 @@ if [ x$reason = xBOUND ] || [ x$reason = xRENEW ] || \
++     route add -host $alias_ip_address $interface:0
++   fi
++   make_resolv_conf
+++  execute_client_side_configuration_scripts "config"
++   exit_with_hooks 0
++ fi
++ 
++ if [ x$reason = xEXPIRE ] || [ x$reason = xFAIL ] || [ x$reason = xRELEASE ] \
++    || [ x$reason = xSTOP ]; then
+++  execute_client_side_configuration_scripts "restore"
+++
++   if [ x$alias_ip_address != x ]; then
++     # Turn off alias interface.
++     ifconfig $interface:0- inet 0
++@@ -277,7 +295,7 @@ if [ x$reason = xBOUND6 ] ; then
++ 
++   # Check for nameserver options.
++   make_resolv_conf
++-
+++  execute_client_side_configuration_scripts "config"
++   exit_with_hooks 0
++ fi
++ 
++@@ -297,6 +315,7 @@ if [ x$reason = xRENEW6 ] || [ x$reason = xREBIND6 ] ; then
++     make_resolv_conf
++   fi
++ 
+++  execute_client_side_configuration_scripts "config"
++   exit_with_hooks 0
++ fi
++ 
++@@ -308,6 +327,7 @@ if [ x$reason = xDEPREF6 ] ; then
++   ${ip} -f inet6 addr change ${new_ip6_address}/${new_ip6_prefixlen} \
++        dev ${interface} scope global preferred_lft 0
++ 
+++  execute_client_side_configuration_scripts "config"
++   exit_with_hooks 0
++ fi
++ 
++@@ -316,6 +336,8 @@ if [ x$reason = xEXPIRE6 -o x$reason = xRELEASE6 -o x$reason = xSTOP6 ] ; then
++     exit_with_hooks 2;
++   fi
++ 
+++  execute_client_side_configuration_scripts "restore"
+++
++   ${ip} -f inet6 addr del ${old_ip6_address}/${old_ip6_prefixlen} \
++ 	dev ${interface}
++ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+index b4a05fc..a73d31f 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+@@ -6,6 +6,7 @@ SRC_URI += "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+             file://fixsepbuild.patch \
+             file://dhclient-script-drop-resolv.conf.dhclient.patch \
+             file://replace-ifconfig-route.patch \
++            file://dhcp-add-exec-script-function.patch \
+            "
+ 
+ SRC_URI[md5sum] = "5a284875dd2c12ddd388416d69156a67"
+diff --git a/meta/recipes-connectivity/dhcp/files/dhclient.conf b/meta/recipes-connectivity/dhcp/files/dhclient.conf
+index 0e6dcf9..0f7d42f 100644
+--- a/meta/recipes-connectivity/dhcp/files/dhclient.conf
++++ b/meta/recipes-connectivity/dhcp/files/dhclient.conf
+@@ -17,6 +17,7 @@
+ #supersede domain-name "fugue.com home.vix.com";
+ #prepend domain-name-servers 127.0.0.1;
+ request subnet-mask, broadcast-address, time-offset, routers,
++	nis-domain, nis-servers, domain-search, ntp-servers,
+ 	domain-name, domain-name-servers, host-name,
+ 	netbios-name-servers, netbios-scope;
+ #require subnet-mask, domain-name-servers;
+-- 
+1.9.1
 
-Quite separate from that, linking an application with a GPL library
-(any version of the GPL) requires that the application be released
-under a GPL or GPL compatible license, so GPL libraries are generally
-considered to be incompatible with closed source applications.
-(Dynamically linking with an LGPL library is generally OK since the
-LGPL license doesn't transfer to the application).
-
-  http://www.gnu.org/licenses/gpl-faq.en.html#IfLibraryIsGPL
-  http://www.gnu.org/licenses/gpl-faq.en.html#GPLStaticVsDynamic
-
-So for someone with a proprietary application which links dynamically
-with nettle in a distro which can't use [L]GPLv3, the older version of
-nettle with an LGPLv2 license would be the only option.
-
-
-> Cheers,
->
-> Richard
->
->
->
 
