@@ -1,24 +1,24 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 35B0173B10
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F7B475D3B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 03:20:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t683Kf12005649
+	Wed,  8 Jul 2015 03:30:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t683Uwxw005841
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 7 Jul 2015 20:20:41 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 7 Jul 2015 20:20:41 -0700
-From: <wenzong.fan@windriver.com>
+	Tue, 7 Jul 2015 20:30:59 -0700 (PDT)
+Received: from LRQ.corp.ad.wrs.com (128.224.162.158) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 7 Jul 2015 20:30:58 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jul 2015 11:15:11 +0800
-Message-ID: <1436325311-9236-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Date: Wed, 8 Jul 2015 11:30:57 +0800
+Message-ID: <1436326257-23047-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: [PATCH] gdb: Fix detection of 64-bit PPC inferior in gdbserver
+Subject: [PATCH][V2] rpm: disable external key server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,98 +31,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 03:20:44 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 03:31:02 -0000
 Content-Type: text/plain
 
-From: Yuanjie Huang <yuanjie.huang@windriver.com>
+From: yzhu1 <yanjun.zhu@windriver.com>
 
-Fix 64-bit detection according to PowerISA Boot III-S.
+When RPM experiences a signed package, with a signature that it does NOT know.
+By default it will send the -fingerprint- (and only the 16 digit fingerprint)
+to an external HKP server, trying to get the key down.
 
-https://sourceware.org/ml/gdb-patches/2014-12/msg00239.html
-Written by: Yao Qi <yao@codesourcery.com>
+This is probably not a reasonable default behavior for the system to do,
+instead it should simply fail the key lookup.  If someone wants to enable the
+HKP server it's easy enough to do by enabling the necessary macros.
 
-Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- meta/recipes-devtools/gdb/gdb.inc                  |  1 +
- ...ction-of-64-bit-PPC-inferior-in-gdbserver.patch | 56 ++++++++++++++++++++++
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch
+ ...rpm-macros.in-disable-external-key-server.patch | 27 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 5466a7d..88c0213 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -4,6 +4,7 @@ inherit gettext
- 
- SRC_URI += "file://0002-Change-order-of-CFLAGS.patch \
-             file://0003-Add-support-for-Renesas-SH-sh4-architecture.patch \
-+            file://fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch \
-            "
- #LDFLAGS_append = " -s"
- #export CFLAGS_append=" -L${STAGING_LIBDIR}"
-diff --git a/meta/recipes-devtools/gdb/gdb/fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch b/meta/recipes-devtools/gdb/gdb/fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch b/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
 new file mode 100644
-index 0000000..2854352
+index 0000000..07a0cfa
 --- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/fix-detection-of-64-bit-PPC-inferior-in-gdbserver.patch
-@@ -0,0 +1,56 @@
-+From 4fe67dbafa1bee679daecc12ed30621d5c2605de Mon Sep 17 00:00:00 2001
-+From: Yao Qi <yao@codesourcery.com>
-+Date: Mon, 11 May 2015 10:57:33 +0800
-+Subject: [PATCH] Fix detection of 64-bit PPC inferior in gdbserver
-+
-+Issue #16775
-+
-+* gdbserver/linux-ppc-low.c (ppc_arch_setup): Change variable msr to type
-+'unsigned long'.  Check bit 63 or bit 31 is one.
-+
-+https://sourceware.org/ml/gdb-patches/2014-12/msg00239.html
-+Written by: Yao Qi <yao@codesourcery.com>
++++ b/meta/recipes-devtools/rpm/rpm/rpm-macros.in-disable-external-key-server.patch
+@@ -0,0 +1,27 @@
++disable external key server
 +
 +Upstream-Status: Pending
 +
-+Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-+---
-+ gdb/gdbserver/linux-ppc-low.c | 11 +++++++----
-+ 1 file changed, 7 insertions(+), 4 deletions(-)
++When RPM experiences a signed package, with a signature that it does NOT know.
++By default it will send the -fingerprint- (and only the 16 digit fingerprint) to
++an external HKP server, trying to get the key down.
 +
-+diff --git a/gdb/gdbserver/linux-ppc-low.c b/gdb/gdbserver/linux-ppc-low.c
-+index 63d4218..a62cf22 100644
-+--- a/gdb/gdbserver/linux-ppc-low.c
-++++ b/gdb/gdbserver/linux-ppc-low.c
-+@@ -374,7 +374,7 @@ ppc_arch_setup (void)
-+ {
-+   const struct target_desc *tdesc;
-+ #ifdef __powerpc64__
-+-  long msr;
-++  unsigned long msr;
-+   struct regcache *regcache;
-+ 
-+   /* On a 64-bit host, assume 64-bit inferior process with no
-+@@ -384,13 +384,16 @@ ppc_arch_setup (void)
-+   current_process ()->tdesc = tdesc;
-+   ppc_hwcap = 0;
-+ 
-+-  /* Only if the high bit of the MSR is set, we actually have
-+-     a 64-bit inferior.  */
-++  /* We actually have a 64-bit inferior only if the certain bit of the
-++     MSR is set.  The PowerISA Book III-S MSR is different from the
-++     PowerISA Book III-E MSR.  The Book III-S MSR is 64 bits wide, and
-++     its MSR[SF] is the bit 0 of a 64-bit value.  Book III-E MSR is 32
-++     bits wide, and its MSR[CM] is the bit 0 of a 32-bit value.  */
-+   regcache = new_register_cache (tdesc);
-+   fetch_inferior_registers (regcache, find_regno (tdesc, "msr"));
-+   collect_register_by_name (regcache, "msr", &msr);
-+   free_register_cache (regcache);
-+-  if (msr < 0)
-++  if (msr & 0x8000000080000000)
-+     {
-+       ppc_get_hwcap (&ppc_hwcap);
-+       if (ppc_hwcap & PPC_FEATURE_CELL)
-+-- 
-+1.8.5.2.233.g932f7e4
++This is probably not a reasonable default behavior for the system to do, instead
++it should simply fail the key lookup.  If someone wants to enable the HKP server
++it's easy enough to do by enabling the necessary macros.
 +
++Signed-off-by: yzhu1 <yanjun.zhu@windriver.com>
++Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++--- a/macros/macros.in
+++++ b/macros/macros.in
++@@ -546,8 +546,8 @@ $_arbitrary_tags_tests	Foo:Bar
++ # Horowitz Key Protocol server configuration
++ #
++ #%_hkp_keyserver         hkp://keys.n3npq.net
++-%_hkp_keyserver         hkp://pool.sks-keyservers.net
++-%_hkp_keyserver_query   %{_hkp_keyserver}/pks/lookup?op=get&search=
+++#%_hkp_keyserver         hkp://pool.sks-keyservers.net
+++#%_hkp_keyserver_query   %{_hkp_keyserver}/pks/lookup?op=get&search=
++ 
++ 
++ %_nssdb_path	/etc/pki/nssdb
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index 2e17a91..bff0687 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -94,6 +94,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+ 	   file://no-ldflags-in-pkgconfig.patch \
+ 	   file://rpm-lua-fix-print.patch \
+ 	   file://rpm-check-rootpath-reasonableness.patch \
++	   file://rpm-macros.in-disable-external-key-server.patch \
+ 	  "
+ 
+ # Uncomment the following line to enable platform score debugging
 -- 
-1.9.1
+2.1.4
 
 
