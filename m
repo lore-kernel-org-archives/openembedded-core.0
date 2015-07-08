@@ -1,30 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 91A4275D07
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A0C673E36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 11:57:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t68BvpBL001350 for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jul 2015 12:57:51 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id SDNNGIYX-XK6
+	Wed,  8 Jul 2015 12:00:14 +0000 (UTC)
+Received: by igrv9 with SMTP id v9so164745473igr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 12:57:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t68Bvd13001336
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jul 2015 12:57:50 +0100
-Message-ID: <1436356659.27597.211.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 08 Jul 2015 12:57:39 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] bitbake.conf: Add BUILD_ARCH and SSTATE_PKGARCH to HASHBASE whitelist
+	Wed, 08 Jul 2015 05:00:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=M3mYZTks6BRa4K7novXO58imoUCnnKSVmCcGVgh3vBM=;
+	b=aBrBC8hGN0pEr46sHfpfRIc1Q82o7NqdRbtix0vf6Pl7G0UWx/Zq1pXG6RoVfrV8ns
+	GJfkyaa/2Kpllgu/axQKwo7TrFdPc+jnYQj8JrWW3f7YGLms4oD96mtlbYfghg8IEuA3
+	TeO4d6xTEZedbDpfMEJZIuwECH3CFuykq7NUPcDlNxDR3l+QYq6GwNffiBTqyFCG92PV
+	W6QzpAikc28fQ1nW04c9WtDL+Sg/TB8VB9mLK8Pj3rGIIyYYHRpcsmbtM1QsoYDSpu+Z
+	gJL8ymnp6fASwK9+T6QZlf2Jp6ErZPrggEZcrMD8dlra/1MvH1pOMxAN5x6R/TcUBTJ7
+	eUgw==
+MIME-Version: 1.0
+X-Received: by 10.107.41.146 with SMTP id p140mr15427940iop.58.1436356814738; 
+	Wed, 08 Jul 2015 05:00:14 -0700 (PDT)
+Received: by 10.64.130.201 with HTTP; Wed, 8 Jul 2015 05:00:14 -0700 (PDT)
+In-Reply-To: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+Date: Wed, 8 Jul 2015 15:00:14 +0300
+Message-ID: <CALT56yP2_bkOfesazULteWL73DuBKo-BMu0MPxHw-FUz79997g@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Fix builds for MIPS64 N32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +41,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 11:57:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jul 2015 12:00:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-As Chris Larson points out in the bug, "BUILD_ARCH changing doesn't change
-native/cross sstate checksums, because its calculated in ${@}, so just its
-unexpanded form is in the signature. But BUILD_ARCH ends up included in the
-sstate filenames, so changes to BUILD_ARCH will result in rebuilds of
-native/cross but not rebuilds of the target recipes which depend on
-them, which is just what we want."
+Hello,
 
-However it does mean we can't easily test 32 and 64 bit signatures. In order
-to make the tests work, we need to add BUILD_ARCH to the HASHBASE whitelist.
-BUILD_ARCH is used in the workdir paths and so on so changing it does still
-rebuild when we need it to.
+2015-07-01 17:02 GMT+03:00 Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>:
+> Quite simple configuration (MIPS64 N32 image) fails to build (see below).
+> I have verified these patches in both single lib and in multilib cases.
+> Tri-lib images and SDK for MIPS build fine with these patches.
 
-With improvements to function dependency tracking, a dependency on SSTATE_PKGARCH
-was also introduced causing problems for 32/64 bit build signature equivalence.
-Since this is reflected in the sstate filenames, we can safely whitelist this too.
+Any comments on this patchset? It would be nice to have N32 ubroken in
+the current
+master tree.
 
-[YOCTO #5970]
+>
+> Current situation:
+>
+> lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
+> NOTE: Started PRServer with DBfile:
+> /home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
+> 15895
+> Loading cache: 100%
+> |########################################################################################################################|
+> ETA:  00:00:00
+> Loaded 1302 entries from dependency cache.
+> NOTE: Resolving any missing task queue dependencies
+> ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
+> /home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+> RDEPENDS on or otherwise requires it)
+> NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
+> removing...
+> Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
+> NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
+> unbuildable, removing...
+> Missing or unbuildable dependency chain was:
+> ['packagegroup-cross-canadian-qemumips64n32',
+> 'binutils-cross-canadian-mips64']
+> ERROR: Required build target 'core-image-base' has no buildable providers.
+> Missing or unbuildable dependency chain was: ['core-image-base',
+> 'packagegroup-cross-canadian-qemumips64n32',
+> 'binutils-cross-canadian-mips64']
+>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d426ee3..e25cccf 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -772,7 +772,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH DL_DIR \
-     USER FILESPATH STAGING_DIR_HOST STAGING_DIR_TARGET COREBASE PRSERV_HOST \
-     PRSERV_DUMPDIR PRSERV_DUMPFILE PRSERV_LOCKDOWN PARALLEL_MAKE \
-     CCACHE_DIR EXTERNAL_TOOLCHAIN CCACHE CCACHE_DISABLE LICENSE_PATH SDKPKGSUFFIX \
--    WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR"
-+    WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR BUILD_ARCH SSTATE_PKGARCH"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED"
 
 
+-- 
+With best wishes
+Dmitry
 
