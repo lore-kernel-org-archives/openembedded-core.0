@@ -1,36 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A483B73DA7
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id EBAE075D37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 20:12:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t68KBxPQ012040; Wed, 8 Jul 2015 21:11:59 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KH0OGHAbRveY; Wed,  8 Jul 2015 21:11:59 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t68KBkta012029
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 8 Jul 2015 21:11:57 +0100
-Message-ID: <1436386306.9778.18.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-Date: Wed, 08 Jul 2015 21:11:46 +0100
-In-Reply-To: <559D593C.4010600@linux.intel.com>
-References: <cover.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<f81ba427469fb04550efe6431284a0c0b2c1a546.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<1436373297.9778.9.camel@linuxfoundation.org>
-	<1436373958.2639.44.camel@ranerica-desk01>
-	<559D593C.4010600@linux.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: "Fleming, Matt" <matt.fleming@intel.com>, "Neri,
-	Ricardo" <ricardo.neri@intel.com>,
-	"openembedded-core@lists.openembedded.org"
+	Wed,  8 Jul 2015 21:15:51 +0000 (UTC)
+Received: by wibdq8 with SMTP id dq8so224539264wib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jul 2015 14:15:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=kopllQzFNQkfJXAVbOyOpxyvfYfsoXrCZAh4V0EevJA=;
+	b=Ub/RFDY9JIdcTOanifQ3VhW38qotU0sQWoYVedc1YsCvvVuyDUKGZnf/c3IO07XlSo
+	0PElG3lO/KBh6Y+UShrDzEUNNrbE0CZYorxbD1uhRVJbJwmuhD/TayDL9k75I5j23jiy
+	1oXPnYMEOkvHxBS6W6z/caOEaCExvlmVHDBV3Wds2zzTpCDdicYfFevWBTognWRDkJX9
+	jU+BfJI4UoLv02myCtKlaUTxjPXpUco4Z84DslKvhXXQaimRiRiUtJmi+Dvco5ynaZVK
+	VCH0SV27Ofx3eh4KDOHy2+f+oWNyFWr8haWOX7ZbXKvtnaii0jv/Ygxy3Nxwp434640B
+	LxjA==
+MIME-Version: 1.0
+X-Received: by 10.181.12.20 with SMTP id em20mr29195211wid.28.1436390150968;
+	Wed, 08 Jul 2015 14:15:50 -0700 (PDT)
+Received: by 10.28.167.2 with HTTP; Wed, 8 Jul 2015 14:15:50 -0700 (PDT)
+In-Reply-To: <1436385751-17757-1-git-send-email-ross.burton@intel.com>
+References: <1436385751-17757-1-git-send-email-ross.burton@intel.com>
+Date: Wed, 8 Jul 2015 23:15:50 +0200
+Message-ID: <CA+chaQeyW6RBbZdq=p3nAHVtzQUud0dHFJn+OSZ09=vRA3aWdw@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/2] ovmf: Recipe taken from luv-yocto repository
+Subject: Re: [PATCH] gnome-icon-theme: inherit allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +42,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 20:12:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jul 2015 21:15:53 -0000
+Content-Type: multipart/alternative; boundary=f46d043bdfa2b51c00051a63a47e
 
-On Wed, 2015-07-08 at 12:09 -0500, Leonardo Sandoval wrote:
-> The new set of patches are failing so I will send a V3! The reason is 
-> that the ovmf source code has ^M line endings and the .patch I send does 
-> not, so when bitbake is trying to patch, there are patch errors.
+--f46d043bdfa2b51c00051a63a47e
+Content-Type: text/plain; charset=UTF-8
 
-You probably need to tell git to preserve the line endings, see
-something like
-http://stackoverflow.com/questions/1967370/git-replacing-lf-with-crlf
-and other info you can find on line endings and git with google.
+How can it be allarch when it depends on TUNE_PKGARCH glib-2.0?
 
-> On 07/08/2015 11:46 AM, Neri, Ricardo wrote:
-> > On Wed, 2015-07-08 at 17:34 +0100, Richard Purdie wrote:
-> >> Sorry, I didn't spot this before.
-> >>
-> >> Does OE-Core have iasl?
-> >>
-> >> Does this recipe not need iasl-native in the target case too?
-> >
-> > We also have those recipes in our meta-luv layer.
-> >
-> 
-> What does this mean? Do we need to add it also? It is not under OE-Core 
-> but I did not face any error when compiling the ovmf recipe under poky.
+On Wed, Jul 8, 2015 at 10:02 PM, Ross Burton <ross.burton@intel.com> wrote:
 
-Try disabling the meta-luv layer, then run a build. OE-Core should not
-depend on meta-luv.
+> The intltool 0.51 doesn't do compile tests in the autoconf macros, so this
+> recipe can be allarch again.
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+> b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+> index fde2bc0..988ba21 100644
+> --- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+> +++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+> @@ -10,7 +10,7 @@ PR = "r5"
+>
+>  DEPENDS = "icon-naming-utils-native glib-2.0 intltool-native
+> libxml-simple-perl-native"
+>
+> -inherit autotools perlnative gtk-icon-cache pkgconfig gettext
+> +inherit allarch autotools perlnative gtk-icon-cache pkgconfig gettext
+>
+>  SRC_URI = "${GNOME_MIRROR}/${BPN}/2.31/${BPN}-${PV}.tar.bz2 \
+>             file://iconpath-option.patch"
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Cheers,
+--f46d043bdfa2b51c00051a63a47e
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr">How can it be allarch when it depends on TUNE_PKGARCH glib=
+-2.0?</div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed=
+, Jul 8, 2015 at 10:02 PM, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">The intltool 0.51 doesn&#39=
+;t do compile tests in the autoconf macros, so this<br>
+recipe can be allarch again.<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com">ros=
+s.burton@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-gnome/gnome/<a href=3D"http://gnome-icon-theme_2.31.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">gnome-icon-theme_2.31.0.bb</a> | 2 +=
+-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-gnome/gnome/<a href=3D"http://gnome-icon-theme_2.=
+31.0.bb" rel=3D"noreferrer" target=3D"_blank">gnome-icon-theme_2.31.0.bb</a=
+> b/meta/recipes-gnome/gnome/<a href=3D"http://gnome-icon-theme_2.31.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">gnome-icon-theme_2.31.0.bb</a><br>
+index fde2bc0..988ba21 100644<br>
+--- a/meta/recipes-gnome/gnome/<a href=3D"http://gnome-icon-theme_2.31.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">gnome-icon-theme_2.31.0.bb</a><br>
++++ b/meta/recipes-gnome/gnome/<a href=3D"http://gnome-icon-theme_2.31.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">gnome-icon-theme_2.31.0.bb</a><br>
+@@ -10,7 +10,7 @@ PR =3D &quot;r5&quot;<br>
+<br>
+=C2=A0DEPENDS =3D &quot;icon-naming-utils-native glib-2.0 intltool-native l=
+ibxml-simple-perl-native&quot;<br>
+<br>
+-inherit autotools perlnative gtk-icon-cache pkgconfig gettext<br>
++inherit allarch autotools perlnative gtk-icon-cache pkgconfig gettext<br>
+<br>
+=C2=A0SRC_URI =3D &quot;${GNOME_MIRROR}/${BPN}/2.31/${BPN}-${PV}.tar.bz2 \<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://iconpath-option.patch&quot=
+;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.1.4<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div>
 
-
+--f46d043bdfa2b51c00051a63a47e--
