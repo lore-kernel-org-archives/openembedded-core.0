@@ -1,32 +1,24 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 69E3475D8A
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 11DAA75D9A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 17:08:39 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2015 10:08:40 -0700
+	Wed,  8 Jul 2015 17:57:40 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 08 Jul 2015 10:57:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,432,1432623600"; d="scan'208";a="725179582"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.4.159])
-	([10.219.4.159])
-	by orsmga001.jf.intel.com with ESMTP; 08 Jul 2015 10:08:39 -0700
-Message-ID: <559D593C.4010600@linux.intel.com>
-Date: Wed, 08 Jul 2015 12:09:16 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
-MIME-Version: 1.0
-To: "Neri, Ricardo" <ricardo.neri@intel.com>, 
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-References: <cover.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>	
-	<f81ba427469fb04550efe6431284a0c0b2c1a546.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>	
-	<1436373297.9778.9.camel@linuxfoundation.org>
-	<1436373958.2639.44.camel@ranerica-desk01>
-In-Reply-To: <1436373958.2639.44.camel@ranerica-desk01>
-Cc: "Fleming, Matt" <matt.fleming@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 1/2] ovmf: Recipe taken from luv-yocto repository
+X-IronPort-AV: E=Sophos;i="5.15,433,1432623600"; d="scan'208";a="602496442"
+Received: from sentry.rb.intel.com ([10.237.105.63])
+	by orsmga003.jf.intel.com with ESMTP; 08 Jul 2015 10:57:38 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 Jul 2015 20:57:53 +0300
+Message-Id: <a512db39c828808cc61040814d8e64f0c6c7822f.1436378222.git.cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1436378222.git.cristian.iorga@intel.com>
+References: <cover.1436378222.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1436378222.git.cristian.iorga@intel.com>
+References: <cover.1436378222.git.cristian.iorga@intel.com>
+Subject: [PATCH 1/1] harfbuzz: upgrade to 0.9.41
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,29 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 17:08:41 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jul 2015 17:57:40 -0000
 
-The new set of patches are failing so I will send a V3! The reason is 
-that the ovmf source code has ^M line endings and the .patch I send does 
-not, so when bitbake is trying to patch, there are patch errors.
+Fix hb-coretext with trailing whitespace in right-to-left.
+New API: hb_buffer_reverse_range().
+Allow implementing atomic ops in config.h.
+Fix hb_language_t in language bindings.
+Misc fixes.
 
-On 07/08/2015 11:46 AM, Neri, Ricardo wrote:
-> On Wed, 2015-07-08 at 17:34 +0100, Richard Purdie wrote:
->> Sorry, I didn't spot this before.
->>
->> Does OE-Core have iasl?
->>
->> Does this recipe not need iasl-native in the target case too?
->
-> We also have those recipes in our meta-luv layer.
->
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../harfbuzz/{harfbuzz_0.9.40.bb => harfbuzz_0.9.41.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.40.bb => harfbuzz_0.9.41.bb} (88%)
 
-What does this mean? Do we need to add it also? It is not under OE-Core 
-but I did not face any error when compiling the ovmf recipe under poky.
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.40.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.41.bb
+similarity index 88%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_0.9.40.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_0.9.41.bb
+index 2517ede..1ea4563 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.40.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.41.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+ SECTION = "libs"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "0e27e531f4c4acff601ebff0957755c2"
+-SRC_URI[sha256sum] = "1771d53583be6d91ca961854b2a24fb239ef0545eed221ae3349abae0ab8321f"
++SRC_URI[md5sum] = "a2966f1b6a470c2cd84eb511f924cf68"
++SRC_URI[sha256sum] = "d81aa53d0c02b437beeaac159d7fc16394d676bbce0860fb6f6a10b587dc057c"
+ 
+ inherit autotools pkgconfig lib_package
+ 
+-- 
+2.1.4
 
-> Thanks and BR,
-> Ricardo
->
 
