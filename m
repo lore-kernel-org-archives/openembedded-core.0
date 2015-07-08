@@ -1,36 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AE4E73DA7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A483B73DA7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 20:08:00 +0000 (UTC)
-Received: by wgck11 with SMTP id k11so205610286wgc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jul 2015 13:08:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Z+ddTTGt5aACLA3Viv65fxF8DV7yglfToWTzKQQPeOw=;
-	b=MSov7GPvLpZvVg/UOe18K/mRD+V7cIqa1AK2MMyVzFuCksXVj0jlJO89BQUN51SOgF
-	3zNWDLOPwQFqkxsHSWbTIaNc4iuQqSfoC0GfZGn56kfxG1/MWiD+gE1MVLtGSlp4uEcB
-	vuwP1yphrJnoTQLxLD+V+7xumSRQn/z/vPQY8joSBSsTXV6cCVaTS5M1stIbOTa3f3pT
-	aAfYuv3nYdJzTFWRagfVIP8oqXT/+YdZncACaxSGG52mJNCuzvdW+uMNc6Enge87A6Gr
-	vZ4jsgz3EUMz19axiim9Q7YDELMft/CjrnWHbaCPDG+a21BMRgUjdahlbKxJIELTINvo
-	P6ow==
-X-Gm-Message-State: ALoCoQkurNFRC0qanUsWREdmP9ckhavzfYLkSMDnXADL1nnVSx6LwwGMbo/LXKu+X4vYsuVrhTHk
-X-Received: by 10.194.112.3 with SMTP id im3mr23383975wjb.54.1436386080867;
-	Wed, 08 Jul 2015 13:08:00 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id k16sm5119870wjr.7.2015.07.08.13.07.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 08 Jul 2015 13:07:59 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jul 2015 21:02:31 +0100
-Message-Id: <1436385751-17757-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] gnome-icon-theme: inherit allarch
+	Wed,  8 Jul 2015 20:12:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t68KBxPQ012040; Wed, 8 Jul 2015 21:11:59 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id KH0OGHAbRveY; Wed,  8 Jul 2015 21:11:59 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t68KBkta012029
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 8 Jul 2015 21:11:57 +0100
+Message-ID: <1436386306.9778.18.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Wed, 08 Jul 2015 21:11:46 +0100
+In-Reply-To: <559D593C.4010600@linux.intel.com>
+References: <cover.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<f81ba427469fb04550efe6431284a0c0b2c1a546.1436343270.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<1436373297.9778.9.camel@linuxfoundation.org>
+	<1436373958.2639.44.camel@ranerica-desk01>
+	<559D593C.4010600@linux.intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: "Fleming, Matt" <matt.fleming@intel.com>, "Neri,
+	Ricardo" <ricardo.neri@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2 1/2] ovmf: Recipe taken from luv-yocto repository
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,30 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 20:08:04 -0000
+X-List-Received-Date: Wed, 08 Jul 2015 20:12:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The intltool 0.51 doesn't do compile tests in the autoconf macros, so this
-recipe can be allarch again.
+On Wed, 2015-07-08 at 12:09 -0500, Leonardo Sandoval wrote:
+> The new set of patches are failing so I will send a V3! The reason is 
+> that the ovmf source code has ^M line endings and the .patch I send does 
+> not, so when bitbake is trying to patch, there are patch errors.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+You probably need to tell git to preserve the line endings, see
+something like
+http://stackoverflow.com/questions/1967370/git-replacing-lf-with-crlf
+and other info you can find on line endings and git with google.
 
-diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-index fde2bc0..988ba21 100644
---- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-+++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-@@ -10,7 +10,7 @@ PR = "r5"
- 
- DEPENDS = "icon-naming-utils-native glib-2.0 intltool-native libxml-simple-perl-native"
- 
--inherit autotools perlnative gtk-icon-cache pkgconfig gettext
-+inherit allarch autotools perlnative gtk-icon-cache pkgconfig gettext
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/2.31/${BPN}-${PV}.tar.bz2 \
-            file://iconpath-option.patch"
--- 
-2.1.4
+> On 07/08/2015 11:46 AM, Neri, Ricardo wrote:
+> > On Wed, 2015-07-08 at 17:34 +0100, Richard Purdie wrote:
+> >> Sorry, I didn't spot this before.
+> >>
+> >> Does OE-Core have iasl?
+> >>
+> >> Does this recipe not need iasl-native in the target case too?
+> >
+> > We also have those recipes in our meta-luv layer.
+> >
+> 
+> What does this mean? Do we need to add it also? It is not under OE-Core 
+> but I did not face any error when compiling the ovmf recipe under poky.
+
+Try disabling the meta-luv layer, then run a build. OE-Core should not
+depend on meta-luv.
+
+Cheers,
+
+Richard
 
 
