@@ -1,20 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C67D6017E
+	by mail.openembedded.org (Postfix) with ESMTP id EADFB65D00
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 07:51:20 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jul 2015 00:51:20 -0700
+	Thu,  9 Jul 2015 07:51:59 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jul 2015 00:52:00 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,438,1432623600"; d="scan'208";a="521246635"
+X-IronPort-AV: E=Sophos;i="5.15,438,1432623600"; d="scan'208";a="761101007"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Jul 2015 00:51:19 -0700
+	by orsmga002.jf.intel.com with ESMTP; 09 Jul 2015 00:51:58 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 10:51:59 +0300
-Message-Id: <cover.1436427694.git.jussi.kukkonen@intel.com>
+Date: Thu,  9 Jul 2015 10:52:42 +0300
+Message-Id: <52cb25bbbd0e0fc90193b412850d018828aa33da.1436427694.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/5] Upgrades for clutter and X related recipes
+In-Reply-To: <cover.1436427694.git.jussi.kukkonen@intel.com>
+References: <cover.1436427694.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/5] xproto: Upgrade 7.0.27 -> 7.0.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,50 +29,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 07:51:23 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 07:52:00 -0000
 
-xproto and xf86-input-vmmouse are small point upgrades.
-
-Clutter/Cogl upgrades are new releases: clutter ptests pass and test
-apps look fine.
-
-The following changes since commit 0aaa67a790ab211b35eed58173efa115ceb6e243:
-
-  oeqa/bbtests: Fix to ensure DL_DIR is set (2015-07-08 13:09:28 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/graphics-upgrades
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/graphics-upgrades
-
-Jussi Kukkonen (5):
-  xproto: Upgrade 7.0.27 -> 7.0.28
-  xf86-input-vmmouse: Upgrade 13.0.0 -> 13.1.0
-  cogl-1.0: Upgrade 1.18.2 -> 1.20.0
-  clutter-1.0: Upgrade 1.20.0 -> 1.22.4
-  clutter-gtk-1.0: Upgrade 1.4.4 -> 1.6.2
-
- .../run-installed-tests-with-tap-output.patch      | 30 +++++---
- ...clutter-1.0_1.20.0.bb => clutter-1.0_1.22.4.bb} |  4 +-
- .../clutter/clutter-gtk-1.0_1.4.4.bb               |  6 --
- .../clutter/clutter-gtk-1.0_1.6.2.bb               |  6 ++
- .../cogl-framebuffer-gl-Work-again-on-GLESv2.patch | 41 +++++++++++
- meta/recipes-graphics/cogl/cogl-1.0_1.18.2.bb      |  6 --
- meta/recipes-graphics/cogl/cogl-1.0_1.20.0.bb      |  8 +++
- .../always_include_config.h.patch                  | 81 ----------------------
- ...ouse_13.0.0.bb => xf86-input-vmmouse_13.1.0.bb} |  6 +-
- .../{xproto_7.0.27.bb => xproto_7.0.28.bb}         |  5 +-
- 10 files changed, 83 insertions(+), 110 deletions(-)
- rename meta/recipes-graphics/clutter/{clutter-1.0_1.20.0.bb => clutter-1.0_1.22.4.bb} (60%)
- delete mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.0_1.4.4.bb
- create mode 100644 meta/recipes-graphics/clutter/clutter-gtk-1.0_1.6.2.bb
- create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/cogl-framebuffer-gl-Work-again-on-GLESv2.patch
- delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.18.2.bb
- create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.20.0.bb
- delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-vmmouse/always_include_config.h.patch
- rename meta/recipes-graphics/xorg-driver/{xf86-input-vmmouse_13.0.0.bb => xf86-input-vmmouse_13.1.0.bb} (79%)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ .../xorg-proto/{xproto_7.0.27.bb => xproto_7.0.28.bb}                | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
  rename meta/recipes-graphics/xorg-proto/{xproto_7.0.27.bb => xproto_7.0.28.bb} (73%)
 
+diff --git a/meta/recipes-graphics/xorg-proto/xproto_7.0.27.bb b/meta/recipes-graphics/xorg-proto/xproto_7.0.28.bb
+similarity index 73%
+rename from meta/recipes-graphics/xorg-proto/xproto_7.0.27.bb
+rename to meta/recipes-graphics/xorg-proto/xproto_7.0.28.bb
+index 796fb41..7427a7d 100644
+--- a/meta/recipes-graphics/xorg-proto/xproto_7.0.27.bb
++++ b/meta/recipes-graphics/xorg-proto/xproto_7.0.28.bb
+@@ -15,5 +15,6 @@ SRC_URI += "file://xproto_fix_for_x32.patch"
+ EXTRA_OECONF_append = " --enable-specs=no"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[md5sum] = "6c3345111a8044f730984988aacfa567"
+-SRC_URI[sha256sum] = "246f23a6b235c8008183deeb1dcd76d529a099f93600b648b399811b10ea110c"
++SRC_URI[md5sum] = "3ce2f230c5d8fa929f326ad1f0fa40a8"
++SRC_URI[sha256sum] = "29e85568d1f68ceef8a2c081dad9bc0e5500a53cfffde24b564dc43d46ddf6ca"
++
 -- 
 2.1.4
 
