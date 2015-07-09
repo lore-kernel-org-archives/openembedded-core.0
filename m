@@ -1,36 +1,36 @@
-Return-Path: <prvs=163270e187=steffen.pankratz@elektrobit.com>
-Received: from smtpgwcipde.automotive.elektrobit.c
-	(smtpgwcipde.automotive.elektrobit.com [213.95.163.141])
-	by mail.openembedded.org (Postfix) with ESMTP id 43C4760557
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B39AD60557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 14:12:12 +0000 (UTC)
-Received: from denue6es002.localdomain ([213.95.163.135])
-	by denue6es004.ebgroup.elektrobit.com with ESMTP id
-	t69DfkA0032414-t69DfkA2032414
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=CAFAIL)
+	Thu,  9 Jul 2015 14:17:22 +0000 (UTC)
+Received: by qgeg89 with SMTP id g89so115716750qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jul 2015 15:41:46 +0200
-Received: from denue6es002. (localhost [127.0.0.1])
-	by denue6es002.localdomain (Postfix) with SMTP id 305FE19283
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 15:41:46 +0200 (CEST)
-Received: from deeres07.ebgroup.elektrobit.com
-	(deeres07.ebgroup.elektrobit.com [10.0.10.10])
-	by denue6es002.localdomain (Postfix) with ESMTPS
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 15:41:45 +0200 (CEST)
-Received: from vagrant-ubuntu-trusty-64.ebgroup.elektrobit.com (10.0.26.198)
-	by deeres07.ebgroup.elektrobit.com (10.0.10.10) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Thu, 9 Jul 2015 15:41:45 +0200
-From: Steffen Pankratz <steffen.pankratz@elektrobit.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 9 Jul 2015 13:41:34 +0000
-Message-ID: <1436449295-31251-1-git-send-email-steffen.pankratz@elektrobit.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <CAJTo0LbFvNiD5fbLkHF37SPCGJJ-5fGBxGdXKQ5yy5gD=Uh=sw@mail.gmail.com>
-References: <CAJTo0LbFvNiD5fbLkHF37SPCGJJ-5fGBxGdXKQ5yy5gD=Uh=sw@mail.gmail.com>
+	Thu, 09 Jul 2015 07:17:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=TlwUGPPSQM4Vv/BvH+HcFaiIkDY7uyQuwPnz+HOQPnY=;
+	b=iLd67DK2Jpc83lFShXq03tH9P7bGa+zLud+wyGPga/qi/qctrNQvVqv1FXie4xYqXy
+	8JpnMkt0PE8gejA/AK9ZFZ2APRBBZc9hbKpK8kuCASBGcMRX1eiWagSEdkvphHbYEcOf
+	8mJyK9Sk3NzxiTT7GcPU5U9mitseAXKlMxxAg57YcB0/jYCgbGWc50rb9Qmro/ZIBpsD
+	q5JLYnE7KTHBueIsGFiGUUBDYew+Q1Od1BF8CVTbiY5k/OZniMLfJqbhXSW6XqCwExov
+	C9eEl84gEiNYwwEYx/jdw/FF9oovU01PI9DtjNKW9BWY1HWVsX0vYKjLjhIFo6V1DJdg
+	XiGg==
+X-Gm-Message-State: ALoCoQmQEiIKjXN1yiqIPC7K/wmLB1VKI2/abH3vQzjhiEG9aFL9+gMOUAqzWB5T+ftkiCyIj+C4
+X-Received: by 10.140.235.19 with SMTP id g19mr26161682qhc.52.1436451442115;
+	Thu, 09 Jul 2015 07:17:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.0.26.198]
+Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 07:17:02 -0700 (PDT)
+In-Reply-To: <1436449295-31251-1-git-send-email-steffen.pankratz@elektrobit.com>
+References: <CAJTo0LbFvNiD5fbLkHF37SPCGJJ-5fGBxGdXKQ5yy5gD=Uh=sw@mail.gmail.com>
+	<1436449295-31251-1-git-send-email-steffen.pankratz@elektrobit.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 9 Jul 2015 15:17:02 +0100
+Message-ID: <CAJTo0LZEitO3wYjas9OoojFKDE+W4muv1zqAFZEr=XAhF33mkQ@mail.gmail.com>
+To: Steffen Pankratz <steffen.pankratz@elektrobit.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libdrm: Upgrade to 2.4.62
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,30 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 14:12:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 Jul 2015 14:17:23 -0000
+Content-Type: multipart/alternative; boundary=001a11376dacf1fa18051a71e9e7
 
-Hi Ross
+--001a11376dacf1fa18051a71e9e7
+Content-Type: text/plain; charset=UTF-8
 
-> Can you re-send this using git-send-email, something is mangling the patch and it won't apply.
+On 9 July 2015 at 14:41, Steffen Pankratz <steffen.pankratz@elektrobit.com>
+wrote:
 
-Here we go.
+> Here we go.
+>
 
+Thank works, thanks!
 
-Regards
--Steffen
+Ross
 
-Steffen Pankratz (1):
-  libdrm: Upgrade to 2.4.62
+--001a11376dacf1fa18051a71e9e7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
- .../recipes-graphics/drm/libdrm/installtests.patch |  8 ++---
- meta/recipes-graphics/drm/libdrm_2.4.59.bb         | 41 ---------------------
- meta/recipes-graphics/drm/libdrm_2.4.62.bb         | 42 ++++++++++++++++++++++
- 3 files changed, 46 insertions(+), 45 deletions(-)
- delete mode 100644 meta/recipes-graphics/drm/libdrm_2.4.59.bb
- create mode 100644 meta/recipes-graphics/drm/libdrm_2.4.62.bb
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 July 2015 at 14:41, Steffen Pankratz <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:steffen.pankratz@elektrobit.com" target=3D"_blank">steffen.pankratz@=
+elektrobit.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div=
+ id=3D":68d" class=3D"a3s" style=3D"overflow:hidden">Here we go.<br></div><=
+/blockquote></div><br>Thank works, thanks!</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
--- 
-1.9.1
-
-
+--001a11376dacf1fa18051a71e9e7--
