@@ -1,24 +1,41 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E8F260034
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id EEF4660034
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jul 2015 23:36:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t68NaXXQ018557
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jul 2015 16:36:33 -0700 (PDT)
-Received: from yow-rmacleod-lx3.wrs.com (128.224.56.85) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Wed, 8 Jul 2015 16:36:32 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jul 2015 19:36:28 -0400
-Message-ID: <1436398588-18230-1-git-send-email-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu,  9 Jul 2015 00:43:27 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.13,665,1427731200"; d="scan'208";a="98245280"
+Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 09 Jul 2015 08:47:19 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t690fi6m005194;
+	Thu, 9 Jul 2015 08:41:44 +0800
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0181.006; Thu, 9 Jul 2015 08:43:26 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, "Burton, Ross"
+	<ross.burton@intel.com>
+Thread-Topic: [OE-core] FW: [oe] [meta-oe][PATCH] parted_1.8.6.bb: add
+	parted that not GPLv3
+Thread-Index: AQHQuDpjNDtvI4kxr0SLhdqthD/ZI53PXd9Q///GqACAAFcsAIAAAgoAgAAE6QCAAs0cYA==
+Date: Thu, 9 Jul 2015 00:43:26 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FDB29F16@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1436147494-44348-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<CAJ86T=XJeo31ntBEw16vCPuTyAwYvsij_Aoq=EKgRyhCnYyzOw@mail.gmail.com>
+	<1B56A49860EB2D45ADE3731B15C959FDB29591@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<CAJTo0LZx5mPc+2_wmO8WfYs-s5smFuZYyAmYfZS4Bv+BoW7SEA@mail.gmail.com>
+	<559BD488.8090306@linux.intel.com>
+	<CAJTo0LY5fEmX8Of5d2prJ01fHvf7LV170qTz+r1kd0vtkGgesQ@mail.gmail.com>
+	<559BDA5C.6060905@linux.intel.com>
+In-Reply-To: <559BDA5C.6060905@linux.intel.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.26]
 MIME-Version: 1.0
-Subject: [PATCH] i2c-tools: uprev to 3.1.2
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: FW: [oe] [meta-oe][PATCH] parted_1.8.6.bb: add parted that not GPLv3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,49 +48,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jul 2015 23:36:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 Jul 2015 00:43:30 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="shift_jis"
+Content-Transfer-Encoding: base64
 
-The only changes based on the CHANGES file are:
-  decode-dimms: Fix DDR3 extended temp range refresh rate decoding
-  py-smbus: Add support for python 3
-The python3 changes use python3 as the default and 2 as the fallback.
-py-smbus is not currently built so no python changes have been made.
-
-The local copy of Module.mk is unchanged aside from moving it to
-a directory that is not version specific to avoid uprev noise.
-
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- meta/recipes-devtools/i2c-tools/{i2c-tools-3.1.1 => files}/Module.mk  | 0
- .../i2c-tools/{i2c-tools_3.1.1.bb => i2c-tools_3.1.2.bb}              | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/i2c-tools/{i2c-tools-3.1.1 => files}/Module.mk (100%)
- rename meta/recipes-devtools/i2c-tools/{i2c-tools_3.1.1.bb => i2c-tools_3.1.2.bb} (87%)
-
-diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools-3.1.1/Module.mk b/meta/recipes-devtools/i2c-tools/files/Module.mk
-similarity index 100%
-rename from meta/recipes-devtools/i2c-tools/i2c-tools-3.1.1/Module.mk
-rename to meta/recipes-devtools/i2c-tools/files/Module.mk
-diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
-similarity index 87%
-rename from meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
-rename to meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
-index 71c98a4..92f4d69 100644
---- a/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.1.bb
-+++ b/meta/recipes-devtools/i2c-tools/i2c-tools_3.1.2.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
- SRC_URI = "http://dl.lm-sensors.org/i2c-tools/releases/${BP}.tar.bz2 \
-            file://Module.mk \
- "
--SRC_URI[md5sum] = "0fdbff53ebd0b8d9249256d6c56480b1"
--SRC_URI[sha256sum] = "14d4d7d60d1c12e43f2befe239c682a5c44c27682f153d4b58c1e392d2db1700"
-+SRC_URI[md5sum] = "7104a1043d11a5e2c7b131614eb1b962"
-+SRC_URI[sha256sum] = "db5e69f2e2a6e3aa2ecdfe6a5f490b149c504468770f58921c8c5b8a7860a441"
- 
- inherit autotools-brokensep
- 
--- 
-1.9.1
-
+SGkgQWxleA0KDQo+IFdobydzIGdvaW5nIHRvIHByb3ZpZGUgb25nb2luZyBtYWludGVuYW5jZSBm
+b3IgYWxsIHRoYXQ/IEkgd291bGQgbGlrZSANCj4gTGVpIHRvIGVzdGFibGlzaCBoaW1zZWxmIGFz
+IHRoZSBtYWludGFpbmVyICh0aHJvdWdoIHRoZSBtYWludGFpbmVycy5pbmMgZmlsZSkuDQoNClRo
+YW5rIHlvdS4gSSdtIHZlcnkgZ2xhZCB0byBkbyB0aGF0Lg0KDQpDaGVlcnMNCg0KTGVpDQoNCg0K
+DQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQt
+Y29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRk
+ZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBB
+bGV4YW5kZXIgS2FuYXZpbg0KPiBTZW50OiBUdWVzZGF5LCBKdWx5IDA3LCAyMDE1IDk6NTYgUE0N
+Cj4gVG86IEJ1cnRvbiwgUm9zcw0KPiBDYzogT0UtY29yZQ0KPiBTdWJqZWN0OiBSZTogW09FLWNv
+cmVdIEZXOiBbb2VdIFttZXRhLW9lXVtQQVRDSF0gcGFydGVkXzEuOC42LmJiOiBhZGQgcGFydGVk
+IHRoYXQgbm90DQo+IEdQTHYzDQo+IA0KPiBPbiAwNy8wNy8yMDE1IDA0OjM4IFBNLCBCdXJ0b24s
+IFJvc3Mgd3JvdGU6DQo+IA0KPiA+ICAgICBIb3cgYWJvdXQgcmVuYW1pbmcgdGhlIHJlY2lwZSwg
+c28gdGhhdCBpdCBkb2Vzbid0IGNsYXNoIHdpdGggdGhlDQo+ID4gICAgIEdQTHYzIHZlcnNpb24/
+IEZvciBleGFtcGxlLCBwYXJ0ZWQxXzEuOC42LmJiDQo+ID4gICAgIDxodHRwOi8vcGFydGVkMV8x
+LjguNi5iYj4uIFRoZW4gaXQgY2FuIGJlIGtlcHQgb3V0c2lkZSBvZiBvZS1jb3JlLg0KPiA+DQo+
+ID4NCj4gPiBBcyB0aGV5J3JlIGp1c3QgdmVyc2lvbiB2YXJpYXRpb25zIHRoYXQgd291bGQgYmUg
+b3Zlcmx5IGNvbXBsZXguDQo+ID4gRHJvcHBpbmcgaXQgaW4gb2UtY29yZSBhcyBpdCdzIGEgbm9u
+LXYzIGFsdGVybmF0aXZlIGRvZXNuJ3Qgc2VlbSB0byBiZQ0KPiA+IGEgcHJvYmxlbSB0byBtZSAo
+YXMgdGhlcmUncyBwbGVudHkgb2YgcHJlY2VkZW50IGZvciB0aGF0IGFscmVhZHkpLg0KPiANCj4g
+TXkgcHJvYmxlbSBpcyB0aGF0IHBhcnRlZCAxLjguNiB3YXMgcmVsZWFzZWQgaW4gMjAwNywgYW5k
+IHRoZSByZWNpcGUgYWxyZWFkeSBjYXJyaWVzIGVpZ2h0DQo+IHBhdGNoZXMgd2l0aCBpdCAoYW5k
+IG5vbmUgb2YgdGhlbSBoYXMgYW55IGluZm9ybWF0aW9uIGFib3V0IHRoZWlyIG9yaWdpbikuDQo+
+IA0KPiBXaG8ncyBnb2luZyB0byBwcm92aWRlIG9uZ29pbmcgbWFpbnRlbmFuY2UgZm9yIGFsbCB0
+aGF0PyBJIHdvdWxkIGxpa2UgTGVpIHRvIGVzdGFibGlzaA0KPiBoaW1zZWxmIGFzIHRoZSBtYWlu
+dGFpbmVyICh0aHJvdWdoIHRoZSBtYWludGFpbmVycy5pbmMgZmlsZSkuDQo+IA0KPiBSZWdhcmRz
+LA0KPiBBbGV4DQo+IC0tDQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRk
+ZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
 
