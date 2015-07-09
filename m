@@ -1,23 +1,22 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B1F746017E
+Return-Path: <Tudor.Florea@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 79DC560557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 21:55:53 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jul 2015 14:55:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,442,1432623600"; d="scan'208";a="759377662"
-Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
-	([10.23.219.47])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2015 14:55:52 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 14:53:38 +0000
-Message-Id: <319488c174644617e1050ed31983ce259edd0d85.1436453140.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1436453140.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1436453140.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH v2 1/1] opkg-build: Ignore tar error due to hardlinks issue when creating ipk files
+	Thu,  9 Jul 2015 23:01:18 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 10 Jul 2015 01:01:12 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4200)	id 65B8328BA1E;
+	Fri, 10 Jul 2015 01:01:13 +0200 (CEST)
+From: Tudor Florea <tudor.florea@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jul 2015 01:01:09 +0200
+Message-ID: <1436482869-26543-1-git-send-email-tudor.florea@enea.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX03.enea.se: tudor.florea@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH 1/1] [daisy] [dizzy] openssl: upgrade to 1.0.1p
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,93 +29,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 21:55:56 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 23:01:25 -0000
+Content-Type: text/plain
 
-If a the number of hard links decreases or increases while creating
-the tar files used for an ipk package, tar fails with error code 1,
-we use hardlinks on package/ and packages-split/ to decrease disk usage
-sometimes other parts of the build can cause a change in the link count,
-since this happens in a controlled environment we can safely ignore 
-the error and continue to create the ipk file.
+This upgrade fixes CVE-2015-1793
+Removed openssl-fix-link.patch. The linking issue has been fixed in openssl.
 
-[YOCTO #7933]
-
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Signed-off-by: Tudor Florea <tudor.florea@enea.com>
 ---
- .../opkg-utils/opkg-utils/tar_ignore_error.patch   | 47 ++++++++++++++++++++++
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  4 +-
- 2 files changed, 50 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
+ .../openssl/openssl/openssl-fix-link.patch         | 35 ----------------------
+ .../{openssl_1.0.1m.bb => openssl_1.0.1p.bb}       |  5 ++--
+ 2 files changed, 2 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.1m.bb => openssl_1.0.1p.bb} (90%)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-new file mode 100644
-index 0000000..4bcae4954
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-@@ -0,0 +1,47 @@
-+If a the number of hard links decreases or increases while creating
-+the tar files used for an ipk package, tar fails with error code 1:
-+
-+| DEBUG: Executing python function do_package_ipk
-+| tar: ./usr/src/debug/gperf/3.0.4-r0/gperf-3.0.4/src/main.cc: file changed as we read it
-+NOTE: recipe gperf-3.0.4-r0: task do_package_write_ipk: Failed
-+ERROR: Task 6539 (recipes-extended/gperf/gperf_3.0.4.bb, do_package_write_ipk) failed with exit code '1'
-+
-+
-+We detect if the error code produced by tar is 1 and in this case ignore it.
-+
-+This a similar behavior to the one on dpkg:
-+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=40731942515ec8d80c727ad561174986d4f05818
-+
-+Upsteam-Status: Inappropriate
-+
-+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
-+
-+
-+Index: git/opkg-build
-+===================================================================
-+--- git.orig/opkg-build
-++++ git/opkg-build
-+@@ -250,8 +250,21 @@ tmp_dir=$dest_dir/IPKG_BUILD.$$
-+ mkdir $tmp_dir
-+ 
-+ echo $CONTROL > $tmp_dir/tarX
-+-( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -cz $tarformat -f $tmp_dir/data.tar.gz . )
-+-( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . )
-++
-++
-++# Ignore error code 1, caused by modifying the number of hard links while creating the tar file
-++rc=0
-++( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -cz $tarformat -f $tmp_dir/data.tar.gz . ) || rc=$?
-++if [[ $rc -ne 1 ]] && [[ $rc -ne 0 ]] ;then
-++        exit $rc 
-++fi
-++
-++rc=0
-++( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . ) || rc=$?
-++if [[ $rc -ne 1 ]] && [[ $rc -ne 0 ]] ;then
-++        exit $rc
-++fi
-++
-+ rm $tmp_dir/tarX
-+ 
-+ echo "2.0" > $tmp_dir/debian-binary
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-index 2800a5d..74b974d 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
-@@ -10,7 +10,9 @@ PROVIDES += "virtual/update-alternatives"
- SRCREV = "53274f087565fd45d8452c5367997ba6a682a37a"
- PV = "0.1.8+git${SRCPV}"
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch b/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
+deleted file mode 100644
+index 154106c..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From aabfb6f78af8e337d3239142117ba303fce55e7e Mon Sep 17 00:00:00 2001
+-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+-Date: Thu, 22 Sep 2011 08:55:26 +0200
+-Subject: [PATCH] fix the parallel build regarding shared libraries.
+-
+-Upstream-Status: Pending
+----
+- .../openssl-1.0.0e/Makefile.org                    |    8 ++++----
+- 1 files changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/Makefile.org
+-index 3c7aea1..6326cd6 100644
+---- a/Makefile.org
+-+++ b/Makefile.org
+-@@ -243,13 +243,13 @@ build_libs: build_crypto build_ssl build_engines
+- 
+- build_crypto:
+- 	@dir=crypto; target=all; $(BUILD_ONE_CMD)
+--build_ssl:
+-+build_ssl: build_crypto
+- 	@dir=ssl; target=all; $(BUILD_ONE_CMD)
+--build_engines:
+-+build_engines: build_crypto
+- 	@dir=engines; target=all; $(BUILD_ONE_CMD)
+--build_apps:
+-+build_apps: build_crypto build_ssl
+- 	@dir=apps; target=all; $(BUILD_ONE_CMD)
+--build_tests:
+-+build_tests: build_crypto build_ssl
+- 	@dir=test; target=all; $(BUILD_ONE_CMD)
+- build_tools:
+- 	@dir=tools; target=all; $(BUILD_ONE_CMD)
+--- 
+-1.6.6.1
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.1m.bb b/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
+similarity index 90%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.1m.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
+index cab6b3f..3f61790 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.1m.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.1p.bb
+@@ -15,7 +15,6 @@ SRC_URI += "file://configure-targets.patch \
+             file://shared-libs.patch \
+             file://oe-ldflags.patch \
+             file://engines-install-in-libdir-ssl.patch \
+-            file://openssl-fix-link.patch \
+             file://debian/version-script.patch \
+             file://debian/pic.patch \
+             file://debian/c_rehash-compat.patch \
+@@ -37,8 +36,8 @@ SRC_URI += "file://configure-targets.patch \
+             file://run-ptest \
+            "
  
--SRC_URI = "git://git.yoctoproject.org/opkg-utils"
-+SRC_URI = "git://git.yoctoproject.org/opkg-utils " 
-+
-+SRC_URI_append_class-native = "file://tar_ignore_error.patch"
+-SRC_URI[md5sum] = "d143d1555d842a069cb7cc34ba745a06"
+-SRC_URI[sha256sum] = "095f0b7b09116c0c5526422088058dc7e6e000aa14d22acca6a4e2babcdfef74"
++SRC_URI[md5sum] = "7563e92327199e0067ccd0f79f436976"
++SRC_URI[sha256sum] = "bd5ee6803165c0fb60bbecbacacf244f1f90d2aa0d71353af610c29121e9b2f1"
  
- S = "${WORKDIR}/git"
- 
+ PACKAGES =+ " \
+ 	${PN}-engines \
 -- 
-1.8.4.5
+1.9.1
 
 
