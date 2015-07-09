@@ -1,26 +1,26 @@
 Return-Path: <tanu.kaskinen@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8958473B10
+	by mail.openembedded.org (Postfix) with ESMTP id A8D5873F9E
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  9 Jul 2015 10:43:22 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 09 Jul 2015 03:43:22 -0700
+	by orsmga103.jf.intel.com with ESMTP; 09 Jul 2015 03:43:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,439,1432623600"; d="scan'208";a="758988076"
+X-IronPort-AV: E=Sophos;i="5.15,439,1432623600"; d="scan'208";a="758988084"
 Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
 	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com)
 	([10.252.21.252])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2015 03:43:22 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2015 03:43:23 -0700
 From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 13:43:14 +0300
-Message-Id: <f6116d4b96bf8f2ec34aa23130e1d03cb0618d4b.1436438063.git.tanu.kaskinen@linux.intel.com>
+Date: Thu,  9 Jul 2015 13:43:15 +0300
+Message-Id: <1f21286ea09ea0535e0d9dde4f9f1a9e75f6d464.1436438063.git.tanu.kaskinen@linux.intel.com>
 X-Mailer: git-send-email 1.9.3
 In-Reply-To: <95ffeac6a06e92a7e530ae6c903626535185ac60.1436438063.git.tanu.kaskinen@linux.intel.com>
 References: <95ffeac6a06e92a7e530ae6c903626535185ac60.1436438063.git.tanu.kaskinen@linux.intel.com>
 In-Reply-To: <cover.1436438063.git.tanu.kaskinen@linux.intel.com>
 References: <cover.1436438063.git.tanu.kaskinen@linux.intel.com>
-Subject: [PATCH v2 2/3] speex: 1.2rc1 -> 1.2rc2
+Subject: [PATCH v2 3/3] alsa-plugins, pulseaudio: depend on speexdsp, not speex
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,82 +33,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 10:43:23 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 10:43:24 -0000
 
-Dropped speex-fpu.inc, since it's simpler to put the logic directly in
-the .bb file.
+Speexdsp was split off from speex, and alsa-plugins and pulseaudio
+only depend on the speexdsp library.
 
-LIC_FILES_CHKSUM changed due to whitespace changes only.
-
-Dropped PR.
-
-Added a dependency on speexdsp. The speexdsp functionality used to be
-included in speex, but upstream split the speexdsp package off into a
-separate source tree. speexdsp could otherwise be an optional
-dependency, but the upstream configure script doesn't support
-disabling it explicitly, and relying on automatic detection would
-make builds nondeterministic, so it's better to always enable it.
-
---enable-fixed-point was previously included in the configure options
-unconditionally, but the option should be used only when TARGET_FPU is
-set to "soft".
-
---with-ogg-libraries, --with-ogg-includes and --disable-oggtest aren't
-supported anymore, since speex now uses pkg-config to find libogg.
+alsa-plugins needs also a patch, because it has so far relied on
+speex_types.h, which was renamed to speexdsp_types.h when speexdsp was
+split off, to not collide with the file that is included in speex.
 
 Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
 ---
- meta/recipes-multimedia/speex/speex-fpu.inc            |  4 ----
- .../speex/{speex_1.2rc1.bb => speex_1.2rc2.bb}         | 18 +++++++-----------
- 2 files changed, 7 insertions(+), 15 deletions(-)
- delete mode 100644 meta/recipes-multimedia/speex/speex-fpu.inc
- rename meta/recipes-multimedia/speex/{speex_1.2rc1.bb => speex_1.2rc2.bb} (51%)
+ ...nclude-speexdsp_types.h-not-speex_types.h.patch | 71 ++++++++++++++++++++++
+ .../recipes-multimedia/alsa/alsa-plugins_1.0.29.bb |  5 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |  2 +-
+ 3 files changed, 75 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-plugins/0001-include-speexdsp_types.h-not-speex_types.h.patch
 
-diff --git a/meta/recipes-multimedia/speex/speex-fpu.inc b/meta/recipes-multimedia/speex/speex-fpu.inc
-deleted file mode 100644
-index 2571d32..0000000
---- a/meta/recipes-multimedia/speex/speex-fpu.inc
-+++ /dev/null
-@@ -1,4 +0,0 @@
--def get_speex_fpu_setting(bb, d):
--     if bb.data.getVar('TARGET_FPU', d, 1) in [ 'soft' ]:
--             return "--enable-fixed-point --disable-float-api --disable-vbr"
--     return ""
-diff --git a/meta/recipes-multimedia/speex/speex_1.2rc1.bb b/meta/recipes-multimedia/speex/speex_1.2rc2.bb
-similarity index 51%
-rename from meta/recipes-multimedia/speex/speex_1.2rc1.bb
-rename to meta/recipes-multimedia/speex/speex_1.2rc2.bb
-index 5ff50b7..f7d23db 100644
---- a/meta/recipes-multimedia/speex/speex_1.2rc1.bb
-+++ b/meta/recipes-multimedia/speex/speex_1.2rc2.bb
-@@ -4,20 +4,16 @@ HOMEPAGE = "http://www.speex.org"
- SECTION = "libs"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=314649d8ba9dd7045dfb6683f298d0a8 \
--                    file://include/speex/speex.h;beginline=1;endline=34;md5=a68129f78d7fe66e07163f73aba143b3"
--DEPENDS = "libogg"
--
--PR = "r2"
-+                    file://include/speex/speex.h;beginline=1;endline=34;md5=ef8c8ea4f7198d71cf3509c6ed05ea50"
-+DEPENDS = "libogg speexdsp"
+diff --git a/meta/recipes-multimedia/alsa/alsa-plugins/0001-include-speexdsp_types.h-not-speex_types.h.patch b/meta/recipes-multimedia/alsa/alsa-plugins/0001-include-speexdsp_types.h-not-speex_types.h.patch
+new file mode 100644
+index 0000000..e5199fb
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-plugins/0001-include-speexdsp_types.h-not-speex_types.h.patch
+@@ -0,0 +1,71 @@
++From ca41e96a49a568128354f65f90a769debf5435f1 Mon Sep 17 00:00:00 2001
++From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
++Date: Thu, 9 Jul 2015 11:58:12 +0300
++Subject: [PATCH] include speexdsp_types.h, not speex_types.h
++
++Speexdsp was separated from speex in 1.2rc2. speex_types.h is not
++shipped by speexdsp, so alsa-plugins shouldn't use that file. speexdsp
++has speexdsp_types.h, which has the same contents as speex_types.h.
++
++speexdsp_types.h is a new file introduced in 1.2rc2, so this change
++bumps the minimum supported speexdsp version. The version check in
++configure.ac will actually break if speexdsp 1.2 ever gets released,
++because pkg-config thinks that "1.2" < "1.2rc2", but I think it's
++useful to fail if the installed speexdsp version is 1.2rc1 (which I
++believe is very common on current distributions). If a non-rc version
++of speexdsp will ever get released, I hope version number 1.2 will be
++skipped for this reason. (A non-rc version seems unlikely, since
++1.2rc1 was released years ago, so it's pretty likely that the project
++is stuck on so called "release candidates" forever...)
++
++Upstream-Status: Submitted (http://thread.gmane.org/gmane.linux.alsa.devel/141149)
++
++Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
++---
++ configure.ac          | 2 +-
++ pph/arch.h            | 2 +-
++ pph/speex_resampler.h | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 902a6d7..c554d22 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -108,7 +108,7 @@ AC_SUBST(AVCODEC_CFLAGS)
++ AC_SUBST(AVCODEC_LIBS)
++ AC_SUBST(AVCODEC_HEADER)
++ 
++-PKG_CHECK_MODULES(speexdsp, [speexdsp >= 1.2], [HAVE_SPEEXDSP="yes"], [HAVE_SPEEXDSP=""])
+++PKG_CHECK_MODULES(speexdsp, [speexdsp >= 1.2rc2], [HAVE_SPEEXDSP="yes"], [HAVE_SPEEXDSP=""])
++ AM_CONDITIONAL(HAVE_SPEEXDSP, test "$HAVE_SPEEXDSP" = "yes")
++ 
++ AC_ARG_WITH([speex],
++diff --git a/pph/arch.h b/pph/arch.h
++index e2d731a..a07d0d9 100644
++--- a/pph/arch.h
+++++ b/pph/arch.h
++@@ -36,7 +36,7 @@
++ #define ARCH_H
++ 
++ #ifndef OUTSIDE_SPEEX
++-#include "speex/speex_types.h"
+++#include "speex/speexdsp_types.h"
++ #endif
++ 
++ #define ABS(x) ((x) < 0 ? (-(x)) : (x))      /**< Absolute integer value. */
++diff --git a/pph/speex_resampler.h b/pph/speex_resampler.h
++index c44fbcd..aa85abb 100644
++--- a/pph/speex_resampler.h
+++++ b/pph/speex_resampler.h
++@@ -82,7 +82,7 @@
++       
++ #else /* OUTSIDE_SPEEX */
++ 
++-#include "speex/speex_types.h"
+++#include "speex/speexdsp_types.h"
++ 
++ #endif /* OUTSIDE_SPEEX */
++ 
++-- 
++1.9.3
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
+index 85df8bf..c928618 100644
+--- a/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
++++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.0.29.bb
+@@ -19,6 +19,7 @@ LIC_FILES_CHKSUM = "\
  
- SRC_URI = "http://downloads.us.xiph.org/releases/speex/speex-${PV}.tar.gz"
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/plugins/${BP}.tar.bz2 \
+            file://0001-arcam-av-Include-sys-select.h-for-fd_set-definition.patch \
++           file://0001-include-speexdsp_types.h-not-speex_types.h.patch \
+ "
+ SRC_URI[md5sum] = "a66797b4471e3cbe96575207bfbe252c"
+ SRC_URI[sha256sum] = "325d85cac285f632b83e0191ae3f348bad03c1f007b937042f164abb81ea6532"
+@@ -29,7 +30,7 @@ inherit autotools pkgconfig
  
--SRC_URI[md5sum] = "c4438b22c08e5811ff10e2b06ee9b9ae"
--SRC_URI[sha256sum] = "342f30dc57bd4a6dad41398365baaa690429660b10d866b7d508e8f1179cb7a6"
-+SRC_URI[md5sum] = "6ae7db3bab01e1d4b86bacfa8ca33e81"
-+SRC_URI[sha256sum] = "caa27c7247ff15c8521c2ae0ea21987c9e9710a8f2d3448e8b79da9806bce891"
+ PACKAGECONFIG ??= "\
+         samplerate \
+-        speex \
++        speexdsp \
+         ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio', '', d)} \
+ "
+ PACKAGECONFIG[avcodec] = "--enable-avcodec,--disable-avcodec,libav"
+@@ -38,7 +39,7 @@ PACKAGECONFIG[maemo-plugin] = "--enable-maemo-plugin,--disable-maemo-plugin"
+ PACKAGECONFIG[maemo-resource-manager] = "--enable-maemo-resource-manager,--disable-maemo-resource-manager,dbus"
+ PACKAGECONFIG[pulseaudio] = "--enable-pulseaudio,--disable-pulseaudio,pulseaudio"
+ PACKAGECONFIG[samplerate] = "--enable-samplerate,--disable-samplerate,libsamplerate0"
+-PACKAGECONFIG[speex] = "--with-speex=lib,--with-speex=no,speex"
++PACKAGECONFIG[speexdsp] = "--with-speex=lib,--with-speex=no,speexdsp"
  
- inherit autotools pkgconfig lib_package
+ PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'pulseaudio', 'alsa-plugins-pulseaudio-conf', '', d)}"
  
--EXTRA_OECONF = " --enable-fixed-point --with-ogg-libraries=${STAGING_LIBDIR} \
--                 --with-ogg-includes=${STAGING_INCDIR} --disable-oggtest"
--
--require speex-fpu.inc
--EXTRA_OECONF += "${@get_speex_fpu_setting(bb, d)}"
-+EXTRA_OECONF = "\
-+        ${@bb.utils.contains('TARGET_FPU', 'soft', '--enable-fixed-point --disable-float-api --disable-vbr', '', d)} \
-+"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 30fe221..b309d26 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "file://GPL;md5=4325afd396febcb659c36b49533135d4 \
+ DEPENDS = "libatomics-ops liboil libsndfile1 libtool"
+ # optional
+ DEPENDS += "udev alsa-lib glib-2.0 dbus gconf"
+-DEPENDS += "json-c gdbm speex libxml-parser-perl-native libcap"
++DEPENDS += "json-c gdbm speexdsp libxml-parser-perl-native libcap"
+ 
+ inherit autotools pkgconfig useradd gettext perlnative bluetooth systemd
+ 
 -- 
 1.9.3
 
