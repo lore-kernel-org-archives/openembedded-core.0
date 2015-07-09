@@ -1,23 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 20B7F60557;
-	Thu,  9 Jul 2015 10:24:31 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jul 2015 03:24:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,439,1432623600"; d="scan'208";a="758980149"
-Received: from lkpandey-mobl.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.4.112])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2015 03:24:32 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	openembedded-devel@lists.openembedded.org
-Date: Thu, 09 Jul 2015 11:24:26 +0100
-Message-ID: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.6-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id E8C7973E36
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Jul 2015 10:30:40 +0000 (UTC)
+Received: by qkei195 with SMTP id i195so182674121qke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jul 2015 03:30:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=1LsFh3RiEHt1bckoFusM592EjGrugcGgxOSWl/WdnTQ=;
+	b=W2jDNRjeAKYKCzP2bee2umOuBqMeFW7+EvER6+k929OkIMf4jjgRH+zmQ05sMwCm7m
+	TAMEQtTcYhYPKUQjd3o6eLKUTgzrlv1g8DylQCDwHTrczhcC4p3ypIYv8z/4AMWieJgQ
+	YeowAQI9Nd8elxYxz1wE7TzltxJIRm5uQsqNdZyqTXWUCt9m8zBYUTzaXdNc9gZvkyXH
+	73pOTQF35XhNIqg5UWnhFTxNs4JaKxka/FsuZKnlVOFQSY8kk+Og6EbGAFJlVSli5P5v
+	BecJziAKLjDa0tfX3UpW0hFo12MXssXYdgAjKeq8mkFRSIH3ApszzmanhYu790sJgZoL
+	IPXA==
+X-Gm-Message-State: ALoCoQmPtHUzK3xEqL8igPAM2OtRhCsCfDza0dEg1KFFz6sIUORQ3s4amJyGyc0+BzL3Au7MejuI
+X-Received: by 10.140.231.19 with SMTP id b19mr23531645qhc.22.1436437840896;
+	Thu, 09 Jul 2015 03:30:40 -0700 (PDT)
 MIME-Version: 1.0
-Subject: RFC: libav vs. ffmpeg, redux
+Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 03:30:21 -0700 (PDT)
+In-Reply-To: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
+References: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 9 Jul 2015 11:30:21 +0100
+Message-ID: <CAJTo0La0qFDC36msPioX=-=xsdWrhGSUrKC-9DokxV9Htx003Q@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RFC: libav vs. ffmpeg, redux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 10:24:34 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 09 Jul 2015 10:30:45 -0000
+Content-Type: multipart/alternative; boundary=001a11c12f003fc052051a6ebf9c
 
-Hi all,
+--001a11c12f003fc052051a6ebf9c
+Content-Type: text/plain; charset=UTF-8
 
-A few years ago we made the switch from ffmpeg to libav (a mostly drop-in 
-compatible fork), with fairly good justification at the time. However, it looks 
-like Debian has just made the switch back to ffmpeg, citing a number of reasons 
-- most notably more responsive security issue patching in recent history. 
-Here's a page with their full reasoning:
+On 9 July 2015 at 11:24, Paul Eggleton <paul.eggleton@linux.intel.com>
+wrote:
 
-  https://wiki.debian.org/Debate/libav-provider/ffmpeg
+> What do people think? Should we be looking to make the switch back in OE as
+> well?
+>
 
-Gstreamer (gst-libav, specifically) has also just recently made the switch back 
-for its internal copy:
+I say we switch back to ffmpeg, and do it as soon as possible so we're not
+making this change during M3.
 
-  https://bugzilla.gnome.org/show_bug.cgi?id=751607
+Ross
 
-What do people think? Should we be looking to make the switch back in OE as 
-well?
+--001a11c12f003fc052051a6ebf9c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Paul
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 July 2015 at 11:24, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.in=
+tel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D"=
+:652" class=3D"a3s" style=3D"overflow:hidden">What do people think? Should =
+we be looking to make the switch back in OE as<br>
+well?<br></div></blockquote></div><br>I say we switch back to ffmpeg, and d=
+o it as soon as possible so we&#39;re not making this change during M3.</di=
+v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
+></div>
 
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+--001a11c12f003fc052051a6ebf9c--
