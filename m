@@ -1,30 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 587086E5F5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 44BDE6E648
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 16:52:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t69GqbZB030840 for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jul 2015 17:52:59 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id lOlqgMSD-rVa
+	Thu,  9 Jul 2015 17:52:12 +0000 (UTC)
+Received: by iggp10 with SMTP id p10so19287291igg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 17:52:59 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t69Gqj5j030874
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jul 2015 17:52:56 +0100
-Message-ID: <1436460764.9778.42.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 09 Jul 2015 17:52:44 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] libtool: Fix regression from previous commit
+	Thu, 09 Jul 2015 10:52:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=C0T/YjUkfQddsXrfEA/WXEP3cLUC6os54tmesvuHRik=;
+	b=UzVoIntlvFlFR+GYvnOPAQagZflSBuVhe2DMojaoHvuoHwgvFjBexzdFMXggLgi2fO
+	OL9U3kTjc+6jfo8FGPKNitTSU9yo69ujlLOvwaJJ0hD2JAYJUpz2YKp4yNUDjYRO3AHx
+	IqClmn9x5N5bEt+GxP6SXvFMgmWVAm9DPhI1W1xQpyYbfwaudWZMbFTtZD9glcuI8JaL
+	8SsRFpYcN6FfsmfSZ+nbc+jUZL+tXwqYSU3PtIDZN1wvOs3+kmWNFpe8mPDfmUwlCkMF
+	l1P8xkLw1N9QzB8WfncIpSIS7LRrEo0DEyokw3Hj+1D9UWFwcBUqJTMib/RkAbJWeujQ
+	3r2w==
+X-Received: by 10.50.138.73 with SMTP id qo9mr1518223igb.64.1436464332345;
+	Thu, 09 Jul 2015 10:52:12 -0700 (PDT)
+Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
+	[96.119.89.79])
+	by smtp.gmail.com with ESMTPSA id d3sm4739295igx.5.2015.07.09.10.52.11
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 09 Jul 2015 10:52:11 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Jul 2015 10:51:59 -0700
+Message-Id: <cover.1436464186.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] GCC 4.9 upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,33 +41,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 16:53:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jul 2015 17:52:14 -0000
 
-Commit http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=f44aa10ec122df309d9810d4d25fbb8f799107d2
-inadvertently moved the m4 macros to the -dev package. These need to be
-in the main package since libtoolize is useless without them.
+Upgrade gcc4 to 4.9.3
+Backport patches to gcc5 to fix warning related diagnostics bugs
+runqemu patch required to run weston images otherwise mouse does
+not work
 
-Move them back (as the commented code implies was always needed)
+Khem Raj (3):
+  gcc-4.9: Upgrade to 4.9.3
+  gcc-5: Backport patches for -Wno-narrowing behaviour fixes
+  runqemu-internal: Replace wacom-tablet with tablet for usbdevice
 
-[YOCTO #7889]
+ meta/recipes-devtools/gcc/gcc-4.9.inc              | 11 ++-
+ ...BS_DIR-replacement-instead-of-hardcoding.patch} |  0
+ ...racking.c-backport-from-gcc-trunk-r212178.patch | 39 ----------
+ meta/recipes-devtools/gcc/gcc-5.1.inc              |  8 +-
+ .../gcc/gcc-5.1/backport/0001-PR65801.patch        | 89 ++++++++++++++++++++++
+ .../gcc/gcc-5.1/backport/0002-PR65858.patch        | 63 +++++++++++++++
+ .../gcc/gcc-5.1/backport/0003-PR66007.patch        | 73 ++++++++++++++++++
+ scripts/runqemu-internal                           |  4 +-
+ 8 files changed, 239 insertions(+), 48 deletions(-)
+ rename meta/recipes-devtools/gcc/gcc-4.9/{0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch => 0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch} (100%)
+ delete mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.1/backport/0001-PR65801.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.1/backport/0002-PR65858.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.1/backport/0003-PR66007.patch
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index b5343b0..3182986 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -39,7 +39,7 @@ DEPENDS = "libtool-native"
- PACKAGES =+ "libltdl"
- FILES_${PN} += "${datadir}/aclocal"
- 
--#FILES_${PN}-dev := "${@oe_filter_out('${datadir}/aclocal', '${FILES_libtool-dev}', d)}"
-+FILES_${PN}-dev_remove = "${datadir}/aclocal"
- FILES_libltdl = "${libdir}/libltdl${SOLIBS}"
- 
- export CONFIG_SHELL="/bin/dash"
-
+-- 
+2.1.4
 
 
