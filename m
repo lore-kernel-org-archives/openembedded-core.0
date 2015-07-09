@@ -1,38 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CDC660557
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 71AE17391D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 16:05:13 +0000 (UTC)
-Received: by qgeg89 with SMTP id g89so117237186qge.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 09:05:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=qayD9f6PQO33wKNUMkbuWE3gjpeUwMXttMP30cF8P1w=;
-	b=YyY4HgwusOY7Vi2/YEje7DlTeVnw97X43gZvA3kP31AiNJGFHjAvP/D2c3v5BYMFWg
-	qzbErIctqJTLZOILb+j5koXpk0E7c82bVBtg0GmAQ4OUDGP1Olp54zDqMI7191IXK4KN
-	+ydyWW40khN9d7EmGgQMxBselZYzFSeENeBfdsUjoPGsostubGniR8welfXQM8pvYvmX
-	Ag5ecOy6+HPbm1IALbshMxm+YjAk3qV0Ie6urktRiTLu/rTVt2Dz6XFMq6LbyXoHPWcO
-	ZoelxxM5RJFQSBUfkbUBZGTtIi9Jso4Y+0LGGjKCI6DaTPO0IxU8x2EuRoLkwJ2ryiih
-	m4jA==
-X-Gm-Message-State: ALoCoQkLWi3YeqSpBGWKp+R7MyszprszNjKXTKwrx0h+Na9PXRQsoJ53lopnbte0sm27N/mAs92q
-X-Received: by 10.55.53.193 with SMTP id c184mr24727483qka.62.1436457913632;
-	Thu, 09 Jul 2015 09:05:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 09:04:52 -0700 (PDT)
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB44B12A9E@irsmsx105.ger.corp.intel.com>
+	Thu,  9 Jul 2015 16:08:26 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 09 Jul 2015 09:08:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,441,1432623600"; 
+	d="scan'208,217";a="761344331"
+Received: from irsmsx152.ger.corp.intel.com ([163.33.192.66])
+	by orsmga002.jf.intel.com with ESMTP; 09 Jul 2015 09:08:02 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.245]) by
+	IRSMSX152.ger.corp.intel.com ([169.254.6.90]) with mapi id
+	14.03.0224.002; Thu, 9 Jul 2015 17:07:59 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 2/2] libical: upgrade to 1.0.1
+Thread-Index: AQHQulOLKD4Y8MWJkUSGHwyriyRf5p3TItYAgAAKZICAAB0OcP//8kcAgAARZbA=
+Date: Thu, 9 Jul 2015 16:07:58 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB44B12AC6@irsmsx105.ger.corp.intel.com>
 References: <cover.1436452048.git.cristian.iorga@intel.com>
 	<ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
 	<20150709143248.GC2446@jama>
 	<CAJTo0LYjQBPh1qBRvrasYTyknaVG+hKbxmS8kcFpRjrgrjgxKw@mail.gmail.com>
 	<969F26A8BAB325438E7EB80D3C3134FB44B12A9E@irsmsx105.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Jul 2015 17:04:52 +0100
-Message-ID: <CAJTo0LYSi_4P66WHMapyRKPfWM6F-oACAzSTYwNehRwQtmbkHw@mail.gmail.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
+	<CAJTo0LYSi_4P66WHMapyRKPfWM6F-oACAzSTYwNehRwQtmbkHw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYSi_4P66WHMapyRKPfWM6F-oACAzSTYwNehRwQtmbkHw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] libical: upgrade to 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,57 +45,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 16:05:16 -0000
-Content-Type: multipart/alternative; boundary=001a11476f14ad6202051a736b93
+X-List-Received-Date: Thu, 09 Jul 2015 16:08:27 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB44B12AC6irsmsx105gercor_"
 
---001a11476f14ad6202051a736b93
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--_000_969F26A8BAB325438E7EB80D3C3134FB44B12AC6irsmsx105gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 9 July 2015 at 16:57, Iorga, Cristian <cristian.iorga@intel.com> wrote:
+V291bGQgdGhpcyBvbmUgcXVhbGlmeSBhcyBhIHJlbGVhc2UgdGFyYmFsbCBkb3dubG9hZCBsaW5r
+Pw0KDQpodHRwczovL2dpdGh1Yi5jb20vbGliaWNhbC9saWJpY2FsL3JlbGVhc2VzL2Rvd25sb2Fk
+L3YxLjAuMS9saWJpY2FsLTEuMC4xLnRhci5neg0KDQpUaGFua3MsDQpDcmlzdGlhbg0KDQpGcm9t
+OiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBUaHVy
+c2RheSwgSnVseSA5LCAyMDE1IDc6MDUgUE0NClRvOiBJb3JnYSwgQ3Jpc3RpYW4NCkNjOiBNYXJ0
+aW4gSmFuc2E7IE9FLWNvcmUNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDIvMl0gbGli
+aWNhbDogdXBncmFkZSB0byAxLjAuMQ0KDQoNCk9uIDkgSnVseSAyMDE1IGF0IDE2OjU3LCBJb3Jn
+YSwgQ3Jpc3RpYW4gPGNyaXN0aWFuLmlvcmdhQGludGVsLmNvbTxtYWlsdG86Y3Jpc3RpYW4uaW9y
+Z2FAaW50ZWwuY29tPj4gd3JvdGU6DQpIYWhhaGEuIEkgYW0gbGF1Z2hpbmcgYmVjYXVzZSBJIGFz
+c3VtZWQgdGhhdCB0aGUgd29yZCDigJxhcmNoaXZl4oCdIG1lYW5zIHRoZSBmaWxlIHdpbGwgc3Rh
+eSB0aGVyZSBmb3JldmVyIHdpdGggdGhlIHNhbWUgY2hlY2tzdW0uIFNpbGx5IG1lLiDimLoNClRo
+ZXkgaGF2ZSBhbm90aGVyIGxpbmssIGJ1dCBJIGFtIG5vdCBzdXJlIGlmIHRoYXQgc3RheXMgdXAg
+YW5kIHRoYXQgdGhlIGNoZWNrc3VtIGRvZXMgbm90IGNoYW5nZS4NCklzIHRoaXMgYWx3YXlzIHRy
+dWUsIHRoYXQgdGhlIGNoZWNrc3VtIGNoYW5nZXM/DQoNCkdpdGh1YiBhdXRvbWF0ZWQgdGFyYmFs
+bHMgYXJlIGFwcGFyZW50bHkgZHluYW1pY2FsbHkgZ2VuZXJhdGVkIGFuZCBjYWNoZWQuICBUaGV5
+IGFsc28gb2ZmZXIgaG9zdGluZyBmb3IgcmVsZWFzZSB0YXJiYWxscywgYnV0IG5vdCBtYW55IHBy
+b2plY3RzIHVzZSB0aG9zZS4NCg0KUm9zcw0K
 
-> Hahaha. I am laughing because I assumed that the word =E2=80=9Carchive=E2=
-=80=9D means the
-> file will stay there forever with the same checksum. Silly me. J
->
-> They have another link, but I am not sure if that stays up and that the
-> checksum does not change.
->
-> Is this always true, that the checksum changes?
->
->
-Github automated tarballs are apparently dynamically generated and cached.
-They also offer hosting for release tarballs, but not many projects use
-those.
+--_000_969F26A8BAB325438E7EB80D3C3134FB44B12AC6irsmsx105gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Ross
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+V2luZ2RpbmdzOw0KCXBhbm9zZS0xOjUgMCAwIDAgMCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFjZQ0K
+CXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMg
+MiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1
+IDUgMiAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
+Um9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
+aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
+OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
+Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4u
+RW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFt
+aWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1
+bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmki
+LHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0K
+CW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3Bh
+Z2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8
+bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFb
+ZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0i
+ZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91
+dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJi
+bHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+V291bGQgdGhpcyBv
+bmUgcXVhbGlmeSBhcyBhIHJlbGVhc2UgdGFyYmFsbCBkb3dubG9hZCBsaW5rPzxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
+MUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
+JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PGEgaHJlZj0iaHR0cHM6Ly9naXRodWIu
+Y29tL2xpYmljYWwvbGliaWNhbC9yZWxlYXNlcy9kb3dubG9hZC92MS4wLjEvbGliaWNhbC0xLjAu
+MS50YXIuZ3oiPmh0dHBzOi8vZ2l0aHViLmNvbS9saWJpY2FsL2xpYmljYWwvcmVsZWFzZXMvZG93
+bmxvYWQvdjEuMC4xL2xpYmljYWwtMS4wLjEudGFyLmd6PC9hPjxvOnA+PC9vOnA+PC9zcGFuPjwv
+cD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48
+bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
+bnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+VGhhbmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5DcmlzdGlh
+bjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9N
+YWlsRW5kQ29tcG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9zcGFuPjwvYT48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2lu
+LWxlZnQ6LjVpbiI+PGI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6
+JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
+LXNlcmlmIj4gQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJy
+Pg0KPGI+U2VudDo8L2I+IFRodXJzZGF5LCBKdWx5IDksIDIwMTUgNzowNSBQTTxicj4NCjxiPlRv
+OjwvYj4gSW9yZ2EsIENyaXN0aWFuPGJyPg0KPGI+Q2M6PC9iPiBNYXJ0aW4gSmFuc2E7IE9FLWNv
+cmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMi8yXSBsaWJpY2Fs
+OiB1cGdyYWRlIHRvIDEuMC4xPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+
+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
+Im1hcmdpbi1sZWZ0Oi41aW4iPk9uIDkgSnVseSAyMDE1IGF0IDE2OjU3LCBJb3JnYSwgQ3Jpc3Rp
+YW4gJmx0OzxhIGhyZWY9Im1haWx0bzpjcmlzdGlhbi5pb3JnYUBpbnRlbC5jb20iIHRhcmdldD0i
+X2JsYW5rIj5jcmlzdGlhbi5pb3JnYUBpbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpw
+PjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAj
+Q0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7
+bWFyZ2luLXJpZ2h0OjBpbiI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibXNvLW1hcmdp
+bi10b3AtYWx0OmF1dG87bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG87bWFyZ2luLWxlZnQ6LjVp
+biI+DQo8c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxp
+YnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SGFoYWhhLiBJIGFtIGxhdWdoaW5n
+IGJlY2F1c2UgSSBhc3N1bWVkIHRoYXQgdGhlIHdvcmQg4oCcYXJjaGl2ZeKAnSBtZWFucyB0aGUg
+ZmlsZSB3aWxsIHN0YXkgdGhlcmUgZm9yZXZlciB3aXRoIHRoZSBzYW1lIGNoZWNrc3VtLiBTaWxs
+eSBtZS4NCjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpX
+aW5nZGluZ3M7Y29sb3I6IzFGNDk3RCI+Sjwvc3Bhbj48bzpwPjwvbzpwPjwvcD4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJv
+dHRvbS1hbHQ6YXV0bzttYXJnaW4tbGVmdDouNWluIj4NCjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
+MUY0OTdEIj5UaGV5IGhhdmUgYW5vdGhlciBsaW5rLCBidXQgSSBhbSBub3Qgc3VyZSBpZiB0aGF0
+IHN0YXlzIHVwIGFuZCB0aGF0IHRoZSBjaGVja3N1bSBkb2VzIG5vdCBjaGFuZ2UuPC9zcGFuPjxv
+OnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1zby1tYXJnaW4tdG9w
+LWFsdDphdXRvO21zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvO21hcmdpbi1sZWZ0Oi41aW4iPg0K
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPklzIHRoaXMgYWx3YXlzIHRydWUsIHRoYXQg
+dGhlIGNoZWNrc3VtIGNoYW5nZXM/PC9zcGFuPjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3Rl
+Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+
+PGJyPg0KR2l0aHViIGF1dG9tYXRlZCB0YXJiYWxscyBhcmUgYXBwYXJlbnRseSBkeW5hbWljYWxs
+eSBnZW5lcmF0ZWQgYW5kIGNhY2hlZC4mbmJzcDsgVGhleSBhbHNvIG9mZmVyIGhvc3RpbmcgZm9y
+IHJlbGVhc2UgdGFyYmFsbHMsIGJ1dCBub3QgbWFueSBwcm9qZWN0cyB1c2UgdGhvc2UuPG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFy
+Z2luLWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+Um9zczxvOnA+PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
---001a11476f14ad6202051a736b93
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 July 2015 at 16:57, Iorga, Cristian <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:cristian.iorga@intel.com" target=3D"_blank">cristian.iorga@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=3D"MsoNorm=
-al"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-se=
-rif;color:#1f497d">Hahaha. I am laughing because I assumed that the word =
-=E2=80=9Carchive=E2=80=9D means the file will stay there forever with the s=
-ame checksum. Silly me.
-</span><span style=3D"font-size:11.0pt;font-family:Wingdings;color:#1f497d"=
->J</span><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sa=
-ns-serif;color:#1f497d"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">They have another link, but I am not =
-sure if that stays up and that the checksum does not change.<u></u><u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Is this always true, that the checksu=
-m changes?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"></p></blockquote></div><br>Github automated tarballs=
- are apparently dynamically generated and cached.=C2=A0 They also offer hos=
-ting for release tarballs, but not many projects use those.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11476f14ad6202051a736b93--
+--_000_969F26A8BAB325438E7EB80D3C3134FB44B12AC6irsmsx105gercor_--
