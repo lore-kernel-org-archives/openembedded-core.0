@@ -1,27 +1,21 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4560F607A4
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 0418760557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 02:29:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t692TQeh004924
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 Jul 2015 19:29:26 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 8 Jul 2015 19:29:25 -0700
-Message-ID: <559DDC87.9000003@windriver.com>
-Date: Thu, 9 Jul 2015 10:29:27 +0800
-From: Kang Kai <Kai.Kang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1435720976.git.kai.kang@windriver.com>
-In-Reply-To: <cover.1435720976.git.kai.kang@windriver.com>
-Subject: Re: [PATCH 0/1] Fix build path in expect-dev pkg
+	Thu,  9 Jul 2015 05:10:13 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2015 22:10:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,437,1432623600"; d="scan'208";a="521188779"
+Received: from weiteeng-ilbpg1.png.intel.com ([10.88.227.45])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2015 22:10:13 -0700
+From: wei.tee.ng@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Jul 2015 13:10:18 +0800
+Message-Id: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Cc: wei.tee.ng@intel.com
+Subject: [PATCH 0/2] [master][dizzy] Enable Marvel 8897 Wifi feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,34 +28,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 02:29:30 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 09 Jul 2015 05:10:17 -0000
 
-On 2015年07月01日 11:24, Kai Kang wrote:
-> The following changes since commit 410a6377493ebf3fa21045c390693f021149c241:
->
->    bitbake: tests/data: Add new data tests (2015-06-30 09:06:35 +0100)
->
-> are available in the git repository at:
->
->    git://git.yoctoproject.org/poky-contrib kangkai/expect
->    http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kangkai/expect
->
-> Yue Tao (1):
->    expect: replace the STAGING_INCDIR with includedir
+From: Ng Wei Tee <wei.tee.ng@intel.com>
 
-Ping?
+Hi all,
 
+I would like to add hostapd and iw configuration for enabling
+Marvell 8897 Wifi feature. Hostapd and iw configuration were
+created in the recipes-connectivity layer to enable Marvell 8897
+module function in AP mode and STA mode.
 
->
->   meta/recipes-devtools/expect/expect_5.45.bb | 11 +++++------
->   1 file changed, 5 insertions(+), 6 deletions(-)
->
+Please review and provide feedback if any.
 
+This patch is target to merge in openembedded-core master and dizzy
+branch. Thanks.
+
+Regards,
+Wei Tee
+
+Ng Shui Lei (2):
+  recipes-connectivity: Add hostapd configuration for enabling Marvell
+    8897 WiFi feature
+  recipes-connectivity: Add iw configuration for enabling Marvell 8897
+    WiFi feature
+
+ .../hostapd/hostapd-2.2/defconfig                  |  145 ++++++++++++++++++++
+ .../hostapd/hostapd-2.2/hostapd.service            |   11 ++
+ meta/recipes-connectivity/hostapd/hostapd-2.2/init |   58 ++++++++
+ meta/recipes-connectivity/hostapd/hostapd_2.2.bb   |   48 +++++++
+ ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++
+ meta/recipes-connectivity/iw/iw_3.8.bb             |   27 ++++
+ 6 files changed, 329 insertions(+)
+ create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/defconfig
+ create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/hostapd.service
+ create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/init
+ create mode 100644 meta/recipes-connectivity/hostapd/hostapd_2.2.bb
+ create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+ create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
 
 -- 
-Regards,
-Neil | Kai Kang
+1.7.9.5
 
 
