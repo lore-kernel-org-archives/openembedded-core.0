@@ -1,40 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DF19607A4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E5D9560557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 14:32:33 +0000 (UTC)
-Received: by wiwl6 with SMTP id l6so20622751wiw.0
+	Thu,  9 Jul 2015 14:55:14 +0000 (UTC)
+Received: by qgeg89 with SMTP id g89so116254197qge.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 07:32:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=0NxR85Vpe0THR6zfZsOfkmmE8DqGVd6DTOnCFCI+wrk=;
-	b=ntbop/Iqngh6b3LRNXlY6NZPQCW13dAITuJLCNlbC06ViZTIoLrk4WBwOw0F9P1f3I
-	jIWhU3CMx7PgJCy/j8o4ZU9hGlxgNljNOr2GqN89uRBomw93NV9spHBb8ggSazhX24ZB
-	BhHl7waBo4cxQ628O9EjWJu0tColCNvOcnwk8Fxb05d1uyKtM1Izsd9D8n10yUjcBKYQ
-	ZgY9NB21pwe21sghznvcNqYBTvtvRwZdMoCTeoH6iq/uc0rW69Vswb9IzVYuD8llMMwG
-	YEI/1q6cNFp4uJ0R1l2kTsLvmfe/NjhBJ3IhNCCF5Tfu/4k1kg6QcZw1ASP1S+OPRr+W
-	dm2g==
-X-Received: by 10.194.176.68 with SMTP id cg4mr30638396wjc.106.1436452353311; 
-	Thu, 09 Jul 2015 07:32:33 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id jy6sm9165394wjc.4.2015.07.09.07.32.32
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 Jul 2015 07:32:32 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 9 Jul 2015 16:32:48 +0200
-To: Cristian Iorga <cristian.iorga@intel.com>
-Message-ID: <20150709143248.GC2446@jama>
-References: <cover.1436452048.git.cristian.iorga@intel.com>
-	<ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
+	Thu, 09 Jul 2015 07:55:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=cW0t19PkN/xmxaBFvAEDw0+d1g0WL2R/emxxHruNFpk=;
+	b=PPaiJFsWmtwbjo+ptb4pYkdE8PBZYMqiJtQCuaIvRobgBb3FKNmLA/eTmen20PQWfR
+	XKO5ecjn+dR8GE87D6LjYj2YUcH62lD2eX7i8ChFKE/3/O4CUCbet8YisoWGU9AVwkyX
+	v6L7M69fyc36ghtqxYzrtpjTnQ7Lo/3QC/lNNA4H9FkFE/pcC94KoP05iJu6PxB7lIzq
+	2niOoMWCNePA+iCCDIiF+uxpCbm2uUjdQro5YxFI+iUp/JDNdzzucS8XrWmLfTeuRyj0
+	dxULs69UJQQn7Gg9bh+PK37CMtk9biV/5y74DxqX04aTNT9Z0IM722ZrHN100u7/TkB4
+	EVQg==
+X-Gm-Message-State: ALoCoQnOuy4p4hnltDtEXSCajmHqE9nt6lDX/1grC824oZ46phq098blSaHjBE5D+ymy0Zcw13Ux
+X-Received: by 10.140.231.19 with SMTP id b19mr25412429qhc.22.1436453714674;
+	Thu, 09 Jul 2015 07:55:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] libical: upgrade to 1.0.1
+Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 07:54:55 -0700 (PDT)
+In-Reply-To: <3a571bfe258bda28dd34a61b2a6bf323a06ca911.1436178756.git.liezhi.yang@windriver.com>
+References: <cover.1436178756.git.liezhi.yang@windriver.com>
+	<3a571bfe258bda28dd34a61b2a6bf323a06ca911.1436178756.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 9 Jul 2015 15:54:55 +0100
+Message-ID: <CAJTo0LZYJEmmPsgiQc8R2whGkOH3vQdAXn9vwXz7W8nYA9KUyA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] gcc-target 5.1: fix for libcc1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,81 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 14:32:34 -0000
-X-Groupsio-MsgNum: 67748
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/Uq4LBwYP4y1W6pO"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 Jul 2015 14:55:16 -0000
+Content-Type: multipart/alternative; boundary=001a11c12f006661e7051a727158
 
---/Uq4LBwYP4y1W6pO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11c12f006661e7051a727158
+Content-Type: text/plain; charset=UTF-8
+
+On 6 July 2015 at 11:35, Robert Yang <liezhi.yang@windriver.com> wrote:
+
+> * Install libcc1.so and libcc1plugin.so to
+>   $(libexecdir)/gcc/$(target_noncanonical)/$(gcc_version) as lto-plugin
+> did.
+>
+
+Why are plugin libraries going into $libexecdir?  libexecdir is for
+"binaries that the user doesn't directly execute", not for libraries or
+plugins.
+
+Ross
+
+--001a11c12f006661e7051a727158
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 09, 2015 at 05:28:11PM +0300, Cristian Iorga wrote:
-> Bugfix release mainly.
-> autotools build system removed, cmake is now used.
-> perl is needed during the configure phase.
->=20
-> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> ---
->  .../libical/{libical_1.0.0.bb =3D> libical_1.0.1.bb}               | 9 +=
-+++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
->  rename meta/recipes-support/libical/{libical_1.0.0.bb =3D> libical_1.0.1=
-=2Ebb} (67%)
->=20
-> diff --git a/meta/recipes-support/libical/libical_1.0.0.bb b/meta/recipes=
--support/libical/libical_1.0.1.bb
-> similarity index 67%
-> rename from meta/recipes-support/libical/libical_1.0.0.bb
-> rename to meta/recipes-support/libical/libical_1.0.1.bb
-> index be6b635..b50cf7e 100644
-> --- a/meta/recipes-support/libical/libical_1.0.0.bb
-> +++ b/meta/recipes-support/libical/libical_1.0.1.bb
-> @@ -7,7 +7,10 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd4fc58309d8ed=
-46587ac63bb449d82f8 \
->  SECTION =3D "libs"
-> =20
->  SRC_URI =3D "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz"
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 6 July 2015 at 11:35, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
+0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3cy" clas=
+s=3D"a3s" style=3D"overflow:hidden">* Install libcc1.so and libcc1plugin.so=
+ to<br>
+=C2=A0 $(libexecdir)/gcc/$(target_noncanonical)/$(gcc_version) as lto-plugi=
+n did.</div></blockquote></div><br>Why are plugin libraries going into $lib=
+execdir? =C2=A0libexecdir is for &quot;binaries that the user doesn&#39;t d=
+irectly execute&quot;, not for libraries or plugins.</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-aren't github archives regenerated from time to time with different
-checksums?
-
-> -SRC_URI[md5sum] =3D "f4b8e33ae5efb2f025eb43ce69682a36"
-> -SRC_URI[sha256sum] =3D "0072e83834092315772e6719b85fc8b11530b1ff53f4d108=
-315fb38cddbce8c2"
-> +SRC_URI[md5sum] =3D "af91db06b22559f863869c5a382ad08a"
-> +SRC_URI[sha256sum] =3D "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb1=
-4249d1413d6c610c"
-> +
-> +inherit cmake perlnative
-> +
-> +FILES_${PN}-dev +=3D "${libdir}/cmake"
-> =20
-> -inherit autotools
-> --=20
-> 2.1.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---/Uq4LBwYP4y1W6pO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWehg4ACgkQN1Ujt2V2gBz4dACgg4uzHMJ90sy85VYCgJ84+R4a
-8vEAmQHkXmpMiApx6tq0g8QcFZ3H+3ji
-=jeYX
------END PGP SIGNATURE-----
-
---/Uq4LBwYP4y1W6pO--
+--001a11c12f006661e7051a727158--
