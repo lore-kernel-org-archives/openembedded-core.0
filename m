@@ -1,38 +1,38 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id AC0C96017E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B43B6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 11:38:21 +0000 (UTC)
-Received: by igoe12 with SMTP id e12so11839367igo.1
+	Thu,  9 Jul 2015 11:42:18 +0000 (UTC)
+Received: by qkhu186 with SMTP id u186so183868281qkh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 04:38:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:date:message-id:subject
-	:from:to:cc:content-type;
-	bh=p+PsIdCzSBRqJous1CAYKeYKCyh95skr1CjeS1EfUi0=;
-	b=yUguko+ZqqBoBx8o9sDC37cPkb9xJ1eI51RfAGqUtyCzyR6DmBycrntRLgJuDTY4s+
-	QrUl+OWX3OWfpZU5WcKnYmuwJJ0n0MPvz4vCBzx4q9VZbCZVtMyuB8BvrnlnRTQ2lyBw
-	m1YXmB3Xxs+hbeg5T4GAc7YoTupX5IU7lbyZuHIvV82nBjVrr9Ah8R2oqLYrc2quq9vB
-	FfNN0ieEDLs741ytdFgQ76K5F502YHwPnslhXXM2wOftP9v72svXW+ATv9E3I5LkbrBw
-	2x//9Fm2vPP8amlTGCVa5EpmMBkSh+ab/vftxGk2qBexKCjAKyEEsQ9AWIWKjv5aT8wL
-	rICw==
+	Thu, 09 Jul 2015 04:42:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=vWaHqUtFIfvSv/qbr5Y5R/JACoBzW7Lf+UHTLGDk15E=;
+	b=Yflu/Ko9igh/EEesqDGQcX5xr8Jb4VGrKew6mVrGJXpU1eZtKEOgzYsfS+ax7+/x4O
+	/Tl7UpymeTvbmd/BrdyTlvfwwpAbtDkwymj+GWxUJUzIg+P/zJy3osglBDI0WUz2GR5W
+	di5edXlRMDeDOXuK7gIIpDx4LFR2bx1X04qcSpUx0Gqnpo4eqGWsvyWI3nwdDAICD3Qt
+	5l08I7fQ2TPWS8+ejvZNgMP0k7jJ/43bwJd4iiSS+YS4hmFCDVAYvlBf4bi4QqeHBH7U
+	Ss2FvTHvkeE1r01Gzba5ilslIYi57lCWCP1UL2dEVRYDVwH8sOTAMM51AgTri0ML6NVs
+	SA1Q==
+X-Gm-Message-State: ALoCoQn1XTd8ZrjRkPTGQEg971R7FDnLcXR2XkXTOn5w0rzFaZu7hFyhd6tQHU40pNzDx/poDe0h
+X-Received: by 10.140.231.19 with SMTP id b19mr23953204qhc.22.1436442139000;
+	Thu, 09 Jul 2015 04:42:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.50.50.229 with SMTP id f5mr69574637igo.35.1436441901601;
-	Thu, 09 Jul 2015 04:38:21 -0700 (PDT)
-Sender: otavio.salvador@gmail.com
-Received: by 10.36.218.7 with HTTP; Thu, 9 Jul 2015 04:38:21 -0700 (PDT)
-In-Reply-To: <56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
-References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
-Date: Thu, 9 Jul 2015 08:38:21 -0300
-X-Google-Sender-Auth: tTE2zPqZelwaYxqx1xLWY90bp_c
-Message-ID: <CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] parted_1.8.6.bb: add parted that not GPLv3
+Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 04:41:59 -0700 (PDT)
+In-Reply-To: <CAALGJZbmg2kqahBp5jFL4mk2N6upacQpmi9bpd3jSf5A-c4T8A@mail.gmail.com>
+References: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
+	<CAJTo0La0qFDC36msPioX=-=xsdWrhGSUrKC-9DokxV9Htx003Q@mail.gmail.com>
+	<CAALGJZbmg2kqahBp5jFL4mk2N6upacQpmi9bpd3jSf5A-c4T8A@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 9 Jul 2015 12:41:59 +0100
+Message-ID: <CAJTo0LaQR12MZP05tOSABbaRCAL=tA2boNdjKGJT54oLjAsG4w@mail.gmail.com>
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] RFC: libav vs. ffmpeg, redux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,24 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 11:38:21 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 11:42:19 -0000
+Content-Type: multipart/alternative; boundary=001a11c12f006f99b3051a6fbf9a
+
+--001a11c12f006f99b3051a6fbf9a
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jul 9, 2015 at 8:33 AM,  <alexander.kanavin@linux.intel.com> wrote:
->> Add parted-1.8.6 which is not GPLv3.
+On 9 July 2015 at 11:35, Christian Ege <k4230r6@gmail.com> wrote:
+
+> Another option could be supporting both.
 >
-> I have to say, I still can't support having this in oe-core. Providing
-> alternatives to GPLv3 software is fine, but not when the 'alternative' is
-> a very old, unsupported version of the same software, which inevitably
-> brings issues in functionality and maintenance.
 
-Parted 1.8 is very old and not supported at all. The number of fixes
-after it is such huge which makes Parted mostly useless in new storage
-and disk formats. I see NO benefit in having it and a serious
-maintenance burden.
+I totally endorse having a layer that has the one that isn't in oe-core,
+but oe-core should pick one and support it properly.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Ross
 
+--001a11c12f006f99b3051a6fbf9a
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 July 2015 at 11:35, Christian Ege <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:k4230r6@gmail.com" target=3D"_blank">k4230r6@gmail.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div id=3D":6g8" class=3D"a3s" styl=
+e=3D"overflow:hidden">Another option could be supporting both.<br></div></b=
+lockquote></div><br>I totally endorse having a layer that has the one that =
+isn&#39;t in oe-core, but oe-core should pick one and support it properly.<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
+div></div>
+
+--001a11c12f006f99b3051a6fbf9a--
