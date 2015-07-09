@@ -1,38 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B8C16E648
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 449E2739BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 17:52:46 +0000 (UTC)
-Received: by iggp10 with SMTP id p10so19297258igg.0
+	Thu,  9 Jul 2015 17:52:47 +0000 (UTC)
+Received: by igoe12 with SMTP id e12so19273495igo.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 10:52:46 -0700 (PDT)
+	Thu, 09 Jul 2015 10:52:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-type:content-transfer-encoding;
-	bh=+cyABgOWMWSqM38WFAdgVfD6jNlpxdCpEtwbQCbcoCE=;
-	b=eShzYP/hJ1ExCTN5VsDocKGCp8cthDoYIe312zFejn6U/F4+tW1C5GL8hVoNa2QLi4
-	eX50MAfFx2cNH2thLpdYjRut7+ddX3OYBt8Y8WuKPQKLKU2eC981EhS+gdtjUHB3Jr7E
-	0tYpMb5gp3PaYo9mRyEY+W1xH8SVaf1QOxOmhsIUyXG6g2DHGzy7kZCSfbkkvO41C3bn
-	xhW3gflJ3fLKuHUxX4xbGqNTVKhNqz2wEIofyBqG6iIqF3Qslvd9Uon9DlwsNx3cBP3c
-	Wi1LpgFYNoEuIuc1ZlmOwCfktZLQRN6hgtDOQ0X8de972ZveOTJxtsCaz7uDYChduERK
-	eXFw==
-X-Received: by 10.107.3.33 with SMTP id 33mr959141iod.132.1436464366891;
-	Thu, 09 Jul 2015 10:52:46 -0700 (PDT)
+	:in-reply-to:references;
+	bh=yTRh0YWYYswG0ZDZfgVmHHRO472m0Y1n5DmYDx+4Ztw=;
+	b=tp91EXs34unNJByvAgUAu0sAgquYy62gQ30mUwwb4/69H5hPSgm7ug+CXJ0wdU56Ms
+	Xly64M1A4WpwW4LIo3ZwJTUcw1tEsIcht+1+dbB1DBKKD5hsn2LkR5LRFmVmJcfxHykH
+	o2/T4a0vKgz05RBeZIK2mbCU6wqkrvgGqqiQoaYILMO/vUai6xb0sHQedHL09WPcRekK
+	hm2vrLXB11Y4ifd6dtwIxC3wfg8zbWiAsAiIDplllOCTLw7yvYQwzKt4TTh+ljkjbXm4
+	AydUWvYbQAXvZNWVS13dHIbQEHwo5L1H4DgW8iXhPrPq703ATeJ9skJ1+EyVtthuPQDh
+	+9iQ==
+X-Received: by 10.107.164.196 with SMTP id d65mr29658452ioj.3.1436464367398;
+	Thu, 09 Jul 2015 10:52:47 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79]) by smtp.gmail.com with ESMTPSA id
 	c12sm4637051ioj.39.2015.07.09.10.52.46
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 09 Jul 2015 10:52:46 -0700 (PDT)
+	Thu, 09 Jul 2015 10:52:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 10:52:38 -0700
-Message-Id: <ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
+Date: Thu,  9 Jul 2015 10:52:39 -0700
+Message-Id: <54ae64982ecec1f286e292da2c60a1cf7c32ed15.1436464186.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
+References: <ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1436464186.git.raj.khem@gmail.com>
 References: <cover.1436464186.git.raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/3] gcc-4.9: Upgrade to 4.9.3
+Subject: [PATCH 2/3] gcc-5: Backport patches for -Wno-narrowing behaviour fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,108 +47,299 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 09 Jul 2015 17:52:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Drop upsteamed patch for
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66483 which is already in
-4.9.3
+Chromium/CEF reveals these warnings which are then treated as errors
+which has been fixed on gcc_5 branch upsteam. We backport the relevant
+commits
 
-rename 0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
-to 0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch to
-keep the sequence
-
+Change-Id: I088a1480d49cdb439c72f0e159bee6de8ba94258
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-4.9.inc              | 11 +++---
- ...BS_DIR-replacement-instead-of-hardcoding.patch} |  0
- ...racking.c-backport-from-gcc-trunk-r212178.patch | 39 ----------------------
- 3 files changed, 5 insertions(+), 45 deletions(-)
- rename meta/recipes-devtools/gcc/gcc-4.9/{0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch => 0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch} (100%)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+ meta/recipes-devtools/gcc/gcc-5.1.inc              |  8 +-
+ .../gcc/gcc-5.1/backport/0001-PR65801.patch        | 89 ++++++++++++++++++++++
+ .../gcc/gcc-5.1/backport/0002-PR65858.patch        | 63 +++++++++++++++
+ .../gcc/gcc-5.1/backport/0003-PR66007.patch        | 73 ++++++++++++++++++
+ 4 files changed, 232 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.1/backport/0001-PR65801.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.1/backport/0002-PR65858.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-5.1/backport/0003-PR66007.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
-index 9ed3e09..d61eca7 100644
---- a/meta/recipes-devtools/gcc/gcc-4.9.inc
-+++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
-@@ -2,11 +2,11 @@ require gcc-common.inc
+diff --git a/meta/recipes-devtools/gcc/gcc-5.1.inc b/meta/recipes-devtools/gcc/gcc-5.1.inc
+index 1d64f9e..255e957 100644
+--- a/meta/recipes-devtools/gcc/gcc-5.1.inc
++++ b/meta/recipes-devtools/gcc/gcc-5.1.inc
+@@ -10,7 +10,7 @@ PV = "5.1.0"
  
- # Third digit in PV should be incremented after a minor release
+ BINV = "5.1.0"
  
--PV = "4.9.2"
-+PV = "4.9.3"
+-FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-5.1:"
++FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-5.1:${FILE_DIRNAME}/gcc-5.1/backport:"
  
- # BINV should be incremented to a revision after a minor gcc release
+ DEPENDS =+ "mpfr gmp libmpc zlib"
+ NATIVEDEPS = "mpfr-native gmp-native libmpc-native zlib-native"
+@@ -32,6 +32,7 @@ SRC_URI[sha256sum] = "b7dafdf89cbb0e20333dbf5b5349319ae06e3d1a30bf3515b5488f7e89
  
--BINV = "4.9.2"
-+BINV = "4.9.3"
+ SRC_URI = "\
+            ${BASEURI} \
++           ${BACKPORTS} \
+            file://0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch \
+            file://0002-uclibc-conf.patch \
+            file://0003-gcc-uclibc-locale-ctype_touplow_t.patch \
+@@ -72,6 +73,11 @@ SRC_URI = "\
+            file://0038-fix-g++-sysroot.patch \
+           "
  
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
- 
-@@ -77,11 +77,10 @@ SRC_URI = "\
-     file://0059-gcc-PR-rtl-optimization-63348.patch \
-     file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
-     file://0061-target-gcc-includedir.patch \
--    file://0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch \
--    file://0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
-+    file://0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
- "
--SRC_URI[md5sum] = "4df8ee253b7f3863ad0b86359cd39c43"
--SRC_URI[sha256sum] = "2020c98295856aa13fda0f2f3a4794490757fc24bcca918d52cc8b4917b972dd"
-+SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
-+SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
- 
++BACKPORTS = "\
++           file://0001-PR65801.patch \
++           file://0002-PR65858.patch \
++           file://0003-PR66007.patch \
++          "
+ #S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${SNAP}"
  S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
  B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch b/meta/recipes-devtools/gcc/gcc-4.9/0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
-similarity index 100%
-rename from meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
-rename to meta/recipes-devtools/gcc/gcc-4.9/0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
-diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch b/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
-deleted file mode 100644
-index c0ea62f..0000000
---- a/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From b30ffb8097749fdb55704aa7d8307ca1a58255d6 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
--Date: Tue, 7 Apr 2015 16:15:11 +0200
--Subject: [PATCH] gcc/var-tracking.c: backport from gcc trunk r212178
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--resolves a bug seen on cortexa8 building qt5 libraries.
--
--2014-06-30  Joseph Myers  <joseph@codesourcery.com>
--
--    * var-tracking.c (add_stores): Return instead of asserting if old
--    and new values for conditional store are the same.
--
--git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@212178 138bc75d-0d04-0410-961f-82ee72b054a4
--
--Signed-off-by: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
-----
-- gcc/var-tracking.c | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/gcc/var-tracking.c b/gcc/var-tracking.c
--index 65d8285..7c38910 100644
----- a/gcc/var-tracking.c
--+++ b/gcc/var-tracking.c
--@@ -5997,7 +5997,8 @@ add_stores (rtx loc, const_rtx expr, void *cuip)
--     {
--       cselib_val *oval = cselib_lookup (oloc, GET_MODE (oloc), 0, VOIDmode);
-- 
---      gcc_assert (oval != v);
--+      if (oval == v)
--+        return;
--       gcc_assert (REG_P (oloc) || MEM_P (oloc));
-- 
--       if (oval && !cselib_preserved_value_p (oval))
---- 
--1.9.1
--
+diff --git a/meta/recipes-devtools/gcc/gcc-5.1/backport/0001-PR65801.patch b/meta/recipes-devtools/gcc/gcc-5.1/backport/0001-PR65801.patch
+new file mode 100644
+index 0000000..9474287
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-5.1/backport/0001-PR65801.patch
+@@ -0,0 +1,89 @@
++From 346ee8b5c2bf3bf0f0e681b2df5755f299aa1a68 Mon Sep 17 00:00:00 2001
++From: paolo <paolo@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Thu, 30 Apr 2015 16:31:36 +0000
++Subject: [PATCH] /cp 2015-04-30  Paolo Carlini  <paolo.carlini@oracle.com>
++
++	PR c++/65801
++	* typeck2.c (check_narrowing): In C++11 mode too, -Wno-narrowing
++	suppresses the diagnostic.
++
++2015-04-30  Paolo Carlini  <paolo.carlini@oracle.com>
++
++	PR c++/65801
++	* doc/invoke.texi ([-Wnarrowing]): Update.
++
++/testsuite
++2015-04-30  Paolo Carlini  <paolo.carlini@oracle.com>
++
++	PR c++/65801
++	* g++.dg/cpp0x/Wnarrowing2.C: New.
++
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-5-branch@222636 138bc75d-0d04-0410-961f-82ee72b054a4
++---
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ gcc/ChangeLog                            |  5 +++++
++ gcc/cp/ChangeLog                         |  6 ++++++
++ gcc/cp/typeck2.c                         | 10 +++++++---
++ gcc/doc/invoke.texi                      |  8 ++++----
++ gcc/testsuite/ChangeLog                  |  5 +++++
++ gcc/testsuite/g++.dg/cpp0x/Wnarrowing2.C |  5 +++++
++ 6 files changed, 32 insertions(+), 7 deletions(-)
++ create mode 100644 gcc/testsuite/g++.dg/cpp0x/Wnarrowing2.C
++
++diff --git a/gcc/cp/typeck2.c b/gcc/cp/typeck2.c
++index 80a6939..884957b 100644
++--- a/gcc/cp/typeck2.c
+++++ b/gcc/cp/typeck2.c
++@@ -957,9 +957,13 @@ check_narrowing (tree type, tree init, tsubst_flags_t complain)
++ 	    }
++ 	}
++       else if (complain & tf_error)
++-	error_at (EXPR_LOC_OR_LOC (init, input_location),
++-		  "narrowing conversion of %qE from %qT to %qT inside { }",
++-		  init, ftype, type);
+++	{
+++	  global_dc->pedantic_errors = 1;
+++	  pedwarn (EXPR_LOC_OR_LOC (init, input_location), OPT_Wnarrowing,
+++		   "narrowing conversion of %qE from %qT to %qT inside { }",
+++		   init, ftype, type);
+++	  global_dc->pedantic_errors = flag_pedantic_errors;
+++	}
++     }
++ 
++   return cxx_dialect == cxx98 || ok; 
++diff --git a/gcc/doc/invoke.texi b/gcc/doc/invoke.texi
++index 520c2c5..4ef8f7f 100644
++--- a/gcc/doc/invoke.texi
+++++ b/gcc/doc/invoke.texi
++@@ -2703,10 +2703,10 @@ int i = @{ 2.2 @}; // error: narrowing from double to int
++ 
++ This flag is included in @option{-Wall} and @option{-Wc++11-compat}.
++ 
++-With @option{-std=c++11}, @option{-Wno-narrowing} suppresses for
++-non-constants the diagnostic required by the standard.  Note that this
++-does not affect the meaning of well-formed code; narrowing conversions
++-are still considered ill-formed in SFINAE context.
+++With @option{-std=c++11}, @option{-Wno-narrowing} suppresses the diagnostic
+++required by the standard.  Note that this does not affect the meaning
+++of well-formed code; narrowing conversions are still considered
+++ill-formed in SFINAE context.
++ 
++ @item -Wnoexcept @r{(C++ and Objective-C++ only)}
++ @opindex Wnoexcept
++diff --git a/gcc/testsuite/g++.dg/cpp0x/Wnarrowing2.C b/gcc/testsuite/g++.dg/cpp0x/Wnarrowing2.C
++new file mode 100644
++index 0000000..fc806f9
++--- /dev/null
+++++ b/gcc/testsuite/g++.dg/cpp0x/Wnarrowing2.C
++@@ -0,0 +1,5 @@
+++// PR c++/65801
+++// { dg-do compile { target c++11 } }
+++// { dg-options "-Wno-narrowing" }
+++
+++static struct zai { unsigned int x; } x = {-1};
++-- 
++2.1.4
++
+diff --git a/meta/recipes-devtools/gcc/gcc-5.1/backport/0002-PR65858.patch b/meta/recipes-devtools/gcc/gcc-5.1/backport/0002-PR65858.patch
+new file mode 100644
+index 0000000..e7a4fd7
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-5.1/backport/0002-PR65858.patch
+@@ -0,0 +1,63 @@
++From 82e461dc9d53927de7dae667880b63c2d497172d Mon Sep 17 00:00:00 2001
++From: paolo <paolo@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Fri, 1 May 2015 18:47:55 +0000
++Subject: [PATCH] /cp 2015-05-01  Paolo Carlini  <paolo.carlini@oracle.com> 
++     Prathamesh Kulharni  <prathamesh.kulkarni@linaro.org>
++
++	PR c++/65858
++	* typeck2.c (check_narrowing): Set ok = true when pedwarn returns
++	false.
++
++/testsuite
++2015-05-01  Paolo Carlini  <paolo.carlini@oracle.com>
++	    Prathamesh Kulharni  <prathamesh.kulkarni@linaro.org>
++
++	PR c++/65858
++	* g++.dg/cpp0x/Wnarrowing3.C: New.
++
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-5-branch@222700 138bc75d-0d04-0410-961f-82ee72b054a4
++---
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ gcc/cp/ChangeLog                         | 7 +++++++
++ gcc/cp/typeck2.c                         | 7 ++++---
++ gcc/testsuite/ChangeLog                  | 6 ++++++
++ gcc/testsuite/g++.dg/cpp0x/Wnarrowing3.C | 6 ++++++
++ 4 files changed, 23 insertions(+), 3 deletions(-)
++ create mode 100644 gcc/testsuite/g++.dg/cpp0x/Wnarrowing3.C
++
++diff --git a/gcc/cp/typeck2.c b/gcc/cp/typeck2.c
++index 884957b..9a491aa 100644
++--- a/gcc/cp/typeck2.c
+++++ b/gcc/cp/typeck2.c
++@@ -959,9 +959,10 @@ check_narrowing (tree type, tree init, tsubst_flags_t complain)
++       else if (complain & tf_error)
++ 	{
++ 	  global_dc->pedantic_errors = 1;
++-	  pedwarn (EXPR_LOC_OR_LOC (init, input_location), OPT_Wnarrowing,
++-		   "narrowing conversion of %qE from %qT to %qT inside { }",
++-		   init, ftype, type);
+++	  if (!pedwarn (EXPR_LOC_OR_LOC (init, input_location), OPT_Wnarrowing,
+++			"narrowing conversion of %qE from %qT to %qT "
+++			"inside { }", init, ftype, type))
+++	    ok = true;
++ 	  global_dc->pedantic_errors = flag_pedantic_errors;
++ 	}
++     }
++diff --git a/gcc/testsuite/g++.dg/cpp0x/Wnarrowing3.C b/gcc/testsuite/g++.dg/cpp0x/Wnarrowing3.C
++new file mode 100644
++index 0000000..d2dd383
++--- /dev/null
+++++ b/gcc/testsuite/g++.dg/cpp0x/Wnarrowing3.C
++@@ -0,0 +1,6 @@
+++// PR c++/65858
+++// { dg-do compile { target c++11 } }
+++// { dg-require-effective-target lto }
+++// { dg-options "-flto -Wno-narrowing" }
+++
+++int x { 0.5 };
++-- 
++2.1.4
++
+diff --git a/meta/recipes-devtools/gcc/gcc-5.1/backport/0003-PR66007.patch b/meta/recipes-devtools/gcc/gcc-5.1/backport/0003-PR66007.patch
+new file mode 100644
+index 0000000..7c1a19c
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-5.1/backport/0003-PR66007.patch
+@@ -0,0 +1,73 @@
++From 3b1253116b7cb98da33c997bffa5fa2616aee40a Mon Sep 17 00:00:00 2001
++From: paolo <paolo@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Mon, 4 May 2015 20:59:03 +0000
++Subject: [PATCH] /cp 2015-05-04  Paolo Carlini  <paolo.carlini@oracle.com> 
++     Jakub Jelinek  <jakub@redhat.com>
++
++	PR c++/66007
++	* typeck2.c (check_narrowing): Check by-hand that the pedwarn didn't
++	result in an actual error.
++
++/testsuite
++2015-05-04  Paolo Carlini  <paolo.carlini@oracle.com>
++	    Jakub Jelinek  <jakub@redhat.com>
++
++	PR c++/66007
++	* g++.dg/cpp0x/Wnarrowing4.C: New.
++
++
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/branches/gcc-5-branch@222779 138bc75d-0d04-0410-961f-82ee72b054a4
++---
++Upstream-Status: Backport
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++ gcc/cp/ChangeLog                         |  7 +++++++
++ gcc/cp/typeck2.c                         |  8 +++++---
++ gcc/testsuite/ChangeLog                  |  6 ++++++
++ gcc/testsuite/g++.dg/cpp0x/Wnarrowing4.C | 14 ++++++++++++++
++ 4 files changed, 32 insertions(+), 3 deletions(-)
++ create mode 100644 gcc/testsuite/g++.dg/cpp0x/Wnarrowing4.C
++
++diff --git a/gcc/cp/typeck2.c b/gcc/cp/typeck2.c
++index 9a491aa..c0df823 100644
++--- a/gcc/cp/typeck2.c
+++++ b/gcc/cp/typeck2.c
++@@ -958,10 +958,12 @@ check_narrowing (tree type, tree init, tsubst_flags_t complain)
++ 	}
++       else if (complain & tf_error)
++ 	{
+++	  int savederrorcount = errorcount;
++ 	  global_dc->pedantic_errors = 1;
++-	  if (!pedwarn (EXPR_LOC_OR_LOC (init, input_location), OPT_Wnarrowing,
++-			"narrowing conversion of %qE from %qT to %qT "
++-			"inside { }", init, ftype, type))
+++	  pedwarn (EXPR_LOC_OR_LOC (init, input_location), OPT_Wnarrowing,
+++		   "narrowing conversion of %qE from %qT to %qT "
+++		   "inside { }", init, ftype, type);
+++	  if (errorcount == savederrorcount)
++ 	    ok = true;
++ 	  global_dc->pedantic_errors = flag_pedantic_errors;
++ 	}
++diff --git a/gcc/testsuite/g++.dg/cpp0x/Wnarrowing4.C b/gcc/testsuite/g++.dg/cpp0x/Wnarrowing4.C
++new file mode 100644
++index 0000000..7defce3
++--- /dev/null
+++++ b/gcc/testsuite/g++.dg/cpp0x/Wnarrowing4.C
++@@ -0,0 +1,14 @@
+++// PR c++/66007
+++// { dg-do run { target c++11 } }
+++// { dg-options "-Wno-error=narrowing" }
+++
+++extern "C" void abort();
+++
+++int main()
+++{
+++  unsigned foo[] = { 1, -1, 3 };
+++  if (foo[0] != 1 || foo[1] != __INT_MAX__ * 2U + 1 || foo[2] != 3)
+++    abort();
+++}
+++
+++// { dg-prune-output "narrowing conversion" }
++-- 
++2.1.4
++
 -- 
 2.1.4
 
