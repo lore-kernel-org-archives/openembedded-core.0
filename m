@@ -1,61 +1,23 @@
-Return-Path: <steffen.pankratz@elektrobit.com>
-X-Greylist: delayed 306 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 09 Jul 2015 08:50:40 UTC
-Received: from smtpgw2us.elektrobit.com (smtpgw2us.elektrobit.com
-	[207.170.229.72])
-	by mail.openembedded.org (Postfix) with ESMTP id 86CEC60557
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 08:50:40 +0000 (UTC)
-Received: from smtpgw2us.elektrobit.com (smtpgw2us.elektrobit.com [127.0.0.1])
-	by smtpgw2us.elektrobit.com (8.13.8/8.13.8) with ESMTP id
-	t698jYiR020300
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jul 2015 01:45:35 -0700
-Received: (from defang@localhost)
-	by smtpgw2us.elektrobit.com (8.13.8/8.13.8/Submit) id t698jW5j020297
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 Jul 2015 01:45:32 -0700
-X-Authentication-Warning: smtpgw2us.elektrobit.com: defang set sender to
-	<steffen.pankratz@elektrobit.com> using -f
-Received: from encgw2us.ebgroup.elektrobit.com
-	(encgw2us.ebgroup.elektrobit.com [10.127.1.22])
-	by smtpgw2us.us.ebgroup.elektrobit.com (envelope-sender
-	<steffen.pankratz@elektrobit.com>) (MIMEDefang) with ESMTP id
-	t698jWBG020291; Thu, 09 Jul 2015 01:45:32 -0700
-Received: from deeres07.ebgroup.elektrobit.com
-	(deeres07.ebgroup.elektrobit.com [10.0.10.10])
-	by encgw2us.ebgroup.elektrobit.com (Postfix) with ESMTPS;
-	Thu,  9 Jul 2015 01:45:13 -0700 (PDT)
-Received: from DEERES07.ebgroup.elektrobit.com ([fe80::d1e0:156:8cce:d001]) by
-	deeres07.ebgroup.elektrobit.com ([fe80::d1e0:156:8cce:d001%11]) with
-	mapi id 14.03.0181.006; Thu, 9 Jul 2015 10:45:27 +0200
-From: <Steffen.Pankratz@elektrobit.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] libdrm: Upgrade to 2.4.62
-Thread-Index: AdC1Z8p3zllC9RjxR9meZsKny4a3+P//4umA///dzGCAAEI6AP//1eFw//Zi46A=
-Date: Thu, 9 Jul 2015 08:45:26 +0000
-Message-ID: <81B0EC78FE09F04E8E0FF9B9C2BF8A364939B6C3@deeres07.ebgroup.elektrobit.com>
-References: <81B0EC78FE09F04E8E0FF9B9C2BF8A364939A836@deeres07.ebgroup.elektrobit.com>
-	<CAHiDW_FZoQudwPMdV-zTF-SZ2OVoAjNXuoYY8vUTkSQfoMXDtQ@mail.gmail.com>
-	<81B0EC78FE09F04E8E0FF9B9C2BF8A364939A858@deeres07.ebgroup.elektrobit.com>
-	<CAJTo0LZaxAkJtQm6cTnLxaEDESRqiQPWbRNwDTjOt+0g3MVZ=Q@mail.gmail.com>
-	<81B0EC78FE09F04E8E0FF9B9C2BF8A364939A8DC@deeres07.ebgroup.elektrobit.com>
-In-Reply-To: <81B0EC78FE09F04E8E0FF9B9C2BF8A364939A8DC@deeres07.ebgroup.elektrobit.com>
-Accept-Language: de-DE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.0.26.198]
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 20B7F60557;
+	Thu,  9 Jul 2015 10:24:31 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 09 Jul 2015 03:24:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,439,1432623600"; d="scan'208";a="758980149"
+Received: from lkpandey-mobl.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.4.112])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2015 03:24:32 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Date: Thu, 09 Jul 2015 11:24:26 +0100
+Message-ID: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.0.6-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
 MIME-Version: 1.0
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.2.3
-	(smtpgw2us.elektrobit.com [127.0.0.1]);
-	Thu, 09 Jul 2015 01:45:35 -0700 (PDT)
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.2.3
-	(smtpgw2us.elektrobit.com [10.127.1.12]);
-	Thu, 09 Jul 2015 01:45:32 -0700 (PDT)
-X-Virus-Scanned: at elektrobit.com
-X-Scanned-By: MIMEDefang 2.70 on 127.0.0.1
-Subject: Re: [PATCH] libdrm: Upgrade to 2.4.62
+Subject: RFC: libav vs. ffmpeg, redux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,153 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 08:50:42 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 09 Jul 2015 10:24:34 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1i
-ZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4g
-W21haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5l
-bWJlZGRlZC5vcmddDQo+IFNlbnQ6IEZyaWRheSwgSnVseSAwMywgMjAxNSAx
-Mjo1NSBQTQ0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0g
-bGliZHJtOiBVcGdyYWRlIHRvIDIuNC42Mg0KDQpIaSBSb3NzDQoNCj4gU2hh
-bGwgSSByZWJhc2UgbXkgcGF0Y2ggb24geW91ciAnIGxpYmRybTogcmVtb3Zl
-IGdpdCByZWNpcGUsIG1lcmdlIGluYycNCj4gcGF0Y2g/DQoNCkFzIHlvdXIg
-cGF0Y2ggaXMgaW4gbWFzdGVyIG5vdywgaGVyZSBpcyBteSB1cGRhdGVkIHBh
-dGNoOg0KDQpGcm9tIDk2MjkxZjA1MWVkOGRiMDczODljMWQ4NjIzOGU3NTNl
-NWI5Nzc0MGMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQpGcm9tOiBTdGVm
-ZmVuIFBhbmtyYXR6IDxzdGVmZmVuLnBhbmtyYXR6QGVsZWt0cm9iaXQuY29t
-Pg0KRGF0ZTogVGh1LCA5IEp1bCAyMDE1IDA4OjMwOjU5ICswMDAwDQpTdWJq
-ZWN0OiBbUEFUQ0hdIGxpYmRybTogVXBncmFkZSB0byAyLjQuNjINCg0KU2ln
-bmVkLW9mZi1ieTogU3RlZmZlbiBQYW5rcmF0eiA8c3RlZmZlbi5wYW5rcmF0
-ekBlbGVrdHJvYml0LmNvbT4NCi0tLQ0KIC4uLi9yZWNpcGVzLWdyYXBoaWNz
-L2RybS9saWJkcm0vaW5zdGFsbHRlc3RzLnBhdGNoIHwgIDggKystLS0NCiBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZHJtL2xpYmRybV8yLjQuNTkuYmIgICAg
-ICAgICB8IDQxIC0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KIG1ldGEvcmVjaXBl
-cy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC42Mi5iYiAgICAgICAgIHwgNDIg
-KysrKysrKysrKysrKysrKysrKysrKw0KIDMgZmlsZXMgY2hhbmdlZCwgNDYg
-aW5zZXJ0aW9ucygrKSwgNDUgZGVsZXRpb25zKC0pDQogZGVsZXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC41
-OS5iYg0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvZHJtL2xpYmRybV8yLjQuNjIuYmINCg0KZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtL2luc3RhbGx0ZXN0cy5wYXRj
-aCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtL2luc3RhbGx0
-ZXN0cy5wYXRjaA0KaW5kZXggMDNkNjI1NC4uMTE3NWRhZSAxMDA2NDQNCi0t
-LSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtL2luc3RhbGx0
-ZXN0cy5wYXRjaA0KKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2RybS9s
-aWJkcm0vaW5zdGFsbHRlc3RzLnBhdGNoDQpAQCAtOCw3ICs4LDcgQEAgZGlm
-ZiAtLWdpdCBhL3Rlc3RzL01ha2VmaWxlLmFtIGIvdGVzdHMvTWFrZWZpbGUu
-YW0NCiBpbmRleCBiZjE5ODdmLi5kOTA5ZTE5IDEwMDY0NA0KIC0tLSBhL3Rl
-c3RzL01ha2VmaWxlLmFtDQogKysrIGIvdGVzdHMvTWFrZWZpbGUuYW0NCi1A
-QCAtNiwxMCArNiwxMSBAQCBBTV9DUFBGTEFHUyA9IFwNCitAQCAtMjcsMTAg
-KzI3LDExIEBAIEFNX0NQUEZMQUdTID0gXA0KICANCiAgTERBREQgPSAkKHRv
-cF9idWlsZGRpcikvbGliZHJtLmxhDQogIA0KQEAgLTE4LDYgKzE4LDYgQEAg
-aW5kZXggYmYxOTg3Zi4uZDkwOWUxOSAxMDA2NDQNCiAgCWRybXN0YXQNCiAg
-DQogK2NoZWNrX1BST0dSQU1TID0NCi0gU1VCRElSUyA9IG1vZGVwcmludCBw
-cm9wdGVzdA0KLSANCi0gaWYgSEFWRV9MSUJLTVMNCisgaWYgSEFWRV9OT1VW
-RUFVDQorIFNVQkRJUlMgKz0gbm91dmVhdQ0KKyBlbmRpZg0KZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC41OS5i
-YiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC41OS5i
-Yg0KZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQppbmRleCA5N2Y3NWZmLi4w
-MDAwMDAwDQotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZHJtL2xpYmRy
-bV8yLjQuNTkuYmINCisrKyAvZGV2L251bGwNCkBAIC0xLDQxICswLDAgQEAN
-Ci1TVU1NQVJZID0gIlVzZXJzcGFjZSBpbnRlcmZhY2UgdG8gdGhlIGtlcm5l
-bCBEUk0gc2VydmljZXMiDQotREVTQ1JJUFRJT04gPSAiVGhlIHJ1bnRpbWUg
-bGlicmFyeSBmb3IgYWNjZXNzaW5nIHRoZSBrZXJuZWwgRFJNIHNlcnZpY2Vz
-LiAgRFJNIFwNCi1zdGFuZHMgZm9yIFwiRGlyZWN0IFJlbmRlcmluZyBNYW5h
-Z2VyXCIsIHdoaWNoIGlzIHRoZSBrZXJuZWwgcG9ydGlvbiBvZiB0aGUgXA0K
-LVwiRGlyZWN0IFJlbmRlcmluZyBJbmZyYXN0cnVjdHVyZVwiIChEUkkpLiAg
-RFJJIGlzIHJlcXVpcmVkIGZvciBtYW55IGhhcmR3YXJlIFwNCi1hY2NlbGVy
-YXRlZCBPcGVuR0wgZHJpdmVycy4iDQotSE9NRVBBR0UgPSAiaHR0cDovL2Ry
-aS5mcmVlZGVza3RvcC5vcmciDQotU0VDVElPTiA9ICJ4MTEvYmFzZSINCi1M
-SUNFTlNFID0gIk1JVCINCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly94
-Zjg2ZHJtLmM7YmVnaW5saW5lPTk7ZW5kbGluZT0zMjttZDU9YzhhM2I5NjFh
-Zjc2NjdjNTMwODE2NzYxZTk0OWRjNzEiDQotUFJPVklERVMgPSAiZHJtIg0K
-LURFUEVORFMgPSAibGlicHRocmVhZC1zdHVicyB1ZGV2IGxpYnBjaWFjY2Vz
-cyINCi0NCi1TUkNfVVJJID0gImh0dHA6Ly9kcmkuZnJlZWRlc2t0b3Aub3Jn
-L2xpYmRybS8ke0JQfS50YXIuYnoyIFwNCi0gICAgICAgICAgIGZpbGU6Ly9p
-bnN0YWxsdGVzdHMucGF0Y2ggIg0KLVNSQ19VUklbbWQ1c3VtXSA9ICJkMzJh
-MWQzN2MyNTQ2ZWUxMWZjNTkyNGFiZWVkYjIzZSINCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiNjhkMjZlMWZkODU1ODJmNDI0M2Q2Njg2NGY5YjQzY2E0ZWU5
-MzY2MjgyNWRlMzJiNTUwNmZjOGUxODFlYTQxYiINCi0NCi1pbmhlcml0IGF1
-dG90b29scyBwa2djb25maWcNCi0NCi1FWFRSQV9PRUNPTkYgKz0gIi0tZGlz
-YWJsZS1jYWlyby10ZXN0cyBcDQotICAgICAgICAgICAgICAgICAtLWVuYWJs
-ZS1vbWFwLWV4cGVyaW1lbnRhbC1hcGkgXA0KLSAgICAgICAgICAgICAgICAg
-LS1lbmFibGUtaW5zdGFsbC10ZXN0LXByb2dyYW1zIFwNCi0gICAgICAgICAg
-ICAgICAgIC0tZGlzYWJsZS1tYW5wYWdlcyBcDQotICAgICAgICAgICAgICAg
-ICINCi0NCi1BTExPV19FTVBUWV8ke1BOfS1kcml2ZXJzID0gIjEiDQotUEFD
-S0FHRVMgPSsgIiR7UE59LXRlc3RzICR7UE59LWRyaXZlcnMgJHtQTn0tcmFk
-ZW9uICR7UE59LW5vdXZlYXUgJHtQTn0tb21hcCBcDQotICAgICAgICAgICAg
-ICR7UE59LWludGVsICR7UE59LWV4eW5vcyAke1BOfS1rbXMgJHtQTn0tZnJl
-ZWRyZW5vIg0KLQ0KLVJSRUNPTU1FTkRTXyR7UE59LWRyaXZlcnMgPSAiJHtQ
-Tn0tcmFkZW9uICR7UE59LW5vdXZlYXUgJHtQTn0tb21hcCAke1BOfS1pbnRl
-bCBcDQotICAgICAgICAgICAgICAgICAgICAgICAgICAgICAke1BOfS1leHlu
-b3MgJHtQTn0tZnJlZWRyZW5vIg0KLQ0KLUZJTEVTXyR7UE59LXRlc3RzID0g
-IiR7YmluZGlyfS9kciogJHtiaW5kaXJ9L21vZGUqICR7YmluZGlyfS8qdGVz
-dCINCi1GSUxFU18ke1BOfS1yYWRlb24gPSAiJHtsaWJkaXJ9L2xpYmRybV9y
-YWRlb24uc28uKiINCi1GSUxFU18ke1BOfS1ub3V2ZWF1ID0gIiR7bGliZGly
-fS9saWJkcm1fbm91dmVhdS5zby4qIg0KLUZJTEVTXyR7UE59LW9tYXAgPSAi
-JHtsaWJkaXJ9L2xpYmRybV9vbWFwLnNvLioiDQotRklMRVNfJHtQTn0taW50
-ZWwgPSAiJHtsaWJkaXJ9L2xpYmRybV9pbnRlbC5zby4qIg0KLUZJTEVTXyR7
-UE59LWV4eW5vcyA9ICIke2xpYmRpcn0vbGliZHJtX2V4eW5vcy5zby4qIg0K
-LUZJTEVTXyR7UE59LWttcyA9ICIke2xpYmRpcn0vbGlia21zKi5zby4qIg0K
-LUZJTEVTXyR7UE59LWZyZWVkcmVubyA9ICIke2xpYmRpcn0vbGliZHJtX2Zy
-ZWVkcmVuby5zby4qIg0KLQ0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy9kcm0vbGliZHJtXzIuNC42Mi5iYiBiL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy9kcm0vbGliZHJtXzIuNC42Mi5iYg0KbmV3IGZpbGUgbW9kZSAx
-MDA2NDQNCmluZGV4IDAwMDAwMDAuLmVhNjMwNWUNCi0tLSAvZGV2L251bGwN
-CisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9kcm0vbGliZHJtXzIuNC42
-Mi5iYg0KQEAgLTAsMCArMSw0MiBAQA0KK1NVTU1BUlkgPSAiVXNlcnNwYWNl
-IGludGVyZmFjZSB0byB0aGUga2VybmVsIERSTSBzZXJ2aWNlcyINCitERVND
-UklQVElPTiA9ICJUaGUgcnVudGltZSBsaWJyYXJ5IGZvciBhY2Nlc3Npbmcg
-dGhlIGtlcm5lbCBEUk0gc2VydmljZXMuICBEUk0gXA0KK3N0YW5kcyBmb3Ig
-XCJEaXJlY3QgUmVuZGVyaW5nIE1hbmFnZXJcIiwgd2hpY2ggaXMgdGhlIGtl
-cm5lbCBwb3J0aW9uIG9mIHRoZSBcDQorXCJEaXJlY3QgUmVuZGVyaW5nIElu
-ZnJhc3RydWN0dXJlXCIgKERSSSkuICBEUkkgaXMgcmVxdWlyZWQgZm9yIG1h
-bnkgaGFyZHdhcmUgXA0KK2FjY2VsZXJhdGVkIE9wZW5HTCBkcml2ZXJzLiIN
-CitIT01FUEFHRSA9ICJodHRwOi8vZHJpLmZyZWVkZXNrdG9wLm9yZyINCitT
-RUNUSU9OID0gIngxMS9iYXNlIg0KK0xJQ0VOU0UgPSAiTUlUIg0KK0xJQ19G
-SUxFU19DSEtTVU0gPSAiZmlsZTovL3hmODZkcm0uYztiZWdpbmxpbmU9OTtl
-bmRsaW5lPTMyO21kNT1jOGEzYjk2MWFmNzY2N2M1MzA4MTY3NjFlOTQ5ZGM3
-MSINCitQUk9WSURFUyA9ICJkcm0iDQorREVQRU5EUyA9ICJsaWJwdGhyZWFk
-LXN0dWJzIHVkZXYgbGlicGNpYWNjZXNzIg0KKw0KK1NSQ19VUkkgPSAiaHR0
-cDovL2RyaS5mcmVlZGVza3RvcC5vcmcvbGliZHJtLyR7QlB9LnRhci5iejIg
-XA0KKyAgICAgICAgICAgZmlsZTovL2luc3RhbGx0ZXN0cy5wYXRjaCAiDQor
-U1JDX1VSSVttZDVzdW1dID0gImM5MjkxYmFlMGU1Y2E2NWQxNDgzODIxZDM2
-OThkM2FiIg0KK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5MDZjMjk0YmRiZTFj
-OTRjM2NhMDg0MzA1ZDYxYTZlNWE4MzY3ZjNiNDk4NmU2Y2MxM2IxZTliM2Y3
-NTkzMWRjIg0KKw0KK2luaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZw0KKw0K
-K0VYVFJBX09FQ09ORiArPSAiLS1kaXNhYmxlLWNhaXJvLXRlc3RzIFwNCisg
-ICAgICAgICAgICAgICAgIC0tZW5hYmxlLW9tYXAtZXhwZXJpbWVudGFsLWFw
-aSBcDQorICAgICAgICAgICAgICAgICAtLWVuYWJsZS1pbnN0YWxsLXRlc3Qt
-cHJvZ3JhbXMgXA0KKyAgICAgICAgICAgICAgICAgLS1kaXNhYmxlLW1hbnBh
-Z2VzIFwNCisgICAgICAgICAgICAgICAgIC0tZGlzYWJsZS12YWxncmluZCBc
-DQorICAgICAgICAgICAgICAgICINCisNCitBTExPV19FTVBUWV8ke1BOfS1k
-cml2ZXJzID0gIjEiDQorUEFDS0FHRVMgPSsgIiR7UE59LXRlc3RzICR7UE59
-LWRyaXZlcnMgJHtQTn0tcmFkZW9uICR7UE59LW5vdXZlYXUgJHtQTn0tb21h
-cCBcDQorICAgICAgICAgICAgICR7UE59LWludGVsICR7UE59LWV4eW5vcyAk
-e1BOfS1rbXMgJHtQTn0tZnJlZWRyZW5vIg0KKw0KK1JSRUNPTU1FTkRTXyR7
-UE59LWRyaXZlcnMgPSAiJHtQTn0tcmFkZW9uICR7UE59LW5vdXZlYXUgJHtQ
-Tn0tb21hcCAke1BOfS1pbnRlbCBcDQorICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAke1BOfS1leHlub3MgJHtQTn0tZnJlZWRyZW5vIg0KKw0KK0ZJ
-TEVTXyR7UE59LXRlc3RzID0gIiR7YmluZGlyfS9kciogJHtiaW5kaXJ9L21v
-ZGUqICR7YmluZGlyfS8qdGVzdCINCitGSUxFU18ke1BOfS1yYWRlb24gPSAi
-JHtsaWJkaXJ9L2xpYmRybV9yYWRlb24uc28uKiINCitGSUxFU18ke1BOfS1u
-b3V2ZWF1ID0gIiR7bGliZGlyfS9saWJkcm1fbm91dmVhdS5zby4qIg0KK0ZJ
-TEVTXyR7UE59LW9tYXAgPSAiJHtsaWJkaXJ9L2xpYmRybV9vbWFwLnNvLioi
-DQorRklMRVNfJHtQTn0taW50ZWwgPSAiJHtsaWJkaXJ9L2xpYmRybV9pbnRl
-bC5zby4qIg0KK0ZJTEVTXyR7UE59LWV4eW5vcyA9ICIke2xpYmRpcn0vbGli
-ZHJtX2V4eW5vcy5zby4qIg0KK0ZJTEVTXyR7UE59LWttcyA9ICIke2xpYmRp
-cn0vbGlia21zKi5zby4qIg0KK0ZJTEVTXyR7UE59LWZyZWVkcmVubyA9ICIk
-e2xpYmRpcn0vbGliZHJtX2ZyZWVkcmVuby5zby4qIg0KKw0KLS0gDQoxLjku
-MQ0KDQoNCi0tIA0KUmVnYXJkcw0KLVN0ZWZmZW4NCgoKLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLQpQbGVhc2Ugbm90ZTogVGhpcyBlLW1haWwgbWF5IGNvbnRhaW4g
-Y29uZmlkZW50aWFsIGluZm9ybWF0aW9uCmludGVuZGVkIHNvbGVseSBmb3Ig
-dGhlIGFkZHJlc3NlZS4gSWYgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcwplLW1h
-aWwgaW4gZXJyb3IsIHBsZWFzZSBkbyBub3QgZGlzY2xvc2UgaXQgdG8gYW55
-b25lLCBub3RpZnkKdGhlIHNlbmRlciBwcm9tcHRseSwgYW5kIGRlbGV0ZSB0
-aGUgbWVzc2FnZSBmcm9tIHlvdXIgc3lzdGVtLgpUaGFuayB5b3UuCgo=
+Hi all,
+
+A few years ago we made the switch from ffmpeg to libav (a mostly drop-in 
+compatible fork), with fairly good justification at the time. However, it looks 
+like Debian has just made the switch back to ffmpeg, citing a number of reasons 
+- most notably more responsive security issue patching in recent history. 
+Here's a page with their full reasoning:
+
+  https://wiki.debian.org/Debate/libav-provider/ffmpeg
+
+Gstreamer (gst-libav, specifically) has also just recently made the switch back 
+for its internal copy:
+
+  https://bugzilla.gnome.org/show_bug.cgi?id=751607
+
+What do people think? Should we be looking to make the switch back in OE as 
+well?
+
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
