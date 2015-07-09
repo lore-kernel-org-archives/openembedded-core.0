@@ -1,26 +1,37 @@
-Return-Path: <jan.wetter@mikrom.com>
-X-Greylist: delayed 310 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 09 Jul 2015 15:39:16 UTC
-Received: from mail.mikrom.com (mikrom.com [178.63.40.178])
-	by mail.openembedded.org (Postfix) with ESMTP id DA8EC6E5F5
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 889A86017E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 15:39:16 +0000 (UTC)
-Received: from mikrom.com (mail.mikrom.local [192.168.0.225])
-	by mail.mikrom.com (Postfix) with ESMTPS id 9224213E8E
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 17:34:05 +0200 (CEST)
-Received: from methusalix.dove.mikrom.com (methusalix.dove.mikrom.com
-	[192.168.0.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mikrom.com (Postfix) with ESMTPSA id 494831BC1A;
-	Thu,  9 Jul 2015 17:33:56 +0200 (CEST)
-From: Jan Wetter <jan.wetter@mikrom.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 17:33:48 +0200
-Message-Id: <1436456028-23148-1-git-send-email-jan.wetter@mikrom.com>
-X-Mailer: git-send-email 2.3.6
-Subject: [PATCH] openssl: upgrade to 1.0.2d
+	Thu,  9 Jul 2015 15:57:04 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jul 2015 08:57:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,441,1432623600"; 
+	d="scan'208,217";a="759163863"
+Received: from irsmsx110.ger.corp.intel.com ([163.33.3.25])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2015 08:57:03 -0700
+Received: from irsmsx105.ger.corp.intel.com ([169.254.7.245]) by
+	irsmsx110.ger.corp.intel.com ([163.33.3.25]) with mapi id
+	14.03.0224.002; Thu, 9 Jul 2015 16:57:03 +0100
+From: "Iorga, Cristian" <cristian.iorga@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Martin Jansa
+	<martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH 2/2] libical: upgrade to 1.0.1
+Thread-Index: AQHQulOLKD4Y8MWJkUSGHwyriyRf5p3TItYAgAAKZICAAB0OcA==
+Date: Thu, 9 Jul 2015 15:57:02 +0000
+Message-ID: <969F26A8BAB325438E7EB80D3C3134FB44B12A9E@irsmsx105.ger.corp.intel.com>
+References: <cover.1436452048.git.cristian.iorga@intel.com>
+	<ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
+	<20150709143248.GC2446@jama>
+	<CAJTo0LYjQBPh1qBRvrasYTyknaVG+hKbxmS8kcFpRjrgrjgxKw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYjQBPh1qBRvrasYTyknaVG+hKbxmS8kcFpRjrgrjgxKw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libical: upgrade to 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,87 +44,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 15:39:24 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 15:57:05 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_969F26A8BAB325438E7EB80D3C3134FB44B12A9Eirsmsx105gercor_"
 
-This upgrade fixes CVE-2015-1793
-Removed openssl-fix-link.patch. The linking issue has been fixed in openssl.
+--_000_969F26A8BAB325438E7EB80D3C3134FB44B12A9Eirsmsx105gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Jan Wetter <jan.wetter@mikrom.com>
----
- .../openssl/openssl/openssl-fix-link.patch         | 35 ----------------------
- .../{openssl_1.0.2c.bb => openssl_1.0.2d.bb}       |  5 ++--
- 2 files changed, 2 insertions(+), 38 deletions(-)
- delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
- rename meta/recipes-connectivity/openssl/{openssl_1.0.2c.bb => openssl_1.0.2d.bb} (90%)
+SGkgYWxsLA0KDQpIYWhhaGEuIEkgYW0gbGF1Z2hpbmcgYmVjYXVzZSBJIGFzc3VtZWQgdGhhdCB0
+aGUgd29yZCDigJxhcmNoaXZl4oCdIG1lYW5zIHRoZSBmaWxlIHdpbGwgc3RheSB0aGVyZSBmb3Jl
+dmVyIHdpdGggdGhlIHNhbWUgY2hlY2tzdW0uIFNpbGx5IG1lLiDimLoNClRoZXkgaGF2ZSBhbm90
+aGVyIGxpbmssIGJ1dCBJIGFtIG5vdCBzdXJlIGlmIHRoYXQgc3RheXMgdXAgYW5kIHRoYXQgdGhl
+IGNoZWNrc3VtIGRvZXMgbm90IGNoYW5nZS4NCklzIHRoaXMgYWx3YXlzIHRydWUsIHRoYXQgdGhl
+IGNoZWNrc3VtIGNoYW5nZXM/DQoNClRoYW5rcywNCkNyaXN0aWFuDQoNCg0KRnJvbTogQnVydG9u
+LCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogVGh1cnNkYXksIEp1
+bHkgOSwgMjAxNSA2OjEwIFBNDQpUbzogTWFydGluIEphbnNhDQpDYzogSW9yZ2EsIENyaXN0aWFu
+OyBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzJdIGxpYmljYWw6IHVw
+Z3JhZGUgdG8gMS4wLjENCg0KDQpPbiA5IEp1bHkgMjAxNSBhdCAxNTozMiwgTWFydGluIEphbnNh
+IDxtYXJ0aW4uamFuc2FAZ21haWwuY29tPG1haWx0bzptYXJ0aW4uamFuc2FAZ21haWwuY29tPj4g
+d3JvdGU6DQphcmVuJ3QgZ2l0aHViIGFyY2hpdmVzIHJlZ2VuZXJhdGVkIGZyb20gdGltZSB0byB0
+aW1lIHdpdGggZGlmZmVyZW50DQpjaGVja3N1bXM/DQoNClllcy4gIEkga2VlcCBvbiBtZWFuaW5n
+IHRvIHdyaXRlIGEgUUEgdGVzdCBmb3IgdGhpcy4gOikNCg0KQ3Jpc3RpIC0gaWYgdGhpcyBpcyB0
+aGUgYmVzdCBsaWJpY2FsIGhhcyBhcyBhIHRhcmJhbGwgcmVsZWFzZSB0aGVuIHdlIHNob3VsZCBk
+byBhIHByb3BlciBnaXQgY2xvbmUuICBBbWF6aW5nbHksIHRoZSBkb3dubG9hZCBidXR0b24gb24g
+dGhlaXIgd2Vic2l0ZSBsaW5rcyB0byBhIHRhcmJhbGwgb2YgbWFzdGVyIHdoaWNoIGlzIGJvcmRl
+cmxpbmUgcmVja2xlc3MuDQoNClJvc3MNCg==
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch b/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
-deleted file mode 100644
-index 154106c..0000000
---- a/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From aabfb6f78af8e337d3239142117ba303fce55e7e Mon Sep 17 00:00:00 2001
--From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
--Date: Thu, 22 Sep 2011 08:55:26 +0200
--Subject: [PATCH] fix the parallel build regarding shared libraries.
--
--Upstream-Status: Pending
-----
-- .../openssl-1.0.0e/Makefile.org                    |    8 ++++----
-- 1 files changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/Makefile.org
--index 3c7aea1..6326cd6 100644
----- a/Makefile.org
--+++ b/Makefile.org
--@@ -243,13 +243,13 @@ build_libs: build_crypto build_ssl build_engines
-- 
-- build_crypto:
-- 	@dir=crypto; target=all; $(BUILD_ONE_CMD)
---build_ssl:
--+build_ssl: build_crypto
-- 	@dir=ssl; target=all; $(BUILD_ONE_CMD)
---build_engines:
--+build_engines: build_crypto
-- 	@dir=engines; target=all; $(BUILD_ONE_CMD)
---build_apps:
--+build_apps: build_crypto build_ssl
-- 	@dir=apps; target=all; $(BUILD_ONE_CMD)
---build_tests:
--+build_tests: build_crypto build_ssl
-- 	@dir=test; target=all; $(BUILD_ONE_CMD)
-- build_tools:
-- 	@dir=tools; target=all; $(BUILD_ONE_CMD)
---- 
--1.6.6.1
--
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2c.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-similarity index 90%
-rename from meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-index fd4ba6c..32d8dce 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
-@@ -15,7 +15,6 @@ SRC_URI += "file://configure-targets.patch \
-             file://shared-libs.patch \
-             file://oe-ldflags.patch \
-             file://engines-install-in-libdir-ssl.patch \
--            file://openssl-fix-link.patch \
-             file://debian1.0.2/block_diginotar.patch \
-             file://debian1.0.2/block_digicert_malaysia.patch \
-             file://debian/ca.patch \
-@@ -39,8 +38,8 @@ SRC_URI += "file://configure-targets.patch \
-             file://openssl-1.0.2a-x32-asm.patch \
-            "
- 
--SRC_URI[md5sum] = "8c8d81a9ae7005276e486702edbcd4b6"
--SRC_URI[sha256sum] = "0038ba37f35a6367c58f17a7a7f687953ef8ce4f9684bbdec63e62515ed36a83"
-+SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
-+SRC_URI[sha256sum] = "671c36487785628a703374c652ad2cebea45fa920ae5681515df25d9f2c9a8c8"
- 
- PACKAGES =+ " \
- 	${PN}-engines \
--- 
-2.3.6
+--_000_969F26A8BAB325438E7EB80D3C3134FB44B12A9Eirsmsx105gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+V2luZ2RpbmdzOw0KCXBhbm9zZS0xOjUgMCAwIDAgMCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFjZQ0K
+CXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMg
+MiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1
+IDUgMiAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
+Um9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
+aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
+OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
+Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnNwYW4u
+RW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFt
+aWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1
+bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmki
+LHNhbnMtc2VyaWY7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0K
+CW1hcmdpbjoxLjBpbiAxLjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3Bh
+Z2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8
+bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFb
+ZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0i
+ZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91
+dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJi
+bHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
+cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SGkgYWxsLDxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250
+LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtj
+b2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SGFoYWhhLiBJIGFtIGxhdWdo
+aW5nIGJlY2F1c2UgSSBhc3N1bWVkIHRoYXQgdGhlIHdvcmQg4oCcYXJjaGl2ZeKAnSBtZWFucyB0
+aGUgZmlsZSB3aWxsIHN0YXkgdGhlcmUgZm9yZXZlciB3aXRoIHRoZSBzYW1lIGNoZWNrc3VtLiBT
+aWxseSBtZS4NCjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTpXaW5nZGluZ3M7Y29sb3I6IzFGNDk3RCI+Sjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXpl
+OjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6
+IzFGNDk3RCI+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoZXkgaGF2ZSBhbm90aGVyIGxpbmssIGJ1dCBJ
+IGFtIG5vdCBzdXJlIGlmIHRoYXQgc3RheXMgdXAgYW5kIHRoYXQgdGhlIGNoZWNrc3VtIGRvZXMg
+bm90IGNoYW5nZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+SXMgdGhpcyBhbHdheXMgdHJ1ZSwgdGhhdCB0
+aGUgY2hlY2tzdW0gY2hhbmdlcz88bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48
+L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
+MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMx
+RjQ5N0QiPlRoYW5rcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
+JnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+Q3Jpc3RpYW48bzpwPjwvbzpwPjwvc3Bh
+bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
+RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGEg
+bmFtZT0iX01haWxFbmRDb21wb3NlIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86
+cD4mbmJzcDs8L286cD48L3NwYW4+PC9hPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxl
+PSJtYXJnaW4tbGVmdDouNWluIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LHNhbnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5j
+b21dDQo8YnI+DQo8Yj5TZW50OjwvYj4gVGh1cnNkYXksIEp1bHkgOSwgMjAxNSA2OjEwIFBNPGJy
+Pg0KPGI+VG86PC9iPiBNYXJ0aW4gSmFuc2E8YnI+DQo8Yj5DYzo8L2I+IElvcmdhLCBDcmlzdGlh
+bjsgT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzJd
+IGxpYmljYWw6IHVwZ3JhZGUgdG8gMS4wLjE8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48
+L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVm
+dDouNWluIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+IiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+T24gOSBKdWx5IDIwMTUgYXQgMTU6MzIsIE1hcnRp
+biBKYW5zYSAmbHQ7PGEgaHJlZj0ibWFpbHRvOm1hcnRpbi5qYW5zYUBnbWFpbC5jb20iIHRhcmdl
+dD0iX2JsYW5rIj5tYXJ0aW4uamFuc2FAZ21haWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286
+cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQg
+I0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0
+O21hcmdpbi1yaWdodDowaW4iPg0KPGRpdiBpZD0iOjRtNSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+IiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+YXJlbid0IGdpdGh1YiBhcmNoaXZlcyByZWdlbmVy
+YXRlZCBmcm9tIHRpbWUgdG8gdGltZSB3aXRoIGRpZmZlcmVudDxicj4NCmNoZWNrc3Vtcz88bzpw
+PjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PGJyPg0KWWVzLiZuYnNwOyBJIGtlZXAg
+b24gbWVhbmluZyB0byB3cml0ZSBhIFFBIHRlc3QgZm9yIHRoaXMuIDopPG86cD48L286cD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6
+LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+Q3Jpc3RpIC0gaWYgdGhpcyBpcyB0aGUg
+YmVzdCBsaWJpY2FsIGhhcyBhcyBhIHRhcmJhbGwgcmVsZWFzZSB0aGVuIHdlIHNob3VsZCBkbyBh
+IHByb3BlciBnaXQgY2xvbmUuJm5ic3A7IEFtYXppbmdseSwgdGhlIGRvd25sb2FkIGJ1dHRvbiBv
+biB0aGVpciB3ZWJzaXRlIGxpbmtzIHRvIGEgdGFyYmFsbCBvZiBtYXN0ZXIgd2hpY2ggaXMgYm9y
+ZGVybGluZSByZWNrbGVzcy48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZuYnNwOzwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVm
+dDouNWluIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Jv
+ZHk+DQo8L2h0bWw+DQo=
 
+--_000_969F26A8BAB325438E7EB80D3C3134FB44B12A9Eirsmsx105gercor_--
