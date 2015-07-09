@@ -1,39 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 59AFD75D1B
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id B1F746017E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 17:52:47 +0000 (UTC)
-Received: by iecuq6 with SMTP id uq6so181630807iec.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 10:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=3gaE2XJQ8m+K8SMIEAXtN9lALBkfRIKDpR4R07G6kX4=;
-	b=N+e/0+IEgenFdNuq9m/aQCciR1oj/aTd0xciREuig8Hxer0pjbMyEZYx4ZfwwY3tw6
-	Vv4S2tcxoI/jsWPfSlwlcZmHI7wmdsqnHqn2pZccnMi44YaoGAk5eBByiX5XRg0lXb9j
-	1VAFcXbhQgDyOxEE6gjgJlZ1nu3rBY8+G32eLjplw4TELqqwggWBa2Ykm0h6GtZ0+ilH
-	NzAnzvIjnAQEKZZgGZof8YcntcOJQAGNG5wTTNtpZ0cEU2xSFPL4JnuW/viJ5MXAF/ew
-	71m35iPllBZI8S4Fo33em8nNHwBx0oWxsPLr6ocK/ioM6m02AZffytlvcPRnXltJT/Ra
-	B9fQ==
-X-Received: by 10.107.134.83 with SMTP id i80mr855183iod.123.1436464368253;
-	Thu, 09 Jul 2015 10:52:48 -0700 (PDT)
-Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
-	[96.119.89.79]) by smtp.gmail.com with ESMTPSA id
-	c12sm4637051ioj.39.2015.07.09.10.52.47
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 09 Jul 2015 10:52:47 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Thu,  9 Jul 2015 21:55:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 09 Jul 2015 14:55:53 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,442,1432623600"; d="scan'208";a="759377662"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2015 14:55:52 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 10:52:40 -0700
-Message-Id: <946bdac08d39152d5d25795d01bdf15b227378e2.1436464186.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
-References: <ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1436464186.git.raj.khem@gmail.com>
-References: <cover.1436464186.git.raj.khem@gmail.com>
-Subject: [PATCH 3/3] runqemu-internal: Replace wacom-tablet with tablet for usbdevice
+Date: Thu,  9 Jul 2015 14:53:38 +0000
+Message-Id: <319488c174644617e1050ed31983ce259edd0d85.1436453140.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1436453140.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1436453140.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH v2 1/1] opkg-build: Ignore tar error due to hardlinks issue when creating ipk files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,39 +30,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 17:52:50 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 21:55:56 -0000
 
-When booting weston-core-image with latest wayland/weston/libinput
-mouse/touchpad would not work on qemux86, this fixes the issue
+If a the number of hard links decreases or increases while creating
+the tar files used for an ipk package, tar fails with error code 1,
+we use hardlinks on package/ and packages-split/ to decrease disk usage
+sometimes other parts of the build can cause a change in the link count,
+since this happens in a controlled environment we can safely ignore 
+the error and continue to create the ipk file.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+[YOCTO #7933]
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- scripts/runqemu-internal | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../opkg-utils/opkg-utils/tar_ignore_error.patch   | 47 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  4 +-
+ 2 files changed, 50 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 6878251..67aef8d 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -119,7 +119,7 @@ ORIG_STTY=$(stty -g)
- if [ "$SLIRP_ENABLED" = "yes" ]; then
-     KERNEL_NETWORK_CMD="ip=dhcp"
-     QEMU_TAP_CMD=""
--    QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
-+    QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice tablet"
-     if [ "$KVM_ACTIVE" = "yes" ]; then
-         QEMU_NETWORK_CMD=""
-         DROOT="/dev/vda"
-@@ -274,7 +274,7 @@ else
-         fi
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
+new file mode 100644
+index 0000000..4bcae4954
+--- /dev/null
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
+@@ -0,0 +1,47 @@
++If a the number of hard links decreases or increases while creating
++the tar files used for an ipk package, tar fails with error code 1:
++
++| DEBUG: Executing python function do_package_ipk
++| tar: ./usr/src/debug/gperf/3.0.4-r0/gperf-3.0.4/src/main.cc: file changed as we read it
++NOTE: recipe gperf-3.0.4-r0: task do_package_write_ipk: Failed
++ERROR: Task 6539 (recipes-extended/gperf/gperf_3.0.4.bb, do_package_write_ipk) failed with exit code '1'
++
++
++We detect if the error code produced by tar is 1 and in this case ignore it.
++
++This a similar behavior to the one on dpkg:
++http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=40731942515ec8d80c727ad561174986d4f05818
++
++Upsteam-Status: Inappropriate
++
++Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
++
++
++Index: git/opkg-build
++===================================================================
++--- git.orig/opkg-build
+++++ git/opkg-build
++@@ -250,8 +250,21 @@ tmp_dir=$dest_dir/IPKG_BUILD.$$
++ mkdir $tmp_dir
++ 
++ echo $CONTROL > $tmp_dir/tarX
++-( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -cz $tarformat -f $tmp_dir/data.tar.gz . )
++-( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . )
+++
+++
+++# Ignore error code 1, caused by modifying the number of hard links while creating the tar file
+++rc=0
+++( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -cz $tarformat -f $tmp_dir/data.tar.gz . ) || rc=$?
+++if [[ $rc -ne 1 ]] && [[ $rc -ne 0 ]] ;then
+++        exit $rc 
+++fi
+++
+++rc=0
+++( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . ) || rc=$?
+++if [[ $rc -ne 1 ]] && [[ $rc -ne 0 ]] ;then
+++        exit $rc
+++fi
+++
++ rm $tmp_dir/tarX
++ 
++ echo "2.0" > $tmp_dir/debian-binary
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 2800a5d..74b974d 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -10,7 +10,9 @@ PROVIDES += "virtual/update-alternatives"
+ SRCREV = "53274f087565fd45d8452c5367997ba6a682a37a"
+ PV = "0.1.8+git${SRCPV}"
  
-         KERNCMDLINE="mem=$QEMU_MEMORY"
--        QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice wacom-tablet"
-+        QEMU_UI_OPTIONS="-show-cursor -usb -usbdevice tablet"
+-SRC_URI = "git://git.yoctoproject.org/opkg-utils"
++SRC_URI = "git://git.yoctoproject.org/opkg-utils " 
++
++SRC_URI_append_class-native = "file://tar_ignore_error.patch"
  
-         NFS_INSTANCE=`echo $TAP | sed 's/tap//'`
-         export NFS_INSTANCE
+ S = "${WORKDIR}/git"
+ 
 -- 
-2.1.4
+1.8.4.5
 
 
