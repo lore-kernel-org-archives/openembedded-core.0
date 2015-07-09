@@ -1,27 +1,36 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C227C60557
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1757D6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 08:12:01 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 09 Jul 2015 01:11:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,438,1432623600"; d="scan'208";a="758921540"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.21.252])
-	([10.252.21.252])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Jul 2015 01:11:32 -0700
-Message-ID: <1436429491.23019.21.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 09 Jul 2015 11:11:31 +0300
-In-Reply-To: <1436428717.9778.33.camel@linuxfoundation.org>
-References: <cover.1436195315.git.tanu.kaskinen@linux.intel.com>
-	<1436428717.9778.33.camel@linuxfoundation.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] speex, speexdsp: 1.2rc1 -> 1.2rc2/1.2rc3
+	Thu,  9 Jul 2015 08:35:35 +0000 (UTC)
+Received: by iggp10 with SMTP id p10so9136456igg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jul 2015 01:35:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=obu+PATy/YX10mMLS0ddfufDZbENrmg+g3g49/LAEbg=;
+	b=nNT1hKdXWwB9/UmiN2QpflOWS8cUKqyUIr7kl7FuOfzccGJWBGVYTTEZWcPT16N3Zc
+	iXi9e/OuH5x3BtkBx+1l2x2GBYrqvet2c8tgPhk/W4VZ60Fy8wd4bMmVOH1mOoj8idke
+	Jb2X54hh+R1KUHSJTgC2f7Rhm48uS9J5+nuHcvtSHxcaj93heMj6DqoJYz0YWgB541h8
+	imUO/qAU2yWB3chqq47UwCwAjAnQsuWztF5xcBczGAHsd8YtDQeuujZkFyoQMpI9eXrK
+	FHit6pWc+vLRJp0QU2aphxwZrStb3riW43LSsSqo/P1rxVliucvUJBQNUQ0pjoZyMa6k
+	5aQQ==
+X-Gm-Message-State: ALoCoQnG6ROpNb6v2p3GktwTBCcwJOkA8G/UGbn21KfoiICOJOBBzUrNRvtIIlWG9cc/ijofzPlc
+X-Received: by 10.107.168.150 with SMTP id e22mr25306623ioj.9.1436430935584;
+	Thu, 09 Jul 2015 01:35:35 -0700 (PDT)
+Received: from pohly-mobl1.ger.corp.intel.com (p57A56742.dip0.t-ipconnect.de.
+	[87.165.103.66]) by smtp.gmail.com with ESMTPSA id
+	z6sm16131006ign.13.2015.07.09.01.35.33
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 09 Jul 2015 01:35:34 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Jul 2015 10:35:26 +0200
+Message-Id: <1436430926-15641-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] archiver.bbclass: add do_deploy_all_archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 08:12:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Jul 2015 08:35:36 -0000
 
-On Thu, 2015-07-09 at 08:58 +0100, Richard Purdie wrote:
-> On Mon, 2015-07-06 at 18:14 +0300, Tanu Kaskinen wrote:
-> > These patches update speex to 1.2rc2 and speexdsp to 1.2rc3. speexdsp
-> > was previously included in speex, but now it's in a separate source
-> > tree, so a new recipe is needed.
-> > 
-> > The following changes since commit dd09fab685de2eaf04aa5ab60f8220b89c1deae9:
-> > 
-> >   tune-core2.inc: set X86ARCH32 to i686 (instead of i586) (2015-07-02 23:08:27 +0100)
-> > 
-> > are available in the git repository at:
-> > 
-> >   git://git.openembedded.org/openembedded-core-contrib tanuk/speex
-> >   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=tanuk/speex
-> 
-> I included these patches on the autobuilder in master-next and saw:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/385/steps/BuildImages_1/logs/stdio
-> 
-> and also what looks like a another separate but related issue:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-world-lsb/builds/107/steps/BuildImages/logs/stdio
-> https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds/387/steps/BuildImages/logs/stdio
-> https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/383/steps/BuildImages_2/logs/stdio
-> 
-> Could you take a look and see if we can figure out the issue there
-> please?
+When working specifically on source archiving, it is useful
+to trigger that for all recipes required by something like an
+image recipe, without actually having to build that.
 
-Yes, I'll investigate.
+"bitbake -c deploy_all_archives <target>" does that now.
 
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ meta/classes/archiver.bbclass | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 7b5274d..d908d16 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -374,3 +374,10 @@ addtask do_ar_configured after do_unpack_and_patch
+ addtask do_dumpdata
+ addtask do_ar_recipe
+ addtask do_deploy_archives before do_build
++
++addtask do_deploy_all_archives after do_deploy_archives
++do_deploy_all_archives[recrdeptask] = "do_deploy_archives"
++do_deploy_all_archives[recideptask] = "do_${BB_DEFAULT_TASK}"
++do_deploy_all_archives() {
++        :
++}
 -- 
-Tanu
+2.1.4
 
 
