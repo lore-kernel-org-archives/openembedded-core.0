@@ -1,42 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A91ED73223
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 7373C607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 16:10:15 +0000 (UTC)
-Received: by qgep37 with SMTP id p37so25222806qge.1
+	Thu,  9 Jul 2015 16:21:48 +0000 (UTC)
+Received: by wiga1 with SMTP id a1so317579842wig.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 09:10:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=EJ3AFJh+IRmHQ3+rIokskTGzIdDOeshvgHygcK5BlVM=;
-	b=DLMSjdLwi2ELGjutgr2SS/3T0T7C1ZxBqerHMJd/Gke2TGhcg+7iqPmKTnHGtuPVZ5
-	F6zNTOQVvo0KLIHDAhCNU2qGkT3phj745cBLs1VYOaUbM5d4U+mHbxPybOfngbaDR6l5
-	YcRRSKt7MvB0EpwqrSNO6EnwYPc7+FN6uVA2ry+Qk2EB5RFEpqcoZ/3SdueQFsVMrtJS
-	SSyjexwZ+NMoDEmKODvuQE40gEEj2psB6nvIfw+20N1cUcv0s/UtlbJcz6pf+PLX7GzG
-	+ETdmyUZ3cnCqCnn40i5DvijyrCbZg96j8OgwRMY0GiT11XBX94t0XsLF0MmCGoTST4d
-	ukAg==
-X-Gm-Message-State: ALoCoQkulu9wufS9Be6zYq6OGYyvyA33ay1UvX1xoXvQl/aLvuLDkAEbptKiIVV/21eGUGBJNg/k
-X-Received: by 10.140.196.129 with SMTP id r123mr27427107qha.93.1436458215818; 
-	Thu, 09 Jul 2015 09:10:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 09:09:56 -0700 (PDT)
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB44B12AC6@irsmsx105.ger.corp.intel.com>
-References: <cover.1436452048.git.cristian.iorga@intel.com>
-	<ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
-	<20150709143248.GC2446@jama>
-	<CAJTo0LYjQBPh1qBRvrasYTyknaVG+hKbxmS8kcFpRjrgrjgxKw@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB44B12A9E@irsmsx105.ger.corp.intel.com>
-	<CAJTo0LYSi_4P66WHMapyRKPfWM6F-oACAzSTYwNehRwQtmbkHw@mail.gmail.com>
-	<969F26A8BAB325438E7EB80D3C3134FB44B12AC6@irsmsx105.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Jul 2015 17:09:56 +0100
-Message-ID: <CAJTo0LZmn9PveMqBy7Y1vqKak8W-oQPWmzrPhdeBg0G8cGep8A@mail.gmail.com>
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libical: upgrade to 1.0.1
+	Thu, 09 Jul 2015 09:21:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:content-type:content-transfer-encoding:subject:date:message-id
+	:cc:to:mime-version;
+	bh=IhM39m8N1QQmoPfX3zdjI8VKw8bvLpBFpanZyo9KgAs=;
+	b=WH+wUWMUTOeV0qkpGXPb8v9wubEDVFyXquBLXF2othoPVrRvnO3tw++iXxMUdI30Ic
+	mOOoLf+GTWyzufFIyBk3dviy6dvB1dm8TRILgiV0aSUTxb1i1JpReWA1hoIv00JyMUbX
+	DDzlOYg+zXvyWncEA27VmbWsY7dXQ3/9BuYlvLGMfOyk2h8jbIVTC1RMxlaun7ZuwD3Y
+	sn419Aw8h/8tw3ueSBGotfyHJR4uxohKmgjK5s+fwS7nWU8hEPKKIxB4uYLrLQQburtn
+	UNJKXJJvh3JtdHQyB5giBT9bifWkyR4gbBYjkvmEfrXcwgy3/2gDujIeBb6CXYFYLC7/
+	JjgA==
+X-Received: by 10.194.85.130 with SMTP id h2mr26517456wjz.2.1436458908281;
+	Thu, 09 Jul 2015 09:21:48 -0700 (PDT)
+Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
+	by smtp.gmail.com with ESMTPSA id qq1sm9588919wjc.0.2015.07.09.09.21.47
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 09 Jul 2015 09:21:47 -0700 (PDT)
+From: Jens Rehsack <rehsack@gmail.com>
+Date: Thu, 9 Jul 2015 18:22:01 +0200
+Message-Id: <A7F547A4-FD07-4674-8DAB-A09FA32921E3@gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
+X-Mailer: Apple Mail (2.2102)
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: Perl recipe fixes and some updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,46 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 16:10:16 -0000
-Content-Type: multipart/alternative; boundary=001a11433952b05ea5051a737d3f
-
---001a11433952b05ea5051a737d3f
-Content-Type: text/plain; charset=UTF-8
-
-On 9 July 2015 at 17:07, Iorga, Cristian <cristian.iorga@intel.com> wrote:
-
-> Would this one qualify as a release tarball download link?
->
->
->
->
-> https://github.com/libical/libical/releases/download/v1.0.1/libical-1.0.1.tar.gz
->
-
-Yes, wonders never cease. :)
-
-Ross
-
---001a11433952b05ea5051a737d3f
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Thu, 09 Jul 2015 16:21:50 -0000
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 July 2015 at 17:07, Iorga, Cristian <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:cristian.iorga@intel.com" target=3D"_blank">cristian.iorga@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=3D"MsoNorm=
-al"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-se=
-rif;color:#1f497d">Would this one qualify as a release tarball download lin=
-k?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><a href=3D"https://github.com/libical=
-/libical/releases/download/v1.0.1/libical-1.0.1.tar.gz" target=3D"_blank">h=
-ttps://github.com/libical/libical/releases/download/v1.0.1/libical-1.0.1.ta=
-r.gz</a></span></p></blockquote></div><br>Yes, wonders never cease. :)</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div>=
-</div>
+Hi,
 
---001a11433952b05ea5051a737d3f--
+the one or other might already know my meta-cpan approach where I try to =
+get some useful modules from CPAN packaged for Yocto.
+However, there were some quirks required I never brought into a suitable =
+format to submit them.
+
+With my client's update to fido I grabbed the tuit and did some patches: =
+https://github.com/rehsack/poky/commits/fido
+
+The patches for Perl and CPAN modules are 2cc5172 and c6a4f0e.
+d4cbf52 is a patch which is required to build v8 in Yocto (Z-Way needs =
+v8, so we provide it =
+(https://github.com/rehsack/meta-jens/tree/fido/recipes-www/v8)
+d99fa58 fixes the build of mesa when no drm is available
+The remaining one dbccad0 updates sqlite3 ... which is used for =
+DBD::SQLite perl module in meta-cpan :)
+
+Cheers
+--=20
+Jens Rehsack - rehsack@gmail.com
+
+
