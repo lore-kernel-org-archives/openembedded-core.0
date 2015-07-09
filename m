@@ -1,41 +1,28 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id EEF4660034
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 24C1B60034
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 00:43:27 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,665,1427731200"; d="scan'208";a="98245280"
-Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 09 Jul 2015 08:47:19 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t690fi6m005194;
-	Thu, 9 Jul 2015 08:41:44 +0800
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0181.006; Thu, 9 Jul 2015 08:43:26 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] FW: [oe] [meta-oe][PATCH] parted_1.8.6.bb: add
-	parted that not GPLv3
-Thread-Index: AQHQuDpjNDtvI4kxr0SLhdqthD/ZI53PXd9Q///GqACAAFcsAIAAAgoAgAAE6QCAAs0cYA==
-Date: Thu, 9 Jul 2015 00:43:26 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FDB29F16@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1436147494-44348-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<CAJ86T=XJeo31ntBEw16vCPuTyAwYvsij_Aoq=EKgRyhCnYyzOw@mail.gmail.com>
-	<1B56A49860EB2D45ADE3731B15C959FDB29591@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<CAJTo0LZx5mPc+2_wmO8WfYs-s5smFuZYyAmYfZS4Bv+BoW7SEA@mail.gmail.com>
-	<559BD488.8090306@linux.intel.com>
-	<CAJTo0LY5fEmX8Of5d2prJ01fHvf7LV170qTz+r1kd0vtkGgesQ@mail.gmail.com>
-	<559BDA5C.6060905@linux.intel.com>
-In-Reply-To: <559BDA5C.6060905@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.26]
+	Thu,  9 Jul 2015 01:43:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t691hZn4001060
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 8 Jul 2015 18:43:35 -0700 (PDT)
+Received: from [128.224.162.176] (128.224.162.176) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 8 Jul 2015 18:43:34 -0700
+Message-ID: <559DD1C5.2090905@windriver.com>
+Date: Thu, 9 Jul 2015 09:43:33 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1436340750-18379-1-git-send-email-wenzong.fan@windriver.com>
+	<CAJTo0LbWB--Pgd9WT_u6R=vcQz65G54YXdjJ2Tw-DwU3VbpbnA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbWB--Pgd9WT_u6R=vcQz65G54YXdjJ2Tw-DwU3VbpbnA@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: FW: [oe] [meta-oe][PATCH] parted_1.8.6.bb: add parted that not GPLv3
+Subject: Re: [PATCH] Fix packet discards HTTP redirect.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,38 +35,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 00:43:30 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 09 Jul 2015 01:43:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGkgQWxleA0KDQo+IFdobydzIGdvaW5nIHRvIHByb3ZpZGUgb25nb2luZyBtYWludGVuYW5jZSBm
-b3IgYWxsIHRoYXQ/IEkgd291bGQgbGlrZSANCj4gTGVpIHRvIGVzdGFibGlzaCBoaW1zZWxmIGFz
-IHRoZSBtYWludGFpbmVyICh0aHJvdWdoIHRoZSBtYWludGFpbmVycy5pbmMgZmlsZSkuDQoNClRo
-YW5rIHlvdS4gSSdtIHZlcnkgZ2xhZCB0byBkbyB0aGF0Lg0KDQpDaGVlcnMNCg0KTGVpDQoNCg0K
-DQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQt
-Y29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gW21haWx0bzpvcGVuZW1iZWRk
-ZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBPZg0KPiBB
-bGV4YW5kZXIgS2FuYXZpbg0KPiBTZW50OiBUdWVzZGF5LCBKdWx5IDA3LCAyMDE1IDk6NTYgUE0N
-Cj4gVG86IEJ1cnRvbiwgUm9zcw0KPiBDYzogT0UtY29yZQ0KPiBTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIEZXOiBbb2VdIFttZXRhLW9lXVtQQVRDSF0gcGFydGVkXzEuOC42LmJiOiBhZGQgcGFydGVk
-IHRoYXQgbm90DQo+IEdQTHYzDQo+IA0KPiBPbiAwNy8wNy8yMDE1IDA0OjM4IFBNLCBCdXJ0b24s
-IFJvc3Mgd3JvdGU6DQo+IA0KPiA+ICAgICBIb3cgYWJvdXQgcmVuYW1pbmcgdGhlIHJlY2lwZSwg
-c28gdGhhdCBpdCBkb2Vzbid0IGNsYXNoIHdpdGggdGhlDQo+ID4gICAgIEdQTHYzIHZlcnNpb24/
-IEZvciBleGFtcGxlLCBwYXJ0ZWQxXzEuOC42LmJiDQo+ID4gICAgIDxodHRwOi8vcGFydGVkMV8x
-LjguNi5iYj4uIFRoZW4gaXQgY2FuIGJlIGtlcHQgb3V0c2lkZSBvZiBvZS1jb3JlLg0KPiA+DQo+
-ID4NCj4gPiBBcyB0aGV5J3JlIGp1c3QgdmVyc2lvbiB2YXJpYXRpb25zIHRoYXQgd291bGQgYmUg
-b3Zlcmx5IGNvbXBsZXguDQo+ID4gRHJvcHBpbmcgaXQgaW4gb2UtY29yZSBhcyBpdCdzIGEgbm9u
-LXYzIGFsdGVybmF0aXZlIGRvZXNuJ3Qgc2VlbSB0byBiZQ0KPiA+IGEgcHJvYmxlbSB0byBtZSAo
-YXMgdGhlcmUncyBwbGVudHkgb2YgcHJlY2VkZW50IGZvciB0aGF0IGFscmVhZHkpLg0KPiANCj4g
-TXkgcHJvYmxlbSBpcyB0aGF0IHBhcnRlZCAxLjguNiB3YXMgcmVsZWFzZWQgaW4gMjAwNywgYW5k
-IHRoZSByZWNpcGUgYWxyZWFkeSBjYXJyaWVzIGVpZ2h0DQo+IHBhdGNoZXMgd2l0aCBpdCAoYW5k
-IG5vbmUgb2YgdGhlbSBoYXMgYW55IGluZm9ybWF0aW9uIGFib3V0IHRoZWlyIG9yaWdpbikuDQo+
-IA0KPiBXaG8ncyBnb2luZyB0byBwcm92aWRlIG9uZ29pbmcgbWFpbnRlbmFuY2UgZm9yIGFsbCB0
-aGF0PyBJIHdvdWxkIGxpa2UgTGVpIHRvIGVzdGFibGlzaA0KPiBoaW1zZWxmIGFzIHRoZSBtYWlu
-dGFpbmVyICh0aHJvdWdoIHRoZSBtYWludGFpbmVycy5pbmMgZmlsZSkuDQo+IA0KPiBSZWdhcmRz
-LA0KPiBBbGV4DQo+IC0tDQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fDQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRk
-ZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg==
+On 07/08/2015 10:12 PM, Burton, Ross wrote:
+> As per our commit guidelines, the commit message needs to start with the
+> name of the recipe that was modified.
+
+Fixed it, please refer to: [OE-core] [PATCH v2] apr: Fix packet discards 
+HTTP redirect
+
+Thanks
+Wenzong
+
+>
+> Ross
+>
+> On 8 July 2015 at 08:32, <wenzong.fan@windriver.com
+> <mailto:wenzong.fan@windriver.com>> wrote:
+>
+>     From: Li Wang <li.wang@windriver.com <mailto:li.wang@windriver.com>>
+>
+>     Disconnect the connection by poll() timeout.
+>     If timeout=0 and apr_wait_for_io_or_timeout()=APR_TIMEUP then
+>     apr_socket_recv() returns EAGAIN.
+>
+>     Signed-off-by: Noriaki Yoshitane <yoshitane.nrs@cnt.ncos.nec.co.jp
+>     <mailto:yoshitane.nrs@cnt.ncos.nec.co.jp>>
+>     Signed-off-by: Li Wang <li.wang@windriver.com
+>     <mailto:li.wang@windriver.com>>
+>     ---
+>       .../apr/Fix-packet-discards-HTTP-redirect.patch    | 32
+>     ++++++++++++++++++++++
+>       meta/recipes-support/apr/apr_1.5.2.bb <http://apr_1.5.2.bb>
+>            |  1 +
+>       2 files changed, 33 insertions(+)
+>       create mode 100644
+>     meta/recipes-support/apr/apr/Fix-packet-discards-HTTP-redirect.patch
+>
+>     diff --git
+>     a/meta/recipes-support/apr/apr/Fix-packet-discards-HTTP-redirect.patch
+>     b/meta/recipes-support/apr/apr/Fix-packet-discards-HTTP-redirect.patch
+>     new file mode 100644
+>     index 0000000..6805b8b
+>     --- /dev/null
+>     +++
+>     b/meta/recipes-support/apr/apr/Fix-packet-discards-HTTP-redirect.patch
+>     @@ -0,0 +1,32 @@
+>     +Fix packet discards HTTP redirect.
+>     +
+>     +Disconnect the connection by poll() timeout.
+>     +If timeout=0 and apr_wait_for_io_or_timeout()=APR_TIMEUP then
+>     +apr_socket_recv() returns EAGAIN.
+>     +
+>     +Upstream-Status: Pending
+>     +
+>     +Signed-off-by: Noriaki Yoshitane <yoshitane.nrs@cnt.ncos.nec.co.jp
+>     <mailto:yoshitane.nrs@cnt.ncos.nec.co.jp>>
+>     +Signed-off-by: Li Wang <li.wang@windriver.com
+>     <mailto:li.wang@windriver.com>>
+>     +---
+>     + network_io/unix/sendrecv.c |    4 ++++
+>     + 1 file changed, 4 insertions(+)
+>     +
+>     +diff --git a/network_io/unix/sendrecv.c b/network_io/unix/sendrecv.c
+>     +index c133a26..e8faf15 100644
+>     +--- a/network_io/unix/sendrecv.c
+>     ++++ b/network_io/unix/sendrecv.c
+>     +@@ -85,6 +85,10 @@ apr_status_t apr_socket_recv(apr_socket_t *sock,
+>     char *buf, apr_size_t *len)
+>     +                       && (sock->timeout > 0)) {
+>     + do_select:
+>     +         arv = apr_wait_for_io_or_timeout(NULL, sock, 1);
+>     ++        if ((arv == APR_TIMEUP) && (sock->timeout == 0)) {
+>     ++            *len = 0;
+>     ++            return EAGAIN;
+>     ++        }
+>     +         if (arv != APR_SUCCESS) {
+>     +             *len = 0;
+>     +             return arv;
+>     +--
+>     +1.7.9.5
+>     +
+>     diff --git a/meta/recipes-support/apr/apr_1.5.2.bb
+>     <http://apr_1.5.2.bb> b/meta/recipes-support/apr/apr_1.5.2.bb
+>     <http://apr_1.5.2.bb>
+>     index aac6276..c1f7f38 100644
+>     --- a/meta/recipes-support/apr/apr_1.5.2.bb <http://apr_1.5.2.bb>
+>     +++ b/meta/recipes-support/apr/apr_1.5.2.bb <http://apr_1.5.2.bb>
+>     @@ -15,6 +15,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+>                  file://configfix.patch \
+>                  file://run-ptest \
+>                  file://upgrade-and-fix-1.5.1.patch \
+>     +           file://Fix-packet-discards-HTTP-redirect.patch \
+>       "
+>
+>       SRC_URI[md5sum] = "4e9769f3349fe11fc0a5e1b224c236aa"
+>     --
+>     1.9.1
+>
+>     --
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
