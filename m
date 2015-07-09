@@ -1,23 +1,27 @@
-Return-Path: <wei.tee.ng@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2559272A78
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FF2C6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 05:10:19 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 08 Jul 2015 22:10:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,437,1432623600"; d="scan'208";a="521188830"
-Received: from weiteeng-ilbpg1.png.intel.com ([10.88.227.45])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Jul 2015 22:10:18 -0700
-From: wei.tee.ng@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 13:10:20 +0800
-Message-Id: <1436418620-16592-3-git-send-email-wei.tee.ng@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
-References: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
-Cc: wei.tee.ng@intel.com
-Subject: [PATCH 2/2] recipes-connectivity: Add iw configuration for enabling Marvell 8897 WiFi feature
+	Thu,  9 Jul 2015 07:15:31 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.13,665,1427731200"; d="scan'208";a="98260852"
+Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 09 Jul 2015 15:19:22 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t697Dk2r001445
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 Jul 2015 15:13:47 +0800
+Received: from localhost.localdomain (10.167.226.26) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 9 Jul 2015 15:15:29 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 9 Jul 2015 15:14:31 +0800
+Message-ID: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.26]
+Subject: [PATCH] parted_1.8.6.bb: add parted that not GPLv3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,103 +34,356 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 05:10:19 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 07:15:38 -0000
+Content-Type: text/plain
 
-From: Ng Shui Lei <shui.lei.ng@intel.com>
+Add parted-1.8.6 which is not GPLv3.
 
-iw features was created in the recipes-connectivity layer to
-enable Marvell 8897 module in AP mode and STA mode. iw is a
-new nl80211 based CLI configuration utility for wireless devices.
-
-Signed-off-by: Ng Shui Lei <shui.lei.ng@intel.com>
-Signed-off-by: Ng Wei Tee <wei.tee.ng@intel.com>
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++++++++++++++++
- meta/recipes-connectivity/iw/iw_3.8.bb             |   27 +++++++++++++
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
- create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
+ .../parted-1.8.6/1000parted-1.8.6-warnings1.patch  | 17 ++++++
+ .../1001parted-1.8.6-notransname1.patch            | 45 ++++++++++++++++
+ .../1002parted-1.8.6-off-by-one1.patch             | 31 +++++++++++
+ .../1003parted-1.8.6-primary-boundary1.patch       | 18 +++++++
+ .../parted-1.8.6/1004parted-1.8.6-xvd1.patch       | 56 ++++++++++++++++++++
+ .../1005parted-1.8.6-devmapper-header1.patch       | 19 +++++++
+ .../parted/parted-1.8.6/ui.c-fix-build-error.patch | 29 ++++++++++
+ meta/recipes-extended/parted/parted_1.8.6.bb       | 61 ++++++++++++++++++++++
+ 8 files changed, 276 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/parted-1.8.6/1000parted-1.8.6-warnings1.patch
+ create mode 100644 meta/recipes-extended/parted/parted-1.8.6/1001parted-1.8.6-notransname1.patch
+ create mode 100644 meta/recipes-extended/parted/parted-1.8.6/1002parted-1.8.6-off-by-one1.patch
+ create mode 100644 meta/recipes-extended/parted/parted-1.8.6/1003parted-1.8.6-primary-boundary1.patch
+ create mode 100644 meta/recipes-extended/parted/parted-1.8.6/1004parted-1.8.6-xvd1.patch
+ create mode 100644 meta/recipes-extended/parted/parted-1.8.6/1005parted-1.8.6-devmapper-header1.patch
+ create mode 100644 meta/recipes-extended/parted/parted-1.8.6/ui.c-fix-build-error.patch
+ create mode 100644 meta/recipes-extended/parted/parted_1.8.6.bb
 
-diff --git a/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch b/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+diff --git a/meta/recipes-extended/parted/parted-1.8.6/1000parted-1.8.6-warnings1.patch b/meta/recipes-extended/parted/parted-1.8.6/1000parted-1.8.6-warnings1.patch
 new file mode 100644
-index 0000000..f4a7ee7
+index 0000000..83455ee
 --- /dev/null
-+++ b/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
-@@ -0,0 +1,40 @@
-+From: Koen Kooi <koen@dominion.thruhere.net>
-+Date: Tue, 29 Nov 2011 17:03:27 +0100
-+Subject: [PATCH] iw: version.sh: don't use git describe for versioning
++++ b/meta/recipes-extended/parted/parted-1.8.6/1000parted-1.8.6-warnings1.patch
+@@ -0,0 +1,17 @@
++This patch comes from: http://pkgs.fedoraproject.org/cgit/parted.git/commit/?id=ce690b23703eb5295d116cdb972a04260ef5ddec
 +
-+It will detect top-level git repositories like the Angstrom setup-scripts and break.
++Upstream-Status: Pending
 +
-+Upstream-status: Unknown
++Signed-off-by: Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 +
-+Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
++--- parted-1.8.6/libparted/fs/linux_swap/linux_swap.c.warnings	2007-03-20 13:22:36.000000000 -0400
+++++ parted-1.8.6/libparted/fs/linux_swap/linux_swap.c	2007-03-20 13:59:11.000000000 -0400
++@@ -123,7 +123,7 @@
++ 
++ error_close_fs:
++ 	swap_close (fs);
++-error:
+++
++ 	return 0;
++ }
++ #endif /* !DISCOVER_ONLY */
+diff --git a/meta/recipes-extended/parted/parted-1.8.6/1001parted-1.8.6-notransname1.patch b/meta/recipes-extended/parted/parted-1.8.6/1001parted-1.8.6-notransname1.patch
+new file mode 100644
+index 0000000..7fbfde7
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-1.8.6/1001parted-1.8.6-notransname1.patch
+@@ -0,0 +1,45 @@
++This patch comes from: http://pkgs.fedoraproject.org/cgit/parted.git/commit/?id=e13022c01a2cd944e28c61827c96b0a37f4eecf0
++
++Upstream-Status: Pending
++
++Signed-off-by: Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++
++--- parted-1.8.6/parted/parted.c.notransname	2007-03-13 13:01:09.000000000 -0400
+++++ parted-1.8.6/parted/parted.c	2007-03-21 10:50:35.000000000 -0400
++@@ -1429,7 +1429,7 @@
++                                              part->fs_type->name : "");
++ 
++                             if (has_name) {
++-                                    name = _(ped_partition_get_name (part));
+++                                    name = ped_partition_get_name (part);
++                                     str_list_append (row, name);
++                             }
++ 
++--- parted-1.8.6/parted/table.c.notransname	2007-03-13 13:01:09.000000000 -0400
+++++ parted-1.8.6/parted/table.c	2007-03-21 10:51:31.000000000 -0400
++@@ -191,7 +191,8 @@
++         len += wcslen(COLSUFFIX);
++ 
++         newsize = (wcslen(*s) + len + 1) * sizeof(wchar_t);
++-        *s = realloc (*s, newsize);
+++        *s = (wchar_t *) realloc (*s, newsize);
+++        assert(*s != NULL);
++ 
++         for (i = 0; i < ncols; ++i)
++         {
++@@ -199,6 +200,7 @@
++                 int nspaces = max(t->widths[i] - wcswidth(row[i], MAX_WIDTH),
++                                   0);
++                 wchar_t* pad = malloc ( (nspaces + 1) * sizeof(wchar_t) );
+++                assert(pad != NULL);
++ 
++                 for (j = 0; j < nspaces; ++j)
++                        pad[j] = L' '; 
++@@ -211,6 +213,7 @@
++                         wcscat (*s, DELIMITER);
++ 
++                 free (pad);
+++                pad = NULL;
++         }
++ 
++         wcscat (*s, COLSUFFIX);
+diff --git a/meta/recipes-extended/parted/parted-1.8.6/1002parted-1.8.6-off-by-one1.patch b/meta/recipes-extended/parted/parted-1.8.6/1002parted-1.8.6-off-by-one1.patch
+new file mode 100644
+index 0000000..dde5c29
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-1.8.6/1002parted-1.8.6-off-by-one1.patch
+@@ -0,0 +1,31 @@
++This patch comes from: http://pkgs.fedoraproject.org/cgit/parted.git/commit/?id=cb95a1496c040be5e9de8f674224619fd47648c3
++
++Upstream-Status: Pending
++
++Signed-off-by: Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++
++--- parted-1.8.6/parted/parted.c.offbyone	2007-04-11 12:13:06.000000000 -0400
+++++ parted-1.8.6/parted/parted.c	2007-04-11 12:13:21.000000000 -0400
++@@ -1217,6 +1217,7 @@
++ static int
++ do_print (PedDevice** dev)
++ {
+++        PedUnit         default_unit;
++         PedDisk*        disk;
++         Table*          table;
++         StrList*        row;
++@@ -1303,11 +1304,12 @@
++         }
++ 
++         start = ped_unit_format (*dev, 0);
+++        default_unit = ped_unit_get_default ();
++         end = ped_unit_format_byte (*dev, (*dev)->length * (*dev)->sector_size
++-                                          - 1 );
+++         - (default_unit == PED_UNIT_CHS || default_unit == PED_UNIT_CYLINDER));
++         
++         if (opt_machine_mode) {
++-            switch (ped_unit_get_default ()) {
+++            switch (default_unit) {
++                 case PED_UNIT_CHS:      puts ("CHS;");
++                                         break;
++                 case PED_UNIT_CYLINDER: puts ("CYL;");
+diff --git a/meta/recipes-extended/parted/parted-1.8.6/1003parted-1.8.6-primary-boundary1.patch b/meta/recipes-extended/parted/parted-1.8.6/1003parted-1.8.6-primary-boundary1.patch
+new file mode 100644
+index 0000000..b671503
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-1.8.6/1003parted-1.8.6-primary-boundary1.patch
+@@ -0,0 +1,18 @@
++This patch comes from: http://pkgs.fedoraproject.org/cgit/parted.git/commit/?id=19cd527b151ec518ae72b6566efc1a882b2f79d8
++
++Upstream-Status: Pending
++
++Signed-off-by: Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++
++--- parted-1.8.6/libparted/labels/dos.c.boundary	2007-03-13 13:01:09.000000000 -0400
+++++ parted-1.8.6/libparted/labels/dos.c	2007-04-11 14:56:54.000000000 -0400
++@@ -1696,8 +1696,7 @@
++ 					 _primary_start_constraint (disk, part,
++ 						 bios_geom, min_geom)));
++ 
++-	if (!solution)
++-		solution = _best_solution (part, bios_geom, solution,
+++	solution = _best_solution (part, bios_geom, solution,
++ 			_try_constraint (part, constraint,
++ 				_primary_constraint (disk, bios_geom,
++ 				min_geom)));
+diff --git a/meta/recipes-extended/parted/parted-1.8.6/1004parted-1.8.6-xvd1.patch b/meta/recipes-extended/parted/parted-1.8.6/1004parted-1.8.6-xvd1.patch
+new file mode 100644
+index 0000000..7dbdab2
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-1.8.6/1004parted-1.8.6-xvd1.patch
+@@ -0,0 +1,56 @@
++This patch comes from: http://pkgs.fedoraproject.org/cgit/parted.git/commit/?id=f6ed55a348c50836977e04dedaad4bbb5e77c3a3
++
++Upstream-Status: Pending
++
++Signed-off-by: Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++
++diff -up parted-1.8.6/libparted/arch/linux.c.xvd parted-1.8.6/libparted/arch/linux.c
++--- parted-1.8.6/libparted/arch/linux.c.xvd	2007-08-07 14:05:59.000000000 -0400
+++++ parted-1.8.6/libparted/arch/linux.c	2007-08-07 14:07:13.000000000 -0400
++@@ -248,6 +248,7 @@ struct blkdev_ioctl_param {
++ #define VIODASD_MAJOR           112
++ #define SX8_MAJOR1              160
++ #define SX8_MAJOR2              161
+++#define XVD_MAJOR               202
++ 
++ #define SCSI_BLK_MAJOR(M) (                                             \
++                 (M) == SCSI_DISK0_MAJOR                                 \
++@@ -450,6 +451,8 @@ _device_probe_type (PedDevice* dev)
++         } else if (_is_dm_major(dev_major)) {
++                 dev->type = PED_DEVICE_DM;
++ #endif
+++        } else if (dev_major == XVD_MAJOR && (dev_minor % 0x10 == 0)) {
+++                dev->type = PED_DEVICE_XVD;
++         } else {
++                 dev->type = PED_DEVICE_UNKNOWN;
++         }
++@@ -1152,6 +1155,11 @@ linux_new (const char* path)
++                 break;
++ #endif
++ 
+++        case PED_DEVICE_XVD:
+++                if (!init_generic (dev, _("Xen Virtual Block Device")))
+++                        goto error_free_arch_specific;
+++                break;
+++
++         case PED_DEVICE_UNKNOWN:
++                 if (!init_generic (dev, _("Unknown")))
++                         goto error_free_arch_specific;
++diff -up parted-1.8.6/include/parted/device.h.xvd parted-1.8.6/include/parted/device.h
++--- parted-1.8.6/include/parted/device.h.xvd	2007-01-12 10:15:10.000000000 -0500
+++++ parted-1.8.6/include/parted/device.h	2007-08-07 14:07:13.000000000 -0400
++@@ -45,11 +45,11 @@ typedef enum {
++         PED_DEVICE_UBD          = 8,
++         PED_DEVICE_DASD         = 9,
++         PED_DEVICE_VIODASD      = 10,
++-        PED_DEVICE_SX8          = 11
+++        PED_DEVICE_SX8          = 11,
++ #ifdef ENABLE_DEVICE_MAPPER
++-                                    ,
++-        PED_DEVICE_DM           = 12
+++        PED_DEVICE_DM           = 12,
++ #endif
+++        PED_DEVICE_XVD          = 13
++ } PedDeviceType;
++ 
++ typedef struct _PedDevice PedDevice;
+diff --git a/meta/recipes-extended/parted/parted-1.8.6/1005parted-1.8.6-devmapper-header1.patch b/meta/recipes-extended/parted/parted-1.8.6/1005parted-1.8.6-devmapper-header1.patch
+new file mode 100644
+index 0000000..cc410ef
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-1.8.6/1005parted-1.8.6-devmapper-header1.patch
+@@ -0,0 +1,19 @@
++This patch comes from: http://pkgs.fedoraproject.org/cgit/parted.git/commit/?id=2b24ccacbd8e454ba62027fb5c85fc8f175e1da7
++
++Upstream-Status: Pending
++
++Signed-off-by: Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++
++diff -up parted-1.8.6/include/parted/device.h.devmapper parted-1.8.6/include/parted/device.h
++--- parted-1.8.6/include/parted/device.h.devmapper	2007-10-04 15:39:27.000000000 -0400
+++++ parted-1.8.6/include/parted/device.h	2007-10-04 15:40:11.000000000 -0400
++@@ -46,9 +46,7 @@ typedef enum {
++         PED_DEVICE_DASD         = 9,
++         PED_DEVICE_VIODASD      = 10,
++         PED_DEVICE_SX8          = 11,
++-#ifdef ENABLE_DEVICE_MAPPER
++         PED_DEVICE_DM           = 12,
++-#endif
++         PED_DEVICE_XVD          = 13
++ } PedDeviceType;
++ 
+diff --git a/meta/recipes-extended/parted/parted-1.8.6/ui.c-fix-build-error.patch b/meta/recipes-extended/parted/parted-1.8.6/ui.c-fix-build-error.patch
+new file mode 100644
+index 0000000..82e2146
+--- /dev/null
++++ b/meta/recipes-extended/parted/parted-1.8.6/ui.c-fix-build-error.patch
+@@ -0,0 +1,29 @@
++From 4f4dfd5aabdaadd8f495e193ca8daed5a3a1782a Mon Sep 17 00:00:00 2001
++From: Li xin <lixin.fnst@cn.fujitsu.com>
++Date: Fri, 28 Nov 2014 02:49:19 +0900
++Subject: [PATCH] parted/ui.c : fix build error
++
++Otherwise,there will be an error when build for arm as the following:
++"error: 'CPPFunction' undeclared (first use in this function)"
++
++Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 +---
-+ version.sh | 16 +---------------
-+ 1 file changed, 1 insertion(+), 15 deletions(-)
++ parted/ui.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/version.sh b/version.sh
-+index db02f0d..336ce2b 100755
-+--- a/version.sh
-++++ b/version.sh
-+@@ -3,21 +3,7 @@
-+ VERSION="3.8"
-+ OUT="$1"
++diff --git a/parted/ui.c b/parted/ui.c
++index 59cb98b..b583693 100644
++--- a/parted/ui.c
+++++ b/parted/ui.c
++@@ -1376,7 +1376,7 @@ init_ui ()
++ 
++ #ifdef HAVE_LIBREADLINE
++         rl_initialize ();
++-        rl_attempted_completion_function = (CPPFunction*) complete_function;
+++        rl_attempted_completion_function = (rl_completion_func_t*) complete_function;
++         readline_state.in_readline = 0;
++ #endif
++ 
++-- 
++1.8.4.2
 +
-+-if head=`git rev-parse --verify HEAD 2>/dev/null`; then
-+-	git update-index --refresh --unmerged > /dev/null
-+-	descr=$(git describe)
-+-
-+-	# on git builds check that the version number above
-+-	# is correct...
-+-	[ "${descr%%-*}" = "v$VERSION" ] || exit 2
-+-
-+-	v="${descr#v}"
-+-	if git diff-index --name-only HEAD | read dummy ; then
-+-		v="$v"-dirty
-+-	fi
-+-else
-+-	v="$VERSION"
-+-fi
-++v="$VERSION"
-+
-+ echo '#include "iw.h"' > "$OUT"
-+ echo "const char iw_version[] = \"$v\";" >> "$OUT"
-diff --git a/meta/recipes-connectivity/iw/iw_3.8.bb b/meta/recipes-connectivity/iw/iw_3.8.bb
+diff --git a/meta/recipes-extended/parted/parted_1.8.6.bb b/meta/recipes-extended/parted/parted_1.8.6.bb
 new file mode 100644
-index 0000000..29dbcd0
+index 0000000..9c19b0f
 --- /dev/null
-+++ b/meta/recipes-connectivity/iw/iw_3.8.bb
-@@ -0,0 +1,27 @@
-+# Copyright (C) 2013 Digi International.
++++ b/meta/recipes-extended/parted/parted_1.8.6.bb
+@@ -0,0 +1,61 @@
++SUMMARY = "The GNU disk partition manipulation program"
++DESCRIPTION = "The GNU Parted program allows you to create, destroy, resize, move, \
++and copy hard disk partitions. Parted can be used for creating space \
++for new operating systems, reorganizing disk usage, and copying data \
++to new hard disks."
++HOMEPAGE = "http://www.gnu.org/software/parted"
++SECTION = "Applications/System"
 +
-+SUMMARY = "nl80211 based CLI configuration utility for wireless devices"
-+DESCRIPTION = "iw is a new nl80211 based CLI configuration utility for \
-+wireless devices. It supports almost all new drivers that have been added \
-+to the kernel recently. "
-+HOMEPAGE = "http://linuxwireless.org/en/users/Documentation/iw"
-+SECTION = "base"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=878618a5c4af25e9b93ef0be1a93f774"
++SRC_URI = "http://ftp.gnu.org/gnu/parted/parted-1.8.6.tar.bz2 \
++	   file://1000parted-1.8.6-warnings1.patch \
++	   file://1001parted-1.8.6-notransname1.patch \
++	   file://1002parted-1.8.6-off-by-one1.patch \
++	   file://1003parted-1.8.6-primary-boundary1.patch \
++	   file://1004parted-1.8.6-xvd1.patch \
++	   file://1005parted-1.8.6-devmapper-header1.patch \
++           file://ui.c-fix-build-error.patch \
++	   "
 +
-+DEPENDS = "libnl pkgconfig"
++SRC_URI[md5sum] = "03c967ae0e915e08da90605d68ba93d7"
++SRC_URI[sha256sum] = "82d94c9bb58cccd1eacfc5ff3a9331d179cc26d8fbe00c451e2c84feb6d23408"
 +
-+PR = "${DISTRO}.r0"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
 +
-+SRC_URI = "http://www.kernel.org/pub/software/network/iw/iw-${PV}.tar.bz2 \
-+           file://0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch \
-+          "
++inherit autotools gettext pkgconfig
 +
-+SRC_URI[md5sum] = "618ad1106a196fb1c3d827de96da437c"
-+SRC_URI[sha256sum] = "3dae92ca5989cbc21155941fa01907a5536da3c5f6898642440c61484fc7e0f9"
++DEPENDS = "lvm2 readline"
 +
-+EXTRA_OEMAKE = ""
++EXTRA_OECONF = "--enable-device-mapper \
++	        --disable-selinux \
++	        --disable-static \
++	        --sbindir=${sbindir} \
++	        --disable-Werror \
++	        --disable-rpath \
++	        "
++EXTRA_OEMAKE = "DESTDIR=${D}"
 +
-+do_install() {
-+	oe_runmake DESTDIR=${D} install
++do_configure_prepend() {
++	# ltmain.sh will set rpath to path on host.
++	for l in `find ${S} -name "ltmain\.sh"` ; do
++		sed -i -e 's/\$compile_rpath//g' \
++		       -e 's/\$finalize_rpath//g' ${l}
++	done
++
++	# FIXME: Some option may be needed by EXTRA_OECONF.
++	sed -i 's/ac_cv_func_malloc_0_nonnull=no/ac_cv_func_malloc_0_nonnull=yes/g' ${S}/configure
++	sed -i 's/ac_cv_func_calloc_0_nonnull=no/ac_cv_func_calloc_0_nonnull=yes/g' ${S}/configure
++	sed -i 's/ac_cv_func_memcmp_working=no/ac_cv_func_memcmp_working=yes/g' ${S}/configure
++	sed -i 's/ac_cv_func_realloc_0_nonnull=no/ac_cv_func_realloc_0_nonnull=yes/g' ${S}/configure
 +}
++
++do_configure() {
++	oe_runconf
++}
++
++do_install_append() {
++	/bin/rm -rf ${D}/${libdir}/*.la
++	/bin/rm -rf ${D}/usr/share/info/dir
++	/bin/rm -fr ${D}/usr/bin
++}
++
 -- 
-1.7.9.5
+2.1.0
 
 
