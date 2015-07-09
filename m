@@ -1,38 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 13ED0607A4
+Return-Path: <jan.wetter@mikrom.com>
+X-Greylist: delayed 310 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 09 Jul 2015 15:39:16 UTC
+Received: from mail.mikrom.com (mikrom.com [178.63.40.178])
+	by mail.openembedded.org (Postfix) with ESMTP id DA8EC6E5F5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 15:10:18 +0000 (UTC)
-Received: by qkei195 with SMTP id i195so187751172qke.3
+	Thu,  9 Jul 2015 15:39:16 +0000 (UTC)
+Received: from mikrom.com (mail.mikrom.local [192.168.0.225])
+	by mail.mikrom.com (Postfix) with ESMTPS id 9224213E8E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 08:10:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=mOxXzjZIvsK65zchm4jQzyoUsBJvQ3pRR8s6e/IINz4=;
-	b=MNk7M/PHQiyuP5wS3kJt+NE6nzMbpJoWnGta+8e7Y3jrlfn2ekoODhm+Et73+62Aat
-	2T8EEYlLpyLrHBbe0uZiXtdS+T1Rmf4pKfEfWo9KCfeLmpXvnXN4rvKDpONFHYoCQqGz
-	ZgF3/GBo5CHsd8+d2pdKv3v/H7n1yZ1c/GiNZr4iZnKLRw577bbRItVZBVENUx9+XpEn
-	T4lkwLa/QAdEx/6bJVT6WGxULcMs3hssmd0S6j+IxyG5rQjrmLfs6GQf0VjMiBdmlKNm
-	dqrju7wUZKYClDDMhE2LUB/L2PyEkllbNA1HphGZ7drvnyM0EA9KDZDqMBgV0T666MDu
-	cpQA==
-X-Gm-Message-State: ALoCoQkLrLk0d/Gh3t5/MD55hcIzFAceXmFG5egRdROJQKTU6eMrARO5rsyI/cHX1X7rMl0niBpz
-X-Received: by 10.55.15.129 with SMTP id 1mr25112241qkp.29.1436454618760; Thu,
-	09 Jul 2015 08:10:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 08:09:59 -0700 (PDT)
-In-Reply-To: <20150709143248.GC2446@jama>
-References: <cover.1436452048.git.cristian.iorga@intel.com>
-	<ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
-	<20150709143248.GC2446@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Jul 2015 16:09:59 +0100
-Message-ID: <CAJTo0LYjQBPh1qBRvrasYTyknaVG+hKbxmS8kcFpRjrgrjgxKw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libical: upgrade to 1.0.1
+	Thu,  9 Jul 2015 17:34:05 +0200 (CEST)
+Received: from methusalix.dove.mikrom.com (methusalix.dove.mikrom.com
+	[192.168.0.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mikrom.com (Postfix) with ESMTPSA id 494831BC1A;
+	Thu,  9 Jul 2015 17:33:56 +0200 (CEST)
+From: Jan Wetter <jan.wetter@mikrom.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Jul 2015 17:33:48 +0200
+Message-Id: <1436456028-23148-1-git-send-email-jan.wetter@mikrom.com>
+X-Mailer: git-send-email 2.3.6
+Subject: [PATCH] openssl: upgrade to 1.0.2d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +33,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 15:10:20 -0000
-Content-Type: multipart/alternative; boundary=001a1146f100498fec051a72a773
+X-List-Received-Date: Thu, 09 Jul 2015 15:39:24 -0000
 
---001a1146f100498fec051a72a773
-Content-Type: text/plain; charset=UTF-8
+This upgrade fixes CVE-2015-1793
+Removed openssl-fix-link.patch. The linking issue has been fixed in openssl.
 
-On 9 July 2015 at 15:32, Martin Jansa <martin.jansa@gmail.com> wrote:
+Signed-off-by: Jan Wetter <jan.wetter@mikrom.com>
+---
+ .../openssl/openssl/openssl-fix-link.patch         | 35 ----------------------
+ .../{openssl_1.0.2c.bb => openssl_1.0.2d.bb}       |  5 ++--
+ 2 files changed, 2 insertions(+), 38 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.0.2c.bb => openssl_1.0.2d.bb} (90%)
 
-> aren't github archives regenerated from time to time with different
-> checksums?
->
+diff --git a/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch b/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
+deleted file mode 100644
+index 154106c..0000000
+--- a/meta/recipes-connectivity/openssl/openssl/openssl-fix-link.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From aabfb6f78af8e337d3239142117ba303fce55e7e Mon Sep 17 00:00:00 2001
+-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+-Date: Thu, 22 Sep 2011 08:55:26 +0200
+-Subject: [PATCH] fix the parallel build regarding shared libraries.
+-
+-Upstream-Status: Pending
+----
+- .../openssl-1.0.0e/Makefile.org                    |    8 ++++----
+- 1 files changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/Makefile.org
+-index 3c7aea1..6326cd6 100644
+---- a/Makefile.org
+-+++ b/Makefile.org
+-@@ -243,13 +243,13 @@ build_libs: build_crypto build_ssl build_engines
+- 
+- build_crypto:
+- 	@dir=crypto; target=all; $(BUILD_ONE_CMD)
+--build_ssl:
+-+build_ssl: build_crypto
+- 	@dir=ssl; target=all; $(BUILD_ONE_CMD)
+--build_engines:
+-+build_engines: build_crypto
+- 	@dir=engines; target=all; $(BUILD_ONE_CMD)
+--build_apps:
+-+build_apps: build_crypto build_ssl
+- 	@dir=apps; target=all; $(BUILD_ONE_CMD)
+--build_tests:
+-+build_tests: build_crypto build_ssl
+- 	@dir=test; target=all; $(BUILD_ONE_CMD)
+- build_tools:
+- 	@dir=tools; target=all; $(BUILD_ONE_CMD)
+--- 
+-1.6.6.1
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.0.2c.bb b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+similarity index 90%
+rename from meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+index fd4ba6c..32d8dce 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.0.2c.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.0.2d.bb
+@@ -15,7 +15,6 @@ SRC_URI += "file://configure-targets.patch \
+             file://shared-libs.patch \
+             file://oe-ldflags.patch \
+             file://engines-install-in-libdir-ssl.patch \
+-            file://openssl-fix-link.patch \
+             file://debian1.0.2/block_diginotar.patch \
+             file://debian1.0.2/block_digicert_malaysia.patch \
+             file://debian/ca.patch \
+@@ -39,8 +38,8 @@ SRC_URI += "file://configure-targets.patch \
+             file://openssl-1.0.2a-x32-asm.patch \
+            "
+ 
+-SRC_URI[md5sum] = "8c8d81a9ae7005276e486702edbcd4b6"
+-SRC_URI[sha256sum] = "0038ba37f35a6367c58f17a7a7f687953ef8ce4f9684bbdec63e62515ed36a83"
++SRC_URI[md5sum] = "38dd619b2e77cbac69b99f52a053d25a"
++SRC_URI[sha256sum] = "671c36487785628a703374c652ad2cebea45fa920ae5681515df25d9f2c9a8c8"
+ 
+ PACKAGES =+ " \
+ 	${PN}-engines \
+-- 
+2.3.6
 
-Yes.  I keep on meaning to write a QA test for this. :)
 
-Cristi - if this is the best libical has as a tarball release then we
-should do a proper git clone.  Amazingly, the download button on their
-website links to a tarball of master which is borderline reckless.
-
-Ross
-
---001a1146f100498fec051a72a773
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 July 2015 at 15:32, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4m5" class=3D"=
-a3s" style=3D"overflow:hidden">aren&#39;t github archives regenerated from =
-time to time with different<br>
-checksums?<br>
-<div class=3D"HOEnZb"></div></div></blockquote></div><br>Yes.=C2=A0 I keep =
-on meaning to write a QA test for this. :)</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">Cristi - if this is the best libical h=
-as as a tarball release then we should do a proper git clone.=C2=A0 Amazing=
-ly, the download button on their website links to a tarball of master which=
- is borderline reckless.</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">Ross</div></div>
-
---001a1146f100498fec051a72a773--
