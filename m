@@ -1,25 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 38DB86E5F5
+	by mail.openembedded.org (Postfix) with ESMTP id DA17573223
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 14:27:56 +0000 (UTC)
+	Thu,  9 Jul 2015 14:27:57 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 09 Jul 2015 07:27:56 -0700
+	by orsmga102.jf.intel.com with ESMTP; 09 Jul 2015 07:27:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,440,1432623600"; d="scan'208";a="603039259"
+X-IronPort-AV: E=Sophos;i="5.15,440,1432623600"; d="scan'208";a="603039271"
 Received: from sentry.rb.intel.com ([10.237.105.63])
-	by orsmga003.jf.intel.com with ESMTP; 09 Jul 2015 07:27:54 -0700
+	by orsmga003.jf.intel.com with ESMTP; 09 Jul 2015 07:27:55 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 17:28:10 +0300
-Message-Id: <f49c678049285cbb70db3e1d6f31a42f31cef36f.1436452048.git.cristian.iorga@intel.com>
+Date: Thu,  9 Jul 2015 17:28:11 +0300
+Message-Id: <ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1436452048.git.cristian.iorga@intel.com>
 References: <cover.1436452048.git.cristian.iorga@intel.com>
 In-Reply-To: <cover.1436452048.git.cristian.iorga@intel.com>
 References: <cover.1436452048.git.cristian.iorga@intel.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/2] bluez5: upgrade to 5.32
+Subject: [PATCH 2/2] libical: upgrade to 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,41 +32,38 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 09 Jul 2015 14:27:58 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Mostly a bug fix release.
-
-Fixes in several different areas, including OPP,
-ATT and advertising (instance number handling in particular).
-Fix for handling a sudden disconnect when a connection setup
-process hasn’t yet completed.
-New feature: ability to select between letting the stack
-handle ATT security elevation or doing the respective
-error handling in higher layers.
+Bugfix release mainly.
+autotools build system removed, cmake is now used.
+perl is needed during the configure phase.
 
 Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 ---
- meta/recipes-connectivity/bluez5/{bluez5_5.31.bb => bluez5_5.32.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bluez5/{bluez5_5.31.bb => bluez5_5.32.bb} (88%)
+ .../libical/{libical_1.0.0.bb => libical_1.0.1.bb}               | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libical/{libical_1.0.0.bb => libical_1.0.1.bb} (67%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.31.bb b/meta/recipes-connectivity/bluez5/bluez5_5.32.bb
-similarity index 88%
-rename from meta/recipes-connectivity/bluez5/bluez5_5.31.bb
-rename to meta/recipes-connectivity/bluez5/bluez5_5.32.bb
-index 395c512..db02be4 100644
---- a/meta/recipes-connectivity/bluez5/bluez5_5.31.bb
-+++ b/meta/recipes-connectivity/bluez5/bluez5_5.32.bb
-@@ -1,6 +1,6 @@
- require bluez5.inc
--SRC_URI[md5sum] = "cb1db487b65dd4d57a2dd6b8f063c393"
--SRC_URI[sha256sum] = "c4b661cc5866d9a9a9d608d700392afa278c3b6fe8426238bf6979be7c63818f"
-+SRC_URI[md5sum] = "432b1f292c0b78771818c67140baf3d9"
-+SRC_URI[sha256sum] = "fe4f35e701cbec04478818adf014ed9bbd1f7d11e2603370f1b70a78106f57f7"
+diff --git a/meta/recipes-support/libical/libical_1.0.0.bb b/meta/recipes-support/libical/libical_1.0.1.bb
+similarity index 67%
+rename from meta/recipes-support/libical/libical_1.0.0.bb
+rename to meta/recipes-support/libical/libical_1.0.1.bb
+index be6b635..b50cf7e 100644
+--- a/meta/recipes-support/libical/libical_1.0.0.bb
++++ b/meta/recipes-support/libical/libical_1.0.1.bb
+@@ -7,7 +7,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
+ SECTION = "libs"
  
- # noinst programs in Makefile.tools that are conditional on READLINE
- # support
+ SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz"
+-SRC_URI[md5sum] = "f4b8e33ae5efb2f025eb43ce69682a36"
+-SRC_URI[sha256sum] = "0072e83834092315772e6719b85fc8b11530b1ff53f4d108315fb38cddbce8c2"
++SRC_URI[md5sum] = "af91db06b22559f863869c5a382ad08a"
++SRC_URI[sha256sum] = "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb14249d1413d6c610c"
++
++inherit cmake perlnative
++
++FILES_${PN}-dev += "${libdir}/cmake"
+ 
+-inherit autotools
 -- 
 2.1.4
 
