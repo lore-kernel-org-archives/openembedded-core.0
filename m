@@ -1,36 +1,29 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1757D6017E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EB436017E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 08:35:35 +0000 (UTC)
-Received: by iggp10 with SMTP id p10so9136456igg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 01:35:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=obu+PATy/YX10mMLS0ddfufDZbENrmg+g3g49/LAEbg=;
-	b=nNT1hKdXWwB9/UmiN2QpflOWS8cUKqyUIr7kl7FuOfzccGJWBGVYTTEZWcPT16N3Zc
-	iXi9e/OuH5x3BtkBx+1l2x2GBYrqvet2c8tgPhk/W4VZ60Fy8wd4bMmVOH1mOoj8idke
-	Jb2X54hh+R1KUHSJTgC2f7Rhm48uS9J5+nuHcvtSHxcaj93heMj6DqoJYz0YWgB541h8
-	imUO/qAU2yWB3chqq47UwCwAjAnQsuWztF5xcBczGAHsd8YtDQeuujZkFyoQMpI9eXrK
-	FHit6pWc+vLRJp0QU2aphxwZrStb3riW43LSsSqo/P1rxVliucvUJBQNUQ0pjoZyMa6k
-	5aQQ==
-X-Gm-Message-State: ALoCoQnG6ROpNb6v2p3GktwTBCcwJOkA8G/UGbn21KfoiICOJOBBzUrNRvtIIlWG9cc/ijofzPlc
-X-Received: by 10.107.168.150 with SMTP id e22mr25306623ioj.9.1436430935584;
-	Thu, 09 Jul 2015 01:35:35 -0700 (PDT)
-Received: from pohly-mobl1.ger.corp.intel.com (p57A56742.dip0.t-ipconnect.de.
-	[87.165.103.66]) by smtp.gmail.com with ESMTPSA id
-	z6sm16131006ign.13.2015.07.09.01.35.33
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 09 Jul 2015 01:35:34 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 10:35:26 +0200
-Message-Id: <1436430926-15641-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] archiver.bbclass: add do_deploy_all_archives
+	Thu,  9 Jul 2015 08:37:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t698bmCb022913
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 9 Jul 2015 01:37:48 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 9 Jul 2015 01:37:48 -0700
+Message-ID: <559E32DA.7090300@windriver.com>
+Date: Thu, 9 Jul 2015 16:37:46 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1436253346.git.liezhi.yang@windriver.com>	
+	<b43e9f344635ef03616702689d946a769132e171.1436253346.git.liezhi.yang@windriver.com>
+	<1436307274.27597.197.camel@linuxfoundation.org>
+In-Reply-To: <1436307274.27597.197.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] toolchain-scripts.bbclass: use MLPREFIX to instead of MULTILIB_VARIANTS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,35 +36,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 08:35:36 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 08:37:54 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When working specifically on source archiving, it is useful
-to trigger that for all recipes required by something like an
-image recipe, without actually having to build that.
 
-"bitbake -c deploy_all_archives <target>" does that now.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/archiver.bbclass | 7 +++++++
- 1 file changed, 7 insertions(+)
+On 07/08/2015 06:14 AM, Richard Purdie wrote:
+> On Tue, 2015-07-07 at 00:17 -0700, Robert Yang wrote:
+>> Fixed when enable multilib:
+>> require conf/multilib.conf
+>> MULTILIBS = "multilib:lib32"
+>> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+>>
+>> $ bitbake core-image-minimal
+>>
+>> No lib32 package should be built since we don't build
+>> lib32-core-image-minimal, but a lot them are built:
+>> lib32-opkg-utils
+>> lib32-cryptodev-linux
+>> lib32-sqlite3
+>> lib32-libtool-cross
+>> lib32-ncurses
+>> lib32-db
+>> lib32-diffutils
+>> lib32-zlib
+>> lib32-gcc-cross-i686
+>> lib32-gcc-cross-initial-i686
+>> lib32-flex
+>> lib32-libgcc-initial
+>> lib32-libffi
+>> lib32-linux-libc-headers
+>> lib32-expat
+>> lib32-openssl
+>> lib32-glibc
+>> lib32-binutils-cross-i686
+>> lib32-gcc-runtime
+>>
+>> This is because MULTILIB_VARIANTS is always avaliable when multlib is
+>> enabled, use MLPREFIX to fix the problem so that lib32/lib64 packages will
+>> only be built when build lib32/lib64-core-image-minimal.
+>>
+>> [YOCTO #7961]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/classes/toolchain-scripts.bbclass |    5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
+>> index 9378918..d05a5a3 100644
+>> --- a/meta/classes/toolchain-scripts.bbclass
+>> +++ b/meta/classes/toolchain-scripts.bbclass
+>> @@ -144,8 +144,9 @@ python __anonymous () {
+>>       deps = ""
+>>       for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
+>>           deps += " %s:do_populate_sysroot" % dep
+>> -        for variant in (d.getVar('MULTILIB_VARIANTS', True) or "").split():
+>> -            clsextend = oe.classextend.ClassExtender(variant, d)
+>> +        mlprefix = d.getVar('MLPREFIX', True)
+>> +        if mlprefix:
+>> +            clsextend = oe.classextend.ClassExtender(mlprefix[:-1], d)
+>>               newdep = clsextend.extend_name(dep)
+>>               deps += " %s:do_populate_sysroot" % newdep
+>>       d.appendVarFlag('do_configure', 'depends', deps)
+>
+> I'm starting to get mildly annoyed with this. Back in 2014 it was
+> insisted the correct behaviour here was that the cache artefacts for
+> *all* multilibs shoul be pulled into the SDK. This was done with:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=bb213d8e60746d61d80505487d5f14a4eb45231b
+>
+> where the code quite clearly iterates MULTILIB_VARIANTS for this reason.
+> We've therefore gone to some lengths to preserve that.
+>
+> So which is this code supposed to do? I don't honestly know any more. I
+> do agree its extremely annoying that the images trigger the multilib
+> builds though and I think we need to fix that. This class is used from:
+>
+> populate_sdk_base
+> meta-ide-support
+> meta-environment
+>
+> so perhaps the best way to do this is have a function like:
+>
+> def toolchain_get_depends(d):
+>      import oe.classextend
+>      deps = ""
+>      for dep in (d.getVar('TOOLCHAIN_NEED_CONFIGSITE_CACHE', True) or "").split():
+>          deps += " %s:do_populate_sysroot" % dep
+>          for variant in (d.getVar('MULTILIB_VARIANTS', True) or "").split():
+>              clsextend = oe.classextend.ClassExtender(variant, d)
+>              newdep = clsextend.extend_name(dep)
+>              deps += " %s:do_populate_sysroot" % newdep
+>      return deps
+>
+> then meta-ide-support can do:
+>
+> do_populate_ide_support[depends] += "${@toolchain_get_depends(d)}"
+>
+> meta-environment can do:
+>
+> do_generate_content[depends] += "${@toolchain_get_depends(d)}"
+>
+> and I can't actually see why populate_sdk_base needs the
+> toolchain-scripts class at all. Perhaps someone can spot why it needs
+> the inherit or the dependency?
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 7b5274d..d908d16 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -374,3 +374,10 @@ addtask do_ar_configured after do_unpack_and_patch
- addtask do_dumpdata
- addtask do_ar_recipe
- addtask do_deploy_archives before do_build
-+
-+addtask do_deploy_all_archives after do_deploy_archives
-+do_deploy_all_archives[recrdeptask] = "do_deploy_archives"
-+do_deploy_all_archives[recideptask] = "do_${BB_DEFAULT_TASK}"
-+do_deploy_all_archives() {
-+        :
-+}
--- 
-2.1.4
+Hi RP,
 
+Thanks, after more investigation, I think that populate_sdk_base doesn't need
+inherit toolchain-scripts, and once we remove it from populate_sdk_base.bbclass,
+things work well, which means that when "bitbake core-image-minimal", no
+lib32 recipes build, and when "bitbake lib32-core-image-minimal", the required
+lib32 recipes will be built and installed to sdk.
+
+We can drop this patch, and I will send a new patch to fix the problem.
+
+// Robert
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 
