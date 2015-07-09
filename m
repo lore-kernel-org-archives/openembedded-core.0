@@ -1,39 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A703C6017E
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 13ED0607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 15:08:14 +0000 (UTC)
-Received: by qgep37 with SMTP id p37so24360035qge.1
+	Thu,  9 Jul 2015 15:10:18 +0000 (UTC)
+Received: by qkei195 with SMTP id i195so187751172qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 08:08:15 -0700 (PDT)
+	Thu, 09 Jul 2015 08:10:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=xQLFlC/MYu96KTeeJIIZWKcuRN6/d69S6UMGaAgiess=;
-	b=Vsu5N8zjk0pI2cLszyv+c+3Ph+34oqjvfI5pWB17mjafTHNToy7Y7AZZWxKPQYm4Te
-	PxuFO84R8jL9vDCmO8OG1d3uDuKWW9U5i/s9sZdFHSqOlzsz6vaZystmYohE229sbtTv
-	XWxg0xW4GE+d0i8zMv7w17vEMbQKOBZqP1B7qjRhQkUwMTFz+LyArIBMX3WT6/syAdfq
-	0FbNgKVvJkiLFNGv3lWn2b0sEDgDkMXmRkl+k6GnE/T2uJnHQYceMLpRfCEr9RbZZH8e
-	+d3ov54fH6ZHL+ZzdmTktDdH4ATu6sBA1skTwo0fQuP1XsnBnL4ghOCN2QoQBUADbsWy
-	NEIg==
-X-Gm-Message-State: ALoCoQkj7IYTOoEccpclq9XP7Q1FiKs/yImY+XPR7nWqBe7qjxPASkjaHNlPdLnwfCDY/rxh7KZ0
-X-Received: by 10.55.18.197 with SMTP id 66mr25557150qks.13.1436454495106;
-	Thu, 09 Jul 2015 08:08:15 -0700 (PDT)
+	bh=mOxXzjZIvsK65zchm4jQzyoUsBJvQ3pRR8s6e/IINz4=;
+	b=MNk7M/PHQiyuP5wS3kJt+NE6nzMbpJoWnGta+8e7Y3jrlfn2ekoODhm+Et73+62Aat
+	2T8EEYlLpyLrHBbe0uZiXtdS+T1Rmf4pKfEfWo9KCfeLmpXvnXN4rvKDpONFHYoCQqGz
+	ZgF3/GBo5CHsd8+d2pdKv3v/H7n1yZ1c/GiNZr4iZnKLRw577bbRItVZBVENUx9+XpEn
+	T4lkwLa/QAdEx/6bJVT6WGxULcMs3hssmd0S6j+IxyG5rQjrmLfs6GQf0VjMiBdmlKNm
+	dqrju7wUZKYClDDMhE2LUB/L2PyEkllbNA1HphGZ7drvnyM0EA9KDZDqMBgV0T666MDu
+	cpQA==
+X-Gm-Message-State: ALoCoQkLrLk0d/Gh3t5/MD55hcIzFAceXmFG5egRdROJQKTU6eMrARO5rsyI/cHX1X7rMl0niBpz
+X-Received: by 10.55.15.129 with SMTP id 1mr25112241qkp.29.1436454618760; Thu,
+	09 Jul 2015 08:10:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 08:07:55 -0700 (PDT)
-In-Reply-To: <559E8C63.20002@windriver.com>
-References: <cover.1436178756.git.liezhi.yang@windriver.com>
-	<3a571bfe258bda28dd34a61b2a6bf323a06ca911.1436178756.git.liezhi.yang@windriver.com>
-	<CAJTo0LZYJEmmPsgiQc8R2whGkOH3vQdAXn9vwXz7W8nYA9KUyA@mail.gmail.com>
-	<559E8C63.20002@windriver.com>
+Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 08:09:59 -0700 (PDT)
+In-Reply-To: <20150709143248.GC2446@jama>
+References: <cover.1436452048.git.cristian.iorga@intel.com>
+	<ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
+	<20150709143248.GC2446@jama>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Jul 2015 16:07:55 +0100
-Message-ID: <CAJTo0LZGbRGdJtPjeoQQYRS1nC1-jg2OKVwOgxXU-qgpCeEB9w@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Date: Thu, 9 Jul 2015 16:09:59 +0100
+Message-ID: <CAJTo0LYjQBPh1qBRvrasYTyknaVG+hKbxmS8kcFpRjrgrjgxKw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc-target 5.1: fix for libcc1
+Subject: Re: [PATCH 2/2] libical: upgrade to 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 15:08:18 -0000
-Content-Type: multipart/alternative; boundary=001a11474faaeae5c3051a729f24
+X-List-Received-Date: Thu, 09 Jul 2015 15:10:20 -0000
+Content-Type: multipart/alternative; boundary=001a1146f100498fec051a72a773
 
---001a11474faaeae5c3051a729f24
+--001a1146f100498fec051a72a773
 Content-Type: text/plain; charset=UTF-8
 
-On 9 July 2015 at 15:59, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 9 July 2015 at 15:32, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-> I put libcc1plugin.so into $libexecdir is because lto-plugin is there,
-> do you know more about why lto-plugin is in $libexecdir, please ?
+> aren't github archives regenerated from time to time with different
+> checksums?
 >
 
-No, you'd have to look at the git history to see what the reason was.  I'm
-not convinced there'll be a good reason. :)
+Yes.  I keep on meaning to write a QA test for this. :)
+
+Cristi - if this is the best libical has as a tarball release then we
+should do a proper git clone.  Amazingly, the download button on their
+website links to a tarball of master which is borderline reckless.
 
 Ross
 
---001a11474faaeae5c3051a729f24
+--001a1146f100498fec051a72a773
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 July 2015 at 15:59, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4k5" clas=
-s=3D"a3s" style=3D"overflow:hidden">I put libcc1plugin.so into $libexecdir =
-is because lto-plugin is there,<br>
-do you know more about why lto-plugin is in $libexecdir, please ?<br></div>=
-</blockquote></div><br>No, you&#39;d have to look at the git history to see=
- what the reason was.=C2=A0 I&#39;m not convinced there&#39;ll be a good re=
-ason. :)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Ross</div></div>
+On 9 July 2015 at 15:32, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4m5" class=3D"=
+a3s" style=3D"overflow:hidden">aren&#39;t github archives regenerated from =
+time to time with different<br>
+checksums?<br>
+<div class=3D"HOEnZb"></div></div></blockquote></div><br>Yes.=C2=A0 I keep =
+on meaning to write a QA test for this. :)</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Cristi - if this is the best libical h=
+as as a tarball release then we should do a proper git clone.=C2=A0 Amazing=
+ly, the download button on their website links to a tarball of master which=
+ is borderline reckless.</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
 
---001a11474faaeae5c3051a729f24--
+--001a1146f100498fec051a72a773--
