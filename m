@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id DD55C65D00
+	by mail.openembedded.org (Postfix) with ESMTP id 2DD9665CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 07:52:00 +0000 (UTC)
+	Thu,  9 Jul 2015 07:52:02 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 09 Jul 2015 00:52:01 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 09 Jul 2015 00:52:02 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,438,1432623600"; d="scan'208";a="761101020"
+X-IronPort-AV: E=Sophos;i="5.15,438,1432623600"; d="scan'208";a="761101036"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga002.jf.intel.com with ESMTP; 09 Jul 2015 00:52:00 -0700
+	by orsmga002.jf.intel.com with ESMTP; 09 Jul 2015 00:52:01 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jul 2015 10:52:43 +0300
-Message-Id: <5946300c9c5e9e0be705a2db59c1bd03340a629a.1436427694.git.jussi.kukkonen@intel.com>
+Date: Thu,  9 Jul 2015 10:52:44 +0300
+Message-Id: <764226e4c2c85c013f480b55da49946457d9c781.1436427694.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <52cb25bbbd0e0fc90193b412850d018828aa33da.1436427694.git.jussi.kukkonen@intel.com>
 References: <52cb25bbbd0e0fc90193b412850d018828aa33da.1436427694.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1436427694.git.jussi.kukkonen@intel.com>
 References: <cover.1436427694.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 2/5] xf86-input-vmmouse: Upgrade 13.0.0 -> 13.1.0
+Subject: [PATCH 3/5] cogl-1.0: Upgrade 1.18.2 -> 1.20.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,125 +31,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 07:52:01 -0000
+X-List-Received-Date: Thu, 09 Jul 2015 07:52:02 -0000
 
-Remove backported patch.
+* Backport patch that fixes build with GLES2
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- .../always_include_config.h.patch                  | 81 ----------------------
- ...ouse_13.0.0.bb => xf86-input-vmmouse_13.1.0.bb} |  6 +-
- 2 files changed, 2 insertions(+), 85 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-driver/xf86-input-vmmouse/always_include_config.h.patch
- rename meta/recipes-graphics/xorg-driver/{xf86-input-vmmouse_13.0.0.bb => xf86-input-vmmouse_13.1.0.bb} (79%)
+ .../cogl-framebuffer-gl-Work-again-on-GLESv2.patch | 41 ++++++++++++++++++++++
+ meta/recipes-graphics/cogl/cogl-1.0_1.18.2.bb      |  6 ----
+ meta/recipes-graphics/cogl/cogl-1.0_1.20.0.bb      |  8 +++++
+ 3 files changed, 49 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/cogl-framebuffer-gl-Work-again-on-GLESv2.patch
+ delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.18.2.bb
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.20.0.bb
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse/always_include_config.h.patch b/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse/always_include_config.h.patch
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0/cogl-framebuffer-gl-Work-again-on-GLESv2.patch b/meta/recipes-graphics/cogl/cogl-1.0/cogl-framebuffer-gl-Work-again-on-GLESv2.patch
+new file mode 100644
+index 0000000..8e83957
+--- /dev/null
++++ b/meta/recipes-graphics/cogl/cogl-1.0/cogl-framebuffer-gl-Work-again-on-GLESv2.patch
+@@ -0,0 +1,41 @@
++Upstream-Status: Backport
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
++
++
++From f8cce5f6cb2958a4074f87cd345bfe46e0dda6e1 Mon Sep 17 00:00:00 2001
++From: "Jasper St. Pierre" <jstpierre@mecheye.net>
++Date: Mon, 20 Apr 2015 12:08:29 -0700
++Subject: cogl-framebuffer-gl: Work again on GLESv2
++
++
++diff --git a/cogl/driver/gl/cogl-framebuffer-gl.c b/cogl/driver/gl/cogl-framebuffer-gl.c
++index 793b10b..609cfb3 100644
++--- a/cogl/driver/gl/cogl-framebuffer-gl.c
+++++ b/cogl/driver/gl/cogl-framebuffer-gl.c
++@@ -107,6 +107,12 @@
++ #ifndef GL_PACK_INVERT_MESA
++ #define GL_PACK_INVERT_MESA 0x8758
++ #endif
+++#ifndef GL_BACK_LEFT
+++#define GL_BACK_LEFT				0x0402
+++#endif
+++#ifndef GL_BACK_RIGHT
+++#define GL_BACK_RIGHT				0x0403
+++#endif
++ 
++ #ifndef GL_COLOR
++ #define GL_COLOR 0x1800
++@@ -245,6 +251,9 @@ _cogl_framebuffer_gl_flush_stereo_mode_state (CoglFramebuffer *framebuffer)
++   if (framebuffer->type == COGL_FRAMEBUFFER_TYPE_OFFSCREEN)
++     return;
++ 
+++  if (!ctx->glDrawBuffer)
+++    return;
+++
++   /* The one-shot default draw buffer setting in _cogl_framebuffer_gl_bind
++    * must have already happened. If not it would override what we set here. */
++   g_assert (ctx->was_bound_to_onscreen);
++-- 
++cgit v0.10.2
++
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.18.2.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.18.2.bb
 deleted file mode 100644
-index 12fb9df..0000000
---- a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse/always_include_config.h.patch
+index 6700efb..0000000
+--- a/meta/recipes-graphics/cogl/cogl-1.0_1.18.2.bb
 +++ /dev/null
-@@ -1,81 +0,0 @@
--From 336f8633837abe4a1e5ba84b53ac8b9dac5d29a2 Mon Sep 17 00:00:00 2001
--From: Jeremy Huddleston Sequoia <jeremyhu@apple.com>
--Date: Thu, 28 Nov 2013 11:59:53 -0800
--Subject: Always include config.h first
+@@ -1,6 +0,0 @@
+-require cogl-1.0.inc
 -
--This fixes some build warnings about CSRG_BASED being redefined due to
--incorrect header include ordering.
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
 -
--Signed-off-by: Jeremy Huddleston Sequoia <jeremyhu@apple.com>
--
--Upstream-Status: Backport
--
--Index: xf86-input-vmmouse-13.0.0/shared/vmmouse_client.c
--===================================================================
----- xf86-input-vmmouse-13.0.0.orig/shared/vmmouse_client.c	2014-08-28 18:33:16.168070587 -0700
--+++ xf86-input-vmmouse-13.0.0/shared/vmmouse_client.c	2014-08-28 18:33:16.152070587 -0700
--@@ -39,6 +39,10 @@
-- #endif
-- 
-- 
--+#ifdef HAVE_CONFIG_H
--+#include "config.h"
--+#endif
--+
-- #include "vmmouse_client.h"
-- #include "vmmouse_proto.h"
-- 
--Index: xf86-input-vmmouse-13.0.0/shared/vmmouse_proto.c
--===================================================================
----- xf86-input-vmmouse-13.0.0.orig/shared/vmmouse_proto.c	2014-08-28 18:33:16.168070587 -0700
--+++ xf86-input-vmmouse-13.0.0/shared/vmmouse_proto.c	2014-08-28 18:33:16.156070587 -0700
--@@ -33,6 +33,10 @@
--  */
-- 
-- 
--+#ifdef HAVE_CONFIG_H
--+#include "config.h"
--+#endif
--+
-- #include "vmmouse_proto.h"
-- 
-- 
--Index: xf86-input-vmmouse-13.0.0/shared/vmmouse_proto.h
--===================================================================
----- xf86-input-vmmouse-13.0.0.orig/shared/vmmouse_proto.h	2014-08-28 18:33:16.168070587 -0700
--+++ xf86-input-vmmouse-13.0.0/shared/vmmouse_proto.h	2014-08-28 18:33:16.156070587 -0700
--@@ -36,11 +36,6 @@
-- #ifndef _VMMOUSE_PROTO_H_
-- #define _VMMOUSE_PROTO_H_
-- 
---
---#ifdef HAVE_CONFIG_H
---#include "config.h"
---#endif
---
-- #include <stdint.h>
-- 
-- #ifdef HAVE_XORG_SERVER_1_1_0
--Index: xf86-input-vmmouse-13.0.0/tools/vmmouse_detect.c
--===================================================================
----- xf86-input-vmmouse-13.0.0.orig/tools/vmmouse_detect.c	2014-08-28 18:33:16.168070587 -0700
--+++ xf86-input-vmmouse-13.0.0/tools/vmmouse_detect.c	2014-08-28 18:33:16.160070587 -0700
--@@ -26,14 +26,14 @@
--  */
-- 
-- 
---#include <stdlib.h>
---#include <signal.h>
---#include "vmmouse_client.h"
---
-- #ifdef HAVE_CONFIG_H
-- #include "config.h"
-- #endif
-- 
--+#include <stdlib.h>
--+#include <signal.h>
--+#include "vmmouse_client.h"
--+
-- void
-- segvCB(int sig)
-- {
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.0.0.bb b/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb
-similarity index 79%
-rename from meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.0.0.bb
-rename to meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb
-index 83ea960..676f2ba 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.0.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-input-vmmouse_13.1.0.bb
-@@ -8,10 +8,8 @@ standard 'mouse' driver if a VMware virtual machine is not detected."
- 
- PR = "${INC_PR}.0"
- 
--SRC_URI += "file://always_include_config.h.patch"
--
--SRC_URI[md5sum] = "34f9f64ee6a1a51fc8266a9af24e1e07"
--SRC_URI[sha256sum] = "04cfb60366008d4db815c550d8fb8d0a4270c75fa7a20fa3bddc9ecbd355612c"
-+SRC_URI[md5sum] = "85e2e464b7219c495ad3a16465c226ed"
-+SRC_URI[sha256sum] = "0af558957ac1be1b2863712c2475de8f4d7f14921fd01ded2e2fde4921b19319"
- 
- RDEPENDS_${PN} += "xf86-input-mouse"
- 
+-SRC_URI[archive.md5sum] = "952155d526d35f297737266408e842b5"
+-SRC_URI[archive.sha256sum] = "9278e519d5480eb0379efd48db024e8fdbf93f01dff48a7e756b85b508a863aa"
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.20.0.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.20.0.bb
+new file mode 100644
+index 0000000..d20b814
+--- /dev/null
++++ b/meta/recipes-graphics/cogl/cogl-1.0_1.20.0.bb
+@@ -0,0 +1,8 @@
++require cogl-1.0.inc
++
++SRC_URI += "file://cogl-framebuffer-gl-Work-again-on-GLESv2.patch"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
++SRC_URI[archive.md5sum] = "5b28897194d9ff76a574a9493d1f7ee0"
++SRC_URI[archive.sha256sum] = "729e35495829e7d31fafa3358e47b743ba21a2b08ff9b6cd28fb74c0de91192b"
++
 -- 
 2.1.4
 
