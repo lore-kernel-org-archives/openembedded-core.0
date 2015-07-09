@@ -1,37 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E5D9560557
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jul 2015 14:55:14 +0000 (UTC)
-Received: by qgeg89 with SMTP id g89so116254197qge.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jul 2015 07:55:14 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=cW0t19PkN/xmxaBFvAEDw0+d1g0WL2R/emxxHruNFpk=;
-	b=PPaiJFsWmtwbjo+ptb4pYkdE8PBZYMqiJtQCuaIvRobgBb3FKNmLA/eTmen20PQWfR
-	XKO5ecjn+dR8GE87D6LjYj2YUcH62lD2eX7i8ChFKE/3/O4CUCbet8YisoWGU9AVwkyX
-	v6L7M69fyc36ghtqxYzrtpjTnQ7Lo/3QC/lNNA4H9FkFE/pcC94KoP05iJu6PxB7lIzq
-	2niOoMWCNePA+iCCDIiF+uxpCbm2uUjdQro5YxFI+iUp/JDNdzzucS8XrWmLfTeuRyj0
-	dxULs69UJQQn7Gg9bh+PK37CMtk9biV/5y74DxqX04aTNT9Z0IM722ZrHN100u7/TkB4
-	EVQg==
-X-Gm-Message-State: ALoCoQnOuy4p4hnltDtEXSCajmHqE9nt6lDX/1grC824oZ46phq098blSaHjBE5D+ymy0Zcw13Ux
-X-Received: by 10.140.231.19 with SMTP id b19mr25412429qhc.22.1436453714674;
-	Thu, 09 Jul 2015 07:55:14 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 785C460557;
+	Thu,  9 Jul 2015 14:57:12 +0000 (UTC)
+Received: by pdbep18 with SMTP id ep18so166474866pdb.1;
+	Thu, 09 Jul 2015 07:57:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=ESNRoYT5EzxMV28IJ19OdWxGVuAzc0CBoHIuU2kLBIk=;
+	b=C+DJzfsQHtsYbcABe1LyhcZOFcwLnlhfECpADP0RuufmC/eC3eySyAiCMMKLb679Ic
+	cAxiVjxtouBirEVm4swPuwdjwJlnN9eX5/Dt6YzMjQlHCztad+qrmc2wOXieRqusQL4Z
+	+szDNg5ksOgfCA2m9S/Iucv5k5Ui1XT8DFD/9h/FjBSZ/k4Fxrha0pUUp3ITgJHoB3WS
+	bnzbVvaI8fhQjZvnPqpnorQpXwVdg6BVnuH8BpCn/falHxJPPNNQAnjnRPvpV2vCB8U6
+	ZxzrPvyQTQo7Z5h8Ewb74qhrQTKSE7V1nQWLLKx8pvVXUMlzN2NmKp6SYkagd9+T9Ne1
+	+xjA==
+X-Received: by 10.67.4.4 with SMTP id ca4mr32040833pad.80.1436453832461;
+	Thu, 09 Jul 2015 07:57:12 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:1f1:f366:7a5c:28ff?
+	([2601:202:4000:1239:1f1:f366:7a5c:28ff])
+	by smtp.googlemail.com with ESMTPSA id
+	qp10sm6241740pbc.88.2015.07.09.07.57.10
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 Jul 2015 07:57:11 -0700 (PDT)
+Message-ID: <559E8BC3.2060300@gmail.com>
+Date: Thu, 09 Jul 2015 07:57:07 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 9 Jul 2015 07:54:55 -0700 (PDT)
-In-Reply-To: <3a571bfe258bda28dd34a61b2a6bf323a06ca911.1436178756.git.liezhi.yang@windriver.com>
-References: <cover.1436178756.git.liezhi.yang@windriver.com>
-	<3a571bfe258bda28dd34a61b2a6bf323a06ca911.1436178756.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 9 Jul 2015 15:54:55 +0100
-Message-ID: <CAJTo0LZYJEmmPsgiQc8R2whGkOH3vQdAXn9vwXz7W8nYA9KUyA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc-target 5.1: fix for libcc1
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org, 
+	openembedded-devel@lists.openembedded.org
+References: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
+Subject: Re: RFC: libav vs. ffmpeg, redux
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,40 +47,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jul 2015 14:55:16 -0000
-Content-Type: multipart/alternative; boundary=001a11c12f006661e7051a727158
+X-List-Received-Date: Thu, 09 Jul 2015 14:57:13 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11c12f006661e7051a727158
-Content-Type: text/plain; charset=UTF-8
 
-On 6 July 2015 at 11:35, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-> * Install libcc1.so and libcc1plugin.so to
->   $(libexecdir)/gcc/$(target_noncanonical)/$(gcc_version) as lto-plugin
-> did.
+On 07/09/2015 03:24 AM, Paul Eggleton wrote:
+> Hi all,
+>
+> A few years ago we made the switch from ffmpeg to libav (a mostly drop-in
+> compatible fork), with fairly good justification at the time. However, it looks
+> like Debian has just made the switch back to ffmpeg, citing a number of reasons
+> - most notably more responsive security issue patching in recent history.
+> Here's a page with their full reasoning:
+>
+>    https://wiki.debian.org/Debate/libav-provider/ffmpeg
+>
+> Gstreamer (gst-libav, specifically) has also just recently made the switch back
+> for its internal copy:
+>
+>    https://bugzilla.gnome.org/show_bug.cgi?id=751607
+>
+> What do people think? Should we be looking to make the switch back in OE as
+> well?
 >
 
-Why are plugin libraries going into $libexecdir?  libexecdir is for
-"binaries that the user doesn't directly execute", not for libraries or
-plugins.
+That make sense to me. Also libav has LICENSE_FLAGS = "commercial" so 
+the change which will simplify things too.
 
-Ross
+- armin
 
---001a11c12f006661e7051a727158
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> Cheers,
+> Paul
+>
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 July 2015 at 11:35, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3cy" clas=
-s=3D"a3s" style=3D"overflow:hidden">* Install libcc1.so and libcc1plugin.so=
- to<br>
-=C2=A0 $(libexecdir)/gcc/$(target_noncanonical)/$(gcc_version) as lto-plugi=
-n did.</div></blockquote></div><br>Why are plugin libraries going into $lib=
-execdir? =C2=A0libexecdir is for &quot;binaries that the user doesn&#39;t d=
-irectly execute&quot;, not for libraries or plugins.</div><div class=3D"gma=
-il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11c12f006661e7051a727158--
