@@ -1,39 +1,24 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 68B586E5F5
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 51B9D6017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 09:09:38 +0000 (UTC)
-Received: by widjy10 with SMTP id jy10so9858733wid.1
+	Fri, 10 Jul 2015 09:12:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6A9CsWa005507
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 02:09:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=f8XUsLRRGReXNSBkP5B+beANItE5aVHnOckZQT6zDWw=;
-	b=pdEcj+S77Y0v6OukS9eiR5GmFLHJIvfF4K6IuMkVDQbN4kmJHTAOhA3P23ko4yPcbF
-	LcWMEhrz5BOFGpc2vZAAAQJpFUntVwyJIGsqRtfBuI5SvhWjSlujFd6IdhpYm/jk4M/N
-	Zzzykfcjuva5vJWMPZpWCx7MtV/e8XK0YNNMdPTJU21fIAflNVsm6uOlvSd5b3QcGP+y
-	44usiKFTAYTbhryMVOJoG6s19qeS1xAhb8uAUTcBTYuHUNyy/6j5gxSq+U7tppWXaPJK
-	tN1siVHFn/0vErq4ADN9plKJmS9wBDx9SynZhJEq3LvriCI1J6e4O0a79L8qJsl2ujwH
-	yhtA==
-X-Received: by 10.180.37.133 with SMTP id y5mr4214416wij.7.1436519377996;
-	Fri, 10 Jul 2015 02:09:37 -0700 (PDT)
-Received: from ernie.muppets.liwing.de (p578b540c.dip0.t-ipconnect.de.
-	[87.139.84.12]) by smtp.gmail.com with ESMTPSA id
-	e2sm12643203wjw.12.2015.07.10.02.09.36
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 10 Jul 2015 02:09:37 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
-From: Jens Rehsack <rehsack@gmail.com>
-In-Reply-To: <1436518495-27392-1-git-send-email-rongqing.li@windriver.com>
-Date: Fri, 10 Jul 2015 11:09:52 +0200
-Message-Id: <8B7C6968-8868-4888-9E67-E6B131014CB3@gmail.com>
-References: <1436518495-27392-1-git-send-email-rongqing.li@windriver.com>
-To: rongqing.li@windriver.com
-X-Mailer: Apple Mail (2.2102)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][resend] perl: fix build failure if building dir has the "blib" string
+	Fri, 10 Jul 2015 02:12:54 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 10 Jul 2015 02:12:54 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jul 2015 17:07:15 +0800
+Message-ID: <1436519235-30329-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH][meta-perl] libxml-libxml-perl: update from 2.0116 to 2.0121
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,131 +31,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 09:09:38 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Jul 2015 09:12:57 -0000
+Content-Type: text/plain
 
-Hi,
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-When build dir includes contain blib, there is an error which should be =
-solved first.
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ .../libxml/libxml-libxml-perl_2.0116.bb            | 47 ----------------------
+ .../libxml/libxml-libxml-perl_2.0121.bb            | 47 ++++++++++++++++++++++
+ 2 files changed, 47 insertions(+), 47 deletions(-)
+ delete mode 100644 meta-perl/recipes-perl/libxml/libxml-libxml-perl_2.0116.bb
+ create mode 100644 meta-perl/recipes-perl/libxml/libxml-libxml-perl_2.0121.bb
 
-Can you please give an example where this condition is true?
-And maybe refer where you reported it upstream?
-
-Best regards,
-Jens
-
-> Am 10.07.2015 um 10:54 schrieb rongqing.li@windriver.com:
->=20
-> From: Wenzong Fan <wenzong.fan@windriver.com>
->=20
-> If build dir includes the string "blib", filter it out from @INC may =
-empty
-> the @INC and cause build errors like:
->=20
->  Can't locate ExtUtils/MakeMaker.pm in @INC \
->  (you may need to install the ExtUtils::MakeMaker module) \
->  (@INC contains: .) at Makefile.PL
->=20
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ---
-> meta/recipes-devtools/perl/perl-native_5.22.0.bb   |  1 +
-> ...-PathTools-don-t-filter-out-blib-from-INC.patch | 33 =
-++++++++++++++++++++++
-> meta/recipes-devtools/perl/perl_5.22.0.bb          |  1 +
-> 3 files changed, 35 insertions(+)
-> create mode 100644 =
-meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-=
-INC.patch
->=20
-> diff --git a/meta/recipes-devtools/perl/perl-native_5.22.0.bb =
-b/meta/recipes-devtools/perl/perl-native_5.22.0.bb
-> index dbcf2a6..a9a1cab 100644
-> --- a/meta/recipes-devtools/perl/perl-native_5.22.0.bb
-> +++ b/meta/recipes-devtools/perl/perl-native_5.22.0.bb
-> @@ -8,6 +8,7 @@ SRC_URI +=3D "\
->            file://MM_Unix.pm.patch \
->            file://debian/errno_ver.diff \
->            file://dynaloaderhack.patch \
-> +           file://perl-PathTools-don-t-filter-out-blib-from-INC.patch =
-\
->           "
->=20
-> SRC_URI[md5sum] =3D "ff0f09b17de426eff323426cb140ee79"
-> diff --git =
-a/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-fro=
-m-INC.patch =
-b/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-fro=
-m-INC.patch
-> new file mode 100644
-> index 0000000..7dd9041
-> --- /dev/null
-> +++ =
-b/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-fro=
-m-INC.patch
-> @@ -0,0 +1,33 @@
-> +=46rom 90c252cecc38aed5d5faedb30485dd6eee2e54eb Mon Sep 17 00:00:00 =
-2001
-> +From: Wenzong Fan <wenzong.fan@windriver.com>
-> +Date: Wed, 11 Feb 2015 15:14:40 +0800
-> +Subject: [PATCH] perl / PathTools: don't filter out blib from @INC
-> +
-> +If $TOPDIR includes the string "blib", filter it out from @INC may =
-empty
-> +the @INC and cause build errors like:
-> +
-> +  Can't locate ExtUtils/MakeMaker.pm in @INC \
-> +  (you may need to install the ExtUtils::MakeMaker module) \
-> +  (@INC contains: .) at Makefile.PL
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> +---
-> + dist/PathTools/Makefile.PL | 3 ---
-> + 1 file changed, 3 deletions(-)
-> +
-> +diff --git a/dist/PathTools/Makefile.PL b/dist/PathTools/Makefile.PL
-> +index 1b21de4..f562cb2 100644
-> +--- a/dist/PathTools/Makefile.PL
-> ++++ b/dist/PathTools/Makefile.PL
-> +@@ -1,6 +1,3 @@
-> +-
-> +-BEGIN { @INC =3D grep {!/blib/} @INC }
-> +-
-> + require 5.005;
-> + use ExtUtils::MakeMaker;
-> + WriteMakefile
-> +--=20
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/perl/perl_5.22.0.bb =
-b/meta/recipes-devtools/perl/perl_5.22.0.bb
-> index 050a98c..7f78998 100644
-> --- a/meta/recipes-devtools/perl/perl_5.22.0.bb
-> +++ b/meta/recipes-devtools/perl/perl_5.22.0.bb
-> @@ -61,6 +61,7 @@ SRC_URI +=3D " \
->         file://t-run-switches.t-perl5-perl.patch \
->         file://ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch =
-\
->         =
-file://ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch \
-> +        file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
-> "
->=20
-> # Fix test case issues
-> --=20
-> 1.9.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Jens Rehsack - rehsack@gmail.com
+diff --git a/meta-perl/recipes-perl/libxml/libxml-libxml-perl_2.0116.bb b/meta-perl/recipes-perl/libxml/libxml-libxml-perl_2.0116.bb
+deleted file mode 100644
+index 2a6dbc2..0000000
+--- a/meta-perl/recipes-perl/libxml/libxml-libxml-perl_2.0116.bb
++++ /dev/null
+@@ -1,47 +0,0 @@
+-SUMMARY = "Perl interface to the libxml2 library"
+-DESCRIPTION = "This module is an interface to libxml2, providing XML and HTML parsers \ 
+-with DOM, SAX and XMLReader interfaces, a large subset of DOM Layer 3 \
+-interface and a XML::XPath-like interface to XPath API of libxml2. \
+-The module is split into several packages which are not described in this \
+-section; unless stated otherwise, you only need to use XML::LibXML; in \
+-your programs."
+-
+-HOMEPAGE = "http://search.cpan.org/dist/XML-LibXML-1.99/"
+-SECTION = "libs"
+-LICENSE = "Artistic-1.0|GPLv1+"
+-DEPENDS += "libxml2 \
+-        libxml-sax-perl-native \
+-        zlib \
+-"
+-RDEPENDS_${PN} += "libxml2 \
+-        libxml-sax-perl \
+-        libxml-sax-base-perl \
+-        zlib \
+-"
+-
+-SRC_URI = "http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/XML-LibXML-${PV}.tar.gz;name=libxml \
+-	file://disable-libxml2-check.patch \
+-	file://fix-CATALOG-conditional-compile.patch \
+-	file://using-DOCB-conditional.patch \
+-"
+-LIC_FILES_CHKSUM = "file://debian/copyright;md5=75e021e35a906347f46c9ff163653e2a \
+-			file://LICENSE;md5=97871bde150daeb5e61ad95137ff2446"
+-SRC_URI[libxml.md5sum] = "a53a743bf053a0cb4afb41513fb8a684"
+-SRC_URI[libxml.sha256sum] = "b154f2dad3033b30d22ac81b8985b69ad35450b0c552db394cd03bb36845812a"
+-
+-S = "${WORKDIR}/XML-LibXML-${PV}"
+-
+-inherit cpan
+-
+-EXTRA_CPANFLAGS = "INC=-I${STAGING_INCDIR}/libxml2 LIBS=-L${STAGING_LIBDIR}"
+-
+-BBCLASSEXTEND = "native"
+-
+-CFLAGS += " -D_GNU_SOURCE "
+-BUILD_CFLAGS += " -D_GNU_SOURCE "
+-
+-do_configure_prepend() {
+-	rm -rf ${S}/.pc/*
+-}
+-
+-FILES_${PN}-dbg =+ "${libdir}/perl/vendor_perl/*/auto/XML/LibXML/.debug/"
+diff --git a/meta-perl/recipes-perl/libxml/libxml-libxml-perl_2.0121.bb b/meta-perl/recipes-perl/libxml/libxml-libxml-perl_2.0121.bb
+new file mode 100644
+index 0000000..9066000
+--- /dev/null
++++ b/meta-perl/recipes-perl/libxml/libxml-libxml-perl_2.0121.bb
+@@ -0,0 +1,47 @@
++SUMMARY = "Perl interface to the libxml2 library"
++DESCRIPTION = "This module is an interface to libxml2, providing XML and HTML parsers \ 
++with DOM, SAX and XMLReader interfaces, a large subset of DOM Layer 3 \
++interface and a XML::XPath-like interface to XPath API of libxml2. \
++The module is split into several packages which are not described in this \
++section; unless stated otherwise, you only need to use XML::LibXML; in \
++your programs."
++
++HOMEPAGE = "http://search.cpan.org/dist/XML-LibXML-1.99/"
++SECTION = "libs"
++LICENSE = "Artistic-1.0|GPLv1+"
++DEPENDS += "libxml2 \
++        libxml-sax-perl-native \
++        zlib \
++"
++RDEPENDS_${PN} += "libxml2 \
++        libxml-sax-perl \
++        libxml-sax-base-perl \
++        zlib \
++"
++
++SRC_URI = "http://search.cpan.org/CPAN/authors/id/S/SH/SHLOMIF/XML-LibXML-${PV}.tar.gz;name=libxml \
++	file://disable-libxml2-check.patch \
++	file://fix-CATALOG-conditional-compile.patch \
++	file://using-DOCB-conditional.patch \
++"
++LIC_FILES_CHKSUM = "file://debian/copyright;md5=75e021e35a906347f46c9ff163653e2a \
++			file://LICENSE;md5=97871bde150daeb5e61ad95137ff2446"
++SRC_URI[libxml.md5sum] = "1544ab9ac110f5da296015346561ce02"
++SRC_URI[libxml.sha256sum] = "ec431011cb37a04640fd2316f64d0405a274eece2c6f3847f7fbd336eb1c0dc9"
++
++S = "${WORKDIR}/XML-LibXML-${PV}"
++
++inherit cpan
++
++EXTRA_CPANFLAGS = "INC=-I${STAGING_INCDIR}/libxml2 LIBS=-L${STAGING_LIBDIR}"
++
++BBCLASSEXTEND = "native"
++
++CFLAGS += " -D_GNU_SOURCE "
++BUILD_CFLAGS += " -D_GNU_SOURCE "
++
++do_configure_prepend() {
++	rm -rf ${S}/.pc/*
++}
++
++FILES_${PN}-dbg =+ "${libdir}/perl/vendor_perl/*/auto/XML/LibXML/.debug/"
+-- 
+1.9.1
 
 
