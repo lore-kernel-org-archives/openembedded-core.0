@@ -1,40 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f44.google.com (mail-wg0-f44.google.com [74.125.82.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C4B9B607A4
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id AFA35607A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 11:06:02 +0000 (UTC)
-Received: by wgck11 with SMTP id k11so246577422wgc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 04:06:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Jno9PTNtboGRFJjusMbDTTcSrhQXZBcSLF8ImxdrMdA=;
-	b=FDhnri0SpgNd6K/u4+b5RLY3d9GyK04FdkTy1yvJhODN7G3Lq/rg27Z/SpK1QCMl72
-	cr+MORUS9NeTNutejFYGqMevj8+eWt1DZovVnVu5jRuGVfLSllsl6EQt4JhoNbBuqeHL
-	8Z/PpdEpBmXaWkaVNe/Qs0iidXy0XVmDkIjvuA0lN4EkHRt9mCp7FmfHQNsCOd5XIuEx
-	jGtyEP4XJarD9JEzo/SVzSr/a5N5pXujIaVD83Y2xz8eJLXxAIwuTLOGrjISuozUW569
-	1YUIwLpiklcMOzXvAf9KZMmvz9eJ74Hzta2AFLtB793BlCr5fClkSLeGmA/Nv0PnTOqL
-	nx1A==
-X-Received: by 10.180.99.168 with SMTP id er8mr5109809wib.86.1436526362120;
-	Fri, 10 Jul 2015 04:06:02 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	q4sm13086466wju.14.2015.07.10.04.06.01
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Jul 2015 04:06:01 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 10 Jul 2015 13:06:22 +0200
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20150710110622.GC2397@jama>
-References: <1433765628-15931-1-git-send-email-Martin.Jansa@gmail.com>
-	<20150701132300.GI2409@jama> <559F92B3.8040407@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <559F92B3.8040407@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] squashfs-tools: upgrade to newer revision from git
+	Fri, 10 Jul 2015 11:08:31 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 10 Jul 2015 04:08:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,446,1432623600"; d="scan'208";a="726379056"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2015 04:08:31 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 8F1236A4005;
+	Fri, 10 Jul 2015 04:07:50 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Jul 2015 14:08:26 +0300
+Message-Id: <1436526506-1684-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <559E86F4.5060504@linux.intel.com>
+References: <559E86F4.5060504@linux.intel.com>
+Subject: [wic][PATCH] wic: Set default set of bitbake variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,51 +32,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 11:06:03 -0000
-X-Groupsio-MsgNum: 67803
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Pk6IbRAofICFmK5e"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 10 Jul 2015 11:08:31 -0000
 
---Pk6IbRAofICFmK5e
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Set default set of bitbake variables to the set of variables
+for the first parsed image.
 
-On Fri, Jul 10, 2015 at 12:38:59PM +0300, Alexander Kanavin wrote:
-> On 07/01/2015 04:23 PM, Martin Jansa wrote:
-> > On Mon, Jun 08, 2015 at 02:13:48PM +0200, Martin Jansa wrote:
-> >> * 4.3 release has nasty hard to reproduce bug in LZO compression
-> >>    which in few cases results in one of these 2 errors:
->  >> ....
-> >>    the official repo is:
-> >>    https://git.kernel.org/cgit/fs/squashfs/squashfs-tools.git
-> >>    but author's github is kept in sync so we can use just that
-> >
-> > Ping
->=20
-> The author doesn't provide version tags in either of his repositories,=20
-> which make upstream version check impossible.
->=20
-> When a new version with this fix is released we should revert back to=20
-> tarballs. If the patch didn't already appear in poky, I would suggest=20
-> you cherry-pick those fixes instead.
+This allows wic to find proper bitbake varibale values
+if it's called with '-e <image>' even without specifying
+image in the call of get_bitbake_var.
 
-He said that there won't be any new release in near future if ever.
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/wic/utils/oe/misc.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index 2f9f515..4978745 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -146,6 +146,11 @@ def get_bitbake_var(var, image=None):
+             if key.replace('_', '').isalnum():
+                 _BITBAKE_VARS[image][key] = val.strip('"')
+ 
++        # Make first image a default set of variables
++        images = [key for key in _BITBAKE_VARS if key]
++        if len(images) == 1:
++            _BITBAKE_VARS[None] = _BITBAKE_VARS[image]
++
+     return _BITBAKE_VARS[image].get(var)
+ 
+ def parse_sourceparams(sourceparams):
+-- 
+2.1.4
 
---Pk6IbRAofICFmK5e
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWfpy0ACgkQN1Ujt2V2gBzizQCgi5GmYGFaKYFJq2PPufSmkKLG
-RWAAn05b768ALPbvarTf0mlaxSgiDdf7
-=GWLV
------END PGP SIGNATURE-----
-
---Pk6IbRAofICFmK5e--
