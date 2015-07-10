@@ -1,29 +1,21 @@
-Return-Path: <pau.espin@aweurope.be>
-Received: from barracuda.aweurope.be (barracuda.aweurope.be [212.166.56.147])
-	by mail.openembedded.org (Postfix) with ESMTP id A84896017E
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CF850607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 13:33:05 +0000 (UTC)
-X-ASG-Debug-ID: 1436535185-041f750f8f50810001-7zcVdP
-Received: from localhost.localdomain ([172.23.1.67]) by barracuda.aweurope.be
-	with ESMTP id j7PRBHBr0BHGuvl7;
-	Fri, 10 Jul 2015 15:33:05 +0200 (CEST)
-X-Barracuda-Envelope-From: pau.espin@aweurope.be
-X-Barracuda-RBL-Trusted-Forwarder: 172.23.1.67
-X-ASG-Whitelist: Client
-From: Pau Espin Pedrol <pau.espin@aweurope.be>
+	Fri, 10 Jul 2015 13:56:06 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 10 Jul 2015 06:56:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,446,1432623600"; d="scan'208";a="726451501"
+Received: from dawalker-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.7.62])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2015 06:56:06 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jul 2015 15:32:44 +0200
-X-ASG-Orig-Subj: [PATCH] pulseaudio: add systemd to PACKAGECONFIG if enabled
-	in DISTRO_FEATURES
-Message-Id: <1436535164-4218-1-git-send-email-pau.espin@aweurope.be>
-X-Mailer: git-send-email 1.9.1
-X-Barracuda-Connect: UNKNOWN[172.23.1.67]
-X-Barracuda-Start-Time: 1436535185
-X-Barracuda-URL: http://172.23.0.12:8000/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at aweurope.be
-X-Barracuda-BRTS-Status: 1
-Cc: Pau Espin Pedrol <pau.espin@aweurope.be>
-Subject: [PATCH] pulseaudio: add systemd to PACKAGECONFIG if enabled in DISTRO_FEATURES
+Date: Fri, 10 Jul 2015 14:56:02 +0100
+Message-Id: <cover.1436536403.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/1] Shell message function support (OE-Core side)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +28,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 13:33:05 -0000
+X-List-Received-Date: Fri, 10 Jul 2015 13:56:08 -0000
 
-Signed-off-by: Pau Espin Pedrol <pau.espin@aweurope.be>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+I'm finally sending out the patches to support the output of bbwarn, 
+bberror etc. actually going to the console. This is the OE-Core side
+of the changes to implement it (changes are also required to BitBake,
+the patch for which has been sent to the bitbake-devel list).
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index b309d26..ca33324 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -35,7 +35,9 @@ EXTRA_OECONF = "\
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)}"
-+                   ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-+                   "
- PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
- PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
- PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
+
+The following changes since commit 18cc6d2ec4dc289bb0333dddc96df5a645ea53d0:
+
+  wic: Set default set of bitbake variables (2015-07-10 13:34:50 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/oecore-shell-logging
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/oecore-shell-logging
+
+Paul Eggleton (1):
+  classes/logging: make shell message functions output to the console
+
+ meta/classes/logging.bbclass | 32 ++++++++++++--------------------
+ 1 file changed, 12 insertions(+), 20 deletions(-)
+
 -- 
-1.9.1
+2.1.0
 
 
