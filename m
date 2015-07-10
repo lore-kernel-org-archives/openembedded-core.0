@@ -1,43 +1,20 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F8D06017E
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id E9E4F6E5F5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 12:21:55 +0000 (UTC)
-Received: by wicmv11 with SMTP id mv11so12630832wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 05:21:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=qhyOLlxy85A1B4DACGSs3pjxUsdaOYds1+6uCGPzXuo=;
-	b=hmlwbN+MNri8SVu4DbVg/BnrIpxlMlBkPl37juAC8gMz9nmMOnLLfPQ6DxPTGQxmu/
-	fIAhtD+eEstPDBj6AKwRWLy0eVuk4fq8zRc8n0Kn3fwiH92WXnqi/ZWYbFXBeaQ3cttR
-	c+sIzCPWDGAvOHmV0tzD8YNhpSTBjWPVxp0xm8sOyuypYoc3xNBEdAcZjMWs+IBgIZOR
-	MVGZfsGWOiFStG6kqgrEDlv3zR6+FJi5A5OazGlVRTITqx8kz8sN8+kpLPLiM8TjPFSm
-	VyxzR8arVXkpDstdUyk9XDijtCXkUVF7k6doHrLkmk/gE6/c65HXGaQYiNutJHy+xs6P
-	BMCQ==
-X-Received: by 10.180.215.8 with SMTP id oe8mr4727369wic.0.1436530915113;
-	Fri, 10 Jul 2015 05:21:55 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	wx9sm13397590wjb.6.2015.07.10.05.21.53
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 Jul 2015 05:21:53 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 10 Jul 2015 14:22:14 +0200
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20150710122214.GD2397@jama>
-References: <cover.1436452048.git.cristian.iorga@intel.com>
-	<ffb48ef3e2d7e9eb1e0adcff1226dd77b9b10553.1436452048.git.cristian.iorga@intel.com>
-	<20150709143248.GC2446@jama>
-	<CAJTo0LYjQBPh1qBRvrasYTyknaVG+hKbxmS8kcFpRjrgrjgxKw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYjQBPh1qBRvrasYTyknaVG+hKbxmS8kcFpRjrgrjgxKw@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libical: upgrade to 1.0.1
+	Fri, 10 Jul 2015 12:22:18 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 10 Jul 2015 05:22:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,446,1432623600"; d="scan'208";a="521989024"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Jul 2015 05:22:18 -0700
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 Jul 2015 15:23:12 +0300
+Message-Id: <1436530992-13161-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [meta-oe][PATCH] mc: Upgrade to release 4.8.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,60 +27,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 12:21:55 -0000
-X-Groupsio-MsgNum: 67807
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="vni90+aGYgRvsTuO"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 10 Jul 2015 12:22:19 -0000
 
---vni90+aGYgRvsTuO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Dropped mc-CTRL.patch, as it was merged to upstream.
+Upstream commit-id: e78b636eba9d23e9f5f066b022bd5640c85409be.
 
-On Thu, Jul 09, 2015 at 04:09:59PM +0100, Burton, Ross wrote:
-> On 9 July 2015 at 15:32, Martin Jansa <martin.jansa@gmail.com> wrote:
->=20
-> > aren't github archives regenerated from time to time with different
-> > checksums?
-> >
->=20
-> Yes.  I keep on meaning to write a QA test for this. :)
+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+---
+ meta/recipes-extended/mc/mc/mc-CTRL.patch          | 31 ----------------------
+ .../mc/{mc_4.8.13.bb => mc_4.8.14.bb}              |  5 ++--
+ 2 files changed, 2 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-extended/mc/mc/mc-CTRL.patch
+ rename meta/recipes-extended/mc/{mc_4.8.13.bb => mc_4.8.14.bb} (92%)
 
-FWIW: someone in systemd herd said that now the archives on github
-should be stable as long as git-archive is stable.
-https://www.mail-archive.com/systemd-devel@lists.freedesktop.org/msg33014.h=
-tml
-https://www.mail-archive.com/systemd-devel@lists.freedesktop.org/msg33015.h=
-tml
-https://www.mail-archive.com/systemd-devel@lists.freedesktop.org/msg33017.h=
-tml
-https://www.mail-archive.com/systemd-devel@lists.freedesktop.org/msg33016.h=
-tml
+diff --git a/meta/recipes-extended/mc/mc/mc-CTRL.patch b/meta/recipes-extended/mc/mc/mc-CTRL.patch
+deleted file mode 100644
+index e23d9dd..0000000
+--- a/meta/recipes-extended/mc/mc/mc-CTRL.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-Fix build with musl by ensuring CTRL is defined.
+-
+-musl does not define CTRL in <termios.h>, we could include <sys/ttydefaults.h>
+-explicitly but it's easier just to ensure CTRL is defined.
+-
+-This patch is taken from Sabotage Linux, the license statement for patches and
+-build scripts in Sabotage Linux says:
+-
+-    To the extent possible under law, Christian Neukirchen has waived
+-    all copyright and related or neighboring rights to this work.
+-
+-    http://creativecommons.org/publicdomain/zero/1.0/
+-
+-Therefore this should be good to include in OpenEmbedded.
+-
+-Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+-
+-Upstream-status: Accepted (should be included in v4.8.14)
+-
+-diff -u mc-4.8.1.7.org/lib/tty/tty-ncurses.c mc-4.8.1.7/lib/tty/tty-ncurses.c
+---- mc-4.8.1.7.org/lib/tty/tty-ncurses.c
+-+++ mc-4.8.1.7/lib/tty/tty-ncurses.c
+-@@ -65,7 +65,7 @@
+- 
+- /*** file scope macro definitions ****************************************************************/
+- 
+--#if defined(_AIX) && !defined(CTRL)
+-+#if !defined(CTRL)
+- #define CTRL(x) ((x) & 0x1f)
+- #endif
+- 
+diff --git a/meta/recipes-extended/mc/mc_4.8.13.bb b/meta/recipes-extended/mc/mc_4.8.14.bb
+similarity index 92%
+rename from meta/recipes-extended/mc/mc_4.8.13.bb
+rename to meta/recipes-extended/mc/mc_4.8.14.bb
+index ef5b1a2..8fec0b3 100644
+--- a/meta/recipes-extended/mc/mc_4.8.13.bb
++++ b/meta/recipes-extended/mc/mc_4.8.14.bb
+@@ -7,11 +7,10 @@ DEPENDS = "ncurses glib-2.0"
+ RDEPENDS_${PN} = "ncurses-terminfo"
+ 
+ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
+-           file://mc-CTRL.patch \
+            "
+ 
+-SRC_URI[md5sum] = "12a521a50da6a86852177591b9623d5e"
+-SRC_URI[sha256sum] = "22e1b809edba957eb9a392138bf87fea3877f7ca0b7463b7cc2eb94afa6f3e49"
++SRC_URI[md5sum] = "fe1cb75643c2bd4df64bbcf2dab76905"
++SRC_URI[sha256sum] = "61fd0fd2280c3d09d7e0aec8ab001fc89dad8e4fd9941f386414667b55152ec5"
+ 
+ inherit autotools gettext pkgconfig
+ 
+-- 
+2.1.4
 
-Now they are using them instead of proper tarballs:
-https://www.mail-archive.com/systemd-devel@lists.freedesktop.org/msg33054.h=
-tml
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki 
+Business Identity Code: 0357606 - 4 
+Domiciled in Helsinki 
 
-> Cristi - if this is the best libical has as a tarball release then we
-> should do a proper git clone.  Amazingly, the download button on their
-> website links to a tarball of master which is borderline reckless.
->=20
-> Ross
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---vni90+aGYgRvsTuO
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWfuPQACgkQN1Ujt2V2gBzE/wCgmz73dz9rQFtQxbHjEUsjYf4U
-698AoIBb52Sm7mmdGrF1wJ09kVe5UfU4
-=UeiC
------END PGP SIGNATURE-----
-
---vni90+aGYgRvsTuO--
