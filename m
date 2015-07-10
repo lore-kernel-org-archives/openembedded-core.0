@@ -1,35 +1,24 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C463607A4
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DD32865CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 03:20:35 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,665,1427731200"; d="scan'208";a="98296750"
-Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 10 Jul 2015 11:24:23 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6A3Imeu013601;
-	Fri, 10 Jul 2015 11:18:48 +0800
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0181.006; Fri, 10 Jul 2015 11:20:31 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "alexander.kanavin@linux.intel.com" <alexander.kanavin@linux.intel.com>
-Thread-Topic: [OE-core]  [PATCH] parted_1.8.6.bb: add parted that not GPLv3
-Thread-Index: AQHQujs+nyj25HboPkGTMhEOURbw8Z3UCY5Q
-Date: Fri, 10 Jul 2015 03:20:30 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FDB2A281@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
-In-Reply-To: <56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.26]
+	Fri, 10 Jul 2015 05:41:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6A5fZHj008515
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 Jul 2015 22:41:39 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 9 Jul 2015 22:41:34 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jul 2015 13:35:57 +0800
+Message-ID: <1436506557-27438-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] parted_1.8.6.bb: add parted that not GPLv3
+Subject: [PATCH 1/1] netbase: add rpcbind as an alias to sunrpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 03:20:36 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 10 Jul 2015 05:41:44 -0000
+Content-Type: text/plain
 
-SGkgQWxleA0KDQo+ID4gK2RvX2luc3RhbGxfYXBwZW5kKCkgew0KPiA+ICsJL2Jpbi9ybSAtcmYg
-JHtEfS8ke2xpYmRpcn0vKi5sYQ0KPiA+ICsJL2Jpbi9ybSAtcmYgJHtEfS91c3Ivc2hhcmUvaW5m
-by9kaXINCj4gPiArCS9iaW4vcm0gLWZyICR7RH0vdXNyL2Jpbg0KPiA+ICt9DQo+DQoNClJlZmVy
-ZW5jZSB0byBmZWRvcmEgYW5kIFVidW50dSwgSSBkZWxldGUgdGhlc2UgZmlsZXMuDQoNCg0KQ2hl
-ZXJzDQpMZWkNCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IGFsZXhh
-bmRlci5rYW5hdmluQGxpbnV4LmludGVsLmNvbSBbbWFpbHRvOmFsZXhhbmRlci5rYW5hdmluQGxp
-bnV4LmludGVsLmNvbV0NCj4gU2VudDogVGh1cnNkYXksIEp1bHkgMDksIDIwMTUgNzozMyBQTQ0K
-PiBUbzogTGVpLCBNYW9odWkNCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHBhcnRlZF8xLjguNi5i
-YjogYWRkIHBhcnRlZCB0aGF0IG5vdCBHUEx2Mw0KPiANCj4gPiBBZGQgcGFydGVkLTEuOC42IHdo
-aWNoIGlzIG5vdCBHUEx2My4NCj4gDQo+IEkgaGF2ZSB0byBzYXksIEkgc3RpbGwgY2FuJ3Qgc3Vw
-cG9ydCBoYXZpbmcgdGhpcyBpbiBvZS1jb3JlLiBQcm92aWRpbmcgYWx0ZXJuYXRpdmVzIHRvIEdQ
-THYzDQo+IHNvZnR3YXJlIGlzIGZpbmUsIGJ1dCBub3Qgd2hlbiB0aGUgJ2FsdGVybmF0aXZlJyBp
-cyBhIHZlcnkgb2xkLCB1bnN1cHBvcnRlZCB2ZXJzaW9uIG9mIHRoZQ0KPiBzYW1lIHNvZnR3YXJl
-LCB3aGljaCBpbmV2aXRhYmx5IGJyaW5ncyBpc3N1ZXMgaW4gZnVuY3Rpb25hbGl0eSBhbmQgbWFp
-bnRlbmFuY2UuDQo+IA0KPiBCdXQgaWYgUm9zcyBhbmQvb3IgUmljaGFyZCBkaXNhZ3JlZSwgdGhl
-biBJJ2xsIGhhdmUgdG8gYWNjZXB0IGl0Lg0KPiANCj4gPiArVXBzdHJlYW0tU3RhdHVzOiBQZW5k
-aW5nDQo+IA0KPiAiSW5hcHByb3ByaWF0ZSIgaXMgYSBiZXR0ZXIgcmVhc29uIGhlcmUsIHdpdGgg
-Y2xhcmlmaWNhdGlvbiB0aGF0IHRoZSBwYXRjaGVzIGFyZSB0byBtYWtlIGFuDQo+IG9sZCB2ZXJz
-aW9uIHdvcmsgYW5kIHVwc3RyZWFtIHdvbid0IGJlIGludGVyZXN0ZWQgaW4gdGhlbS4NCj4gDQo+
-ID4gK2RvX2luc3RhbGxfYXBwZW5kKCkgew0KPiA+ICsJL2Jpbi9ybSAtcmYgJHtEfS8ke2xpYmRp
-cn0vKi5sYQ0KPiA+ICsJL2Jpbi9ybSAtcmYgJHtEfS91c3Ivc2hhcmUvaW5mby9kaXINCj4gPiAr
-CS9iaW4vcm0gLWZyICR7RH0vdXNyL2Jpbg0KPiA+ICt9DQo+IA0KPiBXaGF0IGFyZSB5b3UgZGVs
-ZXRpbmcgaGVyZSBhbmQgd2h5Pw0KPiANCj4gQWxleA0K
+From: Li Wang <li.wang@windriver.com>
+
+the patch comes from:
+https://bugs.archlinux.org/task/20273
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ ...netbase-add-rpcbind-as-an-alias-to-sunrpc.patch | 44 ++++++++++++++++++++++
+ meta/recipes-core/netbase/netbase_5.3.bb           |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-core/netbase/netbase/netbase-add-rpcbind-as-an-alias-to-sunrpc.patch
+
+diff --git a/meta/recipes-core/netbase/netbase/netbase-add-rpcbind-as-an-alias-to-sunrpc.patch b/meta/recipes-core/netbase/netbase/netbase-add-rpcbind-as-an-alias-to-sunrpc.patch
+new file mode 100644
+index 0000000..35ce21e
+--- /dev/null
++++ b/meta/recipes-core/netbase/netbase/netbase-add-rpcbind-as-an-alias-to-sunrpc.patch
+@@ -0,0 +1,44 @@
++netbase: add rpcbind as an alias to sunrpc
++
++the patch comes from:
++https://bugs.archlinux.org/task/20273
++
++Upstream-Status: Pending
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++---
++ etc-rpc      |    2 +-
++ etc-services |    4 ++--
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/etc-rpc b/etc-rpc
++index 1b30625..9a9a81a 100644
++--- a/etc-rpc
+++++ b/etc-rpc
++@@ -1,7 +1,7 @@
++ # This file contains user readable names that can be used in place of rpc
++ # program numbers.
++ 
++-portmapper	100000	portmap sunrpc
+++portmapper	100000	portmap sunrpc rpcbind
++ rstatd		100001	rstat rstat_svc rup perfmeter
++ rusersd		100002	rusers
++ nfs		100003	nfsprog
++diff --git a/etc-services b/etc-services
++index 9d64a52..a19f7c8 100644
++--- a/etc-services
+++++ b/etc-services
++@@ -72,8 +72,8 @@ pop2		109/tcp		postoffice pop-2 # POP version 2
++ pop2		109/udp		pop-2
++ pop3		110/tcp		pop-3		# POP version 3
++ pop3		110/udp		pop-3
++-sunrpc		111/tcp		portmapper	# RPC 4.0 portmapper
++-sunrpc		111/udp		portmapper
+++sunrpc		111/tcp		portmapper rpcbind	# RPC 4.0 portmapper
+++sunrpc		111/udp		portmapper rpcbind
++ auth		113/tcp		authentication tap ident
++ sftp		115/tcp
++ uucp-path	117/tcp
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-core/netbase/netbase_5.3.bb b/meta/recipes-core/netbase/netbase_5.3.bb
+index 4ac0221..ccd89ff 100644
+--- a/meta/recipes-core/netbase/netbase_5.3.bb
++++ b/meta/recipes-core/netbase/netbase_5.3.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab
+ PE = "1"
+ 
+ SRC_URI = "${DEBIAN_MIRROR}/main/n/netbase/netbase_${PV}.tar.xz \
++           file://netbase-add-rpcbind-as-an-alias-to-sunrpc.patch \
+            file://hosts"
+ 
+ SRC_URI[md5sum] = "2637a27fd3de02a278d2b5be7e6558c1"
+-- 
+1.9.1
+
 
