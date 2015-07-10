@@ -1,38 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by mail.openembedded.org (Postfix) with ESMTP id A678D73710
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 56E2273710
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 19:19:59 +0000 (UTC)
-Received: by qkcl188 with SMTP id l188so30161345qkc.1
+	Fri, 10 Jul 2015 19:45:27 +0000 (UTC)
+Received: by qgep37 with SMTP id p37so41990614qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 12:19:59 -0700 (PDT)
+	Fri, 10 Jul 2015 12:45:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=IdqTmhbgcTNmVAM71Z/+8N/0tNBjDUHCI0tZ6QMp/9k=;
-	b=lZI0go3vXGgJKhDX57vwp1wguBjQC2a0T3u6M8xmkDCnA7GBONLoYwJeJzRAUoqIMS
-	KyEs7V2OOP3QfBWp1QgqE1ViSPeocGYLVLsWGgP8gphZ4mVAGBLSGwppkv182XLuvVlC
-	xp4zyGYmZrIx1++SpnWTgq34MG+SoeCLQe6p2EU7WI6RdxxZ6nsg7b57f/ADnI45J8ut
-	3WbDRpqknqACQcbeVTWZZa6Cn4gpSqsvpkIHDkucXgfX2bsxs62RQ3e1B/2H1VzEvTAJ
-	UFlM6bIG1RPASxZ/DU6Hh2Ar5Yvbp1kcfTJIGrvVMbgh/afBZv1oc1JCZBc3ubBYPC+O
-	UobQ==
-X-Gm-Message-State: ALoCoQkzFdiak/Aiz7NgS7YGzosrRTuACxLKoSE4ZRMt9FjDqncTZKjj32ilZZ++6jfwwuQt3qcn
-X-Received: by 10.55.23.86 with SMTP id i83mr35893428qkh.100.1436555999514;
-	Fri, 10 Jul 2015 12:19:59 -0700 (PDT)
+	bh=Jo8O1tfuk9LxZp2x9A74lU8lYvBbO/nb33+uGGFWfVU=;
+	b=P8tSCR23kZ1NcKS6os9gefYtGBdkaqn7sD8mA2orPI6Pwl5+BbOI1SmzNDBjqWE+EM
+	2NXD9eLa38idA0OfVSxEIt6rOiRWrTkiFQCDxaMOajoNUR4buwm75U2J4/SZuQYeScRg
+	r48xpW4sIgu+/Cij48oyWdGx7qsGC64R/j6mrpFo85CaI4C6KiH8uNC6v2IG4N7z9sP/
+	y8tE2GBZtO7L85gCJc0L4BRO6/Smbltoq+EMGDFgPRj8lhhbM2BAQnuhA2mdhCHwS4Nv
+	DKz2wBInwllN+xoYJLvuwVO+wU0lxbLniRITTIZrj8qgSeGRmhpTa/3wbVph8yEx5hs4
+	E2JQ==
+X-Gm-Message-State: ALoCoQmaF/hunD79xY+fSnJSPpGJa6dfZZzd2vmhj2MVO3NH7A87cpKFwtSVh5buH1FnbTu9NoRd
+X-Received: by 10.140.43.100 with SMTP id d91mr36195537qga.77.1436557527781;
+	Fri, 10 Jul 2015 12:45:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 10 Jul 2015 12:19:40 -0700 (PDT)
-In-Reply-To: <559FFC43.4030505@ni.com>
-References: <559F02AE.3010501@ni.com>
-	<CAJTo0LZwXTDEKtR8+3EHfdEpMbB4P9nxyaC1odqW_dGHz5svAQ@mail.gmail.com>
-	<559FFC43.4030505@ni.com>
+Received: by 10.140.102.231 with HTTP; Fri, 10 Jul 2015 12:45:08 -0700 (PDT)
+In-Reply-To: <1436552179-25621-1-git-send-email-randy.e.witt@linux.intel.com>
+References: <1436552179-25621-1-git-send-email-randy.e.witt@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 10 Jul 2015 20:19:40 +0100
-Message-ID: <CAJTo0LakPEddo8FYyLk20McCR0Pkhrnt7Oab+rM+-HnoRV5piw@mail.gmail.com>
-To: Connor Smith <connor.smith@ni.com>
+Date: Fri, 10 Jul 2015 20:45:08 +0100
+Message-ID: <CAJTo0LYrOdAOeW6=-Z_K8OWtUZimX62YdURkM3M2LvdsKP_YVQ@mail.gmail.com>
+To: Randy Witt <randy.e.witt@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Library Patches Causing Many Packages to Rebuild
+Subject: Re: [PATCH] python-smartpm: Have native smart use nativepython
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,52 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 19:20:03 -0000
-Content-Type: multipart/alternative; boundary=001a11470c8a0d2a71051a8a42a8
+X-List-Received-Date: Fri, 10 Jul 2015 19:45:35 -0000
+Content-Type: multipart/alternative; boundary=001a113a989c24b05b051a8a9de2
 
---001a11470c8a0d2a71051a8a42a8
+--001a113a989c24b05b051a8a9de2
 Content-Type: text/plain; charset=UTF-8
 
-On 10 July 2015 at 18:09, Connor Smith <connor.smith@ni.com> wrote:
+On 10 July 2015 at 19:16, Randy Witt <randy.e.witt@linux.intel.com> wrote:
 
-> Ah, that makes sense. I investigated some more, and the do_package task
-> has a hard-coded dependency on rpm-native. Removing this dependency and
-> rebuilding resolved the issue; the only ipks being rebuilt now are from
-> packages that depend on openssl and need to be recompiled.
->
-> Should this dependency be based off PACKAGE_CLASSES, or is it necessary
-> to always depend on rpm-native? We're using opkg, not rpm.
+> Currently when trying to use smart via devshell or in the bitbake
+> environment, it will fail without inheriting pythonnative. Since the
+> native tools should "just work" use nativepython in the shebang line for
+> smart.
 >
 
-do_package() uses rpmdeps-oecore built by rpm-native to inject
-dependencies, so you'll always need to build rpm-native.
+smart was recently upgraded to 1.5, can you rebase this please?
 
+Cheers,
 Ross
 
---001a11470c8a0d2a71051a8a42a8
+--001a113a989c24b05b051a8a9de2
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 July 2015 at 18:09, Connor Smith <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:connor.smith@ni.com" target=3D"_blank">connor.smith@ni.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div text=3D"#000000" bgcolor=
-=3D"#FFFFFF">Ah, that makes sense. I investigated some more, and the do_pac=
-kage
-    task<br>
-    has a hard-coded dependency on rpm-native. Removing this dependency
-    and<br>
-    rebuilding resolved the issue; the only ipks being rebuilt now are
-    from<br>
-    packages that depend on openssl and need to be recompiled.<br>
-    <br>
-    Should this dependency be based off PACKAGE_CLASSES, or is it
-    necessary<br>
-    to always depend on rpm-native? We&#39;re using opkg, not rpm.</div></b=
-lockquote></div><br>do_package() uses rpmdeps-oecore built by rpm-native to=
- inject dependencies, so you&#39;ll always need to build rpm-native.</div><=
-div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
-div>
+On 10 July 2015 at 19:16, Randy Witt <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:randy.e.witt@linux.intel.com" target=3D"_blank">randy.e.witt@linux.intel.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":60c=
+" class=3D"a3s" style=3D"overflow:hidden">Currently when trying to use smar=
+t via devshell or in the bitbake<br>
+environment, it will fail without inheriting pythonnative. Since the<br>
+native tools should &quot;just work&quot; use nativepython in the shebang l=
+ine for<br>
+smart.<br></div></blockquote></div><br>smart was recently upgraded to 1.5, =
+can you rebase this please?</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Cheers,</div><div class=3D"gmail_extra">Ross</div></d=
+iv>
 
---001a11470c8a0d2a71051a8a42a8--
+--001a113a989c24b05b051a8a9de2--
