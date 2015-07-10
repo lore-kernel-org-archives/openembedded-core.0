@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FD0E65CBD
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C3E9775D13
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jul 2015 07:15:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6A7F23U007645
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6A7F3GW019131
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 00:15:02 -0700 (PDT)
+	Fri, 10 Jul 2015 00:15:03 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.224.2;
 	Fri, 10 Jul 2015 00:15:02 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 10 Jul 2015 00:14:56 -0700
-Message-ID: <0047e43da6b1002b7550eb03ea08983bb53ef743.1436512030.git.liezhi.yang@windriver.com>
+Date: Fri, 10 Jul 2015 00:14:57 -0700
+Message-ID: <e0f2f0a8a7ab09da5cb42763e07c403499c180c7.1436512030.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1436512030.git.liezhi.yang@windriver.com>
 References: <cover.1436512030.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 10/12] perf: remove invalid sed command
+Subject: [PATCH 11/12] cups: remove invalid sed command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +36,28 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 10 Jul 2015 07:15:02 -0000
 Content-Type: text/plain
 
-The current kernel supports WERROR now, and there is no Werror in
-tools/perf/Makefile, remove both sed commands.
+There is no STRIP in Makedefs, no serial in backend/Makefile either, so
+remove the sed commands.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-kernel/perf/perf.bb |    6 ------
- 1 file changed, 6 deletions(-)
+ meta/recipes-extended/cups/cups.inc |    3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index eb27374..0cadcdc 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -120,12 +120,6 @@ do_configure_prepend () {
-     rm -rf ${B}/
-     mkdir ${B}/
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index ba50296..57cdf26 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -46,9 +46,6 @@ EXTRA_OECONF = " \
+ EXTRA_AUTORECONF += "--exclude=autoheader"
  
--    #kernels before 3.1 do not support WERROR env variable
--    sed -i 's,-Werror ,,' ${S}/tools/perf/Makefile
--    if [ -e "${S}/tools/perf/config/Makefile" ]; then
--        sed -i 's,-Werror ,,' ${S}/tools/perf/config/Makefile
--    fi
+ do_compile () {
+-	sed -i s:STRIP:NOSTRIP: Makedefs
+-	sed -i s:serial:: backend/Makefile
 -
-     # If building a multlib based perf, the incorrect library path will be
-     # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In a 32 bit
-     # build, with a 64 bit multilib, the arch won't match and the detection of a 
+ 	echo "all:"    >  man/Makefile
+ 	echo "libs:" >> man/Makefile
+ 	echo "install:" >> man/Makefile
 -- 
 1.7.9.5
 
