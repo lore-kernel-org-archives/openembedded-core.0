@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 091DE73710
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6015F7589F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 22:27:15 +0000 (UTC)
-Received: by qgef3 with SMTP id f3so85943260qge.0
+	Fri, 10 Jul 2015 22:30:06 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so21128700qkd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 15:27:15 -0700 (PDT)
+	Fri, 10 Jul 2015 15:30:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=35o5gy6lpMnca0dvDjLu5eCTud2zubH/JEEQra7n6qc=;
-	b=muCfEuc7p10gJ8fdfm2TMf2Auuu6pH8mrAO3GSqM8SZ4FEsyyRaDW6QjU2/p48/v1a
-	VHhsDu1O9DvTR+ruOfKIydNGpDttJ7stQKaJrg2LGD3nTYVpcdqJHNYUmsWLOnRV2jUx
-	UigFEnG1zdyWHVXEW5lA4FJVUf6n6SFR9zUXNjwiRpL5k+iu1kBLUa8L0iSX/xueFJTY
-	wiLUb8Rbq2W1B7Dvv2sgFZGkKy5N+T30DjeLGdcxEFPOMl3U8r4rPf4hFnJITo2T26tL
-	zxQL4Qm1jcuDycypGbr8aoqiZ2uGYxsIV5Ksl3Vwghs9/XRKjGZOUqoJe9tA57TXbDJu
-	KBSA==
-X-Gm-Message-State: ALoCoQlarWH+CpIJgm0IJgcaLG5W8Oh8dBuKeHcU1Ul8bBOLfCwxy7m/0BUQzrs2tkx6NDMrlvUR
-X-Received: by 10.140.196.129 with SMTP id r123mr38992253qha.93.1436567235763; 
-	Fri, 10 Jul 2015 15:27:15 -0700 (PDT)
+	bh=vOUL6Wmm+24g4qvdLPiAz1V+6Er0oDVHptDVs1572WU=;
+	b=Ql9NM8ZMTipXF0///SDLLPQ/nEbSfylhspxlNcgT+eZeeamc80yB59l56Wg/czdpkm
+	4WFka2X0Nh74hDDhgNYC8iq+DdplKWrXW1hk0evauRG8gsyUetEc05pbs8cW2Yy18TY5
+	VEvCe7SyUkPNcn8ZxU+ngVPdCMIUuzosltUEvfc/71ocsapIOVc5Rk8dRNLFvnXZIuP9
+	WSI3FbWKA+iTRfHVlWZSn8K/f+Dwdj/edc0SGjdvIR3AuGUx+pSsXKAiYjHHxxzWsYHC
+	oNV+wxBatkSg1zFCTRa0wAvqqmI0JQovm60TFxrGwBH3dkphb0SNXiTa6Z/B167F2EdQ
+	rasQ==
+X-Gm-Message-State: ALoCoQm9PkgOVO41t9EtaeL9VZGNtCf9IjoSuiDtm6EECcCqpNZ9+N/1gGu+GvEX6fCQNiA3fU5M
+X-Received: by 10.140.43.199 with SMTP id e65mr36242392qga.80.1436567407065;
+	Fri, 10 Jul 2015 15:30:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 10 Jul 2015 15:26:56 -0700 (PDT)
-In-Reply-To: <249919a0513534269d16dee1ecaf173d01b7e791.1436176865.git.liezhi.yang@windriver.com>
-References: <cover.1436176865.git.liezhi.yang@windriver.com>
-	<249919a0513534269d16dee1ecaf173d01b7e791.1436176865.git.liezhi.yang@windriver.com>
+Received: by 10.140.102.231 with HTTP; Fri, 10 Jul 2015 15:29:47 -0700 (PDT)
+In-Reply-To: <1436257069-1908-1-git-send-email-zhixiong.chi@windriver.com>
+References: <1436257069-1908-1-git-send-email-zhixiong.chi@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 10 Jul 2015 23:26:56 +0100
-Message-ID: <CAJTo0LbS0ReW+N3YL=TU+AzeGogrS++jxabp5_=ns_GxFtOC4g@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 10 Jul 2015 23:29:47 +0100
+Message-ID: <CAJTo0LaYRWRF5bNYOpN7QB-cHO2u6DbKuK7dH=Y2-EB6=Du=rw@mail.gmail.com>
+To: Zhixiong Chi <zhixiong.chi@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] insane.bbclass: skip dev-deps QA checking for ptest package
+Subject: Re: [PATCH][V2] db: add debug_lock option to show diagnostic info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 22:27:16 -0000
-Content-Type: multipart/alternative; boundary=001a11433952c8b812051a8cdf4e
+X-List-Received-Date: Fri, 10 Jul 2015 22:30:11 -0000
+Content-Type: multipart/alternative; boundary=001a113a9baafe9162051a8ce908
 
---001a11433952c8b812051a8cdf4e
+--001a113a9baafe9162051a8ce908
 Content-Type: text/plain; charset=UTF-8
 
-On 6 July 2015 at 11:01, Robert Yang <liezhi.yang@windriver.com> wrote:
+On 7 July 2015 at 09:17, Zhixiong Chi <zhixiong.chi@windriver.com> wrote:
 
-> The ptest pkg such as perl-ptest may need .h, .so or other files in dev
-> package to run test cases, so skipping dev-deps checkin for ptest
-> package.
+> +Index: db-6.0.30/dist/configure
 >
 
-Is this a common occurrence or is perl the first instance of this? This
-warning can be skipped with INSANE_SKIP_${PN}-ptest = "dev-deps", right?
+Don't patch generated files as they'll change drastically over time and
+make maintaining the patch impossible.
+
+Also if the patch has been submitted upstream, including a link to the
+submission (bug, list thread, etc) is helpful when doing upgrades in the
+future.
 
 Ross
 
---001a11433952c8b812051a8cdf4e
+--001a113a9baafe9162051a8ce908
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 6 July 2015 at 11:01, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1am" clas=
-s=3D"a3s" style=3D"overflow:hidden">The ptest pkg such as perl-ptest may ne=
-ed .h, .so or other files in dev<br>
-package to run test cases, so skipping dev-deps checkin for ptest<br>
-package.<br></div></blockquote></div><br>Is this a common occurrence or is =
-perl the first instance of this? This warning can be skipped with INSANE_SK=
-IP_${PN}-ptest =3D &quot;dev-deps&quot;, right?</div><div class=3D"gmail_ex=
-tra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 7 July 2015 at 09:17, Zhixiong Chi <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:zhixiong.chi@windriver.com" target=3D"_blank">zhixiong.chi@windriver.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1fn" c=
+lass=3D"a3s" style=3D"overflow:hidden">+Index: db-6.0.30/dist/configure<br>=
+</div></blockquote></div><br>Don&#39;t patch generated files as they&#39;ll=
+ change drastically over time and make maintaining the patch impossible.</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also if =
+the patch has been submitted upstream, including a link to the submission (=
+bug, list thread, etc) is helpful when doing upgrades in the future.</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div>
 
---001a11433952c8b812051a8cdf4e--
+--001a113a9baafe9162051a8ce908--
