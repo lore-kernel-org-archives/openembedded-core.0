@@ -1,34 +1,23 @@
-Return-Path: <gchoc-openembedded-core@m.gmane.org>
-Received: from plane.gmane.org (plane.gmane.org [80.91.229.3])
-	by mail.openembedded.org (Postfix) with ESMTP id B3C5565C60
+Return-Path: <alejandro.hernandez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C7CE0607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 14:19:45 +0000 (UTC)
-Received: from list by plane.gmane.org with local (Exim 4.69)
-	(envelope-from <gchoc-openembedded-core@m.gmane.org>)
-	id 1ZDZ9N-0005Ch-K1 for openembedded-core@lists.openembedded.org;
-	Fri, 10 Jul 2015 16:19:37 +0200
-Received: from ip4da2a5ae.direct-adsl.nl ([77.162.165.174])
-	by main.gmane.org with esmtp (Gmexim 0.1 (Debian))
-	id 1AlnuQ-0007hv-00 for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 16:19:37 +0200
-Received: from koen by ip4da2a5ae.direct-adsl.nl with local (Gmexim 0.1
-	(Debian)) id 1AlnuQ-0007hv-00
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 16:19:37 +0200
-X-Injected-Via-Gmane: http://gmane.org/
+	Fri, 10 Jul 2015 15:15:35 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Jul 2015 08:15:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,447,1432623600"; d="scan'208";a="726490526"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2015 08:15:37 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-From: Koen Kooi <koen@dominion.thruhere.net>
-Date: Fri, 10 Jul 2015 16:19:17 +0200
-Message-ID: <mnok95$fuc$1@ger.gmane.org>
-References: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
-Mime-Version: 1.0
-X-Complaints-To: usenet@ger.gmane.org
-X-Gmane-NNTP-Posting-Host: ip4da2a5ae.direct-adsl.nl
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-In-Reply-To: <2219152.1ss8pFxefq@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-devel@lists.openembedded.org
-Subject: Re: RFC: libav vs. ffmpeg, redux
+Date: Fri, 10 Jul 2015 08:13:19 +0000
+Message-Id: <d0fa281d129a9dce1a95679071d154c23032c70c.1436515631.git.alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1436515631.git.alejandro.hernandez@linux.intel.com>
+References: <cover.1436515631.git.alejandro.hernandez@linux.intel.com>
+Subject: [PATCH 1/1] If a the number of hard links decreases or increases while creating the tar files used for an ipk package, tar fails with error code 1, we use hardlinks on package/ and packages-split/ to decrease disk usage, sometimes other parts of the build can cause a change in the link count, since this happens in a controlled environment we can safely ignore the error and continue to create the ipk file, fixed some typos from old version.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,46 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 14:19:48 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 Jul 2015 15:15:36 -0000
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA1
+[YOCTO #7933]
 
-Paul Eggleton schreef op 09-07-15 om 12:24:
-> Hi all,
-> 
-> A few years ago we made the switch from ffmpeg to libav (a mostly drop-in
->  compatible fork), with fairly good justification at the time. However,
-> it looks like Debian has just made the switch back to ffmpeg, citing a
-> number of reasons - most notably more responsive security issue patching
-> in recent history. Here's a page with their full reasoning:
-> 
-> https://wiki.debian.org/Debate/libav-provider/ffmpeg
-> 
-> Gstreamer (gst-libav, specifically) has also just recently made the
-> switch back for its internal copy:
-> 
-> https://bugzilla.gnome.org/show_bug.cgi?id=751607
-> 
-> What do people think? Should we be looking to make the switch back in OE
-> as well?
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+---
+ meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch | 2 +-
+ meta/recipes-devtools/opkg-utils/opkg-utils_git.bb                 | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-As much as I like the libav guys, ffmpeg seems to win the popular vote which
-makes it easier to use. Kodi/xbmc has been named, opencv is another.
-
-regards,
-
-Koen
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.5 (Darwin)
-Comment: GPGTools - http://gpgtools.org
-
-iD8DBQFVn9RlMkyGM64RGpERAqwwAJ9SXkQ8WFLRlweCx2CenlK3L1F34ACfZo+R
-pQzjY9o32AwZTC+OCqpNLXE=
-=HCXC
------END PGP SIGNATURE-----
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
+index 4bcae4954..e8250b7 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
+@@ -12,7 +12,7 @@ We detect if the error code produced by tar is 1 and in this case ignore it.
+ This a similar behavior to the one on dpkg:
+ http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=40731942515ec8d80c727ad561174986d4f05818
+ 
+-Upsteam-Status: Inappropriate
++Upstream-Status: Inappropriate
+ 
+ Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+ 
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+index 74b974d..2f66632 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_git.bb
+@@ -10,9 +10,9 @@ PROVIDES += "virtual/update-alternatives"
+ SRCREV = "53274f087565fd45d8452c5367997ba6a682a37a"
+ PV = "0.1.8+git${SRCPV}"
+ 
+-SRC_URI = "git://git.yoctoproject.org/opkg-utils " 
++SRC_URI = "git://git.yoctoproject.org/opkg-utils"
+ 
+-SRC_URI_append_class-native = "file://tar_ignore_error.patch"
++SRC_URI_append_class-native = " file://tar_ignore_error.patch"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+1.8.4.5
 
 
