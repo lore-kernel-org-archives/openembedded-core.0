@@ -1,32 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 730A76017E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F14676017E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jul 2015 12:24:25 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 10 Jul 2015 05:24:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,446,1432623600"; d="scan'208";a="759790359"
-Received: from irsmsx109.ger.corp.intel.com ([163.33.3.23])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Jul 2015 05:24:25 -0700
-Received: from irsmsx105.ger.corp.intel.com ([169.254.7.245]) by
-	IRSMSX109.ger.corp.intel.com ([169.254.13.200]) with mapi id
-	14.03.0224.002; Fri, 10 Jul 2015 13:24:24 +0100
-From: "Iorga, Cristian" <cristian.iorga@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH V2] libical: upgrade to 1.0.1
-Thread-Index: AQHQuwjt6kJloJFvREiFKvW6wnJLFp3UoIFw
-Date: Fri, 10 Jul 2015 12:24:24 +0000
-Message-ID: <969F26A8BAB325438E7EB80D3C3134FB44B13070@irsmsx105.ger.corp.intel.com>
-References: <1436530026-31823-1-git-send-email-cristian.iorga@intel.com>
-In-Reply-To: <1436530026-31823-1-git-send-email-cristian.iorga@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
-MIME-Version: 1.0
-Subject: Re: [PATCH V2] libical: upgrade to 1.0.1
+	Fri, 10 Jul 2015 13:07:40 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6AD7ebT010519 for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jul 2015 14:07:40 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id kQd7fAwslRtm
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jul 2015 14:07:40 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6AD7PW2010512
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jul 2015 14:07:36 +0100
+Message-ID: <1436533645.3310.4.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 10 Jul 2015 14:07:25 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] oeqa/sstatetests: Add NATIVELSB sstate signature equivalence test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,62 +37,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jul 2015 12:24:28 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Jul 2015 13:07:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-For now, please ignore this one, it seems I haven't tested properly, sorry.
-/Cristian
+The sstate checksums should be independent of whichever NATIVELSBSTRING is
+detected. Add an automated QA test which tests this using bitbake -S.
 
------Original Message-----
-From: Iorga, Cristian=20
-Sent: Friday, July 10, 2015 3:07 PM
-To: openembedded-core@lists.openembedded.org
-Cc: Iorga, Cristian
-Subject: [PATCH V2] libical: upgrade to 1.0.1
+To make this possible, we need to be able to override the value of 
+NATIVELSBSTRING so make a small change to allow this.
 
-Bugfix release mainly.
-autotools build system removed, cmake is now used.
-perl is needed during the configure phase.
-Switched to releases download link.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- .../libical/{libical_1.0.0.bb =3D> libical_1.0.1.bb}            | 11 +++++=
-++----
- 1 file changed, 7 insertions(+), 4 deletions(-)  rename meta/recipes-suppo=
-rt/libical/{libical_1.0.0.bb =3D> libical_1.0.1.bb} (55%)
-
-diff --git a/meta/recipes-support/libical/libical_1.0.0.bb b/meta/recipes-s=
-upport/libical/libical_1.0.1.bb
-similarity index 55%
-rename from meta/recipes-support/libical/libical_1.0.0.bb
-rename to meta/recipes-support/libical/libical_1.0.1.bb
-index be6b635..eb93b4f 100644
---- a/meta/recipes-support/libical/libical_1.0.0.bb
-+++ b/meta/recipes-support/libical/libical_1.0.1.bb
-@@ -6,8 +6,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd4fc58309d8ed46=
-587ac63bb449d82f8 \
-                     file://LICENSE;md5=3Dd1a0891cd3e582b3e2ec8fe63badbbb6"
- SECTION =3D "libs"
-=20
--SRC_URI =3D "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz"
--SRC_URI[md5sum] =3D "f4b8e33ae5efb2f025eb43ce69682a36"
--SRC_URI[sha256sum] =3D "0072e83834092315772e6719b85fc8b11530b1ff53f4d10831=
-5fb38cddbce8c2"
-+SRC_URI =3D "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${B=
-P}.tar.gz"
-+SRC_URI[md5sum] =3D "af91db06b22559f863869c5a382ad08a"
-+SRC_URI[sha256sum] =3D "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb142=
-49d1413d6c610c"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 446e39e..7e15006 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -212,7 +212,8 @@ python base_eventhandler() {
+     import bb.runqueue
+ 
+     if isinstance(e, bb.event.ConfigParsed):
+-        e.data.setVar("NATIVELSBSTRING", lsb_distro_identifier(e.data))
++        if not e.data.getVar("NATIVELSBSTRING", False):
++            e.data.setVar("NATIVELSBSTRING", lsb_distro_identifier(e.data))
+         e.data.setVar('BB_VERSION', bb.__version__)
+         pkgarch_mapping(e.data)
+         oe.utils.features_backfill("DISTRO_FEATURES", e.data)
+diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
+index 6281d50..7a1f49e 100644
+--- a/meta/lib/oeqa/selftest/sstatetests.py
++++ b/meta/lib/oeqa/selftest/sstatetests.py
+@@ -237,3 +237,37 @@ BUILD_OS = \"linux\"
+         files2 = get_files(topdir + "/tmp-sstatesamehash2/stamps/")
+         files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash").replace("i686-linux", "x86_64-linux").replace("i686" + targetvendor + "-linux", "x86_64" + targetvendor + "-linux", ) for x in files2]
+         self.assertItemsEqual(files1, files2)
 +
-+inherit cmake perlnative
 +
-+FILES_${PN}-dev +=3D "${libdir}/cmake"
-=20
--inherit autotools
---
-2.1.4
++    def test_sstate_nativelsbstring_same_hash(self):
++        """
++        The sstate checksums should be independent of whichever NATIVELSBSTRING is
++        detected. Rather than requiring two different build machines and running 
++        builds, override the variables manually and check using bitbake -S.
++        """
++
++        topdir = get_bb_var('TOPDIR')
++        targetvendor = get_bb_var('TARGET_VENDOR')
++        self.write_config("""
++TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
++NATIVELSBSTRING = \"DistroA\"
++""")
++        self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
++        bitbake("core-image-sato -S printdiff", ignore_status=True)
++        self.write_config("""
++TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
++NATIVELSBSTRING = \"DistroB\"
++""")
++        self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
++        bitbake("core-image-sato -S printdiff", ignore_status=True)
++
++        def get_files(d):
++            f = []
++            for root, dirs, files in os.walk(d):
++                f.extend(os.path.join(root, name) for name in files)
++            return f
++        files1 = get_files(topdir + "/tmp-sstatesamehash/stamps/")
++        files2 = get_files(topdir + "/tmp-sstatesamehash2/stamps/")
++        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash") for x in files2]
++        self.assertItemsEqual(files1, files2)
++
+
 
 
