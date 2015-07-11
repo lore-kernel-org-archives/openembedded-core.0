@@ -1,39 +1,35 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C8AA6017E
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D3596017E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jul 2015 07:20:19 +0000 (UTC)
-Received: by oihq81 with SMTP id q81so11636148oih.2
+	Sat, 11 Jul 2015 07:30:34 +0000 (UTC)
+Received: by iggp10 with SMTP id p10so48597190igg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jul 2015 00:20:19 -0700 (PDT)
+	Sat, 11 Jul 2015 00:30:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=lUDzd50UMzRQH0D6A2Uffl1myVGdninU9vVqFcrgtoA=;
-	b=U6bQyDXrX1g5ZLRX0LJ0Zt4S3O4icfpm44MDg4nTWN+uG7ItKcp7bprHLCzOOa3T+w
-	NRBRWtRD/QFCBTzo/KGxX0YquBFdi1tCiUx/ZJlNsYbQJBrdRb8lVWhNPlIQ6yr0ksoG
-	Bi7tn/l8JwKjulzq0dGoiguhbTUCA0xO6Dq/PisO7Sr/KhyPx8ve/doEvJ9ouK6YjGxX
-	VCH26dnL9zzBr66cqqHnTrSExs4tAqZifogmxB7AiaOENNFJLinfzI+6LzW7AYS86eVN
-	628acRA/zjX7mCDt0JPEY2bjqxggc6wWmtLw8kNrTPU5vInx+btA4A9anrnCixTynjHn
-	bq9w==
-MIME-Version: 1.0
-X-Received: by 10.60.176.37 with SMTP id cf5mr22108608oec.19.1436599219641;
-	Sat, 11 Jul 2015 00:20:19 -0700 (PDT)
-Received: by 10.202.64.130 with HTTP; Sat, 11 Jul 2015 00:20:19 -0700 (PDT)
-In-Reply-To: <CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
-References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
-	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
-	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
-Date: Sat, 11 Jul 2015 00:20:19 -0700
-Message-ID: <CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id;
+	bh=W41a5lja1G5vPDvD27OOnLwXzCEPnNlmKas9BxcldK8=;
+	b=F3mezNf5oAs8cLQ+KK3P8hdSJgRpWleJfquMkbavbiW1zBBsR4axXjYlj1FIdNGkH3
+	zVe+oUzsYD8CG0U5hVQZBlNlLysfRV0sFsLJ9VsMhCasodP1fk6fa7sspaCkoSbFs3qR
+	tvUgIETo7/tf/N0MVcs0Xwo5qTuEzCvNL48QYFqIkAlfRYE4cKtIJHPixrTUkWLrFCg1
+	DiR3tOx8ORBWRs8AAY/L5uDNFpXMZYZcyR3wfuSIEg+o/1C4VPyB7B5xd1bTE/WmWolP
+	0j4qYPxa0EEV8+rAe3RWYMLr17Iuxn3qQMCDwHMkzyQwWSg3PktIO7I60KzQMYI4vJP/
+	ANDQ==
+X-Received: by 10.107.27.148 with SMTP id b142mr8791821iob.114.1436599834632; 
+	Sat, 11 Jul 2015 00:30:34 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	l62sm8138095iol.36.2015.07.11.00.30.33
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 11 Jul 2015 00:30:33 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] parted_1.8.6.bb: add parted that not GPLv3
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 11 Jul 2015 00:30:24 -0700
+Message-Id: <1436599824-9955-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] gnupg: fix build of GPLv2 version of gnupg with gcc 5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,53 +42,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jul 2015 07:20:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 11 Jul 2015 07:30:37 -0000
 
-On Fri, Jul 10, 2015 at 3:31 PM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 9 July 2015 at 12:38, Otavio Salvador <otavio@ossystems.com.br> wrote:
->>
->> Parted 1.8 is very old and not supported at all. The number of fixes
->> after it is such huge which makes Parted mostly useless in new storage
->> and disk formats. I see NO benefit in having it and a serious
->> maintenance burden.
->
-> I wasn't aware the situation with the old parted was that bad...  maybe this
-> should be in meta-oe (if anywhere) after all?
+Force gcc's traditional handling of inline to avoid issues with gcc 5.
 
-GPLv3 was released in June 2007 and most GNU packages transitioned to
-it fairly quickly, so by definition, the pre-GPLv3 version of any GNU
-package is now very old and unsupported. We do have a precedent for
-keeping pre-GPLv3 versions alive though (a good thing for those of us
-who need them!). What makes parted different from the other pre-GPLv3
-packages which are already in oe-core?
+Upstream gnupg has a more specific fix, however it was made after
+gnupg was relicensed to GPLv3 so may be unsafe to backport directly.
 
-Looking at the parted changelog, there have certainly been a lot of
-bug fixes since 1.8.7 (the last GPLv2 version) but it's difficult to
-tell how many are for functionality which would be relevant to a
-typical embedded system.
+  http://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commitdiff;h=5093bed27580e608de073bcc5953bd76b6b8b2de
 
-  http://git.savannah.gnu.org/cgit/parted.git/tree/NEWS
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/recipes-support/gnupg/gnupg_1.4.7.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-RHEL 5 seems to have been maintaining it's version of parted 1.8.1 up
-until Jan 2013. RHEL's 33 patches might be a good source of fixes for
-parted 1.8.7.
+diff --git a/meta/recipes-support/gnupg/gnupg_1.4.7.bb b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+index aef515d..6999f81 100644
+--- a/meta/recipes-support/gnupg/gnupg_1.4.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
+@@ -81,6 +81,9 @@ EXTRA_OECONF = "--disable-ldap \
+                 ac_cv_sys_symbol_underscore=no \
+ 		"
+ 
++# Force gcc's traditional handling of inline to avoid issues with gcc 5
++CFLAGS += "-fgnu89-inline"
++
+ do_install () {
+ 	autotools_do_install
+ 	install -d ${D}${docdir}/${BPN}
+-- 
+1.9.1
 
-  http://vault.centos.org/5.11/os/SRPMS/parted-1.8.1-30.el5.src.rpm
-
-As someone has volunteered to maintain the pre-GPLv3 parted recipe
-(and I'll volunteer as a secondary maintainer, if that helps)
-hopefully there would not be a "serious maintenance burden" on anyone
-who doesn't have an interest in the older version.
-
->
-> Ross
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
