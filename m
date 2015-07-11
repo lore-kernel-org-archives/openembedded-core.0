@@ -1,35 +1,35 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D3596017E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id EFBD265C60
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jul 2015 07:30:34 +0000 (UTC)
-Received: by iggp10 with SMTP id p10so48597190igg.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jul 2015 00:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=W41a5lja1G5vPDvD27OOnLwXzCEPnNlmKas9BxcldK8=;
-	b=F3mezNf5oAs8cLQ+KK3P8hdSJgRpWleJfquMkbavbiW1zBBsR4axXjYlj1FIdNGkH3
-	zVe+oUzsYD8CG0U5hVQZBlNlLysfRV0sFsLJ9VsMhCasodP1fk6fa7sspaCkoSbFs3qR
-	tvUgIETo7/tf/N0MVcs0Xwo5qTuEzCvNL48QYFqIkAlfRYE4cKtIJHPixrTUkWLrFCg1
-	DiR3tOx8ORBWRs8AAY/L5uDNFpXMZYZcyR3wfuSIEg+o/1C4VPyB7B5xd1bTE/WmWolP
-	0j4qYPxa0EEV8+rAe3RWYMLr17Iuxn3qQMCDwHMkzyQwWSg3PktIO7I60KzQMYI4vJP/
-	ANDQ==
-X-Received: by 10.107.27.148 with SMTP id b142mr8791821iob.114.1436599834632; 
-	Sat, 11 Jul 2015 00:30:34 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	l62sm8138095iol.36.2015.07.11.00.30.33
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 11 Jul 2015 00:30:33 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 11 Jul 2015 00:30:24 -0700
-Message-Id: <1436599824-9955-1-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] gnupg: fix build of GPLv2 version of gnupg with gcc 5
+	Sat, 11 Jul 2015 07:57:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6B7vhsZ015289; Sat, 11 Jul 2015 08:57:43 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id J7-xUYJ9QS1U; Sat, 11 Jul 2015 08:57:43 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6B7vUs0015274
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 11 Jul 2015 08:57:42 +0100
+Message-ID: <1436601450.3310.27.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Sat, 11 Jul 2015 08:57:30 +0100
+In-Reply-To: <CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
+	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
+	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
+	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,35 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jul 2015 07:30:37 -0000
+X-List-Received-Date: Sat, 11 Jul 2015 07:57:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Force gcc's traditional handling of inline to avoid issues with gcc 5.
+On Sat, 2015-07-11 at 00:20 -0700, Andre McCurdy wrote:
+> GPLv3 was released in June 2007 and most GNU packages transitioned to
+> it fairly quickly, so by definition, the pre-GPLv3 version of any GNU
+> package is now very old and unsupported. We do have a precedent for
+> keeping pre-GPLv3 versions alive though (a good thing for those of us
+> who need them!). What makes parted different from the other pre-GPLv3
+> packages which are already in oe-core?
+> 
+> Looking at the parted changelog, there have certainly been a lot of
+> bug fixes since 1.8.7 (the last GPLv2 version) but it's difficult to
+> tell how many are for functionality which would be relevant to a
+> typical embedded system.
+> 
+>   http://git.savannah.gnu.org/cgit/parted.git/tree/NEWS
+> 
+> RHEL 5 seems to have been maintaining it's version of parted 1.8.1 up
+> until Jan 2013. RHEL's 33 patches might be a good source of fixes for
+> parted 1.8.7.
+> 
+>   http://vault.centos.org/5.11/os/SRPMS/parted-1.8.1-30.el5.src.rpm
+> 
+> As someone has volunteered to maintain the pre-GPLv3 parted recipe
+> (and I'll volunteer as a secondary maintainer, if that helps)
+> hopefully there would not be a "serious maintenance burden" on anyone
+> who doesn't have an interest in the older version.
 
-Upstream gnupg has a more specific fix, however it was made after
-gnupg was relicensed to GPLv3 so may be unsafe to backport directly.
+This does touch on something I have wondered about for a while, which is
+whether the time has come to move the GPLv2 pieces to their own layer
+and possibly their own maintainership. Obviously there are pros and cons
+to doing that.
 
-  http://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=commitdiff;h=5093bed27580e608de073bcc5953bd76b6b8b2de
+Thoughts?
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/recipes-support/gnupg/gnupg_1.4.7.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-support/gnupg/gnupg_1.4.7.bb b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
-index aef515d..6999f81 100644
---- a/meta/recipes-support/gnupg/gnupg_1.4.7.bb
-+++ b/meta/recipes-support/gnupg/gnupg_1.4.7.bb
-@@ -81,6 +81,9 @@ EXTRA_OECONF = "--disable-ldap \
-                 ac_cv_sys_symbol_underscore=no \
- 		"
- 
-+# Force gcc's traditional handling of inline to avoid issues with gcc 5
-+CFLAGS += "-fgnu89-inline"
-+
- do_install () {
- 	autotools_do_install
- 	install -d ${D}${docdir}/${BPN}
--- 
-1.9.1
+Richard
+
+
+
+
 
 
