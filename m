@@ -1,26 +1,34 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DEEF77391D
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A4D5607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 02:12:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6D2C55q010095
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 13 Jul 2015 05:00:42 +0000 (UTC)
+Received: by ietj16 with SMTP id j16so54671921iet.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jul 2015 19:12:05 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 12 Jul 2015 19:12:04 -0700
-Message-ID: <55A31E73.70002@windriver.com>
-Date: Mon, 13 Jul 2015 10:12:03 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Sun, 12 Jul 2015 22:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=/ejqWOvCg9olYrXMzV02KrcvVUubt+UBbmzgPQ+lihU=;
+	b=qkQciUYwZyr3EGvBwuF10hJkkQ0yLLIcXbCn2r9mWB0xzdW5I7ZkcLqLA7f8Wct4+A
+	sCqomocU7CX7sYHGSMG5Gx3tll+DURiAd7FTetlBTppTktn6fitB2gUCerMteFhw4jFJ
+	Aia2CNss92Ri16CMExjzHDMktw86T4yZ3oWQqFImuUvKIS+ikDhT/K5oV6B3+2azbyk3
+	5GRG+7SSpkSspssoDtvN7PFL5AAu4xp9sucJD+lY7fCIBDKnMfuD3G2iEDCgjIdPs3IC
+	ktjrHKIMASY5Ud3xAjAbdZBD38H3oyoGJUqeCiQYC6pHX3OvcmenXNoniWOAJlpPSqgo
+	qAEA==
+X-Received: by 10.107.4.6 with SMTP id 6mr19102701ioe.49.1436763642719; Sun,
+	12 Jul 2015 22:00:42 -0700 (PDT)
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
+Received: by 10.107.20.83 with HTTP; Sun, 12 Jul 2015 22:00:13 -0700 (PDT)
 In-Reply-To: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
+References: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 12 Jul 2015 22:00:13 -0700
+Message-ID: <CAMKF1sqH-54HT9t7VoRX_0AkRw6CQN2CHG-pHCfnqY0YXQYhbw@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] systemd: fix systemd-udev-hwdb-update service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -34,80 +42,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 02:12:06 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 13 Jul 2015 05:00:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-ping
-
--Roy
-
-On 2015年06月30日 13:16, rongqing.li@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> The new version of systemd has implemented the following feature.
-> Opointer.de/blog/projects/stateless.html
->
-> As a result, the systemd-udev-hwdb-update.service would always run
-> at first boot. This will cause failure if the target device doesn't
-> have enough storage space. Besides, as we run `udevadm hwdb --update' as
-> a postinst of udev-hwdb at rootfs time, there's no need to run this
-> again at system start-up.
->
-> The purpose of this patch is as follows.
-> If `udev hwdb --update' fails at rootfs time, systemd-udev-hwdb-update.service
-> is executed at first boot; otherwise, the service is not executed.
->
+On Mon, Jun 29, 2015 at 10:16 PM,  <rongqing.li@windriver.com> wrote:
 > This patch achieves the above goal by setting CondistonNeedsUpdate to
 > "/etc/udev" in the service file, and creating /etc/udev/.updated file if the
 > postinst succeeds.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd_219.bb | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-> index 6ed4fe0..dc5c7b3 100644
-> --- a/meta/recipes-core/systemd/systemd_219.bb
-> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> @@ -180,6 +180,10 @@ do_install() {
->   	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
->   		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
->   	fi
-> +
-> +	# Make systemd-udev-hwdb-update to check /etc/udev
-> +	cp ${D}${systemd_unitdir}/system/systemd-udev-hwdb-update.service ${D}${sysconfdir}/systemd/system
-> +	sed -i -e 's#ConditionNeedsUpdate=/etc#ConditionNeedsUpdate=/etc/udev#g' ${D}${sysconfdir}/systemd/system/systemd-udev-hwdb-update.service
->   }
->
->   do_install_ptest () {
-> @@ -381,10 +385,18 @@ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
->
->   pkg_postinst_udev-hwdb () {
->   	if test -n "$D"; then
-> -		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-> -			--root $D
-> +		if ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-> +			--root $D; then
-> +			touch $D/etc/udev/.updated
-> +		else
-> +			exit 1
-> +		fi
->   	else
-> -		udevadm hwdb --update
-> +		if udevadm hwdb --update; then
-> +			touch $D/etc/udev/.updated
-> +		else
-> +			exit 1
-> +		fi
->   	fi
->   }
->
->
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+will  /etc/udev/.updated get packaged automatically in case of r/o rootfs ?
 
