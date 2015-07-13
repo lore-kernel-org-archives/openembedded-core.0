@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C84046E648
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CB63475ECE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 13 Jul 2015 10:02:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6DA2iWj005653
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6DA2iCu024087
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 13 Jul 2015 03:02:44 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 13 Jul 2015 03:02:43 -0700
+	Mon, 13 Jul 2015 03:02:44 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jul 2015 03:02:40 -0700
-Message-ID: <cover.1436781736.git.liezhi.yang@windriver.com>
+Date: Mon, 13 Jul 2015 03:02:41 -0700
+Message-ID: <7c7e76c69064f59ae5b4c6ac44235bee4332d494.1436781736.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1436781736.git.liezhi.yang@windriver.com>
+References: <cover.1436781736.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] meta: 3 fixes
+Subject: [PATCH 1/3] glibc: print PN when bbwarn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 10:02:45 -0000
+X-List-Received-Date: Mon, 13 Jul 2015 10:02:47 -0000
 Content-Type: text/plain
 
-The following changes since commit e6f66370c6ce15aca18ef64491bab3dc92b80c57:
+The current warning is:
+WARNING: glibc: unable to generate header for spray.x
 
-  classes/sstate.bbclass: Improve checkstatus using connection cache. (2015-07-12 22:53:22 +0100)
+Which is easier to debug than:
+WARNING: unable to generate header for spray.x
 
-are available in the git repository at:
+And remove the file before generate it again to fix the warning when
+recompile:
+file `bootparam_prot.h' already exists and may be overwritten
+WARNING: unable to generate header for bootparam_prot.x
+file `nlm_prot.h' already exists and may be overwritten
+WARNING: unable to generate header for nlm_prot.x
+[snip]
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/3fixes
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-core/glibc/glibc_2.21.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Robert Yang (3):
-  glibc: print PN when bbwarn
-  dbus-ptest: set INSANE_SKIP for build-deps
-  gnu-config: set noexec for do_compile
-
- meta/recipes-core/dbus/dbus.inc                    |    2 ++
- meta/recipes-core/glibc/glibc_2.21.bb              |    3 ++-
- .../gnu-config/gnu-config_20120814.bb              |    4 +---
- 3 files changed, 5 insertions(+), 4 deletions(-)
-
+diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+index 8197c29..30f1937 100644
+--- a/meta/recipes-core/glibc/glibc_2.21.bb
++++ b/meta/recipes-core/glibc/glibc_2.21.bb
+@@ -135,7 +135,8 @@ do_compile () {
+ 		cd ${S}/sunrpc/rpcsvc
+ 		for r in ${rpcsvc}; do
+ 			h=`echo $r|sed -e's,\.x$,.h,'`
+-			rpcgen -h $r -o $h || bbwarn "unable to generate header for $r"
++			rm -f $h
++			rpcgen -h $r -o $h || bbwarn "${PN}: unable to generate header for $r"
+ 		done
+ 	)
+ 	echo "Adjust ldd script"
 -- 
 1.7.9.5
 
