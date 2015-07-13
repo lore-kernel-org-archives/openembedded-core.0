@@ -1,42 +1,42 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id B2CBC75877
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 026EF739BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 14:09:04 +0000 (UTC)
-Received: by wicmz13 with SMTP id mz13so63012208wic.0
+	Mon, 13 Jul 2015 14:09:07 +0000 (UTC)
+Received: by wicmz13 with SMTP id mz13so63013564wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 07:09:04 -0700 (PDT)
+	Mon, 13 Jul 2015 07:09:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=zFlO9Wd+W/+0+fIUP2AQLx5wTsSvKZNsd/vujgBP2QM=;
-	b=Wv9/yGd1EA7KgxE7yrzPLShbyp+jXcRIaDoG9/wZIjLu4tuuyPBusjSM98CVkdzRLZ
-	NE144eYfzXstgdZlP4SgNU82yUDqXqTtLaz1B2LijMxSr4xq2KDAjCkUIDOZGd3bN/nG
-	BVIKWcY7JCXlhGayYn69FmPyFK26JMcFNkCCsDh+g1accf3MwxCRZzcPKybIYbaoEjOP
-	QMEsNBnsBZiJvq86QSBgN7t8ze3ffHWbQIYsgmSBLoQIDTKVwDmLDcy225DY0TDpZU1n
-	fdDxWUfsN0opgi4//Z9u9Bu9Qosqy+OErkE+QDCmu9YO4Y6WLB3GTpr+6WuYdlHkUNt7
-	LY9A==
-X-Gm-Message-State: ALoCoQm+/XmD/bIoH7WHPvaPSPHEglccNpZ4XWpfmdm+zdu8QoR78q6qT10hE6LxRWzsddWkOCAf
-X-Received: by 10.194.88.69 with SMTP id be5mr68050233wjb.149.1436796544384;
-	Mon, 13 Jul 2015 07:09:04 -0700 (PDT)
+	bh=lD2IGHYfPDii16h9P86c3ChB4k/XHAzltJBTYRCYwI0=;
+	b=I9uqTg4Reqkypeiy8RxIeUuUO5J2uA2KYQ0cEJbBVZM7azeJx0PV6ViX6e2JMwbOsu
+	tcpcYLC1hfpUe5u9Zq3F7l143gVWLGgD9Pxr9izzw906kvKlHV5BEi8eawEiAI220Imc
+	yuB7TF3vlI9GF2gE7I5h1Ig19pyNsbGWOyRujgFEGhBNJBkwnkEWOiBF6liI62CfSlzQ
+	q1MakPB4bdzry/D2nMH5s7Fv27BzHOBgZk0nPAq685wEZZ/JPR2D+fb6gIAIwDoJWoxz
+	jOJEU7/Ksh1UizY+yd+asX3EIzOxmBmhfYkMnjFZDWCMQQvGYIeT2V3Ukj0Lq5TK44Tj
+	zfzw==
+X-Gm-Message-State: ALoCoQmwrIS+ABaXi2qqi/tntucsAaEfBOPM8XhmvN5gvaU8yWd6SZvI4pS6OJ2gM5O4PfUY9HXa
+X-Received: by 10.180.72.35 with SMTP id a3mr22279970wiv.21.1436796546462;
+	Mon, 13 Jul 2015 07:09:06 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	f3sm14841438wiz.13.2015.07.13.07.09.00
+	f3sm14841438wiz.13.2015.07.13.07.09.04
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 Jul 2015 07:09:03 -0700 (PDT)
+	Mon, 13 Jul 2015 07:09:05 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jul 2015 15:03:02 +0100
-Message-Id: <cdc9d2a3801efc4843ee58f9225674bcc3d4c6e8.1436795781.git.ross.burton@intel.com>
+Date: Mon, 13 Jul 2015 15:03:03 +0100
+Message-Id: <2fb67de5244b1b4dac9e728678d54ca533dd0887.1436795781.git.ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1436795781.git.ross.burton@intel.com>
 References: <cover.1436795781.git.ross.burton@intel.com>
 In-Reply-To: <cover.1436795781.git.ross.burton@intel.com>
 References: <cover.1436795781.git.ross.burton@intel.com>
-Subject: [PATCH 4/7] boost: add dirs
+Subject: [PATCH 5/7] python: add explicit directory when copying
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,25 +49,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 14:09:07 -0000
+X-List-Received-Date: Mon, 13 Jul 2015 14:09:09 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/boost/boost.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/python/python3_3.4.3.bb | 2 +-
+ meta/recipes-devtools/python/python_2.7.9.bb  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index cf4faca..27d489f 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -154,6 +154,7 @@ do_boostconfig() {
- 	sed -i '/^using python/d' project-config.jam
+diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
+index 3efa7de..dce778a 100644
+--- a/meta/recipes-devtools/python/python3_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3_3.4.3.bb
+@@ -180,7 +180,7 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+ 
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+-	install -m 0644 Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
++	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+ 	# Remove references to buildmachine paths in target Makefile
+ 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
  }
+diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
+index 19190c3..803a1fc 100644
+--- a/meta/recipes-devtools/python/python_2.7.9.bb
++++ b/meta/recipes-devtools/python/python_2.7.9.bb
+@@ -135,7 +135,7 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
  
-+do_boostconfig[dirs] = "${S}"
- addtask do_boostconfig after do_patch before do_configure
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+-	install -m 0644 Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
++	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
  
- do_compile() {
+ 	# Remove references to buildmachine paths in target Makefile
+ 	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
 -- 
 2.1.4
 
