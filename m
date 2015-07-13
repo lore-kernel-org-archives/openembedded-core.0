@@ -1,32 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B80D5607BB
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id EBD98607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 11:16:51 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6DBGppG025722 for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 12:16:51 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BP7c0lh5NQVD
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 12:16:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6DBGbfB025714
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 12:16:48 +0100
-Message-ID: <1436786197.3310.58.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jul 2015 12:16:37 +0100
-In-Reply-To: <1436785492.3310.52.camel@linuxfoundation.org>
-References: <1436785492.3310.52.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: Re: dpkg: Fix for Fedora22
+	Mon, 13 Jul 2015 11:46:42 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 13 Jul 2015 04:46:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,462,1432623600"; d="scan'208";a="727884400"
+Received: from irsmsx109.ger.corp.intel.com ([163.33.3.23])
+	by orsmga001.jf.intel.com with ESMTP; 13 Jul 2015 04:46:42 -0700
+Received: from irsmsx110.ger.corp.intel.com ([169.254.15.72]) by
+	IRSMSX109.ger.corp.intel.com ([169.254.13.200]) with mapi id
+	14.03.0224.002; Mon, 13 Jul 2015 12:46:40 +0100
+From: "Valluri, Amarnath" <amarnath.valluri@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [meta-oe][PATCH] mc: Upgrade to release 4.8.14
+Thread-Index: AQHQuwsXYelX8QyU90q1F0atANFtIp3VJw6AgAQk7fM=
+Date: Mon, 13 Jul 2015 11:46:39 +0000
+Message-ID: <D3C33C4430ACA6488F343D1125FCCECC37FC2614@irsmsx110.ger.corp.intel.com>
+References: <1436530992-13161-1-git-send-email-amarnath.valluri@intel.com>,
+	<1436563533.3310.17.camel@linuxfoundation.org>
+In-Reply-To: <1436563533.3310.17.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.3.86.139]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] mc: Upgrade to release 4.8.14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,96 +41,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 11:16:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 Jul 2015 11:46:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2015-07-13 at 12:04 +0100, Richard Purdie wrote:
-> Yes, they managed to break tar. Again.
+Hi,
 
-Turns out they intentionally broke tar:
+Sorry for this. Yes, its still been used by the non-gplv3 recipe. I will re=
+submit the patch with this fix.
 
-http://www.mail-archive.com/bug-tar@gnu.org/msg04799.html
+Thanks,
+Amarnath
+________________________________________
+From: Richard Purdie [richard.purdie@linuxfoundation.org]
+Sent: Saturday, July 11, 2015 12:25 AM
+To: Valluri, Amarnath
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [meta-oe][PATCH] mc: Upgrade to release 4.8.14
 
-I'll mention this to the dpkg maintainers to save them debugging this
-mess. I'm not impressed with the upstream commit messages since this
-isn't clear at all (at least to me).
+On Fri, 2015-07-10 at 15:23 +0300, Amarnath Valluri wrote:
+> Dropped mc-CTRL.patch, as it was merged to upstream.
+> Upstream commit-id: e78b636eba9d23e9f5f066b022bd5640c85409be.
 
-I'll also add the missing Upstream-Status to the patch.
+mc-CTRL.patch is still used by the non-gplv3 recipe?
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/=
+391/steps/BuildImages/logs/stdio
 
 Cheers,
 
 Richard
 
-> The addition of:
-> http://git.savannah.gnu.org/cgit/tar.git/commit/?id=163e96a0e619a900eab6de827c7c5749ecc9d3f2
-> ("Bugfix: entries read from the -T file did not get proper matching_flag.")
-> means that the no-recursion option gets lost. This leads to many files getting included
-> multiple times, along with files which shouldn't be there.
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7988
-> 
-> Moving the --no-reursion option to earlier in the command avoids the bug.
-> 
-> The bug was not present in tar 1.28 however it has been backported in at least
-> Fedora 22.
-> 
-> [YOCTO #7988]
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> 
-> diff --git a/meta/recipes-devtools/dpkg/dpkg/tarfix.patch b/meta/recipes-devtools/dpkg/dpkg/tarfix.patch
-> new file mode 100644
-> index 0000000..c343742
-> --- /dev/null
-> +++ b/meta/recipes-devtools/dpkg/dpkg/tarfix.patch
-> @@ -0,0 +1,32 @@
-> +Yes, they managed to break tar. Again.
-> +
-> +The addition of:
-> +http://git.savannah.gnu.org/cgit/tar.git/commit/?id=163e96a0e619a900eab6de827c7c5749ecc9d3f2
-> +("Bugfix: entries read from the -T file did not get proper matching_flag.")
-> +means that the no-recursion option gets lost. This leads to many files getting included
-> +multiple times, along with files which shouldn't be there.
-> +
-> +https://bugzilla.yoctoproject.org/show_bug.cgi?id=7988
-> +
-> +Moving the --no-reursion option to earlier in the command avoids the bug.
-> +
-> +The bug was not present in tar 1.28 however it has been backported in at least 
-> +Fedora 22.
-> +
-> +RP
-> +2015/7/13
-> +
-> +
-> +Index: dpkg-1.17.25/dpkg-deb/build.c
-> +===================================================================
-> +--- dpkg-1.17.25.orig/dpkg-deb/build.c
-> ++++ dpkg-1.17.25/dpkg-deb/build.c
-> +@@ -560,7 +560,7 @@ do_build(const char *const *argv)
-> +     if (chdir(dir))
-> +       ohshite(_("failed to chdir to `%.255s'"), dir);
-> +     execlp(TAR, "tar", "-cf", "-", "--format=gnu", "--null", "--no-unquote",
-> +-                       "-T", "-", "--no-recursion", NULL);
-> ++                       "--no-recursion", "-T", "-", NULL);
-> +     ohshite(_("unable to execute %s (%s)"), "tar -cf", TAR);
-> +   }
-> +   close(p1[0]);
-> diff --git a/meta/recipes-devtools/dpkg/dpkg_1.17.25.bb b/meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
-> index 74b1dd0..1969eff 100644
-> --- a/meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
-> +++ b/meta/recipes-devtools/dpkg/dpkg_1.17.25.bb
-> @@ -13,6 +13,7 @@ SRC_URI += "file://noman.patch \
->              file://glibc2.5-sync_file_range.patch \
->              file://no-vla-warning.patch \
->              file://add_armeb_triplet_entry.patch \
-> +            file://tarfix.patch \
->             "
->  
->  SRC_URI[md5sum] = "e48fcfdb2162e77d72c2a83432d537ca"
-> 
-> 
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki =
 
+Business Identity Code: 0357606 - 4 =
+
+Domiciled in Helsinki =
+
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
 
