@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A4D5607A5
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DEC9A741CF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 05:00:42 +0000 (UTC)
-Received: by ietj16 with SMTP id j16so54671921iet.0
+	Mon, 13 Jul 2015 05:31:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6D5VJfI022221
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jul 2015 22:00:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=/ejqWOvCg9olYrXMzV02KrcvVUubt+UBbmzgPQ+lihU=;
-	b=qkQciUYwZyr3EGvBwuF10hJkkQ0yLLIcXbCn2r9mWB0xzdW5I7ZkcLqLA7f8Wct4+A
-	sCqomocU7CX7sYHGSMG5Gx3tll+DURiAd7FTetlBTppTktn6fitB2gUCerMteFhw4jFJ
-	Aia2CNss92Ri16CMExjzHDMktw86T4yZ3oWQqFImuUvKIS+ikDhT/K5oV6B3+2azbyk3
-	5GRG+7SSpkSspssoDtvN7PFL5AAu4xp9sucJD+lY7fCIBDKnMfuD3G2iEDCgjIdPs3IC
-	ktjrHKIMASY5Ud3xAjAbdZBD38H3oyoGJUqeCiQYC6pHX3OvcmenXNoniWOAJlpPSqgo
-	qAEA==
-X-Received: by 10.107.4.6 with SMTP id 6mr19102701ioe.49.1436763642719; Sun,
-	12 Jul 2015 22:00:42 -0700 (PDT)
+	Sun, 12 Jul 2015 22:31:19 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Sun, 12 Jul 2015 22:31:19 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Jul 2015 13:25:28 +0800
+Message-ID: <1436765128-16695-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.20.83 with HTTP; Sun, 12 Jul 2015 22:00:13 -0700 (PDT)
-In-Reply-To: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
-References: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 12 Jul 2015 22:00:13 -0700
-Message-ID: <CAMKF1sqH-54HT9t7VoRX_0AkRw6CQN2CHG-pHCfnqY0YXQYhbw@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: fix systemd-udev-hwdb-update service
+Subject: [PATCH 1/1 v2] rpcbind: handle rpcbind options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,13 +31,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 05:00:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Jul 2015 05:31:21 -0000
+Content-Type: text/plain
 
-On Mon, Jun 29, 2015 at 10:16 PM,  <rongqing.li@windriver.com> wrote:
-> This patch achieves the above goal by setting CondistonNeedsUpdate to
-> "/etc/udev" in the service file, and creating /etc/udev/.updated file if the
-> postinst succeeds.
+From: Li Wang <li.wang@windriver.com>
 
-will  /etc/udev/.updated get packaged automatically in case of r/o rootfs ?
+While runing:
+
+$ systemctl restart rpcbind
+$ systemctl status rpcbind
+
+There are errors like below:
+  rpcbind[1722]: Cannot open '/tmp/rpcbind.xdr' file for reading, \
+    errno 2 (No such file or directory)
+  rpcbind[1722]: Cannot open '/tmp/portmap.xdr' file for reading, \
+    errno 2 (No such file or directory)
+
+Don't pass -w to rpcbind on boot up, since the files won't be there
+to be read, the patch refers to:
+  https://bugs.launchpad.net/ubuntu/+source/rpcbind/+bug/835833
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ meta/recipes-extended/rpcbind/rpcbind/rpcbind.service | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+index b3ae254..24836d4 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+@@ -4,8 +4,8 @@ Requires=rpcbind.socket
+ 
+ [Service]
+ Type=forking
+-EnvironmentFile=-@SYSCONFDIR@/rpcbind.conf
+-ExecStart=@SBINDIR@/rpcbind -w $RPCBIND_OPTS
++EnvironmentFile=@SYSCONFDIR@/rpcbind.conf
++ExecStart=@SBINDIR@/rpcbind $RPCBIND_OPTS
+ SuccessExitStatus=2
+ 
+ [Install]
+-- 
+1.9.1
+
 
