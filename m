@@ -1,29 +1,27 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id ADEC4607BB
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 68FD3607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 08:06:42 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,665,1427731200"; d="scan'208";a="98377413"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Jul 2015 16:10:29 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6D84tMq008848
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 16:04:55 +0800
-Received: from localhost.localdomain (10.167.226.92) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Mon, 13 Jul 2015 16:06:39 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jul 2015 16:06:26 +0800
-Message-ID: <1436774786-1927-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <A8FC939F80655644A89BB21CCD3741E87390D7D3@G08CNEXMBPEKD02.g08.fujitsu.local>
-References: <A8FC939F80655644A89BB21CCD3741E87390D7D3@G08CNEXMBPEKD02.g08.fujitsu.local>
+	Mon, 13 Jul 2015 08:12:41 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6D8Cfw9015074
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 Jul 2015 01:12:41 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Mon, 13 Jul 2015 01:12:40 -0700
+Message-ID: <55A372F6.9030107@windriver.com>
+Date: Mon, 13 Jul 2015 16:12:38 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.92]
-Subject: [PATCH v3] lighttpd: Fix mod_cgi to avoid it buffers data without bound.
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1436464186.git.raj.khem@gmail.com>
+	<ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
+In-Reply-To: <ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
+Subject: Re: [PATCH 1/3] gcc-4.9: Upgrade to 4.9.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,427 +34,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 08:06:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Jul 2015 08:12:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-If there is a CGI that provides a continuous stream of data,
-If lighttpd client reads slower then the CGI is pushing the data,
-then lighttpd's buffers will grow until the (embedded) machine OOMs.
 
-Ref: http://redmine.lighttpd.net/issues/1264
+Hi Khem,
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- .../0001-mod_cgi-buffers-data-without-bound.patch  | 386 +++++++++++++++++++++
- meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb  |   1 +
- 2 files changed, 387 insertions(+)
- create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-mod_cgi-buffers-data-without-bound.patch
+This upgrade breaks linux-yocto 3.14 build on qemumips or qemumips64:
 
-diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-mod_cgi-buffers-data-without-bound.patch b/meta/recipes-extended/lighttpd/lighttpd/0001-mod_cgi-buffers-data-without-bound.patch
-new file mode 100644
-index 0000000..b1678e6
---- /dev/null
-+++ b/meta/recipes-extended/lighttpd/lighttpd/0001-mod_cgi-buffers-data-without-bound.patch
-@@ -0,0 +1,386 @@
-+From e6ccbab5d42b110ac4f6ce1f72cb1e9ccbe4400a Mon Sep 17 00:00:00 2001
-+From: Li xin <lixin.fnst@cn.fujitsu.com>
-+Date: Tue, 16 Jun 2015 19:02:38 +0900
-+Subject: [PATCH] mod_cgi buffers data without bound so fix it
-+
-+Upstream-Status: Submitted [http://redmine.lighttpd.net/issues/1264]
-+
-+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-+---
-+ doc/config/lighttpd.conf |   8 ++
-+ src/mod_cgi.c            | 188 ++++++++++++++++++++++++++++++++++++++++++++---
-+ 2 files changed, 186 insertions(+), 10 deletions(-)
-+
-+diff --git a/doc/config/lighttpd.conf b/doc/config/lighttpd.conf
-+index 60b0ae1..9c101a7 100644
-+--- a/doc/config/lighttpd.conf
-++++ b/doc/config/lighttpd.conf
-+@@ -375,6 +375,14 @@ server.upload-dirs = ( "/var/tmp" )
-+ ##
-+ #######################################################################
-+ 
-++#######################################################################
-++##
-++##
-++## maximum bytes in send_raw before backing off [KByte]
-++##  cgi.high-waterlevel        = 10240
-++## minimum bytes in send_raw to disable backoff [KByte]
-++##  cgi.low-waterlevel         = 5120
-++#######################################################################
-+ 
-+ #######################################################################
-+ ##
-+diff --git a/src/mod_cgi.c b/src/mod_cgi.c
-+index 734ecee..c51f43c 100644
-+--- a/src/mod_cgi.c
-++++ b/src/mod_cgi.c
-+@@ -38,6 +38,10 @@
-+ 
-+ #include "version.h"
-+ 
-++/* for output logs */
-++char msgbuf[2048];
-++
-++
-+ enum {EOL_UNSET, EOL_N, EOL_RN};
-+ 
-+ typedef struct {
-+@@ -53,9 +57,19 @@ typedef struct {
-+ 	size_t size;
-+ } buffer_pid_t;
-+ 
-++struct handler_ctx;
-++
-++typedef struct {
-++	struct handler_ctx **hctx;
-++	size_t used;
-++	size_t size;
-++} buffer_ctx_t;
-++
-+ typedef struct {
-+ 	array *cgi;
-+ 	unsigned short execute_x_only;
-++	unsigned int high_waterlevel; /* maximum bytes in send_raw before backing off */
-++	unsigned int low_waterlevel;  /* minimum bytes in send_raw to disable backoff */
-+ } plugin_config;
-+ 
-+ typedef struct {
-+@@ -68,9 +82,11 @@ typedef struct {
-+ 	plugin_config **config_storage;
-+ 
-+ 	plugin_config conf;
-++
-++	buffer_ctx_t cgi_ctx;
-+ } plugin_data;
-+ 
-+-typedef struct {
-++typedef struct handler_ctx {
-+ 	pid_t pid;
-+ 	int fd;
-+ 	int fde_ndx; /* index into the fd-event buffer */
-+@@ -78,11 +94,16 @@ typedef struct {
-+ 	connection *remote_conn;  /* dumb pointer */
-+ 	plugin_data *plugin_data; /* dumb pointer */
-+ 
-++	int throttling;        /* 1=waiting for send_raw buffer to drain */
-++	off_t high_waterlevel; /* maximum bytes in send_raw before backing off */
-++	off_t low_waterlevel;  /* minimum bytes in send_raw to disable backoff */
-++	off_t bytes_in_buffer;
-++
-+ 	buffer *response;
-+ 	buffer *response_header;
-+ } handler_ctx;
-+ 
-+-static handler_ctx * cgi_handler_ctx_init(void) {
-++static handler_ctx * cgi_handler_ctx_init(plugin_data *p) {
-+ 	handler_ctx *hctx = calloc(1, sizeof(*hctx));
-+ 
-+ 	force_assert(hctx);
-+@@ -90,13 +111,26 @@ static handler_ctx * cgi_handler_ctx_init(void) {
-+ 	hctx->response = buffer_init();
-+ 	hctx->response_header = buffer_init();
-+ 
-++	hctx->throttling = 0;
-++	hctx->high_waterlevel = (off_t)p->conf.high_waterlevel * 1024;
-++	hctx->low_waterlevel  = (off_t)p->conf.low_waterlevel  * 1024;
-++	if (hctx->low_waterlevel >= hctx->high_waterlevel) {
-++	    hctx->low_waterlevel = hctx->high_waterlevel * 3 / 4; /* 75% */
-++	}
-++	hctx->bytes_in_buffer = 0;
-++
-+ 	return hctx;
-+ }
-+ 
-+-static void cgi_handler_ctx_free(handler_ctx *hctx) {
-++static void cgi_handler_ctx_free(server *srv, handler_ctx *hctx) {
-+ 	buffer_free(hctx->response);
-+ 	buffer_free(hctx->response_header);
-+ 
-++	/* to avoid confusion */
-++	if (hctx->throttling) {
-++	    log_error_write(srv, __FILE__, __LINE__, "s", "unthrottled");
-++	}
-++
-+ 	free(hctx);
-+ }
-+ 
-+@@ -152,6 +186,8 @@ SETDEFAULTS_FUNC(mod_fastcgi_set_defaults) {
-+ 	config_values_t cv[] = {
-+ 		{ "cgi.assign",                  NULL, T_CONFIG_ARRAY, T_CONFIG_SCOPE_CONNECTION },       /* 0 */
-+ 		{ "cgi.execute-x-only",          NULL, T_CONFIG_BOOLEAN, T_CONFIG_SCOPE_CONNECTION },     /* 1 */
-++		{ "cgi.high-waterlevel",         NULL, T_CONFIG_INT,   T_CONFIG_SCOPE_CONNECTION },       /* 2 */
-++		{ "cgi.low-waterlevel",          NULL, T_CONFIG_INT,   T_CONFIG_SCOPE_CONNECTION },       /* 3 */
-+ 		{ NULL,                          NULL, T_CONFIG_UNSET, T_CONFIG_SCOPE_UNSET}
-+ 	};
-+ 
-+@@ -167,9 +203,13 @@ SETDEFAULTS_FUNC(mod_fastcgi_set_defaults) {
-+ 
-+ 		s->cgi    = array_init();
-+ 		s->execute_x_only = 0;
-++		s->high_waterlevel = 0; /* 0 == disabled */
-++		s->low_waterlevel  = 0;
-+ 
-+ 		cv[0].destination = s->cgi;
-+ 		cv[1].destination = &(s->execute_x_only);
-++		cv[2].destination = &(s->high_waterlevel);
-++		cv[3].destination = &(s->low_waterlevel);
-+ 
-+ 		p->config_storage[i] = s;
-+ 
-+@@ -182,6 +222,51 @@ SETDEFAULTS_FUNC(mod_fastcgi_set_defaults) {
-+ }
-+ 
-+ 
-++static void cgi_recount_bytes_in_buffer(handler_ctx *hctx)
-++{
-++	chunkqueue *cq = hctx->remote_conn->write_queue;
-++	hctx->bytes_in_buffer = chunkqueue_length(cq) - chunkqueue_written(cq);
-++}
-++
-++
-++static void cgi_throttling_control(server *srv, handler_ctx *hctx)
-++{
-++	cgi_recount_bytes_in_buffer(hctx);
-++
-++#ifdef DEBUG
-++	sprintf(msgbuf, "throttling=%d, chars=%llu, high=%llu, low=%llu",
-++		hctx->throttling, hctx->bytes_in_buffer,
-++		hctx->high_waterlevel, hctx->low_waterlevel);
-++	log_error_write(srv, __FILE__, __LINE__, "ss",
-++			"(debug) throttling control,", msgbuf);
-++#endif
-++
-++	if (hctx->throttling) {
-++		sprintf(msgbuf, "throttling; chars in queue=%llu,"
-++			" low-waterlevel=%llu, high-waterlevel=%llu",
-++			hctx->bytes_in_buffer,
-++			hctx->low_waterlevel, hctx->high_waterlevel);
-++		log_error_write(srv, __FILE__, __LINE__, "s", msgbuf);
-++		if (hctx->bytes_in_buffer <= hctx->low_waterlevel) {
-++			fdevent_event_set(srv->ev, &(hctx->fde_ndx), hctx->fd, FDEVENT_IN);
-++			hctx->throttling = 0;
-++			log_error_write(srv, __FILE__, __LINE__, "s", "unthrottled");
-++		}
-++	} else {
-++		if (hctx->high_waterlevel != 0 &&
-++			hctx->high_waterlevel <= hctx->bytes_in_buffer) {
-++			fdevent_event_del(srv->ev, &(hctx->fde_ndx), hctx->fd);
-++			hctx->throttling = 1;
-++			sprintf(msgbuf, "throttled; chars in queue=%llu,"
-++				" low-waterlevel=%llu, high-waterlevel=%llu",
-++				hctx->bytes_in_buffer,
-++				hctx->low_waterlevel, hctx->high_waterlevel);
-++			log_error_write(srv, __FILE__, __LINE__, "s", msgbuf);
-++		}
-++	}
-++}
-++
-++
-+ static int cgi_pid_add(server *srv, plugin_data *p, pid_t pid) {
-+ 	int m = -1;
-+ 	size_t i;
-+@@ -228,6 +313,39 @@ static int cgi_pid_del(server *srv, plugin_data *p, pid_t pid) {
-+ 	return 0;
-+ }
-+ 
-++
-++static void cgi_ctx_add(plugin_data *p, handler_ctx *hctx) {
-++	buffer_ctx_t *r = &(p->cgi_ctx);
-++
-++	if (r->size == 0) {
-++		r->size = 16;
-++		r->hctx = malloc(sizeof(*r->hctx) * r->size);
-++	} else if (r->used == r->size) {
-++		r->size += 16;
-++		r->hctx = realloc(r->hctx, sizeof(*r->hctx) * r->size);
-++	}
-++
-++	r->hctx[r->used++] = hctx;
-++}
-++
-++static void cgi_ctx_del(plugin_data *p, handler_ctx *hctx) {
-++	size_t i;
-++	buffer_ctx_t *r = &(p->cgi_ctx);
-++
-++	for (i = 0; i < r->used; i++) {
-++		if (r->hctx[i] == hctx) break;
-++	}
-++
-++	if (i != r->used) {
-++		/* found */
-++
-++		if (i != r->used - 1) {
-++			r->hctx[i] = r->hctx[r->used - 1];
-++		}
-++		r->used--;
-++	}
-++}
-++
-+ static int cgi_response_parse(server *srv, connection *con, plugin_data *p, buffer *in) {
-+ 	char *ns;
-+ 	const char *s;
-+@@ -378,6 +496,13 @@ static int cgi_demux_response(server *srv, handler_ctx *hctx) {
-+ 
-+ 		hctx->response->ptr[n] = '\0';
-+ 		hctx->response->used = n+1;
-++#ifdef DEBUG
-++		sprintf(msgbuf, "n=%d, bytes_out=%llu, bytes_in=%llu", n,
-++			(unsigned long long)con->write_queue->bytes_out,
-++			(unsigned long long)con->write_queue->bytes_in);
-++		log_error_write(srv, __FILE__, __LINE__, "ss",
-++				"(debug) read,", msgbuf);
-++#endif
-+ 
-+ 		/* split header from body */
-+ 
-+@@ -502,8 +627,20 @@ static int cgi_demux_response(server *srv, handler_ctx *hctx) {
-+ 			}
-+ 		} else {
-+ 			http_chunk_append_mem(srv, con, hctx->response->ptr, hctx->response->used);
-++#ifdef DEBUG
-++			sprintf(msgbuf, "n=%d, bytes_out=%llu, bytes_in=%llu, limit=%llu", n,
-++				(unsigned long long)con->write_queue->bytes_out,
-++				(unsigned long long)con->write_queue->bytes_in,
-++				(unsigned long long)hctx->high_waterlevel);
-++			log_error_write(srv, __FILE__, __LINE__,
-++					"ss", "(debug) append,", msgbuf);
-++#endif
-+ 			joblist_append(srv, con);
-+-		}
-++			cgi_throttling_control(srv, hctx);
-++			if (hctx->throttling) {
-++				return FDEVENT_HANDLED_NOT_FINISHED;
-++			}
-++		}	
-+ 
-+ #if 0
-+ 		log_error_write(srv, __FILE__, __LINE__, "ddss", con->fd, hctx->fd, connection_get_state(con->state), b->ptr);
-+@@ -552,8 +689,9 @@ static handler_t cgi_connection_close(server *srv, handler_ctx *hctx) {
-+ 	con->plugin_ctx[p->id] = NULL;
-+ 
-+ 	/* is this a good idea ? */
-+-	cgi_handler_ctx_free(hctx);
-+-
-++	cgi_ctx_del(p, hctx);
-++	cgi_handler_ctx_free(srv, hctx);
-++	
-+ 	/* if waitpid hasn't been called by response.c yet, do it here */
-+ 	if (pid) {
-+ 		/* check if the CGI-script is already gone */
-+@@ -1156,7 +1294,8 @@ static int cgi_create_env(server *srv, connection *con, plugin_data *p, buffer *
-+ 		con->mode = p->id;
-+ 		buffer_reset(con->physical.path);
-+ 
-+-		hctx = cgi_handler_ctx_init();
-++		hctx = cgi_handler_ctx_init(p);
-++		cgi_ctx_add(p, hctx);
-+ 
-+ 		hctx->remote_conn = con;
-+ 		hctx->plugin_data = p;
-+@@ -1165,6 +1304,11 @@ static int cgi_create_env(server *srv, connection *con, plugin_data *p, buffer *
-+ 		hctx->fde_ndx = -1;
-+ 
-+ 		con->plugin_ctx[p->id] = hctx;
-++#ifdef DEBUG
-++		sprintf(msgbuf, "hctx=%p, con=%p", (void*)hctx, (void*)con);
-++		log_error_write(srv, __FILE__, __LINE__, "ss",
-++				"(debug) hctx generated, ", msgbuf);
-++#endif
-+ 
-+ 		fdevent_register(srv->ev, hctx->fd, cgi_handle_fdevent, hctx);
-+ 		fdevent_event_set(srv->ev, &(hctx->fde_ndx), hctx->fd, FDEVENT_IN);
-+@@ -1179,7 +1323,8 @@ static int cgi_create_env(server *srv, connection *con, plugin_data *p, buffer *
-+ 
-+ 			close(hctx->fd);
-+ 
-+-			cgi_handler_ctx_free(hctx);
-++			cgi_ctx_del(p, hctx);
-++			cgi_handler_ctx_free(srv, hctx);
-+ 
-+ 			con->plugin_ctx[p->id] = NULL;
-+ 
-+@@ -1204,6 +1349,8 @@ static int mod_cgi_patch_connection(server *srv, connection *con, plugin_data *p
-+ 
-+ 	PATCH(cgi);
-+ 	PATCH(execute_x_only);
-++	PATCH(high_waterlevel);
-++	PATCH(low_waterlevel);
-+ 
-+ 	/* skip the first, the global context */
-+ 	for (i = 1; i < srv->config_context->used; i++) {
-+@@ -1221,6 +1368,10 @@ static int mod_cgi_patch_connection(server *srv, connection *con, plugin_data *p
-+ 				PATCH(cgi);
-+ 			} else if (buffer_is_equal_string(du->key, CONST_STR_LEN("cgi.execute-x-only"))) {
-+ 				PATCH(execute_x_only);
-++			} else if (buffer_is_equal_string(du->key, CONST_STR_LEN("cgi.high-waterlevel"))) {
-++				PATCH(high_waterlevel);
-++			} else if (buffer_is_equal_string(du->key, CONST_STR_LEN("cgi.low-waterlevel"))) {
-++				PATCH(low_waterlevel);
-+ 			}
-+ 		}
-+ 	}
-+@@ -1273,6 +1424,21 @@ URIHANDLER_FUNC(cgi_is_handled) {
-+ TRIGGER_FUNC(cgi_trigger) {
-+ 	plugin_data *p = p_d;
-+ 	size_t ndx;
-++
-++	for (ndx = 0; ndx < p->cgi_ctx.used; ndx++) {
-++		handler_ctx *hctx = p->cgi_ctx.hctx[ndx];
-++#ifdef DEBUG
-++		connection *con = hctx->remote_conn;
-++	
-++		sprintf(msgbuf, "hctx=%p, con=%p, bytes_in_buffer=%llu",
-++			(void*)hctx, (void*)con,
-++			(unsigned long long)hctx->bytes_in_buffer);
-++		log_error_write(srv, __FILE__, __LINE__, "ss",
-++				"(debug) found using ctx,", msgbuf);
-++#endif
-++		cgi_throttling_control(srv, hctx);
-++	}
-++
-+ 	/* the trigger handle only cares about lonely PID which we have to wait for */
-+ #ifndef __WIN32
-+ 
-+@@ -1381,7 +1547,8 @@ SUBREQUEST_FUNC(mod_cgi_handle_subrequest) {
-+ 			log_error_write(srv, __FILE__, __LINE__, "sds", "cgi close failed ", hctx->fd, strerror(errno));
-+ 		}
-+ 
-+-		cgi_handler_ctx_free(hctx);
-++		cgi_ctx_del(p, hctx);
-++		cgi_handler_ctx_free(srv, hctx);
-+ 
-+ 		con->plugin_ctx[p->id] = NULL;
-+ 
-+@@ -1413,7 +1580,8 @@ SUBREQUEST_FUNC(mod_cgi_handle_subrequest) {
-+ 			log_error_write(srv, __FILE__, __LINE__, "sds", "cgi close failed ", hctx->fd, strerror(errno));
-+ 		}
-+ 
-+-		cgi_handler_ctx_free(hctx);
-++		cgi_ctx_del(p, hctx);
-++		cgi_handler_ctx_free(srv, hctx);
-+ 
-+ 		con->plugin_ctx[p->id] = NULL;
-+ 		return HANDLER_FINISHED;
-+-- 
-+1.8.4.2
-+
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
-index 0cf5aa2..d3888e6 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.35.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-         file://lighttpd \
-         file://lighttpd.service \
-         file://pkgconfig.patch \
-+        file://0001-mod_cgi-buffers-data-without-bound.patch \
-         "
- 
- SRC_URI[md5sum] = "f7a88130ee9984b421ad8aa80629750a"
--- 
-1.8.4.2
+In local.conf:
+MACHINE = "qemumips"
+PREFERRED_VERSION_linux-yocto_qemumips = "3.14%"
 
+$ bitbake linux-yocto -ccompile
+
+Then errors:
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S: Assembler 
+messages:
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:68: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f0,272+0($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:69: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f2,272+16($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:70: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f4,272+32($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:71: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f6,272+48($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:72: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f8,272+64($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:73: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f10,272+80($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:74: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f12,272+96($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:75: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f14,272+112($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:76: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f16,272+128($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:77: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f18,272+144($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:78: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f20,272+160($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:79: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f22,272+176($4)'
+tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:80: Error: 
+opcode not supported on this processor: mips3 (mips3) `sdc1 $f24,272+192($4)'
+
+// Robert
+
+On 07/10/2015 01:52 AM, Khem Raj wrote:
+> Drop upsteamed patch for
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66483 which is already in
+> 4.9.3
+>
+> rename 0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+> to 0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch to
+> keep the sequence
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>   meta/recipes-devtools/gcc/gcc-4.9.inc              | 11 +++---
+>   ...BS_DIR-replacement-instead-of-hardcoding.patch} |  0
+>   ...racking.c-backport-from-gcc-trunk-r212178.patch | 39 ----------------------
+>   3 files changed, 5 insertions(+), 45 deletions(-)
+>   rename meta/recipes-devtools/gcc/gcc-4.9/{0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch => 0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch} (100%)
+>   delete mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> index 9ed3e09..d61eca7 100644
+> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+> @@ -2,11 +2,11 @@ require gcc-common.inc
+>
+>   # Third digit in PV should be incremented after a minor release
+>
+> -PV = "4.9.2"
+> +PV = "4.9.3"
+>
+>   # BINV should be incremented to a revision after a minor gcc release
+>
+> -BINV = "4.9.2"
+> +BINV = "4.9.3"
+>
+>   FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
+>
+> @@ -77,11 +77,10 @@ SRC_URI = "\
+>       file://0059-gcc-PR-rtl-optimization-63348.patch \
+>       file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
+>       file://0061-target-gcc-includedir.patch \
+> -    file://0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch \
+> -    file://0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+> +    file://0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+>   "
+> -SRC_URI[md5sum] = "4df8ee253b7f3863ad0b86359cd39c43"
+> -SRC_URI[sha256sum] = "2020c98295856aa13fda0f2f3a4794490757fc24bcca918d52cc8b4917b972dd"
+> +SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
+> +SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+>
+>   S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+>   B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch b/meta/recipes-devtools/gcc/gcc-4.9/0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+> rename to meta/recipes-devtools/gcc/gcc-4.9/0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch b/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+> deleted file mode 100644
+> index c0ea62f..0000000
+> --- a/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+> +++ /dev/null
+> @@ -1,39 +0,0 @@
+> -From b30ffb8097749fdb55704aa7d8307ca1a58255d6 Mon Sep 17 00:00:00 2001
+> -From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
+> -Date: Tue, 7 Apr 2015 16:15:11 +0200
+> -Subject: [PATCH] gcc/var-tracking.c: backport from gcc trunk r212178
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=UTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -resolves a bug seen on cortexa8 building qt5 libraries.
+> -
+> -2014-06-30  Joseph Myers  <joseph@codesourcery.com>
+> -
+> -    * var-tracking.c (add_stores): Return instead of asserting if old
+> -    and new values for conditional store are the same.
+> -
+> -git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@212178 138bc75d-0d04-0410-961f-82ee72b054a4
+> -
+> -Signed-off-by: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
+> ----
+> - gcc/var-tracking.c | 3 ++-
+> - 1 file changed, 2 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/gcc/var-tracking.c b/gcc/var-tracking.c
+> -index 65d8285..7c38910 100644
+> ---- a/gcc/var-tracking.c
+> -+++ b/gcc/var-tracking.c
+> -@@ -5997,7 +5997,8 @@ add_stores (rtx loc, const_rtx expr, void *cuip)
+> -     {
+> -       cselib_val *oval = cselib_lookup (oloc, GET_MODE (oloc), 0, VOIDmode);
+> -
+> --      gcc_assert (oval != v);
+> -+      if (oval == v)
+> -+        return;
+> -       gcc_assert (REG_P (oloc) || MEM_P (oloc));
+> -
+> -       if (oval && !cselib_preserved_value_p (oval))
+> ---
+> -1.9.1
+> -
+>
 
