@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F1016E648
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CC5BF739BE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 13 Jul 2015 10:04:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6DA4Xoq006118
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6DA4Yfg024098
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 03:04:33 -0700 (PDT)
+	Mon, 13 Jul 2015 03:04:34 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 13 Jul 2015 03:04:32 -0700
+	Mon, 13 Jul 2015 03:04:33 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jul 2015 03:04:28 -0700
-Message-ID: <cover.1436781811.git.liezhi.yang@windriver.com>
+Date: Mon, 13 Jul 2015 03:04:29 -0700
+Message-ID: <71d3364f178ae013173f96a5066171fba808a616.1436781811.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1436781811.git.liezhi.yang@windriver.com>
+References: <cover.1436781811.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] meta: remove invalid ac_cv
+Subject: [PATCH 1/4] git: remove invalid ac_cv_c_c99_format=yes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,27 +36,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 13 Jul 2015 10:04:34 -0000
 Content-Type: text/plain
 
-The following changes since commit e6f66370c6ce15aca18ef64491bab3dc92b80c57:
+There is no c_c99_format in configure, and there is no
+ac_cv_c_c99_format in config.log after removed.
 
-  classes/sstate.bbclass: Improve checkstatus using connection cache. (2015-07-12 22:53:22 +0100)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-devtools/git/git_2.4.4.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/ac_cv
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ac_cv
-
-Robert Yang (4):
-  git: remove invalid ac_cv_c_c99_format=yes
-  glibc: remove invalid ac_cv_path_KSH
-  apt: remove invalid ac_cv_glibc_ver
-  xserver-xorg: remove invalid ac_cv_file__usr_share_sgml_X11_defs_ent
-
- meta/recipes-core/glibc/glibc.inc                  |    1 -
- meta/recipes-devtools/apt/apt.inc                  |   12 ------------
- meta/recipes-devtools/git/git_2.4.4.bb             |    2 +-
- .../recipes-graphics/xorg-xserver/xserver-xorg.inc |    1 -
- 4 files changed, 1 insertion(+), 15 deletions(-)
-
+diff --git a/meta/recipes-devtools/git/git_2.4.4.bb b/meta/recipes-devtools/git/git_2.4.4.bb
+index 1834310..f9c81ed 100644
+--- a/meta/recipes-devtools/git/git_2.4.4.bb
++++ b/meta/recipes-devtools/git/git_2.4.4.bb
+@@ -5,7 +5,7 @@ SRC_URI[tarball.sha256sum] = "a5d9e3e340a3e5a297092430752f61a9ae5b8b5e4ac042b034
+ SRC_URI[manpages.md5sum] = "285b126907d59647248577a7df01c44c"
+ SRC_URI[manpages.sha256sum] = "15afc42909078909ca7a48d73b7cb358b37f734b81fc3a0c6438be183f05480f"
+ 
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no ac_cv_c_c99_format=yes \
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+                  ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+                  "
+ EXTRA_OEMAKE += "NO_GETTEXT=1"
 -- 
 1.7.9.5
 
