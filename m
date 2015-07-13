@@ -1,24 +1,31 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 87745607BB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E25CE607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 08:42:42 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6D8ggbB023550
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 01:42:42 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 13 Jul 2015 01:42:41 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 13 Jul 2015 16:43:28 +0800
-Message-ID: <cover.1436776961.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH 0/1] systemd: add PACKAGECONFIG for valgrind
+	Mon, 13 Jul 2015 09:07:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6D97oXW018928; Mon, 13 Jul 2015 10:07:50 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id uyhN0qNBTzOo; Mon, 13 Jul 2015 10:07:50 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6D97bN1018892
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 13 Jul 2015 10:07:48 +0100
+Message-ID: <1436778457.3310.38.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jens Rehsack <rehsack@gmail.com>
+Date: Mon, 13 Jul 2015 10:07:37 +0100
+In-Reply-To: <635A9611-7B0D-4FB0-A643-88ACFAEE4C27@gmail.com>
+References: <3EECF939-15F6-43A4-BE87-CC1D57121CD1@gmail.com>
+	<CAJTo0LZkMtES=kPa17dV_Sb6P3RYhdGhTK=iuLfJymzykvTBzw@mail.gmail.com>
+	<635A9611-7B0D-4FB0-A643-88ACFAEE4C27@gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Update rrdtool from 1.4.8 to 1.5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,25 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 08:42:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Jul 2015 09:07:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The following changes since commit e6f66370c6ce15aca18ef64491bab3dc92b80c57:
+On Mon, 2015-07-13 at 09:57 +0200, Jens Rehsack wrote:
+> > Am 10.07.2015 um 21:50 schrieb Burton, Ross <ross.burton@intel.com>:
+> > 
+> > 
+> > On 9 July 2015 at 17:38, Jens Rehsack <rehsack@gmail.com> wrote:
+> > here is an update patch for meta-oe/recipes-extended/rrdtool:
+> > https://github.com/rehsack/meta-openembedded/commit/6ed5b4489beb1233bd4b3c9f73064e973eeef2ad
+> > 
+> > Please send the actual patch instead of a link to the patch, and meta-oe patches go to openembedded-devel@ not -core@.
+> 
+> I was told by RP that sending patches via GitHub is fine. Unfortunately that's the best I can do.
+> When it's clear how to submit patches, I'll go ahead to oe-devel@
 
-  classes/sstate.bbclass: Improve checkstatus using connection cache. (2015-07-12 22:53:22 +0100)
+Not sure I said github was ok. What I perhaps would have said is that
+posting a link to such patches was better than not having anything at
+all. There are some good improvements in there for perl and as you know,
+our perl skills are a bit lacking :).
 
-are available in the git repository at:
+Our commit process is patches on the mailing list for review. If you
+can't help with that, it means someone else will have to step up and do
+that piece. Its then going to come down to how good the patches are as
+to whether anyone does.
 
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-valgrind
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-valgrind
+As I have said, I'd much rather know about them and have the option
+rather than not know about them at all though.
 
-Chen Qi (1):
-  systemd: add PACKAGECONFIG for valgrind
+Cheers,
 
- meta/recipes-core/systemd/systemd_219.bb | 1 +
- 1 file changed, 1 insertion(+)
+Richard
 
--- 
-1.9.1
+
 
 
