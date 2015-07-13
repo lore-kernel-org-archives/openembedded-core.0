@@ -1,33 +1,24 @@
-Return-Path: <Awais_Belal@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id CBE267391D
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 99CF37391D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 00:23:52 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-04.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ZERXD-000771-51 from Awais_Belal@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Sun, 12 Jul 2015 17:23:51 -0700
-Received: from EU-MBX-02.mgc.mentorg.com ([169.254.3.233]) by
-	SVR-IES-FEM-04.mgc.mentorg.com ([137.202.0.110]) with mapi id
-	14.03.0224.002; Mon, 13 Jul 2015 01:23:50 +0100
-From: "Belal, Awais" <Awais_Belal@mentor.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] initrdscripts: handle mmc device as
-	installer	medium
-Thread-Index: AQHQuIiun4HuWapzNkiovXmFWMSudp3Yky9k
-Date: Mon, 13 Jul 2015 00:23:49 +0000
-Message-ID: <2021B186DC632746BD5A3CE32F12BD28FAB5F98D@EU-MBX-02.mgc.mentorg.com>
-References: <1436255017-950-1-git-send-email-awais_belal@mentor.com>
-In-Reply-To: <1436255017-950-1-git-send-email-awais_belal@mentor.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.68]
+	Mon, 13 Jul 2015 01:53:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6D1rmnp021178
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 12 Jul 2015 18:53:48 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Sun, 12 Jul 2015 18:53:47 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 Jul 2015 09:52:36 +0800
+Message-ID: <1436752356-6508-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] initrdscripts: handle mmc device as installer	medium
+Subject: [PATCH][resend] elfutils: fix stack usage warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,128 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 00:23:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 13 Jul 2015 01:53:50 -0000
+Content-Type: text/plain
 
-Hi folks,=0A=
-=0A=
-Any objections on the below patch?=0A=
-=0A=
-BR,=0A=
-Awais=0A=
-=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of Belal, Awais=0A=
-Sent: Tuesday, July 07, 2015 12:43 PM=0A=
-To: openembedded-core@lists.openembedded.org=0A=
-Subject: [OE-core] [PATCH] initrdscripts: handle mmc device as installer   =
-     medium=0A=
-=0A=
-Platforms which have the capability of using the MMC as an=0A=
-installer medium will present the same MMC device as an=0A=
-installation candidate. This happens because the MMC=0A=
-devices appear as mmcblk<X> and the current script strips=0A=
-up the <X> which is needed to identify an MMC device=0A=
-uniqely.=0A=
-This patch now updates the way device identifier stripping=0A=
-is done and handles the exclusion of installer device from=0A=
-installation candidates more generically.=0A=
-=0A=
-Signed-off-by: Awais Belal <awais_belal@mentor.com>=0A=
----=0A=
- .../initrdscripts/files/init-install-efi.sh          | 20 ++++++++++++++++=
-----=0A=
- .../recipes-core/initrdscripts/files/init-install.sh | 20 ++++++++++++++++=
-----=0A=
- 2 files changed, 32 insertions(+), 8 deletions(-)=0A=
-=0A=
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/me=
-ta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-index 14939ac..f339b30 100644=0A=
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh=0A=
-@@ -18,7 +18,14 @@ swap_ratio=3D5=0A=
- hdnamelist=3D""=0A=
- live_dev_name=3D`cat /proc/mounts | grep ${1%/} | awk '{print $1}'`=0A=
- live_dev_name=3D${live_dev_name#\/dev/}=0A=
--live_dev_name=3D${live_dev_name%%[0-9]*}=0A=
-+# Only strip the digit identifier if the device is not an mmc=0A=
-+case $live_dev_name in=0A=
-+    mmcblk*)=0A=
-+    ;;=0A=
-+    *)=0A=
-+        live_dev_name=3D${live_dev_name%%[0-9]*}=0A=
-+    ;;=0A=
-+esac=0A=
-=0A=
- echo "Searching for hard drives ..."=0A=
-=0A=
-@@ -36,9 +43,14 @@ for device in `ls /sys/block/`; do=0A=
-         *)=0A=
-             # skip the device LiveOS is on=0A=
-             # Add valid hard drive name to the list=0A=
--            if [ $device !=3D $live_dev_name -a -e /dev/$device ]; then=0A=
--                hdnamelist=3D"$hdnamelist $device"=0A=
--            fi=0A=
-+            case $device in=0A=
-+                $live_dev_name*)=0A=
-+                # skip the device we are running from=0A=
-+                ;;=0A=
-+                *)=0A=
-+                    hdnamelist=3D"$hdnamelist $device"=0A=
-+                ;;=0A=
-+            esac=0A=
-             ;;=0A=
-     esac=0A=
- done=0A=
-diff --git a/meta/recipes-core/initrdscripts/files/init-install.sh b/meta/r=
-ecipes-core/initrdscripts/files/init-install.sh=0A=
-index 7fccdde..f9e9768 100644=0A=
---- a/meta/recipes-core/initrdscripts/files/init-install.sh=0A=
-+++ b/meta/recipes-core/initrdscripts/files/init-install.sh=0A=
-@@ -17,7 +17,14 @@ swap_ratio=3D5=0A=
- hdnamelist=3D""=0A=
- live_dev_name=3D`cat /proc/mounts | grep ${1%/} | awk '{print $1}'`=0A=
- live_dev_name=3D${live_dev_name#\/dev/}=0A=
--live_dev_name=3D${live_dev_name%%[0-9]*}=0A=
-+# Only strip the digit identifier if the device is not an mmc=0A=
-+case $live_dev_name in=0A=
-+    mmcblk*)=0A=
-+    ;;=0A=
-+    *)=0A=
-+        live_dev_name=3D${live_dev_name%%[0-9]*}=0A=
-+    ;;=0A=
-+esac=0A=
-=0A=
- echo "Searching for hard drives ..."=0A=
-=0A=
-@@ -35,9 +42,14 @@ for device in `ls /sys/block/`; do=0A=
-         *)=0A=
-             # skip the device LiveOS is on=0A=
-             # Add valid hard drive name to the list=0A=
--            if [ $device !=3D $live_dev_name -a -e /dev/$device ]; then=0A=
--                hdnamelist=3D"$hdnamelist $device"=0A=
--            fi=0A=
-+            case $device in=0A=
-+                $live_dev_name*)=0A=
-+                # skip the device we are running from=0A=
-+                ;;=0A=
-+                *)=0A=
-+                    hdnamelist=3D"$hdnamelist $device"=0A=
-+                ;;=0A=
-+            esac=0A=
-             ;;=0A=
-     esac=0A=
- done=0A=
---=0A=
-1.9.1=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+From: Roy Li <rongqing.li@windriver.com>
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../0001-fix-a-stack-usage-warning.patch           | 28 ++++++++++++++++++++++
+ meta/recipes-devtools/elfutils/elfutils_0.163.bb   |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/elfutils-0.163/0001-fix-a-stack-usage-warning.patch
+
+diff --git a/meta/recipes-devtools/elfutils/elfutils-0.163/0001-fix-a-stack-usage-warning.patch b/meta/recipes-devtools/elfutils/elfutils-0.163/0001-fix-a-stack-usage-warning.patch
+new file mode 100644
+index 0000000..6923bf7
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/elfutils-0.163/0001-fix-a-stack-usage-warning.patch
+@@ -0,0 +1,28 @@
++[PATCH] fix a stack-usage warning
++
++Upstream-Status: Pending
++
++not use a variable to as a array size, otherwise the warning to error that
++stack usage might be unbounded [-Werror=stack-usage=] will happen
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ backends/ppc_initreg.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/backends/ppc_initreg.c b/backends/ppc_initreg.c
++index 64f5379..52dde3e 100644
++--- a/backends/ppc_initreg.c
+++++ b/backends/ppc_initreg.c
++@@ -93,7 +93,7 @@ ppc_set_initial_registers_tid (pid_t tid __attribute__ ((unused)),
++ 	return false;
++     }
++   const size_t gprs = sizeof (user_regs.r.gpr) / sizeof (*user_regs.r.gpr);
++-  Dwarf_Word dwarf_regs[gprs];
+++  Dwarf_Word dwarf_regs[sizeof (user_regs.r.gpr) / sizeof (*user_regs.r.gpr)];
++   for (unsigned gpr = 0; gpr < gprs; gpr++)
++     dwarf_regs[gpr] = user_regs.r.gpr[gpr];
++   if (! setfunc (0, gprs, dwarf_regs, arg))
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.163.bb b/meta/recipes-devtools/elfutils/elfutils_0.163.bb
+index c4fdabd..e391813 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.163.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.163.bb
+@@ -17,6 +17,7 @@ SRC_URI += "\
+         file://fixheadercheck.patch \
+         file://0001-elf_getarsym-Silence-Werror-maybe-uninitialized-fals.patch \
+         file://0001-remove-the-unneed-checking.patch \
++        file://0001-fix-a-stack-usage-warning.patch \
+ "
+ 
+ # pick the patch from debian
+-- 
+1.9.1
+
 
