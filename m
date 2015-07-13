@@ -1,29 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E25CE607BB
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id F40C1607BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 09:07:55 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6D97oXW018928; Mon, 13 Jul 2015 10:07:50 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uyhN0qNBTzOo; Mon, 13 Jul 2015 10:07:50 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6D97bN1018892
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 13 Jul 2015 10:07:48 +0100
-Message-ID: <1436778457.3310.38.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jens Rehsack <rehsack@gmail.com>
-Date: Mon, 13 Jul 2015 10:07:37 +0100
-In-Reply-To: <635A9611-7B0D-4FB0-A643-88ACFAEE4C27@gmail.com>
+	Mon, 13 Jul 2015 09:54:25 +0000 (UTC)
+Received: by widic2 with SMTP id ic2so7460078wid.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jul 2015 02:54:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=T8XDyWPMH0kraEgNoxrkNpm4Se5GpQAkGNtZ2NQBhCA=;
+	b=qv/lZ3lIxEEJfNGCMTAln36HEyPEjFUVTqlNnECZImJ2hEppYKJAPkPFSW+lrcIiNK
+	5mli/xTQMYUO+zp3yQPfDvOxZo/9HyzREX0CWH1U0DLkWrcRvbfR31oIsrkw9Xx5DQLX
+	Y1LdkS8ms164ldI3xNTJFO8gtM6vDB2Y31tLYhEgMllvzlU6iIqA6hXZvCl3q77igmUK
+	76mNIMW2ZAO3Jg4YzAkA7/aRv7gyYB+SqDBqRHhutH1AzG+ZRD3ucEebW0woxSXH0TXK
+	L0zjtS6LCPwNk5jHG+amHNEq9S2zLG0KPI7RdIB0O0t55DHJSgRVedugakP3MYRQ4Nus
+	TWBg==
+X-Received: by 10.181.13.195 with SMTP id fa3mr20577811wid.7.1436781265283;
+	Mon, 13 Jul 2015 02:54:25 -0700 (PDT)
+Received: from ernie.rdm.local (rademacherexchange.de. [46.245.221.222])
+	by smtp.gmail.com with ESMTPSA id
+	s16sm8266093wib.16.2015.07.13.02.54.23
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 13 Jul 2015 02:54:24 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
+From: Jens Rehsack <rehsack@gmail.com>
+In-Reply-To: <1436778457.3310.38.camel@linuxfoundation.org>
+Date: Mon, 13 Jul 2015 11:54:49 +0200
+Message-Id: <44F28AE3-4F52-429D-9CA5-298F05E216B1@gmail.com>
 References: <3EECF939-15F6-43A4-BE87-CC1D57121CD1@gmail.com>
 	<CAJTo0LZkMtES=kPa17dV_Sb6P3RYhdGhTK=iuLfJymzykvTBzw@mail.gmail.com>
 	<635A9611-7B0D-4FB0-A643-88ACFAEE4C27@gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
+	<1436778457.3310.38.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2102)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Update rrdtool from 1.4.8 to 1.5.3
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,40 +49,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 09:07:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-On Mon, 2015-07-13 at 09:57 +0200, Jens Rehsack wrote:
-> > Am 10.07.2015 um 21:50 schrieb Burton, Ross <ross.burton@intel.com>:
-> > 
-> > 
-> > On 9 July 2015 at 17:38, Jens Rehsack <rehsack@gmail.com> wrote:
-> > here is an update patch for meta-oe/recipes-extended/rrdtool:
-> > https://github.com/rehsack/meta-openembedded/commit/6ed5b4489beb1233bd4b3c9f73064e973eeef2ad
-> > 
-> > Please send the actual patch instead of a link to the patch, and meta-oe patches go to openembedded-devel@ not -core@.
-> 
-> I was told by RP that sending patches via GitHub is fine. Unfortunately that's the best I can do.
-> When it's clear how to submit patches, I'll go ahead to oe-devel@
-
-Not sure I said github was ok. What I perhaps would have said is that
-posting a link to such patches was better than not having anything at
-all. There are some good improvements in there for perl and as you know,
-our perl skills are a bit lacking :).
-
-Our commit process is patches on the mailing list for review. If you
-can't help with that, it means someone else will have to step up and do
-that piece. Its then going to come down to how good the patches are as
-to whether anyone does.
-
-As I have said, I'd much rather know about them and have the option
-rather than not know about them at all though.
-
-Cheers,
-
-Richard
+X-List-Received-Date: Mon, 13 Jul 2015 09:54:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
 
+> Am 13.07.2015 um 11:07 schrieb Richard Purdie =
+<richard.purdie@linuxfoundation.org>:
+>=20
+> On Mon, 2015-07-13 at 09:57 +0200, Jens Rehsack wrote:
+>>> Am 10.07.2015 um 21:50 schrieb Burton, Ross <ross.burton@intel.com>:
+>>>=20
+>>>=20
+>>> On 9 July 2015 at 17:38, Jens Rehsack <rehsack@gmail.com> wrote:
+>>> here is an update patch for meta-oe/recipes-extended/rrdtool:
+>>> =
+https://github.com/rehsack/meta-openembedded/commit/6ed5b4489beb1233bd4b3c=
+9f73064e973eeef2ad
+>>>=20
+>>> Please send the actual patch instead of a link to the patch, and =
+meta-oe patches go to openembedded-devel@ not -core@.
+>>=20
+>> I was told by RP that sending patches via GitHub is fine. =
+Unfortunately that's the best I can do.
+>> When it's clear how to submit patches, I'll go ahead to oe-devel@
+>=20
+> Not sure I said github was ok. What I perhaps would have said is that
+> posting a link to such patches was better than not having anything at
+> all. There are some good improvements in there for perl and as you =
+know,
+> our perl skills are a bit lacking :).
+
+Well, IIRC there was a big Yocto discussion at first or second day where
+this was acknowledged either.
+
+> Our commit process is patches on the mailing list for review. If you
+> can't help with that, it means someone else will have to step up and =
+do
+> that piece. Its then going to come down to how good the patches are as
+> to whether anyone does.
+>=20
+> As I have said, I'd much rather know about them and have the option
+> rather than not know about them at all though.
+
+What I can do is sending mails and attaching the patch saved using
+"git format-patch".
+
+Cheers
+--=20
+Jens Rehsack - rehsack@gmail.com
 
 
