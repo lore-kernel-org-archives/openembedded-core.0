@@ -1,34 +1,32 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B250739BE
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
+	[209.85.218.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0572C75874
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 18:43:39 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t6DIhdVH030014 for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 13:43:39 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015071313433944-1106532 ;
-	Mon, 13 Jul 2015 13:43:39 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: Ben Shelton <ben.shelton@ni.com>, openembedded-core@lists.openembedded.org
-In-Reply-To: <1407178549-8464-1-git-send-email-ben.shelton@ni.com>
-References: <1407178549-8464-1-git-send-email-ben.shelton@ni.com>
-User-Agent: Notmuch/0.20.1 (http://notmuchmail.org) Emacs/24.5.2
-	(x86_64-unknown-linux-gnu)
-Date: Mon, 13 Jul 2015 13:43:39 -0500
-Message-ID: <871tgbyk2s.fsf@weregild.amer.corp.natinst.com>
+	Mon, 13 Jul 2015 21:00:38 +0000 (UTC)
+Received: by oiab3 with SMTP id b3so144377230oia.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jul 2015 14:00:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=6jQ7Hv5ZdTGfrXkhHvbbGXbILXo8LheVr2xq/g5ksiw=;
+	b=hnH8sIakc020i9afViUHiUJLQ8IukoqSSR9EjxqEMUNygcMEo6zkfc3bjexn6rViY/
+	JKPudF6XpEXpO1Z0nT0g24AbvGEg0Y8yTCK0eLCHLnb9Ak7fnjnl5mx8RBlmb1o44Cfi
+	L/t6s0watl0rpDaNP2uuP5vI/z+9C818xVgn7hIuGLMKApy2PdLBA3vR0dAGqteBOHKe
+	4i3ul7d/33silNPdx7t3HzmBK9FZlNmTSLEv+2Vgf6KbAY0I6WIrNxohrDadfn1laWtD
+	Gn/vHRo/aNe1mOAe5s3GuHsQGsR1km8iOOasb9S9DPG7EP3lr1yZCRYaAuR+CQvcuabH
+	IGMQ==
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 07/13/2015 01:43:39 PM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 07/13/2015 01:43:39 PM,
-	Serialize complete at 07/13/2015 01:43:39 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-07-13_10:, , signatures=0
-Subject: Re: [PATCH] create-pull-request: Fix error on 2.0 versions of git
+X-Received: by 10.182.87.36 with SMTP id u4mr31996916obz.50.1436821238486;
+	Mon, 13 Jul 2015 14:00:38 -0700 (PDT)
+Received: by 10.202.64.130 with HTTP; Mon, 13 Jul 2015 14:00:38 -0700 (PDT)
+In-Reply-To: <1435887942-20254-1-git-send-email-armccurdy@gmail.com>
+References: <1435887942-20254-1-git-send-email-armccurdy@gmail.com>
+Date: Mon, 13 Jul 2015 14:00:38 -0700
+Message-ID: <CAJ86T=UxwAkS2Lw81FGaXvqbd6KecCr9dMYHcTVK4Kf7P+-Rfg@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] refresh busybox defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,51 +39,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 18:43:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Jul 2015 21:00:41 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Ben Shelton <ben.shelton@ni.com> writes:
+On Thu, Jul 2, 2015 at 6:45 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> The oe-core busybox defconfig file is based on busybox v1.20.2,
+> therefore any new configure options introduced in busybox v1.21.x,
+> v1.22.x and v1.23.x take on default values when the oe-core defconfig
+> is run through busybox v1.23.2 'make oldconfig'.
+>
+> This patch series just refreshes the oe-core defconfig file, it does
+> not try to 'fix' any options for which the upstream default may not be
+> ideal for oe-core (if such cases exist, they should be addressed in a
+> separate commit).
 
-> On 2.0 versions of git, the create-pull-request script exits with the
-> warning "No match for commit... Are you sure you pushed 'HEAD' there?".
->
-> This is due to a change in behavior where git used to guess the branch
-> you meant, but no longer does.  See the thread at
-> http://www.spinics.net/lists/git/msg233050.html for more information.
->
-> To accommodate the new behavior, if the COMMIT_ID is set to the default
-> of "HEAD", make it point explicitly to $BRANCH instead.
->
-> Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+Ping.
 
-I still need to apply this patch in order to use create-pull-request.
-Bump?
+Are there any issues with this?
 
-> ---
->  scripts/create-pull-request | 4 ++++
->  1 file changed, 4 insertions(+)
+
+> Andre McCurdy (4):
+>   busybox: merge login-utilities.cfg into defconfig
+>   busybox: re-order defconfig to align with busybox 1.23.2
+>   busybox: remove CONFIG_FEATURE_VI_OPTIMIZE_CURSOR from defconfig
+>   busybox: refresh defconfig for busybox v1.23.2
 >
-> diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-> index 503248b..2bf5eb5 100755
-> --- a/scripts/create-pull-request
-> +++ b/scripts/create-pull-request
-> @@ -125,6 +125,10 @@ if [ -z "$BRANCH" ]; then
->  	echo "NOTE: Assuming remote branch '$BRANCH', use -b to override."
->  fi
->  
-> +if [ "$COMMIT_ID" == "HEAD" ]; then
-> +	COMMIT_ID="$BRANCH"
-> +fi
-> +
->  if [ -z "$REMOTE_URL" ]; then
->  	echo "ERROR: Missing parameter -u, no git remote!"
->  	usage
-> -- 
-> 2.0.4
+>  meta/recipes-core/busybox/busybox/defconfig        | 158 +++++++++++++--------
+>  .../busybox/busybox/login-utilities.cfg            |  13 --
+>  meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 -
+>  meta/recipes-core/busybox/busybox_git.bb           |   1 -
+>  4 files changed, 98 insertions(+), 75 deletions(-)
+>  delete mode 100644 meta/recipes-core/busybox/busybox/login-utilities.cfg
 >
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> 1.9.1
+>
 
