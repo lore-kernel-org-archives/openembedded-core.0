@@ -1,25 +1,28 @@
-Return-Path: <xiao.zhang@windriver.com>
+Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 592F875874
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 05:48:26 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id B16FE65C98;
+	Tue, 14 Jul 2015 05:57:22 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6E5mPMn007809
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 22:48:25 -0700 (PDT)
-Received: from localhost.localdomain (128.224.163.132) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 13 Jul 2015 22:48:25 -0700
-From: Zhang Xiao <xiao.zhang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jul 2015 13:50:54 +0800
-Message-ID: <1436853054-26245-1-git-send-email-xiao.zhang@windriver.com>
-X-Mailer: git-send-email 1.7.0.4
-eate: Mon, 13 Jul 2015 14:01:01 +0800
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6E5vIuE007861
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 Jul 2015 22:57:18 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Mon, 13 Jul 2015 22:57:17 -0700
+Message-ID: <55A4A4BB.5070502@windriver.com>
+Date: Tue, 14 Jul 2015 13:57:15 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Subject: [PATCH v2] logrotate: move binary logrotate back to /usr/sbin
+To: Khem Raj <raj.khem@gmail.com>, Patches and discussions about the oe-core
+	layer <openembedded-core@lists.openembedded.org>, OpenEmbedded Devel List
+	<openembedded-devel@lists.openembedded.org>, Yocto discussion list
+	<yocto@yoctoproject.org>
+References: <261F5389-C495-4B05-B79E-309AE0E0F0CA@gmail.com>
+In-Reply-To: <261F5389-C495-4B05-B79E-309AE0E0F0CA@gmail.com>
+Subject: Re: glibc 2.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 05:48:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 14 Jul 2015 05:57:23 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Binary logrotate should be installed in /usr/sbin, at the very
-beginning, it was there. While with commit a46d3646a3e1781be44:
-...
-logrotate: obey our flags
 
-Needed to quiet GNU_HASH warnings, and some minor fixes.
-...
+I will try this, and something is wrong with mips when upgraded gcc
+from 4.9.2 to 4.9.3:
+please see my reply to "[OE-core] [PATCH 1/3] gcc-4.9: Upgrade to 4.9.3"
 
-Part of its modification as below:
-...
--    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
-+    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir} BINDIR=${bindir}
-...
-moves it to /usr/bin. It is not correct, so move it back to
-/usr/sbin with ${sbindir}. 
+// Robert
 
-Upstream-Status: pending
-
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
----
- meta/recipes-extended/logrotate/logrotate_3.9.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-index 7d0a159..6c2e222 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.9.1.bb
-@@ -53,7 +53,7 @@ do_compile_prepend() {
- }
- 
- do_install(){
--    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir} BINDIR=${bindir}
-+    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir} BINDIR=${sbindir}
-     mkdir -p ${D}${sysconfdir}/logrotate.d
-     mkdir -p ${D}${sysconfdir}/cron.daily
-     mkdir -p ${D}${localstatedir}/lib
--- 
-1.8.5.2.233.g932f7e4
-
+On 07/14/2015 01:37 AM, Khem Raj wrote:
+> Hi All
+>
+> glibc 2.22 will release end of this month. For some time I have put together the update here
+>
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=02e73ea526d94f21c7ef82eb96b062eff8ebb825
+>
+> It works pretty well for machines I have tested it on ( arm/x86 ) but would be interested if more wider trial could be carried
+> out and issues reported between now and release can be addressed.
+>
+> Please give it a try if you have spare cycles
+>
+> Thanks
+> -Khem
+>
+>
+>
+>
 
