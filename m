@@ -1,26 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8042D65C78
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BF1165C78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 09:30:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 14 Jul 2015 02:30:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,470,1432623600"; d="scan'208";a="764052752"
-Received: from cbernard-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.31.54])
-	by orsmga002.jf.intel.com with ESMTP; 14 Jul 2015 02:29:56 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-Date: Tue, 14 Jul 2015 10:29:55 +0100
-Message-ID: <6014412.IjVSLHLSvX@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.7-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1436863689-29230-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-References: <1436863689-29230-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+	Tue, 14 Jul 2015 09:50:08 +0000 (UTC)
+Received: by qgy5 with SMTP id 5so1671631qgy.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jul 2015 02:50:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=OioIer+uB5PNHH7P4NQKBT4D6dEkCk51lIXRnFfwBVc=;
+	b=bILtqeMmAzXQ+IcJeK5cXd6T7pzcXEHVuO+fuJTV6zrHzfc5491bTsq4hE1+IyNk5x
+	QOhSA+x2SqZimug9OoJ5V3Kb+kMJUCyCcTM+Ar0OzcBxQWXJwBfgiiDGHYBabWr/M32S
+	UXcoR9H8C/HIJRCFm7PlFm1JlH5xgzlvCNoz1xZKQWn5fB6j3t6jXC/Jb0PReeDLLHyr
+	Zs3kLw/xLvR99SDp5B+rmgcwJEGj2uM4vjtfnBJyRn4HBEDdlySoCEuFlfQT0ROX+HuE
+	nxABBN5fNv+ApZTEz9k3FyZNOKy4SOBpm2hXsLQFwT96Y+Y938UwiojLYqBN9382Vaul
+	NAqw==
+X-Gm-Message-State: ALoCoQnHyI5sIqxOdzNUMgW5Fhe028iaenBBPcaC3wyMybTIHVGV1HsWPj7/BbEvEvxCBBejI2eK
+X-Received: by 10.55.43.95 with SMTP id r92mr36130446qkh.67.1436867408110;
+	Tue, 14 Jul 2015 02:50:08 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] oeqa/selftest: [YOCTO #7976] Updated imagefeature testcases.
+Received: by 10.140.102.231 with HTTP; Tue, 14 Jul 2015 02:49:48 -0700 (PDT)
+In-Reply-To: <871tgbyk2s.fsf@weregild.amer.corp.natinst.com>
+References: <1407178549-8464-1-git-send-email-ben.shelton@ni.com>
+	<871tgbyk2s.fsf@weregild.amer.corp.natinst.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 14 Jul 2015 10:49:48 +0100
+Message-ID: <CAJTo0LZF6fogQd6YhTbkY9adXGOhiZONqwWLc909AUF4fBUapg@mail.gmail.com>
+To: Richard Tollerton <rich.tollerton@ni.com>
+Cc: Ben Shelton <ben.shelton@ni.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] create-pull-request: Fix error on 2.0 versions of git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,120 +45,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 09:30:09 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 14 Jul 2015 09:50:09 -0000
+Content-Type: multipart/alternative; boundary=001a1147b8dc73416f051ad2c322
 
-Hi Daniel,
+--001a1147b8dc73416f051ad2c322
+Content-Type: text/plain; charset=UTF-8
 
-Comments in-line below.
+On 13 July 2015 at 19:43, Richard Tollerton <rich.tollerton@ni.com> wrote:
 
-On Tuesday 14 July 2015 11:48:09 Daniel Istrate wrote:
-> Updated testcases that use qemu to not interfere with other qemu instances
-> that might run in parallel.
+> Ben Shelton <ben.shelton@ni.com> writes:
+>
+> > On 2.0 versions of git, the create-pull-request script exits with the
+> > warning "No match for commit... Are you sure you pushed 'HEAD' there?".
+> >
+> > This is due to a change in behavior where git used to guess the branch
+> > you meant, but no longer does.  See the thread at
+> > http://www.spinics.net/lists/git/msg233050.html for more information.
+> >
+> > To accommodate the new behavior, if the COMMIT_ID is set to the default
+> > of "HEAD", make it point explicitly to $BRANCH instead.
+> >
+> > Signed-off-by: Ben Shelton <ben.shelton@ni.com>
+>
+> I still need to apply this patch in order to use create-pull-request.
+> Bump?
+>
 
-The [YOCTO #....] reference should go here, not in the shortlog.
+Not sure how this got missed, and I can't even find it in my archives, but
+it's queued now.
 
-> Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-> ---
->  meta/lib/oeqa/selftest/imagefeatures.py | 153
-> ++++++++++++-------------------- 1 file changed, 58 insertions(+), 95
-> deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/selftest/imagefeatures.py
-> b/meta/lib/oeqa/selftest/imagefeatures.py index e0e424d..030969e 100644
-> --- a/meta/lib/oeqa/selftest/imagefeatures.py
-> +++ b/meta/lib/oeqa/selftest/imagefeatures.py
-> @@ -2,13 +2,20 @@ from oeqa.selftest.base import oeSelfTest
->  from oeqa.utils.commands import runCmd, bitbake, get_bb_var
->  from oeqa.utils.decorators import testcase
->  import pexpect
-> -from os.path import expanduser, isfile
-> +from os.path import isfile
->  from os import system
->  import glob
-> +import time
-> 
-> 
->  class ImageFeatures(oeSelfTest):
-> 
-> +    test_user = 'tester'
-> +    root_user = 'root'
-> +    prompt = r'qemux86:\S+[$#]\s+'
-> +    ssh_cmd = "ssh {} -l {} -o UserKnownHostsFile=/dev/null -o
-> StrictHostKeyChecking=no" 
-> +    get_ip_patt = r'\s+ip=(?P<qemu_ip>(\d+.){3}\d+)::'
-> +
->      @testcase(1107)
->      def test_non_root_user_can_connect_via_ssh_without_password(self):
->          """
-> @@ -20,69 +27,49 @@ class ImageFeatures(oeSelfTest):
->          AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
->          """
-> 
-> -        test_user = 'tester'
-> -        root_user = 'root'
-> -        prompt = r'qemux86:\S+[$#]\s+'
-> -        tap_inf_ip = '192.168.7.2'
-> -
->          features = 'EXTRA_IMAGE_FEATURES += "ssh-server-openssh
-> empty-root-password"\n' features += 'INHERIT += "extrausers"\n'
-> -        features += 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s
-> /bin/sh {};"'.format(test_user, test_user) +        features +=
-> 'EXTRA_USERS_PARAMS = "useradd -p \'\' {}; usermod -s /bin/sh
-> {};"'.format(self.test_user, self.test_user)
-> 
->          # Append 'features' to local.conf
->          self.append_config(features)
-> 
->          # Build a core-image-minimal
->          ret = bitbake('core-image-minimal')
-> -        self.assertEqual(0, ret.status, 'Failed to build a
-> core-image-minimal') 
-> -
-> -        rm_ssh_keys_cmd = 'ssh-keygen -f "{}/.ssh/known_hosts" -R
-> {}'.format(expanduser('~'), tap_inf_ip) 
-> -        # Delete the ssh keys for 192.168.7.2 (qemu)
-> -        ret = runCmd(rm_ssh_keys_cmd)
-> -        self.assertEqual(0, ret.status, 'Failed to delete ssh keys for qemu
-> host.') 
-> +        self.assertEqual(0, ret.status, 'Failed to build a
-> core-image-minimal. Reason: {}'.format(ret.output))
+Ross
 
-A stylistic thing perhaps, but instead of ... {}".format(str) why not just use 
-... %s" % str ?
+--001a1147b8dc73416f051ad2c322
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->          # Boot qemu image
-> -        proc_qemu = pexpect.spawn('runqemu qemux86 nographic')
-> +        proc_qemu = pexpect.spawn('runqemu qemux86')
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 July 2015 at 19:43, Richard Tollerton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":zw" clas=
+s=3D"a3s" style=3D"overflow:hidden">Ben Shelton &lt;<a href=3D"mailto:ben.s=
+helton@ni.com">ben.shelton@ni.com</a>&gt; writes:<br>
+<br>
+&gt; On 2.0 versions of git, the <span class=3D"il">create</span>-<span cla=
+ss=3D"il">pull</span>-<span class=3D"il">request</span> script exits with t=
+he<br>
+&gt; warning &quot;No match for commit... Are you sure you pushed &#39;HEAD=
+&#39; there?&quot;.<br>
+&gt;<br>
+&gt; This is due to a change in behavior where git used to guess the branch=
+<br>
+&gt; you meant, but no longer does.=C2=A0 See the thread at<br>
+&gt; <a href=3D"http://www.spinics.net/lists/git/msg233050.html" rel=3D"nor=
+eferrer" target=3D"_blank">http://www.spinics.net/lists/git/msg233050.html<=
+/a> for more information.<br>
+&gt;<br>
+&gt; To accommodate the new behavior, if the COMMIT_ID is set to the defaul=
+t<br>
+&gt; of &quot;HEAD&quot;, make it point explicitly to $BRANCH instead.<br>
+&gt;<br>
+&gt; Signed-off-by: Ben Shelton &lt;<a href=3D"mailto:ben.shelton@ni.com">b=
+en.shelton@ni.com</a>&gt;<br>
+<br>
+I still need to apply this patch in order to use <span class=3D"il">create<=
+/span>-<span class=3D"il">pull</span>-<span class=3D"il">request</span>.<br=
+>
+Bump?</div></blockquote></div><br>Not sure how this got missed, and I can&#=
+39;t even find it in my archives, but it&#39;s queued now.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-Hmm, so I thought the plan we talked about here was to use QemuRunner. As I 
-said earlier, if QemuRunner isn't doing what we need here (e.g. isn't allowing 
-us to use pexpect) then we should fix it so that it does or at least make it 
-optional. Even with these changes we are still left with a complete 
-implementation of running QEMU here in the test, which we want to avoid.
-
-...
->      @testcase(1101)
->      def test_efi_gummiboot_images_can_be_build(self):
-> @@ -311,7 +274,7 @@ class Gummiboot(oeSelfTest):
->          # Create efi/gummiboot installation images
->          wic_create_cmd = 'wic create mkgummidisk -e core-image-minimal'
->          ret = runCmd(wic_create_cmd)
-> -        self.assertEqual(0, ret.status, 'Failed to create efi/gummiboot
-> installation images.') 
-> +        self.assertEqual(0, ret.status, 'Failed to
-> create efi/gummiboot installation images. Reason: {}'.format(ret.output))
-
-These changes aren't described in the commit message - please either add 
-mention of them or if they aren't actually related to resolving the QEMU 
-running issue, put them in a separate patch.
-
-Thanks,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+--001a1147b8dc73416f051ad2c322--
