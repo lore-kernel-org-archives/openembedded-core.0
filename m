@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EA54F65C78
+	by mail.openembedded.org (Postfix) with ESMTP id EB8C475EFC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 14:57:06 +0000 (UTC)
+	Tue, 14 Jul 2015 14:57:07 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 14 Jul 2015 07:57:06 -0700
+	by orsmga103.jf.intel.com with ESMTP; 14 Jul 2015 07:57:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,472,1432623600"; d="scan'208";a="728662428"
+X-IronPort-AV: E=Sophos;i="5.15,472,1432623600"; d="scan'208";a="728662437"
 Received: from cbernard-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.31.54])
-	by orsmga001.jf.intel.com with ESMTP; 14 Jul 2015 07:57:05 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Jul 2015 07:57:06 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jul 2015 15:56:52 +0100
-Message-Id: <cover.1436884357.git.paul.eggleton@linux.intel.com>
+Date: Tue, 14 Jul 2015 15:56:53 +0100
+Message-Id: <1b48b92c0dd407fa921a134a587fc062122c0ef4.1436884357.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/4] Fixes for shell message changes (OE-Core side)
+In-Reply-To: <cover.1436884357.git.paul.eggleton@linux.intel.com>
+References: <cover.1436884357.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1436884357.git.paul.eggleton@linux.intel.com>
+References: <cover.1436884357.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/4] classes/useradd: don't read bbnote/bbwarn/bbfatal values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,47 +34,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Jul 2015 14:57:09 -0000
 
-Unfortunately the shell message changes caused a few minor regressions;
-this is a perfect example of a situation where what seems like a simple
-and logical change can have unintended consequences that you'll miss if
-you're not careful. More testing all round would probably be advisable
-in future. Having said that, it has had the effect of highlighting
-something that we need to be mindful of in future - don't call bbfatal()
-where you expect the rest of the error log to be printed - use die() or
-bbfatal_log() for that, or alternatively make your message meaningful
-enough that you don't need the log.
+Since these functions now log through BitBake's message logging system
+we must have standalone implementations here.
 
-NOTE: the fix for die() and bbfatal_log() requires the BitBake change
-that implements bbfatal_log internally which has just sent to the
-bitbake-devel list. Having said that, logging.bbclass now works as it
-used to for older BitBake versions that didn't have the message support
-at all.
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/useradd.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-
-The following changes since commit 6be698b7270f73f40d38713ecf13f12aec0ced61:
-
-  dpkg: Fix for Fedora22 and new versions of tar (2015-07-13 13:46:45 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/oecore-shell-logging-fixes
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/oecore-shell-logging-fixes
-
-Paul Eggleton (4):
-  classes/useradd: don't read bbnote/bbwarn/bbfatal values
-  classes/base: fix die() to print the full log
-  Use die() or bbfatal_log() where the log should definitely be printed
-  classes/logging: allow shell message functions to work in devshell
-
- meta/classes/autotools.bbclass              |  4 +--
- meta/classes/base.bbclass                   |  2 +-
- meta/classes/kernel-yocto.bbclass           | 16 +++++-----
- meta/classes/logging.bbclass                | 48 +++++++++++++++++++++++++----
- meta/classes/scons.bbclass                  |  4 +--
- meta/classes/useradd.bbclass                |  6 ++--
- meta/recipes-extended/groff/groff_1.22.3.bb |  2 +-
- 7 files changed, 59 insertions(+), 23 deletions(-)
-
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index aae038f..4577e56 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -191,9 +191,9 @@ fakeroot python populate_packages_prepend () {
+         preinst = d.getVar('pkg_preinst_%s' % pkg, True) or d.getVar('pkg_preinst', True)
+         if not preinst:
+             preinst = '#!/bin/sh\n'
+-        preinst += 'bbnote () {\n%s}\n' % d.getVar('bbnote', True)
+-        preinst += 'bbwarn () {\n%s}\n' % d.getVar('bbwarn', True)
+-        preinst += 'bbfatal () {\n%s}\n' % d.getVar('bbfatal', True)
++        preinst += 'bbnote () {\n\techo "NOTE: $*"\n}\n'
++        preinst += 'bbwarn () {\n\techo "WARNING: $*"\n}\n'
++        preinst += 'bbfatal () {\n\techo "ERROR: $*"\n\texit 1\n}\n'
+         preinst += 'perform_groupadd () {\n%s}\n' % d.getVar('perform_groupadd', True)
+         preinst += 'perform_useradd () {\n%s}\n' % d.getVar('perform_useradd', True)
+         preinst += 'perform_groupmems () {\n%s}\n' % d.getVar('perform_groupmems', True)
 -- 
 2.1.0
 
