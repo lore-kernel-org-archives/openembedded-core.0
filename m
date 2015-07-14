@@ -1,36 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f50.google.com (mail-wg0-f50.google.com [74.125.82.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B36C765C78
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id BCB506AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 14:56:40 +0000 (UTC)
-Received: by wgxm20 with SMTP id m20so10925967wgx.3
+	Tue, 14 Jul 2015 14:56:41 +0000 (UTC)
+Received: by widic2 with SMTP id ic2so40469845wid.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 07:56:40 -0700 (PDT)
+	Tue, 14 Jul 2015 07:56:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Y0H0ji9cB9Fgqkv0m1rqoUxrNZuSzS5PUPNVN/I3Xw4=;
-	b=PcZ3mUuJGMNkzcRSQJxBey8rRTDGtBfHYBpdAjMNHfQemMM4cRKXEbSS9oQ/1zC0w7
-	gW9Q+0Q1UvDt9jQrWSwbSIjTKXJAP+uzBFvjrgaOTlRmnOFP4dMBsbUyy8mGploUMAsw
-	neE956itWJ9sHtV47AY9tXiCWvTDqUvC6hUfWEhO78bs4hBJHiK4OPhydmijm0JkC8Mb
-	1CfVQTjlkC9vl1pxBB7cZ2QL21t5A4NL2GANNebzSG99QzHstVOaRHXwp8VbytTf79FN
-	AttMv9sXR+ifqOGDMHpZNu9o+fWqJZIcDzrAZBkMdh2zbM/MlZ2se5uQll0DSJe9138I
-	Qn2g==
-X-Gm-Message-State: ALoCoQmf2a7E34zL8XOqxdLDn2S0tlyfgYzIrAav0Q97Nkqga8YC8q54/lS7Ff0q3V1xfwYElIsp
-X-Received: by 10.194.122.132 with SMTP id ls4mr74185971wjb.130.1436885800111; 
-	Tue, 14 Jul 2015 07:56:40 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=FEQe0FzyBGW2iEqPdP38M/fVax1JsbG2R8RfSRtEj+M=;
+	b=GUg6vHOAGOHreAJw7rpCys4OBd/Fbkw4+Xbzh1x3p0YQgxOc829cxkWrYGTf2OVGdm
+	IYFMYCxXRrpH/CxtElbHC2WcNXljv1aIUT8V+uyiVAVQJszrHOKDmU+QFwxhuKOz8P8g
+	WRSllwU8oQAKPl9tae7yf3fMzLDbHtwG0PhTt7iBdLmYaDocjvFj9COkHohZvXjrl0eG
+	PNnvRpNLxC+iYrcW0XSHcOAJHzDAiMJ9iSzi1xlEmnVTgjyJRjO10KMhY72OlOO5uwK4
+	f9HcsJcI22oHDlMG5AwuUN6d3Zc+IxyCHODcT8O+fExC2VMKt3SC0gfUJyt/ZKOwrf3g
+	jdBg==
+X-Gm-Message-State: ALoCoQlYtjUx82zF9ExItZqq5S9h+GOKb0GXmMrU19VrGKyE8/YxKWhEdAMxEheTlabF9rGlbTQ8
+X-Received: by 10.194.47.164 with SMTP id e4mr76748236wjn.157.1436885801242;
+	Tue, 14 Jul 2015 07:56:41 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	lj14sm3644571wic.18.2015.07.14.07.56.38
+	lj14sm3644571wic.18.2015.07.14.07.56.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Jul 2015 07:56:39 -0700 (PDT)
+	Tue, 14 Jul 2015 07:56:40 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jul 2015 15:50:57 +0100
-Message-Id: <1436885463-4577-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 14 Jul 2015 15:50:58 +0100
+Message-Id: <1436885463-4577-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/7] systemd-compat-units: set S correctly
+In-Reply-To: <1436885463-4577-1-git-send-email-ross.burton@intel.com>
+References: <1436885463-4577-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/7] opkg-arch-config: set S correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,22 +53,22 @@ This recipe doesn't unpack any source, so set S to ${WORKDIR}.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/systemd/systemd-compat-units.bb | 2 ++
+ meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-index 6419bc2..0b8ff09 100644
---- a/meta/recipes-core/systemd/systemd-compat-units.bb
-+++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-@@ -7,6 +7,8 @@ PR = "r29"
- 
- DEPENDS = "systemd-systemctl-native"
+diff --git a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+index 4540de2..ace3de4 100644
+--- a/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
++++ b/meta/recipes-devtools/opkg/opkg-arch-config_1.0.bb
+@@ -4,6 +4,8 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ PR = "r1"
  
 +S = "${WORKDIR}"
 +
- inherit allarch
+ do_compile() {
+ 	mkdir -p ${S}/${sysconfdir}/opkg/
  
- ALLOW_EMPTY_${PN} = "1"
 -- 
 2.1.4
 
