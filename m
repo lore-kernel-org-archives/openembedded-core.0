@@ -1,36 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6545765C78
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 11:14:47 +0000 (UTC)
-Received: by qgep37 with SMTP id p37so2424224qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 04:14:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=mx5O7lZqhgIQLnCLvN/0loPByNjh0mSOGFUAZ1fD0Ew=;
-	b=kWbb/irbS4Ss7mgxuEC7mYYePi/MGHEVCsbAC54/Q1VH5EAqFMmffBEyp0KoLLa2T8
-	D5GGcO7zkLGHYGmh1N14qqfUZwnf9lNS6EqaRBz7DG7kE9YfgPuUfAxppLClrkMJi9CG
-	t7BM6MZr6DQ/Reqy6ZrAP+ypSa8sAn/pqj48lAUhnyRkSynwKXgCn0MhMeiC2X5a0AIo
-	9EfG/ERHa7czuHs1TZ/neAoD4nro4GO9ft2Y4RqGw22gV2Jx3ljs3XA62MyK+9vpbZJa
-	05reLeYjGhdne3dHt5KnXrTkfpr7EOwxFHf/NzXNDyubFWP6qc1DIvzzNgSKRcihCNY0
-	ugVg==
-X-Gm-Message-State: ALoCoQmMY05NFnj9lQZHk/C4AdJ2Q6x8JsBsCA0FtfmJhkKV7BAgtsfmrFEvvC6DyBtizuiOBtJu
-X-Received: by 10.140.89.100 with SMTP id u91mr59810123qgd.15.1436872487862;
-	Tue, 14 Jul 2015 04:14:47 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BC4365C78;
+	Tue, 14 Jul 2015 11:19:45 +0000 (UTC)
+Received: by wibud3 with SMTP id ud3so52843109wib.1;
+	Tue, 14 Jul 2015 04:19:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=D1oFZzqjhvNglhKKmIlV3P1EQu0UfzmJSObEEAoMiwQ=;
+	b=uCu+VCP4yuqxTj5X7sLhXK3i+xX60UgyknvGjyes9HmaozAtUsI9obER2sbWDmURaf
+	tFluJeYtNZB8PDdSGBpgy2kc/yZkzwuDqiczbBBpt5sSI443rE/SKm6MMdxlzNq2Q+PT
+	uKFUMM3Y8xGj6z3xxmcB/GMctwDRwxFc2BmV+6TyqWQvymnhpmxokWLva8pBgqRFDkoV
+	z+4VJkspj+4x3/WYb/t9KVoxNo6tO+Cl7unKbkyNjjJsxBKQA3v8Fd9GpqN1Sxtp/Ej1
+	CowmNBZ3pkx2lwkvwhnUWb0RP07EqmsB3AgENaWl/a5Qz787a2Kj2rw5GCcDf5W/xyXP
+	h4Ow==
+X-Received: by 10.195.13.1 with SMTP id eu1mr77475354wjd.131.1436872784566;
+	Tue, 14 Jul 2015 04:19:44 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id f3sm2625628wiz.13.2015.07.14.04.19.43
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 Jul 2015 04:19:43 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 14 Jul 2015 13:19:56 +0200
+To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+Message-ID: <20150714111956.GA2184@jama>
+References: <20150410171048.DCC2450492@opal.openembedded.org>
+	<20150702143331.GE2434@jama>
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 14 Jul 2015 04:14:28 -0700 (PDT)
-In-Reply-To: <1436765128-16695-1-git-send-email-wenzong.fan@windriver.com>
-References: <1436765128-16695-1-git-send-email-wenzong.fan@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Jul 2015 12:14:28 +0100
-Message-ID: <CAJTo0Lb8L_NZVvJqaKB0VfWd2SdoL1p8rtfuOjof4J8yQ1kf9A@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1 v2] rpcbind: handle rpcbind options
+In-Reply-To: <20150702143331.GE2434@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Khem Raj : ncurses: Upgrade 4.9 stable to latest patchlevel 20150329
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,36 +45,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 11:14:51 -0000
-Content-Type: multipart/alternative; boundary=001a11c1334e3a3f61051ad3f269
+X-List-Received-Date: Tue, 14 Jul 2015 11:19:45 -0000
+X-Groupsio-MsgNum: 67925
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
+Content-Disposition: inline
 
---001a11c1334e3a3f61051ad3f269
-Content-Type: text/plain; charset=UTF-8
-
-On 13 July 2015 at 06:25, <wenzong.fan@windriver.com> wrote:
-
-> -EnvironmentFile=-@SYSCONFDIR@/rpcbind.conf
-> +EnvironmentFile=@SYSCONFDIR@/rpcbind.conf
->
-
-Did you intend to drop the - from the EnvironmentFile statement?  I'm
-guessing not.
-
-Ross
-
---001a11c1334e3a3f61051ad3f269
-Content-Type: text/html; charset=UTF-8
+--BOKacYhQ+x31HxR3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 July 2015 at 06:25,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenzong.=
-fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":27d" class=3D"a3s" =
-style=3D"overflow:hidden">-EnvironmentFile=3D-@SYSCONFDIR@/rpcbind.conf<br>=
-+EnvironmentFile=3D@SYSCONFDIR@/rpcbind.conf</div></blockquote></div><br>Di=
-d you intend to drop the - from the EnvironmentFile statement?=C2=A0 I&#39;=
-m guessing not.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
+On Thu, Jul 02, 2015 at 04:33:31PM +0200, Martin Jansa wrote:
+> On Fri, Apr 10, 2015 at 05:10:48PM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: 47f67fae98faec17087a827eff141e05b0400560
+> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
+it;h=3D47f67fae98faec17087a827eff141e05b0400560
+> >=20
+> > Author: Khem Raj <raj.khem@gmail.com>
+> > Date:   Mon Apr  6 17:36:29 2015 +0000
+> >=20
+> > ncurses: Upgrade 4.9 stable to latest patchlevel 20150329
+> >=20
+> > gcc5 barfs on older release
+>=20
+> In some builds I'm seeing failures like this:
+>=20
+> ncurses/5.9-r15.1/ncurses-5.9-20150329/ncurses/tinfo/init_keytry.c:54:25:=
+ fatal error: init_keytry.h: No such file or directory
+>  #include <init_keytry.h>
+>                          ^
+> compilation terminated.
+> make[1]: *** [../objects/init_keytry.o] Error 1
+> make[1]: *** Waiting for unfinished jobs....
+>=20
+> Reverting this commit fixes the issue. The ${includedir} removal in
+> do_configure seems suspicious.
+>=20
+> I'm trying to narrow why it fails in some builds and builds fine in
+> other builds even when they are relatively similar.
+>=20
+> Any hints appreciated.
 
---001a11c1334e3a3f61051ad3f269--
+I've narrowed it down to -D in CC variable, ncurses-20150329 is using:
+
+  echo "$as_me:2129: checking \$CC variable" >&5
+  echo $ECHO_N "checking \$CC variable... $ECHO_C" >&6
+  case "$CC" in #(vi
+  *[\ \   ]-[IUD]*)
+          echo "$as_me:2133: result: broken" >&5
+  echo "${ECHO_T}broken" >&6
+          { echo "$as_me:2135: WARNING: your environment misuses the CC var=
+iable to hold CFLAGS/CPPFLAGS options" >&5
+  echo "$as_me: WARNING: your environment misuses the CC variable to hold C=
+FLAGS/CPPFLAGS options" >&2;}
+          # humor him...
+          cf_flags=3D`echo "$CC" | sed -e 's/^[^    ]*[     ]//'`
+          CC=3D`echo "$CC" | sed -e 's/[    ].*//'`
+  ....
+
+to check and possibly fix CC variable, most my MACHINEs were working fine,
+except one which still had:
+  TUNE_CCARGS +=3D "-D__ARM__ -D__LINUX_ARM_ARCH__=3D7"
+for whatever historical reason, that trips ncurses configure:
+
+$ export CC=3D"arm-webos-linux-gnueabi-gcc  -march=3Darmv7-a -mthumb  -mthu=
+mb-interwork -mfloat-abi=3Dhard -mfpu=3Dneon -rdynamic -funwind-tables -mve=
+ctorize-with-neon-quad -Os --sysroot=3D<SYSROOT>"
+jenkins@rabbit:~/ncurses$ . cc.check                                       =
+                                                                           =
+        :2129: checking $CC variable
+checking $CC variable...
+:2221: result: ok
+ok
+
+$ export CC=3D"arm-webos-linux-gnueabi-gcc  -march=3Darmv7-a -mthumb  -mthu=
+mb-interwork -mfloat-abi=3Dhard -mfpu=3Dneon -rdynamic -funwind-tables -D__=
+ARM__ -D__LINUX_ARM_ARCH__=3D7 -mvectorize-with-neon-quad -Os --sysroot=3D<=
+SYSROOT>"
+jenkins@rabbit:~/ncurses$ . cc.check=20
+:2129: checking $CC variable
+checking $CC variable...=20
+:2133: result: broken
+broken
+:2135: WARNING: your environment misuses the CC variable to hold CFLAGS/CPP=
+FLAGS options
+: WARNING: your environment misuses the CC variable to hold CFLAGS/CPPFLAGS=
+ options
+
+And "fixed" CC variable causes issues described above.
+
+> > Change-Id: Ib1ad9b1cf7f16eb454da21fd61dc56fe1d9f6783
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> >=20
+> > ---
+> >=20
+> >  meta/recipes-core/ncurses/ncurses.inc    | 14 ++++++++++++--
+> >  meta/recipes-core/ncurses/ncurses_5.9.bb |  8 +++++---
+> >  2 files changed, 17 insertions(+), 5 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/=
+ncurses/ncurses.inc
+> > index 10f7dd1..225e369 100644
+> > --- a/meta/recipes-core/ncurses/ncurses.inc
+> > +++ b/meta/recipes-core/ncurses/ncurses.inc
+> > @@ -13,7 +13,7 @@ BINCONFIG =3D "${bindir}/ncurses-config"
+> >  inherit autotools binconfig-disabled multilib_header
+> > =20
+> >  # Upstream has useful patches at times at ftp://invisible-island.net/n=
+curses/
+> > -SRC_URI =3D "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz"
+> > +SRC_URI =3D "ftp://invisible-island.net/${BPN}/current/${BP}-${REVISIO=
+N}.tgz"
+> > =20
+> >  EXTRA_AUTORECONF =3D "-I m4"
+> >  CONFIG_SITE =3D+ "${WORKDIR}/config.cache"
+> > @@ -97,6 +97,8 @@ do_configure() {
+> >          # broken because it requires stdin to be pollable (which is
+> >          # not the case for /dev/null redirections)
+> >          export cf_cv_working_poll=3Dyes
+> > +	#Remove ${includedir} from CPPFLAGS, need for cross compile
+> > +	sed -i 's#-I${cf_includedir}##g' ${S}/configure || die "sed CPPFLAGS"
+> > =20
+> >  	# The --enable-pc-files requires PKG_CONFIG_LIBDIR existed
+> >  	mkdir -p ${PKG_CONFIG_LIBDIR}
+> > @@ -105,6 +107,7 @@ do_configure() {
+> >  		return 1
+> >  	! ${ENABLE_WIDEC} || \
+> >  		ncurses_configure "widec" "--enable-widec" "--without-progs"
+> > +
+> >  }
+> > =20
+> >  do_compile() {
+> > @@ -231,7 +234,14 @@ do_install() {
+> >              # At some point we can rely on coreutils 8.16 which has ln=
+ -r.
+> >              lnr ${D}${base_libdir}/libtinfo.so.5 ${D}${libdir}/libtinf=
+o.so
+> >          fi
+> > -
+> > +        if [ -d "${D}${includedir}/ncurses" ]; then
+> > +            for f in `find ${D}${includedir}/ncurses -name "*.h"`
+> > +            do
+> > +	        f=3D`basename $f`
+> > +	        test -e ${D}${includedir}/$f && continue
+> > +                ln -sf ncurses/$f ${D}${includedir}/$f
+> > +            done
+> > +        fi
+> >          oe_multilib_header curses.h
+> >  }
+> > =20
+> > diff --git a/meta/recipes-core/ncurses/ncurses_5.9.bb b/meta/recipes-co=
+re/ncurses/ncurses_5.9.bb
+> > index 6d23c0c..54d27a9 100644
+> > --- a/meta/recipes-core/ncurses/ncurses_5.9.bb
+> > +++ b/meta/recipes-core/ncurses/ncurses_5.9.bb
+> > @@ -1,10 +1,12 @@
+> >  require ncurses.inc
+> > =20
+> > +REVISION =3D "20150329"
+> > +
+> >  PR =3D "${INC_PR}.1"
+> > =20
+> >  SRC_URI +=3D "file://tic-hang.patch \
+> >              file://config.cache \
+> >  "
+> > -
+> > -SRC_URI[md5sum] =3D "8cb9c412e5f2d96bc6f459aa8c6282a1"
+> > -SRC_URI[sha256sum] =3D "9046298fb440324c9d4135ecea7879ffed8546dd1b58e5=
+9430ea07a4633f563b"
+> > +S =3D "${WORKDIR}/${BP}-${REVISION}"
+> > +SRC_URI[md5sum] =3D "cee991d09e69e60ebedef424804c52d4"
+> > +SRC_URI[sha256sum] =3D "5b64f40e4dce73e3aa83d15bd9257c6eff8790ec41150f=
+0938bd87c0eb75828f"
+> >=20
+> > --=20
+> > _______________________________________________
+> > Openembedded-commits mailing list
+> > Openembedded-commits@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+>=20
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--BOKacYhQ+x31HxR3
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlWk8FkACgkQN1Ujt2V2gBzojwCbBfewAqx/hNrLDupAYNXro0gA
+cq4An3qlLyVSpuSfcYs0T72JUZckaRIN
+=M71/
+-----END PGP SIGNATURE-----
+
+--BOKacYhQ+x31HxR3--
