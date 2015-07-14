@@ -1,38 +1,23 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BC4365C78;
-	Tue, 14 Jul 2015 11:19:45 +0000 (UTC)
-Received: by wibud3 with SMTP id ud3so52843109wib.1;
-	Tue, 14 Jul 2015 04:19:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=D1oFZzqjhvNglhKKmIlV3P1EQu0UfzmJSObEEAoMiwQ=;
-	b=uCu+VCP4yuqxTj5X7sLhXK3i+xX60UgyknvGjyes9HmaozAtUsI9obER2sbWDmURaf
-	tFluJeYtNZB8PDdSGBpgy2kc/yZkzwuDqiczbBBpt5sSI443rE/SKm6MMdxlzNq2Q+PT
-	uKFUMM3Y8xGj6z3xxmcB/GMctwDRwxFc2BmV+6TyqWQvymnhpmxokWLva8pBgqRFDkoV
-	z+4VJkspj+4x3/WYb/t9KVoxNo6tO+Cl7unKbkyNjjJsxBKQA3v8Fd9GpqN1Sxtp/Ej1
-	CowmNBZ3pkx2lwkvwhnUWb0RP07EqmsB3AgENaWl/a5Qz787a2Kj2rw5GCcDf5W/xyXP
-	h4Ow==
-X-Received: by 10.195.13.1 with SMTP id eu1mr77475354wjd.131.1436872784566;
-	Tue, 14 Jul 2015 04:19:44 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id f3sm2625628wiz.13.2015.07.14.04.19.43
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Jul 2015 04:19:43 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 14 Jul 2015 13:19:56 +0200
-To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Message-ID: <20150714111956.GA2184@jama>
-References: <20150410171048.DCC2450492@opal.openembedded.org>
-	<20150702143331.GE2434@jama>
-MIME-Version: 1.0
-In-Reply-To: <20150702143331.GE2434@jama>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Khem Raj : ncurses: Upgrade 4.9 stable to latest patchlevel 20150329
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id BDDB865C78
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jul 2015 11:20:44 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 14 Jul 2015 04:20:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,471,1432623600"; d="scan'208";a="523987616"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 14 Jul 2015 04:20:44 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id 2CB2F6A4005;
+	Tue, 14 Jul 2015 04:20:01 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 Jul 2015 14:31:09 +0300
+Message-Id: <1436873471-17794-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/3] oeqa/bbtests: add useful failure messages for all test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,207 +30,198 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 11:19:45 -0000
-X-Groupsio-MsgNum: 67925
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="BOKacYhQ+x31HxR3"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 14 Jul 2015 11:20:44 -0000
 
---BOKacYhQ+x31HxR3
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/selftest/bbtests.py | 58 ++++++++++++++++++++-------------------
+ 1 file changed, 30 insertions(+), 28 deletions(-)
 
-On Thu, Jul 02, 2015 at 04:33:31PM +0200, Martin Jansa wrote:
-> On Fri, Apr 10, 2015 at 05:10:48PM +0000, git@git.openembedded.org wrote:
-> > Module: openembedded-core.git
-> > Branch: master
-> > Commit: 47f67fae98faec17087a827eff141e05b0400560
-> > URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcomm=
-it;h=3D47f67fae98faec17087a827eff141e05b0400560
-> >=20
-> > Author: Khem Raj <raj.khem@gmail.com>
-> > Date:   Mon Apr  6 17:36:29 2015 +0000
-> >=20
-> > ncurses: Upgrade 4.9 stable to latest patchlevel 20150329
-> >=20
-> > gcc5 barfs on older release
->=20
-> In some builds I'm seeing failures like this:
->=20
-> ncurses/5.9-r15.1/ncurses-5.9-20150329/ncurses/tinfo/init_keytry.c:54:25:=
- fatal error: init_keytry.h: No such file or directory
->  #include <init_keytry.h>
->                          ^
-> compilation terminated.
-> make[1]: *** [../objects/init_keytry.o] Error 1
-> make[1]: *** Waiting for unfinished jobs....
->=20
-> Reverting this commit fixes the issue. The ${includedir} removal in
-> do_configure seems suspicious.
->=20
-> I'm trying to narrow why it fails in some builds and builds fine in
-> other builds even when they are relatively similar.
->=20
-> Any hints appreciated.
+diff --git a/meta/lib/oeqa/selftest/bbtests.py b/meta/lib/oeqa/selftest/bbtests.py
+index 7df6b2f..3d6860f 100644
+--- a/meta/lib/oeqa/selftest/bbtests.py
++++ b/meta/lib/oeqa/selftest/bbtests.py
+@@ -14,14 +14,14 @@ class BitbakeTests(oeSelfTest):
+     @testcase(789)
+     def test_run_bitbake_from_dir_1(self):
+         os.chdir(os.path.join(self.builddir, 'conf'))
+-        bitbake('-e')
++        self.assertEqual(bitbake('-e').status, 0, msg = "bitbake couldn't run from \"conf\" dir")
+ 
+     @testcase(790)
+     def test_run_bitbake_from_dir_2(self):
+         my_env = os.environ.copy()
+         my_env['BBPATH'] = my_env['BUILDDIR']
+         os.chdir(os.path.dirname(os.environ['BUILDDIR']))
+-        bitbake('-e', env=my_env)
++        self.assertEqual(bitbake('-e', env=my_env).status, 0, msg = "bitbake couldn't run from builddir")
+ 
+     @testcase(806)
+     def test_event_handler(self):
+@@ -31,7 +31,7 @@ class BitbakeTests(oeSelfTest):
+         find_build_completed = re.search("Tasks Summary:.*(\n.*)*NOTE: Test for bb\.event\.BuildCompleted", result.output)
+         self.assertTrue(find_build_started, msg = "Match failed in:\n%s"  % result.output)
+         self.assertTrue(find_build_completed, msg = "Match failed in:\n%s" % result.output)
+-        self.assertFalse('Test for bb.event.InvalidEvent' in result.output)
++        self.assertFalse('Test for bb.event.InvalidEvent' in result.output, msg = "\"Test for bb.event.InvalidEvent\" message found during bitbake process. bitbake output: %s" % result.output)
+ 
+     @testcase(103)
+     def test_local_sstate(self):
+@@ -40,17 +40,17 @@ class BitbakeTests(oeSelfTest):
+         bitbake('m4-native -cclean')
+         result = bitbake('m4-native')
+         find_setscene = re.search("m4-native.*do_.*_setscene", result.output)
+-        self.assertTrue(find_setscene)
++        self.assertTrue(find_setscene, msg = "No \"m4-native.*do_.*_setscene\" message found during bitbake m4-native. bitbake output: %s" % result.output )
+ 
+     @testcase(105)
+     def test_bitbake_invalid_recipe(self):
+         result = bitbake('-b asdf', ignore_status=True)
+-        self.assertTrue("ERROR: Unable to find any recipe file matching 'asdf'" in result.output)
++        self.assertTrue("ERROR: Unable to find any recipe file matching 'asdf'" in result.output, msg = "Though asdf recipe doesn't exist, bitbake didn't output any err. message. bitbake output: %s" % result.output)
+ 
+     @testcase(107)
+     def test_bitbake_invalid_target(self):
+         result = bitbake('asdf', ignore_status=True)
+-        self.assertTrue("ERROR: Nothing PROVIDES 'asdf'" in result.output)
++        self.assertTrue("ERROR: Nothing PROVIDES 'asdf'" in result.output, msg = "Though no 'asdf' target exists, bitbake didn't output any err. message. bitbake output: %s" % result.output)
+ 
+     @testcase(106)
+     def test_warnings_errors(self):
+@@ -66,7 +66,7 @@ class BitbakeTests(oeSelfTest):
+         result = bitbake('man -c patch', ignore_status=True)
+         self.delete_recipeinc('man')
+         bitbake('-cclean man')
+-        self.assertTrue("ERROR: Function failed: patch_do_patch" in result.output)
++        self.assertTrue("ERROR: Function failed: patch_do_patch" in result.output, msg = "Though no man-1.5h1-make.patch file exists, bitbake didn't output any err. message. bitbake output: %s" % result.output)
+ 
+     @testcase(163)
+     def test_force_task(self):
+@@ -76,15 +76,15 @@ class BitbakeTests(oeSelfTest):
+         look_for_tasks = ['do_compile', 'do_install', 'do_populate_sysroot']
+         for task in look_for_tasks:
+             find_task = re.search("m4-native.*%s" % task, result.output)
+-            self.assertTrue(find_task)
++            self.assertTrue(find_task, msg = "Couldn't find %s task. bitbake output %s" % (task, result.output))
+ 
+     @testcase(167)
+     def test_bitbake_g(self):
+         result = bitbake('-g core-image-full-cmdline')
+-        self.assertTrue('NOTE: PN build list saved to \'pn-buildlist\'' in result.output)
+-        self.assertTrue('openssh' in ftools.read_file(os.path.join(self.builddir, 'pn-buildlist')))
+         for f in ['pn-buildlist', 'pn-depends.dot', 'package-depends.dot', 'task-depends.dot']:
+-            os.remove(f)
++            self.addCleanup(os.remove, f)
++        self.assertTrue('NOTE: PN build list saved to \'pn-buildlist\'' in result.output, msg = "No dependency \"pn-buildlist\" file was generated for the given task target. bitbake output: %s" % result.output)
++        self.assertTrue('openssh' in ftools.read_file(os.path.join(self.builddir, 'pn-buildlist')), msg = "No \"openssh\" dependency found in pn-buildlist file.")
+ 
+     @testcase(899)
+     def test_image_manifest(self):
+@@ -92,7 +92,7 @@ class BitbakeTests(oeSelfTest):
+         deploydir = get_bb_var("DEPLOY_DIR_IMAGE", target="core-image-minimal")
+         imagename = get_bb_var("IMAGE_LINK_NAME", target="core-image-minimal")
+         manifest = os.path.join(deploydir, imagename + ".manifest")
+-        self.assertTrue(os.path.islink(manifest), msg="No manifest file created for image")
++        self.assertTrue(os.path.islink(manifest), msg="No manifest file created for image. It should have been created in %s" % manifest)
+ 
+     @testcase(168)
+     def test_invalid_recipe_src_uri(self):
+@@ -105,9 +105,11 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         result = bitbake('-c fetch man', ignore_status=True)
+         bitbake('-ccleanall man')
+         self.delete_recipeinc('man')
+-        self.assertEqual(result.status, 1, msg='Command succeded when it should have failed')
+-        self.assertTrue('Fetcher failure: Unable to find file file://invalid anywhere. The paths that were searched were:' in result.output)
+-        self.assertTrue('ERROR: Function failed: Fetcher failure for URL: \'file://invalid\'. Unable to fetch URL from any source.' in result.output)
++        self.assertEqual(result.status, 1, msg="Command succeded when it should have failed. bitbake output: %s" % result.output)
++        self.assertTrue('Fetcher failure: Unable to find file file://invalid anywhere. The paths that were searched were:' in result.output, msg = "\"invalid\" file \
++doesn't exist, yet no error message encountered. bitbake output: %s" % result.output)
++        self.assertTrue('ERROR: Function failed: Fetcher failure for URL: \'file://invalid\'. Unable to fetch URL from any source.' in result.output, msg = "\"invalid\" file \
++doesn't exist, yet fetcher didn't report any error. bitbake output: %s" % result.output)
+ 
+     @testcase(171)
+     def test_rename_downloaded_file(self):
+@@ -119,33 +121,33 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         bitbake('-ccleanall aspell')
+         result = bitbake('-c fetch aspell', ignore_status=True)
+         self.delete_recipeinc('aspell')
+-        self.assertEqual(result.status, 0)
+-        self.assertTrue(os.path.isfile(os.path.join(get_bb_var("DL_DIR"), 'test-aspell.tar.gz')))
+-        self.assertTrue(os.path.isfile(os.path.join(get_bb_var("DL_DIR"), 'test-aspell.tar.gz.done')))
+-        bitbake('-ccleanall aspell')
++        self.addCleanup(bitbake, '-ccleanall aspell')
++        self.assertEqual(result.status, 0, msg = "Couldn't fetch aspell. %s" % result.output)
++        self.assertTrue(os.path.isfile(os.path.join(get_bb_var("DL_DIR"), 'test-aspell.tar.gz')), msg = "File rename failed. No corresponding test-aspell.tar.gz file found under %s" % str(get_bb_var("DL_DIR")))
++        self.assertTrue(os.path.isfile(os.path.join(get_bb_var("DL_DIR"), 'test-aspell.tar.gz.done')), "File rename failed. No corresponding test-aspell.tar.gz.done file found under %s" % str(get_bb_var("DL_DIR")))
+ 
+     @testcase(1028)
+     def test_environment(self):
+         self.append_config("TEST_ENV=\"localconf\"")
+         self.addCleanup(self.remove_config, "TEST_ENV=\"localconf\"")
+         result = runCmd('bitbake -e | grep TEST_ENV=')
+-        self.assertTrue('localconf' in result.output)
++        self.assertTrue('localconf' in result.output, msg = "bitbake didn't report any value for TEST_ENV variable. To test, run 'bitbake -e | grep TEST_ENV='")
+ 
+     @testcase(1029)
+     def test_dry_run(self):
+         result = runCmd('bitbake -n m4-native')
+-        self.assertEqual(0, result.status)
++        self.assertEqual(0, result.status, "bitbake dry run didn't run as expected. %s" % result.output)
+ 
+     @testcase(1030)
+     def test_just_parse(self):
+         result = runCmd('bitbake -p')
+-        self.assertEqual(0, result.status)
++        self.assertEqual(0, result.status, "errors encountered when parsing recipes. %s" % result.output)
+ 
+     @testcase(1031)
+     def test_version(self):
+         result = runCmd('bitbake -s | grep wget')
+         find = re.search("wget *:([0-9a-zA-Z\.\-]+)", result.output)
+-        self.assertTrue(find)
++        self.assertTrue(find, "No version returned for searched recipe. bitbake output: %s" % result.output)
+ 
+     @testcase(1032)
+     def test_prefile(self):
+@@ -153,11 +155,11 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         self.track_for_cleanup(preconf)
+         ftools.write_file(preconf ,"TEST_PREFILE=\"prefile\"")
+         result = runCmd('bitbake -r conf/prefile.conf -e | grep TEST_PREFILE=')
+-        self.assertTrue('prefile' in result.output)
++        self.assertTrue('prefile' in result.output, "Preconfigure file \"prefile.conf\"was not taken into consideration. ")
+         self.append_config("TEST_PREFILE=\"localconf\"")
+         self.addCleanup(self.remove_config, "TEST_PREFILE=\"localconf\"")
+         result = runCmd('bitbake -r conf/prefile.conf -e | grep TEST_PREFILE=')
+-        self.assertTrue('localconf' in result.output)
++        self.assertTrue('localconf' in result.output, "Preconfigure file \"prefile.conf\"was not taken into consideration.")
+ 
+     @testcase(1033)
+     def test_postfile(self):
+@@ -167,12 +169,12 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         self.append_config("TEST_POSTFILE=\"localconf\"")
+         self.addCleanup(self.remove_config, "TEST_POSTFILE=\"localconf\"")
+         result = runCmd('bitbake -R conf/postfile.conf -e | grep TEST_POSTFILE=')
+-        self.assertTrue('postfile' in result.output)
++        self.assertTrue('postfile' in result.output, "Postconfigure file \"postfile.conf\"was not taken into consideration.")
+ 
+     @testcase(1034)
+     def test_checkuri(self):
+         result = runCmd('bitbake -c checkuri m4')
+-        self.assertEqual(0, result.status)
++        self.assertEqual(0, result.status, msg = "\"checkuri\" task was not executed. bitbake output: %s" % result.output)
+ 
+     @testcase(1035)
+     def test_continue(self):
+@@ -185,7 +187,7 @@ SSTATE_DIR = \"${TOPDIR}/download-selftest\"
+         errorpos = result.output.find('ERROR: Function failed: do_fail_task')
+         manver = re.search("NOTE: recipe xcursor-transparent-theme-(.*?): task do_unpack: Started", result.output)
+         continuepos = result.output.find('NOTE: recipe xcursor-transparent-theme-%s: task do_unpack: Started' % manver.group(1))
+-        self.assertLess(errorpos,continuepos)
++        self.assertLess(errorpos,continuepos, msg = "bitbake didn't pass do_fail_task. bitbake output: %s" % result.output)
+ 
+     @testcase(1119)
+     def test_non_gplv3(self):
+-- 
+2.1.4
 
-I've narrowed it down to -D in CC variable, ncurses-20150329 is using:
 
-  echo "$as_me:2129: checking \$CC variable" >&5
-  echo $ECHO_N "checking \$CC variable... $ECHO_C" >&6
-  case "$CC" in #(vi
-  *[\ \   ]-[IUD]*)
-          echo "$as_me:2133: result: broken" >&5
-  echo "${ECHO_T}broken" >&6
-          { echo "$as_me:2135: WARNING: your environment misuses the CC var=
-iable to hold CFLAGS/CPPFLAGS options" >&5
-  echo "$as_me: WARNING: your environment misuses the CC variable to hold C=
-FLAGS/CPPFLAGS options" >&2;}
-          # humor him...
-          cf_flags=3D`echo "$CC" | sed -e 's/^[^    ]*[     ]//'`
-          CC=3D`echo "$CC" | sed -e 's/[    ].*//'`
-  ....
-
-to check and possibly fix CC variable, most my MACHINEs were working fine,
-except one which still had:
-  TUNE_CCARGS +=3D "-D__ARM__ -D__LINUX_ARM_ARCH__=3D7"
-for whatever historical reason, that trips ncurses configure:
-
-$ export CC=3D"arm-webos-linux-gnueabi-gcc  -march=3Darmv7-a -mthumb  -mthu=
-mb-interwork -mfloat-abi=3Dhard -mfpu=3Dneon -rdynamic -funwind-tables -mve=
-ctorize-with-neon-quad -Os --sysroot=3D<SYSROOT>"
-jenkins@rabbit:~/ncurses$ . cc.check                                       =
-                                                                           =
-        :2129: checking $CC variable
-checking $CC variable...
-:2221: result: ok
-ok
-
-$ export CC=3D"arm-webos-linux-gnueabi-gcc  -march=3Darmv7-a -mthumb  -mthu=
-mb-interwork -mfloat-abi=3Dhard -mfpu=3Dneon -rdynamic -funwind-tables -D__=
-ARM__ -D__LINUX_ARM_ARCH__=3D7 -mvectorize-with-neon-quad -Os --sysroot=3D<=
-SYSROOT>"
-jenkins@rabbit:~/ncurses$ . cc.check=20
-:2129: checking $CC variable
-checking $CC variable...=20
-:2133: result: broken
-broken
-:2135: WARNING: your environment misuses the CC variable to hold CFLAGS/CPP=
-FLAGS options
-: WARNING: your environment misuses the CC variable to hold CFLAGS/CPPFLAGS=
- options
-
-And "fixed" CC variable causes issues described above.
-
-> > Change-Id: Ib1ad9b1cf7f16eb454da21fd61dc56fe1d9f6783
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >=20
-> > ---
-> >=20
-> >  meta/recipes-core/ncurses/ncurses.inc    | 14 ++++++++++++--
-> >  meta/recipes-core/ncurses/ncurses_5.9.bb |  8 +++++---
-> >  2 files changed, 17 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/=
-ncurses/ncurses.inc
-> > index 10f7dd1..225e369 100644
-> > --- a/meta/recipes-core/ncurses/ncurses.inc
-> > +++ b/meta/recipes-core/ncurses/ncurses.inc
-> > @@ -13,7 +13,7 @@ BINCONFIG =3D "${bindir}/ncurses-config"
-> >  inherit autotools binconfig-disabled multilib_header
-> > =20
-> >  # Upstream has useful patches at times at ftp://invisible-island.net/n=
-curses/
-> > -SRC_URI =3D "${GNU_MIRROR}/ncurses/ncurses-${PV}.tar.gz"
-> > +SRC_URI =3D "ftp://invisible-island.net/${BPN}/current/${BP}-${REVISIO=
-N}.tgz"
-> > =20
-> >  EXTRA_AUTORECONF =3D "-I m4"
-> >  CONFIG_SITE =3D+ "${WORKDIR}/config.cache"
-> > @@ -97,6 +97,8 @@ do_configure() {
-> >          # broken because it requires stdin to be pollable (which is
-> >          # not the case for /dev/null redirections)
-> >          export cf_cv_working_poll=3Dyes
-> > +	#Remove ${includedir} from CPPFLAGS, need for cross compile
-> > +	sed -i 's#-I${cf_includedir}##g' ${S}/configure || die "sed CPPFLAGS"
-> > =20
-> >  	# The --enable-pc-files requires PKG_CONFIG_LIBDIR existed
-> >  	mkdir -p ${PKG_CONFIG_LIBDIR}
-> > @@ -105,6 +107,7 @@ do_configure() {
-> >  		return 1
-> >  	! ${ENABLE_WIDEC} || \
-> >  		ncurses_configure "widec" "--enable-widec" "--without-progs"
-> > +
-> >  }
-> > =20
-> >  do_compile() {
-> > @@ -231,7 +234,14 @@ do_install() {
-> >              # At some point we can rely on coreutils 8.16 which has ln=
- -r.
-> >              lnr ${D}${base_libdir}/libtinfo.so.5 ${D}${libdir}/libtinf=
-o.so
-> >          fi
-> > -
-> > +        if [ -d "${D}${includedir}/ncurses" ]; then
-> > +            for f in `find ${D}${includedir}/ncurses -name "*.h"`
-> > +            do
-> > +	        f=3D`basename $f`
-> > +	        test -e ${D}${includedir}/$f && continue
-> > +                ln -sf ncurses/$f ${D}${includedir}/$f
-> > +            done
-> > +        fi
-> >          oe_multilib_header curses.h
-> >  }
-> > =20
-> > diff --git a/meta/recipes-core/ncurses/ncurses_5.9.bb b/meta/recipes-co=
-re/ncurses/ncurses_5.9.bb
-> > index 6d23c0c..54d27a9 100644
-> > --- a/meta/recipes-core/ncurses/ncurses_5.9.bb
-> > +++ b/meta/recipes-core/ncurses/ncurses_5.9.bb
-> > @@ -1,10 +1,12 @@
-> >  require ncurses.inc
-> > =20
-> > +REVISION =3D "20150329"
-> > +
-> >  PR =3D "${INC_PR}.1"
-> > =20
-> >  SRC_URI +=3D "file://tic-hang.patch \
-> >              file://config.cache \
-> >  "
-> > -
-> > -SRC_URI[md5sum] =3D "8cb9c412e5f2d96bc6f459aa8c6282a1"
-> > -SRC_URI[sha256sum] =3D "9046298fb440324c9d4135ecea7879ffed8546dd1b58e5=
-9430ea07a4633f563b"
-> > +S =3D "${WORKDIR}/${BP}-${REVISION}"
-> > +SRC_URI[md5sum] =3D "cee991d09e69e60ebedef424804c52d4"
-> > +SRC_URI[sha256sum] =3D "5b64f40e4dce73e3aa83d15bd9257c6eff8790ec41150f=
-0938bd87c0eb75828f"
-> >=20
-> > --=20
-> > _______________________________________________
-> > Openembedded-commits mailing list
-> > Openembedded-commits@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-commits
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
-
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---BOKacYhQ+x31HxR3
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWk8FkACgkQN1Ujt2V2gBzojwCbBfewAqx/hNrLDupAYNXro0gA
-cq4An3qlLyVSpuSfcYs0T72JUZckaRIN
-=M71/
------END PGP SIGNATURE-----
-
---BOKacYhQ+x31HxR3--
