@@ -1,32 +1,30 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f43.google.com (mail-oi0-f43.google.com
-	[209.85.218.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0572C75874
+Return-Path: <xiao.zhang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E180E75870
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 21:00:38 +0000 (UTC)
-Received: by oiab3 with SMTP id b3so144377230oia.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jul 2015 14:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=6jQ7Hv5ZdTGfrXkhHvbbGXbILXo8LheVr2xq/g5ksiw=;
-	b=hnH8sIakc020i9afViUHiUJLQ8IukoqSSR9EjxqEMUNygcMEo6zkfc3bjexn6rViY/
-	JKPudF6XpEXpO1Z0nT0g24AbvGEg0Y8yTCK0eLCHLnb9Ak7fnjnl5mx8RBlmb1o44Cfi
-	L/t6s0watl0rpDaNP2uuP5vI/z+9C818xVgn7hIuGLMKApy2PdLBA3vR0dAGqteBOHKe
-	4i3ul7d/33silNPdx7t3HzmBK9FZlNmTSLEv+2Vgf6KbAY0I6WIrNxohrDadfn1laWtD
-	Gn/vHRo/aNe1mOAe5s3GuHsQGsR1km8iOOasb9S9DPG7EP3lr1yZCRYaAuR+CQvcuabH
-	IGMQ==
+	Tue, 14 Jul 2015 01:16:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6E1GjUD013562
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 Jul 2015 18:16:45 -0700 (PDT)
+Received: from [128.224.163.132] (128.224.163.132) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
+	Mon, 13 Jul 2015 18:16:45 -0700
+Message-ID: <55A46390.2090904@windriver.com>
+Date: Tue, 14 Jul 2015 09:19:12 +0800
+From: zhangxiao <xiao.zhang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130330 Thunderbird/17.0.5
 MIME-Version: 1.0
-X-Received: by 10.182.87.36 with SMTP id u4mr31996916obz.50.1436821238486;
-	Mon, 13 Jul 2015 14:00:38 -0700 (PDT)
-Received: by 10.202.64.130 with HTTP; Mon, 13 Jul 2015 14:00:38 -0700 (PDT)
-In-Reply-To: <1435887942-20254-1-git-send-email-armccurdy@gmail.com>
-References: <1435887942-20254-1-git-send-email-armccurdy@gmail.com>
-Date: Mon, 13 Jul 2015 14:00:38 -0700
-Message-ID: <CAJ86T=UxwAkS2Lw81FGaXvqbd6KecCr9dMYHcTVK4Kf7P+-Rfg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] refresh busybox defconfig
+To: Christopher Larson <clarson@kergoth.com>
+References: <1436767810-20932-1-git-send-email-xiao.zhang@windriver.com>
+	<CABcZANnrGkZLwZC+9qoqQJtCMcxd6z4pcSS5d2=WsnFicqpOaQ@mail.gmail.com>
+In-Reply-To: <CABcZANnrGkZLwZC+9qoqQJtCMcxd6z4pcSS5d2=WsnFicqpOaQ@mail.gmail.com>
+X-Originating-IP: [128.224.163.132]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] logrotate: move binary logrotate back to /usr/sbin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,39 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jul 2015 21:00:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 14 Jul 2015 01:16:49 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 2, 2015 at 6:45 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
-> The oe-core busybox defconfig file is based on busybox v1.20.2,
-> therefore any new configure options introduced in busybox v1.21.x,
-> v1.22.x and v1.23.x take on default values when the oe-core defconfig
-> is run through busybox v1.23.2 'make oldconfig'.
+On 2015年07月13日 22:28, Christopher Larson wrote:
 >
-> This patch series just refreshes the oe-core defconfig file, it does
-> not try to 'fix' any options for which the upstream default may not be
-> ideal for oe-core (if such cases exist, they should be addressed in a
-> separate commit).
-
-Ping.
-
-Are there any issues with this?
-
-
-> Andre McCurdy (4):
->   busybox: merge login-utilities.cfg into defconfig
->   busybox: re-order defconfig to align with busybox 1.23.2
->   busybox: remove CONFIG_FEATURE_VI_OPTIMIZE_CURSOR from defconfig
->   busybox: refresh defconfig for busybox v1.23.2
+> On Sun, Jul 12, 2015 at 11:10 PM, Zhang Xiao <xiao.zhang@windriver.com
+> <mailto:xiao.zhang@windriver.com>> wrote:
 >
->  meta/recipes-core/busybox/busybox/defconfig        | 158 +++++++++++++--------
->  .../busybox/busybox/login-utilities.cfg            |  13 --
->  meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 -
->  meta/recipes-core/busybox/busybox_git.bb           |   1 -
->  4 files changed, 98 insertions(+), 75 deletions(-)
->  delete mode 100644 meta/recipes-core/busybox/busybox/login-utilities.cfg
+>     Upstream-Status: pending
 >
+>     Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com
+>     <mailto:xiao.zhang@windriver.com>>
+>
+>
+> There’s no info on why this is being done, only what’s being done, in
+> this commit message.
+
+Binary logrotate should be installed in /usr/sbin and int fact, at the very
+beginning, it was there. While with commit a46d3646a3e1781be44:
+...
+logrotate: obey our flags
+
+Needed to quiet GNU_HASH warnings, and some minor fixes.
+...
+
+Part of its modification as below:
+...
+-    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir}
++    oe_runmake install DESTDIR=${D} PREFIX=${D} MANDIR=${mandir} 
+BINDIR=${bindir}
+...
+moves it to /usr/bin. It is not correct, so move it back to
+/usr/sbin with ${sbindir}.
+
+Xiao
+
 > --
-> 1.9.1
->
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
 
