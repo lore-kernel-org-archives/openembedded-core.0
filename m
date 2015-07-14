@@ -1,39 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C70165C78
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 97FB865C78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 12:38:30 +0000 (UTC)
-Received: by wgmn9 with SMTP id n9so7787546wgm.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 05:38:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=7Ngth9YaLIj4dLhE0BvlnAtarMLo1rAnKmj20pDtyiw=;
-	b=a9vw227d+LXvPVdV8N1mgWewnEG4+57+yEo4Te0qzidf20dtyrnfOyzeKvL6cCWWED
-	Pw9TlZ8qZShlIFXhLdq1yGRjVMY6E7Uw+oVYVLvRJ6VUtp0aqznQ46M3yHxjKYk2lD7Z
-	gyDoLO6GulQlv6sFxvVFsA4wz2AI0h4mBcKpribzWLUBYryuiP46xO/RAMC5A8JY1TQ4
-	5IbIyrtJkgvN35lOo1rmGaOM82ej+OTglGJ4njQAnnzR6k9eeh/ObR3mb6lKLlDy7lNF
-	6W0Zi4KgqG6rX9vs0BgZCu4qlS+ml4e/98b0FWhBS8KD1uzGoQYTjIEVcnVVmyaCI5t4
-	DnmQ==
-X-Received: by 10.180.87.105 with SMTP id w9mr33197252wiz.32.1436877510177;
-	Tue, 14 Jul 2015 05:38:30 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	x10sm1812197wjr.25.2015.07.14.05.38.29
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Jul 2015 05:38:29 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 14 Jul 2015 14:38:42 +0200
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150714123842.GB2184@jama>
-References: <1436877405-29049-1-git-send-email-Martin.Jansa@gmail.com>
+	Tue, 14 Jul 2015 13:17:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Jul 2015 06:17:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,471,1432623600"; d="scan'208";a="746892682"
+Received: from cbernard-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.31.54])
+	by fmsmga001.fm.intel.com with ESMTP; 14 Jul 2015 06:17:43 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Istrate, Daniel AlexandruX" <daniel.alexandrux.istrate@intel.com>
+Date: Tue, 14 Jul 2015 14:17:42 +0100
+Message-ID: <2830923.Hq27Wl5Vgc@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.0.7-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <174AD7CFE5F468498ACCFE3FEE0EF1EBE66974@IRSMSX102.ger.corp.intel.com>
+References: <1436863689-29230-1-git-send-email-daniel.alexandrux.istrate@intel.com>
+	<6014412.IjVSLHLSvX@peggleto-mobl.ger.corp.intel.com>
+	<174AD7CFE5F468498ACCFE3FEE0EF1EBE66974@IRSMSX102.ger.corp.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1436877405-29049-1-git-send-email-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: [PATCH] connman-conf: fix SRC_URI_append
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] oeqa/selftest: [YOCTO #7976] Updated imagefeature testcases.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,64 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 12:38:34 -0000
-X-Groupsio-MsgNum: 67931
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="3uo+9/B/ebqu+fSQ"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 14 Jul 2015 13:17:44 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---3uo+9/B/ebqu+fSQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tuesday 14 July 2015 12:27:11 Istrate, Daniel AlexandruX wrote:
+> > A stylistic thing perhaps, but instead of ... {}".format(str) why not just
+> > use ... %s" % str ? 
+> -- I don't have strong feelings about using str.format
+> ..I could use "%s %str" instead if that's the style. I like format because
+> I don't have to cast to string the passed in parameter.
 
-On Tue, Jul 14, 2015 at 02:36:45PM +0200, Martin Jansa wrote:
-> * add leading space so that it works even with some .bbappend adding
->   additional files to SRC_URI without trailing space
+OK, well I guess I'll leave that up to you.
+ 
+> > Hmm, so I thought the plan we talked about here was to use QemuRunner. As
+> > I said earlier, if QemuRunner isn't doing what we need here (e.g. isn't
+> > allowing us to use pexpect) then we should fix it so that it does or at
+> > least make it optional. Even with these changes we are still left with a
+> > complete implementation of running QEMU here in the test, which we want to
+> > avoid.
+> -- I am aware that we should use QemuRunner but at the moment it
+> isn't doing what we need here. Since these testcases might interfere with
+> other qemu instances running in parallel I thought it is a good compromise
+> the way I implemented in this patch. When we will manage to update
+> QemuRunner, these testcase can be easily updated too.
 
-This issue exists for long time, please backport also to fido and dizzy.
+I had thought what we would do would be to fix this properly in one go, but 
+given the desire to reduce failures on the autobuilder we can accept this one. 
+I do want us to fix this properly however (and soon). What I would suggest is, 
+Markus can make the implementation to work for bug 7928, and then you can re-
+use that here - I've entered a separate bug to cover the last part:
 
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/recipes-connectivity/connman/connman-conf.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-connectivity/connman/connman-conf.bb b/meta/rec=
-ipes-connectivity/connman/connman-conf.bb
-> index 2358d9d..bd4c28d 100644
-> --- a/meta/recipes-connectivity/connman/connman-conf.bb
-> +++ b/meta/recipes-connectivity/connman/connman-conf.bb
-> @@ -4,9 +4,9 @@ network interface for a qemu machine."
->  LICENSE =3D "GPLv2"
->  LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/files/common-licenses/GPL-=
-2.0;md5=3D801f80980d171dd6425610833a22dbe6"
-> =20
-> -SRC_URI_append_qemuall =3D "file://wired.config \
-> -                          file://wired-setup \
-> -                         "
-> +SRC_URI_append_qemuall =3D " file://wired.config \
-> +                           file://wired-setup \
-> +"
->  PR =3D "r2"
-> =20
->  S =3D "${WORKDIR}"
-> --=20
-> 2.4.4
->=20
+  https://bugzilla.yoctoproject.org/show_bug.cgi?id=7994
+ 
+> These changes aren't described in the commit message - please either add
+> mention of them or if they aren't actually related to resolving the QEMU
+> running issue, put them in a separate patch.
+> -- I updated the assert message to also include the output. Is it really
+> necessary to submit another patch with this minor change?
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+As a general rule we shouldn't be mixing different fixes in the same patch 
+unless they are completely tied together. If you could please keep this in 
+mind for the future that would be much appreciated.
 
---3uo+9/B/ebqu+fSQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Looking more closely, I've just noticed that some of the places you have 
+changed are looking at the status value returned from calls to runCmd() or 
+bitbake(), except those calls to have the default of ignore_status=False, thus 
+that assert will never be called on failure - the function checks the status 
+already and bails out itself. Shouldn't we just drop these asserts entirely?
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Cheers,
+Paul
 
-iEYEARECAAYFAlWlAtIACgkQN1Ujt2V2gBxyOACdGJVIM/GqS4QH/n+0pVb/X3U0
-WY0AoK98DUy+4bB1ClmDgdjwv1OYu5F3
-=scEh
------END PGP SIGNATURE-----
+-- 
 
---3uo+9/B/ebqu+fSQ--
+Paul Eggleton
+Intel Open Source Technology Centre
+
