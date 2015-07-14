@@ -1,39 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E64865D00
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A0A365D00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 14:56:44 +0000 (UTC)
-Received: by wgxm20 with SMTP id m20so10927667wgx.3
+	Tue, 14 Jul 2015 14:56:45 +0000 (UTC)
+Received: by wibud3 with SMTP id ud3so16773672wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 07:56:44 -0700 (PDT)
+	Tue, 14 Jul 2015 07:56:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=YxcG3lcplxH1AzxsTlNoiW02jiZWYdBdGoN8CxgTTb8=;
-	b=SnSMoltR5zxg7Ptod70+I3hn0dHQ1sulFejG5xr7vipn0Tt1k/GVUa5z9OlYl2cVi5
-	y+Cl/aAOyQwxvB5kvzqkAnaF9UXsiRpAFCERsg4mTQ/eG6simiW46rAY0FHAu9+zgze+
-	6zEI6WjFrhYGXbcxFScIwBaXoqh08YS0C8EzKboi6+98fUFLoUFLoLU8PVrf3LJY0fAj
-	ijcbozoQk3ZpmaHUdA2lmus5rliyf23mAxhSnfAKmpnbQIx5Vr0+/It88SG7quXNDu7x
-	iD4VRuW/Lizc/53pEkwdLdOn0WlthiC1EFvPAvHiIGlk9PoINXCY7TtQzwmwXHvYsO/q
-	UrFQ==
-X-Gm-Message-State: ALoCoQlu0au5AvWDePsHByHnnh8Lg+v8JB0aNpZfuWgtHGZDYYbhT6yZ6N0FTzAEktxVRtvAaZdB
-X-Received: by 10.180.73.145 with SMTP id l17mr6448645wiv.39.1436885804331;
-	Tue, 14 Jul 2015 07:56:44 -0700 (PDT)
+	bh=ldKH65eFI5dR3wyJz84Q/ISxTGztF6wIkvuHEiYktyg=;
+	b=NuGo4Ce7f9GFC6JZ3zM+uAyY0ckFJ8h9IGBVIpc2YuQlaDoDcUOM0gEmOPr/zfg9oq
+	v00ofs1ozMPIFwXOql+vAa4yyoAMC8FB1ca6wUJobe4S7+j6+uRt9wYuLKk7Z1b+fAl0
+	H2NFPM2wW1QAsa1+S1TclGsI/M2ROnjzU0MEDxBiTi9+YY5MLn09mSt5SphCA7AehgzJ
+	VpE/x2OeAlHIkyCveHGQPKlJsuEzqyfvZ8xxaRyUn+K79umgqP9RE7CgJQSPseaeieVv
+	0ZBlDEgn2onV4zYoD7dEMhFrY2V3+pUtLlDOBR7kkx/X19wERMmjw8Zzp1iOzd2kCCOQ
+	+YEw==
+X-Gm-Message-State: ALoCoQkNPfzMQmdI2Uwahx5mqaY2a6oBPa14ZLbsPCg47vhPMbYdOz/MnbQGHdkixG98dY81YbxF
+X-Received: by 10.181.12.20 with SMTP id em20mr35258639wid.28.1436885805234;
+	Tue, 14 Jul 2015 07:56:45 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	lj14sm3644571wic.18.2015.07.14.07.56.43
+	lj14sm3644571wic.18.2015.07.14.07.56.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Jul 2015 07:56:43 -0700 (PDT)
+	Tue, 14 Jul 2015 07:56:44 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jul 2015 15:51:01 +0100
-Message-Id: <1436885463-4577-5-git-send-email-ross.burton@intel.com>
+Date: Tue, 14 Jul 2015 15:51:02 +0100
+Message-Id: <1436885463-4577-6-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1436885463-4577-1-git-send-email-ross.burton@intel.com>
 References: <1436885463-4577-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 5/7] dmidecode: use absolute paths in fixup task
+Subject: [PATCH 6/7] chkconfig: use explicit directories in obey_variables()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,29 +47,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 14:56:47 -0000
+X-List-Received-Date: Tue, 14 Jul 2015 14:56:48 -0000
 
-The calls to sed use relative paths so they depend on the directory the task
-starts in.  To clarify the code, use absolute paths.
+obey_variables() was using relative paths which mean it depends on exactly what
+directory it starts in.  To clarify the code, always use absolute paths.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/dmidecode/dmidecode_2.12.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb b/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
-index b5151b8..4c16556 100644
---- a/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
-+++ b/meta/recipes-devtools/dmidecode/dmidecode_2.12.bb
-@@ -12,7 +12,7 @@ do_install() {
+diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+index d285c50..8df87f8 100644
+--- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
++++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+@@ -36,10 +36,10 @@ EXTRA_OEMAKE = "\
+ do_unpack[postfuncs] += "obey_variables"
+ do_unpack[vardeps] += "obey_variables"
+ obey_variables () {
+-	sed -i -e 's,/etc,${sysconfdir},; s,/lib/systemd,${base_libdir}/systemd,' leveldb.h
++	sed -i -e 's,/etc,${sysconfdir},; s,/lib/systemd,${base_libdir}/systemd,' ${S}/leveldb.h
+ 	sed -i -e 's,/etc/alternatives,${sysconfdir}/alternatives,' \
+ 	       -e 's,/var/lib/alternatives,${localstatedir}/lib/alternatives,' \
+-	       -e 's,/usr/share/locale,${datadir}/locale,' alternatives.c
++	       -e 's,/usr/share/locale,${datadir}/locale,' ${S}/alternatives.c
  }
  
- do_unpack_extra() {
--	sed -i -e '/^prefix/s:/usr/local:${exec_prefix}:' Makefile
-+	sed -i -e '/^prefix/s:/usr/local:${exec_prefix}:' ${S}/Makefile
- }
- addtask unpack_extra after do_unpack before do_patch
- 
+ do_install() {
 -- 
 2.1.4
 
