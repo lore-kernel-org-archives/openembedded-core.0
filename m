@@ -1,38 +1,35 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BF1165C78
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id BDF5B65C78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 09:50:08 +0000 (UTC)
-Received: by qgy5 with SMTP id 5so1671631qgy.3
+	Tue, 14 Jul 2015 11:03:25 +0000 (UTC)
+Received: by qgep37 with SMTP id p37so2311949qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 02:50:08 -0700 (PDT)
+	Tue, 14 Jul 2015 04:03:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=OioIer+uB5PNHH7P4NQKBT4D6dEkCk51lIXRnFfwBVc=;
-	b=bILtqeMmAzXQ+IcJeK5cXd6T7pzcXEHVuO+fuJTV6zrHzfc5491bTsq4hE1+IyNk5x
-	QOhSA+x2SqZimug9OoJ5V3Kb+kMJUCyCcTM+Ar0OzcBxQWXJwBfgiiDGHYBabWr/M32S
-	UXcoR9H8C/HIJRCFm7PlFm1JlH5xgzlvCNoz1xZKQWn5fB6j3t6jXC/Jb0PReeDLLHyr
-	Zs3kLw/xLvR99SDp5B+rmgcwJEGj2uM4vjtfnBJyRn4HBEDdlySoCEuFlfQT0ROX+HuE
-	nxABBN5fNv+ApZTEz9k3FyZNOKy4SOBpm2hXsLQFwT96Y+Y938UwiojLYqBN9382Vaul
-	NAqw==
-X-Gm-Message-State: ALoCoQnHyI5sIqxOdzNUMgW5Fhe028iaenBBPcaC3wyMybTIHVGV1HsWPj7/BbEvEvxCBBejI2eK
-X-Received: by 10.55.43.95 with SMTP id r92mr36130446qkh.67.1436867408110;
-	Tue, 14 Jul 2015 02:50:08 -0700 (PDT)
+	:message-id:subject:to:content-type;
+	bh=oX+ShOljncYO97Pe9BhLQVnS5jBG+XWNjGYyewpPiyo=;
+	b=G1ArXfmwhXBtq582L4Iz8bcP9w4A4FsyHrg/foKrDoLDj27Ps1g8MrDjXYXXqngVTQ
+	VwJ2MQ3V6uhhVHnmBZ+FKdqE+x+cnAgDGzmIOwaG06FwlsaQ/iVeg43/GGb+OJ4yWEMb
+	LFW37dSkrYVjsnW+15JK56NLjnVNP/GYaXlOuLB28O4tXRxOFaBOBlXcUM7oThPsY9kW
+	l7nEUlAgx1g371gGQol1Wog/aTNFJqnaKohjlG/mBKa5pgKLdveUgroxr+9ZVx1NSOfy
+	0UfDLlZ558r9A4RioGfMclx7n2rEPzYAGsiwqNg7dONuek6baSjyBb4MzOKNhsc8SZyf
+	sYew==
+X-Gm-Message-State: ALoCoQm6e5u0MuX9yUkjVeUIz0YNvkFl1iVxNLnzZDm7l5dsqHiPEhfXrf7r/u0v88ENaNp717l1
+X-Received: by 10.55.15.129 with SMTP id 1mr60231979qkp.29.1436871805329; Tue,
+	14 Jul 2015 04:03:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Tue, 14 Jul 2015 02:49:48 -0700 (PDT)
-In-Reply-To: <871tgbyk2s.fsf@weregild.amer.corp.natinst.com>
-References: <1407178549-8464-1-git-send-email-ben.shelton@ni.com>
-	<871tgbyk2s.fsf@weregild.amer.corp.natinst.com>
+Received: by 10.140.102.231 with HTTP; Tue, 14 Jul 2015 04:03:05 -0700 (PDT)
+In-Reply-To: <cover.1436795781.git.ross.burton@intel.com>
+References: <cover.1436795781.git.ross.burton@intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 Jul 2015 10:49:48 +0100
-Message-ID: <CAJTo0LZF6fogQd6YhTbkY9adXGOhiZONqwWLc909AUF4fBUapg@mail.gmail.com>
-To: Richard Tollerton <rich.tollerton@ni.com>
-Cc: Ben Shelton <ben.shelton@ni.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] create-pull-request: Fix error on 2.0 versions of git
+Date: Tue, 14 Jul 2015 12:03:05 +0100
+Message-ID: <CAJTo0LYnL4ighqwVs8oBvYXYrbv-W4r-y54pOGMwuVzZTq7xCQ@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/7][RFC][HEREBEDRAGONS] Remove bitbake's knowledge of ${B}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,74 +42,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 09:50:09 -0000
-Content-Type: multipart/alternative; boundary=001a1147b8dc73416f051ad2c322
+X-List-Received-Date: Tue, 14 Jul 2015 11:03:25 -0000
+Content-Type: multipart/alternative; boundary=001a1146f1008b77ba051ad3c956
 
---001a1147b8dc73416f051ad2c322
+--001a1146f1008b77ba051ad3c956
 Content-Type: text/plain; charset=UTF-8
 
-On 13 July 2015 at 19:43, Richard Tollerton <rich.tollerton@ni.com> wrote:
+On 13 July 2015 at 15:02, Ross Burton <ross.burton@intel.com> wrote:
 
-> Ben Shelton <ben.shelton@ni.com> writes:
->
-> > On 2.0 versions of git, the create-pull-request script exits with the
-> > warning "No match for commit... Are you sure you pushed 'HEAD' there?".
-> >
-> > This is due to a change in behavior where git used to guess the branch
-> > you meant, but no longer does.  See the thread at
-> > http://www.spinics.net/lists/git/msg233050.html for more information.
-> >
-> > To accommodate the new behavior, if the COMMIT_ID is set to the default
-> > of "HEAD", make it point explicitly to $BRANCH instead.
-> >
-> > Signed-off-by: Ben Shelton <ben.shelton@ni.com>
->
-> I still need to apply this patch in order to use create-pull-request.
-> Bump?
+> Ross Burton (7):
+>       build: don't automatically mkdir/chdir B
+>       build: add remove/mkdir/chdir debugging
+>       ptest: add dirs
+>       boost: add dirs
+>       python: add explicit directory when copying
+>       libc-package: fix path assumption
+>       kernel: fix path assumptions
 >
 
-Not sure how this got missed, and I can't even find it in my archives, but
-it's queued now.
+FYI, I've fixed the libc-package fix (to pass -C to EXTRA_OEMAKE),
+elaborated on the commit messages, and merged the oe-core parts into my
+master-under-test branch.  The actual change to bitbake is still not merged
+and open for comments.
 
 Ross
 
---001a1147b8dc73416f051ad2c322
+--001a1146f1008b77ba051ad3c956
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 July 2015 at 19:43, Richard Tollerton <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":zw" clas=
-s=3D"a3s" style=3D"overflow:hidden">Ben Shelton &lt;<a href=3D"mailto:ben.s=
-helton@ni.com">ben.shelton@ni.com</a>&gt; writes:<br>
-<br>
-&gt; On 2.0 versions of git, the <span class=3D"il">create</span>-<span cla=
-ss=3D"il">pull</span>-<span class=3D"il">request</span> script exits with t=
-he<br>
-&gt; warning &quot;No match for commit... Are you sure you pushed &#39;HEAD=
-&#39; there?&quot;.<br>
-&gt;<br>
-&gt; This is due to a change in behavior where git used to guess the branch=
-<br>
-&gt; you meant, but no longer does.=C2=A0 See the thread at<br>
-&gt; <a href=3D"http://www.spinics.net/lists/git/msg233050.html" rel=3D"nor=
-eferrer" target=3D"_blank">http://www.spinics.net/lists/git/msg233050.html<=
-/a> for more information.<br>
-&gt;<br>
-&gt; To accommodate the new behavior, if the COMMIT_ID is set to the defaul=
-t<br>
-&gt; of &quot;HEAD&quot;, make it point explicitly to $BRANCH instead.<br>
-&gt;<br>
-&gt; Signed-off-by: Ben Shelton &lt;<a href=3D"mailto:ben.shelton@ni.com">b=
-en.shelton@ni.com</a>&gt;<br>
-<br>
-I still need to apply this patch in order to use <span class=3D"il">create<=
-/span>-<span class=3D"il">pull</span>-<span class=3D"il">request</span>.<br=
->
-Bump?</div></blockquote></div><br>Not sure how this got missed, and I can&#=
-39;t even find it in my archives, but it&#39;s queued now.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 13 July 2015 at 15:02, Ross Burton <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1kr" class=3D"a3=
+s" style=3D"overflow:hidden">Ross Burton (7):<br>
+=C2=A0 =C2=A0 =C2=A0 build: don&#39;t automatically mkdir/chdir B<br>
+=C2=A0 =C2=A0 =C2=A0 build: add remove/mkdir/chdir debugging<br>
+=C2=A0 =C2=A0 =C2=A0 ptest: add dirs<br>
+=C2=A0 =C2=A0 =C2=A0 boost: add dirs<br>
+=C2=A0 =C2=A0 =C2=A0 python: add explicit directory when copying<br>
+=C2=A0 =C2=A0 =C2=A0 libc-package: fix path assumption<br>
+=C2=A0 =C2=A0 =C2=A0 kernel: fix path assumptions</div></blockquote></div><=
+br>FYI, I&#39;ve fixed the libc-package fix (to pass -C to EXTRA_OEMAKE), e=
+laborated on the commit messages, and merged the oe-core parts into my mast=
+er-under-test branch.=C2=A0 The actual change to bitbake is still not merge=
+d and open for comments.</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
 
---001a1147b8dc73416f051ad2c322--
+--001a1146f1008b77ba051ad3c956--
