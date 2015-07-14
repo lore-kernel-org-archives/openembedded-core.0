@@ -1,39 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 29C4A65D00
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id EB45265D00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 15:57:26 +0000 (UTC)
-Received: by pactm7 with SMTP id tm7so7778495pac.2
+	Tue, 14 Jul 2015 15:57:30 +0000 (UTC)
+Received: by pdbqm3 with SMTP id qm3so8053141pdb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 08:57:27 -0700 (PDT)
+	Tue, 14 Jul 2015 08:57:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=94Tcd3b5hNqV5KuVTl4j0rBvZt8EVJeuykfDVlMNRvY=;
-	b=AEqjmw8BjOVQgECDF84G1lDEfRzOQ0s1hHzxIMr3gSyVkVX7MZ//zM4o9sbR62fQzP
-	wvSOE3IsubsYHy5ms6N6bEOjnZG0EKXzQ4iQ0oemZq9pumtXzK3114JyGCsjq7vnSxhC
-	foDPmWAmK7I1cm9+LqZpMep/fyDnlo4PnHfbVPSBjZpD9loQ0ROoNsSI1WQahTNMcOnm
-	Lwg1dyk6MyvZVoEnjSvSEsK8cjW3pxucHmVU1bT8D4LU83M8Uf7qB4yjozMN2HPA2U72
-	p/0G1uIAlUDYgat6ykeyn4Saa/r1LuIk1sVLrm7DJLNiphtltgnfiYMHyTXH05UJOUmD
-	12lQ==
-X-Received: by 10.66.222.41 with SMTP id qj9mr82519065pac.139.1436889447266;
-	Tue, 14 Jul 2015 08:57:27 -0700 (PDT)
+	bh=Aq5ecHYjlWRUXa4il2PEa+Ki4295UyYRcKDfzCC4/Qw=;
+	b=zD+fS2eUZm7mpcC5Yoomyh9TibQUlalBvMxa8AgZ0M22ecAnlfNFXvrRiSQckOSMd/
+	XUtygAzPIEFd2HmuKYhzA+unrIoSTtShXcNpM8dk9z0Q+3QebIJhVd1YjyPtU73uURnK
+	19fhqHMrMB6qt0+BqenQgTPxyfDYJHnV62GwIAfzfgLs4mdPQAWUrGrY35T5oO7zi9md
+	ejZ2fEIWO+Eyd9I/yItlbJy8fa6fFLJSZsoT65NKkK7I1Sb9GY4atm9wsmT0tBQNomb9
+	olf5qukPiMWMa2K3ZAfqGD0OCZ01LUCr5DqPYPEu3GQp9grm4/zpXTj61lL3koaTXLo2
+	eQEQ==
+X-Received: by 10.70.9.162 with SMTP id a2mr82605277pdb.61.1436889450850;
+	Tue, 14 Jul 2015 08:57:30 -0700 (PDT)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id k5sm1781519pdb.53.2015.07.14.08.57.25
+	by smtp.gmail.com with ESMTPSA id k5sm1781519pdb.53.2015.07.14.08.57.29
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Jul 2015 08:57:26 -0700 (PDT)
+	Tue, 14 Jul 2015 08:57:29 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jul 2015 08:57:41 -0700
-Message-Id: <c8597d645516fe31b05cbb958c373ec206bb5a17.1436889188.git.chris_larson@mentor.com>
+Date: Tue, 14 Jul 2015 08:57:43 -0700
+Message-Id: <437d5f10080c9ccb336477e475078d59215016e1.1436889188.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <e15b0bbe895d669fd6908504f11d62a89aeda5c4.1436889188.git.chris_larson@mentor.com>
 References: <e15b0bbe895d669fd6908504f11d62a89aeda5c4.1436889188.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1436889188.git.chris_larson@mentor.com>
 References: <cover.1436889188.git.chris_larson@mentor.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/6] recipetool: also load plugins from BBPATH
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 5/6] oe-selftest: obey oeqa.selftest.__path__
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,105 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 15:57:27 -0000
+X-List-Received-Date: Tue, 14 Jul 2015 15:57:31 -0000
 
-This makes it easier to extend, as a layer can add its own sub-commands.
+From: Christopher Larson <chris_larson@mentor.com>
+
+This ensures that all paths that hold selftest tests will be checked
+(oeqa.selftest is a namespace package).
 
 [YOCTO #7625]
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- scripts/recipetool | 52 ++++++++++++++++++++++++++++++++--------------------
- 1 file changed, 32 insertions(+), 20 deletions(-)
+ scripts/oe-selftest | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/recipetool b/scripts/recipetool
-index 3063cf7..6061d7b 100755
---- a/scripts/recipetool
-+++ b/scripts/recipetool
-@@ -36,11 +36,8 @@ def tinfoil_init(parserecipes):
-     import logging
-     tinfoil = bb.tinfoil.Tinfoil()
-     tinfoil.prepare(not parserecipes)
--
--    for plugin in plugins:
--        if hasattr(plugin, 'tinfoil_init'):
--            plugin.tinfoil_init(tinfoil)
-     tinfoil.logger.setLevel(logger.getEffectiveLevel())
-+    return tinfoil
+diff --git a/scripts/oe-selftest b/scripts/oe-selftest
+index fa6245a..c19c692 100755
+--- a/scripts/oe-selftest
++++ b/scripts/oe-selftest
+@@ -142,11 +142,12 @@ def get_tests(exclusive_modules=[], include_hidden=False):
+     for x in exclusive_modules:
+         testslist.append('oeqa.selftest.' + x)
+     if not testslist:
+-        testpath = os.path.abspath(os.path.dirname(oeqa.selftest.__file__))
+-        files = sorted([f for f in os.listdir(testpath) if f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'])
+-        for f in files:
+-            module = 'oeqa.selftest.' + f[:-3]
+-            testslist.append(module)
++        for testpath in oeqa.selftest.__path__:
++            files = sorted([f for f in os.listdir(testpath) if f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'])
++            for f in files:
++                module = 'oeqa.selftest.' + f[:-3]
++                if module not in testslist:
++                    testslist.append(module)
  
- def main():
+     return testslist
  
-@@ -49,28 +46,22 @@ def main():
-         sys.exit(1)
- 
-     parser = argparse.ArgumentParser(description="OpenEmbedded recipe tool",
-+                                     add_help=False,
-                                      epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
-     parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
-     parser.add_argument('-q', '--quiet', help='Print only errors', action='store_true')
-     parser.add_argument('--color', choices=['auto', 'always', 'never'], default='auto', help='Colorize output (where %(metavar)s is %(choices)s)', metavar='COLOR')
--    subparsers = parser.add_subparsers(title='subcommands', metavar='<subcommand>')
--
--    scriptutils.load_plugins(logger, plugins, os.path.join(scripts_path, 'lib', 'recipetool'))
--    registered = False
--    for plugin in plugins:
--        if hasattr(plugin, 'register_command'):
--            registered = True
--            plugin.register_command(subparsers)
- 
--    if not registered:
--        logger.error("No commands registered - missing plugins?")
--        sys.exit(1)
-+    initial_args, unparsed_args = parser.parse_known_args(sys.argv[1:])
- 
--    args = parser.parse_args()
-+    # Help is added here rather than via add_help=True, as we don't want it to
-+    # be handled by parse_known_args()
-+    parser.add_argument('-h', '--help', action='help', default=argparse.SUPPRESS,
-+                        help='show this help message and exit')
- 
--    if args.debug:
-+    if initial_args.debug:
-         logger.setLevel(logging.DEBUG)
--    elif args.quiet:
-+    elif initial_args.quiet:
-         logger.setLevel(logging.ERROR)
- 
-     import scriptpath
-@@ -80,10 +71,31 @@ def main():
-         sys.exit(1)
-     logger.debug('Found bitbake path: %s' % bitbakepath)
- 
--    scriptutils.logger_setup_color(logger, args.color)
-+    scriptutils.logger_setup_color(logger, initial_args.color)
-+
-+    subparsers = parser.add_subparsers(title='subcommands', metavar='<subcommand>')
-+    tinfoil = tinfoil_init(False)
-+    for path in ([scripts_path] +
-+                 tinfoil.config_data.getVar('BBPATH', True).split(':')):
-+        pluginpath = os.path.join(path, 'lib', 'recipetool')
-+        scriptutils.load_plugins(logger, plugins, pluginpath)
-+    registered = False
-+    for plugin in plugins:
-+        if hasattr(plugin, 'register_command'):
-+            registered = True
-+            plugin.register_command(subparsers)
-+        if hasattr(plugin, 'tinfoil_init'):
-+            plugin.tinfoil_init(tinfoil)
-+
-+    if not registered:
-+        logger.error("No commands registered - missing plugins?")
-+        sys.exit(1)
-+
-+    args = parser.parse_args(unparsed_args, namespace=initial_args)
- 
-     try:
--        tinfoil_init(getattr(args, 'parserecipes', False))
-+        if getattr(args, 'parserecipes', False):
-+            tinfoil.parseRecipes()
-         ret = args.func(args)
-     except bb.BBHandledException:
-         ret = 1
 -- 
 2.2.1
 
