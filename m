@@ -1,21 +1,25 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id B9CEA6013D
+Return-Path: <Yang.Shi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C751734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 19:29:36 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 15 Jul 2015 12:29:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,482,1432623600"; d="scan'208";a="524905749"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Jul 2015 12:29:29 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jul 2015 11:21:51 +0000
-Message-Id: <1436959311-45777-1-git-send-email-mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH] sanity.bbclass: Remove check if /tmp is writable
+	Wed, 15 Jul 2015 20:28:34 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6FKSYDQ007844
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jul 2015 13:28:34 -0700 (PDT)
+Received: from yshi-Precision-T5600.corp.ad.wrs.com (147.11.216.82) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 15 Jul 2015 13:28:33 -0700
+From: Yang Shi <yang.shi@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Wed, 15 Jul 2015 13:15:26 -0700
+Message-ID: <1436991327-5726-1-git-send-email-yang.shi@windriver.com>
+X-Mailer: git-send-email 2.0.2
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/1] Bug 8009: Backport upstream commit to fix 3.14 kernel build failure for qemumips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,45 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 19:29:36 -0000
+X-List-Received-Date: Wed, 15 Jul 2015 20:28:37 -0000
+Content-Type: text/plain
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-The check would be managed using BB_DISKMON_DIRS so this
-removes the check from the sanity class.
+Backported the upstream commit to solve the 3.14 kerne lbuild faiure for qemumips with gcc 4.9.3.
 
-[YOCTO #8000]
+The following changes since commit b985d5039e5b14f5acac135a84f2d6541b531552:
 
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/sanity.bbclass | 13 -------------
- 1 file changed, 13 deletions(-)
+  Merge branch 'standard/base' into standard/mti-malta32 (2015-05-07 14:49:36 -0400)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 7a580da..2855941 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -704,19 +704,6 @@ def check_sanity_everybuild(status, d):
-     if "." in paths or "./" in paths or "" in paths:
-         status.addresult("PATH contains '.', './' or '' (empty element), which will break the build, please remove this.\nParsed PATH is " + str(paths) + "\n")
- 
--    # Check if /tmp is writable
--    from string import ascii_letters
--    from random import choice
--    filename = "bb_writetest.%s" % os.getpid()
--    testfile = os.path.join("/tmp", filename)
--    try:
--        f = open(testfile, "w")
--        f.write("".join(choice(ascii_letters) for x in range(1024)))
--        f.close()
--        os.remove(testfile)
--    except:
--        status.addresult("Failed to write into /tmp. Please verify your filesystem.")
--
-     # Check that the DISTRO is valid, if set
-     # need to take into account DISTRO renaming DISTRO
-     distro = d.getVar('DISTRO', True)
--- 
-1.8.4.5
+are available in the git repository at:
 
+  ssh://147.11.216.82/home/yshi/yocto/workspace/qemumips/build/tmp/work/qemumips-poky-linux/linux-yocto/3.14.36+gitAUTOINC+a996d95104_b985d5039e-r0/linux-qemumips-standard-build/source
+
+for you to fetch changes up to 7e1bb35f40c250badd2ef8dbbc7914ba405ddec4:
+
+  MIPS: Fix build with binutils 2.24.51+ (2015-07-15 11:38:32 -0700)
+
+----------------------------------------------------------------
+Manuel Lauss (1):
+      MIPS: Fix build with binutils 2.24.51+
+
+ arch/mips/Makefile                  |  9 +++++++++
+ arch/mips/include/asm/asmmacro-32.h |  6 ++++++
+ arch/mips/include/asm/asmmacro.h    |  7 +++++++
+ arch/mips/include/asm/fpregdef.h    | 14 ++++++++++++++
+ arch/mips/include/asm/mipsregs.h    | 11 ++++++++++-
+ arch/mips/kernel/branch.c           |  6 +-----
+ arch/mips/kernel/genex.S            |  1 +
+ arch/mips/kernel/r2300_fpu.S        |  6 ++++++
+ arch/mips/kernel/r2300_switch.S     |  5 +++++
+ arch/mips/kernel/r4k_fpu.S          | 27 +++++++++++++++++++++++++--
+ arch/mips/kernel/r4k_switch.S       | 11 ++++++++++-
+ arch/mips/kernel/r6000_fpu.S        |  5 +++++
+ arch/mips/math-emu/cp1emu.c         |  6 +-----
+ 13 files changed, 100 insertions(+), 14 deletions(-)
 
