@@ -1,25 +1,21 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E48E375F1C
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1508975979
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 21:56:12 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 14 Jul 2015 14:56:13 -0700
+	Wed, 15 Jul 2015 00:33:12 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Jul 2015 17:33:12 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,475,1432623600"; d="scan'208";a="606232594"
-Received: from fgalanel-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.20.60])
-	by orsmga003.jf.intel.com with ESMTP; 14 Jul 2015 14:56:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.15,476,1432623600"; d="scan'208";a="764566107"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.5.54])
+	by orsmga002.jf.intel.com with ESMTP; 14 Jul 2015 17:33:12 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jul 2015 22:56:00 +0100
-Message-Id: <f7d52e3c57e480958ae834384aa8699b173cf97e.1436910107.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1436910107.git.paul.eggleton@linux.intel.com>
-References: <cover.1436910107.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1436910107.git.paul.eggleton@linux.intel.com>
-References: <cover.1436910107.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/1] lib/oe/recipeutils: fix replace_dir_vars to return the correct variables
+Date: Tue, 14 Jul 2015 19:33:08 -0500
+Message-Id: <1436920390-32074-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/2] oe/recipeutils.py: get_recipe_upstream_info improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +28,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jul 2015 21:56:13 -0000
+X-List-Received-Date: Wed, 15 Jul 2015 00:33:13 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-If we sort by length of name here we get the variables we are interested
-in first. I've tested this with all of the variables we care about (the
-ones at the top of bitbake.conf) and it returns the right results.
+This patch set uses the new latest_versionstring method that returns the
+current revision of a version in SCM's this DEPENDS on,
 
-This fixes the failures we've been seeing in the oe-selftest
-test_recipetool_appendfile_* tests.
+http://lists.openembedded.org/pipermail/bitbake-devel/2015-July/006034.html
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/lib/oe/recipeutils.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Aníbal Limón (2):
+  oe/recipeutils.py: get_recipe_upstream_info update to get revision
+  recipeutils.py: get_recipe_pv_without_srcpv remove prefixes from pv
 
-diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
-index bd812cc..78d6926 100644
---- a/meta/lib/oe/recipeutils.py
-+++ b/meta/lib/oe/recipeutils.py
-@@ -617,7 +617,8 @@ def find_layerdir(fn):
- def replace_dir_vars(path, d):
-     """Replace common directory paths with appropriate variable references (e.g. /etc becomes ${sysconfdir})"""
-     dirvars = {}
--    for var in d:
-+    # Sort by length so we get the variables we're interested in first
-+    for var in sorted(d.keys(), key=len):
-         if var.endswith('dir') and var.lower() == var:
-             value = d.getVar(var, True)
-             if value.startswith('/') and not '\n' in value and value not in dirvars:
+ meta/lib/oe/recipeutils.py | 34 +++++++++++++++++++++-------------
+ 1 file changed, 21 insertions(+), 13 deletions(-)
+
 -- 
-2.1.0
+1.9.1
 
 
