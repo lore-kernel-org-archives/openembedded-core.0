@@ -1,23 +1,50 @@
-Return-Path: <daniel.alexandrux.istrate@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 05685607A5
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 74C1D734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 14:35:22 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 15 Jul 2015 07:35:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,480,1432623600"; d="scan'208";a="606721115"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 15 Jul 2015 07:35:12 -0700
-Received: from localhost.localdomain (unknown [10.237.112.249])
-	by linux.intel.com (Postfix) with ESMTP id A15506A4083;
-	Wed, 15 Jul 2015 07:34:29 -0700 (PDT)
-From: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jul 2015 17:35:34 +0300
-Message-Id: <1436970934-4635-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/runtime: Added one runtime testcase in connman.
+	Wed, 15 Jul 2015 14:39:09 +0000 (UTC)
+Received: by igcqs7 with SMTP id qs7so108372400igc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jul 2015 07:39:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=k8Ma0gW1amEo1aFzE29aVWX6ASBFgbkB+Ui35xOpoRc=;
+	b=en7/XD18quCiaOVA5dP+W1Y0ZP0+3BgJbJr6yYTHd+DRqnxWoiOLLQ5DE5bp8bjIRT
+	duzDhfYYRXJpUwUJN8Y38oc4QTH/nw/5v5RTcSpFKgQOSbtGT+3SUxcL8dP+AP2Fzp2Y
+	l9IzD/uv2zEFTaTv1pw4C1aDQZnwf2t532rYloqSUhKvXPdQTGUtkSCFxZYuBUiyIBAj
+	CMo5qqiwHgc2osHWMrwrWfVnmqZeDeaQVUDkl+cuYYu7Y5Xhjw4di4xxaBQD/0kLJ7pF
+	aewsmfNQsfg8c5/KXGErK+p0bmSaOiOWq/gX1OZGKy4N1A06p8Ap+Larbh4w5+JhtsWe
+	016w==
+X-Gm-Message-State: ALoCoQlQtXfsEZ+T0icNG3MV5odkOdvYsQ2vEQ0RHbontisC3Allg3u/nWX011olhzbeCZ4fL18X
+X-Received: by 10.107.169.10 with SMTP id s10mr5115592ioe.138.1436971149127;
+	Wed, 15 Jul 2015 07:39:09 -0700 (PDT)
+Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com.
+	[209.85.223.170]) by smtp.gmail.com with ESMTPSA id
+	kk9sm10185158igb.7.2015.07.15.07.39.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 Jul 2015 07:39:08 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by iebmu5 with SMTP id mu5so34793062ieb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jul 2015 07:39:06 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.107.150.141 with SMTP id y135mr4916146iod.38.1436971146774; 
+	Wed, 15 Jul 2015 07:39:06 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Wed, 15 Jul 2015 07:39:06 -0700 (PDT)
+In-Reply-To: <65e10d1ba71dbde6af6be14d971e91fc8b690aed.1436965937.git.cristian.iorga@intel.com>
+References: <cover.1436965937.git.cristian.iorga@intel.com>
+	<65e10d1ba71dbde6af6be14d971e91fc8b690aed.1436965937.git.cristian.iorga@intel.com>
+Date: Wed, 15 Jul 2015 11:39:06 -0300
+Message-ID: <CAP9ODKpKw3GJDyLSX-xiZRK7DxjN98U4dA3zXHF1h6qAyw_01Q@mail.gmail.com>
+To: Cristian Iorga <cristian.iorga@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] qemu: upgrade to 2.4.0-rc0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,47 +57,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 14:35:23 -0000
+X-List-Received-Date: Wed, 15 Jul 2015 14:39:09 -0000
+Content-Type: text/plain; charset=UTF-8
 
-(testcase 223) Check that only one connmand runs in background.
+On Wed, Jul 15, 2015 at 10:17 AM, Cristian Iorga
+<cristian.iorga@intel.com> wrote:
+> - Get rid of direct use of gnutls APIs in quorum
+> blockdrv in favour of using the crypto APIs.
+> - Convert VNC websockets to use crypto APIs.
+> - All previous CVE are now included.
+> - larger_default_ram_size.patch patch removed,
+> no longer necessary.
+>
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 
-Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
----
- meta/lib/oeqa/runtime/connman.py | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+use qemu_2.4.0.bb name otherwise it might be a problem for upgrade.
 
-diff --git a/meta/lib/oeqa/runtime/connman.py b/meta/lib/oeqa/runtime/connman.py
-index cc537f7..b040400 100644
---- a/meta/lib/oeqa/runtime/connman.py
-+++ b/meta/lib/oeqa/runtime/connman.py
-@@ -28,3 +28,26 @@ class ConnmanTest(oeRuntimeTest):
-         if status != 0:
-             print self.service_status("connman")
-             self.fail("No connmand process running")
-+
-+    @testcase(223)
-+    def test_only_one_connmand_in_background(self):
-+        """
-+        Summary:     Only one connmand in background
-+        Expected:    There will be only one connmand instance in background.
-+        Product:     BSPs
-+        Author:      Alexandru Georgescu <alexandru.c.georgescu@intel.com>
-+        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-+        """
-+
-+        # Make sure that 'connmand' is running in background
-+        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand')
-+        self.assertEqual(0, status, 'Failed to find "connmand" process running in background.')
-+
-+        # Start a new instance of 'connmand'
-+        (status, output) = self.target.run('connmand')
-+        self.assertEqual(0, status, 'Failed to start a new "connmand" process.')
-+
-+        # Make sure that only one 'connmand' is running in background
-+        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand | wc -l')
-+        self.assertEqual(0, status, 'Failed to find "connmand" process running in background.')
-+        self.assertEqual(1, int(output), 'Found {} connmand processes running, expected 1.'.format(output))
 -- 
-2.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
