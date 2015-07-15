@@ -1,26 +1,53 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D74E7391D
+Return-Path: <zhenhua.luo@freescale.com>
+X-Greylist: delayed 1899 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 15 Jul 2015 04:12:52 UTC
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0144.outbound.protection.outlook.com [157.56.111.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 430657391D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 04:12:22 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Jul 2015 21:12:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,477,1432623600"; d="scan'208";a="762725454"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Jul 2015 21:12:16 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jul 2015 20:07:11 +0000
-Message-Id: <1644fb1e85b0692fc0655b5f1c457a6be936855a.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: leonardo.sandoval.gonzalez@intel.com
-Subject: [PATCH V3 2/3] ovmf: Recipe taken from luv-yocto repository
+	Wed, 15 Jul 2015 04:12:52 +0000 (UTC)
+Received: from BN3PR03MB1367.namprd03.prod.outlook.com (10.163.34.153) by
+	BN3PR03MB1366.namprd03.prod.outlook.com (10.163.34.152) with Microsoft
+	SMTP Server (TLS) id 15.1.213.14; Wed, 15 Jul 2015 03:41:12 +0000
+Received: from BN3PR03MB1367.namprd03.prod.outlook.com ([10.163.34.153]) by
+	BN3PR03MB1367.namprd03.prod.outlook.com ([10.163.34.153]) with mapi id
+	15.01.0213.000; Wed, 15 Jul 2015 03:41:12 +0000
+From: Luo Zhenhua <zhenhua.luo@freescale.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Thread-Topic: Query about the toolchian version of Yocto 1.9
+Thread-Index: AdC+r6iszC4uIAiVR9SVHhXYmbSO3Q==
+Date: Wed, 15 Jul 2015 03:41:12 +0000
+Message-ID: <BN3PR03MB1367ABE95BBD2A48796FF31FE49A0@BN3PR03MB1367.namprd03.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: lists.openembedded.org; dkim=none (message not signed)
+	header.d=none;
+x-originating-ip: [192.158.241.86]
+x-microsoft-exchange-diagnostics: 1; BN3PR03MB1366;
+	5:g/Q5lx47qWRus91iLO9rrLN8QsjTeu5bsnfakzhuwRfWgBAKRBd5rZkhYWED9CH+ltMVdJL1Xmf4Q8MYoAQkaS6M7euaR9nbBDQsFATLNgS4Gcf4F64La182QwGImq6vgiTRlz+t/dVGeJ+488teUA==;
+	24:l/chf1HUfWemQ6SAyOCO1W/eEQPrYYJ9AX2lRN9GHrxX05h+Ja+caTO9mM5Q8xCwxStoG2hjK+QdAxruzc5hg0j7k8sMQ/qR1EFS7/2mKx8=;
+	20:Mezx6r71mrVQzbdXbBYtOpT+rbIJaKbV9WOHO/3FMtJEPYpDlpwxkNKoCoBZHIUKOqorGc67HOz4T88CzJdLRQ==
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR03MB1366;
+bn3pr03mb1366: X-MS-Exchange-Organization-RulesExecuted
+x-microsoft-antispam-prvs: <BN3PR03MB136653E8A868228A478EC3DFE49A0@BN3PR03MB1366.namprd03.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:(108003899814671);
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(3002001); SRVR:BN3PR03MB1366; BCL:0;
+	PCL:0; RULEID:; SRVR:BN3PR03MB1366; 
+x-forefront-prvs: 0638FD5066
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(107886002)(40100003)(46102003)(74316001)(19580395003)(50986999)(87936001)(19300405004)(86362001)(62966003)(2656002)(5002640100001)(5003600100002)(19625215002)(33656002)(66066001)(16236675004)(5001920100001)(189998001)(2900100001)(102836002)(99286002)(54356999)(77156002)(77096005)(110136002)(558084003)(450100001)(92566002)(76576001)(229853001)(5001960100002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR03MB1366;
+	H:BN3PR03MB1367.namprd03.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2015 03:41:12.2160 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR03MB1366
+Subject: Query about the toolchian version of Yocto 1.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,147 +60,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 04:12:22 -0000
+X-List-Received-Date: Wed, 15 Jul 2015 04:12:53 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_BN3PR03MB1367ABE95BBD2A48796FF31FE49A0BN3PR03MB1367namp_"
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+--_000_BN3PR03MB1367ABE95BBD2A48796FF31FE49A0BN3PR03MB1367namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-OVMF metadata taken from the luv-yocto[1] repository and copied into
-OE-Core meta/recipes-core folder.
+Hi,
 
-[1] https://github.com/01org/luv-yocto/tree/master/meta-luv/recipes-core/ovmf
-
-[YOCTO #5654]
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- ...s-Force-tools-variables-to-host-toolchain.patch | 48 +++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb                 | 61 ++++++++++++++++++++++
- 2 files changed, 109 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf_git.bb
-
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
-new file mode 100644
-index 0000000..c0cc633
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch
-@@ -0,0 +1,48 @@
-+From 6e24bde1979c2d7149b37d142fb882dfde0e9770 Mon Sep 17 00:00:00 2001
-+From: Matt Fleming <matt.fleming@intel.com>
-+Date: Fri, 27 Jun 2014 11:12:18 +0100
-+Subject: [PATCH] BaseTools: Force tools variables to host toolchain
-+
-+Signed-off-by: Matt Fleming <matt.fleming@intel.com>
-+---
-+ BaseTools/Source/C/Makefiles/app.makefile | 7 +++++++
-+ BaseTools/Source/C/VfrCompile/GNUmakefile | 5 +++++
-+ 2 files changed, 12 insertions(+)
-+
-+diff --git a/BaseTools/Source/C/Makefiles/app.makefile b/BaseTools/Source/C/Makefiles/app.makefile
-+index 19269a1..62aad0f 100644
-+--- a/BaseTools/Source/C/Makefiles/app.makefile
-++++ b/BaseTools/Source/C/Makefiles/app.makefile
-+@@ -16,6 +16,13 @@ include $(MAKEROOT)/Makefiles/header.makefile
-+ 
-+ APPLICATION = $(MAKEROOT)/bin/$(APPNAME)
-+ 
-++CC = gcc
-++CXX = g++
-++AS = gcc
-++AR = ar
-++LD = ld
-++LINKER = $(CC)
-++
-+ .PHONY:all
-+ all: $(MAKEROOT)/bin $(APPLICATION) 
-+ 
-+diff --git a/BaseTools/Source/C/VfrCompile/GNUmakefile b/BaseTools/Source/C/VfrCompile/GNUmakefile
-+index 82005e1..5ac5f7e 100644
-+--- a/BaseTools/Source/C/VfrCompile/GNUmakefile
-++++ b/BaseTools/Source/C/VfrCompile/GNUmakefile
-+@@ -26,6 +26,11 @@ OBJECTS = AParser.o DLexerBase.o ATokenBuffer.o EfiVfrParser.o VfrLexer.o VfrSyn
-+ 
-+ VFR_CPPFLAGS = -DPCCTS_USE_NAMESPACE_STD $(CPPFLAGS)
-+ 
-++CC = gcc
-++CXX = g++
-++AS = gcc
-++AR = ar
-++LD = ld
-+ LINKER = $(CXX)
-+ 
-+ EXTRA_CLEAN_OBJECTS = EfiVfrParser.cpp EfiVfrParser.h VfrParser.dlg VfrTokens.h VfrLexer.cpp VfrLexer.h VfrSyntax.cpp tokens.h
-+-- 
-+1.9.0
-+
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-new file mode 100644
-index 0000000..ce7e4f8
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -0,0 +1,61 @@
-+DESCRIPTION = "OVMF - UEFI firmware for Qemu and KVM"
-+HOMEPAGE = "http://sourceforge.net/apps/mediawiki/tianocore/index.php?title=OVMF"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://OvmfPkg/License.txt;md5=ffd52cf9a8e0e036b9a61a0de2dc87ed"
-+
-+SRC_URI = "git://github.com/tianocore/edk2.git;branch=master \
-+	file://0001-BaseTools-Force-tools-variables-to-host-toolchain.patch"
-+
-+SRCREV="dc4ad1532e59fd1a185d6b90d1c2a92cf8713f40"
-+
-+S = "${WORKDIR}/git"
-+
-+DEPENDS_class-native="util-linux-native iasl-native"
-+
-+# OVMF has trouble building with the default optimization of -O2.
-+BUILD_OPTIMIZATION="-pipe"
-+
-+# OVMF supports IA only, although it could conceivably support ARM someday.
-+COMPATIBLE_HOST='(i.86|x86_64).*'
-+
-+do_patch_append() {
-+    bb.build.exec_func('do_fix_iasl', d)
-+    bb.build.exec_func('do_fix_toolchain', d)
-+}
-+
-+do_fix_iasl() {
-+    sed -i -e 's#/usr/bin/iasl#${STAGING_BINDIR_NATIVE}/iasl#' ${S}/BaseTools/Conf/tools_def.template
-+}
-+
-+do_fix_toolchain(){
-+    sed -i -e 's#DEF(ELFGCC_BIN)/#${TARGET_PREFIX}#' ${S}/BaseTools/Conf/tools_def.template
-+    sed -i -e 's#DEF(GCC.*PREFIX)#${TARGET_PREFIX}#' ${S}/BaseTools/Conf/tools_def.template
-+    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nLFLAGS += ${BUILD_LDFLAGS}#" ${S}/BaseTools/Source/C/Makefiles/app.makefile
-+    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nCFLAGS += ${BUILD_CFLAGS}#" ${S}/BaseTools/Source/C/Makefiles/app.makefile
-+    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nLFLAGS += ${BUILD_LDFLAGS}#" ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
-+    sed -i -e "s#^LINKER\(.*\)#LINKER\1\nCFLAGS += ${BUILD_CFLAGS}#" ${S}/BaseTools/Source/C/VfrCompile/GNUmakefile
-+}
-+
-+GCC_VER="$(${CC} -v 2>&1 | tail -n1 | awk '{print $3}' | awk -F. '{print $1$2}')"
-+
-+do_compile() {
-+    export LFLAGS="${LDFLAGS}"
-+    OVMF_ARCH="X64"
-+    if [ "${TARGET_ARCH}" != "x86_64" ] ; then
-+        OVMF_ARCH="IA32"
-+    fi
-+    ${S}/OvmfPkg/build.sh -a $OVMF_ARCH -b RELEASE -t GCC${GCC_VER}
-+}
-+
-+do_install() {
-+    OVMF_DIR_SUFFIX="X64"
-+    if [ "${TARGET_ARCH}" != "x86_64" ] ; then
-+        OVMF_DIR_SUFFIX="Ia32" # Note the different capitalization
-+    fi
-+    install -d ${D}${datadir}/ovmf
-+    build_dir="${S}/Build/Ovmf$OVMF_DIR_SUFFIX/RELEASE_GCC${GCC_VER}"
-+    install -m 0755 ${build_dir}/FV/OVMF.fd \
-+	${D}${datadir}/ovmf/bios.bin
-+}
-+
-+BBCLASSEXTEND = "native"
--- 
-1.8.4.5
+I can see that there are recipes of 3 gcc version(4.8, 4.9, 5.1) in master =
+branch of Yocto, may I know which one will be officially supported by Yocto=
+ 1.9 release? Will the other versions be tested and supported?
 
 
+Best Regards,
+
+Zhenhua
+
+--_000_BN3PR03MB1367ABE95BBD2A48796FF31FE49A0BN3PR03MB1367namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:\5B8B\4F53;
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"\@\5B8B\4F53";
+	panose-1:2 1 6 0 3 1 1 1 1 1;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.25in 1.0in 1.25in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hi, <o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I can see that there are recipes of 3 gcc version(4.=
+8, 4.9, 5.1) in master branch of Yocto, may I know which one will be offici=
+ally supported by Yocto 1.9 release? Will the other versions be tested and =
+supported?
+<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Best Regards,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Zhenhua<o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_BN3PR03MB1367ABE95BBD2A48796FF31FE49A0BN3PR03MB1367namp_--
