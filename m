@@ -1,28 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7379975877
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E95717391D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 07:42:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6F7gFdx022629
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Jul 2015 00:42:15 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Wed, 15 Jul 2015 00:42:14 -0700
-Message-ID: <55A60F08.3080701@windriver.com>
-Date: Wed, 15 Jul 2015 15:43:04 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: Daniel Istrate <daniel.alexandrux.istrate@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1436368635-6078-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-In-Reply-To: <1436368635-6078-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-X-Originating-IP: [128.224.162.211]
-Subject: Re: [PATCH] oeqa/runtime: Added 4 new runtime test cases
+	Wed, 15 Jul 2015 08:16:46 +0000 (UTC)
+Received: by padck2 with SMTP id ck2so20081600pad.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jul 2015 01:16:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=uVN5eSZpH5nsaiq+5q8wbJacv5gseZh0jxpmS3k9Wp0=;
+	b=sP/KegT68mJPL92WSxK3KBfM5BJmv19atisYFbDnF4lyYiyLQMvC995KzEwUa9Txux
+	y3qk5oLhiBz0UA+j/AIoTWOVl0XTFkXA9z0/ACeykCPeSpZWxw3ztTpzXMYiQmtWj5JC
+	tUHi5dwMr2s2K0kf/RtRCcQ3iuR8im4A+0af42R20AC2U1epDILT3JK7gOdR54zJPK+X
+	BJ16UqS3IQBoNLjuTXTj6qrZ/9op1ToXjB3+6eOz7nGBBz62Z7vedOxs6DCJVktAI27O
+	7BRmaxwJaoDvfFdG5z7USH0n9gaefNdgSoBC2j900MZh6Ak8XZV6LQsyhIRPN5c4BDTV
+	t87Q==
+X-Received: by 10.66.142.199 with SMTP id ry7mr5810957pab.14.1436948207307;
+	Wed, 15 Jul 2015 01:16:47 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	gi6sm3712601pbd.69.2015.07.15.01.16.45
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 15 Jul 2015 01:16:46 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jul 2015 01:16:39 -0700
+Message-Id: <1436948199-11071-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] bash_3.2.48: dont include target CFLAGS in host LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,157 +42,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 07:42:16 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Jul 2015 08:16:49 -0000
 
-On 07/08/2015 11:17 PM, Daniel Istrate wrote:
-> bash:    (240) check bash in image
-> connman: (223) Only one connmand in background
->           (963) test connmand file
-> rpm:     (195) Check rpm install/removal log file size
->
-> Signed-off-by: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-> ---
->   meta/lib/oeqa/runtime/bash.py    | 23 +++++++++++++++++++++++
->   meta/lib/oeqa/runtime/connman.py | 40 ++++++++++++++++++++++++++++++++++++++++
->   meta/lib/oeqa/runtime/rpm.py     | 37 +++++++++++++++++++++++++++++++++++++
->   3 files changed, 100 insertions(+)
->   create mode 100644 meta/lib/oeqa/runtime/bash.py
->
-> diff --git a/meta/lib/oeqa/runtime/bash.py b/meta/lib/oeqa/runtime/bash.py
-> new file mode 100644
-> index 0000000..2a261a3
-> --- /dev/null
-> +++ b/meta/lib/oeqa/runtime/bash.py
-> @@ -0,0 +1,23 @@
-> +from oeqa.oetest import oeRuntimeTest
-> +from oeqa.utils.decorators import *
-> +
-> +
-> +class BashTest(oeRuntimeTest):
-> +
-> +    @testcase(240)
-> +    @skipUnlessPassed("test_ssh")
-> +    def test_check_bash_in_image(self):
-> +        """
-> +        Summary:     check bash in image
-> +        Expected:    bash command should exist in image
-> +        Product:     BSPs
-> +        Author:      Alexandru Georgescu <alexandru.c.georgescu@intel.com>
-> +        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-> +        """
-> +
-> +        cmd = 'which bash'
-> +        expected_ret = '/bin/bash'
-> +
-> +        (status, output) = self.target.run(cmd)
-> +        self.assertEqual(0, status, 'Failed to send cmd "{}"'.format(cmd))
-> +        self.assertEqual(str(output), expected_ret, 'Found "{}", instead of "{}"'.format(output, expected_ret))
-> diff --git a/meta/lib/oeqa/runtime/connman.py b/meta/lib/oeqa/runtime/connman.py
-> index cc537f7..70ead4e 100644
-> --- a/meta/lib/oeqa/runtime/connman.py
-> +++ b/meta/lib/oeqa/runtime/connman.py
-> @@ -28,3 +28,43 @@ class ConnmanTest(oeRuntimeTest):
->           if status != 0:
->               print self.service_status("connman")
->               self.fail("No connmand process running")
-> +
-> +    @testcase(223)
-> +    def test_only_one_connmand_in_background(self):
-> +        """
-> +        Summary:     Only one connmand in background
-> +        Expected:    There will be only one connmand instance in background.
-> +        Product:     BSPs
-> +        Author:      Alexandru Georgescu <alexandru.c.georgescu@intel.com>
-> +        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-> +        """
-> +
-> +        # Make sure that 'connmand' is running in background
-> +        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand')
-> +        self.assertEqual(0, status, 'Failed to find "connmand" process running in background.')
-> +
-> +        # Start a new instance of 'connmand'
-> +        (status, output) = self.target.run('connmand')
-> +        self.assertEqual(0, status, 'Failed to start a new "connmand" process.')
-> +
-> +        # Make sure that only one 'connmand' is running in background
-> +        (status, output) = self.target.run(oeRuntimeTest.pscmd + ' | grep [c]onnmand | wc -l')
-> +        self.assertEqual(0, status, 'Failed to find "connmand" process running in background.')
-> +        self.assertEqual(1, int(output), 'Found {} connmand processes running, expected 1.'.format(output))
-> +
-> +    @testcase(963)
-> +    def test_connmand_file(self):
-> +        """
-> +        Summary:     test connmand file
-> +        Expected:    connman-applet should be ELF32 binary
-> +        Product:     BSPs
-> +        Author:      Lucian Musat <georgex.l.musat@intel.com>
-> +        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-> +        """
-> +
-> +        cmd = "readelf -h /usr/bin/connman-applet | sed -n '3p' | awk '{print $2}'"
-> +        expected_ret = 'ELF32'
-> +
-> +        (status, output) = self.target.run(cmd)
-> +        self.assertEqual(0, status, 'Failed to send cmd "{}"'.format(cmd))
-> +        self.assertEqual(expected_ret, str(output), "Expected {}, found instead {}".format(expected_ret, output))
+Building the host tool 'mkbuiltins' will fail if the target CFLAGS
+contains an option which isn't supported by the host's gcc. To prevent
+the issue, define LDFLAGS_FOR_BUILD based on CFLAGS_FOR_BUILD instead
+of CFLAGS.
 
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ ...ont-include-target-CFLAGS-in-host-LDFLAGS.patch | 33 ++++++++++++++++++++++
+ meta/recipes-extended/bash/bash_3.2.48.bb          |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-extended/bash/bash-3.2.48/dont-include-target-CFLAGS-in-host-LDFLAGS.patch
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-arm64/builds/50/steps/Running%20Sanity%20Tests/logs/stdio
-
-Please look at the above failure.
-
-Regards,
-Chen Qi
-
-> diff --git a/meta/lib/oeqa/runtime/rpm.py b/meta/lib/oeqa/runtime/rpm.py
-> index 4ca193b..32aae24 100644
-> --- a/meta/lib/oeqa/runtime/rpm.py
-> +++ b/meta/lib/oeqa/runtime/rpm.py
-> @@ -58,6 +58,43 @@ class RpmInstallRemoveTest(oeRuntimeTest):
->           (status, output) = self.target.run('sudo -u test1 rpm -qa')
->           self.assertEqual(status, 0, msg="status: %s. Cannot run rpm -qa" % status)
->   
-> +    @testcase(195)
-> +    @skipUnlessPassed('test_rpm_install')
-> +    def test_check_rpm_install_removal_log_file_size(self):
-> +        """
-> +        Summary:     Check rpm install/removal log file size
-> +        Expected:    There should be some method to keep rpm log in a small size .
-> +        Product:     BSPs
-> +        Author:      Alexandru Georgescu <alexandru.c.georgescu@intel.com>
-> +        AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-> +        """
-> +        db_files_cmd = 'ls /var/lib/rpm/__db.*'
-> +        get_log_size_cmd = "du /var/lib/rpm/log/log.* | awk '{print $1}'"
-> +
-> +        # Make sure that some database files are under /var/lib/rpm as '__db.xxx'
-> +        (status, output) = self.target.run(db_files_cmd)
-> +        self.assertEqual(0, status, 'Failed to find database files under /var/lib/rpm/ as __db.xxx')
-> +
-> +        # Remove the package just in case
-> +        self.target.run('rpm -e rpm-doc')
-> +
-> +        # Install/Remove a package 10 times
-> +        for i in range(10):
-> +            (status, output) = self.target.run('rpm -ivh /tmp/rpm-doc.rpm')
-> +            self.assertEqual(0, status, "Failed to install rpm-doc package. Reason: {}".format(output))
-> +
-> +            (status, output) = self.target.run('rpm -e rpm-doc')
-> +            self.assertEqual(0, status, "Failed to remove rpm-doc package. Reason: {}".format(output))
-> +
-> +        # Get the size of log file
-> +        (status, output) = self.target.run(get_log_size_cmd)
-> +        self.assertEqual(0, status, 'Failed to get the final size of the log file.')
-> +
-> +        # Compare each log size
-> +        for log_file_size in output:
-> +            self.assertLessEqual(int(log_file_size), 11264,
-> +                                   'Log file size is greater that expected (~10MB), found {} bytes'.format(log_file_size))
-> +
->       @classmethod
->       def tearDownClass(self):
->           oeRuntimeTest.tc.target.run('rm -f /tmp/rpm-doc.rpm')
+diff --git a/meta/recipes-extended/bash/bash-3.2.48/dont-include-target-CFLAGS-in-host-LDFLAGS.patch b/meta/recipes-extended/bash/bash-3.2.48/dont-include-target-CFLAGS-in-host-LDFLAGS.patch
+new file mode 100644
+index 0000000..ee756dc
+--- /dev/null
++++ b/meta/recipes-extended/bash/bash-3.2.48/dont-include-target-CFLAGS-in-host-LDFLAGS.patch
+@@ -0,0 +1,33 @@
++From 933bd886af49667e88e2385409449ab598813dab Mon Sep 17 00:00:00 2001
++From: Andre McCurdy <armccurdy@gmail.com>
++Date: Wed, 15 Jul 2015 00:54:33 -0700
++Subject: [PATCH] dont include target CFLAGS in host LDFLAGS
++
++Building the host tool 'mkbuiltins' will fail if the target CFLAGS
++contains an option which isn't supported by the host's gcc. To prevent
++the issue, define LDFLAGS_FOR_BUILD based on CFLAGS_FOR_BUILD instead
++of CFLAGS.
++
++Upstream-Status: Inappropriate [required for bash 3.2.57 (GPLv2) recipe only]
++
++Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
++---
++ builtins/Makefile.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/builtins/Makefile.in b/builtins/Makefile.in
++index e027f7a..ebfddf3 100644
++--- a/builtins/Makefile.in
+++++ b/builtins/Makefile.in
++@@ -63,7 +63,7 @@ LOCAL_DEFS = @LOCAL_DEFS@
++ 
++ LIBS = @LIBS@
++ LDFLAGS = @LDFLAGS@ $(LOCAL_LDFLAGS) $(CFLAGS)
++-LDFLAGS_FOR_BUILD = $(LDFLAGS)
+++LDFLAGS_FOR_BUILD = @LDFLAGS_FOR_BUILD@ $(LOCAL_LDFLAGS) $(CFLAGS_FOR_BUILD)
++ LOCAL_LDFLAGS = @LOCAL_LDFLAGS@
++ #LIBS_FOR_BUILD = @LIBS_FOR_BUILD@
++ LIBS_FOR_BUILD = $(LIBS)
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
+index 34272d1..d42b292 100644
+--- a/meta/recipes-extended/bash/bash_3.2.48.bb
++++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
+            file://build-tests.patch \
+            file://test-output.patch \
+            file://run-ptest \
++           file://dont-include-target-CFLAGS-in-host-LDFLAGS.patch \
+           "
+ 
+ SRC_URI[tarball.md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
+-- 
+1.9.1
 
 
