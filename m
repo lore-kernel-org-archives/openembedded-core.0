@@ -1,25 +1,27 @@
 Return-Path: <Yang.Shi@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C751734B8
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 807696013D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 20:28:34 +0000 (UTC)
+	Wed, 15 Jul 2015 20:28:35 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6FKSYDQ007844
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6FKSZcq001784
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 13:28:34 -0700 (PDT)
+	Wed, 15 Jul 2015 13:28:35 -0700 (PDT)
 Received: from yshi-Precision-T5600.corp.ad.wrs.com (147.11.216.82) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 15 Jul 2015 13:28:33 -0700
+	14.3.235.1; Wed, 15 Jul 2015 13:28:35 -0700
 From: Yang Shi <yang.shi@windriver.com>
 To: <bruce.ashfield@windriver.com>
-Date: Wed, 15 Jul 2015 13:15:26 -0700
-Message-ID: <1436991327-5726-1-git-send-email-yang.shi@windriver.com>
+Date: Wed, 15 Jul 2015 13:15:27 -0700
+Message-ID: <1436991327-5726-2-git-send-email-yang.shi@windriver.com>
 X-Mailer: git-send-email 2.0.2
+In-Reply-To: <1436991327-5726-1-git-send-email-yang.shi@windriver.com>
+References: <1436991327-5726-1-git-send-email-yang.shi@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/1] Bug 8009: Backport upstream commit to fix 3.14 kernel build failure for qemumips
+Subject: [PATCH] MIPS: Fix build with binutils 2.24.51+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,25 +37,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 15 Jul 2015 20:28:37 -0000
 Content-Type: text/plain
 
+From: Manuel Lauss <manuel.lauss@gmail.com>
 
-Backported the upstream commit to solve the 3.14 kerne lbuild faiure for qemumips with gcc 4.9.3.
+commit 842dfc11ea9a21f9825167c8a4f2834b205b0a79 upstream
 
-The following changes since commit b985d5039e5b14f5acac135a84f2d6541b531552:
+Starting with version 2.24.51.20140728 MIPS binutils complain loudly
+about mixing soft-float and hard-float object files, leading to this
+build failure since GCC is invoked with "-msoft-float" on MIPS:
 
-  Merge branch 'standard/base' into standard/mti-malta32 (2015-05-07 14:49:36 -0400)
+{standard input}: Warning: .gnu_attribute 4,3 requires `softfloat'
+  LD      arch/mips/alchemy/common/built-in.o
+mipsel-softfloat-linux-gnu-ld: Warning: arch/mips/alchemy/common/built-in.o
+ uses -msoft-float (set by arch/mips/alchemy/common/prom.o),
+ arch/mips/alchemy/common/sleeper.o uses -mhard-float
 
-are available in the git repository at:
+To fix this, we detect if GAS is new enough to support "-msoft-float" command
+option, and if it does, we can let GCC pass it to GAS;  but then we also need
+to sprinkle the files which make use of floating point registers with the
+necessary ".set hardfloat" directives.
 
-  ssh://147.11.216.82/home/yshi/yocto/workspace/qemumips/build/tmp/work/qemumips-poky-linux/linux-yocto/3.14.36+gitAUTOINC+a996d95104_b985d5039e-r0/linux-qemumips-standard-build/source
-
-for you to fetch changes up to 7e1bb35f40c250badd2ef8dbbc7914ba405ddec4:
-
-  MIPS: Fix build with binutils 2.24.51+ (2015-07-15 11:38:32 -0700)
-
-----------------------------------------------------------------
-Manuel Lauss (1):
-      MIPS: Fix build with binutils 2.24.51+
-
+Signed-off-by: Manuel Lauss <manuel.lauss@gmail.com>
+Cc: Linux-MIPS <linux-mips@linux-mips.org>
+Cc: Matthew Fortune <Matthew.Fortune@imgtec.com>
+Cc: Markos Chandras <Markos.Chandras@imgtec.com>
+Cc: Maciej W. Rozycki <macro@linux-mips.org>
+Patchwork: https://patchwork.linux-mips.org/patch/8355/
+Signed-off-by: Ralf Baechle <ralf@linux-mips.org>
+[yshi: Backported to Yocto 3.14 kernel]
+Signed-off-by: Yang Shi <yang.shi@windriver.com>
+---
  arch/mips/Makefile                  |  9 +++++++++
  arch/mips/include/asm/asmmacro-32.h |  6 ++++++
  arch/mips/include/asm/asmmacro.h    |  7 +++++++
@@ -68,4 +80,444 @@ Manuel Lauss (1):
  arch/mips/kernel/r6000_fpu.S        |  5 +++++
  arch/mips/math-emu/cp1emu.c         |  6 +-----
  13 files changed, 100 insertions(+), 14 deletions(-)
+
+diff --git a/arch/mips/Makefile b/arch/mips/Makefile
+index 69bd6f7..c1a7f83 100644
+--- a/arch/mips/Makefile
++++ b/arch/mips/Makefile
+@@ -96,6 +96,15 @@ KBUILD_AFLAGS_MODULE		+= -mlong-calls
+ KBUILD_CFLAGS_MODULE		+= -mlong-calls
+ endif
+ 
++#
++# pass -msoft-float to GAS if it supports it.  However on newer binutils
++# (specifically newer than 2.24.51.20140728) we then also need to explicitly
++# set ".set hardfloat" in all files which manipulate floating point registers.
++#
++ifneq ($(call as-option,-Wa$(comma)-msoft-float,),)
++	cflags-y		+= -DGAS_HAS_SET_HARDFLOAT -Wa,-msoft-float
++endif
++
+ cflags-y += -ffreestanding
+ 
+ #
+diff --git a/arch/mips/include/asm/asmmacro-32.h b/arch/mips/include/asm/asmmacro-32.h
+index 70e1f17..8038647 100644
+--- a/arch/mips/include/asm/asmmacro-32.h
++++ b/arch/mips/include/asm/asmmacro-32.h
+@@ -13,6 +13,8 @@
+ #include <asm/mipsregs.h>
+ 
+ 	.macro	fpu_save_single thread tmp=t0
++	.set push
++	SET_HARDFLOAT
+ 	cfc1	\tmp,  fcr31
+ 	swc1	$f0,  THREAD_FPR0(\thread)
+ 	swc1	$f1,  THREAD_FPR1(\thread)
+@@ -47,9 +49,12 @@
+ 	swc1	$f30, THREAD_FPR30(\thread)
+ 	swc1	$f31, THREAD_FPR31(\thread)
+ 	sw	\tmp, THREAD_FCR31(\thread)
++	.set pop
+ 	.endm
+ 
+ 	.macro	fpu_restore_single thread tmp=t0
++	.set push
++	SET_HARDFLOAT
+ 	lw	\tmp, THREAD_FCR31(\thread)
+ 	lwc1	$f0,  THREAD_FPR0(\thread)
+ 	lwc1	$f1,  THREAD_FPR1(\thread)
+@@ -84,6 +89,7 @@
+ 	lwc1	$f30, THREAD_FPR30(\thread)
+ 	lwc1	$f31, THREAD_FPR31(\thread)
+ 	ctc1	\tmp, fcr31
++	.set pop
+ 	.endm
+ 
+ 	.macro	cpu_save_nonscratch thread
+diff --git a/arch/mips/include/asm/asmmacro.h b/arch/mips/include/asm/asmmacro.h
+index 4225e99..d6d5b19 100644
+--- a/arch/mips/include/asm/asmmacro.h
++++ b/arch/mips/include/asm/asmmacro.h
+@@ -74,6 +74,8 @@
+ #endif /* CONFIG_MIPS_MT_SMTC */
+ 
+ 	.macro	fpu_save_16even thread tmp=t0
++	.set	push
++	SET_HARDFLOAT
+ 	cfc1	\tmp, fcr31
+ 	sdc1	$f0,  THREAD_FPR0(\thread)
+ 	sdc1	$f2,  THREAD_FPR2(\thread)
+@@ -92,11 +94,13 @@
+ 	sdc1	$f28, THREAD_FPR28(\thread)
+ 	sdc1	$f30, THREAD_FPR30(\thread)
+ 	sw	\tmp, THREAD_FCR31(\thread)
++	.set	pop
+ 	.endm
+ 
+ 	.macro	fpu_save_16odd thread
+ 	.set	push
+ 	.set	mips64r2
++	SET_HARDFLOAT
+ 	sdc1	$f1,  THREAD_FPR1(\thread)
+ 	sdc1	$f3,  THREAD_FPR3(\thread)
+ 	sdc1	$f5,  THREAD_FPR5(\thread)
+@@ -127,6 +131,8 @@
+ 	.endm
+ 
+ 	.macro	fpu_restore_16even thread tmp=t0
++	.set	push
++	SET_HARDFLOAT
+ 	lw	\tmp, THREAD_FCR31(\thread)
+ 	ldc1	$f0,  THREAD_FPR0(\thread)
+ 	ldc1	$f2,  THREAD_FPR2(\thread)
+@@ -150,6 +156,7 @@
+ 	.macro	fpu_restore_16odd thread
+ 	.set	push
+ 	.set	mips64r2
++	SET_HARDFLOAT
+ 	ldc1	$f1,  THREAD_FPR1(\thread)
+ 	ldc1	$f3,  THREAD_FPR3(\thread)
+ 	ldc1	$f5,  THREAD_FPR5(\thread)
+diff --git a/arch/mips/include/asm/fpregdef.h b/arch/mips/include/asm/fpregdef.h
+index 429481f..f184ba0 100644
+--- a/arch/mips/include/asm/fpregdef.h
++++ b/arch/mips/include/asm/fpregdef.h
+@@ -14,6 +14,20 @@
+ 
+ #include <asm/sgidefs.h>
+ 
++/*
++ * starting with binutils 2.24.51.20140729, MIPS binutils warn about mixing
++ * hardfloat and softfloat object files.  The kernel build uses soft-float by
++ * default, so we also need to pass -msoft-float along to GAS if it supports it.
++ * But this in turn causes assembler errors in files which access hardfloat
++ * registers.  We detect if GAS supports "-msoft-float" in the Makefile and
++ * explicitly put ".set hardfloat" where floating point registers are touched.
++ */
++#ifdef GAS_HAS_SET_HARDFLOAT
++#define SET_HARDFLOAT .set hardfloat
++#else
++#define SET_HARDFLOAT
++#endif
++
+ #if _MIPS_SIM == _MIPS_SIM_ABI32
+ 
+ /*
+diff --git a/arch/mips/include/asm/mipsregs.h b/arch/mips/include/asm/mipsregs.h
+index d6a8ced..67a209f 100644
+--- a/arch/mips/include/asm/mipsregs.h
++++ b/arch/mips/include/asm/mipsregs.h
+@@ -1518,7 +1518,7 @@ do {									\
+ /*
+  * Macros to access the floating point coprocessor control registers
+  */
+-#define read_32bit_cp1_register(source)					\
++#define _read_32bit_cp1_register(source, gas_hardfloat)			\
+ ({									\
+ 	int __res;							\
+ 									\
+@@ -1528,12 +1528,21 @@ do {									\
+ 	"	# gas fails to assemble cfc1 for some archs,	\n"	\
+ 	"	# like Octeon.					\n"	\
+ 	"	.set	mips1					\n"	\
++	"	"STR(gas_hardfloat)"				\n"	\
+ 	"	cfc1	%0,"STR(source)"			\n"	\
+ 	"	.set	pop					\n"	\
+ 	: "=r" (__res));						\
+ 	__res;								\
+ })
+ 
++#ifdef GAS_HAS_SET_HARDFLOAT
++#define read_32bit_cp1_register(source)					\
++	_read_32bit_cp1_register(source, .set hardfloat)
++#else
++#define read_32bit_cp1_register(source)					\
++	_read_32bit_cp1_register(source, )
++#endif
++
+ #ifdef HAVE_AS_DSP
+ #define rddsp(mask)							\
+ ({									\
+diff --git a/arch/mips/kernel/branch.c b/arch/mips/kernel/branch.c
+index ecba7eb..d14383d 100644
+--- a/arch/mips/kernel/branch.c
++++ b/arch/mips/kernel/branch.c
+@@ -438,11 +438,7 @@ static unsigned int __get_fcr31(void)
+ 
+ 	preempt_disable();
+ 	if (is_fpu_owner())
+-		asm volatile(
+-			".set push\n"
+-			"\t.set mips1\n"
+-			"\tcfc1\t%0,$31\n"
+-			"\t.set pop" : "=r" (fcr31));
++	        fcr31 = read_32bit_cp1_register(CP1_STATUS);
+ 	else
+ 		fcr31 = current->thread.fpu.fcr31;
+ 	preempt_enable();
+diff --git a/arch/mips/kernel/genex.S b/arch/mips/kernel/genex.S
+index eb59fed..7b7611a 100644
+--- a/arch/mips/kernel/genex.S
++++ b/arch/mips/kernel/genex.S
+@@ -432,6 +432,7 @@ NESTED(nmi_handler, PT_SIZE, sp)
+ 	.set	push
+ 	/* gas fails to assemble cfc1 for some archs (octeon).*/ \
+ 	.set	mips1
++	SET_HARDFLOAT
+ 	cfc1	a1, fcr31
+ 	li	a2, ~(0x3f << 12)
+ 	and	a2, a1
+diff --git a/arch/mips/kernel/r2300_fpu.S b/arch/mips/kernel/r2300_fpu.S
+index f31063d..5ce3b74 100644
+--- a/arch/mips/kernel/r2300_fpu.S
++++ b/arch/mips/kernel/r2300_fpu.S
+@@ -28,6 +28,8 @@
+ 	.set	mips1
+ 	/* Save floating point context */
+ LEAF(_save_fp_context)
++	.set	push
++	SET_HARDFLOAT
+ 	li	v0, 0					# assume success
+ 	cfc1	t1,fcr31
+ 	EX(swc1 $f0,(SC_FPREGS+0)(a0))
+@@ -65,6 +67,7 @@ LEAF(_save_fp_context)
+ 	EX(sw	t1,(SC_FPC_CSR)(a0))
+ 	cfc1	t0,$0				# implementation/version
+ 	jr	ra
++	.set	pop
+ 	.set	nomacro
+ 	 EX(sw	t0,(SC_FPC_EIR)(a0))
+ 	.set	macro
+@@ -80,6 +83,8 @@ LEAF(_save_fp_context)
+  * stack frame which might have been changed by the user.
+  */
+ LEAF(_restore_fp_context)
++	.set	push
++	SET_HARDFLOAT
+ 	li	v0, 0					# assume success
+ 	EX(lw t0,(SC_FPC_CSR)(a0))
+ 	EX(lwc1 $f0,(SC_FPREGS+0)(a0))
+@@ -116,6 +121,7 @@ LEAF(_restore_fp_context)
+ 	EX(lwc1 $f31,(SC_FPREGS+248)(a0))
+ 	jr	ra
+ 	 ctc1	t0,fcr31
++	.set	pop
+ 	END(_restore_fp_context)
+ 	.set	reorder
+ 
+diff --git a/arch/mips/kernel/r2300_switch.S b/arch/mips/kernel/r2300_switch.S
+index 20b7b04..435ea65 100644
+--- a/arch/mips/kernel/r2300_switch.S
++++ b/arch/mips/kernel/r2300_switch.S
+@@ -120,6 +120,9 @@ LEAF(_restore_fp)
+ 
+ #define FPU_DEFAULT  0x00000000
+ 
++	.set push
++	SET_HARDFLOAT
++
+ LEAF(_init_fpu)
+ 	mfc0	t0, CP0_STATUS
+ 	li	t1, ST0_CU1
+@@ -165,3 +168,5 @@ LEAF(_init_fpu)
+ 	mtc1	t0, $f31
+ 	jr	ra
+ 	END(_init_fpu)
++
++	.set pop
+diff --git a/arch/mips/kernel/r4k_fpu.S b/arch/mips/kernel/r4k_fpu.S
+index 73b0ddf..06f8b2a 100644
+--- a/arch/mips/kernel/r4k_fpu.S
++++ b/arch/mips/kernel/r4k_fpu.S
+@@ -19,8 +19,12 @@
+ #include <asm/asm-offsets.h>
+ #include <asm/regdef.h>
+ 
++/* preprocessor replaces the fp in ".set fp=64" with $30 otherwise */
++#undef fp
++
+ 	.macro	EX insn, reg, src
+ 	.set	push
++	SET_HARDFLOAT
+ 	.set	nomacro
+ .ex\@:	\insn	\reg, \src
+ 	.set	pop
+@@ -33,12 +37,17 @@
+ 	.set	mips3
+ 
+ LEAF(_save_fp_context)
++	.set	push
++	SET_HARDFLOAT
+ 	cfc1	t1, fcr31
++	.set	pop
+ 
+ #if defined(CONFIG_64BIT) || defined(CONFIG_CPU_MIPS32_R2)
+ 	.set	push
++	SET_HARDFLOAT
+ #ifdef CONFIG_CPU_MIPS32_R2
+-	.set	mips64r2
++	.set	mips32r2
++	.set	fp=64
+ 	mfc0	t0, CP0_STATUS
+ 	sll	t0, t0, 5
+ 	bgez	t0, 1f			# skip storing odd if FR=0
+@@ -64,6 +73,8 @@ LEAF(_save_fp_context)
+ 1:	.set	pop
+ #endif
+ 
++	.set push
++	SET_HARDFLOAT
+ 	/* Store the 16 even double precision registers */
+ 	EX	sdc1 $f0, SC_FPREGS+0(a0)
+ 	EX	sdc1 $f2, SC_FPREGS+16(a0)
+@@ -84,11 +95,14 @@ LEAF(_save_fp_context)
+ 	EX	sw t1, SC_FPC_CSR(a0)
+ 	jr	ra
+ 	 li	v0, 0					# success
++	.set pop
+ 	END(_save_fp_context)
+ 
+ #ifdef CONFIG_MIPS32_COMPAT
+ 	/* Save 32-bit process floating point context */
+ LEAF(_save_fp_context32)
++	.set push
++	SET_HARDFLOAT
+ 	cfc1	t1, fcr31
+ 
+ 	mfc0	t0, CP0_STATUS
+@@ -134,6 +148,7 @@ LEAF(_save_fp_context32)
+ 	EX	sw t1, SC32_FPC_CSR(a0)
+ 	cfc1	t0, $0				# implementation/version
+ 	EX	sw t0, SC32_FPC_EIR(a0)
++	.set pop
+ 
+ 	jr	ra
+ 	 li	v0, 0					# success
+@@ -150,8 +165,10 @@ LEAF(_restore_fp_context)
+ 
+ #if defined(CONFIG_64BIT) || defined(CONFIG_CPU_MIPS32_R2)
+ 	.set	push
++	SET_HARDFLOAT
+ #ifdef CONFIG_CPU_MIPS32_R2
+-	.set	mips64r2
++	.set	mips32r2
++	.set	fp=64
+ 	mfc0	t0, CP0_STATUS
+ 	sll	t0, t0, 5
+ 	bgez	t0, 1f			# skip loading odd if FR=0
+@@ -175,6 +192,8 @@ LEAF(_restore_fp_context)
+ 	EX	ldc1 $f31, SC_FPREGS+248(a0)
+ 1:	.set pop
+ #endif
++	.set push
++	SET_HARDFLOAT
+ 	EX	ldc1 $f0, SC_FPREGS+0(a0)
+ 	EX	ldc1 $f2, SC_FPREGS+16(a0)
+ 	EX	ldc1 $f4, SC_FPREGS+32(a0)
+@@ -192,6 +211,7 @@ LEAF(_restore_fp_context)
+ 	EX	ldc1 $f28, SC_FPREGS+224(a0)
+ 	EX	ldc1 $f30, SC_FPREGS+240(a0)
+ 	ctc1	t1, fcr31
++	.set pop
+ 	jr	ra
+ 	 li	v0, 0					# success
+ 	END(_restore_fp_context)
+@@ -199,6 +219,8 @@ LEAF(_restore_fp_context)
+ #ifdef CONFIG_MIPS32_COMPAT
+ LEAF(_restore_fp_context32)
+ 	/* Restore an o32 sigcontext.  */
++	.set push
++	SET_HARDFLOAT
+ 	EX	lw t1, SC32_FPC_CSR(a0)
+ 
+ 	mfc0	t0, CP0_STATUS
+@@ -242,6 +264,7 @@ LEAF(_restore_fp_context32)
+ 	ctc1	t1, fcr31
+ 	jr	ra
+ 	 li	v0, 0					# success
++	.set pop
+ 	END(_restore_fp_context32)
+ #endif
+ 
+diff --git a/arch/mips/kernel/r4k_switch.S b/arch/mips/kernel/r4k_switch.S
+index 8a4f9a5..715fb13 100644
+--- a/arch/mips/kernel/r4k_switch.S
++++ b/arch/mips/kernel/r4k_switch.S
+@@ -22,6 +22,9 @@
+ 
+ #include <asm/asmmacro.h>
+ 
++/* preprocessor replaces the fp in ".set fp=64" with $30 otherwise */
++#undef fp
++
+ /*
+  * Offset to the current process status flags, the first 32 bytes of the
+  * stack are not used.
+@@ -154,6 +157,9 @@ LEAF(_restore_fp)
+ 
+ #define FPU_DEFAULT  0x00000000
+ 
++	.set push
++	SET_HARDFLOAT
++
+ LEAF(_init_fpu)
+ #ifdef CONFIG_MIPS_MT_SMTC
+ 	/* Rather than manipulate per-VPE Status, set per-TC bit in TCStatus */
+@@ -234,7 +240,8 @@ LEAF(_init_fpu)
+ 
+ #ifdef CONFIG_CPU_MIPS32_R2
+ 	.set    push
+-	.set    mips64r2
++	.set    mips32r2
++	.set	fp=64
+ 	sll     t0, t0, 5			# is Status.FR set?
+ 	bgez    t0, 1f				# no: skip setting upper 32b
+ 
+@@ -293,3 +300,5 @@ LEAF(_init_fpu)
+ #endif
+ 	jr	ra
+ 	END(_init_fpu)
++
++	.set pop	/* SET_HARDFLOAT */
+diff --git a/arch/mips/kernel/r6000_fpu.S b/arch/mips/kernel/r6000_fpu.S
+index da0fbe4..4707738 100644
+--- a/arch/mips/kernel/r6000_fpu.S
++++ b/arch/mips/kernel/r6000_fpu.S
+@@ -18,6 +18,9 @@
+ 
+ 	.set	noreorder
+ 	.set	mips2
++	.set	push
++	SET_HARDFLOAT
++
+ 	/* Save floating point context */
+ 	LEAF(_save_fp_context)
+ 	mfc0	t0,CP0_STATUS
+@@ -85,3 +88,5 @@
+ 1:	jr	ra
+ 	 nop
+ 	END(_restore_fp_context)
++
++	.set pop	/* SET_HARDFLOAT */
+diff --git a/arch/mips/math-emu/cp1emu.c b/arch/mips/math-emu/cp1emu.c
+index edb110c..4e9e3c1 100644
+--- a/arch/mips/math-emu/cp1emu.c
++++ b/arch/mips/math-emu/cp1emu.c
+@@ -821,11 +821,7 @@ static int isBranchInstr(struct pt_regs *regs, struct mm_decoded_insn dec_insn,
+ 		if (insn.i_format.rs == bc_op) {
+ 			preempt_disable();
+ 			if (is_fpu_owner())
+-				asm volatile(
+-					".set push\n"
+-					"\t.set mips1\n"
+-					"\tcfc1\t%0,$31\n"
+-					"\t.set pop" : "=r" (fcr31));
++			        fcr31 = read_32bit_cp1_register(CP1_STATUS);
+ 			else
+ 				fcr31 = current->thread.fpu.fcr31;
+ 			preempt_enable();
+-- 
+2.0.2
+
 
