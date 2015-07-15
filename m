@@ -1,28 +1,24 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ECA817391D
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6272C7391D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 06:28:28 +0000 (UTC)
+	Wed, 15 Jul 2015 07:04:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6F6SS6f018943
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 14 Jul 2015 23:28:28 -0700 (PDT)
-Received: from [128.224.162.176] (128.224.162.176) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 14 Jul 2015 23:28:27 -0700
-Message-ID: <55A5FD8A.3010802@windriver.com>
-Date: Wed, 15 Jul 2015 14:28:26 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6F742gW022345
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jul 2015 00:04:02 -0700 (PDT)
+Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 15 Jul 2015 00:04:01 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 Jul 2015 15:04:02 +0800
+Message-ID: <1436943842-17512-1-git-send-email-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1436765128-16695-1-git-send-email-wenzong.fan@windriver.com>
-	<CAJTo0Lb8L_NZVvJqaKB0VfWd2SdoL1p8rtfuOjof4J8yQ1kf9A@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb8L_NZVvJqaKB0VfWd2SdoL1p8rtfuOjof4J8yQ1kf9A@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1 v2] rpcbind: handle rpcbind options
+Subject: [PATCH] rpm: fix segment fault in lib/psm.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +31,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 06:28:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 15 Jul 2015 07:04:04 -0000
+Content-Type: text/plain
 
-On 07/14/2015 07:14 PM, Burton, Ross wrote:
->
-> On 13 July 2015 at 06:25, <wenzong.fan@windriver.com
-> <mailto:wenzong.fan@windriver.com>> wrote:
->
->     -EnvironmentFile=-@SYSCONFDIR@/rpcbind.conf
->     +EnvironmentFile=@SYSCONFDIR@/rpcbind.conf
->
->
-> Did you intend to drop the - from the EnvironmentFile statement?  I'm
-> guessing not.
->
+Add null pointer checking for rpmpsmStage() function in lib/psm.c
 
-No, I didn't.
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+---
+ .../rpm/rpm/rpm-fix-segment-fault-in-psm.patch     | 34 ++++++++++++++++++++++
+ meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-fix-segment-fault-in-psm.patch
 
-I have sent V3 for clean this change.
+diff --git a/meta/recipes-devtools/rpm/rpm/rpm-fix-segment-fault-in-psm.patch b/meta/recipes-devtools/rpm/rpm/rpm-fix-segment-fault-in-psm.patch
+new file mode 100644
+index 0000000..e78ec4f
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/rpm/rpm-fix-segment-fault-in-psm.patch
+@@ -0,0 +1,34 @@
++Summary: rpm: fix segment fault in psm.c
++
++When rpmtsGetRdb(ts) retrun NULL, it will output segment fault.
++
++Upstream-status: pending
++    
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++Index: rpm-5.4.14/lib/psm.c
++===================================================================
++--- rpm-5.4.14.orig/lib/psm.c	2015-06-18 10:57:15.949529544 +0800
+++++ rpm-5.4.14/lib/psm.c	2015-07-15 14:56:13.362911386 +0800
++@@ -3026,13 +3026,15 @@
++ 	     rc = rpmpsmNext(psm, PSM_CHROOT_OUT);
++ #endif
++ 
++-	xx = rpmtxnBegin(rpmtsGetRdb(ts), _parent, NULL);
++-	rc = runInstScript(psm);
++-	if (rc)
++-	     xx = rpmtxnAbort(rpmtsGetRdb(ts)->db_txn);
++-	else
++-	     xx = rpmtxnCommit(rpmtsGetRdb(ts)->db_txn);
++-	rpmtsGetRdb(ts)->db_txn = NULL;
+++	if (rpmtsGetRdb(ts)) {
+++	    xx = rpmtxnBegin(rpmtsGetRdb(ts), _parent, NULL);
+++	    rc = runInstScript(psm);
+++	    if (rc)
+++		xx = rpmtxnAbort(rpmtsGetRdb(ts)->db_txn);
+++	    else
+++		xx = rpmtxnCommit(rpmtsGetRdb(ts)->db_txn);
+++	    rpmtsGetRdb(ts)->db_txn = NULL;
+++	}
++ #ifdef RPM_VENDOR_OE
++ 	if (scriptletWrapper && *scriptletWrapper)
++ 	     rc = rpmpsmNext(psm, PSM_CHROOT_IN);
+diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+index fb81f12..3314da8 100644
+--- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
++++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
+@@ -93,6 +93,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
+ 	   file://0001-using-poptParseArgvString-to-parse-the-_gpg_check_pa.patch \
+ 	   file://no-ldflags-in-pkgconfig.patch \
+ 	   file://rpm-lua-fix-print.patch \
++	   file://rpm-fix-segment-fault-in-psm.patch \
+ 	  "
+ 
+ # Uncomment the following line to enable platform score debugging
+-- 
+1.9.1
 
-Thanks
-Wenzong
-
-> Ross
 
