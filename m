@@ -1,38 +1,43 @@
-Return-Path: <otavio.salvador@gmail.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F1F365CBD
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
+	[209.85.192.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AC317391D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 02:44:04 +0000 (UTC)
-Received: by qgy5 with SMTP id 5so12726139qgy.3
+	Wed, 15 Jul 2015 04:07:43 +0000 (UTC)
+Received: by pdbep18 with SMTP id ep18so17785264pdb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 19:44:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=VPX/2r3SNJs5wcBt1sdSoZwiW99p+8HJTSI+7uYgb/Y=;
-	b=G6jzkKS1lUWXR47R+UxdmexjIYua410BO5Se3byO8tRWpSOkHXMnnJdu3sHg1m5Ufq
-	d0bz4Q4TiHtxYqPoK0sGygh9MT22FRxIusxi7+9AaWz4+ruCbo+E7T03LaOHPkfTWlyC
-	3VNes0l/N+lji8YPVFKaPkDAu2b/iwuiqMNGj2eie0sLfHTu+lYd0piHJhro7OADF7/A
-	coHbx677xeOrcorV8h0qC8TSHTBmhbRQp3093WJ0Er8FhGDEWQTObdTtu3Eco4iOw1qy
-	2wGdtmiF+O6xUZDwV9sKucddfaOt08Snw3gUb30VBsqcEmxrYJ5WXD28Y1KlUFHdc6sQ
-	zBJQ==
-X-Received: by 10.55.54.65 with SMTP id d62mr3768890qka.59.1436928244477;
-	Tue, 14 Jul 2015 19:44:04 -0700 (PDT)
-Received: from localhost ([179.105.243.19]) by smtp.gmail.com with ESMTPSA id
-	197sm1558587qhq.23.2015.07.14.19.44.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 Jul 2015 19:44:03 -0700 (PDT)
-Received: by localhost (sSMTP sendmail emulation);
-	Tue, 14 Jul 2015 23:43:56 -0300
-From: Otavio Salvador <otavio@ossystems.com.br>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Date: Tue, 14 Jul 2015 23:43:53 -0300
-Message-Id: <1436928233-11337-1-git-send-email-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.4.5
-Organization: O.S. Systems Software LTDA.
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] u-boot: Upgrade to 2015.07 release
+	Tue, 14 Jul 2015 21:07:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=0wb8ETFRNUPB9S983PXqCK+lKGG0Dr708xsA6D4Yi2w=;
+	b=tInfSB0H8H8XHFcxgQtgr+HXtwYHl4LKn8m3OSemr+BHZWHQLTo81yp7f/yOI6pq6l
+	pxIY6YBeEGcPKdEBRrVraAxD1jZuXW7fn98us2QEkgDL3EXJGFQUIO5d3Oju5FYLUeIP
+	gTYbw20Cn9Se7pDLWfb96Nnyz8kvgs5Bq2BmyHqvmu/ZnnhVdcyvZC5hRdu7NQQT6iMG
+	53g3b1alRHLXLmkgvMR6ejQHDTvj3I+dD0fhTl6vtq9/yzXADruRhpFP/foY1CZeLGj+
+	MgNVGzIDbvrGjKZk33zdG11czZw1ulUftqOuESoEoGq1XKZUgph2xP+QGLVuFDEZK0YH
+	lZrA==
+X-Received: by 10.66.65.228 with SMTP id a4mr3820329pat.65.1436933263236;
+	Tue, 14 Jul 2015 21:07:43 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:89f0:8467:4b2:2421?
+	([2601:646:8601:4580:89f0:8467:4b2:2421])
+	by smtp.gmail.com with ESMTPSA id
+	uz9sm2903109pac.34.2015.07.14.21.07.41
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 14 Jul 2015 21:07:42 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <55A372F6.9030107@windriver.com>
+Date: Tue, 14 Jul 2015 21:07:36 -0700
+Message-Id: <9418D7F2-9A42-4E23-90F4-87B935259936@gmail.com>
+References: <cover.1436464186.git.raj.khem@gmail.com>
+	<ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
+	<55A372F6.9030107@windriver.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+X-Mailer: Apple Mail (2.2102)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] gcc-4.9: Upgrade to 4.9.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,485 +50,239 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 02:44:05 -0000
+X-List-Received-Date: Wed, 15 Jul 2015 04:07:44 -0000
+X-Groupsio-MsgNum: 67968
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_F7FED08E-2786-4ACF-9FFC-402967D7473D";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-This upgrades the U-Boot and its related recipes for the 2015.07
-release.
-
-The following recipes has been upgraded:
-
- - u-boot
- - u-boot-mkimage
- - u-boot-fw-utils
-
-The patches which were applied on top of the 2015.01 release are
-dropped as those are not needed in this release.
-
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
- .../0001-tools-env-fix-build-error.patch           |  36 ----
- ...utils_2015.01.bb => u-boot-fw-utils_2015.07.bb} |  11 +-
- meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch  |  91 ----------
- ...kimage_2015.01.bb => u-boot-mkimage_2015.07.bb} |  12 +-
- meta/recipes-bsp/u-boot/u-boot.inc                 |   2 +-
- ...5xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch | 190 ---------------------
- meta/recipes-bsp/u-boot/u-boot_2015.01.bb          |  11 --
- meta/recipes-bsp/u-boot/u-boot_2015.07.bb          |  10 ++
- 8 files changed, 21 insertions(+), 342 deletions(-)
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
- rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2015.01.bb => u-boot-fw-utils_2015.07.bb} (79%)
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
- rename meta/recipes-bsp/u-boot/{u-boot-mkimage_2015.01.bb => u-boot-mkimage_2015.07.bb} (65%)
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot/0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot_2015.01.bb
- create mode 100644 meta/recipes-bsp/u-boot/u-boot_2015.07.bb
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch b/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
-deleted file mode 100644
-index 381b505..0000000
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils/0001-tools-env-fix-build-error.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From ee2d75513452aa6d5306fd380104adc8a2f6d8f2 Mon Sep 17 00:00:00 2001
--From: Masahiro Yamada <yamada.m@jp.panasonic.com>
--Date: Wed, 3 Dec 2014 10:22:50 +0900
--Subject: [PATCH] tools: env: fix build error
--
--Since CONFIG_SYS_ARCH, CONFIG_SYS_CPU, ... were moved to Kconfig,
--tools/env/fw_printenv fails to build if CONFIG_ENV_VARS_UBOOT_CONFIG
--is defined.
--(I do not think this is the right way to fix the problem, but
--for now I do not have enough time to take a close look.)
--
--Upstream-Status: Submitted [http://patchwork.ozlabs.org/patch/417192/]
--
--Signed-off-by: Masahiro Yamada <yamada.m@jp.panasonic.com>
--Reported-by: Denys Dmytriyenko <denys@ti.com>
-----
-- tools/env/fw_env.c | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/tools/env/fw_env.c b/tools/env/fw_env.c
--index 1173eea..698fe51 100644
----- a/tools/env/fw_env.c
--+++ b/tools/env/fw_env.c
--@@ -8,6 +8,9 @@
--  * SPDX-License-Identifier:	GPL-2.0+
--  */
-- 
--+/* FIXME: Do not include this */
--+#include <linux/kconfig.h>
--+
-- #include <errno.h>
-- #include <env_flags.h>
-- #include <fcntl.h>
---- 
--2.2.0
--
-diff --git a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.07.bb
-similarity index 79%
-rename from meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.07.bb
-index b310b0d..0df7a05 100644
---- a/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-fw-utils_2015.07.bb
-@@ -1,18 +1,17 @@
- SUMMARY = "U-Boot bootloader fw_printenv/setenv utilities"
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
-+LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
- SECTION = "bootloader"
- DEPENDS = "mtd-utils"
- 
--# This revision corresponds to the tag "v2015.01"
-+# This revision corresponds to the tag "v2015.07"
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
-+SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
- 
--PV = "v2015.01+git${SRCPV}"
-+PV = "v2015.07+git${SRCPV}"
- 
--SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
--           file://0001-tools-env-fix-build-error.patch"
-+SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
-deleted file mode 100644
-index 12db94c..0000000
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage/gcc5.patch
-+++ /dev/null
-@@ -1,91 +0,0 @@
--Upstream-Status: Backport
--
--From 478b02f1a7043b673565075ea5016376f3293b23 Mon Sep 17 00:00:00 2001
--From: Hans de Goede <hdegoede@redhat.com>
--Date: Sat, 7 Feb 2015 22:52:40 +0100
--Subject: [PATCH] Add linux/compiler-gcc5.h to fix builds with gcc5
--
--Add linux/compiler-gcc5/h from the kernel sources at:
--
--commit 5631b8fba640a4ab2f8a954f63a603fa34eda96b
--Author: Steven Noonan <steven@uplinklabs.net>
--Date:   Sat Oct 25 15:09:42 2014 -0700
--
--    compiler/gcc4+: Remove inaccurate comment about 'asm goto' miscompiles
--
--Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-----
-- include/linux/compiler-gcc5.h |   65 +++++++++++++++++++++++++++++++++++++++++
-- 1 file changed, 65 insertions(+)
-- create mode 100644 include/linux/compiler-gcc5.h
--
--Index: git/include/linux/compiler-gcc5.h
--===================================================================
----- /dev/null
--+++ git/include/linux/compiler-gcc5.h
--@@ -0,0 +1,65 @@
--+#ifndef __LINUX_COMPILER_H
--+#error "Please don't include <linux/compiler-gcc5.h> directly, include <linux/compiler.h> instead."
--+#endif
--+
--+#define __used				__attribute__((__used__))
--+#define __must_check			__attribute__((warn_unused_result))
--+#define __compiler_offsetof(a, b)	__builtin_offsetof(a, b)
--+
--+/* Mark functions as cold. gcc will assume any path leading to a call
--+   to them will be unlikely.  This means a lot of manual unlikely()s
--+   are unnecessary now for any paths leading to the usual suspects
--+   like BUG(), printk(), panic() etc. [but let's keep them for now for
--+   older compilers]
--+
--+   Early snapshots of gcc 4.3 don't support this and we can't detect this
--+   in the preprocessor, but we can live with this because they're unreleased.
--+   Maketime probing would be overkill here.
--+
--+   gcc also has a __attribute__((__hot__)) to move hot functions into
--+   a special section, but I don't see any sense in this right now in
--+   the kernel context */
--+#define __cold			__attribute__((__cold__))
--+
--+#define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
--+
--+#ifndef __CHECKER__
--+# define __compiletime_warning(message) __attribute__((warning(message)))
--+# define __compiletime_error(message) __attribute__((error(message)))
--+#endif /* __CHECKER__ */
--+
--+/*
--+ * Mark a position in code as unreachable.  This can be used to
--+ * suppress control flow warnings after asm blocks that transfer
--+ * control elsewhere.
--+ *
--+ * Early snapshots of gcc 4.5 don't support this and we can't detect
--+ * this in the preprocessor, but we can live with this because they're
--+ * unreleased.  Really, we need to have autoconf for the kernel.
--+ */
--+#define unreachable() __builtin_unreachable()
--+
--+/* Mark a function definition as prohibited from being cloned. */
--+#define __noclone	__attribute__((__noclone__))
--+
--+/*
--+ * Tell the optimizer that something else uses this function or variable.
--+ */
--+#define __visible __attribute__((externally_visible))
--+
--+/*
--+ * GCC 'asm goto' miscompiles certain code sequences:
--+ *
--+ *   http://gcc.gnu.org/bugzilla/show_bug.cgi?id=58670
--+ *
--+ * Work it around via a compiler barrier quirk suggested by Jakub Jelinek.
--+ *
--+ * (asm goto is automatically volatile - the naming reflects this.)
--+ */
--+#define asm_volatile_goto(x...)	do { asm goto(x); asm (""); } while (0)
--+
--+#ifdef CONFIG_ARCH_USE_BUILTIN_BSWAP
--+#define __HAVE_BUILTIN_BSWAP32__
--+#define __HAVE_BUILTIN_BSWAP64__
--+#define __HAVE_BUILTIN_BSWAP16__
--+#endif /* CONFIG_ARCH_USE_BUILTIN_BSWAP */
-diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.07.bb
-similarity index 65%
-rename from meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot-mkimage_2015.07.bb
-index 7735288..ba29bbb 100644
---- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.07.bb
-@@ -1,20 +1,18 @@
- SUMMARY = "U-Boot bootloader image creation tool"
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
-+LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
- SECTION = "bootloader"
- 
- DEPENDS = "openssl"
- 
--# This revision corresponds to the tag "v2015.01"
-+# This revision corresponds to the tag "v2015.07"
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
-+SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
- 
--PV = "v2015.01+git${SRCPV}"
-+PV = "v2015.07+git${SRCPV}"
- 
--SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
--           file://gcc5.patch \
--	   "
-+SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 88e239d..c76f87f 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -4,7 +4,7 @@ SECTION = "bootloaders"
- PROVIDES = "virtual/bootloader"
- 
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://Licenses/README;md5=c7383a594871c03da76b3707929d2919"
-+LIC_FILES_CHKSUM = "file://Licenses/README;md5=0507cd7da8e7ad6d6701926ec9b84c95"
- 
- SRC_URI = "git://git.denx.de/u-boot.git;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot/0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch b/meta/recipes-bsp/u-boot/u-boot/0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch
-deleted file mode 100644
-index faf2985..0000000
---- a/meta/recipes-bsp/u-boot/u-boot/0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch
-+++ /dev/null
-@@ -1,190 +0,0 @@
--From 9ba002f1b1afc7af84a352f4ecab32a30d7ba353 Mon Sep 17 00:00:00 2001
--From: Zhenhua Luo <zhenhua.luo@freescale.com>
--Date: Mon, 9 Feb 2015 18:33:56 +0800
--Subject: [PATCH] powerpc/cpu/*/u-boot*.lds: remove _GLOBAL_OFFSET_TABLE_
-- definition
--
--In binutils-2.25, the _GLOBAL_OFFSET_TABLE_ symbols defined by PROVIDE in
--u-boot.lds overrides the linker built-in symbols
--(https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commitdiff;h=b893397a4b1316610f49819344817715e4305de9),
--so the linker is treating _GLOBAL_OFFSET_TABLE_ as a definition into the .reloc section.
--
--To align with the change of binutils-2.25, the _GLOBAL_OFFSET_TABLE_ symbol
--should not be defined in sections, and the symbols in linker generated .got
--section should be used(https://sourceware.org/ml/binutils/2008-09/msg00122.html).
--
--Fixed the following build errors with binutils-2.25:
--| powerpc-poky-linux-gnuspe-ld.bfd: _GLOBAL_OFFSET_TABLE_ not defined in linker created .got
--
--Signed-off-by: Zhenhua Luo <zhenhua.luo@freescale.com>
--
--Upstream-Status: Pending
--
--Index: git/arch/powerpc/cpu/mpc85xx/u-boot-nand.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc85xx/u-boot-nand.lds
--+++ git/arch/powerpc/cpu/mpc85xx/u-boot-nand.lds
--@@ -44,7 +44,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/mpc85xx/u-boot-nand_spl.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc85xx/u-boot-nand_spl.lds
--+++ git/arch/powerpc/cpu/mpc85xx/u-boot-nand_spl.lds
--@@ -22,7 +22,6 @@ SECTIONS
-- 		_GOT2_TABLE_ = .;
-- 		KEEP(*(.got2))
-- 		KEEP(*(.got))
---		PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
-- 		_FIXUP_TABLE_ = .;
-- 		KEEP(*(.fixup))
-- 	}
--Index: git/arch/powerpc/cpu/mpc85xx/u-boot-spl.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc85xx/u-boot-spl.lds
--+++ git/arch/powerpc/cpu/mpc85xx/u-boot-spl.lds
--@@ -29,7 +29,6 @@ SECTIONS
-- 		_GOT2_TABLE_ = .;
-- 		KEEP(*(.got2))
-- 		KEEP(*(.got))
---		PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
-- 		_FIXUP_TABLE_ = .;
-- 		KEEP(*(.fixup))
-- 	}
--Index: git/arch/powerpc/cpu/mpc85xx/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc85xx/u-boot.lds
--+++ git/arch/powerpc/cpu/mpc85xx/u-boot.lds
--@@ -50,7 +50,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/mpc8260/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc8260/u-boot.lds
--+++ git/arch/powerpc/cpu/mpc8260/u-boot.lds
--@@ -27,7 +27,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/74xx_7xx/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/74xx_7xx/u-boot.lds
--+++ git/arch/powerpc/cpu/74xx_7xx/u-boot.lds
--@@ -30,7 +30,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/mpc512x/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc512x/u-boot.lds
--+++ git/arch/powerpc/cpu/mpc512x/u-boot.lds
--@@ -24,7 +24,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--     *(.fixup)
--Index: git/arch/powerpc/cpu/mpc5xx/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc5xx/u-boot.lds
--+++ git/arch/powerpc/cpu/mpc5xx/u-boot.lds
--@@ -33,7 +33,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/mpc5xxx/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc5xxx/u-boot.lds
--+++ git/arch/powerpc/cpu/mpc5xxx/u-boot.lds
--@@ -28,7 +28,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/mpc83xx/u-boot-spl.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc83xx/u-boot-spl.lds
--+++ git/arch/powerpc/cpu/mpc83xx/u-boot-spl.lds
--@@ -24,7 +24,6 @@ SECTIONS
-- 		_GOT2_TABLE_ = .;
-- 		KEEP(*(.got2))
-- 		KEEP(*(.got))
---		PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
-- 	}
-- 	__got2_entries = ((_GLOBAL_OFFSET_TABLE_ - _GOT2_TABLE_) >> 2) - 1;
-- 
--Index: git/arch/powerpc/cpu/mpc83xx/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc83xx/u-boot.lds
--+++ git/arch/powerpc/cpu/mpc83xx/u-boot.lds
--@@ -26,7 +26,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/mpc86xx/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc86xx/u-boot.lds
--+++ git/arch/powerpc/cpu/mpc86xx/u-boot.lds
--@@ -32,7 +32,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/mpc8xx/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/mpc8xx/u-boot.lds
--+++ git/arch/powerpc/cpu/mpc8xx/u-boot.lds
--@@ -34,7 +34,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
--Index: git/arch/powerpc/cpu/ppc4xx/u-boot.lds
--===================================================================
----- git.orig/arch/powerpc/cpu/ppc4xx/u-boot.lds
--+++ git/arch/powerpc/cpu/ppc4xx/u-boot.lds
--@@ -46,7 +46,6 @@ SECTIONS
--     _GOT2_TABLE_ = .;
--     KEEP(*(.got2))
--     KEEP(*(.got))
---    PROVIDE(_GLOBAL_OFFSET_TABLE_ = . + 4);
--     _FIXUP_TABLE_ = .;
--     KEEP(*(.fixup))
--   }
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2015.01.bb b/meta/recipes-bsp/u-boot/u-boot_2015.01.bb
-deleted file mode 100644
-index 70a1e54..0000000
---- a/meta/recipes-bsp/u-boot/u-boot_2015.01.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require u-boot.inc
--
--DEPENDS += "dtc-native"
--
--SRC_URI += "file://0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch"
--
--# This revision corresponds to the tag "v2015.01"
--# We use the revision in order to avoid having to fetch it from the repo during parse
--SRCREV = "92fa7f53f1f3f03296f8ffb14bdf1baefab83368"
--
--PV = "v2015.01+git${SRCPV}"
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2015.07.bb b/meta/recipes-bsp/u-boot/u-boot_2015.07.bb
-new file mode 100644
-index 0000000..9eb8f96
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot_2015.07.bb
-@@ -0,0 +1,10 @@
-+require u-boot.inc
-+
-+DEPENDS += "dtc-native"
-+
-+# This revision corresponds to the tag "v2015.07"
-+# We use the revision in order to avoid having to fetch it from the
-+# repo during parse
-+SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
-+
-+PV = "v2015.07+git${SRCPV}"
--- 
-2.4.5
+--Apple-Mail=_F7FED08E-2786-4ACF-9FFC-402967D7473D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
+> On Jul 13, 2015, at 1:12 AM, Robert Yang <liezhi.yang@windriver.com> =
+wrote:
+>=20
+>=20
+> Hi Khem,
+>=20
+> This upgrade breaks linux-yocto 3.14 build on qemumips or qemumips64:
+>=20
+> In local.conf:
+> MACHINE =3D "qemumips"
+> PREFERRED_VERSION_linux-yocto_qemumips =3D "3.14%"
+>=20
+> $ bitbake linux-yocto -ccompile
+>=20
+> Then errors:
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S: =
+Assembler messages:
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:68: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f0,272+0($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:69: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f2,272+16($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:70: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f4,272+32($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:71: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f6,272+48($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:72: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f8,272+64($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:73: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f10,272+80($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:74: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f12,272+96($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:75: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f14,272+112($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:76: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f16,272+128($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:77: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f18,272+144($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:78: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f20,272+160($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:79: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f22,272+176($4)'
+> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:80: =
+Error: opcode not supported on this processor: mips3 (mips3) `sdc1 =
+$f24,272+192($4)=E2=80=99
+
+Its not related to gcc per-se but exposed by gcc 4.9.3
+You need a back port.
+
+=
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit?id=3D=
+842dfc11ea9a21f9825167c8a4f2834b205b0a79
+
+
+>=20
+> // Robert
+>=20
+> On 07/10/2015 01:52 AM, Khem Raj wrote:
+>> Drop upsteamed patch for
+>> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D66483 which is already =
+in
+>> 4.9.3
+>>=20
+>> rename =
+0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+>> to 0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch to
+>> keep the sequence
+>>=20
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ---
+>>  meta/recipes-devtools/gcc/gcc-4.9.inc              | 11 +++---
+>>  ...BS_DIR-replacement-instead-of-hardcoding.patch} |  0
+>>  ...racking.c-backport-from-gcc-trunk-r212178.patch | 39 =
+----------------------
+>>  3 files changed, 5 insertions(+), 45 deletions(-)
+>>  rename =
+meta/recipes-devtools/gcc/gcc-4.9/{0063-Use-SYSTEMLIBS_DIR-replacement-ins=
+tead-of-hardcoding.patch =3D> =
+0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch} (100%)
+>>  delete mode 100644 =
+meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gc=
+c-trunk-r212178.patch
+>>=20
+>> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc =
+b/meta/recipes-devtools/gcc/gcc-4.9.inc
+>> index 9ed3e09..d61eca7 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+>> @@ -2,11 +2,11 @@ require gcc-common.inc
+>>=20
+>>  # Third digit in PV should be incremented after a minor release
+>>=20
+>> -PV =3D "4.9.2"
+>> +PV =3D "4.9.3"
+>>=20
+>>  # BINV should be incremented to a revision after a minor gcc release
+>>=20
+>> -BINV =3D "4.9.2"
+>> +BINV =3D "4.9.3"
+>>=20
+>>  FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/gcc-4.9:"
+>>=20
+>> @@ -77,11 +77,10 @@ SRC_URI =3D "\
+>>      file://0059-gcc-PR-rtl-optimization-63348.patch \
+>>      =
+file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
+>>      file://0061-target-gcc-includedir.patch \
+>> -    =
+file://0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch \
+>> -    =
+file://0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+>> +    =
+file://0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+>>  "
+>> -SRC_URI[md5sum] =3D "4df8ee253b7f3863ad0b86359cd39c43"
+>> -SRC_URI[sha256sum] =3D =
+"2020c98295856aa13fda0f2f3a4794490757fc24bcca918d52cc8b4917b972dd"
+>> +SRC_URI[md5sum] =3D "6f831b4d251872736e8e9cc09746f327"
+>> +SRC_URI[sha256sum] =3D =
+"2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+>>=20
+>>  S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+>>  B =3D "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+>> diff --git =
+a/meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-in=
+stead-of-hardcoding.patch =
+b/meta/recipes-devtools/gcc/gcc-4.9/0062-Use-SYSTEMLIBS_DIR-replacement-in=
+stead-of-hardcoding.patch
+>> similarity index 100%
+>> rename from =
+meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-inst=
+ead-of-hardcoding.patch
+>> rename to =
+meta/recipes-devtools/gcc/gcc-4.9/0062-Use-SYSTEMLIBS_DIR-replacement-inst=
+ead-of-hardcoding.patch
+>> diff --git =
+a/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-=
+gcc-trunk-r212178.patch =
+b/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-=
+gcc-trunk-r212178.patch
+>> deleted file mode 100644
+>> index c0ea62f..0000000
+>> --- =
+a/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-=
+gcc-trunk-r212178.patch
+>> +++ /dev/null
+>> @@ -1,39 +0,0 @@
+>> -=46rom b30ffb8097749fdb55704aa7d8307ca1a58255d6 Mon Sep 17 00:00:00 =
+2001
+>> -From: =3D?UTF-8?q?Stefan=3D20M=3DC3=3DBCller-Klieser?=3D =
+<s.mueller-klieser@phytec.de>
+>> -Date: Tue, 7 Apr 2015 16:15:11 +0200
+>> -Subject: [PATCH] gcc/var-tracking.c: backport from gcc trunk r212178
+>> -MIME-Version: 1.0
+>> -Content-Type: text/plain; charset=3DUTF-8
+>> -Content-Transfer-Encoding: 8bit
+>> -
+>> -resolves a bug seen on cortexa8 building qt5 libraries.
+>> -
+>> -2014-06-30  Joseph Myers  <joseph@codesourcery.com>
+>> -
+>> -    * var-tracking.c (add_stores): Return instead of asserting if =
+old
+>> -    and new values for conditional store are the same.
+>> -
+>> -git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@212178 =
+138bc75d-0d04-0410-961f-82ee72b054a4
+>> -
+>> -Signed-off-by: Stefan M=C3=BCller-Klieser =
+<s.mueller-klieser@phytec.de>
+>> ----
+>> - gcc/var-tracking.c | 3 ++-
+>> - 1 file changed, 2 insertions(+), 1 deletion(-)
+>> -
+>> -diff --git a/gcc/var-tracking.c b/gcc/var-tracking.c
+>> -index 65d8285..7c38910 100644
+>> ---- a/gcc/var-tracking.c
+>> -+++ b/gcc/var-tracking.c
+>> -@@ -5997,7 +5997,8 @@ add_stores (rtx loc, const_rtx expr, void =
+*cuip)
+>> -     {
+>> -       cselib_val *oval =3D cselib_lookup (oloc, GET_MODE (oloc), 0, =
+VOIDmode);
+>> -
+>> --      gcc_assert (oval !=3D v);
+>> -+      if (oval =3D=3D v)
+>> -+        return;
+>> -       gcc_assert (REG_P (oloc) || MEM_P (oloc));
+>> -
+>> -       if (oval && !cselib_preserved_value_p (oval))
+>> ---
+>> -1.9.1
+>> -
+>>=20
+
+
+--Apple-Mail=_F7FED08E-2786-4ACF-9FFC-402967D7473D
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlWl3IwACgkQuwUzVZGdMxQO2wCdH7ef2ZFwdJgaHAVzS7vDI8Pz
+vYQAoI0BUWTIMlV0mE2vhse0jteiM/1U
+=nIRB
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_F7FED08E-2786-4ACF-9FFC-402967D7473D--
