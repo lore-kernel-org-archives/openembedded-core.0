@@ -1,24 +1,30 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9886B75F4A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AD0B375948
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 13:17:16 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Jul 2015 06:17:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,480,1432623600"; d="scan'208";a="606677332"
-Received: from sentry.rb.intel.com ([10.237.105.63])
-	by orsmga003.jf.intel.com with ESMTP; 15 Jul 2015 06:17:17 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jul 2015 16:17:02 +0300
-Message-Id: <a429f572277cfec26194029eaf32fb3431b9bb84.1436965937.git.cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1436965937.git.cristian.iorga@intel.com>
+	Wed, 15 Jul 2015 13:22:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6FDMmnu010611; Wed, 15 Jul 2015 14:22:48 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ieIJoh8Zvde2; Wed, 15 Jul 2015 14:22:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6FDMagt010587
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 15 Jul 2015 14:22:47 +0100
+Message-ID: <1436966556.3310.96.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Cristian Iorga <cristian.iorga@intel.com>
+Date: Wed, 15 Jul 2015 14:22:36 +0100
+In-Reply-To: <861013e3a73d1c87c6f86b1f28daf4677feaefe4.1436965937.git.cristian.iorga@intel.com>
 References: <cover.1436965937.git.cristian.iorga@intel.com>
-In-Reply-To: <cover.1436965937.git.cristian.iorga@intel.com>
-References: <cover.1436965937.git.cristian.iorga@intel.com>
-Subject: [PATCH 3/3] bitbake.conf: fix qemu user mode linux for qemuarm64
+	<861013e3a73d1c87c6f86b1f28daf4677feaefe4.1436965937.git.cristian.iorga@intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] runqemu-internal: add temporary disk interface to qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,30 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 13:17:16 -0000
+X-List-Received-Date: Wed, 15 Jul 2015 13:22:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-OLDEST_KERNEL is invalid for aarch64, it didn't exist
-back in our current version. Use a more recent version
-for aarch64 to allow user mode qemu to work correctly.
+On Wed, 2015-07-15 at 16:17 +0300, Cristian Iorga wrote:
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+Why do we need to do this?
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index ee75c9b..730ab80 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -397,6 +397,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
- ##################################################################
- 
- OLDEST_KERNEL = "2.6.32"
-+OLDEST_KERNEL_aarch64 = "3.14"
- STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
- STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts"
- 
--- 
-2.1.4
+(Yes, I know why, but this commit doesn't tell me).
+
+Cheers,
+
+Richard
+
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+> ---
+>  scripts/runqemu-internal | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index 6878251..03b40d8 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -270,7 +270,7 @@ else
+>          if [ "$MACHINE" = "qemuarm64" ]; then
+>              QEMU_NETWORK_CMD="-netdev tap,id=net0,ifname=$TAP,script=no,downscript=no -device virtio-net-device,netdev=net0 "
+>              DROOT="/dev/vda"
+> -            ROOTFS_OPTIONS="-drive id=disk0,file=$ROOTFS,format=raw -device virtio-blk-device,drive=disk0"
+> +            ROOTFS_OPTIONS="-drive id=disk0,file=$ROOTFS,if=none,format=raw -device virtio-blk-device,drive=disk0"
+>          fi
+>  
+>          KERNCMDLINE="mem=$QEMU_MEMORY"
+> -- 
+> 2.1.4
+> 
+
 
 
