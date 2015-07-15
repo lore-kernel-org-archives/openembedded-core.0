@@ -1,39 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 7049B6013D
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 4DF1273BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 21:50:57 +0000 (UTC)
-Received: by qgep37 with SMTP id p37so24837997qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 14:50:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=IRdPY7CNLzcIIR6otR/D1aUSfqdwK/kYdzXREf/UkWE=;
-	b=gZLn8vcMAgB6opO3pVllAM5oL8eBN/8Dy8VXu2TOoRny4yRoG9lRENylhfvs0nUjzN
-	Tjyq44YgoRFRGHzupSgmfXjcesJ2IBXEucYggbVJYfTcsnx4e/ao4vMP1m6HBiRKfoGE
-	ZrC5aYUnOuoBSIPBMS3NMIDLoSOEmJRFjaeiYLkn5x4DjPqrJ4MhnoPLTbJ8qtsbYdJT
-	1VAyCzATQSnYJgFZBnUbIdsws8R4g+hRScSwMi0/cXQDyXruo8t7HGm+5yKBTWkcDQpU
-	dXv8xpKW94pkC8Q9DODGHJdJxFilC/omGYp085UfyDVK6HaM/IzUrsQdH6vGTNZ4prdw
-	goJg==
-X-Gm-Message-State: ALoCoQlk7INn4edRn1jL9mPCzNSbW25XSd43Dxptw2ANw8IpUe6DvupLQFdehOMowmY+nP8oexuj
-X-Received: by 10.140.149.141 with SMTP id 135mr5493592qhv.64.1436997057778;
-	Wed, 15 Jul 2015 14:50:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Wed, 15 Jul 2015 14:50:38 -0700 (PDT)
-In-Reply-To: <55A6CE64.7090206@windriver.com>
-References: <1436991327-5726-1-git-send-email-yang.shi@windriver.com>
-	<1436991327-5726-2-git-send-email-yang.shi@windriver.com>
-	<CAJTo0LbYUqQ6YJ1CO4bK+PStc7NNttEpkYgN6Kdxu9t6urHvVw@mail.gmail.com>
-	<55A6CE64.7090206@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 15 Jul 2015 22:50:38 +0100
-Message-ID: <CAJTo0LYqF1QBAzHsoPeA76Mjq5GBLU_26B-nOduz607VBOukGg@mail.gmail.com>
-To: Yang Shi <yang.shi@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] MIPS: Fix build with binutils 2.24.51+
+	Wed, 15 Jul 2015 23:57:15 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Jul 2015 16:57:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,484,1432623600"; d="scan'208";a="607040775"
+Received: from ranerica-desk01.sc.intel.com ([10.3.52.73])
+	by orsmga003.jf.intel.com with ESMTP; 15 Jul 2015 16:57:15 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jul 2015 16:56:59 -0700
+Message-Id: <1437004619-9341-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH] bootimg: remove previous FATIMG before creating a new one
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,34 +27,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 21:50:59 -0000
-Content-Type: multipart/alternative; boundary=001a11357bf02c2aa1051af0f3b8
+X-List-Received-Date: Wed, 15 Jul 2015 23:57:17 -0000
 
---001a11357bf02c2aa1051af0f3b8
-Content-Type: text/plain; charset=UTF-8
+Since version 3.0.0 of dosfstools, mkdosfs opens the to-be-filesystem
+file with O_EXCL. Since the filesystem is also opened with O_CREAT,
+the -C option of mkdosfs can only succeed if FATIMG does not exists.
+Thus, delete any previous FATIMG file. The file can be safely deleted
+as we are inside build_fat_img because we want to create an new
+FATIMG.
 
-On 15 July 2015 at 22:19, Yang Shi <yang.shi@windriver.com> wrote:
+Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+---
+ meta/classes/bootimg.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-> Yes, should I resend the patch to linux-yocto?
->
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index 0a4546e..975973b 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -251,6 +251,12 @@ build_fat_img() {
+ 		FATSIZE="-F 32"
+ 	fi
+ 
++	# mkdosfs will fail if ${FATIMG} exists. Since we are creating an
++	# new image, it is safe to delete any previous image.
++	if [ -e ${FATIMG} ]; then
++		rm ${FATIMG}
++	fi
++
+ 	if [ -z "${HDDIMG_ID}" ]; then
+ 		mkdosfs ${FATSIZE} -n ${BOOTIMG_VOLUME_ID} -S 512 -C ${FATIMG} \
+ 			${BLOCKS}
+-- 
+1.9.1
 
-Just in case Bruce didn't see the original and for proper process, that
-would be best.
 
-Ross
-
---001a11357bf02c2aa1051af0f3b8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 July 2015 at 22:19, Yang Shi <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-yang.shi@windriver.com" target=3D"_blank">yang.shi@windriver.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div bgcolor=3D"#FFFFFF" text=
-=3D"#000000">Yes, should I resend the patch to linux-yocto?<br></div></bloc=
-kquote></div><br>Just in case Bruce didn&#39;t see the original and for pro=
-per process, that would be best.</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div>
-
---001a11357bf02c2aa1051af0f3b8--
