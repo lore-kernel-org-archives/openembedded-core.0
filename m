@@ -1,41 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id BEE8C7391D
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 211C77391D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 05:48:11 +0000 (UTC)
-Received: by pdrg1 with SMTP id g1so18593933pdr.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jul 2015 22:48:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=xW1HQwIvd02khYM/eTl8gggfX/DuRBxIFyEUk+wCZEg=;
-	b=gK4iJ1U1GPpjGzO9WetopoGubqC0O78PEqjSGEr8Ztrvg8FSpk02CnkiJ1GLaBI8ae
-	UyKFxmwh+WU3NeyNTjMxJN95o6I4k3SO/pXkcRK+blo7AkrJUQ3dm0qBByBOAj93RuhG
-	d0kLf4E4nHoizZCDzllwHJT0HQ/g9ud8JmqjSMjwu4tO6IwO4vYE/VdDuLcCtD2VKqHG
-	JdGetALRyYBCVU7ajbkoBSXfpp7iGkuHk0TT+XqRAUkOwHDTg6/unZjOxC0rscA2byg6
-	hNFjQk5COmKzgiO0dbA49DjdIST95yhNKdO3usyVWCy1mjwsjha05y8rjmS/qIOuZqzl
-	wJew==
-X-Received: by 10.68.136.3 with SMTP id pw3mr4691585pbb.10.1436939291757;
-	Tue, 14 Jul 2015 22:48:11 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:6157:e6ef:b835:bd94?
-	([2601:646:8601:4580:6157:e6ef:b835:bd94])
-	by smtp.gmail.com with ESMTPSA id xv9sm3242094pbc.2.2015.07.14.22.48.10
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 14 Jul 2015 22:48:11 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
-X-Pgp-Agent: GPGMail 2.5
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <55A5E6D2.6050108@windriver.com>
-Date: Tue, 14 Jul 2015 22:48:06 -0700
-Message-Id: <A0733748-C753-4201-A2F7-FA771C65B63B@gmail.com>
-References: <BN3PR03MB1367ABE95BBD2A48796FF31FE49A0@BN3PR03MB1367.namprd03.prod.outlook.com>
-	<55A5E6D2.6050108@windriver.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-X-Mailer: Apple Mail (2.2102)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Query about the toolchian version of Yocto 1.9
+	Wed, 15 Jul 2015 06:00:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6F60qW0021833
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 Jul 2015 23:00:52 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 14 Jul 2015 23:00:51 -0700
+Message-ID: <55A5F712.9040104@windriver.com>
+Date: Wed, 15 Jul 2015 14:00:50 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1436464186.git.raj.khem@gmail.com>
+	<ba4775eeebab2aec8f81970e61903a35a46eb4ce.1436464186.git.raj.khem@gmail.com>
+	<55A372F6.9030107@windriver.com>
+	<9418D7F2-9A42-4E23-90F4-87B935259936@gmail.com>
+In-Reply-To: <9418D7F2-9A42-4E23-90F4-87B935259936@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/3] gcc-4.9: Upgrade to 4.9.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,55 +37,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jul 2015 05:48:11 -0000
-X-Groupsio-MsgNum: 67975
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_DA70D599-48A3-48AC-8416-2B0A1FD3C564";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_DA70D599-48A3-48AC-8416-2B0A1FD3C564
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Wed, 15 Jul 2015 06:01:02 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-> On Jul 14, 2015, at 9:51 PM, Robert Yang <liezhi.yang@windriver.com> =
-wrote:
->=20
->=20
->=20
-> On 07/15/2015 11:41 AM, Luo Zhenhua wrote:
->> Hi,
->>=20
->> I can see that there are recipes of 3 gcc version(4.8, 4.9, 5.1) in =
-master
->> branch of Yocto, may I know which one will be officially supported by =
-Yocto 1.9
->> release? Will the other versions be tested and supported?
->=20
-> What I know is, gcc 4.8 is a backup, 4.9 is the default one atm, 5.1 =
-is
-> on going, and when switch to gcc 5.1, the 4.8 would be removed. Both
-> 4.9 and 5.1 will be kept and supported if there isn't more upgrades.
 
-We will shift gcc-4.8 to toolchain-layer under meta-openembedded in case =
-we remove it
-from OE-Core, it still will be available if absolutely needed.
+On 07/15/2015 12:07 PM, Khem Raj wrote:
+>
+>> On Jul 13, 2015, at 1:12 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>
+>>
+>> Hi Khem,
+>>
+>> This upgrade breaks linux-yocto 3.14 build on qemumips or qemumips64:
+>>
+>> In local.conf:
+>> MACHINE = "qemumips"
+>> PREFERRED_VERSION_linux-yocto_qemumips = "3.14%"
+>>
+>> $ bitbake linux-yocto -ccompile
+>>
+>> Then errors:
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S: Assembler messages:
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:68: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f0,272+0($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:69: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f2,272+16($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:70: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f4,272+32($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:71: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f6,272+48($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:72: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f8,272+64($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:73: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f10,272+80($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:74: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f12,272+96($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:75: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f14,272+112($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:76: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f16,272+128($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:77: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f18,272+144($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:78: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f20,272+160($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:79: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f22,272+176($4)'
+>> tmp/work-shared/qemumips/kernel-source/arch/mips/kernel/r4k_fpu.S:80: Error: opcode not supported on this processor: mips3 (mips3) `sdc1 $f24,272+192($4)’
+>
+> Its not related to gcc per-se but exposed by gcc 4.9.3
+> You need a back port.
 
---Apple-Mail=_DA70D599-48A3-48AC-8416-2B0A1FD3C564
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+Thanks.
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+// Robert
 
-iEYEARECAAYFAlWl9BkACgkQuwUzVZGdMxQq9wCgixF3/K16zZSG9YpSLF6ttU2N
-yWEAnA3RujoyhBR2oM63O0Zn1ivHW27J
-=e9CA
------END PGP SIGNATURE-----
+>
+> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit?id=842dfc11ea9a21f9825167c8a4f2834b205b0a79
+>
+>
+>>
+>> // Robert
+>>
+>> On 07/10/2015 01:52 AM, Khem Raj wrote:
+>>> Drop upsteamed patch for
+>>> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=66483 which is already in
+>>> 4.9.3
+>>>
+>>> rename 0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+>>> to 0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch to
+>>> keep the sequence
+>>>
+>>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ---
+>>>   meta/recipes-devtools/gcc/gcc-4.9.inc              | 11 +++---
+>>>   ...BS_DIR-replacement-instead-of-hardcoding.patch} |  0
+>>>   ...racking.c-backport-from-gcc-trunk-r212178.patch | 39 ----------------------
+>>>   3 files changed, 5 insertions(+), 45 deletions(-)
+>>>   rename meta/recipes-devtools/gcc/gcc-4.9/{0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch => 0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch} (100%)
+>>>   delete mode 100644 meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+>>>
+>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.9.inc b/meta/recipes-devtools/gcc/gcc-4.9.inc
+>>> index 9ed3e09..d61eca7 100644
+>>> --- a/meta/recipes-devtools/gcc/gcc-4.9.inc
+>>> +++ b/meta/recipes-devtools/gcc/gcc-4.9.inc
+>>> @@ -2,11 +2,11 @@ require gcc-common.inc
+>>>
+>>>   # Third digit in PV should be incremented after a minor release
+>>>
+>>> -PV = "4.9.2"
+>>> +PV = "4.9.3"
+>>>
+>>>   # BINV should be incremented to a revision after a minor gcc release
+>>>
+>>> -BINV = "4.9.2"
+>>> +BINV = "4.9.3"
+>>>
+>>>   FILESEXTRAPATHS =. "${FILE_DIRNAME}/gcc-4.9:"
+>>>
+>>> @@ -77,11 +77,10 @@ SRC_URI = "\
+>>>       file://0059-gcc-PR-rtl-optimization-63348.patch \
+>>>       file://0060-Only-allow-e500-double-in-SPE_SIMD_REGNO_P-registers.patch \
+>>>       file://0061-target-gcc-includedir.patch \
+>>> -    file://0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch \
+>>> -    file://0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+>>> +    file://0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch \
+>>>   "
+>>> -SRC_URI[md5sum] = "4df8ee253b7f3863ad0b86359cd39c43"
+>>> -SRC_URI[sha256sum] = "2020c98295856aa13fda0f2f3a4794490757fc24bcca918d52cc8b4917b972dd"
+>>> +SRC_URI[md5sum] = "6f831b4d251872736e8e9cc09746f327"
+>>> +SRC_URI[sha256sum] = "2332b2a5a321b57508b9031354a8503af6fdfb868b8c1748d33028d100a8b67e"
+>>>
+>>>   S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+>>>   B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
+>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch b/meta/recipes-devtools/gcc/gcc-4.9/0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+>>> similarity index 100%
+>>> rename from meta/recipes-devtools/gcc/gcc-4.9/0063-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+>>> rename to meta/recipes-devtools/gcc/gcc-4.9/0062-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch
+>>> diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch b/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+>>> deleted file mode 100644
+>>> index c0ea62f..0000000
+>>> --- a/meta/recipes-devtools/gcc/gcc-4.9/0062-gcc-var-tracking.c-backport-from-gcc-trunk-r212178.patch
+>>> +++ /dev/null
+>>> @@ -1,39 +0,0 @@
+>>> -From b30ffb8097749fdb55704aa7d8307ca1a58255d6 Mon Sep 17 00:00:00 2001
+>>> -From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
+>>> -Date: Tue, 7 Apr 2015 16:15:11 +0200
+>>> -Subject: [PATCH] gcc/var-tracking.c: backport from gcc trunk r212178
+>>> -MIME-Version: 1.0
+>>> -Content-Type: text/plain; charset=UTF-8
+>>> -Content-Transfer-Encoding: 8bit
+>>> -
+>>> -resolves a bug seen on cortexa8 building qt5 libraries.
+>>> -
+>>> -2014-06-30  Joseph Myers  <joseph@codesourcery.com>
+>>> -
+>>> -    * var-tracking.c (add_stores): Return instead of asserting if old
+>>> -    and new values for conditional store are the same.
+>>> -
+>>> -git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@212178 138bc75d-0d04-0410-961f-82ee72b054a4
+>>> -
+>>> -Signed-off-by: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
+>>> ----
+>>> - gcc/var-tracking.c | 3 ++-
+>>> - 1 file changed, 2 insertions(+), 1 deletion(-)
+>>> -
+>>> -diff --git a/gcc/var-tracking.c b/gcc/var-tracking.c
+>>> -index 65d8285..7c38910 100644
+>>> ---- a/gcc/var-tracking.c
+>>> -+++ b/gcc/var-tracking.c
+>>> -@@ -5997,7 +5997,8 @@ add_stores (rtx loc, const_rtx expr, void *cuip)
+>>> -     {
+>>> -       cselib_val *oval = cselib_lookup (oloc, GET_MODE (oloc), 0, VOIDmode);
+>>> -
+>>> --      gcc_assert (oval != v);
+>>> -+      if (oval == v)
+>>> -+        return;
+>>> -       gcc_assert (REG_P (oloc) || MEM_P (oloc));
+>>> -
+>>> -       if (oval && !cselib_preserved_value_p (oval))
+>>> ---
+>>> -1.9.1
+>>> -
+>>>
+>
 
---Apple-Mail=_DA70D599-48A3-48AC-8416-2B0A1FD3C564--
