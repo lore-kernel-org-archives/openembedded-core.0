@@ -1,23 +1,27 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 568786013D
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F4916013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 13:12:04 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2015 06:12:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,488,1432623600"; d="scan'208";a="525346134"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2015 06:12:05 -0700
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id D3AE26A4005;
-	Thu, 16 Jul 2015 06:11:22 -0700 (PDT)
-From: Costin Constantin <costin.c.constantin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2015 16:22:28 +0300
-Message-Id: <1437052948-5162-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/prservice: add useful failure messages to test cases
+	Thu, 16 Jul 2015 13:43:26 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id A00B1F811D8; Thu, 16 Jul 2015 07:43:26 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 21158F811D7;
+	Thu, 16 Jul 2015 07:43:26 -0600 (MDT)
+Message-ID: <55A7B509.5050100@mlbassoc.com>
+Date: Thu, 16 Jul 2015 07:43:37 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Problem building sgml-common-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,47 +34,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 13:12:05 -0000
+X-List-Received-Date: Thu, 16 Jul 2015 13:43:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- meta/lib/oeqa/selftest/prservice.py | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+After a Poky/Yocto repo refresh today, I'm now getting an
+error when [re]building sgml-common-native:
 
-diff --git a/meta/lib/oeqa/selftest/prservice.py b/meta/lib/oeqa/selftest/prservice.py
-index fb6d68d..4187fbf 100644
---- a/meta/lib/oeqa/selftest/prservice.py
-+++ b/meta/lib/oeqa/selftest/prservice.py
-@@ -17,7 +17,7 @@ class BitbakePrTests(oeSelfTest):
-         package_data_file = os.path.join(pkgdata_dir, 'runtime', package_name)
-         package_data = ftools.read_file(package_data_file)
-         find_pr = re.search("PKGR: r[0-9]+\.([0-9]+)", package_data)
--        self.assertTrue(find_pr)
-+        self.assertTrue(find_pr, "No PKG revision found in %s" % package_data_file)
-         return int(find_pr.group(1))
- 
-     def get_task_stamp(self, package_name, recipe_task):
-@@ -60,8 +60,8 @@ class BitbakePrTests(oeSelfTest):
-         stamp_2 = self.get_task_stamp(package_name, track_task)
- 
-         bitbake("-ccleansstate %s" % package_name)
--        self.assertTrue(pr_2 - pr_1 == 1)
--        self.assertTrue(stamp_1 != stamp_2)
-+        self.assertTrue(pr_2 - pr_1 == 1, "Step between same pkg. revision is greater than 1")
-+        self.assertTrue(stamp_1 != stamp_2, "Different pkg rev. but same stamp: %s" % stamp_1)
- 
-     def run_test_pr_export_import(self, package_name, replace_current_db=True):
-         self.config_pr_tests(package_name)
-@@ -86,7 +86,7 @@ class BitbakePrTests(oeSelfTest):
-         pr_2 = self.get_pr_version(package_name)
- 
-         bitbake("-ccleansstate %s" % package_name)
--        self.assertTrue(pr_2 - pr_1 == 1)
-+        self.assertTrue(pr_2 - pr_1 == 1, "Step between same pkg. revision is greater than 1")
- 
-     @testcase(930)
-     def test_import_export_replace_db(self):
+| DEBUG: Staging files from 
+/local/p0382-cutting-edge_2014-11-21/tmp/work/x86_64-linux/sgml-common-native/0.6.3-r1/sysroot-destdir/local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux to 
+/local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux
+| DEBUG: Executing shell function sgml_common_sstate_postinst
+| install-catalog: addition of /local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux/etc/sgml/sgml-ent.cat in 
+/local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook.cat
+| Warning: /local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux/etc/sgml/sgml-ent.cat is already installed in the centralized catalog 
+/local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook.cat
+| install-catalog: addition of /local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook.cat in 
+/local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux/etc/sgml/catalog
+| install-catalog: "/local/p0382-cutting-edge_2014-11-21/tmp/sysroots/x86_64-linux/etc/sgml/sgml-docbook-dtd-3.1.cat" does not exist or is empty.
+| WARNING: exit code 2 from a shell command.
+| DEBUG: Python function sstate_task_postfunc finished
+| ERROR: Function failed: sgml_common_sstate_postinst (log file is located at 
+/local/p0382-cutting-edge_2014-11-21/tmp/work/x86_64-linux/sgml-common-native/0.6.3-r1/temp/log.do_populate_sysroot.6449)
+ERROR: Task 5213 (/local/poky-cutting-edge/meta/recipes-devtools/sgml-common/sgml-common-native_0.6.3.bb, do_populate_sysroot) failed with exit code '1'
+
+This seems to contradict the latest change to this recipe:
+
+   commit a0c83577cc108aaae8632fe44f0c1bd46995b264
+   Author: Robert Yang <liezhi.yang@windriver.com>
+   Date:   Tue Mar 18 15:54:34 2014 +0800
+       sgml-common-native: fix the generation of sgml-docbook.cat
+
+I think there must be some missing dependencies here - to fix it,
+I had to manually clean these recipes:
+   docbook-dsssl-stylesheets-native
+   docbook-sgml-dtd-3.1-native
+   openjade-native
+
+Note: I'm not sure how my build got into this state.  I had built
+in this tree successfully yesterday from
+   poky-master:2578ff3dfe55a1c07208401861f96e2e327eacaf
+today I'm using
+   poky-master:ba07a69f3dc8fb798e372130bf665d059fed9d42
+
 -- 
-2.1.4
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
