@@ -1,20 +1,37 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC8D607A5
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 21ACE607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 20:34:33 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 16 Jul 2015 13:34:34 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,490,1432623600"; d="scan'208";a="607653899"
-Received: from bitbang.jf.intel.com ([10.7.201.51])
-	by orsmga003.jf.intel.com with ESMTP; 16 Jul 2015 13:34:34 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2015 13:34:21 -0700
-Message-Id: <1437078861-7159-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.4.3
-Subject: [PATCH] extensible sdk: Error when trying to install as root.
+	Thu, 16 Jul 2015 20:41:17 +0000 (UTC)
+Received: by oige126 with SMTP id e126so3695787oig.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jul 2015 13:41:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=QsPnNJcHofbeBIOMTq5nQM0es2EfTNecgbT2w74Yf8c=;
+	b=HxR9a81htp4UPSpGKOExjSFqrIVXgr6yFkiJ/MMQ1FnAe9QHcot+ryltXRcBbeHMNf
+	OPu6HxlIaMw44ncftIK6WHSsifGhEY/hJJ93hQPqyUSGBkfWy7gGbJFNHGroCL0re24A
+	BHRIP8y0KHHgzHkhjs3T3Fy6obLWCVyPmv5w7ToCZ43klSUz6mCdqJpvXzSOQLooV+rH
+	L8BuFTthx9z60Xha9Ij5fmVzhjj9Mv+8FT2VGZFd/trDxJA79es+OFsD9HY8Xf0qzDjX
+	ToPUNcmkl6dEl7ZmZQGsBrsu7+rzSdr1shIp4w1OGAqQL0qs2yvf1nELcek1Z6cnFAkp
+	DcWw==
+MIME-Version: 1.0
+X-Received: by 10.202.217.68 with SMTP id q65mr9247339oig.17.1437079277689;
+	Thu, 16 Jul 2015 13:41:17 -0700 (PDT)
+Received: by 10.202.64.130 with HTTP; Thu, 16 Jul 2015 13:41:17 -0700 (PDT)
+In-Reply-To: <A4E25F8E-FBB2-4DF9-B208-3A58A2DC71C3@gmail.com>
+References: <261F5389-C495-4B05-B79E-309AE0E0F0CA@gmail.com>
+	<CAJ86T=VE7a7rUMZMB8LTX0emuqkLOE=E_PvARh4JcQwZuJ+WCw@mail.gmail.com>
+	<A4E25F8E-FBB2-4DF9-B208-3A58A2DC71C3@gmail.com>
+Date: Thu, 16 Jul 2015 13:41:17 -0700
+Message-ID: <CAJ86T=XJ1AR1cnYAYRJCJbMmaV9uBTDnFs4_SnwA89ee-ua4Mw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] glibc 2.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,118 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 20:34:34 -0000
+X-List-Received-Date: Thu, 16 Jul 2015 20:41:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Since the extensible sdk uses bitbake, which can't run as root, the sdk
-shouldn't be installed as root.
+On Tue, Jul 14, 2015 at 5:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Jul 14, 2015, at 2:56 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> Hi Khem,
+>>
+>> On Mon, Jul 13, 2015 at 10:37 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> Hi All
+>>>
+>>> glibc 2.22 will release end of this month. For some time I have put together the update here
+>>>
+>>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=02e73ea526d94f21c7ef82eb96b062eff8ebb825
+>>>
+>>> It works pretty well for machines I have tested it on ( arm/x86 ) but would be interested if more wider trial could be carried
+>>> out and issues reported between now and release can be addressed.
+>>>
+>>> Please give it a try if you have spare cycles
+>>
+>> This was building OK yesterday, but today
+>> "0027-eglibc-use-option-groups-Conditionally-exclude-c-tes.patch" is
+>> failing to apply due to this upstream change:
+>>
+>>  https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=edcfe9eab03ea3dd1b3e04b6056a7663c40265c4
+>
+> Thanks for reporting. It has been fixed and branch rebased
+> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=c43cd1969696970affb094fc0b20ca02c966ecbd
+> is new commit in rebased tree
 
-Previously it would error out late into setup when bitbake errored
-saying not to run bitbake as root.
+It looks like upstream changed again last night:
 
-Now the script errors with a message saying the extensible sdk can't be
-installed as root.
+  https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=b632bdd3f7c0ba0c79f23f5e4404eebb87ebdaa8
 
-[Yocto #7545]
+so 0027-eglibc-use-option-groups-Conditionally-exclude-c-tes.patch
+needs another update.
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/classes/populate_sdk_base.bbclass | 12 ++++++++++--
- meta/classes/populate_sdk_ext.bbclass  | 11 +++++++++++
- meta/files/toolchain-shar-extract.sh   |  7 +++++++
- 3 files changed, 28 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index 398e943..a9e9bd7 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -51,6 +51,7 @@ PID = "${@os.getpid()}"
- EXCLUDE_FROM_WORLD = "1"
- 
- SDK_PACKAGING_FUNC ?= "create_shar"
-+SDK_PRE_INSTALL_COMMAND ?= ""
- SDK_POST_INSTALL_COMMAND ?= ""
- SDK_RELOCATE_AFTER_INSTALL ?= "1"
- 
-@@ -134,15 +135,21 @@ fakeroot create_shar() {
- 	# copy in the template shar extractor script
- 	cp ${COREBASE}/meta/files/toolchain-shar-extract.sh ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
- 
--	rm -f ${T}/post_install_command
-+	rm -f ${T}/pre_install_command ${T}/post_install_command
- 
- 	if [ ${SDK_RELOCATE_AFTER_INSTALL} -eq 1 ] ; then
- 		cp ${COREBASE}/meta/files/toolchain-shar-relocate.sh ${T}/post_install_command
- 	fi
-+	cat << "EOF" >> ${T}/pre_install_command
-+${SDK_PRE_INSTALL_COMMAND}
-+EOF
-+
- 	cat << "EOF" >> ${T}/post_install_command
- ${SDK_POST_INSTALL_COMMAND}
- EOF
--	sed -i -e '/@SDK_POST_INSTALL_COMMAND@/r ${T}/post_install_command' ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
-+	sed -i -e '/@SDK_PRE_INSTALL_COMMAND@/r ${T}/pre_install_command' \
-+		-e '/@SDK_POST_INSTALL_COMMAND@/r ${T}/post_install_command' \
-+		${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
- 
- 	# substitute variables
- 	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
-@@ -151,6 +158,7 @@ EOF
- 		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
- 		-e 's#@SDK_TITLE@#${SDK_TITLE}#g' \
- 		-e 's#@SDK_VERSION@#${SDK_VERSION}#g' \
-+		-e '/@SDK_PRE_INSTALL_COMMAND@/d' \
- 		-e '/@SDK_POST_INSTALL_COMMAND@/d' \
- 		${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
- 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 8a80a56..b28413b 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -173,6 +173,17 @@ install_tools() {
- 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
- }
- 
-+# Since bitbake won't run as root it doesn't make sense to try and install
-+# the extensible sdk as root.
-+sdk_ext_preinst() {
-+	if [ "`id -u`" = "0" ]; then
-+		echo "ERROR: The extensible sdk cannot be installed as root."
-+		exit 1
-+	fi
-+	SDK_EXTENSIBLE="1"
-+}
-+SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext = "${sdk_ext_preinst}"
-+
- # FIXME this preparation should be done as part of the SDK construction
- sdk_ext_postinst() {
- 	printf "\nExtracting buildtools...\n"
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 8cb8783..0a33ee8 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -71,6 +71,8 @@ if [ $verbose = 1 ] ; then
- 	set -x
- fi
- 
-+@SDK_PRE_INSTALL_COMMAND@
-+
- if [ "$target_sdk_dir" = "" ]; then
- 	read -e -p "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): " target_sdk_dir
- 	[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
-@@ -116,6 +118,11 @@ mkdir -p $target_sdk_dir >/dev/null 2>&1
- 
- # if don't have the right to access dir, gain by sudo 
- if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
-+	if [ "$SDK_EXTENSIBLE" = "1" ]; then
-+		echo "Unable to access \"$target_sdk_dir\"."
-+		exit 1
-+	fi
-+
- 	SUDO_EXEC=$(which "sudo")
- 	if [ -z $SUDO_EXEC ]; then
- 		echo "No command 'sudo' found, please install sudo first. Abort!"
--- 
-2.4.3
-
+>>
+>>>
+>>> Thanks
+>>> -Khem
+>>>
+>>> --
+>>> _______________________________________________
+>>> yocto mailing list
+>>> yocto@yoctoproject.org
+>>> https://lists.yoctoproject.org/listinfo/yocto
+>>>
+>
 
