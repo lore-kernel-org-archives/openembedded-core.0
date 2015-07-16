@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 98E0E75FB5
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 978D573BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 19:47:36 +0000 (UTC)
-Received: by qgep37 with SMTP id p37so37739576qge.1
+	Thu, 16 Jul 2015 19:57:24 +0000 (UTC)
+Received: by qkbm65 with SMTP id m65so3307337qkb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 12:47:36 -0700 (PDT)
+	Thu, 16 Jul 2015 12:57:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=H3hLJ3CWeEWIdos4/tCz6I526+DGk2nuOk9eWcaBM3E=;
-	b=VvCd/Zb62TRd4cBrx1yDo0LGnpGCLYkiqgYt9RKIX1qm+TCPe3UM2e9TU7XrajlG98
-	D1ZK0UamjHmGTqFEddh9zBrIKbLJVVYSamdyLihAKc21SagwLNnDi8iUg5r+EEPuAwjM
-	jq6umOaMl/sT2R1n+QD37g6r4IUOWf0JbGwFlIQOJtMbHc6ucld2Mj07xRZxNrWT+tby
-	bSRckXdCBoVMBxvMkxbpCM70Zuzs2THdAZTLsDM4X3mKQlD+1eOt8pQXIBieJHij55yZ
-	RBBUCP3YL7rkhboBHWXMaBIe+g0Qayh4psTqdNlNYecIvtzIRTnz1fLIt4AsHjsYxmNI
-	T8Mg==
-X-Gm-Message-State: ALoCoQkKEMlX7yytkhFTL6r4Z9sr3h0wZC/AZ6xPFXV5YrAo0SBvSwYijp6mBQgzT+YPsHxDv4VE
-X-Received: by 10.55.18.197 with SMTP id 66mr20249360qks.13.1437076056313;
-	Thu, 16 Jul 2015 12:47:36 -0700 (PDT)
+	bh=ISkyz8jiotim71hzcJqalCMe/0DXMVfYdqHCmSyZzuM=;
+	b=PR2ei/otPVqdhOwUnawORg1DSWo7vhZw1uq4ndTLYozQmXmX0AfHMlM4nMx759Kd9h
+	4TXqmpAU+/kEi3RLjYWZQXDn0LAfrTDNP8W23kljrMjmkZpVaSJjPTiLYMEuC19W1FAQ
+	YDyJn3Crs0xwNvCiMSaU1+ToU1L4S6WMw/gm9HDomwwiP3MCTcDMcukQecVQHs66YDnh
+	aW+9XK+VKXhmhMe8WOAqz3fMmi2vNHvBthZC0Xa6HnJMb0Qz7re9ryRqOUbmcDH7vKqM
+	LtDPP5UqzT1t0LiKn2EY3vHrHlZKopPAOzJS9jmKc8ITPYo1zEwbN0T6m8eeRXqoFmP3
+	cVgQ==
+X-Gm-Message-State: ALoCoQlXlIm1xevOz/3pLbuIluO7OUwm4poW2azktZ1x1RQIcmXER86D076t+z6Yl5NNB19QKxda
+X-Received: by 10.140.88.80 with SMTP id s74mr19765597qgd.59.1437076644450;
+	Thu, 16 Jul 2015 12:57:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 16 Jul 2015 12:47:16 -0700 (PDT)
-In-Reply-To: <55A7EE13.50203@linux.intel.com>
-References: <1436970934-4635-1-git-send-email-daniel.alexandrux.istrate@intel.com>
-	<55A7EE13.50203@linux.intel.com>
+Received: by 10.140.102.231 with HTTP; Thu, 16 Jul 2015 12:57:05 -0700 (PDT)
+In-Reply-To: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
+References: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Jul 2015 20:47:16 +0100
-Message-ID: <CAJTo0Lb_-LCaPyiRAE5n3DNMerGvDZz=J=qfKG3+KChJbi_h3w@mail.gmail.com>
-To: Randy Witt <randy.e.witt@linux.intel.com>
+Date: Thu, 16 Jul 2015 20:57:05 +0100
+Message-ID: <CAJTo0Lbs-5EP4g_m_hqZgKgtG7TUqiwdcrxqnuawxbOFq-nbdA@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/runtime: Added one runtime testcase in connman.
+Subject: Re: [PATCH] weston: fix two building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 19:47:42 -0000
-Content-Type: multipart/alternative; boundary=001a11474faada240c051b035796
+X-List-Received-Date: Thu, 16 Jul 2015 19:57:26 -0000
+Content-Type: multipart/alternative; boundary=001a11c114c4e86adc051b037a45
 
---001a11474faada240c051b035796
+--001a11c114c4e86adc051b037a45
 Content-Type: text/plain; charset=UTF-8
 
-On 16 July 2015 at 18:46, Randy Witt <randy.e.witt@linux.intel.com> wrote:
+On 16 July 2015 at 02:17, <rongqing.li@windriver.com> wrote:
 
-> If multiple instances of connmand can run, is that not a bug it connmand
-> rather than in our configuration? I'm asking because it seems like this
-> would be more suited as a connman test that would be part of ptest.
+> 2. create tests dir and ivi-shell to fix the building rule dependency
+> issue.
+>    sed "..." ivi-shell/weston.ini.in > ivi-shell/weston.ini
+>    ivi-shell/weston.ini: No such file or directory
 >
 
-The test doubles as "did connman start" (for images in which connman is
-expected to be present).  With sufficiently broken kernels, connman will
-exit on startup (this test exists for a reason...)
+Please add some mkdir calls to the Makefile instead of fixing this in
+do_compile_prepend.
 
 Ross
 
---001a11474faada240c051b035796
+--001a11c114c4e86adc051b037a45
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 July 2015 at 18:46, Randy Witt <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:randy.e.witt@linux.intel.com" target=3D"_blank">randy.e.witt@linux.intel.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2u8=
-" class=3D"a3s" style=3D"overflow:hidden">If multiple instances of connmand=
- can run, is that not a bug it connmand rather than in our configuration? I=
-&#39;m asking because it seems like this would be more suited as a connman =
-test that would be part of ptest.<br></div></blockquote></div><br>The test =
-doubles as &quot;did connman start&quot; (for images in which connman is ex=
-pected to be present).=C2=A0 With sufficiently broken kernels, connman will=
- exit on startup (this test exists for a reason...)</div><div class=3D"gmai=
-l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 16 July 2015 at 02:17,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
+.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":2yk" class=3D"a3s" =
+style=3D"overflow:hidden">2. create tests dir and ivi-shell to fix the buil=
+ding rule dependency issue.<br>
+=C2=A0 =C2=A0sed &quot;...&quot; ivi-shell/<a href=3D"http://weston.ini.in"=
+ rel=3D"noreferrer" target=3D"_blank">weston.ini.in</a> &gt; ivi-shell/west=
+on.ini<br>
+=C2=A0 =C2=A0ivi-shell/weston.ini: No such file or directory</div></blockqu=
+ote></div><br>Please add some mkdir calls to the Makefile instead of fixing=
+ this in do_compile_prepend.</div><div class=3D"gmail_extra"><br></div><div=
+ class=3D"gmail_extra">Ross</div></div>
 
---001a11474faada240c051b035796--
+--001a11c114c4e86adc051b037a45--
