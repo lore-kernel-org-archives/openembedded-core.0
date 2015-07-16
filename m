@@ -1,24 +1,34 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B3496013D
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A22B6013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 01:19:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6G1J8Qe013415
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 16 Jul 2015 01:58:20 +0000 (UTC)
+Received: by iggf3 with SMTP id f3so3229211igg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jul 2015 18:19:08 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 15 Jul 2015 18:19:07 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Jul 2015 09:17:44 +0800
-Message-ID: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
+	Wed, 15 Jul 2015 18:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=V3hG0aBzuzMS9WLXeGdb9jJP1Eqd7gIWPAcQd5J5NUI=;
+	b=Ewm82wsRVg7kZLdK0UTZ5bQACTjsU5OAo0s9eK2spj9ngx8tObN2Gw3giickM376BX
+	RpLnfIqeY6/YYv9607TjBxK6vBMNmg4ov4a5215kguoUaoZ12vC7Wa91FLr+cosVf3Nw
+	kAQMgj0ryng1fNeXFDCbR/Yn6/kfN+7FnYN6uL2iuKNLmpIArnHyTqOEJaZV+tttUYiG
+	1geQ3i3tRMUANmb2n9Qwch2sSFrJfADaMZ74qnXSKtSr7AL4xjqBIXsBq8naTU0y4C04
+	DEx3UDwgINmat8gLbe3xxR3heaotu8eL3NsyfbqR7z23B8xxQbsBnui/To573r989cl/
+	e4zg==
+X-Received: by 10.50.30.196 with SMTP id u4mr1214633igh.11.1437011900747;
+	Wed, 15 Jul 2015 18:58:20 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id x4sm4042784iod.26.2015.07.15.18.58.19
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 15 Jul 2015 18:58:20 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jul 2015 18:58:05 -0700
+Message-Id: <1437011888-12736-1-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] weston: fix two building issue
+Subject: [PATCH 0/3] libcap: minor tweaks and fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,89 +41,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 01:19:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Jul 2015 01:58:22 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+Andre McCurdy (3):
+  libcap: always link apps dynamically
+  libcap: avoid losing default Large File Support CFLAGS
+  libcap: control attr PACKAGECONFIG option via xattr DISTRO feature
 
-1. duplicate makefile rule leads to race, so remove one:
-   "/usr/bin/install: cannot create regular file `bitbake_build/tmp/work/
-   core2-64-wrs-linux/weston/1.8.0-r0/image/usr/share/wayland-sessions/
-   weston.desktop': File exists"
-2. create tests dir and ivi-shell to fix the building rule dependency issue.
-   sed "..." ivi-shell/weston.ini.in > ivi-shell/weston.ini
-   ivi-shell/weston.ini: No such file or directory
+ meta/recipes-support/libcap/libcap_2.24.bb | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../wayland/weston/0001-remove-duplicate.patch     | 33 ++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.8.0.bb      |  5 ++++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-remove-duplicate.patch
-
-diff --git a/meta/recipes-graphics/wayland/weston/0001-remove-duplicate.patch b/meta/recipes-graphics/wayland/weston/0001-remove-duplicate.patch
-new file mode 100644
-index 0000000..a6eaf85
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/0001-remove-duplicate.patch
-@@ -0,0 +1,33 @@
-+From 5cbb8b06e88ebcbf3669a51b8dae955c58a0ca1d Mon Sep 17 00:00:00 2001
-+From: Roy Li <rongqing.li@windriver.com>
-+Date: Wed, 15 Jul 2015 15:44:25 +0800
-+Subject: [PATCH] remove the unnecessory rule from Makefile.am
-+
-+Upstream-Statue: Pending
-+
-+dist_wayland_session_DATA will distributes and installs src/weston.desktop,
-+and the definition of wayland_session_DATA, which installs src/weston.desktop
-+too, is duplicated, and lead to race issue, remove it to fix the problem.
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+---
-+ Makefile.am | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 5819b19..ee5fbbb 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -179,8 +179,7 @@ pkgconfigdir = $(libdir)/pkgconfig
-+ pkgconfig_DATA = src/weston.pc
-+ 
-+ wayland_sessiondir = $(datadir)/wayland-sessions
-+-wayland_session_DATA = src/weston.desktop
-+-dist_wayland_session_DATA = $(wayland_session_DATA)
-++dist_wayland_session_DATA = src/weston.desktop
-+ 
-+ westonincludedir = $(includedir)/weston
-+ westoninclude_HEADERS =				\
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-graphics/wayland/weston_1.8.0.bb b/meta/recipes-graphics/wayland/weston_1.8.0.bb
-index ac6bd97..3bba03f 100644
---- a/meta/recipes-graphics/wayland/weston_1.8.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.8.0.bb
-@@ -11,6 +11,7 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://make-lcms-explicitly-configurable.patch \
-            file://make-libwebp-explicitly-configurable.patch \
-            file://0001-make-error-portable.patch \
-+           file://0001-remove-duplicate.patch \
- "
- SRC_URI[md5sum] = "24cb8a7ed0535b4fc3642643988dab36"
- SRC_URI[sha256sum] = "8963e69f328e815cec42c58046c4af721476c7541bb7d9edc71740fada5ad312"
-@@ -67,6 +68,10 @@ PACKAGECONFIG[webp] = "--enable-webp,--disable-webp,libwebp"
- # Weston with unwinding support
- PACKAGECONFIG[libunwind] = "--enable-libunwind,--disable-libunwind,libunwind"
- 
-+do_compile_prepend() {
-+	mkdir ${B}/tests ${B}/ivi-shell
-+}
-+
- do_install_append() {
- 	# Weston doesn't need the .la files to load modules, so wipe them
- 	rm -f ${D}/${libdir}/weston/*.la
 -- 
 1.9.1
 
