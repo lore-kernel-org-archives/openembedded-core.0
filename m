@@ -1,33 +1,33 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 978D573BB8
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DE6873BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 19:57:24 +0000 (UTC)
-Received: by qkbm65 with SMTP id m65so3307337qkb.2
+	Thu, 16 Jul 2015 20:04:49 +0000 (UTC)
+Received: by qged69 with SMTP id d69so8588945qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 12:57:24 -0700 (PDT)
+	Thu, 16 Jul 2015 13:04:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=ISkyz8jiotim71hzcJqalCMe/0DXMVfYdqHCmSyZzuM=;
-	b=PR2ei/otPVqdhOwUnawORg1DSWo7vhZw1uq4ndTLYozQmXmX0AfHMlM4nMx759Kd9h
-	4TXqmpAU+/kEi3RLjYWZQXDn0LAfrTDNP8W23kljrMjmkZpVaSJjPTiLYMEuC19W1FAQ
-	YDyJn3Crs0xwNvCiMSaU1+ToU1L4S6WMw/gm9HDomwwiP3MCTcDMcukQecVQHs66YDnh
-	aW+9XK+VKXhmhMe8WOAqz3fMmi2vNHvBthZC0Xa6HnJMb0Qz7re9ryRqOUbmcDH7vKqM
-	LtDPP5UqzT1t0LiKn2EY3vHrHlZKopPAOzJS9jmKc8ITPYo1zEwbN0T6m8eeRXqoFmP3
-	cVgQ==
-X-Gm-Message-State: ALoCoQlXlIm1xevOz/3pLbuIluO7OUwm4poW2azktZ1x1RQIcmXER86D076t+z6Yl5NNB19QKxda
-X-Received: by 10.140.88.80 with SMTP id s74mr19765597qgd.59.1437076644450;
-	Thu, 16 Jul 2015 12:57:24 -0700 (PDT)
+	bh=VXtADVnlLdBH3uUGzFtIGGyS+xFCtCRYtJpIHAp4wj4=;
+	b=Cj8J6PMRaurEzd0LUmlSL0oBK3ySCTmEawic+gCvKDXQLuOVTlSu1r20JMS7n5pxaL
+	JHtQbEiPm1Di8xyW4UKIMRfHs2X+CSrBZnbyrpd2v56D5cUKzXYqbzSpYwGd4L5k+Bwj
+	xIZOVz6y2NzOW04fCCozTDXDbpJ+/tcIGKZa24DbPgOE0nhmPVFyEvDc5nA8k8JkqOAJ
+	z9aK7p6Z928ewtRg+9Xfu1t/da58yKHXzEwkm2xbZ2n7QShjFYkDfYC1kf0XY3GCi2kF
+	yGHsQeQjL3AUTB87W2YFK0x/KV5LGr/aHj/zJmmAMh19uEBjR2O00JSGCy4zAJgzrri6
+	vRJQ==
+X-Gm-Message-State: ALoCoQlxAMne3dv3v5s4f8LbAJsdQR4d7u4H7TrZFACGQBzCC6C0itxjQoHYw/qqZaeTGVtTsyAn
+X-Received: by 10.55.43.95 with SMTP id r92mr19705084qkh.67.1437077089949;
+	Thu, 16 Jul 2015 13:04:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 16 Jul 2015 12:57:05 -0700 (PDT)
+Received: by 10.140.102.231 with HTTP; Thu, 16 Jul 2015 13:04:30 -0700 (PDT)
 In-Reply-To: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
 References: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Jul 2015 20:57:05 +0100
-Message-ID: <CAJTo0Lbs-5EP4g_m_hqZgKgtG7TUqiwdcrxqnuawxbOFq-nbdA@mail.gmail.com>
+Date: Thu, 16 Jul 2015 21:04:30 +0100
+Message-ID: <CAJTo0LajE==B1SxF8MNiv8XV5AvcBxAWkm=hR4K-an994VEQAg@mail.gmail.com>
 To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] weston: fix two building issue
@@ -43,42 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 19:57:26 -0000
-Content-Type: multipart/alternative; boundary=001a11c114c4e86adc051b037a45
+X-List-Received-Date: Thu, 16 Jul 2015 20:04:55 -0000
+Content-Type: multipart/alternative; boundary=001a1147b8dc762f72051b039518
 
---001a11c114c4e86adc051b037a45
+--001a1147b8dc762f72051b039518
 Content-Type: text/plain; charset=UTF-8
 
 On 16 July 2015 at 02:17, <rongqing.li@windriver.com> wrote:
 
-> 2. create tests dir and ivi-shell to fix the building rule dependency
-> issue.
->    sed "..." ivi-shell/weston.ini.in > ivi-shell/weston.ini
->    ivi-shell/weston.ini: No such file or directory
+> 1. duplicate makefile rule leads to race, so remove one:
+>    "/usr/bin/install: cannot create regular file `bitbake_build/tmp/work/
+>    core2-64-wrs-linux/weston/1.8.0-r0/image/usr/share/wayland-sessions/
+>    weston.desktop': File exists"
 >
 
-Please add some mkdir calls to the Makefile instead of fixing this in
-do_compile_prepend.
+Also I happened to have a weston tree to hand, so you can call this
+Submitted now (
+http://lists.freedesktop.org/archives/wayland-devel/2015-July/023467.html).
+:)
 
 Ross
 
---001a11c114c4e86adc051b037a45
+--001a1147b8dc762f72051b039518
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
 On 16 July 2015 at 02:17,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
 .li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":2yk" class=3D"a3s" =
-style=3D"overflow:hidden">2. create tests dir and ivi-shell to fix the buil=
-ding rule dependency issue.<br>
-=C2=A0 =C2=A0sed &quot;...&quot; ivi-shell/<a href=3D"http://weston.ini.in"=
- rel=3D"noreferrer" target=3D"_blank">weston.ini.in</a> &gt; ivi-shell/west=
-on.ini<br>
-=C2=A0 =C2=A0ivi-shell/weston.ini: No such file or directory</div></blockqu=
-ote></div><br>Please add some mkdir calls to the Makefile instead of fixing=
- this in do_compile_prepend.</div><div class=3D"gmail_extra"><br></div><div=
- class=3D"gmail_extra">Ross</div></div>
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex"><div id=3D":2yk" class=3D"" style=3D"overflow=
+:hidden">1. duplicate makefile rule leads to race, so remove one:<br>
+=C2=A0 =C2=A0&quot;/usr/bin/install: cannot create regular file `bitbake_bu=
+ild/tmp/work/<br>
+=C2=A0 =C2=A0core2-64-wrs-linux/weston/1.8.0-r0/image/usr/share/wayland-ses=
+sions/<br>
+=C2=A0 =C2=A0weston.desktop&#39;: File exists&quot;</div></blockquote></div=
+><br>Also I happened to have a weston tree to hand, so you can call this Su=
+bmitted now (<a href=3D"http://lists.freedesktop.org/archives/wayland-devel=
+/2015-July/023467.html">http://lists.freedesktop.org/archives/wayland-devel=
+/2015-July/023467.html</a>). :)</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">Ross</div></div>
 
---001a11c114c4e86adc051b037a45--
+--001a1147b8dc762f72051b039518--
