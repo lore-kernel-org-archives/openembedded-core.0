@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
-	[209.85.212.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 27F74607A5
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 25161607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 21:52:58 +0000 (UTC)
-Received: by widjy10 with SMTP id jy10so26837707wid.1
+	Thu, 16 Jul 2015 22:01:26 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so59458426qkd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 14:52:58 -0700 (PDT)
+	Thu, 16 Jul 2015 15:01:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=kSkDQjBKgLRMJ5Jz/Jb4Kk4EFlHtZO9v1O9wUFhHKAA=;
-	b=FUxcMMCf2gnZsEOOxEkU5fN7nXQ2+HqjSDper3VkyvwNb0f16/hrJFaTdQubq2aEOs
-	BgMc4MWaCiSMb7sqmf01PKUVDxM5Kc9Gix/NOqFtQ0Bj/3kbe3LhnLpACqAnNQv2Nmy/
-	5mZlPEIsRuL6fUMbEOh+R/eepJmIWrnW6lRgeMiKDoy2TNSiF9ScmFAK8dyBI+EJ4MA8
-	Fs4hkfNJ0PMHLfqBv0/ybxir1ia4bk14nF8/15DvDQBzwsXXbQmoPqWNAsPbs7eHeyEY
-	1RcrVv+zrgLHDmGvdAGOZ05GigLtHNFxj5qFY2GtbON8W1XY0LMslSleRocAfZ4PN5wY
-	RIQQ==
-X-Gm-Message-State: ALoCoQmLK3YlktS0aq1vw2L/JVJ/bodgJfNAHYc3qTQSvrySrm5nRvv8pzmYSNg1qjyA6XlOmJBR
-X-Received: by 10.194.178.1 with SMTP id cu1mr23221990wjc.59.1437083577975;
-	Thu, 16 Jul 2015 14:52:57 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	sc16sm15140053wjb.28.2015.07.16.14.52.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Jul 2015 14:52:57 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2015 22:47:16 +0100
-Message-Id: <1437083236-26095-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][V2] pseudo: upgrade to 1.6.6
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=8WUJi30lTSMAXOUvulTrYcb2RM1aeuu6fkFraQyk7vM=;
+	b=im1WqafAwXNCy/uLw1JNcrpaZ5JrQ7LuzV+G4Vi1t+ew3TamW+SssmTmfylquhpqaF
+	YME4EtYwS+tswe1uOSNM6oMIeQHw2HNOI1ppIralYTUOK0jT8TXB/OLaPsYoVumpDHQ2
+	zuW8iVxyAiSpHsgZEyJGEm9F4kuUpausrBH5i/RgIj8Y2bXVTxV+RDSF7WkQKD/QJpms
+	l+eWu0lpPujMDHxUVsHTN3KAzw8ztcmojTKpT0UnyGmxI0NkRNiASQfYltsRc50IDlSE
+	BeTW2l9oMHt9ARseDuZn/8WM8LLNaerl6gWVkLP+1JHrkWXc17S13HMW/zQWFPAQtpQk
+	NC+w==
+X-Gm-Message-State: ALoCoQk0DCptjhPsVmrEkcvCN7SIy/ReJ4e1VGd68C+F9gwAufAOr1mePpFv7pV5rJL9Onzn64FA
+X-Received: by 10.140.43.199 with SMTP id e65mr20755143qga.80.1437084086608;
+	Thu, 16 Jul 2015 15:01:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Thu, 16 Jul 2015 15:01:07 -0700 (PDT)
+In-Reply-To: <20150716165124.GG2134@jama>
+References: <1437059524-15971-1-git-send-email-drew_moseley@mentor.com>
+	<20150716154529.GE2134@jama>
+	<DBF4FAB7-1F3A-4FAA-936E-8752FC32CC69@mentor.com>
+	<20150716165124.GG2134@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 16 Jul 2015 23:01:07 +0100
+Message-ID: <CAJTo0Lai_n7sJFHJCmr43ASFYNoiWoqR24CGyNFa4prjpzDa6w@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] mesa-demos: Fix building demos which require GLU.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +47,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 21:53:01 -0000
+X-List-Received-Date: Thu, 16 Jul 2015 22:01:28 -0000
+Content-Type: multipart/alternative; boundary=001a113a9baa7ec1b1051b053656
 
-Fixes include proper support for creating FIFOs, and bug fixes regarding xattrs.
+--001a113a9baa7ec1b1051b053656
+Content-Type: text/plain; charset=UTF-8
 
-[ YOCTO #7990 ]
-[ YOCTO #7993 ]
+On 16 July 2015 at 17:51, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/pseudo/{pseudo_1.6.5.bb => pseudo_1.6.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/pseudo/{pseudo_1.6.5.bb => pseudo_1.6.6.bb} (77%)
+> Yes, but if-found (by pkg-config) then the macro itself sets GLU_LIBS
+> and GLU_CFLAGS, so it doesn't make sense to call AC_CHECK_LIB to change
+> GLU_LIBS value.
+>
+> action-if-not-found on the other hand is for cases where your GLU
+> implementation doesn't provide pkg-config and you want to try to find it
+> with AC_CHECK_LIB.
+>
+> I believe you that there could be an issue with building glu demos, but
+> I guess it's issue in your GLU implementation (whatever that is) and
+> this change is not correct fix for it - it just happen to help in your
+> case and breaks other cases.
+>
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.6.bb
-similarity index 77%
-rename from meta/recipes-devtools/pseudo/pseudo_1.6.5.bb
-rename to meta/recipes-devtools/pseudo/pseudo_1.6.6.bb
-index 2a9dc63..1946021 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.6.5.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.6.6.bb
-@@ -6,8 +6,8 @@ SRC_URI = " \
-     file://fallback-group \
- "
- 
--SRC_URI[md5sum] = "a5545ff365e243193c81981df98e870b"
--SRC_URI[sha256sum] = "f5a0af976c958915503f516dd02097ab6a64c98a3c0cb4ceb0ce8b1ef8e38b3c"
-+SRC_URI[md5sum] = "6a7c01a1780350a695bc0f4939b58626"
-+SRC_URI[sha256sum] = "1512b91d62739ff8d266e161e27f6da29c3012f4a1e77100021808d4173c0740"
- 
- PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback"
- 
--- 
-2.1.4
+I agree with Martin here.  Can you replicate the problem using a qemu
+machine and just oe-core?
 
+Ross
 
+--001a113a9baa7ec1b1051b053656
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 July 2015 at 17:51, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1ot" class=3D=
+"a3s" style=3D"overflow:hidden">Yes, but if-found (by pkg-config) then the =
+macro itself sets GLU_LIBS<br>
+and GLU_CFLAGS, so it doesn&#39;t make sense to call AC_CHECK_LIB to change=
+<br>
+GLU_LIBS value.<br>
+<br>
+action-if-not-found on the other hand is for cases where your GLU<br>
+implementation doesn&#39;t provide pkg-config and you want to try to find i=
+t<br>
+with AC_CHECK_LIB.<br>
+<br>
+I believe you that there could be an issue with building glu demos, but<br>
+I guess it&#39;s issue in your GLU implementation (whatever that is) and<br=
+>
+this change is not correct fix for it - it just happen to help in your<br>
+case and breaks other cases.</div></blockquote></div><br>I agree with Marti=
+n here.=C2=A0 Can you replicate the problem using a qemu machine and just o=
+e-core?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">Ross</div></div>
+
+--001a113a9baa7ec1b1051b053656--
