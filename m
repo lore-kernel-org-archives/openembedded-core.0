@@ -1,36 +1,41 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id BAD8573BB8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A00373BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 20:07:05 +0000 (UTC)
-Received: by qged69 with SMTP id d69so8622480qge.0
+	Thu, 16 Jul 2015 20:14:05 +0000 (UTC)
+Received: by wgkl9 with SMTP id l9so66926960wgk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 13:07:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=p3eDWA+IWfdhD4y2c1zk6CXBOeaQmLtCAy0y19YfFeo=;
-	b=ERcLOQT8sCLFbOc+5EDZlHg+zonkgWmS1Wqmr6Xbq8f8BZ2FH3RazOkI+KpYFKiupL
-	7hw3WwQ8ED5qbUcyvPNFz9NMFyHoLNk7IcfUAGYx8FTqum9mSPReZnRDP3zzsWJ+iaAK
-	Wea47135FSueO1gKbfzi903ivyKyWzA5lpYAa28Hs5d9SuL+ezhyzUxZZ4yzOp9uVV/O
-	Z5p7zr3R2U8lYGNs6Ooqkb9pM/f7+gjnqKLOHLdv4AjEXNwIjKP6ViAXEH61aomMpIHd
-	FYk3s3hZa8dvleJ/dRal0+ZpnNGH5WHGdMDsNTqWrrpArkSPvAuFtwtBubcttXBQp0wD
-	RgbA==
-X-Gm-Message-State: ALoCoQkZTxotUXxBk0t1kQxZldlPPT//vobd2KDhCEG1GNaG4HqWgLx0NPqBV3I+Cfz300qExzoe
-X-Received: by 10.140.89.100 with SMTP id u91mr19862495qgd.15.1437077225552;
-	Thu, 16 Jul 2015 13:07:05 -0700 (PDT)
+	Thu, 16 Jul 2015 13:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=kElk3LMg8Pz9seWXjIUXq1yEnM8nyJFBP2rP/hLWyRM=;
+	b=YHXs/j+ImW0fIyLkKUm9hytQBPvGXoJARzwo6Szut65yByVgs9Wd+n+lmKOkCej6AM
+	meRHYZ6kO46P7kywaThxDObGxrnPHacT5CxzhPyycxDM0E/MNP5ouQ71g2XTfvVZm21n
+	2ob7iRMIQ6WjQCMser92+8dx898Ju7dRrMexWOS675e9+lGiMXvbUBb4GYkeHGwwxadD
+	e6n0tVRgU2FmCUZm7R6HyciPXT6pZGSDiiYV34M8oglkxH7CS3Ii7gWa6t9ZVGh8JMa6
+	zWc1hwpmr1inhO9UP6UF5FPx8Q3BJDR8RyvtpgA/JdekVdm4DzgYi9fXK97upAt6uFLM
+	f2CQ==
+X-Received: by 10.180.75.78 with SMTP id a14mr10379978wiw.68.1437077645612;
+	Thu, 16 Jul 2015 13:14:05 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	pf4sm14788405wjb.23.2015.07.16.13.14.04
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Jul 2015 13:14:04 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 16 Jul 2015 22:14:33 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20150716201433.GA23000@jama>
+References: <1432207395-31589-1-git-send-email-Martin.Jansa@gmail.com>
+	<20150701132356.GJ2409@jama> <20150716142027.GD2134@jama>
+	<1437076030.3310.135.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 16 Jul 2015 13:06:46 -0700 (PDT)
-In-Reply-To: <1436943842-17512-1-git-send-email-zhixiong.chi@windriver.com>
-References: <1436943842-17512-1-git-send-email-zhixiong.chi@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Jul 2015 21:06:46 +0100
-Message-ID: <CAJTo0LayV6KNWX8Na4VU4xdtguHBQTe1A3RZ9bb4Nhr6V4142Q@mail.gmail.com>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] rpm: fix segment fault in lib/psm.c
+In-Reply-To: <1437076030.3310.135.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [daisy][PATCH] squashfs-tools: enable building unsquashfs and fix squashfs-4.2-fix-CVE-2012-4025.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +48,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 20:07:09 -0000
-Content-Type: multipart/alternative; boundary=001a11c1334e8b551c051b039d47
+X-List-Received-Date: Thu, 16 Jul 2015 20:14:06 -0000
+X-Groupsio-MsgNum: 68062
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="BXVAT5kNtrzKuDFl"
+Content-Disposition: inline
 
---001a11c1334e8b551c051b039d47
-Content-Type: text/plain; charset=UTF-8
-
-On 15 July 2015 at 08:04, Zhixiong Chi <zhixiong.chi@windriver.com> wrote:
-
-> Add null pointer checking for rpmpsmStage() function in lib/psm.c
->
-
-This doesn't apply to current master, please rebase.
-
-(and fix the capitalisation in Upstream-Status: Pending)
-
-Ross
-
---001a11c1334e8b551c051b039d47
-Content-Type: text/html; charset=UTF-8
+--BXVAT5kNtrzKuDFl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 15 July 2015 at 08:04, Zhixiong Chi <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:zhixiong.chi@windriver.com" target=3D"_blank">zhixiong.chi@windriver.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1s0" =
-class=3D"a3s" style=3D"overflow:hidden">Add null pointer checking for rpmps=
-mStage() function in lib/psm.c<br></div></blockquote></div><br>This doesn&#=
-39;t apply to current master, please rebase.</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">(and fix the capitalisation in Upstr=
-eam-Status: Pending)</div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
+On Thu, Jul 16, 2015 at 08:47:10PM +0100, Richard Purdie wrote:
+> On Thu, 2015-07-16 at 16:20 +0200, Martin Jansa wrote:
+> > On Wed, Jul 01, 2015 at 03:23:56PM +0200, Martin Jansa wrote:
+> > > On Thu, May 21, 2015 at 01:23:15PM +0200, Martin Jansa wrote:
+> > > > * build unsqaushfs, useful when debuging corrupt squashfs from
+> > > >   mksquashfs
+> > > > * squashfs-4.2-fix-CVE-2012-4025.patch fixes CVE in unsquashfs whic=
+h we
+> > > >   weren't building and it actually breaks building it, because some=
+one
+> > > >   missed squashfs_fs.h change from the original change
+> > > > * add git headers in all patches and fix references to new github
+> > > >   repository
+> > >=20
+> > > Ping
+> >=20
+> > PING (It's almost 2 months :/)
+>=20
+> I've just gone ahead and merged it.
 
---001a11c1334e8b551c051b039d47--
+Thank you.
+
+> If we want to get better at this, it would help if backport patches list
+> whether they're needed on other releases. E.g. here, listing "master,
+> fido, dizzy use 4.3" would speed things up from my perspective.
+
+This was sent together in group of patches for all other releases as
+well, but I agree that after a while it's harder to see that dizzy, fido
+and master were fixed by different patches.
+
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--BXVAT5kNtrzKuDFl
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlWoEKgACgkQN1Ujt2V2gBx5AQCggCVa1kKzFfEjyeDKTN6p8Vj7
+qzcAn3zIZOPditoHGLgwG7bJL/MzzitG
+=A7wk
+-----END PGP SIGNATURE-----
+
+--BXVAT5kNtrzKuDFl--
