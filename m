@@ -1,23 +1,23 @@
 Return-Path: <costin.c.constantin@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 89AD46013D
+	by mail.openembedded.org (Postfix) with ESMTP id 568786013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 13:10:01 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2015 06:10:01 -0700
+	Thu, 16 Jul 2015 13:12:04 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 16 Jul 2015 06:12:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,488,1432623600"; d="scan'208";a="607384168"
+X-IronPort-AV: E=Sophos;i="5.15,488,1432623600"; d="scan'208";a="525346134"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 16 Jul 2015 06:10:00 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2015 06:12:05 -0700
 Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 7BE226A4005;
-	Thu, 16 Jul 2015 06:09:18 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id D3AE26A4005;
+	Thu, 16 Jul 2015 06:11:22 -0700 (PDT)
 From: Costin Constantin <costin.c.constantin@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2015 16:20:24 +0300
-Message-Id: <1437052824-5068-1-git-send-email-costin.c.constantin@intel.com>
+Date: Thu, 16 Jul 2015 16:22:28 +0300
+Message-Id: <1437052948-5162-1-git-send-email-costin.c.constantin@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/recipetool: add useful failure messages to test cases
+Subject: [PATCH] oeqa/prservice: add useful failure messages to test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,35 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 13:10:04 -0000
+X-List-Received-Date: Thu, 16 Jul 2015 13:12:05 -0000
 
 Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
 ---
- meta/lib/oeqa/selftest/recipetool.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/prservice.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
-index 08ff4f1..12c6b25 100644
---- a/meta/lib/oeqa/selftest/recipetool.py
-+++ b/meta/lib/oeqa/selftest/recipetool.py
-@@ -50,7 +50,7 @@ class RecipetoolTests(DevtoolBase):
-         bbappendfile = self._check_bbappend(testrecipe, recipefile, templayerdir)
-         # Check the bbappend contents
-         with open(bbappendfile, 'r') as f:
--            self.assertEqual(expectedlines, f.readlines())
-+            self.assertEqual(expectedlines, f.readlines(), "Expected lines are not present in %s" % bbappendfile)
-         # Check file was copied
-         filesdir = os.path.join(os.path.dirname(bbappendfile), testrecipe)
-         for expectedfile in expectedfiles:
-@@ -109,7 +109,7 @@ class RecipetoolTests(DevtoolBase):
-         # But file should have
-         copiedfile = os.path.join(os.path.dirname(bbappendfile), 'coreutils', testfile2name)
-         result = runCmd('diff -q %s %s' % (testfile2, copiedfile), ignore_status=True)
--        self.assertNotEqual(result.status, 0, 'New file should have been copied but was not')
-+        self.assertNotEqual(result.status, 0, 'New file should have been copied but was not %s' % result.output)
+diff --git a/meta/lib/oeqa/selftest/prservice.py b/meta/lib/oeqa/selftest/prservice.py
+index fb6d68d..4187fbf 100644
+--- a/meta/lib/oeqa/selftest/prservice.py
++++ b/meta/lib/oeqa/selftest/prservice.py
+@@ -17,7 +17,7 @@ class BitbakePrTests(oeSelfTest):
+         package_data_file = os.path.join(pkgdata_dir, 'runtime', package_name)
+         package_data = ftools.read_file(package_data_file)
+         find_pr = re.search("PKGR: r[0-9]+\.([0-9]+)", package_data)
+-        self.assertTrue(find_pr)
++        self.assertTrue(find_pr, "No PKG revision found in %s" % package_data_file)
+         return int(find_pr.group(1))
  
-     @testcase(1178)
-     def test_recipetool_appendfile_binary(self):
+     def get_task_stamp(self, package_name, recipe_task):
+@@ -60,8 +60,8 @@ class BitbakePrTests(oeSelfTest):
+         stamp_2 = self.get_task_stamp(package_name, track_task)
+ 
+         bitbake("-ccleansstate %s" % package_name)
+-        self.assertTrue(pr_2 - pr_1 == 1)
+-        self.assertTrue(stamp_1 != stamp_2)
++        self.assertTrue(pr_2 - pr_1 == 1, "Step between same pkg. revision is greater than 1")
++        self.assertTrue(stamp_1 != stamp_2, "Different pkg rev. but same stamp: %s" % stamp_1)
+ 
+     def run_test_pr_export_import(self, package_name, replace_current_db=True):
+         self.config_pr_tests(package_name)
+@@ -86,7 +86,7 @@ class BitbakePrTests(oeSelfTest):
+         pr_2 = self.get_pr_version(package_name)
+ 
+         bitbake("-ccleansstate %s" % package_name)
+-        self.assertTrue(pr_2 - pr_1 == 1)
++        self.assertTrue(pr_2 - pr_1 == 1, "Step between same pkg. revision is greater than 1")
+ 
+     @testcase(930)
+     def test_import_export_replace_db(self):
 -- 
 2.1.4
 
