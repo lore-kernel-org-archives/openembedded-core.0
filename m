@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f47.google.com (mail-wg0-f47.google.com [74.125.82.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 47437607A5
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id D5A27607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 21:18:01 +0000 (UTC)
-Received: by wgmn9 with SMTP id n9so68126121wgm.0
+	Thu, 16 Jul 2015 21:29:29 +0000 (UTC)
+Received: by wibud3 with SMTP id ud3so25417136wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 14:18:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ePIxCzzUZtKMizWkH6HVdqkRfYrBVKY/eYHptALPLaM=;
-	b=ku14OKTxY4HqAklrfPFBcD98H3fdyXrR6SBbphGVSx7mpB8NtsG6cvl4UNrjyLsNe8
-	BCr4xR/92SXYcsjBtqu6PAFX+38QMIijmDKGcUQLPW0EWeHqS0RjRPO9B+4ell0osjiX
-	JIUoUru2BOqEu5anxVEAU9Srl146TwgK6MwNejz3bW4vezd2Ez6TLM7tHjVdgaCxcnl+
-	oZGTlRcByJvTTAgItr9dIRy9A1flte6cuTCuVOsqh5Ndz7XVJAuOWsJ3WO78XiUiwrD+
-	ntK8d+3gp82SuNIJ3omgYd1QEZlIIdECZVdxT8sNTEYL+w4z//Aev4M7ubrBivxzJXdT
-	Oisg==
-X-Gm-Message-State: ALoCoQkgD+NcopbwOeOJBUi9Y9h0wK67Kj9TcYCClKnujXtI0Zckak+h2ETq1LyyxBFsPRMHBzJd
-X-Received: by 10.194.109.229 with SMTP id hv5mr24089807wjb.119.1437081481438; 
-	Thu, 16 Jul 2015 14:18:01 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	uc16sm5171413wib.8.2015.07.16.14.18.00
+	Thu, 16 Jul 2015 14:29:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=9KmuCwuzZjd0K8FR2qBZuxQ0CV9ngMHttZClffw3XIs=;
+	b=AWk/2oXsAb+hypGcdG9b1OIuQzZOlNmA8fmRGkSLTUGGUNLSGo7y39W4vQF5MK/mq9
+	qW5i8TGpSAvD4V0rwuwdHg4F/jyJUytHrXK4OpcG7c3rKefLHIo6pCQOPDFGR+5Nij4H
+	lfNMD8FLYKLIKu4Ueonx8J2M8IYgr4krKgffbVNMbrZjRHiK1X9mF50Eicytnmwl1sXz
+	czigaWTzsFBTP7wEktWC+tZlVw+qpAGfVhKwqrwaNP/id9vmvnEASn58frz3KBq6vUKo
+	bAbEiW/vbHVz6wrRu24XYA5iX3OjgQEV6hQURmfqeNSPF4E1r8RHCZBHDFROa/QNURVQ
+	sDCg==
+X-Received: by 10.180.77.68 with SMTP id q4mr9943044wiw.22.1437082169080;
+	Thu, 16 Jul 2015 14:29:29 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id z9sm5209767wiv.9.2015.07.16.14.29.27
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Jul 2015 14:18:00 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Jul 2015 14:29:28 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 16 Jul 2015 23:29:56 +0200
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2015 22:12:17 +0100
-Message-Id: <1437081137-23604-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] pseudo: upgrade to 1.6.6
+Message-ID: <20150716212956.GA7193@jama>
+References: <20150714142140.GC2184@jama>
+MIME-Version: 1.0
+In-Reply-To: <20150714142140.GC2184@jama>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: Re: dbus-test no longer built for dbus-ptest after last bitbake changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,102 +46,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 21:18:03 -0000
+X-List-Received-Date: Thu, 16 Jul 2015 21:29:30 -0000
+X-Groupsio-MsgNum: 68068
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="G4iJoqBmSsgzjUCe"
+Content-Disposition: inline
 
-Fixes include proper support for creating FIFOs (remove redundant patch), and
-bug fixes regarding xattrs.
+--G4iJoqBmSsgzjUCe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[ YOCTO #7990 ]
-[ YOCTO #7993 ]
+On Tue, Jul 14, 2015 at 04:21:40PM +0200, Martin Jansa wrote:
+> I'm not 100% sure it's related to recent bitbake variable expansion
+> changes, but my recent builds are failing with errors about
+> dbus-ptest cannot be installed because dbus-test-ptest doesn't exist
+>=20
+> ERROR:=20
+> Collected errors:
+>=20
+>  * satisfy_dependencies_for: Cannot satisfy the following dependencies
+>  * for dbus-ptest:
+>=20
+>  * 	dbus-test-ptest *=20
+>=20
+>  * opkg_install_cmd: Cannot install package dbus-ptest.
+>=20
+> It's using a bit strange construct to add it to RDEPENDS:
+> meta/recipes-core/dbus/dbus.inc:RDEPENDS_dbus-ptest_class-target =3D
+> "dbus-test-ptest"
+>=20
+> but checking cooker log shows that dbus-test
+> (meta/recipes-core/dbus/dbus-test_1.8.18.bb) wasn't built at all, only
+> dbus-test message is from opkg error and this QA error from dbus itself:
+>=20
+> NOTE: recipe dbus-1.8.18-r0: task do_package_write_ipk: Started
+> WARNING: QA Issue: dbus-ptest rdepends on dbus-test-ptest, but it isn't
+> a build dependency? [build-deps]
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/pseudo/files/fifofix.patch   | 52 ----------------------
- .../pseudo/{pseudo_1.6.5.bb => pseudo_1.6.6.bb}    |  5 +--
- 2 files changed, 2 insertions(+), 55 deletions(-)
- delete mode 100644 meta/recipes-devtools/pseudo/files/fifofix.patch
- rename meta/recipes-devtools/pseudo/{pseudo_1.6.5.bb => pseudo_1.6.6.bb} (74%)
+Possibly other issues caused by different data expansion (because I don't r=
+emember any metadata changes in this area)
 
-diff --git a/meta/recipes-devtools/pseudo/files/fifofix.patch b/meta/recipes-devtools/pseudo/files/fifofix.patch
-deleted file mode 100644
-index 44a79cd..0000000
---- a/meta/recipes-devtools/pseudo/files/fifofix.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--Allow mkfifo to create a real fifo.
--
--Index: pseudo-1.6.5/ports/unix/guts/mknodat.c
--===================================================================
----- pseudo-1.6.5.orig/ports/unix/guts/mknodat.c
--+++ pseudo-1.6.5/ports/unix/guts/mknodat.c
--@@ -27,22 +27,33 @@
-- 		errno = EEXIST;
-- 		return -1;
-- 	}
--+	if (mode & S_IFIFO) {
-- #ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
---	rc = real_open(path, O_CREAT | O_WRONLY | O_EXCL,
---		PSEUDO_FS_MODE(mode, 0));
--+		rc = real_mkfifo(path, PSEUDO_FS_MODE(mode, 0));
-- #else
---	rc = real_openat(dirfd, path, O_CREAT | O_WRONLY | O_EXCL,
---		PSEUDO_FS_MODE(mode, 0));
--+		rc = real_mkfifoat(dirfd, path, PSEUDO_FS_MODE(mode, 0));
-- #endif
---	if (rc == -1) {
---		return -1;
--+		if (rc == -1) {
--+			return -1;
--+		}
--+	} else {
--+#ifdef PSEUDO_NO_REAL_AT_FUNCTIONS
--+		rc = real_open(path, O_CREAT | O_WRONLY | O_EXCL,
--+			PSEUDO_FS_MODE(mode, 0));
--+#else
--+		rc = real_openat(dirfd, path, O_CREAT | O_WRONLY | O_EXCL,
--+			PSEUDO_FS_MODE(mode, 0));
--+#endif
--+		if (rc == -1) {
--+			return -1;
--+		}
--+		base_fstat(rc, &buf);
--+		/* mknod does not really open the file.  We don't have
--+		 * to use wrap_close because we've never exposed this file
--+		 * descriptor to the client code.
--+		 */
--+		real_close(rc);
-- 	}
---	base_fstat(rc, &buf);
---	/* mknod does not really open the file.  We don't have
---	 * to use wrap_close because we've never exposed this file
---	 * descriptor to the client code.
---	 */
---	real_close(rc);
-- 
-- 	/* mask in the mode type bits again */
-- 	buf.st_mode = (PSEUDO_DB_MODE(buf.st_mode, mode) & 07777) |
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.6.5.bb b/meta/recipes-devtools/pseudo/pseudo_1.6.6.bb
-similarity index 74%
-rename from meta/recipes-devtools/pseudo/pseudo_1.6.5.bb
-rename to meta/recipes-devtools/pseudo/pseudo_1.6.6.bb
-index bf14c7d..1946021 100644
---- a/meta/recipes-devtools/pseudo/pseudo_1.6.5.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.6.6.bb
-@@ -4,11 +4,10 @@ SRC_URI = " \
-     http://www.yoctoproject.org/downloads/${BPN}/${BPN}-${PV}.tar.bz2 \
-     file://fallback-passwd \
-     file://fallback-group \
--    file://fifofix.patch \
- "
- 
--SRC_URI[md5sum] = "a5545ff365e243193c81981df98e870b"
--SRC_URI[sha256sum] = "f5a0af976c958915503f516dd02097ab6a64c98a3c0cb4ceb0ce8b1ef8e38b3c"
-+SRC_URI[md5sum] = "6a7c01a1780350a695bc0f4939b58626"
-+SRC_URI[sha256sum] = "1512b91d62739ff8d266e161e27f6da29c3012f4a1e77100021808d4173c0740"
- 
- PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback"
- 
--- 
-2.1.4
+Parsing of 2408 .bb files complete (0 cached, 2408 parsed). 2963 targets, 1=
+25 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+NOTE: multiple providers are available for runtime opencv-samples (opencv-s=
+amples, opencv)
+NOTE: consider defining a PREFERRED_PROVIDER entry to match opencv-samples
+ERROR: Nothing PROVIDES 'qt4-x11-free-native' (but virtual:native:/home/jen=
+kins/oe/world/shr-core/meta-smartphone/meta-fso/recipes-freesmartphone/free=
+smartphone/qfsodbusxml2cpp_git.bb DEPENDS on or otherwise requires it). Clo=
+se matches:
+  qt4-x11-free
+NOTE: Runtime target 'aurora-daemon-dev' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['aurora-daemon-dev', 'libfso-=
+qt', 'qfsodbusxml2cpp-native', 'qt4-x11-free-native']
+NOTE: Runtime target 'aurora-daemon' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['aurora-daemon', 'libfso-qt',=
+ 'qfsodbusxml2cpp-native', 'qt4-x11-free-native']
+NOTE: Runtime target 'libfso-qt' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['libfso-qt', 'qfsodbusxml2cpp=
+-native', 'qt4-x11-free-native']
+NOTE: Runtime target 'libfso-qt-dev' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['libfso-qt-dev', 'qfsodbusxml=
+2cpp-native', 'qt4-x11-free-native']
+ERROR: Nothing PROVIDES 'gtk+-native' (but virtual:native:/home/jenkins/oe/=
+world/shr-core/meta-openembedded/meta-oe/recipes-extended/libwmf/libwmf_0.2=
+=2E8.4.bb DEPENDS on or otherwise requires it). Close matches:
+  tk-native
+  git-native
+  atk-native
+NOTE: Runtime target 'abiword-dev' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['abiword-dev', 'libwmf-native=
+', 'gtk+-native']
+NOTE: Runtime target 'abiword' is unbuildable, removing...
+Missing or unbuildable dependency chain was: ['abiword', 'libwmf-native', '=
+gtk+-native']
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--G4iJoqBmSsgzjUCe
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlWoIlAACgkQN1Ujt2V2gBxT4wCfZJE/e2LBfalV710h1FZgKTVI
+0TUAoLfPWhR4eMIuUMuBTqEZVAMoWe8m
+=ugTI
+-----END PGP SIGNATURE-----
+
+--G4iJoqBmSsgzjUCe--
