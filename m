@@ -1,20 +1,24 @@
 Return-Path: <cristian.iorga@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A70073BB8
+	by mail.openembedded.org (Postfix) with ESMTP id 9F5A475FAB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 17:35:49 +0000 (UTC)
+	Thu, 16 Jul 2015 17:35:50 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 16 Jul 2015 10:30:04 -0700
+	by orsmga101.jf.intel.com with ESMTP; 16 Jul 2015 10:30:06 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,488,1432623600"; d="scan'208";a="525478729"
+X-IronPort-AV: E=Sophos;i="5.15,488,1432623600"; d="scan'208";a="525478790"
 Received: from sentry.rb.intel.com ([10.237.105.63])
-	by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2015 10:30:03 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 16 Jul 2015 10:30:06 -0700
 From: Cristian Iorga <cristian.iorga@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2015 20:30:05 +0300
-Message-Id: <cover.1437067538.git.cristian.iorga@intel.com>
+Date: Thu, 16 Jul 2015 20:30:08 +0300
+Message-Id: <4f32a3296f9e090c8ca2abae11aca3154b6a46d7.1437067538.git.cristian.iorga@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v4 0/3] qemu upgrade to 2.4.0-rc0
+In-Reply-To: <cover.1437067538.git.cristian.iorga@intel.com>
+References: <cover.1437067538.git.cristian.iorga@intel.com>
+In-Reply-To: <cover.1437067538.git.cristian.iorga@intel.com>
+References: <cover.1437067538.git.cristian.iorga@intel.com>
+Subject: [PATCH v4 3/3] bitbake.conf: fix qemu user mode linux for qemuarm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,46 +33,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 16 Jul 2015 17:35:51 -0000
 
-There is a long list of issues affecting qemu 2.3.0 (current version) in
-combination with tests performed on YP autobuilders, situation that seriously
-impacts the way our project evolves and can be managed.
-As such, we are proposing an upgrade to qemu 2.4.0 RC0, as much better
-behavior has been seen with this upgrade.
+OLDEST_KERNEL is invalid for aarch64, it didn't exist
+back in our current version. Use a more recent version
+for aarch64 to allow user mode qemu to work correctly.
 
-Patchset V4 sets qemu PV to a higher version, to make sure it sorts higher
-than any 2.3.* version (e.g. if someone is using some newer revision from 2.3 branch).
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-Patchset V3 adds a proper upgrade versioning scheme for qemu, so that
-the upgrade to final version won't hinder the upgrade path for it.
-
-Patchset V2 adds a better commit message for
-"runqemu-internal: add temporary disk interface to qemuarm64" fix.
-
-The following changes since commit ba07a69f3dc8fb798e372130bf665d059fed9d42:
-
-  dpkg: Fix for Fedora22 and new versions of tar (2015-07-13 13:47:28 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ciorga/qemu-upg-3
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ciorga/qemu-upg-3
-
-Cristian Iorga (3):
-  qemu: upgrade to 2.4.0-rc0
-  runqemu-internal: add temporary disk interface to qemuarm64
-  bitbake.conf: fix qemu user mode linux for qemuarm64
-
- meta/conf/bitbake.conf                             |  1 +
- meta/recipes-devtools/qemu/qemu.inc                |  3 --
- .../qemu/qemu/larger_default_ram_size.patch        | 22 ---------------
- meta/recipes-devtools/qemu/qemu_2.3.0.bb           | 32 ----------------------
- meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb       | 22 +++++++++++++++
- scripts/runqemu-internal                           |  2 +-
- 6 files changed, 24 insertions(+), 58 deletions(-)
- delete mode 100644 meta/recipes-devtools/qemu/qemu/larger_default_ram_size.patch
- delete mode 100644 meta/recipes-devtools/qemu/qemu_2.3.0.bb
- create mode 100644 meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index ee75c9b..730ab80 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -397,6 +397,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+ ##################################################################
+ 
+ OLDEST_KERNEL = "2.6.32"
++OLDEST_KERNEL_aarch64 = "3.14"
+ STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
+ STAGING_KERNEL_BUILDDIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-build-artifacts"
+ 
 -- 
 2.1.4
 
