@@ -1,36 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 77EDB607A5
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FC8D607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 20:29:00 +0000 (UTC)
-Received: by qgy5 with SMTP id 5so38324885qgy.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 13:29:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=RmIaFyVjvB8YptpkVOom0GJpi2ql1XDV5Is2rRauxMQ=;
-	b=ab1sQwSAleDN5c1tIuAJU2MtjEt2QkGZinJQ/DWQYnt7sBL9eNwBFrSjHtFHd+eQjf
-	FI7YxHDPQM4kfmB7DYEq8dM1PtzrpuGC6R5VU1/vQlzDv3M30O5plyZWPtbnOi96SHPr
-	Lh4sLWCUSx89vVCETm5iFBhXufM3AAbqkQYQkLPGcBzAPHEOmmUAqDSWsObXkpIL39z0
-	l7x68HWujbRdh5TI2SInNDYTKeG3L9f+RiBLbeQw1pg7fBg0m777Jof7LoEPJ0wpEECQ
-	Wmq/gkrK8mMj+byD6gmeqWJ7ZD/KT020z4iLCnpm8i+YjdGJJ3Bm7/wMrBtUXsF5HsK9
-	6fbg==
-X-Gm-Message-State: ALoCoQnAzgNdkx0lbUYqulhyDXcJvmSnNb388kYqe7E6Xw/1HEgG9idHZ6LIoDm4Vo9g4becW7/F
-X-Received: by 10.140.20.115 with SMTP id 106mr20100981qgi.87.1437078540751;
-	Thu, 16 Jul 2015 13:29:00 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Thu, 16 Jul 2015 13:28:41 -0700 (PDT)
-In-Reply-To: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
-References: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 16 Jul 2015 21:28:41 +0100
-Message-ID: <CAJTo0LakEKNqWhot2UKD6+wxECjMzTaLqOGPQD1E43v1NkOvqw@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston: fix two building issue
+	Thu, 16 Jul 2015 20:34:33 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 16 Jul 2015 13:34:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,490,1432623600"; d="scan'208";a="607653899"
+Received: from bitbang.jf.intel.com ([10.7.201.51])
+	by orsmga003.jf.intel.com with ESMTP; 16 Jul 2015 13:34:34 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Jul 2015 13:34:21 -0700
+Message-Id: <1437078861-7159-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.4.3
+Subject: [PATCH] extensible sdk: Error when trying to install as root.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +27,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 20:29:02 -0000
-Content-Type: multipart/alternative; boundary=001a11c128b4efae35051b03ebfd
+X-List-Received-Date: Thu, 16 Jul 2015 20:34:34 -0000
 
---001a11c128b4efae35051b03ebfd
-Content-Type: text/plain; charset=UTF-8
+Since the extensible sdk uses bitbake, which can't run as root, the sdk
+shouldn't be installed as root.
 
-On 16 July 2015 at 02:17, <rongqing.li@windriver.com> wrote:
+Previously it would error out late into setup when bitbake errored
+saying not to run bitbake as root.
 
-> 2. create tests dir and ivi-shell to fix the building rule dependency
-> issue.
->    sed "..." ivi-shell/weston.ini.in > ivi-shell/weston.ini
->    ivi-shell/weston.ini: No such file or directory
->
+Now the script errors with a message saying the extensible sdk can't be
+installed as root.
 
-I was watching another build happen so quickly fixed this too.   Does
-http://lists.freedesktop.org/archives/wayland-devel/2015-July/023468.html
-look right?
+[Yocto #7545]
 
-Ross
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/classes/populate_sdk_base.bbclass | 12 ++++++++++--
+ meta/classes/populate_sdk_ext.bbclass  | 11 +++++++++++
+ meta/files/toolchain-shar-extract.sh   |  7 +++++++
+ 3 files changed, 28 insertions(+), 2 deletions(-)
 
---001a11c128b4efae35051b03ebfd
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index 398e943..a9e9bd7 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -51,6 +51,7 @@ PID = "${@os.getpid()}"
+ EXCLUDE_FROM_WORLD = "1"
+ 
+ SDK_PACKAGING_FUNC ?= "create_shar"
++SDK_PRE_INSTALL_COMMAND ?= ""
+ SDK_POST_INSTALL_COMMAND ?= ""
+ SDK_RELOCATE_AFTER_INSTALL ?= "1"
+ 
+@@ -134,15 +135,21 @@ fakeroot create_shar() {
+ 	# copy in the template shar extractor script
+ 	cp ${COREBASE}/meta/files/toolchain-shar-extract.sh ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+-	rm -f ${T}/post_install_command
++	rm -f ${T}/pre_install_command ${T}/post_install_command
+ 
+ 	if [ ${SDK_RELOCATE_AFTER_INSTALL} -eq 1 ] ; then
+ 		cp ${COREBASE}/meta/files/toolchain-shar-relocate.sh ${T}/post_install_command
+ 	fi
++	cat << "EOF" >> ${T}/pre_install_command
++${SDK_PRE_INSTALL_COMMAND}
++EOF
++
+ 	cat << "EOF" >> ${T}/post_install_command
+ ${SDK_POST_INSTALL_COMMAND}
+ EOF
+-	sed -i -e '/@SDK_POST_INSTALL_COMMAND@/r ${T}/post_install_command' ${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
++	sed -i -e '/@SDK_PRE_INSTALL_COMMAND@/r ${T}/pre_install_command' \
++		-e '/@SDK_POST_INSTALL_COMMAND@/r ${T}/post_install_command' \
++		${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+ 	# substitute variables
+ 	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
+@@ -151,6 +158,7 @@ EOF
+ 		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
+ 		-e 's#@SDK_TITLE@#${SDK_TITLE}#g' \
+ 		-e 's#@SDK_VERSION@#${SDK_VERSION}#g' \
++		-e '/@SDK_PRE_INSTALL_COMMAND@/d' \
+ 		-e '/@SDK_POST_INSTALL_COMMAND@/d' \
+ 		${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 8a80a56..b28413b 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -173,6 +173,17 @@ install_tools() {
+ 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
+ }
+ 
++# Since bitbake won't run as root it doesn't make sense to try and install
++# the extensible sdk as root.
++sdk_ext_preinst() {
++	if [ "`id -u`" = "0" ]; then
++		echo "ERROR: The extensible sdk cannot be installed as root."
++		exit 1
++	fi
++	SDK_EXTENSIBLE="1"
++}
++SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext = "${sdk_ext_preinst}"
++
+ # FIXME this preparation should be done as part of the SDK construction
+ sdk_ext_postinst() {
+ 	printf "\nExtracting buildtools...\n"
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 8cb8783..0a33ee8 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -71,6 +71,8 @@ if [ $verbose = 1 ] ; then
+ 	set -x
+ fi
+ 
++@SDK_PRE_INSTALL_COMMAND@
++
+ if [ "$target_sdk_dir" = "" ]; then
+ 	read -e -p "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): " target_sdk_dir
+ 	[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
+@@ -116,6 +118,11 @@ mkdir -p $target_sdk_dir >/dev/null 2>&1
+ 
+ # if don't have the right to access dir, gain by sudo 
+ if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
++	if [ "$SDK_EXTENSIBLE" = "1" ]; then
++		echo "Unable to access \"$target_sdk_dir\"."
++		exit 1
++	fi
++
+ 	SUDO_EXEC=$(which "sudo")
+ 	if [ -z $SUDO_EXEC ]; then
+ 		echo "No command 'sudo' found, please install sudo first. Abort!"
+-- 
+2.4.3
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 July 2015 at 02:17,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
-.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
-style:solid;padding-left:1ex"><div id=3D":pq" class=3D"" style=3D"overflow:=
-hidden">2. create tests dir and ivi-shell to fix the building rule dependen=
-cy issue.<br>
-=C2=A0 =C2=A0sed &quot;...&quot; ivi-shell/<a href=3D"http://weston.ini.in"=
- rel=3D"noreferrer" target=3D"_blank"><span class=3D"">weston</span>.ini.in=
-</a> &gt; ivi-shell/<span class=3D"">weston</span>.ini<br>
-=C2=A0 =C2=A0ivi-shell/<span class=3D"">weston</span>.ini: No such file or =
-directory<br></div></blockquote></div><br>I was watching another build happ=
-en so quickly fixed this too. =C2=A0 Does=C2=A0<a href=3D"http://lists.free=
-desktop.org/archives/wayland-devel/2015-July/023468.html">http://lists.free=
-desktop.org/archives/wayland-devel/2015-July/023468.html</a> look right?</d=
-iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
-v></div>
 
---001a11c128b4efae35051b03ebfd--
