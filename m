@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f42.google.com (mail-wg0-f42.google.com [74.125.82.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 424DB607A5
+Received: from mail-wg0-f54.google.com (mail-wg0-f54.google.com [74.125.82.54])
+	by mail.openembedded.org (Postfix) with ESMTP id E5452607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 23:01:27 +0000 (UTC)
-Received: by wgxm20 with SMTP id m20so69476309wgx.3
+	Thu, 16 Jul 2015 23:40:45 +0000 (UTC)
+Received: by wgav7 with SMTP id v7so4439637wga.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 16:01:27 -0700 (PDT)
+	Thu, 16 Jul 2015 16:40:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ECEDs+QP61rt1A1U1hs6N8EaAE85O6TU11PkZugvy3Q=;
-	b=ZGikXIQSYFYSYx/6lI8ymKkcHE31SIB/bCdRQi292RwBwewgzC7JtWTYiDmnjnd6y0
-	9bY8lIxsifLD16OK6KT3Qc/RyLMEmUBGK50xVTh8mJul/SUbvNWA3exVYJqobSLs7Y15
-	IPM8DPSAUXNN134Rw6YNy2zZmSQiTkCCH54KhkwtuaRhcjdmX17bpSgcj1eCtNwWZDez
-	WvAzUjrXdad2dEIGiiG3W0ahwz8WzyUftTXKuHRmRWdvUq8jHNzqpTsRXrr1jdfZguTL
-	bGyZqAOr/Cx/cW65OijK+9qBB2QBZmzmlz4CGSFvDF5A2GLijM/IFgREUQqBxNJKoRiF
-	BIfQ==
-X-Gm-Message-State: ALoCoQkyQaL2o4XbagiSmB5wQ67tDTZZiRUIOUF+mkMrLhvb2I7+R7fNJnSrwyxxl8lyvX+VkaKe
-X-Received: by 10.194.5.103 with SMTP id r7mr22906986wjr.47.1437087687829;
-	Thu, 16 Jul 2015 16:01:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=6ScMpOnKZmoO0miqqX/tHmoOt1mIJ2OyHmNQ39eKExM=;
+	b=cFSz44S1R61K09pVdm72GhiD8ah1TL2AUh/dIicIuvXO7tzon3MuyhHEbs/zJFv59U
+	+ShpUPz5+erIXnV6PinFjVPNa4B3JpGOKJYwNxIYPckRwSbwWzv+8X/+19BtMizZwJcX
+	ThmNzK1m7N5oTHIHUKAYoJf66FcA2HpjfUuYb1+3OwSBCK731s6xl0wdLgsopAtNEtLC
+	dpJsJDPnwLPcLFmriJGxw9vYG7vAcSaJtpQs5FrR7IlsvpHqfzarOSj/ATWjZV06Z6A0
+	K0Aa5WxzpjiPbyE2UV/vrYDTtPc21Vw488zve5G+TYJi56ddPd2s9tn3w6cM3FbJDAGN
+	p6tw==
+X-Gm-Message-State: ALoCoQn+Ygcni3hCc75xXV52Wdc0nLRHvKxGrtywCXv/4QddEDiZrUVpivPs406y3vtLIxhKLcCU
+X-Received: by 10.194.83.196 with SMTP id s4mr23869537wjy.43.1437090045274;
+	Thu, 16 Jul 2015 16:40:45 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	gb16sm5516417wic.5.2015.07.16.16.01.26
+	lu5sm15494930wjb.9.2015.07.16.16.40.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Jul 2015 16:01:26 -0700 (PDT)
+	Thu, 16 Jul 2015 16:40:44 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 Jul 2015 23:55:46 +0100
-Message-Id: <1437087346-26020-1-git-send-email-ross.burton@intel.com>
+Date: Fri, 17 Jul 2015 00:35:02 +0100
+Message-Id: <1437089702-23970-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] gnome-icon-theme: clean up icon-naming search
+In-Reply-To: <1437089702-23970-1-git-send-email-ross.burton@intel.com>
+References: <1437089702-23970-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] neard: merge .inc file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,131 +46,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 23:01:31 -0000
+X-List-Received-Date: Thu, 16 Jul 2015 23:40:47 -0000
 
-Previous this recipe added an argument to specify where the icon-name-mapping
-binary is installed, to override a failing pkg-config call (as target pkg-config
-won't find native .pc files), and munged libexecdir as it likely contains PN.
-
-This is all very complicated and we have a native pkg-config binary now, so just
-use pkg-config-native for that section of configure.ac.
+The .inc file contains so much version-dependent logic (for example behaviour of
+libexecdir and location of installed daemon) that there's not really any point
+in having the two split.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../gnome/gnome-icon-theme/iconpath-option.patch   | 49 ----------------------
- .../gnome/gnome-icon-theme/pkgconfig-native.patch  | 28 +++++++++++++
- .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |  4 +-
- 3 files changed, 29 insertions(+), 52 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/gnome-icon-theme/iconpath-option.patch
- create mode 100644 meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch
+ meta/recipes-connectivity/neard/neard.inc     | 53 ---------------------------
+ meta/recipes-connectivity/neard/neard_0.15.bb | 53 ++++++++++++++++++++++++++-
+ 2 files changed, 52 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/neard/neard.inc
 
-diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme/iconpath-option.patch b/meta/recipes-gnome/gnome/gnome-icon-theme/iconpath-option.patch
+diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
 deleted file mode 100644
-index f840fca..0000000
---- a/meta/recipes-gnome/gnome/gnome-icon-theme/iconpath-option.patch
+index 6ab185c..0000000
+--- a/meta/recipes-connectivity/neard/neard.inc
 +++ /dev/null
-@@ -1,49 +0,0 @@
--Version of the patch of the same name from sato-icon-theme JL - 20/10/10
--"
--pkg-config will only search the target sysroot and we want the native script. This 
--patch adds an option to allow the path to the tool to be specified.
+@@ -1,53 +0,0 @@
+-SUMMARY = "Linux NFC daemon"
+-DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
+-HOMEPAGE = "http://01.org/linux-nfc"
+-LICENSE = "GPLv2"
 -
--RP - 12/8/10"
+-DEPENDS = "dbus glib-2.0 libnl"
 -
--Upstream-Status: Pending
+-LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+- file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
+- "
 -
--Index: gnome-icon-theme-2.31.0/configure.ac
--===================================================================
----- gnome-icon-theme-2.31.0.orig/configure.ac	2010-12-01 11:00:22.000000000 +0800
--+++ gnome-icon-theme-2.31.0/configure.ac	2010-12-01 11:02:16.000000000 +0800
--@@ -38,18 +38,24 @@
-- ICONMAP="true"
-- if test "x$enable_mapping" != "xno"; then
--    UTILS_REQUIRED=0.8.7
--+   PKG_PROG_PKG_CONFIG()
-- 
---   AC_MSG_CHECKING([icon-naming-utils >= $UTILS_REQUIRED])
---   PKG_CHECK_EXISTS(icon-naming-utils >= $UTILS_REQUIRED,
---                    have_utils=yes, have_utils=no)
---   if test "x$have_utils" = "xyes"; then
---      UTILS_PATH="`$PKG_CONFIG --variable=program_path icon-naming-utils`"
---      ICONMAP="$UTILS_PATH/icon-name-mapping"
---      AC_MSG_RESULT([yes])
---   else
---      AC_MSG_RESULT([no])
---      AC_MSG_ERROR([icon-naming-utils >= $UTILS_REQUIRED is required to build
---                    and install gnome-icon-theme])
--+   AC_ARG_WITH(iconmap,
--+   	    AC_HELP_STRING([--with-iconmap=<dir>], [The location of the icon-name-mapping script to use]),
--+   	    ICONMAP=$withval, ICONMAP="")
--+   if test "x$ICONMAP" = "x"; then
--+      AC_MSG_CHECKING([icon-naming-utils >= $UTILS_REQUIRED])
--+      PKG_CHECK_EXISTS(icon-naming-utils >= $UTILS_REQUIRED,
--+      		    have_utils=yes, have_utils=no)
--+      if test "x$have_utils" = "xyes"; then
--+         UTILS_PATH="`$PKG_CONFIG --variable=program_path icon-naming-utils`"
--+         ICONMAP="$UTILS_PATH/icon-name-mapping"
--+
--+         AC_MSG_RESULT([yes])
--+      else
--+         AC_MSG_RESULT([no])
--+         AC_MSG_ERROR([icon-naming-utils >= $UTILS_REQUIRED is required to build and install sato-icon-theme"])
--+      fi
--    fi
-- else
--    ICONMAP="false"
-diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch b/meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch
-new file mode 100644
-index 0000000..6139eab
---- /dev/null
-+++ b/meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch
-@@ -0,0 +1,28 @@
-+icon-naming-utils is a native dependency so we need to use the native pkg-config
-+to find it.  Simply perform the old switcheroonie on $PKG_CONFIG so
-+pkg-config-native is used temporarily.
+-inherit autotools pkgconfig systemd update-rc.d bluetooth
+-
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+-
+-PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_unitdir}/system/ --with-systemduserunitdir=${systemd_unitdir}/user/,--disable-systemd"
+-
+-EXTRA_OECONF += "--enable-tools"
+-
+-# This would copy neard start-stop shell and test scripts
+-do_install_append() {
+-	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+-		install -d ${D}${sysconfdir}/init.d/
+-		sed "s:@installpath@:${libexecdir}/nfc:" ${WORKDIR}/neard.in \
+-		  > ${D}${sysconfdir}/init.d/neard
+-		chmod 0755 ${D}${sysconfdir}/init.d/neard
+-	fi
+-
+-	# Install the tests for neard-tests
+-	install -d ${D}${libdir}/neard
+-	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
+-	install -m 0755 ${B}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
+-}
+-
+-PACKAGES =+ "${PN}-tests"
+-
+-FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
+-FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
+-
+-RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
+-
+-# Bluez & Wifi are not mandatory except for handover
+-RRECOMMENDS_${PN} = "\
+-                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+-                     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
+-                    "
+-
+-RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
+-
+-INITSCRIPT_NAME = "neard"
+-INITSCRIPT_PARAMS = "defaults 64"
+-
+-SYSTEMD_SERVICE_${PN} = "neard.service"
+diff --git a/meta/recipes-connectivity/neard/neard_0.15.bb b/meta/recipes-connectivity/neard/neard_0.15.bb
+index 508c622..8adf70c 100644
+--- a/meta/recipes-connectivity/neard/neard_0.15.bb
++++ b/meta/recipes-connectivity/neard/neard_0.15.bb
+@@ -1,4 +1,9 @@
+-require neard.inc
++SUMMARY = "Linux NFC daemon"
++DESCRIPTION = "A daemon for the Linux Near Field Communication stack"
++HOMEPAGE = "http://01.org/linux-nfc"
++LICENSE = "GPLv2"
 +
-+Upstream-Status: Inappropriate (OE-specific)
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
++DEPENDS = "dbus glib-2.0 libnl"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/network/nfc/${BP}.tar.xz \
+            file://neard.in \
+@@ -8,3 +13,49 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/network/nfc/${BP}.tar.xz \
+ SRC_URI[md5sum] = "b746ce62eeef88e8de90765e00a75a1c"
+ SRC_URI[sha256sum] = "651f6513d32cdaf8a426255d03aff38a6620a89b0567ec2b36606c6330a93353"
+ 
++LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
++ file://src/near.h;beginline=1;endline=20;md5=358e4deefef251a4761e1ffacc965d13 \
++ "
 +
-+diff --git a/configure.ac b/configure.ac
-+index 6074f2c..3d38e49 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -40,6 +40,8 @@ if test "x$enable_mapping" != "xno"; then
-+    UTILS_REQUIRED=0.8.7
-+ 
-+    AC_MSG_CHECKING([icon-naming-utils >= $UTILS_REQUIRED])
-++   save_PKG_CONFIG=$PKG_CONFIG
-++   PKG_CONFIG=pkg-config-native
-+    PKG_CHECK_EXISTS(icon-naming-utils >= $UTILS_REQUIRED,
-+                     have_utils=yes, have_utils=no)
-+    if test "x$have_utils" = "xyes"; then
-+@@ -51,6 +53,7 @@ if test "x$enable_mapping" != "xno"; then
-+       AC_MSG_ERROR([icon-naming-utils >= $UTILS_REQUIRED is required to build
-+                     and install gnome-icon-theme])
-+    fi
-++   PKG_CONFIG=save_PKG_CONFIG
-+ else
-+    ICONMAP="false"
-+ fi
-diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-index df117ae..a6a3afa 100644
---- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-+++ b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
-@@ -13,12 +13,10 @@ DEPENDS = "icon-naming-utils-native intltool-native libxml-simple-perl-native"
- inherit allarch autotools perlnative gtk-icon-cache pkgconfig gettext
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/2.31/${BPN}-${PV}.tar.bz2 \
--           file://iconpath-option.patch"
-+           file://pkgconfig-native.patch"
- 
- SRC_URI[md5sum] = "8e727703343d4c18c73c79dd2009f8ed"
- SRC_URI[sha256sum] = "ea7e05b77ead159379392b3b275ca0c9cbacd7d936014e447cc7c5e27a767982"
- 
--EXTRA_OECONF = "--with-iconmap=${@d.getVar('STAGING_LIBEXECDIR_NATIVE', True).replace('gnome-icon-theme', 'icon-naming-utils')}/icon-name-mapping"
--
- FILES_${PN} += "${datadir}/*"
- RRECOMMENDS_${PN} += "librsvg-gtk"
++inherit autotools pkgconfig systemd update-rc.d bluetooth
++
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
++
++PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd_unitdir}/system/ --with-systemduserunitdir=${systemd_unitdir}/user/,--disable-systemd"
++
++EXTRA_OECONF += "--enable-tools"
++
++# This would copy neard start-stop shell and test scripts
++do_install_append() {
++	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++		install -d ${D}${sysconfdir}/init.d/
++		sed "s:@installpath@:${libexecdir}/nfc:" ${WORKDIR}/neard.in \
++		  > ${D}${sysconfdir}/init.d/neard
++		chmod 0755 ${D}${sysconfdir}/init.d/neard
++	fi
++
++	# Install the tests for neard-tests
++	install -d ${D}${libdir}/neard
++	install -m 0755 ${S}/test/* ${D}${libdir}/${BPN}/
++	install -m 0755 ${B}/tools/nfctool/nfctool ${D}${libdir}/${BPN}/
++}
++
++PACKAGES =+ "${PN}-tests"
++
++FILES_${PN}-tests = "${libdir}/${BPN}/*-test"
++FILES_${PN}-dbg += "${libdir}/${BPN}/*/.debug"
++
++RDEPENDS_${PN} = "dbus python python-dbus python-pygobject"
++
++# Bluez & Wifi are not mandatory except for handover
++RRECOMMENDS_${PN} = "\
++                     ${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
++                     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi','wpa-supplicant', '', d)} \
++                    "
++
++RDEPENDS_${PN}-tests = "python python-dbus python-pygobject"
++
++INITSCRIPT_NAME = "neard"
++INITSCRIPT_PARAMS = "defaults 64"
++
++SYSTEMD_SERVICE_${PN} = "neard.service"
 -- 
 2.1.4
 
