@@ -1,26 +1,23 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 94EB175F18
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E1836013D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 05:03:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6G5380V005014
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 Jul 2015 22:03:08 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 15 Jul 2015 22:03:08 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 16 Jul 2015 01:03:05 -0400
-Message-ID: <9919265d4332429119131217ffc71cac070156a3.1437022827.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1437022827.git.bruce.ashfield@windriver.com>
-References: <cover.1437022827.git.bruce.ashfield@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto/3.14: fix gcc 4.9.4/5.1 build issues, yaffs2 memory leak
+	Thu, 16 Jul 2015 09:55:43 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 16 Jul 2015 02:55:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,487,1432623600"; d="scan'208";a="748452584"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 16 Jul 2015 02:55:42 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id 35F726A4005;
+	Thu, 16 Jul 2015 02:55:00 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 Jul 2015 13:06:03 +0300
+Message-Id: <1437041163-4298-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/pkgdata: add useful failure messages to test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +30,213 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 05:03:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 16 Jul 2015 09:55:45 -0000
 
-Updating the 3.14 SRCREVs for the following commits:
-
-  7534aeb01883 yaffs2: fix memory leak in mount/umount
-  4287412436cb MIPS: Fix build with binutils 2.24.51+
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 ++--
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
- 3 files changed, 14 insertions(+), 14 deletions(-)
+ meta/lib/oeqa/selftest/pkgdata.py | 86 +++++++++++++++++++--------------------
+ 1 file changed, 43 insertions(+), 43 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index 7da7f83b3ad0..9bdbc49ffeb2 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -3,9 +3,9 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
+diff --git a/meta/lib/oeqa/selftest/pkgdata.py b/meta/lib/oeqa/selftest/pkgdata.py
+index c4d34bd..138b03a 100644
+--- a/meta/lib/oeqa/selftest/pkgdata.py
++++ b/meta/lib/oeqa/selftest/pkgdata.py
+@@ -26,7 +26,7 @@ class OePkgdataUtilTests(oeSelfTest):
+         result = runCmd('oe-pkgdata-util lookup-pkg zlib-dev')
+         self.assertEqual(result.output, 'libz-dev')
+         result = runCmd('oe-pkgdata-util lookup-pkg nonexistentpkg', ignore_status=True)
+-        self.assertEqual(result.status, 1)
++        self.assertEqual(result.status, 1, "Status different than 1. output: %s" % result.output)
+         self.assertEqual(result.output, 'ERROR: The following packages could not be found: nonexistentpkg')
+         # Reverse tests
+         result = runCmd('oe-pkgdata-util lookup-pkg -r "libc6 busybox"')
+@@ -34,7 +34,7 @@ class OePkgdataUtilTests(oeSelfTest):
+         result = runCmd('oe-pkgdata-util lookup-pkg -r libz-dev')
+         self.assertEqual(result.output, 'zlib-dev')
+         result = runCmd('oe-pkgdata-util lookup-pkg -r nonexistentpkg', ignore_status=True)
+-        self.assertEqual(result.status, 1)
++        self.assertEqual(result.status, 1, "Status different than 1. output: %s" % result.output)
+         self.assertEqual(result.output, 'ERROR: The following packages could not be found: nonexistentpkg')
  
- require recipes-kernel/linux/linux-yocto.inc
+     @testcase(1205)
+@@ -43,7 +43,7 @@ class OePkgdataUtilTests(oeSelfTest):
+         self.assertEqual(result.output, 'zlib')
+         result = runCmd('oe-pkgdata-util read-value PKGSIZE bash')
+         pkgsize = int(result.output.strip())
+-        self.assertGreater(pkgsize, 1)
++        self.assertGreater(pkgsize, 1, "Size should be greater than 1. %s" % result.output)
  
--SRCREV_machine ?= "3428de71031ede23682dd0842b9cfc23ae465f39"
--SRCREV_machine_qemuppc ?= "32c44a56a8218c3349f50d8151a10252d5e85dd1"
--SRCREV_meta ?= "a996d95104b72c422a56e7d9bc8615ec4219ac74"
-+SRCREV_machine ?= "863ba0912f559ba9d64ab94bf04f0226fdf0cb49"
-+SRCREV_machine_qemuppc ?= "9d464d6696a0fc755c65a2cf75ad7a4656ac6e1e"
-+SRCREV_meta ?= "94fa1d7e980c97fcd59b37daedcd863bd6daaee4"
+     @testcase(1198)
+     def test_find_path(self):
+@@ -52,7 +52,7 @@ class OePkgdataUtilTests(oeSelfTest):
+         result = runCmd('oe-pkgdata-util find-path /bin/bash')
+         self.assertEqual(result.output, 'bash: /bin/bash')
+         result = runCmd('oe-pkgdata-util find-path /not/exist', ignore_status=True)
+-        self.assertEqual(result.status, 1)
++        self.assertEqual(result.status, 1, "Status different than 1. output: %s" % result.output)
+         self.assertEqual(result.output, 'ERROR: Unable to find any package producing path /not/exist')
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},meta;name=machine,meta"
+     @testcase(1204)
+@@ -62,7 +62,7 @@ class OePkgdataUtilTests(oeSelfTest):
+         result = runCmd('oe-pkgdata-util lookup-recipe libz-dbg')
+         self.assertEqual(result.output, 'zlib')
+         result = runCmd('oe-pkgdata-util lookup-recipe nonexistentpkg', ignore_status=True)
+-        self.assertEqual(result.status, 1)
++        self.assertEqual(result.status, 1, "Status different than 1. output: %s" % result.output)
+         self.assertEqual(result.output, 'ERROR: The following packages could not be found: nonexistentpkg')
  
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-index 000f288fb3e1..bd7b6da28c2c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-@@ -9,8 +9,8 @@ LINUX_VERSION ?= "3.14.36"
- KMETA = "meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
+     @testcase(1202)
+@@ -70,13 +70,13 @@ class OePkgdataUtilTests(oeSelfTest):
+         # No arguments
+         result = runCmd('oe-pkgdata-util list-pkgs')
+         pkglist = result.output.split()
+-        self.assertIn('glibc-utils', pkglist)
+-        self.assertIn('zlib-dev', pkglist)
++        self.assertIn('glibc-utils', pkglist, "Listed packages: %s" % result.output)
++        self.assertIn('zlib-dev', pkglist, "Listed packages: %s" % result.output)
+         # No pkgspec, runtime
+         result = runCmd('oe-pkgdata-util list-pkgs -r')
+         pkglist = result.output.split()
+-        self.assertIn('libc6-utils', pkglist)
+-        self.assertIn('libz-dev', pkglist)
++        self.assertIn('libc6-utils', pkglist, "Listed packages: %s" % result.output)
++        self.assertIn('libz-dev', pkglist, "Listed packages: %s" % result.output)
+         # With recipe specified
+         result = runCmd('oe-pkgdata-util list-pkgs -p zlib')
+         pkglist = sorted(result.output.split())
+@@ -84,7 +84,7 @@ class OePkgdataUtilTests(oeSelfTest):
+             pkglist.remove('zlib-ptest') # in case ptest is disabled
+         except ValueError:
+             pass
+-        self.assertEqual(pkglist, ['zlib', 'zlib-dbg', 'zlib-dev', 'zlib-doc', 'zlib-staticdev'])
++        self.assertEqual(pkglist, ['zlib', 'zlib-dbg', 'zlib-dev', 'zlib-doc', 'zlib-staticdev'], "Packages listed after remove: %s" % result.output)
+         # With recipe specified, runtime
+         result = runCmd('oe-pkgdata-util list-pkgs -p zlib -r')
+         pkglist = sorted(result.output.split())
+@@ -92,23 +92,23 @@ class OePkgdataUtilTests(oeSelfTest):
+             pkglist.remove('libz-ptest') # in case ptest is disabled
+         except ValueError:
+             pass
+-        self.assertEqual(pkglist, ['libz-dbg', 'libz-dev', 'libz-doc', 'libz-staticdev', 'libz1'])
++        self.assertEqual(pkglist, ['libz-dbg', 'libz-dev', 'libz-doc', 'libz-staticdev', 'libz1'], "Packages listed after remove: %s" % result.output)
+         # With recipe specified and unpackaged
+         result = runCmd('oe-pkgdata-util list-pkgs -p zlib -u')
+         pkglist = sorted(result.output.split())
+-        self.assertIn('zlib-locale', pkglist)
++        self.assertIn('zlib-locale', pkglist, "Listed packages: %s" % result.output)
+         # With recipe specified and unpackaged, runtime
+         result = runCmd('oe-pkgdata-util list-pkgs -p zlib -u -r')
+         pkglist = sorted(result.output.split())
+-        self.assertIn('libz-locale', pkglist)
++        self.assertIn('libz-locale', pkglist, "Listed packages: %s" % result.output)
+         # With recipe specified and pkgspec
+         result = runCmd('oe-pkgdata-util list-pkgs -p zlib "*-d*"')
+         pkglist = sorted(result.output.split())
+-        self.assertEqual(pkglist, ['zlib-dbg', 'zlib-dev', 'zlib-doc'])
++        self.assertEqual(pkglist, ['zlib-dbg', 'zlib-dev', 'zlib-doc'], "Packages listed: %s" % result.output)
+         # With recipe specified and pkgspec, runtime
+         result = runCmd('oe-pkgdata-util list-pkgs -p zlib -r "*-d*"')
+         pkglist = sorted(result.output.split())
+-        self.assertEqual(pkglist, ['libz-dbg', 'libz-dev', 'libz-doc'])
++        self.assertEqual(pkglist, ['libz-dbg', 'libz-dev', 'libz-doc'], "Packages listed: %s" % result.output)
  
--SRCREV_machine ?= "bda175966009d5a94103559e6e6ae51279952f39"
--SRCREV_meta ?= "a996d95104b72c422a56e7d9bc8615ec4219ac74"
-+SRCREV_machine ?= "7534aeb01883b48cc42eb4900d0a8c64e8160e14"
-+SRCREV_meta ?= "94fa1d7e980c97fcd59b37daedcd863bd6daaee4"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index c809d2e29f60..7f32c7a1b52c 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "dbd8e70653ffb6b63a1b8b7134813d3a93975ff5"
--SRCREV_machine_qemuarm64 ?= "bda175966009d5a94103559e6e6ae51279952f39"
--SRCREV_machine_qemumips ?= "b985d5039e5b14f5acac135a84f2d6541b531552"
--SRCREV_machine_qemuppc ?= "dbbdaf47fae37664ea30181b18a436b3d5401293"
--SRCREV_machine_qemux86 ?= "d3943ebf24457188669472c85d82ab32e2f95f6b"
--SRCREV_machine_qemux86-64 ?= "bda175966009d5a94103559e6e6ae51279952f39"
--SRCREV_machine_qemumips64 ?= "a594ff1fef248d72bf4ef929fa4497cf54a04500"
--SRCREV_machine ?= "bda175966009d5a94103559e6e6ae51279952f39"
--SRCREV_meta ?= "a996d95104b72c422a56e7d9bc8615ec4219ac74"
-+SRCREV_machine_qemuarm ?= "bc2e4081f235174c696cc4b30dbea51555a1c3d6"
-+SRCREV_machine_qemuarm64 ?= "7534aeb01883b48cc42eb4900d0a8c64e8160e14"
-+SRCREV_machine_qemumips ?= "cbbe5f1b5477507aa668b4117a8dedcb407a0571"
-+SRCREV_machine_qemuppc ?= "038bbef0f64321a0f9d77e9b07dff3ae1e51b51a"
-+SRCREV_machine_qemux86 ?= "48833301518748d82cbc2412fea3617eeee6d01b"
-+SRCREV_machine_qemux86-64 ?= "7534aeb01883b48cc42eb4900d0a8c64e8160e14"
-+SRCREV_machine_qemumips64 ?= "c910c6d8338ab7291f066edc06de83de5b645d8f"
-+SRCREV_machine ?= "7534aeb01883b48cc42eb4900d0a8c64e8160e14"
-+SRCREV_meta ?= "94fa1d7e980c97fcd59b37daedcd863bd6daaee4"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;bareclone=1;branch=${KBRANCH},${KMETA};name=machine,meta"
- 
+     @testcase(1201)
+     def test_list_pkg_files(self):
+@@ -131,15 +131,15 @@ class OePkgdataUtilTests(oeSelfTest):
+         # Test recipe-space package name
+         result = runCmd('oe-pkgdata-util list-pkg-files zlib-dev zlib-doc')
+         files = splitoutput(result.output)
+-        self.assertIn('zlib-dev', files.keys())
+-        self.assertIn('zlib-doc', files.keys())
++        self.assertIn('zlib-dev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib-doc', files.keys(), "listed pkgs. files: %s" %result.output)
+         self.assertIn(os.path.join(includedir, 'zlib.h'), files['zlib-dev'])
+         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['zlib-doc'])
+         # Test runtime package name
+         result = runCmd('oe-pkgdata-util list-pkg-files -r libz1 libz-dev')
+         files = splitoutput(result.output)
+-        self.assertIn('libz1', files.keys())
+-        self.assertIn('libz-dev', files.keys())
++        self.assertIn('libz1', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz-dev', files.keys(), "listed pkgs. files: %s" %result.output)
+         self.assertGreater(len(files['libz1']), 1)
+         libspec = os.path.join(base_libdir, 'libz.so.1.*')
+         found = False
+@@ -152,12 +152,12 @@ class OePkgdataUtilTests(oeSelfTest):
+         # Test recipe
+         result = runCmd('oe-pkgdata-util list-pkg-files -p zlib')
+         files = splitoutput(result.output)
+-        self.assertIn('zlib-dbg', files.keys())
+-        self.assertIn('zlib-doc', files.keys())
+-        self.assertIn('zlib-dev', files.keys())
+-        self.assertIn('zlib-staticdev', files.keys())
+-        self.assertIn('zlib', files.keys())
+-        self.assertNotIn('zlib-locale', files.keys())
++        self.assertIn('zlib-dbg', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib-doc', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib-dev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib-staticdev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertNotIn('zlib-locale', files.keys(), "listed pkgs. files: %s" %result.output)
+         # (ignore ptest, might not be there depending on config)
+         self.assertIn(os.path.join(includedir, 'zlib.h'), files['zlib-dev'])
+         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['zlib-doc'])
+@@ -165,36 +165,36 @@ class OePkgdataUtilTests(oeSelfTest):
+         # Test recipe, runtime
+         result = runCmd('oe-pkgdata-util list-pkg-files -p zlib -r')
+         files = splitoutput(result.output)
+-        self.assertIn('libz-dbg', files.keys())
+-        self.assertIn('libz-doc', files.keys())
+-        self.assertIn('libz-dev', files.keys())
+-        self.assertIn('libz-staticdev', files.keys())
+-        self.assertIn('libz1', files.keys())
+-        self.assertNotIn('libz-locale', files.keys())
++        self.assertIn('libz-dbg', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz-doc', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz-dev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz-staticdev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz1', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertNotIn('libz-locale', files.keys(), "listed pkgs. files: %s" %result.output)
+         self.assertIn(os.path.join(includedir, 'zlib.h'), files['libz-dev'])
+         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['libz-doc'])
+         self.assertIn(os.path.join(libdir, 'libz.a'), files['libz-staticdev'])
+         # Test recipe, unpackaged
+         result = runCmd('oe-pkgdata-util list-pkg-files -p zlib -u')
+         files = splitoutput(result.output)
+-        self.assertIn('zlib-dbg', files.keys())
+-        self.assertIn('zlib-doc', files.keys())
+-        self.assertIn('zlib-dev', files.keys())
+-        self.assertIn('zlib-staticdev', files.keys())
+-        self.assertIn('zlib', files.keys())
+-        self.assertIn('zlib-locale', files.keys()) # this is the key one
++        self.assertIn('zlib-dbg', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib-doc', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib-dev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib-staticdev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('zlib-locale', files.keys(), "listed pkgs. files: %s" %result.output) # this is the key one
+         self.assertIn(os.path.join(includedir, 'zlib.h'), files['zlib-dev'])
+         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['zlib-doc'])
+         self.assertIn(os.path.join(libdir, 'libz.a'), files['zlib-staticdev'])
+         # Test recipe, runtime, unpackaged
+         result = runCmd('oe-pkgdata-util list-pkg-files -p zlib -r -u')
+         files = splitoutput(result.output)
+-        self.assertIn('libz-dbg', files.keys())
+-        self.assertIn('libz-doc', files.keys())
+-        self.assertIn('libz-dev', files.keys())
+-        self.assertIn('libz-staticdev', files.keys())
+-        self.assertIn('libz1', files.keys())
+-        self.assertIn('libz-locale', files.keys()) # this is the key one
++        self.assertIn('libz-dbg', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz-doc', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz-dev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz-staticdev', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz1', files.keys(), "listed pkgs. files: %s" %result.output)
++        self.assertIn('libz-locale', files.keys(), "listed pkgs. files: %s" %result.output) # this is the key one
+         self.assertIn(os.path.join(includedir, 'zlib.h'), files['libz-dev'])
+         self.assertIn(os.path.join(mandir, 'man3/zlib.3'), files['libz-doc'])
+         self.assertIn(os.path.join(libdir, 'libz.a'), files['libz-staticdev'])
 -- 
-2.1.0
+2.1.4
 
 
