@@ -1,37 +1,52 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 21ACE607A5
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C6F43607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 20:41:17 +0000 (UTC)
-Received: by oige126 with SMTP id e126so3695787oig.3
+	Thu, 16 Jul 2015 20:44:44 +0000 (UTC)
+Received: by iggf3 with SMTP id f3so23027146igg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 13:41:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=QsPnNJcHofbeBIOMTq5nQM0es2EfTNecgbT2w74Yf8c=;
-	b=HxR9a81htp4UPSpGKOExjSFqrIVXgr6yFkiJ/MMQ1FnAe9QHcot+ryltXRcBbeHMNf
-	OPu6HxlIaMw44ncftIK6WHSsifGhEY/hJJ93hQPqyUSGBkfWy7gGbJFNHGroCL0re24A
-	BHRIP8y0KHHgzHkhjs3T3Fy6obLWCVyPmv5w7ToCZ43klSUz6mCdqJpvXzSOQLooV+rH
-	L8BuFTthx9z60Xha9Ij5fmVzhjj9Mv+8FT2VGZFd/trDxJA79es+OFsD9HY8Xf0qzDjX
-	ToPUNcmkl6dEl7ZmZQGsBrsu7+rzSdr1shIp4w1OGAqQL0qs2yvf1nELcek1Z6cnFAkp
-	DcWw==
+	Thu, 16 Jul 2015 13:44:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=VhlbBiPuCPFhAHdTbEKRFk1FrXvmoHPIdjcKkXzem1o=;
+	b=hICyI2hVr6b/sB1jr4alPPRcPqHcARgdp3orc8A98cmhadu7AJ2EXRQGnQo7eNBz/d
+	G+LzGqID4LLJwsYrWlKRPWv8eAYSoYrzh6CEQsSlEffpMyZJSU2/R1fB5GGpBfW8fkC2
+	ObxsezdnkXwq9E57XWinc3wYJKAVq/ZIcXLmRgdyrlc6jTWgehzkeRDW7vjomMDbFtWL
+	lKmTC+TzRWqkz6wDBY82q8EGWi9WvQQuCFcNVcqL3wYCHHarcY0fTrmL/Vz5cbqtmYEv
+	Aqg+EtHxum4AE2xBoA2ygGjzz8e1i7JwQVOfAUZY1cDTUciEpIZh69S+n4CwYG9oNyFa
+	ZhQQ==
+X-Gm-Message-State: ALoCoQmqK2EGW5bj0aGdHrEF9+dvueHLM5driOk6X1w3agEe2rqYAcURlb3JZSzpHXsLscXlGcSG
+X-Received: by 10.50.39.17 with SMTP id l17mr5607432igk.75.1437079484713;
+	Thu, 16 Jul 2015 13:44:44 -0700 (PDT)
+Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com.
+	[209.85.223.173]) by smtp.gmail.com with ESMTPSA id
+	ig10sm2066699igb.21.2015.07.16.13.44.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 Jul 2015 13:44:43 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by ietj16 with SMTP id j16so64393246iet.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jul 2015 13:44:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.202.217.68 with SMTP id q65mr9247339oig.17.1437079277689;
-	Thu, 16 Jul 2015 13:41:17 -0700 (PDT)
-Received: by 10.202.64.130 with HTTP; Thu, 16 Jul 2015 13:41:17 -0700 (PDT)
-In-Reply-To: <A4E25F8E-FBB2-4DF9-B208-3A58A2DC71C3@gmail.com>
-References: <261F5389-C495-4B05-B79E-309AE0E0F0CA@gmail.com>
-	<CAJ86T=VE7a7rUMZMB8LTX0emuqkLOE=E_PvARh4JcQwZuJ+WCw@mail.gmail.com>
-	<A4E25F8E-FBB2-4DF9-B208-3A58A2DC71C3@gmail.com>
-Date: Thu, 16 Jul 2015 13:41:17 -0700
-Message-ID: <CAJ86T=XJ1AR1cnYAYRJCJbMmaV9uBTDnFs4_SnwA89ee-ua4Mw@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.50.57.102 with SMTP id h6mr6082773igq.72.1437079482680; Thu,
+	16 Jul 2015 13:44:42 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Thu, 16 Jul 2015 13:44:42 -0700 (PDT)
+In-Reply-To: <1437074585-8963-31-git-send-email-lauren.post@freescale.com>
+References: <lauren.post@freescale.com>
+	<1437074585-8963-1-git-send-email-lauren.post@freescale.com>
+	<1437074585-8963-31-git-send-email-lauren.post@freescale.com>
+Date: Thu, 16 Jul 2015 17:44:42 -0300
+Message-ID: <CAP9ODKpQcX6yCHDQkF0eDkhkH-Ft_A6NgQB1VGRxRDGv3r9HTg@mail.gmail.com>
+To: Lauren Post <lauren.post@freescale.com>
+Cc: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] glibc 2.22
+Subject: Re: [meta-freescale] [meta-fsl-arm][PATCH v2 30/32] conman: Add configuration to fix ethernet port with NFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,54 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 20:41:19 -0000
+X-List-Received-Date: Thu, 16 Jul 2015 20:44:44 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Jul 14, 2015 at 5:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Jul 14, 2015, at 2:56 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> Hi Khem,
->>
->> On Mon, Jul 13, 2015 at 10:37 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>> Hi All
->>>
->>> glibc 2.22 will release end of this month. For some time I have put together the update here
->>>
->>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=02e73ea526d94f21c7ef82eb96b062eff8ebb825
->>>
->>> It works pretty well for machines I have tested it on ( arm/x86 ) but would be interested if more wider trial could be carried
->>> out and issues reported between now and release can be addressed.
->>>
->>> Please give it a try if you have spare cycles
->>
->> This was building OK yesterday, but today
->> "0027-eglibc-use-option-groups-Conditionally-exclude-c-tes.patch" is
->> failing to apply due to this upstream change:
->>
->>  https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=edcfe9eab03ea3dd1b3e04b6056a7663c40265c4
->
-> Thanks for reporting. It has been fixed and branch rebased
-> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/master&id=c43cd1969696970affb094fc0b20ca02c966ecbd
-> is new commit in rebased tree
+Hello Lauren,
 
-It looks like upstream changed again last night:
+On Thu, Jul 16, 2015 at 4:23 PM, Lauren Post <lauren.post@freescale.com> wrote:
+> Signed-off-by: Lauren Post <lauren.post@freescale.com>
+...
+> diff --git a/recipes-connectivity/connman/connman_%.bbappend b/recipes-connectivity/connman/connman_%.bbappend
+> new file mode 100644
+> index 0000000..1090214
+> --- /dev/null
+> +++ b/recipes-connectivity/connman/connman_%.bbappend
+> @@ -0,0 +1,7 @@
+> +
+> +do_install_append() {
+> +     # This patch will fix to the issue that 2 Ethernet port board failed to mount nfs rootfs
+> +    if [ -e ${D}${sysconfdir}/init.d/connman ]; then
+> +        sed -e 's/ifconfig | grep \"^eth\" | sed -e \"s\//dmesg | grep \"device=eth\" | sed -e \"s\/^.*/' -i ${D}${sysconfdir}/init.d/connman
+> +    fi
+> +}
 
-  https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=b632bdd3f7c0ba0c79f23f5e4404eebb87ebdaa8
+This is a very ugly hack and I think we need to address this in a generic way.
 
-so 0027-eglibc-use-option-groups-Conditionally-exclude-c-tes.patch
-needs another update.
+I am adding OE-Core in copy so we can try to come up with a generic
+solution for this.
 
->>
->>>
->>> Thanks
->>> -Khem
->>>
->>> --
->>> _______________________________________________
->>> yocto mailing list
->>> yocto@yoctoproject.org
->>> https://lists.yoctoproject.org/listinfo/yocto
->>>
->
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
