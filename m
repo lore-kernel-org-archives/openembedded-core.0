@@ -1,43 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f49.google.com (mail-wg0-f49.google.com [74.125.82.49])
-	by mail.openembedded.org (Postfix) with ESMTP id A54FE75799
+Return-Path: <drew_moseley@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 238CB75799
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 16:30:48 +0000 (UTC)
-Received: by wgmn9 with SMTP id n9so62851839wgm.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 09:30:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=2L+baopIR4HABV6SUbJWS9lQHYsa6Tdyu6aPYwPeziw=;
-	b=c6+lsT5tvPPt1+XnhGMEObjX2ImRyd6tU7ymAuA2HSKamhHzEuG2D3htSd/thAGHBD
-	gU5vVRX8dQhaVOeUPfq1Hth+KAP0jMFrq7zIl0yA96PEHrjyTJBAM8/Cze24cBbZduc4
-	TscvbX5SYGMxkx09s/tqiyLsHP8xVIVLM6mcIp1im2yCMMTZ98WpuwqW9fiMi2y38kK6
-	zthQS2HkCKwuGRmkVewbd21EA7zcg6VUrqeQjCXNOuJc42gPzBKXcP9dwwiIxGFpij3n
-	pw+JzxC5glLkduiaiAXaX7Up5SMdvUuhBERN/Um6yTFVopNQGXrCKzW9ohe+pWgfuzhe
-	e9ew==
-X-Received: by 10.180.219.41 with SMTP id pl9mr8290605wic.30.1437064248152;
-	Thu, 16 Jul 2015 09:30:48 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	be9sm13909153wjb.26.2015.07.16.09.30.47
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Jul 2015 09:30:47 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 16 Jul 2015 18:31:15 +0200
-To: "Iorga, Cristian" <cristian.iorga@intel.com>
-Message-ID: <20150716163115.GF2134@jama>
-References: <cover.1437043973.git.cristian.iorga@intel.com>
-	<b898b9addec522a9834a53dfd6a699b65665669a.1437043973.git.cristian.iorga@intel.com>
-	<20150716114642.GB2134@jama>
-	<969F26A8BAB325438E7EB80D3C3134FB44B165B6@irsmsx105.ger.corp.intel.com>
+	Thu, 16 Jul 2015 16:38:43 +0000 (UTC)
+Received: from svr-orw-fem-06.mgc.mentorg.com ([147.34.97.120])
+	by relay1.mentorg.com with esmtp 
+	id 1ZFmBH-0004Xb-K9 from drew_moseley@mentor.com ;
+	Thu, 16 Jul 2015 09:38:43 -0700
+Received: from NA-MBX-03.mgc.mentorg.com ([fe80::9a:1569:df57:45b8]) by
+	SVR-ORW-FEM-06.mgc.mentorg.com ([147.34.97.120]) with mapi id
+	14.03.0224.002; Thu, 16 Jul 2015 09:38:43 -0700
+From: "Moseley, Drew" <drew_moseley@mentor.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Thread-Topic: [OE-core] [PATCH v2] mesa-demos: Fix building demos which
+	require GLU.
+Thread-Index: AQHQv95jKEKCv+Qj6U6Ek2QibQhfTp3ewT8A
+Date: Thu, 16 Jul 2015 16:38:42 +0000
+Message-ID: <DBF4FAB7-1F3A-4FAA-936E-8752FC32CC69@mentor.com>
+References: <1437059524-15971-1-git-send-email-drew_moseley@mentor.com>
+	<20150716154529.GE2134@jama>
+In-Reply-To: <20150716154529.GE2134@jama>
+Accept-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.34.91.1]
 MIME-Version: 1.0
-In-Reply-To: <969F26A8BAB325438E7EB80D3C3134FB44B165B6@irsmsx105.ger.corp.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 1/3] qemu: upgrade to 2.4.0-rc0
+Subject: Re: [PATCH v2] mesa-demos: Fix building demos which require GLU.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,252 +40,291 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 16:30:49 -0000
-X-Groupsio-MsgNum: 68046
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Wb5NtZlyOqqy58h0"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 16 Jul 2015 16:38:47 -0000
+X-Groupsio-MsgNum: 68047
+Content-Language: en-US
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_AC2015C4-C45D-4D8D-8618-BC7FDF3FDA8B";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Wb5NtZlyOqqy58h0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_AC2015C4-C45D-4D8D-8618-BC7FDF3FDA8B
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_E0506BC8-994A-4D9E-AC2F-1C3091FAFC31"
+
+--Apple-Mail=_E0506BC8-994A-4D9E-AC2F-1C3091FAFC31
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-On Thu, Jul 16, 2015 at 03:55:51PM +0000, Iorga, Cristian wrote:
-> Hi Martin,
+
+> On Jul 16, 2015, at 11:45 AM, Martin Jansa <martin.jansa@gmail.com> =
+wrote:
 >=20
-> I am not sure that's really necessary.
-> 1. There will be an upgrade to 2.4.0 following the official release ASAP;
-> 2. Most probably there won't be any maintenance release to 2.3. before 2.=
-4 release;
-
-yes, but that doesn't mean that there aren't people with qemu recipes
-which set:
-PV =3D "2.4+gitr${SRCPV}"
-
-> 3. Rarely there are maintenance releases from qemu project.
-> 4. I don't like to beautify things only that there is a slight chance tha=
-t "something might happen".
-
-I don't like assuming that "something won't happen" when there is a lot
-of layers you don't know about, including private ones and making it
-beautiful is super easy and good convention for future as well.
-
-Cheers,
-
-> -----Original Message-----
-> From: Martin Jansa [mailto:martin.jansa@gmail.com]=20
-> Sent: Thursday, July 16, 2015 2:47 PM
-> To: Iorga, Cristian
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH v3 1/3] qemu: upgrade to 2.4.0-rc0
+> On Thu, Jul 16, 2015 at 11:12:04AM -0400, Drew Moseley wrote:
+>> The existing test for GLU support is backwards.  Reverse the
+>> sense of the conditional when built with "--enable-glu".
+>>=20
+>> Signed-off-by: Drew Moseley <drew_moseley@mentor.com =
+<mailto:drew_moseley@mentor.com>>
+>> ---
+>> ...figure-Allow-to-disable-demos-which-require-GLEW-.patch | 14 =
+++++++++------
+>> 1 file changed, 8 insertions(+), 6 deletions(-)
+>>=20
+>> diff --git =
+a/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-de=
+mos-which-require-GLEW-.patch =
+b/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-de=
+mos-which-require-GLEW-.patch
+>> index 4b07193..b25f5ce 100644
+>> --- =
+a/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-de=
+mos-which-require-GLEW-.patch
+>> +++ =
+b/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-de=
+mos-which-require-GLEW-.patch
+>> @@ -10,20 +10,21 @@ Subject: [PATCH 3/9] configure: Allow to disable =
+demos which require GLEW or
+>> Upstream-Status: Pending
+>>=20
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com =
+<mailto:Martin.Jansa@gmail.com>>
+>> +Signed-off-by: Drew Moseley <drew_moseley@mentor.com =
+<mailto:drew_moseley@mentor.com>>
+>> ---
+>> - configure.ac                  | 49 ++++++++++++++++++++---------
+>> - src/Makefile.am               | 14 ++++++---
+>> + configure.ac                  | 50 ++++++++++++++++++++---------
+>> + src/Makefile.am               | 18 ++++++++---
+>>  src/demos/Makefile.am         | 73 =
+++++++++++++++++++++++++-------------------
+>>  src/egl/Makefile.am           |  8 +++--
+>>  src/egl/opengles1/Makefile.am | 44 +++++++++++++++-----------
+>>  src/egl/opengles2/Makefile.am | 33 ++++++++++---------
+>> - 6 files changed, 135 insertions(+), 86 deletions(-)
+>> + 6 files changed, 140 insertions(+), 86 deletions(-)
+>>=20
+>> diff --git a/configure.ac b/configure.ac
+>> index 9445424..bc4c8d1 100644
+>> --- a/configure.ac
+>> +++ b/configure.ac
+>> -@@ -93,25 +93,44 @@ AC_EGREP_HEADER([glutInitContextProfile],
+>> +@@ -89,25 +89,45 @@ AC_EGREP_HEADER([glutInitContextProfile],
+>>  		[AC_DEFINE(HAVE_FREEGLUT)],
+>>  		[])
+>>=20
+>> @@ -66,7 +67,7 @@ index 9445424..bc4c8d1 100644
+>> -DEMO_CFLAGS=3D"$DEMO_CFLAGS $GLU_CFLAGS"
+>> -DEMO_LIBS=3D"$DEMO_LIBS $GLU_LIBS"
+>> +if test "x$enable_glu" =3D xyes; then
+>> -+    PKG_CHECK_MODULES(GLU, [glu], [],
+>> ++    PKG_CHECK_MODULES(GLU, [glu],
 >=20
-> On Thu, Jul 16, 2015 at 01:56:43PM +0300, Cristian Iorga wrote:
-> > - Get rid of direct use of gnutls APIs in quorum blockdrv in favour of=
-=20
-> > using the crypto APIs.
-> > - Convert VNC websockets to use crypto APIs.
-> > - qurum and vnc-ws packageconfig options no longer exist, removed.
-> > - All previous CVE are now included.
-> > - larger_default_ram_size.patch patch removed, no longer necessary.
-> >=20
-> > Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
-> > ---
-> >  meta/recipes-devtools/qemu/qemu.inc                |  3 --
-> >  .../qemu/qemu/larger_default_ram_size.patch        | 22 ---------------
-> >  meta/recipes-devtools/qemu/qemu_2.3.0.bb           | 32 --------------=
---------
-> >  meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb       | 22 +++++++++++++++
-> >  4 files changed, 22 insertions(+), 57 deletions(-)  delete mode=20
-> > 100644 meta/recipes-devtools/qemu/qemu/larger_default_ram_size.patch
-> >  delete mode 100644 meta/recipes-devtools/qemu/qemu_2.3.0.bb
-> >  create mode 100644 meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb
-> >=20
-> > diff --git a/meta/recipes-devtools/qemu/qemu.inc=20
-> > b/meta/recipes-devtools/qemu/qemu.inc
-> > index d794af9..eba7d3d 100644
-> > --- a/meta/recipes-devtools/qemu/qemu.inc
-> > +++ b/meta/recipes-devtools/qemu/qemu.inc
-> > @@ -15,7 +15,6 @@ QEMU_TARGETS ?=3D "arm aarch64 i386 mips mipsel mips6=
-4 mips64el ppc sh4 x86_64"
-> > =20
-> >  SRC_URI =3D "\
-> >      file://powerpc_rom.bin \
-> > -    file://larger_default_ram_size.patch \
-> >      file://disable-grabs.patch \
-> >      file://exclude-some-arm-EABI-obsolete-syscalls.patch \
-> >      file://wacom.patch \
-> > @@ -89,9 +88,7 @@ PACKAGECONFIG[virtfs] =3D "--enable-virtfs=20
-> > --enable-attr,--disable-virtfs,libcap a  PACKAGECONFIG[aio] =3D "--enab=
-le-linux-aio,--disable-linux-aio,libaio,"
-> >  PACKAGECONFIG[xfs] =3D "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
-> >  PACKAGECONFIG[xen] =3D "--enable-xen,--disable-xen,xen,xen-libxenstore=
- xen-libxenctrl xen-libxenguest"
-> > -PACKAGECONFIG[quorum] =3D "--enable-quorum, --disable-quorum, gnutls,"
-> >  PACKAGECONFIG[vnc-tls] =3D "--enable-vnc --enable-vnc-tls,--disable-vn=
-c-tls, gnutls,"
-> > -PACKAGECONFIG[vnc-ws] =3D "--enable-vnc --enable-vnc-ws,--disable-vnc-=
-ws, gnutls,"
-> >  PACKAGECONFIG[vnc-sasl] =3D "--enable-vnc --enable-vnc-sasl,--disable-=
-vnc-sasl,cyrus-sasl,"
-> >  PACKAGECONFIG[vnc-jpeg] =3D "--enable-vnc --enable-vnc-jpeg,--disable-=
-vnc-jpeg,jpeg,"
-> >  PACKAGECONFIG[vnc-png] =3D "--enable-vnc --enable-vnc-png,--disable-vn=
-c-png,libpng,"
-> > diff --git=20
-> > a/meta/recipes-devtools/qemu/qemu/larger_default_ram_size.patch=20
-> > b/meta/recipes-devtools/qemu/qemu/larger_default_ram_size.patch
-> > deleted file mode 100644
-> > index 711c360..0000000
-> > --- a/meta/recipes-devtools/qemu/qemu/larger_default_ram_size.patch
-> > +++ /dev/null
-> > @@ -1,22 +0,0 @@
-> > -This patch is taken from debian. 128M is too less sometimes if distro=
-=20
-> > -with lot of packages is booted so this patch raises the default to=20
-> > 384M
-> > -
-> > -It has not been applied to upstream qemu
-> > -
-> > -Khem Raj <raj.khem@gmail.com>
-> > -
-> > -Upstream-Status: Pending
-> > -
-> > -Index: qemu-0.14.0/vl.c
-> > -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > ---- qemu-0.14.0.orig/vl.c
-> > -+++ qemu-0.14.0/vl.c
-> > -@@ -168,7 +168,7 @@ int main(int argc, char **argv)
-> > - //#define DEBUG_NET
-> > - //#define DEBUG_SLIRP
-> > -
-> > --#define DEFAULT_RAM_SIZE 128
-> > -+#define DEFAULT_RAM_SIZE 384
-> > -
-> > - #define MAX_VIRTIO_CONSOLES 1
-> > -
-> > diff --git a/meta/recipes-devtools/qemu/qemu_2.3.0.bb=20
-> > b/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-> > deleted file mode 100644
-> > index cae0ad1..0000000
-> > --- a/meta/recipes-devtools/qemu/qemu_2.3.0.bb
-> > +++ /dev/null
-> > @@ -1,32 +0,0 @@
-> > -require qemu.inc
-> > -
-> > -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D441c28d2cf86e15a37fa47e15a7=
-2fbac \
-> > -                    file://COPYING.LIB;endline=3D24;md5=3Dc04def7ae388=
-50e7d3ef548588159913"
-> > -
-> > -SRC_URI +=3D "file://configure-fix-Darwin-target-detection.patch \
-> > -            file://qemu-enlarge-env-entry-size.patch \
-> > -            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch=
- \
-> > -            file://qemu-CVE-2015-3456.patch \
-> > -            file://01-xen-properly-gate-host-writes-of-modified-PCI-CF=
-G-contents-CVE-2015-4103.patch \
-> > -            file://02-xen-dont-allow-guest-to-control-MSI-mask-registe=
-r-CVE-2015-4104.patch \
-> > -            file://03-xen-MSI-X-limit-error-messages-CVE-2015-4105.pat=
-ch \
-> > -            file://04-xen-MSI-dont-open-code-pass-through-of-enable-bi=
-t-mod-CVE-2015-4106.patch \
-> > -            file://05-xen-pt-consolidate-PM-capability-emu_mask-CVE-20=
-15-4106.patch \
-> > -            file://06-xen-pt-correctly-handle-PM-status-bit-CVE-2015-4=
-106.patch \
-> > -            file://07-xen-pt-split-out-calculation-of-throughable-mask=
--CVE-2015-4106.patch \
-> > -            file://08-xen-pt-mark-all-PCIe-capability-bits-read-only-C=
-VE-2015-4106.patch \
-> > -            file://09-xen-pt-mark-reserved-bits-in-PCI-config-space-fi=
-elds-CVE-2015-4106.patch \
-> > -            file://10-xen-pt-add-a-few-PCI-config-space-field-descript=
-ions-CVE-2015-4106.patch \
-> > -            file://11-xen-pt-unknown-PCI-config-space-fields-should-be=
--readonly-CVE-2015-4106.patch \
-> > -            file://qemu-fix-CVE-2015-3209.patch \
-> > -           "
-> > -SRC_URI_prepend =3D "http://wiki.qemu-project.org/download/${BP}.tar.b=
-z2"
-> > -SRC_URI[md5sum] =3D "2fab3ea4460de9b57192e5b8b311f221"
-> > -SRC_URI[sha256sum] =3D "b6bab7f763d5be73e7cb5ee7d4c8365b7a8df2972c52fa=
-5ded18893bd8281588"
-> > -
-> > -COMPATIBLE_HOST_class-target_mips64 =3D "null"
-> > -
-> > -do_install_append() {
-> > -    # Prevent QA warnings about installed ${localstatedir}/run
-> > -    if [ -d ${D}${localstatedir}/run ]; then rmdir ${D}${localstatedir=
-}/run; fi
-> > -}
-> > diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb=20
-> > b/meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb
-> > new file mode 100644
-> > index 0000000..c4505ba
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb
-> > @@ -0,0 +1,22 @@
-> > +require qemu.inc
-> > +
-> > +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D441c28d2cf86e15a37fa47e15a7=
-2fbac \
-> > +                    file://COPYING.LIB;endline=3D24;md5=3Dc04def7ae388=
-50e7d3ef548588159913"
-> > +
-> > +SRC_URI +=3D "file://configure-fix-Darwin-target-detection.patch \
-> > +            file://qemu-enlarge-env-entry-size.patch \
-> > +            file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch=
- \
-> > +           "
-> > +SRC_URI_prepend =3D "http://wiki.qemu-project.org/download/${BPN}-${RE=
-ALPV}.tar.bz2"
-> > +SRC_URI[md5sum] =3D "0c890db3811f2ad9cc7bb2a5afe08e4c"
-> > +SRC_URI[sha256sum] =3D "8dda3e0f9baffbe29b524c03fd46d611afed1dfb5da1be=
-cec033beaf76a1bc6d"
-> > +S=3D"${WORKDIR}/${BPN}-${REALPV}"
-> > +REALPV =3D "2.4.0-rc0"
-> > +PV =3D "2.3.0+${REALPV}"
->=20
-> It's better to use something like 2.3.99+${REALPV} to make sure it sorts =
-higher than any 2.3.* version (e.g. if someone is using some newer revision=
- from 2.3 branch.
->=20
-> > +
-> > +COMPATIBLE_HOST_class-target_mips64 =3D "null"
-> > +
-> > +do_install_append() {
-> > +    # Prevent QA warnings about installed ${localstatedir}/run
-> > +    if [ -d ${D}${localstatedir}/run ]; then rmdir=20
-> > +${D}${localstatedir}/run; fi }
-> > --
-> > 2.1.4
-> >=20
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->=20
-> --=20
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> Are you sure? It was like this in original PKG_CHECK_MODULES and I =
+think
+> it was correct. 4th parameter is used as fallback to find it manually
+> when pkg-config doesn't find it, with your change it would use
+> AC_CHECK_HEADER and ignore the values set returned by pkg-config.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---Wb5NtZlyOqqy58h0
+Hi Martin,
+
+I=E2=80=99m fairly certain this is needed however I=E2=80=99m not =
+terribly familiar with autotools so it=E2=80=99s possible I missed =
+something.  I know that without this change a number of the demo apps I =
+expect do not get built.  It=E2=80=99s been a while since I looked but I =
+seem to recall that the =E2=80=9Cgeartrain=E2=80=9D demo among others =
+will not be available without this change.
+
+=46rom my reading of the PKG_CHECK_MODULES docs at =
+https://autotools.io/pkgconfig/pkg_check_modules.html =
+<https://autotools.io/pkgconfig/pkg_check_modules.html>, it seems the =
+3rd parameter is the action-if-found and my read of the logic here is =
+that if glu is found it then verifies the presence of the header files =
+and libs.
+
+I=E2=80=99ll kick off a fresh build and dig around a bit just in case I =
+missed something.
+
+Regards,
+
+Drew
+
+--Apple-Mail=_E0506BC8-994A-4D9E-AC2F-1C3091FAFC31
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Jul 16, 2015, at 11:45 AM, Martin Jansa &lt;<a =
+href=3D"mailto:martin.jansa@gmail.com" =
+class=3D"">martin.jansa@gmail.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><span =
+style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px; float: none; display: inline =
+!important;" class=3D"">On Thu, Jul 16, 2015 at 11:12:04AM -0400, Drew =
+Moseley wrote:</span><br style=3D"font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant: normal; font-weight: normal; =
+letter-spacing: normal; line-height: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
+class=3D""><blockquote type=3D"cite" style=3D"font-family: Helvetica; =
+font-size: 12px; font-style: normal; font-variant: normal; font-weight: =
+normal; letter-spacing: normal; line-height: normal; orphans: auto; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;" class=3D"">The existing test for GLU support is backwards. =
+&nbsp;Reverse the<br class=3D"">sense of the conditional when built with =
+"--enable-glu".<br class=3D""><br class=3D"">Signed-off-by: Drew Moseley =
+&lt;<a href=3D"mailto:drew_moseley@mentor.com" =
+class=3D"">drew_moseley@mentor.com</a>&gt;<br class=3D"">---<br =
+class=3D"">...figure-Allow-to-disable-demos-which-require-GLEW-.patch | =
+14 ++++++++------<br class=3D"">1 file changed, 8 insertions(+), 6 =
+deletions(-)<br class=3D""><br class=3D"">diff --git =
+a/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-de=
+mos-which-require-GLEW-.patch =
+b/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-de=
+mos-which-require-GLEW-.patch<br class=3D"">index 4b07193..b25f5ce =
+100644<br class=3D"">--- =
+a/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-de=
+mos-which-require-GLEW-.patch<br class=3D"">+++ =
+b/meta/recipes-graphics/mesa/mesa-demos/0003-configure-Allow-to-disable-de=
+mos-which-require-GLEW-.patch<br class=3D"">@@ -10,20 +10,21 @@ Subject: =
+[PATCH 3/9] configure: Allow to disable demos which require GLEW or<br =
+class=3D"">Upstream-Status: Pending<br class=3D""><br =
+class=3D"">Signed-off-by: Martin Jansa &lt;<a =
+href=3D"mailto:Martin.Jansa@gmail.com" =
+class=3D"">Martin.Jansa@gmail.com</a>&gt;<br class=3D"">+Signed-off-by: =
+Drew Moseley &lt;<a href=3D"mailto:drew_moseley@mentor.com" =
+class=3D"">drew_moseley@mentor.com</a>&gt;<br class=3D"">---<br =
+class=3D"">- configure.ac =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;| 49 ++++++++++++++++++++---------<br =
+class=3D"">- src/Makefile.am =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;| 14 ++++++---<br class=3D"">+ configure.ac =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;| 50 ++++++++++++++++++++---------<br =
+class=3D"">+ src/Makefile.am =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;| 18 ++++++++---<br class=3D"">&nbsp;src/demos/Makefile.am =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| 73 =
+++++++++++++++++++++++++-------------------<br =
+class=3D"">&nbsp;src/egl/Makefile.am =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;8 =
++++--<br class=3D"">&nbsp;src/egl/opengles1/Makefile.am | 44 =
++++++++++++++++-----------<br =
+class=3D"">&nbsp;src/egl/opengles2/Makefile.am | 33 =
+++++++++++---------<br class=3D"">- 6 files changed, 135 insertions(+), =
+86 deletions(-)<br class=3D"">+ 6 files changed, 140 insertions(+), 86 =
+deletions(-)<br class=3D""><br class=3D"">diff --git a/configure.ac =
+b/configure.ac<br class=3D"">index 9445424..bc4c8d1 100644<br =
+class=3D"">--- a/configure.ac<br class=3D"">+++ b/configure.ac<br =
+class=3D"">-@@ -93,25 +93,44 @@ =
+AC_EGREP_HEADER([glutInitContextProfile],<br class=3D"">+@@ -89,25 =
++89,45 @@ AC_EGREP_HEADER([glutInitContextProfile],<br =
+class=3D"">&nbsp;<span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span><span class=3D"Apple-tab-span" style=3D"white-space: =
+pre;">	</span>[AC_DEFINE(HAVE_FREEGLUT)],<br class=3D"">&nbsp;<span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span><span =
+class=3D"Apple-tab-span" style=3D"white-space: pre;">	</span>[])<br =
+class=3D""><br class=3D"">@@ -66,7 +67,7 @@ index 9445424..bc4c8d1 =
+100644<br class=3D"">-DEMO_CFLAGS=3D"$DEMO_CFLAGS $GLU_CFLAGS"<br =
+class=3D"">-DEMO_LIBS=3D"$DEMO_LIBS $GLU_LIBS"<br class=3D"">+if test =
+"x$enable_glu" =3D xyes; then<br class=3D"">-+ =
+&nbsp;&nbsp;&nbsp;PKG_CHECK_MODULES(GLU, [glu], [],<br class=3D"">++ =
+&nbsp;&nbsp;&nbsp;PKG_CHECK_MODULES(GLU, [glu],<br =
+class=3D""></blockquote><br style=3D"font-family: Helvetica; font-size: =
+12px; font-style: normal; font-variant: normal; font-weight: normal; =
+letter-spacing: normal; line-height: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
+class=3D""><span style=3D"font-family: Helvetica; font-size: 12px; =
+font-style: normal; font-variant: normal; font-weight: normal; =
+letter-spacing: normal; line-height: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: =
+none; display: inline !important;" class=3D"">Are you sure? It was like =
+this in original PKG_CHECK_MODULES and I think</span><br =
+style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px;" class=3D""><span =
+style=3D"font-family: Helvetica; font-size: 12px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px; float: none; display: inline =
+!important;" class=3D"">it was correct. 4th parameter is used as =
+fallback to find it manually</span><br style=3D"font-family: Helvetica; =
+font-size: 12px; font-style: normal; font-variant: normal; font-weight: =
+normal; letter-spacing: normal; line-height: normal; orphans: auto; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;" class=3D""><span style=3D"font-family: Helvetica; font-size: 12px; =
+font-style: normal; font-variant: normal; font-weight: normal; =
+letter-spacing: normal; line-height: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: =
+none; display: inline !important;" class=3D"">when pkg-config doesn't =
+find it, with your change it would use</span><br style=3D"font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant: normal; =
+font-weight: normal; letter-spacing: normal; line-height: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px;" class=3D""><span style=3D"font-family: =
+Helvetica; font-size: 12px; font-style: normal; font-variant: normal; =
+font-weight: normal; letter-spacing: normal; line-height: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; float: none; display: inline =
+!important;" class=3D"">AC_CHECK_HEADER and ignore the values set =
+returned by pkg-config.</span><br style=3D"font-family: Helvetica; =
+font-size: 12px; font-style: normal; font-variant: normal; font-weight: =
+normal; letter-spacing: normal; line-height: normal; orphans: auto; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;" class=3D""></div></blockquote></div><div class=3D""><br =
+class=3D""></div><div class=3D"">Hi Martin,</div><div class=3D""><br =
+class=3D""></div><div class=3D"">I=E2=80=99m fairly certain this is =
+needed however I=E2=80=99m not terribly familiar with autotools so =
+it=E2=80=99s possible I missed something. &nbsp;I know that without this =
+change a number of the demo apps I expect do not get built. &nbsp;It=E2=80=
+=99s been a while since I looked but I seem to recall that the =
+=E2=80=9Cgeartrain=E2=80=9D demo among others will not be available =
+without this change.</div><div class=3D""><br class=3D""></div><div =
+class=3D"">=46rom my reading of the PKG_CHECK_MODULES docs at&nbsp;<a =
+href=3D"https://autotools.io/pkgconfig/pkg_check_modules.html" =
+class=3D"">https://autotools.io/pkgconfig/pkg_check_modules.html</a>, it =
+seems the 3rd parameter is the action-if-found and my read of the logic =
+here is that if glu is found it then verifies the presence of the header =
+files and libs.</div><div class=3D""><br class=3D""></div><div =
+class=3D"">I=E2=80=99ll kick off a fresh build and dig around a bit just =
+in case I missed something.</div><div class=3D""><br class=3D""></div><div=
+ class=3D"">Regards,</div><div class=3D""><br class=3D""></div><div =
+class=3D"">Drew</div></body></html>=
+
+--Apple-Mail=_E0506BC8-994A-4D9E-AC2F-1C3091FAFC31--
+
+--Apple-Mail=_AC2015C4-C45D-4D8D-8618-BC7FDF3FDA8B
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="signature.asc"
 Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Comment: GPGTools - http://gpgtools.org
 
-iEYEARECAAYFAlWn3FMACgkQN1Ujt2V2gByUxQCfZpXORYJ0S/8ey/9/NofdoZxe
-5tcAoJ3NvvGEm3cwX9ky0Pml43kQRU8L
-=30CW
+iD8DBQFVp94G++E4Rrql4XYRAqjMAJ47ZVI+e8NT9hLofSRR4XxSLFO/9QCgtoyc
+7qz+8KjWmca2/CpzsIAaeEk=
+=qUg5
 -----END PGP SIGNATURE-----
 
---Wb5NtZlyOqqy58h0--
+--Apple-Mail=_AC2015C4-C45D-4D8D-8618-BC7FDF3FDA8B--
