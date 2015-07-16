@@ -1,41 +1,36 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wg0-f43.google.com (mail-wg0-f43.google.com [74.125.82.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A00373BB8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 77EDB607A5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 20:14:05 +0000 (UTC)
-Received: by wgkl9 with SMTP id l9so66926960wgk.1
+	Thu, 16 Jul 2015 20:29:00 +0000 (UTC)
+Received: by qgy5 with SMTP id 5so38324885qgy.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 13:14:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=kElk3LMg8Pz9seWXjIUXq1yEnM8nyJFBP2rP/hLWyRM=;
-	b=YHXs/j+ImW0fIyLkKUm9hytQBPvGXoJARzwo6Szut65yByVgs9Wd+n+lmKOkCej6AM
-	meRHYZ6kO46P7kywaThxDObGxrnPHacT5CxzhPyycxDM0E/MNP5ouQ71g2XTfvVZm21n
-	2ob7iRMIQ6WjQCMser92+8dx898Ju7dRrMexWOS675e9+lGiMXvbUBb4GYkeHGwwxadD
-	e6n0tVRgU2FmCUZm7R6HyciPXT6pZGSDiiYV34M8oglkxH7CS3Ii7gWa6t9ZVGh8JMa6
-	zWc1hwpmr1inhO9UP6UF5FPx8Q3BJDR8RyvtpgA/JdekVdm4DzgYi9fXK97upAt6uFLM
-	f2CQ==
-X-Received: by 10.180.75.78 with SMTP id a14mr10379978wiw.68.1437077645612;
-	Thu, 16 Jul 2015 13:14:05 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	pf4sm14788405wjb.23.2015.07.16.13.14.04
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Jul 2015 13:14:04 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 16 Jul 2015 22:14:33 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20150716201433.GA23000@jama>
-References: <1432207395-31589-1-git-send-email-Martin.Jansa@gmail.com>
-	<20150701132356.GJ2409@jama> <20150716142027.GD2134@jama>
-	<1437076030.3310.135.camel@linuxfoundation.org>
+	Thu, 16 Jul 2015 13:29:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=RmIaFyVjvB8YptpkVOom0GJpi2ql1XDV5Is2rRauxMQ=;
+	b=ab1sQwSAleDN5c1tIuAJU2MtjEt2QkGZinJQ/DWQYnt7sBL9eNwBFrSjHtFHd+eQjf
+	FI7YxHDPQM4kfmB7DYEq8dM1PtzrpuGC6R5VU1/vQlzDv3M30O5plyZWPtbnOi96SHPr
+	Lh4sLWCUSx89vVCETm5iFBhXufM3AAbqkQYQkLPGcBzAPHEOmmUAqDSWsObXkpIL39z0
+	l7x68HWujbRdh5TI2SInNDYTKeG3L9f+RiBLbeQw1pg7fBg0m777Jof7LoEPJ0wpEECQ
+	Wmq/gkrK8mMj+byD6gmeqWJ7ZD/KT020z4iLCnpm8i+YjdGJJ3Bm7/wMrBtUXsF5HsK9
+	6fbg==
+X-Gm-Message-State: ALoCoQnAzgNdkx0lbUYqulhyDXcJvmSnNb388kYqe7E6Xw/1HEgG9idHZ6LIoDm4Vo9g4becW7/F
+X-Received: by 10.140.20.115 with SMTP id 106mr20100981qgi.87.1437078540751;
+	Thu, 16 Jul 2015 13:29:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1437076030.3310.135.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [daisy][PATCH] squashfs-tools: enable building unsquashfs and fix squashfs-4.2-fix-CVE-2012-4025.patch
+Received: by 10.140.102.231 with HTTP; Thu, 16 Jul 2015 13:28:41 -0700 (PDT)
+In-Reply-To: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
+References: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 16 Jul 2015 21:28:41 +0100
+Message-ID: <CAJTo0LakEKNqWhot2UKD6+wxECjMzTaLqOGPQD1E43v1NkOvqw@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston: fix two building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,62 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 20:14:06 -0000
-X-Groupsio-MsgNum: 68062
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="BXVAT5kNtrzKuDFl"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 16 Jul 2015 20:29:02 -0000
+Content-Type: multipart/alternative; boundary=001a11c128b4efae35051b03ebfd
 
---BXVAT5kNtrzKuDFl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11c128b4efae35051b03ebfd
+Content-Type: text/plain; charset=UTF-8
+
+On 16 July 2015 at 02:17, <rongqing.li@windriver.com> wrote:
+
+> 2. create tests dir and ivi-shell to fix the building rule dependency
+> issue.
+>    sed "..." ivi-shell/weston.ini.in > ivi-shell/weston.ini
+>    ivi-shell/weston.ini: No such file or directory
+>
+
+I was watching another build happen so quickly fixed this too.   Does
+http://lists.freedesktop.org/archives/wayland-devel/2015-July/023468.html
+look right?
+
+Ross
+
+--001a11c128b4efae35051b03ebfd
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 16, 2015 at 08:47:10PM +0100, Richard Purdie wrote:
-> On Thu, 2015-07-16 at 16:20 +0200, Martin Jansa wrote:
-> > On Wed, Jul 01, 2015 at 03:23:56PM +0200, Martin Jansa wrote:
-> > > On Thu, May 21, 2015 at 01:23:15PM +0200, Martin Jansa wrote:
-> > > > * build unsqaushfs, useful when debuging corrupt squashfs from
-> > > >   mksquashfs
-> > > > * squashfs-4.2-fix-CVE-2012-4025.patch fixes CVE in unsquashfs whic=
-h we
-> > > >   weren't building and it actually breaks building it, because some=
-one
-> > > >   missed squashfs_fs.h change from the original change
-> > > > * add git headers in all patches and fix references to new github
-> > > >   repository
-> > >=20
-> > > Ping
-> >=20
-> > PING (It's almost 2 months :/)
->=20
-> I've just gone ahead and merged it.
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 July 2015 at 02:17,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
+.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-=
+style:solid;padding-left:1ex"><div id=3D":pq" class=3D"" style=3D"overflow:=
+hidden">2. create tests dir and ivi-shell to fix the building rule dependen=
+cy issue.<br>
+=C2=A0 =C2=A0sed &quot;...&quot; ivi-shell/<a href=3D"http://weston.ini.in"=
+ rel=3D"noreferrer" target=3D"_blank"><span class=3D"">weston</span>.ini.in=
+</a> &gt; ivi-shell/<span class=3D"">weston</span>.ini<br>
+=C2=A0 =C2=A0ivi-shell/<span class=3D"">weston</span>.ini: No such file or =
+directory<br></div></blockquote></div><br>I was watching another build happ=
+en so quickly fixed this too. =C2=A0 Does=C2=A0<a href=3D"http://lists.free=
+desktop.org/archives/wayland-devel/2015-July/023468.html">http://lists.free=
+desktop.org/archives/wayland-devel/2015-July/023468.html</a> look right?</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</di=
+v></div>
 
-Thank you.
-
-> If we want to get better at this, it would help if backport patches list
-> whether they're needed on other releases. E.g. here, listing "master,
-> fido, dizzy use 4.3" would speed things up from my perspective.
-
-This was sent together in group of patches for all other releases as
-well, but I agree that after a while it's harder to see that dizzy, fido
-and master were fixed by different patches.
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---BXVAT5kNtrzKuDFl
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlWoEKgACgkQN1Ujt2V2gBx5AQCggCVa1kKzFfEjyeDKTN6p8Vj7
-qzcAn3zIZOPditoHGLgwG7bJL/MzzitG
-=A7wk
------END PGP SIGNATURE-----
-
---BXVAT5kNtrzKuDFl--
+--001a11c128b4efae35051b03ebfd--
