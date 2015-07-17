@@ -1,37 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2873D75FB5
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8528175FD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 23:40:44 +0000 (UTC)
-Received: by widjy10 with SMTP id jy10so28291158wid.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 16:40:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=MiMCScHbbU32RuMyQwaUaFBA75LB2FB7GOy64NvskpQ=;
-	b=P9QbYLZ4Jdqtz9CShywYSL7LwbErKEiiBMi9lflOk0R7T1cbCrFCeuiol6xK95hS9w
-	NPxn2JiK49mk0Ib+Miu8wKs+OT58o929HDG4rcaQafvRiPn/AuS42ZfFLZLNU1FqJZ2l
-	yMBmZpOP3G9PkJzPbpI7O96Au7/eooD3/iSX4RFGePfErS3wXLZZEsqQapomqg17Cbih
-	dlD9X6buByPa9WPTo5t9N+0Q0bRFxGMmY28ILMpgjo4dWhH8upRRIFdq1ye1bbxU7bc0
-	JNT6h2ONJXK31FY6aar8YEo6TOB+aXMv0j8VqINYSO0ucAfi5L2nbR3h2I9LiiJ8TvuV
-	ksMw==
-X-Gm-Message-State: ALoCoQkDrEdKVVkUvLvM4YoL22yw+7kspK3QE2V84thqULRMV17D5k31GmNxnwMGlM2roCEkp+Rb
-X-Received: by 10.194.78.14 with SMTP id x14mr24536235wjw.48.1437090044094;
-	Thu, 16 Jul 2015 16:40:44 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	lu5sm15494930wjb.9.2015.07.16.16.40.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Jul 2015 16:40:43 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jul 2015 00:35:01 +0100
-Message-Id: <1437089702-23970-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/2] neard: remove overridden do_install
+	Fri, 17 Jul 2015 00:55:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6H0tsnM010004
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Jul 2015 17:55:54 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 16 Jul 2015 17:55:54 -0700
+Message-ID: <55A85299.7060507@windriver.com>
+Date: Fri, 17 Jul 2015 08:55:53 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1437009464-31315-1-git-send-email-rongqing.li@windriver.com>
+	<CAJTo0LakEKNqWhot2UKD6+wxECjMzTaLqOGPQD1E43v1NkOvqw@mail.gmail.com>
+In-Reply-To: <CAJTo0LakEKNqWhot2UKD6+wxECjMzTaLqOGPQD1E43v1NkOvqw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston: fix two building issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +35,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jul 2015 23:40:47 -0000
+X-List-Received-Date: Fri, 17 Jul 2015 00:55:56 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Overriding libexecdir was required when neard did funky things in the Makefile,
-but it doesn't anymore.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-connectivity/neard/neard.inc | 4 ----
- 1 file changed, 4 deletions(-)
 
-diff --git a/meta/recipes-connectivity/neard/neard.inc b/meta/recipes-connectivity/neard/neard.inc
-index 4042a69..6ab185c 100644
---- a/meta/recipes-connectivity/neard/neard.inc
-+++ b/meta/recipes-connectivity/neard/neard.inc
-@@ -17,10 +17,6 @@ PACKAGECONFIG[systemd] = "--enable-systemd --with-systemdsystemunitdir=${systemd
- 
- EXTRA_OECONF += "--enable-tools"
- 
--do_install() {
--	oe_runmake DESTDIR=${D} libexecdir=${libexecdir} install
--}
--
- # This would copy neard start-stop shell and test scripts
- do_install_append() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+On 2015年07月17日 04:28, Burton, Ross wrote:
+>
+> On 16 July 2015 at 02:17, <rongqing.li@windriver.com
+> <mailto:rongqing.li@windriver.com>> wrote:
+>
+>     2. create tests dir and ivi-shell to fix the building rule
+>     dependency issue.
+>         sed "..." ivi-shell/weston.ini.in <http://weston.ini.in> >
+>     ivi-shell/weston.ini
+>         ivi-shell/weston.ini: No such file or directory
+>
+>
+> I was watching another build happen so quickly fixed this too.   Does
+> http://lists.freedesktop.org/archives/wayland-devel/2015-July/023468.html look
+> right?
+>
+> Ross
+
+it is fine to me, thanks
+
+
 -- 
-2.1.4
-
+Best Reagrds,
+Roy | RongQing Li
 
