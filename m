@@ -1,36 +1,38 @@
-Return-Path: <rich.tollerton@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 27F4765CBC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E855375F1F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 16:39:59 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t6HGdwcH002430; Fri, 17 Jul 2015 11:39:58 -0500
-Received: from weregild.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015071711395875-1383694 ;
-	Fri, 17 Jul 2015 11:39:58 -0500 
-From: Richard Tollerton <rich.tollerton@ni.com>
-To: Robert Yang <liezhi.yang@windriver.com>,
-	"Burton\, Ross" <ross.burton@intel.com>
-In-Reply-To: <55A86A01.1060108@windriver.com>
+	Fri, 17 Jul 2015 16:50:40 +0000 (UTC)
+Received: by qgy5 with SMTP id 5so49775087qgy.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jul 2015 09:50:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=1ave8IRYaLLu/vLzGYAes+FeCWhw9VhuCEFCjZDByug=;
+	b=DExj+1sIabeVsGTVsZIeC2K7qnpLsoyNtsjCtkqtZgd8Wg7EoOf3s/exoAPZ5DruEI
+	JRJta5c3uR6J6AmKP7qegIi5pjhrCaS4Z1nmnNSBGI8/6ZONq8Va+Xkrl9MJJm4xZVIN
+	BZhT93GFSIDZCzsnzEcWk8xdUvdKM40DG/m3WnimPy36XRE6cLMzDkrEefq7P2jz0o6r
+	5PTyh3zr9N3MW8ay1FNau3VZmNGpk/F9KgmmqKxt5aEhB2TZYko5I7m5Jzh+Cn5SuaGU
+	5h1hEk9bl8PozmJbXMo/6ots7WcBT4Bn56aOSSkeYCQ1H29rK5O0eQZ6NTDzYMeHZSbR
+	xt/A==
+X-Gm-Message-State: ALoCoQktSDuHN/788l+zcsBF4zThxfboo3kpbsAylfkw4xZW9OIimIFQz5X7GCURyvUpSGtKdjHk
+X-Received: by 10.140.88.80 with SMTP id s74mr26691239qgd.59.1437151840244;
+	Fri, 17 Jul 2015 09:50:40 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Fri, 17 Jul 2015 09:50:20 -0700 (PDT)
+In-Reply-To: <874ml2ybz5.fsf@weregild.amer.corp.natinst.com>
 References: <1407178549-8464-1-git-send-email-ben.shelton@ni.com>
 	<871tgbyk2s.fsf@weregild.amer.corp.natinst.com>
 	<CAJTo0LZF6fogQd6YhTbkY9adXGOhiZONqwWLc909AUF4fBUapg@mail.gmail.com>
 	<55A86A01.1060108@windriver.com>
-User-Agent: Notmuch/0.20.1 (http://notmuchmail.org) Emacs/24.5.2
-	(x86_64-unknown-linux-gnu)
-Date: Fri, 17 Jul 2015 11:39:58 -0500
-Message-ID: <874ml2ybz5.fsf@weregild.amer.corp.natinst.com>
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 07/17/2015 11:39:58 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 07/17/2015 11:39:58 AM,
-	Serialize complete at 07/17/2015 11:39:58 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-07-17_08:, , signatures=0
+	<874ml2ybz5.fsf@weregild.amer.corp.natinst.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 17 Jul 2015 17:50:20 +0100
+Message-ID: <CAJTo0LbYqYn9jxth0fwRYf0R1f-cbcQYAdER9tHU78R+ZivfHg@mail.gmail.com>
+To: Richard Tollerton <rich.tollerton@ni.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] create-pull-request: Fix error on 2.0 versions of git
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,47 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 16:40:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Jul 2015 16:50:42 -0000
+Content-Type: multipart/alternative; boundary=001a11c114c4ed3416051b14fc95
 
-Robert Yang <liezhi.yang@windriver.com> writes:
+--001a11c114c4ed3416051b14fc95
+Content-Type: text/plain; charset=UTF-8
 
-> On 07/14/2015 05:49 PM, Burton, Ross wrote:
->>
->> On 13 July 2015 at 19:43, Richard Tollerton <rich.tollerton@ni.com
->> <mailto:rich.tollerton@ni.com>> wrote:
->>
->>     I still need to apply this patch in order to use create-pull-request.
->>     Bump?
->>
->> Not sure how this got missed, and I can't even find it in my archives, but it's
->> queued now.
->
-> This patch breaks create-pull-request:
-> $ ./scripts/create-pull-request -u oe-contrib -b rbt/PU -r HEAD~5
-> fatal: ambiguous argument 'HEAD~5..rbt/PU': unknown revision or path not in the 
-> working tree.
-> Use '--' to separate paths from revisions
-> fatal: Needed a single revision
-> ERROR: git request-pull reported an error
->
-> $ git --version
-> git version 1.7.9.5
->
->
-> Richard Tollerton, does Saul's fix work for you for git 2.0?
->
-> commit 5ffa98a95317e6bea436e4372b9202f4da0ce2ae
-> Author: Saul Wold <sgw@linux.intel.com>
-> Date:   Tue Feb 3 09:08:29 2015 -0800
->
->      create-pull-request: Fix git request-pull
+On 17 July 2015 at 17:39, Richard Tollerton <rich.tollerton@ni.com> wrote:
 
-Eek! Yes, it seems like it does work. I think I might have
-misinterpreted an error in running `create-pull-request`, then changed
-the command line enough to (coincidentally) work after I reapplied the
-patch.
+> Ross, please revert commit 7ee64ea60ede5477b2f9a355d93bdc556e6b7895. My
+> sincere apologies for the inconvenience.
+>
 
-Ross, please revert commit 7ee64ea60ede5477b2f9a355d93bdc556e6b7895. My
-sincere apologies for the inconvenience.
+Already done in master-under-test.  Thanks for confirming that it works for
+you.
 
+Ross
+
+--001a11c114c4ed3416051b14fc95
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 July 2015 at 17:39, Richard Tollerton <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4d9" cla=
+ss=3D"a3s" style=3D"overflow:hidden">Ross, please revert commit 7ee64ea60ed=
+e5477b2f9a355d93bdc556e6b7895. My<br>
+sincere apologies for the inconvenience.</div></blockquote></div><br>Alread=
+y done in master-under-test.=C2=A0 Thanks for confirming that it works for =
+you.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
+oss</div></div>
+
+--001a11c114c4ed3416051b14fc95--
