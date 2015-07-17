@@ -1,40 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E855375F1F
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 9784E75F1F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 16:50:40 +0000 (UTC)
-Received: by qgy5 with SMTP id 5so49775087qgy.3
+	Fri, 17 Jul 2015 17:15:19 +0000 (UTC)
+Received: by pacan13 with SMTP id an13so64196699pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 09:50:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=1ave8IRYaLLu/vLzGYAes+FeCWhw9VhuCEFCjZDByug=;
-	b=DExj+1sIabeVsGTVsZIeC2K7qnpLsoyNtsjCtkqtZgd8Wg7EoOf3s/exoAPZ5DruEI
-	JRJta5c3uR6J6AmKP7qegIi5pjhrCaS4Z1nmnNSBGI8/6ZONq8Va+Xkrl9MJJm4xZVIN
-	BZhT93GFSIDZCzsnzEcWk8xdUvdKM40DG/m3WnimPy36XRE6cLMzDkrEefq7P2jz0o6r
-	5PTyh3zr9N3MW8ay1FNau3VZmNGpk/F9KgmmqKxt5aEhB2TZYko5I7m5Jzh+Cn5SuaGU
-	5h1hEk9bl8PozmJbXMo/6ots7WcBT4Bn56aOSSkeYCQ1H29rK5O0eQZ6NTDzYMeHZSbR
-	xt/A==
-X-Gm-Message-State: ALoCoQktSDuHN/788l+zcsBF4zThxfboo3kpbsAylfkw4xZW9OIimIFQz5X7GCURyvUpSGtKdjHk
-X-Received: by 10.140.88.80 with SMTP id s74mr26691239qgd.59.1437151840244;
-	Fri, 17 Jul 2015 09:50:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 17 Jul 2015 09:50:20 -0700 (PDT)
-In-Reply-To: <874ml2ybz5.fsf@weregild.amer.corp.natinst.com>
-References: <1407178549-8464-1-git-send-email-ben.shelton@ni.com>
-	<871tgbyk2s.fsf@weregild.amer.corp.natinst.com>
-	<CAJTo0LZF6fogQd6YhTbkY9adXGOhiZONqwWLc909AUF4fBUapg@mail.gmail.com>
-	<55A86A01.1060108@windriver.com>
-	<874ml2ybz5.fsf@weregild.amer.corp.natinst.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 17 Jul 2015 17:50:20 +0100
-Message-ID: <CAJTo0LbYqYn9jxth0fwRYf0R1f-cbcQYAdER9tHU78R+ZivfHg@mail.gmail.com>
-To: Richard Tollerton <rich.tollerton@ni.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] create-pull-request: Fix error on 2.0 versions of git
+	Fri, 17 Jul 2015 10:15:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=uhm+53OVNIQi1WU4Q7kbnJzkTrXVPjf52VLCSnnoQhU=;
+	b=h6i8AV9Hmpk3e7ZhAS1bkgIOtPAoSbmbbzHjn2girz64AQ405OESk3ge+YZtepCvHP
+	4smXvOaYK6twWtN/NXBQq31yjfOZPwFCFn1GkW9MUHDrK/gXJvfHoJKrlustrwYK/Uwt
+	8urnjYrjBybwcu7b/adFVunA+/LegVWkYe0eiMaun/DxTu/f0kMjCyKHjwAOJ5pbGPE3
+	62a0ONbQMpiGJrzR3gfPKVDgL4faY2eHWe0Fz2RtEFF4OCm80teZ0mP9lb5LsILVphpa
+	w8UMoxJrQ5KSiDf8xkzlNzF968IAPuMS8rtSnJrGHOUbfSY2a/3InRY1yTIWCw9LmaJO
+	ze6w==
+X-Received: by 10.69.10.196 with SMTP id ec4mr31845693pbd.69.1437153319533;
+	Fri, 17 Jul 2015 10:15:19 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	j4sm11812657pdo.62.2015.07.17.10.15.17
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 Jul 2015 10:15:17 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 Jul 2015 10:15:50 -0700
+Message-Id: <cover.1437153291.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 0/3] A few misc fixes for `recipetool appendsrcfile`
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,37 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 16:50:42 -0000
-Content-Type: multipart/alternative; boundary=001a11c114c4ed3416051b14fc95
+X-List-Received-Date: Fri, 17 Jul 2015 17:15:19 -0000
 
---001a11c114c4ed3416051b14fc95
-Content-Type: text/plain; charset=UTF-8
+From: Christopher Larson <chris_larson@mentor.com>
 
-On 17 July 2015 at 17:39, Richard Tollerton <rich.tollerton@ni.com> wrote:
+The following changes since commit ff384c084678dab33bbd7eb82ece21a2baa13dfb:
 
-> Ross, please revert commit 7ee64ea60ede5477b2f9a355d93bdc556e6b7895. My
-> sincere apologies for the inconvenience.
->
+  qemu: upgrade to 2.4.0-rc0 (2015-07-16 20:40:00 +0100)
 
-Already done in master-under-test.  Thanks for confirming that it works for
-you.
+are available in the git repository at:
 
-Ross
+  git@github.com:kergoth/openembedded-core recipetool-appendsrcfile-fixes
 
---001a11c114c4ed3416051b14fc95
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+for you to fetch changes up to 927dba1917b9fa5e2d526b0994d959fc8465800c:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 July 2015 at 17:39, Richard Tollerton <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:rich.tollerton@ni.com" target=3D"_blank">rich.tollerton@ni.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4d9" cla=
-ss=3D"a3s" style=3D"overflow:hidden">Ross, please revert commit 7ee64ea60ed=
-e5477b2f9a355d93bdc556e6b7895. My<br>
-sincere apologies for the inconvenience.</div></blockquote></div><br>Alread=
-y done in master-under-test.=C2=A0 Thanks for confirming that it works for =
-you.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div></div>
+  recipetool: appendsrcfile: handle S == STAGING_KERNEL_DIR (2015-07-17 10:12:10 -0700)
 
---001a11c114c4ed3416051b14fc95--
+----------------------------------------------------------------
+Christopher Larson (3):
+      recipetool: appendsrcfile: fix duplicate SRC_URI check
+      recipetool: appendsrcfile: use -D, not -d for destdir
+      recipetool: appendsrcfile: handle S == STAGING_KERNEL_DIR
+
+ scripts/lib/recipetool/append.py | 15 ++++++++++-----
+ 1 file changed, 10 insertions(+), 5 deletions(-)
+
+-- 
+2.2.1
+
+
