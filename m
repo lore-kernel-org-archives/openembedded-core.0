@@ -1,22 +1,27 @@
-Return-Path: <zhe@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BEF9D73BB8
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 28E7473BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 10:11:53 +0000 (UTC)
-Received: from ala-lpggp4.wrs.com (ala-lpggp4.wrs.com [147.11.103.217])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6HABrnl006331
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
-	Fri, 17 Jul 2015 03:11:53 -0700 (PDT)
-Received: (from zhe@localhost)
-	by ala-lpggp4.wrs.com (8.13.8/8.13.8/Submit) id t6HABrRn003922;
-	Fri, 17 Jul 2015 03:11:53 -0700
-From: He Zhe <zhe.he@windriver.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jul 2015 03:11:50 -0700
-Message-Id: <1437127912-3881-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.3.5
-Cc: bruce.ashfield@windriver.com
-Subject: [PATCH 0/2] Yocto Bug #6945
+	Fri, 17 Jul 2015 10:56:30 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id C4B7FF811D7; Fri, 17 Jul 2015 04:56:30 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 65B11F81188;
+	Fri, 17 Jul 2015 04:56:30 -0600 (MDT)
+Message-ID: <55A8DF6B.3040909@mlbassoc.com>
+Date: Fri, 17 Jul 2015 04:56:43 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: image.bbclass vs core-image.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,30 +34,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 10:11:56 -0000
+X-List-Received-Date: Fri, 17 Jul 2015 10:56:31 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Zhe He <zhe.he@windriver.com>
+Why are some ROOTFS_POSTPROCESS_COMMANDs being set in image.bbclass
+and others in core-image.bbclass?  If I build an image using only
+image.bbclass, I miss the settings from core-image.bbclass (which
+is somewhat misnamed IMO since it's heavier than image.bbclass)?
 
- - To support building packaging and installing multi types of kernel
-   images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
-   as a list.
- - Modify wherever reference KERNEL_IMAGETYPE accordingly.
+Is there some reason not to have all of the ROOTFS_POSTPROCESS_COMMANDs
+just in image.bbclass alone?
 
-He Zhe (2):
-  kernel: Define KERNEL_IMAGETYPE as a list
-  kernel: Pass sysroot mkimage to kernel makefile
-
- meta/classes/image_types.bbclass         |   6 +-
- meta/classes/kernel-fitimage.bbclass     |  22 +++---
- meta/classes/kernel-grub.bbclass         |  47 ++++++++----
- meta/classes/kernel-uimage.bbclass       |  31 +++++---
- meta/classes/kernel.bbclass              | 127 ++++++++++++++++++++++---------
- meta/conf/documentation.conf             |   2 +-
- meta/lib/oeqa/controllers/masterimage.py |   2 +-
- meta/lib/oeqa/targetcontrol.py           |   2 +-
- meta/recipes-kernel/linux/linux-dtb.inc  |  15 ++--
- scripts/test-remote-image                |   2 +-
- 10 files changed, 175 insertions(+), 81 deletions(-)
-
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
