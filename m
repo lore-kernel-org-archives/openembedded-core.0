@@ -1,27 +1,22 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 28E7473BB8
+Return-Path: <stefan@herbrechtsmeier.net>
+Received: from dd5638.kasserver.com (dd5638.kasserver.com [85.13.130.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 1859765CBD
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jul 2015 10:56:30 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id C4B7FF811D7; Fri, 17 Jul 2015 04:56:30 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 65B11F81188;
-	Fri, 17 Jul 2015 04:56:30 -0600 (MDT)
-Message-ID: <55A8DF6B.3040909@mlbassoc.com>
-Date: Fri, 17 Jul 2015 04:56:43 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+Received: from [129.70.144.65] (astra.TechFak.Uni-Bielefeld.DE [129.70.144.65])
+	by dd5638.kasserver.com (Postfix) with ESMTPSA id CFFDE5600028;
+	Fri, 17 Jul 2015 12:56:28 +0200 (CEST)
+To: Pascal Bach <pascal.bach@siemens.com>,
+	openembedded-core@lists.openembedded.org
+References: <1437119073-4788-1-git-send-email-pascal.bach@siemens.com>
+From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Message-ID: <55A8DF58.4010906@herbrechtsmeier.net>
+Date: Fri, 17 Jul 2015 12:56:24 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
 MIME-Version: 1.0
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: image.bbclass vs core-image.bbclass
+In-Reply-To: <1437119073-4788-1-git-send-email-pascal.bach@siemens.com>
+Subject: Re: [PATCH] cmake.bbclass: set archiver, linker and ranlib in toolchain.cmake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,20 +30,61 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 Jul 2015 10:56:31 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Why are some ROOTFS_POSTPROCESS_COMMANDs being set in image.bbclass
-and others in core-image.bbclass?  If I build an image using only
-image.bbclass, I miss the settings from core-image.bbclass (which
-is somewhat misnamed IMO since it's heavier than image.bbclass)?
+Am 17.07.2015 um 09:44 schrieb Pascal Bach:
+> Setting CMAKE_AR, CMAKE_LINKER and CMAKE_RANLIB correctly in
+> toolchain.cmake is necessary to correctly build -native packages
+> using CMake.
+>
+> The reason is that CMake is not able to find the above utilities by
+> itself because CMAKE_FIND_ROOT_PATH_MODE_PROGRAM is set to ONLY
+> so we need to tell it explicitly where to look.
+Which version do you use? The master sets 
+CMAKE_FIND_ROOT_PATH_MODE_PROGRAM to BOTH for native packages.
 
-Is there some reason not to have all of the ROOTFS_POSTPROCESS_COMMANDs
-just in image.bbclass alone?
+If this don't work you could set the CMAKE_C_COMPILER_EXTERNAL_TOOLCHAIN 
+path (without /bin).
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+> ---
+>   meta/classes/cmake.bbclass | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+>
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index 995ddf1..cae0ad2 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -13,6 +13,9 @@ inherit autotools
+>   # C/C++ Compiler (without cpu arch/tune arguments)
+>   OECMAKE_C_COMPILER ?= "`echo ${CC} | sed 's/^\([^ ]*\).*/\1/'`"
+>   OECMAKE_CXX_COMPILER ?= "`echo ${CXX} | sed 's/^\([^ ]*\).*/\1/'`"
+> +OECMAKE_AR ?= "`echo ${AR} | sed 's/^\([^ ]*\).*/\1/'`"
+This is already set in master.
+
+> +OECMAKE_LINKER ?= "`echo ${LD} | sed 's/^\([^ ]*\).*/\1/'`"
+> +OECMAKE_RANLIB ?= "`echo ${RANLIB} | sed 's/^\([^ ]*\).*/\1/'`"
+You don't need the sed for ranlib.
+
+>   # Compiler flags
+>   OECMAKE_C_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CFLAGS}"
+> @@ -35,6 +38,11 @@ set( CMAKE_SYSTEM_PROCESSOR ${TARGET_ARCH} )
+>   set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
+>   set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
+>   set( CMAKE_ASM_COMPILER ${OECMAKE_C_COMPILER} )
+> +# Force the use of cache here otherwise the values will be overridden (http://www.cmake.org/Bug/view.php?id=13038)
+> +set( CMAKE_AR ar CACHE FILEPATH "Archiver" FORCE )
+> +set( CMAKE_LINKER ld CACHE FILEPATH "Linker" FORCE )
+> +set( CMAKE_RANLIB ranlib CACHE FILEPATH "Ranlib" FORCE )
+> +
+Why you generate OECMAKE_* and don't use them?
+
+Furthermore the CMAKE_* should contain the full path and are generated 
+in the CMakeFindBinUtils.cmake.
+
+>   set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
+>   set( CMAKE_CXX_FLAGS "${OECMAKE_CXX_FLAGS}" CACHE STRING "CXXFLAGS" )
+>   set( CMAKE_ASM_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "ASM FLAGS" )
+
 
