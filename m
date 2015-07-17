@@ -1,43 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 975A273E3B
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 7598573E3B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 02:54:36 +0000 (UTC)
-Received: by pdbqm3 with SMTP id qm3so54132612pdb.0
+	Fri, 17 Jul 2015 03:02:07 +0000 (UTC)
+Received: by pactm7 with SMTP id tm7so53236147pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 19:54:36 -0700 (PDT)
+	Thu, 16 Jul 2015 20:02:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=5eGXQZDkhgvCxmFYLmLpTd0GCssX9XFvARhYPMOzmIw=;
-	b=ztEm+3+tdygQmr/+iFre8ChVQ9iK+zrSuSUB+buc7LpwpscovIOatT8de2f+xwqgEd
-	ZeAPB8tMjBojdeTAMryrgqEBEW8b1cQLcoNG5ilzyFcud4W068g8rOJqhf+5AdMaJtGt
-	jqtWaEKOV18EvzTe4jH0Z+zSQL3X48ZFoyQBv7ZC5LDBoJoKo8fW6wB8edZrKYUXeEbr
-	QNVsYnb5OD8q3nGtRmW2E8605D5KXBpqqf6Bo4B9OZD3GElAp2dGc4Gq45OZetAy7cwL
-	P7JrTEJGaEs30TxAiFR1SmM6oORd9q08EYf9bsWZBeU9SRBdxva35ITSd2V7MqpqCSwm
-	0HaQ==
-X-Received: by 10.70.102.11 with SMTP id fk11mr24553117pdb.144.1437101676270; 
-	Thu, 16 Jul 2015 19:54:36 -0700 (PDT)
+	bh=W6lc3VOypSuv2ZqiNBb7x8R8WAeaC4IrWy8pZFsPVgY=;
+	b=S0YUq5HLUQeG8NKjNOyUt7XDL+Qqmpo1XO23Xt+qbnXOfxV6etpGRXVoabyVHAIXd2
+	iHanvR6TpIgvbAiOR7W61dufOEKUSLB7hP6BzjY+TIS9ski0emr1m10cjlkL/e8knsKG
+	T1T3KC7MCvIwJsA0EdJB0MiIY6irv4BwzEO9xnJ6A1QmD0szAiP/0tcAQ+SGuOWjYsil
+	Jv3/UVXVfHC8wR7qLsy6GnqrBMvGwT/JaqNO1N0s9WR1IOBI8yOSS1mrpQiCsVskVDya
+	6VpDJVw4hZ8pTMyPWDl3OHVL4WlIzvZZDW+xBYMM9Pj/rXwfsj5ahtY3bFjL4fKD6mFj
+	Vd3g==
+X-Received: by 10.66.119.136 with SMTP id ku8mr24472424pab.26.1437102128080;
+	Thu, 16 Jul 2015 20:02:08 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:7d56:4293:a344:bdf2?
 	([2601:646:8601:4580:7d56:4293:a344:bdf2])
-	by smtp.gmail.com with ESMTPSA id k5sm9386244pda.34.2015.07.16.19.54.34
+	by smtp.gmail.com with ESMTPSA id
+	ld1sm9384290pbc.26.2015.07.16.20.02.06
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 16 Jul 2015 19:54:34 -0700 (PDT)
+	Thu, 16 Jul 2015 20:02:07 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2102\))
 X-Pgp-Agent: GPGMail 2.5
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <BN3PR03MB13678DEF0BBBD2424E666A30E4980@BN3PR03MB1367.namprd03.prod.outlook.com>
-Date: Thu, 16 Jul 2015 19:54:29 -0700
-Message-Id: <697F916E-445F-4AB5-B10B-C40E83C05828@gmail.com>
-References: <BN3PR03MB1367ABE95BBD2A48796FF31FE49A0@BN3PR03MB1367.namprd03.prod.outlook.com>
-	<55A5E6D2.6050108@windriver.com>
-	<A0733748-C753-4201-A2F7-FA771C65B63B@gmail.com>
-	<BN3PR03MB13678DEF0BBBD2424E666A30E4980@BN3PR03MB1367.namprd03.prod.outlook.com>
-To: Luo Zhenhua <zhenhua.luo@freescale.com>
+In-Reply-To: <CAJ86T=XJ1AR1cnYAYRJCJbMmaV9uBTDnFs4_SnwA89ee-ua4Mw@mail.gmail.com>
+Date: Thu, 16 Jul 2015 20:02:02 -0700
+Message-Id: <14036360-50B0-4BD1-A630-2BEE7FE9CB96@gmail.com>
+References: <261F5389-C495-4B05-B79E-309AE0E0F0CA@gmail.com>
+	<CAJ86T=VE7a7rUMZMB8LTX0emuqkLOE=E_PvARh4JcQwZuJ+WCw@mail.gmail.com>
+	<A4E25F8E-FBB2-4DF9-B208-3A58A2DC71C3@gmail.com>
+	<CAJ86T=XJ1AR1cnYAYRJCJbMmaV9uBTDnFs4_SnwA89ee-ua4Mw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
 X-Mailer: Apple Mail (2.2102)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Query about the toolchian version of Yocto 1.9
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] glibc 2.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,65 +52,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 02:54:39 -0000
-X-Groupsio-MsgNum: 68090
+X-List-Received-Date: Fri, 17 Jul 2015 03:02:09 -0000
+X-Groupsio-MsgNum: 68091
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_CDB9BC14-0715-4EFE-9765-2783C36C7CE2";
+	boundary="Apple-Mail=_DF5A1595-9612-4131-A147-C39C05830B37";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_CDB9BC14-0715-4EFE-9765-2783C36C7CE2
+--Apple-Mail=_DF5A1595-9612-4131-A147-C39C05830B37
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
-> On Jul 16, 2015, at 7:00 PM, Luo Zhenhua <zhenhua.luo@freescale.com> =
+
+> On Jul 16, 2015, at 1:41 PM, Andre McCurdy <armccurdy@gmail.com> =
 wrote:
 >=20
-> May I know the glibc, binutils and gdb version of Yocto 1.9?
->=20
->=20
-
-glibc-2.22 (releasing end of July), binutils 2.25, gcc 5.1 and 4.9.3
-
-
-> Best Regards,
->=20
-> Zhenhua
->=20
->> -----Original Message-----
->> From: Khem Raj [mailto:raj.khem@gmail.com]
->> Sent: Wednesday, July 15, 2015 1:48 PM
->> To: Robert Yang
->> Cc: Luo Zhenhua-B19537; OE-core
->> Subject: Re: [OE-core] Query about the toolchian version of Yocto 1.9
+> On Tue, Jul 14, 2015 at 5:43 PM, Khem Raj <raj.khem@gmail.com> wrote:
 >>=20
->>=20
->>> On Jul 14, 2015, at 9:51 PM, Robert Yang <liezhi.yang@windriver.com> =
+>>> On Jul 14, 2015, at 2:56 PM, Andre McCurdy <armccurdy@gmail.com> =
 wrote:
 >>>=20
+>>> Hi Khem,
 >>>=20
->>>=20
->>> On 07/15/2015 11:41 AM, Luo Zhenhua wrote:
->>>> Hi,
+>>> On Mon, Jul 13, 2015 at 10:37 AM, Khem Raj <raj.khem@gmail.com> =
+wrote:
+>>>> Hi All
 >>>>=20
->>>> I can see that there are recipes of 3 gcc version(4.8, 4.9, 5.1) in
->>>> master branch of Yocto, may I know which one will be officially
->>>> supported by Yocto 1.9 release? Will the other versions be tested =
-and
->> supported?
+>>>> glibc 2.22 will release end of this month. For some time I have put =
+together the update here
+>>>>=20
+>>>> =
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/mas=
+ter&id=3D02e73ea526d94f21c7ef82eb96b062eff8ebb825
+>>>>=20
+>>>> It works pretty well for machines I have tested it on ( arm/x86 ) =
+but would be interested if more wider trial could be carried
+>>>> out and issues reported between now and release can be addressed.
+>>>>=20
+>>>> Please give it a try if you have spare cycles
 >>>=20
->>> What I know is, gcc 4.8 is a backup, 4.9 is the default one atm, 5.1
->>> is on going, and when switch to gcc 5.1, the 4.8 would be removed.
->>> Both
->>> 4.9 and 5.1 will be kept and supported if there isn't more upgrades.
+>>> This was building OK yesterday, but today
+>>> "0027-eglibc-use-option-groups-Conditionally-exclude-c-tes.patch" is
+>>> failing to apply due to this upstream change:
+>>>=20
+>>> =
+https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3Dedcfe9eab03ea=
+3dd1b3e04b6056a7663c40265c4
 >>=20
->> We will shift gcc-4.8 to toolchain-layer under meta-openembedded in =
-case we
->> remove it from OE-Core, it still will be available if absolutely =
-needed.
+>> Thanks for reporting. It has been fixed and branch rebased
+>> =
+http://git.openembedded.org/openembedded-core-contrib/commit/?h=3Dkraj/mas=
+ter&id=3Dc43cd1969696970affb094fc0b20ca02c966ecbd
+>> is new commit in rebased tree
+>=20
+> It looks like upstream changed again last night:
+>=20
+>  =
+https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommitdiff;h=3Db632bdd3f7c0b=
+a0c79f23f5e4404eebb87ebdaa8
+>=20
+> so 0027-eglibc-use-option-groups-Conditionally-exclude-c-tes.patch
+> needs another update.
+
+ah. Bad time for folks to be adding test cases :) its updated now.
+
+>=20
+>>>=20
+>>>>=20
+>>>> Thanks
+>>>> -Khem
+>>>>=20
+>>>> --
+>>>> _______________________________________________
+>>>> yocto mailing list
+>>>> yocto@yoctoproject.org
+>>>> https://lists.yoctoproject.org/listinfo/yocto
 
 
---Apple-Mail=_CDB9BC14-0715-4EFE-9765-2783C36C7CE2
+--Apple-Mail=_DF5A1595-9612-4131-A147-C39C05830B37
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -119,9 +140,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlWobmgACgkQuwUzVZGdMxQY2QCeLnAarGLYfiJDjvXm8HwKKJ6w
-jnQAnjfrnrwa5+/nHxFVNGsh+R90pJ9I
-=XiIV
+iEYEARECAAYFAlWocC4ACgkQuwUzVZGdMxTYlACgkAl9eEGl0wfSJbAdyEfU/PLL
++8AAnAj95E7YuVGoaqJ5gHNR2auZ3cgu
+=84/Q
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_CDB9BC14-0715-4EFE-9765-2783C36C7CE2--
+--Apple-Mail=_DF5A1595-9612-4131-A147-C39C05830B37--
