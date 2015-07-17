@@ -1,36 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
-	by mail.openembedded.org (Postfix) with ESMTP id AF0A675F1F
+Return-Path: <george.l.musat@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3372A65CCD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 14:47:07 +0000 (UTC)
-Received: by wgmn9 with SMTP id n9so84143448wgm.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 07:47:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=KYobFrlKXaQQhwfsGhMEa7mO7AqVsD4xx7SeVdEhv1Q=;
-	b=dEBdWJ3zY9AuicGeKgB1Xru0cUErLan0m62rNmgJG+3gHUxtTEU08kWu6Fd7yKqrYq
-	A8bR95acPT+JF1woO2TvbLbHd1G0fjzIb9bJQ+rQ/0rm6kBkjH6nb/EEACLw+giJ2JuA
-	XGPbL9iy3VY0eIv7ZnCtNlWIgfxIOocMs2LEKuQSDYRd76eWvKr19JqXMh+IMAduSQoO
-	gYlJ3gQo1cNi/W0UySMQTtftl2RFczClFUzom114THrTyMr5kl7sAza2RGQtlulPtw95
-	O/kMwS86+ueglLmw48MUPIILMCiEPjosdVLvL/x4nXM6HPGPPzgR+VEqfp6WCvZ7/R+I
-	5yIA==
-X-Gm-Message-State: ALoCoQnc/tblzt9kjTxCTk/4fEXSipUsLBSY9iIgWstsGrznYiIqntdFNvlOGHnmb4cPZ7Qem6RR
-X-Received: by 10.194.57.170 with SMTP id j10mr29657789wjq.140.1437144426199; 
-	Fri, 17 Jul 2015 07:47:06 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	ea2sm8802360wib.22.2015.07.17.07.47.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 Jul 2015 07:47:05 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jul 2015 15:41:22 +0100
-Message-Id: <1437144082-13246-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] core-image-lsb-sdk: use kernel-devsrc to ensure kernel module builds work
+	Fri, 17 Jul 2015 14:50:55 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 17 Jul 2015 07:50:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,497,1432623600"; 
+	d="scan'208,217";a="749369756"
+Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
+	by fmsmga001.fm.intel.com with ESMTP; 17 Jul 2015 07:50:54 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.39]) by
+	IRSMSX101.ger.corp.intel.com ([169.254.1.201]) with mapi id
+	14.03.0224.002; Fri, 17 Jul 2015 15:50:53 +0100
+From: "Musat, George L" <george.l.musat@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] oeqa/runtime: Added skip condition to kernel
+	module test
+Thread-Index: AQHQwJta17RDeAUAwUGtZz4ll+ZNsJ3fpnaAgAASHfD///KZAIAAER4g///wPgCAABHN0A==
+Date: Fri, 17 Jul 2015 14:50:53 +0000
+Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C287EAEDD@IRSMSX107.ger.corp.intel.com>
+References: <1437142674-8167-1-git-send-email-george.l.musat@intel.com>
+	<CAJTo0La3bqO7ssvWgRKTFNm9K1WU-zAnmZ-69_1o7Q56A6Ze2w@mail.gmail.com>
+	<042E875E1B5D414CA9BB78B7D4FA691C287EAE73@IRSMSX107.ger.corp.intel.com>
+	<CAJTo0Laa7JVVdJATFcpvMzd4C02TRoP9=QOzSdc3VFfZwk__4w@mail.gmail.com>
+	<042E875E1B5D414CA9BB78B7D4FA691C287EAEA6@IRSMSX107.ger.corp.intel.com>
+	<CAJTo0LZduKtUJBndiu4_Jf5FMxDFYGHYjyigpahi8z-9w8TT+A@mail.gmail.com>
+In-Reply-To: <CAJTo0LZduKtUJBndiu4_Jf5FMxDFYGHYjyigpahi8z-9w8TT+A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oeqa/runtime: Added skip condition to kernel module test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,29 +46,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 14:47:10 -0000
+X-List-Received-Date: Fri, 17 Jul 2015 14:50:56 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEDDIRSMSX107gercor_"
 
-With the move of the kernel source to the kernel-devsrc, we need this package to
-ensure the kernel module sanity tests made on core-image-lsb-sdk continue to
-pass. Therefore update the name of the package included in the image.
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEDDIRSMSX107gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/images/core-image-lsb-sdk.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+VGhhdOKAmXMgdHJ1ZSDimLoNCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0
+b25AaW50ZWwuY29tXQ0KU2VudDogRnJpZGF5LCBKdWx5IDE3LCAyMDE1IDU6NDYgUE0NClRvOiBN
+dXNhdCwgR2VvcmdlIEwNCkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
+SF0gb2VxYS9ydW50aW1lOiBBZGRlZCBza2lwIGNvbmRpdGlvbiB0byBrZXJuZWwgbW9kdWxlIHRl
+c3QNCg0KDQpPbiAxNyBKdWx5IDIwMTUgYXQgMTU6NDMsIE11c2F0LCBHZW9yZ2UgTCA8Z2Vvcmdl
+LmwubXVzYXRAaW50ZWwuY29tPG1haWx0bzpnZW9yZ2UubC5tdXNhdEBpbnRlbC5jb20+PiB3cm90
+ZToNClRoZXkgd29yayBvbiBjb3JlLWltYWdlLXNhdG8tc2RrIGltYWdlcyBhbmQgZmFpbCBvbiBj
+b3JlLWltYWdlLWxzYi1zZGsgaW1hZ2VzLiBZb3UgY2FuIGxvb2sgYXQgYnVncyA4MDEzLCA4MDE0
+LCA4MDE2Lg0KDQpUaGF0IHdvdWxkIGJlIGJlY2F1c2UgLXNhdG8tc2RrIGV4cGxpY2l0bHkgYWRk
+cyBrZXJuZWwtZGV2c3JjIGJ1dCAtbHNiLXNkayB1c2VzIHRoZSBvbGQgbmFtZSBvZiBrZXJuZWwt
+ZGV2IChzZWUgNTRkNWU3NGExOWQ1NzczYzM5ODlkMWQ2NGI2YTVkOTI3MDEzOTYyYikuDQoNCkZp
+eCBpbmNvbWluZy4NCg0KKHNlZSwgdGhpcyBpcyB3aHkgZ29vZCBjb21taXQgbWVzc2FnZXMgYXJl
+IGltcG9ydGFudCkNCg0KUm9zcw0K
 
-diff --git a/meta/recipes-extended/images/core-image-lsb-sdk.bb b/meta/recipes-extended/images/core-image-lsb-sdk.bb
-index c77425f..c3b6e7c 100644
---- a/meta/recipes-extended/images/core-image-lsb-sdk.bb
-+++ b/meta/recipes-extended/images/core-image-lsb-sdk.bb
-@@ -6,5 +6,4 @@ headers and libraries to form a standalone SDK."
- 
- IMAGE_FEATURES += "tools-sdk dev-pkgs tools-debug eclipse-debug tools-profile tools-testapps debug-tweaks"
- 
--IMAGE_INSTALL += "kernel-dev"
--
-+IMAGE_INSTALL += "kernel-devsrc"
--- 
-2.1.4
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEDDIRSMSX107gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+V2luZ2RpbmdzOw0KCXBhbm9zZS0xOjUgMCAwIDAgMCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFjZQ0K
+CXtmb250LWZhbWlseTpXaW5nZGluZ3M7DQoJcGFub3NlLTE6NSAwIDAgMCAwIDAgMCAwIDAgMDt9
+DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIg
+MiAyIDQgMyAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5N
+c29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4w
+MDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFu
+IixzZXJpZjt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0
+eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNp
+dGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsN
+Cgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWls
+U3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToi
+Q2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJ
+e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
+LXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJn
+aW46MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldv
+cmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hh
+cGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlm
+XS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQi
+Pg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94
+bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIg
+dmxpbms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoYXTigJlzIHRydWUNCjwv
+c3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpXaW5nZGluZ3M7
+Y29sb3I6IzFGNDk3RCI+Sjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
+LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86
+cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGEgbmFtZT0iX01haWxF
+bmRDb21wb3NlIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
+dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9hPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+ZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFt
+aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRv
+OnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIEp1bHkg
+MTcsIDIwMTUgNTo0NiBQTTxicj4NCjxiPlRvOjwvYj4gTXVzYXQsIEdlb3JnZSBMPGJyPg0KPGI+
+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENI
+XSBvZXFhL3J1bnRpbWU6IEFkZGVkIHNraXAgY29uZGl0aW9uIHRvIGtlcm5lbCBtb2R1bGUgdGVz
+dDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
+OzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAxNyBKdWx5IDIwMTUg
+YXQgMTU6NDMsIE11c2F0LCBHZW9yZ2UgTCAmbHQ7PGEgaHJlZj0ibWFpbHRvOmdlb3JnZS5sLm11
+c2F0QGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmdlb3JnZS5sLm11c2F0QGludGVsLmNvbTwv
+YT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpu
+b25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2
+LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzttc28tbWFyZ2luLWJvdHRvbS1h
+bHQ6YXV0byI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoZXkgd29yayBvbiBjb3Jl
+LWltYWdlLXNhdG8tc2RrIGltYWdlcyBhbmQgZmFpbCBvbiBjb3JlLWltYWdlLWxzYi1zZGsgaW1h
+Z2VzLiBZb3UgY2FuIGxvb2sgYXQgYnVncw0KIDgwMTMsIDgwMTQsIDgwMTYuPC9zcGFuPjxvOnA+
+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+YnI+DQpUaGF0IHdvdWxkIGJlIGJlY2F1c2UgLXNhdG8tc2RrIGV4cGxpY2l0bHkgYWRkcyBrZXJu
+ZWwtZGV2c3JjIGJ1dCAtbHNiLXNkayB1c2VzIHRoZSBvbGQgbmFtZSBvZiBrZXJuZWwtZGV2IChz
+ZWUgNTRkNWU3NGExOWQ1NzczYzM5ODlkMWQ2NGI2YTVkOTI3MDEzOTYyYikuPG86cD48L286cD48
+L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkZpeCBpbmNvbWluZy48
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+
+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+KHNl
+ZSwgdGhpcyBpcyB3aHkgZ29vZCBjb21taXQgbWVzc2FnZXMgYXJlIGltcG9ydGFudCk8bzpwPjwv
+bzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+
+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEDDIRSMSX107gercor_--
