@@ -1,34 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 817FB65CBC
+Return-Path: <george.l.musat@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id ED4CB65CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 14:24:18 +0000 (UTC)
-Received: by qgii95 with SMTP id i95so16556559qgi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 07:24:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=wGWZ3lmrEltUX5Q/QCtKjrwfEdtSOcTk4+ZkKERGqaE=;
-	b=aEyo6XomfdDn7MN3aZJUqGsWwCITm8XhhVFG69W2HF/U7LrNMovUSD4CtVXWjq2Lz/
-	rCcVkSqYHT+xPTOxWZ+2W114jLZkPYMOiTG1i1zk8U2SRNVW3QIJlo1o/go6zvDC45wI
-	kwZcdc8Iyo4bU8L9NpZTH+d9DX4skbAYRNj/KuUlju084i8EERU36F844FLJkzq5mclQ
-	D+cVoPG19OQtbFD1d5zWRO2ED+HoBtZOKV+ktnU7tELO4DKmXbLRVBaPmqK9fpG3bTNh
-	DPEw63qKlh16UvPoRxOcBMbGDfH2OUFu96zKCqfnoDDPoYN5AkjMnIB0dAkrDVkjjwnt
-	xcYA==
-X-Gm-Message-State: ALoCoQkbKl60wzFNCcMtbL1QplAMAQM9cSsySQGxtgNQli4jDe7LKhJ7/qUyaYHSeiKrR98k2XRg
-X-Received: by 10.141.28.211 with SMTP id f202mr20286311qhe.93.1437143059032; 
-	Fri, 17 Jul 2015 07:24:19 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 17 Jul 2015 07:23:59 -0700 (PDT)
-In-Reply-To: <1437142674-8167-1-git-send-email-george.l.musat@intel.com>
+	Fri, 17 Jul 2015 14:32:51 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2015 07:32:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,497,1432623600"; 
+	d="scan'208,217";a="525965210"
+Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 17 Jul 2015 07:32:50 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.39]) by
+	IRSMSX102.ger.corp.intel.com ([169.254.2.85]) with mapi id
+	14.03.0224.002; Fri, 17 Jul 2015 15:32:48 +0100
+From: "Musat, George L" <george.l.musat@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] oeqa/runtime: Added skip condition to kernel
+	module test
+Thread-Index: AQHQwJta17RDeAUAwUGtZz4ll+ZNsJ3fpnaAgAASHfA=
+Date: Fri, 17 Jul 2015 14:32:48 +0000
+Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C287EAE73@IRSMSX107.ger.corp.intel.com>
 References: <1437142674-8167-1-git-send-email-george.l.musat@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 17 Jul 2015 15:23:59 +0100
-Message-ID: <CAJTo0La3bqO7ssvWgRKTFNm9K1WU-zAnmZ-69_1o7Q56A6Ze2w@mail.gmail.com>
-To: Lucian Musat <george.l.musat@intel.com>
+	<CAJTo0La3bqO7ssvWgRKTFNm9K1WU-zAnmZ-69_1o7Q56A6Ze2w@mail.gmail.com>
+In-Reply-To: <CAJTo0La3bqO7ssvWgRKTFNm9K1WU-zAnmZ-69_1o7Q56A6Ze2w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] oeqa/runtime: Added skip condition to kernel module test
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,34 +42,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 14:24:19 -0000
-Content-Type: multipart/alternative; boundary=001a114218c6868613051b12f1fb
+X-List-Received-Date: Fri, 17 Jul 2015 14:32:55 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C287EAE73IRSMSX107gercor_"
 
---001a114218c6868613051b12f1fb
-Content-Type: text/plain; charset=UTF-8
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAE73IRSMSX107gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 17 July 2015 at 15:17, Lucian Musat <george.l.musat@intel.com> wrote:
+U29ycnkgUm9zcywNCg0KDQpUaGUgdGVzdCBjYXNlIGNhdXNlcyDigJwvdXNyL3NyYy9rZXJuZWw6
+IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnnigJ0gZXJyb3Igd2hlbiBydW5uaW5nIGluIExTQiBp
+bWFnZXMgYmVjYXVzZSB0aGV5IGRvbuKAmXQgaGF2ZSBrZXJuZWwtZGV2c3JjIGl0IHNlZW1zLiBJ
+dOKAmXMgbm90IHJlYWxseSBhIGJ1ZyBidXQgdGhlIHRlc3QgY29kZSBoYWQgdG8gYmUgYSBsaXR0
+bGUgY3VzdG9taXplZCB0byBza2lwIHdoZW4gaW4gYSBMU0IgaW1hZ2UuDQoNCg0KDQpEbyB5b3Ug
+d2FudCBtZSB0byByZS1zZW5kIHRoZSBwYXRjaCB3aXRoIHRoaXMgaW5mbz8NCg0KDQoNCkx1Y2lh
+bi4NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0K
+U2VudDogRnJpZGF5LCBKdWx5IDE3LCAyMDE1IDU6MjQgUE0NClRvOiBNdXNhdCwgR2VvcmdlIEwN
+CkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2VxYS9ydW50aW1l
+OiBBZGRlZCBza2lwIGNvbmRpdGlvbiB0byBrZXJuZWwgbW9kdWxlIHRlc3QNCg0KT24gMTcgSnVs
+eSAyMDE1IGF0IDE1OjE3LCBMdWNpYW4gTXVzYXQgPGdlb3JnZS5sLm11c2F0QGludGVsLmNvbTxt
+YWlsdG86Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tPj4gd3JvdGU6DQpiZWNhdXNlIGl0IGNhdXNl
+ZCBmYWlsdXJlcyBpbiBjb3JlLWltYWdlLWxzYiBpbWFnZXMuDQoNClNvdW5kcyBvbWlub3VzLiAg
+Q2FuIHRoZSBjb21taXQgbG9nIHBsZWFzZSBzYXkgKndoYXQqIHRoZSBwcm9ibGVtcyBhcmUgZm9y
+IHNvbWVvbmUgY3VyaW91cyBpbiB0aGUgZnV0dXJlIChvciBwcmVzZW50LCBsaWtlIEkgYW0pLg0K
+DQpSb3NzDQo=
 
-> because it caused failures in core-image-lsb images.
->
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAE73IRSMSX107gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Sounds ominous.  Can the commit log please say *what* the problems are for
-someone curious in the future (or present, like I am).
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwcmUNCgl7bXNvLXN0eWxlLXBy
+aW9yaXR5Ojk5Ow0KCW1zby1zdHlsZS1saW5rOiJIVE1MIFByZWZvcm1hdHRlZCBDaGFyIjsNCglt
+YXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTAuMHB0Ow0K
+CWZvbnQtZmFtaWx5OiJDb3VyaWVyIE5ldyI7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNvLXN0
+eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2Vy
+aWY7DQoJY29sb3I6IzFGNDk3RDt9DQpzcGFuLkhUTUxQcmVmb3JtYXR0ZWRDaGFyDQoJe21zby1z
+dHlsZS1uYW1lOiJIVE1MIFByZWZvcm1hdHRlZCBDaGFyIjsNCgltc28tc3R5bGUtcHJpb3JpdHk6
+OTk7DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgUHJlZm9ybWF0dGVkIjsNCglmb250LWZhbWlseToi
+Q291cmllciBOZXciO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1v
+bmx5O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46
+MS4waW4gMS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRT
+ZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVk
+ZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0t
+PjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0K
+PG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+
+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxp
+bms9InB1cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
+aWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlNvcnJ5IFJvc3MsPG86cD48L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9y
+OiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwcmU+PHNwYW4gc3R5bGU9
+ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
+cmlmO2NvbG9yOiMxRjQ5N0QiPlRoZSB0ZXN0IGNhc2UgY2F1c2VzIOKAnC91c3Ivc3JjL2tlcm5l
+bDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeeKAnSBlcnJvciB3aGVuIHJ1bm5pbmcgaW4gTFNC
+IGltYWdlcyBiZWNhdXNlIHRoZXkgZG9u4oCZdCBoYXZlIGtlcm5lbC1kZXZzcmMgaXQgc2VlbXMu
+IEl04oCZcyBub3QgcmVhbGx5IGEgYnVnIGJ1dCB0aGUgdGVzdCBjb2RlIGhhZCB0byBiZSBhIGxp
+dHRsZSBjdXN0b21pemVkIHRvIHNraXAgd2hlbiBpbiBhIExTQiBpbWFnZS48bzpwPjwvbzpwPjwv
+c3Bhbj48L3ByZT4NCjxwcmU+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9zcGFuPjwvcHJlPg0KPHByZT48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
+dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
+RCI+RG8geW91IHdhbnQgbWUgdG8gcmUtc2VuZCB0aGUgcGF0Y2ggd2l0aCB0aGlzIGluZm8/PG86
+cD48L286cD48L3NwYW4+PC9wcmU+DQo8cHJlPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
+O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdE
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3ByZT4NCjxwcmU+PHNwYW4gc3R5bGU9ImZvbnQt
+c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2Nv
+bG9yOiMxRjQ5N0QiPkx1Y2lhbi48L3NwYW4+PG86cD48L286cD48L3ByZT4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9y
+OiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvYT48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVv
+dDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2Vy
+aWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8
+Yj5TZW50OjwvYj4gRnJpZGF5LCBKdWx5IDE3LCAyMDE1IDU6MjQgUE08YnI+DQo8Yj5Ubzo8L2I+
+IE11c2F0LCBHZW9yZ2UgTDxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6
+PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2VxYS9ydW50aW1lOiBBZGRlZCBza2lwIGNvbmRp
+dGlvbiB0byBrZXJuZWwgbW9kdWxlIHRlc3Q8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj5PbiAxNyBKdWx5IDIwMTUgYXQgMTU6MTcsIEx1Y2lhbiBNdXNhdCAmbHQ7PGEgaHJl
+Zj0ibWFpbHRvOmdlb3JnZS5sLm11c2F0QGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmdlb3Jn
+ZS5sLm11c2F0QGludGVsLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGRpdj4N
+CjxkaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQg
+I0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0
+O21hcmdpbi1yaWdodDowaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+YmVjYXVzZSBpdCBjYXVz
+ZWQgZmFpbHVyZXMgaW4gY29yZS1pbWFnZS1sc2IgaW1hZ2VzLjxvOnA+PC9vOnA+PC9wPg0KPC9i
+bG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+U291bmRzIG9taW5vdXMu
+Jm5ic3A7IENhbiB0aGUgY29tbWl0IGxvZyBwbGVhc2Ugc2F5ICp3aGF0KiB0aGUgcHJvYmxlbXMg
+YXJlIGZvciBzb21lb25lIGN1cmlvdXMgaW4gdGhlIGZ1dHVyZSAob3IgcHJlc2VudCwgbGlrZSBJ
+IGFtKS48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+Um9zcyZuYnNwOzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
+aXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-Ross
-
---001a114218c6868613051b12f1fb
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 17 July 2015 at 15:17, Lucian Musat <span dir=3D"ltr">&=
-lt;<a href=3D"mailto:george.l.musat@intel.com" target=3D"_blank">george.l.m=
-usat@intel.com</a>&gt;</span> wrote:<br><div class=3D"gmail_extra"><div cla=
-ss=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex">because it caused failure=
-s in core-image-lsb images.<br></blockquote><div><br></div><div>Sounds omin=
-ous.=C2=A0 Can the commit log please say *what* the problems are for someon=
-e curious in the future (or present, like I am).</div><div><br></div><div>R=
-oss=C2=A0</div></div></div></div>
-
---001a114218c6868613051b12f1fb--
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAE73IRSMSX107gercor_--
