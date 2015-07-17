@@ -1,30 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FF5F65CBD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id DB64565CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 11:29:59 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 21558F811D9; Fri, 17 Jul 2015 05:30:00 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 58C63F81188;
-	Fri, 17 Jul 2015 05:29:59 -0600 (MDT)
-Message-ID: <55A8E744.3060509@mlbassoc.com>
-Date: Fri, 17 Jul 2015 05:30:12 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Fri, 17 Jul 2015 11:34:24 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so67615931qkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jul 2015 04:34:24 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ZvABHCPwbZbNSooxXjHBKB4MhG4OVnP4f1lEmJi+xk4=;
+	b=bDZZEFan9qBn5A2BmzK1Sv5tLcTtCeC9JtEY1gpqWaxKTutj6L0GH60U9/VNJghOBD
+	G4B5RncZzhgW7KTMBkLEmOqzohDEs99pAyaZyA63TosLz7f5cLY/QDt0mToY/FU4Bqnb
+	TeTIA2fbE/FtJ1Adob+dR9spMQczxGRnbmASgEJ3jF7PFWR90FrXp+00oLMzdSiZMY48
+	9SZZCW3N8Soh9js5QXOtH3R8taJuioOOBMMS085PE61B/HBBGj3/flKsPUKIvA757EOs
+	Y8rIe48q2Fmh4n0TG8DYAMuSVRrLoa5OmOjy46puav1eKoK7xT/BrQECwF2aaqfGh7j+
+	c3mQ==
+X-Gm-Message-State: ALoCoQnfhOKH+z3nCI6O40cQhJd4k0xuDeU+QMQxQLGBcVfXzjdOFLhswuP/Zn2iXwVXCRH0t7a3
+X-Received: by 10.55.43.95 with SMTP id r92mr24129495qkh.67.1437132864792;
+	Fri, 17 Jul 2015 04:34:24 -0700 (PDT)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <55A8DF6B.3040909@mlbassoc.com>
-	<2990247.hoeDgcCp8y@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <2990247.hoeDgcCp8y@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: image.bbclass vs core-image.bbclass
+Received: by 10.140.102.231 with HTTP; Fri, 17 Jul 2015 04:34:05 -0700 (PDT)
+In-Reply-To: <a6959c48d7cb4873c2cf9523a287a7651f3aba3e.1437100265.git.liezhi.yang@windriver.com>
+References: <cover.1437100265.git.liezhi.yang@windriver.com>
+	<a6959c48d7cb4873c2cf9523a287a7651f3aba3e.1437100265.git.liezhi.yang@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 17 Jul 2015 12:34:05 +0100
+Message-ID: <CAJTo0LaoFyzhgV6xh-p4muzY7JQxRzmyd5Yx7WZKdRrH-oOamA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] git: 2.4.4 -> 2.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,58 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 11:30:02 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Jul 2015 11:34:28 -0000
+Content-Type: multipart/alternative; boundary=001a1147b8dce6c1f5051b1091ec
 
-On 2015-07-17 05:14, Paul Eggleton wrote:
-> Hi Gary,
->
-> On Friday 17 July 2015 04:56:43 Gary Thomas wrote:
->> Why are some ROOTFS_POSTPROCESS_COMMANDs being set in image.bbclass
->> and others in core-image.bbclass?  If I build an image using only
->> image.bbclass, I miss the settings from core-image.bbclass (which
->> is somewhat misnamed IMO since it's heavier than image.bbclass)?
->>
->> Is there some reason not to have all of the ROOTFS_POSTPROCESS_COMMANDs
->> just in image.bbclass alone?
->
-> The existence of this class is kind of a legacy from when parts of Poky became
-> OE-Core - originally core-image.bbclass was called poky-image.bbclass, and
-> what was in it was specific to Poky. We had to bring it over though because all
-> of our example images, which we need to have for verification (if nothing
-> else), inherited from it and still do. We've made minor adjustments to core-
-> image.bbclass since then but there are still things in there that are clearly
-> "distro" type definitions that don't make sense for everyone; so far nobody has
-> really stepped up to find any better common items or reasonable defaults
-> (perhaps there aren't any, though I doubt that).
->
-> There is a bug open assigned to me to try to sort this out, but to be honest
-> I've been struggling with how to best to do it:
->
->    https://bugzilla.yoctoproject.org/show_bug.cgi?id=5424
->
-> I'm open to any suggestions, because I do think the dichotomy between these
-> classes ought to be resolved if it can be done practically.
->
-> Specifically on the ROOTFS_POSTPROCESS_COMMANDs, those do look like they ought
-> to somehow be in image.bbclass if they can be added in a manner that doesn't
-> interfere with people's ability to create images that aren't rootfses.
+--001a1147b8dce6c1f5051b1091ec
+Content-Type: text/plain; charset=UTF-8
 
-It seems that many of the ROOTFS_POSTPROCESS_COMMANDs in image.bbclass already
-assume that a rootfs is being built.
+On 17 July 2015 at 03:31, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-To me the ROOTFS_POSTPROCESS_COMMANDs that are in core-image.bbclass
-don't seem any more invasive than the ones in image.bbclass.  For starters,
-I'd like to see them moved to image.bbclass.  It's also quite strange that
-the read-only-rootfs hook is defined in image.bbclass but only invoked
-from core-image.bbclass??  [That's the one that lead me down this road]
+> * Use git repo rathar then tarball.
+>
 
-Any objections to a patch that does that?
+For this and the file upgrade, why?
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+Tarballs are easily cached, and can be checksummed.  What's the reason to
+switch to a git clone?
 
+Ross
+
+--001a1147b8dce6c1f5051b1091ec
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 July 2015 at 03:31, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":10o" cla=
+ss=3D"a3s" style=3D"overflow:hidden">* Use git repo rathar then tarball.<br=
+></div></blockquote></div><br>For this and the file upgrade, why?</div><div=
+ class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Tarballs are ea=
+sily cached, and can be checksummed.=C2=A0 What&#39;s the reason to switch =
+to a git clone?</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">Ross</div></div>
+
+--001a1147b8dce6c1f5051b1091ec--
