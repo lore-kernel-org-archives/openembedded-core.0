@@ -1,35 +1,38 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FD3765CBC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 0201265CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 14:43:39 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2015 07:43:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,497,1432623600"; 
-	d="scan'208,217";a="525973012"
-Received: from irsmsx105.ger.corp.intel.com ([163.33.3.28])
-	by FMSMGA003.fm.intel.com with ESMTP; 17 Jul 2015 07:43:39 -0700
-Received: from irsmsx107.ger.corp.intel.com ([169.254.10.39]) by
-	irsmsx105.ger.corp.intel.com ([169.254.7.245]) with mapi id
-	14.03.0224.002; Fri, 17 Jul 2015 15:43:38 +0100
-From: "Musat, George L" <george.l.musat@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH] oeqa/runtime: Added skip condition to kernel
-	module test
-Thread-Index: AQHQwJta17RDeAUAwUGtZz4ll+ZNsJ3fpnaAgAASHfD///KZAIAAER4g
-Date: Fri, 17 Jul 2015 14:43:38 +0000
-Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C287EAEA6@IRSMSX107.ger.corp.intel.com>
+	Fri, 17 Jul 2015 14:46:01 +0000 (UTC)
+Received: by qkdl129 with SMTP id l129so70997211qkd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jul 2015 07:46:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ZGtTAA6KBwBeCxycfeyJnKWTb90jRIVxasFvSoLx4i4=;
+	b=kjJjSKexn1Hz5gUPbQebh4gR8PnYVPJlx7kqGTXQd2wQtq9YPlgzQR8cSpL6g9GZAk
+	iMYmMF34ZiCyDj51Snq3WIme4cddz9ay9QpiSwcSZfGpWnMs6ItBSY0nRul6UivOg1C/
+	RsMRqokP8zqhtoHAvbGmVZ80Zf3fiRafwMzclCG0NUIqsXt5OIvIflmj/yWyboy/cNe+
+	gGe4lHPyKUz0Sj3SC73d1bNkyCuTfkOAyQcsfLsjYPxK7n6MQDAsGJj+yjHywHNKDRfL
+	mDkyAne1gKFmIQvyqEyaU/eaA0/lVa5z4Ff7X8qvfsrdcjhqYEayuLzPvxnG8Avhg/fM
+	q7Ew==
+X-Gm-Message-State: ALoCoQm5z93YxSEBIA3gdXAYt2KL3bolIeoyulH4HjUB1IHEx8EIB9P2Jes3ysex/GAQPgtjoYZj
+X-Received: by 10.140.150.142 with SMTP id 136mr20173326qhw.17.1437144361915; 
+	Fri, 17 Jul 2015 07:46:01 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.231 with HTTP; Fri, 17 Jul 2015 07:45:42 -0700 (PDT)
+In-Reply-To: <042E875E1B5D414CA9BB78B7D4FA691C287EAEA6@IRSMSX107.ger.corp.intel.com>
 References: <1437142674-8167-1-git-send-email-george.l.musat@intel.com>
 	<CAJTo0La3bqO7ssvWgRKTFNm9K1WU-zAnmZ-69_1o7Q56A6Ze2w@mail.gmail.com>
 	<042E875E1B5D414CA9BB78B7D4FA691C287EAE73@IRSMSX107.ger.corp.intel.com>
 	<CAJTo0Laa7JVVdJATFcpvMzd4C02TRoP9=QOzSdc3VFfZwk__4w@mail.gmail.com>
-In-Reply-To: <CAJTo0Laa7JVVdJATFcpvMzd4C02TRoP9=QOzSdc3VFfZwk__4w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.181]
-MIME-Version: 1.0
+	<042E875E1B5D414CA9BB78B7D4FA691C287EAEA6@IRSMSX107.ger.corp.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 17 Jul 2015 15:45:42 +0100
+Message-ID: <CAJTo0LZduKtUJBndiu4_Jf5FMxDFYGHYjyigpahi8z-9w8TT+A@mail.gmail.com>
+To: "Musat, George L" <george.l.musat@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] oeqa/runtime: Added skip condition to kernel module test
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,104 +47,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 14:43:40 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEA6IRSMSX107gercor_"
+X-List-Received-Date: Fri, 17 Jul 2015 14:46:05 -0000
+Content-Type: multipart/alternative; boundary=001a11357d4a2f0ecd051b133f6f
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEA6IRSMSX107gercor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--001a11357d4a2f0ecd051b133f6f
+Content-Type: text/plain; charset=UTF-8
 
-VGhleSB3b3JrIG9uIGNvcmUtaW1hZ2Utc2F0by1zZGsgaW1hZ2VzIGFuZCBmYWlsIG9uIGNvcmUt
-aW1hZ2UtbHNiLXNkayBpbWFnZXMuIFlvdSBjYW4gbG9vayBhdCBidWdzIDgwMTMsIDgwMTQsIDgw
-MTYuDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0N
-ClNlbnQ6IEZyaWRheSwgSnVseSAxNywgMjAxNSA1OjQxIFBNDQpUbzogTXVzYXQsIEdlb3JnZSBM
-DQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG9lcWEvcnVudGlt
-ZTogQWRkZWQgc2tpcCBjb25kaXRpb24gdG8ga2VybmVsIG1vZHVsZSB0ZXN0DQoNCg0KT24gMTcg
-SnVseSAyMDE1IGF0IDE1OjMyLCBNdXNhdCwgR2VvcmdlIEwgPGdlb3JnZS5sLm11c2F0QGludGVs
-LmNvbTxtYWlsdG86Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tPj4gd3JvdGU6DQoNClRoZSB0ZXN0
-IGNhc2UgY2F1c2VzIOKAnC91c3Ivc3JjL2tlcm5lbDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9y
-eeKAnSBlcnJvciB3aGVuIHJ1bm5pbmcgaW4gTFNCIGltYWdlcyBiZWNhdXNlIHRoZXkgZG9u4oCZ
-dCBoYXZlIGtlcm5lbC1kZXZzcmMgaXQgc2VlbXMuIEl04oCZcyBub3QgcmVhbGx5IGEgYnVnIGJ1
-dCB0aGUgdGVzdCBjb2RlIGhhZCB0byBiZSBhIGxpdHRsZSBjdXN0b21pemVkIHRvIHNraXAgd2hl
-biBpbiBhIExTQiBpbWFnZS4NClRoYXQgc291bmRzIGxpa2Ugc29tZXRoaW5nIHdlIHNob3VsZCBm
-aXggaW4gdGhlIGltYWdlcyBidWlsdCBmb3IgUUEgcHVycG9zZXMuLi4gd2hhdCBpbWFnZXMgZG8g
-dGhlc2UgdGVzdHMgd29yayBhbmQgZmFpbCBvbj8NCg0KUm9zcw0K
+On 17 July 2015 at 15:43, Musat, George L <george.l.musat@intel.com> wrote:
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEA6IRSMSX107gercor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+> They work on core-image-sato-sdk images and fail on core-image-lsb-sdk
+> images. You can look at bugs 8013, 8014, 8016.
+>
+>
+That would be because -sato-sdk explicitly adds kernel-devsrc but -lsb-sdk
+uses the old name of kernel-dev (see
+54d5e74a19d5773c3989d1d64b6a5d927013962b).
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
-IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
-IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
-Um9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
-aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
-OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
-Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnByZQ0K
-CXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgUHJlZm9ybWF0
-dGVkIENoYXIiOw0KCW1hcmdpbjowaW47DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQt
-c2l6ZToxMC4wcHQ7DQoJZm9udC1mYW1pbHk6IkNvdXJpZXIgTmV3Ijt9DQpzcGFuLkhUTUxQcmVm
-b3JtYXR0ZWRDaGFyDQoJe21zby1zdHlsZS1uYW1lOiJIVE1MIFByZWZvcm1hdHRlZCBDaGFyIjsN
-Cgltc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgUHJlZm9ybWF0
-dGVkIjsNCglmb250LWZhbWlseTpDb25zb2xhczt9DQpzcGFuLkVtYWlsU3R5bGUxOQ0KCXttc28t
-c3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1z
-ZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBl
-OmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCkBwYWdl
-IFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4g
-MS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQot
-LT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4
-dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3Rl
-IG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpl
-eHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+
-DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+
-DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
-c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
-YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoZXkgd29yayBvbiBjb3JlLWltYWdlLXNhdG8tc2Rr
-IGltYWdlcyBhbmQgZmFpbCBvbiBjb3JlLWltYWdlLWxzYi1zZGsgaW1hZ2VzLiBZb3UgY2FuIGxv
-b2sgYXQgYnVncyA4MDEzLCA4MDE0LCA4MDE2LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4gc3R5bGU9ImZv
-bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
-O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvYT48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBz
-dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
-bnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8
-YnI+DQo8Yj5TZW50OjwvYj4gRnJpZGF5LCBKdWx5IDE3LCAyMDE1IDU6NDEgUE08YnI+DQo8Yj5U
-bzo8L2I+IE11c2F0LCBHZW9yZ2UgTDxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1
-YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2VxYS9ydW50aW1lOiBBZGRlZCBza2lw
-IGNvbmRpdGlvbiB0byBrZXJuZWwgbW9kdWxlIHRlc3Q8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+T24gMTcgSnVseSAyMDE1IGF0IDE1OjMyLCBNdXNhdCwgR2VvcmdlIEwg
-Jmx0OzxhIGhyZWY9Im1haWx0bzpnZW9yZ2UubC5tdXNhdEBpbnRlbC5jb20iIHRhcmdldD0iX2Js
-YW5rIj5nZW9yZ2UubC5tdXNhdEBpbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwv
-cD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0ND
-Q0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFy
-Z2luLXJpZ2h0OjBpbiI+DQo8cHJlPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5UaGUg
-dGVzdCBjYXNlIGNhdXNlcyDigJwvdXNyL3NyYy9rZXJuZWw6IE5vIHN1Y2ggZmlsZSBvciBkaXJl
-Y3RvcnnigJ0gZXJyb3Igd2hlbiBydW5uaW5nIGluIExTQiBpbWFnZXMgYmVjYXVzZSB0aGV5IGRv
-buKAmXQgaGF2ZSBrZXJuZWwtZGV2c3JjIGl0IHNlZW1zLiBJdOKAmXMgbm90IHJlYWxseSBhIGJ1
-ZyBidXQgdGhlIHRlc3QgY29kZSBoYWQgdG8gYmUgYSBsaXR0bGUgY3VzdG9taXplZCB0byBza2lw
-IHdoZW4gaW4gYSBMU0IgaW1hZ2UuPC9zcGFuPjxvOnA+PC9vOnA+PC9wcmU+DQo8L2Jsb2NrcXVv
-dGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoYXQgc291bmRzIGxpa2Ugc29tZXRo
-aW5nIHdlIHNob3VsZCBmaXggaW4gdGhlIGltYWdlcyBidWlsdCBmb3IgUUEgcHVycG9zZXMuLi4g
-d2hhdCBpbWFnZXMgZG8gdGhlc2UgdGVzdHMgd29yayBhbmQgZmFpbCBvbj88bzpwPjwvbzpwPjwv
-cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+
-PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+Fix incoming.
 
---_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEA6IRSMSX107gercor_--
+(see, this is why good commit messages are important)
+
+Ross
+
+--001a11357d4a2f0ecd051b133f6f
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 July 2015 at 15:43, Musat, George L <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:george.l.musat@intel.com" target=3D"_blank">george.l.musat@intel.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204)=
+;border-left-style:solid;padding-left:1ex"><p class=3D"MsoNormal"><span sty=
+le=3D"font-size:11pt;font-family:Calibri,sans-serif;color:rgb(31,73,125)">T=
+hey work on core-image-sato-sdk images and fail on core-image-lsb-sdk image=
+s. You can look at bugs 8013, 8014, 8016.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"></p></blockquote></div><br>That would be because -sa=
+to-sdk explicitly adds kernel-devsrc but -lsb-sdk uses the old name of kern=
+el-dev (see 54d5e74a19d5773c3989d1d64b6a5d927013962b).</div><div class=3D"g=
+mail_extra"><br></div><div class=3D"gmail_extra">Fix incoming.</div><div cl=
+ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(see, this is why =
+good commit messages are important)</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11357d4a2f0ecd051b133f6f--
