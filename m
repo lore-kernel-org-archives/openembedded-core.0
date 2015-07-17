@@ -1,24 +1,36 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 57C19760E8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 3662E65CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 03:04:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6H34oa8019777
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 17 Jul 2015 04:45:53 +0000 (UTC)
+Received: by igbpg9 with SMTP id pg9so29324668igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 20:04:50 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 16 Jul 2015 20:04:49 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jul 2015 10:58:44 +0800
-Message-ID: <1437101924-15700-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 16 Jul 2015 21:45:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=zYqoulrNQC4KuF0Ta77rE4xoqMFxQnsdLQjEmFrlWj4=;
+	b=OIRq/q9QixbAvamdKVbGCrgh2LUMqepu7KSrNLS1llPA+y0HASRK5tDG+Rv0TlMDb7
+	B0UuAoVtL2lBDMcIFdkcYNnIjNSTb0r4JzC+t/7Dhkp7gNN4EXvahsN3L6JvHaWnu9GC
+	rusw9jjHjnCr0nCR+bUmct9wcwzds/XjL26rUQffSTvpSCMvQqkHdsTlwGW4/MPLoKJw
+	IRDr7ya6SAeqiPm9t6R8nB+tr/3r9nKYYDeFAyf0wf0uCxiSpJyZQjIBwkAd65/PWiXd
+	tk6Xb+7dF76VNJnGt1k6AsOVercKvb39aj1yzdk5m/X50YPRd7KBNSfn+M6dDKk+O+PS
+	xVdw==
+X-Received: by 10.107.4.6 with SMTP id 6mr15650127ioe.49.1437108354121; Thu,
+	16 Jul 2015 21:45:54 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] kexec-tools: change powerpc memory size limit
+Received: by 10.107.20.83 with HTTP; Thu, 16 Jul 2015 21:45:24 -0700 (PDT)
+In-Reply-To: <7c7e76c69064f59ae5b4c6ac44235bee4332d494.1436781736.git.liezhi.yang@windriver.com>
+References: <cover.1436781736.git.liezhi.yang@windriver.com>
+	<7c7e76c69064f59ae5b4c6ac44235bee4332d494.1436781736.git.liezhi.yang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Jul 2015 21:45:24 -0700
+Message-ID: <CAMKF1sqVDngrV0zZEzZcCScM+HyV+LC++VzpFtVV9ZBW0M8jSQ@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] glibc: print PN when bbwarn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,86 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 03:04:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Jul 2015 04:45:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Quanyang Wang <quanyang.wang@windriver.com>
+On Mon, Jul 13, 2015 at 3:02 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> The current warning is:
+> WARNING: glibc: unable to generate header for spray.x
+>
+> Which is easier to debug than:
+> WARNING: unable to generate header for spray.x
+>
+> And remove the file before generate it again to fix the warning when
+> recompile:
+> file `bootparam_prot.h' already exists and may be overwritten
+> WARNING: unable to generate header for bootparam_prot.x
+> file `nlm_prot.h' already exists and may be overwritten
+> WARNING: unable to generate header for nlm_prot.x
+> [snip]
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/recipes-core/glibc/glibc_2.21.bb |    3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+> index 8197c29..30f1937 100644
+> --- a/meta/recipes-core/glibc/glibc_2.21.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.21.bb
+> @@ -135,7 +135,8 @@ do_compile () {
+>                 cd ${S}/sunrpc/rpcsvc
+>                 for r in ${rpcsvc}; do
+>                         h=`echo $r|sed -e's,\.x$,.h,'`
+> -                       rpcgen -h $r -o $h || bbwarn "unable to generate header for $r"
+> +                       rm -f $h
 
-When run "kexec" in powerpc board, the kexec has a limit that
-the kernel text and bss size must be less than 24M. But now
-some kernel size exceed the limit. So we need to change the limit,
-else will get the error log as below:
+it quashes the warning but doesnt fix underlying problem. this doesnt
+seem to be right thing to do in cross builds. We use cross-rpcgen to
+generate these files so this whole rpcgen run should be removed
+instead. Please test such a patch and correct it.
 
-my_load:669: do
-Could not find a free area of memory of 0x12400 bytes...
-Could not find a free area of memory of 0x13000 bytes...
-locate_hole failed
-
-Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- ...0002-powerpc-change-the-memory-size-limit.patch | 38 ++++++++++++++++++++++
- meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb     |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0002-powerpc-change-the-memory-size-limit.patch
-
-diff --git a/meta/recipes-kernel/kexec/kexec-tools/0002-powerpc-change-the-memory-size-limit.patch b/meta/recipes-kernel/kexec/kexec-tools/0002-powerpc-change-the-memory-size-limit.patch
-new file mode 100644
-index 0000000..d6b6383
---- /dev/null
-+++ b/meta/recipes-kernel/kexec/kexec-tools/0002-powerpc-change-the-memory-size-limit.patch
-@@ -0,0 +1,38 @@
-+From b19b68eab567aa534cf8dec79fe18e3dc0e14043 Mon Sep 17 00:00:00 2001
-+From: Quanyang Wang <quanyang.wang@windriver.com>
-+Date: Tue, 16 Jun 2015 12:59:57 +0800
-+Subject: [PATCH] powerpc: change the memory size limit
-+
-+When run "kexec" in powerpc board, the kexec has a limit that
-+the kernel text and bss size must be less than 24M. But now
-+some kernel size exceed the limit. So we need to change the limit,
-+else will get the error log as below:
-+
-+my_load:669: do
-+Could not find a free area of memory of 0x12400 bytes...
-+Could not find a free area of memory of 0x13000 bytes...
-+locate_hole failed
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-+---
-+ kexec/arch/ppc/kexec-ppc.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/kexec/arch/ppc/kexec-ppc.h b/kexec/arch/ppc/kexec-ppc.h
-+index 904cf48..a097ecd 100644
-+--- a/kexec/arch/ppc/kexec-ppc.h
-++++ b/kexec/arch/ppc/kexec-ppc.h
-+@@ -42,7 +42,7 @@ void dol_ppc_usage(void);
-+  * During inital setup the kernel does not map the whole memory but a part of
-+  * it. On Book-E that is 64MiB, 601 24MiB or 256MiB (if possible).
-+  */
-+-#define KERNEL_ACCESS_TOP (24 * 1024 * 1024)
-++#define KERNEL_ACCESS_TOP (36 * 1024 * 1024)
-+ 
-+ /* boot block version 17 as defined by the linux kernel */
-+ struct bootblock {
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
-index db5649b..6164ff5 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.9.bb
-@@ -6,6 +6,7 @@ SRC_URI += "file://kexec-tools-Refine-kdump-device_tree-sort.patch \
-             file://kexec-aarch64.patch \
-             file://kexec-x32.patch \
-             file://0001-purgatory-Disabling-GCC-s-stack-protection.patch \
-+            file://0002-powerpc-change-the-memory-size-limit.patch \
-          "
- 
- SRC_URI[md5sum] = "4ecb7ab7ad9eb6ce413899bdb07a8426"
--- 
-1.9.1
-
+> +                       rpcgen -h $r -o $h || bbwarn "${PN}: unable to generate header for $r"
+>                 done
+>         )
+>         echo "Adjust ldd script"
+> --
+> 1.7.9.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
