@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E459173E3B
+	by mail.openembedded.org (Postfix) with ESMTP id E54F07589F
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jul 2015 02:31:48 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6H2Vmpk017232
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6H2Vnrg017243
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jul 2015 19:31:48 -0700 (PDT)
+	Thu, 16 Jul 2015 19:31:49 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
 	Thu, 16 Jul 2015 19:31:48 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 16 Jul 2015 19:31:43 -0700
-Message-ID: <d0b1de963397260b4336e0e0314361f44ac0774a.1437100265.git.liezhi.yang@windriver.com>
+Date: Thu, 16 Jul 2015 19:31:45 -0700
+Message-ID: <672dd1856a39881dc3bd8e1a85e72f82f8425063.1437100265.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1437100265.git.liezhi.yang@windriver.com>
 References: <cover.1437100265.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] btrfs-tools: 4.0.1 -> 4.1.1
+Subject: [PATCH 3/5] lttng-ust: 2.6.1 -> 2.6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +36,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 17 Jul 2015 02:31:49 -0000
 Content-Type: text/plain
 
-This upgrade fixes DEBUG_BUILD on qemuarm:
-    [CC]     btrfs-convert.o
-    [CC]     btrfs-corrupt-block.o
-    [CC]     btrfs-calc-size.o
-{standard input}: Assembler messages:
-{standard input}:3257: Error: invalid operands (.text and *UND* sections) for `-'
-{standard input}:3263: Error: invalid operands (.text and *UND* sections) for `-'
-make: *** [cmds-fi-usage.o] Error 1
+* Remove add-aarch64.patch since it is already in the source.
+* Rename lttng-ust_2.6.1.bb -> lttng-ust_git.bb
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../btrfs-tools/btrfs-tools_git.bb                 |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../lttng/lttng-ust/add-aarch64.patch              |   19 -------------------
+ .../lttng/{lttng-ust_2.6.1.bb => lttng-ust_git.bb} |    6 +++---
+ 2 files changed, 3 insertions(+), 22 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+ rename meta/recipes-kernel/lttng/{lttng-ust_2.6.1.bb => lttng-ust_git.bb} (91%)
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index 82403aa..4ad4b81 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
- SECTION = "base"
- DEPENDS = "util-linux attr e2fsprogs lzo acl"
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch b/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
+deleted file mode 100644
+index cec5410..0000000
+--- a/meta/recipes-kernel/lttng/lttng-ust/add-aarch64.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-lttng-ust: add aarch64 recognition
+-
+-Treat the same as "arm".
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: joe.slater@windriver.com
+-
+-
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -230,6 +230,7 @@ changequote([,])dnl
+- 	s390) NO_UNALIGNED_ACCESS=1 ;;
+- 	s390x) NO_UNALIGNED_ACCESS=1 ;;
+-         arm*) NO_UNALIGNED_ACCESS=1 ;;
+-+        aarch64) NO_UNALIGNED_ACCESS=1 ;;
+- 	mips*) NO_UNALIGNED_ACCESS=1 ;;
+- 	tile*) NO_UNALIGNED_ACCESS=1 ;;
+- 	*) AC_MSG_ERROR([unable to detect alignment requirements (unsupported architecture ($host_cpu)?)]) ;;
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.6.1.bb b/meta/recipes-kernel/lttng/lttng-ust_git.bb
+similarity index 91%
+rename from meta/recipes-kernel/lttng/lttng-ust_2.6.1.bb
+rename to meta/recipes-kernel/lttng/lttng-ust_git.bb
+index d083f86..ae4afd3 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.6.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_git.bb
+@@ -18,14 +18,14 @@ RPROVIDES_${PN} = "lttng2-ust"
+ RREPLACES_${PN} = "lttng2-ust"
+ RCONFLICTS_${PN} = "lttng2-ust"
  
--SRCREV = "c061b303c08af7a58373908d0d77ef0f1161fd36"
-+SRCREV = "20be329fdb569fefdf88ba0e4ca1a41488fcbc19"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
-            file://fix-parallel.patch \
- "
-@@ -27,6 +27,6 @@ do_configure_prepend() {
+-SRCREV = "369ee1a1b12338e5158d24f9c879f5dd52f1aba2"
++SRCREV = "c49ee9040ada6984c880756614e8a6f7fd645bd6"
+ PE = "2"
++PV = "2.6.2+git${SRCPV}"
+ 
+ SRC_URI = "git://git.lttng.org/lttng-ust.git;branch=stable-2.6 \
+            file://lttng-ust-doc-examples-disable.patch \
+-           file://add-aarch64.patch \
+            file://lttng-ust-Fix-live-timer-calculation-error.patch \
+-	   "
++        "
  
  S = "${WORKDIR}/git"
  
--PV = "4.0.1+git${SRCPV}"
-+PV = "4.1.1+git${SRCPV}"
- 
- BBCLASSEXTEND = "native"
 -- 
 1.7.9.5
 
