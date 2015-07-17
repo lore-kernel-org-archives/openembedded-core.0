@@ -1,27 +1,30 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 89BF665CBD
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F083765CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 06:37:54 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.13,665,1427731200"; d="scan'208";a="98551947"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 Jul 2015 14:41:34 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6H6a3wt030780
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 14:36:03 +0800
-Received: from localhost.localdomain (10.167.226.92) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 17 Jul 2015 14:37:49 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 17 Jul 2015 14:37:41 +0800
-Message-ID: <1437115061-1635-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Fri, 17 Jul 2015 06:58:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6H6wOuv019860
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Jul 2015 23:58:24 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 16 Jul 2015 23:58:24 -0700
+Message-ID: <55A8A78F.7020209@windriver.com>
+Date: Fri, 17 Jul 2015 14:58:23 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.92]
-Subject: [PATCH] gtk+: Fix bug in gtk-demo
+To: Khem Raj <raj.khem@gmail.com>
+References: <cover.1436781736.git.liezhi.yang@windriver.com>
+	<7c7e76c69064f59ae5b4c6ac44235bee4332d494.1436781736.git.liezhi.yang@windriver.com>
+	<CAMKF1sqVDngrV0zZEzZcCScM+HyV+LC++VzpFtVV9ZBW0M8jSQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqVDngrV0zZEzZcCScM+HyV+LC++VzpFtVV9ZBW0M8jSQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] glibc: print PN when bbwarn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,67 +37,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 06:37:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 17 Jul 2015 06:58:28 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Modify gtkrc.c,otherwise the input-methods can not be enabled in gtk-demo.
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-gnome/gtk+/gtk+/gtkrc.c-Bug-fix.patch | 30 ++++++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+_2.24.28.bb            |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+/gtkrc.c-Bug-fix.patch
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+/gtkrc.c-Bug-fix.patch b/meta/recipes-gnome/gtk+/gtk+/gtkrc.c-Bug-fix.patch
-new file mode 100644
-index 0000000..59a707c
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+/gtkrc.c-Bug-fix.patch
-@@ -0,0 +1,30 @@
-+From 3080e6d55f12b5ba453723f295653c1696c4ad44 Mon Sep 17 00:00:00 2001
-+From: Li xin <lixin.fnst@cn.fujitsu.com>
-+Date: Wed, 15 Jul 2015 20:05:05 +0900
-+Subject: [PATCH] gtkrc.c: Bug fix
-+
-+Modify gtkrc.c, otherwise the input-methods can not be enabled in gtk-demo.
-+
-+Upstream-Status: pending
-+
-+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-+---
-+ gtk/gtkrc.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gtk/gtkrc.c b/gtk/gtkrc.c
-+index 50b2563..4e6b618 100644
-+--- a/gtk/gtkrc.c
-++++ b/gtk/gtkrc.c
-+@@ -450,7 +450,7 @@ gtk_rc_get_im_module_file (void)
-+       if (im_module_file)
-+ 	result = g_strdup (im_module_file);
-+       else
-+-        result = gtk_rc_make_default_dir ("immodules.cache");
-++        result = g_build_filename (GTK_SYSCONFDIR, "gtk-2.0", "gtk.immodules", NULL);
-+     }
-+ 
-+   return result;
-+-- 
-+1.8.4.2
-+
-diff --git a/meta/recipes-gnome/gtk+/gtk+_2.24.28.bb b/meta/recipes-gnome/gtk+/gtk+_2.24.28.bb
-index e343773..9576670 100644
---- a/meta/recipes-gnome/gtk+/gtk+_2.24.28.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+_2.24.28.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/2.24/gtk+-${PV}.tar.xz \
-            file://toggle-font.diff;striplevel=0 \
-            file://doc-fixes.patch \
-            file://strict-prototypes.patch \
-+           file://gtkrc.c-Bug-fix.patch \
- 	  "
- 
- SRC_URI[md5sum] = "bfacf87b2ea67e4e5c7866a9003e6526"
--- 
-1.8.4.2
+On 07/17/2015 12:45 PM, Khem Raj wrote:
+> On Mon, Jul 13, 2015 at 3:02 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+>> The current warning is:
+>> WARNING: glibc: unable to generate header for spray.x
+>>
+>> Which is easier to debug than:
+>> WARNING: unable to generate header for spray.x
+>>
+>> And remove the file before generate it again to fix the warning when
+>> recompile:
+>> file `bootparam_prot.h' already exists and may be overwritten
+>> WARNING: unable to generate header for bootparam_prot.x
+>> file `nlm_prot.h' already exists and may be overwritten
+>> WARNING: unable to generate header for nlm_prot.x
+>> [snip]
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/recipes-core/glibc/glibc_2.21.bb |    3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/glibc/glibc_2.21.bb b/meta/recipes-core/glibc/glibc_2.21.bb
+>> index 8197c29..30f1937 100644
+>> --- a/meta/recipes-core/glibc/glibc_2.21.bb
+>> +++ b/meta/recipes-core/glibc/glibc_2.21.bb
+>> @@ -135,7 +135,8 @@ do_compile () {
+>>                  cd ${S}/sunrpc/rpcsvc
+>>                  for r in ${rpcsvc}; do
+>>                          h=`echo $r|sed -e's,\.x$,.h,'`
+>> -                       rpcgen -h $r -o $h || bbwarn "unable to generate header for $r"
+>> +                       rm -f $h
+>
+> it quashes the warning but doesnt fix underlying problem. this doesnt
+> seem to be right thing to do in cross builds. We use cross-rpcgen to
+> generate these files so this whole rpcgen run should be removed
+> instead. Please test such a patch and correct it.
+>
 
+Hi Khem,
+
+I will be on vacation the whole next week, will do when I come back.
+
+// Robert
+
+>> +                       rpcgen -h $r -o $h || bbwarn "${PN}: unable to generate header for $r"
+>>                  done
+>>          )
+>>          echo "Adjust ldd script"
+>> --
+>> 1.7.9.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
