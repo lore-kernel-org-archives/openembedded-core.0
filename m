@@ -1,36 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 1883C65CBC
+Return-Path: <george.l.musat@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FD3765CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 14:41:10 +0000 (UTC)
-Received: by qkdv3 with SMTP id v3so70863240qkd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jul 2015 07:41:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=4mTyQrjx4MPyzQ+MozykqoksRAcJxDhKBF2260h08fI=;
-	b=EHRtjhVfoJTG/RfxKvOet8D+BHVOYD7GHSfFL2P3cfLvwoXa7LnNNSjJNa3PItT/rC
-	AeD7mWTGmK7PI9EkCcCvsTlONCjldSv/1c/Av21Uy46/eRMVcl5D7vmR/ZYfw8SllfC2
-	sOdMgWmqjUiEmr/btjGMwZhU4I5mtVbdNtk6SgKy7NLW0qM1Y5Qk36nNMsRMY4O2vb8V
-	7sEO7isAP1PmybUogHFsqMwh1+zCpG3Y7gt003vT4rnuzJKF9uLyWEnEpktvXKFc/XGK
-	ip6es1hnYZTq+EdCIi4b7QBF+9rno2uapkDH4WuOiM+Rqo7kEC8VGQyX4ar8CbLeG570
-	a4Rw==
-X-Gm-Message-State: ALoCoQnijN06MNyYUZLFr0DDBc5Om09iMNbkWrIOaaZlJ0kQea8sONagxjd4UyW0I7i3+ixBkFKE
-X-Received: by 10.55.15.129 with SMTP id 1mr25992511qkp.29.1437144070397; Fri,
-	17 Jul 2015 07:41:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.231 with HTTP; Fri, 17 Jul 2015 07:40:50 -0700 (PDT)
-In-Reply-To: <042E875E1B5D414CA9BB78B7D4FA691C287EAE73@IRSMSX107.ger.corp.intel.com>
+	Fri, 17 Jul 2015 14:43:39 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Jul 2015 07:43:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,497,1432623600"; 
+	d="scan'208,217";a="525973012"
+Received: from irsmsx105.ger.corp.intel.com ([163.33.3.28])
+	by FMSMGA003.fm.intel.com with ESMTP; 17 Jul 2015 07:43:39 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.39]) by
+	irsmsx105.ger.corp.intel.com ([169.254.7.245]) with mapi id
+	14.03.0224.002; Fri, 17 Jul 2015 15:43:38 +0100
+From: "Musat, George L" <george.l.musat@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH] oeqa/runtime: Added skip condition to kernel
+	module test
+Thread-Index: AQHQwJta17RDeAUAwUGtZz4ll+ZNsJ3fpnaAgAASHfD///KZAIAAER4g
+Date: Fri, 17 Jul 2015 14:43:38 +0000
+Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C287EAEA6@IRSMSX107.ger.corp.intel.com>
 References: <1437142674-8167-1-git-send-email-george.l.musat@intel.com>
 	<CAJTo0La3bqO7ssvWgRKTFNm9K1WU-zAnmZ-69_1o7Q56A6Ze2w@mail.gmail.com>
 	<042E875E1B5D414CA9BB78B7D4FA691C287EAE73@IRSMSX107.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 17 Jul 2015 15:40:50 +0100
-Message-ID: <CAJTo0Laa7JVVdJATFcpvMzd4C02TRoP9=QOzSdc3VFfZwk__4w@mail.gmail.com>
-To: "Musat, George L" <george.l.musat@intel.com>
+	<CAJTo0Laa7JVVdJATFcpvMzd4C02TRoP9=QOzSdc3VFfZwk__4w@mail.gmail.com>
+In-Reply-To: <CAJTo0Laa7JVVdJATFcpvMzd4C02TRoP9=QOzSdc3VFfZwk__4w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] oeqa/runtime: Added skip condition to kernel module test
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,43 +44,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jul 2015 14:41:11 -0000
-Content-Type: multipart/alternative; boundary=001a1146f100ceb2f6051b132d22
+X-List-Received-Date: Fri, 17 Jul 2015 14:43:40 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEA6IRSMSX107gercor_"
 
---001a1146f100ceb2f6051b132d22
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEA6IRSMSX107gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 17 July 2015 at 15:32, Musat, George L <george.l.musat@intel.com> wrote:
+VGhleSB3b3JrIG9uIGNvcmUtaW1hZ2Utc2F0by1zZGsgaW1hZ2VzIGFuZCBmYWlsIG9uIGNvcmUt
+aW1hZ2UtbHNiLXNkayBpbWFnZXMuIFlvdSBjYW4gbG9vayBhdCBidWdzIDgwMTMsIDgwMTQsIDgw
+MTYuDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0N
+ClNlbnQ6IEZyaWRheSwgSnVseSAxNywgMjAxNSA1OjQxIFBNDQpUbzogTXVzYXQsIEdlb3JnZSBM
+DQpDYzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIG9lcWEvcnVudGlt
+ZTogQWRkZWQgc2tpcCBjb25kaXRpb24gdG8ga2VybmVsIG1vZHVsZSB0ZXN0DQoNCg0KT24gMTcg
+SnVseSAyMDE1IGF0IDE1OjMyLCBNdXNhdCwgR2VvcmdlIEwgPGdlb3JnZS5sLm11c2F0QGludGVs
+LmNvbTxtYWlsdG86Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tPj4gd3JvdGU6DQoNClRoZSB0ZXN0
+IGNhc2UgY2F1c2VzIOKAnC91c3Ivc3JjL2tlcm5lbDogTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9y
+eeKAnSBlcnJvciB3aGVuIHJ1bm5pbmcgaW4gTFNCIGltYWdlcyBiZWNhdXNlIHRoZXkgZG9u4oCZ
+dCBoYXZlIGtlcm5lbC1kZXZzcmMgaXQgc2VlbXMuIEl04oCZcyBub3QgcmVhbGx5IGEgYnVnIGJ1
+dCB0aGUgdGVzdCBjb2RlIGhhZCB0byBiZSBhIGxpdHRsZSBjdXN0b21pemVkIHRvIHNraXAgd2hl
+biBpbiBhIExTQiBpbWFnZS4NClRoYXQgc291bmRzIGxpa2Ugc29tZXRoaW5nIHdlIHNob3VsZCBm
+aXggaW4gdGhlIGltYWdlcyBidWlsdCBmb3IgUUEgcHVycG9zZXMuLi4gd2hhdCBpbWFnZXMgZG8g
+dGhlc2UgdGVzdHMgd29yayBhbmQgZmFpbCBvbj8NCg0KUm9zcw0K
 
-> The test case causes =E2=80=9C/usr/src/kernel: No such file or directory=
-=E2=80=9D error when running in LSB images because they don=E2=80=99t have =
-kernel-devsrc it seems. It=E2=80=99s not really a bug but the test code had=
- to be a little customized to skip when in a LSB image.
->
-> That sounds like something we should fix in the images built for QA
-purposes... what images do these tests work and fail on?
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEA6IRSMSX107gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Ross
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
+IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
+Um9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
+aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
+OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
+Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnByZQ0K
+CXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgUHJlZm9ybWF0
+dGVkIENoYXIiOw0KCW1hcmdpbjowaW47DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQt
+c2l6ZToxMC4wcHQ7DQoJZm9udC1mYW1pbHk6IkNvdXJpZXIgTmV3Ijt9DQpzcGFuLkhUTUxQcmVm
+b3JtYXR0ZWRDaGFyDQoJe21zby1zdHlsZS1uYW1lOiJIVE1MIFByZWZvcm1hdHRlZCBDaGFyIjsN
+Cgltc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgUHJlZm9ybWF0
+dGVkIjsNCglmb250LWZhbWlseTpDb25zb2xhczt9DQpzcGFuLkVtYWlsU3R5bGUxOQ0KCXttc28t
+c3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1z
+ZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBl
+OmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCkBwYWdl
+IFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4g
+MS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQot
+LT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4
+dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3Rl
+IG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpl
+eHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+
+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+
+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+c3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90Oyxz
+YW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoZXkgd29yayBvbiBjb3JlLWltYWdlLXNhdG8tc2Rr
+IGltYWdlcyBhbmQgZmFpbCBvbiBjb3JlLWltYWdlLWxzYi1zZGsgaW1hZ2VzLiBZb3UgY2FuIGxv
+b2sgYXQgYnVncyA4MDEzLCA4MDE0LCA4MDE2LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9zZSI+PHNwYW4gc3R5bGU9ImZv
+bnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
+O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvYT48L3A+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNh
+bnMtc2VyaWYiPiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8
+YnI+DQo8Yj5TZW50OjwvYj4gRnJpZGF5LCBKdWx5IDE3LCAyMDE1IDU6NDEgUE08YnI+DQo8Yj5U
+bzo8L2I+IE11c2F0LCBHZW9yZ2UgTDxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1
+YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2VxYS9ydW50aW1lOiBBZGRlZCBza2lw
+IGNvbmRpdGlvbiB0byBrZXJuZWwgbW9kdWxlIHRlc3Q8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+T24gMTcgSnVseSAyMDE1IGF0IDE1OjMyLCBNdXNhdCwgR2VvcmdlIEwg
+Jmx0OzxhIGhyZWY9Im1haWx0bzpnZW9yZ2UubC5tdXNhdEBpbnRlbC5jb20iIHRhcmdldD0iX2Js
+YW5rIj5nZW9yZ2UubC5tdXNhdEBpbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwv
+cD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0ND
+Q0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44cHQ7bWFy
+Z2luLXJpZ2h0OjBpbiI+DQo8cHJlPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5UaGUg
+dGVzdCBjYXNlIGNhdXNlcyDigJwvdXNyL3NyYy9rZXJuZWw6IE5vIHN1Y2ggZmlsZSBvciBkaXJl
+Y3RvcnnigJ0gZXJyb3Igd2hlbiBydW5uaW5nIGluIExTQiBpbWFnZXMgYmVjYXVzZSB0aGV5IGRv
+buKAmXQgaGF2ZSBrZXJuZWwtZGV2c3JjIGl0IHNlZW1zLiBJdOKAmXMgbm90IHJlYWxseSBhIGJ1
+ZyBidXQgdGhlIHRlc3QgY29kZSBoYWQgdG8gYmUgYSBsaXR0bGUgY3VzdG9taXplZCB0byBza2lw
+IHdoZW4gaW4gYSBMU0IgaW1hZ2UuPC9zcGFuPjxvOnA+PC9vOnA+PC9wcmU+DQo8L2Jsb2NrcXVv
+dGU+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlRoYXQgc291bmRzIGxpa2Ugc29tZXRo
+aW5nIHdlIHNob3VsZCBmaXggaW4gdGhlIGltYWdlcyBidWlsdCBmb3IgUUEgcHVycG9zZXMuLi4g
+d2hhdCBpbWFnZXMgZG8gdGhlc2UgdGVzdHMgd29yayBhbmQgZmFpbCBvbj88bzpwPjwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9vOnA+
+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
---001a1146f100ceb2f6051b132d22
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 July 2015 at 15:32, Musat, George L <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:george.l.musat@intel.com" target=3D"_blank">george.l.musat@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><pre><span style=
-=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-serif;color:#1f49=
-7d">The test case causes =E2=80=9C/usr/src/kernel: No such file or director=
-y=E2=80=9D error when running in LSB images because they don=E2=80=99t have=
- kernel-devsrc it seems. It=E2=80=99s not really a bug but the test code ha=
-d to be a little customized to skip when in a LSB image.<u></u><u></u></spa=
-n></pre>
-<pre></pre></blockquote></div>That sounds like something we should fix in t=
-he images built for QA purposes... what images do these tests work and fail=
- on?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">R=
-oss</div></div>
-
---001a1146f100ceb2f6051b132d22--
+--_000_042E875E1B5D414CA9BB78B7D4FA691C287EAEA6IRSMSX107gercor_--
