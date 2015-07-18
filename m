@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id D666376128
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A446B7611D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jul 2015 15:16:52 +0000 (UTC)
-Received: by pdrg1 with SMTP id g1so77377784pdr.2
+	Sat, 18 Jul 2015 15:16:53 +0000 (UTC)
+Received: by pabkd10 with SMTP id kd10so4895444pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jul 2015 08:16:53 -0700 (PDT)
+	Sat, 18 Jul 2015 08:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=9f1H/0MfctVhGRxe0t5+a9eU5lxTR5nMfxWmjOvgfBw=;
-	b=iLQuHUCsYctAoGA+LCQJ0YrAPCRW9m1MkJzaHXE/8i78T8y1fcsihbdxAmSgOPzP4h
-	/nFcT3pY3eN4jtOdCLOXw5P6NnPIPzjYKwr9ZBXfjtuAPAM2qaVHivEj6lIpIaUzyCfB
-	5EG1JAM8eOJyKQ4Z2ib/sUfsMqr1NJtW12rSiRISve2+9sgkcHSGXZjE/NBoQ/rkJ24I
-	5hGvw6gwEFeNWqNEerrBFp4JopThTM9USInxPMM28J6R2raTmemJwIQrrlqBk3Wpmx+n
-	tv++IFDuLSRM/l72qjDJ5n+eI7glBxl3DHqwEYBavX6WhI+/KioMPoAgXNEqLNN+2WFG
-	iX4A==
-X-Received: by 10.66.222.161 with SMTP id qn1mr41271751pac.66.1437232613453;
-	Sat, 18 Jul 2015 08:16:53 -0700 (PDT)
+	:references; bh=n8WNP61e95ZlsKIgvS2/yYUG+vU1gfISxYiEpTik+RM=;
+	b=E3utn2lcP9RVKbpXZSWDTaXKoxUwXLDUe58Hs/CYQMnqPMG2CKY7cfL3G+lFH++kSh
+	JiowXTqxiIxTh3tkPXRGQnSOlh2PpJCV7iDeftS5G0JjzW4oKENX1IAKnMsMzbOiuPKn
+	cPQngg2t+uKhE8mCKqeYkrwhbpIrbzsUp7dUSSD2R2MYpNxTGRDSqyKXqdziO9FFhQH2
+	kIvXJoFTe84dHf+926C/clCcsYj5NeRJYmMoMj232y4KBrqdI+iEuW71372Qdp/hbIcN
+	kUsmh6md03IkXnnJ0Ci/2Mt6A4LZYX63nswVEnYXuyY0MjdZTnjYO0/2dcotJjX2fHxp
+	qW9A==
+X-Received: by 10.66.132.81 with SMTP id os17mr40371643pab.153.1437232614009; 
+	Sat, 18 Jul 2015 08:16:54 -0700 (PDT)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	t2sm14635591pbs.10.2015.07.18.08.16.47
+	kx14sm14689927pab.0.2015.07.18.08.16.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 Jul 2015 08:16:50 -0700 (PDT)
+	Sat, 18 Jul 2015 08:16:51 -0700 (PDT)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 0746EFC12F9; Sat, 18 Jul 2015 08:16:36 -0700 (PDT)
+	id 38331FC12FC; Sat, 18 Jul 2015 08:16:36 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jul 2015 08:16:24 -0700
-Message-Id: <27110dba5d34d3d3d8f553e833fdd74c8bde9b75.1437232180.git.akuster808@gmail.com>
+Date: Sat, 18 Jul 2015 08:16:27 -0700
+Message-Id: <61263029dc57b2b3bf72df1bff6e582fe9444544.1437232180.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1437232180.git.akuster808@gmail.com>
 References: <cover.1437232180.git.akuster808@gmail.com>
 In-Reply-To: <cover.1437232180.git.akuster808@gmail.com>
 References: <cover.1437232180.git.akuster808@gmail.com>
-Subject: [PATCH 17/25] test-dependencies.sh: strip only .bb suffix
+Subject: [PATCH 20/25] dbus: CVE-2015-0245: prevent forged ActivationFailure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,40 +50,86 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 18 Jul 2015 15:16:53 -0000
 
-From: Martin Jansa <Martin.Jansa@gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 
-* we were stripping too much when stripping recipe name from line like this:
-  ERROR: Task 12016 (/some/patch/something.dot.bar.bb, do_fetch) failed with exit code '1'
-  where the recipe name contains dots and doesn't end with _<version>.bb
+Fix CVE-2015-0245 by preventing non-root and non-systemd processes
+from fooling the dbus daemon into thinking systemd service activation
+failed.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/test-dependencies.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/dbus/dbus.inc                    |  1 +
+ ...015-0245-prevent-forged-ActivationFailure.patch | 48 ++++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch
 
-diff --git a/scripts/test-dependencies.sh b/scripts/test-dependencies.sh
-index 2bcc2ca..0170947 100755
---- a/scripts/test-dependencies.sh
-+++ b/scripts/test-dependencies.sh
-@@ -141,7 +141,7 @@ build_all() {
-   bitbake -k $targets 2>&1 | tee -a ${OUTPUT1}/complete.log
-   RESULT+=${PIPESTATUS[0]}
-   grep "ERROR: Task.*failed" ${OUTPUT1}/complete.log > ${OUTPUT1}/failed-tasks.log
--  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\..*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
-+  cat ${OUTPUT1}/failed-tasks.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' | sort -u > ${OUTPUT1}/failed-recipes.log
- }
+diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbus.inc
+index d38ba7e..971eabf 100644
+--- a/meta/recipes-core/dbus/dbus.inc
++++ b/meta/recipes-core/dbus/dbus.inc
+@@ -17,6 +17,7 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://dbus-1.init \
+            file://os-test.patch \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
++           file://CVE-2015-0245-prevent-forged-ActivationFailure.patch \
+ "
  
- build_every_recipe() {
-@@ -178,7 +178,7 @@ build_every_recipe() {
-       RESULT+=${RECIPE_RESULT}
-       mv ${OUTPUTB}/${recipe}.log ${OUTPUTB}/failed/
-       grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | tee -a ${OUTPUTB}/failed-tasks.log
--      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\..*@@g' >> ${OUTPUTB}/failed-recipes.log
-+      grep "ERROR: Task.*failed"  ${OUTPUTB}/failed/${recipe}.log | sed 's@.*/@@g; s@_.*@@g; s@\.bb, .*@@g' >> ${OUTPUTB}/failed-recipes.log
-       # and append also ${recipe} in case the failed task was from some dependency
-       echo ${recipe} >> ${OUTPUTB}/failed-recipes.log
-     else
+ inherit useradd autotools pkgconfig gettext update-rc.d
+diff --git a/meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch b/meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch
+new file mode 100644
+index 0000000..59363b3
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus/CVE-2015-0245-prevent-forged-ActivationFailure.patch
+@@ -0,0 +1,48 @@
++CVE-2015-0245: prevent forged ActivationFailure from non-root processes
++
++Upstream has fixed this in code but suggests using this as a easily
++backportable fix: https://bugs.freedesktop.org/show_bug.cgi?id=88811
++
++Upstream-Status: Inappropriate
++Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
++
++
++From 91eb2ea3362630190e08c1c777c47bae065ac828 Mon Sep 17 00:00:00 2001
++From: Simon McVittie <simon.mcvittie@collabora.co.uk>
++Date: Mon, 26 Jan 2015 20:09:56 +0000
++Subject: [PATCH 1/3] CVE-2015-0245: prevent forged ActivationFailure from
++ non-root processes
++
++Without either this rule or better checking in dbus-daemon, non-systemd
++processes can make dbus-daemon think systemd failed to activate a system
++service, resulting in an error reply back to the requester.
++
++This is redundant with the fix in the C code (which I consider to be
++the real solution), but is likely to be easier to backport.
++---
++ bus/system.conf.in | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/bus/system.conf.in b/bus/system.conf.in
++index 92f4cc4..851b9e6 100644
++--- a/bus/system.conf.in
+++++ b/bus/system.conf.in
++@@ -68,6 +68,14 @@
++     <deny send_destination="org.freedesktop.DBus"
++           send_interface="org.freedesktop.DBus"
++           send_member="UpdateActivationEnvironment"/>
+++    <deny send_destination="org.freedesktop.DBus"
+++          send_interface="org.freedesktop.systemd1.Activator"/>
+++  </policy>
+++
+++  <!-- Only systemd, which runs as root, may report activation failures. -->
+++  <policy user="root">
+++    <allow send_destination="org.freedesktop.DBus"
+++           send_interface="org.freedesktop.systemd1.Activator"/>
++   </policy>
++ 
++   <!-- Config files are placed here that among other things, punch 
++-- 
++2.1.4
++
 -- 
 1.9.1
 
