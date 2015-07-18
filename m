@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 17B16741CF
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AFCE76128
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jul 2015 15:16:48 +0000 (UTC)
-Received: by pdbbh15 with SMTP id bh15so31931712pdb.1
+	Sat, 18 Jul 2015 15:16:52 +0000 (UTC)
+Received: by pdrg1 with SMTP id g1so77377712pdr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jul 2015 08:16:49 -0700 (PDT)
+	Sat, 18 Jul 2015 08:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=T5weibdiP86O75gU1bwEsAdlAQdz4leBpvYVZ930WR4=;
-	b=HAtgK1mfat8dcf73Rj+Wl0ejbNFSxOrffzFcFN2ZWIOQYGwbUC+oHTWvI/HxLRBTv6
-	1dozxa1wuVNU3urK9eOr/yP5sLRXQY04dnfWlwXbzbRUiGSXL4NzZvEF9fSKqHGT8UaX
-	/Ol/ABmIWNdQyyw2Dp1zyYjK8phgw0FmMJ+P6aFXWsHs3tizmQwaQnlJ5TWo+e3Sssji
-	Llt48B/AQS1FRNzKjoOpPAI2cgZPK5CfTd/zDjOdRbuSTu27UvcO2i64EZZ+htRmfzJa
-	O1j13GnXTgt9OwZ5rkidENfDRH3zuOSot4d05ivuEnmbC1tdZhDL1dsr9tpVjMR4uKVM
-	qmwA==
-X-Received: by 10.70.129.102 with SMTP id nv6mr40748411pdb.55.1437232609204;
-	Sat, 18 Jul 2015 08:16:49 -0700 (PDT)
+	:references; bh=e4cc9JqtYPrlOq+jZTWT9zuEV7BJCbm7TG1Hu0tK/qA=;
+	b=CU2hm6N4JskN+HafXq+lYUCHH6oP8Z9cs/NYC6xWQTKwZ7145pj5VmnFCp/byy8wbD
+	rh5zbrX4+FzqF7VN9EeB2w/UeHX869hOJ5X2rhTN2z4lqiV4fZNHubLzhyvlL51O3Vuo
+	vJEd7ZTJ2Jz/qwfpcDgsP7e2rLRDBO8MjyTGeYDOHtYW0LhjFEvHHgwsRlUQw8Ki5PIk
+	nBx3KtKFFhXGxs/ZGY6uG/y20hWgU+A00H0VpkoAImhWZNFCTtVsLRz/vwoZCtcV5kLu
+	qQDtLDIurgGHXCF1RM/lstXoxetwxcjqJGnkhMpQRBP/p4BxezrIwu35ovIV3XsthT4G
+	kg5A==
+X-Received: by 10.68.130.98 with SMTP id od2mr40104284pbb.73.1437232612955;
+	Sat, 18 Jul 2015 08:16:52 -0700 (PDT)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	of5sm5091952pdb.52.2015.07.18.08.16.44
+	ql9sm14589478pbc.65.2015.07.18.08.16.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 Jul 2015 08:16:46 -0700 (PDT)
+	Sat, 18 Jul 2015 08:16:50 -0700 (PDT)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id BE54CFC12F4; Sat, 18 Jul 2015 08:16:35 -0700 (PDT)
+	id EF34CFC12F8; Sat, 18 Jul 2015 08:16:35 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jul 2015 08:16:19 -0700
-Message-Id: <5a64fc937b6a891e6d29904b6a95b5ad1d12b18d.1437232180.git.akuster808@gmail.com>
+Date: Sat, 18 Jul 2015 08:16:23 -0700
+Message-Id: <f51348093aefab500c95466e660cedaef1d8366f.1437232180.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1437232180.git.akuster808@gmail.com>
 References: <cover.1437232180.git.akuster808@gmail.com>
 In-Reply-To: <cover.1437232180.git.akuster808@gmail.com>
 References: <cover.1437232180.git.akuster808@gmail.com>
-Subject: [PATCH 12/25] qemu: fix CVE-2015-3456
+Subject: [PATCH 16/25] mesa: update --with-llvm-shared-libs configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,138 +50,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 18 Jul 2015 15:16:52 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Andre McCurdy <armccurdy@gmail.com>
 
-Backport patch to fix qemuc CVE issue CVE-2015-3456.
+As per the Mesa 10.2 release notes, "--with-llvm-shared-libs"
+has been renamed to "--enable-llvm-shared-libs".
 
-Refs:
-https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3456
-http://git.qemu.org/?p=qemu.git;a=commit;h=e907746266721f305d67bc0718795fedee2e824c
+  http://www.mesa3d.org/relnotes/10.2.html
 
-(From OE-Core rev: 1d9e6ef173bea8181fabc6abf0dbb53990b15fd8)
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
-
-Conflicts:
-	meta/recipes-devtools/qemu/qemu_2.1.0.bb
 ---
- .../qemu/qemu/qemu-CVE-2015-3456.patch             | 92 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/qemu-CVE-2015-3456.patch
+ meta/recipes-graphics/mesa/mesa.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu/qemu-CVE-2015-3456.patch b/meta/recipes-devtools/qemu/qemu/qemu-CVE-2015-3456.patch
-new file mode 100644
-index 0000000..f05441f
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/qemu-CVE-2015-3456.patch
-@@ -0,0 +1,92 @@
-+qemu: CVE-2015-3456
-+
-+the patch comes from:
-+https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3456
-+http://git.qemu.org/?p=qemu.git;a=commit;h=e907746266721f305d67bc0718795fedee2e824c
-+
-+fdc: force the fifo access to be in bounds of the allocated buffer
-+
-+During processing of certain commands such as FD_CMD_READ_ID and
-+FD_CMD_DRIVE_SPECIFICATION_COMMAND the fifo memory access could
-+get out of bounds leading to memory corruption with values coming
-+from the guest.
-+
-+Fix this by making sure that the index is always bounded by the
-+allocated memory.
-+
-+This is CVE-2015-3456.
-+
-+Signed-off-by: Petr Matousek <pmatouse@redhat.com>
-+Reviewed-by: John Snow <jsnow@redhat.com>
-+Signed-off-by: John Snow <jsnow@redhat.com>
-+Signed-off-by: Li Wang <li.wang@windriver.com>
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ hw/block/fdc.c |   17 +++++++++++------
-+ 1 file changed, 11 insertions(+), 6 deletions(-)
-+
-+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-+index 490d127..045459e 100644
-+--- a/hw/block/fdc.c
-++++ b/hw/block/fdc.c
-+@@ -1436,7 +1436,7 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
-+ {
-+     FDrive *cur_drv;
-+     uint32_t retval = 0;
-+-    int pos;
-++    uint32_t pos;
-+ 
-+     cur_drv = get_cur_drv(fdctrl);
-+     fdctrl->dsr &= ~FD_DSR_PWRDOWN;
-+@@ -1445,8 +1445,8 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
-+         return 0;
-+     }
-+     pos = fdctrl->data_pos;
-++    pos %= FD_SECTOR_LEN;
-+     if (fdctrl->msr & FD_MSR_NONDMA) {
-+-        pos %= FD_SECTOR_LEN;
-+         if (pos == 0) {
-+             if (fdctrl->data_pos != 0)
-+                 if (!fdctrl_seek_to_next_sect(fdctrl, cur_drv)) {
-+@@ -1790,10 +1790,13 @@ static void fdctrl_handle_option(FDCtrl *fdctrl, int direction)
-+ static void fdctrl_handle_drive_specification_command(FDCtrl *fdctrl, int direction)
-+ {
-+     FDrive *cur_drv = get_cur_drv(fdctrl);
-++    uint32_t pos;
-+ 
-+-    if (fdctrl->fifo[fdctrl->data_pos - 1] & 0x80) {
-++    pos = fdctrl->data_pos - 1;
-++    pos %= FD_SECTOR_LEN;
-++    if (fdctrl->fifo[pos] & 0x80) {
-+         /* Command parameters done */
-+-        if (fdctrl->fifo[fdctrl->data_pos - 1] & 0x40) {
-++        if (fdctrl->fifo[pos] & 0x40) {
-+             fdctrl->fifo[0] = fdctrl->fifo[1];
-+             fdctrl->fifo[2] = 0;
-+             fdctrl->fifo[3] = 0;
-+@@ -1893,7 +1896,7 @@ static uint8_t command_to_handler[256];
-+ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
-+ {
-+     FDrive *cur_drv;
-+-    int pos;
-++    uint32_t pos;
-+ 
-+     /* Reset mode */
-+     if (!(fdctrl->dor & FD_DOR_nRESET)) {
-+@@ -1941,7 +1944,9 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
-+     }
-+ 
-+     FLOPPY_DPRINTF("%s: %02x\n", __func__, value);
-+-    fdctrl->fifo[fdctrl->data_pos++] = value;
-++    pos = fdctrl->data_pos++;
-++    pos %= FD_SECTOR_LEN;
-++    fdctrl->fifo[pos] = value;
-+     if (fdctrl->data_pos == fdctrl->data_len) {
-+         /* We now have all parameters
-+          * and will be able to treat the command
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_2.1.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-index a82d052..d0ce744 100644
---- a/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-@@ -7,6 +7,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://qemu-enlarge-env-entry-size.patch \
-             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
-             file://0001-Back-porting-security-fix-CVE-2014-5388.patch \
-+            file://qemu-CVE-2015-3456.patch \
-             "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
- SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 1857f3c..658bd3a 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -62,7 +62,7 @@ PACKAGECONFIG[gallium]      = "--with-gallium-drivers=${GALLIUMDRIVERS}, --witho
+ PACKAGECONFIG[gallium-egl]  = "--enable-gallium-egl, --disable-gallium-egl"
+ PACKAGECONFIG[gallium-gbm]  = "--enable-gallium-gbm, --disable-gallium-gbm"
+ MESA_LLVM_RELEASE ?= "3.3"
+-PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --with-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
++PACKAGECONFIG[gallium-llvm] = "--enable-gallium-llvm --enable-llvm-shared-libs, --disable-gallium-llvm, llvm${MESA_LLVM_RELEASE} \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ export WANT_LLVM_RELEASE = "${MESA_LLVM_RELEASE}"
+ 
 -- 
 1.9.1
 
