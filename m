@@ -1,41 +1,41 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FA087611C
+Received: from mail-pd0-f173.google.com (mail-pd0-f173.google.com
+	[209.85.192.173])
+	by mail.openembedded.org (Postfix) with ESMTP id CA6067611B
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 18 Jul 2015 15:16:50 +0000 (UTC)
-Received: by pdjr16 with SMTP id r16so78774922pdj.3
+Received: by pdjr16 with SMTP id r16so78774994pdj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jul 2015 08:16:50 -0700 (PDT)
+	Sat, 18 Jul 2015 08:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id:in-reply-to:references:in-reply-to
-	:references; bh=MBEz/Js0nW+rXvgvPAwv1jcizM4Alwzgb5zDLrPkI3o=;
-	b=sZzF+/uFQlhoh9aNi48tx7mTZiFWiNyu+79shwDPMZAJe7XwoCH/CsG8Hx3NvCjNTr
-	Pr9amkjZT6cOjgojssLUOxcrqnsAmW/gyl7+QKpmBPc+lMNNH0MIbddb+hMlijndr2aI
-	LQch0xwMTzYaria6dG7iBsqKhw3HixKo2X581ZjRBUBsu2gHCuT91hUMnuwnsUrycNH8
-	NxgyL80DKjUPXqluDtgauDx18zCF+44pt8ue5Xh4Ew5BTLvvN9ryZsVeve7UJaKxcTPM
-	UTaACaeA7NUunlqS7fPDkYjyGPnpaMXoluKCI5bhLa0Y6IUIVXFrfgDOTiv1dC/R+BcS
-	vDnA==
-X-Received: by 10.66.165.8 with SMTP id yu8mr40517173pab.82.1437232610733;
-	Sat, 18 Jul 2015 08:16:50 -0700 (PDT)
+	:references; bh=UFNO72WFHfkwR7KncsmQrGC7vv4e+7CjeTe7R/PG0ck=;
+	b=BzFJy10Www0sqqOTylgDhZxhItbrKq3YUr/bNjFCbZB/BNyRn9w2iyedHchKbCC3w+
+	wLejAY1s4jheQrSdyf2Vs8oOnlnK3eShVnm4xLnGMEkZsdrBA022JzaQV5XL0jnQr3I8
+	f+YBY/keyiFWTr0qKgpnvrxkEgDy+5JAUF3nU/NtaaHkZ9FbJw9wDB65ABKqZYpb0IQS
+	pZMCMOxIOo/rZOxBrUbacdW3IKZLCsa3JZeAPrKCItFPboCpwpsA1AtNLiJEGi+61Ejk
+	G5TsO7ntrYF6xkyAlTlVccjgANsqjVKsjYBZyqKWRR6J/QAPG3tYaMqhaBzM4EHiOBjJ
+	ohUw==
+X-Received: by 10.66.121.163 with SMTP id ll3mr41252837pab.100.1437232611317; 
+	Sat, 18 Jul 2015 08:16:51 -0700 (PDT)
 Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	i5sm14691351pat.42.2015.07.18.08.16.45
+	qn7sm9116923pab.14.2015.07.18.08.16.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 Jul 2015 08:16:46 -0700 (PDT)
+	Sat, 18 Jul 2015 08:16:49 -0700 (PDT)
 Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id B21FDFC12F3; Sat, 18 Jul 2015 08:16:35 -0700 (PDT)
+	id E2FEEFC12F7; Sat, 18 Jul 2015 08:16:35 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jul 2015 08:16:18 -0700
-Message-Id: <74ce6e3c652aa5f0d3c471413bc39874b3003646.1437232180.git.akuster808@gmail.com>
+Date: Sat, 18 Jul 2015 08:16:22 -0700
+Message-Id: <471faf33fcf1e553e7a653467c9183da5f3fc93b.1437232180.git.akuster808@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1437232180.git.akuster808@gmail.com>
 References: <cover.1437232180.git.akuster808@gmail.com>
 In-Reply-To: <cover.1437232180.git.akuster808@gmail.com>
 References: <cover.1437232180.git.akuster808@gmail.com>
-Subject: [PATCH 11/25] ppp: Security Advisory - CVE-2015-3310
+Subject: [PATCH 15/25] e2fsprogs: install populate-extfs.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,79 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jul 2015 15:16:50 -0000
+X-List-Received-Date: Sat, 18 Jul 2015 15:16:51 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-3310
+* install populate-extfs.sh from contrib, be aware that in order
+  to use it you need to set DEBUGFS shell variable, otherwise it will
+  try to use debugfs from relative path which is almost always
+  incorrect:
+    CONTRIB_DIR=$(dirname $(readlink -f $0))
+    DEBUGFS="$CONTRIB_DIR/../debugfs/debugfs"
 
-Buffer overflow in the rc_mksid function in plugins/radius/util.c in
-Paul's PPP Package (ppp) 2.4.6 and earlier, when the PID for pppd is
-greater than 65535, allows remote attackers to cause a denial of
-service (crash) via a start accounting message to the RADIUS server.
-
-oe-core is using ppp 2.4.7, and this CVE say ppp 2.4.7 was not
-effected, but I found this buggy codes are same between 2.4.6 and
-2.4.7, and 2.4.7 should have this issue.
-
-(From OE-Core rev: 5b549c6d73e91fdbd0b618a752d618deb1449ef9)
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../ppp/ppp/fix-CVE-2015-3310.patch                | 29 ++++++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.6.bb         |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch b/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
-new file mode 100644
-index 0000000..c9edb30
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/fix-CVE-2015-3310.patch
-@@ -0,0 +1,29 @@
-+ppp: Buffer overflow in radius plugin
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+index 70ccdfd..95c612c 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.42.9.bb
+@@ -54,6 +54,8 @@ do_install () {
+ 	oe_multilib_header ext2fs/ext2_types.h
+ 	install -d ${D}${base_bindir}
+ 	mv ${D}${bindir}/chattr ${D}${base_bindir}/chattr.e2fsprogs
 +
-+From: https://bugs.debian.org/cgi-bin/bugreport.cgi?msg=5;bug=782450
-+
-+Upstream-Status: Backport
-+
-+On systems with more than 65535 processes running, pppd aborts when
-+sending a "start" accounting message to the RADIUS server because of a
-+buffer overflow in rc_mksid.
-+
-+The process id is used in rc_mksid to generate a pseudo-unique string,
-+assuming that the hex representation of the pid will be at most 4
-+characters (FFFF). __sprintf_chk(), used when compiling with
-+optimization levels greater than 0 and FORTIFY_SOURCE, detects the
-+buffer overflow and makes pppd crash.
-+
-+The following patch fixes the problem.
-+
-+--- ppp-2.4.6.orig/pppd/plugins/radius/util.c
-++++ ppp-2.4.6/pppd/plugins/radius/util.c
-+@@ -77,7 +77,7 @@ rc_mksid (void)
-+   static unsigned short int cnt = 0;
-+   sprintf (buf, "%08lX%04X%02hX",
-+ 	   (unsigned long int) time (NULL),
-+-	   (unsigned int) getpid (),
-++	   (unsigned int) getpid () % 65535,
-+ 	   cnt & 0xFF);
-+   cnt++;
-+   return buf;
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.6.bb b/meta/recipes-connectivity/ppp/ppp_2.4.6.bb
-index 8bc3672..b6b4048 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.6.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.6.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://ppp.samba.org/ftp/ppp/ppp-${PV}.tar.gz \
-            file://provider \
-            file://0001-ppp-Fix-compilation-errors-in-Makefile.patch \
-            file://ppp@.service \
-+           file://fix-CVE-2015-3310.patch \
- "
++	install -v -m 755 ${S}/contrib/populate-extfs.sh ${D}${base_sbindir}/
+ }
  
- SRC_URI[md5sum] = "3434d2cc9327167a0723aaaa8670083b"
+ do_install_append_class-target() {
 -- 
 1.9.1
 
