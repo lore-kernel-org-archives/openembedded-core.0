@@ -1,35 +1,36 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id EC52F65CBD
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 21D8775979
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 22:14:57 +0000 (UTC)
-Received: by pdbbh15 with SMTP id bh15so62357016pdb.1
+	Mon, 20 Jul 2015 22:15:13 +0000 (UTC)
+Received: by padck2 with SMTP id ck2so107161317pad.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 15:14:57 -0700 (PDT)
+	Mon, 20 Jul 2015 15:15:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=YwyknFaMYQpteOWehS/s+l7jYgMdz+t0pkclIDiWaUw=;
-	b=tvomLSLmpLI1CJovXxrTxnhBiVSQ8I/QYy3jg2jIo/u/OFugcKFsJyqRW/5v5Qnrwe
-	VTBb21V51fBr8UU7ELY7JFXqSslUhugfC0NlpesrcWUDUKb9AWvzGJZUVbt56pB1fQXd
-	afUy9xhc+hHNBtsm5TIkxB+i1Gm36ZirQ8aCmZAgxWbYUQz37mcbJPZy+FSQ7YoLjk3K
-	L/4WMjseGsODe5wn6oKzIMktJqylzQUIzvKRmZJX2CJo1PSKmgckG/AKJiJXkEgP+NVA
-	thfOI14JZyPNqPhGhNwxAoke+yh6voYfNPLGVr6UV+NksJGLuI7Zz88VUUDLEr0BkCpj
-	/rdA==
-X-Received: by 10.66.65.229 with SMTP id a5mr66037195pat.11.1437430497565;
-	Mon, 20 Jul 2015 15:14:57 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=lwLrFGRzYmU/Ulfqpu1JDqd/gPYqn6LIK8tl4sgvni0=;
+	b=id2OwkqqL6351Wc5504WKrp2N88vU0FhgjWZVlME68WSdsx0BdhESQrRUvY4rPL+y8
+	VjiK+z+3c7N56sskDd5RysyvvpPGSU0eRMo41LvQifaGT5BlUdYYCxqjBI7gR4cksRd1
+	g5jOIA28Y3cATt2o5PNzIZOWCdhXAMDyp8ajF22kw7mzZ7aNkwAI4vQOYbEtmUEFL7Pc
+	U8lpwQuin8XajuQITKvSx43cckR+xaJFx4EtpN2f7OxvP/nGHaJdAopDVU0gK0AuyLp8
+	E3esh7zgao71iBUoIA/NacLoASgsvL+lKJANA6Aa7oOdadsWHSO76yDT5ed56M49ckl7
+	ROsg==
+X-Received: by 10.70.49.43 with SMTP id r11mr63694138pdn.91.1437430514028;
+	Mon, 20 Jul 2015 15:15:14 -0700 (PDT)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	j3sm23582838pdf.76.2015.07.20.15.14.55
+	f1sm23612727pdp.39.2015.07.20.15.15.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Jul 2015 15:14:56 -0700 (PDT)
+	Mon, 20 Jul 2015 15:15:12 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jul 2015 15:15:38 -0700
-Message-Id: <cover.1437430369.git.chris_larson@mentor.com>
+Date: Mon, 20 Jul 2015 15:15:51 -0700
+Message-Id: <c5e5bbd5f85ed4ae437815656889d328da25e75b.1437430369.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2 0/6] recipetool/devtool/oe-selftest: pull from BBPATH
+In-Reply-To: <cover.1437430369.git.chris_larson@mentor.com>
+References: <cover.1437430369.git.chris_larson@mentor.com>
+Subject: [PATCHv2 1/6] recipetool: catch BBHandledException from parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jul 2015 22:14:58 -0000
+X-List-Received-Date: Mon, 20 Jul 2015 22:15:14 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+This ensures that we don't see a traceback on parsing failures.
 
-Ensures that recipetool and devtool pull plugins from layers, and
-oe-selftest will pull tests from layers.
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/recipetool | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Unrelated to that, also prevents a traceback on parsing failure, and adds
-a tiny feature to appendsrc to facilitate reuse by other sub-commands.
-
-[v2 Update] `devtool: also load plugins from BBPATH` was fixed, so it no longer
-breaks the devtool selftests.
-
-
-The following changes since commit b283b82ec59a2137cf717811172765848fa813fa:
-
-  core-image-lsb-sdk: use kernel-devsrc to ensure kernel module builds work (2015-07-20 10:39:02 +0100)
-
-are available in the git repository at:
-
-  git@github.com:kergoth/openembedded-core yocto-bug-7625
-
-for you to fetch changes up to 35a9ce57747248192dc5c0dd7916e15e58a5835e:
-
-  oe-selftest: add libdirs from BBPATH to sys.path (2015-07-20 15:11:59 -0700)
-
-----------------------------------------------------------------
-Christopher Larson (6):
-      recipetool: catch BBHandledException from parsing
-      recipetool.append: add extralines arg to appendsrc
-      recipetool: also load plugins from BBPATH
-      devtool: also load plugins from BBPATH
-      oe-selftest: obey oeqa.selftest.__path__
-      oe-selftest: add libdirs from BBPATH to sys.path
-
- scripts/devtool                  | 57 +++++++++++++++++++++++++---------------
- scripts/lib/devtool/__init__.py  |  4 +--
- scripts/lib/recipetool/append.py |  4 +--
- scripts/oe-selftest              | 18 +++++++++----
- scripts/recipetool               | 56 ++++++++++++++++++++++++---------------
- 5 files changed, 88 insertions(+), 51 deletions(-)
-
+diff --git a/scripts/recipetool b/scripts/recipetool
+index c68bef4..3063cf7 100755
+--- a/scripts/recipetool
++++ b/scripts/recipetool
+@@ -82,9 +82,11 @@ def main():
+ 
+     scriptutils.logger_setup_color(logger, args.color)
+ 
+-    tinfoil_init(getattr(args, 'parserecipes', False))
+-
+-    ret = args.func(args)
++    try:
++        tinfoil_init(getattr(args, 'parserecipes', False))
++        ret = args.func(args)
++    except bb.BBHandledException:
++        ret = 1
+ 
+     return ret
+ 
 -- 
 2.2.1
 
