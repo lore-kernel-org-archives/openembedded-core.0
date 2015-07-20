@@ -1,36 +1,29 @@
-Return-Path: <drew_moseley@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 103DD65CCD
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A0B76AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jul 2015 13:44:47 +0000 (UTC)
-Received: from svr-orw-fem-04.mgc.mentorg.com ([147.34.97.41])
-	by relay1.mentorg.com with esmtp 
-	id 1ZGotb-0006Wi-2A from drew_moseley@mentor.com ;
-	Sun, 19 Jul 2015 06:44:47 -0700
-Received: from NA-MBX-03.mgc.mentorg.com ([fe80::9a:1569:df57:45b8]) by
-	SVR-ORW-FEM-04.mgc.mentorg.com ([147.34.97.41]) with mapi id
-	14.03.0224.002; Sun, 19 Jul 2015 06:44:46 -0700
-From: "Moseley, Drew" <drew_moseley@mentor.com>
+	Mon, 20 Jul 2015 01:47:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6K1llqh016994
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 19 Jul 2015 18:47:47 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Sun, 19 Jul 2015 18:47:46 -0700
 To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2] mesa-demos: Fix building demos which
-	require GLU.
-Thread-Index: AQHQv95jKEKCv+Qj6U6Ek2QibQhfTp3ewT8AgAADqoCAAFaHgIAELE8A
-Date: Sun, 19 Jul 2015 13:44:45 +0000
-Message-ID: <79FBB96D-6A61-45E9-8DD4-15EF340856AC@mentor.com>
-References: <1437059524-15971-1-git-send-email-drew_moseley@mentor.com>
-	<20150716154529.GE2134@jama>
-	<DBF4FAB7-1F3A-4FAA-936E-8752FC32CC69@mentor.com>
-	<20150716165124.GG2134@jama>
-	<CAJTo0Lai_n7sJFHJCmr43ASFYNoiWoqR24CGyNFa4prjpzDa6w@mail.gmail.com>
-In-Reply-To: <CAJTo0Lai_n7sJFHJCmr43ASFYNoiWoqR24CGyNFa4prjpzDa6w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.34.91.1]
+References: <cover.1436147616.git.kai.kang@windriver.com>
+	<420375e6b2530660687099c64dc948dc05c86e0b.1436147616.git.kai.kang@windriver.com>
+	<CAJTo0LaW6LJ0SrJ5CkxeqDpjEm3iFpL0niqnDRdQjX0i3MNZtQ@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <55AC5345.9090802@windriver.com>
+Date: Mon, 20 Jul 2015 09:47:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] mesa-demos: Fix building demos which require GLU.
+In-Reply-To: <CAJTo0LaW6LJ0SrJ5CkxeqDpjEm3iFpL0niqnDRdQjX0i3MNZtQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] volatile-binds: correct path of command umount
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,88 +36,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jul 2015 13:44:48 -0000
-Content-Language: en-US
+X-List-Received-Date: Mon, 20 Jul 2015 01:47:51 -0000
 Content-Type: multipart/alternative;
-	boundary="_000_79FBB96D6A6145E98DD415EF340856ACmentorcom_"
+	boundary="------------080100070107030606040601"
 
---_000_79FBB96D6A6145E98DD415EF340856ACmentorcom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--------------080100070107030606040601
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-DQpPbiBKdWwgMTYsIDIwMTUsIGF0IDY6MDEgUE0sIEJ1cnRvbiwgUm9zcyA8cm9zcy5idXJ0b25A
-aW50ZWwuY29tPG1haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb20+PiB3cm90ZToNCg0KDQpPbiAx
-NiBKdWx5IDIwMTUgYXQgMTc6NTEsIE1hcnRpbiBKYW5zYSA8bWFydGluLmphbnNhQGdtYWlsLmNv
-bTxtYWlsdG86bWFydGluLmphbnNhQGdtYWlsLmNvbT4+IHdyb3RlOg0KWWVzLCBidXQgaWYtZm91
-bmQgKGJ5IHBrZy1jb25maWcpIHRoZW4gdGhlIG1hY3JvIGl0c2VsZiBzZXRzIEdMVV9MSUJTDQph
-bmQgR0xVX0NGTEFHUywgc28gaXQgZG9lc24ndCBtYWtlIHNlbnNlIHRvIGNhbGwgQUNfQ0hFQ0tf
-TElCIHRvIGNoYW5nZQ0KR0xVX0xJQlMgdmFsdWUuDQoNCmFjdGlvbi1pZi1ub3QtZm91bmQgb24g
-dGhlIG90aGVyIGhhbmQgaXMgZm9yIGNhc2VzIHdoZXJlIHlvdXIgR0xVDQppbXBsZW1lbnRhdGlv
-biBkb2Vzbid0IHByb3ZpZGUgcGtnLWNvbmZpZyBhbmQgeW91IHdhbnQgdG8gdHJ5IHRvIGZpbmQg
-aXQNCndpdGggQUNfQ0hFQ0tfTElCLg0KDQpJIGJlbGlldmUgeW91IHRoYXQgdGhlcmUgY291bGQg
-YmUgYW4gaXNzdWUgd2l0aCBidWlsZGluZyBnbHUgZGVtb3MsIGJ1dA0KSSBndWVzcyBpdCdzIGlz
-c3VlIGluIHlvdXIgR0xVIGltcGxlbWVudGF0aW9uICh3aGF0ZXZlciB0aGF0IGlzKSBhbmQNCnRo
-aXMgY2hhbmdlIGlzIG5vdCBjb3JyZWN0IGZpeCBmb3IgaXQgLSBpdCBqdXN0IGhhcHBlbiB0byBo
-ZWxwIGluIHlvdXINCmNhc2UgYW5kIGJyZWFrcyBvdGhlciBjYXNlcy4NCg0KSSBhZ3JlZSB3aXRo
-IE1hcnRpbiBoZXJlLiAgQ2FuIHlvdSByZXBsaWNhdGUgdGhlIHByb2JsZW0gdXNpbmcgYSBxZW11
-IG1hY2hpbmUgYW5kIGp1c3Qgb2UtY29yZT8NCg0KUm9zcw0KDQoNCkkgdG9vayBhIGRlZXBlciBs
-b29rIGF0IHRoaXMgdG9kYXkgYW5kIHdoYXQgSSB0aGluayBuZWVkcyB0byBoYXBwZW4gaXMgdGhh
-dCBpbiB0aGUg4oCcaWYtZm91bmTigJ0gYmxvY2sgd2UgbmVlZCB0byBzZXQgZ2x1X2VuYWJsZWQ9
-eWVzLiAgVGhhdCB3YXkgdGhlIEhBVkVfR0xVIEFNX0NPTkRJVElPTkFMIGlzIHNldCB0byB5ZXMg
-bGF0ZXIgaW4gdGhlIGNvbmZpZ3VyZSBwcm9jZXNzLiAgRG9lcyB0aGF0IHNlZW0gcmlnaHQ/ICBJ
-4oCZbGwgdGVzdCBhIHBhdGNoIGFnYWluc3QgbXkgcGxhdGZvcm0uDQoNCkkgaGF2ZSBub3QgZmln
-dXJlZCBvdXQgaG93IHRvIGVuYWJsZSBHTFVUIG9uIHRoZSBRRU1VIHBsYXRmb3JtIHNvIEkgY2Fu
-bm90IHlldCB0ZXN0IGl0IHRoZXJlLg0KDQpEcmV3DQo=
+On 2015年07月17日 19:47, Burton, Ross wrote:
+>
+> On 6 July 2015 at 02:59, Kai Kang <kai.kang@windriver.com 
+> <mailto:kai.kang@windriver.com>> wrote:
+>
+>     +          -e "/^ExecStop=/s/sbin/bin/" \
+>
+>
+> Should't that be something like ${bindir}?
 
---_000_79FBB96D6A6145E98DD415EF340856ACmentorcom_
+Thanks. I'll update it.
+
+--Kai
+
+>
+> Ross
+
+
+-- 
+Regards,
+Neil | Kai Kang
+
+
+--------------080100070107030606040601
 Content-Type: text/html; charset="utf-8"
-Content-ID: <FB075FC76CCF8E4A883E30300B250389@mentor.com>
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5IHN0eWxlPSJ3b3JkLXdy
-YXA6IGJyZWFrLXdvcmQ7IC13ZWJraXQtbmJzcC1tb2RlOiBzcGFjZTsgLXdlYmtpdC1saW5lLWJy
-ZWFrOiBhZnRlci13aGl0ZS1zcGFjZTsiIGNsYXNzPSIiPg0KPGJyIGNsYXNzPSIiPg0KPGRpdj4N
-CjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIGNsYXNzPSIiPg0KPGRpdiBjbGFzcz0iIj5PbiBKdWwg
-MTYsIDIwMTUsIGF0IDY6MDEgUE0sIEJ1cnRvbiwgUm9zcyAmbHQ7PGEgaHJlZj0ibWFpbHRvOnJv
-c3MuYnVydG9uQGludGVsLmNvbSIgY2xhc3M9IiI+cm9zcy5idXJ0b25AaW50ZWwuY29tPC9hPiZn
-dDsgd3JvdGU6PC9kaXY+DQo8YnIgY2xhc3M9IkFwcGxlLWludGVyY2hhbmdlLW5ld2xpbmUiPg0K
-PGRpdiBjbGFzcz0iIj4NCjxkaXYgZGlyPSJsdHIiIGNsYXNzPSIiPg0KPGRpdiBjbGFzcz0iZ21h
-aWxfZXh0cmEiPjxiciBjbGFzcz0iIj4NCjxkaXYgY2xhc3M9ImdtYWlsX3F1b3RlIj5PbiAxNiBK
-dWx5IDIwMTUgYXQgMTc6NTEsIE1hcnRpbiBKYW5zYSA8c3BhbiBkaXI9Imx0ciIgY2xhc3M9IiI+
-DQombHQ7PGEgaHJlZj0ibWFpbHRvOm1hcnRpbi5qYW5zYUBnbWFpbC5jb20iIHRhcmdldD0iX2Js
-YW5rIiBjbGFzcz0iIj5tYXJ0aW4uamFuc2FAZ21haWwuY29tPC9hPiZndDs8L3NwYW4+IHdyb3Rl
-OjxiciBjbGFzcz0iIj4NCjxibG9ja3F1b3RlIGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9Im1h
-cmdpbjowIDAgMCAuOGV4O2JvcmRlci1sZWZ0OjFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVmdDox
-ZXgiPg0KPGRpdiBpZD0iOjFvdCIgY2xhc3M9ImEzcyIgc3R5bGU9Im92ZXJmbG93OmhpZGRlbiI+
-WWVzLCBidXQgaWYtZm91bmQgKGJ5IHBrZy1jb25maWcpIHRoZW4gdGhlIG1hY3JvIGl0c2VsZiBz
-ZXRzIEdMVV9MSUJTPGJyIGNsYXNzPSIiPg0KYW5kIEdMVV9DRkxBR1MsIHNvIGl0IGRvZXNuJ3Qg
-bWFrZSBzZW5zZSB0byBjYWxsIEFDX0NIRUNLX0xJQiB0byBjaGFuZ2U8YnIgY2xhc3M9IiI+DQpH
-TFVfTElCUyB2YWx1ZS48YnIgY2xhc3M9IiI+DQo8YnIgY2xhc3M9IiI+DQphY3Rpb24taWYtbm90
-LWZvdW5kIG9uIHRoZSBvdGhlciBoYW5kIGlzIGZvciBjYXNlcyB3aGVyZSB5b3VyIEdMVTxiciBj
-bGFzcz0iIj4NCmltcGxlbWVudGF0aW9uIGRvZXNuJ3QgcHJvdmlkZSBwa2ctY29uZmlnIGFuZCB5
-b3Ugd2FudCB0byB0cnkgdG8gZmluZCBpdDxiciBjbGFzcz0iIj4NCndpdGggQUNfQ0hFQ0tfTElC
-LjxiciBjbGFzcz0iIj4NCjxiciBjbGFzcz0iIj4NCkkgYmVsaWV2ZSB5b3UgdGhhdCB0aGVyZSBj
-b3VsZCBiZSBhbiBpc3N1ZSB3aXRoIGJ1aWxkaW5nIGdsdSBkZW1vcywgYnV0PGJyIGNsYXNzPSIi
-Pg0KSSBndWVzcyBpdCdzIGlzc3VlIGluIHlvdXIgR0xVIGltcGxlbWVudGF0aW9uICh3aGF0ZXZl
-ciB0aGF0IGlzKSBhbmQ8YnIgY2xhc3M9IiI+DQp0aGlzIGNoYW5nZSBpcyBub3QgY29ycmVjdCBm
-aXggZm9yIGl0IC0gaXQganVzdCBoYXBwZW4gdG8gaGVscCBpbiB5b3VyPGJyIGNsYXNzPSIiPg0K
-Y2FzZSBhbmQgYnJlYWtzIG90aGVyIGNhc2VzLjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+
-DQo8YnIgY2xhc3M9IiI+DQpJIGFncmVlIHdpdGggTWFydGluIGhlcmUuJm5ic3A7IENhbiB5b3Ug
-cmVwbGljYXRlIHRoZSBwcm9ibGVtIHVzaW5nIGEgcWVtdSBtYWNoaW5lIGFuZCBqdXN0IG9lLWNv
-cmU/PC9kaXY+DQo8ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+PGJyIGNsYXNzPSIiPg0KPC9kaXY+
-DQo8ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+Um9zczwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwv
-YmxvY2txdW90ZT4NCjwvZGl2Pg0KPGJyIGNsYXNzPSIiPg0KPGRpdiBjbGFzcz0iIj48YnIgY2xh
-c3M9IiI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9IiI+SSB0b29rIGEgZGVlcGVyIGxvb2sgYXQgdGhp
-cyB0b2RheSBhbmQgd2hhdCBJIHRoaW5rIG5lZWRzIHRvIGhhcHBlbiBpcyB0aGF0IGluIHRoZSDi
-gJxpZi1mb3VuZOKAnSBibG9jayB3ZSBuZWVkIHRvIHNldCBnbHVfZW5hYmxlZD15ZXMuICZuYnNw
-O1RoYXQgd2F5IHRoZSBIQVZFX0dMVSBBTV9DT05ESVRJT05BTCBpcyBzZXQgdG8geWVzIGxhdGVy
-IGluIHRoZSBjb25maWd1cmUgcHJvY2Vzcy4gJm5ic3A7RG9lcyB0aGF0IHNlZW0gcmlnaHQ/ICZu
-YnNwO0nigJlsbA0KIHRlc3QgYSBwYXRjaCBhZ2FpbnN0IG15IHBsYXRmb3JtLjwvZGl2Pg0KPGRp
-diBjbGFzcz0iIj48YnIgY2xhc3M9IiI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9IiI+SSBoYXZlIG5v
-dCBmaWd1cmVkIG91dCBob3cgdG8gZW5hYmxlIEdMVVQgb24gdGhlIFFFTVUgcGxhdGZvcm0gc28g
-SSBjYW5ub3QgeWV0IHRlc3QgaXQgdGhlcmUuPC9kaXY+DQo8ZGl2IGNsYXNzPSIiPjxiciBjbGFz
-cz0iIj4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0iIj5EcmV3PC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+
-DQo=
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2015年07月17日 19:47, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0LaW6LJ0SrJ5CkxeqDpjEm3iFpL0niqnDRdQjX0i3MNZtQ@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 6 July 2015 at 02:59, Kai Kang <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:kai.kang@windriver.com" target="_blank">kai.kang@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":4i3" class="a3s" style="overflow:hidden">+     
+                         -e "/^ExecStop=/s/sbin/bin/" \<br>
+              </div>
+            </blockquote>
+          </div>
+          <br>
+          Should't that be something like ${bindir}?</div>
+      </div>
+    </blockquote>
+    <br>
+    Thanks. I'll update it.<br>
+    <br>
+    --Kai<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0LaW6LJ0SrJ5CkxeqDpjEm3iFpL0niqnDRdQjX0i3MNZtQ@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
 
---_000_79FBB96D6A6145E98DD415EF340856ACmentorcom_--
+--------------080100070107030606040601--
