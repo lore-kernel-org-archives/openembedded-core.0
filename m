@@ -1,37 +1,36 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A19365CBD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B653965CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 12:11:19 +0000 (UTC)
-Received: by ietj16 with SMTP id j16so116096579iet.0
+	Mon, 20 Jul 2015 13:41:07 +0000 (UTC)
+Received: by qgii95 with SMTP id i95so41346420qgi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 05:11:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=z5jD1Hs0ZTkmSPP+FYsB7eC5naBv8BK6HK3GYLS2L0Y=;
-	b=l3BPnnl7pRRD+xdWQ0COseRzz4eeSoTwtIAOY8cw8suwpXaQjtI91DAbDYkCaj7Jw4
-	hStJ/DvA+ZgpGU7TnR4dBTpvxC2WT2yM2zzqCDjxXKxHQhX3xp03Eux5Y7sSkrCx3oIM
-	AiHj+YuBUQPcgD4tXvlD3R7aqjoLrR1xtJzvnuLvM+TlGSvPbKfS+JbM3ZBHkdVe+it9
-	7ZGGR6lT7QDqzlPZsVDscxL69cM/eV89RpltrzhMRs5VSlQ3UlKaOdu8ro6bGmebWTPx
-	AtMjSt1gSlZql4sqKxgXQ2N3m/iAMKdunb/BYTsQcQEljGSWhxNqNDadPj48vqL4QCsh
-	QJWA==
+	Mon, 20 Jul 2015 06:41:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=XIMg83cpUJHs3T4a/Up3KXf6CFcNEv3qvFlqg9UhXHw=;
+	b=lnNfxxdz2IQQqUp+BLkVBKVV4y7k/Z63WqaGzjRyDU2XSniT/O1NFXVngT1Hn2LgFV
+	YodJfKpH/b2K4m85to0sIpJl9xCsjQMI5qUkjR72fgxvBY6W8FqIojJFnpGd1OxJOFM6
+	Gi6CFAZ+sABkqiQrbBW0e4Ek9Nt/nFN7lfLW7HfqHdXckIXFJm0vbzTQRoqGcEOx+WSG
+	tySRUS3B5wJOFjaUmBFXX44hfkrd7DdIhrhngPP1UBGfhuRvQk20gyR7Xf9ViRqZ8i5U
+	yLRD2uAP1qtrYCaBXbdgm4xZmrDXgdCbo2BekDMs2cCZvX/whu/2Q/+9RLKNiXkecemy
+	fbWA==
+X-Gm-Message-State: ALoCoQmNNm6SNDHI4EftV5KZXwTwZnvSZ7I9roIgnw2LcAaflvPVd8Tts7R0Vs99sA/c2PgOVB2Y
+X-Received: by 10.55.43.95 with SMTP id r92mr45307698qkh.67.1437399667262;
+	Mon, 20 Jul 2015 06:41:07 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.107.134.96 with SMTP id i93mr35737979iod.139.1437394279600; 
-	Mon, 20 Jul 2015 05:11:19 -0700 (PDT)
-Received: by 10.64.122.193 with HTTP; Mon, 20 Jul 2015 05:11:19 -0700 (PDT)
-In-Reply-To: <559D1AD2.3050305@windriver.com>
-References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
-	<CALT56yP2_bkOfesazULteWL73DuBKo-BMu0MPxHw-FUz79997g@mail.gmail.com>
-	<559D1AD2.3050305@windriver.com>
-Date: Mon, 20 Jul 2015 15:11:19 +0300
-Message-ID: <CALT56yMhBodVKpG9Pe8zzUcHiwanmxn8pUEqdJUU14-ry6DBvg@mail.gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Fix builds for MIPS64 N32
+Received: by 10.140.102.231 with HTTP; Mon, 20 Jul 2015 06:40:47 -0700 (PDT)
+In-Reply-To: <1436965490-8865-1-git-send-email-costin.c.constantin@intel.com>
+References: <1436965490-8865-1-git-send-email-costin.c.constantin@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Jul 2015 14:40:47 +0100
+Message-ID: <CAJTo0Lajwx-z1DX9W6ovxYU99F6g0tBXyxZBhf73LWjcGe8tCw@mail.gmail.com>
+To: Costin Constantin <costin.c.constantin@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oeqa/devtool: add useful failure messages for some test cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,71 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jul 2015 12:11:21 -0000
+X-List-Received-Date: Mon, 20 Jul 2015 13:41:11 -0000
+Content-Type: multipart/alternative; boundary=001a1147b8dc916e49051b4eb0b5
+
+--001a1147b8dc916e49051b4eb0b5
 Content-Type: text/plain; charset=UTF-8
 
-2015-07-08 15:42 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
-> On 7/8/15 7:00 AM, Dmitry Eremin-Solenikov wrote:
->> Hello,
->>
->> 2015-07-01 17:02 GMT+03:00 Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>:
->>> Quite simple configuration (MIPS64 N32 image) fails to build (see below).
->>> I have verified these patches in both single lib and in multilib cases.
->>> Tri-lib images and SDK for MIPS build fine with these patches.
->>
->> Any comments on this patchset? It would be nice to have N32 ubroken in
->> the current
->> master tree.
->
-> Sorry, I'm traveling right now and haven't had time to review this.  I should be
-> able to get back to the office and test it by the end of the week.
->
-> I visually reviewed the patches and I don't object to them going in -- but I'm
-> still not sure they are all correct.
+I think this patch is responsible for the devtool failures in
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/78/steps/Running%20oe-selftest/logs/stdio
+.
 
-Re-ping. I'd like to receive a confirmation from you (and thus get the
-patches merged)
-or to discuss, what seems wrong to you.
+Ross
 
->
-> --Mark
->
->>>
->>> Current situation:
->>>
->>> lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
->>> NOTE: Started PRServer with DBfile:
->>> /home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
->>> 15895
->>> Loading cache: 100%
->>> |########################################################################################################################|
->>> ETA:  00:00:00
->>> Loaded 1302 entries from dependency cache.
->>> NOTE: Resolving any missing task queue dependencies
->>> ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
->>> /home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
->>> RDEPENDS on or otherwise requires it)
->>> NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
->>> removing...
->>> Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
->>> NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
->>> unbuildable, removing...
->>> Missing or unbuildable dependency chain was:
->>> ['packagegroup-cross-canadian-qemumips64n32',
->>> 'binutils-cross-canadian-mips64']
->>> ERROR: Required build target 'core-image-base' has no buildable providers.
->>> Missing or unbuildable dependency chain was: ['core-image-base',
->>> 'packagegroup-cross-canadian-qemumips64n32',
->>> 'binutils-cross-canadian-mips64']
->>>
->>
->>
->>
->
+--001a1147b8dc916e49051b4eb0b5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra">I think this patch is responsib=
+le for the devtool failures in=C2=A0<a href=3D"https://autobuilder.yoctopro=
+ject.org/main/builders/nightly-oe-selftest/builds/78/steps/Running%20oe-sel=
+ftest/logs/stdio">https://autobuilder.yoctoproject.org/main/builders/nightl=
+y-oe-selftest/builds/78/steps/Running%20oe-selftest/logs/stdio</a>.</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
+iv>
 
-
--- 
-With best wishes
-Dmitry
-
+--001a1147b8dc916e49051b4eb0b5--
