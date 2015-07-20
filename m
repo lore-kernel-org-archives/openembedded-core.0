@@ -1,38 +1,32 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C815176138
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C13D75F7C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 15:08:16 +0000 (UTC)
-Received: by qgeu79 with SMTP id u79so18070060qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 08:08:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=L9X43fSSqbFu1ed/0SALm4vOBghISnkjVvLLF7ge6Ac=;
-	b=DdNgibGHLnjdmu/TBWK7HhK8cocc076sxG+9skY+u99g5DpD0xwly9UEzqkXnzkasI
-	DWqSaf7PYTYM0vHV+3Shh/c4vCxqFZkZYIPGZS7YSsQy2s6h0Bm0Dj3ru5ExO6wRLKRk
-	7Owm/GYAradTvVorXhM1WB60g8ZB5uQf+81cX2qhGs16B5tYdf8jxXlkkbFSCCYMr0gW
-	gx5s7ii7O1gz17dEzwr4xC1MB0ei+4FFGwaGH6DZCnaQtsxrv/Qw4jEbqtKEM9L+x6I5
-	2ua7Rdtve2j6vh0BXtcEHFs2PgPOxjl3YKzGVc+wJvue3S0yXF21KumfvQwHYCIBCTNf
-	yj9g==
-X-Received: by 10.140.23.5 with SMTP id 5mr46469788qgo.106.1437404896286; Mon,
-	20 Jul 2015 08:08:16 -0700 (PDT)
+	Mon, 20 Jul 2015 15:47:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6KFlE40025934
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 Jul 2015 08:47:14 -0700 (PDT)
+Received: from Marks-MacBook-Pro-2.local (172.25.36.226) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 20 Jul 2015 08:47:13 -0700
+To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+	<CALT56yP2_bkOfesazULteWL73DuBKo-BMu0MPxHw-FUz79997g@mail.gmail.com>
+	<559D1AD2.3050305@windriver.com>
+	<CALT56yMhBodVKpG9Pe8zzUcHiwanmxn8pUEqdJUU14-ry6DBvg@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <55AD1800.20706@windriver.com>
+Date: Mon, 20 Jul 2015 10:47:12 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.1.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.140.108.55 with HTTP; Mon, 20 Jul 2015 08:07:56 -0700 (PDT)
-In-Reply-To: <CAJTo0LYHhv5WPDY_kJ86jRaBhJDXtcdO3t+OT85V-J++_R5v4A@mail.gmail.com>
-References: <1436965490-8865-1-git-send-email-costin.c.constantin@intel.com>
-	<CAJTo0Lajwx-z1DX9W6ovxYU99F6g0tBXyxZBhf73LWjcGe8tCw@mail.gmail.com>
-	<CAJTo0LYHhv5WPDY_kJ86jRaBhJDXtcdO3t+OT85V-J++_R5v4A@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 20 Jul 2015 08:07:56 -0700
-X-Google-Sender-Auth: 40lXxipExcCEaw-5gmTlKDibAvQ
-Message-ID: <CABcZANk1STUYKvgni6LG+UTCLWZa+jdhL5ywNS0f3MSN0iakyg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/devtool: add useful failure messages for some test cases
+In-Reply-To: <CALT56yMhBodVKpG9Pe8zzUcHiwanmxn8pUEqdJUU14-ry6DBvg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Fix builds for MIPS64 N32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,67 +39,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jul 2015 15:08:17 -0000
-Content-Type: multipart/alternative; boundary=001a11c12a963df59a051b4fe885
+X-List-Received-Date: Mon, 20 Jul 2015 15:47:18 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---001a11c12a963df59a051b4fe885
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Between customer escalations, other work and vacation.. I didn't happen.
 
-On Mon, Jul 20, 2015 at 7:49 AM, Burton, Ross <ross.burton@intel.com> wrote=
-:
+I've started testing it this morning and should have results tomorrow.. (US time).
 
-> On 20 July 2015 at 14:40, Burton, Ross <ross.burton@intel.com> wrote:
->
->> I think this patch is responsible for the devtool failures in
->> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/b=
-uilds/78/steps/Running%20oe-selftest/logs/stdio
->> .
+--Mark
+
+On 7/20/15 7:11 AM, Dmitry Eremin-Solenikov wrote:
+> 2015-07-08 15:42 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
+>> On 7/8/15 7:00 AM, Dmitry Eremin-Solenikov wrote:
+>>> Hello,
+>>>
+>>> 2015-07-01 17:02 GMT+03:00 Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>:
+>>>> Quite simple configuration (MIPS64 N32 image) fails to build (see below).
+>>>> I have verified these patches in both single lib and in multilib cases.
+>>>> Tri-lib images and SDK for MIPS build fine with these patches.
+>>>
+>>> Any comments on this patchset? It would be nice to have N32 ubroken in
+>>> the current
+>>> master tree.
 >>
->
-> I take it back - I think the problems are due to Chris's patch.
+>> Sorry, I'm traveling right now and haven't had time to review this.  I should be
+>> able to get back to the office and test it by the end of the week.
+>>
+>> I visually reviewed the patches and I don't object to them going in -- but I'm
+>> still not sure they are all correct.
+> 
+> Re-ping. I'd like to receive a confirmation from you (and thus get the
+> patches merged)
+> or to discuss, what seems wrong to you.
+> 
+>>
+>> --Mark
+>>
+>>>>
+>>>> Current situation:
+>>>>
+>>>> lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
+>>>> NOTE: Started PRServer with DBfile:
+>>>> /home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
+>>>> 15895
+>>>> Loading cache: 100%
+>>>> |########################################################################################################################|
+>>>> ETA:  00:00:00
+>>>> Loaded 1302 entries from dependency cache.
+>>>> NOTE: Resolving any missing task queue dependencies
+>>>> ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
+>>>> /home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+>>>> RDEPENDS on or otherwise requires it)
+>>>> NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
+>>>> removing...
+>>>> Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
+>>>> NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
+>>>> unbuildable, removing...
+>>>> Missing or unbuildable dependency chain was:
+>>>> ['packagegroup-cross-canadian-qemumips64n32',
+>>>> 'binutils-cross-canadian-mips64']
+>>>> ERROR: Required build target 'core-image-base' has no buildable providers.
+>>>> Missing or unbuildable dependency chain was: ['core-image-base',
+>>>> 'packagegroup-cross-canadian-qemumips64n32',
+>>>> 'binutils-cross-canadian-mips64']
+>>>>
+>>>
+>>>
+>>>
+>>
+> 
+> 
+> 
 
 
-Yep, that=E2=80=99s right, sorry about that. It was 'devtool: also load plu=
-gins
-from BBPATH=E2=80=99, accidentally missed a couple functions when changing =
-the
-function call signature for the plugins. Will send a v2.
---=20
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a11c12a963df59a051b4fe885
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Jul 20, 2015 at 7:49 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><span class=3D""><div class=3D"gma=
-il_quote">On 20 July 2015 at 14:40, Burton, Ross <span dir=3D"ltr">&lt;<a h=
-ref=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204=
-);border-left-style:solid;padding-left:1ex"><div class=3D"gmail_extra">I th=
-ink this patch is responsible for the <span>devtool</span> failures in=C2=
-=A0<a href=3D"https://autobuilder.yoctoproject.org/main/builders/nightly-oe=
--selftest/builds/78/steps/Running%20oe-selftest/logs/stdio" target=3D"_blan=
-k">https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/b=
-uilds/78/steps/Running%20oe-selftest/logs/stdio</a>.</div></blockquote></di=
-v><br></span>I take it back - I think the problems are due to Chris&#39;s p=
-atch.</blockquote></div><br>Yep, that=E2=80=99s right, sorry about that. It=
- was &#39;devtool: also load plugins from BBPATH=E2=80=99, accidentally mis=
-sed a couple functions when changing the function call signature for the pl=
-ugins. Will send a v2.<br>-- <br><div class=3D"gmail_signature">Christopher=
- Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, O=
-penZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphic=
-s</div>
-</div></div>
-
---001a11c12a963df59a051b4fe885--
