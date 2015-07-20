@@ -1,23 +1,36 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DCA865CBD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wg0-f53.google.com (mail-wg0-f53.google.com [74.125.82.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 24FD975874
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 14:51:06 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 20 Jul 2015 07:51:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,508,1432623600"; d="scan'208";a="527171116"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Jul 2015 07:51:06 -0700
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id 5BDE76A4005;
-	Mon, 20 Jul 2015 07:50:23 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
+	Mon, 20 Jul 2015 14:53:03 +0000 (UTC)
+Received: by wgav7 with SMTP id v7so67193809wga.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jul 2015 07:53:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=+RKbDvfhZJ99QyuBY0gl36rTwh92rFIxsudpdJ6/3ig=;
+	b=OZxyQCmAbIUogxVjhabbV7Mi0jr6qcbc+ha03xBvdBTVFRTfM1zOhQavARUnmujgXx
+	CrrcY6w3YRdqEOlg1LeKfAlY3Xn39/6ue9vMDmEdCbC4a3oU0Hmrg66/06/ALWgUm4l9
+	WVu2uOM4geHymKxBxIxaVd1+Qdk5ZHGB2ko5u3U1Bot9SSE2oNPS5s86uErPI7M2uL79
+	5JGm84bs6B5NwZaeWiigByc01k8+pFJHf31DCNJQAHrwqzntEX3ahpo4aIOmKk+Ed3bE
+	R8FUfp6aBX2EUhio5bxI2rpYmnejD1EtR3pG0Bv43skdx6XUhGqROlQbjKUsmDgorTIb
+	7N6w==
+X-Gm-Message-State: ALoCoQkcUdQZObc8HmLVn+VR6rjquZRL4JYheP2qXGLUXUXT7JfjsXgeiveT42LDCL3tnnL8q/ha
+X-Received: by 10.194.249.100 with SMTP id yt4mr60704381wjc.0.1437403983348;
+	Mon, 20 Jul 2015 07:53:03 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	ez4sm12178421wid.14.2015.07.20.07.53.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 20 Jul 2015 07:53:02 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jul 2015 17:51:10 +0300
-Message-Id: <1437403870-17814-1-git-send-email-george.l.musat@intel.com>
+Date: Mon, 20 Jul 2015 15:47:17 +0100
+Message-Id: <1437403637-20013-1-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/syslog: Removed a pointless testcase and added skip for another.
+Subject: [PATCH] qemu: upgrade to 2.4.0-rc1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,50 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jul 2015 14:51:10 -0000
+X-List-Received-Date: Mon, 20 Jul 2015 14:53:10 -0000
 
-The testcase syslog --help was rather useless and also causing problems
-on images where syslog was non-busybox, like LSB images so I removed it.
-Added a skip condition for TC 202 for the same reason. If syslog is
-non-busybox then the test skips.
-
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/runtime/syslog.py | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ .../recipes-devtools/qemu/{qemu_2.4.0-rc0.bb => qemu_2.4.0-rc1.bb} | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu_2.4.0-rc0.bb => qemu_2.4.0-rc1.bb} (81%)
 
-diff --git a/meta/lib/oeqa/runtime/syslog.py b/meta/lib/oeqa/runtime/syslog.py
-index 31cd6b0..dbaf8c6 100644
---- a/meta/lib/oeqa/runtime/syslog.py
-+++ b/meta/lib/oeqa/runtime/syslog.py
-@@ -8,19 +8,12 @@ def setUpModule():
+diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb b/meta/recipes-devtools/qemu/qemu_2.4.0-rc1.bb
+similarity index 81%
+rename from meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb
+rename to meta/recipes-devtools/qemu/qemu_2.4.0-rc1.bb
+index 62df46e..7c2d782 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.4.0-rc0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.4.0-rc1.bb
+@@ -8,10 +8,11 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BPN}-${REALPV}.tar.bz2"
+-SRC_URI[md5sum] = "0c890db3811f2ad9cc7bb2a5afe08e4c"
+-SRC_URI[sha256sum] = "8dda3e0f9baffbe29b524c03fd46d611afed1dfb5da1becec033beaf76a1bc6d"
++SRC_URI[md5sum] = "3c8d29abea2b61516bb7ef5b5ff62d03"
++SRC_URI[sha256sum] = "c0c6072ed9196ee17b4120f03fa9cdf9f63e893f7cb8008aa12ea1678450a481"
++
+ S="${WORKDIR}/${BPN}-${REALPV}"
+-REALPV = "2.4.0-rc0"
++REALPV = "2.4.0-rc1"
+ PV = "2.3.99+${REALPV}"
  
- class SyslogTest(oeRuntimeTest):
- 
--    @testcase(1148)
--    @skipUnlessPassed("test_ssh")
--    def test_syslog_help(self):
--        (status,output) = self.target.run('/sbin/syslogd --help')
--        self.assertEqual(status, 0, msg="status and output: %s and %s" % (status,output))
--
-     @testcase(201)
-     @skipUnlessPassed("test_syslog_help")
-     def test_syslog_running(self):
-         (status,output) = self.target.run(oeRuntimeTest.pscmd + ' | grep -i [s]yslogd')
-         self.assertEqual(status, 0, msg="no syslogd process, ps output: %s" % self.target.run(oeRuntimeTest.pscmd)[1])
- 
--
- class SyslogTestConfig(oeRuntimeTest):
- 
-     @testcase(1149)
-@@ -41,6 +34,7 @@ class SyslogTestConfig(oeRuntimeTest):
-     @skipUnlessPassed("test_syslog_restart")
-     @skipUnlessPassed("test_syslog_logger")
-     @unittest.skipIf("systemd" == oeRuntimeTest.tc.d.getVar("VIRTUAL-RUNTIME_init_manager", False), "Not appropiate for systemd image")
-+    @unittest.skipIf(oeRuntimeTest.hasPackage("sysklogd") or not oeRuntimeTest.hasPackage("busybox"), "Non-busybox syslog")
-     def test_syslog_startup_config(self):
-         self.target.run('echo "LOGFILE=/var/log/test" >> /etc/syslog-startup.conf')
-         (status,output) = self.target.run('/etc/init.d/syslog restart')
+ COMPATIBLE_HOST_class-target_mips64 = "null"
 -- 
 2.1.4
 
