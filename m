@@ -1,27 +1,36 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9762773694
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D2C0F65CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 08:00:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6K80rYd012514
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 Jul 2015 01:00:53 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.235.1; Mon, 20 Jul 2015 01:00:52 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Mon, 20 Jul 2015 15:59:04 +0800
-Message-ID: <b152a870c6e07f5fd11402490cdc7d2b158fed38.1437379057.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1437379057.git.kai.kang@windriver.com>
-References: <cover.1437379057.git.kai.kang@windriver.com>
+	Mon, 20 Jul 2015 10:59:32 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so109245810qkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jul 2015 03:59:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=NGAIySljwFcUcyv53BIEVj3Hy0gQrDynSClP6BbF1fU=;
+	b=KdgVmQ4v34mnHltXsjBjoHnIYbTI+fVRvTVj+BUesKpzrXxUNXyewIkmD6VJRk3CfT
+	t4tfyBFFoF4qXH2v96d5qFy/yrhW0d6BO9SNCpj0dZQoh76MthFBMhDC0o0+OnZupDZt
+	BfXIHdy+W/xfQdv+DCoQQfl4vDXYY5gmvXwRbtnFklnA9Afp4GKySM6KQH0vATi2ZXeN
+	DWzb3X3Lyj4noRokzTImgL4Is6kfVfgyze90SP1SXTqh5ndKPKxilFfI5YqWLDpgpv85
+	aKhLu9JfL0AFGoX1wsjcDSg6ZkBE8ngkjVRR0+MvAQlSL3UHOOThy8nnXPuDntZkj/7e
+	4+Jg==
+X-Gm-Message-State: ALoCoQkE9AufL5U6/oiz6y6dLMtr8wOS3NdI/yCq18RiXEB++Z+MRsbb0Uwgp696W0BhUNKDbb+b
+X-Received: by 10.55.15.129 with SMTP id 1mr44818984qkp.29.1437389972304; Mon,
+	20 Jul 2015 03:59:32 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] volatile-binds: correct path of command umount
+Received: by 10.140.102.231 with HTTP; Mon, 20 Jul 2015 03:59:12 -0700 (PDT)
+In-Reply-To: <1437136453-28323-1-git-send-email-otavio@ossystems.com.br>
+References: <1437136453-28323-1-git-send-email-otavio@ossystems.com.br>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 20 Jul 2015 11:59:12 +0100
+Message-ID: <CAJTo0LZgGsOv-rK20BSvJ-SFPycT0_WyT6zA_7FgRdrXOQjDDQ@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] u-boot: Upgrade to 2015.07 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +43,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jul 2015 08:00:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Jul 2015 10:59:38 -0000
+Content-Type: multipart/alternative; boundary=001a1146f100b40859051b4c6ec7
 
-It calls /sbin/umount to stop service var-volatile-lib. But umount is
-installed into directory /bin. Correct it.
+--001a1146f100b40859051b4c6ec7
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/volatile-binds/files/volatile-binds.service.in | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 17 July 2015 at 13:34, Otavio Salvador <otavio@ossystems.com.br> wrote:
+> This upgrades the U-Boot and its related recipes for the 2015.07
+> release.
+>
+> The following recipes has been upgraded:
+>
+>  - u-boot
+>  - u-boot-mkimage
+>  - u-boot-fw-utils
+>
+> The patches which were applied on top of the 2015.01 release are
+> dropped as those are not needed in this release.
+>
+> The license checksum update was due minimal changes in the text, those
+> have no impact in the license terms.
 
-diff --git a/meta/recipes-core/volatile-binds/files/volatile-binds.service.in b/meta/recipes-core/volatile-binds/files/volatile-binds.service.in
-index 32be5b4..b23355a 100644
---- a/meta/recipes-core/volatile-binds/files/volatile-binds.service.in
-+++ b/meta/recipes-core/volatile-binds/files/volatile-binds.service.in
-@@ -13,7 +13,7 @@ RemainAfterExit=Yes
- StandardOutput=syslog
- TimeoutSec=0
- ExecStart=/sbin/mount-copybind @what@ @where@
--ExecStop=/sbin/umount @where@
-+ExecStop=/bin/umount @where@
- 
- [Install]
- WantedBy=local-fs.target
--- 
-1.9.1
+This breaks on the autobuilder (
+http://errors.yoctoproject.org/Errors/Details/13435/):
 
+powerpc-poky-linux-ld.bfd: _GLOBAL_OFFSET_TABLE_ not defined in linker
+created .got
+powerpc-poky-linux-ld.bfd: final link failed: Bad value
+Makefile:1141: recipe for target 'u-boot' failed
 
+Ross
+
+--001a1146f100b40859051b4c6ec7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 17 July 2015 at 13:34, Otavio Salvador &lt;<a href=3D"m=
+ailto:otavio@ossystems.com.br">otavio@ossystems.com.br</a>&gt; wrote:<br>&g=
+t; This upgrades the U-Boot and its related recipes for the 2015.07<br>&gt;=
+ release.<br>&gt;<br>&gt; The following recipes has been upgraded:<br>&gt;<=
+br>&gt; =C2=A0- u-boot<br>&gt; =C2=A0- u-boot-mkimage<br>&gt; =C2=A0- u-boo=
+t-fw-utils<br>&gt;<br>&gt; The patches which were applied on top of the 201=
+5.01 release are<br>&gt; dropped as those are not needed in this release.<b=
+r>&gt;<br>&gt; The license checksum update was due minimal changes in the t=
+ext, those<br>&gt; have no impact in the license terms.<br><br>This breaks =
+on the autobuilder (<a href=3D"http://errors.yoctoproject.org/Errors/Detail=
+s/13435/">http://errors.yoctoproject.org/Errors/Details/13435/</a>):<br><br=
+>powerpc-poky-linux-ld.bfd: _GLOBAL_OFFSET_TABLE_ not defined in linker cre=
+ated .got<br>powerpc-poky-linux-ld.bfd: final link failed: Bad value<br>Mak=
+efile:1141: recipe for target &#39;u-boot&#39; failed<div><br></div><div>Ro=
+ss</div></div>
+
+--001a1146f100b40859051b4c6ec7--
