@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 46344734B8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id DB652734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 11:16:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6LBGHGP018114 for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 12:16:17 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id nrIXT6CvRbM7
+	Tue, 21 Jul 2015 11:55:00 +0000 (UTC)
+Received: by wibud3 with SMTP id ud3so124969114wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 12:16:17 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6LBG3bS018101
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 12:16:15 +0100
-Message-ID: <1437477363.821.69.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Jul 2015 12:16:03 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] native: Move virtclass override to earlier so DEPENDS is handled correctly
+	Tue, 21 Jul 2015 04:55:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=UuxVuVCqnEHZzR8srSHxrqzx/KK2BX+NKjgEsQghzA0=;
+	b=IXcBJ2XYC5ywr4wyKtCg8GUj9F8+nYpIOhJYg4V1FFPmUKke08rXJPvtKhyyump59h
+	4bhJw2ECAnQqMGqLbs0h3rT7IADqqoEpS11w4EPVedn3s7CGP+bTV1erxLW1J6wNCEet
+	Yrx1giuDbs0jZ038GFXIcf5cZ0kzOD8Gq4hsO0hQJBPWX+yXd2i99Q+0VC802ruM0FZb
+	ai/Yc2c4H0WXRgQOBSGPd1VurNJF7qPLC19ae/wsCHgw8Q/pH5kUxeLp8zjHdPalQxZ1
+	8CLI9WNzAImXNR+UN31QkAiz2e5pQQqzAwASgFP33pnjvNAsQ1Ie2KaxjbQTjw1QzmZo
+	wBLg==
+X-Gm-Message-State: ALoCoQm6avlByt8PZNCXuvDJH2lPA+G7F4Ts23KylX8pHKnOc/IWWTXOnAbclU+XgWxJYUBSG3qK
+X-Received: by 10.194.95.132 with SMTP id dk4mr71384389wjb.88.1437479700249;
+	Tue, 21 Jul 2015 04:55:00 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	v20sm36686060wjw.17.2015.07.21.04.54.59
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 21 Jul 2015 04:54:59 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jul 2015 12:49:12 +0100
+Message-Id: <1437479352-29503-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] gtk+: require either x11 or directfb DISTRO_FEATURES to be set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,41 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jul 2015 11:16:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jul 2015 11:55:05 -0000
 
-Currently the virtclass override is added too late to be taken into
-account when DEPENDS and other variables are processed by the virtclass
-extension code. This sets the overrides in a more optimal place, meaning
-they are accounted for in variables like DEPENDS.
+GTK+ needs either X11 or DirectFB, and fails with obscure errors if neither are present.
 
-Recipes in meta-oe like libwmf-native showed the issue.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/gtk+/gtk+.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index 71b0572..bcbcd61 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -142,6 +142,8 @@ python native_virtclass_handler () {
-                 newdeps.append(dep)
-         d.setVar(varname, " ".join(newdeps))
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index 1c0558c..be5273d 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -10,6 +10,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=3bf50002aefd002f49e7bb854063f7e7"
  
-+    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-native")
+ SECTION = "libs"
+ 
++inherit distro_features_check
++ANY_OF_DISTRO_FEATURES = "directfb x11"
 +
-     map_dependencies("DEPENDS", e.data)
-     for pkg in [e.data.getVar("PN", True), "", "${PN}"]:
-         map_dependencies("RDEPENDS", e.data, pkg)
-@@ -161,7 +163,7 @@ python native_virtclass_handler () {
-             nprovides.append(prov)
-     e.data.setVar("PROVIDES", ' '.join(nprovides))
- 
--    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-native")
-+
- }
- 
- addhandler native_virtclass_handler
-
+ X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender libxcomposite"
+ DEPENDS = "glib-2.0 pango atk jpeg libpng gdk-pixbuf-native docbook-utils-native \
+  cairo gdk-pixbuf"
+-- 
+2.1.4
 
 
