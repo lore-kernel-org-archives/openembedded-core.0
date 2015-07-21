@@ -1,22 +1,29 @@
-Return-Path: <chia.chuan.wu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3463975A02
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A41CF734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 09:18:04 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 21 Jul 2015 02:18:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,515,1432623600"; d="scan'208";a="609928528"
-Received: from ssid-ilbpg4.png.intel.com ([10.88.227.68])
-	by orsmga003.jf.intel.com with ESMTP; 21 Jul 2015 02:18:04 -0700
-From: chia.chuan.wu@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jul 2015 17:17:49 +0800
-Message-Id: <1437470269-18898-2-git-send-email-chia.chuan.wu@intel.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1437470269-18898-1-git-send-email-chia.chuan.wu@intel.com>
-References: <1437470269-18898-1-git-send-email-chia.chuan.wu@intel.com>
-Subject: [meta-oe][dizzy][PATCH] libxml2: fix python path and add libxml2-python
+	Tue, 21 Jul 2015 10:54:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6LAs1e5016987; Tue, 21 Jul 2015 11:54:01 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ncW9on-n5mWD; Tue, 21 Jul 2015 11:54:01 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6LAret5016901
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 21 Jul 2015 11:53:54 +0100
+Message-ID: <1437471860.821.63.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+In-Reply-To: <20150714142140.GC2184@jama>
+References: <20150714142140.GC2184@jama>
+Date: Tue, 21 Jul 2015 10:44:20 +0100
+Mime-Version: 1.0
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: dbus-test no longer built for dbus-ptest after last bitbake changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,82 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jul 2015 09:18:05 -0000
+X-List-Received-Date: Tue, 21 Jul 2015 10:54:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Robert Yang <liezhi.yang@windriver.com>
+On Tue, 2015-07-14 at 16:21 +0200, Martin Jansa wrote:
+> I'm not 100% sure it's related to recent bitbake variable expansion
+> changes, but my recent builds are failing with errors about
+> dbus-ptest cannot be installed because dbus-test-ptest doesn't exist
+> 
+> ERROR: 
+> Collected errors:
+> 
+>  * satisfy_dependencies_for: Cannot satisfy the following dependencies
+>  * for dbus-ptest:
+> 
+>  * 	dbus-test-ptest * 
+> 
+>  * opkg_install_cmd: Cannot install package dbus-ptest.
+> 
+> It's using a bit strange construct to add it to RDEPENDS:
+> meta/recipes-core/dbus/dbus.inc:RDEPENDS_dbus-ptest_class-target =
+> "dbus-test-ptest"
+> 
+> but checking cooker log shows that dbus-test
+> (meta/recipes-core/dbus/dbus-test_1.8.18.bb) wasn't built at all, only
+> dbus-test message is from opkg error and this QA error from dbus itself:
+> 
+> NOTE: recipe dbus-1.8.18-r0: task do_package_write_ipk: Started
+> WARNING: QA Issue: dbus-ptest rdepends on dbus-test-ptest, but it isn't
+> a build dependency? [build-deps]
+> 
+> Any ideas?
 
-We have libxml2-python for native and nativesdk, but don't have it for
-target, and can't find the reason from the git log, libxml2-python is
-widely used, after looked into it's configure.in, we can add it
-by PACKAGECONFIG.
+I've confirmed this is a bug in the bitbake data store changes. The fix
+is to replace a copy.copy() with a copy.deepcopy(). I'll sort out
+patches as soon as I can although I'm travelling a bit this week. Also
+need to write a testcase for it.
 
-The previous --with-python=${STAGING_BINDIR}/python is incorrect, it
-acted as work becase it's conigure can check automatically, python is in
-${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}, as known as
-${PYTHON}.
+Cheers,
 
-Add python to PACKAGECONFIG, since createrepo rdepends on
-libxml2-python, otherwise the target createrepo can't work.
-
-(From OE-Core rev: ed72e123724599e70eb4d283f06fca3e56a8b50a)
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 212d9d4245cef2343f21d65fa1ee7cfd537432a3)
-
-Signed-off-by: WU CHIA CHUAN <chia.chuan.wu@intel.com>
----
- meta/recipes-core/libxml/libxml2.inc |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
-
-diff --git a/meta/recipes-core/libxml/libxml2.inc b/meta/recipes-core/libxml/libxml2.inc
-index c729c19..6f01128 100644
---- a/meta/recipes-core/libxml/libxml2.inc
-+++ b/meta/recipes-core/libxml/libxml2.inc
-@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=2044417e2e5006b65a8b9067b683fcf1 \
-                     file://list.c;beginline=4;endline=13;md5=cdbfa3dee51c099edb04e39f762ee907 \
-                     file://trio.c;beginline=5;endline=14;md5=6c025753c86d958722ec76e94cae932e"
- 
--DEPENDS_class-nativesdk = "nativesdk-python"
--DEPENDS_class-native = "python-native"
- DEPENDS =+ "zlib"
- 
- SRC_URI = "ftp://xmlsoft.org/libxml2/libxml2-${PV}.tar.gz;name=libtar \
-@@ -30,6 +28,8 @@ inherit autotools pkgconfig binconfig-disabled pythonnative ptest
- 
- RDEPENDS_${PN}-ptest += "python-core"
- 
-+RDEPENDS_${PN}-python += "python-core"
-+
- RDEPENDS_${PN}-ptest_append_libc-glibc += "glibc-gconv-ebcdic-us glibc-gconv-ibm1141"
- 
- # We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
-@@ -37,16 +37,16 @@ do_configure_prepend () {
- 	sed -i -e '/.*ansidecl.h.*/d' ${S}/configure.in
- }
- 
--do_configure_prepend_class-nativesdk () {
--	# Ensure we get the correct site-packages path
--	export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
--}
-+export PYTHON_SITE_PACKAGES="${PYTHON_SITEPACKAGES_DIR}"
-+
-+PACKAGECONFIG ??= "python"
- 
-+PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python"
- # WARNING: zlib is require for RPM use
--EXTRA_OECONF = "--without-python --without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
--EXTRA_OECONF_class-native = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
--EXTRA_OECONF_class-nativesdk = "--with-python=${STAGING_BINDIR}/python --without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
--EXTRA_OECONF_linuxstdbase = "--without-python --with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF = "--without-debug --without-legacy --with-catalog --without-docbook --with-c14n --without-lzma --with-fexceptions"
-+EXTRA_OECONF_class-native = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF_class-nativesdk = "--without-legacy --without-docbook --with-c14n --without-lzma --with-zlib"
-+EXTRA_OECONF_linuxstdbase = "--with-debug --with-legacy --with-docbook --with-c14n --without-lzma --with-zlib"
- 
- # required for pythong binding
- export HOST_SYS
--- 
-1.7.9.5
+Richard
 
 
