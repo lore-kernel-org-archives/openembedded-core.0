@@ -1,31 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C380B73D89
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 74C33734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 10:54:17 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6LAsFwY017002; Tue, 21 Jul 2015 11:54:15 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TRyKY6R6NbS0; Tue, 21 Jul 2015 11:54:15 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6LAs0ta016969
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 21 Jul 2015 11:54:13 +0100
-Message-ID: <1437469894.821.60.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-In-Reply-To: <1437134486.22526.45.camel@linuxfoundation.org>
-References: <20150714142140.GC2184@jama> <20150716212956.GA7193@jama>
-	<CAJTo0LaC2922F34uaejPiMAqyZTtrE6yW-wno+a36nN_Ty_tdg@mail.gmail.com>
-	<1437134486.22526.45.camel@linuxfoundation.org>
-Date: Tue, 21 Jul 2015 10:11:34 +0100
-Mime-Version: 1.0
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+	Tue, 21 Jul 2015 11:04:48 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so129958772qkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jul 2015 04:04:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=W5tjg8ZljNtL641yjRkzdzJaTt5IzdfsVHMcRBAG/vY=;
+	b=XUUAxgvVu+10iO44h8IkZm7l0ixXroq5h+ZhaEEELH2IBpjq4z2qY50z2BiRMPuXfo
+	K9JJpFPR2fprNgwZXmiV48wp7qry39MCjUfLYiY230zYnJKZwQjV+7OVsgWp+oNI6P7g
+	F4krLzPvyeBfuMOGf1ejLDBGEjcNrlKXcM9fhkz0SEO/cVc2mDTISlE6OqsidOgYHXmu
+	KVgVBjuCXjVR9U0KEbh+XGsGDAMD2BWgbKsaFvCElls/s107uCsxF67/tD0qWygmiYq1
+	LJNWNegYLxsRrUwAjKIHAiiX6A7EskU9UAjbNJNuozcs3qEQ+6ZEwzDm974nGEeLAM5C
+	lzLQ==
+X-Gm-Message-State: ALoCoQnZHCrzOHRDtStV2vjudquLCx2M/i+Wt1+KidZO0oJEYR9qJ/97Mmh9XbVDZ51s41SeZSBx
+X-Received: by 10.140.196.85 with SMTP id r82mr24737389qha.64.1437476689044;
+	Tue, 21 Jul 2015 04:04:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.195 with HTTP; Tue, 21 Jul 2015 04:04:29 -0700 (PDT)
+In-Reply-To: <CAMg8ce-Wa5s4xt-19rdYJ4fOa5q7109XZL40AZSBLbitNBKzGw@mail.gmail.com>
+References: <20150620103730.GD2398@jama>
+	<1435842191-5106-1-git-send-email-Martin.Jansa@gmail.com>
+	<CAMg8ce-Wa5s4xt-19rdYJ4fOa5q7109XZL40AZSBLbitNBKzGw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 21 Jul 2015 12:04:29 +0100
+Message-ID: <CAJTo0Lbp1X2om+PpcG7bQqAT4jbpXE_+baYtB18s_8cob477OQ@mail.gmail.com>
+To: Tobias Olausson <tobias.olausson@pelagicore.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: dbus-test no longer built for dbus-ptest after last bitbake changes
+Subject: Re: [PATCH] mesa: respect MESA_EGL_NO_X11_HEADERS even with x11 in PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,56 +45,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jul 2015 10:54:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jul 2015 11:04:58 -0000
+Content-Type: multipart/alternative; boundary=001a114326526c8be1051b609f1b
 
-On Fri, 2015-07-17 at 13:01 +0100, Richard Purdie wrote:
-> On Thu, 2015-07-16 at 23:22 +0100, Burton, Ross wrote:
-> > 
-> > On 16 July 2015 at 22:29, Martin Jansa <martin.jansa@gmail.com> wrote:
-> >         ERROR: Nothing PROVIDES 'gtk+-native' (but
-> >         virtual:native:/home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extended/libwmf/libwmf_0.2.8.4.bb DEPENDS on or otherwise requires it). Close matches:
-> >
-> > So libwmf does this:
-> >
-> > DEPENDS_virtclass-native = "freetype-native libpng-native jpeg-native"
-> > DEPENDS = "freetype libpng jpeg expat gtk+"
-> >
-> > Interestingly changing this to _class-native fixes the problem.
-> 
-> Strangely, the answer as to what might be wrong occurred to me in the
-> shower this morning. We should try changing:
-> 
-> native.bbclass:    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-native")
-> 
-> to
-> 
-> e.data.setVar("FOO", "virtclass-native")
-> e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":${FOO}")
-> 
-> and if that makes things work, its the override caching mechanism that
-> is bust for direct changes to OVERRIDES which don't use variable
-> indirection (most do).
-> 
-> If that is the case, a fix shouldn't be hard.
+--001a114326526c8be1051b609f1b
+Content-Type: text/plain; charset=UTF-8
 
-Its actually much simpler than this. DEPENDS is evaluated in
-native_virtclass_handler(e):28 [map_dependencies] which is before
-virtclass-native is added to OVERRIDES. The act of setting the DEPENDS
-variable wipes out any other overrides which may not have been applied
-to that point. The fixes are:
+On 20 July 2015 at 22:27, Tobias Olausson <tobias.olausson@pelagicore.com>
+wrote:
 
-a) Move the virtclass-native addition to OVERRIDES to earlier in the
-function
-b) Change meta-oe use of virtclass -> class
-c) Drop use of virtclass-native and virtclass-nativesdk entirely (only
-multilib really makes sense now).
-
-Cheers,
-
-Richard
+> I like this patch. I would like a similar patch to be made available in
+> the fido branch, but changing "#if defined()" to "#ifdef" The defines seems
+> to have been changed between mesa 10.4 and 10.5, so the current patch only
+> works for 10.5 - in 10.4 ifdef is used instead so the sed does nothing.
+> Should I submit another patch for that?
 
 
+Yes, please do.
 
+Ross
 
+--001a114326526c8be1051b609f1b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 July 2015 at 22:27, Tobias Olausson <span dir=3D"ltr">&lt;<a href=3D"=
+mailto:tobias.olausson@pelagicore.com" target=3D"_blank">tobias.olausson@pe=
+lagicore.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">I like=
+ this patch. I would like a similar patch to be made available in the fido =
+branch, but changing &quot;#if defined()&quot; to &quot;#ifdef&quot; The de=
+fines seems to have been changed between mesa 10.4 and 10.5, so the current=
+ patch only works for 10.5 - in 10.4 ifdef is used instead so the sed does =
+nothing. Should I submit another patch for that?</blockquote></div><br>Yes,=
+ please do.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_e=
+xtra">Ross</div></div>
+
+--001a114326526c8be1051b609f1b--
