@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 43D65734B8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 46344734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 11:05:41 +0000 (UTC)
-Received: by qged69 with SMTP id d69so56289763qge.0
+	Tue, 21 Jul 2015 11:16:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6LBGHGP018114 for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jul 2015 12:16:17 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id nrIXT6CvRbM7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 04:05:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=UWj56Ss2DH7uCZGQkZB7TRvX3UmKT1A0MlwENmcMIgU=;
-	b=ElyhmqBaPxQjWwbXVe8yZyhGU818roIuagqw4VMYCu5YuQwugJbx9GGyQgM8/bG+YE
-	1X22+cYA5PtwqzixqusQFV7mQFO8PytDlarghktEEMqM6ZIgV1gyVjvgwKhJPB/J10js
-	0yGQ4afq35klVjRQHCXA6YBoPmWN9yUQYwrVWewW7PbKDUCsgtujEJkr4jJIariAVBe1
-	9GwvfhY9DMXjSB5XQXEIJqgDUh0U4RnybmU5tYfeUyxmi3IJeuURN4YJ6ZFbItc/mIGo
-	1Fhvmz5MRNk13Bor+KZW7c4TxmJQT0ETBThqFJXgGMWcyF5lOVIyeqJlh4yLV4JIqvTH
-	yRLg==
-X-Gm-Message-State: ALoCoQni1L5TccSYQKcqNUhhwZ1ycBJ5pGM3lEX+A7ow30AO7Z6hn78TOndj5Hokx0qlmNnWtWgP
-X-Received: by 10.55.53.193 with SMTP id c184mr51276702qka.62.1437476741526;
-	Tue, 21 Jul 2015 04:05:41 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Tue, 21 Jul 2015 04:05:22 -0700 (PDT)
-In-Reply-To: <35900b5a9fe27b838b4a43cd89c44ca28a498092.1437100265.git.liezhi.yang@windriver.com>
-References: <cover.1437100265.git.liezhi.yang@windriver.com>
-	<35900b5a9fe27b838b4a43cd89c44ca28a498092.1437100265.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 21 Jul 2015 12:05:22 +0100
-Message-ID: <CAJTo0LayRxLaPx10x8u_cz2Qx1x5=mTz7ECJrYmNc8fLPZFDUw@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/5] file: 5.23 -> 5.24
+	Tue, 21 Jul 2015 12:16:17 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6LBG3bS018101
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jul 2015 12:16:15 +0100
+Message-ID: <1437477363.821.69.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Jul 2015 12:16:03 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] native: Move virtclass override to earlier so DEPENDS is handled correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,35 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jul 2015 11:05:44 -0000
-Content-Type: multipart/alternative; boundary=001a11476f148d4eca051b60a261
+X-List-Received-Date: Tue, 21 Jul 2015 11:16:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11476f148d4eca051b60a261
-Content-Type: text/plain; charset=UTF-8
+Currently the virtclass override is added too late to be taken into
+account when DEPENDS and other variables are processed by the virtclass
+extension code. This sets the overrides in a more optimal place, meaning
+they are accounted for in variables like DEPENDS.
 
-On 17 July 2015 at 03:31, Robert Yang <liezhi.yang@windriver.com> wrote:
+Recipes in meta-oe like libwmf-native showed the issue.
 
-> * Use git repo rather than tarball, rename file_5.23.bb -> file_git.bb
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Why?
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index 71b0572..bcbcd61 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -142,6 +142,8 @@ python native_virtclass_handler () {
+                 newdeps.append(dep)
+         d.setVar(varname, " ".join(newdeps))
+ 
++    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-native")
++
+     map_dependencies("DEPENDS", e.data)
+     for pkg in [e.data.getVar("PN", True), "", "${PN}"]:
+         map_dependencies("RDEPENDS", e.data, pkg)
+@@ -161,7 +163,7 @@ python native_virtclass_handler () {
+             nprovides.append(prov)
+     e.data.setVar("PROVIDES", ' '.join(nprovides))
+ 
+-    e.data.setVar("OVERRIDES", e.data.getVar("OVERRIDES", False) + ":virtclass-native")
++
+ }
+ 
+ addhandler native_virtclass_handler
 
-Ross
 
---001a11476f148d4eca051b60a261
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 July 2015 at 03:31, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1d9" cla=
-ss=3D"a3s" style=3D"overflow:hidden">* Use git repo rather than tarball, re=
-name <a href=3D"http://file_5.23.bb" rel=3D"noreferrer" target=3D"_blank">f=
-ile_5.23.bb</a> -&gt; <a href=3D"http://file_git.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">file_git.bb</a><br></div></blockquote></div><br>Why?</div><d=
-iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></d=
-iv>
-
---001a11476f148d4eca051b60a261--
