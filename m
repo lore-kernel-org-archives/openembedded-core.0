@@ -1,40 +1,33 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id E2A397612C
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AE96475874
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 22:15:24 +0000 (UTC)
-Received: by pdbnt7 with SMTP id nt7so37041697pdb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jul 2015 15:15:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=QR6Z55uYpT8cGRlENjvEUqPLqZF2ELoNDuHUHzjlXEE=;
-	b=ndBN1PS5OeWu2MQXrQ0EekExeAeC0AP4jIx5VKt3YWwp/pZhyTYNm+QBwcJEzLn3kc
-	4t9Kju2IMbgCndIj2RgMzjHos0DICGFUp2eUJkuighjJXJCoTEKWC+3zKwTbzubtOcvT
-	i+rRIn9UaLezHvS/r4qs2BfnSTCNDhP6n21UTkBykNeOIdSHVZZXED+yql2PfSrgPNvR
-	VsJWxWSj68ah/PPFAzYhO84JWf9wuCijbnPj9x7qXkFkcYrJzpphGEsPrWUnP6fGok72
-	Sm6pEZyyAVYymN7fPNuEdPHp6sz3RRQdJBDVCopXB4psBL3qo4DulOnw+wqLkPAPAPVC
-	4fnw==
-X-Received: by 10.70.63.37 with SMTP id d5mr3980256pds.162.1437430525013;
-	Mon, 20 Jul 2015 15:15:25 -0700 (PDT)
-Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	f1sm23612727pdp.39.2015.07.20.15.15.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 Jul 2015 15:15:23 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jul 2015 15:15:56 -0700
-Message-Id: <35a9ce57747248192dc5c0dd7916e15e58a5835e.1437430369.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 2.2.1
-In-Reply-To: <c5e5bbd5f85ed4ae437815656889d328da25e75b.1437430369.git.chris_larson@mentor.com>
-References: <c5e5bbd5f85ed4ae437815656889d328da25e75b.1437430369.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1437430369.git.chris_larson@mentor.com>
-References: <cover.1437430369.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2 6/6] oe-selftest: add libdirs from BBPATH to sys.path
+	Tue, 21 Jul 2015 01:32:46 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 20 Jul 2015 18:32:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,512,1432623600"; d="scan'208";a="609743154"
+Received: from pgsmsx106.gar.corp.intel.com ([10.221.44.98])
+	by orsmga003.jf.intel.com with ESMTP; 20 Jul 2015 18:32:47 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.200]) by
+	PGSMSX106.gar.corp.intel.com ([169.254.9.250]) with mapi id
+	14.03.0224.002; Tue, 21 Jul 2015 09:32:42 +0800
+From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH 0/2] [OE-core][master][dizzy] Enable Marvel 8897 Wifi
+	feature
+Thread-Index: AQHQugWRG140Mn28lUmQrmgxXVY5eZ3lNh/A
+Date: Tue, 21 Jul 2015 01:32:42 +0000
+Message-ID: <B4FF7F2787593E4CA07131C98D4AD41A01C47404@PGSMSX101.gar.corp.intel.com>
+References: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
+In-Reply-To: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.20.206]
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/2] [master][dizzy] Enable Marvel 8897 Wifi feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,39 +40,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jul 2015 22:15:26 -0000
+X-List-Received-Date: Tue, 21 Jul 2015 01:32:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Christopher Larson <chris_larson@mentor.com>
+Hi, are these included?
 
-This ensures that oeqa.selftest.* from layers are found.
+Best Regards,
+Wei Tee
 
-[YOCTO #7625]
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- scripts/oe-selftest | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index c19c692..60f9bb8 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -155,6 +155,13 @@ def main():
-     parser = get_args_parser()
-     args = parser.parse_args()
- 
-+    # Add <layer>/lib to sys.path, so layers can add selftests
-+    log.info("Running bitbake -e to get BBPATH")
-+    bbpath = get_bb_var('BBPATH').split(':')
-+    layer_libdirs = [p for p in (os.path.join(l, 'lib') for l in bbpath) if os.path.exists(p)]
-+    sys.path.extend(layer_libdirs)
-+    reload(oeqa.selftest)
-+
-     if args.list_allclasses:
-         args.list_modules = True
- 
--- 
-2.2.1
+> -----Original Message-----
+> From: Ng, Wei Tee
+> Sent: Thursday, July 9, 2015 1:10 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Ng, Wei Tee
+> Subject: [PATCH 0/2] [OE-core][master][dizzy] Enable Marvel 8897 Wifi fea=
+ture
+>=20
+> From: Ng Wei Tee <wei.tee.ng@intel.com>
+>=20
+> Hi all,
+>=20
+> I would like to add hostapd and iw configuration for enabling Marvell 889=
+7 Wifi
+> feature. Hostapd and iw configuration were created in the recipes-connect=
+ivity
+> layer to enable Marvell 8897 module function in AP mode and STA mode.
+>=20
+> Please review and provide feedback if any.
+>=20
+> This patch is target to merge in openembedded-core master and dizzy branc=
+h.
+> Thanks.
+>=20
+> Regards,
+> Wei Tee
+>=20
+> Ng Shui Lei (2):
+>   recipes-connectivity: Add hostapd configuration for enabling Marvell
+>     8897 WiFi feature
+>   recipes-connectivity: Add iw configuration for enabling Marvell 8897
+>     WiFi feature
+>=20
+>  .../hostapd/hostapd-2.2/defconfig                  |  145 ++++++++++++++=
+++++++
+>  .../hostapd/hostapd-2.2/hostapd.service            |   11 ++
+>  meta/recipes-connectivity/hostapd/hostapd-2.2/init |   58 ++++++++
+>  meta/recipes-connectivity/hostapd/hostapd_2.2.bb   |   48 +++++++
+>  ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++
+>  meta/recipes-connectivity/iw/iw_3.8.bb             |   27 ++++
+>  6 files changed, 329 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
+> 2.2/defconfig
+>  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
+> 2.2/hostapd.service
+>  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/init
+>  create mode 100644 meta/recipes-connectivity/hostapd/hostapd_2.2.bb
+>  create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.s=
+h-
+> don-t-use-git-describe-for-versioning.patch
+>  create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
+>=20
+> --
+> 1.7.9.5
 
 
