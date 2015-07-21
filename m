@@ -1,33 +1,35 @@
-Return-Path: <wei.tee.ng@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AE96475874
+Return-Path: <twoerner@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F8A275874
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jul 2015 01:32:46 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 20 Jul 2015 18:32:46 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,512,1432623600"; d="scan'208";a="609743154"
-Received: from pgsmsx106.gar.corp.intel.com ([10.221.44.98])
-	by orsmga003.jf.intel.com with ESMTP; 20 Jul 2015 18:32:47 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.200]) by
-	PGSMSX106.gar.corp.intel.com ([169.254.9.250]) with mapi id
-	14.03.0224.002; Tue, 21 Jul 2015 09:32:42 +0800
-From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 0/2] [OE-core][master][dizzy] Enable Marvel 8897 Wifi
-	feature
-Thread-Index: AQHQugWRG140Mn28lUmQrmgxXVY5eZ3lNh/A
-Date: Tue, 21 Jul 2015 01:32:42 +0000
-Message-ID: <B4FF7F2787593E4CA07131C98D4AD41A01C47404@PGSMSX101.gar.corp.intel.com>
-References: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
-In-Reply-To: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.20.206]
-MIME-Version: 1.0
-Subject: Re: [PATCH 0/2] [master][dizzy] Enable Marvel 8897 Wifi feature
+	Tue, 21 Jul 2015 01:47:33 +0000 (UTC)
+Received: by igvi1 with SMTP id i1so90781422igv.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jul 2015 18:47:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=ghjLXy6j3ylFp96fU7y2E73TjUywnpPBBigX7MaRFbM=;
+	b=f6CHa/doiIyzNNf5S8YF2CrG15d4HknKi+Owm7kOW0cMYj8ggB/zhfqvOoBoAYMmkD
+	MBryX/vfihA7LRS+HfB2WTrt48B1MBc9Xhn1UtWXV0ve2JoBt+STDPCe4wpk9yTDIjFi
+	W+3uENxC1uybU+pS2AlGdPlo0fcObmDtr+J1KcC/QDIfRQAdOQh2B+f8wtc+lgmlTqfl
+	kMw9NTkTxa7nI0gqX3csMCciFjB6GZU6oYUYamclVGvMlq8ex17PAWNgoXFL992kXe1U
+	5vzYA+sOulppe+w3LJQmlJC0OAYNIIXW+d/jZSs9MgjmQ7l5FCz1pYo6Ii8D1aHrLFfL
+	Sq0A==
+X-Received: by 10.107.12.104 with SMTP id w101mr37287173ioi.110.1437443253241; 
+	Mon, 20 Jul 2015 18:47:33 -0700 (PDT)
+Received: from openSUSE-i7.site (dsl-67-55-28-109.acanac.net. [67.55.28.109])
+	by smtp.gmail.com with ESMTPSA id
+	g12sm14883768ioe.28.2015.07.20.18.47.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 20 Jul 2015 18:47:32 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Jul 2015 21:47:17 -0400
+Message-Id: <1437443238-25424-1-git-send-email-twoerner@gmail.com>
+X-Mailer: git-send-email 2.5.0.rc2.13.g961abca
+Subject: [PATCH] tune-cortexa17: add tunes for ARM Cortex-A17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,69 +42,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jul 2015 01:32:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 21 Jul 2015 01:47:33 -0000
 
-Hi, are these included?
+http://www.arm.com/products/processors/cortex-a/cortex-a17-processor.php
 
-Best Regards,
-Wei Tee
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/conf/machine/include/tune-cortexa17.inc | 36 ++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-cortexa17.inc
 
-> -----Original Message-----
-> From: Ng, Wei Tee
-> Sent: Thursday, July 9, 2015 1:10 PM
-> To: openembedded-core@lists.openembedded.org
-> Cc: Ng, Wei Tee
-> Subject: [PATCH 0/2] [OE-core][master][dizzy] Enable Marvel 8897 Wifi fea=
-ture
->=20
-> From: Ng Wei Tee <wei.tee.ng@intel.com>
->=20
-> Hi all,
->=20
-> I would like to add hostapd and iw configuration for enabling Marvell 889=
-7 Wifi
-> feature. Hostapd and iw configuration were created in the recipes-connect=
-ivity
-> layer to enable Marvell 8897 module function in AP mode and STA mode.
->=20
-> Please review and provide feedback if any.
->=20
-> This patch is target to merge in openembedded-core master and dizzy branc=
-h.
-> Thanks.
->=20
-> Regards,
-> Wei Tee
->=20
-> Ng Shui Lei (2):
->   recipes-connectivity: Add hostapd configuration for enabling Marvell
->     8897 WiFi feature
->   recipes-connectivity: Add iw configuration for enabling Marvell 8897
->     WiFi feature
->=20
->  .../hostapd/hostapd-2.2/defconfig                  |  145 ++++++++++++++=
-++++++
->  .../hostapd/hostapd-2.2/hostapd.service            |   11 ++
->  meta/recipes-connectivity/hostapd/hostapd-2.2/init |   58 ++++++++
->  meta/recipes-connectivity/hostapd/hostapd_2.2.bb   |   48 +++++++
->  ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++
->  meta/recipes-connectivity/iw/iw_3.8.bb             |   27 ++++
->  6 files changed, 329 insertions(+)
->  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
-> 2.2/defconfig
->  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-
-> 2.2/hostapd.service
->  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/init
->  create mode 100644 meta/recipes-connectivity/hostapd/hostapd_2.2.bb
->  create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.s=
-h-
-> don-t-use-git-describe-for-versioning.patch
->  create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
->=20
-> --
-> 1.7.9.5
+diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
+new file mode 100644
+index 0000000..bfc7126
+--- /dev/null
++++ b/meta/conf/machine/include/tune-cortexa17.inc
+@@ -0,0 +1,36 @@
++DEFAULTTUNE ?= "armv7a-neon"
++
++require conf/machine/include/arm/arch-armv7a.inc
++
++TUNEVALID[cortexa17] = "Enable Cortex-A17 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa17", " -mtune=cortex-a17", "", d)}"
++
++# Little Endian base configs
++AVAILTUNES += "cortexa17 cortexa17t cortexa17-neon cortexa17t-neon"
++ARMPKGARCH_tune-cortexa17 = "cortexa17"
++ARMPKGARCH_tune-cortexa17t = "cortexa17"
++ARMPKGARCH_tune-cortexa17-neon = "cortexa17"
++ARMPKGARCH_tune-cortexa17t-neon = "cortexa17"
++TUNE_FEATURES_tune-cortexa17 = "${TUNE_FEATURES_tune-armv7a} cortexa17"
++TUNE_FEATURES_tune-cortexa17t = "${TUNE_FEATURES_tune-armv7at} cortexa17"
++TUNE_FEATURES_tune-cortexa17-neon = "${TUNE_FEATURES_tune-armv7a-neon} cortexa17"
++TUNE_FEATURES_tune-cortexa17t-neon = "${TUNE_FEATURES_tune-armv7at-neon} cortexa17"
++PACKAGE_EXTRA_ARCHS_tune-cortexa17 = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa17-vfp"
++PACKAGE_EXTRA_ARCHS_tune-cortexa17t = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa17-vfp cortexa17t2-vfp"
++PACKAGE_EXTRA_ARCHS_tune-cortexa17-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa17-vfp cortexa17-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa17t-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-neon} cortexa17-vfp cortexa17-vfp-neon cortexa17t2-vfp cortexa17t2-vfp-neon"
++
++# VFP Tunes
++AVAILTUNES += "cortexa17hf cortexa17thf cortexa17hf-neon cortexa17thf-neon"
++ARMPKGARCH_tune-cortexa17hf = "cortexa17"
++ARMPKGARCH_tune-cortexa17thf = "cortexa17"
++ARMPKGARCH_tune-cortexa17hf-neon = "cortexa17"
++ARMPKGARCH_tune-cortexa17thf-neon = "cortexa17"
++TUNE_FEATURES_tune-cortexa17hf ?= "${TUNE_FEATURES_tune-armv7ahf} cortexa17"
++TUNE_FEATURES_tune-cortexa17thf ?= "${TUNE_FEATURES_tune-armv7athf} cortexa17"
++TUNE_FEATURES_tune-cortexa17hf-neon ?= "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa17"
++TUNE_FEATURES_tune-cortexa17thf-neon ?= "${TUNE_FEATURES_tune-armv7athf-neon} cortexa17"
++PACKAGE_EXTRA_ARCHS_tune-cortexa17hf = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa17hf-vfp"
++PACKAGE_EXTRA_ARCHS_tune-cortexa17thf = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa17hf-vfp cortexa17t2hf-vfp"
++PACKAGE_EXTRA_ARCHS_tune-cortexa17hf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa17hf-vfp cortexa17hf-vfp-neon"
++PACKAGE_EXTRA_ARCHS_tune-cortexa17thf-neon = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf-neon} cortexa17hf-vfp cortexa17hf-vfp-neon cortexa17t2hf-vfp cortexa17t2hf-vfp-neon"
+-- 
+2.5.0.rc2.13.g961abca
 
 
