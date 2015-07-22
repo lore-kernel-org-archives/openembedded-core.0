@@ -1,38 +1,41 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EBC6076167
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FB9B76173
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 15:47:04 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 22 Jul 2015 08:47:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,523,1432623600"; d="scan'208";a="767478116"
-Received: from unknown (HELO [10.252.22.224]) ([10.252.22.224])
-	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2015 08:47:00 -0700
-Message-ID: <1437580018.11632.5.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: Pau Espin Pedrol <pespin.shar@gmail.com>
-Date: Wed, 22 Jul 2015 18:46:58 +0300
-In-Reply-To: <CAEGpDuY97Gx0qnEHcxBQ+udQgZXdQ3uksHtERZQLtB=KxZE7Bg@mail.gmail.com>
-References: <1436537056-4626-1-git-send-email-pau.espin@aweurope.be>
-	<CAJTo0LbpxBHh8mv7qqKMkVmBcoQ=ckjt3+4ipahMwtqUUkZr1A@mail.gmail.com>
-	<CAEGpDuYVEB0Y5T+SqybCfagCkO1rA1A66toZdYz_EMWGEc87aw@mail.gmail.com>
-	<CABcZAN=z8xMuAABa54A8L2uFhC9fjRbZ36iszxSTJOpWcnFypw@mail.gmail.com>
-	<CAEGpDubUdvEM=VHWzYqjBWoLz5Pz+2JP+j9oJLtdij-GSDamCg@mail.gmail.com>
-	<CABcZANmfHHYLE=-9dP2-LfQ-uF8WJMxugbGOEEbR-9WQu67j=g@mail.gmail.com>
-	<1437041956.16819.32.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<CABcZAN=G=izCZKV+2qL9TEBrtBqBiw74gPPZ0s=mkdmDeGY3pQ@mail.gmail.com>
-	<1437070403.16819.47.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<CABcZANm3yiV98wDX0WtQdLEvpo9cV8PEqPJwjFQVLyJphFau6g@mail.gmail.com>
-	<1437072252.16819.57.camel@tkkaskin-mobl3.ger.corp.intel.com>
-	<CAEGpDuY97Gx0qnEHcxBQ+udQgZXdQ3uksHtERZQLtB=KxZE7Bg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Pau Espin Pedrol <pau.espin@aweurope.be>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] pulseaudio: add systemd to PACKAGECONFIG if enabled in DISTRO_FEATURES
+	Wed, 22 Jul 2015 15:48:36 +0000 (UTC)
+Received: by igbpg9 with SMTP id pg9so136505517igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jul 2015 08:48:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=o5vDzAkE4ZqH5IvKNOLTn7PydHNnL77T8i66T5G0PkI=;
+	b=AKhOTu/GRQ3QRAsAqf/hFXyLc8a7cuCHk1T1sMfjM5UAOHu75JGKs39t+u8pHkEtHK
+	CJo6tOxP30tIJFgFVw1boJa6yFlzjfbGhr2LhLTmkoddFzpXU5qKAID2OyouqmEOcbdd
+	R/XZ7pV4XAwrCd/Qw5K/lzFNzw2/hD3kUwaQZ/kzxasagh7RonXYtQD7iQSqOnwNKGER
+	21K9rrGBxbk/ihkbDM8FwNwlxkcky8jFibJKVyw9Sp7bLh1PG1b8pm8o8EHeV4sIUGdh
+	5XPRLpr/GU3qRscN/gkcM1TIhgerYZMKgCO6JD4sZHcMN6bLbtq8lORbSCBAgByDu5t4
+	ibPw==
+MIME-Version: 1.0
+X-Received: by 10.107.134.96 with SMTP id i93mr5788701iod.139.1437580116951;
+	Wed, 22 Jul 2015 08:48:36 -0700 (PDT)
+Received: by 10.64.122.193 with HTTP; Wed, 22 Jul 2015 08:48:36 -0700 (PDT)
+In-Reply-To: <55AE64AD.8060406@windriver.com>
+References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+	<CALT56yP2_bkOfesazULteWL73DuBKo-BMu0MPxHw-FUz79997g@mail.gmail.com>
+	<559D1AD2.3050305@windriver.com>
+	<CALT56yMhBodVKpG9Pe8zzUcHiwanmxn8pUEqdJUU14-ry6DBvg@mail.gmail.com>
+	<55AD1800.20706@windriver.com>
+	<CALT56yO0nwxie_DAubO+LZqMYjaY-eUoF1iG2Cy6KoMAg4nuaA@mail.gmail.com>
+	<55AE57D8.3040205@windriver.com> <55AE64AD.8060406@windriver.com>
+Date: Wed, 22 Jul 2015 18:48:36 +0300
+Message-ID: <CALT56yN0cTExaKbv8u9U8buAxRYq5G6NyBPLsOyeA9eOH1a9Cw@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Fix builds for MIPS64 N32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,44 +48,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 15:47:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jul 2015 15:48:39 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2015-07-22 at 17:31 +0200, Pau Espin Pedrol wrote:
-> Hi,
-> 
-> 2015-07-16 20:44 GMT+02:00 Tanu Kaskinen <tanu.kaskinen@linux.intel.com>:
-> > PulseAudio can run as a user service without being a *systemd* user
-> > service, and that's actually how it's commonly set up. PulseAudio is
-> > typically started on demand via its own autospawn feature. The autospawn
-> > feature will be replaced by systemd's socket activation in the future,
-> > but only on systems that use systemd (and pam).
-> >
-> 
-> The "autospawning without using systemd" is not affected by the
-> modification done in this patch afaik, because it is not enabling the
-> systemd user service, only installing the service file.
-> 
-> So, If you agree, I will create a patch for bitbake.conf to
-> 
-> 1 - add:
-> export systemd_system_unitdir = "${nonarch_libdir}/systemd/system"
-> export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
-> 
-> 2 - Also change systemd_unitdir to use nonarch_libdir.
-> 
-> 3 - Then I will create v3 for this patch using systemd_user_unitdir.
-> Maybe also modify the recipe a bit to use systemd_system_unitdir for
-> the system service.
+2015-07-21 18:26 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
+> On 7/21/15 9:31 AM, Mark Hatle wrote:
+>> On 7/21/15 3:23 AM, Dmitry Eremin-Solenikov wrote:
+>>> Hello,
+>>>
+>>> 2015-07-20 18:47 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
+>>>> Between customer escalations, other work and vacation.. I didn't happen.
+>>>
+>>> No problem, really. I just wanted to be sure that the patches aren't going
+>>> to be lost.
+>>>
+>>>>
+>>>> I've started testing it this morning and should have results tomorrow.. (US time).
+>>>
+>>> Thank you very much!
+>>
+>> With master and the four patches I got an error trying to construct the SDK.
+>>
+>> I'm still investigating the error:
+>>
+>> Collected errors:
+>>  * satisfy_dependencies_for: Cannot satisfy the following dependencies for
+>> packagegroup-cross-canadian-qemumips64:
+>>  *      gcc-cross-canadian-mips *       binutils-cross-canadian-mips *
+>> gdb-cross-canadian-mips *
+>>  * opkg_install_cmd: Cannot install package packagegroup-cross-canadian-qemumips64.
+>>
+>>
+>> My configuration for this particular test was:
+>>
+>> (oe-init-build-env stock w/ the following changes)
+>
+> I've narrowed down the reproducer to just:
+>
+> MACHINE = "qemumips64"
+> require conf/multilib.conf
+> DEFAULTTUNE = "mips64-n32"
+> MULTILIBS = ""
+>
+> (If you remove the require conf/multilib.conf then things work.)
+>
+> I'm going to continue to investigate.
 
-About that last point: PulseAudio doesn't currently ship a .service file
-for running in the system mode, so I don't know what modification you
-exactly mean.
+I fail to reproduce this on my side. What is your exact bitbake
+command that fails?
+All my attempts to build an SDK/toolchains/etc succeeded.
 
-Otherwise I see no problems in your plan.
+>
+> --Mark
+>
+>> MACHINE = "qemumips64"
+>>
+>> require conf/multilib.conf
+>> DEFAULTTUNE = "mips64-n32"
+>> MULTILIBS = "multilib:lib64 multilib:lib32"
+>> DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
+>> DEFAULTTUNE_virtclass-multilib-lib32 = "mips32r2"
+>>
+>> # Set RPM_PREFER_ELF_ARCH to configure preferred ABI when using rpm packaging
+>> # backend to generate a rootfs, choices are:
+>> # 1: ELF32 wins
+>> # 2: ELF64 wins
+>> # 4: ELF64 N32 wins (for mips64 or mips64el only)
+>> RPM_PREFER_ELF_ARCH = "4"
+>>
+>>
+>>>>
+>>>> --Mark
+>>>>
+>>>> On 7/20/15 7:11 AM, Dmitry Eremin-Solenikov wrote:
+>>>>> 2015-07-08 15:42 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
+>>>>>> On 7/8/15 7:00 AM, Dmitry Eremin-Solenikov wrote:
+>>>>>>> Hello,
+>>>>>>>
+>>>>>>> 2015-07-01 17:02 GMT+03:00 Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>:
+>>>>>>>> Quite simple configuration (MIPS64 N32 image) fails to build (see below).
+>>>>>>>> I have verified these patches in both single lib and in multilib cases.
+>>>>>>>> Tri-lib images and SDK for MIPS build fine with these patches.
+>>>>>>>
+>>>>>>> Any comments on this patchset? It would be nice to have N32 ubroken in
+>>>>>>> the current
+>>>>>>> master tree.
+>>>>>>
+>>>>>> Sorry, I'm traveling right now and haven't had time to review this.  I should be
+>>>>>> able to get back to the office and test it by the end of the week.
+>>>>>>
+>>>>>> I visually reviewed the patches and I don't object to them going in -- but I'm
+>>>>>> still not sure they are all correct.
+>>>>>
+>>>>> Re-ping. I'd like to receive a confirmation from you (and thus get the
+>>>>> patches merged)
+>>>>> or to discuss, what seems wrong to you.
+>>>>>
+>>>>>>
+>>>>>> --Mark
+>>>>>>
+>>>>>>>>
+>>>>>>>> Current situation:
+>>>>>>>>
+>>>>>>>> lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
+>>>>>>>> NOTE: Started PRServer with DBfile:
+>>>>>>>> /home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
+>>>>>>>> 15895
+>>>>>>>> Loading cache: 100%
+>>>>>>>> |########################################################################################################################|
+>>>>>>>> ETA:  00:00:00
+>>>>>>>> Loaded 1302 entries from dependency cache.
+>>>>>>>> NOTE: Resolving any missing task queue dependencies
+>>>>>>>> ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
+>>>>>>>> /home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
+>>>>>>>> RDEPENDS on or otherwise requires it)
+>>>>>>>> NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
+>>>>>>>> removing...
+>>>>>>>> Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
+>>>>>>>> NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
+>>>>>>>> unbuildable, removing...
+>>>>>>>> Missing or unbuildable dependency chain was:
+>>>>>>>> ['packagegroup-cross-canadian-qemumips64n32',
+>>>>>>>> 'binutils-cross-canadian-mips64']
+>>>>>>>> ERROR: Required build target 'core-image-base' has no buildable providers.
+>>>>>>>> Missing or unbuildable dependency chain was: ['core-image-base',
+>>>>>>>> 'packagegroup-cross-canadian-qemumips64n32',
+>>>>>>>> 'binutils-cross-canadian-mips64']
+>>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>
+>>>>>
+>>>>>
+>>>>
+>>>
+>>>
+>>>
+>>
+>
+
+
 
 -- 
-Tanu
-
+With best wishes
+Dmitry
 
