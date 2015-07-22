@@ -1,37 +1,38 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id AD36E73CF2
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id EBC6076167
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 15:36:53 +0000 (UTC)
-Received: by qkfc129 with SMTP id c129so112803251qkf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 08:36:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=gJP7Gz7YOu+ag1rAE7HM1bXrjswQoI1D/nL4J4EPtx8=;
-	b=cTVDvufRI5GIPl8vm/+5SYlET6fnOiylz3b5VvXcayv5Ag4Lxu3bBoBbPd5Xbvg8Ju
-	ZLy6+BNlBIOAHsUOM074dGGLl78arMCd5YPCNTWT49reFpuTtTSXkFO/B/mCp12raZfd
-	UR0lsus5Hm1inuX4dinw/QwXsVAWQXizTuFGcI8ncifF48u7lI8xnfS+kBqPR5d+9Jss
-	BAEgtxj2R5OPzGQKGEOwLFD8ArtLUlKy5GPwIOwlIX5s6UoZFwqtRUQ/ZN8tszVskUpq
-	uFqrjogLBvddZgHxpQLmIKz6ohd3D1d8kbmNWMNALVIfiqz81uxLg8+1V9F+tKLnRG4R
-	uhpg==
-X-Received: by 10.140.150.211 with SMTP id 202mr4873102qhw.42.1437579414074;
-	Wed, 22 Jul 2015 08:36:54 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.108.55 with HTTP; Wed, 22 Jul 2015 08:36:34 -0700 (PDT)
-In-Reply-To: <4892088.sb1qBAebDq@peggleto-mobl.ger.corp.intel.com>
-References: <c5e5bbd5f85ed4ae437815656889d328da25e75b.1437430369.git.chris_larson@mentor.com>
-	<019657e96ff75872fb4bf93661118fcd3d670188.1437430369.git.chris_larson@mentor.com>
-	<4892088.sb1qBAebDq@peggleto-mobl.ger.corp.intel.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Wed, 22 Jul 2015 08:36:34 -0700
-Message-ID: <CABcZAN=ax2Jggw4wNtSDLcS9cVfxD=gEeub9ED8-TmLXfW2m6g@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 4/6] devtool: also load plugins from BBPATH
+	Wed, 22 Jul 2015 15:47:04 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 22 Jul 2015 08:47:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,523,1432623600"; d="scan'208";a="767478116"
+Received: from unknown (HELO [10.252.22.224]) ([10.252.22.224])
+	by fmsmga002.fm.intel.com with ESMTP; 22 Jul 2015 08:47:00 -0700
+Message-ID: <1437580018.11632.5.camel@tkkaskin-mobl3.ger.corp.intel.com>
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: Pau Espin Pedrol <pespin.shar@gmail.com>
+Date: Wed, 22 Jul 2015 18:46:58 +0300
+In-Reply-To: <CAEGpDuY97Gx0qnEHcxBQ+udQgZXdQ3uksHtERZQLtB=KxZE7Bg@mail.gmail.com>
+References: <1436537056-4626-1-git-send-email-pau.espin@aweurope.be>
+	<CAJTo0LbpxBHh8mv7qqKMkVmBcoQ=ckjt3+4ipahMwtqUUkZr1A@mail.gmail.com>
+	<CAEGpDuYVEB0Y5T+SqybCfagCkO1rA1A66toZdYz_EMWGEc87aw@mail.gmail.com>
+	<CABcZAN=z8xMuAABa54A8L2uFhC9fjRbZ36iszxSTJOpWcnFypw@mail.gmail.com>
+	<CAEGpDubUdvEM=VHWzYqjBWoLz5Pz+2JP+j9oJLtdij-GSDamCg@mail.gmail.com>
+	<CABcZANmfHHYLE=-9dP2-LfQ-uF8WJMxugbGOEEbR-9WQu67j=g@mail.gmail.com>
+	<1437041956.16819.32.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<CABcZAN=G=izCZKV+2qL9TEBrtBqBiw74gPPZ0s=mkdmDeGY3pQ@mail.gmail.com>
+	<1437070403.16819.47.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<CABcZANm3yiV98wDX0WtQdLEvpo9cV8PEqPJwjFQVLyJphFau6g@mail.gmail.com>
+	<1437072252.16819.57.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<CAEGpDuY97Gx0qnEHcxBQ+udQgZXdQ3uksHtERZQLtB=KxZE7Bg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Pau Espin Pedrol <pau.espin@aweurope.be>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] pulseaudio: add systemd to PACKAGECONFIG if enabled in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,125 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 15:36:58 -0000
-Content-Type: multipart/alternative; boundary=001a11356d524ffaa6051b788a7f
+X-List-Received-Date: Wed, 22 Jul 2015 15:47:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11356d524ffaa6051b788a7f
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jul 22, 2015 at 4:02 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
-
-> On Monday 20 July 2015 15:15:54 Christopher Larson wrote:
-> > From: Christopher Larson <chris_larson@mentor.com>
+On Wed, 2015-07-22 at 17:31 +0200, Pau Espin Pedrol wrote:
+> Hi,
+> 
+> 2015-07-16 20:44 GMT+02:00 Tanu Kaskinen <tanu.kaskinen@linux.intel.com>:
+> > PulseAudio can run as a user service without being a *systemd* user
+> > service, and that's actually how it's commonly set up. PulseAudio is
+> > typically started on demand via its own autospawn feature. The autospawn
+> > feature will be replaced by systemd's socket activation in the future,
+> > but only on systems that use systemd (and pam).
 > >
-> > This makes it easier to extend, as a layer can add its own sub-commands=
-.
-> >
-> > tinfoil is now passed into the commands, as we needed to parse the
-> > configuration metadata to get BBPATH, and we don't want to construct
-> tinfoil
-> > more than once, otherwise we have to deal with startup and shutdown of
-> > cooker.
->
-> Hmm, but tinfoil is being constructed twice, right? I think what you've
-> implemented is correct (and the only way it can really work), but this
-> comment
-> doesn't seem to match up with the actual changes.
->
+> 
+> The "autospawning without using systemd" is not affected by the
+> modification done in this patch afaik, because it is not enabling the
+> systemd user service, only installing the service file.
+> 
+> So, If you agree, I will create a patch for bitbake.conf to
+> 
+> 1 - add:
+> export systemd_system_unitdir = "${nonarch_libdir}/systemd/system"
+> export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
+> 
+> 2 - Also change systemd_unitdir to use nonarch_libdir.
+> 
+> 3 - Then I will create v3 for this patch using systemd_user_unitdir.
+> Maybe also modify the recipe a bit to use systemd_system_unitdir for
+> the system service.
 
-Yeah, that=E2=80=99s correct. My initial implementation did what the commit=
- message
-says, but of course that=E2=80=99s a problem for devtool commands that call=
- out to
-recipetool, since recipetool constructs its own, so needs to acquire the
-bitbake lock itself. So I reworked it to construct and then throw away the
-initial instance instead, and leave it up to the subcommands to control
-whether they need a tinfoil instance the way they did previously. I=E2=80=
-=99ll fix
-the commit message.
+About that last point: PulseAudio doesn't currently ship a .service file
+for running in the system mode, so I don't know what modification you
+exactly mean.
 
-> +    tinfoil =3D setup_tinfoil(config_only=3DTrue)
-> > +    for path in ([scripts_path] +
-> > +                 tinfoil.config_data.getVar('BBPATH', True).split(':')=
-):
-> > +        pluginpath =3D os.path.join(path, 'lib', 'devtool')
-> > +        scriptutils.load_plugins(logger, plugins, pluginpath)
-> > +    tinfoil.cooker.shutdown(force=3DTrue)
-> > +    tinfoil.cooker.unlockBitbake()
->
-> FYI I think Richard is about to add a shutdown method to tinfoil itself
-> that
+Otherwise I see no problems in your plan.
 
-will do what's needed here; however we can tidy this up after that's added.
+-- 
+Tanu
 
 
-Cool, that would definitely be cleaner than poking into its internals.
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a11356d524ffaa6051b788a7f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jul 22, 2015 at 4:02 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@=
-linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><sp=
-an class=3D"">On Monday 20 July 2015 15:15:54 Christopher Larson wrote:<br>
-&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
-">chris_larson@mentor.com</a>&gt;<br>
-&gt;<br>
-&gt; This makes it easier to extend, as a layer can add its own sub-command=
-s.<br>
-&gt;<br>
-&gt; tinfoil is now passed into the commands, as we needed to parse the<br>
-&gt; configuration metadata to get BBPATH, and we don&#39;t want to constru=
-ct tinfoil<br>
-&gt; more than once, otherwise we have to deal with startup and shutdown of=
-<br>
-&gt; cooker.<br>
-<br>
-</span>Hmm, but tinfoil is being constructed twice, right? I think what you=
-&#39;ve<br>
-implemented is correct (and the only way it can really work), but this comm=
-ent<br>
-doesn&#39;t seem to match up with the actual changes.<br></blockquote><div>=
-<br></div><div>Yeah, that=E2=80=99s correct. My initial implementation did =
-what the commit message says, but of course that=E2=80=99s a problem for de=
-vtool commands that call out to recipetool, since recipetool constructs its=
- own, so needs to acquire the bitbake lock itself. So I reworked it to cons=
-truct and then throw away the initial instance instead, and leave it up to =
-the subcommands to control whether they need a tinfoil instance the way the=
-y did previously. I=E2=80=99ll fix the commit message.</div><div><br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><span class=3D"">
-&gt; +=C2=A0 =C2=A0 tinfoil =3D setup_tinfoil(config_only=3DTrue)<br>
-&gt; +=C2=A0 =C2=A0 for path in ([scripts_path] +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tinfoil=
-.config_data.getVar(&#39;BBPATH&#39;, True).split(&#39;:&#39;)):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 pluginpath =3D os.path.join(path, &#39;li=
-b&#39;, &#39;devtool&#39;)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 scriptutils.load_plugins(logger, plugins,=
- pluginpath)<br>
-&gt; +=C2=A0 =C2=A0 tinfoil.cooker.shutdown(force=3DTrue)<br>
-&gt; +=C2=A0 =C2=A0 tinfoil.cooker.unlockBitbake()<br>
-<br>
-</span>FYI I think Richard is about to add a shutdown method to tinfoil its=
-elf that=C2=A0</blockquote><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-will do what&#39;s needed here; however we can tidy this up after that&#39;=
-s added.</blockquote><div><br></div><div>Cool, that would definitely be cle=
-aner than poking into its internals.=C2=A0</div></div>-- <br><div class=3D"=
-gmail_signature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail do=
-t com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<=
-br>Senior Software Engineer, Mentor Graphics</div></div>
-</div></div>
-
---001a11356d524ffaa6051b788a7f--
