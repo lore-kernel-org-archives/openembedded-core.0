@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D2BE76167
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C360B73CF2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 14:26:43 +0000 (UTC)
-Received: by wibud3 with SMTP id ud3so156692342wib.1
+	Wed, 22 Jul 2015 15:27:28 +0000 (UTC)
+Received: by qkfc129 with SMTP id c129so112616145qkf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 07:26:43 -0700 (PDT)
+	Wed, 22 Jul 2015 08:27:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JGi+/pOM/8K7qu0+HcoIrf6KUvrMOl/gzwmtbmj96Lg=;
-	b=iqPq1C+PFfYbJE7X7uv+GlEFwKrQjRxsaiZ0mfz9RvqZjkXs072EJOtVWWcCi67rCn
-	LgjfvZQBhBrSAXuj1g+HFtG0k5hDFo1xQU1ey4+2pu6bgIqGCEHY5FYi5FrSFBk+ufVS
-	VueQiauoEVn1OwcIKSFBoH+x1dgfE2UBfPP3mjKa04D2vcR38cZQkqf5STJCzduywv32
-	Z+QDRTZkGPueXcDC+yazR/W8gGrqpmzUmp/pvCcNWpx2fyfsiPwGvDfVbH+hV+aGObNJ
-	UlrWhhj+1eX+YsCmJbSPI4YZKlnCzJpAdF50YWZW34NDcpHX5hhTg9KC6VlTaBrKfn3s
-	OQPQ==
-X-Gm-Message-State: ALoCoQlchbFnI5orbHeHJ4X6Nk2kuYqV5zHgJXPo3HtFFwzSbcf2pP0KaJjEVyjXLb8kT6FzebRr
-X-Received: by 10.194.77.70 with SMTP id q6mr5699208wjw.70.1437575203202;
-	Wed, 22 Jul 2015 07:26:43 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	df1sm22330533wib.12.2015.07.22.07.26.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 22 Jul 2015 07:26:42 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jul 2015 15:20:48 +0100
-Message-Id: <1437574848-6695-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/QemuRunner: don't use bb for logging
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=jrd66LFsBMltdazcVQvq3R2APGbghtfi7KVqwYoed+w=;
+	b=SDWkZxWR8jYwGUJPwToD70ukVtPnHwGCW/Eo7jv/WqGbAorgXML+m6FAsAz2VC4RCA
+	fNcUrL5yye+G8bCseqIcqVuAcgQIglNPHcXyKUmGifH8xxIkeXO+QHh5E8VoaF03362P
+	XBedOgWOdypbHlxb43MpzMRXERe0u4WAP182BTclsAJ5TrjPQRR9rqzrSH//SLoUQZh7
+	CHpfy2JkS33fqB6TMQYpDMOTAMurGoaMYk3qq0o5OyIDtLtcM6JM5jABbkyvRowCSSae
+	BL3ovEV4Wi2GC5RZ4DDu65gBi0Gv1VsIleo/FPLlIGOff6YQNdsVsAasQv51lNn2DlZF
+	8ARg==
+X-Gm-Message-State: ALoCoQljuOkExORxJRVDdruq7mIWw/Az1rISbTG9z7gI1vBd0fkqL+m1uE7fCx7On/Gn6e9AVA6f
+X-Received: by 10.140.150.142 with SMTP id 136mr4769693qhw.17.1437578848313;
+	Wed, 22 Jul 2015 08:27:28 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.195 with HTTP; Wed, 22 Jul 2015 08:27:08 -0700 (PDT)
+In-Reply-To: <1437551743-15104-1-git-send-email-amarnath.valluri@intel.com>
+References: <1437551743-15104-1-git-send-email-amarnath.valluri@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 22 Jul 2015 16:27:08 +0100
+Message-ID: <CAJTo0LYboRR3uSsgPy9ZYniFfXARciM7O-886dGE4ux-JX-+MA@mail.gmail.com>
+To: Amarnath Valluri <amarnath.valluri@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] cronie: Upgrade v1.4.12 to v1.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,199 +43,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 14:26:46 -0000
+X-List-Received-Date: Wed, 22 Jul 2015 15:27:31 -0000
+Content-Type: multipart/alternative; boundary=001a11357d4a973cd6051b78688c
 
-Instead of using bb.note() etc for logging use logging.Logger directly, allowing
-the use of QemuRunner outside of bitbake.
+--001a11357d4a973cd6051b78688c
+Content-Type: text/plain; charset=UTF-8
 
-Also clean up the logging/errors by moving create_socket() out of
-__init__()/restart() and into start().
+I've pulled this into my staging branch, but can you please not add
+[meta-oe] to the subject prefix for oe-core patches and it looks very
+confusing...
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/utils/qemurunner.py | 61 ++++++++++++++++++++-------------------
- 1 file changed, 32 insertions(+), 29 deletions(-)
+Ross
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index f1a7e24..a15990e 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -12,7 +12,10 @@ import signal
- import re
- import socket
- import select
--import bb
-+
-+import logging
-+logger = logging.getLogger("QemuRunner")
-+logger.setLevel(logging.DEBUG - 2)
- 
- class QemuRunner:
- 
-@@ -37,9 +40,6 @@ class QemuRunner:
- 
-         self.runqemutime = 60
- 
--        self.create_socket()
--
--
-     def create_socket(self):
- 
-         self.bootlog = ''
-@@ -51,10 +51,12 @@ class QemuRunner:
-             self.server_socket.bind(("127.0.0.1",0))
-             self.server_socket.listen(2)
-             self.serverport = self.server_socket.getsockname()[1]
--            bb.note("Created listening socket for qemu serial console on: 127.0.0.1:%s" % self.serverport)
-+            logging.info("Created listening socket for qemu serial console on: 127.0.0.1:%s" % self.serverport)
-+            return True
-         except socket.error, msg:
-             self.server_socket.close()
--            bb.fatal("Failed to create listening socket: %s" %msg[1])
-+            logging.error("Failed to create listening socket: %s" % msg[1])
-+            return False
- 
- 
-     def log(self, msg):
-@@ -63,26 +65,28 @@ class QemuRunner:
-                 f.write("%s" % msg)
- 
-     def start(self, qemuparams = None):
--
-         if self.display:
-             os.environ["DISPLAY"] = self.display
-         else:
--            bb.error("To start qemu I need a X desktop, please set DISPLAY correctly (e.g. DISPLAY=:1)")
-+            logging.error("To start qemu I need a X desktop, please set DISPLAY correctly (e.g. DISPLAY=:1)")
-             return False
-         if not os.path.exists(self.rootfs):
--            bb.error("Invalid rootfs %s" % self.rootfs)
-+            logging.error("Invalid rootfs %s" % self.rootfs)
-             return False
-         if not os.path.exists(self.tmpdir):
--            bb.error("Invalid TMPDIR path %s" % self.tmpdir)
-+            logging.error("Invalid TMPDIR path %s" % self.tmpdir)
-             return False
-         else:
-             os.environ["OE_TMPDIR"] = self.tmpdir
-         if not os.path.exists(self.deploy_dir_image):
--            bb.error("Invalid DEPLOY_DIR_IMAGE path %s" % self.deploy_dir_image)
-+            logging.error("Invalid DEPLOY_DIR_IMAGE path %s" % self.deploy_dir_image)
-             return False
-         else:
-             os.environ["DEPLOY_DIR_IMAGE"] = self.deploy_dir_image
- 
-+        if not self.create_socket():
-+            return False
-+
-         # Set this flag so that Qemu doesn't do any grabs as SDL grabs interact
-         # badly with screensavers.
-         os.environ["QEMU_DONT_GRAB"] = "1"
-@@ -93,28 +97,28 @@ class QemuRunner:
-         launch_cmd = 'runqemu %s %s %s' % (self.machine, self.rootfs, self.qemuparams)
-         self.runqemu = subprocess.Popen(launch_cmd,shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,preexec_fn=os.setpgrp)
- 
--        bb.note("runqemu started, pid is %s" % self.runqemu.pid)
--        bb.note("waiting at most %s seconds for qemu pid" % self.runqemutime)
-+        logging.info("runqemu started, pid is %s" % self.runqemu.pid)
-+        logging.info("waiting at most %s seconds for qemu pid" % self.runqemutime)
-         endtime = time.time() + self.runqemutime
-         while not self.is_alive() and time.time() < endtime:
-             time.sleep(1)
- 
-         if self.is_alive():
--            bb.note("qemu started - qemu procces pid is %s" % self.qemupid)
-+            logging.info("qemu started - qemu procces pid is %s" % self.qemupid)
-             cmdline = ''
-             with open('/proc/%s/cmdline' % self.qemupid) as p:
-                 cmdline = p.read()
-             ips = re.findall("((?:[0-9]{1,3}\.){3}[0-9]{1,3})", cmdline.split("ip=")[1])
-             if not ips or len(ips) != 3:
--                bb.note("Couldn't get ip from qemu process arguments! Here is the qemu command line used: %s" % cmdline)
-+                logging.info("Couldn't get ip from qemu process arguments! Here is the qemu command line used: %s" % cmdline)
-                 self.stop()
-                 return False
-             else:
-                 self.ip = ips[0]
-                 self.server_ip = ips[1]
--            bb.note("Target IP: %s" % self.ip)
--            bb.note("Server IP: %s" % self.server_ip)
--            bb.note("Waiting at most %d seconds for login banner" % self.boottime )
-+            logging.info("Target IP: %s" % self.ip)
-+            logging.info("Server IP: %s" % self.server_ip)
-+            logging.info("Waiting at most %d seconds for login banner" % self.boottime)
-             endtime = time.time() + self.boottime
-             socklist = [self.server_socket]
-             reachedlogin = False
-@@ -127,7 +131,7 @@ class QemuRunner:
-                         self.qemusock.setblocking(0)
-                         socklist.append(self.qemusock)
-                         socklist.remove(self.server_socket)
--                        bb.note("Connection from %s:%s" % addr)
-+                        logging.info("Connection from %s:%s" % addr)
-                     else:
-                         data = sock.recv(1024)
-                         if data:
-@@ -136,24 +140,24 @@ class QemuRunner:
-                             if re.search("qemu.* login:", self.bootlog):
-                                 stopread = True
-                                 reachedlogin = True
--                                bb.note("Reached login banner")
-+                                logging.info("Reached login banner")
-                         else:
-                             socklist.remove(sock)
-                             sock.close()
-                             stopread = True
- 
-             if not reachedlogin:
--                bb.note("Target didn't reached login boot in %d seconds" % self.boottime)
-+                logging.info("Target didn't reached login boot in %d seconds" % self.boottime)
-                 lines = "\n".join(self.bootlog.splitlines()[-5:])
--                bb.note("Last 5 lines of text:\n%s" % lines)
--                bb.note("Check full boot log: %s" % self.logfile)
-+                logging.info("Last 5 lines of text:\n%s" % lines)
-+                logging.info("Check full boot log: %s" % self.logfile)
-                 self.stop()
-                 return False
-         else:
--            bb.note("Qemu pid didn't appeared in %s seconds" % self.runqemutime)
-+            logging.info("Qemu pid didn't appeared in %s seconds" % self.runqemutime)
-             output = self.runqemu.stdout
-             self.stop()
--            bb.note("Output from runqemu:\n%s" % output.read())
-+            logging.info("Output from runqemu:\n%s" % output.read())
-             return False
- 
-         return self.is_alive()
-@@ -161,13 +165,13 @@ class QemuRunner:
-     def stop(self):
- 
-         if self.runqemu:
--            bb.note("Sending SIGTERM to runqemu")
-+            logging.info("Sending SIGTERM to runqemu")
-             os.killpg(self.runqemu.pid, signal.SIGTERM)
-             endtime = time.time() + self.runqemutime
-             while self.runqemu.poll() is None and time.time() < endtime:
-                 time.sleep(1)
-             if self.runqemu.poll() is None:
--                bb.note("Sending SIGKILL to runqemu")
-+                logging.info("Sending SIGKILL to runqemu")
-                 os.killpg(self.runqemu.pid, signal.SIGKILL)
-             self.runqemu = None
-         if self.server_socket:
-@@ -177,10 +181,9 @@ class QemuRunner:
-         self.ip = None
- 
-     def restart(self, qemuparams = None):
--        bb.note("Restarting qemu process")
-+        logging.info("Restarting qemu process")
-         if self.runqemu.poll() is None:
-             self.stop()
--        self.create_socket()
-         if self.start(qemuparams):
-             return True
-         return False
--- 
-2.1.4
+On 22 July 2015 at 08:55, Amarnath Valluri <amarnath.valluri@intel.com>
+wrote:
 
+> Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+> ---
+>  meta/recipes-extended/cronie/{cronie_1.4.12.bb => cronie_1.5.0.bb} | 4
+> ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-extended/cronie/{cronie_1.4.12.bb => cronie_1.5.0.bb}
+> (95%)
+>
+> diff --git a/meta/recipes-extended/cronie/cronie_1.4.12.bb
+> b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+> similarity index 95%
+> rename from meta/recipes-extended/cronie/cronie_1.4.12.bb
+> rename to meta/recipes-extended/cronie/cronie_1.5.0.bb
+> index 977332b..38bd593 100644
+> --- a/meta/recipes-extended/cronie/cronie_1.4.12.bb
+> +++ b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+> @@ -23,8 +23,8 @@ SRC_URI = "
+> https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+>  PAM_SRC_URI = "file://crond_pam_config.patch"
+>  PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+>
+> -SRC_URI[md5sum] = "199db91e514a4d75e3222d69874b132f"
+> -SRC_URI[sha256sum] =
+> "0f5c9bf32f352599451c4ca0d6bc076d19e73ecfa5a90b34ecfe47c918c8bafd"
+> +SRC_URI[md5sum] = "9db75e1884d83a45e002d145c6c54d45"
+> +SRC_URI[sha256sum] =
+> "9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112465f0f81f2c84ebfb3f"
+>
+>  inherit autotools update-rc.d useradd systemd
+>
+> --
+> 2.1.4
+>
+> ---------------------------------------------------------------------
+> Intel Finland Oy
+> Registered Address: PL 281, 00181 Helsinki
+> Business Identity Code: 0357606 - 4
+> Domiciled in Helsinki
+>
+> This e-mail and any attachments may contain confidential material for
+> the sole use of the intended recipient(s). Any review or distribution
+> by others is strictly prohibited. If you are not the intended
+> recipient, please contact the sender and delete all copies.
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--001a11357d4a973cd6051b78688c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I&#39;ve pulled this into my staging branch, but can you p=
+lease not add [meta-oe] to the subject prefix for oe-core patches and it lo=
+oks very confusing...<div><br></div><div>Ross</div></div><div class=3D"gmai=
+l_extra"><br><div class=3D"gmail_quote">On 22 July 2015 at 08:55, Amarnath =
+Valluri <span dir=3D"ltr">&lt;<a href=3D"mailto:amarnath.valluri@intel.com"=
+ target=3D"_blank">amarnath.valluri@intel.com</a>&gt;</span> wrote:<br><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex">Signed-off-by: Amarnath Valluri &lt;<a href=3D"m=
+ailto:amarnath.valluri@intel.com">amarnath.valluri@intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-extended/cronie/{<a href=3D"http://cronie_1.4.12.bb" rel=
+=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a> =3D&gt; <a href=3D"h=
+ttp://cronie_1.5.0.bb" rel=3D"noreferrer" target=3D"_blank">cronie_1.5.0.bb=
+</a>} | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta/recipes-extended/cronie/{<a href=3D"http://cronie_1.4.12.=
+bb" rel=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a> =3D&gt; <a hr=
+ef=3D"http://cronie_1.5.0.bb" rel=3D"noreferrer" target=3D"_blank">cronie_1=
+.5.0.bb</a>} (95%)<br>
+<br>
+diff --git a/meta/recipes-extended/cronie/<a href=3D"http://cronie_1.4.12.b=
+b" rel=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a> b/meta/recipes=
+-extended/cronie/<a href=3D"http://cronie_1.5.0.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">cronie_1.5.0.bb</a><br>
+similarity index 95%<br>
+rename from meta/recipes-extended/cronie/<a href=3D"http://cronie_1.4.12.bb=
+" rel=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a><br>
+rename to meta/recipes-extended/cronie/<a href=3D"http://cronie_1.5.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">cronie_1.5.0.bb</a><br>
+index 977332b..38bd593 100644<br>
+--- a/meta/recipes-extended/cronie/<a href=3D"http://cronie_1.4.12.bb" rel=
+=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a><br>
++++ b/meta/recipes-extended/cronie/<a href=3D"http://cronie_1.5.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">cronie_1.5.0.bb</a><br>
+@@ -23,8 +23,8 @@ SRC_URI =3D &quot;<a href=3D"https://fedorahosted.org/rel=
+eases/c/r/cronie/cronie-${PV}.tar.gz" rel=3D"noreferrer" target=3D"_blank">=
+https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz</a> \<br>
+=C2=A0PAM_SRC_URI =3D &quot;file://crond_pam_config.patch&quot;<br>
+=C2=A0PAM_DEPS =3D &quot;libpam libpam-runtime pam-plugin-access pam-plugin=
+-loginuid&quot;<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;199db91e514a4d75e3222d69874b132f&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;0f5c9bf32f352599451c4ca0d6bc076d19e73ecfa5a90=
+b34ecfe47c918c8bafd&quot;<br>
++SRC_URI[md5sum] =3D &quot;9db75e1884d83a45e002d145c6c54d45&quot;<br>
++SRC_URI[sha256sum] =3D &quot;9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112=
+465f0f81f2c84ebfb3f&quot;<br>
+<br>
+=C2=A0inherit autotools update-rc.d useradd systemd<br>
+<br>
+--<br>
+2.1.4<br>
+<br>
+---------------------------------------------------------------------<br>
+Intel Finland Oy<br>
+Registered Address: PL 281, 00181 Helsinki<br>
+Business Identity Code: 0357606 - 4<br>
+Domiciled in Helsinki<br>
+<br>
+This e-mail and any attachments may contain confidential material for<br>
+the sole use of the intended recipient(s). Any review or distribution<br>
+by others is strictly prohibited. If you are not the intended<br>
+recipient, please contact the sender and delete all copies.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a11357d4a973cd6051b78688c--
