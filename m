@@ -1,36 +1,46 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 053CE73CF2
+Return-Path: <pespin.shar@gmail.com>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id A555C73CF2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 15:29:41 +0000 (UTC)
-Received: by qkdl129 with SMTP id l129so155454566qkd.0
+	Wed, 22 Jul 2015 15:31:40 +0000 (UTC)
+Received: by lbbzr7 with SMTP id zr7so139271009lbb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 08:29:41 -0700 (PDT)
+	Wed, 22 Jul 2015 08:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=MJzvVJ8GruVh+XstnMPJdQCFJx7ts+WrETplwHLyABo=;
-	b=cvaMwz5Up5x9yOI1gOjS34zh1V7Q5OXTcXYUowBmCHub341BVECqzXriElsd/Sh0HV
-	ig8QuXl0gBESM6V6mlhwZaERrOZeCFbfTjw5AoEh/hquwPzWxmA1cYFR/4G1whFZLMb0
-	f6YTyJBCUDkS7MBiM+TMYBfnJ/2t5PFfRRXapvZekfV2MvAZp/5zXxEtcUSapqSL4kQN
-	FBZ4OTDnjXLct0FfN9XdAaXbC+KlBnmeywEONSwpNAwmDqnovLcTln/oFPYdjp5eVNeV
-	aj/4y8QTxZ3CS9UxvSMZJegFMBQLlztaCZ9fpf6/xS9w53Nx7HvpuFSHgyS7fGcR4dti
-	v8/A==
-X-Received: by 10.140.231.8 with SMTP id b8mr4778214qhc.55.1437578981401; Wed,
-	22 Jul 2015 08:29:41 -0700 (PDT)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=B2YOg2/je/TbrQriKC+/wrn3xVgcHv+PPA74M4JR0ak=;
+	b=tBwvwZ1j3vbok06hHcl/GudxWc9hRxhwEjzLvxREr0/w3RGPBwf1YBQwA7bWp5VgCB
+	wi9lVMbVs0wfHY5DOcIczVobWBueWF/axAEsZQbPwCRpxoiP3/Q/mT3h1ANcuZjvVMf6
+	sXLlsuf+3PcdustrwVsbBbw1yjob0TZcNf34zhKYTnUP2O8fWQqYVZx18RON+LrndPVa
+	Bn/a8XAkWmLUD2/E3MaDgH4RI2MqezzAZjZaqundEgC8SuxpWgxecZgxThWRoSrc0Rjm
+	56PDUkjDw3m2DObGll6ZE30QnvjpquIJfii043iacF2wLheIc3NEJ5jsdOaEB2cf0C1V
+	2FMg==
 MIME-Version: 1.0
-Received: by 10.140.108.55 with HTTP; Wed, 22 Jul 2015 08:29:22 -0700 (PDT)
-In-Reply-To: <2606699.EhWc0CorW2@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1437430369.git.chris_larson@mentor.com>
-	<2606699.EhWc0CorW2@peggleto-mobl.ger.corp.intel.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Wed, 22 Jul 2015 08:29:22 -0700
-Message-ID: <CABcZAN=i4h656sKf2OuAeeA0any2ZNL_pM=FZAsB2-QsxchDZg@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 0/6] recipetool/devtool/oe-selftest: pull from BBPATH
+X-Received: by 10.112.52.2 with SMTP id p2mr2969754lbo.8.1437579098763; Wed,
+	22 Jul 2015 08:31:38 -0700 (PDT)
+Received: by 10.25.3.10 with HTTP; Wed, 22 Jul 2015 08:31:38 -0700 (PDT)
+In-Reply-To: <1437072252.16819.57.camel@tkkaskin-mobl3.ger.corp.intel.com>
+References: <1436537056-4626-1-git-send-email-pau.espin@aweurope.be>
+	<CAJTo0LbpxBHh8mv7qqKMkVmBcoQ=ckjt3+4ipahMwtqUUkZr1A@mail.gmail.com>
+	<CAEGpDuYVEB0Y5T+SqybCfagCkO1rA1A66toZdYz_EMWGEc87aw@mail.gmail.com>
+	<CABcZAN=z8xMuAABa54A8L2uFhC9fjRbZ36iszxSTJOpWcnFypw@mail.gmail.com>
+	<CAEGpDubUdvEM=VHWzYqjBWoLz5Pz+2JP+j9oJLtdij-GSDamCg@mail.gmail.com>
+	<CABcZANmfHHYLE=-9dP2-LfQ-uF8WJMxugbGOEEbR-9WQu67j=g@mail.gmail.com>
+	<1437041956.16819.32.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<CABcZAN=G=izCZKV+2qL9TEBrtBqBiw74gPPZ0s=mkdmDeGY3pQ@mail.gmail.com>
+	<1437070403.16819.47.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<CABcZANm3yiV98wDX0WtQdLEvpo9cV8PEqPJwjFQVLyJphFau6g@mail.gmail.com>
+	<1437072252.16819.57.camel@tkkaskin-mobl3.ger.corp.intel.com>
+Date: Wed, 22 Jul 2015 17:31:38 +0200
+Message-ID: <CAEGpDuY97Gx0qnEHcxBQ+udQgZXdQ3uksHtERZQLtB=KxZE7Bg@mail.gmail.com>
+From: Pau Espin Pedrol <pespin.shar@gmail.com>
+To: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	OE-core <openembedded-core@lists.openembedded.org>,
+	Pau Espin Pedrol <pau.espin@aweurope.be>
+Subject: Re: [PATCH v2] pulseaudio: add systemd to PACKAGECONFIG if enabled in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,160 +53,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 15:29:43 -0000
-Content-Type: multipart/alternative; boundary=001a1135cb748606ab051b787042
-
---001a1135cb748606ab051b787042
+X-List-Received-Date: Wed, 22 Jul 2015 15:31:41 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On Wed, Jul 22, 2015 at 4:02 AM, Paul Eggleton <
-paul.eggleton@linux.intel.com> wrote:
-
-> On Monday 20 July 2015 15:15:38 Christopher Larson wrote:
-> > From: Christopher Larson <chris_larson@mentor.com>
-> >
-> > Ensures that recipetool and devtool pull plugins from layers, and
-> > oe-selftest will pull tests from layers.
-> >
-> > Unrelated to that, also prevents a traceback on parsing failure, and adds
-> > a tiny feature to appendsrc to facilitate reuse by other sub-commands.
-> >
-> > [v2 Update] `devtool: also load plugins from BBPATH` was fixed, so it no
-> > longer breaks the devtool selftests.
-> >
-> >
-> > The following changes since commit
-> b283b82ec59a2137cf717811172765848fa813fa:
-> >
-> >   core-image-lsb-sdk: use kernel-devsrc to ensure kernel module builds
-> work
-> > (2015-07-20 10:39:02 +0100)
-> >
-> > are available in the git repository at:
-> >
-> >   git@github.com:kergoth/openembedded-core yocto-bug-7625
-> >
-> > for you to fetch changes up to 35a9ce57747248192dc5c0dd7916e15e58a5835e:
-> >
-> >   oe-selftest: add libdirs from BBPATH to sys.path (2015-07-20 15:11:59
-> > -0700)
-> >
-> > ----------------------------------------------------------------
-> > Christopher Larson (6):
-> >       recipetool: catch BBHandledException from parsing
-> >       recipetool.append: add extralines arg to appendsrc
-> >       recipetool: also load plugins from BBPATH
-> >       devtool: also load plugins from BBPATH
-> >       oe-selftest: obey oeqa.selftest.__path__
-> >       oe-selftest: add libdirs from BBPATH to sys.path
-> >
-> >  scripts/devtool                  | 57
-> > +++++++++++++++++++++++++---------------
-> scripts/lib/devtool/__init__.py  |
-> >  4 +--
-> >  scripts/lib/recipetool/append.py |  4 +--
-> >  scripts/oe-selftest              | 18 +++++++++----
-> >  scripts/recipetool               | 56
-> > ++++++++++++++++++++++++--------------- 5 files changed, 88
-> insertions(+),
-> > 51 deletions(-)
->
-> Overall I'm happy with this set of changes apart from the commit messages
-> for
-> the devtool and recipetool plugin loading commits as separately noted. (The
-> other changes could conceivably go in ahead).
-
-
-Thanks for the feedback, will get a v3 out today.
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---001a1135cb748606ab051b787042
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jul 22, 2015 at 4:02 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@=
-linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
-v class=3D"HOEnZb adM"><div class=3D"h5">On Monday 20 July 2015 15:15:38 Ch=
-ristopher Larson wrote:<br>
-&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
-">chris_larson@mentor.com</a>&gt;<br>
-&gt;<br>
-&gt; Ensures that recipetool and devtool pull plugins from layers, and<br>
-&gt; oe-selftest will pull tests from layers.<br>
-&gt;<br>
-&gt; Unrelated to that, also prevents a traceback on parsing failure, and a=
-dds<br>
-&gt; a tiny feature to appendsrc to facilitate reuse by other sub-commands.=
-<br>
-&gt;<br>
-&gt; [v2 Update] `devtool: also load plugins from BBPATH` was fixed, so it =
-no<br>
-&gt; longer breaks the devtool selftests.<br>
-&gt;<br>
-&gt;<br>
-&gt; The following changes since commit b283b82ec59a2137cf717811172765848fa=
-813fa:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0core-image-lsb-sdk: use kernel-devsrc to ensure kernel mod=
-ule builds work<br>
-&gt; (2015-07-20 10:39:02 +0100)<br>
-&gt;<br>
-&gt; are available in the git repository at:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0git@github.com:kergoth/openembedded-core yocto-bug-7625<br=
->
-&gt;<br>
-&gt; for you to fetch changes up to 35a9ce57747248192dc5c0dd7916e15e58a5835=
-e:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0oe-selftest: add libdirs from BBPATH to sys.path (2015-07-=
-20 15:11:59<br>
-&gt; -0700)<br>
-&gt;<br>
-&gt; ----------------------------------------------------------------<br>
-&gt; Christopher Larson (6):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0recipetool: catch BBHandledException from pa=
-rsing<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0recipetool.append: add extralines arg to app=
-endsrc<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0recipetool: also load plugins from BBPATH<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0devtool: also load plugins from BBPATH<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0oe-selftest: obey oeqa.selftest.__path__<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0oe-selftest: add libdirs from BBPATH to sys.=
-path<br>
-&gt;<br>
-&gt;=C2=A0 scripts/devtool=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 57<br>
-&gt; +++++++++++++++++++++++++--------------- scripts/lib/devtool/__init__.=
-py=C2=A0 |<br>
-&gt;=C2=A0 4 +--<br>
-&gt;=C2=A0 scripts/lib/recipetool/append.py |=C2=A0 4 +--<br>
-&gt;=C2=A0 scripts/oe-selftest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 18 +++++++++----<br>
-&gt;=C2=A0 scripts/recipetool=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 56<br>
-&gt; ++++++++++++++++++++++++--------------- 5 files changed, 88 insertions=
-(+),<br>
-&gt; 51 deletions(-)<br>
-<br>
-</div></div>Overall I&#39;m happy with this set of changes apart from the c=
-ommit messages for<br>
-the devtool and recipetool plugin loading commits as separately noted. (The=
-<br>
-other changes could conceivably go in ahead).</blockquote></div><br>Thanks =
-for the feedback, will get a v3 out today.<br>-- <br><div class=3D"gmail_si=
-gnature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br=
->Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senio=
-r Software Engineer, Mentor Graphics</div></div>
-</div></div>
+Hi,
 
---001a1135cb748606ab051b787042--
+2015-07-16 20:44 GMT+02:00 Tanu Kaskinen <tanu.kaskinen@linux.intel.com>:
+> On Thu, 2015-07-16 at 11:21 -0700, Christopher Larson wrote:
+>>
+>> On Thu, Jul 16, 2015 at 11:13 AM, Tanu Kaskinen
+>> <tanu.kaskinen@linux.intel.com> wrote:
+>>         On Thu, 2015-07-16 at 07:56 -0700, Christopher Larson wrote:
+>>         >
+>>         > On Thu, Jul 16, 2015 at 3:19 AM, Tanu Kaskinen
+>>         > <tanu.kaskinen@linux.intel.com> wrote:
+>>         >         On Mon, 2015-07-13 at 09:22 -0700, Christopher
+>>         Larson wrote:
+>>         >         >
+>>         >         > On Mon, Jul 13, 2015 at 9:17 AM, Pau Espin Pedrol
+>>         >         > <pespin.shar@gmail.com> wrote:
+>>         >
+>>         >         >         So, pulseaudio is intended to be used as a
+>>         systemd
+>>         >         user
+>>         >         >         service, not
+>>         >         >         as a systemd system service, and that
+>>         means it needs
+>>         >         to end up
+>>         >         >         in
+>>         >         >         /usr/lib/systemd/user and not
+>>         >         in /lib/systemd/system/.
+>>         >         >
+>>         >         >         All these changes are part of my efforts
+>>         to improve
+>>         >         systemd
+>>         >         >         user
+>>         >         >         service support in OE, which is kind of
+>>         bad nowadays
+>>         >         imho.
+>>         >         >
+>>         >         > Fair enough, thanks for the clarification. Given
+>>         that
+>>         >         systemd user
+>>         >         > services require pam, and most embedded distros
+>>         disable pam,
+>>         >         I wonder
+>>         >         > if we shouldn=E2=80=99t have an option, at least for
+>>         daemons in
+>>         >         recipes that
+>>         >         > can handle it, to switch from user to system via a
+>>         >         PACKAGECONFIG, and
+>>         >         > possibly default that for the non-pam case.. Hmm.
+>>         >
+>>         >         Do you mean that there are many distros that have
+>>         systemd but
+>>         >         don't have
+>>         >         pam, and that the lack of pam strongly suggests that
+>>         the
+>>         >         system won't
+>>         >         have any regular users? If so, then your proposal
+>>         sounds good.
+>>         >
+>>         > No, I mean that systemd user services require pam, as far as
+>>         I know,
+>>         > because it=E2=80=99s a systemd pam plugin which actually start=
+s and
+>>         stops the
+>>         > user services. Without that hook, they won=E2=80=99t be run at=
+ all.
+>>
+>>
+>>         OK, then it's less clear that services should be run in system
+>>         mode by
+>>         default when pam isn't present. If the lack of pam doesn't
+>>         imply lack of
+>>         regular users, at least pulseaudio should still run as a user
+>>         service by
+>>         default (but not started by systemd if pam isn't enabled).
+>>
+>> Running it as a user service by default when it=E2=80=99ll not actually =
+ever
+>> be run, lacking a mechanism to run it, seems pretty pointless to me.
+>> If someone installs pulseaudio, presumably they want it to actually
+>> run.
+>
+> PulseAudio can run as a user service without being a *systemd* user
+> service, and that's actually how it's commonly set up. PulseAudio is
+> typically started on demand via its own autospawn feature. The autospawn
+> feature will be replaced by systemd's socket activation in the future,
+> but only on systems that use systemd (and pam).
+>
+
+The "autospawning without using systemd" is not affected by the
+modification done in this patch afaik, because it is not enabling the
+systemd user service, only installing the service file.
+
+So, If you agree, I will create a patch for bitbake.conf to
+
+1 - add:
+export systemd_system_unitdir =3D "${nonarch_libdir}/systemd/system"
+export systemd_user_unitdir =3D "${nonarch_libdir}/systemd/user"
+
+2 - Also change systemd_unitdir to use nonarch_libdir.
+
+3 - Then I will create v3 for this patch using systemd_user_unitdir.
+Maybe also modify the recipe a bit to use systemd_system_unitdir for
+the system service.
+
+
+> --
+> Tanu
+>
+>
+
