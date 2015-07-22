@@ -1,20 +1,39 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 10E5775791
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 000FA73BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 07:54:50 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2015 00:54:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,522,1432623600"; d="scan'208";a="528153440"
-Received: from theory.fi.intel.com ([10.237.72.51])
-	by FMSMGA003.fm.intel.com with ESMTP; 22 Jul 2015 00:54:49 -0700
-From: Amarnath Valluri <amarnath.valluri@intel.com>
+	Wed, 22 Jul 2015 08:21:42 +0000 (UTC)
+Received: by wibxm9 with SMTP id xm9so90010760wib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jul 2015 01:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=3997iK7fDrOLwOj1RuVzKdhGzbdyRpz66cxNsYprBt4=;
+	b=y9ha/lcxzQhX63YQt6CJtWtvC5Pwe7L6LorlEEmMI+pE4IC9/KGyqmlxGgEXN3LYgF
+	DrJVk2b9daugD1YgMERkGNaMdR8LPdf1Fmm9I6y0KUNuKaPqB2zvRJKP9QATQJkNOwHy
+	43geJTAryEtldtXJ+O40MKT1z2F2UTmfhvX3l2zLCp0y1st/GpmzjJQVAS5o7SQGHCmJ
+	hnS5p6MI9NnwpdW7//3rY1crBHITK4S2FyKJzEeF30qq1Nvzh4F7BNvSiFmWRn98ukL1
+	95pd78T7sP/6cnTpzKyGWpQ8sMGakwoQD0ntQ0wHwbAFb8fUcPMm6A5LU7pdYTS0gzoi
+	niZQ==
+X-Received: by 10.194.93.3 with SMTP id cq3mr2676502wjb.20.1437553302128;
+	Wed, 22 Jul 2015 01:21:42 -0700 (PDT)
+Received: from localhost.localdomain
+	(ip-95-222-156-55.hsi15.unitymediagroup.de. [95.222.156.55])
+	by smtp.googlemail.com with ESMTPSA id
+	k2sm2133919wif.4.2015.07.22.01.21.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 Jul 2015 01:21:40 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jul 2015 10:55:43 +0300
-Message-Id: <1437551743-15104-1-git-send-email-amarnath.valluri@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [meta-oe][PATCH] cronie: Upgrade v1.4.12 to v1.5.0
+Date: Wed, 22 Jul 2015 10:21:10 +0200
+Message-Id: <1437553270-9514-1-git-send-email-schnitzeltony@googlemail.com>
+X-Mailer: git-send-email 1.9.3
+MIME-Version: 1.0
+Subject: [PATCH] boost: add python3 support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,44 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 07:54:54 -0000
+X-List-Received-Date: Wed, 22 Jul 2015 08:21:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+* Both - python/python3 - libs are build by adding 'python' to PACKAGECONFIG
+  but are packed into separate packages
+* Indention was wrong in __anonymous()
+
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/recipes-extended/cronie/{cronie_1.4.12.bb => cronie_1.5.0.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/cronie/{cronie_1.4.12.bb => cronie_1.5.0.bb} (95%)
+ meta/recipes-support/boost/boost.inc | 17 ++++++++++++-----
+ 1 file changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-extended/cronie/cronie_1.4.12.bb b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-similarity index 95%
-rename from meta/recipes-extended/cronie/cronie_1.4.12.bb
-rename to meta/recipes-extended/cronie/cronie_1.5.0.bb
-index 977332b..38bd593 100644
---- a/meta/recipes-extended/cronie/cronie_1.4.12.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-@@ -23,8 +23,8 @@ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
- PAM_SRC_URI = "file://crond_pam_config.patch"
- PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 27d489f..3288e84 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -24,8 +24,8 @@ BOOST_LIBS = "\
  
--SRC_URI[md5sum] = "199db91e514a4d75e3222d69874b132f"
--SRC_URI[sha256sum] = "0f5c9bf32f352599451c4ca0d6bc076d19e73ecfa5a90b34ecfe47c918c8bafd"
-+SRC_URI[md5sum] = "9db75e1884d83a45e002d145c6c54d45"
-+SRC_URI[sha256sum] = "9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112465f0f81f2c84ebfb3f"
+ # optional boost-python library
+ PACKAGECONFIG ??= ""
+-PACKAGECONFIG[python] = ",,python"
+-BOOST_LIBS += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python', '', d)}"
++PACKAGECONFIG[python] = ",,python python3"
++BOOST_LIBS += "${@bb.utils.contains('PACKAGECONFIG', 'python', 'python python3', '', d)}"
+ inherit python-dir
+ PYTHON_ROOT = "${STAGING_DIR_HOST}/${prefix}"
  
- inherit autotools update-rc.d useradd systemd
+@@ -35,9 +35,16 @@ python __anonymous () {
+     packages = []
+     extras = []
+     for lib in d.getVar('BOOST_LIBS', True).split( ):
+-            pkg = "boost-%s" % lib.replace("_", "-")
++        # BJAM does not know '--with-python3' (only --with-python)
++        if lib != "python3":
+             extras.append("--with-%s" % lib)
+-            packages.append(pkg)
++        pkg = "boost-%s" % lib.replace("_", "-")
++        packages.append(pkg)
++        if lib == "python":
++            # special: python*.so matches python3.so !!
++            if not d.getVar("FILES_%s" % pkg, True):
++                    d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s.so.*" % lib)
++        else:
+             if not d.getVar("FILES_%s" % pkg, True):
+                     d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s*.so.*" % lib)
+     d.setVar("BOOST_PACKAGES", " ".join(packages))
+@@ -101,7 +108,6 @@ BJAM_TOOLS   = "--ignore-site-config \
+ 		'-sGCC_INCLUDE_DIRECTORY=${STAGING_INCDIR}' \
+ 		'-sGCC_STDLIB_DIRECTORY=${STAGING_LIBDIR}' \
+ 		'-sBUILD=release <optimization>space <threading>multi <inlining>on <debug-symbols>off' \
+-		'-sPYTHON_VERSION=${PYTHON_BASEVERSION}' \
+ 		'-sPYTHON_ROOT=${PYTHON_ROOT}' \
+ 		'--layout=system' \
+ 		"
+@@ -149,6 +155,7 @@ do_boostconfig() {
+ 	sed -i "/^using python : ${PYTHON_BASEVERSION}"/d ${S}/tools/build/example/user-config.jam
+ 	echo 'using gcc : 4.3.1 : ${CXX} : <cflags>"${CFLAGS}" <cxxflags>"${CXXFLAGS}" <linkflags>"${LDFLAGS}" ;' >> ${S}/tools/build/example/user-config.jam
+ 	echo "using python : ${PYTHON_BASEVERSION} : : ${STAGING_INCDIR}/python${PYTHON_BASEVERSION} ;" >> ${S}/tools/build/example/user-config.jam
++	echo "using python : 3.4 : : ${STAGING_INCDIR}/python3.4m ;" >> ${S}/tools/build/example/user-config.jam
  
+ 	CC="${BUILD_CC}" CFLAGS="${BUILD_CFLAGS}" ./bootstrap.sh --with-bjam=bjam --with-toolset=gcc --with-python-root=${PYTHON_ROOT}
+ 	sed -i '/^using python/d' project-config.jam
 -- 
-2.1.4
-
----------------------------------------------------------------------
-Intel Finland Oy
-Registered Address: PL 281, 00181 Helsinki 
-Business Identity Code: 0357606 - 4 
-Domiciled in Helsinki 
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
+1.9.3
 
 
