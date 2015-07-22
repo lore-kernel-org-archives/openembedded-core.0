@@ -1,23 +1,35 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 891E0738ED
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6066B738ED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 06:53:54 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 21 Jul 2015 23:53:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,521,1432623600"; d="scan'208";a="610552186"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 21 Jul 2015 23:53:34 -0700
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id 5EF252E055B;
-	Tue, 21 Jul 2015 23:52:50 -0700 (PDT)
-From: Costin Constantin <costin.c.constantin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jul 2015 10:04:08 +0300
-Message-Id: <1437548648-24523-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2] oeqa/buildoptions.py: automate test case 926, archive work dir and export source
+	Wed, 22 Jul 2015 07:02:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6M72NYa030482; Wed, 22 Jul 2015 08:02:23 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 7Nk28lJnUfkM; Wed, 22 Jul 2015 08:02:23 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6M72Bmi030477
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 22 Jul 2015 08:02:22 +0100
+Message-ID: <1437548530.821.75.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 22 Jul 2015 08:02:10 +0100
+In-Reply-To: <CAJ86T=XursrAyvaRLypQ8Ov07u7+-Om6RUtCA2MeordxM7WU7w@mail.gmail.com>
+References: <cover.1436195315.git.tanu.kaskinen@linux.intel.com>
+	<1436428717.9778.33.camel@linuxfoundation.org>
+	<1436429491.23019.21.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<1436438943.23019.26.camel@tkkaskin-mobl3.ger.corp.intel.com>
+	<1436946021.3310.95.camel@linuxfoundation.org>
+	<CAJ86T=XursrAyvaRLypQ8Ov07u7+-Om6RUtCA2MeordxM7WU7w@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] speex, speexdsp: 1.2rc1 -> 1.2rc2/1.2rc3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,37 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 06:53:55 -0000
+X-List-Received-Date: Wed, 22 Jul 2015 07:02:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
----
- meta/lib/oeqa/selftest/buildoptions.py | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+On Wed, 2015-07-15 at 01:25 -0700, Andre McCurdy wrote:
+> On Wed, Jul 15, 2015 at 12:40 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2015-07-09 at 13:49 +0300, Tanu Kaskinen wrote:
+> >> On Thu, 2015-07-09 at 11:11 +0300, Tanu Kaskinen wrote:
+> >> > On Thu, 2015-07-09 at 08:58 +0100, Richard Purdie wrote:
+> >> > > I included these patches on the autobuilder in master-next and saw:
+> >> > >
+> >> > > https://autobuilder.yoctoproject.org/main/builders/nightly-x86-lsb/builds/385/steps/BuildImages_1/logs/stdio
+> >> > >
+> >>
+> >> The libspeexdsp-dev problem is more difficult, and I don't really know
+> >> how to debug it further. The error message was:
+> >>
+> >> error: Can't install pulseaudio-dev-6.0-r0@core2_32: no package provides libspeexdsp-dev
+> >>
+> >> However, "bitbake speexdsp" seems to generate the libspeexdsp-dev
+> >> package just fine (libspeexdsp-dev_1.2rc3-r0_core2-64.ipk appears in the
+> >> deploy directory).
+> >
+> > This one is a little crazy to debug. What you need to do is build
+> > something i586 (like qemux86), then build something core2_32 (like
+> > genericx86), then "bitbake core-image-lsb core-image-lsb-sdk -c rootfs"
+> > and hope the -lsb image builds before -lsb-sdk (I hacked runqueue to
+> > ensure that). Then you see this error.
+> >
+> > genericx86 is seeing two copies of libspeexdsp-dev, one from the i586
+> > feed and one from the core2_32 feed and somehow they confuse it, perhaps
+> > due to the RCONFLICTS or something.
+> >
+> > Obviously this isn't really a bug in the libspeexdsp recipe, its a bug
+> > in smart combined with a second bug where genericx86 shouldn't be seeing
+> > the i586 packages.
+> 
+> Not sure if it's related, but tune-core2.inc deliberately includes
+> PACKAGE_EXTRA_ARCHS_tune-i586 when defining
+> PACKAGE_EXTRA_ARCHS_tune-core2-32, which seems to be correct according
+> to conf/machine/include/README:
+> 
+>   "PACKAGE_EXTRA_ARCHS_tune-<tune> - List all of the package architectures
+>   that are compatible with this specific tune.  The package arch of this
+>   tune must be in the list."
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index 10e4fc5..e79be9e 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -131,3 +131,18 @@ class BuildImagesTest(oeSelfTest):
-         self.write_config("DISTRO_FEATURES_remove = \"x11\"\nDISTRO_FEATURES_append = \" directfb\"\nMACHINE ??= \"qemuarm\"")
-         res = bitbake("core-image-directfb", ignore_status=True)
-         self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
-+
-+class ArchiverTest(oeSelfTest):
-+    @testcase(926)
-+    def test_arch_work_dir_and_export_source(self):
-+        """
-+        Test for archiving the work directory and exporting the source files.
-+        """
-+        self.add_command_to_tearDown('cleanupworkdir')
-+        self.write_config("INHERIT = \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nARCHIVER_MODE[srpm] = \"1\"")
-+        res = bitbake("xcursor-transparent-theme", ignore_status=True)
-+        self.assertEqual(res.status, 0, "\nCouldn't build xcursortransparenttheme.\nbitbake output %s" % res.output)
-+        pkgs_path = g.glob(str(self.builddir) + "/tmp/deploy/sources/allarch*/xcurs*")
-+        src_file_glob = str(pkgs_path[0]) + "/xcursor*.src.rpm"
-+        tar_file_glob = str(pkgs_path[0]) + "/xcursor*.tar.gz"
-+        self.assertTrue((g.glob(src_file_glob) and g.glob(tar_file_glob)), "Couldn't find .src.rpm and .tar.gz files under tmp/deploy/sources/allarch*/xcursor*")
--- 
-2.1.4
+As we define things today, its certainly correct. I do continue to
+wonder if there shouldn't be two different fields, the list of arches to
+use at build time and the complete list of compatible arches which would
+be separate.
+
+How we'd go about such an invasive change is the real issue.
+
+Cheers,
+
+Richard
 
 
