@@ -1,36 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C360B73CF2
+Return-Path: <kergoth@gmail.com>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 053CE73CF2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 15:27:28 +0000 (UTC)
-Received: by qkfc129 with SMTP id c129so112616145qkf.1
+	Wed, 22 Jul 2015 15:29:41 +0000 (UTC)
+Received: by qkdl129 with SMTP id l129so155454566qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 08:27:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=jrd66LFsBMltdazcVQvq3R2APGbghtfi7KVqwYoed+w=;
-	b=SDWkZxWR8jYwGUJPwToD70ukVtPnHwGCW/Eo7jv/WqGbAorgXML+m6FAsAz2VC4RCA
-	fNcUrL5yye+G8bCseqIcqVuAcgQIglNPHcXyKUmGifH8xxIkeXO+QHh5E8VoaF03362P
-	XBedOgWOdypbHlxb43MpzMRXERe0u4WAP182BTclsAJ5TrjPQRR9rqzrSH//SLoUQZh7
-	CHpfy2JkS33fqB6TMQYpDMOTAMurGoaMYk3qq0o5OyIDtLtcM6JM5jABbkyvRowCSSae
-	BL3ovEV4Wi2GC5RZ4DDu65gBi0Gv1VsIleo/FPLlIGOff6YQNdsVsAasQv51lNn2DlZF
-	8ARg==
-X-Gm-Message-State: ALoCoQljuOkExORxJRVDdruq7mIWw/Az1rISbTG9z7gI1vBd0fkqL+m1uE7fCx7On/Gn6e9AVA6f
-X-Received: by 10.140.150.142 with SMTP id 136mr4769693qhw.17.1437578848313;
-	Wed, 22 Jul 2015 08:27:28 -0700 (PDT)
+	Wed, 22 Jul 2015 08:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=MJzvVJ8GruVh+XstnMPJdQCFJx7ts+WrETplwHLyABo=;
+	b=cvaMwz5Up5x9yOI1gOjS34zh1V7Q5OXTcXYUowBmCHub341BVECqzXriElsd/Sh0HV
+	ig8QuXl0gBESM6V6mlhwZaERrOZeCFbfTjw5AoEh/hquwPzWxmA1cYFR/4G1whFZLMb0
+	f6YTyJBCUDkS7MBiM+TMYBfnJ/2t5PFfRRXapvZekfV2MvAZp/5zXxEtcUSapqSL4kQN
+	FBZ4OTDnjXLct0FfN9XdAaXbC+KlBnmeywEONSwpNAwmDqnovLcTln/oFPYdjp5eVNeV
+	aj/4y8QTxZ3CS9UxvSMZJegFMBQLlztaCZ9fpf6/xS9w53Nx7HvpuFSHgyS7fGcR4dti
+	v8/A==
+X-Received: by 10.140.231.8 with SMTP id b8mr4778214qhc.55.1437578981401; Wed,
+	22 Jul 2015 08:29:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Wed, 22 Jul 2015 08:27:08 -0700 (PDT)
-In-Reply-To: <1437551743-15104-1-git-send-email-amarnath.valluri@intel.com>
-References: <1437551743-15104-1-git-send-email-amarnath.valluri@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 22 Jul 2015 16:27:08 +0100
-Message-ID: <CAJTo0LYboRR3uSsgPy9ZYniFfXARciM7O-886dGE4ux-JX-+MA@mail.gmail.com>
-To: Amarnath Valluri <amarnath.valluri@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] cronie: Upgrade v1.4.12 to v1.5.0
+Received: by 10.140.108.55 with HTTP; Wed, 22 Jul 2015 08:29:22 -0700 (PDT)
+In-Reply-To: <2606699.EhWc0CorW2@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1437430369.git.chris_larson@mentor.com>
+	<2606699.EhWc0CorW2@peggleto-mobl.ger.corp.intel.com>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Wed, 22 Jul 2015 08:29:22 -0700
+Message-ID: <CABcZAN=i4h656sKf2OuAeeA0any2ZNL_pM=FZAsB2-QsxchDZg@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 0/6] recipetool/devtool/oe-selftest: pull from BBPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,148 +43,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 15:27:31 -0000
-Content-Type: multipart/alternative; boundary=001a11357d4a973cd6051b78688c
+X-List-Received-Date: Wed, 22 Jul 2015 15:29:43 -0000
+Content-Type: multipart/alternative; boundary=001a1135cb748606ab051b787042
 
---001a11357d4a973cd6051b78688c
+--001a1135cb748606ab051b787042
 Content-Type: text/plain; charset=UTF-8
 
-I've pulled this into my staging branch, but can you please not add
-[meta-oe] to the subject prefix for oe-core patches and it looks very
-confusing...
+On Wed, Jul 22, 2015 at 4:02 AM, Paul Eggleton <
+paul.eggleton@linux.intel.com> wrote:
 
-Ross
+> On Monday 20 July 2015 15:15:38 Christopher Larson wrote:
+> > From: Christopher Larson <chris_larson@mentor.com>
+> >
+> > Ensures that recipetool and devtool pull plugins from layers, and
+> > oe-selftest will pull tests from layers.
+> >
+> > Unrelated to that, also prevents a traceback on parsing failure, and adds
+> > a tiny feature to appendsrc to facilitate reuse by other sub-commands.
+> >
+> > [v2 Update] `devtool: also load plugins from BBPATH` was fixed, so it no
+> > longer breaks the devtool selftests.
+> >
+> >
+> > The following changes since commit
+> b283b82ec59a2137cf717811172765848fa813fa:
+> >
+> >   core-image-lsb-sdk: use kernel-devsrc to ensure kernel module builds
+> work
+> > (2015-07-20 10:39:02 +0100)
+> >
+> > are available in the git repository at:
+> >
+> >   git@github.com:kergoth/openembedded-core yocto-bug-7625
+> >
+> > for you to fetch changes up to 35a9ce57747248192dc5c0dd7916e15e58a5835e:
+> >
+> >   oe-selftest: add libdirs from BBPATH to sys.path (2015-07-20 15:11:59
+> > -0700)
+> >
+> > ----------------------------------------------------------------
+> > Christopher Larson (6):
+> >       recipetool: catch BBHandledException from parsing
+> >       recipetool.append: add extralines arg to appendsrc
+> >       recipetool: also load plugins from BBPATH
+> >       devtool: also load plugins from BBPATH
+> >       oe-selftest: obey oeqa.selftest.__path__
+> >       oe-selftest: add libdirs from BBPATH to sys.path
+> >
+> >  scripts/devtool                  | 57
+> > +++++++++++++++++++++++++---------------
+> scripts/lib/devtool/__init__.py  |
+> >  4 +--
+> >  scripts/lib/recipetool/append.py |  4 +--
+> >  scripts/oe-selftest              | 18 +++++++++----
+> >  scripts/recipetool               | 56
+> > ++++++++++++++++++++++++--------------- 5 files changed, 88
+> insertions(+),
+> > 51 deletions(-)
+>
+> Overall I'm happy with this set of changes apart from the commit messages
+> for
+> the devtool and recipetool plugin loading commits as separately noted. (The
+> other changes could conceivably go in ahead).
 
-On 22 July 2015 at 08:55, Amarnath Valluri <amarnath.valluri@intel.com>
-wrote:
 
-> Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
-> ---
->  meta/recipes-extended/cronie/{cronie_1.4.12.bb => cronie_1.5.0.bb} | 4
-> ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-extended/cronie/{cronie_1.4.12.bb => cronie_1.5.0.bb}
-> (95%)
->
-> diff --git a/meta/recipes-extended/cronie/cronie_1.4.12.bb
-> b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-> similarity index 95%
-> rename from meta/recipes-extended/cronie/cronie_1.4.12.bb
-> rename to meta/recipes-extended/cronie/cronie_1.5.0.bb
-> index 977332b..38bd593 100644
-> --- a/meta/recipes-extended/cronie/cronie_1.4.12.bb
-> +++ b/meta/recipes-extended/cronie/cronie_1.5.0.bb
-> @@ -23,8 +23,8 @@ SRC_URI = "
-> https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
->  PAM_SRC_URI = "file://crond_pam_config.patch"
->  PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
->
-> -SRC_URI[md5sum] = "199db91e514a4d75e3222d69874b132f"
-> -SRC_URI[sha256sum] =
-> "0f5c9bf32f352599451c4ca0d6bc076d19e73ecfa5a90b34ecfe47c918c8bafd"
-> +SRC_URI[md5sum] = "9db75e1884d83a45e002d145c6c54d45"
-> +SRC_URI[sha256sum] =
-> "9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112465f0f81f2c84ebfb3f"
->
->  inherit autotools update-rc.d useradd systemd
->
-> --
-> 2.1.4
->
-> ---------------------------------------------------------------------
-> Intel Finland Oy
-> Registered Address: PL 281, 00181 Helsinki
-> Business Identity Code: 0357606 - 4
-> Domiciled in Helsinki
->
-> This e-mail and any attachments may contain confidential material for
-> the sole use of the intended recipient(s). Any review or distribution
-> by others is strictly prohibited. If you are not the intended
-> recipient, please contact the sender and delete all copies.
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Thanks for the feedback, will get a v3 out today.
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
---001a11357d4a973cd6051b78688c
+--001a1135cb748606ab051b787042
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I&#39;ve pulled this into my staging branch, but can you p=
-lease not add [meta-oe] to the subject prefix for oe-core patches and it lo=
-oks very confusing...<div><br></div><div>Ross</div></div><div class=3D"gmai=
-l_extra"><br><div class=3D"gmail_quote">On 22 July 2015 at 08:55, Amarnath =
-Valluri <span dir=3D"ltr">&lt;<a href=3D"mailto:amarnath.valluri@intel.com"=
- target=3D"_blank">amarnath.valluri@intel.com</a>&gt;</span> wrote:<br><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">Signed-off-by: Amarnath Valluri &lt;<a href=3D"m=
-ailto:amarnath.valluri@intel.com">amarnath.valluri@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-extended/cronie/{<a href=3D"http://cronie_1.4.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a> =3D&gt; <a href=3D"h=
-ttp://cronie_1.5.0.bb" rel=3D"noreferrer" target=3D"_blank">cronie_1.5.0.bb=
-</a>} | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta/recipes-extended/cronie/{<a href=3D"http://cronie_1.4.12.=
-bb" rel=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a> =3D&gt; <a hr=
-ef=3D"http://cronie_1.5.0.bb" rel=3D"noreferrer" target=3D"_blank">cronie_1=
-.5.0.bb</a>} (95%)<br>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Jul 22, 2015 at 4:02 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@=
+linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><di=
+v class=3D"HOEnZb adM"><div class=3D"h5">On Monday 20 July 2015 15:15:38 Ch=
+ristopher Larson wrote:<br>
+&gt; From: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor.com=
+">chris_larson@mentor.com</a>&gt;<br>
+&gt;<br>
+&gt; Ensures that recipetool and devtool pull plugins from layers, and<br>
+&gt; oe-selftest will pull tests from layers.<br>
+&gt;<br>
+&gt; Unrelated to that, also prevents a traceback on parsing failure, and a=
+dds<br>
+&gt; a tiny feature to appendsrc to facilitate reuse by other sub-commands.=
 <br>
-diff --git a/meta/recipes-extended/cronie/<a href=3D"http://cronie_1.4.12.b=
-b" rel=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a> b/meta/recipes=
--extended/cronie/<a href=3D"http://cronie_1.5.0.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">cronie_1.5.0.bb</a><br>
-similarity index 95%<br>
-rename from meta/recipes-extended/cronie/<a href=3D"http://cronie_1.4.12.bb=
-" rel=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a><br>
-rename to meta/recipes-extended/cronie/<a href=3D"http://cronie_1.5.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">cronie_1.5.0.bb</a><br>
-index 977332b..38bd593 100644<br>
---- a/meta/recipes-extended/cronie/<a href=3D"http://cronie_1.4.12.bb" rel=
-=3D"noreferrer" target=3D"_blank">cronie_1.4.12.bb</a><br>
-+++ b/meta/recipes-extended/cronie/<a href=3D"http://cronie_1.5.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">cronie_1.5.0.bb</a><br>
-@@ -23,8 +23,8 @@ SRC_URI =3D &quot;<a href=3D"https://fedorahosted.org/rel=
-eases/c/r/cronie/cronie-${PV}.tar.gz" rel=3D"noreferrer" target=3D"_blank">=
-https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz</a> \<br>
-=C2=A0PAM_SRC_URI =3D &quot;file://crond_pam_config.patch&quot;<br>
-=C2=A0PAM_DEPS =3D &quot;libpam libpam-runtime pam-plugin-access pam-plugin=
--loginuid&quot;<br>
+&gt;<br>
+&gt; [v2 Update] `devtool: also load plugins from BBPATH` was fixed, so it =
+no<br>
+&gt; longer breaks the devtool selftests.<br>
+&gt;<br>
+&gt;<br>
+&gt; The following changes since commit b283b82ec59a2137cf717811172765848fa=
+813fa:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0core-image-lsb-sdk: use kernel-devsrc to ensure kernel mod=
+ule builds work<br>
+&gt; (2015-07-20 10:39:02 +0100)<br>
+&gt;<br>
+&gt; are available in the git repository at:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0git@github.com:kergoth/openembedded-core yocto-bug-7625<br=
+>
+&gt;<br>
+&gt; for you to fetch changes up to 35a9ce57747248192dc5c0dd7916e15e58a5835=
+e:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0oe-selftest: add libdirs from BBPATH to sys.path (2015-07-=
+20 15:11:59<br>
+&gt; -0700)<br>
+&gt;<br>
+&gt; ----------------------------------------------------------------<br>
+&gt; Christopher Larson (6):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0recipetool: catch BBHandledException from pa=
+rsing<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0recipetool.append: add extralines arg to app=
+endsrc<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0recipetool: also load plugins from BBPATH<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0devtool: also load plugins from BBPATH<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0oe-selftest: obey oeqa.selftest.__path__<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0oe-selftest: add libdirs from BBPATH to sys.=
+path<br>
+&gt;<br>
+&gt;=C2=A0 scripts/devtool=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 57<br>
+&gt; +++++++++++++++++++++++++--------------- scripts/lib/devtool/__init__.=
+py=C2=A0 |<br>
+&gt;=C2=A0 4 +--<br>
+&gt;=C2=A0 scripts/lib/recipetool/append.py |=C2=A0 4 +--<br>
+&gt;=C2=A0 scripts/oe-selftest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 18 +++++++++----<br>
+&gt;=C2=A0 scripts/recipetool=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| 56<br>
+&gt; ++++++++++++++++++++++++--------------- 5 files changed, 88 insertions=
+(+),<br>
+&gt; 51 deletions(-)<br>
 <br>
--SRC_URI[md5sum] =3D &quot;199db91e514a4d75e3222d69874b132f&quot;<br>
--SRC_URI[sha256sum] =3D &quot;0f5c9bf32f352599451c4ca0d6bc076d19e73ecfa5a90=
-b34ecfe47c918c8bafd&quot;<br>
-+SRC_URI[md5sum] =3D &quot;9db75e1884d83a45e002d145c6c54d45&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112=
-465f0f81f2c84ebfb3f&quot;<br>
+</div></div>Overall I&#39;m happy with this set of changes apart from the c=
+ommit messages for<br>
+the devtool and recipetool plugin loading commits as separately noted. (The=
 <br>
-=C2=A0inherit autotools update-rc.d useradd systemd<br>
-<br>
---<br>
-2.1.4<br>
-<br>
----------------------------------------------------------------------<br>
-Intel Finland Oy<br>
-Registered Address: PL 281, 00181 Helsinki<br>
-Business Identity Code: 0357606 - 4<br>
-Domiciled in Helsinki<br>
-<br>
-This e-mail and any attachments may contain confidential material for<br>
-the sole use of the intended recipient(s). Any review or distribution<br>
-by others is strictly prohibited. If you are not the intended<br>
-recipient, please contact the sender and delete all copies.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br></div>
+other changes could conceivably go in ahead).</blockquote></div><br>Thanks =
+for the feedback, will get a v3 out today.<br>-- <br><div class=3D"gmail_si=
+gnature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br=
+>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senio=
+r Software Engineer, Mentor Graphics</div></div>
+</div></div>
 
---001a11357d4a973cd6051b78688c--
+--001a1135cb748606ab051b787042--
