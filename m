@@ -1,32 +1,23 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 47CE060962
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id A46E76AC95
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 02:29:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6M2TJae016948
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 21 Jul 2015 19:29:20 -0700 (PDT)
-Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Tue, 21 Jul 2015 19:29:12 -0700
-Message-ID: <55AEFFFA.8080308@windriver.com>
-Date: Wed, 22 Jul 2015 10:29:14 +0800
-From: He Zhe <zhe.he@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: Christopher Larson <clarson@kergoth.com>
-References: <cover.1437461993.git.zhe.he@windriver.com>
-	<c3b8e75db6f2ebc1bd9e53a4f01da0d642e4edcb.1437461993.git.zhe.he@windriver.com>
-	<CABcZAN=D=2FUBHmSRiwYE7PbqHsjYJUQB5PkfvnQYO-=YFJecw@mail.gmail.com>
-In-Reply-To: <CABcZAN=D=2FUBHmSRiwYE7PbqHsjYJUQB5PkfvnQYO-=YFJecw@mail.gmail.com>
-X-Originating-IP: [128.224.162.235]
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] kernel: Define KERNEL_IMAGETYPE as a list
+	Wed, 22 Jul 2015 06:44:22 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 21 Jul 2015 23:44:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,521,1432623600"; d="scan'208";a="733227403"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 21 Jul 2015 23:44:24 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id 4B9BD2E055B;
+	Tue, 21 Jul 2015 23:43:39 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jul 2015 09:54:56 +0300
+Message-Id: <1437548096-22741-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2] oeqa/buildoptions.py: automate test case 563; build directfb image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,39 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 02:29:26 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jul 2015 06:44:26 -0000
 
-On 07/21/2015 10:53 PM, Christopher Larson wrote:
->
-> On Tue, Jul 21, 2015 at 12:23 AM, <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>wrote:
->
->     From: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
->
->     To support building packaging and installing multi types of kernel
->     images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
->     as a list.
->     Modify wherever reference KERNEL_IMAGETYPE accordingly.
->
->     Fixes [YOCTO #6945].
->
->     Signed-off-by: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
->
->
-> Question, why not add KERNEL_IMAGETYPES, and make KERNEL_IMAGETYPE equal to your new KERNEL_IMAGETYPE_0?
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/selftest/buildoptions.py | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-Adding a new KERNEL_IMAGETYPES will also work. But it should be better not to change the name of KERNEL_IMAGETYPE, so that those who have used it don't have to change their code.
-
-Thank you for reviewing.
-
-Zhe
-
-> -- 
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index 13ec276..10e4fc5 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -2,7 +2,8 @@ import unittest
+ import os
+ import logging
+ import re
+-
++import glob as g
++import pexpect as p
+ from oeqa.selftest.base import oeSelfTest
+ from oeqa.selftest.buildhistory import BuildhistoryBase
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var
+@@ -119,8 +120,14 @@ class BuildhistoryTests(BuildhistoryBase):
+         self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
+         self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
+ 
+-
+-
+-
+-
+-
++class BuildImagesTest(oeSelfTest):
++    @testcase(563)
++    def test_directfb(self):
++        """
++        This method is used to test the build of directfb image for arm arch.
++        In essence we build a coreimagedirectfb and test the exitcode of bitbake that in case of success is 0.
++        """
++        self.add_command_to_tearDown('cleanupworkdir')
++        self.write_config("DISTRO_FEATURES_remove = \"x11\"\nDISTRO_FEATURES_append = \" directfb\"\nMACHINE ??= \"qemuarm\"")
++        res = bitbake("core-image-directfb", ignore_status=True)
++        self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
+-- 
+2.1.4
 
 
