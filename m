@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 0908D738ED
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 10E5775791
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 07:12:06 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6M7C6n8030749 for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 08:12:06 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id KYpuRO6k1rwf
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 08:12:06 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6M7BoF0030746
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 08:12:02 +0100
-Message-ID: <1437549110.821.77.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 Jul 2015 08:11:50 +0100
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Subject: [PATCH] rpm4: Drop native RDEPENDS
+	Wed, 22 Jul 2015 07:54:50 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2015 00:54:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,522,1432623600"; d="scan'208";a="528153440"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by FMSMGA003.fm.intel.com with ESMTP; 22 Jul 2015 00:54:49 -0700
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jul 2015 10:55:43 +0300
+Message-Id: <1437551743-15104-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [meta-oe][PATCH] cronie: Upgrade v1.4.12 to v1.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,34 +27,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 07:12:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 Jul 2015 07:54:54 -0000
 
-Native recipes should *never* depend on target recipes since this would
-cause them to rebuild every time the target changes. Before the recent
-datastore changes, this happened to work. Now, this makes rpm-native
-unbuildable since base-files-native doesn't exist and the code remaps
-the variable.
+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+---
+ meta/recipes-extended/cronie/{cronie_1.4.12.bb => cronie_1.5.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/cronie/{cronie_1.4.12.bb => cronie_1.5.0.bb} (95%)
 
-Dropping these dependencies here is the correct way to resolve this issue
-and fix an autobuilder selftest failure.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/recipes-devtools/rpm/rpm_4.11.2.bb b/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-index df9aafb..210c943 100644
---- a/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.11.2.bb
-@@ -122,7 +122,7 @@ FILES_${PN} +=  "${libdir}/rpm \
-                  ${libdir}/rpm-plugins/exec.so \
-                 "
- RDEPENDS_${PN} = "base-files run-postinsts"
--RDEPENDS_${PN}_class-native = "base-files run-postinsts"
-+RDEPENDS_${PN}_class-native = ""
+diff --git a/meta/recipes-extended/cronie/cronie_1.4.12.bb b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+similarity index 95%
+rename from meta/recipes-extended/cronie/cronie_1.4.12.bb
+rename to meta/recipes-extended/cronie/cronie_1.5.0.bb
+index 977332b..38bd593 100644
+--- a/meta/recipes-extended/cronie/cronie_1.4.12.bb
++++ b/meta/recipes-extended/cronie/cronie_1.5.0.bb
+@@ -23,8 +23,8 @@ SRC_URI = "https://fedorahosted.org/releases/c/r/cronie/cronie-${PV}.tar.gz \
+ PAM_SRC_URI = "file://crond_pam_config.patch"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
  
- FILES_${PN}-dbg += "${libdir}/rpm/.debug/* \
-                     ${libdir}/rpm-plugins/.debug/* \
+-SRC_URI[md5sum] = "199db91e514a4d75e3222d69874b132f"
+-SRC_URI[sha256sum] = "0f5c9bf32f352599451c4ca0d6bc076d19e73ecfa5a90b34ecfe47c918c8bafd"
++SRC_URI[md5sum] = "9db75e1884d83a45e002d145c6c54d45"
++SRC_URI[sha256sum] = "9cf0e3f4f5042a9c09413d62c8e0c055e12401f70b112465f0f81f2c84ebfb3f"
+ 
+ inherit autotools update-rc.d useradd systemd
+ 
+-- 
+2.1.4
 
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki 
+Business Identity Code: 0357606 - 4 
+Domiciled in Helsinki 
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
 
