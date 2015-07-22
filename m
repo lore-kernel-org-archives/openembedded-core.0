@@ -1,27 +1,23 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id C851973CB9
+Return-Path: <george.l.musat@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 804DA76168
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jul 2015 11:02:13 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 22 Jul 2015 04:02:13 -0700
+	Wed, 22 Jul 2015 11:58:31 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 22 Jul 2015 04:58:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,523,1432623600"; d="scan'208";a="733340130"
-Received: from gwhaley-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.19.55])
-	by orsmga001.jf.intel.com with ESMTP; 22 Jul 2015 04:02:12 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.15,523,1432623600"; d="scan'208";a="610685274"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 22 Jul 2015 04:58:31 -0700
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 4EF776A4005;
+	Wed, 22 Jul 2015 04:57:47 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jul 2015 12:02:12 +0100
-Message-ID: <4892088.sb1qBAebDq@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.7-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <019657e96ff75872fb4bf93661118fcd3d670188.1437430369.git.chris_larson@mentor.com>
-References: <c5e5bbd5f85ed4ae437815656889d328da25e75b.1437430369.git.chris_larson@mentor.com>
-	<019657e96ff75872fb4bf93661118fcd3d670188.1437430369.git.chris_larson@mentor.com>
-MIME-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCHv2 4/6] devtool: also load plugins from BBPATH
+Date: Wed, 22 Jul 2015 14:58:45 +0300
+Message-Id: <1437566326-9093-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/2] ptest-runner: Added timeout per tests.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 11:02:13 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 22 Jul 2015 11:58:34 -0000
 
-On Monday 20 July 2015 15:15:54 Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
-> 
-> This makes it easier to extend, as a layer can add its own sub-commands.
-> 
-> tinfoil is now passed into the commands, as we needed to parse the
-> configuration metadata to get BBPATH, and we don't want to construct tinfoil
-> more than once, otherwise we have to deal with startup and shutdown of
-> cooker.
+Until now if a test hanged it would hang the whole process
+indefinitely. I added a timeout so that if one test takes too
+long it will kill it and skip to the next one.
 
-Hmm, but tinfoil is being constructed twice, right? I think what you've 
-implemented is correct (and the only way it can really work), but this comment 
-doesn't seem to match up with the actual changes.
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/recipes-support/ptest-runner/files/ptest-runner | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +    tinfoil = setup_tinfoil(config_only=True)
-> +    for path in ([scripts_path] +
-> +                 tinfoil.config_data.getVar('BBPATH', True).split(':')):
-> +        pluginpath = os.path.join(path, 'lib', 'devtool')
-> +        scriptutils.load_plugins(logger, plugins, pluginpath)
-> +    tinfoil.cooker.shutdown(force=True)
-> +    tinfoil.cooker.unlockBitbake()
-
-FYI I think Richard is about to add a shutdown method to tinfoil itself that 
-will do what's needed here; however we can tidy this up after that's added.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-support/ptest-runner/files/ptest-runner b/meta/recipes-support/ptest-runner/files/ptest-runner
+index c618f11..a21102e 100644
+--- a/meta/recipes-support/ptest-runner/files/ptest-runner
++++ b/meta/recipes-support/ptest-runner/files/ptest-runner
+@@ -15,7 +15,7 @@ do
+         date "+%Y-%m-%dT%H:%M"
+         echo "BEGIN: $x"
+         cd "$x"
+-        ./run-ptest || ANYFAILED=yes
++        timeout 10m ./run-ptest || ANYFAILED=yes
+         echo "END: $x"
+         date "+%Y-%m-%dT%H:%M"
+     done
 -- 
+2.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
