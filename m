@@ -1,36 +1,32 @@
-Return-Path: <oscar.andreasson@pelagicore.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 76B0C73217
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C56473217
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 22:52:39 +0000 (UTC)
-Received: by pachj5 with SMTP id hj5so3228451pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 15:52:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ztqbxVpllc9IKnjwz65dpvl47fEKNNH2OQomnH8mL90=;
-	b=RCJhmjuT1Qbe4pEOGOtAWJz5j6+kqaNiAYO1d1ZGwt6008XZnuLaeyUN3Zngw0aWQM
-	8zXe3DRs6AyetKipjOe3iH9Qr9YDWIPJx+XszEA3yfZ8NJh3mbdZ2G05G9hCqITbLXR/
-	aeGdN21Bwni7HrmcCINpX/X2S3V7oGhfyb5HFRKjsCX08amHwXp/szPGIihYZI8ZM+/o
-	WlIpx9lo0dkKdEmaJg4iDlLeubuzmwrKRH7TecJBK7FvBU6VECgvo67BhIU3GSvL0jSr
-	7vJ3r72cx1I+cbEhgv5mfG5H71nYU0MsNzlGX0MBUEHg67DVXgRLd22T3EcXHNAKJjrn
-	+e6A==
-X-Gm-Message-State: ALoCoQkZJhBTqcq9BPNIjKMSJ1m53TZkS+G8Fh++Enj0hq5KuCAhlj06krZN2c9y6/VkebjHLWA0
-X-Received: by 10.70.46.161 with SMTP id w1mr14410514pdm.66.1437691960006;
-	Thu, 23 Jul 2015 15:52:40 -0700 (PDT)
-Received: from localhost.localdomain ([38.104.105.146])
-	by smtp.gmail.com with ESMTPSA id
-	of5sm10816055pdb.52.2015.07.23.15.52.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 23 Jul 2015 15:52:38 -0700 (PDT)
-From: Oscar Andreasson <oscar.andreasson@pelagicore.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 15:51:44 -0700
-Message-Id: <1437691904-27761-1-git-send-email-oscar.andreasson@pelagicore.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [meta-oe][PATCH] mkefidisk.sh: Added function to wait for devices to show up
+	Thu, 23 Jul 2015 23:00:00 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 683BAF811E0; Thu, 23 Jul 2015 17:00:00 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id B3A33F811D7;
+	Thu, 23 Jul 2015 16:59:59 -0600 (MDT)
+Message-ID: <55B171F3.4010009@mlbassoc.com>
+Date: Thu, 23 Jul 2015 17:00:03 -0600
+From: Gary Thomas <gary@mlbassoc.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1437610956-27049-1-git-send-email-gary@mlbassoc.com>
+	<CAJTo0Lb41pKOft88tttTNE-47wDekSbSUbYyUWT12WydtKgaCw@mail.gmail.com>
+	<55B16CF0.80405@mlbassoc.com>
+	<CAJTo0Lb9npwcdNkLbifoaR6P+QgAX76d0go8pq7ozCpEiW7k-w@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb9npwcdNkLbifoaR6P+QgAX76d0go8pq7ozCpEiW7k-w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libepoxy: Use native python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +39,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 22:52:44 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 23:00:00 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Call function to wait for device to re-appear after partitioning device,
-before formatting the same device.
+On 2015-07-23 16:42, Burton, Ross wrote:
+>
+> On 23 July 2015 at 23:38, Gary Thomas <gary@mlbassoc.com <mailto:gary@mlbassoc.com>> wrote:
+>
+>     Well for me, the configure script ended up chosing python3,
+>     even when I used 'pythonnative' (i.e. python2) in the recipe.
+>     I could not get it to build any other way.
+>
+>     Since python3-native will most likely already be built, what's
+>     the harm in doing it this way?
+>
+>
+> Why will it be build?  I certainly don't have a python3 build here.
 
-Signed-off-by: Oscar Andreasson <oscar.andreasson@pelagicore.com>
----
- scripts/contrib/mkefidisk.sh | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+I almost always seem to end up with it being built...
 
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index 55f72b0..133c5bc 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -83,6 +83,17 @@ debug() {
- 	fi
- }
- 
-+waitfordevice() {
-+    counter=0
-+    while [ ! -e "$1" ]; do
-+        sleep 1
-+        counter=$(($counter+1))
-+        if [ $counter -ge 10 ]; then
-+            die  "Device $1 not showing up, something is probably wrong"
-+        fi
-+    done
-+}
-+
- usage() {
- 	echo "Usage: $(basename $0) [-v] DEVICE HDDIMG TARGET_DEVICE"
- 	echo "       -v: Verbose debug"
-@@ -293,6 +304,7 @@ fi
- #
- unmount_device || die "Failed to unmount $DEVICE partitions"
- 
-+waitfordevice $BOOTFS
- 
- #
- # Format $DEVICE partitions
+>
+> Inheriting pythonnative is also the wrong thing to do - the pythonnative classes are solely for when you need to run Python and use non-standard classes that you've already built
+> natively.  If you just want to run the host Python, let it find the host python.
+>
+> Why was the configure script choosing python3 on your host the wrong thing to do?
+
+It seems that my host python3 is broken and doesn't have a working 'argparse'
+   $ python3
+   Python 3.1.2 (r312:79147, Aug 23 2010, 05:17:13)
+   [GCC 4.4.4 20100630 (Red Hat 4.4.4-10)] on linux2
+   Type "help", "copyright", "credits" or "license" for more information.
+   >>> import argparse
+   Traceback (most recent call last):
+     File "<stdin>", line 1, in <module>
+   ImportError: No module named argparse
+It's an old host (Fedora 13) that I am unable to upgrade, but it still
+works quite well.  I get around most of the Yocto/bitbake worries by
+using a Yocto-built meta-toolchain to fill in the blanks (correct make,
+python2, etc), but python3 is not part of the meta-toolchain :-(
+
+If this is not the correct way to get libepoxy to build, fair enough,
+I'll figure out how to make my host "functional".
+
 -- 
-2.1.4
-
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
