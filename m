@@ -1,34 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B2BE734B8
+Return-Path: <christian.ziethen@linaro.org>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 605AF734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 14:14:35 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6NEEVfA023662; Thu, 23 Jul 2015 15:14:31 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RiOVmHYs2t5u; Thu, 23 Jul 2015 15:14:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6NEEFWK023655
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jul 2015 15:14:26 +0100
-Message-ID: <1437660855.821.121.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 23 Jul 2015 15:14:15 +0100
-In-Reply-To: <CADkTA4N76E2P5vL=6SuM5xqveotp1tpYon0HN0M8CMa2aXrN7w@mail.gmail.com>
-References: <cover.1437491325.git.bruce.ashfield@windriver.com>
-	<CADkTA4NTzQhvmCt4J9BkbsAh6CL5joomn-NDA8=0kgjd6wcTxQ@mail.gmail.com>
-	<CADkTA4MeGsBtd1iCOOWNhbb4TspG6=OMc6eJ=+wtE_rWWR=-MA@mail.gmail.com>
-	<1437638193.821.89.camel@linuxfoundation.org>
-	<CADkTA4N76E2P5vL=6SuM5xqveotp1tpYon0HN0M8CMa2aXrN7w@mail.gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] linux-yocto: build changes, 4.1 and libc-headers
+	Thu, 23 Jul 2015 14:32:52 +0000 (UTC)
+Received: by lbbzr7 with SMTP id zr7so159059059lbb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jul 2015 07:32:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-type:content-transfer-encoding;
+	bh=R+LZetATyX6u8yJ7ocPEDtKm4ok/laGSgFizF0w5wwU=;
+	b=akQUCXpSNvKcIk8KG7YFKNOh5djNvP+FjKZcBw+4lCevrf9RE1e4mRUvdtqRflbywe
+	F+/jeEImCbWIh5S9q5bkwcqaYu1lBRglNHzN/5Ywi52j/sZvLJq2IOlIr6LXUepSDyTZ
+	ylt+Ys25OZaK11YVwOzF5k0mky2R1SnDDWZMOc+ZaS7y7HXheRx+d1tL6CfB7V3q1k/P
+	X6/RQewMBPe62qpQhSVKDWyyovLTfTR0B0rEGJW+70Bms99cdRUMyoh9lZ3otOqzwbNS
+	/ZMxmtqBKf08K3DfmjqH9F8hC9CLgd9y2PbpVWPl5+RjNlJlbwgMR7KP0VZu4yf5wxNn
+	z+4g==
+X-Gm-Message-State: ALoCoQnsQSF+eaAt4LCFHGnNQ5CjtgbrUaepV9p8StVM7K41LPlMQ183SAZBIbF+8yam/8uLTnjk
+X-Received: by 10.112.224.4 with SMTP id qy4mr8364399lbc.20.1437661971107;
+	Thu, 23 Jul 2015 07:32:51 -0700 (PDT)
+Received: from chzi-linux.enea.se (sestofw01.enea.se. [192.36.1.252])
+	by smtp.googlemail.com with ESMTPSA id
+	z1sm1060444lbj.11.2015.07.23.07.32.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 23 Jul 2015 07:32:49 -0700 (PDT)
+From: =?UTF-8?q?Christian=20Zieth=C3=A9n?= <christian.ziethen@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jul 2015 16:32:28 +0200
+Message-Id: <1437661949-9295-1-git-send-email-christian.ziethen@linaro.org>
+X-Mailer: git-send-email 2.1.4
+MIME-Version: 1.0
+Subject: [PATCH 1/2] image: Support for qcow2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,120 +45,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 14:14:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jul 2015 14:32:53 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2015-07-23 at 09:10 -0400, Bruce Ashfield wrote:
-> On Thu, Jul 23, 2015 at 3:56 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2015-07-22 at 15:48 -0400, Bruce Ashfield wrote:
-> >> On Wed, Jul 22, 2015 at 10:03 AM, Bruce Ashfield
-> >> <bruce.ashfield@gmail.com> wrote:
-> >> > On Tue, Jul 21, 2015 at 11:21 AM, Bruce Ashfield
-> >> > <bruce.ashfield@windriver.com> wrote:
-> >> >> Hi all,
-> >> >>
-> >> >> This series absolutely needs some more testing and runs through the
-> >> >> autobuilder, but I've done pretty much all I can do with it here.
-> >> >>
-> >> >> I have more changes to the build process that will follow this, but
-> >> >> these changes need to show that they are stable, so here's the first
-> >> >> blast.
-> >> >>
-> >> >> With this series:
-> >> >>
-> >> >>   - I create the 4.1, and 4.1-rt linux-yocto content. This will be
-> >> >>     the new LTSI kernel. Deletion of 3.14 and 3.19 will follow once
-> >> >>     all machines have been moved forward.
-> >> >>
-> >> >>   - libc-headers updated to match the 4.1 kernel version.
-> >> >>
-> >> >> And the one that could cause some issues/compatibility issues is the
-> >> >> split of the kernel configuration data from the kernel tree itself.
-> >> >>
-> >> >> From the commit log:
-> >> >>
-> >> >>   The linux-yocto tree has always been a combined set of kernel changes
-> >> >>   and configuration (meta) data carried in a single tree. While this
-> >> >>   format is effective at keeping kernel configuration and source
-> >> >>   modifications synchronized, it isn't always obvious to developers on
-> >> >>   how to manipulate the meta data versus the source.
-> >> >>
-> >> >>   With this change, we remove the meta data processing from the
-> >> >>   kernel-yocto class and use the external meta-data repository that
-> >> >>   has always been used to seed the linux-yocto meta branch.
-> >> >>
-> >> >>   After this change, linux-yocto can no longer process combined trees,
-> >> >>   and is simplified as a result.
-> >> >>
-> >> >> I'm interested to find out if we get any breakages or severe compability
-> >> >> issues with the change. I don't want to support both variants of the
-> >> >> meta data (in and out of tree), since the goal is to reduce complexity
-> >> >> in the code. Once this change lands, I'll further streamline things.
-> >> >>
-> >> >> I've built core-image-kernel-dev and boot tested the qemu* machines.
-> >> >> qemuppc continues to show a boot failure with systemd, but we have a
-> >> >> bugzilla to track that.
-> >> >>
-> >> >> I'm now doing graphical testing, but wanted to get this out and soaking
-> >> >> for other images types while I wait for builds to churn.
-> >> >
-> >> > As a follow up, my qemuarm boots that worked on Friday, are now hanging.
-> >> > I'm bisecting to find out what happened.
-> >>
-> >> And a final follow up.
-> >>
-> >> qemuarm (console and graphics) works fine .. but only if you use gcc
-> >> 4.9.x, gcc 5.1
-> >> is doing something evil.
-> >>
-> >> We've looked into this in the past, so it is a known issue, but I need
-> >> to handle these
-> >> separately.
-> >
-> > We got the results of a run of those changes through the autobuilder
-> > without the noise of other failures. The error reporting system shows:
-> >
-> > http://errors.yoctoproject.org/Errors/Search/?items=10&query=d687cdfd04f3d97923c93239ea902bb38e2ea336
-> >
-> > and I believe we have the following issues:
-> >
-> > a) qemux86/qemux86-64 are throwing warnings about errors in logs
-> > b) perf has some weird make race
-> > c) the qemuarm build looks like qemu either segfaulted or was killed
-> > d) we're occasionally seeing 3.19 and 3.14 fetch failures:
-> > https://autobuilder.yoctoproject.org/main/builders/nightly-intel-gpl/builds/394/steps/BuildImages/logs/stdio
-> > https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/87/steps/Running%20oe-selftest/logs/stdio
-> 
-> I explained to Ross that dependent layers need to be updated if they set
-> their own SRCREV_meta, since the repository is completely different. I
-> sent a patch for meta-intel to deal with it. Obviously, I only built with the
-> core BSPs during testing.
+Add support for qcow2 image format. Implemented in the same way as
+the previously existing vmdk and vdi solutions.
 
-That could explain d). I believe c) is from the ongoing selftest issues
-we're having and I we've work in progress for that. That leaves a) and
-b) to look into and fix.
+Signed-off-by: Christian Ziethén <christian.ziethen@linaro.org>
+---
+ meta/classes/boot-directdisk.bbclass |  2 +-
+ meta/classes/image-vm.bbclass        | 12 ++++++++++--
+ meta/classes/image.bbclass           |  2 +-
+ meta/classes/image_types.bbclass     |  5 +++--
+ meta/classes/sanity.bbclass          |  4 ++++
+ 5 files changed, 19 insertions(+), 6 deletions(-)
 
-> I'll definitely need help on these, since I wasn't seeing any of these issues
-> during my testing. Otherwise, this won't be done until September (vacation
-> and other issues to deal with).
-> 
-> But I'll see what I can do.
-> 
-> I unfortunately can't merge anything but critical kernel patches until
-> these go in as well
-> since the meta branch is gone in the new scripts, which means SRCREV_meta is
-> a constant conflict.
-
-a) should be straightfoward to fix, its just updating the message
-whitelists (again).
-
-b) I'm less sure about. Are there any race fixes in mainline for perf?
-Hard to believe others don't see that one.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index c576523..d256fff 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -63,7 +63,7 @@ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+ SYSLINUX_ROOT ?= "root=/dev/sda2"
+ SYSLINUX_TIMEOUT ?= "10"
+ 
+-IS_VM = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk" ,"vdi"], "true", "false", d)}'
++IS_VM = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2"], "true", "false", d)}'
+ 
+ boot_direct_populate() {
+ 	dest=$1
+diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
+index fdfd14f..28519c8 100644
+--- a/meta/classes/image-vm.bbclass
++++ b/meta/classes/image-vm.bbclass
+@@ -14,7 +14,8 @@ inherit boot-directdisk
+ 
+ IMAGE_TYPEDEP_vmdk = "ext3"
+ IMAGE_TYPEDEP_vdi = "ext3"
+-IMAGE_TYPES_MASKED += "vmdk vdi"
++IMAGE_TYPEDEP_qcow2 = "ext3"
++IMAGE_TYPES_MASKED += "vmdk vdi qcow2"
+ 
+ create_vmdk_image () {
+     qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk
+@@ -26,11 +27,18 @@ create_vdi_image () {
+     ln -sf ${IMAGE_NAME}.vdi ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vdi
+ }
+ 
++create_qcow2_image () {
++    qemu-img convert -O qcow2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.qcow2
++    ln -sf ${IMAGE_NAME}.qcow2 ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.qcow2
++}
++
+ python do_vmimg() {
+     if 'vmdk' in d.getVar('IMAGE_FSTYPES', True):
+         bb.build.exec_func('create_vmdk_image', d)
+     if 'vdi' in d.getVar('IMAGE_FSTYPES', True):
+-        bb.build.exec_func('create_vdi_image', d)        
++        bb.build.exec_func('create_vdi_image', d)
++    if 'qcow2' in d.getVar('IMAGE_FSTYPES', True):
++        bb.build.exec_func('create_qcow2_image', d)
+ }
+ 
+ addtask vmimg after do_bootdirectdisk before do_build
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index e2995e2..ff2ed0d 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -132,7 +132,7 @@ def build_live(d):
+ IMAGE_TYPE_live = "${@build_live(d)}"
+ inherit ${IMAGE_TYPE_live}
+ 
+-IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi"], "image-vm", "", d)}'
++IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2"], "image-vm", "", d)}'
+ inherit ${IMAGE_TYPE_vm}
+ 
+ python () {
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 588a474..cc789fc 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -13,7 +13,7 @@ def imagetypes_getdepends(d):
+     deps = []
+     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
+-        if type in ["vmdk", "vdi", "live", "iso", "hddimg"]:
++        if type in ["vmdk", "vdi", "qcow2", "live", "iso", "hddimg"]:
+             type = "ext3"
+         basetype = type
+         for ctype in ctypes:
+@@ -187,6 +187,7 @@ IMAGE_TYPES = " \
+     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+     vmdk \
+     vdi \
++    qcow2 \
+     elf \
+ "
+ 
+@@ -213,5 +214,5 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
+ IMAGE_EXTENSION_live = "hddimg iso"
+ 
+ # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+-# images that will not be built at do_rootfs time: vmdk, vdi, hddimg, iso, etc.
++# images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hddimg, iso, etc.
+ IMAGE_TYPES_MASKED ?= ""
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 2855941..6ad620b 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -835,6 +835,10 @@ def check_sanity_everybuild(status, d):
+     if 'vdi' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
+         status.addresult("Error, IMAGE_FSTYPES vdi and live can't be built together\n")
+ 
++    # Check qcow2 and live can't be built together.
++    if 'qcow2' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
++        status.addresult("Error, IMAGE_FSTYPES qcow2 and live can't be built together\n")
++
+     # Check /bin/sh links to dash or bash
+     real_sh = os.path.realpath('/bin/sh')
+     if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
+-- 
+2.1.4
 
 
