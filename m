@@ -1,20 +1,34 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 24AAF761D1
+Return-Path: <george.l.musat@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C4B775972
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 08:45:54 +0000 (UTC)
+	Thu, 23 Jul 2015 08:51:27 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 23 Jul 2015 01:45:56 -0700
+	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2015 01:51:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,529,1432623600"; d="scan'208";a="752937160"
-Received: from sentry.rb.intel.com ([10.237.105.63])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2015 01:45:54 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 11:46:03 +0300
-Message-Id: <1437641163-12195-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] qemu: upgrade to 2.4.0-rc2
+X-IronPort-AV: E=Sophos;i="5.15,529,1432623600"; 
+	d="scan'208,217";a="752940125"
+Received: from irsmsx106.ger.corp.intel.com ([163.33.3.31])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2015 01:51:27 -0700
+Received: from irsmsx107.ger.corp.intel.com ([169.254.10.245]) by
+	IRSMSX106.ger.corp.intel.com ([169.254.8.137]) with mapi id
+	14.03.0224.002; Thu, 23 Jul 2015 09:51:26 +0100
+From: "Musat, George L" <george.l.musat@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/2] ptest-runner: Added timeout per tests.
+Thread-Index: AQHQxHXEZSvpDn0h60a7azu6MrB7Xp3nkxWAgAErbeA=
+Date: Thu, 23 Jul 2015 08:51:26 +0000
+Message-ID: <042E875E1B5D414CA9BB78B7D4FA691C2880FDF3@IRSMSX107.ger.corp.intel.com>
+References: <1437566326-9093-1-git-send-email-george.l.musat@intel.com>
+	<CAJTo0LbqxPy=ntYAyG6YS8OurHh2bOZuOwMqBy3_iULP_cgaBg@mail.gmail.com>
+In-Reply-To: <CAJTo0LbqxPy=ntYAyG6YS8OurHh2bOZuOwMqBy3_iULP_cgaBg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] ptest-runner: Added timeout per tests.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,40 +41,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 08:45:57 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 08:51:31 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_042E875E1B5D414CA9BB78B7D4FA691C2880FDF3IRSMSX107gercor_"
 
-Various bugfixes.
-Ongoing upgrade en route to final 2.4.0.
+--_000_042E875E1B5D414CA9BB78B7D4FA691C2880FDF3IRSMSX107gercor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- meta/recipes-devtools/qemu/{qemu_2.4.0-rc1.bb => qemu_2.4.0-rc2.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/qemu/{qemu_2.4.0-rc1.bb => qemu_2.4.0-rc2.bb} (82%)
+SGkgUm9zcywNCg0KSSByYW4gdGhlIHN1aXRlIHllc3RlcmRheSBvbiBhIE5VQyB3aXRoIHRoZSB0
+aW1lb3V0IHNldCBhdCAxMCBtaW51dGVzIGFuZCB0aGUgd2hvbGUgZ2xpYiB3YXMgcmFuOg0K4oCc
+U1VNTUFSWTogdG90YWw9MjE1OyBwYXNzZWQ9MjEzOyBza2lwcGVkPTA7IGZhaWxlZD0yOyB1c2Vy
+PTEwNS41czsgc3lzdGVtPTEwOC44czsgbWF4cnNzPTE4OTI1Ng0KRU5EOiAvdXNyL2xpYi9nbGli
+LTIuMC9wdGVzdOKAnQ0KDQpCdXQgZmVlbCBmcmVlIHRvIG1vZGlmeSB0aGUgdGltZW91dCB0byBh
+bnkgdmFsdWUgeW91IHRoaW5rIGlzIGJldHRlci4NCg0KRnJvbTogQnVydG9uLCBSb3NzIFttYWls
+dG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogV2VkbmVzZGF5LCBKdWx5IDIyLCAyMDE1
+IDY6NTIgUE0NClRvOiBNdXNhdCwgR2VvcmdlIEwNCkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTog
+W09FLWNvcmVdIFtQQVRDSCAxLzJdIHB0ZXN0LXJ1bm5lcjogQWRkZWQgdGltZW91dCBwZXIgdGVz
+dHMuDQoNCg0KT24gMjIgSnVseSAyMDE1IGF0IDEyOjU4LCBMdWNpYW4gTXVzYXQgPGdlb3JnZS5s
+Lm11c2F0QGludGVsLmNvbTxtYWlsdG86Z2VvcmdlLmwubXVzYXRAaW50ZWwuY29tPj4gd3JvdGU6
+DQorICAgICAgICB0aW1lb3V0IDEwbSAuL3J1bi1wdGVzdCB8fCBBTllGQUlMRUQ9eWVzDQoNCkkn
+bSBwcmV0dHkgc3VyZSB0aGUgZ2xpYiB0ZXN0IHN1aXRlIHRha2VzICp3YXkqIGxvbmdlciB0aGFu
+IDEwIG1pbnV0ZXMgdG8gcnVuLi4uDQoNClJvc3MNCg==
 
-diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0-rc1.bb b/meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb
-similarity index 82%
-rename from meta/recipes-devtools/qemu/qemu_2.4.0-rc1.bb
-rename to meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb
-index 7c2d782..2aea37f 100644
---- a/meta/recipes-devtools/qemu/qemu_2.4.0-rc1.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb
-@@ -8,11 +8,11 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BPN}-${REALPV}.tar.bz2"
--SRC_URI[md5sum] = "3c8d29abea2b61516bb7ef5b5ff62d03"
--SRC_URI[sha256sum] = "c0c6072ed9196ee17b4120f03fa9cdf9f63e893f7cb8008aa12ea1678450a481"
-+SRC_URI[md5sum] = "f634f461acc43774025ec1876fa27ce5"
-+SRC_URI[sha256sum] = "ad86df38f10ad8b5fc03a7ec32b0080c0a5ab9e01fdaa7d5ba26f8591dd9b2fe"
- 
- S="${WORKDIR}/${BPN}-${REALPV}"
--REALPV = "2.4.0-rc1"
-+REALPV = "2.4.0-rc2"
- PV = "2.3.99+${REALPV}"
- 
- COMPATIBLE_HOST_class-target_mips64 = "null"
--- 
-2.1.4
+--_000_042E875E1B5D414CA9BB78B7D4FA691C2880FDF3IRSMSX107gercor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
+MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
+MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
+cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
+aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
+YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
+aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
+cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkhpIFJvc3MsPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7
+Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0Qi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
+IHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
+c2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5JIHJhbiB0aGUgc3VpdGUgeWVzdGVyZGF5IG9uIGEg
+TlVDIHdpdGggdGhlIHRpbWVvdXQgc2V0IGF0IDEwIG1pbnV0ZXMgYW5kIHRoZSB3aG9sZSBnbGli
+IHdhcyByYW46PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
+OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPuKAnFNVTU1BUlk6IHRvdGFsPTIxNTsgcGFzc2Vk
+PTIxMzsgc2tpcHBlZD0wOyBmYWlsZWQ9MjsgdXNlcj0xMDUuNXM7IHN5c3RlbT0xMDguOHM7IG1h
+eHJzcz0xODkyNTY8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+RU5EOiAvdXNyL2xpYi9nbGliLTIuMC9wdGVz
+dOKAnTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+QnV0IGZlZWwg
+ZnJlZSB0byBtb2RpZnkgdGhlIHRpbWVvdXQgdG8gYW55IHZhbHVlIHlvdSB0aGluayBpcyBiZXR0
+ZXIuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGEgbmFtZT0i
+X01haWxFbmRDb21wb3NlIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
+eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJz
+cDs8L286cD48L3NwYW4+PC9hPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2Zv
+bnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBb
+bWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBXZWRuZXNk
+YXksIEp1bHkgMjIsIDIwMTUgNjo1MiBQTTxicj4NCjxiPlRvOjwvYj4gTXVzYXQsIEdlb3JnZSBM
+PGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29y
+ZV0gW1BBVENIIDEvMl0gcHRlc3QtcnVubmVyOiBBZGRlZCB0aW1lb3V0IHBlciB0ZXN0cy48bzpw
+PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpw
+PjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
+cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMjIgSnVseSAyMDE1IGF0IDEy
+OjU4LCBMdWNpYW4gTXVzYXQgJmx0OzxhIGhyZWY9Im1haWx0bzpnZW9yZ2UubC5tdXNhdEBpbnRl
+bC5jb20iIHRhcmdldD0iX2JsYW5rIj5nZW9yZ2UubC5tdXNhdEBpbnRlbC5jb208L2E+Jmd0OyB3
+cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3Jk
+ZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFy
+Z2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8ZGl2IGlkPSI6MXB3Ij4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IHRpbWVvdXQg
+MTBtIC4vcnVuLXB0ZXN0IHx8IEFOWUZBSUxFRD15ZXM8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YnI+DQpJJ20gcHJl
+dHR5IHN1cmUgdGhlIGdsaWIgdGVzdCBzdWl0ZSB0YWtlcyAqd2F5KiBsb25nZXIgdGhhbiAxMCBt
+aW51dGVzIHRvIHJ1bi4uLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
+--_000_042E875E1B5D414CA9BB78B7D4FA691C2880FDF3IRSMSX107gercor_--
