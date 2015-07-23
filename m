@@ -1,20 +1,50 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 75D36734B8
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id D7583761B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 11:16:19 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 23 Jul 2015 04:15:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,529,1432623600"; d="scan'208";a="769778305"
-Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga002.jf.intel.com with ESMTP; 23 Jul 2015 04:15:56 -0700
-From: Amarnath Valluri <amarnath.valluri@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 14:17:06 +0300
-Message-Id: <1437650226-27368-1-git-send-email-amarnath.valluri@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [meta-oe][PATCH] libical: Upgrade v1.0.0 -> v1.0.1
+	Thu, 23 Jul 2015 12:52:50 +0000 (UTC)
+Received: by pacan13 with SMTP id an13so158966656pac.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jul 2015 05:52:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=ir3NiA62BeUV1tqQnfP2tJ99H9Ymawey3W5hjz8Xksw=;
+	b=MuncrO8OJ+tFwWclFZImYa7KksXnabKFRCRiXVBxHI+txa+GwKOPWJ8xtt0fCqBZCS
+	dNkupOgrcTbHM0HuIyQ5tRX/WCBx3T5uXeeG3FkintH4zQPz6iEMPDhD3NHGZRCkWdq3
+	RScbN3tO0ZkWDxwZzd30iK6hpfPuGZh5x8T4z66O5H/AsIYmZFAcuThG6TjBJxAWCLzh
+	qLzbGf7oXkz1gVcKN/FEf1/Co+IC47TrWYwdnVVYO+cMYH5hNB4rEMO+Gj/pvvDamIP+
+	qq2Fa0MsjV8pvxei1UAzv6xi3YBhjTjXBtYAIsX1oLCBeZ/A1l3ctQnXgVSOaDt+RCMV
+	eQZA==
+X-Gm-Message-State: ALoCoQlEGAqsLSBUamFb10dmqAdxStddyXGY3QC/vMu1QC54pOJEspz0ouRdTW7qRupFnvyTSNc0
+X-Received: by 10.70.91.206 with SMTP id cg14mr18135766pdb.83.1437655970626;
+	Thu, 23 Jul 2015 05:52:50 -0700 (PDT)
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com.
+	[209.85.220.49]) by smtp.gmail.com with ESMTPSA id
+	pa1sm8905253pdb.73.2015.07.23.05.52.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 Jul 2015 05:52:49 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pachj5 with SMTP id hj5so157222796pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jul 2015 05:52:48 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.70.100.105 with SMTP id ex9mr18626938pdb.115.1437655968020; 
+	Thu, 23 Jul 2015 05:52:48 -0700 (PDT)
+Received: by 10.70.59.105 with HTTP; Thu, 23 Jul 2015 05:52:47 -0700 (PDT)
+In-Reply-To: <1437658192-8322-2-git-send-email-b54851@freescale.com>
+References: <1437658192-8322-1-git-send-email-b54851@freescale.com>
+	<1437658192-8322-2-git-send-email-b54851@freescale.com>
+Date: Thu, 23 Jul 2015 09:52:47 -0300
+Message-ID: <CAP9ODKo=EDz4h1fCU2DDF+oqGaoqyPeddfFhtwU6+f--3OFc5g@mail.gmail.com>
+To: Yuqing Zhu <b54851@freescale.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [poky][PATCH 1/3] gstreamer1.0: Add patch for Gstreamer 1.4.5 including baseparse, basesink, inputselector
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,49 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 11:16:22 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 12:52:51 -0000
+Content-Type: text/plain; charset=UTF-8
 
-- Build system changed from autotools to cmake.
-- Perl dependency added.
+On Thu, Jul 23, 2015 at 10:29 AM, Yuqing Zhu <b54851@freescale.com> wrote:
+> Bug fix
+>
+> -[baseparse] Handle base parse error
 
-Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
----
- .../libical/{libical_1.0.0.bb => libical_1.0.1.bb}                | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libical/{libical_1.0.0.bb => libical_1.0.1.bb} (66%)
+This patch seems to be under discussion at GStreamer team and no
+agreement has been made yet; this shouldn't be included in OE-Core.
 
-diff --git a/meta/recipes-support/libical/libical_1.0.0.bb b/meta/recipes-support/libical/libical_1.0.1.bb
-similarity index 66%
-rename from meta/recipes-support/libical/libical_1.0.0.bb
-rename to meta/recipes-support/libical/libical_1.0.1.bb
-index be6b635..59ecdad 100644
---- a/meta/recipes-support/libical/libical_1.0.0.bb
-+++ b/meta/recipes-support/libical/libical_1.0.1.bb
-@@ -7,7 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
- SECTION = "libs"
- 
- SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz"
--SRC_URI[md5sum] = "f4b8e33ae5efb2f025eb43ce69682a36"
--SRC_URI[sha256sum] = "0072e83834092315772e6719b85fc8b11530b1ff53f4d108315fb38cddbce8c2"
-+SRC_URI[md5sum] = "af91db06b22559f863869c5a382ad08a"
-+SRC_URI[sha256sum] = "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb14249d1413d6c610c"
- 
--inherit autotools
-+inherit cmake perlnative
-+
-+FILES_${PN}-dev += "${libdir}/cmake/LibIcal/*.cmake"
+> -[basesink] Fix QoS/lateness checking if subclass implements prepare/prepare_list
+> vfuncs
+>
+> -[inputselector] Block EOS event of inactive pad, send the event after the pad actived
+
+Fine. Both need fix in Upstream-Status (dash needs to be included,
+plus version it has been backported from)
+
+and finally please split it in two patches.
+
 -- 
-2.1.4
-
----------------------------------------------------------------------
-Intel Finland Oy
-Registered Address: PL 281, 00181 Helsinki 
-Business Identity Code: 0357606 - 4 
-Domiciled in Helsinki 
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
