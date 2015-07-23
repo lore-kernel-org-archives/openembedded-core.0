@@ -1,22 +1,36 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B4E9073217
+Return-Path: <oscar.andreasson@pelagicore.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 76B0C73217
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 22:51:49 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 23 Jul 2015 15:51:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,534,1432623600"; d="scan'208";a="734474091"
-Received: from bitbang.jf.intel.com ([10.7.201.51])
-	by orsmga001.jf.intel.com with ESMTP; 23 Jul 2015 15:51:47 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
+	Thu, 23 Jul 2015 22:52:39 +0000 (UTC)
+Received: by pachj5 with SMTP id hj5so3228451pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jul 2015 15:52:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ztqbxVpllc9IKnjwz65dpvl47fEKNNH2OQomnH8mL90=;
+	b=RCJhmjuT1Qbe4pEOGOtAWJz5j6+kqaNiAYO1d1ZGwt6008XZnuLaeyUN3Zngw0aWQM
+	8zXe3DRs6AyetKipjOe3iH9Qr9YDWIPJx+XszEA3yfZ8NJh3mbdZ2G05G9hCqITbLXR/
+	aeGdN21Bwni7HrmcCINpX/X2S3V7oGhfyb5HFRKjsCX08amHwXp/szPGIihYZI8ZM+/o
+	WlIpx9lo0dkKdEmaJg4iDlLeubuzmwrKRH7TecJBK7FvBU6VECgvo67BhIU3GSvL0jSr
+	7vJ3r72cx1I+cbEhgv5mfG5H71nYU0MsNzlGX0MBUEHg67DVXgRLd22T3EcXHNAKJjrn
+	+e6A==
+X-Gm-Message-State: ALoCoQkZJhBTqcq9BPNIjKMSJ1m53TZkS+G8Fh++Enj0hq5KuCAhlj06krZN2c9y6/VkebjHLWA0
+X-Received: by 10.70.46.161 with SMTP id w1mr14410514pdm.66.1437691960006;
+	Thu, 23 Jul 2015 15:52:40 -0700 (PDT)
+Received: from localhost.localdomain ([38.104.105.146])
+	by smtp.gmail.com with ESMTPSA id
+	of5sm10816055pdb.52.2015.07.23.15.52.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 23 Jul 2015 15:52:38 -0700 (PDT)
+From: Oscar Andreasson <oscar.andreasson@pelagicore.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 15:51:37 -0700
-Message-Id: <1437691897-10440-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.4.3
-In-Reply-To: <1437606836-26840-1-git-send-email-randy.e.witt@linux.intel.com>
-References: <1437606836-26840-1-git-send-email-randy.e.witt@linux.intel.com>
-Subject: [PATCH v2] tcf-agent: Update to version 1.3
+Date: Thu, 23 Jul 2015 15:51:44 -0700
+Message-Id: <1437691904-27761-1-git-send-email-oscar.andreasson@pelagicore.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [meta-oe][PATCH] mkefidisk.sh: Added function to wait for devices to show up
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,58 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 22:51:49 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 22:52:44 -0000
 
-According to the Eclipse tcf team, 1.3 tcf is required for the newest
-Eclipse release "mars".
+Call function to wait for device to re-appear after partitioning device,
+before formatting the same device.
 
-[Yocto #7886]
-
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+Signed-off-by: Oscar Andreasson <oscar.andreasson@pelagicore.com>
 ---
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ scripts/contrib/mkefidisk.sh | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 616a6a7..f8fd390 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -5,11 +5,10 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
- LICENSE = "EPL-1.0 | EDL-1.0"
- LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index 55f72b0..133c5bc 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -83,6 +83,17 @@ debug() {
+ 	fi
+ }
  
--SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
--PV = "0.4.0+git${SRCPV}"
--PR = "r2"
-+SRCREV = "b9a735e9c7cf82f80d412b7ab15d08b89d5a4ccc"
-+PV = "1.3.0+git${SRCPV}"
++waitfordevice() {
++    counter=0
++    while [ ! -e "$1" ]; do
++        sleep 1
++        counter=$(($counter+1))
++        if [ $counter -ge 10 ]; then
++            die  "Device $1 not showing up, something is probably wrong"
++        fi
++    done
++}
++
+ usage() {
+ 	echo "Usage: $(basename $0) [-v] DEVICE HDDIMG TARGET_DEVICE"
+ 	echo "       -v: Verbose debug"
+@@ -293,6 +304,7 @@ fi
+ #
+ unmount_device || die "Failed to unmount $DEVICE partitions"
  
--SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git \
-+SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=1.3_mars_bugfix \
-            file://fix_ranlib.patch \
-            file://tcf-agent.init \
-            file://tcf-agent.service \
-@@ -18,7 +17,7 @@ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git \
- DEPENDS = "util-linux openssl"
- RDEPENDS_${PN} = "bash"
++waitfordevice $BOOTFS
  
--S = "${WORKDIR}/git"
-+S = "${WORKDIR}/git/agent"
- 
- inherit update-rc.d systemd
- 
-@@ -39,10 +38,6 @@ CFLAGS += "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
-     -DSERVICE_StackTrace=0 -DSERVICE_Symbols=0 -DSERVICE_LineNumbers=0 \
-     -DSERVICE_Expressions=0"
- 
--do_compile() {
--	oe_runmake
--}
--
- do_install() {
- 	oe_runmake install INSTALLROOT=${D}
- 	install -d ${D}${sysconfdir}/init.d/
+ #
+ # Format $DEVICE partitions
 -- 
-2.4.3
+2.1.4
 
 
