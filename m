@@ -1,22 +1,33 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 60B8D73217
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3015773217
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 23:02:19 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2015 16:02:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,534,1432623600"; d="scan'208";a="611806516"
-Received: from bitbang.jf.intel.com ([10.7.201.51])
-	by orsmga003.jf.intel.com with ESMTP; 23 Jul 2015 16:02:20 -0700
-From: Randy Witt <randy.e.witt@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 16:02:17 -0700
-Message-Id: <1437692537-20167-1-git-send-email-randy.e.witt@linux.intel.com>
-X-Mailer: git-send-email 2.4.3
-In-Reply-To: <1437691897-10440-1-git-send-email-randy.e.witt@linux.intel.com>
-References: <1437691897-10440-1-git-send-email-randy.e.witt@linux.intel.com>
-Subject: [PATCH v3] tcf-agent: Update to version 1.3
+	Thu, 23 Jul 2015 23:06:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6NN6tOR019531; Fri, 24 Jul 2015 00:06:55 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id NOlcxj5eWCGo; Fri, 24 Jul 2015 00:06:55 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6NN6f3h019526
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 24 Jul 2015 00:06:52 +0100
+Message-ID: <1437692801.821.140.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Gary Thomas <gary@mlbassoc.com>
+Date: Fri, 24 Jul 2015 00:06:41 +0100
+In-Reply-To: <55B171F3.4010009@mlbassoc.com>
+References: <1437610956-27049-1-git-send-email-gary@mlbassoc.com>
+	<CAJTo0Lb41pKOft88tttTNE-47wDekSbSUbYyUWT12WydtKgaCw@mail.gmail.com>
+	<55B16CF0.80405@mlbassoc.com>
+	<CAJTo0Lb9npwcdNkLbifoaR6P+QgAX76d0go8pq7ozCpEiW7k-w@mail.gmail.com>
+	<55B171F3.4010009@mlbassoc.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libepoxy: Use native python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,58 +40,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 23:02:23 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 23:07:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-According to the Eclipse tcf team, 1.3 tcf is required for the newest
-Eclipse release "mars".
+On Thu, 2015-07-23 at 17:00 -0600, Gary Thomas wrote:
+> It's an old host (Fedora 13) that I am unable to upgrade, but it still
+> works quite well.  I get around most of the Yocto/bitbake worries by
+> using a Yocto-built meta-toolchain to fill in the blanks (correct make,
+> python2, etc), but python3 is not part of the meta-toolchain :-(
 
-[YOCTO #7886]
+You could likely build a customised meta-toolchain which did contain
+python3 though?
 
-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
----
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+Cheers,
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index 616a6a7..f8fd390 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -5,11 +5,10 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
- LICENSE = "EPL-1.0 | EDL-1.0"
- LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
- 
--SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
--PV = "0.4.0+git${SRCPV}"
--PR = "r2"
-+SRCREV = "b9a735e9c7cf82f80d412b7ab15d08b89d5a4ccc"
-+PV = "1.3.0+git${SRCPV}"
- 
--SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git \
-+SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=1.3_mars_bugfix \
-            file://fix_ranlib.patch \
-            file://tcf-agent.init \
-            file://tcf-agent.service \
-@@ -18,7 +17,7 @@ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git \
- DEPENDS = "util-linux openssl"
- RDEPENDS_${PN} = "bash"
- 
--S = "${WORKDIR}/git"
-+S = "${WORKDIR}/git/agent"
- 
- inherit update-rc.d systemd
- 
-@@ -39,10 +38,6 @@ CFLAGS += "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
-     -DSERVICE_StackTrace=0 -DSERVICE_Symbols=0 -DSERVICE_LineNumbers=0 \
-     -DSERVICE_Expressions=0"
- 
--do_compile() {
--	oe_runmake
--}
--
- do_install() {
- 	oe_runmake install INSTALLROOT=${D}
- 	install -d ${D}${sysconfdir}/init.d/
--- 
-2.4.3
+Richard
 
 
