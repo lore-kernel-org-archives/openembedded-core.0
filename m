@@ -1,39 +1,39 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
-	[209.85.220.45])
-	by mail.openembedded.org (Postfix) with ESMTP id E00347623E
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id F034F761D6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 19:57:18 +0000 (UTC)
-Received: by pabkd10 with SMTP id kd10so1240481pab.2
+	Thu, 23 Jul 2015 19:57:20 +0000 (UTC)
+Received: by pachj5 with SMTP id hj5so1215406pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 12:57:19 -0700 (PDT)
+	Thu, 23 Jul 2015 12:57:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=m+89wBQ+F3WvsSXOkwvQ+Cv6tPYTMbUALIXNabcyBbk=;
-	b=RVLoB2ElYg94azzJU6tqbX2yEB0p7fWMFPTJxFqfes1808lhQ+AFC8y0xzYpTfhs8T
-	vRaNp/jCRXXueZode8x4fE1yGdz5WP3Ik9N1vgmeWLmR6sLnXotmR+QFM84R0UbsVKQc
-	7wWjSsHStvjOdwGqzyvswyj6gHeNW3jShmrjzBN1hOpwjB8NJSCo4438EpUIVEXtigRt
-	q3YKX8mc6fqq5kNOIM+nYsSywFbx7lyYUkIETQmqXKEynYA0nUQX8HxnNxkpyX/7v7Hg
-	ApitjDb5BCxYlgVSlyEUInSKCczYA13AQyQ8BE6psDySIOdyH82rt2Zhmv3KdzLTeTA7
-	jgRA==
-X-Received: by 10.70.89.199 with SMTP id bq7mr21562038pdb.168.1437681439358;
-	Thu, 23 Jul 2015 12:57:19 -0700 (PDT)
+	bh=oYEP+1ilh91Z+sZfLvcY15Uapx7Lux7kt2gDhQ1/d18=;
+	b=NE7194sjl//f01vAEjdm7mBbyR8jy5dWRCs/xpTg+Ot8/5rJLNKU8CZCF1wV00iphh
+	jTsCEdkJ7qj0n3TgHQAbCT+S5Aa3YM58ZR3TMsy/BZxvjuMqDHCvL3/YNkwiL0+HWvoR
+	fCPI18Zhs0Kx/J1ea4pj0FQWTnzw/SmARCGzxBzEi593pereq2zzKy+kJyKkcR+jChoe
+	jijCAzveHZ4IoI7/5LAUGoXRVDpybxkCAbNDk1OJYQK98boy5bguAtPtg3y6aSrtFNJJ
+	/3lDTpBxp3rvvqs4+y/PCdkP5iqbBXEAeOXZpj3KtUow1bWoPW8OsFpZAGY9YZ+/gWtL
+	Oiww==
+X-Received: by 10.70.88.80 with SMTP id be16mr21544006pdb.37.1437681441043;
+	Thu, 23 Jul 2015 12:57:21 -0700 (PDT)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id j9sm5019734pdl.65.2015.07.23.12.57.17
+	by smtp.gmail.com with ESMTPSA id j9sm5019734pdl.65.2015.07.23.12.57.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jul 2015 12:57:18 -0700 (PDT)
+	Thu, 23 Jul 2015 12:57:19 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 12:58:07 -0700
-Message-Id: <4502373d2968d0d6a45879518dcb35773fae23ca.1437663603.git.chris_larson@mentor.com>
+Date: Thu, 23 Jul 2015 12:58:08 -0700
+Message-Id: <f5d190c54cc1ad1ad1e64f4732b9bf32eea4fadb.1437663603.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <38fd16a3ab690b57f0b920bb961881ccdef04fb2.1437663603.git.chris_larson@mentor.com>
 References: <38fd16a3ab690b57f0b920bb961881ccdef04fb2.1437663603.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1437663603.git.chris_larson@mentor.com>
 References: <cover.1437663603.git.chris_larson@mentor.com>
 Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: [PATCHv3 2/7] recipetool.append: add extralines arg to appendsrc
+Subject: [PATCHv3 3/7] recipetool: also load plugins from BBPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +46,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 19:57:20 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 19:57:21 -0000
 
-This makes the function more reusable for other sub-commands.
+This makes it easier to extend, as a layer can add its own sub-commands.
+
+The bitbake path setup is moved earlier, as it has to be done before
+tinfoil_init.
+
+[YOCTO #7625]
 
 Signed-off-by: Christopher Larson <kergoth@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- scripts/lib/recipetool/append.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ scripts/recipetool | 31 ++++++++++++++++++-------------
+ 1 file changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/scripts/lib/recipetool/append.py b/scripts/lib/recipetool/append.py
-index 3f2f9a4..ed7d0d4 100644
---- a/scripts/lib/recipetool/append.py
-+++ b/scripts/lib/recipetool/append.py
-@@ -337,7 +337,7 @@ def appendfile(args):
-         return 3
+diff --git a/scripts/recipetool b/scripts/recipetool
+index 3063cf7..37c2dd3 100755
+--- a/scripts/recipetool
++++ b/scripts/recipetool
+@@ -36,11 +36,8 @@ def tinfoil_init(parserecipes):
+     import logging
+     tinfoil = bb.tinfoil.Tinfoil()
+     tinfoil.prepare(not parserecipes)
+-
+-    for plugin in plugins:
+-        if hasattr(plugin, 'tinfoil_init'):
+-            plugin.tinfoil_init(tinfoil)
+     tinfoil.logger.setLevel(logger.getEffectiveLevel())
++    return tinfoil
  
+ def main():
  
--def appendsrc(args, files, rd):
-+def appendsrc(args, files, rd, extralines=None):
-     import oe.recipeutils
+@@ -55,12 +52,26 @@ def main():
+     parser.add_argument('--color', choices=['auto', 'always', 'never'], default='auto', help='Colorize output (where %(metavar)s is %(choices)s)', metavar='COLOR')
+     subparsers = parser.add_subparsers(title='subcommands', metavar='<subcommand>')
  
-     srcdir = rd.getVar('S', True)
-@@ -352,7 +352,7 @@ def appendsrc(args, files, rd):
-         simplified[str(simple_uri)] = uri
+-    scriptutils.load_plugins(logger, plugins, os.path.join(scripts_path, 'lib', 'recipetool'))
++    import scriptpath
++    bitbakepath = scriptpath.add_bitbake_lib_path()
++    if not bitbakepath:
++        logger.error("Unable to find bitbake by searching parent directory of this script or PATH")
++        sys.exit(1)
++    logger.debug('Found bitbake path: %s' % bitbakepath)
++
++    tinfoil = tinfoil_init(False)
++    for path in ([scripts_path] +
++                 tinfoil.config_data.getVar('BBPATH', True).split(':')):
++        pluginpath = os.path.join(path, 'lib', 'recipetool')
++        scriptutils.load_plugins(logger, plugins, pluginpath)
++
+     registered = False
+     for plugin in plugins:
+         if hasattr(plugin, 'register_command'):
+             registered = True
+             plugin.register_command(subparsers)
++        if hasattr(plugin, 'tinfoil_init'):
++            plugin.tinfoil_init(tinfoil)
  
-     copyfiles = {}
--    extralines = []
-+    extralines = extralines or []
-     for newfile, srcfile in files.iteritems():
-         src_destdir = os.path.dirname(srcfile)
-         if not args.use_workdir:
+     if not registered:
+         logger.error("No commands registered - missing plugins?")
+@@ -73,17 +84,11 @@ def main():
+     elif args.quiet:
+         logger.setLevel(logging.ERROR)
+ 
+-    import scriptpath
+-    bitbakepath = scriptpath.add_bitbake_lib_path()
+-    if not bitbakepath:
+-        logger.error("Unable to find bitbake by searching parent directory of this script or PATH")
+-        sys.exit(1)
+-    logger.debug('Found bitbake path: %s' % bitbakepath)
+-
+     scriptutils.logger_setup_color(logger, args.color)
+ 
+     try:
+-        tinfoil_init(getattr(args, 'parserecipes', False))
++        if getattr(args, 'parserecipes', False):
++            tinfoil.parseRecipes()
+         ret = args.func(args)
+     except bb.BBHandledException:
+         ret = 1
 -- 
 2.2.1
 
