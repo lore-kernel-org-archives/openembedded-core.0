@@ -1,30 +1,20 @@
-Return-Path: <sadlife1990@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 7278B734B8;
-	Thu, 23 Jul 2015 11:01:41 +0000 (UTC)
-Received: by wibud3 with SMTP id ud3so18668008wib.1;
-	Thu, 23 Jul 2015 04:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=+choI/9Q35p6ZDuD+SuYS0fqAxJDnrZFL0ePOEd1598=;
-	b=mcClVc+C9aNfyoKhDavhG9xGZh3va15ji6IlBfurfddTj2q8hB5MJQaC9Bx/AmD6Al
-	5+VH50QlGGjwLnkJGMnUUe9+a8GwVztcufTg+/EWgA54p9eV7aBNIWMt1tQt3T87Pdv6
-	6rzfOfkBYRqQOhy+NaslJcr6Cf6n97p+5habXQiF9NIZXGQ+bywHr9YhUxGh6hdPH1Uv
-	LK3zpJSCY9c/mAjiHpbmYaM02ROKlsESP0/AITMdRRbztG0ekiKyPP4aCVeiicdCrvpK
-	QBDoK34l6MsDCxLu20DcAEtu/FI/2pQeabE/yywAgkBBOwb0q2goGMsU7Cg4q+EyCwQy
-	vWcA==
-MIME-Version: 1.0
-X-Received: by 10.194.60.226 with SMTP id k2mr14090855wjr.10.1437649300652;
-	Thu, 23 Jul 2015 04:01:40 -0700 (PDT)
-Received: by 10.194.120.132 with HTTP; Thu, 23 Jul 2015 04:01:40 -0700 (PDT)
-Date: Thu, 23 Jul 2015 14:01:40 +0300
-Message-ID: <CAAHuHfxtDAi4xF8tJqiiswWGMEC-=jsryjbvuKu1Fg311J+Jyw@mail.gmail.com>
-From: Life Life <sadlife1990@gmail.com>
-To: yocto@yoctoproject.org, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	openembedded-devel@lists.openembedded.org
-Subject: qt5 webkit Nothing RPROVIDES 'liborc-0.4'
+Return-Path: <amarnath.valluri@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 75D36734B8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jul 2015 11:16:19 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 23 Jul 2015 04:15:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,529,1432623600"; d="scan'208";a="769778305"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by orsmga002.jf.intel.com with ESMTP; 23 Jul 2015 04:15:56 -0700
+From: Amarnath Valluri <amarnath.valluri@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jul 2015 14:17:06 +0300
+Message-Id: <1437650226-27368-1-git-send-email-amarnath.valluri@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [meta-oe][PATCH] libical: Upgrade v1.0.0 -> v1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,83 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 11:01:47 -0000
-Content-Type: multipart/alternative; boundary=047d7bacbed6e088f7051b88cf0f
+X-List-Received-Date: Thu, 23 Jul 2015 11:16:22 -0000
 
---047d7bacbed6e088f7051b88cf0f
-Content-Type: text/plain; charset=UTF-8
+- Build system changed from autotools to cmake.
+- Perl dependency added.
 
-Hello,
+Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+---
+ .../libical/{libical_1.0.0.bb => libical_1.0.1.bb}                | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libical/{libical_1.0.0.bb => libical_1.0.1.bb} (66%)
 
-I'm trying to build qt5 webkit. I seen this error message
+diff --git a/meta/recipes-support/libical/libical_1.0.0.bb b/meta/recipes-support/libical/libical_1.0.1.bb
+similarity index 66%
+rename from meta/recipes-support/libical/libical_1.0.0.bb
+rename to meta/recipes-support/libical/libical_1.0.1.bb
+index be6b635..59ecdad 100644
+--- a/meta/recipes-support/libical/libical_1.0.0.bb
++++ b/meta/recipes-support/libical/libical_1.0.1.bb
+@@ -7,7 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
+ SECTION = "libs"
+ 
+ SRC_URI = "https://github.com/${BPN}/${BPN}/archive/v${PV}.tar.gz"
+-SRC_URI[md5sum] = "f4b8e33ae5efb2f025eb43ce69682a36"
+-SRC_URI[sha256sum] = "0072e83834092315772e6719b85fc8b11530b1ff53f4d108315fb38cddbce8c2"
++SRC_URI[md5sum] = "af91db06b22559f863869c5a382ad08a"
++SRC_URI[sha256sum] = "7d5f613454ec6c7d1bcfb441c919215be53292aa15cd1cb14249d1413d6c610c"
+ 
+-inherit autotools
++inherit cmake perlnative
++
++FILES_${PN}-dev += "${libdir}/cmake/LibIcal/*.cmake"
+-- 
+2.1.4
 
-Build Configuration:
-BB_VERSION        = "1.24.0"
-BUILD_SYS         = "x86_64-linux"
-NATIVELSBSTRING   = "Ubuntu-14.04"
-TARGET_SYS        = "arm-poky-linux-gnueabi"
-MACHINE           = "phyboard-wega-am335x-2"
-DISTRO            = "poky"
-DISTRO_VERSION    = "1.7"
-TUNE_FEATURES     = "arm armv7a vfp thumb neon callconvention-hard cortexa8"
-TARGET_FPU        = "vfp-neon"
-meta
-meta-yocto        = "(nobranch):9aff3a4ec058a1a1149d026ebedcc6251089fffb"
-meta-phytec       = "(nobranch):ccf1c78f312f84933b90926e9bf4f72de59e8e94"
-meta-phyam335x    = "(nobranch):a6c488b268d0c2e506f293221703dafcc05b9610"
-meta-oe
-meta-networking
-meta-python
-meta-multimedia   = "(nobranch):9efaed99125b1c4324663d9a1b2d3319c74e7278"
-meta-qt5          = "master:6d9e2a6dfc21f7d9a3a11b4bcb426b5dfe6feaeb"
-meta-ruby         = "(nobranch):9efaed99125b1c4324663d9a1b2d3319c74e7278"
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki 
+Business Identity Code: 0357606 - 4 
+Domiciled in Helsinki 
 
-NOTE: Preparing runqueue
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-NOTE: Tasks Summary: Attempted 3367 tasks of which 3367 didn't need to be
-rerun and all succeeded.
-NOTE: Resolving any missing task queue dependencies
-ERROR: Nothing RPROVIDES 'liborc-0.4' (but
-/home/xy/yocto/build/recipes/images/
-core-image-base-edited-20150723-135844.bb RDEPENDS on or otherwise requires
-it)
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
---047d7bacbed6e088f7051b88cf0f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hello,<br><br></div>I&#39;m trying to build qt5 webki=
-t. I seen this error message<br><br>Build Configuration:<br>BB_VERSION=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;1.24.0&quot;<br>BUILD_SYS=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;x86_64-linux&quo=
-t;<br>NATIVELSBSTRING=C2=A0=C2=A0 =3D &quot;Ubuntu-14.04&quot;<br>TARGET_SY=
-S=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;arm-poky-linux-gnueab=
-i&quot;<br>MACHINE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 =3D &quot;phyboard-wega-am335x-2&quot;<br>DISTRO=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;poky&quot;<br>DISTR=
-O_VERSION=C2=A0=C2=A0=C2=A0 =3D &quot;1.7&quot;<br>TUNE_FEATURES=C2=A0=C2=
-=A0=C2=A0=C2=A0 =3D &quot;arm armv7a vfp thumb neon callconvention-hard cor=
-texa8&quot;<br>TARGET_FPU=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &qu=
-ot;vfp-neon&quot;<br>meta=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 <br>meta-yocto=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 =3D &quot;(nobranch):9aff3a4ec058a1a1149d026ebedcc6251089fffb&=
-quot;<br>meta-phytec=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;(nobranc=
-h):ccf1c78f312f84933b90926e9bf4f72de59e8e94&quot;<br>meta-phyam335x=C2=A0=
-=C2=A0=C2=A0 =3D &quot;(nobranch):a6c488b268d0c2e506f293221703dafcc05b9610&=
-quot;<br>meta-oe=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 <br>meta-networking=C2=A0=C2=A0 <br>meta-python=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 <br>meta-multimedia=C2=A0=C2=A0 =3D &quot;(nobranch):9efaed991=
-25b1c4324663d9a1b2d3319c74e7278&quot;<br>meta-qt5=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;master:6d9e2a6dfc21f7d9a3a11b4bcb4=
-26b5dfe6feaeb&quot;<br>meta-ruby=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 =3D &quot;(nobranch):9efaed99125b1c4324663d9a1b2d3319c74e7278&quot;<=
-br><br>NOTE: Preparing runqueue<br>NOTE: Executing SetScene Tasks<br>NOTE: =
-Executing RunQueue Tasks<br>NOTE: Tasks Summary: Attempted 3367 tasks of wh=
-ich 3367 didn&#39;t need to be rerun and all succeeded.<br>NOTE: Resolving =
-any missing task queue dependencies<br>ERROR: Nothing RPROVIDES &#39;liborc=
--0.4&#39; (but /home/xy/yocto/build/recipes/images/<a href=3D"http://core-i=
-mage-base-edited-20150723-135844.bb">core-image-base-edited-20150723-135844=
-.bb</a> RDEPENDS on or otherwise requires it)<br></div>
-
---047d7bacbed6e088f7051b88cf0f--
