@@ -1,29 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D885761B2;
-	Thu, 23 Jul 2015 21:50:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6NLoTl9015886; Thu, 23 Jul 2015 22:50:56 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ESoFOskIf3Ki; Thu, 23 Jul 2015 22:50:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6NLoh3c015942
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 23 Jul 2015 22:50:54 +0100
-Message-ID: <1437688243.821.139.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jate Sujjavanich <jatedev@gmail.com>
-Date: Thu, 23 Jul 2015 22:50:43 +0100
-In-Reply-To: <CAPphmgbXq_xx3_ZgFvSfoLDCD-J7r2gga+kcFsRw-ewpQp6W4w@mail.gmail.com>
-References: <CAPphmgbXq_xx3_ZgFvSfoLDCD-J7r2gga+kcFsRw-ewpQp6W4w@mail.gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: bitbake-devel@lists.openembedded.org,
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with SMTP id EDEAC761B2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jul 2015 21:57:34 +0000 (UTC)
+Received: (qmail 1195 invoked by uid 1003); 23 Jul 2015 21:57:33 -0000
+Received: from unknown (HELO ?192.168.11.124?)
+	(philip@opensdr.com@71.171.10.162)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	23 Jul 2015 21:57:33 -0000
+To: Ash Charles <ashcharles@gmail.com>,
 	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3][0/2] Yocto Bug #6149
+References: <1437687855-6499-1-git-send-email-ashcharles@gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <55B1634C.3070305@balister.org>
+Date: Thu, 23 Jul 2015 17:57:32 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
+MIME-Version: 1.0
+In-Reply-To: <1437687855-6499-1-git-send-email-ashcharles@gmail.com>
+Subject: Re: [fido][PATCH 0/2] Backports for WIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +32,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 21:51:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 Jul 2015 21:57:40 -0000
+Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-07-23 at 17:32 -0400, Jate Sujjavanich wrote:
-> These patches add code to handle a PREFERRED_PROVIDER for a runtime
-> item.
->
-> The providers.py code chooses a recipe based on a runtime package to
-> resolve the multiple providers warning.
->
-> Then during package generation, the new image.bbclass code substitutes
-> the package into PACKAGE_INSTALL that RPROVIDES the runtime item if
-> the PREFERRED_PROVIDER is defined.
+I'd like to see this also. I've added a rm to my script to work around
+this, but this change would help a lot of people.
+
+Philip
+
+On 07/23/2015 05:44 PM, Ash Charles wrote:
+> In order to use the wic tool multiple times (Ubuntu 15.04 host), I need
+> to cherry-pick these two patches onto the fido branch.  Otherwise, wic
+> just hangs on the second invocation.  Can these two patches be applied
+> as backports to Fido?
 > 
-What this doesn't do is fix the problem where one of these names is used
-in a packagegroup or some other place than PACKAGE_INSTALL. I believe I
-mentioned this the last time you sent patches as well.
-
-Due to that, it would lead to gross inconsistencies in the way the
-system would behave and it can't be merged as is, sorry.
-
-Cheers,
-
-Richard
+> Alexandre Belloni (1):
+>   wic: remove intermediate partitions
 > 
-
-
+> Ed Bartosh (1):
+>   wic: Make sure file exists before removing it
+> 
+>  scripts/lib/wic/kickstart/custom_commands/partition.py | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
 
