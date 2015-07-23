@@ -1,38 +1,22 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f52.google.com (mail-oi0-f52.google.com
-	[209.85.218.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CC09473217
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B4E9073217
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 22:42:25 +0000 (UTC)
-Received: by oihq81 with SMTP id q81so6692163oih.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 15:42:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=jiQqq61g3uoPpAKP+Vf9dEKso2qTicr4S99hIdzyPrc=;
-	b=kuzl545rHlNW0TK+zjNatNAeoBDORhnsVEx87G0fBOZkYjXtJ+lAOYEoDtiexURua0
-	bx1Lm5mWrpU46fYokXc8YbmF5FOA77FScb6kvt3PmH7Sk6fme/BhtCCViUf7lqQaXNvL
-	HNsyn2zsjM6DM3lUEDQiKAL1GRO/XLePT7T81gullftnBocDPbcPDMeiKuwehsSb/GTv
-	iZiJqHUodIK+z1fIEnLk98iP3GZpUaJ2bbnKPP8ZlzM5jJtCQr5sf1o0jNf6kHpAeQ+r
-	JFIr0u7gazbcPBP4J93RLzpI1kg8eKCDGQ6yYCUZZYI8r3ps8QQ1es6tG2K9ntbJzZW7
-	t5iA==
-X-Gm-Message-State: ALoCoQmNsunxYpe/J8ANn5VDrsV+9lrz+B6oU+n56iiOsjssrKV+PNCIcd2pTEJReqk519zTqkdQ
-X-Received: by 10.60.173.7 with SMTP id bg7mr11761581oec.86.1437691345836;
-	Thu, 23 Jul 2015 15:42:25 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.202.108.4 with HTTP; Thu, 23 Jul 2015 15:42:06 -0700 (PDT)
-In-Reply-To: <55B16CF0.80405@mlbassoc.com>
-References: <1437610956-27049-1-git-send-email-gary@mlbassoc.com>
-	<CAJTo0Lb41pKOft88tttTNE-47wDekSbSUbYyUWT12WydtKgaCw@mail.gmail.com>
-	<55B16CF0.80405@mlbassoc.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 Jul 2015 23:42:06 +0100
-Message-ID: <CAJTo0Lb9npwcdNkLbifoaR6P+QgAX76d0go8pq7ozCpEiW7k-w@mail.gmail.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libepoxy: Use native python3
+	Thu, 23 Jul 2015 22:51:49 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 23 Jul 2015 15:51:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,534,1432623600"; d="scan'208";a="734474091"
+Received: from bitbang.jf.intel.com ([10.7.201.51])
+	by orsmga001.jf.intel.com with ESMTP; 23 Jul 2015 15:51:47 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jul 2015 15:51:37 -0700
+Message-Id: <1437691897-10440-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.4.3
+In-Reply-To: <1437606836-26840-1-git-send-email-randy.e.witt@linux.intel.com>
+References: <1437606836-26840-1-git-send-email-randy.e.witt@linux.intel.com>
+Subject: [PATCH v2] tcf-agent: Update to version 1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +29,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 22:42:25 -0000
-Content-Type: multipart/alternative; boundary=047d7bd76788f73201051b9299bf
+X-List-Received-Date: Thu, 23 Jul 2015 22:51:49 -0000
 
---047d7bd76788f73201051b9299bf
-Content-Type: text/plain; charset=UTF-8
+According to the Eclipse tcf team, 1.3 tcf is required for the newest
+Eclipse release "mars".
 
-On 23 July 2015 at 23:38, Gary Thomas <gary@mlbassoc.com> wrote:
+[Yocto #7886]
 
-> Well for me, the configure script ended up chosing python3,
-> even when I used 'pythonnative' (i.e. python2) in the recipe.
-> I could not get it to build any other way.
->
-> Since python3-native will most likely already be built, what's
-> the harm in doing it this way?
->
+Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+---
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-Why will it be build?  I certainly don't have a python3 build here.
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index 616a6a7..f8fd390 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -5,11 +5,10 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
+ LICENSE = "EPL-1.0 | EDL-1.0"
+ LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+ 
+-SRCREV = "4ef94ecb927a8912c3d79ce137182247786cff8f"
+-PV = "0.4.0+git${SRCPV}"
+-PR = "r2"
++SRCREV = "b9a735e9c7cf82f80d412b7ab15d08b89d5a4ccc"
++PV = "1.3.0+git${SRCPV}"
+ 
+-SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git \
++SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git;branch=1.3_mars_bugfix \
+            file://fix_ranlib.patch \
+            file://tcf-agent.init \
+            file://tcf-agent.service \
+@@ -18,7 +17,7 @@ SRC_URI = "git://git.eclipse.org/gitroot/tcf/org.eclipse.tcf.agent.git \
+ DEPENDS = "util-linux openssl"
+ RDEPENDS_${PN} = "bash"
+ 
+-S = "${WORKDIR}/git"
++S = "${WORKDIR}/git/agent"
+ 
+ inherit update-rc.d systemd
+ 
+@@ -39,10 +38,6 @@ CFLAGS += "-DSERVICE_RunControl=0 -DSERVICE_Breakpoints=0 \
+     -DSERVICE_StackTrace=0 -DSERVICE_Symbols=0 -DSERVICE_LineNumbers=0 \
+     -DSERVICE_Expressions=0"
+ 
+-do_compile() {
+-	oe_runmake
+-}
+-
+ do_install() {
+ 	oe_runmake install INSTALLROOT=${D}
+ 	install -d ${D}${sysconfdir}/init.d/
+-- 
+2.4.3
 
-Inheriting pythonnative is also the wrong thing to do - the pythonnative
-classes are solely for when you need to run Python and use non-standard
-classes that you've already built natively.  If you just want to run the
-host Python, let it find the host python.
 
-Why was the configure script choosing python3 on your host the wrong thing
-to do?
-
-Ross
-
---047d7bd76788f73201051b9299bf
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 July 2015 at 23:38, Gary Thomas <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:gary@mlbassoc.com" target=3D"_blank">gary@mlbassoc.com</a>&gt;</span> wr=
-ote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><div id=3D":1ef" class=3D"a3s" style=
-=3D"overflow:hidden">Well for me, the configure script ended up chosing pyt=
-hon3,<br>
-even when I used &#39;pythonnative&#39; (i.e. python2) in the recipe.<br>
-I could not get it to build any other way.<br>
-<br>
-Since python3-native will most likely already be built, what&#39;s<br>
-the harm in doing it this way?</div></blockquote></div><br>Why will it be b=
-uild?=C2=A0 I certainly don&#39;t have a python3 build here.</div><div clas=
-s=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Inheriting pythonnat=
-ive is also the wrong thing to do - the pythonnative classes are solely for=
- when you need to run Python and use non-standard classes that you&#39;ve a=
-lready built natively.=C2=A0 If you just want to run the host Python, let i=
-t find the host python.</div><div class=3D"gmail_extra"><br></div><div clas=
-s=3D"gmail_extra">Why was the configure script choosing python3 on your hos=
-t the wrong thing to do?</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">Ross</div></div>
-
---047d7bd76788f73201051b9299bf--
