@@ -1,23 +1,25 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6AC7E761B0
+Return-Path: <Abdur_Rehman@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 61077761B0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 13:30:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2015 06:30:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,530,1432623600"; d="scan'208";a="753082798"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2015 06:30:22 -0700
-Received: from localhost.localdomain (unknown [10.237.112.252])
-	by linux.intel.com (Postfix) with ESMTP id BC0856A4083;
-	Thu, 23 Jul 2015 06:29:38 -0700 (PDT)
-From: Costin Constantin <costin.c.constantin@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 16:40:44 +0300
-Message-Id: <1437658844-12604-1-git-send-email-costin.c.constantin@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH v2] oeqa/buildoptions.py: automate test case 929: check for correct GPL licenses
+	Thu, 23 Jul 2015 13:34:45 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ZIGe5-000006-GI from Abdur_Rehman@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Jul 2015 06:34:45 -0700
+Received: from svr-pkl-eng-06.pkl.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-02.mgc.mentorg.com (137.202.0.106) with Microsoft SMTP
+	Server id 14.3.224.2; Thu, 23 Jul 2015 14:34:44 +0100
+From: Abdur Rehman <abdur_rehman@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Jul 2015 18:33:32 +0500
+Message-ID: <1437658412-12051-1-git-send-email-abdur_rehman@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [meta-oe][PATCH] sed: rrec on locale-base-ru-ru, not rdep
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,55 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 13:30:26 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 13:34:48 -0000
+Content-Type: text/plain
 
-Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+This locale package isn't guaranteed to exist, depending on the value of
+GLIBC_GENERATE_LOCALES.
+
+The value of GLIBC_GENERATE_LOCALES can be specified to not contain
+locale-base-ru-ru, thus resulting in unsatisfied dependency. Its better
+to remove hardcoded dependency upon locale-base-ru-ru in favor of a
+recommendation, as this locale isn't always available depending upon the
+value of GLIBC_GENERATE_LOCALES.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
 ---
- meta/lib/oeqa/selftest/buildoptions.py | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ meta/recipes-extended/sed/sed_4.2.2.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
-index e79be9e..ab009f2 100644
---- a/meta/lib/oeqa/selftest/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/buildoptions.py
-@@ -132,6 +132,36 @@ class BuildImagesTest(oeSelfTest):
-         res = bitbake("core-image-directfb", ignore_status=True)
-         self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
+diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
+index a1e3483..5da3355 100644
+--- a/meta/recipes-extended/sed/sed_4.2.2.bb
++++ b/meta/recipes-extended/sed/sed_4.2.2.bb
+@@ -15,7 +15,8 @@ SRC_URI[md5sum] = "4111de4faa3b9848a0686b2f260c5056"
+ SRC_URI[sha256sum] = "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
  
-+    @testcase(929)
-+    def test_gpl_licenses(self):
-+        """
-+        Test for checking that correct GPL licenses are used when explicitly required.
-+        """
-+        self.add_command_to_tearDown('cleanup-workdir')
-+        self.write_config("MACHINE = \"qemux86\"\nINHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nCOPYLEFT_LICENSE_INCLUDE = \"GPLv2* GPLv3*\"")
-+        res = bitbake("core-image-minimal", ignore_status=True)
-+        self.remove_config("MACHINE = \"qemux86\"\nINHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nCOPYLEFT_LICENSE_INCLUDE = \"GPLv2* GPLv3*\"")
-+        self.assertEqual(res.status, 0, "core-image-minimal didn't build. Please check logs for further details %s" % res.output)
-+        built_pkgs_list = os.listdir(self.builddir + "/tmp/deploy/sources/i586-poky-linux/")# the list containing built pkgs with ver.
-+        pkg_name_split = [i.split("-") for i in built_pkgs_list]
-+        pkgs = [] # this will contain the pkgs name as found in tmp/deploy/licenses
-+        for i in pkg_name_split:
-+          name = ""
-+          for j in i:
-+            if i.index(j) == 0:
-+              name = j
-+            elif j.isalpha() and i.index(j) != 0:
-+              name = name + "-" + j
-+            else:
-+              pkgs.append(name)
-+              break
-+        license_dir = self.builddir + "/tmp/deploy/licenses/"
-+        for i in pkgs:
-+          if os.path.isdir(license_dir + i):
-+            self.assertTrue(g.glob(license_dir + i + "/*GPL*"), "couldn't find GPL license in " + license_dir + "for package " + i)
-+          else:
-+            self.log.info("\nNo license dir for %s" % i)
-+
- class ArchiverTest(oeSelfTest):
-     @testcase(926)
-     def test_arch_work_dir_and_export_source(self):
+ inherit autotools texinfo update-alternatives gettext ptest
+-RDEPENDS_${PN}-ptest += "make locale-base-ru-ru ${PN}"
++RDEPENDS_${PN}-ptest += "make ${PN}"
++RRECOMMENDS_${PN}-ptest += "locale-base-ru-ru"
+ 
+ EXTRA_OECONF = "--disable-acl \
+                 ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-regex-tests', '', d)}"
 -- 
-2.1.4
+1.7.9.5
 
 
