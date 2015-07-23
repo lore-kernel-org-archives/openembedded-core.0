@@ -1,36 +1,36 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
-	[209.85.192.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D8522761D1
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id DF20576239
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 19:57:02 +0000 (UTC)
-Received: by pdbbh15 with SMTP id bh15so1223875pdb.1
+	Thu, 23 Jul 2015 19:57:17 +0000 (UTC)
+Received: by pacan13 with SMTP id an13so1291474pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 12:57:02 -0700 (PDT)
+	Thu, 23 Jul 2015 12:57:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=XNQbvfDPGJMgpBxH5U4DfCnG32O80R34NRXSKn1C9d8=;
-	b=GFoNOiz3KdHi5MbXlseNcYFJPw8OoyvRmYdYeiGE10IDlhj0THpAXQoEf/+GvttbGN
-	ng5bv4Oz33xcQCRyPHOGhUgPTs9WaeD6VNKvZhY+jv05s1rm2Y152UvopCkSW7JaA4Xf
-	/VLKi67129X7FkhOOgqBzrRWXZDppQrlaUp/WN6NU5dAJgMGLy+v0m2Z/SuRqXnyFGfn
-	6jjf6o2fIVZis22zJiX5ltL8InZGgcqXj+N2oSWhPXESxMJ+PzBmZhDxdz/qfWY8Hdjo
-	Fjwgpbc1e5s7Nw+tIsONvuD8uNDC+4AgMR8pH5jriv+qN5NgTW4ZVqJK7/TXqL5ZGmff
-	/TrQ==
-X-Received: by 10.66.66.130 with SMTP id f2mr22727795pat.120.1437681422360;
-	Thu, 23 Jul 2015 12:57:02 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=lwLrFGRzYmU/Ulfqpu1JDqd/gPYqn6LIK8tl4sgvni0=;
+	b=VEYvPORj/EZ5NG9offJGUUUE0zvKKvFopU9DQOx5JiDm4zuODepd4v++FJqzLoRODn
+	ZbM+L2nUJxFYYg7hqiBrKim4av8eRwmXDwuz6/E/ih7j60vXYxzPMrQ2fA+iMpptnz/9
+	7iFC2KNQoBt+w/H0hjs5f1yxyAqgwsTnhGiCdpb155NtBWgeQNQ0dWmaCoINd59YK+m1
+	gogPKetThcONToudVgE9uTXLvykENI/ShpLV2yDUe1I0BBOmAcxmrzLgGZ0qXnhEJVvF
+	N/AquQ5qGwX64dsRpkqHikmhsoxXph0ryBVz3IuegvY2gkq/V3AA7FnbQTd9lasumTuC
+	91sA==
+X-Received: by 10.66.142.73 with SMTP id ru9mr22129976pab.78.1437681437472;
+	Thu, 23 Jul 2015 12:57:17 -0700 (PDT)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	kw5sm10533370pab.29.2015.07.23.12.57.00
+	by smtp.gmail.com with ESMTPSA id j9sm5019734pdl.65.2015.07.23.12.57.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jul 2015 12:57:01 -0700 (PDT)
+	Thu, 23 Jul 2015 12:57:16 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 12:57:55 -0700
-Message-Id: <cover.1437663603.git.chris_larson@mentor.com>
+Date: Thu, 23 Jul 2015 12:58:06 -0700
+Message-Id: <38fd16a3ab690b57f0b920bb961881ccdef04fb2.1437663603.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv3 0/6] recipetool/devtool/oe-selftest: pull from BBPATH
+In-Reply-To: <cover.1437663603.git.chris_larson@mentor.com>
+References: <cover.1437663603.git.chris_larson@mentor.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
+Subject: [PATCHv3 1/7] recipetool: catch BBHandledException from parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 19:57:03 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 19:57:20 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+This ensures that we don't see a traceback on parsing failures.
 
-Ensures that recipetool and devtool pull plugins from layers, and
-oe-selftest will pull tests from layers.
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/recipetool | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-Unrelated to that, also prevents a traceback on parsing failure, and adds
-a tiny feature to appendsrc to facilitate reuse by other sub-commands.
-
-[v3 Update] Fixed the commit message for `devtool: also load plugins from
-BBPATH` to match the implementation. Split up `recipetool: also load plugins
-from BBPATH` into two commits with clear commit messages.
-
-[v2 Update] `devtool: also load plugins from BBPATH` was fixed, so it no longer
-breaks the devtool selftests.
-
-The following changes since commit 3143920c541b55b543b9dcc12b18af4e0e4b7ae1:
-
-  linux-libc-headers: update to 4.1 (2015-07-23 08:47:52 +0100)
-
-are available in the git repository at:
-
-  git@github.com:kergoth/openembedded-core yocto-bug-7625
-
-for you to fetch changes up to 6ac90ef048adff65b6dce1e4102156ccb365964a:
-
-  oe-selftest: add libdirs from BBPATH to sys.path (2015-07-23 07:59:18 -0700)
-
-----------------------------------------------------------------
-Christopher Larson (7):
-      recipetool: catch BBHandledException from parsing
-      recipetool.append: add extralines arg to appendsrc
-      recipetool: also load plugins from BBPATH
-      recipetool: parse global args early
-      devtool: also load plugins from BBPATH
-      oe-selftest: obey oeqa.selftest.__path__
-      oe-selftest: add libdirs from BBPATH to sys.path
-
- scripts/devtool                  | 57 +++++++++++++++++++++++++---------------
- scripts/lib/devtool/__init__.py  |  4 +--
- scripts/lib/recipetool/append.py |  4 +--
- scripts/oe-selftest              | 18 +++++++++----
- scripts/recipetool               | 57 +++++++++++++++++++++++++---------------
- 5 files changed, 89 insertions(+), 51 deletions(-)
-
+diff --git a/scripts/recipetool b/scripts/recipetool
+index c68bef4..3063cf7 100755
+--- a/scripts/recipetool
++++ b/scripts/recipetool
+@@ -82,9 +82,11 @@ def main():
+ 
+     scriptutils.logger_setup_color(logger, args.color)
+ 
+-    tinfoil_init(getattr(args, 'parserecipes', False))
+-
+-    ret = args.func(args)
++    try:
++        tinfoil_init(getattr(args, 'parserecipes', False))
++        ret = args.func(args)
++    except bb.BBHandledException:
++        ret = 1
+ 
+     return ret
+ 
 -- 
 2.2.1
 
