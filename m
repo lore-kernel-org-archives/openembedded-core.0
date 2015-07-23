@@ -1,40 +1,43 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 037487623F
+Received: from mail-ob0-f170.google.com (mail-ob0-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id AA0D376260
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 22:05:47 +0000 (UTC)
-Received: by wicgb10 with SMTP id gb10so3364753wic.1
+	Thu, 23 Jul 2015 22:18:43 +0000 (UTC)
+Received: by obnw1 with SMTP id w1so5499112obn.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 15:05:47 -0700 (PDT)
+	Thu, 23 Jul 2015 15:18:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=kkhcCUSA/7gXJVcmpem6DJwKjj+vwNsKCRRXvoPgsjc=;
-	b=cvhwmX45llJ2b8VBOOAASWgcNuhKHwLZCPmBRIhbRi508gKenEypAIKGLgJxbvyj/D
-	ffA0qxJ8Dr0a7gjlucQ8XAat/Yn4jDQKYYJDPPTBSax3XG8q7dhntGbjTuuVtSqU3H22
-	2nr9NwtNRfyA1rdZLStadgUzHeohb2PVU+9RkmnCtCBpWzoYkhl7rVi8IkKqnfNdcG/1
-	Ah2y/GBA2umqWF5CkeJcCp6GC3p08B4PYqcO7xsp7eMkhaAT++PFnV3ECprcfWqilQy3
-	G8RLjdBtMvkAzR6tMJoASjG7GtHEkyQHVkPXFdAq2ZVQN4BV9nbkumC5gw5Djg885XDA
-	V32Q==
-X-Gm-Message-State: ALoCoQm8FklPhJjg6rovCVW1FU0GvFGgT0FuH/gZINfb9cYGO+xDtu8q8s7T+4yIMp3JqFjN/wHu
-X-Received: by 10.194.203.3 with SMTP id km3mr19164396wjc.114.1437689147677;
-	Thu, 23 Jul 2015 15:05:47 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id w8sm9479436wja.15.2015.07.23.15.05.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 23 Jul 2015 15:05:47 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 22:59:50 +0100
-Message-Id: <1437688790-31620-5-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1437688790-31620-1-git-send-email-ross.burton@intel.com>
-References: <1437688790-31620-1-git-send-email-ross.burton@intel.com>
-Subject: [PATCH 5/5] oeqa/qemurunner: don't assume hostname starts with qemu
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=8iiLovuRTErYN1W+iRrahpJ5YykUVxi4HbPB0L7jgAQ=;
+	b=TjcveCakYfBwUV9zF+MXB72tCbUTHYKq+duyF6+3SbQL5zKTutCN0iiGAvIhAjz4v7
+	fImNxxwkDVRvJEuhkY6HOfQMU4Yy1r/ASnwaEiPtTDFRglTHcRc9doNCvqpZF+5cTWVR
+	PQoKxFLY3Bq7o9c3s+J6mKlMoea2NFupePf6+TZeBL20AJs7MRLdryTEJLcwDeaS8SK2
+	Hy7lnOM7lCZPXlUtbaRMpjhnzp+17ms9Z9yCgjeZnd0JYBLelhxo85OH7HngIyALAO9q
+	DLIhPDRX8NOh2zLNamt3MiPkr0WCW9hxi7/9u9mnfWtaIwbUduKZUHlL8O6DwWYqp++x
+	ZFEA==
+X-Gm-Message-State: ALoCoQm/PyndHwRFWhWZTXfwyCnk57AzbDfYxMsObkzpanyJmmueqfn4dXm15nkxIZDFmaq3nhwV
+X-Received: by 10.202.46.209 with SMTP id u200mr10665618oiu.66.1437689923342; 
+	Thu, 23 Jul 2015 15:18:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.108.4 with HTTP; Thu, 23 Jul 2015 15:18:23 -0700 (PDT)
+In-Reply-To: <CADkTA4MmTxDpE-TsJdZGhYGDR1sOtUDtETJpjnvyL330+YpGXQ@mail.gmail.com>
+References: <cover.1437491325.git.bruce.ashfield@windriver.com>
+	<CADkTA4NTzQhvmCt4J9BkbsAh6CL5joomn-NDA8=0kgjd6wcTxQ@mail.gmail.com>
+	<CADkTA4MeGsBtd1iCOOWNhbb4TspG6=OMc6eJ=+wtE_rWWR=-MA@mail.gmail.com>
+	<1437638193.821.89.camel@linuxfoundation.org>
+	<CADkTA4N76E2P5vL=6SuM5xqveotp1tpYon0HN0M8CMa2aXrN7w@mail.gmail.com>
+	<1437660855.821.121.camel@linuxfoundation.org>
+	<CADkTA4MmTxDpE-TsJdZGhYGDR1sOtUDtETJpjnvyL330+YpGXQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 23 Jul 2015 23:18:23 +0100
+Message-ID: <CAJTo0LZBQQxOiDOfMuJOxBeTYJFiv1qKBMFqp6HYGu_vz0iaFw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] linux-yocto: build changes, 4.1 and libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,30 +50,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 22:05:49 -0000
+X-List-Received-Date: Thu, 23 Jul 2015 22:18:43 -0000
+Content-Type: multipart/alternative; boundary=001a1137ad682dac7d051b9245df
 
-It's possible to customise the hostname trivially so don't assume that the
-hostname hasn't been configured.
+--001a1137ad682dac7d051b9245df
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/lib/oeqa/utils/qemurunner.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 23 July 2015 at 16:01, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index a15990e..59c9934 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -137,7 +137,7 @@ class QemuRunner:
-                         if data:
-                             self.log(data)
-                             self.bootlog += data
--                            if re.search("qemu.* login:", self.bootlog):
-+                            if re.search(".* login:", self.bootlog):
-                                 stopread = True
-                                 reachedlogin = True
-                                 logging.info("Reached login banner")
--- 
-2.1.4
+> > a) should be straightfoward to fix, its just updating the message
+> > whitelists (again).
+>
+> I'm building a fresh qemux86-64 now, I'm going to see if the warnings
+> are something
+> I should fix, versus the whitelist. I should know tomorrow on this one.
 
 
+Patch sent to update the whitelists.
+
+Ross
+
+--001a1137ad682dac7d051b9245df
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 23 July 2015 at 16:01, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><div class=3D"=
+">&gt; a) should be straightfoward to fix, its just updating the message<br=
+>
+&gt; whitelists (again).<br>
+<br>
+</div></div>I&#39;m building a fresh qemux86-64 now, I&#39;m going to see i=
+f the warnings<br>
+are something<br>
+I should fix, versus the whitelist. I should know tomorrow on this one.</bl=
+ockquote></div><br>Patch sent to update the whitelists.</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1137ad682dac7d051b9245df--
