@@ -1,37 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-oi0-f41.google.com (mail-oi0-f41.google.com
-	[209.85.218.41])
-	by mail.openembedded.org (Postfix) with ESMTP id C910A75868
+Received: from mail-ob0-f173.google.com (mail-ob0-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 36BF875EEA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 22:25:27 +0000 (UTC)
-Received: by oibn4 with SMTP id n4so6328977oib.3
+	Thu, 23 Jul 2015 22:26:23 +0000 (UTC)
+Received: by obdeg2 with SMTP id eg2so5838490obd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 15:25:27 -0700 (PDT)
+	Thu, 23 Jul 2015 15:26:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=Coi097T60AeWnO1Vld3fmP7an87OzIPqTxRn3Npykns=;
-	b=jW0tzNXUsklkT+BcyuYvgvZYYnIzBvx7o0Xr9GxGfvnpaoDJ+fBb9JbihyM0Lsflc9
-	qitPhKh0HX7Zi57AB7HyxuTOyWyUwAWaTWDpf+cG530OEuaolPi85TMKBCH/6jkJS2xa
-	Po/8lQsECwG+ridQx3ukupzdCMBjtBWH3xS424QEgiBI0Q+YH23cRTVVrf+Gp69dY71e
-	U1pE/x6jV7WCFH+PCCoOw/jtBJd06lParz9oMS/cOd3R/xVUAZukLmie/QC9HCS/Y+LL
-	YRUNbXDTdtDlU4w5AfioN8Ke9FfP4Us4ImKBPgA9plvrFfWT5VWYPlSJENji1skhiHb/
-	1Ohg==
-X-Gm-Message-State: ALoCoQnzAksFksJjrvWsU8DTpMomqJtaoiQBvVR4KLQtDyb5J+YDtaSaqTRL1jLcJmg7gueP+bRV
-X-Received: by 10.60.60.2 with SMTP id d2mr12192807oer.0.1437690327501; Thu,
-	23 Jul 2015 15:25:27 -0700 (PDT)
+	bh=yWqOoEDjQOifJfvf+kYs0ByTs+k9vq+eTV+Tu+/Q/Jw=;
+	b=c2xfCd9nsARYW+ri/8wSKADPzpvgcbYKgaFbs2hkWinYJmuZGDftSWppPzoQrWgQXy
+	XH1UtaQtNbxld5idUZSFfEcp3Oby+YgDyZqilkHH/9UkYxxf+HrtXIKxc2JfDuhSz4+a
+	JgYJnUejtYn29OGlkqJbOWQSsFLDS4EL0/loCmn8zw7JTJbT13YNTDnqnJt+sqxEX89n
+	lThemLnttIMwCkLh/irNEaH+FsraCegtHHUZIj2V8bfJdFmjp0H2dQODGLyJL4xFZqKh
+	g5Po0TLJP0CLzN64MSv7/+r0UcyEMkknMvuV7dWCKvSwdSKC2FO3iGy5ZcZlZf5OvUuD
+	OjrQ==
+X-Gm-Message-State: ALoCoQlGGbzqIv3jXgf+LdM87gQ9EcSolABEjvPBcAFRAxlBErW/yhJu63m7m9mqIhboSn/jLENo
+X-Received: by 10.60.50.168 with SMTP id d8mr12280742oeo.41.1437690384141;
+	Thu, 23 Jul 2015 15:26:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.202.108.4 with HTTP; Thu, 23 Jul 2015 15:25:08 -0700 (PDT)
-In-Reply-To: <ff03be1a9cf8ba24abe3d0de85b59788e37e3834.1437617250.git.Qi.Chen@windriver.com>
-References: <cover.1437617250.git.Qi.Chen@windriver.com>
-	<ff03be1a9cf8ba24abe3d0de85b59788e37e3834.1437617250.git.Qi.Chen@windriver.com>
+Received: by 10.202.108.4 with HTTP; Thu, 23 Jul 2015 15:26:04 -0700 (PDT)
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AAF8779A97@ALA-MBB.corp.ad.wrs.com>
+References: <1435827696-10546-1-git-send-email-jackie.huang@windriver.com>
+	<1B858668EC6A94408DCA5225FDFA85AAF8779A97@ALA-MBB.corp.ad.wrs.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 Jul 2015 23:25:08 +0100
-Message-ID: <CAJTo0LYoXS2jSu9LUC2S8wJBHs7WFnqZVedOPA77pS1DiAHfOg@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] byacc: upgrade to 20150711
+Date: Thu, 23 Jul 2015 23:26:04 +0100
+Message-ID: <CAJTo0LYuVHdw04m5h_urgR5kF7yhSM7fz-GYn6W2t_4BR_Y2=g@mail.gmail.com>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] qemu: CVE-2014-3689
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 22:25:27 -0000
-Content-Type: multipart/alternative; boundary=089e013c5dec44ca85051b925d5a
+X-List-Received-Date: Thu, 23 Jul 2015 22:26:24 -0000
+Content-Type: multipart/alternative; boundary=001a11c30bf0a50b3f051b92603e
 
---089e013c5dec44ca85051b925d5a
+--001a11c30bf0a50b3f051b92603e
 Content-Type: text/plain; charset=UTF-8
 
-On 23 July 2015 at 03:10, Chen Qi <Qi.Chen@windriver.com> wrote:
+On 23 July 2015 at 02:53, Huang, Jie (Jackie) <Jackie.Huang@windriver.com>
+wrote:
 
-> -LIC_FILES_CHKSUM =
-> "file://package/debian/copyright;md5=f186cf0d59bac042b75830396ec389a3"
-> +LIC_FILES_CHKSUM =
-> "file://package/debian/copyright;md5=c52fb2d1b3f75b3b7534927807a1b714"
+> Ping.
 >
 
-Please explain in the commit log why the license checksums have changed.
+We're now at 2.4.0-rc1 in master and a patch for rc2 is on the list.  Does
+this still need to be applied?
 
 Ross
 
---089e013c5dec44ca85051b925d5a
+--001a11c30bf0a50b3f051b92603e
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 23 July 2015 at 03:10, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:Q=
-i.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":1p7" class=3D"a3s" s=
-tyle=3D"overflow:hidden">-LIC_FILES_CHKSUM =3D &quot;file://package/debian/=
-copyright;md5=3Df186cf0d59bac042b75830396ec389a3&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://package/debian/copyright;md5=3Dc52fb2d1b=
-3f75b3b7534927807a1b714&quot;</div></blockquote></div><br>Please explain in=
- the commit log why the license checksums have changed.</div><div class=3D"=
-gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+On 23 July 2015 at 02:53, Huang, Jie (Jackie) <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:Jackie.Huang@windriver.com" target=3D"_blank">Jackie.Huang@windr=
+iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
+=3D":1u7" class=3D"a3s" style=3D"overflow:hidden">Ping.<br></div></blockquo=
+te></div><br>We&#39;re now at 2.4.0-rc1 in master and a patch for rc2 is on=
+ the list.=C2=A0 Does this still need to be applied?</div><div class=3D"gma=
+il_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---089e013c5dec44ca85051b925d5a--
+--001a11c30bf0a50b3f051b92603e--
