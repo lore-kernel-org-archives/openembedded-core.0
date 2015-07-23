@@ -1,38 +1,23 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
-	[209.85.160.173])
-	by mail.openembedded.org (Postfix) with ESMTP id A45BD761B0
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AC7E761B0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 13:10:32 +0000 (UTC)
-Received: by ykay190 with SMTP id y190so218742236yka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 06:10:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=lh4/9BgSotwKF8V0w3a315bnoyERJJhmCXWyxU0npWs=;
-	b=VLRiw97J/w+WbwTL5fDFOFOYj2qXuOCN7+/UfHUngP+8IGGJP5B9NHlZy8tqwJdOAg
-	1c4d9htMOpvMGZVD1uopQjKpgLzwHGJ/dsBl0vWWYr7T50V9z2/ABQcdz4xgRXWQXRsm
-	gj4Q4PurZHxESwD8NQ9lFdn6wopGhjgG+t3pd2/EbGJ4TFlZTlTYuXfvxvJd2zn2Xjja
-	ZhvqQe2MOFCxE6rrhwf31yBHyj1GJlolKjx9/XB41WlKZXwRiJ81aaMbntDcSgD3t4al
-	4Bp5r/38+GZvw07ROcbOf05vrsFHLQenqjS2dI7LBHnTJiA/YfitDljXQOTPlNiW0j57
-	k3Tg==
-MIME-Version: 1.0
-X-Received: by 10.170.84.215 with SMTP id b206mr8217006yka.21.1437657030569;
-	Thu, 23 Jul 2015 06:10:30 -0700 (PDT)
-Received: by 10.129.128.2 with HTTP; Thu, 23 Jul 2015 06:10:30 -0700 (PDT)
-In-Reply-To: <1437638193.821.89.camel@linuxfoundation.org>
-References: <cover.1437491325.git.bruce.ashfield@windriver.com>
-	<CADkTA4NTzQhvmCt4J9BkbsAh6CL5joomn-NDA8=0kgjd6wcTxQ@mail.gmail.com>
-	<CADkTA4MeGsBtd1iCOOWNhbb4TspG6=OMc6eJ=+wtE_rWWR=-MA@mail.gmail.com>
-	<1437638193.821.89.camel@linuxfoundation.org>
-Date: Thu, 23 Jul 2015 09:10:30 -0400
-Message-ID: <CADkTA4N76E2P5vL=6SuM5xqveotp1tpYon0HN0M8CMa2aXrN7w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] linux-yocto: build changes, 4.1 and libc-headers
+	Thu, 23 Jul 2015 13:30:22 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 23 Jul 2015 06:30:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,530,1432623600"; d="scan'208";a="753082798"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2015 06:30:22 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id BC0856A4083;
+	Thu, 23 Jul 2015 06:29:38 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jul 2015 16:40:44 +0300
+Message-Id: <1437658844-12604-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2] oeqa/buildoptions.py: automate test case 929: check for correct GPL licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,126 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 13:10:42 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 23 Jul 2015 13:30:26 -0000
 
-On Thu, Jul 23, 2015 at 3:56 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2015-07-22 at 15:48 -0400, Bruce Ashfield wrote:
->> On Wed, Jul 22, 2015 at 10:03 AM, Bruce Ashfield
->> <bruce.ashfield@gmail.com> wrote:
->> > On Tue, Jul 21, 2015 at 11:21 AM, Bruce Ashfield
->> > <bruce.ashfield@windriver.com> wrote:
->> >> Hi all,
->> >>
->> >> This series absolutely needs some more testing and runs through the
->> >> autobuilder, but I've done pretty much all I can do with it here.
->> >>
->> >> I have more changes to the build process that will follow this, but
->> >> these changes need to show that they are stable, so here's the first
->> >> blast.
->> >>
->> >> With this series:
->> >>
->> >>   - I create the 4.1, and 4.1-rt linux-yocto content. This will be
->> >>     the new LTSI kernel. Deletion of 3.14 and 3.19 will follow once
->> >>     all machines have been moved forward.
->> >>
->> >>   - libc-headers updated to match the 4.1 kernel version.
->> >>
->> >> And the one that could cause some issues/compatibility issues is the
->> >> split of the kernel configuration data from the kernel tree itself.
->> >>
->> >> From the commit log:
->> >>
->> >>   The linux-yocto tree has always been a combined set of kernel changes
->> >>   and configuration (meta) data carried in a single tree. While this
->> >>   format is effective at keeping kernel configuration and source
->> >>   modifications synchronized, it isn't always obvious to developers on
->> >>   how to manipulate the meta data versus the source.
->> >>
->> >>   With this change, we remove the meta data processing from the
->> >>   kernel-yocto class and use the external meta-data repository that
->> >>   has always been used to seed the linux-yocto meta branch.
->> >>
->> >>   After this change, linux-yocto can no longer process combined trees,
->> >>   and is simplified as a result.
->> >>
->> >> I'm interested to find out if we get any breakages or severe compability
->> >> issues with the change. I don't want to support both variants of the
->> >> meta data (in and out of tree), since the goal is to reduce complexity
->> >> in the code. Once this change lands, I'll further streamline things.
->> >>
->> >> I've built core-image-kernel-dev and boot tested the qemu* machines.
->> >> qemuppc continues to show a boot failure with systemd, but we have a
->> >> bugzilla to track that.
->> >>
->> >> I'm now doing graphical testing, but wanted to get this out and soaking
->> >> for other images types while I wait for builds to churn.
->> >
->> > As a follow up, my qemuarm boots that worked on Friday, are now hanging.
->> > I'm bisecting to find out what happened.
->>
->> And a final follow up.
->>
->> qemuarm (console and graphics) works fine .. but only if you use gcc
->> 4.9.x, gcc 5.1
->> is doing something evil.
->>
->> We've looked into this in the past, so it is a known issue, but I need
->> to handle these
->> separately.
->
-> We got the results of a run of those changes through the autobuilder
-> without the noise of other failures. The error reporting system shows:
->
-> http://errors.yoctoproject.org/Errors/Search/?items=10&query=d687cdfd04f3d97923c93239ea902bb38e2ea336
->
-> and I believe we have the following issues:
->
-> a) qemux86/qemux86-64 are throwing warnings about errors in logs
-> b) perf has some weird make race
-> c) the qemuarm build looks like qemu either segfaulted or was killed
-> d) we're occasionally seeing 3.19 and 3.14 fetch failures:
-> https://autobuilder.yoctoproject.org/main/builders/nightly-intel-gpl/builds/394/steps/BuildImages/logs/stdio
-> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/87/steps/Running%20oe-selftest/logs/stdio
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/selftest/buildoptions.py | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-I explained to Ross that dependent layers need to be updated if they set
-their own SRCREV_meta, since the repository is completely different. I
-sent a patch for meta-intel to deal with it. Obviously, I only built with the
-core BSPs during testing.
-
->
-
-I'll definitely need help on these, since I wasn't seeing any of these issues
-during my testing. Otherwise, this won't be done until September (vacation
-and other issues to deal with).
-
-But I'll see what I can do.
-
-I unfortunately can't merge anything but critical kernel patches until
-these go in as well
-since the meta branch is gone in the new scripts, which means SRCREV_meta is
-a constant conflict.
-
-Cheers,
-
-Bruce
-
-> To try and promote more sstate cache reuse whilst we sort the remaining
-> issues, I merged the linux-libc-header part, we need to get the above
-> fixed before the other pieces can merge.
->
-> Cheers,
->
-> Richard
->
->
->
-
-
-
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index e79be9e..ab009f2 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -132,6 +132,36 @@ class BuildImagesTest(oeSelfTest):
+         res = bitbake("core-image-directfb", ignore_status=True)
+         self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
+ 
++    @testcase(929)
++    def test_gpl_licenses(self):
++        """
++        Test for checking that correct GPL licenses are used when explicitly required.
++        """
++        self.add_command_to_tearDown('cleanup-workdir')
++        self.write_config("MACHINE = \"qemux86\"\nINHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nCOPYLEFT_LICENSE_INCLUDE = \"GPLv2* GPLv3*\"")
++        res = bitbake("core-image-minimal", ignore_status=True)
++        self.remove_config("MACHINE = \"qemux86\"\nINHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nCOPYLEFT_LICENSE_INCLUDE = \"GPLv2* GPLv3*\"")
++        self.assertEqual(res.status, 0, "core-image-minimal didn't build. Please check logs for further details %s" % res.output)
++        built_pkgs_list = os.listdir(self.builddir + "/tmp/deploy/sources/i586-poky-linux/")# the list containing built pkgs with ver.
++        pkg_name_split = [i.split("-") for i in built_pkgs_list]
++        pkgs = [] # this will contain the pkgs name as found in tmp/deploy/licenses
++        for i in pkg_name_split:
++          name = ""
++          for j in i:
++            if i.index(j) == 0:
++              name = j
++            elif j.isalpha() and i.index(j) != 0:
++              name = name + "-" + j
++            else:
++              pkgs.append(name)
++              break
++        license_dir = self.builddir + "/tmp/deploy/licenses/"
++        for i in pkgs:
++          if os.path.isdir(license_dir + i):
++            self.assertTrue(g.glob(license_dir + i + "/*GPL*"), "couldn't find GPL license in " + license_dir + "for package " + i)
++          else:
++            self.log.info("\nNo license dir for %s" % i)
++
+ class ArchiverTest(oeSelfTest):
+     @testcase(926)
+     def test_arch_work_dir_and_export_source(self):
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.1.4
+
 
