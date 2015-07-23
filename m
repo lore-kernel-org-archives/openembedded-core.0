@@ -1,40 +1,35 @@
-Return-Path: <christian.ziethen@linaro.org>
-Received: from mail-la0-f50.google.com (mail-la0-f50.google.com
-	[209.85.215.50])
-	by mail.openembedded.org (Postfix) with ESMTP id DEE03761D8
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 19817761B0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 14:32:55 +0000 (UTC)
-Received: by lagw2 with SMTP id w2so158742367lag.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 07:32:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-type:content-transfer-encoding;
-	bh=LrT/6ssC1PCzo941du59hcvT/LS/fxwWX8+xfuNqpy8=;
-	b=QFjA2r9pvUtHZXB6jgSJglaDO6Q4ZqXWiFzd+eGYIyRGjDIXIPAdzL9hWzD+HMQ6D3
-	1FkXoyR8dmgWD3vcd2b818bejYjVZ9D7ubq7lhIGQKiyinkdL8afiCg9tNdHkFlVVBxB
-	yevHSKmMT1eEzer47rSwhwr6bJkenHKj1D4Ke3rfXZRuMrg1lnOS8dV5hAe0Am2K/xY0
-	auLmPeHtaHuJ4B6gr85kNGu8QcpQv5ixiinLqWPmXxfAyjo+m3g9K/GfsHcrYIKpjVhf
-	pPJvzRUMLrXpKt/bR4D4T5lXQN9r2VMooyqVTfR4y5Bu7sYx9jm+hhJwxXRIq4bB/d8W
-	Ekaw==
-X-Gm-Message-State: ALoCoQm+E3bYQN99/pPynW9XR4o43CazhGKjbXd47JdNBB2MPuCjiIZUGZppd4K9zqcHZH0t9ZLU
-X-Received: by 10.152.8.38 with SMTP id o6mr8425991laa.116.1437661974630;
-	Thu, 23 Jul 2015 07:32:54 -0700 (PDT)
-Received: from chzi-linux.enea.se (sestofw01.enea.se. [192.36.1.252])
-	by smtp.googlemail.com with ESMTPSA id
-	z1sm1060444lbj.11.2015.07.23.07.32.52
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 23 Jul 2015 07:32:53 -0700 (PDT)
-From: =?UTF-8?q?Christian=20Zieth=C3=A9n?= <christian.ziethen@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jul 2015 16:32:29 +0200
-Message-Id: <1437661949-9295-2-git-send-email-christian.ziethen@linaro.org>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1437661949-9295-1-git-send-email-christian.ziethen@linaro.org>
-References: <1437661949-9295-1-git-send-email-christian.ziethen@linaro.org>
+	Thu, 23 Jul 2015 14:49:22 +0000 (UTC)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-05.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ZIHoI-0007T1-CN from Noor_Ahsan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 Jul 2015 07:49:22 -0700
+Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.194]) by
+	SVR-IES-FEM-05.mgc.mentorg.com ([137.202.0.112]) with mapi id
+	14.03.0224.002; Thu, 23 Jul 2015 15:49:14 +0100
+From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
+To: "Rehman, Abdur" <Abdur_Rehman@mentor.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [meta-oe][PATCH] sed: rrec on locale-base-ru-ru, not
+	rdep
+Thread-Index: AQHQxUxoPRxB1AimjEOWsbkEKFm0TZ3pIrKA
+Date: Thu, 23 Jul 2015 14:49:13 +0000
+Message-ID: <365E1805BC95084CBE82381A0B86999401095B1CF6@EU-MBX-01.mgc.mentorg.com>
+References: <1437658412-12051-1-git-send-email-abdur_rehman@mentor.com>
+In-Reply-To: <1437658412-12051-1-git-send-email-abdur_rehman@mentor.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [137.202.0.76]
 MIME-Version: 1.0
-Subject: [PATCH 2/2] boot-directdisk: Make kernel image inclusion conditional.
+Cc: "Larson, Chris" <Chris_Larson@mentor.com>
+Subject: Re: [meta-oe][PATCH] sed: rrec on locale-base-ru-ru, not rdep
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,34 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 14:32:56 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 23 Jul 2015 14:49:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-When building for qcow2 and a dummy kernel, avoid installing
-a non existing bzImage.
+This should be sent to openembedded mailing list not on oe-core mailing lis=
+t.
 
-Signed-off-by: Christian Ziethén <christian.ziethen@linaro.org>
+Noor
+
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Rehman, Abdur
+Sent: Thursday, July 23, 2015 6:34 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Larson, Chris
+Subject: [OE-core] [meta-oe][PATCH] sed: rrec on locale-base-ru-ru, not rde=
+p
+
+This locale package isn't guaranteed to exist, depending on the value of GL=
+IBC_GENERATE_LOCALES.
+
+The value of GLIBC_GENERATE_LOCALES can be specified to not contain locale-=
+base-ru-ru, thus resulting in unsatisfied dependency. Its better to remove =
+hardcoded dependency upon locale-base-ru-ru in favor of a recommendation, a=
+s this locale isn't always available depending upon the value of GLIBC_GENE=
+RATE_LOCALES.
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
 ---
- meta/classes/boot-directdisk.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/sed/sed_4.2.2.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index d256fff..600e21a 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -70,7 +70,9 @@ boot_direct_populate() {
- 	install -d $dest
- 
- 	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
--	install -m 0644 ${DEPLOY_DIR_IMAGE}/bzImage $dest/vmlinuz
-+	if [ -e ${DEPLOY_DIR_IMAGE}/bzImage ]; then
-+		install -m 0644 ${DEPLOY_DIR_IMAGE}/bzImage $dest/vmlinuz
-+	fi
- 
- 	# initrd is made of concatenation of multiple filesystem images
- 	if [ -n "${INITRD}" ]; then
--- 
-2.1.4
+diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended=
+/sed/sed_4.2.2.bb
+index a1e3483..5da3355 100644
+--- a/meta/recipes-extended/sed/sed_4.2.2.bb
++++ b/meta/recipes-extended/sed/sed_4.2.2.bb
+@@ -15,7 +15,8 @@ SRC_URI[md5sum] =3D "4111de4faa3b9848a0686b2f260c5056"
+ SRC_URI[sha256sum] =3D "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae736=
+7c2cf07908b2ff"
+=20
+ inherit autotools texinfo update-alternatives gettext ptest -RDEPENDS_${PN=
+}-ptest +=3D "make locale-base-ru-ru ${PN}"
++RDEPENDS_${PN}-ptest +=3D "make ${PN}"
++RRECOMMENDS_${PN}-ptest +=3D "locale-base-ru-ru"
+=20
+ EXTRA_OECONF =3D "--disable-acl \
+                 ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-regex=
+-tests', '', d)}"
+--
+1.7.9.5
 
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
