@@ -1,29 +1,37 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 53B00761D8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id E01FC761D8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 15:01:34 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id CB9D3F811D8; Fri, 24 Jul 2015 09:01:34 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 51261F811D8;
-	Fri, 24 Jul 2015 09:01:34 -0600 (MDT)
-Message-ID: <55B25353.2070101@mlbassoc.com>
-Date: Fri, 24 Jul 2015 09:01:39 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
+	Fri, 24 Jul 2015 15:04:26 +0000 (UTC)
+Received: by wibxm9 with SMTP id xm9so32957591wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jul 2015 08:04:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=0JlJNn6/Pt3/H5wPiUUlbE2hXyJHL6fLFyexmt2PHck=;
+	b=VkDZLQcsXH5HSwU/qvKMFMqc6iiz2Z2eCcTHKMiYIdzwaoP4fGEXr2GtCiaONQQUT3
+	YiCc1+2hllj61QwFNGZVYWa8GAe6WPDDCxEW/rM1HgL/wF/Av4SWoUC1nZMnlzUh72dX
+	JqhDfk0t1pcmXmxKFp/CHp8IjSC+BKjT7NLv2JtNbuklnmg3SfzYA2vbwmmU+YkVy0en
+	AI0ct/UD2KafB0AhZJg3/n6DxKFnaKZbp/Ulr/PqmxEtVZsX900+CwGL8YTXSjHUy3Od
+	CEG0nTCnFkYVLaHRoSwGgngMcRSMcbUaM+uhGXWKPJqmLQj0KuayBzZG121bMic/iFzH
+	YGlg==
+X-Gm-Message-State: ALoCoQlfRb4WcuZS2awmCAg52bpjzhF18im1rTsuKuV8WO6AfoJdOEDtCEIAyObr5pKBvsrfJle9
+X-Received: by 10.181.25.234 with SMTP id it10mr7999188wid.41.1437750266076;
+	Fri, 24 Jul 2015 08:04:26 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	m4sm13051742wjb.37.2015.07.24.08.04.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 24 Jul 2015 08:04:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1437610956-27049-1-git-send-email-gary@mlbassoc.com>	<CAJTo0Lb41pKOft88tttTNE-47wDekSbSUbYyUWT12WydtKgaCw@mail.gmail.com>	<55B16CF0.80405@mlbassoc.com>	<CAJTo0Lb9npwcdNkLbifoaR6P+QgAX76d0go8pq7ozCpEiW7k-w@mail.gmail.com>	<55B171F3.4010009@mlbassoc.com>	<1437692801.821.140.camel@linuxfoundation.org>	<55B17599.1000608@mlbassoc.com>	<1437724353.821.149.camel@linuxfoundation.org>
-	<55B24F78.6020405@mlbassoc.com>
-In-Reply-To: <55B24F78.6020405@mlbassoc.com>
-Subject: Re: [PATCH] libepoxy: Use native python3
+Date: Fri, 24 Jul 2015 15:58:31 +0100
+Message-Id: <1437749911-28963-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] sudo: upgrade to 1.8.14p3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,76 +44,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 15:01:38 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Jul 2015 15:04:29 -0000
 
-On 2015-07-24 08:45, Gary Thomas wrote:
-> On 2015-07-24 01:52, Richard Purdie wrote:
->> On Thu, 2015-07-23 at 17:15 -0600, Gary Thomas wrote:
->>> On 2015-07-23 17:06, Richard Purdie wrote:
->>>> On Thu, 2015-07-23 at 17:00 -0600, Gary Thomas wrote:
->>>>> It's an old host (Fedora 13) that I am unable to upgrade, but it still
->>>>> works quite well.  I get around most of the Yocto/bitbake worries by
->>>>> using a Yocto-built meta-toolchain to fill in the blanks (correct make,
->>>>> python2, etc), but python3 is not part of the meta-toolchain :-(
->>>>
->>>> You could likely build a customised meta-toolchain which did contain
->>>> python3 though?
->>>
->>> Do you know how I would make that happen?  For me, meta-toolchain is
->>> a black box - I know very little of the internals.
->>
->> Personally, I'd probably use "buildtools-tarball" for this so I'd go and
->> edit the buildtools-tarball.bb file and add nativesdk-python3-modules to
->> it which should pull in the bulk of python3 (not sure if you'd need
->> nativesdk-python3-core too, I'd hope that would be automatic from the
->> other).
->
-> Sadly, this failed:
-> | Objects/obmalloc.o: In function `_PyObject_DebugMallocStats':
-> | obmalloc.c:(.text+0x1793): undefined reference to `pool_is_in_list'
-> | collect2: error: ld returned 1 exit status
-> | make: *** [Parser/pgen] Error 1
-> | make: *** Waiting for unfinished jobs....
-> | ERROR: oe_runmake failed
-> | ERROR: Function failed: do_compile (log file is located at
-> /local/p0382-cutting-edge_2014-11-21/tmp/work/i686-nativesdk-amltdsdk-linux/nativesdk-python3/3.4.3-r1.0/temp/log.do_compile.27165)
-> ERROR: Task 163 (virtual:nativesdk:/local/poky-cutting-edge/meta/recipes-devtools/python/python3_3.4.3.bb, do_compile) failed with exit code '1'
+The licence checksum is modified according to the change of doc/LICENCE.
+In specific, file://lib/util/reallocarray.c is added to LIC_FILES_CHECKSUM.
 
-It seems that python3 doesn't like being built without Py_DEBUG set.
-I worked through that only to find this additional error:
+Fix out of tree builds, and explicitly enable/disable tmpfiles.d support based
+on the systemd DISTRO_FEATURE to avoid non-deterministic packaging.
 
-Collected errors:
-  * satisfy_dependencies_for: Cannot satisfy the following dependencies for nativesdk-python3-modules:
-  *      nativesdk-python3-robotparser *
-  * opkg_install_cmd: Cannot install package nativesdk-python3-modules.
+Based on a patch by Chen Qi <Qi.Chen@windriver.com>
 
->
->>
->> You prefer your meta-toolchain? Then set:
->> TOOLCHAIN_HOST_TASK_append = " nativesdk-python3-modules"
->> in local.conf and it should add python3 to all meta-toolchain builds.
->>
->>> Question about policy: it seems that a good many "native" packages
->>> are built, many just to "level the playing field".   I just checked
->>> and one of my average builds has 148 native packages sitting there.
->>> For example, why build bison-native when my host's bison is even the
->>> same vintage and hence just as adequate?  Why then, draw the line
->>> over python3 in this one recipe?  (Just asking, I'll figure out how
->>> to fix this anyway)
->>
->> The line is drawn over python. Bitbake is built with python (2 at the
->> moment, 3 in the future) and since we need python to run bitbake,
->> rebuilding it seems silly. Yes, we do need to build a python-native to
->> be able to build python (target) which is sad but such is the nature of
->> cross compiling. We therefore tend to assume the provided python(s) are
->> sane.
->
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/sudo/sudo.inc                |  3 ++-
+ ...rrect-path-to-init.d-and-tmpfiles.d-files.patch | 31 ++++++++++++++++++++++
+ .../sudo/{sudo_1.8.13.bb => sudo_1.8.14p3.bb}      | 13 ++++++---
+ 3 files changed, 42 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch
+ rename meta/recipes-extended/sudo/{sudo_1.8.13.bb => sudo_1.8.14p3.bb} (61%)
 
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index cdee6bb..a25876b 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -4,8 +4,9 @@ HOMEPAGE = "http://www.sudo.ws"
+ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD & Zlib"
+-LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=346ce81ebf0f7f89fd379b40b6a4233b \
++LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=c16e542408abda013d672be8eb88d174 \
+                     file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
++                    file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
+                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
+                     file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
+                     file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
+diff --git a/meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch b/meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch
+new file mode 100644
+index 0000000..2418689
+--- /dev/null
++++ b/meta/recipes-extended/sudo/sudo/0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch
+@@ -0,0 +1,31 @@
++The makefile uses top_srcdir to find files that were created by configure, when
++it should use top_builddir.
++
++Upstream-Status: Submitted (http://bugzilla.sudo.ws/show_bug.cgi?id=708)
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++---
++ src/Makefile.in | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/Makefile.in b/src/Makefile.in
++index f009e10..7acfb2d 100644
++--- a/src/Makefile.in
+++++ b/src/Makefile.in
++@@ -165,11 +165,11 @@ install-dirs:
++ 
++ install-rc: install-dirs
++ 	if [ -n "$(INIT_SCRIPT)" ]; then \
++-	    $(INSTALL) $(INSTALL_OWNER) -m 0755 $(top_srcdir)/init.d/$(INIT_SCRIPT) $(DESTDIR)$(INIT_DIR)/sudo; \
+++	    $(INSTALL) $(INSTALL_OWNER) -m 0755 $(top_builddir)/init.d/$(INIT_SCRIPT) $(DESTDIR)$(INIT_DIR)/sudo; \
++ 	    rm -f $(DESTDIR)$(RC_LINK); \
++ 	    ln -s $(INIT_DIR)/sudo $(DESTDIR)$(RC_LINK); \
++ 	elif test -n "$(tmpfiles_d)"; then \
++-	    $(INSTALL) $(INSTALL_OWNER) -m 0644 $(top_srcdir)/init.d/sudo.conf $(DESTDIR)$(tmpfiles_d)/sudo.conf; \
+++	    $(INSTALL) $(INSTALL_OWNER) -m 0644 $(top_builddir)/init.d/sudo.conf $(DESTDIR)$(tmpfiles_d)/sudo.conf; \
++ 	fi
++ 
++ install-binaries: install-dirs $(PROGS)
++-- 
++2.1.4
++
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.13.bb b/meta/recipes-extended/sudo/sudo_1.8.14p3.bb
+similarity index 61%
+rename from meta/recipes-extended/sudo/sudo_1.8.13.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.14p3.bb
+index 4494170..ea37aaf 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.13.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.14p3.bb
+@@ -2,17 +2,21 @@ require sudo.inc
+ 
+ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+-          "
++           file://0001-Use-correct-path-to-init.d-and-tmpfiles.d-files.patch \
++           "
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[md5sum] = "f61577ec330ad1bd504c0e2eec6ea2d8"
+-SRC_URI[sha256sum] = "e374e5edf2c11c00d6916a9f51cb0ad15e51c7b028370fa15169b07e61e05a25"
++SRC_URI[md5sum] = "93dbd1e47c136179ff1b01494c1c0e75"
++SRC_URI[sha256sum] = "a8a697cbb113859058944850d098464618254804cf97961dee926429f00a1237"
+ 
+ DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+ 
+-EXTRA_OECONF += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)}"
++EXTRA_OECONF += " \
++             ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--with-pam', '--without-pam', d)} \
++             ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '--enable-tmpfiles.d=${libdir}/tmpfiles.d', '--disable-tmpfiles.d', d)} \
++             "
+ 
+ do_install_append () {
+ 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', d)}" = "pam" ]; then
+@@ -26,4 +30,5 @@ do_install_append () {
+ 	rmdir -p --ignore-fail-on-non-empty ${D}${localstatedir}/run/sudo
+ }
+ 
++FILES_${PN} += "${libdir}/tmpfiles.d"
+ FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/*.la"
 -- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+2.1.4
+
 
