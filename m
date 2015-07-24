@@ -1,34 +1,35 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E4BC73217
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 27CCB60962
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 23:15:34 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id BDF6FF811DE; Thu, 23 Jul 2015 17:15:34 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 29973F811D7;
-	Thu, 23 Jul 2015 17:15:34 -0600 (MDT)
-Message-ID: <55B17599.1000608@mlbassoc.com>
-Date: Thu, 23 Jul 2015 17:15:37 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Fri, 24 Jul 2015 06:00:30 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 23 Jul 2015 23:00:31 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,536,1432623600"; d="scan'208";a="753624543"
+Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
+	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2015 23:00:29 -0700
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.216]) by
+	IRSMSX154.ger.corp.intel.com ([169.254.12.253]) with mapi id
+	14.03.0224.002; Fri, 24 Jul 2015 07:00:29 +0100
+From: "Constantin, Costin C" <costin.c.constantin@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v2] oeqa/buildoptions.py: automate test case
+	929: check for correct GPL licenses
+Thread-Index: AQHQxUvBccLTZPsSAEK8vLRMmmHH3Z3o/skAgAEh9LA=
+Date: Fri, 24 Jul 2015 06:00:28 +0000
+Message-ID: <2B8B4B6BB45F5242AFEC714E022A4B4A3DF8E759@IRSMSX101.ger.corp.intel.com>
+References: <1437658844-12604-1-git-send-email-costin.c.constantin@intel.com>
+	<2222392.Tt1iFe0I6f@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <2222392.Tt1iFe0I6f@peggleto-mobl.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1437610956-27049-1-git-send-email-gary@mlbassoc.com>	
-	<CAJTo0Lb41pKOft88tttTNE-47wDekSbSUbYyUWT12WydtKgaCw@mail.gmail.com>	
-	<55B16CF0.80405@mlbassoc.com>	
-	<CAJTo0Lb9npwcdNkLbifoaR6P+QgAX76d0go8pq7ozCpEiW7k-w@mail.gmail.com>	
-	<55B171F3.4010009@mlbassoc.com>
-	<1437692801.821.140.camel@linuxfoundation.org>
-In-Reply-To: <1437692801.821.140.camel@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libepoxy: Use native python3
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] oeqa/buildoptions.py: automate test case 929: check for correct GPL licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,34 +42,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jul 2015 23:15:37 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Jul 2015 06:00:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 2015-07-23 17:06, Richard Purdie wrote:
-> On Thu, 2015-07-23 at 17:00 -0600, Gary Thomas wrote:
->> It's an old host (Fedora 13) that I am unable to upgrade, but it still
->> works quite well.  I get around most of the Yocto/bitbake worries by
->> using a Yocto-built meta-toolchain to fill in the blanks (correct make,
->> python2, etc), but python3 is not part of the meta-toolchain :-(
+Hi Paul,
+
+Thank you for the reply. :)  I got your point and i guess you're right. May=
+be i over exaggerated.=20
+Does this mean the auto TC will not be considered as it is now? Should i re=
+-send it or will you just erase that line and=20
+consider it as it is?
+
+Costin=20
+
+-----Original Message-----
+From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
+Sent: Thursday, July 23, 2015 4:40 PM
+To: Constantin, Costin C
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] oeqa/buildoptions.py: automate test case =
+929: check for correct GPL licenses
+
+Hi Costin,
+
+On Thursday 23 July 2015 16:40:44 Costin Constantin wrote:
+> Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+> ---
+>  meta/lib/oeqa/selftest/buildoptions.py | 30=20
+> ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+>=20
+> diff --git a/meta/lib/oeqa/selftest/buildoptions.py
+> b/meta/lib/oeqa/selftest/buildoptions.py index e79be9e..ab009f2 100644
+> --- a/meta/lib/oeqa/selftest/buildoptions.py
+> +++ b/meta/lib/oeqa/selftest/buildoptions.py
+> @@ -132,6 +132,36 @@ class BuildImagesTest(oeSelfTest):
+>          res =3D bitbake("core-image-directfb", ignore_status=3DTrue)
+>          self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed=20
+> to build. Please check logs for further details.\nbitbake output %s" %
+> res.output)
 >
-> You could likely build a customised meta-toolchain which did contain
-> python3 though?
+>=20
+> +    @testcase(929)
+> +    def test_gpl_licenses(self):
+> +        """
+> +        Test for checking that correct GPL licenses are used when
+> explicitly required.=20
+> +        """
+> +        self.add_command_to_tearDown('cleanup-workdir')
 
-Do you know how I would make that happen?  For me, meta-toolchain is
-a black box - I know very little of the internals.
+I really don't think we should be calling cleanup-workdir here. If we have =
+specific things to bitbake -c clean, by all means do that - but cleanup-wor=
+kdir goes through and deletes everything that's not current, which is exces=
+sive for this one test.
 
-Question about policy: it seems that a good many "native" packages
-are built, many just to "level the playing field".   I just checked
-and one of my average builds has 148 native packages sitting there.
-For example, why build bison-native when my host's bison is even the
-same vintage and hence just as adequate?  Why then, draw the line
-over python3 in this one recipe?  (Just asking, I'll figure out how
-to fix this anyway)
+Cheers,
+Paul
 
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
