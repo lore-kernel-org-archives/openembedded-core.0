@@ -1,26 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 449CB76214
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id C62437616D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 09:07:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6O973Vc000708
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 02:07:03 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Fri, 24 Jul 2015 02:06:53 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Jul 2015 17:08:03 +0800
-Message-ID: <86afb680d9e913990f23af7091b64efb92195c9a.1437728803.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1437728803.git.Qi.Chen@windriver.com>
-References: <cover.1437728803.git.Qi.Chen@windriver.com>
+	Fri, 24 Jul 2015 09:15:43 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 24 Jul 2015 02:15:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,537,1432623600"; d="scan'208";a="612044945"
+Received: from poconnor-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.20.237])
+	by orsmga003.jf.intel.com with ESMTP; 24 Jul 2015 02:15:45 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: "Constantin, Costin C" <costin.c.constantin@intel.com>
+Date: Fri, 24 Jul 2015 10:15:42 +0100
+Message-ID: <1687889.2KnrVen88A@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.0.8-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <2B8B4B6BB45F5242AFEC714E022A4B4A3DF8E759@IRSMSX101.ger.corp.intel.com>
+References: <1437658844-12604-1-git-send-email-costin.c.constantin@intel.com>
+	<2222392.Tt1iFe0I6f@peggleto-mobl.ger.corp.intel.com>
+	<2B8B4B6BB45F5242AFEC714E022A4B4A3DF8E759@IRSMSX101.ger.corp.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 3/3] sudo: upgrade to 1.8.14p2
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] oeqa/buildoptions.py: automate test case 929: check for correct GPL licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,53 +36,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 09:07:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 24 Jul 2015 09:15:46 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The licence checksum is modified according to the change of doc/LICENCE.
-In specific, file://lib/util/reallocarray.c is added to LIC_FILES_CHECKSUM.
+On Friday 24 July 2015 06:00:28 Constantin, Costin C wrote:
+> Thank you for the reply. :)  I got your point and i guess you're right.
+> Maybe i over exaggerated. Does this mean the auto TC will not be considered
+> as it is now? Should i re-send it or will you just erase that line and
+> consider it as it is?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/sudo/sudo.inc                             | 3 ++-
- meta/recipes-extended/sudo/{sudo_1.8.13.bb => sudo_1.8.14p2.bb} | 4 ++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.13.bb => sudo_1.8.14p2.bb} (87%)
+We tend to prefer that the submitter make the requested changes and re-send an 
+amended version of the patch. If you could do that that would be much 
+appreciated.
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index cdee6bb..a25876b 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,8 +4,9 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=346ce81ebf0f7f89fd379b40b6a4233b \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=c16e542408abda013d672be8eb88d174 \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=41;md5=cfe41112f96c19a074934d128f45c693 \
-+                    file://lib/util/reallocarray.c;beginline=3;endline=16;md5=85b0905b795d4d58bf2e00635649eec6 \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
-                     file://lib/util/getcwd.c;beginline=5;endline=27;md5=449af4cc57fc7d46f42090608ba3e681 \
-                     file://lib/util/glob.c;beginline=6;endline=31;md5=5872733146b9eb0deb79e1f664815b85 \
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.13.bb b/meta/recipes-extended/sudo/sudo_1.8.14p2.bb
-similarity index 87%
-rename from meta/recipes-extended/sudo/sudo_1.8.13.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.14p2.bb
-index 4494170..208ed42 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.13.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.14p2.bb
-@@ -6,8 +6,8 @@ SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "f61577ec330ad1bd504c0e2eec6ea2d8"
--SRC_URI[sha256sum] = "e374e5edf2c11c00d6916a9f51cb0ad15e51c7b028370fa15169b07e61e05a25"
-+SRC_URI[md5sum] = "150f6a2a53a5d29838bf75557543f151"
-+SRC_URI[sha256sum] = "b4bca9cca52fc6a409709995014af5e9fb905a4a6c5bda977f78e568954dfe21"
- 
- DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+Thanks,
+Paul
+
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
