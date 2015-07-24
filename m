@@ -1,37 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A35C60962
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 42BF360962
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 20:38:23 +0000 (UTC)
-Received: by qgy5 with SMTP id 5so16081178qgy.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 13:38:23 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=4HObr1k3bQjZtI5sOtDi5QmGuoBR0j2GTXFCzjI4Vb4=;
-	b=j7IxxV8Q+/YFyEUQArmUuzU60/MKv41i/eFLHYGRtbqpEfgVEW4xqJgjqLdAwHwakH
-	RBUfD6IxH7BXGCztAaixWwVIexbv+eaVS59VLZ/+BB9KyUYnD5Id/dpoN66Hq410pjFC
-	vHJxCziwoI2BYN9FnjhfBIxTfpLqEJsogfLj1FCK8Ryw1DU9lADcs/ZNx6OvtuMZD9S6
-	smqGNGZd8InNcv0jsMjnSptNhbgklCKpNnfwi45OV/LnzGuI3HCtCo/QG75UtNr1R1aD
-	U+V8oQvt3MbjgyE048VxMgVHdBGqepd6+8GPueG1fVmTij5eDanrMYdpc81dmDj67k/R
-	Ux9Q==
-X-Gm-Message-State: ALoCoQmeKR/ei+jLa1g34rKfILexIDKgaqZUBxYkwKlr0Cb2sUhuej3JiNQWtNKB0WrznGwyAuGG
-X-Received: by 10.55.53.193 with SMTP id c184mr22415936qka.62.1437770302934;
-	Fri, 24 Jul 2015 13:38:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Fri, 24 Jul 2015 13:38:03 -0700 (PDT)
-In-Reply-To: <86afb680d9e913990f23af7091b64efb92195c9a.1437728803.git.Qi.Chen@windriver.com>
-References: <cover.1437728803.git.Qi.Chen@windriver.com>
-	<86afb680d9e913990f23af7091b64efb92195c9a.1437728803.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 Jul 2015 21:38:03 +0100
-Message-ID: <CAJTo0LZwyszc0+A1KNMMPNpWzKKi4SUyMmThXEVj8x=m0Xvy0w@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2 3/3] sudo: upgrade to 1.8.14p2
+	Fri, 24 Jul 2015 22:42:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6OMgZtN022881; Fri, 24 Jul 2015 23:42:35 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id hDYGltNuEIKM; Fri, 24 Jul 2015 23:42:35 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6OMgJ9a022865
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 24 Jul 2015 23:42:30 +0100
+Message-ID: <1437777739.821.161.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 24 Jul 2015 23:42:19 +0100
+In-Reply-To: <CADkTA4MmTxDpE-TsJdZGhYGDR1sOtUDtETJpjnvyL330+YpGXQ@mail.gmail.com>
+References: <cover.1437491325.git.bruce.ashfield@windriver.com>
+	<CADkTA4NTzQhvmCt4J9BkbsAh6CL5joomn-NDA8=0kgjd6wcTxQ@mail.gmail.com>
+	<CADkTA4MeGsBtd1iCOOWNhbb4TspG6=OMc6eJ=+wtE_rWWR=-MA@mail.gmail.com>
+	<1437638193.821.89.camel@linuxfoundation.org>
+	<CADkTA4N76E2P5vL=6SuM5xqveotp1tpYon0HN0M8CMa2aXrN7w@mail.gmail.com>
+	<1437660855.821.121.camel@linuxfoundation.org>
+	<CADkTA4MmTxDpE-TsJdZGhYGDR1sOtUDtETJpjnvyL330+YpGXQ@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] linux-yocto: build changes, 4.1 and libc-headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +43,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 20:38:28 -0000
-Content-Type: multipart/alternative; boundary=001a11476f142ce5aa051ba4fc99
+X-List-Received-Date: Fri, 24 Jul 2015 22:42:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a11476f142ce5aa051ba4fc99
-Content-Type: text/plain; charset=UTF-8
+On Thu, 2015-07-23 at 11:01 -0400, Bruce Ashfield wrote:
+> On Thu, Jul 23, 2015 at 10:14 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2015-07-23 at 09:10 -0400, Bruce Ashfield wrote:
+> >> > a) qemux86/qemux86-64 are throwing warnings about errors in logs
+> >> > b) perf has some weird make race
+> >> > c) the qemuarm build looks like qemu either segfaulted or was killed
+> >> > d) we're occasionally seeing 3.19 and 3.14 fetch failures:
+> >> > https://autobuilder.yoctoproject.org/main/builders/nightly-intel-gpl/builds/394/steps/BuildImages/logs/stdio
+> >> > https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/87/steps/Running%20oe-selftest/logs/stdio
+> >>
+> >> I explained to Ross that dependent layers need to be updated if they set
+> >> their own SRCREV_meta, since the repository is completely different. I
+> >> sent a patch for meta-intel to deal with it. Obviously, I only built with the
+> >> core BSPs during testing.
+> >
+> > That could explain d). I believe c) is from the ongoing selftest issues
+> > we're having and I we've work in progress for that. That leaves a) and
+> > b) to look into and fix.
+> >
+> >> I'll definitely need help on these, since I wasn't seeing any of these issues
+> >> during my testing. Otherwise, this won't be done until September (vacation
+> >> and other issues to deal with).
+> >>
+> >> But I'll see what I can do.
+> >>
+> >> I unfortunately can't merge anything but critical kernel patches until
+> >> these go in as well
+> >> since the meta branch is gone in the new scripts, which means SRCREV_meta is
+> >> a constant conflict.
+> >
+> > a) should be straightfoward to fix, its just updating the message
+> > whitelists (again).
+> 
+> I'm building a fresh qemux86-64 now, I'm going to see if the warnings
+> are something
+> I should fix, versus the whitelist. I should know tomorrow on this one.
+> 
+> >
+> > b) I'm less sure about. Are there any race fixes in mainline for perf?
+> > Hard to believe others don't see that one.
+> 
+> I'm searching as well. I'll share any findings ASAP.
 
-On 24 July 2015 at 10:08, Chen Qi <Qi.Chen@windriver.com> wrote:
+I believe we have everything except b), the last build was much greener.
+For b), what strikes me as odd:
 
-> The licence checksum is modified according to the change of doc/LICENCE.
-> In specific, file://lib/util/reallocarray.c is added to LIC_FILES_CHECKSUM.
->
+https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds/409/steps/BuildImages/logs/stdio
 
-This fails to build in systemd builds and in fixing it I discovered that
-there's a p3 released now, which I submitted to the list earlier.
+|   CC       /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/qemux86-poky-linux/perf/1.0-r9/perf-1.0/util/thread-stack.o
+|   CC       /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/qemux86-poky-linux/perf/1.0-r9/perf-1.0/util/symbol-elf.o
+|   CC       /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/qemux86-poky-linux/perf/1.0-r9/perf-1.0/util/probe-event.o
+|   CC       /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/qemux86-pokymllib32-linux/lib32-perf/1.0-r9/perf-1.0/builtin-annotate.o
+|   CC       /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/qemux86-poky-linux/perf/1.0-r9/perf-1.0/util/perf_regs.o
+|   MKDIR    /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work//lib32-perf/1.0-r9/perf-1.0/util/scripting-engines/
+|   CC       /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/qemux86-pokymllib32-linux/lib32-perf/1.0-r9/perf-1.0/util/scripting-engines/trace-event-perl.o
+|   CC       /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-world/build/build/tmp/work/qemux86-poky-linux/perf/1.0-r9/perf-1.0/util/zlib.o
 
-Ross
+Why is it building in two different directories (qemux86-poky-linux and
+qemux86-pokymllib32-linux) ?
 
---001a11476f142ce5aa051ba4fc99
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I'd bet that would explain the errors and that it would only show up in
+a multilib case (which is the default on the AB for this part of the
+build).
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 July 2015 at 10:08, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:Q=
-i.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":315" class=3D"a3s" s=
-tyle=3D"overflow:hidden">The licence checksum is modified according to the =
-change of doc/LICENCE.<br>
-In specific, file://lib/util/reallocarray.c is added to LIC_FILES_CHECKSUM.=
-</div></blockquote><div><br></div><div>This fails to build in systemd build=
-s and in fixing it I discovered that there&#39;s a p3 released now, which I=
- submitted to the list earlier.</div><div><br></div><div>Ross=C2=A0</div></=
-div></div></div>
+Hopefully this gets us closer to figuring out what its doing...
 
---001a11476f142ce5aa051ba4fc99--
+Cheers,
+
+Richard
+
+
+
+
