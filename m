@@ -1,29 +1,31 @@
 Return-Path: <pau.espin@aweurope.be>
 Received: from barracuda.aweurope.be (barracuda.aweurope.be [212.166.56.147])
-	by mail.openembedded.org (Postfix) with ESMTP id 079B160962
+	by mail.openembedded.org (Postfix) with ESMTP id 089F175F1B
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Jul 2015 14:03:29 +0000 (UTC)
-X-ASG-Debug-ID: 1437746608-041f750f7b2ffd0001-7zcVdP
+X-ASG-Debug-ID: 1437746608-041f750f7b2ffd0003-7zcVdP
 Received: from localhost.localdomain ([172.23.1.67]) by barracuda.aweurope.be
-	with ESMTP id EVSuEEdGdx3srVXP;
+	with ESMTP id LRbsTSrbfE28POGo;
 	Fri, 24 Jul 2015 16:03:28 +0200 (CEST)
 X-Barracuda-Envelope-From: pau.espin@aweurope.be
 X-Barracuda-RBL-Trusted-Forwarder: 172.23.1.67
 X-ASG-Whitelist: Client
 From: Pau Espin Pedrol <pau.espin@aweurope.be>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jul 2015 16:02:58 +0200
-X-ASG-Orig-Subj: [oe-core][PATCH v3 1/3] bitbake.conf: Add nonarch_libdir and
-	base systemd vars on it
-Message-Id: <1437746580-31696-1-git-send-email-pau.espin@aweurope.be>
+Date: Fri, 24 Jul 2015 16:03:00 +0200
+X-ASG-Orig-Subj: [oe-core][PATCH v3 3/3] pulseaudio: Add systemd to
+	PACKAGECONFIG if enabled in DISTRO_FEATURES
+Message-Id: <1437746580-31696-3-git-send-email-pau.espin@aweurope.be>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1437746580-31696-1-git-send-email-pau.espin@aweurope.be>
+References: <1437746580-31696-1-git-send-email-pau.espin@aweurope.be>
 X-Barracuda-Connect: UNKNOWN[172.23.1.67]
 X-Barracuda-Start-Time: 1437746608
 X-Barracuda-URL: http://172.23.0.12:8000/cgi-mod/mark.cgi
 X-Virus-Scanned: by bsmtpd at aweurope.be
 X-Barracuda-BRTS-Status: 1
 Cc: Pau Espin Pedrol <pau.espin@aweurope.be>
-Subject: [PATCH v3 1/3] bitbake.conf: Add nonarch_libdir and base systemd vars on it
+Subject: [PATCH v3 3/3] pulseaudio: Add systemd to PACKAGECONFIG if enabled in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,25 +42,34 @@ X-List-Received-Date: Fri, 24 Jul 2015 14:03:33 -0000
 
 Signed-off-by: Pau Espin Pedrol <pau.espin@aweurope.be>
 ---
- meta/conf/bitbake.conf | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 730ab80..26c548c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -32,7 +32,10 @@ export datadir = "${prefix}/share"
- export infodir = "${datadir}/info"
- export mandir = "${datadir}/man"
- export docdir = "${datadir}/doc"
--export systemd_unitdir = "/lib/systemd"
-+export nonarch_libdir = "${exec_prefix}/lib"
-+export systemd_unitdir = "${nonarch_libdir}/systemd"
-+export systemd_system_unitdir = "${nonarch_libdir}/systemd/system"
-+export systemd_user_unitdir = "${nonarch_libdir}/systemd/user"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 1a9d33a..3389ec9 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -35,7 +35,10 @@ EXTRA_OECONF = "\
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', '${BLUEZ}', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', 'avahi', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)}"
++                   ${@bb.utils.contains('DISTRO_FEATURES', '3g', 'ofono', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
++                   "
++
+ PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
+ PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
+ PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
+@@ -94,7 +97,7 @@ FILES_${PN}-dbg += "${libexecdir}/pulse/.debug \
+ FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala ${libdir}/cmake"   
+ FILES_${PN}-conf = "${sysconfdir}"
+ FILES_${PN}-bin += "${sysconfdir}/default/volatiles/volatiles.04_pulse"
+-FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules"
++FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules ${systemd_user_unitdir}/*"
  
- # Architecture dependent paths
- export bindir = "${exec_prefix}/bin"
+ #SYSTEMD_PACKAGES = "${PN}-server"
+ SYSTEMD_SERVICE_${PN}-server = "pulseaudio.service"
 -- 
 1.9.1
 
