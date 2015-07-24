@@ -1,41 +1,41 @@
 Return-Path: <adraszik@digisoft.tv>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id A50BD75F1B
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B2E060962
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Jul 2015 12:48:54 +0000 (UTC)
-Received: by wibxm9 with SMTP id xm9so26573301wib.1
+Received: by wibud3 with SMTP id ud3so26520887wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 05:48:55 -0700 (PDT)
+	Fri, 24 Jul 2015 05:48:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-type:content-transfer-encoding;
-	bh=p8hfS0uphLSvcbgjh5/z9TN713xb4olyeAWVQ/dqwIE=;
-	b=i3GYJKixwpC59etBBw+aXLd+C5At6Qi6c3jS5g4MqrWx/HfLevcPmhJNsYtOC8d9jo
-	OzLYMjPcm3WmRu/ZTUTRJ5zx6Yo92KLylMf0k6DOaoFu43O0sJtM+qCWvfxAV9COExju
-	jUVdo/DsMOXkFxcM65wFVFVRf49+0F2YTOen8nFamKhfw4bkTfRDTA1ylKjp5PljTT0U
-	JH5P+sPXGKogczeEgEfueYowyi3SD0j6sqawexDIzxD5JJBEiqiPMVB7emYRZy4FOGUo
-	KsjnCXTteNAKU2MyxqbJgrH7gzmxUDU1FtjRG9k7wPOlkr60Rp8bnGEIgLt/1igeNmM1
-	JdxQ==
-X-Gm-Message-State: ALoCoQklcgtMkGHT3TV/FxGjNCABVnzgYoutLUUC1NX8gGwxk+Rxb49x+GiAdw98gmVgLgcMrK/K
-X-Received: by 10.194.48.108 with SMTP id k12mr28304238wjn.151.1437742134910; 
+	bh=cDXMJM98MloIVkk5UxOWyUTfVc5qhhniC46Pztdb564=;
+	b=bkana8PSFChYI7T84AVHbgANZeDFGr6Ifmwn4bSz+nGCp8+CYZJIcVE4x0ArTz7uux
+	xmN66lMbsm1Nocc5j71c9cxxXoRkKUYOkj8UsACyWBE5TMukyXhCeYMeYiTP4HXVMEU9
+	7gPLEJnEsmgK7sqovGBS2+8xidV78jAUsHlxtDRaCgqflgZFwTtCKLFWTkVNWOrVEHSP
+	4AHtKTbDH2RDOHqcvub6LPosxK32wkT5bQ18ZNuChnDJ2NulmAbiSYM0B+JAQ8I+sSKy
+	CrQzMP9Z2wr48/tcB5tQMd0dhz2NIc1RBQELqV4c4eQ6ch9y6meUc7OScctwcdKuoeGw
+	SBpg==
+X-Gm-Message-State: ALoCoQnK45rF+ycP/b7r6fFA3KsvtnxXioXZtUJRIqEHq5VvXyNUdanv5ZqzrtpmSGPRDgR+lK+I
+X-Received: by 10.180.87.230 with SMTP id bb6mr6707389wib.36.1437742134161;
 	Fri, 24 Jul 2015 05:48:54 -0700 (PDT)
 Received: from bri0771.fritz.box (31-187-15-27.dynamic.upc.ie. [31.187.15.27])
 	by smtp.gmail.com with ESMTPSA id
-	x5sm3374677wif.21.2015.07.24.05.48.54
+	x5sm3374677wif.21.2015.07.24.05.48.53
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 24 Jul 2015 05:48:54 -0700 (PDT)
+	Fri, 24 Jul 2015 05:48:53 -0700 (PDT)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <adraszik@digisoft.tv>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jul 2015 13:48:45 +0100
-Message-Id: <1437742128-23260-3-git-send-email-adraszik@digisoft.tv>
+Date: Fri, 24 Jul 2015 13:48:44 +0100
+Message-Id: <1437742128-23260-2-git-send-email-adraszik@digisoft.tv>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1437742128-23260-1-git-send-email-adraszik@digisoft.tv>
 References: <1437742128-23260-1-git-send-email-adraszik@digisoft.tv>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] opkg: read config file from ${sysconfdir} instead of /etc
+Subject: [PATCH 1/5] rsync: use ${sysconfdir} instead of hardcoding /etc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,24 +54,25 @@ Content-Transfer-Encoding: 8bit
 
 From: André Draszik <git@andred.net>
 
-Opkg's configure script doesn't use the value from --sysconfdir to determine
-the location of the conf file, it uses the value from --with-opkgetcdir
 ---
- meta/recipes-devtools/opkg/opkg_0.2.4.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/rsync/rsync.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.2.4.bb b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-index ec0f923..56df920 100644
---- a/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.2.4.bb
-@@ -38,6 +38,7 @@ PACKAGECONFIG[sha256] = "--enable-sha256,--disable-sha256"
- PACKAGECONFIG[pathfinder] = "--enable-pathfinder,--disable-pathfinder,pathfinder"
+diff --git a/meta/recipes-devtools/rsync/rsync.inc b/meta/recipes-devtools/rsync/rsync.inc
+index 4223c59..c65f270 100644
+--- a/meta/recipes-devtools/rsync/rsync.inc
++++ b/meta/recipes-devtools/rsync/rsync.inc
+@@ -16,8 +16,8 @@ SRC_URI = "http://rsync.samba.org/ftp/rsync/src/rsync-${PV}.tar.gz \
+ inherit autotools
  
- EXTRA_OECONF = "\
-+  --with-opkgetcdir=${sysconfdir} \
-   --with-opkglibdir=${OPKGLIBDIR} \
- "
+ do_install_append() {
+-	install -d ${D}/etc
+-	install -m 0644 ${WORKDIR}/rsyncd.conf ${D}/etc
++	install -d ${D}${sysconfdir}
++	install -m 0644 ${WORKDIR}/rsyncd.conf ${D}${sysconfdir}
+ }
  
+ EXTRA_OEMAKE='STRIP=""'
 -- 
 2.1.4
 
