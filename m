@@ -1,27 +1,24 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 949B560962
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F82460962
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 08:32:01 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6O8W1P6027510
+	Fri, 24 Jul 2015 09:06:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6O96xH6021994
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 01:32:01 -0700 (PDT)
-Received: from [128.224.162.176] (128.224.162.176) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Fri, 24 Jul 2015 01:32:01 -0700
-Message-ID: <55B1F7FF.2090106@windriver.com>
-Date: Fri, 24 Jul 2015 16:31:59 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
+	Fri, 24 Jul 2015 02:07:00 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Fri, 24 Jul 2015 02:06:49 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1431667783-27190-1-git-send-email-shan.hai@windriver.com>
-In-Reply-To: <1431667783-27190-1-git-send-email-shan.hai@windriver.com>
-Subject: Re: [PATCH 0/1] util-linux: add runuser PAM config files
+Date: Fri, 24 Jul 2015 17:08:00 +0800
+Message-ID: <cover.1437728803.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH V2 0/3] Package Upgrade -- 20150723
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 08:32:03 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Jul 2015 09:07:01 -0000
+Content-Type: text/plain
 
-Ping again ...
+The following changes since commit 6be698b7270f73f40d38713ecf13f12aec0ced61:
 
-On 05/15/2015 01:29 PM, Shan Hai wrote:
->
-> Add PAM config files for util-linux to fix a runtime failure of the
-> runuser command.
->
-> meta/recipes-core/util-linux/util-linux.inc            | 8 ++++++++
->   meta/recipes-core/util-linux/util-linux/runuser-l.pamd | 4 ++++
->   meta/recipes-core/util-linux/util-linux/runuser.pamd   | 5 +++++
->   meta/recipes-core/util-linux/util-linux_2.24.2.bb      | 2 ++
->   4 files changed, 19 insertions(+)
->   create mode 100644 meta/recipes-core/util-linux/util-linux/runuser-l.pamd
->   create mode 100644 meta/recipes-core/util-linux/util-linux/runuser.pamd
->
-> Thanks
-> Shan Hai
->
+  dpkg: Fix for Fedora22 and new versions of tar (2015-07-13 13:46:45 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/PU-20150723
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/PU-20150723
+
+Chen Qi (3):
+  diffstat: upgrade to 1.60
+  byacc: upgrade to 20150711
+  sudo: upgrade to 1.8.14p2
+
+ .../diffstat/{diffstat_1.59.bb => diffstat_1.60.bb}                 | 4 ++--
+ .../recipes-extended/byacc/{byacc_20141128.bb => byacc_20150711.bb} | 6 +++---
+ meta/recipes-extended/sudo/sudo.inc                                 | 3 ++-
+ meta/recipes-extended/sudo/{sudo_1.8.13.bb => sudo_1.8.14p2.bb}     | 4 ++--
+ 4 files changed, 9 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/diffstat/{diffstat_1.59.bb => diffstat_1.60.bb} (84%)
+ rename meta/recipes-extended/byacc/{byacc_20141128.bb => byacc_20150711.bb} (58%)
+ rename meta/recipes-extended/sudo/{sudo_1.8.13.bb => sudo_1.8.14p2.bb} (87%)
+
+-- 
+1.9.1
+
 
