@@ -1,31 +1,37 @@
-Return-Path: <pau.espin@aweurope.be>
-Received: from barracuda.aweurope.be (barracuda.aweurope.be [212.166.56.147])
-	by mail.openembedded.org (Postfix) with ESMTP id 098AB761AB
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 5243060962
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 14:03:29 +0000 (UTC)
-X-ASG-Debug-ID: 1437746608-041f750f7b2ffd0002-7zcVdP
-Received: from localhost.localdomain ([172.23.1.67]) by barracuda.aweurope.be
-	with ESMTP id l5Xf5sbVSlMUiP6R;
-	Fri, 24 Jul 2015 16:03:28 +0200 (CEST)
-X-Barracuda-Envelope-From: pau.espin@aweurope.be
-X-Barracuda-RBL-Trusted-Forwarder: 172.23.1.67
-X-ASG-Whitelist: Client
-From: Pau Espin Pedrol <pau.espin@aweurope.be>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jul 2015 16:02:59 +0200
-X-ASG-Orig-Subj: [oe-core][PATCH v3 2/3] systemd.bbclass: Use
-	systemd_system_unitdir
-Message-Id: <1437746580-31696-2-git-send-email-pau.espin@aweurope.be>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1437746580-31696-1-git-send-email-pau.espin@aweurope.be>
-References: <1437746580-31696-1-git-send-email-pau.espin@aweurope.be>
-X-Barracuda-Connect: UNKNOWN[172.23.1.67]
-X-Barracuda-Start-Time: 1437746608
-X-Barracuda-URL: http://172.23.0.12:8000/cgi-mod/mark.cgi
-X-Virus-Scanned: by bsmtpd at aweurope.be
-X-Barracuda-BRTS-Status: 1
-Cc: Pau Espin Pedrol <pau.espin@aweurope.be>
-Subject: [PATCH v3 2/3] systemd.bbclass: Use systemd_system_unitdir
+	Fri, 24 Jul 2015 14:11:27 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 24 Jul 2015 07:11:27 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,538,1432623600"; d="scan'208";a="770515748"
+Received: from irsmsx105.ger.corp.intel.com ([163.33.3.28])
+	by orsmga002.jf.intel.com with ESMTP; 24 Jul 2015 07:11:26 -0700
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.216]) by
+	irsmsx105.ger.corp.intel.com ([169.254.7.223]) with mapi id
+	14.03.0224.002; Fri, 24 Jul 2015 15:11:25 +0100
+From: "Constantin, Costin C" <costin.c.constantin@intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH v2] oeqa/buildoptions.py: automate test case
+	929: check for correct GPL licenses
+Thread-Index: AQHQxUvBccLTZPsSAEK8vLRMmmHH3Z3o/skAgAEh9LCAACaIAIAAY03w
+Date: Fri, 24 Jul 2015 14:11:25 +0000
+Message-ID: <2B8B4B6BB45F5242AFEC714E022A4B4A3DF8EA4E@IRSMSX101.ger.corp.intel.com>
+References: <1437658844-12604-1-git-send-email-costin.c.constantin@intel.com>
+	<2222392.Tt1iFe0I6f@peggleto-mobl.ger.corp.intel.com>
+	<2B8B4B6BB45F5242AFEC714E022A4B4A3DF8E759@IRSMSX101.ger.corp.intel.com>
+	<1687889.2KnrVen88A@peggleto-mobl.ger.corp.intel.com>
+In-Reply-To: <1687889.2KnrVen88A@peggleto-mobl.ger.corp.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] oeqa/buildoptions.py: automate test case 929: check for correct GPL licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 14:03:33 -0000
+X-List-Received-Date: Fri, 24 Jul 2015 14:11:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Pau Espin Pedrol <pau.espin@aweurope.be>
----
- meta/classes/systemd.bbclass | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+No problem Paul. Thanks=20
 
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index cfe1eb5..46e72c7 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -136,8 +136,7 @@ python systemd_populate_packages() {
-     # Check service-files and call systemd_add_files_and_parse for each entry
-     def systemd_check_services():
-         searchpaths = [oe.path.join(d.getVar("sysconfdir", True), "systemd", "system"),]
--        searchpaths.append(oe.path.join(d.getVar("nonarch_base_libdir", True), "systemd", "system"))
--        searchpaths.append(oe.path.join(d.getVar("exec_prefix", True), d.getVar("nonarch_base_libdir", True), "systemd", "system"))
-+        searchpaths.append(d.getVar("systemd_system_unitdir", True))
-         systemd_packages = d.getVar('SYSTEMD_PACKAGES', True)
- 
-         keys = 'Also'
-@@ -185,10 +184,10 @@ python rm_sysvinit_initddir (){
-     if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and \
-         not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d) and \
-         os.path.exists(sysv_initddir):
--        systemd_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_unitdir', True), "system")
-+        systemd_system_unitdir = oe.path.join(d.getVar("D", True), d.getVar('systemd_system_unitdir', True))
- 
--        # If systemd_unitdir contains anything, delete sysv_initddir
--        if (os.path.exists(systemd_unitdir) and os.listdir(systemd_unitdir)):
-+        # If systemd_system_unitdir contains anything, delete sysv_initddir
-+        if (os.path.exists(systemd_system_unitdir) and os.listdir(systemd_system_unitdir)):
-             shutil.rmtree(sysv_initddir)
- }
- do_install[postfuncs] += "rm_sysvinit_initddir "
--- 
-1.9.1
+-----Original Message-----
+From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
+Sent: Friday, July 24, 2015 12:16 PM
+To: Constantin, Costin C
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] oeqa/buildoptions.py: automate test case =
+929: check for correct GPL licenses
 
+On Friday 24 July 2015 06:00:28 Constantin, Costin C wrote:
+> Thank you for the reply. :)  I got your point and i guess you're right.
+> Maybe i over exaggerated. Does this mean the auto TC will not be=20
+> considered as it is now? Should i re-send it or will you just erase=20
+> that line and consider it as it is?
+
+We tend to prefer that the submitter make the requested changes and re-send=
+ an amended version of the patch. If you could do that that would be much a=
+ppreciated.
+
+Thanks,
+Paul
+
+--=20
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
