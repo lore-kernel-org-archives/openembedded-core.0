@@ -1,29 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C62437616D
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A4E6275791
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 09:15:43 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 24 Jul 2015 02:15:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,537,1432623600"; d="scan'208";a="612044945"
-Received: from poconnor-mobl3.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.20.237])
-	by orsmga003.jf.intel.com with ESMTP; 24 Jul 2015 02:15:45 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: "Constantin, Costin C" <costin.c.constantin@intel.com>
-Date: Fri, 24 Jul 2015 10:15:42 +0100
-Message-ID: <1687889.2KnrVen88A@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.8-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <2B8B4B6BB45F5242AFEC714E022A4B4A3DF8E759@IRSMSX101.ger.corp.intel.com>
-References: <1437658844-12604-1-git-send-email-costin.c.constantin@intel.com>
-	<2222392.Tt1iFe0I6f@peggleto-mobl.ger.corp.intel.com>
-	<2B8B4B6BB45F5242AFEC714E022A4B4A3DF8E759@IRSMSX101.ger.corp.intel.com>
+	Fri, 24 Jul 2015 10:16:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6OAGiNB025019
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 Jul 2015 03:16:44 -0700 (PDT)
+Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
+	Fri, 24 Jul 2015 03:16:34 -0700
+Message-ID: <55B21084.9080307@windriver.com>
+Date: Fri, 24 Jul 2015 18:16:36 +0800
+From: He Zhe <zhe.he@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] oeqa/buildoptions.py: automate test case 929: check for correct GPL licenses
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1437461993.git.zhe.he@windriver.com>	
+	<81b6a1d0e88aa6e5f616e77b136972541bbdc7bd.1437461993.git.zhe.he@windriver.com>
+	<1437666911.821.126.camel@linuxfoundation.org>
+In-Reply-To: <1437666911.821.126.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.235]
+Cc: bruce.ashfield@windriver.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/2] kernel: Pass sysroot mkimage to kernel makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,25 +37,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 09:15:46 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 24 Jul 2015 10:16:47 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Friday 24 July 2015 06:00:28 Constantin, Costin C wrote:
-> Thank you for the reply. :)  I got your point and i guess you're right.
-> Maybe i over exaggerated. Does this mean the auto TC will not be considered
-> as it is now? Should i re-send it or will you just erase that line and
-> consider it as it is?
 
-We tend to prefer that the submitter make the requested changes and re-send an 
-amended version of the patch. If you could do that that would be much 
-appreciated.
 
-Thanks,
-Paul
+On 07/23/2015 11:55 PM, Richard Purdie wrote:
+> On Tue, 2015-07-21 at 15:23 +0800, zhe.he@windriver.com wrote:
+>> From: He Zhe <zhe.he@windriver.com>
+>>
+>> Pass mkimage in sysroot to kernel makefile by NATIVE_MKIMAGE to avoid
+>> depending on build machine's when KEEPUIMAGE is "yes".
+>>
+>> Fixes [YOCTO #6945].
+>>
+>> Signed-off-by: He Zhe <zhe.he@windriver.com>
+>> ---
+>>  meta/classes/kernel.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+>> index 86ed28f..1d7fa48 100644
+>> --- a/meta/classes/kernel.bbclass
+>> +++ b/meta/classes/kernel.bbclass
+>> @@ -141,7 +141,7 @@ UBOOT_ENTRYPOINT ?= "20008000"
+>>  UBOOT_LOADADDRESS ?= "${UBOOT_ENTRYPOINT}"
+>>  
+>>  # Some Linux kernel configurations need additional parameters on the command line
+>> -KERNEL_EXTRA_ARGS ?= ""
+>> +KERNEL_EXTRA_ARGS ?= "NATIVE_MKIMAGE=${STAGING_BINDIR_NATIVE}/mkimage"
+>>  
+>>  # For the kernel, we don't want the '-e MAKEFLAGS=' in EXTRA_OEMAKE.
+>>  # We don't want to override kernel Makefile variables from the environment
+> ${STAGING_BINDIR_NATIVE} should be in PATH ahead of the usual system
+> paths. Why therefore is this necessary? Is something resetting PATH?
 
--- 
+You are right. There's no need to modify KERNEL_EXTRA_ARGS. Actually I made a mistake when I verified mkimage... I'll delete this patch in next version. Thank you for reviewing.
 
-Paul Eggleton
-Intel Open Source Technology Centre
+BTW, what about [PATCH v2 1/2] ?
+
+
+Zhe
+
+> Cheers,
+>
+> Richard
+>
+>
+>
+
 
