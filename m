@@ -1,30 +1,30 @@
 Return-Path: <mihaly.varga@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B1E41761AB
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id EA21273CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 18:18:04 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t6OII5Pn023970 for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 13:18:05 -0500
+	Fri, 24 Jul 2015 18:44:14 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t6OIiFMS013323 for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jul 2015 13:44:15 -0500
 Received: from mihaly-ro-linux.emea.corp.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015072413180465-329819 ;
-	Fri, 24 Jul 2015 13:18:04 -0500 
+	HF1218) with ESMTP id 2015072413441461-331126 ;
+	Fri, 24 Jul 2015 13:44:14 -0500 
 From: Mihaly Varga <mihaly.varga@ni.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jul 2015 21:17:49 +0300
-Message-Id: <1437761869-19215-1-git-send-email-mihaly.varga@ni.com>
+Date: Fri, 24 Jul 2015 21:43:48 +0300
+Message-Id: <1437763428-20948-1-git-send-email-mihaly.varga@ni.com>
 X-Mailer: git-send-email 1.9.1
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 07/24/2015 01:18:05 PM,
+	8.5.3FP6 HF1218|December 12, 2014) at 07/24/2015 01:44:14 PM,
 	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 07/24/2015 01:18:05 PM,
-	Serialize complete at 07/24/2015 01:18:05 PM
+	HF1218|December 12, 2014) at 07/24/2015 01:44:14 PM,
+	Serialize complete at 07/24/2015 01:44:14 PM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
 	definitions=2015-07-24_09:, , signatures=0
-Subject: [] wic: Add plugin for hybrid iso image
+Subject: wic: Add plugin for hybrid iso image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 18:18:08 -0000
+X-List-Received-Date: Fri, 24 Jul 2015 18:44:19 -0000
 
 This plugin creates a hybrid, legacy and EFI bootable ISO image.
 The generated image can be used on optical media as well as
