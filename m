@@ -1,33 +1,29 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 4EB71759D0
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A09F975791
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 08:11:02 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Jul 2015 01:11:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,537,1432623600"; d="scan'208";a="612019741"
-Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
-	by orsmga003.jf.intel.com with ESMTP; 24 Jul 2015 01:11:01 -0700
-Received: from irsmsx110.ger.corp.intel.com ([169.254.15.29]) by
-	IRSMSX154.ger.corp.intel.com ([169.254.12.253]) with mapi id
-	14.03.0224.002; Fri, 24 Jul 2015 09:11:01 +0100
-From: "Valluri, Amarnath" <amarnath.valluri@intel.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [meta-oe][PATCH] libical: Upgrade v1.0.0 -> v1.0.1
-Thread-Index: AQHQxTj36ujAq4arSEqVSJntuXGwrp3pkJwAgAC03T4=
-Date: Fri, 24 Jul 2015 08:11:01 +0000
-Message-ID: <D3C33C4430ACA6488F343D1125FCCECC37FCF24B@irsmsx110.ger.corp.intel.com>
-References: <1437650226-27368-1-git-send-email-amarnath.valluri@intel.com>,
-	<CAJTo0Lbf3xfewq5=2EsPqQ6knBmw3LNXAD8Gc9aRjv6V3uHeXw@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbf3xfewq5=2EsPqQ6knBmw3LNXAD8Gc9aRjv6V3uHeXw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.139]
+	Fri, 24 Jul 2015 08:26:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6O8QZUs021696
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jul 2015 01:26:35 -0700 (PDT)
+Received: from [128.224.162.176] (128.224.162.176) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Fri, 24 Jul 2015 01:26:24 -0700
+Message-ID: <55B1F6B4.2000809@windriver.com>
+Date: Fri, 24 Jul 2015 16:26:28 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] libical: Upgrade v1.0.0 -> v1.0.1
+To: "'Patches and discussions about the oe-core layer'"
+	<openembedded-core@lists.openembedded.org>
+References: <1435558955-30612-1-git-send-email-wenzong.fan@windriver.com>
+	<55B1F295.6080004@windriver.com>
+In-Reply-To: <55B1F295.6080004@windriver.com>
+Subject: Re: [PATCH] nfs-utils: debianize start-statd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,43 +36,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 08:11:03 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Jul 2015 08:26:42 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 07/24/2015 04:08 PM, wenzong fan wrote:
+> Ping ...
 
-________________________________
-From: Burton, Ross [ross.burton@intel.com]
-Sent: Friday, July 24, 2015 1:21 AM
-To: Valluri, Amarnath
-Cc: OE-core; Iorga, Cristian
-Subject: Re: [OE-core] [meta-oe][PATCH] libical: Upgrade v1.0.0 -> v1.0.1
+Please ignore the "ping" request, this one has been merged.
 
+Thanks
+Wenzong
 
-On 23 July 2015 at 12:17, Amarnath Valluri <amarnath.valluri@intel.com<mail=
-to:amarnath.valluri@intel.com>> wrote:
-- Build system changed from autotools to cmake.
-- Perl dependency added.
-
-We had almost exactly this patch a week or so ago from Cristian (CC'd) who =
-promptly retracted it with the comment that he "hadn't done enough testing".
-Sorry, I was not knowing that, so please ignore this patch.
-
-- Amarnath
-
----------------------------------------------------------------------
-Intel Finland Oy
-Registered Address: PL 281, 00181 Helsinki =
-
-Business Identity Code: 0357606 - 4 =
-
-Domiciled in Helsinki =
-
-
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
-
+>
+> On 06/29/2015 02:22 PM, wenzong.fan@windriver.com wrote:
+>> From: Li Wang <li.wang@windriver.com>
+>>
+>> make start-statd command to use nfscommon configure, too.
+>>
+>> Signed-off-by: Henrik Riomar <henrik.riomar@ericsson.com>
+>> Signed-off-by: Li Wang <li.wang@windriver.com>
+>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+>> ---
+>>   .../files/nfs-utils-debianize-start-statd.patch    | 41
+>> ++++++++++++++++++++++
+>>   .../nfs-utils/nfs-utils_1.3.1.bb                   |  1 +
+>>   2 files changed, 42 insertions(+)
+>>   create mode 100644
+>> meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
+>>
+>>
+>> diff --git
+>> a/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
+>> b/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
+>>
+>> new file mode 100644
+>> index 0000000..5a2d5c8
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-connectivity/nfs-utils/files/nfs-utils-debianize-start-statd.patch
+>>
+>> @@ -0,0 +1,41 @@
+>> +[PATCH] nfs-utils: debianize start-statd
+>> +
+>> +Upstream-status: Pending
+>> +
+>> +make start-statd command to use nfscommon configure, too.
+>> +
+>> +Signed-off-by: Henrik Riomar <henrik.riomar@ericsson.com>
+>> +Signed-off-by: Li Wang <li.wang@windriver.com>
+>> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> +Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+>> +---
+>> + utils/statd/start-statd | 9 ++++++++-
+>> + 1 file changed, 8 insertions(+), 1 deletion(-)
+>> +
+>> +diff --git a/utils/statd/start-statd b/utils/statd/start-statd
+>> +index ec9383b..3969b8c 100755
+>> +--- a/utils/statd/start-statd
+>> ++++ b/utils/statd/start-statd
+>> +@@ -6,6 +6,13 @@
+>> + # site.
+>> + PATH="/sbin:/usr/sbin:/bin:/usr/bin"
+>> +
+>> ++# Read config
+>> ++DEFAULTFILE=/etc/default/nfs-common
+>> ++NEED_IDMAPD=
+>> ++if [ -f $DEFAULTFILE ]; then
+>> ++    . $DEFAULTFILE
+>> ++fi
+>> ++
+>> + # First try systemd if it's installed.
+>> + if systemctl --help >/dev/null 2>&1; then
+>> +     # Quit only if the call worked.
+>> +@@ -13,4 +20,4 @@ if systemctl --help >/dev/null 2>&1; then
+>> + fi
+>> +
+>> + # Fall back to launching it ourselves.
+>> +-exec rpc.statd --no-notify
+>> ++exec rpc.statd --no-notify $STATDOPTS
+>> +--
+>> +1.9.1
+>> +
+>> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+>> b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+>> index 6f64e9d..0bcd65e 100644
+>> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+>> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
+>> @@ -29,6 +29,7 @@ SRC_URI =
+>> "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+>>              file://nfs-mountd.service \
+>>              file://nfs-statd.service \
+>>
+>> file://nfs-utils-Do-not-pass-CFLAGS-to-gcc-while-building.patch \
+>> +           file://nfs-utils-debianize-start-statd.patch \
+>>   "
+>>
+>>   SRC_URI[md5sum] = "8de676b9ff34b8f9addc1d0800fabdf8"
+>>
+>
+>
 
