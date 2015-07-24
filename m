@@ -1,35 +1,24 @@
-Return-Path: <costin.c.constantin@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 27CCB60962
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D5F9460962
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 06:00:30 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 23 Jul 2015 23:00:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,536,1432623600"; d="scan'208";a="753624543"
-Received: from irsmsx154.ger.corp.intel.com ([163.33.192.96])
-	by fmsmga001.fm.intel.com with ESMTP; 23 Jul 2015 23:00:29 -0700
-Received: from irsmsx101.ger.corp.intel.com ([169.254.1.216]) by
-	IRSMSX154.ger.corp.intel.com ([169.254.12.253]) with mapi id
-	14.03.0224.002; Fri, 24 Jul 2015 07:00:29 +0100
-From: "Constantin, Costin C" <costin.c.constantin@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH v2] oeqa/buildoptions.py: automate test case
-	929: check for correct GPL licenses
-Thread-Index: AQHQxUvBccLTZPsSAEK8vLRMmmHH3Z3o/skAgAEh9LA=
-Date: Fri, 24 Jul 2015 06:00:28 +0000
-Message-ID: <2B8B4B6BB45F5242AFEC714E022A4B4A3DF8E759@IRSMSX101.ger.corp.intel.com>
-References: <1437658844-12604-1-git-send-email-costin.c.constantin@intel.com>
-	<2222392.Tt1iFe0I6f@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <2222392.Tt1iFe0I6f@peggleto-mobl.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.180]
+	Fri, 24 Jul 2015 06:17:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6O6H3U0020626
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jul 2015 23:17:04 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Thu, 23 Jul 2015 23:16:53 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Jul 2015 14:15:05 +0800
+Message-ID: <1437718505-21926-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] oeqa/buildoptions.py: automate test case 929: check for correct GPL licenses
+Subject: [PATCH] mklibs-native: Remove dependency on dpkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,67 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 06:00:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Jul 2015 06:17:05 -0000
+Content-Type: text/plain
 
-Hi Paul,
+From: Roy Li <rongqing.li@windriver.com>
 
-Thank you for the reply. :)  I got your point and i guess you're right. May=
-be i over exaggerated.=20
-Does this mean the auto TC will not be considered as it is now? Should i re=
--send it or will you just erase that line and=20
-consider it as it is?
+b18618a8[mklibs-native: two fixes] should remove the dependency
+on dpkg, but it is missed, so fix it.
 
-Costin=20
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
------Original Message-----
-From: Paul Eggleton [mailto:paul.eggleton@linux.intel.com]=20
-Sent: Thursday, July 23, 2015 4:40 PM
-To: Constantin, Costin C
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v2] oeqa/buildoptions.py: automate test case =
-929: check for correct GPL licenses
+diff --git a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
+index d6905ac..59fec29 100644
+--- a/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
++++ b/meta/recipes-devtools/mklibs/mklibs-native_0.1.40.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://launchpad.net/mklibs"
+ SECTION = "devel"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=98d31037b13d896e33890738ef01af64"
+-DEPENDS = "python-native dpkg-native"
++DEPENDS = "python-native"
+ 
+ SRC_URI = "http://ftp.de.debian.org/debian/pool/main/m/mklibs/${BPN}_${PV}.tar.xz \
+ 	file://ac_init_fix.patch\
+-- 
+1.9.1
 
-Hi Costin,
-
-On Thursday 23 July 2015 16:40:44 Costin Constantin wrote:
-> Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
-> ---
->  meta/lib/oeqa/selftest/buildoptions.py | 30=20
-> ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
->=20
-> diff --git a/meta/lib/oeqa/selftest/buildoptions.py
-> b/meta/lib/oeqa/selftest/buildoptions.py index e79be9e..ab009f2 100644
-> --- a/meta/lib/oeqa/selftest/buildoptions.py
-> +++ b/meta/lib/oeqa/selftest/buildoptions.py
-> @@ -132,6 +132,36 @@ class BuildImagesTest(oeSelfTest):
->          res =3D bitbake("core-image-directfb", ignore_status=3DTrue)
->          self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed=20
-> to build. Please check logs for further details.\nbitbake output %s" %
-> res.output)
->
->=20
-> +    @testcase(929)
-> +    def test_gpl_licenses(self):
-> +        """
-> +        Test for checking that correct GPL licenses are used when
-> explicitly required.=20
-> +        """
-> +        self.add_command_to_tearDown('cleanup-workdir')
-
-I really don't think we should be calling cleanup-workdir here. If we have =
-specific things to bitbake -c clean, by all means do that - but cleanup-wor=
-kdir goes through and deletes everything that's not current, which is exces=
-sive for this one test.
-
-Cheers,
-Paul
-
---=20
-
-Paul Eggleton
-Intel Open Source Technology Centre
 
