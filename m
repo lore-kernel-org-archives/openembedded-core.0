@@ -1,28 +1,29 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5552E60962
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B47A60962
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 06:17:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6O6H48H011474
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jul 2015 23:17:04 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Thu, 23 Jul 2015 23:16:53 -0700
-Message-ID: <55B1D89E.4020000@windriver.com>
-Date: Fri, 24 Jul 2015 14:18:06 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
-X-Originating-IP: [128.224.162.211]
-Subject: Re: [PATCH] systemd: fix systemd-udev-hwdb-update service
+	Fri, 24 Jul 2015 07:35:01 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6O7YxRB003241; Fri, 24 Jul 2015 08:34:59 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id MVeqW3TZET5B; Fri, 24 Jul 2015 08:34:59 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6O7Yiu2003230
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 24 Jul 2015 08:34:56 +0100
+Message-ID: <1437723284.821.143.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>
+Date: Fri, 24 Jul 2015 08:34:44 +0100
+In-Reply-To: <cover.1437232180.git.akuster808@gmail.com>
+References: <cover.1437232180.git.akuster808@gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/25] Dizzy next for .3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +36,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 06:17:05 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Fri, 24 Jul 2015 07:35:06 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-ping
+On Sat, 2015-07-18 at 08:16 -0700, Armin Kuster wrote:
+> Please consider these for the 1.7.3 release
+> 
+> The following changes since commit 5f0d25152bac2d3798663a4ebfdd2df24060f153:
+> 
+>   openssl: upgrade to 1.0.1p (2015-07-15 15:25:43 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
+>   http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-nex
 
-Anybody has objection for this one?
+We ran dizzy through the autobuilder as we have an opportunity to roll a
+1.7.3 release soon. The result was:
 
-Best Regards,
-Chen Qi
+https://autobuilder.yoctoproject.org/main/tgrid
+or more specifically:
+http://errors.yoctoproject.org/Errors/Search/?items=10&query=1b492dfcdd692fe9440a1711812a1bb60ac741e5
 
-On 06/30/2015 01:16 PM, rongqing.li@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> The new version of systemd has implemented the following feature.
-> Opointer.de/blog/projects/stateless.html
->
-> As a result, the systemd-udev-hwdb-update.service would always run
-> at first boot. This will cause failure if the target device doesn't
-> have enough storage space. Besides, as we run `udevadm hwdb --update' as
-> a postinst of udev-hwdb at rootfs time, there's no need to run this
-> again at system start-up.
->
-> The purpose of this patch is as follows.
-> If `udev hwdb --update' fails at rootfs time, systemd-udev-hwdb-update.service
-> is executed at first boot; otherwise, the service is not executed.
->
-> This patch achieves the above goal by setting CondistonNeedsUpdate to
-> "/etc/udev" in the service file, and creating /etc/udev/.updated file if the
-> postinst succeeds.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd_219.bb | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-> index 6ed4fe0..dc5c7b3 100644
-> --- a/meta/recipes-core/systemd/systemd_219.bb
-> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> @@ -180,6 +180,10 @@ do_install() {
->   	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
->   		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
->   	fi
-> +
-> +	# Make systemd-udev-hwdb-update to check /etc/udev
-> +	cp ${D}${systemd_unitdir}/system/systemd-udev-hwdb-update.service ${D}${sysconfdir}/systemd/system
-> +	sed -i -e 's#ConditionNeedsUpdate=/etc#ConditionNeedsUpdate=/etc/udev#g' ${D}${sysconfdir}/systemd/system/systemd-udev-hwdb-update.service
->   }
->   
->   do_install_ptest () {
-> @@ -381,10 +385,18 @@ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
->   
->   pkg_postinst_udev-hwdb () {
->   	if test -n "$D"; then
-> -		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-> -			--root $D
-> +		if ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-> +			--root $D; then
-> +			touch $D/etc/udev/.updated
-> +		else
-> +			exit 1
-> +		fi
->   	else
-> -		udevadm hwdb --update
-> +		if udevadm hwdb --update; then
-> +			touch $D/etc/udev/.updated
-> +		else
-> +			exit 1
-> +		fi
->   	fi
->   }
->   
+which looks to me to largely be gcc5 issues on the host, particularly
+Fedora22. There was also a bug occurred in build-appliance which has
+been resolved in master/fido.
+
+We therefore need to decide whether to backport the gcc5 host fixes back
+to 1.7.3 or whether we have to disable autobuilders in order to be able
+to build it...
+
+Cheers,
+
+Richard
 
 
