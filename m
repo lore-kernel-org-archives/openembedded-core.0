@@ -1,30 +1,37 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A4E6275791
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A906275791
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 10:16:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6OAGiNB025019
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 24 Jul 2015 03:16:44 -0700 (PDT)
-Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Fri, 24 Jul 2015 03:16:34 -0700
-Message-ID: <55B21084.9080307@windriver.com>
-Date: Fri, 24 Jul 2015 18:16:36 +0800
-From: He Zhe <zhe.he@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1437461993.git.zhe.he@windriver.com>	
-	<81b6a1d0e88aa6e5f616e77b136972541bbdc7bd.1437461993.git.zhe.he@windriver.com>
-	<1437666911.821.126.camel@linuxfoundation.org>
-In-Reply-To: <1437666911.821.126.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.235]
-Cc: bruce.ashfield@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] kernel: Pass sysroot mkimage to kernel makefile
+	Fri, 24 Jul 2015 10:53:45 +0000 (UTC)
+Received: by wibud3 with SMTP id ud3so60317075wib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jul 2015 03:53:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=gBuAjqtaH2IO+RLkwMo27TVxtiPphctTbz6dyA7EX4E=;
+	b=dTqg7bct+X7ci93bBaXZ+s2fG1ES7IHxJD5AxQUd+tlyBt8pLJgSEG7lNaOt0HRgeY
+	8BV1wzbv99letcvajqnTjSC1koF2ehhzeqMnsRsoGMQnUe/UzTXxR4PDPL8qSYp1QiSe
+	rphjqpEeAkJzT4IpoiZtiG8HOrX2sxiYNtPDcCi19WQnN9WzrX8roKsrjh319VjYm5ju
+	bu+RNzlV+dk7lwKVwrwYbb/TqWVXdDWVLqDcwwJDBd4/6HpEocUHWde32a0/XkoNrsnC
+	YpxrjaBXyKFoPk/OIvmCHwNNSFk63kB3uCh1Iuwi6sjo2RHQ2YVlU7P9j3KTlsGdB8l7
+	2YYA==
+X-Gm-Message-State: ALoCoQlxKCSgql6PzGheGqFcOzF0g6CUDfWpSYJ2Z0JqoV2eclZaYFXUg3y2qSD4F53Yr3ahXgeG
+X-Received: by 10.180.38.34 with SMTP id d2mr5765648wik.48.1437735224900;
+	Fri, 24 Jul 2015 03:53:44 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	fb3sm2904540wib.21.2015.07.24.03.53.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 24 Jul 2015 03:53:43 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Jul 2015 11:47:51 +0100
+Message-Id: <1437734871-27240-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH][V2] oeqa/runtime: remove dmesg test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +44,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 10:16:47 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 Jul 2015 10:53:49 -0000
 
+This has been obsoleted by parselogs.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/testimage.bbclass |  4 ++--
+ meta/lib/oeqa/runtime/dmesg.py | 12 ------------
+ 2 files changed, 2 insertions(+), 14 deletions(-)
+ delete mode 100644 meta/lib/oeqa/runtime/dmesg.py
 
-On 07/23/2015 11:55 PM, Richard Purdie wrote:
-> On Tue, 2015-07-21 at 15:23 +0800, zhe.he@windriver.com wrote:
->> From: He Zhe <zhe.he@windriver.com>
->>
->> Pass mkimage in sysroot to kernel makefile by NATIVE_MKIMAGE to avoid
->> depending on build machine's when KEEPUIMAGE is "yes".
->>
->> Fixes [YOCTO #6945].
->>
->> Signed-off-by: He Zhe <zhe.he@windriver.com>
->> ---
->>  meta/classes/kernel.bbclass | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index 86ed28f..1d7fa48 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -141,7 +141,7 @@ UBOOT_ENTRYPOINT ?= "20008000"
->>  UBOOT_LOADADDRESS ?= "${UBOOT_ENTRYPOINT}"
->>  
->>  # Some Linux kernel configurations need additional parameters on the command line
->> -KERNEL_EXTRA_ARGS ?= ""
->> +KERNEL_EXTRA_ARGS ?= "NATIVE_MKIMAGE=${STAGING_BINDIR_NATIVE}/mkimage"
->>  
->>  # For the kernel, we don't want the '-e MAKEFLAGS=' in EXTRA_OEMAKE.
->>  # We don't want to override kernel Makefile variables from the environment
-> ${STAGING_BINDIR_NATIVE} should be in PATH ahead of the usual system
-> paths. Why therefore is this necessary? Is something resetting PATH?
-
-You are right. There's no need to modify KERNEL_EXTRA_ARGS. Actually I made a mistake when I verified mkimage... I'll delete this patch in next version. Thank you for reviewing.
-
-BTW, what about [PATCH v2 1/2] ?
-
-
-Zhe
-
-> Cheers,
->
-> Richard
->
->
->
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 2b655b4..37acb0c 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -34,9 +34,9 @@ TEST_EXPORT_ONLY ?= "0"
+ 
+ DEFAULT_TEST_SUITES = "ping auto"
+ DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
+-DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date dmesg parselogs \
++DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date parselogs \
+     ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python smart rpm', '', d)}"
+-DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc kernelmodule dmesg python parselogs \
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc kernelmodule python parselogs \
+     ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'smart rpm', '', d)}"
+ DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
+ 
+diff --git a/meta/lib/oeqa/runtime/dmesg.py b/meta/lib/oeqa/runtime/dmesg.py
+deleted file mode 100644
+index 5831471..0000000
+--- a/meta/lib/oeqa/runtime/dmesg.py
++++ /dev/null
+@@ -1,12 +0,0 @@
+-import unittest
+-from oeqa.oetest import oeRuntimeTest
+-from oeqa.utils.decorators import *
+-
+-
+-class DmesgTest(oeRuntimeTest):
+-
+-    @testcase(215)
+-    @skipUnlessPassed('test_ssh')
+-    def test_dmesg(self):
+-        (status, output) = self.target.run('dmesg | grep -v mmci-pl18x | grep -v "error changing net interface name" | grep -iv "dma timeout" | grep -v usbhid | grep -i error')
+-        self.assertEqual(status, 1, msg = "Error messages in dmesg log: %s" % output)
+-- 
+2.1.4
 
 
