@@ -1,35 +1,32 @@
-Return-Path: <stephen.k.jolley@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id DC5EC761AC
+Return-Path: <mihaly.varga@ni.com>
+X-Greylist: delayed 633 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 24 Jul 2015 15:38:34 UTC
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B795761AC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 15:15:02 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 24 Jul 2015 08:15:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,538,1432623600"; 
-	d="scan'208,217";a="753904198"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Jul 2015 08:15:01 -0700
-Received: from fmsmsx123.amr.corp.intel.com (10.18.125.38) by
-	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Fri, 24 Jul 2015 08:15:01 -0700
-Received: from fmsmsx111.amr.corp.intel.com ([169.254.12.35]) by
-	fmsmsx123.amr.corp.intel.com ([169.254.2.236]) with mapi id
-	14.03.0224.002; Fri, 24 Jul 2015 08:15:00 -0700
-From: "Jolley, Stephen K" <stephen.k.jolley@intel.com>
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Yocto Project Status WW30
-Thread-Index: AdDGI3yRROM4qXJoRXWVw+0prs2vJg==
-Date: Fri, 24 Jul 2015 15:14:59 +0000
-Message-ID: <9ADD3FDE8B189B4AA2F8A3C711F8155E555DC179@fmsmsx111.amr.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.1.200.106]
-MIME-Version: 1.0
-Subject: Yocto Project Status WW30
+	Fri, 24 Jul 2015 15:38:34 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
+	[130.164.19.135])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t6OFcYYN029481 for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jul 2015 10:38:34 -0500
+Received: from mihaly-ro-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015072410383444-323009 ;
+	Fri, 24 Jul 2015 10:38:34 -0500 
+From: Mihaly Varga <mihaly.varga@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Jul 2015 18:38:27 +0300
+Message-Id: <1437752307-18195-1-git-send-email-mihaly.varga@ni.com>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 07/24/2015 10:38:34 AM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 07/24/2015 10:38:34 AM,
+	Serialize complete at 07/24/2015 10:38:34 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-07-24_08:, , signatures=0
+Subject: [PATCH] wic: Add plugin for hybrid iso image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,626 +39,533 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jul 2015 15:15:03 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_9ADD3FDE8B189B4AA2F8A3C711F8155E555DC179fmsmsx111amrcor_"
+X-List-Received-Date: Fri, 24 Jul 2015 15:38:36 -0000
 
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E555DC179fmsmsx111amrcor_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+This plugin creates a hybrid, legacy and EFI bootable ISO image.
+The generated image can be used on optical media as well as
+USB media.
 
-Current Dev Position: 1.9 Milestone 2 (M2)
-Next Deadline: M2 cut off of July 27th at noon GMT
+Legacy boot uses syslinux and EFI boot uses grub or gummiboot (not
+implemented yet) as bootloader. The plugin creates the directories
+required by bootloaders and populates them by creating and
+configuring the bootloader files.
 
-SWAT team rotation: Cristian -> Randy
-https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
+The plugin adds an image file to the iso which
+contains the directory tree of the rootfs folder specified by the
+--rootfs argument or by the IMAGE_ROOTFS bitbake variable.
 
-Key Status/Updates:
+Using the isohybryd tool, the created .iso image is enhanced by a MBR
+for booting from disk storage devices, consequently the provided
+iso image could be copyed directly by dd comand onto USB drive or
+could be burned to an optical media by using a suitable image burner.
 
-  *   YP 1.9 M2 rc2 is out of QA and will be released shortly.  The full te=
-st report can be accessed here<https://wiki.yoctoproject.org/wiki/WW28_-_20=
-15-07-10_-_Full_Pass_1.9_M1.rc2>.  The Release criteria are located here<ht=
-tps://wiki.yoctoproject.org/wiki/Yocto_Project_v1.9_Status#Milestone_1_-_Ta=
-rget_July_10.2C_2015>.
-  *   Autobuilder intermittent failure issues are being tracked via a numbe=
-r of bugs, all tracked by bug 7983<https://bugzilla.yoctoproject.org/show_b=
-ug.cgi?id=3D7983>.
-  *   WDD has seen large increases (likely due to the significant number of=
- autobuilder issues being seen)
-  *   Two key performance regressions with the new data store were identifi=
-ed and fixed
-  *   The bitbake logging changes introduced a performance regression due t=
-o issues with fifos in pseudo (now resolved in 1.6.7)
-  *   Significant linux-yocto kernel changes (separate meta repository) are=
- being worked on and due to merge soon
-  *   We will likely make the expansion parameter to getVar mandatory soon =
-as discussed (default is False currently)
-  *   Several M2 features may be delayed due to knock on effect of delayed =
-M1
+The plugin depends on parted, e2fstools, syslinux, grub, crdtools,
+dosfstools and mtools program.
 
-Key YP 1.9 Dates:
-1.9 Feature Freeze Date/M3 Cut off: Aug. 24, 2015 noon GMT
-YP Final/M4 Cut off: Sept. 28, 2015 noon GMT
-1.9 M1 Release Target: Before July 10, 2015
-1.9 M2 Release Target: Before Aug. 14, 2015
-1.9 M3 Release Target: Before Sept. 11 2015
-1.9 final Release Target: Before Oct. 30, 2015
+Some of the functions in this plugin were inspired from bootimg-efi.py
+and bootimg-pcbios.py plugins implemented by Tom Zanussi.
 
-Key Status Links for YP:
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v1.9_Status
-https://wiki.yoctoproject.org/wiki/Yocto_1.9_Schedule
-https://wiki.yoctoproject.org/wiki/Yocto_1.9_Features
+Signed-off-by: Mihaly Varga <mihaly.varga@ni.com>
+---
+ .../lib/wic/plugins/source/isoimage-isohybrid.py   | 488 +++++++++++++++++++++
+ 1 file changed, 488 insertions(+)
+ create mode 100644 scripts/lib/wic/plugins/source/isoimage-isohybrid.py
 
-Tracking Metrics:
-            WDD 1791 (last week 1685 )
-(https://wiki.yoctoproject.org/charts/combo.html)
+diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+new file mode 100644
+index 0000000..5c9f4c5
+--- /dev/null
++++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
+@@ -0,0 +1,488 @@
++# ex:ts=4:sw=4:sts=4:et
++# -*- tab-width: 4; c-basic-offset: 4; indent-tabs-mode: nil -*-
++
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++#
++# DESCRIPTION
++# This implements the 'isoimage-isohybrid' source plugin class for 'wic'
++#
++# AUTHORS
++# Mihaly Varga <mihaly.varga (at] ni.com>
++
++import os
++import re
++import shutil
++
++from wic import kickstart, msger
++from wic.pluginbase import SourcePlugin
++from wic.utils.oe.misc import exec_cmd, exec_native_cmd, get_bitbake_var
++
++class IsoImagePlugin(SourcePlugin):
++    """
++    Create a bootable ISO image
++
++    This plugin creates a hybrid, legacy and EFI bootable ISO image. The generated
++    image can be used on optical media as well as USB media.
++
++    Legacy boot uses syslinux and EFI boot uses grub or gummiboot (not implemented yet)
++    as bootloader. The plugin creates the directories required by bootloaders and populates them
++    by creating and configuring the bootloader files.
++
++    Example kickstart file:
++    part /boot --source isoimage-isohybrid --sourceparams="loader=grub-efi,image_name= IsoImage" \
++                      --ondisk cd --label LIVECD --fstype=ext2
++    bootloader  --timeout=10  --append=" "
++
++    In --sourceparams "loader" specifies the bootloader used for booting in EFI mode, while
++    "image_name" specifies the name of the generated image. In the example above, wic creates
++    an ISO image named IsoImage-cd.direct (default extension added by direct imeger plugin) and a
++    file named IsoImage-cd.iso
++    """
++
++    name = 'isoimage-isohybrid'
++
++    @classmethod
++    def do_configure_syslinux(self, isodir, cr, cr_workdir):
++        """
++        Create loader-specific (syslinux) config
++        """
++        splash = os.path.join(cr_workdir, "/ISO/boot/splash.jpg")
++        if os.path.exists(splash):
++            splashline = "menu background splash.jpg"
++        else:
++            splashline = ""
++
++        options = cr.ks.handler.bootloader.appendLine
++
++        timeout = kickstart.get_timeout(cr.ks)
++        if not timeout:
++            timeout = 10
++
++        syslinux_conf = ""
++        syslinux_conf += "PROMPT 0\n"
++        syslinux_conf += "TIMEOUT %s \n" % timeout
++        syslinux_conf += "\n"
++        syslinux_conf += "ALLOWOPTIONS 1\n"
++        syslinux_conf += "SERIAL 0 115200\n"
++        syslinux_conf += "\n"
++        if splashline:
++            syslinux_conf += "%s\n" % splashline
++        syslinux_conf += "DEFAULT boot\n"
++        syslinux_conf += "LABEL boot\n"
++
++        kernel = "/bzImage"
++        syslinux_conf += "KERNEL " + kernel + "\n"
++        syslinux_conf += "APPEND initrd=/initrd LABEL=boot root=/dev/ram0 %s \n" % options
++
++        msger.debug("Writing syslinux config %s/ISO/isolinux/isolinux.cfg" \
++                    % cr_workdir)
++        with open("%s/ISO/isolinux/isolinux.cfg" % cr_workdir, "w") as cfg:
++            cfg.write(syslinux_conf)
++
++    @classmethod
++    def do_configure_grubefi(self, isodir, part, cr, cr_workdir):
++        """
++        Create loader-specific (grub-efi) config
++        """
++        splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
++        if os.path.exists(splash):
++            splashline = "menu background splash.jpg"
++        else:
++            splashline = ""
++
++        options = cr.ks.handler.bootloader.appendLine
++
++        grubefi_conf = ""
++        grubefi_conf += "serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1\n"
++        grubefi_conf += "default=boot\n"
++        timeout = kickstart.get_timeout(cr.ks)
++        if not timeout:
++            timeout = 10
++        grubefi_conf += "timeout=%s\n" % timeout
++        grubefi_conf += "\n"
++        grubefi_conf += "search --set=root --label %s " % part.label
++        grubefi_conf += "\n"
++        grubefi_conf += "menuentry 'boot'{\n"
++
++        kernel = "/bzImage"
++
++        grubefi_conf += "linux %s rootwait %s\n" \
++            % (kernel, options)
++        grubefi_conf += "initrd /initrd \n"
++        grubefi_conf += "}\n"
++
++        msger.debug("Writing grubefi config %s/EFI/BOOT/grub.cfg" \
++                        % cr_workdir)
++        with open("%s/EFI/BOOT/grub.cfg" % cr_workdir, "w") as cfg:
++            cfg.write(grubefi_conf)
++
++    @staticmethod
++    def __build_initramfs_path():
++        """
++        Create path for initramfs image
++        """
++
++        initrd = get_bitbake_var("INITRD")
++        if not initrd:
++            initrd_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
++            if not initrd_dir:
++                msger.error("Couldn't find DEPLOY_DIR_IMAGE, exiting.\n")
++
++            image_name = get_bitbake_var("IMAGE_LINK_NAME")
++            if not image_name :
++                msger.error("Couldn't find IMAGE_LINK_NAME, exiting.\n")
++
++            image_type = get_bitbake_var("INITRAMFS_FSTYPES")
++            if not image_type:
++                msger.error("Couldn't find INITRAMFS_FSTYPES, exiting.\n")
++
++            initrd = "%s/%s.%s" % (initrd_dir, image_name, image_type)
++
++        if not os.path.exists(initrd):
++            msger.error("Couldn't find initrd or %s, exiting.\n" % initrd)
++        #TODO: create initrd from rootfs
++        return initrd
++
++    @classmethod
++    def do_stage_partition(self, part, source_params, cr, cr_workdir,
++                           oe_builddir, bootimg_dir, kernel_dir,
++                           native_sysroot):
++        """
++        Special content staging called before do_prepare_partition().
++        It cheks if all necessary tools are available, if not
++        tries to instal them.
++        """
++        # Make sure parted is available in native sysroot
++        if not os.path.isfile("%s/usr/sbin/parted" % native_sysroot):
++            msger.info("Building parted-native...\n")
++            exec_cmd("bitbake parted-native")
++
++        # Make sure mkfs.ext2/3/4 is available in native sysroot
++        if not os.path.isfile("%s/sbin/mkfs.ext2" % native_sysroot):
++            msger.info("Building e2fsprogs-native...\n")
++            exec_cmd("bitbake e2fsprogs-native")
++
++        # Make sure syslinux is available in sysroot and in native sysroot
++        syslinux_dir = get_bitbake_var("STAGING_DATADIR")
++        if not syslinux_dir:
++            msger.error("Couldn't find STAGING_DATADIR, exiting.\n")
++        if not os.path.exists("%s/syslinux" % syslinux_dir):
++            msger.info("Building syslinux...\n")
++            exec_cmd("bitbake syslinux")
++            msger.info("Building syslinux-native...\n")
++            exec_cmd("bitbake syslinux-native")
++        if not os.path.exists("%s/syslinux" % syslinux_dir):
++            msger.error("Please build syslinux first\n")
++
++        #Make sure mkisofs is available in native sysroot
++        if not os.path.isfile("%s/usr/bin/mkisofs" % native_sysroot):
++            msger.info("Building cdrtools-native...\n")
++            exec_cmd("bitbake cdrtools-native")
++
++        # Make sure mkfs.vfat is available in native sysroot
++        if not os.path.isfile("%s/sbin/mkfs.vfat" % native_sysroot):
++            msger.info("Building dosfstools-native...\n")
++            exec_cmd("bitbake dosfstools-native")
++
++        # Make sure mtools is available in native sysroot
++        if not os.path.isfile("%s/usr/bin/mcopy" % native_sysroot):
++            msger.info("Building mtools-native...\n")
++            exec_cmd("bitbake mtools-native")
++
++    @classmethod
++    def do_configure_partition(self, part, source_params, cr, cr_workdir,
++                               oe_builddir, bootimg_dir, kernel_dir,
++                               native_sysroot):
++        """
++        Called before do_prepare_partition(), creates loader-specific config
++        """
++        isodir = "%s/ISO/" % cr_workdir
++
++        if os.path.exists(cr_workdir):
++            shutil.rmtree(cr_workdir)
++
++        install_cmd = "install -d %s " % isodir
++        exec_cmd(install_cmd)
++
++        # Overwrite the name of the created image
++        msger.debug("%s" % source_params)
++        if 'image_name' in  source_params and  source_params['image_name'].strip():
++            cr.name = source_params['image_name'].strip()
++            msger.debug("The name of the image is: %s" % cr.name)
++
++    @classmethod
++    def do_prepare_partition(self, part, source_params, cr, cr_workdir,
++                             oe_builddir, bootimg_dir, kernel_dir,
++                             rootfs_dir, native_sysroot):
++        """
++        Called to do the actual content population for a partition i.e. it
++        'prepares' the partition to be incorporated into the image.
++        In this case, prepare content for a bootable ISO image.
++        """
++
++        isodir = "%s/ISO" % cr_workdir
++
++        if part.rootfs is None:
++            if not 'ROOTFS_DIR' in rootfs_dir:
++                msger.error("Couldn't find --rootfs-dir, exiting.\n")
++            rootfs_dir = rootfs_dir['ROOTFS_DIR']
++        else:
++            if part.rootfs in rootfs_dir:
++                rootfs_dir = rootfs_dir[part.rootfs]
++            elif part.rootfs:
++                rootfs_dir = part.rootfs
++            else:
++                msg = "Couldn't find --rootfs-dir=%s connection"
++                " or it is not a valid path, exiting.\n"
++                msger.error(msg % part.rootfs)
++
++        if not os.path.isdir(rootfs_dir):
++            rootfs_dir = get_bitbake_var("IMAGE_ROOTFS")
++        if not os.path.isdir(rootfs_dir):
++            msger.error("Couldn't find IMAGE_ROOTFS, exiting.\n")
++
++        part.set_rootfs(rootfs_dir)
++
++        # Prepare rootfs.img
++        hdd_dir = get_bitbake_var("HDDDIR")
++        img_iso_dir = get_bitbake_var("ISODIR")
++
++        rootfs_img = "%s/rootfs.img" % hdd_dir
++        if not os.path.isfile(rootfs_img):
++            rootfs_img = "%s/rootfs.img" % img_iso_dir
++        if not os.path.isfile(rootfs_img):
++            # check if rootfs.img is in deploydir
++            deploy_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
++            image_name = get_bitbake_var("IMAGE_LINK_NAME")
++            rootfs_img = "%s/%s.%s" \
++                % (deploy_dir, image_name, part.fstype)
++
++        if not os.path.isfile(rootfs_img):
++            # create image file with type specified by --fstype which contains rootfs
++            du_cmd = "du -bks %s" % rootfs_dir
++            out = exec_cmd(du_cmd)
++            part.set_size(int(out.split()[0]))
++            part.extra_space = 0;
++            part.overhead_factor = 1
++            part.prepare_rootfs(cr_workdir, oe_builddir, rootfs_dir, native_sysroot)
++            rootfs_img = part.source_file
++
++        install_cmd = "install -m 0644 %s %s/rootfs.img" \
++            % (rootfs_img, isodir)
++        exec_cmd(install_cmd)
++
++        # Remove the temporary file created by part.prepare_rootfs()
++        if os.path.isfile(part.source_file):
++            os.remove(part.source_file)
++
++        # Prepare initial ramdisk
++        initrd = "%s/initrd" % hdd_dir
++        if not os.path.isfile(initrd):
++            initrd = "%s/initrd" % img_iso_dir
++        if not os.path.isfile(initrd):
++            initrd = self.__build_initramfs_path()
++
++        install_cmd = "install -m 0644 %s %s/initrd" \
++            % (initrd, isodir)
++        exec_cmd(install_cmd)
++
++        # Install bzImage
++        install_cmd = "install -m 0644 %s/bzImage %s/bzImage" % \
++            (kernel_dir, isodir)
++        exec_cmd(install_cmd)
++
++        #Create bootloader for efi boot
++        try:
++            if source_params['loader'] == 'grub-efi':
++                # Builds grub.cfg if ISODIR didn't exist or didn't contains grub.cfg
++                bootimg_dir = img_iso_dir
++                if not os.path.exists("%s/EFI/BOOT" % bootimg_dir):
++                    bootimg_dir = "%s/bootimg" % cr_workdir
++                    if os.path.exists(bootimg_dir):
++                        shutil.rmtree(bootimg_dir)
++                    install_cmd = "install -d %s/EFI/BOOT" % bootimg_dir
++                    exec_cmd(install_cmd)
++
++                if not os.path.isfile("%s/EFI/BOOT/boot.cfg" % bootimg_dir):
++                    self.do_configure_grubefi(isodir, part, cr, bootimg_dir)
++
++                # Builds bootx64.efi/bootia32.efi if ISODIR didn't exist or didn't contains it
++                target_arch = get_bitbake_var("TARGET_SYS")
++                if not target_arch:
++                    msger.error("Coludn't find target architecture\n")
++
++                if re.match("x86_64",target_arch):
++                     grub_target = 'x86_64-efi'
++                     grub_image = "bootx64.efi"
++                elif re.match('i.86', target_arch):
++                     grub_target = 'i386-efi'
++                     grub_image = "bootia32.efi"
++                else:
++                     msger.error("grub-efi is incompatible with target %s\n" % target_arch)
++
++                if not os.path.isfile("%s/EFI/BOOT/%s" % (bootimg_dir, grub_image)):
++                    grub_path = get_bitbake_var("STAGING_LIBDIR")
++                    if not grub_path:
++                        msger.error("Couldn't find STAGING_LIBDIR, exiting.\n")
++
++                    grub_core = "%s/grub/%s" % (grub_path, grub_target)
++                    if not os.path.exists(grub_core):
++                        msger.info("Building grub-efi...\n")
++                        exec_cmd("bitbake grub-efi")
++                    if not os.path.exists(grub_core):
++                        msger.error("Please build grub-efi first\n")
++
++                    grub_cmd = "grub-mkimage -p '/EFI/BOOT' "
++                    grub_cmd += "-d %s "  % grub_core
++                    grub_cmd += "-O %s -o %s/EFI/BOOT/%s " % (grub_target, bootimg_dir, grub_image)
++                    grub_cmd += "part_gpt part_msdos ntfs ntfscomp fat ext2 normal chain boot configfile "
++                    grub_cmd += "linux multiboot search efi_gop efi_uga font gfxterm gfxmenu terminal minicmd "
++                    grub_cmd += "test iorw loadenv echo reboot serial terminfo iso9660 loopback "
++                    grub_cmd += "memdisk tar help ls search_fs_uuid udf  btrfs reiserfs xfs lvm ata "
++                    exec_native_cmd(grub_cmd, native_sysroot)
++
++            else:
++                # TODO: insert gummiboot stuff
++                msger.error("unrecognized bootimg-efi loader: %s" % source_params['loader'])
++        except KeyError:
++            msger.error("bootimg-efi requires a loader, none specified")
++
++        if os.path.exists("%s/EFI/BOOT" % isodir):
++            shutil.rmtree("%s/EFI/BOOT" % isodir)
++
++        shutil.copytree(bootimg_dir+"/EFI/BOOT", isodir+"/EFI/BOOT")
++
++        # If exists, remove cr_workdir/bootimg temporary folder
++        if os.path.exists("%s/bootimg" % cr_workdir):
++            shutil.rmtree("%s/bootimg" % cr_workdir)
++
++        # Create efi.img that contains bootloader files for EFI booting
++        # if ISODIR didn't exist or didn't contains it
++        if os.path.isfile("%s/efi.img" % img_iso_dir):
++            install_cmd = "install -m 0644 %s/efi.img %s/efi.img" % \
++                (img_iso_dir, isodir)
++            exec_cmd(install_cmd)
++        else:
++            du_cmd = "du -bks %s/EFI" % isodir
++            out = exec_cmd(du_cmd)
++            blocks = int(out.split()[0])
++            blocks += 100
++            msger.debug("Added 100 extra blocks to %s to get to %d total blocks" % \
++                       ( part.mountpoint, blocks))
++
++            # Ensure total sectors is an integral number of sectors per
++            # track or mcopy will complain. Sectors are 512 bytes, and we
++            # generate images with 32 sectors per track. This calculation is
++            # done in blocks, thus the mod by 16 instead of 32.
++            blocks += (16 - (blocks % 16))
++
++            # dosfs image for EFI boot
++            bootimg = "%s/efi.img" % isodir
++
++            dosfs_cmd = 'mkfs.vfat -n "EFIimg" -S 512 -C %s %d' % (bootimg, blocks)
++            exec_native_cmd(dosfs_cmd, native_sysroot)
++
++            mmd_cmd = "mmd -i %s ::/EFI" % bootimg
++            exec_native_cmd(mmd_cmd, native_sysroot)
++
++            mcopy_cmd = "mcopy -i %s -s %s/EFI/* ::/EFI/" % (bootimg, isodir)
++            exec_native_cmd(mcopy_cmd, native_sysroot)
++
++            chmod_cmd = "chmod 644 %s" % bootimg
++            exec_cmd(chmod_cmd)
++
++        # Prepare files for legacy boot
++        syslinux_dir = get_bitbake_var("STAGING_DATADIR")
++        if not syslinux_dir:
++            msger.error("Couldn't find STAGING_DATADIR, exiting.\n")
++
++        if os.path.exists("%s/isolinux" % isodir):
++            shutil.rmtree("%s/isolinux" % isodir)
++
++        install_cmd = "install -d %s/isolinux" % isodir
++        exec_cmd(install_cmd)
++
++        self.do_configure_syslinux(isodir, cr, cr_workdir)
++
++        install_cmd = "install -m 444 %s/syslinux/ldlinux.sys %s/isolinux/ldlinux.sys" \
++            % (syslinux_dir, isodir)
++        exec_cmd(install_cmd)
++
++        install_cmd = "install -m 444 %s/syslinux/isohdpfx.bin %s/isolinux/isohdpfx.bin" \
++            % (syslinux_dir, isodir)
++        exec_cmd(install_cmd)
++
++        install_cmd = "install -m 0644 %s/syslinux/isolinux.bin %s/isolinux/isolinux.bin" \
++            % (syslinux_dir, isodir)
++        exec_cmd(install_cmd)
++
++        install_cmd = "install -m 0644 %s/syslinux/ldlinux.c32 %s/isolinux/ldlinux.c32" \
++            % (syslinux_dir, isodir)
++        exec_cmd(install_cmd)
++
++        #create ISO image
++        iso_img = "%s/tempiso_img.iso" % cr_workdir
++        iso_bootimg = "isolinux/isolinux.bin"
++        iso_bootcat = "isolinux/boot.cat"
++        efi_img = "efi.img"
++
++        mkisofs_cmd = "mkisofs -V %s " % part.label
++        mkisofs_cmd += "-o %s " % iso_img
++        mkisofs_cmd += "-U -J -joliet-long -r -iso-level 2 -b %s " % iso_bootimg
++        mkisofs_cmd += "-c %s -no-emul-boot -boot-load-size 4 -boot-info-table " % iso_bootcat
++        mkisofs_cmd += "-eltorito-alt-boot "
++        mkisofs_cmd += "-eltorito-platform 0xEF -eltorito-boot %s " % efi_img
++        mkisofs_cmd += "-no-emul-boot %s " % isodir
++
++        msger.debug("running command: %s" % mkisofs_cmd)
++        exec_native_cmd(mkisofs_cmd, native_sysroot)
++
++        shutil.rmtree(isodir)
++
++        du_cmd = "du -Lbks %s" % iso_img
++        out = exec_cmd(du_cmd)
++        isoimg_size = int(out.split()[0])
++
++        part.set_size(isoimg_size)
++        part.set_source_file(iso_img)
++        self.iso_img = iso_img
++
++    @classmethod
++    def do_install_disk(self, disk, disk_name, cr, workdir, oe_builddir,
++                        bootimg_dir, kernel_dir, native_sysroot):
++        """
++        Called after all partitions have been prepared and assembled into a
++        disk image.  In this case, we insert/modify the MBR using isohybrid
++        utility for booting via BIOS from disk storage devices.
++        """
++
++        full_path = cr._full_path(workdir, disk_name, "direct")
++        full_path_iso = cr._full_path(workdir, disk_name, "iso")
++
++        isohybrid_cmd = "isohybrid -u %s" % self.iso_img
++        msger.debug("running command: %s" % \
++                    isohybrid_cmd)
++        exec_native_cmd(isohybrid_cmd, native_sysroot)
++
++        # Replace the image created by direct plugin with the one created by
++        # mkisofs command. This is necessary because the iso image created by mkisofs
++        # has a very specific MBR is system area of the ISO image, and direct plugin 
++        # adds and configures an another MBR.
++        msger.debug("Replaceing the image created by direct plugin ")
++        os.remove(full_path)
++        shutil.copy2(self.iso_img,full_path_iso)
++        shutil.copy2(full_path_iso, full_path)
++
++        # Remove temporary ISO file
++        os.remove(self.iso_img)
+-- 
+1.9.1
 
-[If anyone has suggestions for other information you'd like to see on this =
-weekly status update, let us know!]
 
-Thanks,
-
-Stephen K. Jolley
-Yocto Project Program Manager
-INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-*   Work Telephone:          (503) 712-0534
-*    Cell:                                (208) 244-4460
-* Email:                             stephen.k.jolley@intel.com
-
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E555DC179fmsmsx111amrcor_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:p=3D"urn:schemas-m=
-icrosoft-com:office:powerpoint" xmlns:a=3D"urn:schemas-microsoft-com:office=
-:access" xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:s=3D"=
-uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" xmlns:rs=3D"urn:schemas-microsof=
-t-com:rowset" xmlns:z=3D"#RowsetSchema" xmlns:b=3D"urn:schemas-microsoft-co=
-m:office:publisher" xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadshee=
-t" xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" xmlns=
-:odc=3D"urn:schemas-microsoft-com:office:odc" xmlns:oa=3D"urn:schemas-micro=
-soft-com:office:activation" xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" xmlns:rtc=3D"http://m=
-icrosoft.com/officenet/conferencing" xmlns:D=3D"DAV:" xmlns:Repl=3D"http://=
-schemas.microsoft.com/repl/" xmlns:mt=3D"http://schemas.microsoft.com/share=
-point/soap/meetings/" xmlns:x2=3D"http://schemas.microsoft.com/office/excel=
-/2003/xml" xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" xmlns:ois=
-=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" xmlns:dir=3D"http://=
-schemas.microsoft.com/sharepoint/soap/directory/" xmlns:ds=3D"http://www.w3=
-.org/2000/09/xmldsig#" xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint=
-/dsp" xmlns:udc=3D"http://schemas.microsoft.com/data/udc" xmlns:xsd=3D"http=
-://www.w3.org/2001/XMLSchema" xmlns:sub=3D"http://schemas.microsoft.com/sha=
-repoint/soap/2002/1/alerts/" xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#"=
- xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" xmlns:sps=3D"http://=
-schemas.microsoft.com/sharepoint/soap/" xmlns:xsi=3D"http://www.w3.org/2001=
-/XMLSchema-instance" xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/so=
-ap" xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" xmlns:udc=
-p2p=3D"http://schemas.microsoft.com/data/udc/parttopart" xmlns:wf=3D"http:/=
-/schemas.microsoft.com/sharepoint/soap/workflow/" xmlns:dsss=3D"http://sche=
-mas.microsoft.com/office/2006/digsig-setup" xmlns:dssi=3D"http://schemas.mi=
-crosoft.com/office/2006/digsig" xmlns:mdssi=3D"http://schemas.openxmlformat=
-s.org/package/2006/digital-signature" xmlns:mver=3D"http://schemas.openxmlf=
-ormats.org/markup-compatibility/2006" xmlns:m=3D"http://schemas.microsoft.c=
-om/office/2004/12/omml" xmlns:mrels=3D"http://schemas.openxmlformats.org/pa=
-ckage/2006/relationships" xmlns:spwp=3D"http://microsoft.com/sharepoint/web=
-partpages" xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/20=
-06/types" xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/200=
-6/messages" xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/Sli=
-deLibrary/" xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortal=
-Server/PublishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" xmlns:=
-st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p
-	{mso-style-priority:99;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:12.0pt;
-	font-family:"Times New Roman","serif";}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-span.apple-tab-span
-	{mso-style-name:apple-tab-span;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:186063349;
-	mso-list-template-ids:619057868;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:759906443;
-	mso-list-template-ids:-1279086266;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l2
-	{mso-list-id:1263686088;
-	mso-list-template-ids:1562437380;}
-@list l2:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l2:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l2:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Current Dev Position: 1.9 Milestone 2 (M2)</sp=
-an><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,=
-&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Next Deadline: M2 cut off of July 27th at noon=
- GMT</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roma=
-n&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">SWAT team rotation: Cristian -&gt; Randy</span=
-><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&q=
-uot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_Build_Failure_Swat_Team"><span style=3D"font-size:11.0pt;fo=
-nt-family:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_=
-Build_Failure_Swat_Team</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key Status/Updates:</span><span style=3D"font-=
-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p=
-></o:p></span></p>
-<ul style=3D"margin-top:0in" type=3D"disc">
-<li class=3D"MsoNormal" style=3D"color:black;mso-list:l2 level1 lfo4;vertic=
-al-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">YP 1.9=
- M2 rc2 is out of QA and will be released shortly. &nbsp;The full test repo=
-rt can be accessed<a href=3D"https://wiki.yoctoproject.org/wiki/WW28_-_2015=
--07-10_-_Full_Pass_1.9_M1.rc2"><span style=3D"color:black;text-decoration:n=
-one">
-</span><span style=3D"font-family:Consolas;color:#1155CC">here</span></a>. =
-&nbsp;The Release criteria are located
-<a href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Project_v1.9_Status#Mil=
-estone_1_-_Target_July_10.2C_2015">
-<span style=3D"color:#1155CC">here</span></a>.<o:p></o:p></span></li><li cl=
-ass=3D"MsoNormal" style=3D"color:black;mso-list:l2 level1 lfo4;vertical-ali=
-gn:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Autobu=
-ilder intermittent failure issues are being tracked via a number of bugs, a=
-ll tracked by bug
-<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D7983"><span =
-style=3D"color:#1155CC">7983</span></a>.<o:p></o:p></span></li><li class=3D=
-"MsoNormal" style=3D"color:black;mso-list:l2 level1 lfo4;vertical-align:bas=
-eline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">WDD ha=
-s seen large increases (likely due to the significant number of autobuilder=
- issues being seen)<o:p></o:p></span></li><li class=3D"MsoNormal" style=3D"=
-color:black;mso-list:l2 level1 lfo4;vertical-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Two ke=
-y performance regressions with the new data store were identified and fixed=
-<o:p></o:p></span></li><li class=3D"MsoNormal" style=3D"color:black;mso-lis=
-t:l2 level1 lfo4;vertical-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">The bi=
-tbake logging changes introduced a performance regression due to issues wit=
-h fifos in pseudo (now resolved in 1.6.7)<o:p></o:p></span></li><li class=
-=3D"MsoNormal" style=3D"color:black;mso-list:l2 level1 lfo4;vertical-align:=
-baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Signif=
-icant linux-yocto kernel changes (separate meta repository) are being worke=
-d on and due to merge soon<o:p></o:p></span></li><li class=3D"MsoNormal" st=
-yle=3D"color:black;mso-list:l2 level1 lfo4;vertical-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">We wil=
-l likely make the expansion parameter to getVar mandatory soon as discussed=
- (default is False currently)<o:p></o:p></span></li><li class=3D"MsoNormal"=
- style=3D"color:black;mso-list:l2 level1 lfo4;vertical-align:baseline">
-<span style=3D"font-family:&quot;Arial&quot;,&quot;sans-serif&quot;">Severa=
-l M2 features may be delayed due to knock on effect of delayed M1<o:p></o:p=
-></span></li></ul>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key YP 1.9 Dates:</span><span style=3D"font-si=
-ze:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p><=
-/o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 Feature Freeze =
-Date/M3 Cut off: Aug. 24, 2015 noon GMT
-</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">YP Final/M4 Cut off=
-: Sept. 28, 2015 noon GMT
-</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 M1 Release Targ=
-et: Before July 10, 2015
-</span><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 M2 Release Targ=
-et: Before Aug. 14, 2015</span><span style=3D"font-size:12.0pt;font-family:=
-&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 M3 Release Targ=
-et: Before Sept. 11 2015</span><span style=3D"font-size:12.0pt;font-family:=
-&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"margin-left:.5in"><span style=3D"font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:black">1.9 final Release T=
-arget: Before Oct. 30, 2015</span><span style=3D"font-size:12.0pt;font-fami=
-ly:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Key Status Links for YP:</span><span style=3D"=
-font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"=
-><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_Project_v1.9_Status"><span style=3D"font-size:11.0pt;font-f=
-amily:Consolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_Proj=
-ect_v1.9_Status</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_1.9_Schedule"><span style=3D"font-size:11.0pt;font-family:C=
-onsolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_1.9_Schedul=
-e</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoctoproject=
-.org/wiki/Yocto_1.9_Features"><span style=3D"font-size:11.0pt;font-family:C=
-onsolas;color:#1155CC">https://wiki.yoctoproject.org/wiki/Yocto_1.9_Feature=
-s</span></a><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,&quot;serif&quot;"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">Tracking Metrics:</span><span style=3D"font-si=
-ze:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p><=
-/o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; WDD 1791 (last week 1685 )</span><span style=3D"font-s=
-ize:12.0pt;font-family:&quot;Times New Roman&quot;,&quot;serif&quot;"><o:p>=
-</o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-indent:.5in"><span style=3D"font-famil=
-y:Consolas;color:black">(</span><span style=3D"font-size:12.0pt;font-family=
-:&quot;Times New Roman&quot;,&quot;serif&quot;"><a href=3D"https://wiki.yoc=
-toproject.org/charts/combo.html"><span style=3D"font-size:11.0pt;font-famil=
-y:&quot;Arial&quot;,&quot;sans-serif&quot;;color:#1155CC">https://wiki.yoct=
-oproject.org/charts/combo.html</span></a></span><span style=3D"font-family:=
-Consolas;color:black">)</span><span style=3D"font-size:12.0pt;font-family:&=
-quot;Times New Roman&quot;,&quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Consolas;color:black">&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; </span>
-<span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&qu=
-ot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:&quot;Arial&quot;,&quot;s=
-ans-serif&quot;;color:black">[If anyone has suggestions for other informati=
-on you&#8217;d like to see on this weekly status update, let us know!]</spa=
-n><span style=3D"font-size:12.0pt;font-family:&quot;Times New Roman&quot;,&=
-quot;serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><i><span style=3D"font-size:16.0pt;font-family:&quot;Times New Roman&qu=
-ot;,&quot;serif&quot;;color:purple">Stephen K. Jolley</span></i></b><b><i><=
-span style=3D"font-size:16.0pt;font-family:&quot;Tahoma&quot;,&quot;sans-se=
-rif&quot;;color:purple"><o:p></o:p></span></i></b></p>
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.0pt;font-family:&quot;=
-Courier New&quot;;color:blue">Yocto Project Program Manager<o:p></o:p></spa=
-n></b></p>
-<p class=3D"MsoNormal" style=3D"page-break-after:avoid;text-autospace:none"=
-><b><span style=3D"font-size:10.0pt;font-family:&quot;Courier New&quot;;col=
-or:fuchsia">INTEL, MS JF1-255, 2111 N.E. 25th Avenue, Hillsboro, OR 97124
-<o:p></o:p></span></b></p>
-<p class=3D"MsoNormal"><span style=3D"font-family:Wingdings;color:black">(<=
-/span><span style=3D"font-family:&quot;MS Sans Serif&quot;,&quot;serif&quot=
-;;color:teal">
-</span><span style=3D"font-size:8.0pt;font-family:&quot;MS Sans Serif&quot;=
-,&quot;serif&quot;;color:teal">&nbsp;&nbsp;</span><b><span style=3D"font-si=
-ze:8.0pt;font-family:&quot;Comic Sans MS&quot;;color:teal">Work Telephone</=
-span></b><span style=3D"font-family:&quot;MS Sans Serif&quot;,&quot;serif&q=
-uot;;color:teal">:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-,&quot;serif&quot;">(503) 712-0534<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-;color:black">(</span><span style=3D"font-size:9.0pt;font-family:&quot;MS S=
-ans Serif&quot;,&quot;serif&quot;;color:teal">&nbsp;&nbsp;&nbsp;
-</span><b><span style=3D"font-size:8.0pt;font-family:&quot;Comic Sans MS&qu=
-ot;;color:teal">Cell</span></b><span style=3D"font-size:9.0pt;font-family:&=
-quot;MS Sans Serif&quot;,&quot;serif&quot;;color:teal">:&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;
-</span><span style=3D"font-size:9.0pt;font-family:&quot;MS Sans Serif&quot;=
-,&quot;serif&quot;">(208) 244-4460<span style=3D"color:black"><o:p></o:p></=
-span></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:9.0pt;font-family:Wingdings=
-">* </span>
-<b><span lang=3D"FR" style=3D"font-size:8.0pt;font-family:&quot;Comic Sans =
-MS&quot;;color:teal">Email</span></b><span lang=3D"FR" style=3D"font-size:9=
-.0pt;font-family:&quot;MS Sans Serif&quot;,&quot;serif&quot;;color:teal">:<=
-/span><span lang=3D"FR" style=3D"font-size:9.0pt;font-family:&quot;MS Sans =
-Serif&quot;,&quot;serif&quot;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<u><span style=3D"color:blue">stephen.k.jolley@intel.com</span></u></span><=
-span lang=3D"FR" style=3D"font-size:12.0pt;font-family:&quot;Arial&quot;,&q=
-uot;sans-serif&quot;"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_9ADD3FDE8B189B4AA2F8A3C711F8155E555DC179fmsmsx111amrcor_--
