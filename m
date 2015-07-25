@@ -1,42 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 285DD73237
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C062A76248
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jul 2015 05:29:03 +0000 (UTC)
-Received: by pachj5 with SMTP id hj5so24029157pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jul 2015 22:29:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=oQ9g/Q1hdP/PYZv4NX68TUpNZwmRco8VB5fsVpsSur4=;
-	b=h0lIKSR9YuE3/t+GVN9ZCl0hgR0a0QnyjhiREhBm6blpX01XoB/W+/QrX3dLz2jxmo
-	WeZB6ApTyNp2cZppp0xxpJtbhdeC4ISPrw2btSxojvU3WTkV6oI330kaWEFhkPrfl9jp
-	mP93/AAxs+3ksUlJaoiR0qUh93vh2KAy1faWNbDxYMrTyAEcM7P0JzAESJjU0uDGFHmJ
-	ps/gCj70RnvS1L1oaceCDRw67TQi3FmTFKKOKH7sRXgJ0NqUhWW4q3vdU4er5jIUwBJC
-	JgvO67Lm8n9vEQKG8TnxTDoaX4DWKNBaI6Ojx6c1+2w5DXJ/tazXRDhLq2RQl6wZF3Kv
-	Df9g==
-X-Received: by 10.66.62.163 with SMTP id z3mr39487323par.12.1437802143511;
-	Fri, 24 Jul 2015 22:29:03 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:1991:e433:f69c:a8f7?
-	([2601:202:4000:1239:1991:e433:f69c:a8f7])
-	by smtp.googlemail.com with ESMTPSA id
-	dd3sm17642106pad.45.2015.07.24.22.29.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 Jul 2015 22:29:01 -0700 (PDT)
-Message-ID: <55B31E95.2010906@gmail.com>
-Date: Fri, 24 Jul 2015 22:28:53 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1437232180.git.akuster808@gmail.com>
-	<1437723284.821.143.camel@linuxfoundation.org>
-In-Reply-To: <1437723284.821.143.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/25] Dizzy next for .3
+	Sat, 25 Jul 2015 07:29:35 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 25 Jul 2015 00:29:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,542,1432623600"; d="scan'208";a="754538251"
+Received: from unknown (HELO [10.252.22.224]) ([10.252.22.224])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jul 2015 00:29:34 -0700
+Message-ID: <1437809373.11632.22.camel@tkkaskin-mobl3.ger.corp.intel.com>
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: Pau Espin Pedrol <pespin.shar@gmail.com>
+Date: Sat, 25 Jul 2015 10:29:33 +0300
+In-Reply-To: <CAEGpDubFdWgrcje9hzz9CQ56MDB2kfQ5GKOG0Y9qEzsqz63=8A@mail.gmail.com>
+References: <1437746580-31696-1-git-send-email-pau.espin@aweurope.be>
+	<1437746580-31696-2-git-send-email-pau.espin@aweurope.be>
+	<CAEGpDubFdWgrcje9hzz9CQ56MDB2kfQ5GKOG0Y9qEzsqz63=8A@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: Christopher Larson <clarson@kergoth.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 2/3] systemd.bbclass: Use systemd_system_unitdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,57 +35,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jul 2015 05:29:04 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Sat, 25 Jul 2015 07:29:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Fri, 2015-07-24 at 17:10 +0200, Pau Espin Pedrol wrote:
+> Hi,
+> 
+> actually this breaks build of systemd.bb itself, because it installs
+> its system recipes using paths from Makefile.am:
+>         userunitdir=$(prefix)/lib/systemd/user
+>         systemunitdir=$(rootprefix)/lib/systemd/system
+> 
+> And in the recipe for systemd_219.bb we have:
+>         # Helper variables to clarify locations.  This mirrors the
+>         logic in systemd's
+>         # build system.
+>         rootprefix ?= "${base_prefix}"
+>         rootlibdir ?= "${base_libdir}"
+>         rootlibexecdir = "${rootprefix}/lib"
+> 
+> 
+> So, that means it installs its own services into /lib, not /usr/lib.
+> The changes done in systemd.bbclass in this patch remove the search
+> path of /lib, allowing only ${system_system_unitdir} which is
+> "/usr/lib/systemd/system".
+> 
+> 
+> I tried changing rootprefix to use "${prefix}" but then I get other
+> problems:
+>         ERROR: QA Issue: systemd: Files/directories were installed but
+>         not shipped
+>           /usr/bin/udevadm
+>           /usr/bin/journalctl
+>           /usr/bin/loginctl
+>           /usr/bin/machinectl
+>           /usr/bin/systemctl
+>           /usr/lib/udev/.debug
+>           /usr/lib/udev/.debug/cdrom_id
+>           /usr/lib/udev/.debug/collect
+>           /usr/lib/udev/.debug/ata_id
+>           /usr/lib/udev/.debug/v4l_id
+>           /usr/lib/udev/.debug/mtd_probe
+>           /usr/lib/udev/.debug/scsi_id
+>           /usr/lib/udev/.debug/accelerometer
+>           /usr/lib/udev/rules.d/70-uaccess.rules
+>           /usr/lib/udev/rules.d/73-seat-late.rules
+>           /usr/lib/udev/rules.d/71-seat.rules
+>           /usr/lib/udev/rules.d/99-systemd.rules
+> 
+> 
+> Which at the end makes me think... is it really a good idea to set
+> systemd_unitdir and system_system_unitdir to use "${nonarch_libdir}"?
+> I think we should be better using ${nonarch_base_libdir} for those, as
+> systemd guys themselves make distinction between both (prefix vs
+> rootprefix).
+
+I agree. ${nonarch_base_libdir} seems to be definitely the right place
+to put system service files. This may change if some day nobody will
+have a separate /usr partition any more (which is what the systemd
+developers are pushing for, AFAIK), but as long as we have to deal with
+systems with a separate /usr partition, I think using /lib is the only
+safe choice.
+
+-- 
+Tanu
 
 
-On 07/24/2015 12:34 AM, Richard Purdie wrote:
-> On Sat, 2015-07-18 at 08:16 -0700, Armin Kuster wrote:
->> Please consider these for the 1.7.3 release
->>
->> The following changes since commit 5f0d25152bac2d3798663a4ebfdd2df24060f153:
->>
->>    openssl: upgrade to 1.0.1p (2015-07-15 15:25:43 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
->>    http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-nex
->
-> We ran dizzy through the autobuilder as we have an opportunity to roll a
-> 1.7.3 release soon. The result was:
->
-> https://autobuilder.yoctoproject.org/main/tgrid
-> or more specifically:
-> http://errors.yoctoproject.org/Errors/Search/?items=10&query=1b492dfcdd692fe9440a1711812a1bb60ac741e5
->
-> which looks to me to largely be gcc5 issues on the host, particularly
-> Fedora22. There was also a bug occurred in build-appliance which has
-> been resolved in master/fido.
->
-> We therefore need to decide whether to backport the gcc5 host fixes back
-> to 1.7.3 or whether we have to disable autobuilders in order to be able
-> to build it...
-
-I found the answer on 
-https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
-
-"The primary focus for stable branches is bugfixing, security updates, 
-and making sure that builds on recently released Ubuntu, Fedora, and 
-OpenSUSE distros work"
-
-so we should back port the gcc5 host fixes. Is that something I need to ?
-
-thanks for asking,
-
-Kind regards and Mahalo,
-Armin
-
->
-> Cheers,
->
-> Richard
->
 
