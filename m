@@ -1,30 +1,31 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D002A7627D
+	by mail.openembedded.org (Postfix) with ESMTP id 986EA75BD3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jul 2015 13:48:36 +0000 (UTC)
+	Sat, 25 Jul 2015 16:09:29 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6PDmaYo012402 for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jul 2015 14:48:36 +0100
+	t6PG9PkJ015370; Sat, 25 Jul 2015 17:09:25 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id TyVFevs1S1UU
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jul 2015 14:48:36 +0100 (BST)
+	with LMTP id 89xYRqdOuSSA; Sat, 25 Jul 2015 17:09:25 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6PDmL3r012397
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jul 2015 14:48:32 +0100
-Message-ID: <1437832101.821.168.camel@linuxfoundation.org>
+	t6PG99BS015354
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 25 Jul 2015 17:09:20 +0100
+Message-ID: <1437840549.821.171.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 25 Jul 2015 14:48:21 +0100
+To: Christopher Larson <kergoth@gmail.com>
+Date: Sat, 25 Jul 2015 17:09:09 +0100
+In-Reply-To: <cover.1437663603.git.chris_larson@mentor.com>
+References: <cover.1437663603.git.chris_larson@mentor.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] toolchain-scripts: For non-glibc, pass compiler options to ensure the correct libc selection
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv3 0/6] recipetool/devtool/oe-selftest: pull from BBPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +38,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jul 2015 13:48:37 -0000
+X-List-Received-Date: Sat, 25 Jul 2015 16:09:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-gcc-cross-canadian-<arch> is only built once. It needs to target all the
-different libcs, not just the currently selected one. This change ensures
-that if another libc is used, the compiler correctly selects the right one.
+On Thu, 2015-07-23 at 12:57 -0700, Christopher Larson wrote:
+> From: Christopher Larson <chris_larson@mentor.com>
+> 
+> Ensures that recipetool and devtool pull plugins from layers, and
+> oe-selftest will pull tests from layers.
+> 
+> Unrelated to that, also prevents a traceback on parsing failure, and adds
+> a tiny feature to appendsrc to facilitate reuse by other sub-commands.
+> 
+> [v3 Update] Fixed the commit message for `devtool: also load plugins from
+> BBPATH` to match the implementation. Split up `recipetool: also load plugins
+> from BBPATH` into two commits with clear commit messages.
+> 
+> [v2 Update] `devtool: also load plugins from BBPATH` was fixed, so it no longer
+> breaks the devtool selftests.
 
-[YOCTO #8025]
+I know there are some issues with oe-selftest on the autobuilder at the
+moment, specifically master results in things like:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/93
 
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index a6ad041..d0b2b91 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -3,6 +3,8 @@ inherit siteinfo kernel-arch
- # We want to be able to change the value of MULTIMACH_TARGET_SYS, because it
- # doesn't always match our expectations... but we default to the stock value
- REAL_MULTIMACH_TARGET_SYS ?= "${MULTIMACH_TARGET_SYS}"
-+TARGET_CC_ARCH_append_libc-uclibc = " -muclibc"
-+TARGET_CC_ARCH_append_libc-musl = " -mmusl"
- 
- # This function creates an environment-setup-script for use in a deployable SDK
- toolchain_create_sdk_env_script () {
+however when I apply this and your other series, the autobuilder
+oe-selftest does this:
 
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/92/steps/Running%20oe-selftest/logs/stdio
+
+which is substantially worse. I can't immediately see what the issue is
+but the two runs above pretty much bisect this down to the patch series.
+I'm therefore reluctant to merge these until we can figure out what is
+going on...
+
+Cheers,
+
+Richard
 
 
