@@ -1,28 +1,27 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C062A76248
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 61C2C75BD3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jul 2015 07:29:35 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 25 Jul 2015 00:29:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,542,1432623600"; d="scan'208";a="754538251"
-Received: from unknown (HELO [10.252.22.224]) ([10.252.22.224])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Jul 2015 00:29:34 -0700
-Message-ID: <1437809373.11632.22.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: Pau Espin Pedrol <pespin.shar@gmail.com>
-Date: Sat, 25 Jul 2015 10:29:33 +0300
-In-Reply-To: <CAEGpDubFdWgrcje9hzz9CQ56MDB2kfQ5GKOG0Y9qEzsqz63=8A@mail.gmail.com>
-References: <1437746580-31696-1-git-send-email-pau.espin@aweurope.be>
-	<1437746580-31696-2-git-send-email-pau.espin@aweurope.be>
-	<CAEGpDubFdWgrcje9hzz9CQ56MDB2kfQ5GKOG0Y9qEzsqz63=8A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+	Sat, 25 Jul 2015 13:38:12 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6PDcB4g011918; Sat, 25 Jul 2015 14:38:11 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id kIIWshk_mDeu; Sat, 25 Jul 2015 14:38:11 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6PDbwJk011905
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 25 Jul 2015 14:38:10 +0100
+Message-ID: <1437831478.821.163.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 25 Jul 2015 14:37:58 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: Christopher Larson <clarson@kergoth.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3 2/3] systemd.bbclass: Use systemd_system_unitdir
+Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>
+Subject: [PATCH] perf: Fix config file conflict with 4.1 kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +34,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jul 2015 07:29:39 -0000
+X-List-Received-Date: Sat, 25 Jul 2015 13:38:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-07-24 at 17:10 +0200, Pau Espin Pedrol wrote:
-> Hi,
-> 
-> actually this breaks build of systemd.bb itself, because it installs
-> its system recipes using paths from Makefile.am:
->         userunitdir=$(prefix)/lib/systemd/user
->         systemunitdir=$(rootprefix)/lib/systemd/system
-> 
-> And in the recipe for systemd_219.bb we have:
->         # Helper variables to clarify locations.  This mirrors the
->         logic in systemd's
->         # build system.
->         rootprefix ?= "${base_prefix}"
->         rootlibdir ?= "${base_libdir}"
->         rootlibexecdir = "${rootprefix}/lib"
-> 
-> 
-> So, that means it installs its own services into /lib, not /usr/lib.
-> The changes done in systemd.bbclass in this patch remove the search
-> path of /lib, allowing only ${system_system_unitdir} which is
-> "/usr/lib/systemd/system".
-> 
-> 
-> I tried changing rootprefix to use "${prefix}" but then I get other
-> problems:
->         ERROR: QA Issue: systemd: Files/directories were installed but
->         not shipped
->           /usr/bin/udevadm
->           /usr/bin/journalctl
->           /usr/bin/loginctl
->           /usr/bin/machinectl
->           /usr/bin/systemctl
->           /usr/lib/udev/.debug
->           /usr/lib/udev/.debug/cdrom_id
->           /usr/lib/udev/.debug/collect
->           /usr/lib/udev/.debug/ata_id
->           /usr/lib/udev/.debug/v4l_id
->           /usr/lib/udev/.debug/mtd_probe
->           /usr/lib/udev/.debug/scsi_id
->           /usr/lib/udev/.debug/accelerometer
->           /usr/lib/udev/rules.d/70-uaccess.rules
->           /usr/lib/udev/rules.d/73-seat-late.rules
->           /usr/lib/udev/rules.d/71-seat.rules
->           /usr/lib/udev/rules.d/99-systemd.rules
-> 
-> 
-> Which at the end makes me think... is it really a good idea to set
-> systemd_unitdir and system_system_unitdir to use "${nonarch_libdir}"?
-> I think we should be better using ${nonarch_base_libdir} for those, as
-> systemd guys themselves make distinction between both (prefix vs
-> rootprefix).
+If you setup mutlitlibs and then:
 
-I agree. ${nonarch_base_libdir} seems to be definitely the right place
-to put system service files. This may change if some day nobody will
-have a separate /usr partition any more (which is what the systemd
-developers are pushing for, AFAIK), but as long as we have to deal with
-systems with a separate /usr partition, I think using /lib is the only
-safe choice.
+bitbake perf libb32-perf
+bitbake perf libb32-perf -c cleansstate
+bitbake perf libb32-perf
 
--- 
-Tanu
+you will see races where the two builds get confused about which directory
+they should be using and they corrupt each other.
+
+The issue is that .config-detected is created in ${S}, not $(OUTPUT).
+We can fix this by moving the file to $(OUTPUT).
+
+[YCOTO #8043]
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index f18178c..056ac83 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -127,12 +127,27 @@ do_configure_prepend () {
+     # 64 bit build (and library) are not exected. To ensure that libraries are
+     # installed to the correct location, we can use the weak assignment in the
+     # config/Makefile.
++    #
++    # Also need to relocate .config-detected to $(OUTPUT)/config-detected
++    # as two builds (e.g. perf and lib32-perf from mutlilib can conflict
++    # with each other if its in the shared source directory
++    #
+     if [ -e "${S}/tools/perf/config/Makefile" ]; then
+         # Match $(prefix)/$(lib) and $(prefix)/lib
+         sed -i -e 's,^libdir = \($(prefix)/.*lib\),libdir ?= \1,' \
+                -e 's,^perfexecdir = \(.*\),perfexecdir ?= \1,' \
++               -e 's,\.config-detected,$(OUTPUT)/config-detected,g' \
+             ${S}/tools/perf/config/Makefile
+     fi
++    if [ -e "${S}/tools/perf/Makefile.perf" ]; then
++        sed -i -e 's,\.config-detected,$(OUTPUT)/config-detected,g' \
++            ${S}/tools/perf/Makefile.perf
++    fi
++    if [ -e "${S}/tools/build/Makefile.build" ]; then
++        sed -i -e 's,\.config-detected,$(OUTPUT)/config-detected,g' \
++            ${S}/tools/build/Makefile.build
++    fi
++
+     # We need to ensure the --sysroot option in CC is preserved
+     if [ -e "${S}/tools/perf/Makefile.perf" ]; then
+         sed -i 's,CC = $(CROSS_COMPILE)gcc,#CC,' ${S}/tools/perf/Makefile.perf
 
 
 
