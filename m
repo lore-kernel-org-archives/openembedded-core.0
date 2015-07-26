@@ -1,31 +1,27 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 517ED73CBD
+	by mail.openembedded.org (Postfix) with ESMTP id C2EC7736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jul 2015 23:27:19 +0000 (UTC)
+	Sun, 26 Jul 2015 16:15:20 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6PNOYNN027131; Sun, 26 Jul 2015 00:27:17 +0100
+	t6QGFDZ5013861; Sun, 26 Jul 2015 17:15:13 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Eu5vd0tviTL2; Sun, 26 Jul 2015 00:27:17 +0100 (BST)
+	with LMTP id mHRmDuShG9nO; Sun, 26 Jul 2015 17:15:13 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6PNR2jd027233
+	t6QGExdB013842
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 26 Jul 2015 00:27:13 +0100
-Message-ID: <1437866822.821.178.camel@linuxfoundation.org>
+	Sun, 26 Jul 2015 17:15:11 +0100
+Message-ID: <1437927299.821.198.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>
-Date: Sun, 26 Jul 2015 00:27:02 +0100
-In-Reply-To: <55B31E95.2010906@gmail.com>
-References: <cover.1437232180.git.akuster808@gmail.com>
-	<1437723284.821.143.camel@linuxfoundation.org>
-	<55B31E95.2010906@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 26 Jul 2015 17:14:59 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 00/25] Dizzy next for .3
+Cc: "Witt, Randy E" <randy.e.witt@intel.com>
+Subject: Weekend build status (master, fido, dizzy and -next)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,33 +34,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jul 2015 23:27:21 -0000
+X-List-Received-Date: Sun, 26 Jul 2015 16:15:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-07-24 at 22:28 -0700, akuster808 wrote:
-> On 07/24/2015 12:34 AM, Richard Purdie wrote:
-> > On Sat, 2015-07-18 at 08:16 -0700, Armin Kuster wrote:
-> > We therefore need to decide whether to backport the gcc5 host fixes back
-> > to 1.7.3 or whether we have to disable autobuilders in order to be able
-> > to build it...
-> 
-> I found the answer on 
-> https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
-> 
-> "The primary focus for stable branches is bugfixing, security updates, 
-> and making sure that builds on recently released Ubuntu, Fedora, and 
-> OpenSUSE distros work"
-> 
-> so we should back port the gcc5 host fixes. Is that something I need to ?
+Over the weekend I've tried to establish where we're at with the various
+branches. I've run builds of master, fido and dizzy. I have fixed
+various things:
 
-If we choose to do it (the above says its within policy) then someone
-needs to. It would certainly make life easier on the autobuilder.
+* dizzy gcc5 backports
+* mysterious updated-rc.d license file missing failure
+* linux-yocto 4.1 perf issues
 
-I've attempted the low hanging fruit with the patches in:
-http://git.yoctoproject.org/cgit.cgi/poky/log/?h=dizzy-next
-which get ncurses-native, cross-localedef-native and binutils-native
-working at least...
+Despite these, sadly the builds were not very successful :(.
+
+Master - Last build showed 4 failures:
+======================================
+
+https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/402/steps/BuildImages/logs/stdio
+nativesdk-update-rc.d missing, fix pushed
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-intel-gpl/builds/400/steps/BuildImages/logs/stdio
+https://autobuilder.yoctoproject.org/main/builders/nightly-intel-gpl/builds/400/steps/BuildImages_1/logs/stdio
+meta-intel linux-yocto issue (fix pending merging)
+nativesdk-update-rc.d missing, fix pushed
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-mips/builds/413/steps/Running%20Sanity%20Tests/logs/stdio
+mips sanity test failure, unknown cause
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/96/steps/Running%20oe-selftest/logs/stdio
+3 failures from runqemu issues (Paul working on this)
+2 failures from meta-intel linux-yocto issues (fix pending merging)
+
+Fido - Last build showed 5 failures:
+====================================
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-arm/builds/409/steps/Running%20Sanity%20Tests/logs/stdio
+qemuarm kernel panic during sanity tests
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-deb/builds/394/steps/BuildImages/logs/stdio
+https://autobuilder.yoctoproject.org/main/builders/nightly-deb-non-deb/builds/68/steps/BuildImages/logs/stdio
+looks like http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ba07a69f3dc8fb798e372130bf665d059fed9d42, backport needed?
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/94/steps/Running%20oe-selftest/logs/stdio
+"Only one copy of bitbake should be run against a build directory" -
+Bitbake shutdown race. Fix in master but risky backport, torn on this.
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/405/steps/Running%20Sanity%20Tests/logs/stdio
+xorg/vnc systemd issue - Ross has open bug for master
+
+Dizzy - Last Build showed ? failures:
+=====================================
+
+Managed to push most gcc5 fixes to the branch which has things building
+much better than the first time.
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/97/steps/Running%20oe-selftest/logs/stdio
+two different selftest sanity failures
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/407/steps/Running%20Sanity%20Tests/logs/stdio
+Systemd login prompt failure issue (Ross also has open bug for this in
+master)
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/413/steps/CheckForGPLv3/logs/stdio
+GPLv3 check failing?
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-mips64/builds/60/steps/Running%20Sanity%20Tests/logs/stdio
+mips64 sanity test failed - do we support this on dizzy?
+
+https://autobuilder.yoctoproject.org/main/builders/nightly-arm64/builds/68
+arm64 build failed - do we support this on dizzy? (machine doesn't exist
+so no?)
+
+grub-efi gcc5 issue:
+http://errors.yoctoproject.org/Errors/Details/13781/
+
+[build is still ongoing so this is not a complete list]
+
+So all things considered we're not in a good way for the point releases
+or M2 :(.
+
+With regard to master-next, my experimental SDK toolchain fixes are
+causing issues on armeabi and x32. Whenever I add in Chris' recipetool
+changes, the selftest gives odd results too :(. Build is also ongoing.
 
 Cheers,
 
