@@ -1,36 +1,41 @@
-Return-Path: <elizabeth.flanagan@intel.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 78F2C736B6
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f176.google.com (mail-pd0-f176.google.com
+	[209.85.192.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 604FF73217
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jul 2015 19:54:15 +0000 (UTC)
-Received: by igbpg9 with SMTP id pg9so67978294igb.0
+	Sun, 26 Jul 2015 20:11:58 +0000 (UTC)
+Received: by pdbnt7 with SMTP id nt7so39722313pdb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jul 2015 12:54:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=kfkdyovhb/xZN4iwc8iQzNz3QJ4CwMrJuksbzMKw3qI=;
-	b=aEIMU1EOaD97eVrXy3RmfOOEa2K9WUZMyww+isOotPK23cHPMcI5HUzWSbAZ5s9koW
-	qybtWN3x6I0vMNTtdLK9AXT3HqkaaJQL10UA14bcw8NlwnkSI/Wmsnlm/iWL4UYcnsGh
-	XUOwtsEkTmFET/3ZWI9RPPxwN9z1nY1+kzjbOHmq8J/NYHHo2zvWyoN7Z61j7XTiu80J
-	ylr5nAK3j+gRcfgarXGOzMAWhb5xhspEYPm/7dkZc4neZ8QSEtzwX7g1if+Q/d4mXBmB
-	N8boevBDUkzcgWnxz8FkzqHAFOJNEYC8PBc5PQxVUaCRrxoiwer/M6sAwrEDRSsljqaQ
-	53ow==
-X-Gm-Message-State: ALoCoQmVZeGfXrIh+ypuPLGG1BrBev5PIyC2x8YZyDtKSh3qczSOjPiioGNuWpzpw7pGh8VCkF2q
+	Sun, 26 Jul 2015 13:11:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=rzFXmcsPEIpU4o+W9/qALWWPg6W/bBtY98sOcBUgrYc=;
+	b=Sr2OHwlSdIfDpUctsKa1N1I8Rs2CjunltUCuOWc/RUeLKfeoUb8V2SaM8SEASDzYBQ
+	bUC3m3EJc6DI+vDxPnk1fJ2RDRutmZ7DBfeIo57iLOP8hSTRzMGWHsXyadRLBZHO8HDQ
+	1aVk6DYhLAPXQJJ+bvQk/U3LwOC41b771kJ2dw5QvPEJcRbuJPzSDgOQosu4Jf+7FI1d
+	qGut3s91oARO5U1bQg/wGC76ye9WObXsag86xRi1lkX/xnHtGh4HAhsKLoiMVX4ebNxb
+	9HSkT2yKEzEQ63P3BtRVpfTC7Kc9kLfxtOQhc+ikHwV8xA9CnF/CgRb3M/Redkgm3NOX
+	fSsw==
+X-Received: by 10.70.128.226 with SMTP id nr2mr60174204pdb.139.1437941518279; 
+	Sun, 26 Jul 2015 13:11:58 -0700 (PDT)
+Received: from ?IPv6:2601:202:4000:1239:ad78:98ae:ed56:228c?
+	([2601:202:4000:1239:ad78:98ae:ed56:228c])
+	by smtp.googlemail.com with ESMTPSA id
+	pe3sm25485577pdb.55.2015.07.26.13.11.55
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 26 Jul 2015 13:11:57 -0700 (PDT)
+Message-ID: <55B53F00.8050902@gmail.com>
+Date: Sun, 26 Jul 2015 13:11:44 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.50.225.40 with SMTP id rh8mr12600922igc.39.1437940455979;
-	Sun, 26 Jul 2015 12:54:15 -0700 (PDT)
-Received: by 10.107.48.206 with HTTP; Sun, 26 Jul 2015 12:54:15 -0700 (PDT)
-In-Reply-To: <1437927299.821.198.camel@linuxfoundation.org>
-References: <1437927299.821.198.camel@linuxfoundation.org>
-Date: Sun, 26 Jul 2015 20:54:15 +0100
-Message-ID: <CAPhnLPAtC=TEMAu=MvDTE3cs_OsxRvR7Duu72W8Z7H18nOL3Xw@mail.gmail.com>
-From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "Witt, Randy E" <randy.e.witt@intel.com>,
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	openembedded-core <openembedded-core@lists.openembedded.org>
+References: <1437927299.821.198.camel@linuxfoundation.org>
+In-Reply-To: <1437927299.821.198.camel@linuxfoundation.org>
+Cc: "Witt, Randy E" <randy.e.witt@intel.com>
 Subject: Re: Weekend build status (master, fido, dizzy and -next)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -44,11 +49,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jul 2015 19:54:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sun, 26 Jul 2015 20:12:02 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26 July 2015 at 17:14, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+
+
+On 07/26/2015 09:14 AM, Richard Purdie wrote:
 > Over the weekend I've tried to establish where we're at with the various
 > branches. I've run builds of master, fido and dizzy. I have fixed
 > various things:
@@ -102,6 +109,10 @@ On 26 July 2015 at 17:14, Richard Purdie
 >
 > https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/97/steps/Running%20oe-selftest/logs/stdio
 > two different selftest sanity failures
+
+Why does the log show 1.8+snapshot? I would have expected 1.7+.
+
+
 >
 > https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/407/steps/Running%20Sanity%20Tests/logs/stdio
 > Systemd login prompt failure issue (Ross also has open bug for this in
@@ -109,29 +120,28 @@ On 26 July 2015 at 17:14, Richard Purdie
 >
 > https://autobuilder.yoctoproject.org/main/builders/nightly-non-gpl3/builds/413/steps/CheckForGPLv3/logs/stdio
 > GPLv3 check failing?
+
+Was this run for 1.7.2 ? I don't see any license changes in the 1.7.3 
+patches.
+
+I am  confused by the logs. It references 
+"TERMINFO_DIRS=/opt/poky/1.8+snapshot" and other places is references 
+'master'. is this representative of Dizzy?
+
 >
-
-This shows that we have GPLv3+ within the license.manifest which is a
-problem. I'll take a look at this tomorrow as it's concerning that
-GPLv3 packages are getting in.
-
-LICENSE: GPLv3+ BSD-2-Clause
-LICENSE: GPLv2 LGPLv3
-LICENSE: GPLv3+
-
 > https://autobuilder.yoctoproject.org/main/builders/nightly-mips64/builds/60/steps/Running%20Sanity%20Tests/logs/stdio
 > mips64 sanity test failed - do we support this on dizzy?
+
+Don't think so. It was not tested in the previews point releases either.
+
 >
-
-No, I don't believe so. I'll toss a skip patch into the AB to make
-sure we don't hit this again.
-
 > https://autobuilder.yoctoproject.org/main/builders/nightly-arm64/builds/68
 > arm64 build failed - do we support this on dizzy? (machine doesn't exist
 > so no?)
 
-Same, don't believe this is in dizzy. Just fido and master.
+Arm64 is not support in Dizzy.
 
+- Armin
 >
 > grub-efi gcc5 issue:
 > http://errors.yoctoproject.org/Errors/Details/13781/
@@ -150,11 +160,4 @@ Same, don't believe this is in dizzy. Just fido and master.
 > Richard
 >
 >
-
--b
-
--- 
-Elizabeth Flanagan
-Yocto Project
-Build and Release
 
