@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B7B473237
+	by mail.openembedded.org (Postfix) with ESMTP id 2214F73237
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 14:03:58 +0000 (UTC)
+	Mon, 27 Jul 2015 14:08:03 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6RE3uF4026767; Mon, 27 Jul 2015 15:03:56 +0100
+	t6RE670d026885; Mon, 27 Jul 2015 15:08:01 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id Jld_6emEkx3G; Mon, 27 Jul 2015 15:03:56 +0100 (BST)
+	with LMTP id fnrZhcjDP9Dw; Mon, 27 Jul 2015 15:08:01 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6RE3dPI026762
+	t6RE7jsv026976
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Jul 2015 15:03:51 +0100
-Message-ID: <1438005819.821.255.camel@linuxfoundation.org>
+	Mon, 27 Jul 2015 15:07:56 +0100
+Message-ID: <1438006065.821.259.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: wei.tee.ng@intel.com
-Date: Mon, 27 Jul 2015 15:03:39 +0100
-In-Reply-To: <1436418620-16592-2-git-send-email-wei.tee.ng@intel.com>
+Date: Mon, 27 Jul 2015 15:07:45 +0100
+In-Reply-To: <1436418620-16592-3-git-send-email-wei.tee.ng@intel.com>
 References: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
-	<1436418620-16592-2-git-send-email-wei.tee.ng@intel.com>
+	<1436418620-16592-3-git-send-email-wei.tee.ng@intel.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] recipes-connectivity: Add hostapd configuration for enabling Marvell 8897 WiFi feature
+Subject: Re: [PATCH 2/2] recipes-connectivity: Add iw configuration for enabling Marvell 8897 WiFi feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +37,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jul 2015 14:03:59 -0000
+X-List-Received-Date: Mon, 27 Jul 2015 14:08:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2015-07-09 at 13:10 +0800, wei.tee.ng@intel.com wrote:
 > From: Ng Shui Lei <shui.lei.ng@intel.com>
 > 
-> Hostapd features was created in the recipes-connectivity
-> layer to enable Marvell 8897 module in AP mode and STA mode.
+> iw features was created in the recipes-connectivity layer to
+> enable Marvell 8897 module in AP mode and STA mode. iw is a
+> new nl80211 based CLI configuration utility for wireless devices.
 > 
 > Signed-off-by: Ng Shui Lei <shui.lei.ng@intel.com>
 > Signed-off-by: Ng Wei Tee <wei.tee.ng@intel.com>
 > ---
->  .../hostapd/hostapd-2.2/defconfig                  |  145 ++++++++++++++++++++
->  .../hostapd/hostapd-2.2/hostapd.service            |   11 ++
->  meta/recipes-connectivity/hostapd/hostapd-2.2/init |   58 ++++++++
->  meta/recipes-connectivity/hostapd/hostapd_2.2.bb   |   48 +++++++
->  4 files changed, 262 insertions(+)
->  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/defconfig
->  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/hostapd.service
->  create mode 100644 meta/recipes-connectivity/hostapd/hostapd-2.2/init
->  create mode 100644 meta/recipes-connectivity/hostapd/hostapd_2.2.bb
+>  ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++++++++++++++++
+>  meta/recipes-connectivity/iw/iw_3.8.bb             |   27 +++++++++++++
+>  2 files changed, 67 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+>  create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
 
-I'm by no means a comms expert which is one of the reasons I've not
-replied to this, I'd hoped someone with more knowledge would. Part of
-the issue here is that hostapd and connmand have overlapping
-functionality, conflicting in some cases.
+1. How is this patch specific to the Marvell 8897 chip?
+2. Did this recipe come from another layer? If so, saying where it came 
+   from would be good.
+3. Why do we want iw in OE-Core. I can see a case for it but you do need
+   to explain that here in the commit message.
+4. There are some cleanliness tweaks needed (see below).
 
-So the question is why do we need hostapd if we have connman (which is
-already in OE-Core)?
+> diff --git a/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch b/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+> new file mode 100644
+> index 0000000..f4a7ee7
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+> @@ -0,0 +1,40 @@
+> +From: Koen Kooi <koen@dominion.thruhere.net>
+> +Date: Tue, 29 Nov 2011 17:03:27 +0100
+> +Subject: [PATCH] iw: version.sh: don't use git describe for versioning
+> +
+> +It will detect top-level git repositories like the Angstrom setup-scripts and break.
+> +
+> +Upstream-status: Unknown
 
-Cheers,
+"Pending" perhaps? or "Inappropriate" looking at what the patch does.
 
-Richard
+> +Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+> +---
+> + version.sh | 16 +---------------
+> + 1 file changed, 1 insertion(+), 15 deletions(-)
+> +
+> +diff --git a/version.sh b/version.sh
+> +index db02f0d..336ce2b 100755
+> +--- a/version.sh
+> ++++ b/version.sh
+> +@@ -3,21 +3,7 @@
+> + VERSION="3.8"
+> + OUT="$1"
+> +
+> +-if head=`git rev-parse --verify HEAD 2>/dev/null`; then
+> +-	git update-index --refresh --unmerged > /dev/null
+> +-	descr=$(git describe)
+> +-
+> +-	# on git builds check that the version number above
+> +-	# is correct...
+> +-	[ "${descr%%-*}" = "v$VERSION" ] || exit 2
+> +-
+> +-	v="${descr#v}"
+> +-	if git diff-index --name-only HEAD | read dummy ; then
+> +-		v="$v"-dirty
+> +-	fi
+> +-else
+> +-	v="$VERSION"
+> +-fi
+> ++v="$VERSION"
+> +
+> + echo '#include "iw.h"' > "$OUT"
+> + echo "const char iw_version[] = \"$v\";" >> "$OUT"
+> diff --git a/meta/recipes-connectivity/iw/iw_3.8.bb b/meta/recipes-connectivity/iw/iw_3.8.bb
+> new file mode 100644
+> index 0000000..29dbcd0
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/iw/iw_3.8.bb
+> @@ -0,0 +1,27 @@
+> +# Copyright (C) 2013 Digi International.
+> +
+> +SUMMARY = "nl80211 based CLI configuration utility for wireless devices"
+> +DESCRIPTION = "iw is a new nl80211 based CLI configuration utility for \
+> +wireless devices. It supports almost all new drivers that have been added \
+> +to the kernel recently. "
+> +HOMEPAGE = "http://linuxwireless.org/en/users/Documentation/iw"
+> +SECTION = "base"
+> +LICENSE = "BSD"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=878618a5c4af25e9b93ef0be1a93f774"
+> +
+> +DEPENDS = "libnl pkgconfig"
+> +
+> +PR = "${DISTRO}.r0"
+
+DISTRO in PR sounds plain wrong.
+
+> +
+> +SRC_URI = "http://www.kernel.org/pub/software/network/iw/iw-${PV}.tar.bz2 \
+> +           file://0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch \
+> +          "
+> +
+> +SRC_URI[md5sum] = "618ad1106a196fb1c3d827de96da437c"
+> +SRC_URI[sha256sum] = "3dae92ca5989cbc21155941fa01907a5536da3c5f6898642440c61484fc7e0f9"
+> +
+> +EXTRA_OEMAKE = ""
+> +
+> +do_install() {
+> +	oe_runmake DESTDIR=${D} install
+> +}
+> -- 
+> 1.7.9.5
+> 
+
 
 
