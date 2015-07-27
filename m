@@ -1,29 +1,29 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A758273D13
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 96B4D73D13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 01:01:46 +0000 (UTC)
+	Mon, 27 Jul 2015 01:47:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6R11kfo022992
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6R1lI0k013737
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 26 Jul 2015 18:01:46 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 26 Jul 2015 18:01:31 -0700
-Message-ID: <55B582F8.5000603@windriver.com>
-Date: Mon, 27 Jul 2015 09:01:44 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Sun, 26 Jul 2015 18:47:18 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Sun, 26 Jul 2015 18:47:03 -0700
+Message-ID: <55B58DA4.4020906@windriver.com>
+Date: Mon, 27 Jul 2015 09:47:16 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-References: <1436518495-27392-1-git-send-email-rongqing.li@windriver.com>
-	<CAHiDW_FxgLz638LwPen_AfOByHeCpvL6A093PjrmGD4X=P-xNQ@mail.gmail.com>
-In-Reply-To: <CAHiDW_FxgLz638LwPen_AfOByHeCpvL6A093PjrmGD4X=P-xNQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][resend] perl: fix build failure if building dir has the "blib" string
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1437100265.git.liezhi.yang@windriver.com>
+	<a6959c48d7cb4873c2cf9523a287a7651f3aba3e.1437100265.git.liezhi.yang@windriver.com>
+	<CAJTo0LaoFyzhgV6xh-p4muzY7JQxRzmyd5Yx7WZKdRrH-oOamA@mail.gmail.com>
+In-Reply-To: <CAJTo0LaoFyzhgV6xh-p4muzY7JQxRzmyd5Yx7WZKdRrH-oOamA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] git: 2.4.4 -> 2.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,128 +36,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jul 2015 01:01:50 -0000
+X-List-Received-Date: Mon, 27 Jul 2015 01:47:25 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 2015年07月10日 17:39, Jussi Kukkonen wrote:
-> On 10 July 2015 at 11:54,  <rongqing.li@windriver.com> wrote:
->> From: Wenzong Fan <wenzong.fan@windriver.com>
->>
->> If build dir includes the string "blib", filter it out from @INC may empty
->> the @INC and cause build errors like:
->>
->>    Can't locate ExtUtils/MakeMaker.pm in @INC \
->>    (you may need to install the ExtUtils::MakeMaker module) \
->>    (@INC contains: .) at Makefile.PL
+On 07/17/2015 07:34 PM, Burton, Ross wrote:
 >
-> The grep certainly looks overly zealous, but surely upstream has a
-> reason for having this code... If you're going to remove the code
-> altogether, you should mention why those original reasons do not apply
-> here.
+> On 17 July 2015 at 03:31, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
 >
-> Jussi
-
-
-I think we can merge this patch.
-
-I open a defect and submit this patch, as a result, noone knows
-what this line can fix.
-
-
-https://rt.perl.org/Public/Bug/Display.html?id=125603
-
--Roy
-
-
-
->
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
->> ---
->>   meta/recipes-devtools/perl/perl-native_5.22.0.bb   |  1 +
->>   ...-PathTools-don-t-filter-out-blib-from-INC.patch | 33 ++++++++++++++++++++++
->>   meta/recipes-devtools/perl/perl_5.22.0.bb          |  1 +
->>   3 files changed, 35 insertions(+)
->>   create mode 100644 meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-INC.patch
->>
->> diff --git a/meta/recipes-devtools/perl/perl-native_5.22.0.bb b/meta/recipes-devtools/perl/perl-native_5.22.0.bb
->> index dbcf2a6..a9a1cab 100644
->> --- a/meta/recipes-devtools/perl/perl-native_5.22.0.bb
->> +++ b/meta/recipes-devtools/perl/perl-native_5.22.0.bb
->> @@ -8,6 +8,7 @@ SRC_URI += "\
->>              file://MM_Unix.pm.patch \
->>              file://debian/errno_ver.diff \
->>              file://dynaloaderhack.patch \
->> +           file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
->>             "
->>
->>   SRC_URI[md5sum] = "ff0f09b17de426eff323426cb140ee79"
->> diff --git a/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-INC.patch b/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-INC.patch
->> new file mode 100644
->> index 0000000..7dd9041
->> --- /dev/null
->> +++ b/meta/recipes-devtools/perl/perl/perl-PathTools-don-t-filter-out-blib-from-INC.patch
->> @@ -0,0 +1,33 @@
->> +From 90c252cecc38aed5d5faedb30485dd6eee2e54eb Mon Sep 17 00:00:00 2001
->> +From: Wenzong Fan <wenzong.fan@windriver.com>
->> +Date: Wed, 11 Feb 2015 15:14:40 +0800
->> +Subject: [PATCH] perl / PathTools: don't filter out blib from @INC
->> +
->> +If $TOPDIR includes the string "blib", filter it out from @INC may empty
->> +the @INC and cause build errors like:
->> +
->> +  Can't locate ExtUtils/MakeMaker.pm in @INC \
->> +  (you may need to install the ExtUtils::MakeMaker module) \
->> +  (@INC contains: .) at Makefile.PL
->> +
->> +Upstream-Status: Pending
->> +
->> +Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
->> +---
->> + dist/PathTools/Makefile.PL | 3 ---
->> + 1 file changed, 3 deletions(-)
->> +
->> +diff --git a/dist/PathTools/Makefile.PL b/dist/PathTools/Makefile.PL
->> +index 1b21de4..f562cb2 100644
->> +--- a/dist/PathTools/Makefile.PL
->> ++++ b/dist/PathTools/Makefile.PL
->> +@@ -1,6 +1,3 @@
->> +-
->> +-BEGIN { @INC = grep {!/blib/} @INC }
->> +-
->> + require 5.005;
->> + use ExtUtils::MakeMaker;
->> + WriteMakefile
->> +--
->> +1.9.1
->> +
->> diff --git a/meta/recipes-devtools/perl/perl_5.22.0.bb b/meta/recipes-devtools/perl/perl_5.22.0.bb
->> index 050a98c..7f78998 100644
->> --- a/meta/recipes-devtools/perl/perl_5.22.0.bb
->> +++ b/meta/recipes-devtools/perl/perl_5.22.0.bb
->> @@ -61,6 +61,7 @@ SRC_URI += " \
->>           file://t-run-switches.t-perl5-perl.patch \
->>           file://ext-ODBM_File-hints-linux.pl-link-libgdbm_compat.patch \
->>           file://ext-ODBM_File-t-odbm.t-fix-the-path-of-dbmt_common.p.patch \
->> +        file://perl-PathTools-don-t-filter-out-blib-from-INC.patch \
->>   "
->>
->>   # Fix test case issues
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     * Use git repo rathar then tarball.
 >
 >
+> For this and the file upgrade, why?
+>
+> Tarballs are easily cached, and can be checksummed.  What's the reason to switch
+> to a git clone?
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+Hi Ross,
+
+I just came back from vacation, I thought that git repo is preferred than
+tarball, but seems not, so let's drop the 2 upgrades.
+
+// Robert
+
+>
+> Ross
 
