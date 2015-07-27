@@ -1,41 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 183B673D26
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id E2E7960125
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 17:15:24 +0000 (UTC)
-Received: by qgii95 with SMTP id i95so56526970qgi.2
+	Mon, 27 Jul 2015 18:00:05 +0000 (UTC)
+Received: by iggf3 with SMTP id f3so87731755igg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 10:15:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0lJuJ27bZ1XAC9YBKxfP+XquN9eUqSPhHPZG/rEdHwM=;
-	b=PyYejYw3S/ryz8JnNBpoXvdWj7n9vm1LD7Zv6LfZlqMq592A/csa0KxNuRIoYOr6P8
-	stqbDpy84lHrUm7W2KruoOLMMhrEUisoW81SCnstugZV1fwWyXePbCUxWu5OEq7t3UcN
-	QkI2up5vGhH+t46swU8JBGJb+8C7WORnLr86NTj1E2xf3/ggSHRbfXu+5XfM7y5iapJo
-	w+Gy5EjljFy0elUhFEHyDh8YM9hW5P4lp3ZNPzpTI/wAK1INKaa1jakRYhe1YiNRs8V6
-	ha38ZsOPbw5Z1PXG/Gn4eKiuw6yZD+UUUOMQdu+U+kPJgsGhETjJ6dn3RRQ0rK4i6utJ
-	e4Ng==
-X-Gm-Message-State: ALoCoQnpL6XUWvmxMk82mAued5zSwr/c1Joxy/cWtpo1QVnn35VubJM1LDYFQwcLw2s59tJ1Oi8G
-X-Received: by 10.140.235.19 with SMTP id g19mr44501302qhc.52.1438017325061;
-	Mon, 27 Jul 2015 10:15:25 -0700 (PDT)
+	Mon, 27 Jul 2015 11:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=rVGWA6uGT9Tm6vZMub/cimPAcKv2DUrfM/4ggp3Bceg=;
+	b=wjgmJHbbhVJRl8w6bZnVoqnx5ELNa54FycxmxO8uvjiKpfH71yMg4MlLhXLBeJhpIu
+	pV91uFBmneW1gCaKqy4boM/Ba2a880Y5m34zb0xmZRpME4UHblspdImE8dfEttyf+PKK
+	YYnPPIoERy4ftooXq+3kY6rcr67SifTfqSv9+u3kploPhpAF9eVRUq69ncl4Ln5ZvDpM
+	Te8FC0lFZAtzG42lL103JshLi+AvwNSuLuBBDWxmNO4hK9/P/e8iyuzSInHh+6LkatOE
+	50ItJD/G7Xh8OQpYsQBko25kVzDHR+36OP4RBCMtNdutB7cp+Pn5VeUOWZoI3NngrJpf
+	C8/A==
+X-Received: by 10.107.134.83 with SMTP id i80mr42362729iod.123.1438020005871; 
+	Mon, 27 Jul 2015 11:00:05 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Mon, 27 Jul 2015 10:15:05 -0700 (PDT)
-In-Reply-To: <CAP9ODKo_nFMSQsCDDVeHjyHwvBOH4X4P36ED2uo9R8juMs5ZWw@mail.gmail.com>
-References: <1437996407-29463-1-git-send-email-b54851@freescale.com>
-	<1437996407-29463-2-git-send-email-b54851@freescale.com>
-	<CAP9ODKpMEdbLXiv=kHRpnX0CJ0v7ee_FRF0ZVMWYMW7a18mWdQ@mail.gmail.com>
-	<CAJTo0LbOeMQXd+tRS4=ETVCcDwcaSkKAie_7aR+2zUXT2_pWrg@mail.gmail.com>
-	<CAP9ODKo_nFMSQsCDDVeHjyHwvBOH4X4P36ED2uo9R8juMs5ZWw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 27 Jul 2015 18:15:05 +0100
-Message-ID: <CAJTo0LbqYSOY2VE++KYPbQ79yxxFHqvSN=pCojjRjDtPOmgLFw@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+Received: by 10.79.100.199 with HTTP; Mon, 27 Jul 2015 10:59:46 -0700 (PDT)
+In-Reply-To: <1437999406.821.240.camel@linuxfoundation.org>
+References: <cover.1437663603.git.chris_larson@mentor.com>
+	<1437840549.821.171.camel@linuxfoundation.org>
+	<CABcZANnnqTczLS4B=663mrPOG7i3WoKXdkPONu0wScxgHdSMGw@mail.gmail.com>
+	<1437999406.821.240.camel@linuxfoundation.org>
+From: Christopher Larson <kergoth@gmail.com>
+Date: Mon, 27 Jul 2015 10:59:46 -0700
+Message-ID: <CABcZANk-jUDs1qba5Giggdu8BWkhCfc1Xn5CBM42b6-hzCbPjw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH v2 1/6] gstreamer1.0-plugins-base: Bug fix for id3demux issue
+Subject: Re: [PATCHv3 0/6] recipetool/devtool/oe-selftest: pull from BBPATH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,55 +46,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jul 2015 17:15:25 -0000
-Content-Type: multipart/alternative; boundary=001a11376dacd76403051bde7f7e
+X-List-Received-Date: Mon, 27 Jul 2015 18:00:09 -0000
+Content-Type: multipart/alternative; boundary=001a113fe07aa148ee051bdf1f6a
 
---001a11376dacd76403051bde7f7e
+--001a113fe07aa148ee051bdf1f6a
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 27 July 2015 at 18:13, Otavio Salvador <otavio.salvador@ossystems.com.br>
-wrote:
+On Mon, Jul 27, 2015 at 5:16 AM, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> On Mon, Jul 27, 2015 at 2:05 PM, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> > How many of these patches are applied in the 1.5 releases of GStreamer?
-> We
-> > can upgrade instead and a colleague is going to be looking at the
-> upgrades
-> > tomorrow, so if several can be dropped then that will save time and
-> effort.
+> On Sat, 2015-07-25 at 12:18 -0700, Christopher Larson wrote:
+> >
+> > On Sat, Jul 25, 2015 at 9:09 AM, Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> >         however when I apply this and your other series, the
+> >         autobuilder
+> >         oe-selftest does this:
+> >
+> >
+> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/bu=
+ilds/92/steps/Running%20oe-selftest/logs/stdio
+> >
+> >         which is substantially worse. I can't immediately see what the
+> >         issue is
+> >         but the two runs above pretty much bisect this down to the
+> >         patch series.
+> >         I'm therefore reluctant to merge these until we can figure out
+> >         what is
+> >         going on...
+> >
+> > Given that both failures have nothing to do with devtool, recipetool,
+> > or oe-selftest and are simply bitbake build failures as called by
+> > tests, I don=E2=80=99t really see how these could have anything to do w=
+ith
+> > that, but understood.
 >
-> Many but 1.5 is a development release and we should stay in 1.4 until
-> 1.6 is out.
+> FWIW, the issue is that you use the "xxx:do_unpack" syntax in one of the
+> tests. This breaks toaster.bbclass and once its broken, it stays broken
+> as its doing a split(":") on data in a file it never cleans up if the
+> function fails.
+>
+> I've taken a fix which should avoid these issues. Will rerun a build
+> with that applied (and various other fixes) and hopefully we can then
+> get things merged.
 >
 
-Why did I think that GStreamer wasn't following odd/even releases?  Sorry,
-ignore me.
+Ah! That explains it. Thanks. Obviously I could have used -c, but I=E2=80=
+=99m a fan
+of the new syntax, it gives some nice flexibility :)
+--=20
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
-Ross
-
---001a11376dacd76403051bde7f7e
+--001a113fe07aa148ee051bdf1f6a
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 July 2015 at 18:13, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:otavio.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador@=
-ossystems.com.br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><s=
-pan class=3D"">On Mon, Jul 27, 2015 at 2:05 PM, Burton, Ross &lt;<a href=3D=
-"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>
-&gt; How many of these patches are applied in the 1.5 releases of GStreamer=
-?=C2=A0 We<br>
-&gt; can upgrade instead and a colleague is going to be looking at the upgr=
-ades<br>
-&gt; tomorrow, so if several can be dropped then that will save time and ef=
-fort.<br>
+On Mon, Jul 27, 2015 at 5:16 AM, Richard Purdie <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.=
+purdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-le=
+ft:1ex"><span class=3D"">On Sat, 2015-07-25 at 12:18 -0700, Christopher Lar=
+son wrote:<br>
+&gt;<br>
+&gt; On Sat, Jul 25, 2015 at 9:09 AM, Richard Purdie<br>
+</span><span class=3D"">&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoun=
+dation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0however when I apply this and your ot=
+her series, the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0autobuilder<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe-selftest does this:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"https://autobuilder.yoctop=
+roject.org/main/builders/nightly-oe-selftest/builds/92/steps/Running%20oe-s=
+elftest/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
+r.yoctoproject.org/main/builders/nightly-oe-selftest/builds/92/steps/Runnin=
+g%20oe-selftest/logs/stdio</a><br>
+&gt;<br>
+</span><span class=3D"">&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0which is subs=
+tantially worse. I can&#39;t immediately see what the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0issue is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0but the two runs above pretty much bi=
+sect this down to the<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0patch series.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0I&#39;m therefore reluctant to merge =
+these until we can figure out<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0what is<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0going on...<br>
+&gt;<br>
+&gt; Given that both failures have nothing to do with devtool, recipetool,<=
+br>
+&gt; or oe-selftest and are simply bitbake build failures as called by<br>
+&gt; tests, I don=E2=80=99t really see how these could have anything to do =
+with<br>
+&gt; that, but understood.<br>
 <br>
-</span>Many but 1.5 is a development release and we should stay in 1.4 unti=
-l<br>
-1.6 is out.<br></blockquote></div><br>Why did I think that GStreamer wasn&#=
-39;t following odd/even releases?=C2=A0 Sorry, ignore me.</div><div class=
-=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+</span>FWIW, the issue is that you use the &quot;xxx:do_unpack&quot; syntax=
+ in one of the<br>
+tests. This breaks toaster.bbclass and once its broken, it stays broken<br>
+as its doing a split(&quot;:&quot;) on data in a file it never cleans up if=
+ the<br>
+function fails.<br>
+<br>
+I&#39;ve taken a fix which should avoid these issues. Will rerun a build<br=
+>
+with that applied (and various other fixes) and hopefully we can then<br>
+get things merged.<br></blockquote></div><br>Ah! That explains it. Thanks. =
+Obviously I could have used -c, but I=E2=80=99m a fan of the new syntax, it=
+ gives some nice flexibility :)<br>-- <br><div class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - =
+BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software =
+Engineer, Mentor Graphics</div></div>
+</div></div>
 
---001a11376dacd76403051bde7f7e--
+--001a113fe07aa148ee051bdf1f6a--
