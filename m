@@ -1,30 +1,20 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2214F73237
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 14E5D73D26
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 14:08:03 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6RE670d026885; Mon, 27 Jul 2015 15:08:01 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id fnrZhcjDP9Dw; Mon, 27 Jul 2015 15:08:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6RE7jsv026976
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Jul 2015 15:07:56 +0100
-Message-ID: <1438006065.821.259.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: wei.tee.ng@intel.com
-Date: Mon, 27 Jul 2015 15:07:45 +0100
-In-Reply-To: <1436418620-16592-3-git-send-email-wei.tee.ng@intel.com>
-References: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
-	<1436418620-16592-3-git-send-email-wei.tee.ng@intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] recipes-connectivity: Add iw configuration for enabling Marvell 8897 WiFi feature
+	Mon, 27 Jul 2015 14:43:41 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 27 Jul 2015 07:43:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,554,1432623600"; d="scan'208";a="755805200"
+Received: from sentry.rb.intel.com ([10.237.105.63])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Jul 2015 07:43:39 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Jul 2015 17:43:50 +0300
+Message-Id: <1438008230-20303-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] harfbuzz: upgrade to 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,120 +27,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jul 2015 14:08:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Jul 2015 14:43:42 -0000
 
-On Thu, 2015-07-09 at 13:10 +0800, wei.tee.ng@intel.com wrote:
-> From: Ng Shui Lei <shui.lei.ng@intel.com>
-> 
-> iw features was created in the recipes-connectivity layer to
-> enable Marvell 8897 module in AP mode and STA mode. iw is a
-> new nl80211 based CLI configuration utility for wireless devices.
-> 
-> Signed-off-by: Ng Shui Lei <shui.lei.ng@intel.com>
-> Signed-off-by: Ng Wei Tee <wei.tee.ng@intel.com>
-> ---
->  ....sh-don-t-use-git-describe-for-versioning.patch |   40 ++++++++++++++++++++
->  meta/recipes-connectivity/iw/iw_3.8.bb             |   27 +++++++++++++
->  2 files changed, 67 insertions(+)
->  create mode 100644 meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
->  create mode 100644 meta/recipes-connectivity/iw/iw_3.8.bb
+- Update to Unicode 8.0;
+- Implement Universal Shaping Engine;
+- Bug fixes.
 
-1. How is this patch specific to the Marvell 8897 chip?
-2. Did this recipe come from another layer? If so, saying where it came 
-   from would be good.
-3. Why do we want iw in OE-Core. I can see a case for it but you do need
-   to explain that here in the commit message.
-4. There are some cleanliness tweaks needed (see below).
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ .../harfbuzz/{harfbuzz_0.9.41.bb => harfbuzz_1.0.1.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_0.9.41.bb => harfbuzz_1.0.1.bb} (88%)
 
-> diff --git a/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch b/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
-> new file mode 100644
-> index 0000000..f4a7ee7
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/iw/iw-3.8/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
-> @@ -0,0 +1,40 @@
-> +From: Koen Kooi <koen@dominion.thruhere.net>
-> +Date: Tue, 29 Nov 2011 17:03:27 +0100
-> +Subject: [PATCH] iw: version.sh: don't use git describe for versioning
-> +
-> +It will detect top-level git repositories like the Angstrom setup-scripts and break.
-> +
-> +Upstream-status: Unknown
-
-"Pending" perhaps? or "Inappropriate" looking at what the patch does.
-
-> +Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
-> +---
-> + version.sh | 16 +---------------
-> + 1 file changed, 1 insertion(+), 15 deletions(-)
-> +
-> +diff --git a/version.sh b/version.sh
-> +index db02f0d..336ce2b 100755
-> +--- a/version.sh
-> ++++ b/version.sh
-> +@@ -3,21 +3,7 @@
-> + VERSION="3.8"
-> + OUT="$1"
-> +
-> +-if head=`git rev-parse --verify HEAD 2>/dev/null`; then
-> +-	git update-index --refresh --unmerged > /dev/null
-> +-	descr=$(git describe)
-> +-
-> +-	# on git builds check that the version number above
-> +-	# is correct...
-> +-	[ "${descr%%-*}" = "v$VERSION" ] || exit 2
-> +-
-> +-	v="${descr#v}"
-> +-	if git diff-index --name-only HEAD | read dummy ; then
-> +-		v="$v"-dirty
-> +-	fi
-> +-else
-> +-	v="$VERSION"
-> +-fi
-> ++v="$VERSION"
-> +
-> + echo '#include "iw.h"' > "$OUT"
-> + echo "const char iw_version[] = \"$v\";" >> "$OUT"
-> diff --git a/meta/recipes-connectivity/iw/iw_3.8.bb b/meta/recipes-connectivity/iw/iw_3.8.bb
-> new file mode 100644
-> index 0000000..29dbcd0
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/iw/iw_3.8.bb
-> @@ -0,0 +1,27 @@
-> +# Copyright (C) 2013 Digi International.
-> +
-> +SUMMARY = "nl80211 based CLI configuration utility for wireless devices"
-> +DESCRIPTION = "iw is a new nl80211 based CLI configuration utility for \
-> +wireless devices. It supports almost all new drivers that have been added \
-> +to the kernel recently. "
-> +HOMEPAGE = "http://linuxwireless.org/en/users/Documentation/iw"
-> +SECTION = "base"
-> +LICENSE = "BSD"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=878618a5c4af25e9b93ef0be1a93f774"
-> +
-> +DEPENDS = "libnl pkgconfig"
-> +
-> +PR = "${DISTRO}.r0"
-
-DISTRO in PR sounds plain wrong.
-
-> +
-> +SRC_URI = "http://www.kernel.org/pub/software/network/iw/iw-${PV}.tar.bz2 \
-> +           file://0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch \
-> +          "
-> +
-> +SRC_URI[md5sum] = "618ad1106a196fb1c3d827de96da437c"
-> +SRC_URI[sha256sum] = "3dae92ca5989cbc21155941fa01907a5536da3c5f6898642440c61484fc7e0f9"
-> +
-> +EXTRA_OEMAKE = ""
-> +
-> +do_install() {
-> +	oe_runmake DESTDIR=${D} install
-> +}
-> -- 
-> 1.7.9.5
-> 
-
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.41.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_1.0.1.bb
+similarity index 88%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_0.9.41.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_1.0.1.bb
+index 1ea4563..a199126 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_0.9.41.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_1.0.1.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+ SECTION = "libs"
+ 
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "a2966f1b6a470c2cd84eb511f924cf68"
+-SRC_URI[sha256sum] = "d81aa53d0c02b437beeaac159d7fc16394d676bbce0860fb6f6a10b587dc057c"
++SRC_URI[md5sum] = "b9c144965dfde96672a7c6bdd4f9bf64"
++SRC_URI[sha256sum] = "32a1a7ad584a2f2cfba5c1d234d046c0521e86e7a21d403e15e89aa509ef0ea8"
+ 
+ inherit autotools pkgconfig lib_package
+ 
+-- 
+2.1.4
 
 
