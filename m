@@ -1,35 +1,49 @@
-Return-Path: <dominic.sacre@gmx.de>
-X-Greylist: delayed 306 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 27 Jul 2015 15:40:27 UTC
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C9FA375A60
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 994527631D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 15:40:27 +0000 (UTC)
-Received: from dastp.fritz.box ([79.253.190.123]) by mail.gmx.com (mrgmx103)
-	with ESMTPSA (Nemesis) id 0LmJsk-1Yk8R01VP0-00ZxyL;
-	Mon, 27 Jul 2015 17:35:20 +0200
-From: =?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jul 2015 17:34:23 +0200
-Message-Id: <1438011263-13535-1-git-send-email-dominic.sacre@gmx.de>
-X-Mailer: git-send-email 2.4.6
+	Mon, 27 Jul 2015 16:41:47 +0000 (UTC)
+Received: by pdbnt7 with SMTP id nt7so54637771pdb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Jul 2015 09:41:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=ATx8WtYAFZbwJthvYAa5JqPi9GVe3iythI5IUNdVWb0=;
+	b=YgdsYhH4fS0VjOzK5ctyzjKDq1DktsVN4TBHlGpjLiW30EeddA613jjdJCHhoMzYCq
+	08F9RxBIvd/iMcaRjD2PhOM9f1FBHjR/CyX9dC9Nih7tsUWyh5S6lhJv1blvp20JcWUN
+	tb4nk5Y4FtI8p6CTrfZBsLaSuUzm9SO0d1XumGJgeRb9zWbw9QUkocbyWDjNCib4xqas
+	BQcwpzskrU43E59qGw88qLvKGwP4NB4HeF884d6fN7ictvJlv68DtNmNk08qOszqVzfA
+	vEjWS5W2xxO+kgQ7VSCeJrWX3YbL4Aujdesc86G+bnPTg8uxIn+eiWGJIiauEB2y1J/B
+	ttEA==
+X-Gm-Message-State: ALoCoQnE8kJ6R/kRui2aRLdQPEM4pe6hc2TuLqdTCOsjiU/gjBLiYCBEnceQrttt571qfi2nqOq/
+X-Received: by 10.70.130.34 with SMTP id ob2mr69626370pdb.15.1438015307909;
+	Mon, 27 Jul 2015 09:41:47 -0700 (PDT)
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com.
+	[209.85.192.180]) by smtp.gmail.com with ESMTPSA id
+	gk5sm24079375pac.21.2015.07.27.09.41.45
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 27 Jul 2015 09:41:46 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pdjr16 with SMTP id r16so55686630pdj.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Jul 2015 09:41:45 -0700 (PDT)
 MIME-Version: 1.0
-X-Provags-ID: V03:K0:Uphlze3gckXSvTiG+i/mr53jqzUkxanC0tBcehWPenC/+OS6wSR
-	S9/VdUQf7ZafBekxNHMBWcO3A0MHuFCWXN9a8ioT7dWds4oyLIpWHR4/CFkRupdMOYrk2c6
-	8onBxkTnzZcU0qjGbs/t+/Np7mlWadWp4H41PrYW6I7epCBkVMRZnW50D6fdpsDlR4prEWx
-	2vIyjTzJEkDOXU7tR9zwA==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:Qq5JnKQefaQ=:EDxynTD7l2wMQ5R5cw27zK
-	9xad+05AXbYDEYHUv0uv4Rc04RgIJi5uY+SGNHDhT1sAm3RPVVhw2lUAYf6DUDeUux+2x+IFP
-	pP7oyMhVGszGMYbYOMQcbMdpPqDptNETTdyjzQZOL0/OOOLVLTZ3Fzw8ASzWBFHThNzVNSPR6
-	xKV53AZBs8/VCjH28Lkz1od8j51mCKzrfuO9p2M8ZK4ujNDzwg0ATfRJ7xNDsdSYMHkoHqvh4
-	CkQrYrVK7vRXy6G2RSyhcrUUWJ6/p/vMONPRiJHAgHVzuuo2EftA298YyGUtIULTf6ZIfpdXs
-	s2E2bUE4AJJNW9ITXriincJHN9d1ZxIgZaOYbrOxRoBuCsy3HfcvSRD2/x7HDOK44M3gx3dPv
-	0B3LdrF9kUKehNJsv4d2J21RDBprPjpS0LJ4kQujzoPmHF8F+5kUFzVSsGitsM/MhwGyPLdE9
-	ej35qjFrOCirGx4VyhbMf+sstA6mpuKTSaFamJLJyIrrytdYFuS8kp71vfF6nde3SgjB9gQpS
-	YXnK/Eg9zcFJit4zyPLKONKALPyOpOD1hvwHVXXRGXjmDZDNh+l5UfGJMbnZUDR1gmIuIbkHp
-	vabPziV7wVO8Ir6tlz8PNn9LabEaVmEIkFSW0qe/IRZkM51iUmDWdKYjo4gp4xovkSEcEaAQL
-	6vG7NgM5kjlRRxK/YuzEFAXtf1OLOyMAyYhF8CO05u577jXdy8RUBnDiy4Oj6og+xEfI=
-Subject: [PATCH] opkg-utils: fix bashism in opkg-build
+X-Received: by 10.70.119.41 with SMTP id kr9mr70975439pdb.0.1438015305315;
+	Mon, 27 Jul 2015 09:41:45 -0700 (PDT)
+Received: by 10.70.59.105 with HTTP; Mon, 27 Jul 2015 09:41:45 -0700 (PDT)
+In-Reply-To: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
+References: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
+Date: Mon, 27 Jul 2015 13:41:45 -0300
+Message-ID: <CAP9ODKp5X5bK_3-OuBi9RY=L6VSO7sXjdyes3UUG-pOv48FZOg@mail.gmail.com>
+To: wei.tee.ng@intel.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] [master][dizzy] Enable Marvel 8897 Wifi feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,41 +56,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jul 2015 15:40:28 -0000
+X-List-Received-Date: Mon, 27 Jul 2015 16:41:48 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Fix error '[[: not found' if /bin/sh is not bash.
+On Thu, Jul 9, 2015 at 2:10 AM,  <wei.tee.ng@intel.com> wrote:
+> I would like to add hostapd and iw configuration for enabling
+> Marvell 8897 Wifi feature. Hostapd and iw configuration were
+> created in the recipes-connectivity layer to enable Marvell 8897
+> module function in AP mode and STA mode.
 
-This issue was introduced by the recent addition of tar_ignore_error.patch
-to the opkg-utils recipe.
+It can be added for master, I think. For Dizzy it makes no sense to
+backport this feature.
 
-Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
----
- meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-index e8250b7..4dddb08 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/tar_ignore_error.patch
-@@ -32,13 +32,13 @@ Index: git/opkg-build
- +# Ignore error code 1, caused by modifying the number of hard links while creating the tar file
- +rc=0
- +( cd $pkg_dir && tar $ogargs -X $tmp_dir/tarX -cz $tarformat -f $tmp_dir/data.tar.gz . ) || rc=$?
--+if [[ $rc -ne 1 ]] && [[ $rc -ne 0 ]] ;then
-++if [ $rc -ne 1 ] && [ $rc -ne 0 ]; then
- +        exit $rc 
- +fi
- +
- +rc=0
- +( cd $pkg_dir/$CONTROL && tar $ogargs -cz $tarformat -f $tmp_dir/control.tar.gz . ) || rc=$?
--+if [[ $rc -ne 1 ]] && [[ $rc -ne 0 ]] ;then
-++if [ $rc -ne 1 ] && [ $rc -ne 0 ]; then
- +        exit $rc
- +fi
- +
 -- 
-2.4.6
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
