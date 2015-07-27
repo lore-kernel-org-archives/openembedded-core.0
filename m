@@ -1,33 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C12777632E
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FEF873237
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 12:17:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6RCGmZ9019242; Mon, 27 Jul 2015 13:16:58 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uslf-N0_Ccdf; Mon, 27 Jul 2015 13:16:58 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6RCGklU019169
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 27 Jul 2015 13:16:57 +0100
-Message-ID: <1437999406.821.240.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>
-Date: Mon, 27 Jul 2015 13:16:46 +0100
-In-Reply-To: <CABcZANnnqTczLS4B=663mrPOG7i3WoKXdkPONu0wScxgHdSMGw@mail.gmail.com>
-References: <cover.1437663603.git.chris_larson@mentor.com>
-	<1437840549.821.171.camel@linuxfoundation.org>
-	<CABcZANnnqTczLS4B=663mrPOG7i3WoKXdkPONu0wScxgHdSMGw@mail.gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 0/6] recipetool/devtool/oe-selftest: pull from BBPATH
+	Mon, 27 Jul 2015 12:20:46 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 27 Jul 2015 05:20:47 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,553,1432623600"; d="scan'208";a="770515722"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Jul 2015 05:20:47 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id 4A73D6A4083;
+	Mon, 27 Jul 2015 05:20:02 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 Jul 2015 15:31:23 +0300
+Message-Id: <1438000283-22044-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v3] oeqa/buildoptions.py: automate test case 929: check for correct GPL licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,47 +30,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jul 2015 12:17:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Jul 2015 12:20:50 -0000
 
-On Sat, 2015-07-25 at 12:18 -0700, Christopher Larson wrote:
-> 
-> On Sat, Jul 25, 2015 at 9:09 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->         however when I apply this and your other series, the
->         autobuilder
->         oe-selftest does this:
->         
->         https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/92/steps/Running%20oe-selftest/logs/stdio
->         
->         which is substantially worse. I can't immediately see what the
->         issue is
->         but the two runs above pretty much bisect this down to the
->         patch series.
->         I'm therefore reluctant to merge these until we can figure out
->         what is
->         going on...
-> 
-> Given that both failures have nothing to do with devtool, recipetool,
-> or oe-selftest and are simply bitbake build failures as called by
-> tests, I don’t really see how these could have anything to do with
-> that, but understood.
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/selftest/buildoptions.py | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
 
-FWIW, the issue is that you use the "xxx:do_unpack" syntax in one of the
-tests. This breaks toaster.bbclass and once its broken, it stays broken
-as its doing a split(":") on data in a file it never cleans up if the
-function fails.
-
-I've taken a fix which should avoid these issues. Will rerun a build
-with that applied (and various other fixes) and hopefully we can then
-get things merged.
-
-Cheers,
-
-Richard
-
-
-
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index e79be9e..9ef7776 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -132,6 +132,35 @@ class BuildImagesTest(oeSelfTest):
+         res = bitbake("core-image-directfb", ignore_status=True)
+         self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
+ 
++    @testcase(929)
++    def test_gpl_licenses(self):
++        """
++        Test for checking that correct GPL licenses are used when explicitly required.
++        """
++        self.write_config("MACHINE = \"qemux86\"\nINHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nCOPYLEFT_LICENSE_INCLUDE = \"GPLv2* GPLv3*\"")
++        res = bitbake("core-image-minimal", ignore_status=True)
++        self.remove_config("MACHINE = \"qemux86\"\nINHERIT += \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nCOPYLEFT_LICENSE_INCLUDE = \"GPLv2* GPLv3*\"")
++        self.assertEqual(res.status, 0, "core-image-minimal didn't build. Please check logs for further details %s" % res.output)
++        built_pkgs_list = os.listdir(self.builddir + "/tmp/deploy/sources/i586-poky-linux/")# the list containing built pkgs with ver.
++        pkg_name_split = [i.split("-") for i in built_pkgs_list]
++        pkgs = [] # this will contain the pkgs name as found in tmp/deploy/licenses
++        for i in pkg_name_split:
++          name = ""
++          for j in i:
++            if i.index(j) == 0:
++              name = j
++            elif j.isalpha() and i.index(j) != 0:
++              name = name + "-" + j
++            else:
++              pkgs.append(name)
++              break
++        license_dir = self.builddir + "/tmp/deploy/licenses/"
++        for i in pkgs:
++          if os.path.isdir(license_dir + i):
++            self.assertTrue(g.glob(license_dir + i + "/*GPL*"), "couldn't find GPL license in " + license_dir + "for package " + i)
++          else:
++            self.log.info("\nNo license dir for %s" % i)
++
+ class ArchiverTest(oeSelfTest):
+     @testcase(926)
+     def test_arch_work_dir_and_export_source(self):
+-- 
+2.1.4
 
 
