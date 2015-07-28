@@ -1,17 +1,17 @@
 Return-Path: <B54851@freescale.com>
 Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0104.outbound.protection.outlook.com [65.55.169.104])
-	by mail.openembedded.org (Postfix) with ESMTP id E3D33763DE
+	(mail-bl2on0119.outbound.protection.outlook.com [65.55.169.119])
+	by mail.openembedded.org (Postfix) with ESMTP id B4DD6763E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 10:01:03 +0000 (UTC)
-Received: from CO2PR03CA0032.namprd03.prod.outlook.com (10.141.194.159) by
-	BN3PR0301MB1171.namprd03.prod.outlook.com (10.160.156.145) with
+	Tue, 28 Jul 2015 10:01:05 +0000 (UTC)
+Received: from CO2PR03CA0051.namprd03.prod.outlook.com (10.141.194.178) by
+	DM2PR0301MB1182.namprd03.prod.outlook.com (10.160.217.144) with
 	Microsoft
-	SMTP Server (TLS) id 15.1.225.19; Tue, 28 Jul 2015 10:01:02 +0000
-Received: from BN1AFFO11OLC004.protection.gbl (2a01:111:f400:7c10::114) by
-	CO2PR03CA0032.outlook.office365.com (2a01:111:e400:1414::31) with
-	Microsoft SMTP Server (TLS) id 15.1.225.19 via Frontend Transport;
-	Tue, 28 Jul 2015 10:01:01 +0000
+	SMTP Server (TLS) id 15.1.225.19; Tue, 28 Jul 2015 10:01:04 +0000
+Received: from BN1AFFO11FD005.protection.gbl (2a01:111:f400:7c10::123) by
+	CO2PR03CA0051.outlook.office365.com (2a01:111:e400:1414::50) with
+	Microsoft SMTP Server (TLS) id 15.1.207.19 via Frontend Transport;
+	Tue, 28 Jul 2015 10:01:04 +0000
 Authentication-Results: spf=fail (sender IP is 192.88.168.50)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
 	(message not signed) header.d=none;
@@ -20,75 +20,80 @@ Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
 	receiver=protection.outlook.com; 
 	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BN1AFFO11OLC004.mail.protection.outlook.com (10.58.53.75) with
-	Microsoft SMTP Server (TLS) id 15.1.231.11 via Frontend Transport;
-	Tue, 28 Jul 2015 10:01:01 +0000
+	BN1AFFO11FD005.mail.protection.outlook.com (10.58.52.65) with Microsoft
+	SMTP Server (TLS) id 15.1.231.11 via Frontend Transport;
+	Tue, 28 Jul 2015 10:01:03 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	t6SA0uLs020751; Tue, 28 Jul 2015 03:00:59 -0700
+	t6SA0uLt020751; Tue, 28 Jul 2015 03:01:02 -0700
 From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Jul 2015 02:00:41 +0800
-Message-ID: <1438106442-15071-2-git-send-email-b54851@freescale.com>
+Date: Wed, 29 Jul 2015 02:00:42 +0800
+Message-ID: <1438106442-15071-3-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1438106442-15071-1-git-send-email-b54851@freescale.com>
 References: <1438106442-15071-1-git-send-email-b54851@freescale.com>
+MIME-Version: 1.0
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BN1AFFO11OLC004;
-	1:s0W9Trw+/lgDG/9VgAMOPqwJ6qcRNMry0+Jh78mWkyzgo6FkntnR5I1SgL5VjC6xs98IdvoAciwnK5ebXGqCR2RZKndvh7RzwZ3+2YocztIa/v7nbfvwEPs/PKZYumC/gDZNazp/bsc+hgX+sgLaTquqe11Y3L/Dappy1DDx4l4EJtGhNrcAscSvTa5T2KXW+9dNM/aYnLBEcpyRNtCkTuP77MrZMTuXKWlfega2IQQG32QzM5n+ZqEL3t2NkHfgr7P02CzPX0zxv0Up+z+xkZnYdoZedhzlBVWEUBUkp84qLQXB13tW0CNAyal+liPQ8SN+fWftmJ4QC4/I9X8NPA==
+X-Microsoft-Exchange-Diagnostics: 1; BN1AFFO11FD005;
+	1:cCMRJ2QdDjo9MpNFD9ttQu74pOWK0yj23Vc7PRHYHl9E7B06p/1yIwJT0nLZXr97AEAa+0V8LoIIoEyk3etKIesFGcFFVnpgAGiHFPv7gJG5gXECuBG5FbYaCseR4OvqcuD5jxyG5WMB+clEK87ioL5T88lgEE0DA1qEkyGcvLoUQh5pWUHdlvJCBituXKtrat8O4YvM9IUaecX4B0T7ye9WhNYTzER7ed1RGCdYLhZi6gALvD/MAG4xWCRiLW5jMF5fpwojmuiYMVOkfhs73KpYiEpDucrKNQpsAJ30smcpJ7V2xmgbEG2H1Qng0Lj5FT8kcMze32+Cdhxx9YIfuA==
 X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(339900001)(199003)(189002)(62966003)(92566002)(575784001)(47776003)(107886002)(76176999)(46102003)(189998001)(36756003)(77096005)(86362001)(50226001)(50986999)(15975445007)(19580395003)(6806004)(110136002)(5001960100002)(48376002)(19580405001)(106466001)(2950100001)(33646002)(104016003)(87936001)(2351001)(50466002)(229853001)(77156002)(85426001)(4001430100001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0301MB1171;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv; A:1; MX:1;
+	SFS:(10019020)(6009001)(2980300002)(339900001)(189002)(199003)(76176999)(87936001)(62966003)(189998001)(2950100001)(575784001)(92566002)(2351001)(106466001)(19580395003)(107886002)(5001960100002)(46102003)(77096005)(15975445007)(33646002)(6806004)(19580405001)(110136002)(229853001)(86362001)(5820100001)(50466002)(36756003)(23676002)(50986999)(77156002)(104016003)(47776003)(50226001)(85426001)(4001430100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1182;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv; MX:1; A:1;
 	LANG:en; 
-MIME-Version: 1.0
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
-	2:Hxo9Q4iN2v96t7b/+cGPQJXQGERXNFs6swBHPtYypQXdH4QDVkoBQ72ybN/QM6fx65ClGo7c0Qx9PBko7P3MkyphqJ8BdWF/q2BJfff4ByGv6ku787Vzg4xJt2PUTl2J7r9IjP8EFKtC1YdLwPt+dMMk4caygmmZrue/FJB7qeI=;
-	3:0xgOPYIxNxTzLvQX+gs7JKUpU9CzLU0jS0dSeIyld5VJ3wumNaVKlRmQMIbskgr83GREhuPKWZqpVtimjEqORYDqmIXkQ1Ye1Sc5q0A7cz5ejD/suCV5PishSOAR+KuJHoMSzdJsKJX8OeqjIWB5m1La0EMqycz5cBuVeC9aKGHBW7DAXx9TwdAXC4VXFwlUIwkSJnDPY5SFNy0DFU0LtVCw/qTlif9H3afKaToi1IE=;
-	25:HNQL5K/JvizgBJjC0uwfmp4iDHoPpoTiq8KYKDE13jpHgy/wIRxMeL/1Yfbs/m67SMBL5H3OgbjFvSFrUUKhWZhs8cSdd1s1qncBlMDdq2Jo4RMbRg/upBLNcHlVjgPsyvLoP08JBqy8zVAlhJhTBJ0L/oWcR6HT/CziDF62J1Bn2O4rSbPweSPne6oIUPNxdwhm9ZALOrQWbepTtRft3rY5nVOlyects2fc3Vc97zVB0XXosKu2mgxOtAQfz9/k
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR0301MB1171;
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
-	20://AucRy8h5WxvslorNMXLxATfcvSutb7nHEzuCdygdxwX6v3TKZ4SZfu6QzNaca/y7LftythOpKdQqJETArBjLnLIbtpHR0NKSibc989E2in+lqDwE+qGCb+x8g5xvEHAbMhr5DV/lTxQpY5OZ7nx2ditiutEjW6s6389nHH3vcBjEjF7Rbx6iVFkl/wBrfMBUDC1GnOZbe5g7SrwCe8CprSWECEUTyTyzEdN2ptdoeo64AcopicdEBxPlcSDUmJq+XHRZ8+9D9BMNdv7Grll1SFlE+Qaoph6dwkhhxlISivOKgML38VpE4sfevxhVla48rDPUriZ2IXiTu4Ys9YWSSyZUi5BaqAHovrTzdh55Y=;
-	4:hDonAutM1am9eqvtawhZElSfwVU8XFG6GMf6z/SM0QdEkR1Rgg7jmzGjknnZhSAdJIRcj1fAgVS8U9emjkaWAmWYOUOJ/pFK52OL6CDw7QzpndUTSDDoLojGp289rxOLcZKlKo4YNopD+WlU8bU2LTCd7i4ewzrStDS8a067Vb8VDxx4jN4fH1yCquKhhA2wat4d1wgXuseMqROsKLdlqKKdTrBNPdvKcv1slq3cBLlhSajJv3/clxD6TZi5moV/BXODb/Nd2yl1iXmoaC5n+wI4IU2xOwXF7Xa8kHgFEOg=
-BN3PR0301MB1171: X-MS-Exchange-Organization-RulesExecuted
-X-Microsoft-Antispam-PRVS: <BN3PR0301MB1171ADBB10415E7B0B2E4BDB868D0@BN3PR0301MB1171.namprd03.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1182;
+	2:0cCx5AXIL1aOGrH1xZZ4cIFIG+xhYyrpbQJmy2GHCQsXv3mn8/8EmVuzPeudOFIijzizd6xy9YtrR03cWWmqKtD7y9OKO3xvxGFTWlkbMjcs4eDHwwDs7JDXGV6vpT7WtExlxigDSA29G4A03Abka68E2uVWNHNJSc+TrP3z3WU=;
+	3:bfNFl1e9hKwVKUDBkG0E3hlZZE0q8lRf/48WMlG1VLVNRUcWlRd/vcc1SW/8I9uA9aH0tXslJAm2lvIFigaOhQp1tVMTxI7gUWc2jzkbixPijV3yWhkEIfXc4bw+v0gRjkzum6SMdfcnV2nQAsg/308pArTsoN8gKeEGKMd9Z5+cSZ7AZOajsCLz6MNBK6LseicO4FyKKzQ2oW00Pjaxjy55IKHXlVwyyWRrD0b8CLg=;
+	25:uDHotSXA2l0ubNbziBhqlQyl2RoDNFWFzPq59Y6lMV6aGKov4wkCD+ERkhVfJAIy/Q2GaLi186hqVVz5B6bYmmX655BMWoBDzVcXTKOy8wBKUsrFVJmSneit0h9togn+Te2yDNu+y0WRFxWj8ceF7bAihX6PdRLZmD4nmVIfffwwit+c6q2lvQ5o90pPnZ//4qwzivOtP37CshSUVP7F2/ywj6LGt5H8AKOJBbTAt2MFFhmbGD8cHyVIcwBUOYYR7ct26vhec1KZW4B0miBDgg==
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DM2PR0301MB1182;
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1182;
+	20:LkH+Tu2OGR0DeBR1xNpLx2ITPR6hF+K751+U5L6Yh/5Atq1glWxej+Uscp64B7OPQHBuvxuVMbdIl6u9W/VEQQs7YGuXlLrytN1KjCA/Jthg6Kx+w/5slGSJtMTHA9gkDhPuLVLRTJwXXXRku8UwPi5AbAnW93bLG19XOx+zX0DhlzcA0586mfJEQtV/qVmzJ9j00HfFddWtFRbS6o5+G9eCux58TgYUN7Xj7rf1CSIRZeqiwEw9b4JPlDYjDU5O3GCUrr96TjoHramKZgvrIGzy7LoX3ieBGEprfgEopsPf1VHqKIXAZcMQHE5fAu0urQ7MM4DkSQc2gtso/liJctk8X4ANBnX5wSMWOrX7D8I=;
+	4:/z4yLUfz7RNP2SB5JuL54qmOuymrk/PMqV8pzdpkz6xGW6pe1Z+I+GKQsdP0rXPCgRsuOhDm8nMvWOYZCl7ockTU9Ealp2IZNU7WRVFBd9rfzZ438AoekjjYE1uDSlLKQeUWR3aYY+s8kgjN54Jtf5Z8IT/dc6hgzM0IVsb67VzPdUNqhQHIy2WMA48xsb3DpA953UTlQsGdrN0IBBHxKcU1n8AshsyY+hCf136+B2/6ht9n0EYDiQfYAfTHOFafjvIutoR2wCyTxYPa68jFdoPcxhtlD1MCxB2BpRA/CXQ=
+DM2PR0301MB1182: X-MS-Exchange-Organization-RulesExecuted
+X-Microsoft-Antispam-PRVS: <DM2PR0301MB11828B8052AB57976357A2A9868D0@DM2PR0301MB1182.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(3002001); SRVR:BN3PR0301MB1171; BCL:0;
-	PCL:0; RULEID:; SRVR:BN3PR0301MB1171; 
+	RULEID:(601004)(5005006)(3002001); SRVR:DM2PR0301MB1182; BCL:0;
+	PCL:0; RULEID:; SRVR:DM2PR0301MB1182; 
 X-Forefront-PRVS: 06515DA04B
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN3PR0301MB1171;
-	23:TkT8h0udepy11MAwiVa8EM+kML9F1vFMSBMREqG?=
-	=?us-ascii?Q?dzaoiiBimVAzJC6eUrHVOr+ll21kMw00SsU2ehR/jx51jT7RVHqzpUaK9Vxf?=
-	=?us-ascii?Q?HEL5x19U/5wFTIm2bvln8yAFvDbCosEL+icmT17twCjDexwJCWNQssWh8IQH?=
-	=?us-ascii?Q?OlFVLTjlWP47miUz75OBsurP5Qu1XoyOKsqiegI+1LR34hHYPKLf8WxPHez3?=
-	=?us-ascii?Q?B9FVsSwbbEubKDpeJ4AXZ0OWOaIotJ46rWPO+/GzhjgUO4eQQ3K/DtKHVbOR?=
-	=?us-ascii?Q?B1qR35XQiPk9tVArw9Y9EAVHq9LQMOo2aQFDzwRExbQSm9lFoLMZYdkAvqO/?=
-	=?us-ascii?Q?ddvVCa9Ge3pRGFmTjLdwMQRhl2IbP4Wnkl194YRcQsNMVp5z9w4GXGil5U0I?=
-	=?us-ascii?Q?q/lXRXOgF7gBpIUx2g07VRNlyFTAFB51rgtiGe6HqDLNAjjn2XuS5Ha/iyS8?=
-	=?us-ascii?Q?U0kIxZu+LeExRwCNAFdJ8bwuZX9K0vpLp8kqrBQEWtRXpaWQMzHaKnJkHUPv?=
-	=?us-ascii?Q?+mIT1Oe2UhXJohvHaDRnf9ChkCJFyyy7r8MPVZwKB99kFdLdZJI5hdjw2mLX?=
-	=?us-ascii?Q?dHM99CQFk6MMA4FJF1Td3pk8S9RsYmZDFc/PNHpLJRwZjOEtTjn8PijnCuxp?=
-	=?us-ascii?Q?DO+sGhpeI/W47vcfNaAlgUtdXvY6t+zHxifFSUMdgEgsmcQM8Ey7eI34vQYS?=
-	=?us-ascii?Q?sfsrOcm8BJ63h4UWA1bxqH75x33MV5Av93l3vEA2TMPTjtyYuBDKFwsZca2y?=
-	=?us-ascii?Q?l+gopYHAnuXHhdoEWcoGCo4i33dezroUyFSuZeJTMyR+Ex82oKi2WBDenO8w?=
-	=?us-ascii?Q?8cY1LkJxJiyhgwLWUEL9EN9/Iv4+U3H8Hizb8coxDwGJIS8RnEhDsH8pw12u?=
-	=?us-ascii?Q?DNCPTy+yEkERh7apG3qFxL7y/yz+dnLfyGb+xdqgV/wVloSBamSukhMbKSmA?=
-	=?us-ascii?Q?6rVfhNCFvouWm4tF8lYuCS6H/faIwGkqNnRMruJ+efg=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
-	5:hkzyxrYYtbshbxT2lisWxAJiLCktBZtnul5wXuRv7a7v6my0YLR1BxmfU5uTkOsrzygfcNuPjbiDhqg6u4wYaJfL4sLuLyyQWt2CYMn1XsXAufzcD/KqnWAt7mppzLbWnr8IkZvGNCNasTFYSJgYkg==;
-	24:l8krtG+sFTDBFo4/cD6kUMNIcX2NRt2LMlxmIhzcTRqbbVMKbQKTVooj6R/YUESLf/0EABU+jmiUBIl6a7hNmkJha0t9Xzkcnbh48XB2z74=;
-	20:EH20D6Ke5jfJW6y6TiTdWrXnfYvN2pr39/fe5wWu3MQYLy4R9nUJkuXkYzv7YRGzSv0lWTC2T1AyihLFsMho2g==
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtETTJQUjAzMDFNQjExODI7MjM6d0xKSHdnNDJKSEJTcWVpeURMa2NhVzli?=
+	=?utf-8?B?MVRRTDN6K1E0QjdOTXoya2tzRGkySldoOXZwd1d1RFI0b21WbXFiQUFiNUJk?=
+	=?utf-8?B?NERkRTNXazFhWjJLQjVzc0wrYTRIajAycXVhYXh4QUZFbWtCdGl1UHh1N0pV?=
+	=?utf-8?B?elNwbkFUdTEyYlQ0UTVSWUJMOXBUdWVYMW9xbEZDdE85NnhzemNhL0s2TDg0?=
+	=?utf-8?B?bzFZTlUxaFhMNGo5OGFTOStSWDNubnJJV2pUdGdLWXNydDBhTmVSeXgyNExs?=
+	=?utf-8?B?UGRZdWlYcHIycFlqVkdNSHQ1VVl6Nmt6ZnEyTGp3TThHajZRV0g3Nk1Cd1BX?=
+	=?utf-8?B?SmNNTXVyaCsrV3dGNGlGdDgyZnU1ZVFHNjk1UTA2U2k0dVR2SlVpSEFVT2Nq?=
+	=?utf-8?B?K1NNSWdxQW0rYlZhd1V1UTZVZnhTVHl3Skg0NElBL2p1bS9mYkNGMnRmSVFQ?=
+	=?utf-8?B?MUJFS2Rld1hTZnJodE5aWTJ0OGlaTy9uMWtWYzBLdXdHbTlaRTZOVDUydUVL?=
+	=?utf-8?B?bmRiMEhITGRNdVRjNzN5UDN5TUhkcmlOZ1JMQUdUU2lnREFQdmhuS0NrbW1t?=
+	=?utf-8?B?akpUZlhuS2pVNGxaUldXWHhZUTBUT2ZtN1gwUHlXMy9vY29vZDlTdDdUWWtY?=
+	=?utf-8?B?MkN3STJrazlzaXFjRGxqb3N6UmE4b0hyTXpWcGwxUGIwT0t4aHo2d29TSm1t?=
+	=?utf-8?B?OCtxNTE3VmQ4VkxNMEljZ2lVTmFtbHMzUy95Q0czQzA4SzFGM1YrWUxKbDg4?=
+	=?utf-8?B?dXNzTHhzcmdRcFdXTEdsY3JXZ09vNTdQSVY1dllzSXEvdXRMbUJEV1BBZU5N?=
+	=?utf-8?B?ZGNKOHJlRThlK29Jc2RQTnhTZkQ3cG1rSEJRS3ZvWTNIMWJtRTN6eFBqZWZm?=
+	=?utf-8?B?bGxPZDNFMWVURURmK1ltMmEzSDlWM1J0bEd5cjd0VFB5bnJmQVUxM1NBOEdz?=
+	=?utf-8?B?WjUzQXU0MThLYlBrTkJCSTVGZ3pRZFpoTGlvZzNrWmFRN2k1ZU9vV2VFNko5?=
+	=?utf-8?B?dWFsYkJQUG45R1FwWWp6Y0NxMTl4ZVVyYnBOay9WR3YremY1SzVvdStPM05x?=
+	=?utf-8?B?cTNTdHVJbFFGdFVoWjZLMGk4Z1B0TjNsazl2alNhbTN5S1k2ZURZK3RjU0o1?=
+	=?utf-8?B?N0svTFRrV0NZNHVaR3Q5K296Y1RqbG10NFJtK3JxMzlZRWNIZkQ2R0pjb3VQ?=
+	=?utf-8?B?ZzFtbFV3REQ5Z3Y4dUlwaFF2MnJDY2FrWVp1cUIxYnBHd2cvd0VUeEg5UkFQ?=
+	=?utf-8?B?WFdrL1RITWM0TGRvWExOT1FqYWNWOXBkdFIxQnJXMS9oMUFTMUcycXQ1MUZ6?=
+	=?utf-8?Q?wLu8k2E35Wr0oxTpvSlhTMWEEIVM3GdGck=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1182;
+	5:p7KD1awcBr0WdQ9t9wkPJSUFbzBGMKoPl8OFvXO55vUkphCpBoOuL3B6RG5sWEOa5Z+OF99fplIpdqp98T7J6BJ5dOeXXv9sDegsK20K6XRY38iorWbWPlx7dhdfaovNIQPjcG8qBixQU9mFZCAaVA==;
+	24:Mhyg2Uj/j/ITtFxuV87nOOprIg9DeZaJBLRs8JqCTgcdFiyLtbHcK4+0M0jTb5yp+0U3c+j81oV8diDrwpkvcE3nwpiZENHMZKOdCkzAhlM=;
+	20:D6cMWIRKFzMdGOKUvubEEcPhEFfkyounW0iXg+mr6QoVs9B7IGS68n/hlxGeQkrQTqoXszEcgn2ffwhVSRotAw==
 X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2015 10:01:01.8726 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jul 2015 10:01:03.7981 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0301MB1171
-Subject: [poky][PATCH v3 1/2] gstreamer1.0: Add inputselector related patch
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1182
+Subject: [poky][PATCH v3 2/2] gstreamer1.0: Add basesink related patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -101,203 +106,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 10:01:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Jul 2015 10:01:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Fix: ticky events haven't send out when active track reach EOS
-
-EOS event hasn't been send to down-element. The resolution is block EOS event
-of inactive pad, send the event after the pad actived.
+Fix QoS/lateness checking if subclass implements
+prepare/prepare_list vfuncs
 
 Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- ...cky-events-haven-t-send-out-when-ac-1-4-1.patch | 167 +++++++++++++++++++++
- .../gstreamer/gstreamer1.0_1.4.5.bb                |   1 +
- 2 files changed, 168 insertions(+)
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0/inputselector-sticky-events-haven-t-send-out-when-ac-1-4-1.patch
+ ...x-QoS-lateness-checking-if-subclass-imple.patch | 70 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.4.5.bb                |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-basesink-Fix-QoS-lateness-checking-if-subclass-imple.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/inputselector-sticky-events-haven-t-send-out-when-ac-1-4-1.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/inputselector-sticky-events-haven-t-send-out-when-ac-1-4-1.patch
-new file mode 100755
-index 0000000..f50ce6f
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-basesink-Fix-QoS-lateness-checking-if-subclass-imple.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-basesink-Fix-QoS-lateness-checking-if-subclass-imple.patch
+new file mode 100644
+index 0000000..b6edda1
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/inputselector-sticky-events-haven-t-send-out-when-ac-1-4-1.patch
-@@ -0,0 +1,167 @@
-+From 83bed90c306ed3185d48febf6441177d638f7341 Mon Sep 17 00:00:00 2001
-+From: Song Bing <b06498@freescale.com>
-+Date: Wed, 24 Dec 2014 10:13:51 +0800
-+Subject: [PATCH] inputselector: sticky events haven't send out when active
-+ track reach EOS
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-basesink-Fix-QoS-lateness-checking-if-subclass-imple.patch
+@@ -0,0 +1,70 @@
++From 6914566ed6a89c96973a578aa5ecd01ee68cdcfd Mon Sep 17 00:00:00 2001
++From: Jian <Jian.Li@freescale.com>
++Date: Thu, 14 May 2015 15:49:43 +0800
++Subject: [PATCH] basesink: Fix QoS/lateness checking if subclass implements
++ prepare/prepare_list vfuncs
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+EOS event hasn't been send to down-element. The resolution is block EOS event
-+of inactive pad, send the event after the pad actived.
++In basesink functions gst_base_sink_chain_unlocked(), below code is used to
++checking if buffer is late before doing prepare call to save some effort:
++    if (syncable && do_sync)
++      late =
++          gst_base_sink_is_too_late (basesink, obj, rstart, rstop,
++          GST_CLOCK_EARLY, 0, FALSE);
 +
-+https://bugzilla.gnome.org/show_bug.cgi?id=740949
++    if (G_UNLIKELY (late))
++      goto dropped;
 +
-+Upstream-Status: Backport [1.5.1]
++But this code has problem, it should calculate jitter based on current media
++clock, rather than just passing 0. I found it will drop all the frames when
++rewind in slow speed, such as -2X.
 +
-+Signed-off-by: Song Bing <b06498@freescale.com>
++https://bugzilla.gnome.org/show_bug.cgi?id=749258
++
++Upstream-Status: Backport [1.5.1]
 +---
-+ plugins/elements/gstinputselector.c |   58 ++++++++++++++++++++++++++---------
-+ plugins/elements/gstinputselector.h |    1 +
-+ 2 files changed, 45 insertions(+), 14 deletions(-)
++ libs/gst/base/gstbasesink.c |   26 ++++++++++++++++++++++----
++ 1 file changed, 22 insertions(+), 4 deletions(-)
 +
-+diff --git a/plugins/elements/gstinputselector.c b/plugins/elements/gstinputselector.c
-+index fb50802..4461f7c 100644
-+--- a/plugins/elements/gstinputselector.c
-++++ b/plugins/elements/gstinputselector.c
-+@@ -440,6 +440,17 @@ gst_selector_pad_iterate_linked_pads (GstPad * pad, GstObject * parent)
-+ }
++diff --git a/libs/gst/base/gstbasesink.c b/libs/gst/base/gstbasesink.c
++index a505695..5fb2d6a 100644
++--- a/libs/gst/base/gstbasesink.c
+++++ b/libs/gst/base/gstbasesink.c
++@@ -3369,10 +3369,28 @@ gst_base_sink_chain_unlocked (GstBaseSink * basesink, GstPad * pad,
++     if (G_UNLIKELY (stepped))
++       goto dropped;
 + 
-+ static gboolean
-++gst_input_selector_eos_wait (GstInputSelector * self, GstSelectorPad * pad)
-++{
-++  while (!self->eos && !self->flushing && !pad->flushing) {
-++    /* we can be unlocked here when we are shutting down (flushing) or when we
-++     * get unblocked */
-++    GST_INPUT_SELECTOR_WAIT (self);
-++  }
-++  return self->flushing;
-++}
++-    if (syncable && do_sync)
++-      late =
++-          gst_base_sink_is_too_late (basesink, obj, rstart, rstop,
++-          GST_CLOCK_EARLY, 0, FALSE);
+++    if (syncable && do_sync) {
+++      GstClock *clock;
 ++
-++static gboolean
-+ gst_selector_pad_event (GstPad * pad, GstObject * parent, GstEvent * event)
-+ {
-+   gboolean res = TRUE;
-+@@ -486,6 +497,7 @@ gst_selector_pad_event (GstPad * pad, GstObject * parent, GstEvent * event)
-+     case GST_EVENT_FLUSH_START:
-+       /* Unblock the pad if it's waiting */
-+       selpad->flushing = TRUE;
-++      sel->eos = FALSE;
-+       GST_INPUT_SELECTOR_BROADCAST (sel);
-+       break;
-+     case GST_EVENT_FLUSH_STOP:
-+@@ -523,21 +535,12 @@ gst_selector_pad_event (GstPad * pad, GstObject * parent, GstEvent * event)
-+     case GST_EVENT_EOS:
-+       selpad->eos = TRUE;
-+ 
-+-      if (forward) {
-+-        selpad->eos_sent = TRUE;
-+-      } else {
-+-        GstSelectorPad *active_selpad;
-+-
-+-        /* If the active sinkpad is in EOS state but EOS
-+-         * was not sent downstream this means that the pad
-+-         * got EOS before it was set as active pad and that
-+-         * the previously active pad got EOS after it was
-+-         * active
-+-         */
-+-        active_selpad = GST_SELECTOR_PAD (active_sinkpad);
-+-        forward = (active_selpad->eos && !active_selpad->eos_sent);
-+-        active_selpad->eos_sent = TRUE;
-++      if (!forward) {
-++        /* blocked until active the sind pad or flush */
-++        gst_input_selector_eos_wait (sel, selpad);
-++        forward = TRUE;
-+       }
-++      selpad->eos_sent = TRUE;
-+       GST_DEBUG_OBJECT (pad, "received EOS");
-+       break;
-+     case GST_EVENT_GAP:{
-+@@ -676,6 +679,12 @@ gst_input_selector_wait_running_time (GstInputSelector * sel,
-+         gst_input_selector_activate_sinkpad (sel, GST_PAD_CAST (selpad));
-+     active_selpad = GST_SELECTOR_PAD_CAST (active_sinkpad);
-+ 
-++    if (sel->eos) {
-++      GST_DEBUG_OBJECT (sel, "Not waiting because inputselector reach EOS.");
-++      GST_INPUT_SELECTOR_UNLOCK (sel);
-++      return FALSE;
+++      GST_OBJECT_LOCK (basesink);
+++      clock = GST_ELEMENT_CLOCK (basesink);
+++      if (clock && GST_STATE (basesink) == GST_STATE_PLAYING) {
+++        GstClockTime base_time;
+++        GstClockTime stime;
+++        GstClockTime now;
+++
+++        base_time = GST_ELEMENT_CAST (basesink)->base_time;
+++        stime = base_time + gst_base_sink_adjust_time (basesink, rstart);
+++        now = gst_clock_get_time (clock);
+++        GST_OBJECT_UNLOCK (basesink);
+++
+++        late =
+++            gst_base_sink_is_too_late (basesink, obj, rstart, rstop,
+++            GST_CLOCK_EARLY, GST_CLOCK_DIFF (stime, now), FALSE);
+++      } else {
+++        GST_OBJECT_UNLOCK (basesink);
+++      }
 ++    }
-++
-+     if (seg->format != GST_FORMAT_TIME) {
-+       GST_DEBUG_OBJECT (selpad,
-+           "Not waiting because we don't have a TIME segment");
-+@@ -971,6 +980,12 @@ gst_selector_pad_chain (GstPad * pad, GstObject * parent, GstBuffer * buf)
-+       GST_TIME_ARGS (GST_BUFFER_TIMESTAMP (buf)));
 + 
-+   GST_INPUT_SELECTOR_LOCK (sel);
-++  if (sel->eos) {
-++    GST_DEBUG_OBJECT (pad, "inputselector eos.");
-++    GST_INPUT_SELECTOR_UNLOCK (sel);
-++    goto eos;
-++  }
-++
-+   /* wait or check for flushing */
-+   if (gst_input_selector_wait (sel, selpad)) {
-+     GST_INPUT_SELECTOR_UNLOCK (sel);
-+@@ -1151,6 +1166,13 @@ flushing:
-+     res = GST_FLOW_FLUSHING;
-+     goto done;
-+   }
-++eos:
-++  {
-++    GST_DEBUG_OBJECT (pad, "We are eos, discard buffer %p", buf);
-++    gst_buffer_unref (buf);
-++    res = GST_FLOW_EOS;
-++    goto done;
-++  }
-+ }
-+ 
-+ static void gst_input_selector_dispose (GObject * object);
-+@@ -1309,6 +1331,7 @@ gst_input_selector_init (GstInputSelector * sel)
-+   g_mutex_init (&sel->lock);
-+   g_cond_init (&sel->cond);
-+   sel->blocked = FALSE;
-++  sel->eos = FALSE;
-+ 
-+   /* lets give a change for downstream to do something on
-+    * active-pad change before we start pushing new buffers */
-+@@ -1377,6 +1400,11 @@ gst_input_selector_set_active_pad (GstInputSelector * self, GstPad * pad)
-+   GST_DEBUG_OBJECT (self, "New active pad is %" GST_PTR_FORMAT,
-+       self->active_sinkpad);
-+ 
-++  if (old != new && new->eos && !new->eos_sent) {
-++    self->eos = TRUE;
-++    GST_INPUT_SELECTOR_BROADCAST (self);
-++  }
-++
-+   return TRUE;
-+ }
-+ 
-+@@ -1771,6 +1799,7 @@ gst_input_selector_change_state (GstElement * element,
-+   switch (transition) {
-+     case GST_STATE_CHANGE_READY_TO_PAUSED:
-+       GST_INPUT_SELECTOR_LOCK (self);
-++      self->eos = FALSE;
-+       self->blocked = FALSE;
-+       self->flushing = FALSE;
-+       GST_INPUT_SELECTOR_UNLOCK (self);
-+@@ -1779,6 +1808,7 @@ gst_input_selector_change_state (GstElement * element,
-+       /* first unlock before we call the parent state change function, which
-+        * tries to acquire the stream lock when going to ready. */
-+       GST_INPUT_SELECTOR_LOCK (self);
-++      self->eos = TRUE;
-+       self->blocked = FALSE;
-+       self->flushing = TRUE;
-+       GST_INPUT_SELECTOR_BROADCAST (self);
-+diff --git a/plugins/elements/gstinputselector.h b/plugins/elements/gstinputselector.h
-+index 96c680f..9bf924f 100644
-+--- a/plugins/elements/gstinputselector.h
-++++ b/plugins/elements/gstinputselector.h
-+@@ -77,6 +77,7 @@ struct _GstInputSelector {
-+   GMutex lock;
-+   GCond cond;
-+   gboolean blocked;
-++  gboolean eos;
-+   gboolean flushing;
-+ };
-+ 
++     if (G_UNLIKELY (late))
++       goto dropped;
 +-- 
 +1.7.9.5
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
-index 0a2ce86..902f79d 100644
+index 902f79d..db58754 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
-@@ -7,6 +7,7 @@ SRC_URI = " \
-     http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
+@@ -8,6 +8,7 @@ SRC_URI = " \
      file://0001-Fix-crash-with-gst-inspect.patch \
      file://0001-gstinfo-Shorten-__FILE__-on-all-platforms.patch \
-+    file://inputselector-sticky-events-haven-t-send-out-when-ac-1-4-1.patch \
+     file://inputselector-sticky-events-haven-t-send-out-when-ac-1-4-1.patch \
++    file://0002-basesink-Fix-QoS-lateness-checking-if-subclass-imple.patch \
  "
  SRC_URI[md5sum] = "88a9289c64a4950ebb4f544980234289"
  SRC_URI[sha256sum] = "40801aa7f979024526258a0e94707ba42b8ab6f7d2206e56adbc4433155cb0ae"
