@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4ADD67634C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C00A7763AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 02:12:32 +0000 (UTC)
+	Tue, 28 Jul 2015 02:12:33 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S2CWFS025324
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S2CX5g028019
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 27 Jul 2015 19:12:33 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 27 Jul 2015 19:12:17 -0700
+	Mon, 27 Jul 2015 19:12:18 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Jul 2015 19:12:23 -0700
-Message-ID: <cover.1438049511.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Jul 2015 19:12:24 -0700
+Message-ID: <ccfa15138ce81e677474d5c1ed99c8abba7651c8.1438049511.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1438049511.git.liezhi.yang@windriver.com>
+References: <cover.1438049511.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/9] Packages Upgrade
+Subject: [PATCH 1/9] git: 2.4.4 -> 2.4.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,52 +36,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 28 Jul 2015 02:12:34 -0000
 Content-Type: text/plain
 
-The following changes since commit 27d068d05239c26a3848eb101571acab54635e37:
-
-  harfbuzz: upgrade to 1.0.1 (2015-07-27 23:28:23 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/PU
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/PU
-
-Robert Yang (9):
-  git: 2.4.4 -> 2.4.6
-  file: 5.23 -> 5.24
-  libuser: 0.61 -> 0.62
-  less: 478 -> 479
-  cracklib: 2.9.4 -> 2.9.5
-  gnupg: 2.1.5 -> 2.1.6
-  help2man-native: 1.46.4 -> 1.47.1
-  man-pages: 4.00 -> 4.01
-  pax-utils: 1.0.3 -> 1.0.5
-
- ...h-long-options-and-explicitly-number-them.patch |  116 --------------------
- .../file/0002-fix-bug-with-5.23-long-options.patch |   26 -----
- .../file/{file_5.23.bb => file_git.bb}             |   17 ++-
- meta/recipes-devtools/git/git_2.4.4.bb             |   11 --
- meta/recipes-devtools/git/git_2.4.6.bb             |   11 ++
- ...-native_1.46.4.bb => help2man-native_1.47.1.bb} |    4 +-
- .../{pax-utils_1.0.3.bb => pax-utils_1.0.5.bb}     |    4 +-
- .../{cracklib_2.9.4.bb => cracklib_2.9.5.bb}       |    4 +-
- .../less/{less_478.bb => less_479.bb}              |    4 +-
- .../libuser/{libuser_0.61.bb => libuser_0.62.bb}   |    4 +-
- .../{man-pages_4.00.bb => man-pages_4.01.bb}       |   13 +--
- .../gnupg/{gnupg_2.1.5.bb => gnupg_2.1.6.bb}       |    4 +-
- 12 files changed, 35 insertions(+), 183 deletions(-)
- delete mode 100644 meta/recipes-devtools/file/file/0001-Fix-bug-with-long-options-and-explicitly-number-them.patch
- delete mode 100644 meta/recipes-devtools/file/file/0002-fix-bug-with-5.23-long-options.patch
- rename meta/recipes-devtools/file/{file_5.23.bb => file_git.bb} (64%)
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/recipes-devtools/git/git_2.4.4.bb |   11 -----------
+ meta/recipes-devtools/git/git_2.4.6.bb |   11 +++++++++++
+ 2 files changed, 11 insertions(+), 11 deletions(-)
  delete mode 100644 meta/recipes-devtools/git/git_2.4.4.bb
  create mode 100644 meta/recipes-devtools/git/git_2.4.6.bb
- rename meta/recipes-devtools/help2man/{help2man-native_1.46.4.bb => help2man-native_1.47.1.bb} (79%)
- rename meta/recipes-devtools/pax-utils/{pax-utils_1.0.3.bb => pax-utils_1.0.5.bb} (83%)
- rename meta/recipes-extended/cracklib/{cracklib_2.9.4.bb => cracklib_2.9.5.bb} (91%)
- rename meta/recipes-extended/less/{less_478.bb => less_479.bb} (88%)
- rename meta/recipes-extended/libuser/{libuser_0.61.bb => libuser_0.62.bb} (88%)
- rename meta/recipes-extended/man-pages/{man-pages_4.00.bb => man-pages_4.01.bb} (81%)
- rename meta/recipes-support/gnupg/{gnupg_2.1.5.bb => gnupg_2.1.6.bb} (89%)
 
+diff --git a/meta/recipes-devtools/git/git_2.4.4.bb b/meta/recipes-devtools/git/git_2.4.4.bb
+deleted file mode 100644
+index f9c81ed..0000000
+--- a/meta/recipes-devtools/git/git_2.4.4.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require git.inc
+-
+-SRC_URI[tarball.md5sum] = "f122606aee328de3e1019cde720cb0aa"
+-SRC_URI[tarball.sha256sum] = "a5d9e3e340a3e5a297092430752f61a9ae5b8b5e4ac042b0341d17189e653456"
+-SRC_URI[manpages.md5sum] = "285b126907d59647248577a7df01c44c"
+-SRC_URI[manpages.sha256sum] = "15afc42909078909ca7a48d73b7cb358b37f734b81fc3a0c6438be183f05480f"
+-
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+-                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-                 "
+-EXTRA_OEMAKE += "NO_GETTEXT=1"
+diff --git a/meta/recipes-devtools/git/git_2.4.6.bb b/meta/recipes-devtools/git/git_2.4.6.bb
+new file mode 100644
+index 0000000..3655756
+--- /dev/null
++++ b/meta/recipes-devtools/git/git_2.4.6.bb
+@@ -0,0 +1,11 @@
++require git.inc
++
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
++                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
++                 "
++EXTRA_OEMAKE += "NO_GETTEXT=1"
++
++SRC_URI[tarball.md5sum] = "af7f48ebe09eef41504241d4a845610b"
++SRC_URI[tarball.sha256sum] = "c4220a6a24de853044702d9727204ef6bf254012d64e9e0f22ef46a63ec2dbe4"
++SRC_URI[manpages.md5sum] = "b4bd9c649e263240035708ac28a7b680"
++SRC_URI[manpages.sha256sum] = "9a84a7e7b8ea7272fac103a1c4b390872faf31a96754aa41e76ed48c437b382f"
 -- 
 1.7.9.5
 
