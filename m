@@ -1,24 +1,36 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BE13763F0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
+	[209.85.220.182])
+	by mail.openembedded.org (Postfix) with ESMTP id D1F68763F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 19:11:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6SJBE6I020817
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 28 Jul 2015 19:46:02 +0000 (UTC)
+Received: by qkdg63 with SMTP id g63so1924860qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 12:11:14 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 28 Jul 2015 12:10:58 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Jul 2015 12:11:14 -0700
-Message-ID: <1438110674-25138-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Tue, 28 Jul 2015 12:46:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=nnxfPLc56LpmFNpEsccQUiPCgO0vKx3RixOFxrn/ouQ=;
+	b=EU703me5XDYP6l1SE4JF6T9NVeLEfGdJ7OePBkYyHrSIvWo0JP7QoB0L3G878jNGI3
+	ZS/f72g3AK62U0Dtsgr7lSXLVPFWwJTU5NXfMykS4Jcn3VAFRhR3h+WvYPMMrUkkbnXY
+	fIzF1DZEwAPw3eX9Nv0x66lV2h5dcaTkEHdDAqVqqrod/dWF8NWI4Fk1fnaC2mpHKh1g
+	THet9PIZRz8t8fCZde123TxWgN8j0ClIXlr4PGLGMVxa7radNVpq1iAa1UX6F9aRnQB2
+	SQdN3FKIJOQ8puSeXmebKN2QCGWmbJhzVV0meKyzQPtpf7x/zxrF7/ciFmSx80VZ707e
+	FY6A==
+X-Gm-Message-State: ALoCoQk3RyBCk2G5YFGld27ldimYTLT6UWpOcMrhGEra+1N9gy3W3qdzgHmy2nZY7E8UsDnpaQt3
+X-Received: by 10.55.43.95 with SMTP id r92mr51301386qkh.67.1438112762153;
+	Tue, 28 Jul 2015 12:46:02 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] nss: advance to version 3.19.1
+Received: by 10.140.102.195 with HTTP; Tue, 28 Jul 2015 12:45:42 -0700 (PDT)
+In-Reply-To: <1438110674-25138-1-git-send-email-jslater@windriver.com>
+References: <1438110674-25138-1-git-send-email-jslater@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 28 Jul 2015 20:45:42 +0100
+Message-ID: <CAJTo0LYrj4yAgwUA6KX849S-kRsk-xZca4gvy8nS8VmM671ocw@mail.gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] nss: advance to version 3.19.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,57 +43,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 19:11:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Jul 2015 19:46:03 -0000
+Content-Type: multipart/alternative; boundary=001a1147b8dc55e57a051bf4b825
 
-Picks up fixes for CVE-2015-2721 and CVE-2015-2730.  Specify previously
-overlooked license file COPYING.  Do not modify nss.inc.
+--001a1147b8dc55e57a051bf4b825
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-support/nss/nss_3.17.3.bb |    7 -------
- meta/recipes-support/nss/nss_3.19.1.bb |   17 +++++++++++++++++
- 2 files changed, 17 insertions(+), 7 deletions(-)
- delete mode 100644 meta/recipes-support/nss/nss_3.17.3.bb
- create mode 100644 meta/recipes-support/nss/nss_3.19.1.bb
+On 28 July 2015 at 20:11, Joe Slater <jslater@windriver.com> wrote:
 
-diff --git a/meta/recipes-support/nss/nss_3.17.3.bb b/meta/recipes-support/nss/nss_3.17.3.bb
-deleted file mode 100644
-index e7d0780..0000000
---- a/meta/recipes-support/nss/nss_3.17.3.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require nss.inc
--
--SRC_URI += "\
--    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_17_3_RTM/src/${BP}.tar.gz \
--"
--SRC_URI[md5sum] = "fba7489e1b26f2a0bfe5527430fd61e1"
--SRC_URI[sha256sum] = "f4d5e9035a2f84f25f35c283de3b0ff60d72e918748de25eaf017ed201fa21d5"
-diff --git a/meta/recipes-support/nss/nss_3.19.1.bb b/meta/recipes-support/nss/nss_3.19.1.bb
-new file mode 100644
-index 0000000..f4059c4
---- /dev/null
-+++ b/meta/recipes-support/nss/nss_3.19.1.bb
-@@ -0,0 +1,17 @@
-+require nss.inc
-+
-+SRC_URI += "\
-+    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_19_1_RTM/src/${BP}.tar.gz \
-+"
-+
-+SRC_URI[md5sum] = "68a9c01c987b9bd92066b4e0041f3e58"
-+SRC_URI[sha256sum] = "b7be709551ec13206d8e3e8c065b894fa981c11573115e9478fa051029c52fff"
-+
-+#SRC_URI[md5sum] = "fba7489e1b26f2a0bfe5527430fd61e1"
-+#SRC_URI[sha256sum] = "f4d5e9035a2f84f25f35c283de3b0ff60d72e918748de25eaf017ed201fa21d5"
-+
-+# override value in nss.inc
-+#
-+LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
-+                    file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466afce85d6f1fe18f \
-+                    file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
--- 
-1.7.9.5
+> +# override value in nss.inc
+> +#
+> +LIC_FILES_CHKSUM =
+> "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
+> +
+> file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466afce85d6f1fe18f \
+> +
+> file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
+>
 
+Having a separate inc file really helps with clear recipes doesn't it...
+<gripe mode off>
 
+According to the layer index there's only one recipe for NSS, so how about
+we just ditch the nss.inc?
+
+Ross
+
+--001a1147b8dc55e57a051bf4b825
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 28 July 2015 at 20:11, Joe Slater <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:jslater@windriver.com" target=3D"_blank">jslater@windriver.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2xj" class=3D"a3s=
+" style=3D"overflow:hidden">+# override value in nss.inc<br>
++#<br>
++LIC_FILES_CHKSUM =3D &quot;file://nss/COPYING;md5=3D3b1e88e1b9c0b5a4b2881d=
+46cce06a18 \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://nss/lib/freebl/mpi/doc/LICENSE;md5=3D491f158d09d948466afce85d6f1fe18f \<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file=
+://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=3D5d425c8f3157dbf212db2ec53d9e513=
+2&quot;</div></blockquote></div><br>Having a separate inc file really helps=
+ with clear recipes doesn&#39;t it...</div><div class=3D"gmail_extra">&lt;g=
+ripe mode off&gt;</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
+mail_extra">According to the layer index there&#39;s only one recipe for NS=
+S, so how about we just ditch the nss.inc?</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a1147b8dc55e57a051bf4b825--
