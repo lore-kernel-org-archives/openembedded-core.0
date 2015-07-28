@@ -1,36 +1,36 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DAF576420
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D5DA976427
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 23:21:39 +0000 (UTC)
-Received: by ioea135 with SMTP id a135so3817620ioe.1
+	Tue, 28 Jul 2015 23:21:42 +0000 (UTC)
+Received: by ioeg141 with SMTP id g141so3835461ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 16:21:39 -0700 (PDT)
+	Tue, 28 Jul 2015 16:21:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6wNniXwEDd1X8nQQFYnMSY06s+CY2kV3MGHZ3VEdDPE=;
-	b=NKS+dxRtQN68acyTI/Vn6UEMx+RHAYLqRcOkw8whrUqFzwXFHF4VjLLsV4HeRukMyp
-	MjFXRIQ/0Huk5MhR1UHtAUuobeccV8Gob+RAxCw+RepKbfDcG/PeedysOyCVo1KO5S4b
-	PIGB1qX4utKzMriQUFFX1ct7R/aYELAQMbL28BH7I1Gbzp7nu0kPsKb3mqcJ/bNBbym5
-	Olj3mMjcDWJ8g3WC9L117wQSMq3h/AX6imCAgPdI05h6t+c2Iezgzul8ZyJ9B5Ooirz9
-	uMmy4zz04u0eIQUNdUj1ncN2IyFln44QAEfK3EHyezeXDVJ0QiO2mLv5fBGVZQGrEZnp
-	qVgQ==
-X-Received: by 10.107.9.137 with SMTP id 9mr63441757ioj.50.1438125699471;
-	Tue, 28 Jul 2015 16:21:39 -0700 (PDT)
+	bh=rpTwmn10eLIeY+H1yG8SukCRb7OsTjLWW3KkH6vC3/8=;
+	b=alHfA2PyuN8N0xvrnwFYV+W6BBPafMgljiGSTK9W/EIAylCw52waRxl77ZD+hKTCRu
+	ygx5ZSUlKuznqIBIO8JOfURRp8lKnD+fNyBVBVenWsFEWZ+2VbXWY4E31fqP+JB1v1i3
+	ZRWSAZYb03PzwPTyF80+qsgVM/zEoPM7BsMaee+0yaWzRxoFQCd1Ut78yMD3t4ofsEgd
+	OfgMOFFTCVIDHMYFymg5dk0eC8z5kxmiqhe2J5GYCVd7YY+enRxEy1hzfeORgCNkK7J5
+	uBo4TGdv/Vx+pFkn49um+MMv89egYlpLsIpINN1Y0zQyUKsMjbi4H77Wg4dtMr9GOYMT
+	gAbw==
+X-Received: by 10.107.33.65 with SMTP id h62mr57633150ioh.11.1438125702852;
+	Tue, 28 Jul 2015 16:21:42 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id i7sm9668533igt.18.2015.07.28.16.21.38
+	by smtp.gmail.com with ESMTPSA id i7sm9668533igt.18.2015.07.28.16.21.42
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 28 Jul 2015 16:21:39 -0700 (PDT)
+	Tue, 28 Jul 2015 16:21:42 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jul 2015 16:21:02 -0700
-Message-Id: <1438125665-14966-6-git-send-email-armccurdy@gmail.com>
+Date: Tue, 28 Jul 2015 16:21:03 -0700
+Message-Id: <1438125665-14966-7-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1438125665-14966-1-git-send-email-armccurdy@gmail.com>
 References: <1438125665-14966-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 5/8] busybox: disable sha3sum in defconfig
+Subject: [PATCH 6/8] busybox: disable fatattr in defconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,10 +43,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 23:21:39 -0000
+X-List-Received-Date: Tue, 28 Jul 2015 23:21:43 -0000
 
-The sha1sum, sha256sum and sha512sum applets are not enabled by
-default, so don't enable sha3sum either.
+The fatattr applet (to display or change file attributes on a fat file
+system) doesn't seem like core functionality, so disable by default.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
@@ -54,18 +54,18 @@ Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 94c4497..5e87239 100644
+index 5e87239..74d12ee 100644
 --- a/meta/recipes-core/busybox/busybox/defconfig
 +++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -271,7 +271,7 @@ CONFIG_SEQ=y
- # CONFIG_SHA1SUM is not set
- # CONFIG_SHA256SUM is not set
- # CONFIG_SHA512SUM is not set
--CONFIG_SHA3SUM=y
-+# CONFIG_SHA3SUM is not set
- CONFIG_SLEEP=y
- CONFIG_FEATURE_FANCY_SLEEP=y
- # CONFIG_FEATURE_FLOAT_SLEEP is not set
+@@ -545,7 +545,7 @@ CONFIG_DEFAULT_DEPMOD_FILE="modules.dep"
+ # Linux System Utilities
+ #
+ # CONFIG_BLOCKDEV is not set
+-CONFIG_FATATTR=y
++# CONFIG_FATATTR is not set
+ CONFIG_FSTRIM=y
+ # CONFIG_MDEV is not set
+ # CONFIG_FEATURE_MDEV_CONF is not set
 -- 
 1.9.1
 
