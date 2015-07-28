@@ -1,36 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FB9C73237
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0062B76380
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 11:28:28 +0000 (UTC)
-Received: by qges31 with SMTP id s31so25243767qge.3
+	Tue, 28 Jul 2015 11:47:47 +0000 (UTC)
+Received: by qgeu79 with SMTP id u79so72542700qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 04:28:28 -0700 (PDT)
+	Tue, 28 Jul 2015 04:47:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=nkXWN6Xjgq7V99faSy4o+NFKaZAud/wLRz8ol+z1mOQ=;
-	b=dHiJN5saNequKoR5eEmMn7RTxAfJEWHemPzyLqCYSTCCJj5bENoXVKEsH1RKGKqr+h
-	AhW0XIO+268mo8vxSrV2x48tsxgxIfWrmxImDIFukMh2ShlM74BdnA0hLQ6nPtUT10B9
-	iEylwx1ta7GbANYatx0c5TtR1FLa1LmwsuVjZX7QvJXGU3rpzZdrQZ7fViL2kCyMq/0A
-	xom3EPUMH9sTt2NKF2w6wnoxzhPnCE3744O+57i+Wt21OZV0pjMmEmO0Yda9vMeOJLep
-	hRHZOBZCuyPJ6K1vg6ofjSG1uwBlli3HOfHKGMhMG2g1qbC6n+4Uq3/NcksV1LxPQ0Cj
-	8iVw==
-X-Gm-Message-State: ALoCoQlA7IxIBGN3T4mRpLnbztfxihLUHtYf+RBdWLK9QoxnuFTmDzXrstzllkChwEROpc1+Hf2j
-X-Received: by 10.140.234.147 with SMTP id f141mr155414qhc.22.1438082908634;
-	Tue, 28 Jul 2015 04:28:28 -0700 (PDT)
+	bh=gYNlAYItVPNxpBTIwh2cNF5sWPRPesXPPfHlxURh4YA=;
+	b=T/yG1Ehg0j1dus8gxGb3ea4cWphSsuikBh0rWh8Wf12jF1N3xEac0rXTDabR45FrT/
+	qP0rQ0nQgga3kacBX2htXzgmOvXL2rQyeS1v+qUKihRbJCW3uZW5Eh+j89xr/+rmbdpO
+	ikEVZp3um9RGHKV850+Cpm5sou8PS89SjSFJIhD16CPBjb8qcDV41v1arilxWIjNJKsO
+	pUCcfJT4pki0D1nBJ1KxVC/2nFbB4Sde2QP+BOMtr8k6mdkzLLY0fSJCpq0BFoOLcloN
+	6L2L7HkQgZ+j0IFXGXZ+B9KAyYb5Dj+dpDgqQ0jG6fL+cZo1h9VWEGCDS553vyRkdx3T
+	1Zlw==
+X-Gm-Message-State: ALoCoQkeaIE+sUNvqnX04NsmOB4ra5e++fpR29WnwJ89zSnNUlK2dYpySTd0XlpxQCy41zdtIcIV
+X-Received: by 10.140.235.19 with SMTP id g19mr50878850qhc.52.1438084067511;
+	Tue, 28 Jul 2015 04:47:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Tue, 28 Jul 2015 04:28:09 -0700 (PDT)
-In-Reply-To: <1438062038-10291-1-git-send-email-jianchuan.wang@windriver.com>
-References: <1438062038-10291-1-git-send-email-jianchuan.wang@windriver.com>
+Received: by 10.140.102.195 with HTTP; Tue, 28 Jul 2015 04:47:28 -0700 (PDT)
+In-Reply-To: <1438048807-23716-1-git-send-email-rongqing.li@windriver.com>
+References: <1438048807-23716-1-git-send-email-rongqing.li@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Jul 2015 12:28:09 +0100
-Message-ID: <CAJTo0LYEwcGmTUkuz3fWN3F5bn3PBLFLAkuzVPHU4ALknDJ+wA@mail.gmail.com>
-To: jianchuan.wang@windriver.com
+Date: Tue, 28 Jul 2015 12:47:28 +0100
+Message-ID: <CAJTo0LaXtgUCjzPS_6+5fEL6CDdLK1Cn_3wNvCM_EfWH_wDG2A@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libhugetlbfs: Uprev to v2.19 from v2.18
+Subject: Re: [PATCH] u-boot-mkimage: fix a building failure on OpenSus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,38 +43,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 11:28:28 -0000
-Content-Type: multipart/alternative; boundary=001a11c0f5faed74b4051bedc499
+X-List-Received-Date: Tue, 28 Jul 2015 11:47:52 -0000
+Content-Type: multipart/alternative; boundary=001a11376dac005911051bee0a8d
 
---001a11c0f5faed74b4051bedc499
+--001a11376dac005911051bee0a8d
 Content-Type: text/plain; charset=UTF-8
 
-On 28 July 2015 at 06:40, <jianchuan.wang@windriver.com> wrote:
+On 28 July 2015 at 03:00, <rongqing.li@windriver.com> wrote:
 
-> From: Jianchuan Wang <jianchuan.wang@windriver.com>
->
-> The 5 patches which are deleted have been in the v2.19
+> +config.mk will be included only if auto.conf is newer than .config
+> +but in some system, the HPET is not enabled, the smallest unit of
+> +time is second, and can not decise which file is newer, even if
+> +the correct dependency has been created.
+> +
+> +The below shows unit of time:
+> +
+> +under SUSE Linux Enterprise Desktop 11 SP2  (i586):
+> +    $ls --full-time include/config/auto.conf .config
+> +    2015-07-27 03:46:20.000000000 -0400 .config
+> +    2015-07-27 03:46:20.000000000 -0400 include/config/auto.conf
+> +    $
+> +
+> +under Ubuntu 14.04 LTS:
+> +    $ ls --full-time include/config/auto.conf .config
+> +    2015-07-27 13:40:14.008703027 +0800 .config
+> +    2015-07-27 13:40:15.020703054 +0800 include/config/auto.conf
+> +    $
+> +
+> +The rule of including config.mk in Makefile as below
+> +    autoconf_is_current := $(if $(wildcard $(KCONFIG_CONFIG)),$(shell
+> find . \
+> +                    -path ./include/config/auto.conf -newer
+> $(KCONFIG_CONFIG)))
+> +    ifneq ($(autoconf_is_current),)
+> +    include $(srctree)/config.mk
+> +    include $(srctree)/arch/$(ARCH)/Makefile
+> +    endif
+> +
+> +The compilation will be failed if config.mk is not included
+> +so delay 1 second to create auto.conf after creating of .config
 >
 
-Wrong list for this and xfsprogs - you mean openembedded-devel@ for meta-oe.
+Adding a sleep seems pretty ugly, wouldn't a neater fix be to change the
+logic so that instead of the test being "is newer" you use "is not older",
+to handle identical timestamps as being current.
 
 Ross
 
---001a11c0f5faed74b4051bedc499
+--001a11376dac005911051bee0a8d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 July 2015 at 06:40,  <span dir=3D"ltr">&lt;<a href=3D"mailto:jianchua=
-n.wang@windriver.com" target=3D"_blank">jianchuan.wang@windriver.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":21p" class=3D=
-"a3s" style=3D"overflow:hidden">From: Jianchuan Wang &lt;<a href=3D"mailto:=
-jianchuan.wang@windriver.com">jianchuan.wang@windriver.com</a>&gt;<br>
+On 28 July 2015 at 03:00,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
+.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":3ky" class=3D"a3s" =
+style=3D"overflow:hidden">+<a href=3D"http://config.mk" rel=3D"noreferrer" =
+target=3D"_blank">config.mk</a> will be included only if auto.conf is newer=
+ than .config<br>
++but in some system, the HPET is not enabled, the smallest unit of<br>
++time is second, and can not decise which file is newer, even if<br>
++the correct dependency has been created.<br>
++<br>
++The below shows unit of time:<br>
++<br>
++under SUSE Linux Enterprise Desktop 11 SP2=C2=A0 (i586):<br>
++=C2=A0 =C2=A0 $ls --full-time include/config/auto.conf .config<br>
++=C2=A0 =C2=A0 2015-07-27 03:46:20.000000000 -0400 .config<br>
++=C2=A0 =C2=A0 2015-07-27 03:46:20.000000000 -0400 include/config/auto.conf=
 <br>
-The 5 patches which are deleted have been in the v2.19</div></blockquote></=
-div><br>Wrong list for this and xfsprogs - you mean openembedded-devel@ for=
- meta-oe.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
++=C2=A0 =C2=A0 $<br>
++<br>
++under Ubuntu 14.04 LTS:<br>
++=C2=A0 =C2=A0 $ ls --full-time include/config/auto.conf .config<br>
++=C2=A0 =C2=A0 2015-07-27 13:40:14.008703027 +0800 .config<br>
++=C2=A0 =C2=A0 2015-07-27 13:40:15.020703054 +0800 include/config/auto.conf=
+<br>
++=C2=A0 =C2=A0 $<br>
++<br>
++The rule of including <a href=3D"http://config.mk" rel=3D"noreferrer" targ=
+et=3D"_blank">config.mk</a> in Makefile as below<br>
++=C2=A0 =C2=A0 autoconf_is_current :=3D $(if $(wildcard $(KCONFIG_CONFIG)),=
+$(shell find . \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -pat=
+h ./include/config/auto.conf -newer $(KCONFIG_CONFIG)))<br>
++=C2=A0 =C2=A0 ifneq ($(autoconf_is_current),)<br>
++=C2=A0 =C2=A0 include $(srctree)/<a href=3D"http://config.mk" rel=3D"noref=
+errer" target=3D"_blank">config.mk</a><br>
++=C2=A0 =C2=A0 include $(srctree)/arch/$(ARCH)/Makefile<br>
++=C2=A0 =C2=A0 endif<br>
++<br>
++The compilation will be failed if <a href=3D"http://config.mk" rel=3D"nore=
+ferrer" target=3D"_blank">config.mk</a> is not included<br>
++so delay 1 second to create auto.conf after creating of .config</div></blo=
+ckquote></div><br>Adding a sleep seems pretty ugly, wouldn&#39;t a neater f=
+ix be to change the logic so that instead of the test being &quot;is newer&=
+quot; you use &quot;is not older&quot;, to handle identical timestamps as b=
+eing current.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Ross</div></div>
 
---001a11c0f5faed74b4051bedc499--
+--001a11376dac005911051bee0a8d--
