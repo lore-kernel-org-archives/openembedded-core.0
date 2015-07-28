@@ -1,36 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 0062B76380
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B2257626F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 11:47:47 +0000 (UTC)
-Received: by qgeu79 with SMTP id u79so72542700qge.1
+	Tue, 28 Jul 2015 12:53:45 +0000 (UTC)
+Received: by qgii95 with SMTP id i95so73597585qgi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 04:47:47 -0700 (PDT)
+	Tue, 28 Jul 2015 05:53:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=gYNlAYItVPNxpBTIwh2cNF5sWPRPesXPPfHlxURh4YA=;
-	b=T/yG1Ehg0j1dus8gxGb3ea4cWphSsuikBh0rWh8Wf12jF1N3xEac0rXTDabR45FrT/
-	qP0rQ0nQgga3kacBX2htXzgmOvXL2rQyeS1v+qUKihRbJCW3uZW5Eh+j89xr/+rmbdpO
-	ikEVZp3um9RGHKV850+Cpm5sou8PS89SjSFJIhD16CPBjb8qcDV41v1arilxWIjNJKsO
-	pUCcfJT4pki0D1nBJ1KxVC/2nFbB4Sde2QP+BOMtr8k6mdkzLLY0fSJCpq0BFoOLcloN
-	6L2L7HkQgZ+j0IFXGXZ+B9KAyYb5Dj+dpDgqQ0jG6fL+cZo1h9VWEGCDS553vyRkdx3T
-	1Zlw==
-X-Gm-Message-State: ALoCoQkeaIE+sUNvqnX04NsmOB4ra5e++fpR29WnwJ89zSnNUlK2dYpySTd0XlpxQCy41zdtIcIV
-X-Received: by 10.140.235.19 with SMTP id g19mr50878850qhc.52.1438084067511;
-	Tue, 28 Jul 2015 04:47:47 -0700 (PDT)
+	bh=YoDEU5fTBtPDh8s+B7kK4HOEN34hWyr6/Xj2akODCcw=;
+	b=e6Lc54pe8yjazKK3KEzwXISFhKPoMoZfu+fMwVmAfNJRG8t/EM5ArRa0gMXnGJBFHC
+	bAVw8mRq/Kj0eazgNCzjctcP6l1FKgFOU1YCKTBA4KVegocuECYrKjZlTYFSxycvT1kA
+	QDYTJEE7Yf+Ah/O08KBzD4L3JOz7pwZTzBkLL/KXd7/khujNwXmsle93a+3X3trTU5Ag
+	xEiK0l3/8TBdcwRfewoBh8g9PUMGpsUS5KfuMdFtpGtzvATptzUqumWJaF09U4NgnZaj
+	LDeVhUojuiB5CjGwEUumMcBTjT0xZ5aqAxMU37KLHIHrLerZ2nTpy1QhmkwEmuevLw0z
+	bdxA==
+X-Gm-Message-State: ALoCoQmzSOynJDuqbdq1rDED3vvxFanZ5WfNskduKuxuGnEyG9XT0pzPZdN9KPeMiRYkBPZO3Lev
+X-Received: by 10.140.88.80 with SMTP id s74mr48399198qgd.59.1438088025632;
+	Tue, 28 Jul 2015 05:53:45 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Tue, 28 Jul 2015 04:47:28 -0700 (PDT)
-In-Reply-To: <1438048807-23716-1-git-send-email-rongqing.li@windriver.com>
-References: <1438048807-23716-1-git-send-email-rongqing.li@windriver.com>
+Received: by 10.140.102.195 with HTTP; Tue, 28 Jul 2015 05:53:26 -0700 (PDT)
+In-Reply-To: <55B582F8.5000603@windriver.com>
+References: <1436518495-27392-1-git-send-email-rongqing.li@windriver.com>
+	<CAHiDW_FxgLz638LwPen_AfOByHeCpvL6A093PjrmGD4X=P-xNQ@mail.gmail.com>
+	<55B582F8.5000603@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Jul 2015 12:47:28 +0100
-Message-ID: <CAJTo0LaXtgUCjzPS_6+5fEL6CDdLK1Cn_3wNvCM_EfWH_wDG2A@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] u-boot-mkimage: fix a building failure on OpenSus
+Date: Tue, 28 Jul 2015 13:53:26 +0100
+Message-ID: <CAJTo0La-RwRf3L-sJ=HtMMFi_nMQwXi5cXzunELAg6trRyT0cw@mail.gmail.com>
+To: Rongqing Li <rongqing.li@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][resend] perl: fix build failure if building dir has the "blib" string
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,104 +46,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 11:47:52 -0000
-Content-Type: multipart/alternative; boundary=001a11376dac005911051bee0a8d
+X-List-Received-Date: Tue, 28 Jul 2015 12:53:46 -0000
+Content-Type: multipart/alternative; boundary=001a11c114c4ec8b8e051beef524
 
---001a11376dac005911051bee0a8d
+--001a11c114c4ec8b8e051beef524
 Content-Type: text/plain; charset=UTF-8
 
-On 28 July 2015 at 03:00, <rongqing.li@windriver.com> wrote:
+On 27 July 2015 at 02:01, Rongqing Li <rongqing.li@windriver.com> wrote:
 
-> +config.mk will be included only if auto.conf is newer than .config
-> +but in some system, the HPET is not enabled, the smallest unit of
-> +time is second, and can not decise which file is newer, even if
-> +the correct dependency has been created.
-> +
-> +The below shows unit of time:
-> +
-> +under SUSE Linux Enterprise Desktop 11 SP2  (i586):
-> +    $ls --full-time include/config/auto.conf .config
-> +    2015-07-27 03:46:20.000000000 -0400 .config
-> +    2015-07-27 03:46:20.000000000 -0400 include/config/auto.conf
-> +    $
-> +
-> +under Ubuntu 14.04 LTS:
-> +    $ ls --full-time include/config/auto.conf .config
-> +    2015-07-27 13:40:14.008703027 +0800 .config
-> +    2015-07-27 13:40:15.020703054 +0800 include/config/auto.conf
-> +    $
-> +
-> +The rule of including config.mk in Makefile as below
-> +    autoconf_is_current := $(if $(wildcard $(KCONFIG_CONFIG)),$(shell
-> find . \
-> +                    -path ./include/config/auto.conf -newer
-> $(KCONFIG_CONFIG)))
-> +    ifneq ($(autoconf_is_current),)
-> +    include $(srctree)/config.mk
-> +    include $(srctree)/arch/$(ARCH)/Makefile
-> +    endif
-> +
-> +The compilation will be failed if config.mk is not included
-> +so delay 1 second to create auto.conf after creating of .config
+> I think we can merge this patch.
+>
+> I open a defect and submit this patch, as a result, noone knows
+> what this line can fix.
+>
+>
+> https://rt.perl.org/Public/Bug/Display.html?id=125603
 >
 
-Adding a sleep seems pretty ugly, wouldn't a neater fix be to change the
-logic so that instead of the test being "is newer" you use "is not older",
-to handle identical timestamps as being current.
+Reading the bug it seems a more upstream-friendly fix (i.e. one that they
+would also accept and have in fact asked for) would be to change the regex
+to /\bblib\b/. This solves the problem of building in paths that contain
+the substring "blib" *and* retains the intent of the logic.
 
 Ross
 
---001a11376dac005911051bee0a8d
+--001a11c114c4ec8b8e051beef524
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 July 2015 at 03:00,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqing=
-.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div id=3D":3ky" class=3D"a3s" =
-style=3D"overflow:hidden">+<a href=3D"http://config.mk" rel=3D"noreferrer" =
-target=3D"_blank">config.mk</a> will be included only if auto.conf is newer=
- than .config<br>
-+but in some system, the HPET is not enabled, the smallest unit of<br>
-+time is second, and can not decise which file is newer, even if<br>
-+the correct dependency has been created.<br>
-+<br>
-+The below shows unit of time:<br>
-+<br>
-+under SUSE Linux Enterprise Desktop 11 SP2=C2=A0 (i586):<br>
-+=C2=A0 =C2=A0 $ls --full-time include/config/auto.conf .config<br>
-+=C2=A0 =C2=A0 2015-07-27 03:46:20.000000000 -0400 .config<br>
-+=C2=A0 =C2=A0 2015-07-27 03:46:20.000000000 -0400 include/config/auto.conf=
+On 27 July 2015 at 02:01, Rongqing Li <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:rongqing.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1g3" cla=
+ss=3D"a3s" style=3D"overflow:hidden">I think we can merge this patch.<br>
 <br>
-+=C2=A0 =C2=A0 $<br>
-+<br>
-+under Ubuntu 14.04 LTS:<br>
-+=C2=A0 =C2=A0 $ ls --full-time include/config/auto.conf .config<br>
-+=C2=A0 =C2=A0 2015-07-27 13:40:14.008703027 +0800 .config<br>
-+=C2=A0 =C2=A0 2015-07-27 13:40:15.020703054 +0800 include/config/auto.conf=
+I open a defect and submit this patch, as a result, noone knows<br>
+what this line can fix.<br>
 <br>
-+=C2=A0 =C2=A0 $<br>
-+<br>
-+The rule of including <a href=3D"http://config.mk" rel=3D"noreferrer" targ=
-et=3D"_blank">config.mk</a> in Makefile as below<br>
-+=C2=A0 =C2=A0 autoconf_is_current :=3D $(if $(wildcard $(KCONFIG_CONFIG)),=
-$(shell find . \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -pat=
-h ./include/config/auto.conf -newer $(KCONFIG_CONFIG)))<br>
-+=C2=A0 =C2=A0 ifneq ($(autoconf_is_current),)<br>
-+=C2=A0 =C2=A0 include $(srctree)/<a href=3D"http://config.mk" rel=3D"noref=
-errer" target=3D"_blank">config.mk</a><br>
-+=C2=A0 =C2=A0 include $(srctree)/arch/$(ARCH)/Makefile<br>
-+=C2=A0 =C2=A0 endif<br>
-+<br>
-+The compilation will be failed if <a href=3D"http://config.mk" rel=3D"nore=
-ferrer" target=3D"_blank">config.mk</a> is not included<br>
-+so delay 1 second to create auto.conf after creating of .config</div></blo=
-ckquote></div><br>Adding a sleep seems pretty ugly, wouldn&#39;t a neater f=
-ix be to change the logic so that instead of the test being &quot;is newer&=
-quot; you use &quot;is not older&quot;, to handle identical timestamps as b=
-eing current.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div>
+<br>
+<a href=3D"https://rt.perl.org/Public/Bug/Display.html?id=3D125603" rel=3D"=
+noreferrer" target=3D"_blank">https://rt.perl.org/Public/Bug/Display.html?i=
+d=3D125603</a></div></blockquote></div><br>Reading the bug it seems a more =
+upstream-friendly fix (i.e. one that they would also accept and have in fac=
+t asked for) would be to change the regex to /\bblib\b/. This solves the pr=
+oblem of building in paths that contain the substring &quot;blib&quot; *and=
+* retains the intent of the logic.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
 
---001a11376dac005911051bee0a8d--
+--001a11c114c4ec8b8e051beef524--
