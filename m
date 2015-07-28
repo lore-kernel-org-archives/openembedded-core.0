@@ -1,26 +1,30 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 77A0176398
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 757BA73D26
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 03:10:51 +0000 (UTC)
+	Tue, 28 Jul 2015 03:17:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S3Apd3028592
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S3HGBs028400
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 20:10:51 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 27 Jul 2015 20:10:35 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Jul 2015 20:10:50 -0700
-Message-ID: <4ca40864d2a4894bb630e2bed60a299e38c53afb.1438053021.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1438053021.git.liezhi.yang@windriver.com>
-References: <cover.1438053021.git.liezhi.yang@windriver.com>
+	Mon, 27 Jul 2015 20:17:16 -0700 (PDT)
+Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
+	Mon, 27 Jul 2015 20:17:00 -0700
+Message-ID: <55B6F42F.7000105@windriver.com>
+Date: Tue, 28 Jul 2015 11:17:03 +0800
+From: He Zhe <zhe.he@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Subject: [PATCH 1/1] rootfs.py: fix PRE/POSTPROCESS_COMMANDS for rpm and deb
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1437461993.git.zhe.he@windriver.com>	<55B09C62.4060408@windriver.com>
+	<55B59CCF.1060300@windriver.com>
+In-Reply-To: <55B59CCF.1060300@windriver.com>
+X-Originating-IP: [128.224.162.235]
+Cc: bruce.ashfield@windriver.com
+Subject: Re: [PATCH v2 0/2] Yocto Bug #6945
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,82 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 03:10:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Jul 2015 03:17:16 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-The rpm didn't run RPM_PREPROCESS_COMMANDS or RPM_POSTPROCESS_COMMANDS,
-the similar to deb, this patch fix the problem.
+Ping.
 
-And fix a typo:
-DEB_POSTPROCESS_COMMAND -> DEB_POSTPROCESS_COMMANDS
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/lib/oe/rootfs.py |   16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 0bd1cf6..8c8244c 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -408,10 +408,14 @@ class RpmRootfs(Rootfs):
- 
-     def _create(self):
-         pkgs_to_install = self.manifest.parse_initial_manifest()
-+        rpm_pre_process_cmds = self.d.getVar('RPM_PREPROCESS_COMMANDS', True)
-+        rpm_post_process_cmds = self.d.getVar('RPM_POSTPROCESS_COMMANDS', True)
- 
-         # update PM index files
-         self.pm.write_index()
- 
-+        execute_pre_post_process(self.d, rpm_pre_process_cmds)
-+
-         self.pm.dump_all_available_pkgs()
- 
-         if self.inc_rpm_image_gen == "1":
-@@ -435,6 +439,10 @@ class RpmRootfs(Rootfs):
- 
-         self._setup_dbg_rootfs(['/etc/rpm', '/var/lib/rpm', '/var/lib/smart'])
- 
-+        execute_pre_post_process(self.d, rpm_post_process_cmds)
-+
-+        self._log_check()
-+
-         if self.inc_rpm_image_gen == "1":
-             self.pm.backup_packaging_data()
- 
-@@ -615,6 +623,8 @@ class DpkgRootfs(DpkgOpkgRootfs):
- 
-     def _create(self):
-         pkgs_to_install = self.manifest.parse_initial_manifest()
-+        deb_pre_process_cmds = self.d.getVar('DEB_PREPROCESS_COMMANDS', True)
-+        deb_post_process_cmds = self.d.getVar('DEB_POSTPROCESS_COMMANDS', True)
- 
-         alt_dir = self.d.expand("${IMAGE_ROOTFS}/var/lib/dpkg/alternatives")
-         bb.utils.mkdirhier(alt_dir)
-@@ -622,6 +632,8 @@ class DpkgRootfs(DpkgOpkgRootfs):
-         # update PM index files
-         self.pm.write_index()
- 
-+        execute_pre_post_process(self.d, deb_pre_process_cmds)
-+
-         self.pm.update()
- 
-         for pkg_type in self.install_order:
-@@ -639,9 +651,11 @@ class DpkgRootfs(DpkgOpkgRootfs):
- 
-         self.pm.run_pre_post_installs()
- 
-+        execute_pre_post_process(self.d, deb_post_process_cmds)
-+
-     @staticmethod
-     def _depends_list():
--        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMAND']
-+        return ['DEPLOY_DIR_DEB', 'DEB_SDK_ARCH', 'APTCONF_TARGET', 'APT_ARGS', 'DPKG_ARCH', 'DEB_PREPROCESS_COMMANDS', 'DEB_POSTPROCESS_COMMANDS']
- 
-     def _get_delayed_postinsts(self):
-         status_file = self.image_rootfs + "/var/lib/dpkg/status"
--- 
-1.7.9.5
+On 07/27/2015 10:51 AM, He Zhe wrote:
+> Ping.
+>
+> On 07/23/2015 03:48 PM, He Zhe wrote:
+>> Ping.
+>>
+>> On 07/21/2015 03:23 PM, zhe.he@windriver.com wrote:
+>>> From: He Zhe <zhe.he@windriver.com>
+>>>
+>>>  - To support building packaging and installing multi types of kernel
+>>>    images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
+>>>    as a list.
+>>>  - Modify wherever reference KERNEL_IMAGETYPE accordingly.
+>>>  - Pass mkimage in sysroot to kernel makefile by NATIVE_MKIMAGE to avoid
+>>>    depending on build machine's, when KEEPUIMAGE is "yes".
+>>>  - v2: update with the latest oe-core
+>>>
+>>> He Zhe (2):
+>>>   kernel: Define KERNEL_IMAGETYPE as a list
+>>>   kernel: Pass sysroot mkimage to kernel makefile
+>>>
+>>>  meta/classes/image_types.bbclass         |   6 +-
+>>>  meta/classes/kernel-fitimage.bbclass     |  22 +++---
+>>>  meta/classes/kernel-grub.bbclass         |  47 ++++++++----
+>>>  meta/classes/kernel-uimage.bbclass       |  31 +++++---
+>>>  meta/classes/kernel.bbclass              | 127 ++++++++++++++++++++++---------
+>>>  meta/conf/documentation.conf             |   2 +-
+>>>  meta/lib/oeqa/controllers/masterimage.py |   2 +-
+>>>  meta/lib/oeqa/targetcontrol.py           |   2 +-
+>>>  meta/recipes-kernel/linux/linux-dtb.inc  |  15 ++--
+>>>  scripts/test-remote-image                |   2 +-
+>>>  10 files changed, 175 insertions(+), 81 deletions(-)
+>>>
 
 
