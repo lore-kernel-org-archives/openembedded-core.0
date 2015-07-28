@@ -1,39 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B2257626F
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id ED114761D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 12:53:45 +0000 (UTC)
-Received: by qgii95 with SMTP id i95so73597585qgi.2
+	Tue, 28 Jul 2015 13:08:40 +0000 (UTC)
+Received: by qged69 with SMTP id d69so73912065qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 05:53:45 -0700 (PDT)
+	Tue, 28 Jul 2015 06:08:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=YoDEU5fTBtPDh8s+B7kK4HOEN34hWyr6/Xj2akODCcw=;
-	b=e6Lc54pe8yjazKK3KEzwXISFhKPoMoZfu+fMwVmAfNJRG8t/EM5ArRa0gMXnGJBFHC
-	bAVw8mRq/Kj0eazgNCzjctcP6l1FKgFOU1YCKTBA4KVegocuECYrKjZlTYFSxycvT1kA
-	QDYTJEE7Yf+Ah/O08KBzD4L3JOz7pwZTzBkLL/KXd7/khujNwXmsle93a+3X3trTU5Ag
-	xEiK0l3/8TBdcwRfewoBh8g9PUMGpsUS5KfuMdFtpGtzvATptzUqumWJaF09U4NgnZaj
-	LDeVhUojuiB5CjGwEUumMcBTjT0xZ5aqAxMU37KLHIHrLerZ2nTpy1QhmkwEmuevLw0z
-	bdxA==
-X-Gm-Message-State: ALoCoQmzSOynJDuqbdq1rDED3vvxFanZ5WfNskduKuxuGnEyG9XT0pzPZdN9KPeMiRYkBPZO3Lev
-X-Received: by 10.140.88.80 with SMTP id s74mr48399198qgd.59.1438088025632;
-	Tue, 28 Jul 2015 05:53:45 -0700 (PDT)
+	bh=poJc6Xh6BYqjRbhRUbV5C+QFMy54LRxKIIJ3Z/4mZTo=;
+	b=Rfcs5zmmkB/XsL8oN01oK1EOwBJcoJ1Q4Em1AGbVLQOVPo9DRQSeRU0fczRJPEAdmC
+	GVqYw/rthk1xUGtR+Bppn59mWnfwjAMi0RzkISZp+OcXQOIdUQKRBb3XsHwGF0C1cArr
+	TLvh+rOggEaQQxYeLFZFSFRVld32XNDnDYRMwPurGSnXTTBZ6WPzQ1r+vA89dN2KsOZ7
+	D0v2WYTZlP9ZYqoT0jqUDyIRaBdTQ8zLmG0xbLHN8k+eJy5PFMRL19+UVhlKuHdD2KSP
+	SlgMrr5zPVJqeIKuW0JHXi63bLF3QwpFrGphj8sDgQxfTNalLkxumF8MOS9jvJZQUFl6
+	UWQQ==
+X-Gm-Message-State: ALoCoQm/W1MIFVZNjpO3JmSwW+HTdKqRV79BT34SDBWm6WUL6KrZ3U1OnA/2muLF9g6Ft0mMG7Hc
+X-Received: by 10.140.235.19 with SMTP id g19mr51494209qhc.52.1438088919569;
+	Tue, 28 Jul 2015 06:08:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Tue, 28 Jul 2015 05:53:26 -0700 (PDT)
-In-Reply-To: <55B582F8.5000603@windriver.com>
-References: <1436518495-27392-1-git-send-email-rongqing.li@windriver.com>
-	<CAHiDW_FxgLz638LwPen_AfOByHeCpvL6A093PjrmGD4X=P-xNQ@mail.gmail.com>
-	<55B582F8.5000603@windriver.com>
+Received: by 10.140.102.195 with HTTP; Tue, 28 Jul 2015 06:08:20 -0700 (PDT)
+In-Reply-To: <edf889b1140dcb63168fe1c0dd2368ea3d6d1875.1438049511.git.liezhi.yang@windriver.com>
+References: <cover.1438049511.git.liezhi.yang@windriver.com>
+	<edf889b1140dcb63168fe1c0dd2368ea3d6d1875.1438049511.git.liezhi.yang@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Jul 2015 13:53:26 +0100
-Message-ID: <CAJTo0La-RwRf3L-sJ=HtMMFi_nMQwXi5cXzunELAg6trRyT0cw@mail.gmail.com>
-To: Rongqing Li <rongqing.li@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][resend] perl: fix build failure if building dir has the "blib" string
+Date: Tue, 28 Jul 2015 14:08:20 +0100
+Message-ID: <CAJTo0Lbz+MGPLHZCc4jphi3os9Nk8RvUpnonBThxpz0tR3btKw@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/9] file: 5.23 -> 5.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,52 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 12:53:46 -0000
-Content-Type: multipart/alternative; boundary=001a11c114c4ec8b8e051beef524
+X-List-Received-Date: Tue, 28 Jul 2015 13:08:41 -0000
+Content-Type: multipart/alternative; boundary=001a11376dac34f4ea051bef2bc9
 
---001a11c114c4ec8b8e051beef524
+--001a11376dac34f4ea051bef2bc9
 Content-Type: text/plain; charset=UTF-8
 
-On 27 July 2015 at 02:01, Rongqing Li <rongqing.li@windriver.com> wrote:
+On 28 July 2015 at 03:12, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-> I think we can merge this patch.
->
-> I open a defect and submit this patch, as a result, noone knows
-> what this line can fix.
->
->
-> https://rt.perl.org/Public/Bug/Display.html?id=125603
+> * Use git repo rather than tarball since the original SRC_URI is not
+>   stable, it is not reachable sometimes.
 >
 
-Reading the bug it seems a more upstream-friendly fix (i.e. one that they
-would also accept and have in fact asked for) would be to change the regex
-to /\bblib\b/. This solves the problem of building in paths that contain
-the substring "blib" *and* retains the intent of the logic.
+Personally speaking I see this as a recipe for a release of file which just
+happens to use git to fetch the tarball (and presumably that hash is the
+5.24 tag).  In situations like this I prefer to see the recipe called
+file_5.24.bb as there's no point having a giant PV including git SHAs when
+it's just the release.
 
 Ross
 
---001a11c114c4ec8b8e051beef524
+--001a11376dac34f4ea051bef2bc9
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 27 July 2015 at 02:01, Rongqing Li <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:rongqing.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</=
+On 28 July 2015 at 03:12, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
 a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1g3" cla=
-ss=3D"a3s" style=3D"overflow:hidden">I think we can merge this patch.<br>
-<br>
-I open a defect and submit this patch, as a result, noone knows<br>
-what this line can fix.<br>
-<br>
-<br>
-<a href=3D"https://rt.perl.org/Public/Bug/Display.html?id=3D125603" rel=3D"=
-noreferrer" target=3D"_blank">https://rt.perl.org/Public/Bug/Display.html?i=
-d=3D125603</a></div></blockquote></div><br>Reading the bug it seems a more =
-upstream-friendly fix (i.e. one that they would also accept and have in fac=
-t asked for) would be to change the regex to /\bblib\b/. This solves the pr=
-oblem of building in paths that contain the substring &quot;blib&quot; *and=
-* retains the intent of the logic.</div><div class=3D"gmail_extra"><br></di=
-v><div class=3D"gmail_extra">Ross</div></div>
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4f" clas=
+s=3D"a3s" style=3D"overflow:hidden">* Use git repo rather than tarball sinc=
+e the original SRC_URI is not<br>
+=C2=A0 stable, it is not reachable sometimes.</div></blockquote></div><br>P=
+ersonally speaking I see this as a recipe for a release of file which just =
+happens to use git to fetch the tarball (and presumably that hash is the 5.=
+24 tag).=C2=A0 In situations like this I prefer to see the recipe called <a=
+ href=3D"http://file_5.24.bb">file_5.24.bb</a> as there&#39;s no point havi=
+ng a giant PV including git SHAs when it&#39;s just the release.</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11c114c4ec8b8e051beef524--
+--001a11376dac34f4ea051bef2bc9--
