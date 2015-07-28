@@ -1,28 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8135D60167
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 036BF7634C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 01:32:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S1WtrH027794
+	Tue, 28 Jul 2015 02:02:21 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S22LwR024486
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 18:32:55 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Mon, 27 Jul 2015 18:32:38 -0700
-Message-ID: <55B6DC09.1090305@windriver.com>
-Date: Tue, 28 Jul 2015 09:34:01 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
+	Mon, 27 Jul 2015 19:02:21 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 27 Jul 2015 19:02:05 -0700
+From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1411721793.git.Qi.Chen@windriver.com>
-In-Reply-To: <cover.1411721793.git.Qi.Chen@windriver.com>
-X-Originating-IP: [128.224.162.211]
-Subject: Re: [PATCH V3 0/4] Fixes for systemd services in systemd
+Date: Tue, 28 Jul 2015 10:00:07 +0800
+Message-ID: <1438048807-23716-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] u-boot-mkimage: fix a building failure on OpenSus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 01:32:56 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 Jul 2015 02:02:22 -0000
+Content-Type: text/plain
 
-ping
+From: Roy Li <rongqing.li@windriver.com>
 
-Any comment is welcome.
-If these patches look OK, I'll rebase them and send out a new version.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ ...-the-creation-of-include-config-auto.conf.patch | 54 ++++++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb  |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-mkimage/0001-delay-the-creation-of-include-config-auto.conf.patch
 
-Best Regards,
-Chen Qi
-
-On 09/28/2014 11:00 AM, Chen Qi wrote:
-> Changes since V2:
-> sysklogd: Unlink /dev/log only if it's not from systemd
->
-> The following changes since commit f6a39cc957bf85ff43513f0b76afc3b2c9c906b6:
->
->    sstatesig: fix overrides behaviour to remove SIGGEN_LOCKEDSIGS_i586 (2014-09-17 22:00:05 +0100)
->
-> are available in the git repository at:
->
->    git://git.openembedded.org/openembedded-core-contrib ChenQi/systemd-syslog-service
->    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/systemd-syslog-service
->
-> Chen Qi (4):
->    systemd: enable syslog.socket by default
->    busybox: fix for syslog service in systemd
->    sysklogd: add systemd support
->    sysklog: comment out configuration regarding xconsole
->
->   meta/recipes-core/busybox/busybox.inc              |   9 +-
->   .../busybox/files/busybox-klogd.service.in         |   4 +-
->   .../busybox/files/busybox-syslog.service.in        |   7 +-
->   meta/recipes-core/systemd/systemd_216.bb           |   2 +
->   .../files/0001-syslogd.c-add-systemd-support.patch | 246 +++++++++++++++++++++
->   meta/recipes-extended/sysklogd/files/klogd.service |   9 +
->   .../sysklogd/files/sysklogd.service                |  14 ++
->   meta/recipes-extended/sysklogd/files/syslog.conf   |   8 +-
->   meta/recipes-extended/sysklogd/sysklogd.inc        |  38 +++-
->   9 files changed, 317 insertions(+), 20 deletions(-)
->   create mode 100644 meta/recipes-extended/sysklogd/files/0001-syslogd.c-add-systemd-support.patch
->   create mode 100644 meta/recipes-extended/sysklogd/files/klogd.service
->   create mode 100644 meta/recipes-extended/sysklogd/files/sysklogd.service
->
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage/0001-delay-the-creation-of-include-config-auto.conf.patch b/meta/recipes-bsp/u-boot/u-boot-mkimage/0001-delay-the-creation-of-include-config-auto.conf.patch
+new file mode 100644
+index 0000000..071aa67
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage/0001-delay-the-creation-of-include-config-auto.conf.patch
+@@ -0,0 +1,54 @@
++[PATCH] delay the creation of include/config/auto.conf
++
++Upstream-Statue: Pending
++
++config.mk will be included only if auto.conf is newer than .config
++but in some system, the HPET is not enabled, the smallest unit of
++time is second, and can not decise which file is newer, even if
++the correct dependency has been created.
++
++The below shows unit of time:
++
++under SUSE Linux Enterprise Desktop 11 SP2  (i586):
++    $ls --full-time include/config/auto.conf .config
++    2015-07-27 03:46:20.000000000 -0400 .config
++    2015-07-27 03:46:20.000000000 -0400 include/config/auto.conf
++    $
++
++under Ubuntu 14.04 LTS:
++    $ ls --full-time include/config/auto.conf .config
++    2015-07-27 13:40:14.008703027 +0800 .config
++    2015-07-27 13:40:15.020703054 +0800 include/config/auto.conf
++    $
++
++The rule of including config.mk in Makefile as below
++    autoconf_is_current := $(if $(wildcard $(KCONFIG_CONFIG)),$(shell find . \
++                    -path ./include/config/auto.conf -newer $(KCONFIG_CONFIG)))
++    ifneq ($(autoconf_is_current),)
++    include $(srctree)/config.mk
++    include $(srctree)/arch/$(ARCH)/Makefile
++    endif
++
++The compilation will be failed if config.mk is not included
++so delay 1 second to create auto.conf after creating of .config
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ Makefile | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Makefile b/Makefile
++index 36a9a28..5f085ad 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -490,6 +490,7 @@ $(KCONFIG_CONFIG) include/config/auto.conf.cmd: ;
++ # if auto.conf.cmd is missing then we are probably in a cleaned tree so
++ # we execute the config step to be sure to catch updated Kconfig files
++ include/config/%.conf: $(KCONFIG_CONFIG) include/config/auto.conf.cmd
+++	sleep 1; \
++ 	$(Q)$(MAKE) -f $(srctree)/Makefile silentoldconfig
++ 
++ -include include/autoconf.mk
++-- 
++1.9.1
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+index 7735288..c0007c9 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-mkimage_2015.01.bb
+@@ -14,6 +14,7 @@ PV = "v2015.01+git${SRCPV}"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
+            file://gcc5.patch \
++           file://0001-delay-the-creation-of-include-config-auto.conf.patch \
+ 	   "
+ 
+ S = "${WORKDIR}/git"
+-- 
+1.9.1
 
 
