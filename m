@@ -1,41 +1,24 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 878E3763FD
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BE13763F0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 17:26:43 +0000 (UTC)
-Received: by igbij6 with SMTP id ij6so125765906igb.1
+	Tue, 28 Jul 2015 19:11:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6SJBE6I020817
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 10:26:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=4J5aeWKp+iOmqt3x6N/SQd6pMSqrx5mrU8zK2b9752g=;
-	b=vVLPDDPgDRcjC9LudfmWhkvTxhJhfNMqLZAvjtjoZ4l5Q5AImHzJjrK7QTYYrDI2Ke
-	cGO0sclJ/3KqZMRlwecP7sgjdgB/gNUek0D4GRG7mjBQWqLnD8yHlR+kId6NY45eVmph
-	j0PrIuZERIVpzcF1BfhBwko3u0hNWNZkG+wwlbwG7N0JUoN8KXgV2WsHhBHng7Z7/Mc1
-	cYSC14qB5fHaQjHLVFctbRPA1KcsyogQ41Bsyv/xx8jMj7s2XeYHItHGbRiWSTpukyWb
-	Oky+lmdvUQv4oXkIuhzYrY1aKlczjycJjLoLu0nkunvmzJyQTN+H4jMEsS9x8Cx7CbfH
-	UF7w==
+	Tue, 28 Jul 2015 12:11:14 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 28 Jul 2015 12:10:58 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Jul 2015 12:11:14 -0700
+Message-ID: <1438110674-25138-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-Received: by 10.107.134.96 with SMTP id i93mr56182168iod.139.1438104402120; 
-	Tue, 28 Jul 2015 10:26:42 -0700 (PDT)
-Received: by 10.64.122.193 with HTTP; Tue, 28 Jul 2015 10:26:42 -0700 (PDT)
-In-Reply-To: <55AE64AD.8060406@windriver.com>
-References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
-	<CALT56yP2_bkOfesazULteWL73DuBKo-BMu0MPxHw-FUz79997g@mail.gmail.com>
-	<559D1AD2.3050305@windriver.com>
-	<CALT56yMhBodVKpG9Pe8zzUcHiwanmxn8pUEqdJUU14-ry6DBvg@mail.gmail.com>
-	<55AD1800.20706@windriver.com>
-	<CALT56yO0nwxie_DAubO+LZqMYjaY-eUoF1iG2Cy6KoMAg4nuaA@mail.gmail.com>
-	<55AE57D8.3040205@windriver.com> <55AE64AD.8060406@windriver.com>
-Date: Tue, 28 Jul 2015 20:26:42 +0300
-Message-ID: <CALT56yPYUe7J2rx4NSy29B2YOtRepH2k+VsZ+JTa6k6f5RA=YQ@mail.gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Fix builds for MIPS64 N32
+Subject: [PATCH 1/1] nss: advance to version 3.19.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,154 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 17:26:49 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 28 Jul 2015 19:11:15 -0000
+Content-Type: text/plain
 
-2015-07-21 18:26 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
-> On 7/21/15 9:31 AM, Mark Hatle wrote:
->> On 7/21/15 3:23 AM, Dmitry Eremin-Solenikov wrote:
->>> Hello,
->>>
->>> 2015-07-20 18:47 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
->>>> Between customer escalations, other work and vacation.. I didn't happen.
->>>
->>> No problem, really. I just wanted to be sure that the patches aren't going
->>> to be lost.
->>>
->>>>
->>>> I've started testing it this morning and should have results tomorrow.. (US time).
->>>
->>> Thank you very much!
->>
->> With master and the four patches I got an error trying to construct the SDK.
->>
->> I'm still investigating the error:
->>
->> Collected errors:
->>  * satisfy_dependencies_for: Cannot satisfy the following dependencies for
->> packagegroup-cross-canadian-qemumips64:
->>  *      gcc-cross-canadian-mips *       binutils-cross-canadian-mips *
->> gdb-cross-canadian-mips *
->>  * opkg_install_cmd: Cannot install package packagegroup-cross-canadian-qemumips64.
->>
->>
->> My configuration for this particular test was:
->>
->> (oe-init-build-env stock w/ the following changes)
->
-> I've narrowed down the reproducer to just:
->
-> MACHINE = "qemumips64"
-> require conf/multilib.conf
-> DEFAULTTUNE = "mips64-n32"
-> MULTILIBS = ""
->
-> (If you remove the require conf/multilib.conf then things work.)
->
-> I'm going to continue to investigate.
+Picks up fixes for CVE-2015-2721 and CVE-2015-2730.  Specify previously
+overlooked license file COPYING.  Do not modify nss.inc.
 
-Any progress on your side? As I failed to reproduce the issue on my side,
-could you please specify:
-1) what is the exact bitbake command that failed?
-2) what additional layers do you have enabled in your build?
-3) is it a cleanroom build, or you have an sstate cache populated with previous
-   build results?
-4) any additional information that I can use to reproduce the issue on my side?
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-support/nss/nss_3.17.3.bb |    7 -------
+ meta/recipes-support/nss/nss_3.19.1.bb |   17 +++++++++++++++++
+ 2 files changed, 17 insertions(+), 7 deletions(-)
+ delete mode 100644 meta/recipes-support/nss/nss_3.17.3.bb
+ create mode 100644 meta/recipes-support/nss/nss_3.19.1.bb
 
->
-> --Mark
->
->> MACHINE = "qemumips64"
->>
->> require conf/multilib.conf
->> DEFAULTTUNE = "mips64-n32"
->> MULTILIBS = "multilib:lib64 multilib:lib32"
->> DEFAULTTUNE_virtclass-multilib-lib64 = "mips64"
->> DEFAULTTUNE_virtclass-multilib-lib32 = "mips32r2"
->>
->> # Set RPM_PREFER_ELF_ARCH to configure preferred ABI when using rpm packaging
->> # backend to generate a rootfs, choices are:
->> # 1: ELF32 wins
->> # 2: ELF64 wins
->> # 4: ELF64 N32 wins (for mips64 or mips64el only)
->> RPM_PREFER_ELF_ARCH = "4"
->>
->>
->>>>
->>>> --Mark
->>>>
->>>> On 7/20/15 7:11 AM, Dmitry Eremin-Solenikov wrote:
->>>>> 2015-07-08 15:42 GMT+03:00 Mark Hatle <mark.hatle@windriver.com>:
->>>>>> On 7/8/15 7:00 AM, Dmitry Eremin-Solenikov wrote:
->>>>>>> Hello,
->>>>>>>
->>>>>>> 2015-07-01 17:02 GMT+03:00 Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>:
->>>>>>>> Quite simple configuration (MIPS64 N32 image) fails to build (see below).
->>>>>>>> I have verified these patches in both single lib and in multilib cases.
->>>>>>>> Tri-lib images and SDK for MIPS build fine with these patches.
->>>>>>>
->>>>>>> Any comments on this patchset? It would be nice to have N32 ubroken in
->>>>>>> the current
->>>>>>> master tree.
->>>>>>
->>>>>> Sorry, I'm traveling right now and haven't had time to review this.  I should be
->>>>>> able to get back to the office and test it by the end of the week.
->>>>>>
->>>>>> I visually reviewed the patches and I don't object to them going in -- but I'm
->>>>>> still not sure they are all correct.
->>>>>
->>>>> Re-ping. I'd like to receive a confirmation from you (and thus get the
->>>>> patches merged)
->>>>> or to discuss, what seems wrong to you.
->>>>>
->>>>>>
->>>>>> --Mark
->>>>>>
->>>>>>>>
->>>>>>>> Current situation:
->>>>>>>>
->>>>>>>> lumag@nexs:~/OE$ MACHINE=qemumips64n32 bitbake core-image-base
->>>>>>>> NOTE: Started PRServer with DBfile:
->>>>>>>> /home/lumag/OE/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 46391, PID:
->>>>>>>> 15895
->>>>>>>> Loading cache: 100%
->>>>>>>> |########################################################################################################################|
->>>>>>>> ETA:  00:00:00
->>>>>>>> Loaded 1302 entries from dependency cache.
->>>>>>>> NOTE: Resolving any missing task queue dependencies
->>>>>>>> ERROR: Nothing RPROVIDES 'binutils-cross-canadian-mips64' (but
->>>>>>>> /home/lumag/OE/sources/openembedded-core/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
->>>>>>>> RDEPENDS on or otherwise requires it)
->>>>>>>> NOTE: Runtime target 'binutils-cross-canadian-mips64' is unbuildable,
->>>>>>>> removing...
->>>>>>>> Missing or unbuildable dependency chain was: ['binutils-cross-canadian-mips64']
->>>>>>>> NOTE: Runtime target 'packagegroup-cross-canadian-qemumips64n32' is
->>>>>>>> unbuildable, removing...
->>>>>>>> Missing or unbuildable dependency chain was:
->>>>>>>> ['packagegroup-cross-canadian-qemumips64n32',
->>>>>>>> 'binutils-cross-canadian-mips64']
->>>>>>>> ERROR: Required build target 'core-image-base' has no buildable providers.
->>>>>>>> Missing or unbuildable dependency chain was: ['core-image-base',
->>>>>>>> 'packagegroup-cross-canadian-qemumips64n32',
->>>>>>>> 'binutils-cross-canadian-mips64']
->>>>>>>>
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>
->>>>>
->>>>>
->>>>>
->>>>
->>>
->>>
->>>
->>
->
-
-
-
+diff --git a/meta/recipes-support/nss/nss_3.17.3.bb b/meta/recipes-support/nss/nss_3.17.3.bb
+deleted file mode 100644
+index e7d0780..0000000
+--- a/meta/recipes-support/nss/nss_3.17.3.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require nss.inc
+-
+-SRC_URI += "\
+-    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_17_3_RTM/src/${BP}.tar.gz \
+-"
+-SRC_URI[md5sum] = "fba7489e1b26f2a0bfe5527430fd61e1"
+-SRC_URI[sha256sum] = "f4d5e9035a2f84f25f35c283de3b0ff60d72e918748de25eaf017ed201fa21d5"
+diff --git a/meta/recipes-support/nss/nss_3.19.1.bb b/meta/recipes-support/nss/nss_3.19.1.bb
+new file mode 100644
+index 0000000..f4059c4
+--- /dev/null
++++ b/meta/recipes-support/nss/nss_3.19.1.bb
+@@ -0,0 +1,17 @@
++require nss.inc
++
++SRC_URI += "\
++    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_19_1_RTM/src/${BP}.tar.gz \
++"
++
++SRC_URI[md5sum] = "68a9c01c987b9bd92066b4e0041f3e58"
++SRC_URI[sha256sum] = "b7be709551ec13206d8e3e8c065b894fa981c11573115e9478fa051029c52fff"
++
++#SRC_URI[md5sum] = "fba7489e1b26f2a0bfe5527430fd61e1"
++#SRC_URI[sha256sum] = "f4d5e9035a2f84f25f35c283de3b0ff60d72e918748de25eaf017ed201fa21d5"
++
++# override value in nss.inc
++#
++LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
++                    file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466afce85d6f1fe18f \
++                    file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
 -- 
-With best wishes
-Dmitry
+1.7.9.5
+
 
