@@ -1,23 +1,26 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F53E76389
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AFAB762DB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 07:35:28 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 28 Jul 2015 00:35:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,561,1432623600"; d="scan'208";a="772610544"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 28 Jul 2015 00:35:29 -0700
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id 55DB96A4005;
-	Tue, 28 Jul 2015 00:34:43 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jul 2015 10:35:51 +0300
-Message-Id: <1438068951-2857-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] lsbtest: sync test suite packages version
+	Tue, 28 Jul 2015 07:53:15 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S7rFUM000064
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jul 2015 00:53:15 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 28 Jul 2015 00:52:59 -0700
+Message-ID: <55B734EA.8050903@windriver.com>
+Date: Tue, 28 Jul 2015 15:53:14 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: About upgrade a package to a Release Candidate version (RCX)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,41 +33,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 07:35:28 -0000
+X-List-Received-Date: Tue, 28 Jul 2015 07:53:15 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Sync file packages_list with upstream test suite packages version.
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/recipes-extended/lsb/lsbtest/packages_list | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Hello,
 
-diff --git a/meta/recipes-extended/lsb/lsbtest/packages_list b/meta/recipes-extended/lsb/lsbtest/packages_list
-index 99f83c1..27d8352 100644
---- a/meta/recipes-extended/lsb/lsbtest/packages_list
-+++ b/meta/recipes-extended/lsb/lsbtest/packages_list
-@@ -3,15 +3,15 @@ LSB_ARCH="lsbarch"
- 
- BASE_PACKAGES_LIST="lsb-setup-4.1.0-1.noarch.rpm"
- 
--RUNTIME_BASE_PACKAGES_LIST="lsb-dist-checker-4.1.0.12-1.targetarch.rpm \
--	lsb-tet3-lite-3.7-23.lsb4.targetarch.rpm \
--	lsb-tet3-lite-devel-3.7-23.lsb4.targetarch.rpm \
--	lsb-xvfb-1.2.0-21.targetarch.rpm \
-+RUNTIME_BASE_PACKAGES_LIST="lsb-dist-checker-5.0.0.1-1.targetarch.rpm \
-+	lsb-tet3-lite-3.7-27.lsb5.targetarch.rpm \
-+	lsb-tet3-lite-devel-3.7-27.lsb5.targetarch.rpm \
-+	lsb-xvfb-1.2.0-22.targetarch.rpm \
- 	"
- 
- RUNTIME_PACKAGES_LIST="lsb-cmdchk-4.1.4-5.targetarch.rpm \
- 	lsb-libchk-4.1.4-5.targetarch.rpm \
--	lsb-qm-2.2-8.lsb4.targetarch.rpm \
-+	lsb-qm-2.2-12.lsb4.targetarch.rpm \
- 	lsb-task-dist-testkit-4.1.9-1.noarch.rpm \
- 	lsb-test-core-4.1.15-1.targetarch.rpm \
- 	lsb-test-cpp-t2c-4.1.0-1.targetarch.rpm \
+Is it a good idea to upgrade a package to a Release Candidate version,
+such as RC1, RC2 and so on ? I think no because:
+
+1) Maybe the RC version is not stable enough.
+2) Maybe the package's final version doesn't release when
+    oe-core/meta-oe releases, I think that use an older but stable
+    version is better than new RC version usually.
+
 -- 
-2.1.4
+Thanks
 
+Robert
 
