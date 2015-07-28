@@ -1,59 +1,24 @@
-Return-Path: <B54851@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bbn0108.outbound.protection.outlook.com [157.56.111.108])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AEB273D13
+Return-Path: <Jianchuan.Wang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 21858601F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 05:23:20 +0000 (UTC)
-Received: from DM2PR0301MB1183.namprd03.prod.outlook.com (10.160.217.145) by
-	DM2PR0301MB1182.namprd03.prod.outlook.com (10.160.217.144) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.225.19; Tue, 28 Jul 2015 05:23:19 +0000
-Received: from DM2PR0301MB1183.namprd03.prod.outlook.com ([10.160.217.145]) by
-	DM2PR0301MB1183.namprd03.prod.outlook.com ([10.160.217.145]) with
-	mapi id 15.01.0225.018; Tue, 28 Jul 2015 05:23:18 +0000
-From: Zhu Carol <B54851@freescale.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Thread-Topic: [OE-core] [poky][PATCH v2 4/6] gstreamer1.0-plugins-base: Add
-	video-frame related patch
-Thread-Index: AQHQyBwnGpjm06dKlUqHlVeUv8zv7p3viJuAgADKpBA=
-Date: Tue, 28 Jul 2015 05:23:18 +0000
-Message-ID: <DM2PR0301MB118383021F988F9AD22C44AB868D0@DM2PR0301MB1183.namprd03.prod.outlook.com>
-References: <1437996407-29463-1-git-send-email-b54851@freescale.com>
-	<1437996407-29463-5-git-send-email-b54851@freescale.com>
-	<CAP9ODKqYBs8XdR2+xL5ixxPRqSt2tMK1PbLmkAcg_Srhx5suMw@mail.gmail.com>
-In-Reply-To: <CAP9ODKqYBs8XdR2+xL5ixxPRqSt2tMK1PbLmkAcg_Srhx5suMw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: ossystems.com.br; dkim=none (message not signed)
-	header.d=none;
-x-originating-ip: [123.151.195.53]
-x-microsoft-exchange-diagnostics: 1; DM2PR0301MB1182;
-	5:wOwhnzJi6vRgLkkYhMSPkiNyxKJmBG9jqaMGcQoJLxaaQyQKg3Wt2PS+5S/cSbHkK6AQweC59xHx8ZDiQRejx+HyZFQ8Bbs3y62G9NZRHIOT+PGtBzaJA5DLJeAt5Mk5leNgiA6WE6f8fyz5bG0qng==;
-	24:h3DGRJnDZzVuQ93Xoah6Z1Gec+yu6IKX2UhGTVsaZUttDnWTXLQ7AenFmTf+m8bNrX8p2sZcVlAYZ8kYk/1/ft5pAKHcXL/vIuAn0Vtj9Gc=;
-	20:Qu75y2gB56ejSwQbrRwVZ7aXpRg3uF28oBP3SF1nzL6sjCUB7+yFuHpqVRJshN1akeW6zw+D5QkGQYat2e/sbA==
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DM2PR0301MB1182;
-dm2pr0301mb1182: X-MS-Exchange-Organization-RulesExecuted
-x-microsoft-antispam-prvs: <DM2PR0301MB118227DA49854D7B4C73E099868D0@DM2PR0301MB1182.namprd03.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(3002001); SRVR:DM2PR0301MB1182; BCL:0;
-	PCL:0; RULEID:; SRVR:DM2PR0301MB1182; 
-x-forefront-prvs: 06515DA04B
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(13464003)(377454003)(24454002)(2656002)(76176999)(87936001)(62966003)(189998001)(575784001)(2950100001)(16601075003)(92566002)(46102003)(40100003)(1720100001)(19580395003)(5001960100002)(102836002)(5003600100002)(77096005)(74316001)(15975445007)(2900100001)(19580405001)(110136002)(76576001)(86362001)(230783001)(99286002)(106116001)(5002640100001)(50986999)(77156002)(33656002)(54356999)(66066001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1182;
-	H:DM2PR0301MB1183.namprd03.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
+	Tue, 28 Jul 2015 05:40:45 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S5ejuK029108
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 Jul 2015 22:40:45 -0700 (PDT)
+Received: from PEK-JWANG7-D1.wrs.com (128.224.162.190) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 27 Jul 2015 22:40:29 -0700
+From: <jianchuan.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Jul 2015 13:40:38 +0800
+Message-ID: <1438062038-10291-1-git-send-email-jianchuan.wang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jul 2015 05:23:18.6359 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1182
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH v2 4/6] gstreamer1.0-plugins-base: Add video-frame related patch
+Subject: [PATCH] libhugetlbfs: Uprev to v2.19 from v2.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,148 +31,277 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 05:23:23 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 28 Jul 2015 05:40:46 -0000
+Content-Type: text/plain
 
-SGkgT3RhdmlvLA0KICAgUmVhbGx5IHNvcnJ5IGZvciB0aGUgVXBzdHJlYW0tU3RhdHVzIGZvcm1h
-dCBlcnJvciwgd2UganVzdCBrZXB0IHRoZSBzYW1lIHdpdGggc29tZSBwYXRjaGVzIG9uIGZpZG8g
-YnJhbmNoLCBtYXliZSB0aGV5IGFyZSBvbGQgdmVyc2lvbi4gQW5kIEkgc3RpbGwgaGF2ZSBhIGxp
-dHRsZSBjb25mdXNpb24gYWJvdXQgdGhlIHRoaXJkIGNvbW1lbnQuIE15IHF1ZXN0aW9uIGFyZSBh
-cyBmb2xsb3dlZC4gDQoNCg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IE90YXZp
-byBTYWx2YWRvciBbbWFpbHRvOm90YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyXSANClNl
-bnQ6IFR1ZXNkYXksIEp1bHkgMjgsIDIwMTUgMTI6NTEgQU0NClRvOiBaaHUgWXVxaW5nLUI1NDg1
-MQ0KQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQpT
-dWJqZWN0OiBSZTogW09FLWNvcmVdIFtwb2t5XVtQQVRDSCB2MiA0LzZdIGdzdHJlYW1lcjEuMC1w
-bHVnaW5zLWJhc2U6IEFkZCB2aWRlby1mcmFtZSByZWxhdGVkIHBhdGNoDQoNCk9uIE1vbiwgSnVs
-IDI3LCAyMDE1IGF0IDg6MjYgQU0sIFl1cWluZyBaaHUgPGI1NDg1MUBmcmVlc2NhbGUuY29tPiB3
-cm90ZToNCj4gLUFkZCBHU1RfVklERU9fRlJBTUVfTUFQX0ZMQUdfTk9fUkVGDQo+ICBUaGlzIG1h
-a2VzIHN1cmUgdGhhdCB0aGUgYnVmZmVyIGlzIG5vdCByZWZmZWQgYW5vdGhlciB0aW1lIHdoZW4g
-IA0KPiBzdG9yaW5nIGl0IGluIHRoZSBHc3RWaWRlb0ZyYW1lLCBrZWVwaW5nIGl0IHdyaXRhYmxl
-IGlmIGl0IHdhcyB3cml0YWJsZS4NCj4NCj4gLURvbid0IHJlZiBidWZmZXJzIHR3aWNlIHdoZW4g
-bWFwcGluZw0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZdXFpbmcgWmh1IDxiNTQ4NTFAZnJlZXNjYWxl
-LmNvbT4NCg0KV2hpY2ggcmVjaXBlIGlzIGFwcGx5aW5nIHRoaXM/IEl0IHNlZW1zIGl0IGlzIG5v
-dCBiZWluZyBhcHBsaWVkLg0KDQo+IC0tLQ0KPiAgLi4ucmFtZS1Eb24tdC1yZWYtYnVmZmVycy10
-d2ljZS13aGVuLW1hcHBpbmcucGF0Y2ggfCAyNSArKysrKysrICANCj4gLi4uZnJhbWUtQWRkLUdT
-VF9WSURFT19GUkFNRV9NQVBfRkxBR19OT19SRUYucGF0Y2ggfCA4NyANCj4gKysrKysrKysrKysr
-KysrKysrKysrKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAxMTIgaW5zZXJ0aW9ucygrKQ0KPiAgY3Jl
-YXRlIG1vZGUgMTAwNjQ0IA0KPiBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAxLXZpZGVvDQo+IC1mcmFtZS1Eb24tdC1yZWYtYnVm
-ZmVycy10d2ljZS13aGVuLW1hcHBpbmcucGF0Y2gNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCANCj4g
-bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJh
-c2UvMDAwMi12aWRlbw0KPiAtZnJhbWUtQWRkLUdTVF9WSURFT19GUkFNRV9NQVBfRkxBR19OT19S
-RUYucGF0Y2gNCj4NCj4gZGlmZiAtLWdpdCANCj4gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
-c3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAxLXZpZA0KPiBlby1mcmFtZS1E
-b24tdC1yZWYtYnVmZmVycy10d2ljZS13aGVuLW1hcHBpbmcucGF0Y2ggDQo+IGIvbWV0YS9yZWNp
-cGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMS12
-aWQNCj4gZW8tZnJhbWUtRG9uLXQtcmVmLWJ1ZmZlcnMtdHdpY2Utd2hlbi1tYXBwaW5nLnBhdGNo
-DQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAuLmM0ZWVmMDANCj4gLS0t
-IC9kZXYvbnVsbA0KPiArKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAxDQo+ICsrKyAtdmlkZW8tZnJhbWUtRG9uLXQtcmVm
-LWJ1ZmZlcnMtdHdpY2Utd2hlbi1tYXBwaW5nLnBhdGNoDQo+IEBAIC0wLDAgKzEsMjUgQEANCj4g
-K0Zyb20gMjY5ZjY0MmM0NWQ4NWNmZDYzMGVkNDkwNDc4ZTZiZDZiNzFhNzY3ZiBNb24gU2VwIDE3
-IDAwOjAwOjAwIA0KPiArMjAwMQ0KPiArRnJvbTogPT9VVEYtOD9xP1NlYmFzdGlhbj0yMERyPUMz
-PUI2Z2U/PSA8c2ViYXN0aWFuQGNlbnRyaWN1bGFyLmNvbT4NCj4gK0RhdGU6IFR1ZSwgMTYgU2Vw
-IDIwMTQgMDE6MDc6MTggKzAzMDANCj4gK1N1YmplY3Q6IFtQQVRDSF0gdmlkZW8tZnJhbWU6IERv
-bid0IHJlZiBidWZmZXJzIHR3aWNlIHdoZW4gbWFwcGluZw0KDQoNClVwc3RyZWFtLVN0YXR1czog
-Pz8/DQoNCj4gKy0tLQ0KPiArIGdzdC1saWJzL2dzdC92aWRlby92aWRlby1mcmFtZS5jIHwgICAg
-MiArLQ0KPiArIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
-PiArDQo+ICtkaWZmIC0tZ2l0IGEvZ3N0LWxpYnMvZ3N0L3ZpZGVvL3ZpZGVvLWZyYW1lLmMgDQo+
-ICtiL2dzdC1saWJzL2dzdC92aWRlby92aWRlby1mcmFtZS5jDQo+ICtpbmRleCAwMWYyM2MwLi44
-YTlhZTk2IDEwMDY0NA0KPiArLS0tIGEvZ3N0LWxpYnMvZ3N0L3ZpZGVvL3ZpZGVvLWZyYW1lLmMN
-Cj4gKysrKyBiL2dzdC1saWJzL2dzdC92aWRlby92aWRlby1mcmFtZS5jDQo+ICtAQCAtMTA1LDcg
-KzEwNSw3IEBAIGdzdF92aWRlb19mcmFtZV9tYXBfaWQgKEdzdFZpZGVvRnJhbWUgKiBmcmFtZSwg
-R3N0VmlkZW9JbmZvICogaW5mbywNCj4gKyAgICAgICBmcmFtZS0+ZGF0YVtpXSA9IGZyYW1lLT5t
-YXBbMF0uZGF0YSArIGluZm8tPm9mZnNldFtpXTsNCj4gKyAgICAgfQ0KPiArICAgfQ0KPiArLSAg
-ZnJhbWUtPmJ1ZmZlciA9IGdzdF9idWZmZXJfcmVmIChidWZmZXIpOw0KPiArKyAgZnJhbWUtPmJ1
-ZmZlciA9IGJ1ZmZlcjsNCj4gKyAgIGlmICgoZmxhZ3MgJiBHU1RfVklERU9fRlJBTUVfTUFQX0ZM
-QUdfTk9fUkVGKSA9PSAwKQ0KPiArICAgICBnc3RfYnVmZmVyX3JlZiAoZnJhbWUtPmJ1ZmZlcik7
-DQo+ICsNCj4gKy0tDQo+ICsxLjcuOS41DQo+ICsNCj4gZGlmZiAtLWdpdCANCj4gYS9tZXRhL3Jl
-Y2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAy
-LXZpZA0KPiBlby1mcmFtZS1BZGQtR1NUX1ZJREVPX0ZSQU1FX01BUF9GTEFHX05PX1JFRi5wYXRj
-aCANCj4gYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBs
-dWdpbnMtYmFzZS8wMDAyLXZpZA0KPiBlby1mcmFtZS1BZGQtR1NUX1ZJREVPX0ZSQU1FX01BUF9G
-TEFHX05PX1JFRi5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAw
-Li41NTRiOGFjDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVk
-aWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMg0KPiArKysgLXZpZGVv
-LWZyYW1lLUFkZC1HU1RfVklERU9fRlJBTUVfTUFQX0ZMQUdfTk9fUkVGLnBhdGNoDQo+IEBAIC0w
-LDAgKzEsODcgQEANCj4gK0Zyb20gNDBhMjkzZDQ0ZDFhZWNjZjVlYjhlODZmMjNhMGIxMzY2NjEx
-MWM1YyBNb24gU2VwIDE3IDAwOjAwOjAwIA0KPiArMjAwMQ0KPiArRnJvbTogPT9VVEYtOD9xP1Nl
-YmFzdGlhbj0yMERyPUMzPUI2Z2U/PSA8c2ViYXN0aWFuQGNlbnRyaWN1bGFyLmNvbT4NCj4gK0Rh
-dGU6IEZyaSwgMTIgU2VwIDIwMTQgMTQ6Mzk6MTYgKzAzMDANCj4gK1N1YmplY3Q6IFtQQVRDSCAy
-LzNdIHZpZGVvLWZyYW1lOiBBZGQgR1NUX1ZJREVPX0ZSQU1FX01BUF9GTEFHX05PX1JFRg0KPiAr
-DQo+ICtUaGlzIG1ha2VzIHN1cmUgdGhhdCB0aGUgYnVmZmVyIGlzIG5vdCByZWZmZWQgYW5vdGhl
-ciB0aW1lIHdoZW4gDQo+ICtzdG9yaW5nIGl0IGluIHRoZSBHc3RWaWRlb0ZyYW1lLCBrZWVwaW5n
-IGl0IHdyaXRhYmxlIGlmIGl0IHdhcyANCj4gK3dyaXRhYmxlLg0KPiArDQo+ICtVcHN0cmVhbSBT
-dGF0dXM6IEFjY2VwdGVkDQo+ICtodHRwczovL2J1Z3ppbGxhLmdub21lLm9yZy9zaG93X2J1Zy5j
-Z2k/aWQ9NzM2MTE4DQoNClRoZSBmaWVsZCBpczoNCg0KVXBzdHJlYW0tU3RhdHVzOiBTdWJtaXR0
-ZWQgW2h0dHBzOi8vLi4uXQ0KDQpbWXVxaW5nIFpodS1iNTQ4NTFdOiB0aGUgVXBzdHJlYW0tU3Rh
-dHVzIG9mIHRoaXMgcGF0Y2ggaXMgIkFjY2VwdGVkIiwgSSBhbSBub3QgdmVyeSBjbGVhciBhYm91
-dCB5b3VyIGNvbW1lbnRzICJTdWJtaXR0ZWQiLCBkbyB5b3UgbWVhbiBJIHNob3VsZCBhZGQgdGhl
-IHdlYiBzaXRlIGluIHRoZSBzYW1lIGxpbmUgd2l0aCBVcHN0cmVhbS1TdGF0dXM/DQpKdXN0IGxp
-a2UgdGhpczoNClVwc3RyZWFtLVN0YXR1czogIEFjY2VwdGVkIFtodHRwczovL2J1Z3ppbGxhLmdu
-b21lLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9NzM2MTE4XQ0KDQpJJ3ZlIHJlYWQgdGhlIGd1aWRlIGxp
-bmUsIGhlcmUgaXMgbXkgdW5kZXJzdGFuZGluZzoNClVwc3RyZWFtLVN0YXR1czogIFBlbmRpbmcN
-ClVwc3RyZWFtLVN0YXR1czogIFN1Ym1pdHRlZCBbd2hlcmVdDQpVcHN0cmVhbS1TdGF0dXM6ICBB
-Y2NlcHRlZA0KVXBzdHJlYW0tU3RhdHVzOiAgQmFja3BvcnQgW2Zyb20gd2hlcmVdDQpVcHN0cmVh
-bS1TdGF0dXM6ICBEZW5pZWQNClVwc3RyZWFtLVN0YXR1czogIEluYXBwcm9wcmlhdGUgW3JlYXNv
-bl0NCg0KSnVzdCBvYmV5IHRoaXMsIHJpZ2h0Pw0KU28gdGhhdCBpcyANClVwc3RyZWFtLVN0YXR1
-czogIEFjY2VwdGVkDQpUaGF0J3MgaXQgPw0KDQoNCj4gKy0tLQ0KPiArIGdzdC1saWJzL2dzdC92
-aWRlby92aWRlby1mcmFtZS5jIHwgICAgOSArKysrKysrKy0NCj4gKyBnc3QtbGlicy9nc3Qvdmlk
-ZW8vdmlkZW8tZnJhbWUuaCB8ICAgMTggKysrKysrKysrKysrKysrKysrDQo+ICsgMiBmaWxlcyBj
-aGFuZ2VkLCAyNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICsNCj4gK2RpZmYgLS1n
-aXQgYS9nc3QtbGlicy9nc3QvdmlkZW8vdmlkZW8tZnJhbWUuYyANCj4gK2IvZ3N0LWxpYnMvZ3N0
-L3ZpZGVvL3ZpZGVvLWZyYW1lLmMNCj4gK2luZGV4IDUzN2NmNzAuLjAxZjIzYzAgMTAwNjQ0DQo+
-ICstLS0gYS9nc3QtbGlicy9nc3QvdmlkZW8vdmlkZW8tZnJhbWUuYw0KPiArKysrIGIvZ3N0LWxp
-YnMvZ3N0L3ZpZGVvL3ZpZGVvLWZyYW1lLmMNCj4gK0BAIC0xMDYsNiArMTA2LDkgQEAgZ3N0X3Zp
-ZGVvX2ZyYW1lX21hcF9pZCAoR3N0VmlkZW9GcmFtZSAqIGZyYW1lLCBHc3RWaWRlb0luZm8gKiBp
-bmZvLA0KPiArICAgICB9DQo+ICsgICB9DQo+ICsgICBmcmFtZS0+YnVmZmVyID0gZ3N0X2J1ZmZl
-cl9yZWYgKGJ1ZmZlcik7DQo+ICsrICBpZiAoKGZsYWdzICYgR1NUX1ZJREVPX0ZSQU1FX01BUF9G
-TEFHX05PX1JFRikgPT0gMCkNCj4gKysgICAgZ3N0X2J1ZmZlcl9yZWYgKGZyYW1lLT5idWZmZXIp
-Ow0KPiArKw0KPiArICAgZnJhbWUtPm1ldGEgPSBtZXRhOw0KPiArDQo+ICsgICAvKiBidWZmZXIg
-ZmxhZ3MgZW5oYW5jZSB0aGUgZnJhbWUgZmxhZ3MgKi8gQEAgLTE4OSwxMSArMTkyLDEzIEBAIA0K
-PiArZ3N0X3ZpZGVvX2ZyYW1lX3VubWFwIChHc3RWaWRlb0ZyYW1lICogZnJhbWUpDQo+ICsgICBH
-c3RCdWZmZXIgKmJ1ZmZlcjsNCj4gKyAgIEdzdFZpZGVvTWV0YSAqbWV0YTsNCj4gKyAgIGdpbnQg
-aTsNCj4gKysgIEdzdE1hcEZsYWdzIGZsYWdzOw0KPiArDQo+ICsgICBnX3JldHVybl9pZl9mYWls
-IChmcmFtZSAhPSBOVUxMKTsNCj4gKw0KPiArICAgYnVmZmVyID0gZnJhbWUtPmJ1ZmZlcjsNCj4g
-KyAgIG1ldGEgPSBmcmFtZS0+bWV0YTsNCj4gKysgIGZsYWdzID0gZnJhbWUtPm1hcFswXS5mbGFn
-czsNCj4gKw0KPiArICAgaWYgKG1ldGEpIHsNCj4gKyAgICAgZm9yIChpID0gMDsgaSA8IGZyYW1l
-LT5pbmZvLmZpbmZvLT5uX3BsYW5lczsgaSsrKSB7IEBAIC0yMDIsNyANCj4gKysyMDcsOSBAQCBn
-c3RfdmlkZW9fZnJhbWVfdW5tYXAgKEdzdFZpZGVvRnJhbWUgKiBmcmFtZSkNCj4gKyAgIH0gZWxz
-ZSB7DQo+ICsgICAgIGdzdF9idWZmZXJfdW5tYXAgKGJ1ZmZlciwgJmZyYW1lLT5tYXBbMF0pOw0K
-PiArICAgfQ0KPiArLSAgZ3N0X2J1ZmZlcl91bnJlZiAoYnVmZmVyKTsNCj4gKysNCj4gKysgIGlm
-ICgoZmxhZ3MgJiBHU1RfVklERU9fRlJBTUVfTUFQX0ZMQUdfTk9fUkVGKSA9PSAwKQ0KPiArKyAg
-ICBnc3RfYnVmZmVyX3VucmVmIChmcmFtZS0+YnVmZmVyKTsNCj4gKyB9DQo+ICsNCj4gKyAvKioN
-Cj4gK2RpZmYgLS1naXQgYS9nc3QtbGlicy9nc3QvdmlkZW8vdmlkZW8tZnJhbWUuaCANCj4gK2Iv
-Z3N0LWxpYnMvZ3N0L3ZpZGVvL3ZpZGVvLWZyYW1lLmgNCj4gK2luZGV4IDYyN2ZhYjAuLmY4ZTYz
-MDQgMTAwNjQ0DQo+ICstLS0gYS9nc3QtbGlicy9nc3QvdmlkZW8vdmlkZW8tZnJhbWUuaA0KPiAr
-KysrIGIvZ3N0LWxpYnMvZ3N0L3ZpZGVvL3ZpZGVvLWZyYW1lLmgNCj4gK0BAIC0xNDksNiArMTQ5
-LDI0IEBAIHR5cGVkZWYgZW51bSB7DQo+ICsgICBHU1RfVklERU9fQlVGRkVSX0ZMQUdfTEFTVCAg
-ICAgICAgPSAoR1NUX0JVRkZFUl9GTEFHX0xBU1QgPDwgOCkNCj4gKyB9IEdzdFZpZGVvQnVmZmVy
-RmxhZ3M7DQo+ICsNCj4gKysvKioNCj4gKysgKiBHc3RWaWRlb0J1ZmZlckZsYWdzOg0KPiArKyAq
-IEBHU1RfVklERU9fRlJBTUVfTUFQX0ZMQUdfTk9fUkVGOiAgRG9uJ3QgdGFrZSBhbm90aGVyIHJl
-ZmVyZW5jZSBvZiB0aGUgYnVmZmVyIGFuZCBzdG9yZSBpdCBpbg0KPiArKyAqICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgdGhlIEdzdFZpZGVvRnJhbWUuIFRoaXMgbWFrZXMgc3Vy
-ZSB0aGF0IHRoZSBidWZmZXIgc3RheXMNCj4gKysgKiAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIHdyaXRhYmxlIHdoaWxlIHRoZSBmcmFtZSBpcyBtYXBwZWQsIGJ1dCByZXF1aXJl
-cyB0aGF0IHRoZQ0KPiArKyAqICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYnVm
-ZmVyIHJlZmVyZW5jZSBzdGF5cyB2YWxpZCB1bnRpbCB0aGUgZnJhbWUgaXMgdW5tYXBwZWQgYWdh
-aW4uDQo+ICsrICogQEdTVF9WSURFT19GUkFNRV9NQVBfRkxBR19MQVNUOiAgICBPZmZzZXQgdG8g
-ZGVmaW5lIG1vcmUgZmxhZ3MNCj4gKysgKg0KPiArKyAqIEFkZGl0aW9uYWwgbWFwcGluZyBmbGFn
-cyBmb3IgZ3N0X3ZpZGVvX2ZyYW1lX21hcCgpLg0KPiArKyAqDQo+ICsrICogU2luY2U6IDEuNg0K
-PiArKyAqLw0KPiArK3R5cGVkZWYgZW51bSB7DQo+ICsrICBHU1RfVklERU9fRlJBTUVfTUFQX0ZM
-QUdfTk9fUkVGICAgPSAoR1NUX01BUF9GTEFHX0xBU1QgPDwgMCksDQo+ICsrICBHU1RfVklERU9f
-RlJBTUVfTUFQX0ZMQUdfTEFTVCAgICAgPSAoR1NUX01BUF9GTEFHX0xBU1QgPDwgOCkNCj4gKysg
-IC8qIDggbW9yZSBmbGFncyBwb3NzaWJsZSBhZnRlcndhcmRzICovIH0gR3N0VmlkZW9GcmFtZU1h
-cEZsYWdzOw0KPiArKw0KPiArIEdfRU5EX0RFQ0xTDQo+ICsNCj4gKyAjZW5kaWYgLyogX19HU1Rf
-VklERU9fRlJBTUVfSF9fICovDQo+ICstLQ0KPiArMS43LjkuNQ0KPiArDQo+IC0tDQo+IDEuOS4x
-DQo+DQo+IC0tDQo+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fDQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3Jn
-L21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg0KDQoNCi0tIA0KT3RhdmlvIFNh
-bHZhZG9yICAgICAgICAgICAgICAgICAgICAgICAgICAgICBPLlMuIFN5c3RlbXMNCmh0dHA6Ly93
-d3cub3NzeXN0ZW1zLmNvbS5iciAgICAgICAgaHR0cDovL2NvZGUub3NzeXN0ZW1zLmNvbS5icg0K
-TW9iaWxlOiArNTUgKDUzKSA5OTgxLTc4NTQgICAgICAgICAgICBNb2JpbGU6ICsxICgzNDcpIDkw
-My05NzUwDQo=
+From: Jianchuan Wang <jianchuan.wang@windriver.com>
+
+The 5 patches which are deleted have been in the v2.19
+
+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+---
+ ...tend-arm32-support-to-include-BE-variants.patch | 38 ---------------
+ .../0001-Makefile-Recognize-all-ix86-arches.patch  | 32 ------------
+ .../files/0001-aarch64-fix-cross-compilation.patch | 34 -------------
+ ...s-arm-arches-fix-page-size-and-text-offse.patch | 57 ----------------------
+ ...-lib64-hardcoded-values-by-LIBDIR32-LIBDI.patch | 29 -----------
+ .../libhugetlbfs/libhugetlbfs_git.bb               |  9 +---
+ 6 files changed, 2 insertions(+), 197 deletions(-)
+ delete mode 100644 meta-oe/recipes-benchmark/libhugetlbfs/files/0001-Extend-arm32-support-to-include-BE-variants.patch
+ delete mode 100644 meta-oe/recipes-benchmark/libhugetlbfs/files/0001-Makefile-Recognize-all-ix86-arches.patch
+ delete mode 100644 meta-oe/recipes-benchmark/libhugetlbfs/files/0001-aarch64-fix-cross-compilation.patch
+ delete mode 100644 meta-oe/recipes-benchmark/libhugetlbfs/files/0001-ld.hugetlbfs-arm-arches-fix-page-size-and-text-offse.patch
+ delete mode 100644 meta-oe/recipes-benchmark/libhugetlbfs/files/0001-replace-lib-lib64-hardcoded-values-by-LIBDIR32-LIBDI.patch
+
+diff --git a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-Extend-arm32-support-to-include-BE-variants.patch b/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-Extend-arm32-support-to-include-BE-variants.patch
+deleted file mode 100644
+index f6147cb..0000000
+--- a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-Extend-arm32-support-to-include-BE-variants.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 5af6dec8764375ca4f13bd9fed96af090228351a Mon Sep 17 00:00:00 2001
+-From: "Gary S. Robertson" <gary.robertson@linaro.org>
+-Date: Mon, 11 Aug 2014 11:06:04 -0500
+-Subject: [libhugetlbfs][PATCH] Extend arm32 support to include BE variants
+-    
+-This patch applies the same technique used by Koen Kool in the following patch
+-which was accepted by the libhugetlbfs project:
+-    
+-[0a4f6] Add aarch64_be_support 2014-03-31 10:52:37
+-    
+-It modifies the libhugetlbfs Makefile to mark all 32-bit arm architectures
+-as supported by the libhugetlbfs build.  Builds and successful functional
+-tests have been performed for armv7a LE and BE runtime platforms.
+-    
+-This patch replaces and renders obsolete the following patch:
+-arm32-support.patch submitted by: Chunrong Guo <B40290@freescale.com>
+-
+-Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+----
+- Makefile |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 91502e1..ba79607 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -59,7 +59,7 @@ ELF32 = elf32ppclinux
+- TMPLIB32 = lib
+- CPPFLAGS += -DPPC_NO_SEGMENTS
+- else
+--ifeq ($(ARCH),armv7l)
+-+ifneq (,$(findstring arm,$(ARCH)))
+- CC32 = $(CC)
+- TMPLIB32 = lib
+- ELF32 += armelf_linux_eabi
+--- 
+-1.7.9.5
+-
+diff --git a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-Makefile-Recognize-all-ix86-arches.patch b/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-Makefile-Recognize-all-ix86-arches.patch
+deleted file mode 100644
+index 2718275..0000000
+--- a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-Makefile-Recognize-all-ix86-arches.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-From a0166583ba5f7b6a6d2de434f633126fb12c9d29 Mon Sep 17 00:00:00 2001
+-From: "Gary S. Robertson" <gary.robertson@linaro.org>
+-Date: Wed, 24 Sep 2014 15:27:31 -0500
+-Subject: [PATCH] Makefile: Recognize all ix86 arches
+-
+-In a non-native build scenario, the makefile
+-only recognized i386 or x86_64 arches.  Added support
+-to recognize i486, i586, i686.
+-
+-Upstream Status: Accepted by libhugetlbfs project
+-
+-Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+----
+- Makefile |    2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 91502e1..0bfaee8 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -71,7 +71,7 @@ ELF64 = aarch64elf
+- TMPLIB64 = lib64
+- CUSTOM_LDSCRIPTS = no
+- else
+--ifeq ($(ARCH),i386)
+-+ifneq (,$(filter i386 i486 i586 i686,$(ARCH)))
+- CC32 = $(CC)
+- ELF32 = elf_i386
+- TMPLIB32 = lib
+--- 
+-1.7.9.5
+-
+diff --git a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-aarch64-fix-cross-compilation.patch b/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-aarch64-fix-cross-compilation.patch
+deleted file mode 100644
+index 215ae72..0000000
+--- a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-aarch64-fix-cross-compilation.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-Subject: [PATCH] aarch64: fix cross compilation
+-
+-This patch allow to override CC and use it for aarch64 case like
+-the other architectures.
+-
+-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+-
+-Upstream-Status: Submitted
+----
+- Makefile | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 91502e1..5aa1e12 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -33,7 +33,7 @@ CFLAGS += -Wall -fPIC
+- CPPFLAGS += -D__LIBHUGETLBFS__
+- 
+- ARCH = $(shell uname -m | sed -e s/i.86/i386/)
+--CC = gcc
+-+CC ?= gcc
+- 
+- CUSTOM_LDSCRIPTS = yes
+- 
+-@@ -66,7 +66,7 @@ ELF32 += armelf_linux_eabi
+- CUSTOM_LDSCRIPTS = no
+- else
+- ifneq (,$(findstring aarch64,$(ARCH)))
+--CC64 = gcc
+-+CC64 = $(CC)
+- ELF64 = aarch64elf
+- TMPLIB64 = lib64
+- CUSTOM_LDSCRIPTS = no
+diff --git a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-ld.hugetlbfs-arm-arches-fix-page-size-and-text-offse.patch b/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-ld.hugetlbfs-arm-arches-fix-page-size-and-text-offse.patch
+deleted file mode 100644
+index 4e5b7bb..0000000
+--- a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-ld.hugetlbfs-arm-arches-fix-page-size-and-text-offse.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From 1ab6f7f9b34fc745451140fc21db6763dffc5785 Mon Sep 17 00:00:00 2001
+-From: "Gary S. Robertson" <gary.robertson@linaro.org>
+-Date: Thu, 25 Sep 2014 14:57:06 -0500
+-Subject: [PATCH] ld.hugetlbfs: arm arches - fix page size and text offset
+- setup
+-
+-There's 3 issues fixed:
+-* typo on MB variable (MB -> $MB)
+-* some linker variants are missing (linux and big endian)
+-  - armelfb_linux_eabi
+-  - aarch64elfb
+-  - aarch64linux
+-  - aarch64linuxb
+-* text segment offset was not specified for armv7 BE
+-
+-NOTE: This patch replaces and makes obsolete the following previously
+-      submitted patch:
+-
+-      aarch64: fix page size not properly computed
+-      by: Fathi Boudra <fathi.boudra@linaro.org>
+-
+-Upstream Status: Accepted at libhugetlbfs project
+-
+-Signed-off-by: Gary S. Robertson <gary.robertson@linaro.org>
+----
+- ld.hugetlbfs |    8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/ld.hugetlbfs b/ld.hugetlbfs
+-index df446dd..4417442 100755
+---- a/ld.hugetlbfs
+-+++ b/ld.hugetlbfs
+-@@ -87,7 +87,7 @@ elf32ppclinux|elf64ppc)	HPAGE_SIZE=$((16*$MB)) SLICE_SIZE=$((256*$MB)) ;;
+- elf64lppc)		HPAGE_SIZE=$((16*$MB)) SLICE_SIZE=$((256*$MB)) ;;
+- elf_i386|elf_x86_64)	HPAGE_SIZE=$((4*$MB)) SLICE_SIZE=$HPAGE_SIZE ;;
+- elf_s390|elf64_s390)	HPAGE_SIZE=$((1*$MB)) SLICE_SIZE=$HPAGE_SIZE ;;
+--armelf_linux_eabi|aarch64elf)	HPAGE_SIZE=$((2*MB)) SLICE_SIZE=$HPAGE_SIZE ;;
+-+armelf*_linux_eabi|aarch64elf*|aarch64linux*)	HPAGE_SIZE=$((2*$MB)) SLICE_SIZE=$HPAGE_SIZE ;;
+- esac
+- 
+- if [ "$HTLB_ALIGN" == "slice" ]; then
+-@@ -96,9 +96,9 @@ if [ "$HTLB_ALIGN" == "slice" ]; then
+- 
+- 	# targeting the ARM platform one needs to explicitly set the text segment offset
+- 	# otherwise it will be NULL.
+--	if [ "$EMU" == "armelf_linux_eabi" ]; then
+--		HTLBOPTS="$HTLBOPTS -Ttext-segment=$SLICE_SIZE"
+--	fi
+-+	case "$EMU" in
+-+	armelf*_linux_eabi)	HTLBOPTS="$HTLBOPTS -Ttext-segment=$SLICE_SIZE" ;;
+-+	esac
+- fi
+- 
+- ${LD} "${args[@]}" ${HTLBOPTS}
+--- 
+-1.7.9.5
+-
+diff --git a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-replace-lib-lib64-hardcoded-values-by-LIBDIR32-LIBDI.patch b/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-replace-lib-lib64-hardcoded-values-by-LIBDIR32-LIBDI.patch
+deleted file mode 100644
+index 9e2a5e5..0000000
+--- a/meta-oe/recipes-benchmark/libhugetlbfs/files/0001-replace-lib-lib64-hardcoded-values-by-LIBDIR32-LIBDI.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Subject: [PATCH 1/1] Replace lib/lib64 hardcoded values by LIBDIR32/LIBDIR64
+- variables
+-
+-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+-
+-Upstream-Status: Submitted
+----
+- Makefile | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 91502e1..682c0db 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -181,9 +181,9 @@ BINDIR = $(PREFIX)/share/libhugetlbfs
+- EXEDIR = $(PREFIX)/bin
+- DOCDIR = $(PREFIX)/share/doc/libhugetlbfs
+- ifdef CC32
+--PMDIR = $(PREFIX)/lib/perl5/TLBC
+-+PMDIR = $(LIBDIR32)/perl5/TLBC
+- else
+--PMDIR = $(PREFIX)/lib64/perl5/TLBC
+-+PMDIR = $(LIBDIR64)/perl5/TLBC
+- endif
+- MANDIR1 = $(PREFIX)/share/man/man1
+- MANDIR3 = $(PREFIX)/share/man/man3
+--- 
+-1.9.2
+-
+diff --git a/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb b/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb
+index ce0c6af..a2d3922 100644
+--- a/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb
++++ b/meta-oe/recipes-benchmark/libhugetlbfs/libhugetlbfs_git.bb
+@@ -7,21 +7,16 @@ DEPENDS = "sysfsutils perl"
+ RDEPENDS_${PN} += "bash perl python python-io python-lang python-subprocess python-resource"
+ RDEPENDS_${PN}-tests += "bash"
+ 
+-PV = "2.18"
++PV = "2.19"
+ PE = "1"
+ 
+-SRCREV = "ea3f6b273f535aab38cefae30030774457bbbfe6"
++SRCREV = "426c22d65415fcb8927f68fbc5887e075a8dc40a"
+ SRC_URI = " \
+     git://github.com/libhugetlbfs/libhugetlbfs.git;protocol=https \
+     file://skip-checking-LIB32-and-LIB64-if-they-point-to-the-s.patch \
+     file://libhugetlbfs-avoid-search-host-library-path-for-cros.patch \
+     file://tests-Makefile-install-static-4G-edge-testcases.patch \
+     file://0001-run_test.py-not-use-hard-coded-path-.-obj-hugeadm.patch \
+-    file://0001-aarch64-fix-cross-compilation.patch \
+-    file://0001-ld.hugetlbfs-arm-arches-fix-page-size-and-text-offse.patch \
+-    file://0001-replace-lib-lib64-hardcoded-values-by-LIBDIR32-LIBDI.patch \
+-    file://0001-Extend-arm32-support-to-include-BE-variants.patch \
+-    file://0001-Makefile-Recognize-all-ix86-arches.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+-- 
+1.9.1
+
 
