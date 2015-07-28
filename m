@@ -1,51 +1,23 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 18244761A2
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ED10761A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 13:21:16 +0000 (UTC)
-Received: by pdbbh15 with SMTP id bh15so70871036pdb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 06:21:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=71zH7zh90MpUyle0wjvt21KuxMjW4WSk/KcRDg1ueW4=;
-	b=aKimCpagVmSdEZxmmq7Kcd+/+RsAxb9RFzVUYk8mNlzsM0J34Up7OOvIEU0XCYIg8v
-	SYLJzvZcOnZAfLawBEhDe3z5QG3LoQSZai24EOSK4dB4wuwle+WlEWy2kbxLuJ6EGMHE
-	pj8gKykeGHHgl0xQq8hTphrEz/fDMZwoQoO/BFYc595PDIPVytfTTWn7rtI+XmnIkUqK
-	sUzMRlVO4Ux6NI6hxEW01Io6SSEvIZMQC+TUrZRd6jps7t6drsrv5q218z0dgLRguGHM
-	hQ6xtganxwBYxzrgLIfWAqfLUwp8b4wxERIWcYGrLNWmb8FGAGJ9+H8PCMc/4BV7JGRu
-	Yslg==
-X-Gm-Message-State: ALoCoQlQaSdFUHAqMPwiOPcBoQCk5DhrXLQ6bQo4rAfMkvMJSTy2qqnKDl5AC0OhtHPZxJ2DnMZZ
-X-Received: by 10.70.53.99 with SMTP id a3mr81803501pdp.169.1438089677035;
-	Tue, 28 Jul 2015 06:21:17 -0700 (PDT)
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com.
-	[209.85.192.181]) by smtp.gmail.com with ESMTPSA id
-	o7sm35317624pdi.16.2015.07.28.06.21.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Jul 2015 06:21:16 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pdrg1 with SMTP id g1so70889994pdr.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 06:21:14 -0700 (PDT)
+	Tue, 28 Jul 2015 13:21:52 +0000 (UTC)
+Received: from [10.1.14.248] (vpn.streamunlimited.com [91.114.0.140])
+	by ptmx.org (Postfix) with ESMTPSA id 3F96637114;
+	Tue, 28 Jul 2015 15:12:37 +0200 (CEST)
+Message-ID: <55B77FD3.4020700@pseudoterminal.org>
+Date: Tue, 28 Jul 2015 15:12:51 +0200
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.70.118.163 with SMTP id kn3mr63199042pdb.115.1438089674711; 
-	Tue, 28 Jul 2015 06:21:14 -0700 (PDT)
-Received: by 10.70.59.105 with HTTP; Tue, 28 Jul 2015 06:21:14 -0700 (PDT)
-In-Reply-To: <55B77F87.5040401@pseudoterminal.org>
+To: Yuqing Zhu <b54851@freescale.com>, 
+	openembedded-core@lists.openembedded.org
 References: <1438106291-14986-1-git-send-email-b54851@freescale.com>
-	<1438106291-14986-3-git-send-email-b54851@freescale.com>
-	<55B77F87.5040401@pseudoterminal.org>
-Date: Tue, 28 Jul 2015 10:21:14 -0300
-Message-ID: <CAP9ODKqiSX-gcrbnakHT2u8essxOr2ODt_=fVooXxCqE+xOY3A@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky v3][PATCH 2/6] gstreamer1.0-plugins-base: handle audio/video decoder error
+	<1438106291-14986-4-git-send-email-b54851@freescale.com>
+In-Reply-To: <1438106291-14986-4-git-send-email-b54851@freescale.com>
+Subject: Re: [poky v3][PATCH 3/6] gstreamer1.0-plugins-base: update video alignment after video alignment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,18 +30,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 13:21:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 28 Jul 2015 13:21:53 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jul 28, 2015 at 10:11 AM, Carlos Rafael Giani
-<dv@pseudoterminal.org> wrote:
-> Shouldn't the upstream status be "Submitted" instead of "Pending"? It is
-> already in bugzilla.
+"Backport [1.4.1]" is probably wrong. Admittedly, the bugzilla entry is 
+somewhat confusing, but I think it should be using the version 1.5.1 
+instead.
 
-Agreed. Submitted [https://...]
+On 07/28/2015 07:58 PM, Yuqing Zhu wrote:
+> Video buffer pool will update video alignment to respect stride alignment
+> requirement. But haven't update it to video alignment in configure.
+> Which will cause user get wrong video alignment.
+>
+> Signed-off-by: Yuqing Zhu <b54851@freescale.com>
+> ---
+>   .../videobuffer_updata_alignment_update.patch      | 53 ++++++++++++++++++++++
+>   .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
+>   2 files changed, 54 insertions(+)
+>   create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
+> new file mode 100755
+> index 0000000..ae37685
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
+> @@ -0,0 +1,53 @@
+> +commit 88d253ea23b06289df40401160b606323f16c910
+> +Author: Song Bing <b06498@freescale.com>
+> +Date:   Mon Dec 15 09:34:35 2014 +0800
+> +
+> +videopool: update video alignment after video alignment
+> +
+> +Video buffer pool will update video alignment to respect stride alignment
+> +requirement. But haven't update it to video alignment in configure.
+> +Which will cause user get wrong video alignment.
+> +
+> +https://bugzilla.gnome.org/show_bug.cgi?id=741501
+> +
+> +Upstream-Status: Backport [1.4.1]
+> +
+> +Signed-off-by: Song Bing <b06498@freescale.com>
+> +diff --git a/gst-libs/gst/video/gstvideopool.c b/gst-libs/gst/video/gstvideopool.c
+> +index 4475f45..acef594 100644
+> +--- a/gst-libs/gst/video/gstvideopool.c
+> ++++ b/gst-libs/gst/video/gstvideopool.c
+> +@@ -167,6 +167,7 @@ video_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
+> +     /* get an apply the alignment to the info */
+> +     gst_buffer_pool_config_get_video_alignment (config, &priv->video_align);
+> +     gst_video_info_align (&info, &priv->video_align);
+> ++    gst_buffer_pool_config_set_video_alignment (config, &priv->video_align);
+> +   }
+> +   priv->info = info;
+> +
+> +diff --git a/sys/ximage/ximagepool.c b/sys/ximage/ximagepool.c
+> +index 6cc2cfa..6a1cbc9 100644
+> +--- a/sys/ximage/ximagepool.c
+> ++++ b/sys/ximage/ximagepool.c
+> +@@ -597,6 +597,8 @@ ximage_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
+> +     /* do padding and alignment */
+> +     gst_video_info_align (&info, &priv->align);
+> +
+> ++    gst_buffer_pool_config_set_video_alignment (config, &priv->align);
+> ++
+> +     /* we need the video metadata too now */
+> +     priv->add_metavideo = TRUE;
+> +   } else {
+> +diff --git a/sys/xvimage/xvimagepool.c b/sys/xvimage/xvimagepool.c
+> +index 244a51a..34b1ab2 100644
+> +--- a/sys/xvimage/xvimagepool.c
+> ++++ b/sys/xvimage/xvimagepool.c
+> +@@ -124,6 +124,8 @@ xvimage_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
+> +     /* do padding and alignment */
+> +     gst_video_info_align (&info, &priv->align);
+> +
+> ++    gst_buffer_pool_config_set_video_alignment (config, &priv->align);
+> ++
+> +     /* we need the video metadata too now */
+> +     priv->add_metavideo = TRUE;
+> +   } else {
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> index aa90179..88c3254 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> @@ -10,6 +10,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+>               file://taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
+>               file://fix-id3demux-utf16-to-utf8-issue.patch \
+>               file://handle-audio-video-decoder-error.patch \
+> +            file://videobuffer_updata_alignment_update.patch \
+>   "
+>   
+>   SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
