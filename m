@@ -1,26 +1,40 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E5A1763CE
+Return-Path: <wei.tee.ng@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id BC62773D13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 09:05:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S95C7l000652
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 02:05:12 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 28 Jul 2015 02:04:56 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Jul 2015 02:05:10 -0700
-Message-ID: <d2fde8961c75893e53e9cacdbadcfedf69bcca3b.1438074266.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1438074266.git.liezhi.yang@windriver.com>
-References: <cover.1438074266.git.liezhi.yang@windriver.com>
+	Tue, 28 Jul 2015 09:26:33 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 28 Jul 2015 02:26:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,562,1432623600"; 
+	d="scan'208,217";a="736998156"
+Received: from kmsmsx154.gar.corp.intel.com ([172.21.73.14])
+	by orsmga001.jf.intel.com with ESMTP; 28 Jul 2015 02:26:31 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.190]) by
+	KMSMSX154.gar.corp.intel.com ([169.254.12.160]) with mapi id
+	14.03.0224.002; Tue, 28 Jul 2015 17:24:23 +0800
+From: "Ng, Wei Tee" <wei.tee.ng@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Otavio Salvador
+	<otavio.salvador@ossystems.com.br>
+Thread-Topic: [OE-core] [PATCH 0/2] [master][dizzy] Enable Marvel 8897 Wifi
+	feature
+Thread-Index: AQHQyIsr05t+WlTiIUWv7BPyXpy1XJ3vGVeAgAADnACAAAS6gIABe0bw
+Date: Tue, 28 Jul 2015 09:24:23 +0000
+Message-ID: <B4FF7F2787593E4CA07131C98D4AD41A01C61316@PGSMSX101.gar.corp.intel.com>
+References: <1436418620-16592-1-git-send-email-wei.tee.ng@intel.com>
+	<CAP9ODKp5X5bK_3-OuBi9RY=L6VSO7sXjdyes3UUG-pOv48FZOg@mail.gmail.com>
+	<20150727181551.GD2195@saldanha.aker.com.br>
+	<CAP9ODKpOjR2Lgx=7iQLW5yctfa2shZrM09J4piDxw9UxDVOm3Q@mail.gmail.com>
+	<CAJTo0LaTi0YsVJCmAC+UzFCTHKc8zHmC8VbSYBtSbVAfpgCU1g@mail.gmail.com>
+In-Reply-To: <CAJTo0LaTi0YsVJCmAC+UzFCTHKc8zHmC8VbSYBtSbVAfpgCU1g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-Subject: [PATCH 3/3] qemu_git.bb: remove it
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] [master][dizzy] Enable Marvel 8897 Wifi feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +47,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 09:05:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 Jul 2015 09:26:35 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_B4FF7F2787593E4CA07131C98D4AD41A01C61316PGSMSX101garcor_"
 
-Remove it since we have 2.4.0, the git version is 1.3 can't be built by
-deafult:
-ERROR: Fetcher failure: Unable to find revision 04024dea2674861fcf13582a77b58130c67fccd8 in branch master even from upstream
+--_000_B4FF7F2787593E4CA07131C98D4AD41A01C61316PGSMSX101garcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-We can fix it, but seems that no one uses it any more.
+QWxyaWdodC4gQWZ0ZXIgZ2V0dGluZyBpbnB1dCBmcm9tIHlvdSBndXlzLCBJIHdpbGwgYWRkIGl0
+IGluIGRpc3RybyBsYXllci4gVGhhbmtzIGZvciB0aGUgdGltZSBhbmQgYWR2aWNlLg0KDQpSZWdh
+cmRzLA0KV2VpIFRlZQ0KDQpGcm9tOiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBp
+bnRlbC5jb21dDQpTZW50OiBUdWVzZGF5LCBKdWx5IDI4LCAyMDE1IDI6NDYgQU0NClRvOiBPdGF2
+aW8gU2FsdmFkb3INCkNjOiBIdWdvIFZhc2NvbmNlbG9zIFNhbGRhbmhhOyBOZywgV2VpIFRlZTsg
+UGF0Y2hlcyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXINClN1YmplY3Q6
+IFJlOiBbT0UtY29yZV0gW1BBVENIIDAvMl0gW21hc3Rlcl1bZGl6enldIEVuYWJsZSBNYXJ2ZWwg
+ODg5NyBXaWZpIGZlYXR1cmUNCg0KDQpPbiAyNyBKdWx5IDIwMTUgYXQgMTk6MjgsIE90YXZpbyBT
+YWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI8bWFpbHRvOm90YXZpby5z
+YWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPj4gd3JvdGU6DQpTdXJlIGJ1dCB0aGlzIGlzIG5vdCBh
+IGJ1Z2ZpeC4gSSBhbSBvcHBvc2VkIHRvIGJhY2twb3J0IGZlYXR1cmVzDQp3aXRob3V0IGEgdmVy
+eSBjbGVhciByZWFzb24gYW5kIHRoaXMgZG9lcyBub3Qgc2VlbSB0byBxdWFsaWZ5IGFzIGENCm1h
+c3NpdmUgbmVlZC4NCg0KSW5kZWVkLCBhbmQgZXhpc3RlbmNlIGluIG1ldGEtb2UgaXMgYW4gZXZl
+biBiZXR0ZXIgcmVhc29uICpub3QqIHRvIGJhY2twb3J0IHRvIG9lLWNvcmUgZGl6enkuICBJZiB0
+aGVyZSdzIGEgcHJvZHVjdCBiZWluZyBidWlsdCBvbiB0aGUgZGl6enkgcmVsZWFzZSwgdGhlbiB0
+aGVzZSBjYW4gYmUgYWRkZWQgdG8geW91ciBkaXN0cm8gbGF5ZXIgKG9yIG1ldGEtb2UgdXNlZCBk
+aXJlY3RseSkuDQoNClJvc3MNCg==
 
-And move patches from "files" dir to "qemu" dir.
+--_000_B4FF7F2787593E4CA07131C98D4AD41A01C61316PGSMSX101garcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- ...-Arm-versatilepb-Add-memory-size-checking.patch |    0
- .../exclude-some-arm-EABI-obsolete-syscalls.patch  |    0
- .../qemu-enlarge-env-entry-size.patch              |    0
- meta/recipes-devtools/qemu/qemu_git.bb             |   15 ---------------
- 4 files changed, 15 deletions(-)
- rename meta/recipes-devtools/qemu/{files => qemu}/Qemu-Arm-versatilepb-Add-memory-size-checking.patch (100%)
- rename meta/recipes-devtools/qemu/{files => qemu}/exclude-some-arm-EABI-obsolete-syscalls.patch (100%)
- rename meta/recipes-devtools/qemu/{files => qemu}/qemu-enlarge-env-entry-size.patch (100%)
- delete mode 100644 meta/recipes-devtools/qemu/qemu_git.bb
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
+MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
+MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
+cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
+aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
+YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
+aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
+cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkFscmlnaHQuIEFmdGVyIGdldHRpbmcgaW5w
+dXQgZnJvbSB5b3UgZ3V5cywgSSB3aWxsIGFkZCBpdCBpbiBkaXN0cm8gbGF5ZXIuIFRoYW5rcyBm
+b3IgdGhlIHRpbWUgYW5kIGFkdmljZS4NCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
+dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
+aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29s
+b3I6IzFGNDk3RCI+UmVnYXJkcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtD
+YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+V2VpIFRlZTxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxhIG5hbWU9Il9NYWlsRW5kQ29tcG9z
+ZSI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
+aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
+PjwvYT48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVl
+IDEuNXB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJv
+cmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBp
+biAwaW4gMGluIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNp
+emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJv
+bTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZx
+dW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3Mu
+YnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBUdWVzZGF5LCBKdWx5IDI4LCAy
+MDE1IDI6NDYgQU08YnI+DQo8Yj5Ubzo8L2I+IE90YXZpbyBTYWx2YWRvcjxicj4NCjxiPkNjOjwv
+Yj4gSHVnbyBWYXNjb25jZWxvcyBTYWxkYW5oYTsgTmcsIFdlaSBUZWU7IFBhdGNoZXMgYW5kIGRp
+c2N1c3Npb25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJl
+OiBbT0UtY29yZV0gW1BBVENIIDAvMl0gW21hc3Rlcl1bZGl6enldIEVuYWJsZSBNYXJ2ZWwgODg5
+NyBXaWZpIGZlYXR1cmU8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxw
+IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPk9uIDI3IEp1bHkgMjAxNSBhdCAxOToyOCwgT3RhdmlvIFNhbHZhZG9yICZs
+dDs8YSBocmVmPSJtYWlsdG86b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnIiIHRhcmdl
+dD0iX2JsYW5rIj5vdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icjwvYT4mZ3Q7IHdyb3Rl
+OjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1s
+ZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBpbiA2LjBwdDttYXJnaW4t
+bGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxkaXYgaWQ9Ijoyb3YiPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+U3VyZSBidXQgdGhpcyBpcyBub3QgYSBidWdmaXguIEkgYW0gb3Bwb3NlZCB0
+byBiYWNrcG9ydCBmZWF0dXJlczxicj4NCndpdGhvdXQgYSB2ZXJ5IGNsZWFyIHJlYXNvbiBhbmQg
+dGhpcyBkb2VzIG5vdCBzZWVtIHRvIHF1YWxpZnkgYXMgYTxicj4NCm1hc3NpdmUgbmVlZC48bzpw
+PjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48YnI+DQpJbmRlZWQsIGFuZCBleGlzdGVuY2UgaW4gbWV0YS1vZSBpcyBhbiBldmVu
+IGJldHRlciByZWFzb24gKm5vdCogdG8gYmFja3BvcnQgdG8gb2UtY29yZSBkaXp6eS4mbmJzcDsg
+SWYgdGhlcmUncyBhIHByb2R1Y3QgYmVpbmcgYnVpbHQgb24gdGhlIGRpenp5IHJlbGVhc2UsIHRo
+ZW4gdGhlc2UgY2FuIGJlIGFkZGVkIHRvIHlvdXIgZGlzdHJvIGxheWVyIChvciBtZXRhLW9lIHVz
+ZWQgZGlyZWN0bHkpLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj5Sb3NzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8
+L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-diff --git a/meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch b/meta/recipes-devtools/qemu/qemu/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
-rename to meta/recipes-devtools/qemu/qemu/Qemu-Arm-versatilepb-Add-memory-size-checking.patch
-diff --git a/meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch b/meta/recipes-devtools/qemu/qemu/exclude-some-arm-EABI-obsolete-syscalls.patch
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/exclude-some-arm-EABI-obsolete-syscalls.patch
-rename to meta/recipes-devtools/qemu/qemu/exclude-some-arm-EABI-obsolete-syscalls.patch
-diff --git a/meta/recipes-devtools/qemu/files/qemu-enlarge-env-entry-size.patch b/meta/recipes-devtools/qemu/qemu/qemu-enlarge-env-entry-size.patch
-similarity index 100%
-rename from meta/recipes-devtools/qemu/files/qemu-enlarge-env-entry-size.patch
-rename to meta/recipes-devtools/qemu/qemu/qemu-enlarge-env-entry-size.patch
-diff --git a/meta/recipes-devtools/qemu/qemu_git.bb b/meta/recipes-devtools/qemu/qemu_git.bb
-deleted file mode 100644
-index a30932a..0000000
---- a/meta/recipes-devtools/qemu/qemu_git.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--require qemu.inc
--
--SRCREV = "04024dea2674861fcf13582a77b58130c67fccd8"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
--                    file://COPYING.LIB;endline=24;md5=c04def7ae38850e7d3ef548588159913"
--
--PV = "1.3.0+git${SRCPV}"
--
--SRC_URI_prepend = "git://git.qemu.org/qemu.git"
--S = "${WORKDIR}/git"
--
--DEFAULT_PREFERENCE = "-1"
--
--COMPATIBLE_HOST_class-target_mips64 = "null"
--- 
-1.7.9.5
-
-
+--_000_B4FF7F2787593E4CA07131C98D4AD41A01C61316PGSMSX101garcor_--
