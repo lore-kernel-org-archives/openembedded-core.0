@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6664176243
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9114E763C8
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Jul 2015 09:03:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S93Zlm000626
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S93aOD009002
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 02:03:35 -0700 (PDT)
+	Tue, 28 Jul 2015 02:03:36 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 28 Jul 2015 02:03:19 -0700
+	Tue, 28 Jul 2015 02:03:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 28 Jul 2015 02:03:33 -0700
-Message-ID: <aa05de93e6a3e525fa642bad6aa5d1acfcb35db4.1438074152.git.liezhi.yang@windriver.com>
+Date: Tue, 28 Jul 2015 02:03:34 -0700
+Message-ID: <5f7249878baba13ed53de7fd5cc5a160a690d505.1438074152.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1438074152.git.liezhi.yang@windriver.com>
 References: <cover.1438074152.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] useradd_base.bbclass: do not warn when the user exists
+Subject: [PATCH 3/3] builder: fix USERADD_PARAM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,37 +36,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 28 Jul 2015 09:03:38 -0000
 Content-Type: text/plain
 
-Use bbnote rather than bbwarn when the user exists, otherwise we would
-always get the warnings when rebuild the recipe or build with mulitlib,
-everything is OK if the user exists, so it should not be a warning.
+When build lib32-builder, it would create the user lib32-builder which
+was incorrect.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/useradd_base.bbclass |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-graphics/builder/builder_0.1.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/useradd_base.bbclass b/meta/classes/useradd_base.bbclass
-index 7fe83a7..802f3a1 100644
---- a/meta/classes/useradd_base.bbclass
-+++ b/meta/classes/useradd_base.bbclass
-@@ -34,7 +34,7 @@ perform_groupadd () {
-                         sleep $count
- 		done
- 	else
--		bbwarn "${PN}: group $groupname already exists, not re-creating it"
-+		bbnote "${PN}: group $groupname already exists, not re-creating it"
- 	fi
- }
+diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
+index 78d41e5..d87d0e9 100644
+--- a/meta/recipes-graphics/builder/builder_0.1.bb
++++ b/meta/recipes-graphics/builder/builder_0.1.bb
+@@ -21,7 +21,7 @@ USERADD_PACKAGES = "${PN}"
+ USERADD_PARAM_${PN} = "--system --create-home \
+                        --groups video,tty,audio \
+                        --password ${BUILDER_PASSWORD} \
+-                       --user-group ${PN}"
++                       --user-group builder"
  
-@@ -62,7 +62,7 @@ perform_useradd () {
- 		       sleep $count
- 	       done
- 	else
--		bbwarn "${PN}: user $username already exists, not re-creating it"
-+		bbnote "${PN}: user $username already exists, not re-creating it"
- 	fi
- }
- 
+ do_install () {
+ 	install -d -m 755 ${D}${sysconfdir}/mini_x/session.d
 -- 
 1.7.9.5
 
