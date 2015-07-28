@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E2F6763BF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CC78B763BB
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Jul 2015 02:12:34 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S2CYKi025331
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S2CZ50028025
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jul 2015 19:12:34 -0700 (PDT)
+	Mon, 27 Jul 2015 19:12:35 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
 	Mon, 27 Jul 2015 19:12:19 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Jul 2015 19:12:27 -0700
-Message-ID: <969c2a8ce74f7985a0e1a5d91f5b635ac83772d4.1438049511.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Jul 2015 19:12:28 -0700
+Message-ID: <3e91fe6d33715a8d26b454499ec4dd219ad89c12.1438049511.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1438049511.git.liezhi.yang@windriver.com>
 References: <cover.1438049511.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/9] less: 478 -> 479
+Subject: [PATCH 5/9] cracklib: 2.9.4 -> 2.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,27 +38,27 @@ Content-Type: text/plain
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../less/{less_478.bb => less_479.bb}              |    4 ++--
+ .../{cracklib_2.9.4.bb => cracklib_2.9.5.bb}       |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/less/{less_478.bb => less_479.bb} (88%)
+ rename meta/recipes-extended/cracklib/{cracklib_2.9.4.bb => cracklib_2.9.5.bb} (91%)
 
-diff --git a/meta/recipes-extended/less/less_478.bb b/meta/recipes-extended/less/less_479.bb
-similarity index 88%
-rename from meta/recipes-extended/less/less_478.bb
-rename to meta/recipes-extended/less/less_479.bb
-index fc63774d..618954b 100644
---- a/meta/recipes-extended/less/less_478.bb
-+++ b/meta/recipes-extended/less/less_479.bb
-@@ -27,8 +27,8 @@ DEPENDS = "ncurses"
- SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
- 	  "
+diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.4.bb b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
+similarity index 91%
+rename from meta/recipes-extended/cracklib/cracklib_2.9.4.bb
+rename to meta/recipes-extended/cracklib/cracklib_2.9.5.bb
+index 24730b8..c0ffe33 100644
+--- a/meta/recipes-extended/cracklib/cracklib_2.9.4.bb
++++ b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
+@@ -15,8 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz \
+            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
+            file://0002-craklib-fix-testnum-and-teststr-failed.patch"
  
--SRC_URI[md5sum] = "934fcc9f137b9ef66a943c224f413d39"
--SRC_URI[sha256sum] = "495c7df52199a0c7e6bfbbe7697b2b54f4bf197c8b10b43957762d74483574ce"
-+SRC_URI[md5sum] = "049f51ccfe2686009c6ce943eeb4bbaf"
-+SRC_URI[sha256sum] = "5bf06cb30ee2a2bd1f79f39aa91e46444e7cb19b48c95c4992fa63cfe4527a80"
+-SRC_URI[md5sum] = "b31f7e3618cda7a2ac38588067275013"
+-SRC_URI[sha256sum] = "f2a866b4b9808344228ea6d68b69e3ba9a8a99210e23dfd718d4b95c60be8958"
++SRC_URI[md5sum] = "376790a95c1fb645e59e6e9803c78582"
++SRC_URI[sha256sum] = "59ab0138bc8cf90cccb8509b6969a024d5e58d2d02bcbdccbb9ba9b88be3fa33"
  
- inherit autotools update-alternatives
+ inherit autotools gettext pythonnative python-dir
  
 -- 
 1.7.9.5
