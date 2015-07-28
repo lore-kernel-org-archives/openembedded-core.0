@@ -1,35 +1,35 @@
 Return-Path: <dominic.sacre@gmx.de>
 Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	by mail.openembedded.org (Postfix) with ESMTP id B8E21763F1
+	by mail.openembedded.org (Postfix) with ESMTP id 3E427763DA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 15:04:47 +0000 (UTC)
+	Tue, 28 Jul 2015 15:04:52 +0000 (UTC)
 Received: from dastp.fritz.box ([79.253.156.126]) by mail.gmx.com (mrgmx002)
-	with ESMTPSA (Nemesis) id 0LcT2M-1YaMDT21JO-00juMo;
-	Tue, 28 Jul 2015 16:59:41 +0200
+	with ESMTPSA (Nemesis) id 0LhOSG-1YXaFe2LxY-00mduy;
+	Tue, 28 Jul 2015 16:59:46 +0200
 From: =?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jul 2015 16:58:37 +0200
-Message-Id: <1438095518-7513-4-git-send-email-dominic.sacre@gmx.de>
+Date: Tue, 28 Jul 2015 16:58:38 +0200
+Message-Id: <1438095518-7513-5-git-send-email-dominic.sacre@gmx.de>
 X-Mailer: git-send-email 2.4.6
 In-Reply-To: <1438095518-7513-1-git-send-email-dominic.sacre@gmx.de>
 References: <1438095518-7513-1-git-send-email-dominic.sacre@gmx.de>
 MIME-Version: 1.0
-X-Provags-ID: V03:K0:QTcy3V8G3FATb7Ht/iQi3vma79ZV+GVaBYsZbEZGIetgIFSJ6oc
-	xewHwVfi/pgurpXiReC/FmJX+USod91Vp2DYLzrdKvDbSKSU9K3tJsN+1KHqaPvuvRCHtA1
-	O5k+OXKRiDNeQwpLNiq5nqaI1iBomafgOOTNBSiT/9WddqKrttdN/trWdi3t2c5S/kcC5km
-	hDULlK5pdH7AQp0b+ZfzQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:1EY8nZ6tCwU=:Z0DeLlWFtzYW1N2P6lezOh
-	K+/rFs2PUqu22EIEU5TRv9gOdPsKtMFkTDm62p406XG1AOOf2qn1N+nrq7eqQMBL5jc5e7HTa
-	Wp+VUw3g5CUoox9B75Lz65fKbYA5f/v8LWjI1feX+Qg9pJSFtxm/B3cDwFeK234NMHtOo7l8s
-	s5YVLV5mP+cRyUDTrL/noLBXfx+mefBD8gsJAZIA6yaAS5r9jWcfXaZXiLaLZdG/xdAh4QDXL
-	Y2UYIzaENGM+mxEAzukB7RBScW29/kyF1FPD8msgRhlikIrXr01B/a/g8QISr2Xxgdpv1HrYo
-	pboQxOMdUi2coLpiwFlISqkqB/aY1bhoQxtMuZJMB6vZ0sWtiUSRibKLhR+rRwxMi+3yHtB0Z
-	YXJ4RrS69R+gokrL0GbAGH2m57gY35Jvzu+Z1sfE8ysFdtnAAOE2L2L+Z9g73C0ymD8SfeKxZ
-	WHMWHfTxrCVK3RQ89OliZ0WNseKNWso6u5jDXeeH5RTmtlvSeWKwS2XMudRIn230J+2/4/C/s
-	WUVrmpU0ErrZFyMbJ9ozYYCB4nWuLupDUw70g+A5TQfVmMJLqOvIsU1OfHgwKgExHITGd53C0
-	7umM0R/qr4V/6RxJHZqPn7XT2aVwrEIfC7okCUL000scogw2qkomBSqjLd/rkFzlJ9Mg7fA9k
-	02CL2T2ZY/C1R//Jgjy/bmwCLhctV+wZ8PlOlWh6//Pf7Xga91SrBmnAeDxjo2ZgE7UQ=
-Subject: [PATCH 3/4] python3: remove 2to3 symlink from package python3-2to3
+X-Provags-ID: V03:K0:/FKJ4BgwHcwNC2DbtOZiC0DjxUSrM5xKEIittipEV3907nUBLBS
+	adq4+wTxXYuHeLMRzyQBE03rmXAf6vZ2KxGKguQQQwbsRbnplXbdYcOMWnUdQL/yKjcgfL+
+	LYOM983YeXkyXitumFkU2/hNQTvY2hgBJBVMu/jgPYYIY3NVh0EcoxvHYYNQYXrXeukszjw
+	ic+LQA14BstPeq3Fp2mHw==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:lNqbBWP/D3Q=:L1lIWtglodZfhad1p0QKMB
+	NwxlHyUaemLIdWukKas3aFwPTdMTPBlxyR4UgJlHyv3sCCYncWGgWO59xVufQ8p9NHJ9KUhhD
+	owIrh6HXMCVYEUZxPdvNSImvVDbUA0nir49RjPRZP22wdbhz5YXsVW5WhJGMyyUj2+2Zygc7+
+	BGzr9NNMraQrzJDc6AIHCpxUai3aRfgCQLnIndxzZvpcLRu09sAHPW6dMyS836KpARubObjTr
+	keVnNLasAenGsZLKEjakgD41onI8o/CEg5Qysly1wl6FGIIHm/+RzbbzsHYnOlCEfFhE9AoKO
+	b9hWWT34RR65GLX3OSvmHLpmf+yhUSMXyDDT83LpwhCBaj5/5NQucYOLh59H7vDi4nQ4sJ5xv
+	CWDDB+/LSN/FjG2mqXAE2PniR5msQrT/0jhal1KkZZdpa2ROVr1wX7yn1ANfj0ErKpDPiKXWc
+	nkLCxcqMttccB1bq0sG9WU3Fx45+epPWNODpFjoXp2HCwYtWnzLEc7ISCBV5tuX52rSmEMMyY
+	IgCwZaOIr7aDLVnZM55vsh8i2VYv63XzVVwMFjMLQ/Ejbs7HPh0dpAImDONKAkEmaPfk3CZIv
+	LXCQhB2JdE2TqhFRcEjNkrSr/kba/5DNw0Kr2WVhW0ghYOsCtsl6qf56EqGMy7xVKHWctlFns
+	LEkQBldCVznrmSjemKytfsubA8Oc2pros+ezxfSDbBCoGswfSRg1Z858vUXCYEdlFU+w=
+Subject: [PATCH 4/4] python3: delete patches that don't get applied anywhere
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,61 +42,235 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 15:04:48 -0000
+X-List-Received-Date: Tue, 28 Jul 2015 15:04:52 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The 2to3 symlink conflicts with its Python 2 equivalent in package
-python-2to3.
-The Python 3 version of the tool is still available as 2to3-3.4.
+These patches are not referenced in any of the Python recipes.
 
 Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
 ---
- meta/recipes-devtools/python/python-3.4-manifest.inc | 2 +-
- meta/recipes-devtools/python/python3_3.4.3.bb        | 3 +++
- scripts/contrib/python/generate-manifest-3.4.py      | 2 +-
- 3 files changed, 5 insertions(+), 2 deletions(-)
+ .../python3/06-ctypes-libffi-fix-configure.patch   | 44 ---------------
+ .../python/python3/fix-ast.h-dependency.patch      | 26 ---------
+ .../python3/pip_build_directory_unclean.patch      | 28 ----------
+ ...python3-fix-build-error-with-Readline-6.3.patch | 62 ----------------------
+ .../python/python3/remove_sqlite_rpath.patch       | 19 -------
+ 5 files changed, 179 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/06-ctypes-libffi-fix-configure.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/fix-ast.h-dependency.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/python3-fix-build-error-with-Readline-6.3.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/remove_sqlite_rpath.patch
 
-diff --git a/meta/recipes-devtools/python/python-3.4-manifest.inc b/meta/recipes-devtools/python/python-3.4-manifest.inc
-index 77f0125..07e1490 100644
---- a/meta/recipes-devtools/python/python-3.4-manifest.inc
-+++ b/meta/recipes-devtools/python/python-3.4-manifest.inc
-@@ -11,7 +11,7 @@ PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-asyncio ${PN}-audio ${PN}-codecs ${PN}-comp
- 
- SUMMARY_${PN}-2to3="Python automated Python 2 to 3 code translator"
- RDEPENDS_${PN}-2to3="${PN}-core"
--FILES_${PN}-2to3="${bindir}/2to3 ${libdir}/python3.4/lib2to3 "
-+FILES_${PN}-2to3="${libdir}/python3.4/lib2to3 "
- 
- SUMMARY_${PN}-asyncio="Python Asynchronous I/O, event loop, coroutines and tasks"
- RDEPENDS_${PN}-asyncio="${PN}-core"
-diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
-index e2d9f79..6c2e21d 100644
---- a/meta/recipes-devtools/python/python3_3.4.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.4.3.bb
-@@ -162,6 +162,9 @@ do_install() {
- 		ARCH=${TARGET_ARCH} \
- 		DESTDIR=${D} LIBDIR=${libdir} install
- 
-+	# avoid conflict with 2to3 from Python 2
-+	rm -f ${D}/${bindir}/2to3
-+
- 	install -m 0644 Makefile.sysroot ${D}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
- 
- 	if [ -e ${WORKDIR}/sitecustomize.py ]; then
-diff --git a/scripts/contrib/python/generate-manifest-3.4.py b/scripts/contrib/python/generate-manifest-3.4.py
-index 42c851c..06eecdc 100755
---- a/scripts/contrib/python/generate-manifest-3.4.py
-+++ b/scripts/contrib/python/generate-manifest-3.4.py
-@@ -194,7 +194,7 @@ if __name__ == "__main__":
-     "${datadir}/pkgconfig " )
- 
-     m.addPackage( "${PN}-2to3", "Python automated Python 2 to 3 code translator", "${PN}-core",
--    "${bindir}/2to3 lib2to3" ) # package
-+    "lib2to3" ) # package
- 
-     m.addPackage( "${PN}-idle", "Python Integrated Development Environment", "${PN}-core ${PN}-tkinter",
-     "${bindir}/idle idlelib" ) # package
+diff --git a/meta/recipes-devtools/python/python3/06-ctypes-libffi-fix-configure.patch b/meta/recipes-devtools/python/python3/06-ctypes-libffi-fix-configure.patch
+deleted file mode 100644
+index abd63d2..0000000
+--- a/meta/recipes-devtools/python/python3/06-ctypes-libffi-fix-configure.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-This fixes configure issues with recent autoconf, e.g:
+-  autoreconf: Entering directory `Modules/_ctypes/libffi'
+-  autoreconf: configure.ac: not using Gettext
+-  autoreconf: running: aclocal --force
+-  configure.ac:26: error: m4_copy: won't overwrite defined macro: _AC_ARG_VAR_PRECIOUS
+-  configure.ac:26: the top level
+-
+-The problem is still present in python-2.6.5 but fixed in python-svn.
+-
+-Upstream-Status: Accepted [python-svn]
+-
+-Signed-off-by: Antonio Ospite <ospite@studenti.unina.it>
+-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-
+-2011/09/29
+-Rebased for python 2.7.2
+-Signed-Off-By: Nitin A Kamble <nitin.a.kamble@intel.com>
+-
+-
+-Index: Python-2.7.2/Modules/_ctypes/libffi/Makefile.am
+-===================================================================
+---- Python-2.7.2.orig/Modules/_ctypes/libffi/Makefile.am
+-+++ Python-2.7.2/Modules/_ctypes/libffi/Makefile.am
+-@@ -2,7 +2,7 @@
+- 
+- AUTOMAKE_OPTIONS = foreign subdir-objects
+- 
+--SUBDIRS = include testsuite man
+-+SUBDIRS = include
+- 
+- EXTRA_DIST = LICENSE ChangeLog.v1 ChangeLog.libgcj configure.host \
+- 	src/alpha/ffi.c src/alpha/osf.S src/alpha/ffitarget.h \
+-@@ -34,8 +34,6 @@ EXTRA_DIST = LICENSE ChangeLog.v1 Change
+- 	libtool-version ChangeLog.libffi m4/libtool.m4 \
+- 	m4/lt~obsolete.m4 m4/ltoptions.m4 m4/ltsugar.m4 m4/ltversion.m4
+- 
+--info_TEXINFOS = doc/libffi.texi
+--
+- ## ################################################################
+- 
+- ##
+diff --git a/meta/recipes-devtools/python/python3/fix-ast.h-dependency.patch b/meta/recipes-devtools/python/python3/fix-ast.h-dependency.patch
+deleted file mode 100644
+index 77c220a..0000000
+--- a/meta/recipes-devtools/python/python3/fix-ast.h-dependency.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Fix a missed dependency on ast.h which can result in race condition
+-at high parallel build
+-
+-It fixed here
+-
+-http://hg.python.org/cpython/rev/cfe0a293551f
+-
+-[YOCTO #5884]
+-
+-Upstream-Status: Backport
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: Python-3.3.3/Makefile.pre.in
+-===================================================================
+---- Python-3.3.3.orig/Makefile.pre.in	2014-02-26 09:33:13.868288863 -0800
+-+++ Python-3.3.3/Makefile.pre.in	2014-02-26 09:36:27.348292492 -0800
+-@@ -853,7 +853,8 @@
+- 		$(srcdir)/Include/warnings.h \
+- 		$(srcdir)/Include/weakrefobject.h \
+- 		pyconfig.h \
+--		$(PARSER_HEADERS)
+-+		$(PARSER_HEADERS) \
+-+		$(AST_H)
+- 
+- $(LIBRARY_OBJS) $(MODOBJS) Modules/python.o: $(PYTHON_HEADERS)
+- 
+diff --git a/meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch b/meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch
+deleted file mode 100644
+index c0c4617..0000000
+--- a/meta/recipes-devtools/python/python3/pip_build_directory_unclean.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-Index: Python-3.4.2/Lib/ensurepip/__init__.py
+-===================================================================
+---- Python-3.4.2.orig/Lib/ensurepip/__init__.py
+-+++ Python-3.4.2/Lib/ensurepip/__init__.py
+-@@ -3,6 +3,7 @@ import os.path
+- import pkgutil
+- import sys
+- import tempfile
+-+import pwd
+- 
+- 
+- __all__ = ["version", "bootstrap"]
+-@@ -36,6 +37,15 @@ def _run_pip(args, additional_paths=None
+-     if additional_paths is not None:
+-         sys.path = additional_paths + sys.path
+- 
+-+    # Explicitly make sure pip build directory was left clean
+-+    user = pwd.getpwuid(os.getuid())[0]
+-+    if os.path.exists("/tmp/pip_build_" + user + "/pip-delete-this-directory.txt"):
+-+        os.remove("/tmp/pip_build_" + user + "/pip-delete-this-directory.txt")
+-+        try:
+-+            os.rmdir("/tmp/pip_build_" + user + "/")
+-+        except OSError:
+-+            print("Error: Pip build directory (%s) was left unclean, make sure it is clean before continuing\n" % ("/tmp/pip_build_" + user + "/"))
+-+
+-     # Install the bundled software
+-     import pip
+-     pip.main(args)
+diff --git a/meta/recipes-devtools/python/python3/python3-fix-build-error-with-Readline-6.3.patch b/meta/recipes-devtools/python/python3/python3-fix-build-error-with-Readline-6.3.patch
+deleted file mode 100644
+index 44e2b7e..0000000
+--- a/meta/recipes-devtools/python/python3/python3-fix-build-error-with-Readline-6.3.patch
++++ /dev/null
+@@ -1,62 +0,0 @@
+-python3: fix build error with Readline 6.3
+-
+-Backport two patches from upstream:
+-
+-use new readline function types (closes #20374)
+-Issue #20374: Avoid compiler warnings when compiling readline with libedit.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+----
+- Modules/readline.c |   15 ++++++++++++---
+- 1 file changed, 12 insertions(+), 3 deletions(-)
+-
+-diff --git a/Modules/readline.c b/Modules/readline.c
+-index 096c6d1..1646ef8 100644
+---- a/Modules/readline.c
+-+++ b/Modules/readline.c
+-@@ -773,15 +773,24 @@ on_hook(PyObject *func)
+-     return result;
+- }
+- 
+-+
+- static int
+-+#if defined(_RL_FUNCTION_TYPEDEF)
+- on_startup_hook(void)
+-+#else
+-+on_startup_hook()
+-+#endif
+- {
+-     return on_hook(startup_hook);
+- }
+- 
+- #ifdef HAVE_RL_PRE_INPUT_HOOK
+- static int
+-+#if defined(_RL_FUNCTION_TYPEDEF)
+- on_pre_input_hook(void)
+-+#else
+-+on_pre_input_hook()
+-+#endif
+- {
+-     return on_hook(pre_input_hook);
+- }
+-@@ -936,12 +945,12 @@ setup_readline(void)
+-     rl_bind_key_in_map ('\t', rl_complete, emacs_meta_keymap);
+-     rl_bind_key_in_map ('\033', rl_complete, emacs_meta_keymap);
+-     /* Set our hook functions */
+--    rl_startup_hook = (Function *)on_startup_hook;
+-+    rl_startup_hook = (rl_hook_func_t *)on_startup_hook;
+- #ifdef HAVE_RL_PRE_INPUT_HOOK
+--    rl_pre_input_hook = (Function *)on_pre_input_hook;
+-+    rl_pre_input_hook = (rl_hook_func_t *)on_pre_input_hook;
+- #endif
+-     /* Set our completion function */
+--    rl_attempted_completion_function = (CPPFunction *)flex_complete;
+-+    rl_attempted_completion_function = (rl_completion_func_t *)flex_complete;
+-     /* Set Python word break characters */
+-     completer_word_break_characters =
+-         rl_completer_word_break_characters =
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-devtools/python/python3/remove_sqlite_rpath.patch b/meta/recipes-devtools/python/python3/remove_sqlite_rpath.patch
+deleted file mode 100644
+index 4ec627e..0000000
+--- a/meta/recipes-devtools/python/python3/remove_sqlite_rpath.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-This patch removes the RPATH setting which contains a pointer to
+-the target relocated sysroot, which is incorrect.
+-
+-Upstream-Status: Inappropriate [Embedded Specific]
+-
+-Signed-off-by: Saul Wold <sgw@linux.intel.com>
+-
+-Index: Python-2.6.6/setup.py
+-===================================================================
+---- Python-2.6.6.orig/setup.py	2011-09-28 14:22:57.000000000 -0700
+-+++ Python-2.6.6/setup.py	2011-09-28 16:11:25.147279633 -0700
+-@@ -1079,7 +1079,6 @@
+-                                   include_dirs=["Modules/_sqlite",
+-                                                 sqlite_incdir],
+-                                   library_dirs=sqlite_libdir,
+--                                  runtime_library_dirs=sqlite_libdir,
+-                                   extra_link_args=sqlite_extra_link_args,
+-                                   libraries=["sqlite3",]))
+-         else:
 -- 
 2.4.6
 
