@@ -1,23 +1,30 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 4ED10761A2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A173761A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 13:21:52 +0000 (UTC)
-Received: from [10.1.14.248] (vpn.streamunlimited.com [91.114.0.140])
-	by ptmx.org (Postfix) with ESMTPSA id 3F96637114;
-	Tue, 28 Jul 2015 15:12:37 +0200 (CEST)
-Message-ID: <55B77FD3.4020700@pseudoterminal.org>
-Date: Tue, 28 Jul 2015 15:12:51 +0200
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Yuqing Zhu <b54851@freescale.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1438106291-14986-1-git-send-email-b54851@freescale.com>
-	<1438106291-14986-4-git-send-email-b54851@freescale.com>
-In-Reply-To: <1438106291-14986-4-git-send-email-b54851@freescale.com>
-Subject: Re: [poky v3][PATCH 3/6] gstreamer1.0-plugins-base: update video alignment after video alignment
+	Tue, 28 Jul 2015 13:23:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6SDN6wD003293 for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jul 2015 14:23:06 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2CSrkagOiYGs
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jul 2015 14:23:06 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6SDMrfQ003265
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jul 2015 14:23:04 +0100
+Message-ID: <1438089773.11208.6.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Jul 2015 14:22:53 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH 1/4] lib/oe/classextend: Fix nativesdk double name mapping
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,96 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 13:21:53 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Tue, 28 Jul 2015 13:23:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-"Backport [1.4.1]" is probably wrong. Admittedly, the bugzilla entry is 
-somewhat confusing, but I think it should be using the version 1.5.1 
-instead.
+Handle the case a name has already been extended in the nativesdk case
+(avoids double name extensions which can happen with nativesdk-gcc).
 
-On 07/28/2015 07:58 PM, Yuqing Zhu wrote:
-> Video buffer pool will update video alignment to respect stride alignment
-> requirement. But haven't update it to video alignment in configure.
-> Which will cause user get wrong video alignment.
->
-> Signed-off-by: Yuqing Zhu <b54851@freescale.com>
-> ---
->   .../videobuffer_updata_alignment_update.patch      | 53 ++++++++++++++++++++++
->   .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
->   2 files changed, 54 insertions(+)
->   create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
-> new file mode 100755
-> index 0000000..ae37685
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
-> @@ -0,0 +1,53 @@
-> +commit 88d253ea23b06289df40401160b606323f16c910
-> +Author: Song Bing <b06498@freescale.com>
-> +Date:   Mon Dec 15 09:34:35 2014 +0800
-> +
-> +videopool: update video alignment after video alignment
-> +
-> +Video buffer pool will update video alignment to respect stride alignment
-> +requirement. But haven't update it to video alignment in configure.
-> +Which will cause user get wrong video alignment.
-> +
-> +https://bugzilla.gnome.org/show_bug.cgi?id=741501
-> +
-> +Upstream-Status: Backport [1.4.1]
-> +
-> +Signed-off-by: Song Bing <b06498@freescale.com>
-> +diff --git a/gst-libs/gst/video/gstvideopool.c b/gst-libs/gst/video/gstvideopool.c
-> +index 4475f45..acef594 100644
-> +--- a/gst-libs/gst/video/gstvideopool.c
-> ++++ b/gst-libs/gst/video/gstvideopool.c
-> +@@ -167,6 +167,7 @@ video_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
-> +     /* get an apply the alignment to the info */
-> +     gst_buffer_pool_config_get_video_alignment (config, &priv->video_align);
-> +     gst_video_info_align (&info, &priv->video_align);
-> ++    gst_buffer_pool_config_set_video_alignment (config, &priv->video_align);
-> +   }
-> +   priv->info = info;
-> +
-> +diff --git a/sys/ximage/ximagepool.c b/sys/ximage/ximagepool.c
-> +index 6cc2cfa..6a1cbc9 100644
-> +--- a/sys/ximage/ximagepool.c
-> ++++ b/sys/ximage/ximagepool.c
-> +@@ -597,6 +597,8 @@ ximage_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
-> +     /* do padding and alignment */
-> +     gst_video_info_align (&info, &priv->align);
-> +
-> ++    gst_buffer_pool_config_set_video_alignment (config, &priv->align);
-> ++
-> +     /* we need the video metadata too now */
-> +     priv->add_metavideo = TRUE;
-> +   } else {
-> +diff --git a/sys/xvimage/xvimagepool.c b/sys/xvimage/xvimagepool.c
-> +index 244a51a..34b1ab2 100644
-> +--- a/sys/xvimage/xvimagepool.c
-> ++++ b/sys/xvimage/xvimagepool.c
-> +@@ -124,6 +124,8 @@ xvimage_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
-> +     /* do padding and alignment */
-> +     gst_video_info_align (&info, &priv->align);
-> +
-> ++    gst_buffer_pool_config_set_video_alignment (config, &priv->align);
-> ++
-> +     /* we need the video metadata too now */
-> +     priv->add_metavideo = TRUE;
-> +   } else {
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-> index aa90179..88c3254 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-> @@ -10,6 +10,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
->               file://taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
->               file://fix-id3demux-utf16-to-utf8-issue.patch \
->               file://handle-audio-video-decoder-error.patch \
-> +            file://videobuffer_updata_alignment_update.patch \
->   "
->   
->   SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
+index 8da87b7..5107ecd 100644
+--- a/meta/lib/oe/classextend.py
++++ b/meta/lib/oe/classextend.py
+@@ -110,6 +110,8 @@ class ClassExtender(object):
+ 
+ class NativesdkClassExtender(ClassExtender):
+     def map_depends(self, dep):
++        if dep.startswith(self.extname):
++            return dep
+         if dep.endswith(("-gcc-initial", "-gcc", "-g++")):
+             return dep + "-crosssdk"
+         elif dep.endswith(("-native", "-native-runtime")) or ('nativesdk-' in dep) or ('-cross-' in dep) or ('-crosssdk-' in dep):
+
 
 
