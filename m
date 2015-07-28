@@ -1,36 +1,36 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 162A276427
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 102F4601F7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 23:21:46 +0000 (UTC)
-Received: by ioeg141 with SMTP id g141so3836749ioe.3
+	Tue, 28 Jul 2015 23:21:50 +0000 (UTC)
+Received: by ioii16 with SMTP id i16so3817772ioi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 16:21:47 -0700 (PDT)
+	Tue, 28 Jul 2015 16:21:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=k+E+iN/i47YLBSGziSE+0sn4O4rRBXVvhMVDjNek78k=;
-	b=lSziiAZx6ihZ7reH6q3jxM32pAcsQ43z3Hi+TCmWx2nEp3Kdx4CkBWA+5QwJGUwJZ6
-	n758cIBfNlcwB6QVtqaM2TXx7nTRqEUp8I4AS03tbzBVXWpLRHHFHnpLKM+9clTk5aI1
-	6G5Hyda17uGdC3E1n76SAYuAAWCRKFB/11u2vB0M/pou803I7mQ9FObJBVLZqi4ndNqJ
-	wFfcKKGZIvz7vIsHa934L5dQWOO8YbCmb+luBC1949pdcmvfTbFdLhzmRh97cUoJCRpr
-	bJB+MvEpJ6XbgFLFzyXlDFeUaXqmGdwoq6cAcE4kXSooH7TuWV+oPQPUTHdGNBAcRoX3
-	bY1Q==
-X-Received: by 10.107.18.10 with SMTP id a10mr63174801ioj.98.1438125707119;
-	Tue, 28 Jul 2015 16:21:47 -0700 (PDT)
+	bh=FBYdCz6kC3q2jkNoqqFA16iR5pTL+eShvgXPBZPkSzU=;
+	b=e7hTzoGOGw3yhfjZbst1SHsoWT5TACOWkO5qpfNHR+303QjmivOLepr6PRyCXRddOE
+	83/TJqAQIFuE/oBMF9svtAFXIsb1Xr3m/+aIX+QL+i6liKisX/IOh82nspAZhMOJ7FQ1
+	/T4bPhaW1AB4PuO6PpsO8hcjHuXlqOIHmEk+22YDJnxG0PQf72U5obY1flHENCh43U+z
+	yB7fkmPQa2WYHkU6BbCFjeuRWe6PCv3NtDe2mkT+lqdG2os/sPOhTVgpcVOg08Pgx31O
+	SuOjRNurQNpC6dRXDX4HC6mpDjfQcM9c3yXowWgYO4PgevRiRcMSRbPOsT3MXT2Qj3jD
+	saGA==
+X-Received: by 10.107.15.226 with SMTP id 95mr54939677iop.44.1438125710514;
+	Tue, 28 Jul 2015 16:21:50 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id i7sm9668533igt.18.2015.07.28.16.21.45
+	by smtp.gmail.com with ESMTPSA id i7sm9668533igt.18.2015.07.28.16.21.49
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 28 Jul 2015 16:21:46 -0700 (PDT)
+	Tue, 28 Jul 2015 16:21:50 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jul 2015 16:21:04 -0700
-Message-Id: <1438125665-14966-8-git-send-email-armccurdy@gmail.com>
+Date: Tue, 28 Jul 2015 16:21:05 -0700
+Message-Id: <1438125665-14966-9-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1438125665-14966-1-git-send-email-armccurdy@gmail.com>
 References: <1438125665-14966-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 7/8] busybox: disable fstrim in defconfig
+Subject: [PATCH 8/8] busybox: disable volumeid support for exFAT, F2FS and NILFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,29 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 23:21:47 -0000
+X-List-Received-Date: Tue, 28 Jul 2015 23:21:50 -0000
 
-The fstrim applet (to discard unused blocks on a mounted filesystem)
-doesn't seem like core functionality, so disable by default.
+These are less common filesystem formats, so disable volumeid support
+for them by default.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/busybox/busybox/defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/busybox/busybox/defconfig | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 74d12ee..ad0c7e1 100644
+index ad0c7e1..5122007 100644
 --- a/meta/recipes-core/busybox/busybox/defconfig
 +++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -546,7 +546,7 @@ CONFIG_DEFAULT_DEPMOD_FILE="modules.dep"
+@@ -636,9 +636,9 @@ CONFIG_VOLUMEID=y
  #
- # CONFIG_BLOCKDEV is not set
- # CONFIG_FATATTR is not set
--CONFIG_FSTRIM=y
-+# CONFIG_FSTRIM is not set
- # CONFIG_MDEV is not set
- # CONFIG_FEATURE_MDEV_CONF is not set
- # CONFIG_FEATURE_MDEV_RENAME is not set
+ # CONFIG_FEATURE_VOLUMEID_BTRFS is not set
+ # CONFIG_FEATURE_VOLUMEID_CRAMFS is not set
+-CONFIG_FEATURE_VOLUMEID_EXFAT=y
++# CONFIG_FEATURE_VOLUMEID_EXFAT is not set
+ CONFIG_FEATURE_VOLUMEID_EXT=y
+-CONFIG_FEATURE_VOLUMEID_F2FS=y
++# CONFIG_FEATURE_VOLUMEID_F2FS is not set
+ CONFIG_FEATURE_VOLUMEID_FAT=y
+ # CONFIG_FEATURE_VOLUMEID_HFS is not set
+ # CONFIG_FEATURE_VOLUMEID_ISO9660 is not set
+@@ -646,7 +646,7 @@ CONFIG_FEATURE_VOLUMEID_FAT=y
+ # CONFIG_FEATURE_VOLUMEID_LINUXRAID is not set
+ # CONFIG_FEATURE_VOLUMEID_LINUXSWAP is not set
+ # CONFIG_FEATURE_VOLUMEID_LUKS is not set
+-CONFIG_FEATURE_VOLUMEID_NILFS=y
++# CONFIG_FEATURE_VOLUMEID_NILFS is not set
+ # CONFIG_FEATURE_VOLUMEID_NTFS is not set
+ # CONFIG_FEATURE_VOLUMEID_OCFS2 is not set
+ # CONFIG_FEATURE_VOLUMEID_REISERFS is not set
 -- 
 1.9.1
 
