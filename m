@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id ED114761D3
+Return-Path: <dv@pseudoterminal.org>
+X-Greylist: delayed 442 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 28 Jul 2015 13:16:52 UTC
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 938FC761A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 13:08:40 +0000 (UTC)
-Received: by qged69 with SMTP id d69so73912065qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 06:08:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=poJc6Xh6BYqjRbhRUbV5C+QFMy54LRxKIIJ3Z/4mZTo=;
-	b=Rfcs5zmmkB/XsL8oN01oK1EOwBJcoJ1Q4Em1AGbVLQOVPo9DRQSeRU0fczRJPEAdmC
-	GVqYw/rthk1xUGtR+Bppn59mWnfwjAMi0RzkISZp+OcXQOIdUQKRBb3XsHwGF0C1cArr
-	TLvh+rOggEaQQxYeLFZFSFRVld32XNDnDYRMwPurGSnXTTBZ6WPzQ1r+vA89dN2KsOZ7
-	D0v2WYTZlP9ZYqoT0jqUDyIRaBdTQ8zLmG0xbLHN8k+eJy5PFMRL19+UVhlKuHdD2KSP
-	SlgMrr5zPVJqeIKuW0JHXi63bLF3QwpFrGphj8sDgQxfTNalLkxumF8MOS9jvJZQUFl6
-	UWQQ==
-X-Gm-Message-State: ALoCoQm/W1MIFVZNjpO3JmSwW+HTdKqRV79BT34SDBWm6WUL6KrZ3U1OnA/2muLF9g6Ft0mMG7Hc
-X-Received: by 10.140.235.19 with SMTP id g19mr51494209qhc.52.1438088919569;
-	Tue, 28 Jul 2015 06:08:39 -0700 (PDT)
+	Tue, 28 Jul 2015 13:16:52 +0000 (UTC)
+Received: from [10.1.14.248] (vpn.streamunlimited.com [91.114.0.140])
+	by ptmx.org (Postfix) with ESMTPSA id 7E03E370D7;
+	Tue, 28 Jul 2015 15:09:14 +0200 (CEST)
+Message-ID: <55B77F09.8090008@pseudoterminal.org>
+Date: Tue, 28 Jul 2015 15:09:29 +0200
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Tue, 28 Jul 2015 06:08:20 -0700 (PDT)
-In-Reply-To: <edf889b1140dcb63168fe1c0dd2368ea3d6d1875.1438049511.git.liezhi.yang@windriver.com>
-References: <cover.1438049511.git.liezhi.yang@windriver.com>
-	<edf889b1140dcb63168fe1c0dd2368ea3d6d1875.1438049511.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 28 Jul 2015 14:08:20 +0100
-Message-ID: <CAJTo0Lbz+MGPLHZCc4jphi3os9Nk8RvUpnonBThxpz0tR3btKw@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/9] file: 5.23 -> 5.24
+To: Yuqing Zhu <b54851@freescale.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1438106291-14986-1-git-send-email-b54851@freescale.com>
+	<1438106291-14986-2-git-send-email-b54851@freescale.com>
+In-Reply-To: <1438106291-14986-2-git-send-email-b54851@freescale.com>
+Subject: Re: [poky v3][PATCH 1/6] gstreamer1.0-plugins-base: Bug fix for id3demux issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +32,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 13:08:41 -0000
-Content-Type: multipart/alternative; boundary=001a11376dac34f4ea051bef2bc9
+X-List-Received-Date: Tue, 28 Jul 2015 13:16:53 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11376dac34f4ea051bef2bc9
-Content-Type: text/plain; charset=UTF-8
+Change Upstream-Status to Accepted, since it is marked as fixed in bugzilla.
 
-On 28 July 2015 at 03:12, Robert Yang <liezhi.yang@windriver.com> wrote:
-
-> * Use git repo rather than tarball since the original SRC_URI is not
->   stable, it is not reachable sometimes.
+On 07/28/2015 07:58 PM, Yuqing Zhu wrote:
+> Use g_utf16_to_utf8() instead of g_convert to fix the issue that
+> id3 tags utf16 charaters cannot be extreacted in id3demux when try
+> to get the id3v2 tag such as TIT2, TALB etc.
 >
+> Signed-off-by: Yuqing Zhu <b54851@freescale.com>
+> ---
+>   .../fix-id3demux-utf16-to-utf8-issue.patch         | 54 ++++++++++++++++++++++
+>   .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
+>   2 files changed, 55 insertions(+)
+>   create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/fix-id3demux-utf16-to-utf8-issue.patch
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/fix-id3demux-utf16-to-utf8-issue.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/fix-id3demux-utf16-to-utf8-issue.patch
+> new file mode 100755
+> index 0000000..a74c197
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/fix-id3demux-utf16-to-utf8-issue.patch
+> @@ -0,0 +1,54 @@
+> +Author: Lyon Wang <b12696@freescale.com>
+> +Date:   Thu Oct 9 17:37:43 2014 +0800
+> +
+> +[id3v2frames] Bug fix for id3demux issue
+> +
+> +Fix the issue that id3 tags utf16 charaters cannot be extreacted in id3demux
+> +when I tried to get the id3v2 tag such as TIT2, TALB etc. it will return extrac
+> +failed.
+> +
+> +Checked in id3v2frame.c,  When parse the UTF-16 streams, it used g_convert() to
+> +convert the buffer from UTF-16 to UTF-8, however it will return err that this
+> +conversion is not supported which cause the extraction failed with these UTF-16
+> +characters.
+> +
+> +In the patch, use g_utf16_to_utf8() instead of g_convert, which can convert the
+> +character format successfully.
+> +
+> +https://bugzilla.gnome.org/show_bug.cgi?id=741144
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Lyon Wang <b12696@freescale.com>
+> +
+> +diff --git a/gst-libs/gst/tag/id3v2frames.c b/gst-libs/gst/tag/id3v2frames.c
+> +old mode 100644
+> +new mode 100755
+> +index 3785c2a..7b9d8ac
+> +--- a/gst-libs/gst/tag/id3v2frames.c
+> ++++ b/gst-libs/gst/tag/id3v2frames.c
+> +@@ -1057,14 +1057,17 @@ parse_insert_string_field (guint8 encoding, gchar * data, gint data_size,
+> +         data_size -= 2;
+> +       }
+> +
+> +-      field = g_convert (data, data_size, "UTF-8", in_encode, NULL, NULL, NULL);
+> +-
+> +-      if (field == NULL || g_utf8_validate (field, -1, NULL) == FALSE) {
+> +-        /* As a fallback, try interpreting UTF-16 in the other endianness */
+> +-        if (in_encode == utf16beenc)
+> +-          field = g_convert (data, data_size, "UTF-8", utf16leenc,
+> +-              NULL, NULL, NULL);
+> ++      if (in_encode == utf16beenc) {
+> ++           gunichar2 *data_utf16;
+> ++           guint i;
+> ++           data_utf16 =  (gunichar2 *) data;
+> ++          for (i=0; i<(data_size>>1); i++) {
+> ++            data_utf16[i] = GUINT16_TO_LE (data_utf16[i]);
+> ++          }
+> +       }
+> ++      //field = g_convert (data, data_size, "UTF-8", in_encode, NULL, NULL, NULL);
+> ++       field = g_utf16_to_utf8((gunichar2 *)data, (glong)(data_size>>1), NULL, NULL, NULL);
+> ++
+> +     }
+> +
+> +       break;
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> index 11cf8b4..aaa1ecb 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> @@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+>   SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+>               file://get-caps-from-src-pad-when-query-caps.patch \
+>               file://taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
+> +            file://fix-id3demux-utf16-to-utf8-issue.patch \
+>   "
+>   
+>   SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
 
-Personally speaking I see this as a recipe for a release of file which just
-happens to use git to fetch the tarball (and presumably that hash is the
-5.24 tag).  In situations like this I prefer to see the recipe called
-file_5.24.bb as there's no point having a giant PV including git SHAs when
-it's just the release.
 
-Ross
-
---001a11376dac34f4ea051bef2bc9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 28 July 2015 at 03:12, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
- 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4f" clas=
-s=3D"a3s" style=3D"overflow:hidden">* Use git repo rather than tarball sinc=
-e the original SRC_URI is not<br>
-=C2=A0 stable, it is not reachable sometimes.</div></blockquote></div><br>P=
-ersonally speaking I see this as a recipe for a release of file which just =
-happens to use git to fetch the tarball (and presumably that hash is the 5.=
-24 tag).=C2=A0 In situations like this I prefer to see the recipe called <a=
- href=3D"http://file_5.24.bb">file_5.24.bb</a> as there&#39;s no point havi=
-ng a giant PV including git SHAs when it&#39;s just the release.</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11376dac34f4ea051bef2bc9--
