@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CC78B763BB
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 23CB4763BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 02:12:34 +0000 (UTC)
+	Tue, 28 Jul 2015 02:12:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S2CZ50028025
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6S2CZZP025335
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 27 Jul 2015 19:12:35 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 27 Jul 2015 19:12:19 -0700
+	Mon, 27 Jul 2015 19:12:20 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Jul 2015 19:12:28 -0700
-Message-ID: <3e91fe6d33715a8d26b454499ec4dd219ad89c12.1438049511.git.liezhi.yang@windriver.com>
+Date: Mon, 27 Jul 2015 19:12:29 -0700
+Message-ID: <c26abcd737535b2cec854f8fd06ea05fda7672d3.1438049511.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1438049511.git.liezhi.yang@windriver.com>
 References: <cover.1438049511.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/9] cracklib: 2.9.4 -> 2.9.5
+Subject: [PATCH 6/9] gnupg: 2.1.5 -> 2.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,33 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 02:12:34 -0000
+X-List-Received-Date: Tue, 28 Jul 2015 02:12:35 -0000
 Content-Type: text/plain
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- .../{cracklib_2.9.4.bb => cracklib_2.9.5.bb}       |    4 ++--
+ .../gnupg/{gnupg_2.1.5.bb => gnupg_2.1.6.bb}       |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/cracklib/{cracklib_2.9.4.bb => cracklib_2.9.5.bb} (91%)
+ rename meta/recipes-support/gnupg/{gnupg_2.1.5.bb => gnupg_2.1.6.bb} (89%)
 
-diff --git a/meta/recipes-extended/cracklib/cracklib_2.9.4.bb b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
-similarity index 91%
-rename from meta/recipes-extended/cracklib/cracklib_2.9.4.bb
-rename to meta/recipes-extended/cracklib/cracklib_2.9.5.bb
-index 24730b8..c0ffe33 100644
---- a/meta/recipes-extended/cracklib/cracklib_2.9.4.bb
-+++ b/meta/recipes-extended/cracklib/cracklib_2.9.5.bb
-@@ -15,8 +15,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/cracklib/cracklib-${PV}.tar.gz \
-            file://0001-packlib.c-support-dictionary-byte-order-dependent.patch \
-            file://0002-craklib-fix-testnum-and-teststr-failed.patch"
+diff --git a/meta/recipes-support/gnupg/gnupg_2.1.5.bb b/meta/recipes-support/gnupg/gnupg_2.1.6.bb
+similarity index 89%
+rename from meta/recipes-support/gnupg/gnupg_2.1.5.bb
+rename to meta/recipes-support/gnupg/gnupg_2.1.6.bb
+index 8eb6b90..59aac37 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.1.5.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.1.6.bb
+@@ -14,8 +14,8 @@ SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://dirmngr-uses-libgpg-error.patch \
+           "
  
--SRC_URI[md5sum] = "b31f7e3618cda7a2ac38588067275013"
--SRC_URI[sha256sum] = "f2a866b4b9808344228ea6d68b69e3ba9a8a99210e23dfd718d4b95c60be8958"
-+SRC_URI[md5sum] = "376790a95c1fb645e59e6e9803c78582"
-+SRC_URI[sha256sum] = "59ab0138bc8cf90cccb8509b6969a024d5e58d2d02bcbdccbb9ba9b88be3fa33"
+-SRC_URI[md5sum] = "ff16648f14ec164c7afce1066019364b"
+-SRC_URI[sha256sum] = "b5105a7160c39ba6e3aa53789b09f1bfac6e3422d15cc9f3a2f71f82320aa84c"
++SRC_URI[md5sum] = "cc7345b1d9ada92a0d19f4ae406741b4"
++SRC_URI[sha256sum] = "5e599ad542199f3bd733eed2b88a539d1b4c3beda2dbab0ff69f1896f52e92fd"
  
- inherit autotools gettext pythonnative python-dir
- 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 1.7.9.5
 
