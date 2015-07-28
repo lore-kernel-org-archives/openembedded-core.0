@@ -1,35 +1,35 @@
 Return-Path: <dominic.sacre@gmx.de>
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
-	by mail.openembedded.org (Postfix) with ESMTP id 84C4A763DA
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	by mail.openembedded.org (Postfix) with ESMTP id B8E21763F1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 15:04:46 +0000 (UTC)
+	Tue, 28 Jul 2015 15:04:47 +0000 (UTC)
 Received: from dastp.fritz.box ([79.253.156.126]) by mail.gmx.com (mrgmx002)
-	with ESMTPSA (Nemesis) id 0MZTbR-1Zcag31diH-00LCMv;
-	Tue, 28 Jul 2015 16:59:30 +0200
+	with ESMTPSA (Nemesis) id 0LcT2M-1YaMDT21JO-00juMo;
+	Tue, 28 Jul 2015 16:59:41 +0200
 From: =?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jul 2015 16:58:35 +0200
-Message-Id: <1438095518-7513-2-git-send-email-dominic.sacre@gmx.de>
+Date: Tue, 28 Jul 2015 16:58:37 +0200
+Message-Id: <1438095518-7513-4-git-send-email-dominic.sacre@gmx.de>
 X-Mailer: git-send-email 2.4.6
 In-Reply-To: <1438095518-7513-1-git-send-email-dominic.sacre@gmx.de>
 References: <1438095518-7513-1-git-send-email-dominic.sacre@gmx.de>
 MIME-Version: 1.0
-X-Provags-ID: V03:K0:tj5he2sOVnRrcF1RuAP9EmPZtI8JmmnUKD3jviKQ6xDZpyPFDy5
-	7y4Sb7KnYQGEE9iKnkK8La+AjHpoeioNn1C+Us39EIIWLZDGsqzoDHvoGTjB5cPH1K4Om9I
-	JWbWqrjT7LlctqcORk8T814Y8vtqpjZdQa1tQ6yunDB4FYZ/0fXkeRszI1L+pFWTAwhzyIV
-	6Bt/ZRf99jC7oDpk8uxpw==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:ii8z1SsAL6A=:qdMHfp5Lt6sfgSCSHD236d
-	UfdK8Wzb7PzROwyOxOmVk/Z4FTvC8FjgmFzRrf7y6G3PBye67yK9yNXPHi5N9iVevq2wCLvPI
-	L2gqFmLc7cVGrtaVi7bI6bv67mz0Q12abtbSmRQEVS0+jIoYazpx6Lzm0g5s64Kva7y4WPm9s
-	C8xksHkpK1siRHVZvVSKLY1M78Gs4tVpWuiWiQgxfOpcptmaVjkPUg+A6IRNTNJW81vpIi5E+
-	5SzXG6Qzjf8iTI0hvB5WkKDZVbcaeigk0EMJ7yA3a6yw2/teDdA39hpvvJlGIvtPwj+gbpDOr
-	2JCYdWU6PyotKmYHe6Yak/2Wcrjf70ZWPFYVzvgX7lVEEVvwbNSRTHxfJPa1kj69vBGFXcFcM
-	HiNHxskfvXpoOAMoz2gFvJY7wjgDyquosxpa7LUFqiMTA6VLg9Rj6a1ST6oElHp9YlWFNo4YZ
-	X+fVviyXp1Ki0lLI7+KwMOoUy6hvaIMcVzzhsIJaoVxgs3dM6v4JeU5EthVf53wkRnY/67KlA
-	GBThxoUhosZKSFpj84rGyWlfOGG46s8m4u7ioIIR3cKe7kaJ0mcDBTiU5yx5TGUnH8p71o9lj
-	7VCKB779fKG3Dzhj+po9GzwxtM1urDioef5dV2xItqjaqgY3kpZELCPTjjpOHntNsuOUH638Q
-	uBDU5c2T0h9e1sUTcGDg7vrsUfJUOCkIEVKaVxG+XYSFvfeu7m1i+vg79wpF2bUl7b4U=
-Subject: [PATCH 1/4] python3: detect libraries in STAGING_LIBDIR
+X-Provags-ID: V03:K0:QTcy3V8G3FATb7Ht/iQi3vma79ZV+GVaBYsZbEZGIetgIFSJ6oc
+	xewHwVfi/pgurpXiReC/FmJX+USod91Vp2DYLzrdKvDbSKSU9K3tJsN+1KHqaPvuvRCHtA1
+	O5k+OXKRiDNeQwpLNiq5nqaI1iBomafgOOTNBSiT/9WddqKrttdN/trWdi3t2c5S/kcC5km
+	hDULlK5pdH7AQp0b+ZfzQ==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:1EY8nZ6tCwU=:Z0DeLlWFtzYW1N2P6lezOh
+	K+/rFs2PUqu22EIEU5TRv9gOdPsKtMFkTDm62p406XG1AOOf2qn1N+nrq7eqQMBL5jc5e7HTa
+	Wp+VUw3g5CUoox9B75Lz65fKbYA5f/v8LWjI1feX+Qg9pJSFtxm/B3cDwFeK234NMHtOo7l8s
+	s5YVLV5mP+cRyUDTrL/noLBXfx+mefBD8gsJAZIA6yaAS5r9jWcfXaZXiLaLZdG/xdAh4QDXL
+	Y2UYIzaENGM+mxEAzukB7RBScW29/kyF1FPD8msgRhlikIrXr01B/a/g8QISr2Xxgdpv1HrYo
+	pboQxOMdUi2coLpiwFlISqkqB/aY1bhoQxtMuZJMB6vZ0sWtiUSRibKLhR+rRwxMi+3yHtB0Z
+	YXJ4RrS69R+gokrL0GbAGH2m57gY35Jvzu+Z1sfE8ysFdtnAAOE2L2L+Z9g73C0ymD8SfeKxZ
+	WHMWHfTxrCVK3RQ89OliZ0WNseKNWso6u5jDXeeH5RTmtlvSeWKwS2XMudRIn230J+2/4/C/s
+	WUVrmpU0ErrZFyMbJ9ozYYCB4nWuLupDUw70g+A5TQfVmMJLqOvIsU1OfHgwKgExHITGd53C0
+	7umM0R/qr4V/6RxJHZqPn7XT2aVwrEIfC7okCUL000scogw2qkomBSqjLd/rkFzlJ9Mg7fA9k
+	02CL2T2ZY/C1R//Jgjy/bmwCLhctV+wZ8PlOlWh6//Pf7Xga91SrBmnAeDxjo2ZgE7UQ=
+Subject: [PATCH 3/4] python3: remove 2to3 symlink from package python3-2to3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,138 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 15:04:47 -0000
+X-List-Received-Date: Tue, 28 Jul 2015 15:04:48 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Patch setup.py so that the detect_modules() function looks for required
-libraries and headers in STAGING_LIBDIR / STAGING_INCDIR.
-
-Without this patch, several extension modules are not built, even though
-their dependencies are present in the compiler's search paths.
-The result is the following warning, and ultimately incomplete packages:
-
-| The necessary bits to build these optional modules were not found:
-| _bz2                  _curses_panel         _dbm
-| _gdbm                 _lzma                 _sqlite3
-| nis                   readline              zlib
-| To find the necessary bits, look in setup.py in detect_modules() for the module's name.
-
-With the Python 3.3 version of the recipe, at least some of these modules
-were built, because STAGING_LIBDIR happened to be in the search path
-by coincidence. Due to changes to distutils in Python 3.4, this is no
-longer the case.
-
-A previous patch that only affects the search paths for SSL is dropped, as
-this one is a more complete fix for [YOCTO #7768].
-
-Part of the fix for [YOCTO #8048].
+The 2to3 symlink conflicts with its Python 2 equivalent in package
+python-2to3.
+The Python 3 version of the tool is still available as 2to3-3.4.
 
 Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
 ---
- .../python/python3/fix_ssl_include_dir.patch       | 41 ----------------------
- .../setup.py-find-libraries-in-staging-dirs.patch  | 30 ++++++++++++++++
- meta/recipes-devtools/python/python3_3.4.3.bb      |  2 +-
- 3 files changed, 31 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/fix_ssl_include_dir.patch
- create mode 100644 meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
+ meta/recipes-devtools/python/python-3.4-manifest.inc | 2 +-
+ meta/recipes-devtools/python/python3_3.4.3.bb        | 3 +++
+ scripts/contrib/python/generate-manifest-3.4.py      | 2 +-
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/fix_ssl_include_dir.patch b/meta/recipes-devtools/python/python3/fix_ssl_include_dir.patch
-deleted file mode 100644
-index 9972829..0000000
---- a/meta/recipes-devtools/python/python3/fix_ssl_include_dir.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--Upstream-Status:  Inappropriate [Embedded Specific]
--
--Python 3 fails to compile the ssl module, later, when requesting to install packages that should include such modules
--no error is shown; but a running python shell trying to import the ssl library results in an import error, 
--since it was never installed.
--
--This looks for the modules in the correct directories so they are corretcly compiled and installed along with python3.
--
--ImportError: No module named _ssl
--
--Signed-Off-By: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
--
--Index: Python-3.4.3/setup.py
--===================================================================
----- Python-3.4.3.orig/setup.py
--+++ Python-3.4.3/setup.py
--@@ -726,10 +726,9 @@ class PyBuildExt(build_ext):
--         exts.append( Extension('_socket', ['socketmodule.c'],
--                                depends = ['socketmodule.h']) )
--         # Detect SSL support for the socket module (via _ssl)
---        search_for_ssl_incs_in = [
---                              '/usr/local/ssl/include',
---                              '/usr/contrib/ssl/include/'
---                             ]
--+        search_for_ssl_incs_in = []
--+        for dir in [os.getenv("STAGING_INCDIR")]:
--+                search_for_ssl_incs_in.append(dir)
--         ssl_incs = find_file('openssl/ssl.h', inc_dirs,
--                              search_for_ssl_incs_in
--                              )
--@@ -739,9 +738,7 @@ class PyBuildExt(build_ext):
--             if krb5_h:
--                 ssl_incs += krb5_h
--         ssl_libs = find_library_file(self.compiler, 'ssl',lib_dirs,
---                                     ['/usr/local/ssl/lib',
---                                      '/usr/contrib/ssl/lib/'
---                                     ] )
--+                                     [os.getenv("STAGING_LIBDIR")])
-- 
--         if (ssl_incs is not None and
--             ssl_libs is not None):
-diff --git a/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch b/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
-new file mode 100644
-index 0000000..f26bd38
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/setup.py-find-libraries-in-staging-dirs.patch
-@@ -0,0 +1,30 @@
-+Patch setup.py so that the detect_modules() function looks for required
-+libraries and headers in STAGING_LIBDIR / STAGING_INCDIR.
-+
-+Without this patch, several extension modules are not built, even though
-+their dependencies are present in the compiler's search paths.
-+The result is the following warning, and ultimately incomplete packages:
-+
-+| The necessary bits to build these optional modules were not found:
-+| _bz2                  _curses_panel         _dbm
-+| _gdbm                 _lzma                 _sqlite3
-+| nis                   readline              zlib
-+| To find the necessary bits, look in setup.py in detect_modules() for the module's name.
-+
-+Upstream-Status:  Inappropriate [Cross compile specific]
-+
-+Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
-+
-+Index: Python-3.4.3/setup.py
-+===================================================================
-+--- Python-3.4.3.orig/setup.py
-++++ Python-3.4.3/setup.py
-+@@ -521,6 +521,8 @@ class PyBuildExt(build_ext):
-+         else:
-+             lib_dirs = self.compiler.library_dirs[:]
-+             inc_dirs = self.compiler.include_dirs[:]
-++            lib_dirs.append(os.environ.get('STAGING_LIBDIR'))
-++            inc_dirs.append(os.environ.get('STAGING_INCDIR'))
-+         exts = []
-+         missing = []
-+ 
+diff --git a/meta/recipes-devtools/python/python-3.4-manifest.inc b/meta/recipes-devtools/python/python-3.4-manifest.inc
+index 77f0125..07e1490 100644
+--- a/meta/recipes-devtools/python/python-3.4-manifest.inc
++++ b/meta/recipes-devtools/python/python-3.4-manifest.inc
+@@ -11,7 +11,7 @@ PACKAGES="${PN}-dbg ${PN}-2to3 ${PN}-asyncio ${PN}-audio ${PN}-codecs ${PN}-comp
+ 
+ SUMMARY_${PN}-2to3="Python automated Python 2 to 3 code translator"
+ RDEPENDS_${PN}-2to3="${PN}-core"
+-FILES_${PN}-2to3="${bindir}/2to3 ${libdir}/python3.4/lib2to3 "
++FILES_${PN}-2to3="${libdir}/python3.4/lib2to3 "
+ 
+ SUMMARY_${PN}-asyncio="Python Asynchronous I/O, event loop, coroutines and tasks"
+ RDEPENDS_${PN}-asyncio="${PN}-core"
 diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
-index dce778a..e2d9f79 100644
+index e2d9f79..6c2e21d 100644
 --- a/meta/recipes-devtools/python/python3_3.4.3.bb
 +++ b/meta/recipes-devtools/python/python3_3.4.3.bb
-@@ -36,7 +36,7 @@ SRC_URI += "\
-             file://python3-setup.py-no-host-headers-libs.patch \
-             file://sysconfig.py-add-_PYTHON_PROJECT_SRC.patch \
-             file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
--            file://fix_ssl_include_dir.patch \
-+            file://setup.py-find-libraries-in-staging-dirs.patch \
-            "
- SRC_URI[md5sum] = "7d092d1bba6e17f0d9bd21b49e441dd5"
- SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043ea996b8"
+@@ -162,6 +162,9 @@ do_install() {
+ 		ARCH=${TARGET_ARCH} \
+ 		DESTDIR=${D} LIBDIR=${libdir} install
+ 
++	# avoid conflict with 2to3 from Python 2
++	rm -f ${D}/${bindir}/2to3
++
+ 	install -m 0644 Makefile.sysroot ${D}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+ 
+ 	if [ -e ${WORKDIR}/sitecustomize.py ]; then
+diff --git a/scripts/contrib/python/generate-manifest-3.4.py b/scripts/contrib/python/generate-manifest-3.4.py
+index 42c851c..06eecdc 100755
+--- a/scripts/contrib/python/generate-manifest-3.4.py
++++ b/scripts/contrib/python/generate-manifest-3.4.py
+@@ -194,7 +194,7 @@ if __name__ == "__main__":
+     "${datadir}/pkgconfig " )
+ 
+     m.addPackage( "${PN}-2to3", "Python automated Python 2 to 3 code translator", "${PN}-core",
+-    "${bindir}/2to3 lib2to3" ) # package
++    "lib2to3" ) # package
+ 
+     m.addPackage( "${PN}-idle", "Python Integrated Development Environment", "${PN}-core ${PN}-tkinter",
+     "${bindir}/idle idlelib" ) # package
 -- 
 2.4.6
 
