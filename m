@@ -1,48 +1,30 @@
-Return-Path: <bartlomiej.kucharczyk@nokia.com>
-Received: from demumfd002.nsn-inter.net (demumfd002.nsn-inter.net
-	[93.183.12.31])
-	by mail.openembedded.org (Postfix) with ESMTP id A87607638A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AC891761DA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 16:23:37 +0000 (UTC)
-Received: from demuprx016.emea.nsn-intra.net ([10.150.129.55])
-	by demumfd002.nsn-inter.net (8.15.1/8.15.1) with ESMTPS id
-	t6SGNb7e001270
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
+	Tue, 28 Jul 2015 16:51:55 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6SGpsTp017402 for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jul 2015 17:51:54 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id q5AoNEkzrADR
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 16:23:37 GMT
-Received: from DEMUHTC001.nsn-intra.net ([10.159.42.32])
-	by demuprx016.emea.nsn-intra.net (8.12.11.20060308/8.12.11) with ESMTP
-	id t6SGNaTH003235
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 28 Jul 2015 17:51:54 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6SGpgGB017344
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jul 2015 18:23:36 +0200
-Received: from DEMUHTC012.nsn-intra.net (10.159.42.43) by
-	DEMUHTC001.nsn-intra.net (10.159.42.32) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Tue, 28 Jul 2015 18:23:36 +0200
-Received: from DEMUMBX005.nsn-intra.net ([169.254.5.210]) by
-	DEMUHTC012.nsn-intra.net ([10.159.42.43]) with mapi id 14.03.0248.002;
-	Tue, 28 Jul 2015 18:23:36 +0200
-From: "Kucharczyk, Bartlomiej (Nokia - PL/Wroclaw)"
-	<bartlomiej.kucharczyk@nokia.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: Why python-native is not available via '#!/usr/bin/env python'?
-Thread-Index: AdDJUcCISKZI2iHRQzm2hGkQE6d4Zw==
-Date: Tue, 28 Jul 2015 16:23:35 +0000
-Message-ID: <6F44F925AFE971408EDDDD548F9B486F1989D378@DEMUMBX005.nsn-intra.net>
-Accept-Language: pl-PL, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.159.42.126]
-MIME-Version: 1.0
-X-purgate-type: clean
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: clean
-X-purgate: This mail is considered clean (visit http://www.eleven.de for
-	further information)
-X-purgate-size: 1462
-X-purgate-ID: 151667::1438100617-000063FD-67AD38E3/0/0
-Subject: Why python-native is not available via '#!/usr/bin/env python'?
+	Tue, 28 Jul 2015 17:51:53 +0100
+Message-ID: <1438102302.11208.20.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 Jul 2015 17:51:42 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] pixbufcache: Use sceneQueueComplete event to simplify usage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +37,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jul 2015 16:23:39 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 28 Jul 2015 16:51:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Ensuring the native pixbuf cache is correct after new loaders have
+been installed is tricky. This needs to be done without races
+and work regardless of whether the build is from sstate or freshly
+built for one or more modules.
 
-During integrating a Python tool (both: native and nativesdk) into a Yocto =
-layer, the following questions came to my mind.
+This adds a hook into base.bbclass which is then triggered by the
+code from pixbufcache. This patch is an improved version which
+means base.bbclass has no pixbuf knowledge and the mechanism can
+be reused in other cases.
 
-My problem was that [native-sysroot]/usr/bin/python was too long (complete =
-shebang greater than 128 characters).=20
-Changing it naively to `/usr/bin/env python` caused the tool to use host Py=
-thon (which was missing required Python modules).
-I've found that it is possible to use '#!/usr/bin/env nativepython' for nat=
-ive. But this solution requires ugly sed in do_install, in recipe for my to=
-ol:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-	do_install_append_class-native() {
-		sed -i '1 c\#!/usr/bin/env nativepython' ${D}${bindir}/binary
-	}
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 08df7a7..abb50cf 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -204,8 +204,10 @@ def buildcfg_neededvars(d):
+         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
+ 
+ addhandler base_eventhandler
+-base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise"
++base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete"
+ python base_eventhandler() {
++    import bb.runqueue
++
+     if isinstance(e, bb.event.ConfigParsed):
+         if not e.data.getVar("NATIVELSBSTRING", False):
+             e.data.setVar("NATIVELSBSTRING", lsb_distro_identifier(e.data))
+@@ -244,6 +246,17 @@ python base_eventhandler() {
+             e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++")
+             e.data.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs")
+ 
++    if isinstance(e, bb.runqueue.sceneQueueComplete):
++        completions = e.data.expand("${STAGING_DIR}/sstatecompletions")
++        if os.path.exists(completions):
++            cmds = set()
++            with open(completions, "r") as f:
++                cmds = set(f)
++            e.data.setVar("completion_function", "\n".join(cmds))
++            e.data.setVarFlag("completion_function", "func", "1")
++            bb.debug(1, "Executing SceneQueue Completion commands: %s" % "\n".join(cmds))
++            bb.build.exec_func("completion_function", e.data)
++            os.remove(completions)
+ }
+ 
+ CONFIGURESTAMPFILE = "${WORKDIR}/configure.sstate"
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index 9e6ecc8..349967d 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -45,6 +45,10 @@ python populate_packages_append() {
+         d.setVar('pkg_postrm_%s' % pkg, postrm)
+ }
+ 
++gdkpixbuf_complete() {
++	GDK_PIXBUF_FATAL_LOADER=1 ${STAGING_BINDIR_NATIVE}/gdk-pixbuf-query-loaders --update-cache || exit 1
++}
++
+ #
+ # Add an sstate postinst hook to update the cache for native packages.
+ # An error exit during populate_sysroot_setscene allows bitbake to
+@@ -52,26 +56,12 @@ python populate_packages_append() {
+ #
+ SSTATEPOSTINSTFUNCS_append_class-native = " pixbufcache_sstate_postinst"
+ 
++# See base.bbclass for the other half of this
+ pixbufcache_sstate_postinst() {
+-	if [ "${BB_CURRENTTASK}" = "populate_sysroot" -o "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]
+-	then
+-		GDK_PIXBUF_FATAL_LOADER=1 gdk-pixbuf-query-loaders --update-cache || exit 1
++	if [ "${BB_CURRENTTASK}" = "populate_sysroot" ]; then
++		${gdkpixbuf_complete}
++	elif [ "${BB_CURRENTTASK}" = "populate_sysroot_setscene" ]; then
++		echo "${gdkpixbuf_complete}" >> ${STAGING_DIR}/sstatecompletions
+ 	fi
+ }
+ 
+-# Add all of the dependencies of gdk-pixbuf as dependencies of
+-# do_populate_sysroot_setscene so that pixbufcache_sstate_postinst can work
+-# (otherwise gdk-pixbuf-query-loaders may not exist or link). Only add
+-# gdk-pixbuf-native if we're not building gdk-pixbuf itself.
+-#
+-# Packages that use this class should extend this variable with their runtime
+-# dependencies.
+-PIXBUFCACHE_SYSROOT_DEPS = ""
+-PIXBUFCACHE_SYSROOT_DEPS_class-native = "\
+-    ${@['gdk-pixbuf-native:do_populate_sysroot_setscene', '']['${BPN}' == 'gdk-pixbuf']} \
+-    glib-2.0-native:do_populate_sysroot_setscene libffi-native:do_populate_sysroot_setscene \
+-    libpng-native:do_populate_sysroot_setscene zlib-native:do_populate_sysroot_setscene \
+-    harfbuzz-native:do_populate_sysroot_setscene \
+-    "
+-do_populate_sysroot_setscene[depends] += "${PIXBUFCACHE_SYSROOT_DEPS}"
+-do_populate_sysroot[depends] += "${@d.getVar('PIXBUFCACHE_SYSROOT_DEPS', True).replace('_setscene','')}"
 
-Q1. What are the reasons behind that `/usr/bin/env python` refer to the hos=
-t tool instead the native one?
 
-Q2. Is there any plan to automate shebang adjustments for native python so =
-that it is not affected by too-long-shebang issue? distutils.bbclass alread=
-y has similar logic, but not enabled for native...
-
- # listing file: "meta/classes/distutils.bbclass"
- 52         if test -e ${D}${bindir} ; then
- 53             for i in ${D}${bindir}/* ; do \
- 54                 if [ ${PN} !=3D "${BPN}-native" ]; then
- 55                         sed -i -e s:${STAGING_BINDIR_NATIVE}/python-nat=
-ive/python:${bindir}/env\ python:g $i
- 56                 fi
- 57                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
- 58             done
- 59         fi
-
-Cheers!
-Bartlomiej
 
