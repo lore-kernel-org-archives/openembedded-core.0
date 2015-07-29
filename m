@@ -1,28 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E358601F7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D59D601F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 10:19:08 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6TAJ806017771
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 Jul 2015 03:19:08 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 29 Jul 2015 03:18:51 -0700
-Message-ID: <55B8A89A.6050406@windriver.com>
-Date: Wed, 29 Jul 2015 18:19:06 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Wed, 29 Jul 2015 10:20:08 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so1876165qkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jul 2015 03:20:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=7McEWagAr/+qB4xoo7b9amPJ0T7BBun7G2Sx8M/Ule4=;
+	b=mgqQBokkhTZ8C6Nt+n9m7elLwZBjvYSu5MkY+HYh9P107FuLRxDGdEfVivaZ2F+xde
+	JTvcJJKRmK/x3d5HWqCXb31pHXWEcnM5YwDBTbr4eT3G79Pu1RrJGQ4/WoM4V42AFIgS
+	zRy6yT6QVOgW9L9zsYG9R0ybTKkrpAax2adsrg+AiJOppoYWHUiJODLuXy3Fy/ccwpbf
+	yLnHXcMYEQwGTCShf/wV0DqsVDZp3U/1GQ1xksME69CF4C4F21nfVTjMSphADdq5Q4qy
+	hoSJgYyLuJMEct+zxB0dYOioJyDX6FtS9204zL0fLbizaNPL+SaPt6G7wcGFJJIMnBrk
+	Qgpg==
+X-Gm-Message-State: ALoCoQmdvnRg9cCqlCtOYi/B9oLSPrPBcRs3dC3U/cXRrbgB2z14hgt1GXDGdvC47S2nY666Suzi
+X-Received: by 10.55.25.35 with SMTP id k35mr59007161qkh.76.1438165208919;
+	Wed, 29 Jul 2015 03:20:08 -0700 (PDT)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1438161068.git.liezhi.yang@windriver.com>
-	<5755146.lYtmNt1cvb@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <5755146.lYtmNt1cvb@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] bitbake.conf: add GITHUB_GIT
+Received: by 10.140.102.195 with HTTP; Wed, 29 Jul 2015 03:19:49 -0700 (PDT)
+In-Reply-To: <1438155256-3385-1-git-send-email-wenzong.fan@windriver.com>
+References: <1438155256-3385-1-git-send-email-wenzong.fan@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 29 Jul 2015 11:19:49 +0100
+Message-ID: <CAJTo0LY_8MGszbQYJziM+bj4GUV+qmQgnzSTOHb4XG0+1GVb8A@mail.gmail.com>
+To: wenzong fan <wenzong.fan@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bjam-native: inhibit sysroot strip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +43,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 10:19:09 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jul 2015 10:20:11 -0000
+Content-Type: multipart/alternative; boundary=001a1147e69a6803ad051c00ee32
 
+--001a1147e69a6803ad051c00ee32
+Content-Type: text/plain; charset=UTF-8
 
+On 29 July 2015 at 08:34, <wenzong.fan@windriver.com> wrote:
 
-On 07/29/2015 06:11 PM, Paul Eggleton wrote:
-> Hi Robert,
->
-> On Wednesday 29 July 2015 02:11:53 Robert Yang wrote:
->> The following changes since commit 27d068d05239c26a3848eb101571acab54635e37:
->>
->>    harfbuzz: upgrade to 1.0.1 (2015-07-27 23:28:23 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.openembedded.org/openembedded-core-contrib rbt/github
->>
->> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/
->> github
->>
->> Robert Yang (2):
->>    bitbake.conf: add GITHUB_GIT
->>    meta: git://github.com -> ${GITHUB_GIT}
->
-> Interesting, but you don't explain why this change is needed in the commit
-> messages.
-
-Hi Paul,
-
-It is just like what GNOME_GIT, GNU_MIRROR and others did.
-
-// Robert
-
->
-> Cheers,
-> Paul
+> +# bjam is already stripped, don't strip it again
+> +INHIBIT_SYSROOT_STRIP = "1"
 >
 
+In case it's even needed to debug bjam-native, how hard would it be to stop
+bjam from being stripped in the first place?
+
+Ross
+
+--001a1147e69a6803ad051c00ee32
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 July 2015 at 08:34,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenzong.=
+fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div id=3D":1xb" class=3D"a3s" =
+style=3D"overflow:hidden">+# bjam is already stripped, don&#39;t strip it a=
+gain<br>
++INHIBIT_SYSROOT_STRIP =3D &quot;1&quot;<br></div></blockquote></div><br></=
+div><div class=3D"gmail_extra">In case it&#39;s even needed to debug bjam-n=
+ative, how hard would it be to stop bjam from being stripped in the first p=
+lace?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=
+Ross</div></div>
+
+--001a1147e69a6803ad051c00ee32--
