@@ -1,31 +1,26 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C50AB601F7
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 20110605D2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 03:08:20 +0000 (UTC)
+	Wed, 29 Jul 2015 03:33:47 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6T38Jp6012326
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 28 Jul 2015 20:08:19 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 28 Jul 2015 20:08:02 -0700
-Message-ID: <55B843A1.6040207@windriver.com>
-Date: Wed, 29 Jul 2015 11:08:17 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6T3XlRT005276
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jul 2015 20:33:47 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 28 Jul 2015 20:33:30 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 29 Jul 2015 11:33:45 +0800
+Message-ID: <4c8d6724caed69669952c242ecf4f8ac513fdfb5.1438140664.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1438140664.git.Qi.Chen@windriver.com>
+References: <cover.1438140664.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1436518495-27392-1-git-send-email-rongqing.li@windriver.com>
-	<CAHiDW_FxgLz638LwPen_AfOByHeCpvL6A093PjrmGD4X=P-xNQ@mail.gmail.com>
-	<55B582F8.5000603@windriver.com>
-	<CAJTo0La-RwRf3L-sJ=HtMMFi_nMQwXi5cXzunELAg6trRyT0cw@mail.gmail.com>
-In-Reply-To: <CAJTo0La-RwRf3L-sJ=HtMMFi_nMQwXi5cXzunELAg6trRyT0cw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][resend] perl: fix build failure if building dir has the "blib" string
+Subject: [PATCH 1/1] dbus: upgrade to 1.8.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,49 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 03:08:21 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 29 Jul 2015 03:33:49 -0000
+Content-Type: text/plain
 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/recipes-core/dbus/{dbus-test_1.8.18.bb => dbus-test_1.8.20.bb} | 4 ++--
+ meta/recipes-core/dbus/dbus_1.8.18.bb                               | 4 ----
+ meta/recipes-core/dbus/dbus_1.8.20.bb                               | 4 ++++
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.8.18.bb => dbus-test_1.8.20.bb} (93%)
+ delete mode 100644 meta/recipes-core/dbus/dbus_1.8.18.bb
+ create mode 100644 meta/recipes-core/dbus/dbus_1.8.20.bb
 
-
-On 2015年07月28日 20:53, Burton, Ross wrote:
->
-> On 27 July 2015 at 02:01, Rongqing Li <rongqing.li@windriver.com
-> <mailto:rongqing.li@windriver.com>> wrote:
->
->     I think we can merge this patch.
->
->     I open a defect and submit this patch, as a result, noone knows
->     what this line can fix.
->
->
->     https://rt.perl.org/Public/Bug/Display.html?id=125603
->
->
-> Reading the bug it seems a more upstream-friendly fix (i.e. one that
-> they would also accept and have in fact asked for) would be to change
-> the regex to /\bblib\b/. This solves the problem of building in paths
-> that contain the substring "blib" *and* retains the intent of the logic.
->
-
-
-it can not fix all issues to replace /blib/ with /\bblib\b/.
-
-/\bblib\b/ will make the building path "/tmp/xxxxblibyy/" work.
-but if the building path has sub-dir blib, it does not work,
-like /tmp/blib/
-since \b is anchor in perl
-
-I have update the perl bug report
-
-https://rt.perl.org/Public/Bug/Display.html?id=125603
-
--R
-
-> Ross
-
+diff --git a/meta/recipes-core/dbus/dbus-test_1.8.18.bb b/meta/recipes-core/dbus/dbus-test_1.8.20.bb
+similarity index 93%
+rename from meta/recipes-core/dbus/dbus-test_1.8.18.bb
+rename to meta/recipes-core/dbus/dbus-test_1.8.20.bb
+index e138f6e..704070b 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.8.18.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.8.20.bb
+@@ -18,8 +18,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
+ 
+-SRC_URI[md5sum] = "83e607e9ccb1c921d5b6bbea2376a36c"
+-SRC_URI[sha256sum] = "36f2eb9c777a3c71562573da36a147e900a642afcd44d2b0470d992a4898c4f2"
++SRC_URI[md5sum] = "b49890bbabedab3a1c3f4f73c7ff8b2b"
++SRC_URI[sha256sum] = "5c4fbf4c64621c96e871da91d2b729a5b00536e116d3c4612a469d924b1b703a"
+ 
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
+diff --git a/meta/recipes-core/dbus/dbus_1.8.18.bb b/meta/recipes-core/dbus/dbus_1.8.18.bb
+deleted file mode 100644
+index 2932b7a..0000000
+--- a/meta/recipes-core/dbus/dbus_1.8.18.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-include dbus.inc
+-
+-SRC_URI[md5sum] = "83e607e9ccb1c921d5b6bbea2376a36c"
+-SRC_URI[sha256sum] = "36f2eb9c777a3c71562573da36a147e900a642afcd44d2b0470d992a4898c4f2"
+diff --git a/meta/recipes-core/dbus/dbus_1.8.20.bb b/meta/recipes-core/dbus/dbus_1.8.20.bb
+new file mode 100644
+index 0000000..a8f2094
+--- /dev/null
++++ b/meta/recipes-core/dbus/dbus_1.8.20.bb
+@@ -0,0 +1,4 @@
++include dbus.inc
++
++SRC_URI[md5sum] = "b49890bbabedab3a1c3f4f73c7ff8b2b"
++SRC_URI[sha256sum] = "5c4fbf4c64621c96e871da91d2b729a5b00536e116d3c4612a469d924b1b703a"
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.9.1
+
 
