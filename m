@@ -1,39 +1,76 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id C79D876248;
-	Wed, 29 Jul 2015 15:01:41 +0000 (UTC)
-Received: by wibud3 with SMTP id ud3so30354866wib.0;
-	Wed, 29 Jul 2015 08:01:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=MsEP/r+i3WS9GeQK0+W4RJ5YdCDyQN9PY5ujttTYtJ4=;
-	b=DwW4PIvW6my39cwb5gV9vvh5fjtSS6mhmtttOC9qMMJBho0vEEpwgwOFfO2xRjV7IJ
-	5wyj1ZWmv68i5o4zb7Kzdbj1kbQipArh58vAKhP6fEbigDp7/1ibkyQGCsjSyM5JeKm2
-	5L0FxSAcSo2cKQb8iRUY18g7q9bqmUH25V2ZXH7m69Ri/TKMOrbtdNUSnWvPBeGQYiQl
-	iDm3GJeGWBSd/bUbzeOA3ijTly8ZnCz+vbqQyFenbLXbysxMzD25rftg75fMSvWzDzAm
-	7cTxc74LMF4cVlw7K2hprvnYzm1pr2TSbml0Z49voPBHOH8Lri/eMabgzZvOVv+pDGY6
-	rMHw==
-X-Received: by 10.180.77.193 with SMTP id u1mr6824869wiw.50.1438182101655;
-	Wed, 29 Jul 2015 08:01:41 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	ul1sm38982736wjc.30.2015.07.29.08.01.40
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Jul 2015 08:01:40 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 29 Jul 2015 17:01:50 +0200
-To: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20150729150150.GD12478@jama>
-References: <20150720094146.26948504C1@opal.openembedded.org>
+Return-Path: <B54851@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0115.outbound.protection.outlook.com [207.46.100.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E5897638A
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jul 2015 15:50:08 +0000 (UTC)
+Received: from BY2PR03CA005.namprd03.prod.outlook.com (10.255.93.22) by
+	CY1PR0301MB1178.namprd03.prod.outlook.com (10.160.165.21) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.225.19; Wed, 29 Jul 2015 15:50:07 +0000
+Received: from BL2FFO11OLC001.protection.gbl (10.255.93.4) by
+	BY2PR03CA005.outlook.office365.com (10.255.93.22) with Microsoft SMTP
+	Server (TLS) id 15.1.225.19 via Frontend Transport;
+	Wed, 29 Jul 2015 15:50:07 +0000
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
+	(message not signed) header.d=none;
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BL2FFO11OLC001.mail.protection.outlook.com (10.173.161.185) with
+	Microsoft SMTP Server (TLS) id 15.1.231.11 via Frontend Transport;
+	Wed, 29 Jul 2015 15:50:07 +0000
+Received: from carol-OptiPlex-3020.ap.freescale.net
+	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	t6TFo41u032166; Wed, 29 Jul 2015 08:50:05 -0700
+From: Yuqing Zhu <b54851@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Jul 2015 07:49:46 +0800
+Message-ID: <1438213787-19374-1-git-send-email-b54851@freescale.com>
+X-Mailer: git-send-email 1.9.1
+X-EOPAttributedMessage: 0
+X-Microsoft-Exchange-Diagnostics: 1; BL2FFO11OLC001;
+	1:HuEzyMlfTXdJDv0BniEcnnYmK1ve1w2UM06c+HoYgzXaWFq/l3KkZvVaOTQag7zl6fel4JqsBsPnTxXjOandi+XNwL0iOCRJC3/g3POuxJcuV3coGnozre3A4ESe3f14A87PSg6ocv/vTyIbZZe7cVoeEFeJ8GoEpc09Qqu/Z4jkJB3CHXnqJuXzMkhZvn+Fu26ZdN893RfCP/Y88OOAvJuzk5dlXD82G5bo/4N8rQTMjAtSntMVwDI3JUOxImbY+MPoz7g0sMA1yZ+d25NVGeB/Ovg6HHRExiIj6oUBN2otyu6Kz6FiQvBvjZKNEyPvR5fXsks3bqYrG6c+yPjiOA==
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(2980300002)(339900001)(189002)(199003)(5001960100002)(105606002)(106466001)(87936001)(6806004)(48376002)(189998001)(110136002)(50466002)(85426001)(36756003)(107886002)(92566002)(47776003)(50226001)(104016003)(50986999)(33646002)(229853001)(2351001)(450100001)(77096005)(86362001)(77156002)(575784001)(46102003)(62966003)(4001430100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1178;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv; MX:1; A:1;
+	LANG:en; 
 MIME-Version: 1.0
-In-Reply-To: <20150720094146.26948504C1@opal.openembedded.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Ross Burton : gamin: remove
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1178;
+	2:5sndBlLu/o7NYFZMYs/h13XRohRysZcDqLeDvKDlZSsNB4Y3niYVg7T4lWwChUk5/WyrfleVOwgGXfUa7+23EnEmE37r7L1VG02OBI7QfgW2FcRaKwPv9UaIyVudbMR0B8o/NMOLI4I0mu49kd4kRTpyBLeCgGuHoa+NLURFPbc=;
+	3:mW0P5sqhyUHCmppcorLuNJqb0RZXtAT74WjY2Qbglm7Dr+GarYXhoEjpeRGduM2QfriPBVMuN0ob1TYOX1i3hCPi4APjZV0U5ZTtFDvMbH7ABRiT7j22GzPY1iBFNdqoi/kVteGd9szdK5qRrdhVr5518wJYsjsaY7O8o3Ga1mvM7uBVZM9qZEX+6RaaBiIDiY/viYXIfKwkIYePCDJMQNOJ0oQoK9z3MOIMgU/0DRs=;
+	25:SYUSEQjZr02ECl9x0VkKZhdVTU9NBxUkpHjR5EZm2m6zL+kUO3v9GeMHXwZ1NXSw7USiGpL0osbp53KmWTDks7XN9dOVVqzMcWLg6zBzI+Xdc7K/04rfDRIKnDemTqi6sC/b1+eeA0rdV5vEilL2AG22/TLk7xBoT1bK9jF55xoJkYGE6kHIwaGJSxJot1XvxVLvY5MQ3RPG703H7T9r8Rish8xSznSr8QGDpjbPSso6tOp88Gx3PIaAWuP2w3YcftM76BnYXWsvD55wWKua4A==
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB1178;
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1178;
+	20:8mIfrdMw7EmlHjaFb6+t/pbm3zzkYpFwMr71qApaapocZBW3liWVOT3tW1wNPZH5b1XJ+hqPPai1v5Sh4prb/mBiVzn9RUbQoAGCWsMpBdmWAq04aSxpHAwZ88gh8SpL9GiUdNssogzI2GgKvVQhiPAIgOZXYGT3Dw0MLTi7DTiFodLemyw5v4cEjniRycF5Dd89OGD9HWejr5sWhOiuo5JG7X5yAXXVgk5HUANOBKMBtc7GO7mrjR354UAE5DG65iq9U61hmy5HjOrRSMa0WndOT6Nzmhb3gpU1vmDSaJ3cxVTwqlGxcwNbxg080pQ+iMIZSNCFOKuIn1hnWuwKGnqEh7Qs1fEbcy5VZmHTZZg=;
+	4:/X/UIyT8wqf99w+SIKbFzF+DYqMLbhr3etbnUlT8voxXdAyd3yMtcd8+KYgAniBSD3nUZU+rvZua7yGRAklIUbw5LWZuyqg4RdG5bcRRyoEGyMJVe3Da3hs6Q2IW9Eth9kcYZSwgitCJc0ZpugjAbbjUd0vW23juU4rrCrFUqkOwWBnBPQkK8pfUJeyZaFkz6dVt91QmZ+Ko+JgsTYmX8F5Xxs5MPFV9TwyW/6kaCumx0nmf+9duKQhpOmPNuqL3qqfBa4HCzQyNp5HpA5L/39BrSNPxYQESIVOd9yyNZjc=
+CY1PR0301MB1178: X-MS-Exchange-Organization-RulesExecuted
+X-Microsoft-Antispam-PRVS: <CY1PR0301MB1178116D96761076744C92DA868C0@CY1PR0301MB1178.namprd03.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(3002001); SRVR:CY1PR0301MB1178; BCL:0;
+	PCL:0; RULEID:; SRVR:CY1PR0301MB1178; 
+X-Forefront-PRVS: 0652EA5565
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1178;
+	23:pinYPuc0KfIYBWQRqXv5t7Ygm7zPUkqinH51/o5A8/WRIejJ8kryaKzq/Ytz/06DkN2u1cc65b6OoWKrAciZI62J8RHade749SK3uh69QX+udVZIPLxoiPCFVmRoJ+3SxUz3wH/W2hhCP0qzAMv5qPCg8GmIpabGotl12qdChzCnlYZjhCHZP8TM3SnLIyeRGpPTNLTXAggeI5H0NtJWXqTZvVJ34JqD/Q9JwB9CHGLYdshJTZ2h+wQUqSOdwgWWvLJ7+i8xP4/cbOGrSQrUKxqDeoWUDfsKXgRKBrS9jd2c/D/qlv3sDhRMr3xCkFEIyyTd4DymL1RlAd2lRL2UlU5RYaZUn4ER55KNTxoYz88GnRbExk4GEs1kvX+Vy2A3YUkY9jQGiBSQEgCiQLfpTCUttOUb50hZxVn6Um/GuQOs0eZl8m6PDj3XPdXgjWSs2aKvgrcLDgZGgd3iva2JCKHkTOClEaBTyM0dYjfMRWiBB50KRgGlhiMVyxNn8fdn0Mtw0DC2iZdbGstYd50riIISXt2zmSRsKL9V6v0VLjkElIcgufqDg6g0p+2tjkKnxlXKIPIu8u9RQPIL2cBq3BoYx0frneTMqzsFa1janTjirKUJ+/xiIKHuiWYtz+VTL0eOv8PLqliknk4WZWqQywffKOpsJMuE95GgdfgUy9duLM2n4x6T3y2+hieU7HJ5UgFRQ8B6GVBobl3CyeLYc3pKaMBrEQgDrhtjeafy30E6Do9yMKT4oIFSni4kt30Js2fjOZNSkUvEvWrB7CQ1b/ikcU0CKjyjvW+fexdB735HnJ99JAm5GSdKj9gn/37MnfW10wetpG/dWuLNuyAV9rrhtXrWQFmgizi/uDUfkztTA/tfRHluhj/sOeTEeDNf
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1178;
+	5:hC0dDBeB47FmiXaPTWkftD6jwueZTmeugvqVH3UuC1GpWOuMlGSERkTcXEzO3kmdbqt5SSppWJh93f0bz2dLqedTVCMsM4u/6icLRZRdFa9ys0ZOHoKtFkGy1iAqaVbO3wCGleuk7gPJFFZUwuiCxw==;
+	24:Ome//WqWqmMyyspoL9e/meflnT/fETGYZsJevWE39Fqjp1OXrVCqSVXRE1H5VnhKhLvG0TxnLUcDIexPLvEUeLEGC8Oe4ViUpqcG2pAdrO0=;
+	20:gKBcg25zdV0Kn+EKtUTXwMoTieggPnJjKm0kHkMwyezgaIs/IvZDkwzfcKJInwC6ag2e3RcU3GmHE22KisFpqQ==
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2015 15:50:07.0540 (UTC)
+X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
+	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB1178
+Subject: [poky][PATCH v4] pulseaudio
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,339 +83,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 15:01:44 -0000
-X-Groupsio-MsgNum: 68600
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="cHMo6Wbp1wrKhbfi"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 29 Jul 2015 15:50:10 -0000
+Content-Type: text/plain
 
---cHMo6Wbp1wrKhbfi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix no process to open pulseaudio in yocto. 
 
-On Mon, Jul 20, 2015 at 09:41:46AM +0000, git@git.openembedded.org wrote:
-> Module: openembedded-core.git
-> Branch: master
-> Commit: d29595925b699827fbd3279ee5368e32e0a380f3
-> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
-;h=3Dd29595925b699827fbd3279ee5368e32e0a380f3
->=20
-> Author: Ross Burton <ross.burton@intel.com>
-> Date:   Thu Jul 16 23:24:06 2015 +0100
->=20
-> gamin: remove
->=20
-> Gamin hasn't been required for many years now, maintenance upstream stopp=
-ed in
-> 2008 and the addition of inotify to the kernel made it redundant.
->=20
-> Remove the recipe from oe-core, and references to it in pacakgegroup-core=
--lsb
-> (LSB doesn't require gamin) and packagegroup-self-hosted.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
+Yuqing Zhu (1):
+  pulseaudio: revert commit 42156d2b5ac797e5f28f8d0d38b691053f3f6fc7
 
-Someone interested in fixing tracer recipe?
+ ...ch-Avoid-specifically-starting-PA-and-rel.patch | 31 ++++++++++++++++++++++
+ .../pulseaudio/pulseaudio_6.0.bb                   |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0002-Revert-launch-Avoid-specifically-starting-PA-and-rel.patch
 
-NOTE: Resolving any missing task queue dependencies
-ERROR: Nothing PROVIDES 'gamin' (but /home/jenkins/oe/world/shr-core/meta-o=
-penembedded/meta-gnome/recipes-support/tracker/tracker_0.14.2.bb DEPENDS on=
- or otherwise requires it)
+-- 
+1.9.1
 
->=20
-> ---
->=20
->  .../packagegroups/packagegroup-self-hosted.bb      |  1 -
->  .../gamin-0.1.10/obsolete_automake_macros.patch    | 23 ---------
->  .../gamin/gamin/no-abstract-sockets.patch          | 56 ----------------=
-----
->  meta/recipes-extended/gamin/gamin/noconst.patch    | 59 ----------------=
-------
->  meta/recipes-extended/gamin/gamin_0.1.10.bb        | 36 -------------
->  .../packagegroups/packagegroup-core-lsb.bb         |  1 -
->  6 files changed, 176 deletions(-)
->=20
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb =
-b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> index 531f729..7d5a41a 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> @@ -118,7 +118,6 @@ RDEPENDS_packagegroup-self-hosted-extended =3D "\
->      diffutils \
->      elfutils \
->      expat \
-> -    gamin \
->      gawk \
->      gdbm \
->      gettext \
-> diff --git a/meta/recipes-extended/gamin/gamin-0.1.10/obsolete_automake_m=
-acros.patch b/meta/recipes-extended/gamin/gamin-0.1.10/obsolete_automake_ma=
-cros.patch
-> deleted file mode 100644
-> index c4300ca..0000000
-> --- a/meta/recipes-extended/gamin/gamin-0.1.10/obsolete_automake_macros.p=
-atch
-> +++ /dev/null
-> @@ -1,23 +0,0 @@
-> -Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=
-=3D693449]
-> -
-> -Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
-> -diff -Nurd gamin-0.1.10/configure.in gamin-0.1.10/configure.in
-> ---- gamin-0.1.10/configure.in	2008-11-24 17:23:06.000000000 +0200
-> -+++ gamin-0.1.10/configure.in	2013-02-08 23:11:59.656279992 +0200
-> -@@ -1,7 +1,7 @@
-> - dnl Process this file with autoconf to produce a configure script.
-> - AC_PREREQ(2.52)
-> - AC_INIT(libgamin)
-> --AM_CONFIG_HEADER(config.h)
-> -+AC_CONFIG_HEADERS(config.h)
-> - AC_CANONICAL_SYSTEM
-> -
-> - # get any external flags setting before we start playing with the CFLAG=
-S variable
-> -@@ -31,7 +31,6 @@
-> -
-> - AC_USE_SYSTEM_EXTENSIONS
-> - AC_PROG_CC
-> --AM_PROG_CC_STDC
-> - AC_HEADER_STDC
-> - AC_PROG_INSTALL
-> - AC_PROG_MAKE_SET
-> diff --git a/meta/recipes-extended/gamin/gamin/no-abstract-sockets.patch =
-b/meta/recipes-extended/gamin/gamin/no-abstract-sockets.patch
-> deleted file mode 100644
-> index cddf2dc..0000000
-> --- a/meta/recipes-extended/gamin/gamin/no-abstract-sockets.patch
-> +++ /dev/null
-> @@ -1,56 +0,0 @@
-> -Upstream-Status: Inappropriate [configuration]
-> -
-> ---- /tmp/configure.in	2007-04-30 13:08:49.000000000 +0200
-> -+++ gamin-0.1.8/configure.in	2007-04-30 13:10:53.285251000 +0200
-> -@@ -354,51 +354,6 @@
-> -     AC_DEFINE(HAVE_CMSGCRED,1,[Have cmsgcred structure])
-> - fi
-> -=20
-> --#### Abstract sockets
-> --
-> --AC_MSG_CHECKING(abstract socket namespace)
-> --AC_LANG_PUSH(C)
-> --AC_RUN_IFELSE([AC_LANG_PROGRAM(
-> --[[
-> --#include <sys/types.h>
-> --#include <stdlib.h>
-> --#include <string.h>
-> --#include <stdio.h>
-> --#include <sys/socket.h>
-> --#include <sys/un.h>
-> --#include <errno.h>
-> --]],
-> --[[
-> --  int listen_fd;
-> --  struct sockaddr_un addr;
-> -- =20
-> --  listen_fd =3D socket (PF_UNIX, SOCK_STREAM, 0);
-> -- =20
-> --  if (listen_fd < 0)
-> --    {
-> --      fprintf (stderr, "socket() failed: %s\n", strerror (errno));
-> --      exit (1);
-> --    }
-> --
-> --  memset (&addr, '\0', sizeof (addr));
-> --  addr.sun_family =3D AF_UNIX;
-> --  strcpy (addr.sun_path, "X/tmp/dbus-fake-socket-path-used-in-configure=
--test");
-> --  addr.sun_path[0] =3D '\0'; /* this is what makes it abstract */
-> -- =20
-> --  if (bind (listen_fd, (struct sockaddr*) &addr, SUN_LEN (&addr)) < 0)
-> --    {
-> --       fprintf (stderr, "Abstract socket namespace bind() failed: %s\n"=
-,=20
-> --                strerror (errno));
-> --       exit (1);
-> --    }
-> --  else=20
-> --    exit (0);
-> --]])],
-> --              [have_abstract_sockets=3Dyes],
-> --              [have_abstract_sockets=3Dno])
-> --AC_LANG_POP(C)
-> --AC_MSG_RESULT($have_abstract_sockets)
-> --
-> - if test x$enable_abstract_sockets =3D xyes; then
-> -     if test x$have_abstract_sockets =3D xno; then
-> - 	AC_MSG_ERROR([Abstract sockets explicitly required, and support not de=
-tected.])
-> diff --git a/meta/recipes-extended/gamin/gamin/noconst.patch b/meta/recip=
-es-extended/gamin/gamin/noconst.patch
-> deleted file mode 100644
-> index 7b2998c..0000000
-> --- a/meta/recipes-extended/gamin/gamin/noconst.patch
-> +++ /dev/null
-> @@ -1,59 +0,0 @@
-> -G_CONST_RETURN is deprecated in glib 2.30 so remove to to avoid
-> -build failures.
-> -
-> -RP 2011/10/12
-> -
-> -Upstream-Status: Pending
-> -
-> -Index: gamin-0.1.10/server/gam_node.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- gamin-0.1.10.orig/server/gam_node.c	2011-10-12 15:25:45.217178314 +0=
-100
-> -+++ gamin-0.1.10/server/gam_node.c	2011-10-12 15:26:17.807178293 +0100
-> -@@ -122,7 +122,7 @@
-> -  * it has finished with the string.  If it must keep it longer, it
-> -  * should makes its own copy.  The returned string must not be freed.
-> -  */
-> --G_CONST_RETURN char *
-> -+const char *
-> - gam_node_get_path(GamNode * node)
-> - {
-> -     g_assert(node);
-> -Index: gamin-0.1.10/server/gam_node.h
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- gamin-0.1.10.orig/server/gam_node.h	2011-10-12 15:25:46.857178269 +0=
-100
-> -+++ gamin-0.1.10/server/gam_node.h	2011-10-12 15:26:28.637178297 +0100
-> -@@ -58,7 +58,7 @@
-> - void                  gam_node_set_is_dir          (GamNode         *no=
-de,
-> - 						   gboolean        is_dir);
-> - =09
-> --G_CONST_RETURN char  *gam_node_get_path            (GamNode         *no=
-de);
-> -+const char  *gam_node_get_path            (GamNode         *node);
-> -=20
-> - GList                *gam_node_get_subscriptions   (GamNode         *no=
-de);
-> -=20
-> -Index: gamin-0.1.10/server/gam_subscription.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- gamin-0.1.10.orig/server/gam_subscription.c	2011-10-12 15:25:40.4971=
-77525 +0100
-> -+++ gamin-0.1.10/server/gam_subscription.c	2011-10-12 15:26:39.867178304=
- +0100
-> -@@ -141,7 +141,7 @@
-> -  * @param sub the GamSubscription
-> -  * @returns The path being monitored.  It should not be freed.
-> -  */
-> --G_CONST_RETURN char *
-> -+const char *
-> - gam_subscription_get_path(GamSubscription * sub)
-> - {
-> -     if (sub =3D=3D NULL)
-> -Index: gamin-0.1.10/server/gam_subscription.h
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- gamin-0.1.10.orig/server/gam_subscription.h	2011-10-12 15:25:28.5071=
-78266 +0100
-> -+++ gamin-0.1.10/server/gam_subscription.h	2011-10-12 15:25:58.817178285=
- +0100
-> -@@ -21,7 +21,7 @@
-> -=20
-> - int                  gam_subscription_get_reqno    (GamSubscription *su=
-b);
-> -=20
-> --G_CONST_RETURN char *gam_subscription_get_path     (GamSubscription *su=
-b);
-> -+const char *gam_subscription_get_path     (GamSubscription *sub);
-> -=20
-> - GamListener         *gam_subscription_get_listener (GamSubscription *su=
-b);
-> -=20
-> diff --git a/meta/recipes-extended/gamin/gamin_0.1.10.bb b/meta/recipes-e=
-xtended/gamin/gamin_0.1.10.bb
-> deleted file mode 100644
-> index 375d265..0000000
-> --- a/meta/recipes-extended/gamin/gamin_0.1.10.bb
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -SUMMARY =3D "Gamin the File Alteration Monitor"
-> -DESCRIPTION =3D "Gamin is a file and directory monitoring system defined=
- to \
-> -be a subset of the FAM (File Alteration Monitor) system."
-> -HOMEPAGE =3D "http://people.gnome.org/~veillard/gamin/"
-> -
-> -LICENSE =3D "LGPLv2+"
-> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D412a9be54757a155d0b997b52b519=
-f62"
-> -
-> -DEPENDS =3D "glib-2.0"
-> -PROVIDES =3D "fam"
-> -PR =3D "r5"
-> -
-> -SRC_URI =3D "http://www.gnome.org/~veillard/gamin/sources/gamin-${PV}.ta=
-r.gz \
-> -           file://no-abstract-sockets.patch \
-> -           file://noconst.patch \
-> -           file://obsolete_automake_macros.patch \
-> -"
-> -
-> -SRC_URI[md5sum] =3D "b4ec549e57da470c04edd5ec2876a028"
-> -SRC_URI[sha256sum] =3D "28085f0ae8be10eab582ff186af4fb0be92cc6c62b5cc19c=
-d09b295c7c2899a1"
-> -
-> -inherit autotools pkgconfig
-> -
-> -EXTRA_OECONF =3D "--without-python"
-> -
-> -PACKAGES +=3D "lib${BPN} lib${BPN}-dev"
-> -FILES_${PN} =3D "${libexecdir}"
-> -FILES_${PN}-dbg +=3D "${libexecdir}/.debug"
-> -FILES_lib${BPN} =3D "${libdir}/lib*.so.*"
-> -FILES_lib${BPN}-dev =3D "${includedir} ${libdir}/pkgconfig ${libdir}/lib=
-*.la \
-> -                      ${libdir}/lib*.a ${libdir}/lib*.so"
-> -
-> -RDEPENDS_lib${BPN} =3D "${PN}"
-> -
-> -LEAD_SONAME =3D "libgamin-1.so"
-> -
-> diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb=
- b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> index 3cb2305..ce82385 100644
-> --- a/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> +++ b/meta/recipes-extended/packagegroups/packagegroup-core-lsb.bb
-> @@ -55,7 +55,6 @@ RDEPENDS_packagegroup-core-lsb =3D "\
->  RDEPENDS_packagegroup-core-sys-extended =3D "\
->      curl \
->      dhcp-client \
-> -    gamin \
->      hdparm \
->      lighttpd \
->      libaio \
->=20
-> --=20
-> _______________________________________________
-> Openembedded-commits mailing list
-> Openembedded-commits@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---cHMo6Wbp1wrKhbfi
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlW46t4ACgkQN1Ujt2V2gBxXlQCggFrS6DMjC9OFMUc04CnFvKr7
-jOkAn3ulal2B//3C4v8JZJE5gD6HgDJi
-=9MY3
------END PGP SIGNATURE-----
-
---cHMo6Wbp1wrKhbfi--
