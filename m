@@ -1,50 +1,37 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 37EB67597C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 646D7601F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 12:42:42 +0000 (UTC)
-Received: by pdrg1 with SMTP id g1so5486441pdr.2
+	Wed, 29 Jul 2015 12:44:01 +0000 (UTC)
+Received: by qkfc129 with SMTP id c129so3517491qkf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 05:42:43 -0700 (PDT)
+	Wed, 29 Jul 2015 05:44:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=JSqr80zwigj1U0Jh9BoDm93YU8We7uZDdLdfGJxGpvk=;
-	b=hU0H2Yoe77PREyFqb6v2/TO7J05vkl//mty7kqk68+rA5/8bjxU3Hg16Ym3MFKs5yY
-	uz1LzwP9pVbUvyaPE4wJGUdQjU+s43uPxzM12r1g8lNNsyeHgOAH7CisJaK6Xjpui7sV
-	FwlH1nvQ6EsVCjdrfa4RA6cUFhdaBovfr2vGvI+2iizW9Q9X4hLenquxQE/53ejnL8sW
-	uGdzjDcV5QJMgnKC7uOukfWjAj9omiW71MsQ+0AxGOzVRKDI1BlaQ907vwWTeIML8e5k
-	RUaQ6GCqjcy0rWs+k8qNSjYJOG23kuUYIleO0hv6KFk8CYVSVaJ4aLmG/V8Aqg3CnMq9
-	TERA==
-X-Gm-Message-State: ALoCoQnzgMITChcqWRODQ7TNBkKE3b3oVXocBb7VP6GwKpxsGtAHlpcom+2k+EmgXUqIbWAdd1yh
-X-Received: by 10.70.118.5 with SMTP id ki5mr94367901pdb.6.1438173763223;
-	Wed, 29 Jul 2015 05:42:43 -0700 (PDT)
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com.
-	[209.85.192.177]) by smtp.gmail.com with ESMTPSA id
-	pc9sm40711190pdb.6.2015.07.29.05.42.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Jul 2015 05:42:42 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pdbnt7 with SMTP id nt7so5545427pdb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 05:42:40 -0700 (PDT)
+	bh=qAe6ZOfkfLdN9yOjjN8bkFXQWhqaULsNx2lb9wah5dU=;
+	b=E+yGG/bdTX+puBL7egL76wvQOoZIiTjG+hjC7tDoJ2/zC+q+BgZm55ECZ/81vxG7B9
+	r5eH5Jirulcu8Sj6H9ADojXo/NIbBc3fPS7/JVJ2QBbn7ZKnoL9tsRWCKL6za/xWpVhi
+	suq7+y095fLOi4YktoMz6gDrrOHEG3KB9LqI71G9SL7sW+rrFUS6ntXOiURjDX/dXOOq
+	2a9yMeayTyhLbDZ8g104CShBjHG5vAP/3cezNxclh3MCVJN8owPy/xx37xhlVN96MjJN
+	eFfnJYcuwwjpxbn6EOApfuLYLxIux5uWQYdDZsc1tLBuwBOSt6UW64F5YT69E0uYWncT
+	cSgA==
+X-Gm-Message-State: ALoCoQkyibrcO7CHltZBR1rrtxYa2V33JK1eOmYsLKgnEUJmf08/gE0WJiJRlsn13BNhbGFCdyTw
+X-Received: by 10.55.22.169 with SMTP id 41mr61444870qkw.13.1438173841930;
+	Wed, 29 Jul 2015 05:44:01 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.70.135.104 with SMTP id pr8mr92391094pdb.129.1438173760872; 
-	Wed, 29 Jul 2015 05:42:40 -0700 (PDT)
-Received: by 10.70.59.105 with HTTP; Wed, 29 Jul 2015 05:42:40 -0700 (PDT)
-In-Reply-To: <1438194339-13618-6-git-send-email-b54851@freescale.com>
-References: <1438194339-13618-1-git-send-email-b54851@freescale.com>
-	<1438194339-13618-6-git-send-email-b54851@freescale.com>
-Date: Wed, 29 Jul 2015 09:42:40 -0300
-Message-ID: <CAP9ODKqd+wKwmMLjddLd+4SEEqbLm+iXYvuSNh9iJ93obxtsZg@mail.gmail.com>
-To: Yuqing Zhu <b54851@freescale.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH v4 5/5] gstreamer1.0-plugins-base: Add videoencoder related patch
+Received: by 10.140.102.195 with HTTP; Wed, 29 Jul 2015 05:43:42 -0700 (PDT)
+In-Reply-To: <1438143185-2030-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1438142932-1962-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+	<1438143185-2030-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 29 Jul 2015 13:43:42 +0100
+Message-ID: <CAJTo0LZV=hEGUzn1_Z1XY9mXVhwbGUyg7=6fF1Lg2bME+HkyKA@mail.gmail.com>
+To: Li xin <lixin.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] mdadm: 3.3.2 -> 3.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,21 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 12:42:43 -0000
+X-List-Received-Date: Wed, 29 Jul 2015 12:44:02 -0000
+Content-Type: multipart/alternative; boundary=001a11496e90f950e7051c02f055
+
+--001a11496e90f950e7051c02f055
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jul 29, 2015 at 3:25 PM, Yuqing Zhu <b54851@freescale.com> wrote:
-> Keep sticky events around when doing a soft reset.
-> The current code will first discard all frames, and then tries to copy
-> all sticky events from the (now discarded) frames. So change the order.
+On 29 July 2015 at 05:13, Li xin <lixin.fnst@cn.fujitsu.com> wrote:
+
+> +++ b/meta/recipes-extended/mdadm/files/mdadm.conf
+> @@ -0,0 +1 @@
+> +MAILADDR root@mydomain.com
 >
-> Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 
+Can this line be commented out or at least a better domain used.
+ mydomain.comm is a domain registrar so root@mydomain.com is probably a
+real person...  If this *needs* a value and it cant be inferred by mdadm at
+runtime then example.com has been reserved for this purpose by the IETF for
+16 years now.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Ross
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+--001a11496e90f950e7051c02f055
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 July 2015 at 05:13, Li xin <span dir=3D"ltr">&lt;<a href=3D"mailto:li=
+xin.fnst@cn.fujitsu.com" target=3D"_blank">lixin.fnst@cn.fujitsu.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"">+++ b/met=
+a/recipes-extended/mdadm/files/mdadm.conf<br>
+@@ -0,0 +1 @@<br>
++MAILADDR <a href=3D"mailto:root@mydomain.com">root@mydomain.com</a></div><=
+/blockquote></div><br>Can this line be commented out or at least a better d=
+omain used. =C2=A0mydomain.comm is a domain registrar so <a href=3D"mailto:=
+root@mydomain.com">root@mydomain.com</a> is probably a real person...=C2=A0=
+ If this *needs* a value and it cant be inferred by mdadm at runtime then <=
+a href=3D"http://example.com">example.com</a> has been reserved for this pu=
+rpose by the IETF for 16 years now.</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11496e90f950e7051c02f055--
