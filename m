@@ -1,39 +1,42 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 886A760125
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id E2B5F762A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 20:10:12 +0000 (UTC)
-Received: by ioii16 with SMTP id i16so33097797ioi.0
+	Wed, 29 Jul 2015 20:18:55 +0000 (UTC)
+Received: by wicmv11 with SMTP id mv11so233093979wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 13:10:12 -0700 (PDT)
+	Wed, 29 Jul 2015 13:18:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=+edjlf2jAtXtrS2iE6JpgFED2UuBBz4hgSmBjOSYmLs=;
-	b=jTmYaPyn1L2xuqlhmcfyBCh58S6xhn4wRotSHGl5/ElFLDSaeOWgGJ/Hzc9TXKNIJG
-	zj7IYTPAcp5PNh5uS1cpfz6ey3qkYARZKUFrXzIKYujunrbBfNwsmmLNgI4/u6oR0Qmj
-	h5KPZNCa96qXVSQBCxcVNA0lbIUwtyd/Lj9lvHxnaMVnyqb8fbTA4hulY3g1wt4X7Izf
-	XfhzxkzIBcE0qHBd6Lnm8ZrHNtqS3VXlAqa7FjbXzOUmnk7CzCdmGjuRoM7D7i8x2TSJ
-	GHOrswjUZniwxf4ORj0guHKfiHAUmj/KLEBvlamWiVJqxAR/nSJFksUrHh5zABoTHs1J
-	OOJg==
-X-Received: by 10.107.158.197 with SMTP id h188mr4579765ioe.99.1438200612484; 
-	Wed, 29 Jul 2015 13:10:12 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.199 with HTTP; Wed, 29 Jul 2015 13:09:53 -0700 (PDT)
-In-Reply-To: <CAJTo0La49fhabdZHEJonC=Q16-PJuHzGCP1bBLcxC9ZLimAZqA@mail.gmail.com>
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=M9Ev/oHaNEonDLAV4c4+1ZCW+wWzBjhr5BV1qZ8JRPE=;
+	b=UTTfQKyPUzFALU0mJJoVSuC2H+5fmpoRuvbPpxdDc/PRMaEcwVhL1o4SHpqdq6Glsz
+	oBLugUZx6AdjvGvm7r/u/njPJz7TtQj7kqoYXm2/D+GToykMl7IwVDFrX/pJmnBuRAKl
+	Xt6xYYuocamaNxNfSfTtbR6yWINptz1zV2zYHv1lvAEHBRqu57KWmQSDUCzgNTsu+H25
+	ixG6IsQcphu0PeiSk5dv4ZAoqgOI57R/bKoBinKZEnwP20mjIZU/yj9Ljr6IDtufHKeU
+	lmJ0kflPZ/XvTwWIx0ROPJxBItu55AJCj08gyxHRkDXvntODBYorhdt9DJuSKoTDQSq2
+	7udQ==
+X-Received: by 10.194.95.71 with SMTP id di7mr82999398wjb.125.1438201135081;
+	Wed, 29 Jul 2015 13:18:55 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	lu5sm40272917wjb.9.2015.07.29.13.18.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 29 Jul 2015 13:18:54 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 29 Jul 2015 22:19:04 +0200
+To: Christopher Larson <chris_larson@mentor.com>
+Message-ID: <20150729201904.GE12478@jama>
 References: <1438103507-63604-1-git-send-email-abdur_rehman@mentor.com>
 	<CAJTo0LZiEWScYqCJBfzrMQ=02vkb9jd5a-6+VvSZBqePZgr7yg@mail.gmail.com>
 	<8663FA6B07BCC94795FAD21C9CC5ACF73783C098@EU-MBX-01.mgc.mentorg.com>
 	<CAJTo0LZ8qasC_Out4=1KHyskj5KovxDL6+BPGoKTS8=FquBYcA@mail.gmail.com>
 	<CABcZAN=W1_aW1YXAkR25TO0DM=iHoCzPrrBCNGhpw+pq3aJauA@mail.gmail.com>
-	<CAJTo0La49fhabdZHEJonC=Q16-PJuHzGCP1bBLcxC9ZLimAZqA@mail.gmail.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Wed, 29 Jul 2015 13:09:53 -0700
-X-Google-Sender-Auth: rlW_27kSJV-AVbp9mc-mnJ-S_0s
-Message-ID: <CABcZANnM9ATkuV_ZT9+hhwh4Y1cepEfmVamWkvMDjzowMvQRhw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <CABcZAN=W1_aW1YXAkR25TO0DM=iHoCzPrrBCNGhpw+pq3aJauA@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] watchdog: kill update-rc.d when not using sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,80 +51,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 20:10:12 -0000
-Content-Type: multipart/alternative; boundary=001a1141becc9f7e5c051c092c1b
+X-List-Received-Date: Wed, 29 Jul 2015 20:18:57 -0000
+X-Groupsio-MsgNum: 68619
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ryJZkp9/svQ58syV"
+Content-Disposition: inline
 
---001a1141becc9f7e5c051c092c1b
-Content-Type: text/plain; charset=UTF-8
+--ryJZkp9/svQ58syV
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jul 29, 2015 at 12:48 PM, Burton, Ross <ross.burton@intel.com>
-wrote:
-
-> On 29 July 2015 at 20:27, Christopher Larson <chris_larson@mentor.com>
+On Wed, Jul 29, 2015 at 12:27:15PM -0700, Christopher Larson wrote:
+> On Wed, Jul 29, 2015 at 11:35 AM, Burton, Ross <ross.burton@intel.com>
 > wrote:
->
->> I don=E2=80=99t think we really want initscripts installed in a systemd-=
-only
->> distro, particularly if systemd is built with sysvcompat enabled, as we
->> don=E2=80=99t want to run the sysvinit scripts for services which are al=
-ready
->> covered by systemd proper, unless I=E2=80=99m missing something?
->>
->
-> The dependency on initscripts via VIRTUAL-RUNTIME_initscripts is a
-> DEPENDS, so it's build time.  The runtime dependency is on
-> initscripts-functions.
->
-> As far as I'm aware the sysv-generator used the rcX.d symlinks generated
-> by update-rcd to decide what to start when, so you can't just disable the
-> class and expect it to still work.
->
+>=20
+> > On 29 July 2015 at 19:05, Rehman, Abdur <Abdur_Rehman@mentor.com> wrote:
+> >
+> >> watchdog_5.14.bb does not inherit systemd, and so
+> >> INHIBIT_UPDATERCD_BBCLASS does
+> >> not get set.
+> >>
+> >> While trying to build watchdog with systemd in DISTRO_FEATURES but not
+> >> sysvinit,
+> >> following warning is observed:
+> >>     WARNING: QA Issue: watchdog rdepends on initscripts-functions, but
+> >> it isn't
+> >>     a build dependency? [build-deps]
+> >>
+> >> Since sysvinit is not in DISTRO_FEATURES and INHIBIT_UPDATERCD_BBCLASS=
+ is
+> >> not
+> >> set, the logic in update-rc.d.bbclass goes on to add an rdep for watch=
+dog
+> >> on
+> >> initscripts-functions, inside update_rcd_package(). And this results in
+> >> the
+> >> QA warning.
+> >>
+> >
+> > When a class inherits update-rcd but not systemd, and the distro is
+> > systemd only, update-rcd still runs (and has still run) as otherwise you
+> > don't get any init scripts.  Setting inhibit will remove the init scrip=
+ts,
+> > and the watchdog daemon won't start.  I'm pretty sure this isn't what y=
+ou
+> > intended.
+> >
+> > Are you overriding VIRTUAL-RUNTIME_initscripts in your distro?  update-=
+rcd
+> > adds a dependency on that when it is inherited, which by default is
+> > initscripts, so you get your build dependency there.  I suspect your di=
+stro
+> > is overriding that variable when perhaps it shouldn't be.
+> >
+>=20
+> I don=E2=80=99t think we really want initscripts installed in a systemd-o=
+nly
+> distro, particularly if systemd is built with sysvcompat enabled, as we
+> don=E2=80=99t want to run the sysvinit scripts for services which are alr=
+eady
+> covered by systemd proper, unless I=E2=80=99m missing something?
 
-VIRTUAL-RUNTIME_initscripts is installed at runtime (as you can tell by its
-name) in packagegroup-core-boot and packagegroup-core-full-cmdline both. If
-I don=E2=80=99t want it in my images, wiping the variable is the only metho=
-d that
-makes any sense.
+I agree and as work-around for this and similar issues I'm setting empty
+VIRTUAL-RUNTIME_initscripts in systemd-only distros.
+
+> --=20
+> Christopher Larson
+> kergoth at gmail dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
+
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 --=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---001a1141becc9f7e5c051c092c1b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+--ryJZkp9/svQ58syV
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jul 29, 2015 at 12:48 PM, Burton, Ross <span dir=3D"ltr">&lt;<a hre=
-f=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On=
- 29 July 2015 at 20:27, Christopher Larson <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:chris_larson@mentor.com" target=3D"_blank">chris_larson@mentor.com<=
-/a>&gt;</span> wrote:<br></span><div class=3D"gmail_quote"><span class=3D""=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex"><span style=3D"color:rgb(0,0,0);font-family=
-:Tahoma;font-size:13px">I don=E2=80=99t think we really want initscripts in=
-stalled in a systemd-only distro, particularly if systemd is built with sys=
-vcompat enabled, as we don=E2=80=99t want to run the sysvinit scripts for s=
-ervices which are already covered by systemd proper, unless I=E2=80=99m mis=
-sing something?<br></span></blockquote><div><br></div></span><div>The depen=
-dency on initscripts via VIRTUAL-RUNTIME_initscripts is a DEPENDS, so it&#3=
-9;s build time.=C2=A0 The runtime dependency is on initscripts-functions.</=
-div><div><br></div><div>As far as I&#39;m aware the sysv-generator used the=
- rcX.d symlinks generated by update-rcd to decide what to start when, so yo=
-u can&#39;t just disable the class and expect it to still work.</div><span =
-class=3D"HOEnZb"><font color=3D"#888888"><div></div></font></span></div></b=
-lockquote></div><br>VIRTUAL-RUNTIME_initscripts is installed at runtime (as=
- you can tell by its name) in packagegroup-core-boot and=C2=A0packagegroup-=
-core-full-cmdline both. If I don=E2=80=99t want it in my images, wiping the=
- variable is the only method that makes any sense.<br>-- <br><div class=3D"=
-gmail_signature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail do=
-t com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<=
-br>Senior Software Engineer, Mentor Graphics</div></div>
-</div></div>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
---001a1141becc9f7e5c051c092c1b--
+iEYEARECAAYFAlW5NTcACgkQN1Ujt2V2gBwgWACfYcjyRqxzRelvIJyZxicm+E7e
+QBEAn0CYrmEVW1SFJB2a7H8SO/2HFJ1U
+=Hh8V
+-----END PGP SIGNATURE-----
+
+--ryJZkp9/svQ58syV--
