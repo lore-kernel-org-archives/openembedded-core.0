@@ -1,27 +1,29 @@
 Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DC467762A2
+	by mail.openembedded.org (Postfix) with ESMTP id 6CAF260132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 04:09:04 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99012678"
+	Wed, 29 Jul 2015 04:13:55 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99012801"
 Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 29 Jul 2015 12:12:37 +0800
+	by heian.cn.fujitsu.com with ESMTP; 29 Jul 2015 12:17:29 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
 	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6T47A5w025815
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6T4C3FU025987
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 12:07:10 +0800
+	Wed, 29 Jul 2015 12:12:03 +0800
 Received: from localhost.localdomain (10.167.226.92) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Wed, 29 Jul 2015 12:09:00 +0800
+	Server (TLS) id 14.3.181.6; Wed, 29 Jul 2015 12:13:54 +0800
 From: Li xin <lixin.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 29 Jul 2015 12:08:52 +0800
-Message-ID: <1438142932-1962-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Wed, 29 Jul 2015 12:13:05 +0800
+Message-ID: <1438143185-2030-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1438142932-1962-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1438142932-1962-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.92]
-Subject: [PATCH] mdadm: 3.3.2 -> 3.3.3
+Subject: [PATCH v2] mdadm: 3.3.2 -> 3.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 04:09:09 -0000
+X-List-Received-Date: Wed, 29 Jul 2015 04:13:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -46,23 +48,22 @@ Upgrade mdadm from 3.3.2 to 3.3.3
 
 3) Add systemd support:
 add systemd service file mdmonitor.service and mdadm.conf which
-is needed to start mdmonitor service.
+is needed to start mdmonitor.service.
 
 Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- meta/recipes-extended/mdadm/files/inline.patch     | 39 ----------
- .../mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch   | 26 ++++---
+ meta/recipes-extended/mdadm/files/inline.patch     | 39 ------------------=
+----
+ .../mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch   | 26 +++++++++------
  meta/recipes-extended/mdadm/files/mdadm.conf       |  1 +
- .../recipes-extended/mdadm/files/mdmonitor.service | 13 ++++
- meta/recipes-extended/mdadm/mdadm_3.3.2.bb         | 72 ------------------
- meta/recipes-extended/mdadm/mdadm_3.3.3.bb         | 87 ++++++++++++++++++=
-++++
- 6 files changed, 117 insertions(+), 121 deletions(-)
+ .../recipes-extended/mdadm/files/mdmonitor.service | 13 ++++++++
+ .../mdadm/{mdadm_3.3.2.bb =3D> mdadm_3.3.3.bb}       | 29 ++++++++++++----
+ 5 files changed, 52 insertions(+), 56 deletions(-)
  delete mode 100644 meta/recipes-extended/mdadm/files/inline.patch
  create mode 100644 meta/recipes-extended/mdadm/files/mdadm.conf
  create mode 100644 meta/recipes-extended/mdadm/files/mdmonitor.service
- delete mode 100644 meta/recipes-extended/mdadm/mdadm_3.3.2.bb
- create mode 100644 meta/recipes-extended/mdadm/mdadm_3.3.3.bb
+ rename meta/recipes-extended/mdadm/{mdadm_3.3.2.bb =3D> mdadm_3.3.3.bb} (6=
+6%)
 
 diff --git a/meta/recipes-extended/mdadm/files/inline.patch b/meta/recipes-=
 extended/mdadm/files/inline.patch
@@ -198,146 +199,48 @@ tedir@/run/mdadm/mdadm.pid
 +[Install]
 +WantedBy=3Dmulti-user.target
 diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-exte=
-nded/mdadm/mdadm_3.3.2.bb
-deleted file mode 100644
-index b2fbe4a..0000000
+nded/mdadm/mdadm_3.3.3.bb
+similarity index 66%
+rename from meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+rename to meta/recipes-extended/mdadm/mdadm_3.3.3.bb
+index b2fbe4a..52d3d0e 100644
 --- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
-+++ /dev/null
-@@ -1,72 +0,0 @@
--SUMMARY =3D "Tool for managing software RAID under Linux"
--HOMEPAGE =3D "http://www.kernel.org/pub/linux/utils/raid/mdadm/"
--
--# Some files are GPLv2+ while others are GPLv2.
--LICENSE =3D "GPLv2 & GPLv2+"
--LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a426=
-3 \
--                    file://mdmon.c;beginline=3D4;endline=3D18;md5=3Daf7d84=
-44d9c4d3e5c7caac0d9d34039d \
--                    file://mdadm.h;beglinlne=3D4;endline=3D22;md5=3D462bc9=
-936ac0d3da110191a3f9994161"
--
--
--SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.x=
++++ b/meta/recipes-extended/mdadm/mdadm_3.3.3.bb
+@@ -10,18 +10,18 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5=
+fce4486a80fdaf4a4263 \
+=20
+ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.x=
 z \
--           file://mdadm-3.2.2_fix_for_x32.patch \
+            file://mdadm-3.2.2_fix_for_x32.patch \
 -           file://gcc-4.9.patch \
--           file://mdadm-3.3.2_x32_abi_time_t.patch \
+            file://mdadm-3.3.2_x32_abi_time_t.patch \
 -           file://inline.patch \
--           file://run-ptest \
--	  "
++           file://gcc-4.9.patch \
+            file://run-ptest \
++           file://mdmonitor.service \
++           file://mdadm.conf \
+ 	  "
 -
 -SRC_URI[md5sum] =3D "44698d351501cac6a89072dc877eb220"
 -SRC_URI[sha256sum] =3D "0f3a7e1a76b13892b79f9fceaf99ecb23513260389a768ac64=
 4ffa3ae06e5b8c"
--
--CFLAGS +=3D "-fno-strict-aliasing"
--
--inherit autotools-brokensep
--
--EXTRA_OEMAKE =3D "CHECK_RUN_DIR=3D0"
--# PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm=
-/types.h
--# prevents 64-bit userland from seeing this definition, instead defaulting
--# to u64 =3D=3D long in userspace. Define __SANE_USERSPACE_TYPES__ to get
--# int-ll64.h included
--EXTRA_OEMAKE_append_powerpc64 =3D ' CFLAGS=3D-D__SANE_USERSPACE_TYPES__'
--EXTRA_OEMAKE_append_mips64 =3D ' CFLAGS=3D-D__SANE_USERSPACE_TYPES__'
--EXTRA_OEMAKE_append_mips64n32 =3D ' CFLAGS=3D-D__SANE_USERSPACE_TYPES__'
--
--do_compile() {
--	oe_runmake
--}
--
--do_install() {
--	export STRIP=3D""
--	autotools_do_install
--}
--
--FILES_${PN} +=3D "${base_libdir}/udev/rules.d/*.rules"
--
--inherit ptest
--
--do_compile_ptest() {
--	oe_runmake test
--}
--
--do_install_ptest() {
--	cp -a ${S}/tests ${D}${PTEST_PATH}/tests
--	cp ${S}/test ${D}${PTEST_PATH}
--	sed -e 's!sleep 0.*!sleep 1!g; s!/var/tmp!/!g' -i ${D}${PTEST_PATH}/test
--	ln -s /sbin/mdadm ${D}${PTEST_PATH}/mdadm
--	for prg in test_stripe swap_super raid6check
--	do
--		install -D -m 755 $prg ${D}${PTEST_PATH}/
--	done
--}
--RDEPENDS_${PN}-ptest +=3D "bash"
--RRECOMMENDS_${PN}-ptest +=3D " \
--    coreutils \
--    util-linux \
--    kernel-module-loop \
--    kernel-module-linear \
--    kernel-module-raid0 \
--    kernel-module-raid1 \
--    kernel-module-raid10 \
--    kernel-module-raid456 \
--"
-diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.3.bb b/meta/recipes-exte=
-nded/mdadm/mdadm_3.3.3.bb
-new file mode 100644
-index 0000000..52d3d0e
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/mdadm_3.3.3.bb
-@@ -0,0 +1,87 @@
-+SUMMARY =3D "Tool for managing software RAID under Linux"
-+HOMEPAGE =3D "http://www.kernel.org/pub/linux/utils/raid/mdadm/"
-+
-+# Some files are GPLv2+ while others are GPLv2.
-+LICENSE =3D "GPLv2 & GPLv2+"
-+LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a426=
-3 \
-+                    file://mdmon.c;beginline=3D4;endline=3D18;md5=3Daf7d84=
-44d9c4d3e5c7caac0d9d34039d \
-+                    file://mdadm.h;beglinlne=3D4;endline=3D22;md5=3D462bc9=
-936ac0d3da110191a3f9994161"
-+
-+
-+SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.x=
-z \
-+           file://mdadm-3.2.2_fix_for_x32.patch \
-+           file://mdadm-3.3.2_x32_abi_time_t.patch \
-+           file://gcc-4.9.patch \
-+           file://run-ptest \
-+           file://mdmonitor.service \
-+           file://mdadm.conf \
-+	  "
 +SRC_URI[md5sum] =3D "dabd5ce70f3fff340cad7c18e4a062ab"
 +SRC_URI[sha256sum] =3D "f5b50a6b506697fb9968d660444447473b453f9eaefaa9b7d3=
 1c184693b8a28c"
-+
-+CFLAGS +=3D "-fno-strict-aliasing"
-+
+=20
+ CFLAGS +=3D "-fno-strict-aliasing"
+=20
+-inherit autotools-brokensep
 +inherit autotools-brokensep systemd
-+
-+EXTRA_OEMAKE =3D "CHECK_RUN_DIR=3D0"
-+# PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm=
+=20
+ EXTRA_OEMAKE =3D "CHECK_RUN_DIR=3D0"
+ # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm=
 /types.h
-+# prevents 64-bit userland from seeing this definition, instead defaulting
-+# to u64 =3D=3D long in userspace. Define __SANE_USERSPACE_TYPES__ to get
-+# int-ll64.h included
-+EXTRA_OEMAKE_append_powerpc64 =3D ' CFLAGS=3D-D__SANE_USERSPACE_TYPES__'
-+EXTRA_OEMAKE_append_mips64 =3D ' CFLAGS=3D-D__SANE_USERSPACE_TYPES__'
-+EXTRA_OEMAKE_append_mips64n32 =3D ' CFLAGS=3D-D__SANE_USERSPACE_TYPES__'
-+
-+do_compile() {
-+	oe_runmake
-+}
-+
-+do_install() {
-+	export STRIP=3D""
-+	autotools_do_install
-+}
-+
+@@ -41,7 +41,22 @@ do_install() {
+ 	autotools_do_install
+ }
+=20
+-FILES_${PN} +=3D "${base_libdir}/udev/rules.d/*.rules"
 +do_install_append() {
 +        install -d ${D}/${sysconfdir}/
 +        install -m 644 ${WORKDIR}/mdadm.conf ${D}${sysconfdir}/
@@ -355,34 +258,9 @@ z \
 +FILES_${PN} +=3D "${base_libdir}/udev/rules.d/*.rules \
 +                /run/mdadm \
 +                ${systemd_unitdir}"
-+
-+inherit ptest
-+
-+do_compile_ptest() {
-+	oe_runmake test
-+}
-+
-+do_install_ptest() {
-+	cp -a ${S}/tests ${D}${PTEST_PATH}/tests
-+	cp ${S}/test ${D}${PTEST_PATH}
-+	sed -e 's!sleep 0.*!sleep 1!g; s!/var/tmp!/!g' -i ${D}${PTEST_PATH}/test
-+	ln -s /sbin/mdadm ${D}${PTEST_PATH}/mdadm
-+	for prg in test_stripe swap_super raid6check
-+	do
-+		install -D -m 755 $prg ${D}${PTEST_PATH}/
-+	done
-+}
-+RDEPENDS_${PN}-ptest +=3D "bash"
-+RRECOMMENDS_${PN}-ptest +=3D " \
-+    coreutils \
-+    util-linux \
-+    kernel-module-loop \
-+    kernel-module-linear \
-+    kernel-module-raid0 \
-+    kernel-module-raid1 \
-+    kernel-module-raid10 \
-+    kernel-module-raid456 \
-+"
+=20
+ inherit ptest
+=20
 --=20
 1.8.4.2
 
