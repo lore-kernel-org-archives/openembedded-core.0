@@ -1,30 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C85A17622A
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 30EAA7615E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 22:08:34 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6TM8WhS022624; Wed, 29 Jul 2015 23:08:32 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id yOicKAZ20x1M; Wed, 29 Jul 2015 23:08:32 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6TM8H05022615
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 29 Jul 2015 23:08:29 +0100
-Message-ID: <1438207697.11208.78.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 29 Jul 2015 23:08:17 +0100
-In-Reply-To: <1438125665-14966-2-git-send-email-armccurdy@gmail.com>
-References: <1438125665-14966-1-git-send-email-armccurdy@gmail.com>
-	<1438125665-14966-2-git-send-email-armccurdy@gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/8] busybox: merge login-utilities.cfg into defconfig
+	Wed, 29 Jul 2015 22:10:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6TMAS7f027027
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jul 2015 15:10:28 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.1.8]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0235.001;
+	Wed, 29 Jul 2015 15:10:10 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "BURTON, ROSS" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] nss: advance to version 3.19.1
+Thread-Index: AQHQyWkibIP0vutIQ02b+8RUeKsZqp3xvn8AgAFFFWA=
+Date: Wed, 29 Jul 2015 22:10:09 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF8482360E56@ALA-MBA.corp.ad.wrs.com>
+References: <1438110674-25138-1-git-send-email-jslater@windriver.com>
+	<CAJTo0LYrj4yAgwUA6KX849S-kRsk-xZca4gvy8nS8VmM671ocw@mail.gmail.com>
+In-Reply-To: <CAJTo0LYrj4yAgwUA6KX849S-kRsk-xZca4gvy8nS8VmM671ocw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.76]
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] nss: advance to version 3.19.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +40,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 22:08:36 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jul 2015 22:10:30 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF8482360E56ALAMBAcorpadwrs_"
 
-On Tue, 2015-07-28 at 16:20 -0700, Andre McCurdy wrote:
-> The login-utilities.cfg busybox config fragment was added during the
-> transition of the default login manager from tinylogin to busybox [1].
-> The tinylogin recipe was removed from oe-core prior to the 1.5 (dora)
-> release [2].
-> 
-> Merging the config fragment into defconfig simplifies the process of
-> keeping the oe-core busybox defconfig aligned with new releases of
-> busybox.
-> 
->   [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=4207
->   [2] http://git.openembedded.org/openembedded-core/commit/?id=2762ff976a3473be4259889029e048ab8b3be5ab
-> 
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+--_000_007BD92917A2324FA403BCF9A464CF8482360E56ALAMBAcorpadwrs_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I'm kind of torn on this. The original intent was to split up the
-busybox config into more granular fragments so that rather that having
-to provide a defconfig for it, you could just select the components you
-wanted and your custom config on top of that.
+b2suICBJIHRoaW5rIEkganVzdCBzZW50IGEgbmV3IHZlcnNpb24gb2YgdGhlIHBhdGNoIChidXQg
+Zm9yIHNvbWUgcmVhc29uIEkgZGlkIG5vdCBnZXQgYSBjb3B5KS4gICAgIEpvZQ0KDQpGcm9tOiBC
+dXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBUdWVzZGF5
+LCBKdWx5IDI4LCAyMDE1IDEyOjQ2IFBNDQpUbzogU2xhdGVyLCBKb3NlcGgNCkNjOiBPRS1jb3Jl
+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtvZS1jb3JlXVtQQVRDSCAxLzFdIG5zczogYWR2YW5j
+ZSB0byB2ZXJzaW9uIDMuMTkuMQ0KDQoNCk9uIDI4IEp1bHkgMjAxNSBhdCAyMDoxMSwgSm9lIFNs
+YXRlciA8anNsYXRlckB3aW5kcml2ZXIuY29tPG1haWx0bzpqc2xhdGVyQHdpbmRyaXZlci5jb20+
+PiB3cm90ZToNCisjIG92ZXJyaWRlIHZhbHVlIGluIG5zcy5pbmMNCisjDQorTElDX0ZJTEVTX0NI
+S1NVTSA9ICJmaWxlOi8vbnNzL0NPUFlJTkc7bWQ1PTNiMWU4OGUxYjljMGI1YTRiMjg4MWQ0NmNj
+ZTA2YTE4IFwNCisgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9uc3MvbGliL2ZyZWVibC9tcGkv
+ZG9jL0xJQ0VOU0U7bWQ1PTQ5MWYxNThkMDlkOTQ4NDY2YWZjZTg1ZDZmMWZlMThmIFwNCisgICAg
+ICAgICAgICAgICAgICAgIGZpbGU6Ly9uc3MvbGliL2ZyZWVibC9tcGkvZG9jL0xJQ0VOU0UtTVBM
+O21kNT01ZDQyNWM4ZjMxNTdkYmYyMTJkYjJlYzUzZDllNTEzMiINCg0KSGF2aW5nIGEgc2VwYXJh
+dGUgaW5jIGZpbGUgcmVhbGx5IGhlbHBzIHdpdGggY2xlYXIgcmVjaXBlcyBkb2Vzbid0IGl0Li4u
+DQo8Z3JpcGUgbW9kZSBvZmY+DQoNCkFjY29yZGluZyB0byB0aGUgbGF5ZXIgaW5kZXggdGhlcmUn
+cyBvbmx5IG9uZSByZWNpcGUgZm9yIE5TUywgc28gaG93IGFib3V0IHdlIGp1c3QgZGl0Y2ggdGhl
+IG5zcy5pbmM/DQoNClJvc3MNCg==
 
-If we do go down that route, it does imply a different kind of
-maintenance of the config fragments is needed as we move forward. In
-some ways I'd hope the fragment tools could help with that.
+--_000_007BD92917A2324FA403BCF9A464CF8482360E56ALAMBAcorpadwrs_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Obviously any more split up hasn't happened as yet and I know that
-personally, given my workload I'm unlikely to find time soon :(. I'd be
-interested to see what others think?
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJ
+e2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5vc2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQov
+KiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1z
+b05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNp
+emU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcgUm9tYW4iLCJzZXJpZiI7fQ0KYTps
+aW5rLCBzcGFuLk1zb0h5cGVybGluaw0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6
+Ymx1ZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCmE6dmlzaXRlZCwgc3Bhbi5Nc29I
+eXBlcmxpbmtGb2xsb3dlZA0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJY29sb3I6cHVycGxl
+Ow0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTcNCgl7bXNv
+LXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5z
+LXNlcmlmIjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10
+eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0K
+QHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6OC41aW4gMTEuMGluOw0KCW1hcmdpbjoxLjBpbiAx
+LjBpbiAxLjBpbiAxLjBpbjt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24x
+O30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
+IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtp
+ZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1h
+cCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRp
+Zl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVy
+cGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
+c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
+b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+b2suJm5ic3A7IEkgdGhp
+bmsgSSBqdXN0IHNlbnQgYSBuZXcgdmVyc2lvbiBvZiB0aGUgcGF0Y2ggKGJ1dCBmb3Igc29tZSBy
+ZWFzb24gSSBkaWQgbm90IGdldCBhIGNvcHkpLiZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBKb2U8
+bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0i
+Zm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3Nh
+bnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
+Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtw
+YWRkaW5nOjBpbiAwaW4gMGluIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9u
+ZTtib3JkZXItdG9wOnNvbGlkICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBp
+biI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBw
+dDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+
+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5
+OiZxdW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gQnVydG9uLCBSb3Nz
+IFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IFR1ZXNk
+YXksIEp1bHkgMjgsIDIwMTUgMTI6NDYgUE08YnI+DQo8Yj5Ubzo8L2I+IFNsYXRlciwgSm9zZXBo
+PGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29y
+ZV0gW29lLWNvcmVdW1BBVENIIDEvMV0gbnNzOiBhZHZhbmNlIHRvIHZlcnNpb24gMy4xOS4xPG86
+cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiAy
+OCBKdWx5IDIwMTUgYXQgMjA6MTEsIEpvZSBTbGF0ZXIgJmx0OzxhIGhyZWY9Im1haWx0bzpqc2xh
+dGVyQHdpbmRyaXZlci5jb20iIHRhcmdldD0iX2JsYW5rIj5qc2xhdGVyQHdpbmRyaXZlci5jb208
+L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjxkaXYgaWQ9IjoyeGoiPg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+JiM0MzsjIG92ZXJyaWRlIHZhbHVlIGluIG5zcy5pbmM8YnI+DQomIzQzOyM8
+YnI+DQomIzQzO0xJQ19GSUxFU19DSEtTVU0gPSAmcXVvdDtmaWxlOi8vbnNzL0NPUFlJTkc7bWQ1
+PTNiMWU4OGUxYjljMGI1YTRiMjg4MWQ0NmNjZTA2YTE4IFw8YnI+DQomIzQzOyZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyBmaWxlOi8vbnNzL2xpYi9mcmVlYmwvbXBpL2RvYy9MSUNFTlNFO21kNT00OTFmMTU4ZDA5ZDk0
+ODQ2NmFmY2U4NWQ2ZjFmZTE4ZiBcPGJyPg0KJiM0MzsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZmlsZTovL25zcy9s
+aWIvZnJlZWJsL21waS9kb2MvTElDRU5TRS1NUEw7bWQ1PTVkNDI1YzhmMzE1N2RiZjIxMmRiMmVj
+NTNkOWU1MTMyJnF1b3Q7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PGJyPg0KSGF2aW5nIGEgc2VwYXJhdGUgaW5jIGZpbGUgcmVhbGx5IGhlbHBz
+IHdpdGggY2xlYXIgcmVjaXBlcyBkb2Vzbid0IGl0Li4uPG86cD48L286cD48L3A+DQo8L2Rpdj4N
+CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mbHQ7Z3JpcGUgbW9kZSBvZmYmZ3Q7PG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNw
+OzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFjY29yZGlu
+ZyB0byB0aGUgbGF5ZXIgaW5kZXggdGhlcmUncyBvbmx5IG9uZSByZWNpcGUgZm9yIE5TUywgc28g
+aG93IGFib3V0IHdlIGp1c3QgZGl0Y2ggdGhlIG5zcy5pbmM/PG86cD48L286cD48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8bzpwPjwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-Cheers,
-
-Richard
-
-
-
-
-
+--_000_007BD92917A2324FA403BCF9A464CF8482360E56ALAMBAcorpadwrs_--
