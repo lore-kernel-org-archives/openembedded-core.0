@@ -1,44 +1,27 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id E2B5F762A2
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C9D247622A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 20:18:55 +0000 (UTC)
-Received: by wicmv11 with SMTP id mv11so233093979wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 13:18:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=M9Ev/oHaNEonDLAV4c4+1ZCW+wWzBjhr5BV1qZ8JRPE=;
-	b=UTTfQKyPUzFALU0mJJoVSuC2H+5fmpoRuvbPpxdDc/PRMaEcwVhL1o4SHpqdq6Glsz
-	oBLugUZx6AdjvGvm7r/u/njPJz7TtQj7kqoYXm2/D+GToykMl7IwVDFrX/pJmnBuRAKl
-	Xt6xYYuocamaNxNfSfTtbR6yWINptz1zV2zYHv1lvAEHBRqu57KWmQSDUCzgNTsu+H25
-	ixG6IsQcphu0PeiSk5dv4ZAoqgOI57R/bKoBinKZEnwP20mjIZU/yj9Ljr6IDtufHKeU
-	lmJ0kflPZ/XvTwWIx0ROPJxBItu55AJCj08gyxHRkDXvntODBYorhdt9DJuSKoTDQSq2
-	7udQ==
-X-Received: by 10.194.95.71 with SMTP id di7mr82999398wjb.125.1438201135081;
-	Wed, 29 Jul 2015 13:18:55 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	lu5sm40272917wjb.9.2015.07.29.13.18.53
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Jul 2015 13:18:54 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 29 Jul 2015 22:19:04 +0200
-To: Christopher Larson <chris_larson@mentor.com>
-Message-ID: <20150729201904.GE12478@jama>
-References: <1438103507-63604-1-git-send-email-abdur_rehman@mentor.com>
-	<CAJTo0LZiEWScYqCJBfzrMQ=02vkb9jd5a-6+VvSZBqePZgr7yg@mail.gmail.com>
-	<8663FA6B07BCC94795FAD21C9CC5ACF73783C098@EU-MBX-01.mgc.mentorg.com>
-	<CAJTo0LZ8qasC_Out4=1KHyskj5KovxDL6+BPGoKTS8=FquBYcA@mail.gmail.com>
-	<CABcZAN=W1_aW1YXAkR25TO0DM=iHoCzPrrBCNGhpw+pq3aJauA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CABcZAN=W1_aW1YXAkR25TO0DM=iHoCzPrrBCNGhpw+pq3aJauA@mail.gmail.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] watchdog: kill update-rc.d when not using sysvinit
+	Wed, 29 Jul 2015 20:49:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jul 2015 13:49:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,572,1432623600"; d="scan'208";a="773831948"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.9.176])
+	([10.252.9.176])
+	by orsmga002.jf.intel.com with ESMTP; 29 Jul 2015 13:49:39 -0700
+Message-ID: <1438202978.10150.16.camel@tkkaskin-mobl3.ger.corp.intel.com>
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: Yuqing Zhu <b54851@freescale.com>
+Date: Wed, 29 Jul 2015 23:49:38 +0300
+In-Reply-To: <1438213787-19374-2-git-send-email-b54851@freescale.com>
+References: <1438213787-19374-1-git-send-email-b54851@freescale.com>
+	<1438213787-19374-2-git-send-email-b54851@freescale.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
+X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [poky][PATCH v4] pulseaudio: revert commit 42156d2b5ac797e5f28f8d0d38b691053f3f6fc7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,98 +34,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 20:18:57 -0000
-X-Groupsio-MsgNum: 68619
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ryJZkp9/svQ58syV"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 29 Jul 2015 20:49:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---ryJZkp9/svQ58syV
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2015-07-30 at 07:49 +0800, Yuqing Zhu wrote:
+> Revert "launch: Avoid specifically starting PA and rely on autospawn/socket activation"
+> or the pulseaudio can't be opened in yocto.
+> 
+> Signed-off-by: Yuqing Zhu <b54851@freescale.com>
+> ---
+>  ...ch-Avoid-specifically-starting-PA-and-rel.patch | 31 ++++++++++++++++++++++
+>  .../pulseaudio/pulseaudio_6.0.bb                   |  1 +
+>  2 files changed, 32 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0002-Revert-launch-Avoid-specifically-starting-PA-and-rel.patch
+> 
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-Revert-launch-Avoid-specifically-starting-PA-and-rel.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-Revert-launch-Avoid-specifically-starting-PA-and-rel.patch
+> new file mode 100644
+> index 0000000..669c355
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0002-Revert-launch-Avoid-specifically-starting-PA-and-rel.patch
+> @@ -0,0 +1,31 @@
+> +From 5760c6b1a3c9b6dd8e70c9d1ea78fcf192250b4a Mon Sep 17 00:00:00 2001
+> +From: Shengjiu Wang <shengjiu.wang@freescale.com>
+> +Date: Mon, 16 Mar 2015 15:30:11 +0800
+> +Subject: [PATCH] Revert "launch: Avoid specifically starting PA and rely on
+> + autospawn/socket activation"
+> +
+> +This reverts commit 42156d2b5ac797e5f28f8d0d38b691053f3f6fc7.
+> +
+> +Upstream-Status: Pending 
+> +
+> +Signed-off-by: shengjiu.wang <b02247@freescale.com>
+> +---
+> + src/daemon/start-pulseaudio-x11.in |    2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/src/daemon/start-pulseaudio-x11.in b/src/daemon/start-pulseaudio-x11.in
+> +index 16e46b1..e108645 100755
+> +--- a/src/daemon/start-pulseaudio-x11.in
+> ++++ b/src/daemon/start-pulseaudio-x11.in
+> +@@ -17,6 +17,8 @@
+> + 
+> + set -e
+> + 
+> ++@PA_BINARY@ --start "$@"
+> ++
+> + if [ x"$DISPLAY" != x ] ; then
+> + 
+> +     @PACTL_BINARY@ load-module module-x11-publish "display=$DISPLAY" > /dev/null
+> +-- 
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
+> index 31e9096..10c3d7a 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_6.0.bb
+> @@ -6,6 +6,7 @@ SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+>             file://0001-conf-parser-add-support-for-.d-directories.patch \
+>             file://fix-git-version-gen.patch \
+>             file://volatiles.04_pulse \
+> +           file://0002-Revert-launch-Avoid-specifically-starting-PA-and-rel.patch \
+>  "
+>  SRC_URI[md5sum] = "b691e83b7434c678dffacfa3a027750e"
+>  SRC_URI[sha256sum] = "b50640e0b80b1607600accfad2e45aabb79d379bf6354c9671efa2065477f6f6"
+> -- 
+> 1.9.1
 
-On Wed, Jul 29, 2015 at 12:27:15PM -0700, Christopher Larson wrote:
-> On Wed, Jul 29, 2015 at 11:35 AM, Burton, Ross <ross.burton@intel.com>
-> wrote:
->=20
-> > On 29 July 2015 at 19:05, Rehman, Abdur <Abdur_Rehman@mentor.com> wrote:
-> >
-> >> watchdog_5.14.bb does not inherit systemd, and so
-> >> INHIBIT_UPDATERCD_BBCLASS does
-> >> not get set.
-> >>
-> >> While trying to build watchdog with systemd in DISTRO_FEATURES but not
-> >> sysvinit,
-> >> following warning is observed:
-> >>     WARNING: QA Issue: watchdog rdepends on initscripts-functions, but
-> >> it isn't
-> >>     a build dependency? [build-deps]
-> >>
-> >> Since sysvinit is not in DISTRO_FEATURES and INHIBIT_UPDATERCD_BBCLASS=
- is
-> >> not
-> >> set, the logic in update-rc.d.bbclass goes on to add an rdep for watch=
-dog
-> >> on
-> >> initscripts-functions, inside update_rcd_package(). And this results in
-> >> the
-> >> QA warning.
-> >>
-> >
-> > When a class inherits update-rcd but not systemd, and the distro is
-> > systemd only, update-rcd still runs (and has still run) as otherwise you
-> > don't get any init scripts.  Setting inhibit will remove the init scrip=
-ts,
-> > and the watchdog daemon won't start.  I'm pretty sure this isn't what y=
-ou
-> > intended.
-> >
-> > Are you overriding VIRTUAL-RUNTIME_initscripts in your distro?  update-=
-rcd
-> > adds a dependency on that when it is inherited, which by default is
-> > initscripts, so you get your build dependency there.  I suspect your di=
-stro
-> > is overriding that variable when perhaps it shouldn't be.
-> >
->=20
-> I don=E2=80=99t think we really want initscripts installed in a systemd-o=
-nly
-> distro, particularly if systemd is built with sysvcompat enabled, as we
-> don=E2=80=99t want to run the sysvinit scripts for services which are alr=
-eady
-> covered by systemd proper, unless I=E2=80=99m missing something?
+This is safe to apply, but I'd like to understand why you think this is
+needed. The commit message says that without this patch, "pulseaudio
+can't be opened in yocto". PulseAudio works fine in core-image-sato at
+least, so what is different in your setup? Have you disabled
+autospawning for some reason?
 
-I agree and as work-around for this and similar issues I'm setting empty
-VIRTUAL-RUNTIME_initscripts in systemd-only distros.
-
-> --=20
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
-
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Tanu
 
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---ryJZkp9/svQ58syV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlW5NTcACgkQN1Ujt2V2gBwgWACfYcjyRqxzRelvIJyZxicm+E7e
-QBEAn0CYrmEVW1SFJB2a7H8SO/2HFJ1U
-=Hh8V
------END PGP SIGNATURE-----
-
---ryJZkp9/svQ58syV--
