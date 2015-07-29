@@ -1,52 +1,51 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
-	[209.85.220.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BB71601F7
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 17831601F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 12:44:43 +0000 (UTC)
-Received: by pabkd10 with SMTP id kd10so5320701pab.2
+	Wed, 29 Jul 2015 12:46:14 +0000 (UTC)
+Received: by pabkd10 with SMTP id kd10so5339679pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 05:44:44 -0700 (PDT)
+	Wed, 29 Jul 2015 05:46:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=0asRMcEtCBHpqTJd/S+bhz5GWtX22qz4AykwjafnsOQ=;
-	b=RdOMnnF2Da1EucWp97Cyj4+aiAI0KBlcf3GIZsOkckpVNgI79P8xa5JfLoZhm4U+rz
-	jrhY84Sdy3+08Towx46LRoiONKDYChutahP8edRQ0YJT+CbOzRoqsxhlwJgXpDNf6AXa
-	NHo0yZEsqpVzBtln4o6KMcsw4iyOCe3q7tDoy3vHTvY4BT7TqLTykfu1aob6f7DvGZND
-	WoAebI5rql0pndjQ1jHmnAgqXsul08Br0VfQWpjPp0TRpZJiMlvI0sfprz/DuXyLynpr
-	0I124VcYKKTl3SHMLB8/hxZcw55nyX8+AqUA0KV5UkDX9cFQSr/NVD96a/zneSstRynl
-	dkHw==
-X-Gm-Message-State: ALoCoQkbNG0vj/1FpTR4MQNLqLnzQCBKCFuasXUVHvnTMdiCuT2GN4HGyn2gVHE/ouDNYZoJNFOz
-X-Received: by 10.66.250.226 with SMTP id zf2mr15622150pac.20.1438173884215;
-	Wed, 29 Jul 2015 05:44:44 -0700 (PDT)
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com.
-	[209.85.192.177]) by smtp.gmail.com with ESMTPSA id
-	qn7sm40902125pab.14.2015.07.29.05.44.42
+	bh=geG/iDQ23n+oOoqrUORage8oRed78iYPb8z07GehJHc=;
+	b=DG0SDugUNNu/am0S7to9AEy0IRsNM3OHo1VD3DmvKNGeiXjP14PtPwpUjX8/Y5nx20
+	YXYoeuZQ2lZAqgaQYNEinjtehIh6uu7P9T2JKQ5f+kpKlMB43VGbZz8uvfsBDNCP4iIk
+	fpYm3ej7VBwa93k8oHgrsBEsJ48qnhsrBZdBDNoHwaB5xD1a/Fu1wzsHAbJLMAiV93To
+	oxFI8zLe51Q+eZcxJILS7KPTLSSuKr4r82lqzW6DUfV/dQwHpk9ZMbWs7N52ds7KbpiA
+	cnMDaUFi7BHxYe0OPHt4en4R3hrrp9mdHyyFB2s3iGolDbsauxLb0IrSG79vkp1znfyF
+	QesA==
+X-Gm-Message-State: ALoCoQnSf90YwIRAgSO3fiqZoE9dRlXtvgBwVin2XH1Ws1geGBG2KCh0Pd+GBOnfAL3o7Wo9mQfx
+X-Received: by 10.66.141.74 with SMTP id rm10mr91780235pab.96.1438173974887;
+	Wed, 29 Jul 2015 05:46:14 -0700 (PDT)
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com.
+	[209.85.220.42]) by smtp.gmail.com with ESMTPSA id
+	gk5sm34430444pac.21.2015.07.29.05.46.12
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Jul 2015 05:44:43 -0700 (PDT)
+	Wed, 29 Jul 2015 05:46:13 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pdbnt7 with SMTP id nt7so5571359pdb.0
+Received: by pabkd10 with SMTP id kd10so5339156pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 05:44:42 -0700 (PDT)
+	Wed, 29 Jul 2015 05:46:12 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.70.118.163 with SMTP id kn3mr75807652pdb.115.1438173882146; 
-	Wed, 29 Jul 2015 05:44:42 -0700 (PDT)
-Received: by 10.70.59.105 with HTTP; Wed, 29 Jul 2015 05:44:42 -0700 (PDT)
-In-Reply-To: <CAP9ODKqiivRLubz=kW+A5Xp66EW7NWPGqs9oscscHYz+TwUc9A@mail.gmail.com>
+X-Received: by 10.66.230.201 with SMTP id ta9mr93791042pac.95.1438173972275;
+	Wed, 29 Jul 2015 05:46:12 -0700 (PDT)
+Received: by 10.70.59.105 with HTTP; Wed, 29 Jul 2015 05:46:12 -0700 (PDT)
+In-Reply-To: <1438194339-13618-3-git-send-email-b54851@freescale.com>
 References: <1438194339-13618-1-git-send-email-b54851@freescale.com>
-	<1438194339-13618-5-git-send-email-b54851@freescale.com>
-	<CAP9ODKqiivRLubz=kW+A5Xp66EW7NWPGqs9oscscHYz+TwUc9A@mail.gmail.com>
-Date: Wed, 29 Jul 2015 09:44:42 -0300
-Message-ID: <CAP9ODKra5tcGF5_TNoK6=bvpAD8_MNEkkMuNVwG5KMjLjm1Lpw@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>,
+	<1438194339-13618-3-git-send-email-b54851@freescale.com>
+Date: Wed, 29 Jul 2015 09:46:12 -0300
+Message-ID: <CAP9ODKqULRtY5H2URDSGgbW+ROPT9OtuHZEZzXgKR_LBjvYemQ@mail.gmail.com>
+To: Yuqing Zhu <b54851@freescale.com>,
 	Carlos Rafael Giani <dv@pseudoterminal.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH v4 4/5] gstreamer1.0-plugins-base: Add GST_VIDEO_FRAME_MAP_FLAG_NO_REF related patch
+Subject: Re: [poky][PATCH v4 2/5] gstreamer1.0-plugins-base: handle audio/video decoder error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,26 +58,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 12:44:44 -0000
+X-List-Received-Date: Wed, 29 Jul 2015 12:46:17 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jul 29, 2015 at 9:42 AM, Otavio Salvador
-<otavio@ossystems.com.br> wrote:
-> On Wed, Jul 29, 2015 at 3:25 PM, Yuqing Zhu <b54851@freescale.com> wrote:
->> -Add GST_VIDEO_FRAME_MAP_FLAG_NO_REF
->>  This makes sure that the buffer is not reffed another time when
->>  storing it in the GstVideoFrame, keeping it writable if it was writable.
->>
->> -Use new GST_VIDEO_FRAME_MAP_FLAG_NO_REF to replace the old one because it's kind of ugly.
->>
->> -Don't ref buffers twice when mapping
->>
->> Signed-off-by: Yuqing Zhu <b54851@freescale.com>
+On Wed, Jul 29, 2015 at 3:25 PM, Yuqing Zhu <b54851@freescale.com> wrote:
+> When there is input data and no output data to the end of the stream, it will
+> send GST_ELEMENT_ERROR and quit from playing.
+> The patch comments the GST_ELEMENT_ERROR() and just add GST_ERROR_OBJECT()
+> information instead.
 >
->
-> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 
-Carlos, please check this one. This seems to be fine but ...
+Carlos?
 
 -- 
 Otavio Salvador                             O.S. Systems
