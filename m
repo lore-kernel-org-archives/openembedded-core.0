@@ -1,30 +1,24 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F12973D13
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E50C573D13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 07:32:57 +0000 (UTC)
+	Wed, 29 Jul 2015 07:41:11 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6T7Wv3R013759
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6T7fBgZ024808
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 00:32:58 -0700 (PDT)
-Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Wed, 29 Jul 2015 00:32:40 -0700
-Message-ID: <55B8819B.6040407@windriver.com>
-Date: Wed, 29 Jul 2015 15:32:43 +0800
-From: He Zhe <zhe.he@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
+	Wed, 29 Jul 2015 00:41:11 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 29 Jul 2015 00:40:54 -0700
+From: <wenzong.fan@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1437461993.git.zhe.he@windriver.com>	<55B09C62.4060408@windriver.com>	<55B59CCF.1060300@windriver.com>
-	<55B6F42F.7000105@windriver.com>
-In-Reply-To: <55B6F42F.7000105@windriver.com>
-X-Originating-IP: [128.224.162.235]
-Cc: bruce.ashfield@windriver.com
-Subject: Re: [PATCH v2 0/2] Yocto Bug #6945
+Date: Wed, 29 Jul 2015 15:34:16 +0800
+Message-ID: <1438155256-3385-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] bjam-native: inhibit sysroot strip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 07:33:00 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jul 2015 07:41:15 -0000
+Content-Type: text/plain
 
-Ping.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-Is there any comments on this?
+The bjam is already stripped by default. Fix warning:
 
-Zhe
+  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' from \
+  bjam-native was already stripped, this will prevent future debugging!
 
-On 07/28/2015 11:17 AM, He Zhe wrote:
-> Ping.
->
-> On 07/27/2015 10:51 AM, He Zhe wrote:
->> Ping.
->>
->> On 07/23/2015 03:48 PM, He Zhe wrote:
->>> Ping.
->>>
->>> On 07/21/2015 03:23 PM, zhe.he@windriver.com wrote:
->>>> From: He Zhe <zhe.he@windriver.com>
->>>>
->>>>  - To support building packaging and installing multi types of kernel
->>>>    images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
->>>>    as a list.
->>>>  - Modify wherever reference KERNEL_IMAGETYPE accordingly.
->>>>  - Pass mkimage in sysroot to kernel makefile by NATIVE_MKIMAGE to avoid
->>>>    depending on build machine's, when KEEPUIMAGE is "yes".
->>>>  - v2: update with the latest oe-core
->>>>
->>>> He Zhe (2):
->>>>   kernel: Define KERNEL_IMAGETYPE as a list
->>>>   kernel: Pass sysroot mkimage to kernel makefile
->>>>
->>>>  meta/classes/image_types.bbclass         |   6 +-
->>>>  meta/classes/kernel-fitimage.bbclass     |  22 +++---
->>>>  meta/classes/kernel-grub.bbclass         |  47 ++++++++----
->>>>  meta/classes/kernel-uimage.bbclass       |  31 +++++---
->>>>  meta/classes/kernel.bbclass              | 127 ++++++++++++++++++++++---------
->>>>  meta/conf/documentation.conf             |   2 +-
->>>>  meta/lib/oeqa/controllers/masterimage.py |   2 +-
->>>>  meta/lib/oeqa/targetcontrol.py           |   2 +-
->>>>  meta/recipes-kernel/linux/linux-dtb.inc  |  15 ++--
->>>>  scripts/test-remote-image                |   2 +-
->>>>  10 files changed, 175 insertions(+), 81 deletions(-)
->>>>
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+---
+ meta/recipes-support/boost/bjam-native_1.58.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-support/boost/bjam-native_1.58.0.bb b/meta/recipes-support/boost/bjam-native_1.58.0.bb
+index d85d1a9..e2e0611 100644
+--- a/meta/recipes-support/boost/bjam-native_1.58.0.bb
++++ b/meta/recipes-support/boost/bjam-native_1.58.0.bb
+@@ -5,6 +5,9 @@ SECTION = "devel"
+ 
+ inherit native
+ 
++# bjam is already stripped, don't strip it again
++INHIBIT_SYSROOT_STRIP = "1"
++
+ do_compile() {
+     ./bootstrap.sh --with-toolset=gcc
+ }
+-- 
+1.9.1
 
 
