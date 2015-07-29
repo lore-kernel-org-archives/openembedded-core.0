@@ -1,50 +1,50 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 761EA7597C
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B00D7597C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 12:41:31 +0000 (UTC)
-Received: by pacan13 with SMTP id an13so5380637pac.1
+	Wed, 29 Jul 2015 12:42:10 +0000 (UTC)
+Received: by pdbnt7 with SMTP id nt7so5539245pdb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 05:41:31 -0700 (PDT)
+	Wed, 29 Jul 2015 05:42:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=XYh8QOA/FUpT/d+TX+w+WyskjcY1S35f8JVD3rFw3mg=;
-	b=fOzL9n0B0IeQuZ0ycpeU98NBbVGr9PS4SaceApyLTzro/SCVbUnObzGZAN3rsO2yAn
-	jISK89uz4/jdSc9jw7XeYmZhj464X7Da87Qw57BnXSHaRcODjYnYQc+Yg+l4p33pJyup
-	y+3iFCxFQiUe4sfYs1gf5IBm+Edgy512PEq0zjOFFOY5bis6YH8W4HAAWzeRWRgyiDUk
-	RYVktsanMA0GD4ux3iATBA2rfTJI5UPCInUoT61bJ5H25CeSK4TSVhWrAqTnZSwCx2Kb
-	7XoKlEQ20t/iJnZp3Hkb8oj0gLri9Eg05yrWeVSEXYCgzHmJ0TNgiqTctB4yOXSa4MGA
-	VMQA==
-X-Gm-Message-State: ALoCoQl7uCvCrJMsziVqV96waBODGdC/FB/mzbvYz0WscuZ4HsmugOEj9sAGjz8MJxs1JJWA40gn
-X-Received: by 10.66.63.71 with SMTP id e7mr91535586pas.57.1438173691417;
-	Wed, 29 Jul 2015 05:41:31 -0700 (PDT)
-Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com.
-	[209.85.192.181]) by smtp.gmail.com with ESMTPSA id
-	da3sm40705273pdb.8.2015.07.29.05.41.29
+	bh=+0QCFuPVbyJ2LM0Aew0Qpv+RndtdVOzZWo7db1g30YM=;
+	b=P/RUTZLf0fxW26rRi7t6PR+4ZFy7jaqnsCHc0XD30BTtqt25+2mEv2kh4tCLeQtsJy
+	Jvv5nWaqS2Z9KB48CCshdG29jMb6d740y00fSFasALF3hkTuzGoLWgKnCqwQk63KUnPD
+	jKqiU6lLZiWV4E2XufJHP1+c2LwVKkPnklO/Zpdhuw3c3vq4drNu4y7cgsiWQIWW5zZa
+	1o+G1KYVNO6EUp2thW2ngkFZK3ug2dGVPy3iw7agHoy2n9LQM7Q4FYb/0GioElKygdIN
+	dq/tlGp+x4OAMEf5xo1C4ZlaR1u1U30J7Sn8ZNyqezhgm76sQHUY+DzhnLUuES8ZYwOz
+	pjAg==
+X-Gm-Message-State: ALoCoQlZkb6GzvTvp49O7zB1/dLGHwRmoQv5Si2cMFD8Af5t9d+xoZWAatjoTdI8Gq2bOlFQy9zd
+X-Received: by 10.70.130.3 with SMTP id oa3mr92472688pdb.51.1438173731045;
+	Wed, 29 Jul 2015 05:42:11 -0700 (PDT)
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com.
+	[209.85.220.51]) by smtp.gmail.com with ESMTPSA id
+	b4sm31854306pdn.42.2015.07.29.05.42.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Jul 2015 05:41:30 -0700 (PDT)
+	Wed, 29 Jul 2015 05:42:09 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pdbnt7 with SMTP id nt7so5530297pdb.0
+Received: by pachj5 with SMTP id hj5so5226266pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 05:41:29 -0700 (PDT)
+	Wed, 29 Jul 2015 05:42:08 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.70.133.42 with SMTP id oz10mr94439641pdb.85.1438173688995;
-	Wed, 29 Jul 2015 05:41:28 -0700 (PDT)
-Received: by 10.70.59.105 with HTTP; Wed, 29 Jul 2015 05:41:28 -0700 (PDT)
-In-Reply-To: <1438194339-13618-4-git-send-email-b54851@freescale.com>
+X-Received: by 10.66.101.9 with SMTP id fc9mr91998164pab.37.1438173728551;
+	Wed, 29 Jul 2015 05:42:08 -0700 (PDT)
+Received: by 10.70.59.105 with HTTP; Wed, 29 Jul 2015 05:42:08 -0700 (PDT)
+In-Reply-To: <1438194339-13618-5-git-send-email-b54851@freescale.com>
 References: <1438194339-13618-1-git-send-email-b54851@freescale.com>
-	<1438194339-13618-4-git-send-email-b54851@freescale.com>
-Date: Wed, 29 Jul 2015 09:41:28 -0300
-Message-ID: <CAP9ODKpv73pii76og94jsnVy_8K++36Viwgs8YLCF1CyfsES1Q@mail.gmail.com>
+	<1438194339-13618-5-git-send-email-b54851@freescale.com>
+Date: Wed, 29 Jul 2015 09:42:08 -0300
+Message-ID: <CAP9ODKqiivRLubz=kW+A5Xp66EW7NWPGqs9oscscHYz+TwUc9A@mail.gmail.com>
 To: Yuqing Zhu <b54851@freescale.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [poky][PATCH v4 3/5] gstreamer1.0-plugins-base: update video alignment after video alignment
+Subject: Re: [poky][PATCH v4 4/5] gstreamer1.0-plugins-base: Add GST_VIDEO_FRAME_MAP_FLAG_NO_REF related patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,13 +57,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 12:41:31 -0000
+X-List-Received-Date: Wed, 29 Jul 2015 12:42:12 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On Wed, Jul 29, 2015 at 3:25 PM, Yuqing Zhu <b54851@freescale.com> wrote:
-> Video buffer pool will update video alignment to respect stride alignment
-> requirement. But haven't update it to video alignment in configure.
-> Which will cause user get wrong video alignment.
+> -Add GST_VIDEO_FRAME_MAP_FLAG_NO_REF
+>  This makes sure that the buffer is not reffed another time when
+>  storing it in the GstVideoFrame, keeping it writable if it was writable.
+>
+> -Use new GST_VIDEO_FRAME_MAP_FLAG_NO_REF to replace the old one because it's kind of ugly.
+>
+> -Don't ref buffers twice when mapping
 >
 > Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 
