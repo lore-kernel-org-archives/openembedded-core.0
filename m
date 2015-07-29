@@ -1,17 +1,21 @@
 Return-Path: <B54851@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0122.outbound.protection.outlook.com [65.55.169.122])
-	by mail.openembedded.org (Postfix) with ESMTP id 93B8D601F7
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0134.outbound.protection.outlook.com [157.56.110.134])
+	by mail.openembedded.org (Postfix) with ESMTP id 256EC763F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 10:26:10 +0000 (UTC)
-Received: from BLUPR0301CA0042.namprd03.prod.outlook.com (10.162.113.180) by
-	BN3PR0301MB1171.namprd03.prod.outlook.com (10.160.156.145) with
+	Wed, 29 Jul 2015 10:26:13 +0000 (UTC)
+Received: from DM2PR0301MB1181.namprd03.prod.outlook.com (10.160.217.143) by
+	DM2PR0301MB0880.namprd03.prod.outlook.com (10.160.216.142) with
 	Microsoft
-	SMTP Server (TLS) id 15.1.225.19; Wed, 29 Jul 2015 10:26:09 +0000
-Received: from BL2FFO11FD028.protection.gbl (2a01:111:f400:7c09::162) by
-	BLUPR0301CA0042.outlook.office365.com (2a01:111:e400:5259::52) with
+	SMTP Server (TLS) id 15.1.219.17; Wed, 29 Jul 2015 10:26:13 +0000
+Received: from BY2PR03CA061.namprd03.prod.outlook.com (10.141.249.34) by
+	DM2PR0301MB1181.namprd03.prod.outlook.com (10.160.217.143) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.225.19; Wed, 29 Jul 2015 10:26:12 +0000
+Received: from BY2FFO11FD032.protection.gbl (2a01:111:f400:7c0c::110) by
+	BY2PR03CA061.outlook.office365.com (2a01:111:e400:2c5d::34) with
 	Microsoft SMTP Server (TLS) id 15.1.225.19 via Frontend Transport;
-	Wed, 29 Jul 2015 10:26:08 +0000
+	Wed, 29 Jul 2015 10:26:11 +0000
 Authentication-Results: spf=fail (sender IP is 192.88.168.50)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
 	(message not signed) header.d=none;
@@ -20,76 +24,82 @@ Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
 	receiver=protection.outlook.com; 
 	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
 Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BL2FFO11FD028.mail.protection.outlook.com (10.173.161.107) with
-	Microsoft SMTP Server (TLS) id 15.1.231.11 via Frontend Transport;
-	Wed, 29 Jul 2015 10:26:08 +0000
+	BY2FFO11FD032.mail.protection.outlook.com (10.1.14.210) with Microsoft
+	SMTP Server (TLS) id 15.1.231.11 via Frontend Transport;
+	Wed, 29 Jul 2015 10:26:11 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
 	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	t6TAPtZO004765; Wed, 29 Jul 2015 03:26:06 -0700
+	t6TAPtZP004765; Wed, 29 Jul 2015 03:26:09 -0700
 From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Jul 2015 02:25:38 +0800
-Message-ID: <1438194339-13618-5-git-send-email-b54851@freescale.com>
+Date: Thu, 30 Jul 2015 02:25:39 +0800
+Message-ID: <1438194339-13618-6-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1438194339-13618-1-git-send-email-b54851@freescale.com>
 References: <1438194339-13618-1-git-send-email-b54851@freescale.com>
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BL2FFO11FD028;
-	1:ph5YKPjhdmeZ9nwWZwPYcriCL8zKn6omx65dQg5OHAYFIv+tnz2S2Aq58zbDHEoY9KOKNOsGiKBTHHxJgy7TAkOIJWSRIAoq044O4yvWszRVTrbrPn63xkHBup6PpJwqp9tyedIdc4OggqWoXIdp55euqYvY5IMcUkRco2uKun/qb6kbDkTcCDCjN1mHlG/1XR1QPRh79zokk8lqaQz1uEZu8/UKWhLoIqZbc9V2BFSKJ/mfBTWfTjpSmAZcsPhg94IbFgAxMspPHgm3SM8BeVf01XZBHiaR0DQrbZBtHc+cugke02FuifiB9f/f5xBCale68LWAOSGBPxFu0RJLmQ==
+X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD032;
+	1:x5pleZf87nsMx/6cPUadGXI4ue5yhB6Iozo8egw674bnyjbjB5lrO1dqxu568syJfD2xe+t6Q1xJT9BQicTkL+X0lIWhwlxzFhYAyCNs8mskk5jhHnkT9sjCdEhen7yVFD1GU7CAtiemLSdcE4tzinpnUToOWSjswU4SvBlFG1Yppd5LGMCd+vmoxMLCSVOK5TAI1RPiUV3mPRIkgJYqiOBwdx9QWli/qo2uJzA4ViFNU91pU1uWTWJ0P+WLLdhvpVwJXlu3aOEUdoGUMQ9YAKmRDx6VKLvj4gvuXISuS7sn7pgqzMPQLv340mt3sJ9MJBJrwp5v/2UpSMwRYxtcsg==
 X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(339900001)(189002)(199003)(2950100001)(48376002)(5001960100002)(110136002)(19580405001)(85426001)(229853001)(77156002)(230783001)(33646002)(87936001)(2351001)(104016003)(50466002)(76176999)(105606002)(47776003)(107886002)(62966003)(189998001)(92566002)(5001920100001)(50226001)(6806004)(77096005)(575784001)(19580395003)(5890100001)(86362001)(15975445007)(50986999)(36756003)(46102003)(4001430100001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0301MB1171;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv; MX:1; A:1;
+	SFS:(10019020)(6009001)(2980300002)(339900001)(199003)(189002)(15975445007)(189998001)(76176999)(50466002)(2351001)(6806004)(5001960100002)(229853001)(50226001)(19580395003)(105606002)(33646002)(19580405001)(104016003)(77096005)(48376002)(230783001)(77156002)(86362001)(107886002)(62966003)(50986999)(87936001)(575784001)(110136002)(46102003)(47776003)(92566002)(2950100001)(85426001)(36756003)(5001920100001)(4001430100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1181;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv; A:1; MX:1;
 	LANG:en; 
 MIME-Version: 1.0
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
-	2:DVU0DGVdkJoHAMz9tbJqNT1y88Xqg1L5KiC7noEbKW7GxLp8g14zIfEB33ygj/6YpTn7QNikcQvKWOM9SugdZrAtnueJKReOuWm04kfp2kSdOcEbgNLRf3VGdNoEoe4ypKN71H21bUQjJh/3UHBvbKds14aOzZiaK50MH/PdikY=;
-	3:pHarp2aAr62ecwcDvOBe19xhH8quIXPpCnWEW2FRlVyfxTu1PGFpP8l8kvRb/MqYj11Q4ju3b0BOuqadQRmL17pSRH9xQysexchWn8de1ERcw4pM3v51dZB6eAz1hXDbu3dEin99F8psuwwsPzvVWfCfet19QL//VQh73ozxiJsVQg9IK2ilh+P0EeP90Lob4uHdA+6kUQOvIhdBS9WCqK+k5ObDm8IvLjOUSCqWnms=;
-	25:mUJZuicc9KESv8NsBkt8+b8Ar9kzQ1pGAxdiTtPYC5J3rOF72GaeY0KF1a8cYPkSTtOvyEIyZtjmdx+Me4RIp7Y6/hpdJyZd/suwuC5I7zOA4HDW++N9/nRyozRYyuwzjWJSVXUSJbVohUkWUXXDbpqRksByrHp8PnHcY2rTDXY0hoLiPQlOVp3HpzRuoxSMG37BrTRZ52CbA3BXDcIJdBKiArh9Zv3Qoob9L4Wt4pwL+FkU0QkXi75Xiw2YLAIZkUZtgnYy0j06yAjWDiEVxg==
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR0301MB1171;
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
-	20:LQwtCcqZC1QmJxglLMx+TbYUX/N+/43QhzaBVdv4VsTUKTp50fdJGKVsshQ9BDq+SSs0yqBGuAZidbn7VYbxQU5NHwZzoRZDdlnKRF7LD+TjL8118688lJemuqxL4TJ1vvCKoX6qXCkOxzOjr1kv6AOF5DqO0zWQ8raytypJLl0Vv5lqvET7X2S1SFuC1v9bMaoI+KjDOsHwF32Zs9pJ8BS3vCnKv2Q9Ps27abxjd+KMRuHzQK9zTz49W9olktrOZLOc1gpB8FN4m23KAhmLvFa/d9uiwSmyAtnxcd/D+Avalnh5csADlv4siUjYBlqKFe6chJTRl6+ThdYMljoritgZxKxl2dDmgxeBw+svb4E=;
-	4:RdFQsXBgr3a7H9q4Nen5gFbR2Z630CONzNkHM+BfmjLTlCGLx1Ld8GpBycYf6Un7UN9LtETEP8JH3AzxiQSbuyCcZWp/utIie72dWaQvtRxIO+6j2U3W5jRCHOHS3M9J7URPVxVDEd3diB6kW4tS1Wa+7GQ6XwsD+V/DcbWY93xxCxb5OskKhsROeTfPwNc72Ox4JwZxxcHf/FP+q7WDzhilvMDXHuV6LJ0VdgzTWB4K2enATJcAeTOstbJ4cuvje0dTPK2B4PzdIk7IX4AdxqZA+KgGaAAS2aocf96Q1xg=
-BN3PR0301MB1171: X-MS-Exchange-Organization-RulesExecuted
-X-Microsoft-Antispam-PRVS: <BN3PR0301MB1171EF5266BE4DEB67AFA898868C0@BN3PR0301MB1171.namprd03.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1181;
+	2:5lF2Guq4IXb4/Varm+Bf5fQ8kmtGTXz74lmjLsXD7kWErtS2IOEoW9MXFXyuOPhv/3L0pNlg/JdQ2GBPlIS0i3MwC6Z+uR7bqhDvITLixdfUwqpuAZYEEnn/x/tKtmKycnVAWHMnSIr/7BpDq3JVTR1MLkQQPxRXn8jmF35Hbrs=;
+	3:3CtjByvGY0SsD/VaoivPtxkiqEX3ZhJpZhM9aiMFOlsd+V6czQBuPedeAfKg4jxCGxVoGmpAjsYzUpZUqc03VIYtrIDCA+dVupERJ+3MOG3ZPNcJcS/Wjz5St2nHV2gqMBo7HpZt5GWq5s6nSOuAzq0GVGu/M/UKkl/uZjY1RowDpq2FHVEZu1iLFB6/kdbePQH8HnCQSgSa+3mpKRp+8RcwtWzvJgm3c4LDptnuBVg=;
+	25:Ye1xUiquEIeTx0ugXuxWzH+r1hbDocmjX5Tydsyuj49XmbQKGB9LeqQCxQu7INHRmopTARBMdfslryNAfqzCRShuECFpTiKcXTWRV2qWDa8h373ESP7UZhB4Yx3aRep6SYL2VwMCDEJssHVYOuZhjgEdag+Ya8dM8Ot4TAB93CSkBdiHRyYydrdnPwa5dx5ey94Z/JNW/8T85CJKAv7NwpLJaqGgwzz0yeb0nKaQj5qEj/GogM6vFpgufT9DXJ4XPV8+rPklvyDlvh5hCxYCAg==
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:DM2PR0301MB1181;
+	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:DM2PR0301MB0880; 
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1181;
+	20:MQowEsA2MJUm4sp57lZLzfX5PX49C0ZxfqlY4c3rqdbFA2Cjth0hLqe0CpC/4kwHjkRQXrruxCYFud7D/YQJObmI00BMP+0bFCbYsAO1WA6Iqp16CozOnaGjiXoI4iXtXFwMUQxnBokO0qJDi6Ekg0R87GnRHeAzR2H1HePYxOVUGcwjJmTlApmw38ehwZNAEYdn1pr+/5yUG2Kenby/nOgvMWzcQ+i96t8q/RLEcASNgxVYpfKMtpXLSQqf7L5hr+NMm07M5wQ4rBCvxsIdEym4gAHToH13kpRMapmRI8wY1I9MIbjMbujuIKZBurgmQt4D/tPQ4nzF9BX/xmfI8UZi8JX/TG/132+RyGsnzUI=;
+	4:FU0zbnEnVilCiMcrl/KKuSjVSJS2tmXUFnKF+nXp96LcMMc5+XyJ3AJsX4GrECRIHF9HJS7Xb0L7J+kLl5gaiTcHlSGAxH2aG/PHoPhQ2nYgV+6uosc2r7sTdEfkyKhv6UUNj6tDPgai/Ofx53nC3gPK//eL0LNaur47dCM2OxAF2Y2ItSVkuHaOvJZP5hT0Nz8djNKUb5kS66PN0KCHpvtFIlfQXqQGdohXjwYP+qnLhjb6wEM5hirxK0/RPB6rASA1yUUAId/Hawl0CcOlzT2LcZP+bnrrsvT9PoMsmIY=
+DM2PR0301MB1181: X-MS-Exchange-Organization-RulesExecuted
+X-Microsoft-Antispam-PRVS: <DM2PR0301MB1181CFCB5B4EABE71A4BD87F868C0@DM2PR0301MB1181.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(3002001); SRVR:BN3PR0301MB1171; BCL:0;
-	PCL:0; RULEID:; SRVR:BN3PR0301MB1171; 
+	RULEID:(601004)(5005006)(3002001); SRVR:DM2PR0301MB1181; BCL:0;
+	PCL:0; RULEID:; SRVR:DM2PR0301MB1181; 
 X-Forefront-PRVS: 0652EA5565
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN3PR0301MB1171;
-	23:/K/sGECkP3elz4amBihr8KWL8GUOqSI24gI48X1?=
-	=?us-ascii?Q?txdnpS64vU0w8aH2dRcTmeGmMqTp2iQuYTh31NyCRJ2B8w8Eqy1PsvAkIu0M?=
-	=?us-ascii?Q?VAaDcCvhrRttGM/ZncQg1cYIhU0gqa5SCytf9bAE+xXXz97ZaTBMzL26PhT3?=
-	=?us-ascii?Q?Z9B/oEQYxg9YgVCU7SdI/Xta9KDxWtVzYTNZQqTM3M8FeuDlmHz1v8GbFabc?=
-	=?us-ascii?Q?K/hkHcLCUrKPYJ9kCgZk1W866ZUJ5HGOShqEv9c/E5kgyc3qYSFmPG7jtP/e?=
-	=?us-ascii?Q?euXBfNLqUSYOmXGKJ/1MJwGjnokzTq9bHb1/WWlQfiyh5P/+igU9RqYtJYJf?=
-	=?us-ascii?Q?Ff6TLYfI/1ETooBTCA2Ls1Fj6GOVBPUtcDO9vn/HvtBMi3sEUmLFhDvqon3Z?=
-	=?us-ascii?Q?q5t6vYRxUUHDoDeCJiI3fRR5unS2oWpXMwfokpRrDZYYT9dXjicgE4v5Re2r?=
-	=?us-ascii?Q?rN8otNR54LTnshODsswOCMGSdzwEiV9mfeuMsO6EpXX50R4SsT5QIebQ8ZRA?=
-	=?us-ascii?Q?QeldgHYXtn6oGBewgdFig06JZakE+JikOVtQAbMPrfxFAu9J/D+CeMrh2moC?=
-	=?us-ascii?Q?EStYf4aah+b12RllaNlTCPtfdS0DLxYjAzBSwNWfoT2JtWJCIfAO5QLK6+nW?=
-	=?us-ascii?Q?5kF9GKvdhtWfuWFXqz0NYGzBpt8XCKZPTKeUhkElkTgzCdQoPHijvzXwVMhZ?=
-	=?us-ascii?Q?YD/sJIFXuUHo09F8baX0Yyg3462djJRwDvA2ID1MXmGlENghldY4wYUH7qMZ?=
-	=?us-ascii?Q?zTY9dvFj3EEwppqWuesIu9iCnDMKdzEkMiWDoGoWOVKwr4RVkyXdz/OJayaM?=
-	=?us-ascii?Q?BIp+UHstad+4Sk8TLFzgFnGxlAe4Cg7I8F881KCzVETp/gDO/ob8VV7eMLw0?=
-	=?us-ascii?Q?tPAR14uoBFU8Y0fLvuLGJEJD2BUUte35dkPbAY/vlIFzVgSSXrMEXhEUbXjy?=
-	=?us-ascii?Q?wvzBt4p/aQpF2AMTy4ZHaei52t+Q7tUqSJ82JSAJn9v5CVrSGWirtuxfWM07?=
-	=?us-ascii?Q?KYFXhxCNHf8iEzEsyKiU0bGh09eE2rVsQO2sPQ+zJ4FFpDQ=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
-	5:ye72i0OI5jYWwiXhHmlkOloBlGqV+pg1oeaTCn2rr4ibQPGbFntlIUC9kmTRdnmsqRVkiT7Zbos7J/Qr8vJ4v/xap71NdWE4yqW9Trld27ZcRSCPxxEcbc46L+ZzH0Q9v/tfMjyIiIZ/3JWe1TpaHA==;
-	24:clNyQZPGo+vb/zYvEDFs2g0kRh6nb8YTlTTVDABXN5Tu92v/sdhlReLIiH12MLAc2C17PWe5svuci2+tLTJcV9bb0ssehl/rOhvqBwL9vAc=;
-	20:YV5T75ij6gLEcVsaONXUq7pOmDguSZyOOrP77NWoWaq6ZFXS8zXHXdhdE8grsEtgvT0mJ1qHuDknAO3HEbgx5Q==
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2015 10:26:08.4714 (UTC)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR0301MB1181;
+	23:KpJDoqVq+EOM+NhuWN5EYPz1XfknZsNGhbSkJLc?=
+	=?us-ascii?Q?4qP8n5xH5oo74P4FdWqlLtR2andxM0+lRkTJYsxHts8BzD0WRoK3ocrNlZ6I?=
+	=?us-ascii?Q?nno+nACKKFCbboBdqZIRlNF0OShYs7lXU66qFBTHvdU2jEzww5uJo3npcOli?=
+	=?us-ascii?Q?Go4MUPgnF4Rhv6fI8+K61XNqmH5+F0qUD2jxdnQ+3AISZzv4P8Klbp1ZWmHm?=
+	=?us-ascii?Q?yfeGKVAARVahS6sYqjZbydqTfxVnNTUAtkZzxtWw0G7TtvSFz9Wh6Br/1B5U?=
+	=?us-ascii?Q?IfqhmA32zjs56Lo2p8t3gOCC2otwIPcl00+ufoarZkNRwPHerFPoXIBoSbJN?=
+	=?us-ascii?Q?koPDgpeLHQHZSKurH3GN+EJ/XMgFrhx4Eo3yCb1h3NsOZzcEQ7rBxuVVzonm?=
+	=?us-ascii?Q?RNifgHJt43PmtDcLDChIS9WK+naQPqJooA+KA9lHkzLcc6sMUEpKguN7VCHp?=
+	=?us-ascii?Q?/PiK8DydbjqdVeAKhMDrKpNixo06FwufnAwvaem7jBYG95DjsbK4+Qwz9KOE?=
+	=?us-ascii?Q?l4zkCiz5/+/U+w8KB/t+mwfuoPkm6yY4WE5gv5PmNnCgLwE1iTJj/myWC786?=
+	=?us-ascii?Q?wVrU5jL/UGB/6mwW2GRFWdVGiYcA6lTBpSQlXKCpWqKE8B7qEOmWPG9YOCMZ?=
+	=?us-ascii?Q?g0ncGRseF/+uKe6sp5XANv/D15QbggaDTOeYNE8z+uBDXKa3UHAgBCZKXXNU?=
+	=?us-ascii?Q?mRT5MFCD0hEMtbLHcSQVQTB9eKbj9iD8YJSbRNARXMu3Z8o5vL/HyIplb0Cf?=
+	=?us-ascii?Q?rOpR68y99Adtt/9sr4pncjPYXedmbkXczIDc4yUrMLWcpg7hqLAX8sIMSfMO?=
+	=?us-ascii?Q?SAoOy8hw+E2s0FQELjwHK9CxM4VYz3yKP9f8+FLpAj1xjqyibJkcjuetxPYF?=
+	=?us-ascii?Q?bCfOCMrQqidZYV6uOt/4nQmqP9e/uMOMZG4vdtTGRHqD3hDByJyd2Q5BX/yl?=
+	=?us-ascii?Q?lFWcuQek+MVuhBbyoSuGj4XE2Bb2sklg+Af7lcFQL6vYu+K2HsdE/JWgWcgA?=
+	=?us-ascii?Q?o4Boh1748NMSkUIY7UuznKoZ6?=
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1181;
+	5:jldqvzP0vRbEUAWiWWu3oTnHE8A8zuoZvIUBlZwPJ3+f6u25uTgofxYd74SsI+wynoXS+jiBukOFwsi3avX4s/9l2WCnf0/VPflnJYEvQrBaCwcPPxyxTBNzsMYOAOMtt3Jpf2yy3DXjKX8Ueepzlg==;
+	24:8CJVFUx/FcOuKwshRrqaWH9IVsRD7ODbodxvtniVMV+x6mS2mgCWgp2BZMeKdhDsd8imw760AQDmtMItkeRXHryuWHMhpEWcTAxAx0GpLVk=;
+	20:F6oXyZoFrw2drVF5aSmhxS2bsuGY2QYP865lHDLNd3wkkGIEvRMDz/B0Ut/19rV+lvMax1JOOIdqxpJfJegK5g==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jul 2015 10:26:11.4376 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
 	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0301MB1171
-Subject: [poky][PATCH v4 4/5] gstreamer1.0-plugins-base: Add GST_VIDEO_FRAME_MAP_FLAG_NO_REF related patch
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1181
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB0880;
+	2:oWwPkVKrj+aiiraWQbMb/wwAK4OzlLeZCtM16IVIGsEU97gpQUAfEluhscAYZIi0;
+	3:ItkCMHYTISFnXu8gJyEC/Tbj3oNlkdgucIEhfA6ETrChwJ38w2raLVS/5zz/AZGPmKVlQCjzvece7oacRYzXzLJ2ayTXrIYq/JYSEqdlR4qen9SvYXkKxYKFF0auqK5ZiiV+ncJkebAmQy5YjNwEOSFglahBRUgeA8SxlrTQPue1zXycLsV17D71iqTj3xomtMx7yH+rhOBNzDoweEPcRwJ1w4MagRJ4oGgQEC8IZMo=;
+	25:MZ7ATNyzIpoeN0J2ieXw+qJar08sFPY89VBw6FXD9T/fJZZ/BvgN9RlOONkugMeX5tl8f9CLyp7uQ/L4ygAU0xqkcE7NFn2+jBIlVtT+d1pn92rkquSWz/v2hGs2scjyvsBMYRzgnL6GGx199NWn05Z2V26Ojr9sEvNLxL6JPLUqqoppz8JeUWeSmfiireTDj8CiO/R7gKnVwLsPnfvRTk5XeqXflnz32qGktNy46E3e4Dk5V5Luif3U2M5+YCAudNnQERkmA5CJfz+4DwrWeg==;
+	23:SiyAKNnIGFlFVfkD/atal31qPp703qro2KJucPqro7Rxvu9U87QCidbvS6hWGxpxICloeuY60Hx4vUzpuZlAjjrOcZqpoqO5YBrTVC0u5rT4PW2GR85s16tRXj3pBIQN2GsbsuNc7+vJm2KUwSDWXv8uC7x+20jfyn6/iPSs2//GfRzgZK701oBgRD3PgnUSc1bxtB2adamlbhntHqHU+eE4yFImV8NHxrlGvTolZE3Oxf5sA15XILSIRbqeW3pt
+X-OriginatorOrg: freescale.com
+Subject: [poky][PATCH v4 5/5] gstreamer1.0-plugins-base: Add videoencoder related patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -102,239 +112,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 10:26:11 -0000
+X-List-Received-Date: Wed, 29 Jul 2015 10:26:14 -0000
 Content-Type: text/plain
 
--Add GST_VIDEO_FRAME_MAP_FLAG_NO_REF
- This makes sure that the buffer is not reffed another time when
- storing it in the GstVideoFrame, keeping it writable if it was writable.
-
--Use new GST_VIDEO_FRAME_MAP_FLAG_NO_REF to replace the old one because it's kind of ugly.
-
--Don't ref buffers twice when mapping
+Keep sticky events around when doing a soft reset.
+The current code will first discard all frames, and then tries to copy
+all sticky events from the (now discarded) frames. So change the order.
 
 Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- ...rame-Don-t-ref-buffers-twice-when-mapping.patch | 26 +++++++
- ...frame-Add-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch | 87 ++++++++++++++++++++++
- ...r-Use-new-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch | 69 +++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  3 +
- 4 files changed, 185 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-video-frame-Don-t-ref-buffers-twice-when-mapping.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-video-frame-Add-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-videofilter-Use-new-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch
+ ...p-sticky-events-around-when-doing-a-soft-.patch | 46 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-video-frame-Don-t-ref-buffers-twice-when-mapping.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-video-frame-Don-t-ref-buffers-twice-when-mapping.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch
 new file mode 100644
-index 0000000..3db4724
+index 0000000..b476969
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-video-frame-Don-t-ref-buffers-twice-when-mapping.patch
-@@ -0,0 +1,26 @@
-+From 269f642c45d85cfd630ed490478e6bd6b71a767f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Tue, 16 Sep 2014 01:07:18 +0300
-+Subject: [PATCH] video-frame: Don't ref buffers twice when mapping
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch
+@@ -0,0 +1,46 @@
++From c3f7d36b992a3cbcee3386dea85720f3cb04e1ff Mon Sep 17 00:00:00 2001
++From: Song Bing <b06498@freescale.com>
++Date: Fri, 27 Mar 2015 13:39:43 +0800
++Subject: [PATCH] videoencoder: Keep sticky events around when doing a soft
++ reset
 +
-+Upstream-Status: Backport [1.5.1]
++The current code will first discard all frames, and then tries to copy
++all sticky events from the (now discarded) frames. Let's change the order.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=746865
++
++Upstream-Status: Backport [1.5.1] 
++
 +---
-+ gst-libs/gst/video/video-frame.c |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ gst-libs/gst/video/gstvideoencoder.c |    8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/gst-libs/gst/video/video-frame.c b/gst-libs/gst/video/video-frame.c
-+index 01f23c0..8a9ae96 100644
-+--- a/gst-libs/gst/video/video-frame.c
-++++ b/gst-libs/gst/video/video-frame.c
-+@@ -105,7 +105,7 @@ gst_video_frame_map_id (GstVideoFrame * frame, GstVideoInfo * info,
-+       frame->data[i] = frame->map[0].data + info->offset[i];
-+     }
++diff --git a/gst-libs/gst/video/gstvideoencoder.c b/gst-libs/gst/video/gstvideoencoder.c
++index 614ba2d..4c5b111 100644
++--- a/gst-libs/gst/video/gstvideoencoder.c
+++++ b/gst-libs/gst/video/gstvideoencoder.c
++@@ -340,10 +340,6 @@ gst_video_encoder_reset (GstVideoEncoder * encoder, gboolean hard)
++ 
++   priv->drained = TRUE;
++ 
++-  g_list_foreach (priv->frames, (GFunc) gst_video_codec_frame_unref, NULL);
++-  g_list_free (priv->frames);
++-  priv->frames = NULL;
++-
++   priv->bytes = 0;
++   priv->time = 0;
++ 
++@@ -392,6 +388,10 @@ gst_video_encoder_reset (GstVideoEncoder * encoder, gboolean hard)
++         encoder->priv->current_frame_events);
 +   }
-+-  frame->buffer = gst_buffer_ref (buffer);
-++  frame->buffer = buffer;
-+   if ((flags & GST_VIDEO_FRAME_MAP_FLAG_NO_REF) == 0)
-+     gst_buffer_ref (frame->buffer);
 + 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-video-frame-Add-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-video-frame-Add-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch
-new file mode 100644
-index 0000000..c465b5c
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-video-frame-Add-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch
-@@ -0,0 +1,87 @@
-+From 40a293d44d1aeccf5eb8e86f23a0b13666111c5c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 12 Sep 2014 14:39:16 +0300
-+Subject: [PATCH 2/3] video-frame: Add GST_VIDEO_FRAME_MAP_FLAG_NO_REF
-+
-+This makes sure that the buffer is not reffed another time when
-+storing it in the GstVideoFrame, keeping it writable if it was
-+writable.
-+
-+Upstream-Status: Backport [1.5.1]
-+https://bugzilla.gnome.org/show_bug.cgi?id=736118
-+---
-+ gst-libs/gst/video/video-frame.c |    9 ++++++++-
-+ gst-libs/gst/video/video-frame.h |   18 ++++++++++++++++++
-+ 2 files changed, 26 insertions(+), 1 deletion(-)
-+
-+diff --git a/gst-libs/gst/video/video-frame.c b/gst-libs/gst/video/video-frame.c
-+index 537cf70..01f23c0 100644
-+--- a/gst-libs/gst/video/video-frame.c
-++++ b/gst-libs/gst/video/video-frame.c
-+@@ -106,6 +106,9 @@ gst_video_frame_map_id (GstVideoFrame * frame, GstVideoInfo * info,
-+     }
-+   }
-+   frame->buffer = gst_buffer_ref (buffer);
-++  if ((flags & GST_VIDEO_FRAME_MAP_FLAG_NO_REF) == 0)
-++    gst_buffer_ref (frame->buffer);
+++  g_list_foreach (priv->frames, (GFunc) gst_video_codec_frame_unref, NULL);
+++  g_list_free (priv->frames);
+++  priv->frames = NULL;
 ++
-+   frame->meta = meta;
++   GST_VIDEO_ENCODER_STREAM_UNLOCK (encoder);
 + 
-+   /* buffer flags enhance the frame flags */
-+@@ -189,11 +192,13 @@ gst_video_frame_unmap (GstVideoFrame * frame)
-+   GstBuffer *buffer;
-+   GstVideoMeta *meta;
-+   gint i;
-++  GstMapFlags flags;
-+ 
-+   g_return_if_fail (frame != NULL);
-+ 
-+   buffer = frame->buffer;
-+   meta = frame->meta;
-++  flags = frame->map[0].flags;
-+ 
-+   if (meta) {
-+     for (i = 0; i < frame->info.finfo->n_planes; i++) {
-+@@ -202,7 +207,9 @@ gst_video_frame_unmap (GstVideoFrame * frame)
-+   } else {
-+     gst_buffer_unmap (buffer, &frame->map[0]);
-+   }
-+-  gst_buffer_unref (buffer);
-++
-++  if ((flags & GST_VIDEO_FRAME_MAP_FLAG_NO_REF) == 0)
-++    gst_buffer_unref (frame->buffer);
-+ }
-+ 
-+ /**
-+diff --git a/gst-libs/gst/video/video-frame.h b/gst-libs/gst/video/video-frame.h
-+index 627fab0..f8e6304 100644
-+--- a/gst-libs/gst/video/video-frame.h
-++++ b/gst-libs/gst/video/video-frame.h
-+@@ -149,6 +149,24 @@ typedef enum {
-+   GST_VIDEO_BUFFER_FLAG_LAST        = (GST_BUFFER_FLAG_LAST << 8)
-+ } GstVideoBufferFlags;
-+ 
-++/**
-++ * GstVideoBufferFlags:
-++ * @GST_VIDEO_FRAME_MAP_FLAG_NO_REF:  Don't take another reference of the buffer and store it in
-++ *                                    the GstVideoFrame. This makes sure that the buffer stays
-++ *                                    writable while the frame is mapped, but requires that the
-++ *                                    buffer reference stays valid until the frame is unmapped again.
-++ * @GST_VIDEO_FRAME_MAP_FLAG_LAST:    Offset to define more flags
-++ *
-++ * Additional mapping flags for gst_video_frame_map().
-++ *
-++ * Since: 1.6
-++ */
-++typedef enum {
-++  GST_VIDEO_FRAME_MAP_FLAG_NO_REF   = (GST_MAP_FLAG_LAST << 0),
-++  GST_VIDEO_FRAME_MAP_FLAG_LAST     = (GST_MAP_FLAG_LAST << 8)
-++  /* 8 more flags possible afterwards */
-++} GstVideoFrameMapFlags;
-++
-+ G_END_DECLS
-+ 
-+ #endif /* __GST_VIDEO_FRAME_H__ */
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-videofilter-Use-new-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-videofilter-Use-new-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch
-new file mode 100644
-index 0000000..132bf06
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-videofilter-Use-new-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch
-@@ -0,0 +1,69 @@
-+From 3a7cdcdfc9c5b0d20394fe51b3b8cda23931ca6d Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-+Date: Fri, 12 Sep 2014 14:41:01 +0300
-+Subject: [PATCH 3/3] videofilter: Use new GST_VIDEO_FRAME_MAP_FLAG_NO_REF
-+
-+Upstream-Status: Backport [1.5.1]
-+https://bugzilla.gnome.org/show_bug.cgi?id=736118
-+---
-+ gst-libs/gst/video/gstvideofilter.c |   23 ++++-------------------
-+ 1 file changed, 4 insertions(+), 19 deletions(-)
-+
-+diff --git a/gst-libs/gst/video/gstvideofilter.c b/gst-libs/gst/video/gstvideofilter.c
-+index e1fa2c1..874b2e8 100644
-+--- a/gst-libs/gst/video/gstvideofilter.c
-++++ b/gst-libs/gst/video/gstvideofilter.c
-+@@ -260,23 +260,15 @@ gst_video_filter_transform (GstBaseTransform * trans, GstBuffer * inbuf,
-+   if (fclass->transform_frame) {
-+     GstVideoFrame in_frame, out_frame;
-+ 
-+-    if (!gst_video_frame_map (&in_frame, &filter->in_info, inbuf, GST_MAP_READ))
-++    if (!gst_video_frame_map (&in_frame, &filter->in_info, inbuf,
-++            GST_MAP_READ | GST_VIDEO_FRAME_MAP_FLAG_NO_REF))
-+       goto invalid_buffer;
-+ 
-+     if (!gst_video_frame_map (&out_frame, &filter->out_info, outbuf,
-+-            GST_MAP_WRITE))
-++            GST_MAP_WRITE | GST_VIDEO_FRAME_MAP_FLAG_NO_REF))
-+       goto invalid_buffer;
-+ 
-+-    /* GstVideoFrame has another reference, so the buffer looks unwriteable,
-+-     * meaning that we can't attach any metas or anything to it. Other
-+-     * map() functions like gst_buffer_map() don't get another reference
-+-     * of the buffer and expect the buffer reference to be kept until
-+-     * the buffer is unmapped again. */
-+-    gst_buffer_unref (inbuf);
-+-    gst_buffer_unref (outbuf);
-+     res = fclass->transform_frame (filter, &in_frame, &out_frame);
-+-    gst_buffer_ref (inbuf);
-+-    gst_buffer_ref (outbuf);
-+ 
-+     gst_video_frame_unmap (&out_frame);
-+     gst_video_frame_unmap (&in_frame);
-+@@ -317,7 +309,7 @@ gst_video_filter_transform_ip (GstBaseTransform * trans, GstBuffer * buf)
-+     GstVideoFrame frame;
-+     GstMapFlags flags;
-+ 
-+-    flags = GST_MAP_READ;
-++    flags = GST_MAP_READ | GST_VIDEO_FRAME_MAP_FLAG_NO_REF;
-+ 
-+     if (!gst_base_transform_is_passthrough (trans))
-+       flags |= GST_MAP_WRITE;
-+@@ -325,14 +317,7 @@ gst_video_filter_transform_ip (GstBaseTransform * trans, GstBuffer * buf)
-+     if (!gst_video_frame_map (&frame, &filter->in_info, buf, flags))
-+       goto invalid_buffer;
-+ 
-+-    /* GstVideoFrame has another reference, so the buffer looks unwriteable,
-+-     * meaning that we can't attach any metas or anything to it. Other
-+-     * map() functions like gst_buffer_map() don't get another reference
-+-     * of the buffer and expect the buffer reference to be kept until
-+-     * the buffer is unmapped again. */
-+-    gst_buffer_unref (buf);
-+     res = fclass->transform_frame_ip (filter, &frame);
-+-    gst_buffer_ref (buf);
-+ 
-+     gst_video_frame_unmap (&frame);
-+   } else {
++   return ret;
 +-- 
 +1.7.9.5
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-index 88c3254..9c31391 100644
+index 9c31391..8daf5af 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-@@ -11,6 +11,9 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
-             file://fix-id3demux-utf16-to-utf8-issue.patch \
-             file://handle-audio-video-decoder-error.patch \
-             file://videobuffer_updata_alignment_update.patch \
-+            file://0002-video-frame-Add-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch \
-+            file://0001-video-frame-Don-t-ref-buffers-twice-when-mapping.patch \
-+            file://0003-videofilter-Use-new-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch \
+@@ -14,6 +14,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+             file://0002-video-frame-Add-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch \
+             file://0001-video-frame-Don-t-ref-buffers-twice-when-mapping.patch \
+             file://0003-videofilter-Use-new-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch \
++            file://videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch \
  "
  
  SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
