@@ -1,39 +1,23 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 374B1763C8
+Return-Path: <dv@pseudoterminal.org>
+Received: from ptmx.org (ptmx.org [178.63.28.110])
+	by mail.openembedded.org (Postfix) with ESMTP id 748ED76230
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 21:28:37 +0000 (UTC)
-Received: by ioeg141 with SMTP id g141so35156150ioe.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 14:28:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=t/J8/zrJcdrqQ/46jCn4/UiHyuc+QSIRBH9wyBvSA1k=;
-	b=EpCLRLmjD/8wgAEiBfyy74PhQY1rAjvuc+WuO5HUy83os16qEHDJGpiOBPLJbREQOa
-	P2uKbDwdD07v0PnfWz6GATx7+EEfXWqwtU71pvqIuALsdGTsP8HK+206JO9bp77YtlZo
-	NNBDJ9tgKYDY7i4ZUJYwrzTACBnu9FThqpX0Y6OyrV6Nb4+augcK6RbT/npItS8ECU3u
-	j218/4eKWFhdJly7pKBs09CgbrGKHGtvz33VGrMJ8NStq1HuRGaTkxNU46H+cWvl59E0
-	CS84lxFSfWiYA4BYr/kFK+/5dM9K+9c6Aki8l3wELdFiLxdyaFxK/lTy8XdCRt8WhexN
-	o+fA==
-X-Received: by 10.107.15.210 with SMTP id 79mr5031437iop.192.1438205317854;
-	Wed, 29 Jul 2015 14:28:37 -0700 (PDT)
+	Wed, 29 Jul 2015 21:48:41 +0000 (UTC)
+Received: from [192.168.178.14] (chello062178118086.5.14.vie.surfer.at
+	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id AD4E23718B;
+	Wed, 29 Jul 2015 23:48:25 +0200 (CEST)
+Message-ID: <55B94A38.9000102@pseudoterminal.org>
+Date: Wed, 29 Jul 2015 23:48:40 +0200
+From: Carlos Rafael Giani <dv@pseudoterminal.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.79.100.199 with HTTP; Wed, 29 Jul 2015 14:28:18 -0700 (PDT)
-In-Reply-To: <CABcZANkCPbUfxhN3FB=k8W4n79sKs73Os+u01H+8TkjOyUuimg@mail.gmail.com>
-References: <cover.1436889188.git.chris_larson@mentor.com>
-	<34337e7400db6002b7d708a32609e2731d908a1f.1436889188.git.chris_larson@mentor.com>
-	<55B8799D.3050600@windriver.com>
-	<2239134.B3utLX50et@peggleto-mobl.ger.corp.intel.com>
-	<CABcZANkCPbUfxhN3FB=k8W4n79sKs73Os+u01H+8TkjOyUuimg@mail.gmail.com>
-From: Christopher Larson <kergoth@gmail.com>
-Date: Wed, 29 Jul 2015 14:28:18 -0700
-Message-ID: <CABcZANnUR=W81FOz0+3gr9MdM4hXsx-qm4TeD6ZeEvd7Ac-EzQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] devtool: also load plugins from BBPATH
+To: Yuqing Zhu <b54851@freescale.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1438194339-13618-1-git-send-email-b54851@freescale.com>
+	<1438194339-13618-3-git-send-email-b54851@freescale.com>
+In-Reply-To: <1438194339-13618-3-git-send-email-b54851@freescale.com>
+Subject: Re: [poky][PATCH v4 2/5] gstreamer1.0-plugins-base: handle audio/video decoder error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,61 +30,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 21:28:40 -0000
-Content-Type: multipart/alternative; boundary=001a113fe63a15c3b5051c0a455a
+X-List-Received-Date: Wed, 29 Jul 2015 21:48:41 -0000
+Content-Type: text/plain; charset=iso-8859-15; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a113fe63a15c3b5051c0a455a
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This one is quite difficult. On one hand, I see the benefits. If for 
+example an audio track is broken but the video track is fine, it should 
+not stop the entire playback. On the other hand, the error message about 
+no valid frames found is quite significant, and if a player suddenly 
+stops because of missing valid frames, this player will not get any 
+message from the pipeline. The reason for the stop will remain a mystery 
+unless somebody looks at the logs.
 
-On Wed, Jul 29, 2015 at 9:40 AM, Christopher Larson <kergoth@gmail.com>
-wrote:
+I agree with the conclusions in Bugzilla that the appropriate way to 
+handle this would be to somehow aggregate the error messages and only 
+stop if all tracks report an error. However, this is a nontrivial 
+change, and if it is implemente, it won't make it in before GStreamer 
+1.8 (perhaps even later).
 
-> On Wed, Jul 29, 2015 at 2:56 AM, Paul Eggleton <
-> paul.eggleton@linux.intel.com> wrote:
+But, Zhu, the bugzilla entry also contains a patch for baseparse. What 
+about that one?
+
+Am 2015-07-29 um 20:25 schrieb Yuqing Zhu:
+> When there is input data and no output data to the end of the stream, it will
+> send GST_ELEMENT_ERROR and quit from playing.
+> The patch comments the GST_ELEMENT_ERROR() and just add GST_ERROR_OBJECT()
+> information instead.
 >
->> Hmm, I guess we will have to add a command-line parameter to specify
->> BBPATH
->> (or the full plugin search path) so that tinfoil doesn't have to be
->> instantiated when it's specified.
->>
+> Signed-off-by: Yuqing Zhu<b54851@freescale.com>
+> ---
+>   .../handle-audio-video-decoder-error.patch         | 64 ++++++++++++++++++++++
+>   .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
+>   2 files changed, 65 insertions(+)
+>   create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
 >
-> Indeed, sorry about that, I didn=E2=80=99t even realize populate_sdk_ext =
-used
-> devtool from a bbclass :)
->
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
+> new file mode 100755
+> index 0000000..833ce72
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
+> @@ -0,0 +1,64 @@
+> +From bcb2b8b6f49e7c66124a4f5e07dea829d5ebfe59 Mon Sep 17 00:00:00 2001
+> +From: Lyon Wang<lyon.wang@freescale.com>
+> +Date: Mon, 15 Dec 2014 16:52:07 +0800
+> +Subject: [PATCH] handle audio/video decoder error
+> +
+> +When there is input data and no output data to the end of the stream, it will
+> +send GST_ELEMENT_ERROR, So the clips playing will quit.
+> +However, if only one of the tracks is corrupt, there is no need to quit other
+> +tracks playing.
+> +
+> +The patch comments the GST_ELEMENT_ERROR() and just add GST_ERROR_OBJECT()
+> +information instead.
+> +
+> +Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=741542]
+> +
+> +Signed-off-by: Lyon Wang<lyon.wang@freescale.com>
+> +---
+> + gst-libs/gst/audio/gstaudiodecoder.c |    5 +++--
+> + gst-libs/gst/video/gstvideodecoder.c |    5 +++--
+> + 2 files changed, 6 insertions(+), 4 deletions(-)
+> + mode change 100644 => 100755 gst-libs/gst/audio/gstaudiodecoder.c
+> + mode change 100644 => 100755 gst-libs/gst/video/gstvideodecoder.c
+> +
+> +diff --git a/gst-libs/gst/audio/gstaudiodecoder.c b/gst-libs/gst/audio/gstaudiodecoder.c
+> +old mode 100644
+> +new mode 100755
+> +index c2e7a28..891df0a
+> +--- a/gst-libs/gst/audio/gstaudiodecoder.c
+> ++++ b/gst-libs/gst/audio/gstaudiodecoder.c
+> +@@ -2123,9 +2123,10 @@ gst_audio_decoder_sink_eventfunc (GstAudioDecoder * dec, GstEvent * event)
+> +       GST_AUDIO_DECODER_STREAM_UNLOCK (dec);
+> +
+> +       if (dec->priv->ctx.had_input_data && !dec->priv->ctx.had_output_data) {
+> +-        GST_ELEMENT_ERROR (dec, STREAM, DECODE,
+> ++        /* GST_ELEMENT_ERROR (dec, STREAM, DECODE,
+> +             ("No valid frames decoded before end of stream"),
+> +-            ("no valid frames found"));
+> ++            ("no valid frames found")); */
+> ++        GST_ERROR_OBJECT(dec, "No valid frames decoded before end of stream");
+> +       }
+> +
+> +       /* send taglist if no valid frame is decoded util EOS */
+> +diff --git a/gst-libs/gst/video/gstvideodecoder.c b/gst-libs/gst/video/gstvideodecoder.c
+> +old mode 100644
+> +new mode 100755
+> +index ac581e1..4278bcd
+> +--- a/gst-libs/gst/video/gstvideodecoder.c
+> ++++ b/gst-libs/gst/video/gstvideodecoder.c
+> +@@ -1068,9 +1068,10 @@ gst_video_decoder_sink_event_default (GstVideoDecoder * decoder,
+> +
+> +       /* Error out even if EOS was ok when we had input, but no output */
+> +       if (ret && priv->had_input_data && !priv->had_output_data) {
+> +-        GST_ELEMENT_ERROR (decoder, STREAM, DECODE,
+> ++        /* GST_ELEMENT_ERROR (decoder, STREAM, DECODE,
+> +             ("No valid frames decoded before end of stream"),
+> +-            ("no valid frames found"));
+> ++            ("no valid frames found")); */
+> ++        GST_ERROR_OBJECT(decoder, "No valid frames decoded before end of stream");
+> +       }
+> +
+> +       /* Forward EOS immediately. This is required because no
+> +--
+> +1.7.9.5
+> +
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> index aaa1ecb..aa90179 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+> @@ -9,6 +9,7 @@ SRC_URI +="file://do-not-change-eos-event-to-gap-event-if.patch \
+>               file://get-caps-from-src-pad-when-query-caps.patch \
+>               file://taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
+>               file://fix-id3demux-utf16-to-utf8-issue.patch \
+> +            file://handle-audio-video-decoder-error.patch \
+>   "
+>   
+>   SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
 
-I'll submit patches for this and one other populate_sdk_ext issue shortly.
---=20
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
 
---001a113fe63a15c3b5051c0a455a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Wed, Jul 29, 2015 at 9:40 AM, Christopher Larson <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span>On Wed, Jul 29, =
-2015 at 2:56 AM, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"mailto:paul=
-.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux.intel.com<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"overf=
-low:hidden">Hmm, I guess we will have to add a command-line parameter to sp=
-ecify BBPATH<br>
-(or the full plugin search path) so that tinfoil doesn&#39;t have to be<br>
-instantiated when it&#39;s specified.<br></div></blockquote><div><br></div>=
-</span><div>Indeed, sorry about that, I didn=E2=80=99t even realize populat=
-e_sdk_ext used devtool from a bbclass :)</div></blockquote></div><br>I&#39;=
-ll submit patches for this and one other populate_sdk_ext issue shortly.<br=
->-- <br><div><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot co=
-m<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>S=
-enior Software Engineer, Mentor Graphics</div></div>
-</div></div>
-
---001a113fe63a15c3b5051c0a455a--
