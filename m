@@ -1,32 +1,28 @@
-Return-Path: <adrian.ratiu@ni.com>
-X-Greylist: delayed 8181 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 29 Jul 2015 13:06:13 UTC
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A47F7597C
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DD38761D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 13:06:13 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t6TAnqpX014081 for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 05:49:52 -0500
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015072905495157-548816 ;
-	Wed, 29 Jul 2015 05:49:51 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jul 2015 13:49:50 +0300
-Message-Id: <1438166990-13918-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.1.4
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 07/29/2015 05:49:51 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 07/29/2015 05:49:51 AM,
-	Serialize complete at 07/29/2015 05:49:51 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-07-29_05:, , signatures=0
-Subject: [PATCH] bitbake.conf: Remove replace call from MACHINE_ARCH
+	Wed, 29 Jul 2015 13:23:32 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6TDNWpZ019095
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jul 2015 06:23:32 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Wed, 29 Jul 2015 06:23:15 -0700
+Message-ID: <55B8D3CD.2060200@windriver.com>
+Date: Wed, 29 Jul 2015 09:23:25 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: He Zhe <zhe.he@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <cover.1437461993.git.zhe.he@windriver.com>	<55B09C62.4060408@windriver.com>	<55B59CCF.1060300@windriver.com>
+	<55B6F42F.7000105@windriver.com> <55B8819B.6040407@windriver.com>
+In-Reply-To: <55B8819B.6040407@windriver.com>
+Subject: Re: [PATCH v2 0/2] Yocto Bug #6945
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,47 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 13:06:15 -0000
+X-List-Received-Date: Wed, 29 Jul 2015 13:23:32 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This replace() hack was added to fix Yocto bug #946 [1] with commit id
-69b3a11. It is time to fix this properly. It should not be an issue
-anymore with libzypp after 4.5 years, but if the initial bug still
-exists, then a more intelligent solution should be used to fix it.
+On 15-07-29 03:32 AM, He Zhe wrote:
+> Ping.
+>
+> Is there any comments on this?
 
-If a package build fails because it expects _ instead of - inside
-MACHINE_ARCH, then the problem is with the package build, not with the
-global variable used by all machines.
+I'm obviously ok with the patch in its current RFC status. It works
+and I've tested it in my tree (hence why I've been quiet on this
+one).
 
-*IF* the offending package build cannot be easily fixed, then there
-are better workarounds than globally replacing. For example overwriting
-MACHINE_ARCH in the <machine-name>.conf which is causing the offending
-package to fail (thus not screwing all), or using conditional overrides
-MACHINE_ARCH_qemux86-64 = "qemux86_64"
+If it meets the style for merging into core, and that it doesn't
+break other layers we can't see .. I was hoping to hear from others.
 
-Mangling the variable globally for all machines causes other components
-that expect the sane MACHINE_ARCH value to fail.
+Bruce
 
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=946
-
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 730ab80..19e7ddf 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -136,7 +136,7 @@ SDK_AS_ARCH = "${BUILD_AS_ARCH}"
- 
- TUNE_PKGARCH ??= ""
- PACKAGE_ARCH ??= "${TUNE_PKGARCH}"
--MACHINE_ARCH = "${@[d.getVar('TUNE_PKGARCH', True), d.getVar('MACHINE', True)][bool(d.getVar('MACHINE', True))].replace('-', '_')}"
-+MACHINE_ARCH = "${@[d.getVar('TUNE_PKGARCH', True), d.getVar('MACHINE', True)][bool(d.getVar('MACHINE', True))]}"
- PACKAGE_EXTRA_ARCHS ??= "${PACKAGE_EXTRA_ARCHS_tune-${DEFAULTTUNE}}"
- PACKAGE_ARCHS = "all any noarch ${PACKAGE_EXTRA_ARCHS} ${MACHINE_ARCH}"
- # MACHINE_ARCH shouldn't be included here as a variable dependency
--- 
-2.1.4
+>
+> Zhe
+>
+> On 07/28/2015 11:17 AM, He Zhe wrote:
+>> Ping.
+>>
+>> On 07/27/2015 10:51 AM, He Zhe wrote:
+>>> Ping.
+>>>
+>>> On 07/23/2015 03:48 PM, He Zhe wrote:
+>>>> Ping.
+>>>>
+>>>> On 07/21/2015 03:23 PM, zhe.he@windriver.com wrote:
+>>>>> From: He Zhe <zhe.he@windriver.com>
+>>>>>
+>>>>>   - To support building packaging and installing multi types of kernel
+>>>>>     images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
+>>>>>     as a list.
+>>>>>   - Modify wherever reference KERNEL_IMAGETYPE accordingly.
+>>>>>   - Pass mkimage in sysroot to kernel makefile by NATIVE_MKIMAGE to avoid
+>>>>>     depending on build machine's, when KEEPUIMAGE is "yes".
+>>>>>   - v2: update with the latest oe-core
+>>>>>
+>>>>> He Zhe (2):
+>>>>>    kernel: Define KERNEL_IMAGETYPE as a list
+>>>>>    kernel: Pass sysroot mkimage to kernel makefile
+>>>>>
+>>>>>   meta/classes/image_types.bbclass         |   6 +-
+>>>>>   meta/classes/kernel-fitimage.bbclass     |  22 +++---
+>>>>>   meta/classes/kernel-grub.bbclass         |  47 ++++++++----
+>>>>>   meta/classes/kernel-uimage.bbclass       |  31 +++++---
+>>>>>   meta/classes/kernel.bbclass              | 127 ++++++++++++++++++++++---------
+>>>>>   meta/conf/documentation.conf             |   2 +-
+>>>>>   meta/lib/oeqa/controllers/masterimage.py |   2 +-
+>>>>>   meta/lib/oeqa/targetcontrol.py           |   2 +-
+>>>>>   meta/recipes-kernel/linux/linux-dtb.inc  |  15 ++--
+>>>>>   scripts/test-remote-image                |   2 +-
+>>>>>   10 files changed, 175 insertions(+), 81 deletions(-)
+>>>>>
+>
 
 
