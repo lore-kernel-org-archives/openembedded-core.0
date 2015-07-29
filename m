@@ -1,50 +1,50 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C46B73D13
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8804B75A60
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 16:28:24 +0000 (UTC)
-Received: by padck2 with SMTP id ck2so8182427pad.0
+	Wed, 29 Jul 2015 16:33:33 +0000 (UTC)
+Received: by pdrg1 with SMTP id g1so8566092pdr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 09:28:24 -0700 (PDT)
+	Wed, 29 Jul 2015 09:33:34 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=byb04JiLlsMU2EOEN2L6noNIq/F7n31/DgTKdfWnicY=;
-	b=MPKzQkJDVYpTNNPVrgav2cViG7/Q0RsSP30yDYkJ2jlXnr2p+2zAl/0OhNOG1fvwFu
-	oJErcemWhwqXL6bne8hOtMvnMOW+oW0nGpGlM+gJVEBrFL9pZttvuB1quQTlVx5WHYje
-	PS1zsspE3O4EIFsLu+NGQEMJmBgmuAoHYf0B79Sne8fCdfgvUs3qDOEkWWnRiJdRu4rW
-	xzfkGMqT2L0fLhPwHj1rV1TI2zhK0owDsyYBW2dlQgyTVegwFQ0FNg+V6BvbBVr5xA2C
-	7B5qSBhmRdTen6L0sy5HokEBP901aKKGRgSCPmRcWhkRHLcWb1GRkV2YPH07zGXecw7h
-	xjjQ==
-X-Gm-Message-State: ALoCoQnnTcSmhJs4CJRDpa1LaDtYgAT1oZojhZPGPFOgsKWox+AjjbeoTF56PaswTUOSFRtydvWj
-X-Received: by 10.66.154.131 with SMTP id vo3mr16365774pab.135.1438187304766; 
-	Wed, 29 Jul 2015 09:28:24 -0700 (PDT)
-Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com.
-	[209.85.220.50]) by smtp.gmail.com with ESMTPSA id
-	j3sm41614813pdf.76.2015.07.29.09.28.22
+	bh=Xyd3wuL0RVskYkWYPbqnpERNkUgfatXvZXsqpJmKFaU=;
+	b=U2Fhcp3AYMWGfWygitUr6ncLLGnp2tYe66NroM0IzPdUiLQymC7gYf2SbFdfBZd8oB
+	Ne/rz+LAxfekZmu8sjrPdUL39M8+qONNtLgBiQqHshgwekZ6Ykm/aqmYUSZBXIhx+9Cb
+	X0V2cfchRi36XpEhsx6Fa8kR5RYLCrFQ14tAlfJR5ltAYcuoz2va+lCA24283rwxZT5f
+	EOCtBjxCPRLOX2x0IZwTXPcMsEBEfJs3zod+OuqBbkpICY9adZ1Fc3SVddozFB8UzRiy
+	QgBkJ8IpfX1f5OPuXUZZ0gZFb2jR60OST46Y/05YGkWz8ca4JsrG33/E+oGQoY2smEAv
+	/Nkw==
+X-Gm-Message-State: ALoCoQlVBjyY6Z2Fiq7EEsjD4xfSxxpG4RiMMu74Lt3w3kgBQUbRRHxLiFuQ1lqrtR0W1uAaNPKo
+X-Received: by 10.70.42.105 with SMTP id n9mr96486505pdl.78.1438187614252;
+	Wed, 29 Jul 2015 09:33:34 -0700 (PDT)
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com.
+	[209.85.220.52]) by smtp.gmail.com with ESMTPSA id
+	i5sm41922947pat.42.2015.07.29.09.33.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 Jul 2015 09:28:23 -0700 (PDT)
+	Wed, 29 Jul 2015 09:33:32 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by padck2 with SMTP id ck2so8181877pad.0
+Received: by pachj5 with SMTP id hj5so8147356pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 09:28:22 -0700 (PDT)
+	Wed, 29 Jul 2015 09:33:30 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.66.116.81 with SMTP id ju17mr95588293pab.35.1438187302289;
-	Wed, 29 Jul 2015 09:28:22 -0700 (PDT)
-Received: by 10.70.59.105 with HTTP; Wed, 29 Jul 2015 09:28:22 -0700 (PDT)
-In-Reply-To: <CAJTo0LZP1wrXWFaOh4kRqDmY5cXqOACS54aZK0OqAzhtyz0Lzg@mail.gmail.com>
+X-Received: by 10.66.251.135 with SMTP id zk7mr94842765pac.80.1438187610726;
+	Wed, 29 Jul 2015 09:33:30 -0700 (PDT)
+Received: by 10.70.59.105 with HTTP; Wed, 29 Jul 2015 09:33:30 -0700 (PDT)
+In-Reply-To: <1438125665-14966-9-git-send-email-armccurdy@gmail.com>
 References: <1438125665-14966-1-git-send-email-armccurdy@gmail.com>
-	<1438125665-14966-8-git-send-email-armccurdy@gmail.com>
-	<CAJTo0LZP1wrXWFaOh4kRqDmY5cXqOACS54aZK0OqAzhtyz0Lzg@mail.gmail.com>
-Date: Wed, 29 Jul 2015 13:28:22 -0300
-Message-ID: <CAP9ODKpEdFGPMMSy2h82_Z0ozeS_ZQqAZ2o9vfi4Gzt7cvjbBA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] busybox: disable fstrim in defconfig
+	<1438125665-14966-9-git-send-email-armccurdy@gmail.com>
+Date: Wed, 29 Jul 2015 13:33:30 -0300
+Message-ID: <CAP9ODKqSeym02zoqOn5Mim3mXq1RWzpzMkq9Oqr_e525cyxTiA@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/8] busybox: disable volumeid support for exFAT, F2FS and NILFS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,21 +57,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 16:28:24 -0000
+X-List-Received-Date: Wed, 29 Jul 2015 16:33:36 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jul 29, 2015 at 11:22 AM, Burton, Ross <ross.burton@intel.com> wrote:
+On Tue, Jul 28, 2015 at 8:21 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> These are less common filesystem formats, so disable volumeid support
+> for them by default.
 >
-> On 29 July 2015 at 00:21, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> The fstrim applet (to discard unused blocks on a mounted filesystem)
->> doesn't seem like core functionality, so disable by default.
->
->
-> With SSDs being more common, is this really true?  What's the size impact of
-> this?
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 
-I agree with Ross here and I think it should stay enabled.
+F2FS could be of use. It is being more adopted now that Android is
+starting to be deployed to some devices with it.
 
 -- 
 Otavio Salvador                             O.S. Systems
