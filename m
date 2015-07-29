@@ -1,23 +1,34 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 748ED76230
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9766576230
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 21:48:41 +0000 (UTC)
-Received: from [192.168.178.14] (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id AD4E23718B;
-	Wed, 29 Jul 2015 23:48:25 +0200 (CEST)
-Message-ID: <55B94A38.9000102@pseudoterminal.org>
-Date: Wed, 29 Jul 2015 23:48:40 +0200
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Yuqing Zhu <b54851@freescale.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1438194339-13618-1-git-send-email-b54851@freescale.com>
-	<1438194339-13618-3-git-send-email-b54851@freescale.com>
-In-Reply-To: <1438194339-13618-3-git-send-email-b54851@freescale.com>
-Subject: Re: [poky][PATCH v4 2/5] gstreamer1.0-plugins-base: handle audio/video decoder error
+	Wed, 29 Jul 2015 21:54:02 +0000 (UTC)
+Received: by pdrg1 with SMTP id g1so12467568pdr.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jul 2015 14:54:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=uz+TAhb9hDdfuAPuq0Vidxmt+10HZyQJYgIj5MQCDz0=;
+	b=Xa9G4ua20Ykr7h0XmlLR1uzEpb1hkopympgLV3SluuNjUeaa6PFY0baZT24y3wcnrM
+	Iqv1gWqRr7BzPjCRoy5KrizkZ+33sxMEH1zKq/Q1xRESCEPx3myn2XQeAw78aofBZjFy
+	LowHg3YL0n/HJrBEcw4my4EntX8QoM3RDOM/jgaSL48yvwoeHaQFLQQyXZrbRWA5QLgb
+	MT+ypCF8G9ptiruB9sXKyJysYQ+p+D+g/MwlIMphoyle6yXMmRTxpqUgsw6uDZcEUJw3
+	ALD4MnxNzkfSf9E5pfGpAsrWSv5UMLY5+ktNHWXEpDeqBa2sTH23T/OW9fel3HIz4ayq
+	ccRQ==
+X-Received: by 10.70.128.226 with SMTP id nr2mr99474621pdb.139.1438206842435; 
+	Wed, 29 Jul 2015 14:54:02 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id fj6sm66982pdb.21.2015.07.29.14.54.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 29 Jul 2015 14:54:01 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jul 2015 14:53:54 -0700
+Message-Id: <cover.1438206555.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH 0/3] Fix a couple populate_sdk_ext issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,121 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jul 2015 21:48:41 -0000
-Content-Type: text/plain; charset=iso-8859-15; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 Jul 2015 21:54:02 -0000
 
-This one is quite difficult. On one hand, I see the benefits. If for 
-example an audio track is broken but the video track is fine, it should 
-not stop the entire playback. On the other hand, the error message about 
-no valid frames found is quite significant, and if a player suddenly 
-stops because of missing valid frames, this player will not get any 
-message from the pipeline. The reason for the stop will remain a mystery 
-unless somebody looks at the logs.
+From: Christopher Larson <chris_larson@mentor.com>
 
-I agree with the conclusions in Bugzilla that the appropriate way to 
-handle this would be to somehow aggregate the error messages and only 
-stop if all tracks report an error. However, this is a nontrivial 
-change, and if it is implemente, it won't make it in before GStreamer 
-1.8 (perhaps even later).
+- Explicitly pass BBPATH to devtool as Paul Eggleton suggests, to avoid
+  needing to acquire the bitbake lock, to resolve the issue in
+  populate_sdk_ext.
+- Use the oe-core lnr script rather than ln -sr to improve host portability
+  (not all hosts have recent coreutils).
 
-But, Zhu, the bugzilla entry also contains a patch for baseparse. What 
-about that one?
+The following changes since commit 27d068d05239c26a3848eb101571acab54635e37:
 
-Am 2015-07-29 um 20:25 schrieb Yuqing Zhu:
-> When there is input data and no output data to the end of the stream, it will
-> send GST_ELEMENT_ERROR and quit from playing.
-> The patch comments the GST_ELEMENT_ERROR() and just add GST_ERROR_OBJECT()
-> information instead.
->
-> Signed-off-by: Yuqing Zhu<b54851@freescale.com>
-> ---
->   .../handle-audio-video-decoder-error.patch         | 64 ++++++++++++++++++++++
->   .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
->   2 files changed, 65 insertions(+)
->   create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
-> new file mode 100755
-> index 0000000..833ce72
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
-> @@ -0,0 +1,64 @@
-> +From bcb2b8b6f49e7c66124a4f5e07dea829d5ebfe59 Mon Sep 17 00:00:00 2001
-> +From: Lyon Wang<lyon.wang@freescale.com>
-> +Date: Mon, 15 Dec 2014 16:52:07 +0800
-> +Subject: [PATCH] handle audio/video decoder error
-> +
-> +When there is input data and no output data to the end of the stream, it will
-> +send GST_ELEMENT_ERROR, So the clips playing will quit.
-> +However, if only one of the tracks is corrupt, there is no need to quit other
-> +tracks playing.
-> +
-> +The patch comments the GST_ELEMENT_ERROR() and just add GST_ERROR_OBJECT()
-> +information instead.
-> +
-> +Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=741542]
-> +
-> +Signed-off-by: Lyon Wang<lyon.wang@freescale.com>
-> +---
-> + gst-libs/gst/audio/gstaudiodecoder.c |    5 +++--
-> + gst-libs/gst/video/gstvideodecoder.c |    5 +++--
-> + 2 files changed, 6 insertions(+), 4 deletions(-)
-> + mode change 100644 => 100755 gst-libs/gst/audio/gstaudiodecoder.c
-> + mode change 100644 => 100755 gst-libs/gst/video/gstvideodecoder.c
-> +
-> +diff --git a/gst-libs/gst/audio/gstaudiodecoder.c b/gst-libs/gst/audio/gstaudiodecoder.c
-> +old mode 100644
-> +new mode 100755
-> +index c2e7a28..891df0a
-> +--- a/gst-libs/gst/audio/gstaudiodecoder.c
-> ++++ b/gst-libs/gst/audio/gstaudiodecoder.c
-> +@@ -2123,9 +2123,10 @@ gst_audio_decoder_sink_eventfunc (GstAudioDecoder * dec, GstEvent * event)
-> +       GST_AUDIO_DECODER_STREAM_UNLOCK (dec);
-> +
-> +       if (dec->priv->ctx.had_input_data && !dec->priv->ctx.had_output_data) {
-> +-        GST_ELEMENT_ERROR (dec, STREAM, DECODE,
-> ++        /* GST_ELEMENT_ERROR (dec, STREAM, DECODE,
-> +             ("No valid frames decoded before end of stream"),
-> +-            ("no valid frames found"));
-> ++            ("no valid frames found")); */
-> ++        GST_ERROR_OBJECT(dec, "No valid frames decoded before end of stream");
-> +       }
-> +
-> +       /* send taglist if no valid frame is decoded util EOS */
-> +diff --git a/gst-libs/gst/video/gstvideodecoder.c b/gst-libs/gst/video/gstvideodecoder.c
-> +old mode 100644
-> +new mode 100755
-> +index ac581e1..4278bcd
-> +--- a/gst-libs/gst/video/gstvideodecoder.c
-> ++++ b/gst-libs/gst/video/gstvideodecoder.c
-> +@@ -1068,9 +1068,10 @@ gst_video_decoder_sink_event_default (GstVideoDecoder * decoder,
-> +
-> +       /* Error out even if EOS was ok when we had input, but no output */
-> +       if (ret && priv->had_input_data && !priv->had_output_data) {
-> +-        GST_ELEMENT_ERROR (decoder, STREAM, DECODE,
-> ++        /* GST_ELEMENT_ERROR (decoder, STREAM, DECODE,
-> +             ("No valid frames decoded before end of stream"),
-> +-            ("no valid frames found"));
-> ++            ("no valid frames found")); */
-> ++        GST_ERROR_OBJECT(decoder, "No valid frames decoded before end of stream");
-> +       }
-> +
-> +       /* Forward EOS immediately. This is required because no
-> +--
-> +1.7.9.5
-> +
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-> index aaa1ecb..aa90179 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-> @@ -9,6 +9,7 @@ SRC_URI +="file://do-not-change-eos-event-to-gap-event-if.patch \
->               file://get-caps-from-src-pad-when-query-caps.patch \
->               file://taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
->               file://fix-id3demux-utf16-to-utf8-issue.patch \
-> +            file://handle-audio-video-decoder-error.patch \
->   "
->   
->   SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
+  harfbuzz: upgrade to 1.0.1 (2015-07-27 23:28:23 +0100)
+
+are available in the git repository at:
+
+  git@github.com:kergoth/openembedded-core populate_sdk_ext-fixes
+
+for you to fetch changes up to a66090ba23452e0dca05e5811ebe88ea1bfc84de:
+
+  populate_sdk_ext: pass BBPATH to devtool --bbpath (2015-07-29 14:48:05 -0700)
+
+----------------------------------------------------------------
+Christopher Larson (3):
+      populate_sdk_ext: use lnr, not ln -sr, for portability
+      devtool: add --bbpath argument
+      populate_sdk_ext: pass BBPATH to devtool --bbpath
+
+ meta/classes/populate_sdk_ext.bbclass |  7 ++++---
+ scripts/devtool                       | 17 ++++++++++++-----
+ 2 files changed, 16 insertions(+), 8 deletions(-)
+
+-- 
+2.2.1
 
 
