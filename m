@@ -1,27 +1,29 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BC14075A60
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B098A73237
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 06:40:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6U6e3Bu004074
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 Jul 2015 23:40:03 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.235.1; Wed, 29 Jul 2015 23:39:43 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <ross.burton@intel.com>
-Date: Thu, 30 Jul 2015 14:37:23 +0800
-Message-ID: <e2cc770155e7daa41e37f2f7e930f8a2da61ffdc.1438237957.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1438237957.git.kai.kang@windriver.com>
-References: <cover.1438237957.git.kai.kang@windriver.com>
+	Thu, 30 Jul 2015 06:50:48 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99067169"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 30 Jul 2015 14:54:22 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6U6muGk000793
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 14:48:56 +0800
+Received: from localhost.localdomain (10.167.226.92) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 30 Jul 2015 14:50:47 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Jul 2015 14:50:38 +0800
+Message-ID: <1438239038-1664-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <CAJTo0LZV=hEGUzn1_Z1XY9mXVhwbGUyg7=6fF1Lg2bME+HkyKA@mail.gmail.com>
+References: <CAJTo0LZV=hEGUzn1_Z1XY9mXVhwbGUyg7=6fF1Lg2bME+HkyKA@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] smartpm: set noprogress for pycurl
+X-Originating-IP: [10.167.226.92]
+Subject: [PATCH v3] mdadm: 3.3.2 -> 3.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,60 +36,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 06:40:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Jul 2015 06:50:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Set NOPROGRESS for pycurl just as same as default operation in pycurl
-module itself. If set NOPROGRESS with 0 for pycurl, it causes dead lock
-issue of Python GIL when call smart library by python gui just like
-pygtk.
+Upgrade mdadm from 3.3.2 to 3.3.3
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+1) Remove backported patch:inline.patch
+
+2) update context of mdadm-3.3.2_x32_abi_time_t.patch
+
+3) Add systemd support:
+add systemd service file mdmonitor.service and install conf example file.
+
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- .../smart-set-noprogress-for-pycurl.patch            | 20 ++++++++++++++++++++
- meta/recipes-devtools/python/python-smartpm_git.bb   |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
+ meta/recipes-extended/mdadm/files/inline.patch     | 39 ------------------=
+----
+ .../mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch   | 26 +++++++++------
+ .../mdadm/{mdadm_3.3.2.bb =3D> mdadm_3.3.3.bb}       | 28 ++++++++++++----
+ 3 files changed, 37 insertions(+), 56 deletions(-)
+ delete mode 100644 meta/recipes-extended/mdadm/files/inline.patch
+ rename meta/recipes-extended/mdadm/{mdadm_3.3.2.bb =3D> mdadm_3.3.3.bb} (6=
+6%)
 
-diff --git a/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch b/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
-new file mode 100644
-index 0000000..2885998
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-smartpm/smart-set-noprogress-for-pycurl.patch
-@@ -0,0 +1,20 @@
-+Set NOPROGRESS for pycurl just as same as default operation in pycurl module itself.
-+If set NOPROGRESS with 0 for pycurl, it causes dead lock issue of Python GIL when
-+call smart library by python gui just like pygtk.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+diff --git a/meta/recipes-extended/mdadm/files/inline.patch b/meta/recipes-=
+extended/mdadm/files/inline.patch
+deleted file mode 100644
+index 9009f06..0000000
+--- a/meta/recipes-extended/mdadm/files/inline.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-with gnu11 turning on a default with gcc-5 we have to abide by new inline =
+semantics
+-using 'inline' and using is in same translation unit means an external def=
+inition has to exist
+-same like "external inline" in gnu89, we simply make the functions static =
+inline since they
+-are just meant to be used in this file
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: mdadm-3.3.2/bitmap.c
+-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+---- mdadm-3.3.2.orig/bitmap.c
+-+++ mdadm-3.3.2/bitmap.c
+-@@ -20,7 +20,7 @@
+-=20
+- #include "mdadm.h"
+-=20
+--inline void sb_le_to_cpu(bitmap_super_t *sb)
+-+static inline void sb_le_to_cpu(bitmap_super_t *sb)
+- {
+- 	sb->magic =3D __le32_to_cpu(sb->magic);
+- 	sb->version =3D __le32_to_cpu(sb->version);
+-@@ -34,7 +34,7 @@ inline void sb_le_to_cpu(bitmap_super_t
+- 	sb->write_behind =3D __le32_to_cpu(sb->write_behind);
+- }
+-=20
+--inline void sb_cpu_to_le(bitmap_super_t *sb)
+-+static inline void sb_cpu_to_le(bitmap_super_t *sb)
+- {
+- 	sb_le_to_cpu(sb); /* these are really the same thing */
+- }
+-@@ -74,7 +74,7 @@ typedef struct bitmap_info_s {
+- } bitmap_info_t;
+-=20
+- /* count the dirty bits in the first num_bits of byte */
+--inline int count_dirty_bits_byte(char byte, int num_bits)
+-+static inline int count_dirty_bits_byte(char byte, int num_bits)
+- {
+- 	int num =3D 0;
+-=20
+diff --git a/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.p=
+atch b/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
+index 143a8d9..99e5ed4 100644
+--- a/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
++++ b/meta/recipes-extended/mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch
+@@ -1,26 +1,32 @@
+-When try to print time_t values as a long int it causes an error because t=
+ime_t
+-data type in x32 ABI is long long int.
++From 72ea9bc213c0fcbc3a11bad6478645a68692af38 Mon Sep 17 00:00:00 2001
++From: Li xin <lixin.fnst@cn.fujitsu.com>
++Date: Mon, 27 Jul 2015 00:27:12 +0900
++Subject: [PATCH] When try to print time_t values as a long int it causes a=
+n
++ error because time_t data type in x32 ABI is long long int.
+=20
+ Upstream-Status: Pending
+=20
+-Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
++Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 +---
-+diff -u smart-1.4.1/smart.orig/fetcher.py smart-1.4.1/smart/fetcher.py
-+--- smart-1.4.1/smart.orig/fetcher.py	2014-07-15 16:42:19.240437080 +0800
-++++ smart-1.4.1/smart/fetcher.py	2014-07-15 17:02:37.812470289 +0800
-+@@ -1720,7 +1720,7 @@
-+                         handle.setopt(pycurl.OPT_FILETIME, 1)
-+                         handle.setopt(pycurl.LOW_SPEED_LIMIT, 1)
-+                         handle.setopt(pycurl.LOW_SPEED_TIME, SOCKETTIMEOUT)
-+-                        handle.setopt(pycurl.NOPROGRESS, 0)
-++                        handle.setopt(pycurl.NOPROGRESS, 1)
-+                         handle.setopt(pycurl.PROGRESSFUNCTION, progress)
-+                         handle.setopt(pycurl.WRITEDATA, local)
-+                         handle.setopt(pycurl.FOLLOWLOCATION, 1)
-diff --git a/meta/recipes-devtools/python/python-smartpm_git.bb b/meta/recipes-devtools/python/python-smartpm_git.bb
-index 163461e..8b974b0 100644
---- a/meta/recipes-devtools/python/python-smartpm_git.bb
-+++ b/meta/recipes-devtools/python/python-smartpm_git.bb
-@@ -22,6 +22,7 @@ SRC_URI = "\
-           file://smart-rpm4-fixes.patch \
-           file://smart-add-for-rpm-ignoresize-check.patch \
-           file://smart-already-installed-message.patch \
-+          file://smart-set-noprogress-for-pycurl.patch \
-          "
- 
- SRCREV = "407a7eca766431257dcd1da15175cc36a1bb22d0"
--- 
-1.9.1
++ monitor.c | 4 ++++
++ 1 file changed, 4 insertions(+)
+=20
+ diff --git a/monitor.c b/monitor.c
+-index f81e707..19ea041 100644
++index 870cc1a..068aab4 100644
+ --- a/monitor.c
+ +++ b/monitor.c
+-@@ -260,8 +260,13 @@ static int read_and_act(struct active_array *a)
++@@ -259,7 +259,11 @@ static int read_and_act(struct active_array *a)
+  	}
+ =20
+  	gettimeofday(&tv, NULL);
+ +#if defined(__x86_64__) && defined(__ILP32__)
+ +	dprintf("%s(%d): %lld.%06lld state:%s prev:%s action:%s prev: %s start:%=
+llu\n",
+ +#else
+- 	dprintf("%s(%d): %ld.%06ld state:%s prev:%s action:%s prev: %s start:%ll=
+u\n",
+--		__func__, a->info.container_member,
++ 	dprintf("(%d): %ld.%06ld state:%s prev:%s action:%s prev: %s start:%llu\=
+n",
+ +#endif
+-+		__func__,
+-+		a->info.container_member,
++ 		a->info.container_member,
+  		tv.tv_sec, tv.tv_usec,
+  		array_states[a->curr_state],
+- 		array_states[a->prev_state],
++--=20
++1.8.4.2
++
+diff --git a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb b/meta/recipes-exte=
+nded/mdadm/mdadm_3.3.3.bb
+similarity index 66%
+rename from meta/recipes-extended/mdadm/mdadm_3.3.2.bb
+rename to meta/recipes-extended/mdadm/mdadm_3.3.3.bb
+index b2fbe4a..5600bd9 100644
+--- a/meta/recipes-extended/mdadm/mdadm_3.3.2.bb
++++ b/meta/recipes-extended/mdadm/mdadm_3.3.3.bb
+@@ -10,18 +10,17 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5=
+fce4486a80fdaf4a4263 \
+=20
+ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.x=
+z \
+            file://mdadm-3.2.2_fix_for_x32.patch \
+-           file://gcc-4.9.patch \
+            file://mdadm-3.3.2_x32_abi_time_t.patch \
+-           file://inline.patch \
++           file://gcc-4.9.patch \
+            file://run-ptest \
++           file://mdmonitor.service \
+ 	  "
+-
+-SRC_URI[md5sum] =3D "44698d351501cac6a89072dc877eb220"
+-SRC_URI[sha256sum] =3D "0f3a7e1a76b13892b79f9fceaf99ecb23513260389a768ac64=
+4ffa3ae06e5b8c"
++SRC_URI[md5sum] =3D "dabd5ce70f3fff340cad7c18e4a062ab"
++SRC_URI[sha256sum] =3D "f5b50a6b506697fb9968d660444447473b453f9eaefaa9b7d3=
+1c184693b8a28c"
+=20
+ CFLAGS +=3D "-fno-strict-aliasing"
+=20
+-inherit autotools-brokensep
++inherit autotools-brokensep systemd
+=20
+ EXTRA_OEMAKE =3D "CHECK_RUN_DIR=3D0"
+ # PPC64 and MIPS64 uses long long for u64 in the kernel, but powerpc's asm=
+/types.h
+@@ -41,7 +40,22 @@ do_install() {
+ 	autotools_do_install
+ }
+=20
+-FILES_${PN} +=3D "${base_libdir}/udev/rules.d/*.rules"
++do_install_append() {
++        install -d ${D}/${sysconfdir}/
++        install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/
++        install -d ${D}/${systemd_unitdir}/system
++        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/${systemd_unitdir=
+}/system
++        sed -i -e 's,@basesbindir@,${base_sbindir},g' \
++                -e 's,@localstatedir@,${localstatedir},g' \
++                -e 's,@sysconfdir@,${sysconfdir},g' \
++                ${D}/${systemd_unitdir}/system/mdmonitor.service
++        install -d ${D}/${localstatedir}
++        install -d ${D}/${localstatedir}/run
++        install -d -m 700 ${D}/${localstatedir}/run/mdadm
++}
++FILES_${PN} +=3D "${base_libdir}/udev/rules.d/*.rules \
++                /run/mdadm \
++                ${systemd_unitdir}"
+=20
+ inherit ptest
+=20
+--=20
+1.8.4.2
 
 
