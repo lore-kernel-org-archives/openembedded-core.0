@@ -1,29 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3973E7632C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id BD86C7632C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 13:13:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6UDDUfV032550; Thu, 30 Jul 2015 14:13:30 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gO9abftNw9MS; Thu, 30 Jul 2015 14:13:30 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6UDDFRo032546
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Thu, 30 Jul 2015 14:13:26 +0100
-Message-ID: <1438261995.11208.109.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-Date: Thu, 30 Jul 2015 14:13:15 +0100
-In-Reply-To: <1438166990-13918-1-git-send-email-adrian.ratiu@ni.com>
-References: <1438166990-13918-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: Remove replace call from MACHINE_ARCH
+	Thu, 30 Jul 2015 13:17:56 +0000 (UTC)
+Received: by qkdg63 with SMTP id g63so17708365qkd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 06:17:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=v5V7elBFQA7bVr5M6tKcr/8jgO2EkA5UV+ra+4Y/r6g=;
+	b=X0qlFrfxHnWpvjvwmHY/FvA5Yoc3cbj3ItpHYt1bpSNj0NKAtTeFt2fJ2SNbsSknkV
+	YWYT2IgnyD5ttyGXRoxIlt3MKeCoFNuq5EiVtuT1eZGkDX6ajmTafWTKHKPtWT+GyS0A
+	iq54Po1HomDgqburLnbyth53OTlpKE98aSpkt7+UXQUiK9m6IEjiwsPObu3WcaUzeU9H
+	xG0o6kbsxv2oV6JTLbayGTUyyGgRt8HGyHlvv+B94XByf5vXF4y9OM3UT1q74eZE3AX+
+	rzgzgCuuKIpnGjWqfe/8YRptBYsYmFCmMVGmSrzf9fN3CDkrMx4jfubQAqt6TJ4r8rzQ
+	tYAg==
+X-Gm-Message-State: ALoCoQmud1pLLEF39SYR6PxFgO0egTqca153s1yqUrBJMtwoI7aLFe5z3SrK4TjnlMMngcK3ZTwj
+X-Received: by 10.55.22.169 with SMTP id 41mr71168144qkw.13.1438262276650;
+	Thu, 30 Jul 2015 06:17:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 06:17:37 -0700 (PDT)
+In-Reply-To: <55B9866A.8080300@windriver.com>
+References: <1438134558-7785-1-git-send-email-li.zhou@windriver.com>
+	<CAJTo0LYkVtGiWfH-yf0T7PWREdk=ZyoMU3LyV1OEQpqWCiy2pg@mail.gmail.com>
+	<55B9866A.8080300@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Jul 2015 14:17:37 +0100
+Message-ID: <CAJTo0LaFJfp9mJy+N5sD84OCRhA0rDo-Peee26eY7QM40fRizw@mail.gmail.com>
+To: "Zhou, Li" <li.zhou@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tzdata: Add marking for config files in recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,32 +45,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 13:13:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Jul 2015 13:18:00 -0000
+Content-Type: multipart/alternative; boundary=001a11496e90180f30051c178860
 
-On Wed, 2015-07-29 at 13:49 +0300, Ioan-Adrian Ratiu wrote:
-> This replace() hack was added to fix Yocto bug #946 [1] with commit id
-> 69b3a11. It is time to fix this properly.
+--001a11496e90180f30051c178860
+Content-Type: text/plain; charset=UTF-8
 
-I'd love to see this fixed properly. I assume you're volunteering to do
-this?
+On 30 July 2015 at 03:05, Zhou, Li <li.zhou@windriver.com> wrote:
 
->  It should not be an issue
-> anymore with libzypp after 4.5 years, but if the initial bug still
-> exists, then a more intelligent solution should be used to fix it.
+> Do you mean that I should use branch master instead of fido? Has fido been
+> abandoned?
+> Thanks.
+>
 
-We no longer use libzypp. I believe however that this is a more deeply
-rooted rpm issue.
+For patch submissions you generally submit to master and then request a
+backport to the stable branches.
 
-So, what testing did you do of the rpm backend after this change?
+Ross
 
-Note that we also have to do mappings of TARGET_ARCH ->
-TRANSLATED_TARGET_ARCH which is the same issue as this one.
+--001a11496e90180f30051c178860
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 July 2015 at 03:05, Zhou, Li <span dir=3D"ltr">&lt;<a href=3D"mailto:=
+li.zhou@windriver.com" target=3D"_blank">li.zhou@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex"><div bgcolor=3D"#FFFFFF" text=
+=3D"#000000">Do you mean that I should use branch master instead of fido? H=
+as
+    fido been abandoned?<br>
+    Thanks.</div></blockquote><div><br></div><div>For patch submissions you=
+ generally submit to master and then request a backport to the stable branc=
+hes.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
 
-Richard
-
-
-
+--001a11496e90180f30051c178860--
