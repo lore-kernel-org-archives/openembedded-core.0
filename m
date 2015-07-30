@@ -1,40 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id F27097638A
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id CC9D17638A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 14:31:03 +0000 (UTC)
-Received: by wibud3 with SMTP id ud3so23667295wib.1
+	Thu, 30 Jul 2015 14:31:58 +0000 (UTC)
+Received: by wicgb10 with SMTP id gb10so246770997wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 07:31:03 -0700 (PDT)
+	Thu, 30 Jul 2015 07:31:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=IvkNREIEa/G3YA/PvccPtkWYsYnGy9BtwcXjqveKpCY=;
-	b=k0G7Yhmoh7RpA+DZwrEhJ1fDsM43nyCkOZOtDPKDIatnJ/SZh+KMQCemruaSmzPcUA
-	XHIJ/JqXDHMGxlyIAUq4EeJydPXEckUjZVX3KKk83DzVoDlLPK3yLm7LrTMjCryoozn+
-	MIyEhh6xwOsgZ+w2w5Gyp062+t3oMTHQ1AbyNpHqvTpM9wRjGy59gYuQaV0eiz63Nr9H
-	dlgrx/CwmtOYegI+caO+iyRleTplzVXcR6qImcO6oQwlaWYL8zcmWMnDXFUfoq4FZacQ
-	JiRCmINxs9ZmAYUMbZ72h49/qHiBmUxQ16dR5Eq7Uh2seBUMHrvvjxI2TbVuZjzQQMBx
-	iqsA==
-X-Received: by 10.180.101.138 with SMTP id fg10mr7176794wib.46.1438266663311; 
-	Thu, 30 Jul 2015 07:31:03 -0700 (PDT)
+	bh=NqYUm7eQcNuNwqsOL0K57VwFAGT3bmgytkFoYJJuWpw=;
+	b=EdPlRfzbL9dVxeNaTlYmqTSxw28PvB6rup1pQwm2jCADLjmAqqRfMS6IQEJde6LsJ8
+	QK4xC5MmGMNUKroZe0dhcwFMazTJjDMLC1Xd5U2koeDcEoGdylT9mdRTFUckuh8ajCb7
+	4aVJjEkTDMUf4SXKyp/5NQDg2VGeE+x21OdV7NiSwwesn/966n3UjtO9eiWpOQXhCdPt
+	wIROrmnttiRgo0YaRvwzJW4sfzLePHGKMGwfTRSb/7i7JSKt26JfflPOc4icotiRZ2Rx
+	8GB952iTWEqJkkWao7OWVgItB7SiIO1fi6CUKCrzPpDUPVA7V0a28L3zeR5Tyiv5mDta
+	AQ1Q==
+X-Received: by 10.194.178.201 with SMTP id da9mr87570124wjc.139.1438266718570; 
+	Thu, 30 Jul 2015 07:31:58 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id r8sm30188290wiz.5.2015.07.30.07.31.02
+	by smtp.gmail.com with ESMTPSA id fs8sm2186460wjb.7.2015.07.30.07.31.57
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Jul 2015 07:31:02 -0700 (PDT)
+	Thu, 30 Jul 2015 07:31:57 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 30 Jul 2015 16:31:17 +0200
+Date: Thu, 30 Jul 2015 16:32:13 +0200
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20150730143117.GE2457@jama>
+Message-ID: <20150730143213.GF2457@jama>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<4dc547325ca078af13412654a8533507f26978ad.1438262915.git.alexander.kanavin@linux.intel.com>
+	<e5437695391e1dd4fe0ecad10dec483cb0e3a8bc.1438262915.git.alexander.kanavin@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <4dc547325ca078af13412654a8533507f26978ad.1438262915.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <e5437695391e1dd4fe0ecad10dec483cb0e3a8bc.1438262915.git.alexander.kanavin@linux.intel.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 06/26] eglinfo: change version from 1.0 to 1.0.0 to match the upstream git tag
+Subject: Re: [PATCH 09/26] lsb: set PV to 1.4 to match upstream tarball version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,56 +47,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 14:31:06 -0000
-X-Groupsio-MsgNum: 68735
+X-List-Received-Date: Thu, 30 Jul 2015 14:31:59 -0000
+X-Groupsio-MsgNum: 68736
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="7CZp05NP8/gJM8Cl"
+	protocol="application/pgp-signature"; boundary="f61P+fpdnY2FZS1u"
 Content-Disposition: inline
 
---7CZp05NP8/gJM8Cl
+--f61P+fpdnY2FZS1u
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 30, 2015 at 04:31:35PM +0300, Alexander Kanavin wrote:
+On Thu, Jul 30, 2015 at 04:31:38PM +0300, Alexander Kanavin wrote:
+> This allows upstream version check to work
+>=20
 > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  meta/recipes-graphics/eglinfo/{eglinfo-fb_1.0.bb =3D> eglinfo-fb_1.0.0.b=
-b}  | 0
->  .../recipes-graphics/eglinfo/{eglinfo-x11_1.0.bb =3D> eglinfo-x11_1.0.0.=
-bb} | 0
->  2 files changed, 0 insertions(+), 0 deletions(-)
->  rename meta/recipes-graphics/eglinfo/{eglinfo-fb_1.0.bb =3D> eglinfo-fb_=
-1.0.0.bb} (100%)
->  rename meta/recipes-graphics/eglinfo/{eglinfo-x11_1.0.bb =3D> eglinfo-x1=
-1_1.0.0.bb} (100%)
+>  meta/recipes-extended/lsb/lsb_4.1.bb | 1 +
+>  1 file changed, 1 insertion(+)
 >=20
-> diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb b/meta/recip=
-es-graphics/eglinfo/eglinfo-fb_1.0.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
-> rename to meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb
-> diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb b/meta/reci=
-pes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
-> similarity index 100%
-> rename from meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
-> rename to meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
+> diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended=
+/lsb/lsb_4.1.bb
+> index 6215b62..171a6c8 100644
+> --- a/meta/recipes-extended/lsb/lsb_4.1.bb
+> +++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+> @@ -21,6 +21,7 @@ SRC_URI =3D "${SOURCEFORGE_MIRROR}/project/lsb/lsb_rele=
+ase/1.4/lsb-release-1.4.tar
+>             file://lsb_pidofproc \
+>             file://lsb_start_daemon \
+>             "
+> +PV =3D "1.4"
 
-Why don't you set PV in eglinfo.inc and rename them to _git.bb?
+And isn't it confusing to say 4.1 in recipe name and 1.4 inside of the
+recipe?
+
+> =20
+>  SRC_URI[md5sum] =3D "30537ef5a01e0ca94b7b8eb6a36bb1e4"
+>  SRC_URI[sha256sum] =3D "99321288f8d62e7a1d485b7c6bdccf06766fb8ca603c6195=
+806e4457fdf17172"
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---7CZp05NP8/gJM8Cl
+--f61P+fpdnY2FZS1u
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlW6NTUACgkQN1Ujt2V2gBw7XgCeMnweHME4d7xLmEsdRe1DofNw
-Xz8AmgNGgsa/MmOTblynXUK7R3TfALje
-=TMLx
+iEYEARECAAYFAlW6NWwACgkQN1Ujt2V2gBwmvgCePa4/IO5oHrbK7INyh3DfNASw
+i74AmwU1aEO8KxaHQHk498lbT8ASQ+Yi
+=0ROm
 -----END PGP SIGNATURE-----
 
---7CZp05NP8/gJM8Cl--
+--f61P+fpdnY2FZS1u--
