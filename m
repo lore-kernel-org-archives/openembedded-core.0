@@ -1,47 +1,20 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F0B0E7632C
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id A29436E630
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 08:32:43 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 971BF1810B;
-	Thu, 30 Jul 2015 10:32:41 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id tvYoe2P4ZUru; Thu, 30 Jul 2015 10:32:41 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 2541A180CB;
-	Thu, 30 Jul 2015 10:32:41 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 0184A100C;
-	Thu, 30 Jul 2015 10:32:41 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id EA1F3E1F;
-	Thu, 30 Jul 2015 10:32:40 +0200 (CEST)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id E7BB13E049;
-	Thu, 30 Jul 2015 10:32:40 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0; Thu, 30 Jul 2015
-	10:32:40 +0200
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 8D3509C68B; 
-	Thu, 30 Jul 2015 10:32:40 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-In-Reply-To: <55B9CD93.1000902@windriver.com>
-References: <cover.1438161068.git.liezhi.yang@windriver.com>
-	<5755146.lYtmNt1cvb@peggleto-mobl.ger.corp.intel.com>
-	<55B8A89A.6050406@windriver.com> <1438170429-sup-8609@axis.com>
-	<CAP9ODKob+TVBpb1jrzVueZT0w2DQpP5X0YBAwy-RFEoh615rHw@mail.gmail.com>
-	<1438239812-sup-93@axis.com> <55B9CD93.1000902@windriver.com>
-Date: Thu, 30 Jul 2015 10:32:40 +0200
-Message-ID: <1438244164-sup-163@axis.com>
-User-Agent: Sup/0.20.0
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] bitbake.conf: add GITHUB_GIT
+	Thu, 30 Jul 2015 09:14:40 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2015 02:14:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,576,1432623600"; d="scan'208";a="615903794"
+Received: from sentry.rb.intel.com ([10.237.105.63])
+	by orsmga003.jf.intel.com with ESMTP; 30 Jul 2015 02:14:39 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jul 2015 12:14:48 +0300
+Message-Id: <1438247688-4818-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] qemu: upgrade to 2.4.0-rc3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,23 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 08:32:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Jul 2015 09:14:40 -0000
 
-Excerpts from Robert Yang's message of 2015-07-30 09:09:07 +0200:
-> PREMIRRORS is for all the recipes/protocols ?
+Bugfixes, bring it closer to 2.4.0 final release.
 
-No, PREMIRRORS is quite expressive, for instance:
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-devtools/qemu/{qemu_2.4.0-rc2.bb => qemu_2.4.0-rc3.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu_2.4.0-rc2.bb => qemu_2.4.0-rc3.bb} (82%)
 
-PREMIRRORS = " \
-  https?$://downloads.example.org$/.*   http://mirror.example.com/ \n \
-"
-
-This should only premirror downloads.example.com files, fetched via http
-or https. See the bitbake fetcher's uri_replace method in
-bitbake/lib/bb/fetch2/__init__.py for the implementation.
-
+diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb b/meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
+similarity index 82%
+rename from meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb
+rename to meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
+index 2aea37f..9b17bcc 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
+@@ -8,11 +8,11 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BPN}-${REALPV}.tar.bz2"
+-SRC_URI[md5sum] = "f634f461acc43774025ec1876fa27ce5"
+-SRC_URI[sha256sum] = "ad86df38f10ad8b5fc03a7ec32b0080c0a5ab9e01fdaa7d5ba26f8591dd9b2fe"
++SRC_URI[md5sum] = "ba43213c94ef4463afc8bd01ee221860"
++SRC_URI[sha256sum] = "aacd5834ce275300f1ba3617c32d4d149db93705ecb7955d7436c0fc9b96aa4c"
+ 
+ S="${WORKDIR}/${BPN}-${REALPV}"
+-REALPV = "2.4.0-rc2"
++REALPV = "2.4.0-rc3"
+ PV = "2.3.99+${REALPV}"
+ 
+ COMPATIBLE_HOST_class-target_mips64 = "null"
 -- 
-olof johansson
+2.1.4
+
 
