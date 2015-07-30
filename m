@@ -1,20 +1,27 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A29436E630
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B2966E630
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 09:14:40 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2015 02:14:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,576,1432623600"; d="scan'208";a="615903794"
-Received: from sentry.rb.intel.com ([10.237.105.63])
-	by orsmga003.jf.intel.com with ESMTP; 30 Jul 2015 02:14:39 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 12:14:48 +0300
-Message-Id: <1438247688-4818-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] qemu: upgrade to 2.4.0-rc3
+	Thu, 30 Jul 2015 09:22:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99073848"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 30 Jul 2015 17:26:16 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6U9KpFE016494
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 17:20:51 +0800
+Received: from localhost.localdomain (10.167.226.104) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 30 Jul 2015 17:22:42 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Jul 2015 13:22:34 -0400
+Message-ID: <1438276954-8382-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.104]
+Subject: [oe][meta-oe][PATCH] iotop: upgrade 0.4.4 -> 0.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,39 +34,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 09:14:40 -0000
+X-List-Received-Date: Thu, 30 Jul 2015 09:22:51 -0000
+Content-Type: text/plain
 
-Bugfixes, bring it closer to 2.4.0 final release.
+From: zhangpanpan <zhangpp-fnst@cn.fujitsu.com>
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+Signed-off-by: Zhang Panpan<zhangpp-fnst@cn.fujitsu.com>
 ---
- meta/recipes-devtools/qemu/{qemu_2.4.0-rc2.bb => qemu_2.4.0-rc3.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/qemu/{qemu_2.4.0-rc2.bb => qemu_2.4.0-rc3.bb} (82%)
+ meta-oe/recipes-extended/iotop/{iotop_0.4.4.bb => iotop_0.6.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta-oe/recipes-extended/iotop/{iotop_0.4.4.bb => iotop_0.6.bb} (83%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb b/meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
-similarity index 82%
-rename from meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb
-rename to meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
-index 2aea37f..9b17bcc 100644
---- a/meta/recipes-devtools/qemu/qemu_2.4.0-rc2.bb
-+++ b/meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
-@@ -8,11 +8,11 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
-             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
-            "
- SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BPN}-${REALPV}.tar.bz2"
--SRC_URI[md5sum] = "f634f461acc43774025ec1876fa27ce5"
--SRC_URI[sha256sum] = "ad86df38f10ad8b5fc03a7ec32b0080c0a5ab9e01fdaa7d5ba26f8591dd9b2fe"
-+SRC_URI[md5sum] = "ba43213c94ef4463afc8bd01ee221860"
-+SRC_URI[sha256sum] = "aacd5834ce275300f1ba3617c32d4d149db93705ecb7955d7436c0fc9b96aa4c"
+diff --git a/meta-oe/recipes-extended/iotop/iotop_0.4.4.bb b/meta-oe/recipes-extended/iotop/iotop_0.6.bb
+similarity index 83%
+rename from meta-oe/recipes-extended/iotop/iotop_0.4.4.bb
+rename to meta-oe/recipes-extended/iotop/iotop_0.6.bb
+index d629245..5dcae98 100644
+--- a/meta-oe/recipes-extended/iotop/iotop_0.4.4.bb
++++ b/meta-oe/recipes-extended/iotop/iotop_0.6.bb
+@@ -4,14 +4,13 @@ DESCRIPTION = "iotop does for I/O usage what top(1) does for CPU usage. \
+     a table of current I/O usage by processes on the system."
+ HOMEPAGE = "http://guichaz.free.fr/iotop/"
  
- S="${WORKDIR}/${BPN}-${REALPV}"
--REALPV = "2.4.0-rc2"
-+REALPV = "2.4.0-rc3"
- PV = "2.3.99+${REALPV}"
+-PR = "r1"
  
- COMPATIBLE_HOST_class-target_mips64 = "null"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
+ 
+ SRC_URI = "http://guichaz.free.fr/iotop/files/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "cdd38b276cbf238676f5d2bcf098ba9c"
+-SRC_URI[sha256sum] = "46f3279fb1a7dfc129b5d00950c6e8389e4aedeb58880e848b88d686483df0b0"
++SRC_URI[md5sum] = "5ef9456b26d7694abf3101a72e1e0d1d"
++SRC_URI[sha256sum] = "3adea2a24eda49bbbaeb4e6ed2042355b441dbd7161e883067a02bfc8dcef75b"
+ 
+ inherit distutils
+ 
 -- 
-2.1.4
+1.8.4.2
 
 
