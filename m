@@ -1,24 +1,35 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AD962761D3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 03:05:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6U35o2r026309
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jul 2015 20:05:50 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 29 Jul 2015 20:05:31 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Jul 2015 11:03:27 +0800
-Message-ID: <1438225407-29136-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 16C9E7615E;
+	Thu, 30 Jul 2015 04:07:59 +0000 (UTC)
+Received: by igbpg9 with SMTP id pg9so3252397igb.0;
+	Wed, 29 Jul 2015 21:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=lpPG+ha5y8HNkCRa7xFbLMcsMdExiJMwB2cXP4roo6s=;
+	b=hAhqensj6K7lksaHar4PKvlm5xDnMxLwjcHE6717cBcPGQe2H5guc5QkZrKxOBiTfe
+	CovD36Q5Tei2YOfU0YrY3bXE/wNqknqTUfDqOLfryEx9lcSmEFG9iyBlNw62o55Wk4D4
+	6/3WFzgfzBYkqDvV2UxpxiFr9KxcuW3lq+MmRvEf6VTK0XCAc4sUccWQq9n0IagL+95l
+	NpcG+AHE1C2+jsEUql4eP6DdEug4JiYk6WZWAkW/Nn0qguWXDLFmGdoxxKOO85N9Sc74
+	0Z+F+XUqIpCZD1EnvLfLcGNjj3ScTng1YwaPQF3p8nJasJ9TpcdW68cqhhJAWpsnaEqU
+	E+Ww==
+X-Received: by 10.50.39.17 with SMTP id l17mr1531581igk.75.1438229279560; Wed,
+	29 Jul 2015 21:07:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] alsa-utils: assume the alsa storing is success if machine has no sound card
+Received: by 10.107.38.79 with HTTP; Wed, 29 Jul 2015 21:07:30 -0700 (PDT)
+In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FDB2E4B4@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1B56A49860EB2D45ADE3731B15C959FDB2E4B4@G08CNEXMBPEKD01.g08.fujitsu.local>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 29 Jul 2015 20:07:30 -0800
+Message-ID: <CAMKF1sroAnY+C+TPg9-N24V_CLQzzfFTdz2RE+jF1x=_pwxqOA@mail.gmail.com>
+To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] glibc 2.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,71 +42,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 03:05:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Jul 2015 04:08:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Roy Li <rongqing.li@windriver.com>
+On Tue, Jul 28, 2015 at 12:48 AM, Lei, Maohui <leimaohui@cn.fujitsu.com> wrote:
+> Hi Khem,
+>
+>
+>> glibc 2.22 will release end of this month. For some time I have put
+>> together the update here
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/m
+>> aster&id=0
+>> 2e73ea526d94f21c7ef82eb96b062eff8ebb825
+>>
+>> It works pretty well for machines I have tested it on ( arm/x86 ) but
+>> would be interested if more wider trial could be carried out and
+>> issues reported between now and release can be addressed.
+>>
+>> Please give it a try if you have spare cycles
+>
+> I tested it on powerpc(e500v2),and did a ltp test. It does work well.
+>
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- ...oring-is-success-if-not-sound-card-device.patch | 34 ++++++++++++++++++++++
- meta/recipes-multimedia/alsa/alsa-utils_1.0.29.bb  |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/assume-storing-is-success-if-not-sound-card-device.patch
+thanks for the report
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils/assume-storing-is-success-if-not-sound-card-device.patch b/meta/recipes-multimedia/alsa/alsa-utils/assume-storing-is-success-if-not-sound-card-device.patch
-new file mode 100644
-index 0000000..f67283d
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-utils/assume-storing-is-success-if-not-sound-card-device.patch
-@@ -0,0 +1,34 @@
-+[PATCH] assume storing is success if not sound card device
-+
-+Upstream-Statue: Pending
-+
-+Systemd will report failure when run alsa-*, if the machine has not the
-+sound card. To void this annoyed message, alsa-restore/alsa-state ignore
-+all the exit codes by prefixing "-" in ExecStart, like:
-+
-+   alsa-utils-1.0.29$ grep "=-" ./ -r|grep service.in
-+   ./alsactl/alsa-restore.service.in:ExecStart=-@sbindir@/alsactl restore
-+   ./alsactl/alsa-state.service.in:ExecStart=-@sbindir@/alsactl -s -n 19 -c rdaemon
-+   ./alsactl/alsa-state.service.in:ExecStop=-@sbindir@/alsactl -s kill save_and_quit
-+   lsa-utils-1.0.29$
-+
-+But alsa-store.service.in is missing, and better solution is to ignore
-+the exit code 19 which means not sound card device, not all exit code
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+---
-+ alsactl/alsa-store.service.in | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/alsactl/alsa-store.service.in b/alsactl/alsa-store.service.in
-+index f1a56bb..68ca529 100644
-+--- a/alsactl/alsa-store.service.in
-++++ b/alsactl/alsa-store.service.in
-+@@ -13,3 +13,4 @@ Before=shutdown.target
-+ Type=oneshot
-+ ExecStart=@sbindir@/alsactl store
-+ StandardOutput=syslog
-++SuccessExitStatus=0 19
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.0.29.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.0.29.bb
-index 65cae0b..263f38a 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.0.29.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.0.29.bb
-@@ -14,6 +14,7 @@ PACKAGECONFIG[xmlto] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook-xm
- SRC_URI = "ftp://ftp.alsa-project.org/pub/utils/alsa-utils-${PV}.tar.bz2 \
-            file://0001-alsactl-don-t-let-systemd-unit-restore-the-volume-wh.patch \
-            file://alsa-utils-aplay-interrupt-signal-handling.patch \
-+           file://assume-storing-is-success-if-not-sound-card-device.patch \
-           "
- 
- SRC_URI[md5sum] = "6b289bf874c4c9a63f4b3973093dd404"
--- 
-1.9.1
 
+>
+>
+> Best Regards
+> Lei Maohui
+>
+>
+>
+>
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org
+>> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
+>> Khem Raj
+>> Sent: Tuesday, July 14, 2015 1:37 AM
+>> To: Patches and discussions about the oe-core layer; OpenEmbedded
+>> Devel List; Yocto discussion list
+>> Subject: [OE-core] glibc 2.22
+>>
+>> Hi All
+>>
+>> glibc 2.22 will release end of this month. For some time I have put
+>> together the update here
+>>
+>> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/m
+>> aster&id=0
+>> 2e73ea526d94f21c7ef82eb96b062eff8ebb825
+>>
+>> It works pretty well for machines I have tested it on ( arm/x86 ) but
+>> would be interested if more wider trial could be carried out and
+>> issues reported between now and release can be addressed.
+>>
+>> Please give it a try if you have spare cycles
+>>
+>> Thanks
+>> -Khem
+>>
+>
+> --
+> _______________________________________________
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
 
