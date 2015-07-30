@@ -1,26 +1,42 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E7AE875A60
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
+	[209.85.220.172])
+	by mail.openembedded.org (Postfix) with ESMTP id D313A7639E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 12:06:07 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 30 Jul 2015 05:05:38 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="758354959"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
-	([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2015 05:05:37 -0700
-Message-ID: <55BA134F.9010908@linux.intel.com>
-Date: Thu, 30 Jul 2015 15:06:39 +0300
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Thu, 30 Jul 2015 12:53:51 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so17407417qkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 05:53:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=mOVjcbHPdnt3HMGk4fmO+hPMQGCq52OILikVAehuRps=;
+	b=afZBDKkhj0gU8bx33IgRFDzJ6spQQk1jkftyaRMRo+TuU24j7oPCLpcDYoJU1C96PD
+	fm6ucep0OOIyEl1kqQyLG63nWuwxno5iv+68omhf7hJ7inVfG7wvumLzjcs5RJN9PUeN
+	GesRTrX6FsCuF8blI9iK/Hlm0NXy0tAEpuaPD9ACvD+dpB3r5zTR0tfJYNq5HIfPwhtq
+	m7y69pHk3MKfxZXXi48WxzZF0mYAw+7eFRgR8lgdE/rQl6aAnOf8Zx7WlNCTh8b61T18
+	HbvE16JokE+If63zgZcjQ+/7LtdftQFGf3fW5mRXlUc9+GB02P9FZuODh1PsRLydTcYJ
+	L7aQ==
+X-Gm-Message-State: ALoCoQmlUUQKiI3A/HObRnPRT5Qb/+jAw5zev6lFgoDMTahgkZfgDYBTIe/+7D78jb1VVMv+SGCv
+X-Received: by 10.55.17.170 with SMTP id 42mr65869992qkr.29.1438260831060;
+	Thu, 30 Jul 2015 05:53:51 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
-	<1436601450.3310.27.camel@linuxfoundation.org>
-In-Reply-To: <1436601450.3310.27.camel@linuxfoundation.org>
-Subject: Re: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
+Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 05:53:31 -0700 (PDT)
+In-Reply-To: <CABcZANnM9ATkuV_ZT9+hhwh4Y1cepEfmVamWkvMDjzowMvQRhw@mail.gmail.com>
+References: <1438103507-63604-1-git-send-email-abdur_rehman@mentor.com>
+	<CAJTo0LZiEWScYqCJBfzrMQ=02vkb9jd5a-6+VvSZBqePZgr7yg@mail.gmail.com>
+	<8663FA6B07BCC94795FAD21C9CC5ACF73783C098@EU-MBX-01.mgc.mentorg.com>
+	<CAJTo0LZ8qasC_Out4=1KHyskj5KovxDL6+BPGoKTS8=FquBYcA@mail.gmail.com>
+	<CABcZAN=W1_aW1YXAkR25TO0DM=iHoCzPrrBCNGhpw+pq3aJauA@mail.gmail.com>
+	<CAJTo0La49fhabdZHEJonC=Q16-PJuHzGCP1bBLcxC9ZLimAZqA@mail.gmail.com>
+	<CABcZANnM9ATkuV_ZT9+hhwh4Y1cepEfmVamWkvMDjzowMvQRhw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Jul 2015 13:53:31 +0100
+Message-ID: <CAJTo0LatBaSsow-h=3UTjurFyY9=PLvzi8efSohni8uXtMf=Nw@mail.gmail.com>
+To: Christopher Larson <chris_larson@mentor.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] watchdog: kill update-rc.d when not using sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +49,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 12:06:09 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Jul 2015 12:53:54 -0000
+Content-Type: multipart/alternative; boundary=001a1135bd02ee2548051c1731c9
 
-On 07/11/2015 10:57 AM, Richard Purdie wrote:
+--001a1135bd02ee2548051c1731c9
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> This does touch on something I have wondered about for a while, which is
-> whether the time has come to move the GPLv2 pieces to their own layer
-> and possibly their own maintainership. Obviously there are pros and cons
-> to doing that.
+On 29 July 2015 at 21:09, Christopher Larson <chris_larson@mentor.com>
+wrote:
+
+> The dependency on initscripts via VIRTUAL-RUNTIME_initscripts is a
+>> DEPENDS, so it's build time.  The runtime dependency is on
+>> initscripts-functions.
+>>
+>> As far as I'm aware the sysv-generator used the rcX.d symlinks generated
+>> by update-rcd to decide what to start when, so you can't just disable th=
+e
+>> class and expect it to still work.
+>>
 >
-> Thoughts?
-
-I'm all for that, which shouldn't be surprising :) The rationale is that 
-we need to keep the scope and breadth of oe-core sane and manageable. 
-The emphasis should be on having lesser amount of high quality, 
-up-to-date recipes than vice versa.
-
-That means a continuous lookout for possible things to remove. Qt4 is 
-one such thing, old GPLv2 software is another.
+> VIRTUAL-RUNTIME_initscripts is installed at runtime (as you can tell by
+> its name) in packagegroup-core-boot and packagegroup-core-full-cmdline
+> both. If I don=E2=80=99t want it in my images, wiping the variable is the=
+ only
+> method that makes any sense.
 
 
-Alex
+So there's the problem, and breaking watchdog isn't solving it.
 
+Ross
+
+--001a1135bd02ee2548051c1731c9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 29 July 2015 at 21:09, Christopher Larson <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:chris_larson@mentor.com" target=3D"_blank">chris_larson@mentor.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""=
+><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gm=
+ail_quote"><div>The dependency on initscripts via VIRTUAL-RUNTIME_initscrip=
+ts is a DEPENDS, so it&#39;s build time.=C2=A0 The runtime dependency is on=
+ initscripts-functions.</div><div><br></div><div>As far as I&#39;m aware th=
+e sysv-generator used the rcX.d symlinks generated by update-rcd to decide =
+what to start when, so you can&#39;t just disable the class and expect it t=
+o still work.</div><span><font color=3D"#888888"><div></div></font></span><=
+/div></blockquote></div><br></span>VIRTUAL-RUNTIME_initscripts is installed=
+ at runtime (as you can tell by its name) in packagegroup-core-boot and=C2=
+=A0packagegroup-core-full-cmdline both. If I don=E2=80=99t want it in my im=
+ages, wiping the variable is the only method that makes any sense.</blockqu=
+ote></div><br>So there&#39;s the problem, and breaking watchdog isn&#39;t s=
+olving it.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
+tra">Ross</div></div>
+
+--001a1135bd02ee2548051c1731c9--
