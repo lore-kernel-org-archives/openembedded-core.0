@@ -1,27 +1,27 @@
 Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EA316E630
+	by mail.openembedded.org (Postfix) with ESMTP id 872F6762CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 09:23:50 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99073883"
+	Thu, 30 Jul 2015 09:24:56 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99073927"
 Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 30 Jul 2015 17:27:19 +0800
+	by heian.cn.fujitsu.com with ESMTP; 30 Jul 2015 17:28:26 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
 	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6U9Lr0R016543
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6U9N07W016599
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 17:21:53 +0800
+	Thu, 30 Jul 2015 17:23:00 +0800
 Received: from localhost.localdomain (10.167.226.104) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Thu, 30 Jul 2015 17:23:44 +0800
+	Server (TLS) id 14.3.181.6; Thu, 30 Jul 2015 17:24:52 +0800
 From: Li xin <lixin.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Jul 2015 13:23:38 -0400
-Message-ID: <1438277018-8465-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Thu, 30 Jul 2015 13:24:45 -0400
+Message-ID: <1438277085-8540-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.104]
-Subject: [oe][meta-oe][PATCH] ccid: upgrade 1.4.8 -> 1.4.19
+Subject: [oe][meta-oe][PATCH] libdbi: upgrade 0.8.4 -> 0.9.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,40 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 09:23:53 -0000
+X-List-Received-Date: Thu, 30 Jul 2015 09:24:57 -0000
 Content-Type: text/plain
 
 From: zhangpanpan <zhangpp-fnst@cn.fujitsu.com>
 
 Signed-off-by: Zhang Panpan<zhangpp-fnst@cn.fujitsu.com>
 ---
- meta-oe/recipes-support/ccid/{ccid_1.4.8.bb => ccid_1.4.19.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta-oe/recipes-support/ccid/{ccid_1.4.8.bb => ccid_1.4.19.bb} (62%)
+ meta-oe/recipes-support/libdbi/libdbi_0.8.4.bb | 6 ------
+ meta-oe/recipes-support/libdbi/libdbi_0.9.0.bb | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+ delete mode 100644 meta-oe/recipes-support/libdbi/libdbi_0.8.4.bb
+ create mode 100644 meta-oe/recipes-support/libdbi/libdbi_0.9.0.bb
 
-diff --git a/meta-oe/recipes-support/ccid/ccid_1.4.8.bb b/meta-oe/recipes-support/ccid/ccid_1.4.19.bb
-similarity index 62%
-rename from meta-oe/recipes-support/ccid/ccid_1.4.8.bb
-rename to meta-oe/recipes-support/ccid/ccid_1.4.19.bb
-index 078f785..f77e069 100644
---- a/meta-oe/recipes-support/ccid/ccid_1.4.8.bb
-+++ b/meta-oe/recipes-support/ccid/ccid_1.4.19.bb
-@@ -6,11 +6,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
- DEPENDS = "virtual/libusb0 pcsc-lite"
- RDEPENDS_${PN} = "pcsc-lite"
- 
--SRC_URI = "https://alioth.debian.org/frs/download.php/file/3768/ccid-${PV}.tar.bz2 \
--           file://no-dep-on-libfl.patch"
-+SRC_URI = "https://alioth.debian.org/frs/download.php/file/4132/ccid-${PV}.tar.bz2 \
-+	   file://no-dep-on-libfl.patch "
- 
--SRC_URI[md5sum] = "b6c37110f50b059a8ba94f118cfd679a"
--SRC_URI[sha256sum] = "7aca09fa4b9099e423402fd5df424adbafa502888710d1fda6015b6c1ff637ef"
-+SRC_URI[md5sum] = "d1eed995ba9a2eb395a65a8a78090f52"
-+SRC_URI[sha256sum] = "cccb2c2bb4e56689efe34559f713102d92f94735542e58d3e4334e1459e934e1"
- 
- inherit autotools pkgconfig
- 
+diff --git a/meta-oe/recipes-support/libdbi/libdbi_0.8.4.bb b/meta-oe/recipes-support/libdbi/libdbi_0.8.4.bb
+deleted file mode 100644
+index aee0099..0000000
+--- a/meta-oe/recipes-support/libdbi/libdbi_0.8.4.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require ${PN}.inc
+-
+-PR = "${INC_PR}.0"
+-
+-SRC_URI[md5sum] = "c5f15407ef7b07ba854cd8c9b15b88ff"
+-SRC_URI[sha256sum] = "ef38db616f0752ccb09b8ba2eac471722369b8ded50b153c25e238cac2c8de99"
+diff --git a/meta-oe/recipes-support/libdbi/libdbi_0.9.0.bb b/meta-oe/recipes-support/libdbi/libdbi_0.9.0.bb
+new file mode 100644
+index 0000000..24eae28
+--- /dev/null
++++ b/meta-oe/recipes-support/libdbi/libdbi_0.9.0.bb
+@@ -0,0 +1,6 @@
++require ${PN}.inc
++
++PR = "${INC_PR}.0"
++
++SRC_URI[md5sum] = "05e2ceeac4bc85fbe40de8b4b22d9ab3"
++SRC_URI[sha256sum] = "dafb6cdca524c628df832b6dd0bf8fabceb103248edb21762c02d3068fca4503"
 -- 
 1.8.4.2
 
