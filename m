@@ -1,44 +1,23 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B80760167
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2983760167
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 11:24:31 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id 775FF2E4FC;
-	Thu, 30 Jul 2015 13:24:30 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Xx+CH-aZNvOU; Thu, 30 Jul 2015 13:24:30 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id EEE232E4F3;
-	Thu, 30 Jul 2015 13:24:29 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id D7A81F25;
-	Thu, 30 Jul 2015 13:24:29 +0200 (CEST)
-Received: from thoth.se.axis.com (thoth.se.axis.com [10.0.2.173])
-	by boulder.se.axis.com (Postfix) with ESMTP id CC36B1236;
-	Thu, 30 Jul 2015 13:24:29 +0200 (CEST)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by thoth.se.axis.com (Postfix) with ESMTP id CAA0E34005;
-	Thu, 30 Jul 2015 13:24:29 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0; Thu, 30 Jul 2015
-	13:24:29 +0200
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id 8AD8F9C68B; 
-	Thu, 30 Jul 2015 13:24:29 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-In-Reply-To: <55B9F7A5.3040100@windriver.com>
-References: <1438249425-5423-1-git-send-email-olofjn@axis.com>
-	<55B9F7A5.3040100@windriver.com>
-Date: Thu, 30 Jul 2015 13:24:29 +0200
-Message-ID: <1438255416-sup-6247@axis.com>
-User-Agent: Sup/0.20.0
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] base.bbclass: Don't warn about "invalid" PACKAGECONFIGs by default
+	Thu, 30 Jul 2015 11:25:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 04:25:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="773172275"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2015 04:25:01 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id EB9E06A4005;
+	Thu, 30 Jul 2015 04:24:15 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jul 2015 14:35:43 +0300
+Message-Id: <1438256143-29857-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/sstatetests.py: add annotator to test_sstate_32_64_same_hash [YOCTO #6006]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,28 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 11:24:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Jul 2015 11:25:07 -0000
 
-Excerpts from Robert Yang's message of 2015-07-30 12:08:37 +0200:
-> I have a new patch for this, it will be moved into insane.bbclass,
-> and the recipe can set INSANE_SKIP:
-> +
-> +    # Check invalid PACKAGECONFIG
-> +    pkgconfig = (d.getVar("PACKAGECONFIG", True) or "").split()
-> +    if pkgconfig:
-> +        pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
-> +        for pconfig in pkgconfig:
-> +            if pconfig not in pkgconfigflags:
-> +                pn = d.getVar('PN', True)
-> +                error_msg = "%s: invalid PACKAGECONFIG: %s" % (pn, pconfig)
-> +                package_qa_handle_error("invalid-pkgconfig", error_msg, d)
-> 
-> I'm testing it, and will send it out sooner.
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/selftest/sstatetests.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks, such a patch would work nicely with my use case!
-
+diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
+index 9258b53..2599e0b 100644
+--- a/meta/lib/oeqa/selftest/sstatetests.py
++++ b/meta/lib/oeqa/selftest/sstatetests.py
+@@ -203,6 +203,7 @@ class SStateTests(SStateBase):
+         target_config.append('')
+         self.run_test_sstate_cache_management_script('m4', global_config,  target_config, ignore_patterns=['populate_lic'])
+ 
++    @testcase(1270)
+     def test_sstate_32_64_same_hash(self):
+         """
+         The sstate checksums for both native and target should not vary whether
 -- 
-olof johansson
+2.1.4
+
 
