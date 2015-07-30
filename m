@@ -1,40 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BDB2764A1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F7E17648C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 14:29:56 +0000 (UTC)
-Received: by wicmv11 with SMTP id mv11so23591398wic.0
+	Thu, 30 Jul 2015 14:30:14 +0000 (UTC)
+Received: by qgeu79 with SMTP id u79so25287866qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 07:29:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=hLb1IvyRfGhG3UmhrmuU5hLqm/lR4yqz1ApZOo9qXGI=;
-	b=wbvwHVdbekOfDyWs+hQX90V5KYNO1EhgPiqd0S+V5Vvb77pF3Q6ijJZIU9pnXRBoV/
-	rUUOUgSBf783soe7FbwLTV0HIa51jXTrgaheQho/DlhVAJmTY+a5bWsCsdT6rH5SL/XB
-	RrWKlskeCiqTBoOD/AYiCPXTqEFp09cIVQS9Xs5Ufcw2QTPh/MHd2oesVrcJ4SSFCriz
-	ms5+cuLSbQgbmBUaBKR2bZk7eUn8gttEH0aPZpmcrhW2s/8tILvaHcN1vaFXPUVzevdt
-	gcX1YQXe+W8+4I5hAwuZd+k17CluerOt3p6PkXFPN0qZosLNZyyx6VojPLY9IlhssLWY
-	4fBw==
-X-Received: by 10.194.174.194 with SMTP id bu2mr97507930wjc.76.1438266596193; 
-	Thu, 30 Jul 2015 07:29:56 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id qq1sm2187321wjc.0.2015.07.30.07.29.55
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Jul 2015 07:29:55 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 30 Jul 2015 16:30:11 +0200
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20150730143011.GD2457@jama>
-References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<146f8d7f2da816123d4bfd8f4253938f51727d9d.1438262915.git.alexander.kanavin@linux.intel.com>
+	Thu, 30 Jul 2015 07:30:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=1boLAIrgnTac/OozkcYzKCYZQfZY53wYcE0wndbLaYQ=;
+	b=AN38AtBPOvDzDVCXNMzU513FO48reQMs3n1PEy93bPMGEHm0SbtnuWhvLP3KXdWP4S
+	eBWbqt++NIJhHeL2U1PciRkWLvyxkaFqJK3r1I5s60z0iip0OcGWAW14bPrUWu/qiAfX
+	YwArpYgD1oS7Sdqv88bWTe1ZE8BK7Nr56th0dACgUzaVFe0cSuzJDOkSWOooyaPMwMGg
+	dQAlMtXkk24pWEfPUjp+4D+cHsbE7SrAHu/kuense7iggvgyvLRrMDzMLE/SuS/neATk
+	GecY/a6kRb2zrAgQFbewbn2Cp3XZFcrwi0X+I4w+YuqfW4f8r63bth2FpvPZQBjkEzmb
+	DZuA==
+X-Gm-Message-State: ALoCoQkrQUQhAyFaR1qppBCS4NFZhIZx2dPS87kNKrFvSqmRA23fjs5cm5Vfh3NU7L8KB0g4qfr4
+X-Received: by 10.140.201.200 with SMTP id w191mr6057098qha.50.1438266615095; 
+	Thu, 30 Jul 2015 07:30:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <146f8d7f2da816123d4bfd8f4253938f51727d9d.1438262915.git.alexander.kanavin@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 03/26] distcc: update SRC_URI to not use Google Code
+Received: by 10.140.92.101 with HTTP; Thu, 30 Jul 2015 07:29:55 -0700 (PDT)
+In-Reply-To: <20150730142900.GB2457@jama>
+References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
+	<0c7f8aaf4b04cf1bb866dae6af21509af051fbe6.1438262915.git.alexander.kanavin@linux.intel.com>
+	<20150730142900.GB2457@jama>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Jul 2015 15:29:55 +0100
+Message-ID: <CAJTo0Lbv5VHh_CP9gMr7DUnyFwkOBHYG8tLVz0AU_kqx+mgpvQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/26] libproxy: update SRC_URI to not use Google Code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,73 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 14:29:57 -0000
-X-Groupsio-MsgNum: 68733
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sXc4Kmr5FA7axrvy"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 30 Jul 2015 14:30:15 -0000
+Content-Type: multipart/alternative; boundary=001a11431d00af7998051c188a86
 
---sXc4Kmr5FA7axrvy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--001a11431d00af7998051c188a86
+Content-Type: text/plain; charset=UTF-8
+
+On 30 July 2015 at 15:29, Martin Jansa <martin.jansa@gmail.com> wrote:
+
+> Why has debian mirror different checksums?
+>
+
+Ones a zip, the other is tar.gz.
+
+Ross
+
+--001a11431d00af7998051c188a86
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 30, 2015 at 04:31:32PM +0300, Alexander Kanavin wrote:
-> Google Code is shutting down soon and distcc has moved to github.
->=20
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->  meta/recipes-devtools/distcc/distcc_3.1.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-de=
-vtools/distcc/distcc_3.1.bb
-> index e4b9313..b598c77 100644
-> --- a/meta/recipes-devtools/distcc/distcc_3.1.bb
-> +++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
-> @@ -17,13 +17,14 @@ PACKAGECONFIG[popt] =3D "--without-included-popt,--wi=
-th-included-popt,popt"
-> =20
->  RRECOMMENDS_${PN} =3D "avahi-daemon"
-> =20
-> -SRC_URI =3D "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
-> +SRC_URI =3D "git://github.com/distcc/distcc.git \
->             file://separatebuilddir.patch \
->             file://0001-zeroconf-Include-fcntl.h.patch \
->             file://default \
->             file://distccmon-gnome.desktop \
->             file://distcc \
->             file://distcc.service"
-> +SRCREV =3D "9a172d3d20042754a30c0cd9a5d63fd1a8120c31"
-> =20
->  SRC_URI[md5sum] =3D "a1a9d3853df7133669fffec2a9aab9f3"
->  SRC_URI[sha256sum] =3D "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724=
-fcd2d53f934ddd89"
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 July 2015 at 15:29, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2vr" class=3D=
+"a3s" style=3D"overflow:hidden">Why has debian mirror different checksums?<=
+br></div></blockquote></div><br>Ones a zip, the other is tar.gz.</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-drop
-
-> --=20
-> 2.1.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---sXc4Kmr5FA7axrvy
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlW6NPIACgkQN1Ujt2V2gBzJhgCggGEVFi7oTwsP9lvDc9Q+aw4G
-fJEAoKLyOt8HR+iEXu1mrEChFTz/sBxQ
-=X7Gq
------END PGP SIGNATURE-----
-
---sXc4Kmr5FA7axrvy--
+--001a11431d00af7998051c188a86--
