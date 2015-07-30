@@ -1,35 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 16C9E7615E;
-	Thu, 30 Jul 2015 04:07:59 +0000 (UTC)
-Received: by igbpg9 with SMTP id pg9so3252397igb.0;
-	Wed, 29 Jul 2015 21:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=lpPG+ha5y8HNkCRa7xFbLMcsMdExiJMwB2cXP4roo6s=;
-	b=hAhqensj6K7lksaHar4PKvlm5xDnMxLwjcHE6717cBcPGQe2H5guc5QkZrKxOBiTfe
-	CovD36Q5Tei2YOfU0YrY3bXE/wNqknqTUfDqOLfryEx9lcSmEFG9iyBlNw62o55Wk4D4
-	6/3WFzgfzBYkqDvV2UxpxiFr9KxcuW3lq+MmRvEf6VTK0XCAc4sUccWQq9n0IagL+95l
-	NpcG+AHE1C2+jsEUql4eP6DdEug4JiYk6WZWAkW/Nn0qguWXDLFmGdoxxKOO85N9Sc74
-	0Z+F+XUqIpCZD1EnvLfLcGNjj3ScTng1YwaPQF3p8nJasJ9TpcdW68cqhhJAWpsnaEqU
-	E+Ww==
-X-Received: by 10.50.39.17 with SMTP id l17mr1531581igk.75.1438229279560; Wed,
-	29 Jul 2015 21:07:59 -0700 (PDT)
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F13AC7638A
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 05:21:13 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6U5LDIc027088
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 Jul 2015 22:21:13 -0700 (PDT)
+Received: from pek-lzhou2-d1.corp.ad.wrs.com (128.224.162.243) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server
+	(TLS) id 14.3.235.1; Wed, 29 Jul 2015 22:20:54 -0700
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Jul 2015 13:20:23 +0800
+Message-ID: <1438233623-13827-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Wed, 29 Jul 2015 21:07:30 -0700 (PDT)
-In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FDB2E4B4@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1B56A49860EB2D45ADE3731B15C959FDB2E4B4@G08CNEXMBPEKD01.g08.fujitsu.local>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 29 Jul 2015 20:07:30 -0800
-Message-ID: <CAMKF1sroAnY+C+TPg9-N24V_CLQzzfFTdz2RE+jF1x=_pwxqOA@mail.gmail.com>
-To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] glibc 2.22
+X-Originating-IP: [128.224.162.243]
+Subject: [PATCH v2] tzdata: Add marking for config files in recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,71 +32,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 04:08:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 30 Jul 2015 05:21:17 -0000
+Content-Type: text/plain
 
-On Tue, Jul 28, 2015 at 12:48 AM, Lei, Maohui <leimaohui@cn.fujitsu.com> wrote:
-> Hi Khem,
->
->
->> glibc 2.22 will release end of this month. For some time I have put
->> together the update here
->>
->> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/m
->> aster&id=0
->> 2e73ea526d94f21c7ef82eb96b062eff8ebb825
->>
->> It works pretty well for machines I have tested it on ( arm/x86 ) but
->> would be interested if more wider trial could be carried out and
->> issues reported between now and release can be addressed.
->>
->> Please give it a try if you have spare cycles
->
-> I tested it on powerpc(e500v2),and did a ltp test. It does work well.
->
+The tzdata recipe does not mark the /etc/timezone file and
+/etc/localtime link as configuration files. An on target update would
+then overwite the user modified versions of those files.
+Add those files in CONFFILES_${PN}.
 
-thanks for the report
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ meta/recipes-extended/tzdata/tzdata_2015e.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-extended/tzdata/tzdata_2015e.bb b/meta/recipes-extended/tzdata/tzdata_2015e.bb
+index 9179d7b..92389a9 100644
+--- a/meta/recipes-extended/tzdata/tzdata_2015e.bb
++++ b/meta/recipes-extended/tzdata/tzdata_2015e.bb
+@@ -203,3 +203,5 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
+                 ${datadir}/zoneinfo/zone.tab             \
+                 ${datadir}/zoneinfo/iso3166.tab          \
+                 ${datadir}/zoneinfo/Etc/*"
++
++CONFFILES_${PN} += "${sysconfdir}/timezone ${sysconfdir}/localtime"
+-- 
+1.7.9.5
 
->
->
-> Best Regards
-> Lei Maohui
->
->
->
->
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org
->> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of
->> Khem Raj
->> Sent: Tuesday, July 14, 2015 1:37 AM
->> To: Patches and discussions about the oe-core layer; OpenEmbedded
->> Devel List; Yocto discussion list
->> Subject: [OE-core] glibc 2.22
->>
->> Hi All
->>
->> glibc 2.22 will release end of this month. For some time I have put
->> together the update here
->>
->> http://git.openembedded.org/openembedded-core-contrib/commit/?h=kraj/m
->> aster&id=0
->> 2e73ea526d94f21c7ef82eb96b062eff8ebb825
->>
->> It works pretty well for machines I have tested it on ( arm/x86 ) but
->> would be interested if more wider trial could be carried out and
->> issues reported between now and release can be addressed.
->>
->> Please give it a try if you have spare cycles
->>
->> Thanks
->> -Khem
->>
->
-> --
-> _______________________________________________
-> yocto mailing list
-> yocto@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/yocto
 
