@@ -1,40 +1,41 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 030E87638A
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id CD38B7638A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 14:35:38 +0000 (UTC)
-Received: by wicmv11 with SMTP id mv11so23803228wic.0
+	Thu, 30 Jul 2015 14:36:43 +0000 (UTC)
+Received: by wibud3 with SMTP id ud3so71284294wib.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 07:35:38 -0700 (PDT)
+	Thu, 30 Jul 2015 07:36:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=dEBEL8xex5o8amLT83RVhup2jMhqfjHF/4RIHZZUPKw=;
-	b=ALd974BR97Ob+6ZrSSevSDd/KZP7Lkwlm08ro7jX9bGqV6jU0zilyhkm4U3YdtB4io
-	26rTKwwXsG/xRv5V5pfltz+6A4v06rbv/W6lNBWZ2C7E2YeJ345kqsOcU2Eb6nucQB0K
-	jIqXdiPxzC2b67PQNNxVebEUbmSPuqq+MmFyXg4ngbVDDTuKFXdn0cmYoCBbZV+w9JDY
-	RfolmxdJrI+Lddyathw/28VJsEZaWCJocynduyV6gg6bnkGumwqJW8ioavGWpPvneo0z
-	wNUD1ouMSSEML0Gi/E7YDNDWuJROx6fdn/4wIUgQTHad262wbKys3zPfs3wPsJCKT069
-	uU5g==
-X-Received: by 10.180.186.35 with SMTP id fh3mr7032297wic.7.1438266938539;
-	Thu, 30 Jul 2015 07:35:38 -0700 (PDT)
+	bh=LscM8X/heWFyRRLFnLCLEViE6J74jA7zIL9KyY5ztus=;
+	b=1BuAfwyp+0lwtvEYwzJvLdvOoqkGKSZ9G+JulLLbY9lwo62udOvo4TdTb7In6GgVaF
+	Rw6X0mi224rXFg4z1KnuI9PvDq39aAfdfQ3gcJgUvUCC+A5ViXxdXo1yK7r5sMotXgEg
+	d2rd1VgbQ8SzsomCP140rymLt55qMb5NUXFtlPt5Pt3qVnu077F8FBwCcWL6cOUe4AYL
+	k2b1U1y2aksgXuoLy6URD3nSVCLg6CrjALEg7yrjqovyon7K6406AWVCUFg+SDE6aORo
+	CHB1R8M2j6o2gEDacDgE0LASaHfeG1yQm89u3HQ7+PwTN8TsTm4FpOrsrQKx8IAri++U
+	d21Q==
+X-Received: by 10.194.58.130 with SMTP id r2mr88607742wjq.72.1438267003938;
+	Thu, 30 Jul 2015 07:36:43 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id x6sm30228146wiy.6.2015.07.30.07.35.37
+	by smtp.gmail.com with ESMTPSA id
+	di7sm3350502wib.23.2015.07.30.07.36.42
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Jul 2015 07:35:37 -0700 (PDT)
+	Thu, 30 Jul 2015 07:36:42 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 30 Jul 2015 16:35:52 +0200
+Date: Thu, 30 Jul 2015 16:36:58 +0200
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20150730143552.GJ2457@jama>
+Message-ID: <20150730143658.GK2457@jama>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<d5362f4afd2b421f9a6b628289bde50f60a9882b.1438262915.git.alexander.kanavin@linux.intel.com>
+	<86b43671f02c22f328e3801e0711a33731156ba8.1438262915.git.alexander.kanavin@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <d5362f4afd2b421f9a6b628289bde50f60a9882b.1438262915.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <86b43671f02c22f328e3801e0711a33731156ba8.1438262915.git.alexander.kanavin@linux.intel.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 17/26] tremor: switch SRC_URI from svn to tarballs on debian mirrors
+Subject: Re: [PATCH 21/26] systemd: remove PV from the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,82 +48,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 14:35:39 -0000
-X-Groupsio-MsgNum: 68740
+X-List-Received-Date: Thu, 30 Jul 2015 14:36:44 -0000
+X-Groupsio-MsgNum: 68741
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="mPTHnM80CEnHQ2WJ"
+	protocol="application/pgp-signature"; boundary="1ppIqr1kl39GnwQx"
 Content-Disposition: inline
 
---mPTHnM80CEnHQ2WJ
+--1ppIqr1kl39GnwQx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 30, 2015 at 04:31:46PM +0300, Alexander Kanavin wrote:
-> There is no support for checking svn repositories for new commits, so
-> let's use debian tarballs and assume that Debian has a dedicated maintain=
-er
-> who would check the upstream now and then.
+On Thu, Jul 30, 2015 at 04:31:50PM +0300, Alexander Kanavin wrote:
+> It is unnecessary because the recipe filename already contains it.
+
+No, it contains only 219
+
 >=20
 > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  .../{tremor-20120314 =3D> tremor}/obsolete_automake_macros.patch      | 0
->  .../tremor/{tremor-20120314 =3D> tremor}/tremor-arm-thumb2.patch      | 0
->  .../tremor/{tremor_20120314.bb =3D> tremor_18153.bb}                  | =
-6 ++++--
->  3 files changed, 4 insertions(+), 2 deletions(-)
->  rename meta/recipes-multimedia/tremor/{tremor-20120314 =3D> tremor}/obso=
-lete_automake_macros.patch (100%)
->  rename meta/recipes-multimedia/tremor/{tremor-20120314 =3D> tremor}/trem=
-or-arm-thumb2.patch (100%)
->  rename meta/recipes-multimedia/tremor/{tremor_20120314.bb =3D> tremor_18=
-153.bb} (66%)
+>  meta/recipes-core/systemd/systemd_219.bb | 2 --
+>  1 file changed, 2 deletions(-)
 >=20
-> diff --git a/meta/recipes-multimedia/tremor/tremor-20120314/obsolete_auto=
-make_macros.patch b/meta/recipes-multimedia/tremor/tremor/obsolete_automake=
-_macros.patch
-> similarity index 100%
-> rename from meta/recipes-multimedia/tremor/tremor-20120314/obsolete_autom=
-ake_macros.patch
-> rename to meta/recipes-multimedia/tremor/tremor/obsolete_automake_macros.=
-patch
-> diff --git a/meta/recipes-multimedia/tremor/tremor-20120314/tremor-arm-th=
-umb2.patch b/meta/recipes-multimedia/tremor/tremor/tremor-arm-thumb2.patch
-> similarity index 100%
-> rename from meta/recipes-multimedia/tremor/tremor-20120314/tremor-arm-thu=
-mb2.patch
-> rename to meta/recipes-multimedia/tremor/tremor/tremor-arm-thumb2.patch
-> diff --git a/meta/recipes-multimedia/tremor/tremor_20120314.bb b/meta/rec=
-ipes-multimedia/tremor/tremor_18153.bb
-> similarity index 66%
-> rename from meta/recipes-multimedia/tremor/tremor_20120314.bb
-> rename to meta/recipes-multimedia/tremor/tremor_18153.bb
-> index afc78ac..c27fe8c 100644
-> --- a/meta/recipes-multimedia/tremor/tremor_20120314.bb
-> +++ b/meta/recipes-multimedia/tremor/tremor_18153.bb
-
-PV going backwards isn't acceptable for package feeds
-
-> @@ -8,12 +8,14 @@ DEPENDS =3D "libogg"
->  SRCDATE =3D "${PV}"
->  PR =3D "r1"
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core=
+/systemd/systemd_219.bb
+> index 83e4bce..148a077 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -27,8 +27,6 @@ inherit gtk-doc useradd pkgconfig autotools perlnative =
+update-rc.d update-altern
 > =20
-> -SRC_URI =3D "svn://svn.xiph.org/trunk;module=3DTremor;rev=3D18221;protoc=
-ol=3Dhttp \
-> +SRC_URI =3D "${DEBIAN_MIRROR}/main/libv/libvorbisidec/libvorbisidec_1.0.=
-2+svn${PV}.orig.tar.gz \
->             file://obsolete_automake_macros.patch;striplevel=3D0 \
->             file://tremor-arm-thumb2.patch \
->  "
-> +SRC_URI[md5sum] =3D "4190859414c5d6760e316b5cf00fe7c5"
-> +SRC_URI[sha256sum] =3D "4dc8c224289da3479fc10ce4e49ffbb85c790eb2fe55ef48=
-0934a265ee0a6782"
+>  SRCREV =3D "85a6fabdd3e43cfab0fc6359e9f2a9e368d4a3ed"
 > =20
-> -S =3D "${WORKDIR}/Tremor"
-> +S =3D "${WORKDIR}/libvorbisidec-1.0.2+svn${PV}"
-> =20
->  inherit autotools pkgconfig
-> =20
+> -PV =3D "219-stable+git${SRCPV}"
+> -
+>  SRC_URI =3D "git://anongit.freedesktop.org/systemd/systemd-stable;branch=
+=3Dv219-stable;protocol=3Dgit \
+>             file://0002-shared-missing.h-fall-back-to-insecure-getenv.pat=
+ch \
+>             file://0003-binfmt-Don-t-install-dependency-links-at-install-=
+tim.patch \
 > --=20
 > 2.1.4
 >=20
@@ -135,16 +100,16 @@ ol=3Dhttp \
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---mPTHnM80CEnHQ2WJ
+--1ppIqr1kl39GnwQx
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlW6NkgACgkQN1Ujt2V2gBxX5ACeLh5+aNGKyjUS3dK2RmzeOgYn
-5Y0AoJJXXvhKz/jAYqYZ54F5QWD0tjM3
-=/dgo
+iEYEARECAAYFAlW6NokACgkQN1Ujt2V2gByLqgCfcSQYufibSUxAGJlzb900B9Bm
+omwAnA8WwxQWNMQcDLdZE6Sw1DiDtw97
+=XgI8
 -----END PGP SIGNATURE-----
 
---mPTHnM80CEnHQ2WJ--
+--1ppIqr1kl39GnwQx--
