@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6715A764C7
+	by mail.openembedded.org (Postfix) with ESMTP id 6BB4E764B9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 13:31:39 +0000 (UTC)
+	Thu, 30 Jul 2015 13:31:40 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 06:31:19 -0700
+	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 06:31:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="758407640"
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="758407645"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2015 06:31:19 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2015 06:31:20 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 16:31:50 +0300
-Message-Id: <86b43671f02c22f328e3801e0711a33731156ba8.1438262915.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 30 Jul 2015 16:31:51 +0300
+Message-Id: <321a8796e529b520084674868bb25d3da2203308.1438262915.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 21/26] systemd: remove PV from the recipe
+Subject: [PATCH 22/26] unzip, zip: fix PV to allow upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +31,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 13:31:39 -0000
+X-List-Received-Date: Thu, 30 Jul 2015 13:31:40 -0000
 
-It is unnecessary because the recipe filename already contains it.
+Upstream does not separate major and minor version numbers in the tarball
+filename, so the best we can do is to squash them together as well :-/
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-core/systemd/systemd_219.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-extended/unzip/unzip_6.0.bb | 3 ++-
+ meta/recipes-extended/zip/zip.inc        | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 83e4bce..148a077 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -27,8 +27,6 @@ inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-altern
+diff --git a/meta/recipes-extended/unzip/unzip_6.0.bb b/meta/recipes-extended/unzip/unzip_6.0.bb
+index 4a0a713..8ac3745 100644
+--- a/meta/recipes-extended/unzip/unzip_6.0.bb
++++ b/meta/recipes-extended/unzip/unzip_6.0.bb
+@@ -6,7 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=94caec5a51ef55ef711ee4e8b1c69e29"
+ PE = "1"
+ PR = "r5"
  
- SRCREV = "85a6fabdd3e43cfab0fc6359e9f2a9e368d4a3ed"
+-SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip60.tgz \
++PV = "60"
++SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/unzip${PV}.tgz \
+ 	file://avoid-strip.patch \
+ 	file://define-ldflags.patch \
+ 	file://06-unzip60-alt-iconv-utf8_CVE-2015-1315.patch \
+diff --git a/meta/recipes-extended/zip/zip.inc b/meta/recipes-extended/zip/zip.inc
+index 6221c5e..5e92daa 100644
+--- a/meta/recipes-extended/zip/zip.inc
++++ b/meta/recipes-extended/zip/zip.inc
+@@ -5,7 +5,8 @@ SECTION = "console/utils"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=04d43c5d70b496c032308106e26ae17d"
  
--PV = "219-stable+git${SRCPV}"
--
- SRC_URI = "git://anongit.freedesktop.org/systemd/systemd-stable;branch=v219-stable;protocol=git \
-            file://0002-shared-missing.h-fall-back-to-insecure-getenv.patch \
-            file://0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+-SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/zip${@d.getVar('PV',1).replace('.', '')}.tgz"
++PV = "30"
++SRC_URI = "ftp://ftp.info-zip.org/pub/infozip/src/zip${PV}.tgz"
+ 
+ EXTRA_OEMAKE = "'CC=${CC}' 'BIND=${CC}' 'AS=${CC} -c' 'CPP=${CPP}' \
+ 		'CFLAGS=-I. -DUNIX ${CFLAGS}' 'INSTALL=install' \
 -- 
 2.1.4
 
