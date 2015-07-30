@@ -1,25 +1,35 @@
-Return-Path: <kad@kad.name>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FBF860053
+Return-Path: <ashcharles@gmail.com>
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 812C7761D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 16:49:25 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 30 Jul 2015 09:49:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="533166191"
-Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Jul 2015 09:49:25 -0700
-Received: from akanevsk-mac01.fi.intel.com (akanevsk-mac01.fi.intel.com
-	[10.237.66.34])
-	by linux.intel.com (Postfix) with ESMTP id 875036A4005
+	Thu, 30 Jul 2015 17:12:10 +0000 (UTC)
+Received: by igk11 with SMTP id 11so15402407igk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 09:48:40 -0700 (PDT)
-From: "Alexander D. Kanevskiy" <kad@kad.name>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 19:49:17 +0300
-Message-Id: <1438274957-50358-1-git-send-email-kad@kad.name>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] combo-layer: fix AttributeError traceback.
+	Thu, 30 Jul 2015 10:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=6LC7rAd63PK/6JgTOk6DfnqG67F217SmNIZtn+DckQE=;
+	b=IiD66SYkWOKCDbNZdLPkHT4dg/Opop+nvxe28CMC4AIZyaWjiIXkrnaTLXp3GL2AmO
+	aMdNNKKB1y3/mWQzzN4/JQ4Sk0dQ54O7ikbYNLLsfsBcP/mAVKOa9TX+9gEMKstL1c44
+	ibzZJxPEKqN8DBEgU8wH/vNvNv2OGNRiZkkLvaY4/Q1oFdUSd4h7JEmRJdLIbZsrlgPt
+	2h8o2+tq5R9kRRSouDiVraLRC8CUc/yKkeYJQIpUEK64Ra6uTonLKlsrEZAPQ0Bir5mt
+	MEV4omt1N6msOEO2PcyD84nXAdCWtHyF8BS4Zs8Gj+/TP0CLA2zgN3eWnExWYJkS7mvf
+	pn5g==
+X-Received: by 10.50.79.230 with SMTP id m6mr6624712igx.86.1438276330980; Thu,
+	30 Jul 2015 10:12:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.19.166 with HTTP; Thu, 30 Jul 2015 10:11:38 -0700 (PDT)
+In-Reply-To: <1438273329.3455.27.camel@collabora.co.uk>
+References: <1437687855-6499-1-git-send-email-ashcharles@gmail.com>
+	<1438273329.3455.27.camel@collabora.co.uk>
+From: Ash Charles <ashcharles@gmail.com>
+Date: Thu, 30 Jul 2015 10:11:38 -0700
+Message-ID: <CAK8F28mwi2=weNnu9b22_5q-wZ-mKsuwcP8AjiZ9YfWP5WYoCA@mail.gmail.com>
+To: Joshua Lock <joshua.lock@collabora.co.uk>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [fido][PATCH 0/2] Backports for WIC
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +42,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 16:49:27 -0000
+X-List-Received-Date: Thu, 30 Jul 2015 17:12:12 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Alexander Kanevskiy <kad@linux.intel.com>
-
-Commit c908a423f85a84ddd8249abd00254f29d47df74b introduced new
-issue in combo-layer tool that leads to traceback as
-args.hard_reset is unknown variable. This changed defines
-appropriate destination for command args parser and fixes
-reference.
-
-Signed-off-by: Alexander Kanevskiy <kad@linux.intel.com>
----
- scripts/combo-layer | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/scripts/combo-layer b/scripts/combo-layer
-index 6b0c56d..70dad83 100755
---- a/scripts/combo-layer
-+++ b/scripts/combo-layer
-@@ -587,7 +587,7 @@ def action_pull(conf, args):
-         branch = repo.get('branch', "master")
-         runcmd("git checkout %s" % branch, ldir)
-         logger.info("update component repo %s in %s ..." % (name, ldir))
--        if not args.hard_reset:
-+        if not conf.hard_reset:
-             output=runcmd("git pull --ff-only", ldir)
-             logger.info(output)
-         else:
-@@ -902,7 +902,7 @@ Action:
- 
-     parser.add_option("--hard-reset",
-                help = "instead of pull do fetch and hard-reset in component repos",
--               action = "store_true", default = False)
-+               action = "store_true", dest = "hard_reset", default = False)
- 
-     parser.add_option("-H", "--history", help = "import full history of components during init",
-                       action = "store_true", default = False)
--- 
-2.5.0
-
+On Thu, Jul 30, 2015 at 9:22 AM, Joshua Lock
+<joshua.lock@collabora.co.uk> wrote:
+> Backporting those
+> changes seems reasonable to me, I've queued them in my joshuagl/fido
+> -next branch[1].
+Thanks Joshua.
+--Ash
 
