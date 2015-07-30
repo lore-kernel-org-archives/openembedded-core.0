@@ -1,30 +1,28 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0961776398
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9487C76419
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 07:09:12 +0000 (UTC)
+	Thu, 30 Jul 2015 07:40:21 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6U799KN027610
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6U7eLSx012093
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 Jul 2015 00:09:09 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	Thu, 30 Jul 2015 00:40:21 -0700 (PDT)
+Received: from [128.224.162.176] (128.224.162.176) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 30 Jul 2015 00:08:50 -0700
-Message-ID: <55B9CD93.1000902@windriver.com>
-Date: Thu, 30 Jul 2015 15:09:07 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
+	Thu, 30 Jul 2015 00:40:02 -0700
+Message-ID: <55B9D4E3.1010305@windriver.com>
+Date: Thu, 30 Jul 2015 15:40:19 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-To: Olof Johansson <olof.johansson@axis.com>, Otavio Salvador
-	<otavio.salvador@ossystems.com.br>
-References: <cover.1438161068.git.liezhi.yang@windriver.com>	<5755146.lYtmNt1cvb@peggleto-mobl.ger.corp.intel.com>	<55B8A89A.6050406@windriver.com>
-	<1438170429-sup-8609@axis.com>	<CAP9ODKob+TVBpb1jrzVueZT0w2DQpP5X0YBAwy-RFEoh615rHw@mail.gmail.com>
-	<1438239812-sup-93@axis.com>
-In-Reply-To: <1438239812-sup-93@axis.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] bitbake.conf: add GITHUB_GIT
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <1438155256-3385-1-git-send-email-wenzong.fan@windriver.com>
+	<CAJTo0LY_8MGszbQYJziM+bj4GUV+qmQgnzSTOHb4XG0+1GVb8A@mail.gmail.com>
+In-Reply-To: <CAJTo0LY_8MGszbQYJziM+bj4GUV+qmQgnzSTOHb4XG0+1GVb8A@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bjam-native: inhibit sysroot strip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,22 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 07:09:13 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Thu, 30 Jul 2015 07:40:22 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 07/30/2015 03:04 PM, Olof Johansson wrote:
-> Excerpts from Otavio Salvador's message of 2015-07-29 18:27:32 +0200:
->> It allows for people to add local mirrors for example and even remap
->> fetching without touching the recipes. It is a good addition IMO.
+On 07/29/2015 06:19 PM, Burton, Ross wrote:
 >
-> Can't you use PREMIRRORS for that?
+> On 29 July 2015 at 08:34, <wenzong.fan@windriver.com
+> <mailto:wenzong.fan@windriver.com>> wrote:
 >
+>     +# bjam is already stripped, don't strip it again
+>     +INHIBIT_SYSROOT_STRIP = "1"
+>
+>
+> In case it's even needed to debug bjam-native, how hard would it be to
+> stop bjam from being stripped in the first place?
 
-PREMIRRORS is for all the recipes/protocols ? I think that another benefit
-is we can uniform github's SRC_URI ?
+By default, a release version is stripped, we could build & install the 
+debug version for bjam.
 
-// Robert
+For specific changes, we only need to append "--debug" to build.sh, then 
+update do_install() to select the unstripped version.
+
+Do you think this is the right ways?
+
+Thanks
+Wenzong
+
+>
+> Ross
 
