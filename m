@@ -1,27 +1,35 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 151737639E
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
+	[209.85.217.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 69F407639E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 14:40:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jul 2015 07:40:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="738848628"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO [10.252.9.176])
-	([10.252.9.176])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jul 2015 07:40:57 -0700
-Message-ID: <1438267256.10150.43.camel@tkkaskin-mobl3.ger.corp.intel.com>
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: Yuqing Zhu <b54851@freescale.com>
-Date: Thu, 30 Jul 2015 17:40:56 +0300
-In-Reply-To: <1438283162-12897-2-git-send-email-b54851@freescale.com>
-References: <1438283162-12897-1-git-send-email-b54851@freescale.com>
-	<1438283162-12897-2-git-send-email-b54851@freescale.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - PL 281, 00181 Helsinki
-X-Mailer: Evolution 3.10.4 (3.10.4-4.fc20) 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [poky][PATCH v5] pulseaudio: Revert "launch: Avoid specifically starting PA and rely on autospawn/socket activation"
+	Thu, 30 Jul 2015 14:41:58 +0000 (UTC)
+Received: by lbbud7 with SMTP id ud7so24612474lbb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 07:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=dgKZDVEcaVtJOdanVnE4ISDsR+/RVy+uRtNK4v2Gl1c=;
+	b=ijdxeKqyFf51Y2T5zS3dBERD7/BmAzyD4hpKf3DtT+xDPtwNGo9ZuJsQs6fychJ80T
+	SpscXnWT3+WfoWuJuOytvgGO3VThf0pX9BMCvkJVS0esikx+NQkW+uJboxFrWI1n0JcZ
+	KX44yXCS/iywYJ8+UMAKLt0pUPqjGtX9VxbQBjiw+S8urRaeQkncL2Hi6ORwKDe4P+/b
+	ASVyRgHXEnCOQvGs42/HxL/7aohdkjetkl/TkDEBO/B30EQ9rsHc+Sq5Z3iscACig0j4
+	pOu/SMX7YZ98pXss1FpH56CLJS5vX2fi2EqwZTFbOjaauprjuqgCIQjfWYxrIh4XhzFK
+	dgSg==
+X-Received: by 10.152.18.194 with SMTP id y2mr44070871lad.5.1438267316743;
+	Thu, 30 Jul 2015 07:41:56 -0700 (PDT)
+Received: from umbar.auriga.ru (cl-1614.mbx-01.si.sixxs.net.
+	[2001:15c0:65ff:64d::2])
+	by smtp.gmail.com with ESMTPSA id y10sm294416laj.26.2015.07.30.07.41.54
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 30 Jul 2015 07:41:55 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jul 2015 17:41:48 +0300
+Message-Id: <1438267308-27294-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.4.6
+Subject: [PATCH] python-native: add dependency on gtk-doc-stub-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 14:40:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Jul 2015 14:41:58 -0000
 
-On Fri, 2015-07-31 at 03:06 +0800, Yuqing Zhu wrote:
-> Pulseaudio is always started by autospawn, which is there is default process in system,
-> it will start the pulseaudio daemon and the session is always exist, so pulseaudio daemon will be closed.
-> 
-> But in yocto, pulseaudio only can be started by boot up script, there is no process to start the pulseaudio daemon.
-> But this patch remove the starting PA in script, then pulseaudio will be started in yocto.
+python-native uses gtk-doc in ctypes module. However as it is a
+dependency in the subdirectory (subproject), it is not possible to use
+gtk-doc class directly, so just add a missing dependency.
 
-Sorry, I don't understand what you're trying to say in the commit
-message.
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ meta/recipes-devtools/python/python-native_2.7.9.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The patch indicates that you're having trouble with starting PulseAudio.
-It looks like autospawning isn't working in your setup. The likely
-explanations for that are that either you have disabled autospawning, or
-you're trying to access PulseAudio as root.
-
-If you have disabled autospawning, then to be able to offer advice, I'd
-need to know why you have disabled it.
-
-If you're trying to access PulseAudio as root, then I suppose you're
-running a graphical session as root (start-pulseaudio-x11 is relevant
-for graphical sessions only). That doesn't work out of the box, because
-in multi-user environments running PulseAudio as root can easily cause
-trouble for other users, so autospawning is not allowed for root. If
-there are no regular users in the system, however, you can enable
-autospawning for root by adding "allow-autospawn-for-root = yes" to
-client.conf. The sato images use that option, see
-pulseaudio-client-conf-sato.bb.
-
+diff --git a/meta/recipes-devtools/python/python-native_2.7.9.bb b/meta/recipes-devtools/python/python-native_2.7.9.bb
+index 34f5c29..62fbf34 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.9.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.9.bb
+@@ -1,7 +1,7 @@
+ require python.inc
+ 
+ EXTRANATIVEPATH += "bzip2-native"
+-DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native"
++DEPENDS = "openssl-native bzip2-replacement-native zlib-native readline-native sqlite3-native gtk-doc-stub-native"
+ PR = "${INC_PR}.1"
+ 
+ SRC_URI += "\
 -- 
-Tanu
+2.4.6
 
 
