@@ -1,36 +1,36 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f194.google.com (mail-ig0-f194.google.com
-	[209.85.213.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A88D67652D
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6020676563
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 20:56:57 +0000 (UTC)
-Received: by igbpg9 with SMTP id pg9so502262igb.1
+	Thu, 30 Jul 2015 20:57:02 +0000 (UTC)
+Received: by igk11 with SMTP id 11so19386102igk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 13:56:58 -0700 (PDT)
+	Thu, 30 Jul 2015 13:57:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=9kgl9wutBtdbtdMDlg2tq3mJL5z+r/pXzpzqDUsBqiY=;
-	b=W6MJutlUfTMEprLuUMQV0+nxd/rcYFTbr3GhESJFZMbscNeO7t2muvm/iXR+kohNZ8
-	tmC6zTM03n3I6CErKIrvBFJJ8rZU7WmET2Q7aAolgJppo8coy5UZgtAD39AuswwedWWl
-	kzD0MPmoXK8EdJTZrDrT1Wj/WEIaYhymrl04Q8PqrKqWYjOFd7K+s54nTI/MOjLEdJLa
-	pLWqZq1d3HNBtiR2a4gppLAglS8x4jU0KWCQQ/b6vyhgMxN7vg7XxaLVFy6YeNtra6WJ
-	9MNeSLLFYe+2sPm8PxMZHcJ/pcPiHDDYwfWW/b6+Pr6uFBFS3ILaxuIIfJdazinEfqzt
-	VFKQ==
-X-Received: by 10.50.1.43 with SMTP id 11mr43185igj.76.1438289818175;
-	Thu, 30 Jul 2015 13:56:58 -0700 (PDT)
+	bh=d+WtlLWDzpuTJulNvwz7vhoiebHGp13HkqZlkHVd0mE=;
+	b=dtOyL5zqSL2JkwKimPgXobM7hCDw0+9GTG88Ir6UeU9+GKkc3A7iZc/o9F+JfGBFEZ
+	T8gaquk8l98pxsHOehxPiCDRqSuQ14sXzeoX+U5YKLjrwKoMCHOU7kkcK+suB+Zbco0A
+	btHf6tD/vMxSm9L1ZzkhCpBeu0GeeBuYTBPhPgzHzo31S6rFYulfzylUEA/3TX3QIgqt
+	EHhD90YmRsl8dRIgPJZDeklmNDZaB0la5eLIB7FwMOFAnRZ5uXWvn/he2f6fptZ78xnQ
+	bCpbKHLWXI948/nGbLujThdnc9WOdmIdAkB0MM8ZS2Vug76S4MXiupVaAEzp5i+6V27K
+	zLIA==
+X-Received: by 10.50.88.6 with SMTP id bc6mr89430igb.24.1438289823219;
+	Thu, 30 Jul 2015 13:57:03 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id a6sm1530978ioj.1.2015.07.30.13.56.57
+	by smtp.gmail.com with ESMTPSA id a6sm1530978ioj.1.2015.07.30.13.57.02
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 30 Jul 2015 13:56:57 -0700 (PDT)
+	Thu, 30 Jul 2015 13:57:02 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 13:56:25 -0700
-Message-Id: <1438289788-23120-5-git-send-email-armccurdy@gmail.com>
+Date: Thu, 30 Jul 2015 13:56:27 -0700
+Message-Id: <1438289788-23120-7-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1438289788-23120-1-git-send-email-armccurdy@gmail.com>
 References: <1438289788-23120-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 4/7] busybox: disable sha3sum in defconfig
+Subject: [PATCH 6/7] busybox: support mount via label for btrfs and squashfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,29 +43,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 20:57:00 -0000
+X-List-Received-Date: Thu, 30 Jul 2015 20:57:03 -0000
 
-The sha1sum, sha256sum and sha512sum applets have not historically
-been enabled by default, so don't enable sha3sum either.
+Also move the mount via label (and mount via UUID) support into its
+own config fragment and disable volume ID support for less common
+filesystem formats exFAT and NILFS.
+
+Following this commit, mount via label is supported for btrfs, ext, f2fs,
+fat and squashfs.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/busybox/busybox/defconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/busybox/busybox/defconfig           | 18 +++++++-----------
+ meta/recipes-core/busybox/busybox/mount-via-label.cfg |  9 +++++++++
+ meta/recipes-core/busybox/busybox_1.23.2.bb           |  1 +
+ meta/recipes-core/busybox/busybox_git.bb              |  1 +
+ 4 files changed, 18 insertions(+), 11 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/mount-via-label.cfg
 
 diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index 357011c..0274123 100644
+index c5d3275..4f5df9e 100644
 --- a/meta/recipes-core/busybox/busybox/defconfig
 +++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -271,7 +271,7 @@ CONFIG_SEQ=y
- # CONFIG_SHA1SUM is not set
- # CONFIG_SHA256SUM is not set
- # CONFIG_SHA512SUM is not set
--CONFIG_SHA3SUM=y
-+# CONFIG_SHA3SUM is not set
- CONFIG_SLEEP=y
- CONFIG_FEATURE_FANCY_SLEEP=y
- # CONFIG_FEATURE_FLOAT_SLEEP is not set
+@@ -603,7 +603,7 @@ CONFIG_MOUNT=y
+ # CONFIG_FEATURE_MOUNT_FAKE is not set
+ # CONFIG_FEATURE_MOUNT_VERBOSE is not set
+ # CONFIG_FEATURE_MOUNT_HELPERS is not set
+-CONFIG_FEATURE_MOUNT_LABEL=y
++# CONFIG_FEATURE_MOUNT_LABEL is not set
+ CONFIG_FEATURE_MOUNT_NFS=y
+ # CONFIG_FEATURE_MOUNT_CIFS is not set
+ CONFIG_FEATURE_MOUNT_FLAGS=y
+@@ -629,24 +629,20 @@ CONFIG_FEATURE_UMOUNT_ALL=y
+ CONFIG_FEATURE_MOUNT_LOOP=y
+ CONFIG_FEATURE_MOUNT_LOOP_CREATE=y
+ # CONFIG_FEATURE_MTAB_SUPPORT is not set
+-CONFIG_VOLUMEID=y
+-
+-#
+-# Filesystem/Volume identification
+-#
++# CONFIG_VOLUMEID is not set
+ # CONFIG_FEATURE_VOLUMEID_BTRFS is not set
+ # CONFIG_FEATURE_VOLUMEID_CRAMFS is not set
+-CONFIG_FEATURE_VOLUMEID_EXFAT=y
+-CONFIG_FEATURE_VOLUMEID_EXT=y
+-CONFIG_FEATURE_VOLUMEID_F2FS=y
+-CONFIG_FEATURE_VOLUMEID_FAT=y
++# CONFIG_FEATURE_VOLUMEID_EXFAT is not set
++# CONFIG_FEATURE_VOLUMEID_EXT is not set
++# CONFIG_FEATURE_VOLUMEID_F2FS is not set
++# CONFIG_FEATURE_VOLUMEID_FAT is not set
+ # CONFIG_FEATURE_VOLUMEID_HFS is not set
+ # CONFIG_FEATURE_VOLUMEID_ISO9660 is not set
+ # CONFIG_FEATURE_VOLUMEID_JFS is not set
+ # CONFIG_FEATURE_VOLUMEID_LINUXRAID is not set
+ # CONFIG_FEATURE_VOLUMEID_LINUXSWAP is not set
+ # CONFIG_FEATURE_VOLUMEID_LUKS is not set
+-CONFIG_FEATURE_VOLUMEID_NILFS=y
++# CONFIG_FEATURE_VOLUMEID_NILFS is not set
+ # CONFIG_FEATURE_VOLUMEID_NTFS is not set
+ # CONFIG_FEATURE_VOLUMEID_OCFS2 is not set
+ # CONFIG_FEATURE_VOLUMEID_REISERFS is not set
+diff --git a/meta/recipes-core/busybox/busybox/mount-via-label.cfg b/meta/recipes-core/busybox/busybox/mount-via-label.cfg
+new file mode 100644
+index 0000000..2fe7ab2
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/mount-via-label.cfg
+@@ -0,0 +1,9 @@
++CONFIG_BLKID=y
++CONFIG_FEATURE_BLKID_TYPE=y
++CONFIG_FEATURE_MOUNT_LABEL=y
++CONFIG_VOLUMEID=y
++CONFIG_FEATURE_VOLUMEID_BTRFS=y
++CONFIG_FEATURE_VOLUMEID_EXT=y
++CONFIG_FEATURE_VOLUMEID_F2FS=y
++CONFIG_FEATURE_VOLUMEID_FAT=y
++CONFIG_FEATURE_VOLUMEID_SQUASHFS=y
+diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
+index 85e462e..b84f499 100644
+--- a/meta/recipes-core/busybox/busybox_1.23.2.bb
++++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
+@@ -32,6 +32,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://busybox-cross-menuconfig.patch \
+            file://0001-ifconfig-fix-double-free-fatal-error-in-INET_sprint.patch \
+            file://0001-chown-fix-help-text.patch \
++           file://mount-via-label.cfg \
+ "
+ 
+ SRC_URI[tarball.md5sum] = "7925683d7dd105aabe9b6b618d48cc73"
+diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
+index c5596d8..71e6c13 100644
+--- a/meta/recipes-core/busybox/busybox_git.bb
++++ b/meta/recipes-core/busybox/busybox_git.bb
+@@ -38,6 +38,7 @@ SRC_URI = "git://busybox.net/busybox.git \
+            file://busybox-cross-menuconfig.patch \
+            file://0001-ifconfig-fix-double-free-fatal-error-in-INET_sprint.patch \
+            file://0001-chown-fix-help-text.patch \
++           file://mount-via-label.cfg \
+ "
+ 
+ EXTRA_OEMAKE += "V=1 ARCH=${TARGET_ARCH} CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y"
 -- 
 1.9.1
 
