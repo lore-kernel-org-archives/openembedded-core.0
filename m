@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6302D76491
+	by mail.openembedded.org (Postfix) with ESMTP id 7714076499
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 Jul 2015 13:31:26 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 06:31:02 -0700
+	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 06:31:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="758407421"
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="758407500"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2015 06:31:01 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2015 06:31:04 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 16:31:33 +0300
-Message-Id: <b2450ea9c15f17c7e1ebb877789d8cdc0a6be7a9.1438262915.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 30 Jul 2015 16:31:36 +0300
+Message-Id: <9c75bea242526a82f0cff2a42d2ad375ec776b8f.1438262915.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 04/26] adt-installer: update SRC_URI to not use Google Code
+Subject: [PATCH 07/26] gptfdisk: use tarballs instead of git for fetching source code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,27 +33,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 30 Jul 2015 13:31:27 -0000
 
-Google Code is shutting down and opkg tarballs are now available
-from yoctoproject.org
+git repository does not have version tags, so upstream version check
+cannot be performed
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-devtools/installer/adt-installer_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../fdisk/{gptfdisk_git.bb => gptfdisk_0.8.10.bb}                 | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_0.8.10.bb} (75%)
 
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 07070b5..c871e42 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -38,7 +38,7 @@ ADT_DIR = "${WORKDIR}/adt-installer/"
- S = "${WORKDIR}/opkg-${PV}"
+diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb b/meta/recipes-devtools/fdisk/gptfdisk_0.8.10.bb
+similarity index 75%
+rename from meta/recipes-devtools/fdisk/gptfdisk_git.bb
+rename to meta/recipes-devtools/fdisk/gptfdisk_0.8.10.bb
+index 477c1d9..3b94b56 100644
+--- a/meta/recipes-devtools/fdisk/gptfdisk_git.bb
++++ b/meta/recipes-devtools/fdisk/gptfdisk_0.8.10.bb
+@@ -5,11 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
  
- PV = "0.2.0"
--SRC_URI = "https://opkg.googlecode.com/files/opkg-${PV}.tar.gz \
-+SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
-            file://wget_cache.patch \
-            file://adt_installer \
-            file://scripts/adt_installer_internal \
+ DEPENDS = "util-linux popt ncurses"
+ 
+-PV = "0.8.10+git${SRCPV}"
+-SRCREV = "a920398fa393f9d6301b32b191bc01e086ab8bc8"
+-SRC_URI = "git://git.code.sf.net/p/gptfdisk/code"
+-
+-S = "${WORKDIR}/git"
++SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz"
++SRC_URI[md5sum] = "9cf4246c181c324bdbd553fe9b348373"
++SRC_URI[sha256sum] = "73e64151203ae0c347c488358e71ca582bb7fb7f0d66df86b71c42050390eb9b"
+ 
+ do_install() {
+     install -d ${D}${sbindir}
 -- 
 2.1.4
 
