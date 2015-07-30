@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7714076499
+	by mail.openembedded.org (Postfix) with ESMTP id A00117649A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 Jul 2015 13:31:26 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 06:31:05 -0700
+	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 06:31:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="758407500"
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="758407480"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2015 06:31:04 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2015 06:31:03 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 16:31:36 +0300
-Message-Id: <9c75bea242526a82f0cff2a42d2ad375ec776b8f.1438262915.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 30 Jul 2015 16:31:35 +0300
+Message-Id: <4dc547325ca078af13412654a8533507f26978ad.1438262915.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 07/26] gptfdisk: use tarballs instead of git for fetching source code
+Subject: [PATCH 06/26] eglinfo: change version from 1.0 to 1.0.0 to match the upstream git tag
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +33,22 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 30 Jul 2015 13:31:27 -0000
 
-git repository does not have version tags, so upstream version check
-cannot be performed
-
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../fdisk/{gptfdisk_git.bb => gptfdisk_0.8.10.bb}                 | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_0.8.10.bb} (75%)
+ meta/recipes-graphics/eglinfo/{eglinfo-fb_1.0.bb => eglinfo-fb_1.0.0.bb}  | 0
+ .../recipes-graphics/eglinfo/{eglinfo-x11_1.0.bb => eglinfo-x11_1.0.0.bb} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-graphics/eglinfo/{eglinfo-fb_1.0.bb => eglinfo-fb_1.0.0.bb} (100%)
+ rename meta/recipes-graphics/eglinfo/{eglinfo-x11_1.0.bb => eglinfo-x11_1.0.0.bb} (100%)
 
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb b/meta/recipes-devtools/fdisk/gptfdisk_0.8.10.bb
-similarity index 75%
-rename from meta/recipes-devtools/fdisk/gptfdisk_git.bb
-rename to meta/recipes-devtools/fdisk/gptfdisk_0.8.10.bb
-index 477c1d9..3b94b56 100644
---- a/meta/recipes-devtools/fdisk/gptfdisk_git.bb
-+++ b/meta/recipes-devtools/fdisk/gptfdisk_0.8.10.bb
-@@ -5,11 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
- 
- DEPENDS = "util-linux popt ncurses"
- 
--PV = "0.8.10+git${SRCPV}"
--SRCREV = "a920398fa393f9d6301b32b191bc01e086ab8bc8"
--SRC_URI = "git://git.code.sf.net/p/gptfdisk/code"
--
--S = "${WORKDIR}/git"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz"
-+SRC_URI[md5sum] = "9cf4246c181c324bdbd553fe9b348373"
-+SRC_URI[sha256sum] = "73e64151203ae0c347c488358e71ca582bb7fb7f0d66df86b71c42050390eb9b"
- 
- do_install() {
-     install -d ${D}${sbindir}
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.bb
+rename to meta/recipes-graphics/eglinfo/eglinfo-fb_1.0.0.bb
+diff --git a/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb b/meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
+similarity index 100%
+rename from meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.bb
+rename to meta/recipes-graphics/eglinfo/eglinfo-x11_1.0.0.bb
 -- 
 2.1.4
 
