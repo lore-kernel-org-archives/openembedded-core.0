@@ -1,59 +1,36 @@
-Return-Path: <B54851@freescale.com>
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1on0146.outbound.protection.outlook.com [157.56.110.146])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D3677645E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
+	[209.85.220.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 253087645E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 09:30:03 +0000 (UTC)
-Received: from BN3PR0301MB1172.namprd03.prod.outlook.com (10.160.156.146) by
-	BN3PR0301MB1171.namprd03.prod.outlook.com (10.160.156.145) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.225.19; Thu, 30 Jul 2015 09:30:03 +0000
-Received: from BN3PR0301MB1172.namprd03.prod.outlook.com ([10.160.156.146]) by
-	BN3PR0301MB1172.namprd03.prod.outlook.com ([10.160.156.146]) with
-	mapi id 15.01.0225.018; Thu, 30 Jul 2015 09:30:03 +0000
-From: Zhu Carol <B54851@freescale.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [poky][PATCH v4 2/5] gstreamer1.0-plugins-base: handle
-	audio/video decoder error
-Thread-Index: AQHQyej5T86TCE6c8Eq3ipC06tHKFJ3y/NcAgADDYtk=
-Date: Thu, 30 Jul 2015 09:30:02 +0000
-Message-ID: <BN3PR0301MB11722F12F68FD0F6C2C093FB868B0@BN3PR0301MB1172.namprd03.prod.outlook.com>
-References: <1438194339-13618-1-git-send-email-b54851@freescale.com>
-	<1438194339-13618-3-git-send-email-b54851@freescale.com>,
-	<55B94A38.9000102@pseudoterminal.org>
-In-Reply-To: <55B94A38.9000102@pseudoterminal.org>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: pseudoterminal.org; dkim=none (message not signed)
-	header.d=none;
-x-originating-ip: [192.158.241.86]
-x-microsoft-exchange-diagnostics: 1; BN3PR0301MB1171;
-	5:rzBnXhlQOHCfYn78YuPhd/tHgQA0z2wkwSlEvz+f9gFP0uN+nOqsmrlVx+vAVBRgf+kAfBFrCAMm3va5o/BXXInJ1o4OYYefyWHhmt+R2MYnHro1Y85ZwhMuhfehVOfbAdVye4ydQJ3bOWsxkIcXMQ==;
-	24:AObBx9m/Cdt87uNl2O8m2GETy3MfPVlvN+cIi5nfbaY4ibhWVtZbB36n+//Efn9advYxbIsIXbokrJ3YVf9khfTKTGB56UOyQ/BC7K3nnJo=;
-	20:HcUPHvnNt2lNJUDsG8Wv9FFMccj2wdvPVBM9xg26ndRbvvnPG02sf5K4+OQgHzY9Ll7x1BOC8WVlCfK+WIz9pw==
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR0301MB1171;
-bn3pr0301mb1171: X-MS-Exchange-Organization-RulesExecuted
-x-microsoft-antispam-prvs: <BN3PR0301MB1171ACC528C3F15241ECCFA8868B0@BN3PR0301MB1171.namprd03.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(3002001); SRVR:BN3PR0301MB1171; BCL:0;
-	PCL:0; RULEID:; SRVR:BN3PR0301MB1171; 
-x-forefront-prvs: 06530126A4
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(377424004)(66066001)(54356999)(189998001)(87936001)(76576001)(92566002)(107886002)(62966003)(46102003)(77096005)(102836002)(575784001)(19580395003)(50986999)(86362001)(15975445007)(106116001)(224303003)(2950100001)(33656002)(2656002)(19580405001)(2900100001)(76176999)(5002640100001)(122556002)(40100003)(99286002)(229853001)(5001770100001)(5001960100002)(77156002)(74316001)(2501003)(5003600100002)(230783001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0301MB1171;
-	H:BN3PR0301MB1172.namprd03.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; LANG:en; 
+	Thu, 30 Jul 2015 09:31:38 +0000 (UTC)
+Received: by qkdg63 with SMTP id g63so15899970qkd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 02:31:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=v9a6VTCOfX/Pd/Hg3fwAn7fWNehFcBfD/TiwrHcgm+c=;
+	b=Vqc5xFvCPySKNwG06c/E4DJqFHHyt+nSwSBtpmx3DhQBLEDtXbz6ao1n0yQd5/4otY
+	o2WKK7NIxN+PU8V+cYI8eMudnil5FgDcpKLq3wvpz53xhz0Y0k0H6+swe5n6hd/W2+Tr
+	iOLj2+8+Rmcoswxt2Jiw32H9OHKb4VqcbPJHKG1zstE2AyZ+T2pxfBle8uTNDgLMZf2g
+	27ZU1wCc/fosjCYEGKkKg8a4mNIf7rEDbV0lUW6TOGjdZQZ5S+MKDfekGp2uFvusElMT
+	AdUhawFJ5faNi+n7DZ22oJCZqUr0CbJnPouM0J60IomdiJivsmdZGkCpF0PvxzkR5SHt
+	WG4g==
+X-Gm-Message-State: ALoCoQklpa4i86/8jPnRv7uh0+Y4FNKzo3JY/phfD2aqJ+YsGVe6kKnvP4zoOWsrmKFFOUUhSDh8
+X-Received: by 10.55.19.19 with SMTP id d19mr69486922qkh.100.1438248698551;
+	Thu, 30 Jul 2015 02:31:38 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jul 2015 09:30:02.7888 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0301MB1171
-Subject: =?UTF-8?B?562U5aSNOiBbcG9reV1bUEFUQ0ggdjQgMi81XSBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlOiBoYW5kbGUgYXVkaW8vdmlkZW8gZGVjb2RlciBlcnJvcg==?=
+Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 02:31:19 -0700 (PDT)
+In-Reply-To: <1438276954-8382-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1438276954-8382-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Jul 2015 10:31:19 +0100
+Message-ID: <CAJTo0LZhkvggLTcgEJ56=c_5g06JNNfK_31g3R8Lbb5fY=BLTw@mail.gmail.com>
+To: Li xin <lixin.fnst@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe][meta-oe][PATCH] iotop: upgrade 0.4.4 -> 0.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,126 +43,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 09:30:04 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 30 Jul 2015 09:31:40 -0000
+Content-Type: multipart/alternative; boundary=001a11401734c6d055051c145ebc
 
-SGksIENhcmxvc6OsDQogICAgIEFzIG1lbnRpb25lZCBiZWxvdywgY3VycmVudGx5IHdlIG1heSB1
-c2UgdGhpcyB0cml2aWFsIG1vZGlmaWNhdGlvbiB0byBqdXN0IHByaW50IGVycm9yIG1lc3NhZ2Vz
-IGluc3RlYWQgb2YgcmV0dXJuIEdTVF9FTEVNRU5UX0VSUk9SIGJlZm9yZSB0aGUgYWdncmVnYXRp
-b24gb2YgZXJyb3IgbWVzc2FnZSBoYW5kbGluZyAuDQogICAgICAgICBGb3IgdGhlIGJhc2VwYXJz
-ZSBwYXRjaCwgYWN0dWFsbHkgaXQgaXMgdGhlIHNpbWlsYXIgc2l0dWF0aW9uIHdpdGggYXVkaW8v
-dmlkZW8gZGVjb2RlciBwYXRjaCwgdGhlIG9ubHkgZGlmZmVyZW5jZSBpcyB0aGF0IGF1ZGlvL2Rl
-Y29kZXIgZXJyb3IgbWVzc2FnZSBpcyBnb3QgZnJvbSBhdWRpby92aWRlbyBkZWNvZGVyIHdoaWNo
-IG1lYW5zIHRoZXJlIGlzIGNvcnJ1cHQgaW4gcmF3IGF1ZGlvL3ZpZGVvIGRhdGEgZGVjb2Rpbmcu
-ICBUaGUgZXJyb3IgaW4gYmFzZXBhcnNlIGlzIHNpbWlsYXIgdGhhdCBzb21lIGNvcnJ1cHQgZXJy
-b3IgaXMgZGV0ZWN0ZWQgaW4gY29udGFpbmVyIHdoZW4gcGFyc2luZyB0aGUgdHJhY2ssIGFuZCBp
-dCBzaG91bGQgbm90IHF1aXQgdGhlIHBsYXlpbmcgaWYgb25seSBvbmUgb2YgdGhlIHRyYWNrcyBt
-ZWV0cyB0aGUgZXJyb3IsIHNpbWlsYXIgYXMgYXVkaW8vdmlkZW8gZGVjb2Rlci4NCg0KQi5SLg0K
-WXVxaW5nIFpodQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0Kt6K8
-/sjLOiBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdkBwc2V1ZG90ZXJtaW5hbC5vcmc+DQq3osvNyrG8
-5DogMjAxNcTqN9TCMzDI1SA1OjQ4DQrK1bz+yMs6IFpodSBZdXFpbmctQjU0ODUxOyBvcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQrW98ziOiBSZTogW3Bva3ldW1BBVENI
-IHY0IDIvNV0gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZTogaGFuZGxlIGF1ZGlvL3ZpZGVvIGRl
-Y29kZXIgZXJyb3INCg0KVGhpcyBvbmUgaXMgcXVpdGUgZGlmZmljdWx0LiBPbiBvbmUgaGFuZCwg
-SSBzZWUgdGhlIGJlbmVmaXRzLiBJZiBmb3INCmV4YW1wbGUgYW4gYXVkaW8gdHJhY2sgaXMgYnJv
-a2VuIGJ1dCB0aGUgdmlkZW8gdHJhY2sgaXMgZmluZSwgaXQgc2hvdWxkDQpub3Qgc3RvcCB0aGUg
-ZW50aXJlIHBsYXliYWNrLiBPbiB0aGUgb3RoZXIgaGFuZCwgdGhlIGVycm9yIG1lc3NhZ2UgYWJv
-dXQNCm5vIHZhbGlkIGZyYW1lcyBmb3VuZCBpcyBxdWl0ZSBzaWduaWZpY2FudCwgYW5kIGlmIGEg
-cGxheWVyIHN1ZGRlbmx5DQpzdG9wcyBiZWNhdXNlIG9mIG1pc3NpbmcgdmFsaWQgZnJhbWVzLCB0
-aGlzIHBsYXllciB3aWxsIG5vdCBnZXQgYW55DQptZXNzYWdlIGZyb20gdGhlIHBpcGVsaW5lLiBU
-aGUgcmVhc29uIGZvciB0aGUgc3RvcCB3aWxsIHJlbWFpbiBhIG15c3RlcnkNCnVubGVzcyBzb21l
-Ym9keSBsb29rcyBhdCB0aGUgbG9ncy4NCg0KSSBhZ3JlZSB3aXRoIHRoZSBjb25jbHVzaW9ucyBp
-biBCdWd6aWxsYSB0aGF0IHRoZSBhcHByb3ByaWF0ZSB3YXkgdG8NCmhhbmRsZSB0aGlzIHdvdWxk
-IGJlIHRvIHNvbWVob3cgYWdncmVnYXRlIHRoZSBlcnJvciBtZXNzYWdlcyBhbmQgb25seQ0Kc3Rv
-cCBpZiBhbGwgdHJhY2tzIHJlcG9ydCBhbiBlcnJvci4gSG93ZXZlciwgdGhpcyBpcyBhIG5vbnRy
-aXZpYWwNCmNoYW5nZSwgYW5kIGlmIGl0IGlzIGltcGxlbWVudGUsIGl0IHdvbid0IG1ha2UgaXQg
-aW4gYmVmb3JlIEdTdHJlYW1lcg0KMS44IChwZXJoYXBzIGV2ZW4gbGF0ZXIpLg0KDQpCdXQsIFpo
-dSwgdGhlIGJ1Z3ppbGxhIGVudHJ5IGFsc28gY29udGFpbnMgYSBwYXRjaCBmb3IgYmFzZXBhcnNl
-LiBXaGF0DQphYm91dCB0aGF0IG9uZT8NCg0KQW0gMjAxNS0wNy0yOSB1bSAyMDoyNSBzY2hyaWVi
-IFl1cWluZyBaaHU6DQo+IFdoZW4gdGhlcmUgaXMgaW5wdXQgZGF0YSBhbmQgbm8gb3V0cHV0IGRh
-dGEgdG8gdGhlIGVuZCBvZiB0aGUgc3RyZWFtLCBpdCB3aWxsDQo+IHNlbmQgR1NUX0VMRU1FTlRf
-RVJST1IgYW5kIHF1aXQgZnJvbSBwbGF5aW5nLg0KPiBUaGUgcGF0Y2ggY29tbWVudHMgdGhlIEdT
-VF9FTEVNRU5UX0VSUk9SKCkgYW5kIGp1c3QgYWRkIEdTVF9FUlJPUl9PQkpFQ1QoKQ0KPiBpbmZv
-cm1hdGlvbiBpbnN0ZWFkLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBZdXFpbmcgWmh1PGI1NDg1MUBm
-cmVlc2NhbGUuY29tPg0KPiAtLS0NCj4gICAuLi4vaGFuZGxlLWF1ZGlvLXZpZGVvLWRlY29kZXIt
-ZXJyb3IucGF0Y2ggICAgICAgICB8IDY0ICsrKysrKysrKysrKysrKysrKysrKysNCj4gICAuLi4v
-Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS40LjUuYmIgICB8ICAxICsNCj4g
-ICAyIGZpbGVzIGNoYW5nZWQsIDY1IGluc2VydGlvbnMoKykNCj4gICBjcmVhdGUgbW9kZSAxMDA3
-NTUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5z
-LWJhc2UvaGFuZGxlLWF1ZGlvLXZpZGVvLWRlY29kZXItZXJyb3IucGF0Y2gNCj4NCj4gZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1
-Z2lucy1iYXNlL2hhbmRsZS1hdWRpby12aWRlby1kZWNvZGVyLWVycm9yLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvaGFu
-ZGxlLWF1ZGlvLXZpZGVvLWRlY29kZXItZXJyb3IucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA3
-NTUNCj4gaW5kZXggMDAwMDAwMC4uODMzY2U3Mg0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL21l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNl
-L2hhbmRsZS1hdWRpby12aWRlby1kZWNvZGVyLWVycm9yLnBhdGNoDQo+IEBAIC0wLDAgKzEsNjQg
-QEANCj4gK0Zyb20gYmNiMmI4YjZmNDllN2M2NjEyNGE0ZjVlMDdkZWE4MjlkNWViZmU1OSBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zyb206IEx5b24gV2FuZzxseW9uLndhbmdAZnJlZXNj
-YWxlLmNvbT4NCj4gK0RhdGU6IE1vbiwgMTUgRGVjIDIwMTQgMTY6NTI6MDcgKzA4MDANCj4gK1N1
-YmplY3Q6IFtQQVRDSF0gaGFuZGxlIGF1ZGlvL3ZpZGVvIGRlY29kZXIgZXJyb3INCj4gKw0KPiAr
-V2hlbiB0aGVyZSBpcyBpbnB1dCBkYXRhIGFuZCBubyBvdXRwdXQgZGF0YSB0byB0aGUgZW5kIG9m
-IHRoZSBzdHJlYW0sIGl0IHdpbGwNCj4gK3NlbmQgR1NUX0VMRU1FTlRfRVJST1IsIFNvIHRoZSBj
-bGlwcyBwbGF5aW5nIHdpbGwgcXVpdC4NCj4gK0hvd2V2ZXIsIGlmIG9ubHkgb25lIG9mIHRoZSB0
-cmFja3MgaXMgY29ycnVwdCwgdGhlcmUgaXMgbm8gbmVlZCB0byBxdWl0IG90aGVyDQo+ICt0cmFj
-a3MgcGxheWluZy4NCj4gKw0KPiArVGhlIHBhdGNoIGNvbW1lbnRzIHRoZSBHU1RfRUxFTUVOVF9F
-UlJPUigpIGFuZCBqdXN0IGFkZCBHU1RfRVJST1JfT0JKRUNUKCkNCj4gK2luZm9ybWF0aW9uIGlu
-c3RlYWQuDQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2J1Z3pp
-bGxhLmdub21lLm9yZy9zaG93X2J1Zy5jZ2k/aWQ9NzQxNTQyXQ0KPiArDQo+ICtTaWduZWQtb2Zm
-LWJ5OiBMeW9uIFdhbmc8bHlvbi53YW5nQGZyZWVzY2FsZS5jb20+DQo+ICstLS0NCj4gKyBnc3Qt
-bGlicy9nc3QvYXVkaW8vZ3N0YXVkaW9kZWNvZGVyLmMgfCAgICA1ICsrKy0tDQo+ICsgZ3N0LWxp
-YnMvZ3N0L3ZpZGVvL2dzdHZpZGVvZGVjb2Rlci5jIHwgICAgNSArKystLQ0KPiArIDIgZmlsZXMg
-Y2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiArIG1vZGUgY2hhbmdl
-IDEwMDY0NCA9PiAxMDA3NTUgZ3N0LWxpYnMvZ3N0L2F1ZGlvL2dzdGF1ZGlvZGVjb2Rlci5jDQo+
-ICsgbW9kZSBjaGFuZ2UgMTAwNjQ0ID0+IDEwMDc1NSBnc3QtbGlicy9nc3QvdmlkZW8vZ3N0dmlk
-ZW9kZWNvZGVyLmMNCj4gKw0KPiArZGlmZiAtLWdpdCBhL2dzdC1saWJzL2dzdC9hdWRpby9nc3Rh
-dWRpb2RlY29kZXIuYyBiL2dzdC1saWJzL2dzdC9hdWRpby9nc3RhdWRpb2RlY29kZXIuYw0KPiAr
-b2xkIG1vZGUgMTAwNjQ0DQo+ICtuZXcgbW9kZSAxMDA3NTUNCj4gK2luZGV4IGMyZTdhMjguLjg5
-MWRmMGENCj4gKy0tLSBhL2dzdC1saWJzL2dzdC9hdWRpby9nc3RhdWRpb2RlY29kZXIuYw0KPiAr
-KysrIGIvZ3N0LWxpYnMvZ3N0L2F1ZGlvL2dzdGF1ZGlvZGVjb2Rlci5jDQo+ICtAQCAtMjEyMyw5
-ICsyMTIzLDEwIEBAIGdzdF9hdWRpb19kZWNvZGVyX3NpbmtfZXZlbnRmdW5jIChHc3RBdWRpb0Rl
-Y29kZXIgKiBkZWMsIEdzdEV2ZW50ICogZXZlbnQpDQo+ICsgICAgICAgR1NUX0FVRElPX0RFQ09E
-RVJfU1RSRUFNX1VOTE9DSyAoZGVjKTsNCj4gKw0KPiArICAgICAgIGlmIChkZWMtPnByaXYtPmN0
-eC5oYWRfaW5wdXRfZGF0YSAmJiAhZGVjLT5wcml2LT5jdHguaGFkX291dHB1dF9kYXRhKSB7DQo+
-ICstICAgICAgICBHU1RfRUxFTUVOVF9FUlJPUiAoZGVjLCBTVFJFQU0sIERFQ09ERSwNCj4gKysg
-ICAgICAgIC8qIEdTVF9FTEVNRU5UX0VSUk9SIChkZWMsIFNUUkVBTSwgREVDT0RFLA0KPiArICAg
-ICAgICAgICAgICgiTm8gdmFsaWQgZnJhbWVzIGRlY29kZWQgYmVmb3JlIGVuZCBvZiBzdHJlYW0i
-KSwNCj4gKy0gICAgICAgICAgICAoIm5vIHZhbGlkIGZyYW1lcyBmb3VuZCIpKTsNCj4gKysgICAg
-ICAgICAgICAoIm5vIHZhbGlkIGZyYW1lcyBmb3VuZCIpKTsgKi8NCj4gKysgICAgICAgIEdTVF9F
-UlJPUl9PQkpFQ1QoZGVjLCAiTm8gdmFsaWQgZnJhbWVzIGRlY29kZWQgYmVmb3JlIGVuZCBvZiBz
-dHJlYW0iKTsNCj4gKyAgICAgICB9DQo+ICsNCj4gKyAgICAgICAvKiBzZW5kIHRhZ2xpc3QgaWYg
-bm8gdmFsaWQgZnJhbWUgaXMgZGVjb2RlZCB1dGlsIEVPUyAqLw0KPiArZGlmZiAtLWdpdCBhL2dz
-dC1saWJzL2dzdC92aWRlby9nc3R2aWRlb2RlY29kZXIuYyBiL2dzdC1saWJzL2dzdC92aWRlby9n
-c3R2aWRlb2RlY29kZXIuYw0KPiArb2xkIG1vZGUgMTAwNjQ0DQo+ICtuZXcgbW9kZSAxMDA3NTUN
-Cj4gK2luZGV4IGFjNTgxZTEuLjQyNzhiY2QNCj4gKy0tLSBhL2dzdC1saWJzL2dzdC92aWRlby9n
-c3R2aWRlb2RlY29kZXIuYw0KPiArKysrIGIvZ3N0LWxpYnMvZ3N0L3ZpZGVvL2dzdHZpZGVvZGVj
-b2Rlci5jDQo+ICtAQCAtMTA2OCw5ICsxMDY4LDEwIEBAIGdzdF92aWRlb19kZWNvZGVyX3Npbmtf
-ZXZlbnRfZGVmYXVsdCAoR3N0VmlkZW9EZWNvZGVyICogZGVjb2RlciwNCj4gKw0KPiArICAgICAg
-IC8qIEVycm9yIG91dCBldmVuIGlmIEVPUyB3YXMgb2sgd2hlbiB3ZSBoYWQgaW5wdXQsIGJ1dCBu
-byBvdXRwdXQgKi8NCj4gKyAgICAgICBpZiAocmV0ICYmIHByaXYtPmhhZF9pbnB1dF9kYXRhICYm
-ICFwcml2LT5oYWRfb3V0cHV0X2RhdGEpIHsNCj4gKy0gICAgICAgIEdTVF9FTEVNRU5UX0VSUk9S
-IChkZWNvZGVyLCBTVFJFQU0sIERFQ09ERSwNCj4gKysgICAgICAgIC8qIEdTVF9FTEVNRU5UX0VS
-Uk9SIChkZWNvZGVyLCBTVFJFQU0sIERFQ09ERSwNCj4gKyAgICAgICAgICAgICAoIk5vIHZhbGlk
-IGZyYW1lcyBkZWNvZGVkIGJlZm9yZSBlbmQgb2Ygc3RyZWFtIiksDQo+ICstICAgICAgICAgICAg
-KCJubyB2YWxpZCBmcmFtZXMgZm91bmQiKSk7DQo+ICsrICAgICAgICAgICAgKCJubyB2YWxpZCBm
-cmFtZXMgZm91bmQiKSk7ICovDQo+ICsrICAgICAgICBHU1RfRVJST1JfT0JKRUNUKGRlY29kZXIs
-ICJObyB2YWxpZCBmcmFtZXMgZGVjb2RlZCBiZWZvcmUgZW5kIG9mIHN0cmVhbSIpOw0KPiArICAg
-ICAgIH0NCj4gKw0KPiArICAgICAgIC8qIEZvcndhcmQgRU9TIGltbWVkaWF0ZWx5LiBUaGlzIGlz
-IHJlcXVpcmVkIGJlY2F1c2Ugbm8NCj4gKy0tDQo+ICsxLjcuOS41DQo+ICsNCj4gZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lu
-cy1iYXNlXzEuNC41LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJl
-YW1lcjEuMC1wbHVnaW5zLWJhc2VfMS40LjUuYmINCj4gaW5kZXggYWFhMWVjYi4uYWE5MDE3OSAx
-MDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1l
-cjEuMC1wbHVnaW5zLWJhc2VfMS40LjUuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVk
-aWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS40LjUuYmINCj4gQEAgLTks
-NiArOSw3IEBAIFNSQ19VUkkgKz0iZmlsZTovL2RvLW5vdC1jaGFuZ2UtZW9zLWV2ZW50LXRvLWdh
-cC1ldmVudC1pZi5wYXRjaCBcDQo+ICAgICAgICAgICAgICAgZmlsZTovL2dldC1jYXBzLWZyb20t
-c3JjLXBhZC13aGVuLXF1ZXJ5LWNhcHMucGF0Y2ggXA0KPiAgICAgICAgICAgICAgIGZpbGU6Ly90
-YWdsaXN0LW5vdC1zZW5kLXRvLWRvd24tc3RyZWFtLWlmLWFsbC10aGUtZnJhbWUtY29yLnBhdGNo
-IFwNCj4gICAgICAgICAgICAgICBmaWxlOi8vZml4LWlkM2RlbXV4LXV0ZjE2LXRvLXV0ZjgtaXNz
-dWUucGF0Y2ggXA0KPiArICAgICAgICAgICAgZmlsZTovL2hhbmRsZS1hdWRpby12aWRlby1kZWNv
-ZGVyLWVycm9yLnBhdGNoIFwNCj4gICAiDQo+DQo+ICAgU1JDX1VSSVttZDVzdW1dID0gIjM1NzE2
-NWFmNjI1YzBjYTM1M2FiNDdjNWQ4NDM5MjBlIg0KDQo=
+--001a11401734c6d055051c145ebc
+Content-Type: text/plain; charset=UTF-8
 
+meta-oe patches go to openembedded-devel@.
+
+Ross
+
+On 30 July 2015 at 18:22, Li xin <lixin.fnst@cn.fujitsu.com> wrote:
+
+> From: zhangpanpan <zhangpp-fnst@cn.fujitsu.com>
+>
+> Signed-off-by: Zhang Panpan<zhangpp-fnst@cn.fujitsu.com>
+> ---
+>  meta-oe/recipes-extended/iotop/{iotop_0.4.4.bb => iotop_0.6.bb} | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>  rename meta-oe/recipes-extended/iotop/{iotop_0.4.4.bb => iotop_0.6.bb}
+> (83%)
+>
+> diff --git a/meta-oe/recipes-extended/iotop/iotop_0.4.4.bb
+> b/meta-oe/recipes-extended/iotop/iotop_0.6.bb
+> similarity index 83%
+> rename from meta-oe/recipes-extended/iotop/iotop_0.4.4.bb
+> rename to meta-oe/recipes-extended/iotop/iotop_0.6.bb
+> index d629245..5dcae98 100644
+> --- a/meta-oe/recipes-extended/iotop/iotop_0.4.4.bb
+> +++ b/meta-oe/recipes-extended/iotop/iotop_0.6.bb
+> @@ -4,14 +4,13 @@ DESCRIPTION = "iotop does for I/O usage what top(1) does
+> for CPU usage. \
+>      a table of current I/O usage by processes on the system."
+>  HOMEPAGE = "http://guichaz.free.fr/iotop/"
+>
+> -PR = "r1"
+>
+>  LICENSE = "GPLv2+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=4325afd396febcb659c36b49533135d4"
+>
+>  SRC_URI = "http://guichaz.free.fr/iotop/files/${BP}.tar.bz2"
+> -SRC_URI[md5sum] = "cdd38b276cbf238676f5d2bcf098ba9c"
+> -SRC_URI[sha256sum] =
+> "46f3279fb1a7dfc129b5d00950c6e8389e4aedeb58880e848b88d686483df0b0"
+> +SRC_URI[md5sum] = "5ef9456b26d7694abf3101a72e1e0d1d"
+> +SRC_URI[sha256sum] =
+> "3adea2a24eda49bbbaeb4e6ed2042355b441dbd7161e883067a02bfc8dcef75b"
+>
+>  inherit distutils
+>
+> --
+> 1.8.4.2
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--001a11401734c6d055051c145ebc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">meta-oe patches go to openembedded-devel@.<div><br></div><=
+div>Ross</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quot=
+e">On 30 July 2015 at 18:22, Li xin <span dir=3D"ltr">&lt;<a href=3D"mailto=
+:lixin.fnst@cn.fujitsu.com" target=3D"_blank">lixin.fnst@cn.fujitsu.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: zhangpanpan &lt;=
+<a href=3D"mailto:zhangpp-fnst@cn.fujitsu.com">zhangpp-fnst@cn.fujitsu.com<=
+/a>&gt;<br>
+<br>
+Signed-off-by: Zhang Panpan&lt;<a href=3D"mailto:zhangpp-fnst@cn.fujitsu.co=
+m">zhangpp-fnst@cn.fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0meta-oe/recipes-extended/iotop/{<a href=3D"http://iotop_0.4.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">iotop_0.4.4.bb</a> =3D&gt; <a href=3D"htt=
+p://iotop_0.6.bb" rel=3D"noreferrer" target=3D"_blank">iotop_0.6.bb</a>} | =
+5 ++---<br>
+=C2=A01 file changed, 2 insertions(+), 3 deletions(-)<br>
+=C2=A0rename meta-oe/recipes-extended/iotop/{<a href=3D"http://iotop_0.4.4.=
+bb" rel=3D"noreferrer" target=3D"_blank">iotop_0.4.4.bb</a> =3D&gt; <a href=
+=3D"http://iotop_0.6.bb" rel=3D"noreferrer" target=3D"_blank">iotop_0.6.bb<=
+/a>} (83%)<br>
+<br>
+diff --git a/meta-oe/recipes-extended/iotop/<a href=3D"http://iotop_0.4.4.b=
+b" rel=3D"noreferrer" target=3D"_blank">iotop_0.4.4.bb</a> b/meta-oe/recipe=
+s-extended/iotop/<a href=3D"http://iotop_0.6.bb" rel=3D"noreferrer" target=
+=3D"_blank">iotop_0.6.bb</a><br>
+similarity index 83%<br>
+rename from meta-oe/recipes-extended/iotop/<a href=3D"http://iotop_0.4.4.bb=
+" rel=3D"noreferrer" target=3D"_blank">iotop_0.4.4.bb</a><br>
+rename to meta-oe/recipes-extended/iotop/<a href=3D"http://iotop_0.6.bb" re=
+l=3D"noreferrer" target=3D"_blank">iotop_0.6.bb</a><br>
+index d629245..5dcae98 100644<br>
+--- a/meta-oe/recipes-extended/iotop/<a href=3D"http://iotop_0.4.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">iotop_0.4.4.bb</a><br>
++++ b/meta-oe/recipes-extended/iotop/<a href=3D"http://iotop_0.6.bb" rel=3D=
+"noreferrer" target=3D"_blank">iotop_0.6.bb</a><br>
+@@ -4,14 +4,13 @@ DESCRIPTION =3D &quot;iotop does for I/O usage what top(1=
+) does for CPU usage. \<br>
+=C2=A0 =C2=A0 =C2=A0a table of current I/O usage by processes on the system=
+.&quot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://guichaz.free.fr/iotop/" rel=3D"n=
+oreferrer" target=3D"_blank">http://guichaz.free.fr/iotop/</a>&quot;<br>
+<br>
+-PR =3D &quot;r1&quot;<br>
+<br>
+=C2=A0LICENSE =3D &quot;GPLv2+&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D4325afd396febcb659c36=
+b49533135d4&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"http://guichaz.free.fr/iotop/files/${BP}=
+.tar.bz2" rel=3D"noreferrer" target=3D"_blank">http://guichaz.free.fr/iotop=
+/files/${BP}.tar.bz2</a>&quot;<br>
+-SRC_URI[md5sum] =3D &quot;cdd38b276cbf238676f5d2bcf098ba9c&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;46f3279fb1a7dfc129b5d00950c6e8389e4aedeb58880=
+e848b88d686483df0b0&quot;<br>
++SRC_URI[md5sum] =3D &quot;5ef9456b26d7694abf3101a72e1e0d1d&quot;<br>
++SRC_URI[sha256sum] =3D &quot;3adea2a24eda49bbbaeb4e6ed2042355b441dbd7161e8=
+83067a02bfc8dcef75b&quot;<br>
+<br>
+=C2=A0inherit distutils<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+1.8.4.2<br>
+<br>
+--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</font></span></blockquote></div><br></div>
+
+--001a11401734c6d055051c145ebc--
