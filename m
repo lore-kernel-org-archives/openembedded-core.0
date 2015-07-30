@@ -1,41 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 38BDC7638A
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 056C87638A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 14:33:37 +0000 (UTC)
-Received: by wicmv11 with SMTP id mv11so23728851wic.0
+	Thu, 30 Jul 2015 14:34:09 +0000 (UTC)
+Received: by wicmv11 with SMTP id mv11so23748161wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 07:33:38 -0700 (PDT)
+	Thu, 30 Jul 2015 07:34:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=19xlpryyi+uYeekVVFCLy5t+PCGzACvRin7XiQugl/s=;
-	b=mItF7SjII5roOF+qGJJt9GQgCKtOxKDFQ/D/9xgBwdoVhNj2+aavSXQbvfJWXGPZWn
-	HCMFcFnu1ZL3hHtgWSWQspZtzK4g4vWXfI/VgYRZSknJ0rqkePgXad4pugdGC2BTStX1
-	ALW4IxcE0HAawARNr3KdA1EcuHfuhgl2URBNqXqd1eQUK93yDG2hmsRK60vj7dlB8v0s
-	OFRnDCROBomlRvBxvK/GZbRaTFqcBRS/7ra3sOzCP/4Y0EtqcsXU3724GgOSgbUlMA2G
-	V9DSHD+cIe1bOR9YlhSl1MRTWXfh0e/h4VOTXvZhWjsy99p3vNmwTtA7xEZVVFusPDqn
-	J6NQ==
-X-Received: by 10.180.7.129 with SMTP id j1mr7202636wia.39.1438266818078;
-	Thu, 30 Jul 2015 07:33:38 -0700 (PDT)
+	bh=m+zKa0eIwV1XIBdwIzRnH9wRlnTatRR5JktZ4H369LQ=;
+	b=RMXBlU9nEYYIJeuoiq+Fxev/hyE4euGZTWp62EZfzWoz4EczZSrAW7jAWGga9RpA3L
+	qgoYKRtr86sWHFc1AK0Hdxj+hgiUxSQXkuVeBS0wsidY6K9WlWpjuV4MuxTaFHrUWYIR
+	4foxeTltwQGpmksbhWHFZuGjJn0jNgXPsprl9r7c1zbMLqF0jvgdfgsBbDeQTTklLxd+
+	hGfV2n3MxrL2/XwG72aVvXrzmtBia4ugkf6HgrnyKQMnTP2Gmy00FonemcIdMF/WsYkp
+	OQKgfLwuTw7reTM1TCJTWZUTkNq6wtuhtTRqEpb+703HO+zWa8Chm9C/OYzhYbwg2fx8
+	P4QQ==
+X-Received: by 10.194.201.71 with SMTP id jy7mr92199406wjc.93.1438266849562;
+	Thu, 30 Jul 2015 07:34:09 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	ho10sm2152465wjb.39.2015.07.30.07.33.37
+	by smtp.gmail.com with ESMTPSA id lj2sm3459919wic.1.2015.07.30.07.34.08
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Jul 2015 07:33:37 -0700 (PDT)
+	Thu, 30 Jul 2015 07:34:08 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 30 Jul 2015 16:33:53 +0200
+Date: Thu, 30 Jul 2015 16:34:24 +0200
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20150730143353.GG2457@jama>
+Message-ID: <20150730143424.GH2457@jama>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<85e7e6014242705a3e1e06ec5862358e95641a3a.1438262915.git.alexander.kanavin@linux.intel.com>
+	<eb991f734674a23f31de22ff59c8b2327aa26d36.1438262915.git.alexander.kanavin@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <85e7e6014242705a3e1e06ec5862358e95641a3a.1438262915.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <eb991f734674a23f31de22ff59c8b2327aa26d36.1438262915.git.alexander.kanavin@linux.intel.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 11/26] nss: reorder SRC_URI lines to fix upstream version check
+Subject: Re: [PATCH 13/26] oprofile: reorder SRC_URI lines to fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,66 +47,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 14:33:38 -0000
-X-Groupsio-MsgNum: 68737
+X-List-Received-Date: Thu, 30 Jul 2015 14:34:14 -0000
+X-Groupsio-MsgNum: 68738
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="/i8j2F0k9BYX4qLc"
+	protocol="application/pgp-signature"; boundary="hAW+M2+FUO+onfmf"
 Content-Disposition: inline
 
---/i8j2F0k9BYX4qLc
+--hAW+M2+FUO+onfmf
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 30, 2015 at 04:31:40PM +0300, Alexander Kanavin wrote:
-> The source tarball should be listed first
+On Thu, Jul 30, 2015 at 04:31:42PM +0300, Alexander Kanavin wrote:
+> The source tarball should be listed first.
 >=20
 > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  meta/recipes-support/nss/nss.inc       | 2 +-
->  meta/recipes-support/nss/nss_3.17.3.bb | 6 +++---
+>  meta/recipes-kernel/oprofile/oprofile.inc      | 2 +-
+>  meta/recipes-kernel/oprofile/oprofile_1.0.0.bb | 6 +++---
 >  2 files changed, 4 insertions(+), 4 deletions(-)
 >=20
-> diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/=
-nss.inc
-> index 665e4e6..b21dc39 100644
-> --- a/meta/recipes-support/nss/nss.inc
-> +++ b/meta/recipes-support/nss/nss.inc
-> @@ -12,7 +12,7 @@ LICENSE =3D "MPL-2.0 | (MPL-2.0 & GPL-2.0+) | (MPL-2.0 =
-& LGPL-2.1+)"
+> diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-ker=
+nel/oprofile/oprofile.inc
+> index 49e6b16..ff360d1 100644
+> --- a/meta/recipes-kernel/oprofile/oprofile.inc
+> +++ b/meta/recipes-kernel/oprofile/oprofile.inc
+> @@ -18,7 +18,7 @@ FILES_${PN} =3D "${bindir} ${libdir}/${BPN}/lib*${SOLIB=
+S} ${datadir}/${BPN}"
+>  FILES_${PN}-dev +=3D "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}=
+/lib*.la"
+>  FILES_${PN}-staticdev +=3D "${libdir}/${BPN}/lib*.a"
 > =20
->  LIC_FILES_CHKSUM =3D "file://nss/lib/freebl/mpi/doc/LICENSE;md5=3D491f15=
-8d09d948466afce85d6f1fe18f \
->                      file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=3D6bf9=
-6825e3d7ce4de25621ae886cc859"
-> -SRC_URI =3D "\
-> +SRC_URI +=3D "\
->      file://nss-fix-support-cross-compiling.patch \
->      file://nss-no-rpath-for-cross-compiling.patch \
->      file://nss-fix-incorrect-shebang-of-perl.patch \
-> diff --git a/meta/recipes-support/nss/nss_3.17.3.bb b/meta/recipes-suppor=
-t/nss/nss_3.17.3.bb
-> index e7d0780..b22eb95 100644
-> --- a/meta/recipes-support/nss/nss_3.17.3.bb
-> +++ b/meta/recipes-support/nss/nss_3.17.3.bb
-> @@ -1,7 +1,7 @@
-> -require nss.inc
+> -SRC_URI =3D "file://filemode-fix.patch \
+> +SRC_URI +=3D "file://filemode-fix.patch \
+>             file://acinclude.m4 \
+>             file://automake-foreign.patch \
+>             file://oprofile-cross-compile-tests.patch \
+> diff --git a/meta/recipes-kernel/oprofile/oprofile_1.0.0.bb b/meta/recipe=
+s-kernel/oprofile/oprofile_1.0.0.bb
+> index f4a34b3..f75a1dd 100644
+> --- a/meta/recipes-kernel/oprofile/oprofile_1.0.0.bb
+> +++ b/meta/recipes-kernel/oprofile/oprofile_1.0.0.bb
+> @@ -1,13 +1,13 @@
+> -require oprofile.inc
 > -
-> -SRC_URI +=3D "\
-> +SRC_URI =3D "\
->      http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_1=
-7_3_RTM/src/${BP}.tar.gz \
->  "
+>  DEPENDS +=3D "virtual/kernel"
+>  DEPENDS_append_powerpc64 =3D " libpfm4"
+> =20
+> -SRC_URI +=3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+> +SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
 
-Why don't you move this to .inc file and replace "3_17_3_RTM" with some
-variable set in .bb, it would be easier to read than this reorder and
-require .inc later..
+Move this to .inc instead of re-ordering.
 
->  SRC_URI[md5sum] =3D "fba7489e1b26f2a0bfe5527430fd61e1"
->  SRC_URI[sha256sum] =3D "f4d5e9035a2f84f25f35c283de3b0ff60d72e918748de25e=
-af017ed201fa21d5"
+> =20
+>  SRC_URI[md5sum] =3D "ba0b340e5c421a93959776c836ed35b3"
+>  SRC_URI[sha256sum] =3D "847110b4ecdcf8c8353cd38f94c1b704aad4bfcd9453e38b=
+88d112cfb7e3c45a"
+> =20
+> +require oprofile.inc
 > +
-> +require nss.inc
+>  S =3D "${WORKDIR}/oprofile-${PV}"
+> =20
+>  PR =3D "r1"
 > --=20
 > 2.1.4
 >=20
@@ -120,16 +121,16 @@ af017ed201fa21d5"
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---/i8j2F0k9BYX4qLc
+--hAW+M2+FUO+onfmf
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlW6NdAACgkQN1Ujt2V2gBybmgCgm0qzz2QDe+esQDdoymEKCUOI
-0t4AoIR491/p0WjNK3/5117YRfQgZeFr
-=Tr11
+iEYEARECAAYFAlW6NfAACgkQN1Ujt2V2gBw8EgCdF6WUDGpd+LIauZER3ak8KS9l
+A+oAoJPpDrCE/l/eFvUrezqNEQY5Q6J4
+=ro1N
 -----END PGP SIGNATURE-----
 
---/i8j2F0k9BYX4qLc--
+--hAW+M2+FUO+onfmf--
