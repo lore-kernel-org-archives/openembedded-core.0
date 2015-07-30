@@ -1,32 +1,36 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C494762CD
+Return-Path: <tobias.olausson@pelagicore.com>
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C85076527
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 19:03:39 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 12:03:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,578,1432623600"; d="scan'208";a="774726720"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 30 Jul 2015 12:03:40 -0700
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 309A46A4087; Thu, 30 Jul 2015 12:02:55 -0700 (PDT)
-Received: from 10.252.34.83 (SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Thu, 30 Jul 2015 22:02:54 +0300 (EEST)
-Message-ID: <57131.10.252.34.83.1438282974.squirrel@linux.intel.com>
-Date: Thu, 30 Jul 2015 22:02:54 +0300 (EEST)
-From: alexander.kanavin@linux.intel.com
-To: "Paul Eggleton" <paul.eggleton@linux.intel.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
-MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>   
-	<20150730144327.GL2457@jama> <55BA4327.1050406@linux.intel.com>   
-	<3191513.j5SDqNSYIE@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <3191513.j5SDqNSYIE@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 11/21] webkitgtk: add a new recipe for latest upstream version
+	Thu, 30 Jul 2015 20:48:09 +0000 (UTC)
+Received: by pdbnt7 with SMTP id nt7so30079170pdb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 13:48:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=+lJQDzmq6/eMYf5siHfDjzAO4KJgIHV9V/IV48YI70g=;
+	b=aBlfgmTQE8ofS91JAxdjFxxFFn4dCAqfAdzCpr5W957NLHygO8+Ude6QX9ptRMKkLx
+	C7byfzzPrg+R8kNbPqR/aD7GQQl++bRKHq+dNOShUQ+Dxk00hHteqpIQSkKMdegUTsN9
+	q1qdDj34jebbHx/H7otrCxTD0bWRpS6fjmMTe02+oesWIUAJZa8iCHEYxQZUyftouXOZ
+	bb4SANxtEDaVp6iVNvhXiPb//03ODKVd6Vy2B3aJZS+FmdeoR0KVM4/NuZLHV0J9svUA
+	pCrLiWJ5i54mpyJ/wYsDZFHvnalGAb063f3Kl6CRdb73bNJ+COnyeCYVn1APd1hAi3WS
+	NY1w==
+X-Gm-Message-State: ALoCoQmAHVWjM33Eld4H2XA+iwTgXf4A37LrWB4IybTAz9HjNamyVZutklO4PiqTSpN8BYe2w5BG
+X-Received: by 10.70.3.4 with SMTP id 4mr110406845pdy.103.1438289289573;
+	Thu, 30 Jul 2015 13:48:09 -0700 (PDT)
+Received: from localhost.localdomain ([38.104.105.146])
+	by smtp.gmail.com with ESMTPSA id
+	ow5sm3751200pdb.30.2015.07.30.13.48.07
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 30 Jul 2015 13:48:08 -0700 (PDT)
+From: Tobias Olausson <tobias.olausson@pelagicore.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jul 2015 13:47:48 -0700
+Message-Id: <1438289269-14804-1-git-send-email-tobias.olausson@pelagicore.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2 1/2] Revert "mesa: fix do_install_append"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,19 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 19:03:44 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Jul 2015 20:48:12 -0000
 
-> I have to say I think it would be simpler not to rename it, FWIW...
+The commit changed an #ifdef to #if defined(), but the source
+code for 10.4 branch of mesa still uses #ifdef.
 
-Why? Not renaming the recipe buys you nothing; the new webkit has a new
-API, so for anyone out there using the old webkit things will break
-regardless of whether the recipe has been renamed or not.
+This reverts commit 12e467f436fbc22f274558c753f0ac9756ce1071.
 
+Signed-off-by: Tobias Olausson <tobias.olausson@pelagicore.com>
+---
+ meta/recipes-graphics/mesa/mesa_10.4.4.bb | 2 +-
+ meta/recipes-graphics/mesa/mesa_git.bb    | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Alex
-
-
+diff --git a/meta/recipes-graphics/mesa/mesa_10.4.4.bb b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
+index 90cccbe..8140411 100644
+--- a/meta/recipes-graphics/mesa/mesa_10.4.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
+@@ -11,6 +11,6 @@ S = "${WORKDIR}/Mesa-${PV}"
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
+     if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
+-        sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
+     fi
+ }
+diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphics/mesa/mesa_git.bb
+index 1598019..cbe8911 100644
+--- a/meta/recipes-graphics/mesa/mesa_git.bb
++++ b/meta/recipes-graphics/mesa/mesa_git.bb
+@@ -13,6 +13,6 @@ S = "${WORKDIR}/git"
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+ do_install_append() {
+     if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}; then
+-        sed -i -e 's/^#if defined(MESA_EGL_NO_X11_HEADERS)/#if ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
++        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglplatform.h
+     fi
+ }
+-- 
+2.1.4
 
 
