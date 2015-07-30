@@ -1,42 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D313A7639E
+Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
+	[209.85.192.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DFED762CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 12:53:51 +0000 (UTC)
-Received: by qkdv3 with SMTP id v3so17407417qkd.3
+	Thu, 30 Jul 2015 13:09:48 +0000 (UTC)
+Received: by qged69 with SMTP id d69so23364215qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 05:53:51 -0700 (PDT)
+	Thu, 30 Jul 2015 06:09:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=mOVjcbHPdnt3HMGk4fmO+hPMQGCq52OILikVAehuRps=;
-	b=afZBDKkhj0gU8bx33IgRFDzJ6spQQk1jkftyaRMRo+TuU24j7oPCLpcDYoJU1C96PD
-	fm6ucep0OOIyEl1kqQyLG63nWuwxno5iv+68omhf7hJ7inVfG7wvumLzjcs5RJN9PUeN
-	GesRTrX6FsCuF8blI9iK/Hlm0NXy0tAEpuaPD9ACvD+dpB3r5zTR0tfJYNq5HIfPwhtq
-	m7y69pHk3MKfxZXXi48WxzZF0mYAw+7eFRgR8lgdE/rQl6aAnOf8Zx7WlNCTh8b61T18
-	HbvE16JokE+If63zgZcjQ+/7LtdftQFGf3fW5mRXlUc9+GB02P9FZuODh1PsRLydTcYJ
-	L7aQ==
-X-Gm-Message-State: ALoCoQmlUUQKiI3A/HObRnPRT5Qb/+jAw5zev6lFgoDMTahgkZfgDYBTIe/+7D78jb1VVMv+SGCv
-X-Received: by 10.55.17.170 with SMTP id 42mr65869992qkr.29.1438260831060;
-	Thu, 30 Jul 2015 05:53:51 -0700 (PDT)
+	bh=4sygy4dc7zfooFJy48v10yskkgNvhRBfLSjhi44dNaM=;
+	b=CHnaeiT8IaUYeIU06JvvC8L1zeUr3H2WPJJd9IsYOCdakff9Hc742/1X9ZRTTtF5bK
+	sOazrOoGi7GrRMCNdkOBJQopVCp2Xa6sX9s0GduWFNjdNoTMJ9WvSCt7eZYxit+9LGXy
+	fJ9rg/45X5hQONxEzT/+XPaLV8hc/8K/YfZu6lHKMYhQvgwuDMDtEHbw2oc0jEb9LfSc
+	SKzEl1sNvSkpBvWpztdK0wJJ9yjsxnN+xpvJtE9Txy9vKNmfXqrok0M3m2YP3x7+noTz
+	944xdDywwCjOA2Oz/Zoaw7z5Xf2PV+cD5Mt6AfXapn7LDpwu6DL6n9Pr2e4aPtbo9Q4l
+	7Dnw==
+X-Gm-Message-State: ALoCoQlQG/shkJ0t7yygVSa6/3pSAC54y/Y4mSz1VAsP742xKUYPsRcxrLuDQ51n90tgh441PSkr
+X-Received: by 10.140.88.80 with SMTP id s74mr69210790qgd.59.1438261788295;
+	Thu, 30 Jul 2015 06:09:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 05:53:31 -0700 (PDT)
-In-Reply-To: <CABcZANnM9ATkuV_ZT9+hhwh4Y1cepEfmVamWkvMDjzowMvQRhw@mail.gmail.com>
-References: <1438103507-63604-1-git-send-email-abdur_rehman@mentor.com>
-	<CAJTo0LZiEWScYqCJBfzrMQ=02vkb9jd5a-6+VvSZBqePZgr7yg@mail.gmail.com>
-	<8663FA6B07BCC94795FAD21C9CC5ACF73783C098@EU-MBX-01.mgc.mentorg.com>
-	<CAJTo0LZ8qasC_Out4=1KHyskj5KovxDL6+BPGoKTS8=FquBYcA@mail.gmail.com>
-	<CABcZAN=W1_aW1YXAkR25TO0DM=iHoCzPrrBCNGhpw+pq3aJauA@mail.gmail.com>
-	<CAJTo0La49fhabdZHEJonC=Q16-PJuHzGCP1bBLcxC9ZLimAZqA@mail.gmail.com>
-	<CABcZANnM9ATkuV_ZT9+hhwh4Y1cepEfmVamWkvMDjzowMvQRhw@mail.gmail.com>
+Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 06:09:28 -0700 (PDT)
+In-Reply-To: <1438239038-1664-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <CAJTo0LZV=hEGUzn1_Z1XY9mXVhwbGUyg7=6fF1Lg2bME+HkyKA@mail.gmail.com>
+	<1438239038-1664-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Jul 2015 13:53:31 +0100
-Message-ID: <CAJTo0LatBaSsow-h=3UTjurFyY9=PLvzi8efSohni8uXtMf=Nw@mail.gmail.com>
-To: Christopher Larson <chris_larson@mentor.com>
+Date: Thu, 30 Jul 2015 14:09:28 +0100
+Message-ID: <CAJTo0LaMhpAjhDfWZLieDE7UN+qVC47yOaTQVpTDcZ6fRiRifA@mail.gmail.com>
+To: Li xin <lixin.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] watchdog: kill update-rc.d when not using sysvinit
+Subject: Re: [PATCH v3] mdadm: 3.3.2 -> 3.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,60 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 12:53:54 -0000
-Content-Type: multipart/alternative; boundary=001a1135bd02ee2548051c1731c9
+X-List-Received-Date: Thu, 30 Jul 2015 13:09:54 -0000
+Content-Type: multipart/alternative; boundary=001a11c114c4fc6113051c176a7c
 
---001a1135bd02ee2548051c1731c9
+--001a11c114c4fc6113051c176a7c
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On 29 July 2015 at 21:09, Christopher Larson <chris_larson@mentor.com>
-wrote:
+On 30 July 2015 at 07:50, Li xin <lixin.fnst@cn.fujitsu.com> wrote:
 
-> The dependency on initscripts via VIRTUAL-RUNTIME_initscripts is a
->> DEPENDS, so it's build time.  The runtime dependency is on
->> initscripts-functions.
->>
->> As far as I'm aware the sysv-generator used the rcX.d symlinks generated
->> by update-rcd to decide what to start when, so you can't just disable th=
-e
->> class and expect it to still work.
->>
+> 3) Add systemd support:
+> add systemd service file mdmonitor.service and install conf example file.
 >
-> VIRTUAL-RUNTIME_initscripts is installed at runtime (as you can tell by
-> its name) in packagegroup-core-boot and packagegroup-core-full-cmdline
-> both. If I don=E2=80=99t want it in my images, wiping the variable is the=
- only
-> method that makes any sense.
+> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+> ---
+>  meta/recipes-extended/mdadm/files/inline.patch     | 39
+> ----------------------
+>  .../mdadm/files/mdadm-3.3.2_x32_abi_time_t.patch   | 26 +++++++++------
+>  .../mdadm/{mdadm_3.3.2.bb => mdadm_3.3.3.bb}       | 28 ++++++++++++----
 
 
-So there's the problem, and breaking watchdog isn't solving it.
+The patch doesn't include mdadm.service.
 
 Ross
 
---001a1135bd02ee2548051c1731c9
+--001a11c114c4fc6113051c176a7c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 July 2015 at 21:09, Christopher Larson <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:chris_larson@mentor.com" target=3D"_blank">chris_larson@mentor.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D""=
-><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"gm=
-ail_quote"><div>The dependency on initscripts via VIRTUAL-RUNTIME_initscrip=
-ts is a DEPENDS, so it&#39;s build time.=C2=A0 The runtime dependency is on=
- initscripts-functions.</div><div><br></div><div>As far as I&#39;m aware th=
-e sysv-generator used the rcX.d symlinks generated by update-rcd to decide =
-what to start when, so you can&#39;t just disable the class and expect it t=
-o still work.</div><span><font color=3D"#888888"><div></div></font></span><=
-/div></blockquote></div><br></span>VIRTUAL-RUNTIME_initscripts is installed=
- at runtime (as you can tell by its name) in packagegroup-core-boot and=C2=
-=A0packagegroup-core-full-cmdline both. If I don=E2=80=99t want it in my im=
-ages, wiping the variable is the only method that makes any sense.</blockqu=
-ote></div><br>So there&#39;s the problem, and breaking watchdog isn&#39;t s=
-olving it.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ex=
-tra">Ross</div></div>
+On 30 July 2015 at 07:50, Li xin <span dir=3D"ltr">&lt;<a href=3D"mailto:li=
+xin.fnst@cn.fujitsu.com" target=3D"_blank">lixin.fnst@cn.fujitsu.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">3) Add s=
+ystemd support:<br>
+</span>add systemd service file mdmonitor.service and install conf example =
+file.<br>
+<span class=3D""><br>
+Signed-off-by: Li Xin &lt;<a href=3D"mailto:lixin.fnst@cn.fujitsu.com">lixi=
+n.fnst@cn.fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-extended/<span class=3D"il">mdadm</span>/files/inline.pa=
+tch=C2=A0 =C2=A0 =C2=A0| 39 ----------------------<br>
+=C2=A0.../<span class=3D"il">mdadm</span>/files/<span class=3D"il">mdadm</s=
+pan>-3.3.2_x32_abi_time_t.patch=C2=A0 =C2=A0| 26 +++++++++------<br>
+</span>=C2=A0.../<span class=3D"il">mdadm</span>/{<a href=3D"http://mdadm_3=
+.3.2.bb" rel=3D"noreferrer" target=3D"_blank">mdadm_3.3.2.bb</a> =3D&gt; <a=
+ href=3D"http://mdadm_3.3.3.bb" rel=3D"noreferrer" target=3D"_blank">mdadm_=
+3.3.3.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0| 28 ++++++++++++----</blockquote><=
+/div><br>The patch doesn&#39;t include mdadm.service.</div><div class=3D"gm=
+ail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1135bd02ee2548051c1731c9--
+--001a11c114c4fc6113051c176a7c--
