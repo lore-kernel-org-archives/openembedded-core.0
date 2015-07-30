@@ -1,26 +1,38 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 58E4E7646C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id B65E276493
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 15:18:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6UFIBmN004045
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 30 Jul 2015 15:20:51 +0000 (UTC)
+Received: by qged69 with SMTP id d69so26362445qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 08:18:11 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 30 Jul 2015 08:17:52 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Jul 2015 08:18:09 -0700
-Message-ID: <5a438f9c9891d850808a0ca91d545d34291ff23d.1438269391.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1438269391.git.liezhi.yang@windriver.com>
-References: <cover.1438269391.git.liezhi.yang@windriver.com>
+	Thu, 30 Jul 2015 08:20:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=QhptJsm62kixyMr4NmvNo0hf5/xOWCVtMyEOiYPdXag=;
+	b=TZKH7VntQ+YwmhULvG6gQzThvbFPwGHspyvV6lnq/xSkcx+3GHWCZDQu9ZGkLzSRme
+	/2wCbXBxLMrOIp2ThFWNrjmULVs6YmbTXSQwIbu76xV4CQLbeT9mTSE7Ydp0l21UgXnD
+	A2hhRxpAbCKm17yIEdCmWq92mJPfpnpL/+br2gOSEFQSPSZ9tAqqlxnVua+lulXVnUux
+	emjfS68Ysx/eEcm3P+/AJm7vF4fmuEY+Fb25wVaZeOWsPZLThd80vZeP4fQG3hDwVCwI
+	xeHgq9N5USgoGKEQqQQUsz3MsTOHH6/cTtTXsDq7nMdqG2M1syQdtbrZ6XshPvC0Tgd4
+	YTFw==
+X-Gm-Message-State: ALoCoQmLrr2zOPyTBvG+HqaU3RP2WQsK4zUQsw3/gJJUV7kDVSwP5h1Ihw6c1VEgKvwEAhXg/ytN
+X-Received: by 10.140.43.199 with SMTP id e65mr70599559qga.80.1438269651279;
+	Thu, 30 Jul 2015 08:20:51 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/2] base.bbclass: move invalid PACKAGECONFIG checking to insane.bbclass
+Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 08:20:31 -0700 (PDT)
+In-Reply-To: <55BA3EDD.4030600@linux.intel.com>
+References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
+	<0c7f8aaf4b04cf1bb866dae6af21509af051fbe6.1438262915.git.alexander.kanavin@linux.intel.com>
+	<20150730142900.GB2457@jama> <55BA3EDD.4030600@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 30 Jul 2015 16:20:31 +0100
+Message-ID: <CAJTo0LYOditZfboZYPQkNaN_EtRHUbbfUviU+juv25VdEbRwyg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/26] libproxy: update SRC_URI to not use Google Code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 15:18:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Jul 2015 15:20:52 -0000
+Content-Type: multipart/alternative; boundary=001a113a9baaa7eb15051c193f4d
 
-There was a problem when check invalid PACKAGECONFIG in the anonymous
-function (when parsing), for example, there are two versions of a
-recipe:
-foo_1.0.bb
-foo_2.0.bb
-While foo_2.0.bb has a "PACKAGECONFIG[item] = 'x,y,z'", but foo_1.0.bb
-doesn't, if we set PACKAGECONFIG_pn-foo = "item" in a conf file, we
-would get the warning about invalid PACKAGECONFIG for foo_1.0.bb. Delay
-the checking to build time will fix the problem.
+--001a113a9baaa7eb15051c193f4d
+Content-Type: text/plain; charset=UTF-8
 
-[YOCTO #8065]
+On 30 July 2015 at 16:12, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/base.bbclass   |    4 ----
- meta/classes/insane.bbclass |   11 +++++++++++
- 2 files changed, 11 insertions(+), 4 deletions(-)
+> I guess this is not needed because they are in fact two different
+> filenames/formats?
+>
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index e0f1053..b7e22ad 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -340,10 +340,6 @@ python () {
-         pkgconfig = (d.getVar('PACKAGECONFIG', True) or "").split()
-         pn = d.getVar("PN", True)
- 
--        for pconfig in pkgconfig:
--            if pconfig not in pkgconfigflags:
--                bb.warn("%s: invalid PACKAGECONFIG: %s" % (pn, pconfig))
--
-         mlprefix = d.getVar("MLPREFIX", True)
- 
-         def expandFilter(appends, extension, prefix):
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index fc3d5ff..9c05c86 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -31,6 +31,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             installed-vs-shipped compile-host-path install-host-path \
-             pn-overrides infodir build-deps file-rdeps \
-             unknown-configure-option symlink-to-sysroot multilib \
-+            invalid-pkgconfig \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -1139,6 +1140,16 @@ Missing inherit gettext?""" % (gt, config))
-                 package_qa_handle_error("unknown-configure-option", error_msg, d)
-         except subprocess.CalledProcessError:
-             pass
-+
-+    # Check invalid PACKAGECONFIG
-+    pkgconfig = (d.getVar("PACKAGECONFIG", True) or "").split()
-+    if pkgconfig:
-+        pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
-+        for pconfig in pkgconfig:
-+            if pconfig not in pkgconfigflags:
-+                pn = d.getVar('PN', True)
-+                error_msg = "%s: invalid PACKAGECONFIG: %s" % (pn, pconfig)
-+                package_qa_handle_error("invalid-pkgconfig", error_msg, d)
- }
- 
- python do_qa_unpack() {
--- 
-1.7.9.5
+Correct.
 
+Ross
 
+--001a113a9baaa7eb15051c193f4d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 30 July 2015 at 16:12, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
+anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div id=3D":1x0" class=3D"a3s" style=3D"overflow:hidden">I guess this i=
+s not needed because they are in fact two different filenames/formats?<br><=
+/div></blockquote></div><br>Correct.</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a113a9baaa7eb15051c193f4d--
