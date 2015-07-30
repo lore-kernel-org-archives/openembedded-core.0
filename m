@@ -1,28 +1,28 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C377763E1
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D9B8D762CD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 15:32:20 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 30 Jul 2015 08:31:41 -0700
+	Thu, 30 Jul 2015 15:40:31 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2015 08:40:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="533113848"
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="773330274"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
 	([10.237.68.143])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Jul 2015 08:31:39 -0700
-Message-ID: <55BA4399.2030302@linux.intel.com>
-Date: Thu, 30 Jul 2015 18:32:41 +0300
+	by fmsmga002.fm.intel.com with ESMTP; 30 Jul 2015 08:40:17 -0700
+Message-ID: <55BA459F.7080302@linux.intel.com>
+Date: Thu, 30 Jul 2015 18:41:19 +0300
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
 To: Martin Jansa <martin.jansa@gmail.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<86b43671f02c22f328e3801e0711a33731156ba8.1438262915.git.alexander.kanavin@linux.intel.com>
-	<20150730143658.GK2457@jama>
-In-Reply-To: <20150730143658.GK2457@jama>
+	<eb991f734674a23f31de22ff59c8b2327aa26d36.1438262915.git.alexander.kanavin@linux.intel.com>
+	<20150730143424.GH2457@jama>
+In-Reply-To: <20150730143424.GH2457@jama>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 21/26] systemd: remove PV from the recipe
+Subject: Re: [PATCH 13/26] oprofile: reorder SRC_URI lines to fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,21 +35,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 15:32:23 -0000
+X-List-Received-Date: Thu, 30 Jul 2015 15:40:32 -0000
 Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/30/2015 05:36 PM, Martin Jansa wrote:
-> On Thu, Jul 30, 2015 at 04:31:50PM +0300, Alexander Kanavin wrote:
->> It is unnecessary because the recipe filename already contains it.
+On 07/30/2015 05:34 PM, Martin Jansa wrote:
 >
-> No, it contains only 219
->> -PV = "219-stable+git${SRCPV}"
+> Move this to .inc instead of re-ordering.
+>
 
-The idea here is that we only need the basic version, if the revision 
-being fetched matches that version, and there is no need for all that 
-git revision clutter in the version string.
+Done.
 
 Alex
-
 
