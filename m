@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B4093764A8
+	by mail.openembedded.org (Postfix) with ESMTP id 25DD0764A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 14:27:18 +0000 (UTC)
+	Thu, 30 Jul 2015 14:27:19 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2015 07:27:06 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2015 07:27:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="616054481"
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="616054497"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga003.jf.intel.com with ESMTP; 30 Jul 2015 07:27:04 -0700
+	by orsmga003.jf.intel.com with ESMTP; 30 Jul 2015 07:27:06 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 17:27:28 +0300
-Message-Id: <0cef848d4dc2898abac22c5872f8cb35a5380e5a.1438265949.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 30 Jul 2015 17:27:30 +0300
+Message-Id: <21ede853e46b113f6a93bc48e376d239ccce35c6.1438265949.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 05/21] libnotify: update to version 0.7.6
+Subject: [PATCH 07/21] libyaml: add a recipe from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,63 +31,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 14:27:18 -0000
+X-List-Received-Date: Thu, 30 Jul 2015 14:27:19 -0000
 
-New webkit requires at least version 0.7
+libyaml is a dependency of ruby
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/libnotify/libnotify_0.6.0.bb | 21 ---------------------
- meta/recipes-gnome/libnotify/libnotify_0.7.6.bb | 12 ++++++++++++
- 2 files changed, 12 insertions(+), 21 deletions(-)
- delete mode 100644 meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
- create mode 100644 meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+ meta/recipes-support/libyaml/libyaml_0.1.6.bb | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 meta/recipes-support/libyaml/libyaml_0.1.6.bb
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-deleted file mode 100644
-index e6ee89b..0000000
---- a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-+++ /dev/null
-@@ -1,21 +0,0 @@
--SUMMARY = "Library for sending desktop notifications to a notification daemon"
--SECTION = "libs"
--LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
--
--PR = "r1"
--
--DEPENDS = "dbus gtk+ dbus-glib"
--
--inherit gnomebase distro_features_check
--
--# Requires gdk/gdkx.h which is provided by gtk when x11 in DISTRO_FEATURES
--REQUIRED_DISTRO_FEATURES = "x11"
--
--SRC_URI[archive.md5sum] = "732c9d2cd5eb6a9069264a319d330516"
--SRC_URI[archive.sha256sum] = "73b16a79bb2fed62dcf146b11c4405776cb96a09dce66379ca541da7dbd64210"
--
--do_configure_prepend() {
--    sed -i /GTK3/d ${S}/configure.ac
--    sed -i -e /test-gtk3/d -e 's/test-xy-stress \\/test-xy-stress/' ${S}/tests/Makefile.am
--}
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+diff --git a/meta/recipes-support/libyaml/libyaml_0.1.6.bb b/meta/recipes-support/libyaml/libyaml_0.1.6.bb
 new file mode 100644
-index 0000000..5d7b4ce
+index 0000000..8a624f7
 --- /dev/null
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "Library for sending desktop notifications to a notification daemon"
-+SECTION = "libs"
-+LICENSE = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
++++ b/meta/recipes-support/libyaml/libyaml_0.1.6.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "LibYAML is a YAML 1.1 parser and emitter written in C."
++DESCRIPTION = "LibYAML is a C library for parsing and emitting data in YAML 1.1, \
++a human-readable data serialization format. "
++HOMEPAGE = "http://pyyaml.org/wiki/LibYAML"
++SECTION = "libs/devel"
 +
-+DEPENDS = "dbus gtk+3 dbus-glib"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=6015f088759b10e0bc2bf64898d4ae17"
 +
-+inherit gnomebase distro_features_check gtk-doc
++SRC_URI = "http://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz \
++          "
 +
-+SRC_URI[archive.md5sum] = "a4997019d08f46f3bf57b78e6f795a59"
-+SRC_URI[archive.sha256sum] = "0ef61ca400d30e28217979bfa0e73a7406b19c32dd76150654ec5b2bdf47d837"
++SRC_URI[md5sum] = "5fe00cda18ca5daeb43762b80c38e06e"
++SRC_URI[sha256sum] = "7da6971b4bd08a986dd2a61353bc422362bd0edcc67d7ebaac68c95f74182749"
 +
++S = "${WORKDIR}/yaml-${PV}"
++
++inherit autotools
++
++BBCLASSEXTEND = "native"
 -- 
 2.1.4
 
