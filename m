@@ -1,29 +1,28 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F217660125
+	by mail.openembedded.org (Postfix) with ESMTP id CA82375F23
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 16:03:52 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 09:03:08 -0700
+	Thu, 30 Jul 2015 16:05:38 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 30 Jul 2015 09:05:39 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="533131167"
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="616120268"
 Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
 	([10.237.68.143])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Jul 2015 09:03:07 -0700
-Message-ID: <55BA4AF9.4030503@linux.intel.com>
-Date: Thu, 30 Jul 2015 19:04:09 +0300
+	by orsmga003.jf.intel.com with ESMTP; 30 Jul 2015 09:05:37 -0700
+Message-ID: <55BA4B90.2040000@linux.intel.com>
+Date: Thu, 30 Jul 2015 19:06:40 +0300
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
+To: Martin Jansa <martin.jansa@gmail.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<85e7e6014242705a3e1e06ec5862358e95641a3a.1438262915.git.alexander.kanavin@linux.intel.com>
-	<20150730143353.GG2457@jama>
-	<CAJTo0LZm7K35eEU5Sp9bnSQwKj4XRMR6_qC9BMCdcM3N-zrrmQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LZm7K35eEU5Sp9bnSQwKj4XRMR6_qC9BMCdcM3N-zrrmQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/26] nss: reorder SRC_URI lines to fix upstream version check
+	<955430345ec10c6c1dda34e2b2c9f64e75d50f38.1438262915.git.alexander.kanavin@linux.intel.com>
+	<20150730143500.GI2457@jama>
+In-Reply-To: <20150730143500.GI2457@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 14/26] puzzles: switch svn for git, as upstream has done the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,22 +35,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 16:03:53 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 30 Jul 2015 16:05:38 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/30/2015 06:04 PM, Burton, Ross wrote:
+On 07/30/2015 05:35 PM, Martin Jansa wrote:
 
->     Why don't you move this to .inc file and replace "3_17_3_RTM" with some
->     variable set in .bb, it would be easier to read than this reorder and
->     require .inc later..
->
->
-> Joe sent a patch earlier to remove the inc file entirely, so please
-> rebase on top of that (it's in ross/mut).
+> Doesn't PV go backwards with this?
 
-Done; after rebasing the patch disappeared altogether :)
-
+Yes; Ross should make a suggestion of how to avoid that, and fix the 
+upstream check at the same time - for this recipe and others where I 
+tweak the PV in a similar manner.
 
 Alex
+
 
