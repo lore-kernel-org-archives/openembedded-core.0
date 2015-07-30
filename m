@@ -1,24 +1,41 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B349764A0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A7C16764B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 14:27:21 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Jul 2015 07:27:21 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="616054703"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga003.jf.intel.com with ESMTP; 30 Jul 2015 07:27:21 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 17:27:44 +0300
-Message-Id: <bdd84ea7062ae847ecb59c8390ce7eea88d3540a.1438265949.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
-References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
-References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 21/21] midori: remove the recipe and replace references to midori with epiphany
+	Thu, 30 Jul 2015 14:28:46 +0000 (UTC)
+Received: by wicmv11 with SMTP id mv11so23547332wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 07:28:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=J2z+kLDNYfxKMz6srxcAlgw+TGqcUrMWisbxnNukUBY=;
+	b=FZXti/94297+KnSd3Wex/8XL09ckbs8U8MEfMb0iD2tjdS7jcu/YryEG4KXlKeZeia
+	EFuFCtMY8TJgRdJ7M4YgiKvxc6wYO6PncI3Ng6gAs5TDv6FWh0Dn+ACf57+hKHxaCJ5Z
+	FimomgydCIhorFA1hDPLzs0+TgkmI+YUUyc9aZPntyGg2cWL1yc7WxN3hwL9nycqt/lI
+	0XYAEMzox0aNTLDO1FUnE3XzTTf8QkjULNNS4R4yV21+WRvzUlgkz1WrGhV6eCigfmB6
+	NKfwpVa0Ano56QQ26ZL74Kqvm6Kgo8tP4z+Js93YvsZYJshwBsM6mAUEiaRBnHLeB+xr
+	eDSQ==
+X-Received: by 10.194.63.42 with SMTP id d10mr97202963wjs.92.1438266525934;
+	Thu, 30 Jul 2015 07:28:45 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	ed10sm30181366wic.0.2015.07.30.07.28.44
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 Jul 2015 07:28:44 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 30 Jul 2015 16:29:00 +0200
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20150730142900.GB2457@jama>
+References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
+	<0c7f8aaf4b04cf1bb866dae6af21509af051fbe6.1438262915.git.alexander.kanavin@linux.intel.com>
+MIME-Version: 1.0
+In-Reply-To: <0c7f8aaf4b04cf1bb866dae6af21509af051fbe6.1438262915.git.alexander.kanavin@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/26] libproxy: update SRC_URI to not use Google Code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,152 +48,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 14:27:22 -0000
+X-List-Received-Date: Thu, 30 Jul 2015 14:28:46 -0000
+X-Groupsio-MsgNum: 68731
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="V0207lvV8h4k8FAm"
+Content-Disposition: inline
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- .../packagegroups/packagegroup-self-hosted.bb      | 10 +++----
- .../builder/files/builder_hob_start.sh             |  8 +++---
- meta/recipes-sato/midori/midori/liststore.patch    | 29 --------------------
- meta/recipes-sato/midori/midori_0.5.8.bb           | 31 ----------------------
- .../packagegroups/packagegroup-core-x11-sato.bb    |  2 +-
- 5 files changed, 10 insertions(+), 70 deletions(-)
- delete mode 100644 meta/recipes-sato/midori/midori/liststore.patch
- delete mode 100644 meta/recipes-sato/midori/midori_0.5.8.bb
+--V0207lvV8h4k8FAm
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-index 7d5a41a..0c79827 100644
---- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-@@ -28,10 +28,10 @@ RDEPENDS_packagegroup-self-hosted = "\
-     packagegroup-self-hosted-host-tools \
-     "
- 
--# midori depends on webkit-gtk which could not build for mips64
--MIDORI = "midori"
--MIDORI_mips64 = ""
--MIDORI_mips64n32 = ""
-+# epiphany depends on webkitgtk which could not build for mips64
-+EPIPHANY = "epiphany"
-+EPIPHANY_mips64 = ""
-+EPIPHANY_mips64n32 = ""
- 
- RDEPENDS_packagegroup-self-hosted-host-tools = "\
-     connman \
-@@ -198,7 +198,7 @@ RDEPENDS_packagegroup-self-hosted-graphics = "\
-     python-pygtk \
-     gtk-theme-clearlooks \
-     xdg-utils \
--    ${MIDORI} \
-+    ${EPIPHANY} \
-     leafpad \
-     pcmanfm \
-     vte \
-diff --git a/meta/recipes-graphics/builder/files/builder_hob_start.sh b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-index 65a68ee..b394b09 100644
---- a/meta/recipes-graphics/builder/files/builder_hob_start.sh
-+++ b/meta/recipes-graphics/builder/files/builder_hob_start.sh
-@@ -18,10 +18,10 @@ if [ ! -d /home/builder/.local/share/applications ]; then
-     #register folders to open with PCManFM filemanager
-     xdg-mime default pcmanfm.desktop inode/directory
- 
--    #register html links and files with Midori
--    xdg-mime default midori.desktop x-scheme-handler/http
--    xdg-mime default midori.desktop x-scheme-handler/https
--    xdg-mime default midori.desktop text/html
-+    #register html links and files with epiphany
-+    xdg-mime default epiphany.desktop x-scheme-handler/http
-+    xdg-mime default epiphany.desktop x-scheme-handler/https
-+    xdg-mime default epiphany.desktop text/html
- 
-     #register text files with leafpad text editor
-     xdg-mime default leafpad.desktop text/plain
-diff --git a/meta/recipes-sato/midori/midori/liststore.patch b/meta/recipes-sato/midori/midori/liststore.patch
-deleted file mode 100644
-index 4e5d666..0000000
---- a/meta/recipes-sato/midori/midori/liststore.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--GLib 2.44 has a GListStore type which is GLib.ListStore in Vala, resulting in an ambigous type and compile failure.
--
--Fix by using the full type name.
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--diff --git a/extensions/history-list.vala b/extensions/history-list.vala
--index 3a864b1..f309c0c 100644
----- a/extensions/history-list.vala
--+++ b/extensions/history-list.vala
--@@ -319,7 +319,7 @@ namespace HistoryList {
--         }
-- 
--         private void create_widgets () {
---            ListStore model;
--+            Gtk.ListStore model;
--             TreeIter iter;
--             TreeIter? active_iter = null;
-- 
--@@ -331,7 +331,7 @@ namespace HistoryList {
-- 
--             var tab_closing_behavior = this.hl_manager.get_integer ("TabClosingBehavior");
-- 
---            model = new ListStore (2, typeof (string), typeof (int));
--+            model = new Gtk.ListStore (2, typeof (string), typeof (int));
-- 
--             model.append (out iter);
--             model.set (iter, TabClosingBehaviorModel.TEXT, _("Do nothing"),
-diff --git a/meta/recipes-sato/midori/midori_0.5.8.bb b/meta/recipes-sato/midori/midori_0.5.8.bb
-deleted file mode 100644
-index 1c027fe4..0000000
---- a/meta/recipes-sato/midori/midori_0.5.8.bb
-+++ /dev/null
-@@ -1,31 +0,0 @@
--SUMMARY = "A lightweight web browser"
--HOMEPAGE = "http://midori-browser.org/"
--LICENSE = "LGPLv2.1"
--LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
--DEPENDS = "webkit-gtk libsoup-2.4 openssl python-native python-docutils-native librsvg-native libnotify libxscrnsaver"
--
--SRC_URI = "https://launchpad.net/midori/trunk/0.5.8/+download/${BPN}-${PV}.tar.bz2;subdir=${BPN}-${PV} \
--           file://liststore.patch"
--
--SRC_URI[md5sum] = "b89e25e74199d705e74767499a415976"
--SRC_URI[sha256sum] = "af19135fd4c4b04345df4d3592e7939c20f9b40eaca24550e6cb619751aa9381"
--
--# midori depends on webkit-gtk, and webkit-gtk can NOT be built on
--# MIPS64 with n32 ABI. So remove it from mips64 n32 temporarily.
--COMPATIBLE_HOST_mips64n32 = "null"
--
--inherit gtk-icon-cache pkgconfig vala pythonnative cmake distro_features_check
--
--# The webkit-gtk and libxscrnsaver requires x11 in DISTRO_FEATURES
--REQUIRED_DISTRO_FEATURES = "x11"
--
--EXTRA_OECMAKE = " \
--    -DCMAKE_INSTALL_PREFIX=${prefix} \
--    -DUSE_ZEITGEIST=0 \
--"
--
--TARGET_CC_ARCH += "${LDFLAGS}"
--
--RRECOMMENDS_${PN} += "glib-networking ca-certificates adwaita-icon-theme"
--
--FILES_${PN} += "${datadir}/appdata"
-diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-index 04d1e99..353b2ba 100644
---- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-+++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-@@ -48,7 +48,7 @@ FILEMANAGER ?= "pcmanfm"
- FILEMANAGER_mips ?= ""
- 
- WEB ?= ""
--#WEB = "midori"
-+#WEB = "epiphany"
- 
- SUMMARY_${PN}-apps = "Sato desktop - applications"
- RDEPENDS_${PN}-apps = "\
--- 
-2.1.4
+On Thu, Jul 30, 2015 at 04:31:30PM +0300, Alexander Kanavin wrote:
+> Google Code is shutting down soon, so libproxy tarball is now fetched
+> from Debian mirrors
+>=20
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-support/libproxy/libproxy_0.4.11.bb | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/libproxy/libproxy_0.4.11.bb b/meta/reci=
+pes-support/libproxy/libproxy_0.4.11.bb
+> index 9d388d6..06d0b9b 100644
+> --- a/meta/recipes-support/libproxy/libproxy_0.4.11.bb
+> +++ b/meta/recipes-support/libproxy/libproxy_0.4.11.bb
+> @@ -8,12 +8,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd=
+255951079008b364516c \
+> =20
+>  DEPENDS =3D "gconf glib-2.0"
+> =20
+> -SRC_URI =3D "http://libproxy.googlecode.com/files/libproxy-${PV}.zip \
+> +SRC_URI =3D "${DEBIAN_MIRROR}/main/libp/${BPN}/${BPN}_${PV}.orig.tar.gz \
+>             file://0001-test-Include-sys-select.h-for-select.patch \
+>            "
+> -
+> -SRC_URI[md5sum] =3D "06be230b8b612e64997f8f15af6373aa"
+> -SRC_URI[sha256sum] =3D "3175abcb49c0b37fd82c697927783bf7d53de3884a8559bc=
+594e59caa09bdb04"
+> +SRC_URI[md5sum] =3D "3cd1ae2a4abecf44b3f24d6639d2cd84"
+> +SRC_URI[sha256sum] =3D "dc3f33de54163718f82b3e7c496a7de97f8862578414b8ec=
+aad3cbfe4821864b"
 
+Why has debian mirror different checksums?
 
+Include the diff in commit message and warn premirror maintainers that
+they need to drop old file (otherwise it will fail) - which is very
+annoying.
+
+> =20
+>  inherit cmake pkgconfig
+> =20
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--V0207lvV8h4k8FAm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlW6NKsACgkQN1Ujt2V2gBwUvACfb0OZRzvCmjxdXK7y9W0t61j8
+Kq4AnRCO13/kCNv9DX3ASksBA+BFssoT
+=4dwq
+-----END PGP SIGNATURE-----
+
+--V0207lvV8h4k8FAm--
