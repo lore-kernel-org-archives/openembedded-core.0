@@ -1,38 +1,38 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id BD86C7632C
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C97160053
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 13:17:56 +0000 (UTC)
-Received: by qkdg63 with SMTP id g63so17708365qkd.0
+	Thu, 30 Jul 2015 13:19:40 +0000 (UTC)
+Received: by qkfc129 with SMTP id c129so17773558qkf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 06:17:56 -0700 (PDT)
+	Thu, 30 Jul 2015 06:19:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=v5V7elBFQA7bVr5M6tKcr/8jgO2EkA5UV+ra+4Y/r6g=;
-	b=X0qlFrfxHnWpvjvwmHY/FvA5Yoc3cbj3ItpHYt1bpSNj0NKAtTeFt2fJ2SNbsSknkV
-	YWYT2IgnyD5ttyGXRoxIlt3MKeCoFNuq5EiVtuT1eZGkDX6ajmTafWTKHKPtWT+GyS0A
-	iq54Po1HomDgqburLnbyth53OTlpKE98aSpkt7+UXQUiK9m6IEjiwsPObu3WcaUzeU9H
-	xG0o6kbsxv2oV6JTLbayGTUyyGgRt8HGyHlvv+B94XByf5vXF4y9OM3UT1q74eZE3AX+
-	rzgzgCuuKIpnGjWqfe/8YRptBYsYmFCmMVGmSrzf9fN3CDkrMx4jfubQAqt6TJ4r8rzQ
-	tYAg==
-X-Gm-Message-State: ALoCoQmud1pLLEF39SYR6PxFgO0egTqca153s1yqUrBJMtwoI7aLFe5z3SrK4TjnlMMngcK3ZTwj
-X-Received: by 10.55.22.169 with SMTP id 41mr71168144qkw.13.1438262276650;
-	Thu, 30 Jul 2015 06:17:56 -0700 (PDT)
+	bh=YrzTyAxaVT/ddkCKJs5qW+fD2PgZ4yrldIUiao5AbEU=;
+	b=bUm8Mb5f4+/7uHFsgC1SLt/9qAs6sr2nih/xn5a0UJKlRXaguQmxqJBfPAtFc2ElDg
+	kMU8sZskgaO4qSVsrCMfJBhacHWNwR+4bd/qJUc+JwKwMUz+HEqO7dqBM8pGuRqv61fP
+	csAmP2syRx66S8MJirGQn0SSAt3LHyHzkeckT6rdKs8gP8pCGKcLVMxqBgdwlemGz4CJ
+	TNcvyy3h48zqwplyWdOj+QWtjs8cB3SNuOlogLPW2K2extWVqEFhwuNgA1uWgWTyA5yO
+	DjMx+NYPB8xkK9UmqeXDbi8DlS8UQG3lZuJg5lL31aNO8XiWPoLIcvqlHTHn+1WcyHAo
+	Cvvw==
+X-Gm-Message-State: ALoCoQkPkNyNTZAndyivhCRk3s7dMjMfrE7cpwzHGPZEiebaQ1hoqsH1pknDoJ0X5gVBkgfFKI08
+X-Received: by 10.55.17.170 with SMTP id 42mr66078170qkr.29.1438262380285;
+	Thu, 30 Jul 2015 06:19:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 06:17:37 -0700 (PDT)
-In-Reply-To: <55B9866A.8080300@windriver.com>
-References: <1438134558-7785-1-git-send-email-li.zhou@windriver.com>
-	<CAJTo0LYkVtGiWfH-yf0T7PWREdk=ZyoMU3LyV1OEQpqWCiy2pg@mail.gmail.com>
-	<55B9866A.8080300@windriver.com>
+Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 06:19:20 -0700 (PDT)
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF8482360E56@ALA-MBA.corp.ad.wrs.com>
+References: <1438110674-25138-1-git-send-email-jslater@windriver.com>
+	<CAJTo0LYrj4yAgwUA6KX849S-kRsk-xZca4gvy8nS8VmM671ocw@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF8482360E56@ALA-MBA.corp.ad.wrs.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Jul 2015 14:17:37 +0100
-Message-ID: <CAJTo0LaFJfp9mJy+N5sD84OCRhA0rDo-Peee26eY7QM40fRizw@mail.gmail.com>
-To: "Zhou, Li" <li.zhou@windriver.com>
+Date: Thu, 30 Jul 2015 14:19:20 +0100
+Message-ID: <CAJTo0LakjSaW+H1gtpPi4gixpRY5G1XW+sfp7yqDx+7NnmbGxQ@mail.gmail.com>
+To: "Slater, Joseph W (Wind River)" <joe.slater@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tzdata: Add marking for config files in recipe
+Subject: Re: [PATCH 1/1] nss: advance to version 3.19.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,38 +45,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 13:18:00 -0000
-Content-Type: multipart/alternative; boundary=001a11496e90180f30051c178860
+X-List-Received-Date: Thu, 30 Jul 2015 13:19:40 -0000
+Content-Type: multipart/alternative; boundary=001a1135bd02456066051c178ee3
 
---001a11496e90180f30051c178860
+--001a1135bd02456066051c178ee3
 Content-Type: text/plain; charset=UTF-8
 
-On 30 July 2015 at 03:05, Zhou, Li <li.zhou@windriver.com> wrote:
+On 29 July 2015 at 23:10, Slater, Joseph W (Wind River) <
+joe.slater@windriver.com> wrote:
 
-> Do you mean that I should use branch master instead of fido? Has fido been
-> abandoned?
-> Thanks.
+> ok.  I think I just sent a new version of the patch (but for some reason I
+> did not get a copy).     Joe
 >
-
-For patch submissions you generally submit to master and then request a
-backport to the stable branches.
+>
+You did, thanks :)
 
 Ross
 
---001a11496e90180f30051c178860
+--001a1135bd02456066051c178ee3
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 July 2015 at 03:05, Zhou, Li <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-li.zhou@windriver.com" target=3D"_blank">li.zhou@windriver.com</a>&gt;</spa=
-n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div bgcolor=3D"#FFFFFF" text=
-=3D"#000000">Do you mean that I should use branch master instead of fido? H=
-as
-    fido been abandoned?<br>
-    Thanks.</div></blockquote><div><br></div><div>For patch submissions you=
- generally submit to master and then request a backport to the stable branc=
-hes.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+On 29 July 2015 at 23:10, Slater, Joseph W (Wind River) <span dir=3D"ltr">&=
+lt;<a href=3D"mailto:joe.slater@windriver.com" target=3D"_blank">joe.slater=
+@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p c=
+lass=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Calibr=
+i&quot;,&quot;sans-serif&quot;;color:#1f497d">ok.=C2=A0 I think I just sent=
+ a new version of the patch (but for some reason I did not get a copy).=C2=
+=A0=C2=A0=C2=A0=C2=A0 Joe<u></u><u></u></span></p>
+<p class=3D"MsoNormal"></p></blockquote></div><br>You did, thanks :)</div><=
+div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></=
+div>
 
---001a11496e90180f30051c178860--
+--001a1135bd02456066051c178ee3--
