@@ -1,40 +1,32 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 348E676497
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 90CCC76497
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 18:54:24 +0000 (UTC)
-Received: by wibud3 with SMTP id ud3so32086430wib.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 11:54:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=6pHBOVKSvXqMnmoYmQJ1d1HwT30xvPfx+ShsZ0VmBS4=;
-	b=WflBM8Vfw9x8UgKHn/lv3HdpdhdRxso0AxkwUCuPni2oQdnuBMBm63T4HU0h8ePHmH
-	Lmyx2BfXjbrXug6qxXY/xlXQcSNskgqwTnjv4fntN9qOiAazArFZSViF5oBiplD+vcuc
-	Nayxug+FRgAJSDbm/FRQhKWtSsvsBB0vAr5tI5dFkrgVM/ZxZ7lo+as2AW+6se0RWv/l
-	skrvUsH57NcXmR3TqU9QUh1Zi68lbmdu9iW9fEe+fIPBmh8TwxE2PP9KIu20g5ckFyBf
-	A6h9S6+KZYvOn6ug0Fs97roNvO4VvqQXrAURdLfIHhbYuOPQiEKHNqd7JzR+7+g8LX28
-	zg0Q==
-X-Received: by 10.180.189.196 with SMTP id gk4mr8777308wic.45.1438282464766;
-	Thu, 30 Jul 2015 11:54:24 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id bd9sm485889wib.18.2015.07.30.11.54.23
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Jul 2015 11:54:24 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 30 Jul 2015 20:54:39 +0200
-To: Tobias Olausson <tobias.olausson@pelagicore.com>
-Message-ID: <20150730185439.GP2457@jama>
-References: <1438280587-5379-1-git-send-email-tobias.olausson@pelagicore.com>
-	<1438280587-5379-2-git-send-email-tobias.olausson@pelagicore.com>
+	Thu, 30 Jul 2015 18:55:33 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2015 11:55:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,578,1432623600"; d="scan'208";a="533243892"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Jul 2015 11:55:34 -0700
+Received: by linux.intel.com (Postfix, from userid 48)
+	id 70D216A4087; Thu, 30 Jul 2015 11:54:49 -0700 (PDT)
+Received: from 10.252.34.83 (SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Thu, 30 Jul 2015 21:54:49 +0300 (EEST)
+Message-ID: <57080.10.252.34.83.1438282489.squirrel@linux.intel.com>
+In-Reply-To: <55BA4327.1050406@linux.intel.com>
+References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
+	<92e5275b2d09f7230def50f83e09e8189a28a09a.1438265949.git.alexander.kanavin@linux.intel.com>
+	<20150730144327.GL2457@jama> <55BA4327.1050406@linux.intel.com>
+Date: Thu, 30 Jul 2015 21:54:49 +0300 (EEST)
+From: alexander.kanavin@linux.intel.com
+To: "Alexander Kanavin" <alexander.kanavin@linux.intel.com>
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
 MIME-Version: 1.0
-In-Reply-To: <1438280587-5379-2-git-send-email-tobias.olausson@pelagicore.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+X-Priority: 3 (Normal)
+Importance: Normal
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] Backports 9c746017af381884cc20c7cd563fc429c2c66112 to fido
+Subject: Re: [PATCH 11/21] webkitgtk: add a new recipe for latest upstream version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,86 +39,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 18:54:25 -0000
-X-Groupsio-MsgNum: 68783
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="PT0wT86ZVVq2zanE"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 30 Jul 2015 18:55:35 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
---PT0wT86ZVVq2zanE
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> Why is it renamed from webkit-gtk to webkitgtk?
+>> That will break at least one PACKAGECONFIG:
+>> meta-oe/recipes-graphics/gimp/gimp_2.8.14.bb:PACKAGECONFIG[helpbrowser]
+>> = "--with-webkit, --without-webkit, webkit-gtk"
+>
+> I wrote a patch for that, and will send it to meta-oe later.
 
-On Thu, Jul 30, 2015 at 11:23:07AM -0700, Tobias Olausson wrote:
-> Signed-off-by: Tobias Olausson <tobias.olausson@pelagicore.com>
 
-You should use git cherry-pick from master branch commit (and only
-resolve the conflicts), so that original commit message is preserved.
+Actually wait a minute - gimp will disable the help browser anyway even if
+webkit wouldn't have been renamed. The new webkit has a new API, which
+gimp isn't compatible with. I'll verify this tomorrow. So the helpbrowser
+feature should be taken out altogether.
 
-> ---
->  meta/recipes-graphics/mesa/mesa_10.4.4.bb | 2 +-
->  meta/recipes-graphics/mesa/mesa_git.bb    | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/recipes-graphics/mesa/mesa_10.4.4.bb b/meta/recipes-gra=
-phics/mesa/mesa_10.4.4.bb
-> index 8140411..da2f5c6 100644
-> --- a/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-> +++ b/meta/recipes-graphics/mesa/mesa_10.4.4.bb
-> @@ -11,6 +11,6 @@ S =3D "${WORKDIR}/Mesa-${PV}"
->  #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
->  do_install_append() {
->      if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}=
-; then
-> -        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.con=
-tains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglpl=
-atform.h
-> +        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS$/#ifdef MESA_EGL_NO=
-_X11_HEADERS || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/=
-' ${D}${includedir}/EGL/eglplatform.h
->      fi
->  }
-> diff --git a/meta/recipes-graphics/mesa/mesa_git.bb b/meta/recipes-graphi=
-cs/mesa/mesa_git.bb
-> index cbe8911..5c35159 100644
-> --- a/meta/recipes-graphics/mesa/mesa_git.bb
-> +++ b/meta/recipes-graphics/mesa/mesa_git.bb
-> @@ -13,6 +13,6 @@ S =3D "${WORKDIR}/git"
->  #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
->  do_install_append() {
->      if ${@bb.utils.contains('PACKAGECONFIG', 'egl', 'true', 'false', d)}=
-; then
-> -        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS/#if ${@bb.utils.con=
-tains('DISTRO_FEATURES', 'x11', '0', '1', d)}/' ${D}${includedir}/EGL/eglpl=
-atform.h
-> +        sed -i -e 's/^#ifdef MESA_EGL_NO_X11_HEADERS$/#ifdef MESA_EGL_NO=
-_X11_HEADERS || ${@bb.utils.contains('PACKAGECONFIG', 'x11', '0', '1', d)}/=
-' ${D}${includedir}/EGL/eglplatform.h
->      fi
->  }
-> --=20
-> 2.1.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+They have some kind of long-running gtk3 development effort where this is
+taken care of, but there are no releases of that yet.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+Alex
 
---PT0wT86ZVVq2zanE
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlW6cu8ACgkQN1Ujt2V2gBz54ACfayeEw1usXqIkAv+yeHnAtd/F
-+pMAnR4DeYszV7D+Ljxalt3sDYgSKZjC
-=DjHk
------END PGP SIGNATURE-----
-
---PT0wT86ZVVq2zanE--
