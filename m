@@ -1,30 +1,24 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 629387646C
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 92DC476493
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 15:17:06 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Jul 2015 08:17:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="738875750"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
-	([10.237.68.143])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jul 2015 08:17:05 -0700
-Message-ID: <55BA402F.80102@linux.intel.com>
-Date: Thu, 30 Jul 2015 18:18:07 +0300
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Thu, 30 Jul 2015 15:18:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6UFIA3h024230
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 08:18:10 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 30 Jul 2015 08:17:51 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Jul 2015 08:18:08 -0700
+Message-ID: <cover.1438269391.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>, 
-	Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<4dc547325ca078af13412654a8533507f26978ad.1438262915.git.alexander.kanavin@linux.intel.com>
-	<20150730143117.GE2457@jama>
-	<CAJTo0LZiQVfWtAtPqA3CNVFG7tAikMybeXZwnOwd+0mU+fWRZg@mail.gmail.com>
-In-Reply-To: <CAJTo0LZiQVfWtAtPqA3CNVFG7tAikMybeXZwnOwd+0mU+fWRZg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 06/26] eglinfo: change version from 1.0 to 1.0.0 to match the upstream git tag
+Subject: [PATCH 0/2] fixes for PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,24 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 15:17:08 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Jul 2015 15:18:12 -0000
+Content-Type: text/plain
 
-On 07/30/2015 06:02 PM, Burton, Ross wrote:
+The following changes since commit 27d068d05239c26a3848eb101571acab54635e37:
 
->     Why don't you set PV in eglinfo.inc and rename them to _git.bb
->     <http://git.bb>?
->
->
-> I think we're going to need the TSC to resolve the opinion in style
-> here.  Again, when it's a release that just happens to use git, I do
-> prefer keeping the PV in the filename.
+  harfbuzz: upgrade to 1.0.1 (2015-07-27 23:28:23 +0100)
 
-I agree; it is good to easily tell what is a versioned release, and what 
-is a git snapshot. Also, there's less "PV = ..." clutter inside the 
-recipe that way.
+are available in the git repository at:
 
-Alex
+  git://git.openembedded.org/openembedded-core-contrib rbt/pkg
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/pkg
+
+Robert Yang (2):
+  base.bbclass: move invalid PACKAGECONFIG checking to insane.bbclass
+  base.bbclass/blacklist.bbclass: remove doc item when d.getVarFlags()
+
+ meta/classes/base.bbclass      |    6 ++----
+ meta/classes/blacklist.bbclass |    2 ++
+ meta/classes/insane.bbclass    |   11 +++++++++++
+ 3 files changed, 15 insertions(+), 4 deletions(-)
+
+-- 
+1.7.9.5
 
 
