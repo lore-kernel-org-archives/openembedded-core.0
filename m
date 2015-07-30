@@ -1,44 +1,28 @@
-Return-Path: <olof.johansson@axis.com>
-Received: from bes.se.axis.com (bes.se.axis.com [195.60.68.10])
-	by mail.openembedded.org (Postfix) with ESMTP id A418476398
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0961776398
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 07:04:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bes.se.axis.com (Postfix) with ESMTP id F3DC52E09D;
-	Thu, 30 Jul 2015 09:04:06 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-Received: from bes.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bes.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id a9Fhya1p7qLq; Thu, 30 Jul 2015 09:04:05 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bes.se.axis.com (Postfix) with ESMTP id 5ECEE2E4AF;
-	Thu, 30 Jul 2015 09:04:05 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 412E71229;
-	Thu, 30 Jul 2015 09:04:05 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 34C8A1139;
-	Thu, 30 Jul 2015 09:04:05 +0200 (CEST)
-Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
-	by seth.se.axis.com (Postfix) with ESMTP id 30D8C3E049;
-	Thu, 30 Jul 2015 09:04:05 +0200 (CEST)
-Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
-	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0; Thu, 30 Jul 2015
-	09:04:04 +0200
-Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id E31109C68B; 
-	Thu, 30 Jul 2015 09:04:04 +0200 (CEST)
-From: Olof Johansson <olof.johansson@axis.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-In-Reply-To: <CAP9ODKob+TVBpb1jrzVueZT0w2DQpP5X0YBAwy-RFEoh615rHw@mail.gmail.com>
-References: <cover.1438161068.git.liezhi.yang@windriver.com>
-	<5755146.lYtmNt1cvb@peggleto-mobl.ger.corp.intel.com>
-	<55B8A89A.6050406@windriver.com> <1438170429-sup-8609@axis.com>
-	<CAP9ODKob+TVBpb1jrzVueZT0w2DQpP5X0YBAwy-RFEoh615rHw@mail.gmail.com>
-Date: Thu, 30 Jul 2015 09:04:04 +0200
-Message-ID: <1438239812-sup-93@axis.com>
-User-Agent: Sup/0.20.0
+	Thu, 30 Jul 2015 07:09:12 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6U799KN027610
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 Jul 2015 00:09:09 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 30 Jul 2015 00:08:50 -0700
+Message-ID: <55B9CD93.1000902@windriver.com>
+Date: Thu, 30 Jul 2015 15:09:07 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
+To: Olof Johansson <olof.johansson@axis.com>, Otavio Salvador
+	<otavio.salvador@ossystems.com.br>
+References: <cover.1438161068.git.liezhi.yang@windriver.com>	<5755146.lYtmNt1cvb@peggleto-mobl.ger.corp.intel.com>	<55B8A89A.6050406@windriver.com>
+	<1438170429-sup-8609@axis.com>	<CAP9ODKob+TVBpb1jrzVueZT0w2DQpP5X0YBAwy-RFEoh615rHw@mail.gmail.com>
+	<1438239812-sup-93@axis.com>
+In-Reply-To: <1438239812-sup-93@axis.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 0/2] bitbake.conf: add GITHUB_GIT
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,16 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 07:04:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Jul 2015 07:09:13 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Excerpts from Otavio Salvador's message of 2015-07-29 18:27:32 +0200:
-> It allows for people to add local mirrors for example and even remap
-> fetching without touching the recipes. It is a good addition IMO.
 
-Can't you use PREMIRRORS for that?
 
--- 
-olof johansson
+On 07/30/2015 03:04 PM, Olof Johansson wrote:
+> Excerpts from Otavio Salvador's message of 2015-07-29 18:27:32 +0200:
+>> It allows for people to add local mirrors for example and even remap
+>> fetching without touching the recipes. It is a good addition IMO.
+>
+> Can't you use PREMIRRORS for that?
+>
+
+PREMIRRORS is for all the recipes/protocols ? I think that another benefit
+is we can uniform github's SRC_URI ?
+
+// Robert
 
