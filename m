@@ -1,38 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B2305763F2
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 41FF4763F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 15:04:49 +0000 (UTC)
-Received: by qgeu79 with SMTP id u79so26090566qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 08:04:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=gjnumHky9dbrQlI9eWVpeqZrBDF1uI9oEYuZZGXSwk4=;
-	b=QYEjkSLS3uT4ZeCzhRX876fpGXtkssVwjlf0UxfsPMpMiw2ahX4hkODaB923j6SabG
-	3PAAem69XBGbxkzaUEhHxJ8+hEug18PAFtpLfSJUizCSJYt/jrbe98IBFjWFrC7fSfLW
-	qyd5JO7Vvb+vCfB/Q1cxUjW4+AcVJrofUdpDGWFATfuDKwd0IpJM93OiHljZq2vFYEU6
-	y9MkUq7+tSK6oabeQStfe4MsJ53FKiSZePmnwMxUz3kQDONgTtcknfPWf6yELEfWANph
-	4/Uta7Vr23gYmrFO7HIDVITgvlBzVG5kkQm9vTCaBZOAr3AKLgV+WHGDP/X3rnVH3w/r
-	kp9A==
-X-Gm-Message-State: ALoCoQnH06P16l7DJS8kFJ4Y4XON4ThkEBWEoE2T6j2doMNoGFRJl9d/yZZdhIFcZ/BpHZAEVVqo
-X-Received: by 10.140.235.71 with SMTP id g68mr6136298qhc.22.1438268689316;
-	Thu, 30 Jul 2015 08:04:49 -0700 (PDT)
+	Thu, 30 Jul 2015 15:11:27 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 30 Jul 2015 08:11:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="758474516"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
+	([10.237.68.143])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Jul 2015 08:11:27 -0700
+Message-ID: <55BA3EDD.4030600@linux.intel.com>
+Date: Thu, 30 Jul 2015 18:12:29 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.102.195 with HTTP; Thu, 30 Jul 2015 08:04:29 -0700 (PDT)
-In-Reply-To: <20150730143353.GG2457@jama>
+To: Martin Jansa <martin.jansa@gmail.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<85e7e6014242705a3e1e06ec5862358e95641a3a.1438262915.git.alexander.kanavin@linux.intel.com>
-	<20150730143353.GG2457@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 30 Jul 2015 16:04:29 +0100
-Message-ID: <CAJTo0LZm7K35eEU5Sp9bnSQwKj4XRMR6_qC9BMCdcM3N-zrrmQ@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/26] nss: reorder SRC_URI lines to fix upstream version check
+	<0c7f8aaf4b04cf1bb866dae6af21509af051fbe6.1438262915.git.alexander.kanavin@linux.intel.com>
+	<20150730142900.GB2457@jama>
+In-Reply-To: <20150730142900.GB2457@jama>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/26] libproxy: update SRC_URI to not use Google Code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 15:04:49 -0000
-Content-Type: multipart/alternative; boundary=001a1135620e51b3c0051c19064a
+X-List-Received-Date: Thu, 30 Jul 2015 15:11:28 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a1135620e51b3c0051c19064a
-Content-Type: text/plain; charset=UTF-8
+On 07/30/2015 05:29 PM, Martin Jansa wrote:
 
-On 30 July 2015 at 15:33, Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> Why don't you move this to .inc file and replace "3_17_3_RTM" with some
-> variable set in .bb, it would be easier to read than this reorder and
-> require .inc later..
+>> -SRC_URI = "http://libproxy.googlecode.com/files/libproxy-${PV}.zip \
+>> +SRC_URI = "${DEBIAN_MIRROR}/main/libp/${BPN}/${BPN}_${PV}.orig.tar.gz \
+>>              file://0001-test-Include-sys-select.h-for-select.patch \
+>>             "
+>> -
+>> -SRC_URI[md5sum] = "06be230b8b612e64997f8f15af6373aa"
+>> -SRC_URI[sha256sum] = "3175abcb49c0b37fd82c697927783bf7d53de3884a8559bc594e59caa09bdb04"
+>> +SRC_URI[md5sum] = "3cd1ae2a4abecf44b3f24d6639d2cd84"
+>> +SRC_URI[sha256sum] = "dc3f33de54163718f82b3e7c496a7de97f8862578414b8ecaad3cbfe4821864b"
 >
+> Why has debian mirror different checksums?
+>
+> Include the diff in commit message and warn premirror maintainers that
+> they need to drop old file (otherwise it will fail) - which is very
+> annoying.
 
-Joe sent a patch earlier to remove the inc file entirely, so please rebase
-on top of that (it's in ross/mut).
+I guess this is not needed because they are in fact two different 
+filenames/formats?
 
-Ross
 
---001a1135620e51b3c0051c19064a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Alex
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 30 July 2015 at 15:33, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&gt=
-;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":22l" class=3D=
-"a3s" style=3D"overflow:hidden">Why don&#39;t you move this to .inc file an=
-d replace &quot;3_17_3_RTM&quot; with some<br>
-variable set in .bb, it would be easier to read than this reorder and<br>
-require .inc later..</div></blockquote></div><br>Joe sent a patch earlier t=
-o remove the inc file entirely, so please rebase on top of that (it&#39;s i=
-n ross/mut).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_=
-extra">Ross</div></div>
 
---001a1135620e51b3c0051c19064a--
