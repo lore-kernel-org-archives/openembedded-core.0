@@ -1,34 +1,40 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9483E7648B
+Return-Path: <olof.johansson@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EEE6275F23
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 09:42:42 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208,217";a="99074697"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 30 Jul 2015 17:46:15 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6U9eoL7017878;
-	Thu, 30 Jul 2015 17:40:50 +0800
-Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0181.006; Thu, 30 Jul 2015 17:42:41 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [oe][meta-oe][PATCH] iotop: upgrade 0.4.4 -> 0.6
-Thread-Index: AQHQyqlUroTrLfXw20iR4Z7cq6MlZp3zOYuAgACH11A=
-Date: Thu, 30 Jul 2015 09:42:40 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E873911477@G08CNEXMBPEKD02.g08.fujitsu.local>
-References: <1438276954-8382-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-	<CAJTo0LZhkvggLTcgEJ56=c_5g06JNNfK_31g3R8Lbb5fY=BLTw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZhkvggLTcgEJ56=c_5g06JNNfK_31g3R8Lbb5fY=BLTw@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.92]
+	Thu, 30 Jul 2015 09:43:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 7E26C18101;
+	Thu, 30 Jul 2015 11:43:47 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id CmT2wwDfVgk7; Thu, 30 Jul 2015 11:43:46 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 456B2180EA;
+	Thu, 30 Jul 2015 11:43:46 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 2E28610EA;
+	Thu, 30 Jul 2015 11:43:46 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 22245F43;
+	Thu, 30 Jul 2015 11:43:46 +0200 (CEST)
+Received: from xmail2.se.axis.com (xmail2.se.axis.com [10.0.5.74])
+	by seth.se.axis.com (Postfix) with ESMTP id 202BF3E049;
+	Thu, 30 Jul 2015 11:43:46 +0200 (CEST)
+Received: from lnxolofjn.se.axis.com (10.92.17.1) by xmail2.se.axis.com
+	(10.0.5.74) with Microsoft SMTP Server id 8.3.342.0; Thu, 30 Jul 2015
+	11:43:45 +0200
+Received: by lnxolofjn.se.axis.com (Postfix, from userid 20466)	id DD7229C68B; 
+	Thu, 30 Jul 2015 11:43:45 +0200 (CEST)
+From: Olof Johansson <olof.johansson@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 Jul 2015 11:43:45 +0200
+Message-ID: <1438249425-5423-1-git-send-email-olofjn@axis.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe][meta-oe][PATCH] iotop: upgrade 0.4.4 -> 0.6
+Subject: [PATCH] base.bbclass: Don't warn about "invalid" PACKAGECONFIGs by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,210 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 09:42:46 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_A8FC939F80655644A89BB21CCD3741E873911477G08CNEXMBPEKD02_"
+X-List-Received-Date: Thu, 30 Jul 2015 09:43:51 -0000
+Content-Type: text/plain
 
---_000_A8FC939F80655644A89BB21CCD3741E873911477G08CNEXMBPEKD02_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+The recently added warnings for recipes that try to use undefined
+packageconfigs isn't compatible with the PACKAGECONFIG approach of
+exporting a common set of configs and letting the recipe look only at
+the configs they care about.
 
-SGksIFJvc3MsDQoNCkkgYW0gdmVyeSBzb3JyeS4NClBsZWFzZSBpZ25vcmUgaXQuDQoNClRoYW5r
-cywNCkxpDQoNCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNv
-bV0NClNlbnQ6IFRodXJzZGF5LCBKdWx5IDMwLCAyMDE1IDU6MzEgUE0NClRvOiBMaSwgWGluL+ad
-jiDmrKMNCkNjOiBPRS1jb3JlDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtvZV1bbWV0YS1vZV1b
-UEFUQ0hdIGlvdG9wOiB1cGdyYWRlIDAuNC40IC0+IDAuNg0KDQptZXRhLW9lIHBhdGNoZXMgZ28g
-dG8gb3BlbmVtYmVkZGVkLWRldmVsQC4NCg0KUm9zcw0KDQpPbiAzMCBKdWx5IDIwMTUgYXQgMTg6
-MjIsIExpIHhpbiA8bGl4aW4uZm5zdEBjbi5mdWppdHN1LmNvbTxtYWlsdG86bGl4aW4uZm5zdEBj
-bi5mdWppdHN1LmNvbT4+IHdyb3RlOg0KRnJvbTogemhhbmdwYW5wYW4gPHpoYW5ncHAtZm5zdEBj
-bi5mdWppdHN1LmNvbTxtYWlsdG86emhhbmdwcC1mbnN0QGNuLmZ1aml0c3UuY29tPj4NCg0KU2ln
-bmVkLW9mZi1ieTogWmhhbmcgUGFucGFuPHpoYW5ncHAtZm5zdEBjbi5mdWppdHN1LmNvbTxtYWls
-dG86emhhbmdwcC1mbnN0QGNuLmZ1aml0c3UuY29tPj4NCi0tLQ0KIG1ldGEtb2UvcmVjaXBlcy1l
-eHRlbmRlZC9pb3RvcC97aW90b3BfMC40LjQuYmI8aHR0cDovL2lvdG9wXzAuNC40LmJiPiA9PiBp
-b3RvcF8wLjYuYmI8aHR0cDovL2lvdG9wXzAuNi5iYj59IHwgNSArKy0tLQ0KIDEgZmlsZSBjaGFu
-Z2VkLCAyIGluc2VydGlvbnMoKyksIDMgZGVsZXRpb25zKC0pDQogcmVuYW1lIG1ldGEtb2UvcmVj
-aXBlcy1leHRlbmRlZC9pb3RvcC97aW90b3BfMC40LjQuYmI8aHR0cDovL2lvdG9wXzAuNC40LmJi
-PiA9PiBpb3RvcF8wLjYuYmI8aHR0cDovL2lvdG9wXzAuNi5iYj59ICg4MyUpDQoNCmRpZmYgLS1n
-aXQgYS9tZXRhLW9lL3JlY2lwZXMtZXh0ZW5kZWQvaW90b3AvaW90b3BfMC40LjQuYmI8aHR0cDov
-L2lvdG9wXzAuNC40LmJiPiBiL21ldGEtb2UvcmVjaXBlcy1leHRlbmRlZC9pb3RvcC9pb3RvcF8w
-LjYuYmI8aHR0cDovL2lvdG9wXzAuNi5iYj4NCnNpbWlsYXJpdHkgaW5kZXggODMlDQpyZW5hbWUg
-ZnJvbSBtZXRhLW9lL3JlY2lwZXMtZXh0ZW5kZWQvaW90b3AvaW90b3BfMC40LjQuYmI8aHR0cDov
-L2lvdG9wXzAuNC40LmJiPg0KcmVuYW1lIHRvIG1ldGEtb2UvcmVjaXBlcy1leHRlbmRlZC9pb3Rv
-cC9pb3RvcF8wLjYuYmI8aHR0cDovL2lvdG9wXzAuNi5iYj4NCmluZGV4IGQ2MjkyNDUuLjVkY2Fl
-OTggMTAwNjQ0DQotLS0gYS9tZXRhLW9lL3JlY2lwZXMtZXh0ZW5kZWQvaW90b3AvaW90b3BfMC40
-LjQuYmI8aHR0cDovL2lvdG9wXzAuNC40LmJiPg0KKysrIGIvbWV0YS1vZS9yZWNpcGVzLWV4dGVu
-ZGVkL2lvdG9wL2lvdG9wXzAuNi5iYjxodHRwOi8vaW90b3BfMC42LmJiPg0KQEAgLTQsMTQgKzQs
-MTMgQEAgREVTQ1JJUFRJT04gPSAiaW90b3AgZG9lcyBmb3IgSS9PIHVzYWdlIHdoYXQgdG9wKDEp
-IGRvZXMgZm9yIENQVSB1c2FnZS4gXA0KICAgICBhIHRhYmxlIG9mIGN1cnJlbnQgSS9PIHVzYWdl
-IGJ5IHByb2Nlc3NlcyBvbiB0aGUgc3lzdGVtLiINCiBIT01FUEFHRSA9ICJodHRwOi8vZ3VpY2hh
-ei5mcmVlLmZyL2lvdG9wLyINCg0KLVBSID0gInIxIg0KDQogTElDRU5TRSA9ICJHUEx2MisiDQog
-TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NDMyNWFmZDM5NmZlYmNiNjU5
-YzM2YjQ5NTMzMTM1ZDQ8ZmlsZTovLy9cXENPUFlJTkc7bWQ1PTQzMjVhZmQzOTZmZWJjYjY1OWMz
-NmI0OTUzMzEzNWQ0PiINCg0KIFNSQ19VUkkgPSAiaHR0cDovL2d1aWNoYXouZnJlZS5mci9pb3Rv
-cC9maWxlcy8ke0JQfS50YXIuYnoyPGh0dHA6Ly9ndWljaGF6LmZyZWUuZnIvaW90b3AvZmlsZXMv
-JCU3YkJQJTdkLnRhci5iejI+Ig0KLVNSQ19VUklbbWQ1c3VtXSA9ICJjZGQzOGIyNzZjYmYyMzg2
-NzZmNWQyYmNmMDk4YmE5YyINCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDZmMzI3OWZiMWE3ZGZj
-MTI5YjVkMDA5NTBjNmU4Mzg5ZTRhZWRlYjU4ODgwZTg0OGI4OGQ2ODY0ODNkZjBiMCINCitTUkNf
-VVJJW21kNXN1bV0gPSAiNWVmOTQ1NmIyNmQ3Njk0YWJmMzEwMWE3MmUxZTBkMWQiDQorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjNhZGVhMmEyNGVkYTQ5YmJiYWViNGU2ZWQyMDQyMzU1YjQ0MWRiZDcx
-NjFlODgzMDY3YTAyYmZjOGRjZWY3NWIiDQoNCiBpbmhlcml0IGRpc3R1dGlscw0KDQotLQ0KMS44
-LjQuMg0KDQotLQ0KX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18NCk9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KT3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86T3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZz4NCmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGlu
-Zm8vb3BlbmVtYmVkZGVkLWNvcmUNCg0K
+This change introduces a STRICT_PACKAGECONFIG variable that one can
+enable to get the warnings.
 
---_000_A8FC939F80655644A89BB21CCD3741E873911477G08CNEXMBPEKD02_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Olof Johansson <olofjn@axis.com>
+---
+ meta/classes/base.bbclass | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5v
-c2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJc
-QOWui+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZp
-bml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXtt
-YXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0K
-CWZvbnQtZmFtaWx5OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
-dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxp
-bmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1w
-cmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9
-DQpwLk1zb0FjZXRhdGUsIGxpLk1zb0FjZXRhdGUsIGRpdi5Nc29BY2V0YXRlDQoJe21zby1zdHls
-ZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoi5om55rOo5qGG5paH5pysIENoYXIiOw0K
-CW1hcmdpbjowY207DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQtc2l6ZTo5LjBwdDsN
-Cglmb250LWZhbWlseTrlrovkvZM7fQ0Kc3Bhbi5ob2VuemINCgl7bXNvLXN0eWxlLW5hbWU6aG9l
-bnpiO30NCnNwYW4uQ2hhcg0KCXttc28tc3R5bGUtbmFtZToi5om55rOo5qGG5paH5pysIENoYXIi
-Ow0KCW1zby1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazrmibnms6jmoYbmlofm
-nKw7DQoJZm9udC1mYW1pbHk65a6L5L2TO30NCnNwYW4uRW1haWxTdHlsZTIwDQoJe21zby1zdHls
-ZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJp
-ZiI7DQoJY29sb3I6IzFGNDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpl
-eHBvcnQtb25seTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdl
-IFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDkw
-LjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlv
-bjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVs
-dHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0t
-W2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlk
-bWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2Vu
-ZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9ImJsdWUiIHZsaW5rPSJw
-dXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
-PjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTom
-cXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+
-SGksIFJvc3MsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90
-O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpw
-PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
-PSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkkgYW0gdmVyeSBz
-b3JyeS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
-YW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2Fs
-aWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlBsZWFzZSBp
-Z25vcmUgaXQuPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPjwvbzpwPjwvc3Bhbj48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286
-cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0
-eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1
-b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5UaGFua3MsPG86cD48L286cD48L3Nw
-YW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJm
-b250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fu
-cy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5MaTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEw
-LjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
-dDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHls
-ZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBjbSAw
-Y20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9w
-OnNvbGlkICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48Yj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsi
-PkZyb206PC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDsi
-PiBCdXJ0b24sIFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQo8YnI+DQo8Yj5T
-ZW50OjwvYj4gVGh1cnNkYXksIEp1bHkgMzAsIDIwMTUgNTozMSBQTTxicj4NCjxiPlRvOjwvYj4g
-TGksIFhpbi88L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMC4wcHQiPuadjjwvc3Bhbj48
-c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVv
-dDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+DQo8L3NwYW4+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
-ZToxMC4wcHQiPuasozwvc3Bhbj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZTox
-MC4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7VGFob21hJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVv
-dDsiPjxicj4NCjxiPkNjOjwvYj4gT0UtY29yZTxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTogW09F
-LWNvcmVdIFtvZV1bbWV0YS1vZV1bUEFUQ0hdIGlvdG9wOiB1cGdyYWRlIDAuNC40IC0mZ3Q7IDAu
-NjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRp
-dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5tZXRhLW9lIHBhdGNo
-ZXMgZ28gdG8gb3BlbmVtYmVkZGVkLWRldmVsQC48bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IGxhbmc9IkVOLVVTIj5Sb3NzPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJz
-cDs8L286cD48L3NwYW4+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
-bmc9IkVOLVVTIj5PbiAzMCBKdWx5IDIwMTUgYXQgMTg6MjIsIExpIHhpbiAmbHQ7PGEgaHJlZj0i
-bWFpbHRvOmxpeGluLmZuc3RAY24uZnVqaXRzdS5jb20iIHRhcmdldD0iX2JsYW5rIj5saXhpbi5m
-bnN0QGNuLmZ1aml0c3UuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPkZyb206IHpoYW5ncGFucGFu
-ICZsdDs8YSBocmVmPSJtYWlsdG86emhhbmdwcC1mbnN0QGNuLmZ1aml0c3UuY29tIj56aGFuZ3Bw
-LWZuc3RAY24uZnVqaXRzdS5jb208L2E+Jmd0Ozxicj4NCjxicj4NClNpZ25lZC1vZmYtYnk6IFpo
-YW5nIFBhbnBhbiZsdDs8YSBocmVmPSJtYWlsdG86emhhbmdwcC1mbnN0QGNuLmZ1aml0c3UuY29t
-Ij56aGFuZ3BwLWZuc3RAY24uZnVqaXRzdS5jb208L2E+Jmd0Ozxicj4NCi0tLTxicj4NCiZuYnNw
-O21ldGEtb2UvcmVjaXBlcy1leHRlbmRlZC9pb3RvcC97PGEgaHJlZj0iaHR0cDovL2lvdG9wXzAu
-NC40LmJiIiB0YXJnZXQ9Il9ibGFuayI+aW90b3BfMC40LjQuYmI8L2E+ID0mZ3Q7DQo8YSBocmVm
-PSJodHRwOi8vaW90b3BfMC42LmJiIiB0YXJnZXQ9Il9ibGFuayI+aW90b3BfMC42LmJiPC9hPn0g
-fCA1ICYjNDM7JiM0MzstLS08YnI+DQombmJzcDsxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25z
-KCYjNDM7KSwgMyBkZWxldGlvbnMoLSk8YnI+DQombmJzcDtyZW5hbWUgbWV0YS1vZS9yZWNpcGVz
-LWV4dGVuZGVkL2lvdG9wL3s8YSBocmVmPSJodHRwOi8vaW90b3BfMC40LjQuYmIiIHRhcmdldD0i
-X2JsYW5rIj5pb3RvcF8wLjQuNC5iYjwvYT4gPSZndDsNCjxhIGhyZWY9Imh0dHA6Ly9pb3RvcF8w
-LjYuYmIiIHRhcmdldD0iX2JsYW5rIj5pb3RvcF8wLjYuYmI8L2E+fSAoODMlKTxicj4NCjxicj4N
-CmRpZmYgLS1naXQgYS9tZXRhLW9lL3JlY2lwZXMtZXh0ZW5kZWQvaW90b3AvPGEgaHJlZj0iaHR0
-cDovL2lvdG9wXzAuNC40LmJiIiB0YXJnZXQ9Il9ibGFuayI+aW90b3BfMC40LjQuYmI8L2E+IGIv
-bWV0YS1vZS9yZWNpcGVzLWV4dGVuZGVkL2lvdG9wLzxhIGhyZWY9Imh0dHA6Ly9pb3RvcF8wLjYu
-YmIiIHRhcmdldD0iX2JsYW5rIj5pb3RvcF8wLjYuYmI8L2E+PGJyPg0Kc2ltaWxhcml0eSBpbmRl
-eCA4MyU8YnI+DQpyZW5hbWUgZnJvbSBtZXRhLW9lL3JlY2lwZXMtZXh0ZW5kZWQvaW90b3AvPGEg
-aHJlZj0iaHR0cDovL2lvdG9wXzAuNC40LmJiIiB0YXJnZXQ9Il9ibGFuayI+aW90b3BfMC40LjQu
-YmI8L2E+PGJyPg0KcmVuYW1lIHRvIG1ldGEtb2UvcmVjaXBlcy1leHRlbmRlZC9pb3RvcC88YSBo
-cmVmPSJodHRwOi8vaW90b3BfMC42LmJiIiB0YXJnZXQ9Il9ibGFuayI+aW90b3BfMC42LmJiPC9h
-Pjxicj4NCmluZGV4IGQ2MjkyNDUuLjVkY2FlOTggMTAwNjQ0PGJyPg0KLS0tIGEvbWV0YS1vZS9y
-ZWNpcGVzLWV4dGVuZGVkL2lvdG9wLzxhIGhyZWY9Imh0dHA6Ly9pb3RvcF8wLjQuNC5iYiIgdGFy
-Z2V0PSJfYmxhbmsiPmlvdG9wXzAuNC40LmJiPC9hPjxicj4NCiYjNDM7JiM0MzsmIzQzOyBiL21l
-dGEtb2UvcmVjaXBlcy1leHRlbmRlZC9pb3RvcC88YSBocmVmPSJodHRwOi8vaW90b3BfMC42LmJi
-IiB0YXJnZXQ9Il9ibGFuayI+aW90b3BfMC42LmJiPC9hPjxicj4NCkBAIC00LDE0ICYjNDM7NCwx
-MyBAQCBERVNDUklQVElPTiA9ICZxdW90O2lvdG9wIGRvZXMgZm9yIEkvTyB1c2FnZSB3aGF0IHRv
-cCgxKSBkb2VzIGZvciBDUFUgdXNhZ2UuIFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwO2EgdGFi
-bGUgb2YgY3VycmVudCBJL08gdXNhZ2UgYnkgcHJvY2Vzc2VzIG9uIHRoZSBzeXN0ZW0uJnF1b3Q7
-PGJyPg0KJm5ic3A7SE9NRVBBR0UgPSAmcXVvdDs8YSBocmVmPSJodHRwOi8vZ3VpY2hhei5mcmVl
-LmZyL2lvdG9wLyIgdGFyZ2V0PSJfYmxhbmsiPmh0dHA6Ly9ndWljaGF6LmZyZWUuZnIvaW90b3Av
-PC9hPiZxdW90Ozxicj4NCjxicj4NCi1QUiA9ICZxdW90O3IxJnF1b3Q7PGJyPg0KPGJyPg0KJm5i
-c3A7TElDRU5TRSA9ICZxdW90O0dQTHYyJiM0MzsmcXVvdDs8YnI+DQombmJzcDtMSUNfRklMRVNf
-Q0hLU1VNID0gJnF1b3Q7PGEgaHJlZj0iZmlsZTovLy9cXENPUFlJTkc7bWQ1PTQzMjVhZmQzOTZm
-ZWJjYjY1OWMzNmI0OTUzMzEzNWQ0Ij5maWxlOi8vQ09QWUlORzttZDU9NDMyNWFmZDM5NmZlYmNi
-NjU5YzM2YjQ5NTMzMTM1ZDQ8L2E+JnF1b3Q7PGJyPg0KPGJyPg0KJm5ic3A7U1JDX1VSSSA9ICZx
-dW90OzxhIGhyZWY9Imh0dHA6Ly9ndWljaGF6LmZyZWUuZnIvaW90b3AvZmlsZXMvJCU3YkJQJTdk
-LnRhci5iejIiIHRhcmdldD0iX2JsYW5rIj5odHRwOi8vZ3VpY2hhei5mcmVlLmZyL2lvdG9wL2Zp
-bGVzLyR7QlB9LnRhci5iejI8L2E+JnF1b3Q7PGJyPg0KLVNSQ19VUklbbWQ1c3VtXSA9ICZxdW90
-O2NkZDM4YjI3NmNiZjIzODY3NmY1ZDJiY2YwOThiYTljJnF1b3Q7PGJyPg0KLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICZxdW90OzQ2ZjMyNzlmYjFhN2RmYzEyOWI1ZDAwOTUwYzZlODM4OWU0YWVkZWI1
-ODg4MGU4NDhiODhkNjg2NDgzZGYwYjAmcXVvdDs8YnI+DQomIzQzO1NSQ19VUklbbWQ1c3VtXSA9
-ICZxdW90OzVlZjk0NTZiMjZkNzY5NGFiZjMxMDFhNzJlMWUwZDFkJnF1b3Q7PGJyPg0KJiM0MztT
-UkNfVVJJW3NoYTI1NnN1bV0gPSAmcXVvdDszYWRlYTJhMjRlZGE0OWJiYmFlYjRlNmVkMjA0MjM1
-NWI0NDFkYmQ3MTYxZTg4MzA2N2EwMmJmYzhkY2VmNzViJnF1b3Q7PGJyPg0KPGJyPg0KJm5ic3A7
-aW5oZXJpdCBkaXN0dXRpbHM8YnI+DQo8c3BhbiBzdHlsZT0iY29sb3I6Izg4ODg4OCI+PGJyPg0K
-PHNwYW4gY2xhc3M9ImhvZW56YiI+LS08L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+
-MS44LjQuMjwvc3Bhbj48YnI+DQo8YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj4tLTwvc3Bhbj48
-YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj5fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fXzwvc3Bhbj48YnI+DQo8c3BhbiBjbGFzcz0iaG9lbnpiIj5PcGVuZW1i
-ZWRkZWQtY29yZSBtYWlsaW5nIGxpc3Q8L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9ImhvZW56YiI+
-PGEgaHJlZj0ibWFpbHRvOk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmci
-Pk9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+PC9zcGFuPjxicj4N
-CjxzcGFuIGNsYXNzPSJob2VuemIiPjxhIGhyZWY9Imh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
-b3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUiIHRhcmdldD0iX2JsYW5rIj5o
-dHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRl
-ZC1jb3JlPC9hPjwvc3Bhbj48L3NwYW4+PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8
-cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48
-L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index e0f1053..6f652d8 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -340,9 +340,12 @@ python () {
+         pkgconfig = (d.getVar('PACKAGECONFIG', True) or "").split()
+         pn = d.getVar("PN", True)
+ 
+-        for pconfig in pkgconfig:
+-            if pconfig not in pkgconfigflags:
+-                bb.warn("%s: invalid PACKAGECONFIG: %s" % (pn, pconfig))
++        # If STRICT_PACKAGECONFIG is set, warn about recipes that sets undefined
++        # PACKAGECONFIGs.
++        if bb.utils.to_boolean(d.getVar("STRICT_PACKAGECONFIG", True)):
++            for pconfig in pkgconfig:
++                if pconfig not in pkgconfigflags:
++                    bb.warn("%s: invalid PACKAGECONFIG: %s" % (pn, pconfig))
+ 
+         mlprefix = d.getVar("MLPREFIX", True)
+ 
+-- 
+2.1.4
 
---_000_A8FC939F80655644A89BB21CCD3741E873911477G08CNEXMBPEKD02_--
+
