@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C6B2764AC
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 759CA76497
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 30 Jul 2015 14:27:19 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 30 Jul 2015 07:27:19 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2015 07:27:09 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="616054671"
+X-IronPort-AV: E=Sophos;i="5.15,577,1432623600"; d="scan'208";a="616054509"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga003.jf.intel.com with ESMTP; 30 Jul 2015 07:27:19 -0700
+	by orsmga003.jf.intel.com with ESMTP; 30 Jul 2015 07:27:07 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jul 2015 17:27:42 +0300
-Message-Id: <646c2c404c3064d5b7ce1d1351690caf1d482aa2.1438265949.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 30 Jul 2015 17:27:31 +0300
+Message-Id: <6aa9ed14b79d1e846e79a9de317099afefe00ba1.1438265949.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 19/21] epiphany: add a recipe from meta-gnome
+Subject: [PATCH 08/21] ruby: add a recipe from meta-ruby
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,86 +33,131 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 30 Jul 2015 14:27:19 -0000
 
-Epiphany is replacing midori as the browser in oe-core recipe set
-and poky distribution.
+Ruby is required to build webkit.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/recipes-gnome/epiphany/epiphany_3.16.3.bb     | 24 ++++++++++++++++
- .../0001-yelp.m4-drop-the-check-for-itstool.patch  | 33 ++++++++++++++++++++++
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
- create mode 100644 meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
+ meta/recipes-devtools/ruby/ruby.inc         | 40 +++++++++++++++++++++++++++
+ meta/recipes-devtools/ruby/ruby/extmk.patch | 13 +++++++++
+ meta/recipes-devtools/ruby/ruby_2.2.2.bb    | 42 +++++++++++++++++++++++++++++
+ 3 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-devtools/ruby/ruby.inc
+ create mode 100644 meta/recipes-devtools/ruby/ruby/extmk.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby_2.2.2.bb
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
+diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
 new file mode 100644
-index 0000000..0f5aef1
+index 0000000..ba60191
 --- /dev/null
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
-@@ -0,0 +1,24 @@
-+SUMMARY = "WebKit based web browser for GNOME"
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
++++ b/meta/recipes-devtools/ruby/ruby.inc
+@@ -0,0 +1,40 @@
++SUMMARY = "An interpreter of object-oriented scripting language"
++DESCRIPTION = "Ruby is an interpreted scripting language for quick \
++and easy object-oriented programming. It has many features to process \
++text files and to do system management tasks (as in Perl). \
++It is simple, straight-forward, and extensible. \
++"
++HOMEPAGE = "http://www.ruby-lang.org/"
++SECTION = "devel/ruby"
++LICENSE = "Ruby | BSD | GPLv2"
++LIC_FILES_CHKSUM = "\
++    file://COPYING;md5=837b32593517ae48b9c3b5c87a5d288c \
++    file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
++    file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
++    file://LEGAL;md5=c440adb575ba4e6e2344c2630b6a5584\
++"
 +
-+DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr libwnck3 \
-+	   gsettings-desktop-schemas gnome-desktop3"
++DEPENDS = "ruby-native zlib openssl tcl libyaml db gdbm readline"
++DEPENDS_class-native = "libyaml-native"
 +
-+inherit gnomebase gsettings
-+SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
-+SRC_URI[archive.md5sum] = "3296af4532b8019775f4b40d21a341ae"
-+SRC_URI[archive.sha256sum] = "d527f1770779ec22d955aeb13b148a846a26144e433ff0480c981af80e2390b1"
++SHRT_VER = "${@bb.data.getVar('PV',d,1).split('.')[0]}.${@bb.data.getVar('PV',d,1).split('.')[1]}"
++SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
++           file://extmk.patch \
++"
 +
-+EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO}"
++S = "${WORKDIR}/ruby-${PV}"
++
++inherit autotools
++
++
++# This snippet lets compiled extensions which rely on external libraries,
++# such as zlib, compile properly.  If we don't do this, then when extmk.rb
++# runs, it uses the native libraries instead of the target libraries, and so
++# none of the linking operations succeed -- which makes extconf.rb think
++# that the libraries aren't available and hence that the extension can't be
++# built.
 +
 +do_configure_prepend() {
-+    touch ${S}/gnome-doc-utils.make
-+    sed -i -e s:help::g ${S}/Makefile.am
++    sed -i "s#%%TARGET_CFLAGS%%#$TARGET_CFLAGS#; s#%%TARGET_LDFLAGS%%#$TARGET_LDFLAGS#" ${S}/common.mk
++    rm -rf ${S}/ruby/
++}
+diff --git a/meta/recipes-devtools/ruby/ruby/extmk.patch b/meta/recipes-devtools/ruby/ruby/extmk.patch
+new file mode 100644
+index 0000000..8b68450
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/extmk.patch
+@@ -0,0 +1,13 @@
++diff -ru ruby-1.8.7-p248.orig/ext/extmk.rb ruby-1.8.7-p248/ext/extmk.rb
++--- ruby-1.8.7-p248.orig/ext/extmk.rb	2009-12-24 03:01:58.000000000 -0600
+++++ ruby-1.8.7-p248/ext/extmk.rb	2010-02-12 15:55:27.370061558 -0600
++@@ -354,8 +354,8 @@
++   $ruby = '$(topdir)/miniruby' + EXEEXT
++ end
++ $ruby << " -I'$(topdir)'"
+++$ruby << " -I'$(top_srcdir)/lib'"
++ unless CROSS_COMPILING
++-  $ruby << " -I'$(top_srcdir)/lib'"
++   $ruby << " -I'$(extout)/$(arch)' -I'$(extout)/common'" if $extout
++   $ruby << " -I./- -I'$(top_srcdir)/ext' -rpurelib.rb"
++   ENV["RUBYLIB"] = "-"
+diff --git a/meta/recipes-devtools/ruby/ruby_2.2.2.bb b/meta/recipes-devtools/ruby/ruby_2.2.2.bb
+new file mode 100644
+index 0000000..78c943c
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby_2.2.2.bb
+@@ -0,0 +1,42 @@
++require ruby.inc
++
++SRC_URI[md5sum] = "326e99ddc75381c7b50c85f7089f3260"
++SRC_URI[sha256sum] = "5ffc0f317e429e6b29d4a98ac521c3ce65481bfd22a8cf845fa02a7b113d9b44"
++
++# it's unknown to configure script, but then passed to extconf.rb
++# maybe it's not really needed as we're hardcoding the result with
++# 0001-socket-extconf-hardcode-wide-getaddr-info-test-outco.patch
++UNKNOWN_CONFIGURE_WHITELIST += "--enable-wide-getaddrinfo"
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG += "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ipv6', '', d)}"
++
++PACKAGECONFIG[valgrind] = "--with-valgrind=yes, --with-valgrind=no, valgrind"
++PACKAGECONFIG[gpm] = "--with-gmp=yes, --with-gmp=no, gmp"
++PACKAGECONFIG[ipv6] = ",--enable-wide-getaddrinfo,"
++
++EXTRA_OECONF = "\
++    --disable-versioned-paths \
++    --disable-rpath \
++    --disable-dtrace \
++    --enable-shared \
++    --enable-load-relative \
++"
++
++EXTRA_OEMAKE = " \
++    LIBRUBYARG='-lruby-static' \
++"
++
++do_install() {
++    oe_runmake 'DESTDIR=${D}' install
 +}
 +
-+FILES_${PN} += "${datadir}/appdata ${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers"
-+FILES_${PN}-dbg += "${libdir}/${PN}/*/web-extensions/.debug/libephywebextension.so"
-+RDEPENDS_${PN} = "iso-codes"
-+RRECOMMENDS_${PN} = "ca-certificates"
++FILES_${PN} += "${datadir}/rubygems \
++                ${datadir}/ri"
 +
-diff --git a/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch b/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
-new file mode 100644
-index 0000000..2585d7f
---- /dev/null
-+++ b/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
-@@ -0,0 +1,33 @@
-+From 30f03a256efe375a4d5c3a24bf4168ebf380e3ab Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 30 Jul 2015 15:13:23 +0300
-+Subject: [PATCH] yelp.m4: drop the check for itstool
++FILES_${PN}-dbg += "${libdir}/ruby/*/.debug \
++                    ${libdir}/ruby/*/*/.debug \
++                    ${libdir}/ruby/*/*/*/.debug \
++                    ${libdir}/ruby/*/*/*/*/.debug"
 +
-+It isn't used for anything during build, so there's no need to provide
-+it as a recipe.
-+
-+Upstream-Status: Inappropriate [tarball-specific issue]
-+---
-+ m4/yelp.m4 | 6 ------
-+ 1 file changed, 6 deletions(-)
-+
-+diff --git a/m4/yelp.m4 b/m4/yelp.m4
-+index 5db847f..1b6ede4 100644
-+--- a/m4/yelp.m4
-++++ b/m4/yelp.m4
-+@@ -27,12 +27,6 @@ AC_ARG_WITH([help-dir],
-+ HELP_DIR="$with_help_dir"
-+ AC_SUBST(HELP_DIR)
-+ 
-+-AC_ARG_VAR([ITSTOOL], [Path to the `itstool` command])
-+-AC_CHECK_PROG([ITSTOOL], [itstool], [itstool])
-+-if test x"$ITSTOOL" = x; then
-+-  AC_MSG_ERROR([itstool not found])
-+-fi
-+-
-+ AC_ARG_VAR([XMLLINT], [Path to the `xmllint` command])
-+ AC_CHECK_PROG([XMLLINT], [xmllint], [xmllint])
-+ if test x"$XMLLINT" = x; then
-+-- 
-+2.1.4
-+
++BBCLASSEXTEND = "native"
 -- 
 2.1.4
 
