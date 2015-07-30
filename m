@@ -1,41 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F4AD7648C
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BDB2764A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 14:29:38 +0000 (UTC)
-Received: by wicmv11 with SMTP id mv11so23580739wic.0
+	Thu, 30 Jul 2015 14:29:56 +0000 (UTC)
+Received: by wicmv11 with SMTP id mv11so23591398wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 07:29:38 -0700 (PDT)
+	Thu, 30 Jul 2015 07:29:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=AdvMXUlO1RS3Tbq2beagiGHrNNyAYRtleSD1MWRrdBs=;
-	b=mHzT/AXNKzMpdTYf3vE0wwkJmd+7W0FwokpRuvx8xQAMojQ9TtBYy4chdYcBWGBpHv
-	toFP9jAZCXa7HwwYoHKuEDfDSy+kdUuYG7ekpoDELnev/uH0Ij4rp+H9XvxLB7xgz/Nb
-	1DU6GqcWTtVndrbQ2r5Ur6ThnBStI3VOJziWhQWMKdhFQffDgUqaulsEc33GGqN8qMw5
-	2O5IpkZwW0lCn/88tqHV+mWrNc3DvYfNIV5B0tX7ks6+zNU4WOjmk/LccYwK4uc7Q07z
-	sMlSzD93JhStuOmyo6S4VYjjykDsNnGc4wmer682nagihVcZW2hGOY1dLLksUPUibZKq
-	k4BQ==
-X-Received: by 10.194.110.100 with SMTP id hz4mr88399984wjb.6.1438266578726;
-	Thu, 30 Jul 2015 07:29:38 -0700 (PDT)
+	bh=hLb1IvyRfGhG3UmhrmuU5hLqm/lR4yqz1ApZOo9qXGI=;
+	b=wbvwHVdbekOfDyWs+hQX90V5KYNO1EhgPiqd0S+V5Vvb77pF3Q6ijJZIU9pnXRBoV/
+	rUUOUgSBf783soe7FbwLTV0HIa51jXTrgaheQho/DlhVAJmTY+a5bWsCsdT6rH5SL/XB
+	RrWKlskeCiqTBoOD/AYiCPXTqEFp09cIVQS9Xs5Ufcw2QTPh/MHd2oesVrcJ4SSFCriz
+	ms5+cuLSbQgbmBUaBKR2bZk7eUn8gttEH0aPZpmcrhW2s/8tILvaHcN1vaFXPUVzevdt
+	gcX1YQXe+W8+4I5hAwuZd+k17CluerOt3p6PkXFPN0qZosLNZyyx6VojPLY9IlhssLWY
+	4fBw==
+X-Received: by 10.194.174.194 with SMTP id bu2mr97507930wjc.76.1438266596193; 
+	Thu, 30 Jul 2015 07:29:56 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	l13sm2161280wjr.18.2015.07.30.07.29.37
+	by smtp.gmail.com with ESMTPSA id qq1sm2187321wjc.0.2015.07.30.07.29.55
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 Jul 2015 07:29:37 -0700 (PDT)
+	Thu, 30 Jul 2015 07:29:55 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Thu, 30 Jul 2015 16:29:53 +0200
+Date: Thu, 30 Jul 2015 16:30:11 +0200
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20150730142953.GC2457@jama>
+Message-ID: <20150730143011.GD2457@jama>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<bd04d3fc13b938a1f0a20f899be7f50815d43149.1438262915.git.alexander.kanavin@linux.intel.com>
+	<146f8d7f2da816123d4bfd8f4253938f51727d9d.1438262915.git.alexander.kanavin@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <bd04d3fc13b938a1f0a20f899be7f50815d43149.1438262915.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <146f8d7f2da816123d4bfd8f4253938f51727d9d.1438262915.git.alexander.kanavin@linux.intel.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/26] fotowall: update SRC_URI to use github instead of qt-apps.org
+Subject: Re: [PATCH 03/26] distcc: update SRC_URI to not use Google Code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,49 +47,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 14:29:39 -0000
-X-Groupsio-MsgNum: 68732
+X-List-Received-Date: Thu, 30 Jul 2015 14:29:57 -0000
+X-Groupsio-MsgNum: 68733
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="t0UkRYy7tHLRMCai"
+	protocol="application/pgp-signature"; boundary="sXc4Kmr5FA7axrvy"
 Content-Disposition: inline
 
---t0UkRYy7tHLRMCai
+--sXc4Kmr5FA7axrvy
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jul 30, 2015 at 04:31:31PM +0300, Alexander Kanavin wrote:
-> GitHub is where upstream development is happening, so we are more likely
-> to find out about new releases from there
+On Thu, Jul 30, 2015 at 04:31:32PM +0300, Alexander Kanavin wrote:
+> Google Code is shutting down soon and distcc has moved to github.
 >=20
 > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  meta/recipes-qt/qt-apps/fotowall_0.9.bb | 3 ++-
+>  meta/recipes-devtools/distcc/distcc_3.1.bb | 3 ++-
 >  1 file changed, 2 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-qt/qt-apps/fotowall_0.9.bb b/meta/recipes-qt/qt=
--apps/fotowall_0.9.bb
-> index 48dcc02..587b074 100644
-> --- a/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-> +++ b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-> @@ -10,7 +10,8 @@ SECTION =3D "x11/apps"
+> diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-de=
+vtools/distcc/distcc_3.1.bb
+> index e4b9313..b598c77 100644
+> --- a/meta/recipes-devtools/distcc/distcc_3.1.bb
+> +++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
+> @@ -17,13 +17,14 @@ PACKAGECONFIG[popt] =3D "--without-included-popt,--wi=
+th-included-popt,popt"
 > =20
->  PR =3D "r4"
+>  RRECOMMENDS_${PN} =3D "avahi-daemon"
 > =20
-> -SRC_URI =3D "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9=
-=2Etar.bz2 \
-> +SRCREV =3D "06d5a4142c599604d9a9fd64727b6945eb8cd3da"
-> +SRC_URI =3D "git://github.com/enricoros/fotowall.git \
->             file://ExportWizard-depends-on-ui_wizard.patch \
->             "
-
-So it doesn't need SRC_URI checksums anymore.. drop:
-SRC_URI[md5sum] =3D "142ef697332e0777c6d22c5bc96cc438"
-SRC_URI[sha256sum] =3D "e4d0c005d2cb1d7c09438bfc3098eadebc08946e4fbc0655b7f=
-c8b046de3810d"
-
-
+> -SRC_URI =3D "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
+> +SRC_URI =3D "git://github.com/distcc/distcc.git \
+>             file://separatebuilddir.patch \
+>             file://0001-zeroconf-Include-fcntl.h.patch \
+>             file://default \
+>             file://distccmon-gnome.desktop \
+>             file://distcc \
+>             file://distcc.service"
+> +SRCREV =3D "9a172d3d20042754a30c0cd9a5d63fd1a8120c31"
 > =20
+>  SRC_URI[md5sum] =3D "a1a9d3853df7133669fffec2a9aab9f3"
+>  SRC_URI[sha256sum] =3D "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724=
+fcd2d53f934ddd89"
+
+drop
+
 > --=20
 > 2.1.4
 >=20
@@ -103,16 +104,16 @@ c8b046de3810d"
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---t0UkRYy7tHLRMCai
+--sXc4Kmr5FA7axrvy
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlW6NOAACgkQN1Ujt2V2gBx8NQCfWiXmBrF6DHiFXhNH63h8hH++
-bG0AniqwcBLx0A8GhkvztK+7vkvTCyj6
-=rUWX
+iEYEARECAAYFAlW6NPIACgkQN1Ujt2V2gBzJhgCggGEVFi7oTwsP9lvDc9Q+aw4G
+fJEAoKLyOt8HR+iEXu1mrEChFTz/sBxQ
+=X7Gq
 -----END PGP SIGNATURE-----
 
---t0UkRYy7tHLRMCai--
+--sXc4Kmr5FA7axrvy--
