@@ -1,24 +1,50 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AA2D76312
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com
+	[209.85.192.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C8BE6762D3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 16:34:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6UGYTSL012179
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 30 Jul 2015 16:43:42 +0000 (UTC)
+Received: by pdbnt7 with SMTP id nt7so27236777pdb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 09:34:29 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 30 Jul 2015 09:34:10 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 30 Jul 2015 09:34:29 -0700
-Message-ID: <1438274069-8179-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Thu, 30 Jul 2015 09:43:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=JAQejJYbzvg0OnVJNJdDHKcpKVMMonKtKUe3LRE0gcU=;
+	b=g4rMPIXDUYdfynybl56A78tdNn27qVcfo7i4Sampc2M3/Imur/h1glBtSVSKT/n0GF
+	Rn5BSmGBOGY02IbaiLIqLwZENgiunJMbpEMalzGa81S5EKYWClQiA6r/qdmnp/YlbSmA
+	/vIRSliwldg08DIykjYVsdU32qksuJwgQMAIBmI4j4IzNrQAw2aVAQIPQK3shOsiLmPa
+	Qr6E331Bfzx4iweSoI9+OIHg9ySi/M91NQBZdqSVQvIR1kYdHdPvp3HJtuDbPw7db7c1
+	vjdgib9ZJuQmUieP7xhVQ84kQqxorTQ62NsyaP3J4v36JEaWNbKPmHDIZ0jXU1bfFkgp
+	C53g==
+X-Gm-Message-State: ALoCoQnz0v5BGwkhWi0ufaHJunOg6JwJkcfz+qp/H1jvFCkSBb0Jl3sC6Hji7ZgS7gkmLgk2XC0b
+X-Received: by 10.70.109.199 with SMTP id hu7mr109410109pdb.71.1438274622553; 
+	Thu, 30 Jul 2015 09:43:42 -0700 (PDT)
+Received: from mail-pd0-f181.google.com (mail-pd0-f181.google.com.
+	[209.85.192.181])
+	by smtp.gmail.com with ESMTPSA id k5sm3066697pdb.53.2015.07.30.09.43.40
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 Jul 2015 09:43:41 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pdbbh15 with SMTP id bh15so27029474pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jul 2015 09:43:39 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [v2 PATCH 1/1] nss: advance to version 3.19.1
+X-Received: by 10.70.126.133 with SMTP id my5mr108704590pdb.14.1438274619617; 
+	Thu, 30 Jul 2015 09:43:39 -0700 (PDT)
+Received: by 10.70.59.105 with HTTP; Thu, 30 Jul 2015 09:43:39 -0700 (PDT)
+In-Reply-To: <1438273196.3455.25.camel@collabora.co.uk>
+References: <CAP9ODKrUcnyNQSfevaHLFcW63tjb3pDN4AvHmfoQOjvuLe4+cg@mail.gmail.com>
+	<1438273196.3455.25.camel@collabora.co.uk>
+Date: Thu, 30 Jul 2015 13:43:39 -0300
+Message-ID: <CAP9ODKrjd0C72B8haZh-Xk3+AXpxKtbBYbhZi8arte09jPb6_Q@mail.gmail.com>
+To: Joshua Lock <joshua.lock@collabora.co.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [for-fido] Backport for perf - support for 4.1 kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,74 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 16:34:30 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 Jul 2015 16:43:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Picks up fixes for CVE-2015-2721 and CVE-2015-2730.  Specify previously
-overlooked license file COPYING.  Fold nss.inc into recipe.
+On Thu, Jul 30, 2015 at 1:19 PM, Joshua Lock
+<joshua.lock@collabora.co.uk> wrote:
+> On Wed, 2015-07-29 at 17:57 -0300, Otavio Salvador wrote:
+>> Hello,
+>>
+>> Is it possible for you to cherry-pick OE-Core:46f8420 for Fido? We
+>> got
+>> one board using 4.1 kernel and it fails badly.
+>
+> That seems reasonable. I think that would mean we'll also want 00608cf
+> ?
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- meta/recipes-support/nss/nss_3.17.3.bb             |    7 -------
- .../recipes-support/nss/{nss.inc => nss_3.19.1.bb} |   14 ++++++++++----
- 2 files changed, 10 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-support/nss/nss_3.17.3.bb
- rename meta/recipes-support/nss/{nss.inc => nss_3.19.1.bb} (93%)
+Sure; thanks a lot.
 
-diff --git a/meta/recipes-support/nss/nss_3.17.3.bb b/meta/recipes-support/nss/nss_3.17.3.bb
-deleted file mode 100644
-index e7d0780..0000000
---- a/meta/recipes-support/nss/nss_3.17.3.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require nss.inc
--
--SRC_URI += "\
--    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_17_3_RTM/src/${BP}.tar.gz \
--"
--SRC_URI[md5sum] = "fba7489e1b26f2a0bfe5527430fd61e1"
--SRC_URI[sha256sum] = "f4d5e9035a2f84f25f35c283de3b0ff60d72e918748de25eaf017ed201fa21d5"
-diff --git a/meta/recipes-support/nss/nss.inc b/meta/recipes-support/nss/nss_3.19.1.bb
-similarity index 93%
-rename from meta/recipes-support/nss/nss.inc
-rename to meta/recipes-support/nss/nss_3.19.1.bb
-index 665e4e6..66b9d60 100644
---- a/meta/recipes-support/nss/nss.inc
-+++ b/meta/recipes-support/nss/nss_3.19.1.bb
-@@ -10,18 +10,23 @@ SECTION = "libs"
- 
- LICENSE = "MPL-2.0 | (MPL-2.0 & GPL-2.0+) | (MPL-2.0 & LGPL-2.1+)"
- 
--LIC_FILES_CHKSUM = "file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466afce85d6f1fe18f \
--                    file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=6bf96825e3d7ce4de25621ae886cc859"
-+LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
-+                    file://nss/lib/freebl/mpi/doc/LICENSE;md5=491f158d09d948466afce85d6f1fe18f \
-+                    file://nss/lib/freebl/mpi/doc/LICENSE-MPL;md5=5d425c8f3157dbf212db2ec53d9e5132"
-+
- SRC_URI = "\
-+    http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/NSS_3_19_1_RTM/src/${BP}.tar.gz \
-     file://nss-fix-support-cross-compiling.patch \
-     file://nss-no-rpath-for-cross-compiling.patch \
-     file://nss-fix-incorrect-shebang-of-perl.patch \
-     file://nss-fix-nsinstall-build.patch \
--"
--SRC_URI_append = "\
-     file://nss.pc.in \
-     file://signlibs.sh \
- "
-+
-+SRC_URI[md5sum] = "68a9c01c987b9bd92066b4e0041f3e58"
-+SRC_URI[sha256sum] = "b7be709551ec13206d8e3e8c065b894fa981c11573115e9478fa051029c52fff"
-+
- inherit siteinfo
- 
- DEPENDS = "sqlite3 nspr zlib nss-native"
-@@ -215,3 +220,4 @@ FILES_${PN}-dev = "\
- # FILES_${PN}-dbg is populated automatically
- 
- BBCLASSEXTEND = "native nativesdk"
-+
+I have tested perf build and it worked very well :-)
+
 -- 
-1.7.9.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
