@@ -1,22 +1,23 @@
-Return-Path: <tanu.kaskinen@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 42E5B763E1
+Return-Path: <Kexin.Hao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EC107647D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 04:52:44 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2015 21:52:44 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,581,1432623600"; d="scan'208";a="739331890"
-Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
-	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com)
-	([10.252.9.176])
-	by orsmga001.jf.intel.com with ESMTP; 30 Jul 2015 21:52:43 -0700
-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jul 2015 07:52:41 +0300
-Message-Id: <1438318361-18428-1-git-send-email-tanu.kaskinen@linux.intel.com>
-X-Mailer: git-send-email 1.9.3
-Subject: [PATCH] libvorbis: 1.3.4 -> 1.3.5
+	Fri, 31 Jul 2015 05:21:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6V5LkHu028599
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 Jul 2015 22:21:50 -0700 (PDT)
+Received: from pek-khao-d1.corp.ad.wrs.com (128.224.162.156) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Thu, 30 Jul 2015 22:21:26 -0700
+From: Kevin Hao <kexin.hao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 31 Jul 2015 13:21:25 +0800
+Message-ID: <1438320085-5543-1-git-send-email-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.1.0
+MIME-Version: 1.0
+Subject: [PATCH] u-boot: fix extern inline build errors for gcc 5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,81 +30,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 04:52:45 -0000
+X-List-Received-Date: Fri, 31 Jul 2015 05:21:52 -0000
+Content-Type: text/plain
 
-The change in COPYING was just a year update in a copyright notice.
+The gcc 5 change its default standard from gnu89 to gnu11. These two
+standards do have different semantics for inline functions. And the
+gcc 5 will emit the following errors on the "extern inline" functions:
+    arch/powerpc/cpu/mpc8xxx/fsl_lbc.o: In function `ld_le16':
+    ./arch/powerpc/include/asm/byteorder.h:12: multiple definition of `ld_le16'
+    arch/powerpc/cpu/mpc8xxx/fdt.o:./arch/powerpc/include/asm/byteorder.h:12: first defined here
 
-Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Fix these build errors by using "-fgnu89-inline" to enforce the gnu89
+inline semantics as suggested in [1].
+
+[1] https://gcc.gnu.org/gcc-5/porting_to.html
+
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 ---
- .../libvorbis/libvorbis_1.3.4.bb                   | 25 ----------------------
- .../libvorbis/libvorbis_1.3.5.bb                   | 25 ++++++++++++++++++++++
- 2 files changed, 25 insertions(+), 25 deletions(-)
- delete mode 100644 meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb
- create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
+ meta/recipes-bsp/u-boot/u-boot_2015.07.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb
-deleted file mode 100644
-index 0788c94..0000000
---- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb
-+++ /dev/null
-@@ -1,25 +0,0 @@
--SUMMARY = "Ogg Vorbis Audio Codec"
--DESCRIPTION = "Ogg Vorbis is a high-quality lossy audio codec \
--that is free of intellectual property restrictions. libvorbis \
--is the main vorbis codec library."
--HOMEPAGE = "http://www.vorbis.com/"
--BUGTRACKER = "https://trac.xiph.org"
--SECTION = "libs"
--LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=ca77c6c3ea4d29cb68dce8ef5ab0d897 \
--                    file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
--DEPENDS = "libogg"
--
--SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz"
--
--SRC_URI[md5sum] = "55f2288055e44754275a17c9a2497391"
--SRC_URI[sha256sum] = "2f05497d29195dc23ee952a24ee3973a74e6277569c4c2eca0ec5968e541f372"
--
--inherit autotools pkgconfig
--
--# vorbisfile.c reveals a problem in the gcc register spilling for the
--# thumb instruction set...
--FULL_OPTIMIZATION_thumb = "-O0"
--
--EXTRA_OECONF = "--with-ogg-libraries=${STAGING_LIBDIR} \
--                --with-ogg-includes=${STAGING_INCDIR}"
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-new file mode 100644
-index 0000000..c2765c3
---- /dev/null
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "Ogg Vorbis Audio Codec"
-+DESCRIPTION = "Ogg Vorbis is a high-quality lossy audio codec \
-+that is free of intellectual property restrictions. libvorbis \
-+is the main vorbis codec library."
-+HOMEPAGE = "http://www.vorbis.com/"
-+BUGTRACKER = "https://trac.xiph.org"
-+SECTION = "libs"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7d2c487d2fc7dd3e3c7c465a5b7f6217 \
-+                    file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
-+DEPENDS = "libogg"
+diff --git a/meta/recipes-bsp/u-boot/u-boot_2015.07.bb b/meta/recipes-bsp/u-boot/u-boot_2015.07.bb
+index 3ba2f44eaa20..4746c33ec25e 100644
+--- a/meta/recipes-bsp/u-boot/u-boot_2015.07.bb
++++ b/meta/recipes-bsp/u-boot/u-boot_2015.07.bb
+@@ -10,3 +10,5 @@ SRCREV = "33711bdd4a4dce942fb5ae85a68899a8357bdd94"
+ SRC_URI += "file://0001-u-boot-mpc85xx-u-boot-.lds-remove-_GLOBAL_OFFSET_TAB.patch"
+ 
+ PV = "v2015.07+git${SRCPV}"
 +
-+SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz"
-+
-+SRC_URI[md5sum] = "28cb28097c07a735d6af56e598e1c90f"
-+SRC_URI[sha256sum] = "54f94a9527ff0a88477be0a71c0bab09a4c3febe0ed878b24824906cd4b0e1d1"
-+
-+inherit autotools pkgconfig
-+
-+# vorbisfile.c reveals a problem in the gcc register spilling for the
-+# thumb instruction set...
-+FULL_OPTIMIZATION_thumb = "-O0"
-+
-+EXTRA_OECONF = "--with-ogg-libraries=${STAGING_LIBDIR} \
-+                --with-ogg-includes=${STAGING_INCDIR}"
++EXTRA_OEMAKE_append = " KCFLAGS=-fgnu89-inline"
 -- 
-1.9.3
+2.1.0
 
 
