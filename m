@@ -1,23 +1,31 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BFA77632C
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B3287632C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 08:40:01 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2015 01:40:02 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,583,1432623600"; d="scan'208";a="739428522"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 31 Jul 2015 01:40:01 -0700
-Received: from localhost.localdomain (unknown [10.237.112.174])
-	by linux.intel.com (Postfix) with ESMTP id 5F6586A4083;
-	Fri, 31 Jul 2015 01:39:16 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jul 2015 11:40:25 +0300
-Message-Id: <1438332025-4208-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/ptest: Modified regex to find FAILED testcases no just FAIL.
+	Fri, 31 Jul 2015 08:40:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6V8esHJ027642
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jul 2015 01:40:54 -0700 (PDT)
+Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
+	Fri, 31 Jul 2015 01:40:33 -0700
+Message-ID: <55BB3484.4050307@windriver.com>
+Date: Fri, 31 Jul 2015 16:40:36 +0800
+From: He Zhe <zhe.he@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1437461993.git.zhe.he@windriver.com>	<55B09C62.4060408@windriver.com>	<55B59CCF.1060300@windriver.com>
+	<55B6F42F.7000105@windriver.com> <55B8819B.6040407@windriver.com>
+	<55B8D3CD.2060200@windriver.com>
+In-Reply-To: <55B8D3CD.2060200@windriver.com>
+X-Originating-IP: [128.224.162.235]
+Subject: Re: [PATCH v2 0/2] Yocto Bug #6945
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,31 +38,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 08:40:03 -0000
+X-List-Received-Date: Fri, 31 Jul 2015 08:40:55 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Some ptests output failed tests as FAILED instead of FAIL, like glib and pango.
+Ping.
 
-Bug #6601
-
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/runtime/_ptest.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
-index 81c9c43..ba68234 100644
---- a/meta/lib/oeqa/runtime/_ptest.py
-+++ b/meta/lib/oeqa/runtime/_ptest.py
-@@ -20,7 +20,7 @@ class PtestRunnerTest(oeRuntimeTest):
- 
-     # a ptest log parser
-     def parse_ptest(self, logfile):
--        parser = Lparser(test_0_pass_regex="^PASS:(.+)", test_0_fail_regex="^FAIL:(.+)", section_0_begin_regex="^BEGIN: .*/(.+)/ptest", section_0_end_regex="^END: .*/(.+)/ptest")
-+        parser = Lparser(test_0_pass_regex="^PASS:(.+)", test_0_fail_regex="^FAIL(?:ED)?:(.+)", section_0_begin_regex="^BEGIN: .*/(.+)/ptest", section_0_end_regex="^END: .*/(.+)/ptest")
-         parser.init()
-         result = Result()
- 
--- 
-2.1.4
+On 07/29/2015 09:23 PM, Bruce Ashfield wrote:
+> On 15-07-29 03:32 AM, He Zhe wrote:
+>> Ping.
+>>
+>> Is there any comments on this?
+>
+> I'm obviously ok with the patch in its current RFC status. It works
+> and I've tested it in my tree (hence why I've been quiet on this
+> one).
+>
+> If it meets the style for merging into core, and that it doesn't
+> break other layers we can't see .. I was hoping to hear from others.
+>
+> Bruce
+>
+>>
+>> Zhe
+>>
+>> On 07/28/2015 11:17 AM, He Zhe wrote:
+>>> Ping.
+>>>
+>>> On 07/27/2015 10:51 AM, He Zhe wrote:
+>>>> Ping.
+>>>>
+>>>> On 07/23/2015 03:48 PM, He Zhe wrote:
+>>>>> Ping.
+>>>>>
+>>>>> On 07/21/2015 03:23 PM, zhe.he@windriver.com wrote:
+>>>>>> From: He Zhe <zhe.he@windriver.com>
+>>>>>>
+>>>>>>   - To support building packaging and installing multi types of kernel
+>>>>>>     images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
+>>>>>>     as a list.
+>>>>>>   - Modify wherever reference KERNEL_IMAGETYPE accordingly.
+>>>>>>   - Pass mkimage in sysroot to kernel makefile by NATIVE_MKIMAGE to avoid
+>>>>>>     depending on build machine's, when KEEPUIMAGE is "yes".
+>>>>>>   - v2: update with the latest oe-core
+>>>>>>
+>>>>>> He Zhe (2):
+>>>>>>    kernel: Define KERNEL_IMAGETYPE as a list
+>>>>>>    kernel: Pass sysroot mkimage to kernel makefile
+>>>>>>
+>>>>>>   meta/classes/image_types.bbclass         |   6 +-
+>>>>>>   meta/classes/kernel-fitimage.bbclass     |  22 +++---
+>>>>>>   meta/classes/kernel-grub.bbclass         |  47 ++++++++----
+>>>>>>   meta/classes/kernel-uimage.bbclass       |  31 +++++---
+>>>>>>   meta/classes/kernel.bbclass              | 127 ++++++++++++++++++++++---------
+>>>>>>   meta/conf/documentation.conf             |   2 +-
+>>>>>>   meta/lib/oeqa/controllers/masterimage.py |   2 +-
+>>>>>>   meta/lib/oeqa/targetcontrol.py           |   2 +-
+>>>>>>   meta/recipes-kernel/linux/linux-dtb.inc  |  15 ++--
+>>>>>>   scripts/test-remote-image                |   2 +-
+>>>>>>   10 files changed, 175 insertions(+), 81 deletions(-)
+>>>>>>
+>>
+>
+>
+>
 
 
