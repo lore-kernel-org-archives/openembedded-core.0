@@ -1,37 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 036B976579
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 055CE7653B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 14:39:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6VEdr9s009732; Fri, 31 Jul 2015 15:39:53 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 3kHaK2mj7nbP; Fri, 31 Jul 2015 15:39:53 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6VEdefn009693
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 31 Jul 2015 15:39:51 +0100
-Message-ID: <1438353580.22462.82.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: He Zhe <zhe.he@windriver.com>
-Date: Fri, 31 Jul 2015 15:39:40 +0100
-In-Reply-To: <55BB5FDB.4080707@windriver.com>
-References: <cover.1437461993.git.zhe.he@windriver.com>
-	<c3b8e75db6f2ebc1bd9e53a4f01da0d642e4edcb.1437461993.git.zhe.he@windriver.com>
-	<CABcZAN=D=2FUBHmSRiwYE7PbqHsjYJUQB5PkfvnQYO-=YFJecw@mail.gmail.com>
-	<55AEFFFA.8080308@windriver.com>
-	<1438341880.22462.25.camel@linuxfoundation.org>
-	<55BB5FDB.4080707@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] kernel: Define KERNEL_IMAGETYPE as a list
+	Fri, 31 Jul 2015 14:54:15 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2015 07:54:14 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,585,1432623600"; d="scan'208";a="739598058"
+Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.5.54])
+	([10.219.5.54])
+	by orsmga001.jf.intel.com with ESMTP; 31 Jul 2015 07:54:13 -0700
+Message-ID: <55BB8C1B.2020104@linux.intel.com>
+Date: Fri, 31 Jul 2015 09:54:19 -0500
+From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
+	<3bfd35fc6c4860c569683b9e8943fecfe20a228f.1438262915.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <3bfd35fc6c4860c569683b9e8943fecfe20a228f.1438262915.git.alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH 25/26] distrodata.bbclass: do not use get_recipe_pv_without_srcpv() before comparing versions in checkpkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 14:39:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 31 Jul 2015 14:54:17 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-07-31 at 19:45 +0800, He Zhe wrote:
-> On 07/31/2015 07:24 PM, Richard Purdie wrote:
-> > On Wed, 2015-07-22 at 10:29 +0800, He Zhe wrote:
-> >> On 07/21/2015 10:53 PM, Christopher Larson wrote:
-> >>> On Tue, Jul 21, 2015 at 12:23 AM, <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>wrote:
-> >>>
-> >>>     From: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
-> >>>
-> >>>     To support building packaging and installing multi types of kernel
-> >>>     images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
-> >>>     as a list.
-> >>>     Modify wherever reference KERNEL_IMAGETYPE accordingly.
-> >>>
-> >>>     Fixes [YOCTO #6945].
-> >>>
-> >>>     Signed-off-by: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
-> >>>
-> >>>
-> >>> Question, why not add KERNEL_IMAGETYPES, and make KERNEL_IMAGETYPE equal to your new KERNEL_IMAGETYPE_0?
-> >> Adding a new KERNEL_IMAGETYPES will also work. But it should be better
-> >> not to change the name of KERNEL_IMAGETYPE, so that those who have
-> >> used it don't have to change their code.
-> >>
-> >> Thank you for reviewing.
-> > I have to agree with Chris here, keeping KERNEL_IMAGETYPE as used today
-> > and equivalent to KERNEL_IMAGETYPE_0 and adding KERNEL_IMAGETYPES does
-> > seem like a cleaner way to implement this.
-> 
-> But it might mean we are going to check both KERNEL_IMAGETYPE and KERNEL_IMAGETYPES
-> to generate final image type list. Is that OK?
+Hi Alexander,
 
-Well, in some places you will use one and in some places you'll use the
-other, that is unavoidable. 
+I added get_recipe_pv_without_srcpv for compare git versions because 
+vercmp_string
+don't take into account git versioning (git, gitAUTOINC) causing wrong 
+comparisons.
 
-I much prefer "KERNEL_IMAGETYPE and KERNEL_IMAGETYPES" to
-"KERNEL_IMAGETYPE_0 and KERNEL_IMAGETYPE" as variable names though.
+We need to review if removal don't affect the current upstream detection.
 
-Cheers,
+Regards,
+     alimon
 
-Richard
+On 30/07/15 08:31, Alexander Kanavin wrote:
+> That function is intended for use with git sources and contains some restrictive regexes
+> that don't work correctly when there are alphabetic characters in the version string.
+> We can simply compare the versions directly.
+>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>   meta/classes/distrodata.bbclass | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/distrodata.bbclass b/meta/classes/distrodata.bbclass
+> index af3af33..d33187b 100644
+> --- a/meta/classes/distrodata.bbclass
+> +++ b/meta/classes/distrodata.bbclass
+> @@ -341,10 +341,7 @@ python do_checkpkg() {
+>           if not pupver:
+>               pupver = "N/A"
+>           else:
+> -            pv, _, _ = oe.recipeutils.get_recipe_pv_without_srcpv(pversion, uri_type)
+> -            upv, _, _ = oe.recipeutils.get_recipe_pv_without_srcpv(pupver, uri_type)
+> -
+> -            cmp = vercmp_string(pv, upv)
+> +            cmp = vercmp_string(pversion, pupver)
+>               if cmp == -1:
+>                   pstatus = "UPDATE"
+>               elif cmp == 0:
 
 
