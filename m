@@ -1,31 +1,41 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B3287632C
+Return-Path: <sledz@dresearch-fe.de>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id D3AD47648B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 08:40:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6V8esHJ027642
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 31 Jul 2015 08:55:18 +0000 (UTC)
+Received: by wibud3 with SMTP id ud3so49847847wib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 01:40:54 -0700 (PDT)
-Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Fri, 31 Jul 2015 01:40:33 -0700
-Message-ID: <55BB3484.4050307@windriver.com>
-Date: Fri, 31 Jul 2015 16:40:36 +0800
-From: He Zhe <zhe.he@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Fri, 31 Jul 2015 01:55:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-type:content-transfer-encoding;
+	bh=FxuSIRgu2odmdfg4gDDKXJPMTPHG7ZzwjB8dRwTlENE=;
+	b=bLt4H2rqVmg/YEACPVHYmoFSdVf7iWgeG3TkcC7fF3voH2QB9+cim+vamcfjxUi25G
+	FDJsKQOMtBYpYxoQ2LvBzyVHCqdpIGPV3sb+leei+wE5h6TtXPJZCInsnazFe0YYAaIw
+	dIU+5vckOZdm2+vtLtPks+XM1yQi0gOuNKJ54EtccvWwHEmwydS6AOMWmMXg4cGDyEyS
+	3IOYAy7FqcYtuM+bCexX8oAygpfDk+G8DoetPpCPs9aEmEs53xKy2q4ZHV4Eort4pLCn
+	6TZl4ExP60N4NSu9ANyDuwL11M8OEYZjKMTYdK/nLDOPVGZCCw8Fxnam8P+63ralwzqB
+	XSlg==
+X-Gm-Message-State: ALoCoQnGadf7kTwT56tirIThtv4O5seFNZKlrcNBXm/zu3fRP5QWdkehfqz79I06kyalULn09f9j
+X-Received: by 10.180.94.7 with SMTP id cy7mr3930174wib.79.1438332918235;
+	Fri, 31 Jul 2015 01:55:18 -0700 (PDT)
+Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
+	by smtp.googlemail.com with ESMTPSA id
+	iy4sm3341065wic.24.2015.07.31.01.55.16
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 Jul 2015 01:55:17 -0700 (PDT)
+To: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Martin Jansa <Martin.Jansa@gmail.com>, Denis Carikli <GNUtoo@no-log.org>
+From: Steffen Sledz <sledz@dresearch-fe.de>
+X-Enigmail-Draft-Status: N1110
+Message-ID: <55BB37F3.9030304@dresearch-fe.de>
+Date: Fri, 31 Jul 2015 10:55:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1437461993.git.zhe.he@windriver.com>	<55B09C62.4060408@windriver.com>	<55B59CCF.1060300@windriver.com>
-	<55B6F42F.7000105@windriver.com> <55B8819B.6040407@windriver.com>
-	<55B8D3CD.2060200@windriver.com>
-In-Reply-To: <55B8D3CD.2060200@windriver.com>
-X-Originating-IP: [128.224.162.235]
-Subject: Re: [PATCH v2 0/2] Yocto Bug #6945
+Subject: outdated compat-wireless
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,69 +48,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 08:40:55 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Jul 2015 08:55:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Ping.
+meta-openembedded contains a recipe for compat-wireless. According to [1] this is really outdated and replaced by a renamed project called backports[2].
 
-On 07/29/2015 09:23 PM, Bruce Ashfield wrote:
-> On 15-07-29 03:32 AM, He Zhe wrote:
->> Ping.
->>
->> Is there any comments on this?
->
-> I'm obviously ok with the patch in its current RFC status. It works
-> and I've tested it in my tree (hence why I've been quiet on this
-> one).
->
-> If it meets the style for merging into core, and that it doesn't
-> break other layers we can't see .. I was hoping to hear from others.
->
-> Bruce
->
->>
->> Zhe
->>
->> On 07/28/2015 11:17 AM, He Zhe wrote:
->>> Ping.
->>>
->>> On 07/27/2015 10:51 AM, He Zhe wrote:
->>>> Ping.
->>>>
->>>> On 07/23/2015 03:48 PM, He Zhe wrote:
->>>>> Ping.
->>>>>
->>>>> On 07/21/2015 03:23 PM, zhe.he@windriver.com wrote:
->>>>>> From: He Zhe <zhe.he@windriver.com>
->>>>>>
->>>>>>   - To support building packaging and installing multi types of kernel
->>>>>>     images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
->>>>>>     as a list.
->>>>>>   - Modify wherever reference KERNEL_IMAGETYPE accordingly.
->>>>>>   - Pass mkimage in sysroot to kernel makefile by NATIVE_MKIMAGE to avoid
->>>>>>     depending on build machine's, when KEEPUIMAGE is "yes".
->>>>>>   - v2: update with the latest oe-core
->>>>>>
->>>>>> He Zhe (2):
->>>>>>    kernel: Define KERNEL_IMAGETYPE as a list
->>>>>>    kernel: Pass sysroot mkimage to kernel makefile
->>>>>>
->>>>>>   meta/classes/image_types.bbclass         |   6 +-
->>>>>>   meta/classes/kernel-fitimage.bbclass     |  22 +++---
->>>>>>   meta/classes/kernel-grub.bbclass         |  47 ++++++++----
->>>>>>   meta/classes/kernel-uimage.bbclass       |  31 +++++---
->>>>>>   meta/classes/kernel.bbclass              | 127 ++++++++++++++++++++++---------
->>>>>>   meta/conf/documentation.conf             |   2 +-
->>>>>>   meta/lib/oeqa/controllers/masterimage.py |   2 +-
->>>>>>   meta/lib/oeqa/targetcontrol.py           |   2 +-
->>>>>>   meta/recipes-kernel/linux/linux-dtb.inc  |  15 ++--
->>>>>>   scripts/test-remote-image                |   2 +-
->>>>>>   10 files changed, 175 insertions(+), 81 deletions(-)
->>>>>>
->>
->
->
->
+Has anyone tried or plans to replace compat-wireless with this?
 
+[1] <https://wireless.wiki.kernel.org/en/users/Download>
+[2] <https://backports.wiki.kernel.org>
+
+-- 
+DResearch Fahrzeugelektronik GmbH
+Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
+Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
+Fax: +49 30 515932-299
+Geschäftsführer: Dr. Michael Weber, Werner Mögle;
+Amtsgericht Berlin Charlottenburg; HRB 130120 B;
+Ust.-IDNr. DE273952058
 
