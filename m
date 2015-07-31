@@ -1,32 +1,36 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C0D37659C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 19865765C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 13:03:55 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by thoth.sbs.de (8.15.1/8.15.1) with ESMTPS id t6VD3ljf019449
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Fri, 31 Jul 2015 15:03:47 +0200
-Received: from [139.22.116.63] (md1g632c.ww300.siemens.net [139.22.116.63])
-	by mail1.sbs.de (8.15.1/8.15.1) with SMTP id t6VD3kdO017486;
-	Fri, 31 Jul 2015 15:03:46 +0200
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
-	"Burton, Ross" <ross.burton@intel.com>
-References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<86b43671f02c22f328e3801e0711a33731156ba8.1438262915.git.alexander.kanavin@linux.intel.com>
-	<20150730143658.GK2457@jama> <55BA4399.2030302@linux.intel.com>
-	<CAJTo0LajDS9QaEdczNG9OnpkQWj_B148+TSwKwNCxXLyk9xnjA@mail.gmail.com>
-	<55BA524A.1070904@linux.intel.com> <55BB6CA7.2060908@siemens.com>
-	<55BB6FC3.5060605@linux.intel.com>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <55BB7232.10705@siemens.com>
-Date: Fri, 31 Jul 2015 15:03:46 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
-MIME-Version: 1.0
-In-Reply-To: <55BB6FC3.5060605@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 21/26] systemd: remove PV from the recipe
+	Fri, 31 Jul 2015 14:31:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6VEV6tE009249; Fri, 31 Jul 2015 15:31:06 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id i7wAU5dG8BTR; Fri, 31 Jul 2015 15:31:06 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6VEUq5L009242
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 31 Jul 2015 15:31:03 +0100
+Message-ID: <1438353052.22462.80.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Fri, 31 Jul 2015 15:30:52 +0100
+In-Reply-To: <CAP9ODKo=-GW32HqzO3ewzNi+YYL8U-Gcp8zAx9xKCs+vrYkb5w@mail.gmail.com>
+References: <cover.1438161068.git.liezhi.yang@windriver.com>
+	<5755146.lYtmNt1cvb@peggleto-mobl.ger.corp.intel.com>
+	<55B8A89A.6050406@windriver.com> <1438170429-sup-8609@axis.com>
+	<CAP9ODKob+TVBpb1jrzVueZT0w2DQpP5X0YBAwy-RFEoh615rHw@mail.gmail.com>
+	<1438239812-sup-93@axis.com> <55B9CD93.1000902@windriver.com>
+	<1438244164-sup-163@axis.com>
+	<CAP9ODKo=-GW32HqzO3ewzNi+YYL8U-Gcp8zAx9xKCs+vrYkb5w@mail.gmail.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] bitbake.conf: add GITHUB_GIT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,19 +43,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 13:03:57 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Fri, 31 Jul 2015 14:31:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Thu, 2015-07-30 at 08:34 -0300, Otavio Salvador wrote:
+> On Thu, Jul 30, 2015 at 5:32 AM, Olof Johansson <olof.johansson@axis.com> wrote:
+> > Excerpts from Robert Yang's message of 2015-07-30 09:09:07 +0200:
+> >> PREMIRRORS is for all the recipes/protocols ?
+> >
+> > No, PREMIRRORS is quite expressive, for instance:
+> >
+> > PREMIRRORS = " \
+> >   https?$://downloads.example.org$/.*   http://mirror.example.com/ \n \
+> > "
+> >
+> > This should only premirror downloads.example.com files, fetched via http
+> > or https. See the bitbake fetcher's uri_replace method in
+> > bitbake/lib/bb/fetch2/__init__.py for the implementation.
+> 
+> Yes, you can.
+> 
+> But the mirrors scheme allows for, for example, map it for git:// and
+> https:// protocols without changing the recipes.
+> 
+> I am in favor of consistency here and having a unique var for github helps.
 
-> The idea behind systemd-stable repository is described here:
-> http://www.freedesktop.org/wiki/Software/systemd/Backports/
->
-Thanks I didn't know that.
+I came to review this as Ross pulled it into mut and I reached the same
+conclusion as Olof here. We have PREMIRRORS, we can also exclude
+networks from the fetcher and therefore have a ton of ways of rewriting
+this already.
 
-> However, it hasn't received any new commits since early May, and still stuck at v219, so should we update to a new version from the main repository? What's oe-core policy here?
->
-Not sure what would be the right appreoach, I would also be interested to hear the policy of oe-core for this.
+Yes, we do want standardisation, but all the urls look standardised to
+me already. 
 
-Pascal
+IMO, we want to see less of these global variables, not more. There once
+was a time when they might have been useful but the fetcher is pretty
+good about dealing with this now so lets not complicate this more than
+we need to.
+
+Cheers,
+
+Richard
+
+
 
