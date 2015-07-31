@@ -1,27 +1,20 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D8C376537
+Return-Path: <elizabeth.flanagan@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 62A54765C9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 15:34:12 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 31 Jul 2015 08:33:55 -0700
+	Fri, 31 Jul 2015 15:40:22 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2015 08:40:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,585,1432623600"; d="scan'208";a="775286608"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.5.54])
-	([10.219.5.54])
-	by orsmga002.jf.intel.com with ESMTP; 31 Jul 2015 08:33:54 -0700
-Message-ID: <55BB9568.3020305@linux.intel.com>
-Date: Fri, 31 Jul 2015 10:34:00 -0500
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>	<3bfd35fc6c4860c569683b9e8943fecfe20a228f.1438262915.git.alexander.kanavin@linux.intel.com>	<55BB8C1B.2020104@linux.intel.com>	<55BB8FBB.4070809@linux.intel.com>
-	<55BB94CB.1090003@linux.intel.com>
-In-Reply-To: <55BB94CB.1090003@linux.intel.com>
-Subject: Re: [PATCH 25/26] distrodata.bbclass: do not use get_recipe_pv_without_srcpv() before comparing versions in checkpkg
+X-IronPort-AV: E=Sophos;i="5.15,585,1432623600"; d="scan'208";a="774118818"
+Received: from unknown (HELO fuath.ger.corp.intel.com) ([10.252.3.183])
+	by fmsmga002.fm.intel.com with ESMTP; 31 Jul 2015 08:40:22 -0700
+From: Beth Flanagan <elizabeth.flanagan@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Jul 2015 16:40:07 +0100
+Message-Id: <1438357207-5954-1-git-send-email-elizabeth.flanagan@intel.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH][master|fido|dizzy] base.bbclass: Note when including pn with INCOMPATIBLE_LICENSES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,59 +27,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 15:34:15 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 Jul 2015 15:40:25 -0000
 
+We need to be able to tell people if we WHITELIST a recipe
+that contains an incompatible licese.
 
+Example: If we set WHITELIST_GPL-3.0 ?= "foo", foo will end
+up on an image even if GPL-3.0 is incompatible. This is the
+correct behaviour but there is nothing telling people that it
+is even happening.
 
-On 31/07/15 10:31, Aníbal Limón wrote:
->
->
-> On 31/07/15 10:09, Alexander Kanavin wrote:
->> On 07/31/2015 05:54 PM, Aníbal Limón wrote:
->>> I added get_recipe_pv_without_srcpv for compare git versions because
->>> vercmp_string
->>> don't take into account git versioning (git, gitAUTOINC) causing wrong
->>> comparisons.
->>>
->>> We need to review if removal don't affect the current upstream 
->>> detection.
->>
->> These are the regex strings that get_recipe_pv_without_srcpv() is using:
->>
->> for git sources:
->> git_regex = 
->> re.compile("(?P<pfx>(v|))(?P<ver>((\d+[\.\-_]*)+))(?P<sfx>(\+|)(git|)(r|)(AUTOINC|)(\+|))(?P<rev>.*)")
->>
->> for everything else:
->> regex = re.compile("(?P<pfx>(v|r|))(?P<ver>((\d+[\.\-_]*)+))")
->>
->> Both regular expressions are too restrictive in allowing only numeric 
->> characters in the <ver> component. If you try to match, say 3.1rc1 
->> and 3.1rc2, they will be both stripped of the '.rcN part, <ver> will 
->> be set to 3, and vercmp_string will of course say they match!
->
-> In this case we need to add rcN into the regex because if you cmp 
-> something like,
->
-> >>> import bb
-> >>> bb.utils.vercmp_string('3.0+gitX', '2.9+gitX')
->
-> It returns 1 that means 2.9+gitX is greater than 3.0+gitX.
->
->     alimon
+Signed-off-by: Beth Flanagan <elizabeth.flanagan@intel.com>
+---
+ meta/classes/base.bbclass | 29 ++++++++++++++++++++++++++---
+ 1 file changed, 26 insertions(+), 3 deletions(-)
 
-I made a mistake here the case that i say is when have a prefix like,
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index bfc78db..531b0e7 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -478,12 +478,30 @@ python () {
+             bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+ 
+             whitelist = []
++            incompatwl = []
++            htincompatwl = []
+             for lic in bad_licenses:
++                spdx_license = return_spdx(d, lic)
+                 for w in ["HOSTTOOLS_WHITELIST_", "LGPLv2_WHITELIST_", "WHITELIST_"]:
+                     whitelist.extend((d.getVar(w + lic, True) or "").split())
+-                spdx_license = return_spdx(d, lic)
+-                if spdx_license:
+-                    whitelist.extend((d.getVar('HOSTTOOLS_WHITELIST_%s' % spdx_license, True) or "").split())
++                    if spdx_license:
++                        whitelist.extend((d.getVar(w + spdx_license, True) or "").split())
++                    '''
++                    We need to track what we are whitelisting and why. If pn is 
++                    incompatible and is not HOSTTOOLS_WHITELIST_ we need to be 
++                    able to note that the image that is created may infact 
++                    contain incompatible licenses despite INCOMPATIBLE_LICENSE 
++                    being set.
++                    '''
++                    if "HOSTTOOLS" in w:
++                        htincompatwl.extend((d.getVar(w + lic, True) or "").split())
++                        if spdx_license:
++                            htincompatwl.extend((d.getVar(w + spdx_license, True) or "").split())
++                    else:
++                        incompatwl.extend((d.getVar(w + lic, True) or "").split())
++                        if spdx_license:
++                            incompatwl.extend((d.getVar(w + spdx_license, True) or "").split())
++
+             if not pn in whitelist:
+                 recipe_license = d.getVar('LICENSE', True)
+                 pkgs = d.getVar('PACKAGES', True).split()
+@@ -504,6 +522,11 @@ python () {
+                 elif all_skipped or incompatible_license(d, bad_licenses):
+                     bb.debug(1, "SKIPPING recipe %s because it's %s" % (pn, recipe_license))
+                     raise bb.parse.SkipPackage("incompatible with license %s" % recipe_license)
++            elif pn in whitelist:
++                if pn in incompatwl:
++                    bb.note("INCLUDING " + pn + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted")
++                elif pn in htincompatwl:
++                    bb.note("INCLUDING " + pn + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted for HOSTTOOLS")
+ 
+     srcuri = d.getVar('SRC_URI', True)
+     # Svn packages should DEPEND on subversion-native
+-- 
+1.9.1
 
- >>> import bb
- >>> bb.utils.vercmp_string('r2.7+gitX', '2.9+gitX')
+-------------------------------------------------------------
+Intel Ireland Limited (Branch)
+Collinstown Industrial Park, Leixlip, County Kildare, Ireland
+Registered Number: E902934
 
-     alimon
-
->
->>
->> Alex
->
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
 
