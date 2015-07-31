@@ -1,35 +1,23 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 11EC77638A
+Return-Path: <george.l.musat@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BFA77632C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 08:15:41 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208,217";a="99114626"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 31 Jul 2015 16:19:13 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6V8Dmf2002308;
-	Fri, 31 Jul 2015 16:13:48 +0800
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0181.006; Fri, 31 Jul 2015 16:15:40 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v3] mdadm: 3.3.2 -> 3.3.3
-Thread-Index: AQHQyskIfb/KHRV9DU6zuxDYeHkyUJ31PBFQ
-Date: Fri, 31 Jul 2015 08:15:39 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E801192B00DC@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <CAJTo0LZV=hEGUzn1_Z1XY9mXVhwbGUyg7=6fF1Lg2bME+HkyKA@mail.gmail.com>
-	<1438239038-1664-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-	<CAJTo0LaMhpAjhDfWZLieDE7UN+qVC47yOaTQVpTDcZ6fRiRifA@mail.gmail.com>
-In-Reply-To: <CAJTo0LaMhpAjhDfWZLieDE7UN+qVC47yOaTQVpTDcZ6fRiRifA@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.92]
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] mdadm: 3.3.2 -> 3.3.3
+	Fri, 31 Jul 2015 08:40:01 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2015 01:40:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,583,1432623600"; d="scan'208";a="739428522"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 31 Jul 2015 01:40:01 -0700
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id 5F6586A4083;
+	Fri, 31 Jul 2015 01:39:16 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Jul 2015 11:40:25 +0300
+Message-Id: <1438332025-4208-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/ptest: Modified regex to find FAILED testcases no just FAIL.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,149 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 08:15:45 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_A8FC939F80655644A89BB21CCD3741E801192B00DCG08CNEXMBPEKD_"
+X-List-Received-Date: Fri, 31 Jul 2015 08:40:03 -0000
 
---_000_A8FC939F80655644A89BB21CCD3741E801192B00DCG08CNEXMBPEKD_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Some ptests output failed tests as FAILED instead of FAIL, like glib and pango.
 
-SGksIFJvc3MsDQoNClRoZSBtZGFkbSB1cHN0cmVhbSBkb2VzbuKAmXQgcHJvdmlkZSBtZGFkbS5z
-ZXJ2aWNlLg0KU28gd2UgaW5zdGFsbGVkIG1kbW9uaXRvci5zZXJ2aWNlIGp1c3QgbGlrZSB3aGF0
-IEZlZG9yYSBkb2VzLg0KQW5kIG1kbW9uaXRvci5zZXJ2aWNlIGlzICJTb2Z0d2FyZSBSQUlEIG1v
-bml0b3JpbmcgYW5kIG1hbmFnZW1lbnQiLg0KDQpDaGVlcnMsDQpMaQ0KDQpGcm9tOiBCdXJ0b24s
-IFJvc3MgW21haWx0bzpyb3NzLmJ1cnRvbkBpbnRlbC5jb21dDQpTZW50OiBUaHVyc2RheSwgSnVs
-eSAzMCwgMjAxNSA5OjA5IFBNDQpUbzogTGksIFhpbi/mnY4g5qyjDQpDYzogT0UtY29yZQ0KU3Vi
-amVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjNdIG1kYWRtOiAzLjMuMiAtPiAzLjMuMw0KDQoN
-Ck9uIDMwIEp1bHkgMjAxNSBhdCAwNzo1MCwgTGkgeGluIDxsaXhpbi5mbnN0QGNuLmZ1aml0c3Uu
-Y29tPG1haWx0bzpsaXhpbi5mbnN0QGNuLmZ1aml0c3UuY29tPj4gd3JvdGU6DQozKSBBZGQgc3lz
-dGVtZCBzdXBwb3J0Og0KYWRkIHN5c3RlbWQgc2VydmljZSBmaWxlIG1kbW9uaXRvci5zZXJ2aWNl
-IGFuZCBpbnN0YWxsIGNvbmYgZXhhbXBsZSBmaWxlLg0KDQpTaWduZWQtb2ZmLWJ5OiBMaSBYaW4g
-PGxpeGluLmZuc3RAY24uZnVqaXRzdS5jb208bWFpbHRvOmxpeGluLmZuc3RAY24uZnVqaXRzdS5j
-b20+Pg0KLS0tDQogbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21kYWRtL2ZpbGVzL2lubGluZS5wYXRj
-aCAgICAgfCAzOSAtLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQogLi4uL21kYWRtL2ZpbGVzL21kYWRt
-LTMuMy4yX3gzMl9hYmlfdGltZV90LnBhdGNoICAgfCAyNiArKysrKysrKystLS0tLS0NCiAuLi4v
-bWRhZG0ve21kYWRtXzMuMy4yLmJiPGh0dHA6Ly9tZGFkbV8zLjMuMi5iYj4gPT4gbWRhZG1fMy4z
-LjMuYmI8aHR0cDovL21kYWRtXzMuMy4zLmJiPn0gICAgICAgfCAyOCArKysrKysrKysrKystLS0t
-DQoNClRoZSBwYXRjaCBkb2Vzbid0IGluY2x1ZGUgbWRhZG0uc2VydmljZS4NCg0KUm9zcw0K
+Bug #6601
 
---_000_A8FC939F80655644A89BB21CCD3741E801192B00DCG08CNEXMBPEKD_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/runtime/_ptest.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OlRhaG9tYTsNCglwYW5v
-c2UtMToyIDExIDYgNCAzIDUgNCA0IDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJc
-QOWui+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZp
-bml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXtt
-YXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0K
-CWZvbnQtZmFtaWx5OuWui+S9kzt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
-dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxp
-bmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1w
-cmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9
-DQpwLk1zb1BsYWluVGV4dCwgbGkuTXNvUGxhaW5UZXh0LCBkaXYuTXNvUGxhaW5UZXh0DQoJe21z
-by1zdHlsZS1wcmlvcml0eTo5OTsNCgltc28tc3R5bGUtbGluazoi57qv5paH5pysIENoYXIiOw0K
-CW1hcmdpbjowY207DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQtc2l6ZToxMC41cHQ7
-DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9DQpzcGFuLmlsDQoJe21zby1z
-dHlsZS1uYW1lOmlsO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNv
-bmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6
-IzFGNDk3RDt9DQpzcGFuLkNoYXINCgl7bXNvLXN0eWxlLW5hbWU6Iue6r+aWh+acrCBDaGFyIjsN
-Cgltc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms657qv5paH5pysOw0KCWZv
-bnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNv
-LXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNl
-cmlmIjt9DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFy
-Z2luOjcyLjBwdCA5MC4wcHQgNzIuMHB0IDkwLjBwdDt9DQpkaXYuV29yZFNlY3Rpb24xDQoJe3Bh
-Z2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8
-bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFb
-ZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4dD0i
-ZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91
-dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IlpILUNOIiBsaW5rPSJi
-bHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7
-Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2Nv
-bG9yOiMxRjQ5N0QiPkhpLCBSb3NzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6
-IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdE
-Ij5UaGUgbWRhZG0gdXBzdHJlYW0gZG9lc27igJl0IHByb3ZpZGUgbWRhZG0uc2VydmljZS48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
-UyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90
-OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPlNvIHdlIGluc3RhbGxlZCBt
-ZG1vbml0b3Iuc2VydmljZSBqdXN0IGxpa2Ugd2hhdCBGZWRvcmEgZG9lcy48bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
-ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
-YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkFuZCBtZG1vbml0b3Iuc2VydmljZSBpcyAm
-cXVvdDtTb2Z0d2FyZSBSQUlEIG1vbml0b3JpbmcgYW5kIG1hbmFnZW1lbnQmcXVvdDsuPG86cD48
-L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMi
-IHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDss
-JnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
-ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtz
-YW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkNoZWVycyw8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQt
-c2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OywmcXVvdDtzYW5zLXNl
-cmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPkxpPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0
-O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztj
-b2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJi
-b3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAw
-Y20gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29s
-aWQgI0I1QzRERiAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJN
-c29Ob3JtYWwiPjxiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtm
-b250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+RnJv
-bTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtm
-b250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+IEJ1
-cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNvbV0NCjxicj4NCjxiPlNlbnQ6
-PC9iPiBUaHVyc2RheSwgSnVseSAzMCwgMjAxNSA5OjA5IFBNPGJyPg0KPGI+VG86PC9iPiBMaSwg
-WGluLzwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdCI+5p2OPC9zcGFuPjxzcGFu
-IHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90Oywm
-cXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4NCjwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEw
-LjBwdCI+5qyjPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjBw
-dDtmb250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+
-PGJyPg0KPGI+Q2M6PC9iPiBPRS1jb3JlPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29y
-ZV0gW1BBVENIIHYzXSBtZGFkbTogMy4zLjIgLSZndDsgMy4zLjM8bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
-VVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwv
-cD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+T24gMzAg
-SnVseSAyMDE1IGF0IDA3OjUwLCBMaSB4aW4gJmx0OzxhIGhyZWY9Im1haWx0bzpsaXhpbi5mbnN0
-QGNuLmZ1aml0c3UuY29tIiB0YXJnZXQ9Il9ibGFuayI+bGl4aW4uZm5zdEBjbi5mdWppdHN1LmNv
-bTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIGxhbmc9IkVOLVVTIj4zKSBBZGQgc3lzdGVtZCBzdXBwb3J0Ojxicj4NCmFkZCBz
-eXN0ZW1kIHNlcnZpY2UgZmlsZSBtZG1vbml0b3Iuc2VydmljZSBhbmQgaW5zdGFsbCBjb25mIGV4
-YW1wbGUgZmlsZS48YnI+DQo8YnI+DQpTaWduZWQtb2ZmLWJ5OiBMaSBYaW4gJmx0OzxhIGhyZWY9
-Im1haWx0bzpsaXhpbi5mbnN0QGNuLmZ1aml0c3UuY29tIj5saXhpbi5mbnN0QGNuLmZ1aml0c3Uu
-Y29tPC9hPiZndDs8YnI+DQotLS08YnI+DQombmJzcDttZXRhL3JlY2lwZXMtZXh0ZW5kZWQvPHNw
-YW4gY2xhc3M9ImlsIj5tZGFkbTwvc3Bhbj4vZmlsZXMvaW5saW5lLnBhdGNoJm5ic3A7ICZuYnNw
-OyAmbmJzcDt8IDM5IC0tLS0tLS0tLS0tLS0tLS0tLS0tLS08YnI+DQombmJzcDsuLi4vPHNwYW4g
-Y2xhc3M9ImlsIj5tZGFkbTwvc3Bhbj4vZmlsZXMvPHNwYW4gY2xhc3M9ImlsIj5tZGFkbTwvc3Bh
-bj4tMy4zLjJfeDMyX2FiaV90aW1lX3QucGF0Y2gmbmJzcDsgJm5ic3A7fCAyNiAmIzQzOyYjNDM7
-JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzstLS0tLS08YnI+DQombmJzcDsuLi4v
-PHNwYW4gY2xhc3M9ImlsIj5tZGFkbTwvc3Bhbj4vezxhIGhyZWY9Imh0dHA6Ly9tZGFkbV8zLjMu
-Mi5iYiIgdGFyZ2V0PSJfYmxhbmsiPm1kYWRtXzMuMy4yLmJiPC9hPiA9Jmd0Ow0KPGEgaHJlZj0i
-aHR0cDovL21kYWRtXzMuMy4zLmJiIiB0YXJnZXQ9Il9ibGFuayI+bWRhZG1fMy4zLjMuYmI8L2E+
-fSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO3wgMjggJiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQz
-OyYjNDM7JiM0MzsmIzQzOyYjNDM7JiM0MzsmIzQzOyYjNDM7LS0tLTxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxi
-cj4NClRoZSBwYXRjaCBkb2Vzbid0IGluY2x1ZGUgbWRhZG0uc2VydmljZS48bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
-PSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPlJvc3M8bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4N
-Cg==
+diff --git a/meta/lib/oeqa/runtime/_ptest.py b/meta/lib/oeqa/runtime/_ptest.py
+index 81c9c43..ba68234 100644
+--- a/meta/lib/oeqa/runtime/_ptest.py
++++ b/meta/lib/oeqa/runtime/_ptest.py
+@@ -20,7 +20,7 @@ class PtestRunnerTest(oeRuntimeTest):
+ 
+     # a ptest log parser
+     def parse_ptest(self, logfile):
+-        parser = Lparser(test_0_pass_regex="^PASS:(.+)", test_0_fail_regex="^FAIL:(.+)", section_0_begin_regex="^BEGIN: .*/(.+)/ptest", section_0_end_regex="^END: .*/(.+)/ptest")
++        parser = Lparser(test_0_pass_regex="^PASS:(.+)", test_0_fail_regex="^FAIL(?:ED)?:(.+)", section_0_begin_regex="^BEGIN: .*/(.+)/ptest", section_0_end_regex="^END: .*/(.+)/ptest")
+         parser.init()
+         result = Result()
+ 
+-- 
+2.1.4
 
---_000_A8FC939F80655644A89BB21CCD3741E801192B00DCG08CNEXMBPEKD_--
+
