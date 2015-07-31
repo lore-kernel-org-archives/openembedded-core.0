@@ -1,29 +1,22 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 786EF761D3
+Return-Path: <tanu.kaskinen@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 42E5B763E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 03:20:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6V3KlYx028030
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 Jul 2015 20:20:47 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 30 Jul 2015 20:20:28 -0700
-Message-ID: <55BAE98D.8090600@windriver.com>
-Date: Fri, 31 Jul 2015 11:20:45 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: ChenQi <Qi.Chen@windriver.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Li Zhou <li.zhou@windriver.com>
-References: <1432085475-24806-1-git-send-email-li.zhou@windriver.com>	<1436654372.3310.28.camel@linuxfoundation.org>
-	<55BAE3B9.2060807@windriver.com> <55BAE971.5020300@windriver.com>
-In-Reply-To: <55BAE971.5020300@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] opkg-utils: Change alternatives lib path from /usr/lib/opkg to /var/lib/opkg
+	Fri, 31 Jul 2015 04:52:44 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Jul 2015 21:52:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,581,1432623600"; d="scan'208";a="739331890"
+Received: from tkkaskin-mobl3.ger.corp.intel.com (HELO
+	tkkaskin-mobl3.ger.corp.intel.com.ger.corp.intel.com)
+	([10.252.9.176])
+	by orsmga001.jf.intel.com with ESMTP; 30 Jul 2015 21:52:43 -0700
+From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Jul 2015 07:52:41 +0300
+Message-Id: <1438318361-18428-1-git-send-email-tanu.kaskinen@linux.intel.com>
+X-Mailer: git-send-email 1.9.3
+Subject: [PATCH] libvorbis: 1.3.4 -> 1.3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,72 +29,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 03:20:51 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 Jul 2015 04:52:45 -0000
 
+The change in COPYING was just a year update in a copyright notice.
 
+Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+---
+ .../libvorbis/libvorbis_1.3.4.bb                   | 25 ----------------------
+ .../libvorbis/libvorbis_1.3.5.bb                   | 25 ++++++++++++++++++++++
+ 2 files changed, 25 insertions(+), 25 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb
+ create mode 100644 meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
 
-On 2015年07月31日 11:20, ChenQi wrote:
-> On 07/31/2015 10:55 AM, Rongqing Li wrote:
->>
->>
->> On 2015年07月12日 06:39, Richard Purdie wrote:
->>> On Wed, 2015-05-20 at 09:31 +0800, Li Zhou wrote:
->>>> When update-alternatives is moved from opkg to opkg-utils, a line in
->>>> the file is changed
->>>> from <ad="$OPKG_OFFLINE_ROOT@opkglibdir@/opkg/alternatives">
->>>> to <ad="$OPKG_OFFLINE_ROOT/usr/lib/opkg/alternatives">.
->>>> But opkglibdir doesn't equal to "/usr/lib" here, but equal to
->>>> "/var/lib"
->>>>   in oe-core build by configuring --with-opkglibdir.
->>>> opkg-utils can't get the var value in opkg, so here define
->>>> opkglibdir to
->>>> set the path.
->>>>
->>>> Signed-off-by: Li Zhou <li.zhou@windriver.com>
->>>> ---
->>>>   meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    3 +++
->>>>   1 file changed, 3 insertions(+)
->>>
->>> https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/387/steps/BuildImages_3/logs/stdio
->>>
->>>
->>> Seems related to this :/
->>
->> I can not reproduce it,
->>
->> do you see this error in yocto autobuilder recently? I see this patch
->> still is in master-next2
->>
->> -Roy
->>
->>
->>
->
-> Did you enable multilib?
->
-> Regards,
-> Chen Qi
->
-
-Yes
-
--Roy
-
->>
->>
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>
->
->
->
-
+diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb
+deleted file mode 100644
+index 0788c94..0000000
+--- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb
++++ /dev/null
+@@ -1,25 +0,0 @@
+-SUMMARY = "Ogg Vorbis Audio Codec"
+-DESCRIPTION = "Ogg Vorbis is a high-quality lossy audio codec \
+-that is free of intellectual property restrictions. libvorbis \
+-is the main vorbis codec library."
+-HOMEPAGE = "http://www.vorbis.com/"
+-BUGTRACKER = "https://trac.xiph.org"
+-SECTION = "libs"
+-LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=ca77c6c3ea4d29cb68dce8ef5ab0d897 \
+-                    file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
+-DEPENDS = "libogg"
+-
+-SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz"
+-
+-SRC_URI[md5sum] = "55f2288055e44754275a17c9a2497391"
+-SRC_URI[sha256sum] = "2f05497d29195dc23ee952a24ee3973a74e6277569c4c2eca0ec5968e541f372"
+-
+-inherit autotools pkgconfig
+-
+-# vorbisfile.c reveals a problem in the gcc register spilling for the
+-# thumb instruction set...
+-FULL_OPTIMIZATION_thumb = "-O0"
+-
+-EXTRA_OECONF = "--with-ogg-libraries=${STAGING_LIBDIR} \
+-                --with-ogg-includes=${STAGING_INCDIR}"
+diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
+new file mode 100644
+index 0000000..c2765c3
+--- /dev/null
++++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "Ogg Vorbis Audio Codec"
++DESCRIPTION = "Ogg Vorbis is a high-quality lossy audio codec \
++that is free of intellectual property restrictions. libvorbis \
++is the main vorbis codec library."
++HOMEPAGE = "http://www.vorbis.com/"
++BUGTRACKER = "https://trac.xiph.org"
++SECTION = "libs"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=7d2c487d2fc7dd3e3c7c465a5b7f6217 \
++                    file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
++DEPENDS = "libogg"
++
++SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz"
++
++SRC_URI[md5sum] = "28cb28097c07a735d6af56e598e1c90f"
++SRC_URI[sha256sum] = "54f94a9527ff0a88477be0a71c0bab09a4c3febe0ed878b24824906cd4b0e1d1"
++
++inherit autotools pkgconfig
++
++# vorbisfile.c reveals a problem in the gcc register spilling for the
++# thumb instruction set...
++FULL_OPTIMIZATION_thumb = "-O0"
++
++EXTRA_OECONF = "--with-ogg-libraries=${STAGING_LIBDIR} \
++                --with-ogg-includes=${STAGING_INCDIR}"
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.9.3
+
 
