@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id AEF4D7647D
+	by mail.openembedded.org (Postfix) with ESMTP id 1BA677647D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 10:27:19 +0000 (UTC)
+	Fri, 31 Jul 2015 10:27:59 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6VARJNO020109 for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 11:27:19 +0100
+	t6VARxWY020139 for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jul 2015 11:27:59 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 2-278Zmo5bhH
+	with LMTP id Bcs8yn-rqJJ8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 11:27:19 +0100 (BST)
+	Fri, 31 Jul 2015 11:27:59 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6VAR5tk020106
+	t6VARj35020136
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 11:27:16 +0100
-Message-ID: <1438338425.22462.10.camel@linuxfoundation.org>
+	Fri, 31 Jul 2015 11:27:56 +0100
+Message-ID: <1438338465.22462.11.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 Jul 2015 11:27:05 +0100
+Date: Fri, 31 Jul 2015 11:27:45 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] gcc-cross-canadian: Add symlink to real-ld alongside other symlinks
+Subject: [PATCH] gcc-multilib-config: Tweak naming of options to match gcc's expectations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 10:27:20 -0000
+X-List-Received-Date: Fri, 31 Jul 2015 10:28:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-In some cases such as cross architecture configurations (using mips-X-linux
-on mips64-X-linux), gcc can get confused about finding a 'real' version
-of ld. Adding a symlink to 'real-ld' allowed these configurations
-to work properly.
+gcc itself does not add the '-' of options to its multilib configuration.
+We should follow its example.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index c6465d0..4cffcf6 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -136,6 +136,8 @@ do_install () {
+diff --git a/meta/recipes-devtools/gcc/gcc-multilib-config.inc b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+index bdf4be7..f7f9f55 100644
+--- a/meta/recipes-devtools/gcc/gcc-multilib-config.inc
++++ b/meta/recipes-devtools/gcc/gcc-multilib-config.inc
+@@ -208,7 +208,8 @@ python gcc_multilib_setup() {
+         whitelist = (d.getVar("MULTILIB_OPTION_WHITELIST", True) or "").split()
+         for i in tune_parameters['ccargs'].split():
+             if i in whitelist:
+-                opts.append(i)
++                # Need to strip '-' from option
++                opts.append(i[1:])
+         options.append(" ".join(opts))
  
- 		ln -sf ${BINRELPATH}/${TARGET_PREFIX}$t$suffix $dest$t$suffix
- 	done
-+	t=real-ld
-+	ln -sf ${BINRELPATH}/${TARGET_PREFIX}ld$suffix $dest$t$suffix
- 
- 	# libquadmath headers need to  be available in the gcc libexec dir
- 	install -d ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
+         if tune_baselib == 'lib':
 
 
 
