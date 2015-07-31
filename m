@@ -1,36 +1,37 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 19865765C3
+	by mail.openembedded.org (Postfix) with ESMTP id 036B976579
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 14:31:09 +0000 (UTC)
+	Fri, 31 Jul 2015 14:39:54 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6VEV6tE009249; Fri, 31 Jul 2015 15:31:06 +0100
+	t6VEdr9s009732; Fri, 31 Jul 2015 15:39:53 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id i7wAU5dG8BTR; Fri, 31 Jul 2015 15:31:06 +0100 (BST)
+	with LMTP id 3kHaK2mj7nbP; Fri, 31 Jul 2015 15:39:53 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6VEUq5L009242
+	t6VEdefn009693
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 31 Jul 2015 15:31:03 +0100
-Message-ID: <1438353052.22462.80.camel@linuxfoundation.org>
+	Fri, 31 Jul 2015 15:39:51 +0100
+Message-ID: <1438353580.22462.82.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Fri, 31 Jul 2015 15:30:52 +0100
-In-Reply-To: <CAP9ODKo=-GW32HqzO3ewzNi+YYL8U-Gcp8zAx9xKCs+vrYkb5w@mail.gmail.com>
-References: <cover.1438161068.git.liezhi.yang@windriver.com>
-	<5755146.lYtmNt1cvb@peggleto-mobl.ger.corp.intel.com>
-	<55B8A89A.6050406@windriver.com> <1438170429-sup-8609@axis.com>
-	<CAP9ODKob+TVBpb1jrzVueZT0w2DQpP5X0YBAwy-RFEoh615rHw@mail.gmail.com>
-	<1438239812-sup-93@axis.com> <55B9CD93.1000902@windriver.com>
-	<1438244164-sup-163@axis.com>
-	<CAP9ODKo=-GW32HqzO3ewzNi+YYL8U-Gcp8zAx9xKCs+vrYkb5w@mail.gmail.com>
+To: He Zhe <zhe.he@windriver.com>
+Date: Fri, 31 Jul 2015 15:39:40 +0100
+In-Reply-To: <55BB5FDB.4080707@windriver.com>
+References: <cover.1437461993.git.zhe.he@windriver.com>
+	<c3b8e75db6f2ebc1bd9e53a4f01da0d642e4edcb.1437461993.git.zhe.he@windriver.com>
+	<CABcZAN=D=2FUBHmSRiwYE7PbqHsjYJUQB5PkfvnQYO-=YFJecw@mail.gmail.com>
+	<55AEFFFA.8080308@windriver.com>
+	<1438341880.22462.25.camel@linuxfoundation.org>
+	<55BB5FDB.4080707@windriver.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Christopher Larson <clarson@kergoth.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] bitbake.conf: add GITHUB_GIT
+Subject: Re: [PATCH v2 1/2] kernel: Define KERNEL_IMAGETYPE as a list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,48 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 14:31:10 -0000
+X-List-Received-Date: Fri, 31 Jul 2015 14:39:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-07-30 at 08:34 -0300, Otavio Salvador wrote:
-> On Thu, Jul 30, 2015 at 5:32 AM, Olof Johansson <olof.johansson@axis.com> wrote:
-> > Excerpts from Robert Yang's message of 2015-07-30 09:09:07 +0200:
-> >> PREMIRRORS is for all the recipes/protocols ?
-> >
-> > No, PREMIRRORS is quite expressive, for instance:
-> >
-> > PREMIRRORS = " \
-> >   https?$://downloads.example.org$/.*   http://mirror.example.com/ \n \
-> > "
-> >
-> > This should only premirror downloads.example.com files, fetched via http
-> > or https. See the bitbake fetcher's uri_replace method in
-> > bitbake/lib/bb/fetch2/__init__.py for the implementation.
+On Fri, 2015-07-31 at 19:45 +0800, He Zhe wrote:
+> On 07/31/2015 07:24 PM, Richard Purdie wrote:
+> > On Wed, 2015-07-22 at 10:29 +0800, He Zhe wrote:
+> >> On 07/21/2015 10:53 PM, Christopher Larson wrote:
+> >>> On Tue, Jul 21, 2015 at 12:23 AM, <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>wrote:
+> >>>
+> >>>     From: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
+> >>>
+> >>>     To support building packaging and installing multi types of kernel
+> >>>     images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
+> >>>     as a list.
+> >>>     Modify wherever reference KERNEL_IMAGETYPE accordingly.
+> >>>
+> >>>     Fixes [YOCTO #6945].
+> >>>
+> >>>     Signed-off-by: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
+> >>>
+> >>>
+> >>> Question, why not add KERNEL_IMAGETYPES, and make KERNEL_IMAGETYPE equal to your new KERNEL_IMAGETYPE_0?
+> >> Adding a new KERNEL_IMAGETYPES will also work. But it should be better
+> >> not to change the name of KERNEL_IMAGETYPE, so that those who have
+> >> used it don't have to change their code.
+> >>
+> >> Thank you for reviewing.
+> > I have to agree with Chris here, keeping KERNEL_IMAGETYPE as used today
+> > and equivalent to KERNEL_IMAGETYPE_0 and adding KERNEL_IMAGETYPES does
+> > seem like a cleaner way to implement this.
 > 
-> Yes, you can.
-> 
-> But the mirrors scheme allows for, for example, map it for git:// and
-> https:// protocols without changing the recipes.
-> 
-> I am in favor of consistency here and having a unique var for github helps.
+> But it might mean we are going to check both KERNEL_IMAGETYPE and KERNEL_IMAGETYPES
+> to generate final image type list. Is that OK?
 
-I came to review this as Ross pulled it into mut and I reached the same
-conclusion as Olof here. We have PREMIRRORS, we can also exclude
-networks from the fetcher and therefore have a ton of ways of rewriting
-this already.
+Well, in some places you will use one and in some places you'll use the
+other, that is unavoidable. 
 
-Yes, we do want standardisation, but all the urls look standardised to
-me already. 
-
-IMO, we want to see less of these global variables, not more. There once
-was a time when they might have been useful but the fetcher is pretty
-good about dealing with this now so lets not complicate this more than
-we need to.
+I much prefer "KERNEL_IMAGETYPE and KERNEL_IMAGETYPES" to
+"KERNEL_IMAGETYPE_0 and KERNEL_IMAGETYPE" as variable names though.
 
 Cheers,
 
 Richard
-
 
 
