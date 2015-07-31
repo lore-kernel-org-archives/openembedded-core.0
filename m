@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C28647649D
+	by mail.openembedded.org (Postfix) with ESMTP id 9B6F77649D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 10:28:36 +0000 (UTC)
+	Fri, 31 Jul 2015 10:29:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6VASaGa020177 for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 11:28:36 +0100
+	t6VAT9TS020196 for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jul 2015 11:29:09 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MqAAp6FO-sCV
+	with LMTP id nYQc3p40HIl9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 11:28:36 +0100 (BST)
+	Fri, 31 Jul 2015 11:29:09 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t6VASMvM020174
+	t6VASumm020192
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 11:28:33 +0100
-Message-ID: <1438338502.22462.12.camel@linuxfoundation.org>
+	Fri, 31 Jul 2015 11:29:07 +0100
+Message-ID: <1438338536.22462.13.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 31 Jul 2015 11:28:22 +0100
+Date: Fri, 31 Jul 2015 11:28:56 +0100
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Subject: [PATCH] libgcc: Fix symlink handling in cross-arch multilib cases
+Subject: [PATCH] cross-canadian: Add symlinks for multilib cases
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,81 +37,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 10:28:37 -0000
+X-List-Received-Date: Fri, 31 Jul 2015 10:29:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-The symlink being generated needs to match both the current arch (e.g. mips
-or mips64) but also use the underlying TARGET_SYS without multilib extensions
-to TARGET_VENDOR or extensions to TARGET_OS.
-
-The way multilib changes TARGET_VENDOR meant this code did not have
-a way of removing that change. The method of removing some TARGET_OS
-suffixes was also not working.
-
-By using immediate expansion to run this code, we can run before the
-multilib code changes it and get the original values.
-
-We then use the *current* TARGET_ARCH value in case this does get changed
-by the multilib since we need to point at the right compiler (32 bit one
-for 32 bit code).
+In the same way we map various TARGET_OS options back to the single
+cross-canadian compiler, add mappings for the TARGET_VENDOR cases we
+know about in the multilib case.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/gcc/libgcc-common.inc b/meta/recipes-devtools/gcc/libgcc-common.inc
-index 3101762..22da03b 100644
---- a/meta/recipes-devtools/gcc/libgcc-common.inc
-+++ b/meta/recipes-devtools/gcc/libgcc-common.inc
-@@ -116,23 +116,23 @@ fakeroot python do_multilib_install() {
-         os.symlink(src, dest)
- }
- 
-+def get_original_vendoros(d):
-+    vendoros = d.expand('${TARGET_VENDOR}-${TARGET_OS}')
-+    for suffix in [d.getVar('ABIEXTENSION', True), d.getVar('LIBCEXTENSION', True)]:
-+        if suffix and vendoros.endswith(suffix):
-+            vendoros = vendoros[:-len(suffix)]
-+    return vendoros
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index 40eb511..6b6c680 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -17,6 +17,7 @@ STAGING_BINDIR_TOOLCHAIN = "${STAGING_DIR_NATIVE}${bindir_native}/${SDK_ARCH}${S
+ #
+ PACKAGE_ARCH = "${SDK_ARCH}-${SDKPKGSUFFIX}"
+ CANADIANEXTRAOS = "linux-uclibc linux-musl"
++CANADIANEXTRAVENDOR = ""
+ MODIFYTOS ??= "1"
+ python () {
+     archs = d.getVar('PACKAGE_ARCHS', True).split()
+@@ -68,6 +69,17 @@ python () {
+         d.setVar("TARGET_OS", "linux-gnueabi")
+     else:
+         d.setVar("TARGET_OS", "linux")
 +
-+ORIG_TARGET_VENDOROS := "${@get_original_vendoros(d)}"
-+BASETARGET_SYS = "${TARGET_ARCH}${ORIG_TARGET_VENDOROS}"
-+
- addtask extra_symlinks after do_multilib_install before do_package do_populate_sysroot
- fakeroot python do_extra_symlinks() {
--    targetsysnoext = d.getVar('TARGET_SYS_NO_EXTENSION', True)
-+    targetsys = d.getVar('BASETARGET_SYS', True)
- 
--    if targetsysnoext != d.getVar('TARGET_SYS', True):
--        dest = d.getVar('D', True) + d.getVar('libdir', True) + '/' + targetsysnoext
-+    if targetsys != d.getVar('TARGET_SYS', True):
-+        dest = d.getVar('D', True) + d.getVar('libdir', True) + '/' + targetsys
-         src = d.getVar('TARGET_SYS', True)
-         if not os.path.lexists(dest) and os.path.lexists(d.getVar('D', True) + d.getVar('libdir', True)):
-             os.symlink(src, dest)
++    # Also need to handle multilib target vendors
++    vendors = d.getVar("CANADIANEXTRAVENDOR", True)
++    if not vendors:
++        vendors = all_multilib_tune_values(d, 'TARGET_VENDOR')
++    origvendor = d.getVar("TARGET_VENDOR_MULTILIB_ORIGINAL", True)
++    if origvendor:
++        d.setVar("TARGET_VENDOR", origvendor)
++        if origvendor not in vendors.split():
++            vendors = origvendor + " " + vendors
++    d.setVar("CANADIANEXTRAVENDOR", vendors)
  }
--
--python () {
--    targetsysnoext = d.getVar('TARGET_SYS', True)
--
--    for suffix in [d.getVar('ABIEXTENSION', True), d.getVar('LIBCEXTENSION', True)]:
--        if suffix and targetsysnoext.endswith(suffix):
--            targetsysnoext = targetsysnoext[:-len(suffix)]
--
--    d.setVar('TARGET_SYS_NO_EXTENSION', targetsysnoext)
--}
-diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-index 35432c7..739adbd 100644
---- a/meta/recipes-devtools/gcc/libgcc.inc
-+++ b/meta/recipes-devtools/gcc/libgcc.inc
-@@ -24,7 +24,7 @@ FILES_${PN}-dev = "\
-     ${libdir}/${TARGET_SYS}/${BINV}/x32 \
-     ${libdir}/${TARGET_SYS}/${BINV}/n32 \
-     ${libdir}/${TARGET_SYS}/${BINV}/libgcc* \
--    ${@base_conditional('TARGET_SYS_NO_EXTENSION', '${TARGET_SYS}', '', '${libdir}/${TARGET_SYS_NO_EXTENSION}', d)} \
-+    ${@base_conditional('BASETARGET_SYS', '${TARGET_SYS}', '', '${libdir}/${BASETARGET_SYS}', d)} \
-     ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a \
- "
+ MULTIMACH_TARGET_SYS = "${PACKAGE_ARCH}${HOST_VENDOR}-${HOST_OS}"
  
+@@ -148,14 +160,21 @@ SHLIBSDIRS = "${PKGDATA_DIR}/nativesdk-shlibs2"
+ SHLIBSWORKDIR = "${PKGDATA_DIR}/nativesdk-shlibs2"
+ 
+ cross_canadian_bindirlinks () {
+-	for i in ${CANADIANEXTRAOS}
++	for i in linux ${CANADIANEXTRAOS}
+ 	do
+-		d=${D}${bindir}/../${TARGET_ARCH}${TARGET_VENDOR}-$i
+-		install -d $d
+-		for j in `ls ${D}${bindir}`
++		for v in ${CANADIANEXTRAVENDOR}
+ 		do
+-			p=${TARGET_ARCH}${TARGET_VENDOR}-$i-`echo $j | sed -e s,${TARGET_PREFIX},,`
+-			ln -s ../${TARGET_SYS}/$j $d/$p
++			d=${D}${bindir}/../${TARGET_ARCH}$v-$i
++			if [ -d $d ];
++			then
++			    continue
++			fi
++			install -d $d
++			for j in `ls ${D}${bindir}`
++			do
++				p=${TARGET_ARCH}$v-$i-`echo $j | sed -e s,${TARGET_PREFIX},,`
++				ln -s ../${TARGET_SYS}/$j $d/$p
++			done
+ 		done
+        done
+ }
 
 
 
