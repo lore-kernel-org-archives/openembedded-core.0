@@ -1,26 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B3DD37647D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 941F47647D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 10:09:51 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 31 Jul 2015 03:09:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,583,1432623600"; d="scan'208";a="773942891"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.252.23.101])
-	by fmsmga002.fm.intel.com with ESMTP; 31 Jul 2015 03:09:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Lucian Musat <george.l.musat@intel.com>
-Date: Fri, 31 Jul 2015 11:09:49 +0100
-Message-ID: <65381770.ZZ0mdPmW1q@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.8-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1438332025-4208-1-git-send-email-george.l.musat@intel.com>
-References: <1438332025-4208-1-git-send-email-george.l.musat@intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] oeqa/ptest: Modified regex to find FAILED testcases no just FAIL.
+	Fri, 31 Jul 2015 10:23:38 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6VANbiA019792 for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jul 2015 11:23:37 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id XESet3AHwWYi
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jul 2015 11:23:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t6VANM0D019777
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jul 2015 11:23:33 +0100
+Message-ID: <1438338202.22462.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 31 Jul 2015 11:23:22 +0100
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] testimage: testsdk fixes/improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +37,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 10:09:52 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 31 Jul 2015 10:23:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Lucian,
+The "bitbake meta-toolchain" comment is dated and incorrect, fix to
+point at -c populate_sdk.
 
-On Friday 31 July 2015 11:40:25 Lucian Musat wrote:
-> Some ptests output failed tests as FAILED instead of FAIL, like glib and
-> pango.
-> 
-> Bug #6601
-> 
-> Signed-off-by: Lucian Musat <george.l.musat@intel.com>
-> ---
->  meta/lib/oeqa/runtime/_ptest.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oeqa/runtime/_ptest.py
-> b/meta/lib/oeqa/runtime/_ptest.py index 81c9c43..ba68234 100644
-> --- a/meta/lib/oeqa/runtime/_ptest.py
-> +++ b/meta/lib/oeqa/runtime/_ptest.py
-> @@ -20,7 +20,7 @@ class PtestRunnerTest(oeRuntimeTest):
-> 
->      # a ptest log parser
->      def parse_ptest(self, logfile):
-> -        parser = Lparser(test_0_pass_regex="^PASS:(.+)",
-> test_0_fail_regex="^FAIL:(.+)", section_0_begin_regex="^BEGIN:
-> .*/(.+)/ptest", section_0_end_regex="^END: .*/(.+)/ptest") +        parser
-> = Lparser(test_0_pass_regex="^PASS:(.+)",
-> test_0_fail_regex="^FAIL(?:ED)?:(.+)", section_0_begin_regex="^BEGIN:
-> .*/(.+)/ptest", section_0_end_regex="^END: .*/(.+)/ptest") parser.init()
->          result = Result()
+If a toolchain contains multiple environment files, iterate them and run
+the sdk test suite on each on in turn rather than giving a fatal error and
+giving up.
 
-I thought the way ptest was supposed to work was that ptest output would be
-modified to match Automake format rather than us accepting different values:
+Also improve the debug output so that rather than PN, it also show the
+toolchain tarball under test, and the environment file name its using.
 
-http://www.yoctoproject.org/docs/current/dev-manual/dev-manual.html#testing-packages-with-ptest
+Also enable the accidentally disabled cleanup code.
 
-Cheers,
-Paul
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
--- 
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 37acb0c..067f771 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -296,19 +296,9 @@ def testsdk_main(d):
+     testslist = get_tests_list(d, "sdk")
+     testsrequired = [t for t in (d.getVar("TEST_SUITES_SDK", True) or "auto").split() if t != "auto"]
+ 
+-    sdktestdir = d.expand("${WORKDIR}/testimage-sdk/")
+-    bb.utils.remove(sdktestdir, True)
+-    bb.utils.mkdirhier(sdktestdir)
+-
+     tcname = d.expand("${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.sh")
+     if not os.path.exists(tcname):
+-        bb.fatal("The toolchain is not built. Build it before running the tests: 'bitbake meta-toolchain' .")
+-    subprocess.call("cd %s; %s <<EOF\n./tc\nY\nEOF" % (sdktestdir, tcname), shell=True)
+-
+-    targets = glob.glob(d.expand(sdktestdir + "/tc/sysroots/*${TARGET_VENDOR}-linux*"))
+-    if len(targets) > 1:
+-        bb.fatal("Error, multiple targets within the SDK found and we don't know which to test? %s" % str(targets))
+-    sdkenv = sdktestdir + "/tc/environment-setup-" + os.path.basename(targets[0])
++        bb.fatal("The toolchain is not built. Build it before running the tests: 'bitbake <image> -c populate_sdk' .")
+ 
+     class TestContext(object):
+         def __init__(self):
+@@ -333,33 +323,41 @@ def testsdk_main(d):
+             except IOError as e:
+                 bb.fatal("No host package manifest file found. Did you build the sdk image?\n%s" % e)
+ 
+-    # test context
+-    tc = TestContext()
++    sdktestdir = d.expand("${WORKDIR}/testimage-sdk/")
++    bb.utils.remove(sdktestdir, True)
++    bb.utils.mkdirhier(sdktestdir)
++    subprocess.call("cd %s; %s <<EOF\n./tc\nY\nEOF" % (sdktestdir, tcname), shell=True)
+ 
+-    # this is a dummy load of tests
+-    # we are doing that to find compile errors in the tests themselves
+-    # before booting the image
+     try:
+-        loadTests(tc, "sdk")
+-    except Exception as e:
+-        import traceback
+-        bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
++        targets = glob.glob(d.expand(sdktestdir + "/tc/environment-setup-*"))
++        bb.warn(str(targets))
++        for sdkenv in targets:
++            # test context
++            tc = TestContext()
++
++            # this is a dummy load of tests
++            # we are doing that to find compile errors in the tests themselves
++            # before booting the image
++            try:
++                loadTests(tc, "sdk")
++            except Exception as e:
++                import traceback
++                bb.fatal("Loading tests failed:\n%s" % traceback.format_exc())
+ 
+-    try:
+-        starttime = time.time()
+-        result = runTests(tc, "sdk")
+-        stoptime = time.time()
+-        if result.wasSuccessful():
+-            bb.plain("%s - Ran %d test%s in %.3fs" % (pn, result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
+-            msg = "%s - OK - All required tests passed" % pn
+-            skipped = len(result.skipped)
+-            if skipped:
+-                msg += " (skipped=%d)" % skipped
+-            bb.plain(msg)
+-        else:
+-            raise bb.build.FuncFailed("%s - FAILED - check the task log and the commands log" % pn )
++    
++            starttime = time.time()
++            result = runTests(tc, "sdk")
++            stoptime = time.time()
++            if result.wasSuccessful():
++                bb.plain("%s SDK(%s):%s - Ran %d test%s in %.3fs" % (pn, os.path.basename(tcname), os.path.basename(sdkenv),result.testsRun, result.testsRun != 1 and "s" or "", stoptime - starttime))
++                msg = "%s - OK - All required tests passed" % pn
++                skipped = len(result.skipped)
++                if skipped:
++                    msg += " (skipped=%d)" % skipped
++                bb.plain(msg)
++            else:
++                raise bb.build.FuncFailed("%s - FAILED - check the task log and the commands log" % pn )
+     finally:
+-        pass
+         bb.utils.remove(sdktestdir, True)
+ 
+ testsdk_main[vardepsexclude] =+ "BB_ORIGENV"
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
