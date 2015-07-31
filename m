@@ -1,35 +1,40 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 36B227653B
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 315C973D13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 11:45:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6VBjnLA004000
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 31 Jul 2015 04:45:49 -0700 (PDT)
-Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Fri, 31 Jul 2015 04:45:29 -0700
-Message-ID: <55BB5FDB.4080707@windriver.com>
-Date: Fri, 31 Jul 2015 19:45:31 +0800
-From: He Zhe <zhe.he@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Fri, 31 Jul 2015 12:01:21 +0000 (UTC)
+Received: by qgeh16 with SMTP id h16so43455019qge.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jul 2015 05:01:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=SEkgwLLxdL4Xf1QDtcJyjg0y6TR/Vy/TZjCDgL4DJWU=;
+	b=UFpcVRqCQ7+WqUR0Bjl2xEwQ8rIUaOjE86KOGQsqNq84tUjcdqYWbjbRJESCqoPWyO
+	t1gPFbnlV80BroWnxGkqnA5rPNhIC/SBrTOHPxcrqGT412kLQa3hTsbtXHYNt5eSWe87
+	mcFwxAirqPsbi3QOaSDhuzKldyy4lghFa4thcrCzvQl3Z3CHqKH5qnRGwLDhNC/P1S92
+	DXSIWUyHiqt5cmmSNd/VrRGdr/3xg9URHhWI1OsBTzP6o15opnlB5llgrpH7W//2wQ07
+	AKdvoJ/n+LlcI5ghSwSmgNldXhJcMPHKaxdeNbjEF+OeyIHKBQ2g9YdCaq85I9/n1wh1
+	h5sQ==
+X-Gm-Message-State: ALoCoQk/C2TfHPL6NS0iv648h0LllgZDEygllhzlmKEjmSHA1VgoGXI98/hAQwaPHu1saxsvGFII
+X-Received: by 10.141.28.200 with SMTP id f191mr3666051qhe.52.1438344081251;
+	Fri, 31 Jul 2015 05:01:21 -0700 (PDT)
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1437461993.git.zhe.he@windriver.com>	
-	<c3b8e75db6f2ebc1bd9e53a4f01da0d642e4edcb.1437461993.git.zhe.he@windriver.com>	
-	<CABcZAN=D=2FUBHmSRiwYE7PbqHsjYJUQB5PkfvnQYO-=YFJecw@mail.gmail.com>	
-	<55AEFFFA.8080308@windriver.com>
-	<1438341880.22462.25.camel@linuxfoundation.org>
-In-Reply-To: <1438341880.22462.25.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.235]
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
+Received: by 10.140.98.8 with HTTP; Fri, 31 Jul 2015 05:01:01 -0700 (PDT)
+In-Reply-To: <1923146.uIJODXP6Gm@peggleto-mobl.ger.corp.intel.com>
+References: <55BB1C0F.90508@windriver.com>
+	<2950215.CmNeN3gmTU@peggleto-mobl.ger.corp.intel.com>
+	<CAP71Wjwh7VZJubtjL0oy4CmzKFh3p9+7c9v92we06U6KE5YfZQ@mail.gmail.com>
+	<1923146.uIJODXP6Gm@peggleto-mobl.ger.corp.intel.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Fri, 31 Jul 2015 14:01:01 +0200
+Message-ID: <CAP71WjzRNtGutTGyz_vm7S8R5+2vUwMzefArwvqnuWia-R+d_g@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] kernel: Define KERNEL_IMAGETYPE as a list
+Subject: Re: meta/lib/oe/rootfs.py: dont' remove any packages by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,52 +47,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 11:45:56 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Jul 2015 12:01:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 07/31/2015 07:24 PM, Richard Purdie wrote:
-> On Wed, 2015-07-22 at 10:29 +0800, He Zhe wrote:
->> On 07/21/2015 10:53 PM, Christopher Larson wrote:
->>> On Tue, Jul 21, 2015 at 12:23 AM, <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>wrote:
->>>
->>>     From: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
->>>
->>>     To support building packaging and installing multi types of kernel
->>>     images, such as zImage uImage, at one time define KERNEL_IMAGETYPE
->>>     as a list.
->>>     Modify wherever reference KERNEL_IMAGETYPE accordingly.
->>>
->>>     Fixes [YOCTO #6945].
->>>
->>>     Signed-off-by: He Zhe <zhe.he@windriver.com <mailto:zhe.he@windriver.com>>
->>>
->>>
->>> Question, why not add KERNEL_IMAGETYPES, and make KERNEL_IMAGETYPE equal to your new KERNEL_IMAGETYPE_0?
->> Adding a new KERNEL_IMAGETYPES will also work. But it should be better
->> not to change the name of KERNEL_IMAGETYPE, so that those who have
->> used it don't have to change their code.
->>
->> Thank you for reviewing.
-> I have to agree with Chris here, keeping KERNEL_IMAGETYPE as used today
-> and equivalent to KERNEL_IMAGETYPE_0 and adding KERNEL_IMAGETYPES does
-> seem like a cleaner way to implement this.
-
-But it might mean we are going to check both KERNEL_IMAGETYPE and KERNEL_IMAGETYPES
-to generate final image type list. Is that OK?
-
-Thanks,
-Zhe
-
-> Cheers,
+On Fri, Jul 31, 2015 at 1:12 PM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+>> I am not sure to understand the relationship between runtime package
+>> management, and adding/removing users? Why would no runtime package
+>> management, imply no need to add/remove users?
 >
-> Richard
->
->
->
->
->
+> I guess the underlying assumption is that if you have no package manager, in a
+> typical embedded context (if there is such a thing) that implies you won't be
+> changing the system after setup.
 
+well, that still sounds like 2 separate 'features'.. i think it might
+be a good idea to split them out...
 
