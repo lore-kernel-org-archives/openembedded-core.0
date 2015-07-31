@@ -1,29 +1,29 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id C7468765A4
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 90B0576551
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 12:40:17 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by goliath.siemens.de (8.15.1/8.15.1) with ESMTPS id t6VCeAgn021894
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Fri, 31 Jul 2015 14:40:11 +0200
-Received: from [139.22.116.63] (md1g632c.ww300.siemens.net [139.22.116.63])
-	by mail1.sbs.de (8.15.1/8.15.1) with SMTP id t6VCe7N3030682;
-	Fri, 31 Jul 2015 14:40:09 +0200
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	Fri, 31 Jul 2015 12:52:21 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 31 Jul 2015 05:52:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,584,1432623600"; d="scan'208";a="774022285"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
+	([10.237.68.143])
+	by fmsmga002.fm.intel.com with ESMTP; 31 Jul 2015 05:52:20 -0700
+Message-ID: <55BB6FC3.5060605@linux.intel.com>
+Date: Fri, 31 Jul 2015 15:53:23 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
+MIME-Version: 1.0
+To: Pascal Bach <pascal.bach@siemens.com>, 
 	"Burton, Ross" <ross.burton@intel.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
 	<86b43671f02c22f328e3801e0711a33731156ba8.1438262915.git.alexander.kanavin@linux.intel.com>
 	<20150730143658.GK2457@jama> <55BA4399.2030302@linux.intel.com>
 	<CAJTo0LajDS9QaEdczNG9OnpkQWj_B148+TSwKwNCxXLyk9xnjA@mail.gmail.com>
-	<55BA524A.1070904@linux.intel.com>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <55BB6CA7.2060908@siemens.com>
-Date: Fri, 31 Jul 2015 14:40:07 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
-MIME-Version: 1.0
-In-Reply-To: <55BA524A.1070904@linux.intel.com>
+	<55BA524A.1070904@linux.intel.com> <55BB6CA7.2060908@siemens.com>
+In-Reply-To: <55BB6CA7.2060908@siemens.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 21/26] systemd: remove PV from the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -38,36 +38,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 12:40:18 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Fri, 31 Jul 2015 12:52:21 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi
+On 07/31/2015 03:40 PM, Pascal Bach wrote:
 
-Am 30.07.2015 um 18:35 schrieb Alexander Kanavin:
-> On 07/30/2015 07:25 PM, Burton, Ross wrote:
->
->> For the release tag I'd agree with you, but as 219 < 219-stable we can't
->> just change this now (without adding an epoch, and adding epochs are evil).
+>> I just noticed that specifically systemd-stable repository does not have release tags for new versions at all, and just adds branches for newer versions:
 >>
->> Does the RRS have a way of mapping a PV to something that can be used in
->> the upstream comparison?
+>> http://cgit.freedesktop.org/systemd/systemd-stable/
+>>
+> New tags for systemd are created but not on the repository above but on their git repository:
+> https://github.com/systemd/systemd
 >
-> I just noticed that specifically systemd-stable repository does not have release tags for new versions at all, and just adds branches for newer versions:
->
-> http://cgit.freedesktop.org/systemd/systemd-stable/
->
-New tags for systemd are created but not on the repository above but on their git repository:
-https://github.com/systemd/systemd
+> I think this is the now main repository.
 
-I think this is the now main repository.
+The idea behind systemd-stable repository is described here:
+http://www.freedesktop.org/wiki/Software/systemd/Backports/
 
-Pascal
+However, it hasn't received any new commits since early May, and still 
+stuck at v219, so should we update to a new version from the main 
+repository? What's oe-core policy here?
 
-> RRS does not support branch names as indication of "new releases" (and it shouldn't IMO), so maybe this patch can be simply dropped, and systemd will not have automatic upstream-check.
->
->
-> Alex
->
+
+Alex
+
 
 
