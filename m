@@ -1,35 +1,29 @@
-Return-Path: <Jackie.Huang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5297A764A9
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D9A3476502
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 02:44:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6V2iZLL022910
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jul 2015 19:44:35 -0700 (PDT)
-Received: from ALA-MBB.corp.ad.wrs.com ([169.254.3.206]) by
-	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0235.001;
-	Thu, 30 Jul 2015 19:44:15 -0700
-From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
-To: "BURTON, ROSS" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2] qemu: CVE-2014-3689
-Thread-Index: AQHQtKXYiBlwAlgUy0yko4pO+aYIpp3oazYAgAHN9gCACtKqYA==
-Date: Fri, 31 Jul 2015 02:44:15 +0000
-Message-ID: <1B858668EC6A94408DCA5225FDFA85AAFC6E7FEC@ALA-MBB.corp.ad.wrs.com>
-References: <1435827696-10546-1-git-send-email-jackie.huang@windriver.com>
-	<1B858668EC6A94408DCA5225FDFA85AAF8779A97@ALA-MBB.corp.ad.wrs.com>
-	<CAJTo0LYuVHdw04m5h_urgR5kF7yhSM7fz-GYn6W2t_4BR_Y2=g@mail.gmail.com>
-In-Reply-To: <CAJTo0LYuVHdw04m5h_urgR5kF7yhSM7fz-GYn6W2t_4BR_Y2=g@mail.gmail.com>
-Accept-Language: en-US, zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.162.131]
+	Fri, 31 Jul 2015 02:55:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t6V2ttbj027904
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 30 Jul 2015 19:55:55 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 30 Jul 2015 19:55:35 -0700
+Message-ID: <55BAE3B9.2060807@windriver.com>
+Date: Fri, 31 Jul 2015 10:55:53 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] qemu: CVE-2014-3689
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Li Zhou
+	<li.zhou@windriver.com>
+References: <1432085475-24806-1-git-send-email-li.zhou@windriver.com>
+	<1436654372.3310.28.camel@linuxfoundation.org>
+In-Reply-To: <1436654372.3310.28.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] opkg-utils: Change alternatives lib path from /usr/lib/opkg to /var/lib/opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,101 +36,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 02:44:36 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_1B858668EC6A94408DCA5225FDFA85AAFC6E7FECALAMBBcorpadwrs_"
+X-List-Received-Date: Fri, 31 Jul 2015 02:55:58 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
---_000_1B858668EC6A94408DCA5225FDFA85AAFC6E7FECALAMBBcorpadwrs_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-U29ycnkgSSBkaWRu4oCZdCBub3RpY2UgdGhlIHVwZ3JhdGUsIHRoaXMgcGF0Y2ggaXMgbm90IG5l
-ZWRlZCB3aXRoIHRoaXMgdXBncmF0ZSwgdGhhbmtzIQ0KDQpUaGFua3MsDQpKYWNraWUNCg0KRnJv
-bTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KU2VudDogRnJp
-ZGF5LCBKdWx5IDI0LCAyMDE1IDY6MjYgQU0NClRvOiBIdWFuZywgSmllIChKYWNraWUpDQpDYzog
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0ggdjJdIHFlbXU6IENWRS0yMDE0LTM2ODkNCg0KDQpPbiAyMyBKdWx5IDIw
-MTUgYXQgMDI6NTMsIEh1YW5nLCBKaWUgKEphY2tpZSkgPEphY2tpZS5IdWFuZ0B3aW5kcml2ZXIu
-Y29tPG1haWx0bzpKYWNraWUuSHVhbmdAd2luZHJpdmVyLmNvbT4+IHdyb3RlOg0KUGluZy4NCg0K
-V2UncmUgbm93IGF0IDIuNC4wLXJjMSBpbiBtYXN0ZXIgYW5kIGEgcGF0Y2ggZm9yIHJjMiBpcyBv
-biB0aGUgbGlzdC4gIERvZXMgdGhpcyBzdGlsbCBuZWVkIHRvIGJlIGFwcGxpZWQ/DQoNClJvc3MN
-Cg==
 
---_000_1B858668EC6A94408DCA5225FDFA85AAFC6E7FECALAMBBcorpadwrs_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 2015年07月12日 06:39, Richard Purdie wrote:
+> On Wed, 2015-05-20 at 09:31 +0800, Li Zhou wrote:
+>> When update-alternatives is moved from opkg to opkg-utils, a line in
+>> the file is changed
+>> from <ad="$OPKG_OFFLINE_ROOT@opkglibdir@/opkg/alternatives">
+>> to <ad="$OPKG_OFFLINE_ROOT/usr/lib/opkg/alternatives">.
+>> But opkglibdir doesn't equal to "/usr/lib" here, but equal to "/var/lib"
+>>   in oe-core build by configuring --with-opkglibdir.
+>> opkg-utils can't get the var value in opkg, so here define opkglibdir to
+>> set the path.
+>>
+>> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+>> ---
+>>   meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |    3 +++
+>>   1 file changed, 3 insertions(+)
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-multilib/builds/387/steps/BuildImages_3/logs/stdio
+>
+> Seems related to this :/
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-5a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseTrlrovkvZM7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9u
-dC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQg
-MyAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpUYWhvbWE7DQoJcGFub3NlLTE6MiAx
-MSA2IDQgMyA1IDQgNCAyIDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiXEDlrovkvZMi
-Ow0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMg
-Ki8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBp
-bjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZh
-bWlseToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxp
-bmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0
-aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7
-bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246
-dW5kZXJsaW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFs
-LXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIiwic2Fucy1zZXJpZiI7DQoJY29sb3I6IzFG
-NDk3RDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5bGUtdHlwZTpleHBvcnQtb25seTsNCglm
-b250LWZhbWlseToiQ2FsaWJyaSIsInNhbnMtc2VyaWYiO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0K
-CXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4yNWluIDEuMGluIDEuMjVpbjt9
-DQpkaXYuV29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlk
-bWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+
-DQo8bzpzaGFwZWxheW91dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0
-YT0iMSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxi
-b2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9
-IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1z
-aXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2Vy
-aWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+U29ycnkgSSBkaWRu4oCZdCBub3RpY2UgdGhlIHVwZ3Jh
-dGUsIHRoaXMgcGF0Y2ggaXMgbm90IG5lZWRlZCB3aXRoIHRoaXMgdXBncmF0ZSwgdGhhbmtzITxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
-b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssJnF1b3Q7c2Fu
-cy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29sb3I6
-IzFGNDk3RCI+VGhhbmtzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
-cmkmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj5KYWNraWU8bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LCZxdW90O3NhbnMt
-c2VyaWYmcXVvdDs7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
-PGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRk
-aW5nOjBpbiAwaW4gMGluIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTti
-b3JkZXItdG9wOnNvbGlkICNCNUM0REYgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtm
-b250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJpZiZxdW90OyI+RnJv
-bTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZx
-dW90O1RhaG9tYSZxdW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7Ij4gQnVydG9uLCBSb3NzIFtt
-YWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IEZyaWRheSwg
-SnVseSAyNCwgMjAxNSA2OjI2IEFNPGJyPg0KPGI+VG86PC9iPiBIdWFuZywgSmllIChKYWNraWUp
-PGJyPg0KPGI+Q2M6PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBxZW11OiBDVkUt
-MjAxNC0zNjg5PG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj5PbiAyMyBKdWx5IDIwMTUgYXQgMDI6NTMsIEh1YW5nLCBKaWUgKEphY2tpZSkgJmx0
-OzxhIGhyZWY9Im1haWx0bzpKYWNraWUuSHVhbmdAd2luZHJpdmVyLmNvbSIgdGFyZ2V0PSJfYmxh
-bmsiPkphY2tpZS5IdWFuZ0B3aW5kcml2ZXIuY29tPC9hPiZndDsgd3JvdGU6PG86cD48L286cD48
-L3A+DQo8ZGl2IGlkPSI6MXU3Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlBpbmcuPG86cD48L286
-cD48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0KV2UncmUg
-bm93IGF0IDIuNC4wLXJjMSBpbiBtYXN0ZXIgYW5kIGEgcGF0Y2ggZm9yIHJjMiBpcyBvbiB0aGUg
-bGlzdC4mbmJzcDsgRG9lcyB0aGlzIHN0aWxsIG5lZWQgdG8gYmUgYXBwbGllZD88bzpwPjwvbzpw
-PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Um9zczxvOnA+PC9v
-OnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+
-DQo=
+I can not reproduce it,
 
---_000_1B858668EC6A94408DCA5225FDFA85AAFC6E7FECALAMBBcorpadwrs_--
+do you see this error in yocto autobuilder recently? I see this patch 
+still is in master-next2
+
+-Roy
+
+
+
+
+
+>
+> Cheers,
+>
+> Richard
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
+
