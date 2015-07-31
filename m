@@ -1,40 +1,28 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 315C973D13
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B0417646E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 12:01:21 +0000 (UTC)
-Received: by qgeh16 with SMTP id h16so43455019qge.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jul 2015 05:01:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=SEkgwLLxdL4Xf1QDtcJyjg0y6TR/Vy/TZjCDgL4DJWU=;
-	b=UFpcVRqCQ7+WqUR0Bjl2xEwQ8rIUaOjE86KOGQsqNq84tUjcdqYWbjbRJESCqoPWyO
-	t1gPFbnlV80BroWnxGkqnA5rPNhIC/SBrTOHPxcrqGT412kLQa3hTsbtXHYNt5eSWe87
-	mcFwxAirqPsbi3QOaSDhuzKldyy4lghFa4thcrCzvQl3Z3CHqKH5qnRGwLDhNC/P1S92
-	DXSIWUyHiqt5cmmSNd/VrRGdr/3xg9URHhWI1OsBTzP6o15opnlB5llgrpH7W//2wQ07
-	AKdvoJ/n+LlcI5ghSwSmgNldXhJcMPHKaxdeNbjEF+OeyIHKBQ2g9YdCaq85I9/n1wh1
-	h5sQ==
-X-Gm-Message-State: ALoCoQk/C2TfHPL6NS0iv648h0LllgZDEygllhzlmKEjmSHA1VgoGXI98/hAQwaPHu1saxsvGFII
-X-Received: by 10.141.28.200 with SMTP id f191mr3666051qhe.52.1438344081251;
-	Fri, 31 Jul 2015 05:01:21 -0700 (PDT)
+	Fri, 31 Jul 2015 12:16:05 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga103.fm.intel.com with ESMTP; 31 Jul 2015 05:16:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,584,1432623600"; d="scan'208";a="533661109"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
+	([10.237.68.143])
+	by FMSMGA003.fm.intel.com with ESMTP; 31 Jul 2015 05:16:05 -0700
+Message-ID: <55BB6744.3020205@linux.intel.com>
+Date: Fri, 31 Jul 2015 15:17:08 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.98.8 with HTTP; Fri, 31 Jul 2015 05:01:01 -0700 (PDT)
-In-Reply-To: <1923146.uIJODXP6Gm@peggleto-mobl.ger.corp.intel.com>
-References: <55BB1C0F.90508@windriver.com>
-	<2950215.CmNeN3gmTU@peggleto-mobl.ger.corp.intel.com>
-	<CAP71Wjwh7VZJubtjL0oy4CmzKFh3p9+7c9v92we06U6KE5YfZQ@mail.gmail.com>
-	<1923146.uIJODXP6Gm@peggleto-mobl.ger.corp.intel.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Fri, 31 Jul 2015 14:01:01 +0200
-Message-ID: <CAP71WjzRNtGutTGyz_vm7S8R5+2vUwMzefArwvqnuWia-R+d_g@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta/lib/oe/rootfs.py: dont' remove any packages by default
+To: Max Krummenacher <max.oss.09@gmail.com>
+References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>	
+	<316d1fc15fc3ef12d5164dbc974c1ba15f4a3564.1438262915.git.alexander.kanavin@linux.intel.com>
+	<1438278300.2650.6.camel@Saturn.local.all>
+In-Reply-To: <1438278300.2650.6.camel@Saturn.local.all>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 20/26] stress: use developer's website for SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,19 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jul 2015 12:01:23 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 31 Jul 2015 12:16:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Jul 31, 2015 at 1:12 PM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
->> I am not sure to understand the relationship between runtime package
->> management, and adding/removing users? Why would no runtime package
->> management, imply no need to add/remove users?
+On 07/30/2015 08:45 PM, Max Krummenacher wrote:
+> Please note that the package has now a changed file COPYING for GPLv3
+> (but the sources still reference GPLv2)
 >
-> I guess the underlying assumption is that if you have no package manager, in a
-> typical embedded context (if there is such a thing) that implies you won't be
-> changing the system after setup.
+> So unless you still have stress-1.0.4.tar.gz in your download folder
+> the package checksums and LIC_FILES_CHKSUM will throw an error/warning
+> and then fallback successfully to the OE mirror.
+>> -SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/stress/stress-${PV}.tar.gz/a607afa695a511765b40993a64c6e2f4/stress-${PV}.tar.gz \
+>> +SRC_URI = "http://people.seas.harvard.edu/~apw/stress/stress-${PV}.tar.gz \
+>>              file://texinfo.patch \
+>>              "
 
-well, that still sounds like 2 separate 'features'.. i think it might
-be a good idea to split them out...
+
+That's right. Fedora's tarball has a GPLv3 COPYING in it, while upstream 
+tarball has GPLv2 (the source trees are otherwise identical).
+
+I've updated all the checksums in the recipe to match upstream tarball.
+
+
+Alex
 
