@@ -1,31 +1,29 @@
 Return-Path: <richard@rpsys.net>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 673427666C
+	by mail.openembedded.org (Postfix) with ESMTP id 665737666B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Aug 2015 09:06:32 +0000 (UTC)
+	Sat,  1 Aug 2015 09:06:31 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7196U8u018794; Sat, 1 Aug 2015 10:06:30 +0100
+	t7196USJ018796; Sat, 1 Aug 2015 10:06:30 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id NewCF2YvFPAV; Sat,  1 Aug 2015 10:06:30 +0100 (BST)
+	with LMTP id 4gFzoYCSqWml; Sat,  1 Aug 2015 10:06:30 +0100 (BST)
 Received: from ted (5751f4a1.skybroadband.com [87.81.244.161])
 	(authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7196PR2018781
+	t7196OBN018778
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
 	Sat, 1 Aug 2015 10:06:26 +0100
 Received: from richard by ted with local (Exim 4.84_RC1)
 	(envelope-from <richard@dan.rpsys.net>)
-	id 1ZLSkF-0000tp-Tj; Sat, 01 Aug 2015 10:06:19 +0100
+	id 1ZLSkF-0000tX-KP; Sat, 01 Aug 2015 10:06:19 +0100
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Aug 2015 10:06:13 +0100
-Message-Id: <1438419973-3394-4-git-send-email-richard.purdie@linuxfoundation.org>
+Date: Sat,  1 Aug 2015 10:06:10 +0100
+Message-Id: <1438419973-3394-1-git-send-email-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <1438419973-3394-1-git-send-email-richard.purdie@linuxfoundation.org>
-References: <1438419973-3394-1-git-send-email-richard.purdie@linuxfoundation.org>
-Subject: [PATCH 4/4] python-scons: 2.3.4 -> 2.3.6
+Subject: [PATCH 1/4] libmpc: 1.0.2 -> 1.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,44 +38,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 01 Aug 2015 09:06:33 -0000
 
-License copyright year changed.
-
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{python-scons-native_2.3.4.bb => python-scons-native_2.3.6.bb}  | 0
- .../python/{python-scons_2.3.4.bb => python-scons_2.3.6.bb}         | 6 +++---
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-scons-native_2.3.4.bb => python-scons-native_2.3.6.bb} (100%)
- rename meta/recipes-devtools/python/{python-scons_2.3.4.bb => python-scons_2.3.6.bb} (52%)
+ meta/recipes-support/libmpc/{libmpc_1.0.2.bb => libmpc_1.0.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/libmpc/{libmpc_1.0.2.bb => libmpc_1.0.3.bb} (64%)
 
-diff --git a/meta/recipes-devtools/python/python-scons-native_2.3.4.bb b/meta/recipes-devtools/python/python-scons-native_2.3.6.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-scons-native_2.3.4.bb
-rename to meta/recipes-devtools/python/python-scons-native_2.3.6.bb
-diff --git a/meta/recipes-devtools/python/python-scons_2.3.4.bb b/meta/recipes-devtools/python/python-scons_2.3.6.bb
-similarity index 52%
-rename from meta/recipes-devtools/python/python-scons_2.3.4.bb
-rename to meta/recipes-devtools/python/python-scons_2.3.6.bb
-index 9b828fa..c4ad7d3 100644
---- a/meta/recipes-devtools/python/python-scons_2.3.4.bb
-+++ b/meta/recipes-devtools/python/python-scons_2.3.6.bb
-@@ -1,13 +1,13 @@
- SUMMARY = "Software Construction tool (make/autotools replacement)"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f0ad8a74a10870caa5e08a3e45d719e2"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=23bc1530c55e9f0d1b709056bcea237d"
- SRCNAME = "scons"
+diff --git a/meta/recipes-support/libmpc/libmpc_1.0.2.bb b/meta/recipes-support/libmpc/libmpc_1.0.3.bb
+similarity index 64%
+rename from meta/recipes-support/libmpc/libmpc_1.0.2.bb
+rename to meta/recipes-support/libmpc/libmpc_1.0.3.bb
+index 41177eb..f3e5a18 100644
+--- a/meta/recipes-support/libmpc/libmpc_1.0.2.bb
++++ b/meta/recipes-support/libmpc/libmpc_1.0.3.bb
+@@ -5,8 +5,8 @@ DEPENDS = "gmp mpfr"
+ LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=e6a600fd5e1d9cbde2d983680233ad02"
+ SRC_URI = "http://www.multiprecision.org/mpc/download/mpc-${PV}.tar.gz"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
+-SRC_URI[md5sum] = "68fadff3358fb3e7976c7a398a0af4c3"
+-SRC_URI[sha256sum] = "b561f54d8a479cee3bc891ee52735f18ff86712ba30f036f8b8537bae380c488"
++SRC_URI[md5sum] = "d6a1d5f8ddea3abd2cc3e98f58352d26"
++SRC_URI[sha256sum] = "617decc6ea09889fb08ede330917a00b16809b8db88c29c31bfbb49cbf88ecc3"
  
--SRC_URI[md5sum] = "91fbbb67c2c65b03c746601baac4a6a5"
--SRC_URI[sha256sum] = "4b57d72066fed3b6ff65a7dd9f73633c9b1c09f87520e9b3aae84b3e4864b441"
-+SRC_URI[md5sum] = "9c6a1c3c716cbe5f16515f163c91d928"
-+SRC_URI[sha256sum] = "98adaa351d8f4e4068a5bf1894bdd7f85b390c8c3f80d437cf8bb266012404df"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
+ S = "${WORKDIR}/mpc-${PV}"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.1.0
 
