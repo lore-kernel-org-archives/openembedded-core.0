@@ -1,28 +1,31 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 54860765C7
+Return-Path: <richard@rpsys.net>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 646A976659
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Aug 2015 03:58:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t713w05W010913
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 31 Jul 2015 20:58:00 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Fri, 31 Jul 2015 20:57:59 -0700
-Message-ID: <55BC43C6.2020800@windriver.com>
-Date: Sat, 1 Aug 2015 11:57:58 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <55BB1C0F.90508@windriver.com>
-	<2950215.CmNeN3gmTU@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <2950215.CmNeN3gmTU@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: meta/lib/oe/rootfs.py: dont' remove any packages by default
+	Sat,  1 Aug 2015 09:06:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7195rIp018718; Sat, 1 Aug 2015 10:06:30 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id SpD2jNENSOmN; Sat,  1 Aug 2015 10:06:30 +0100 (BST)
+Received: from ted (5751f4a1.skybroadband.com [87.81.244.161])
+	(authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7196OsW018779
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 1 Aug 2015 10:06:26 +0100
+Received: from richard by ted with local (Exim 4.84_RC1)
+	(envelope-from <richard@dan.rpsys.net>)
+	id 1ZLSkF-0000tb-Nw; Sat, 01 Aug 2015 10:06:19 +0100
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  1 Aug 2015 10:06:11 +0100
+Message-Id: <1438419973-3394-2-git-send-email-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <1438419973-3394-1-git-send-email-richard.purdie@linuxfoundation.org>
+References: <1438419973-3394-1-git-send-email-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/4] mpfr: 3.1.2 -> 3.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,79 +38,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Aug 2015 03:58:07 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 01 Aug 2015 09:06:32 -0000
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../mpfr/{mpfr-3.1.2 => mpfr-3.1.3}/long-long-thumb.patch             | 0
+ meta/recipes-support/mpfr/{mpfr_3.1.2.bb => mpfr_3.1.3.bb}            | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/mpfr/{mpfr-3.1.2 => mpfr-3.1.3}/long-long-thumb.patch (100%)
+ rename meta/recipes-support/mpfr/{mpfr_3.1.2.bb => mpfr_3.1.3.bb} (73%)
 
+diff --git a/meta/recipes-support/mpfr/mpfr-3.1.2/long-long-thumb.patch b/meta/recipes-support/mpfr/mpfr-3.1.3/long-long-thumb.patch
+similarity index 100%
+rename from meta/recipes-support/mpfr/mpfr-3.1.2/long-long-thumb.patch
+rename to meta/recipes-support/mpfr/mpfr-3.1.3/long-long-thumb.patch
+diff --git a/meta/recipes-support/mpfr/mpfr_3.1.2.bb b/meta/recipes-support/mpfr/mpfr_3.1.3.bb
+similarity index 73%
+rename from meta/recipes-support/mpfr/mpfr_3.1.2.bb
+rename to meta/recipes-support/mpfr/mpfr_3.1.3.bb
+index c05e956..af19b54 100644
+--- a/meta/recipes-support/mpfr/mpfr_3.1.2.bb
++++ b/meta/recipes-support/mpfr/mpfr_3.1.3.bb
+@@ -9,8 +9,8 @@ SRC_URI = "http://www.mpfr.org/mpfr-${PV}/mpfr-${PV}.tar.xz \
+            file://long-long-thumb.patch \
+            "
+ 
+-SRC_URI[md5sum] = "e3d203d188b8fe60bb6578dd3152e05c"
+-SRC_URI[sha256sum] = "399d0f47ef6608cc01d29ed1b99c7faff36d9994c45f36f41ba250147100453b"
++SRC_URI[md5sum] = "6969398cd2fbc56a6af570b5273c56a9"
++SRC_URI[sha256sum] = "6835a08bd992c8257641791e9a6a2b35b02336c8de26d0a8577953747e514a16"
+ 
+ S = "${WORKDIR}/mpfr-${PV}"
+ 
+-- 
+2.1.0
 
-On 07/31/2015 06:46 PM, Paul Eggleton wrote:
-> Hi Robert,
->
-> On Friday 31 July 2015 14:56:15 Robert Yang wrote:
->> Currently, the rootfs.py removes base-passwd, shadow, update-rc.d,
->> update-alternatives and run-postinsts when package-management not
->> in IMAGE_FEATURES, this causes two problems:
->>
->> 1) This makes we can't install the removed pkgs to rootfs, such as
->>      IMAGE_INSTALL_append = " shadow", the shadow can't installed (first
->>      installed, then removed)
->>
->> 2) The base-passwd has been removed, but the /etc/passwd and /etc/group
->>      are still existed since they are generated by preinst, this would
->>      confuse the user, and we can't add a postuninst to remove /etc/passwd
->>      and /etc/group since they are required when runtime.
->>
->> I think that we should not remove any pkgs by default, we can add some
->> interfaces/ways to let the user decide whether to remove them or any
->> other pkgs, for example, add a REMOVE_PACKAGS variable, leave it as NULL
->> or only add run-postinsts to it by default.
->
-> There is a reason for these not to be there by default when you don't have
-> runtime package management - the assumption is you won't be adding or removing
-> any users, thus the binaries that those packages install aren't needed.
->
-> Now, it might be argued that if for example you're using some non-package-
-> management based application installation mechanism that has per-application
-> users (Android does this) you will need to add and remove users and therefore
-> you do still need those tools, in which case we would probably need a
-> mechanism for preventing the removal of those packages. I'm not sure whether
-> that would be an IMAGE_FEATURES item (e.g. "user-management"), or perhaps we
-> just make this code get the value of a variable specifying the list of
-> packages to remove instead of it being hardcoded as it is now. Either way
-
-I prefer use a variable like REMOVE_PACKAGS to remove them, but after more
-thinking, it seems that we need something like user-management since the
-removing only be enabled when package-management/user-management is not
-in IMAGE_FEATURES.
-
-On the other side, use IMAGE_FEATURES like user-management may also
-cause confusion to the user, when people does things like:
-
-IMAGE_INSTALL_append += "shadow"
-
-He wants to use the command like "useradd", but sorry, the "user-management"
-is not in IMAGE_FEATURES, so he can't get the command "useradd". Usually
-linux users know that the package like shadow provides the command "useradd",
-but only OE developers/users(or advanced developer/users) know that he also
-needs user-management in IMAGE_FEATURES, this seems not a good user experience.
-
-The similar to rpm/package-management, when we install rpm package in the image,
-usually, we'd like to use command like "rpm -qa/ql", but it doesn't work when
-package-management is not in the IMAGE_FEATURES, we've received a few
-questions/complains about this.
-
-I think that OE is a development platform, we'd better avoid such policies
-for the end user, we don't remove anything for them in the fundamental code
-like rootfs.py by default, and leave interfaces for them to remove when
-they want.
-
-// Robert
-
-> though I think the default behaviour does make sense for most people and I
-> don't think we ought to be changing that part.
->
-> Cheers,
-> Paul
->
 
