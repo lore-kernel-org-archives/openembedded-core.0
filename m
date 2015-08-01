@@ -1,35 +1,40 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B5937656C;
-	Sat,  1 Aug 2015 12:47:18 +0000 (UTC)
-Received: by padck2 with SMTP id ck2so56597158pad.0;
-	Sat, 01 Aug 2015 05:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TeujuYqu5Mz/V8oDBuHxZ3CG8XddhzFiZUUX6mCkki8=;
-	b=kEfw6NUUusmtPR9AOG0KjV60MRp6+LJrcuFyIJ+Pj6PgWbWsN7wW9Ee93FZ/uIiNo0
-	c8GeZG2zAl/XawPwHLJ7slRZw45wgrDNqMqDzehU5V61wATnL5Y5Xr4En4dIni0RQ5wG
-	pGySdEZC/LISegPkKbGa1PcEyPZylPMWrUl56OpJo4A9BYHxGDzFEYJEYAFODQCBAEBp
-	EjGtn8IERnub4pKiSbhzFtV4+h3nTDxBkuAQX4HDYeFN4n1I7E7WqG2vragp27od0OvC
-	vSO11pp0zoBSP65lqsCr2X0KEl4m3QrxgYYEPySnM/PZn4L7PIBjWDjEFTji3XMkkg05
-	yOLg==
-MIME-Version: 1.0
-X-Received: by 10.69.11.129 with SMTP id ei1mr5824952pbd.167.1438433239343;
-	Sat, 01 Aug 2015 05:47:19 -0700 (PDT)
-Received: by 10.70.65.4 with HTTP; Sat, 1 Aug 2015 05:47:19 -0700 (PDT)
-In-Reply-To: <20150730180140.GN2457@jama>
+Return-Path: <max.oss.09@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 659B076643;
+	Sat,  1 Aug 2015 13:13:18 +0000 (UTC)
+Received: by wibxm9 with SMTP id xm9so66272538wib.0;
+	Sat, 01 Aug 2015 06:13:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:content-type:mime-version:content-transfer-encoding;
+	bh=OpaqbQ5uHjzjVx6tfCIGWwMqQPTTq6QI4mKMS/SzGDw=;
+	b=07wBgj99m0SSemCof/UifMLkx4t62R0jMGKKyeIKARQoBulrfqEJh0rZU37WRPZoT8
+	2YZaM3a7mNTcOEci48Yx7c3W5UEyjjhvJEaEzsriigp8QirZGgwsMMd46oE6IZYufuoL
+	YtFmRtR/TKnbB07lfnFAiR/GK+GX8PeZzFQSoYIZBrDa7W+Upw9VbHOQAeateugxEmVh
+	83sfciuBeQWuNhvldv6WYaRaKvLbVBLB/fQkCQ2xJv8f0x2AufLEWSw7cM13Tal3j1RG
+	3QDKhqZqXMNVFtEGi9rffiXUR1JLZ+FEcJk/TJ2NN9Su6ddzh5ZehdS3r+XvmaQ7JPBx
+	qnuw==
+X-Received: by 10.180.216.42 with SMTP id on10mr17724871wic.3.1438434798354;
+	Sat, 01 Aug 2015 06:13:18 -0700 (PDT)
+Received: from [192.168.0.7] (212-41-113-53.adsl.solnet.ch. [212.41.113.53])
+	by smtp.gmail.com with ESMTPSA id
+	bi6sm12453809wjc.25.2015.08.01.06.13.16
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128/128);
+	Sat, 01 Aug 2015 06:13:17 -0700 (PDT)
+Message-ID: <1438434795.3833.4.camel@Saturn.local.all>
+From: Max Krummenacher <max.oss.09@gmail.com>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Date: Sat, 01 Aug 2015 15:13:15 +0200
+In-Reply-To: <CALbNGRTeSPxqOvbxVBtDW6aHk7ncB2CUFDRa9WBVAy0d68S0Pw@mail.gmail.com>
 References: <20150730180140.GN2457@jama>
-Date: Sat, 1 Aug 2015 14:47:19 +0200
-Message-ID: <CALbNGRTeSPxqOvbxVBtDW6aHk7ncB2CUFDRa9WBVAy0d68S0Pw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<CALbNGRTeSPxqOvbxVBtDW6aHk7ncB2CUFDRa9WBVAy0d68S0Pw@mail.gmail.com>
+X-Mailer: Evolution 3.10.4 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
 Subject: Re: State of bitbake world, Failed tasks 2015-07-29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,23 +48,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Aug 2015 12:47:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 01 Aug 2015 13:13:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 30, 2015 at 8:01 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> === common (12) ===
->     * /meta-openembedded/meta-efl/recipes-efl/efl/epdf_svn.bb, do_compile
->     * /meta-openembedded/meta-filesystems/recipes-filesystems/smbnetfs/smbnetfs_git.bb, do_configure
->     * /meta-openembedded/meta-gnome/recipes-gnome/gvfs/gvfs_1.10.1.bb, do_compile
-^ Had a short look into this: It is caused by update of libgphoto2.
-Hope to find time this weekend.
->     * /meta-openembedded/meta-multimedia/recipes-mkv/mkvtoolnix/mkvtoolnix_git.bb, do_compile
->     * /meta-openembedded/meta-multimedia/recipes-multimedia/vlc/vlc_2.1.4.bb, do_compile
->     * /meta-openembedded/meta-networking/recipes-connectivity/crda/crda_3.18.bb, do_compile
->     * /meta-openembedded/meta-oe/recipes-extended/pywbem/pywbem_0.8.0.bb, do_compile
->     * /meta-openembedded/meta-oe/recipes-support/imagemagick/imagemagick_6.9.1.bb, do_fetch
-^ Required patches for this are circulating in master-next. These are
-still matching while writing this.
+Hi Andreas
+Am Samstag, den 01.08.2015, 14:47 +0200 schrieb Andreas Müller:
+> >     * /meta-openembedded/meta-gnome/recipes-gnome/gvfs/gvfs_1.10.1.bb, do_compile
+> ^ Had a short look into this: It is caused by update of libgphoto2.
+> Hope to find time this weekend.
+I did the same and have a backported fix from a later version of gvfs.
+i.e. applying
+https://git.gnome.org/browse/gvfs/commit/daemon/gvfsbackendgphoto2.c?id=259a09183f7c96b5fb0f6453bb4b0bcf92e3eaa2
 
-Andreas
+Currently I'm compiling an image to test on an ARM target.
+
+Regards
+Max
+
+
 
