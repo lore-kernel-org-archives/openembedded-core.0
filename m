@@ -1,20 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 74484757A4
+	by mail.openembedded.org (Postfix) with ESMTP id D8EC675C5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 16:28:50 +0000 (UTC)
+	Mon,  3 Aug 2015 16:28:52 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Aug 2015 09:28:51 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 03 Aug 2015 09:28:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,602,1432623600"; d="scan'208";a="618370890"
+X-IronPort-AV: E=Sophos;i="5.15,602,1432623600"; d="scan'208";a="618370894"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga003.jf.intel.com with ESMTP; 03 Aug 2015 09:28:50 -0700
+	by orsmga003.jf.intel.com with ESMTP; 03 Aug 2015 09:28:51 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Aug 2015 19:29:47 +0300
-Message-Id: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
+Date: Mon,  3 Aug 2015 19:29:48 +0300
+Message-Id: <6a9899fa17063139292c39c162444d1a1356ccce.1438619216.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/7] More recipe reporting fixes
+In-Reply-To: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
+References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
+References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 1/7] fotowall: update SRC_URI to use github instead of qt-apps.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,40 +33,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 03 Aug 2015 16:28:53 -0000
 
-This patchset contains more recipe reporting fixes, some of which are based
-on the review comments to the previous patchset (which got partially merged
-into master). Please see specific commits for details.
+GitHub is where upstream development is happening, so we are more likely
+to find out about new releases from there
 
-The following changes since commit a8b723498c9a7106210db140452886894494b4d6:
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-qt/qt-apps/fotowall_0.9.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-  bitbake: cooker: Resolve file monitoring race issues when using memres bitbake (2015-08-03 07:36:25 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akanavin/recipe-reporting-fixes
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/recipe-reporting-fixes
-
-Alexander Kanavin (7):
-  fotowall: update SRC_URI to use github instead of qt-apps.org
-  distcc: update SRC_URI to not use Google Code
-  gptfdisk: update to 1.0.0
-  oprofile: reorder SRC_URI lines to fix upstream version check
-  xf86-video-omapfb: switch SRC_URI to debian git repo
-  stress: update checksums to match upstream tarball
-  recipeutils.py: allow all characters in regexes used to parse version
-    strings
-
- meta/lib/oe/recipeutils.py                                        | 4 ++--
- meta/recipes-devtools/distcc/distcc_3.1.bb                        | 6 ++----
- .../recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_1.0.0.bb} | 8 +++-----
- meta/recipes-extended/stress/stress_1.0.4.bb                      | 6 +++---
- meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb        | 2 +-
- meta/recipes-kernel/oprofile/oprofile.inc                         | 3 ++-
- meta/recipes-kernel/oprofile/oprofile_1.0.0.bb                    | 2 --
- meta/recipes-qt/qt-apps/fotowall_0.9.bb                           | 6 ++----
- 8 files changed, 15 insertions(+), 22 deletions(-)
- rename meta/recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_1.0.0.bb} (75%)
-
+diff --git a/meta/recipes-qt/qt-apps/fotowall_0.9.bb b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
+index 48dcc02..e92e862 100644
+--- a/meta/recipes-qt/qt-apps/fotowall_0.9.bb
++++ b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
+@@ -10,13 +10,11 @@ SECTION = "x11/apps"
+ 
+ PR = "r4"
+ 
+-SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2 \
++SRCREV = "06d5a4142c599604d9a9fd64727b6945eb8cd3da"
++SRC_URI = "git://github.com/enricoros/fotowall.git \
+            file://ExportWizard-depends-on-ui_wizard.patch \
+            "
+ 
+-SRC_URI[md5sum] = "142ef697332e0777c6d22c5bc96cc438"
+-SRC_URI[sha256sum] = "e4d0c005d2cb1d7c09438bfc3098eadebc08946e4fbc0655b7fc8b046de3810d"
+-
+ S = "${WORKDIR}/Fotowall-${PV}"
+ 
+ inherit qt4x11
 -- 
 2.1.4
 
