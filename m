@@ -1,23 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9516673231
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B0D1776398
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 13:51:52 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 03 Aug 2015 06:51:52 -0700
+	Mon,  3 Aug 2015 13:52:05 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2015 06:52:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,601,1432623600"; d="scan'208";a="776775034"
+X-IronPort-AV: E=Sophos;i="5.15,601,1432623600"; d="scan'208";a="535104907"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 03 Aug 2015 06:51:52 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Aug 2015 06:52:05 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id C70B46A4005;
-	Mon,  3 Aug 2015 06:51:05 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 6EC496A4005;
+	Mon,  3 Aug 2015 06:51:19 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Aug 2015 16:51:30 +0300
-Message-Id: <cover.1438609723.git.ed.bartosh@linux.intel.com>
+Date: Mon,  3 Aug 2015 16:51:47 +0300
+Message-Id: <c4fb08a3f912cb19ac82367bf160c5a532388e2e.1438609723.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/6] wic: finalize 0.2.0
+In-Reply-To: <de1bbbaa8743b765d169fb233b6485e86f5904c0.1438609723.git.ed.bartosh@linux.intel.com>
+References: <de1bbbaa8743b765d169fb233b6485e86f5904c0.1438609723.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1438609723.git.ed.bartosh@linux.intel.com>
+References: <cover.1438609723.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH 2/6] wic: Improve 'wic help overview' content
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,39 +34,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Aug 2015 13:51:53 -0000
+X-List-Received-Date: Mon, 03 Aug 2015 13:52:07 -0000
 
-Hi,
+Included full console output and example of the .wks file
+into the 'wic help overview' content.
 
-This patchset includes small bugfixes, code cleanup and usability fixes
-for wic release 0.2.0.
+Used qemux86-64 machine instead of crownbay to make example
+working without cloning additional layers.
 
-Please review.
+[YOCTO #7940]
 
-The following changes since commit a8b723498c9a7106210db140452886894494b4d6:
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/image/help.py | 33 ++++++++++++++++++++++++---------
+ 1 file changed, 24 insertions(+), 9 deletions(-)
 
-  bitbake: cooker: Resolve file monitoring race issues when using memres bitbake (2015-08-03 07:36:25 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/wic/0.2.0
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/0.2.0
-
-Ed Bartosh (6):
-  wic: improved usage text
-  wic: Improve 'wic help overview' content
-  wic: Report recipe name for native commands
-  wic: code cleanup: remove unused code
-  wic: code cleanup: pylint misc.py
-  wic: release 0.2.0
-
- scripts/lib/image/help.py        | 45 ++++++++++++++--------
- scripts/lib/wic/utils/oe/misc.py | 82 +++++++++++++++++++++++-----------------
- scripts/wic                      |  2 +-
- 3 files changed, 78 insertions(+), 51 deletions(-)
-
---
-Regards,
-Ed
+diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
+index a14ef20..5fa5836 100644
+--- a/scripts/lib/image/help.py
++++ b/scripts/lib/image/help.py
+@@ -616,18 +616,33 @@ DESCRIPTION
+     and also uses the -o option to have wic create the output
+     somewhere other than the default /var/tmp/wic:
+ 
+-      $ wic create ~/test.wks -o /home/trz/testwic --rootfs-dir
+-      /home/trz/yocto/build/tmp/work/crownbay/core-image-minimal/1.0-r0/rootfs
+-      --bootimg-dir /home/trz/yocto/build/tmp/sysroots/crownbay/usr/share
+-      --kernel-dir /home/trz/yocto/build/tmp/sysroots/crownbay/usr/src/kernel
+-      --native-sysroot /home/trz/yocto/build/tmp/sysroots/x86_64-linux
++      $ wic create ./test.wks -o ./out --rootfs-dir
++      tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs
++      --bootimg-dir tmp/sysroots/qemux86-64/usr/share
++      --kernel-dir tmp/deploy/images/qemux86-64
++      --native-sysroot tmp/sysroots/x86_64-linux
+ 
+-      Creating image(s)...
++     Creating image(s)...
+ 
+-      Info: The new image(s) can be found here:
+-        /home/trz/testwic/build/test-201309260032-sda.direct
++     Info: The new image(s) can be found here:
++           out/build/test-201507211313-sda.direct
++
++     The following build artifacts were used to create the image(s):
++       ROOTFS_DIR:                   tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs
++       BOOTIMG_DIR:                  tmp/sysroots/qemux86-64/usr/share
++       KERNEL_DIR:                   tmp/deploy/images/qemux86-64
++       NATIVE_SYSROOT:               tmp/sysroots/x86_64-linux
++
++     The image(s) were created using OE kickstart file:
++     ./test.wks
++
++     Here is a content of test.wks:
++
++     part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
++     part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
++
++     bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
+ 
+-      ...
+ 
+     Finally, here's an example of the actual partition language
+     commands used to generate the mkefidisk image i.e. these are the
+-- 
+2.1.4
 
 
