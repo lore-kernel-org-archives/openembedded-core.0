@@ -1,25 +1,20 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A01E73D13
+	by mail.openembedded.org (Postfix) with ESMTP id 74484757A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 16:21:37 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Aug 2015 09:21:37 -0700
+	Mon,  3 Aug 2015 16:28:50 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 03 Aug 2015 09:28:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,602,1432623600"; d="scan'208";a="775804786"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.52])
-	([10.219.5.52])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Aug 2015 09:21:37 -0700
-Message-ID: <55BF9547.8060908@linux.intel.com>
-Date: Mon, 03 Aug 2015 11:22:31 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="5.15,602,1432623600"; d="scan'208";a="618370890"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
+	by orsmga003.jf.intel.com with ESMTP; 03 Aug 2015 09:28:50 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1438334099-30137-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <1438334099-30137-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: Re: [PATCH] init-install-efi.sh: Check if an installation device is present
+Date: Mon,  3 Aug 2015 19:29:47 +0300
+Message-Id: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/7] More recipe reporting fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,41 +27,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Aug 2015 16:21:45 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Aug 2015 16:28:53 -0000
 
-This patch does not solve the related bug (#7971) so I will send a V2 soon.
+This patchset contains more recipe reporting fixes, some of which are based
+on the review comments to the previous patchset (which got partially merged
+into master). Please see specific commits for details.
 
+The following changes since commit a8b723498c9a7106210db140452886894494b4d6:
 
-On 07/31/2015 04:14 AM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->
-> In case there is no installation device present, give a better
-> message to the user and abort installation.
->
-> [YOCTO #7971]
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->   meta/recipes-core/initrdscripts/files/init-install-efi.sh | 5 +++++
->   1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> index f339b30..a3ed74b 100644
-> --- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> +++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-> @@ -55,6 +55,11 @@ for device in `ls /sys/block/`; do
->       esac
->   done
->
-> +if [ -z "${hdnamelist}" ]; then
-> +    echo "You need another device (besides the live device /dev/${live_dev_name}) to install the image. Installation aborted."
-> +    exit 1
-> +fi
-> +
->   TARGET_DEVICE_NAME=""
->   for hdname in $hdnamelist; do
->       # Display found hard drives and their basic info
->
+  bitbake: cooker: Resolve file monitoring race issues when using memres bitbake (2015-08-03 07:36:25 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/recipe-reporting-fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/recipe-reporting-fixes
+
+Alexander Kanavin (7):
+  fotowall: update SRC_URI to use github instead of qt-apps.org
+  distcc: update SRC_URI to not use Google Code
+  gptfdisk: update to 1.0.0
+  oprofile: reorder SRC_URI lines to fix upstream version check
+  xf86-video-omapfb: switch SRC_URI to debian git repo
+  stress: update checksums to match upstream tarball
+  recipeutils.py: allow all characters in regexes used to parse version
+    strings
+
+ meta/lib/oe/recipeutils.py                                        | 4 ++--
+ meta/recipes-devtools/distcc/distcc_3.1.bb                        | 6 ++----
+ .../recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_1.0.0.bb} | 8 +++-----
+ meta/recipes-extended/stress/stress_1.0.4.bb                      | 6 +++---
+ meta/recipes-graphics/xorg-driver/xf86-video-omapfb_git.bb        | 2 +-
+ meta/recipes-kernel/oprofile/oprofile.inc                         | 3 ++-
+ meta/recipes-kernel/oprofile/oprofile_1.0.0.bb                    | 2 --
+ meta/recipes-qt/qt-apps/fotowall_0.9.bb                           | 6 ++----
+ 8 files changed, 15 insertions(+), 22 deletions(-)
+ rename meta/recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_1.0.0.bb} (75%)
+
+-- 
+2.1.4
+
 
