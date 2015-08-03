@@ -1,24 +1,26 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 511A8763DA
+Return-Path: <florian.boor@kernelconcepts.de>
+X-Greylist: delayed 2053 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 03 Aug 2015 09:31:36 UTC
+Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
+	by mail.openembedded.org (Postfix) with ESMTP id CEBA86E630
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 09:00:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t73901dm007358
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Aug 2015 02:00:01 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 3 Aug 2015 02:00:00 -0700
-From: <wenzong.fan@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Aug 2015 16:52:45 +0800
-Message-ID: <1438591965-24099-1-git-send-email-wenzong.fan@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Mon,  3 Aug 2015 09:31:36 +0000 (UTC)
+Received: from [192.168.2.34] by mail.kernelconcepts.de with esmtpsa
+	(TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
+	(envelope-from <florian.boor@kernelconcepts.de>) id 1ZMBXI-0007or-HG
+	for openembedded-core@lists.openembedded.org;
+	Mon, 03 Aug 2015 10:55:56 +0200
+Message-ID: <55BF2CF2.2020705@kernelconcepts.de>
+Date: Mon, 03 Aug 2015 10:57:22 +0200
+From: Florian Boor <florian.boor@kernelconcepts.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-Subject: [PATCH] openssl: fix ptest issues
+To: openembedded-core@lists.openembedded.org
+References: <CABx=xrLsS8OtcJZNaCTzhXWSz1JTa0wRBEZ3+fT572sXDvRH=Q@mail.gmail.com>
+	<CABx=xrKw=e+54ip1nhzu2W28Ti9joJH1RJvDTssszhxhdG5e=g@mail.gmail.com>
+In-Reply-To: <CABx=xrKw=e+54ip1nhzu2W28Ti9joJH1RJvDTssszhxhdG5e=g@mail.gmail.com>
+Subject: Re: "Help: Can not install OpenEmbedded"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,52 +33,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Aug 2015 09:00:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Aug 2015 09:31:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Wenzong Fan <wenzong.fan@windriver.com>
+Hi Giang,
 
-* follow symbolic links while copying sources from test/*
-* install required target files to remove Make errors:
+On 03.08.2015 10:42, Giang Nguyễn wrote:
+> I am installing Openembedded but i got an error. When i tried to
+> extract oecore-x86_64-armv7a-vfp-neon-toolchain-oe-core.0.sh
+> <http://oecore-x86_64-armv7a-vfp-neon-toolchain-oe-core.0.sh/> file, it is
+> always produce the same warning like the picture below. Please show me what must
+> i do or give me some advices. I'm expecting to hear back from you. Hope you have
+> a nice day, sir.
 
-  make[2]: *** No rule to make target 'xxx', needed by 'yyy'.
+the error message is pretty clear: It looks like your downloaded file is
+corrupt. Try to download again...
 
-* fix hardcode pathes:
-  /usr/lib -> ${libdir}, /usr/bin -> ${bindir}
+Greetings
 
-Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
----
- meta/recipes-connectivity/openssl/openssl.inc | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+Florian
 
-diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-index 53dcfd9..8d62915 100644
---- a/meta/recipes-connectivity/openssl/openssl.inc
-+++ b/meta/recipes-connectivity/openssl/openssl.inc
-@@ -191,12 +191,18 @@ do_install () {
- }
- 
- do_install_ptest () {
--	cp -r Makefile test ${D}${PTEST_PATH}
-+	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
-+	cp Configure config e_os.h ${D}${PTEST_PATH}
-+	cp -r -L include ${D}${PTEST_PATH}
-+	ln -sf ${base_libdir}/libcrypto.a ${D}${PTEST_PATH}
-+	ln -sf ${libdir}/libssl.a ${D}${PTEST_PATH}
-+	mkdir -p ${D}${PTEST_PATH}/crypto
-+	cp crypto/constant_time_locl.h ${D}${PTEST_PATH}/crypto
- 	cp -r certs ${D}${PTEST_PATH}
- 	mkdir -p ${D}${PTEST_PATH}/apps
--	ln -sf /usr/lib/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
--	ln -sf /usr/lib/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
--	ln -sf /usr/bin/openssl         ${D}${PTEST_PATH}/apps
-+	ln -sf ${libdir}/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
-+	ln -sf ${libdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
-+	ln -sf ${bindir}/openssl         ${D}${PTEST_PATH}/apps
- 	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
- 	mkdir -p ${D}${PTEST_PATH}/util
- 	install util/opensslwrap.sh    ${D}${PTEST_PATH}/util
 -- 
-1.9.1
-
+The dream of yesterday                  Florian Boor
+is the hope of today                    Tel: +49 271-771091-15
+and the reality of tomorrow.            Fax: +49 271-771091-19
+[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
+                                        http://www.kernelconcepts.de/en
 
