@@ -1,29 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E9DD574245
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BFF073D29
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 01:40:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t731ePTZ024692
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 2 Aug 2015 18:40:25 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 2 Aug 2015 18:40:25 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1438450455.git.kai.kang@windriver.com>
-	<16ac455da1ad4ded87a80e00ea08241d761186de.1438450455.git.kai.kang@windriver.com>
-	<1438459940.25455.35.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <55BEC68D.5040009@windriver.com>
-Date: Mon, 3 Aug 2015 09:40:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
-MIME-Version: 1.0
-In-Reply-To: <1438459940.25455.35.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] qemu: add ptest sub-package
+	Mon,  3 Aug 2015 08:38:10 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2015 01:38:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,600,1432623600"; d="scan'208";a="741002526"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 03 Aug 2015 01:38:11 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 800246A4005;
+	Mon,  3 Aug 2015 01:37:24 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Aug 2015 11:37:54 +0300
+Message-Id: <1438591074-14488-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] bmap-tools: v3.2 (initial commit)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,44 +30,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Aug 2015 01:40:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Aug 2015 08:38:14 -0000
 
-On 2015年08月02日 04:12, Richard Purdie wrote:
-> On Sun, 2015-08-02 at 01:35 +0800, Kai Kang wrote:
->> Add sub-package ptest for qemu.
->>
-> [...]
->> diff --git a/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
->> new file mode 100644
->> index 0000000..2e79356
->> --- /dev/null
->> +++ b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
->> @@ -0,0 +1,29 @@
->> +From 9b25fbc38c2c57c93ab53bf48a759bd2bd4c209d Mon Sep 17 00:00:00 2001
->> +From: HYANG2 <hyang2@pek-hyang2-d1.(none)>
->> +Date: Tue, 15 Jul 2014 10:13:22 +0800
->> +Subject: [PATCH] fix for ptest
-> No Upstream-Status?
+Bmap-tools - tools to generate block map (AKA bmap) and flash images
+using bmap. Bmaptool is a generic tool for creating the block map
+(bmap) for a file and copying files using the block map.
 
-Sorry, forgot it. V2 will be sent.
+The idea is that large file containing unused blocks, like raw system
+image files, can be copied or flashed a lot faster with bmaptool than
+with traditional tools like "dd" or "cp".
 
-Thanks,
-Kai
+This package provides Python API, which can be used to generate
+bmaps for Yocto images produced by bitbake and wic.
 
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/recipes-extended/bmap-tools/bmap-tools_3.2.bb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 meta/recipes-extended/bmap-tools/bmap-tools_3.2.bb
 
->
-> Cheers,
->
-> Richard
->
->
->
-
-
+diff --git a/meta/recipes-extended/bmap-tools/bmap-tools_3.2.bb b/meta/recipes-extended/bmap-tools/bmap-tools_3.2.bb
+new file mode 100644
+index 0000000..79a2aa9
+--- /dev/null
++++ b/meta/recipes-extended/bmap-tools/bmap-tools_3.2.bb
+@@ -0,0 +1,15 @@
++DESCRIPTION = "Tools to generate block map (AKA bmap) and flash images using bmap."
++HOMEPAGE = "http://source.tizen.org/documentation/reference/bmaptool/bmap-tools-project"
++SECTION = "console/tools"
++LICENSE = "GPLv2.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++
++SRC_URI = "ftp://ftp.infradead.org/pub/${BPN}/${BPN}-${PV}.tgz"
++SRC_URI[md5sum] = "92cdad1cb4dfa0cca7176c8e22752616"
++SRC_URI[sha256sum] = "cc6c7f7dc0a37e2a32deb127308e24e6c4b80bfb54f3803c308efab02bf2d434"
++
++RDEPENDS_${PN} = "bzip2 gzip lzop pigz python tar xz"
++
++inherit setuptools
++
++BBCLASSEXTEND = "native"
 -- 
-Regards,
-Neil | Kai Kang
+2.1.4
 
 
