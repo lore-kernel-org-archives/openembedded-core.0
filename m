@@ -1,30 +1,21 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E9B98757A4
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 312B873D13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 23:04:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t73N4xE1015180 for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Aug 2015 00:04:59 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id aWk-LGxl_F-1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 00:04:59 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t73N4eog015173
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Aug 2015 00:04:54 +0100
-Message-ID: <1438620451.4796.67.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 03 Aug 2015 17:47:31 +0100
-Mime-Version: 1.0
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Subject: [PATCH] weston: Fix parallel make race
+	Mon,  3 Aug 2015 23:12:37 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2015 16:06:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,604,1432623600"; d="scan'208";a="535420021"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by FMSMGA003.fm.intel.com with ESMTP; 03 Aug 2015 16:06:44 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Aug 2015 15:01:04 +0000
+Message-Id: <1438614064-10290-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] init-install-efi.sh: Avoid /mnt/mtab creation if already present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,61 +28,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Aug 2015 23:05:02 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Aug 2015 23:12:41 -0000
 
-The current approach used by the Makefile ends up installing
-weston.desktop twice and can give build failures when using
-parallel make flags. Change to just have one DATA reference.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The base-files recipe installs /mnt/mtab (it is a softlink of /proc/mounts),
+so if an image includes the latter, there is no new to created it again inside
+the install-efi.sh script, otherwise an error may occur as indicated on the
+bug's site.
+
+[YOCTO #7971]
+
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 ---
- .../wayland/weston/parallelmake.patch              | 22 ++++++++++++++++++++++
- meta/recipes-graphics/wayland/weston_1.8.0.bb      |  1 +
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston/parallelmake.patch
+ meta/recipes-core/initrdscripts/files/init-install-efi.sh | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston/parallelmake.patch b/meta/recipes-graphics/wayland/weston/parallelmake.patch
-new file mode 100644
-index 0000000..34d7512
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston/parallelmake.patch
-@@ -0,0 +1,22 @@
-+The current approach used by the Makefile ends up installing 
-+weston.desktop twice and can give build failures when using 
-+parallel make flags. Change to just have one DATA reference.
+diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+index f339b30..665d04a 100644
+--- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
++++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
+@@ -109,7 +109,11 @@ rm -f /etc/udev/scripts/mount*
+ umount ${device}* 2> /dev/null || /bin/true
+ 
+ mkdir -p /tmp
+-cat /proc/mounts > /etc/mtab
 +
-+RP
-+2015/8/3
-+Upstream-Status: Pending
-+
-+Index: weston-1.8.0/Makefile.am
-+===================================================================
-+--- weston-1.8.0.orig/Makefile.am
-++++ weston-1.8.0/Makefile.am
-+@@ -179,8 +179,7 @@ pkgconfigdir = $(libdir)/pkgconfig
-+ pkgconfig_DATA = src/weston.pc
-+ 
-+ wayland_sessiondir = $(datadir)/wayland-sessions
-+-wayland_session_DATA = src/weston.desktop
-+-dist_wayland_session_DATA = $(wayland_session_DATA)
-++dist_wayland_session_DATA = src/weston.desktop
-+ 
-+ westonincludedir = $(includedir)/weston
-+ westoninclude_HEADERS =				\
-diff --git a/meta/recipes-graphics/wayland/weston_1.8.0.bb b/meta/recipes-graphics/wayland/weston_1.8.0.bb
-index ac6bd97..342c604 100644
---- a/meta/recipes-graphics/wayland/weston_1.8.0.bb
-+++ b/meta/recipes-graphics/wayland/weston_1.8.0.bb
-@@ -11,6 +11,7 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            file://make-lcms-explicitly-configurable.patch \
-            file://make-libwebp-explicitly-configurable.patch \
-            file://0001-make-error-portable.patch \
-+           file://parallelmake.patch \
- "
- SRC_URI[md5sum] = "24cb8a7ed0535b4fc3642643988dab36"
- SRC_URI[sha256sum] = "8963e69f328e815cec42c58046c4af721476c7541bb7d9edc71740fada5ad312"
-
++# Create /etc/mtab if not present
++if [ ! -e /etc/mtab ]; then
++    cat /proc/mounts > /etc/mtab
++fi
+ 
+ disk_size=$(parted ${device} unit mb print | grep Disk | cut -d" " -f 3 | sed -e "s/MB//")
+ 
+-- 
+1.8.4.5
 
 
