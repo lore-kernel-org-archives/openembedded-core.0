@@ -1,28 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E424765B2
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E9DD574245
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Aug 2015 20:12:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t71KCZkm001867; Sat, 1 Aug 2015 21:12:35 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id F8O085MFBv5z; Sat,  1 Aug 2015 21:12:35 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t71KCK6d001864
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sat, 1 Aug 2015 21:12:32 +0100
-Message-ID: <1438459940.25455.35.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Kai Kang <kai.kang@windriver.com>
-Date: Sat, 01 Aug 2015 21:12:20 +0100
-In-Reply-To: <16ac455da1ad4ded87a80e00ea08241d761186de.1438450455.git.kai.kang@windriver.com>
+	Mon,  3 Aug 2015 01:40:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t731ePTZ024692
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 2 Aug 2015 18:40:25 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Sun, 2 Aug 2015 18:40:25 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 References: <cover.1438450455.git.kai.kang@windriver.com>
 	<16ac455da1ad4ded87a80e00ea08241d761186de.1438450455.git.kai.kang@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
+	<1438459940.25455.35.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <55BEC68D.5040009@windriver.com>
+Date: Mon, 3 Aug 2015 09:40:29 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
+MIME-Version: 1.0
+In-Reply-To: <1438459940.25455.35.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/2] qemu: add ptest sub-package
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -37,30 +36,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Aug 2015 20:12:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Aug 2015 01:40:29 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2015-08-02 at 01:35 +0800, Kai Kang wrote:
-> Add sub-package ptest for qemu.
-> 
-[...]
-> diff --git a/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
-> new file mode 100644
-> index 0000000..2e79356
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
-> @@ -0,0 +1,29 @@
-> +From 9b25fbc38c2c57c93ab53bf48a759bd2bd4c209d Mon Sep 17 00:00:00 2001
-> +From: HYANG2 <hyang2@pek-hyang2-d1.(none)>
-> +Date: Tue, 15 Jul 2014 10:13:22 +0800
-> +Subject: [PATCH] fix for ptest
+On 2015年08月02日 04:12, Richard Purdie wrote:
+> On Sun, 2015-08-02 at 01:35 +0800, Kai Kang wrote:
+>> Add sub-package ptest for qemu.
+>>
+> [...]
+>> diff --git a/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
+>> new file mode 100644
+>> index 0000000..2e79356
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
+>> @@ -0,0 +1,29 @@
+>> +From 9b25fbc38c2c57c93ab53bf48a759bd2bd4c209d Mon Sep 17 00:00:00 2001
+>> +From: HYANG2 <hyang2@pek-hyang2-d1.(none)>
+>> +Date: Tue, 15 Jul 2014 10:13:22 +0800
+>> +Subject: [PATCH] fix for ptest
+> No Upstream-Status?
 
-No Upstream-Status?
+Sorry, forgot it. V2 will be sent.
 
-Cheers,
+Thanks,
+Kai
 
-Richard
 
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+
+-- 
+Regards,
+Neil | Kai Kang
 
 
