@@ -1,26 +1,37 @@
-Return-Path: <florian.boor@kernelconcepts.de>
-X-Greylist: delayed 2053 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 03 Aug 2015 09:31:36 UTC
-Received: from mail.kernelconcepts.de (mail.kernelconcepts.de [212.60.202.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CEBA86E630
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1561073D13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 09:31:36 +0000 (UTC)
-Received: from [192.168.2.34] by mail.kernelconcepts.de with esmtpsa
-	(TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16) (Exim 4.72)
-	(envelope-from <florian.boor@kernelconcepts.de>) id 1ZMBXI-0007or-HG
-	for openembedded-core@lists.openembedded.org;
-	Mon, 03 Aug 2015 10:55:56 +0200
-Message-ID: <55BF2CF2.2020705@kernelconcepts.de>
-Date: Mon, 03 Aug 2015 10:57:22 +0200
-From: Florian Boor <florian.boor@kernelconcepts.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Mon,  3 Aug 2015 11:09:31 +0000 (UTC)
+Received: by wicgj17 with SMTP id gj17so100082548wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Aug 2015 04:09:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4GpwsiV6//gJjx0fLdJuQnxkUs2T0AwNYnXrVtcJ2ZI=;
+	b=Ugd4ux/j/YCtAkvocw0yxSSQCgFqtPkBIYNR6AV+PLwIrwl+NFCOxRLRWW+ppYBnyT
+	FLSP/mfUsoY6RO4GnvR03OCqU8lAb0LVTunwHTpt5XpFNm9gETefaFdwxtQiOwNgHUC8
+	Nb4QIMhMy1FvuvCFkTHpefWT+YTBn/p4SxwRPahUlxNj+SFy04c3aGNPiFtTWuxftZmQ
+	RHsLrzPWsQI6Hxe8jCl3CDcozTKqKveCu6yhzNVLztdjig3bKBh9VIyvFKEh+7Dfx1pZ
+	jMQp0gqZgFeDawq/ZHSOPAN9ogN3dASm2coiA3wrpF69F1vxYubmmwYGxHrWoyGZSzZO
+	zKdw==
+X-Gm-Message-State: ALoCoQlrKjRMz1NxxxybOceRGyQL/5FzsvbGsLA0LwDrzT35CiSSGhhvCfQzST8btJoZTtfCyW2S
+X-Received: by 10.194.20.196 with SMTP id p4mr32817887wje.86.1438600170780;
+	Mon, 03 Aug 2015 04:09:30 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <CABx=xrLsS8OtcJZNaCTzhXWSz1JTa0wRBEZ3+fT572sXDvRH=Q@mail.gmail.com>
-	<CABx=xrKw=e+54ip1nhzu2W28Ti9joJH1RJvDTssszhxhdG5e=g@mail.gmail.com>
-In-Reply-To: <CABx=xrKw=e+54ip1nhzu2W28Ti9joJH1RJvDTssszhxhdG5e=g@mail.gmail.com>
-Subject: Re: "Help: Can not install OpenEmbedded"
+Received: by 10.27.87.1 with HTTP; Mon, 3 Aug 2015 04:09:01 -0700 (PDT)
+In-Reply-To: <1438330132-1599-1-git-send-email-nicolas.dechesne@linaro.org>
+References: <1438330132-1599-1-git-send-email-nicolas.dechesne@linaro.org>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Mon, 3 Aug 2015 14:09:01 +0300
+Message-ID: <CAHiDW_HqkrxoeB5_Xu6wJBZ=cRo3vRC3GddeiM16qp1Ui4-JTw@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: patches@linaro.org, Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mesa: upgrade 10.5.8 -> 10.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,31 +44,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Aug 2015 09:31:37 -0000
+X-List-Received-Date: Mon, 03 Aug 2015 11:09:32 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Hi Giang,
+On 31 July 2015 at 11:08, Nicolas Dechesne <nicolas.dechesne@linaro.org> wrote:
+> Tested with X11 :
+>
+> * xf86-video-freedreno (and w/ XA) on IFC6410 and DragonBoard 410c
+> * softpipe on DragonBoard 410c
+> * using meta-qualcomm BSP
 
-On 03.08.2015 10:42, Giang Nguyễn wrote:
-> I am installing Openembedded but i got an error. When i tried to
-> extract oecore-x86_64-armv7a-vfp-neon-toolchain-oe-core.0.sh
-> <http://oecore-x86_64-armv7a-vfp-neon-toolchain-oe-core.0.sh/> file, it is
-> always produce the same warning like the picture below. Please show me what must
-> i do or give me some advices. I'm expecting to hear back from you. Hope you have
-> a nice day, sir.
+Hi Nicolas,
 
-the error message is pretty clear: It looks like your downloaded file is
-corrupt. Try to download again...
+I believe OpenVG support has been removed in 10.6: Could you remove
+the unnecessary references from the recipe (PACKAGECONFIG, PACKAGES
+and FILES).
 
-Greetings
+Thanks,
+  Jussi
 
-Florian
-
--- 
-The dream of yesterday                  Florian Boor
-is the hope of today                    Tel: +49 271-771091-15
-and the reality of tomorrow.            Fax: +49 271-771091-19
-[Robert Hutchings Goddard, 1904]        florian.boor@kernelconcepts.de
-                                        http://www.kernelconcepts.de/en
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> ---
+>  meta/recipes-graphics/mesa/{mesa-gl_10.5.8.bb => mesa-gl_10.6.3.bb} | 0
+>  meta/recipes-graphics/mesa/{mesa_10.5.8.bb => mesa_10.6.3.bb}       | 4 ++--
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/mesa/{mesa-gl_10.5.8.bb => mesa-gl_10.6.3.bb} (100%)
+>  rename meta/recipes-graphics/mesa/{mesa_10.5.8.bb => mesa_10.6.3.bb} (78%)
+>
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_10.5.8.bb b/meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_10.5.8.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa_10.5.8.bb b/meta/recipes-graphics/mesa/mesa_10.6.3.bb
+> similarity index 78%
+> rename from meta/recipes-graphics/mesa/mesa_10.5.8.bb
+> rename to meta/recipes-graphics/mesa/mesa_10.6.3.bb
+> index 072cde9..8c55064 100644
+> --- a/meta/recipes-graphics/mesa/mesa_10.5.8.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_10.6.3.bb
+> @@ -2,8 +2,8 @@ require ${BPN}.inc
+>
+>  SRC_URI = "ftp://ftp.freedesktop.org/pub/mesa/${PV}/mesa-${PV}.tar.xz"
+>
+> -SRC_URI[md5sum] = "5332a3576c5e3a0c3947ee6668dd4157"
+> -SRC_URI[sha256sum] = "2866b855c5299a4aed066338c77ff6467c389b2c30ada7647be8758663da2b54"
+> +SRC_URI[md5sum] = "553e525d2f20ed48fca8f1ec3176fd83"
+> +SRC_URI[sha256sum] = "58592e07c350cd2e8969b73fa83048c657a39fe2f13f3b88f5e5818fe2e4676d"
+>
+>  #because we cannot rely on the fact that all apps will use pkgconfig,
+>  #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+> --
+> 2.3.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
