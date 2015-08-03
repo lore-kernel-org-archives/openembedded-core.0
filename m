@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E148757A4
+	by mail.openembedded.org (Postfix) with ESMTP id 7A6C676541
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 16:29:09 +0000 (UTC)
+	Mon,  3 Aug 2015 16:29:12 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 03 Aug 2015 09:28:54 -0700
+	by orsmga102.jf.intel.com with ESMTP; 03 Aug 2015 09:28:56 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,602,1432623600"; d="scan'208";a="618370910"
+X-IronPort-AV: E=Sophos;i="5.15,602,1432623600"; d="scan'208";a="618370916"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga003.jf.intel.com with ESMTP; 03 Aug 2015 09:28:53 -0700
+	by orsmga003.jf.intel.com with ESMTP; 03 Aug 2015 09:28:54 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Aug 2015 19:29:50 +0300
-Message-Id: <24c9bb383d35d7023e3562458e5ee2483a865f7f.1438619216.git.alexander.kanavin@linux.intel.com>
+Date: Mon,  3 Aug 2015 19:29:51 +0300
+Message-Id: <6ac022b36a5b7a4df1d224838ae7c0506013bfb0.1438619216.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
 References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/7] gptfdisk: update to 1.0.0
+Subject: [PATCH 4/7] oprofile: reorder SRC_URI lines to fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 03 Aug 2015 16:29:12 -0000
 
-Also, use tarballs instead of git for fetching source code.
-git repository does not have version tags, so upstream version check
-cannot be performed.
+The source tarball should be listed first.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_1.0.0.bb} | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_1.0.0.bb} (75%)
+ meta/recipes-kernel/oprofile/oprofile.inc      | 3 ++-
+ meta/recipes-kernel/oprofile/oprofile_1.0.0.bb | 2 --
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
-similarity index 75%
-rename from meta/recipes-devtools/fdisk/gptfdisk_git.bb
-rename to meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
-index 477c1d9..f4b0e32 100644
---- a/meta/recipes-devtools/fdisk/gptfdisk_git.bb
-+++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
-@@ -5,11 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
+diff --git a/meta/recipes-kernel/oprofile/oprofile.inc b/meta/recipes-kernel/oprofile/oprofile.inc
+index 49e6b16..6b393bc 100644
+--- a/meta/recipes-kernel/oprofile/oprofile.inc
++++ b/meta/recipes-kernel/oprofile/oprofile.inc
+@@ -18,7 +18,8 @@ FILES_${PN} = "${bindir} ${libdir}/${BPN}/lib*${SOLIBS} ${datadir}/${BPN}"
+ FILES_${PN}-dev += "${libdir}/${BPN}/lib*${SOLIBSDEV} ${libdir}/${BPN}/lib*.la"
+ FILES_${PN}-staticdev += "${libdir}/${BPN}/lib*.a"
  
- DEPENDS = "util-linux popt ncurses"
+-SRC_URI = "file://filemode-fix.patch \
++SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz \
++           file://filemode-fix.patch \
+            file://acinclude.m4 \
+            file://automake-foreign.patch \
+            file://oprofile-cross-compile-tests.patch \
+diff --git a/meta/recipes-kernel/oprofile/oprofile_1.0.0.bb b/meta/recipes-kernel/oprofile/oprofile_1.0.0.bb
+index f4a34b3..b44b5c5 100644
+--- a/meta/recipes-kernel/oprofile/oprofile_1.0.0.bb
++++ b/meta/recipes-kernel/oprofile/oprofile_1.0.0.bb
+@@ -3,8 +3,6 @@ require oprofile.inc
+ DEPENDS += "virtual/kernel"
+ DEPENDS_append_powerpc64 = " libpfm4"
  
--PV = "0.8.10+git${SRCPV}"
--SRCREV = "a920398fa393f9d6301b32b191bc01e086ab8bc8"
--SRC_URI = "git://git.code.sf.net/p/gptfdisk/code"
+-SRC_URI += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
 -
--S = "${WORKDIR}/git"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz"
-+SRC_URI[md5sum] = "2061f917af084215898d4fea04d8388f"
-+SRC_URI[sha256sum] = "5b66956743a799fc0471cdb032665c1391e82f9c5b3f1d7d726d29fe2ba01d6c"
+ SRC_URI[md5sum] = "ba0b340e5c421a93959776c836ed35b3"
+ SRC_URI[sha256sum] = "847110b4ecdcf8c8353cd38f94c1b704aad4bfcd9453e38b88d112cfb7e3c45a"
  
- do_install() {
-     install -d ${D}${sbindir}
 -- 
 2.1.4
 
