@@ -1,29 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FC84759C7
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 95B11759C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 16:20:04 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t74GK2DT018800
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Aug 2015 09:20:03 -0700 (PDT)
-Received: from Marks-MacBook-Pro-2.local (172.25.36.230) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 4 Aug 2015 09:20:02 -0700
-To: Juro Bystricky <juro.bystricky@intel.com>,
-	<openembedded-core@lists.openembedded.org>, <jurobystricky@hotmail.com>
-References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <55C0E631.7070703@windriver.com>
-Date: Tue, 4 Aug 2015 11:20:01 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.1.0
-MIME-Version: 1.0
-In-Reply-To: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
-Cc: richard.purdie@intel.com
-Subject: Re: [PATCH 0/2] Support for VirtualBox guest additions
+	Tue,  4 Aug 2015 16:24:07 +0000 (UTC)
+Received: by iggf3 with SMTP id f3so14756084igg.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Aug 2015 09:24:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dbMfDALtG68ggyQZzgMz9aVdFiefi0Ur8/jg0TrR8+c=;
+	b=MVI3GusUmldc9jyY9qfzYh/a3nAGcp6HEzcgpYEKbf7keywW5GW4K1ZB9Wyd9MMpas
+	JK68TEK1cKcqjEhJJUfZD3A+HirBpdJfh4ly5belwYj2dZdJDixykR4hTHo5cvoz6REm
+	3dhPWrMjVR1dUgqGEbon2q1/jnMyiJqabijXO0Y+vZrtKwBovAfzQIZ6PuWN8uMrlMaL
+	5YO2E0QXWMgE/EiI/13jgzcQRMb+8uL3USv0Uk+f1/Q5sQTrwXFIRJAKUMThk/GgyacN
+	EJ0hAGjiMnbb9CkS5LxAiGamjyiMa8FWOzAGZlAtT24URsmgbL4hupCoikfhptVXUKOS
+	lq+g==
+X-Gm-Message-State: ALoCoQlTlqN2qqEspaUVkZGhbvbd9vgHeuke27OvN1lyUcbeMJ05QhLQ2DIucceVpRqYpf/TH4xB
+X-Received: by 10.50.72.6 with SMTP id z6mr4945447igu.65.1438705447311;
+	Tue, 04 Aug 2015 09:24:07 -0700 (PDT)
+Received: from pohly-mobl1.ger.corp.intel.com (p5DE8CA2B.dip0.t-ipconnect.de.
+	[93.232.202.43]) by smtp.gmail.com with ESMTPSA id
+	ii1sm1400785igb.10.2015.08.04.09.24.05
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 04 Aug 2015 09:24:06 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Aug 2015 18:23:58 +0200
+Message-Id: <cover.1438705086.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/2] enhance action_pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +43,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 16:20:05 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Aug 2015 16:24:07 -0000
 
-On 8/3/15 3:35 PM, Juro Bystricky wrote:
-> In order to support VirtualBox guest additions, kernel headers need to be present 
-> in the VM. I am aware we already have two packages/recipes that are somewhat similar
-> (kernel-devsrc.bb, linux-libc-headers), but none of them is suitable for this purpose.
-> Besides the kernel headers, some additional files (scripts, Makefiles, .config, etc)
-> are also required. 
+action_pull can fail when the branch is not yet in the existing
+component repo. Both error reporting and handling need to be enhanced.
 
-linux-libc-headers is only for building applications.  kernel-devsrc is for
-building modules on the target.
+The following changes since commit 288c76a41aebaf54c7fca3782160830df462b9e4:
 
-What do these specific modules need that are not present in kernel-devsrc?  (I
-really don't want 'yet another' confusing package added to the system.)
+  builder: Fix multilib compile failure (2015-08-03 07:15:47 +0100)
 
-> The new recipe "kernel-headers.bb" can in principle be used by other images as well.
-> It is not limited to the Build Appliance and hence is not a part of the Build Appliance
-> recipe.
+are available in the git repository at:
 
-I think kernel-headers is a bad name for a package.  It could be confusing.
+  git://github.com/pohly/openembedded-core action-pull
+  https://github.com/pohly/openembedded-core/tree/action-pull
 
---Mark
+Patrick Ohly (2):
+  combo-layer: enhance output in action_pull
+  combo-layer: fix action_pull for unknown branch
 
-> Juro Bystricky (2):
->   kernel-headers: linux kernel headers
->   build-appliance-image: support for VirtualBox guest addtions
-> 
->  .../README_vbox_guest_additions.txt                | 78 ++++++++++++++++++++++
->  .../images/build-appliance-image_12.0.1.bb         |  4 +-
->  meta/recipes-kernel/linux/kernel-headers.bb        | 66 ++++++++++++++++++
->  3 files changed, 147 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-core/images/build-appliance-image/README_vbox_guest_additions.txt
->  create mode 100644 meta/recipes-kernel/linux/kernel-headers.bb
-> 
+ scripts/combo-layer | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+-- 
+2.1.4
 
 
