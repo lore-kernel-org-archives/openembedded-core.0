@@ -1,25 +1,30 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D84A75EEA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 79E237646B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 14:52:12 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 8AD7DF811DC; Tue,  4 Aug 2015 08:52:11 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id E1E9FF811DC;
-	Tue,  4 Aug 2015 08:52:10 -0600 (MDT)
-From: Gary Thomas <gary@mlbassoc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Aug 2015 08:52:19 -0600
-Message-Id: <1438699939-9055-1-git-send-email-gary@mlbassoc.com>
-X-Mailer: git-send-email 1.9.1
-Cc: Gary Thomas <gary@mlbassoc.com>
-Subject: [PATCH] python3: Fix nativesdk build
+	Tue,  4 Aug 2015 14:52:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t74EqamR020372; Tue, 4 Aug 2015 15:52:43 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Y1-DEW2KPrJO; Tue,  4 Aug 2015 15:52:43 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t74EqPRG020350
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 4 Aug 2015 15:52:39 +0100
+Message-ID: <1438699944.30526.5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Date: Tue, 04 Aug 2015 09:52:24 -0500
+In-Reply-To: <1438696733-234279-1-git-send-email-paul.gortmaker@windriver.com>
+References: <1438696733-234279-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-libc-headers: exclude drm headers from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,66 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 14:52:15 -0000
+X-List-Received-Date: Tue, 04 Aug 2015 14:52:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The nativesdk package is built without Py_DEBUG which causes some
-compile errors.  This patch fixes those errors allowing the nativesdk
-package to build.
+On Tue, 2015-08-04 at 09:58 -0400, Paul Gortmaker wrote:
+> While diagnosing a problem with xf86-video-intel I noticed we had two
+> copies of drm headers in the sysroot; one from here and one from
+> the libdrm package.   The xf86-video-intel turned out to be another
+> thing, but that doesn't mean we want two copies in the sysroot with
+> different content and luck of include path indicating which one we
+> get.
+> 
+> This one landed in usr/include/drm and the libdrm one put its files
+> at usr/include/libdrm, so there was no obvious over-write conflict.
+> 
+> The obvious risk here would be unearthing implicit dependencies on
+> the libdrm; things trying to build before it has populated the sysroot
+> but two full highly parallel builds containing a full desktop graphics
+> suite did not show any issues.
+> 
+> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 
-Signed-off-by: Gary Thomas <gary@mlbassoc.com>
----
- .../python/python3/fix-nativesdk-build.patch       | 28 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.4.3.bb      |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
+Is this something which should get addressed in the upstream kernel?
 
-diff --git a/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
-new file mode 100644
-index 0000000..d0cba39
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
-@@ -0,0 +1,28 @@
-+Index: Python-3.4.3/Objects/unicodeobject.c
-+===================================================================
-+--- Python-3.4.3.orig/Objects/unicodeobject.c
-++++ Python-3.4.3/Objects/unicodeobject.c
-+@@ -418,6 +418,9 @@ _PyUnicode_CheckConsistency(PyObject *op
-+     }
-+     return 1;
-+ }
-++#else
-++int
-++_PyUnicode_CheckConsistency(PyObject *op, int check_content) { return 1; }
-+ #endif
-+ 
-+ static PyObject*
-+Index: Python-3.4.3/Objects/obmalloc.c
-+===================================================================
-+--- Python-3.4.3.orig/Objects/obmalloc.c
-++++ Python-3.4.3/Objects/obmalloc.c
-+@@ -2141,7 +2141,9 @@ _PyObject_DebugMallocStats(FILE *out)
-+ 
-+             if (p->ref.count == 0) {
-+                 /* currently unused */
-++#ifdef Py_DEBUG
-+                 assert(pool_is_in_list(p, arenas[i].freepools));
-++#endif
-+                 continue;
-+             }
-+             ++numpools[sz];
-diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
-index 6c2e21d..582f6b0 100644
---- a/meta/recipes-devtools/python/python3_3.4.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.4.3.bb
-@@ -38,6 +38,7 @@ SRC_URI += "\
-             file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
-             file://setup.py-find-libraries-in-staging-dirs.patch \
-            "
-+SRC_URI_append_class-nativesdk = "file://fix-nativesdk-build.patch"
- SRC_URI[md5sum] = "7d092d1bba6e17f0d9bd21b49e441dd5"
- SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043ea996b8"
- 
--- 
-1.9.1
+I agree we likely don't want two sets of those.
+
+Cheers,
+
+Richard
+
 
 
