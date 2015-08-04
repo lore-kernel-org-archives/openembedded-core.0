@@ -1,39 +1,56 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id DEAB26E5D0
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 53CEA6E630
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 21:27:17 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 04 Aug 2015 14:27:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,611,1432623600"; d="scan'208";a="761974069"
-Received: from orsmsx105.amr.corp.intel.com ([10.22.225.132])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2015 14:27:18 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.2.247]) by
-	ORSMSX105.amr.corp.intel.com ([169.254.4.34]) with mapi id
-	14.03.0224.002; Tue, 4 Aug 2015 14:27:16 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: "Hatle, Mark G (Wind River)" <mark.hatle@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "jurobystricky@hotmail.com"
-	<jurobystricky@hotmail.com>
-Thread-Topic: [OE-core] [PATCH 0/2] Support for VirtualBox guest additions
-Thread-Index: AQHQzix/unjTe8g7O0uKLsMGe8OzUp38e9OA//+WZcCAAH3VgP//k0/AgACLUQD//6sU4A==
-Date: Tue, 4 Aug 2015 21:27:16 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101D4896@ORSMSX109.amr.corp.intel.com>
+	Tue,  4 Aug 2015 21:31:04 +0000 (UTC)
+Received: by pawu10 with SMTP id u10so17602813paw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Aug 2015 14:31:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=piMZ/oCTYd/ix3jM7xHkL5Ml3CBYIU5lqIyIufDNDfY=;
+	b=FpknVBHN8HKo+pTHjuHATvxGiSqjL/QQK8r5cxGvQg123kZStWzOiTmsbEyqImaUXL
+	LiXTZJNJteQ9WXFkwP5s+r+Ov7jhObx+dYajwH0YuedltIa03CIEYacgQneyB0mHVUEh
+	gbDhhKldIXrlf5MtHSyv3pefsP4TFBjbdpFQUuvOKbIyQQcGsRDxY4d20VkNMRrqqKIj
+	nezHcw3Q9fHw4YKidOBQO1V1577U2/gIfxmnZeJ1ym9eIGf0abGn6Y95nlKISPKGVChN
+	aNntXHazdEgOQshiA5GYk11qvux+Cz4nUemevRp9l/AXekQ9fcddxtoCburgVsofAC9n
+	rL0g==
+X-Gm-Message-State: ALoCoQkfEhAIS2G+215Nzq6In0vk+68ryj9TJbtpT8fngi27qXfNkuhaYjZQ5FkQZIgwC2osAOp9
+X-Received: by 10.66.97.105 with SMTP id dz9mr11948526pab.23.1438723865238;
+	Tue, 04 Aug 2015 14:31:05 -0700 (PDT)
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com.
+	[209.85.220.45])
+	by smtp.gmail.com with ESMTPSA id xw4sm346849pbc.69.2015.08.04.14.31.03
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Aug 2015 14:31:04 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by pacgq8 with SMTP id gq8so17539514pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Aug 2015 14:31:03 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.68.197.199 with SMTP id iw7mr12072369pbc.85.1438723863583;
+	Tue, 04 Aug 2015 14:31:03 -0700 (PDT)
+Received: by 10.70.59.105 with HTTP; Tue, 4 Aug 2015 14:31:03 -0700 (PDT)
+In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6101D4896@ORSMSX109.amr.corp.intel.com>
 References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
 	<55C0E631.7070703@windriver.com>
 	<6E51916E4A1F32428260031F4C7CD2B6101D46F3@ORSMSX109.amr.corp.intel.com>
 	<55C0F729.5000908@windriver.com>
 	<6E51916E4A1F32428260031F4C7CD2B6101D471A@ORSMSX109.amr.corp.intel.com>
 	<55C110DA.6050404@windriver.com>
-In-Reply-To: <55C110DA.6050404@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
-Cc: "Purdie, Richard" <richard.purdie@intel.com>
+	<6E51916E4A1F32428260031F4C7CD2B6101D4896@ORSMSX109.amr.corp.intel.com>
+Date: Tue, 4 Aug 2015 18:31:03 -0300
+Message-ID: <CAP9ODKqkATYxqrHme7dJVzg5gSzKOEuG2NJCfksYE+8XE0W=3g@mail.gmail.com>
+To: "Bystricky, Juro" <juro.bystricky@intel.com>
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	"jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/2] Support for VirtualBox guest additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,178 +64,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 21:27:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 04 Aug 2015 21:31:07 -0000
+Content-Type: multipart/alternative; boundary=e89a8ff1cc1ed1a874051c8300a3
+
+--e89a8ff1cc1ed1a874051c8300a3
+Content-Type: text/plain; charset=UTF-8
+
+On Tue, Aug 4, 2015 at 6:27 PM, Bystricky, Juro <juro.bystricky@intel.com>
+wrote:
+
+> The Build Appliance is just one VM that can benefit from VirtualBox guest
+> additions.
+> There are other VM implementations, where a small size is quite important.
+> All I am trying to say is, that we need to be able to recreate the same
+> contents
+> as:
+>
+> apt-get install linux-headers-$(uname -r)
+>
+> I don't have any strong feelings regarding if an already existing recipe
+> needs to be modified
+> or we need a separate recipe.
+>
+
+I second this request.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
+--e89a8ff1cc1ed1a874051c8300a3
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-The Build Appliance is just one VM that can benefit from VirtualBox guest a=
-dditions.
-There are other VM implementations, where a small size is quite important.
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Tue, Aug 4, 2015 at 6:27 PM, Bystricky, Juro <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky=
+@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The Buil=
+d Appliance is just one VM that can benefit from VirtualBox guest additions=
+.<br>
+There are other VM implementations, where a small size is quite important.<=
+br>
 All I am trying to say is, that we need to be able to recreate the same con=
-tents
-as:
+tents<br>
+as:<br>
+<br>
+apt-get install linux-headers-$(uname -r)<br>
+<br>
+I don&#39;t have any strong feelings regarding if an already existing recip=
+e needs to be modified<br>
+or we need a separate recipe.<br></blockquote><div><br></div><div>I second =
+this request.=C2=A0</div></div><div><br></div>-- <br><div class=3D"gmail_si=
+gnature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D=
+"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br=
+</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" ta=
+rget=3D"_blank">http://code.ossystems.com.br</a><br><span>Mobile: +55 (53) =
+9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: <span id=3D"gc-n=
+umber-12" class=3D"gc-cs-link" title=3D"Call with Google Voice">+1 (347) 90=
+3-9750</span></span><br></div>
+</div></div>
 
-apt-get install linux-headers-$(uname -r)
-
-I don't have any strong feelings regarding if an already existing recipe ne=
-eds to be modified=20
-or we need a separate recipe.
-
-
-
-
-
-> -----Original Message-----
-> From: Mark Hatle [mailto:mark.hatle@windriver.com]
-> Sent: Tuesday, August 4, 2015 12:22 PM
-> To: Bystricky, Juro; openembedded-core@lists.openembedded.org;
-> jurobystricky@hotmail.com
-> Cc: Purdie, Richard
-> Subject: Re: [OE-core] [PATCH 0/2] Support for VirtualBox guest additions
->=20
-> On 8/4/15 2:10 PM, Bystricky, Juro wrote:
-> > I am pretty sure initially I tried to use kernel-devsrc  to install Vir=
-tualBox
-> guest additions.
-> > It did not work out of the box for me, there were either files missing =
-or
-> they were not in expected locations.
-> > It is possible it could  be made to work with some modified
-> > installation,  but the size is an issue as well: kernel-devsrc packs ov=
-er 500MB
-> (uncompressed).
->=20
-> This can be dealt with.  If necessary splitting into two packages, the mi=
-nimal
-> components and 'everything else', but should still be generated from the
-> kernel-devsrc recipe.
->=20
-> But really is 500MB a problem when using the build-appliance?  (You would=
-n't
-> use any of these on a memory constrained target anyway -- you'd pre-build
-> any modules elsewhere.. so that shouldn't be a consideration.)
->=20
-> > The source code is only needed when you want to reconfigure/rebuild the
-> kernel.
-> > Out-of-tree modules generally don't need any additional source code,
-> typically only header files.
->=20
-> Some out of tree modules want to get access to more then just the header
-> files.
->=20
-> --Mark
->=20
-> > Juro
-> >
-> >
-> >> -----Original Message-----
-> >> From: Mark Hatle [mailto:mark.hatle@windriver.com]
-> >> Sent: Tuesday, August 4, 2015 10:32 AM
-> >> To: Bystricky, Juro; openembedded-core@lists.openembedded.org;
-> >> jurobystricky@hotmail.com
-> >> Cc: Purdie, Richard
-> >> Subject: Re: [OE-core] [PATCH 0/2] Support for VirtualBox guest
-> >> additions
-> >>
-> >> On 8/4/15 12:25 PM, Bystricky, Juro wrote:
-> >>> I agree, the name "kernel-headers" may not be the most fortunate,
-> >>> "linux-
-> >> headers"
-> >>> is probably more fitting.  The recipe installs the files in a
-> >>> similar fashion that is done by
-> >>>
-> >>> apt-get install linux-headers-$(uname -r)
-> >>>
-> >>> Typical contents can be viewed for example here:
-> >>> https://www.archlinux.org/packages/core/i686/linux-headers/
-> >>>
-> >>> These files are needed to allow building  of kernel drivers against
-> >>> the running Linux kernel. In a way, it is a subset of kernel-devsrc,
-> >>> but including  ".config" file used for the actual running kernel.
-> >>
-> >> Again this is part of the purpose of the existing kernel-devsrc
-> >> package.  So what is missing preventing this from working.  It likely
-> >> needs to be added to the kernel-devsrc package instead (or a sub
-> >> package that is created by the kernel-devsrc recipe.)
-> >>
-> >>> Having these files installed, it is possible  to compile additional
-> >>> kernel drivers that are not part of the kernel-devsrc .
-> >>>  VirtualBox compiles some of their own drivers this way, others as we=
-ll.
-> >>> There are many other scenarios where you may want to add a new
-> >>> kernel driver to an already installed Linux kernel.
-> >>
-> >> Yes, this was part of the design behind the kernel-devsrc, make sure
-> >> the sources and components used to build the running kernel were made
-> >> available to the target so that out-of-tree/external kernel modules
-> >> could be built to match the running system -- as well as the ability
-> >> to reconfigure and rebuild the kernel itself.
-> >>
-> >> Bruce is on vacation this week and may not be around to respond, but
-> >> adding yet another package is not the right answer here.  Lets fix
-> >> what may be broken in what we have.
-> >>
-> >> --Mark
-> >>
-> >>> Juro
-> >>>
-> >>>
-> >>>
-> >>>> -----Original Message-----
-> >>>> From: Mark Hatle [mailto:mark.hatle@windriver.com]
-> >>>> Sent: Tuesday, August 4, 2015 9:20 AM
-> >>>> To: Bystricky, Juro; openembedded-core@lists.openembedded.org;
-> >>>> jurobystricky@hotmail.com
-> >>>> Cc: Purdie, Richard
-> >>>> Subject: Re: [OE-core] [PATCH 0/2] Support for VirtualBox guest
-> >>>> additions
-> >>>>
-> >>>> On 8/3/15 3:35 PM, Juro Bystricky wrote:
-> >>>>> In order to support VirtualBox guest additions, kernel headers
-> >>>>> need to be present in the VM. I am aware we already have two
-> >>>>> packages/recipes that are somewhat similar (kernel-devsrc.bb,
-> >>>>> linux-libc-headers), but none
-> >>>> of them is suitable for this purpose.
-> >>>>> Besides the kernel headers, some additional files (scripts,
-> >>>>> Makefiles, .config, etc) are also required.
-> >>>>
-> >>>> linux-libc-headers is only for building applications.
-> >>>> kernel-devsrc is for building modules on the target.
-> >>>>
-> >>>> What do these specific modules need that are not present in kernel-
-> >> devsrc?
-> >>>> (I really don't want 'yet another' confusing package added to the
-> >>>> system.)
-> >>>>
-> >>>>> The new recipe "kernel-headers.bb" can in principle be used by
-> >>>>> other
-> >>>> images as well.
-> >>>>> It is not limited to the Build Appliance and hence is not a part
-> >>>>> of the Build Appliance recipe.
-> >>>>
-> >>>> I think kernel-headers is a bad name for a package.  It could be
-> confusing.
-> >>>>
-> >>>> --Mark
-> >>>>
-> >>>>> Juro Bystricky (2):
-> >>>>>   kernel-headers: linux kernel headers
-> >>>>>   build-appliance-image: support for VirtualBox guest addtions
-> >>>>>
-> >>>>>  .../README_vbox_guest_additions.txt                | 78
-> >>>> ++++++++++++++++++++++
-> >>>>>  .../images/build-appliance-image_12.0.1.bb         |  4 +-
-> >>>>>  meta/recipes-kernel/linux/kernel-headers.bb        | 66
-> >>>> ++++++++++++++++++
-> >>>>>  3 files changed, 147 insertions(+), 1 deletion(-)  create mode
-> >>>>> 100644
-> >>>>> meta/recipes-core/images/build-appliance-
-> >>>> image/README_vbox_guest_addit
-> >>>>> ions.txt  create mode 100644
-> >>>>> meta/recipes-kernel/linux/kernel-headers.bb
-> >>>>>
-> >>>
-> >
-
-
+--e89a8ff1cc1ed1a874051c8300a3--
