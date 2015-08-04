@@ -1,30 +1,25 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 646A2759C7
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D84A75EEA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 14:44:25 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Aug 2015 07:44:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,609,1432623600"; d="scan'208";a="776564219"
-Received: from alimon-thinkpad-w540.zpn.intel.com (HELO [10.219.5.54])
-	([10.219.5.54])
-	by fmsmga002.fm.intel.com with ESMTP; 04 Aug 2015 07:44:25 -0700
-Message-ID: <55C0CFD2.6060103@linux.intel.com>
-Date: Tue, 04 Aug 2015 09:44:34 -0500
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: Mariano Lopez <mariano.lopez@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <1438603175-40211-1-git-send-email-mariano.lopez@linux.intel.com>
-	<1438603175-40211-2-git-send-email-mariano.lopez@linux.intel.com>
-	<55BFCCF9.50406@linux.intel.com> <55BFD106.7010805@linux.intel.com>
-	<55C0C656.4000004@linux.intel.com>
-In-Reply-To: <55C0C656.4000004@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: Re: [PATCH 1/1] license.bbclass: Add support for deployed packages not in rootfs
+	Tue,  4 Aug 2015 14:52:12 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 8AD7DF811DC; Tue,  4 Aug 2015 08:52:11 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from Zeus.chez-thomas.org (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id E1E9FF811DC;
+	Tue,  4 Aug 2015 08:52:10 -0600 (MDT)
+From: Gary Thomas <gary@mlbassoc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Aug 2015 08:52:19 -0600
+Message-Id: <1438699939-9055-1-git-send-email-gary@mlbassoc.com>
+X-Mailer: git-send-email 1.9.1
+Cc: Gary Thomas <gary@mlbassoc.com>
+Subject: [PATCH] python3: Fix nativesdk build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,251 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 14:44:31 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 04 Aug 2015 14:52:15 -0000
 
+The nativesdk package is built without Py_DEBUG which causes some
+compile errors.  This patch fixes those errors allowing the nativesdk
+package to build.
 
+Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+---
+ .../python/python3/fix-nativesdk-build.patch       | 28 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.4.3.bb      |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
 
-On 04/08/15 09:04, Mariano Lopez wrote:
->
->
-> On 08/03/2015 03:37 PM, Mariano Lopez wrote:
->>
->> On 08/03/2015 03:20 PM, Aníbal Limón wrote:
->>> Hi,
->>>
->>> Comments below,
->>>
->>> On 03/08/15 06:59, mariano.lopez@linux.intel.com wrote:
->>>> From: Mariano Lopez <mariano.lopez@linux.intel.com>
->>>>
->>>> This adds a new manifest file for the packages that were
->>>> deployed but not included into rootfs. The new manifest file
->>>> is in the same directory as the rootfs manifest but the name is
->>>> image_license.manifest.
->>>>
->>>> It also creates the directory structure for the packages and
->>>> add the license file in such directories.
->>>>
->>>> The bootloader is an example of such packages.
->>>>
->>>> [YOCTO #6772]
->>>>
->>>> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
->>>> ---
->>>>   meta/classes/license.bbclass | 107 
->>>> +++++++++++++++++++++++++++++++++++++------
->>>>   1 file changed, 94 insertions(+), 13 deletions(-)
->>>>
->>>> diff --git a/meta/classes/license.bbclass 
->>>> b/meta/classes/license.bbclass
->>>> index 224d541..42d2748 100644
->>>> --- a/meta/classes/license.bbclass
->>>> +++ b/meta/classes/license.bbclass
->>>> @@ -26,18 +26,14 @@ python write_package_manifest() {
->>>>   }
->>>>     python license_create_manifest() {
->>>> -    import re
->>>>       import oe.packagedata
->>>>       from oe.rootfs import image_list_installed_packages
->>>>   -    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or 
->>>> "").split()
->>>> -    bad_licenses = map(lambda l: canonical_license(d, l), 
->>>> bad_licenses)
->>>> -    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
->>>> -
->>>>       build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', 
->>>> True)
->>>>       if build_images_from_feeds == "1":
->>>>           return 0
->>>>   +    # Files that are installed in the rootfs
->>>>       pkg_dic = {}
->>>>       for pkg in image_list_installed_packages(d).split("\n"):
->>>>           pkg_info = os.path.join(d.getVar('PKGDATA_DIR', True),
->>>> @@ -49,8 +45,90 @@ python license_create_manifest() {
->>>>               pkg_lic_name = "LICENSE_" + pkg_name
->>>>               pkg_dic[pkg_name]["LICENSE"] = 
->>>> pkg_dic[pkg_name][pkg_lic_name]
->>>>   -    license_manifest = 
->>>> os.path.join(d.getVar('LICENSE_DIRECTORY', True),
->>> Will be better to move this code into another function like 
->>> image_list_installed_package to
->>> re-utilize if needed in other parts of the code base.
->>>
->> It's a good idea, let me work in that and I will send another patch 
->> implementing this.
->>
->
-> On a second thought, it won't be a reliable because it needs the 
-> BB_TASKDEPDATA for do_rootfs.
->
-> This is needed because there are some virtual dependency in the image 
-> creation, such as virtual/kernel,
-> virtual/bootloader and the only way to get what package provides such 
-> dependency is using BB_TASKDEPDATA.
-> If the function would be called from the do_rootfs task, it would 
-> work, otherwise it would fail. So I think
-> it's better to keep it this way.
-
-It's that the case, can you define this function outside 
-license_create_manifest but in the same file for split the functionality?.
-
-     alimon
->
->>> --------------------------------------------------------------------------------------------------------- 
->>>
->>>> +    # Files that are part of the image but no installed in rootfs
->>>> +    imgpkg_dic = {}
->>>> +    taskdepdata = d.getVar("BB_TASKDEPDATA", True)
->>>> +    all_depends = imagetypes_getdepends(d)
->>>> +    all_depends += " %s" % d.getVar("EXTRA_IMAGEDEPENDS", True)
->>>> +    for depend in all_depends.split():
->>>> +        # Get package name without task
->>>> +        depend = depend.split(":")[0]
->>>> +        if not depend.endswith("native"):
->>>> +            pkgs_file = os.path.join(
->>>> +                    d.getVar('PKGDATA_DIR', True), depend)
->>>> +            # Search for the file on the installed packages with the
->>>> +            # same name as depend if not found fallback to search
->>>> +            # the provider for that depend.
->>>> +            if not os.path.isfile(pkgs_file):
->>>> +                pkgs_file = ""
->>>> +                for taskdep in taskdepdata.itervalues():
->>>> +                    # The fifth field of BB_TASKDEPDATA is PROVIDES
->>>> +                    if depend in taskdep[4]:
->>>> +                        pkgs_file = os.path.join(
->>>> +                                d.getVar('PKGDATA_DIR', True),
->>>> +                                taskdep[0])
->>>> +                        if os.path.isfile(pkgs_file):
->>>> +                            break
->>>> +                        else:
->>>> +                            pkgs_file = ""
->>>> +            if pkgs_file:
->>>> +                pkgs_dep = oe.packagedata.read_pkgdatafile(pkgs_file)
->>>> +                # There is no need to duplicate license info for
->>>> +                # derivated packages or packages in the other
->>>> +                # license manifest
->>>> +                for pkg in pkgs_dep['PACKAGES'].split():
->>>> +                    if (pkg.endswith("-dbg") or
->>>> +                            pkg.endswith("-dev") or
->>>> +                            pkg.endswith("-doc") or
->>>> +                            pkg.endswith("-locale") or
->>>> +                            pkg.endswith("-localedata") or
->>>> +                            pkg.endswith("-staticdev") or
->>>> +                            pkg in pkg_dic.keys()):
->>>> +                        continue
->>>> +                    pkg_data_file = os.path.join(
->>>> +                            d.getVar('PKGDATA_DIR', True),
->>>> +                            "runtime", pkg)
->>>> +                    pkg_data = oe.packagedata.read_pkgdatafile(
->>>> +                            pkg_data_file)
->>>> +                    pkg_pe = pkg_data.get("PE","0")
->>>> +                    if pkg_pe is "0":
->>>> +                        pkg_pf = "%s-%s" % (pkg_data["PV"], 
->>>> pkg_data["PR"])
->>>> +                    else:
->>>> +                        pkg_pf = "%s_%s-%s" % (pkg_pe,
->>>> +                                pkg_data["PV"], pkg_data["PR"])
->>>> +                    # There is no need to add the license for
->>>> +                    # packages that were not deployed
->>>> +                    pkg_deploy = os.path.join(
->>>> +                            d.getVar("TMPDIR", True), "work",
->>>> + d.getVar("MULTIMACH_TARGET_SYS", True),
->>>> +                            pkg_data["PN"], pkg_pf, "temp", 
->>>> "run.do_deploy")
->>>> +                    if os.path.isfile(pkg_deploy):
->>>> +                        imgpkg_dic[pkg] = pkg_data
->>>> +                        if not "LICENSE" in imgpkg_dic[pkg].keys():
->>>> +                            pkg_lic_name = "LICENSE_%s" % pkg
->>>> +                            imgpkg_dic[pkg]["LICENSE"] = \
->>>> + imgpkg_dic[pkg][pkg_lic_name]
->>>> +            # If for some reason, couldn't find the provider
->>>> +            # print a warning to add the license manually
->>>> +            else:
->>>> +                bb.warn("Couldn't find packages that provides "
->>>> +                        "%s, please add licenses manually" % depend)
->>> --------------------------------------------------------------------------------------------------------- 
->>>
->>>> +
->>>> +    rootfs_license_manifest = 
->>>> os.path.join(d.getVar('LICENSE_DIRECTORY', True),
->>>>                           d.getVar('IMAGE_NAME', True), 
->>>> 'license.manifest')
->>>> +    image_license_manifest = 
->>>> os.path.join(d.getVar('LICENSE_DIRECTORY', True),
->>>> +                        d.getVar('IMAGE_NAME', True), 
->>>> 'image_license.manifest')
->>>> +    write_license_files(d, rootfs_license_manifest, pkg_dic)
->>>> +    write_license_files(d, image_license_manifest, imgpkg_dic)
->>>> +}
->>>> +
->>>> +def write_license_files(d, license_manifest, pkg_dic):
->>>> +    import re
->>>> +
->>>> +    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or 
->>>> "").split()
->>>> +    bad_licenses = map(lambda l: canonical_license(d, l), 
->>>> bad_licenses)
->>>> +    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
->>>> +
->>>>       with open(license_manifest, "w") as license_file:
->>>>           for pkg in sorted(pkg_dic):
->>>>               if bad_licenses:
->>>> @@ -98,15 +176,16 @@ python license_create_manifest() {
->>>>       if copy_lic_manifest == "1":
->>>>           rootfs_license_dir = 
->>>> os.path.join(d.getVar('IMAGE_ROOTFS', 'True'),
->>>>                                   'usr', 'share', 'common-licenses')
->>>> -        os.makedirs(rootfs_license_dir)
->>>> +        bb.utils.mkdirhier(rootfs_license_dir)
->>>>           rootfs_license_manifest = os.path.join(rootfs_license_dir,
->>>> - 'license.manifest')
->>>> +                os.path.split(license_manifest)[1])
->>> Why split this manifest path?
->>>> +
->>>>           os.link(license_manifest, rootfs_license_manifest)
->>>>             if copy_lic_dirs == "1":
->>>>               for pkg in sorted(pkg_dic):
->>>>                   pkg_rootfs_license_dir = 
->>>> os.path.join(rootfs_license_dir, pkg)
->>>> -                os.makedirs(pkg_rootfs_license_dir)
->>>> +                bb.utils.mkdirhier(pkg_rootfs_license_dir)
->>>>                   pkg_license_dir = 
->>>> os.path.join(d.getVar('LICENSE_DIRECTORY', True),
->>>> pkg_dic[pkg]["PN"])
->>>>                   licenses = os.listdir(pkg_license_dir)
->>>> @@ -124,14 +203,16 @@ python license_create_manifest() {
->>>>                           if not os.path.exists(rootfs_license):
->>>>                               os.link(pkg_license, rootfs_license)
->>>>   -                        os.symlink(os.path.join('..', lic), 
->>>> pkg_rootfs_license)
->>>> +                        if not os.path.exists(pkg_rootfs_license):
->>> Why test if exist?, this code creates symlink into recipe license.
->>>> + os.symlink(os.path.join('..', lic), pkg_rootfs_license)
->>>>                       else:
->>>> -                        if oe.license.license_ok(canonical_license(d,
->>>> -                            lic), bad_licenses) == False:
->>>> +                        if 
->>>> ((oe.license.license_ok(canonical_license(d,
->>>> +                            lic), bad_licenses) == False) or
->>>> + os.path.exists(pkg_rootfs_license)):
->>> Why test if exist?.
->>>>                               continue
->>>>                             os.link(pkg_license, pkg_rootfs_license)
->>>> -}
->>>> +
->>>>     python do_populate_lic() {
->>>>       """
->>>
->>> Cheers,
->>>     alimon
->>>
->> Regards,
->>
->> Mariano Lopez
-> Regards,
->
-> Mariano Lopez
+diff --git a/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
+new file mode 100644
+index 0000000..d0cba39
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
+@@ -0,0 +1,28 @@
++Index: Python-3.4.3/Objects/unicodeobject.c
++===================================================================
++--- Python-3.4.3.orig/Objects/unicodeobject.c
+++++ Python-3.4.3/Objects/unicodeobject.c
++@@ -418,6 +418,9 @@ _PyUnicode_CheckConsistency(PyObject *op
++     }
++     return 1;
++ }
+++#else
+++int
+++_PyUnicode_CheckConsistency(PyObject *op, int check_content) { return 1; }
++ #endif
++ 
++ static PyObject*
++Index: Python-3.4.3/Objects/obmalloc.c
++===================================================================
++--- Python-3.4.3.orig/Objects/obmalloc.c
+++++ Python-3.4.3/Objects/obmalloc.c
++@@ -2141,7 +2141,9 @@ _PyObject_DebugMallocStats(FILE *out)
++ 
++             if (p->ref.count == 0) {
++                 /* currently unused */
+++#ifdef Py_DEBUG
++                 assert(pool_is_in_list(p, arenas[i].freepools));
+++#endif
++                 continue;
++             }
++             ++numpools[sz];
+diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
+index 6c2e21d..582f6b0 100644
+--- a/meta/recipes-devtools/python/python3_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3_3.4.3.bb
+@@ -38,6 +38,7 @@ SRC_URI += "\
+             file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
+             file://setup.py-find-libraries-in-staging-dirs.patch \
+            "
++SRC_URI_append_class-nativesdk = "file://fix-nativesdk-build.patch"
+ SRC_URI[md5sum] = "7d092d1bba6e17f0d9bd21b49e441dd5"
+ SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043ea996b8"
+ 
+-- 
+1.9.1
 
 
