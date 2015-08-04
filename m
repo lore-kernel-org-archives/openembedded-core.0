@@ -1,30 +1,38 @@
-Return-Path: <gary@mlbassoc.com>
-Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D0E175A60
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 056CE759C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 15:08:32 +0000 (UTC)
-Received: by mail.chez-thomas.org (Postfix, from userid 1998)
-	id 30E19F811DD; Tue,  4 Aug 2015 09:08:33 -0600 (MDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	hermes.chez-thomas.org
-X-Spam-Level: 
-X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
-	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
-Received: from [192.168.1.114] (zeus [192.168.1.114])
-	by mail.chez-thomas.org (Postfix) with ESMTP id 76F09F811D7;
-	Tue,  4 Aug 2015 09:08:32 -0600 (MDT)
-Message-ID: <55C0D57A.4060805@mlbassoc.com>
-Date: Tue, 04 Aug 2015 09:08:42 -0600
-From: Gary Thomas <gary@mlbassoc.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Tue,  4 Aug 2015 16:06:44 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 04 Aug 2015 09:06:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,609,1432623600"; 
+	d="scan'208,217";a="742024369"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by orsmga001.jf.intel.com with ESMTP; 04 Aug 2015 09:06:44 -0700
+Received: from orsmsx109.amr.corp.intel.com ([169.254.2.247]) by
+	ORSMSX106.amr.corp.intel.com ([169.254.5.18]) with mapi id
+	14.03.0224.002; Tue, 4 Aug 2015 09:06:43 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Christopher Larson <clarson@kergoth.com>
+Thread-Topic: [OE-core] [PATCH 1/2] kernel-headers: linux kernel headers
+Thread-Index: AQHQziyAhLBz3Wc2qU2nUwe6MCnVCZ37t4gAgABK+aA=
+Date: Tue, 4 Aug 2015 16:06:42 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101D4688@ORSMSX109.amr.corp.intel.com>
+References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
+	<1438634128-4347-2-git-send-email-juro.bystricky@intel.com>
+	<CABcZANnyGKhaXJC9Z+JnRw8PCppExQdUYWczF08OJsOt2sj4gQ@mail.gmail.com>
+In-Reply-To: <CABcZANnyGKhaXJC9Z+JnRw8PCppExQdUYWczF08OJsOt2sj4gQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.140]
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1438699939-9055-1-git-send-email-gary@mlbassoc.com>
-	<1438700203.30526.8.camel@linuxfoundation.org>
-In-Reply-To: <1438700203.30526.8.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] python3: Fix nativesdk build
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	"jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] kernel-headers: linux kernel headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,95 +45,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 15:08:35 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Aug 2015 16:06:47 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_6E51916E4A1F32428260031F4C7CD2B6101D4688ORSMSX109amrcor_"
 
-On 2015-08-04 08:56, Richard Purdie wrote:
-> On Tue, 2015-08-04 at 08:52 -0600, Gary Thomas wrote:
->> The nativesdk package is built without Py_DEBUG which causes some
->> compile errors.  This patch fixes those errors allowing the nativesdk
->> package to build.
->>
->> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
->> ---
->>   .../python/python3/fix-nativesdk-build.patch       | 28 ++++++++++++++++++++++
->>   meta/recipes-devtools/python/python3_3.4.3.bb      |  1 +
->>   2 files changed, 29 insertions(+)
->>   create mode 100644 meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
->>
->> diff --git a/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
->
-> No description of the patch or Upstream-Status. I'm surprised python
-> would have this issue. Do they not recommend building in this
-> configuration or not support/test it?
+--_000_6E51916E4A1F32428260031F4C7CD2B6101D4688ORSMSX109amrcor_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I'm not sure - obviously it's not done often (as it breaks badly)
+VGhhbmtzLiBJIHdpbGwgc3VibWl0IGEgbmV3IHBhdGNoLg0KDQpGcm9tOiBrZXJnb3RoQGdtYWls
+LmNvbSBbbWFpbHRvOmtlcmdvdGhAZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgQ2hyaXN0b3BoZXIg
+TGFyc29uDQpTZW50OiBNb25kYXksIEF1Z3VzdCAzLCAyMDE1IDk6MzcgUE0NClRvOiBCeXN0cmlj
+a3ksIEp1cm8NCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBq
+dXJvYnlzdHJpY2t5QGhvdG1haWwuY29tOyBQdXJkaWUsIFJpY2hhcmQNClN1YmplY3Q6IFJlOiBb
+T0UtY29yZV0gW1BBVENIIDEvMl0ga2VybmVsLWhlYWRlcnM6IGxpbnV4IGtlcm5lbCBoZWFkZXJz
+DQoNCg0KT24gTW9uLCBBdWcgMywgMjAxNSBhdCAxOjM1IFBNLCBKdXJvIEJ5c3RyaWNreSA8anVy
+by5ieXN0cmlja3lAaW50ZWwuY29tPG1haWx0bzpqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb20+PiB3
+cm90ZToNCkEgc2V0IG9mIGZpbGVzIGlzIG5lZWRlZCB0byBhbGxvdyBidWlsZGluZyBuZXcgTGlu
+dXgga2VybmVsIG1vZHVsZXMNCmFnYWluc3QgYW4gYWxyZWFkeSBpbnN0YWxsZWQgTGludXgga2Vy
+bmVsLiBUaGUgZmlsZXMgaW5jbHVkZSB2YXJpb3VzDQpoZWFkZXIgZmlsZXMsIHNjcmlwdCBmaWxl
+cywgTWFrZWZpbGVzLCBzb3VyY2UgY29kZSBmaWxlcyBmb3Igc2V2ZXJhbA0KdXRpbGl0eSBwcm9n
+cmFtcyBhbmQgTGludXgga2VyZW5sIC5jb25maWcgZmlsZS4NCg0KVHlwbzoga2VyZW5sDQoNCg0K
+LS0NCkNocmlzdG9waGVyIExhcnNvbg0KY2xhcnNvbiBhdCBrZXJnb3RoIGRvdCBjb20NCkZvdW5k
+ZXIgLSBCaXRCYWtlLCBPcGVuRW1iZWRkZWQsIE9wZW5aYXVydXMNCk1haW50YWluZXIgLSBUc2xp
+Yg0KU2VuaW9yIFNvZnR3YXJlIEVuZ2luZWVyLCBNZW50b3IgR3JhcGhpY3MNCg==
 
-Maybe it would be cleaner just to let Py_DEBUG be set for the nativesdk
-build but I couldn't see how/why this is not set in this case.
+--_000_6E51916E4A1F32428260031F4C7CD2B6101D4688ORSMSX109amrcor_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
->
-> I'm just worried what other issues we might run into as a result of
-> this.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
+DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
+b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
+Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
+dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
+CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
+c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
+ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
+CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
+MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
+MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
+cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
+aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
+YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
+aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
+cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
+dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoYW5rcy4gSSB3aWxsIHN1Ym1pdCBhIG5l
+dyBwYXRjaC4NCjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxz
+cGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
+dDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+
+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3Bh
+ZGRpbmc6MGluIDBpbiAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25l
+O2JvcmRlci10b3A6c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGlu
+Ij4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0
+O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+
+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGli
+cmkmcXVvdDssc2Fucy1zZXJpZiI+IGtlcmdvdGhAZ21haWwuY29tIFttYWlsdG86a2VyZ290aEBn
+bWFpbC5jb21dDQo8Yj5PbiBCZWhhbGYgT2YgPC9iPkNocmlzdG9waGVyIExhcnNvbjxicj4NCjxi
+PlNlbnQ6PC9iPiBNb25kYXksIEF1Z3VzdCAzLCAyMDE1IDk6MzcgUE08YnI+DQo8Yj5Ubzo8L2I+
+IEJ5c3RyaWNreSwgSnVybzxicj4NCjxiPkNjOjwvYj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZzsganVyb2J5c3RyaWNreUBob3RtYWlsLmNvbTsgUHVyZGllLCBSaWNo
+YXJkPGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIDEvMl0ga2VybmVs
+LWhlYWRlcnM6IGxpbnV4IGtlcm5lbCBoZWFkZXJzPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9k
+aXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0K
+PGRpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
+CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBNb24sIEF1ZyAzLCAyMDE1IGF0IDE6MzUg
+UE0sIEp1cm8gQnlzdHJpY2t5ICZsdDs8YSBocmVmPSJtYWlsdG86anVyby5ieXN0cmlja3lAaW50
+ZWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+anVyby5ieXN0cmlja3lAaW50ZWwuY29tPC9hPiZndDsg
+d3JvdGU6PG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9y
+ZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0O21h
+cmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowaW4iPg0KPGRpdiBpZD0iOjF2MiI+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj5BIHNldCBvZiBmaWxlcyBpcyBuZWVkZWQgdG8gYWxsb3cgYnVpbGRp
+bmcgbmV3IExpbnV4IGtlcm5lbCBtb2R1bGVzPGJyPg0KYWdhaW5zdCBhbiBhbHJlYWR5IGluc3Rh
+bGxlZCBMaW51eCBrZXJuZWwuIFRoZSBmaWxlcyBpbmNsdWRlIHZhcmlvdXM8YnI+DQpoZWFkZXIg
+ZmlsZXMsIHNjcmlwdCBmaWxlcywgTWFrZWZpbGVzLCBzb3VyY2UgY29kZSBmaWxlcyBmb3Igc2V2
+ZXJhbDxicj4NCnV0aWxpdHkgcHJvZ3JhbXMgYW5kIExpbnV4IGtlcmVubCAuY29uZmlnIGZpbGUu
+PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+PGJyPg0KVHlwbzoga2VyZW5sPGJyPg0KPGJyIGNsZWFyPSJhbGwiPg0KPG86
+cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286
+cD48L3A+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPi0tIDxvOnA+PC9vOnA+PC9wPg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkNocmlzdG9waGVyIExhcnNvbjxicj4NCmNsYXJz
+b24gYXQga2VyZ290aCBkb3QgY29tPGJyPg0KRm91bmRlciAtIEJpdEJha2UsIE9wZW5FbWJlZGRl
+ZCwgT3BlblphdXJ1czxicj4NCk1haW50YWluZXIgLSBUc2xpYjxicj4NClNlbmlvciBTb2Z0d2Fy
+ZSBFbmdpbmVlciwgTWVudG9yIEdyYXBoaWNzPG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-The changes only affect some asserts which the original code sometimes
-protects with #ifdef Py_DEBUG but other times does not so I don't see
-that it would have any detrimental side-effects.
-
->> new file mode 100644
->> index 0000000..d0cba39
->> --- /dev/null
->> +++ b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
->> @@ -0,0 +1,28 @@
->> +Index: Python-3.4.3/Objects/unicodeobject.c
->> +===================================================================
->> +--- Python-3.4.3.orig/Objects/unicodeobject.c
->> ++++ Python-3.4.3/Objects/unicodeobject.c
->> +@@ -418,6 +418,9 @@ _PyUnicode_CheckConsistency(PyObject *op
->> +     }
->> +     return 1;
->> + }
->> ++#else
->> ++int
->> ++_PyUnicode_CheckConsistency(PyObject *op, int check_content) { return 1; }
->> + #endif
->> +
->> + static PyObject*
->> +Index: Python-3.4.3/Objects/obmalloc.c
->> +===================================================================
->> +--- Python-3.4.3.orig/Objects/obmalloc.c
->> ++++ Python-3.4.3/Objects/obmalloc.c
->> +@@ -2141,7 +2141,9 @@ _PyObject_DebugMallocStats(FILE *out)
->> +
->> +             if (p->ref.count == 0) {
->> +                 /* currently unused */
->> ++#ifdef Py_DEBUG
->> +                 assert(pool_is_in_list(p, arenas[i].freepools));
->> ++#endif
->> +                 continue;
->> +             }
->> +             ++numpools[sz];
->> diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
->> index 6c2e21d..582f6b0 100644
->> --- a/meta/recipes-devtools/python/python3_3.4.3.bb
->> +++ b/meta/recipes-devtools/python/python3_3.4.3.bb
->> @@ -38,6 +38,7 @@ SRC_URI += "\
->>               file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
->>               file://setup.py-find-libraries-in-staging-dirs.patch \
->>              "
->> +SRC_URI_append_class-nativesdk = "file://fix-nativesdk-build.patch"
->>   SRC_URI[md5sum] = "7d092d1bba6e17f0d9bd21b49e441dd5"
->>   SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043ea996b8"
->>
->> --
->> 1.9.1
->>
->
-
--- 
-------------------------------------------------------------
-Gary Thomas                 |  Consulting for the
-MLB Associates              |    Embedded world
-------------------------------------------------------------
-
+--_000_6E51916E4A1F32428260031F4C7CD2B6101D4688ORSMSX109amrcor_--
