@@ -1,30 +1,30 @@
-Return-Path: <Paul.Gortmaker@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D4C45759C7
+Return-Path: <gary@mlbassoc.com>
+Received: from mail.chez-thomas.org (mail.mlbassoc.com [65.100.170.105])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D0E175A60
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 15:01:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t74F1KQo000780
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Aug 2015 08:01:20 -0700 (PDT)
-Received: from [128.224.56.57] (128.224.56.57) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 4 Aug 2015 08:01:19 -0700
-Message-ID: <55C0D3BF.6080205@windriver.com>
-Date: Tue, 4 Aug 2015 11:01:19 -0400
-From: Paul Gortmaker <paul.gortmaker@windriver.com>
+	Tue,  4 Aug 2015 15:08:32 +0000 (UTC)
+Received: by mail.chez-thomas.org (Postfix, from userid 1998)
+	id 30E19F811DD; Tue,  4 Aug 2015 09:08:33 -0600 (MDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
+	hermes.chez-thomas.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=10.0 tests=ALL_TRUSTED,BAYES_00,
+	DNS_FROM_AHBL_RHSBL autolearn=no version=3.3.2
+Received: from [192.168.1.114] (zeus [192.168.1.114])
+	by mail.chez-thomas.org (Postfix) with ESMTP id 76F09F811D7;
+	Tue,  4 Aug 2015 09:08:32 -0600 (MDT)
+Message-ID: <55C0D57A.4060805@mlbassoc.com>
+Date: Tue, 04 Aug 2015 09:08:42 -0600
+From: Gary Thomas <gary@mlbassoc.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1438696733-234279-1-git-send-email-paul.gortmaker@windriver.com>
-	<1438699944.30526.5.camel@linuxfoundation.org>
-In-Reply-To: <1438699944.30526.5.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.56.57]
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-libc-headers: exclude drm headers from sysroot
+References: <1438699939-9055-1-git-send-email-gary@mlbassoc.com>
+	<1438700203.30526.8.camel@linuxfoundation.org>
+In-Reply-To: <1438700203.30526.8.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python3: Fix nativesdk build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +37,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 15:01:28 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 04 Aug 2015 15:08:35 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 2015-08-04 10:52 AM, Richard Purdie wrote:
-> On Tue, 2015-08-04 at 09:58 -0400, Paul Gortmaker wrote:
->> While diagnosing a problem with xf86-video-intel I noticed we had two
->> copies of drm headers in the sysroot; one from here and one from
->> the libdrm package.   The xf86-video-intel turned out to be another
->> thing, but that doesn't mean we want two copies in the sysroot with
->> different content and luck of include path indicating which one we
->> get.
+On 2015-08-04 08:56, Richard Purdie wrote:
+> On Tue, 2015-08-04 at 08:52 -0600, Gary Thomas wrote:
+>> The nativesdk package is built without Py_DEBUG which causes some
+>> compile errors.  This patch fixes those errors allowing the nativesdk
+>> package to build.
 >>
->> This one landed in usr/include/drm and the libdrm one put its files
->> at usr/include/libdrm, so there was no obvious over-write conflict.
+>> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
+>> ---
+>>   .../python/python3/fix-nativesdk-build.patch       | 28 ++++++++++++++++++++++
+>>   meta/recipes-devtools/python/python3_3.4.3.bb      |  1 +
+>>   2 files changed, 29 insertions(+)
+>>   create mode 100644 meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
 >>
->> The obvious risk here would be unearthing implicit dependencies on
->> the libdrm; things trying to build before it has populated the sysroot
->> but two full highly parallel builds containing a full desktop graphics
->> suite did not show any issues.
+>> diff --git a/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
+>
+> No description of the patch or Upstream-Status. I'm surprised python
+> would have this issue. Do they not recommend building in this
+> configuration or not support/test it?
+
+I'm not sure - obviously it's not done often (as it breaks badly)
+
+Maybe it would be cleaner just to let Py_DEBUG be set for the nativesdk
+build but I couldn't see how/why this is not set in this case.
+
+>
+> I'm just worried what other issues we might run into as a result of
+> this.
+
+The changes only affect some asserts which the original code sometimes
+protects with #ifdef Py_DEBUG but other times does not so I don't see
+that it would have any detrimental side-effects.
+
+>> new file mode 100644
+>> index 0000000..d0cba39
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
+>> @@ -0,0 +1,28 @@
+>> +Index: Python-3.4.3/Objects/unicodeobject.c
+>> +===================================================================
+>> +--- Python-3.4.3.orig/Objects/unicodeobject.c
+>> ++++ Python-3.4.3/Objects/unicodeobject.c
+>> +@@ -418,6 +418,9 @@ _PyUnicode_CheckConsistency(PyObject *op
+>> +     }
+>> +     return 1;
+>> + }
+>> ++#else
+>> ++int
+>> ++_PyUnicode_CheckConsistency(PyObject *op, int check_content) { return 1; }
+>> + #endif
+>> +
+>> + static PyObject*
+>> +Index: Python-3.4.3/Objects/obmalloc.c
+>> +===================================================================
+>> +--- Python-3.4.3.orig/Objects/obmalloc.c
+>> ++++ Python-3.4.3/Objects/obmalloc.c
+>> +@@ -2141,7 +2141,9 @@ _PyObject_DebugMallocStats(FILE *out)
+>> +
+>> +             if (p->ref.count == 0) {
+>> +                 /* currently unused */
+>> ++#ifdef Py_DEBUG
+>> +                 assert(pool_is_in_list(p, arenas[i].freepools));
+>> ++#endif
+>> +                 continue;
+>> +             }
+>> +             ++numpools[sz];
+>> diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
+>> index 6c2e21d..582f6b0 100644
+>> --- a/meta/recipes-devtools/python/python3_3.4.3.bb
+>> +++ b/meta/recipes-devtools/python/python3_3.4.3.bb
+>> @@ -38,6 +38,7 @@ SRC_URI += "\
+>>               file://setup.py-check-cross_compiling-when-get-FLAGS.patch \
+>>               file://setup.py-find-libraries-in-staging-dirs.patch \
+>>              "
+>> +SRC_URI_append_class-nativesdk = "file://fix-nativesdk-build.patch"
+>>   SRC_URI[md5sum] = "7d092d1bba6e17f0d9bd21b49e441dd5"
+>>   SRC_URI[sha256sum] = "b5b3963533768d5fc325a4d7a6bd6f666726002d696f1d399ec06b043ea996b8"
 >>
->> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
->> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-> 
-> Is this something which should get addressed in the upstream kernel?
+>> --
+>> 1.9.1
+>>
+>
 
-I don't think so ; my (fun!) investigation into libdrm and the commits
-there seem to indicate they tend to treat the kernel as the master
-repository for header content and fold changes from the uapi dir in
-the kernel back into libdrm content/repository.
-
-That said, since we (yocto) advocate people to not get all twitchy about
-having the latest and greatest kernel headers, for wider compatibility,
-it seemed most sensible to clobber the kernel ones and ensure the ones
-we used matched the functionality of the libdrm that we are building and
-actually installing.
-
-Maybe there are arguments for going the other way, but say if we were
-using the 3.19 headers still, then we'd definitely be out of sync with
-the libdrm binaries we generate and deploy.
-
-Paul.
---
-
-> 
-> I agree we likely don't want two sets of those.
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
+-- 
+------------------------------------------------------------
+Gary Thomas                 |  Consulting for the
+MLB Associates              |    Embedded world
+------------------------------------------------------------
 
