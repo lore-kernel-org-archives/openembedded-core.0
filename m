@@ -1,36 +1,41 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 95B11759C7
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 85B1A7649D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 16:24:07 +0000 (UTC)
-Received: by iggf3 with SMTP id f3so14756084igg.1
+	Tue,  4 Aug 2015 16:24:10 +0000 (UTC)
+Received: by igbpg9 with SMTP id pg9so96532672igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Aug 2015 09:24:07 -0700 (PDT)
+	Tue, 04 Aug 2015 09:24:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=dbMfDALtG68ggyQZzgMz9aVdFiefi0Ur8/jg0TrR8+c=;
-	b=MVI3GusUmldc9jyY9qfzYh/a3nAGcp6HEzcgpYEKbf7keywW5GW4K1ZB9Wyd9MMpas
-	JK68TEK1cKcqjEhJJUfZD3A+HirBpdJfh4ly5belwYj2dZdJDixykR4hTHo5cvoz6REm
-	3dhPWrMjVR1dUgqGEbon2q1/jnMyiJqabijXO0Y+vZrtKwBovAfzQIZ6PuWN8uMrlMaL
-	5YO2E0QXWMgE/EiI/13jgzcQRMb+8uL3USv0Uk+f1/Q5sQTrwXFIRJAKUMThk/GgyacN
-	EJ0hAGjiMnbb9CkS5LxAiGamjyiMa8FWOzAGZlAtT24URsmgbL4hupCoikfhptVXUKOS
-	lq+g==
-X-Gm-Message-State: ALoCoQlTlqN2qqEspaUVkZGhbvbd9vgHeuke27OvN1lyUcbeMJ05QhLQ2DIucceVpRqYpf/TH4xB
-X-Received: by 10.50.72.6 with SMTP id z6mr4945447igu.65.1438705447311;
-	Tue, 04 Aug 2015 09:24:07 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=rcAvj29Psgw7Fe2or2jupEacTLqBvGFdju7ha65Fkv0=;
+	b=mzYHD35sT2D0yzw+eEfcv1AGLSsikzza7aRL6Rjx6xLaWBAB/ssz8N0Um++2Uxst9s
+	uuqJYNZ8gKjXqYRuXhEGxQOUrBMjkyL6QX/RQ0JTdm7iBmUh3tR0WqEWULAjWswQOdtI
+	avA2VGs9pHPddu12H4yfWSseuZl0JXK2N9RbrVGCqlaUYTr5ZoYY6oNxX5v0WYyDHLuj
+	Fktk9xhW4LUcldkhOk8otn1d2j7gKUfm1kF53a32rdkQZUmlj8qVPZ5zcQdQHnhItJLQ
+	MeP6ou452SlIqQkwtGZoJxVwMdFDmDFTh1W5VoAGHR+NIvTh6MNV8uUqL2P2GyBsB0+c
+	pD7A==
+X-Gm-Message-State: ALoCoQluAnWNolRildZb1QaxbIw8l0M6/sYkBTmAWi5wiZqWeDAXxb/T/mudf7l8TDKDe6HGCdrV
+X-Received: by 10.50.114.9 with SMTP id jc9mr101688igb.56.1438705450513;
+	Tue, 04 Aug 2015 09:24:10 -0700 (PDT)
 Received: from pohly-mobl1.ger.corp.intel.com (p5DE8CA2B.dip0.t-ipconnect.de.
 	[93.232.202.43]) by smtp.gmail.com with ESMTPSA id
-	ii1sm1400785igb.10.2015.08.04.09.24.05
+	ii1sm1400785igb.10.2015.08.04.09.24.09
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 04 Aug 2015 09:24:06 -0700 (PDT)
+	Tue, 04 Aug 2015 09:24:09 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Aug 2015 18:23:58 +0200
-Message-Id: <cover.1438705086.git.patrick.ohly@intel.com>
+Date: Tue,  4 Aug 2015 18:23:59 +0200
+Message-Id: <6f3b3a9f3d73902d14ea10142dbee67ba6f26270.1438705086.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/2] enhance action_pull
+In-Reply-To: <cover.1438705086.git.patrick.ohly@intel.com>
+References: <cover.1438705086.git.patrick.ohly@intel.com>
+In-Reply-To: <cover.1438705086.git.patrick.ohly@intel.com>
+References: <cover.1438705086.git.patrick.ohly@intel.com>
+Subject: [PATCH 1/2] combo-layer: enhance output in action_pull
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +48,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 16:24:07 -0000
+X-List-Received-Date: Tue, 04 Aug 2015 16:24:12 -0000
 
-action_pull can fail when the branch is not yet in the existing
-component repo. Both error reporting and handling need to be enhanced.
+The git operations can fail, for example when the branch is unknown
+or misconfigured.
 
-The following changes since commit 288c76a41aebaf54c7fca3782160830df462b9e4:
+Better move the info message and extend it such that it is printed
+first and provides the necessary context, because otherwise the
+CalledProcessError exception gets dumped without mentioning for which
+component it occurred.
 
-  builder: Fix multilib compile failure (2015-08-03 07:15:47 +0100)
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ scripts/combo-layer | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the git repository at:
-
-  git://github.com/pohly/openembedded-core action-pull
-  https://github.com/pohly/openembedded-core/tree/action-pull
-
-Patrick Ohly (2):
-  combo-layer: enhance output in action_pull
-  combo-layer: fix action_pull for unknown branch
-
- scripts/combo-layer | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
-
+diff --git a/scripts/combo-layer b/scripts/combo-layer
+index 70dad83..7380f5b 100755
+--- a/scripts/combo-layer
++++ b/scripts/combo-layer
+@@ -585,8 +585,8 @@ def action_pull(conf, args):
+         repo = conf.repos[name]
+         ldir = repo['local_repo_dir']
+         branch = repo.get('branch', "master")
++        logger.info("update branch %s of component repo %s in %s ..." % (branch, name, ldir))
+         runcmd("git checkout %s" % branch, ldir)
+-        logger.info("update component repo %s in %s ..." % (name, ldir))
+         if not conf.hard_reset:
+             output=runcmd("git pull --ff-only", ldir)
+             logger.info(output)
 -- 
 2.1.4
 
