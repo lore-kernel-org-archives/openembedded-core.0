@@ -1,27 +1,38 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 099F476424
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 51AD475794
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 03:28:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t743SVRM006842
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Aug 2015 20:28:31 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.235.1; Mon, 3 Aug 2015 20:28:30 -0700
-From: Kai Kang <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 4 Aug 2015 11:25:36 +0800
-Message-ID: <199a59814d297f3574061c24f9d7bd19b5815948.1438658497.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1438658497.git.kai.kang@windriver.com>
-References: <cover.1438658497.git.kai.kang@windriver.com>
+	Tue,  4 Aug 2015 04:37:26 +0000 (UTC)
+Received: by igr7 with SMTP id 7so67433697igr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Aug 2015 21:37:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=FpY/SWvlT+wZo0F1IT1fmQQQ2r7B1NsmdkoHXEoPZFk=;
+	b=W1QH5d4ZeHy76zya33feJv+1BQuOa0qxzBkNluD21LdIvyL5kWH7cKSt//0qI3Qm90
+	wNCkARWn76ez3MJBasiUEsckNWQYdbaCSn3n63ft7jHl5iU8m534U7KRP9ycaFMD7qYj
+	NQQwfkPYyKX4u02hHbAsuaQ00w+6tuHyyR/Nu+CVtLQDPYsLtbzxCTkDEQnGUMQfxHi3
+	/u+BPsnpyWaLxzmrCk2yFFvyO9n31s03zZVizjHGLx3js7n8hz0wvaWAHeYUWzlb2SKs
+	AD8dOi13qXYv4vQRFt0UiyRWymGppQB16r8809yEfxm5HLEaWfFmw3s2dHxf5teFxNO0
+	KVmA==
+X-Received: by 10.50.110.72 with SMTP id hy8mr24227754igb.36.1438663046746;
+	Mon, 03 Aug 2015 21:37:26 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.152]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] qemu: add ptest sub-package
+Sender: kergoth@gmail.com
+Received: by 10.79.100.199 with HTTP; Mon, 3 Aug 2015 21:37:07 -0700 (PDT)
+In-Reply-To: <1438634128-4347-3-git-send-email-juro.bystricky@intel.com>
+References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
+	<1438634128-4347-3-git-send-email-juro.bystricky@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 3 Aug 2015 21:37:07 -0700
+X-Google-Sender-Auth: dv73y0OK_avoHxsxpYnrNn3XhnI
+Message-ID: <CABcZAN=QzPv4W+wyZCcrx6LPjNKqf7s+JLkLKky1QT5_WF+Ndg@mail.gmail.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+Cc: richard.purdie@intel.com, jurobystricky@hotmail.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] build-appliance-image: support for VirtualBox guest addtions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,113 +45,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 03:28:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Aug 2015 04:37:30 -0000
+Content-Type: multipart/alternative; boundary=089e011849d4da5a43051c74d7d2
 
-Add sub-package ptest which runs all unit tests cases for qemu.
+--089e011849d4da5a43051c74d7d2
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-devtools/qemu/qemu.inc                | 16 +++++++++++-
- .../qemu/qemu/add-ptest-in-makefile.patch          | 29 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu/run-ptest          |  8 ++++++
- 3 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/run-ptest
+On Mon, Aug 3, 2015 at 1:35 PM, Juro Bystricky <juro.bystricky@intel.com>
+wrote:
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 6a744c3..c3f73d1 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -3,9 +3,10 @@ HOMEPAGE = "http://qemu.org"
- LICENSE = "GPLv2 & LGPLv2.1"
- DEPENDS = "glib-2.0 zlib pixman"
- RDEPENDS_${PN}_class-target += "bash python"
-+RDEPENDS_${PN}-ptest = "bash make"
- 
- require qemu-targets.inc
--inherit autotools
-+inherit autotools ptest
- BBCLASSEXTEND = "native nativesdk"
- 
- PR = "r1"
-@@ -18,6 +19,8 @@ SRC_URI = "\
-     file://disable-grabs.patch \
-     file://exclude-some-arm-EABI-obsolete-syscalls.patch \
-     file://wacom.patch \
-+    file://add-ptest-in-makefile.patch \
-+    file://run-ptest \
-     "
- 
- SRC_URI_append_class-native = "\
-@@ -54,6 +57,17 @@ do_configure() {
-     test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x ${S}/target-i386/beginend_funcs.sh
- }
- 
-+do_compile_ptest() {
-+	make buildtest-TESTS
-+}
-+
-+do_install_ptest() {
-+	cp -rL ${B}/tests ${D}${PTEST_PATH}
-+	find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs -i rm -rf {}
-+
-+	cp ${S}/tests/Makefile ${D}${PTEST_PATH}/tests
-+}
-+
- do_install () {
- 	export STRIP="true"
- 	autotools_do_install
-diff --git a/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
-new file mode 100644
-index 0000000..a99f720
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
-@@ -0,0 +1,29 @@
-+Upstream-Status: Pending
-+
-+Add subpackage -ptest which runs all unit test cases for qemu.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ tests/Makefile |   10 ++++++++++
-+ 1 file changed, 10 insertions(+)
-+
-+diff --git a/tests/Makefile b/tests/Makefile
-+index 88f7105..3f40b4b 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -405,3 +405,12 @@ all: $(QEMU_IOTESTS_HELPERS-y)
-+ 
-+ -include $(wildcard tests/*.d)
-+ -include $(wildcard tests/libqos/*.d)
-++
-++buildtest-TESTS: $(check-unit-y)
-++
-++runtest-TESTS:
-++	for f in $(check-unit-y); do \
-++		nf=$$(echo $$f | sed 's/tests\//\.\//g'); \
-++		$$nf; \
-++	done
-++
-+--
-+1.7.9.5
-+
-diff --git a/meta/recipes-devtools/qemu/qemu/run-ptest b/meta/recipes-devtools/qemu/qemu/run-ptest
-new file mode 100644
-index 0000000..f4b8e97
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/run-ptest
-@@ -0,0 +1,8 @@
-+#!/bin/sh
-+#
-+#This script is used to run qemu test suites
-+ptestdir=$(pwd)
-+cd tests
-+
-+export SRC_PATH=$ptestdir
-+make -k runtest-TESTS | sed '/: OK/ s/^/PASS: /g'
+> It is possible to run Build Appliance VM using VirtualBox.
+> User experience can be improved by installing VirtulaBox guest
+>
+
+Typo: VirtulaBox
+
+
 -- 
-1.9.1
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--089e011849d4da5a43051c74d7d2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Mon, Aug 3, 2015 at 1:35 PM, Juro Bystricky <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky@inte=
+l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1=
+tg" class=3D"a3s" style=3D"overflow:hidden">It is possible to run Build App=
+liance VM using VirtualBox.<br>
+User experience can be improved by installing VirtulaBox guest</div></block=
+quote></div><br>Typo: VirtulaBox<br><br clear=3D"all"><div><br></div>-- <br=
+><div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth do=
+t com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<=
+br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--089e011849d4da5a43051c74d7d2--
