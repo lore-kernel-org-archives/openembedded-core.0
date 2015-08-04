@@ -1,27 +1,27 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 9949B76424
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 099F476424
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  4 Aug 2015 03:28:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t743STp6008916
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t743SVRM006842
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Aug 2015 20:28:29 -0700 (PDT)
+	Mon, 3 Aug 2015 20:28:31 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.235.1; Mon, 3 Aug 2015 20:28:29 -0700
+	(TLS) id 14.3.235.1; Mon, 3 Aug 2015 20:28:30 -0700
 From: Kai Kang <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 4 Aug 2015 11:25:35 +0800
-Message-ID: <34faa0d68f340ae6b0a3599d458e8dfe781555fe.1438658497.git.kai.kang@windriver.com>
+Date: Tue, 4 Aug 2015 11:25:36 +0800
+Message-ID: <199a59814d297f3574061c24f9d7bd19b5815948.1438658497.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1438658497.git.kai.kang@windriver.com>
 References: <cover.1438658497.git.kai.kang@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.152]
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] rt-tests: fix redo install error
+Subject: [PATCH 2/2] qemu: add ptest sub-package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,100 +34,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 03:28:31 -0000
+X-List-Received-Date: Tue, 04 Aug 2015 03:28:32 -0000
 Content-Type: text/plain
 
-Currently gzip on host is used. If host gzip is provided by pigz, it
-fails to redo install that pigz can't handle the option after file name.
-When run command for target install in Makefile:
-
-gzip src/backfire/backfire.4 -c > OUTPUT_FILE
-
-File src/backfire/backfire.4 is zipped into backfire.4.gz but the
-OUTPUT_FILE is empty. When rerun do_install, it shows warning:
-
-| gzip: src/backfire/backfire.4 does not exist -- skipping
-
-and empty manual gzip files are created:
-
-$ file image/usr/share/man/man4/backfire.4.gz
-image/usr/share/man/man4/backfire.4.gz: empty
-
-Fix it by putting option '-c' before the file name.
+Add sub-package ptest which runs all unit tests cases for qemu.
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- .../rt-tests/files/fix-re-install-failure.patch    | 48 ++++++++++++++++++++++
- meta/recipes-rt/rt-tests/rt-tests.inc              |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-rt/rt-tests/files/fix-re-install-failure.patch
+ meta/recipes-devtools/qemu/qemu.inc                | 16 +++++++++++-
+ .../qemu/qemu/add-ptest-in-makefile.patch          | 29 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu/run-ptest          |  8 ++++++
+ 3 files changed, 52 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/run-ptest
 
-diff --git a/meta/recipes-rt/rt-tests/files/fix-re-install-failure.patch b/meta/recipes-rt/rt-tests/files/fix-re-install-failure.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 6a744c3..c3f73d1 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -3,9 +3,10 @@ HOMEPAGE = "http://qemu.org"
+ LICENSE = "GPLv2 & LGPLv2.1"
+ DEPENDS = "glib-2.0 zlib pixman"
+ RDEPENDS_${PN}_class-target += "bash python"
++RDEPENDS_${PN}-ptest = "bash make"
+ 
+ require qemu-targets.inc
+-inherit autotools
++inherit autotools ptest
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ PR = "r1"
+@@ -18,6 +19,8 @@ SRC_URI = "\
+     file://disable-grabs.patch \
+     file://exclude-some-arm-EABI-obsolete-syscalls.patch \
+     file://wacom.patch \
++    file://add-ptest-in-makefile.patch \
++    file://run-ptest \
+     "
+ 
+ SRC_URI_append_class-native = "\
+@@ -54,6 +57,17 @@ do_configure() {
+     test ! -e ${S}/target-i386/beginend_funcs.sh || chmod a+x ${S}/target-i386/beginend_funcs.sh
+ }
+ 
++do_compile_ptest() {
++	make buildtest-TESTS
++}
++
++do_install_ptest() {
++	cp -rL ${B}/tests ${D}${PTEST_PATH}
++	find ${D}${PTEST_PATH}/tests -type f -name "*.[Sshcod]" | xargs -i rm -rf {}
++
++	cp ${S}/tests/Makefile ${D}${PTEST_PATH}/tests
++}
++
+ do_install () {
+ 	export STRIP="true"
+ 	autotools_do_install
+diff --git a/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
 new file mode 100644
-index 0000000..e38ec92
+index 0000000..a99f720
 --- /dev/null
-+++ b/meta/recipes-rt/rt-tests/files/fix-re-install-failure.patch
-@@ -0,0 +1,48 @@
-+Currently gzip on host is used. If host gzip is provided by pigz, it fails to
-+redo install that pigz can't handle the option after file name. When run:
-+
-+gzip src/backfire/backfire.4 -c > OUTPUT_FILE
-+
-+File src/backfire/backfire.4 is zipped into backfire.4.gz but the OUTPUT_FILE
-+is empty. When rerun do_install, it shows warning:
-+
-+| gzip: src/backfire/backfire.4 does not exist -- skipping
-+
-+and empty manual gzip files are created:
-+
-+$ file image/usr/share/man/man4/backfire.4.gz
-+image/usr/share/man/man4/backfire.4.gz: empty
-+
-+Fix it by putting option '-c' before the file name.
-+
++++ b/meta/recipes-devtools/qemu/qemu/add-ptest-in-makefile.patch
+@@ -0,0 +1,29 @@
 +Upstream-Status: Pending
++
++Add subpackage -ptest which runs all unit test cases for qemu.
 +
 +Signed-off-by: Kai Kang <kai.kang@windriver.com>
 +---
-+--- git/Makefile.orig	2014-11-14 15:47:26.406638419 +0800
-++++ git/Makefile	2014-11-14 15:46:53.890637533 +0800
-+@@ -127,15 +127,15 @@
-+ 	cp $(TARGETS) "$(DESTDIR)$(bindir)"
-+ 	install -D -m 644 src/backfire/backfire.c "$(DESTDIR)$(srcdir)/backfire/backfire.c"
-+ 	install -m 644 src/backfire/Makefile "$(DESTDIR)$(srcdir)/backfire/Makefile"
-+-	gzip src/backfire/backfire.4 -c >"$(DESTDIR)$(mandir)/man4/backfire.4.gz"
-+-	gzip src/cyclictest/cyclictest.8 -c >"$(DESTDIR)$(mandir)/man8/cyclictest.8.gz"
-+-	gzip src/pi_tests/pi_stress.8 -c >"$(DESTDIR)$(mandir)/man8/pi_stress.8.gz"
-+-	gzip src/ptsematest/ptsematest.8 -c >"$(DESTDIR)$(mandir)/man8/ptsematest.8.gz"
-+-	gzip src/sigwaittest/sigwaittest.8 -c >"$(DESTDIR)$(mandir)/man8/sigwaittest.8.gz"
-+-	gzip src/svsematest/svsematest.8 -c >"$(DESTDIR)$(mandir)/man8/svsematest.8.gz"
-+-	gzip src/pmqtest/pmqtest.8 -c >"$(DESTDIR)$(mandir)/man8/pmqtest.8.gz"
-+-	gzip src/backfire/sendme.8 -c >"$(DESTDIR)$(mandir)/man8/sendme.8.gz"
-+-	gzip src/hackbench/hackbench.8 -c >"$(DESTDIR)$(mandir)/man8/hackbench.8.gz"
-++	gzip -c src/backfire/backfire.4 >"$(DESTDIR)$(mandir)/man4/backfire.4.gz"
-++	gzip -c src/cyclictest/cyclictest.8 >"$(DESTDIR)$(mandir)/man8/cyclictest.8.gz"
-++	gzip -c src/pi_tests/pi_stress.8 >"$(DESTDIR)$(mandir)/man8/pi_stress.8.gz"
-++	gzip -c src/ptsematest/ptsematest.8 >"$(DESTDIR)$(mandir)/man8/ptsematest.8.gz"
-++	gzip -c src/sigwaittest/sigwaittest.8 >"$(DESTDIR)$(mandir)/man8/sigwaittest.8.gz"
-++	gzip -c src/svsematest/svsematest.8 >"$(DESTDIR)$(mandir)/man8/svsematest.8.gz"
-++	gzip -c src/pmqtest/pmqtest.8 >"$(DESTDIR)$(mandir)/man8/pmqtest.8.gz"
-++	gzip -c src/backfire/sendme.8 >"$(DESTDIR)$(mandir)/man8/sendme.8.gz"
-++	gzip -c src/hackbench/hackbench.8 >"$(DESTDIR)$(mandir)/man8/hackbench.8.gz"
++ tests/Makefile |   10 ++++++++++
++ 1 file changed, 10 insertions(+)
++
++diff --git a/tests/Makefile b/tests/Makefile
++index 88f7105..3f40b4b 100644
++--- a/tests/Makefile
+++++ b/tests/Makefile
++@@ -405,3 +405,12 @@ all: $(QEMU_IOTESTS_HELPERS-y)
 + 
-+ .PHONY: install_hwlatdetect
-+ install_hwlatdetect: hwlatdetect
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index e63182a..9a076ad 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -8,6 +8,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git
-            file://added-missing-dependencies.patch \
-            file://hackbench-fix-error-check.patch \
-            file://Makefile-fix-gzip-command.patch \
-+           file://fix-re-install-failure.patch \
- "
- 
- S = "${WORKDIR}/git"
++ -include $(wildcard tests/*.d)
++ -include $(wildcard tests/libqos/*.d)
+++
+++buildtest-TESTS: $(check-unit-y)
+++
+++runtest-TESTS:
+++	for f in $(check-unit-y); do \
+++		nf=$$(echo $$f | sed 's/tests\//\.\//g'); \
+++		$$nf; \
+++	done
+++
++--
++1.7.9.5
++
+diff --git a/meta/recipes-devtools/qemu/qemu/run-ptest b/meta/recipes-devtools/qemu/qemu/run-ptest
+new file mode 100644
+index 0000000..f4b8e97
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/run-ptest
+@@ -0,0 +1,8 @@
++#!/bin/sh
++#
++#This script is used to run qemu test suites
++ptestdir=$(pwd)
++cd tests
++
++export SRC_PATH=$ptestdir
++make -k runtest-TESTS | sed '/: OK/ s/^/PASS: /g'
 -- 
 1.9.1
 
