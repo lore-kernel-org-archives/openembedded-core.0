@@ -1,21 +1,24 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 312B873D13
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21256757A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Aug 2015 23:12:37 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 03 Aug 2015 16:06:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,604,1432623600"; d="scan'208";a="535420021"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by FMSMGA003.fm.intel.com with ESMTP; 03 Aug 2015 16:06:44 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Aug 2015 15:01:04 +0000
-Message-Id: <1438614064-10290-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH] init-install-efi.sh: Avoid /mnt/mtab creation if already present
+	Tue,  4 Aug 2015 02:40:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t742eTU3003822
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 3 Aug 2015 19:40:29 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 3 Aug 2015 19:40:29 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 4 Aug 2015 10:33:11 +0800
+Message-ID: <1438655591-5115-1-git-send-email-wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH v2] bjam-native: build and install bjam.debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,40 +31,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Aug 2015 23:12:41 -0000
+X-List-Received-Date: Tue, 04 Aug 2015 02:40:30 -0000
+Content-Type: text/plain
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-The base-files recipe installs /mnt/mtab (it is a softlink of /proc/mounts),
-so if an image includes the latter, there is no new to created it again inside
-the install-efi.sh script, otherwise an error may occur as indicated on the
-bug's site.
+bjam is stripped by default, this causes QA warning while stripping it
+from do_populate_sysroot():
 
-[YOCTO #7971]
+  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
+    from bjam-native was already stripped, \
+    this will prevent future debugging!
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+The JAM scripts allow to build unstripped version with '--debug'. Just
+build and install the bjam.debug to stop bjam from being stripped in
+compile step.
+
+Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ---
- meta/recipes-core/initrdscripts/files/init-install-efi.sh | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-support/boost/bjam-native_1.58.0.bb   |  5 ++-
+ .../boost/files/bjam-native-build-bjam.debug.patch | 50 ++++++++++++++++++++++
+ 2 files changed, 54 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
 
-diff --git a/meta/recipes-core/initrdscripts/files/init-install-efi.sh b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-index f339b30..665d04a 100644
---- a/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-+++ b/meta/recipes-core/initrdscripts/files/init-install-efi.sh
-@@ -109,7 +109,11 @@ rm -f /etc/udev/scripts/mount*
- umount ${device}* 2> /dev/null || /bin/true
+diff --git a/meta/recipes-support/boost/bjam-native_1.58.0.bb b/meta/recipes-support/boost/bjam-native_1.58.0.bb
+index d85d1a9..32646d7 100644
+--- a/meta/recipes-support/boost/bjam-native_1.58.0.bb
++++ b/meta/recipes-support/boost/bjam-native_1.58.0.bb
+@@ -5,11 +5,14 @@ SECTION = "devel"
  
- mkdir -p /tmp
--cat /proc/mounts > /etc/mtab
+ inherit native
+ 
++SRC_URI += "file://bjam-native-build-bjam.debug.patch"
 +
-+# Create /etc/mtab if not present
-+if [ ! -e /etc/mtab ]; then
-+    cat /proc/mounts > /etc/mtab
-+fi
+ do_compile() {
+     ./bootstrap.sh --with-toolset=gcc
+ }
  
- disk_size=$(parted ${device} unit mb print | grep Disk | cut -d" " -f 3 | sed -e "s/MB//")
- 
+ do_install() {
+     install -d ${D}${bindir}/
+-    install -c -m 755 bjam ${D}${bindir}/
++    # install unstripped version for bjam
++    install -c -m 755 bjam.debug ${D}${bindir}/bjam
+ }
+diff --git a/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch b/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
+new file mode 100644
+index 0000000..9f8b7ea
+--- /dev/null
++++ b/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
+@@ -0,0 +1,50 @@
++From 619ada314ab26c0c9cbfe5702cd9c0caa8f6415a Mon Sep 17 00:00:00 2001
++From: Wenzong Fan <wenzong.fan@windriver.com>
++Date: Mon, 3 Aug 2015 17:12:33 +0800
++Subject: [PATCH] bjam-native: build bjam.debug
++
++bjam is stripped by default, this causes QA warning while stripping it
++from do_populate_sysroot():
++
++  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
++    from bjam-native was already stripped, \
++    this will prevent future debugging!
++
++The JAM scripts allow to build unstripped version with '--debug'. Just
++build and install the bjam.debug to stop bjam from being stripped in
++compile step.
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
++---
++ bootstrap.sh                    | 1 +
++ tools/build/src/engine/build.sh | 2 +-
++ 2 files changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/bootstrap.sh b/bootstrap.sh
++index 98cf88b..54690aa 100755
++--- a/bootstrap.sh
+++++ b/bootstrap.sh
++@@ -228,6 +228,7 @@ if test "x$BJAM" = x; then
++   echo "tools/build/src/engine/$arch/b2"
++   cp "$BJAM" .
++   cp "$my_dir/tools/build/src/engine/$arch/bjam" .
+++  cp "$my_dir/tools/build/src/engine/${arch}.debug/bjam" bjam.debug
++ 
++ fi
++ 
++diff --git a/tools/build/src/engine/build.sh b/tools/build/src/engine/build.sh
++index 6dbc706..c69fdc7 100755
++--- a/tools/build/src/engine/build.sh
+++++ b/tools/build/src/engine/build.sh
++@@ -312,5 +312,5 @@ if test -x "./bootstrap/jam0" ; then
++     if test "${BJAM_UPDATE}" != "update" ; then
++         echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@" clean
++     fi
++-    echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@"
+++    echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@" --debug
++ fi
++-- 
++1.9.1
++
 -- 
-1.8.4.5
+1.9.1
 
 
