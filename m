@@ -1,39 +1,29 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 937C9759C7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FC84759C7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 16:12:02 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 04 Aug 2015 09:08:03 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,609,1432623600"; 
-	d="scan'208,217";a="761769226"
-Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Aug 2015 09:08:03 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.2.247]) by
-	ORSMSX107.amr.corp.intel.com ([169.254.1.44]) with mapi id
-	14.03.0224.002; Tue, 4 Aug 2015 09:08:02 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Christopher Larson <clarson@kergoth.com>
-Thread-Topic: [OE-core] [PATCH 2/2] build-appliance-image: support for
-	VirtualBox guest addtions
-Thread-Index: AQHQziyByutpCzov1EigqJfuf5ntwJ37t2+AgABLV/A=
-Date: Tue, 4 Aug 2015 16:08:02 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101D4695@ORSMSX109.amr.corp.intel.com>
+	Tue,  4 Aug 2015 16:20:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t74GK2DT018800
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Aug 2015 09:20:03 -0700 (PDT)
+Received: from Marks-MacBook-Pro-2.local (172.25.36.230) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 4 Aug 2015 09:20:02 -0700
+To: Juro Bystricky <juro.bystricky@intel.com>,
+	<openembedded-core@lists.openembedded.org>, <jurobystricky@hotmail.com>
 References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
-	<1438634128-4347-3-git-send-email-juro.bystricky@intel.com>
-	<CABcZAN=QzPv4W+wyZCcrx6LPjNKqf7s+JLkLKky1QT5_WF+Ndg@mail.gmail.com>
-In-Reply-To: <CABcZAN=QzPv4W+wyZCcrx6LPjNKqf7s+JLkLKky1QT5_WF+Ndg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <55C0E631.7070703@windriver.com>
+Date: Tue, 4 Aug 2015 11:20:01 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.1.0
 MIME-Version: 1.0
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	"jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] build-appliance-image: support for VirtualBox guest addtions
+In-Reply-To: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
+Cc: richard.purdie@intel.com
+Subject: Re: [PATCH 0/2] Support for VirtualBox guest additions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,101 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 16:12:02 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_6E51916E4A1F32428260031F4C7CD2B6101D4695ORSMSX109amrcor_"
+X-List-Received-Date: Tue, 04 Aug 2015 16:20:05 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
---_000_6E51916E4A1F32428260031F4C7CD2B6101D4695ORSMSX109amrcor_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 8/3/15 3:35 PM, Juro Bystricky wrote:
+> In order to support VirtualBox guest additions, kernel headers need to be present 
+> in the VM. I am aware we already have two packages/recipes that are somewhat similar
+> (kernel-devsrc.bb, linux-libc-headers), but none of them is suitable for this purpose.
+> Besides the kernel headers, some additional files (scripts, Makefiles, .config, etc)
+> are also required. 
 
-VGhhbmtzLiBJIGd1ZXNzIEkgdHlwZSB0b28gZmFzdC4gSSB3aWxsIHN1Ym1pdCBhIG5ldyBwYXRj
-aCB3aXRoIHRoZSB0eXBvIGZpeGVkLg0KDQpGcm9tOiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFpbHRv
-OmtlcmdvdGhAZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgQ2hyaXN0b3BoZXIgTGFyc29uDQpTZW50
-OiBNb25kYXksIEF1Z3VzdCAzLCAyMDE1IDk6MzcgUE0NClRvOiBCeXN0cmlja3ksIEp1cm8NCkNj
-OiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBqdXJvYnlzdHJpY2t5
-QGhvdG1haWwuY29tOyBQdXJkaWUsIFJpY2hhcmQNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BB
-VENIIDIvMl0gYnVpbGQtYXBwbGlhbmNlLWltYWdlOiBzdXBwb3J0IGZvciBWaXJ0dWFsQm94IGd1
-ZXN0IGFkZHRpb25zDQoNCg0KT24gTW9uLCBBdWcgMywgMjAxNSBhdCAxOjM1IFBNLCBKdXJvIEJ5
-c3RyaWNreSA8anVyby5ieXN0cmlja3lAaW50ZWwuY29tPG1haWx0bzpqdXJvLmJ5c3RyaWNreUBp
-bnRlbC5jb20+PiB3cm90ZToNCkl0IGlzIHBvc3NpYmxlIHRvIHJ1biBCdWlsZCBBcHBsaWFuY2Ug
-Vk0gdXNpbmcgVmlydHVhbEJveC4NClVzZXIgZXhwZXJpZW5jZSBjYW4gYmUgaW1wcm92ZWQgYnkg
-aW5zdGFsbGluZyBWaXJ0dWxhQm94IGd1ZXN0DQoNClR5cG86IFZpcnR1bGFCb3gNCg0KDQotLQ0K
-Q2hyaXN0b3BoZXIgTGFyc29uDQpjbGFyc29uIGF0IGtlcmdvdGggZG90IGNvbQ0KRm91bmRlciAt
-IEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1cw0KTWFpbnRhaW5lciAtIFRzbGliDQpT
-ZW5pb3IgU29mdHdhcmUgRW5naW5lZXIsIE1lbnRvciBHcmFwaGljcw0K
+linux-libc-headers is only for building applications.  kernel-devsrc is for
+building modules on the target.
 
---_000_6E51916E4A1F32428260031F4C7CD2B6101D4695ORSMSX109amrcor_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+What do these specific modules need that are not present in kernel-devsrc?  (I
+really don't want 'yet another' confusing package added to the system.)
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
-IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
-IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
-Zm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9
-DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCglj
-b2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFu
-Lk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpw
-dXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWlsU3R5bGUxNw0K
-CXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToiQ2FsaWJyaSIs
-c2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHls
-ZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30N
-CkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4g
-MS4waW4gMS4waW4gMS4waW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9u
-MTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0
-cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1b
-aWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRt
-YXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5k
-aWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJFTi1VUyIgbGluaz0iYmx1ZSIgdmxpbms9InB1
-cnBsZSI+DQo8ZGl2IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
-PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoYW5rcy4gSSBndWVzcyBJIHR5cGUgdG9v
-IGZhc3QuIEkgd2lsbCBzdWJtaXQgYSBuZXcgcGF0Y2ggd2l0aCB0aGUgdHlwbyBmaXhlZC48bzpw
-PjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9u
-dC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7
-Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRpdiBzdHlsZT0i
-Ym9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAxLjVwdDtwYWRkaW5nOjBpbiAwaW4g
-MGluIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNv
-bGlkICNFMUUxRTEgMS4wcHQ7cGFkZGluZzozLjBwdCAwaW4gMGluIDBpbiI+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTom
-cXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMt
-c2VyaWYiPiBrZXJnb3RoQGdtYWlsLmNvbSBbbWFpbHRvOmtlcmdvdGhAZ21haWwuY29tXQ0KPGI+
-T24gQmVoYWxmIE9mIDwvYj5DaHJpc3RvcGhlciBMYXJzb248YnI+DQo8Yj5TZW50OjwvYj4gTW9u
-ZGF5LCBBdWd1c3QgMywgMjAxNSA5OjM3IFBNPGJyPg0KPGI+VG86PC9iPiBCeXN0cmlja3ksIEp1
-cm88YnI+DQo8Yj5DYzo8L2I+IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc7IGp1cm9ieXN0cmlja3lAaG90bWFpbC5jb207IFB1cmRpZSwgUmljaGFyZDxicj4NCjxiPlN1
-YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSCAyLzJdIGJ1aWxkLWFwcGxpYW5jZS1pbWFn
-ZTogc3VwcG9ydCBmb3IgVmlydHVhbEJveCBndWVzdCBhZGR0aW9uczxvOnA+PC9vOnA+PC9zcGFu
-PjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwv
-bzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8
-L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gTW9uLCBBdWcgMywgMjAx
-NSBhdCAxOjM1IFBNLCBKdXJvIEJ5c3RyaWNreSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmp1cm8uYnlz
-dHJpY2t5QGludGVsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmp1cm8uYnlzdHJpY2t5QGludGVsLmNv
-bTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRl
-cjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowaW4gMGluIDBp
-biA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGluIj4NCjxkaXYgaWQ9Ijox
-dGciPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SXQgaXMgcG9zc2libGUgdG8gcnVuIEJ1aWxkIEFw
-cGxpYW5jZSBWTSB1c2luZyBWaXJ0dWFsQm94Ljxicj4NClVzZXIgZXhwZXJpZW5jZSBjYW4gYmUg
-aW1wcm92ZWQgYnkgaW5zdGFsbGluZyBWaXJ0dWxhQm94IGd1ZXN0PG86cD48L286cD48L3A+DQo8
-L2Rpdj4NCjwvYmxvY2txdW90ZT4NCjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGJyPg0K
-VHlwbzogVmlydHVsYUJveDxicj4NCjxiciBjbGVhcj0iYWxsIj4NCjxvOnA+PC9vOnA+PC9wPg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4tLSA8bzpwPjwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj5DaHJpc3RvcGhlciBMYXJzb248YnI+DQpjbGFyc29uIGF0IGtlcmdvdGgg
-ZG90IGNvbTxicj4NCkZvdW5kZXIgLSBCaXRCYWtlLCBPcGVuRW1iZWRkZWQsIE9wZW5aYXVydXM8
-YnI+DQpNYWludGFpbmVyIC0gVHNsaWI8YnI+DQpTZW5pb3IgU29mdHdhcmUgRW5naW5lZXIsIE1l
-bnRvciBHcmFwaGljczxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9k
-aXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
+> The new recipe "kernel-headers.bb" can in principle be used by other images as well.
+> It is not limited to the Build Appliance and hence is not a part of the Build Appliance
+> recipe.
 
---_000_6E51916E4A1F32428260031F4C7CD2B6101D4695ORSMSX109amrcor_--
+I think kernel-headers is a bad name for a package.  It could be confusing.
+
+--Mark
+
+> Juro Bystricky (2):
+>   kernel-headers: linux kernel headers
+>   build-appliance-image: support for VirtualBox guest addtions
+> 
+>  .../README_vbox_guest_additions.txt                | 78 ++++++++++++++++++++++
+>  .../images/build-appliance-image_12.0.1.bb         |  4 +-
+>  meta/recipes-kernel/linux/kernel-headers.bb        | 66 ++++++++++++++++++
+>  3 files changed, 147 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-core/images/build-appliance-image/README_vbox_guest_additions.txt
+>  create mode 100644 meta/recipes-kernel/linux/kernel-headers.bb
+> 
+
+
