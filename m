@@ -1,37 +1,37 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
 	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D3E0C60017
+	by mail.openembedded.org (Postfix) with ESMTP id 050F460017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Aug 2015 13:50:38 +0000 (UTC)
-Received: by ykax123 with SMTP id x123so35702856yka.1
+	Wed,  5 Aug 2015 14:00:10 +0000 (UTC)
+Received: by ykeo23 with SMTP id o23so35653391yke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Aug 2015 06:50:38 -0700 (PDT)
+	Wed, 05 Aug 2015 07:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=YVy+mvYskRj+39+WDVaLVxD/pO2Dfy/5M7npVPVdpfA=;
-	b=syKeSWIZf3xs2n84f6FN+GU89Ymg5GnLwg1iLJf7vILTUam2EzeKXyXxXXxGINIzKr
-	csymUPbXq5xVq3tiwZ7ThcrTh8JALgrp06x2omxXD0xv5XEd8tFqE0z7KSJncvzofMQC
-	YabE3wCLzu1aD4iODU6eES7F/tCctHvqOM8avL//NPhWPU0AvJKHRTxcNrGJL3jK7CMQ
-	PYvE9aLpR0NmV+V6PkGiZhIWSpmHKEMk5PLKR60hq2HMBoFER0kFrz9An1zppagc3XXi
-	G5phjAxT4AB0K/Rj5WpWz1y3kTTPoXWUZ8cZ9FY8/7qscLa4Ged6l4oCSFeqStB7w3vM
-	drPw==
+	bh=lc3G1zWHxWWkL/LscH0Ckr5eXTd+2R2GX1Xg0NTTmoE=;
+	b=Gz9Y2uCnfndISdnvru/mGmgrFpf+5jXSbeu2p1ojC5pgzFyRYzWFGeexhfEVedr2Z6
+	QGnLiLlsQffLC9d4wJq2H1Bb8W0IZvPD69VwTkkDS371XU4BMXIwEAyOrBuvw8Mcqfqf
+	zQuzQGArLeVUk85PYnYsnp032jsURp0Omv/PLR5dGY37Vkct1SuzMvOgXRSv7bdD5CUR
+	opj2Fk9RxULtfn8QPscQ4IyAQpIAnxAkvduaQrL6EmVKrRiSsPSkZpw78O9QUBiHkf72
+	XOO1t7ZqtFQx9jDoyUpcc8xR/BQxP3kA45zPjVxQ68P2lTKV41NO5KWQxQvcSUOy8G/Z
+	rXaw==
 MIME-Version: 1.0
-X-Received: by 10.13.234.76 with SMTP id t73mr9350934ywe.68.1438782638822;
-	Wed, 05 Aug 2015 06:50:38 -0700 (PDT)
-Received: by 10.13.226.203 with HTTP; Wed, 5 Aug 2015 06:50:38 -0700 (PDT)
-In-Reply-To: <OF2F3F95BE.08ECF07F-ONC2257E98.002DF696-C2257E98.002F92BC@ni.com>
-References: <1438674108-24258-1-git-send-email-adrian.ratiu@ni.com>
-	<CADkTA4PEZCM151f7Z72jcr-4H3MQqusdPr9WkO-jwUxrufPsTw@mail.gmail.com>
-	<OF2F3F95BE.08ECF07F-ONC2257E98.002DF696-C2257E98.002F92BC@ni.com>
-Date: Wed, 5 Aug 2015 09:50:38 -0400
-Message-ID: <CADkTA4POzofrpfDEp8_bRokSoPV+2pb_RimQ+PrrZ2guqfPGNw@mail.gmail.com>
+X-Received: by 10.170.134.210 with SMTP id a201mr9314834ykc.62.1438783210990; 
+	Wed, 05 Aug 2015 07:00:10 -0700 (PDT)
+Received: by 10.13.226.203 with HTTP; Wed, 5 Aug 2015 07:00:10 -0700 (PDT)
+In-Reply-To: <55C0D3BF.6080205@windriver.com>
+References: <1438696733-234279-1-git-send-email-paul.gortmaker@windriver.com>
+	<1438699944.30526.5.camel@linuxfoundation.org>
+	<55C0D3BF.6080205@windriver.com>
+Date: Wed, 5 Aug 2015 10:00:10 -0400
+Message-ID: <CADkTA4N=sTfuTpxjiF3q+G6Joxet1eDgPa+9SQE2=Eaw6gEAjA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Adrian Ratiu <adrian.ratiu@ni.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-yocto: do_configme: Add $TOOLCHAIN_OPTIONS to CFLAGS
+Subject: Re: [PATCH] linux-libc-headers: exclude drm headers from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,127 +44,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Aug 2015 13:50:43 -0000
+X-List-Received-Date: Wed, 05 Aug 2015 14:00:13 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Aug 5, 2015 at 4:39 AM, Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> Bruce Ashfield <bruce.ashfield@gmail.com> wrote on 05.08.2015 05:17:14:
->
->> On Tue, Aug 4, 2015 at 4:41 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
->> wrote:
->> > The kernel configure step was broken by the sysroot poisoning in [1].
+On Tue, Aug 4, 2015 at 11:01 AM, Paul Gortmaker
+<paul.gortmaker@windriver.com> wrote:
+> On 2015-08-04 10:52 AM, Richard Purdie wrote:
+>> On Tue, 2015-08-04 at 09:58 -0400, Paul Gortmaker wrote:
+>>> While diagnosing a problem with xf86-video-intel I noticed we had two
+>>> copies of drm headers in the sysroot; one from here and one from
+>>> the libdrm package.   The xf86-video-intel turned out to be another
+>>> thing, but that doesn't mean we want two copies in the sysroot with
+>>> different content and luck of include path indicating which one we
+>>> get.
+>>>
+>>> This one landed in usr/include/drm and the libdrm one put its files
+>>> at usr/include/libdrm, so there was no obvious over-write conflict.
+>>>
+>>> The obvious risk here would be unearthing implicit dependencies on
+>>> the libdrm; things trying to build before it has populated the sysroot
+>>> but two full highly parallel builds containing a full desktop graphics
+>>> suite did not show any issues.
+>>>
+>>> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+>>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 >>
->> Can you be more precise here ? Configuration certainly works for me .. and
->> has been working since last October.
+>> Is this something which should get addressed in the upstream kernel?
 >
-> This works because it was fixed in linux-yocto.inc *after* the sysroot
-> poisoning.
-> I've mentioned this in the next line :) But this is not what this fix is
-> for,
-> this fix should have been done at the same time with adding
-> $TOOLCHAIN_OPTIONS
-> to $KERNEL_CC in linux-yocto.inc.
+> I don't think so ; my (fun!) investigation into libdrm and the commits
+> there seem to indicate they tend to treat the kernel as the master
+> repository for header content and fold changes from the uapi dir in
+> the kernel back into libdrm content/repository.
 >
-> This bug was missed because there is NO error reporting in
-> yocto-kernel-tools
-> merge_configs.sh and the build continues despite the error. I've sent a
-> patch to
-> fail loudly in case merge_configs.sh fails in yocto-kernel-tools. You know
-> about
-> it because you responded to that mail :) These issues are related.
+> That said, since we (yocto) advocate people to not get all twitchy about
+> having the latest and greatest kernel headers, for wider compatibility,
+> it seemed most sensible to clobber the kernel ones and ensure the ones
+> we used matched the functionality of the libdrm that we are building and
+> actually installing.
+>
+> Maybe there are arguments for going the other way, but say if we were
+> using the 3.19 headers still, then we'd definitely be out of sync with
+> the libdrm binaries we generate and deploy.
 
-right. And as you saw there .. I don't need that patch. So we might as well
-let this one sit as well.
+What about a scenario where libdrm isn't being built ? I agree that we do want
+the latest drm headers, and we don't want to encourage people to patch the
+kernel and then expect those headers to be in linux-libc-headers ... the latest
+headers can come from some sort of application specific package, like libdrm.
 
->
->> > In linux-yocto.inc this was fixed by appending $TOOLCHAIN_OPTIONS to
->> > KERNEL_CC, TOOLCHAIN_OPTIONS containing the needed --sysroot arg.
->> >
->> > However, [1] also breaks the yocto configure fragment generation:
->> > after parsing the fragments, when make is called on the merged file
->> > to fill in any missing symbols with default values. The call chain is:
->> >
->> > do_kernel_configme() -> configme -> merge_config.sh
->> > -> make KCONFIG_ALLCONFIG=$TMP_FILE
->> >
->> > This issue was uncaught until now because configme redirects all stdout
->> > and stderr to merge_log.txt prior to calling merge_configs.sh and there
->> > is no return value checking, so building continues and the silent error
->> > is ignored.
->> >
->> > Adding $TOOLCHAIN_OPTIONS to $CFLAGS before calling configme fixes this.
->> >
->> > TODO: In a future patch this kind of error should be made loud and cause
->> > the build to fail.
->> >
->>
->> That won't be required, I already have a queue of patches that changes
->> things significantly.
->>
->> If you can elaborate on the type of breakage you were seeing, I'll add
->> this to that queue.
->
-> The error I'm seeing is caused by merge_configs.sh from yocto-kernel-tools
-> which calls make --alldefconfig | --allnoconfig with a poisoned sysroot.
->
-> The failure is caused by make not getting a --sysroot argument and this
-> error
-> fails silently because of not checking the return code in yocto-kernel-tools
-> (again, I've sent a patch for this also, you responded to it yesterday).
->
+But if someone isn't ever building libdrm, do we want to not have those headers
+in the sysroot ? We could say that any sane user of those headers has the
+right dependency, but there is a chance of some silent and unexpected behaviour.
 
-I'm pretty familiar with these issues .. having fixed many myself. All I was
-looking for was the cut and paste of the error message.
+That being said, aren't there some more combinations to consider here ?
 
-The right thing is to ensure that the scripts and tools for the kernel
-config are build long before the configuration merging happens, and
-that is what I've done with my re-ordering.
+  - get libdrm to install to a different location and not clobber libc
+headers ? You
+    said two copies in your commit message, are they to different
+places now ? or
+    is libdrm going right over top of the kernel versions ?
 
-Cheers,
+   If we did this, applications would have to be modified to look in
+the right place ..
+   which really isn't a good thing either. But I mention the option anyway.
+
+   What is the delta in libdrm ? Do they leave a half and half sort of
+situation ?
+
+ - That combination where libdrm isn't being built .. do we want
+incomplete headers ?
+   We could get the kernel to depend on libdrm I suppose :)
+
+ - What about SDK builds ? We need to make sure that libdrm is in the depenency
+   chain and pulled in before they are packaged up, or the headers
+will be missing.
 
 Bruce
 
-> The correct way to fix this IMO is to add the --sysroot ARG to the
-> environment
-> in kernel-yocto.bbacless do_configme *before* calling the
-> yocto-kernel-tools,
-> thus the tools get called with a sane sysroot.
 >
-> The exact error is this:
+> Paul.
+> --
 >
-> Partial contents of merge_log.txt:
-> "
-> HOSTCC  scripts/basic/fixdep
-> /home/ovidiu/000/git/nilrt/build/tmp-glibc/work-shared/x64/kernel-source/scripts/basic/fixdep.c:106:23:
-> fatal error: sys/types.h: No such file or directory
-> #include <sys/types.h>
->                       ^
-> compilation terminated.
-> /home/ovidiu/000/git/nilrt/build/tmp-glibc/work-shared/x64/kernel-source/scripts/basic/Makefile:21:
-> recipe for target 'scripts/basic/x86_64-nilrt-linux-fixdep' failed
-> make[2]: *** [scripts/basic/x86_64-nilrt-linux-fixdep] Error 1
-> /home/ovidiu/000/git/nilrt/build/tmp-glibc/work-shared/x64/kernel-source/Makefile:428:
-> recipe for target 'scripts_basic' failed
-> make[1]: *** [scripts_basic] Error 2
-> Makefile:133: recipe for target 'sub-make' failed
-> make: *** [sub-make] Error 2
-> "
->
->
->
-> National Instruments Romania S.R.L.
-> ------------------------------------------------------
-> B-dul 21 Decembrie 1989, nr. 77, A2
-> Cluj-Napoca 400604, Romania
-> C.I.F.: RO17961616 | O.R.C.: J12/3337/2005
-> Telefon: +40 264 406428 | Fax: +40 264 406429
-> E-mail: office.cluj@ni.com
-> Web: romania.ni.com
->
-> Vanzari si suport tehnic:
-> Telefon gratuit : 0800 070071
-> E-mail vanzari: ni.romania@ni.com
-> E-mail suport tehnic: techsupport@ni.com
+>>
+>> I agree we likely don't want two sets of those.
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
