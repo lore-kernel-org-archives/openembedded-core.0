@@ -1,20 +1,24 @@
-Return-Path: <sharron.liu@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC576E630
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B08660125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Aug 2015 07:27:14 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 05 Aug 2015 00:27:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,614,1432623600"; d="scan'208";a="742493343"
-Received: from u1304-liuxr.sh.intel.com ([10.239.159.84])
-	by orsmga001.jf.intel.com with ESMTP; 05 Aug 2015 00:27:13 -0700
-From: "LIU, Sharron" <sharron.liu@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Aug 2015 15:17:56 +0800
-Message-Id: <1438759076-9075-1-git-send-email-sharron.liu@intel.com>
+	Wed,  5 Aug 2015 08:02:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7582evB022267
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 5 Aug 2015 01:02:40 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 5 Aug 2015 01:02:40 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Aug 2015 16:02:47 +0800
+Message-ID: <cover.1438761716.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] oe-selftest: support selftests from other layers
+MIME-Version: 1.0
+Subject: [PATCH 0/2] Package Upgrade -- 20150805
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,99 +31,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Aug 2015 07:27:17 -0000
+X-List-Received-Date: Wed, 05 Aug 2015 08:02:44 -0000
+Content-Type: text/plain
 
-[YOCTO #7865] https://bugzilla.yoctoproject.org/show_bug.cgi?id=7865
+The following changes since commit 288c76a41aebaf54c7fca3782160830df462b9e4:
 
-This script is extended to detect and run tests from all BBLAYERS added to
-BBPATH. Tests can be put in any sub-dir, except for "files" which is treated
-as test dependent files.
+  builder: Fix multilib compile failure (2015-08-03 07:15:47 +0100)
 
-To detect tests, this patch goes through "lib/oeqa/selftest/" of every layer
-added to BBPATH.
-To support sub-dir, this patch list test module with its sub-dirs prefix.
-To run tests, this patch adds tests package path into "sys.path" then reload
-"oeqa.selftest".
+are available in the git repository at:
 
-Signed-off-by: LIU, Sharron <sharron.liu@intel.com>
----
- scripts/oe-selftest | 42 ++++++++++++++++++++++++++++++++++--------
- 1 file changed, 34 insertions(+), 8 deletions(-)
+  git://git.openembedded.org/openembedded-core-contrib ChenQi/PU-20150805
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/PU-20150805
 
-diff --git a/scripts/oe-selftest b/scripts/oe-selftest
-index 91e2dd2..b441a08 100755
---- a/scripts/oe-selftest
-+++ b/scripts/oe-selftest
-@@ -23,7 +23,15 @@
- # Call the script as: "oe-selftest" to run all the tests in in meta/lib/selftest/
- # Call the script as: "oe-selftest <module>.<Class>.<method>" to run just a single test
- # E.g: "oe-selftest bboutput.BitbakeLayers" will run just the BitbakeLayers class from meta/lib/selftest/bboutput.py
--
-+#
-+# The script is extended to support detecting tests from "lib/oeqa/selftest/*/"
-+# from any BBLAYERS added to BBPATH. Tests can be put in any subdir,
-+# except for "files" which is treated as test dependent files.
-+# Eg.: meta-mylayer/lib/oeqa/selftest/subdirs/mytest.py
-+# Call the script as: "oe-selftest --list-modules", you'll have
-+#         subdirs.mytest
-+# Call the script as: "oe-selftest --runtests subdirs.mytest", you'll have
-+# the test run.
- 
- import os
- import sys
-@@ -41,6 +49,13 @@ import oeqa.utils.ftools as ftools
- from oeqa.utils.commands import runCmd, get_bb_var, get_test_layer
- from oeqa.selftest.base import oeSelfTest
- 
-+# add test cases location into the python searching path
-+for l in get_bb_var('BBPATH').split(':'):
-+    if os.path.exists(os.path.abspath(os.path.join(l, 'lib/oeqa/selftest'))):
-+        sys.path.insert(0, os.path.abspath(os.path.join(l, 'lib')))
-+# reloading this package is necessary due to "sys.path" updated
-+reload(oeqa.selftest)
-+
- def logger_create():
-     log = logging.getLogger("selftest")
-     log.setLevel(logging.DEBUG)
-@@ -145,12 +160,20 @@ def get_tests(exclusive_modules=[], include_hidden=False):
-     for x in exclusive_modules:
-         testslist.append('oeqa.selftest.' + x)
-     if not testslist:
--        for testpath in oeqa.selftest.__path__:
--            files = sorted([f for f in os.listdir(testpath) if f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'])
--            for f in files:
--                module = 'oeqa.selftest.' + f[:-3]
--                if module not in testslist:
--                    testslist.append(module)
-+        # add test cases to "testslist" for every subfolder of "oeqa/selftest/"
-+        def _addtest(args, dname, fnames):
-+            if (os.path.basename(dname) != 'files'): # 'files' folder is skipped
-+                # d is sub-dirs name. eg.: "oeqa/selftest/cfg/mytest.py", d=cfg
-+                d=dname[args[0]:].replace('/','.')
-+                for f in fnames:
-+                    if (f.endswith('.py') and not (f.startswith('_') and not include_hidden) and not f.startswith('__') and f != 'base.py'):
-+                        # test is added as "oeqa.selftest.cfg.mytest"
-+                        testslist.append('oeqa.selftest'+d+'.'+f[:-3])
-+        # detect test cases from all layers that added to "BBPATH"
-+        for l in get_bb_var('BBPATH').split(':'):
-+            testpath = os.path.join(l, 'lib', 'oeqa', 'selftest')
-+            if os.path.exists(testpath):
-+                os.path.walk(testpath, _addtest, [len(testpath)])
- 
-     return testslist
- 
-@@ -172,7 +195,10 @@ def main():
-         log.info('Listing all available test modules:')
-         testslist = get_tests(include_hidden=True)
-         for test in testslist:
--            module = test.split('.')[-1]
-+            # list test with its sub-dirs name relative to oeqa.selftest
-+            # eg.: "oeqa.selftest.cfg.mytest" is listed as "cfg.mytest" for
-+            # passing to "--run-tests <module>"
-+            module = test.split('.',2)[-1]
-             info = ''
-             if module.startswith('_'):
-                 info = ' (hidden)'
+Chen Qi (2):
+  resolvconf: upgrade to 1.77
+  cups: upgrade to 2.0.4
+
+ .../resolvconf/{resolvconf_1.76.bb => resolvconf_1.77.bb}           | 6 +++---
+ meta/recipes-extended/cups/{cups_2.0.3.bb => cups_2.0.4.bb}         | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/resolvconf/{resolvconf_1.76.bb => resolvconf_1.77.bb} (89%)
+ rename meta/recipes-extended/cups/{cups_2.0.3.bb => cups_2.0.4.bb} (40%)
+
 -- 
 1.9.1
 
