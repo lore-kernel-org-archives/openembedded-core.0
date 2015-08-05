@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 624F260017
+Return-Path: <ricardo.neri-calderon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EDAE060017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Aug 2015 18:33:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t75IX7YR021806; Wed, 5 Aug 2015 19:33:31 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id WdgoaatMYYht; Wed,  5 Aug 2015 19:33:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t75IXExV021835
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 5 Aug 2015 19:33:29 +0100
-Message-ID: <1438799594.9838.18.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: He Zhe <zhe.he@windriver.com>
-Date: Wed, 05 Aug 2015 13:33:14 -0500
-In-Reply-To: <55C1D2CF.4010308@windriver.com>
-References: <cover.1438679154.git.zhe.he@windriver.com>
-	<55C1D2CF.4010308@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+	Wed,  5 Aug 2015 18:51:42 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 05 Aug 2015 11:51:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,619,1432623600"; d="scan'208";a="762686039"
+Received: from ranerica-desk01.sc.intel.com (HELO [10.3.52.73]) ([10.3.52.73])
+	by fmsmga001.fm.intel.com with ESMTP; 05 Aug 2015 11:51:43 -0700
+Message-ID: <1438800686.10814.103.camel@ranerica-desk01>
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 05 Aug 2015 11:51:26 -0700
+In-Reply-To: <1436575263-22445-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+References: <1436575263-22445-1-git-send-email-ricardo.neri-calderon@linux.intel.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 Mime-Version: 1.0
-Cc: bruce.ashfield@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 0/1] Yocto Bug #6945
+Subject: Re: [PATCH] bootimg.bbclass:iso: determine the -iso-level only if there is a rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,24 +30,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Aug 2015 18:33:35 -0000
+X-List-Received-Date: Wed, 05 Aug 2015 18:51:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2015-08-05 at 17:09 +0800, He Zhe wrote:
-> Ping.
+Hi,
 
-Sending these out daily is going to annoy me, please stop doing that.
+On Fri, 2015-07-10 at 17:41 -0700, Ricardo Neri wrote:
+> It may be possible that some bootable images do not use a rootfs; this
+> may be the case if the bootable image utilize only an initrd for all
+> its
+> needs.
+> 
+> If there is not rootfs, the size calculation will fail. Furthermore,
+> given
+> that the iso9660 conformance level is determined using the size of
+> rootfs,
+> it makes sense to not make the calculation if there is not such
+> rootfs.
 
-As mentioned in other emails, I'm travelling at the moment, other people
-are on vacation (including Bruce) and we're struggling in the patch
-review and merging, not least due to the other autobuilder failures.
-This patch is changing a lot of important code and if we screw this up,
-will annoy a lot of people. It therefore needs careful review which we
-will get to as soon as we can.
+I wanted to know if there is any comments or feedback for this patch.
 
-Cheers,
+Thanks and BR,
+Ricardo
 
-Richard
 
 
