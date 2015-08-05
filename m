@@ -1,57 +1,26 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 53CEA6E630
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B84A6E5D0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Aug 2015 21:31:04 +0000 (UTC)
-Received: by pawu10 with SMTP id u10so17602813paw.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Aug 2015 14:31:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=piMZ/oCTYd/ix3jM7xHkL5Ml3CBYIU5lqIyIufDNDfY=;
-	b=FpknVBHN8HKo+pTHjuHATvxGiSqjL/QQK8r5cxGvQg123kZStWzOiTmsbEyqImaUXL
-	LiXTZJNJteQ9WXFkwP5s+r+Ov7jhObx+dYajwH0YuedltIa03CIEYacgQneyB0mHVUEh
-	gbDhhKldIXrlf5MtHSyv3pefsP4TFBjbdpFQUuvOKbIyQQcGsRDxY4d20VkNMRrqqKIj
-	nezHcw3Q9fHw4YKidOBQO1V1577U2/gIfxmnZeJ1ym9eIGf0abGn6Y95nlKISPKGVChN
-	aNntXHazdEgOQshiA5GYk11qvux+Cz4nUemevRp9l/AXekQ9fcddxtoCburgVsofAC9n
-	rL0g==
-X-Gm-Message-State: ALoCoQkfEhAIS2G+215Nzq6In0vk+68ryj9TJbtpT8fngi27qXfNkuhaYjZQ5FkQZIgwC2osAOp9
-X-Received: by 10.66.97.105 with SMTP id dz9mr11948526pab.23.1438723865238;
-	Tue, 04 Aug 2015 14:31:05 -0700 (PDT)
-Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com.
-	[209.85.220.45])
-	by smtp.gmail.com with ESMTPSA id xw4sm346849pbc.69.2015.08.04.14.31.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Aug 2015 14:31:04 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by pacgq8 with SMTP id gq8so17539514pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Aug 2015 14:31:03 -0700 (PDT)
+	Wed,  5 Aug 2015 02:12:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t752Cdvc021657
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Aug 2015 19:12:39 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 4 Aug 2015 19:12:39 -0700
+Message-ID: <55C17115.2070000@windriver.com>
+Date: Wed, 5 Aug 2015 10:12:37 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-X-Received: by 10.68.197.199 with SMTP id iw7mr12072369pbc.85.1438723863583;
-	Tue, 04 Aug 2015 14:31:03 -0700 (PDT)
-Received: by 10.70.59.105 with HTTP; Tue, 4 Aug 2015 14:31:03 -0700 (PDT)
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6101D4896@ORSMSX109.amr.corp.intel.com>
-References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
-	<55C0E631.7070703@windriver.com>
-	<6E51916E4A1F32428260031F4C7CD2B6101D46F3@ORSMSX109.amr.corp.intel.com>
-	<55C0F729.5000908@windriver.com>
-	<6E51916E4A1F32428260031F4C7CD2B6101D471A@ORSMSX109.amr.corp.intel.com>
-	<55C110DA.6050404@windriver.com>
-	<6E51916E4A1F32428260031F4C7CD2B6101D4896@ORSMSX109.amr.corp.intel.com>
-Date: Tue, 4 Aug 2015 18:31:03 -0300
-Message-ID: <CAP9ODKqkATYxqrHme7dJVzg5gSzKOEuG2NJCfksYE+8XE0W=3g@mail.gmail.com>
-To: "Bystricky, Juro" <juro.bystricky@intel.com>
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	"jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Support for VirtualBox guest additions
+To: <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
+References: <1438150875-979-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1438150875-979-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH] attr: remove some meaningless codes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,67 +33,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Aug 2015 21:31:07 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1cc1ed1a874051c8300a3
+X-List-Received-Date: Wed, 05 Aug 2015 02:12:54 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
---e89a8ff1cc1ed1a874051c8300a3
-Content-Type: text/plain; charset=UTF-8
 
-On Tue, Aug 4, 2015 at 6:27 PM, Bystricky, Juro <juro.bystricky@intel.com>
-wrote:
 
-> The Build Appliance is just one VM that can benefit from VirtualBox guest
-> additions.
-> There are other VM implementations, where a small size is quite important.
-> All I am trying to say is, that we need to be able to recreate the same
-> contents
-> as:
+drop it, the patch has bug, sorry for the noise.
+
+
+-Roy
+
+On 2015年07月29日 14:21, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
 >
-> apt-get install linux-headers-$(uname -r)
+> what relative-libdir.patch done is reverted by fix_symlink for native,
+> and add a race since libacl.so/libattr.so are created, then removed, and
+> recreated it.
+> relative-libdir.patch say it fixed udev issue, but can not reproduce
+> current, and if udev has issue, the fix should be in udev
 >
-> I don't have any strong feelings regarding if an already existing recipe
-> needs to be modified
-> or we need a separate recipe.
+> Cc: Saul Wold <sgw@linux.intel.com>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   meta/recipes-support/attr/ea-acl.inc               | 23 --------------------
+>   .../attr/files/relative-libdir.patch               | 25 ----------------------
+>   2 files changed, 48 deletions(-)
+>   delete mode 100644 meta/recipes-support/attr/files/relative-libdir.patch
 >
-
-I second this request.
+> diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
+> index 474291a..088f058 100644
+> --- a/meta/recipes-support/attr/ea-acl.inc
+> +++ b/meta/recipes-support/attr/ea-acl.inc
+> @@ -1,8 +1,5 @@
+>   # this build system is mostly shared by attr and acl
+>
+> -SRC_URI += "file://relative-libdir.patch;striplevel=0 \
+> -           "
+> -
+>   inherit autotools-brokensep gettext
+>
+>   # the package comes with a custom config.h.in, it cannot be
+> @@ -25,23 +22,3 @@ BBCLASSEXTEND = "native"
+>   # Only append ldflags for target recipe and if USE_NLS is enabled
+>   LDFLAGS_append_libc-uclibc_class-target = "${@['', ' -lintl '][(d.getVar('USE_NLS', True) == 'yes')]}"
+>   EXTRA_OECONF_append_libc-uclibc_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS', True) == 'no')]}"
+> -
+> -fix_symlink () {
+> -	if test "${libdir}" = "${base_libdir}" ; then
+> -		return
+> -	fi
+> -	# Remove bad symlinks & create the correct symlinks
+> -	if test -L ${libdir}/lib${BPN}.so ; then
+> -		rm -rf ${libdir}/lib${BPN}.so
+> -		ln -sf ${base_libdir}/lib${BPN}.so ${libdir}/lib${BPN}.so
+> -	fi
+> -	if test -L ${base_libdir}/lib${BPN}.a ; then
+> -		rm -rf ${base_libdir}/lib${BPN}.a
+> -		ln -sf ${libdir}/lib${BPN}.a ${base_libdir}/lib${BPN}.a
+> -	fi
+> -	if test -L  ${base_libdir}/lib${BPN}.la ; then
+> -		rm -rf ${base_libdir}/lib${BPN}.la
+> -		ln -sf ${libdir}/lib${BPN}.la ${base_libdir}/lib${BPN}.la
+> -	fi
+> -}
+> -SSTATEPOSTINSTFUNCS_class-native += "fix_symlink"
+> diff --git a/meta/recipes-support/attr/files/relative-libdir.patch b/meta/recipes-support/attr/files/relative-libdir.patch
+> deleted file mode 100644
+> index b72bf18..0000000
+> --- a/meta/recipes-support/attr/files/relative-libdir.patch
+> +++ /dev/null
+> @@ -1,25 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> -use relative path in symbolic links, or it fails in staging
+> -sed expression from udev
+> -
+> -7/29/2010 - created by Qing He <qing.he@intel.com>
+> -
+> -diff -u include.orig/buildmacros include/buildmacros
+> ---- include.orig/buildmacros	2010-07-29 17:39:48.000000000 +0800
+> -+++ include/buildmacros	2010-07-29 18:20:34.000000000 +0800
+> -@@ -88,9 +88,11 @@
+> - 	../$(INSTALL) -m 755 -d $(PKG_LIB_DIR); \
+> - 	../$(INSTALL) -T so_base $(LIBNAME).lai $(PKG_LIB_DIR); \
+> - 	if test "x$(PKG_DEVLIB_DIR)" != "x$(PKG_LIB_DIR)" ; then \
+> --	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
+> --	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
+> --	../$(INSTALL) -S $(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so; \
+> -+	rel_lib_prefix=$$(echo $(PKG_LIB_DIR) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
+> -+	../$(INSTALL) -S $$rel_lib_prefix$(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
+> -+	../$(INSTALL) -S $$rel_lib_prefix$(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
+> -+	rel_devlib_prefix=$$(echo $(PKG_DEVLIB_DIR) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
+> -+	../$(INSTALL) -S $$rel_devlib_prefix$(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so; \
+> - 	fi
+> - else
+> - INSTALL_LTLIB_DEV = $(INSTALL_LTLIB_STATIC)
+>
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Best Reagrds,
+Roy | RongQing Li
 
---e89a8ff1cc1ed1a874051c8300a3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Aug 4, 2015 at 6:27 PM, Bystricky, Juro <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:juro.bystricky@intel.com" target=3D"_blank">juro.bystricky=
-@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The Buil=
-d Appliance is just one VM that can benefit from VirtualBox guest additions=
-.<br>
-There are other VM implementations, where a small size is quite important.<=
-br>
-All I am trying to say is, that we need to be able to recreate the same con=
-tents<br>
-as:<br>
-<br>
-apt-get install linux-headers-$(uname -r)<br>
-<br>
-I don&#39;t have any strong feelings regarding if an already existing recip=
-e needs to be modified<br>
-or we need a separate recipe.<br></blockquote><div><br></div><div>I second =
-this request.=C2=A0</div></div><div><br></div>-- <br><div class=3D"gmail_si=
-gnature">Otavio Salvador =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 O.S. Systems<br><a href=3D=
-"http://www.ossystems.com.br" target=3D"_blank">http://www.ossystems.com.br=
-</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://code.ossystems.com.br" ta=
-rget=3D"_blank">http://code.ossystems.com.br</a><br><span>Mobile: +55 (53) =
-9981-7854 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mobile: <span id=3D"gc-n=
-umber-12" class=3D"gc-cs-link" title=3D"Call with Google Voice">+1 (347) 90=
-3-9750</span></span><br></div>
-</div></div>
-
---e89a8ff1cc1ed1a874051c8300a3--
