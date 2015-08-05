@@ -1,28 +1,23 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ACC2E60125
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B40B60125
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Aug 2015 09:10:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7599xqW029264
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 5 Aug 2015 02:09:59 -0700 (PDT)
-Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Wed, 5 Aug 2015 02:09:59 -0700
-Message-ID: <55C1D2CF.4010308@windriver.com>
-Date: Wed, 5 Aug 2015 17:09:35 +0800
-From: He Zhe <zhe.he@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1438679154.git.zhe.he@windriver.com>
-In-Reply-To: <cover.1438679154.git.zhe.he@windriver.com>
-X-Originating-IP: [128.224.162.235]
-Cc: bruce.ashfield@windriver.com
-Subject: Re: [PATCH v3 0/1] Yocto Bug #6945
+	Wed,  5 Aug 2015 09:16:09 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 05 Aug 2015 02:16:09 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,615,1432623600"; d="scan'208";a="536347531"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 05 Aug 2015 02:16:09 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id CDEB76A4005;
+	Wed,  5 Aug 2015 02:15:22 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Aug 2015 12:16:00 +0300
+Message-Id: <1438766160-14197-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2] create-pull-request: cd to relative directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Aug 2015 09:10:03 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Aug 2015 09:16:10 -0000
 
-Ping.
+create-pull-request -d path creates empty patches if directory
+is specified as a path, i.e. ./bitbake or ./bitbake/ or full path.
+It behaves expected way only if script is run with -d bitbake, i.e.
+relative dir name doesn't contain '\'.
 
-On 08/04/2015 05:17 PM, zhe.he@windriver.com wrote:
-> From: He Zhe <zhe.he@windriver.com>
->
->  - Add KERNEL_IMAGETYPES to support building packaging and installing
-> multi types of kernel images, such as zImage uImage, at one time.
->  - KERNEL_IMAGETYPE works as it did.
->  - v2: Update with the latest oe-core
->  - v3: Add KERNEL_IMAGETYPES, leave KERNEL_IMAGETYPE as is.
->
-> Thank Richard for his great suggestion.
->
-> He Zhe (1):
->   kernel: Add KERNEL_IMAGETYPES to build multi types of kernel at one
->     time
->
->  meta/classes/kernel-fitimage.bbclass    |  21 +++---
->  meta/classes/kernel-grub.bbclass        |  46 ++++++++----
->  meta/classes/kernel-uimage.bbclass      |  22 +++---
->  meta/classes/kernel.bbclass             | 128 +++++++++++++++++++++++---------
->  meta/conf/documentation.conf            |   1 +
->  meta/recipes-kernel/linux/linux-dtb.inc |  15 ++--
->  6 files changed, 159 insertions(+), 74 deletions(-)
->
+Fixed this unwanted behaviour by changing directory and running
+git format-patch in it with --relative, without specifying
+relative path as a parameter.
+
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/create-pull-request | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 216edfd..be49379 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -177,12 +177,15 @@ mkdir $ODIR
+ 
+ if [ -n "$RELDIR" ]; then
+ 	ODIR=$(realpath $ODIR)
+-	extraopts="--relative=$RELDIR"
++	pushd $RELDIR > /dev/null
++	extraopts="--relative"
+ fi
+ 
+ # Generate the patches and cover letter
+ git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
+ 
++[ -n "$RELDIR" ] && popd > /dev/null
++
+ # Customize the cover letter
+ CL="$ODIR/0000-cover-letter.patch"
+ PM="$ODIR/pull-msg"
+-- 
+2.1.4
 
 
