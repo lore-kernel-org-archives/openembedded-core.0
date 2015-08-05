@@ -1,31 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6437E60017
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AFF260017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Aug 2015 18:54:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t75Is1Mi022546; Wed, 5 Aug 2015 19:54:01 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BBgKQDQQLwbY; Wed,  5 Aug 2015 19:54:01 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t75IrhGJ022530
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 5 Aug 2015 19:53:59 +0100
-Message-ID: <1438800822.30467.1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Gary Thomas <gary@mlbassoc.com>
-Date: Wed, 05 Aug 2015 13:53:42 -0500
-In-Reply-To: <55C0D57A.4060805@mlbassoc.com>
-References: <1438699939-9055-1-git-send-email-gary@mlbassoc.com>
-	<1438700203.30526.8.camel@linuxfoundation.org>
-	<55C0D57A.4060805@mlbassoc.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] python3: Fix nativesdk build
+	Wed,  5 Aug 2015 19:42:19 +0000 (UTC)
+Received: by wibxm9 with SMTP id xm9so81455196wib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Aug 2015 12:42:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:content-type; bh=4dTFoemcL0zmOD7N/nLXlsmK8jNbsuhzPsJSNOiCHgc=;
+	b=cqVf3RJEfINn0/hUHCXcqISQUn3HiXAaxxQx1QYJy1ny4OvgUmyxU0yX7sqZZQTAam
+	aVEhs1By7+dN/akJaM5/P/dabXz0YUzj0vkJiZ9RDQykZf5t0Exh9jMTWmQa+oRWNM6E
+	9ZNRCU6fu6U7IwF6YCQG+I9krP0QSXJjrO0e7h/c5hlqh/nV950UNWNovPR+S3TbHmnR
+	btuiWuCARTntPMHLo3qPrGhSkQ+qwC/jQijtsGz5cN0sl5bwrx6w1Mk89oeunJEs46dt
+	x84HecdG6uSaKOZwx1jyMQrD0+e45G2W9IlFipWjax5TBdpp5BvSk0/or5twkVnG3cKQ
+	gLnQ==
+MIME-Version: 1.0
+X-Received: by 10.180.83.135 with SMTP id q7mr1724515wiy.17.1438803739159;
+	Wed, 05 Aug 2015 12:42:19 -0700 (PDT)
+Received: by 10.194.236.166 with HTTP; Wed, 5 Aug 2015 12:42:19 -0700 (PDT)
+In-Reply-To: <1436948199-11071-1-git-send-email-armccurdy@gmail.com>
+References: <1436948199-11071-1-git-send-email-armccurdy@gmail.com>
+Date: Wed, 5 Aug 2015 12:42:19 -0700
+Message-ID: <CAJ86T=XcWibhbPwt5zk84iZYS0URyvSQ-AvPb4T5GyD9oPmRPA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bash_3.2.48: dont include target CFLAGS in host LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,40 +39,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Aug 2015 18:54:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Aug 2015 19:42:21 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Tue, 2015-08-04 at 09:08 -0600, Gary Thomas wrote:
-> On 2015-08-04 08:56, Richard Purdie wrote:
-> > On Tue, 2015-08-04 at 08:52 -0600, Gary Thomas wrote:
-> >> The nativesdk package is built without Py_DEBUG which causes some
-> >> compile errors.  This patch fixes those errors allowing the nativesdk
-> >> package to build.
-> >>
-> >> Signed-off-by: Gary Thomas <gary@mlbassoc.com>
-> >> ---
-> >>   .../python/python3/fix-nativesdk-build.patch       | 28 ++++++++++++++++++++++
-> >>   meta/recipes-devtools/python/python3_3.4.3.bb      |  1 +
-> >>   2 files changed, 29 insertions(+)
-> >>   create mode 100644 meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
-> >>
-> >> diff --git a/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch b/meta/recipes-devtools/python/python3/fix-nativesdk-build.patch
-> >
-> > No description of the patch or Upstream-Status. I'm surprised python
-> > would have this issue. Do they not recommend building in this
-> > configuration or not support/test it?
-> 
-> I'm not sure - obviously it's not done often (as it breaks badly)
-> 
-> Maybe it would be cleaner just to let Py_DEBUG be set for the nativesdk
-> build but I couldn't see how/why this is not set in this case.
+Ping.
 
-This is what really worries me. I think we likely should be setting this
-and the question is therefore why isn't it set?
-
-Cheers,
-
-Richard
-
+On Wed, Jul 15, 2015 at 1:16 AM, Andre McCurdy <armccurdy@gmail.com> wrote:
+> Building the host tool 'mkbuiltins' will fail if the target CFLAGS
+> contains an option which isn't supported by the host's gcc. To prevent
+> the issue, define LDFLAGS_FOR_BUILD based on CFLAGS_FOR_BUILD instead
+> of CFLAGS.
+>
+> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> ---
+>  ...ont-include-target-CFLAGS-in-host-LDFLAGS.patch | 33 ++++++++++++++++++++++
+>  meta/recipes-extended/bash/bash_3.2.48.bb          |  1 +
+>  2 files changed, 34 insertions(+)
+>  create mode 100644 meta/recipes-extended/bash/bash-3.2.48/dont-include-target-CFLAGS-in-host-LDFLAGS.patch
+>
+> diff --git a/meta/recipes-extended/bash/bash-3.2.48/dont-include-target-CFLAGS-in-host-LDFLAGS.patch b/meta/recipes-extended/bash/bash-3.2.48/dont-include-target-CFLAGS-in-host-LDFLAGS.patch
+> new file mode 100644
+> index 0000000..ee756dc
+> --- /dev/null
+> +++ b/meta/recipes-extended/bash/bash-3.2.48/dont-include-target-CFLAGS-in-host-LDFLAGS.patch
+> @@ -0,0 +1,33 @@
+> +From 933bd886af49667e88e2385409449ab598813dab Mon Sep 17 00:00:00 2001
+> +From: Andre McCurdy <armccurdy@gmail.com>
+> +Date: Wed, 15 Jul 2015 00:54:33 -0700
+> +Subject: [PATCH] dont include target CFLAGS in host LDFLAGS
+> +
+> +Building the host tool 'mkbuiltins' will fail if the target CFLAGS
+> +contains an option which isn't supported by the host's gcc. To prevent
+> +the issue, define LDFLAGS_FOR_BUILD based on CFLAGS_FOR_BUILD instead
+> +of CFLAGS.
+> +
+> +Upstream-Status: Inappropriate [required for bash 3.2.57 (GPLv2) recipe only]
+> +
+> +Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> +---
+> + builtins/Makefile.in | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/builtins/Makefile.in b/builtins/Makefile.in
+> +index e027f7a..ebfddf3 100644
+> +--- a/builtins/Makefile.in
+> ++++ b/builtins/Makefile.in
+> +@@ -63,7 +63,7 @@ LOCAL_DEFS = @LOCAL_DEFS@
+> +
+> + LIBS = @LIBS@
+> + LDFLAGS = @LDFLAGS@ $(LOCAL_LDFLAGS) $(CFLAGS)
+> +-LDFLAGS_FOR_BUILD = $(LDFLAGS)
+> ++LDFLAGS_FOR_BUILD = @LDFLAGS_FOR_BUILD@ $(LOCAL_LDFLAGS) $(CFLAGS_FOR_BUILD)
+> + LOCAL_LDFLAGS = @LOCAL_LDFLAGS@
+> + #LIBS_FOR_BUILD = @LIBS_FOR_BUILD@
+> + LIBS_FOR_BUILD = $(LIBS)
+> +--
+> +1.9.1
+> +
+> diff --git a/meta/recipes-extended/bash/bash_3.2.48.bb b/meta/recipes-extended/bash/bash_3.2.48.bb
+> index 34272d1..d42b292 100644
+> --- a/meta/recipes-extended/bash/bash_3.2.48.bb
+> +++ b/meta/recipes-extended/bash/bash_3.2.48.bb
+> @@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/bash/bash-${PV}.tar.gz;name=tarball \
+>             file://build-tests.patch \
+>             file://test-output.patch \
+>             file://run-ptest \
+> +           file://dont-include-target-CFLAGS-in-host-LDFLAGS.patch \
+>            "
+>
+>  SRC_URI[tarball.md5sum] = "338dcf975a93640bb3eaa843ca42e3f8"
+> --
+> 1.9.1
+>
 
