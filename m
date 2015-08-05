@@ -1,30 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C568060089
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
+	[209.85.160.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D3E0C60017
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Aug 2015 13:10:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t75DAhWq009100
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  5 Aug 2015 13:50:38 +0000 (UTC)
+Received: by ykax123 with SMTP id x123so35702856yka.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Aug 2015 06:10:43 -0700 (PDT)
-Received: from Marks-MacBook-Pro-2.local (172.25.36.230) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 5 Aug 2015 06:10:42 -0700
-To: Robert Yang <liezhi.yang@windriver.com>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>
-References: <55C1B11A.7060606@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <55C20B52.9090400@windriver.com>
-Date: Wed, 5 Aug 2015 08:10:42 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.1.0
+	Wed, 05 Aug 2015 06:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=YVy+mvYskRj+39+WDVaLVxD/pO2Dfy/5M7npVPVdpfA=;
+	b=syKeSWIZf3xs2n84f6FN+GU89Ymg5GnLwg1iLJf7vILTUam2EzeKXyXxXXxGINIzKr
+	csymUPbXq5xVq3tiwZ7ThcrTh8JALgrp06x2omxXD0xv5XEd8tFqE0z7KSJncvzofMQC
+	YabE3wCLzu1aD4iODU6eES7F/tCctHvqOM8avL//NPhWPU0AvJKHRTxcNrGJL3jK7CMQ
+	PYvE9aLpR0NmV+V6PkGiZhIWSpmHKEMk5PLKR60hq2HMBoFER0kFrz9An1zppagc3XXi
+	G5phjAxT4AB0K/Rj5WpWz1y3kTTPoXWUZ8cZ9FY8/7qscLa4Ged6l4oCSFeqStB7w3vM
+	drPw==
 MIME-Version: 1.0
-In-Reply-To: <55C1B11A.7060606@windriver.com>
-Subject: Re: About multilib packages rpm pkg name
+X-Received: by 10.13.234.76 with SMTP id t73mr9350934ywe.68.1438782638822;
+	Wed, 05 Aug 2015 06:50:38 -0700 (PDT)
+Received: by 10.13.226.203 with HTTP; Wed, 5 Aug 2015 06:50:38 -0700 (PDT)
+In-Reply-To: <OF2F3F95BE.08ECF07F-ONC2257E98.002DF696-C2257E98.002F92BC@ni.com>
+References: <1438674108-24258-1-git-send-email-adrian.ratiu@ni.com>
+	<CADkTA4PEZCM151f7Z72jcr-4H3MQqusdPr9WkO-jwUxrufPsTw@mail.gmail.com>
+	<OF2F3F95BE.08ECF07F-ONC2257E98.002DF696-C2257E98.002F92BC@ni.com>
+Date: Wed, 5 Aug 2015 09:50:38 -0400
+Message-ID: <CADkTA4POzofrpfDEp8_bRokSoPV+2pb_RimQ+PrrZ2guqfPGNw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-yocto: do_configme: Add $TOOLCHAIN_OPTIONS to CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,176 +44,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Aug 2015 13:10:51 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 05 Aug 2015 13:50:43 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 8/5/15 1:45 AM, Robert Yang wrote:
-> 
-> Hello,
-> 
-> For the multilib package like lib32-bash, its rpm package name
-> is bash-4.3.30-r0.lib32_x86.rpm, but for ipk and deb, its name is
-> lib32-bash.ipk and lib32-bash.deb, there is a side effect for
-> the naming of rpm, for example, if packagegroup-xx rdepends on bash,
-> the lib32-packagegroup-xx should rdepend on lib32-bash, but
-> the its rpm pkg knows nothing about lib32-bash, so it still rdepends
-> on bash, this causes 32bit toolchain libs not installed when export
-> multilib sdk, for example:
-> 
-> Configured multilib:
-> MACHINE ?= "qemux86-64"
-> require conf/multilib.conf
-> MULTILIBS = "multilib:lib32"
-> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-> 
-> $ bitbake core-image-minimal -cpopulate_sdk
-> 
-> When PACKAGE_CLASSES = "package_rpm",  the lib32-libgcc,
-> lib32-libgcc-dev or other lib32-xx packages are not installed,
-> so that the 32bit toolchain doesn't work in SDK, this is because
-> lib32-packagegroup-core-standalone-sdk-target can't pull in the
-> lib32-xx correctly.
-> 
-> When PACKAGE_CLASSES = "package_ipk", it works well.
-> 
-> Does anyone why we don't use the name like lib32-bash.rpm, please ?
-> Can we use lib32-bash, please ?
+On Wed, Aug 5, 2015 at 4:39 AM, Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> Bruce Ashfield <bruce.ashfield@gmail.com> wrote on 05.08.2015 05:17:14:
+>
+>> On Tue, Aug 4, 2015 at 4:41 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+>> wrote:
+>> > The kernel configure step was broken by the sysroot poisoning in [1].
+>>
+>> Can you be more precise here ? Configuration certainly works for me .. and
+>> has been working since last October.
+>
+> This works because it was fixed in linux-yocto.inc *after* the sysroot
+> poisoning.
+> I've mentioned this in the next line :) But this is not what this fix is
+> for,
+> this fix should have been done at the same time with adding
+> $TOOLCHAIN_OPTIONS
+> to $KERNEL_CC in linux-yocto.inc.
+>
+> This bug was missed because there is NO error reporting in
+> yocto-kernel-tools
+> merge_configs.sh and the build continues despite the error. I've sent a
+> patch to
+> fail loudly in case merge_configs.sh fails in yocto-kernel-tools. You know
+> about
+> it because you responded to that mail :) These issues are related.
 
-Because for something like bash, there is absolutely no reason to choose a
-64-bit or 32-bit version over the other.  They have equivalent functionality for
-the end user, and only one version can be installed at a time.
+right. And as you saw there .. I don't need that patch. So we might as well
+let this one sit as well.
 
-This is the RPM behavior that is being copied from Red Hat and other places, and
-what our customers are expecting.
+>
+>> > In linux-yocto.inc this was fixed by appending $TOOLCHAIN_OPTIONS to
+>> > KERNEL_CC, TOOLCHAIN_OPTIONS containing the needed --sysroot arg.
+>> >
+>> > However, [1] also breaks the yocto configure fragment generation:
+>> > after parsing the fragments, when make is called on the merged file
+>> > to fill in any missing symbols with default values. The call chain is:
+>> >
+>> > do_kernel_configme() -> configme -> merge_config.sh
+>> > -> make KCONFIG_ALLCONFIG=$TMP_FILE
+>> >
+>> > This issue was uncaught until now because configme redirects all stdout
+>> > and stderr to merge_log.txt prior to calling merge_configs.sh and there
+>> > is no return value checking, so building continues and the silent error
+>> > is ignored.
+>> >
+>> > Adding $TOOLCHAIN_OPTIONS to $CFLAGS before calling configme fixes this.
+>> >
+>> > TODO: In a future patch this kind of error should be made loud and cause
+>> > the build to fail.
+>> >
+>>
+>> That won't be required, I already have a queue of patches that changes
+>> things significantly.
+>>
+>> If you can elaborate on the type of breakage you were seeing, I'll add
+>> this to that queue.
+>
+> The error I'm seeing is caused by merge_configs.sh from yocto-kernel-tools
+> which calls make --alldefconfig | --allnoconfig with a poisoned sysroot.
+>
+> The failure is caused by make not getting a --sysroot argument and this
+> error
+> fails silently because of not checking the return code in yocto-kernel-tools
+> (again, I've sent a patch for this also, you responded to it yesterday).
+>
 
-RPM supports multiple packages, with different arch fields, being installed at
-the same time.  ipkg and deb have a limitation that the package name MUST be
-unique.  So this is the first reason why we have different style names.
+I'm pretty familiar with these issues .. having fixed many myself. All I was
+looking for was the cut and paste of the error message.
 
-The idea here being that you can build the .i586 packages once, and re-use them
-on an i586 system and an x86-64 system.  (Note, this doesn't work in practice in
-the Yocto Project due to sstate issues... but that is the underlying design from
-a package management perspective.)
+The right thing is to ensure that the scripts and tools for the kernel
+config are build long before the configuration merging happens, and
+that is what I've done with my re-ordering.
 
-Dependency processing is the second reason, see below for an explanation of the
-difference and how it affects us.
+Cheers,
 
-There are different types of dependencies within the system.
+Bruce
 
-* Package level dependency
-This is of the format 'bash' or 'lib32-bash'.  The system requires a specific
-package.  All three package formats support this.
-
-* Virtual dependency
-This is similar, in that the format can look like a package, or be something
-like 'virtual/foo'.  Again all three package formats support this.
-
-* Library SONAME
-This is a correlation of the library SONAME into the dependency set, such as
-'libz.so(64)'.  This is pulled directly from any ELF binaries in the system
-during processing and added as a direct dependency to other shared libraries.
-It is significantly more exact then the package or virtual dependencies above.
-HOWEVER, it only works in the RPM case.
-
-This is the second reason why deb and ipkg need a unique 'lib32' style name for
-things.  They don't have a mechanism for a package to say "I need the 64-bit
-version of libz.so" to run properly, while that is built into RPM itself.
-
-* Filename dependency
-These are dependencies that start with '/'.  This is unique to RPM as well, and
-allows RPM to express dependencies on '/bin/bash', vs deb/ipkg having
-dependencies on 'bash'.  The difference is that it puts a hard marker in place
-that if 'bash' doesn't provide '/bin/bash', it's not enough.
-
-This doesn't directly affect the naming, but occasionally has some indirect
-adjustments on things.
-
-
-So when building a system using RPM as the package type, the rootfs construction
-may be slightly different because the package manager rules are different.
-
-RPM (smart) will look at the overall dependency tree and attempt to pick the
-shortest path so that all of the dependencies are correct.  You can 'weight' the
-dependency resolver to favor one style of package over the other.  This is a
-place in smart where we likely need to change the behavior to make it a bit more
-friendly for the Yocto Project.
-
-The dependency generator is already configured to weigh a package of the same
-type (arch) as a bit higher then others.  The problem is that a 'noarch' (all)
-package is of a different type then say i586.  So when an all package says "give
-me bash".  There is no 'bash.all', so it looks at the list and finds 'bash' of
-the highest priority, IF it had not previously been selected by something else.
- (How would it have previously been selected?  If the image had selected
-'lib32-bash' explicitly, or the more likely case, a lib32-* package that
-requires bash had been selected by the image, and there were not explicit
-requirements for 'bash' [main lib version]).
+> The correct way to fix this IMO is to add the --sysroot ARG to the
+> environment
+> in kernel-yocto.bbacless do_configme *before* calling the
+> yocto-kernel-tools,
+> thus the tools get called with a sane sysroot.
+>
+> The exact error is this:
+>
+> Partial contents of merge_log.txt:
+> "
+> HOSTCC  scripts/basic/fixdep
+> /home/ovidiu/000/git/nilrt/build/tmp-glibc/work-shared/x64/kernel-source/scripts/basic/fixdep.c:106:23:
+> fatal error: sys/types.h: No such file or directory
+> #include <sys/types.h>
+>                       ^
+> compilation terminated.
+> /home/ovidiu/000/git/nilrt/build/tmp-glibc/work-shared/x64/kernel-source/scripts/basic/Makefile:21:
+> recipe for target 'scripts/basic/x86_64-nilrt-linux-fixdep' failed
+> make[2]: *** [scripts/basic/x86_64-nilrt-linux-fixdep] Error 1
+> /home/ovidiu/000/git/nilrt/build/tmp-glibc/work-shared/x64/kernel-source/Makefile:428:
+> recipe for target 'scripts_basic' failed
+> make[1]: *** [scripts_basic] Error 2
+> Makefile:133: recipe for target 'sub-make' failed
+> make: *** [sub-make] Error 2
+> "
+>
+>
+>
+> National Instruments Romania S.R.L.
+> ------------------------------------------------------
+> B-dul 21 Decembrie 1989, nr. 77, A2
+> Cluj-Napoca 400604, Romania
+> C.I.F.: RO17961616 | O.R.C.: J12/3337/2005
+> Telefon: +40 264 406428 | Fax: +40 264 406429
+> E-mail: office.cluj@ni.com
+> Web: romania.ni.com
+>
+> Vanzari si suport tehnic:
+> Telefon gratuit : 0800 070071
+> E-mail vanzari: ni.romania@ni.com
+> E-mail suport tehnic: techsupport@ni.com
 
 
-RPM itself has a setting that defines which ABI type becomes the default if you
-attempt to choose multiple packages that have the same executables listed.  The
-setting here is:
 
-# Set RPM_PREFER_ELF_ARCH to configure preferred ABI when using rpm packaging
-# backend to generate a rootfs, choices are:
-# 1: ELF32 wins
-# 2: ELF64 wins
-# 4: ELF64 N32 wins (for mips64 or mips64el only)
-
-Note, this doesn't prevent multiple packages of the same name, different arch
-from being installed -- what this does is selects which one wins.  When not set,
-I believe it's last-in wins.
-
-
-This setting should also help weigh the smart dep generator, but I'm not sure it
-does.  (Pretty easy to test though.. set the value, build a multilib rootfs, and
-select something (all package) that requires 'bash' and see which version is
-selected.)
-
-But for most things in the system this really doesn't matter at all.  For things
-where a 32-bit or 64-bit does matter (executable and/or libraries that are not
-implicitly linked elsewhere), we really do need to add dependencies into the
-system so that the correct set of items are selected.
-
-PAM, Perl, Python, and the on-target toolchains are things that adding a few
-runtime dependencies are needed.  Basically anything in the system that may have
-runtime loadable libraries of a specific ABI, using something like dlopen.
-(Remember SONAME dependencies are automatic as mentioned above.)
-
-These new runtime dependencies will not harm deb/ipkg resolution (and may help
-it), but they give RPM the additional information it needs to select the
-explicit set that is required.  For example PAM:
-
-RPROVIDES_${PN} += "${PN}-${libpam_suffix}"
-RPROVIDES_${PN}-runtime += "${PN}-runtime-${libpam_suffix}"
-
-RDEPENDS_${PN}-runtime = "${PN}-${libpam_suffix} \
-    ${MLPREFIX}pam-plugin-deny-${libpam_suffix} \
-    ${MLPREFIX}pam-plugin-permit-${libpam_suffix} \
-    ${MLPREFIX}pam-plugin-warn-${libpam_suffix} \
-    ${MLPREFIX}pam-plugin-unix-${libpam_suffix} \
-    "
-
-(other code later constructs the RPROVIDES for the plugins as well)
-
-The MLPREFIX will be filtered off when RPM constructs it's packages, as it
-doesn't want/need them.  However the suffix won't be filtered.
-
-libpam_suffix = "suffix${@get_multilib_bit(d)}"
-
-This way the -runtime package ensures the right other packages (with their
-specific PROVIDES sufffixes) are included in all cases.
-
-This is a unique case, but should be pretty easy to help fix.
-
-For the case where you want to specify 'lib32-packagegroup' and expect to ONLY
-get 32-bit packages... While we can't ensure it with the RPM mechanism, we can
-weigh things to more likely happens -if- the lib32-packagegroup is of the same
-.arch as the packages it's installing, instead of being 'all' packages.
-
-Hopefully this explains a bit more how all of these items fit together, and the
-choice made when RPM was implemented to follow more of an expected multilib
-workflow.  (This won't affect you if you don't use multilibs in your design!)
-
---Mark
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
