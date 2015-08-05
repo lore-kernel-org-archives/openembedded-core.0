@@ -1,26 +1,35 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B84A6E5D0
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DDA7E6E5D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Aug 2015 02:12:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t752Cdvc021657
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 4 Aug 2015 19:12:39 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 4 Aug 2015 19:12:39 -0700
-Message-ID: <55C17115.2070000@windriver.com>
-Date: Wed, 5 Aug 2015 10:12:37 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Wed,  5 Aug 2015 02:17:14 +0000 (UTC)
+Received: by ykoo205 with SMTP id o205so24459495yko.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Aug 2015 19:17:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=VOOEWpM5zJUgCotUOi4rp5KR2slLnt2aXI11EtH6BGg=;
+	b=novCmV214RRS8tKMdsI0ZCqh5b0sMUsbt5unZ/4orZlF4U6A8hTNvetOKSRMux9iH0
+	TF+452p1jBK+5M6++B5T1gg86paJocxogSvw3IKe1K4UybrVR9Lck/7hMFwkrfWFbADM
+	p7Wzfla++7oPPCzdS3LHEf4lkWLEOVy3yPINYyDN8SFKIlNFcM4slrv/d/e2xLeM5En1
+	cYPrC7jnl98gudPBv31pYpmulOkXQHKZB4Lg641gUwBZGnbObSkaU1iTJf3xNFGw2A/2
+	jrLRhq2/O6XrIi1uni6eECPR1azlTaMVahfMP99CuC8Wxct4Ru8rVopN8a4ha+En25Tg
+	qdgw==
 MIME-Version: 1.0
-To: <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
-References: <1438150875-979-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1438150875-979-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH] attr: remove some meaningless codes
+X-Received: by 10.170.89.130 with SMTP id g124mr7049750yka.60.1438741034502;
+	Tue, 04 Aug 2015 19:17:14 -0700 (PDT)
+Received: by 10.13.226.203 with HTTP; Tue, 4 Aug 2015 19:17:14 -0700 (PDT)
+In-Reply-To: <1438674108-24258-1-git-send-email-adrian.ratiu@ni.com>
+References: <1438674108-24258-1-git-send-email-adrian.ratiu@ni.com>
+Date: Tue, 4 Aug 2015 23:17:14 -0300
+Message-ID: <CADkTA4PEZCM151f7Z72jcr-4H3MQqusdPr9WkO-jwUxrufPsTw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-yocto: do_configme: Add $TOOLCHAIN_OPTIONS to CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,105 +42,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Aug 2015 02:12:54 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 05 Aug 2015 02:17:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
+On Tue, Aug 4, 2015 at 4:41 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> The kernel configure step was broken by the sysroot poisoning in [1].
 
+Can you be more precise here ? Configuration certainly works for me .. and
+has been working since last October.
 
-drop it, the patch has bug, sorry for the noise.
-
-
--Roy
-
-On 2015年07月29日 14:21, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
+> In linux-yocto.inc this was fixed by appending $TOOLCHAIN_OPTIONS to
+> KERNEL_CC, TOOLCHAIN_OPTIONS containing the needed --sysroot arg.
 >
-> what relative-libdir.patch done is reverted by fix_symlink for native,
-> and add a race since libacl.so/libattr.so are created, then removed, and
-> recreated it.
-> relative-libdir.patch say it fixed udev issue, but can not reproduce
-> current, and if udev has issue, the fix should be in udev
+> However, [1] also breaks the yocto configure fragment generation:
+> after parsing the fragments, when make is called on the merged file
+> to fill in any missing symbols with default values. The call chain is:
 >
-> Cc: Saul Wold <sgw@linux.intel.com>
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> do_kernel_configme() -> configme -> merge_config.sh
+> -> make KCONFIG_ALLCONFIG=$TMP_FILE
+>
+> This issue was uncaught until now because configme redirects all stdout
+> and stderr to merge_log.txt prior to calling merge_configs.sh and there
+> is no return value checking, so building continues and the silent error
+> is ignored.
+>
+> Adding $TOOLCHAIN_OPTIONS to $CFLAGS before calling configme fixes this.
+>
+> TODO: In a future patch this kind of error should be made loud and cause
+> the build to fail.
+>
+
+That won't be required, I already have a queue of patches that changes
+things significantly.
+
+If you can elaborate on the type of breakage you were seeing, I'll add
+this to that queue.
+
+Bruce
+
+> [1] http://lists.openembedded.org/pipermail/openembedded-core/2014-October/098253.html
+>
+> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 > ---
->   meta/recipes-support/attr/ea-acl.inc               | 23 --------------------
->   .../attr/files/relative-libdir.patch               | 25 ----------------------
->   2 files changed, 48 deletions(-)
->   delete mode 100644 meta/recipes-support/attr/files/relative-libdir.patch
+>  meta/classes/kernel-yocto.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-> index 474291a..088f058 100644
-> --- a/meta/recipes-support/attr/ea-acl.inc
-> +++ b/meta/recipes-support/attr/ea-acl.inc
-> @@ -1,8 +1,5 @@
->   # this build system is mostly shared by attr and acl
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> index 231e08d..3a67238 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -248,6 +248,7 @@ do_kernel_configme() {
 >
-> -SRC_URI += "file://relative-libdir.patch;striplevel=0 \
-> -           "
-> -
->   inherit autotools-brokensep gettext
+>         cd ${S}
+>         PATH=${PATH}:${S}/scripts/util
+> +       CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}"
+>         configme ${configmeflags} --reconfig --output ${B} ${LINUX_KERNEL_TYPE} ${KMACHINE}
+>         if [ $? -ne 0 ]; then
+>                 bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
+> --
+> 2.1.4
 >
->   # the package comes with a custom config.h.in, it cannot be
-> @@ -25,23 +22,3 @@ BBCLASSEXTEND = "native"
->   # Only append ldflags for target recipe and if USE_NLS is enabled
->   LDFLAGS_append_libc-uclibc_class-target = "${@['', ' -lintl '][(d.getVar('USE_NLS', True) == 'yes')]}"
->   EXTRA_OECONF_append_libc-uclibc_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS', True) == 'no')]}"
-> -
-> -fix_symlink () {
-> -	if test "${libdir}" = "${base_libdir}" ; then
-> -		return
-> -	fi
-> -	# Remove bad symlinks & create the correct symlinks
-> -	if test -L ${libdir}/lib${BPN}.so ; then
-> -		rm -rf ${libdir}/lib${BPN}.so
-> -		ln -sf ${base_libdir}/lib${BPN}.so ${libdir}/lib${BPN}.so
-> -	fi
-> -	if test -L ${base_libdir}/lib${BPN}.a ; then
-> -		rm -rf ${base_libdir}/lib${BPN}.a
-> -		ln -sf ${libdir}/lib${BPN}.a ${base_libdir}/lib${BPN}.a
-> -	fi
-> -	if test -L  ${base_libdir}/lib${BPN}.la ; then
-> -		rm -rf ${base_libdir}/lib${BPN}.la
-> -		ln -sf ${libdir}/lib${BPN}.la ${base_libdir}/lib${BPN}.la
-> -	fi
-> -}
-> -SSTATEPOSTINSTFUNCS_class-native += "fix_symlink"
-> diff --git a/meta/recipes-support/attr/files/relative-libdir.patch b/meta/recipes-support/attr/files/relative-libdir.patch
-> deleted file mode 100644
-> index b72bf18..0000000
-> --- a/meta/recipes-support/attr/files/relative-libdir.patch
-> +++ /dev/null
-> @@ -1,25 +0,0 @@
-> -Upstream-Status: Pending
-> -
-> -use relative path in symbolic links, or it fails in staging
-> -sed expression from udev
-> -
-> -7/29/2010 - created by Qing He <qing.he@intel.com>
-> -
-> -diff -u include.orig/buildmacros include/buildmacros
-> ---- include.orig/buildmacros	2010-07-29 17:39:48.000000000 +0800
-> -+++ include/buildmacros	2010-07-29 18:20:34.000000000 +0800
-> -@@ -88,9 +88,11 @@
-> - 	../$(INSTALL) -m 755 -d $(PKG_LIB_DIR); \
-> - 	../$(INSTALL) -T so_base $(LIBNAME).lai $(PKG_LIB_DIR); \
-> - 	if test "x$(PKG_DEVLIB_DIR)" != "x$(PKG_LIB_DIR)" ; then \
-> --	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
-> --	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
-> --	../$(INSTALL) -S $(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so; \
-> -+	rel_lib_prefix=$$(echo $(PKG_LIB_DIR) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
-> -+	../$(INSTALL) -S $$rel_lib_prefix$(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
-> -+	../$(INSTALL) -S $$rel_lib_prefix$(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
-> -+	rel_devlib_prefix=$$(echo $(PKG_DEVLIB_DIR) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
-> -+	../$(INSTALL) -S $$rel_devlib_prefix$(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so; \
-> - 	fi
-> - else
-> - INSTALL_LTLIB_DEV = $(INSTALL_LTLIB_STATIC)
->
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
 -- 
-Best Reagrds,
-Roy | RongQing Li
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
