@@ -1,37 +1,37 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
-	[209.85.220.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 26022766C7
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 79B86766F1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Aug 2015 19:41:44 +0000 (UTC)
-Received: by pacrr5 with SMTP id rr5so34383752pac.3
+	Thu,  6 Aug 2015 19:41:47 +0000 (UTC)
+Received: by pawu10 with SMTP id u10so69916230paw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Aug 2015 12:41:45 -0700 (PDT)
+	Thu, 06 Aug 2015 12:41:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=lOIbmVNVFjPlUVQysWOPKk4iak10Qp+4/A1kNYp6rA8=;
-	b=ppRkI2qKF3x8fr/GzqL/VCzOlprtqOy+WMgAo9G9HaO7oAJAbfar6yI3ErJDSnS/Cg
-	eeXnv8ckJMsKVJbsqOglJ6gT6scv6IQUzGo3GAsv0zjCqNbOIR57POJ7neAU3CnUWv5H
-	Fzw5f6oMgOU1wZTSeUEFsZzqhya7NUcLlSyRSbyJbe0C0DGEdZw2F4f33ZEG5xdr9MZB
-	QsEEWvhaLHlHn8O5GNdoRdxDrEOxkNFnpqDSvfIzTQM6mubXI3rBrMjhBsJnbbnbUIFA
-	FyI4PInV8kQ65WfmdVmn8B2o/0OXT0Y5cju+dpXVAMLckWF1JUqkNDvz1TMgZlaeB31s
-	qwcw==
-X-Received: by 10.66.161.232 with SMTP id xv8mr6520627pab.137.1438890105090;
-	Thu, 06 Aug 2015 12:41:45 -0700 (PDT)
+	bh=ddfOfDQw1gOQhn36pDbj4nqq7KU0mpNtJeCwThu11rA=;
+	b=zFLtcwFR/C/lZWNuhrp20RGw5FIfcpIH7AsNcFL0Nq62ScnUSxrAUPUvIFWAY6g9mo
+	Wa+9lstZUYIWZIg2l/r4hlsvCqnWJRtfV0nXShrkW96oBQTIg1tAdJMnHxx5aqQSRYbg
+	LmAdm5LpijQPDzuI6DAIVV3wpv9+efqFMpNLWGtLvbTlUTEupIrVSEpgFhBblT47nCvv
+	kRw90Cx6XuIyLBWDxPu37fKm0F9An7gXnG67nZWaq18cTcuLJWeXnEXhv42u+Pkwhmur
+	8xz40ZAGS7DiWhTPr28bUaIBA/CTL4aQmEZOcCJkt6o0Wz+2zs7Ar78NfLGKnn9RLc2R
+	M2Ig==
+X-Received: by 10.66.138.40 with SMTP id qn8mr6545352pab.19.1438890107610;
+	Thu, 06 Aug 2015 12:41:47 -0700 (PDT)
 Received: from e6520.cablelabs.com
 	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
 	by smtp.gmail.com with ESMTPSA id
-	aw16sm7491315pac.29.2015.08.06.12.41.43
+	aw16sm7491315pac.29.2015.08.06.12.41.46
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 06 Aug 2015 12:41:43 -0700 (PDT)
+	Thu, 06 Aug 2015 12:41:46 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Aug 2015 12:41:24 -0700
-Message-Id: <1438890086-2710-2-git-send-email-armccurdy@gmail.com>
+Date: Thu,  6 Aug 2015 12:41:25 -0700
+Message-Id: <1438890086-2710-3-git-send-email-armccurdy@gmail.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1438890086-2710-1-git-send-email-armccurdy@gmail.com>
 References: <1438890086-2710-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 1/3] uclibc.inc: remove unused UCLIBC_EXTRA_LDFLAGS
+Subject: [PATCH 2/3] security_flags.inc: clear SECURITY_CFLAGS for uclibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,25 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 19:41:45 -0000
+X-List-Received-Date: Thu, 06 Aug 2015 19:41:49 -0000
+
+uclibc fails to build when security_flags.inc is used.
+
+ | i686-rdk-linux-uclibc-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse --sysroot=/build-vbox32/tmp/sysroots/vbox32-tcbootstrap  -Wl,-EL -Wl,--sort-common -Wl,--sort-section=alignment -m32 -shared -Wl,--warn-common -Wl,--warn-once -Wl,-z,combreloc -Wl,-z,relro -Wl,-z,now -Wl,--hash-style=gnu -Wl,-z,defs   -Wl,-init,__uClibc_init  -Wl,-soname=libc.so.0 -nostdlib -o lib/libuClibc-0.9.34-git.so  -Wl,--whole-archive libc/libc_so.a -Wl,--no-whole-archive ./lib/interp.os ./lib/ld-uClibc.so.0 ./lib/uclibc_nonshared.a /build-vbox32/tmp/sysroots/vbox32-tcbootstrap/usr/lib/i686-rdk-linux-uclibc/4.9.3/libgcc.a
+ | libc/libc_so.a(sigaction.os): In function `__libc_sigaction':
+ | /build-vbox32/tmp/work/core2-32-rdk-linux-uclibc/uclibc/0.9.33+gitAUTOINC+48a0006012-r9/git/libc/sysdeps/linux/i386/sigaction.c:37: undefined reference to `__stack_chk_guard'
+ | /build-vbox32/tmp/work/core2-32-rdk-linux-uclibc/uclibc/0.9.33+gitAUTOINC+48a0006012-r9/git/libc/sysdeps/linux/i386/sigaction.c:49: undefined reference to `__stack_chk_fail_local'
+ | collect2: error: ld returned 1 exit status
+ | make: *** [lib/libc.so] Error 1
+
+Clearing SECURITY_CFLAGS completely may not be the best approach, but
+it's the approach taken for glibc, so try it for uclibc too.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-core/uclibc/uclibc.inc | 1 -
- 1 file changed, 1 deletion(-)
+ meta/conf/distro/include/security_flags.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index 08465c4..c483228 100644
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -59,7 +59,6 @@ export V="2"
- #
- CFLAGS_arm := "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
- UCLIBC_EXTRA_CFLAGS  := "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
--UCLIBC_EXTRA_LDFLAGS := "${@oe_filter_out('(-L\S+|-l\S+)', '${LDFLAGS}', d)}"
- 
- do_compile_prepend () {
-   unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 3724972..a107657 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -84,6 +84,8 @@ SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-uclibc = ""
++SECURITY_CFLAGS_pn-uclibc-initial = ""
+ SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-webkit-gtk = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-zlib = "${SECURITY_NO_PIE_CFLAGS}"
 -- 
 1.9.1
 
