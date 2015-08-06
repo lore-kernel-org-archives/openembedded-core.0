@@ -1,28 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D0C76734DA
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C4FA75FB5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Aug 2015 15:16:03 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Aug 2015 08:16:04 -0700
+	Thu,  6 Aug 2015 15:44:53 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 06 Aug 2015 08:44:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,622,1432623600"; d="scan'208";a="779108954"
-Received: from ekalugin-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.17.192])
-	by orsmga002.jf.intel.com with ESMTP; 06 Aug 2015 08:16:03 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 06 Aug 2015 16:16:01 +0100
-Message-ID: <1845103.Q4jRGBvf17@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.8-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <4ABFBF94-9F87-48E7-8C32-9401658709CE@gmail.com>
-References: <1438765311-13423-1-git-send-email-ed.bartosh@linux.intel.com>
-	<3388285.Ji3DKKVymS@peggleto-mobl.ger.corp.intel.com>
-	<4ABFBF94-9F87-48E7-8C32-9401658709CE@gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] create-pull-request: cd to relative directory
+X-IronPort-AV: E=Sophos;i="5.15,623,1432623600"; d="scan'208";a="778208747"
+Received: from sentry.rb.intel.com ([10.237.105.63])
+	by fmsmga002.fm.intel.com with ESMTP; 06 Aug 2015 08:44:52 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Aug 2015 18:45:00 +0300
+Message-Id: <1438875900-16136-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] qemu: upgrade to 2.4.0-rc4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,59 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 15:16:03 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 06 Aug 2015 15:44:54 -0000
 
-On Thursday 06 August 2015 08:05:40 Khem Raj wrote:
-> > On Aug 6, 2015, at 1:38 AM, Paul Eggleton <paul.eggleton@linux.intel.com>
-> > wrote:> 
-> > On Wednesday 05 August 2015 20:33:48 Khem Raj wrote:
-> >> On Wed, Aug 5, 2015 at 2:01 AM, Ed Bartosh <ed.bartosh@linux.intel.com>
-> > 
-> > wrote:
-> >>> create-pull-request -d path creates empty patches if directory
-> >>> is specified as a path, i.e. ./bitbake or ./bitbake/ or full path.
-> >>> It behaves expected way only if script is run with -d bitbake, i.e.
-> >>> relative dir name doesn't contain '\'.
-> >>> 
-> >>> Fixed this unwanted behaviour by changing directory and running
-> >>> git format-patch in it with --relative, without specifying
-> >>> relative path as a parameter.
-> >>> 
-> >>> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> >>> ---
-> >>> 
-> >>> scripts/create-pull-request | 5 ++++-
-> >>> 1 file changed, 4 insertions(+), 1 deletion(-)
-> >>> 
-> >>> diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-> >>> index 216edfd..7eac618 100755
-> >>> --- a/scripts/create-pull-request
-> >>> +++ b/scripts/create-pull-request
-> >>> @@ -177,12 +177,15 @@ mkdir $ODIR
-> >>> 
-> >>> if [ -n "$RELDIR" ]; then
-> >>> 
-> >>>        ODIR=$(realpath $ODIR)
-> >>> 
-> >>> -       extraopts="--relative=$RELDIR"
-> >>> +       pushd $RELDIR
-> >> 
-> >> can we avoid using pushd so it works with non bash shells too ?
-> > 
-> > Should be possible, but it's worth mentioning that this script already
-> > starts with #!/bin/bash.
-> 
-> Does it have to be ?
+Bugfixes, bring it closer to 2.4.0 final release.
 
-Are you volunteering to fix any other bashisms in the script? If so no ;)
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ meta/recipes-devtools/qemu/{qemu_2.4.0-rc3.bb => qemu_2.4.0-rc4.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu_2.4.0-rc3.bb => qemu_2.4.0-rc4.bb} (82%)
 
-Cheers,
-Paul
-
+diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb b/meta/recipes-devtools/qemu/qemu_2.4.0-rc4.bb
+similarity index 82%
+rename from meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
+rename to meta/recipes-devtools/qemu/qemu_2.4.0-rc4.bb
+index 9b17bcc..1964a50 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.4.0-rc4.bb
+@@ -8,11 +8,11 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BPN}-${REALPV}.tar.bz2"
+-SRC_URI[md5sum] = "ba43213c94ef4463afc8bd01ee221860"
+-SRC_URI[sha256sum] = "aacd5834ce275300f1ba3617c32d4d149db93705ecb7955d7436c0fc9b96aa4c"
++SRC_URI[md5sum] = "0e9c00b15d383043ce888f7bf17308c9"
++SRC_URI[sha256sum] = "724bc17d29babe2b55107c76af7cd67e162857958a3bfe2f34bb9776f1f5f4b3"
+ 
+ S="${WORKDIR}/${BPN}-${REALPV}"
+-REALPV = "2.4.0-rc3"
++REALPV = "2.4.0-rc4"
+ PV = "2.3.99+${REALPV}"
+ 
+ COMPATIBLE_HOST_class-target_mips64 = "null"
 -- 
+2.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
