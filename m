@@ -1,24 +1,35 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 844D7766C1
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu,  6 Aug 2015 19:36:26 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t76JaOJR013797
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 6 Aug 2015 12:36:26 -0700 (PDT)
-Received: from ord-lpggp3.wrs.com (128.224.149.46) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 6 Aug 2015 12:36:23 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <Openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Aug 2015 14:35:53 -0500
-Message-ID: <1438889753-11168-1-git-send-email-jason.wessel@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-Subject: [PATCH] initscripts: Fix regression for requiring /bin/bash
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id ED759766D3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  6 Aug 2015 19:41:41 +0000 (UTC)
+Received: by pawu10 with SMTP id u10so69914584paw.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Aug 2015 12:41:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=f0Z0Dv1EdcTFUXI+zwEiBXDXiwofpMHNVIzJjKAq9AA=;
+	b=BuniZ+h7EhdTOrHZHlB4vU7a9louKf4mNqsE84mnT5Q91dDOFobSnNhiUTtYGW8xBY
+	S1lvywjM0aE1wtT/ce6roEFSt/a++9NAb/DW9hqShNlLG/afh8Qu3GxMpw4XImaDSu3/
+	DkHp4NqYEwcqXFcqkDciLsG6sl3mOfPchecRbe00xhoam/HdQItIeUoHK+PFO0lMnuqi
+	dGSDJTfT1gJZu1RvQa7Pp3jAgqnLhFJ3pJ5hTI/VorDuLzwZK++R2NA06jD6f0H4+1WU
+	LVlzzYiZgA4nDFZ62akFeJ0O0/g+2lW7MrYIGb5yJEm3Tyc9B4ipqSJ4lsCgDfNItTAu
+	v69g==
+X-Received: by 10.66.220.5 with SMTP id ps5mr6596768pac.157.1438890101496;
+	Thu, 06 Aug 2015 12:41:41 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	aw16sm7491315pac.29.2015.08.06.12.41.39
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 06 Aug 2015 12:41:40 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Aug 2015 12:41:23 -0700
+Message-Id: <1438890086-2710-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 0/3] fix uclibc build with security_flags.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,39 +42,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 19:36:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Aug 2015 19:41:44 -0000
 
-It is not possible to create a rootfs with only busybox + initscipts.
-This is a result of a regression from commit
-a4b53872a8a9a2743299acbff015f7f2750a69d6 (initscripts: add
-/sbin/sushell for systemd service debug-shell).
+Andre McCurdy (3):
+  uclibc.inc: remove unused UCLIBC_EXTRA_LDFLAGS
+  security_flags.inc: clear SECURITY_CFLAGS for uclibc
+  uclibc.inc: avoid immediate expansion for UCLIBC_EXTRA_CFLAGS
 
-The /sbin/sushell should just use /bin/sh else you end up with a
-problem when creating the end image with a failed smart transaction
-shown below:
+ meta/conf/distro/include/security_flags.inc | 2 ++
+ meta/recipes-core/uclibc/uclibc.inc         | 5 ++---
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-ERROR: Unable to install packages. Command '/proj/bitbake_build/tmp/sysroots/x86_64-linux/usr/bin/smart --quiet --data-dir=/proj/bitbake_build/tmp/work/qemuarma9-wrs-linux-gnueabi/wrlinux-image-glibc-small/1.0-r1/rootfs/var/lib/smart install -y dropbear@armv7at2_vfp hac@armv7at2_vfp run-postinsts@all kernel-modules@qemuarma9 packagegroup-core-boot@qemuarma9' returned 1:
-error: Can't install initscripts-1.0-r155.0@armv7at2_vfp: no package provides /bin/bash
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- .../initscripts/initscripts-1.0/sushell            |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sushell b/meta/recipes-core/initscripts/initscripts-1.0/sushell
-index 7d96941..c319d95 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/sushell
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/sushell
-@@ -1,5 +1,5 @@
--#!/bin/bash
-+#!/bin/sh
- 
--[ -z "$SUSHELL" ] && SUSHELL=/bin/bash
-+[ -z "$SUSHELL" ] && SUSHELL=/bin/sh
- 
- exec $SUSHELL
 -- 
-1.7.9.5
+1.9.1
 
 
