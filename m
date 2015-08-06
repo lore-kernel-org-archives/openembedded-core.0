@@ -1,37 +1,39 @@
-Return-Path: <amarnath.valluri@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id AF980734DA
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 211E1734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Aug 2015 12:18:15 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Aug 2015 05:17:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,622,1432623600"; d="scan'208";a="779012767"
-Received: from irsmsx108.ger.corp.intel.com ([163.33.3.3])
-	by orsmga002.jf.intel.com with ESMTP; 06 Aug 2015 05:17:49 -0700
-Received: from irsmsx110.ger.corp.intel.com ([169.254.15.29]) by
-	IRSMSX108.ger.corp.intel.com ([169.254.11.22]) with mapi id
-	14.03.0224.002; Thu, 6 Aug 2015 13:17:48 +0100
-From: "Valluri, Amarnath" <amarnath.valluri@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, Alexander Kanavin
-	<alexander.kanavin@linux.intel.com>
-Thread-Topic: [OE-core] [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in
-	mkdosfs
-Thread-Index: AQHQ0CcDZeLXLbZJ5kaSJN/ZSXAkUp3+nv+AgAADmICAAEAd7g==
-Date: Thu, 6 Aug 2015 12:17:47 +0000
-Message-ID: <D3C33C4430ACA6488F343D1125FCCECC37FD8262@irsmsx110.ger.corp.intel.com>
-References: <1438851969-4340-1-git-send-email-amarnath.valluri@intel.com>
-	<55C32503.3050800@linux.intel.com>,
-	<13325469.N9zhAzKaIU@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <13325469.N9zhAzKaIU@peggleto-mobl.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.3.86.139]
+	Thu,  6 Aug 2015 13:24:29 +0000 (UTC)
+Received: by ykax123 with SMTP id x123so62145272yka.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Aug 2015 06:24:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=na6VmEniWj0oZxmopVgQZjARPyx3WJEk1A10aQaBKtg=;
+	b=MbkJVXziY4JRNDuXgNpS8CU3uRoGAz0wsiWyqL/gE4rLJTUnWELoSiYVquvlLam9sv
+	mrC/fVdn37W3L56KTHcc/8n8JvQKCb2NZTJwwAmEqkgq8w0cNZSsEekV6Rci6oCL4Qdj
+	TM2FNAyk2WFQSPIqyz4vg9v2LMtHsd58vRSJaFYHP5iL8GVVPpmOm5JjpMuxw3YFcmPZ
+	m8FX4yoBGEBddcPp8TC+DGDha+uji07Xkccntt2Swk9xxHxN1AgfgulhxuaZkkdMovyL
+	fSgfEIV6y/xtKdQ2deHGTpQLgzxZnmKzV+YEg1aU9t5mktdC5jHj6/JBTdeFMi1INLSG
+	/xUQ==
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+X-Received: by 10.170.134.210 with SMTP id a201mr1406415ykc.62.1438867141170; 
+	Thu, 06 Aug 2015 06:19:01 -0700 (PDT)
+Received: by 10.13.226.203 with HTTP; Thu, 6 Aug 2015 06:19:01 -0700 (PDT)
+In-Reply-To: <55C30B7F.2050909@ni.com>
+References: <1438674108-24258-1-git-send-email-adrian.ratiu@ni.com>
+	<CADkTA4PEZCM151f7Z72jcr-4H3MQqusdPr9WkO-jwUxrufPsTw@mail.gmail.com>
+	<OF2F3F95BE.08ECF07F-ONC2257E98.002DF696-C2257E98.002F92BC@ni.com>
+	<CADkTA4POzofrpfDEp8_bRokSoPV+2pb_RimQ+PrrZ2guqfPGNw@mail.gmail.com>
+	<55C30B7F.2050909@ni.com>
+Date: Thu, 6 Aug 2015 09:19:01 -0400
+Message-ID: <CADkTA4Mp_vF2uUdCSJ0TDVYapL-DuaLzHCvKsy6bLnytwAM76w@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in mkdosfs
+Subject: Re: [PATCH] kernel-yocto: do_configme: Add $TOOLCHAIN_OPTIONS to CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,79 +46,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 12:18:21 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Aug 2015 13:24:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Alex & Paul,
-
-Thanks both of you, I have resubmitted the patch as per you suggestions.
-
-- Amarnath
-________________________________________
-From: Paul Eggleton [paul.eggleton@linux.intel.com]
-Sent: Thursday, August 06, 2015 12:25 PM
-To: Alexander Kanavin; Valluri, Amarnath
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in=
- mkdosfs
-
-On Thursday 06 August 2015 12:12:35 Alexander Kanavin wrote:
-> On 08/06/2015 12:06 PM, Amarnath Valluri wrote:
-> > Added new patch that fixes the memory leak that was introduced in
-> > mkdosfs-dir.patch.
+On Thu, Aug 6, 2015 at 3:23 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> On 05.08.2015 16:50, Bruce Ashfield wrote:
+>>
+>> On Wed, Aug 5, 2015 at 4:39 AM, Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+>>>
+>>> Bruce Ashfield <bruce.ashfield@gmail.com> wrote on 05.08.2015 05:17:14:
+>>>
+>>>> On Tue, Aug 4, 2015 at 4:41 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+>>>> wrote:
+>>>>>
+>>>>> The kernel configure step was broken by the sysroot poisoning in [1].
+>>>>
+>>>>
+>>>> Can you be more precise here ? Configuration certainly works for me ..
+>>>> and
+>>>> has been working since last October.
+>>>
+>>>
+>>> This works because it was fixed in linux-yocto.inc *after* the sysroot
+>>> poisoning.
+>>> I've mentioned this in the next line :) But this is not what this fix is
+>>> for,
+>>> this fix should have been done at the same time with adding
+>>> $TOOLCHAIN_OPTIONS
+>>> to $KERNEL_CC in linux-yocto.inc.
+>>>
+>>> This bug was missed because there is NO error reporting in
+>>> yocto-kernel-tools
+>>> merge_configs.sh and the build continues despite the error. I've sent a
+>>> patch to
+>>> fail loudly in case merge_configs.sh fails in yocto-kernel-tools. You
+>>> know
+>>> about
+>>> it because you responded to that mail :) These issues are related.
+>>
+>>
+>> right. And as you saw there .. I don't need that patch. So we might as
+>> well
+>> let this one sit as well.
 >
-> You should update the original patch then, not pile additional patches
-> on top. The least painful way is:
 >
-> 1) unpack the sources (manually from tarball, or using bitbake -c unpack)
-> 2) 'git init; git add *; git commit' to create an git repository from
-> the sources
-> 3) apply the patch that needs fixing, then do the fix
-> 4) make a git commit, then produce a patch using git format-patch, then
-> move the new patch back to the recipe directory and update the recipe
-> 5) build the recipe to make sure it still builds
-> 6) make a git commit with the recipe update, and submit it here :)
+> It's great if these issues were already fixed somehow different than how I
+> proposed. Are those local changes pushed to a public branch yet? I would
+> really like to test the new code.
 
-On the contrary - the much less painful way (as of fido) is to use devtool:
+The solution is similar in the end, I just came to adding extra error checking
+via a different route (missing .cfg fragments not being reported and stopping
+the build).
 
-1) Extract source and set the build system up to use it:
-   devtool modify dosfstools -x ~/projects/dosfstools
-
-2) Make whatever changes you want to in the git tree that has been set up in
-the specified path
-
-3) Build the recipe (as you would normally) to make sure it still builds
-
-4) Write the modified/added commits as patches back to the recipe:
-    devtool update-recipe dosfstools
-
-5) Make a git commit with the recipe update, and submit it here :)
-
-I'd really like people to start using devtool for this kind of thing. If it=
-'s
-not working for some reason please do let me know.
+They are unfortunately back on my development machine, and I'm on
+vacation at the moment. But I will be back near that equipment next
+week!
 
 Cheers,
-Paul
 
---
+Bruce
 
-Paul Eggleton
-Intel Open Source Technology Centre
----------------------------------------------------------------------
-Intel Finland Oy
-Registered Address: PL 281, 00181 Helsinki =
-
-Business Identity Code: 0357606 - 4 =
-
-Domiciled in Helsinki =
+>
+> P.S. Sorry for the html crap in my previous mail, I hope it's gone now.
 
 
-This e-mail and any attachments may contain confidential material for
-the sole use of the intended recipient(s). Any review or distribution
-by others is strictly prohibited. If you are not the intended
-recipient, please contact the sender and delete all copies.
 
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
