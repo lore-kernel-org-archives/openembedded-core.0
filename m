@@ -1,35 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id EEA806E630
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 131466E630
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Aug 2015 02:38:29 +0000 (UTC)
-Received: by igk11 with SMTP id 11so3028415igk.1
+	Thu,  6 Aug 2015 03:21:41 +0000 (UTC)
+Received: by iggf3 with SMTP id f3so3302075igg.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Aug 2015 19:38:29 -0700 (PDT)
+	Wed, 05 Aug 2015 20:21:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=/oFoJn0XauU5mF5PRVsRodKBflROXHckb+rCJ+Otwfw=;
-	b=iwKuVkJOup4fU+CdfJHoXTX6vE9mWGxk/yysibPaWWYXGvg5xCZ8ZjqqmhML3Pp3ba
-	DxuYmrZCZUvvN+KU0RB7j2RJu49CCpMI54xvSM39mJdTHifHyz16U3pVKqtpLcjq9Y/u
-	CejNxJkzFNGVC0i7SElAp9dCR2d65AdtVRdzXOXBeI94VU5J5MylDBBbOyGDoxD06LY0
-	poFAPm4/kN1sSv52Samdt4Ln/S5bfXrVK2ezRBOe2+6jXulEbgznQcT5WnK59pm/LDGO
-	ezyNsv0FUUBr87IS6vcOGP4m3VQLNGh9PB/aBqzQpg/MvuqXoyrPqSAbTFEqClG7Y+4N
-	EhrQ==
-X-Received: by 10.50.30.196 with SMTP id u4mr946924igh.11.1438828709488; Wed,
-	05 Aug 2015 19:38:29 -0700 (PDT)
+	bh=gdjF7lEHcQXNKYWNJaBH/422JFVo8VEcZI8AyAvdpLc=;
+	b=C14wx2KBtr1cJFS8wGWB5Lvm+IXOLDkKwOkWAiZb7fsxWblV8Qfcxgz2PZYam/uXZl
+	da4mX0rkXxi0EceB3RQqzXcvNjAIlSYPjm5xQKqHFw76k4x9dnNcByIEOGpY/f2mq/z8
+	Eht+ITHLT15GN1ollOR6N0rAMh4bbiD1A8xiqwEyzyuSvNZs2OU2mevAyWdUk/n9w5yU
+	Hd+kM6czae74ijEpjV0R5BSgQrFhXBB9qtF3+vgajGAKy0XZ7Kh5Sif4A5sK95GJt4sw
+	u3Tbves/p4iSLUavi2z828WmBpfM+ySgT2nr4bQY1RaZEeerKjOFt5sV1wK8lUwygwB0
+	YFKw==
+X-Received: by 10.50.30.105 with SMTP id r9mr1096532igh.11.1438831301699; Wed,
+	05 Aug 2015 20:21:41 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Wed, 5 Aug 2015 19:38:00 -0700 (PDT)
-In-Reply-To: <1438808330-21635-1-git-send-email-dv@pseudoterminal.org>
-References: <1438808330-21635-1-git-send-email-dv@pseudoterminal.org>
+Received: by 10.107.38.79 with HTTP; Wed, 5 Aug 2015 20:21:12 -0700 (PDT)
+In-Reply-To: <1438696733-234279-1-git-send-email-paul.gortmaker@windriver.com>
+References: <1438696733-234279-1-git-send-email-paul.gortmaker@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 5 Aug 2015 19:38:00 -0700
-Message-ID: <CAMKF1soa767f4m+f0hdR8yVCXD3jMDtun0v6n0cL2Samsyxurw@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: Patches and discussions about the oe-core layer
+Date: Wed, 5 Aug 2015 20:21:12 -0700
+Message-ID: <CAMKF1srAsjA3NBgxP6bg3AcX8JWvLws9qh0uHR=LpJ89QSUQDw@mail.gmail.com>
+To: Paul Gortmaker <paul.gortmaker@windriver.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-base: Enable pango packageconfig by default
+Subject: Re: [PATCH] linux-libc-headers: exclude drm headers from sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 02:38:32 -0000
+X-List-Received-Date: Thu, 06 Aug 2015 03:21:43 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Aug 5, 2015 at 1:58 PM, Carlos Rafael Giani
-<dv@pseudoterminal.org> wrote:
-> There is no discernible reason why pango should be initially disabled,
-
-build-time will increase and it may not be needed by default reference
-images in OE-Core but that may not be strong reason if it
-spits our separate packages. Can you measure a considerable increase
-in build time ?
-
-> since the necessary dependency is already included in OE core
+On Tue, Aug 4, 2015 at 6:58 AM, Paul Gortmaker
+<paul.gortmaker@windriver.com> wrote:
+> While diagnosing a problem with xf86-video-intel I noticed we had two
+> copies of drm headers in the sysroot; one from here and one from
+> the libdrm package.   The xf86-video-intel turned out to be another
+> thing, but that doesn't mean we want two copies in the sysroot with
+> different content and luck of include path indicating which one we
+> get.
 >
-> Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+> This one landed in usr/include/drm and the libdrm one put its files
+> at usr/include/libdrm, so there was no obvious over-write conflict.
+>
+> The obvious risk here would be unearthing implicit dependencies on
+> the libdrm; things trying to build before it has populated the sysroot
+> but two full highly parallel builds containing a full desktop graphics
+> suite did not show any issues.
+
+I dont think this is needed. Both have different namespace. Packages
+needing libdrm one will either use
+#include <libdrm/drm.h> or if they use #include <drm.h> will add
+appropriate -I=/usr/include/drm or -I=/usr/include/libdrm
+to demand for which devel packages they require. if they mix it us
+then the package should be fixed. by removing this
+from kernel headers we are changing the fundamental API that we have
+supported like many other distros.
+right now there might be packages which are using kernel-headers
+instead of libdrm headers their behavior will silently change or
+break.
+
+>
+> Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
+> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 > ---
->  meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-> index 06eac67..faecf13 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base.inc
-> @@ -12,7 +12,7 @@ PACKAGES_DYNAMIC =+ "^libgst.*"
->  PACKAGECONFIG ??= " \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
-> -    orc ivorbis ogg theora vorbis \
-> +    orc ivorbis ogg theora vorbis pango \
->      "
+> diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+> index 566bc1e6154b..bda9d3f765ed 100644
+> --- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+> +++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+> @@ -61,6 +61,10 @@ do_install() {
+>         # Kernel should not be exporting this header
+>         rm -f ${D}${exec_prefix}/include/scsi/scsi.h
 >
->  X11DEPENDS = "virtual/libx11 libsm libxrender"
+> +       # if we take drm from the kernel, and a different set from libdrm
+> +       # at different paths in the sysroot, then mayhem can result.
+> +       rm -rf ${D}${exec_prefix}/include/drm
+> +
+>         # The ..install.cmd conflicts between various configure runs
+>         find ${D}${includedir} -name ..install.cmd | xargs rm -f
+>  }
 > --
-> 1.9.1
+> 1.8.2.3
 >
 > --
 > _______________________________________________
