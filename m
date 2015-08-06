@@ -1,36 +1,28 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 57AE8763F8
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id DA545763F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Aug 2015 09:07:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 06 Aug 2015 02:07:59 -0700
+	Thu,  6 Aug 2015 09:11:26 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP; 06 Aug 2015 02:11:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,622,1432623600"; d="scan'208";a="743311657"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 06 Aug 2015 02:07:59 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id 74F1D6A4083;
-	Thu,  6 Aug 2015 02:07:12 -0700 (PDT)
-Date: Thu, 6 Aug 2015 12:07:53 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Message-ID: <20150806090753.GA1883@linux.intel.com>
-References: <1438765311-13423-1-git-send-email-ed.bartosh@linux.intel.com>
-	<CAMKF1sra8sykgB4q5+qQd4hL2fPOxfuND7W-WivqS_YxYPfvWw@mail.gmail.com>
-	<3388285.Ji3DKKVymS@peggleto-mobl.ger.corp.intel.com>
+X-IronPort-AV: E=Sophos;i="5.15,622,1432623600"; d="scan'208";a="763133041"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
+	([10.237.68.143])
+	by fmsmga001.fm.intel.com with ESMTP; 06 Aug 2015 02:11:25 -0700
+Message-ID: <55C32503.3050800@linux.intel.com>
+Date: Thu, 06 Aug 2015 12:12:35 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-In-Reply-To: <3388285.Ji3DKKVymS@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] create-pull-request: cd to relative directory
+To: openembedded-core@lists.openembedded.org
+References: <1438851969-4340-1-git-send-email-amarnath.valluri@intel.com>
+In-Reply-To: <1438851969-4340-1-git-send-email-amarnath.valluri@intel.com>
+Subject: Re: [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in mkdosfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -40,50 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 09:07:59 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 06 Aug 2015 09:11:28 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 06, 2015 at 09:38:16AM +0100, Paul Eggleton wrote:
-> On Wednesday 05 August 2015 20:33:48 Khem Raj wrote:
-> > On Wed, Aug 5, 2015 at 2:01 AM, Ed Bartosh <ed.bartosh@linux.intel.com> 
-> wrote:
-> > > create-pull-request -d path creates empty patches if directory
-> > > is specified as a path, i.e. ./bitbake or ./bitbake/ or full path.
-> > > It behaves expected way only if script is run with -d bitbake, i.e.
-> > > relative dir name doesn't contain '\'.
-> > > 
-> > > Fixed this unwanted behaviour by changing directory and running
-> > > git format-patch in it with --relative, without specifying
-> > > relative path as a parameter.
-> > > 
-> > > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> > > ---
-> > > 
-> > >  scripts/create-pull-request | 5 ++++-
-> > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/scripts/create-pull-request b/scripts/create-pull-request
-> > > index 216edfd..7eac618 100755
-> > > --- a/scripts/create-pull-request
-> > > +++ b/scripts/create-pull-request
-> > > @@ -177,12 +177,15 @@ mkdir $ODIR
-> > > 
-> > >  if [ -n "$RELDIR" ]; then
-> > >  
-> > >         ODIR=$(realpath $ODIR)
-> > > 
-> > > -       extraopts="--relative=$RELDIR"
-> > > +       pushd $RELDIR
-> > 
-> > can we avoid using pushd so it works with non bash shells too ?
-> 
-> Should be possible, but it's worth mentioning that this script already starts 
-> with #!/bin/bash.
+On 08/06/2015 12:06 PM, Amarnath Valluri wrote:
+> Added new patch that fixes the memory leak that was introduced in
+> mkdosfs-dir.patch.
 
-That was the reason I used pushd/popd.
+You should update the original patch then, not pile additional patches 
+on top. The least painful way is:
 
---
-Regards,
-Ed
+1) unpack the sources (manually from tarball, or using bitbake -c unpack)
+2) 'git init; git add *; git commit' to create an git repository from 
+the sources
+3) apply the patch that needs fixing, then do the fix
+4) make a git commit, then produce a patch using git format-patch, then 
+move the new patch back to the recipe directory and update the recipe
+5) build the recipe to make sure it still builds
+6) make a git commit with the recipe update, and submit it here :)
+
+Alex
+
 
