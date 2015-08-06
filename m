@@ -1,44 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id D47B076424
+Return-Path: <mihaly.varga@ni.com>
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E3A676424
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Aug 2015 16:16:14 +0000 (UTC)
-Received: by pabyb7 with SMTP id yb7so33983854pab.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Aug 2015 09:16:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=yvprCnY0pTSKRbirFX7jZQpbVEW9UruZt5QFLXjYH60=;
-	b=dF5p+die9i5uDq9IKX1ih2DM8aVNF2T3aKgGE2rAQDBsHG/xTps8A4ErLgGXTmVKj2
-	ELplVOcVtUERf/uxqqw53ihTS3y3Abylm8YFVjTIbuYIJ7Kpx1P18s9xylg9oje0g4k3
-	+CjF5hRfF20ij+teHvl8DHzXZnUQbCpgQJTx+/V1ffCvLUyQoPOCa8qLOz3B7HiCEc0g
-	R/vLS7pwYvhY6QaKLpCl9iaohTw41LIgVcF0AtmS5gdBRdtbpil1saWYj5paO+BVM1nu
-	XiJyG5hJyoRNOzwj5lsUUBHm6SkVyV+tb7EIllHzn1EnBYHa4GYz1V/ueAyHTY1x9MIZ
-	F41g==
-X-Received: by 10.66.230.201 with SMTP id ta9mr4807745pac.95.1438877774234;
-	Thu, 06 Aug 2015 09:16:14 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:e860:4e8d:f547:a4e?
-	([2601:646:8601:4580:e860:4e8d:f547:a4e])
-	by smtp.gmail.com with ESMTPSA id
-	un2sm7090479pac.28.2015.08.06.09.16.13
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 06 Aug 2015 09:16:13 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1845103.Q4jRGBvf17@peggleto-mobl.ger.corp.intel.com>
-Date: Thu, 6 Aug 2015 09:16:08 -0700
-Message-Id: <B2F2739B-4305-4013-96E2-7366D717F569@gmail.com>
-References: <1438765311-13423-1-git-send-email-ed.bartosh@linux.intel.com>
-	<3388285.Ji3DKKVymS@peggleto-mobl.ger.corp.intel.com>
-	<4ABFBF94-9F87-48E7-8C32-9401658709CE@gmail.com>
-	<1845103.Q4jRGBvf17@peggleto-mobl.ger.corp.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] create-pull-request: cd to relative directory
+	Thu,  6 Aug 2015 17:06:04 +0000 (UTC)
+Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t76H630X003523; Thu, 6 Aug 2015 12:06:03 -0500
+Received: from mihaly-ro-linux.emea.corp.natinst.com ([130.164.14.198])
+	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015080612060318-1046603 ;
+	Thu, 6 Aug 2015 12:06:03 -0500 
+From: Mihaly Varga <mihaly.varga@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 6 Aug 2015 20:04:49 +0300
+Message-Id: <1438880692-35724-1-git-send-email-mihaly.varga@ni.com>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 08/06/2015 12:06:03 PM,
+	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 08/06/2015 12:06:03 PM,
+	Serialize complete at 08/06/2015 12:06:03 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-08-06_09:, , signatures=0
+Subject: Re: wic: Add plugin for hybrid iso image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,106 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 16:16:16 -0000
-X-Groupsio-MsgNum: 69053
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_11BE719A-34FF-436E-94EF-D6D4650E93E4";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_11BE719A-34FF-436E-94EF-D6D4650E93E4
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Thu, 06 Aug 2015 17:06:12 -0000
 
 
-> On Aug 6, 2015, at 8:16 AM, Paul Eggleton =
-<paul.eggleton@linux.intel.com> wrote:
->=20
-> On Thursday 06 August 2015 08:05:40 Khem Raj wrote:
->>> On Aug 6, 2015, at 1:38 AM, Paul Eggleton =
-<paul.eggleton@linux.intel.com>
->>> wrote:>
->>> On Wednesday 05 August 2015 20:33:48 Khem Raj wrote:
->>>> On Wed, Aug 5, 2015 at 2:01 AM, Ed Bartosh =
-<ed.bartosh@linux.intel.com>
->>>=20
->>> wrote:
->>>>> create-pull-request -d path creates empty patches if directory
->>>>> is specified as a path, i.e. ./bitbake or ./bitbake/ or full path.
->>>>> It behaves expected way only if script is run with -d bitbake, =
-i.e.
->>>>> relative dir name doesn't contain '\'.
->>>>>=20
->>>>> Fixed this unwanted behaviour by changing directory and running
->>>>> git format-patch in it with --relative, without specifying
->>>>> relative path as a parameter.
->>>>>=20
->>>>> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
->>>>> ---
->>>>>=20
->>>>> scripts/create-pull-request | 5 ++++-
->>>>> 1 file changed, 4 insertions(+), 1 deletion(-)
->>>>>=20
->>>>> diff --git a/scripts/create-pull-request =
-b/scripts/create-pull-request
->>>>> index 216edfd..7eac618 100755
->>>>> --- a/scripts/create-pull-request
->>>>> +++ b/scripts/create-pull-request
->>>>> @@ -177,12 +177,15 @@ mkdir $ODIR
->>>>>=20
->>>>> if [ -n "$RELDIR" ]; then
->>>>>=20
->>>>>       ODIR=3D$(realpath $ODIR)
->>>>>=20
->>>>> -       extraopts=3D"--relative=3D$RELDIR"
->>>>> +       pushd $RELDIR
->>>>=20
->>>> can we avoid using pushd so it works with non bash shells too ?
->>>=20
->>> Should be possible, but it's worth mentioning that this script =
-already
->>> starts with #!/bin/bash.
->>=20
->> Does it have to be ?
->=20
-> Are you volunteering to fix any other bashisms in the script? If so no =
-;)
+Hi Ed,
 
-looking at the script there seems to be none and checkbashism confirms =
-it
+Thank you for your comments. There is a slightly modified version of
+the isoimage-isohybrid plugin, the kickstart file and the wic selftest 
+extended with the iso image creation test case.
+  
+On 7/28/2015 1:57 PM, Ed Bartosh wrote:
+> Hi Mihaly,
+>
+> The code looks ok to me.
+>
+> Can you please fix the following:
+>
+> 1. Pylint is reporting a lot of long lines, indentation and other
+> issues, so it would be nice if you run it and fix at least some of them?
+>
+> 2. Docstring of plugin class is shown in 'wic help plugins' output. Some
+> lines of your plugins look very long there. Please, reformat them.
+>
+> 3. kickstart.get_timeout has a parameter to specify default timeout
+> value. You can use that instead of assigning default value in the code.
+>
+> 4. Using names prefixed by two underscores is only needed if you're
+> really concerned about the name and want it to be mangled by python. One
+> underscore is more than enough in most cases.
+>
+> 5. Please add test case(s) for your plugin to
+> meta/lib/oeqa/selftest/wic.py. This can help keeping your plugin
+> in working state as yocto autobuilder regularly runs all tests.
+>
+> 6. What's crdtools and how to bake them?
+This is a typo in the commit message, is about cdrtools program set,
+which contains the mkisofs program. I corrected the commit message.
 
-checkbashisms scripts/create-pull-request
-could not find any possible bashisms in bash script =
-scripts/create-pull-request
-
-so in effect this will be the first one. May be in your V2 you should =
-remove /bin/bash from interpreter
-as well.
-
->=20
-> Cheers,
-> Paul
->=20
-> --
->=20
-> Paul Eggleton
-> Intel Open Source Technology Centre
+Best regards
+  Mihaly 
 
 
---Apple-Mail=_11BE719A-34FF-436E-94EF-D6D4650E93E4
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXDiEwACgkQuwUzVZGdMxSwHACfYDo5bA5zREbzewGr8waiADjh
-tW0An0fuZ1yAQZ6/VlmgG0axRhVGrrdU
-=lAUj
------END PGP SIGNATURE-----
-
---Apple-Mail=_11BE719A-34FF-436E-94EF-D6D4650E93E4--
