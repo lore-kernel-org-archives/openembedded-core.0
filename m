@@ -1,24 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DF8176312
+	by mail.openembedded.org (Postfix) with ESMTP id 821CC760E8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Aug 2015 08:40:41 +0000 (UTC)
+	Thu,  6 Aug 2015 08:40:42 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 06 Aug 2015 01:40:42 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 06 Aug 2015 01:40:43 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,622,1432623600"; d="scan'208";a="536995329"
+X-IronPort-AV: E=Sophos;i="5.15,622,1432623600"; d="scan'208";a="536995337"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 Aug 2015 01:40:41 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 06 Aug 2015 01:40:42 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Aug 2015 11:42:01 +0300
-Message-Id: <80e7e5110a28cb9aaa122eca499be93624c9714b.1438849692.git.jussi.kukkonen@intel.com>
+Date: Thu,  6 Aug 2015 11:42:02 +0300
+Message-Id: <36a4ecf6cdd614f4e12af293342284ebc483766e.1438849692.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <2c93029d78af982ced18f114b4ed6e09ef350b00.1438849692.git.jussi.kukkonen@intel.com>
 References: <2c93029d78af982ced18f114b4ed6e09ef350b00.1438849692.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1438849692.git.jussi.kukkonen@intel.com>
 References: <cover.1438849692.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 5/6] libinput: Upgrade 0.18.0 -> 0.21.0
+Subject: [PATCH 6/6] which: Upgrade 2.20 -> 2.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,119 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 08:40:41 -0000
+X-List-Received-Date: Thu, 06 Aug 2015 08:40:42 -0000
 
-Include a workaround patch suggested by upstream when using
-kernel 4.1.x.
+* Drop one upstreamed patch, update the other one
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- ...ics-need-to-fake-new-touches-on-TRIPLETAP.patch | 72 ++++++++++++++++++++++
- .../{libinput_0.18.0.bb => libinput_0.21.0.bb}     |  8 ++-
- 2 files changed, 77 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
- rename meta/recipes-graphics/wayland/{libinput_0.18.0.bb => libinput_0.21.0.bb} (63%)
+ .../which/which-2.20/remove-declaration.patch          | 18 ------------------
+ .../which/{which-2.20 => which-2.21}/automake.patch    | 14 +++++++++-----
+ .../which/{which_2.20.bb => which_2.21.bb}             |  6 +++---
+ 3 files changed, 12 insertions(+), 26 deletions(-)
+ delete mode 100644 meta/recipes-extended/which/which-2.20/remove-declaration.patch
+ rename meta/recipes-extended/which/{which-2.20 => which-2.21}/automake.patch (56%)
+ rename meta/recipes-extended/which/{which_2.20.bb => which_2.21.bb} (84%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch b/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
-new file mode 100644
-index 0000000..97c63bd
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/libinput/touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch
-@@ -0,0 +1,72 @@
-+This is a workaround upstream suggests for use with kernel 4.1.
-+
-+Upstream-Status: Inappropriate [temporary work-around]
-+Signed-Off-By: Jussi Kukkonen <jussi.kukkonen@intel.com>
-+
-+
-+
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Mon Aug 3 18:23:12 PDT 2015
-+Subject: [PATCH v3 libinput] touchpad: serial synaptics need to fake new touches on TRIPLETAP
-+
-+On the 4.1 kernels synaptics pretends to have 3 slots (the serial fw only does
-+2). This was added to avoid cursor jumps but has since been reverted for 4.2
-+(kernel commit dbf3c37086, 4.1.3 is still buggy). In some cases a TRIPLETAP
-+may be triggered without slot 2 ever activating.
-+
-+While there are still those kernels out there, work around this bug by opening
-+a new touch point where none exists if the fake finger count exceeds the slot
-+count.
-+
-+Reported-by: Jan Alexander Steffens <jan.steffens at gmail.com>
-+Signed-off-by: Peter Hutterer <peter.hutterer at who-t.net>
-+Tested-by: Jan Alexander Steffens <jan.steffens at gmail.com>
-+Reviewed-by: Hans de Goede <hdegoede at redhat.com>
-+---
-+Changes to v2:
-+- split out the handling instead of having a tmp state variable, see Hans'
-+  comments from v2
-+
-+Mainly sending this to the list again so I have a link to point people to.
-+If you're on 4.1.x add this patch to your distribution package.
-+
-+ src/evdev-mt-touchpad.c | 22 ++++++++++++++++------
-+ 1 file changed, 16 insertions(+), 6 deletions(-)
-+
-+diff --git a/src/evdev-mt-touchpad.c b/src/evdev-mt-touchpad.c
-+index a683d9a..5ef03d5 100644
-+--- a/src/evdev-mt-touchpad.c
-++++ b/src/evdev-mt-touchpad.c
-+@@ -369,13 +369,23 @@ tp_restore_synaptics_touches(struct tp_dispatch *tp,
-+ 	for (i = 0; i < tp->num_slots; i++) {
-+ 		struct tp_touch *t = tp_get_touch(tp, i);
+diff --git a/meta/recipes-extended/which/which-2.20/remove-declaration.patch b/meta/recipes-extended/which/which-2.20/remove-declaration.patch
+deleted file mode 100644
+index d3340a3..0000000
+--- a/meta/recipes-extended/which/which-2.20/remove-declaration.patch
++++ /dev/null
+@@ -1,18 +0,0 @@
+-Remove the declaration of group_member since it has already been
+-declared in unistd.h
+-
+-Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-diff -ruN which-2.20-orig/bash.c which-2.20/bash.c
+---- which-2.20-orig/bash.c	2010-08-03 12:59:08.897088878 +0800
+-+++ which-2.20/bash.c	2010-08-03 13:17:23.406097212 +0800
+-@@ -46,7 +46,6 @@
+-  * - changed all occurences of 'gid_t' into 'GID_T'.
+-  * - exported functions needed in which.c
+-  */
+--static int group_member (GID_T gid);
+- static char* extract_colon_unit (char const* string, int* p_index);
+- 
+- /*===========================================================================
+diff --git a/meta/recipes-extended/which/which-2.20/automake.patch b/meta/recipes-extended/which/which-2.21/automake.patch
+similarity index 56%
+rename from meta/recipes-extended/which/which-2.20/automake.patch
+rename to meta/recipes-extended/which/which-2.21/automake.patch
+index ef00bc9..4d0f2e4 100644
+--- a/meta/recipes-extended/which/which-2.20/automake.patch
++++ b/meta/recipes-extended/which/which-2.21/automake.patch
+@@ -7,9 +7,13 @@ diff --git a/configure.ac b/configure.ac
+ index d974461..a20dfa8 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -2,2 +2,3 @@ dnl Process this file with autoconf to produce a configure script.
+--AC_INIT(which.c)
+--AM_INIT_AUTOMAKE(which, 2.20)
+-+AC_INIT([which],[2.20])
+-+AC_CONFIG_SRCDIR(which.c)
++@@ -1,7 +1,7 @@
++ dnl Process this file with autoconf to produce a configure script.
++ AC_INIT([which], [2.21])
++ AC_CONFIG_SRCDIR(which.c)
++-AM_INIT_AUTOMAKE
+ +AM_INIT_AUTOMAKE([foreign])
++ AM_CONFIG_HEADER(config.h)
++ AM_MAINTAINER_MODE
 + 
-+-		if (t->state != TOUCH_END)
-++		switch(t->state) {
-++		case TOUCH_HOVERING:
-++		case TOUCH_BEGIN:
-++		case TOUCH_UPDATE:
-+ 			continue;
-+-
-+-		/* new touch, move it through begin to update immediately */
-+-		tp_new_touch(tp, t, time);
-+-		tp_begin_touch(tp, t, time);
-+-		t->state = TOUCH_UPDATE;
-++		case TOUCH_NONE:
-++			/* new touch, move it through to begin immediately */
-++			tp_new_touch(tp, t, time);
-++			tp_begin_touch(tp, t, time);
-++			break;
-++		case TOUCH_END:
-++			/* touch just ended ,we need need to restore it to update */
-++			tp_new_touch(tp, t, time);
-++			tp_begin_touch(tp, t, time);
-++			t->state = TOUCH_UPDATE;
-++			break;
-++		}
-+ 	}
-+ }
-+ 
-+-- 
-+2.4.3
 +
-diff --git a/meta/recipes-graphics/wayland/libinput_0.18.0.bb b/meta/recipes-graphics/wayland/libinput_0.21.0.bb
-similarity index 63%
-rename from meta/recipes-graphics/wayland/libinput_0.18.0.bb
-rename to meta/recipes-graphics/wayland/libinput_0.21.0.bb
-index 0fe1c6c..179596f 100644
---- a/meta/recipes-graphics/wayland/libinput_0.18.0.bb
-+++ b/meta/recipes-graphics/wayland/libinput_0.21.0.bb
-@@ -7,9 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=2184aef38ff137ed33ce9a63b9d1eb8f"
+diff --git a/meta/recipes-extended/which/which_2.20.bb b/meta/recipes-extended/which/which_2.21.bb
+similarity index 84%
+rename from meta/recipes-extended/which/which_2.20.bb
+rename to meta/recipes-extended/which/which_2.21.bb
+index 7483554..a7687f6 100644
+--- a/meta/recipes-extended/which/which_2.20.bb
++++ b/meta/recipes-extended/which/which_2.21.bb
+@@ -19,10 +19,10 @@ EXTRA_OECONF = "--disable-iberty"
  
- DEPENDS = "libevdev udev mtdev"
- 
--SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
--SRC_URI[md5sum] = "0ddbb0d53d58dec0a86de6791560011a"
--SRC_URI[sha256sum] = "64a70f96bab17a22eaf2fd7af17cf83def3388374096c7623be9448f62808cda"
-+SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
-+           file://touchpad-serial-synaptics-need-to-fake-new-touches-on-TRIPLETAP.patch \
+ SRC_URI = "${GNU_MIRROR}/which/which-${PV}.tar.gz \
+            file://automake.patch \
+-           file://remove-declaration.patch"
 +           "
-+SRC_URI[md5sum] = "f91d8f4ced986f1ae16d52ea02bc7837"
-+SRC_URI[sha256sum] = "7cce7a9e510dfe5c4a19ad00e9350808d4f59f8611fd2b5e87213c507283f550"
  
- inherit autotools pkgconfig
+-SRC_URI[md5sum] = "95be0501a466e515422cde4af46b2744"
+-SRC_URI[sha256sum] = "d417b65c650d88ad26a208293c1c6e3eb60d4b6d847f01ff8f66aca63e2857f8"
++SRC_URI[md5sum] = "097ff1a324ae02e0a3b0369f07a7544a"
++SRC_URI[sha256sum] = "f4a245b94124b377d8b49646bf421f9155d36aa7614b6ebf83705d3ffc76eaad"
  
+ do_configure_prepend() {
+ 	sed -i -e 's%@ACLOCAL_CWFLAGS@%-I ${STAGING_DIR_NATIVE}/usr/share/cwautomacros/m4%g' ${S}/Makefile.am ${S}/tilde/Makefile.am
 -- 
 2.1.4
 
