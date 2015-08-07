@@ -1,32 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 86D9076778
+	by mail.openembedded.org (Postfix) with ESMTP id 3EA7275BC6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 10:56:34 +0000 (UTC)
+	Fri,  7 Aug 2015 11:00:35 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t77AuXOI019691; Fri, 7 Aug 2015 11:56:33 +0100
+	t77B0WGt019955; Fri, 7 Aug 2015 12:00:32 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id dKObodeOl37w; Fri,  7 Aug 2015 11:56:33 +0100 (BST)
+	with LMTP id QVVxWtHSwd38; Fri,  7 Aug 2015 12:00:32 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t77AuHQc019660
+	t77B0Fic019931
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 7 Aug 2015 11:56:30 +0100
-Message-ID: <1438944976.30467.30.camel@linuxfoundation.org>
+	Fri, 7 Aug 2015 12:00:28 +0100
+Message-ID: <1438945214.30467.31.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 07 Aug 2015 05:56:16 -0500
-In-Reply-To: <CAJ86T=VLSdzHw5aCo=eHM=OK+uia9hPxKdf2uRNi6NmVspocaA@mail.gmail.com>
-References: <1438890086-2710-1-git-send-email-armccurdy@gmail.com>
-	<1438890086-2710-4-git-send-email-armccurdy@gmail.com>
-	<1438902142.30467.23.camel@linuxfoundation.org>
-	<CAJ86T=VLSdzHw5aCo=eHM=OK+uia9hPxKdf2uRNi6NmVspocaA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Fri, 07 Aug 2015 06:00:14 -0500
+In-Reply-To: <0321088b6ef57a419568c584ef1cc791bb40218b.1438619216.git.alexander.kanavin@linux.intel.com>
+References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
+	<0321088b6ef57a419568c584ef1cc791bb40218b.1438619216.git.alexander.kanavin@linux.intel.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] uclibc.inc: avoid immediate expansion for UCLIBC_EXTRA_CFLAGS
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/7] distcc: update SRC_URI to not use Google Code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,58 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 10:56:38 -0000
+X-List-Received-Date: Fri, 07 Aug 2015 11:00:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-08-06 at 18:14 -0700, Andre McCurdy wrote:
-> On Thu, Aug 6, 2015 at 4:02 PM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Thu, 2015-08-06 at 12:41 -0700, Andre McCurdy wrote:
-> >> If immediate variable expansion is used, then UCLIBC_EXTRA_CFLAGS can
-> >> sometimes be derived from a partially expanded value of CFLAGS.
-> >>
-> >> One specific problem case occurs when security_flags.inc is used: CFLAGS
-> >> is evaluated before the SECURITY_CFLAGS_pn-uclibc over-ride has been
-> >> applied and therefore UCLIBC_EXTRA_CFLAGS ends up being based on the
-> >> default SECURITY_CFLAGS instead of the uclibc specific value.
-> >>
-> >> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> >> ---
-> >>  meta/recipes-core/uclibc/uclibc.inc | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-> >> index c483228..3ed8b60 100644
-> >> --- a/meta/recipes-core/uclibc/uclibc.inc
-> >> +++ b/meta/recipes-core/uclibc/uclibc.inc
-> >> @@ -57,8 +57,8 @@ export V="2"
-> >>  # -O<n> -fno-omit-frame-pointer ends up with GCC ICE on thumb as reported
-> >>  # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44860
-> >>  #
-> >> -CFLAGS_arm := "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
-> >> -UCLIBC_EXTRA_CFLAGS  := "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
-> >> +CFLAGS_arm = "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
-> >
-> > I'm rather surprised we don't get circular references without the :=
-> > operator with this. I suspect we can see build failures if you change
-> > the code like this. That said, I've been meaning to go through and
-> > replace all the uses of oe_filter_out with the remove operator. Can we
-> > do that here please instead?
-> >
-> > E.g:
-> > CFLAGS_remove_arm = "-fno-omit-frame-pointer"
+On Mon, 2015-08-03 at 19:29 +0300, Alexander Kanavin wrote:
+> Google Code is shutting down soon and distcc has moved to github.
 > 
-> OK, new patch on the way.
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-devtools/distcc/distcc_3.1.bb | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
 > 
-> >> +UCLIBC_EXTRA_CFLAGS = "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
-> 
-> Is it OK to keep using oe_filter_out() here to support the regex?
+> diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.1.bb
+> index e4b9313..8ea3cac 100644
+> --- a/meta/recipes-devtools/distcc/distcc_3.1.bb
+> +++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
+> @@ -17,16 +17,14 @@ PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
+>  
+>  RRECOMMENDS_${PN} = "avahi-daemon"
+>  
+> -SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
+> +SRC_URI = "git://github.com/distcc/distcc.git \
+>             file://separatebuilddir.patch \
+>             file://0001-zeroconf-Include-fcntl.h.patch \
+>             file://default \
+>             file://distccmon-gnome.desktop \
+>             file://distcc \
+>             file://distcc.service"
+> -
+> -SRC_URI[md5sum] = "a1a9d3853df7133669fffec2a9aab9f3"
+> -SRC_URI[sha256sum] = "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724fcd2d53f934ddd89"
+> +SRCREV = "9a172d3d20042754a30c0cd9a5d63fd1a8120c31"
 
-Yes, the regex is obviously trickier with _remove so I think that one is
-a fair use of oe_filter_out(). Thanks for the updated patches, just need
-to answer Khem's question, it sounds like LDFLAGS may be used somehow
-but I've not looked at the code as yet.
+Patch application fails in:
+https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/418/steps/BuildImages_1/logs/stdio
+
+which makes me wonder how identical these versions really are?
 
 Cheers,
 
