@@ -1,28 +1,27 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FDCB76486
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F30576486
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 09:26:41 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t779QfQG018596
+	Fri,  7 Aug 2015 09:32:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t779WKB6000525
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 7 Aug 2015 02:26:41 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Fri, 7 Aug 2015 02:26:40 -0700
-Message-ID: <55C479CF.4000506@windriver.com>
-Date: Fri, 7 Aug 2015 17:26:39 +0800
+	Fri, 7 Aug 2015 02:32:20 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Fri, 7 Aug 2015 02:32:20 -0700
+Message-ID: <55C47B22.4050900@windriver.com>
+Date: Fri, 7 Aug 2015 17:32:18 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+To: Cristian Iorga <cristian.iorga@intel.com>,
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
-	<6a9899fa17063139292c39c162444d1a1356ccce.1438619216.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <6a9899fa17063139292c39c162444d1a1356ccce.1438619216.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 1/7] fotowall: update SRC_URI to use github instead of qt-apps.org
+References: <1438875900-16136-1-git-send-email-cristian.iorga@intel.com>
+In-Reply-To: <1438875900-16136-1-git-send-email-cristian.iorga@intel.com>
+Subject: Re: [PATCH] qemu: upgrade to 2.4.0-rc4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +34,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 09:26:42 -0000
+X-List-Received-Date: Fri, 07 Aug 2015 09:32:22 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-Also fotowall:
+Maybe this patch caused a autobuilder failure ?
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/430/steps/BuildImages/logs/stdio
+https://autobuilder.yoctoproject.org/main/builders/nightly-deb-non-deb/builds/86/steps/Running%20Sanity%20Tests/logs/stdio
 
 // Robert
 
-On 08/04/2015 12:29 AM, Alexander Kanavin wrote:
-> GitHub is where upstream development is happening, so we are more likely
-> to find out about new releases from there
+On 08/06/2015 11:45 PM, Cristian Iorga wrote:
+> Bugfixes, bring it closer to 2.4.0 final release.
 >
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
 > ---
->   meta/recipes-qt/qt-apps/fotowall_0.9.bb | 6 ++----
->   1 file changed, 2 insertions(+), 4 deletions(-)
+>   meta/recipes-devtools/qemu/{qemu_2.4.0-rc3.bb => qemu_2.4.0-rc4.bb} | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>   rename meta/recipes-devtools/qemu/{qemu_2.4.0-rc3.bb => qemu_2.4.0-rc4.bb} (82%)
 >
-> diff --git a/meta/recipes-qt/qt-apps/fotowall_0.9.bb b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-> index 48dcc02..e92e862 100644
-> --- a/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-> +++ b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
-> @@ -10,13 +10,11 @@ SECTION = "x11/apps"
->
->   PR = "r4"
->
-> -SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2 \
-> +SRCREV = "06d5a4142c599604d9a9fd64727b6945eb8cd3da"
-> +SRC_URI = "git://github.com/enricoros/fotowall.git \
->              file://ExportWizard-depends-on-ui_wizard.patch \
+> diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb b/meta/recipes-devtools/qemu/qemu_2.4.0-rc4.bb
+> similarity index 82%
+> rename from meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
+> rename to meta/recipes-devtools/qemu/qemu_2.4.0-rc4.bb
+> index 9b17bcc..1964a50 100644
+> --- a/meta/recipes-devtools/qemu/qemu_2.4.0-rc3.bb
+> +++ b/meta/recipes-devtools/qemu/qemu_2.4.0-rc4.bb
+> @@ -8,11 +8,11 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+>               file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
 >              "
+>   SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BPN}-${REALPV}.tar.bz2"
+> -SRC_URI[md5sum] = "ba43213c94ef4463afc8bd01ee221860"
+> -SRC_URI[sha256sum] = "aacd5834ce275300f1ba3617c32d4d149db93705ecb7955d7436c0fc9b96aa4c"
+> +SRC_URI[md5sum] = "0e9c00b15d383043ce888f7bf17308c9"
+> +SRC_URI[sha256sum] = "724bc17d29babe2b55107c76af7cd67e162857958a3bfe2f34bb9776f1f5f4b3"
 >
-> -SRC_URI[md5sum] = "142ef697332e0777c6d22c5bc96cc438"
-> -SRC_URI[sha256sum] = "e4d0c005d2cb1d7c09438bfc3098eadebc08946e4fbc0655b7fc8b046de3810d"
-> -
->   S = "${WORKDIR}/Fotowall-${PV}"
+>   S="${WORKDIR}/${BPN}-${REALPV}"
+> -REALPV = "2.4.0-rc3"
+> +REALPV = "2.4.0-rc4"
+>   PV = "2.3.99+${REALPV}"
 >
->   inherit qt4x11
+>   COMPATIBLE_HOST_class-target_mips64 = "null"
 >
 
