@@ -1,35 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 30251766E5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 19876734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 03:05:44 +0000 (UTC)
-Received: by igbpg9 with SMTP id pg9so24007438igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Aug 2015 20:05:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=k/B78rmTyWXue41fjTGN3Lg05FL3o00m3sfvyt/dBls=;
-	b=ZSN7qQqhuL7p+VgF117eCH1XMQrhzo3EfIAW74cHOMKNpILu+CXeLhlkJQbRLbzhde
-	z1oqQZi5AI1fDa/1Yv4+iweLSvZFrBWsU7cA13chfsyEISYFV+XURprrpyv9woKVeeI/
-	IXIDuH7lV8sUk1tJNv9ow37jn2O5npEsgHJIvAnubZwJat5NPakVQiNX1CZPKgwxWkPk
-	UtfP6oUFe8pekPc+Gt9RmQOITeRlpDKxsVNgGOYES+obxXenTNk2wDOh518oBPeLLuI2
-	txr9mzG3hHDPup55rHX0l1GzgrbclH8EWAl1t6Qm1Wc9M/Xf3ZIl1jsz5yEUznVqFo1V
-	QX5w==
-X-Received: by 10.50.30.105 with SMTP id r9mr684127igh.11.1438916744612; Thu,
-	06 Aug 2015 20:05:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Thu, 6 Aug 2015 20:05:15 -0700 (PDT)
-In-Reply-To: <1438858133-27768-1-git-send-email-topi.kuutela@intel.com>
-References: <1438858133-27768-1-git-send-email-topi.kuutela@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 6 Aug 2015 20:05:15 -0700
-Message-ID: <CAMKF1soZZCMjwGOrKC7N1tN2ujWwTu2ukL5_iOao0ks6cGt=Cw@mail.gmail.com>
-To: Topi Kuutela <topi.kuutela@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] python3: security: disable -pie and -fpie from Python3 compilation.
+	Fri,  7 Aug 2015 03:26:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t773Q0MW002549; Fri, 7 Aug 2015 04:26:00 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 4YUqyaH2lrJg; Fri,  7 Aug 2015 04:26:00 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t773Ph2F002527
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 7 Aug 2015 04:25:56 +0100
+Message-ID: <1438917942.30467.25.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yuqing Zhu <b54851@freescale.com>
+Date: Thu, 06 Aug 2015 22:25:42 -0500
+In-Reply-To: <1438856968-9564-1-git-send-email-b54851@freescale.com>
+References: <1438856968-9564-1-git-send-email-b54851@freescale.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [poky][PATCH v6 0/3] Add patches for Gstreamer 1.4.5 base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,51 +36,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 03:05:50 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 07 Aug 2015 03:26:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Aug 6, 2015 at 3:48 AM, Topi Kuutela <topi.kuutela@intel.com> wrote:
-> If security_flags.inc is 'required' to the image, -pie and -fpie options
-> are added to CFLAGS. These are not compatible with -shared GCC option but
-> cause linker errors which are not reported by bitbake.
+On Thu, 2015-08-06 at 18:29 +0800, Yuqing Zhu wrote:
+> Fix issue about gstreamer1.0-plugins-base
+> 
+> -ssaparse: Enhance SSA text lines parsing.
+> 
+> -subparse: Set need_segment after sink pad receive GST_EVENT_SEGMENT.
+> 
+> -encodebin: Need more buffers in output queue for better performance.
+> 
+> 
+> Yuqing Zhu (3):
+>   gstreamer1.0-plugins-base: Add ssaparse related patch
+>   gstreamer1.0-plugins-base: Add subparse related patch
+>   gstreamer1.0-plugins-base: Add encodebin related patch
 
-what error do you run into ? can you also add that here
+I'm afraid I'm completely confused with this patch series. It started as
+6 patches, its now 3 and these patches don't apply against master.
 
->
-> Signed-off-by: Topi Kuutela <topi.kuutela@intel.com>
-> ---
->  meta/conf/distro/include/security_flags.inc | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-> index 3724972..ff600fa 100644
-> --- a/meta/conf/distro/include/security_flags.inc
-> +++ b/meta/conf/distro/include/security_flags.inc
-> @@ -82,6 +82,7 @@ SECURITY_CFLAGS_pn-python-imaging = "${SECURITY_NO_PIE_CFLAGS}"
->  SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
->  SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
->  SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
-> +SECURITY_CFLAGS_pn-python3 = "${SECURITY_NO_PIE_CFLAGS}"
->  SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
->  SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
->  SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NO_PIE_CFLAGS}"
-> --
-> 2.4.3
->
-> ---------------------------------------------------------------------
-> Intel Finland Oy
-> Registered Address: PL 281, 00181 Helsinki
-> Business Identity Code: 0357606 - 4
-> Domiciled in Helsinki
->
-> This e-mail and any attachments may contain confidential material for
-> the sole use of the intended recipient(s). Any review or distribution
-> by others is strictly prohibited. If you are not the intended
-> recipient, please contact the sender and delete all copies.
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Could someone send the complete patch series that you're asking to merge
+that applies against master please?
+
+Cheers,
+
+Richard
+
 
