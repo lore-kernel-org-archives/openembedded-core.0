@@ -1,37 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EE2D7676B
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B1EBC76775
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 09:40:52 +0000 (UTC)
-Received: by igfj19 with SMTP id j19so8733183igf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Aug 2015 02:40:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=aSY+ZyUUTH1d9nl+n1u3mWiMYKtsCwz4R4o97JjfewY=;
-	b=mVa2GxqMPjwvt4v8IplQ/yJpo599pnm2plocaUCXBEHcv7GUIYG4ho63ORIdjXq7sa
-	wGWBkeu+OcqCo6eRzEFuTmlJRyqrY1euJbuMykHmnFbX533mWKAgztdbzANFoo8h8+Po
-	3ZViKA8ylm4aJffBU3ATDixH1SxxITbv2yemnYPut+wvc9tf6M7FerBwDOjoTscwz/9x
-	aqhODuv7h/IEM/flVfTDmbSyoAlzu218NR0yhnFXAPysW7SzanApe4uwEuK5M+TaD/Cs
-	gj/DwTmBI3Ge60g3BC4nFSUW1mzrwguC9K9IHrf3hx493p9/x5xSHZL6nGPZSsCeG6N3
-	nogQ==
-X-Received: by 10.50.112.166 with SMTP id ir6mr1990693igb.75.1438940452508;
-	Fri, 07 Aug 2015 02:40:52 -0700 (PDT)
+	Fri,  7 Aug 2015 09:51:15 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 07 Aug 2015 02:51:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,629,1432623600"; d="scan'208";a="621079591"
+Received: from jsmcbrid-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.24.154])
+	by orsmga003.jf.intel.com with ESMTP; 07 Aug 2015 02:51:15 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 07 Aug 2015 10:51:14 +0100
+Message-ID: <3064000.UnunBGI2RM@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.0.8-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <CAMKF1sqKKzPt2z8s8f_3RwH4Zp32HjyXePy0UYTbrqTCuiwdNg@mail.gmail.com>
+References: <1438851969-4340-1-git-send-email-amarnath.valluri@intel.com>
+	<13325469.N9zhAzKaIU@peggleto-mobl.ger.corp.intel.com>
+	<CAMKF1sqKKzPt2z8s8f_3RwH4Zp32HjyXePy0UYTbrqTCuiwdNg@mail.gmail.com>
 MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Fri, 7 Aug 2015 02:40:23 -0700 (PDT)
-In-Reply-To: <55C47974.9030201@windriver.com>
-References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
-	<0321088b6ef57a419568c584ef1cc791bb40218b.1438619216.git.alexander.kanavin@linux.intel.com>
-	<55C47974.9030201@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 7 Aug 2015 02:40:23 -0700
-Message-ID: <CAMKF1sr8YrSdqxG=kW6A+2QHYm0QEJKyHkXc8t2VetkC4koLqA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/7] distcc: update SRC_URI to not use Google Code
+Subject: Re: [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in mkdosfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +36,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 09:40:56 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 07 Aug 2015 09:51:21 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Fri, Aug 7, 2015 at 2:25 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
-> Hi Alexander,
->
-> I think that one or more autobuilder failures related to this patch:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/430/steps/BuildImages/logs/stdio
->
+On Thursday 06 August 2015 19:52:28 Khem Raj wrote:
+> On Thu, Aug 6, 2015 at 2:25 AM, Paul Eggleton
+> 
+> <paul.eggleton@linux.intel.com> wrote:
+> > On Thursday 06 August 2015 12:12:35 Alexander Kanavin wrote:
+> >> On 08/06/2015 12:06 PM, Amarnath Valluri wrote:
+> >> > Added new patch that fixes the memory leak that was introduced in
+> >> > mkdosfs-dir.patch.
+> >> 
+> >> You should update the original patch then, not pile additional patches
+> >> on top. The least painful way is:
+> >> 
+> >> 1) unpack the sources (manually from tarball, or using bitbake -c unpack)
+> >> 2) 'git init; git add *; git commit' to create an git repository from
+> >> the sources
+> >> 3) apply the patch that needs fixing, then do the fix
+> >> 4) make a git commit, then produce a patch using git format-patch, then
+> >> move the new patch back to the recipe directory and update the recipe
+> >> 5) build the recipe to make sure it still builds
+> >> 6) make a git commit with the recipe update, and submit it here :)
+> > 
+> > On the contrary - the much less painful way (as of fido) is to use
+> > devtool:
+> > 
+> > 1) Extract source and set the build system up to use it:
+> >    devtool modify dosfstools -x ~/projects/dosfstools
+> > 
+> > 2) Make whatever changes you want to in the git tree that has been set up
+> > in the specified path
+> > 
+> > 3) Build the recipe (as you would normally) to make sure it still builds
+> > 
+> > 4) Write the modified/added commits as patches back to the recipe:
+> >     devtool update-recipe dosfstools
+> > 
+> > 5) Make a git commit with the recipe update, and submit it here :)
+> > 
+> > I'd really like people to start using devtool for this kind of thing. If
+> > it's not working for some reason please do let me know.
+> 
+> This assumes either we use OE-Core or poky, I dont get it to work with
+> angstrom out of box
+> what am I missing
 
-so it seems it was not tested to even see if patches apply ?
+Well, whatever error / problem you are experiencing seems to be missing at 
+least ;)
 
+Cheers,
+Paul
 
-> // Robert
->
->
-> On 08/04/2015 12:29 AM, Alexander Kanavin wrote:
->>
->> Google Code is shutting down soon and distcc has moved to github.
->>
->> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->> ---
->>   meta/recipes-devtools/distcc/distcc_3.1.bb | 6 ++----
->>   1 file changed, 2 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb
->> b/meta/recipes-devtools/distcc/distcc_3.1.bb
->> index e4b9313..8ea3cac 100644
->> --- a/meta/recipes-devtools/distcc/distcc_3.1.bb
->> +++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
->> @@ -17,16 +17,14 @@ PACKAGECONFIG[popt] =
->> "--without-included-popt,--with-included-popt,popt"
->>
->>   RRECOMMENDS_${PN} = "avahi-daemon"
->>
->> -SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
->> +SRC_URI = "git://github.com/distcc/distcc.git \
->>              file://separatebuilddir.patch \
->>              file://0001-zeroconf-Include-fcntl.h.patch \
->>              file://default \
->>              file://distccmon-gnome.desktop \
->>              file://distcc \
->>              file://distcc.service"
->> -
->> -SRC_URI[md5sum] = "a1a9d3853df7133669fffec2a9aab9f3"
->> -SRC_URI[sha256sum] =
->> "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724fcd2d53f934ddd89"
->> +SRCREV = "9a172d3d20042754a30c0cd9a5d63fd1a8120c31"
->>
->>   inherit autotools pkgconfig update-rc.d useradd systemd
->>
->>
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
