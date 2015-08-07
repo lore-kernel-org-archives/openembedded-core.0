@@ -1,17 +1,37 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 181EF767B1
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B52FB755F8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 16:26:21 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 99568608FC3
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Aug 2015 17:26:02 +0100
-Message-Id: <cover.1438964647.git.joshua.lock@collabora.co.uk>
-X-Mailer: git-send-email 2.1.4
+	Fri,  7 Aug 2015 18:09:59 +0000 (UTC)
+Received: by wicne3 with SMTP id ne3so69184320wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Aug 2015 11:09:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=965Mg4dGd3JdLBDN7lM+Z5+ql0XY9+acHSRICMy+mnA=;
+	b=ks8VDRdKPrlaLFGbqmW2T2LU+2NxnkcK+Rxo/ahicC8AOEPpatQqgkx92plSrGknUk
+	ryB0AzUoZqRoWJiRklrNPJd0r9Qt9n1np0rbCqVriLici6dDTloKTgDQYUaablA6zYLO
+	POEwdzKVVNq7BoniIeZuN8m61nrnsA9+XxFBIK3FAB1ZRP4B1F+jusDlk9ipYYvFQ7Mq
+	bEtC3RAsnqIj0rz9ql32mcULD5vq1sOg0TMZYm7sE3ICpjchG9tulVrP2ToWmjhefnAy
+	LUJULAOlopkdYZQWPLfXEet89U7su8MngsI44Wk5KJ4gR9sZGfMJNhmV6FQuceatEFPQ
+	90oA==
 MIME-Version: 1.0
-Subject: [FIDO PATCH 00/24] Proposed changes for fido
+X-Received: by 10.194.21.230 with SMTP id y6mr19162404wje.132.1438970999191;
+	Fri, 07 Aug 2015 11:09:59 -0700 (PDT)
+Received: by 10.194.236.166 with HTTP; Fri, 7 Aug 2015 11:09:59 -0700 (PDT)
+In-Reply-To: <CAMKF1sr34efvDCOResE8Xu0ag-KnEMw62e10_rr-u8J6fWnHKg@mail.gmail.com>
+References: <1438912459-7242-1-git-send-email-armccurdy@gmail.com>
+	<1438912459-7242-2-git-send-email-armccurdy@gmail.com>
+	<CAMKF1sr34efvDCOResE8Xu0ag-KnEMw62e10_rr-u8J6fWnHKg@mail.gmail.com>
+Date: Fri, 7 Aug 2015 11:09:59 -0700
+Message-ID: <CAJ86T=VsaqANDJ77YvmC+dOEL6_ndgTUP6t+AVRPDOgXF-EBNA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] uclibc.inc: remove unused UCLIBC_EXTRA_LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -24,110 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 16:26:22 -0000
+X-List-Received-Date: Fri, 07 Aug 2015 18:10:03 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Please consider the following changes for the fido branch.
+On Thu, Aug 6, 2015 at 7:12 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> On Thu, Aug 6, 2015 at 6:54 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+>> ---
+>>  meta/recipes-core/uclibc/uclibc.inc | 1 -
+>>  1 file changed, 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+>> index 08465c4..c483228 100644
+>> --- a/meta/recipes-core/uclibc/uclibc.inc
+>> +++ b/meta/recipes-core/uclibc/uclibc.inc
+>> @@ -59,7 +59,6 @@ export V="2"
+>>  #
+>>  CFLAGS_arm := "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
+>>  UCLIBC_EXTRA_CFLAGS  := "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
+>> -UCLIBC_EXTRA_LDFLAGS := "${@oe_filter_out('(-L\S+|-l\S+)', '${LDFLAGS}', d)}"
+>>
+>
+> those variables are part of .config so please make sure that they are
+> really redundant and dont make into .config
 
-The following changes since commit 08d32590411568e7bf11612ac695a6e9c6df6286:
+UCLIBC_EXTRA_LDFLAGS isn't used anywhere in the recipe and it's not
+exported via the run.do_configure or run.do_compile scripts, so I
+think it safe to remove. It's not part of uclibc's .config file.
 
-  dpkg: Fix for Fedora22 and new versions of tar (2015-07-27 12:25:42 +0100)
+UCLIBC_EXTRA_CFLAGS is used in the recipe and does need to stay.
 
-are available in the git repository at:
 
-  git://git.yoctoproject.org/poky-contrib joshuagl/fido-next
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=joshuagl/fido-next
-
-Alejandro Hernandez (1):
-  opkg: solve inconsistency of using different lists directories
-
-Alexandre Belloni (1):
-  wic: remove intermediate partitions
-
-André Draszik (5):
-  rsync: use ${sysconfdir} instead of hardcoding /etc
-  opkg: read config file from ${sysconfdir} instead of /etc
-  initscripts: urandom: respect ${localstatedir} instead of hardcoding
-    /var
-  run-postinsts: use ${localstatedir} instead of hardcoding /var/lib
-  opkg-utils: use ${bindir} instead of hardcoding /usr/bin
-
-Bruce Ashfield (1):
-  perf: fix build (and feature tests) for 4.1-rcX
-
-Chen Qi (1):
-  nfs-utils: fix to start nfs-server correctly in systemd
-
-Ed Bartosh (1):
-  wic: Make sure file exists before removing it
-
-Joshua Lock (2):
-  wpa-supplicant: Apply fix CVE-2015-4142
-  systemd: fix immediate unmount of mountpoints not in fstab
-
-Kai Kang (1):
-  volatile-binds: correct path of command umount
-
-Kevin Hao (1):
-  u-boot: fix extern inline build errors for gcc 5
-
-Li Zhou (1):
-  tzdata: Add marking for config files in recipe
-
-Martin Jansa (2):
-  connman-conf: fix SRC_URI_append
-  mesa: respect MESA_EGL_NO_X11_HEADERS even with x11 in PACKAGECONFIG
-
-Richard Purdie (1):
-  perf: Fix config file conflict with 4.1 kernels
-
-Roy Li (2):
-  bootchart2: add runtime dependency
-  alsa-utils: assume the alsa storing is success if machine has no sound
-    card
-
-Thomas Perrot (2):
-  systemd-serialgetty: Set S to prevent QA warning
-  volatile-binds: Set S to prevent QA warning
-
-Tobias Olausson (1):
-  Revert "mesa: fix do_install_append"
-
-Zhixiong Chi (1):
-  dhcp: fix installed not shipped warning for lib32
-
- meta/recipes-bsp/u-boot/u-boot_2015.01.bb          |  2 ++
- meta/recipes-connectivity/connman/connman-conf.bb  |  6 ++--
- meta/recipes-connectivity/dhcp/dhcp.inc            | 14 ++++-----
- .../nfs-utils/nfs-utils/proc-fs-nfsd.mount         |  8 +++++
- .../nfs-utils/nfs-utils_1.3.1.bb                   | 10 ++++++
- .../wpa-supplicant/wpa-supplicant.inc              |  1 +
- meta/recipes-core/initscripts/initscripts_1.0.bb   |  3 +-
- meta/recipes-core/systemd/systemd-serialgetty.bb   |  2 ++
- ...-mount-add-dependencies-to-dynamically-mo.patch | 36 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_219.bb           |  1 +
- .../volatile-binds/files/volatile-binds.service.in |  2 +-
- meta/recipes-core/volatile-binds/volatile-binds.bb |  4 ++-
- meta/recipes-devtools/bootchart2/bootchart2_git.bb |  2 ++
- meta/recipes-devtools/opkg-utils/opkg-utils_git.bb |  4 +++
- meta/recipes-devtools/opkg/opkg_0.2.4.bb           |  3 +-
- meta/recipes-devtools/rsync/rsync.inc              |  4 +--
- .../run-postinsts/run-postinsts/run-postinsts      |  2 +-
- .../run-postinsts/run-postinsts_1.0.bb             |  1 +
- meta/recipes-extended/tzdata/tzdata.inc            |  2 ++
- meta/recipes-graphics/mesa/mesa_10.4.4.bb          |  2 +-
- meta/recipes-graphics/mesa/mesa_git.bb             |  2 +-
- meta/recipes-kernel/perf/perf.bb                   | 18 +++++++++++
- ...oring-is-success-if-not-sound-card-device.patch | 34 ++++++++++++++++++++
- meta/recipes-multimedia/alsa/alsa-utils_1.0.28.bb  |  1 +
- .../lib/wic/kickstart/custom_commands/partition.py |  8 +++++
- 25 files changed, 153 insertions(+), 19 deletions(-)
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/proc-fs-nfsd.mount
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch
- create mode 100644 meta/recipes-multimedia/alsa/alsa-utils/assume-storing-is-success-if-not-sound-card-device.patch
-
--- 
-2.1.4
-
+>>  do_compile_prepend () {
+>>    unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
