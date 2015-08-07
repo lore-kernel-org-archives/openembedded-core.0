@@ -1,29 +1,59 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ED9307671F
+Return-Path: <B54851@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0129.outbound.protection.outlook.com [207.46.100.129])
+	by mail.openembedded.org (Postfix) with ESMTP id 6983273231
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 04:28:43 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t774SgP8027505
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 6 Aug 2015 21:28:43 -0700 (PDT)
-Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 6 Aug 2015 21:28:42 -0700
-Message-ID: <55C433F9.5040403@windriver.com>
-Date: Fri, 7 Aug 2015 00:28:41 -0400
-From: Randy MacLeod <randy.macleod@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Fri,  7 Aug 2015 06:00:29 +0000 (UTC)
+Received: from BN3PR0301MB1172.namprd03.prod.outlook.com (10.160.156.146) by
+	BN3PR0301MB1172.namprd03.prod.outlook.com (10.160.156.146) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.225.19; Fri, 7 Aug 2015 06:00:28 +0000
+Received: from BN3PR0301MB1172.namprd03.prod.outlook.com ([10.160.156.146]) by
+	BN3PR0301MB1172.namprd03.prod.outlook.com ([10.160.156.146]) with
+	mapi id 15.01.0225.018; Fri, 7 Aug 2015 06:00:28 +0000
+From: Zhu Carol <B54851@freescale.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [poky][PATCH v6 0/3] Add patches for Gstreamer 1.4.5
+	base
+Thread-Index: AQHQ0DLAEgH0fvO7UU2hxM/sEwRFmZ3/4RQAgAAorNA=
+Date: Fri, 7 Aug 2015 06:00:27 +0000
+Message-ID: <BN3PR0301MB117273F5C1C1A434D2FDF9BB86730@BN3PR0301MB1172.namprd03.prod.outlook.com>
+References: <1438856968-9564-1-git-send-email-b54851@freescale.com>
+	<1438917942.30467.25.camel@linuxfoundation.org>
+In-Reply-To: <1438917942.30467.25.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=B54851@freescale.com; 
+x-originating-ip: [192.158.241.86]
+x-microsoft-exchange-diagnostics: 1; BN3PR0301MB1172;
+	5:kimIZiOcTdvX1+HLOY4lmP9ratsuzBq4tT93sirrGiK7Is4tLo1Jkx3Dhv2sfBjvxT0qXwqkPCsNuKVoW/Q8fz5Llysqzn+2N8O5R8AYsiY/KCNOcSnTV0m5B5/N0o6pejCkVHZx97CqYy4RlQS6fw==;
+	24:SmhOxzHephEGRdJm/+OanRi2Dijzed61HmEwUikGiJL+16Z+rY96ns1qMpKcoez4og2dEew99k+EOQ8GdB0HA0U3cxx1YvlDjFVDKXgWcLU=;
+	20:v9iCadT6G9joDThwhBvB4BBIhMVWyextR9kyaX5VH1/Tsa15Pvwo+hsME+Imakv9Le17SGA38IfnnECUQ1M7Ww==
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR0301MB1172;
+x-microsoft-antispam-prvs: <BN3PR0301MB1172C8AACC5475DBFB4FC81286730@BN3PR0301MB1172.namprd03.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(3002001); SRVR:BN3PR0301MB1172; BCL:0;
+	PCL:0; RULEID:; SRVR:BN3PR0301MB1172; 
+x-forefront-prvs: 066153096A
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(24454002)(377454003)(13464003)(377424004)(199003)(189002)(86362001)(87936001)(2656002)(19580405001)(19580395003)(92566002)(5003600100002)(10400500002)(77096005)(2900100001)(102836002)(2950100001)(46102003)(68736005)(5002640100001)(106116001)(62966003)(106356001)(105586002)(99286002)(54356999)(122556002)(64706001)(101416001)(66066001)(76176999)(77156002)(50986999)(81156007)(40100003)(5001860100001)(97736004)(4001540100001)(110136002)(189998001)(5001960100002)(33656002)(76576001)(5001830100001)(74316001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0301MB1172;
+	H:BN3PR0301MB1172.namprd03.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: freescale.com does not designate
+	permitted sender hosts)
 MIME-Version: 1.0
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Aug 2015 06:00:27.9397 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0301MB1172
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1438265949.git.alexander.kanavin@linux.intel.com>
-	<646c2c404c3064d5b7ce1d1351690caf1d482aa2.1438265949.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <646c2c404c3064d5b7ce1d1351690caf1d482aa2.1438265949.git.alexander.kanavin@linux.intel.com>
-X-Originating-IP: [172.25.44.6]
-Subject: Re: [PATCH 19/21] epiphany: add a recipe from meta-gnome
+Subject: Re: [poky][PATCH v6 0/3] Add patches for Gstreamer 1.4.5 base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,111 +66,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 04:28:44 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Aug 2015 06:00:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 2015-07-30 10:27 AM, Alexander Kanavin wrote:
-> Epiphany is replacing midori as the browser in oe-core recipe set
-> and poky distribution.
-
-I just got caught up on oe-core and:
-    https://www.mail-archive.com/yocto@yoctoproject.org/msg24522.html
-
-Please move the midori recipe and dependencies to
-meta-oe when this change is merged to oe-core. That would help
-anyone that needs to provide a transition warning. Of course it
-adds more cruft to meta-oe but that's a separate problem.
-
-Thanks,
-
-../Randy
-
-
-
->
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
->   meta/recipes-gnome/epiphany/epiphany_3.16.3.bb     | 24 ++++++++++++++++
->   .../0001-yelp.m4-drop-the-check-for-itstool.patch  | 33 ++++++++++++++++++++++
->   2 files changed, 57 insertions(+)
->   create mode 100644 meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
->   create mode 100644 meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
->
-> diff --git a/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
-> new file mode 100644
-> index 0000000..0f5aef1
-> --- /dev/null
-> +++ b/meta/recipes-gnome/epiphany/epiphany_3.16.3.bb
-> @@ -0,0 +1,24 @@
-> +SUMMARY = "WebKit based web browser for GNOME"
-> +LICENSE = "GPLv2+"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
-> +
-> +DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes ca-certificates avahi libnotify gcr libwnck3 \
-> +	   gsettings-desktop-schemas gnome-desktop3"
-> +
-> +inherit gnomebase gsettings
-> +SRC_URI += "file://0001-yelp.m4-drop-the-check-for-itstool.patch"
-> +SRC_URI[archive.md5sum] = "3296af4532b8019775f4b40d21a341ae"
-> +SRC_URI[archive.sha256sum] = "d527f1770779ec22d955aeb13b148a846a26144e433ff0480c981af80e2390b1"
-> +
-> +EXTRA_OECONF += " --disable-nss --with-distributor-name=${DISTRO}"
-> +
-> +do_configure_prepend() {
-> +    touch ${S}/gnome-doc-utils.make
-> +    sed -i -e s:help::g ${S}/Makefile.am
-> +}
-> +
-> +FILES_${PN} += "${datadir}/appdata ${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers"
-> +FILES_${PN}-dbg += "${libdir}/${PN}/*/web-extensions/.debug/libephywebextension.so"
-> +RDEPENDS_${PN} = "iso-codes"
-> +RRECOMMENDS_${PN} = "ca-certificates"
-> +
-> diff --git a/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch b/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
-> new file mode 100644
-> index 0000000..2585d7f
-> --- /dev/null
-> +++ b/meta/recipes-gnome/epiphany/files/0001-yelp.m4-drop-the-check-for-itstool.patch
-> @@ -0,0 +1,33 @@
-> +From 30f03a256efe375a4d5c3a24bf4168ebf380e3ab Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Thu, 30 Jul 2015 15:13:23 +0300
-> +Subject: [PATCH] yelp.m4: drop the check for itstool
-> +
-> +It isn't used for anything during build, so there's no need to provide
-> +it as a recipe.
-> +
-> +Upstream-Status: Inappropriate [tarball-specific issue]
-> +---
-> + m4/yelp.m4 | 6 ------
-> + 1 file changed, 6 deletions(-)
-> +
-> +diff --git a/m4/yelp.m4 b/m4/yelp.m4
-> +index 5db847f..1b6ede4 100644
-> +--- a/m4/yelp.m4
-> ++++ b/m4/yelp.m4
-> +@@ -27,12 +27,6 @@ AC_ARG_WITH([help-dir],
-> + HELP_DIR="$with_help_dir"
-> + AC_SUBST(HELP_DIR)
-> +
-> +-AC_ARG_VAR([ITSTOOL], [Path to the `itstool` command])
-> +-AC_CHECK_PROG([ITSTOOL], [itstool], [itstool])
-> +-if test x"$ITSTOOL" = x; then
-> +-  AC_MSG_ERROR([itstool not found])
-> +-fi
-> +-
-> + AC_ARG_VAR([XMLLINT], [Path to the `xmllint` command])
-> + AC_CHECK_PROG([XMLLINT], [xmllint], [xmllint])
-> + if test x"$XMLLINT" = x; then
-> +--
-> +2.1.4
-> +
->
-
-
--- 
-# Randy MacLeod. SMTS, Linux, Wind River
-Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
-Canada, K2K 2W5
+SGkgUmljaGFyZCwNCiAgICBTb3JyeSBmb3IgY2F1c2luZyB5b3VyIGNvbmZ1c2lvbi4gRmlyc3Rs
+eSwgSSBzZW50IGZpdmUgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSByZWxhdGVkIHBhdGNoZXMg
+YW5kIHdhaXRpbmcgZm9yIHlvdXIgZmVlZGJhY2suIFRoZW4sIEkgc2VudCB0aHJlZSBtb3JlIHBh
+dGNoZXMsIHRoZSBzdGF0dXMgb2YgdGhlbSBpcyB1bmtub3duLCBJIGFtIHN0aWxsIHdhaXRpbmcg
+Zm9yIGZlZWRiYWNrLiBBbmQgdGhpcyB0aW1lLCBJIHNlbnQgdGhlIGZvbGxvd2luZyB0aHJlZSBt
+b3JlIHBhdGhlcy4gVG90YWxseSBlbGV2ZW4gcGF0Y2hlcyBvZiBnc3RyZWFtZXIxLjAtcGx1Z2lu
+cy1iYXNlIGluIGFsbC4gSSB3aWxsIHJlc2VuZCB0aGUgY29tcGxldGUgcGF0Y2ggc2VyaWVzLCB3
+aGljaCB3aWxsIGJlIG11Y2ggbW9yZSBjbGVhci4NCg0KQi5SLg0KWXVxaW5nIFpodQ0KDQotLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogUmljaGFyZCBQdXJkaWUgW21haWx0bzpyaWNo
+YXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnXSANClNlbnQ6IEZyaWRheSwgQXVndXN0IDA3
+LCAyMDE1IDExOjI2IEFNDQpUbzogWmh1IFl1cWluZy1CNTQ4NTENCkNjOiBvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtwb2t5
+XVtQQVRDSCB2NiAwLzNdIEFkZCBwYXRjaGVzIGZvciBHc3RyZWFtZXIgMS40LjUgYmFzZQ0KDQpP
+biBUaHUsIDIwMTUtMDgtMDYgYXQgMTg6MjkgKzA4MDAsIFl1cWluZyBaaHUgd3JvdGU6DQo+IEZp
+eCBpc3N1ZSBhYm91dCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlDQo+IA0KPiAtc3NhcGFyc2U6
+IEVuaGFuY2UgU1NBIHRleHQgbGluZXMgcGFyc2luZy4NCj4gDQo+IC1zdWJwYXJzZTogU2V0IG5l
+ZWRfc2VnbWVudCBhZnRlciBzaW5rIHBhZCByZWNlaXZlIEdTVF9FVkVOVF9TRUdNRU5ULg0KPiAN
+Cj4gLWVuY29kZWJpbjogTmVlZCBtb3JlIGJ1ZmZlcnMgaW4gb3V0cHV0IHF1ZXVlIGZvciBiZXR0
+ZXIgcGVyZm9ybWFuY2UuDQo+IA0KPiANCj4gWXVxaW5nIFpodSAoMyk6DQo+ICAgZ3N0cmVhbWVy
+MS4wLXBsdWdpbnMtYmFzZTogQWRkIHNzYXBhcnNlIHJlbGF0ZWQgcGF0Y2gNCj4gICBnc3RyZWFt
+ZXIxLjAtcGx1Z2lucy1iYXNlOiBBZGQgc3VicGFyc2UgcmVsYXRlZCBwYXRjaA0KPiAgIGdzdHJl
+YW1lcjEuMC1wbHVnaW5zLWJhc2U6IEFkZCBlbmNvZGViaW4gcmVsYXRlZCBwYXRjaA0KDQpJJ20g
+YWZyYWlkIEknbSBjb21wbGV0ZWx5IGNvbmZ1c2VkIHdpdGggdGhpcyBwYXRjaCBzZXJpZXMuIEl0
+IHN0YXJ0ZWQgYXMNCjYgcGF0Y2hlcywgaXRzIG5vdyAzIGFuZCB0aGVzZSBwYXRjaGVzIGRvbid0
+IGFwcGx5IGFnYWluc3QgbWFzdGVyLg0KDQpDb3VsZCBzb21lb25lIHNlbmQgdGhlIGNvbXBsZXRl
+IHBhdGNoIHNlcmllcyB0aGF0IHlvdSdyZSBhc2tpbmcgdG8gbWVyZ2UgdGhhdCBhcHBsaWVzIGFn
+YWluc3QgbWFzdGVyIHBsZWFzZT8NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg==
 
