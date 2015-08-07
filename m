@@ -1,24 +1,24 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8530B75A60
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B4C3D7649D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 07:46:40 +0000 (UTC)
+	Fri,  7 Aug 2015 08:14:02 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t777ke5a014620
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t778E1ED018122
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 7 Aug 2015 00:46:40 -0700 (PDT)
+	Fri, 7 Aug 2015 01:14:02 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Fri, 7 Aug 2015 00:46:40 -0700
+	14.3.235.1; Fri, 7 Aug 2015 01:14:01 -0700
 From: <rongqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Aug 2015 15:43:42 +0800
-Message-ID: <1438933422-24634-1-git-send-email-rongqing.li@windriver.com>
+Date: Fri, 7 Aug 2015 16:11:03 +0800
+Message-ID: <1438935063-561-1-git-send-email-rongqing.li@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] gcc: reformat 0063-nativesdk-gcc-support.patch
+Subject: [PATCH][v2] gcc: reformat 0063-nativesdk-gcc-support.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,13 +31,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 07:46:41 -0000
+X-List-Received-Date: Fri, 07 Aug 2015 08:14:03 -0000
 Content-Type: text/plain
 
 From: Roy Li <rongqing.li@windriver.com>
 
-0063-nativesdk-gcc-support.patch can be applied due to the buggy
-patch command on sled11, so reformat it, nothing is changed.
+0063-nativesdk-gcc-support.patch can not be applied to source code due to
+the buggy patch command on sled11, so reformat it, nothing is changed.
 
 Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
