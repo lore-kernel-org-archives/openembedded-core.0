@@ -1,29 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 19876734DA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B4637670E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 03:26:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t773Q0MW002549; Fri, 7 Aug 2015 04:26:00 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 4YUqyaH2lrJg; Fri,  7 Aug 2015 04:26:00 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t773Ph2F002527
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 7 Aug 2015 04:25:56 +0100
-Message-ID: <1438917942.30467.25.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yuqing Zhu <b54851@freescale.com>
-Date: Thu, 06 Aug 2015 22:25:42 -0500
-In-Reply-To: <1438856968-9564-1-git-send-email-b54851@freescale.com>
-References: <1438856968-9564-1-git-send-email-b54851@freescale.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
+	Fri,  7 Aug 2015 03:35:01 +0000 (UTC)
+Received: by pacrr5 with SMTP id rr5so42155791pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Aug 2015 20:35:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=IzP64r4ucg3tKnLifRDpJVOwXx9eMudCMhTtVzN6SJw=;
+	b=jCVGgcCTZtTIOYieUv2S6dFGhuEJRqVyWxBv2k3voxT+SgzN3H0DNsOK//jS9FMME+
+	riegRArGUeUYZjjoHlUbhqfCC7Lv0fkpbHeUGp2jT1SDVPUTXQT5aiiyQ+KlcEi7T0Q4
+	4ahAakJDKJKE4t7YTGZvk28uQ1xGPSNYQpUExkioAs4ROjKgjQH1O9QqlMbCg54Zur4X
+	4cPUak2V1/t2KCS4ZYcQxbR9BTXLy0d3tx14F9r4+LcS3g4JiaYWReNrx8pRFuLRoJUw
+	t//zOYjPzWzsC8lkiZwUGv8bbRX8TIxlX2St7FZVBU9OHLsXufEv63mVEs/RW8l9iLTO
+	+AwA==
+X-Received: by 10.68.244.137 with SMTP id xg9mr10102280pbc.27.1438918501840;
+	Thu, 06 Aug 2015 20:35:01 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:bc52:c673:225f:3d8b?
+	([2601:646:8601:4580:bc52:c673:225f:3d8b])
+	by smtp.gmail.com with ESMTPSA id
+	da6sm1142084pdb.22.2015.08.06.20.34.59
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 06 Aug 2015 20:35:01 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <29f1e0392fbe4325b13dac7e0fca69319825da76.1438849692.git.jussi.kukkonen@intel.com>
+Date: Thu, 6 Aug 2015 20:34:54 -0700
+Message-Id: <43BA4AA7-911B-4F0E-8910-1A289F0D4240@gmail.com>
+References: <2c93029d78af982ced18f114b4ed6e09ef350b00.1438849692.git.jussi.kukkonen@intel.com>
+	<cover.1438849692.git.jussi.kukkonen@intel.com>
+	<29f1e0392fbe4325b13dac7e0fca69319825da76.1438849692.git.jussi.kukkonen@intel.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+X-Mailer: Apple Mail (2.2104)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [poky][PATCH v6 0/3] Add patches for Gstreamer 1.4.5 base
+Subject: Re: [PATCH 4/6] vte: Fix LICENSE to LGPL2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +50,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 03:26:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Aug 2015 03:35:02 -0000
+X-Groupsio-MsgNum: 69081
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_C17E49FE-F322-47E1-8642-38FE5439C229";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_C17E49FE-F322-47E1-8642-38FE5439C229
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+
+> On Aug 6, 2015, at 1:42 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> =
+wrote:
+>=20
+> Current releases of vte are LGPL 2.1+ but the one we have is still
+> LGPL 2.0.
+>=20
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+> meta/recipes-support/vte/vte.inc | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-support/vte/vte.inc =
+b/meta/recipes-support/vte/vte.inc
+> index 4081a7f..874062a 100644
+> --- a/meta/recipes-support/vte/vte.inc
+> +++ b/meta/recipes-support/vte/vte.inc
+> @@ -1,6 +1,6 @@
+> SUMMARY =3D "Virtual terminal emulator GTK+ widget library"
+> BUGTRACKER =3D "https://bugzilla.gnome.org/buglist.cgi?product=3Dvte"
+> -LICENSE =3D "LGPLv2.1+"
+> +LICENSE =3D =E2=80=9CLGPLv2.0"
+
+this brings to notice that this recipe needs upgrade
+latest vte srcs already use LGPL2.1 may be updating to latest version is =
+0.40
+http://ftp.gnome.org/pub/gnome/sources/vte/0.40/
+
+> DEPENDS =3D " glib-2.0 gtk+ intltool-native ncurses =
+gobject-introspection-stub"
+> RDEPENDS_libvte =3D "vte-termcap"
+>=20
+> --
+> 2.1.4
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_C17E49FE-F322-47E1-8642-38FE5439C229
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-On Thu, 2015-08-06 at 18:29 +0800, Yuqing Zhu wrote:
-> Fix issue about gstreamer1.0-plugins-base
-> 
-> -ssaparse: Enhance SSA text lines parsing.
-> 
-> -subparse: Set need_segment after sink pad receive GST_EVENT_SEGMENT.
-> 
-> -encodebin: Need more buffers in output queue for better performance.
-> 
-> 
-> Yuqing Zhu (3):
->   gstreamer1.0-plugins-base: Add ssaparse related patch
->   gstreamer1.0-plugins-base: Add subparse related patch
->   gstreamer1.0-plugins-base: Add encodebin related patch
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-I'm afraid I'm completely confused with this patch series. It started as
-6 patches, its now 3 and these patches don't apply against master.
+iEYEARECAAYFAlXEJ2IACgkQuwUzVZGdMxTM9QCfZoFKMJcZhLXwG0S9DaL5F53G
+aeMAnjcCqAuUm0ue9TJcoA0juM/QQvwx
+=oDra
+-----END PGP SIGNATURE-----
 
-Could someone send the complete patch series that you're asking to merge
-that applies against master please?
-
-Cheers,
-
-Richard
-
-
+--Apple-Mail=_C17E49FE-F322-47E1-8642-38FE5439C229--
