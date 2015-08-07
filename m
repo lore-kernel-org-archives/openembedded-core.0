@@ -1,44 +1,45 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 80243767D5
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id EF1BD767D5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 19:22:16 +0000 (UTC)
-Received: by pdco4 with SMTP id o4so48391259pdc.3
+	Fri,  7 Aug 2015 19:26:58 +0000 (UTC)
+Received: by pabxd6 with SMTP id xd6so76054677pab.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Aug 2015 12:22:16 -0700 (PDT)
+	Fri, 07 Aug 2015 12:26:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=mvbT8UfWMgqXjcyLSlbz7te36gqAInH9GX7+gnl3jYY=;
-	b=Bj/i1c091D+jAHKK13eoM0tm8scsWe9EEG1mhc8xPQYSyrk+ivFuWNCNEw0pX9xpjA
-	KCfSpIbbTGrvBSGJ9hbO62dYEUC+1uEWf0o4oVUlFwzOA+4cG9pKTv/O34AynVCj5b22
-	CUPyFky9boljRdOS7c7LBaTTxYg2WcyoWrnIJQM9MbWj9bF+Pj/bvybzHavAN6syLJYP
-	WUTYgryX4+tZX4t7mqhMOoCTR38+MTUyeQztMk47Kg0t+LTanNGu16BZlPrAjhRtxDOV
-	qWSfv/hU4eNnX6v2kmxR+LGI1bU7yHf00nJczzHF1Ob8dtXt1wm0+5NIlKPQkxmx314g
-	mzyw==
-X-Received: by 10.70.38.136 with SMTP id g8mr17625175pdk.156.1438975336433;
-	Fri, 07 Aug 2015 12:22:16 -0700 (PDT)
-Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85]) by smtp.gmail.com with ESMTPSA id
-	oc2sm10995172pdb.45.2015.08.07.12.22.15
+	bh=Cd2GCVGXCh8filEMRyckkX0EWGQXfjIu6i+aEeLLqz4=;
+	b=sMpk8M7r18Z3S53m2Fcsv0COnXO6+I/oAoyAt5jEB9nFI0clbJ5MtcF6E1zH4pC1tb
+	nB5eHRsZaU/ghKO/j9iZaHHNCNfpMVfGaUHCJLFo/08mPRMMaoDj+pQ8XQar/BChOD+F
+	PalA8IGSxaaJ6tghKggRPt686jMopd8LS7sJEt7k9iaviLUYiBfiIgn07Aoty2kMCtQZ
+	J4sJUcMT6LgZUDW/1fCYKKCUUO8YXpRPQEDTPWUOOmy0Ff/jekOkgP8DrPZuvDwqYX06
+	caUDDHSmIhwWj/8LP4R6uV0/n89OfC9cK/780RMX3BHv3dPwgiyvWsnGH4ueaf1c2fcC
+	ERcA==
+X-Received: by 10.66.145.74 with SMTP id ss10mr18191369pab.28.1438975618713;
+	Fri, 07 Aug 2015 12:26:58 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:4ec:fbce:7a8:43c9?
+	([2601:646:8601:4580:4ec:fbce:7a8:43c9])
+	by smtp.gmail.com with ESMTPSA id
+	fv2sm10957685pbd.54.2015.08.07.12.26.57
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 07 Aug 2015 12:22:15 -0700 (PDT)
+	Fri, 07 Aug 2015 12:26:58 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <55C49FFC.4010006@linux.intel.com>
-Date: Fri, 7 Aug 2015 12:22:14 -0700
-Message-Id: <2D1774A7-EAD3-4A1E-ACEA-3CF23A09747F@gmail.com>
-References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<e5437695391e1dd4fe0ecad10dec483cb0e3a8bc.1438262915.git.alexander.kanavin@linux.intel.com>
-	<120CC689-4105-4DE2-8602-96A9BF548DEE@gmail.com>
-	<55C49FFC.4010006@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+In-Reply-To: <3064000.UnunBGI2RM@peggleto-mobl.ger.corp.intel.com>
+Date: Fri, 7 Aug 2015 12:26:56 -0700
+Message-Id: <08C4C542-36D0-4009-9492-D2E048CF29DC@gmail.com>
+References: <1438851969-4340-1-git-send-email-amarnath.valluri@intel.com>
+	<13325469.N9zhAzKaIU@peggleto-mobl.ger.corp.intel.com>
+	<CAMKF1sqKKzPt2z8s8f_3RwH4Zp32HjyXePy0UYTbrqTCuiwdNg@mail.gmail.com>
+	<3064000.UnunBGI2RM@peggleto-mobl.ger.corp.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
 X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 09/26] lsb: set PV to 1.4 to match upstream tarball version
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in mkdosfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,56 +52,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 19:22:18 -0000
-X-Groupsio-MsgNum: 69147
+X-List-Received-Date: Fri, 07 Aug 2015 19:27:01 -0000
+X-Groupsio-MsgNum: 69148
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_DFA56611-6169-49BF-A276-97BFDEEE32E7";
+	boundary="Apple-Mail=_061D56F8-A6B3-4DFC-8CCF-1B860F30CFC9";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_DFA56611-6169-49BF-A276-97BFDEEE32E7
+--Apple-Mail=_061D56F8-A6B3-4DFC-8CCF-1B860F30CFC9
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=utf-8
+	charset=us-ascii
 
 
-> On Aug 7, 2015, at 5:09 AM, Alexander Kanavin =
-<alexander.kanavin@linux.intel.com> wrote:
+> On Aug 7, 2015, at 2:51 AM, Paul Eggleton =
+<paul.eggleton@linux.intel.com> wrote:
 >=20
-> On 08/07/2015 10:21 AM, Khem Raj wrote:
->=20
->>> This allows upstream version check to work
->>>=20
->>> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->>> ---
->>> meta/recipes-extended/lsb/lsb_4.1.bb | 1 +
->>> 1 file changed, 1 insertion(+)
->>>=20
->>> diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb =
-b/meta/recipes-extended/lsb/lsb_4.1.bb
->>> index 6215b62..171a6c8 100644
->>> --- a/meta/recipes-extended/lsb/lsb_4.1.bb
->>> +++ b/meta/recipes-extended/lsb/lsb_4.1.bb
->>> @@ -21,6 +21,7 @@ SRC_URI =3D =
-"${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/1.4/lsb-release-1.4.tar
->>>            file://lsb_pidofproc \
->>>            file://lsb_start_daemon \
->>>            "
->>> +PV =3D =E2=80=9C1.4=E2=80=9D
->>>=20
+> On Thursday 06 August 2015 19:52:28 Khem Raj wrote:
+>> On Thu, Aug 6, 2015 at 2:25 AM, Paul Eggleton
 >>=20
->> it will send version backwards, why is this needed ?
+>> <paul.eggleton@linux.intel.com> wrote:
+>>> On Thursday 06 August 2015 12:12:35 Alexander Kanavin wrote:
+>>>> On 08/06/2015 12:06 PM, Amarnath Valluri wrote:
+>>>>> Added new patch that fixes the memory leak that was introduced in
+>>>>> mkdosfs-dir.patch.
+>>>>=20
+>>>> You should update the original patch then, not pile additional =
+patches
+>>>> on top. The least painful way is:
+>>>>=20
+>>>> 1) unpack the sources (manually from tarball, or using bitbake -c =
+unpack)
+>>>> 2) 'git init; git add *; git commit' to create an git repository =
+from
+>>>> the sources
+>>>> 3) apply the patch that needs fixing, then do the fix
+>>>> 4) make a git commit, then produce a patch using git format-patch, =
+then
+>>>> move the new patch back to the recipe directory and update the =
+recipe
+>>>> 5) build the recipe to make sure it still builds
+>>>> 6) make a git commit with the recipe update, and submit it here :)
+>>>=20
+>>> On the contrary - the much less painful way (as of fido) is to use
+>>> devtool:
+>>>=20
+>>> 1) Extract source and set the build system up to use it:
+>>>   devtool modify dosfstools -x ~/projects/dosfstools
+>>>=20
+>>> 2) Make whatever changes you want to in the git tree that has been =
+set up
+>>> in the specified path
+>>>=20
+>>> 3) Build the recipe (as you would normally) to make sure it still =
+builds
+>>>=20
+>>> 4) Write the modified/added commits as patches back to the recipe:
+>>>    devtool update-recipe dosfstools
+>>>=20
+>>> 5) Make a git commit with the recipe update, and submit it here :)
+>>>=20
+>>> I'd really like people to start using devtool for this kind of =
+thing. If
+>>> it's not working for some reason please do let me know.
+>>=20
+>> This assumes either we use OE-Core or poky, I dont get it to work =
+with
+>> angstrom out of box
+>> what am I missing
 >=20
-> See above - "This allows upstream version check to work=E2=80=9D.
+> Well, whatever error / problem you are experiencing seems to be =
+missing at
+> least ;)
 
-it seems a futile cause in front of regressing on upgrade policy
 
+devtool modify dosfstools -x ~/projects/dosfstools
+ERROR: This script can only be run after initialising the build =
+environment (e.g. by using oe-init-build-env)
+
+so is it must now to use the setup script ? or can be extract some =
+needed setup from it to let it work with setups
+not using the init script
 >=20
-> Alex
+> Cheers,
+> Paul
 >=20
+> --
 >=20
+> Paul Eggleton
+> Intel Open Source Technology Centre
 
 
---Apple-Mail=_DFA56611-6169-49BF-A276-97BFDEEE32E7
+--Apple-Mail=_061D56F8-A6B3-4DFC-8CCF-1B860F30CFC9
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -111,9 +153,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXFBWYACgkQuwUzVZGdMxRSHQCfcNqqyiTR3wuXk9fIib8+Kv7P
-jVgAmQFvZnHFawJ1PA0GuXkvo50PCD9U
-=UwO4
+iEYEARECAAYFAlXFBoAACgkQuwUzVZGdMxSt8QCgh7ivrylcwFOvBfXJQG8WeCjs
+fpgAn3EANPa05fd+Xh/wamAmyxwD2BHA
+=Msnj
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_DFA56611-6169-49BF-A276-97BFDEEE32E7--
+--Apple-Mail=_061D56F8-A6B3-4DFC-8CCF-1B860F30CFC9--
