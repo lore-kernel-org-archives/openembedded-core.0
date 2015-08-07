@@ -1,18 +1,18 @@
 Return-Path: <B54851@freescale.com>
 Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0110.outbound.protection.outlook.com [157.56.111.110])
-	by mail.openembedded.org (Postfix) with ESMTP id 46B5876771
+	(mail-bn1on0141.outbound.protection.outlook.com [157.56.110.141])
+	by mail.openembedded.org (Postfix) with ESMTP id E7EB676780
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 06:16:56 +0000 (UTC)
-Received: from BN3PR0301CA0029.namprd03.prod.outlook.com (10.160.180.167) by
-	CY1PR0301MB1180.namprd03.prod.outlook.com (10.160.165.23) with
-	Microsoft SMTP
-	Server (TLS) id 15.1.225.19; Fri, 7 Aug 2015 06:16:55 +0000
-Received: from BN1AFFO11FD017.protection.gbl (2a01:111:f400:7c10::116) by
-	BN3PR0301CA0029.outlook.office365.com (2a01:111:e400:4000::39) with
+	Fri,  7 Aug 2015 06:16:57 +0000 (UTC)
+Received: from BY2PR03CA039.namprd03.prod.outlook.com (10.141.249.12) by
+	BY1PR0301MB1176.namprd03.prod.outlook.com (10.160.195.147) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.225.19; Fri, 7 Aug 2015 06:16:56 +0000
+Received: from BY2FFO11OLC014.protection.gbl (2a01:111:f400:7c0c::107) by
+	BY2PR03CA039.outlook.office365.com (2a01:111:e400:2c5d::12) with
 	Microsoft
 	SMTP Server (TLS) id 15.1.225.19 via Frontend Transport; Fri, 7 Aug 2015
-	06:16:55 +0000
+	06:16:56 +0000
 Authentication-Results: spf=fail (sender IP is 192.88.158.2)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
 	(message not signed) header.d=none;
@@ -21,79 +21,79 @@ Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
 	receiver=protection.outlook.com; 
 	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
 Received: from az84smr01.freescale.net (192.88.158.2) by
-	BN1AFFO11FD017.mail.protection.outlook.com (10.58.52.77) with Microsoft
+	BY2FFO11OLC014.mail.protection.outlook.com (10.1.15.48) with Microsoft
 	SMTP Server (TLS) id 15.1.243.9 via Frontend Transport;
-	Fri, 7 Aug 2015 06:16:54 +0000
+	Fri, 7 Aug 2015 06:16:56 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t776GVN6028512;
-	Thu, 6 Aug 2015 23:16:52 -0700
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t776GVN7028512;
+	Thu, 6 Aug 2015 23:16:54 -0700
 From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Aug 2015 14:16:42 +0800
-Message-ID: <1438928203-12256-11-git-send-email-b54851@freescale.com>
+Date: Fri, 7 Aug 2015 14:16:43 +0800
+Message-ID: <1438928203-12256-12-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1438928203-12256-1-git-send-email-b54851@freescale.com>
 References: <1438928203-12256-1-git-send-email-b54851@freescale.com>
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BN1AFFO11FD017;
-	1:glOmpzqNZU/Y3vDjdI8mJV4PxWEWExdPAy//Rz2b8xLQuggjWH8dq+JtOLmMosSx8lx657YbTiUrHXCTnI19NiBodKzghajJBxUAJQAxcq/IWWUw78YMkITi+PBN3uHJXou9hhIUbFxhHf2p9Gas9tecaiC1XGlnNLv4FYVBAXtdZxJjUrx+nNl8YPf6mCZppxAbVGz3c2WTeaKaKppny2cs+rNF7mM2vy/CzIQ2lAJ1HoPfMW11sSm902Ofp8I7IH6w9QUWplXgZN8BoXCshXwLusPp7vNKR2RPFwforkWhi9SrQ1jQ9HGxchGIuvZ1G1Uoz2w+MdJZTKNb1+eYxQ==
+X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11OLC014;
+	1:cAEWcBC3FVu7xmKiH1Fs/IJiQIFRY/uk/QEHufeWxkspZtIWDMr7Vufj9BlKf8OXPtGKdzWkNIctWoZdil0xu8rsSjoNVKx2zI+VSsQ93ukofqyTPTacpqpx/cXKBBJMOrgfthC4IdBNfYIV9On4q+9ZyNnc0zLsr1FmXUFG9AK+Cm3SdHuAWp+ouWE86ql1h96jY89ewb5qfXWA6Qu964/OLIXPkjqTfPYnpKwvtrMhHzdv6XkWCayn3cqvhXqsYfMOs+VJgQwDGqI1TOJhRQjkS40EGrVAwjEK2CRssd53reKDhLqr57oZZ91Gfw12OTWkWZkTcco3iQfRdidUgQ==
 X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(339900001)(189002)(199003)(76176999)(230783001)(5003940100001)(77096005)(36756003)(575784001)(107886002)(5001830100001)(86362001)(5001860100001)(68736005)(110136002)(15975445007)(19580405001)(189998001)(50466002)(48376002)(97736004)(92566002)(229853001)(77156002)(2351001)(62966003)(46102003)(19580395003)(6806004)(33646002)(50986999)(69596002)(47776003)(64706001)(50226001)(105606002)(85426001)(87936001)(5001960100002)(4001540100001)(2950100001)(81156007)(104016003)(106466001)(4001430100001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR0301MB1180;
+	SFS:(10019020)(6009001)(2980300002)(339900001)(199003)(189002)(86362001)(50986999)(76176999)(33646002)(50466002)(48376002)(104016003)(69596002)(85426001)(87936001)(50226001)(47776003)(64706001)(46102003)(230783001)(2351001)(77096005)(105606002)(575784001)(19580395003)(2950100001)(106466001)(68736005)(19580405001)(15975445007)(6806004)(62966003)(77156002)(36756003)(5001830100001)(110136002)(189998001)(107886002)(5001860100001)(5001960100002)(92566002)(97736004)(81156007)(4001540100001)(5003940100001)(229853001)(4001430100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY1PR0301MB1176;
 	H:az84smr01.freescale.net; FPR:; SPF:Fail;
-	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
+	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
 MIME-Version: 1.0
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
-	2:90whQkyAANaht+IMJqivvaguVg9g9hxN0amhyH8ArziWTIFolIspRtQq8v/2FyWzD03KLuS/3P00N6zymRN7wfQ3qFIkTu5w3bwewJCEsvmzA7X5JF9S51rIIQkW3OICmlhj+dcFUSvqOe6oUi5epGQfVP9iggcNKQGQo9N7FUs=;
-	3:lzhKX2z909VNEjv0mrp2JeftHFCnF6UUMj82pAHmGzAUt8jnoJ9/uXSGj4m06WBTyrOZw8pRp/tavZKwldA2djJ8PqTFSy23eywh6rxFeMHjOLIkU0bAr80WMQLdVzFw8iX/NKqPSCrevzI27briy9A9SxWLe8qUObefytF1e6UNZbXJE1k5fOl/ToVY6nQ1TS/X1tHNPY0UDPiccnXb7pwfb6/Le3gjmsbzkK4H2+s=;
-	25:LOvfzCnLX3VyaXQrCmbTIINbKYm9UvUBZYEMlCHv13KclmA9LvMmn2qi0LJ34SV9KASSjd1WWJpcGWzfso6eb3NbSnPcFKqv0R271W4rk40r0/QP6idhPNO/c8Tz7VUq3QxsK6stSVb3wV1uHKoYjuF9L3XnsgcfwPgFDgPNxkqQk/9UIZ93YWgC4nxWQsGzqoHPOyeHFqA0yrfTfUEQWt0on8E8oPuvNtxN4YTAW7tM+udyfRpcPHUcQywwtb5w
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB1180;
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
-	20:FKTVniQKz7rWAYPJDs7Gk0yqu83nQjln4yOY75k5YCdiE8GQwCbpn3TlvQLCnYrvS1+Xydm7JAz1J/ZBxwzk3YOZX0cx2e8b97o+PyoEAW79cSacUKFbHzmlVTeLb76r9OhAHyOQhfBSh33SEvJG6UTPeJabs4iY6YpT7BFBBjriJiWIK8k3y4WwRNewHEr9/PG8fxGCSNqD0Ovx+cPWt910tYr0jC6XxVO4Wmy9CQkpAEPf92rYJ7QaY2S5WUKLgTSLEYpHotdkLIE/lhiAs7eWvSWKbYRIhQoXvu74balBXcrBeuvHgP9J7nuiB4MJFHpumtSBk+B5OBpmajsTuvKsfNZc5WzguWjeFDdopYc=;
-	4:j2yTAg5mCkJ+TyxlMBlXUULqj8CQyIZqL7Muj7c93SoadgYffPYxbXGzcQ1vcUl4zRzT+Nhhwp18N5eSaB3fu+JBKsQ7QODHYMADYQTrl4Wus4O7pcSBnVlhqRl0dnUhjmHKomiSTyvomMhZ4A9Nzuf/0UP0CRY5hH89+Jn8IhLFBjV6mhYYKMCcfcOeKsxRwSSZmo5V8KHpR7tZcT5dTX+4T1xLs4hOvFQB+iiBqvL79BXoNBMQRFJEj1CAzyxN0tiCZirSzmx87tIM7mynDa8UMjrbKfd6J3tL6V2cWoo=
-X-Microsoft-Antispam-PRVS: <CY1PR0301MB1180441CC1D453305EBCF3AD86730@CY1PR0301MB1180.namprd03.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1176;
+	2:3it9JiLM8FUPsxDwRMF8YJDnei/CSCfxHGmGR+lT/Jq6PXaKFuPCE+IV3At+6m0Wg7L57xRqwt+C64z+C/Lqz2Nuy5GtfnRva06weBI0/2CddRG4thA+nxiW1pOhJTFnsw2VevwjT+iTvMzv1cQwQukOQ4qbP1oXcoMBFwZ/YYE=;
+	3:aVVqUzDjYOE+W7Fhdz2QRSzNm9eP1PvoGayGcqHvGIJXAh2UfZMaepC1RWSWKIcaUDNieIYFNoPI992778uWW/GsM0J18Vs9khv4PVa03L/UaiBeVN7RqyV0yeBE4QnlTmsnDrMGUBlotaD2amaJY9Ye058L+irrEIoKvcXcPU4ni06OpZZsv/l/SBm+I5OhNa9TJ4mSfXKHxJB7yT4lPqGs0ipB7uuCV1sE3Acpbr0=;
+	25:SVWM3jnN0wg9ZAIjXzbZ3F8KjTIDGsFp2hty8NNj5w8gGU0N397DgLjl7CQd/ksZxn8FVK8YK3I1k8Aymcsp2lAvZ3gn4hji9uEPFPlwW9uMnyS0xdrkKGFajMMVHwpTpqJsjaCfF+d/0N7qp/wo9CfXa2JCu5CcxNrarNCIROLaw5g84KRt6nWfiqUX8Bi4yR2g5Oep4K56YCGiFrbLYfiMkL3fMReKYF71COy+OIXd3Uy/Cb68o0EOfmFaTBBEEHspBu3F8rr44PNsTDcvZQ==
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BY1PR0301MB1176;
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1176;
+	20:jJjVsjHP9M/L3ZcQQzofhmHcU59YkU72KP0M6e8I7DP/HllUXjf4Z7AJuQ45tGN3G7fFzUV65Wns0CmsTLkDyvQR03Xd1XYjXdxmQZz/aPa7yPYiPis9PvxE+HWDHUtBkJ74bFPAXXi6EwtF7BMQ2ClKnPwWEETwWVWgk3D1byIcacmGmNuSDKBrf9fSxVt/8JcVxKXV3/dtONB5nbd9om2zE3qLHm3mQwTDTb3QmVIg/qy5RWs1iwRPs3Llk52pmKJ+y82T+31cprJiGCoHqyMx3cue9O/aT4gGOTeFDWxGBYwASLOLcw4YCDkpaGB99KtB86XgxOja6mvEomlVwYpD+8awLTCSDzdCo7I3OiI=;
+	4:V6woPbFyxkQOPmIgt6DGgfCsBoULobbDDspMNRxxHZpoBi+3098fMC/g2S/B8XvSLdhzwNy+5DlpAMAg3nqgNx/8m7iVShGNjp2lp95jIepzriwVowHpmPQrBProM7psbDOzpQZ7q07PoyPDYdMiXUB3cDOzgOCPbiWLzfYmcMZFTtXPfGIS9BwBMxNRkRpvdLNwPACn18FWGSXFvMhtw8THI+21Gs5DNghWZBjEtya4qKdYsY7yn55kQ8XPFDMhEOKrZ0NapeqDRMJssIU07q+btVXzebAjbfJGFKMTQlU=
+X-Microsoft-Antispam-PRVS: <BY1PR0301MB117662EFF223A95F3DE1B1F986730@BY1PR0301MB1176.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(3002001); SRVR:CY1PR0301MB1180; BCL:0;
-	PCL:0; RULEID:; SRVR:CY1PR0301MB1180; 
+	RULEID:(601004)(5005006)(3002001); SRVR:BY1PR0301MB1176; BCL:0;
+	PCL:0; RULEID:; SRVR:BY1PR0301MB1176; 
 X-Forefront-PRVS: 066153096A
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB1180;
-	23:JZggxpSyNTgUukII0exBA9UtRQGVDf5+IT5esqW?=
-	=?us-ascii?Q?k081l3seiKzLoW2jUIYqWkUKFeKYwMqlvzi+OcZB+oM+kUg2F9DWFy2aSWNE?=
-	=?us-ascii?Q?Ft+O5dkcUhMS5Ptsnvk09TCotmVL//LIJSd8GkPgNhNMPEVW1u525W0+tL1j?=
-	=?us-ascii?Q?qOdsx0GEgfTWI+AxXAHowKbkhKaR5xT6cfLXcbqdV3SDae6pnA9BdE7NGheO?=
-	=?us-ascii?Q?btL18Jx8nw5uX1VMzmh5riMqtAgRoXmiuIRap8wpVf4U/gw8jjpgS2xd7rln?=
-	=?us-ascii?Q?3YUQGwj3iqt+NK5qGx1MsvHTmp0HqCzRzYf/MU8s1403yWR2H0eFAKGpFgYw?=
-	=?us-ascii?Q?OHRhPiTlhwIg0JIscPVTuggW0E2hIncxpc/XNREDgKiE1rdalfleFTQIKv6r?=
-	=?us-ascii?Q?SgVw0ofoR41fyo9Gur3N7TidL+nmRqPDZQYcTOBhuoJ7eQXX8byLQXdNdD3P?=
-	=?us-ascii?Q?7VR/QQI77tmQX6rsRsaUkH1jTjF2/vyRxTuXiP/3pHeGI33yKEps1KfwSpbS?=
-	=?us-ascii?Q?P3qg/af/+iwVcxkZBS6knC4E3vMZUmonyZqCiXpBeTfk6MkDBQ591aYwTMEu?=
-	=?us-ascii?Q?JbcTYGqC/uEKgs3JV9ZByC6SYSshVrE7t/LS4edaiMpG8r4uVAN1TTYVosVM?=
-	=?us-ascii?Q?Bd5fUuIF0GXuE2+P3/YRCYG9cDCOcEhDlOFi0NUjI1Ua8XWq7ehYzwIbWZOy?=
-	=?us-ascii?Q?NpEUpTgmgMErea9Vly/mP51GzUKazDchMgSfPMPgxZeZ64ieYRp2OLvve3XX?=
-	=?us-ascii?Q?YLXu4Aw1FaOzty6qS2cb8fh5NUGnLfEC5OaUnK5lzmzjGA1v6EwOBGiLCLaM?=
-	=?us-ascii?Q?W7UIJg0Vk4t0HdOrO9V+OVsJOhhXN1o4ZlNETDOsuOiKWR0Ziw5sped2TTFX?=
-	=?us-ascii?Q?8vghK11U1l8ahsQw0TklkJjMhU5JGYWyNkX0UnGK4UVv/wm810/GADobR4qu?=
-	=?us-ascii?Q?+yhy/bU9cqYEmP2y02knrsX/Tyw8kPUtYifP1n6rV79FHAAkyoTjEsAN8bdd?=
-	=?us-ascii?Q?rrCya9lSzrUkaftsa5w2W0TovTZEIQLxRcJHSIRBVOFAE/h6MzGwetOozAEI?=
-	=?us-ascii?Q?WrzBkULGatAy3j4NdZUgur/Yr0RQ193+BmDeiuR6QL3LMW3xm8CAo89E7F05?=
-	=?us-ascii?Q?H/wLcHYkyNSdyPR1wjGCmXnBuSgJy2dvSID82lLZEFa4vGl1wN5UhnQ7fNjm?=
-	=?us-ascii?Q?KoANhVy/MHEknyCPwuA5oRWSbUofGshp8MnSPNCn+dhK74GETLNRQLMvDjfx?=
-	=?us-ascii?Q?twAmSRvcb8dU9qVxvxnQ=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1180;
-	5:F1eICQj3KvOOpPG8Ihw0WcKcbi/+lrkl63tg2hVr7UVEuuPWNuBRhqtbo3wy9zVvl2CgjkXo6PLVAlX5/CMFKmuaPCD7lImosNJcZvcIJnJty0+jUpSkd/RG3wgxWfbW4OxRL40OFQgoLHMAGM3c4w==;
-	24:rpbCuVT6jZHFuRHRt54wbqvX3m0Lb4nDWjD8bnzpu2TB+E3vJBd+JOht6Q2NYqrVm5vLLOm2AULFLJoBOv7mqugePTYRXBSVA/IcGu97AtM=;
-	20:xBDJbtiJeoCLD6thbe52x/69qKh3b3zyY5lzNmBTqYpMzy+hIRQ/x+p0+dev8/IMYK6b2W3eMbfJLEC1DBO4+Q==
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BY1PR0301MB1176;
+	23:K9JE/jz4rki9vh+rqPzfPhy5KpPSz0NTm+Ir59T?=
+	=?us-ascii?Q?Y69v+mLkj54RShBXUjeDOadX7AAwkS+Bsb+2aG1WgFlYQi2ywqRErnM95HAt?=
+	=?us-ascii?Q?j0S5WghVO7UD1428iRW9sRQe0h3bttgl1nLo9NhCqm4ZymjpmgyuDQj/YEMe?=
+	=?us-ascii?Q?C/XPXVoRG5dXOiMXNSrFflgHuguq013xmxYhOlQ4ACxJ5AXbtSPz+1dfM361?=
+	=?us-ascii?Q?AMrSpXwFLUC1I+rqJrWResy89JRwnkNlGkcUvYd/7OrZ6BzYFQ3ONGSSLkT4?=
+	=?us-ascii?Q?CyBYlIh8/JFwHCsOCyGSGehom5rEboyVTVk++nRU5SCMb/3zV8AY0TXGq4kp?=
+	=?us-ascii?Q?EPwRI00QlKDw7EuI3+mRV/jmLQdoIbPZPzR/AOuEfAPqtBL4xMAvc8z6dawX?=
+	=?us-ascii?Q?UaDA/18iuE/iRoA+zSFNmc+mACKxZbcRyqbxgdhdrROZwT6ekCoevtoxuTC3?=
+	=?us-ascii?Q?DxzXAZIonFcGZ44V7I+zoGPB+8PY+Q1ubDA7vNwONdsUPI2lsTzElV9GCB6N?=
+	=?us-ascii?Q?Xica8cTE0NTMSoLY0s5IgO9VavOE9rHEApsvkhOMEEbt+wDZFvRzrr1YPs0O?=
+	=?us-ascii?Q?dFqgruu+DOenM3+ZpWlHDbQF8fD+ivcU1Po/JicBqhk3G1x3fhChdBrYuBqb?=
+	=?us-ascii?Q?rw3Sva5iWLkEyhOlGOyULK4d9LMiWYSzfqOcKCwj9UAWl03/lQ+eeoyqtKVI?=
+	=?us-ascii?Q?0pXgZVJ428uzAz5+cokCSuonl1VAMA/0Gb4nLVZiPGblog1WS8UUZbcDdMWg?=
+	=?us-ascii?Q?ET1iBPiD8vlixIaXxBUSTczRG9SAFIJoL7Zl54hikBcEUke1smt45Gmej95Q?=
+	=?us-ascii?Q?XD2WrNadYyFH5+hI9Zg8o/O6WzHdnYXDNEQuxGvapqZcP4aaJp2LOIwPtj+L?=
+	=?us-ascii?Q?2go67L+7EvKa/1AccIiq/c2p7Simeus1Vp7wSBSH7PnnPL79ujNmqsDQkWQh?=
+	=?us-ascii?Q?+GOYoOL6b9utgzmGwG8EQF9cQZW5SCE3Ho4lpYIFE9FCgHCydNLpRoGhIy+P?=
+	=?us-ascii?Q?iPls7J2OPmUVdpodXpMF8i6LTIz1PfypELQ2GXWwQPPVWaOkDvWZa9fTZ9pl?=
+	=?us-ascii?Q?00oWJavacVUubwNgZ/fyi5+UGuc27UZZLaadoPUaiXEBl/PsQXTT0FblETvk?=
+	=?us-ascii?Q?EfjcwOU7Sw66v6P8fLa0Rh2JZhXxLnMeM76/uyyY8txXYpXzGQImvSND9IlN?=
+	=?us-ascii?Q?W5GpEVCzV8FSXT3bf31tHsQoQ7QH3KM7hauxIyosP3jVcSi92h7W0kVOcVxr?=
+	=?us-ascii?Q?/lq5aZ6ynGEX/7G6eK58=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1176;
+	5:FPD3U2xbp63MHSja6xvn3KZUpKSbrBbZ/410HrI0v8JVvGRsH8fQrEI/4b8JsbyAJrmgaaDTZfgI8hDApAD9nnMtbXgl61NignexDsbnU7fP/B9B6iQuEJb2z8IRHeAraiIA6RMuz8p/tI6UuLWNTg==;
+	24:YBSve91gamvoXtSfRHHsFBlk0sn7KbMKwGPkbXDa2HKxGEH0IdhMmFWgUgsAb2LA5qS2uw12RN8ggBTbuBqtaOoirZYWzVRaTEE1Iy25hsg=;
+	20:KeFO+zMyDF2BoLuOJ8j2orzrOuNYMFjTY4KP5P7U4Q3EbfTeLTdaMBFAUuCxxfePb7qnMZ25kHyWAT6zevMhQg==
 X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2015 06:16:54.4128 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Aug 2015 06:16:56.3497 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2];
 	Helo=[az84smr01.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB1180
-Subject: [poky][PATCH v7 10/11] gstreamer1.0-plugins-base: Add subparse related patch
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR0301MB1176
+Subject: [poky][PATCH v7 11/11] gstreamer1.0-plugins-base: Add encodebin related patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -106,102 +106,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 06:16:56 -0000
+X-List-Received-Date: Fri, 07 Aug 2015 06:16:58 -0000
 Content-Type: text/plain
 
-Set need_segment after sink pad receive GST_EVENT_SEGMENT.
+Need more buffers in output queue for better performance.
 
 Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- ...t-need_segment-after-sink-pad-received-GS.patch | 69 ++++++++++++++++++++++
+ ...eed-more-buffers-in-output-queue-for-bett.patch | 32 ++++++++++++++++++++++
  .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-subparse-set-need_segment-after-sink-pad-received-GS.patch
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-subparse-set-need_segment-after-sink-pad-received-GS.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-subparse-set-need_segment-after-sink-pad-received-GS.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
 new file mode 100644
-index 0000000..7813915
+index 0000000..3256717
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0004-subparse-set-need_segment-after-sink-pad-received-GS.patch
-@@ -0,0 +1,69 @@
-+From ed09c8fd2c9c2b5384b72cc70af3728be6694e64 Mon Sep 17 00:00:00 2001
-+From: Mingke Wang <mingke.wang@freescale.com>
-+Date: Thu, 19 Mar 2015 14:20:26 +0800
-+Subject: [PATCH 4/4] subparse: set need_segment after sink pad received
-+ GST_EVENT_SEGMENT
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/encodebin-Need-more-buffers-in-output-queue-for-bett.patch
+@@ -0,0 +1,32 @@
++From 540e02c92c75e08b90326863dc787fa5cadf9da6 Mon Sep 17 00:00:00 2001
++From: Song Bing <b06498@freescale.com>
++Date: Fri, 13 Mar 2015 18:04:31 +0800
++Subject: [PATCH] encodebin: Need more buffers in output queue for better
++ performance
 +
-+subparse works in push mode, chain funciton will be called once
-+up stream element finished the seeking and flushing.
-+if set need_segment flag in src pad event handler, the segment
-+event will be pushed earlier, result in the subtitle text will
-+be send out to down stream from the beginning.
++Need more buffers in output queue for better performance
 +
-+Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=747498]
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=744191]
 +
-+Signed-off-by: Mingke Wang <mingke.wang@freescale.com>
++Signed-off-by: Song Bing <b06498@freescale.com>
++---
++ gst/encoding/gstencodebin.c |    3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
 +
-+diff --git a/gst/subparse/gstsubparse.c b/gst/subparse/gstsubparse.c
-+old mode 100644
-+new mode 100755
-+index b565e93..7741ccc
-+--- a/gst/subparse/gstsubparse.c
-++++ b/gst/subparse/gstsubparse.c
-+@@ -266,22 +266,20 @@ gst_sub_parse_src_event (GstPad * pad, GstObject * parent, GstEvent * event)
-+         goto beach;
-+       }
++diff --git a/gst/encoding/gstencodebin.c b/gst/encoding/gstencodebin.c
++index 6728e58..32daae4 100644
++--- a/gst/encoding/gstencodebin.c
+++++ b/gst/encoding/gstencodebin.c
++@@ -1138,8 +1138,7 @@ _create_stream_group (GstEncodeBin * ebin, GstEncodingProfile * sprof,
++    * We only use a 1buffer long queue here, the actual queueing will be done
++    * in the input queue */
++   last = sgroup->outqueue = gst_element_factory_make ("queue", NULL);
++-  g_object_set (sgroup->outqueue, "max-size-buffers", (guint32) 1,
++-      "max-size-bytes", (guint32) 0, "max-size-time", (guint64) 0,
+++  g_object_set (sgroup->outqueue, "max-size-time", (guint64) 0,
++       "silent", TRUE, NULL);
 + 
-++      /* Apply the seek to our segment */
-++      gst_segment_do_seek (&self->segment, rate, format, flags,
-++          start_type, start, stop_type, stop, &update);
-++
-++      GST_DEBUG_OBJECT (self, "segment after seek: %" GST_SEGMENT_FORMAT,
-++          &self->segment);
-++
-+       /* Convert that seek to a seeking in bytes at position 0,
-+          FIXME: could use an index */
-+       ret = gst_pad_push_event (self->sinkpad,
-+           gst_event_new_seek (rate, GST_FORMAT_BYTES, flags,
-+               GST_SEEK_TYPE_SET, 0, GST_SEEK_TYPE_NONE, 0));
-+ 
-+-      if (ret) {
-+-        /* Apply the seek to our segment */
-+-        gst_segment_do_seek (&self->segment, rate, format, flags,
-+-            start_type, start, stop_type, stop, &update);
-+-
-+-        GST_DEBUG_OBJECT (self, "segment after seek: %" GST_SEGMENT_FORMAT,
-+-            &self->segment);
-+-
-+-        self->need_segment = TRUE;
-+-      } else {
-++      if (!ret) {
-+         GST_WARNING_OBJECT (self, "seek to 0 bytes failed");
-+       }
-+ 
-+@@ -1632,8 +1630,10 @@ gst_sub_parse_sink_event (GstPad * pad, GstObject * parent, GstEvent * event)
-+       gst_event_parse_segment (event, &s);
-+       if (s->format == GST_FORMAT_TIME)
-+         gst_event_copy_segment (event, &self->segment);
-+-      GST_DEBUG_OBJECT (self, "newsegment (%s)",
-+-          gst_format_get_name (self->segment.format));
-++      GST_DEBUG_OBJECT (self, "newsegment (%s) %" GST_SEGMENT_FORMAT,
-++          gst_format_get_name (self->segment.format), &self->segment);
-++
-++      self->need_segment = TRUE;
-+ 
-+       /* if not time format, we'll either start with a 0 timestamp anyway or
-+        * it's following a seek in which case we'll have saved the requested
++   gst_bin_add (GST_BIN (ebin), sgroup->outqueue);
 +-- 
 +1.7.9.5
 +
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-index 85e2ad6..ba76bdd 100644
+index ba76bdd..b09c2cb 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-@@ -20,6 +20,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
-             file://0001-basetextoverlay-make-memory-copy-when-video-buffer-s.patch \
+@@ -21,6 +21,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
              file://0002-gstplaysink-don-t-set-async-of-custom-text-sink-to-f.patch \
              file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
-+            file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch \
+             file://0004-subparse-set-need_segment-after-sink-pad-received-GS.patch \
++            file://encodebin-Need-more-buffers-in-output-queue-for-bett.patch \
  "
  
  SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
