@@ -1,24 +1,20 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ECBE97674C
+Return-Path: <topi.kuutela@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2357C7673B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 06:33:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t776X5f4017412
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Aug 2015 23:33:05 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 6 Aug 2015 23:33:05 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Aug 2015 14:30:07 +0800
-Message-ID: <1438929007-31216-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] bind: upgrade to 9.10.2-p3
+	Fri,  7 Aug 2015 06:42:30 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 06 Aug 2015 23:42:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,628,1432623600"; d="scan'208";a="779512919"
+Received: from tkuutela-desk.fi.intel.com ([10.237.68.32])
+	by orsmga002.jf.intel.com with ESMTP; 06 Aug 2015 23:42:28 -0700
+From: Topi Kuutela <topi.kuutela@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Aug 2015 09:42:35 +0300
+Message-Id: <1438929755-17296-1-git-send-email-topi.kuutela@intel.com>
+X-Mailer: git-send-email 2.4.3
+Subject: [PATCH v3] python3: security: disable -pie and -fpie from Python3 compilation.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +27,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 06:33:10 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Aug 2015 06:42:33 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
+If security_flags.inc is 'required' to the image, -pie and -fpie options
+are added to CFLAGS. These are not compatible with -shared GCC option.
+The result is several errors of following form and missing Python3
+modules in the image:
 
-9.10.2-p3 includes the fix for CVE-2015-5477:
-  BIND 9.x before 9.9.7-P2 and 9.10.x before 9.10.2-P3 allows remote
-  attackers to cause a denial of service (REQUIRE assertion failure
-  and daemon exit) via TKEY queries.
+    *.o In function `_start': *.S undefined reference to `main'
+    collect2: error: ld returned 1 exit status
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Topi Kuutela <topi.kuutela@intel.com>
 ---
- .../bind/{bind_9.10.2-P2.bb => bind_9.10.2-P3.bb}                     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.10.2-P2.bb => bind_9.10.2-P3.bb} (96%)
+ meta/conf/distro/include/security_flags.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.10.2-P2.bb b/meta/recipes-connectivity/bind/bind_9.10.2-P3.bb
-similarity index 96%
-rename from meta/recipes-connectivity/bind/bind_9.10.2-P2.bb
-rename to meta/recipes-connectivity/bind/bind_9.10.2-P3.bb
-index 3a8959e..52244b0 100644
---- a/meta/recipes-connectivity/bind/bind_9.10.2-P2.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.10.2-P3.bb
-@@ -21,8 +21,8 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
-            "
- 
--SRC_URI[md5sum] = "55d8f094bc10baae0e23e5e9100ba320"
--SRC_URI[sha256sum] = "b1e6f0af88634aaf48fb9d06bbf82968264f49b8e2685f061dd3fd4c1ab76c5f"
-+SRC_URI[md5sum] = "a810d5d65fbdcf28dcda80d646913c3a"
-+SRC_URI[sha256sum] = "78079a66dda455ffecfe93ef72d1ffc947f17b1c453d55ec06b860b49a5e1d4a"
- 
- # --enable-exportlib is necessary for building dhcp
- ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index 3724972..ff600fa 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -82,6 +82,7 @@ SECURITY_CFLAGS_pn-python-imaging = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-pycurl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-smartpm = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-python-numpy = "${SECURITY_NO_PIE_CFLAGS}"
++SECURITY_CFLAGS_pn-python3 = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tcl = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-tiff = "${SECURITY_NO_PIE_CFLAGS}"
+ SECURITY_CFLAGS_pn-valgrind = "${SECURITY_NO_PIE_CFLAGS}"
 -- 
-1.9.1
+2.4.3
+
+---------------------------------------------------------------------
+Intel Finland Oy
+Registered Address: PL 281, 00181 Helsinki 
+Business Identity Code: 0357606 - 4 
+Domiciled in Helsinki 
+
+This e-mail and any attachments may contain confidential material for
+the sole use of the intended recipient(s). Any review or distribution
+by others is strictly prohibited. If you are not the intended
+recipient, please contact the sender and delete all copies.
 
 
