@@ -1,37 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 1070E7678B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B66E767A2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 19:01:03 +0000 (UTC)
-Received: by wibxm9 with SMTP id xm9so72209084wib.0
+	Fri,  7 Aug 2015 19:16:18 +0000 (UTC)
+Received: by pacrr5 with SMTP id rr5so58556744pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Aug 2015 12:01:02 -0700 (PDT)
+	Fri, 07 Aug 2015 12:16:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=ye0s/KAzh3ONL0Ledp9LdemoM+q1jN7Dk/gg60xg8Q0=;
-	b=LKNs0Wgg/qHKtYHQIBOpw1zD4L9X5ahw22LrJlP4XCS3dL/sznj9SoUJJ9gdm6CaXW
-	2a9RuruwBeolfCrgiA//vyff9gC1qk18m3Q6FzSI6kNs+fGcA9SG/m3+c3k9GFZqk63q
-	51/fHN7rC8+vZluO/PwW4EYI3rvP5Y6zWcx+SzLwiCV2x/gGw6+s5h0udDE7N678fh3S
-	X8yfECW9dxiEHNlgYRa9h5uIvqF/wcwyMg9Bz797mEhSw0HYReXB/JeVu+p3CHblS//p
-	6s6Orhboi04r7WAgL4jC2dKt2d9r5zUZHeZKchuiMcOP+rx6cUrcZkNKlPihrnXcbSgS
-	nInQ==
-MIME-Version: 1.0
-X-Received: by 10.180.75.243 with SMTP id f19mr9182639wiw.52.1438974062893;
-	Fri, 07 Aug 2015 12:01:02 -0700 (PDT)
-Received: by 10.194.236.166 with HTTP; Fri, 7 Aug 2015 12:01:02 -0700 (PDT)
-In-Reply-To: <CAMKF1srzd9m9WshEsrxrZUtbHQ0xiB98r2mGc96xwpUgJNyx2Q@mail.gmail.com>
-References: <1438890086-2710-1-git-send-email-armccurdy@gmail.com>
-	<1438890086-2710-3-git-send-email-armccurdy@gmail.com>
-	<CAMKF1srzd9m9WshEsrxrZUtbHQ0xiB98r2mGc96xwpUgJNyx2Q@mail.gmail.com>
-Date: Fri, 7 Aug 2015 12:01:02 -0700
-Message-ID: <CAJ86T=WGLspsp1c5ULdOQqqYpzd5wMb72pKGdMJ80-6=4a=Q0Q@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] security_flags.inc: clear SECURITY_CFLAGS for uclibc
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=f3DNg0IAdpe3IOCxU4ceh9krqcNBKW7mvpKAdYFm1Ak=;
+	b=vyvDKfxMWaLm4f2hb+SdaPxKf5wuGZ0lilAxJLWsz7eboLdbGE68cULPEDLD5F7tWq
+	S9x8LQBQpBU9guXZ7VdgMFjAYGlqDi1otj2jp12X7/l8Cx+ikkll2UIQPdGiiYGs6+hT
+	Vmvgo6dvk33MHG8QaoS6fsh2KxXE/ARb8j4//+HAnscSR9qdX6HEXftWVuvKtYNgffnC
+	sLIUq+uuDqGqRLOatmra2IlDU3oCqqJCLbcXPJWNDywmHFBYhSlblHralK2moVCBRDmW
+	Ztyry0LSTe2ayIYoJr5CkaoQr2kI9Swe4kNpJKQZ3JdCyOm+nsA9TR31tDtYyYavBLtj
+	5Bng==
+X-Received: by 10.68.178.65 with SMTP id cw1mr17705653pbc.111.1438974979325;
+	Fri, 07 Aug 2015 12:16:19 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:4ec:fbce:7a8:43c9?
+	([2601:646:8601:4580:4ec:fbce:7a8:43c9])
+	by smtp.gmail.com with ESMTPSA id
+	x2sm10971194pdx.63.2015.08.07.12.16.17
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 07 Aug 2015 12:16:18 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <55C4A405.6050209@linux.intel.com>
+Date: Fri, 7 Aug 2015 12:16:13 -0700
+Message-Id: <673E27E5-D87E-41F2-A7EE-2B2676C9FEF8@gmail.com>
+References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
+	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
+	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
+	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+	<1436601450.3310.27.camel@linuxfoundation.org>
+	<55BA134F.9010908@linux.intel.com>
+	<CAJ86T=UHTjTA7S_4EV66VEUoaRhYmaYveVcfxbqzVJsxZ4s6dg@mail.gmail.com>
+	<55BB5F06.4010901@linux.intel.com>
+	<CAMKF1srWcMoRui4kqRY5vCdLd-SPQ+EMihTci=NUghHsnGiBqQ@mail.gmail.com>
+	<55C477AE.8030308@balister.org> <55C4A405.6050209@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,79 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 19:01:07 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 07 Aug 2015 19:16:26 -0000
+X-Groupsio-MsgNum: 69146
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_14DC48D1-829D-4024-927E-50B9639D5916";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_14DC48D1-829D-4024-927E-50B9639D5916
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=windows-1252
 
-On Thu, Aug 6, 2015 at 7:02 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Thu, Aug 6, 2015 at 12:41 PM, Andre McCurdy <armccurdy@gmail.com> wrot=
-e:
->> uclibc fails to build when security_flags.inc is used.
->>
->>  | i686-rdk-linux-uclibc-gcc  -m32 -march=3Dcore2 -mtune=3Dcore2 -msse3 =
--mfpmath=3Dsse --sysroot=3D/build-vbox32/tmp/sysroots/vbox32-tcbootstrap  -=
-Wl,-EL -Wl,--sort-common -Wl,--sort-section=3Dalignment -m32 -shared -Wl,--=
-warn-common -Wl,--warn-once -Wl,-z,combreloc -Wl,-z,relro -Wl,-z,now -Wl,--=
-hash-style=3Dgnu -Wl,-z,defs   -Wl,-init,__uClibc_init  -Wl,-soname=3Dlibc.=
-so.0 -nostdlib -o lib/libuClibc-0.9.34-git.so  -Wl,--whole-archive libc/lib=
-c_so.a -Wl,--no-whole-archive ./lib/interp.os ./lib/ld-uClibc.so.0 ./lib/uc=
-libc_nonshared.a /build-vbox32/tmp/sysroots/vbox32-tcbootstrap/usr/lib/i686=
--rdk-linux-uclibc/4.9.3/libgcc.a
->>  | libc/libc_so.a(sigaction.os): In function `__libc_sigaction':
->>  | /build-vbox32/tmp/work/core2-32-rdk-linux-uclibc/uclibc/0.9.33+gitAUT=
-OINC+48a0006012-r9/git/libc/sysdeps/linux/i386/sigaction.c:37: undefined re=
-ference to `__stack_chk_guard'
->>  | /build-vbox32/tmp/work/core2-32-rdk-linux-uclibc/uclibc/0.9.33+gitAUT=
-OINC+48a0006012-r9/git/libc/sysdeps/linux/i386/sigaction.c:49: undefined re=
-ference to `__stack_chk_fail_local'
->>  | collect2: error: ld returned 1 exit status
->>  | make: *** [lib/libc.so] Error 1
->
-> This fix is papering over real problem. this means gcc is expecting
-> ssp implementation from libc but is not detecting it rightly can you
-> try passing gcc_cv_libc_provides_ssp=3Dyes to help it configure
 
-OK, so I tried adding:
+> On Aug 7, 2015, at 5:26 AM, Alexander Kanavin =
+<alexander.kanavin@linux.intel.com> wrote:
+>=20
+> On 08/07/2015 12:17 PM, Philip Balister wrote:
+>=20
+>> Thanks Khem. I also do not agree that we lack a self-sustaining
+>> community. OpenEmbedded has functioned independently for far longer =
+than
+>> the Yocto Project has existed.
+>=20
+> By 'self-sustaining' I mean 'being able to continuously produce =
+quality work'. Looking at layers in meta-openembedded, not all of them =
+are of high quality. Meta-gnome in particular is badly out of date, =
+because no one wants to maintain it properly. If oe-core starts taking a =
+lot more volunteer contributions,
 
-  export gcc_cv_libc_provides_ssp =3D 'yes'
+what a bizarre statement. Let me remind you OE is a open source project =
+still and maintained by volunteers.
 
-to gcc-configure-common.inc and uclibc does then seem to build OK
-without needing to provide uclibc specific SECURITY_CFLAGS.
+> and the same thing happens (a volunteer contributes a large set of =
+recipes, then disappears), what is supposed to happen then?
 
-The build still fails later (gcc-runtime fails while configuring
-libgomp) but getting beyond building uclibc with security_flags.inc
-enabled seems like progress.
+someone else picks it up or it rots and get relegated.
 
->>
->> Clearing SECURITY_CFLAGS completely may not be the best approach, but
->> it's the approach taken for glibc, so try it for uclibc too.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/conf/distro/include/security_flags.inc | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/dis=
-tro/include/security_flags.inc
->> index 3724972..a107657 100644
->> --- a/meta/conf/distro/include/security_flags.inc
->> +++ b/meta/conf/distro/include/security_flags.inc
->> @@ -84,6 +84,8 @@ SECURITY_CFLAGS_pn-python-smartpm =3D "${SECURITY_NO_P=
-IE_CFLAGS}"
->>  SECURITY_CFLAGS_pn-python-numpy =3D "${SECURITY_NO_PIE_CFLAGS}"
->>  SECURITY_CFLAGS_pn-tcl =3D "${SECURITY_NO_PIE_CFLAGS}"
->>  SECURITY_CFLAGS_pn-tiff =3D "${SECURITY_NO_PIE_CFLAGS}"
->> +SECURITY_CFLAGS_pn-uclibc =3D ""
->> +SECURITY_CFLAGS_pn-uclibc-initial =3D ""
->>  SECURITY_CFLAGS_pn-valgrind =3D "${SECURITY_NO_PIE_CFLAGS}"
->>  SECURITY_CFLAGS_pn-webkit-gtk =3D "${SECURITY_NO_PIE_CFLAGS}"
->>  SECURITY_CFLAGS_pn-zlib =3D "${SECURITY_NO_PIE_CFLAGS}"
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>=20
+>=20
+> Alex
 
+
+--Apple-Mail=_14DC48D1-829D-4024-927E-50B9639D5916
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXFBAAACgkQuwUzVZGdMxQwGACdEQjbNKCD08KmdWUCMjMQOkY0
+NboAnAwxDI4I2AgKKQZ2zphnpYLRad5w
+=f4Er
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_14DC48D1-829D-4024-927E-50B9639D5916--
