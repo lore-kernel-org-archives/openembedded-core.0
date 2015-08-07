@@ -1,42 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
-	[209.85.192.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 396D676769
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8530B75A60
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 07:21:51 +0000 (UTC)
-Received: by pdrh1 with SMTP id h1so24147194pdr.0
+	Fri,  7 Aug 2015 07:46:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t777ke5a014620
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Aug 2015 00:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=dGKccscXS8xWqdnziBPiAwgepuaVRvmQx7S8u3PNTwY=;
-	b=J8Cj9zSIoJQEMcn4ViwIGvFlXY5bxUYsuxjjoys0oRngObE95rZZEMXWMKOU3FAkKA
-	2oPMw+bon2O2V1DeJJvphEAPkLPUAOZZ2KjVxDB9o56gEJX2hRG5Tl4qWleTs/HneMCz
-	bjZCXuvGmSqFF0ZCE0+t0Nu54hVayV48W0l/iWBL+goIVrseY9r743ZD19r5sByqxquZ
-	T8YvO+opFMRdTq7yUyKj4G7g99N8zyCazpXOIPsKi9lxFnSBZZ8VeA7WPK3tSMDpVIQt
-	2KZ9dvPXeUeS4h5ozIYFpOUf1EDSZjeDhQjEgQ65RdbRwWbIzZEg2Dc9It963FKctNx7
-	+3hA==
-X-Received: by 10.70.91.38 with SMTP id cb6mr11883240pdb.104.1438932111456;
-	Fri, 07 Aug 2015 00:21:51 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:4ec:fbce:7a8:43c9?
-	([2601:646:8601:4580:4ec:fbce:7a8:43c9])
-	by smtp.gmail.com with ESMTPSA id sp1sm8960155pab.4.2015.08.07.00.21.50
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 07 Aug 2015 00:21:50 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <e5437695391e1dd4fe0ecad10dec483cb0e3a8bc.1438262915.git.alexander.kanavin@linux.intel.com>
-Date: Fri, 7 Aug 2015 00:21:49 -0700
-Message-Id: <120CC689-4105-4DE2-8602-96A9BF548DEE@gmail.com>
-References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<e5437695391e1dd4fe0ecad10dec483cb0e3a8bc.1438262915.git.alexander.kanavin@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 09/26] lsb: set PV to 1.4 to match upstream tarball version
+	Fri, 7 Aug 2015 00:46:40 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Fri, 7 Aug 2015 00:46:40 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 7 Aug 2015 15:43:42 +0800
+Message-ID: <1438933422-24634-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] gcc: reformat 0063-nativesdk-gcc-support.patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,71 +31,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 07:21:53 -0000
-X-Groupsio-MsgNum: 69104
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_C474B32F-DC83-4C59-BBEE-6D111BC77465";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 07 Aug 2015 07:46:41 -0000
+Content-Type: text/plain
 
---Apple-Mail=_C474B32F-DC83-4C59-BBEE-6D111BC77465
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+From: Roy Li <rongqing.li@windriver.com>
+
+0063-nativesdk-gcc-support.patch can be applied due to the buggy
+patch command on sled11, so reformat it, nothing is changed.
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../gcc/gcc-4.9/0063-nativesdk-gcc-support.patch   | 44 ++++++++++------------
+ 1 file changed, 19 insertions(+), 25 deletions(-)
+
+diff --git a/meta/recipes-devtools/gcc/gcc-4.9/0063-nativesdk-gcc-support.patch b/meta/recipes-devtools/gcc/gcc-4.9/0063-nativesdk-gcc-support.patch
+index ba7360c..f9efa45 100644
+--- a/meta/recipes-devtools/gcc/gcc-4.9/0063-nativesdk-gcc-support.patch
++++ b/meta/recipes-devtools/gcc/gcc-4.9/0063-nativesdk-gcc-support.patch
+@@ -15,15 +15,13 @@ a) Add %r into spec file markup which can be used for injected paths
+ b) Add other paths which need relocation into a .gccrelocprefix section
+    which the relocation code will notice and adjust automatically.
+ 
+-
+ Upstream-Status: Inappropriate
+ RP 2015/7/28
+-
+-Index: gcc-4.9.2/gcc/gcc.c
+-===================================================================
+---- gcc-4.9.2.orig/gcc/gcc.c
+-+++ gcc-4.9.2/gcc/gcc.c
+-@@ -120,6 +120,8 @@ static const char *target_system_root =
++diff --git a/gcc/gcc.c b/gcc/gcc.c
++index 5fd3d0a..2de29aa 100644
++--- a/gcc/gcc.c
+++++ b/gcc/gcc.c
++@@ -120,6 +120,8 @@ static const char *target_system_root = TARGET_SYSTEM_ROOT;
+  #else
+  static const char *target_system_root = 0;
+  #endif
+@@ -32,7 +30,7 @@ Index: gcc-4.9.2/gcc/gcc.c
+  
+  /* Nonzero means pass the updated target_system_root to the compiler.  */
+  
+-@@ -384,6 +386,7 @@ or with constant text in a single argume
++@@ -384,6 +386,7 @@ or with constant text in a single argument.
+   %G     process LIBGCC_SPEC as a spec.
+   %R     Output the concatenation of target_system_root and
+          target_sysroot_suffix.
+@@ -55,7 +53,7 @@ Index: gcc-4.9.2/gcc/gcc.c
+  
+  /* For native compilers, these are well-known paths containing
+     components that may be provided by the system.  For cross
+-@@ -1229,9 +1232,9 @@ static const char *const standard_startf
++@@ -1229,9 +1232,9 @@ static const char *const standard_startfile_prefix = STANDARD_STARTFILE_PREFIX;
+  static const char *md_exec_prefix = MD_EXEC_PREFIX;
+  static const char *md_startfile_prefix = MD_STARTFILE_PREFIX;
+  static const char *md_startfile_prefix_1 = MD_STARTFILE_PREFIX_1;
+@@ -67,7 +65,7 @@ Index: gcc-4.9.2/gcc/gcc.c
+    = STANDARD_STARTFILE_PREFIX_2;
+  
+  /* A relative path to be used in finding the location of tools
+-@@ -5305,6 +5310,11 @@ do_spec_1 (const char *spec, int inswitc
++@@ -5305,6 +5308,11 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
+  	      }
+  	    break;
+  
+@@ -79,10 +77,11 @@ Index: gcc-4.9.2/gcc/gcc.c
+  	  case 'S':
+  	    value = do_spec_1 (startfile_spec, 0, NULL);
+  	    if (value != 0)
+-Index: gcc-4.9.2/gcc/cppdefault.c
+-===================================================================
+---- gcc-4.9.2.orig/gcc/cppdefault.c
+-+++ gcc-4.9.2/gcc/cppdefault.c
++
++diff --git a/gcc/cppdefault.c b/gcc/cppdefault.c
++index dad69e6..cf43f28 100644
++--- a/gcc/cppdefault.c
+++++ b/gcc/cppdefault.c
+ @@ -35,6 +35,30 @@
+  # undef CROSS_INCLUDE_DIR
+  #endif
+@@ -114,7 +113,7 @@ Index: gcc-4.9.2/gcc/cppdefault.c
+  const struct default_include cpp_include_defaults[]
+  #ifdef INCLUDE_DEFAULTS
+  = INCLUDE_DEFAULTS;
+-@@ -42,38 +66,38 @@ const struct default_include cpp_include
++@@ -42,38 +66,38 @@ const struct default_include cpp_include_defaults[]
+  = {
+  #ifdef GPLUSPLUS_INCLUDE_DIR
+      /* Pick up GNU C++ generic include files.  */
+@@ -162,7 +161,7 @@ Index: gcc-4.9.2/gcc/cppdefault.c
+        /* A multilib suffix needs adding if different multilibs use
+  	 different headers.  */
+  #ifdef SYSROOT_HEADERS_SUFFIX_SPEC
+-@@ -85,21 +109,21 @@ const struct default_include cpp_include
++@@ -85,16 +109,16 @@ const struct default_include cpp_include_defaults[]
+  #endif
+  #ifdef CROSS_INCLUDE_DIR
+      /* One place the target system's headers might be.  */
+@@ -183,15 +182,10 @@ Index: gcc-4.9.2/gcc/cppdefault.c
+  #endif
+      { 0, 0, 0, 0, 0, 0 }
+    };
+- #endif /* no INCLUDE_DEFAULTS */
+- 
+- #ifdef GCC_INCLUDE_DIR
+- const char cpp_GCC_INCLUDE_DIR[] = GCC_INCLUDE_DIR;
+- const size_t cpp_GCC_INCLUDE_DIR_len = sizeof GCC_INCLUDE_DIR - 8;
+-Index: gcc-4.9.2/gcc/cppdefault.h
+-===================================================================
+---- gcc-4.9.2.orig/gcc/cppdefault.h
+-+++ gcc-4.9.2/gcc/cppdefault.h
++diff --git a/gcc/cppdefault.h b/gcc/cppdefault.h
++index 30b6fed..2ef96b7 100644
++--- a/gcc/cppdefault.h
+++++ b/gcc/cppdefault.h
+ @@ -33,7 +33,8 @@
+  
+  struct default_include
+-- 
+1.9.1
 
 
-> On Jul 30, 2015, at 6:31 AM, Alexander Kanavin =
-<alexander.kanavin@linux.intel.com> wrote:
->=20
-> This allows upstream version check to work
->=20
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> ---
-> meta/recipes-extended/lsb/lsb_4.1.bb | 1 +
-> 1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb =
-b/meta/recipes-extended/lsb/lsb_4.1.bb
-> index 6215b62..171a6c8 100644
-> --- a/meta/recipes-extended/lsb/lsb_4.1.bb
-> +++ b/meta/recipes-extended/lsb/lsb_4.1.bb
-> @@ -21,6 +21,7 @@ SRC_URI =3D =
-"${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/1.4/lsb-release-1.4.tar
->            file://lsb_pidofproc \
->            file://lsb_start_daemon \
->            "
-> +PV =3D =E2=80=9C1.4=E2=80=9D
->=20
-
-it will send version backwards, why is this needed ?
-
-
-> SRC_URI[md5sum] =3D "30537ef5a01e0ca94b7b8eb6a36bb1e4"
-> SRC_URI[sha256sum] =3D =
-"99321288f8d62e7a1d485b7c6bdccf06766fb8ca603c6195806e4457fdf17172"
-> --
-> 2.1.4
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_C474B32F-DC83-4C59-BBEE-6D111BC77465
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXEXI0ACgkQuwUzVZGdMxSKxgCggPJSb8g7j3Nzh4P2YU7KhEAW
-omoAni2D+YUlpkGV95JWbij9spXkejy/
-=oDqu
------END PGP SIGNATURE-----
-
---Apple-Mail=_C474B32F-DC83-4C59-BBEE-6D111BC77465--
