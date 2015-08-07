@@ -1,18 +1,18 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 79A88763CE
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FDCB76486
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 09:25:11 +0000 (UTC)
+	Fri,  7 Aug 2015 09:26:41 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t779PAuo028989
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t779QfQG018596
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 7 Aug 2015 02:25:10 -0700 (PDT)
+	Fri, 7 Aug 2015 02:26:41 -0700 (PDT)
 Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Fri, 7 Aug 2015 02:25:10 -0700
-Message-ID: <55C47974.9030201@windriver.com>
-Date: Fri, 7 Aug 2015 17:25:08 +0800
+	Fri, 7 Aug 2015 02:26:40 -0700
+Message-ID: <55C479CF.4000506@windriver.com>
+Date: Fri, 7 Aug 2015 17:26:39 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
@@ -20,9 +20,9 @@ MIME-Version: 1.0
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
 	<openembedded-core@lists.openembedded.org>
 References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
-	<0321088b6ef57a419568c584ef1cc791bb40218b.1438619216.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <0321088b6ef57a419568c584ef1cc791bb40218b.1438619216.git.alexander.kanavin@linux.intel.com>
-Subject: Re: [PATCH 2/7] distcc: update SRC_URI to not use Google Code
+	<6a9899fa17063139292c39c162444d1a1356ccce.1438619216.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <6a9899fa17063139292c39c162444d1a1356ccce.1438619216.git.alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH 1/7] fotowall: update SRC_URI to use github instead of qt-apps.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 09:25:16 -0000
+X-List-Received-Date: Fri, 07 Aug 2015 09:26:42 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Alexander,
 
-I think that one or more autobuilder failures related to this patch:
+Also fotowall:
 
 https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/430/steps/BuildImages/logs/stdio
 
 // Robert
 
 On 08/04/2015 12:29 AM, Alexander Kanavin wrote:
-> Google Code is shutting down soon and distcc has moved to github.
+> GitHub is where upstream development is happening, so we are more likely
+> to find out about new releases from there
 >
 > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->   meta/recipes-devtools/distcc/distcc_3.1.bb | 6 ++----
+>   meta/recipes-qt/qt-apps/fotowall_0.9.bb | 6 ++----
 >   1 file changed, 2 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.1.bb
-> index e4b9313..8ea3cac 100644
-> --- a/meta/recipes-devtools/distcc/distcc_3.1.bb
-> +++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
-> @@ -17,16 +17,14 @@ PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
+> diff --git a/meta/recipes-qt/qt-apps/fotowall_0.9.bb b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
+> index 48dcc02..e92e862 100644
+> --- a/meta/recipes-qt/qt-apps/fotowall_0.9.bb
+> +++ b/meta/recipes-qt/qt-apps/fotowall_0.9.bb
+> @@ -10,13 +10,11 @@ SECTION = "x11/apps"
 >
->   RRECOMMENDS_${PN} = "avahi-daemon"
+>   PR = "r4"
 >
-> -SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
-> +SRC_URI = "git://github.com/distcc/distcc.git \
->              file://separatebuilddir.patch \
->              file://0001-zeroconf-Include-fcntl.h.patch \
->              file://default \
->              file://distccmon-gnome.desktop \
->              file://distcc \
->              file://distcc.service"
+> -SRC_URI = "http://qt-apps.org/CONTENT/content-files/71316-Fotowall-0.9.tar.bz2 \
+> +SRCREV = "06d5a4142c599604d9a9fd64727b6945eb8cd3da"
+> +SRC_URI = "git://github.com/enricoros/fotowall.git \
+>              file://ExportWizard-depends-on-ui_wizard.patch \
+>              "
+>
+> -SRC_URI[md5sum] = "142ef697332e0777c6d22c5bc96cc438"
+> -SRC_URI[sha256sum] = "e4d0c005d2cb1d7c09438bfc3098eadebc08946e4fbc0655b7fc8b046de3810d"
 > -
-> -SRC_URI[md5sum] = "a1a9d3853df7133669fffec2a9aab9f3"
-> -SRC_URI[sha256sum] = "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724fcd2d53f934ddd89"
-> +SRCREV = "9a172d3d20042754a30c0cd9a5d63fd1a8120c31"
+>   S = "${WORKDIR}/Fotowall-${PV}"
 >
->   inherit autotools pkgconfig update-rc.d useradd systemd
->
+>   inherit qt4x11
 >
 
