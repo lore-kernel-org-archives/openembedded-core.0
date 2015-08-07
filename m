@@ -1,36 +1,34 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id D274B76599
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 826C776599
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 01:14:01 +0000 (UTC)
-Received: by wibxm9 with SMTP id xm9so43009636wib.0
+	Fri,  7 Aug 2015 01:54:31 +0000 (UTC)
+Received: by iodd187 with SMTP id d187so99019694iod.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Aug 2015 18:14:01 -0700 (PDT)
+	Thu, 06 Aug 2015 18:54:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=F1iLgl80COHARbId4mDkjO5LQoKXlghXoY8D8iDqJh8=;
-	b=CirRs+qtK0HWwMmB9Uq91duwCPRJR9GibXGrvBCBx52ZJtIkA83Gz0t6q05tw2or0e
-	tkNpVsqS1FfsFkYQmwBX2JFxPnVEkIRjvUQiW9S34qMDeUxiCTIhfcvSphVzActOLQlA
-	7xb6LfpLuroBqNzkmY1RzxS4FPcTGozslwl7A9JCiQwsi33fyJYJTxPgSZyl8ZHzZggf
-	qG9OHJ5TUQROMXIYzz6t8bvJyxKo/+dqLRws0Tgkxo1bvH9D1oDHfu1lnU4EwpK1wPMd
-	STqNwn5o4PeFx8Y4xhMI/8Ewrtn7V3itp+7PVbryMKp+vb+JdZ37hVEZ9Fs13YJqOeCy
-	AVxQ==
-MIME-Version: 1.0
-X-Received: by 10.180.206.211 with SMTP id lq19mr756167wic.81.1438910041201;
-	Thu, 06 Aug 2015 18:14:01 -0700 (PDT)
-Received: by 10.194.236.166 with HTTP; Thu, 6 Aug 2015 18:14:01 -0700 (PDT)
-In-Reply-To: <1438902142.30467.23.camel@linuxfoundation.org>
-References: <1438890086-2710-1-git-send-email-armccurdy@gmail.com>
-	<1438890086-2710-4-git-send-email-armccurdy@gmail.com>
-	<1438902142.30467.23.camel@linuxfoundation.org>
-Date: Thu, 6 Aug 2015 18:14:01 -0700
-Message-ID: <CAJ86T=VLSdzHw5aCo=eHM=OK+uia9hPxKdf2uRNi6NmVspocaA@mail.gmail.com>
+	h=from:to:cc:subject:date:message-id;
+	bh=EQ+aIOvb3KCIXnEoU77pe9YvyGKUo3olca6yMwpETs4=;
+	b=GeKaLpHOqYWpGwB0pz96W6uvopiPPOiWZ3GTXv8vN/yw5wsh4Vcw6yX3pp9C6oznzA
+	CEyniuXYl0j68W/A2171uGIqZ4ou+IP7JFtmShIzXo+IFJWTCR0PPZ2HQSavwBApwotv
+	gd6o4lpKlcMqzUrb6WNSrp5LWG5osnga3A1r+c77DnNlegVVZOh3ygr3StBvyFazuM+K
+	zKvZy5FMNup91cX3LZq6jtDn2r9bHsr94JvAIV9T4DQk2oGBJX1EQu6QXOU+TkN1ofNr
+	L1MW3nj9HYfcai+aIK9ZeUKEgAHmI2PeVul48LpfPNqcMdLv9IK9f2IejpznoGqcnIEx
+	sgEQ==
+X-Received: by 10.107.34.75 with SMTP id i72mr6355066ioi.56.1438912471582;
+	Thu, 06 Aug 2015 18:54:31 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id j3sm2740140ige.0.2015.08.06.18.54.30
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 06 Aug 2015 18:54:30 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] uclibc.inc: avoid immediate expansion for UCLIBC_EXTRA_CFLAGS
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Aug 2015 18:54:15 -0700
+Message-Id: <1438912459-7242-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH v2 0/4] fix uclibc build with security_flags.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,55 +41,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 01:14:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 07 Aug 2015 01:54:33 -0000
 
-On Thu, Aug 6, 2015 at 4:02 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Thu, 2015-08-06 at 12:41 -0700, Andre McCurdy wrote:
->> If immediate variable expansion is used, then UCLIBC_EXTRA_CFLAGS can
->> sometimes be derived from a partially expanded value of CFLAGS.
->>
->> One specific problem case occurs when security_flags.inc is used: CFLAGS
->> is evaluated before the SECURITY_CFLAGS_pn-uclibc over-ride has been
->> applied and therefore UCLIBC_EXTRA_CFLAGS ends up being based on the
->> default SECURITY_CFLAGS instead of the uclibc specific value.
->>
->> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
->> ---
->>  meta/recipes-core/uclibc/uclibc.inc | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
->> index c483228..3ed8b60 100644
->> --- a/meta/recipes-core/uclibc/uclibc.inc
->> +++ b/meta/recipes-core/uclibc/uclibc.inc
->> @@ -57,8 +57,8 @@ export V="2"
->>  # -O<n> -fno-omit-frame-pointer ends up with GCC ICE on thumb as reported
->>  # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44860
->>  #
->> -CFLAGS_arm := "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
->> -UCLIBC_EXTRA_CFLAGS  := "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
->> +CFLAGS_arm = "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
->
-> I'm rather surprised we don't get circular references without the :=
-> operator with this. I suspect we can see build failures if you change
-> the code like this. That said, I've been meaning to go through and
-> replace all the uses of oe_filter_out with the remove operator. Can we
-> do that here please instead?
->
-> E.g:
-> CFLAGS_remove_arm = "-fno-omit-frame-pointer"
+v2 adds a new patch to fixup CFLAGS with _remove instead of
+oe_filter_out, which fixes CFLAGS circular reference build
+failures introduced in v1 when building for ARM.
 
-OK, new patch on the way.
+Andre McCurdy (4):
+  uclibc.inc: remove unused UCLIBC_EXTRA_LDFLAGS
+  uclibc.inc: fixup CFLAGS with _remove instead of oe_filter_out
+  uclibc.inc: avoid immediate expansion for UCLIBC_EXTRA_CFLAGS
+  security_flags.inc: clear SECURITY_CFLAGS for uclibc
 
->> +UCLIBC_EXTRA_CFLAGS = "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
+ meta/conf/distro/include/security_flags.inc | 2 ++
+ meta/recipes-core/uclibc/uclibc.inc         | 6 +++---
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-Is it OK to keep using oe_filter_out() here to support the regex?
+-- 
+1.9.1
 
-> Cheers,
->
-> Richard
->
->
 
