@@ -1,34 +1,28 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with SMTP id E923C764BA
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 79A88763CE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 09:17:38 +0000 (UTC)
-Received: (qmail 17139 invoked by uid 1003); 7 Aug 2015 09:17:37 -0000
-Received: from unknown (HELO ?10.0.0.3?) (philip@opensdr.com@91.114.166.170)
-	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
-	7 Aug 2015 09:17:36 -0000
-To: Khem Raj <raj.khem@gmail.com>,
-	Alexander Kanavin <alexander.kanavin@linux.intel.com>
-References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
-	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
-	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
-	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
-	<1436601450.3310.27.camel@linuxfoundation.org>
-	<55BA134F.9010908@linux.intel.com>
-	<CAJ86T=UHTjTA7S_4EV66VEUoaRhYmaYveVcfxbqzVJsxZ4s6dg@mail.gmail.com>
-	<55BB5F06.4010901@linux.intel.com>
-	<CAMKF1srWcMoRui4kqRY5vCdLd-SPQ+EMihTci=NUghHsnGiBqQ@mail.gmail.com>
-From: Philip Balister <philip@balister.org>
-Message-ID: <55C477AE.8030308@balister.org>
-Date: Fri, 7 Aug 2015 11:17:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
+	Fri,  7 Aug 2015 09:25:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t779PAuo028989
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 7 Aug 2015 02:25:10 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Fri, 7 Aug 2015 02:25:10 -0700
+Message-ID: <55C47974.9030201@windriver.com>
+Date: Fri, 7 Aug 2015 17:25:08 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srWcMoRui4kqRY5vCdLd-SPQ+EMihTci=NUghHsnGiBqQ@mail.gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1438619216.git.alexander.kanavin@linux.intel.com>
+	<0321088b6ef57a419568c584ef1cc791bb40218b.1438619216.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <0321088b6ef57a419568c584ef1cc791bb40218b.1438619216.git.alexander.kanavin@linux.intel.com>
+Subject: Re: [PATCH 2/7] distcc: update SRC_URI to not use Google Code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,27 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 09:17:40 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Fri, 07 Aug 2015 09:25:16 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 08/07/2015 08:12 AM, Khem Raj wrote:
-> On Fri, Jul 31, 2015 at 4:41 AM, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
->> My issue here is quality control. Someone still has to review the work of
->> those volunteer developers, and take action when they fail to take action.
->> Yocto at the moment does not have such a self-sustaining community process -
->> it all still goes through 'core' oe-core developers, and those developers
->> can't have any more workload.
-> 
-> its a delicate balance of usability of target audience as well. If you
-> make it high quality but ignore real use case of end users you lose
-> and you lose otherway around too.
-> 
+Hi Alexander,
 
-Thanks Khem. I also do not agree that we lack a self-sustaining
-community. OpenEmbedded has functioned independently for far longer than
-the Yocto Project has existed.
+I think that one or more autobuilder failures related to this patch:
 
-Philip
+https://autobuilder.yoctoproject.org/main/builders/nightly-x86-64/builds/430/steps/BuildImages/logs/stdio
+
+// Robert
+
+On 08/04/2015 12:29 AM, Alexander Kanavin wrote:
+> Google Code is shutting down soon and distcc has moved to github.
+>
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>   meta/recipes-devtools/distcc/distcc_3.1.bb | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/distcc/distcc_3.1.bb b/meta/recipes-devtools/distcc/distcc_3.1.bb
+> index e4b9313..8ea3cac 100644
+> --- a/meta/recipes-devtools/distcc/distcc_3.1.bb
+> +++ b/meta/recipes-devtools/distcc/distcc_3.1.bb
+> @@ -17,16 +17,14 @@ PACKAGECONFIG[popt] = "--without-included-popt,--with-included-popt,popt"
+>
+>   RRECOMMENDS_${PN} = "avahi-daemon"
+>
+> -SRC_URI = "http://distcc.googlecode.com/files/${BPN}-${PV}.tar.bz2 \
+> +SRC_URI = "git://github.com/distcc/distcc.git \
+>              file://separatebuilddir.patch \
+>              file://0001-zeroconf-Include-fcntl.h.patch \
+>              file://default \
+>              file://distccmon-gnome.desktop \
+>              file://distcc \
+>              file://distcc.service"
+> -
+> -SRC_URI[md5sum] = "a1a9d3853df7133669fffec2a9aab9f3"
+> -SRC_URI[sha256sum] = "f55dbafd76bed3ce57e1bbcdab1329227808890d90f4c724fcd2d53f934ddd89"
+> +SRCREV = "9a172d3d20042754a30c0cd9a5d63fd1a8120c31"
+>
+>   inherit autotools pkgconfig update-rc.d useradd systemd
+>
+>
 
