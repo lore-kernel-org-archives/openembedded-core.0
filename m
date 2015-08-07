@@ -1,30 +1,32 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E17176775
+	by mail.openembedded.org (Postfix) with ESMTP id 86D9076778
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 10:50:57 +0000 (UTC)
+	Fri,  7 Aug 2015 10:56:34 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t77AoeDp019466; Fri, 7 Aug 2015 11:50:56 +0100
+	t77AuXOI019691; Fri, 7 Aug 2015 11:56:33 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id rUmaJ2FUGxcE; Fri,  7 Aug 2015 11:50:56 +0100 (BST)
+	with LMTP id dKObodeOl37w; Fri,  7 Aug 2015 11:56:33 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t77AodHj019457
+	t77AuHQc019660
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 7 Aug 2015 11:50:52 +0100
-Message-ID: <1438944639.30467.27.camel@linuxfoundation.org>
+	Fri, 7 Aug 2015 11:56:30 +0100
+Message-ID: <1438944976.30467.30.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: zhe.he@windriver.com
-Date: Fri, 07 Aug 2015 05:50:39 -0500
-In-Reply-To: <64a413dc9fa38ee9d50b0837071775a3fe2fd48e.1438679154.git.zhe.he@windriver.com>
-References: <cover.1438679154.git.zhe.he@windriver.com>
-	<64a413dc9fa38ee9d50b0837071775a3fe2fd48e.1438679154.git.zhe.he@windriver.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 07 Aug 2015 05:56:16 -0500
+In-Reply-To: <CAJ86T=VLSdzHw5aCo=eHM=OK+uia9hPxKdf2uRNi6NmVspocaA@mail.gmail.com>
+References: <1438890086-2710-1-git-send-email-armccurdy@gmail.com>
+	<1438890086-2710-4-git-send-email-armccurdy@gmail.com>
+	<1438902142.30467.23.camel@linuxfoundation.org>
+	<CAJ86T=VLSdzHw5aCo=eHM=OK+uia9hPxKdf2uRNi6NmVspocaA@mail.gmail.com>
 X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
 Mime-Version: 1.0
-Cc: bruce.ashfield@windriver.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3 1/1] kernel: Add KERNEL_IMAGETYPES to build multi types of kernel at one time
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] uclibc.inc: avoid immediate expansion for UCLIBC_EXTRA_CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,36 +39,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 10:50:59 -0000
+X-List-Received-Date: Fri, 07 Aug 2015 10:56:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-08-04 at 17:17 +0800, zhe.he@windriver.com wrote:
-> From: He Zhe <zhe.he@windriver.com>
+On Thu, 2015-08-06 at 18:14 -0700, Andre McCurdy wrote:
+> On Thu, Aug 6, 2015 at 4:02 PM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2015-08-06 at 12:41 -0700, Andre McCurdy wrote:
+> >> If immediate variable expansion is used, then UCLIBC_EXTRA_CFLAGS can
+> >> sometimes be derived from a partially expanded value of CFLAGS.
+> >>
+> >> One specific problem case occurs when security_flags.inc is used: CFLAGS
+> >> is evaluated before the SECURITY_CFLAGS_pn-uclibc over-ride has been
+> >> applied and therefore UCLIBC_EXTRA_CFLAGS ends up being based on the
+> >> default SECURITY_CFLAGS instead of the uclibc specific value.
+> >>
+> >> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+> >> ---
+> >>  meta/recipes-core/uclibc/uclibc.inc | 4 ++--
+> >>  1 file changed, 2 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
+> >> index c483228..3ed8b60 100644
+> >> --- a/meta/recipes-core/uclibc/uclibc.inc
+> >> +++ b/meta/recipes-core/uclibc/uclibc.inc
+> >> @@ -57,8 +57,8 @@ export V="2"
+> >>  # -O<n> -fno-omit-frame-pointer ends up with GCC ICE on thumb as reported
+> >>  # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=44860
+> >>  #
+> >> -CFLAGS_arm := "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
+> >> -UCLIBC_EXTRA_CFLAGS  := "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
+> >> +CFLAGS_arm = "${@oe_filter_out('-fno-omit-frame-pointer', '${CFLAGS}', d)}"
+> >
+> > I'm rather surprised we don't get circular references without the :=
+> > operator with this. I suspect we can see build failures if you change
+> > the code like this. That said, I've been meaning to go through and
+> > replace all the uses of oe_filter_out with the remove operator. Can we
+> > do that here please instead?
+> >
+> > E.g:
+> > CFLAGS_remove_arm = "-fno-omit-frame-pointer"
 > 
-> Add KERNEL_IMAGETYPES to support building packaging and installing
-> multi types of kernel images, such as zImage uImage, at one time.
-> KERNEL_IMAGETYPE works as it did.
+> OK, new patch on the way.
 > 
-> Fixes [YOCTO #6945].
+> >> +UCLIBC_EXTRA_CFLAGS = "${@oe_filter_out('(-I\S+|-i\S+)', '${CFLAGS}', d)}"
 > 
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  meta/classes/kernel-fitimage.bbclass    |  21 +++---
->  meta/classes/kernel-grub.bbclass        |  46 ++++++++----
->  meta/classes/kernel-uimage.bbclass      |  22 +++---
->  meta/classes/kernel.bbclass             | 128 +++++++++++++++++++++++---------
->  meta/conf/documentation.conf            |   1 +
->  meta/recipes-kernel/linux/linux-dtb.inc |  15 ++--
->  6 files changed, 159 insertions(+), 74 deletions(-)
+> Is it OK to keep using oe_filter_out() here to support the regex?
 
-I put this into master-next just to see what happened. I haven't
-reviewed the code in more detail as yet. We saw:
-
-https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/418/steps/BuildImages_1/logs/stdio
-
-as one of the results and I suspect the linux-yocto packaging issue
-comes from this. This suggests ipk packaging was not tested :(.
+Yes, the regex is obviously trickier with _remove so I think that one is
+a fair use of oe_filter_out(). Thanks for the updated patches, just need
+to answer Khem's question, it sounds like LDFLAGS may be used somehow
+but I've not looked at the code as yet.
 
 Cheers,
 
