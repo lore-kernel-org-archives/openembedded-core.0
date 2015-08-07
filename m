@@ -1,36 +1,36 @@
-Return-Path: <sharron.liu@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 095D17670E
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C66FE766DE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 03:44:06 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 06 Aug 2015 20:44:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,627,1432623600"; 
-	d="log'?scan'208,217";a="763744862"
-Received: from pgsmsx101.gar.corp.intel.com ([10.221.44.78])
-	by fmsmga001.fm.intel.com with ESMTP; 06 Aug 2015 20:44:05 -0700
-Received: from shsmsx101.ccr.corp.intel.com (10.239.4.153) by
-	PGSMSX101.gar.corp.intel.com (10.221.44.78) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Fri, 7 Aug 2015 11:43:49 +0800
-Received: from shsmsx103.ccr.corp.intel.com ([169.254.4.38]) by
-	SHSMSX101.ccr.corp.intel.com ([169.254.1.18]) with mapi id
-	14.03.0224.002; Fri, 7 Aug 2015 11:43:48 +0800
-From: "Liu, Sharron" <sharron.liu@intel.com>
-To: Christopher Larson <clarson@kergoth.com>
-Thread-Topic: [OE-core] [PATCH] oe-selftest: support selftests from other
-	layers
-Thread-Index: AQHQz1AuW/Eol9lc0kiWWiJP80/ZJ538/AiAgALo9xA=
-Date: Fri, 7 Aug 2015 03:43:47 +0000
-Message-ID: <A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361@SHSMSX103.ccr.corp.intel.com>
+	Fri,  7 Aug 2015 04:20:03 +0000 (UTC)
+Received: by igr7 with SMTP id 7so24292168igr.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Aug 2015 21:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=JEUpF4rwX503Dd7nzaUnUhFf60WiXTERZ7PU40vGdow=;
+	b=A1O+6iwkpgiNi+z7TKGe6OVlFuygSG4zr3ltPz5NPr0Nc/V58Ev9anOWvFy+gPQHdm
+	FEiQjLBAUwpMank4rHmMhVwWb9Q7andDRPrO8wHCY5NWUkiCKaIMzOtM/W4+T4Npth3v
+	CEOaBwAsC9mSbhNySe2VJcX6IjHXy0cwuRvC3dgI2nWXEVY/zs7GV6O78nsgmdDNTHxN
+	FwbTqcP3c6jAljWIEnUkdhKQGCAd7OUM7QH43wV2j9B1cjzDVrUUVJZiDmtkFDIlZ0+t
+	opgZJwClwXLfCCNb9Am1Evecf846hd6rchsZYE9yeedDnEhh0i1yhR5sxxyZnK/y+Lht
+	ZE/A==
+X-Received: by 10.50.78.99 with SMTP id a3mr1197190igx.29.1438921203741; Thu,
+	06 Aug 2015 21:20:03 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.100.199 with HTTP; Thu, 6 Aug 2015 21:19:44 -0700 (PDT)
+In-Reply-To: <A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361@SHSMSX103.ccr.corp.intel.com>
 References: <1438759076-9075-1-git-send-email-sharron.liu@intel.com>
 	<CABcZAN=aXnNDLvJZW0wmP9AkssWjn1HxYPhFm07ZqaR_j-OTHA@mail.gmail.com>
-In-Reply-To: <CABcZAN=aXnNDLvJZW0wmP9AkssWjn1HxYPhFm07ZqaR_j-OTHA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.239.127.40]
-MIME-Version: 1.0
+	<A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361@SHSMSX103.ccr.corp.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Thu, 6 Aug 2015 21:19:44 -0700
+X-Google-Sender-Auth: D8FlKdYQ2igovPrJdQgTnWVJhlA
+Message-ID: <CABcZANn2sVJ3p6M0Z-XneNFD-fJ9HQ7bdOrjG9T+fUJM4G3epA@mail.gmail.com>
+To: "Liu, Sharron" <sharron.liu@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] oe-selftest: support selftests from other layers
@@ -46,258 +46,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 03:44:10 -0000
-X-Groupsio-MsgNum: 69082
-Content-Language: en-US
-Content-Type: multipart/mixed;
-	boundary="_004_A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361SHSMSX103ccrcorpi_"
+X-List-Received-Date: Fri, 07 Aug 2015 04:20:07 -0000
+Content-Type: multipart/alternative; boundary=089e0122f7a8357f55051cb0f3db
 
---_004_A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361SHSMSX103ccrcorpi_
-Content-Type: multipart/alternative;
-	boundary="_000_A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361SHSMSX103ccrcorpi_"
+--089e0122f7a8357f55051cb0f3db
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---_000_A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361SHSMSX103ccrcorpi_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On Thu, Aug 6, 2015 at 8:43 PM, Liu, Sharron <sharron.liu@intel.com> wrote:
 
-SGkgQ2hyaXMsDQpUaGFua3MgZm9yIHlvdXIgaW5wdXRzLiBJIHRlc3RlZCBteSBjYXNlIHdpdGgg
-cG9reSBtYXN0ZXIgd2hpY2ggaW5jbHVkZXMgdGhlIHR3byBjb21taXRtZW50cyB5b3UgbWVudGlv
-bmVkOg0KICAgIGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5
-L2NvbW1pdC8/aWQ9ZDIwMjNjMzRlNGMzNzM1ZDkxOWMzNWQ4MGRhZjk5MWFhYjU3OTUwMA0KaHR0
-cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bva3kvY29tbWl0Lz9pZD01
-MWQ3NjBlMmE3ZTIyZjFiMDc2MDhmYzkyNWRhMzQzZTU2YTlhZTc0DQpJbiBteSBvYnNlcnZhdGlv
-biBpdCBzdGlsbCBmYWlsZWQgYXQgbXkgY2FzZS4NCg0KSW4gbXkgdGVzdCBjYXNlIEkgaGF2ZToN
-CnBva3lfcm9vdC9tZXRhLW15bGF5ZXIvbGliL29lcWEvc2VsZnRlc3Qvc3ViZGlycy9teXRlc3Qu
-cHkNCg0KSSB0eXBlOg0KIm9lLXNlbGZ0ZXN0IC0tbGlzdC1tb2R1bGVzIg0KQW5kIEkgZXhwZWN0
-IOKAnHN1YmRpcnMubXl0ZXN04oCdIGJlaW5nIGxpc3RlZC4NCg0KSSB0eXBlOg0KIm9lLXNlbGZ0
-ZXN0IC0tcnVuLXRlc3RzIHN1YmRpcnMubXl0ZXN0Ig0KQW5kIEkgZXhwZWN0IOKAnG15dGVzdOKA
-nSBiZWluZyBydW4uDQoNClRoaXMgY2FzZSBzdGlsbCBmYWlsZWQgd2l0aG91dCBteSBwYXRjaC4g
-QXR0YWNoZWQgdGhlIGxvZyBmaWxlIGZvciB5b3VyIHJlZi4NCg0KUmVnYXJkcywNClNoYXJyb24N
-Cg0KRnJvbToga2VyZ290aEBnbWFpbC5jb20gW21haWx0bzprZXJnb3RoQGdtYWlsLmNvbV0gT24g
-QmVoYWxmIE9mIENocmlzdG9waGVyIExhcnNvbg0KU2VudDogV2VkbmVzZGF5LCBBdWd1c3QgNSwg
-MjAxNSAxMTowNyBQTQ0KVG86IExpdSwgU2hhcnJvbg0KQ2M6IFBhdGNoZXMgYW5kIGRpc2N1c3Np
-b25zIGFib3V0IHRoZSBvZS1jb3JlIGxheWVyDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRD
-SF0gb2Utc2VsZnRlc3Q6IHN1cHBvcnQgc2VsZnRlc3RzIGZyb20gb3RoZXIgbGF5ZXJzDQoNCg0K
-T24gV2VkLCBBdWcgNSwgMjAxNSBhdCAxMjoxNyBBTSwgTElVLCBTaGFycm9uIDxzaGFycm9uLmxp
-dUBpbnRlbC5jb208bWFpbHRvOnNoYXJyb24ubGl1QGludGVsLmNvbT4+IHdyb3RlOg0KW1lPQ1RP
-ICM3ODY1XSBodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lk
-PTc4NjUNCg0KVGhpcyBzY3JpcHQgaXMgZXh0ZW5kZWQgdG8gZGV0ZWN0IGFuZCBydW4gdGVzdHMg
-ZnJvbSBhbGwgQkJMQVlFUlMgYWRkZWQgdG8NCkJCUEFUSC4gVGVzdHMgY2FuIGJlIHB1dCBpbiBh
-bnkgc3ViLWRpciwgZXhjZXB0IGZvciAiZmlsZXMiIHdoaWNoIGlzIHRyZWF0ZWQNCmFzIHRlc3Qg
-ZGVwZW5kZW50IGZpbGVzLg0KDQpUbyBkZXRlY3QgdGVzdHMsIHRoaXMgcGF0Y2ggZ29lcyB0aHJv
-dWdoICJsaWIvb2VxYS9zZWxmdGVzdC8iIG9mIGV2ZXJ5IGxheWVyDQphZGRlZCB0byBCQlBBVEgu
-DQpUbyBzdXBwb3J0IHN1Yi1kaXIsIHRoaXMgcGF0Y2ggbGlzdCB0ZXN0IG1vZHVsZSB3aXRoIGl0
-cyBzdWItZGlycyBwcmVmaXguDQpUbyBydW4gdGVzdHMsIHRoaXMgcGF0Y2ggYWRkcyB0ZXN0cyBw
-YWNrYWdlIHBhdGggaW50byAic3lzLnBhdGgiIHRoZW4gcmVsb2FkDQoib2VxYS5zZWxmdGVzdCIu
-DQoNClNpZ25lZC1vZmYtYnk6IExJVSwgU2hhcnJvbiA8c2hhcnJvbi5saXVAaW50ZWwuY29tPG1h
-aWx0bzpzaGFycm9uLmxpdUBpbnRlbC5jb20+Pg0KDQpUaGlzIHdhcyBpbXBsZW1lbnRlZCBhcyBh
-IHBhcnQgb2YgdGhlIHdvcmsgdG8gZG8gdGhlIHNhbWUgZm9yIGRldnRvb2wgJiByZWNpcGV0b29s
-LCBzZWUgaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNnaT9pZD03
-ODY1I2MxMCBhbmQgaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNn
-aT9pZD03NjI1I2MzOg0KDQogICAgaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2Nn
-aXQuY2dpL3Bva3kvY29tbWl0Lz9pZD1kMjAyM2MzNGU0YzM3MzVkOTE5YzM1ZDgwZGFmOTkxYWFi
-NTc5NTAwDQogICAgaHR0cHM6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3Bv
-a3kvY29tbWl0Lz9pZD01MWQ3NjBlMmE3ZTIyZjFiMDc2MDhmYzkyNWRhMzQzZTU2YTlhZTc0DQot
-LQ0KQ2hyaXN0b3BoZXIgTGFyc29uDQpjbGFyc29uIGF0IGtlcmdvdGggZG90IGNvbQ0KRm91bmRl
-ciAtIEJpdEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1cw0KTWFpbnRhaW5lciAtIFRzbGli
-DQpTZW5pb3IgU29mdHdhcmUgRW5naW5lZXIsIE1lbnRvciBHcmFwaGljcw0K
+> Thanks for your inputs. I tested my case with poky master which includes
+> the two commitments you mentioned:
+>
+>
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Dd2023c34e4c3=
+735d919c35d80daf991aab579500
+>
+>
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D51d760e2a7e2=
+2f1b07608fc925da343e56a9ae74
+>
+> In my observation it still failed at my case.
+>
+>
+>
+> In my test case I have:
+>
+> poky_root/meta-mylayer/lib/oeqa/selftest/subdirs/mytest.py
+>
+>
+>
+> I type:
+>
+> "oe-selftest --list-modules"
+>
+> And I expect =E2=80=9Csubdirs.mytest=E2=80=9D being listed.
+>
+>
+>
+> I type:
+>
+> "oe-selftest --run-tests subdirs.mytest"
+>
+> And I expect =E2=80=9Cmytest=E2=80=9D being run.
+>
+>
+>
+> This case still failed without my patch. Attached the log file for your
+> ref.
+>
 
---_000_A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361SHSMSX103ccrcorpi_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Sounds like you didn't properly set up your python packages. It has to be
+possible to import your tests from python, which is not the case unless
+__init__.py exists at the root of each python package.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-U2ltU3VuOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7fQ0KQGZvbnQtZmFjZQ0KCXtm
-b250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQFNpbVN1biI7DQoJ
-cGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0K
-cC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0K
-CW1hcmdpbi1ib3R0b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OlNpbVN1bjt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0
-eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNp
-dGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsN
-Cgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpzcGFuLkVtYWls
-U3R5bGUxNw0KCXttc28tc3R5bGUtdHlwZTpwZXJzb25hbC1yZXBseTsNCglmb250LWZhbWlseToi
-Q2FsaWJyaSIsc2Fucy1zZXJpZjsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29DaHBEZWZhdWx0DQoJ
-e21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsNCglt
-YXJnaW46NzIuMHB0IDcyLjBwdCA3Mi4wcHQgNzIuMHB0O30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7
-cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
-CjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48
-IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0
-PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5
-b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkgbGFuZz0iWkgtQ04iIGxpbms9
-ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3
-RCI+SGkgQ2hyaXMsDQo8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6
-JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoYW5rcyBmb3Ig
-eW91ciBpbnB1dHMuIEkgdGVzdGVkIG15IGNhc2Ugd2l0aCBwb2t5IG1hc3RlciB3aGljaCBpbmNs
-dWRlcyB0aGUgdHdvIGNvbW1pdG1lbnRzIHlvdSBtZW50aW9uZWQ6PG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPiZuYnNwOyAmbmJz
-cDsmbmJzcDs8YSBocmVmPSJodHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5j
-Z2kvcG9reS9jb21taXQvP2lkPWQyMDIzYzM0ZTRjMzczNWQ5MTljMzVkODBkYWY5OTFhYWI1Nzk1
-MDAiIHRhcmdldD0iX2JsYW5rIj5odHRwczovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dp
-dC5jZ2kvcG9reS9jb21taXQvP2lkPWQyMDIzYzM0ZTRjMzczNWQ5MTljMzVkODBkYWY5OTFhYWI1
-Nzk1MDA8L2E+PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5
-bGU9InRleHQtaW5kZW50OjQyLjBwdCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxhIGhyZWY9Imh0dHBz
-Oi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/aWQ9NTFk
-NzYwZTJhN2UyMmYxYjA3NjA4ZmM5MjVkYTM0M2U1NmE5YWU3NCIgdGFyZ2V0PSJfYmxhbmsiPmh0
-dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/aWQ9
-NTFkNzYwZTJhN2UyMmYxYjA3NjA4ZmM5MjVkYTM0M2U1NmE5YWU3NDwvYT48bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
-ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNl
-cmlmO2NvbG9yOiMxRjQ5N0QiPkluIG15IG9ic2VydmF0aW9uIGl0IHN0aWxsIGZhaWxlZCBhdCBt
-eSBjYXNlLg0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
-YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90
-O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5
-bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5z
-LXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkluIG15IHRlc3QgY2FzZSBJIGhhdmU6PG86cD48L286cD48
-L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxl
-PSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1z
-ZXJpZjtjb2xvcjojMUY0OTdEIj5wb2t5X3Jvb3QvbWV0YS1teWxheWVyL2xpYi9vZXFhL3NlbGZ0
-ZXN0L3N1YmRpcnMvbXl0ZXN0LnB5PG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQt
-ZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpw
-PiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5n
-PSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJy
-aSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPkkgdHlwZTo8bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZv
-bnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
-O2NvbG9yOiMxRjQ5N0QiPiZxdW90O29lLXNlbGZ0ZXN0IC0tbGlzdC1tb2R1bGVzJnF1b3Q7PG86
-cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
-VVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVv
-dDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5BbmQgSSBleHBlY3Qg4oCcc3ViZGlycy5teXRl
-c3TigJ0gYmVpbmcgbGlzdGVkLjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29O
-b3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZh
-bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4m
-bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
-RU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkm
-cXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj5JIHR5cGU6PG86cD48L286cD48L3NwYW4+
-PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250
-LXNpemU6MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtj
-b2xvcjojMUY0OTdEIj4mcXVvdDtvZS1zZWxmdGVzdCAtLXJ1bi10ZXN0cyBzdWJkaXJzLm15dGVz
-dCZxdW90OzxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFu
-IGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtD
-YWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+QW5kIEkgZXhwZWN0IOKAnG15
-dGVzdOKAnSBiZWluZyBydW4uPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
-cm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6MTAuNXB0O2ZvbnQtZmFt
-aWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjojMUY0OTdEIj48bzpwPiZu
-YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJF
-Ti1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMC41cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPlRoaXMgY2FzZSBzdGlsbCBmYWlsZWQgd2l0
-aG91dCBteSBwYXRjaC4gQXR0YWNoZWQgdGhlIGxvZyBmaWxlIGZvciB5b3VyIHJlZi4NCjxvOnA+
-PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVT
-IiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LXNpemU6
-MTAuNXB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZjtjb2xvcjoj
-MUY0OTdEIj5SZWdhcmRzLDxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+U2hhcnJvbjxv
-OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVO
-LVVTIiBzdHlsZT0iZm9udC1zaXplOjEwLjVwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1
-b3Q7LHNhbnMtc2VyaWY7Y29sb3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
-Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+
-RnJvbTo8L3NwYW4+PC9iPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBrZXJnb3RoQGdt
-YWlsLmNvbSBbbWFpbHRvOmtlcmdvdGhAZ21haWwuY29tXQ0KPGI+T24gQmVoYWxmIE9mIDwvYj5D
-aHJpc3RvcGhlciBMYXJzb248YnI+DQo8Yj5TZW50OjwvYj4gV2VkbmVzZGF5LCBBdWd1c3QgNSwg
-MjAxNSAxMTowNyBQTTxicj4NCjxiPlRvOjwvYj4gTGl1LCBTaGFycm9uPGJyPg0KPGI+Q2M6PC9i
-PiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllcjxicj4NCjxi
-PlN1YmplY3Q6PC9iPiBSZTogW09FLWNvcmVdIFtQQVRDSF0gb2Utc2VsZnRlc3Q6IHN1cHBvcnQg
-c2VsZnRlc3RzIGZyb20gb3RoZXIgbGF5ZXJzPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xh
-c3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFu
-PjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4t
-VVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9y
-bWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+T24gV2VkLCBBdWcgNSwgMjAxNSBhdCAxMjoxNyBBTSwg
-TElVLCBTaGFycm9uICZsdDs8YSBocmVmPSJtYWlsdG86c2hhcnJvbi5saXVAaW50ZWwuY29tIiB0
-YXJnZXQ9Il9ibGFuayI+c2hhcnJvbi5saXVAaW50ZWwuY29tPC9hPiZndDsgd3JvdGU6PG86cD48
-L286cD48L3NwYW4+PC9wPg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1s
-ZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4t
-bGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48c3BhbiBsYW5nPSJFTi1VUyI+W1lPQ1RPICM3ODY1XSA8YSBocmVmPSJodHRwczovL2J1Z3pp
-bGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTc4NjUiIHRhcmdldD0iX2JsYW5r
-Ij4NCmh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9Nzg2
-NTwvYT48YnI+DQo8YnI+DQpUaGlzIHNjcmlwdCBpcyBleHRlbmRlZCB0byBkZXRlY3QgYW5kIHJ1
-biB0ZXN0cyBmcm9tIGFsbCBCQkxBWUVSUyBhZGRlZCB0bzxicj4NCkJCUEFUSC4gVGVzdHMgY2Fu
-IGJlIHB1dCBpbiBhbnkgc3ViLWRpciwgZXhjZXB0IGZvciAmcXVvdDtmaWxlcyZxdW90OyB3aGlj
-aCBpcyB0cmVhdGVkPGJyPg0KYXMgdGVzdCBkZXBlbmRlbnQgZmlsZXMuPGJyPg0KPGJyPg0KVG8g
-ZGV0ZWN0IHRlc3RzLCB0aGlzIHBhdGNoIGdvZXMgdGhyb3VnaCAmcXVvdDtsaWIvb2VxYS9zZWxm
-dGVzdC8mcXVvdDsgb2YgZXZlcnkgbGF5ZXI8YnI+DQphZGRlZCB0byBCQlBBVEguPGJyPg0KVG8g
-c3VwcG9ydCBzdWItZGlyLCB0aGlzIHBhdGNoIGxpc3QgdGVzdCBtb2R1bGUgd2l0aCBpdHMgc3Vi
-LWRpcnMgcHJlZml4Ljxicj4NClRvIHJ1biB0ZXN0cywgdGhpcyBwYXRjaCBhZGRzIHRlc3RzIHBh
-Y2thZ2UgcGF0aCBpbnRvICZxdW90O3N5cy5wYXRoJnF1b3Q7IHRoZW4gcmVsb2FkPGJyPg0KJnF1
-b3Q7b2VxYS5zZWxmdGVzdCZxdW90Oy48YnI+DQo8YnI+DQpTaWduZWQtb2ZmLWJ5OiBMSVUsIFNo
-YXJyb24gJmx0OzxhIGhyZWY9Im1haWx0bzpzaGFycm9uLmxpdUBpbnRlbC5jb20iIHRhcmdldD0i
-X2JsYW5rIj5zaGFycm9uLmxpdUBpbnRlbC5jb208L2E+Jmd0OzxvOnA+PC9vOnA+PC9zcGFuPjwv
-cD4NCjwvZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyI+PGJyPg0KVGhpcyB3YXMgaW1wbGVtZW50ZWQgYXMgYSBwYXJ0IG9m
-IHRoZSB3b3JrIHRvIGRvIHRoZSBzYW1lIGZvciBkZXZ0b29sICZhbXA7IHJlY2lwZXRvb2wsIHNl
-ZSZuYnNwOzxhIGhyZWY9Imh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1
-Zy5jZ2k/aWQ9Nzg2NSNjMTAiIHRhcmdldD0iX2JsYW5rIj5odHRwczovL2J1Z3ppbGxhLnlvY3Rv
-cHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTc4NjUjYzEwPC9hPiBhbmQmbmJzcDs8YSBocmVm
-PSJodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTc2MjUj
-YzMiIHRhcmdldD0iX2JsYW5rIj5odHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvc2hv
-d19idWcuY2dpP2lkPTc2MjUjYzM8L2E+OjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj48bzpwPiZuYnNw
-OzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-c3BhbiBsYW5nPSJFTi1VUyI+Jm5ic3A7ICZuYnNwOyZuYnNwOzxhIGhyZWY9Imh0dHBzOi8vZ2l0
-LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/aWQ9ZDIwMjNjMzRl
-NGMzNzM1ZDkxOWMzNWQ4MGRhZjk5MWFhYjU3OTUwMCIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBzOi8v
-Z2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/aWQ9ZDIwMjNj
-MzRlNGMzNzM1ZDkxOWMzNWQ4MGRhZjk5MWFhYjU3OTUwMDwvYT48bzpwPjwvbzpwPjwvc3Bhbj48
-L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1V
-UyI+Jm5ic3A7ICZuYnNwOyZuYnNwOzxhIGhyZWY9Imh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5v
-cmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/aWQ9NTFkNzYwZTJhN2UyMmYxYjA3NjA4ZmM5
-MjVkYTM0M2U1NmE5YWU3NCIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBzOi8vZ2l0LnlvY3RvcHJvamVj
-dC5vcmcvY2dpdC9jZ2l0LmNnaS9wb2t5L2NvbW1pdC8/aWQ9NTFkNzYwZTJhN2UyMmYxYjA3NjA4
-ZmM5MjVkYTM0M2U1NmE5YWU3NDwvYT48YnI+DQotLSA8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8
-ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiPkNocmlzdG9waGVy
-IExhcnNvbjxicj4NCmNsYXJzb24gYXQga2VyZ290aCBkb3QgY29tPGJyPg0KRm91bmRlciAtIEJp
-dEJha2UsIE9wZW5FbWJlZGRlZCwgT3BlblphdXJ1czxicj4NCk1haW50YWluZXIgLSBUc2xpYjxi
-cj4NClNlbmlvciBTb2Z0d2FyZSBFbmdpbmVlciwgTWVudG9yIEdyYXBoaWNzPG86cD48L286cD48
-L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0
-bWw+DQo=
+oeqa.selftest is a python namespace package. Copy
+poky/meta/lib/oeqa/selftest/__init__.py
+to poky_root/meta-mylayer/lib/oeqa/selftest/, and either also copy it
+to poky_root/meta-mylayer/lib/oeqa/selftest/subdirs/ or
+touch poky_root/meta-mylayer/lib/oeqa/selftest/subdirs/__init__.py.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
---_000_A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361SHSMSX103ccrcorpi_--
+--089e0122f7a8357f55051cb0f3db
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---_004_A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361SHSMSX103ccrcorpi_
-Content-Type: application/octet-stream; name="7865.log"
-Content-Description: 7865.log
-Content-Disposition: attachment; filename="7865.log"; size=1025;
-	creation-date="Wed, 05 Aug 2015 00:32:39 GMT";
-	modification-date="Fri, 07 Aug 2015 03:41:52 GMT"
-Content-Transfer-Encoding: base64
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Thu, Aug 6, 2015 at 8:43 PM, Liu, Sharron <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:sharron.liu@intel.com" target=3D"_blank">sharron.liu@intel.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><p class=3D"MsoNorma=
+l"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-family:&quot;Calibri=
+&quot;,sans-serif;color:#1f497d">Thanks for your inputs. I tested my case w=
+ith poky master which includes the two commitments you mentioned:<u></u><u>=
+</u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US">=C2=A0 =C2=A0=C2=A0<a href=3D"h=
+ttps://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3Dd2023c34e4c3735=
+d919c35d80daf991aab579500" target=3D"_blank">https://git.yoctoproject.org/c=
+git/cgit.cgi/poky/commit/?id=3Dd2023c34e4c3735d919c35d80daf991aab579500</a>=
+<u></u><u></u></span></p>
+<p class=3D"MsoNormal" style=3D"text-indent:42.0pt"><span lang=3D"EN-US"><a=
+ href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=3D51d76=
+0e2a7e22f1b07608fc925da343e56a9ae74" target=3D"_blank">https://git.yoctopro=
+ject.org/cgit/cgit.cgi/poky/commit/?id=3D51d760e2a7e22f1b07608fc925da343e56=
+a9ae74</a><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">In my observation it s=
+till failed at my case.
+<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">In my test case I have=
+:<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">poky_root/meta-mylayer=
+/lib/oeqa/selftest/subdirs/mytest.py<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">I type:<u></u><u></u><=
+/span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">&quot;oe-selftest --li=
+st-modules&quot;<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">And I expect =E2=80=9C=
+subdirs.mytest=E2=80=9D being listed.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">I type:<u></u><u></u><=
+/span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">&quot;oe-selftest --ru=
+n-tests subdirs.mytest&quot;<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">And I expect =E2=80=9C=
+mytest=E2=80=9D being run.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></=
+span></p>
+<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"font-size:10.5pt;font-=
+family:&quot;Calibri&quot;,sans-serif;color:#1f497d">This case still failed=
+ without my patch. Attached the log file for your ref.</span></p></blockquo=
+te></div><br>Sounds like you didn&#39;t properly set up your python package=
+s. It has to be possible to import your tests from python, which is not the=
+ case unless __init__.py exists at the root of each python package.</div><d=
+iv class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">oeqa.selftest=
+ is a python namespace package. Copy poky/meta/lib/oeqa/selftest/__init__.p=
+y to=C2=A0poky_root/meta-mylayer/lib/oeqa/selftest/, and either also copy i=
+t to=C2=A0poky_root/meta-mylayer/lib/oeqa/selftest/subdirs/ or touch=C2=A0p=
+oky_root/meta-mylayer/lib/oeqa/selftest/subdirs/__init__.py.<br>-- <br><div=
+ class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com=
+<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Se=
+nior Software Engineer, Mentor Graphics</div>
+</div></div>
 
-IyMjd2l0aCBsYXRlc3QgcG9reSBtYXN0ZXIjIyMjCnNoYXJyb25AdTEzMDQtbGl1eHI6fi93b3Jr
-c3BhY2Uvdmlld3MvaW90L3Bva3kvcG9reS9idWlsZCQgb2Utc2VsZnRlc3QgLS1saXN0LW1vZHVs
-ZXMKMjAxNS0wOC0wNSAwODoyOToyMSwxNjUgLSBzZWxmdGVzdCAtIElORk8gLSBSdW5uaW5nIGJp
-dGJha2UgLWUgdG8gZ2V0IEJCUEFUSAoyMDE1LTA4LTA1IDA4OjI5OjIxLDY3OSAtIHNlbGZ0ZXN0
-IC0gSU5GTyAtIExpc3RpbmcgYWxsIGF2YWlsYWJsZSB0ZXN0IG1vZHVsZXM6Cl9zc3RhdGV0ZXN0
-c19ub2F1dG8gKGhpZGRlbikKX3RvYXN0ZXIgKGhpZGRlbikKYmJsYXllcnMKYmJ0ZXN0cwpidWls
-ZGhpc3RvcnkKYnVpbGRvcHRpb25zCmRldnRvb2wKaW1hZ2VmZWF0dXJlcwpsYXllcmFwcGVuZAps
-aWMtY2hlY2tzdW0Kb2VzY3JpcHRzCnBrZ2RhdGEKcHJzZXJ2aWNlCnJlY2lwZXRvb2wKc3N0YXRl
-CnNzdGF0ZXRlc3RzCndpYwpndW1taWJvb3QKCgojIyN3aXRoIFNoYXJyb24ncyBwYXRjaCMjIyMK
-c2hhcnJvbkB1MTMwNC1saXV4cjp+L3dvcmtzcGFjZS92aWV3cy9pb3QvcG9reS9wb2t5L2J1aWxk
-JCBvZS1zZWxmdGVzdCAtLWxpc3QtbW9kdWxlcwoyMDE1LTA4LTA1IDA4OjMwOjM0LDg3OSAtIHNl
-bGZ0ZXN0IC0gSU5GTyAtIFJ1bm5pbmcgYml0YmFrZSAtZSB0byBnZXQgQkJQQVRICjIwMTUtMDgt
-MDUgMDg6MzA6MzUsMzgwIC0gc2VsZnRlc3QgLSBJTkZPIC0gTGlzdGluZyBhbGwgYXZhaWxhYmxl
-IHRlc3QgbW9kdWxlczoKYmJsYXllcnMKcHJzZXJ2aWNlCnJlY2lwZXRvb2wKYnVpbGRoaXN0b3J5
-Cl9zc3RhdGV0ZXN0c19ub2F1dG8gKGhpZGRlbikKZGV2dG9vbApidWlsZG9wdGlvbnMKX3RvYXN0
-ZXIgKGhpZGRlbikKbGF5ZXJhcHBlbmQKc3N0YXRlCnBrZ2RhdGEKbGljLWNoZWNrc3VtCmltYWdl
-ZmVhdHVyZXMKc3N0YXRldGVzdHMKb2VzY3JpcHRzCmJidGVzdHMKd2ljCmd1bW1pYm9vdApzdWJk
-aXJzLm15dGVzdCAgICAjIyMjIHRoaXMgaXMgbm90IGxpc3RlZCB3aXRob3V0IG15IHBhdGNoCgo=
-
---_004_A0A03D4442F2EC4DBF5A0F72D4A3DA01B7E361SHSMSX103ccrcorpi_--
+--089e0122f7a8357f55051cb0f3db--
