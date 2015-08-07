@@ -1,43 +1,42 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 90EAF73905
+Received: from mail-pd0-f177.google.com (mail-pd0-f177.google.com
+	[209.85.192.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 396D676769
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 07:19:51 +0000 (UTC)
-Received: by pabxd6 with SMTP id xd6so63722776pab.2
+	Fri,  7 Aug 2015 07:21:51 +0000 (UTC)
+Received: by pdrh1 with SMTP id h1so24147194pdr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Aug 2015 00:19:52 -0700 (PDT)
+	Fri, 07 Aug 2015 00:21:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=LqdD5O91ABq7eDZ6xNfDY25viJdv8Ur4P/W9wptU7gA=;
-	b=A2runedvfSX5xICi9g6UnLNiXYedyHDHIB6gZsC+5Avw1malJKOLX7ZXKnyBiAwFNy
-	pGvRxEQ0Qdhw+Ehc3v4jQAk4IK4JeGMe+CAjTG2hO+EnQvSq0fHBKntXYs8xDuQjIdCI
-	Zeg3m8zGhycMczdMLPpEhalwnSRJNBJcE3PWedGlnrg1hWomn2HaRklVEfrwa4mIYaJP
-	Yr3rnO2J0Vt1/6hX8yicPyOsVXiSC/CWwfbrTj9A45c6TGzz1vVwqqw5vWO+o5QWgbVx
-	tYM87mYT170n69H0xirSe/F1K75G908IKazv89sLuHXJ0Dse5slA1+aKZQDSmYbnQ0ym
-	e/BQ==
-X-Received: by 10.69.1.102 with SMTP id bf6mr11872843pbd.17.1438931992303;
-	Fri, 07 Aug 2015 00:19:52 -0700 (PDT)
+	bh=dGKccscXS8xWqdnziBPiAwgepuaVRvmQx7S8u3PNTwY=;
+	b=J8Cj9zSIoJQEMcn4ViwIGvFlXY5bxUYsuxjjoys0oRngObE95rZZEMXWMKOU3FAkKA
+	2oPMw+bon2O2V1DeJJvphEAPkLPUAOZZ2KjVxDB9o56gEJX2hRG5Tl4qWleTs/HneMCz
+	bjZCXuvGmSqFF0ZCE0+t0Nu54hVayV48W0l/iWBL+goIVrseY9r743ZD19r5sByqxquZ
+	T8YvO+opFMRdTq7yUyKj4G7g99N8zyCazpXOIPsKi9lxFnSBZZ8VeA7WPK3tSMDpVIQt
+	2KZ9dvPXeUeS4h5ozIYFpOUf1EDSZjeDhQjEgQ65RdbRwWbIzZEg2Dc9It963FKctNx7
+	+3hA==
+X-Received: by 10.70.91.38 with SMTP id cb6mr11883240pdb.104.1438932111456;
+	Fri, 07 Aug 2015 00:21:51 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:4ec:fbce:7a8:43c9?
 	([2601:646:8601:4580:4ec:fbce:7a8:43c9])
-	by smtp.gmail.com with ESMTPSA id
-	fm3sm8369939pdb.49.2015.08.07.00.19.51
+	by smtp.gmail.com with ESMTPSA id sp1sm8960155pab.4.2015.08.07.00.21.50
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 07 Aug 2015 00:19:51 -0700 (PDT)
+	Fri, 07 Aug 2015 00:21:50 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <55BA4B90.2040000@linux.intel.com>
-Date: Fri, 7 Aug 2015 00:19:50 -0700
-Message-Id: <6F5BF671-CD99-4721-A089-29A0AAA6323C@gmail.com>
+In-Reply-To: <e5437695391e1dd4fe0ecad10dec483cb0e3a8bc.1438262915.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 7 Aug 2015 00:21:49 -0700
+Message-Id: <120CC689-4105-4DE2-8602-96A9BF548DEE@gmail.com>
 References: <cover.1438262915.git.alexander.kanavin@linux.intel.com>
-	<955430345ec10c6c1dda34e2b2c9f64e75d50f38.1438262915.git.alexander.kanavin@linux.intel.com>
-	<20150730143500.GI2457@jama> <55BA4B90.2040000@linux.intel.com>
+	<cover.1438262915.git.alexander.kanavin@linux.intel.com>
+	<e5437695391e1dd4fe0ecad10dec483cb0e3a8bc.1438262915.git.alexander.kanavin@linux.intel.com>
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 X-Mailer: Apple Mail (2.2104)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 14/26] puzzles: switch svn for git, as upstream has done the same
+Subject: Re: [PATCH 09/26] lsb: set PV to 1.4 to match upstream tarball version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,34 +49,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 07:19:52 -0000
-X-Groupsio-MsgNum: 69103
+X-List-Received-Date: Fri, 07 Aug 2015 07:21:53 -0000
+X-Groupsio-MsgNum: 69104
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_A30CB301-DB5C-4850-BA08-27AFEF4A3208";
+	boundary="Apple-Mail=_C474B32F-DC83-4C59-BBEE-6D111BC77465";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_A30CB301-DB5C-4850-BA08-27AFEF4A3208
+--Apple-Mail=_C474B32F-DC83-4C59-BBEE-6D111BC77465
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=utf-8
 
 
-> On Jul 30, 2015, at 9:06 AM, Alexander Kanavin =
+> On Jul 30, 2015, at 6:31 AM, Alexander Kanavin =
 <alexander.kanavin@linux.intel.com> wrote:
 >=20
-> On 07/30/2015 05:35 PM, Martin Jansa wrote:
+> This allows upstream version check to work
 >=20
->> Doesn't PV go backwards with this?
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+> meta/recipes-extended/lsb/lsb_4.1.bb | 1 +
+> 1 file changed, 1 insertion(+)
 >=20
-> Yes; Ross should make a suggestion of how to avoid that, and fix the =
-upstream check at the same time - for this recipe and others where I =
-tweak the PV in a similar manner.
+> diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb =
+b/meta/recipes-extended/lsb/lsb_4.1.bb
+> index 6215b62..171a6c8 100644
+> --- a/meta/recipes-extended/lsb/lsb_4.1.bb
+> +++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+> @@ -21,6 +21,7 @@ SRC_URI =3D =
+"${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/1.4/lsb-release-1.4.tar
+>            file://lsb_pidofproc \
+>            file://lsb_start_daemon \
+>            "
+> +PV =3D =E2=80=9C1.4=E2=80=9D
+>=20
+
+it will send version backwards, why is this needed ?
 
 
-define PE
-
->=20
-> Alex
+> SRC_URI[md5sum] =3D "30537ef5a01e0ca94b7b8eb6a36bb1e4"
+> SRC_URI[sha256sum] =3D =
+"99321288f8d62e7a1d485b7c6bdccf06766fb8ca603c6195806e4457fdf17172"
+> --
+> 2.1.4
 >=20
 > --
 > _______________________________________________
@@ -86,7 +100,7 @@ define PE
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_A30CB301-DB5C-4850-BA08-27AFEF4A3208
+--Apple-Mail=_C474B32F-DC83-4C59-BBEE-6D111BC77465
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -97,9 +111,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXEXBYACgkQuwUzVZGdMxR5NQCfYi4HpjUXDZ78XlTPR2l8BQDp
-6psAmwd0JyCCJo76CXsAA3is9ltcaBS7
-=YiKs
+iEYEARECAAYFAlXEXI0ACgkQuwUzVZGdMxSKxgCggPJSb8g7j3Nzh4P2YU7KhEAW
+omoAni2D+YUlpkGV95JWbij9spXkejy/
+=oDqu
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_A30CB301-DB5C-4850-BA08-27AFEF4A3208--
+--Apple-Mail=_C474B32F-DC83-4C59-BBEE-6D111BC77465--
