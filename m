@@ -1,40 +1,29 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 746677673D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id E68CD7673D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 11:04:50 +0000 (UTC)
-Received: by wicgj17 with SMTP id gj17so56958838wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Aug 2015 04:04:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=U9Bgfl3tfvlE2V6HCowvLKFWM4v9IbvmnB2JZa2066I=;
-	b=ZrH8+xGk0yBhEgavzyvM4jAerToNpBxNGgp20NL9VwLnM2ioxZjhbw741b7ajUa9YD
-	6f72vzD6udZjwgQGXbLsNtWGCnGP7xKKDOS5M2EsvFTeipD5dFwhUu/K9t0ji36igkot
-	tzoX/Nw0/y2HgXG1Axh+Z7CbDyS/17o0+9ei4XUBi4pZPxxc6ekBsUt8bLVfvzRlrZBL
-	IGoSCZDu5y3lXFcMNf02ze1B3qsVIP4tpt1GmD9eeNXrGaWLO80xLbnzOP8QOCNR9kLJ
-	+Q4+7muzGLAys5HKDSnehx7ZXj+fRnKgn7X1bdwIDT7f2qGUd3DXZFsuvpVim1czoVe3
-	6vjg==
-X-Gm-Message-State: ALoCoQnYrresK7yN9ygbuRogOFDjJqWqokiNgvoDdMVoF3YrVQcOyAniOzSn+CN+FQVC3guoly/2
-X-Received: by 10.180.187.193 with SMTP id fu1mr5339127wic.75.1438945490909;
-	Fri, 07 Aug 2015 04:04:50 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.27.88.196 with HTTP; Fri, 7 Aug 2015 04:04:21 -0700 (PDT)
-In-Reply-To: <43BA4AA7-911B-4F0E-8910-1A289F0D4240@gmail.com>
-References: <2c93029d78af982ced18f114b4ed6e09ef350b00.1438849692.git.jussi.kukkonen@intel.com>
-	<cover.1438849692.git.jussi.kukkonen@intel.com>
-	<29f1e0392fbe4325b13dac7e0fca69319825da76.1438849692.git.jussi.kukkonen@intel.com>
-	<43BA4AA7-911B-4F0E-8910-1A289F0D4240@gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 7 Aug 2015 14:04:21 +0300
-Message-ID: <CAHiDW_HYPq=6QA6C3MRO+MDCCmKzzDL1rnvacmGTvfB5S+2Gog@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/6] vte: Fix LICENSE to LGPL2.0
+	Fri,  7 Aug 2015 11:05:29 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t77B5Tfd020322; Fri, 7 Aug 2015 12:05:29 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id mowGfK628bQh; Fri,  7 Aug 2015 12:05:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t77B5EJ2020306
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 7 Aug 2015 12:05:27 +0100
+Message-ID: <1438945513.30467.35.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: rongqing.li@windriver.com
+Date: Fri, 07 Aug 2015 06:05:13 -0500
+In-Reply-To: <1438838323-25159-1-git-send-email-rongqing.li@windriver.com>
+References: <1438838323-25159-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][v2] attr: drop sstate fix and narrow relative-libdir.patch to target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,61 +36,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 11:04:51 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 07 Aug 2015 11:05:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 7 August 2015 at 06:34, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Aug 6, 2015, at 1:42 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> wr=
-ote:
->>
->> Current releases of vte are LGPL 2.1+ but the one we have is still
->> LGPL 2.0.
->>
->> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->> ---
->> meta/recipes-support/vte/vte.inc | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-support/vte/vte.inc b/meta/recipes-support/vte=
-/vte.inc
->> index 4081a7f..874062a 100644
->> --- a/meta/recipes-support/vte/vte.inc
->> +++ b/meta/recipes-support/vte/vte.inc
->> @@ -1,6 +1,6 @@
->> SUMMARY =3D "Virtual terminal emulator GTK+ widget library"
->> BUGTRACKER =3D "https://bugzilla.gnome.org/buglist.cgi?product=3Dvte"
->> -LICENSE =3D "LGPLv2.1+"
->> +LICENSE =3D =E2=80=9CLGPLv2.0"
->
-> this brings to notice that this recipe needs upgrade
-> latest vte srcs already use LGPL2.1 may be updating to latest version is =
-0.40
-> http://ftp.gnome.org/pub/gnome/sources/vte/0.40/
+On Thu, 2015-08-06 at 13:18 +0800, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+> 
+> The relative-libdir.patch is no longer needed for native since fix_symlink
+> for native has been added to revert what it done, Also this patch and
+> fix_symlink add a race condition since both libacl.so and libattr.so were
+> created, then removed, and then recreated.
+> 
+> So Only keep relative-libdir.patch for the target.
+> 
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>  meta/recipes-support/attr/ea-acl.inc | 23 ++---------------------
+>  1 file changed, 2 insertions(+), 21 deletions(-)
 
-Yep, working on the upgrade lead me to finding this mistake...
+Failed on the autobuilder with:
+http://errors.yoctoproject.org/Errors/Details/14224/
 
-Anything above our current version of libvte will depend on GTK+3.
-That in itself is fine but I wanted to make sure I know the effects of
-that change before I send it: Not just if something will fail to
-compile (because it depends on GTK+2 and vte) but also if we end up
-compiling two versions of gtk+ in cases where we used to manage with
-one.
+Cheers,
 
-Jussi
+Richard
 
->> DEPENDS =3D " glib-2.0 gtk+ intltool-native ncurses gobject-introspectio=
-n-stub"
->> RDEPENDS_libvte =3D "vte-termcap"
->>
->> --
->> 2.1.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
