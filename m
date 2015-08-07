@@ -1,29 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E68CD7673D
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 2240B7673D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 11:05:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t77B5Tfd020322; Fri, 7 Aug 2015 12:05:29 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id mowGfK628bQh; Fri,  7 Aug 2015 12:05:29 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t77B5EJ2020306
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 7 Aug 2015 12:05:27 +0100
-Message-ID: <1438945513.30467.35.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: rongqing.li@windriver.com
-Date: Fri, 07 Aug 2015 06:05:13 -0500
-In-Reply-To: <1438838323-25159-1-git-send-email-rongqing.li@windriver.com>
-References: <1438838323-25159-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][v2] attr: drop sstate fix and narrow relative-libdir.patch to target
+	Fri,  7 Aug 2015 11:06:22 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 07 Aug 2015 04:06:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,629,1432623600"; d="scan'208";a="621109793"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga003.jf.intel.com with ESMTP; 07 Aug 2015 04:06:22 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id F03876A4005;
+	Fri,  7 Aug 2015 04:05:35 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Aug 2015 14:17:02 +0300
+Message-Id: <1438946222-3447-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] selftest/buildoptions.py: correct small mistake cleanupworkdir ---> cleanup-workdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 11:05:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Aug 2015 11:06:27 -0000
 
-On Thu, 2015-08-06 at 13:18 +0800, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
-> 
-> The relative-libdir.patch is no longer needed for native since fix_symlink
-> for native has been added to revert what it done, Also this patch and
-> fix_symlink add a race condition since both libacl.so and libattr.so were
-> created, then removed, and then recreated.
-> 
-> So Only keep relative-libdir.patch for the target.
-> 
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->  meta/recipes-support/attr/ea-acl.inc | 23 ++---------------------
->  1 file changed, 2 insertions(+), 21 deletions(-)
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/selftest/buildoptions.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Failed on the autobuilder with:
-http://errors.yoctoproject.org/Errors/Details/14224/
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/buildoptions.py b/meta/lib/oeqa/selftest/buildoptions.py
+index 483803b..655b5da 100644
+--- a/meta/lib/oeqa/selftest/buildoptions.py
++++ b/meta/lib/oeqa/selftest/buildoptions.py
+@@ -128,7 +128,7 @@ class BuildImagesTest(oeSelfTest):
+         This method is used to test the build of directfb image for arm arch.
+         In essence we build a coreimagedirectfb and test the exitcode of bitbake that in case of success is 0.
+         """
+-        self.add_command_to_tearDown('cleanupworkdir')
++        self.add_command_to_tearDown('cleanup-workdir')
+         self.write_config("DISTRO_FEATURES_remove = \"x11\"\nDISTRO_FEATURES_append = \" directfb\"\nMACHINE ??= \"qemuarm\"")
+         res = bitbake("core-image-directfb", ignore_status=True)
+         self.assertEqual(res.status, 0, "\ncoreimagedirectfb failed to build. Please check logs for further details.\nbitbake output %s" % res.output)
+@@ -139,7 +139,7 @@ class ArchiverTest(oeSelfTest):
+         """
+         Test for archiving the work directory and exporting the source files.
+         """
+-        self.add_command_to_tearDown('cleanupworkdir')
++        self.add_command_to_tearDown('cleanup-workdir')
+         self.write_config("INHERIT = \"archiver\"\nARCHIVER_MODE[src] = \"original\"\nARCHIVER_MODE[srpm] = \"1\"")
+         res = bitbake("xcursor-transparent-theme", ignore_status=True)
+         self.assertEqual(res.status, 0, "\nCouldn't build xcursortransparenttheme.\nbitbake output %s" % res.output)
+-- 
+2.1.4
 
 
