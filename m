@@ -1,45 +1,43 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AB4076762
+Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
+	[209.85.192.182])
+	by mail.openembedded.org (Postfix) with ESMTP id BB021767F3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Aug 2015 18:54:51 +0000 (UTC)
-Received: by pacrr5 with SMTP id rr5so74556839pac.3
+	Sat,  8 Aug 2015 19:48:46 +0000 (UTC)
+Received: by pdco4 with SMTP id o4so56834979pdc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Aug 2015 11:54:51 -0700 (PDT)
+	Sat, 08 Aug 2015 12:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=SZxRubPbNT4bkrFj83R7D7Bbb9hvXNcAbwUo91jm5Qw=;
-	b=WM3kTG0opvdgUhz8Q+M4xjlUKblDYTVb1jDhcIizE5T7OTYutQMHuRwQM1pBZxB0zI
-	4vVH5VNXkOosChb6oP7++D88UDjkpEW5u7/mxM+NFoSTKQ5+b4rv6NGjOtCpsNMlHfvC
-	fuaIB2KP/eTYTWgI/8ifZVDxoId/cCimSBYg4OwefpiQIKTLmj7iZtGG42w0nfEsRpt+
-	IMMx3o8QDGIruvFfY9chTRNa1kTSd5E+cqWDH1IgABPxKJqRBI6GTvgHwwich/v69Koe
-	1/opJWYSEE4r93Wzr1ol5CKVra07bhAyXvba40ayPgjUxH96fa2Qh0xTQFusNXPS87Ap
-	cP8w==
-X-Received: by 10.68.196.233 with SMTP id ip9mr28655407pbc.139.1439060091690; 
-	Sat, 08 Aug 2015 11:54:51 -0700 (PDT)
+	bh=WG4q85wDFuMbmcla1lHrAibV9QPrjp1SfjjDYPu+tBU=;
+	b=A2bY/Z4wEbBIfLgB+dj2LBta6U6hv2+SmNCP+8azRwxwHQJBrYjF4tn4n8UPTICoxc
+	iEBHfYBIZlAvKHLiGsrBb6gMCsDwcWLqcIyk03u8Eyq6UGKJA/NuPJo+GdBBw/bpxcnn
+	uNayHL41QCympd6avkSm94ZZN1oZpQCb87MeTwXno9hucwOCtvu8U5uQ/Xhc3elk0Mxm
+	uUt7ftnsoZkBFv88w7mXtMN981NQZ7pO1kvyVrORX4TiYcFsQzAqWa8+Va5GYS1OrbHI
+	SB0gWIYetdtJQxrdAX+AcF/diGrB5s2Hy4NLTQV/mh/rSr5gzlVxVVH5XhNADqCQqJyE
+	/40g==
+X-Received: by 10.70.45.134 with SMTP id n6mr29210669pdm.124.1439063327032;
+	Sat, 08 Aug 2015 12:48:47 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:61b5:b56b:3665:2b08?
 	([2601:646:8601:4580:61b5:b56b:3665:2b08])
 	by smtp.gmail.com with ESMTPSA id
-	y6sm14338504pdl.61.2015.08.08.11.54.50
+	tt8sm3190712pbc.49.2015.08.08.12.48.46
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 08 Aug 2015 11:54:50 -0700 (PDT)
+	Sat, 08 Aug 2015 12:48:46 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <2404070.xrxV9F6QNR@peggleto-mobl.ger.corp.intel.com>
-Date: Sat, 8 Aug 2015 11:54:45 -0700
-Message-Id: <D525FF28-FAA1-4D3F-A4FF-99E60401DC45@gmail.com>
-References: <1438851969-4340-1-git-send-email-amarnath.valluri@intel.com>
-	<3064000.UnunBGI2RM@peggleto-mobl.ger.corp.intel.com>
-	<08C4C542-36D0-4009-9492-D2E048CF29DC@gmail.com>
-	<2404070.xrxV9F6QNR@peggleto-mobl.ger.corp.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <45936f059111b38f8850d5972db1ea1485dee82a.1438956967.git.alexander.kanavin@linux.intel.com>
+Date: Sat, 8 Aug 2015 12:48:44 -0700
+Message-Id: <7FCE78C2-85DC-44BF-8C64-7912AB432468@gmail.com>
+References: <cover.1438956967.git.alexander.kanavin@linux.intel.com>
+	<cover.1438956967.git.alexander.kanavin@linux.intel.com>
+	<45936f059111b38f8850d5972db1ea1485dee82a.1438956967.git.alexander.kanavin@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 X-Mailer: Apple Mail (2.2104)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in mkdosfs
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/7] gptfdisk: update to 1.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,103 +50,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Aug 2015 18:54:55 -0000
-X-Groupsio-MsgNum: 69158
+X-List-Received-Date: Sat, 08 Aug 2015 19:48:48 -0000
+X-Groupsio-MsgNum: 69159
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1C1FDC3D-C2D6-4D26-A6FB-0B22AC605E35";
+	boundary="Apple-Mail=_186904FE-5098-403B-906D-C75A69E31F2A";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_1C1FDC3D-C2D6-4D26-A6FB-0B22AC605E35
+--Apple-Mail=_186904FE-5098-403B-906D-C75A69E31F2A
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=utf-8
 
 
-> On Aug 7, 2015, at 12:54 PM, Paul Eggleton =
-<paul.eggleton@linux.intel.com> wrote:
+> On Aug 7, 2015, at 7:28 AM, Alexander Kanavin =
+<alexander.kanavin@linux.intel.com> wrote:
 >=20
-> On Friday 07 August 2015 12:26:56 Khem Raj wrote:
->>> On Aug 7, 2015, at 2:51 AM, Paul Eggleton =
-<paul.eggleton@linux.intel.com>
->>> wrote:>
->>> On Thursday 06 August 2015 19:52:28 Khem Raj wrote:
->>>> On Thu, Aug 6, 2015 at 2:25 AM, Paul Eggleton
->>>>=20
->>>> <paul.eggleton@linux.intel.com> wrote:
->>>>> On Thursday 06 August 2015 12:12:35 Alexander Kanavin wrote:
->>>>>> On 08/06/2015 12:06 PM, Amarnath Valluri wrote:
->>>>>>> Added new patch that fixes the memory leak that was introduced =
-in
->>>>>>> mkdosfs-dir.patch.
->>>>>>=20
->>>>>> You should update the original patch then, not pile additional =
-patches
->>>>>> on top. The least painful way is:
->>>>>>=20
->>>>>> 1) unpack the sources (manually from tarball, or using bitbake -c
->>>>>> unpack)
->>>>>> 2) 'git init; git add *; git commit' to create an git repository =
-from
->>>>>> the sources
->>>>>> 3) apply the patch that needs fixing, then do the fix
->>>>>> 4) make a git commit, then produce a patch using git =
-format-patch, then
->>>>>> move the new patch back to the recipe directory and update the =
-recipe
->>>>>> 5) build the recipe to make sure it still builds
->>>>>> 6) make a git commit with the recipe update, and submit it here =
-:)
->>>>>=20
->>>>> On the contrary - the much less painful way (as of fido) is to use
->>>>> devtool:
->>>>>=20
->>>>> 1) Extract source and set the build system up to use it:
->>>>>  devtool modify dosfstools -x ~/projects/dosfstools
->>>>>=20
->>>>> 2) Make whatever changes you want to in the git tree that has been =
-set
->>>>> up
->>>>> in the specified path
->>>>>=20
->>>>> 3) Build the recipe (as you would normally) to make sure it still =
-builds
->>>>>=20
->>>>> 4) Write the modified/added commits as patches back to the recipe:
->>>>>   devtool update-recipe dosfstools
->>>>>=20
->>>>> 5) Make a git commit with the recipe update, and submit it here :)
->>>>>=20
->>>>> I'd really like people to start using devtool for this kind of =
-thing. If
->>>>> it's not working for some reason please do let me know.
->>>>=20
->>>> This assumes either we use OE-Core or poky, I dont get it to work =
-with
->>>> angstrom out of box
->>>> what am I missing
->>>=20
->>> Well, whatever error / problem you are experiencing seems to be =
-missing at
->>> least ;)
->>=20
->> devtool modify dosfstools -x ~/projects/dosfstools
->> ERROR: This script can only be run after initialising the build =
-environment
->> (e.g. by using oe-init-build-env)
->>=20
->> so is it must now to use the setup script ? or can be extract some =
-needed
->> setup from it to let it work with setups not using the init script
+> Also, use tarballs instead of git for fetching source code.
+> git repository does not have version tags, so upstream version check
+> cannot be performed.
 >=20
-> Well it needs to be able to run bitbake internally (directly and using
-> tinfoil), hence the need to have the environment set up to do so. I =
-don't
-> really see a way around that.
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+> .../recipes-devtools/fdisk/{gptfdisk_git.bb =3D> gptfdisk_1.0.0.bb} | =
+8 +++-----
+> 1 file changed, 3 insertions(+), 5 deletions(-)
+> rename meta/recipes-devtools/fdisk/{gptfdisk_git.bb =3D> =
+gptfdisk_1.0.0.bb} (75%)
 >=20
+> diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb =
+b/meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
+> similarity index 75%
+> rename from meta/recipes-devtools/fdisk/gptfdisk_git.bb
+> rename to meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
+> index 477c1d9..f4b0e32 100644
+> --- a/meta/recipes-devtools/fdisk/gptfdisk_git.bb
+> +++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
+> @@ -5,11 +5,9 @@ LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D59530bdf33659b29e73d4adb9f9f6552"
+>=20
+> DEPENDS =3D "util-linux popt ncurses"
+>=20
+> -PV =3D "0.8.10+git${SRCPV}=E2=80=9D
 
-Then limited use of  devtool should be documented as available
+its always preferable to have PV contain SRCPV for recipes using SCM =
+based fetch mechanism. Don=E2=80=99t drop it
 
---Apple-Mail=_1C1FDC3D-C2D6-4D26-A6FB-0B22AC605E35
+> -SRCREV =3D "a920398fa393f9d6301b32b191bc01e086ab8bc8"
+> -SRC_URI =3D "git://git.code.sf.net/p/gptfdisk/code"
+> -
+> -S =3D "${WORKDIR}/git"
+> +SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${PV}/${BP}.tar.gz"
+> +SRC_URI[md5sum] =3D "2061f917af084215898d4fea04d8388f"
+> +SRC_URI[sha256sum] =3D =
+"5b66956743a799fc0471cdb032665c1391e82f9c5b3f1d7d726d29fe2ba01d6c"
+>=20
+> do_install() {
+>     install -d ${D}${sbindir}
+> --
+> 2.1.4
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_186904FE-5098-403B-906D-C75A69E31F2A
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -159,9 +127,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXGUHkACgkQuwUzVZGdMxTWTgCeNo9FXstNpgz4pYVJQxgsQucg
-0RYAn1d7h/5z4c2Pg7Pow7O0EpkZ0/ti
-=aO1u
+iEYEARECAAYFAlXGXR0ACgkQuwUzVZGdMxRLvQCfa7tOM2nrGkKHLEv5Ue6My6cU
+toMAoIJHh5BQdtCnZoXWBdO6+++Y50wG
+=1Ev7
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_1C1FDC3D-C2D6-4D26-A6FB-0B22AC605E35--
+--Apple-Mail=_186904FE-5098-403B-906D-C75A69E31F2A--
