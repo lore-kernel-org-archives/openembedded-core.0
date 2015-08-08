@@ -1,47 +1,45 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F18B767E6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AB4076762
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Aug 2015 17:36:34 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 08 Aug 2015 10:36:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,634,1432623600"; d="scan'208";a="764703399"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Aug 2015 10:36:35 -0700
-Received: from orsmsx162.amr.corp.intel.com (10.22.240.85) by
-	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Sat, 8 Aug 2015 10:36:33 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.2.247]) by
-	ORSMSX162.amr.corp.intel.com ([169.254.3.72]) with mapi id
-	14.03.0224.002; Sat, 8 Aug 2015 10:36:33 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Thread-Topic: [OE-core] [PATCH 0/2] Support for VirtualBox guest additions
-Thread-Index: AQHQzix/unjTe8g7O0uKLsMGe8OzUp38e9OA//+WZcCAAH3VgIAAmfYAgAABbICAALM7oIAA1zcAgAJgIwCAALCuAIAAngtA
-Date: Sat, 8 Aug 2015 17:36:32 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101D54B2@ORSMSX109.amr.corp.intel.com>
-References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
-	<55C0E631.7070703@windriver.com>
-	<6E51916E4A1F32428260031F4C7CD2B6101D46F3@ORSMSX109.amr.corp.intel.com>
-	<55C0F729.5000908@windriver.com>
-	<CADkTA4MPP3KiV9Nq_wi-_qx26mGEkX+uzXvv4ZXfM0YpMEccKw@mail.gmail.com>
-	<CADkTA4PchJT4R5tmzeYwOWQLf_4OnuD0KtU08z=Yjf0zfEwM0A@mail.gmail.com>
-	<6E51916E4A1F32428260031F4C7CD2B6101D4E4C@ORSMSX109.amr.corp.intel.com>
-	<CAMKF1sr4WGmTuK9CcNpXdgDx2aKMH6ynSo=rUQKo1n59CdPdRQ@mail.gmail.com>
-	<6E51916E4A1F32428260031F4C7CD2B6101D5420@ORSMSX109.amr.corp.intel.com>
-	<CADkTA4Nsuwi06AP932zCxmNCOw8CjDCBAOyGqouEafg0ZJ2qhg@mail.gmail.com>
-In-Reply-To: <CADkTA4Nsuwi06AP932zCxmNCOw8CjDCBAOyGqouEafg0ZJ2qhg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.139]
-MIME-Version: 1.0
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	"jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
-	"openembedded-core@lists.openembedded.org"
+	Sat,  8 Aug 2015 18:54:51 +0000 (UTC)
+Received: by pacrr5 with SMTP id rr5so74556839pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Aug 2015 11:54:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=SZxRubPbNT4bkrFj83R7D7Bbb9hvXNcAbwUo91jm5Qw=;
+	b=WM3kTG0opvdgUhz8Q+M4xjlUKblDYTVb1jDhcIizE5T7OTYutQMHuRwQM1pBZxB0zI
+	4vVH5VNXkOosChb6oP7++D88UDjkpEW5u7/mxM+NFoSTKQ5+b4rv6NGjOtCpsNMlHfvC
+	fuaIB2KP/eTYTWgI/8ifZVDxoId/cCimSBYg4OwefpiQIKTLmj7iZtGG42w0nfEsRpt+
+	IMMx3o8QDGIruvFfY9chTRNa1kTSd5E+cqWDH1IgABPxKJqRBI6GTvgHwwich/v69Koe
+	1/opJWYSEE4r93Wzr1ol5CKVra07bhAyXvba40ayPgjUxH96fa2Qh0xTQFusNXPS87Ap
+	cP8w==
+X-Received: by 10.68.196.233 with SMTP id ip9mr28655407pbc.139.1439060091690; 
+	Sat, 08 Aug 2015 11:54:51 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:61b5:b56b:3665:2b08?
+	([2601:646:8601:4580:61b5:b56b:3665:2b08])
+	by smtp.gmail.com with ESMTPSA id
+	y6sm14338504pdl.61.2015.08.08.11.54.50
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 08 Aug 2015 11:54:50 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <2404070.xrxV9F6QNR@peggleto-mobl.ger.corp.intel.com>
+Date: Sat, 8 Aug 2015 11:54:45 -0700
+Message-Id: <D525FF28-FAA1-4D3F-A4FF-99E60401DC45@gmail.com>
+References: <1438851969-4340-1-git-send-email-amarnath.valluri@intel.com>
+	<3064000.UnunBGI2RM@peggleto-mobl.ger.corp.intel.com>
+	<08C4C542-36D0-4009-9492-D2E048CF29DC@gmail.com>
+	<2404070.xrxV9F6QNR@peggleto-mobl.ger.corp.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Support for VirtualBox guest additions
+Subject: Re: [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in mkdosfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,213 +52,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Aug 2015 17:36:38 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sat, 08 Aug 2015 18:54:55 -0000
+X-Groupsio-MsgNum: 69158
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_1C1FDC3D-C2D6-4D26-A6FB-0B22AC605E35";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-RG9uZS4NCiBodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lk
-PTcwOTUNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCcnVjZSBBc2hm
-aWVsZCBbbWFpbHRvOmJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbV0NCj4gU2VudDogRnJpZGF5LCBB
-dWd1c3QgNywgMjAxNSA2OjA5IFBNDQo+IFRvOiBCeXN0cmlja3ksIEp1cm8NCj4gQ2M6IEtoZW0g
-UmFqOyBIYXRsZSwgTWFyayBHIChXaW5kIFJpdmVyKTsgUHVyZGllLCBSaWNoYXJkOw0KPiBqdXJv
-YnlzdHJpY2t5QGhvdG1haWwuY29tOyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVt
-YmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAwLzJdIFN1cHBvcnQg
-Zm9yIFZpcnR1YWxCb3ggZ3Vlc3QgYWRkaXRpb25zDQo+IA0KPiBPbiBGcmksIEF1ZyA3LCAyMDE1
-IGF0IDY6MTMgUE0sIEJ5c3RyaWNreSwgSnVybyA8anVyby5ieXN0cmlja3lAaW50ZWwuY29tPg0K
-PiB3cm90ZToNCj4gPiBUaGUgZ3Vlc3QgYWRkaXRpb25zIGJhc2ljYWxseSB1c2Ugc3RhbmRhcmQg
-b3V0LW9mLXRyZWUga2VybmVsIGRldmljZQ0KPiA+IGRyaXZlciBidWlsZCAgKGFzIGRlc2NyaWJl
-ZA0KPiA+IGh0dHA6Ly93d3cuY3liZXJjaXRpLmJpei90aXBzL2J1aWxkLWxpbnV4LWtlcm5lbC1t
-b2R1bGUtYWdhaW5zdC1pbnN0YWwNCj4gPiBsZWQta2VybmVsLXNvdXJjZS10cmVlLmh0bWwpDQo+
-ID4NCj4gPiBUaGUgYnVpbGQgcmVsaWVzIG9uIHRoZSBleGlzdGVuY2Ugb2YNCj4gPiAiL2xpYi9t
-b2R1bGVzLzxrZXJuZWwtdmVyc2lvbj4vYnVpbGQiLCAgY29udGFpbmluZyAob3Igc3ltbGluayB0
-bykgYQ0KPiA+IG5lY2Vzc2FyeSBzZXQgb2YgIGtlcm5lbCBkZXZlbG9wbWVudCBmaWxlcy4gVGhp
-cyBpcyBub3QgcmVhbGx5DQo+ID4gVmlydHVhbEJveCBndWVzdCBhZGRpdGlvbnMgc3BlY2lmaWMs
-IGl0IHNlZW1zIHRvIGJlIGEgY29tbW9uDQo+ID4gcGFja2FnaW5nL2luc3RhbGwgY29udmVudGlv
-biB3aGVuIGluc3RhbGxpbmcgIGtlcm5lbCBkZXZlbG9wbWVudCBmaWxlcw0KPiA+IHZpYQ0KPiA+
-DQo+ID4gYXB0LWdldCBpbnN0YWxsIGxpbnV4LWhlYWRlcnMtJCh1bmFtZSAtcikNCj4gPg0KPiA+
-IFRoZSAgYWN0dWFsIGRldmVsb3BtZW50IGZpbGVzLCBBRkFJSyB0aGV5IGNhbiBiZSBpbnN0YWxs
-ZWQgaW4gb25lIG9mIHR3bw0KPiB3YXlzOg0KPiA+IDEuIEZ1bGwga2VybmVsIHNvdXJjZSB0cmVl
-IChvdmVyIDUwME1CKSAyLiBTdWJzZXQgb2YgdGhlIGZ1bGwga2VybmVsDQo+ID4gc291cmNlcyAo
-Imtlcm5lbC1oZWFkZXJzIiBvciAibGludXgtaGVhZGVycyIpLg0KPiA+ICBUaGVzZSBhcmUgIGJh
-c2ljYWxseSBoZWFkZXIgZmlsZXMsIE1ha2VmaWxlcywgc2NyaXB0cywgLmNvbmZpZywgZmlyd2Fy
-ZSAgYW5kDQo+IHN1Y2guIEFib3V0IDEwME1CLg0KPiA+DQo+ID4gVGhlIGZ1bGwgc2V0IGlzIHBy
-b3ZpZGVkIGJ5IGtlcm5lbC1kZXZzcmMuDQo+ID4gVGhlIHN1YnNldCBzaG91bGQgYmUgcHJvdmlk
-ZWQgYnkga2VybmVsLWRldiAoYnV0IGlzIG5vdCkNCj4gPg0KPiA+IEF0IHNvbWUgcG9pbnQga2Vy
-bmVsLWRldiBwcm92aWRlZCB0aGUgc3ltbGluayAsICIvbGliL21vZHVsZXMvPGtlcm5lbC0NCj4g
-dmVyc2lvbj4vYnVpbGQiLg0KPiA+IFRoZSBzeW1saW5rICBkb2VzIG5vdCBleGlzdCBhbnltb3Jl
-LiBIb3dldmVyLCBrZXJuZWwuYmJjbGFzcyBzdGlsbA0KPiA+IGNvbnRhaW5zIHNvbWUgcmVmZXJl
-bmNlcyB0byB0aGUgL2xpYi9tb2R1bGVzLyR7S0VSTkVMX1ZFUlNJT059L2J1aWxkDQo+ID4gaW4g
-RklMRVNfa2VybmVsLWRldg0KPiA+DQo+IA0KPiBDYW4geW91IHVwZGF0ZSB0aGUgYnVnemlsbGEg
-dGhhdCBJIHJlZmVyZW5jZWQgd2l0aCB0aGUgZGV0YWlscyA/IFdlIGNhbiB1c2UNCj4gdGhhdCBi
-dWcgdG8gdHdlYWsgb3VyIGV4aXN0aW5nIHBhY2thZ2VzL3JlY2lwZXMgKHZlcnN1cyBhZGRpbmcg
-c29tZXRoaW5nDQo+IG5ldykuDQo+IA0KPiBCcnVjZQ0KPiANCj4gPg0KPiA+DQo+ID4NCj4gPg0K
-PiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206IEtoZW0gUmFq
-IFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29tXQ0KPiA+PiBTZW50OiBXZWRuZXNkYXksIEF1Z3Vz
-dCA1LCAyMDE1IDc6MjAgUE0NCj4gPj4gVG86IEJ5c3RyaWNreSwgSnVybw0KPiA+PiBDYzogQnJ1
-Y2UgQXNoZmllbGQ7IEhhdGxlLCBNYXJrIEcgKFdpbmQgUml2ZXIpOyBQdXJkaWUsIFJpY2hhcmQ7
-DQo+ID4+IGp1cm9ieXN0cmlja3lAaG90bWFpbC5jb207IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENI
-IDAvMl0gU3VwcG9ydCBmb3IgVmlydHVhbEJveCBndWVzdA0KPiA+PiBhZGRpdGlvbnMNCj4gPj4N
-Cj4gPj4gT24gV2VkLCBBdWcgNSwgMjAxNSBhdCAzOjAyIFBNLCBCeXN0cmlja3ksIEp1cm8NCj4g
-Pj4gPGp1cm8uYnlzdHJpY2t5QGludGVsLmNvbT4NCj4gPj4gd3JvdGU6DQo+ID4+ID4gVGhhbmtz
-IGZvciB0aGUgbGluay4gTXkgbmV3IHVuZGVyc3RhbmRpbmcgaXMgdGhhdCBrZXJuZWwtZGV2DQo+
-ID4+ID4gcGFja2FnZSBzaG91bGQgYWxyZWFkeSBoYXZlIGVzc2VudGlhbGx5IHRoZSBzYW1lIGZ1
-bmN0aW9uYWxpdHkgYXMNCj4gPj4gPiB0aGUga2VybmVsLWhlYWRlcnMgcGFja2FnZSwgd2hpY2gg
-bWFrZXMga2VybmVsLWhlYWRlcnMgcGFja2FnZQ0KPiByZWR1bmRhbnQuDQo+ID4+ID4gIEkgdHJp
-ZWQgaXQsIGJ1dCBpdCBkaWQgbm90IHdvcmsuDQo+ID4+ID4gVG8gYmUgc3BlY2lmaWMsIEkgZXhw
-ZWN0ZWQgdG8gc2VlIHRoZSBmb2xkZXINCj4gPj4gPiAiL3Vzci9saWIvbW9kdWxlcy8zLjE5LjUt
-eW9jdG8tDQo+ID4+IHN0YW5kYXJkL2J1aWxkIg0KPiA+PiA+IGhvd2V2ZXIsIGl0IGlzIG1pc3Np
-bmcgLiBMb29raW5nIGF0IGtlcm5lbC5iYmNsYXNzIGl0IHNlZW1zIGl0IHVzZWQNCj4gPj4gPiB0
-byBleGlzdCwgYnV0IHN1Y2N1bWJlZCB0byBzb21lIGJpdHJvdC4NCj4gPj4gPg0KPiA+Pg0KPiA+
-PiBoYXZlIHlvdSB0aG91Z2h0IG9mIGxvb2tpbmcgYXQgdGhlIGd1ZXN0IGFkZGl0aW9ucyBwYWNr
-YWdlIGFuZCBzZWUgaWYNCj4gPj4gaXQgY291bGQgYmUgZG9pbmcgc29tZXRoaW5nIHRoYXQgY2Fu
-IGJlIGZpeGVkID8gd2hhdCB5b3UgbmVlZCBoZXJlIGlzDQo+ID4+IGtlcm5lbCBkZXZlbG9wbWVu
-dCBmaWxlcyBvbiB0YXJnZXQgSSBhc3N1bWUsIHRoYXQgc2hvdWxkIGJlIGVhc2llcg0KPiA+PiB0
-aGFuIGNyb3NzLWJ1aWxkIHNjZW5hcmlvIHdoaWNoIHdlIGhhdmUgbm90IGZpeGVkIGNvbXBsZXRl
-bHkuIEkgdGhpbmsNCj4gPj4gdGhpcyBhZGRpdGlvbmFsIGhlYWRlcnMgcGFja2FnZSBpcyByZWR1
-bmRhbnQuDQo+ID4+IHlvdSBjb3VsZCBnZXQgYnkgZml4aW5nIHRoZSBleGlzdGluZyBrZXJuZWwt
-aGVhZGVycyBwYWNrYWdlICggZm9yDQo+ID4+IHRhcmdldCkgaWYgYW55dGhpbmcgaXMgbWlzc2lu
-Zy4NCj4gPj4NCj4gPj4gSG93IGlzIGd1ZXN0IGFkZGl0aW9ucyBjb21waWxlZCA/IGlzIGl0IGR1
-cmluZyBidWlsZCBvciBkeW5hbWljYWxseSBvbg0KPiB0YXJnZXQgPw0KPiA+Pg0KPiA+PiA+IEp1
-c3QgdG8gbWFrZSBzdXJlICB3ZSBhcmUgb24gdGhlIHNhbWUgcGFnZSwgdGhpcyBpcyB3aGF0IEkg
-d291bGQNCj4gPj4gPiBsaWtlIHRvDQo+ID4+IGFjY29tcGxpc2g6DQo+ID4+ID4gaHR0cDovL3d3
-dy5jeWJlcmNpdGkuYml6L3RpcHMvYnVpbGQtbGludXgta2VybmVsLW1vZHVsZS1hZ2FpbnN0LWlu
-cw0KPiA+PiA+IHRhbA0KPiA+PiA+IGxlZC1rZXJuZWwtc291cmNlLXRyZWUuaHRtbA0KPiA+PiA+
-DQo+ID4+ID4gSnVybw0KPiA+PiA+DQo+ID4+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+ID4+ID4+IEZyb206IEJydWNlIEFzaGZpZWxkIFttYWlsdG86YnJ1Y2UuYXNoZmllbGRAZ21h
-aWwuY29tXQ0KPiA+PiA+PiBTZW50OiBUdWVzZGF5LCBBdWd1c3QgNCwgMjAxNSA3OjQ5IFBNDQo+
-ID4+ID4+IFRvOiBIYXRsZSwgTWFyayBHIChXaW5kIFJpdmVyKQ0KPiA+PiA+PiBDYzogQnlzdHJp
-Y2t5LCBKdXJvOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOw0KPiA+
-PiA+PiBqdXJvYnlzdHJpY2t5QGhvdG1haWwuY29tOyBQdXJkaWUsIFJpY2hhcmQNCj4gPj4gPj4g
-U3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC8yXSBTdXBwb3J0IGZvciBWaXJ0dWFsQm94
-IGd1ZXN0DQo+ID4+ID4+IGFkZGl0aW9ucw0KPiA+PiA+Pg0KPiA+PiA+PiBPbiBUdWUsIEF1ZyA0
-LCAyMDE1IGF0IDExOjQzIFBNLCBCcnVjZSBBc2hmaWVsZA0KPiA+PiA+PiA8YnJ1Y2UuYXNoZmll
-bGRAZ21haWwuY29tPg0KPiA+PiA+PiB3cm90ZToNCj4gPj4gPj4gPiBPbiBUdWUsIEF1ZyA0LCAy
-MDE1IGF0IDI6MzIgUE0sIE1hcmsgSGF0bGUNCj4gPj4gPj4gPiA8bWFyay5oYXRsZUB3aW5kcml2
-ZXIuY29tPg0KPiA+PiA+PiB3cm90ZToNCj4gPj4gPj4gPj4gT24gOC80LzE1IDEyOjI1IFBNLCBC
-eXN0cmlja3ksIEp1cm8gd3JvdGU6DQo+ID4+ID4+ID4+PiBJIGFncmVlLCB0aGUgbmFtZSAia2Vy
-bmVsLWhlYWRlcnMiIG1heSBub3QgYmUgdGhlIG1vc3QNCj4gPj4gPj4gPj4+IGZvcnR1bmF0ZSwN
-Cj4gPj4gPj4gImxpbnV4LWhlYWRlcnMiDQo+ID4+ID4+ID4+PiBpcyBwcm9iYWJseSBtb3JlIGZp
-dHRpbmcuICBUaGUgcmVjaXBlIGluc3RhbGxzIHRoZSBmaWxlcyBpbiBhDQo+ID4+ID4+ID4+PiBz
-aW1pbGFyIGZhc2hpb24gdGhhdCBpcyBkb25lIGJ5DQo+ID4+ID4+ID4+Pg0KPiA+PiA+PiA+Pj4g
-YXB0LWdldCBpbnN0YWxsIGxpbnV4LWhlYWRlcnMtJCh1bmFtZSAtcikNCj4gPj4gPj4gPj4+DQo+
-ID4+ID4+ID4+PiBUeXBpY2FsIGNvbnRlbnRzIGNhbiBiZSB2aWV3ZWQgZm9yIGV4YW1wbGUgaGVy
-ZToNCj4gPj4gPj4gPj4+IGh0dHBzOi8vd3d3LmFyY2hsaW51eC5vcmcvcGFja2FnZXMvY29yZS9p
-Njg2L2xpbnV4LWhlYWRlcnMvDQo+ID4+ID4+ID4+Pg0KPiA+PiA+PiA+Pj4gVGhlc2UgZmlsZXMg
-YXJlIG5lZWRlZCB0byBhbGxvdyBidWlsZGluZyAgb2Yga2VybmVsIGRyaXZlcnMNCj4gPj4gPj4g
-Pj4+IGFnYWluc3QgdGhlIHJ1bm5pbmcgTGludXgga2VybmVsLiBJbiBhIHdheSwgaXQgaXMgYSBz
-dWJzZXQgb2YNCj4gPj4gPj4gPj4+IGtlcm5lbC1kZXZzcmMsIGJ1dCBpbmNsdWRpbmcgICIuY29u
-ZmlnIiBmaWxlIHVzZWQgZm9yIHRoZQ0KPiA+PiA+PiA+Pj4gYWN0dWFsIHJ1bm5pbmcNCj4gPj4g
-a2VybmVsLg0KPiA+PiA+PiA+Pg0KPiA+PiA+PiA+PiBBZ2FpbiB0aGlzIGlzIHBhcnQgb2YgdGhl
-IHB1cnBvc2Ugb2YgdGhlIGV4aXN0aW5nIGtlcm5lbC1kZXZzcmMNCj4gPj4gPj4gPj4gcGFja2Fn
-ZS4gIFNvIHdoYXQgaXMgbWlzc2luZyBwcmV2ZW50aW5nIHRoaXMgZnJvbSB3b3JraW5nLiAgSXQN
-Cj4gPj4gPj4gPj4gbGlrZWx5IG5lZWRzIHRvIGJlIGFkZGVkIHRvIHRoZSBrZXJuZWwtZGV2c3Jj
-IHBhY2thZ2UgaW5zdGVhZA0KPiA+PiA+PiA+PiAob3IgYSBzdWIgcGFja2FnZSB0aGF0IGlzIGNy
-ZWF0ZWQgYnkgdGhlIGtlcm5lbC1kZXZzcmMgcmVjaXBlLikNCj4gPj4gPj4gPg0KPiA+PiA+PiA+
-IFBlZWtpbmcgaW4gb24gdmFjYXRpb24uDQo+ID4+ID4+ID4NCj4gPj4gPj4gPiBBdCBhIG1pbmlt
-dW0sIHdlIG5lZWQgdG8gZmlndXJlIG91dCB3aHkgdGhlIGV4aXN0aW5nIHBhY2thZ2UNCj4gPj4g
-Pj4gPiB3YXNuJ3QgYWJsZSB0byBidWlsZCB0aGUgdXNlIGNhc2UgaW4gcXVlc3Rpb24gaGVyZSAu
-LiBJJ3ZlIGJ1aWx0DQo+ID4+ID4+ID4gcHJldHR5IG11Y2ggZXZlcnl0aGluZyBhZ2FpbnN0IGl0
-IGF0IG9uZSBwb2ludCAuLiBzbyBJJ2QgbGlrZSB0byBsZWFybg0KPiBtb3JlLg0KPiA+PiA+PiA+
-DQo+ID4+ID4+ID4gQW5kIHllcywgd2hhdCB3ZSBkb24ndCBuZWVkIGlzIG1vcmUgc2V0cyBvZiBy
-dWxlcyB0aGF0IGNvcHkgYW5kDQo+ID4+ID4+ID4gcGFja2FnZSBwYXJ0cyBvZiB0aGUga2VybmVs
-IGJ1aWxkLiBXZSBhcmUgYWxyZWFkeSBkb2luZyB0aGF0IGluDQo+ID4+ID4+ID4gb3VyIGRvX3No
-YXJlZF93b3JrZGlyIGFuZCB0aGF0IGlzIHByZXR0eSBtdWNoIHRoZSBtaW5pbXVtIHRvDQo+ID4+
-ID4+ID4gYnVpbGQgYWdhaW5zdCB0aGUga2VybmVsLiBJZiB0aGF0IGRpcmVjdG9yeSBzdHJ1Y3R1
-cmUgbmVlZHMgbW9yZQ0KPiA+PiA+PiA+IGZvciB0aGlzIHB1cnBvc2UgKG9yIGxlc3MpLA0KPiA+
-PiA+PiB0aGVuIHVwZGF0ZSBpdC4NCj4gPj4gPj4gPg0KPiA+PiA+PiA+IEJ1dCB3ZSBuZWVkIHRv
-IGRvIGFsbCBvZiB0aGlzIGluIHRoZSBleGlzdGluZyBjbGFzc2VzLCB0byBrZWVwDQo+ID4+ID4+
-ID4gZXZlcnl0aGluZyBpbiBvbmUgcGxhY2UsIG5vdCBtb3JlIHJlY2lwZXMgdGhhdCBhcmUgZ3Jh
-YmJpbmcNCj4gPj4gPj4gPiBjaHVua3Mgb2YgdGhlIHNhbWUgc291cmNlIHRyZWUuDQo+ID4+ID4+
-DQo+ID4+ID4+IEZZSTogZXhpdGluZyB0aG91Z2h0cyBhcmUgaGVyZToNCj4gPj4gPj4NCj4gPj4g
-Pj4gaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL3Nob3dfYnVnLmNnaT9pZD03MDk1
-DQo+ID4+ID4+DQo+ID4+ID4+IFNvIGFzIHlvdSBjYW4gc2VlLCB3ZSBhcmVuJ3Qgb2ZmZW5kZWQg
-YnkgYSAnaGVhZGVycycgcGFja2FnZSwgYnV0DQo+ID4+ID4+IGl0IGhhcyB0byBtYWtlIHNlbnNl
-IHdpdGggdGhlIGV4aXN0aW5nIHBhY2thZ2VzLCBhbmQgbmVlZHMgdG8gYmUNCj4gPj4gPj4gZ2Vu
-ZXJhdGluZyBmcm9tIG91ciBleGlzdGluZyBiaXRzIG9mIHRoZSBzeXN0ZW0uDQo+ID4+ID4+DQo+
-ID4+ID4+IENoZWVycywNCj4gPj4gPj4NCj4gPj4gPj4gQnJ1Y2UNCj4gPj4gPj4NCj4gPj4gPj4g
-Pg0KPiA+PiA+PiA+IEJydWNlDQo+ID4+ID4+ID4NCj4gPj4gPj4gPg0KPiA+PiA+PiA+Pg0KPiA+
-PiA+PiA+Pj4gSGF2aW5nIHRoZXNlIGZpbGVzIGluc3RhbGxlZCwgaXQgaXMgcG9zc2libGUgIHRv
-IGNvbXBpbGUNCj4gPj4gPj4gPj4+IGFkZGl0aW9uYWwga2VybmVsIGRyaXZlcnMgdGhhdCBhcmUg
-bm90IHBhcnQgb2YgdGhlIGtlcm5lbC1kZXZzcmMgLg0KPiA+PiA+PiA+Pj4gIFZpcnR1YWxCb3gg
-Y29tcGlsZXMgc29tZSBvZiB0aGVpciBvd24gZHJpdmVycyB0aGlzIHdheSwNCj4gPj4gPj4gPj4+
-IG90aGVycyBhcw0KPiA+PiB3ZWxsLg0KPiA+PiA+PiA+Pj4gVGhlcmUgYXJlIG1hbnkgb3RoZXIg
-c2NlbmFyaW9zIHdoZXJlIHlvdSBtYXkgd2FudCB0byBhZGQgYQ0KPiBuZXcNCj4gPj4gPj4gPj4+
-IGtlcm5lbCBkcml2ZXIgdG8gYW4gYWxyZWFkeSBpbnN0YWxsZWQgTGludXgga2VybmVsLg0KPiA+
-PiA+PiA+Pg0KPiA+PiA+PiA+PiBZZXMsIHRoaXMgd2FzIHBhcnQgb2YgdGhlIGRlc2lnbiBiZWhp
-bmQgdGhlIGtlcm5lbC1kZXZzcmMsIG1ha2UNCj4gPj4gPj4gPj4gc3VyZSB0aGUgc291cmNlcyBh
-bmQgY29tcG9uZW50cyB1c2VkIHRvIGJ1aWxkIHRoZSBydW5uaW5nDQo+ID4+ID4+ID4+IGtlcm5l
-bCB3ZXJlIG1hZGUgYXZhaWxhYmxlIHRvIHRoZSB0YXJnZXQgc28gdGhhdA0KPiA+PiA+PiA+PiBv
-dXQtb2YtdHJlZS9leHRlcm5hbCBrZXJuZWwgbW9kdWxlcyBjb3VsZCBiZSBidWlsdCB0byBtYXRj
-aCB0aGUNCj4gPj4gPj4gPj4gcnVubmluZyBzeXN0ZW0gLS0gYXMgd2VsbCBhcyB0aGUgYWJpbGl0
-eSB0byByZWNvbmZpZ3VyZSBhbmQgcmVidWlsZA0KPiB0aGUga2VybmVsIGl0c2VsZi4NCj4gPj4g
-Pj4gPj4NCj4gPj4gPj4gPj4gQnJ1Y2UgaXMgb24gdmFjYXRpb24gdGhpcyB3ZWVrIGFuZCBtYXkg
-bm90IGJlIGFyb3VuZCB0bw0KPiA+PiA+PiA+PiByZXNwb25kLCBidXQgYWRkaW5nIHlldCBhbm90
-aGVyIHBhY2thZ2UgaXMgbm90IHRoZSByaWdodCBhbnN3ZXINCj4gPj4gPj4gPj4gaGVyZS4gIExl
-dHMgZml4IHdoYXQgbWF5IGJlIGJyb2tlbiBpbiB3aGF0IHdlIGhhdmUuDQo+ID4+ID4+ID4+DQo+
-ID4+ID4+ID4+IC0tTWFyaw0KPiA+PiA+PiA+Pg0KPiA+PiA+PiA+Pj4gSnVybw0KPiA+PiA+PiA+
-Pj4NCj4gPj4gPj4gPj4+DQo+ID4+ID4+ID4+Pg0KPiA+PiA+PiA+Pj4+IC0tLS0tT3JpZ2luYWwg
-TWVzc2FnZS0tLS0tDQo+ID4+ID4+ID4+Pj4gRnJvbTogTWFyayBIYXRsZSBbbWFpbHRvOm1hcmsu
-aGF0bGVAd2luZHJpdmVyLmNvbV0NCj4gPj4gPj4gPj4+PiBTZW50OiBUdWVzZGF5LCBBdWd1c3Qg
-NCwgMjAxNSA5OjIwIEFNDQo+ID4+ID4+ID4+Pj4gVG86IEJ5c3RyaWNreSwgSnVybzsNCj4gPj4g
-Pj4gPj4+PiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOw0KPiA+PiA+
-PiA+Pj4+IGp1cm9ieXN0cmlja3lAaG90bWFpbC5jb20NCj4gPj4gPj4gPj4+PiBDYzogUHVyZGll
-LCBSaWNoYXJkDQo+ID4+ID4+ID4+Pj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC8y
-XSBTdXBwb3J0IGZvciBWaXJ0dWFsQm94DQo+ID4+ID4+ID4+Pj4gZ3Vlc3QgYWRkaXRpb25zDQo+
-ID4+ID4+ID4+Pj4NCj4gPj4gPj4gPj4+PiBPbiA4LzMvMTUgMzozNSBQTSwgSnVybyBCeXN0cmlj
-a3kgd3JvdGU6DQo+ID4+ID4+ID4+Pj4+IEluIG9yZGVyIHRvIHN1cHBvcnQgVmlydHVhbEJveCBn
-dWVzdCBhZGRpdGlvbnMsIGtlcm5lbA0KPiA+PiA+PiA+Pj4+PiBoZWFkZXJzIG5lZWQgdG8gYmUg
-cHJlc2VudCBpbiB0aGUgVk0uIEkgYW0gYXdhcmUgd2UgYWxyZWFkeQ0KPiA+PiA+PiA+Pj4+PiBo
-YXZlIHR3byBwYWNrYWdlcy9yZWNpcGVzIHRoYXQgYXJlIHNvbWV3aGF0IHNpbWlsYXINCj4gPj4g
-Pj4gPj4+Pj4gKGtlcm5lbC1kZXZzcmMuYmIsIGxpbnV4LWxpYmMtaGVhZGVycyksIGJ1dCBub25l
-DQo+ID4+ID4+ID4+Pj4gb2YgdGhlbSBpcyBzdWl0YWJsZSBmb3IgdGhpcyBwdXJwb3NlLg0KPiA+
-PiA+PiA+Pj4+PiBCZXNpZGVzIHRoZSBrZXJuZWwgaGVhZGVycywgc29tZSBhZGRpdGlvbmFsIGZp
-bGVzIChzY3JpcHRzLA0KPiA+PiA+PiA+Pj4+PiBNYWtlZmlsZXMsIC5jb25maWcsIGV0YykgYXJl
-IGFsc28gcmVxdWlyZWQuDQo+ID4+ID4+ID4+Pj4NCj4gPj4gPj4gPj4+PiBsaW51eC1saWJjLWhl
-YWRlcnMgaXMgb25seSBmb3IgYnVpbGRpbmcgYXBwbGljYXRpb25zLg0KPiA+PiA+PiA+Pj4+IGtl
-cm5lbC1kZXZzcmMgaXMgZm9yIGJ1aWxkaW5nIG1vZHVsZXMgb24gdGhlIHRhcmdldC4NCj4gPj4g
-Pj4gPj4+Pg0KPiA+PiA+PiA+Pj4+IFdoYXQgZG8gdGhlc2Ugc3BlY2lmaWMgbW9kdWxlcyBuZWVk
-IHRoYXQgYXJlIG5vdCBwcmVzZW50IGluDQo+ID4+ID4+ID4+Pj4ga2VybmVsLQ0KPiA+PiA+PiBk
-ZXZzcmM/DQo+ID4+ID4+ID4+Pj4gKEkgcmVhbGx5IGRvbid0IHdhbnQgJ3lldCBhbm90aGVyJyBj
-b25mdXNpbmcgcGFja2FnZSBhZGRlZCB0bw0KPiA+PiA+PiA+Pj4+IHRoZQ0KPiA+PiA+PiA+Pj4+
-IHN5c3RlbS4pDQo+ID4+ID4+ID4+Pj4NCj4gPj4gPj4gPj4+Pj4gVGhlIG5ldyByZWNpcGUgImtl
-cm5lbC1oZWFkZXJzLmJiIiBjYW4gaW4gcHJpbmNpcGxlIGJlIHVzZWQNCj4gPj4gPj4gPj4+Pj4g
-Ynkgb3RoZXINCj4gPj4gPj4gPj4+PiBpbWFnZXMgYXMgd2VsbC4NCj4gPj4gPj4gPj4+Pj4gSXQg
-aXMgbm90IGxpbWl0ZWQgdG8gdGhlIEJ1aWxkIEFwcGxpYW5jZSBhbmQgaGVuY2UgaXMgbm90IGEN
-Cj4gPj4gPj4gPj4+Pj4gcGFydCBvZiB0aGUgQnVpbGQgQXBwbGlhbmNlIHJlY2lwZS4NCj4gPj4g
-Pj4gPj4+Pg0KPiA+PiA+PiA+Pj4+IEkgdGhpbmsga2VybmVsLWhlYWRlcnMgaXMgYSBiYWQgbmFt
-ZSBmb3IgYSBwYWNrYWdlLiAgSXQgY291bGQNCj4gPj4gPj4gPj4+PiBiZQ0KPiA+PiA+PiBjb25m
-dXNpbmcuDQo+ID4+ID4+ID4+Pj4NCj4gPj4gPj4gPj4+PiAtLU1hcmsNCj4gPj4gPj4gPj4+Pg0K
-PiA+PiA+PiA+Pj4+PiBKdXJvIEJ5c3RyaWNreSAoMik6DQo+ID4+ID4+ID4+Pj4+ICAga2VybmVs
-LWhlYWRlcnM6IGxpbnV4IGtlcm5lbCBoZWFkZXJzDQo+ID4+ID4+ID4+Pj4+ICAgYnVpbGQtYXBw
-bGlhbmNlLWltYWdlOiBzdXBwb3J0IGZvciBWaXJ0dWFsQm94IGd1ZXN0DQo+ID4+ID4+ID4+Pj4+
-IGFkZHRpb25zDQo+ID4+ID4+ID4+Pj4+DQo+ID4+ID4+ID4+Pj4+ICAuLi4vUkVBRE1FX3Zib3hf
-Z3Vlc3RfYWRkaXRpb25zLnR4dCAgICAgICAgICAgICAgICB8IDc4DQo+ID4+ID4+ID4+Pj4gKysr
-KysrKysrKysrKysrKysrKysrKw0KPiA+PiA+PiA+Pj4+PiAgLi4uL2ltYWdlcy9idWlsZC1hcHBs
-aWFuY2UtaW1hZ2VfMTIuMC4xLmJiICAgICAgICAgfCAgNCArLQ0KPiA+PiA+PiA+Pj4+PiAgbWV0
-YS9yZWNpcGVzLWtlcm5lbC9saW51eC9rZXJuZWwtaGVhZGVycy5iYiAgICAgICAgfCA2Ng0KPiA+
-PiA+PiA+Pj4+ICsrKysrKysrKysrKysrKysrKw0KPiA+PiA+PiA+Pj4+PiAgMyBmaWxlcyBjaGFu
-Z2VkLCAxNDcgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKSAgY3JlYXRlDQo+ID4+ID4+ID4+
-Pj4+IG1vZGUNCj4gPj4gPj4gPj4+Pj4gMTAwNjQ0DQo+ID4+ID4+ID4+Pj4+IG1ldGEvcmVjaXBl
-cy1jb3JlL2ltYWdlcy9idWlsZC1hcHBsaWFuY2UtDQo+ID4+ID4+ID4+Pj4gaW1hZ2UvUkVBRE1F
-X3Zib3hfZ3Vlc3RfYWRkaXQNCj4gPj4gPj4gPj4+Pj4gaW9ucy50eHQgIGNyZWF0ZSBtb2RlIDEw
-MDY0NA0KPiA+PiA+PiA+Pj4+PiBtZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2tlcm5lbC1oZWFk
-ZXJzLmJiDQo+ID4+ID4+ID4+Pj4+DQo+ID4+ID4+ID4+Pg0KPiA+PiA+PiA+Pg0KPiA+PiA+PiA+
-PiAtLQ0KPiA+PiA+PiA+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fXw0KPiA+PiA+PiA+PiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gPj4g
-Pj4gPj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+PiA+PiA+
-PiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJl
-ZGRlZC0NCj4gPj4gY29yZQ0KPiA+PiA+PiA+DQo+ID4+ID4+ID4NCj4gPj4gPj4gPg0KPiA+PiA+
-PiA+IC0tDQo+ID4+ID4+ID4gIlRob3Ugc2hhbHQgbm90IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVy
-LCBmb3IgY2hhb3MgYW5kIG1hZG5lc3MNCj4gPj4gPj4gPiBhd2FpdCB0aGVlIGF0IGl0cyBlbmQi
-DQo+ID4+ID4+DQo+ID4+ID4+DQo+ID4+ID4+DQo+ID4+ID4+IC0tDQo+ID4+ID4+ICJUaG91IHNo
-YWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzDQo+
-ID4+ID4+IGF3YWl0IHRoZWUgYXQgaXRzIGVuZCINCj4gPj4gPiAtLQ0KPiA+PiA+IF9fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4+ID4gT3BlbmVtYmVk
-ZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4+ID4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KPiA+PiA+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxt
-YW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCj4gDQo+IA0KPiANCj4gLS0NCj4gIlRob3Ug
-c2hhbHQgbm90IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVyLCBmb3IgY2hhb3MgYW5kIG1hZG5lc3Mg
-YXdhaXQgdGhlZQ0KPiBhdCBpdHMgZW5kIg0K
+--Apple-Mail=_1C1FDC3D-C2D6-4D26-A6FB-0B22AC605E35
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
+
+> On Aug 7, 2015, at 12:54 PM, Paul Eggleton =
+<paul.eggleton@linux.intel.com> wrote:
+>=20
+> On Friday 07 August 2015 12:26:56 Khem Raj wrote:
+>>> On Aug 7, 2015, at 2:51 AM, Paul Eggleton =
+<paul.eggleton@linux.intel.com>
+>>> wrote:>
+>>> On Thursday 06 August 2015 19:52:28 Khem Raj wrote:
+>>>> On Thu, Aug 6, 2015 at 2:25 AM, Paul Eggleton
+>>>>=20
+>>>> <paul.eggleton@linux.intel.com> wrote:
+>>>>> On Thursday 06 August 2015 12:12:35 Alexander Kanavin wrote:
+>>>>>> On 08/06/2015 12:06 PM, Amarnath Valluri wrote:
+>>>>>>> Added new patch that fixes the memory leak that was introduced =
+in
+>>>>>>> mkdosfs-dir.patch.
+>>>>>>=20
+>>>>>> You should update the original patch then, not pile additional =
+patches
+>>>>>> on top. The least painful way is:
+>>>>>>=20
+>>>>>> 1) unpack the sources (manually from tarball, or using bitbake -c
+>>>>>> unpack)
+>>>>>> 2) 'git init; git add *; git commit' to create an git repository =
+from
+>>>>>> the sources
+>>>>>> 3) apply the patch that needs fixing, then do the fix
+>>>>>> 4) make a git commit, then produce a patch using git =
+format-patch, then
+>>>>>> move the new patch back to the recipe directory and update the =
+recipe
+>>>>>> 5) build the recipe to make sure it still builds
+>>>>>> 6) make a git commit with the recipe update, and submit it here =
+:)
+>>>>>=20
+>>>>> On the contrary - the much less painful way (as of fido) is to use
+>>>>> devtool:
+>>>>>=20
+>>>>> 1) Extract source and set the build system up to use it:
+>>>>>  devtool modify dosfstools -x ~/projects/dosfstools
+>>>>>=20
+>>>>> 2) Make whatever changes you want to in the git tree that has been =
+set
+>>>>> up
+>>>>> in the specified path
+>>>>>=20
+>>>>> 3) Build the recipe (as you would normally) to make sure it still =
+builds
+>>>>>=20
+>>>>> 4) Write the modified/added commits as patches back to the recipe:
+>>>>>   devtool update-recipe dosfstools
+>>>>>=20
+>>>>> 5) Make a git commit with the recipe update, and submit it here :)
+>>>>>=20
+>>>>> I'd really like people to start using devtool for this kind of =
+thing. If
+>>>>> it's not working for some reason please do let me know.
+>>>>=20
+>>>> This assumes either we use OE-Core or poky, I dont get it to work =
+with
+>>>> angstrom out of box
+>>>> what am I missing
+>>>=20
+>>> Well, whatever error / problem you are experiencing seems to be =
+missing at
+>>> least ;)
+>>=20
+>> devtool modify dosfstools -x ~/projects/dosfstools
+>> ERROR: This script can only be run after initialising the build =
+environment
+>> (e.g. by using oe-init-build-env)
+>>=20
+>> so is it must now to use the setup script ? or can be extract some =
+needed
+>> setup from it to let it work with setups not using the init script
+>=20
+> Well it needs to be able to run bitbake internally (directly and using
+> tinfoil), hence the need to have the environment set up to do so. I =
+don't
+> really see a way around that.
+>=20
+
+Then limited use of  devtool should be documented as available
+
+--Apple-Mail=_1C1FDC3D-C2D6-4D26-A6FB-0B22AC605E35
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXGUHkACgkQuwUzVZGdMxTWTgCeNo9FXstNpgz4pYVJQxgsQucg
+0RYAn1d7h/5z4c2Pg7Pow7O0EpkZ0/ti
+=aO1u
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_1C1FDC3D-C2D6-4D26-A6FB-0B22AC605E35--
