@@ -1,23 +1,27 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 20B20767E5
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
+	[209.85.160.181])
+	by mail.openembedded.org (Postfix) with ESMTP id ACFC8767E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Aug 2015 22:13:37 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 07 Aug 2015 15:13:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,631,1432623600"; d="scan'208";a="779156262"
-Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
-	by fmsmga002.fm.intel.com with ESMTP; 07 Aug 2015 15:13:33 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.2.247]) by
-	ORSMSX104.amr.corp.intel.com ([169.254.3.113]) with mapi id
-	14.03.0224.002; Fri, 7 Aug 2015 15:13:33 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 0/2] Support for VirtualBox guest additions
-Thread-Index: AQHQzix/unjTe8g7O0uKLsMGe8OzUp38e9OA//+WZcCAAH3VgIAAmfYAgAABbICAALM7oIAA1zcAgAJgIwA=
-Date: Fri, 7 Aug 2015 22:13:31 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101D5420@ORSMSX109.amr.corp.intel.com>
+	Sat,  8 Aug 2015 01:09:17 +0000 (UTC)
+Received: by ykeo23 with SMTP id o23so101537246yke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Aug 2015 18:09:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Rj11onxDt0FY8/VvSBW8Y0wsh5KGLaryKihdg/B6h9o=;
+	b=nxZ6GV4A4ZFGBFBC9yWXBaj/N4vt0eI2xH4gvwum0bVrJwUcgTr+Yx7LrO1J2SVFsS
+	vMP5Q6GQwDn/1L0SEdhWMWYJVn0USdtomAgZhQ5dfWyE4yYKUl+lXg0hOBixQe/AUs0i
+	FAhQBrackoizFgYAMthsBSPWISi5AXBvxx528JrB8MWriFNnhsgo0ACt6YSKjTE2M9C5
+	+jspm9Zf7RlfesePHNiZeHlbjGjKFTLoZgQ/0YmEA8/T2UcbJ0KqyWKrw9sEqEmBFPN6
+	jon1xeFHpaJPZT8doW4NzZHcN5AEfZ3IjEByjSh/IFDAroIe4s7FeOBIavcDAN2pozBY
+	xdJw==
+MIME-Version: 1.0
+X-Received: by 10.129.16.215 with SMTP id 206mr10275658ywq.13.1438996158120;
+	Fri, 07 Aug 2015 18:09:18 -0700 (PDT)
+Received: by 10.13.226.203 with HTTP; Fri, 7 Aug 2015 18:09:18 -0700 (PDT)
+In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6101D5420@ORSMSX109.amr.corp.intel.com>
 References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
 	<55C0E631.7070703@windriver.com>
 	<6E51916E4A1F32428260031F4C7CD2B6101D46F3@ORSMSX109.amr.corp.intel.com>
@@ -26,12 +30,11 @@ References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
 	<CADkTA4PchJT4R5tmzeYwOWQLf_4OnuD0KtU08z=Yjf0zfEwM0A@mail.gmail.com>
 	<6E51916E4A1F32428260031F4C7CD2B6101D4E4C@ORSMSX109.amr.corp.intel.com>
 	<CAMKF1sr4WGmTuK9CcNpXdgDx2aKMH6ynSo=rUQKo1n59CdPdRQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sr4WGmTuK9CcNpXdgDx2aKMH6ynSo=rUQKo1n59CdPdRQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.140]
-MIME-Version: 1.0
+	<6E51916E4A1F32428260031F4C7CD2B6101D5420@ORSMSX109.amr.corp.intel.com>
+Date: Fri, 7 Aug 2015 21:09:18 -0400
+Message-ID: <CADkTA4Nsuwi06AP932zCxmNCOw8CjDCBAOyGqouEafg0ZJ2qhg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Bystricky, Juro" <juro.bystricky@intel.com>
 Cc: "Purdie, Richard" <richard.purdie@intel.com>,
 	"jurobystricky@hotmail.com" <jurobystricky@hotmail.com>,
 	"openembedded-core@lists.openembedded.org"
@@ -49,183 +52,258 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 22:13:41 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sat, 08 Aug 2015 01:09:19 -0000
+Content-Type: text/plain; charset=UTF-8
 
-VGhlIGd1ZXN0IGFkZGl0aW9ucyBiYXNpY2FsbHkgdXNlIHN0YW5kYXJkIG91dC1vZi10cmVlIGtl
-cm5lbCBkZXZpY2UgZHJpdmVyIA0KYnVpbGQgIChhcyBkZXNjcmliZWQgaHR0cDovL3d3dy5jeWJl
-cmNpdGkuYml6L3RpcHMvYnVpbGQtbGludXgta2VybmVsLW1vZHVsZS1hZ2FpbnN0LWluc3RhbGxl
-ZC1rZXJuZWwtc291cmNlLXRyZWUuaHRtbCkNCg0KVGhlIGJ1aWxkIHJlbGllcyBvbiB0aGUgZXhp
-c3RlbmNlIG9mICAiL2xpYi9tb2R1bGVzLzxrZXJuZWwtdmVyc2lvbj4vYnVpbGQiLCAgY29udGFp
-bmluZyAob3Igc3ltbGluayB0bykgYSBuZWNlc3Nhcnkgc2V0DQpvZiAga2VybmVsIGRldmVsb3Bt
-ZW50IGZpbGVzLiBUaGlzIGlzIG5vdCByZWFsbHkgVmlydHVhbEJveCBndWVzdCBhZGRpdGlvbnMg
-c3BlY2lmaWMsIGl0IHNlZW1zIHRvIGJlIGEgY29tbW9uDQpwYWNrYWdpbmcvaW5zdGFsbCBjb252
-ZW50aW9uIHdoZW4gaW5zdGFsbGluZyAga2VybmVsIGRldmVsb3BtZW50IGZpbGVzIHZpYQ0KDQph
-cHQtZ2V0IGluc3RhbGwgbGludXgtaGVhZGVycy0kKHVuYW1lIC1yKQ0KDQpUaGUgIGFjdHVhbCBk
-ZXZlbG9wbWVudCBmaWxlcywgQUZBSUsgdGhleSBjYW4gYmUgaW5zdGFsbGVkIGluIG9uZSBvZiB0
-d28gd2F5czoNCjEuIEZ1bGwga2VybmVsIHNvdXJjZSB0cmVlIChvdmVyIDUwME1CKQ0KMi4gU3Vi
-c2V0IG9mIHRoZSBmdWxsIGtlcm5lbCBzb3VyY2VzICgia2VybmVsLWhlYWRlcnMiIG9yICJsaW51
-eC1oZWFkZXJzIikuDQogVGhlc2UgYXJlICBiYXNpY2FsbHkgaGVhZGVyIGZpbGVzLCBNYWtlZmls
-ZXMsIHNjcmlwdHMsIC5jb25maWcsIGZpcndhcmUgIGFuZCBzdWNoLiBBYm91dCAxMDBNQi4NCg0K
-VGhlIGZ1bGwgc2V0IGlzIHByb3ZpZGVkIGJ5IGtlcm5lbC1kZXZzcmMuDQpUaGUgc3Vic2V0IHNo
-b3VsZCBiZSBwcm92aWRlZCBieSBrZXJuZWwtZGV2IChidXQgaXMgbm90KQ0KDQpBdCBzb21lIHBv
-aW50IGtlcm5lbC1kZXYgcHJvdmlkZWQgdGhlIHN5bWxpbmsgLCAiL2xpYi9tb2R1bGVzLzxrZXJu
-ZWwtdmVyc2lvbj4vYnVpbGQiLg0KVGhlIHN5bWxpbmsgIGRvZXMgbm90IGV4aXN0IGFueW1vcmUu
-IEhvd2V2ZXIsIGtlcm5lbC5iYmNsYXNzIHN0aWxsIGNvbnRhaW5zIHNvbWUgcmVmZXJlbmNlcyB0
-byB0aGUgDQovbGliL21vZHVsZXMvJHtLRVJORUxfVkVSU0lPTn0vYnVpbGQgIGluIEZJTEVTX2tl
-cm5lbC1kZXYgDQoNCg0KDQoNCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
-b206IEtoZW0gUmFqIFttYWlsdG86cmFqLmtoZW1AZ21haWwuY29tXQ0KPiBTZW50OiBXZWRuZXNk
-YXksIEF1Z3VzdCA1LCAyMDE1IDc6MjAgUE0NCj4gVG86IEJ5c3RyaWNreSwgSnVybw0KPiBDYzog
-QnJ1Y2UgQXNoZmllbGQ7IEhhdGxlLCBNYXJrIEcgKFdpbmQgUml2ZXIpOyBQdXJkaWUsIFJpY2hh
-cmQ7DQo+IGp1cm9ieXN0cmlja3lAaG90bWFpbC5jb207IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIDAv
-Ml0gU3VwcG9ydCBmb3IgVmlydHVhbEJveCBndWVzdCBhZGRpdGlvbnMNCj4gDQo+IE9uIFdlZCwg
-QXVnIDUsIDIwMTUgYXQgMzowMiBQTSwgQnlzdHJpY2t5LCBKdXJvIDxqdXJvLmJ5c3RyaWNreUBp
-bnRlbC5jb20+DQo+IHdyb3RlOg0KPiA+IFRoYW5rcyBmb3IgdGhlIGxpbmsuIE15IG5ldyB1bmRl
-cnN0YW5kaW5nIGlzIHRoYXQga2VybmVsLWRldiBwYWNrYWdlDQo+ID4gc2hvdWxkIGFscmVhZHkg
-aGF2ZSBlc3NlbnRpYWxseSB0aGUgc2FtZSBmdW5jdGlvbmFsaXR5IGFzIHRoZQ0KPiA+IGtlcm5l
-bC1oZWFkZXJzIHBhY2thZ2UsIHdoaWNoIG1ha2VzIGtlcm5lbC1oZWFkZXJzIHBhY2thZ2UgcmVk
-dW5kYW50Lg0KPiA+ICBJIHRyaWVkIGl0LCBidXQgaXQgZGlkIG5vdCB3b3JrLg0KPiA+IFRvIGJl
-IHNwZWNpZmljLCBJIGV4cGVjdGVkIHRvIHNlZSB0aGUgZm9sZGVyICIvdXNyL2xpYi9tb2R1bGVz
-LzMuMTkuNS15b2N0by0NCj4gc3RhbmRhcmQvYnVpbGQiDQo+ID4gaG93ZXZlciwgaXQgaXMgbWlz
-c2luZyAuIExvb2tpbmcgYXQga2VybmVsLmJiY2xhc3MgaXQgc2VlbXMgaXQgdXNlZCB0bw0KPiA+
-IGV4aXN0LCBidXQgc3VjY3VtYmVkIHRvIHNvbWUgYml0cm90Lg0KPiA+DQo+IA0KPiBoYXZlIHlv
-dSB0aG91Z2h0IG9mIGxvb2tpbmcgYXQgdGhlIGd1ZXN0IGFkZGl0aW9ucyBwYWNrYWdlIGFuZCBz
-ZWUgaWYgaXQgY291bGQNCj4gYmUgZG9pbmcgc29tZXRoaW5nIHRoYXQgY2FuIGJlIGZpeGVkID8g
-d2hhdCB5b3UgbmVlZCBoZXJlIGlzIGtlcm5lbA0KPiBkZXZlbG9wbWVudCBmaWxlcyBvbiB0YXJn
-ZXQgSSBhc3N1bWUsIHRoYXQgc2hvdWxkIGJlIGVhc2llciB0aGFuIGNyb3NzLWJ1aWxkDQo+IHNj
-ZW5hcmlvIHdoaWNoIHdlIGhhdmUgbm90IGZpeGVkIGNvbXBsZXRlbHkuIEkgdGhpbmsgdGhpcyBh
-ZGRpdGlvbmFsIGhlYWRlcnMNCj4gcGFja2FnZSBpcyByZWR1bmRhbnQuDQo+IHlvdSBjb3VsZCBn
-ZXQgYnkgZml4aW5nIHRoZSBleGlzdGluZyBrZXJuZWwtaGVhZGVycyBwYWNrYWdlICggZm9yDQo+
-IHRhcmdldCkgaWYgYW55dGhpbmcgaXMgbWlzc2luZy4NCj4gDQo+IEhvdyBpcyBndWVzdCBhZGRp
-dGlvbnMgY29tcGlsZWQgPyBpcyBpdCBkdXJpbmcgYnVpbGQgb3IgZHluYW1pY2FsbHkgb24gdGFy
-Z2V0ID8NCj4gDQo+ID4gSnVzdCB0byBtYWtlIHN1cmUgIHdlIGFyZSBvbiB0aGUgc2FtZSBwYWdl
-LCB0aGlzIGlzIHdoYXQgSSB3b3VsZCBsaWtlIHRvDQo+IGFjY29tcGxpc2g6DQo+ID4gaHR0cDov
-L3d3dy5jeWJlcmNpdGkuYml6L3RpcHMvYnVpbGQtbGludXgta2VybmVsLW1vZHVsZS1hZ2FpbnN0
-LWluc3RhbA0KPiA+IGxlZC1rZXJuZWwtc291cmNlLXRyZWUuaHRtbA0KPiA+DQo+ID4gSnVybw0K
-PiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206IEJydWNlIEFz
-aGZpZWxkIFttYWlsdG86YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tXQ0KPiA+PiBTZW50OiBUdWVz
-ZGF5LCBBdWd1c3QgNCwgMjAxNSA3OjQ5IFBNDQo+ID4+IFRvOiBIYXRsZSwgTWFyayBHIChXaW5k
-IFJpdmVyKQ0KPiA+PiBDYzogQnlzdHJpY2t5LCBKdXJvOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0
-cy5vcGVuZW1iZWRkZWQub3JnOw0KPiA+PiBqdXJvYnlzdHJpY2t5QGhvdG1haWwuY29tOyBQdXJk
-aWUsIFJpY2hhcmQNCj4gPj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC8yXSBTdXBw
-b3J0IGZvciBWaXJ0dWFsQm94IGd1ZXN0DQo+ID4+IGFkZGl0aW9ucw0KPiA+Pg0KPiA+PiBPbiBU
-dWUsIEF1ZyA0LCAyMDE1IGF0IDExOjQzIFBNLCBCcnVjZSBBc2hmaWVsZA0KPiA+PiA8YnJ1Y2Uu
-YXNoZmllbGRAZ21haWwuY29tPg0KPiA+PiB3cm90ZToNCj4gPj4gPiBPbiBUdWUsIEF1ZyA0LCAy
-MDE1IGF0IDI6MzIgUE0sIE1hcmsgSGF0bGUNCj4gPj4gPiA8bWFyay5oYXRsZUB3aW5kcml2ZXIu
-Y29tPg0KPiA+PiB3cm90ZToNCj4gPj4gPj4gT24gOC80LzE1IDEyOjI1IFBNLCBCeXN0cmlja3ks
-IEp1cm8gd3JvdGU6DQo+ID4+ID4+PiBJIGFncmVlLCB0aGUgbmFtZSAia2VybmVsLWhlYWRlcnMi
-IG1heSBub3QgYmUgdGhlIG1vc3QgZm9ydHVuYXRlLA0KPiA+PiAibGludXgtaGVhZGVycyINCj4g
-Pj4gPj4+IGlzIHByb2JhYmx5IG1vcmUgZml0dGluZy4gIFRoZSByZWNpcGUgaW5zdGFsbHMgdGhl
-IGZpbGVzIGluIGENCj4gPj4gPj4+IHNpbWlsYXIgZmFzaGlvbiB0aGF0IGlzIGRvbmUgYnkNCj4g
-Pj4gPj4+DQo+ID4+ID4+PiBhcHQtZ2V0IGluc3RhbGwgbGludXgtaGVhZGVycy0kKHVuYW1lIC1y
-KQ0KPiA+PiA+Pj4NCj4gPj4gPj4+IFR5cGljYWwgY29udGVudHMgY2FuIGJlIHZpZXdlZCBmb3Ig
-ZXhhbXBsZSBoZXJlOg0KPiA+PiA+Pj4gaHR0cHM6Ly93d3cuYXJjaGxpbnV4Lm9yZy9wYWNrYWdl
-cy9jb3JlL2k2ODYvbGludXgtaGVhZGVycy8NCj4gPj4gPj4+DQo+ID4+ID4+PiBUaGVzZSBmaWxl
-cyBhcmUgbmVlZGVkIHRvIGFsbG93IGJ1aWxkaW5nICBvZiBrZXJuZWwgZHJpdmVycw0KPiA+PiA+
-Pj4gYWdhaW5zdCB0aGUgcnVubmluZyBMaW51eCBrZXJuZWwuIEluIGEgd2F5LCBpdCBpcyBhIHN1
-YnNldCBvZg0KPiA+PiA+Pj4ga2VybmVsLWRldnNyYywgYnV0IGluY2x1ZGluZyAgIi5jb25maWci
-IGZpbGUgdXNlZCBmb3IgdGhlIGFjdHVhbCBydW5uaW5nDQo+IGtlcm5lbC4NCj4gPj4gPj4NCj4g
-Pj4gPj4gQWdhaW4gdGhpcyBpcyBwYXJ0IG9mIHRoZSBwdXJwb3NlIG9mIHRoZSBleGlzdGluZyBr
-ZXJuZWwtZGV2c3JjDQo+ID4+ID4+IHBhY2thZ2UuICBTbyB3aGF0IGlzIG1pc3NpbmcgcHJldmVu
-dGluZyB0aGlzIGZyb20gd29ya2luZy4gIEl0DQo+ID4+ID4+IGxpa2VseSBuZWVkcyB0byBiZSBh
-ZGRlZCB0byB0aGUga2VybmVsLWRldnNyYyBwYWNrYWdlIGluc3RlYWQgKG9yDQo+ID4+ID4+IGEg
-c3ViIHBhY2thZ2UgdGhhdCBpcyBjcmVhdGVkIGJ5IHRoZSBrZXJuZWwtZGV2c3JjIHJlY2lwZS4p
-DQo+ID4+ID4NCj4gPj4gPiBQZWVraW5nIGluIG9uIHZhY2F0aW9uLg0KPiA+PiA+DQo+ID4+ID4g
-QXQgYSBtaW5pbXVtLCB3ZSBuZWVkIHRvIGZpZ3VyZSBvdXQgd2h5IHRoZSBleGlzdGluZyBwYWNr
-YWdlIHdhc24ndA0KPiA+PiA+IGFibGUgdG8gYnVpbGQgdGhlIHVzZSBjYXNlIGluIHF1ZXN0aW9u
-IGhlcmUgLi4gSSd2ZSBidWlsdCBwcmV0dHkNCj4gPj4gPiBtdWNoIGV2ZXJ5dGhpbmcgYWdhaW5z
-dCBpdCBhdCBvbmUgcG9pbnQgLi4gc28gSSdkIGxpa2UgdG8gbGVhcm4gbW9yZS4NCj4gPj4gPg0K
-PiA+PiA+IEFuZCB5ZXMsIHdoYXQgd2UgZG9uJ3QgbmVlZCBpcyBtb3JlIHNldHMgb2YgcnVsZXMg
-dGhhdCBjb3B5IGFuZA0KPiA+PiA+IHBhY2thZ2UgcGFydHMgb2YgdGhlIGtlcm5lbCBidWlsZC4g
-V2UgYXJlIGFscmVhZHkgZG9pbmcgdGhhdCBpbiBvdXINCj4gPj4gPiBkb19zaGFyZWRfd29ya2Rp
-ciBhbmQgdGhhdCBpcyBwcmV0dHkgbXVjaCB0aGUgbWluaW11bSB0byBidWlsZA0KPiA+PiA+IGFn
-YWluc3QgdGhlIGtlcm5lbC4gSWYgdGhhdCBkaXJlY3Rvcnkgc3RydWN0dXJlIG5lZWRzIG1vcmUg
-Zm9yIHRoaXMNCj4gPj4gPiBwdXJwb3NlIChvciBsZXNzKSwNCj4gPj4gdGhlbiB1cGRhdGUgaXQu
-DQo+ID4+ID4NCj4gPj4gPiBCdXQgd2UgbmVlZCB0byBkbyBhbGwgb2YgdGhpcyBpbiB0aGUgZXhp
-c3RpbmcgY2xhc3NlcywgdG8ga2VlcA0KPiA+PiA+IGV2ZXJ5dGhpbmcgaW4gb25lIHBsYWNlLCBu
-b3QgbW9yZSByZWNpcGVzIHRoYXQgYXJlIGdyYWJiaW5nIGNodW5rcw0KPiA+PiA+IG9mIHRoZSBz
-YW1lIHNvdXJjZSB0cmVlLg0KPiA+Pg0KPiA+PiBGWUk6IGV4aXRpbmcgdGhvdWdodHMgYXJlIGhl
-cmU6DQo+ID4+DQo+ID4+IGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1
-Zy5jZ2k/aWQ9NzA5NQ0KPiA+Pg0KPiA+PiBTbyBhcyB5b3UgY2FuIHNlZSwgd2UgYXJlbid0IG9m
-ZmVuZGVkIGJ5IGEgJ2hlYWRlcnMnIHBhY2thZ2UsIGJ1dCBpdA0KPiA+PiBoYXMgdG8gbWFrZSBz
-ZW5zZSB3aXRoIHRoZSBleGlzdGluZyBwYWNrYWdlcywgYW5kIG5lZWRzIHRvIGJlDQo+ID4+IGdl
-bmVyYXRpbmcgZnJvbSBvdXIgZXhpc3RpbmcgYml0cyBvZiB0aGUgc3lzdGVtLg0KPiA+Pg0KPiA+
-PiBDaGVlcnMsDQo+ID4+DQo+ID4+IEJydWNlDQo+ID4+DQo+ID4+ID4NCj4gPj4gPiBCcnVjZQ0K
-PiA+PiA+DQo+ID4+ID4NCj4gPj4gPj4NCj4gPj4gPj4+IEhhdmluZyB0aGVzZSBmaWxlcyBpbnN0
-YWxsZWQsIGl0IGlzIHBvc3NpYmxlICB0byBjb21waWxlDQo+ID4+ID4+PiBhZGRpdGlvbmFsIGtl
-cm5lbCBkcml2ZXJzIHRoYXQgYXJlIG5vdCBwYXJ0IG9mIHRoZSBrZXJuZWwtZGV2c3JjIC4NCj4g
-Pj4gPj4+ICBWaXJ0dWFsQm94IGNvbXBpbGVzIHNvbWUgb2YgdGhlaXIgb3duIGRyaXZlcnMgdGhp
-cyB3YXksIG90aGVycyBhcw0KPiB3ZWxsLg0KPiA+PiA+Pj4gVGhlcmUgYXJlIG1hbnkgb3RoZXIg
-c2NlbmFyaW9zIHdoZXJlIHlvdSBtYXkgd2FudCB0byBhZGQgYSBuZXcNCj4gPj4gPj4+IGtlcm5l
-bCBkcml2ZXIgdG8gYW4gYWxyZWFkeSBpbnN0YWxsZWQgTGludXgga2VybmVsLg0KPiA+PiA+Pg0K
-PiA+PiA+PiBZZXMsIHRoaXMgd2FzIHBhcnQgb2YgdGhlIGRlc2lnbiBiZWhpbmQgdGhlIGtlcm5l
-bC1kZXZzcmMsIG1ha2UNCj4gPj4gPj4gc3VyZSB0aGUgc291cmNlcyBhbmQgY29tcG9uZW50cyB1
-c2VkIHRvIGJ1aWxkIHRoZSBydW5uaW5nIGtlcm5lbA0KPiA+PiA+PiB3ZXJlIG1hZGUgYXZhaWxh
-YmxlIHRvIHRoZSB0YXJnZXQgc28gdGhhdCBvdXQtb2YtdHJlZS9leHRlcm5hbA0KPiA+PiA+PiBr
-ZXJuZWwgbW9kdWxlcyBjb3VsZCBiZSBidWlsdCB0byBtYXRjaCB0aGUgcnVubmluZyBzeXN0ZW0g
-LS0gYXMNCj4gPj4gPj4gd2VsbCBhcyB0aGUgYWJpbGl0eSB0byByZWNvbmZpZ3VyZSBhbmQgcmVi
-dWlsZCB0aGUga2VybmVsIGl0c2VsZi4NCj4gPj4gPj4NCj4gPj4gPj4gQnJ1Y2UgaXMgb24gdmFj
-YXRpb24gdGhpcyB3ZWVrIGFuZCBtYXkgbm90IGJlIGFyb3VuZCB0byByZXNwb25kLA0KPiA+PiA+
-PiBidXQgYWRkaW5nIHlldCBhbm90aGVyIHBhY2thZ2UgaXMgbm90IHRoZSByaWdodCBhbnN3ZXIg
-aGVyZS4gIExldHMNCj4gPj4gPj4gZml4IHdoYXQgbWF5IGJlIGJyb2tlbiBpbiB3aGF0IHdlIGhh
-dmUuDQo+ID4+ID4+DQo+ID4+ID4+IC0tTWFyaw0KPiA+PiA+Pg0KPiA+PiA+Pj4gSnVybw0KPiA+
-PiA+Pj4NCj4gPj4gPj4+DQo+ID4+ID4+Pg0KPiA+PiA+Pj4+IC0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQo+ID4+ID4+Pj4gRnJvbTogTWFyayBIYXRsZSBbbWFpbHRvOm1hcmsuaGF0bGVAd2lu
-ZHJpdmVyLmNvbV0NCj4gPj4gPj4+PiBTZW50OiBUdWVzZGF5LCBBdWd1c3QgNCwgMjAxNSA5OjIw
-IEFNDQo+ID4+ID4+Pj4gVG86IEJ5c3RyaWNreSwgSnVybzsgb3BlbmVtYmVkZGVkLWNvcmVAbGlz
-dHMub3BlbmVtYmVkZGVkLm9yZzsNCj4gPj4gPj4+PiBqdXJvYnlzdHJpY2t5QGhvdG1haWwuY29t
-DQo+ID4+ID4+Pj4gQ2M6IFB1cmRpZSwgUmljaGFyZA0KPiA+PiA+Pj4+IFN1YmplY3Q6IFJlOiBb
-T0UtY29yZV0gW1BBVENIIDAvMl0gU3VwcG9ydCBmb3IgVmlydHVhbEJveCBndWVzdA0KPiA+PiA+
-Pj4+IGFkZGl0aW9ucw0KPiA+PiA+Pj4+DQo+ID4+ID4+Pj4gT24gOC8zLzE1IDM6MzUgUE0sIEp1
-cm8gQnlzdHJpY2t5IHdyb3RlOg0KPiA+PiA+Pj4+PiBJbiBvcmRlciB0byBzdXBwb3J0IFZpcnR1
-YWxCb3ggZ3Vlc3QgYWRkaXRpb25zLCBrZXJuZWwgaGVhZGVycw0KPiA+PiA+Pj4+PiBuZWVkIHRv
-IGJlIHByZXNlbnQgaW4gdGhlIFZNLiBJIGFtIGF3YXJlIHdlIGFscmVhZHkgaGF2ZSB0d28NCj4g
-Pj4gPj4+Pj4gcGFja2FnZXMvcmVjaXBlcyB0aGF0IGFyZSBzb21ld2hhdCBzaW1pbGFyIChrZXJu
-ZWwtZGV2c3JjLmJiLA0KPiA+PiA+Pj4+PiBsaW51eC1saWJjLWhlYWRlcnMpLCBidXQgbm9uZQ0K
-PiA+PiA+Pj4+IG9mIHRoZW0gaXMgc3VpdGFibGUgZm9yIHRoaXMgcHVycG9zZS4NCj4gPj4gPj4+
-Pj4gQmVzaWRlcyB0aGUga2VybmVsIGhlYWRlcnMsIHNvbWUgYWRkaXRpb25hbCBmaWxlcyAoc2Ny
-aXB0cywNCj4gPj4gPj4+Pj4gTWFrZWZpbGVzLCAuY29uZmlnLCBldGMpIGFyZSBhbHNvIHJlcXVp
-cmVkLg0KPiA+PiA+Pj4+DQo+ID4+ID4+Pj4gbGludXgtbGliYy1oZWFkZXJzIGlzIG9ubHkgZm9y
-IGJ1aWxkaW5nIGFwcGxpY2F0aW9ucy4NCj4gPj4gPj4+PiBrZXJuZWwtZGV2c3JjIGlzIGZvciBi
-dWlsZGluZyBtb2R1bGVzIG9uIHRoZSB0YXJnZXQuDQo+ID4+ID4+Pj4NCj4gPj4gPj4+PiBXaGF0
-IGRvIHRoZXNlIHNwZWNpZmljIG1vZHVsZXMgbmVlZCB0aGF0IGFyZSBub3QgcHJlc2VudCBpbg0K
-PiA+PiA+Pj4+IGtlcm5lbC0NCj4gPj4gZGV2c3JjPw0KPiA+PiA+Pj4+IChJIHJlYWxseSBkb24n
-dCB3YW50ICd5ZXQgYW5vdGhlcicgY29uZnVzaW5nIHBhY2thZ2UgYWRkZWQgdG8NCj4gPj4gPj4+
-PiB0aGUNCj4gPj4gPj4+PiBzeXN0ZW0uKQ0KPiA+PiA+Pj4+DQo+ID4+ID4+Pj4+IFRoZSBuZXcg
-cmVjaXBlICJrZXJuZWwtaGVhZGVycy5iYiIgY2FuIGluIHByaW5jaXBsZSBiZSB1c2VkIGJ5DQo+
-ID4+ID4+Pj4+IG90aGVyDQo+ID4+ID4+Pj4gaW1hZ2VzIGFzIHdlbGwuDQo+ID4+ID4+Pj4+IEl0
-IGlzIG5vdCBsaW1pdGVkIHRvIHRoZSBCdWlsZCBBcHBsaWFuY2UgYW5kIGhlbmNlIGlzIG5vdCBh
-DQo+ID4+ID4+Pj4+IHBhcnQgb2YgdGhlIEJ1aWxkIEFwcGxpYW5jZSByZWNpcGUuDQo+ID4+ID4+
-Pj4NCj4gPj4gPj4+PiBJIHRoaW5rIGtlcm5lbC1oZWFkZXJzIGlzIGEgYmFkIG5hbWUgZm9yIGEg
-cGFja2FnZS4gIEl0IGNvdWxkIGJlDQo+ID4+IGNvbmZ1c2luZy4NCj4gPj4gPj4+Pg0KPiA+PiA+
-Pj4+IC0tTWFyaw0KPiA+PiA+Pj4+DQo+ID4+ID4+Pj4+IEp1cm8gQnlzdHJpY2t5ICgyKToNCj4g
-Pj4gPj4+Pj4gICBrZXJuZWwtaGVhZGVyczogbGludXgga2VybmVsIGhlYWRlcnMNCj4gPj4gPj4+
-Pj4gICBidWlsZC1hcHBsaWFuY2UtaW1hZ2U6IHN1cHBvcnQgZm9yIFZpcnR1YWxCb3ggZ3Vlc3Qg
-YWRkdGlvbnMNCj4gPj4gPj4+Pj4NCj4gPj4gPj4+Pj4gIC4uLi9SRUFETUVfdmJveF9ndWVzdF9h
-ZGRpdGlvbnMudHh0ICAgICAgICAgICAgICAgIHwgNzgNCj4gPj4gPj4+PiArKysrKysrKysrKysr
-KysrKysrKysrDQo+ID4+ID4+Pj4+ICAuLi4vaW1hZ2VzL2J1aWxkLWFwcGxpYW5jZS1pbWFnZV8x
-Mi4wLjEuYmIgICAgICAgICB8ICA0ICstDQo+ID4+ID4+Pj4+ICBtZXRhL3JlY2lwZXMta2VybmVs
-L2xpbnV4L2tlcm5lbC1oZWFkZXJzLmJiICAgICAgICB8IDY2DQo+ID4+ID4+Pj4gKysrKysrKysr
-KysrKysrKysrDQo+ID4+ID4+Pj4+ICAzIGZpbGVzIGNoYW5nZWQsIDE0NyBpbnNlcnRpb25zKCsp
-LCAxIGRlbGV0aW9uKC0pICBjcmVhdGUgbW9kZQ0KPiA+PiA+Pj4+PiAxMDA2NDQNCj4gPj4gPj4+
-Pj4gbWV0YS9yZWNpcGVzLWNvcmUvaW1hZ2VzL2J1aWxkLWFwcGxpYW5jZS0NCj4gPj4gPj4+PiBp
-bWFnZS9SRUFETUVfdmJveF9ndWVzdF9hZGRpdA0KPiA+PiA+Pj4+PiBpb25zLnR4dCAgY3JlYXRl
-IG1vZGUgMTAwNjQ0DQo+ID4+ID4+Pj4+IG1ldGEvcmVjaXBlcy1rZXJuZWwvbGludXgva2VybmVs
-LWhlYWRlcnMuYmINCj4gPj4gPj4+Pj4NCj4gPj4gPj4+DQo+ID4+ID4+DQo+ID4+ID4+IC0tDQo+
-ID4+ID4+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+
-ID4+ID4+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+PiA+PiBPcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4+ID4+IGh0dHA6Ly9saXN0cy5vcGVu
-ZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLQ0KPiBjb3JlDQo+ID4+
-ID4NCj4gPj4gPg0KPiA+PiA+DQo+ID4+ID4gLS0NCj4gPj4gPiAiVGhvdSBzaGFsdCBub3QgZm9s
-bG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcw0KPiA+PiA+IGF3YWl0
-IHRoZWUgYXQgaXRzIGVuZCINCj4gPj4NCj4gPj4NCj4gPj4NCj4gPj4gLS0NCj4gPj4gIlRob3Ug
-c2hhbHQgbm90IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVyLCBmb3IgY2hhb3MgYW5kIG1hZG5lc3Mg
-YXdhaXQNCj4gPj4gdGhlZSBhdCBpdHMgZW5kIg0KPiA+IC0tDQo+ID4gX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gPiBPcGVuZW1iZWRkZWQtY29yZSBt
-YWlsaW5nIGxpc3QNCj4gPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-DQo+ID4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVu
-ZW1iZWRkZWQtY29yZQ0K
+On Fri, Aug 7, 2015 at 6:13 PM, Bystricky, Juro
+<juro.bystricky@intel.com> wrote:
+> The guest additions basically use standard out-of-tree kernel device driver
+> build  (as described http://www.cyberciti.biz/tips/build-linux-kernel-module-against-installed-kernel-source-tree.html)
+>
+> The build relies on the existence of  "/lib/modules/<kernel-version>/build",  containing (or symlink to) a necessary set
+> of  kernel development files. This is not really VirtualBox guest additions specific, it seems to be a common
+> packaging/install convention when installing  kernel development files via
+>
+> apt-get install linux-headers-$(uname -r)
+>
+> The  actual development files, AFAIK they can be installed in one of two ways:
+> 1. Full kernel source tree (over 500MB)
+> 2. Subset of the full kernel sources ("kernel-headers" or "linux-headers").
+>  These are  basically header files, Makefiles, scripts, .config, firware  and such. About 100MB.
+>
+> The full set is provided by kernel-devsrc.
+> The subset should be provided by kernel-dev (but is not)
+>
+> At some point kernel-dev provided the symlink , "/lib/modules/<kernel-version>/build".
+> The symlink  does not exist anymore. However, kernel.bbclass still contains some references to the
+> /lib/modules/${KERNEL_VERSION}/build  in FILES_kernel-dev
+>
+
+Can you update the bugzilla that I referenced with the details ? We can use that
+bug to tweak our existing packages/recipes (versus adding something new).
+
+Bruce
+
+>
+>
+>
+>
+>
+>> -----Original Message-----
+>> From: Khem Raj [mailto:raj.khem@gmail.com]
+>> Sent: Wednesday, August 5, 2015 7:20 PM
+>> To: Bystricky, Juro
+>> Cc: Bruce Ashfield; Hatle, Mark G (Wind River); Purdie, Richard;
+>> jurobystricky@hotmail.com; openembedded-
+>> core@lists.openembedded.org
+>> Subject: Re: [OE-core] [PATCH 0/2] Support for VirtualBox guest additions
+>>
+>> On Wed, Aug 5, 2015 at 3:02 PM, Bystricky, Juro <juro.bystricky@intel.com>
+>> wrote:
+>> > Thanks for the link. My new understanding is that kernel-dev package
+>> > should already have essentially the same functionality as the
+>> > kernel-headers package, which makes kernel-headers package redundant.
+>> >  I tried it, but it did not work.
+>> > To be specific, I expected to see the folder "/usr/lib/modules/3.19.5-yocto-
+>> standard/build"
+>> > however, it is missing . Looking at kernel.bbclass it seems it used to
+>> > exist, but succumbed to some bitrot.
+>> >
+>>
+>> have you thought of looking at the guest additions package and see if it could
+>> be doing something that can be fixed ? what you need here is kernel
+>> development files on target I assume, that should be easier than cross-build
+>> scenario which we have not fixed completely. I think this additional headers
+>> package is redundant.
+>> you could get by fixing the existing kernel-headers package ( for
+>> target) if anything is missing.
+>>
+>> How is guest additions compiled ? is it during build or dynamically on target ?
+>>
+>> > Just to make sure  we are on the same page, this is what I would like to
+>> accomplish:
+>> > http://www.cyberciti.biz/tips/build-linux-kernel-module-against-instal
+>> > led-kernel-source-tree.html
+>> >
+>> > Juro
+>> >
+>> >> -----Original Message-----
+>> >> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
+>> >> Sent: Tuesday, August 4, 2015 7:49 PM
+>> >> To: Hatle, Mark G (Wind River)
+>> >> Cc: Bystricky, Juro; openembedded-core@lists.openembedded.org;
+>> >> jurobystricky@hotmail.com; Purdie, Richard
+>> >> Subject: Re: [OE-core] [PATCH 0/2] Support for VirtualBox guest
+>> >> additions
+>> >>
+>> >> On Tue, Aug 4, 2015 at 11:43 PM, Bruce Ashfield
+>> >> <bruce.ashfield@gmail.com>
+>> >> wrote:
+>> >> > On Tue, Aug 4, 2015 at 2:32 PM, Mark Hatle
+>> >> > <mark.hatle@windriver.com>
+>> >> wrote:
+>> >> >> On 8/4/15 12:25 PM, Bystricky, Juro wrote:
+>> >> >>> I agree, the name "kernel-headers" may not be the most fortunate,
+>> >> "linux-headers"
+>> >> >>> is probably more fitting.  The recipe installs the files in a
+>> >> >>> similar fashion that is done by
+>> >> >>>
+>> >> >>> apt-get install linux-headers-$(uname -r)
+>> >> >>>
+>> >> >>> Typical contents can be viewed for example here:
+>> >> >>> https://www.archlinux.org/packages/core/i686/linux-headers/
+>> >> >>>
+>> >> >>> These files are needed to allow building  of kernel drivers
+>> >> >>> against the running Linux kernel. In a way, it is a subset of
+>> >> >>> kernel-devsrc, but including  ".config" file used for the actual running
+>> kernel.
+>> >> >>
+>> >> >> Again this is part of the purpose of the existing kernel-devsrc
+>> >> >> package.  So what is missing preventing this from working.  It
+>> >> >> likely needs to be added to the kernel-devsrc package instead (or
+>> >> >> a sub package that is created by the kernel-devsrc recipe.)
+>> >> >
+>> >> > Peeking in on vacation.
+>> >> >
+>> >> > At a minimum, we need to figure out why the existing package wasn't
+>> >> > able to build the use case in question here .. I've built pretty
+>> >> > much everything against it at one point .. so I'd like to learn more.
+>> >> >
+>> >> > And yes, what we don't need is more sets of rules that copy and
+>> >> > package parts of the kernel build. We are already doing that in our
+>> >> > do_shared_workdir and that is pretty much the minimum to build
+>> >> > against the kernel. If that directory structure needs more for this
+>> >> > purpose (or less),
+>> >> then update it.
+>> >> >
+>> >> > But we need to do all of this in the existing classes, to keep
+>> >> > everything in one place, not more recipes that are grabbing chunks
+>> >> > of the same source tree.
+>> >>
+>> >> FYI: exiting thoughts are here:
+>> >>
+>> >> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7095
+>> >>
+>> >> So as you can see, we aren't offended by a 'headers' package, but it
+>> >> has to make sense with the existing packages, and needs to be
+>> >> generating from our existing bits of the system.
+>> >>
+>> >> Cheers,
+>> >>
+>> >> Bruce
+>> >>
+>> >> >
+>> >> > Bruce
+>> >> >
+>> >> >
+>> >> >>
+>> >> >>> Having these files installed, it is possible  to compile
+>> >> >>> additional kernel drivers that are not part of the kernel-devsrc .
+>> >> >>>  VirtualBox compiles some of their own drivers this way, others as
+>> well.
+>> >> >>> There are many other scenarios where you may want to add a new
+>> >> >>> kernel driver to an already installed Linux kernel.
+>> >> >>
+>> >> >> Yes, this was part of the design behind the kernel-devsrc, make
+>> >> >> sure the sources and components used to build the running kernel
+>> >> >> were made available to the target so that out-of-tree/external
+>> >> >> kernel modules could be built to match the running system -- as
+>> >> >> well as the ability to reconfigure and rebuild the kernel itself.
+>> >> >>
+>> >> >> Bruce is on vacation this week and may not be around to respond,
+>> >> >> but adding yet another package is not the right answer here.  Lets
+>> >> >> fix what may be broken in what we have.
+>> >> >>
+>> >> >> --Mark
+>> >> >>
+>> >> >>> Juro
+>> >> >>>
+>> >> >>>
+>> >> >>>
+>> >> >>>> -----Original Message-----
+>> >> >>>> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+>> >> >>>> Sent: Tuesday, August 4, 2015 9:20 AM
+>> >> >>>> To: Bystricky, Juro; openembedded-core@lists.openembedded.org;
+>> >> >>>> jurobystricky@hotmail.com
+>> >> >>>> Cc: Purdie, Richard
+>> >> >>>> Subject: Re: [OE-core] [PATCH 0/2] Support for VirtualBox guest
+>> >> >>>> additions
+>> >> >>>>
+>> >> >>>> On 8/3/15 3:35 PM, Juro Bystricky wrote:
+>> >> >>>>> In order to support VirtualBox guest additions, kernel headers
+>> >> >>>>> need to be present in the VM. I am aware we already have two
+>> >> >>>>> packages/recipes that are somewhat similar (kernel-devsrc.bb,
+>> >> >>>>> linux-libc-headers), but none
+>> >> >>>> of them is suitable for this purpose.
+>> >> >>>>> Besides the kernel headers, some additional files (scripts,
+>> >> >>>>> Makefiles, .config, etc) are also required.
+>> >> >>>>
+>> >> >>>> linux-libc-headers is only for building applications.
+>> >> >>>> kernel-devsrc is for building modules on the target.
+>> >> >>>>
+>> >> >>>> What do these specific modules need that are not present in
+>> >> >>>> kernel-
+>> >> devsrc?
+>> >> >>>> (I really don't want 'yet another' confusing package added to
+>> >> >>>> the
+>> >> >>>> system.)
+>> >> >>>>
+>> >> >>>>> The new recipe "kernel-headers.bb" can in principle be used by
+>> >> >>>>> other
+>> >> >>>> images as well.
+>> >> >>>>> It is not limited to the Build Appliance and hence is not a
+>> >> >>>>> part of the Build Appliance recipe.
+>> >> >>>>
+>> >> >>>> I think kernel-headers is a bad name for a package.  It could be
+>> >> confusing.
+>> >> >>>>
+>> >> >>>> --Mark
+>> >> >>>>
+>> >> >>>>> Juro Bystricky (2):
+>> >> >>>>>   kernel-headers: linux kernel headers
+>> >> >>>>>   build-appliance-image: support for VirtualBox guest addtions
+>> >> >>>>>
+>> >> >>>>>  .../README_vbox_guest_additions.txt                | 78
+>> >> >>>> ++++++++++++++++++++++
+>> >> >>>>>  .../images/build-appliance-image_12.0.1.bb         |  4 +-
+>> >> >>>>>  meta/recipes-kernel/linux/kernel-headers.bb        | 66
+>> >> >>>> ++++++++++++++++++
+>> >> >>>>>  3 files changed, 147 insertions(+), 1 deletion(-)  create mode
+>> >> >>>>> 100644
+>> >> >>>>> meta/recipes-core/images/build-appliance-
+>> >> >>>> image/README_vbox_guest_addit
+>> >> >>>>> ions.txt  create mode 100644
+>> >> >>>>> meta/recipes-kernel/linux/kernel-headers.bb
+>> >> >>>>>
+>> >> >>>
+>> >> >>
+>> >> >> --
+>> >> >> _______________________________________________
+>> >> >> Openembedded-core mailing list
+>> >> >> Openembedded-core@lists.openembedded.org
+>> >> >> http://lists.openembedded.org/mailman/listinfo/openembedded-
+>> core
+>> >> >
+>> >> >
+>> >> >
+>> >> > --
+>> >> > "Thou shalt not follow the NULL pointer, for chaos and madness
+>> >> > await thee at its end"
+>> >>
+>> >>
+>> >>
+>> >> --
+>> >> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> >> thee at its end"
+>> > --
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
