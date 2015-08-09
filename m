@@ -1,28 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E9A01766E8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 090D576740
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Aug 2015 21:30:34 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 09 Aug 2015 14:30:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,641,1432623600"; d="scan'208";a="765229421"
-Received: from pbenavol-mobl3.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.4.136])
-	by fmsmga001.fm.intel.com with ESMTP; 09 Aug 2015 14:30:34 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 09 Aug 2015 22:30:32 +0100
-Message-ID: <6888320.kH9hAkXKUb@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.0.8-200.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <CAMKF1srqaXwG8v+FJz0G2M3ys9ArcWD1fkX_7h3F8z1AZqi3oA@mail.gmail.com>
-References: <1438851969-4340-1-git-send-email-amarnath.valluri@intel.com>
-	<1981963.0BZJNaCbRs@peggleto-mobl.ger.corp.intel.com>
-	<CAMKF1srqaXwG8v+FJz0G2M3ys9ArcWD1fkX_7h3F8z1AZqi3oA@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] dosfstools-2.11: Fix memory leak in mkdosfs
+	Sun,  9 Aug 2015 22:10:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t79MAR21004206 for <openembedded-core@lists.openembedded.org>;
+	Sun, 9 Aug 2015 23:10:27 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gn4Wnsyrd9F7
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  9 Aug 2015 23:10:27 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t79MA90j004203
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 9 Aug 2015 23:10:22 +0100
+Message-ID: <1439158208.30467.140.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sun, 09 Aug 2015 15:10:08 -0700
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Subject: [PATCH] libpam: Fix patch broken during upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +37,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Aug 2015 21:30:35 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sun, 09 Aug 2015 22:10:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sunday 09 August 2015 10:03:25 Khem Raj wrote:
-> On Aug 9, 2015 9:21 AM, "Paul Eggleton" <paul.eggleton@linux.intel.com>
-> wrote:
-> > On Saturday 08 August 2015 11:54:45 Khem Raj wrote:
-> > > > On Aug 7, 2015, at 12:54 PM, Paul Eggleton <
-> paul.eggleton@linux.intel.com>
-> > > > wrote:>
-> > > > 
-> > > > On Friday 07 August 2015 12:26:56 Khem Raj wrote:
-> > > >>> On Aug 7, 2015, at 2:51 AM, Paul Eggleton
-> > > >>> <paul.eggleton@linux.intel.com>
-> > > >>> wrote:>
-> > > >> devtool modify dosfstools -x ~/projects/dosfstools
-> > > >> ERROR: This script can only be run after initialising the build
-> > > >> environment
-> > > >> (e.g. by using oe-init-build-env)
-> > > >> 
-> > > >> so is it must now to use the setup script ? or can be extract some
-> > > >> needed setup from it to let it work with setups not using the init
-> > > >> script
-> > > >
-> > > > Well it needs to be able to run bitbake internally (directly and using
-> > > > tinfoil), hence the need to have the environment set up to do so. I
-> > > > don't really see a way around that.
-> > > 
-> > > Then limited use of  devtool should be documented as available
-> > 
-> > How is this limited? It operates under the same conditions as bitbake
-> > itself does.
-> 
-> Your last email indicated as if it always needs internal build environment.
-> If that's not the case then it's what I was requesting for the settings
-> that are required to execute it provided bitbake is in path and is building
-> fine but it's not using the settings provided by setup environment script
+"0x200" became "0200" during the upgrade to libpam 1.2.1 in:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=88dd997d9941b63ae9eead6690ecf2b785c0740c
+and this broke the IMAGE_FEATURES like debug-tweaks.
 
-There aren't any special settings though - if you can run bitbake, you should 
-be able to run devtool. If you're getting the error you pasted, it's because 
-BUILDDIR is not set.
+I've converted all the values to octal here to match the original
+header file convention and make it clearer.
 
-I just fetched Angstrom's setup-scripts, checked out the angstrom-v2015.06-
-yocto1.8 branch, and ran through the steps mentioned in the README. 
-Unfortunately it didn't check out all the layers successfully (someone should 
-probably look at that...) once I tweaked bblayers.conf to remove the missing 
-layers, devtool ran just fine. (Of course as part of setting up I had run 
-. environment-angstrom - you are doing that, right?)
+[YOCTO #8033]
 
-Cheers,
-Paul
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
--- 
+diff --git a/meta/recipes-extended/pam/libpam/pam-unix-nullok-secure.patch b/meta/recipes-extended/pam/libpam/pam-unix-nullok-secure.patch
+index 423267f..3241e82 100644
+--- a/meta/recipes-extended/pam/libpam/pam-unix-nullok-secure.patch
++++ b/meta/recipes-extended/pam/libpam/pam-unix-nullok-secure.patch
+@@ -214,7 +214,7 @@ index 3729ce0..43cdbea 100644
+  /* UNIX__PRELIM */         {NULL,              _ALL_ON_^(0600),         0200, 0},
+  /* UNIX__UPDATE */         {NULL,              _ALL_ON_^(0600),         0400, 0},
+ -/* UNIX__NONULL */         {NULL,              _ALL_ON_,               01000, 0},
+-+/* UNIX__NONULL */         {NULL,              _ALL_ON_^(0x10000000),   0200, 0},
+++/* UNIX__NONULL */         {NULL,              _ALL_ON_^(02000000000),   01000, 0},
+  /* UNIX__QUIET */          {NULL,              _ALL_ON_,               02000, 0},
+  /* UNIX_USE_AUTHTOK */     {"use_authtok",     _ALL_ON_,               04000, 0},
+  /* UNIX_SHADOW */          {"shadow",          _ALL_ON_,              010000, 0},
+@@ -222,7 +222,7 @@ index 3729ce0..43cdbea 100644
+  /* UNIX_MIN_PASS_LEN */    {"minlen=",		_ALL_ON_,         0400000000, 0},
+  /* UNIX_QUIET */           {"quiet",           _ALL_ON_,         01000000000, 0},
+  /* UNIX_DES */             {"des",             _ALL_ON_^(0260420000),      0, 1},
+-+/* UNIX_NULLOK_SECURE */   {"nullok_secure",   _ALL_ON_^(0x200),  0x10000000, 0},
+++/* UNIX_NULLOK_SECURE */   {"nullok_secure",   _ALL_ON_^(01000),  02000000000, 0},
+  };
+  
+  #define UNIX_DEFAULTS  (unix_args[UNIX__NONULL].flag)
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
 
