@@ -1,40 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 726B7766C8
+Return-Path: <dominic.sacre@gmx.de>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 911FC75D4B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Aug 2015 07:31:15 +0000 (UTC)
-Received: by pdbfa8 with SMTP id fa8so20033634pdb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Aug 2015 00:31:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=7En/CCgoHWNsXQf7yXPZnRryndyM0aD/goR2kUjG/qw=;
-	b=ZWAHtvT6aLdkdy/nQD0yigk/SdXldrOB6Ld/LmzzN4cYT+4pg/3ALj+eODUxqJU5/G
-	6FDRYwOvGhMw2pQQPdMMF7s/fRLsUYxzzGpYoRNGK2r6EJ1TNm87DG4dV1FqbFJRPaI6
-	FBRR1A5vv9Kdl4SKEwbKE8IiCkg62sll1aI55fAKQA+IAOG/kRnf4UHkg5pbUyBjH84G
-	CO5XTLMOGXjcYuqhO5SGWjYQ1z2fK243NOApAYtvqScUEAc0NN+kOASAu/USUFr1ZtV+
-	1iLH1j2a/9DQl3oVC+vaeE36e6tfnQQqFvHPsU9ZzytmzIZn+kro0Ido2ivxyWeeDqG3
-	5qhg==
-X-Received: by 10.70.12.100 with SMTP id x4mr22131799pdb.65.1439105475845;
-	Sun, 09 Aug 2015 00:31:15 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:61b5:b56b:3665:2b08?
-	([2601:646:8601:4580:61b5:b56b:3665:2b08])
-	by smtp.gmail.com with ESMTPSA id p1sm15678353pdb.3.2015.08.09.00.31.14
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 09 Aug 2015 00:31:15 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1439103829.30467.93.camel@linuxfoundation.org>
-Date: Sun, 9 Aug 2015 00:31:10 -0700
-Message-Id: <37380D15-6A67-405F-ACFF-7E03F6843595@gmail.com>
-References: <1439103829.30467.93.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] runqemu: Add error handling for unexpected tap devices
+	Sun,  9 Aug 2015 10:59:45 +0000 (UTC)
+Received: from [192.168.0.201] ([37.24.103.185]) by mail.gmx.com (mrgmx002)
+	with ESMTPSA (Nemesis) id 0MCtql-1ZWKXb49bf-009kja;
+	Sun, 09 Aug 2015 12:59:45 +0200
+Message-ID: <55C7325E.5050305@gmx.de>
+Date: Sun, 09 Aug 2015 12:58:38 +0200
+From: =?UTF-8?B?RG9taW5pYyBTYWNyw6k=?= <dominic.sacre@gmx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>
+References: <1438095518-7513-1-git-send-email-dominic.sacre@gmx.de>
+	<1438095518-7513-3-git-send-email-dominic.sacre@gmx.de>
+	<BC8B57D1-2220-435B-A2BA-6B0211E13907@gmail.com>
+In-Reply-To: <BC8B57D1-2220-435B-A2BA-6B0211E13907@gmail.com>
+X-Provags-ID: V03:K0:vyoQoO8JBf03VuXveurFt/Zrm8YF8pyZGchY3PX8C7fCj8eV151
+	jrJKXqbTLdvPCUDW6ElvEmuVGaIg0XF0xi0q6r/PhlHKhQ2vMuowNBwEFK8zB9hGfBy+UE+
+	t0Xh3XUjil6MblZZdeSD5/34WYJpxA5K83PQZ69UJOKXUQCQNWlAp/MwPWroJ0UadOqBzye
+	BQQeu/cRFB9ljnbi4J6bw==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:I5zu9DyDWBA=:M4OkmRpZDC7EXXZjqFIP3L
+	+XVDhUxHBRv7ZjeI+RiTq800MokZas8f329v8DdZCvLr2Py24hgTYZknGPfXg6Fq0Tw2PRMEt
+	2dOlcJbde8uDsDdVSAgKgiT8J/NrGcbac+jRUzyynk0uEOTW55Yq4xGsgvNcASnyq5RXJB4VS
+	QwPSCC7guMnt0CSHsM628fKWoHAH7UEr+QlltAgLzE0I4dpjrLv4KNQ3rC4QVqT/P3X51sJmZ
+	5v+H4xe1eaXAmFyxlRqT6bLH5lif+G3tXtfUhSwu1hMdZqcZLIa7fawWN53KkwwPO7HC0qpvg
+	I8ZWKCdN/Pk9vSCt28TDKl+xBvObVKRNAOeDMNoXgeuIoXbM7OCk2BtpRSJ4oUj4upiJHrKIK
+	Ni6BIaiT7g/tsyG+TdIn/EitK4aPbJ3a2KAHz4hku46cpnMnz4cBX1sXB8GxZWrQRwlIzJ4LA
+	p24TWfgqUgOHLh0zwcLt/Oxa1d/TBzBMv5QPvBHANZfDox07GpE1c/GENkpMtBKJu561mvY+z
+	Km6WqLUnVLCXQxn9Rd6lxpZEZnAeLtOe6E/uW9w8oqNVcja4RZTB5X8rXp8hEdLQpmBpP+7/D
+	Ptidn24MiUQcu45QhjZrc+Bqe833Utqy53W3CcpIVBT+LBTGBnLaK9k417abEhYb5bWsS2oWs
+	JahnkXOr5HEZKqMfalbgYrNTIlFz9L47hGbZU/qD9KtzO0drFFjum+fGaTBwHTVYh4uwb85tR
+	ZldnFojV71FNQnbyuqktMsx/Q/PFXlFOngMyDQ==
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/4] python3: remove package python3-robotparser
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,75 +47,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Aug 2015 07:31:16 -0000
-X-Groupsio-MsgNum: 69168
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_FC416D38-157F-4053-A370-5AF81E4C1D1B";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Sun, 09 Aug 2015 10:59:47 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
---Apple-Mail=_FC416D38-157F-4053-A370-5AF81E4C1D1B
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On 2015-08-09 03:02, Khem Raj wrote:
+>> On Jul 28, 2015, at 7:58 AM, Dominic Sacré <dominic.sacre@gmx.de> wrote:
+>>
+>> robotparser has been moved to urllib.robotparser in Python 3, and gets
+>> packaged as part of python3-netclient alongside the rest of urllib.
+>> This causes python3-modules to depend on an empty/missing
+>> python3-robotparser package.
+>>
+>> robotparser.py is relatively small and has no dependencies outside
+>> urllib, so it makes more sense to eliminate the python3-robotparser
+>> package than to alter the manifest for python3-netclient.
+>>
+>> Part of the fix for [YOCTO #8048].
+>>
+>> Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
+>> ---
+>> meta/recipes-devtools/python/python-3.4-manifest.inc | 10 +++-------
+>> scripts/contrib/python/generate-manifest-3.4.py      |  3 ---
+>> 2 files changed, 3 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/python/python-3.4-manifest.inc b/meta/recipes-devtools/python/python-3.4-manifest.inc
+>> index 557acdf..77f0125 100644
+>> --- a/meta/recipes-devtools/python/python-3.4-manifest.inc
+>> +++ b/meta/recipes-devtools/python/python-3.4-manifest.inc
+> 
+> this file is auto generated. So did you regenerate it ?
 
+The changes to scripts/contrib/python/generate-manifest-3.4.py are
+included in the same patch:
 
-> On Aug 9, 2015, at 12:03 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> In theory the code reduces the tap device number to an integer. This
-> patch adds error checking to ensure that does happen and that the =
-script
-> exits if something unexpected happens.
->=20
+>> diff --git a/scripts/contrib/python/generate-manifest-3.4.py b/scripts/contrib/python/generate-manifest-3.4.py
+>> index 569fd3c..42c851c 100755
+>> --- a/scripts/contrib/python/generate-manifest-3.4.py
+>> +++ b/scripts/contrib/python/generate-manifest-3.4.py
+>> @@ -343,9 +343,6 @@ if __name__ == "__main__":
+>>     m.addPackage( "${PN}-shell", "Python shell-like functionality", "${PN}-core ${PN}-re",
+>>     "cmd.* commands.* dircache.* fnmatch.* glob.* popen2.* shlex.* shutil.*" )
+>>
+>> -    m.addPackage( "${PN}-robotparser", "Python robots.txt parser", "${PN}-core ${PN}-netclient",
+>> -    "urllib/robotparser.*")
+>> -
+>>     m.addPackage( "${PN}-subprocess", "Python subprocess support", "${PN}-core ${PN}-io ${PN}-re ${PN}-fcntl ${PN}-pickle",
+>>     "subprocess.*" )
 
-I see these patches are already on master. Are you sending them again by =
-mistake for review or something else ?
-
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->=20
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index 03b40d8..0ace485 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -253,6 +253,14 @@ else
->=20
->=20
->         n0=3D$(echo $TAP | sed 's/tap//')
-> +
-> +        case $n0 in
-> +            ''|*[!0-9]*)
-> +                echo "Error Couldn't turn $TAP into an interface =
-number?"
-> +                exit 1
-> +                ;;
-> +        esac
-> +
->         n1=3D$(($n0 * 2 + 1))
->         n2=3D$(($n1 + 1))
->=20
->=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I ran the modified script to update python-3.4-manifest.inc, then
+added both files to my commit. Is there something I've missed?
 
 
---Apple-Mail=_FC416D38-157F-4053-A370-5AF81E4C1D1B
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+Dominic
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXHAcEACgkQuwUzVZGdMxTeWwCglMrN1qs1Hy+f3F+gIvgHiwEE
-PXMAnAkN0veX/diF8nOEwsxDE/nwEHB4
-=YROu
------END PGP SIGNATURE-----
-
---Apple-Mail=_FC416D38-157F-4053-A370-5AF81E4C1D1B--
