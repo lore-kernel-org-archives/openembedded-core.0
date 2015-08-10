@@ -1,28 +1,28 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EECD76728
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 114827676E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 01:27:14 +0000 (UTC)
+	Mon, 10 Aug 2015 02:07:23 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A1RCdZ010526
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 9 Aug 2015 18:27:12 -0700 (PDT)
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A27NBu018494
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 9 Aug 2015 19:07:23 -0700 (PDT)
 Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 9 Aug 2015 18:27:10 -0700
-Message-ID: <55C7FDEC.3080200@windriver.com>
-Date: Mon, 10 Aug 2015 09:27:08 +0800
+	Sun, 9 Aug 2015 19:07:22 -0700
+Message-ID: <55C80758.2010706@windriver.com>
+Date: Mon, 10 Aug 2015 10:07:20 +0800
 From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1438838323-25159-1-git-send-email-rongqing.li@windriver.com>
-	<1438945513.30467.35.camel@linuxfoundation.org>
-In-Reply-To: <1438945513.30467.35.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][v2] attr: drop sstate fix and narrow relative-libdir.patch to target
+To: ChenQi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
+References: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
+	<55B1D89E.4020000@windriver.com>
+In-Reply-To: <55B1D89E.4020000@windriver.com>
+Subject: Re: [PATCH] systemd: fix systemd-udev-hwdb-update service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +35,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 01:27:17 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Mon, 10 Aug 2015 02:07:26 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 
-On 2015年08月07日 19:05, Richard Purdie wrote:
-> On Thu, 2015-08-06 at 13:18 +0800, rongqing.li@windriver.com wrote:
->> From: Roy Li <rongqing.li@windriver.com>
+On 2015年07月24日 14:18, ChenQi wrote:
+> ping
+>
+> Anybody has objection for this one?
+>
+> Best Regards,
+> Chen Qi
+
+ping
+
+-R
+
+>
+> On 06/30/2015 01:16 PM, rongqing.li@windriver.com wrote:
+>> From: Chen Qi <Qi.Chen@windriver.com>
 >>
->> The relative-libdir.patch is no longer needed for native since fix_symlink
->> for native has been added to revert what it done, Also this patch and
->> fix_symlink add a race condition since both libacl.so and libattr.so were
->> created, then removed, and then recreated.
+>> The new version of systemd has implemented the following feature.
+>> Opointer.de/blog/projects/stateless.html
 >>
->> So Only keep relative-libdir.patch for the target.
+>> As a result, the systemd-udev-hwdb-update.service would always run
+>> at first boot. This will cause failure if the target device doesn't
+>> have enough storage space. Besides, as we run `udevadm hwdb --update' as
+>> a postinst of udev-hwdb at rootfs time, there's no need to run this
+>> again at system start-up.
 >>
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> The purpose of this patch is as follows.
+>> If `udev hwdb --update' fails at rootfs time,
+>> systemd-udev-hwdb-update.service
+>> is executed at first boot; otherwise, the service is not executed.
+>>
+>> This patch achieves the above goal by setting CondistonNeedsUpdate to
+>> "/etc/udev" in the service file, and creating /etc/udev/.updated file
+>> if the
+>> postinst succeeds.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 >> ---
->>   meta/recipes-support/attr/ea-acl.inc | 23 ++---------------------
->>   1 file changed, 2 insertions(+), 21 deletions(-)
->
-> Failed on the autobuilder with:
-> http://errors.yoctoproject.org/Errors/Details/14224/
->
-> Cheers,
->
-> Richard
->
-
-sorry, I test the target and native, and did not test nativesdk,
-I will fix it and send to v3.
-
--Roy
-
->
+>>   meta/recipes-core/systemd/systemd_219.bb | 18 +++++++++++++++---
+>>   1 file changed, 15 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-core/systemd/systemd_219.bb
+>> b/meta/recipes-core/systemd/systemd_219.bb
+>> index 6ed4fe0..dc5c7b3 100644
+>> --- a/meta/recipes-core/systemd/systemd_219.bb
+>> +++ b/meta/recipes-core/systemd/systemd_219.bb
+>> @@ -180,6 +180,10 @@ do_install() {
+>>       if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
+>>           ${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed
+>> -i -e "\$ad /run/systemd/netif/links 0755 root root -"
+>> ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
+>>       fi
+>> +
+>> +    # Make systemd-udev-hwdb-update to check /etc/udev
+>> +    cp ${D}${systemd_unitdir}/system/systemd-udev-hwdb-update.service
+>> ${D}${sysconfdir}/systemd/system
+>> +    sed -i -e
+>> 's#ConditionNeedsUpdate=/etc#ConditionNeedsUpdate=/etc/udev#g'
+>> ${D}${sysconfdir}/systemd/system/systemd-udev-hwdb-update.service
+>>   }
+>>   do_install_ptest () {
+>> @@ -381,10 +385,18 @@ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+>>   pkg_postinst_udev-hwdb () {
+>>       if test -n "$D"; then
+>> -        ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb
+>> --update \
+>> -            --root $D
+>> +        if ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')}
+>> hwdb --update \
+>> +            --root $D; then
+>> +            touch $D/etc/udev/.updated
+>> +        else
+>> +            exit 1
+>> +        fi
+>>       else
+>> -        udevadm hwdb --update
+>> +        if udevadm hwdb --update; then
+>> +            touch $D/etc/udev/.updated
+>> +        else
+>> +            exit 1
+>> +        fi
+>>       fi
+>>   }
 >
 
 -- 
