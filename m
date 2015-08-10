@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA9AB767D9
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 158D6767EF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 03:17:56 +0000 (UTC)
+	Mon, 10 Aug 2015 03:17:58 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A3Hvwh021533
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A3HwKR010994
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Aug 2015 20:17:57 -0700 (PDT)
+	Sun, 9 Aug 2015 20:17:58 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Sun, 9 Aug 2015 20:17:56 -0700
+	14.3.235.1; Sun, 9 Aug 2015 20:17:57 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Aug 2015 11:18:03 +0800
-Message-ID: <d788ed7b766bcccc2238278d3eca6a45c8a7f3f2.1438667914.git.Qi.Chen@windriver.com>
+Date: Mon, 10 Aug 2015 11:18:04 +0800
+Message-ID: <dd54452b17ce0907c59d8f1fee0406265ae80533.1438667914.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1438667914.git.Qi.Chen@windriver.com>
 References: <cover.1438667914.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 5/8] Extensible SDK: allow for installation without preparing build system
+Subject: [PATCH 6/8] oe-publish-sdk: add script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +33,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 03:17:56 -0000
+X-List-Received-Date: Mon, 10 Aug 2015 03:17:58 -0000
 Content-Type: text/plain
 
-When publishing SDK, what we want is basically its metadata and sstate
-cache objects. We don't want the SDK to be prepared with running bitbake
-as it takes time which reproduces meaningless output for the published SDK.
+Add a script to publish extensible SDK to a specified destination.
 
-So this patch adds an option to allow for SDK to be extracted without
-preparing the build system.
+oe-publish-sdk <ext-sdk> <destination>
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 12 +++++++-----
- meta/files/toolchain-shar-extract.sh  |  7 ++++++-
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ scripts/oe-publish-sdk | 124 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 124 insertions(+)
+ create mode 100755 scripts/oe-publish-sdk
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 781e70b..3e36890 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -219,11 +219,13 @@ sdk_ext_postinst() {
- 	# For now this is where uninative.bbclass expects the tarball
- 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
- 
--	printf "Preparing build system...\n"
--	# dash which is /bin/sh on Ubuntu will not preserve the
--	# current working directory when first ran, nor will it set $1 when
--	# sourcing a script. That is why this has to look so ugly.
--	sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
-+	if [ "$prepare_buildsystem" != "no" ]; then
-+	    printf "Preparing build system...\n"
-+	    # dash which is /bin/sh on Ubuntu will not preserve the
-+	    # current working directory when first ran, nor will it set $1 when
-+	    # sourcing a script. That is why this has to look so ugly.
-+	    sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
-+	fi
- 	echo done
- }
- 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 0a33ee8..b7f6350 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -32,7 +32,7 @@ answer=""
- relocate=1
- savescripts=0
- verbose=0
--while getopts ":yd:DRS" OPT; do
-+while getopts ":yd:nDRS" OPT; do
- 	case $OPT in
- 	y)
- 		answer="Y"
-@@ -41,6 +41,9 @@ while getopts ":yd:DRS" OPT; do
- 	d)
- 		target_sdk_dir=$OPTARG
- 		;;
-+	n)
-+		prepare_buildsystem="no"
-+		;;
- 	D)
- 		verbose=1
- 		;;
-@@ -55,6 +58,8 @@ while getopts ":yd:DRS" OPT; do
- 		echo "Usage: $(basename $0) [-y] [-d <dir>]"
- 		echo "  -y         Automatic yes to all prompts"
- 		echo "  -d <dir>   Install the SDK to <dir>"
-+		echo "======== Extensible SDK only options ============"
-+		echo "  -n         Do not prepare the build system"
- 		echo "======== Advanced DEBUGGING ONLY OPTIONS ========"
- 		echo "  -S         Save relocation scripts"
- 		echo "  -R         Do not relocate executables"
+diff --git a/scripts/oe-publish-sdk b/scripts/oe-publish-sdk
+new file mode 100755
+index 0000000..90bedac
+--- /dev/null
++++ b/scripts/oe-publish-sdk
+@@ -0,0 +1,124 @@
++#!/usr/bin/env python
++
++# OpenEmbedded SDK Tool
++
++# oe-publish-sdk publish <ext-sdk> <destination>
++# <ext-sdk>: extensible SDK to publish
++# <destination>: local or remote location which servers as an SDK update server
++# e.g.
++# oe-publish-sdk publish sdk-ext.sh /mnt/poky/sdk-ext
++# oe-publish-sdk publish sdk-ext.sh user@host:/opt/poky/sdk-ext
++#
++
++import sys
++import os
++import argparse
++import glob
++import re
++import subprocess
++import logging
++import shutil
++import errno
++
++scripts_path = os.path.dirname(os.path.realpath(__file__))
++lib_path = scripts_path + '/lib'
++sys.path = sys.path + [lib_path]
++import scriptutils
++logger = scriptutils.logger_create('sdktool')
++
++def mkdir(d):
++    try:
++        os.makedirs(d)
++    except OSError as e:
++        if e.errno != errno.EEXIST:
++            raise e
++
++def publish(args):
++    logger.debug("In publish function")
++    target_sdk = args.sdk
++    destination = args.dest
++    logger.debug("target_sdk = %s, update_server = %s" % (target_sdk, destination))
++    sdk_basename = os.path.basename(target_sdk)
++
++    # Ensure the SDK exists
++    if not os.path.exists(target_sdk):
++        logger.error("%s doesn't exist" % target_sdk)
++        return -1
++    
++    is_remote = False
++    if ':' in destination:
++        is_remote = True
++
++    if not is_remote:
++        dest_sdk = os.path.join(destination, sdk_basename)
++        logger.debug("dest_sdk = %s" % dest_sdk)
++        mkdir(destination)
++        if os.path.exists(dest_sdk):
++            os.remove(dest_sdk)
++        if (os.stat(target_sdk).st_dev == os.stat(destination).st_dev):
++            os.link(target_sdk, dest_sdk)
++        else:
++            shutil.copy(target_sdk, dest_sdk)
++        # Unpack the SDK to get the sstate objects and manifests
++        # so that client side could do updates
++        logger.debug("Unpacking %s to %s ..." % (dest_sdk, destination))
++        ret = subprocess.call("sh %s -n -y -d %s" % (dest_sdk, destination), shell=True)
++        if ret == 0:
++            logger.info('Successfully unpacked %s to %s' % (dest_sdk, destination))
++        else:
++            logger.error('Failed to unpack %s to %s' % (dest_sdk, destination))
++
++        return ret
++    else:
++        host, destdir = destination.split(':')
++        logger.debug('Making sure %s on %s exists' % (destdir, host))
++        ret = subprocess.call("ssh %s 'rm -rf %s && mkdir -p %s'" % (host, destdir, destdir), shell=True)
++        if ret != 0:
++            logger.error("Making directory %s on %s failed" % (destdir, host))
++            return ret
++        logger.debug('Copying %s to %s' % (target_sdk, destination))
++        ret = subprocess.call("scp %s %s" % (target_sdk, destination), shell=True)
++        if ret != 0:
++            logger.error("scp failed")
++            return ret
++        dest_sdk = os.path.join(destdir, sdk_basename)
++        cmd = 'sh %s -n -y -d %s && cd %s/layers && git init . && mv .git/hooks/post-update.sample .git/hooks/post-update && git add . && git commit -m "init repo"' % (dest_sdk, destdir, destdir)
++        logger.debug("cmd is %s" % cmd)
++        logger.debug("Unpacking %s in %s" % (dest_sdk, destination))
++        ret = subprocess.call("ssh %s '%s'" % (host, cmd), shell=True)
++        if ret != 0:
++            logger.error("Failed to unpack SDK on %s" % destination)
++            return ret
++        else:
++            logger.info("Successfully published SDK to %s" % destination)
++            return 0
++        
++def main():
++    parser = argparse.ArgumentParser(description="OpenEmbedded development tool",
++                                     epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
++    parser.add_argument('-d', '--debug', help='Enable debug output', action='store_true')
++    parser.add_argument('-q', '--quiet', help='Print only errors', action='store_true')
++
++    parser.add_argument('sdk', help='Extensible SDK to publish')
++    parser.add_argument('dest', help='Destination to publish SDK to')
++    
++    parser.set_defaults(func=publish)
++
++    args = parser.parse_args()
++
++    if args.debug:
++        logger.setLevel(logging.DEBUG)
++    elif args.quiet:
++        logger.setLevel(logging.ERROR)
++
++    ret = args.func(args)
++    return ret
++
++if __name__ == "__main__":
++    try:
++        ret = main()
++    except Exception:
++        ret = 1
++        import traceback
++        traceback.print_exc(5)
++    sys.exit(ret)
 -- 
 1.9.1
 
