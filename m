@@ -1,55 +1,34 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from mx18-09.smtp.antispamcloud.com (mx18-09.smtp.antispamcloud.com
-	[207.244.64.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FA6676846
+Return-Path: <prvs=657fc4add=Mikko.Rapeli@bmw.de>
+Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com
+	[68.232.139.124])
+	by mail.openembedded.org (Postfix) with ESMTP id D1CFE76804
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 09:11:09 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx18.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1ZOj6j-0005AK-0I for openembedded-core@lists.openembedded.org;
-	Mon, 10 Aug 2015 11:11:07 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 10 Aug 2015 11:10:43 +0200
-Message-ID: <55C86AA2.2050706@topic.nl>
-Date: Mon, 10 Aug 2015 11:10:58 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
+	Mon, 10 Aug 2015 11:48:03 +0000 (UTC)
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+	esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 10 Aug 2015 13:48:03 +0200
+Received: from unknown (HELO esabb1.muc) ([160.50.100.31]) by esagw4.muc with
+	ESMTP/TLS; 10 Aug 2015 13:48:04 +0200
+Received: from smuch55a.muc (HELO SMUCH55A.europe.bmw.corp) ([160.46.137.111])
+	by esabb1.muc with ESMTP/TLS; 10 Aug 2015 13:48:01 +0200
+Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
+	SMUCH55A.europe.bmw.corp ([160.46.137.111]) with mapi id 14.03.0248.002;
+	Mon, 10 Aug 2015 13:48:01 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <mike.looijmans@topic.nl>
+Thread-Topic: [OE-core] [PATCH] sanity.bbclass: check SSTATE_DIR, DL_DIR and
+	*MIRROR for broken symlinks
+Thread-Index: AQHQy2+1X7gCy6EMvEOOz3fdAlfGJJ4E0fWAgAAOlACAACvdgA==
+Date: Mon, 10 Aug 2015 11:48:00 +0000
+Message-ID: <20150810114757.GG6102@loska>
 References: <1438333215-1593-1-git-send-email-mikko.rapeli@bmw.de>
-	<20150810081845.GF6102@loska>
-In-Reply-To: <20150810081845.GF6102@loska>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
-	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJr9BjYs5wutn0zXPeF7tW/AUh2gd97OF1KzJib
-	nnR0xKk8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
-	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
-	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
-	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
-	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh11z/z4WnEoC
-	8C13cWABWlhWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lorygWaquS4QUc2X9/UmaFDUh
-	sTbOm0n23gAH4LW5RBSd12aoSjUKxdXaKO35Ea/DrU+pok6SWPRM754kFPO4pu4=
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJUb3OPwsHaH0Fvg5oXltHd/JUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: unsure
-X-Spampanel-Outgoing-Evidence: Combined (0.12)
-X-Recommended-Action: accept
+	<20150810081845.GF6102@loska> <55C86AA2.2050706@topic.nl>
+In-Reply-To: <55C86AA2.2050706@topic.nl>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.44.101]
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] sanity.bbclass: check SSTATE_DIR, DL_DIR and *MIRROR for broken symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -63,51 +42,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 09:11:11 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Mon, 10 Aug 2015 11:48:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4B49ED69984CE044AEF71CDF9EA22B92@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-=EF=BB=BFOn 10-08-15 10:18, Mikko.Rapeli@bmw.de wrote:
-> On Fri, Jul 31, 2015 at 12:00:15PM +0300, Mikko Rapeli wrote:
-...
->> +# Check that path isn't a broken symlink
->> +def check_symlink(lnk):
->> +    if os.path.islink(lnk) and not os.path.exists(lnk):
->> +       return False
->> +    return True
+Hi,
 
-- Bad coding style "if (x) return false".
-- Naming a method "check..." suggests to me that it will raise an exception=
- on=20
-failure.
+On Mon, Aug 10, 2015 at 11:10:58AM +0200, Mike Looijmans wrote:
+> On 10-08-15 10:18, Mikko.Rapeli@bmw.de wrote:
+> >On Fri, Jul 31, 2015 at 12:00:15PM +0300, Mikko Rapeli wrote:
+> ...
+> >>+# Check that path isn't a broken symlink
+> >>+def check_symlink(lnk):
+> >>+    if os.path.islink(lnk) and not os.path.exists(lnk):
+> >>+       return False
+> >>+    return True
+>=20
+> - Bad coding style "if (x) return false".
+> - Naming a method "check..." suggests to me that it will raise an excepti=
+on
+> on failure.
 
-alternatives:
+Thanks. I tried to follow existing patterns from the functions there.
 
-def is_broken_symlink(lnk):
-     return os.path.islink(lnk) and not os.path.exists(lnk)
+> alternatives:
+>=20
+> def is_broken_symlink(lnk):
+>     return os.path.islink(lnk) and not os.path.exists(lnk)
+>=20
+> def check_symlink(lnk, data):
+>     if os.path.islink(lnk) and not os.path.exists(lnk):
+> 	raise_sanity_error("%s is a broken symlink." % lnk, data)
 
-def check_symlink(lnk, data):
-     if os.path.islink(lnk) and not os.path.exists(lnk):
-	raise_sanity_error("%s is a broken symlink." % lnk, data)
+This feels better and reduces the log statements too. Hopefully the generic
+error message is enough to figure out what is wrong. I'll test and send a
+new version.
 
+Regarding testing, I guess selftests are not generally used to test error
+paths like this.
 
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+-Mikko=
 
