@@ -1,32 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id E363E7646B
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EECD76728
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Aug 2015 23:29:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t79NTqWX006812; Mon, 10 Aug 2015 00:29:52 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id km47xEqZhsNY; Mon, 10 Aug 2015 00:29:52 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t79NTZjN006806
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 10 Aug 2015 00:29:48 +0100
-Message-ID: <1439162974.30467.156.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 09 Aug 2015 16:29:34 -0700
-In-Reply-To: <7FCE78C2-85DC-44BF-8C64-7912AB432468@gmail.com>
-References: <cover.1438956967.git.alexander.kanavin@linux.intel.com>
-	<cover.1438956967.git.alexander.kanavin@linux.intel.com>
-	<45936f059111b38f8850d5972db1ea1485dee82a.1438956967.git.alexander.kanavin@linux.intel.com>
-	<7FCE78C2-85DC-44BF-8C64-7912AB432468@gmail.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
+	Mon, 10 Aug 2015 01:27:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A1RCdZ010526
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 9 Aug 2015 18:27:12 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Sun, 9 Aug 2015 18:27:10 -0700
+Message-ID: <55C7FDEC.3080200@windriver.com>
+Date: Mon, 10 Aug 2015 09:27:08 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1438838323-25159-1-git-send-email-rongqing.li@windriver.com>
+	<1438945513.30467.35.camel@linuxfoundation.org>
+In-Reply-To: <1438945513.30467.35.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/7] gptfdisk: update to 1.0.0
+Subject: Re: [PATCH][v2] attr: drop sstate fix and narrow relative-libdir.patch to target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,47 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Aug 2015 23:29:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Aug 2015 01:27:17 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On Sat, 2015-08-08 at 12:48 -0700, Khem Raj wrote:
-> > On Aug 7, 2015, at 7:28 AM, Alexander Kanavin <alexander.kanavin@linux.intel.com> wrote:
-> > 
-> > Also, use tarballs instead of git for fetching source code.
-> > git repository does not have version tags, so upstream version check
-> > cannot be performed.
-> > 
-> > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-> > ---
-> > .../recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_1.0.0.bb} | 8 +++-----
-> > 1 file changed, 3 insertions(+), 5 deletions(-)
-> > rename meta/recipes-devtools/fdisk/{gptfdisk_git.bb => gptfdisk_1.0.0.bb} (75%)
-> > 
-> > diff --git a/meta/recipes-devtools/fdisk/gptfdisk_git.bb b/meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
-> > similarity index 75%
-> > rename from meta/recipes-devtools/fdisk/gptfdisk_git.bb
-> > rename to meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
-> > index 477c1d9..f4b0e32 100644
-> > --- a/meta/recipes-devtools/fdisk/gptfdisk_git.bb
-> > +++ b/meta/recipes-devtools/fdisk/gptfdisk_1.0.0.bb
-> > @@ -5,11 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
-> > 
-> > DEPENDS = "util-linux popt ncurses"
-> > 
-> > -PV = "0.8.10+git${SRCPV}”
-> 
-> its always preferable to have PV contain SRCPV for recipes using SCM based fetch mechanism. Don’t drop it
-
-There has been discussion about this in other threads and the conclusion
-reached is that where there is a specific version being selected, having
-PV of that specific version is a good thing. With "1.0.0+gitXXX" its
-unclear if its really 1.0.0 or not.
-
-Cheers,
-
-Richard
 
 
+On 2015年08月07日 19:05, Richard Purdie wrote:
+> On Thu, 2015-08-06 at 13:18 +0800, rongqing.li@windriver.com wrote:
+>> From: Roy Li <rongqing.li@windriver.com>
+>>
+>> The relative-libdir.patch is no longer needed for native since fix_symlink
+>> for native has been added to revert what it done, Also this patch and
+>> fix_symlink add a race condition since both libacl.so and libattr.so were
+>> created, then removed, and then recreated.
+>>
+>> So Only keep relative-libdir.patch for the target.
+>>
+>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> ---
+>>   meta/recipes-support/attr/ea-acl.inc | 23 ++---------------------
+>>   1 file changed, 2 insertions(+), 21 deletions(-)
+>
+> Failed on the autobuilder with:
+> http://errors.yoctoproject.org/Errors/Details/14224/
+>
+> Cheers,
+>
+> Richard
+>
 
+sorry, I test the target and native, and did not test nativesdk,
+I will fix it and send to v3.
+
+-Roy
+
+>
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
