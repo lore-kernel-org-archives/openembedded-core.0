@@ -1,34 +1,24 @@
-Return-Path: <prvs=657fc4add=Mikko.Rapeli@bmw.de>
-Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
-	[68.232.139.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CB26976846
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A9F976873
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 12:38:52 +0000 (UTC)
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
-	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 10 Aug 2015 14:38:47 +0200
-Received: from unknown (HELO esabb3.muc) ([160.50.100.30]) by esagw2.muc with
-	ESMTP/TLS; 10 Aug 2015 14:38:45 +0200
-Received: from smuch58b.muc (HELO SMUCH58B.europe.bmw.corp) ([160.46.137.108])
-	by esabb3.muc with ESMTP/TLS; 10 Aug 2015 14:38:43 +0200
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH58B.europe.bmw.corp ([160.46.137.108]) with mapi id 14.03.0248.002;
-	Mon, 10 Aug 2015 14:38:42 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <jussi.kukkonen@intel.com>
-Thread-Topic: [OE-core] [PATCH 2/5] screen: Add version 4.3.1
-Thread-Index: AQHQ02U7j1sf69aRzkGDzzgNPHUIeJ4FCqsA
-Date: Mon, 10 Aug 2015 12:38:42 +0000
-Message-ID: <20150810123844.GI6102@loska>
-References: <cover.1439204506.git.jussi.kukkonen@intel.com>
-	<bf492f53a8df38b0f7d51f9e5409167d022dc291.1439204506.git.jussi.kukkonen@intel.com>
-In-Reply-To: <bf492f53a8df38b0f7d51f9e5409167d022dc291.1439204506.git.jussi.kukkonen@intel.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.101]
+	Mon, 10 Aug 2015 12:47:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7AClRKa020537
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Aug 2015 05:47:27 -0700 (PDT)
+Received: from PEK-ZHE-D1.corp.ad.wrs.com (128.224.162.235) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 10 Aug 2015 05:47:27 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Aug 2015 20:46:57 +0800
+Message-ID: <cover.1439204789.git.zhe.he@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/5] screen: Add version 4.3.1
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH v4 0/1] Yocto Bug #6945
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,28 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 12:38:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <6F571070F2FD5F4FA131576E9F874778@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Aug 2015 12:47:31 -0000
+Content-Type: text/plain
 
-On Mon, Aug 10, 2015 at 03:08:21PM +0300, Jussi Kukkonen wrote:
-> The Debian diff in SRC_URI only added a debian/-directory in to the
-> source tree and did not modify upstream source: So it does nothing.
-> This commit removes the diff and does _not_ try to apply the 19000
-> lines of patches in debian/patches. Any useful patches should be
-> added separately.
->=20
-> * Preserve the old 4.0.3 version (GPLv2+) and add new 4.3.1 (GPLv3+)
-> * Remove unused debian patch from SRC_URI of 4.0.3, increase PR
-> * Add a patchset to enable cross-compiling 4.3.1 (modified from
->   http://savannah.gnu.org/bugs/?43223)
+From: He Zhe <zhe.he@windriver.com>
 
-FWIW, Debian and Fedora have just a few patches on top of 4.3.1:
+ - Add KERNEL_IMAGETYPES to support building packaging and installing
+multi types of kernel images, such as zImage uImage, at one time.
+ - KERNEL_IMAGETYPE works as it did.
+ - v2: Update with the latest oe-core
+ - v3: Add KERNEL_IMAGETYPES, leave KERNEL_IMAGETYPE as is
+ - v4: Turn package name to lower case to meet opkg's requrement
+       Modify "if test" in kernel-fitimage.bbclass and kernel-uimage.bbclass
 
-https://pkgs.fedoraproject.org/cgit/screen.git/tree/
-https://sources.debian.net/src/screen/4.3.1-1/debian/patches/
 
--Mikko=
+He Zhe (1):
+  kernel: Add KERNEL_IMAGETYPES to build multi types of kernel at one
+    time
+
+ meta/classes/kernel-fitimage.bbclass    |  21 +++---
+ meta/classes/kernel-grub.bbclass        |  46 +++++++----
+ meta/classes/kernel-uimage.bbclass      |  22 +++---
+ meta/classes/kernel.bbclass             | 130 +++++++++++++++++++++++---------
+ meta/conf/documentation.conf            |   1 +
+ meta/recipes-kernel/linux/linux-dtb.inc |  81 ++++++++++++--------
+ 6 files changed, 199 insertions(+), 102 deletions(-)
+
+-- 
+1.9.1
+
 
