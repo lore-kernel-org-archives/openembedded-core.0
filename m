@@ -1,36 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id DD12276903
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BBE17671F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 19:58:07 +0000 (UTC)
-Received: by qkfj126 with SMTP id j126so10855505qkf.0
+	Mon, 10 Aug 2015 20:00:32 +0000 (UTC)
+Received: by igbjg10 with SMTP id jg10so8294959igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 12:58:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=DJHKSbP0GomJLGTp77etvGYr/74202P+4AbRHoixAWE=;
-	b=aqsAWTO4V7R8O1w7LtMBprCO+ebS/yjgdNnxFpx5m3yQcpwxrQbA0IwyE0PMUb8flu
-	WtJ0t1V753M+2vkChoqQ3VY1aNGhf5P2t/vcazYDB0gBVOCLbc9dfGcZHpkBroAOYQS7
-	9Hh8N1Bz0efjQXg/ldur5eg8VKdBZ+yUy0MmR+Lk8SvgbXwf+J8SgGvvsdofyOL11mbf
-	S9i1E3JUyixm2hlpEeoDhO5miLGW0AuoxpnesVsXbXXLae3Kz9H4Q7+mV5Dx7DMr/tL1
-	48mI5STFID1dEA1XnzN5hzLfeZQf982nK58hwAByQoPNu11Uu3a0Mj6U/L4a89lbXPGz
-	SWtw==
-X-Gm-Message-State: ALoCoQlj6XRt1ToQdyEjrb2fuOwBK9RaENnvM7UJaAoYA+HRfB55m7vgQGMGwTwbbxmO3AvWGQv/
-X-Received: by 10.55.53.193 with SMTP id c184mr39708002qka.62.1439236687865;
-	Mon, 10 Aug 2015 12:58:07 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Mon, 10 Aug 2015 12:57:48 -0700 (PDT)
-In-Reply-To: <1439236066-20015-1-git-send-email-otavio@ossystems.com.br>
-References: <1439236066-20015-1-git-send-email-otavio@ossystems.com.br>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 10 Aug 2015 20:57:48 +0100
-Message-ID: <CAJTo0LZpPm1UGdw-ASy3bAH5RVZEHTwh_jEu34_mz3A2zkbn2w@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] mesa: Provide virtual/libopenvg
+	Mon, 10 Aug 2015 13:00:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=9w0dHV/PI8wXrVjmTBxGh8GhvaI8r5t8LTW0T38c2EQ=;
+	b=pPJCXg5ZdnRv1lZ3WX7Ttfeo3qYxFscWZb1Tz/nUBPnwBrsMLndi5W0Oz4aqtkk0hJ
+	7LjcT6G7D/BImG3oVwaPm07EWk2bhEYuh9+X80Pb2xn5wcjVxVLSQzIWZh+YoKtRyUek
+	LHgVg1l2s1sSg5fptPtFGYjB3W+K8oI/PAIYTCEjUx7PBeXTWfiNm0fyVTq5ur74nT3P
+	YiTVt7Qe4MZDQCbL/ry4PdxuXueKzXovWo6YxCa/DBG9kqYbCktDJX4gPlXlexY5knpZ
+	Ef7xX8kLLQnEuXZoVS/QpkfArmertEdJGGl3ZbOSN+ABK+8eBxf+cWqB6W0en8BqIdNC
+	5+ow==
+X-Received: by 10.50.111.83 with SMTP id ig19mr12402214igb.82.1439236832626;
+	Mon, 10 Aug 2015 13:00:32 -0700 (PDT)
+Received: from e6520.cablelabs.com
+	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
+	by smtp.gmail.com with ESMTPSA id
+	i13sm13857273ioe.4.2015.08.10.13.00.30
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 10 Aug 2015 13:00:31 -0700 (PDT)
+From: Andre McCurdy <armccurdy@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Aug 2015 13:00:23 -0700
+Message-Id: <1439236824-13191-1-git-send-email-armccurdy@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH 1/2] local.conf.sample: fix trailing whitespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +42,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 19:58:10 -0000
-Content-Type: multipart/alternative; boundary=001a11476f148740ed051cfa674b
+X-List-Received-Date: Mon, 10 Aug 2015 20:00:35 -0000
 
---001a11476f148740ed051cfa674b
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+---
+ meta/conf/local.conf.sample | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-On 10 August 2015 at 20:47, Otavio Salvador <otavio@ossystems.com.br> wrote:
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index 3ae24ab..a398a15 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -2,11 +2,11 @@
+ # This file is your local configuration file and is where all local user settings
+ # are placed. The comments in this file give some guide to the options a new user
+ # to the system might want to change but pretty much any configuration option can
+-# be set in this file. More adventurous users can look at local.conf.extended 
++# be set in this file. More adventurous users can look at local.conf.extended
+ # which contains other examples of configuration which can be placed in this file
+ # but new users likely won't need any of them initially.
+ #
+-# Lines starting with the '#' character are commented out and in some cases the 
++# Lines starting with the '#' character are commented out and in some cases the
+ # default values are provided as comments to show people example syntax. Enabling
+ # the option is a question of removing the # character and making any change to the
+ # variable as required.
+@@ -72,8 +72,8 @@ MACHINE ??= "qemux86"
+ #
+ # Package Management configuration
+ #
+-# This variable lists which packaging formats to enable. Multiple package backends 
+-# can be enabled at once and the first item listed in the variable will be used 
++# This variable lists which packaging formats to enable. Multiple package backends
++# can be enabled at once and the first item listed in the variable will be used
+ # to generate the root filesystems.
+ # Options are:
+ #  - 'package_deb' for debian style deb files
+@@ -87,7 +87,7 @@ PACKAGE_CLASSES ?= "package_ipk"
+ # SDK/ADT target architecture
+ #
+ # This variable specifies the architecture to build SDK/ADT items for and means
+-# you can build the SDK packages for architectures other than the machine you are 
++# you can build the SDK packages for architectures other than the machine you are
+ # running the build on (i.e. building i686 packages on an x86_64 host).
+ # Supported values are i686 and x86_64
+ #SDKMACHINE ?= "i686"
+@@ -95,7 +95,7 @@ PACKAGE_CLASSES ?= "package_ipk"
+ #
+ # Extra image configuration defaults
+ #
+-# The EXTRA_IMAGE_FEATURES variable allows extra packages to be added to the generated 
++# The EXTRA_IMAGE_FEATURES variable allows extra packages to be added to the generated
+ # images. Some of these options are added to certain image types automatically. The
+ # variable can contain the following options:
+ #  "dbg-pkgs"       - add -dbg packages for all installed packages
+@@ -120,7 +120,7 @@ EXTRA_IMAGE_FEATURES = "debug-tweaks"
+ # Additional image features
+ #
+ # The following is a list of additional classes to use when building images which
+-# enable extra features. Some available options which can be included in this variable 
++# enable extra features. Some available options which can be included in this variable
+ # are:
+ #   - 'buildstats' collect build statistics
+ #   - 'image-mklibs' to reduce shared library files size for an image
+@@ -142,8 +142,8 @@ USER_CLASSES ?= "buildstats image-mklibs image-prelink"
+ #
+ # Interactive shell configuration
+ #
+-# Under certain circumstances the system may need input from you and to do this it 
+-# can launch an interactive shell. It needs to do this since the build is 
++# Under certain circumstances the system may need input from you and to do this it
++# can launch an interactive shell. It needs to do this since the build is
+ # multithreaded and needs to be able to handle the case where more than one parallel
+ # process may require the user's attention. The default is iterate over the available
+ # terminal types to find one that works.
+@@ -181,13 +181,13 @@ BB_DISKMON_DIRS = "\
+ #
+ # Shared-state files from other locations
+ #
+-# As mentioned above, shared state files are prebuilt cache data objects which can 
++# As mentioned above, shared state files are prebuilt cache data objects which can
+ # used to accelerate build time. This variable can be used to configure the system
+ # to search other mirror locations for these objects before it builds the data itself.
+ #
+ # This can be a filesystem directory, or a remote url such as http or ftp. These
+-# would contain the sstate-cache results from previous builds (possibly from other 
+-# machines). This variable works like fetcher MIRRORS/PREMIRRORS and points to the 
++# would contain the sstate-cache results from previous builds (possibly from other
++# machines). This variable works like fetcher MIRRORS/PREMIRRORS and points to the
+ # cache locations to check for the shared objects.
+ # NOTE: if the mirror uses the same structure as SSTATE_DIR, you need to add PATH
+ # at the end as shown in the examples below. This will be substituted with the
+-- 
+1.9.1
 
-> There are other GPU drivers which provide alternative implementations
-> for libopenvg thus a virtual/libopenvg should be available for proper
-> dependencies to be specified.
->
 
-As of mesa 10.6.x (queued in master-next) OpenVG support was removed, so
-this is obsolete now.
-
-Ross
-
---001a11476f148740ed051cfa674b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 August 2015 at 20:47, Otavio Salvador <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:otavio@ossystems.com.br" target=3D"_blank">otavio@ossystems.com.=
-br</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1e5"=
- class=3D"a3s" style=3D"overflow:hidden">There are other GPU drivers which =
-provide alternative implementations<br>
-for libopenvg thus a virtual/libopenvg should be available for proper<br>
-dependencies to be specified.<br></div></blockquote></div><br>As of mesa 10=
-.6.x (queued in master-next) OpenVG support was removed, so this is obsolet=
-e now.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra"=
->Ross</div></div>
-
---001a11476f148740ed051cfa674b--
