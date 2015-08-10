@@ -1,35 +1,20 @@
-Return-Path: <prvs=657fc4add=Mikko.Rapeli@bmw.de>
-Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com
-	[68.232.139.124])
-	by mail.openembedded.org (Postfix) with ESMTP id D1CFE76804
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 91EE47685E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 11:48:03 +0000 (UTC)
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
-	esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 10 Aug 2015 13:48:03 +0200
-Received: from unknown (HELO esabb1.muc) ([160.50.100.31]) by esagw4.muc with
-	ESMTP/TLS; 10 Aug 2015 13:48:04 +0200
-Received: from smuch55a.muc (HELO SMUCH55A.europe.bmw.corp) ([160.46.137.111])
-	by esabb1.muc with ESMTP/TLS; 10 Aug 2015 13:48:01 +0200
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH55A.europe.bmw.corp ([160.46.137.111]) with mapi id 14.03.0248.002;
-	Mon, 10 Aug 2015 13:48:01 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <mike.looijmans@topic.nl>
-Thread-Topic: [OE-core] [PATCH] sanity.bbclass: check SSTATE_DIR, DL_DIR and
-	*MIRROR for broken symlinks
-Thread-Index: AQHQy2+1X7gCy6EMvEOOz3fdAlfGJJ4E0fWAgAAOlACAACvdgA==
-Date: Mon, 10 Aug 2015 11:48:00 +0000
-Message-ID: <20150810114757.GG6102@loska>
-References: <1438333215-1593-1-git-send-email-mikko.rapeli@bmw.de>
-	<20150810081845.GF6102@loska> <55C86AA2.2050706@topic.nl>
-In-Reply-To: <55C86AA2.2050706@topic.nl>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.101]
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sanity.bbclass: check SSTATE_DIR, DL_DIR and *MIRROR for broken symlinks
+	Mon, 10 Aug 2015 12:06:32 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 10 Aug 2015 05:06:32 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,645,1432623600"; d="scan'208";a="781156018"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by orsmga002.jf.intel.com with ESMTP; 10 Aug 2015 05:06:32 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Aug 2015 15:07:05 +0300
+Message-Id: <cover.1439204506.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/5] More recipe version upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,46 +27,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 11:48:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4B49ED69984CE044AEF71CDF9EA22B92@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 10 Aug 2015 12:06:32 -0000
 
-Hi,
+The screen upgrade is worth a good look: First of all the new GPLv3
+version required quite a bit of build system patching. Also as far
+as I can tell the existing recipe contains a debian patch which itself
+contains 40 patches that are never applied to the actual sources.
+My patch removes this unnecessary download and does not try to apply
+the 40 patches (with the logic that 19000 lines of patch should be
+done in separate commits _if_ they are necessary): the functionality
+of screen 4.0.3 should not change with this commit.
 
-On Mon, Aug 10, 2015 at 11:10:58AM +0200, Mike Looijmans wrote:
-> On 10-08-15 10:18, Mikko.Rapeli@bmw.de wrote:
-> >On Fri, Jul 31, 2015 at 12:00:15PM +0300, Mikko Rapeli wrote:
-> ...
-> >>+# Check that path isn't a broken symlink
-> >>+def check_symlink(lnk):
-> >>+    if os.path.islink(lnk) and not os.path.exists(lnk):
-> >>+       return False
-> >>+    return True
->=20
-> - Bad coding style "if (x) return false".
-> - Naming a method "check..." suggests to me that it will raise an excepti=
-on
-> on failure.
+Suggestions for other solutions are welcome as well.
 
-Thanks. I tried to follow existing patterns from the functions there.
 
-> alternatives:
->=20
-> def is_broken_symlink(lnk):
->     return os.path.islink(lnk) and not os.path.exists(lnk)
->=20
-> def check_symlink(lnk, data):
->     if os.path.islink(lnk) and not os.path.exists(lnk):
-> 	raise_sanity_error("%s is a broken symlink." % lnk, data)
+Cheers,
+ Jussi
 
-This feels better and reduces the log statements too. Hopefully the generic
-error message is enough to figure out what is wrong. I'll test and send a
-new version.
+The following changes since commit a8b723498c9a7106210db140452886894494b4d6:
 
-Regarding testing, I guess selftests are not generally used to test error
-paths like this.
+  bitbake: cooker: Resolve file monitoring race issues when using memres bitbake (2015-08-03 07:36:25 +0100)
 
--Mikko=
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/more-upgrades
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/more-upgrades
+
+Jussi Kukkonen (5):
+  texinfo: Upgrade 5.2 -> 6.0
+  screen: Add version 4.3.1
+  resolvconf: Upgrade 1.76 -> 1.77
+  qmmp: Upgrade 0.8.5 -> 0.8.6
+  libepoxy: Upgrade 1.2 -> 1.3.1
+
+ .../{resolvconf_1.76.bb => resolvconf_1.77.bb}     |   6 +-
+ meta/recipes-extended/screen/screen.inc            |  39 ++++++
+ .../Avoid-mis-identifying-systems-as-SVR4.patch    |  57 ++++++++
+ ...cross-compile-alternatives-for-AC_TRY_RUN.patch | 137 ++++++++++++++++++
+ .../Remove-redundant-compiler-sanity-checks.patch  |  65 +++++++++
+ ...t-file-system-checks-when-cross-compiling.patch | 135 ++++++++++++++++++
+ .../fix-parallel-make.patch                        |   0
+ .../screen/{screen-4.0.3 => screen}/screen.pam     |   0
+ meta/recipes-extended/screen/screen_4.0.3.bb       |  55 +-------
+ meta/recipes-extended/screen/screen_4.3.1.bb       |  13 ++
+ .../texinfo/texinfo/dont-depend-on-help2man.patch  |  47 ++++---
+ .../texinfo/texinfo/texinfo-4.12-zlib.patch        | 156 +++++++++++++--------
+ .../texinfo/texinfo/texinfo-4.13a-powerpc.patch    |  14 --
+ .../texinfo/{texinfo_5.2.bb => texinfo_6.0.bb}     |   5 +-
+ meta/recipes-graphics/libepoxy/libepoxy_git.bb     |   4 +-
+ .../qt-apps/{qmmp_0.8.5.bb => qmmp_0.8.6.bb}       |   7 +-
+ 16 files changed, 595 insertions(+), 145 deletions(-)
+ rename meta/recipes-connectivity/resolvconf/{resolvconf_1.76.bb => resolvconf_1.77.bb} (89%)
+ create mode 100644 meta/recipes-extended/screen/screen.inc
+ create mode 100644 meta/recipes-extended/screen/screen/Avoid-mis-identifying-systems-as-SVR4.patch
+ create mode 100644 meta/recipes-extended/screen/screen/Provide-cross-compile-alternatives-for-AC_TRY_RUN.patch
+ create mode 100644 meta/recipes-extended/screen/screen/Remove-redundant-compiler-sanity-checks.patch
+ create mode 100644 meta/recipes-extended/screen/screen/Skip-host-file-system-checks-when-cross-compiling.patch
+ rename meta/recipes-extended/screen/{screen-4.0.3 => screen}/fix-parallel-make.patch (100%)
+ rename meta/recipes-extended/screen/{screen-4.0.3 => screen}/screen.pam (100%)
+ create mode 100644 meta/recipes-extended/screen/screen_4.3.1.bb
+ delete mode 100644 meta/recipes-extended/texinfo/texinfo/texinfo-4.13a-powerpc.patch
+ rename meta/recipes-extended/texinfo/{texinfo_5.2.bb => texinfo_6.0.bb} (93%)
+ rename meta/recipes-qt/qt-apps/{qmmp_0.8.5.bb => qmmp_0.8.6.bb} (93%)
+
+-- 
+2.1.4
+
 
