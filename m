@@ -1,38 +1,38 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A5F7176898
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id E450A76898
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 15:34:03 +0000 (UTC)
-Received: by iodd187 with SMTP id d187so172968433iod.2
+	Mon, 10 Aug 2015 15:39:21 +0000 (UTC)
+Received: by igfj19 with SMTP id j19so52279302igf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 08:34:03 -0700 (PDT)
+	Mon, 10 Aug 2015 08:39:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=cgDzml+LFvxGne+axUmFL+70nUQbVPkIwJmiB3OEu4s=;
-	b=iQuEvMEzyT/NxEvx7D8zWjaxNI7tV8FJiSuo+R7iLBgLBZeTr3e4ryV0ga1BlEpU9J
-	xo2uU2MkqWZSdBS3fsy8EYTLw5kBOcZmQoMKtFlY/tgE/pgnKJQo4LcjjSM3FX2ZSWIJ
-	pkez+UZx4elEQYV4cbZgrQSiZMPjxRoYuMOJUDlttf9RNaTqgeWFOcKdrlBOkQmIBjTf
-	/4EaEmu4faJaHEyYC73JFL99mmfGGPE8X+R4odE4dahCQctP6oIh9kIdWSlvMasLA3Nc
-	gkV2fWUGzXd9tuwxNUMRX4HXusJsUc67YG6X1RzDx/5LZA+J45qzUslgRROVBRqj/766
-	J4Yg==
-X-Received: by 10.107.130.153 with SMTP id m25mr14715936ioi.192.1439220842906; 
-	Mon, 10 Aug 2015 08:34:02 -0700 (PDT)
+	bh=FkrXEYChwHp4ksVPr5zMNL4/zammy1vc0aZsOGlpJXs=;
+	b=IjXXw/vhdbF5XRtY6LRzAlCvrJe2c5DNxUCwjxwdVysFiT/JAQ4hXQKieJDDwojUFc
+	WnxhZS33+xrsXw5hfCvDsfbvDEKKMt4BxNYcZKobYIAY/NK4KI7GnA10BP7pd/OxixkT
+	vPsArQeuMToeXeqeRIt7DVH64BG4Sk/aRddrN4OntslPff6I3f9cPHeAtg36UxfMeoP0
+	mY0INUoO5bRaZHYuPywPZ3iBvQCB2X6CAX+UQjHt/ZwMWUnVsGX2HQHQUTZz/PX5EQ0m
+	32MfxSFIF+ZYwLreUibMB4v4nSRpKCOhNbX3wKnzB5u18yxRv49XIaSN8fpP80pwJU+L
+	+Ddw==
+X-Received: by 10.50.153.112 with SMTP id vf16mr11511594igb.79.1439221161512; 
+	Mon, 10 Aug 2015 08:39:21 -0700 (PDT)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.79.100.199 with HTTP; Mon, 10 Aug 2015 08:33:43 -0700 (PDT)
-In-Reply-To: <80d099504def0a839ca7961e91db3ba15034a5be.1438667914.git.Qi.Chen@windriver.com>
+Received: by 10.79.100.199 with HTTP; Mon, 10 Aug 2015 08:39:01 -0700 (PDT)
+In-Reply-To: <d788ed7b766bcccc2238278d3eca6a45c8a7f3f2.1438667914.git.Qi.Chen@windriver.com>
 References: <cover.1438667914.git.Qi.Chen@windriver.com>
-	<80d099504def0a839ca7961e91db3ba15034a5be.1438667914.git.Qi.Chen@windriver.com>
+	<d788ed7b766bcccc2238278d3eca6a45c8a7f3f2.1438667914.git.Qi.Chen@windriver.com>
 From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 10 Aug 2015 08:33:43 -0700
-X-Google-Sender-Auth: beAhwB6kjC0s3yGYKAov1EsYq3w
-Message-ID: <CABcZANn8iOQFHv2MwApn-6N_+Gq48hFeQf0COcSDSrv04GqDCg@mail.gmail.com>
+Date: Mon, 10 Aug 2015 08:39:01 -0700
+X-Google-Sender-Auth: dOOrY8W3hpLxrz-yQ78gPp2gvM0
+Message-ID: <CABcZANmTfoP62-VSynUNe5BjhrPpkW-ynA84=4exsi+FiSeHQg@mail.gmail.com>
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 8/8] devtool: add sdk.py plugin
+Subject: Re: [PATCH 5/8] Extensible SDK: allow for installation without preparing build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 15:34:04 -0000
-Content-Type: multipart/alternative; boundary=001a113fc24c184b8f051cf6b7b1
+X-List-Received-Date: Mon, 10 Aug 2015 15:39:22 -0000
+Content-Type: multipart/alternative; boundary=089e01536c1015d5bc051cf6ca34
 
---001a113fc24c184b8f051cf6b7b1
+--089e01536c1015d5bc051cf6ca34
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 On Sun, Aug 9, 2015 at 8:18 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
 
-> E.g.
-> devtool sdk-update /mnt/sdk-repo/
-> devtool sdk-update http://mysdkhost/sdk
+> When publishing SDK, what we want is basically its metadata and sstate
+> cache objects. We don't want the SDK to be prepared with running bitbake
+> as it takes time which reproduces meaningless output for the published SD=
+K.
+>
+> So this patch adds an option to allow for SDK to be extracted without
+> preparing the build system.
 >
 > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 >
 
-Shouldn=E2=80=99t there be a description of exactly what the purpose of thi=
-s is, in
-the commit message, for those of us not intimately familiar with the sdk
-construction process? It=E2=80=99s best to include the why in commit messag=
-es, not
-just the what/how.
+I expect the intent behind the preparation was for it to be a build from
+100% sstate, but that=E2=80=99s not actually the case on all systems. If th=
+at=E2=80=99s the
+case, maybe it should be run with locked sigs and ignore failure, to avoid
+doing a real from-scratch build at install time.
 --=20
 Christopher Larson
 clarson at kergoth dot com
@@ -74,28 +77,34 @@ Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---001a113fc24c184b8f051cf6b7b1
+--089e01536c1015d5bc051cf6ca34
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Sun, Aug 9, 2015 at 8:18 PM, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;=
-</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":up" class=3D"a=
-3s" style=3D"overflow:hidden">E.g.<br>
-devtool sdk-update /mnt/sdk-repo/<br>
-devtool sdk-update <a href=3D"http://mysdkhost/sdk" rel=3D"noreferrer" targ=
-et=3D"_blank">http://mysdkhost/sdk</a><br>
+<div dir=3D"ltr"><div class=3D"gmail_extra">On Sun, Aug 9, 2015 at 8:18 PM,=
+ Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:Qi.Chen@windriver.com" tar=
+get=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span> wrote:<br><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><div id=3D":11n" class=3D"a3s"=
+ style=3D"overflow:hidden">When publishing SDK, what we want is basically i=
+ts metadata and sstate<br>
+cache objects. We don&#39;t want the SDK to be prepared with running <span =
+class=3D"il">bitbake</span><br>
+as it takes time which reproduces meaningless output for the published SDK.=
+<br>
+<br>
+So this patch adds an option to allow for SDK to be extracted without<br>
+preparing the build system.<br>
 <br>
 Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
-@windriver.com</a>&gt;</div></blockquote></div><br>Shouldn=E2=80=99t there =
-be a description of exactly what the purpose of this is, in the commit mess=
-age, for those of us not intimately familiar with the sdk construction proc=
-ess? It=E2=80=99s best to include the why in commit messages, not just the =
-what/how.<br>-- <br><div class=3D"gmail_signature">Christopher Larson<br>cl=
-arson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>=
-Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+@windriver.com</a>&gt;</div></blockquote></div><br>I expect the intent behi=
+nd the preparation was for it to be a build from 100% sstate, but that=E2=
+=80=99s not actually the case on all systems. If that=E2=80=99s the case, m=
+aybe it should be run with locked sigs and ignore failure, to avoid doing a=
+ real from-scratch build at install time.<br>-- <br><div class=3D"gmail_sig=
+nature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBa=
+ke, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engin=
+eer, Mentor Graphics</div>
 </div></div>
 
---001a113fc24c184b8f051cf6b7b1--
+--089e01536c1015d5bc051cf6ca34--
