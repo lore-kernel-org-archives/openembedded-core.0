@@ -1,26 +1,109 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 694C5767DE
+Return-Path: <B54851@freescale.com>
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0118.outbound.protection.outlook.com [207.46.100.118])
+	by mail.openembedded.org (Postfix) with ESMTP id A36C9767D6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 03:18:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A3I0tm010997
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Aug 2015 20:18:00 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Sun, 9 Aug 2015 20:18:00 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Mon, 10 Aug 2015 03:41:42 +0000 (UTC)
+Received: from DM2PR0301MB1183.namprd03.prod.outlook.com (10.160.217.145) by
+	DM2PR0301MB1326.namprd03.prod.outlook.com (10.160.220.28) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.231.11; Mon, 10 Aug 2015 03:41:42 +0000
+Received: from BLUPR0301CA0036.namprd03.prod.outlook.com (10.162.113.174) by
+	DM2PR0301MB1183.namprd03.prod.outlook.com (10.160.217.145) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.225.19; Mon, 10 Aug 2015 03:41:41 +0000
+Received: from BY2FFO11FD055.protection.gbl (2a01:111:f400:7c0c::172) by
+	BLUPR0301CA0036.outlook.office365.com (2a01:111:e400:5259::46) with
+	Microsoft SMTP Server (TLS) id 15.1.225.19 via Frontend Transport;
+	Mon, 10 Aug 2015 03:41:40 +0000
+Authentication-Results: spf=fail (sender IP is 192.88.158.2)
+	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
+	(message not signed) header.d=none;
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.158.2 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
+Received: from az84smr01.freescale.net (192.88.158.2) by
+	BY2FFO11FD055.mail.protection.outlook.com (10.1.15.192) with Microsoft
+	SMTP Server (TLS) id 15.1.243.9 via Frontend Transport;
+	Mon, 10 Aug 2015 03:41:40 +0000
+Received: from carol-OptiPlex-3020.ap.freescale.net
+	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t7A3faQT000825;
+	Sun, 9 Aug 2015 20:41:39 -0700
+From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Aug 2015 11:18:06 +0800
-Message-ID: <80d099504def0a839ca7961e91db3ba15034a5be.1438667914.git.Qi.Chen@windriver.com>
+Date: Mon, 10 Aug 2015 11:41:33 +0800
+Message-ID: <1439178103-17813-2-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1438667914.git.Qi.Chen@windriver.com>
-References: <cover.1438667914.git.Qi.Chen@windriver.com>
+In-Reply-To: <1439178103-17813-1-git-send-email-b54851@freescale.com>
+References: <1439178103-17813-1-git-send-email-b54851@freescale.com>
+X-EOPAttributedMessage: 0
+X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD055;
+	1:v6bc5Y0iG9o0AxzcoltgF//lwM8TanPkaH9vx6tLG/lLRu3l5SBOwMvyCkP2ChtNA8RqsTNkOUECar/oNS/cWfyuFrm+DNYmpJiUjgEbXT6sGIdPyrRqJl4aQtDJblU3eidJowbyGGkiNmNP+HCrOwDsvVtZC05ok+w7PeFduqXaTTKpE8B68rwHkYnj1EvVgjcvwVsDPQUty9SbUlG7XTc0Oy2jDA1hKgBi4/gOkLEGNxMbVrrULia8YsV5YrNYAd4FkdeEJLAuO8Haflc2si92Ox9Pu8UkGIQkhoVSIhIQNk0bTKXezt2J8xU8Wa2h781ncHzNjBimbqydhU12yQ==
+X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(2980300002)(339900001)(199003)(189002)(86362001)(46102003)(19580405001)(15975445007)(19580395003)(106466001)(50466002)(69596002)(5003940100001)(48376002)(450100001)(64706001)(105606002)(47776003)(62966003)(77156002)(230783001)(2351001)(5001860100001)(575784001)(87936001)(189998001)(5001830100001)(33646002)(81156007)(4001540100001)(92566002)(36756003)(97736004)(104016003)(6806004)(50226001)(85426001)(2950100001)(107886002)(68736005)(5001960100002)(76176999)(77096005)(50986999)(229853001)(110136002)(42413003)(32563001)(4001430100001)(473944003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1183;
+	H:az84smr01.freescale.net; FPR:; SPF:Fail;
+	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
 MIME-Version: 1.0
-Subject: [PATCH 8/8] devtool: add sdk.py plugin
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1183;
+	2:LkEArjQaPyRS01tiK+8p9PFppEiH2J22LOcgKg4FRy2vW5wbYaBDgFNojpbFs9UBZ5Gmpy6FcVr2j1vGetVuPJEaZcj14kWdexJxZCh3etzRj8QCyE9OpJvz7L7Z40GR5Stk/8b+S6Tt3eOF46u9/kapFcPlbUNczzvIEcaUdMM=;
+	3:3MI40665ZMwmJEliuvdjYS2djn8p+ygVGFteCs/0t53xe+DL6WR/qJMu2QwU3bqo8uLGCFLUXlkrlHs6ZuzxbjjOlyiN6rLJq5xKNZHoWGymmIA0z2Z0/UkHZaQcH+m+70eP7nJA8mXVL0wiKj/0+dRGCfNl5IfQFpnINYIuUtQoTM51PxqiUmaUvQ3gsBQrEGkdO4WY7N+9gT35cNm0lvmxCafdYbQoGGm+h+Z7EKY=;
+	25:58uuQ9um9yC8gLmxZpWpqsXwU05Ow59Yp+H8QI2RLznqEjBXpGj01e0I8Py1fHo2lLyxDKPl4ZfQorD3SxZvlBIctOPOfp4YwiEG7jmWIrweyHT/mL85W+lJ6A0oiS3tdJVyO+LibDwJi9uT4R+3z/bCoxu/4dwbnb5UvamT/ckgEspQs+Cd6YDt8QwnLQbFb3GIfqSf50vfyWyG/EZVs7FmgHFGTNuyCYkjuLVA7FtaechrQYrhk4utk5Rie/ON4qERGJ1fK4PVDCFlxBmusA==
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:DM2PR0301MB1183;
+	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:DM2PR0301MB1326; 
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1183;
+	20:7yanyzXTQm3D2pCdPFX2+vU0AyjoTcddT1M/JjEFAVuQzVj5dsSAAW8lnWCYyoNWbKcbkF4ADgFZbkxGMXe/8ANqpHObicHuQR2ux4I2LlwVw9+v5iUf3m9QJr687z6Y0Mjx9j3UsvI2sJy4EAwEcvXkHpwSAfi18fRWSKYCt3yKgmAx/cCxKSzx52kLrnCuI7Ap2N+SChBqFqs03I/lTON89CjUsOPER8fGq0KbdpVAIPIgip92oPgqXWCVcsVmpbN6lh+4GZdBPVElc04kSp6yDlIjq2vDPs4uP1nQAYocw4LTzEULP3GdB1tPrKnHv09mjkBMSb+QCBbfbm/n5bw5UjfjOX++Uu/pZMQIIo8=;
+	4:FY8fdRpskH2nk4PtoB4d4UvReKxFkNRjlg/0nK7BPxAso1cAKfVlma+C3NpQrD9Zfd3gAQTMnY8289EH2ox9u5WfwrXc+joqPq7WWC9YgH72BPPii0h9yYuUaTCgltM2IF1NASObkkXLGTW2rrXr0Luy5GKP4HNNZz4Dqiw8UPRqKs79b3vL2HyNrzcJjjwIHGE9++pSqSupTdQI3EFIGpxdA26lZeC+JRYvqc6F/2J8hFaY9h7F+dsGf98YuVkUwAT81joEkCxfH6+Dt4RVL8xj2MnIL286rFNJCiVZWP0=
+X-Microsoft-Antispam-PRVS: <DM2PR0301MB11835AE8C1F5D35FFAAA82EB86700@DM2PR0301MB1183.namprd03.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(3002001); SRVR:DM2PR0301MB1183; BCL:0;
+	PCL:0; RULEID:; SRVR:DM2PR0301MB1183; 
+X-Forefront-PRVS: 06640999CA
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR0301MB1183;
+	23:YGEdCb09rgQvAfsTm4bxYGwWee2Cj36fAjStSmn?=
+	=?us-ascii?Q?4DEaBgUxCQaUD326mGIO2UQwT6qELHoL3EftdvwGHy0m+8lnkyyXpBHT5RQW?=
+	=?us-ascii?Q?wDjmiKaFsTbACNAAGlEhQa2XI1A0Gr97EeMk0pQF8IRx8IiXhLYnwvlo+BHI?=
+	=?us-ascii?Q?DMriCcY2+s4SXAxmWxQvNHe8NvgwI/ReELjDyTksvOGYMWaoAA/nJlIE6el7?=
+	=?us-ascii?Q?1unXHLmnwzQ/62KTSOR/iTA2Eyb+dUEvkYrp5EFrCXeT/br3ng7sei8fJYSU?=
+	=?us-ascii?Q?1UlG3nnjp0NjSxrJx+g4lNZ1bgxkdUx+frFF56aRfPa2+1jZVQtRIm8XhtST?=
+	=?us-ascii?Q?LlslUf0sf6DnVUuMcNLn2DYRI8SuwVWLHVrD/D1/vVZl347kWecDmiiBAqug?=
+	=?us-ascii?Q?O3c5yVM0Za609nUcKK9V8GVCBfBrVVfUZINGzlJ269pxHoEH4e0YEHRLzFSV?=
+	=?us-ascii?Q?0A3FPZjyIOKPh+5QTSe52WAbHDRUHN8ZCd26X2ItQB6k1oPO/3abVfNPA4Vp?=
+	=?us-ascii?Q?tyZLCZizyFiQg03m7hLI/kKT/a9b+fg1UYp8zSsqliE7wwDYpBD8EYs4Qknb?=
+	=?us-ascii?Q?qjGQFGHiR4sgiu9oohXhAe5HsDVipjo8PYfPjDaFI0Iw859B7t3FPfL0Qvlm?=
+	=?us-ascii?Q?EcefA9w09FBLoyVIVafCaK14pUzMyGxpq5/Jw+uD9U3+p0r2eFATImFYz/NC?=
+	=?us-ascii?Q?UvIcvgkTj+krb/3dmo1k2vILwFyE6H4iGiuw0xXwpgim1PtoDm1rulEZcKBi?=
+	=?us-ascii?Q?3nNZhgH7w3G12tXiWMXUy9L5IpL7gBlrO1sjJed/AR0/UiMBBFWCBfAIBVrJ?=
+	=?us-ascii?Q?c8FuzGlLclowu94XVw12V6Oxz8MHGgbzo+R8twbXBZEwuedL5mqC14O8+uz7?=
+	=?us-ascii?Q?NS5491bfhnJukGiVbIQSfuDrwbp8DnE005BqvnhAsxlJsIvC/t6uCc6p28mP?=
+	=?us-ascii?Q?2ttAU6QwJV91IZ9LJz+j5YmqQtXo2wBVgtTsdJFL97xMvVB469EdGgcrOIt0?=
+	=?us-ascii?Q?T+KYUjU9p9zCs/o5sRy3B1Ar9YPL/OBXDcLvCQ0ZNWl4eoQWXoTXJG7BVMVe?=
+	=?us-ascii?Q?KTLZJJ0HFVFw1vklYyb8qOdc10cfDPMsr+SI9FZX4xyxtcYUsJidd9fPtzPH?=
+	=?us-ascii?Q?lvxf6gI0azl4lWELy4NH/vqzZ5mu0V05vlfYC4KNU1nZNWHUj6LSoIndJcPh?=
+	=?us-ascii?Q?Ls4TDydw3Z1lFPy/EQbXWSp/a25ViDI1A5EjjG66z1eVg+JgkW8b+uJjr4H4?=
+	=?us-ascii?Q?KrOTRoEcRHa0WCr1QMnN9c+QHypqF5If4DPuAuyPh6ain777LjLaYngZp8Au?=
+	=?us-ascii?Q?2Mhh3gcrQ4XI513Zvjid/OaMn8aVabf2hs0cy0QAeQ2wj?=
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1183;
+	5:thiQ9/HIgOatLF3CmwgbxuKRdmPHlgymk0XYcZrD1wsZASmhxQ2aU7IQwPTft0WbvuTmefkJHtH0PhEjZ6sm/YUTwOxmQjHfWB1gwBMmp/tFxMhg3FBZcJdVoEkIByDGJDE8D7ytaB/q+QwoBxJcVQ==;
+	24:7yRYmdysnA02MF81yt8ZvpCaSzCRLeI0KPX9/NpaSvblEgDxSyUmNLEhyPRiWa2o8T+mBmC3ErZJXBu2ZnDuwql3jznp2PcALDjqQTdn+SA=;
+	20:QaEg8/SCSKZ7fOU8s+Ka9NaX2mxqkDW7HIb6HRuBu4GAL3WJoOzKwY9rNyHPWHeMlWkYuLX85se4JI154i2NHQ==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2015 03:41:40.6032 (UTC)
+X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2];
+	Helo=[az84smr01.freescale.net]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1183
+X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1326;
+	2:0XWEkLLf7DwFfNPZbPd6+rK4N+4KhzS4i/C87Z+CyQFtdOGJvLwGEknMfke1cUo0Q/bG6fGWTuS7gHTTwnOJ9HP4KlehRLB5ZTdJonKiNnfWh7Vx34P9eUTse1TRn6g5x2QG9n06iruu1V+FSTUgZLiFGURQRQQovV+AP6aB7cg=;
+	3:jacW543cwnNixAPr5oJsCVFLoOnZQsaqF/MrW+ljAfnEfD3AWdI7+I866LZI4B52ya+1qagAi8T7WXrD95hDGl2zRudue8CkLR0qyygLevG7bQc8gimsXU2oeXSAtRvvNdMmBb2ALwONNKnrIWf6xcY9hWuazG2ZwxkvSaN+4Q8j1/rUCeYHs3dwa1LsudJGOxOvv+5UBnc0zt3vYRdFaySLsN1NDDZELkDWSScrEhc=;
+	25:Oca1E1CAZ6LdwTDdDyJLZ2RPIDR50jZoBfD2PeKCazGBp0NHEPLkEc/k0y5gqjwrFnyatLM0pjUZ0Tu57ayIjXMRpYN3xvK0YzAB7yNKLHgrfdJKoRumVgZbaFNAIbXkM6UidLviODN/QlQzSvWirjCfqJwB0ow2ADnvTBgZWtOk6I3n+Flyqe1VXEHUW/+OkLYGwCOyhFa2zJ7mjU1B+BG+G9pZahM7YKtP71NiayUswtvUISpbxijez55XKl9UfcjKZOITxCxb0AlVN5kI1A==;
+	23:p0XH9DSWSDusr8C4f4G0qpv2rWK+oI2ByEY2Gh966CU1uah4eXRIrS4MWOncmdKQmVvyV1ODf8O3aMPOPMZPjdxHvAqObt8Ad8GRByRBQThB5zbAEOvkgwXeixfN7YLvmz3MAs0L/E2LgL1dIDEfWgOfDN9jl9kmuhCPxyPdwRy+PG11TqXfQJKIDctA2NMH
+X-OriginatorOrg: freescale.com
+Subject: [poky][PATCH v8 01/11] gstreamer1.0-plugins-base: Bug fix for id3demux issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,207 +116,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 03:18:00 -0000
+X-List-Received-Date: Mon, 10 Aug 2015 03:41:46 -0000
 Content-Type: text/plain
 
-E.g.
-devtool sdk-update /mnt/sdk-repo/
-devtool sdk-update http://mysdkhost/sdk
+Use g_utf16_to_utf8() instead of g_convert to fix the issue that
+id3 tags utf16 charaters cannot be extreacted in id3demux when try
+to get the id3v2 tag such as TIT2, TALB etc.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- scripts/lib/devtool/sdk.py | 182 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 182 insertions(+)
- create mode 100644 scripts/lib/devtool/sdk.py
+ .../fix-id3demux-utf16-to-utf8-issue.patch         | 54 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/fix-id3demux-utf16-to-utf8-issue.patch
 
-diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
-new file mode 100644
-index 0000000..231755c
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/fix-id3demux-utf16-to-utf8-issue.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/fix-id3demux-utf16-to-utf8-issue.patch
+new file mode 100755
+index 0000000..ef3f75f
 --- /dev/null
-+++ b/scripts/lib/devtool/sdk.py
-@@ -0,0 +1,182 @@
-+# Development tool - sdk-update command plugin
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/fix-id3demux-utf16-to-utf8-issue.patch
+@@ -0,0 +1,54 @@
++Author: Lyon Wang <b12696@freescale.com>
++Date:   Thu Oct 9 17:37:43 2014 +0800
 +
-+import os
-+import subprocess
-+import logging
-+import glob
-+import shutil
-+import errno
-+import sys
-+from devtool import exec_build_env_command, setup_tinfoil
++[id3v2frames] Bug fix for id3demux issue
 +
-+logger = logging.getLogger('devtool')
++Fix the issue that id3 tags utf16 charaters cannot be extreacted in id3demux
++when I tried to get the id3v2 tag such as TIT2, TALB etc. it will return extrac
++failed.
 +
-+def plugin_init(pluginlist):
-+    """Plugin initialization"""
-+    pass
++Checked in id3v2frame.c,  When parse the UTF-16 streams, it used g_convert() to
++convert the buffer from UTF-16 to UTF-8, however it will return err that this
++conversion is not supported which cause the extraction failed with these UTF-16
++characters.
 +
-+def parse_locked_sigs(sigfile_path):
-+    """Return <pn:task>:<hash> dictionary"""
-+    sig_dict = {}
-+    with open(sigfile_path) as f:
-+        lines = f.readlines()
-+        for line in lines:
-+            if ':' in line:
-+                taskkey, _, hashval = line.rpartition(':')
-+                sig_dict[taskkey.strip()] = hashval.split()[0]
-+    return sig_dict
++In the patch, use g_utf16_to_utf8() instead of g_convert, which can convert the
++character format successfully.
 +
-+def generate_update_dict(sigfile_new, sigfile_old):
-+    """Return a dict containing <pn:task>:<hash> which indicates what need to be updated"""
-+    update_dict = {}
-+    sigdict_new = parse_locked_sigs(sigfile_new)
-+    sigdict_old = parse_locked_sigs(sigfile_old)
-+    for k in sigdict_new:
-+        if k not in sigdict_old:
-+            update_dict[k] = sigdict_new[k]
-+            continue
-+        if sigdict_new[k] != sigdict_old[k]:
-+            update_dict[k] = sigdict_new[k]
-+            continue
-+    return update_dict
++https://bugzilla.gnome.org/show_bug.cgi?id=741144
 +
-+def get_sstate_objects(update_dict, newsdk_path):
-+    """Return a list containing sstate objects which are to be installed"""
-+    sstate_objects = []
-+    # Ensure newsdk_path points to an extensible SDK
-+    sstate_dir = os.path.join(newsdk_path, 'sstate-cache')
-+    if not os.path.exists(sstate_dir):
-+        logger.error("sstate-cache directory not found under %s" % newsdk_path)
-+        raise
-+    for k in update_dict:
-+        files = set()
-+        hashval = update_dict[k]
-+        p = sstate_dir + '/' + hashval[:2] + '/*' + hashval + '*.tgz'
-+        files |= set(glob.glob(p))
-+        p = sstate_dir + '/*/' + hashval[:2] + '/*' + hashval + '*.tgz'
-+        files |= set(glob.glob(p))
-+        files = list(files)
-+        if len(files) == 1:
-+            sstate_objects.extend(files)
-+        elif len(files) > 1:
-+            logger.error("More than one matching sstate object found for %s" % hashval)
-+        
-+    return sstate_objects
++Upstream-Status: Backport [1.5.1]
 +
-+def mkdir(d):
-+    try:
-+        os.makedirs(d)
-+    except OSError as e:
-+        if e.errno != errno.EEXIST:
-+            raise e
++Signed-off-by: Lyon Wang <b12696@freescale.com>
 +
-+def install_sstate_objects(sstate_objects, src_sdk, dest_sdk):
-+    """Install sstate objects into destination SDK"""
-+    sstate_dir = os.path.join(dest_sdk, 'sstate-cache')
-+    if not os.path.exists(sstate_dir):
-+        logger.error("Missing sstate-cache directory in %s, it might not be an extensible SDK." % dest_sdk)
-+        raise
-+    for sb in sstate_objects:
-+        dst = sb.replace(src_sdk, dest_sdk)
-+        destdir = os.path.dirname(dst)
-+        mkdir(destdir)
-+        logger.debug("Copying %s to %s" % (sb, dst))
-+        shutil.copy(sb, dst)
-+
-+def sdk_update(args, config, basepath, workspace):
-+    logger.debug("In sdk_update")
-+    # Fetch locked-sigs.inc file from remote/local destination
-+    # For now, we only support local destination or a destination hosted on a webserver
-+    logger.debug("updateserver: %s" % args.updateserver)
-+
-+    # Make sure we are using sdk-update from within SDK
-+    logger.debug("basepath = %s" % basepath)
-+    old_locked_sig_file_path = os.path.join(basepath, 'conf/locked-sigs.inc')
-+    if not os.path.exists(old_locked_sig_file_path):
-+        logger.error("Not using devtool's sdk-update command from within an extensible SDK. Please specify correct basepath via --basepath option")
-+        return -1
-+    else:
-+        logger.debug("Found conf/locked-sigs.inc in %s" % basepath)
-+        
-+    is_remote = False
-+    if ':' in args.updateserver:
-+        is_remote = True
-+        
-+    if not is_remote:
-+        # devtool sdk-update /local/path/to/latest/sdk
-+        new_locked_sig_file_path = os.path.join(args.updateserver, 'conf/locked-sigs.inc')
-+        if not os.path.exists(new_locked_sig_file_path):
-+            logger.error("%s doesn't exist or is not an extensible SDK" % args.updateserver)
-+            return -1
-+        else:
-+            logger.debug("Found conf/locked-sigs.inc in %s" % args.updateserver)
-+        update_dict = generate_update_dict(new_locked_sig_file_path, old_locked_sig_file_path)
-+        logger.debug("update_dict = %s" % update_dict)
-+        sstate_objects = get_sstate_objects(update_dict, args.updateserver)
-+        logger.debug("sstate_objects = %s" % sstate_objects)
-+        if len(sstate_objects) == 0:
-+            logger.info("No need to update.")
-+            return 0
-+        logger.info("Installing sstate objects into %s", basepath)
-+        install_sstate_objects(sstate_objects, args.updateserver.rstrip('/'), basepath)
-+        logger.info("Updating configuration files")
-+        new_conf_dir = os.path.join(args.updateserver, 'conf')
-+        old_conf_dir = os.path.join(basepath, 'conf')
-+        shutil.rmtree(old_conf_dir)
-+        shutil.copytree(new_conf_dir, old_conf_dir)
-+        logger.info("Updating layers")
-+        new_layers_dir = os.path.join(args.updateserver, 'layers')
-+        old_layers_dir = os.path.join(basepath, 'layers')
-+        shutil.rmtree(old_layers_dir)
-+        shutil.copytree(new_layers_dir, old_layers_dir)
-+    else:
-+        # devtool sdk-update http://myhost/sdk
-+        tmpsdk_dir = '/tmp/sdk-ext'
-+        if os.path.exists(tmpsdk_dir):
-+            shutil.rmtree(tmpsdk_dir)
-+        os.makedirs(tmpsdk_dir)
-+        os.makedirs(os.path.join(tmpsdk_dir, 'conf'))
-+        # Fetch locked-sigs.inc from update server
-+        ret = subprocess.call("wget -q -O - %s/conf/locked-sigs.inc > %s/locked-sigs.inc" % (args.updateserver, os.path.join(tmpsdk_dir, 'conf')), shell=True)
-+        if ret != 0:
-+            logger.error("Fetching conf/locked-sigs.inc from %s to %s/locked-sigs.inc failed" % (args.updateserver, os.path.join(tmpsdk_dir, 'conf')))
-+            return ret
-+        else:
-+            logger.info("Fetching conf/locked-sigs.inc from %s to %s/locked-sigs.inc succeeded" % (args.updateserver, os.path.join(tmpsdk_dir, 'conf')))
-+        new_locked_sig_file_path = os.path.join(tmpsdk_dir, 'conf/locked-sigs.inc')
-+        update_dict = generate_update_dict(new_locked_sig_file_path, old_locked_sig_file_path)
-+        logger.debug("update_dict = %s" % update_dict)
-+        if len(update_dict) == 0:
-+            logger.info("No need to update.")
-+            return 0
-+        # Update metadata
-+        logger.debug("Updating meta data via git ...")
-+        ret = subprocess.call("rm -rf layers && git clone %s/layers" % args.updateserver, shell=True)
-+        if ret != 0:
-+            logger.error("Updating meta data via git clone failed")
-+            return ret
-+        logger.debug("Updating conf files ...")
-+        conf_files = ['local.conf', 'bblayers.conf', 'devtool.conf', 'work-config.inc', 'locked-sigs.inc']
-+        for conf in conf_files:
-+            ret = subprocess.call("wget -q -O - %s/conf/%s > conf/%s" % (args.updateserver, conf, conf), shell=True)
-+            if ret != 0:
-+                logger.error("Update %s failed" % conf)
-+                return ret
-+        with open(os.path.join(basepath, 'conf/local.conf'), 'a') as f:
-+            f.write('SSTATE_MIRRORS_append = " file://.* %s/sstate-cache/PATH \\n "\n' % args.updateserver)
-+
-+    # Run bitbake command for the whole SDK
-+    sdk_targets = config.get('SDK', 'sdk_targets')
-+    logger.info("Executing 'bitbake %s' ... (This may take some time.)" % sdk_targets)
-+    try:
-+        exec_build_env_command(config.init_path, basepath, 'bitbake %s' % sdk_targets)
-+    except:
-+        logger.error('bitbake %s failed' % sdk_targets)
-+        return -1
-+    return 0
-+
-+def register_commands(subparsers, context):
-+    """Register devtool subcommands from the sdk plugin"""
-+    parser_sdk = subparsers.add_parser('sdk-update', help='Update SDK components from a nominated destination')
-+    parser_sdk.add_argument('updateserver', help='The update server to fetch latest SDK components')
-+    parser_sdk.set_defaults(func=sdk_update)
++diff --git a/gst-libs/gst/tag/id3v2frames.c b/gst-libs/gst/tag/id3v2frames.c
++old mode 100644
++new mode 100755
++index 3785c2a..7b9d8ac
++--- a/gst-libs/gst/tag/id3v2frames.c
+++++ b/gst-libs/gst/tag/id3v2frames.c
++@@ -1057,14 +1057,17 @@ parse_insert_string_field (guint8 encoding, gchar * data, gint data_size,
++         data_size -= 2;
++       }
++ 
++-      field = g_convert (data, data_size, "UTF-8", in_encode, NULL, NULL, NULL);
++-
++-      if (field == NULL || g_utf8_validate (field, -1, NULL) == FALSE) {
++-        /* As a fallback, try interpreting UTF-16 in the other endianness */
++-        if (in_encode == utf16beenc)
++-          field = g_convert (data, data_size, "UTF-8", utf16leenc,
++-              NULL, NULL, NULL);
+++      if (in_encode == utf16beenc) {
+++           gunichar2 *data_utf16;
+++           guint i;
+++           data_utf16 =  (gunichar2 *) data;
+++          for (i=0; i<(data_size>>1); i++) {
+++            data_utf16[i] = GUINT16_TO_LE (data_utf16[i]);
+++          }
++       }
+++      //field = g_convert (data, data_size, "UTF-8", in_encode, NULL, NULL, NULL);
+++       field = g_utf16_to_utf8((gunichar2 *)data, (glong)(data_size>>1), NULL, NULL, NULL);
+++
++     }
++ 
++       break;
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+index 11cf8b4..aaa1ecb 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c54ce9345727175ff66d17b67ff51f58 \
+ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+             file://get-caps-from-src-pad-when-query-caps.patch \
+             file://taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
++            file://fix-id3demux-utf16-to-utf8-issue.patch \
+ "
+ 
+ SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
 -- 
 1.9.1
 
