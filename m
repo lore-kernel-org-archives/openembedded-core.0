@@ -1,37 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 0725E7690B
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 26B09768B6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 20:00:37 +0000 (UTC)
-Received: by igbij6 with SMTP id ij6so77001002igb.1
+	Mon, 10 Aug 2015 20:14:01 +0000 (UTC)
+Received: by igbjg10 with SMTP id jg10so8545427igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 13:00:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Qt+Awtmh+Urds72TCrw8rC8fW5f+tPUAF8YNiVrMvak=;
-	b=zV3fihQdk0ZjammJJnwv79lhzmt+cA/bU99/dM2ygjm3EXj+SvCFVAhYLBTVXjJ97W
-	8BF8rzy7fOZ0FHFQOr4dWYBOSFDpYg4AWn751YyIt4ohL8qQCsk3Kzf1+wj901DclT03
-	/1d592aQoFyC5WrLlujme1oliMJT+g4m5cM2YYg1BAAP82j4jUOIaC95YKkN2zt9El/f
-	Ae8Tkko6KrbH/7w36mG7XFmgjzE4i0IXENpjgVLNORGQOlQwfQK80Wj6RYfIWc/KlaFi
-	6oo8ypCPrjsumMvH2MW97Hpiy3Ng9P4ZW+gjxM506bLvh855L41BpwFZQzpde+rjgdLj
-	6soA==
-X-Received: by 10.50.62.243 with SMTP id b19mr13325405igs.88.1439236838216;
-	Mon, 10 Aug 2015 13:00:38 -0700 (PDT)
-Received: from e6520.cablelabs.com
-	(50-204-102-64-static.hfc.comcastbusiness.net. [50.204.102.64])
-	by smtp.gmail.com with ESMTPSA id
-	i13sm13857273ioe.4.2015.08.10.13.00.36
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 10 Aug 2015 13:00:36 -0700 (PDT)
-From: Andre McCurdy <armccurdy@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Aug 2015 13:00:24 -0700
-Message-Id: <1439236824-13191-2-git-send-email-armccurdy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1439236824-13191-1-git-send-email-armccurdy@gmail.com>
-References: <1439236824-13191-1-git-send-email-armccurdy@gmail.com>
-Subject: [PATCH 2/2] local.conf.sample.extended: fix trailing whitespace
+	Mon, 10 Aug 2015 13:14:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=mBRVMvaUchZPaLmFGX/8QNh9H5Ucs306AWLeSSIf0wE=;
+	b=MSL5zYXtt6UVEsiWsZ5M3RCHrJTXC+L+zwurybNeQB4KVbMN01f5i7VZFaS8L2UkQ0
+	DgKD0b5jaVLVLFGluSDS86QDABtLBt0ITAx/9hFmTFmb2QUk8SO3QlYhaIuV6iQEOWj3
+	x0dKjwtvaTftIfl83kFZsZ8FzeWYt/zn2ClrzNADck+weR01u/+jnMbMZ0BZQvoBTV4V
+	FcTQLedbTIK6IY239wnuvv2NJBy2PcHFrQUexSJxSu4lomVHPgfoLFBblveGPVAa2CXt
+	wc+Lo/5U5cRNh0g8A1uKBt/UdVFtiZ/L9Wnx1rdMi1o+gY6V8eyc7r4R6qUCo/hYgL3V
+	TGcA==
+X-Gm-Message-State: ALoCoQm7Rcf4F1c15lqAoAFeftsiON9HI3gB9+J5QPbNiukFuh6GjgRNdYEG+ZEoCHFzyZBjgO6c
+X-Received: by 10.50.45.34 with SMTP id j2mr14411585igm.53.1439237641437;
+	Mon, 10 Aug 2015 13:14:01 -0700 (PDT)
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com.
+	[209.85.213.169])
+	by smtp.gmail.com with ESMTPSA id v18sm6547009igr.3.2015.08.10.13.14.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Aug 2015 13:14:00 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igbjg10 with SMTP id jg10so8544987igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Aug 2015 13:14:00 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.50.50.239 with SMTP id f15mr6211081igo.19.1439237640258;
+	Mon, 10 Aug 2015 13:14:00 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Mon, 10 Aug 2015 13:14:00 -0700 (PDT)
+In-Reply-To: <CAJTo0LZpPm1UGdw-ASy3bAH5RVZEHTwh_jEu34_mz3A2zkbn2w@mail.gmail.com>
+References: <1439236066-20015-1-git-send-email-otavio@ossystems.com.br>
+	<CAJTo0LZpPm1UGdw-ASy3bAH5RVZEHTwh_jEu34_mz3A2zkbn2w@mail.gmail.com>
+Date: Mon, 10 Aug 2015 17:14:00 -0300
+Message-ID: <CAP9ODKqXYDCThwnMPHDHkzsHs-PH3HPSiddCqCsraprRzmT6GA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] mesa: Provide virtual/libopenvg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 20:00:38 -0000
+X-List-Received-Date: Mon, 10 Aug 2015 20:14:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
----
- meta/conf/local.conf.sample.extended | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On Mon, Aug 10, 2015 at 4:57 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 10 August 2015 at 20:47, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>>
+>> There are other GPU drivers which provide alternative implementations
+>> for libopenvg thus a virtual/libopenvg should be available for proper
+>> dependencies to be specified.
+>
+>
+> As of mesa 10.6.x (queued in master-next) OpenVG support was removed, so
+> this is obsolete now.
 
-diff --git a/meta/conf/local.conf.sample.extended b/meta/conf/local.conf.sample.extended
-index ccdd326..3b840c1 100644
---- a/meta/conf/local.conf.sample.extended
-+++ b/meta/conf/local.conf.sample.extended
-@@ -57,7 +57,7 @@
- 
- # The following are used to control options related to debugging.
- #
--# Uncomment this to change the optimization to make debugging easer, at the 
-+# Uncomment this to change the optimization to make debugging easer, at the
- # possible cost of performance.
- # DEBUG_BUILD = "1"
- #
-@@ -131,9 +131,9 @@
- # build both the 32-bit and 64-bit wrapper libraries on a 64-bit build system.
- #
- # Pseudo will attempt to determine if a 32-bit wrapper is necessary, but
--# it doesn't always guess properly.  If you have 32-bit executables on 
--# your 64-bit build system, you likely want to set this to "0", 
--# otherwise you could end up with incorrect file attributes on the 
-+# it doesn't always guess properly.  If you have 32-bit executables on
-+# your 64-bit build system, you likely want to set this to "0",
-+# otherwise you could end up with incorrect file attributes on the
- # target filesystem.
- #
- # Default is to not build 32 bit libs on 64 bit systems, uncomment this
-@@ -262,7 +262,7 @@
- 
- #
- # GCC/LD FLAGS to enable more secure code generation
--# 
-+#
- # By including the security_flags include file you enable flags
- # to the compiler and linker that cause them to generate more secure
- # code, this is enabled by default in the poky-lsb distro.
+So it does not offer OpenVG support anymore? What about mesa-demos?
+
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
