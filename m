@@ -1,21 +1,17 @@
 Return-Path: <B54851@freescale.com>
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0125.outbound.protection.outlook.com [207.46.100.125])
-	by mail.openembedded.org (Postfix) with ESMTP id 50A3C767E6
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0145.outbound.protection.outlook.com [157.56.111.145])
+	by mail.openembedded.org (Postfix) with ESMTP id C35EE767D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 03:41:46 +0000 (UTC)
-Received: from DM2PR0301MB1183.namprd03.prod.outlook.com (10.160.217.145) by
-	DM2PR0301MB1326.namprd03.prod.outlook.com (10.160.220.28) with
-	Microsoft SMTP
-	Server (TLS) id 15.1.231.11; Mon, 10 Aug 2015 03:41:46 +0000
-Received: from BLUPR0301CA0039.namprd03.prod.outlook.com (10.162.113.177) by
-	DM2PR0301MB1183.namprd03.prod.outlook.com (10.160.217.145) with
+	Mon, 10 Aug 2015 03:41:44 +0000 (UTC)
+Received: from DM2PR03CA0045.namprd03.prod.outlook.com (10.141.96.44) by
+	BY1PR0301MB1174.namprd03.prod.outlook.com (10.160.195.145) with
 	Microsoft
-	SMTP Server (TLS) id 15.1.225.19; Mon, 10 Aug 2015 03:41:45 +0000
-Received: from BY2FFO11FD008.protection.gbl (2a01:111:f400:7c0c::118) by
-	BLUPR0301CA0039.outlook.office365.com (2a01:111:e400:5259::49) with
+	SMTP Server (TLS) id 15.1.225.19; Mon, 10 Aug 2015 03:41:43 +0000
+Received: from BY2FFO11FD027.protection.gbl (2a01:111:f400:7c0c::196) by
+	DM2PR03CA0045.outlook.office365.com (2a01:111:e400:2428::44) with
 	Microsoft SMTP Server (TLS) id 15.1.225.19 via Frontend Transport;
-	Mon, 10 Aug 2015 03:41:44 +0000
+	Mon, 10 Aug 2015 03:41:42 +0000
 Authentication-Results: spf=fail (sender IP is 192.88.158.2)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
 	(message not signed) header.d=none;
@@ -24,85 +20,79 @@ Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
 	receiver=protection.outlook.com; 
 	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
 Received: from az84smr01.freescale.net (192.88.158.2) by
-	BY2FFO11FD008.mail.protection.outlook.com (10.1.14.159) with Microsoft
+	BY2FFO11FD027.mail.protection.outlook.com (10.1.15.216) with Microsoft
 	SMTP Server (TLS) id 15.1.243.9 via Frontend Transport;
-	Mon, 10 Aug 2015 03:41:43 +0000
+	Mon, 10 Aug 2015 03:41:41 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t7A3faQV000825;
-	Sun, 9 Aug 2015 20:41:42 -0700
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t7A3faQU000825;
+	Sun, 9 Aug 2015 20:41:40 -0700
 From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Aug 2015 11:41:35 +0800
-Message-ID: <1439178103-17813-4-git-send-email-b54851@freescale.com>
+Date: Mon, 10 Aug 2015 11:41:34 +0800
+Message-ID: <1439178103-17813-3-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1439178103-17813-1-git-send-email-b54851@freescale.com>
 References: <1439178103-17813-1-git-send-email-b54851@freescale.com>
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD008;
-	1:ifjFGA4tN770e8A8iv6MUrOW64EHum4MhpYOx4UU0aHVaYTs/j3V0zBe4vxCwuFf/ZRll1cNxpHvhOdYPtplfsRfCxX70Sj8JGBXyPcUlNNLqeWDGqvFh19A400qrxZOU7Ksiz43XbiIKY5qKFxdq5/IVSr9ayUv/pPeUqBRbzKTg9WQiNs4siTf6r4YFyAPzJ8PPKOisXdn08IlVfGJ3YAeWWFojDbuO1W1adl9XqYKOvvCmBUmOiz5euch5tnn6/L0zsS9EXxNsQLzr6IHSyZ47oOooXel+YBPxkL6H8AjhNNKl0ZERBJVYf5JaiR/xZchDUZ64w4ZZuutlODLUA==
+X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD027;
+	1:tXtseZ3A1bmSAO8g5iMXQJ5IbMIUOmvpaZpyWBwTcr29TJ/JgNXdOvKZtHmTUhTlkqz3idJrBcCkBDDa0FfrzZTB41mR+dxlPkV9Mw1FOW/6NNIzmTM6Z58K1ayYwn27XsgXefxUGdDK54PBszMKanfPamo7khCV8fdVNMtMXO4zVT/8pIuCaVwU+ZR9S6rEdbhc2/KS3XuwquBVJSuz7vWypGG4u0WN6o7LEbZq05O5PbhvKRmalAXH9fSXIpzNf95yKVuZ24wIicbpyTmyrWm5RLDaHbKhGfbF/BIgozneFVNGJw4IajjS2udmsFxoff9X41z866gIOGvbk1QQMQ==
 X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(339900001)(199003)(189002)(86362001)(46102003)(19580405001)(15975445007)(19580395003)(106466001)(50466002)(69596002)(5003940100001)(48376002)(450100001)(64706001)(105606002)(47776003)(62966003)(77156002)(230783001)(2351001)(5001860100001)(575784001)(87936001)(189998001)(5001830100001)(33646002)(81156007)(4001540100001)(92566002)(36756003)(97736004)(104016003)(6806004)(50226001)(85426001)(2950100001)(107886002)(68736005)(5001960100002)(76176999)(77096005)(50986999)(229853001)(110136002)(4001430100001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1183;
+	SFS:(10019020)(6009001)(2980300002)(339900001)(189002)(199003)(77096005)(85426001)(4001540100001)(5001960100002)(50466002)(2351001)(107886002)(5001860100001)(5003940100001)(5001830100001)(36756003)(68736005)(110136002)(15975445007)(2950100001)(97736004)(81156007)(450100001)(105606002)(87936001)(6806004)(69596002)(62966003)(50226001)(77156002)(189998001)(106466001)(50986999)(19580405001)(76176999)(104016003)(48376002)(46102003)(86362001)(47776003)(229853001)(92566002)(230783001)(575784001)(33646002)(64706001)(19580395003)(4001430100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY1PR0301MB1174;
 	H:az84smr01.freescale.net; FPR:; SPF:Fail;
-	PTR:InfoDomainNonexistent; A:1; MX:1; LANG:en; 
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1183;
-	2:6oFztPm3113k/uKGIpOTBm+7MnFY0y3RdsoNGGFDhLt2Nt7p693yCahmELeHRjx0nf2q/s1fX2FvKuZRfiMgiIHaLSxKggrRWxVeXE0+cBTcAa/9SIO3MXjPaL6huoRxIl/ZQgS2rGjGh8ftzcRv/la+Nt/f1lVPaTE2mke2FTo=;
-	3:Xk9M9hUr3uVB8FwjviMPqIMEVUBm51zUNAsyJGs+qTwH6amCt+upr/Q9L9V7Jm6Ntde+1vbZaDliscbSYrj3x+QC1cSjahOQ9KgG5Wawje6FjMI7jopx52xSyVUWOYUFGtrWriLHBtiuv8DRf2qHBOZWqD8CBWFhN0UbmBgoYxC2vpIDEpVqtqCSaC6Nex2rBlHrH3Uf8WBIIP/B6ulfO6BXasr+84hH7nANwd7Olhg=;
-	25:TDygRGRAoyy3/aOsNCtEdOuaXJdJSIrcHtuJVqmFer39wW0RjgCwefzDvN7UxRohS5A/3injiiGAo3UBXRZdm/r1Em6LivmrPYxc0pBd6DrRWUcamVkSDS4lBvhDsgMJWEuLW3z1eciMaAsQA2RwhVi5A8aKpuG4C5v2cSjDJfTGh7KXJLwDQpbgqtbh9LTYTamWKQB3xJNt422pdaDCGjHuiMUwFzmQHCYojgyK8YebYRqn6jCCOH7I66GlMIpNGmdzdtT8gL76IZOb1X3w7A==
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:DM2PR0301MB1183;
-	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:DM2PR0301MB1326; 
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1183;
-	20:27tip96uqEqK+J13qlTS/S3n3P3mOB53+xC/Y7ubdPXnLFx+JCfOMmqGwTSx+q06a6ofe7nmDM4V1piVDdAs5vH4SxUt4MCMKG3AZL7d5McSodauQaYHlfIRjAm1sMJC4COtryZBdN9w4aIZnO3XLDno7agv3rrj76ZnpWpPLabPEO0zUSb5qo6SYVcN+XdmcUdv8yi8baBpPmhwlWoOLhmmg5knxLap4B2AYMdabQIfQlFEO6QwW1ziFKY1OIdHVLGFfdZRdt/oUF+FHhtYpJLl3i192R4jYokxuQxGGCl9aMXSEyGzCEpviauEYsaAs00wxyt2liXsRcv9IjWUJnjqpDWEktqEq1efOaX1AEM=;
-	4:4GL2rCcei0kY4j+WHj382/iSwjQRqjez+vT3dsDFZiQKrfBcP873vQh5rFwfdAjlcI44PvwWKI9I4LLY+RufTZb02c7SG3eLhFN+PG/1zJ5t57+xcnebq1P2CL384Xmvxc3hf4KIW1m6UAM9MAa5dd1VBd6NXKPvknk4+L3sQLJlTzD2sAzmTkMVtdldueYnN34jUG5ZHcz7GDYQNo2xZCO0ZXk+jwW/lcB5ELiQCXKUwDtZ0Ag5SK3olEF4a2a1mhSHyWC++c9lQ8LA7mUU//6O5zgK0HvkI1H0AMqFw5I=
-X-Microsoft-Antispam-PRVS: <DM2PR0301MB1183F675F82FCE7A4061E7E686700@DM2PR0301MB1183.namprd03.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1174;
+	2:yPFFFRuF8qxeFDZHn7b0RzT3BodmZh9g4J+BV24fy2448nvFvksDW/jjw11YDg3gWvz1//NzTo0WbQFd7pojyLfbFY3TQ/3FAjQd+8Yu2AJB1dkk8cdGi/uk9S14UNQAZcxaNr2I13Rcw6oDkGQn2YJT5DI3n1SugLK3ceqZxmY=;
+	3:H/0NDcE4h2e68ndpampfmle03YBugJ3g7ZadBMjkViD+m9jxveigEMJHi+3/FDNllAUhDeY49u6JXgs9LyEvpfpZlfbIDgKL5AjJdZxRpVMhHyJ3p0B+ymr+ZSBLSlEpNamzzQ2fVN3lD8v2AkRRw0jhEdOXhSNqqWfSq3nwOlTP5FJwsb1049aFOWAHr8BORM+qG1t4svZ1nLoIUwodIqabilxEv3z17717Z6o8GBM=;
+	25:lFwpbi9rUBaGLXoAAl+qhkrVnpKzOsU1F2dsA/TwqFPmqFP96/VL55HvLGDJDROFJA4ScDvxPoJwEEBq6mcwNHNtsApa0N9Z1iSp1W9evm9RzhePLcCUFxNl1vHNyfQHMcwgGojn4JO/3rnbGXecHmssaAO1dTzURJTwZ1CatBWbI1KAJ/BA14LfxhGQNStx4J0lZ62LRMLcPzfXqFK8etFg879cO2S3RCPgafKTFE4P1Vngv1ffSAvZmlOGhtZuT1L8jH0g5e7y6xaW4kMbmA==
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BY1PR0301MB1174;
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1174;
+	20:9eXfBkshKanHJyqal49NCuTz5jyH2dmV9M4I7YXMII8yKogc2BwGisgSB16+ljSNwMce3+0yOFvn0BOw+jRfBeFdC8Tyf4hz7nLjNwfdohnayvV1rg1ue0Pf2/lnu1sisndu+rGsZuv3XXOAIOyP17aOzdNzpRXRFEYglBqvJ4pSB1YuS9lk3oZta6IavRagJTVo9JrvGJrGPyylpNLzptbzw8GOZXPBF1utgrxzH7LLfUjCl8vfNUic6BPkkmwqogiKp5ekP4NSqTYe6QFzgDnSrAmfleKFXVzic0zFWdSqjLas+T7805rWL/bzNanYUNWfbH3p87vMCiawvIhKqlZrc3a+Tsb+Saa+0gnBrIo=;
+	4:sfrOkWixmFYhal/Ia4Zau3uGflwv73K7skrQ5BuD4crhsJchZEX8ebkJ1sImmqqjDSIr76Cf58WoQ+P0eZ42FFmsUO9ggD4vATWGbEtLtIdygSTBGXCV4qBjAleyrVXctabhTjoUQjtBOmSjZVpZs4HsPLq4QtvW8GHZR9Bw+i3BiaOUM395MMUAVeWGRB0i8MY6E4BXWtZGGL7iOx2YZRRkObjpiorjbGobPcP3aQLP59V5oAq8jSaKmyHodHtXra3ZOuPNxKQrGM8o+FmjP4hjb9/6ymEA7EfgoRDMlPE=
+X-Microsoft-Antispam-PRVS: <BY1PR0301MB11748F653DA4D26927D4F3FE86700@BY1PR0301MB1174.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(3002001); SRVR:DM2PR0301MB1183; BCL:0;
-	PCL:0; RULEID:; SRVR:DM2PR0301MB1183; 
+	RULEID:(601004)(5005006)(3002001); SRVR:BY1PR0301MB1174; BCL:0;
+	PCL:0; RULEID:; SRVR:BY1PR0301MB1174; 
 X-Forefront-PRVS: 06640999CA
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR0301MB1183;
-	23:DpKxtafmwZoRUn3Oc2fL4kOraX3tXfdsv4o000U?=
-	=?us-ascii?Q?8EZImdKssuvMoxeieBF9vSo5jzXD/qcxDbqUeSxJNmBr+4SELuBIoMQxEJAC?=
-	=?us-ascii?Q?0eKNr7jEbqNWDRSuMe9R2FNHiOrdhG6kNfNr9e3p8dNFlmm09gl22uVC/6jV?=
-	=?us-ascii?Q?4ZFzPj2aqQ8JJTZx92/+m96Ovom3V1YoPTgg+qkS7xfoX/LZdSOUQ/h3vhdr?=
-	=?us-ascii?Q?aUxOqm7w5yP4xrGNUCzV9FtZhGRDDYiLIOJ3XlYrgNDPip1j2sVpW60f/355?=
-	=?us-ascii?Q?uC/EMfYl2pFX6vyJnbogWD9eQD9LOMAEqkuwgL3D+e6ItcYxWPez0CQy4p7F?=
-	=?us-ascii?Q?k2f8Tkuj1gbI69OV48pWsjHQ7POYpGVQ76jt7zIKg5UwGM4wGq2qXOcTVMGW?=
-	=?us-ascii?Q?WzvpICoGFG1El9E2qtF4lY2VVgglR/jpF4US0nyTq0uvGjr/3yqu3n7C6R6U?=
-	=?us-ascii?Q?zn9zOKsZ/KS+rOwp1zx8XWQnxdQUIpiyNLht6hNgajiJ+r5uBYv1UrcFAsEU?=
-	=?us-ascii?Q?OqPG7zSX1kquHo0pipHqvI9YkYYXbpRTEBZNu7nhG2+/cN0bzchvIV3S7tZj?=
-	=?us-ascii?Q?L8e3acZoLFgUkBA4/qUmr3G2xr2MFshm9ILahlMkv8DjMdv/U7wt/tRdeOUr?=
-	=?us-ascii?Q?YrZ5aTNG8M8bvjyGCWBqbtssLUcVAqUHT/wwpXKzbQdyDFknE8vFu8MKQTT4?=
-	=?us-ascii?Q?f8/qMqm3ofrbSqNEe+rNIcufVE5oFPNbnjDYioaZfl7lM062RVegQo5TMaWY?=
-	=?us-ascii?Q?HRaYnIA25HGPgFhE8brC11qhsXv59bXMYq9s6v5pBn4vts0d4K3XUKnFMKFY?=
-	=?us-ascii?Q?pDIAi6Dlota8UiSVFpF/goZrLQJlmP8CEL2NF8x5J1asECyZJjUdsOXsiaSB?=
-	=?us-ascii?Q?CsTE3IHyY/yf+h7jzbKvkq2By6JZ+PVFJhcmPU4u6gGHJMMOAC5F+3R5ervI?=
-	=?us-ascii?Q?gSmbkolz6noHytD0SlS2DDejT05nWA/8TTP3MNwUFhyU6g972ywJyIshCfZ0?=
-	=?us-ascii?Q?28XYgOZ/AGSTEDKD3ZnXiZRyZvGyPWlTs7tl5LkG187itnwadidvKeJK/Y+4?=
-	=?us-ascii?Q?wYw872+cVqhBTVdL58I1gIK1oaUkdl+ELZJ/wG5LJlXqnta88P0/thwJHl5B?=
-	=?us-ascii?Q?hF3RqC1dPFuDTCco3qXrnOgEcEIHbVYB14C0FFZStc1rQPMtGa3LtSPGp6Im?=
-	=?us-ascii?Q?FnFAHWZ3Gjmb+3RFLhr6Kq4hvnWsbykBZhfQkY35sUCKeUxjckHJv75Fwxxt?=
-	=?us-ascii?Q?v8g9c0agSmUs4bBKXsa1JrWoRlz2GewTOyLBUgi6S?=
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1183;
-	5:zjpli07HGcVRVO3YSl0/ktkZZBnVzPOarx0u88ssNoSBzHLLB1Wb7cGRkC0rzYH2FXFrio7LvQBeavTigwP0Pb1AY+md2vbyBR1zi8LpzTiEAD/NIYcORqPLLQjbOK9RbzJvglLz58nPLBsQzL7KZw==;
-	24:G9IkI2EVsULPla7avhuh+6uCebY/yB6oguJWPWSjJrPsUStLlGrZ499XkSkD4ZfgJAJbLtR3yIG9Tt17y/IgUi7bUskB9U1s/CbUub/uOEM=;
-	20:uSBLJI1a4OJHukD708Dwd6jHg8weqH/cNiMkyycx0UnUkUbCw4QKF/RK2L7oLq1YT4Cn77g6pkawkxFxPiQEcA==
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2015 03:41:43.8840 (UTC)
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BY1PR0301MB1174;
+	23:ptyDx9ixSj9j3ncPRLIlKwjkdPmvI+CtzTTQ7aI?=
+	=?us-ascii?Q?7baNmS94y/O8j2bB8e6rDD10HX8PDgu77EnV/D0JBKBeKR2QFXp+/5HqQyaT?=
+	=?us-ascii?Q?95UQtjfUF9lUh7gktE/9X39hZBXu45oZNzlQZTSEKz8Mhh3RgFMMegv0KMIv?=
+	=?us-ascii?Q?ZJ38uh9ghkillyxd9SsAvENbDqsukDf6nget+b4xmSpZiSEiQYzdj2k+SiW7?=
+	=?us-ascii?Q?bPGKlaZfmx+su8WTHAjyg1p3mwlIds5ejDqcAYDGL/MhHmd4gwBY8TMhTNlW?=
+	=?us-ascii?Q?jkoOMQ5CCWZJ2YaJfMxCB63+KO4dhxux2AV6dJa4VaZ8xLoIBE9lmWVychYN?=
+	=?us-ascii?Q?pFBEDmkYq4Qn8WmVg8pE3XYHC243WsBiK/2LwCJQ6ALtS2bupPa1Seb9aSRL?=
+	=?us-ascii?Q?UvmMtuZCZzQ64e5X9mOOPyQfjuzFguH/frXfAfw2KfZAnO52FhAfMM1w3M51?=
+	=?us-ascii?Q?QlxNA+qI7FFF3ImHf2p9tBh1SnX2GnZ0fx4pojhdTd0V2orqEJ9bLwmnkNwL?=
+	=?us-ascii?Q?Uq5M+mKQ1U9PqEqLCySZIoesn6t5ksykoGMDH7F6bgq8Y2wlUfXGINXj7h5f?=
+	=?us-ascii?Q?Ts866KhG6+NuQ7KbRKps4PuhsnVPgDhncgQHEEh66v/6+NqLe3F78Wz57CC7?=
+	=?us-ascii?Q?MrJg4xLW9YVQy31qJbdxg6TDSEBRfPXoab/t6Q07w0X9do0bkmZhPIlqSxLV?=
+	=?us-ascii?Q?K3tiC5dQtkWYnniqqM6gzpnd/N62c2qCdX0RtGxFUjr0v0bz3AqFHCUJo9AC?=
+	=?us-ascii?Q?79NAO3Jf56eeVo0sUVlpcVFKI7rdZ6P4cnxxwlKUqmuMx6qh1ULdRrmVfvdC?=
+	=?us-ascii?Q?AIdTbBZjjcY9AERUZajEfiZL/UsU+NnVElVTaGVDRBx/WaTwJOKVzPgMQZBx?=
+	=?us-ascii?Q?boO+LJU149cOem+FTjI42EthtEUuSY6OqeMbWTGXyMY7Np3tl/4chPFkEXkr?=
+	=?us-ascii?Q?EJDZ9xSef0hH77yMsCAMK5zXvXvO+awz2dAi0POc+LKQNUTxWkRlB0OZLX4a?=
+	=?us-ascii?Q?LO/liaksecgYzPA0ROpS0Rry+plYIrTLB+0MIJi4Mu87B5lvCiiWuIS+8QME?=
+	=?us-ascii?Q?wluBA8Ckz7NoaqmgDR7tTwPQ5oK6Od1ZpMk1994ML3yQ78D0C6VfmYmzlfTs?=
+	=?us-ascii?Q?7PeGvu15oaWucu4aAa6ep1SonruJr4rDtCSiYZjiFTb8pnavzWOz2gAFnIfP?=
+	=?us-ascii?Q?7Pc4/ZFnXqsjFqp4kwDtXkoxI2jgV6IMPKwd5JRXrgGw5TXvhL1Q//ccdIC6?=
+	=?us-ascii?Q?AF7YZqAdgKo81pjZ37CsUGLN+VE2uDDh3FYtco9dL?=
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1174;
+	5:ZbLqWP90SuC4fiNTQiDA6bpwM8L7F0HbqBQpVvYrFCKgcPQhQ2JpUzGP7qFo7HK1L9bJ38/RqJNmZklb12Gi1wbuOLbVKhobhSUdgyPWlCis92W2m7kH1F3FiLgTmKofQ8Km5BeFrsfUZZWobLVptw==;
+	24:C5zY/wt4tJ5GdmFIBXlOINFC5NhpMQTCOTHG4nk9z/KeZjDA1yldqRDQoU8A5ON8ICX9ynf97wTBYR8gdVcANd7LuKouEZ5kAeUgQZREFUQ=;
+	20:/Fo/+fd4Umump0ndE5zPujGg162whawa0hhJ9MdrskmGqLJEkppeWZKUuav0iGo7QYatv2neRojEg2INtblDfQ==
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2015 03:41:41.9400 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2];
 	Helo=[az84smr01.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1183
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1326;
-	2:CmcMu5GNNK06IQS0Hl0zO8YRlRoDe8WUDCmoVqxY12U1y/b4sNSmwcXFmCzjoN2eP9rY2rHDtlE4sRbCbW5YPyy1tjR27vOJlnq2BuwnoGFCT++owqR0TJm1CJA2MjRtDoqvvmeJ9DZPL6BU4QD++naNo9RU9oztnrxhAHdK1o4=;
-	3:K0VGs0i3oCjayIvWu2XqxXvERpIus1zCyTV081Nhno4SdJf0BXBRPt0O0ha03ESqnRo9ZmDhFZteBW0KBb0HFAvrCOZo/wOBVY9uoaTs2cSWiQUrmqZS3xBP6gACh5qBpMM8IFfnk//baC+0g3V+OeX0n75IfH8uq32/XBxjQJgkyH2V0a/knEWTJ8vZadngB06GijOhBHHiPpzNlziR4masXiT9g5U2gZl+WoDOqaE=;
-	25:5LB+6Qps6/vf7oGV7Tkq9n1SRAZQ4I/nmREevgcp+XDeFXBrBZrBE5FsR2zBYH1dlOga9EQdpvQ6C2lmcjcWkRpEJ9GqRux9YltCRqWlfmS+sEh5B0S/uyCnoS8P7x+3f0975JXqyH4pikD8HOyfY1qFxfZKCloRQeSJDp//5fDfnJQEO9h0kt3RXQ1G8SYcuMgfgwZ+IbWGgPyklS8hu5D5rUZY4tx29sxMFRPY1+FLPTH1AGQLcwFE0e+icP5+3tBRNaNH9ONMLtbdEQwbMw==;
-	23:26dC6Zowk+3nEWTRPgfUbmWeEP3CPeLPbUuWIkku4CVcbMZvjVIOrgc/Pq/ES0DSN7HlRMSYn5zzvTSuu8YPl1yDTEvtRZ0Xch6QDAbnLDHWNGVhB4R1xPpszBFx02+lI8V2GKQng+ij0BRiC40N/QRN+fAFW8M5GR9ukf4kHj/3ggLpt2OCRa6ilhBS3o0f
-X-OriginatorOrg: freescale.com
-Subject: [poky][PATCH v8 03/11] gstreamer1.0-plugins-base: Update video alignment after video alignment
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR0301MB1174
+Subject: [poky][PATCH v8 02/11] gstreamer1.0-plugins-base: Handle audio/video decoder error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -115,88 +105,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 03:41:46 -0000
+X-List-Received-Date: Mon, 10 Aug 2015 03:41:47 -0000
 Content-Type: text/plain
 
-Video buffer pool will update video alignment to respect stride alignment
-requirement. But haven't update it to video alignment in configure.
-Which will cause user get wrong video alignment.
+When there is input data and no output data to the end of the stream, it will
+send GST_ELEMENT_ERROR and quit from playing.
+The patch comments the GST_ELEMENT_ERROR() and just add GST_ERROR_OBJECT()
+information instead.
 
 Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- .../videobuffer_updata_alignment_update.patch      | 53 ++++++++++++++++++++++
+ .../handle-audio-video-decoder-error.patch         | 64 ++++++++++++++++++++++
  .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
+ 2 files changed, 65 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
 new file mode 100755
-index 0000000..8cfda95
+index 0000000..833ce72
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videobuffer_updata_alignment_update.patch
-@@ -0,0 +1,53 @@
-+commit 88d253ea23b06289df40401160b606323f16c910
-+Author: Song Bing <b06498@freescale.com>
-+Date:   Mon Dec 15 09:34:35 2014 +0800
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/handle-audio-video-decoder-error.patch
+@@ -0,0 +1,64 @@
++From bcb2b8b6f49e7c66124a4f5e07dea829d5ebfe59 Mon Sep 17 00:00:00 2001
++From: Lyon Wang <lyon.wang@freescale.com>
++Date: Mon, 15 Dec 2014 16:52:07 +0800
++Subject: [PATCH] handle audio/video decoder error
 +
-+videopool: update video alignment after video alignment
++When there is input data and no output data to the end of the stream, it will
++send GST_ELEMENT_ERROR, So the clips playing will quit.
++However, if only one of the tracks is corrupt, there is no need to quit other
++tracks playing.
 +
-+Video buffer pool will update video alignment to respect stride alignment
-+requirement. But haven't update it to video alignment in configure.
-+Which will cause user get wrong video alignment.
++The patch comments the GST_ELEMENT_ERROR() and just add GST_ERROR_OBJECT()
++information instead.
 +
-+https://bugzilla.gnome.org/show_bug.cgi?id=741501
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=741542]
 +
-+Upstream-Status: Backport [1.5.1]
++Signed-off-by: Lyon Wang <lyon.wang@freescale.com>
++---
++ gst-libs/gst/audio/gstaudiodecoder.c |    5 +++--
++ gst-libs/gst/video/gstvideodecoder.c |    5 +++--
++ 2 files changed, 6 insertions(+), 4 deletions(-)
++ mode change 100644 => 100755 gst-libs/gst/audio/gstaudiodecoder.c
++ mode change 100644 => 100755 gst-libs/gst/video/gstvideodecoder.c
 +
-+Signed-off-by: Song Bing <b06498@freescale.com>
-+diff --git a/gst-libs/gst/video/gstvideopool.c b/gst-libs/gst/video/gstvideopool.c
-+index 4475f45..acef594 100644
-+--- a/gst-libs/gst/video/gstvideopool.c
-++++ b/gst-libs/gst/video/gstvideopool.c
-+@@ -167,6 +167,7 @@ video_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
-+     /* get an apply the alignment to the info */
-+     gst_buffer_pool_config_get_video_alignment (config, &priv->video_align);
-+     gst_video_info_align (&info, &priv->video_align);
-++    gst_buffer_pool_config_set_video_alignment (config, &priv->video_align);
-+   }
-+   priv->info = info;
++diff --git a/gst-libs/gst/audio/gstaudiodecoder.c b/gst-libs/gst/audio/gstaudiodecoder.c
++old mode 100644
++new mode 100755
++index c2e7a28..891df0a
++--- a/gst-libs/gst/audio/gstaudiodecoder.c
+++++ b/gst-libs/gst/audio/gstaudiodecoder.c
++@@ -2123,9 +2123,10 @@ gst_audio_decoder_sink_eventfunc (GstAudioDecoder * dec, GstEvent * event)
++       GST_AUDIO_DECODER_STREAM_UNLOCK (dec);
++ 
++       if (dec->priv->ctx.had_input_data && !dec->priv->ctx.had_output_data) {
++-        GST_ELEMENT_ERROR (dec, STREAM, DECODE,
+++        /* GST_ELEMENT_ERROR (dec, STREAM, DECODE,
++             ("No valid frames decoded before end of stream"),
++-            ("no valid frames found"));
+++            ("no valid frames found")); */
+++        GST_ERROR_OBJECT(dec, "No valid frames decoded before end of stream");
++       }
++ 
++       /* send taglist if no valid frame is decoded util EOS */
++diff --git a/gst-libs/gst/video/gstvideodecoder.c b/gst-libs/gst/video/gstvideodecoder.c
++old mode 100644
++new mode 100755
++index ac581e1..4278bcd
++--- a/gst-libs/gst/video/gstvideodecoder.c
+++++ b/gst-libs/gst/video/gstvideodecoder.c
++@@ -1068,9 +1068,10 @@ gst_video_decoder_sink_event_default (GstVideoDecoder * decoder,
++ 
++       /* Error out even if EOS was ok when we had input, but no output */
++       if (ret && priv->had_input_data && !priv->had_output_data) {
++-        GST_ELEMENT_ERROR (decoder, STREAM, DECODE,
+++        /* GST_ELEMENT_ERROR (decoder, STREAM, DECODE,
++             ("No valid frames decoded before end of stream"),
++-            ("no valid frames found"));
+++            ("no valid frames found")); */
+++        GST_ERROR_OBJECT(decoder, "No valid frames decoded before end of stream");
++       }
++ 
++       /* Forward EOS immediately. This is required because no
++-- 
++1.7.9.5
 +
-+diff --git a/sys/ximage/ximagepool.c b/sys/ximage/ximagepool.c
-+index 6cc2cfa..6a1cbc9 100644
-+--- a/sys/ximage/ximagepool.c
-++++ b/sys/ximage/ximagepool.c
-+@@ -597,6 +597,8 @@ ximage_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
-+     /* do padding and alignment */
-+     gst_video_info_align (&info, &priv->align);
-+
-++    gst_buffer_pool_config_set_video_alignment (config, &priv->align);
-++
-+     /* we need the video metadata too now */
-+     priv->add_metavideo = TRUE;
-+   } else {
-+diff --git a/sys/xvimage/xvimagepool.c b/sys/xvimage/xvimagepool.c
-+index 244a51a..34b1ab2 100644
-+--- a/sys/xvimage/xvimagepool.c
-++++ b/sys/xvimage/xvimagepool.c
-+@@ -124,6 +124,8 @@ xvimage_buffer_pool_set_config (GstBufferPool * pool, GstStructure * config)
-+     /* do padding and alignment */
-+     gst_video_info_align (&info, &priv->align);
-+
-++    gst_buffer_pool_config_set_video_alignment (config, &priv->align);
-++
-+     /* we need the video metadata too now */
-+     priv->add_metavideo = TRUE;
-+   } else {
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-index aa90179..88c3254 100644
+index aaa1ecb..aa90179 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-@@ -10,6 +10,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+@@ -9,6 +9,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
+             file://get-caps-from-src-pad-when-query-caps.patch \
              file://taglist-not-send-to-down-stream-if-all-the-frame-cor.patch \
              file://fix-id3demux-utf16-to-utf8-issue.patch \
-             file://handle-audio-video-decoder-error.patch \
-+            file://videobuffer_updata_alignment_update.patch \
++            file://handle-audio-video-decoder-error.patch \
  "
  
  SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
