@@ -1,43 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f182.google.com (mail-pd0-f182.google.com
-	[209.85.192.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B170768B5
+Return-Path: <otavio.salvador@gmail.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FE5F768AB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 17:22:21 +0000 (UTC)
-Received: by pdrg1 with SMTP id g1so73681626pdr.2
+	Mon, 10 Aug 2015 19:08:45 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so61628043qkd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 10:22:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=hsJTxfNnNWXTpMfXVPKtNqGVIn87n2+Q/d7mNx+CNXA=;
-	b=N/k1ImtognVNccrwO+tie3QhwVcyKu3kIzL2iV0rhExkTNlQO2BHkwM4dyptzfOu46
-	BFk0g3lMA8BdDB2vcS5omCrJFo7EXQquDpYvLg8Gz1fhDcwUortF4hV2/d8e9BklOQhZ
-	zyNi3c+AvCSZpxSSCASCH7HcnYvsal0j+8jxjvwyef1EGvKODM4UV6gcba00pZ7/iERW
-	IacGqIobR6bCrtoimJRorefHQ4wPE5LsV5yDldYMlrius9cc58K4afDMUpZ/V2TwnETn
-	1xh6WvBtt1SokUMf5OEW/j8GvQNLl0huzNmN+GOzr7yD9v3QinjRv384P9umO25YycwO
-	Ij8A==
-X-Received: by 10.70.98.163 with SMTP id ej3mr38875320pdb.61.1439227341123;
-	Mon, 10 Aug 2015 10:22:21 -0700 (PDT)
-Received: from ?IPv6:2601:647:4c02:370d:a5ef:b853:ba79:d0ee?
-	([2601:647:4c02:370d:a5ef:b853:ba79:d0ee])
-	by smtp.gmail.com with ESMTPSA id
-	tg5sm13910034pab.1.2015.08.10.10.22.19
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 10 Aug 2015 10:22:20 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0Lb=YHJ5LQs0LbUWkWom5Trey9T-yXazDy-meUQX2Jn7YA@mail.gmail.com>
-Date: Mon, 10 Aug 2015 10:22:15 -0700
-Message-Id: <6113A0F4-13FC-4950-8657-6E35DB17F4B1@gmail.com>
-References: <1438978727-2172-1-git-send-email-raj.khem@gmail.com>
-	<1438978727-2172-2-git-send-email-raj.khem@gmail.com>
-	<CAJTo0Lb=YHJ5LQs0LbUWkWom5Trey9T-yXazDy-meUQX2Jn7YA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gnu-config: Update git version to latest and use it
+	Mon, 10 Aug 2015 12:08:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=from:to:cc:subject:date:message-id:organization;
+	bh=41XSdaDiEoyWVMrz8F26IH2QNhR7MlMagnHcCDU7i6I=;
+	b=YWXnG8d09pSynSJCEiBrfOvpKQRl7kh/QtdRJZfupTRTnRLjHVOdW5TzlBGzGBB2ud
+	TBAnHent+t+ZopWkeg7znc1YRo+VjeLbjLgfjmwxcM73CCdzEpWQbgr0z19jJb+1ytIw
+	XGp4M8hXfKi5mVxNljcrUXfJMMcgIZkOQpLR9I8aDXTw66V2CFueX4Nyp3doegJ9pXkj
+	H7APwzkVQM2jjoHsnfJHrUZ+kobtlUmoWM4wc3y2AckRtWGKedF2DV+X3ybGJTmKgkoq
+	3bgM8NilG3mWY4bua2o8cyVFWsTd+kPKlkKmE9+t5k1UZOmU/LKTJ+dpzJv2Ow+8dWon
+	4dhw==
+X-Received: by 10.55.19.98 with SMTP id d95mr40175969qkh.71.1439233725482;
+	Mon, 10 Aug 2015 12:08:45 -0700 (PDT)
+Received: from localhost ([179.105.243.19]) by smtp.gmail.com with ESMTPSA id
+	z33sm2974840qkg.44.2015.08.10.12.08.42
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 10 Aug 2015 12:08:44 -0700 (PDT)
+Received: by localhost (sSMTP sendmail emulation);
+	Mon, 10 Aug 2015 16:08:39 -0300
+From: Otavio Salvador <otavio@ossystems.com.br>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Aug 2015 16:08:36 -0300
+Message-Id: <1439233716-14766-1-git-send-email-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.5.0
+Organization: O.S. Systems Software LTDA.
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] wpa-supplicant: Fix CVE-2015-4142
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,66 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 17:22:21 -0000
-X-Groupsio-MsgNum: 69238
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_E0E8C637-8D36-46E0-BBFF-5136126B4FCE";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Mon, 10 Aug 2015 19:08:47 -0000
 
---Apple-Mail=_E0E8C637-8D36-46E0-BBFF-5136126B4FCE
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_09AD0397-296F-4F7F-9467-ECB42FDAF2C3"
+The original commit "wpa-supplicant: Fix CVE-2015-4142" included the
+patch file but didn't apply it into the recipe, so the backport has
+not been effective.
 
---Apple-Mail=_09AD0397-296F-4F7F-9467-ECB42FDAF2C3
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Reported-by: Adam Moore <adam.moore@savantsystems.com>
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+ meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-
-> On Aug 10, 2015, at 9:22 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 7 August 2015 at 21:18, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
-> its GPLv3 with autoconf exception but the GPLv2 copy of recipe
-> is left in as well to not break non-GPLv3 builds
->=20
-> As the files in this are only used to configure the build, could it be =
-whitelisted to allow it to be used in a no-GPLv3 build?
->=20
-
-it could be. Remember its GPLv3 with autoconf exception but still its a =
-new license for folks to use
-
-> Ross
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
+index 0186c2b..a124cf2 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.4.bb
+@@ -24,6 +24,7 @@ SRC_URI = "http://hostap.epitest.fi/releases/wpa_supplicant-${PV}.tar.gz \
+            file://wpa_supplicant.conf \
+            file://wpa_supplicant.conf-sane \
+            file://99_wpa_supplicant \
++           file://0001-AP-WMM-Fix-integer-underflow-in-WMM-Action-frame-par.patch \
+            file://0001-P2P-Validate-SSID-element-length-before-copying-it-C.patch \
+            file://0001-WPS-Fix-HTTP-chunked-transfer-encoding-parser.patch \
+            file://0001-EAP-pwd-peer-Fix-payload-length-validation-for-Commi.patch \
+-- 
+2.5.0
 
 
---Apple-Mail=_09AD0397-296F-4F7F-9467-ECB42FDAF2C3
-Content-Transfer-Encoding: 7bit
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Aug 10, 2015, at 9:22 AM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com" class="">ross.burton@intel.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">On 7 August 2015 at 21:18, Khem Raj <span dir="ltr" class="">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank" class="">raj.khem@gmail.com</a>&gt;</span> wrote:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":1zz" class="a3s" style="overflow:hidden">its GPLv3 with autoconf exception but the GPLv2 copy of recipe<br class="">
-is left in as well to not break non-GPLv3 builds</div></blockquote></div><br class="">As the files in this are only used to configure the build, could it be whitelisted to allow it to be used in a no-GPLv3 build?</div><div class="gmail_extra"><br class=""></div></div></div></blockquote><div><br class=""></div><div>it could be. Remember its GPLv3 with autoconf exception but still its a new license for folks to use</div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra">Ross</div></div>
-</div></blockquote></div><br class=""></body></html>
-
---Apple-Mail=_09AD0397-296F-4F7F-9467-ECB42FDAF2C3--
-
---Apple-Mail=_E0E8C637-8D36-46E0-BBFF-5136126B4FCE
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXI3csACgkQuwUzVZGdMxTi2wCfVoYrKVrTfOoSTV2AoxeCT8mJ
-W7QAoIEQa31YHbNqW7Nco8NdxxmhvGr4
-=hBTu
------END PGP SIGNATURE-----
-
---Apple-Mail=_E0E8C637-8D36-46E0-BBFF-5136126B4FCE--
