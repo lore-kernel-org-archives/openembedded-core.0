@@ -1,24 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CEF8767D5
+	by mail.openembedded.org (Postfix) with ESMTP id 15A0D767D6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 03:17:50 +0000 (UTC)
+	Mon, 10 Aug 2015 03:17:53 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A3HoB2010982
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A3HrC4010985
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Aug 2015 20:17:50 -0700 (PDT)
+	Sun, 9 Aug 2015 20:17:53 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Sun, 9 Aug 2015 20:17:50 -0700
+	14.3.235.1; Sun, 9 Aug 2015 20:17:52 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Aug 2015 11:17:58 +0800
-Message-ID: <cover.1438667914.git.Qi.Chen@windriver.com>
+Date: Mon, 10 Aug 2015 11:18:00 +0800
+Message-ID: <75680cdab95f5b73f008053bba1dd2799dbb5ddc.1438667914.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1438667914.git.Qi.Chen@windriver.com>
+References: <cover.1438667914.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/8] Extensible SDK fixes
+Subject: [PATCH 2/8] copy_buildsystem: make sure bitbake directory is copied
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,37 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 03:17:51 -0000
+X-List-Received-Date: Mon, 10 Aug 2015 03:17:54 -0000
 Content-Type: text/plain
 
-The following changes since commit 288c76a41aebaf54c7fca3782160830df462b9e4:
+The previous code assumes that bitbake/ directory is under the core layer.
+This is the case for Yocto project. But users might clone oe-core and bitbake
+separately. So we use bb.__file__ to locate the bitbake directory to make sure
+it's copied into the extensible SDK.
 
-  builder: Fix multilib compile failure (2015-08-03 07:15:47 +0100)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ meta/lib/oe/copy_buildsystem.py | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib ChenQi/sdktool
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=ChenQi/sdktool
-
-Chen Qi (8):
-  populate_sdk_ext: install the latest buildtools-tarball
-  copy_buildsystem: make sure bitbake directory is copied
-  populate_sdk_ext: consider custom configuration in local.conf
-  populate_sdk_ext: don't remove the native qemu dependencies
-  Extensible SDK: allow for installation without preparing build system
-  oe-publish-sdk: add script
-  populate_sdk_ext: record SDK_TARGETS in devtool.conf
-  devtool: add sdk.py plugin
-
- meta/classes/populate_sdk_ext.bbclass |  46 ++++++---
- meta/files/toolchain-shar-extract.sh  |   7 +-
- meta/lib/oe/copy_buildsystem.py       |   7 +-
- scripts/lib/devtool/sdk.py            | 182 ++++++++++++++++++++++++++++++++++
- scripts/oe-publish-sdk                | 124 +++++++++++++++++++++++
- 5 files changed, 347 insertions(+), 19 deletions(-)
- create mode 100644 scripts/lib/devtool/sdk.py
- create mode 100755 scripts/oe-publish-sdk
-
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index cf7fada..979578c 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -28,11 +28,10 @@ class BuildSystem(object):
+         layers.append(corebase)
+ 
+         corebase_files = self.d.getVar('COREBASE_FILES', True).split()
+-
+-        # bitbake belongs in corebase so make sure it goes there
+-        if "bitbake" not in corebase_files:
+-            corebase_files.append("bitbake")
+         corebase_files = [corebase + '/' +x for x in corebase_files]
++        # Make sure bitbake goes in
++        bitbake_dir = bb.__file__.rsplit('/', 3)[0]
++        corebase_files.append(bitbake_dir)
+ 
+         for layer in layers:
+             layerconf = os.path.join(layer, 'conf', 'layer.conf')
 -- 
 1.9.1
 
