@@ -1,20 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 91EE47685E
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id C6DF0766D3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 12:06:32 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Aug 2015 05:06:32 -0700
+	Mon, 10 Aug 2015 12:07:29 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 10 Aug 2015 05:06:59 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,645,1432623600"; d="scan'208";a="781156018"
+X-IronPort-AV: E=Sophos;i="5.15,645,1432623600"; d="scan'208";a="780435991"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga002.jf.intel.com with ESMTP; 10 Aug 2015 05:06:32 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 10 Aug 2015 05:06:58 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Aug 2015 15:07:05 +0300
-Message-Id: <cover.1439204506.git.jussi.kukkonen@intel.com>
+Date: Mon, 10 Aug 2015 15:08:22 +0300
+Message-Id: <dfab1128c16084f82e650ccdbf64be6c64495d84.1439204506.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/5] More recipe version upgrades
+In-Reply-To: <f3db7c80b857792fb3bd1ee12ffa2d5968a28395.1439204506.git.jussi.kukkonen@intel.com>
+References: <f3db7c80b857792fb3bd1ee12ffa2d5968a28395.1439204506.git.jussi.kukkonen@intel.com>
+In-Reply-To: <cover.1439204506.git.jussi.kukkonen@intel.com>
+References: <cover.1439204506.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 3/5] resolvconf: Upgrade 1.76 -> 1.77
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,69 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 12:06:32 -0000
+X-List-Received-Date: Mon, 10 Aug 2015 12:07:31 -0000
 
-The screen upgrade is worth a good look: First of all the new GPLv3
-version required quite a bit of build system patching. Also as far
-as I can tell the existing recipe contains a debian patch which itself
-contains 40 patches that are never applied to the actual sources.
-My patch removes this unnecessary download and does not try to apply
-the 40 patches (with the logic that 19000 lines of patch should be
-done in separate commits _if_ they are necessary): the functionality
-of screen 4.0.3 should not change with this commit.
+Improve the recipe by using ${DEBIAN_MIRROR} and ${PV} instead of hard
+coded values.
 
-Suggestions for other solutions are welcome as well.
-
-
-Cheers,
- Jussi
-
-The following changes since commit a8b723498c9a7106210db140452886894494b4d6:
-
-  bitbake: cooker: Resolve file monitoring race issues when using memres bitbake (2015-08-03 07:36:25 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/more-upgrades
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/more-upgrades
-
-Jussi Kukkonen (5):
-  texinfo: Upgrade 5.2 -> 6.0
-  screen: Add version 4.3.1
-  resolvconf: Upgrade 1.76 -> 1.77
-  qmmp: Upgrade 0.8.5 -> 0.8.6
-  libepoxy: Upgrade 1.2 -> 1.3.1
-
- .../{resolvconf_1.76.bb => resolvconf_1.77.bb}     |   6 +-
- meta/recipes-extended/screen/screen.inc            |  39 ++++++
- .../Avoid-mis-identifying-systems-as-SVR4.patch    |  57 ++++++++
- ...cross-compile-alternatives-for-AC_TRY_RUN.patch | 137 ++++++++++++++++++
- .../Remove-redundant-compiler-sanity-checks.patch  |  65 +++++++++
- ...t-file-system-checks-when-cross-compiling.patch | 135 ++++++++++++++++++
- .../fix-parallel-make.patch                        |   0
- .../screen/{screen-4.0.3 => screen}/screen.pam     |   0
- meta/recipes-extended/screen/screen_4.0.3.bb       |  55 +-------
- meta/recipes-extended/screen/screen_4.3.1.bb       |  13 ++
- .../texinfo/texinfo/dont-depend-on-help2man.patch  |  47 ++++---
- .../texinfo/texinfo/texinfo-4.12-zlib.patch        | 156 +++++++++++++--------
- .../texinfo/texinfo/texinfo-4.13a-powerpc.patch    |  14 --
- .../texinfo/{texinfo_5.2.bb => texinfo_6.0.bb}     |   5 +-
- meta/recipes-graphics/libepoxy/libepoxy_git.bb     |   4 +-
- .../qt-apps/{qmmp_0.8.5.bb => qmmp_0.8.6.bb}       |   7 +-
- 16 files changed, 595 insertions(+), 145 deletions(-)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ .../resolvconf/{resolvconf_1.76.bb => resolvconf_1.77.bb}           | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
  rename meta/recipes-connectivity/resolvconf/{resolvconf_1.76.bb => resolvconf_1.77.bb} (89%)
- create mode 100644 meta/recipes-extended/screen/screen.inc
- create mode 100644 meta/recipes-extended/screen/screen/Avoid-mis-identifying-systems-as-SVR4.patch
- create mode 100644 meta/recipes-extended/screen/screen/Provide-cross-compile-alternatives-for-AC_TRY_RUN.patch
- create mode 100644 meta/recipes-extended/screen/screen/Remove-redundant-compiler-sanity-checks.patch
- create mode 100644 meta/recipes-extended/screen/screen/Skip-host-file-system-checks-when-cross-compiling.patch
- rename meta/recipes-extended/screen/{screen-4.0.3 => screen}/fix-parallel-make.patch (100%)
- rename meta/recipes-extended/screen/{screen-4.0.3 => screen}/screen.pam (100%)
- create mode 100644 meta/recipes-extended/screen/screen_4.3.1.bb
- delete mode 100644 meta/recipes-extended/texinfo/texinfo/texinfo-4.13a-powerpc.patch
- rename meta/recipes-extended/texinfo/{texinfo_5.2.bb => texinfo_6.0.bb} (93%)
- rename meta/recipes-qt/qt-apps/{qmmp_0.8.5.bb => qmmp_0.8.6.bb} (93%)
 
+diff --git a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb b/meta/recipes-connectivity/resolvconf/resolvconf_1.77.bb
+similarity index 89%
+rename from meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
+rename to meta/recipes-connectivity/resolvconf/resolvconf_1.77.bb
+index 797e9b0..45862ff 100644
+--- a/meta/recipes-connectivity/resolvconf/resolvconf_1.76.bb
++++ b/meta/recipes-connectivity/resolvconf/resolvconf_1.77.bb
+@@ -11,13 +11,13 @@ AUTHOR = "Thomas Hood"
+ HOMEPAGE = "http://packages.debian.org/resolvconf"
+ RDEPENDS_${PN} = "bash"
+ 
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20141013T184415Z/pool/main/r/${BPN}/${BPN}_1.76.tar.xz \
++SRC_URI = "${DEBIAN_MIRROR}/main/r/${BPN}/${BPN}_${PV}.tar.xz \
+            file://fix-path-for-busybox.patch \
+            file://99_resolvconf \
+           "
+ 
+-SRC_URI[md5sum] = "d78ce30ea068999cd3e0523300b27255"
+-SRC_URI[sha256sum] = "c9f40f7405b37399ddbf29ca4205b4911ee35cb9ffd9be7671faa2385b1fa573"
++SRC_URI[md5sum] = "7362d766e47bfc253500f42b30330d9f"
++SRC_URI[sha256sum] = "5a6e21e8ba6822a5f93075c8c8fe7977e34780ba551af51930d0b31fdd99ab56"
+ 
+ inherit allarch
+ 
 -- 
 2.1.4
 
