@@ -1,29 +1,38 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-X-Greylist: delayed 398 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 10 Aug 2015 15:28:08 UTC
-Received: from root.phytec.de (mail.phycore.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id DFD5276873
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A5F7176898
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 15:28:08 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id CBCC6A0032D
+	Mon, 10 Aug 2015 15:34:03 +0000 (UTC)
+Received: by iodd187 with SMTP id d187so172968433iod.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 17:23:21 +0200 (CEST)
-Received: from lws-mklieser.phytec.de ([172.16.10.21])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP2 HF590)
-	with ESMTP id 2015081017213007-138124 ;
-	Mon, 10 Aug 2015 17:21:30 +0200 
-From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Aug 2015 17:21:30 +0200
-Message-Id: <1439220090-3305-1-git-send-email-s.mueller-klieser@phytec.de>
-X-Mailer: git-send-email 1.9.1
+	Mon, 10 Aug 2015 08:34:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=cgDzml+LFvxGne+axUmFL+70nUQbVPkIwJmiB3OEu4s=;
+	b=iQuEvMEzyT/NxEvx7D8zWjaxNI7tV8FJiSuo+R7iLBgLBZeTr3e4ryV0ga1BlEpU9J
+	xo2uU2MkqWZSdBS3fsy8EYTLw5kBOcZmQoMKtFlY/tgE/pgnKJQo4LcjjSM3FX2ZSWIJ
+	pkez+UZx4elEQYV4cbZgrQSiZMPjxRoYuMOJUDlttf9RNaTqgeWFOcKdrlBOkQmIBjTf
+	/4EaEmu4faJaHEyYC73JFL99mmfGGPE8X+R4odE4dahCQctP6oIh9kIdWSlvMasLA3Nc
+	gkV2fWUGzXd9tuwxNUMRX4HXusJsUc67YG6X1RzDx/5LZA+J45qzUslgRROVBRqj/766
+	J4Yg==
+X-Received: by 10.107.130.153 with SMTP id m25mr14715936ioi.192.1439220842906; 
+	Mon, 10 Aug 2015 08:34:02 -0700 (PDT)
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP2
-	HF590|December 11, 2014) at 10.08.2015 17:21:30,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP2 HF590|December 11,
-	2014) at 10.08.2015 17:21:30
-Subject: [PATCH] kernel.bbclass: Fix do_shared_workdir task ordering
+Sender: kergoth@gmail.com
+Received: by 10.79.100.199 with HTTP; Mon, 10 Aug 2015 08:33:43 -0700 (PDT)
+In-Reply-To: <80d099504def0a839ca7961e91db3ba15034a5be.1438667914.git.Qi.Chen@windriver.com>
+References: <cover.1438667914.git.Qi.Chen@windriver.com>
+	<80d099504def0a839ca7961e91db3ba15034a5be.1438667914.git.Qi.Chen@windriver.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Mon, 10 Aug 2015 08:33:43 -0700
+X-Google-Sender-Auth: beAhwB6kjC0s3yGYKAov1EsYq3w
+Message-ID: <CABcZANn8iOQFHv2MwApn-6N_+Gq48hFeQf0COcSDSrv04GqDCg@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 8/8] devtool: add sdk.py plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +45,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 15:28:09 -0000
+X-List-Received-Date: Mon, 10 Aug 2015 15:34:04 -0000
+Content-Type: multipart/alternative; boundary=001a113fc24c184b8f051cf6b7b1
+
+--001a113fc24c184b8f051cf6b7b1
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-commit 02d0a003d60326 [kernel.bbclass: Fix race condition] has surfaced
-a bug in the generation of the shared=5Fworkdir. The task
-do=5Fcompile=5Fkernelmodules adds the exported symbols of the kernel modules
-to the Module.symvers. By creating the shared=5Fworkdir before the modules
-are compiled, the symbols of the modules are missing in the
-shared=5Fworkdir. Subsequent external module builds will not include the
-ABI CRC of functions exported in modules. Modprobe will fail to load the
-external module if CONFIG=5FMODVERSIONS is enabled.
+On Sun, Aug 9, 2015 at 8:18 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
 
-Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
----
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> E.g.
+> devtool sdk-update /mnt/sdk-repo/
+> devtool sdk-update http://mysdkhost/sdk
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index d06f6cf..473f1f8 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -249,7 +249,7 @@ kernel=5Fdo=5Finstall() {
- }
- do=5Finstall[prefuncs] +=3D "package=5Fget=5Fauto=5Fpr"
-=20
--addtask shared=5Fworkdir after do=5Fcompile before do=5Fcompile=5Fkernelmo=
-dules
-+addtask shared=5Fworkdir after do=5Fcompile=5Fkernelmodules before do=5Fin=
-stall
- addtask shared=5Fworkdir=5Fsetscene
-=20
- do=5Fshared=5Fworkdir=5Fsetscene () {
+Shouldn=E2=80=99t there be a description of exactly what the purpose of thi=
+s is, in
+the commit message, for those of us not intimately familiar with the sdk
+construction process? It=E2=80=99s best to include the why in commit messag=
+es, not
+just the what/how.
 --=20
-1.9.1
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a113fc24c184b8f051cf6b7b1
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Sun, Aug 9, 2015 at 8:18 PM, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:Qi.Chen@windriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":up" class=3D"a=
+3s" style=3D"overflow:hidden">E.g.<br>
+devtool sdk-update /mnt/sdk-repo/<br>
+devtool sdk-update <a href=3D"http://mysdkhost/sdk" rel=3D"noreferrer" targ=
+et=3D"_blank">http://mysdkhost/sdk</a><br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
+@windriver.com</a>&gt;</div></blockquote></div><br>Shouldn=E2=80=99t there =
+be a description of exactly what the purpose of this is, in the commit mess=
+age, for those of us not intimately familiar with the sdk construction proc=
+ess? It=E2=80=99s best to include the why in commit messages, not just the =
+what/how.<br>-- <br><div class=3D"gmail_signature">Christopher Larson<br>cl=
+arson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>=
+Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a113fc24c184b8f051cf6b7b1--
