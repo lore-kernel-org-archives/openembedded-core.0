@@ -1,30 +1,35 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E58EC767FC
+Return-Path: <prvs=657fc4add=Mikko.Rapeli@bmw.de>
+X-Greylist: delayed 729 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 10 Aug 2015 08:31:13 UTC
+Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com
+	[68.232.139.62])
+	by mail.openembedded.org (Postfix) with ESMTP id CF7EF767FA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 06:14:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A6Emnq011644
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 9 Aug 2015 23:14:48 -0700 (PDT)
-Received: from [128.224.162.176] (128.224.162.176) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 9 Aug 2015 23:14:48 -0700
-Message-ID: <55C84156.8090609@windriver.com>
-Date: Mon, 10 Aug 2015 14:14:46 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Mon, 10 Aug 2015 08:31:13 +0000 (UTC)
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+	esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 10 Aug 2015 10:18:47 +0200
+Received: from unknown (HELO esabb6.muc) ([160.50.100.50]) by esagw5.muc with
+	ESMTP/TLS; 10 Aug 2015 10:18:47 +0200
+Received: from smuch57a.muc (HELO SMUCH57A.europe.bmw.corp) ([160.46.137.109])
+	by esabb6.muc with ESMTP/TLS; 10 Aug 2015 10:18:46 +0200
+Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
+	SMUCH57A.europe.bmw.corp ([160.46.137.109]) with mapi id 14.03.0248.002;
+	Mon, 10 Aug 2015 10:18:46 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] sanity.bbclass: check SSTATE_DIR, DL_DIR and *MIRROR
+	for broken symlinks
+Thread-Index: AQHQy2+1X7gCy6EMvEOOz3fdAlfGJJ4E0fWA
+Date: Mon, 10 Aug 2015 08:18:45 +0000
+Message-ID: <20150810081845.GF6102@loska>
+References: <1438333215-1593-1-git-send-email-mikko.rapeli@bmw.de>
+In-Reply-To: <1438333215-1593-1-git-send-email-mikko.rapeli@bmw.de>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.44.101]
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1438155256-3385-1-git-send-email-wenzong.fan@windriver.com>
-	<CAJTo0LY_8MGszbQYJziM+bj4GUV+qmQgnzSTOHb4XG0+1GVb8A@mail.gmail.com>
-	<55B9D4E3.1010305@windriver.com>
-	<4FCE2229-1F6C-42A3-B74A-9906A61A64AE@gmail.com>
-In-Reply-To: <4FCE2229-1F6C-42A3-B74A-9906A61A64AE@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bjam-native: inhibit sysroot strip
+Subject: Re: [PATCH] sanity.bbclass: check SSTATE_DIR, DL_DIR and *MIRROR for broken symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,62 +42,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 06:14:51 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 10 Aug 2015 08:31:18 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <D414303E19F42E4D96C9681644AC865F@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-On 08/09/2015 07:52 AM, Khem Raj wrote:
->
->> On Jul 30, 2015, at 12:40 AM, wenzong fan <wenzong.fan@windriver.com> wrote:
->>
->> On 07/29/2015 06:19 PM, Burton, Ross wrote:
->>>
->>> On 29 July 2015 at 08:34, <wenzong.fan@windriver.com
->>> <mailto:wenzong.fan@windriver.com>> wrote:
->>>
->>>     +# bjam is already stripped, don't strip it again
->>>     +INHIBIT_SYSROOT_STRIP = "1"
->>>
->>>
->>> In case it's even needed to debug bjam-native, how hard would it be to
->>> stop bjam from being stripped in the first place?
->>
->> By default, a release version is stripped, we could build & install the debug version for bjam.
->>
->> For specific changes, we only need to append "--debug" to build.sh, then update do_install() to select the unstripped version.
->>
->> Do you think this is the right ways?
->
->
-> export INSTALL=“install” or something like that might do it. usually folks use install -s by default during install step which cause such issues.
+On Fri, Jul 31, 2015 at 12:00:15PM +0300, Mikko Rapeli wrote:
+> This change makes broken symlinks stand out clearly instead of bitbake
+> failing with odd error messages. Tested locally with broken symlink
+> as SSTATE_DIR, DL_DIR and SSTATE_MIRROR.o currently oe-core isn't=20
 
-The bjam is stripped while compiling via gcc options '-s'. There are 
-three build types defined in build.jam:
+So currently patch testing and review queues are full.
 
-...
-     [ opt --release : [ opt --symbols : -g : -s ] -O3 ]
-     [ opt --debug : -g -O0 -fno-inline ]
-     [ opt --profile : -O3 -g -pg ]
-...
+Should I file bugzilla tickets with links to patches like this or
+are the mailing list contributions tracked via patchwork or something?
 
-Build & install "debug" version would provide unstripped bjam for 
-further stripping. I have sent V2 patch:
+If small changes like this are not getting merged, then I don't have confid=
+ence
+in pushing bigger ones back upstream.
 
-[OE-core] [PATCH v2] bjam-native: build and install bjam.debug
+-Mikko
 
-Thanks
-Wenzong
-
->
->> Thanks
->> Wenzong
->>
->>>
->>> Ross
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> Change-Id: I2e92702237ab3bdb897d0bdefcf33480aabbc288
+> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+> ---
+>  meta/classes/sanity.bbclass | 25 +++++++++++++++++++++++--
+>  1 file changed, 23 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 5be5efb..45ca992 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -253,6 +253,12 @@ def check_not_nfs(path, name):
+>          return "The %s: %s can't be located on nfs.\n" % (name, path)
+>      return ""
+> =20
+> +# Check that path isn't a broken symlink
+> +def check_symlink(lnk):
+> +    if os.path.islink(lnk) and not os.path.exists(lnk):
+> +       return False
+> +    return True
+> +
+>  def check_connectivity(d):
+>      # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable
+>      # using the same syntax as for SRC_URI. If the variable is not set
+> @@ -532,6 +538,8 @@ def check_sanity_sstate_dir_change(sstate_dir, data):
+>      # Check that SSTATE_DIR isn't on a filesystem with limited filename =
+length (eg. eCryptFS)
+>      testmsg =3D ""
+>      if sstate_dir !=3D "":
+> +        if not check_symlink(sstate_dir):
+> +            raise_sanity_error("SSTATE_DIR %s is a broken symlink." % ss=
+tate_dir, data)
+>          testmsg =3D check_create_long_filename(sstate_dir, "SSTATE_DIR")
+>          # If we don't have permissions to SSTATE_DIR, suggest the user s=
+et it as an SSTATE_MIRRORS
+>          try:
+> @@ -695,6 +703,8 @@ def check_sanity_everybuild(status, d):
+>          status.addresult("DL_DIR is not set. Your environment is misconf=
+igured, check that DL_DIR is set, and if the directory exists, that it is w=
+ritable. \n")
+>      if os.path.exists(dldir) and not os.access(dldir, os.W_OK):
+>          status.addresult("DL_DIR: %s exists but you do not appear to hav=
+e write access to it. \n" % dldir)
+> +    if not check_symlink(dldir):
+> +        status.addresult("DL_DIR: %s is a broken symlink." % dldir)
+> =20
+>      # Check that the MACHINE is valid, if it is set
+>      machinevalid =3D True
+> @@ -788,8 +798,19 @@ def check_sanity_everybuild(status, d):
+>                  bb.warn('Invalid protocol in %s: %s' % (mirror_var, mirr=
+or_entry))
+>                  continue
+> =20
+> -            if mirror.startswith('file://') and not mirror.startswith('f=
+ile:///'):
+> -                bb.warn('Invalid file url in %s: %s, must be absolute pa=
+th (file:///)' % (mirror_var, mirror_entry))
+> +            if mirror.startswith('file://'):
+> +                if not mirror.startswith('file:///'):
+> +                    bb.warn('Invalid file url in %s: %s, must be absolut=
+e path (file:///)' % (mirror_var, mirror_entry))
+> +                import urlparse
+> +                if not check_symlink(urlparse.urlparse(mirror).path):
+> +                    raise_sanity_error("Mirror %s is a broken symlink." =
+% mirror_entry, d)
+> +                # SSTATE_MIRROR ends with a /PATH string
+> +                if mirror.endswith('/PATH'):
+> +                    # remove /PATH$ from SSTATE_MIRROR to get a working
+> +                    # base directory path
+> +                    mirror_base =3D urlparse.urlparse(mirror[:-1*len('/P=
+ATH')]).path
+> +                    if not check_symlink(mirror_base):
+> +                        raise_sanity_error("State mirror %s is a broken =
+symlink." % mirror_base, d)
+> =20
+>      # Check that TMPDIR hasn't changed location since the last time we w=
+ere run
+>      tmpdir =3D d.getVar('TMPDIR', True)
+> --=20
+> 2.4.6
+> =
 
