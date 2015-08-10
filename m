@@ -1,24 +1,20 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C419076894
+	by mail.openembedded.org (Postfix) with ESMTP id AE4997688D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 14:22:23 +0000 (UTC)
+	Mon, 10 Aug 2015 14:22:20 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 10 Aug 2015 07:22:23 -0700
+	by orsmga103.jf.intel.com with ESMTP; 10 Aug 2015 07:22:20 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,645,1432623600"; d="scan'208";a="745684048"
+X-IronPort-AV: E=Sophos;i="5.15,645,1432623600"; d="scan'208";a="745683981"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2015 07:22:23 -0700
+	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2015 07:22:17 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Aug 2015 17:23:21 +0300
-Message-Id: <71a4d140d3c37cea4ad1c004fb53a9a1ceb58d57.1439216269.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 10 Aug 2015 17:23:18 +0300
+Message-Id: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
-References: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
-References: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 3/8] apt: update to 1.0.10.1
+Subject: [PATCH 0/8] Package version updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,25 +29,77 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 10 Aug 2015 14:22:24 -0000
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- meta/recipes-devtools/apt/apt-native_1.0.10.1.bb                 | 4 ++++
- meta/recipes-devtools/apt/apt-native_1.0.9.9.bb                  | 9 ---------
- meta/recipes-devtools/apt/apt.inc                                | 5 ++++-
- ...01-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch | 0
- .../{apt-1.0.9.9 => apt}/0001-fix-the-gcc-version-check.patch    | 0
- .../0001-remove-Wsuggest-attribute-from-CFLAGS.patch             | 0
- .../apt/{apt-1.0.9.9 => apt}/disable-configure-in-makefile.patch | 0
- .../recipes-devtools/apt/{apt-1.0.9.9 => apt}/disable-test.patch | 0
- .../apt/{apt-1.0.9.9 => apt}/fix-gcc-4.6-null-not-defined.patch  | 0
- meta/recipes-devtools/apt/{apt-1.0.9.9 => apt}/makerace.patch    | 0
- meta/recipes-devtools/apt/{apt-1.0.9.9 => apt}/no-nls-dpkg.patch | 0
- meta/recipes-devtools/apt/{apt-1.0.9.9 => apt}/noconfigure.patch | 0
- meta/recipes-devtools/apt/{apt-1.0.9.9 => apt}/nodoc.patch       | 0
- .../apt/{apt-1.0.9.9 => apt}/truncate-filename.patch             | 0
- meta/recipes-devtools/apt/{apt-1.0.9.9 => apt}/use-host.patch    | 0
- meta/recipes-devtools/apt/{apt_1.0.9.9.bb => apt_1.0.10.1.bb}    | 4 ----
- 16 files changed, 8 insertions(+), 14 deletions(-)
+This patchset contains a few easy version updates. I skipped recipes that
+require deep specialist knowledge (for example anything toolchain-related), 
+or those with a big set of custom oe-core patches that would require a long 
+study to understand and update those patches.
+
+The following changes since commit c75cefe8a382a63f625123c156137782db118f64:
+
+  libpam: Fix patch broken during upgrade (2015-08-09 15:15:33 -0700)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
+
+Alexander Kanavin (8):
+  autogen: update to 5.18.5
+  apmd: update to 3.2.2-15
+  apt: update to 1.0.10.1
+  blktool: update to 4-7
+  bluez5: update to 5.33
+  bootchart2: update to 0.14.7
+  cdrtools: update to 3.01a31
+  clutter-gst: update to 3.0.8
+
+ .../apmd/{apmd-3.2.2-14 => apmd}/apmd.service      |   0
+ .../apmd/{apmd-3.2.2-14 => apmd}/apmd_proxy        |   0
+ .../apmd/{apmd-3.2.2-14 => apmd}/apmd_proxy.conf   |   0
+ .../apmd/{apmd-3.2.2-14 => apmd}/default           |   0
+ meta/recipes-bsp/apmd/{apmd-3.2.2-14 => apmd}/init |   0
+ meta/recipes-bsp/apmd/apmd/legacy.patch            | 112 ++++++++++++
+ .../apmd/{apmd-3.2.2-14 => apmd}/libtool.patch     |   0
+ .../apmd/{apmd-3.2.2-14 => apmd}/unlinux.patch     |   0
+ .../apmd/{apmd_3.2.2-14.bb => apmd_3.2.2-15.bb}    |   6 +-
+ .../bluez5/{bluez5_5.32.bb => bluez5_5.33.bb}      |   4 +-
+ meta/recipes-devtools/apt/apt-native_1.0.10.1.bb   |   4 +
+ meta/recipes-devtools/apt/apt-native_1.0.9.9.bb    |   9 -
+ meta/recipes-devtools/apt/apt.inc                  |   5 +-
+ ...ys-run-dpkg-configure-a-at-the-end-of-our.patch |   0
+ .../0001-fix-the-gcc-version-check.patch           |   0
+ ...001-remove-Wsuggest-attribute-from-CFLAGS.patch |   0
+ .../disable-configure-in-makefile.patch            |   0
+ .../apt/{apt-1.0.9.9 => apt}/disable-test.patch    |   0
+ .../fix-gcc-4.6-null-not-defined.patch             |   0
+ .../apt/{apt-1.0.9.9 => apt}/makerace.patch        |   0
+ .../apt/{apt-1.0.9.9 => apt}/no-nls-dpkg.patch     |   0
+ .../apt/{apt-1.0.9.9 => apt}/noconfigure.patch     |   0
+ .../apt/{apt-1.0.9.9 => apt}/nodoc.patch           |   0
+ .../{apt-1.0.9.9 => apt}/truncate-filename.patch   |   0
+ .../apt/{apt-1.0.9.9 => apt}/use-host.patch        |   0
+ .../apt/{apt_1.0.9.9.bb => apt_1.0.10.1.bb}        |   4 -
+ ...n-native_5.18.4.bb => autogen-native_5.18.5.bb} |   5 +-
+ meta/recipes-devtools/autogen/autogen/guile.patch  | 191 ---------------------
+ .../bootchart2/bootchartd-no-bashism.patch         |  27 ---
+ .../{bootchart2_git.bb => bootchart2_0.14.7.bb}    |   7 +-
+ ...ative_3.01a20.bb => cdrtools-native_3.01a31.bb} |   4 +-
+ .../blktool/0001-fix-typos-in-manpage.patch        |  34 ++++
+ .../blktool/blktool/0002-fix-string-error.patch    |  25 +++
+ ...rgument-for-BLKROSET-it-must-be-const-int.patch |  71 ++++++++
+ .../blktool/{blktool_4-6.1.bb => blktool_4-7.bb}   |   9 +-
+ ...r-gst-3.0_3.0.6.bb => clutter-gst-3.0_3.0.8.bb} |   4 +-
+ 36 files changed, 266 insertions(+), 255 deletions(-)
+ rename meta/recipes-bsp/apmd/{apmd-3.2.2-14 => apmd}/apmd.service (100%)
+ rename meta/recipes-bsp/apmd/{apmd-3.2.2-14 => apmd}/apmd_proxy (100%)
+ rename meta/recipes-bsp/apmd/{apmd-3.2.2-14 => apmd}/apmd_proxy.conf (100%)
+ rename meta/recipes-bsp/apmd/{apmd-3.2.2-14 => apmd}/default (100%)
+ rename meta/recipes-bsp/apmd/{apmd-3.2.2-14 => apmd}/init (100%)
+ create mode 100644 meta/recipes-bsp/apmd/apmd/legacy.patch
+ rename meta/recipes-bsp/apmd/{apmd-3.2.2-14 => apmd}/libtool.patch (100%)
+ rename meta/recipes-bsp/apmd/{apmd-3.2.2-14 => apmd}/unlinux.patch (100%)
+ rename meta/recipes-bsp/apmd/{apmd_3.2.2-14.bb => apmd_3.2.2-15.bb} (92%)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.32.bb => bluez5_5.33.bb} (88%)
  create mode 100644 meta/recipes-devtools/apt/apt-native_1.0.10.1.bb
  delete mode 100644 meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
  rename meta/recipes-devtools/apt/{apt-1.0.9.9 => apt}/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch (100%)
@@ -67,122 +115,17 @@ Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
  rename meta/recipes-devtools/apt/{apt-1.0.9.9 => apt}/truncate-filename.patch (100%)
  rename meta/recipes-devtools/apt/{apt-1.0.9.9 => apt}/use-host.patch (100%)
  rename meta/recipes-devtools/apt/{apt_1.0.9.9.bb => apt_1.0.10.1.bb} (70%)
+ rename meta/recipes-devtools/autogen/{autogen-native_5.18.4.bb => autogen-native_5.18.5.bb} (88%)
+ delete mode 100644 meta/recipes-devtools/autogen/autogen/guile.patch
+ delete mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
+ rename meta/recipes-devtools/bootchart2/{bootchart2_git.bb => bootchart2_0.14.7.bb} (97%)
+ rename meta/recipes-devtools/cdrtools/{cdrtools-native_3.01a20.bb => cdrtools-native_3.01a31.bb} (81%)
+ create mode 100644 meta/recipes-extended/blktool/blktool/0001-fix-typos-in-manpage.patch
+ create mode 100644 meta/recipes-extended/blktool/blktool/0002-fix-string-error.patch
+ create mode 100644 meta/recipes-extended/blktool/blktool/0003-Fix-3-d-argument-for-BLKROSET-it-must-be-const-int.patch
+ rename meta/recipes-extended/blktool/{blktool_4-6.1.bb => blktool_4-7.bb} (72%)
+ rename meta/recipes-graphics/clutter/{clutter-gst-3.0_3.0.6.bb => clutter-gst-3.0_3.0.8.bb} (58%)
 
-diff --git a/meta/recipes-devtools/apt/apt-native_1.0.10.1.bb b/meta/recipes-devtools/apt/apt-native_1.0.10.1.bb
-new file mode 100644
-index 0000000..1e660da
---- /dev/null
-+++ b/meta/recipes-devtools/apt/apt-native_1.0.10.1.bb
-@@ -0,0 +1,4 @@
-+require apt-native.inc
-+
-+SRC_URI += "file://noconfigure.patch \
-+            file://no-curl.patch"
-diff --git a/meta/recipes-devtools/apt/apt-native_1.0.9.9.bb b/meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
-deleted file mode 100644
-index cbaf25b..0000000
---- a/meta/recipes-devtools/apt/apt-native_1.0.9.9.bb
-+++ /dev/null
-@@ -1,9 +0,0 @@
--require apt-native.inc
--
--SRC_URI += "file://noconfigure.patch \
--            file://no-curl.patch"
--
--SRC_URI[md5sum] = "e70c6d6227883cfc0dda6bc5db509bca"
--SRC_URI[sha256sum] = "96bebcd7bfee0b2386741a8315182ba39487bdd743ecf5c1fc5b8b889cca2478"
--
--LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
-diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
-index 94bd6e9..3248b9a 100644
---- a/meta/recipes-devtools/apt/apt.inc
-+++ b/meta/recipes-devtools/apt/apt.inc
-@@ -2,7 +2,7 @@ SUMMARY = "Advanced front-end for dpkg"
- LICENSE = "GPLv2.0+"
- SECTION = "base"
- 
--SRC_URI = "http://snapshot.debian.org/archive/debian/20150428T221633Z/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz \
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20150805T094928Z/pool/main/a/${BPN}/${BPN}_${PV}.tar.xz \
-            file://use-host.patch \
-            file://makerace.patch \
-            file://no-nls-dpkg.patch \
-@@ -12,6 +12,9 @@ SRC_URI = "http://snapshot.debian.org/archive/debian/20150428T221633Z/pool/main/
-            file://disable-configure-in-makefile.patch \
-            file://disable-test.patch \
-            "
-+SRC_URI[md5sum] = "6505c4297b338adb2087ce87bbc4a276"
-+SRC_URI[sha256sum] = "3fb1de9598363c416591d49e3c285458e095b035e6c06d5b944a54e15fc9b543"
-+LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
- 
- inherit autotools gettext
- 
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch b/meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-rename to meta/recipes-devtools/apt/apt/0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/0001-fix-the-gcc-version-check.patch b/meta/recipes-devtools/apt/apt/0001-fix-the-gcc-version-check.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/0001-fix-the-gcc-version-check.patch
-rename to meta/recipes-devtools/apt/apt/0001-fix-the-gcc-version-check.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/0001-remove-Wsuggest-attribute-from-CFLAGS.patch b/meta/recipes-devtools/apt/apt/0001-remove-Wsuggest-attribute-from-CFLAGS.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/0001-remove-Wsuggest-attribute-from-CFLAGS.patch
-rename to meta/recipes-devtools/apt/apt/0001-remove-Wsuggest-attribute-from-CFLAGS.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/disable-configure-in-makefile.patch b/meta/recipes-devtools/apt/apt/disable-configure-in-makefile.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/disable-configure-in-makefile.patch
-rename to meta/recipes-devtools/apt/apt/disable-configure-in-makefile.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch b/meta/recipes-devtools/apt/apt/disable-test.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/disable-test.patch
-rename to meta/recipes-devtools/apt/apt/disable-test.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/fix-gcc-4.6-null-not-defined.patch b/meta/recipes-devtools/apt/apt/fix-gcc-4.6-null-not-defined.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/fix-gcc-4.6-null-not-defined.patch
-rename to meta/recipes-devtools/apt/apt/fix-gcc-4.6-null-not-defined.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/makerace.patch b/meta/recipes-devtools/apt/apt/makerace.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/makerace.patch
-rename to meta/recipes-devtools/apt/apt/makerace.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/no-nls-dpkg.patch b/meta/recipes-devtools/apt/apt/no-nls-dpkg.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/no-nls-dpkg.patch
-rename to meta/recipes-devtools/apt/apt/no-nls-dpkg.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/noconfigure.patch b/meta/recipes-devtools/apt/apt/noconfigure.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/noconfigure.patch
-rename to meta/recipes-devtools/apt/apt/noconfigure.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/nodoc.patch b/meta/recipes-devtools/apt/apt/nodoc.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/nodoc.patch
-rename to meta/recipes-devtools/apt/apt/nodoc.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/truncate-filename.patch b/meta/recipes-devtools/apt/apt/truncate-filename.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/truncate-filename.patch
-rename to meta/recipes-devtools/apt/apt/truncate-filename.patch
-diff --git a/meta/recipes-devtools/apt/apt-1.0.9.9/use-host.patch b/meta/recipes-devtools/apt/apt/use-host.patch
-similarity index 100%
-rename from meta/recipes-devtools/apt/apt-1.0.9.9/use-host.patch
-rename to meta/recipes-devtools/apt/apt/use-host.patch
-diff --git a/meta/recipes-devtools/apt/apt_1.0.9.9.bb b/meta/recipes-devtools/apt/apt_1.0.10.1.bb
-similarity index 70%
-rename from meta/recipes-devtools/apt/apt_1.0.9.9.bb
-rename to meta/recipes-devtools/apt/apt_1.0.10.1.bb
-index 4c40d0d..bf77e2a 100644
---- a/meta/recipes-devtools/apt/apt_1.0.9.9.bb
-+++ b/meta/recipes-devtools/apt/apt_1.0.10.1.bb
-@@ -1,11 +1,7 @@
- DEPENDS = "curl db"
- RDEPENDS_${PN} = "dpkg bash debianutils"
--LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=0636e73ff0215e8d672dc4c32c317bb3"
- require apt.inc
- 
--SRC_URI[md5sum] = "e70c6d6227883cfc0dda6bc5db509bca"
--SRC_URI[sha256sum] = "96bebcd7bfee0b2386741a8315182ba39487bdd743ecf5c1fc5b8b889cca2478"
--
- require apt-package.inc
- 
- PACKAGECONFIG ??= "lzma"
 -- 
 2.1.4
 
