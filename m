@@ -1,28 +1,28 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 114827676E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 38BEA76599
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 02:07:23 +0000 (UTC)
+	Mon, 10 Aug 2015 02:09:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A27NBu018494
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7A29pbC010696
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Aug 2015 19:07:23 -0700 (PDT)
+	Sun, 9 Aug 2015 19:09:51 -0700 (PDT)
 Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 9 Aug 2015 19:07:22 -0700
-Message-ID: <55C80758.2010706@windriver.com>
-Date: Mon, 10 Aug 2015 10:07:20 +0800
+	Sun, 9 Aug 2015 19:09:50 -0700
+Message-ID: <55C807ED.1030201@windriver.com>
+Date: Mon, 10 Aug 2015 10:09:49 +0800
 From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-To: ChenQi <Qi.Chen@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
-	<55B1D89E.4020000@windriver.com>
-In-Reply-To: <55B1D89E.4020000@windriver.com>
-Subject: Re: [PATCH] systemd: fix systemd-udev-hwdb-update service
+To: <openembedded-core@lists.openembedded.org>
+References: <1437114709-26291-1-git-send-email-rongqing.li@windriver.com>
+	<55B58190.7020409@windriver.com>
+In-Reply-To: <55B58190.7020409@windriver.com>
+Subject: Re: [PATCH][resend][v2] dhcp: make dhclient to get configuration for other programs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,95 +35,185 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 02:07:26 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Mon, 10 Aug 2015 02:09:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
 
 
-On 2015年07月24日 14:18, ChenQi wrote:
+On 2015年07月27日 08:55, Rongqing Li wrote:
 > ping
 >
-> Anybody has objection for this one?
->
-> Best Regards,
-> Chen Qi
+> -Roy
 
 ping
 
 -R
 
 >
-> On 06/30/2015 01:16 PM, rongqing.li@windriver.com wrote:
->> From: Chen Qi <Qi.Chen@windriver.com>
+> On 2015年07月17日 14:31, rongqing.li@windriver.com wrote:
+>> From: Li Wang <li.wang@windriver.com>
 >>
->> The new version of systemd has implemented the following feature.
->> Opointer.de/blog/projects/stateless.html
+>> Make dhclient to run /etc/dhcp/dhclient.d/*.sh, and get the configuration
+>> for ntp, nis or other programes
 >>
->> As a result, the systemd-udev-hwdb-update.service would always run
->> at first boot. This will cause failure if the target device doesn't
->> have enough storage space. Besides, as we run `udevadm hwdb --update' as
->> a postinst of udev-hwdb at rootfs time, there's no need to run this
->> again at system start-up.
+>> These codes are from redhat rpm package.
 >>
->> The purpose of this patch is as follows.
->> If `udev hwdb --update' fails at rootfs time,
->> systemd-udev-hwdb-update.service
->> is executed at first boot; otherwise, the service is not executed.
->>
->> This patch achieves the above goal by setting CondistonNeedsUpdate to
->> "/etc/udev" in the service file, and creating /etc/udev/.updated file
->> if the
->> postinst succeeds.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> Signed-off-by: Li Wang <li.wang@windriver.com>
+>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
 >> ---
->>   meta/recipes-core/systemd/systemd_219.bb | 18 +++++++++++++++---
->>   1 file changed, 15 insertions(+), 3 deletions(-)
+>>   .../dhcp/dhcp/dhcp-add-exec-script-function.patch  | 101
+>> +++++++++++++++++++++
+>>   meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb       |   1 +
+>>   meta/recipes-connectivity/dhcp/files/dhclient.conf |   1 +
+>>   3 files changed, 103 insertions(+)
+>>   create mode 100644
+>> meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
 >>
->> diff --git a/meta/recipes-core/systemd/systemd_219.bb
->> b/meta/recipes-core/systemd/systemd_219.bb
->> index 6ed4fe0..dc5c7b3 100644
->> --- a/meta/recipes-core/systemd/systemd_219.bb
->> +++ b/meta/recipes-core/systemd/systemd_219.bb
->> @@ -180,6 +180,10 @@ do_install() {
->>       if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
->>           ${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed
->> -i -e "\$ad /run/systemd/netif/links 0755 root root -"
->> ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
->>       fi
+>> diff --git
+>> a/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+>> b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+>> new file mode 100644
+>> index 0000000..73b3ce4
+>> --- /dev/null
+>> +++
+>> b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+>> @@ -0,0 +1,101 @@
+>> +[PATCH] dhcp: add exec script function
 >> +
->> +    # Make systemd-udev-hwdb-update to check /etc/udev
->> +    cp ${D}${systemd_unitdir}/system/systemd-udev-hwdb-update.service
->> ${D}${sysconfdir}/systemd/system
->> +    sed -i -e
->> 's#ConditionNeedsUpdate=/etc#ConditionNeedsUpdate=/etc/udev#g'
->> ${D}${sysconfdir}/systemd/system/systemd-udev-hwdb-update.service
->>   }
->>   do_install_ptest () {
->> @@ -381,10 +385,18 @@ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
->>   pkg_postinst_udev-hwdb () {
->>       if test -n "$D"; then
->> -        ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb
->> --update \
->> -            --root $D
->> +        if ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')}
->> hwdb --update \
->> +            --root $D; then
->> +            touch $D/etc/udev/.updated
->> +        else
->> +            exit 1
->> +        fi
->>       else
->> -        udevadm hwdb --update
->> +        if udevadm hwdb --update; then
->> +            touch $D/etc/udev/.updated
->> +        else
->> +            exit 1
->> +        fi
->>       fi
->>   }
+>> +Upstream-Statue: Pending
+>> +
+>> +Make dhclient to run /etc/dhcp/dhclient.d/*.sh, and get the
+>> configuration
+>> +for ntp, nis or other programes
+>> +
+>> +These codes are from redhat rpm packages.
+>> +
+>> +Signed-off-by: Li Wang <li.wang@windriver.com>
+>> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> +---
+>> + client/scripts/linux | 25 ++++++++++++++++++++++++-
+>> + 1 file changed, 24 insertions(+), 1 deletion(-)
+>> +
+>> +diff --git a/client/scripts/linux b/client/scripts/linux
+>> +index 232a0aa..bdb5e22 100755
+>> +--- a/client/scripts/linux
+>> ++++ b/client/scripts/linux
+>> +@@ -24,6 +24,8 @@
+>> +
+>> + # 'ip' just looks too weird.  /sbin/ip looks less weird.
+>> + ip=/sbin/ip
+>> ++ETCDIR="/etc/dhcp"
+>> ++export SAVEDIR=/var/lib/dhclient
+>> +
+>> + make_resolv_conf() {
+>> +   if [ x"$new_domain_name_servers" != x ]; then
+>> +@@ -80,6 +82,20 @@ exit_with_hooks() {
+>> +   exit $exit_status
+>> + }
+>> +
+>> ++execute_client_side_configuration_scripts() {
+>> ++# execute any additional client side configuration scripts we have
+>> ++    if [ "${1}" == "config" ] || [ "${1}" == "restore" ]; then
+>> ++        for f in ${ETCDIR}/dhclient.d/*.sh ; do
+>> ++            if [ -x ${f} ]; then
+>> ++                subsystem="${f%.sh}"
+>> ++                subsystem="${subsystem##*/}"
+>> ++                . ${f}
+>> ++                "${subsystem}_${1}"
+>> ++            fi
+>> ++        done
+>> ++    fi
+>> ++}
+>> ++
+>> + # Invoke the local dhcp client enter hooks, if they exist.
+>> + if [ -f /etc/dhclient-enter-hooks ]; then
+>> +   exit_status=0
+>> +@@ -198,11 +214,14 @@ if [ x$reason = xBOUND ] || [ x$reason = xRENEW
+>> ] || \
+>> +     ${ip} -4 route add ${alias_ip_address} dev ${interface}
+>> >/dev/null 2>&1
+>> +   fi
+>> +   make_resolv_conf
+>> ++  execute_client_side_configuration_scripts "config"
+>> +   exit_with_hooks 0
+>> + fi
+>> +
+>> + if [ x$reason = xEXPIRE ] || [ x$reason = xFAIL ] || [ x$reason =
+>> xRELEASE ] \
+>> +    || [ x$reason = xSTOP ]; then
+>> ++  execute_client_side_configuration_scripts "restore"
+>> ++
+>> +   if [ x$alias_ip_address != x ]; then
+>> +     # Turn off alias interface.
+>> +     ${ip} -4 addr flush dev ${interface} label ${interface}:0
+>> +@@ -281,7 +300,7 @@ if [ x$reason = xBOUND6 ] ; then
+>> +
+>> +   # Check for nameserver options.
+>> +   make_resolv_conf
+>> +-
+>> ++  execute_client_side_configuration_scripts "config"
+>> +   exit_with_hooks 0
+>> + fi
+>> +
+>> +@@ -299,6 +318,7 @@ if [ x$reason = xRENEW6 ] || [ x$reason =
+>> xREBIND6 ] ; then
+>> +     make_resolv_conf
+>> +   fi
+>> +
+>> ++  execute_client_side_configuration_scripts "config"
+>> +   exit_with_hooks 0
+>> + fi
+>> +
+>> +@@ -310,6 +330,7 @@ if [ x$reason = xDEPREF6 ] ; then
+>> +   ${ip} -f inet6 addr change ${new_ip6_address}/${new_ip6_prefixlen} \
+>> +        dev ${interface} scope global preferred_lft 0
+>> +
+>> ++  execute_client_side_configuration_scripts "config"
+>> +   exit_with_hooks 0
+>> + fi
+>> +
+>> +@@ -318,6 +339,8 @@ if [ x$reason = xEXPIRE6 -o x$reason = xRELEASE6
+>> -o x$reason = xSTOP6 ] ; then
+>> +     exit_with_hooks 2;
+>> +   fi
+>> +
+>> ++  execute_client_side_configuration_scripts "restore"
+>> ++
+>> +   ${ip} -f inet6 addr del ${old_ip6_address}/${old_ip6_prefixlen} \
+>> +     dev ${interface}
+>> +
+>> +--
+>> +1.9.1
+>> +
+>> diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+>> b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+>> index b4a05fc..a73d31f 100644
+>> --- a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+>> +++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+>> @@ -6,6 +6,7 @@ SRC_URI +=
+>> "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+>>               file://fixsepbuild.patch \
+>>               file://dhclient-script-drop-resolv.conf.dhclient.patch \
+>>               file://replace-ifconfig-route.patch \
+>> +            file://dhcp-add-exec-script-function.patch \
+>>              "
+>>
+>>   SRC_URI[md5sum] = "5a284875dd2c12ddd388416d69156a67"
+>> diff --git a/meta/recipes-connectivity/dhcp/files/dhclient.conf
+>> b/meta/recipes-connectivity/dhcp/files/dhclient.conf
+>> index 0e6dcf9..0f7d42f 100644
+>> --- a/meta/recipes-connectivity/dhcp/files/dhclient.conf
+>> +++ b/meta/recipes-connectivity/dhcp/files/dhclient.conf
+>> @@ -17,6 +17,7 @@
+>>   #supersede domain-name "fugue.com home.vix.com";
+>>   #prepend domain-name-servers 127.0.0.1;
+>>   request subnet-mask, broadcast-address, time-offset, routers,
+>> +    nis-domain, nis-servers, domain-search, ntp-servers,
+>>       domain-name, domain-name-servers, host-name,
+>>       netbios-name-servers, netbios-scope;
+>>   #require subnet-mask, domain-name-servers;
+>>
 >
 
 -- 
