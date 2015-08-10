@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 05916768AF
+	by mail.openembedded.org (Postfix) with ESMTP id 1AF437688F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 14:22:26 +0000 (UTC)
+	Mon, 10 Aug 2015 14:22:27 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 10 Aug 2015 07:22:26 -0700
+	by orsmga103.jf.intel.com with ESMTP; 10 Aug 2015 07:22:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,645,1432623600"; d="scan'208";a="745684086"
+X-IronPort-AV: E=Sophos;i="5.15,645,1432623600"; d="scan'208";a="745684101"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2015 07:22:26 -0700
+	by orsmga001.jf.intel.com with ESMTP; 10 Aug 2015 07:22:27 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Aug 2015 17:23:24 +0300
-Message-Id: <fc2a824dd0fa2442f893327f70c9582be5d59caf.1439216269.git.alexander.kanavin@linux.intel.com>
+Date: Mon, 10 Aug 2015 17:23:25 +0300
+Message-Id: <ba5e15382543bbf5bcb234e57d490de30bb9021c.1439216269.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439216269.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 6/8] bootchart2: update to 0.14.7
+Subject: [PATCH 7/8] cdrtools: update to 3.01a31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 14:22:26 -0000
-
-Drop bootchartd-no-bashism.patch as it's been merged upstream
+X-List-Received-Date: Mon, 10 Aug 2015 14:22:27 -0000
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../bootchart2/bootchartd-no-bashism.patch         | 27 ----------------------
- .../{bootchart2_git.bb => bootchart2_0.14.7.bb}    |  7 +-----
- 2 files changed, 1 insertion(+), 33 deletions(-)
- delete mode 100644 meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
- rename meta/recipes-devtools/bootchart2/{bootchart2_git.bb => bootchart2_0.14.7.bb} (97%)
+ .../{cdrtools-native_3.01a20.bb => cdrtools-native_3.01a31.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cdrtools/{cdrtools-native_3.01a20.bb => cdrtools-native_3.01a31.bb} (81%)
 
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch b/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
-deleted file mode 100644
-index b013995..0000000
---- a/meta/recipes-devtools/bootchart2/bootchart2/bootchartd-no-bashism.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From ffb5bae5d588aaea6325623462a8070a04767196 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Thu, 14 Aug 2014 08:33:28 -0700
--Subject: [PATCH] bootchartd.in: no bashism
--
--No bashism in bootchartd.in, so use /bin/sh.
--
--Upstream-Status: Pending
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- bootchartd.in |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/bootchartd.in b/bootchartd.in
--index a408bab..064f6a4 100755
----- a/bootchartd.in
--+++ b/bootchartd.in
--@@ -1,4 +1,4 @@
---#!/bin/bash
--+#!/bin/sh
-- #
-- # Bootchart logger script
-- # Ziga Mahkovec  <ziga.mahkovec@klika.si>
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-devtools/bootchart2/bootchart2_git.bb b/meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb
-similarity index 97%
-rename from meta/recipes-devtools/bootchart2/bootchart2_git.bb
-rename to meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb
-index ea9f179..4b0a980 100644
---- a/meta/recipes-devtools/bootchart2/bootchart2_git.bb
-+++ b/meta/recipes-devtools/bootchart2/bootchart2_0.14.7.bb
-@@ -88,17 +88,12 @@ HOMEPAGE = "https://github.com/mmeeks/bootchart"
- LICENSE = "GPL-3.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=44ac4678311254db62edf8fd39cb8124"
+diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a20.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
+similarity index 81%
+rename from meta/recipes-devtools/cdrtools/cdrtools-native_3.01a20.bb
+rename to meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
+index 2827109..d0f36e2 100644
+--- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a20.bb
++++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01a31.bb
+@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=32f68170be424c2cd64804337726b312"
  
--# one commit beyond 1.14.6 for a systemd-related bugfix
--PV = "0.14.6+git${SRCPV}"
--
- SRC_URI = "git://github.com/mmeeks/bootchart.git \
-            file://bootchartd_stop.sh \
--           file://bootchartd-no-bashism.patch \
-           "
+ SRC_URI = "${SOURCEFORGE_MIRROR}/project/cdrtools/alpha/cdrtools-${PV}.tar.bz2"
  
--SRCREV = "b65ed43b0ae832080fb728245de9ef1a4b48d8b5"
--
- S = "${WORKDIR}/git"
-+SRCREV = "6f050b65ae9f266645f04f0aecab9efb88375f1c"
+-SRC_URI[md5sum] = "f8c6f0fdcba7df0606095498d10315a7"
+-SRC_URI[sha256sum] = "e399ea964b8048793721b71461271e46d81f242bd2feefb8dbd259c30e75a5a9"
++SRC_URI[md5sum] = "78172557894f469b4584d008e93ec469"
++SRC_URI[sha256sum] = "183b5c12777779e78d8b69461aae52401f863768e7e7391d60730006f8cadc5a"
  
- inherit systemd
- inherit update-rc.d
+ S = "${WORKDIR}/cdrtools-3.01"
+ 
 -- 
 2.1.4
 
