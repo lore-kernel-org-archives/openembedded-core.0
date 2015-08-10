@@ -1,34 +1,55 @@
-Return-Path: <prvs=657fc4add=Mikko.Rapeli@bmw.de>
-X-Greylist: delayed 729 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 10 Aug 2015 08:31:13 UTC
-Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com
-	[68.232.139.62])
-	by mail.openembedded.org (Postfix) with ESMTP id CF7EF767FA
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx18-09.smtp.antispamcloud.com (mx18-09.smtp.antispamcloud.com
+	[207.244.64.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FA6676846
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 08:31:13 +0000 (UTC)
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
-	esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 10 Aug 2015 10:18:47 +0200
-Received: from unknown (HELO esabb6.muc) ([160.50.100.50]) by esagw5.muc with
-	ESMTP/TLS; 10 Aug 2015 10:18:47 +0200
-Received: from smuch57a.muc (HELO SMUCH57A.europe.bmw.corp) ([160.46.137.109])
-	by esabb6.muc with ESMTP/TLS; 10 Aug 2015 10:18:46 +0200
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH57A.europe.bmw.corp ([160.46.137.109]) with mapi id 14.03.0248.002;
-	Mon, 10 Aug 2015 10:18:46 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] sanity.bbclass: check SSTATE_DIR, DL_DIR and *MIRROR
-	for broken symlinks
-Thread-Index: AQHQy2+1X7gCy6EMvEOOz3fdAlfGJJ4E0fWA
-Date: Mon, 10 Aug 2015 08:18:45 +0000
-Message-ID: <20150810081845.GF6102@loska>
-References: <1438333215-1593-1-git-send-email-mikko.rapeli@bmw.de>
-In-Reply-To: <1438333215-1593-1-git-send-email-mikko.rapeli@bmw.de>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.101]
+	Mon, 10 Aug 2015 09:11:09 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx18.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1ZOj6j-0005AK-0I for openembedded-core@lists.openembedded.org;
+	Mon, 10 Aug 2015 11:11:07 +0200
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Mon, 10 Aug 2015 11:10:43 +0200
+Message-ID: <55C86AA2.2050706@topic.nl>
+Date: Mon, 10 Aug 2015 11:10:58 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1438333215-1593-1-git-send-email-mikko.rapeli@bmw.de>
+	<20150810081845.GF6102@loska>
+In-Reply-To: <20150810081845.GF6102@loska>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw0hD9tOHsAupOgHE9PArDByM+/sFVMoIHnzxJpiwTwAmqWxCevbUegdCrqkn8BN/sbj/
+	kr1uWvhVMCtfj6/xQtXS/WgqDgJCS36fZcYt9LJr9BjYs5wutn0zXPeF7tW/AUh2gd97OF1KzJib
+	nnR0xKk8CVsONrMJuGzuoGnKTKcy2xFkLpfI2GROc/TVFQ1M5w/S+L3ktki0yiouSvOolqeLT0PR
+	GeOtHp8CevJaVP3RKAlmn4QY0Xa5w5mR23/WmQwqvMBYMukOyP3wW5yT57cTh6E2XHkoWr32bjya
+	7gAvW4NAR0qbrlxNRt9ZoMCfLnY+akJNhL5qAttvzUBLxkQ2a3rCoHjHfcJIyKVF5T5LG2eHru/B
+	zfgwTimxhZy/nuLrWedC6pqQQw+IVEM3KmRfQ4GqUWvgp7phkSqv0ZsqmdySlZou9qHIGOZDEEo7
+	OyMdMb9bjBpP2U+fB0pr5dMhsfVz6trBKg1q8knCBzevPnb7rI0VfeqD9XJhW9OTh11z/z4WnEoC
+	8C13cWABWlhWPxtvTWQlG7LubmSVPcFB6J1fhOzjF0b4LXcjJZ5lorygWaquS4QUc2X9/UmaFDUh
+	sTbOm0n23gAH4LW5RBSd12aoSjUKxdXaKO35Ea/DrU+pok6SWPRM754kFPO4pu4=
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJUb3OPwsHaH0Fvg5oXltHd/JUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: unsure
+X-Spampanel-Outgoing-Evidence: Combined (0.12)
+X-Recommended-Action: accept
 Subject: Re: [PATCH] sanity.bbclass: check SSTATE_DIR, DL_DIR and *MIRROR for broken symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -42,106 +63,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 08:31:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <D414303E19F42E4D96C9681644AC865F@bmwmail.corp>
+X-List-Received-Date: Mon, 10 Aug 2015 09:11:11 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 31, 2015 at 12:00:15PM +0300, Mikko Rapeli wrote:
-> This change makes broken symlinks stand out clearly instead of bitbake
-> failing with odd error messages. Tested locally with broken symlink
-> as SSTATE_DIR, DL_DIR and SSTATE_MIRROR.o currently oe-core isn't=20
+=EF=BB=BFOn 10-08-15 10:18, Mikko.Rapeli@bmw.de wrote:
+> On Fri, Jul 31, 2015 at 12:00:15PM +0300, Mikko Rapeli wrote:
+...
+>> +# Check that path isn't a broken symlink
+>> +def check_symlink(lnk):
+>> +    if os.path.islink(lnk) and not os.path.exists(lnk):
+>> +       return False
+>> +    return True
 
-So currently patch testing and review queues are full.
+- Bad coding style "if (x) return false".
+- Naming a method "check..." suggests to me that it will raise an exception=
+ on=20
+failure.
 
-Should I file bugzilla tickets with links to patches like this or
-are the mailing list contributions tracked via patchwork or something?
+alternatives:
 
-If small changes like this are not getting merged, then I don't have confid=
-ence
-in pushing bigger ones back upstream.
+def is_broken_symlink(lnk):
+     return os.path.islink(lnk) and not os.path.exists(lnk)
 
--Mikko
+def check_symlink(lnk, data):
+     if os.path.islink(lnk) and not os.path.exists(lnk):
+	raise_sanity_error("%s is a broken symlink." % lnk, data)
 
-> Change-Id: I2e92702237ab3bdb897d0bdefcf33480aabbc288
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> ---
->  meta/classes/sanity.bbclass | 25 +++++++++++++++++++++++--
->  1 file changed, 23 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 5be5efb..45ca992 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -253,6 +253,12 @@ def check_not_nfs(path, name):
->          return "The %s: %s can't be located on nfs.\n" % (name, path)
->      return ""
-> =20
-> +# Check that path isn't a broken symlink
-> +def check_symlink(lnk):
-> +    if os.path.islink(lnk) and not os.path.exists(lnk):
-> +       return False
-> +    return True
-> +
->  def check_connectivity(d):
->      # URI's to check can be set in the CONNECTIVITY_CHECK_URIS variable
->      # using the same syntax as for SRC_URI. If the variable is not set
-> @@ -532,6 +538,8 @@ def check_sanity_sstate_dir_change(sstate_dir, data):
->      # Check that SSTATE_DIR isn't on a filesystem with limited filename =
-length (eg. eCryptFS)
->      testmsg =3D ""
->      if sstate_dir !=3D "":
-> +        if not check_symlink(sstate_dir):
-> +            raise_sanity_error("SSTATE_DIR %s is a broken symlink." % ss=
-tate_dir, data)
->          testmsg =3D check_create_long_filename(sstate_dir, "SSTATE_DIR")
->          # If we don't have permissions to SSTATE_DIR, suggest the user s=
-et it as an SSTATE_MIRRORS
->          try:
-> @@ -695,6 +703,8 @@ def check_sanity_everybuild(status, d):
->          status.addresult("DL_DIR is not set. Your environment is misconf=
-igured, check that DL_DIR is set, and if the directory exists, that it is w=
-ritable. \n")
->      if os.path.exists(dldir) and not os.access(dldir, os.W_OK):
->          status.addresult("DL_DIR: %s exists but you do not appear to hav=
-e write access to it. \n" % dldir)
-> +    if not check_symlink(dldir):
-> +        status.addresult("DL_DIR: %s is a broken symlink." % dldir)
-> =20
->      # Check that the MACHINE is valid, if it is set
->      machinevalid =3D True
-> @@ -788,8 +798,19 @@ def check_sanity_everybuild(status, d):
->                  bb.warn('Invalid protocol in %s: %s' % (mirror_var, mirr=
-or_entry))
->                  continue
-> =20
-> -            if mirror.startswith('file://') and not mirror.startswith('f=
-ile:///'):
-> -                bb.warn('Invalid file url in %s: %s, must be absolute pa=
-th (file:///)' % (mirror_var, mirror_entry))
-> +            if mirror.startswith('file://'):
-> +                if not mirror.startswith('file:///'):
-> +                    bb.warn('Invalid file url in %s: %s, must be absolut=
-e path (file:///)' % (mirror_var, mirror_entry))
-> +                import urlparse
-> +                if not check_symlink(urlparse.urlparse(mirror).path):
-> +                    raise_sanity_error("Mirror %s is a broken symlink." =
-% mirror_entry, d)
-> +                # SSTATE_MIRROR ends with a /PATH string
-> +                if mirror.endswith('/PATH'):
-> +                    # remove /PATH$ from SSTATE_MIRROR to get a working
-> +                    # base directory path
-> +                    mirror_base =3D urlparse.urlparse(mirror[:-1*len('/P=
-ATH')]).path
-> +                    if not check_symlink(mirror_base):
-> +                        raise_sanity_error("State mirror %s is a broken =
-symlink." % mirror_base, d)
-> =20
->      # Check that TMPDIR hasn't changed location since the last time we w=
-ere run
->      tmpdir =3D d.getVar('TMPDIR', True)
-> --=20
-> 2.4.6
-> =
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
+
 
