@@ -1,21 +1,17 @@
 Return-Path: <B54851@freescale.com>
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0138.outbound.protection.outlook.com [65.55.169.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 9917C767EF
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0142.outbound.protection.outlook.com [207.46.100.142])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C760767D9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 03:41:50 +0000 (UTC)
-Received: from DM2PR0301MB1181.namprd03.prod.outlook.com (10.160.217.143) by
-	DM2PR0301MB1277.namprd03.prod.outlook.com (10.160.221.146) with
+	Mon, 10 Aug 2015 03:41:52 +0000 (UTC)
+Received: from DM2PR03CA0039.namprd03.prod.outlook.com (10.141.96.38) by
+	BY1PR0301MB1175.namprd03.prod.outlook.com (10.160.195.146) with
 	Microsoft
-	SMTP Server (TLS) id 15.1.225.19; Mon, 10 Aug 2015 03:41:50 +0000
-Received: from BLUPR0301CA0009.namprd03.prod.outlook.com (10.162.113.147) by
-	DM2PR0301MB1181.namprd03.prod.outlook.com (10.160.217.143) with
-	Microsoft
-	SMTP Server (TLS) id 15.1.225.19; Mon, 10 Aug 2015 03:41:49 +0000
-Received: from BN1BFFO11FD056.protection.gbl (2a01:111:f400:7c10::1:195) by
-	BLUPR0301CA0009.outlook.office365.com (2a01:111:e400:5259::19) with
+	SMTP Server (TLS) id 15.1.225.19; Mon, 10 Aug 2015 03:41:51 +0000
+Received: from BY2FFO11FD004.protection.gbl (2a01:111:f400:7c0c::199) by
+	DM2PR03CA0039.outlook.office365.com (2a01:111:e400:2428::38) with
 	Microsoft SMTP Server (TLS) id 15.1.225.19 via Frontend Transport;
-	Mon, 10 Aug 2015 03:41:48 +0000
+	Mon, 10 Aug 2015 03:41:50 +0000
 Authentication-Results: spf=fail (sender IP is 192.88.158.2)
 	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
 	(message not signed) header.d=none;
@@ -24,86 +20,85 @@ Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
 	receiver=protection.outlook.com; 
 	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
 Received: from az84smr01.freescale.net (192.88.158.2) by
-	BN1BFFO11FD056.mail.protection.outlook.com (10.58.145.11) with
-	Microsoft SMTP Server (TLS) id 15.1.243.9 via Frontend Transport;
-	Mon, 10 Aug 2015 03:41:48 +0000
+	BY2FFO11FD004.mail.protection.outlook.com (10.1.14.158) with Microsoft
+	SMTP Server (TLS) id 15.1.243.9 via Frontend Transport;
+	Mon, 10 Aug 2015 03:41:49 +0000
 Received: from carol-OptiPlex-3020.ap.freescale.net
 	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t7A3faQX000825;
-	Sun, 9 Aug 2015 20:41:46 -0700
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t7A3faQY000825;
+	Sun, 9 Aug 2015 20:41:48 -0700
 From: Yuqing Zhu <b54851@freescale.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Aug 2015 11:41:37 +0800
-Message-ID: <1439178103-17813-6-git-send-email-b54851@freescale.com>
+Date: Mon, 10 Aug 2015 11:41:38 +0800
+Message-ID: <1439178103-17813-7-git-send-email-b54851@freescale.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1439178103-17813-1-git-send-email-b54851@freescale.com>
 References: <1439178103-17813-1-git-send-email-b54851@freescale.com>
+MIME-Version: 1.0
 X-EOPAttributedMessage: 0
-X-Microsoft-Exchange-Diagnostics: 1; BN1BFFO11FD056;
-	1:SoiZaDxL1MwT0N7vaq5y3/ruVRrfQevOQ6o6Z7otJ1qkW8L+9W5jMBzmYc3BApGQn+TUO9bBw1LNTNHSUuFYxSs6lSbdQWsFL3ZL+GDnygalr1xQukqh9Z/FYXAd70jIK0zqRJ2gyycsx7Z5IcVif/+Ph5J4uUfyIttdayNDtxcZHMlBPfC26evXgco2SkXBy+RPNRxXPYmiTOohC7GOon/UtGwG7xi0S9gCXm4tnpzn2KQqXKsfzeaPqZWSyVlxPfQCcpu0GVsxYWGPZRMnbQAeV+AgElwS64rSBooV5z1gVqpmofylgZpWfG0BwcTWI0KfBlW5ppfdZfuwSSQr2Q==
+X-Microsoft-Exchange-Diagnostics: 1; BY2FFO11FD004;
+	1:PPKOKjbXTSLZBinKOeOlZt5/VOsMT1ULr/DUWDmAJDAnJp2Zz1lxhkdGcRpSzcDpAkI4oT9PD9sJLZmcgsuPVWkgLY5uGKyKEq2AfkOl8zjOHMxZoxxVevDp761KkUFXrgy/osnn8YljHoUoWPUoSh8tuGumfanwq8PKIf9MoqJAjkw2ne9S5q0Igd41JSJR8VkjWb3cJO+692FGQ+WxVKO5hZRK93sdCGBMls4I0DHnqTM4p1N4flZj+YhbxozSFsy0bobonC7q7iM7E94/8jaLKimk9Ddi41nf3rCmBnQfyvNlUTFTQe8mfuS4zNBmi0gdeqBc5KdBSKf+d+CJsg==
 X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10019020)(6009001)(2980300002)(339900001)(189002)(199003)(5003940100001)(76176999)(68736005)(69596002)(64706001)(77156002)(5001860100001)(85426001)(4001540100001)(6806004)(229853001)(189998001)(87936001)(33646002)(19580405001)(104016003)(2351001)(19580395003)(5001830100001)(47776003)(62966003)(81156007)(97736004)(48376002)(50466002)(450100001)(5001920100001)(230783001)(110136002)(15975445007)(575784001)(46102003)(105606002)(107886002)(5001960100002)(77096005)(92566002)(50986999)(36756003)(106466001)(86362001)(50226001)(2950100001)(4001430100001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB1181;
+	SFS:(10019020)(6009001)(2980300002)(339900001)(189002)(199003)(46102003)(5001860100001)(575784001)(107886002)(15975445007)(5001960100002)(62966003)(69596002)(50986999)(50466002)(2950100001)(92566002)(85426001)(110136002)(230783001)(76176999)(36756003)(68736005)(77156002)(23676002)(104016003)(77096005)(106466001)(19580405001)(64706001)(2351001)(81156007)(33646002)(450100001)(19580395003)(5001830100001)(229853001)(189998001)(86362001)(50226001)(6806004)(47776003)(5820100001)(97736004)(4001540100001)(105606002)(87936001)(4001430100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BY1PR0301MB1175;
 	H:az84smr01.freescale.net; FPR:; SPF:Fail;
 	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
-MIME-Version: 1.0
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1181;
-	2:AqiJfIdDf9vADvejWGPqfsbUDZ/xXVn2IPZ9Ou2Ss5bPRbxGFEVNlr4Ww8puEW5mmDrTE81JhB9UvbX31d9RETbqQpdrBztIpwv28gD/f1IHKI0aR5d3OZA/hALPpgu02rtvIRgogeXJJHff4BgSlbB0qOWOlOQB9KOEpm7Plmw=;
-	3:kwC692r37tKU9xVSrQ8Nb07K+RXug/5yWcwvIRv4LOTDV5alYr2/cUcjQVYHFVfzZxKRJDJSBheKY91l7GnXTeU7vlgncVGc/fUd6f5OQ3pWy1eDdqBxbj9iJfn+q/aWYKMpg+u0nfsmLk3Tjj0ThiOyw1SRvhbseI9cj0W0kBRycLeNlSnnXzXg9CYSyXYkGJZSku4TorNN2cCIQGmHLAtvoe9s4TY7StxY/HC5IzM=;
-	25:QSMAFsj4KvhEFkgrmgNM7PrzRG68mNKQC0mA8oM5TOUnsurZFbRw+vVTVW2hmaQxbwoxnxla2lBr/MKA+YZAhLaFF6mM1pNRq6HceNy0MZi9NhDMuybojtQG0AQI67ebRUkPiEqZd3o+a/vB5KPSTcn39W8QGExxykBWQHuYZD+akwXGUuSrKqgUqscspkBDW7MVoCf7T82ju0I7nDJZUPY+2zHNnKg79ExcLWu6pKJjXA9dN8IPeLCUTCcMLWo0fI7UzMVY+vs4Yz6w88pqKA==
-X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0; RULEID:; SRVR:DM2PR0301MB1181;
-	UriScan:; BCL:0; PCL:0; RULEID:; SRVR:DM2PR0301MB1277; 
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1181;
-	20:rIPaQvbfPS15xGlnCkKuaP0EbgKypmdBh48CRnh7rUSoNjJwhnxbOqdw+Hk5XGVssIRaqii5rbyC5K9nh9mJxpxLywd1N9iQIdgofp1qlJN9gP7niZMOs+ongD9Eli8ilNlyNVszw65bgTSaFR/I0kAjrl6zJCoWObBmiQmfn4KxB7fshM5UZUhiRwG1HU4isGIuI9f/lux1zVaYWPlDWfdqozeTEGm+j3V28XvfL2x+tbNJMNjH9woxvQ6bpPOrH3TCh/dOh5AEIiBsj1irqL0aOLP5i6k7bDT0QYsIqOoh9c7pEq54nM/2R/0Au8C/sKBNnEVtZ9/C0HRC17/Txet5NQ3SR3PPKco40qBPeS0=;
-	4:otEonqF+4xEJ1TV2zv0UUes0hoOz6ohL4UuPm6D352spuTv7fqQffU8UgxHVlZ1GAM2quHM+PbsKFfUGucqNAgrQ844kgkKc/JXRfbzpXQq1W3WEW8C2uCE1CSCrKs5nGLJWH5moXEwvnhMprpQP9CjVEsd1/YoiuPecaOmRSpJqnlBiymhNa21xeUhydsx6BMP+1jiKli57qxY1OKD8sm/AMFzxTDgq1Z4T7r9endrXdaY0Nut1xkXz7M8b3ALvXKymBWbcDVebEbUPPj0nHSdk6jZqJL/y2TWOFG6LqxM=
-X-Microsoft-Antispam-PRVS: <DM2PR0301MB1181C622B70280FF85A83B6686700@DM2PR0301MB1181.namprd03.prod.outlook.com>
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1175;
+	2:J4XLXUMB8QkWhaiEDzP6Ftob6PtRWla9P3d23OM4lPiqBMlqxyw4jVCKLDO+8Tuqz3+Kx4hv0ofLHUmPUgZNTbs5h4cKafYXBkv9u8wzL3EAoH/S4bPVz6RfnGqzxMRjdlNi5GCV9g48DLNL9FzH13BbkDswvtk4mUuGSJNc1as=;
+	3:nuJnjrEinyFdMEoVKGZmpWoiXtKznBTz2DrijvSeeA8TfapVuWEMk5Yo3kRV3VNPE68JldQGtLazeOsR+KxR4BRbuGbooGrTFj9Rjfpt25cLOeaQ4OJaiRDL+tVXxFTiEth5IR59s2MgO6RIpbuB0v1wv4HpVhGpN6sbOmmC3eWR/TbM5U/ubobCHTKaQ35M/4Jn3orTWpi2Euv0IRn15qYPyhmV2Vs1IT3B2zL4S+0=;
+	25:/F1I8i2P2F5czWuZsPrYJ288HpiAb5dXJCeYD79uJcfDRBh7IvxmFv9HZQfP8p79JtpoAhEl7sFYJzI5tsRGbM5BGCFj/sX397KAFGCbj8ljHwhL+4yhLco5FbNgf0vrXo2EUF7gDoMWFQSc1faBQSWkNRDcd4B8R6Sk0kthSgvc1s0oOseu3iEvhY/q4T/IjlmB1A06Bkj8Nl/nOHSJIK77CL0GCmipIICaCzBeiEmhM/nSrd90itZTPiWBcMCVttZX/8fVMRL+7NXk52s5Ow==
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BY1PR0301MB1175;
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1175;
+	20:9NOgMeakCMLL9wpGrZOyk+HLkbTy1kEcLZiYMxPl8le2fBpW6MA21tuSDisG0Gu+lCPdbPQE9M5ejNbJP3lYTdZhuAI51TJg5AhZD+v6AsYQKCte3PBCgA6dM5rnVlJqPCPqWQ1GzFk6wG47kGWkCehHFG8i224YwajJY9LjcvntaQ181wHXEkqNBBcaUa2SE/35845eI64NnIn4U5JClm3ILeG46AODx/rIH77Sg/7G7SXe22wwmSgflExaipSrYI7nz54j3iS5U1PxMxraRyMPCTp7iNWtH02XizK+2rD/RQSUzi+eWmf1r9onTnL3byXsZ9O7eJ7cpc8sjfVdxIv18unxgImwtinLKGNZnfA=;
+	4:bFseM9vW28xkNSM7wXdVAkPLWss+bpYf5cH4RUf3fYi1cHrrIsOPU1mvQ4FB157ukM9WhZwiTADqsdB0SVctlBOM4kRpkjm/4ZY3dwjTzK2Y+eW4A0kBblbRKLgVBuBuScIaJxKHSg1Pm4ogxV8D6z8fI9RKlAFqvc/2NwC1k4AU+qXd+C/DPBAzta9DHfLnNl3x2nvjtgO5zExqVD8F1pCXpcOVpOyvp7GNxrJZXy5nems1agcKupx+EVg8NsHBC0xXMKXIXI5SOpdZSYck1GMSLHN5uh+HBujIR7xVvjA=
+X-Microsoft-Antispam-PRVS: <BY1PR0301MB1175D906CF6DCB1AA5666C9F86700@BY1PR0301MB1175.namprd03.prod.outlook.com>
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5005006)(3002001); SRVR:DM2PR0301MB1181; BCL:0;
-	PCL:0; RULEID:; SRVR:DM2PR0301MB1181; 
+	RULEID:(601004)(5005006)(3002001); SRVR:BY1PR0301MB1175; BCL:0;
+	PCL:0; RULEID:; SRVR:BY1PR0301MB1175; 
 X-Forefront-PRVS: 06640999CA
-X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; DM2PR0301MB1181;
-	23:Op1xQ5k5Mf1FILx5vPMmOhCf0xR9OlBPGkCmIN/?=
-	=?us-ascii?Q?En6L6ZD6MrH4jqkBoD8/FqXSiE339M0rvvJJ7r77BPogO0OKunPlUjOBMQA/?=
-	=?us-ascii?Q?75I10IalK4bzSfjZBBmbo4aBiXWGCYOctZMDcZ/Ec5tCzc0u+2VE8Q4mPnZp?=
-	=?us-ascii?Q?XoK1txl3IISSC1wnAj4Ny0qc+Jc8DFpK/p+DBaFuyAs8x5jR6yPVaxDdDgEz?=
-	=?us-ascii?Q?Y3xuWIp19/GC63TIOChvSCx76twhHFv+YwmH3oJwxXwWHuymgniRxA6IJ1hp?=
-	=?us-ascii?Q?Kb8xCkeYpEFRPr5/plF45/Ah/yvQUfXivRyhRgl+gn7FPPYkZ6zPCaEZ+1hU?=
-	=?us-ascii?Q?yo68lw8kgdTS4YLxMMnVSTy/yMyVWEtwHDrHaiCwsGjR8zMd7gAGCyFg5CeP?=
-	=?us-ascii?Q?4Df6jCyaLsLhgP5k4aGQJ0lfDhr0Dxf9oB/l5pGoX0YRo+xSC2FQ94QiEVPl?=
-	=?us-ascii?Q?Q/JwqbPBY1h5bpZYrI01OW2vwBWyg8USP9+DH7m1zarWMM+Td2mSc5anHOVU?=
-	=?us-ascii?Q?Luyumldnld8QeJ3rH1Iw9x8SPh5eTwTvHHhQKKjPY+AKsRQ6CWxloq2IdgpL?=
-	=?us-ascii?Q?xE50TKvDo26146BI0yWKzXIyYMFzS2sdfTaU+yo3P1N4F7fIlKTgUyYl9/1a?=
-	=?us-ascii?Q?8O7WGoYeXsoyfyMhm3dShQfnkObS8WlCJcmaCIZBIuUs5Xd62KTb0Ij6f9gH?=
-	=?us-ascii?Q?o28bBixwED4vtWlOXHQHzgc6d8fOLW+Q9/1THrPZ//AhEP8mLF2wN5roMtIn?=
-	=?us-ascii?Q?fOc5gFLRX2gTP2RvlFJH5vGqPXv8/RAJypgV0c1EwWnKI6YNzQKcTZKbPLYT?=
-	=?us-ascii?Q?rxJVQGolMzUDoO7UeeKdgwA6oyPyrvUyj3pMiyUme/Wik0OaRMDkusDI3Jo0?=
-	=?us-ascii?Q?Dfp3OlKkGZ4hndQT26413ZgNfiXGdgW7HTHe8Y/x9PgOYXotOM23xGQyqzp5?=
-	=?us-ascii?Q?Hz8KtaJK6KL++hCXzHtFeX1t8RtTnbqznu+vy6RGbGDjSB5uZ1aFowdY16YY?=
-	=?us-ascii?Q?L9iQL2A1VrA6SBt0/eDNQifN4oNFGn+B2Z0xoLVmMXjZiNUZkid2WUToyU9H?=
-	=?us-ascii?Q?emurQLO8ayEvTVDL0B2TsgBy2Zpy+Itte9mSQW/8nGEX6fmneIV0gVVLNdby?=
-	=?us-ascii?Q?0t0K9wKWrbI8c1rXMSg++0Bz9onXN8UBje0r0AF8vLK9o9hDYkRfUQAgp4Oh?=
-	=?us-ascii?Q?97CFizfQdt0MWlB7rlbPFS+YjWXHgeiAFD/5S8QrQwqnO3BoCTx5b31qhMr5?=
-	=?us-ascii?Q?TB/FREqqFObLHKfNMYTkgjZySfYOlfyD5xghcbh6uqbh8KxVU/WqP4YYqatg?=
-	=?us-ascii?Q?52w=3D=3D?=
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1181;
-	5:gSDFnAAglBQaZhSDIZ+yavZAdIAkdkSkYWT6uBFX4OD5ZDEnnIcXw04sUkuCGHM+tF9imjnLNbDJxDyHSczhihltmqxcSTDd5e3yLuBYMXU7v8VS4VgmolFcobsUU1l03yzskb6n6zjfupLWUjinJA==;
-	24:z04tjlb9bHJDEC1owpQNx5yKaAYkmgKhxbW2ywsXjZQwbTB0tAh4YdoiEVRDv0lBdWi25jo7edoB2iqjpql1NTAHcBclcUdox9pkPf932pU=;
-	20:2DcpQX8ETtOyly1sN3fTSHc/f/ZB7qFCYws/62z7cJjMAWw6Z6WpYlcx1JxYL+pfwKDYTVZyZpuwWRpRCtRRww==
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2015 03:41:48.4483 (UTC)
+X-Microsoft-Exchange-Diagnostics: =?utf-8?B?MTtCWTFQUjAzMDFNQjExNzU7MjM6NlRjZE53SERIUkRReU0rZWxiZUxiUTVj?=
+	=?utf-8?B?aTJwRUp2TGYyczRVNE5EZFU2VC9vanUyRUtGVVZLMzR1RGRmSTJqOWwyOHQ3?=
+	=?utf-8?B?ZE1XMnJZN0ZVUGQzdnUvRk1YQVdaTVd6U3pvb0YrNGRoT21PVkZhZHVqcHBx?=
+	=?utf-8?B?SG1GUU1EMWthSk9KV1JCMWpwaXd5dlpDWGxiN2tsL3NiUGxLN2Q2NnVITFJ4?=
+	=?utf-8?B?NEF4OE1oN1pGbi9PdWlWc05oMHFyR0I1Ylk0aWg1bzg5bXAxUHQrYytYKzRa?=
+	=?utf-8?B?WjJvS0QzamFEU0YzaW9XK0ZNTWtuZ2tTNlJzM1BjdVN0dm12c08wSXpKS0Nw?=
+	=?utf-8?B?K1JPTktFMzBZSEdnNzdzSFVnY2w5YWJWeVlZV2RDQTdjOURJTlBsWkFYb2E2?=
+	=?utf-8?B?bG9IUFk1a3h1Y1RqdE9ab2tRRFgrcVNkMlNnLzFoalhza1hwbG5MSDVhanZp?=
+	=?utf-8?B?dk53R0cwSE4yU1hKbTc0eWtPaGFHWXJ4TFNZYytaZ1I1NzA4d3h2RWd2cmo1?=
+	=?utf-8?B?bHl4R3BheGREdzkwMDQxL3ZpTG9WYlhhZ0pQUXJrNDVUdGNDdkJoMzV5UVVI?=
+	=?utf-8?B?dlVLcnE2dHAvMFhUcGJMOHBwaEZ6cEM1MzYxL3BGSXV2T3VUTFo3cVpwdXI5?=
+	=?utf-8?B?YkFmRlZtM2MzcUFBR1IvZC96bC9yRnpvZ2x0R08vZjRQTWt0SW5xc3R5amg5?=
+	=?utf-8?B?NEZ1dkE4MXJrR3RnNklGSVRHdzFyTlZ2SFdScUhTRmxqNjQ1OUtpYVJ3Z1Np?=
+	=?utf-8?B?WlNyeE1BbWRhcDkxYnF6RXRXVDU4MVZMRFdzVEd5TW9WbG5zMG5manFpQWNI?=
+	=?utf-8?B?Rzk4OUtsRnZUM3k5TlFFQjFQN3o5TUVGUk91TmI2RU9ZNkFzams2endBUTFK?=
+	=?utf-8?B?SXU0NmlmSmpabWtWcWV5VisrcU1Vckwzdjg1Q00wb0piaTZSdFJRS0htNENR?=
+	=?utf-8?B?amQ4cTIyRHRWczNOWklYRHcvMmpRM3NPRFk3eVJvenNuSlRJRXR3WWZWbXlB?=
+	=?utf-8?B?TlNrSzdCTlk0TEhQS0ZJYmtQZWhWcVAramRHSTA2bEpVakpFMGY3ZGJYaWR6?=
+	=?utf-8?B?WWdWK1FjR21EOGU2N213dVNsWGZBSHBoUWhRUElreVFpMEordVdxMjFVOXZ3?=
+	=?utf-8?B?SmdyVzVjM1hRcXBzOHRwZG9kY2gvWjVqSjE5ejFvRmVjV041WTJsYUFOczM0?=
+	=?utf-8?B?QTlGZHlpRWFpVGRBa3cxOWx4ZDdKdWc0Y3E4elpVcjVYUHdlOS9GRWxqK0wv?=
+	=?utf-8?B?TEJBenBHL0dvbUZxYVBKSUU2eHdla2F4NVJtM0t5NWtwTlFCeWpiY1RaQ09T?=
+	=?utf-8?B?aml5aDlHYXhIMThUbzJhUjEvNnVEOHUyOXllY0pBc1JHTGgvUnZrWFVQNnRK?=
+	=?utf-8?B?T2MwelpoK3BKUGYvdVBBSjZIM1NvMm9MM0wrL3lhV1J5alFJY2U3WndYQ0I3?=
+	=?utf-8?B?a0pzazVsb1RNVFB1K2c0NWxLN0dYVXRvNWpUMUJEM1FPWUF6UmUzZmkrTWU5?=
+	=?utf-8?B?eXVSRjJlZTdxbzY5MTd2aEx3OVU0eThybmRwK1QzQ3RKYmUwVTNoYXQ2UmlF?=
+	=?utf-8?B?bmxSelBYMFlrOTd2MTFlSjdlS01BcFBMTVpYMFBwWjc4S1ZHOHRGTzJiOVpJ?=
+	=?utf-8?B?UDNGdjNKQkdkVjdLSnBSbm15bWNoc1dpWGhMdXE5djRDc3VJZXBqSUVrdVRQ?=
+	=?utf-8?Q?sUY/memWprhivPryxN3gGOAmAwHqXvtK2ZrIbgxAT?=
+X-Microsoft-Exchange-Diagnostics: 1; BY1PR0301MB1175;
+	5:6QQ4LhfluiZ+kCQKnfLjnOx3Dv5piEqeDhg/L4rmSd4P09yNQfZeCJu6Tsq3lov8Sc45WDeCQPJimLR0suiZt/GmiqERLDE5l7LA3mRfCezbELCMRYqu3JR4Qmp4sAy5zX1CBs1D1HPhMTBDOc7d2A==;
+	24:TEd3t7wuQoRwmdQEshyoN9S+OHhQy3b/hrit80wDMGh31Q/D1gkqyx8xVIKMRM2367SYpZmENLE8wPeL/3Mt6MQ1d3Cjvjo7dlLTzuEOT4A=;
+	20:T8aTNQV160ZksL1RCiSnBG2IV5OehLHL6Urh1yVLTPe5cDmALenFI4xqsBDuh7Kk5geawPWPGErgYt3spJ/DUg==
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Aug 2015 03:41:49.8431 (UTC)
 X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2];
 	Helo=[az84smr01.freescale.net]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM2PR0301MB1181
-X-Microsoft-Exchange-Diagnostics: 1; DM2PR0301MB1277;
-	2:7Ieqavb1iCcX3SHrF6hRsNbEZNbJvqSpaes7rXakiHqW2uGi37R+yVAKzlplwfoRlNZ/lj8w2UhkOUN7jmIMgycdWOAEtOfOKVW2TKRv1WGlS23XyzWq5EuLV1XeW5BrNd2Zzu+uzlYKlCe+WM07i3bgHTHXgZO5iOeM+bpgIIY=;
-	3:07GkNo5BuGGd376vTaTiFIqNcItqETyyrKSliipdzzIXAGyoMUPPKyBo+0b9XHszxAlGIexifI6JQzrzAapLFyUow2jhu9YliZWx+T6AcDYKwfwlWt2qcFL+9YqCzYcLYESbTKjWCfAXnWioy1tKHu30EA68bedL5TVWmSQAsTEORuYOxtjkeCsiQEKqd4BN7k3u0eZKHHbbqcJz4BvpKy7cMnXuzWxpQbEYXCgDdbY=;
-	25:bfF+WOIp1IXI3x140fm5RZidmf0S5SLH4SZaoT78ftHe3ukNvK8HPNN1zFRz4WNMzuNnGlZhu4uBNEsxcFPaEJJMHRvYmWIOHM5siFFCkthtOhLyDNEKAUy78vbM9YK3FcFENCtOz9h7BUaGPMs83p40Pq4k/uX2AXWVo8EJtHYMjozC2WwnFj2xPU5GB0iT1+3yJ0V7hHAh+NpzZ8MHNAEWrz0YB7NL/xXQhLJwrY7AMO4jt3SdKMEibf4CA5OoEPyplLzDGnhWnVpEK2IXrA==;
-	23:DYp0RhybpMRwF6aiU70OygZF0Sfj4OFaCtsOu72xdkCxxg3d85qMSNWVg32YTDtLh6K34OLoLqgSvY+MLRR0/49Zw6sbQflgVAP8iNwbZh7725HuI+UpkHg2E9xFQBWVKxmQ5WDPcjXWNXo90LdRFH2FAipz7W0tuad7hDIm8pl4f7fw+8i4drd+A724IGfQfKlRKUwhkuXXTSK1f/Qfrc8cxjrBWJYlUMk8QvY61EoWeuo+uijVvkUnZraogk4c
-X-OriginatorOrg: freescale.com
-Subject: [poky][PATCH v8 05/11] gstreamer1.0-plugins-base: Keep sticky events around when doing a soft reset
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR0301MB1175
+Subject: [poky][PATCH v8 06/11] gstreamer1.0-plugins-base: Do not change EOS event to GAP event
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -117,79 +112,125 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 10 Aug 2015 03:41:53 -0000
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-The current code will first discard all frames, and then tries to copy
-all sticky events from the (now discarded) frames. So change the order.
+-Sending EOS event instead of GAP event as GAP event has error if A/V have the different duration.
+
+-Stop sending second track EOS event when returing failure after sending the first track EOS.
+ Fixed by ignoring the return error.
 
 Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- ...p-sticky-events-around-when-doing-a-soft-.patch | 46 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch
+ .../do-not-change-eos-event-to-gap-event2.patch    | 49 ++++++++++++++++++++++
+ .../do-not-change-eos-event-to-gap-event3.patch    | 31 ++++++++++++++
+ .../gstreamer/gstreamer1.0-plugins-base_1.4.5.bb   |  2 +
+ 3 files changed, 82 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/do-not-change-eos-event-to-gap-event2.patch
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/do-not-change-eos-event-to-gap-event3.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch
-new file mode 100644
-index 0000000..b476969
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/do-not-change-eos-event-to-gap-event2.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/do-not-change-eos-event-to-gap-event2.patch
+new file mode 100755
+index 0000000..f24bc7c
 --- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch
-@@ -0,0 +1,46 @@
-+From c3f7d36b992a3cbcee3386dea85720f3cb04e1ff Mon Sep 17 00:00:00 2001
-+From: Song Bing <b06498@freescale.com>
-+Date: Fri, 27 Mar 2015 13:39:43 +0800
-+Subject: [PATCH] videoencoder: Keep sticky events around when doing a soft
-+ reset
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/do-not-change-eos-event-to-gap-event2.patch
+@@ -0,0 +1,49 @@
++commit f9536544f5ad182b4f78d0143d1daa45dd64e624
++Author: Song Bing <b06498@freescale.com>
++Date:   Thu Oct 9 17:37:43 2014 +0800
 +
-+The current code will first discard all frames, and then tries to copy
-+all sticky events from the (now discarded) frames. Let's change the order.
++[gststreamsynchronizer] send EOS event insterd of GAP event as GAP
++event has issue when A/V have different duration.
++    
++send EOS event insterd of GAP event as GAP event has issue when A/V have different duration.
 +
-+https://bugzilla.gnome.org/show_bug.cgi?id=746865
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=736655]
 +
-+Upstream-Status: Accepted 
++Signed-off-by: Song Bing <b06498@freescale.com>
 +
-+---
-+ gst-libs/gst/video/gstvideoencoder.c |    8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/gst-libs/gst/video/gstvideoencoder.c b/gst-libs/gst/video/gstvideoencoder.c
-+index 614ba2d..4c5b111 100644
-+--- a/gst-libs/gst/video/gstvideoencoder.c
-++++ b/gst-libs/gst/video/gstvideoencoder.c
-+@@ -340,10 +340,6 @@ gst_video_encoder_reset (GstVideoEncoder * encoder, gboolean hard)
++diff --git a/gst/playback/gststreamsynchronizer.c b/gst/playback/gststreamsynchronizer.c
++index 3e17c55..ff42d72 100644
++--- a/gst/playback/gststreamsynchronizer.c
+++++ b/gst/playback/gststreamsynchronizer.c
++@@ -488,19 +488,24 @@ gst_stream_synchronizer_sink_event (GstPad * pad, GstObject * parent,
++         }
++         g_slist_free (pads);
++       } else {
++-        /* if EOS, but no data has passed, then send EOS event */
+++        /* if EOS, but no data has passed, then send something to replace EOS
+++         * for preroll purposes */
++         if (!seen_data) {
++-          GstEvent *gap_event;
+++          GstEvent *eos_event;
 + 
-+   priv->drained = TRUE;
++-          gap_event = gst_event_new_eos ();
++-          ret = gst_pad_push_event (srcpad, gap_event);
+++          /* FIXME: change to EOS event as GAP event has issue when A/V have
+++           * different duration */
+++          eos_event = gst_event_new_eos ();
+++          ret = gst_pad_push_event (srcpad, eos_event);
++         } else {
++-          GstEvent *gap_event;
+++          GstEvent *eos_event;
 + 
-+-  g_list_foreach (priv->frames, (GFunc) gst_video_codec_frame_unref, NULL);
-+-  g_list_free (priv->frames);
-+-  priv->frames = NULL;
-+-
-+   priv->bytes = 0;
-+   priv->time = 0;
-+ 
-+@@ -392,6 +388,10 @@ gst_video_encoder_reset (GstVideoEncoder * encoder, gboolean hard)
-+         encoder->priv->current_frame_events);
-+   }
-+ 
-++  g_list_foreach (priv->frames, (GFunc) gst_video_codec_frame_unref, NULL);
-++  g_list_free (priv->frames);
-++  priv->frames = NULL;
-++
-+   GST_VIDEO_ENCODER_STREAM_UNLOCK (encoder);
-+ 
-+   return ret;
-+-- 
-+1.7.9.5
++           /* FIXME: Also send a GAP event to let audio sinks start their
++            * clock in case they did not have enough data yet */
++-          gap_event = gst_event_new_gap (timestamp, GST_CLOCK_TIME_NONE);
++-          ret = gst_pad_push_event (srcpad, gap_event);
+++          /* FIXME: change to EOS event as GAP event has issue when A/V have
+++           * different duration */
+++          eos_event = gst_event_new_eos ();
+++          ret = gst_pad_push_event (srcpad, eos_event);
++         }
++       }
++       gst_object_unref (srcpad);
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/do-not-change-eos-event-to-gap-event3.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/do-not-change-eos-event-to-gap-event3.patch
+new file mode 100755
+index 0000000..731be68
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/do-not-change-eos-event-to-gap-event3.patch
+@@ -0,0 +1,31 @@
++commit 3f7052aac5e0118a9a9e09fff2f65091be448972
++Author: Song Bing <b06498@freescale.com>
++Date:   Thu Oct 23 13:35:13 2014 +0800
 +
++[streamsynchronizer] One stream can finish playback.
++  
++As changed GAP event EOS event, so EOS will send more times, which will
++cause send function return error.
++Streamsynchronizer will don’t send second track EOS event if send the
++first track EOS return fail. Fixed by ignore the return error.
++
++Upstream-Status: Submitted [https://bugzilla.gnome.org/show_bug.cgi?id=736655]
++
++Signed-off-by: Song Bing b06498@freescale.com
++
++diff --git a/gst/playback/gststreamsynchronizer.c b/gst/playback/gststreamsynchronizer.c
++index ff42d72..d1732c3 100644
++--- a/gst/playback/gststreamsynchronizer.c
+++++ b/gst/playback/gststreamsynchronizer.c
++@@ -482,7 +482,10 @@ gst_stream_synchronizer_sink_event (GstPad * pad, GstObject * parent,
++         while (epad) {
++           pad = epad->data;
++           GST_DEBUG_OBJECT (pad, "Pushing EOS");
++-          ret = ret && gst_pad_push_event (pad, gst_event_new_eos ());
+++          /* FIXME: remove error check as GAP changed to EOS will send EOS
+++           * more times, which will cause return error and then don't send
+++           * EOS event to following tracks. */
+++          gst_pad_push_event (pad, gst_event_new_eos ());
++           gst_object_unref (pad);
++           epad = g_slist_next (epad);
++         }
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-index 9c31391..8daf5af 100644
+index 8daf5af..37bef6d 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.4.5.bb
-@@ -14,6 +14,7 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
-             file://0002-video-frame-Add-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch \
+@@ -15,6 +15,8 @@ SRC_URI += "file://do-not-change-eos-event-to-gap-event-if.patch \
              file://0001-video-frame-Don-t-ref-buffers-twice-when-mapping.patch \
              file://0003-videofilter-Use-new-GST_VIDEO_FRAME_MAP_FLAG_NO_REF.patch \
-+            file://videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch \
+             file://videoencoder-Keep-sticky-events-around-when-doing-a-soft-.patch \
++            file://do-not-change-eos-event-to-gap-event2.patch \
++            file://do-not-change-eos-event-to-gap-event3.patch \
  "
  
  SRC_URI[md5sum] = "357165af625c0ca353ab47c5d843920e"
