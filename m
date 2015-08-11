@@ -1,20 +1,24 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id BE8D47693F
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BEA076958
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 08:45:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 2E006608E3E
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Aug 2015 09:45:02 +0100
-Message-Id: <7720ff7614d5caad940b7dedd8bdff01ba6768f6.1439282534.git.joshua.lock@collabora.co.uk>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1439282534.git.joshua.lock@collabora.co.uk>
-References: <cover.1439282534.git.joshua.lock@collabora.co.uk>
-In-Reply-To: <cover.1439282534.git.joshua.lock@collabora.co.uk>
-References: <cover.1439282534.git.joshua.lock@collabora.co.uk>
-Subject: [RFC PATCH 1/1] lib/oe/package_manager: fix opkg feed generation
+	Tue, 11 Aug 2015 09:09:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7B99RY7011356
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Aug 2015 02:09:27 -0700 (PDT)
+Received: from PEK-ZHE-D1.corp.ad.wrs.com (128.224.162.235) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 11 Aug 2015 02:09:26 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Aug 2015 17:08:56 +0800
+Message-ID: <cover.1439283534.git.zhe.he@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] meta-yocto-bsp: mpc8315e-rdb: Set KERNEL_DEVICETREE to mpc8315erdb.dtb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,39 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 08:45:18 -0000
+X-List-Received-Date: Tue, 11 Aug 2015 09:09:27 -0000
+Content-Type: text/plain
 
-The insert_feed_uris() method of OpkgPM was creating an initial
-entry in the feeds list which pointed to the root of the ipk
-directory, however the on-device package manager can't consume
-this feed resulting in runtime errors - therefore we remove the
-code to generate that initial feed uri.
+From: He Zhe <zhe.he@windriver.com>
 
-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
----
- meta/lib/oe/package_manager.py | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+The following changes since commit a16e0b4014173af46ef80d643bb71055219b0dab:
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 55b8ab0..2ab1d78 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -1343,13 +1343,10 @@ class OpkgPM(PackageManager):
-         with open(rootfs_config, "w+") as config_file:
-             uri_iterator = 0
-             for uri in self.feed_uris.split():
--                config_file.write("src/gz url-%d %s/ipk\n" %
--                                  (uri_iterator, uri))
--
-                 for arch in self.pkg_archs.split():
-                     if not os.path.exists(os.path.join(self.deploy_dir, arch)):
-                         continue
--                    bb.note('Note: adding opkg channel url-%s-%d (%s)' %
-+                    bb.note('Note: adding opkg feed url-%s-%d (%s)' %
-                         (arch, uri_iterator, uri))
- 
-                     config_file.write("src/gz uri-%s-%d %s/ipk/%s\n" %
+  bitbake: toaster: reduced amount of instance attributes (2015-08-10 13:58:02 -0700)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zhe/kernel_devicetree
+  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=zhe/kernel_devicetree
+
+for you to fetch changes up to 648173de6f77371c4e0b803af12b23cd514b2d9f:
+
+  meta-yocto-bsp: mpc8315e-rdb: Set KERNEL_DEVICETREE to mpc8315erdb.dtb (2015-08-11 04:58:28 -0400)
+
+----------------------------------------------------------------
+He Zhe (1):
+      meta-yocto-bsp: mpc8315e-rdb: Set KERNEL_DEVICETREE to mpc8315erdb.dtb
+
+ meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 -- 
-2.1.4
+1.9.1
 
 
