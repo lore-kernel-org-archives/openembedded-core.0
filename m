@@ -1,24 +1,37 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F2C76932
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F2AE762D6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 08:22:53 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7B8Mri0025933
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 11 Aug 2015 08:45:07 +0000 (UTC)
+Received: by ioeg141 with SMTP id g141so195168478ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 01:22:53 -0700 (PDT)
-Received: from PEK-ZHE-D1.corp.ad.wrs.com (128.224.162.235) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 11 Aug 2015 01:22:52 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Aug 2015 16:22:22 +0800
-Message-ID: <cover.1439279286.git.zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH 0/1] kernel: Correct mishandling of linux.bin for building uImage
+	Tue, 11 Aug 2015 01:45:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=q8vc2PrhNLKSUm/ilpbLGFvVjIruhdDfnUqUba6zmCg=;
+	b=CbkBdAImkfrpjDQUkcmVXNd+PjB/93IfA8cnXul6z2h2r52TY0kSeR+LWVuiNVGnE/
+	W0BZwvje5XsCkURTu2DPiAZ0x+4KqF4SMk2WyGa/e7h91HzlwnLBWexvEeyT0jWc1Eib
+	pkWiIegN93jNPWSKl4T3G0NapEqSlD+saCVj6pEFrdH15StcDCT6utb9X98Sv3pkmwFp
+	LgcjPGDamA0Cpj2VbzE2OrygUMEA1FEBnCwVdIOWy4/zSpZsr5IN8YumSzjw6dxB8Zdr
+	QxSpZjLw4AbVc9hvx5H0WtnSCdkgEf1zDjMNLKlYf6ARu0zLetRZLTJ1NY+cq3X5B9YG
+	eY7w==
+X-Gm-Message-State: ALoCoQnZzX16WAqf/Bd1W4/miYAsczM6+UhvxaEwXN/7v3oAqcBLet2JPeAyw2FVe2VA6HBWUbvq
+X-Received: by 10.107.164.153 with SMTP id d25mr25602592ioj.189.1439282707797; 
+	Tue, 11 Aug 2015 01:45:07 -0700 (PDT)
+Received: from pohly-mobl1.ger.corp.intel.com (p5DE8C212.dip0.t-ipconnect.de.
+	[93.232.194.18]) by smtp.gmail.com with ESMTPSA id
+	bd7sm7684942igb.19.2015.08.11.01.45.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 11 Aug 2015 01:45:07 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Aug 2015 10:44:57 +0200
+Message-Id: <cover.1439281753.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/3] preserve xattrs in images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 08:22:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Aug 2015 08:45:08 -0000
 
-From: He Zhe <zhe.he@windriver.com>
+Both Smack and IMA/EVM rely on xattrs in the rootfs. This works for
+.ext3/.ext4 images, but not for .jffs2 and .tar.bz2. These changes
+allow optionally building also such images with xattrs without
+changing the default (which still is to ignore xattrs in .jffs2 and
+.tar.bz2).
 
-The following changes since commit a16e0b4014173af46ef80d643bb71055219b0dab:
+The default does not get changed because supporting xattrs causes a
+certain overhead (need to build GNU tar, additional system calls when
+creating the images).
 
-  bitbake: toaster: reduced amount of instance attributes (2015-08-10 13:58:02 -0700)
+See https://github.com/01org/meta-intel-iot-security/pull/34 for code using
+these changes.
+
+The following changes since commit 5094354a2811825e6d60963f03959daa349cab23:
+
+  bind: upgrade to 9.10.2-p3 (2015-08-09 15:14:32 -0700)
 
 are available in the git repository at:
 
-  git://git.yoctoproject.org/poky-contrib zhe/kernel-uboot
-  http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=zhe/kernel-uboot
+  git://github.com/pohly/openembedded-core xattr
+  https://github.com/pohly/openembedded-core/tree/xattr
 
-for you to fetch changes up to 925eb33167a5510d9d2ec76b0d3e1c2f3f109008:
+Patrick Ohly (3):
+  tar-replacement-native: avoid race condition with host tar
+  image_types.bbclass: allow replacing tar command
+  mtd-utils: keep xattr support enabled
 
-  kernel: Correct mishandling of linux.bin for building uImage (2015-08-11 03:37:27 -0400)
-
-----------------------------------------------------------------
-He Zhe (1):
-      kernel: Correct mishandling of linux.bin for building uImage
-
- meta/classes/kernel-uboot.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ meta/classes/image_types.bbclass                         | 13 ++++++++++++-
+ meta/recipes-devtools/mtd/mtd-utils_git.bb               |  2 +-
+ meta/recipes-extended/tar/tar-replacement-native_1.28.bb | 14 +++++++++++++-
+ 3 files changed, 26 insertions(+), 3 deletions(-)
 
 -- 
-1.9.1
+2.1.4
 
 
