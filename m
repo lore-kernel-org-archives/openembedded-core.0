@@ -1,47 +1,37 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 04A8E76765
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 351E876971
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 13:15:11 +0000 (UTC)
-Received: by iodt126 with SMTP id t126so10091860iod.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 06:15:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:date:message-id:subject:to
-	:content-type;
-	bh=0fMYCCKvH99in55Q/M4VFLKdOumUUy2nJchNIMPzLgg=;
-	b=E4G4VuVErQ8T52qyFFYAGZ9FR4NCBLok2e3aAGtZj6xoQUzS2suFEGYKkLCtM6UBXk
-	m8RSprznrXGKK/m/4payJ3YZL13iDnXZPFbwMUlTOhukFpNed5oj79lOexe/+2fZEDK7
-	o5xu1UqIBE4LQCVSXe5ADwZcsmLBIb+pkXlpckq5MezdNSm7t0PrDJeV3GqmRRDEcrE5
-	lpUVyqKsy0tfYqoqvQg7swwznVPvtvmOQ9QDbrpO5k9ye9KoCZoHWRvt+zOBfSGLnaVL
-	Zq1Wy9si8j+jUDN4XF/oS+i7QlbgtMpExkCu1t++iXtuL47PE/wWAK26mGDGRVgWG68M
-	CYfQ==
-X-Gm-Message-State: ALoCoQkbNXtPJgBMUxC40jOCsfjZDO5li9KOG2VSPRNAgCXvQcC5QrG+NC9oOdrsCdg3I73afRj5
-X-Received: by 10.107.17.170 with SMTP id 42mr27728507ior.21.1439298911739;
-	Tue, 11 Aug 2015 06:15:11 -0700 (PDT)
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com.
-	[209.85.213.174])
-	by smtp.gmail.com with ESMTPSA id pg7sm8075651igb.6.2015.08.11.06.15.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Aug 2015 06:15:11 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igbpg9 with SMTP id pg9so90337492igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 06:15:10 -0700 (PDT)
+	Tue, 11 Aug 2015 13:25:09 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Aug 2015 06:24:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,653,1432623600"; d="scan'208";a="539780932"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
+	([10.237.68.143])
+	by FMSMGA003.fm.intel.com with ESMTP; 11 Aug 2015 06:24:55 -0700
+Message-ID: <55C9F7F2.2060502@linux.intel.com>
+Date: Tue, 11 Aug 2015 16:26:10 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-X-Received: by 10.50.112.229 with SMTP id it5mr18738419igb.46.1439298910610;
-	Tue, 11 Aug 2015 06:15:10 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Tue, 11 Aug 2015 06:15:10 -0700 (PDT)
-Date: Tue, 11 Aug 2015 10:15:10 -0300
-Message-ID: <CAP9ODKrcDb5NSVOBm-tBR_9spaWVP-aigOgqcgZBAQ+E4EfRkA@mail.gmail.com>
-To: "meta-freescale@yoctoproject.org" <meta-freescale@yoctoproject.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: [VAC] Out of office for some days
+CC: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
+	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
+	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
+	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+	<1436601450.3310.27.camel@linuxfoundation.org>
+	<55BA134F.9010908@linux.intel.com>
+	<CAJ86T=UHTjTA7S_4EV66VEUoaRhYmaYveVcfxbqzVJsxZ4s6dg@mail.gmail.com>
+	<55BB5F06.4010901@linux.intel.com>
+	<CAMKF1srWcMoRui4kqRY5vCdLd-SPQ+EMihTci=NUghHsnGiBqQ@mail.gmail.com>
+	<55C477AE.8030308@balister.org> <55C4A405.6050209@linux.intel.com>
+	<55C637DB.9010106@balister.org> <55C8956D.9080508@linux.intel.com>
+	<55C8F83F.4010003@balister.org>
+In-Reply-To: <55C8F83F.4010003@balister.org>
+Subject: Re: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,23 +44,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 13:15:12 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 11 Aug 2015 13:25:12 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hello folks,
+On 08/10/2015 10:15 PM, Philip Balister wrote:
 
-I want to inform that I will be out of office for some days. From
-August 12th to August 25th I will be visiting London and will be
-reading the e-mail sporadically.
+>> This is perfectly fine with me. However, the subject has been whether
+>> the scope of *oe-core/poky* can be expanded without compromising
+>
+> What is Poky?
 
-For the fixes related to Freescale related layers, I will be able to
-merge  things if urgent fixes are done. Otherwise I will delay the
-merge and review for when I am back.
+Uhm... http://git.yoctoproject.org/cgit/cgit.cgi/poky/about/
 
-Best Regards,
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Alex
+
 
