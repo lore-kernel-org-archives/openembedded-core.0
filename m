@@ -1,21 +1,21 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8902276978
+Return-Path: <reinette.chatre@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 37A5376978
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 21:09:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 11 Aug 2015 14:08:33 -0700
+	Tue, 11 Aug 2015 21:11:11 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 11 Aug 2015 14:10:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,655,1432623600"; d="scan'208";a="782222796"
-Received: from lsandov1-mobl-linux.zpn.intel.com ([10.219.5.141])
-	by orsmga002.jf.intel.com with ESMTP; 11 Aug 2015 14:08:30 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Aug 2015 16:09:28 -0500
-Message-Id: <1439327368-2796-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.7.10.4
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] lib/oe/package_manager: Include PACKAGE_FEED_PREFIX instead of hardcode paths
+X-IronPort-AV: E=Sophos;i="5.15,655,1432623600"; d="scan'208";a="623638534"
+Received: from rchatre-builder.jf.intel.com ([10.54.39.14])
+	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2015 14:10:34 -0700
+From: Reinette Chatre <reinette.chatre@intel.com>
+To: richard.purdie@linuxfoundation.org
+Date: Tue, 11 Aug 2015 14:12:20 -0700
+Message-Id: <ade88be26a428611d94fb7037a1dbc05793548f2.1439327181.git.reinette.chatre@intel.com>
+X-Mailer: git-send-email 2.4.3
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] perf: fix build breakage on kernels after 4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,98 +28,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 21:09:09 -0000
+X-List-Received-Date: Tue, 11 Aug 2015 21:11:13 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+A recent commit fixed perf build failures with a change that duplicates
+a fix that can be found in kernels after 4.1. Unfortunately there is a
+conflict between these two fixes and we see perf build failures when
+building perf in kernels that contain the fix already. The problem is
+that the fix from the recipe modifies the location of .config-detected
+to $(OUTPUT).config-detected. In a 4.2 kernel the location will be
+changed to $(OUTPUT)$(OUTPUT).config-detected.
 
-Instead of hardcode paths (/rpm/, /ipk/, /deb/), use a user-defined prefix
-when creating the URI feeds. URIs now will have the following syntax:
+We change the recipe to require a space in the pattern to only change
+kernel sources that do not already place file in $(OUTPUT).
 
-    PACKAGE_FEED_URIS_1/PACKAGE_FEED_PREFIX
-    PACKAGE_FEED_URIS_2/PACKAGE_FEED_PREFIX
-    .
+The recent commit that introduced the build failure is:
 
-where PACKAGE_FEED_URIS = "PACKAGE_FEED_URIS_1 PACKAGE_FEED_URIS_2 ...."
+   commit ea9016b60b47138bc58d84a06954b44527b20a19
+    Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+    Date:   Sat Jul 25 14:37:58 2015 +0100
 
-[YOCTO #5407]
+        perf: Fix config file conflict with 4.1 kernels
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+        If you setup mutlitlibs and then:
+
+        bitbake perf libb32-perf
+        bitbake perf libb32-perf -c cleansstate
+        bitbake perf libb32-perf
+
+        you will see races where the two builds get confused about which directory
+        they should be using and they corrupt each other.
+
+        The issue is that .config-detected is created in ${S}, not $(OUTPUT).
+        We can fix this by moving the file to $(OUTPUT).
+
+        [YCOTO #8043]
+
+        (From OE-Core rev: 00608cffffb586e8d2a2075117e710113c471448)
+
+        (From OE-Core rev: 57df1ebd910e42af47a0039830a60f41a3bd29b6)
+
+        Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+The commit in the kernel source that fixes the problem from kernel side is:
+    commit 642273795fa81da11290ffa90bce6ff242f2a7bb
+    Author: Aaro Koskinen <aaro.koskinen@nokia.com>
+    Date:   Wed Jul 1 14:54:42 2015 +0300
+
+        perf tools: Create config.detected into OUTPUT directory
+
+        Create config.detected into OUTPUT directory instead of source
+        directory.
+
+        This fixes parallel builds that share the same source directory.
+
+        Signed-off-by: Aaro Koskinen <aaro.koskinen@nokia.com>
+        Acked-by: Jiri Olsa <jolsa@kernel.org>
+        Cc: Paul Mackerras <paulus@samba.org>
+        Cc: Peter Zijlstra <a.p.zijlstra@chello.nl>
+        Link: http://lkml.kernel.org/r/1435751683-18500-1-git-send-email-aaro.koskinen@nokia.com
+        Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+
+Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
 ---
- meta/lib/oe/package_manager.py |   28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
+ meta/recipes-kernel/perf/perf.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 55b8ab0..7a85816 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -488,6 +488,7 @@ class PackageManager(object):
-         self.deploy_dir = None
-         self.deploy_lock = None
-         self.feed_uris = self.d.getVar('PACKAGE_FEED_URIS', True) or ""
-+        self.feed_prefix = self.d.getVar('PACKAGE_FEED_PREFIX', True) or ""
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index f8e80d0..e7ddfff 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -134,6 +134,7 @@ do_configure_prepend () {
+     # config/Makefile.
+     #
+     # Also need to relocate .config-detected to $(OUTPUT)/config-detected
++    # for kernel sources that do not already do this
+     # as two builds (e.g. perf and lib32-perf from mutlilib can conflict
+     # with each other if its in the shared source directory
+     #
+@@ -141,15 +142,15 @@ do_configure_prepend () {
+         # Match $(prefix)/$(lib) and $(prefix)/lib
+         sed -i -e 's,^libdir = \($(prefix)/.*lib\),libdir ?= \1,' \
+                -e 's,^perfexecdir = \(.*\),perfexecdir ?= \1,' \
+-               -e 's,\.config-detected,$(OUTPUT)/config-detected,g' \
++               -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
+             ${S}/tools/perf/config/Makefile
+     fi
+     if [ -e "${S}/tools/perf/Makefile.perf" ]; then
+-        sed -i -e 's,\.config-detected,$(OUTPUT)/config-detected,g' \
++        sed -i -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
+             ${S}/tools/perf/Makefile.perf
+     fi
+     if [ -e "${S}/tools/build/Makefile.build" ]; then
+-        sed -i -e 's,\.config-detected,$(OUTPUT)/config-detected,g' \
++        sed -i -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
+             ${S}/tools/build/Makefile.build
+     fi
  
-     """
-     Update the package manager package database.
-@@ -662,11 +663,14 @@ class RpmPM(PackageManager):
-         channel_priority = 10 + 5 * len(self.feed_uris.split()) * len(arch_list)
- 
-         for uri in self.feed_uris.split():
-+            full_uri = uri
-+            if self.feed_prefix:
-+                full_uri = os.path.join(uri, self.feed_prefix)
-             for arch in arch_list:
-                 bb.note('Note: adding Smart channel url%d%s (%s)' %
-                         (uri_iterator, arch, channel_priority))
--                self._invoke_smart('channel --add url%d-%s type=rpm-md baseurl=%s/rpm/%s -y'
--                                   % (uri_iterator, arch, uri, arch))
-+                self._invoke_smart('channel --add url%d-%s type=rpm-md baseurl=%s/%s -y'
-+                                   % (uri_iterator, arch, full_uri, arch))
-                 self._invoke_smart('channel --set url%d-%s priority=%d' %
-                                    (uri_iterator, arch, channel_priority))
-                 channel_priority -= 5
-@@ -1343,17 +1347,20 @@ class OpkgPM(PackageManager):
-         with open(rootfs_config, "w+") as config_file:
-             uri_iterator = 0
-             for uri in self.feed_uris.split():
--                config_file.write("src/gz url-%d %s/ipk\n" %
--                                  (uri_iterator, uri))
-+                full_uri = uri
-+                if self.feed_prefix:
-+                    full_uri = os.path.join(uri, self.feed_prefix)
-+                config_file.write("src/gz url-%d %s\n" %
-+                                  (uri_iterator, full_uri))
- 
-                 for arch in self.pkg_archs.split():
-                     if not os.path.exists(os.path.join(self.deploy_dir, arch)):
-                         continue
-                     bb.note('Note: adding opkg channel url-%s-%d (%s)' %
--                        (arch, uri_iterator, uri))
-+                            (arch, uri_iterator, full_uri))
- 
--                    config_file.write("src/gz uri-%s-%d %s/ipk/%s\n" %
--                                      (arch, uri_iterator, uri, arch))
-+                    config_file.write("src/gz uri-%s-%d %s/%s\n" %
-+                                      (arch, uri_iterator, full_uri, arch))
-                 uri_iterator += 1
- 
-     def update(self):
-@@ -1706,10 +1713,13 @@ class DpkgPM(PackageManager):
- 
-         with open(sources_conf, "w+") as sources_file:
-             for uri in self.feed_uris.split():
-+                full_uri = uri
-+                if self.feed_prefix:
-+                    full_uri = os.path.join(uri, self.feed_prefix)
-                 for arch in arch_list:
-                     bb.note('Note: adding dpkg channel at (%s)' % uri)
--                    sources_file.write("deb %s/deb/%s ./\n" %
--                                       (uri, arch))
-+                    sources_file.write("deb %s/%s ./\n" %
-+                                       (full_uri, arch))
- 
-     def _create_configs(self, archs, base_archs):
-         base_archs = re.sub("_", "-", base_archs)
 -- 
-1.7.10.4
+2.4.3
 
 
