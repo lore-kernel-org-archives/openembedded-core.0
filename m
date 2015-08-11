@@ -1,27 +1,23 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 29E057696A
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A4A976959
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 18:11:46 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 Aug 2015 11:11:18 -0700
+	Tue, 11 Aug 2015 19:06:56 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 11 Aug 2015 12:06:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,654,1432623600"; 
-	d="scan'208,217";a="746569468"
-Received: from rjnesbit-mobl2.amr.corp.intel.com (HELO [10.255.86.5])
-	([10.255.86.5])
-	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2015 11:11:17 -0700
-Message-ID: <55CA3AD4.5090906@linux.intel.com>
-Date: Tue, 11 Aug 2015 13:11:32 -0500
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1439311301-18243-1-git-send-email-anibal.limon@linux.intel.com>	<55CA27AD.6080204@linux.intel.com>
-	<CAJTo0LYSNPvO1p-twXhA6i-tLG7CmeZNRHhgNBXVTf7sfGPTEg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYSNPvO1p-twXhA6i-tLG7CmeZNRHhgNBXVTf7sfGPTEg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] distrodata: Make self-contained.
+X-IronPort-AV: E=Sophos;i="5.15,655,1432623600"; d="scan'208";a="623570892"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
+	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2015 12:06:54 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org,
+	jurobystricky@hotmail.com
+Date: Tue, 11 Aug 2015 12:02:43 -0700
+Message-Id: <1439319763-29159-2-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1439319763-29159-1-git-send-email-juro.bystricky@intel.com>
+References: <1439319763-29159-1-git-send-email-juro.bystricky@intel.com>
+Subject: [PATCH 2/2] build-appliance-image: use ext4 for rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,78 +30,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 18:11:48 -0000
-Content-Type: multipart/alternative;
-	boundary="------------070207050504010301000102"
+X-List-Received-Date: Tue, 11 Aug 2015 19:06:58 -0000
 
---------------070207050504010301000102
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+Changes due to IMAGES_FSTYPES "vmdk" and "vdi" now defaulting to ext4.
+Switching Build Appliance to Ext4 will bring it more in-line with other BSPs.
 
-Right, i made a mistake here i sent another patch to the meta-yocto 
-(poky) removing these items.
+[YOCTO #8096]
 
-     alimon
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/recipes-core/images/build-appliance-image_12.0.1.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On 11/08/15 11:50, Burton, Ross wrote:
-> On 11 August 2015 at 17:49, Alexander Kanavin <
-> alexander.kanavin@linux.intel.com> wrote:
->
->> Is there a PATCH 2/2?
->>
-> It's on the poky list as it is for meta-yocto.
->
-> (both in MUT)
->
-> Ross
->
->
->
+diff --git a/meta/recipes-core/images/build-appliance-image_12.0.1.bb b/meta/recipes-core/images/build-appliance-image_12.0.1.bb
+index 8e71b36..0a86ba4 100644
+--- a/meta/recipes-core/images/build-appliance-image_12.0.1.bb
++++ b/meta/recipes-core/images/build-appliance-image_12.0.1.bb
+@@ -14,7 +14,7 @@ IMAGE_FEATURES += "x11-base package-management splash"
+ IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
+ 
+ # Do a quiet boot with limited console messages
+-APPEND += "quiet"
++APPEND += "rootfstype=ext4 quiet"
+ 
+ DEPENDS = "zip-native"
+ IMAGE_FSTYPES = "vmdk"
+@@ -27,9 +27,9 @@ SRC_URI = "git://git.yoctoproject.org/poky \
+            file://Yocto_Build_Appliance.vmxf \
+           "
+ 
+-IMAGE_CMD_ext3_append () {
++IMAGE_CMD_ext4_append () {
+ 	# We don't need to reserve much space for root, 0.5% is more than enough
+-	tune2fs -m 0.5 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
++	tune2fs -m 0.5 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4
+ }
+ 
+ fakeroot do_populate_poky_src () {
+-- 
+1.9.1
 
 
---------------070207050504010301000102
-Content-Type: text/html; charset=windows-1252
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    Right, i made a mistake here i sent another patch to the meta-yocto
-    (poky) removing these items.<br>
-    <br>
-        alimon<br>
-    <br>
-    <div class="moz-cite-prefix">On 11/08/15 11:50, Burton, Ross wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0LYSNPvO1p-twXhA6i-tLG7CmeZNRHhgNBXVTf7sfGPTEg@mail.gmail.com"
-      type="cite">
-      <pre wrap="">On 11 August 2015 at 17:49, Alexander Kanavin &lt;
-<a class="moz-txt-link-abbreviated" href="mailto:alexander.kanavin@linux.intel.com">alexander.kanavin@linux.intel.com</a>&gt; wrote:
-
-</pre>
-      <blockquote type="cite">
-        <pre wrap="">Is there a PATCH 2/2?
-
-</pre>
-      </blockquote>
-      <pre wrap="">
-It's on the poky list as it is for meta-yocto.
-
-(both in MUT)
-
-Ross
-
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
-
---------------070207050504010301000102--
