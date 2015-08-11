@@ -1,36 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5FB4E767F8
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E4C5476973
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 14:29:28 +0000 (UTC)
-Received: by qged69 with SMTP id d69so140269834qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 07:29:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=4Rd9sWVpUQ/AgZKe0BoqWhSbOpqQCBVgE7n92pPXhUU=;
-	b=TxUBYV2NtlyVjJzxRbf60LV+4wQQvBgRyPX1qBXk+/H3YI85RL5x6WuzuXkaEopbPx
-	uFSN7xGcG4g1HyAWIoLHlLMdWYGBSjfFqmJuMBoBUKCP+lNHqf3j6akPAtMKGsSNhiU0
-	XmVH/jjZ5ONBrXO7N5vLvRtx9FHI9UaKrWSgU/ZSh55qq+j2y6BFjfAIU4sVPoK4bxKV
-	IprcT5lwNgjWB3EM3qtGEYwPfmF4JiKPFco03Izcos6sqVh+ftT0VF1WKDZ5+xZks3jn
-	yuQvpuORTnN7lGPOqkj02vn7AWTZ5tzMLqGMKogPhg2rvt1WnxY/tWF9CsXFp4I5avuB
-	b3BQ==
-X-Gm-Message-State: ALoCoQlPYf5LCwjuJh4bjlNTPlPDhUy557ojY2+QyEDdk7SAMgDwzAupT5NqMXlE0t98CODFjzMD
-X-Received: by 10.140.43.199 with SMTP id e65mr48904406qga.80.1439303368887;
-	Tue, 11 Aug 2015 07:29:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Tue, 11 Aug 2015 07:29:09 -0700 (PDT)
-In-Reply-To: <cover.1439281753.git.patrick.ohly@intel.com>
-References: <cover.1439281753.git.patrick.ohly@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Aug 2015 15:29:09 +0100
-Message-ID: <CAJTo0LZSK7oknJ5taH4J2ma-5hMqWSCbW2qZnOcfzjh3g26kSw@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3] preserve xattrs in images
+	Tue, 11 Aug 2015 14:33:23 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 11 Aug 2015 07:33:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,653,1432623600"; d="scan'208";a="746426770"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2015 07:33:24 -0700
+Received: from vmed.fi.intel.com (unknown [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 45A056A4083;
+	Tue, 11 Aug 2015 07:32:36 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Aug 2015 17:33:16 +0300
+Message-Id: <1439303596-18965-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <CAMKF1sra8sykgB4q5+qQd4hL2fPOxfuND7W-WivqS_YxYPfvWw@mail.gmail.com>
+References: <CAMKF1sra8sykgB4q5+qQd4hL2fPOxfuND7W-WivqS_YxYPfvWw@mail.gmail.com>
+Subject: [PATCH v3] create-pull-request: cd to relative directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +32,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 14:29:31 -0000
-Content-Type: multipart/alternative; boundary=001a113a9baa06e61c051d09ee06
+X-List-Received-Date: Tue, 11 Aug 2015 14:33:25 -0000
 
---001a113a9baa06e61c051d09ee06
-Content-Type: text/plain; charset=UTF-8
+create-pull-request -d path creates empty patches if directory
+is specified as a path, i.e. ./bitbake or ./bitbake/ or full path.
+It behaves expected way only if script is run with -d bitbake, i.e.
+relative dir name doesn't contain '\'.
 
-Hi Patrick,
+Fixed this unwanted behaviour by changing directory and running
+git format-patch in it with --relative, without specifying
+relative path as a parameter.
 
-On 11 August 2015 at 09:44, Patrick Ohly <patrick.ohly@intel.com> wrote:
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/create-pull-request | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-> The default does not get changed because supporting xattrs causes a
-> certain overhead (need to build GNU tar, additional system calls when
-> creating the images).
->
+diff --git a/scripts/create-pull-request b/scripts/create-pull-request
+index 216edfd..786fd1ed 100755
+--- a/scripts/create-pull-request
++++ b/scripts/create-pull-request
+@@ -177,12 +177,16 @@ mkdir $ODIR
+ 
+ if [ -n "$RELDIR" ]; then
+ 	ODIR=$(realpath $ODIR)
+-	extraopts="--relative=$RELDIR"
++	prevdir=$(pwd)
++	cd $RELDIR
++	extraopts="--relative"
+ fi
+ 
+ # Generate the patches and cover letter
+ git format-patch $extraopts -M40 --subject-prefix="$PREFIX" -n -o $ODIR --thread=shallow --cover-letter $RELATIVE_TO..$COMMIT_ID > /dev/null
+ 
++[ -n "$RELDIR" ] && cd $prevdir
++
+ # Customize the cover letter
+ CL="$ODIR/0000-cover-letter.patch"
+ PM="$ODIR/pull-msg"
+-- 
+2.1.4
 
-Two questions:
-1) Do enough host distributions not enable xattrs in tar that we need to
-depend on tar-replacement-native?
-2) Have you timed the overhead of enabling xattr archiving on an image that
-doesn't use xattrs?  (subtext: does this need to be an option).
 
-Ross
-
---001a113a9baa06e61c051d09ee06
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Patrick,</div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On 11 August 2015 at 09:44, Pat=
-rick Ohly <span dir=3D"ltr">&lt;<a href=3D"mailto:patrick.ohly@intel.com" t=
-arget=3D"_blank">patrick.ohly@intel.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex"><div id=3D":368" class=3D"a3s" style=3D"overflow:hidde=
-n">The default does not get changed because supporting xattrs causes a<br>
-certain overhead (need to build GNU tar, additional system calls when<br>
-creating the images).</div></blockquote></div><div class=3D"gmail_extra"><b=
-r></div>Two questions:</div><div class=3D"gmail_extra">1) Do enough host di=
-stributions not enable xattrs in tar that we need to depend on tar-replacem=
-ent-native?<br>2) Have you timed the overhead of enabling xattr archiving o=
-n an image that doesn&#39;t use xattrs? =C2=A0(subtext: does this need to b=
-e an option).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
-_extra">Ross</div></div>
-
---001a113a9baa06e61c051d09ee06--
