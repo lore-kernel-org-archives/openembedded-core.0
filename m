@@ -1,21 +1,20 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 396A576953
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2453B76967
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 19:06:53 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Aug 2015 12:06:53 -0700
+	Tue, 11 Aug 2015 19:12:02 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 11 Aug 2015 12:12:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,655,1432623600"; d="scan'208";a="623570882"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
-	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2015 12:06:53 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org,
-	jurobystricky@hotmail.com
-Date: Tue, 11 Aug 2015 12:02:42 -0700
-Message-Id: <1439319763-29159-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 1/2] IMAGES_FSTYPES: default to EXT4
+X-IronPort-AV: E=Sophos;i="5.15,655,1432623600"; d="scan'208";a="782157893"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by orsmga002.jf.intel.com with ESMTP; 11 Aug 2015 12:12:01 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Aug 2015 22:12:48 +0300
+Message-Id: <cover.1439318387.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] Upgrades: openssh, nss, nfs-utils, rsvg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,113 +27,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 19:06:58 -0000
+X-List-Received-Date: Tue, 11 Aug 2015 19:12:06 -0000
 
-The following IMAGES_FSTYPES defaulted to ext3:
-"vmdk", "vdi", "qcow2", "live", "iso", "hddimg"
+The openssh upgrade adds a test that currently fails: that looks
+like a failure in our test setup, I've filed a bug for that.
 
-This patch changes the default for those IMAGES_FSTYPES to
-ext4 in order to bring the images more in line with other BSPs.
 
-Besides improvements in performance and reliability ext4 provides
-additional functionality as well (option to turn off the journaling,
-dynamic resizing of VDI volumes etc.).
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/classes/bootimg.bbclass     | 4 ++--
- meta/classes/image-live.bbclass  | 4 ++--
- meta/classes/image-vm.bbclass    | 8 ++++----
- meta/classes/image_types.bbclass | 2 +-
- meta/lib/oe/image.py             | 4 ++--
- 5 files changed, 11 insertions(+), 11 deletions(-)
+The following changes since commit a16e0b4014173af46ef80d643bb71055219b0dab:
 
-diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
-index 5adcacc..ec9d0b7 100644
---- a/meta/classes/bootimg.bbclass
-+++ b/meta/classes/bootimg.bbclass
-@@ -296,8 +296,8 @@ python do_bootimg() {
-     bb.build.exec_func('build_iso', d)
- }
- 
--IMAGE_TYPEDEP_iso = "ext3"
--IMAGE_TYPEDEP_hddimg = "ext3"
-+IMAGE_TYPEDEP_iso = "ext4"
-+IMAGE_TYPEDEP_hddimg = "ext4"
- IMAGE_TYPES_MASKED += "iso hddimg"
- 
- addtask bootimg before do_build
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 52b6de7..fa7a131 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -7,12 +7,12 @@ SYSLINUX_TIMEOUT ?= "50"
- SYSLINUX_LABELS ?= "boot install"
- LABELS_append = " ${SYSLINUX_LABELS} "
- 
--ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
-+ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext4"
- 
- do_bootimg[depends] += "${INITRD_IMAGE}:do_rootfs"
- do_bootimg[depends] += "${PN}:do_rootfs"
- 
- inherit bootimg
- 
--IMAGE_TYPEDEP_live = "ext3"
-+IMAGE_TYPEDEP_live = "ext4"
- IMAGE_TYPES_MASKED += "live"
-diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
-index 28519c8..bc0503b 100644
---- a/meta/classes/image-vm.bbclass
-+++ b/meta/classes/image-vm.bbclass
-@@ -7,14 +7,14 @@ LABELS_append = " ${SYSLINUX_LABELS} "
- 
- # need to define the dependency and the ROOTFS for directdisk
- do_bootdirectdisk[depends] += "${PN}:do_rootfs"
--ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
-+ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext4"
- 
- # creating VM images relies on having a hddimg so ensure we inherit it here.
- inherit boot-directdisk
- 
--IMAGE_TYPEDEP_vmdk = "ext3"
--IMAGE_TYPEDEP_vdi = "ext3"
--IMAGE_TYPEDEP_qcow2 = "ext3"
-+IMAGE_TYPEDEP_vmdk = "ext4"
-+IMAGE_TYPEDEP_vdi = "ext4"
-+IMAGE_TYPEDEP_qcow2 = "ext4"
- IMAGE_TYPES_MASKED += "vmdk vdi qcow2"
- 
- create_vmdk_image () {
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index cc789fc..35ceb7b 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -14,7 +14,7 @@ def imagetypes_getdepends(d):
-     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
-     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
-         if type in ["vmdk", "vdi", "qcow2", "live", "iso", "hddimg"]:
--            type = "ext3"
-+            type = "ext4"
-         basetype = type
-         for ctype in ctypes:
-             if type.endswith("." + ctype):
-diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-index 40f6151..699c30f 100644
---- a/meta/lib/oe/image.py
-+++ b/meta/lib/oe/image.py
-@@ -76,8 +76,8 @@ class ImageDepGraph(object):
- 
-     def _image_base_type(self, type):
-         ctypes = self.d.getVar('COMPRESSIONTYPES', True).split()
--        if type in ["vmdk", "vdi", "live", "iso", "hddimg"]:
--            type = "ext3"
-+        if type in ["vmdk", "vdi", "qcow2", "live", "iso", "hddimg"]:
-+            type = "ext4"
-         basetype = type
-         for ctype in ctypes:
-             if type.endswith("." + ctype):
+  bitbake: toaster: reduced amount of instance attributes (2015-08-10 13:58:02 -0700)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/nss-openssh-nfsutils
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/nss-openssh-nfsutils
+
+Jussi Kukkonen (4):
+  openssh: Upgrade 6.8p1 -> 6.9p1
+  nss: Upgrade 3.19.1 -> 3.19.2
+  nfs-utils: Upgrade 1.3.1 -> 1.3.2
+  librsvg: Upgrade 2.40.9 -> 2.40.10
+
+ .../nfs-utils/{nfs-utils_1.3.1.bb => nfs-utils_1.3.2.bb}    |  7 +++----
+ .../openssh/{openssh_6.8p1.bb => openssh_6.9p1.bb}          |  4 ++--
+ meta/recipes-gnome/librsvg/librsvg/gtk-option.patch         | 13 ++++++-------
+ .../librsvg/{librsvg_2.40.9.bb => librsvg_2.40.10.bb}       |  4 ++--
+ meta/recipes-support/nss/{nss_3.19.1.bb => nss_3.19.2.bb}   |  6 +++---
+ 5 files changed, 16 insertions(+), 18 deletions(-)
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.3.1.bb => nfs-utils_1.3.2.bb} (95%)
+ rename meta/recipes-connectivity/openssh/{openssh_6.8p1.bb => openssh_6.9p1.bb} (97%)
+ rename meta/recipes-gnome/librsvg/{librsvg_2.40.9.bb => librsvg_2.40.10.bb} (91%)
+ rename meta/recipes-support/nss/{nss_3.19.1.bb => nss_3.19.2.bb} (97%)
+
 -- 
-1.9.1
+2.1.4
 
 
