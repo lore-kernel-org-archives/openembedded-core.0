@@ -1,23 +1,21 @@
 Return-Path: <juro.bystricky@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A4A976959
+	by mail.openembedded.org (Postfix) with ESMTP id 396A576953
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 19:06:56 +0000 (UTC)
+	Tue, 11 Aug 2015 19:06:53 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Aug 2015 12:06:54 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 11 Aug 2015 12:06:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,655,1432623600"; d="scan'208";a="623570892"
+X-IronPort-AV: E=Sophos;i="5.15,655,1432623600"; d="scan'208";a="623570882"
 Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
-	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2015 12:06:54 -0700
+	by orsmga003.jf.intel.com with ESMTP; 11 Aug 2015 12:06:53 -0700
 From: Juro Bystricky <juro.bystricky@intel.com>
 To: openembedded-core@lists.openembedded.org,
 	jurobystricky@hotmail.com
-Date: Tue, 11 Aug 2015 12:02:43 -0700
-Message-Id: <1439319763-29159-2-git-send-email-juro.bystricky@intel.com>
+Date: Tue, 11 Aug 2015 12:02:42 -0700
+Message-Id: <1439319763-29159-1-git-send-email-juro.bystricky@intel.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1439319763-29159-1-git-send-email-juro.bystricky@intel.com>
-References: <1439319763-29159-1-git-send-email-juro.bystricky@intel.com>
-Subject: [PATCH 2/2] build-appliance-image: use ext4 for rootfs
+Subject: [PATCH 1/2] IMAGES_FSTYPES: default to EXT4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,41 +30,110 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 11 Aug 2015 19:06:58 -0000
 
-Changes due to IMAGES_FSTYPES "vmdk" and "vdi" now defaulting to ext4.
-Switching Build Appliance to Ext4 will bring it more in-line with other BSPs.
+The following IMAGES_FSTYPES defaulted to ext3:
+"vmdk", "vdi", "qcow2", "live", "iso", "hddimg"
 
-[YOCTO #8096]
+This patch changes the default for those IMAGES_FSTYPES to
+ext4 in order to bring the images more in line with other BSPs.
+
+Besides improvements in performance and reliability ext4 provides
+additional functionality as well (option to turn off the journaling,
+dynamic resizing of VDI volumes etc.).
 
 Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
 ---
- meta/recipes-core/images/build-appliance-image_12.0.1.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/bootimg.bbclass     | 4 ++--
+ meta/classes/image-live.bbclass  | 4 ++--
+ meta/classes/image-vm.bbclass    | 8 ++++----
+ meta/classes/image_types.bbclass | 2 +-
+ meta/lib/oe/image.py             | 4 ++--
+ 5 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-core/images/build-appliance-image_12.0.1.bb b/meta/recipes-core/images/build-appliance-image_12.0.1.bb
-index 8e71b36..0a86ba4 100644
---- a/meta/recipes-core/images/build-appliance-image_12.0.1.bb
-+++ b/meta/recipes-core/images/build-appliance-image_12.0.1.bb
-@@ -14,7 +14,7 @@ IMAGE_FEATURES += "x11-base package-management splash"
- IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
- 
- # Do a quiet boot with limited console messages
--APPEND += "quiet"
-+APPEND += "rootfstype=ext4 quiet"
- 
- DEPENDS = "zip-native"
- IMAGE_FSTYPES = "vmdk"
-@@ -27,9 +27,9 @@ SRC_URI = "git://git.yoctoproject.org/poky \
-            file://Yocto_Build_Appliance.vmxf \
-           "
- 
--IMAGE_CMD_ext3_append () {
-+IMAGE_CMD_ext4_append () {
- 	# We don't need to reserve much space for root, 0.5% is more than enough
--	tune2fs -m 0.5 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext3
-+	tune2fs -m 0.5 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4
+diff --git a/meta/classes/bootimg.bbclass b/meta/classes/bootimg.bbclass
+index 5adcacc..ec9d0b7 100644
+--- a/meta/classes/bootimg.bbclass
++++ b/meta/classes/bootimg.bbclass
+@@ -296,8 +296,8 @@ python do_bootimg() {
+     bb.build.exec_func('build_iso', d)
  }
  
- fakeroot do_populate_poky_src () {
+-IMAGE_TYPEDEP_iso = "ext3"
+-IMAGE_TYPEDEP_hddimg = "ext3"
++IMAGE_TYPEDEP_iso = "ext4"
++IMAGE_TYPEDEP_hddimg = "ext4"
+ IMAGE_TYPES_MASKED += "iso hddimg"
+ 
+ addtask bootimg before do_build
+diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+index 52b6de7..fa7a131 100644
+--- a/meta/classes/image-live.bbclass
++++ b/meta/classes/image-live.bbclass
+@@ -7,12 +7,12 @@ SYSLINUX_TIMEOUT ?= "50"
+ SYSLINUX_LABELS ?= "boot install"
+ LABELS_append = " ${SYSLINUX_LABELS} "
+ 
+-ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
++ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext4"
+ 
+ do_bootimg[depends] += "${INITRD_IMAGE}:do_rootfs"
+ do_bootimg[depends] += "${PN}:do_rootfs"
+ 
+ inherit bootimg
+ 
+-IMAGE_TYPEDEP_live = "ext3"
++IMAGE_TYPEDEP_live = "ext4"
+ IMAGE_TYPES_MASKED += "live"
+diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
+index 28519c8..bc0503b 100644
+--- a/meta/classes/image-vm.bbclass
++++ b/meta/classes/image-vm.bbclass
+@@ -7,14 +7,14 @@ LABELS_append = " ${SYSLINUX_LABELS} "
+ 
+ # need to define the dependency and the ROOTFS for directdisk
+ do_bootdirectdisk[depends] += "${PN}:do_rootfs"
+-ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext3"
++ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.ext4"
+ 
+ # creating VM images relies on having a hddimg so ensure we inherit it here.
+ inherit boot-directdisk
+ 
+-IMAGE_TYPEDEP_vmdk = "ext3"
+-IMAGE_TYPEDEP_vdi = "ext3"
+-IMAGE_TYPEDEP_qcow2 = "ext3"
++IMAGE_TYPEDEP_vmdk = "ext4"
++IMAGE_TYPEDEP_vdi = "ext4"
++IMAGE_TYPEDEP_qcow2 = "ext4"
+ IMAGE_TYPES_MASKED += "vmdk vdi qcow2"
+ 
+ create_vmdk_image () {
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index cc789fc..35ceb7b 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -14,7 +14,7 @@ def imagetypes_getdepends(d):
+     ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+     for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
+         if type in ["vmdk", "vdi", "qcow2", "live", "iso", "hddimg"]:
+-            type = "ext3"
++            type = "ext4"
+         basetype = type
+         for ctype in ctypes:
+             if type.endswith("." + ctype):
+diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+index 40f6151..699c30f 100644
+--- a/meta/lib/oe/image.py
++++ b/meta/lib/oe/image.py
+@@ -76,8 +76,8 @@ class ImageDepGraph(object):
+ 
+     def _image_base_type(self, type):
+         ctypes = self.d.getVar('COMPRESSIONTYPES', True).split()
+-        if type in ["vmdk", "vdi", "live", "iso", "hddimg"]:
+-            type = "ext3"
++        if type in ["vmdk", "vdi", "qcow2", "live", "iso", "hddimg"]:
++            type = "ext4"
+         basetype = type
+         for ctype in ctypes:
+             if type.endswith("." + ctype):
 -- 
 1.9.1
 
