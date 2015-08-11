@@ -1,16 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id BD48A76932
+	by mail.openembedded.org (Postfix) with ESMTP id BE8D47693F
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 11 Aug 2015 08:45:14 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 044F860022B
+	(Authenticated sender: joshuagl) with ESMTPSA id 2E006608E3E
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Aug 2015 09:45:01 +0100
-Message-Id: <cover.1439282534.git.joshua.lock@collabora.co.uk>
+Date: Tue, 11 Aug 2015 09:45:02 +0100
+Message-Id: <7720ff7614d5caad940b7dedd8bdff01ba6768f6.1439282534.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
-Subject: [RFC PATCH 0/1] Fix runtime error with generated OPKG feeds
+In-Reply-To: <cover.1439282534.git.joshua.lock@collabora.co.uk>
+References: <cover.1439282534.git.joshua.lock@collabora.co.uk>
+In-Reply-To: <cover.1439282534.git.joshua.lock@collabora.co.uk>
+References: <cover.1439282534.git.joshua.lock@collabora.co.uk>
+Subject: [RFC PATCH 1/1] lib/oe/package_manager: fix opkg feed generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,32 +29,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 11 Aug 2015 08:45:18 -0000
 
-When playing around with automatically generated opkg feeds I noticed that
-we're inserting a feed pointing to the root of ${DEPLOY_DIR}/ipk - however for
-my builds that directory doesn't include a Packages.gz resulting in opkg
-printing an error.
+The insert_feed_uris() method of OpkgPM was creating an initial
+entry in the feeds list which pointed to the root of the ipk
+directory, however the on-device package manager can't consume
+this feed resulting in runtime errors - therefore we remove the
+code to generate that initial feed uri.
 
-The following patch removes the code which inserts that feed entry.
-
-Cheers,
-
-Joshua
-
-The following changes since commit 5094354a2811825e6d60963f03959daa349cab23:
-
-  bind: upgrade to 9.10.2-p3 (2015-08-09 15:14:32 -0700)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/opkg
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/opkg
-
-Joshua Lock (1):
-  lib/oe/package_manager: fix opkg feed generation
-
+Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+---
  meta/lib/oe/package_manager.py | 5 +----
  1 file changed, 1 insertion(+), 4 deletions(-)
 
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 55b8ab0..2ab1d78 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -1343,13 +1343,10 @@ class OpkgPM(PackageManager):
+         with open(rootfs_config, "w+") as config_file:
+             uri_iterator = 0
+             for uri in self.feed_uris.split():
+-                config_file.write("src/gz url-%d %s/ipk\n" %
+-                                  (uri_iterator, uri))
+-
+                 for arch in self.pkg_archs.split():
+                     if not os.path.exists(os.path.join(self.deploy_dir, arch)):
+                         continue
+-                    bb.note('Note: adding opkg channel url-%s-%d (%s)' %
++                    bb.note('Note: adding opkg feed url-%s-%d (%s)' %
+                         (arch, uri_iterator, uri))
+ 
+                     config_file.write("src/gz uri-%s-%d %s/ipk/%s\n" %
 -- 
 2.1.4
 
