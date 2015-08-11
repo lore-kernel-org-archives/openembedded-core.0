@@ -1,36 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id B87227690C
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 003F7768C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 00:15:51 +0000 (UTC)
-Received: by igbjg10 with SMTP id jg10so11877909igb.0
+	Tue, 11 Aug 2015 01:18:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7B1I8ce023810
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Aug 2015 17:15:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=377xQKiSBHZsok86NekxqYE9FU2n6n3Fpjt5tW2U1ns=;
-	b=G2pFz2HbQkdskMWZdvBYS3MO390zZhJzB+7a6wj4THnid1OiG+M26fk6hobAMrt8d+
-	MRooq+BeIMlvioFgCek9XAcOIrknLHr+7tKk62lxI9QP38/Bo4OJARm+Hs+A8y93sCp8
-	2Ao2PFIGhjZTP17Ad4KTv9fRt/6KosAMovFyguPlu+gUvioJx45SLuHDn1v2XHd6ZtSj
-	6os7k7he8r6k+JRL+q0bFx4l0fR0c++1QzSMwC+Ne3kdoPHQaGecSOntY1vxo1LMFS4c
-	VF189xQNc/ZOUmg+vIKF7v1ncRa9MdUtTWyih5qnHVeN6KYO6jZO7feY4Da1Jxe2gLXZ
-	xVuQ==
-X-Received: by 10.50.17.66 with SMTP id m2mr15368438igd.77.1439252151330; Mon,
-	10 Aug 2015 17:15:51 -0700 (PDT)
+	Mon, 10 Aug 2015 18:18:08 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 10 Aug 2015 18:18:07 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Aug 2015 09:14:51 +0800
+Message-ID: <1439255691-21873-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Mon, 10 Aug 2015 17:15:21 -0700 (PDT)
-In-Reply-To: <1437989436.821.221.camel@linuxfoundation.org>
-References: <1437989436.821.221.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 10 Aug 2015 17:15:21 -0700
-Message-ID: <CAMKF1srLYg1b8r-_rOO6QrHS5qt_sD-htWCWjWL5o-utjvoNJQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "Ashfield, Bruce" <Bruce.Ashfield@windriver.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: gcc 5.2 failures
+Subject: [PATCH] weston: backport a patches to fix the building failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 00:15:51 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 11 Aug 2015 01:18:11 -0000
+Content-Type: text/plain
 
-On Mon, Jul 27, 2015 at 2:30 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I've run a gcc 5.2 test build on the autobuilder:
->
-> http://errors.yoctoproject.org/Errors/Search/?items=10&query=3628c3c06fa4195003ac655bcc791acfac775173&limit=50
->
-> 41 errors (with a few more pending).
->
+From: Roy Li <rongqing.li@windriver.com>
 
-errors like http://errors.yoctoproject.org/Errors/Details/13821/
-should be fixed with glibc 2.22 now there was symbol visibility fix
-which went into gcc5
-binutils 2.25+ and glibc 2.22+, I did not backport the glibc piece to
-2.21, as I knew 2.22 was releasing.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ ...-target-weston.ini-directories-before-wri.patch | 42 ++++++++++++++++++++++
+ meta/recipes-graphics/wayland/weston_1.8.0.bb      |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/weston/0001-build-mkdir-target-weston.ini-directories-before-wri.patch
+
+diff --git a/meta/recipes-graphics/wayland/weston/0001-build-mkdir-target-weston.ini-directories-before-wri.patch b/meta/recipes-graphics/wayland/weston/0001-build-mkdir-target-weston.ini-directories-before-wri.patch
+new file mode 100644
+index 0000000..a8fd846
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/weston/0001-build-mkdir-target-weston.ini-directories-before-wri.patch
+@@ -0,0 +1,42 @@
++From 2eff22b8e6f6e5255a1915c33dfd91cecf02cbbc Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@intel.com>
++Date: Fri, 17 Jul 2015 12:33:45 +0100
++Subject: [PATCH] build: mkdir target weston.ini directories before writing
++
++Upstream-Status: Backport
++
++In parallel out-of-tree builds it is possible for e.g. ivi-shell/weston.ini to
++be written before ivi-shell/ exists.  Solve this by creating the target
++directory first.
++
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++Reviewed-by: Quentin Glidic <sardemff7+git@sardemff7.net>
++---
++ Makefile.am | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index a3590c0..76ab546 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -20,7 +20,7 @@ weston.ini : $(srcdir)/weston.ini.in
++ 		$< > $@
++ 
++ ivi-shell/weston.ini : $(srcdir)/ivi-shell/weston.ini.in
++-	$(AM_V_GEN)$(SED) \
+++	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && $(SED) \
++ 		-e 's|@bindir[@]|$(bindir)|g' \
++ 		-e 's|@abs_top_builddir[@]|$(abs_top_builddir)|g' \
++ 		-e 's|@abs_top_srcdir[@]|$(abs_top_srcdir)|g' \
++@@ -29,7 +29,7 @@ ivi-shell/weston.ini : $(srcdir)/ivi-shell/weston.ini.in
++ 		$< > $@
++ 
++ tests/weston-ivi.ini : $(srcdir)/ivi-shell/weston.ini.in
++-	$(AM_V_GEN)$(SED) \
+++	$(AM_V_GEN)$(MKDIR_P) $(dir $@) && $(SED) \
++ 		-e 's|@bindir[@]|$(bindir)|g' \
++ 		-e 's|@abs_top_builddir[@]|$(abs_top_builddir)|g' \
++ 		-e 's|@abs_top_srcdir[@]|$(abs_top_srcdir)|g' \
++-- 
++1.9.1
++
+diff --git a/meta/recipes-graphics/wayland/weston_1.8.0.bb b/meta/recipes-graphics/wayland/weston_1.8.0.bb
+index 342c604..515c712 100644
+--- a/meta/recipes-graphics/wayland/weston_1.8.0.bb
++++ b/meta/recipes-graphics/wayland/weston_1.8.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://make-libwebp-explicitly-configurable.patch \
+            file://0001-make-error-portable.patch \
+            file://parallelmake.patch \
++           file://0001-build-mkdir-target-weston.ini-directories-before-wri.patch \
+ "
+ SRC_URI[md5sum] = "24cb8a7ed0535b4fc3642643988dab36"
+ SRC_URI[sha256sum] = "8963e69f328e815cec42c58046c4af721476c7541bb7d9edc71740fada5ad312"
+-- 
+1.9.1
+
 
