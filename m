@@ -1,37 +1,39 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f47.google.com (mail-qg0-f47.google.com
-	[209.85.192.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 46E4B76977
+Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
+	[209.85.192.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B46476975
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 14:33:29 +0000 (UTC)
-Received: by qgj62 with SMTP id 62so115487528qgj.2
+	Tue, 11 Aug 2015 14:36:24 +0000 (UTC)
+Received: by qgj62 with SMTP id 62so115558631qgj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 07:33:30 -0700 (PDT)
+	Tue, 11 Aug 2015 07:36:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=etCyWJWTe9jjIdroavI3WsRXt5GzeR3BaHJuTcUkil8=;
-	b=DWpIuaHnABtUNsG7tiPN43LM1jRY5cQNoH0fEcKbZH50SyV79se+fEQHRSQY46I12H
-	Y7vPISR9cV3alKqHCmIm0Oxrbv95TN/x/gMYFym9n82KvZObPkt58MHEvBD9odaXpgBs
-	TYnkvfoFw90v3Pyr+k/daDGe037SvC0TDFyMAUyT7GUJSd9cTlH6YePMoFCrrgLX9Qn3
-	CHkFHJnL0xWinzxwGSjCopPCAXrU1HaXKtThdSdD8I63SdXgc120RWfndwaPYBgChnjc
-	lW2wH7HewdcJ2P38HLcliMM+kituC2EyO97dse6RkiHfaSD6sPrBBnoBV3BIOgBz8Vef
-	N3TQ==
-X-Gm-Message-State: ALoCoQlFy8ugBYxSF4HqQcQWrZByZC4EkGHousoCeKmJpAOEL8Uw7+1WCdvKjfarFCu8urK3RHsA
-X-Received: by 10.141.28.6 with SMTP id f6mr52290826qhe.64.1439303609891; Tue,
-	11 Aug 2015 07:33:29 -0700 (PDT)
+	bh=A6RkZVWMfh3TbYK4GSxWHJbWgQMJJA9VhdQ+mCaZCj8=;
+	b=X/JpiFhCRUDDR8hV2b1RvWiVVzzLnB+TJrDqXP77dQRsbUTlNfqA9t6Lw/smu+ZDW+
+	B3bIPWrTfJtSXZDVEdBqN+q3EicKUjelvB80NytnNJLkfMg4zEJqmbYvMOqPEw4iAd4h
+	UVJ33noiHZp6AWDSzbt/grPmfbWHpZq4CRWSowYI1s9PrYXWMPE5J0nRyjBzmpOWvlEU
+	SeTakSyZoePujbkVxUd2Os8u6yMnlOOfmIjE970LMTFb+DVD3w9qIH33ENhMJizvu3uT
+	Xpu80/yL2+1ROmkHKxuE1nSyNlkgn2YaO5/sAJoPeK3q5MAtCNXvuoK87nsjueZ7Aq6U
+	k6Tg==
+X-Gm-Message-State: ALoCoQkjaV9Qve+aJjYD+W9c5Jg04MfWaXxbjb7wOrH3ROxN5pZqLBJOOZNcJ46jiKQkS8D5W5Sn
+X-Received: by 10.140.145.83 with SMTP id 80mr51910215qhr.17.1439303784551;
+	Tue, 11 Aug 2015 07:36:24 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Tue, 11 Aug 2015 07:33:10 -0700 (PDT)
-In-Reply-To: <6af40fe1752b8cf25efca4a906361c4437249841.1439281753.git.patrick.ohly@intel.com>
-References: <cover.1439281753.git.patrick.ohly@intel.com>
-	<6af40fe1752b8cf25efca4a906361c4437249841.1439281753.git.patrick.ohly@intel.com>
+Received: by 10.140.98.67 with HTTP; Tue, 11 Aug 2015 07:36:05 -0700 (PDT)
+In-Reply-To: <55C95B4C.9080505@windriver.com>
+References: <cover.1438269391.git.liezhi.yang@windriver.com>
+	<50edd6dd2fa86d9a51cc54ecdaa1599a1efc5a43.1438269391.git.liezhi.yang@windriver.com>
+	<CAJ86T=W=_iETkpDyVJqUD0g6xkd_xhpXf_jtUCGmXe-Mt+fjxQ@mail.gmail.com>
+	<55C95B4C.9080505@windriver.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Aug 2015 15:33:10 +0100
-Message-ID: <CAJTo0LbMmZ9rf-Jq_XoGJzTCj_0E=1qene_ooyf_T_nWsH60Jw@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] mtd-utils: keep xattr support enabled
+Date: Tue, 11 Aug 2015 15:36:05 +0100
+Message-ID: <CAJTo0LaaRuJ8FW9K8dH3d_r0Myy+-aVCsC+RsAG6R7Wi9cY9+g@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] base.bbclass/blacklist.bbclass: remove doc item when d.getVarFlags()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +46,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 14:33:30 -0000
-Content-Type: multipart/alternative; boundary=001a11422ff46455a4051d09fc76
+X-List-Received-Date: Tue, 11 Aug 2015 14:36:27 -0000
+Content-Type: multipart/alternative; boundary=001a11355bc6cd7e72051d0a0696
 
---001a11422ff46455a4051d09fc76
+--001a11355bc6cd7e72051d0a0696
 Content-Type: text/plain; charset=UTF-8
 
-On 11 August 2015 at 09:45, Patrick Ohly <patrick.ohly@intel.com> wrote:
+On 11 August 2015 at 03:17, Robert Yang <liezhi.yang@windriver.com> wrote:
 
-> -EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}'
-> 'CFLAGS=${CFLAGS} -I${S}/include -DWITHOUT_XATTR' 'BUILDDIR=${S}'"
-> +EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}'
-> 'CFLAGS=${CFLAGS} -I${S}/include' 'BUILDDIR=${S}'"
+> I'm afraid that there isn't any other way to fix the issue (many
+> unneeded loops caused by PACKAGECONFIG[doc] which is set by
+> documentation.conf), maybe you can change 'doc' to such as 'docs' in
+> other layers ?
 >
 
-There's a "xattr" DISTRO_FEATURE that should be respected here for target
-builds (and explicitly enabled for native I guess).
-
-Does enabling xattr mean adding build dependencies?
+Otavio is right - the commit doesn't explain what the problem is, and
+forcibly deleting PACKAGECONFIG[doc] options is very aggressive without
+good reason.
 
 Ross
 
---001a11422ff46455a4051d09fc76
+--001a11355bc6cd7e72051d0a0696
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 11 August 2015 at 09:45, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2b0" class=
-=3D"a3s" style=3D"overflow:hidden">-EXTRA_OEMAKE =3D &quot;&#39;CC=3D${CC}&=
-#39; &#39;RANLIB=3D${RANLIB}&#39; &#39;AR=3D${AR}&#39; &#39;CFLAGS=3D${CFLA=
-GS} -I${S}/include -DWITHOUT_XATTR&#39; &#39;BUILDDIR=3D${S}&#39;&quot;<br>
-+EXTRA_OEMAKE =3D &quot;&#39;CC=3D${CC}&#39; &#39;RANLIB=3D${RANLIB}&#39; &=
-#39;AR=3D${AR}&#39; &#39;CFLAGS=3D${CFLAGS} -I${S}/include&#39; &#39;BUILDD=
-IR=3D${S}&#39;&quot;</div></blockquote><div><br></div><div>There&#39;s a &q=
-uot;xattr&quot; DISTRO_FEATURE that should be respected here for target bui=
-lds (and explicitly enabled for native I guess).</div><div><br></div><div>D=
-oes enabling xattr mean adding build dependencies?</div><div><br></div><div=
->Ross=C2=A0</div></div></div></div>
+On 11 August 2015 at 03:17, Robert Yang <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ar" c=
+lass=3D"a3s" style=3D"overflow:hidden">I&#39;m afraid that there isn&#39;t =
+any other way to fix the issue (many<br>
+unneeded loops caused by PACKAGECONFIG[doc] which is set by<br>
+documentation.conf), maybe you can change &#39;doc&#39; to such as &#39;doc=
+s&#39; in<br>
+other layers ?</div></blockquote></div><br>Otavio is right - the commit doe=
+sn&#39;t explain what the problem is, and forcibly deleting PACKAGECONFIG[d=
+oc] options is very aggressive without good reason.</div><div class=3D"gmai=
+l_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a11422ff46455a4051d09fc76--
+--001a11355bc6cd7e72051d0a0696--
