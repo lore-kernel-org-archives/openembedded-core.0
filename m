@@ -1,24 +1,46 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F12D7688F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 37EEB76740
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 15:26:31 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 11 Aug 2015 08:26:12 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,653,1432623600"; d="scan'208";a="746460199"
-Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga001.jf.intel.com with ESMTP; 11 Aug 2015 08:26:11 -0700
-From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Aug 2015 18:27:17 +0300
-Message-Id: <a6b35be10f1c5ff911574ad9244b98ba26c2343a.1439306707.git.alexander.kanavin@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <24c21202012adf0c10fbe8e056720331a4330726.1439306707.git.alexander.kanavin@linux.intel.com>
-References: <24c21202012adf0c10fbe8e056720331a4330726.1439306707.git.alexander.kanavin@linux.intel.com>
-In-Reply-To: <cover.1439306707.git.alexander.kanavin@linux.intel.com>
-References: <cover.1439306707.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 2/2] blktool: update to 4-7
+	Tue, 11 Aug 2015 15:47:26 +0000 (UTC)
+Received: by igui7 with SMTP id i7so43020067igu.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Aug 2015 08:47:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=QUHUMjNZ2D5HZSedJjnMokjVfDMQvSHi1hUGzXpX60M=;
+	b=KbvYSzylP95fbTrwnamWijpm3OKUdSWZG01EgMArI5snuQtJVTUVCxsHrnbIbgVaf+
+	6XL+Op+fcWX/w4aBnO7gFs0f9vp2lvzzHssvHUd4apHFWN6Zj/kOs7eCIn36Jyvbks78
+	cpPTOiyV/32nN8dH4bCgZkshL7fxtJQBnprNp1LgTqBEN1vKX5lhakhwYUMDCLC/znLN
+	MhxwpPnLQoW6KWf7FG8soLNKDNBrv1P5zpf2bdmWwb13Hlq7zMdE6SP0lnIxWH4ghqy0
+	VPZCWkAdu4lXq9TE1CQUozNMAPYMiaM110eiSUhe2WJ1bzKHrSJSCEffCSYk6ynALhoY
+	UWHw==
+X-Received: by 10.50.30.105 with SMTP id r9mr19234129igh.11.1439308046167;
+	Tue, 11 Aug 2015 08:47:26 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.38.79 with HTTP; Tue, 11 Aug 2015 08:46:56 -0700 (PDT)
+In-Reply-To: <55C9F7F2.2060502@linux.intel.com>
+References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
+	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
+	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
+	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+	<1436601450.3310.27.camel@linuxfoundation.org>
+	<55BA134F.9010908@linux.intel.com>
+	<CAJ86T=UHTjTA7S_4EV66VEUoaRhYmaYveVcfxbqzVJsxZ4s6dg@mail.gmail.com>
+	<55BB5F06.4010901@linux.intel.com>
+	<CAMKF1srWcMoRui4kqRY5vCdLd-SPQ+EMihTci=NUghHsnGiBqQ@mail.gmail.com>
+	<55C477AE.8030308@balister.org> <55C4A405.6050209@linux.intel.com>
+	<55C637DB.9010106@balister.org> <55C8956D.9080508@linux.intel.com>
+	<55C8F83F.4010003@balister.org> <55C9F7F2.2060502@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 11 Aug 2015 08:46:56 -0700
+Message-ID: <CAMKF1soCEwGMkVfHsMzp3Wt49LKQusLC8jTrYygCSsBgjHZQQw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,219 +53,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 15:26:31 -0000
+X-List-Received-Date: Tue, 11 Aug 2015 15:47:34 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This means replacing a "-6.1" Debian patch with "-7" patch.
+On Tue, Aug 11, 2015 at 6:26 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> On 08/10/2015 10:15 PM, Philip Balister wrote:
+>
+>>> This is perfectly fine with me. However, the subject has been whether
+>>> the scope of *oe-core/poky* can be expanded without compromising
+>>
+>>
+>> What is Poky?
+>
+>
+> Uhm... http://git.yoctoproject.org/cgit/cgit.cgi/poky/about/
+>
 
-Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
----
- .../blktool/0001-fix-typos-in-manpage.patch        | 40 +++++++++++
- .../blktool/blktool/0002-fix-string-error.patch    | 31 +++++++++
- ...rgument-for-BLKROSET-it-must-be-const-int.patch | 78 ++++++++++++++++++++++
- .../blktool/{blktool_4-6.1.bb => blktool_4-7.bb}   |  9 ++-
- 4 files changed, 153 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-extended/blktool/blktool/0001-fix-typos-in-manpage.patch
- create mode 100644 meta/recipes-extended/blktool/blktool/0002-fix-string-error.patch
- create mode 100644 meta/recipes-extended/blktool/blktool/0003-Fix-3-d-argument-for-BLKROSET-it-must-be-const-int.patch
- rename meta/recipes-extended/blktool/{blktool_4-6.1.bb => blktool_4-7.bb} (76%)
-
-diff --git a/meta/recipes-extended/blktool/blktool/0001-fix-typos-in-manpage.patch b/meta/recipes-extended/blktool/blktool/0001-fix-typos-in-manpage.patch
-new file mode 100644
-index 0000000..fee368d
---- /dev/null
-+++ b/meta/recipes-extended/blktool/blktool/0001-fix-typos-in-manpage.patch
-@@ -0,0 +1,40 @@
-+From 9cb1667f9d3a9bcfc3b83466cd8d3b79f0554ff0 Mon Sep 17 00:00:00 2001
-+From: Azat Khuzhin <a3at.mail@gmail.com>
-+Date: Wed, 8 Jul 2015 01:37:09 +0300
-+Subject: [PATCH 1/3] fix typos in manpage
-+
-+This patch is taken from
-+ftp://ftp.debian.org/debian/pool/main/b/blktool/blktool_4-7.debian.tar.xz
-+
-+Upstream-Status: Inappropriate [upstream is dead]
-+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-+
-+---
-+ blktool.8 | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/blktool.8 b/blktool.8
-+index a1f5c96..45b7724 100644
-+--- a/blktool.8
-++++ b/blktool.8
-+@@ -191,7 +191,7 @@ Query or set device bus state (0 off, 1 on, 2 tristate)
-+ Query the detected (or overridden, via -t) device class.
-+ Typically this will result in 'ATA' or 'SCSI' for most devices.
-+ Detection is based on device major; thus your SATA device may appear as
-+-'SCSI'.
-++\&'SCSI'.
-+ 
-+ .TP
-+ .B cd-speed
-+@@ -237,7 +237,7 @@ Omitting the on/off argument will print the current state.
-+ 
-+ .TP
-+ .B media
-+-Lock in (or unlock) a removeable device.
-++Lock in (or unlock) a removable device.
-+ 
-+ .TP
-+ .B multiple-count
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/blktool/blktool/0002-fix-string-error.patch b/meta/recipes-extended/blktool/blktool/0002-fix-string-error.patch
-new file mode 100644
-index 0000000..d08aba5
---- /dev/null
-+++ b/meta/recipes-extended/blktool/blktool/0002-fix-string-error.patch
-@@ -0,0 +1,31 @@
-+From ddb1071da2c78d8155aab62e9f0d46f69500200f Mon Sep 17 00:00:00 2001
-+From: Azat Khuzhin <a3at.mail@gmail.com>
-+Date: Wed, 8 Jul 2015 01:42:24 +0300
-+Subject: [PATCH 2/3] fix string error
-+
-+This patch is taken from
-+ftp://ftp.debian.org/debian/pool/main/b/blktool/blktool_4-7.debian.tar.xz
-+
-+Upstream-Status: Inappropriate [upstream is dead]
-+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-+
-+---
-+ util.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/util.c b/util.c
-+index 1f3a9ca..2ccf56a 100644
-+--- a/util.c
-++++ b/util.c
-+@@ -28,7 +28,7 @@ void pdie(const char *msg, int perr)
-+ 	if (perr)
-+ 		perror(msg);
-+ 	else
-+-		fprintf(stderr, msg);
-++		fprintf(stderr, "%s", msg);
-+ 	if (blkdev >= 0)
-+ 		close(blkdev);
-+ 	exit(1);
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/blktool/blktool/0003-Fix-3-d-argument-for-BLKROSET-it-must-be-const-int.patch b/meta/recipes-extended/blktool/blktool/0003-Fix-3-d-argument-for-BLKROSET-it-must-be-const-int.patch
-new file mode 100644
-index 0000000..d7ed0b9
---- /dev/null
-+++ b/meta/recipes-extended/blktool/blktool/0003-Fix-3-d-argument-for-BLKROSET-it-must-be-const-int.patch
-@@ -0,0 +1,78 @@
-+From 68faa63aaad81f4a289e4a03173ab4cf798deb53 Mon Sep 17 00:00:00 2001
-+From: Azat Khuzhin <a3at.mail@gmail.com>
-+Date: Sat, 1 Nov 2014 22:24:32 +0300
-+Subject: [PATCH 3/3] Fix 3-d argument for BLKROSET it must be 'const int *'
-+
-+Most of *SET ioctls have int type for 3-d argument, except BLKROSET.
-+So add bc_arg_type enum, build it into bool_comand and install arg_type
-+to bc_arg_int_ptr for BLKROSET only.
-+
-+Debian-bug-id: 641164
-+Link: https://bugs.debian.org/641164
-+
-+This patch is taken from
-+ftp://ftp.debian.org/debian/pool/main/b/blktool/blktool_4-7.debian.tar.xz
-+
-+Upstream-Status: Inappropriate [upstream is dead]
-+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-+
-+---
-+ blktool.c | 11 +++++++++--
-+ blktool.h |  7 +++++++
-+ 2 files changed, 16 insertions(+), 2 deletions(-)
-+
-+diff --git a/blktool.c b/blktool.c
-+index fbefecd..221a195 100644
-+--- a/blktool.c
-++++ b/blktool.c
-+@@ -85,7 +85,7 @@ static struct bool_command bool_cmd_tbl[] = {
-+ 	{ { DEF_BOOL("pio-data"), dc_ata, DEF_HDIO(32BIT) },
-+ 	  "16-bit", "32-bit" },
-+ 	{ { DEF_BOOL("readonly"), dc_any, IOCNAME(BLKROGET), IOCNAME(BLKROSET) },
-+-	  DEF_BOOLSTR },
-++	  DEF_BOOLSTR, bc_arg_int_ptr },
-+ 	{ { DEF_BOOL("unmask-irq"), dc_ata, DEF_HDIO(UNMASKINTR) },
-+ 	  DEF_BOOLSTR },
-+ 	{ { "wcache", ct_bool, handle_wcache, dc_any,
-+@@ -171,7 +171,14 @@ static void handle_bool(int argc, char **argv, struct command *cmd)
-+ 
-+ 	} else if ((argc == 4) && (cmd->write_ioctl_name != NULL)) {
-+ 		do_32 = parse_bool(argc, argv, bcm);
-+-		if (ioctl(blkdev, cmd->write_ioctl, do_32))
-++		
-++		int ret;
-++		if (bcm->arg_type == bc_arg_int_ptr) {
-++			ret = ioctl(blkdev, cmd->write_ioctl, &do_32);
-++		} else {
-++			ret = ioctl(blkdev, cmd->write_ioctl, do_32);
-++		}
-++		if (ret)
-+ 			pdie(cmd->write_ioctl_name, 1);
-+ 	}
-+ 	else {
-+diff --git a/blktool.h b/blktool.h
-+index fce4387..85add83 100644
-+--- a/blktool.h
-++++ b/blktool.h
-+@@ -85,11 +85,18 @@ struct command {
-+ 	const char		*write_ioctl_name;
-+ };
-+ 
-++enum bc_arg_type {
-++	bc_arg_int,
-++	bc_arg_int_ptr,
-++};
-++
-+ struct bool_command {
-+ 	struct command		cmd;
-+ 
-+ 	const char		*str_false;
-+ 	const char		*str_true;
-++
-++	enum bc_arg_type arg_type;
-+ };
-+ 
-+ struct class_operations {
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-extended/blktool/blktool_4-6.1.bb b/meta/recipes-extended/blktool/blktool_4-7.bb
-similarity index 76%
-rename from meta/recipes-extended/blktool/blktool_4-6.1.bb
-rename to meta/recipes-extended/blktool/blktool_4-7.bb
-index 69f2261..679196b 100644
---- a/meta/recipes-extended/blktool/blktool_4-6.1.bb
-+++ b/meta/recipes-extended/blktool/blktool_4-7.bb
-@@ -8,17 +8,16 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://blktool.c;beginline=7;endline=8;md5=a5e798ea98fd50972088968a15e5f373"
- 
- DEPENDS = "glib-2.0"
--PR = "r1"
- 
- SRC_URI = "${DEBIAN_MIRROR}/main/b/blktool/blktool_4.orig.tar.gz;name=tarball \
--           ${DEBIAN_MIRROR}/main/b/blktool/blktool_4-6.1.diff.gz;apply=yes;name=patch"
-+           file://0001-fix-typos-in-manpage.patch \
-+           file://0002-fix-string-error.patch \
-+           file://0003-Fix-3-d-argument-for-BLKROSET-it-must-be-const-int.patch \
-+          "
- 
- SRC_URI[tarball.md5sum] = "62edc09c9908107e69391c87f4f3fd40"
- SRC_URI[tarball.sha256sum] = "b1e6d5912546d2a4b704ec65c2b9664aa3b4663e7d800e06803330335a2cb764"
- 
--SRC_URI[patch.md5sum] = "cf605a683d54d1fbcb35b940076ddb0c"
--SRC_URI[patch.sha256sum] = "d7923527e1a00984620ab307c9047a653d7ae2856cd20a82de8a33328f381ae3"
--
- S = "${WORKDIR}/${BPN}-4.orig"
- 
- inherit autotools pkgconfig
--- 
-2.1.4
-
+can we freeze this thread please.
 
