@@ -1,26 +1,50 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ABEDF76781
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 16081763F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 09:09:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7B99Ssw026319
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 11 Aug 2015 12:45:54 +0000 (UTC)
+Received: by ioeg141 with SMTP id g141so200357234ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 02:09:28 -0700 (PDT)
-Received: from PEK-ZHE-D1.corp.ad.wrs.com (128.224.162.235) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 11 Aug 2015 02:09:28 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Aug 2015 17:08:57 +0800
-Message-ID: <648173de6f77371c4e0b803af12b23cd514b2d9f.1439283534.git.zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1439283534.git.zhe.he@windriver.com>
-References: <cover.1439283534.git.zhe.he@windriver.com>
+	Tue, 11 Aug 2015 05:45:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=nQ6Vj30/524GsnYOVM6PvRkcUC08Zc5NVJFSVjKjqXI=;
+	b=WKJbzAB0iT6IV0IyESpuwmYZuAdwrLEMyPZ1Ls0vjV96nHKAS2ndLkF6YQrOTscuAB
+	dRzhUBcWZ4J4Gf82kNCtEU2797b+4I0hSulPs6ufuuRV+eB7H1enMNCcONAaqMFeDClg
+	0kxllbi12RPjRvW6BBVA57zAIHPO1OKpBEjoeAMmD/OjddVODVW4cTogYKoUypNnuFm3
+	NtIWCSw4qgYurtvyoHgOI/t2iitWDVCSk5iph6/CPHcL5CFWxhgq9jxCglTClNNEEzqs
+	5ht41MHGH1vEF+8hYIUTXry2Fm317q336n/ug7dd67N2XOIrHtT+lQPnuJJ2vd50QW9X
+	B7TQ==
+X-Gm-Message-State: ALoCoQnZAqI1JmswV05c3z5hHbRry3F5NRYjButNMESqOc0Jq1vL3S9kWh3Ukxum+cVlb4S+Qny3
+X-Received: by 10.107.10.144 with SMTP id 16mr32516350iok.43.1439297154542;
+	Tue, 11 Aug 2015 05:45:54 -0700 (PDT)
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com.
+	[209.85.213.181])
+	by smtp.gmail.com with ESMTPSA id pg7sm8028594igb.6.2015.08.11.05.45.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Aug 2015 05:45:53 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igbpg9 with SMTP id pg9so90170451igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Aug 2015 05:45:53 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] meta-yocto-bsp: mpc8315e-rdb: Set KERNEL_DEVICETREE to mpc8315erdb.dtb
+X-Received: by 10.50.178.133 with SMTP id cy5mr18651487igc.5.1439297153424;
+	Tue, 11 Aug 2015 05:45:53 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Tue, 11 Aug 2015 05:45:53 -0700 (PDT)
+In-Reply-To: <50edd6dd2fa86d9a51cc54ecdaa1599a1efc5a43.1438269391.git.liezhi.yang@windriver.com>
+References: <cover.1438269391.git.liezhi.yang@windriver.com>
+	<50edd6dd2fa86d9a51cc54ecdaa1599a1efc5a43.1438269391.git.liezhi.yang@windriver.com>
+Date: Tue, 11 Aug 2015 09:45:53 -0300
+Message-ID: <CAP9ODKqzs9VF7C6YFcgdu1tPuFq_ftOyS6HQZda9qvv=i23e4w@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] base.bbclass/blacklist.bbclass: remove doc item when d.getVarFlags()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +57,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 09:09:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 11 Aug 2015 12:45:59 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: He Zhe <zhe.he@windriver.com>
+On Thu, Jul 30, 2015 at 12:18 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> The FOO[doc] is set in meta/conf/documentation.conf, we need remove it
+> from d.getVarFlags()'s return dict when it causes many loops.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 
-To avoid warning of "xxx contains the full path to the the dts file,
-but only the dtb name should be used.", Set KERNEL_DEVICETREE to
-mpc8315erdb.dtb
+It seems your commit log is incomplete or so as I couldn't understand
+why this is need.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Also as Andre says, we ought to not break existing layer without a
+very strong reason and if needed, changing documentation.conf instead
+of this seems more adequate.
 
-diff --git a/meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf b/meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf
-index f372f32..2beef48 100644
---- a/meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf
-+++ b/meta-yocto-bsp/conf/machine/mpc8315e-rdb.conf
-@@ -25,7 +25,7 @@ XSERVER ?= "xserver-xorg \
- PREFERRED_VERSION_u-boot ?= "v2013.07%"
- UBOOT_ENTRYPOINT = "0x00000000"
- 
--KERNEL_DEVICETREE = "${S}/arch/powerpc/boot/dts/mpc8315erdb.dts"
-+KERNEL_DEVICETREE = "mpc8315erdb.dtb"
- 
- MACHINE_EXTRA_RRECOMMENDS = " kernel-modules"
- 
 -- 
-1.9.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
