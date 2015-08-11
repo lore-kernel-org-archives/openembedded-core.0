@@ -1,34 +1,36 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-Received: from root.phytec.de (mail.phytec.de [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 40911767F8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FB4E767F8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Aug 2015 14:25:45 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id F200FA0020D;
-	Tue, 11 Aug 2015 16:27:36 +0200 (CEST)
-Received: from [172.16.10.21] ([172.16.10.21])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP2 HF590)
-	with ESMTP id 2015081116254474-138984 ;
-	Tue, 11 Aug 2015 16:25:44 +0200 
-Message-ID: <55CA05E8.9030605@phytec.de>
-Date: Tue, 11 Aug 2015 16:25:44 +0200
-From: =?UTF-8?B?U3RlZmFuIE3DvGxsZXItS2xpZXNlcg==?=
-	<s.mueller-klieser@phytec.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Tue, 11 Aug 2015 14:29:28 +0000 (UTC)
+Received: by qged69 with SMTP id d69so140269834qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Aug 2015 07:29:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4Rd9sWVpUQ/AgZKe0BoqWhSbOpqQCBVgE7n92pPXhUU=;
+	b=TxUBYV2NtlyVjJzxRbf60LV+4wQQvBgRyPX1qBXk+/H3YI85RL5x6WuzuXkaEopbPx
+	uFSN7xGcG4g1HyAWIoLHlLMdWYGBSjfFqmJuMBoBUKCP+lNHqf3j6akPAtMKGsSNhiU0
+	XmVH/jjZ5ONBrXO7N5vLvRtx9FHI9UaKrWSgU/ZSh55qq+j2y6BFjfAIU4sVPoK4bxKV
+	IprcT5lwNgjWB3EM3qtGEYwPfmF4JiKPFco03Izcos6sqVh+ftT0VF1WKDZ5+xZks3jn
+	yuQvpuORTnN7lGPOqkj02vn7AWTZ5tzMLqGMKogPhg2rvt1WnxY/tWF9CsXFp4I5avuB
+	b3BQ==
+X-Gm-Message-State: ALoCoQlPYf5LCwjuJh4bjlNTPlPDhUy557ojY2+QyEDdk7SAMgDwzAupT5NqMXlE0t98CODFjzMD
+X-Received: by 10.140.43.199 with SMTP id e65mr48904406qga.80.1439303368887;
+	Tue, 11 Aug 2015 07:29:28 -0700 (PDT)
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <1439220090-3305-1-git-send-email-s.mueller-klieser@phytec.de>	<CADkTA4NL2Lz08PzmNhW1d9MiQhezDkmo5FwxpgG851Mc7Wffzw@mail.gmail.com>	<CAP9ODKqqG=gsUdoswgSMz6TpDYBXqeekFnS+FC3YhRveRUy0QA@mail.gmail.com>	<CADkTA4NT0YO_25Wz9+KfmdBZEkH=HFE+G2Ljyt1og-bgCu35pA@mail.gmail.com>
-	<CADkTA4O_Jf9fA1STu9ek9oYvWqehq9bKS83Pxn6KVj0495eyrw@mail.gmail.com>
-In-Reply-To: <CADkTA4O_Jf9fA1STu9ek9oYvWqehq9bKS83Pxn6KVj0495eyrw@mail.gmail.com>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP2
-	HF590|December 11, 2014) at 11.08.2015 16:25:44,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP2 HF590|December 11,
-	2014) at 11.08.2015 16:25:44
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: Fix do_shared_workdir task ordering
+Received: by 10.140.98.67 with HTTP; Tue, 11 Aug 2015 07:29:09 -0700 (PDT)
+In-Reply-To: <cover.1439281753.git.patrick.ohly@intel.com>
+References: <cover.1439281753.git.patrick.ohly@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 11 Aug 2015 15:29:09 +0100
+Message-ID: <CAJTo0LZSK7oknJ5taH4J2ma-5hMqWSCbW2qZnOcfzjh3g26kSw@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] preserve xattrs in images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,110 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Aug 2015 14:25:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 11 Aug 2015 14:29:31 -0000
+Content-Type: multipart/alternative; boundary=001a113a9baa06e61c051d09ee06
+
+--001a113a9baa06e61c051d09ee06
+Content-Type: text/plain; charset=UTF-8
+
+Hi Patrick,
+
+On 11 August 2015 at 09:44, Patrick Ohly <patrick.ohly@intel.com> wrote:
+
+> The default does not get changed because supporting xattrs causes a
+> certain overhead (need to build GNU tar, additional system calls when
+> creating the images).
+>
+
+Two questions:
+1) Do enough host distributions not enable xattrs in tar that we need to
+depend on tar-replacement-native?
+2) Have you timed the overhead of enabling xattr archiving on an image that
+doesn't use xattrs?  (subtext: does this need to be an option).
+
+Ross
+
+--001a113a9baa06e61c051d09ee06
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 11.08.2015 15:11, Bruce Ashfield wrote:
-> On Tue, Aug 11, 2015 at 9:06 AM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->> On Tue, Aug 11, 2015 at 8:47 AM, Otavio Salvador
->> <otavio.salvador@ossystems.com.br> wrote:
->>> On Tue, Aug 11, 2015 at 12:23 AM, Bruce Ashfield
->>> <bruce.ashfield@gmail.com> wrote:
->>>> On Mon, Aug 10, 2015 at 11:21 AM, Stefan M=C3=BCller-Klieser
->>>> <s.mueller-klieser@phytec.de> wrote:
->>>>> commit 02d0a003d60326 [kernel.bbclass: Fix race condition] has surfac=
-ed
->>>>> a bug in the generation of the shared=5Fworkdir. The task
->>>>> do=5Fcompile=5Fkernelmodules adds the exported symbols of the kernel =
-modules
->>>>> to the Module.symvers. By creating the shared=5Fworkdir before the mo=
-dules
->>>>> are compiled, the symbols of the modules are missing in the
->>>>> shared=5Fworkdir. Subsequent external module builds will not include =
-the
->>>>> ABI CRC of functions exported in modules. Modprobe will fail to load =
-the
->>>>> external module if CONFIG=5FMODVERSIONS is enabled.\
->>>>
->>>> Have you seen our bug: https://bugzilla.yoctoproject.org/show=5Fbug.cg=
-i?id=3D8127 ?
->>>>
->>>> It's new .. so probably not.
-I did not. Thanks.
+<div dir=3D"ltr"><div class=3D"gmail_extra">Hi Patrick,</div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On 11 August 2015 at 09:44, Pat=
+rick Ohly <span dir=3D"ltr">&lt;<a href=3D"mailto:patrick.ohly@intel.com" t=
+arget=3D"_blank">patrick.ohly@intel.com</a>&gt;</span> wrote:<br><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex"><div id=3D":368" class=3D"a3s" style=3D"overflow:hidde=
+n">The default does not get changed because supporting xattrs causes a<br>
+certain overhead (need to build GNU tar, additional system calls when<br>
+creating the images).</div></blockquote></div><div class=3D"gmail_extra"><b=
+r></div>Two questions:</div><div class=3D"gmail_extra">1) Do enough host di=
+stributions not enable xattrs in tar that we need to depend on tar-replacem=
+ent-native?<br>2) Have you timed the overhead of enabling xattr archiving o=
+n an image that doesn&#39;t use xattrs? =C2=A0(subtext: does this need to b=
+e an option).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Ross</div></div>
 
->>>>
->>>> The significant issue with this, is that we are now forcing anyone
->>>> that needs the
->>>> shared workdir artifacts to build kernel modules.
-That's by design. The artifacts are modified by the module build.
-
->>>>
->>>> That's performance issue for many workflows.
->>>>
->>>> I had some changes where I was working to short cut parts of the proce=
-ss, but
->>>> they turned out to miss a few corner cases.
->>>>
->>>> We need to do more thinking on this one, before we can bring in a chan=
-ge like
->>>> this .. since avoiding that overhead is something valuable.
-So you are saying a fast build is more important than a correct build?=20
-That's quite a bold statement.
-
->>>
->>> I agree that performance is important but correctness seems more
->>> valuable for me. I think the optimization can come as a subsequent
->>> patch ...
->>
->> Let's disagree on this point.
->>
->> There's time to get this right. We have a bug to track it, so we wont'
->> release with
->> the active bug, and this only hits a very tiny set of users.
->>
->> So we are going to step back and try and fix this right.
-Well, if you really want to do this then there should at least be a=20
-module-interdepend.bbclass not using the shared workdir and depending on=20
-the modules build. Fido and master are broken at the moment.
-
-Regards,
-
-Stefan
-
->
-> I hit send too soon. I have a suggestion in the bug already, so it isn't =
-like
-> we are talking about letting this sit for weeks.
->
-> History shows that we are very unlikely to loop back and fix the performa=
-nce
-> of perf or other builds once the change goes in. So in the absence of
-> other concrete suggestions, looking into some other small changes is a go=
-od
-> use of time.
->
-> Cheers,
->
-> Bruce
->
->
->>
->> Bruce
->>
->>>
->>> --
->>> Otavio Salvador                             O.S. Systems
->>> http://www.ossystems.com.br        http://code.ossystems.com.br
->>> Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->
->
->
-
+--001a113a9baa06e61c051d09ee06--
