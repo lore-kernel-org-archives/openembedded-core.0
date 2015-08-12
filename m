@@ -1,40 +1,40 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B5FA776844
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 835C4734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 07:29:09 +0000 (UTC)
-Received: by wicja10 with SMTP id ja10so102122567wic.1
+	Wed, 12 Aug 2015 07:50:01 +0000 (UTC)
+Received: by pacrr5 with SMTP id rr5so9159652pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 00:29:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=4pj7p2z9npSKG2giAnIRgLGpaomn0hqn0hDgjH6Hryg=;
-	b=QnmpnyVDQlJqG9fAVxKE7tljUM9l/F9+cAiNUl3LYOVGXbmlvbmBj2cgTgchVdb2Cv
-	A7mbQETi9DqcYAtZrynKvNQ9Zh9qc4g34rgimQ213NfUhZZ2IoSUFoRpRnAn/eOfhDlZ
-	xlwmvks2JA6ZyoY7/oBhbZQG7VHpEz3630/3pGd5y1vwKdbUt6mKsAMNiGPelv9D+Izv
-	1IxqXg43d1+HyjKQXeJl08CPwfWOWcMbu84AWrilxdLflMx8RUma9z8Fiu8qe+MCi34M
-	WO2NRPAITvOroXhy8eHBwsvotdQK40aCG0B2A2ri4bzAEvpaXzXCxE0lIbngoW1OdwPn
-	/fkA==
-X-Gm-Message-State: ALoCoQktG0kQmc64GS+9yo606D03huMXH6wj3TbiZ99DcqFSKOinpFRe1gSt0YOuq3engSUD3RH1
-X-Received: by 10.194.87.4 with SMTP id t4mr71193509wjz.84.1439364549868; Wed,
-	12 Aug 2015 00:29:09 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.27.175.160 with HTTP; Wed, 12 Aug 2015 00:28:40 -0700 (PDT)
-In-Reply-To: <CE58424F-B08C-41D9-B302-D4C4C2C3D074@gmail.com>
-References: <65f10f6264c7a8d751c5d0a56a38c920e02236b2.1439318387.git.jussi.kukkonen@intel.com>
-	<cover.1439318387.git.jussi.kukkonen@intel.com>
-	<6591f1a55a50b6417755e7e6720750818dab6532.1439318387.git.jussi.kukkonen@intel.com>
-	<CE58424F-B08C-41D9-B302-D4C4C2C3D074@gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Wed, 12 Aug 2015 10:28:40 +0300
-Message-ID: <CAHiDW_FC3mXkOoKUTXbfuhAvX_YZSTt8EG02nVna7NSK8g2HHA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] nfs-utils: Upgrade 1.3.1 -> 1.3.2
+	Wed, 12 Aug 2015 00:50:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=2NqZpFtwT6Zq1otTLequjaKnIyYQVAIracc39HU7CDk=;
+	b=b+WzP1uE6QG31AUwbr2ddcVmdIDqVz05DSYl6vZSIlIv7s7r0/sonNLc/VrepSV1rK
+	7OIZvxQNUvo7+l7qfM+zd0NQKCa8NSFE3uj1unw+ZtE/ffbL6admYGdnE54A0UVpR/A8
+	vtH0XmTBb6HYt60z95ntxRRiC2//xDg3XsstjsNOO56gd5mxH4PQRmDxuBghpA8XzwhO
+	XJ9zMo3/gtKA1XsjsFs1a5prxS2be+40jMIwkJbwM2eG3LWfosKQmtwuvGnFf6VRF56H
+	B9J4YtkjFfT8TWNcStO2CmJrQ8oncGsTMZmkb54C+4v8g+MiAZAVUAkhno623HfT2zFk
+	/Tpw==
+X-Received: by 10.66.197.202 with SMTP id iw10mr64602000pac.77.1439365801596; 
+	Wed, 12 Aug 2015 00:50:01 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:b9e7:cb72:7ff1:d60c?
+	([2601:646:8601:4580:b9e7:cb72:7ff1:d60c])
+	by smtp.gmail.com with ESMTPSA id pk8sm964118pdb.54.2015.08.12.00.50.00
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 12 Aug 2015 00:50:00 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1437500350-549-1-git-send-email-jslater@windriver.com>
+Date: Wed, 12 Aug 2015 00:49:51 -0700
+Message-Id: <AB5F0F40-684B-4A79-B48B-B06D4F32B598@gmail.com>
+References: <1437500350-549-1-git-send-email-jslater@windriver.com>
+To: Joe Slater <jslater@windriver.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] common-glibc: define bash_cv_getcwd_malloc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,73 +47,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 07:29:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Aug 2015 07:50:01 -0000
+X-Groupsio-MsgNum: 69333
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_5903D5E3-69F5-4C40-B4F9-562263DF4AC9";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On 12 August 2015 at 04:50, Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Aug 11, 2015, at 12:13 PM, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
->>
->> Let "--enable-tirpc" be selected in configure by default: it is
->> a requirement for ipv6 support. This should not grow a typical
->> image size as libtirpc is a rpcbind dependency already.
->>
->
-> ideally you would want to define a PACKAGECONFIG for this which is enabled/disabled with ipv6 distro feature knob.
+--Apple-Mail=_5903D5E3-69F5-4C40-B4F9-562263DF4AC9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-Thanks, sounds sensible. I can send a v2.
 
-Jussi
+> On Jul 21, 2015, at 10:39 AM, Joe Slater <jslater@windriver.com> =
+wrote:
+>=20
+> We do not want bash to use internal code for getcwd() because
+> it can fail in certain filesystem types.  Trust that the function
+> in glibc is not "broken=E2=80=9D.
 
->
->> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
->> ---
->> .../nfs-utils/{nfs-utils_1.3.1.bb => nfs-utils_1.3.2.bb}           | 7 +++----
->> 1 file changed, 3 insertions(+), 4 deletions(-)
->> rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.3.1.bb => nfs-utils_1.3.2.bb} (95%)
->>
->> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.2.bb
->> similarity index 95%
->> rename from meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
->> rename to meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.2.bb
->> index 6da8509..59252c5 100644
->> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
->> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.2.bb
->> @@ -8,7 +8,7 @@ LICENSE = "MIT & GPLv2+ & BSD"
->> LIC_FILES_CHKSUM = "file://COPYING;md5=95f3a93a5c3c7888de623b46ea085a84"
->>
->> # util-linux for libblkid
->> -DEPENDS = "libcap libnfsidmap libevent util-linux sqlite3"
->> +DEPENDS = "libcap libnfsidmap libevent libtirpc util-linux sqlite3"
->> RDEPENDS_${PN}-client = "rpcbind bash"
->> RDEPENDS_${PN} = "${PN}-client bash"
->> RRECOMMENDS_${PN} = "kernel-module-nfsd"
->> @@ -33,8 +33,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->>            file://nfs-utils-debianize-start-statd.patch \
->> "
->>
->> -SRC_URI[md5sum] = "8de676b9ff34b8f9addc1d0800fabdf8"
->> -SRC_URI[sha256sum] = "ff79d70b7b58b2c8f9b798c58721127e82bb96022adc04a5c4cb251630e696b8"
->> +SRC_URI[md5sum] = "4cdffb2c7f7fd2bdceaba55ab1b881da"
->> +SRC_URI[sha256sum] = "2966bb431c06e9ba35a54f48f89db03a5132bc2d8ed8084ac8ccb34e25a9b739"
->>
->> # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
->> # pull in the remainder of the dependencies.
->> @@ -58,7 +58,6 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
->>                 --disable-nfsv41 \
->>                 --enable-uuid \
->>                 --disable-gss \
->> -                --disable-tirpc \
->>                 --disable-nfsdcltrack \
->>                 --with-statdpath=/var/lib/nfs/statd \
->>                "
->> --
->> 2.1.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+I would suggest to move this to bash recipe as
 
+CACHED_CONFIGUREVARS +=3D =E2=80=9Cbash_cv_getcwd_malloc=3Dyes=E2=80=9D
+
+so other libcs can also benefit.
+
+>=20
+> Signed-off-by: Joe Slater <jslater@windriver.com>
+> ---
+> meta/site/common-glibc |    1 +
+> 1 file changed, 1 insertion(+)
+>=20
+> diff --git a/meta/site/common-glibc b/meta/site/common-glibc
+> index 8329bb3..1443f8e 100644
+> --- a/meta/site/common-glibc
+> +++ b/meta/site/common-glibc
+> @@ -18,6 +18,7 @@ ac_cv_func_getaddrinfo=3D${ac_cv_func_getaddrinfo=3Dye=
+s}
+> # bash
+> bash_cv_under_sys_siglist=3D${bash_cv_under_sys_siglist=3Dyes}
+> bash_cv_sys_siglist=3D${bash_cv_sys_siglist=3Dyes}
+> +bash_cv_getcwd_malloc=3D${bash_cv_getcwd_malloc=3Dyes}
+>=20
+> # clamav
+> =
+clamav_av_func_working_snprintf_long=3D${clamav_av_func_working_snprintf_l=
+ong=3Dyes}
+> --
+> 1.7.9.5
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_5903D5E3-69F5-4C40-B4F9-562263DF4AC9
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXK+qcACgkQuwUzVZGdMxQDjQCfYb7rFyHmU/LrCmqnKX3OJM5/
+kdoAn28QIw6pK+qVRS/AxrTJ3tNC26SD
+=sSNP
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_5903D5E3-69F5-4C40-B4F9-562263DF4AC9--
