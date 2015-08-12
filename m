@@ -1,25 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 756A0734DA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
+	[209.85.192.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 21480734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 16:43:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 12 Aug 2015 09:42:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,662,1432623600"; d="scan'208";a="747268531"
-Received: from sgwillia-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.17.140])
-	by orsmga001.jf.intel.com with ESMTP; 12 Aug 2015 09:42:54 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Aug 2015 17:42:53 +0100
-Message-ID: <3479404.DlVCyBLpXs@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.3-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <cover.1438667914.git.Qi.Chen@windriver.com>
-References: <cover.1438667914.git.Qi.Chen@windriver.com>
+	Wed, 12 Aug 2015 16:46:56 +0000 (UTC)
+Received: by qged69 with SMTP id d69so14294037qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Aug 2015 09:46:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=hHG7c8pXIlQXAVEUHn4L6euicRp3s1BaVHeWNqUGvJI=;
+	b=E3/emeGWCDIvaShrNhrazNDiIdM99r/G6EHOafvFc+xFemihtT8ezEM+NvLJHFaNOI
+	r6twFQ/EhJbC8K+wxgJW/vYYAxvMEbPa9gw2llyXmxjaZULDr6laP4odOUs6Uk0zACGU
+	N7Dm7aQMV6M4o9DaOsMPCdo6eykwoKm0GAU23JVRDcCH7fugjxf4Yt9u6LT0PXQarlKi
+	B39UFg8eveYw0ReCqZueS7v0uN2lEKmpBj9dMpqc+7AiAWEdI0ODovx5ZWA4RBSu6Ros
+	w9ko6gQKUKmaWzp/uq4v/P6EXtXmm4RYyCSVGrieX5YhH4LQECzHxHH5AMP9CrV/+W/l
+	Ae1w==
+X-Gm-Message-State: ALoCoQnvwqWRLknaMrIyDPSNTzff8b+XeeATPSOvYkEU0+YoUcHc5FEa3hBgiqtvy2aSaxjuD1Zz
+X-Received: by 10.140.20.77 with SMTP id 71mr25987406qgi.87.1439398016406;
+	Wed, 12 Aug 2015 09:46:56 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/8] Extensible SDK fixes
+Received: by 10.140.98.67 with HTTP; Wed, 12 Aug 2015 09:46:37 -0700 (PDT)
+In-Reply-To: <AB5F0F40-684B-4A79-B48B-B06D4F32B598@gmail.com>
+References: <1437500350-549-1-git-send-email-jslater@windriver.com>
+	<AB5F0F40-684B-4A79-B48B-B06D4F32B598@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 12 Aug 2015 17:46:37 +0100
+Message-ID: <CAJTo0LbsE_BpLV6MqVH5UuOsMjfRTTFL9EhGvxXGp2G0isrpTA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Joe Slater <jslater@windriver.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] common-glibc: define bash_cv_getcwd_malloc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,40 +45,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 16:43:15 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 12 Aug 2015 16:47:03 -0000
+Content-Type: multipart/alternative; boundary=001a11c12458756ad9051d1ff70d
 
-On Monday 10 August 2015 11:17:58 Chen Qi wrote:
-> The following changes since commit 288c76a41aebaf54c7fca3782160830df462b9e4:
-> 
->   builder: Fix multilib compile failure (2015-08-03 07:15:47 +0100)
-> 
-> are available in the git repository at:
-> 
->   git://git.openembedded.org/openembedded-core-contrib ChenQi/sdktool
->  
-> http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=Chen
-> Qi/sdktool
-> 
-> Chen Qi (8):
->   populate_sdk_ext: install the latest buildtools-tarball
->   copy_buildsystem: make sure bitbake directory is copied
->   populate_sdk_ext: consider custom configuration in local.conf
->   populate_sdk_ext: don't remove the native qemu dependencies
->   Extensible SDK: allow for installation without preparing build system
->   oe-publish-sdk: add script
->   populate_sdk_ext: record SDK_TARGETS in devtool.conf
->   devtool: add sdk.py plugin
+--001a11c12458756ad9051d1ff70d
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-FWIW I'm happy with patches 1-5; the rest need minor work, however 1-5 can 
-probably go in ahead without them.
+On 12 August 2015 at 08:49, Khem Raj <raj.khem@gmail.com> wrote:
 
-Cheers,
-Paul
+> I would suggest to move this to bash recipe as
+>
+> CACHED_CONFIGUREVARS +=3D =E2=80=9Cbash_cv_getcwd_malloc=3Dyes=E2=80=9D
+>
+> so other libcs can also benefit.
+>
 
--- 
+Don't we then have to trust that all libcs are not broken, or is the bash
+getcwd implementation *that bad*?
 
-Paul Eggleton
-Intel Open Source Technology Centre
+Ross
 
+--001a11c12458756ad9051d1ff70d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 12 August 2015 at 08:49, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div id=3D":28g" class=3D"a3s" styl=
+e=3D"overflow:hidden">I would suggest to move this to bash recipe as<br>
+<br>
+CACHED_CONFIGUREVARS +=3D =E2=80=9Cbash_cv_getcwd_malloc=3Dyes=E2=80=9D<br>
+<br>
+so other libcs can also benefit.<br>
+<div class=3D"HOEnZb"></div></div></blockquote></div><br>Don&#39;t we then =
+have to trust that all libcs are not broken, or is the bash getcwd implemen=
+tation *that bad*?</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">Ross</div></div>
+
+--001a11c12458756ad9051d1ff70d--
