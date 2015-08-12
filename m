@@ -1,28 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 291EF76777
+Return-Path: <prvs=659e801ce=Mikko.Rapeli@bmw.de>
+X-Greylist: delayed 1767 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 12 Aug 2015 10:33:55 UTC
+Received: from esa2.bmw.c3s2.iphmx.com (esa2.bmw.c3s2.iphmx.com
+	[68.232.133.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C860768B6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 10:33:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7CAXPqP013449
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 12 Aug 2015 03:33:26 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Wed, 12 Aug 2015 03:33:24 -0700
-Message-ID: <55CB2106.4070908@windriver.com>
-Date: Wed, 12 Aug 2015 18:33:42 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	Wed, 12 Aug 2015 10:33:55 +0000 (UTC)
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+	esa2.bmw.c3s2.iphmx.com with ESMTP/TLS; 12 Aug 2015 11:49:53 +0200
+Received: from unknown (HELO esabb1.muc) ([160.50.100.31]) by esagw1.muc with
+	ESMTP/TLS; 12 Aug 2015 11:49:52 +0200
+Received: from smuch57a.muc (HELO SMUCH57A.europe.bmw.corp) ([160.46.137.109])
+	by esabb1.muc with ESMTP/TLS; 12 Aug 2015 11:49:51 +0200
+Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
+	SMUCH57A.europe.bmw.corp ([160.46.137.109]) with mapi id 14.03.0248.002;
+	Wed, 12 Aug 2015 11:49:51 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <ed.bartosh@linux.intel.com>
+Thread-Topic: shell script guidelines in oe-core? (was Re: [OE-core] [PATCH
+	v4] create-pull-request: cleanup bashisms)
+Thread-Index: AQHQ1OQ7eQVn8LyWQUCBkb9ccZkr/g==
+Date: Wed, 12 Aug 2015 09:49:50 +0000
+Message-ID: <20150812094953.GL6102@loska>
+References: <1439303596-18965-1-git-send-email-ed.bartosh@linux.intel.com>
+	<1439372011-26268-1-git-send-email-ed.bartosh@linux.intel.com>
+In-Reply-To: <1439372011-26268-1-git-send-email-ed.bartosh@linux.intel.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.44.101]
 MIME-Version: 1.0
-To: Jack Mitchell <ml@communistcode.co.uk>,
-	<openembedded-core@lists.openembedded.org>
-References: <55CB2008.4020101@communistcode.co.uk>
-In-Reply-To: <55CB2008.4020101@communistcode.co.uk>
-X-Originating-IP: [128.224.162.211]
-Subject: Re: making /var/log persistent
+Cc: openembedded-core@lists.openembedded.org
+Subject: shell script guidelines in oe-core? (was Re: [PATCH v4] create-pull-request: cleanup bashisms)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,34 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 10:33:32 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Aug 2015 10:33:56 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <4715DC58C3DD75459B4CF768A8F4A7AB@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-On 08/12/2015 06:29 PM, Jack Mitchell wrote:
-> I'm trying to make /var/log persistent and I'm having trouble. I've 
-> made a bbappend to base_files which contains:
->
-> dirs755_append = " \
->         /var/log \
-> "
->
-> volatiles = "tmp"
->
-> Looking in the resulting image, /var/log is indeed now a directory and 
-> not a symlink to volatile storage, however when the image is flashed 
-> to target and booted it is reverted back to being a symlink; I assume 
-> by some init script?
->
-> Can anyone shed any light on what more is required to get a persistent 
-> log directory.
->
-> Cheers,
-> Jack.
+Sorry to hijack the thread but...
 
-I sent out a series of patches regarding this area.
-The patch title is "[OE-core] [PATCH 0/4] Support persistent /var/log".
+On Wed, Aug 12, 2015 at 12:33:31PM +0300, Ed Bartosh wrote:
+> Made create-pull-request POSIX compatible:
+>    - Replaced /bin/bash -> /bin/sh in shebang.
+>    - Replaced usage of pushd/popd with generic shell commands.
+>    - Tested on zsh and dash.
 
-Regards,
-Chen Qi
+This reminded me of the problems I've seen with various oe-core shell scrip=
+ts:
+they are missing systematic error handling.
+
+IMO using bash and 'set -euxo pipefail' are a good approach to catch errors
+early in shell scripts. Manually checking for $? is error prone and things
+like pipes can hide them. Using undefined variables is another thing
+which should fail early before things go horribly wrong. And in build autom=
+ation
+I'd rather see output of -x since things can fail in mysterious ways.
+And then there's quoting....
+
+One useful guide is to use shellcheck as static analysis tool for shell scr=
+ipts.
+
+I guess internally bitbake uses at least set -e.
+
+Comments?
+
+-Mikko=
 
