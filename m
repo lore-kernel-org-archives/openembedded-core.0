@@ -1,21 +1,25 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 76A29607A4
+Return-Path: <mariano.lopez@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D8A8073231
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 20:38:34 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 12 Aug 2015 13:38:35 -0700
+	Wed, 12 Aug 2015 22:14:08 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 12 Aug 2015 15:14:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,663,1432623600"; d="scan'208";a="624299635"
-Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.5.143])
-	by orsmga003.jf.intel.com with ESMTP; 12 Aug 2015 13:38:34 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.15,664,1432623600"; d="scan'208";a="540760353"
+Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
+	([10.23.219.46])
+	by FMSMGA003.fm.intel.com with ESMTP; 12 Aug 2015 15:14:08 -0700
+From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Aug 2015 15:38:49 -0500
-Message-Id: <1439411929-5844-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] qemu-native: Add debugging when qemu fails with qemu_cpu_kick_thread
+Date: Wed, 12 Aug 2015 14:05:51 +0000
+Message-Id: <63d274ce660acaff20471374c53e8f0168857be1.1439387979.git.mariano.lopez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+In-Reply-To: <cover.1439387979.git.mariano.lopez@linux.intel.com>
+References: <cover.1439387979.git.mariano.lopez@linux.intel.com>
+In-Reply-To: <cover.1439387979.git.mariano.lopez@linux.intel.com>
+References: <cover.1439387979.git.mariano.lopez@linux.intel.com>
+Subject: [PATCH 1/6] qemurunner.py: Add method run_serial
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,119 +32,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 20:38:35 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 12 Aug 2015 22:14:10 -0000
 
-We are expecting some random failures in QEMU runs one of this is
-related to qemu_cpu_kick_thread that ends on exit(1) on qemu.
+From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-To improve debug information add patch that prints the backtrace and
-the status of qemu cpu.
+The only need for the console before this patch was
+to check if the target has booted. This allows to send
+commands to the terminal.
 
-[YOCTO #8143]
+This new method is based on the method with the same name
+of the QemuTinyRunner class. The difference here is it will
+remove the command and the prompt. The other diference is
+it will send an echo $? to check if the last command was
+successful.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+[YOCTO #8118]
+
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc                |  1 +
- .../cpus.c-qemu_cpu_kick_thread_debugging.patch    | 75 ++++++++++++++++++++++
- 2 files changed, 76 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/cpus.c-qemu_cpu_kick_thread_debugging.patch
+ meta/lib/oeqa/utils/qemurunner.py | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index c3f73d1..8c1e779 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -25,6 +25,7 @@ SRC_URI = "\
- 
- SRC_URI_append_class-native = "\
-     file://fix-libcap-header-issue-on-some-distro.patch \
-+    file://cpus.c-qemu_cpu_kick_thread_debugging.patch \
-     "
- 
- EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
-diff --git a/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_cpu_kick_thread_debugging.patch b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_cpu_kick_thread_debugging.patch
-new file mode 100644
-index 0000000..91a47c1
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_cpu_kick_thread_debugging.patch
-@@ -0,0 +1,75 @@
-+From 697a834c35d19447b7dcdb9e1d9434bc6ce17c21 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-+Date: Wed, 12 Aug 2015 15:11:30 -0500
-+Subject: [PATCH] cpus.c: Add error messages when qemi_cpu_kick_thread fails.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 9bb1f4b..81ca32e 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -262,3 +262,33 @@ class QemuRunner:
+             basecmd = os.path.basename(basecmd)
+             if "qemu-system" in basecmd and "-serial tcp" in commands[p]:
+                 return [int(p),commands[p]]
 +
-+Add custom_debug.h with function for print backtrace information.
-+When pthread_kill fails in qemu_cpu_kick_thread display backtrace and
-+current cpu information.
-+
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-+---
-+ cpus.c         |  5 +++++
-+ custom_debug.h | 24 ++++++++++++++++++++++++
-+ 2 files changed, 29 insertions(+)
-+ create mode 100644 custom_debug.h
-+
-+diff --git a/cpus.c b/cpus.c
-+index a822ce3..7e4786e 100644
-+--- a/cpus.c
-++++ b/cpus.c
-+@@ -1080,6 +1080,8 @@ static void *qemu_tcg_cpu_thread_fn(void *arg)
-+     return NULL;
-+ }
-+ 
-++#include "custom_debug.h"
-++
-+ static void qemu_cpu_kick_thread(CPUState *cpu)
-+ {
-+ #ifndef _WIN32
-+@@ -1088,6 +1090,9 @@ static void qemu_cpu_kick_thread(CPUState *cpu)
-+     err = pthread_kill(cpu->thread->thread, SIG_IPI);
-+     if (err) {
-+         fprintf(stderr, "qemu:%s: %s", __func__, strerror(err));
-++        fprintf(stderr, "CPU #%d:\n", cpu->cpu_index);
-++        cpu_dump_state(cpu, stderr, fprintf, 0);
-++        backtrace_print();
-+         exit(1);
-+     }
-+ #else /* _WIN32 */
-+diff --git a/custom_debug.h b/custom_debug.h
-+new file mode 100644
-+index 0000000..f029e45
-+--- /dev/null
-++++ b/custom_debug.h
-+@@ -0,0 +1,24 @@
-++#include <execinfo.h>
-++#include <stdio.h>
-++#define BACKTRACE_MAX 128
-++static void backtrace_print(void)
-++{
-++	int nfuncs = 0;
-++	void *buf[BACKTRACE_MAX];
-++	char **symbols;
-++	int i;
-++
-++	nfuncs = backtrace(buf, BACKTRACE_MAX);
-++
-++	symbols = backtrace_symbols(buf, nfuncs);
-++	if (symbols == NULL) {
-++		fprintf(stderr, "backtrace_print failed to get symbols");
-++		return;
-++	}
-++
-++	fprintf(stderr, "Backtrace ...\n");
-++	for (i = 0; i < nfuncs; i++)
-++		fprintf(stderr, "%s\n", symbols[i]);
-++
-++	free(symbols);
-++}
-+-- 
-+1.9.1
-+
++    def run_serial(self, command):
++        # We assume target system have echo to get command status
++        self.server_socket.sendall("%s; echo $?\n" % command)
++        data = ''
++        status = 0
++        stopread = False
++        endtime = time.time()+5
++        while time.time()<endtime and not stopread:
++                sread, _, _ = select.select([self.server_socket],[],[],5)
++                for sock in sread:
++                        answer = sock.recv(1024)
++                        if answer:
++                                data += answer
++                        else:
++                                sock.close()
++                                stopread = True
++        if data:
++            # Remove first line (command line) and last line (prompt)
++            data = data[data.find('$?\r\n')+4:data.rfind('\r\n')]
++            index = data.rfind('\r\n')
++            if index == -1:
++                status_cmd = data
++                data = ""
++            else:
++                status_cmd = data[index+2:]
++                data = data[:index]
++            if (status_cmd == "0"):
++                status = 1
++        return (status, str(data))
 -- 
-1.9.1
+1.8.4.5
 
 
