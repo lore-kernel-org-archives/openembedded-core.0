@@ -1,37 +1,37 @@
-Return-Path: <prvs=659e801ce=Mikko.Rapeli@bmw.de>
-X-Greylist: delayed 1767 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 12 Aug 2015 10:33:55 UTC
-Received: from esa2.bmw.c3s2.iphmx.com (esa2.bmw.c3s2.iphmx.com
-	[68.232.133.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C860768B6
+Return-Path: <koen.kooi@linaro.org>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 719D0605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 10:33:55 +0000 (UTC)
-Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
-	esa2.bmw.c3s2.iphmx.com with ESMTP/TLS; 12 Aug 2015 11:49:53 +0200
-Received: from unknown (HELO esabb1.muc) ([160.50.100.31]) by esagw1.muc with
-	ESMTP/TLS; 12 Aug 2015 11:49:52 +0200
-Received: from smuch57a.muc (HELO SMUCH57A.europe.bmw.corp) ([160.46.137.109])
-	by esabb1.muc with ESMTP/TLS; 12 Aug 2015 11:49:51 +0200
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH57A.europe.bmw.corp ([160.46.137.109]) with mapi id 14.03.0248.002;
-	Wed, 12 Aug 2015 11:49:51 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <ed.bartosh@linux.intel.com>
-Thread-Topic: shell script guidelines in oe-core? (was Re: [OE-core] [PATCH
-	v4] create-pull-request: cleanup bashisms)
-Thread-Index: AQHQ1OQ7eQVn8LyWQUCBkb9ccZkr/g==
-Date: Wed, 12 Aug 2015 09:49:50 +0000
-Message-ID: <20150812094953.GL6102@loska>
-References: <1439303596-18965-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1439372011-26268-1-git-send-email-ed.bartosh@linux.intel.com>
-In-Reply-To: <1439372011-26268-1-git-send-email-ed.bartosh@linux.intel.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.101]
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: shell script guidelines in oe-core? (was Re: [PATCH v4] create-pull-request: cleanup bashisms)
+	Wed, 12 Aug 2015 11:26:19 +0000 (UTC)
+Received: by wicja10 with SMTP id ja10so109245902wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Aug 2015 04:26:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=LLdE6vrdJEOpwTjNDS8WA1C9EREsf/nF/ocHh3Nq0Gs=;
+	b=QtqNoTvik9akeKd73x27BFXEboUMWtj7TbrTWKZPbQk8xjEu4vN1WthMgkPqwFu/LT
+	m+oQUwxjxqTcny1i81oyOFnk1KecGvwkIhPuknXbtT9zT6JbSTy6MQ5wrAyH7uN0IMWp
+	kfUoZw1YmkFzsJurzQomT0LULqKlloL4emeEZu41QJvY0xFowILgoHOOltNzLEXBK2RC
+	ZdlqpcLzLZZCLP4BgZTECqICn6qTx3OBnZY0+WC5/HW0SbwRKEg2Yho/mMlGladWek62
+	CzALsxr40lPF3W5lQqbE2qfsGtyJ5yDkxL8y+gSQw6v6vPamJlSazgNO8di2mUEPF174
+	D+MQ==
+X-Gm-Message-State: ALoCoQmyYP1Rm/qLQfiQ2M6xM/Cdw4eGXVttOR30+K+rfUqfuikkzX8QD2Nwc23xKKQr93Gg+VbJ
+X-Received: by 10.180.96.230 with SMTP id dv6mr47180144wib.23.1439378779307;
+	Wed, 12 Aug 2015 04:26:19 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by smtp.gmail.com with ESMTPSA id
+	gw7sm23336932wib.15.2015.08.12.04.26.18
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 12 Aug 2015 04:26:18 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Aug 2015 13:26:16 +0200
+Message-Id: <1439378776-10733-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 2.1.0
+Cc: Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] gnu-efi: BBCLASSEXTEND to native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 10:33:56 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <4715DC58C3DD75459B4CF768A8F4A7AB@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Aug 2015 11:26:20 -0000
 
-Sorry to hijack the thread but...
+Sbsigntool depends on gnu-efi and we need sbsigntool-native to do some signing, so extend gnu-efi to support that.
 
-On Wed, Aug 12, 2015 at 12:33:31PM +0300, Ed Bartosh wrote:
-> Made create-pull-request POSIX compatible:
->    - Replaced /bin/bash -> /bin/sh in shebang.
->    - Replaced usage of pushd/popd with generic shell commands.
->    - Tested on zsh and dash.
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
+---
+ meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This reminded me of the problems I've seen with various oe-core shell scrip=
-ts:
-they are missing systematic error handling.
+diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb
+index 27cc6c1..9ad258e 100644
+--- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb
++++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.2.bb
+@@ -39,3 +39,5 @@ do_install() {
+ }
+ 
+ FILES_${PN} += "${libdir}/*.lds"
++
++BBCLASSEXTEND = "native"
+-- 
+2.1.0
 
-IMO using bash and 'set -euxo pipefail' are a good approach to catch errors
-early in shell scripts. Manually checking for $? is error prone and things
-like pipes can hide them. Using undefined variables is another thing
-which should fail early before things go horribly wrong. And in build autom=
-ation
-I'd rather see output of -x since things can fail in mysterious ways.
-And then there's quoting....
-
-One useful guide is to use shellcheck as static analysis tool for shell scr=
-ipts.
-
-I guess internally bitbake uses at least set -e.
-
-Comments?
-
--Mikko=
 
