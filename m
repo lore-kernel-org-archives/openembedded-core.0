@@ -1,52 +1,35 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ig0-f176.google.com (mail-ig0-f176.google.com
-	[209.85.213.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C3A9766E1
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 037FE76538
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 13:45:30 +0000 (UTC)
-Received: by igui7 with SMTP id i7so61629083igu.1
+	Wed, 12 Aug 2015 14:00:28 +0000 (UTC)
+Received: by labd1 with SMTP id d1so9623410lab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 06:45:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=JT9nGXXSi2CSfZRZel8nLH9ctZtG4wPQKvuJwsSYJCw=;
-	b=NCO9Vizw3zTRn4iTfHiVfxJNgIJqCloj+R0EOrXyJ7qNdsDrGyQQT3DdY76ClC38sc
-	RCvgcVbLSP4s+z0tYEtSzc0vDwJzdkzp9sU792990sT3DaYuctf8BACEbvaShKR/iX0E
-	s4XSV8AU5yVlwAi4p2wxjBK3adkp3bR3zes6gRk7xO+WSOncZqOtytNXPLY3W9WXO8uu
-	J5G9B76QV5BL17DNf7DaQ2vIb2sa0Y/Rj93/fYbszGUGNqKaXh4/mNUFhgT+Z5pvZCKl
-	38XFX4E+7Th5afaSFFMz3ubBJ0T+hwt5vKAhk0ceS2Teor2xespEMtNFlD6KlDrDhFx9
-	rOPg==
-X-Gm-Message-State: ALoCoQmk++ztac3wNijaeFY8EiGu5L1M4+r9R6RyqLqiW+8Rs3+X9QzpQn0x27YzhXieF3vc9vPZ
-X-Received: by 10.50.178.161 with SMTP id cz1mr24754965igc.85.1439387130883;
-	Wed, 12 Aug 2015 06:45:30 -0700 (PDT)
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com.
-	[209.85.213.170]) by smtp.gmail.com with ESMTPSA id
-	q10sm10439240ige.16.2015.08.12.06.45.29
+	Wed, 12 Aug 2015 07:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=kWq9dRrnKHaw0ONtUgFZqZtvrn9/BsiMW7WxeS6PTcE=;
+	b=ZMwXiqHVdvROlnLXPkYz7dBLAgoOeIRGzYLNTpWqj5mPhU4rUXiKqr2ndVI09GmDoP
+	afD7peXATt3acpeqWdMo6mLGpfPo0n1083BguJJGGdzYyMKZHRrJwYIxuuYBQH2Exm9+
+	++Ee5WJP8GLa3oI4JiMG2/XiP+sYALH7Ti2YdDkPmHiHNLT2D+bJJ0QehduwuYAqthIb
+	UHySjBcBy3Ej0s1sglCXqrhInmpkHx9WFAsGyfrRyNodzNQkbyeNjcC2zKZxgSZTawqN
+	dBG4ySQE9010JR/KpIusFEfANPKDnMpGYDwkPOdCtpWnkHnFVL8QbzqjJMzuUFI/dOUT
+	Pozw==
+X-Received: by 10.112.163.226 with SMTP id yl2mr32214898lbb.100.1439388027569; 
+	Wed, 12 Aug 2015 07:00:27 -0700 (PDT)
+Received: from umbar.auriga.ru (cl-1614.mbx-01.si.sixxs.net.
+	[2001:15c0:65ff:64d::2])
+	by smtp.gmail.com with ESMTPSA id r4sm1243490lag.46.2015.08.12.07.00.25
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Aug 2015 06:45:30 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igfj19 with SMTP id j19so13774842igf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 06:45:29 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.50.64.212 with SMTP id q20mr25493452igs.5.1439387129760;
-	Wed, 12 Aug 2015 06:45:29 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Wed, 12 Aug 2015 06:45:29 -0700 (PDT)
-In-Reply-To: <55CAABC2.50008@windriver.com>
-References: <cover.1438269391.git.liezhi.yang@windriver.com>
-	<50edd6dd2fa86d9a51cc54ecdaa1599a1efc5a43.1438269391.git.liezhi.yang@windriver.com>
-	<CAP9ODKqzs9VF7C6YFcgdu1tPuFq_ftOyS6HQZda9qvv=i23e4w@mail.gmail.com>
-	<55CAABC2.50008@windriver.com>
-Date: Wed, 12 Aug 2015 10:45:29 -0300
-Message-ID: <CAP9ODKqw2QCuWD+NG3uGQONhFQGfc0SQihC4979mCCb5esuNEg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] base.bbclass/blacklist.bbclass: remove doc item when d.getVarFlags()
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 12 Aug 2015 07:00:26 -0700 (PDT)
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Aug 2015 17:00:23 +0300
+Message-Id: <1439388023-18125-1-git-send-email-dbaryshkov@gmail.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH][RESEND] adt-installer: use DEPLOY_DIR in ANT_DEPLOY expansion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +42,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 13:45:31 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 12 Aug 2015 14:00:31 -0000
 
-On Tue, Aug 11, 2015 at 11:13 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->
->
-> On 08/11/2015 08:45 PM, Otavio Salvador wrote:
->>
->> On Thu, Jul 30, 2015 at 12:18 PM, Robert Yang <liezhi.yang@windriver.com>
->> wrote:
->>>
->>> The FOO[doc] is set in meta/conf/documentation.conf, we need remove it
->>> from d.getVarFlags()'s return dict when it causes many loops.
->>>
->>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>
->>
->> It seems your commit log is incomplete or so as I couldn't understand
->> why this is need.
->>
->> Also as Andre says, we ought to not break existing layer without a
->> very strong reason and if needed, changing documentation.conf instead
->> of this seems more adequate.
->>
->
-> The code in base.bbclass is: (no remove PACKAGECONFIG[doc])
->
->     pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
->     if pkgconfigflags:
->        <foo>
->
-> And documentation.conf:
-> PACKAGECONFIG[doc] = "This variable provides a means of enabling or
-> disabling features of a recipe on a per-recipe basis."
->
-> This will make "if pkgconfigflags:" always be true and cause many unneeded
-> loops since there is always PACKAGECONFIG[doc].
->
-> Remove PACKAGECONFIG[doc] or comment it sounds good to me.
+Currently adt-installer uses "${TMPDIR}/deploy/sdk/" as a deployment dir.
+This doesn't interact well with DEPLOY_DIR reassignment. So let's use
+"${DEPLOY_DIR}/sdk/" instead.
 
-So documentation.conf needs change.
+Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+---
+ meta/recipes-devtools/installer/adt-installer_1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+index c871e42..346fd9e 100644
+--- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
++++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+@@ -33,7 +33,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ 
+ PR = "r11"
+ 
+-ADT_DEPLOY = "${TMPDIR}/deploy/sdk/"
++ADT_DEPLOY = "${DEPLOY_DIR}/sdk/"
+ ADT_DIR = "${WORKDIR}/adt-installer/"
+ S = "${WORKDIR}/opkg-${PV}"
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.5.0
+
 
