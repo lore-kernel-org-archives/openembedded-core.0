@@ -1,29 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EBA9475FB5
+Return-Path: <denis@denix.org>
+Received: from vms173017pub.verizon.net (vms173017pub.verizon.net
+	[206.46.173.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 99CD9768B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 02:13:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7C2DOq6019095
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Aug 2015 19:13:24 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 11 Aug 2015 19:13:23 -0700
-Message-ID: <55CAABC2.50008@windriver.com>
-Date: Wed, 12 Aug 2015 10:13:22 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-References: <cover.1438269391.git.liezhi.yang@windriver.com>	<50edd6dd2fa86d9a51cc54ecdaa1599a1efc5a43.1438269391.git.liezhi.yang@windriver.com>
-	<CAP9ODKqzs9VF7C6YFcgdu1tPuFq_ftOyS6HQZda9qvv=i23e4w@mail.gmail.com>
-In-Reply-To: <CAP9ODKqzs9VF7C6YFcgdu1tPuFq_ftOyS6HQZda9qvv=i23e4w@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] base.bbclass/blacklist.bbclass: remove doc item when d.getVarFlags()
+	Wed, 12 Aug 2015 03:26:31 +0000 (UTC)
+Received: from gandalf.denix.org ([108.51.169.48]) by vms173017.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NSY00ELX9K6PGJ0@vms173017.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Tue, 11 Aug 2015 22:26:31 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=btqxfxui c=1 sm=1 tr=0	a=x3PDphkivVtATbYodTxRAw==:117
+	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=XYJHFtupD_QA:10 a=-9mUelKeXuEA:10
+	a=kj9zAlcOel0A:10 a=uRRa74qj2VoA:10	a=I7MXRwyAmKgHag7R6_IA:9
+	a=CjuIK1q_8ugA:10
+Received: by gandalf.denix.org (Postfix, from userid 1000)	id C5090161B74; Tue,
+	11 Aug 2015 23:26:30 -0400 (EDT)
+Date: Tue, 11 Aug 2015 23:26:30 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Message-id: <20150812032630.GF26375@denix.org>
+MIME-version: 1.0
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Subject: oprofile rebuilds for different MACHINES (sstate)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,41 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 02:13:25 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Aug 2015 03:26:31 -0000
+Content-type: text/plain; charset=us-ascii
+Content-disposition: inline
 
+So, I've been debugging the issue of oprofile rebuilding from one MACHINE to 
+another (causing PR issues, etc). I was able to trace it down to this line:
 
+EXTRA_OECONF = "--with-kernel=${STAGING_KERNEL_DIR}  --without-x ac_cv_prog_XSLTPROC="
 
-On 08/11/2015 08:45 PM, Otavio Salvador wrote:
-> On Thu, Jul 30, 2015 at 12:18 PM, Robert Yang <liezhi.yang@windriver.com> wrote:
->> The FOO[doc] is set in meta/conf/documentation.conf, we need remove it
->> from d.getVarFlags()'s return dict when it causes many loops.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->
-> It seems your commit log is incomplete or so as I couldn't understand
-> why this is need.
->
-> Also as Andre says, we ought to not break existing layer without a
-> very strong reason and if needed, changing documentation.conf instead
-> of this seems more adequate.
->
+And STAGING_KERNEL_DIR resolves to this:
 
-The code in base.bbclass is: (no remove PACKAGECONFIG[doc])
+STAGING_KERNEL_DIR = "${TMPDIR}/work-shared/${MACHINE}/kernel-source"
 
-     pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
-     if pkgconfigflags:
-        <foo>
+Now, obviously, when MACHINE changes, sstate invalidates do_configure and 
+rebuilds oprofile.
 
-And documentation.conf:
-PACKAGECONFIG[doc] = "This variable provides a means of enabling or disabling 
-features of a recipe on a per-recipe basis."
+The question is, what is the proper fix in this case - mark oprofile as 
+machine-specific with PACKAGE_ARCH = "${MACHINE_ARCH}", since it will be 
+configuring and building against (potentially) completely different kernel 
+tree. So, just mark it explicitly and be safe...
 
-This will make "if pkgconfigflags:" always be true and cause many unneeded
-loops since there is always PACKAGECONFIG[doc].
+Or another option is to tell sstate to ignore changes to the above variables 
+with this simple line:
 
-Remove PACKAGECONFIG[doc] or comment it sounds good to me.
+EXTRA_OECONF[vardepsexclude] = "STAGING_KERNEL_DIR"
 
-// Robert
+This also does the trick, but I'm a bit worried there could be side-effects of 
+using oprofile against the wrong kernel... Any recommendations?
+
+-- 
+Denys
 
