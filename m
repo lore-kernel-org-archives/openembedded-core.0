@@ -1,37 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
-	[209.85.212.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 19063734DA
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C327734DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 16:39:52 +0000 (UTC)
-Received: by wicne3 with SMTP id ne3so107741651wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 09:39:52 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ShFXFVknRqFkvNc9NMap2+hXqrKKwGKq6UNRq7bPA/Q=;
-	b=STh5siVNzdG8wgJHJd0MKeGRJ7veHKnMAZJLEJAF7V7/jE2Ob4hvYk10ECfYa/djhi
-	6IPuJB8y3Y7Mo4LOTB29dDMIyv7NDwO7XOBk0/x8aOjiDqHrVaQsGcNL6YosXIKUxZyk
-	NneH4nQuDpXo3WgSCPVcm8F+cpLh7xqNX4UF9DhWQa6nw2P+4ZkxiWFF0pu09yTUZRoz
-	d0bU7K8+WOBGLenbi9LSqNcUG67TfUxINHTGh6Y4Qcrt0FTgnbHHA+g7Xck0bWme9IPF
-	Bp9TP5/G52y/tIIcEupW2Cm74t3IaBmaVWnqWurUQ+6ECqrc+lDR49OP/gC9x7PdCNF7
-	FOzQ==
-X-Gm-Message-State: ALoCoQkYoc7lSuzmbSSD6FTkewpWcbiDDqgc1cd8PK3kbBkH/3M9F2qy7fP/438w/YXJh0sUhahk
-X-Received: by 10.180.105.98 with SMTP id gl2mr50297824wib.56.1439397592266;
-	Wed, 12 Aug 2015 09:39:52 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	di8sm13575354wib.5.2015.08.12.09.39.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 12 Aug 2015 09:39:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Aug 2015 17:33:40 +0100
-Message-Id: <1439397220-23119-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] systemd: update SRC_URI
+	Wed, 12 Aug 2015 16:41:51 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 12 Aug 2015 09:41:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,662,1432623600"; d="scan'208";a="624215143"
+Received: from sgwillia-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.17.140])
+	by orsmga003.jf.intel.com with ESMTP; 12 Aug 2015 09:41:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Date: Wed, 12 Aug 2015 17:41:48 +0100
+Message-ID: <3935378.IqU2tRR2HN@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.3-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <80d099504def0a839ca7961e91db3ba15034a5be.1438667914.git.Qi.Chen@windriver.com>
+References: <cover.1438667914.git.Qi.Chen@windriver.com>
+	<80d099504def0a839ca7961e91db3ba15034a5be.1438667914.git.Qi.Chen@windriver.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 8/8] devtool: add sdk.py plugin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,31 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 16:39:54 -0000
+X-List-Received-Date: Wed, 12 Aug 2015 16:42:01 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Upstream has moved git hosts, so update the SRC_URI appropriately.
+On Monday 10 August 2015 11:18:06 Chen Qi wrote:
+> E.g.
+> devtool sdk-update /mnt/sdk-repo/
+> devtool sdk-update http://mysdkhost/sdk
 
-[ YOCTO #8181 ]
+As noted by Chris we definitely need a better commit message here.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/systemd/systemd_219.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +        logger.debug("Updating meta data via git ...")
+> +        ret = subprocess.call("rm -rf layers && git clone %s/layers" %
+> args.updateserver, shell=True) 
+> +        if ret != 0:
+> +            logger.error("Updating meta data via git clone failed")
+> +            return ret
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 83e4bce..e187cea 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -29,7 +29,7 @@ SRCREV = "85a6fabdd3e43cfab0fc6359e9f2a9e368d4a3ed"
- 
- PV = "219-stable+git${SRCPV}"
- 
--SRC_URI = "git://anongit.freedesktop.org/systemd/systemd-stable;branch=v219-stable;protocol=git \
-+SRC_URI = "git://github.com/systemd/systemd-stable;branch=v219-stable;protocol=git \
-            file://0002-shared-missing.h-fall-back-to-insecure-getenv.patch \
-            file://0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0004-configure-Check-for-additional-features-that-uclibc-.patch \
+If we're using git we should at least try to pull (assuming we update the 
+remote URL first in case the update server is different); if the pull fails we 
+can fall back to rm -rf and clone. (Actually, would git pull -f work if the 
+remote repo is completely different?)
+
+> +
+> +def register_commands(subparsers, context):
+> +    """Register devtool subcommands from the sdk plugin"""
+> +    parser_sdk = subparsers.add_parser('sdk-update', help='Update SDK
+> components from a nominated destination')
+> +    parser_sdk.add_argument('updateserver', help='The update server to
+> fetch latest SDK components')
+> +    parser_sdk.set_defaults(func=sdk_update)
+
+Could you please add a check here for context.fixed_setup before adding the 
+sdk-update command - since this command is only useful within the extensible 
+SDK and should not be accessible when devtool is running next to a full 
+install of the build system.
+
+Cheers,
+Paul
+
 -- 
-2.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
