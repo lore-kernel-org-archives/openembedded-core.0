@@ -1,43 +1,37 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F9CC763BE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 2293E763BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 18:40:11 +0000 (UTC)
-Received: by pdrh1 with SMTP id h1so22551122pdr.0
+	Thu, 13 Aug 2015 19:06:03 +0000 (UTC)
+Received: by qkfj126 with SMTP id j126so18710392qkf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 11:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=Iw5uKlhdu/tzMpnEm4uU3VtG79XqGdPWJek8X3G0d4E=;
-	b=Y090wzr95jR0PSPJzgv1drj5X53hO6GxPqS1cQZJazpFrqDN8gO2T202M1zJkYd9wZ
-	02fzgR7Yz5O/Y3vgc/JkB7lbVn+cDQFLrSJV7DMHqjYHAH/Tqhpxl8gEug8ik1Wk6Tbg
-	seGMo14X3/T+wfcdJ/d6PI5f4EWvrDv3tRCIT/d+WQMBdTPhx8tnyMz8s08zoMDlRM32
-	nvREy97Rql6kKnV5fohYHUrF2L6RLCbGnHcWB2E53DQ3sBOYhxGLJVPW5n2n/y4VGbqi
-	jme9vfy3SUNlfUpayhyZCWZeDPa3EtjG+iTZvp55fRcTEYgRqWqcWDCWHZxWtQTG+Doy
-	aXUw==
-X-Received: by 10.70.54.165 with SMTP id k5mr2392571pdp.138.1439491211373;
-	Thu, 13 Aug 2015 11:40:11 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:e515:2fc5:d7bb:e982?
-	([2601:202:4000:1239:e515:2fc5:d7bb:e982])
-	by smtp.googlemail.com with ESMTPSA id
-	pe3sm3472067pdb.55.2015.08.13.11.40.10
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Aug 2015 11:40:10 -0700 (PDT)
-Message-ID: <55CCE489.504@gmail.com>
-Date: Thu, 13 Aug 2015 11:40:09 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Thu, 13 Aug 2015 12:06:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=eGFI1vXnM3Z92HuLUiYuDs4VtKCqAHFANER4Rh5t7Dc=;
+	b=BWmwPwK8mY42AjC8plAU7cZ9hbRO/2EyQQOzyKxVnn58kNROZENzWdSlqB32K/K+SG
+	KSjlquCowLUFbwR3C0dxzcs3NQPL4Kz1ijIGLY3+Y11EIB9RlsviNycs94eI/8/buoLr
+	G9dzyv0Gs4AObpEhOpCahqF8ZXtclYUXeACsHHIwkEwjBkLzhSPdWNsbo/a52BvHWDOO
+	N7jxYnV+coDFCuARpk6hU/wrgaOGljf8UcdE8+q84hgkYQME7CAxQ9oqAWEY771oMFMo
+	+pEfFCJyLYlij19VZYg7ebYpCdKm8W0AAIMJc9vBuo4B9tTZyzVqC0LGIrVswBajlSK9
+	sEfg==
+X-Gm-Message-State: ALoCoQkGTdI/08lWO7dsAPDqVX6uyY9Lp84t1qAZPQrO3GytN3bMK/Q4eQMSDfGU6/9ARek/KnBZ
+X-Received: by 10.55.20.207 with SMTP id 76mr42833183qku.67.1439492763385;
+	Thu, 13 Aug 2015 12:06:03 -0700 (PDT)
 MIME-Version: 1.0
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-References: <1439098101-9400-1-git-send-email-akuster808@gmail.com>
-	<CAHiDW_Fzm5wcJHEq54sSLOi564XUgsOrXY0sOxi_Ta5xe8kEpQ@mail.gmail.com>
-In-Reply-To: <CAHiDW_Fzm5wcJHEq54sSLOi564XUgsOrXY0sOxi_Ta5xe8kEpQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nettle: clean up license information
+Received: by 10.140.98.67 with HTTP; Thu, 13 Aug 2015 12:05:44 -0700 (PDT)
+In-Reply-To: <757e0230b801d19350e30523d62ac9b963c542bf.1439456090.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1439456090.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<757e0230b801d19350e30523d62ac9b963c542bf.1439456090.git.leonardo.sandoval.gonzalez@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 13 Aug 2015 20:05:44 +0100
+Message-ID: <CAJTo0LbpYSNWZ39Vik4U8eT-+B+tg4-RpY+0nsDphLA5a-wOQA@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] package_deb.bbclass: Handle exception when encoding non-ASCII characters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,85 +44,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 18:40:19 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Aug 2015 19:06:05 -0000
+Content-Type: multipart/alternative; boundary=001a11400532d19e60051d3606de
 
+--001a11400532d19e60051d3606de
+Content-Type: text/plain; charset=UTF-8
 
+On 13 August 2015 at 09:58, <leonardo.sandoval.gonzalez@linux.intel.com>
+wrote:
 
-On 08/12/2015 07:14 AM, Jussi Kukkonen wrote:
-> Hi,
+> On package creation, handle exception when encoding non-ASCII characteres.
 >
-> I realise I'm a bit late (with the commit in master already) but I'm
-> looking at upgrading this recipe and had some questions on this patch
-> and the recipe in general.
->
-> On 9 August 2015 at 08:28, Armin Kuster <akuster808@gmail.com> wrote:
->> adding the license definitions on the few packages that
->> deviate from the overall package license.
->>
->> based on http://www.lysator.liu.se/~nisse/nettle/nettle.html#Copyright
->> and spot checking files.
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>   meta/recipes-support/nettle/nettle_2.7.1.bb | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
->> index f53afcc..f9d331f 100644
->> --- a/meta/recipes-support/nettle/nettle_2.7.1.bb
->> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
->> @@ -2,6 +2,15 @@ SUMMARY = "A low level cryptographic library"
->>   HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
->>   SECTION = "libs"
->>   LICENSE = "LGPLv2.1 & GPLv2"
->
-> I think this is wrong, whichever version you look at -- our current
-> version is just "LGPLv2.1+", the current upstream release is "LGPLv3+
-> | GPLv2+"
->
-> I'm going to send a patch upgrading the recipe to the current upstream
-> release (and setting license to "LGPLv3+ | GPLv2+"): it might seem
-> like this makes gnutls effectively LGPLv3 but that actually happened
-> last year with the gmp upgrade. Comments on this welcome.
 
-I believe that conversation should be in the mailing list archive.
+Debian control files are defined to be UTF-8, so the use of an ASCII
+encoding method is wrong (
+https://www.debian.org/doc/debian-policy/ch-controlfields.html).
 
-For me LGPLv2+ makes is all version above GPL2, but since I am not a 
-lawyer it makes not sense on how to play that game. So I decided to drop 
-pressuring the update.
+(RPM appears to assume UTF-8 too)
 
-- Armin
+Ross
 
+--001a11400532d19e60051d3606de
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->
->> +LICENSE_${PN}-cast = "CC0"
->> +LICENSE_${PN}-gosthash = "MIT"
->> +
->> +# both public and GPL license listed
->> +LICENSE_${PN}-md2 = "CC0 & LGPLv2.1+"
->> +LICENSE_${PN}-md4 = "CC0 & LGPLv2.1+"
->
->  From the reference I had the impression this "LICENSE_something"
-> construct would imply there is a package "something". But the nettle
-> recipe does not produce "nettle-cast" or any of these. What is the
-> purpose here?
->
-> Thanks,
->   Jussi
->
->> +
->> +
->>   LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->>                       file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
->>                       file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
->> --
->> 2.3.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 13 August 2015 at 09:58,  <span dir=3D"ltr">&lt;<a href=3D"mailto:leonar=
+do.sandoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sandoval.g=
+onzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><div id=3D":ti" class=3D"a3s" style=3D"overflow:hidden">On package cre=
+ation, handle exception when encoding non-ASCII characteres.<br></div></blo=
+ckquote></div><br>Debian control files are defined to be UTF-8, so the use =
+of an ASCII encoding method is wrong (<a href=3D"https://www.debian.org/doc=
+/debian-policy/ch-controlfields.html">https://www.debian.org/doc/debian-pol=
+icy/ch-controlfields.html</a>).</div><div class=3D"gmail_extra"><br></div><=
+div class=3D"gmail_extra">(RPM appears to assume UTF-8 too)</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
+--001a11400532d19e60051d3606de--
