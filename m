@@ -1,39 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 077DC766DE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E948766DF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 19:34:36 +0000 (UTC)
-Received: by qgdd90 with SMTP id d90so38188097qgd.3
+	Thu, 13 Aug 2015 20:34:22 +0000 (UTC)
+Received: by iodt126 with SMTP id t126so65051597iod.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 12:34:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=mjyMO6FZmi5Uu/FSgAfg1I/D55oseZxnQBYICY4S//g=;
-	b=J9g3Tv12A1yTZ43I5yqoF4GCMROSyDdWavM+qy9vT5k6+6PMkxW7MaBjfhoOPbzbk+
-	Lm/B/S0BIu67R4CVUYFHZ/KYdVJQdzVLrp4kL1oJuu5C9tcFkU98UoglmTwDMZe+eC1L
-	1+r0xIHqxBehI8WZg7OPFr1cIs8Dfza8z/MpxLkeqyMvP0wPpQL7eG3H0JTtFd2WuX6u
-	eIFX6wpA/+aDWW3xhtqcNdIz8E9+qR8/QnOfvHOwST4a2j6T+EDnpDihPYqTMhnB+sRF
-	zZVm+/u2bL/qu0USM5OlgJOy+yakWDvElJgZpZHgPJZ7GOa0Bw1zW92W6kLpBdJD6wKe
-	B/qw==
-X-Gm-Message-State: ALoCoQmdyVsMy54MoYG8Q2wXpkpBValpArkinn67CSkyyCZ7ppiVEtGqyCwtp9sWUKxCA7MOAFOA
-X-Received: by 10.140.89.100 with SMTP id u91mr70801336qgd.15.1439494476333;
-	Thu, 13 Aug 2015 12:34:36 -0700 (PDT)
+	Thu, 13 Aug 2015 13:34:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=zUeDQ05KszvQVTGAcgMKyoXyOOfLwyl9Q6Aw0kbKf80=;
+	b=qb//q5A/w7AvmEYUv8aZQcX8LvwDjvXTfYgkx+NDFSvQPCCpt/RU4yPUq4e8UX9KUo
+	tt9BraYTwlL18Oj9IRkceiO+ZHHDOUENog7wfZg5ZFUJUMbT6xbSixtw7zlg+Jb+4XpC
+	Ur1rg0dmRPE7QL2/cLeqtbHGQ4yfCesYhGWLs8LejvXZjSDReqzfSc9kMzoaMoC31E7h
+	tCV6FXx8BWawNc3tsxYnm7LMBOWvIhv0gvGAIr+kFHszUBrgGIIKGUric3ACNAKW5h1V
+	2k1WU5WLG33zNgTpsbkrHWEigCxtfU0JYGltLW2FmFoEFplc1bVu8dqFAzKh2X2Y1/28
+	mJLQ==
+X-Received: by 10.107.14.203 with SMTP id 194mr45591189ioo.195.1439498062964; 
+	Thu, 13 Aug 2015 13:34:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Thu, 13 Aug 2015 12:34:16 -0700 (PDT)
-In-Reply-To: <CAMKF1sqHK5q-Xq9Gv4wae4MZdSw57e_OVyc_kdFkWgeAKd8v+g@mail.gmail.com>
-References: <cover.1439456090.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<757e0230b801d19350e30523d62ac9b963c542bf.1439456090.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<CAJTo0LbpYSNWZ39Vik4U8eT-+B+tg4-RpY+0nsDphLA5a-wOQA@mail.gmail.com>
-	<CAMKF1sqHK5q-Xq9Gv4wae4MZdSw57e_OVyc_kdFkWgeAKd8v+g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Aug 2015 20:34:16 +0100
-Message-ID: <CAJTo0LaTHTHis8e3X+5STP8VDsJ0z8mcNLGjJQS9RFLGmZNDSQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] package_deb.bbclass: Handle exception when encoding non-ASCII characters
+Received: by 10.107.38.79 with HTTP; Thu, 13 Aug 2015 13:33:53 -0700 (PDT)
+In-Reply-To: <2bf92dbc892c01e163e1275bbd13d5bdedd4d071.1436781811.git.liezhi.yang@windriver.com>
+References: <cover.1436781811.git.liezhi.yang@windriver.com>
+	<2bf92dbc892c01e163e1275bbd13d5bdedd4d071.1436781811.git.liezhi.yang@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 13 Aug 2015 13:33:53 -0700
+Message-ID: <CAMKF1so5vLjc=jgQuPcBZ5fPqZBafq3Drr=pix963ZpX_cn-kA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] glibc: remove invalid ac_cv_path_KSH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,32 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 19:34:38 -0000
-Content-Type: multipart/alternative; boundary=001a11c1334eeb3e78051d366cb1
-
---001a11c1334eeb3e78051d366cb1
+X-List-Received-Date: Thu, 13 Aug 2015 20:34:23 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 13 August 2015 at 20:21, Khem Raj <raj.khem@gmail.com> wrote:
+On Mon, Jul 13, 2015 at 3:04 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
+> There is no ac_cv_path_KSH in configure, can't find it
+> in config.log after remove, either.
 
-> but check it still fine isnt it.
+starting 2.21 ksh checks has been removed so this patch is ok.
+
 >
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/recipes-core/glibc/glibc.inc |    1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+> index da56bc9..74ad0b5 100644
+> --- a/meta/recipes-core/glibc/glibc.inc
+> +++ b/meta/recipes-core/glibc/glibc.inc
+> @@ -52,7 +52,6 @@ REQUIRED_DISTRO_FEATURES = "${DISTRO_FEATURES_LIBC}"
+>  LEAD_SONAME = "libc.so"
+>
+>  CACHED_CONFIGUREVARS += " \
+> -  ac_cv_path_KSH=${base_bindir}/bash \
+>    ac_cv_path_BASH_SHELL=${base_bindir}/bash \
+>    libc_cv_slibdir=${base_libdir} \
+>    libc_cv_rootsbindir=${base_sbindir} \
+> --
+> 1.7.9.5
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Of course, gracefully handling encoding failures is still sensible.
-
-Ross
-
---001a11c1334eeb3e78051d366cb1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 August 2015 at 20:21, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div id=3D":10x" class=3D"a3s" styl=
-e=3D"overflow:hidden">but check it still fine isnt it.</div></blockquote><d=
-iv><br></div><div>Of course, gracefully handling encoding failures is still=
- sensible.</div><div><br></div><div>Ross</div></div></div></div>
-
---001a11c1334eeb3e78051d366cb1--
