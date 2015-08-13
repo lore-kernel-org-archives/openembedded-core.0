@@ -1,35 +1,20 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 34C3B73231
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0509673905
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 12:43:15 +0000 (UTC)
-Received: by wibhh20 with SMTP id hh20so72376884wib.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 05:43:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
-	:content-type;
-	bh=qvH+qzIHX43SuGGzcuvlayAx6pwHHUKzqTiUKEKF74o=;
-	b=kORTRW4/k+AYBONS5txN2Rlx+Pv0KzdHEeusep7nDuRESjIdvQcCKGJD4y3bGmwsw/
-	V3XnjwL4iDeaYt0JG65ebggcks/9TGkYGyDS934dcF0+iosGAZtdwTPMTHP9Ab1cuPbo
-	eaXq6RQxnOJf8n6ZVeWIWD86J5tjzpbDSxyDaWcQgvo5keWk+zd9snvRieKutGAH1VS1
-	xgJnlOesbme2nTy+5MYtGJRzUrj74PfHfVxD5SskQUs+JmN+7zP/3bZ6JwuKsyQLZ7yq
-	HV4DZ8sXronXRkXV605z1Z/4MF+Uf0vIs2psj6HxVtTckUmXWY9beVKMVYtsPiqW6gQ4
-	zZNQ==
-X-Gm-Message-State: ALoCoQmPHzmZrdiL8GX5EBUDQ23/+Cg4nG4se6aw9vDlEvBMfnfoV3TXORqpTUq+iYhxbtwMNA5o
-X-Received: by 10.180.80.138 with SMTP id r10mr6104318wix.18.1439469795332;
-	Thu, 13 Aug 2015 05:43:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.27.175.160 with HTTP; Thu, 13 Aug 2015 05:42:45 -0700 (PDT)
+	Thu, 13 Aug 2015 13:24:58 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 13 Aug 2015 06:24:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,670,1432623600"; d="scan'208";a="782948561"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by fmsmga002.fm.intel.com with ESMTP; 13 Aug 2015 06:24:56 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Thu, 13 Aug 2015 15:42:45 +0300
-Message-ID: <CAHiDW_EGaGer0d0RVaqzT6ats9aqDEpzMieUxwbgYffVRYADbA@mail.gmail.com>
-To: Armin Kuster <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: gnutls/nettle/gmp licensing and versions
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Aug 2015 16:26:31 +0300
+Message-Id: <cover.1439471616.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/1] screen update, take two
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,87 +27,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 12:43:20 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 13 Aug 2015 13:25:04 -0000
 
-On 12 August 2015 at 17:14, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
-> Hi,
->
-> I realise I'm a bit late (with the commit in master already) but I'm
-> looking at upgrading this recipe and had some questions on this patch
-> and the recipe in general.
->
-> On 9 August 2015 at 08:28, Armin Kuster <akuster808@gmail.com> wrote:
->> adding the license definitions on the few packages that
->> deviate from the overall package license.
->>
->> based on http://www.lysator.liu.se/~nisse/nettle/nettle.html#Copyright
->> and spot checking files.
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  meta/recipes-support/nettle/nettle_2.7.1.bb | 9 +++++++++
->>  1 file changed, 9 insertions(+)
->>
->> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
->> index f53afcc..f9d331f 100644
->> --- a/meta/recipes-support/nettle/nettle_2.7.1.bb
->> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
->> @@ -2,6 +2,15 @@ SUMMARY = "A low level cryptographic library"
->>  HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
->>  SECTION = "libs"
->>  LICENSE = "LGPLv2.1 & GPLv2"
->
-> I think this is wrong, whichever version you look at -- our current
-> version is just "LGPLv2.1+", the current upstream release is "LGPLv3+
-> | GPLv2+"
->
-> I'm going to send a patch upgrading the recipe to the current upstream
-> release (and setting license to "LGPLv3+ | GPLv2+"): it might seem
-> like this makes gnutls effectively LGPLv3 but that actually happened
-> last year with the gmp upgrade. Comments on this welcome.
+I'm resending only the screen patch as the others are in already.
 
-Alexander just pointed out to me that there was a discussion on gnutls
-and nettle already in July (which I missed in my
-back-from-holiday-email-binge). It seems that the consensus was to
-preserve LGPLv2 versions.
+Changes since v1:
+* remove the old GPLv2 version
 
-This is what the current situation looks to me -- please correct if I'm wrong:
-* gmp is "GPLv2+ | LGPLv3+"
-* nettle is "LGPLv2.1+" but depends on gmp
-* gnutls "LGPLv2.1+" but depends on nettle
+I'm not taking any stance on tmux vs screen debate: we can still
+change to tmux. Just wanted to get rid of some very old and
+potentially bit rotted code.
 
-This effectively makes gnutls "GPLv2+ | LGPLv3+" as far as I can see.
-If we want to preserve a LGPLv2 gnutls, we need to bring back an older
-version of gmp (I think 4.2.1).
+Jussi
 
+The following changes since commit a533776d6ff83b6e3e830137455b8382d002768b:
 
->> +LICENSE_${PN}-cast = "CC0"
->> +LICENSE_${PN}-gosthash = "MIT"
->> +
->> +# both public and GPL license listed
->> +LICENSE_${PN}-md2 = "CC0 & LGPLv2.1+"
->> +LICENSE_${PN}-md4 = "CC0 & LGPLv2.1+"
->
-> From the reference I had the impression this "LICENSE_something"
-> construct would imply there is a package "something". But the nettle
-> recipe does not produce "nettle-cast" or any of these. What is the
-> purpose here?
->
-> Thanks,
->  Jussi
->
->> +
->> +
->>  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->>                      file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
->>                      file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
->> --
->> 2.3.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  perf: fix build breakage on kernels after 4.1 (2015-08-12 11:31:49 -0700)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/screen
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/screen
+
+Jussi Kukkonen (1):
+  screen: Upgrade 4.0.3 -> 4.3.1
+
+ .../screen/screen-4.0.3/configure.patch            | 979 ---------------------
+ .../screen-4.0.3/screen-4.0.2-CVE-2009-1215.patch  |  27 -
+ .../screen-4.0.3/screen-4.0.3-CVE-2009-1214.patch  |  86 --
+ .../Avoid-mis-identifying-systems-as-SVR4.patch    |  57 ++
+ ...cross-compile-alternatives-for-AC_TRY_RUN.patch | 137 +++
+ .../Remove-redundant-compiler-sanity-checks.patch  |  65 ++
+ ...t-file-system-checks-when-cross-compiling.patch | 135 +++
+ .../fix-parallel-make.patch                        |   0
+ .../screen/{screen-4.0.3 => screen}/screen.pam     |   0
+ .../screen/{screen_4.0.3.bb => screen_4.3.1.bb}    |  34 +-
+ 10 files changed, 408 insertions(+), 1112 deletions(-)
+ delete mode 100644 meta/recipes-extended/screen/screen-4.0.3/configure.patch
+ delete mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen-4.0.2-CVE-2009-1215.patch
+ delete mode 100644 meta/recipes-extended/screen/screen-4.0.3/screen-4.0.3-CVE-2009-1214.patch
+ create mode 100644 meta/recipes-extended/screen/screen/Avoid-mis-identifying-systems-as-SVR4.patch
+ create mode 100644 meta/recipes-extended/screen/screen/Provide-cross-compile-alternatives-for-AC_TRY_RUN.patch
+ create mode 100644 meta/recipes-extended/screen/screen/Remove-redundant-compiler-sanity-checks.patch
+ create mode 100644 meta/recipes-extended/screen/screen/Skip-host-file-system-checks-when-cross-compiling.patch
+ rename meta/recipes-extended/screen/{screen-4.0.3 => screen}/fix-parallel-make.patch (100%)
+ rename meta/recipes-extended/screen/{screen-4.0.3 => screen}/screen.pam (100%)
+ rename meta/recipes-extended/screen/{screen_4.0.3.bb => screen_4.3.1.bb} (58%)
+
+-- 
+2.1.4
+
 
