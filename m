@@ -1,28 +1,43 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CAFE473905
+Return-Path: <humberto.ibarra.lopez@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 49CE9763BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 17:44:11 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 13 Aug 2015 10:44:12 -0700
+	Thu, 13 Aug 2015 18:23:01 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 13 Aug 2015 11:22:54 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,671,1432623600"; d="scan'208";a="783590805"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.147])
-	([10.219.5.147])
-	by orsmga002.jf.intel.com with ESMTP; 13 Aug 2015 10:44:11 -0700
-Message-ID: <55CCD7A4.7050209@linux.intel.com>
-Date: Thu, 13 Aug 2015 12:45:08 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+X-IronPort-AV: E=Sophos;i="5.15,671,1432623600"; 
+	d="scan'208,217";a="768287819"
+Received: from orsmsx109.amr.corp.intel.com ([10.22.240.7])
+	by fmsmga001.fm.intel.com with ESMTP; 13 Aug 2015 11:22:53 -0700
+Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
+	ORSMSX109.amr.corp.intel.com (10.22.240.7) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Thu, 13 Aug 2015 11:22:51 -0700
+Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
+	ORSMSX114.amr.corp.intel.com (10.22.240.10) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Thu, 13 Aug 2015 11:22:51 -0700
+Received: from fmsmsx106.amr.corp.intel.com ([169.254.5.115]) by
+	FMSMSX113.amr.corp.intel.com ([169.254.13.127]) with mapi id
+	14.03.0224.002; Thu, 13 Aug 2015 11:22:50 -0700
+From: "Ibarra Lopez, Humberto" <humberto.ibarra.lopez@intel.com>
+To: "benjamin.esquivel@linux.intel.com" <benjamin.esquivel@linux.intel.com>,
+	"Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] [scripts][PATCH] yocto-layer: Stops duplication of
+	"meta-" prefix
+Thread-Index: AQHQyjfzhOeCuijZB022N6PVLMXDPJ30eDKAgAAqIoCAFac8IA==
+Date: Thu, 13 Aug 2015 18:22:50 +0000
+Message-ID: <F187383F84EB304A88D055C3049588793795BD@FMSMSX106.amr.corp.intel.com>
+References: <1438199407-19848-1-git-send-email-humberto.ibarra.lopez@intel.com>
+	<CAJTo0LYX2-=PqSBHcj0OTL+TpPa_Es56ZhDeeN8n=z+8VJdw-w@mail.gmail.com>
+	<1438271967.9280.22.camel@linux.intel.com>
+In-Reply-To: <1438271967.9280.22.camel@linux.intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.1.200.108]
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1439301278.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<dec31dd6b2f6e2c9cfd36f3a249ef1cbead5cdf6.1439301278.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<4365231.OlMhXKZDbM@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <4365231.OlMhXKZDbM@peggleto-mobl.ger.corp.intel.com>
-Subject: Re: [PATCH 1/1][RFC] devtool: Upgrade feature
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [scripts][PATCH] yocto-layer: Stops duplication of "meta-" prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,120 +50,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 17:44:14 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Aug 2015 18:23:02 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_F187383F84EB304A88D055C3049588793795BDFMSMSX106amrcorpi_"
 
-Hi Paul,
+--_000_F187383F84EB304A88D055C3049588793795BDFMSMSX106amrcorpi_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 08/13/2015 05:06 AM, Paul Eggleton wrote:
-> Hi Leo,
->
-> On Tuesday 11 August 2015 14:04:14 leonardo.sandoval.gonzalez@linux.intel.com
-> wrote:
->> This is a new devtool's feature, which upgrades a recipe to a
->> particular version number. Code was taken from [1] where some modifications
->> were done (remove all email, buildhistory and statistics features,
->> use devtool logger instead of AUH logger) to adapt the devtool framework.
->> Once the upgrade is over, the new recipe will be located under the
->> devtool's workspace. This is a first approach to this feature; pending
->> tasks include:
->>
->> 1. The AUH [1] is used to rename and update the recipe. AUH is not
->> using the lib/oe/recipeutils library to do this work. AUH ported code should
->> use this library which is the one being used by the rest of the devtool
->> features.
->>
->> 2. Currently, when 'update-recipe' is executed, the recipe under workspace
->> is updated with latest commits. The only task missing is to replace the new
->> recipe with the old one, commonly located under the meta layer.
->>
->> 3. When patches fail to apply, follow the PATCHRESOLVE behavior instead of
->> just failing.
->>
->> 4. Patches most of the time do not apply correctly on the new recipe
->> version, so include a command line option to indicate the system not to
->> apply these, so it can be applied manually later on.
->
-> So, this is a good first implementation and gives an idea of how the command
-> will work - and I'm quite keen for us to have this, I've had several people
-> asking me recently about when we'll be adding it, so it's definitely something
-> we want.
->
-> However, I'm concerned about the volume of code we're adding here, some of
-> which duplicates what we already have in devtool or elsewhere in lib/oe. I
-> know this is the easiest approach and you've noted it's todo item #1 above to
-> work on - I'll be a lot happier if you can improve that before the final
-> version.
->
-> In particular, I see the upgrade() function is duplicating a bunch of code
-> from modify() - we should split the common parts out to separate function(s)
-> that can be called from both places instead.
+SSBkaWRu4oCZdCBzZWUgYW55IG1vcmUgY29tbWVudHMgcmVnYXJkaW5nIHRoaXMsIGFyZSB0aGVy
+ZSBhbnkgdXBkYXRlcz8gSSBhbSBub3QgZW50aXJlbHkgc3VyZSBhYm91dCBSb3Nz4oCZIHF1ZXN0
+aW9uIGVpdGhlci4NCg0KDQpGcm9tOiBCZW5qYW1pbiBFc3F1aXZlbCBbbWFpbHRvOmJlbmphbWlu
+LmVzcXVpdmVsQGxpbnV4LmludGVsLmNvbV0NClNlbnQ6IFRodXJzZGF5LCBKdWx5IDMwLCAyMDE1
+IDEwOjU5IEFNDQpUbzogQnVydG9uLCBSb3NzOyBJYmFycmEgTG9wZXosIEh1bWJlcnRvDQpDYzog
+T0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbc2NyaXB0c11bUEFUQ0hdIHlvY3RvLWxh
+eWVyOiBTdG9wcyBkdXBsaWNhdGlvbiBvZiAibWV0YS0iIHByZWZpeA0KDQpPbiBUaHUsIDIwMTUt
+MDctMzAgYXQgMTQ6MjggKzAxMDAsIEJ1cnRvbiwgUm9zcyB3cm90ZToNCg0KT24gMjkgSnVseSAy
+MDE1IGF0IDIwOjUwLCA8aHVtYmVydG8uaWJhcnJhLmxvcGV6QGludGVsLmNvbTxtYWlsdG86aHVt
+YmVydG8uaWJhcnJhLmxvcGV6QGludGVsLmNvbT4+IHdyb3RlOg0KDQpUaGUgeW9jdG8tbGF5ZXIg
+c2NyaXB0IHB1dHMgYW4gZXh0cmEgIm1ldGEtIiBwcmVmaXggdG8gdGhlIGdpdmVuIGxheWVyDQpu
+YW1lIGV2ZW4gd2hlbiB0aGUgcHJlZml4IGlzIGFscmVhZHkgdGhlcmUuIFRoaXMgZml4IGF2b2lk
+cw0KZHVwbGljYXRpbmcgdGhlIHByZWZpeCBpbiB0aGVzZSBzaXR1YXRpb25zLg0KDQoNCklmIHRo
+ZSBzY3JpcHRzIGV4cGVjdHMgdGhlIGxheWVyIG5hbWUgdG8gbm90IGhhdmUgYSBtZXRhLSBwcmVm
+aXgsIHNob3VsZCBpdCBhbHNvIHN0cmlwIGEgcHJlZml4IGlmIGl0cyBwcmVzZW50IGJlZm9yZSBw
+YXNzaW5nIGl0IHRvIHlvY3RvX2xheWVyX2NyZWF0ZSgpPw0KSSdtIGZhaWxpbmcgdG8gdW5kZXJz
+dGFuZCB0aGUgcXVlc3Rpb24sIEkgdGhpbmsgdGhlIHlvY3RvX2xheWVyX2NyZWF0ZSgpIGlzIHJl
+Y2VpdmluZyBhIGxheWVyX291dHB1dF9kaXIgYXJndW1lbnQgd2l0aCAnbWV0YS0nIGNoZWNrZWQg
+dG8gbm90IGJlIGR1cGxpY2F0ZWQuICBUaGUgZml4IGlzIHJpZ2h0IGFib3ZlIHRoZSB5b2N0b19s
+YXllcl9jcmVhdGUoKSBjYWxsLg0KUm9zcw0KDQotLQ0KDQpfX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fXw0KDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxp
+c3QNCg0KT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86T3Bl
+bmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCg0KaHR0cDovL2xpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0K
 
-As you noticed, there is code duplication specially on the standard.py. 
-Code on this file needs to be refactor somehow so the function upgrade 
-can call these new functions.
+--_000_F187383F84EB304A88D055C3049588793795BDFMSMSX106amrcorpi_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
->
-> Some other comments:
->
-> * I can see it's actually making changes to the original recipe - I found this
-> because I'd run a devtool upgrade on dropbear and specified the wrong version
-> to --version Ctrl+C'd out during the fetch part, and the original dropbear.inc
-> was modified instead of the one in the workspace. We don't want to touch the
-> original recipe, not until you run update-recipe at least.
->
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
+IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGluOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
+Um9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXBy
+aW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQph
+OnZpc2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
+Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnByZQ0K
+CXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgUHJlZm9ybWF0
+dGVkIENoYXIiOw0KCW1hcmdpbjowaW47DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQt
+c2l6ZToxMC4wcHQ7DQoJZm9udC1mYW1pbHk6IkNvdXJpZXIgTmV3Ijt9DQpzcGFuLkhUTUxQcmVm
+b3JtYXR0ZWRDaGFyDQoJe21zby1zdHlsZS1uYW1lOiJIVE1MIFByZWZvcm1hdHRlZCBDaGFyIjsN
+Cgltc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxpbms6IkhUTUwgUHJlZm9ybWF0
+dGVkIjsNCglmb250LWZhbWlseToiQ29uc29sYXMiLHNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE5
+DQoJe21zby1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJp
+IixzYW5zLXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0
+eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjEwLjBwdDt9DQpAcGFnZSBXb3JkU2Vj
+dGlvbjENCgl7c2l6ZTo4LjVpbiAxMS4waW47DQoJbWFyZ2luOjEuMGluIDEuMGluIDEuMGluIDEu
+MGluO30NCmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHls
+ZT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQi
+IHNwaWRtYXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+
+PHhtbD4NCjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0
+IiBkYXRhPSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFk
+Pg0KPGJvZHkgbGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBj
+bGFzcz0iV29yZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+Zjtjb2xvcjojMUY0OTdEIj5JIGRpZG7igJl0IHNlZSBhbnkgbW9yZSBjb21tZW50cyByZWdhcmRp
+bmcgdGhpcywgYXJlIHRoZXJlIGFueSB1cGRhdGVzPyBJIGFtIG5vdCBlbnRpcmVseSBzdXJlIGFi
+b3V0IFJvc3PigJkgcXVlc3Rpb24gZWl0aGVyLg0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1p
+bHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmO2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJm
+b250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJp
+Zjtjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxl
+PSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGluIDBp
+biAwaW4gNC4wcHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6
+c29saWQgI0UxRTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBpbiAwaW4gMGluIj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
+OiZxdW90O0NhbGlicmkmcXVvdDssc2Fucy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0
+eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
+cy1zZXJpZiI+IEJlbmphbWluIEVzcXVpdmVsIFttYWlsdG86YmVuamFtaW4uZXNxdWl2ZWxAbGlu
+dXguaW50ZWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+IFRodXJzZGF5LCBKdWx5IDMwLCAyMDE1
+IDEwOjU5IEFNPGJyPg0KPGI+VG86PC9iPiBCdXJ0b24sIFJvc3M7IEliYXJyYSBMb3BleiwgSHVt
+YmVydG88YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtP
+RS1jb3JlXSBbc2NyaXB0c11bUEFUQ0hdIHlvY3RvLWxheWVyOiBTdG9wcyBkdXBsaWNhdGlvbiBv
+ZiAmcXVvdDttZXRhLSZxdW90OyBwcmVmaXg8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4N
+CjwvZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gVGh1LCAyMDE1LTA3LTMwIGF0IDE0OjI4ICYjNDM7
+MDEwMCwgQnVydG9uLCBSb3NzIHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8YmxvY2tx
+dW90ZSBzdHlsZT0ibWFyZ2luLXRvcDo1LjBwdDttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxkaXY+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24gMjkgSnVseSAyMDE1IGF0IDIwOjUwLCAmbHQ7PGEg
+aHJlZj0ibWFpbHRvOmh1bWJlcnRvLmliYXJyYS5sb3BlekBpbnRlbC5jb20iIHRhcmdldD0iX2Js
+YW5rIj5odW1iZXJ0by5pYmFycmEubG9wZXpAaW50ZWwuY29tPC9hPiZndDsgd3JvdGU6PGJyPg0K
+PGJyPg0KPG86cD48L286cD48L3A+DQo8YmxvY2txdW90ZSBzdHlsZT0ibWFyZ2luLXRvcDo1LjBw
+dDttYXJnaW4tYm90dG9tOjUuMHB0Ij4NCjxkaXYgaWQ9IjppYyI+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj5UaGUgeW9jdG8tbGF5ZXIgc2NyaXB0IHB1dHMgYW4gZXh0cmEgJnF1b3Q7bWV0YS0mcXVv
+dDsgcHJlZml4IHRvIHRoZSBnaXZlbiBsYXllcjxicj4NCm5hbWUgZXZlbiB3aGVuIHRoZSBwcmVm
+aXggaXMgYWxyZWFkeSB0aGVyZS4gVGhpcyBmaXggYXZvaWRzPGJyPg0KZHVwbGljYXRpbmcgdGhl
+IHByZWZpeCBpbiB0aGVzZSBzaXR1YXRpb25zLjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBj
+bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPklmIHRoZSBzY3JpcHRzIGV4cGVjdHMgdGhlIGxh
+eWVyIG5hbWUgdG8gbm90IGhhdmUgYSBtZXRhLSBwcmVmaXgsIHNob3VsZCBpdCBhbHNvIHN0cmlw
+IGEgcHJlZml4IGlmIGl0cyBwcmVzZW50IGJlZm9yZSBwYXNzaW5nIGl0IHRvIHlvY3RvX2xheWVy
+X2NyZWF0ZSgpPzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSdtIGZhaWxpbmcg
+dG8gdW5kZXJzdGFuZCB0aGUgcXVlc3Rpb24sIEkgdGhpbmsgdGhlIHlvY3RvX2xheWVyX2NyZWF0
+ZSgpIGlzIHJlY2VpdmluZyBhIGxheWVyX291dHB1dF9kaXIgYXJndW1lbnQgd2l0aCAnbWV0YS0n
+IGNoZWNrZWQgdG8gbm90IGJlIGR1cGxpY2F0ZWQuICZuYnNwO1RoZSBmaXggaXMgcmlnaHQgYWJv
+dmUgdGhlIHlvY3RvX2xheWVyX2NyZWF0ZSgpIGNhbGwuPG86cD48L286cD48L3A+DQo8L2Rpdj4N
+CjxibG9ja3F1b3RlIHN0eWxlPSJtYXJnaW4tdG9wOjUuMHB0O21hcmdpbi1ib3R0b206NS4wcHQi
+Pg0KPGRpdj4NCjxkaXY+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPlJvc3M8
+bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPHByZT4tLSA8
+bzpwPjwvbzpwPjwvcHJlPg0KPHByZT5fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXzxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPk9wZW5lbWJlZGRlZC1jb3JlIG1h
+aWxpbmcgbGlzdDxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPjxhIGhyZWY9Im1haWx0bzpPcGVuZW1i
+ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIj5PcGVuZW1iZWRkZWQtY29yZUBsaXN0
+cy5vcGVuZW1iZWRkZWQub3JnPC9hPjxvOnA+PC9vOnA+PC9wcmU+DQo8cHJlPjxhIGhyZWY9Imh0
+dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVk
+LWNvcmUiPmh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
+bmVtYmVkZGVkLWNvcmU8L2E+PG86cD48L286cD48L3ByZT4NCjwvYmxvY2txdW90ZT4NCjwvZGl2
+Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-Ok. This is definitely a bug. All work must be done in the workspace. 
-This is contrary to the AUH code, which works on poky default layers, so 
-this bug may be something I did not change on the ported code.
-
-> * As far as the source tree is concerned I think that this is doing things
-> slightly backwards - it's using the AUH code to do the upgrade, and then it's
-> extracting the code. What I'd like to see happen is it extract the code for
-> the old version (including applying patches), use the AUH code to figure out
-> how to fetch the new version, fetch it into a different branch (assuming it's
-> not already there since it was fetched from git), then rebase the patches onto
-> the new version - the user can then use git to fix things up if patches don't
-> apply.
->
-
-got it. Looks good to me. I also though using the recipetool script 
-(instead of AUH), but this one creates a recipe from scratch so it is 
-not really useful at this moment.
-
-> * I'm not sure if using an existing source tree is a reasonable default for
-> this command - I'm not even sure it's something people will want to do at all
-> in the context of an upgrade. I'm willing to be convinced otherwise though -
-> any opinions (from anyone)?
->
-> * We need oe-selftest tests for this that test as much of the functionality as
-> possible. This may require adding some simple "synthetic" recipes to meta-
-> selftest so that we have something that's always there to upgrade. Based upon
-> my recent experience in devtool (with my own code), the sooner we add these
-> the better.
-
-good point. I will add these on v2.
-
->
-> * I'd like to see the implementation for this in its own file rather than in
-> standard.py.
-
-Good. What about the other features (add, update-recipe, modify, etc.)? 
-will these remain in the same place?
-
->
-> * Probably just a result of this being WIP, but I found that if I don't
-> specify a version with --version then it says "NOTE: Upgrading to None" and
-> then fails with "ERROR: cannot concatenate 'str' and 'NoneType' objects".
->
-
-Bug. I will also add it on V2.
-
-
-> Cheers,
-> Paul
->
-
-Thanks for your comments.
-
+--_000_F187383F84EB304A88D055C3049588793795BDFMSMSX106amrcorpi_--
