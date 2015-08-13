@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 722D676312
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E0B97649D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 07:37:22 +0000 (UTC)
+	Thu, 13 Aug 2015 07:37:23 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7D7bMTA000229
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7D7bNu3022145
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 00:37:22 -0700 (PDT)
+	Thu, 13 Aug 2015 00:37:23 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 13 Aug 2015 00:37:22 -0700
+	Thu, 13 Aug 2015 00:37:23 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Aug 2015 00:37:20 -0700
-Message-ID: <529ac22ac47e062b63c4b3b8ce7c0f9def00f359.1439449078.git.liezhi.yang@windriver.com>
+Date: Thu, 13 Aug 2015 00:37:21 -0700
+Message-ID: <ce00aff5a51471e663a9cc83c1521f4f24dfba14.1439449078.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1439449078.git.liezhi.yang@windriver.com>
 References: <cover.1439449078.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] populate_sdk_base.bbclass: help rpm to pull in multilib toolchain
+Subject: [PATCH 3/3] packagegroup-core-standalone-sdk-target: remove qemuwrapper-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,70 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 07:37:22 -0000
+X-List-Received-Date: Thu, 13 Aug 2015 07:37:23 -0000
 Content-Type: text/plain
 
-When configure multilib, "bitbake <image_bb> -c populate_sdk" should
-install all arch toolchains (for example, 32 and 64bit), but rpm not
-handle the multilib requires correctly, for example:
-lib32-packagegroup-core-standalone-sdk-target requires lib32-libc6, rpm
-may pull in libc6 rather than lib32-libc6, if we directly use something
-like IMAGE_INSTALL_append = " lib32-libc6", then it works well, so
-update TOOLCHAIN_TARGET_TASK to include the RDEPENDS packages will fix
-the issue.
+Remove qemuwrapper-cross from RDEPENDS, install a cross pkg in sysroots
+isn't useful, if we really need run qemuwrapper in SDK, we should add it
+as nativesdk, and it has multilib conflicts when populate_ sdk:
+
+error: file /usr/bin/crossscripts/qemuwrapper from install of
+qemuwrapper-cross-1.0-r0.lib32_x86 conflicts with file from package
+qemuwrapper-cross-1.0-r0.core2_64
 
 [YOCTO #8089]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/populate_sdk_base.bbclass |   32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ .../packagegroup-core-standalone-sdk-target.bb     |    1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index a9e9bd7..c2491ea 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -83,8 +83,40 @@ POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
- fakeroot python do_populate_sdk() {
-     from oe.sdk import populate_sdk
-     from oe.manifest import create_manifest, Manifest
-+    import oe.packagedata
- 
-     pn = d.getVar('PN', True)
-+    # Help rpm to pull in multilib requires since it may not pull in
-+    # them correctly, for example,
-+    # lib32-packagegroup-core-standalone-sdk-target requires
-+    # lib32-libc6, rpm may pull in libc6 rather than lib32-libc6, but
-+    # directly use
-+    # TOOLCHAIN_TARGET_TASK_append = " lib32-libc6" works well.
-+    for pkg in (d.getVar('TOOLCHAIN_TARGET_TASK', True) or "").split():
-+        sub_data = oe.packagedata.read_subpkgdata(pkg, d)
-+        sub_rdep = sub_data.get("RDEPENDS_" + pkg)
-+        if not sub_rdep:
-+            continue
-+        done = sub_rdep.split()
-+        next = done
-+        # Find all the rdepends on the dependency chain
-+        while next:
-+            new = []
-+            for sub_pkg in next:
-+                sub_data = oe.packagedata.read_subpkgdata(sub_pkg, d)
-+                sub_pkg_rdep = sub_data.get("RDEPENDS_" + sub_pkg)
-+                if not sub_pkg_rdep:
-+                    continue
-+                for p in sub_pkg_rdep.split():
-+                    if p in done:
-+                        continue
-+                    if not p.startswith('(') and \
-+                            oe.packagedata.has_subpkgdata(p, d):
-+                        # It's a new rdep
-+                        done.append(p)
-+                        new.append(p)
-+            next = new
-+        d.appendVar('TOOLCHAIN_TARGET_TASK', ' ' + " ".join(done))
-     runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, d)
-     runtime_mapping_rename("TOOLCHAIN_TARGET_TASK_ATTEMPTONLY", pn, d)
- 
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+index 5d1ce97..37f5e43 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-standalone-sdk-target.bb
+@@ -10,5 +10,4 @@ RDEPENDS_${PN} = "\
+     libstdc++ \
+     libstdc++-dev \
+     ${LIBC_DEPENDENCIES} \
+-    qemuwrapper-cross \
+     "
 -- 
 1.7.9.5
 
