@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E26C76312
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 722D676312
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 07:37:21 +0000 (UTC)
+	Thu, 13 Aug 2015 07:37:22 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7D7bMgd022142
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7D7bMTA000229
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 13 Aug 2015 00:37:22 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Thu, 13 Aug 2015 00:37:22 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Aug 2015 00:37:19 -0700
-Message-ID: <67e4fb4b7a8dc0c7e955e5ea5e4fc2048961f61b.1439449078.git.liezhi.yang@windriver.com>
+Date: Thu, 13 Aug 2015 00:37:20 -0700
+Message-ID: <529ac22ac47e062b63c4b3b8ce7c0f9def00f359.1439449078.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1439449078.git.liezhi.yang@windriver.com>
 References: <cover.1439449078.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] toolchain-shar-extract.sh: add a space in the end
+Subject: [PATCH 2/3] populate_sdk_base.bbclass: help rpm to pull in multilib toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,33 +36,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 13 Aug 2015 07:37:22 -0000
 Content-Type: text/plain
 
-For a clear look when input.
+When configure multilib, "bitbake <image_bb> -c populate_sdk" should
+install all arch toolchains (for example, 32 and 64bit), but rpm not
+handle the multilib requires correctly, for example:
+lib32-packagegroup-core-standalone-sdk-target requires lib32-libc6, rpm
+may pull in libc6 rather than lib32-libc6, if we directly use something
+like IMAGE_INSTALL_append = " lib32-libc6", then it works well, so
+update TOOLCHAIN_TARGET_TASK to include the RDEPENDS packages will fix
+the issue.
 
 [YOCTO #8089]
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/files/toolchain-shar-extract.sh |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/populate_sdk_base.bbclass |   32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 0a33ee8..3a50991 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -92,11 +92,11 @@ fi
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index a9e9bd7..c2491ea 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -83,8 +83,40 @@ POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
+ fakeroot python do_populate_sdk() {
+     from oe.sdk import populate_sdk
+     from oe.manifest import create_manifest, Manifest
++    import oe.packagedata
  
- if [ -e "$target_sdk_dir/environment-setup-@REAL_MULTIMACH_TARGET_SYS@" ]; then
- 	echo "The directory \"$target_sdk_dir\" already contains a SDK for this architecture."
--	printf "If you continue, existing files will be overwritten! Proceed[y/N]?"
-+	printf "If you continue, existing files will be overwritten! Proceed[y/N]? "
+     pn = d.getVar('PN', True)
++    # Help rpm to pull in multilib requires since it may not pull in
++    # them correctly, for example,
++    # lib32-packagegroup-core-standalone-sdk-target requires
++    # lib32-libc6, rpm may pull in libc6 rather than lib32-libc6, but
++    # directly use
++    # TOOLCHAIN_TARGET_TASK_append = " lib32-libc6" works well.
++    for pkg in (d.getVar('TOOLCHAIN_TARGET_TASK', True) or "").split():
++        sub_data = oe.packagedata.read_subpkgdata(pkg, d)
++        sub_rdep = sub_data.get("RDEPENDS_" + pkg)
++        if not sub_rdep:
++            continue
++        done = sub_rdep.split()
++        next = done
++        # Find all the rdepends on the dependency chain
++        while next:
++            new = []
++            for sub_pkg in next:
++                sub_data = oe.packagedata.read_subpkgdata(sub_pkg, d)
++                sub_pkg_rdep = sub_data.get("RDEPENDS_" + sub_pkg)
++                if not sub_pkg_rdep:
++                    continue
++                for p in sub_pkg_rdep.split():
++                    if p in done:
++                        continue
++                    if not p.startswith('(') and \
++                            oe.packagedata.has_subpkgdata(p, d):
++                        # It's a new rdep
++                        done.append(p)
++                        new.append(p)
++            next = new
++        d.appendVar('TOOLCHAIN_TARGET_TASK', ' ' + " ".join(done))
+     runtime_mapping_rename("TOOLCHAIN_TARGET_TASK", pn, d)
+     runtime_mapping_rename("TOOLCHAIN_TARGET_TASK_ATTEMPTONLY", pn, d)
  
- 	default_answer="n"
- else
--	printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]?"
-+	printf "You are about to install the SDK to \"$target_sdk_dir\". Proceed[Y/n]? "
- 
- 	default_answer="y"
- fi
 -- 
 1.7.9.5
 
