@@ -1,36 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BF5D73D64
+Return-Path: <Noor_Ahsan@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id B49A073D64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 11:09:26 +0000 (UTC)
-Received: by qgeg42 with SMTP id g42so28532131qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 04:09:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=B0DqOev6jnW0nKmXHebjC8My55K+ZVtj2YEGW4LdzdM=;
-	b=djFUIOJUocIDlk33VJe0lZsehSv13rHXRK/oQ7sNOahM+pxPbBr/uzQTA43/rUnlZU
-	3T0X2WqX5PGBS5cdFALkkfIVltMbOo6DX0D+ijCn+KVd/9mLWZSfK63H5bkvyngecu/I
-	es5ymxnTIsBYwX3hApQqsyn+rJUVDObNh/v7qDDheceOvPZ8rqHWfizB8pESKN7KnANd
-	1PrF9z5Wpy/w3rRK4IMoFozUMlJPqJAXxyMirOpRY8A4j7SSJbOf7MZSMhNhdsaofkEK
-	GO4PIyuF0whhMmCKlvPw063BttgdFhOakmTeTueGlNsUfURY/j0m8XLb42y20m3q5Fmo
-	+wzw==
-X-Gm-Message-State: ALoCoQnMYK90R9G/k3GTbfCPF3+ogqNSxt3eF+ohypRoM/RBFaFKEjfMyUKXta6nFU7qpIzXNg6E
-X-Received: by 10.140.133.67 with SMTP id 64mr8900073qhf.52.1439464166773;
-	Thu, 13 Aug 2015 04:09:26 -0700 (PDT)
+	Thu, 13 Aug 2015 11:43:41 +0000 (UTC)
+Received: from svr-orw-fem-05.mgc.mentorg.com ([147.34.97.43])
+	by relay1.mentorg.com with esmtp 
+	id 1ZPqv7-0001Mq-OZ from Noor_Ahsan@mentor.com 
+	for openembedded-core@lists.openembedded.org;
+	Thu, 13 Aug 2015 04:43:41 -0700
+Received: from gemini.alm.mentorg.com (147.34.91.1) by
+	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
+	Server (TLS) id 14.3.224.2; Thu, 13 Aug 2015 04:43:41 -0700
+Received: from pkl-ahsann-ubuntu.pkl.mentorg.com
+	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])	by
+	gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id t7DBhc1W023029;
+	Thu, 13 Aug 2015 06:43:40 -0500
+From: "Noor, Ahsan" <noor_ahsan@mentor.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Aug 2015 16:43:14 +0500
+Message-ID: <1439466194-17853-1-git-send-email-noor_ahsan@mentor.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Thu, 13 Aug 2015 04:09:07 -0700 (PDT)
-In-Reply-To: <1439456956-21602-1-git-send-email-clemens.lang@bmw-carit.de>
-References: <1439456956-21602-1-git-send-email-clemens.lang@bmw-carit.de>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Aug 2015 12:09:07 +0100
-Message-ID: <CAJTo0Lb+y8v4SKhgUrdonNivPeT77Lyxd5MFDDoS4T087Zwp8w@mail.gmail.com>
-To: Clemens Lang <clemens.lang@bmw-carit.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Avoid race condition between do_unpack and do_deploy_archives in archiver.bbclass
+Subject: [PATCH] libpfm4: Fix GNU_HASH warning.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +34,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 11:09:29 -0000
-Content-Type: multipart/alternative; boundary=001a1136fdce540ae3051d2f5ee7
+X-List-Received-Date: Thu, 13 Aug 2015 11:43:42 -0000
+Content-Type: text/plain
 
---001a1136fdce540ae3051d2f5ee7
-Content-Type: text/plain; charset=UTF-8
+From: Noor <noor_ahsan@mentor.com>
 
-On 13 August 2015 at 10:09, Clemens Lang <clemens.lang@bmw-carit.de> wrote:
+* Add a patch which updated add LDFLAGS variable to SLDFLAGS
+  in Makefile.
 
-> Because do_deploy_archives does not specify a working directory, it
-> defaults to $B, which does not exist when do_deploy_archives is run in
-> parallel (or before) do_unpack.
->
+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+---
+ ...Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch |   31 ++++++++++++++++++++
+ meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb        |    4 ++-
+ 2 files changed, 34 insertions(+), 1 deletion(-)
 
-I'm not sure I follow this.  Functions are executed using exec_func() will
-create and cd to the default directory, so if that is ${B} then exec_func
-will create ${B} before executing the function.
+diff --git a/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch b/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch
+new file mode 100644
+index 0000000..be58706
+--- /dev/null
++++ b/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch
+@@ -0,0 +1,31 @@
++From 272a8a069a8f5f06a1e5dfa0ef12f5f92984728b Mon Sep 17 00:00:00 2001
++From: Noor <noor_ahsan@mentor.com>
++Date: Wed, 12 Aug 2015 20:54:00 +0500
++Subject: [PATCH] Makefile: Add LDFLAGS variable to SLDFLAGS.
++
++* Add LDFLAGS variable to SLDFLAGS so that extra linker
++  flags can be sent via this variable.
++
++Upstream status Sumbitted [perfmon2-libpfm4-commits@lists.sourceforge.net]
++
++Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
++---
++ lib/Makefile |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/Makefile b/lib/Makefile
++index 1cc8765..4bd92ef 100644
++--- a/lib/Makefile
+++++ b/lib/Makefile
++@@ -187,7 +187,7 @@ CFLAGS += -DCONFIG_PFMLIB_CELL
++ endif
++ 
++ ifeq ($(SYS),Linux)
++-SLDFLAGS=-shared -Wl,-soname -Wl,$(VLIBPFM)
+++SLDFLAGS=$(LDFLAGS) -shared -Wl,-soname -Wl,$(VLIBPFM)
++ SLIBPFM=libpfm.so.$(VERSION).$(REVISION).$(AGE)
++ VLIBPFM=libpfm.so.$(VERSION)
++ SOLIBEXT=so
++-- 
++1.7.9.5
++
+diff --git a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
+index b66fbd1..2dfda90 100644
+--- a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
++++ b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
+@@ -12,7 +12,9 @@ SECTION = "devel"
+ 
+ COMPATIBLE_HOST = "powerpc64"
+ 
+-SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/${BPN}/libpfm-${PV}.tar.gz"
++SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/${BPN}/libpfm-${PV}.tar.gz \
++           file://0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch \
++          "
+ 
+ SRC_URI[md5sum] = "5077b9022440e4951d96f2d0e73bd487"
+ SRC_URI[sha256sum] = "5ab1e5b0472550f9037a8800834f6bc3b927690070f69fac0b67284b4b05fd5f"
+-- 
+1.7.9.5
 
-(I've a branch - ross/dirs - to remove this undesired OE-specific knowledge
-in BitBake)
 
-Ross
-
---001a1136fdce540ae3051d2f5ee7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 August 2015 at 10:09, Clemens Lang <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:clemens.lang@bmw-carit.de" target=3D"_blank">clemens.lang@bmw-carit.d=
-e</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div style=3D"ove=
-rflow:hidden">Because do_deploy_archives does not specify a working directo=
-ry, it<br>
-defaults to $B, which does not exist when do_deploy_archives is run in<br>
-parallel (or before) do_unpack.</div></blockquote></div><div class=3D"gmail=
-_extra"><br></div>I&#39;m not sure I follow this.=C2=A0 Functions are execu=
-ted using exec_func() will create and cd to the default directory, so if th=
-at is ${B} then exec_func will create ${B} before executing the function.</=
-div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">(I&#39;=
-ve a branch - ross/dirs - to remove this undesired OE-specific knowledge in=
- BitBake)</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_ext=
-ra">Ross</div></div>
-
---001a1136fdce540ae3051d2f5ee7--
