@@ -1,27 +1,35 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id B49A073D64
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 34C3B73231
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 11:43:41 +0000 (UTC)
-Received: from svr-orw-fem-05.mgc.mentorg.com ([147.34.97.43])
-	by relay1.mentorg.com with esmtp 
-	id 1ZPqv7-0001Mq-OZ from Noor_Ahsan@mentor.com 
-	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Aug 2015 04:43:41 -0700
-Received: from gemini.alm.mentorg.com (147.34.91.1) by
-	svr-orw-fem-05.mgc.mentorg.com (147.34.97.43) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Thu, 13 Aug 2015 04:43:41 -0700
-Received: from pkl-ahsann-ubuntu.pkl.mentorg.com
-	(pkl-ahsann-ubuntu.pkl.mentorg.com [137.202.157.70])	by
-	gemini.alm.mentorg.com (8.14.4/8.14.4) with ESMTP id t7DBhc1W023029;
-	Thu, 13 Aug 2015 06:43:40 -0500
-From: "Noor, Ahsan" <noor_ahsan@mentor.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Aug 2015 16:43:14 +0500
-Message-ID: <1439466194-17853-1-git-send-email-noor_ahsan@mentor.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 13 Aug 2015 12:43:15 +0000 (UTC)
+Received: by wibhh20 with SMTP id hh20so72376884wib.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Aug 2015 05:43:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+	:content-type;
+	bh=qvH+qzIHX43SuGGzcuvlayAx6pwHHUKzqTiUKEKF74o=;
+	b=kORTRW4/k+AYBONS5txN2Rlx+Pv0KzdHEeusep7nDuRESjIdvQcCKGJD4y3bGmwsw/
+	V3XnjwL4iDeaYt0JG65ebggcks/9TGkYGyDS934dcF0+iosGAZtdwTPMTHP9Ab1cuPbo
+	eaXq6RQxnOJf8n6ZVeWIWD86J5tjzpbDSxyDaWcQgvo5keWk+zd9snvRieKutGAH1VS1
+	xgJnlOesbme2nTy+5MYtGJRzUrj74PfHfVxD5SskQUs+JmN+7zP/3bZ6JwuKsyQLZ7yq
+	HV4DZ8sXronXRkXV605z1Z/4MF+Uf0vIs2psj6HxVtTckUmXWY9beVKMVYtsPiqW6gQ4
+	zZNQ==
+X-Gm-Message-State: ALoCoQmPHzmZrdiL8GX5EBUDQ23/+Cg4nG4se6aw9vDlEvBMfnfoV3TXORqpTUq+iYhxbtwMNA5o
+X-Received: by 10.180.80.138 with SMTP id r10mr6104318wix.18.1439469795332;
+	Thu, 13 Aug 2015 05:43:15 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] libpfm4: Fix GNU_HASH warning.
+Received: by 10.27.175.160 with HTTP; Thu, 13 Aug 2015 05:42:45 -0700 (PDT)
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 13 Aug 2015 15:42:45 +0300
+Message-ID: <CAHiDW_EGaGer0d0RVaqzT6ats9aqDEpzMieUxwbgYffVRYADbA@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: gnutls/nettle/gmp licensing and versions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,73 +42,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 11:43:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Aug 2015 12:43:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Noor <noor_ahsan@mentor.com>
+On 12 August 2015 at 17:14, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+> Hi,
+>
+> I realise I'm a bit late (with the commit in master already) but I'm
+> looking at upgrading this recipe and had some questions on this patch
+> and the recipe in general.
+>
+> On 9 August 2015 at 08:28, Armin Kuster <akuster808@gmail.com> wrote:
+>> adding the license definitions on the few packages that
+>> deviate from the overall package license.
+>>
+>> based on http://www.lysator.liu.se/~nisse/nettle/nettle.html#Copyright
+>> and spot checking files.
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>  meta/recipes-support/nettle/nettle_2.7.1.bb | 9 +++++++++
+>>  1 file changed, 9 insertions(+)
+>>
+>> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
+>> index f53afcc..f9d331f 100644
+>> --- a/meta/recipes-support/nettle/nettle_2.7.1.bb
+>> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
+>> @@ -2,6 +2,15 @@ SUMMARY = "A low level cryptographic library"
+>>  HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
+>>  SECTION = "libs"
+>>  LICENSE = "LGPLv2.1 & GPLv2"
+>
+> I think this is wrong, whichever version you look at -- our current
+> version is just "LGPLv2.1+", the current upstream release is "LGPLv3+
+> | GPLv2+"
+>
+> I'm going to send a patch upgrading the recipe to the current upstream
+> release (and setting license to "LGPLv3+ | GPLv2+"): it might seem
+> like this makes gnutls effectively LGPLv3 but that actually happened
+> last year with the gmp upgrade. Comments on this welcome.
 
-* Add a patch which updated add LDFLAGS variable to SLDFLAGS
-  in Makefile.
+Alexander just pointed out to me that there was a discussion on gnutls
+and nettle already in July (which I missed in my
+back-from-holiday-email-binge). It seems that the consensus was to
+preserve LGPLv2 versions.
 
-Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
----
- ...Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch |   31 ++++++++++++++++++++
- meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb        |    4 ++-
- 2 files changed, 34 insertions(+), 1 deletion(-)
+This is what the current situation looks to me -- please correct if I'm wrong:
+* gmp is "GPLv2+ | LGPLv3+"
+* nettle is "LGPLv2.1+" but depends on gmp
+* gnutls "LGPLv2.1+" but depends on nettle
 
-diff --git a/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch b/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch
-new file mode 100644
-index 0000000..be58706
---- /dev/null
-+++ b/meta/recipes-kernel/libpfm/files/0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch
-@@ -0,0 +1,31 @@
-+From 272a8a069a8f5f06a1e5dfa0ef12f5f92984728b Mon Sep 17 00:00:00 2001
-+From: Noor <noor_ahsan@mentor.com>
-+Date: Wed, 12 Aug 2015 20:54:00 +0500
-+Subject: [PATCH] Makefile: Add LDFLAGS variable to SLDFLAGS.
-+
-+* Add LDFLAGS variable to SLDFLAGS so that extra linker
-+  flags can be sent via this variable.
-+
-+Upstream status Sumbitted [perfmon2-libpfm4-commits@lists.sourceforge.net]
-+
-+Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
-+---
-+ lib/Makefile |    2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/Makefile b/lib/Makefile
-+index 1cc8765..4bd92ef 100644
-+--- a/lib/Makefile
-++++ b/lib/Makefile
-+@@ -187,7 +187,7 @@ CFLAGS += -DCONFIG_PFMLIB_CELL
-+ endif
-+ 
-+ ifeq ($(SYS),Linux)
-+-SLDFLAGS=-shared -Wl,-soname -Wl,$(VLIBPFM)
-++SLDFLAGS=$(LDFLAGS) -shared -Wl,-soname -Wl,$(VLIBPFM)
-+ SLIBPFM=libpfm.so.$(VERSION).$(REVISION).$(AGE)
-+ VLIBPFM=libpfm.so.$(VERSION)
-+ SOLIBEXT=so
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-index b66fbd1..2dfda90 100644
---- a/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-+++ b/meta/recipes-kernel/libpfm/libpfm4_4.6.0.bb
-@@ -12,7 +12,9 @@ SECTION = "devel"
- 
- COMPATIBLE_HOST = "powerpc64"
- 
--SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/${BPN}/libpfm-${PV}.tar.gz"
-+SRC_URI = "http://downloads.sourceforge.net/project/perfmon2/${BPN}/libpfm-${PV}.tar.gz \
-+           file://0001-Makefile-Add-LDFLAGS-variable-to-SLDFLAGS.patch \
-+          "
- 
- SRC_URI[md5sum] = "5077b9022440e4951d96f2d0e73bd487"
- SRC_URI[sha256sum] = "5ab1e5b0472550f9037a8800834f6bc3b927690070f69fac0b67284b4b05fd5f"
--- 
-1.7.9.5
+This effectively makes gnutls "GPLv2+ | LGPLv3+" as far as I can see.
+If we want to preserve a LGPLv2 gnutls, we need to bring back an older
+version of gmp (I think 4.2.1).
 
+
+>> +LICENSE_${PN}-cast = "CC0"
+>> +LICENSE_${PN}-gosthash = "MIT"
+>> +
+>> +# both public and GPL license listed
+>> +LICENSE_${PN}-md2 = "CC0 & LGPLv2.1+"
+>> +LICENSE_${PN}-md4 = "CC0 & LGPLv2.1+"
+>
+> From the reference I had the impression this "LICENSE_something"
+> construct would imply there is a package "something". But the nettle
+> recipe does not produce "nettle-cast" or any of these. What is the
+> purpose here?
+>
+> Thanks,
+>  Jussi
+>
+>> +
+>> +
+>>  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+>>                      file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
+>>                      file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
+>> --
+>> 2.3.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
