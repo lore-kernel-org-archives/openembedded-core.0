@@ -1,24 +1,39 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 475BF60167
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id D3B3173D64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 08:12:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7D8Cft9022377
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 01:12:41 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 13 Aug 2015 01:12:40 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Aug 2015 16:09:17 +0800
-Message-ID: <1439453357-27173-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 13 Aug 2015 08:43:00 +0000 (UTC)
+Received: (qmail 5621 invoked by uid 1003); 13 Aug 2015 08:42:59 -0000
+Received: from unknown (HELO ?10.56.233.24?) (philip@opensdr.com@88.128.80.115)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	13 Aug 2015 08:42:59 -0000
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+	"Burton, Ross" <ross.burton@intel.com>
+References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
+	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
+	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
+	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+	<1436601450.3310.27.camel@linuxfoundation.org>
+	<55BA134F.9010908@linux.intel.com>
+	<CAJ86T=UHTjTA7S_4EV66VEUoaRhYmaYveVcfxbqzVJsxZ4s6dg@mail.gmail.com>
+	<55BB5F06.4010901@linux.intel.com>
+	<CAMKF1srWcMoRui4kqRY5vCdLd-SPQ+EMihTci=NUghHsnGiBqQ@mail.gmail.com>
+	<55C477AE.8030308@balister.org> <55C4A405.6050209@linux.intel.com>
+	<55C637DB.9010106@balister.org> <55C8956D.9080508@linux.intel.com>
+	<55C8F83F.4010003@balister.org> <55C9F7F2.2060502@linux.intel.com>
+	<CAMKF1soCEwGMkVfHsMzp3Wt49LKQusLC8jTrYygCSsBgjHZQQw@mail.gmail.com>
+	<CAJTo0LYXHLBF52jmfLF4azE-BSKj2F=9-G=8MXcFo36FgE6+0A@mail.gmail.com>
+	<CAP9ODKpXke_FaA_bSUtPSjqMKWtUsyU44qsm73KfZNrajfZrnQ@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <55CC588E.6030200@balister.org>
+Date: Thu, 13 Aug 2015 10:42:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
 MIME-Version: 1.0
-Subject: [PATCH] glibc: package nscd related files
+In-Reply-To: <CAP9ODKpXke_FaA_bSUtPSjqMKWtUsyU44qsm73KfZNrajfZrnQ@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,93 +46,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 08:12:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Aug 2015 08:43:01 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+On 08/11/2015 10:46 PM, Otavio Salvador wrote:
+> On Tue, Aug 11, 2015 at 5:36 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> On 11 August 2015 at 16:46, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> can we freeze this thread please.
+>>
+>>
+>> Or more usefully, reboot it.  Philip, you're turning into Koen!  Alex, if
+>> someone on this list asks what Poky is, 99% of the time they're trolling.
+>> :)
+>>
+>> The original and unanswered question was "should oe-core continue to
+>> maintain GPLv2 recipes where upstream has moved to GPLv3 or should those
+>> recipes move to a standalone layer" with various implied questions:
+>>
+>> - If the v2 recipes move to a separate layer, who own/maintains/tests it?
+>> - Should there be v2 recipes for every recipe that has moved to v3, or only
+>> (as is now) the "more-core" recipes (currently YP tests that core-image-base
+>> builds without GPLv3, nothing else more complicated)
+>> - Should meta-gplv2 only contain recipes from oe-core, or all layers?  If
+>> other layers decide to hold both v3 and v2 recipes (not that I'm aware any
+>> have), what makes oe-core special?
+>>
+>> I'm torn, Richard is torn.  Neither of those are useful to forming a
+>> decision.  Does anyone else have any *useful* feedback?
+> 
+> I think it is a matter of resource usage.
+> 
+> Up to now, the GPLv2 maintenance has not been so hard and thus I would
+> say for us to stay as is for now. We should revisit this for every
+> release and review if it is time for split it or not.
+> 
 
-install nscd related configuration file, startup files, and package them,
-make nscd easy to startup
+This would be a good time to remind us who the audience is for the gplv2
+recipes so we understand the amount of manpower behind their maintenance.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-core/glibc/glibc-package.inc | 37 ++++++++++++++++++++++++++++++-
- meta/recipes-core/glibc/glibc.inc         |  2 +-
- 2 files changed, 37 insertions(+), 2 deletions(-)
+My concern keeping then in core is that the commnunity who uses them
+will reduce over time and they will bitrot. If that happens, we should
+create a layer for them and remove them from core.
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 8ea5915..5f7c8a9 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -49,7 +49,8 @@ FILES_libsotruss = "${libdir}/audit/sotruss-lib.so"
- FILES_SOLIBSDEV = "${libdir}/lib*${SOLIBSDEV}"
- FILES_${PN}-dev += "${bindir}/rpcgen ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
- FILES_${PN}-staticdev += "${libdir}/*.a ${base_libdir}/*.a"
--FILES_nscd = "${sbindir}/nscd*"
-+FILES_nscd = "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_unitdir}/system/nscd* ${sysconfdir}/tmpfiles.d/nscd.conf \
-+              ${sysconfdir}/nscd.conf ${sysconfdir}/default/volatiles/98_nscd ${localstatedir}/db/nscd"
- FILES_${PN}-mtrace = "${bindir}/mtrace"
- FILES_tzcode = "${bindir}/tzselect ${sbindir}/zic ${sbindir}/zdump"
- FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
-@@ -105,6 +106,29 @@ do_install_append () {
- 			rmdir ${D}${sysconfdir}
- 		fi
- 	fi
-+
-+	if echo ${PN}|grep -q "glibc-initial"; then
-+		return
-+	fi
-+
-+	install -d ${D}${sysconfdir}/init.d
-+	install -d ${D}${localstatedir}/db/nscd
-+	install -m 0755 ${S}/nscd/nscd.init ${D}${sysconfdir}/init.d/nscd
-+	install -m 0755 ${S}/nscd/nscd.conf ${D}${sysconfdir}/nscd.conf
-+	sed -i "s%daemon%start-stop-daemon --start --exec%g" ${D}${sysconfdir}/init.d/nscd
-+
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 0644 ${S}/nscd/nscd.service ${D}${systemd_unitdir}/system/
-+
-+	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-+		install -d ${D}${sysconfdir}/tmpfiles.d
-+		echo "d /run/nscd 755 root root -" \
-+			> ${D}${sysconfdir}/tmpfiles.d/nscd.conf
-+	else
-+		install -d ${D}${sysconfdir}/default/volatiles
-+		echo "d root root 0755 /var/run/nscd none" \
-+			> ${D}${sysconfdir}/default/volatiles/98_nscd
-+	fi
- }
- 
- do_install_append_aarch64 () {
-@@ -174,3 +198,14 @@ glibc_package_preprocess () {
- 		rm -rf ${PKGD}${exec_prefix}/lib
- 	fi
- }
-+
-+pkg_postinst_nscd () {
-+	if [ -z "$D" ]; then
-+		if command -v systemd-tmpfiles >/dev/null; then
-+			systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/nscd.conf
-+		elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
-+			${sysconfdir}/init.d/populate-volatile.sh update
-+		fi
-+	fi
-+}
-+CONFFILES_nscd="${sysconfdir}/nscd.conf"
-diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-index 74ad0b5..03ffb2f 100644
---- a/meta/recipes-core/glibc/glibc.inc
-+++ b/meta/recipes-core/glibc/glibc.inc
-@@ -41,7 +41,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers
- #RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
- PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
- PROVIDES += "virtual/libintl virtual/libiconv"
--inherit autotools texinfo distro_features_check
-+inherit autotools texinfo distro_features_check systemd
- require glibc-options.inc
- 
- # The main purpose of setting this variable is to prevent users from accidently
--- 
-1.9.1
-
+Philip
 
