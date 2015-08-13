@@ -1,34 +1,39 @@
-Return-Path: <lee.nipper@gmail.com>
-Received: from mail-yk0-f175.google.com (mail-yk0-f175.google.com
-	[209.85.160.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 54CE2605F1
+Return-Path: <prvs=6607d1ab7=Mikko.Rapeli@bmw.de>
+Received: from esa10.bmw.c3s2.iphmx.com (esa10.bmw.c3s2.iphmx.com
+	[68.232.139.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 4783876312
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 04:09:26 +0000 (UTC)
-Received: by ykay144 with SMTP id y144so31837857yka.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 21:09:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=from:to:cc:subject:date:message-id;
-	bh=19p9lquA9HfVUzSxiAqMlUgi1rOkstGXla7Z0bvLtM4=;
-	b=NykLa+43irVB0vX//Y9ceYEWsi6LHpP9Gb4s6njMmB2x9PiJELAdncI2chgxVeo1vK
-	jBKqRtQQ4Rns/T21C3ePscsnbtWm2znyG2WEPJWIltCviTDg2KLNZLYQOpuNccdd+7hl
-	yOaPWKSQPV1Tq+mG+Hj7wrjo3tV4Sur745GxmSCUgJdOjCYjoAPymDVEVBTqhXsmCtDB
-	mjUsV945vFJU5O8+duWwH47R3Lsvg8etXkquUtfEmdMxOh56/CYuQIFIOtzH4WEHiQlZ
-	uyfOQt0s08ypXiv70cgxCtCTaguoYAwGTAs+OLy6tLZmY0D0PqVl8DHzIULS4M0aa3oe
-	U4Cg==
-X-Received: by 10.170.83.213 with SMTP id z204mr37189011ykz.24.1439438966885; 
-	Wed, 12 Aug 2015 21:09:26 -0700 (PDT)
-Received: from localhost ([97.80.196.109]) by smtp.gmail.com with ESMTPSA id
-	w123sm1038432yww.22.2015.08.12.21.09.26
-	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
-	Wed, 12 Aug 2015 21:09:26 -0700 (PDT)
-From: Lee Nipper <lee.nipper@linux.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Aug 2015 23:08:52 -0500
-Message-Id: <1439438932-4702-1-git-send-email-lee.nipper@linux.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH] u-boot.inc: Add UBOOT_BINARY sym links for UBOOT_CONFIG types
+	Thu, 13 Aug 2015 06:27:47 +0000 (UTC)
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+	esa10.bmw.c3s2.iphmx.com with ESMTP/TLS; 13 Aug 2015 08:27:39 +0200
+Received: from unknown (HELO esabb2.muc) ([160.50.100.34]) by esagw4.muc with
+	ESMTP/TLS; 13 Aug 2015 08:27:39 +0200
+Received: from smuch55a.muc (HELO SMUCH55A.europe.bmw.corp) ([160.46.137.111])
+	by esabb2.muc with ESMTP/TLS; 13 Aug 2015 08:27:38 +0200
+Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
+	SMUCH55A.europe.bmw.corp ([160.46.137.111]) with mapi id 14.03.0248.002;
+	Thu, 13 Aug 2015 08:27:38 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <clarson@kergoth.com>
+Thread-Topic: [OE-core] shell script guidelines in oe-core? (was Re: [PATCH
+	v4] create-pull-request: cleanup bashisms)
+Thread-Index: AQHQ1R/1Iwsy18FzQ0CjaLPM7oWRhZ4IgduAgAABYgCAANNMAA==
+Date: Thu, 13 Aug 2015 06:27:38 +0000
+Message-ID: <20150813062742.GN6102@loska>
+References: <1439303596-18965-1-git-send-email-ed.bartosh@linux.intel.com>
+	<1439372011-26268-1-git-send-email-ed.bartosh@linux.intel.com>
+	<20150812094953.GL6102@loska>
+	<CAMKF1squ7h9gzvrX8u3m2_K_BeO7gto_ji5f4UBdJxnuNMyLZA@mail.gmail.com>
+	<CABcZANmtCK18u2m2R51SmZN3Xrq7+FxY8PXMXJ4Y6-WVA3tGMQ@mail.gmail.com>
+	<CABcZANkHBUNH5Zo3opKT-uwfneMYghTBTJCV8awOm-6D_0SK1w@mail.gmail.com>
+In-Reply-To: <CABcZANkHBUNH5Zo3opKT-uwfneMYghTBTJCV8awOm-6D_0SK1w@mail.gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.44.101]
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: shell script guidelines in oe-core? (was Re: [PATCH v4] create-pull-request: cleanup bashisms)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,58 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 04:09:27 -0000
+X-List-Received-Date: Thu, 13 Aug 2015 06:27:48 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <145E5AA63424C146A6E191838C21023E@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-An additional use case of UBOOT_CONFIG is when a machine has applicability
-to boards of the same architecture but different in other ways
-to require a different UBOOT_BINARY build.
+On Wed, Aug 12, 2015 at 10:51:26AM -0700, Christopher Larson wrote:
+> That reminds me, there's a shell portability issue / standards-complaince
+> issue that's not identified by shellcheck. Typically, to negate a  bracke=
+t
+> expression in a regular expression, one uses ^, e.g. [^a-z] is everything
+> that isn't in the range a to z, but that's not the case in shell, e.g. at=
+ a
+> prompt or in a ${foo#<pattern>}:
+>=20
+>     "[...]a bracket expression as in XBD *RE Bracket Expression* , except
+> that the <exclamation-mark> character ( '!' ) shall replace the
+> <circumflex> character ( '^' ) in its role in a non-matching list in the
+> regular expression notation"
+>=20
+> So in shell, you'd want [!a-z] rather than [^a-z]. Nearly all shells hand=
+le
+> both, but the behavior of the latter is actually unspecified according to
+> the standard:
+>=20
+>     "A bracket expression starting with an unquoted <circumflex> characte=
+r
+> produces unspecified results."
+>=20
+> I recently got bitten by this with one of my shell scripts on a system
+> running dash.
 
-The UBOOT_CONFIG default value can be a list of these board types.
+Does checkbashisms warn about this?
 
-For example:
-    UBOOT_CONFIG ??= "boardA boardB"
-    UBOOT_CONFIG[boardA] = "boardA_defconfig"
-    UBOOT_CONFIG[boardB] = "boardB_defconfig"
-
-Change do_install and do_deploy sections which process a UBOOT_CONFIG list
-to create short symbolic links to each of the config types for UBOOT_BINARY.
-This is similar to the links currently being created for
-SPL_BINARY when it is defined with a UBOOT_CONFIG list.
-
-For the above example, and UBOOT_BINARY as u-boot.bin,
-the additional symbolic links created in the DEPLOYDIR would be
-
-    u-boot.bin-boardA
-    u-boot.bin-boardB
-
-Signed-off-by: Lee Nipper <lee.nipper@linux.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index c76f87f..990ddb1 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -97,6 +97,7 @@ do_install () {
-                 then
-                     install -d ${D}/boot
-                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-+                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-                 fi
-             done
-@@ -159,7 +160,9 @@ do_deploy () {
-                     install -d ${DEPLOYDIR}
-                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-                     cd ${DEPLOYDIR}
-+                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
-+                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
-                 fi 
-             done 
--- 
-1.9.1
-
+-Mikko=
 
