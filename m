@@ -1,24 +1,34 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 25075606E8
+Return-Path: <lee.nipper@gmail.com>
+Received: from mail-yk0-f175.google.com (mail-yk0-f175.google.com
+	[209.85.160.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 54CE2605F1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Aug 2015 03:16:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7D3GDHc008512
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 13 Aug 2015 04:09:26 +0000 (UTC)
+Received: by ykay144 with SMTP id y144so31837857yka.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Aug 2015 20:16:13 -0700 (PDT)
-Received: from pek-zchi-d1.corp.ad.wrs.com (128.224.162.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 12 Aug 2015 20:16:13 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Aug 2015 11:16:29 +0800
-Message-ID: <1439435789-2472-1-git-send-email-zhixiong.chi@windriver.com>
+	Wed, 12 Aug 2015 21:09:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=from:to:cc:subject:date:message-id;
+	bh=19p9lquA9HfVUzSxiAqMlUgi1rOkstGXla7Z0bvLtM4=;
+	b=NykLa+43irVB0vX//Y9ceYEWsi6LHpP9Gb4s6njMmB2x9PiJELAdncI2chgxVeo1vK
+	jBKqRtQQ4Rns/T21C3ePscsnbtWm2znyG2WEPJWIltCviTDg2KLNZLYQOpuNccdd+7hl
+	yOaPWKSQPV1Tq+mG+Hj7wrjo3tV4Sur745GxmSCUgJdOjCYjoAPymDVEVBTqhXsmCtDB
+	mjUsV945vFJU5O8+duWwH47R3Lsvg8etXkquUtfEmdMxOh56/CYuQIFIOtzH4WEHiQlZ
+	uyfOQt0s08ypXiv70cgxCtCTaguoYAwGTAs+OLy6tLZmY0D0PqVl8DHzIULS4M0aa3oe
+	U4Cg==
+X-Received: by 10.170.83.213 with SMTP id z204mr37189011ykz.24.1439438966885; 
+	Wed, 12 Aug 2015 21:09:26 -0700 (PDT)
+Received: from localhost ([97.80.196.109]) by smtp.gmail.com with ESMTPSA id
+	w123sm1038432yww.22.2015.08.12.21.09.26
+	(version=TLSv1.2 cipher=RC4-SHA bits=128/128);
+	Wed, 12 Aug 2015 21:09:26 -0700 (PDT)
+From: Lee Nipper <lee.nipper@linux.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Aug 2015 23:08:52 -0500
+Message-Id: <1439438932-4702-1-git-send-email-lee.nipper@linux.com>
 X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] rpm: opendb before rpmverifyscript to avoid null point input
+Subject: [PATCH] u-boot.inc: Add UBOOT_BINARY sym links for UBOOT_CONFIG types
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,70 +41,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 03:16:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Aug 2015 04:09:27 -0000
 
-If the command is "rpm -V" and the return value of (headerIsEntry(h, RPMTAG_VERIFYSCRIPT)
-|| headerIsEntry(h, RPMTAG_SANITYCHECK)) located in /lib/verify.c is true, it will call
-rpmpsmStage function(rpmVerifyScript->rpmpsmScriptStage->rpmpsmStage) and occur segment
-fault because of null point(rpmtsGetRdb(ts) == NULL and rpmtsGetRdb(ts)->db_txn).
-So we open rpmdb to avoid bad input when find headerIsEntry true.
+An additional use case of UBOOT_CONFIG is when a machine has applicability
+to boards of the same architecture but different in other ways
+to require a different UBOOT_BINARY build.
 
-workflow:
-main()->rpmcliVerify()->rpmcliArgIter()->rpmQueryVerify()->rpmgiShowMatches()->showVerifyPackage()->
-          rpmqv.c         verify.c        query.c             query.c           verify.c(headerIsEntry)
-rpmVerifyScript()->rpmpsmScriptStage()->rpmpsmStage()->    rpmtxnCommit(rpmtsGetRdb(ts)->db_txn);
-      verify.c            psm.c             psm.c                 psm.c
+The UBOOT_CONFIG default value can be a list of these board types.
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+For example:
+    UBOOT_CONFIG ??= "boardA boardB"
+    UBOOT_CONFIG[boardA] = "boardA_defconfig"
+    UBOOT_CONFIG[boardB] = "boardB_defconfig"
+
+Change do_install and do_deploy sections which process a UBOOT_CONFIG list
+to create short symbolic links to each of the config types for UBOOT_BINARY.
+This is similar to the links currently being created for
+SPL_BINARY when it is defined with a UBOOT_CONFIG list.
+
+For the above example, and UBOOT_BINARY as u-boot.bin,
+the additional symbolic links created in the DEPLOYDIR would be
+
+    u-boot.bin-boardA
+    u-boot.bin-boardB
+
+Signed-off-by: Lee Nipper <lee.nipper@linux.com>
 ---
- ...b-before-verifyscript-to-avoid-null-point.patch | 24 ++++++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/rpm/rpm-opendb-before-verifyscript-to-avoid-null-point.patch
+ meta/recipes-bsp/u-boot/u-boot.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/rpm/rpm/rpm-opendb-before-verifyscript-to-avoid-null-point.patch b/meta/recipes-devtools/rpm/rpm/rpm-opendb-before-verifyscript-to-avoid-null-point.patch
-new file mode 100644
-index 0000000..8097e99
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/rpm/rpm-opendb-before-verifyscript-to-avoid-null-point.patch
-@@ -0,0 +1,24 @@
-+Subject: rpm: opendb before rpmverifyscript to avoid null point input
-+
-+If the command is "rpm -V" and the return value of (headerIsEntry(h, RPMTAG_VERIFYSCRIPT) 
-+|| headerIsEntry(h, RPMTAG_SANITYCHECK)) located in /lib/verify.c is true, it will call
-+rpmpsmStage function(rpmVerifyScript->rpmpsmScriptStage->rpmpsmStage) and occur segment
-+fault because of null point(rpmtsGetRdb(ts) == NULL and rpmtsGetRdb(ts)->db_txn).
-+So we open rpmdb to avoid bad input when find headerIsEntry true.
-+
-+Upstrem-Status: Pending
-+
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+Index: rpm-5.4.14/lib/verify.c
-+===================================================================
-+--- rpm-5.4.14.orig/lib/verify.c	2015-07-22 22:09:59.992895355 +0800
-++++ rpm-5.4.14/lib/verify.c	2015-08-13 10:20:33.752177906 +0800
-+@@ -613,6 +613,8 @@
-+ 	{
-+ 	    FD_t fdo = fdDup(STDOUT_FILENO);
-+ 
-++	    rpmtsOpenDB(ts, O_RDONLY);            /*Open the DB to avoid null point input in function rpmpsmStage()*/
-++
-+ 	    rc = rpmfiSetHeader(fi, h);
-+ 	    if ((rc = rpmVerifyScript(qva, ts, fi, fdo)) != 0)
-+ 		ec += rc;
-diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-index ddbdcb9..1f4d9d2 100644
---- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-+++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-@@ -95,6 +95,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
- 	   file://rpm-lua-fix-print.patch \
- 	   file://rpm-check-rootpath-reasonableness.patch \
- 	   file://rpm-macros.in-disable-external-key-server.patch \
-+	   file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
- 	  "
- 
- # Uncomment the following line to enable platform score debugging
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index c76f87f..990ddb1 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -97,6 +97,7 @@ do_install () {
+                 then
+                     install -d ${D}/boot
+                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
++                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
+                 fi
+             done
+@@ -159,7 +160,9 @@ do_deploy () {
+                     install -d ${DEPLOYDIR}
+                     install ${S}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
+                     cd ${DEPLOYDIR}
++                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
++                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
+                 fi 
+             done 
 -- 
 1.9.1
 
