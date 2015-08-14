@@ -1,28 +1,51 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A595C76597
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 2445C766C1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 01:28:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7E1SlS9018765
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 13 Aug 2015 18:28:47 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 13 Aug 2015 18:28:46 -0700
-Message-ID: <55CD444D.50203@windriver.com>
-Date: Fri, 14 Aug 2015 09:28:45 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Fri, 14 Aug 2015 01:43:41 +0000 (UTC)
+Received: by qkcs67 with SMTP id s67so21640907qkc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Aug 2015 18:43:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=yyTDJ/XyVWBO003P4UHI0UuMApsn9DRTyEhs/ySZ3ac=;
+	b=o95jv2dUpt9Fr8HoUzv2mXMnOhX/tdT5mQ2QZeuX24yQyJiIiLu6r88xG2Fz7NbUWL
+	jP5OwQIOhZC/hyp3Po6rh1klSYwiM2AgozlNVfZJth3VvW2GoYr3jZCG1pKLNjl01Her
+	ncDtYJLMNuxTkkhFe4FkK3MV9ZX6swr36J5hVAwzZWnE3r2BW73cFn80nbkomy8fzYIl
+	zvoWLTDi4AybDANxZsj81/R5fstUrqG3FBZhRVrrRfVSylqmtY/wDZIFJLxMCPttmmDP
+	O9+uVaH38E8ePnMTxHYHYIs+GXRl8uL0Dv2y5zHa/p3GVijUbreZGO8936Nu1f1897T+
+	yhrw==
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <1439453357-27173-1-git-send-email-rongqing.li@windriver.com>
-	<B10AFB1A-9E75-4D2A-8B6D-05DEA467E007@gmail.com>
-In-Reply-To: <B10AFB1A-9E75-4D2A-8B6D-05DEA467E007@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] glibc: package nscd related files
+X-Received: by 10.55.49.67 with SMTP id x64mr41984727qkx.24.1439516621555;
+	Thu, 13 Aug 2015 18:43:41 -0700 (PDT)
+Received: by 10.140.84.21 with HTTP; Thu, 13 Aug 2015 18:43:41 -0700 (PDT)
+In-Reply-To: <55CC588E.6030200@balister.org>
+References: <1436426071-3790-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<56502.10.252.20.69.1436441609.squirrel@linux.intel.com>
+	<CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
+	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
+	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+	<1436601450.3310.27.camel@linuxfoundation.org>
+	<55BA134F.9010908@linux.intel.com>
+	<CAJ86T=UHTjTA7S_4EV66VEUoaRhYmaYveVcfxbqzVJsxZ4s6dg@mail.gmail.com>
+	<55BB5F06.4010901@linux.intel.com>
+	<CAMKF1srWcMoRui4kqRY5vCdLd-SPQ+EMihTci=NUghHsnGiBqQ@mail.gmail.com>
+	<55C477AE.8030308@balister.org> <55C4A405.6050209@linux.intel.com>
+	<55C637DB.9010106@balister.org> <55C8956D.9080508@linux.intel.com>
+	<55C8F83F.4010003@balister.org> <55C9F7F2.2060502@linux.intel.com>
+	<CAMKF1soCEwGMkVfHsMzp3Wt49LKQusLC8jTrYygCSsBgjHZQQw@mail.gmail.com>
+	<CAJTo0LYXHLBF52jmfLF4azE-BSKj2F=9-G=8MXcFo36FgE6+0A@mail.gmail.com>
+	<CAP9ODKpXke_FaA_bSUtPSjqMKWtUsyU44qsm73KfZNrajfZrnQ@mail.gmail.com>
+	<55CC588E.6030200@balister.org>
+Date: Thu, 13 Aug 2015 18:43:41 -0700
+Message-ID: <CAJ86T=VZThGsmRJSD1Qj4tqV=EjuPE=dOwSoRnBzVwdxnpJCHw@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Philip Balister <philip@balister.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: Re: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,120 +58,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Aug 2015 01:28:50 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 14 Aug 2015 01:43:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
-
-
-On 2015年08月14日 00:31, Khem Raj wrote:
+On Thu, Aug 13, 2015 at 1:42 AM, Philip Balister <philip@balister.org> wrote:
+> On 08/11/2015 10:46 PM, Otavio Salvador wrote:
+>> On Tue, Aug 11, 2015 at 5:36 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>>
+>>> On 11 August 2015 at 16:46, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>
+>>>> can we freeze this thread please.
+>>>
+>>>
+>>> Or more usefully, reboot it.  Philip, you're turning into Koen!  Alex, if
+>>> someone on this list asks what Poky is, 99% of the time they're trolling.
+>>> :)
+>>>
+>>> The original and unanswered question was "should oe-core continue to
+>>> maintain GPLv2 recipes where upstream has moved to GPLv3 or should those
+>>> recipes move to a standalone layer" with various implied questions:
+>>>
+>>> - If the v2 recipes move to a separate layer, who own/maintains/tests it?
+>>> - Should there be v2 recipes for every recipe that has moved to v3, or only
+>>> (as is now) the "more-core" recipes (currently YP tests that core-image-base
+>>> builds without GPLv3, nothing else more complicated)
+>>> - Should meta-gplv2 only contain recipes from oe-core, or all layers?  If
+>>> other layers decide to hold both v3 and v2 recipes (not that I'm aware any
+>>> have), what makes oe-core special?
+>>>
+>>> I'm torn, Richard is torn.  Neither of those are useful to forming a
+>>> decision.  Does anyone else have any *useful* feedback?
+>>
+>> I think it is a matter of resource usage.
+>>
+>> Up to now, the GPLv2 maintenance has not been so hard and thus I would
+>> say for us to stay as is for now. We should revisit this for every
+>> release and review if it is time for split it or not.
+>>
 >
->> On Aug 13, 2015, at 1:09 AM, rongqing.li@windriver.com wrote:
->>
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> install nscd related configuration file, startup files, and package them,
->> make nscd easy to startup
->>
+> This would be a good time to remind us who the audience is for the gplv2
+> recipes so we understand the amount of manpower behind their maintenance.
 >
-> please test this change on top of glibc 2.22 recipe upgrade patches which are in flight right now
->
+> My concern keeping then in core is that the commnunity who uses them
+> will reduce over time and they will bitrot. If that happens, we should
+> create a layer for them and remove them from core.
 
-if glibc 2.22 is merged, I will test it
+As others have also mentioned, there are certain classes of product
+(set-top boxes, automotive, medical, etc, etc) where secure boot and
+signed firmware images are a non-negotiable requirement. I don't see
+these classes of product going away any time soon, so it's hard to see
+the overall need for "GPLv3-free" embedded distros reducing.
 
-thanks
+Some forward-thinking companies making these types of products are
+already switching to OE [1], but I guess the majority are still using
+legacy build environments and home-grown distros. Since these
+home-grown distros typically take a "conservative" approach to
+updating packages, the pain of sticking with older, pre-GPLv3 versions
+might not be felt very strongly yet. It will inevitably increase over
+time though and as it does there's going to be a growing number of
+developers working to maintain pre-GPLv3 versions (or working to
+switch to replacement packages with more permissive licenses).
 
--Roy
+ [1] http://www.slideshare.net/linaroorg/hkg15506-comcast-lessons-learned-from-migrating-the-rdk-code-base-to-the-openembeddedyocto-build-framework
 
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> ---
->> meta/recipes-core/glibc/glibc-package.inc | 37 ++++++++++++++++++++++++++++++-
->> meta/recipes-core/glibc/glibc.inc         |  2 +-
->> 2 files changed, 37 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
->> index 8ea5915..5f7c8a9 100644
->> --- a/meta/recipes-core/glibc/glibc-package.inc
->> +++ b/meta/recipes-core/glibc/glibc-package.inc
->> @@ -49,7 +49,8 @@ FILES_libsotruss = "${libdir}/audit/sotruss-lib.so"
->> FILES_SOLIBSDEV = "${libdir}/lib*${SOLIBSDEV}"
->> FILES_${PN}-dev += "${bindir}/rpcgen ${libdir}/*_nonshared.a ${base_libdir}/*_nonshared.a ${base_libdir}/*.o ${datadir}/aclocal"
->> FILES_${PN}-staticdev += "${libdir}/*.a ${base_libdir}/*.a"
->> -FILES_nscd = "${sbindir}/nscd*"
->> +FILES_nscd = "${sbindir}/nscd* ${sysconfdir}/init.d/nscd ${systemd_unitdir}/system/nscd* ${sysconfdir}/tmpfiles.d/nscd.conf \
->> +              ${sysconfdir}/nscd.conf ${sysconfdir}/default/volatiles/98_nscd ${localstatedir}/db/nscd"
->> FILES_${PN}-mtrace = "${bindir}/mtrace"
->> FILES_tzcode = "${bindir}/tzselect ${sbindir}/zic ${sbindir}/zdump"
->> FILES_${PN}-utils = "${bindir}/* ${sbindir}/*"
->> @@ -105,6 +106,29 @@ do_install_append () {
->> 			rmdir ${D}${sysconfdir}
->> 		fi
->> 	fi
->> +
->> +	if echo ${PN}|grep -q "glibc-initial"; then
->> +		return
->> +	fi
->> +
->> +	install -d ${D}${sysconfdir}/init.d
->> +	install -d ${D}${localstatedir}/db/nscd
->> +	install -m 0755 ${S}/nscd/nscd.init ${D}${sysconfdir}/init.d/nscd
->> +	install -m 0755 ${S}/nscd/nscd.conf ${D}${sysconfdir}/nscd.conf
->> +	sed -i "s%daemon%start-stop-daemon --start --exec%g" ${D}${sysconfdir}/init.d/nscd
->> +
->> +	install -d ${D}${systemd_unitdir}/system
->> +	install -m 0644 ${S}/nscd/nscd.service ${D}${systemd_unitdir}/system/
->> +
->> +	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
->> +		install -d ${D}${sysconfdir}/tmpfiles.d
->> +		echo "d /run/nscd 755 root root -" \
->> +			> ${D}${sysconfdir}/tmpfiles.d/nscd.conf
->> +	else
->> +		install -d ${D}${sysconfdir}/default/volatiles
->> +		echo "d root root 0755 /var/run/nscd none" \
->> +			> ${D}${sysconfdir}/default/volatiles/98_nscd
->> +	fi
->> }
->>
->> do_install_append_aarch64 () {
->> @@ -174,3 +198,14 @@ glibc_package_preprocess () {
->> 		rm -rf ${PKGD}${exec_prefix}/lib
->> 	fi
->> }
->> +
->> +pkg_postinst_nscd () {
->> +	if [ -z "$D" ]; then
->> +		if command -v systemd-tmpfiles >/dev/null; then
->> +			systemd-tmpfiles --create ${sysconfdir}/tmpfiles.d/nscd.conf
->> +		elif [ -e ${sysconfdir}/init.d/populate-volatile.sh ]; then
->> +			${sysconfdir}/init.d/populate-volatile.sh update
->> +		fi
->> +	fi
->> +}
->> +CONFFILES_nscd="${sysconfdir}/nscd.conf"
->> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
->> index 74ad0b5..03ffb2f 100644
->> --- a/meta/recipes-core/glibc/glibc.inc
->> +++ b/meta/recipes-core/glibc/glibc.inc
->> @@ -41,7 +41,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc-initial libgcc-initial linux-libc-headers
->> #RDEPENDS_${PN} += "${@['','libgcc']['nptl' in '${GLIBC_ADDONS}']}"
->> PROVIDES = "virtual/libc virtual/${TARGET_PREFIX}libc-for-gcc"
->> PROVIDES += "virtual/libintl virtual/libiconv"
->> -inherit autotools texinfo distro_features_check
->> +inherit autotools texinfo distro_features_check systemd
->> require glibc-options.inc
->>
->> # The main purpose of setting this variable is to prevent users from accidently
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+> Philip
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
