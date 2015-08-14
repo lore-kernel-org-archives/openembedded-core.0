@@ -1,37 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id D029B72A78
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
+	[209.85.213.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 8130C6E268
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 14:12:57 +0000 (UTC)
-Received: by igxp17 with SMTP id p17so12783838igx.1
+	Fri, 14 Aug 2015 14:52:11 +0000 (UTC)
+Received: by igui7 with SMTP id i7so14049297igu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 07:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type:content-transfer-encoding;
-	bh=f/xTs111SIAW8gSW9MfrQ01TqBbzymbIx7RWr2+A2WE=;
-	b=bfcr6hrc9ghR7U0+Ivxlg53WvPmONvn052EtM5lyDLgpC+Qlm8IwhiqwQbH/h22eMf
-	B3t3IArrmRm7/GjO7sCF6nmYawz9oBlFVJ1KPVd2rhhnLO0ZRbZEcef/ze62/n0yjdtr
-	J4vYwNOCCsn1sxPE+FHfLoEGhcqcVnv1gTN527iyq7eenJG4Z5cCHOkC63TZeQUlGOFq
-	1IgYD23wwrbRvAokYfZM835v3QX9wfe+BCIxxXDtziXe0nyTX4hD8sBVrI6roriUhrcN
-	nDKrzCdnp5aursXO+24jTV3mMsgRewRzeBbo1koLSnCvIxxFJkpoiJrpQ5qi8CV4arbo
-	C56A==
-X-Received: by 10.50.112.166 with SMTP id ir6mr2602852igb.75.1439561577591;
-	Fri, 14 Aug 2015 07:12:57 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Fri, 14 Aug 2015 07:12:28 -0700 (PDT)
-In-Reply-To: <CALbNGRSbR5fzUUs7F+s_NqesaQa=XG5E8j4gEew845-tVpE3AA@mail.gmail.com>
-References: <cover.1439549437.git.alexander.kanavin@linux.intel.com>
-	<1b0885ef5ddc0c9caa947f2a444dc83d55591d3c.1439549437.git.alexander.kanavin@linux.intel.com>
-	<CALbNGRSbR5fzUUs7F+s_NqesaQa=XG5E8j4gEew845-tVpE3AA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 14 Aug 2015 07:12:28 -0700
-Message-ID: <CAMKF1sphA4gM6MAyZxUXMyh6BP9USRHvaKBivng7++0yXjQXrA@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 15/22] libwnck3: add a recipe from meta-gnome
+	Fri, 14 Aug 2015 07:52:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=DmKiC6rDSAmIeSrtPld1o8bLWOdBfBjLfBtlFqeXf4s=;
+	b=TxkJikOYitoGj9Eg0GZM4KYaZjtwvyp5LERi1s2F7nsF9FE7QMlNgBcI3p7j+c9xoP
+	OqI7a1P3ktd/ruepoSl7IHsX3F8trAbObFc/YcT7RdYxGLOnQ0wdFAQs/dOLR1arGMZq
+	O6hlWaDWBXPWikTMSs4iNQ6wxXvWye2SldZOU/MqNx9uohP67mevUf8t9/hsvBSPMwNU
+	8b2urNt1gifaCPO6wP9ReaWq6rrLp9jgDazjrNKbwIrwjfmOzY7bw044gk+E/X3OmNDZ
+	GrwFgwPH4LMyPr2B8L+oHBRC8pfITv7Xb0entVBu70eRTfTNZwLK48PBHF/IwXWETy00
+	W26w==
+X-Gm-Message-State: ALoCoQkxaXIW8Z4SZQh85j7f+/9ILEupsmxqqA7Mq/F22YFIXsIyHw7yCKbaiyjTW5kmu5Tjl/TM
+X-Received: by 10.50.20.8 with SMTP id j8mr2925385ige.36.1439563931837;
+	Fri, 14 Aug 2015 07:52:11 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8D814.dip0.t-ipconnect.de. [93.232.216.20])
+	by smtp.gmail.com with ESMTPSA id
+	g123sm5018917iog.31.2015.08.14.07.52.10
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 14 Aug 2015 07:52:11 -0700 (PDT)
+Message-ID: <1439563928.28153.65.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Aug 2015 16:52:08 +0200
+In-Reply-To: <CAJTo0La2Q-jeFBRND7pYoWW5HQByu7pgEcOzexqJw1FSe2fQiA@mail.gmail.com>
+References: <cover.1439281753.git.patrick.ohly@intel.com>
+	<616705173b62954740a1893c672c67eb5ce088f2.1439281753.git.patrick.ohly@intel.com>
+	<CAJTo0LbnRjSYpz5F41QjR_93Ex0YdVH+QKQChbRTGLXGrRumBQ@mail.gmail.com>
+	<12971906.mb086C5zve@peggleto-mobl.ger.corp.intel.com>
+	<CAJTo0La2Q-jeFBRND7pYoWW5HQByu7pgEcOzexqJw1FSe2fQiA@mail.gmail.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] tar-replacement-native: avoid race condition with host tar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,50 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Aug 2015 14:12:59 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Aug 2015 14:52:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 14, 2015 at 4:04 AM, Andreas M=C3=BCller
-<schnitzeltony@googlemail.com> wrote:
-> On Fri, Aug 14, 2015 at 12:55 PM, Alexander Kanavin
-> <alexander.kanavin@linux.intel.com> wrote:
->> libwnck is a dependency of epiphany
->>
+On Fri, 2015-08-14 at 12:03 +0100, Burton, Ross wrote:
+> 
+> On 14 August 2015 at 12:01, Paul Eggleton
+> <paul.eggleton@linux.intel.com> wrote:
+>         Or install the buildtools perhaps.
+>         
+> 
+> 
+> Yes, I had that in my head but someone failed to write it down.
+> There's a fair chance that a host with a sufficiently old tar also
+> needs other updates, and that's when buildtools is used (which
+> includes tar).
 
-send a patch to remove it from  meta-gnome as well.
+The hosts we talk about (Debian 7, CentOS 6) work fine for normal usage
+without having to install buildtools. Having to install them for a
+situation that could also be dealt with by bitbake automatically seems
+not very user friendly.
 
->> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
->> ---
->>  meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb | 17 +++++++++++++++++
->>  1 file changed, 17 insertions(+)
->>  create mode 100644 meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
->>
->> diff --git a/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb b/meta/recipe=
-s-gnome/libwnck/libwnck3_3.14.0.bb
->> new file mode 100644
->> index 0000000..6bc625a
->> --- /dev/null
->> +++ b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
->> @@ -0,0 +1,17 @@
->> +SUMMARY =3D "Window navigation construction toolkit"
->> +LICENSE =3D "LGPLv2"
->> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5f30f0716dfdd0d91eb439ebec52=
-2ec2"
->> +
->> +BPN =3D "libwnck"
->> +
->> +SECTION =3D "x11/libs"
->> +DEPENDS =3D "gobject-introspection-stub gtk+3 gdk-pixbuf-native libxres=
-"
->> +
->> +PR =3D "r1"
-> ^ Please skip
->
-> Andreas
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+On IRC, Ross suggested that I should rewrite the regular tar recipe such
+that it installs tar as opt-in binary and remove the (mostly obsolete)
+tar-replacement-native). I'll send updated patches based on that.
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
