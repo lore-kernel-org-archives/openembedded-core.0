@@ -1,42 +1,37 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FF36764AC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
+	[209.85.192.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 514E376312
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 14:59:22 +0000 (UTC)
-Received: by iodv127 with SMTP id v127so71396265iod.3
+	Fri, 14 Aug 2015 15:07:43 +0000 (UTC)
+Received: by qgdd90 with SMTP id d90so53171025qgd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 07:59:22 -0700 (PDT)
+	Fri, 14 Aug 2015 08:07:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=esHejM93gc99k76J7NjwoWpuYG3jV1V6m5GBiz0v8AU=;
-	b=GVJeqj455a6D6qPWGzptVbgLtCZ1zxNlYxAoybCmZYAFXSSqUY02I3DRNuq/nnL+xa
-	a0aMXZBk44998+9zhIxEozqPpoEfx/wgMd2ABoSDZ4Ym9qrXCKfqz+UIegYKVwfgkcsQ
-	/LzMBgcFQTv5CRQHfu9moqFBOCt6GuHWvmwD2Kw4qDaEyY6IknjDhDD61niAhZ6cs5c9
-	bOHQNnMpCbElpvi/YigFiGh6rsxK3hIlI4U/Hx5QgyKDRnO/SDWiQPMNmZjPtBMB0XRJ
-	JnklLEdkEOKIHulzuk+8ThEkbtDiDecssTWWRo/BfaZw4xu/cYFYfjCD4KpwboIhbagh
-	i/1g==
-X-Gm-Message-State: ALoCoQmGfVDpwyCvdcenkMd+JeI4PfiDWY9G+aBlkzFXoxEeiOIcm843Mh+XwcfeowBs5YB84/fA
-X-Received: by 10.107.12.84 with SMTP id w81mr17593575ioi.33.1439564362666;
-	Fri, 14 Aug 2015 07:59:22 -0700 (PDT)
-Received: from pohly-mobl1.ger.corp.intel.com (p5DE8D814.dip0.t-ipconnect.de.
-	[93.232.216.20])
-	by smtp.gmail.com with ESMTPSA id d3sm2701488igx.5.2015.08.14.07.59.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 14 Aug 2015 07:59:22 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Aug 2015 16:59:04 +0200
-Message-Id: <1e523b1b42ad0bdf6d22f0f1f4b9e4bf65ab4e69.1439564102.git.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1439564102.git.patrick.ohly@intel.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=XQQGjZvXFBPxDbovIXWmHVejtlv26/9IeHtGU4DuUxg=;
+	b=FqRNYwfioue01lFdIBKQmtc28tNa1pTdBuFZGRVC0wBAlCYWg2QlToKFMRmoOQ/HT9
+	bLLv+1n+FGoyoJzeBJoW7tkaSW/czVraUPiMAkyit+yc6zdNxOV7I91VyH7FhOrOjGl6
+	PSPAEcumywvFMjBz8kqyU/PZFoWFiV8MWfLpYR9ikOp0oXOHXhulnhSfhKj621GBCvjF
+	+Iv34aOVipLCRTu5xt6O1Y4odtUZ0u69u5HHUDG3ti/1HQsXbEMmFqiHhKyJGeKuThPQ
+	Qeievw6hoe6qFbptjvM20Plngdjn2K7OgY/BOWKTndGr2aBsfBVVhAd3XbIrn6l8tqLv
+	67eQ==
+X-Gm-Message-State: ALoCoQm4Mhy9LtsgR9M9HW3Y8CtpPHEi0MlivPRgCn30djrrgdHdIL/oxkJi1Kn22Lw7skUpMuWp
+X-Received: by 10.140.89.100 with SMTP id u91mr78687213qgd.15.1439564863651;
+	Fri, 14 Aug 2015 08:07:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.98.67 with HTTP; Fri, 14 Aug 2015 08:07:24 -0700 (PDT)
+In-Reply-To: <ab1937fa04c389c153d2a7ffde76b73e7846e093.1439564102.git.patrick.ohly@intel.com>
 References: <cover.1439564102.git.patrick.ohly@intel.com>
-In-Reply-To: <cover.1439564102.git.patrick.ohly@intel.com>
-References: <cover.1439564102.git.patrick.ohly@intel.com>
-Subject: [PATCH v2 2/2] image_types.bbclass: allow replacing tar command
+	<ab1937fa04c389c153d2a7ffde76b73e7846e093.1439564102.git.patrick.ohly@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 14 Aug 2015 16:07:24 +0100
+Message-ID: <CAJTo0Lb_EAc_qUAOUqTJz8ardk-62z=DJqurpz0S7aoE_=yk1g@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] tar-replacement-native: relocate via NATIVE_PACKAGE_PATH_SUFFIX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,43 +44,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Aug 2015 14:59:22 -0000
+X-List-Received-Date: Fri, 14 Aug 2015 15:07:48 -0000
+Content-Type: multipart/alternative; boundary=001a11c1334e5468df051d46d076
 
-Usually, the host's tar command is sufficient. However, special cases
-like archiving xattrs depend on a modern GNU tar version. The new
-IMAGE_CMD_TAR makes that possible, with xattrs given as example.
+--001a11c1334e5468df051d46d076
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/image_types.bbclass | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+On 14 August 2015 at 15:59, Patrick Ohly <patrick.ohly@intel.com> wrote:
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index cc789fc..2f782dc 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -71,7 +71,19 @@ IMAGE_CMD_btrfs () {
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs ${EXTRA_IMAGECMD} -noappend"
- IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
- IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
--IMAGE_CMD_tar = "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C ${IMAGE_ROOTFS} ."
-+
-+# By default, tar from the host is used, which can be quite old. If
-+# you need special parameters (like --xattrs) which are only supported
-+# by GNU tar upstream >= 1.27, then override that default:
-+# IMAGE_CMD_TAR = "tar --xattrs --xattrs-include=*"
-+# IMAGE_DEPENDS_tar_append = " tar-replacement-native"
-+# EXTRANATIVEPATH += "tar-native"
-+#
-+# The GNU documentation does not specify whether --xattrs-include is necessary.
-+# In practice, it turned out to be not needed when creating archives and
-+# required when extracting, but it seems prudent to use it in both cases.
-+IMAGE_CMD_TAR ?= "tar"
-+IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C ${IMAGE_ROOTFS} ."
- 
- do_rootfs[cleandirs] += "${WORKDIR}/cpio_append"
- IMAGE_CMD_cpio () {
--- 
-2.1.4
+>  EXTRAINSTALL = "do_install_extra"
+>  EXTRAINSTALL_class-nativesdk = ""
+> +EXTRAINSTALL_class-native = ""
+>
 
+As this is presumably meant to be target-only logic, you could refactor
+this to:
 
+do_install() {
+    autotools_do_install
+    ln -s tar ${D}${bindir}/gtar
+}
+
+do_install_append_class-target() {
+  (contents of do_install_extra)
+}
+
+Ross
+
+--001a11c1334e5468df051d46d076
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 August 2015 at 15:59, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a>&=
+gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2hm" class=
+=3D"a3s" style=3D"overflow:hidden">=C2=A0EXTRAINSTALL =3D &quot;do_install_=
+extra&quot;<br>
+=C2=A0EXTRAINSTALL_class-nativesdk =3D &quot;&quot;<br>
++EXTRAINSTALL_class-native =3D &quot;&quot;</div></blockquote></div><br>As =
+this is presumably meant to be target-only logic, you could refactor this t=
+o:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">do_=
+install() {</div><div class=3D"gmail_extra"><div class=3D"gmail_extra">=C2=
+=A0 =C2=A0 autotools_do_install</div><div class=3D"gmail_extra">=C2=A0 =C2=
+=A0 ln -s tar ${D}${bindir}/gtar</div></div><div class=3D"gmail_extra">}</d=
+iv><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">do_insta=
+ll_append_class-target() {</div><div class=3D"gmail_extra">=C2=A0 (contents=
+ of do_install_extra)</div><div class=3D"gmail_extra">}</div><div class=3D"=
+gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11c1334e5468df051d46d076--
