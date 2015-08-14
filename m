@@ -1,42 +1,28 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 085C3764AC
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DBDB72A78
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 16:01:55 +0000 (UTC)
-Received: by iodb91 with SMTP id b91so88953122iod.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 09:01:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=esHejM93gc99k76J7NjwoWpuYG3jV1V6m5GBiz0v8AU=;
-	b=SXH3cuD2uH3Vg7X7ui6NtbSjFX4+C4fNcIYOICph7bkO4mLlglx+g71TqshjCV2Jvx
-	NqOuh9Cln+5w8Uq04S0EXQi2USZdtEAFX21ZRPakZeTHvQyJ7i7qh60cU+twVuGJQuGy
-	M97uiVCVcMwrN0xhmv6JdiN/jYgpFZDi8X4wFlcyvwyyr5vZgrhmN1+DovA7z6epegNJ
-	Y4TYMHAYCNYP4MwIwn8AWxflT6RxV4RwNnt8WEVqGO3A2SlXw2FJXutSxzvEEvAX6Xr2
-	37PzvCriBjdn/yriFAIpCJVeeiuersTimHGW+WFt9gA/uhqDJ7O8/mry3q6XOrlpQDRU
-	rpvA==
-X-Gm-Message-State: ALoCoQk+Cy6MD/FUZFcaslh6VVhV1kM3fjjBDpZK9Jg3m0beAi1mimWVffpAkjkBTdzly6hEKAgq
-X-Received: by 10.107.33.65 with SMTP id h62mr50357174ioh.11.1439568115764;
-	Fri, 14 Aug 2015 09:01:55 -0700 (PDT)
-Received: from pohly-mobl1.ger.corp.intel.com (p5DE8D814.dip0.t-ipconnect.de.
-	[93.232.216.20]) by smtp.gmail.com with ESMTPSA id
-	h33sm5246371iod.23.2015.08.14.09.01.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 14 Aug 2015 09:01:55 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Aug 2015 18:01:42 +0200
-Message-Id: <fe827b0752f46b91ce531f6af3cf38479becfe5d.1439567977.git.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1439567977.git.patrick.ohly@intel.com>
-References: <cover.1439567977.git.patrick.ohly@intel.com>
-In-Reply-To: <cover.1439567977.git.patrick.ohly@intel.com>
-References: <cover.1439567977.git.patrick.ohly@intel.com>
-Subject: [PATCH v3 2/2] image_types.bbclass: allow replacing tar command
+	Fri, 14 Aug 2015 16:35:23 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 14 Aug 2015 09:29:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,678,1432623600"; d="scan'208";a="625595935"
+Received: from apaulaux-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.4.160])
+	by orsmga003.jf.intel.com with ESMTP; 14 Aug 2015 09:29:39 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Date: Fri, 14 Aug 2015 17:29:38 +0100
+Message-ID: <2053656.prGiruVPdu@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.3-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1439566718.28153.67.camel@intel.com>
+References: <cover.1439281753.git.patrick.ohly@intel.com>
+	<2022011.zuQSkpBHkd@peggleto-mobl.ger.corp.intel.com>
+	<1439566718.28153.67.camel@intel.com>
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] tar-replacement-native: avoid race condition with host tar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,43 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Aug 2015 16:01:56 -0000
+X-List-Received-Date: Fri, 14 Aug 2015 16:35:28 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Usually, the host's tar command is sufficient. However, special cases
-like archiving xattrs depend on a modern GNU tar version. The new
-IMAGE_CMD_TAR makes that possible, with xattrs given as example.
+On Friday 14 August 2015 17:38:38 Patrick Ohly wrote:
+> On Fri, 2015-08-14 at 15:56 +0100, Paul Eggleton wrote:
+> > On Friday 14 August 2015 16:52:08 Patrick Ohly wrote:
+> > > On Fri, 2015-08-14 at 12:03 +0100, Burton, Ross wrote:
+> > > > On 14 August 2015 at 12:01, Paul Eggleton
+> > > > 
+> > > > <paul.eggleton@linux.intel.com> wrote:
+> > > >         Or install the buildtools perhaps.
+> > > > 
+> > > > Yes, I had that in my head but someone failed to write it down.
+> > > > There's a fair chance that a host with a sufficiently old tar also
+> > > > needs other updates, and that's when buildtools is used (which
+> > > > includes tar).
+> > > 
+> > > The hosts we talk about (Debian 7, CentOS 6) work fine for normal usage
+> > > without having to install buildtools.
+> > 
+> > Really? You must have added *something* on top of CentOS 6 because last I
+> > checked its git, tar and python versions supplied out of the box were way
+> > too old to even get the build to start.
+> 
+> I thought someone had said that CentOS is okay out-of-the-box, but I may
+> have misunderstood.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/image_types.bbclass | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+CentOS 7 might be though since it's quite a bit newer.
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index cc789fc..2f782dc 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -71,7 +71,19 @@ IMAGE_CMD_btrfs () {
- IMAGE_CMD_squashfs = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs ${EXTRA_IMAGECMD} -noappend"
- IMAGE_CMD_squashfs-xz = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-xz ${EXTRA_IMAGECMD} -noappend -comp xz"
- IMAGE_CMD_squashfs-lzo = "mksquashfs ${IMAGE_ROOTFS} ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.squashfs-lzo ${EXTRA_IMAGECMD} -noappend -comp lzo"
--IMAGE_CMD_tar = "tar -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C ${IMAGE_ROOTFS} ."
-+
-+# By default, tar from the host is used, which can be quite old. If
-+# you need special parameters (like --xattrs) which are only supported
-+# by GNU tar upstream >= 1.27, then override that default:
-+# IMAGE_CMD_TAR = "tar --xattrs --xattrs-include=*"
-+# IMAGE_DEPENDS_tar_append = " tar-replacement-native"
-+# EXTRANATIVEPATH += "tar-native"
-+#
-+# The GNU documentation does not specify whether --xattrs-include is necessary.
-+# In practice, it turned out to be not needed when creating archives and
-+# required when extracting, but it seems prudent to use it in both cases.
-+IMAGE_CMD_TAR ?= "tar"
-+IMAGE_CMD_tar = "${IMAGE_CMD_TAR} -cvf ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.tar -C ${IMAGE_ROOTFS} ."
- 
- do_rootfs[cleandirs] += "${WORKDIR}/cpio_append"
- IMAGE_CMD_cpio () {
+Cheers,
+Paul
+
 -- 
-2.1.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
