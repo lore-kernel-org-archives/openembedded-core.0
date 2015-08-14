@@ -1,20 +1,38 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C45576618
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A3C0672A78
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 15:53:56 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 14 Aug 2015 08:53:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,678,1432623600"; d="scan'208";a="768873526"
-Received: from sentry.rb.intel.com ([10.237.105.63])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2015 08:53:55 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
+	Fri, 14 Aug 2015 16:01:49 +0000 (UTC)
+Received: by igfj19 with SMTP id j19so15646575igf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Aug 2015 09:01:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to;
+	bh=d7HaGlXHKWqCgStKx0bQI8gKpMYVaD3qK42XQMTUr+k=;
+	b=I+xebNJ2ZkeCyIY4Unso2JlBgK1mD4Zn35kR4ESUWE8Sk/Zkn00fbEAnS0U0ecJYfv
+	D9Vd41vheRzWNmzb/igksnveJGth3BJ6EFDvR3A38X44VdkVFdT6+TghYQ0gfF77SLeG
+	pV/GJ400I/Kq1yfOC8NwDwMNGfvHWzzRK7Dew8HOuYnc0ppW/CnZa4vuSmkMkiEjvOW0
+	dlHlhD9wGBxmNGMKWkUQqsD1XeI04vPBER3abN6WFXy6V+Au/n8/cY5ne/EqkStneaHh
+	z/coGJp0ESFw9aPuYc1/O6dSka06vJI77pBG4iU/b40WS5TX4gvKHl0G8TvlP7MD1Gyh
+	8AuA==
+X-Gm-Message-State: ALoCoQlUAdaGzPtgdNFk4nwFMx/jwGVU7ER38AsecfZl/Z9wGZ1pDQyepteqebSBnRTR0+Wmn1fk
+X-Received: by 10.50.111.164 with SMTP id ij4mr3291900igb.70.1439568109335;
+	Fri, 14 Aug 2015 09:01:49 -0700 (PDT)
+Received: from pohly-mobl1.ger.corp.intel.com (p5DE8D814.dip0.t-ipconnect.de.
+	[93.232.216.20]) by smtp.gmail.com with ESMTPSA id
+	h33sm5246371iod.23.2015.08.14.09.01.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 14 Aug 2015 09:01:48 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Aug 2015 18:54:11 +0300
-Message-Id: <1439567651-9281-1-git-send-email-cristian.iorga@intel.com>
+Date: Fri, 14 Aug 2015 18:01:40 +0200
+Message-Id: <cover.1439567977.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] canned-wks: added a qemux86* directdisk recipe for wic
+In-Reply-To: <CAJTo0Lb_EAc_qUAOUqTJz8ardk-62z=DJqurpz0S7aoE_=yk1g@mail.gmail.com>
+Subject: [PATCH v3 0/2] xattr + tar
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,33 +45,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Aug 2015 15:53:59 -0000
+X-List-Received-Date: Fri, 14 Aug 2015 16:01:51 -0000
 
-qemu-directdisk.wks creates a raw disk image
-that a qemux86* machine can boot from.
+This time with tar's do_install logic refactored as suggested by Ross.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- scripts/lib/image/canned-wks/qemux86-directdisk.wks | 10 ++++++++++
- 1 file changed, 10 insertions(+)
- create mode 100644 scripts/lib/image/canned-wks/qemux86-directdisk.wks
+The following changes since commit 4e0fb630d3bb0250ece6e2071ae49b2601ae3e57:
 
-diff --git a/scripts/lib/image/canned-wks/qemux86-directdisk.wks b/scripts/lib/image/canned-wks/qemux86-directdisk.wks
-new file mode 100644
-index 0000000..8fc38b5
---- /dev/null
-+++ b/scripts/lib/image/canned-wks/qemux86-directdisk.wks
-@@ -0,0 +1,10 @@
-+# short-description: Create a qemu machine 'pcbios' direct disk image
-+# long-description: Creates a partitioned legacy BIOS disk image that the user
-+# can directly use to boot a qemu machine.
-+
-+
-+part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
-+
-+bootloader  --timeout=0  --append="vga=0 uvesafb.mode_option=640x480-32 root=/dev/vda2 rw mem=256M ip=192.168.7.2::192.168.7.1:255.255.255.0 oprofile.timer=1 rootfstype=ext4 "
-+
+  tzdata: update to 2015f (2015-08-14 08:30:21 +0100)
+
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core xattr
+  https://github.com/pohly/openembedded-core/tree/xattr
+
+Patrick Ohly (2):
+  tar-replacement-native: relocate via NATIVE_PACKAGE_PATH_SUFFIX
+  image_types.bbclass: allow replacing tar command
+
+ meta/classes/image_types.bbclass                         | 14 +++++++++++++-
+ meta/recipes-extended/tar/tar-replacement-native_1.28.bb |  6 ------
+ meta/recipes-extended/tar/tar.inc                        | 11 +++++------
+ 3 files changed, 18 insertions(+), 13 deletions(-)
+ delete mode 100644 meta/recipes-extended/tar/tar-replacement-native_1.28.bb
+
 -- 
 2.1.4
 
