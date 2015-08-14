@@ -1,39 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f54.google.com (mail-qg0-f54.google.com
-	[209.85.192.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F64D72A78
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 41DB672A78
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 11:03:41 +0000 (UTC)
-Received: by qgeg42 with SMTP id g42so49105550qge.1
+	Fri, 14 Aug 2015 11:04:19 +0000 (UTC)
+Received: by igui7 with SMTP id i7so9466854igu.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 04:03:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=uAZJTzcES73tRsoJcs9HD1cWsWViKxwab+mf+Ejg768=;
-	b=JYIcWcCtnMDK+Psvmlm6SywuKmvZcCU1XJQl7UpSoIz0SNh0ncMnlOuL/Qin9vqMI7
-	6Z3RO/K/66pPhv68/SK/7zpPN0E1ZgxyHkUI4H7eJjMsriIwuuId+HIx4y548Ja4IyGu
-	akg1BwJxsyWjVDlwKywQe7lUW+UkIDz6CV7QefjQS26LcnNUNQQiZa9MmtZZR0Txckcf
-	k3Dq740qMFWena+YajX98K4MjEumYpDpJ4OmsBjdsP7XhdbMtOsbe9M2xOW/8bViFwqG
-	8PoKq/n3PpBs9yBo59KJJ1BqWacx9h3xpkx18B2Hn67ADK/4zfM+ipsPOn8Yl94p6Uv0
-	+YVg==
-X-Gm-Message-State: ALoCoQlOV7J7ZWa4mJc5eNjrhQcJ3UwLZOAfhBVPagIZpnCW9gR057NN5p4KLRFF/kZ3999aP1s3
-X-Received: by 10.141.28.6 with SMTP id f6mr82469487qhe.64.1439550221472; Fri,
-	14 Aug 2015 04:03:41 -0700 (PDT)
+	Fri, 14 Aug 2015 04:04:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=cOZfDTkNQ3BNGjfG1w3dKcYRHdDKpTq9l3qY9YoccZw=;
+	b=U1w+wSexffU8kQXX7g84rqrPke+Tba3HTPmMGm6qrsc/AggK3aTOlPdGlWcopoStbI
+	oU46sY+WrcD2550cQTYFJOwSL6WpKxXaWHWHA2fEqM6VLOvP5kZ8rU4Gt69rv869J8aG
+	4IQcHzmZ2H3nFv5eH7D0Zm4K4W7h0bZVS7wTw23CMMs2LOLdXVwwNJiHGI3XcAcBvDJv
+	BL/t+wXH2HV3d4EMdd8kmL0iDBXoldZlZXQhfiblFxGiCkARpRbUZw8xDwyugWvXNe8H
+	Qj2cywKwLhRY/99ZMSOASsMRMbNBo5OYmGvkaXWBoOrf1nUkDLjhOq7TGugV8jxIWJVU
+	HBIw==
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Fri, 14 Aug 2015 04:03:21 -0700 (PDT)
-In-Reply-To: <12971906.mb086C5zve@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1439281753.git.patrick.ohly@intel.com>
-	<616705173b62954740a1893c672c67eb5ce088f2.1439281753.git.patrick.ohly@intel.com>
-	<CAJTo0LbnRjSYpz5F41QjR_93Ex0YdVH+QKQChbRTGLXGrRumBQ@mail.gmail.com>
-	<12971906.mb086C5zve@peggleto-mobl.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Aug 2015 12:03:21 +0100
-Message-ID: <CAJTo0La2Q-jeFBRND7pYoWW5HQByu7pgEcOzexqJw1FSe2fQiA@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] tar-replacement-native: avoid race condition with host tar
+X-Received: by 10.50.138.73 with SMTP id qo9mr1868560igb.64.1439550259861;
+	Fri, 14 Aug 2015 04:04:19 -0700 (PDT)
+Received: by 10.36.98.5 with HTTP; Fri, 14 Aug 2015 04:04:19 -0700 (PDT)
+In-Reply-To: <1b0885ef5ddc0c9caa947f2a444dc83d55591d3c.1439549437.git.alexander.kanavin@linux.intel.com>
+References: <cover.1439549437.git.alexander.kanavin@linux.intel.com>
+	<1b0885ef5ddc0c9caa947f2a444dc83d55591d3c.1439549437.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 14 Aug 2015 13:04:19 +0200
+Message-ID: <CALbNGRSbR5fzUUs7F+s_NqesaQa=XG5E8j4gEew845-tVpE3AA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 15/22] libwnck3: add a recipe from meta-gnome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Aug 2015 11:03:44 -0000
-Content-Type: multipart/alternative; boundary=001a11422ff496631e051d4367fc
-
---001a11422ff496631e051d4367fc
+X-List-Received-Date: Fri, 14 Aug 2015 11:04:20 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 14 August 2015 at 12:01, Paul Eggleton <paul.eggleton@linux.intel.com>
-wrote:
-
-> Or install the buildtools perhaps.
+On Fri, Aug 14, 2015 at 12:55 PM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> libwnck is a dependency of epiphany
 >
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>  create mode 100644 meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
+>
+> diff --git a/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
+> new file mode 100644
+> index 0000000..6bc625a
+> --- /dev/null
+> +++ b/meta/recipes-gnome/libwnck/libwnck3_3.14.0.bb
+> @@ -0,0 +1,17 @@
+> +SUMMARY = "Window navigation construction toolkit"
+> +LICENSE = "LGPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+> +
+> +BPN = "libwnck"
+> +
+> +SECTION = "x11/libs"
+> +DEPENDS = "gobject-introspection-stub gtk+3 gdk-pixbuf-native libxres"
+> +
+> +PR = "r1"
+^ Please skip
 
-Yes, I had that in my head but someone failed to write it down.  There's a
-fair chance that a host with a sufficiently old tar also needs other
-updates, and that's when buildtools is used (which includes tar).
+Andreas
 
-Ross
-
---001a11422ff496631e051d4367fc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 August 2015 at 12:01, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux=
-.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":2e7" class=3D"a3s" style=3D"overflow:hidden">Or install the buildtools=
- perhaps.<br></div></blockquote><div><br></div><div>Yes, I had that in my h=
-ead but someone failed to write it down.=C2=A0 There&#39;s a fair chance th=
-at a host with a sufficiently old tar also needs other updates, and that&#3=
-9;s when buildtools is used (which includes tar).</div><div><br></div><div>=
-Ross=C2=A0</div></div></div></div>
-
---001a11422ff496631e051d4367fc--
