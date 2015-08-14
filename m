@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 24ECD7677A
+	by mail.openembedded.org (Postfix) with ESMTP id CAF9A763F4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 14 Aug 2015 10:55:23 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 14 Aug 2015 03:55:23 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 14 Aug 2015 03:55:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,677,1432623600"; d="scan'208";a="768726408"
+X-IronPort-AV: E=Sophos;i="5.15,677,1432623600"; d="scan'208";a="768726440"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2015 03:55:22 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 14 Aug 2015 03:55:23 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Aug 2015 13:55:36 +0300
-Message-Id: <8af16e82f5a91d4d1df67bed46d298a7cb7ffa38.1439549437.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 14 Aug 2015 13:55:37 +0300
+Message-Id: <3f8fee509b5b7cc0643f316e28fc535708e49754.1439549437.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1439549437.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439549437.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1439549437.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439549437.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 17/22] glib: add a warning suppression patch to glib
+Subject: [PATCH 18/22] gsettings-desktop-schemas: add a recipe from meta-gnome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,68 +33,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 14 Aug 2015 10:55:23 -0000
 
-Otherwise QA check will fail.
-Some schemas in gsettings-desktop-schemas (such as proxy and locale)
-are still using deprecated paths, as of 3.16.1. This causes warning
-messages, and meta/lib/oe/rootfs.py complaints about them.
+gsettings-desktop-schemas is a dependency of epiphany
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- ...warning-about-deprecated-paths-in-schemas.patch | 32 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb      |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+ .../gsettings-desktop-schemas_3.16.1.bb                     | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+ create mode 100644 meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+diff --git a/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
 new file mode 100644
-index 0000000..54e830c
+index 0000000..f2f2c75
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
-@@ -0,0 +1,32 @@
-+From 41534253b6b61ed4769eb6a3966698a50ee73b71 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 12 Jun 2015 17:08:46 +0300
-+Subject: [PATCH] Remove the warning about deprecated paths in schemas
++++ b/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_3.16.1.bb
+@@ -0,0 +1,13 @@
++SUMMARY = "GNOME desktop-wide GSettings schemas"
++HOMEPAGE = "http://live.gnome.org/gsettings-desktop-schemas"
++BUGTRACKER = "https://bugzilla.gnome.org/"
 +
-+Some schemas in gsettings-desktop-schemas (such as proxy and locale)
-+are still using deprecated paths, as of 3.16.1. This causes warning
-+messages, and meta/lib/oe/rootfs.py complaints about them.
-+---
-+ gio/glib-compile-schemas.c | 6 ------
-+ 1 file changed, 6 deletions(-)
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
 +
-+diff --git a/gio/glib-compile-schemas.c b/gio/glib-compile-schemas.c
-+index e42949b..ec79d7c 100644
-+--- a/gio/glib-compile-schemas.c
-++++ b/gio/glib-compile-schemas.c
-+@@ -1202,12 +1202,6 @@ parse_state_start_schema (ParseState  *state,
-+       return;
-+     }
-+ 
-+-  if (path && (g_str_has_prefix (path, "/apps/") ||
-+-               g_str_has_prefix (path, "/desktop/") ||
-+-               g_str_has_prefix (path, "/system/")))
-+-    g_printerr ("warning: Schema '%s' has path '%s'.  Paths starting with "
-+-                "'/apps/', '/desktop/' or '/system/' are deprecated.\n", id, path);
-+-
-+   state->schema_state = schema_state_new (path, gettext_domain,
-+                                           extends, extends_name, list_of);
-+ 
-+-- 
-+2.1.4
++DEPENDS = "glib-2.0 intltool-native gobject-introspection-stub-native"
 +
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
-index 8eaccfb..1e3d36a 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://uclibc.patch \
-            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
-            file://allow-run-media-sdX-drive-mount-if-username-root.patch \
-+	   file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
-           "
- 
- SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
++inherit gnomebase gsettings gettext
++
++SRC_URI[archive.md5sum] = "baebbcf3c20591f98876e42fb0a3fd35"
++SRC_URI[archive.sha256sum] = "74fe9fdad510c8a6666febeceb7ebafc581ef990b3afcc8c1e8b5d90b24b3461"
 -- 
 2.1.4
 
