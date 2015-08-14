@@ -1,24 +1,25 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B3F2272A78
+	by mail.openembedded.org (Postfix) with ESMTP id 90C2665C78
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Aug 2015 10:42:03 +0000 (UTC)
+	Fri, 14 Aug 2015 10:42:04 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 14 Aug 2015 03:42:04 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 14 Aug 2015 03:42:05 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,677,1432623600"; d="scan'208";a="748520688"
+X-IronPort-AV: E=Sophos;i="5.15,677,1432623600"; d="scan'208";a="748520705"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2015 03:42:03 -0700
+	by orsmga001.jf.intel.com with ESMTP; 14 Aug 2015 03:42:04 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Aug 2015 13:43:16 +0300
-Message-Id: <91658fa21372a54534a6eff10ecaaf747c484697.1439548737.git.alexander.kanavin@linux.intel.com>
+Date: Fri, 14 Aug 2015 13:43:17 +0300
+Message-Id: <1b0b07c1938e5c2e5c97cd9c8db7656f0882de19.1439548737.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1439548737.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439548737.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1439548737.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439548737.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 1/5] package_regex.inc: fix regexes for adwaita-icon-theme, cairo and dhcp
+MIME-Version: 1.0
+Subject: [PATCH 2/5] puzzles: switch svn for git, as upstream has done the same
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Aug 2015 10:42:03 -0000
+X-List-Received-Date: Fri, 14 Aug 2015 10:42:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+Also, drop puzzles_x32_abi_time.patch as it has been merged upstream
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- meta/conf/distro/include/package_regex.inc | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ .../puzzles/files/puzzles_x32_abi_time.patch       | 30 ----------------------
+ .../puzzles/{puzzles_r10286.bb => puzzles_git.bb}  |  9 ++++---
+ 2 files changed, 5 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-sato/puzzles/files/puzzles_x32_abi_time.patch
+ rename meta/recipes-sato/puzzles/{puzzles_r10286.bb => puzzles_git.bb} (87%)
 
-diff --git a/meta/conf/distro/include/package_regex.inc b/meta/conf/distro/include/package_regex.inc
-index 037fdaa..0c29ade 100644
---- a/meta/conf/distro/include/package_regex.inc
-+++ b/meta/conf/distro/include/package_regex.inc
-@@ -32,7 +32,7 @@ REGEX_URI_pn-sqlite3="http://www.sqlite.org/"
- REGEX_pn-sqlite3="releaselog/${COMMON_REGEX}.html"
+diff --git a/meta/recipes-sato/puzzles/files/puzzles_x32_abi_time.patch b/meta/recipes-sato/puzzles/files/puzzles_x32_abi_time.patch
+deleted file mode 100644
+index 63ab0b8..0000000
+--- a/meta/recipes-sato/puzzles/files/puzzles_x32_abi_time.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Fix printf's for time_t value add castings because ISOC90
+-don't support long long int that is used in x32 ABI for 
+-time_t.
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+-
+---- a/magnets.c	2015-03-15 11:57:39.106674811 +0000
+-+++ b/magnets.c	2015-03-15 11:57:58.638674795 +0000
+-@@ -2562,7 +2562,7 @@
+-         goto done;
+-     }
+-     s = new_game(NULL, p, desc);
+--    printf("%s:%s (seed %ld)\n", id, desc, seed);
+-+    printf("%s:%s (seed %ld)\n", id, desc, (long) seed);
+-     if (aux) {
+-         /* We just generated this ourself. */
+-         if (verbose || print) {
+---- a/signpost.c	2015-03-15 11:58:52.866674751 +0000
+-+++ b/signpost.c	2015-03-15 11:59:08.190674738 +0000
+-@@ -2393,7 +2393,7 @@
+-         }
+-     }
+- 
+--    sprintf(newseed, "%lu", time(NULL));
+-+    sprintf(newseed, "%lu", (unsigned long) time(NULL));
+-     seedstr = dupstr(newseed);
+- 
+-     if (id || !stdin_desc) {
+diff --git a/meta/recipes-sato/puzzles/puzzles_r10286.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+similarity index 87%
+rename from meta/recipes-sato/puzzles/puzzles_r10286.bb
+rename to meta/recipes-sato/puzzles/puzzles_git.bb
+index 1ad8d1b..11e9225 100644
+--- a/meta/recipes-sato/puzzles/puzzles_r10286.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -2,7 +2,6 @@ SUMMARY = "Simon Tatham's Portable Puzzle Collection"
+ HOMEPAGE = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/"
  
- REGEX_URI_pn-dhcp = "ftp://ftp.isc.org/isc/dhcp/"
--REGEX_pn-dhcp="(?P<pver>\d+\.\d+\.(\d+?))"
-+REGEX_pn-dhcp="(?P<pver>\d+\.\d+\.(\d+?))/"
+ DEPENDS = "gtk+ libxt"
+-MOD_PV = "${@d.getVar('PV',1)[1:]}"
  
- REGEX_pn-foomatic-filters = "foomatic-filters-(?P<pver>((\d|\d\d)\.*)+)\.tar\.gz"
- REGEX_pn-xdg-utils = "xdg-utils-(?P<pver>((\d+[\.\-_]*)+)((rc|alpha|beta)\d+)?)\.(tar\.gz|tgz)"
-@@ -42,6 +42,8 @@ REGEX_pn-libtheora = "libtheora-(?P<pver>\d+(\.\d)+)\.(tar\.gz|tgz)"
- REGEX_pn-iputils="iputils-(?P<pver>s\d+).tar"
- REGEX_pn-nettle = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
+ # The libxt requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+@@ -10,12 +9,14 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENCE;md5=33bcd4bce8f3c197f2aefbdbd2d299bc"
  
-+REGEX_pn-cairo = "cairo-(?P<pver>\d+(\.\d+)+)\.tar"
-+
- # Exclude NC versions which lack AES encryption
- REGEX_pn-db = "db-(?P<pver>\d+\.\d+(\.\d+)?).tar"
+-SRC_URI = "svn://svn.tartarus.org/sgt;module=puzzles;rev=${MOD_PV} \
++SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
+            file://fix-compiling-failure-with-option-g-O.patch \
+-           file://puzzles_x32_abi_time.patch \
+ "
++SRCREV = "c296301a06ce49b87c954c9d15452521dfeddf1a"
++PE = "1"
++PV = "0.0+git${SRCPV}"
  
-@@ -224,6 +226,7 @@ REGEX_pn-clutter-1.0 = "${GNOME_STABLE}"
- REGEX_pn-clutter-gtk-1.0 = "${GNOME_STABLE}"
- REGEX_pn-clutter-gst-3.0 = "${GNOME_STABLE}"
- REGEX_pn-cogl-1.0 = "${GNOME_STABLE}"
-+REGEX_pn-adwaita-icon-theme = "${GNOME_STABLE}"
+-S = "${WORKDIR}/${BPN}"
++S = "${WORKDIR}/git"
  
- # not GNOME related but uses same even-minor-release-is-stable logic
- REGEX_pn-dbus = "${GNOME_STABLE}"
+ inherit autotools-brokensep distro_features_check
+ 
 -- 
 2.1.4
 
