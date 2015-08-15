@@ -1,38 +1,42 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 6868572A78
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E88D72A78
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Aug 2015 16:18:34 +0000 (UTC)
-Received: by igui7 with SMTP id i7so31208430igu.1
+	Sat, 15 Aug 2015 19:34:16 +0000 (UTC)
+Received: by pdrh1 with SMTP id h1so41852614pdr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Aug 2015 09:18:33 -0700 (PDT)
+	Sat, 15 Aug 2015 12:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=aPVjijqnvHkwLOQ7qF2AswzIvp7OPZtiWyWtCwgmq18=;
-	b=Z1Fl19J78wW/38OOnVN7HFB5JT2n96Tck1A7+Xdc6PInsiR1gRuPrUmtCYr4sAGWoy
-	hJ/NzlkLgNDNNkMsDZs0T1QtMdsB8UkhWK++oX/bN3yaKYjmYPADUdlKsz4X3U8lrxZG
-	qZ9MHrpSRX8kyAoWxNnaNgNja/K5oNP0LRf+EnuXjL5SHzexHjGXl4Rqb0NY23gs18/r
-	Rm3oCYjZdUGUfXQJynJCl/Pz0CZwyb9/GTiTnP81tbBmbOu1Dlg9nLi1qWGlouvbOKhz
-	lB7XlL6em1xbubQfxqjYZna+CyKCzSPPCi6WkILdm2jabGHaQ3H3DBcMaEytUlytR1r2
-	Om2A==
-X-Received: by 10.50.17.66 with SMTP id m2mr8887703igd.77.1439655513869; Sat,
-	15 Aug 2015 09:18:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Sat, 15 Aug 2015 09:18:04 -0700 (PDT)
-In-Reply-To: <CAJTo0LZGbRGdJtPjeoQQYRS1nC1-jg2OKVwOgxXU-qgpCeEB9w@mail.gmail.com>
-References: <cover.1436178756.git.liezhi.yang@windriver.com>
-	<3a571bfe258bda28dd34a61b2a6bf323a06ca911.1436178756.git.liezhi.yang@windriver.com>
-	<CAJTo0LZYJEmmPsgiQc8R2whGkOH3vQdAXn9vwXz7W8nYA9KUyA@mail.gmail.com>
-	<559E8C63.20002@windriver.com>
-	<CAJTo0LZGbRGdJtPjeoQQYRS1nC1-jg2OKVwOgxXU-qgpCeEB9w@mail.gmail.com>
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=m3SFBE1Ece25sKhgUg7S059oqImkklSo+rJy1Qs4p+s=;
+	b=wMQgHoq6bJ6y3TqlB2Uv+tjxK2EADXhMYg9Eu58R3OJT+Zmr7umPzfpRNXHcdDr/qN
+	gKETOTW4tiJyy2QiAkAlj2juqKeIgmFXr/Aw3Hc/h3EO11knHr+xk7mopbGTcFpEP+tQ
+	qVgQxOyVf3P/2cgLksafryly1C7APT0Wl2ygW9QRwkma7EU6U60Ujt7/NIHJF1rU/IYJ
+	ttwTqOHJDvVEsAPRcknvyrwNw8BXqTjoCNoGeMTfEzOcjfV7zbyR4DHf0W27JN6IBR42
+	YtOV4r0gUkIGX9Hh+ZPvP4ufc5HEf00vG0a5JgXOiHbZa6uB63ptOTKYs/eXMKGVNuiV
+	p/9g==
+X-Received: by 10.70.132.228 with SMTP id ox4mr102127390pdb.0.1439667257082;
+	Sat, 15 Aug 2015 12:34:17 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:3486:a8d6:107a:4b76?
+	([2601:646:8601:4580:3486:a8d6:107a:4b76])
+	by smtp.gmail.com with ESMTPSA id
+	w17sm9547125pbt.17.2015.08.15.12.34.16
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sat, 15 Aug 2015 12:34:16 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 15 Aug 2015 09:18:04 -0700
-Message-ID: <CAMKF1sov_BqMfA60UC2uu-CGh1hVmp88DzXNH0vfo5mH6bjYxw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] gcc-target 5.1: fix for libcc1
+In-Reply-To: <1435759342-5312-5-git-send-email-dbaryshkov@gmail.com>
+Date: Sat, 15 Aug 2015 12:34:11 -0700
+Message-Id: <B8E44407-53A5-4332-8124-3DC507180D8E@gmail.com>
+References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+	<1435759342-5312-5-git-send-email-dbaryshkov@gmail.com>
+To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] glibc: don't override TUNE_CCARGS for MIPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +49,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Aug 2015 16:18:39 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 15 Aug 2015 19:34:19 -0000
+X-Groupsio-MsgNum: 69472
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_A4AC11C7-DB3C-48F4-A251-0D22A952235D";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Thu, Jul 9, 2015 at 8:07 AM, Burton, Ross <ross.burton@intel.com> wrote:
->
-> On 9 July 2015 at 15:59, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> I put libcc1plugin.so into $libexecdir is because lto-plugin is there,
->> do you know more about why lto-plugin is in $libexecdir, please ?
->
->
-> No, you'd have to look at the git history to see what the reason was.  I'm
-> not convinced there'll be a good reason. :)
+--Apple-Mail=_A4AC11C7-DB3C-48F4-A251-0D22A952235D
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-these plugins have external implications thats why they are where they are, see
-https://sourceware.org/ml/gdb-patches/2014-12/msg00358.html
 
->
-> Ross
->
+> On Jul 1, 2015, at 7:02 AM, Dmitry Eremin-Solenikov =
+<dbaryshkov@gmail.com> wrote:
+>=20
+> Overriding TUNE_CCARGS this way breaks MULTILIB setup for MIPS. This
+> override disables multilib handling of tunes for TUNE_CCARGS, thus
+> enforcing glibc's TUNE_CCARGS to the TUNE_CCARGS of main DEFAULTTUNE.
+>=20
+> Glibc perfectly build without this override for both simple and =
+multilib
+> cases.
+>=20
+
+this patch has been applied however we should reopen it.
+This has to be fixed differently. its not a build time issue but a =
+runtime one. So find
+alternative way of passing these options to glibc build to accommodate =
+your changes.
+
+> Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+> ---
+> meta/recipes-core/glibc/glibc_2.21.bb | 10 ----------
+> 1 file changed, 10 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/glibc/glibc_2.21.bb =
+b/meta/recipes-core/glibc/glibc_2.21.bb
+> index 8197c29..52252b3 100644
+> --- a/meta/recipes-core/glibc/glibc_2.21.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.21.bb
+> @@ -95,16 +95,6 @@ do_patch_append() {
+>     bb.build.exec_func('do_fix_readlib_c', d)
+> }
+>=20
+> -# for mips glibc now builds syscall tables for all abi's
+> -# so we make sure that we choose right march option which is
+> -# compatible with o32,n32 and n64 abi's
+> -# e.g. -march=3Dmips32 is not compatible with n32 and n64 therefore
+> -# we filter it out in such case -march=3Dfrom-abi which will be
+> -# mips1 when using o32 and mips3 when using n32/n64
+> -
+> -TUNE_CCARGS_mips :=3D "${@oe_filter_out('-march=3Dmips32', =
+'${TUNE_CCARGS}', d)}"
+> -TUNE_CCARGS_mipsel :=3D "${@oe_filter_out('-march=3Dmips32', =
+'${TUNE_CCARGS}', d)}"
+> -
+> do_fix_readlib_c () {
+> 	sed -i -e =
+'s#OECORE_KNOWN_INTERPRETER_NAMES#${EGLIBC_KNOWN_INTERPRETER_NAMES}#' =
+${S}/elf/readlib.c
+> }
+> --
+> 1.9.1
+>=20
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
+
+--Apple-Mail=_A4AC11C7-DB3C-48F4-A251-0D22A952235D
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXPlDcACgkQuwUzVZGdMxR1LQCeK1nMor9Sbg688Q6xSL/ig2Xn
+7qoAnR2W33x+/NuLFDmLwcdAWyh3qg0G
+=s0Y5
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_A4AC11C7-DB3C-48F4-A251-0D22A952235D--
