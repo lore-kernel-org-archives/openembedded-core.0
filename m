@@ -1,36 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f171.google.com (mail-pd0-f171.google.com
-	[209.85.192.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F02F606E8
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
+	[209.85.192.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 2737165D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 18:20:57 +0000 (UTC)
-Received: by pdrg1 with SMTP id g1so47685761pdr.2
+	Sun, 16 Aug 2015 21:49:48 +0000 (UTC)
+Received: by pdrg1 with SMTP id g1so48582268pdr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 11:20:58 -0700 (PDT)
+	Sun, 16 Aug 2015 14:49:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=lM/e7cPllmYfYSBOmuGxfEUV+n3cjajI0nNct92yEVk=;
-	b=jb+GWJIXoSR96rLvw9wbBVN+Wgc3WCMclXHnsRFTCH+7Mz1ap7o0fS/MlripVXYgDA
-	nLr0bYqahyAh1LwTubL5uQLAA15Xi7BsVmYA9CZqL7DfFG1PKrbUZUcypBfFh7mhZg23
-	maRVmBFvgoMaPsZGtubxSjEkRQw/IZloLblw0569koF+3AO/a0Zki5HAJz4tE26AnaUz
-	g1zJ1rmD7rc0PFlSspcdGnXSv6ufL2y4ctRVZz2h5yHK0xWFziaioCxw3tCLSkdT/lRZ
-	Z+l69Kt7RpAuA7hRn+SdWzSEt/0fo0juGb/DyPvlpMoKvyWkUJ4SEW1iJz6oGHfyO+IU
-	SVVw==
-X-Received: by 10.70.90.15 with SMTP id bs15mr48367721pdb.142.1439749258320;
-	Sun, 16 Aug 2015 11:20:58 -0700 (PDT)
-Received: from haswell.localdomain ([2601:646:8601:4580:baca:3aff:fe80:aa8f])
-	by smtp.gmail.com with ESMTPSA id
-	s13sm12053365pdi.70.2015.08.16.11.20.57
+	h=from:to:cc:subject:date:message-id;
+	bh=XFaXlNN5nXsvmDsTgql3gU1dcnx1f0IvFHDk6jEuYNg=;
+	b=L7IUo39qyMcTq7v88zxXFlEuw9LsJTOWKhB8VDcL1xfxksFZTb4lPX/WqFijRlj3/Q
+	peCJr1SFFJwgpQVq2fFYlwPGBof9IIonEFh2mMrU2+RLl8TrWWEjZ8tXaIGJZs3WZbh5
+	c7D84hVNnn4u5zSNgfb9AvbGQY0IKl5djzFpJlswh+ncIA8bKjNI16VtnZ6iKl1ukQEi
+	ni2VWfcQfpsA+uzrkGv7x+q326mZdSvNuAsaPveosOlW5G9sNExVHTNTRFKQQEsuxlLj
+	yDMf+1WwEhiyiaYAznoQQmwDNQSqb017rcXXP/j6UZG07pK3V4gJnMKX4gNJEEBXt3/8
+	S2kQ==
+X-Received: by 10.70.108.198 with SMTP id hm6mr112189097pdb.12.1439761789119; 
+	Sun, 16 Aug 2015 14:49:49 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	dw2sm3293132pab.18.2015.08.16.14.49.47
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 16 Aug 2015 11:20:57 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	Sun, 16 Aug 2015 14:49:47 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Aug 2015 11:30:03 -0700
-Message-Id: <1439749803-26868-3-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1439749803-26868-1-git-send-email-raj.khem@gmail.com>
-References: <1439749803-26868-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 3/3] lzop: Fix build with gcc5 on ppc
+Date: Sun, 16 Aug 2015 14:49:41 -0700
+Message-Id: <1439761782-15310-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH 1/2] Binutils: Add Octeon3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,142 +42,310 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Aug 2015 18:21:00 -0000
+X-List-Received-Date: Sun, 16 Aug 2015 21:49:49 -0000
 
-It seems all other architectures provide their own definitions for these
-functions like __ACC_UA_GET_LE16 and this code is exposed only on ppc
-this is the typical extern inline ( gnu definition ) version c99
-semantics, lets use static inline which works both ways
+From: Armin Kuster <akuster@mvista.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+This add octeon3 support to binutils.
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- ...inlines-as-the-external-inline-definition.patch | 100 +++++++++++++++++++++
- meta/recipes-support/lzop/lzop_1.03.bb             |   4 +-
- 2 files changed, 103 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/lzop/lzop/0001-use-static-inlines-as-the-external-inline-definition.patch
+ meta/recipes-devtools/binutils/binutils-2.25.1.inc |   1 +
+ .../binutils/binutils/binutils-octeon3.patch       | 272 +++++++++++++++++++++
+ 2 files changed, 273 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch
 
-diff --git a/meta/recipes-support/lzop/lzop/0001-use-static-inlines-as-the-external-inline-definition.patch b/meta/recipes-support/lzop/lzop/0001-use-static-inlines-as-the-external-inline-definition.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.25.1.inc b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
+index 15ef36c..ef85fd4 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.25.1.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
+@@ -32,6 +32,7 @@ SRC_URI = "\
+      file://0012-Add-XLP-instructions-support.patch \
+      file://0013-Fix-an-internal-error-in-do_print_to_mapfile-seen-wi.patch \
+      file://0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch \
++     file://binutils-octeon3.patch \
+      "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch b/meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch
 new file mode 100644
-index 0000000..867b88b
+index 0000000..e5beaae
 --- /dev/null
-+++ b/meta/recipes-support/lzop/lzop/0001-use-static-inlines-as-the-external-inline-definition.patch
-@@ -0,0 +1,100 @@
-+From ecccbcf66da53779d88e38e2af7f82eff8dde7f8 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Aug 2015 10:35:47 -0700
-+Subject: [PATCH] use static inlines as the external inline definition has
-+ changed with gcc5
++++ b/meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch
+@@ -0,0 +1,272 @@
++Upstream Status: Backport
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
++https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=2c62985659da21a3fe16062d211a7158f79ad2e9
 +
-+ src/miniacc.h | 24 ++++++++----------------
-+ 1 file changed, 8 insertions(+), 16 deletions(-)
++Signed-off-By: Armin Kuster <akuster@mvista.com>
 +
-+diff --git a/src/miniacc.h b/src/miniacc.h
-+index 09e6f0c..cae98d1 100644
-+--- a/src/miniacc.h
-++++ b/src/miniacc.h
-+@@ -2880,8 +2880,7 @@ typedef void (__acc_cdecl_sighandler *acc_sighandler_t)(acc_signo_t);
-+ #if !(ACC_CFG_NO_INLINE_ASM) && (__acc_HAVE_forceinline)
-+ #if (ACC_ARCH_POWERPC && ACC_ABI_BIG_ENDIAN) && (ACC_CC_GNUC)
-+ #if !defined(ACC_UA_GET_LE16)
-+-extern __acc_forceinline unsigned long __ACC_UA_GET_LE16(__acc_ua_volatile const void* pp);
-+-extern __acc_forceinline unsigned long __ACC_UA_GET_LE16(__acc_ua_volatile const void* pp) {
-++static __acc_forceinline unsigned long __ACC_UA_GET_LE16(__acc_ua_volatile const void* pp) {
-+     __acc_ua_volatile const acc_uint16e_t* p = (__acc_ua_volatile const acc_uint16e_t*) pp;
-+     unsigned long v;
-+     __asm__ __volatile__("lhbrx %0,0,%1" : "=r" (v) : "r" (p), "m" (*p));
-+@@ -2890,8 +2889,7 @@ extern __acc_forceinline unsigned long __ACC_UA_GET_LE16(__acc_ua_volatile const
-+ #define ACC_UA_GET_LE16(p)      __ACC_UA_GET_LE16(p)
-+ #endif
-+ #if !defined(ACC_UA_SET_LE16)
-+-extern __acc_forceinline void __ACC_UA_SET_LE16(__acc_ua_volatile void* pp, unsigned long v);
-+-extern __acc_forceinline void __ACC_UA_SET_LE16(__acc_ua_volatile void* pp, unsigned long v) {
-++static __acc_forceinline void __ACC_UA_SET_LE16(__acc_ua_volatile void* pp, unsigned long v) {
-+     __acc_ua_volatile acc_uint16e_t* p = (__acc_ua_volatile acc_uint16e_t*) pp;
-+     __asm__ __volatile__("sthbrx %2,0,%1" : "=m" (*p) : "r" (p), "r" (v));
-+ }
-+@@ -2916,8 +2914,7 @@ extern __acc_forceinline void __ACC_UA_SET_LE16(__acc_ua_volatile void* pp, unsi
-+ #if !(ACC_CFG_NO_INLINE_ASM) && (__acc_HAVE_forceinline)
-+ #if (ACC_ARCH_POWERPC && ACC_ABI_BIG_ENDIAN) && (ACC_CC_GNUC)
-+ #if !defined(ACC_UA_GET_LE32)
-+-extern __acc_forceinline unsigned long __ACC_UA_GET_LE32(__acc_ua_volatile const void* pp);
-+-extern __acc_forceinline unsigned long __ACC_UA_GET_LE32(__acc_ua_volatile const void* pp) {
-++static __acc_forceinline unsigned long __ACC_UA_GET_LE32(__acc_ua_volatile const void* pp) {
-+     __acc_ua_volatile const acc_uint32e_t* p = (__acc_ua_volatile const acc_uint32e_t*) pp;
-+     unsigned long v;
-+     __asm__ __volatile__("lwbrx %0,0,%1" : "=r" (v) : "r" (p), "m" (*p));
-+@@ -2926,8 +2923,7 @@ extern __acc_forceinline unsigned long __ACC_UA_GET_LE32(__acc_ua_volatile const
-+ #define ACC_UA_GET_LE32(p)      __ACC_UA_GET_LE32(p)
-+ #endif
-+ #if !defined(ACC_UA_SET_LE32)
-+-extern __acc_forceinline void __ACC_UA_SET_LE32(__acc_ua_volatile void* pp, unsigned long v);
-+-extern __acc_forceinline void __ACC_UA_SET_LE32(__acc_ua_volatile void* pp, unsigned long v) {
-++static __acc_forceinline void __ACC_UA_SET_LE32(__acc_ua_volatile void* pp, unsigned long v) {
-+     __acc_ua_volatile acc_uint32e_t* p = (__acc_ua_volatile acc_uint32e_t*) pp;
-+     __asm__ __volatile__("stwbrx %2,0,%1" : "=m" (*p) : "r" (p), "r" (v));
-+ }
-+@@ -3307,8 +3303,7 @@ typedef void (__acc_cdecl_sighandler *acc_sighandler_t)(acc_signo_t);
-+ #if !(ACC_CFG_NO_INLINE_ASM) && (__acc_HAVE_forceinline)
-+ #if (ACC_ARCH_POWERPC && ACC_ABI_BIG_ENDIAN) && (ACC_CC_GNUC)
-+ #if !defined(ACC_UA_GET_LE16)
-+-extern __acc_forceinline unsigned long __ACC_UA_GET_LE16(__acc_ua_volatile const void* pp);
-+-extern __acc_forceinline unsigned long __ACC_UA_GET_LE16(__acc_ua_volatile const void* pp) {
-++static __acc_forceinline unsigned long __ACC_UA_GET_LE16(__acc_ua_volatile const void* pp) {
-+     __acc_ua_volatile const acc_uint16e_t* p = (__acc_ua_volatile const acc_uint16e_t*) pp;
-+     unsigned long v;
-+     __asm__ __volatile__("lhbrx %0,0,%1" : "=r" (v) : "r" (p), "m" (*p));
-+@@ -3317,8 +3312,7 @@ extern __acc_forceinline unsigned long __ACC_UA_GET_LE16(__acc_ua_volatile const
-+ #define ACC_UA_GET_LE16(p)      __ACC_UA_GET_LE16(p)
-+ #endif
-+ #if !defined(ACC_UA_SET_LE16)
-+-extern __acc_forceinline void __ACC_UA_SET_LE16(__acc_ua_volatile void* pp, unsigned long v);
-+-extern __acc_forceinline void __ACC_UA_SET_LE16(__acc_ua_volatile void* pp, unsigned long v) {
-++static __acc_forceinline void __ACC_UA_SET_LE16(__acc_ua_volatile void* pp, unsigned long v) {
-+     __acc_ua_volatile acc_uint16e_t* p = (__acc_ua_volatile acc_uint16e_t*) pp;
-+     __asm__ __volatile__("sthbrx %2,0,%1" : "=m" (*p) : "r" (p), "r" (v));
-+ }
-+@@ -3343,8 +3337,7 @@ extern __acc_forceinline void __ACC_UA_SET_LE16(__acc_ua_volatile void* pp, unsi
-+ #if !(ACC_CFG_NO_INLINE_ASM) && (__acc_HAVE_forceinline)
-+ #if (ACC_ARCH_POWERPC && ACC_ABI_BIG_ENDIAN) && (ACC_CC_GNUC)
-+ #if !defined(ACC_UA_GET_LE32)
-+-extern __acc_forceinline unsigned long __ACC_UA_GET_LE32(__acc_ua_volatile const void* pp);
-+-extern __acc_forceinline unsigned long __ACC_UA_GET_LE32(__acc_ua_volatile const void* pp) {
-++static __acc_forceinline unsigned long __ACC_UA_GET_LE32(__acc_ua_volatile const void* pp) {
-+     __acc_ua_volatile const acc_uint32e_t* p = (__acc_ua_volatile const acc_uint32e_t*) pp;
-+     unsigned long v;
-+     __asm__ __volatile__("lwbrx %0,0,%1" : "=r" (v) : "r" (p), "m" (*p));
-+@@ -3353,8 +3346,7 @@ extern __acc_forceinline unsigned long __ACC_UA_GET_LE32(__acc_ua_volatile const
-+ #define ACC_UA_GET_LE32(p)      __ACC_UA_GET_LE32(p)
-+ #endif
-+ #if !defined(ACC_UA_SET_LE32)
-+-extern __acc_forceinline void __ACC_UA_SET_LE32(__acc_ua_volatile void* pp, unsigned long v);
-+-extern __acc_forceinline void __ACC_UA_SET_LE32(__acc_ua_volatile void* pp, unsigned long v) {
-++static __acc_forceinline void __ACC_UA_SET_LE32(__acc_ua_volatile void* pp, unsigned long v) {
-+     __acc_ua_volatile acc_uint32e_t* p = (__acc_ua_volatile acc_uint32e_t*) pp;
-+     __asm__ __volatile__("stwbrx %2,0,%1" : "=m" (*p) : "r" (p), "r" (v));
-+ }
-+-- 
-+2.5.0
-+
-diff --git a/meta/recipes-support/lzop/lzop_1.03.bb b/meta/recipes-support/lzop/lzop_1.03.bb
-index 1fcd81d..07d6289 100644
---- a/meta/recipes-support/lzop/lzop_1.03.bb
-+++ b/meta/recipes-support/lzop/lzop_1.03.bb
-@@ -13,7 +13,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=dfeaf3dc4beef4f5a7bdbc35b197f39e \
- 
- SRC_URI = "http://www.lzop.org/download/${BP}.tar.gz \
-            file://acinclude.m4 \
--           file://x32_abi_miniacc_h.patch "
-+           file://x32_abi_miniacc_h.patch \
-+           file://0001-use-static-inlines-as-the-external-inline-definition.patch \
-+          "
- SRC_URI[md5sum] = "006c5e27fb78cdd14a628fdfa5aa1905"
- SRC_URI[sha256sum] = "c1425b8c77d49f5a679d5a126c90ea6ad99585a55e335a613cae59e909dbb2c9"
- 
++Index: git/bfd/archures.c
++===================================================================
++--- git.orig/bfd/archures.c
+++++ git/bfd/archures.c
++@@ -179,6 +179,7 @@ DESCRIPTION
++ .#define bfd_mach_mips_octeon		6501
++ .#define bfd_mach_mips_octeonp		6601
++ .#define bfd_mach_mips_octeon2		6502
+++.#define bfd_mach_mips_octeon3		6503
++ .#define bfd_mach_mips_xlr              887682   {* decimal 'XLR'  *}
++ .#define bfd_mach_mips_xlp              887680   {* decimal 'XLP'  *}
++ .#define bfd_mach_mipsisa32             32
++Index: git/bfd/bfd-in2.h
++===================================================================
++--- git.orig/bfd/bfd-in2.h
+++++ git/bfd/bfd-in2.h
++@@ -1969,6 +1969,7 @@ enum bfd_architecture
++ #define bfd_mach_mips_octeon           6501
++ #define bfd_mach_mips_octeonp          6601
++ #define bfd_mach_mips_octeon2          6502
+++#define bfd_mach_mips_octeon3          6503
++ #define bfd_mach_mips_xlr              887682   /* decimal 'XLR'  */
++ #define bfd_mach_mips_xlp              887680   /* decimal 'XLP'  */
++ #define bfd_mach_mipsisa32             32
++Index: git/bfd/cpu-mips.c
++===================================================================
++--- git.orig/bfd/cpu-mips.c
+++++ git/bfd/cpu-mips.c
++@@ -102,6 +102,7 @@ enum
++   I_mipsocteon,
++   I_mipsocteonp,
++   I_mipsocteon2,
+++  I_mipsocteon3,
++   I_xlr,
++   I_micromips,
++   I_xlp
++@@ -153,6 +154,7 @@ static const bfd_arch_info_type arch_inf
++   N (64, 64, bfd_mach_mips_octeon,"mips:octeon",  FALSE, NN(I_mipsocteon)),
++   N (64, 64, bfd_mach_mips_octeonp,"mips:octeon+",  FALSE, NN(I_mipsocteonp)),
++   N (64, 64, bfd_mach_mips_octeon2,"mips:octeon2",  FALSE, NN(I_mipsocteon2)),
+++  N (64, 64, bfd_mach_mips_octeon3,"mips:octeon3",  FALSE, NN(I_mipsocteon3)),
++   N (64, 64, bfd_mach_mips_xlr, "mips:xlr",       FALSE, NN(I_xlr)),
++   N (64, 64, bfd_mach_mips_micromips,"mips:micromips",FALSE,NN(I_micromips)),
++   N (64, 64, bfd_mach_mips_xlp, "mips:xlp",      FALSE, 0)
++Index: git/bfd/elfxx-mips.c
++===================================================================
++--- git.orig/bfd/elfxx-mips.c
+++++ git/bfd/elfxx-mips.c
++@@ -6604,6 +6604,9 @@ _bfd_elf_mips_mach (flagword flags)
++     case E_MIPS_MACH_LS3A:
++       return bfd_mach_mips_loongson_3a;
++ 
+++    case E_MIPS_MACH_OCTEON3:
+++      return bfd_mach_mips_octeon3;
+++
++     case E_MIPS_MACH_OCTEON2:
++       return bfd_mach_mips_octeon2;
++ 
++@@ -11878,6 +11881,10 @@ mips_set_isa_flags (bfd *abfd)
++       val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_OCTEON;
++       break;
++ 
+++    case bfd_mach_mips_octeon3:
+++      val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_OCTEON3;
+++      break;
+++
++     case bfd_mach_mips_xlr:
++       val = E_MIPS_ARCH_64 | E_MIPS_MACH_XLR;
++       break;
++@@ -14773,6 +14780,7 @@ struct mips_mach_extension
++ static const struct mips_mach_extension mips_mach_extensions[] =
++ {
++   /* MIPS64r2 extensions.  */
+++  { bfd_mach_mips_octeon3, bfd_mach_mips_octeon2 },
++   { bfd_mach_mips_octeon2, bfd_mach_mips_octeonp },
++   { bfd_mach_mips_octeonp, bfd_mach_mips_octeon },
++   { bfd_mach_mips_octeon, bfd_mach_mipsisa64r2 },
++Index: git/gas/config/tc-mips.c
++===================================================================
++--- git.orig/gas/config/tc-mips.c
+++++ git/gas/config/tc-mips.c
++@@ -306,7 +306,7 @@ static unsigned int file_ase_explicit;
++ unsigned long mips_gprmask;
++ unsigned long mips_cprmask[4];
++ 
++-/* True if any MIPS16 code was produced.  */
+++/* 2True if any MIPS16 code was produced.  */
++ static int file_ase_mips16;
++ 
++ #define ISA_SUPPORTS_MIPS16E (mips_opts.isa == ISA_MIPS32		\
++@@ -510,7 +510,8 @@ static int mips_32bitmode = 0;
++ #define CPU_HAS_ROR(CPU)	CPU_HAS_DROR (CPU)
++ 
++ /* True if CPU is in the Octeon family */
++-#define CPU_IS_OCTEON(CPU) ((CPU) == CPU_OCTEON || (CPU) == CPU_OCTEONP || (CPU) == CPU_OCTEON2)
+++#define CPU_IS_OCTEON(CPU) ((CPU) == CPU_OCTEON || (CPU) == CPU_OCTEONP \
+++                           || (CPU) == CPU_OCTEON2 || (CPU) == CPU_OCTEON3)
++ 
++ /* True if CPU has seq/sne and seqi/snei instructions.  */
++ #define CPU_HAS_SEQ(CPU)	(CPU_IS_OCTEON (CPU))
++@@ -18677,6 +18678,7 @@ static const struct mips_cpu_info mips_c
++   { "octeon",	      0, 0,			ISA_MIPS64R2, CPU_OCTEON },
++   { "octeon+",	      0, 0,			ISA_MIPS64R2, CPU_OCTEONP },
++   { "octeon2",	      0, 0,			ISA_MIPS64R2, CPU_OCTEON2 },
+++  { "octeon3",        0, ASE_VIRT | ASE_VIRT64, ISA_MIPS64R2, CPU_OCTEON3 },
++ 
++   /* RMI Xlr */
++   { "xlr",	      0, 0,			ISA_MIPS64,   CPU_XLR },
++Index: git/gas/doc/c-mips.texi
++===================================================================
++--- git.orig/gas/doc/c-mips.texi
+++++ git/gas/doc/c-mips.texi
++@@ -382,6 +382,7 @@ loongson3a,
++ octeon,
++ octeon+,
++ octeon2,
+++octeon3,
++ xlr,
++ xlp
++ @end quotation
++Index: git/gas/testsuite/gas/mips/mips.exp
++===================================================================
++--- git.orig/gas/testsuite/gas/mips/mips.exp
+++++ git/gas/testsuite/gas/mips/mips.exp
++@@ -1102,6 +1102,7 @@ if { [istarget mips*-*-vxworks*] } {
++     run_list_test_arches "octeon-ill"	[mips_arch_list_matching octeon]
++     run_dump_test_arches "octeon-pref"	[mips_arch_list_matching octeon]
++     run_dump_test_arches "octeon2"	[mips_arch_list_matching octeon2]
+++    run_dump_test_arches "octeon3"	[mips_arch_list_matching octeon3]
++ 
++     run_dump_test "smartmips"
++     run_dump_test_arches "mips32-dsp"	[mips_arch_list_matching mips32r2 \
++Index: git/gas/testsuite/gas/mips/octeon3.d
++===================================================================
++--- /dev/null
+++++ git/gas/testsuite/gas/mips/octeon3.d
++@@ -0,0 +1,20 @@
+++#objdump: -d -r --show-raw-insn
+++#name: MIPS octeon3 instructions
+++
+++.*: +file format .*mips.*
+++
+++Disassembly of section .text:
+++
+++[0-9a-f]+ <foo>:
+++.*:    71ec0008        mtm0    t3,t0
+++.*:    71a40008        mtm0    t1,a0
+++.*:    7083000c        mtm1    a0,v1
+++.*:    70e1000c        mtm1    a3,at
+++.*:    7022000d        mtm2    at,v0
+++.*:    7083000c        mtm1    a0,v1
+++.*:    70a20009        mtp0    a1,v0
+++.*:    70c40009        mtp0    a2,a0
+++.*:    7083000a        mtp1    a0,v1
+++.*:    70e1000a        mtp1    a3,at
+++.*:    7022000b        mtp2    at,v0
+++.*:    7083000a        mtp1    a0,v1
++Index: git/gas/testsuite/gas/mips/octeon3.s
++===================================================================
++--- /dev/null
+++++ git/gas/testsuite/gas/mips/octeon3.s
++@@ -0,0 +1,22 @@
++++       .text
+++       .set noreorder
+++       .set noat
+++
+++foo:
+++        mtm0 $15,$12
+++        mtm0 $13,$4
+++
+++        mtm1 $4,$3
+++        mtm1 $7,$1
+++
+++        mtm2 $1,$2
+++        mtm1 $4,$3
+++
+++        mtp0 $5,$2
+++        mtp0 $6,$4
+++
+++        mtp1 $4,$3
+++        mtp1 $7,$1
+++
+++        mtp2 $1,$2
+++        mtp1 $4,$3
++Index: git/include/opcode/mips.h
++===================================================================
++--- git.orig/include/opcode/mips.h
+++++ git/include/opcode/mips.h
++@@ -1196,6 +1196,7 @@ static const unsigned int mips_isa_table
++ #define INSN_OCTEON		  0x00000800
++ #define INSN_OCTEONP		  0x00000200
++ #define INSN_OCTEON2		  0x00000100
+++#define INSN_OCTEON3		  0x00000040
++ 
++ /* MIPS R5900 instruction */
++ #define INSN_5900                 0x00004000
++@@ -1325,6 +1326,7 @@ static const unsigned int mips_isa_table
++ #define CPU_OCTEON	6501
++ #define CPU_OCTEONP	6601
++ #define CPU_OCTEON2	6502
+++#define CPU_OCTEON3	6503
++ #define CPU_XLR     	887682   	/* decimal 'XLR'   */
++ #define CPU_XLP         887680      /* decimal 'XLP'   */
++ 
++@@ -1391,6 +1393,9 @@ cpu_is_member (int cpu, unsigned int mas
++     case CPU_OCTEON2:
++       return (mask & INSN_OCTEON2) != 0;
++ 
+++    case CPU_OCTEON3:
+++      return (mask & INSN_OCTEON3) != 0;
+++
++     case CPU_XLR:
++       return (mask & INSN_XLR) != 0;
++ 
++Index: git/opcodes/mips-dis.c
++===================================================================
++--- git.orig/opcodes/mips-dis.c
+++++ git/opcodes/mips-dis.c
++@@ -649,6 +649,11 @@ const struct mips_arch_choice mips_arch_
++     ISA_MIPS64R2 | INSN_OCTEON2, 0, mips_cp0_names_numeric,
++     NULL, 0, mips_cp1_names_mips3264, mips_hwr_names_numeric },
++ 
+++  { "octeon3",   1, bfd_mach_mips_octeon3, CPU_OCTEON3,
+++    ISA_MIPS64R2 | INSN_OCTEON3, ASE_VIRT | ASE_VIRT64,
+++    mips_cp0_names_numeric,
+++    NULL, 0, mips_hwr_names_numeric },
+++
++   { "xlr", 1, bfd_mach_mips_xlr, CPU_XLR,
++     ISA_MIPS64 | INSN_XLR, 0,
++     mips_cp0_names_xlr,
++Index: git/opcodes/mips-opc.c
++===================================================================
++--- git.orig/opcodes/mips-opc.c
+++++ git/opcodes/mips-opc.c
++@@ -316,9 +316,10 @@ decode_mips_operand (const char *p)
++ #define N5	(INSN_5400 | INSN_5500)
++ #define N54	INSN_5400
++ #define N55	INSN_5500
++-#define IOCT	(INSN_OCTEON | INSN_OCTEONP | INSN_OCTEON2)
++-#define IOCTP	(INSN_OCTEONP | INSN_OCTEON2)
++-#define IOCT2	INSN_OCTEON2
+++#define IOCT	(INSN_OCTEON | INSN_OCTEONP | INSN_OCTEON2 | INSN_OCTEON3)
+++#define IOCTP	(INSN_OCTEONP | INSN_OCTEON2 | INSN_OCTEON3)
+++#define IOCT2	(INSN_OCTEON2 | INSN_OCTEON3)
+++#define IOCT3  INSN_OCTEON3
++ #define XLR	INSN_XLR
++ #define XLP	INSN_XLP
++ #define IVIRT	ASE_VIRT
++@@ -1505,11 +1506,17 @@ const struct mips_opcode mips_builtin_op
++ {"mtlhx",		"s",		0x00000053, 0xfc1fffff,	RD_1|MOD_HILO,		0,		0,		SMT,	0 },
++ {"mtcr",		"t,s",		0x70000019, 0xfc00ffff, RD_1,			0,		XLR|XLP,	0,	0 },
++ {"mtm0",		"s",		0x70000008, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
+++{"mtm0",                "s,t",          0x70000008, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
++ {"mtm1",		"s",		0x7000000c, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
+++{"mtm1",                "s,t",          0x7000000c, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
++ {"mtm2",		"s",		0x7000000d, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
+++{"mtm2",                "s,t",          0x7000000d, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
++ {"mtp0",		"s",		0x70000009, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
+++{"mtp0",                "s,t",          0x70000009, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
++ {"mtp1",		"s",		0x7000000a, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
+++{"mtp1",                "s,t",          0x7000000a, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
++ {"mtp2",		"s",		0x7000000b, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
+++{"mtp2",                "s,t",          0x7000000b, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
++ {"mtsa",		"s",		0x00000029, 0xfc1fffff,	RD_1,			0,		EE,		0,	0 },
++ {"mtsab",		"s,j",		0x04180000, 0xfc1f0000,	RD_1,			0,		EE,		0,	0 },
++ {"mtsah",		"s,j",		0x04190000, 0xfc1f0000,	RD_1,			0,		EE,		0,	0 },
 -- 
-2.5.0
+2.3.5
 
 
