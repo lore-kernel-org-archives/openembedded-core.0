@@ -1,42 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id B0B2965D00
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E671606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 08:47:20 +0000 (UTC)
-Received: by pabyb7 with SMTP id yb7so86988034pab.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 01:47:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=eCcc4sN4mVKT5f0QfaLSH4sEM8mUc/vp8MHvYqNF940=;
-	b=b1jBkK1qHzwwGmom42/P59m5vFPCioaze3w8b2ElrXVB8Cj55FDX8XRKt/HgdjvzIK
-	p/ti+tIp4YblpLPGgsBRS48cSFYX/zDNWvW4My5R5qEP3PTySRQJfO3jQtYDkl09eOU6
-	RnxF8X8yn+ILrRl2b+522VvBrXg6kuvbU/hLEvkv1avN3BSIA0mUIRhtTKLzJQq68hDr
-	hMEzoJoiUm3eTgWufmcC7akkBcX+4xSdIpS2LwOsWDAEHOHcAntVEJAXyh8c9Wr/3Q0R
-	xo/+lpojESihUsEcuSk4hPSqtREONiRMbGl5359Cx8xuE6VrDUBJA+Y6jmZpspF5iNL6
-	IdVw==
-X-Received: by 10.66.162.229 with SMTP id yd5mr38877224pab.102.1439714841220; 
-	Sun, 16 Aug 2015 01:47:21 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:f5b7:823c:7f00:1ba7?
-	([2601:646:8601:4580:f5b7:823c:7f00:1ba7])
-	by smtp.gmail.com with ESMTPSA id
-	hz5sm10818530pbb.39.2015.08.16.01.47.19
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 16 Aug 2015 01:47:20 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1434575003.14710.38.camel@linuxfoundation.org>
-Date: Sun, 16 Aug 2015 01:47:12 -0700
-Message-Id: <DFCBD870-BD56-4C96-B1AA-676DCD2F6544@gmail.com>
-References: <1434546648.14710.25.camel@linuxfoundation.org>
-	<1434575003.14710.38.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python: Add performance patches from upstream 2.7 branch
+	Sun, 16 Aug 2015 13:10:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7GDAmTu021095; Sun, 16 Aug 2015 14:10:48 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id HYtiMY5nvXEh; Sun, 16 Aug 2015 14:10:48 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7GDAWnU021086
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 16 Aug 2015 14:10:43 +0100
+Message-ID: <1439730631.1218.25.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Sun, 16 Aug 2015 14:10:31 +0100
+In-Reply-To: <993511190b981cc8f6dfbffca61b5d8c56a891a4.1439548737.git.alexander.kanavin@linux.intel.com>
+References: <cover.1439548737.git.alexander.kanavin@linux.intel.com>
+	<993511190b981cc8f6dfbffca61b5d8c56a891a4.1439548737.git.alexander.kanavin@linux.intel.com>
+X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 5/5] rpm: update to 5.4.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,78 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Aug 2015 08:47:25 -0000
-X-Groupsio-MsgNum: 69484
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_DDE4692B-F32C-4EFA-BE7A-C6EAEFE02EE7";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_DDE4692B-F32C-4EFA-BE7A-C6EAEFE02EE7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-> On Jun 17, 2015, at 2:03 PM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> On Wed, 2015-06-17 at 14:10 +0100, Richard Purdie wrote:
->> These performance patches result in about a 25% speed up of our =
-parsing
->> speed with bitbake. They're already applied in 1.7 upstream and =
-backported
->> from 3.X so worth applying for 2.7 too.
->=20
-> Sadly, this was too good to be true. I'd messed up the test =
-environment
-> and the 25% is Ubuntu's python verses the one from OE. Ubuntu's uses =
-PGO
-> whereas ours does not which is likely where the speed comes from. The
-> patches in this series do give a small speedup, but its more like
-> 0.5-1%. Shows that PGO is likely worth investigating further though.
->=20
-
-25% is too good to ignore. Have you opened a tracker for this ?
-and python has needed workload for generating profile data pybench and =
-pydes benchmarks are there
-in source tree.
-
-we need to compile twice.
-
-compile with -fprofile-generate
-run make run_profile_task
-compile with -fprofile-use -fprofile-correction
-
-So it should be straight forwards to try it out, do you still have the =
-environment ?
-
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_DDE4692B-F32C-4EFA-BE7A-C6EAEFE02EE7
+X-List-Received-Date: Sun, 16 Aug 2015 13:10:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+On Fri, 2015-08-14 at 13:43 +0300, Alexander Kanavin wrote:
+> This update also requires that db is updated to 6.1 version.
+> 
+> Patch updates:
+> 
+> - verify-fix-broken-logic-for-ghost-avoidance-Mark-Hat.patch has been merged to upstream
+> 
+> - rpm-macros.in-disable-external-key-server.patch, rpm-lua-fix-print.patch and
+> rpm-db5-or-db6.patch have been ported to the new upstream release. A better explanation
+> for when db5 is preferred has been provided.
+> 
+> - rpm-payload-use-hashed-inode.patch - a portion of this patch is now in upstream, so
+> that portion has been removed from the patch
+> 
+> - rpm-db5-or-db6.patch has been dropped from the latest-cvs recipe. That recipe
+> is intended for tracking upstream developments, and for that use case it shouldn't
+> matter that db6 is under AGPLv3.
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 
-iEYEARECAAYFAlXQThcACgkQuwUzVZGdMxS89ACggL3KX+ry+VRGmX1BNa3LxQTY
-XCYAniCBhyYZqUgNozAYWtkGacK1Xuen
-=lPK+
------END PGP SIGNATURE-----
+Not sure what this was tested with but a simple "bitbake
+core-image-minimal" breaks after this (and the db) change with licensing
+failures.
 
---Apple-Mail=_DDE4692B-F32C-4EFA-BE7A-C6EAEFE02EE7--
+The autobuilder exploded with failures like:
+
+https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/430/steps/BuildImages_1/logs/stdio
+
+which are due to the installed manifest file listing installed packages
+being empty.
+
+Cheers,
+
+Richard
+
+
+
+
