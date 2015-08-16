@@ -1,41 +1,41 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 21BD973E11
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 63C5565D00
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 07:19:40 +0000 (UTC)
-Received: by pdbmi9 with SMTP id mi9so4128744pdb.3
+	Sun, 16 Aug 2015 08:02:24 +0000 (UTC)
+Received: by paccq16 with SMTP id cq16so43200215pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 00:19:41 -0700 (PDT)
+	Sun, 16 Aug 2015 01:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=WR14orle1F9PLrdEDPds6MacSL3+zwtExDW67B8fnxM=;
-	b=tnVtpwPRMUlA3rkMPdwxaJGPhUNqQ/c2HblBf6b7unKdZj4LxNQElUYl7nBW64jt96
-	CcqqUiDDDs/uXpvBQewfwgtXJ4g7uxAUbK+FcoCRDLIUTfrRTv0o8CuI19jdhDK4upEG
-	H/QfTbYVzqB57Mk3CxtaG5eOtYzzH5cDzmxqtStEXSlDI8pN3mSmKRbRvRX39EFkTUPy
-	0YFop982Xwe0crygmOm+AzoPIk0PauaymBpCVozu6//+ktdQGDgakxUyxzxh7CbkrBjO
-	rnMM2fSjAhOiYx12Cmo2l+ier4FkcfutHP5xrdyZChAjSwqiOWpdOSo6chJL4v3A0tTy
-	emrA==
-X-Received: by 10.70.65.99 with SMTP id w3mr106051070pds.132.1439709581014;
-	Sun, 16 Aug 2015 00:19:41 -0700 (PDT)
+	bh=aXd42nhh9LDuPHc7M8zukNpiNNacdbyz8C0p3Fl8ESI=;
+	b=vO4qwnAMZ2edQFjbCHHjfMJG0bb6UqzFfR44trh2xX5pjCD19JxQSLlJAj74uubds6
+	RaAWPUhQRx9ajaPFlKE44p1oVu5Iyh3QmNq7Ac7hJPnVRzvTN0+qWSfXAR1vzLM0/dsC
+	kzMq3lHQ+rYHYPhVRJ6ygkyoHBZrLx3sEIJWXR6Qja2rYbdILZ5VLB+I4gBeHw+JSJ9U
+	xade334ZxcmK1/O+ELpTjME6DqCccl9L1clDMtC2pc+vABK6bYsWWAwpQebaq56nFRtZ
+	N6lw7p1vMzZlcezRBCEvNUxTl7WrT6dK4yQpV/PEzve0c2jzkRiLetAAqUsGaXc2/mkL
+	sH2Q==
+X-Received: by 10.68.220.199 with SMTP id py7mr46796058pbc.150.1439712145406; 
+	Sun, 16 Aug 2015 01:02:25 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:f5b7:823c:7f00:1ba7?
 	([2601:646:8601:4580:f5b7:823c:7f00:1ba7])
 	by smtp.gmail.com with ESMTPSA id
-	tt8sm10616146pbc.49.2015.08.16.00.19.39
+	fs13sm10759367pdb.29.2015.08.16.01.02.24
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 16 Aug 2015 00:19:40 -0700 (PDT)
+	Sun, 16 Aug 2015 01:02:24 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1435282205-21586-1-git-send-email-rongqing.li@windriver.com>
-Date: Sun, 16 Aug 2015 00:19:35 -0700
-Message-Id: <4340E4E3-8643-492E-BE12-84592E1007CD@gmail.com>
-References: <1435282205-21586-1-git-send-email-rongqing.li@windriver.com>
-To: rongqing.li@windriver.com
+In-Reply-To: <1435087374-18117-1-git-send-email-sgw@linux.intel.com>
+Date: Sun, 16 Aug 2015 01:02:15 -0700
+Message-Id: <67E13D0D-86BE-4DCC-8429-1E1559DA2288@gmail.com>
+References: <1435087374-18117-1-git-send-email-sgw@linux.intel.com>
+To: Saul Wold <sgw@linux.intel.com>
 X-Mailer: Apple Mail (2.2104)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][v5] mmc-utils: fix the building failure when DEBUG_BUILD is 1
+Subject: Re: [PATCH][master&fido] image.bbclass: Disable USE_DEPMOD for the dummy kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,56 +48,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Aug 2015 07:19:42 -0000
-X-Groupsio-MsgNum: 69482
+X-List-Received-Date: Sun, 16 Aug 2015 08:02:31 -0000
+X-Groupsio-MsgNum: 69483
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_45EB6B5A-D65D-4B1C-BA44-B9E35400BD3E";
+	boundary="Apple-Mail=_CCE110D7-4FF6-4CFC-8252-F4716E79D0CA";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_45EB6B5A-D65D-4B1C-BA44-B9E35400BD3E
+--Apple-Mail=_CCE110D7-4FF6-4CFC-8252-F4716E79D0CA
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=utf-8
 
 
-> On Jun 25, 2015, at 6:30 PM, rongqing.li@windriver.com wrote:
+> On Jun 23, 2015, at 12:22 PM, Saul Wold <sgw@linux.intel.com> wrote:
 >=20
-> From: Roy Li <rongqing.li@windriver.com>
+> The image bbclass will try to find the kernel-abiversion file which is =
+not part
+> of the linux-dummy kernel since there is no actual kernel. In this =
+case using
+> depmod also does not make sense since there should not be any kernel =
+module built.
 >=20
-> Remove -Werror, since it is suitable to develop only; otherwise when
-> gcc adds -O0 option to compile codes, the error will be generated
-> since the warning:
->  //#  warning _FORTIFY_SOURCE requires compiling with optimization =
-(-O)
+> [YOCTO #7884]
 >=20
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
 > ---
-> meta/recipes-devtools/mmc/mmc-utils_git.bb | 4 ++++
-> 1 file changed, 4 insertions(+)
+> meta/classes/image.bbclass | 2 +-
+> 1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb =
-b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-> index bdb4fed..8950360 100644
-> --- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-> +++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-> @@ -13,6 +13,10 @@ SRC_URI =3D =
-"git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branc
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index 01f8b3f..be245e9 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -66,7 +66,7 @@ PACKAGE_INSTALL_ATTEMPTONLY ?=3D =
+"${FEATURE_INSTALL_OPTIONAL}"
+> EXCLUDE_FROM_WORLD =3D "1"
 >=20
-> S =3D "${WORKDIR}/git"
+> USE_DEVFS ?=3D "1"
+> -USE_DEPMOD ?=3D "1"
+> +USE_DEPMOD ?=3D =
+'${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", =
+"linux-dummy", "0", "1", d)}=E2=80=99
 >=20
-> +do_configure_prepend() {
-> +    sed -i "s:-Werror::g" ${S}/Makefile
-> +}
-> +
 
-this should be only down when DEBUG_BUILD is set not unconditionally =
-like this.
+this is an abstraction, it should work on more general metadata then =
+just OE-Core,
+using hardcoded recipe names doesn't sound right here. Richard=E2=80=99s =
+suggestion on
+finding the .ko=E2=80=99s is generic, which should be the better and =
+generic solution.
 
-> do_install() {
->     install -d ${D}${bindir}
->     install -m 0755 mmc ${D}${bindir}
+
+> PID =3D "${@os.getpid()}"
+>=20
 > --
-> 1.9.1
+> 2.1.0
 >=20
 > --
 > _______________________________________________
@@ -106,7 +111,7 @@ like this.
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_45EB6B5A-D65D-4B1C-BA44-B9E35400BD3E
+--Apple-Mail=_CCE110D7-4FF6-4CFC-8252-F4716E79D0CA
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -117,9 +122,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXQOYsACgkQuwUzVZGdMxQhXACeN3xJbWhNkK2rBnABLyODskey
-Lb8AnRt0EVYEJww/wxksaeAVQW9V9h8I
-=w+2D
+iEYEARECAAYFAlXQQ48ACgkQuwUzVZGdMxTnSQCfc22QdnWQ05+a57GxW6ZBqpZ8
+FcsAn1KeYTDxhvpjLwt18TCvXrM6Vp+F
+=PHiu
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_45EB6B5A-D65D-4B1C-BA44-B9E35400BD3E--
+--Apple-Mail=_CCE110D7-4FF6-4CFC-8252-F4716E79D0CA--
