@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E671606E8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
+	[209.85.192.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 90819606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 13:10:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7GDAmTu021095; Sun, 16 Aug 2015 14:10:48 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id HYtiMY5nvXEh; Sun, 16 Aug 2015 14:10:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7GDAWnU021086
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 16 Aug 2015 14:10:43 +0100
-Message-ID: <1439730631.1218.25.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Sun, 16 Aug 2015 14:10:31 +0100
-In-Reply-To: <993511190b981cc8f6dfbffca61b5d8c56a891a4.1439548737.git.alexander.kanavin@linux.intel.com>
-References: <cover.1439548737.git.alexander.kanavin@linux.intel.com>
-	<993511190b981cc8f6dfbffca61b5d8c56a891a4.1439548737.git.alexander.kanavin@linux.intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 5/5] rpm: update to 5.4.15
+	Sun, 16 Aug 2015 18:20:57 +0000 (UTC)
+Received: by pdbfa8 with SMTP id fa8so47557474pdb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Aug 2015 11:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=eRC6VoMF2r4+V6DY+AUh5sdBFtDHxrj7Fmx10vpXE+c=;
+	b=zoDCbNEiSG8KXxKRcXJC8Z3Mn3bmfnGC7yChsv4LdlLby7f1BBqi0n8lEIedgBd9LP
+	gonCb0KPWak1Znp+Ul7n/bneqi9nMbAqz5IGWkm8W7QiIaKcBW/vgqW8PfBi4uI7VTTN
+	1XopQRq41q2xWCIrZoSu2cOfPcQBd7HB7Zc1Z/m7ui4zvphy2QBpn6LMZ001d/ISRj7B
+	RiXISqbzRFDnOqcoeqTvCxseChLO/H6ESClcDv48e/FjqQcOocD7B3fGWXQbp6xBrp+n
+	rE2ecXgqZYWebcOhpwMDBn/cdO7TmvyPS9aywsRmjCUyxn6+GyyaEW0w55g4R7H642f6
+	FgAw==
+X-Received: by 10.70.108.198 with SMTP id hm6mr111044315pdb.12.1439749257633; 
+	Sun, 16 Aug 2015 11:20:57 -0700 (PDT)
+Received: from haswell.localdomain ([2601:646:8601:4580:baca:3aff:fe80:aa8f])
+	by smtp.gmail.com with ESMTPSA id
+	s13sm12053365pdi.70.2015.08.16.11.20.57
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 16 Aug 2015 11:20:57 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 16 Aug 2015 11:30:02 -0700
+Message-Id: <1439749803-26868-2-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1439749803-26868-1-git-send-email-raj.khem@gmail.com>
+References: <1439749803-26868-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/3] libunistring: Upgrade recipe 0.9.4 -> 0.9.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,45 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Aug 2015 13:10:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 16 Aug 2015 18:21:00 -0000
 
-On Fri, 2015-08-14 at 13:43 +0300, Alexander Kanavin wrote:
-> This update also requires that db is updated to 6.1 version.
-> 
-> Patch updates:
-> 
-> - verify-fix-broken-logic-for-ghost-avoidance-Mark-Hat.patch has been merged to upstream
-> 
-> - rpm-macros.in-disable-external-key-server.patch, rpm-lua-fix-print.patch and
-> rpm-db5-or-db6.patch have been ported to the new upstream release. A better explanation
-> for when db5 is preferred has been provided.
-> 
-> - rpm-payload-use-hashed-inode.patch - a portion of this patch is now in upstream, so
-> that portion has been removed from the patch
-> 
-> - rpm-db5-or-db6.patch has been dropped from the latest-cvs recipe. That recipe
-> is intended for tracking upstream developments, and for that use case it shouldn't
-> matter that db6 is under AGPLv3.
-> 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../{libunistring_0.9.4.bb => libunistring_0.9.5.bb}             | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-support/libunistring/{libunistring_0.9.4.bb => libunistring_0.9.5.bb} (87%)
 
-Not sure what this was tested with but a simple "bitbake
-core-image-minimal" breaks after this (and the db) change with licensing
-failures.
-
-The autobuilder exploded with failures like:
-
-https://autobuilder.yoctoproject.org/main/builders/build-appliance/builds/430/steps/BuildImages_1/logs/stdio
-
-which are due to the installed manifest file listing installed packages
-being empty.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-support/libunistring/libunistring_0.9.4.bb b/meta/recipes-support/libunistring/libunistring_0.9.5.bb
+similarity index 87%
+rename from meta/recipes-support/libunistring/libunistring_0.9.4.bb
+rename to meta/recipes-support/libunistring/libunistring_0.9.5.bb
+index 289c813..45cf633 100644
+--- a/meta/recipes-support/libunistring/libunistring_0.9.4.bb
++++ b/meta/recipes-support/libunistring/libunistring_0.9.5.bb
+@@ -13,17 +13,16 @@ DESCRIPTION = "Text files are nowadays usually encoded in Unicode, and may\
+ 
+ HOMEPAGE = "http://www.gnu.org/software/libunistring/"
+ SECTION = "devel"
+-LICENSE = "GPLv3&LGPLv3"
++LICENSE = "GPLv3 & LGPLv3"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6" 
++                    file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
+ 
+ SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
+            file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+ "
+-
+-SRC_URI[md5sum] = "c24a6a3838d9ad4a41a62549312c4226"
+-SRC_URI[sha256sum] = "f5246d63286a42902dc096d6d44541fbe4204b6c02d6d5d28b457c9882ddd8a6"
++SRC_URI[md5sum] = "1a705bcdcb83799d544137617b377cfd"
++SRC_URI[sha256sum] = "1a8c0772467850bef7197318a95f44abbb678ea83cbf119a3500cc7848276a17"
+ 
+ inherit autotools texinfo
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.5.0
 
 
