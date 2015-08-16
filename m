@@ -1,35 +1,37 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pd0-f172.google.com (mail-pd0-f172.google.com
-	[209.85.192.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2737165D00
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E05E767B4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 21:49:48 +0000 (UTC)
-Received: by pdrg1 with SMTP id g1so48582268pdr.2
+	Sun, 16 Aug 2015 21:49:50 +0000 (UTC)
+Received: by pdbmi9 with SMTP id mi9so7974078pdb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 14:49:49 -0700 (PDT)
+	Sun, 16 Aug 2015 14:49:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=XFaXlNN5nXsvmDsTgql3gU1dcnx1f0IvFHDk6jEuYNg=;
-	b=L7IUo39qyMcTq7v88zxXFlEuw9LsJTOWKhB8VDcL1xfxksFZTb4lPX/WqFijRlj3/Q
-	peCJr1SFFJwgpQVq2fFYlwPGBof9IIonEFh2mMrU2+RLl8TrWWEjZ8tXaIGJZs3WZbh5
-	c7D84hVNnn4u5zSNgfb9AvbGQY0IKl5djzFpJlswh+ncIA8bKjNI16VtnZ6iKl1ukQEi
-	ni2VWfcQfpsA+uzrkGv7x+q326mZdSvNuAsaPveosOlW5G9sNExVHTNTRFKQQEsuxlLj
-	yDMf+1WwEhiyiaYAznoQQmwDNQSqb017rcXXP/j6UZG07pK3V4gJnMKX4gNJEEBXt3/8
-	S2kQ==
-X-Received: by 10.70.108.198 with SMTP id hm6mr112189097pdb.12.1439761789119; 
-	Sun, 16 Aug 2015 14:49:49 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=yqaASsLFZ2jmFypYtCE3ZnQw3pqQjLTUqBjM3B8DWIo=;
+	b=odyFKTaZZ4TQLbNoHAW7QCC4cGY72V6ig/LIWiwuFe+css75NLyAgS8hc0IlS/klap
+	A8lGoP6MlOyqsvBeZh3K82E2/BXBV/fqmybHFZ80FHpBZrZen1kvQOnhT38Mlfm710ts
+	GgWQGSuRZ8wkShhPpG213WlV0BXNtuC3N/ZjoGnms+oCSwpGV4IqN/PQof59HJg6YSZ7
+	Y/k7MIrpKReZjX44Oaj94BG+okAx9OfpabWraPVGpRr9wHd82qj0RFq/F2wEtSg4G/4W
+	eUDAO8gWt0FDP4Xi425EI+Jv4wUwpGvsQFXnGz/UlUWVwUDryI4y3YJTD6bqK5QCnGoc
+	9Qgw==
+X-Received: by 10.70.53.101 with SMTP id a5mr35790013pdp.49.1439761790427;
+	Sun, 16 Aug 2015 14:49:50 -0700 (PDT)
 Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
 	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	dw2sm3293132pab.18.2015.08.16.14.49.47
+	dw2sm3293132pab.18.2015.08.16.14.49.49
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 16 Aug 2015 14:49:47 -0700 (PDT)
+	Sun, 16 Aug 2015 14:49:49 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Aug 2015 14:49:41 -0700
-Message-Id: <1439761782-15310-1-git-send-email-akuster808@gmail.com>
+Date: Sun, 16 Aug 2015 14:49:42 -0700
+Message-Id: <1439761782-15310-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.3.5
+In-Reply-To: <1439761782-15310-1-git-send-email-akuster808@gmail.com>
+References: <1439761782-15310-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH 1/2] Binutils: Add Octeon3
+Subject: [PATCH 2/2] tune-octeon: add tune file for Octeon
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,309 +44,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Aug 2015 21:49:49 -0000
+X-List-Received-Date: Sun, 16 Aug 2015 21:49:50 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-This add octeon3 support to binutils.
+this add Mips Octeon tune features.
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-devtools/binutils/binutils-2.25.1.inc |   1 +
- .../binutils/binutils/binutils-octeon3.patch       | 272 +++++++++++++++++++++
- 2 files changed, 273 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch
+ meta/conf/machine/include/tune-octeon.inc | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-octeon.inc
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.25.1.inc b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-index 15ef36c..ef85fd4 100644
---- a/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.25.1.inc
-@@ -32,6 +32,7 @@ SRC_URI = "\
-      file://0012-Add-XLP-instructions-support.patch \
-      file://0013-Fix-an-internal-error-in-do_print_to_mapfile-seen-wi.patch \
-      file://0014-gold-arm-Skip-pic-check-for-R_ARM_REL32.patch \
-+     file://binutils-octeon3.patch \
-      "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch b/meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch
+diff --git a/meta/conf/machine/include/tune-octeon.inc b/meta/conf/machine/include/tune-octeon.inc
 new file mode 100644
-index 0000000..e5beaae
+index 0000000..f80f970
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/binutils-octeon3.patch
-@@ -0,0 +1,272 @@
-+Upstream Status: Backport
++++ b/meta/conf/machine/include/tune-octeon.inc
+@@ -0,0 +1,27 @@
++DEFAULTTUNE ?="octeon2"
 +
-+https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;a=commit;h=2c62985659da21a3fe16062d211a7158f79ad2e9
++require conf/machine/include/tune-mips64.inc
 +
-+Signed-off-By: Armin Kuster <akuster@mvista.com>
++AVAILTUNES += "octeon2 octeon2_64 octeon3 octeon3_64"
 +
-+Index: git/bfd/archures.c
-+===================================================================
-+--- git.orig/bfd/archures.c
-++++ git/bfd/archures.c
-+@@ -179,6 +179,7 @@ DESCRIPTION
-+ .#define bfd_mach_mips_octeon		6501
-+ .#define bfd_mach_mips_octeonp		6601
-+ .#define bfd_mach_mips_octeon2		6502
-++.#define bfd_mach_mips_octeon3		6503
-+ .#define bfd_mach_mips_xlr              887682   {* decimal 'XLR'  *}
-+ .#define bfd_mach_mips_xlp              887680   {* decimal 'XLP'  *}
-+ .#define bfd_mach_mipsisa32             32
-+Index: git/bfd/bfd-in2.h
-+===================================================================
-+--- git.orig/bfd/bfd-in2.h
-++++ git/bfd/bfd-in2.h
-+@@ -1969,6 +1969,7 @@ enum bfd_architecture
-+ #define bfd_mach_mips_octeon           6501
-+ #define bfd_mach_mips_octeonp          6601
-+ #define bfd_mach_mips_octeon2          6502
-++#define bfd_mach_mips_octeon3          6503
-+ #define bfd_mach_mips_xlr              887682   /* decimal 'XLR'  */
-+ #define bfd_mach_mips_xlp              887680   /* decimal 'XLP'  */
-+ #define bfd_mach_mipsisa32             32
-+Index: git/bfd/cpu-mips.c
-+===================================================================
-+--- git.orig/bfd/cpu-mips.c
-++++ git/bfd/cpu-mips.c
-+@@ -102,6 +102,7 @@ enum
-+   I_mipsocteon,
-+   I_mipsocteonp,
-+   I_mipsocteon2,
-++  I_mipsocteon3,
-+   I_xlr,
-+   I_micromips,
-+   I_xlp
-+@@ -153,6 +154,7 @@ static const bfd_arch_info_type arch_inf
-+   N (64, 64, bfd_mach_mips_octeon,"mips:octeon",  FALSE, NN(I_mipsocteon)),
-+   N (64, 64, bfd_mach_mips_octeonp,"mips:octeon+",  FALSE, NN(I_mipsocteonp)),
-+   N (64, 64, bfd_mach_mips_octeon2,"mips:octeon2",  FALSE, NN(I_mipsocteon2)),
-++  N (64, 64, bfd_mach_mips_octeon3,"mips:octeon3",  FALSE, NN(I_mipsocteon3)),
-+   N (64, 64, bfd_mach_mips_xlr, "mips:xlr",       FALSE, NN(I_xlr)),
-+   N (64, 64, bfd_mach_mips_micromips,"mips:micromips",FALSE,NN(I_micromips)),
-+   N (64, 64, bfd_mach_mips_xlp, "mips:xlp",      FALSE, 0)
-+Index: git/bfd/elfxx-mips.c
-+===================================================================
-+--- git.orig/bfd/elfxx-mips.c
-++++ git/bfd/elfxx-mips.c
-+@@ -6604,6 +6604,9 @@ _bfd_elf_mips_mach (flagword flags)
-+     case E_MIPS_MACH_LS3A:
-+       return bfd_mach_mips_loongson_3a;
-+ 
-++    case E_MIPS_MACH_OCTEON3:
-++      return bfd_mach_mips_octeon3;
-++
-+     case E_MIPS_MACH_OCTEON2:
-+       return bfd_mach_mips_octeon2;
-+ 
-+@@ -11878,6 +11881,10 @@ mips_set_isa_flags (bfd *abfd)
-+       val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_OCTEON;
-+       break;
-+ 
-++    case bfd_mach_mips_octeon3:
-++      val = E_MIPS_ARCH_64R2 | E_MIPS_MACH_OCTEON3;
-++      break;
-++
-+     case bfd_mach_mips_xlr:
-+       val = E_MIPS_ARCH_64 | E_MIPS_MACH_XLR;
-+       break;
-+@@ -14773,6 +14780,7 @@ struct mips_mach_extension
-+ static const struct mips_mach_extension mips_mach_extensions[] =
-+ {
-+   /* MIPS64r2 extensions.  */
-++  { bfd_mach_mips_octeon3, bfd_mach_mips_octeon2 },
-+   { bfd_mach_mips_octeon2, bfd_mach_mips_octeonp },
-+   { bfd_mach_mips_octeonp, bfd_mach_mips_octeon },
-+   { bfd_mach_mips_octeon, bfd_mach_mipsisa64r2 },
-+Index: git/gas/config/tc-mips.c
-+===================================================================
-+--- git.orig/gas/config/tc-mips.c
-++++ git/gas/config/tc-mips.c
-+@@ -306,7 +306,7 @@ static unsigned int file_ase_explicit;
-+ unsigned long mips_gprmask;
-+ unsigned long mips_cprmask[4];
-+ 
-+-/* True if any MIPS16 code was produced.  */
-++/* 2True if any MIPS16 code was produced.  */
-+ static int file_ase_mips16;
-+ 
-+ #define ISA_SUPPORTS_MIPS16E (mips_opts.isa == ISA_MIPS32		\
-+@@ -510,7 +510,8 @@ static int mips_32bitmode = 0;
-+ #define CPU_HAS_ROR(CPU)	CPU_HAS_DROR (CPU)
-+ 
-+ /* True if CPU is in the Octeon family */
-+-#define CPU_IS_OCTEON(CPU) ((CPU) == CPU_OCTEON || (CPU) == CPU_OCTEONP || (CPU) == CPU_OCTEON2)
-++#define CPU_IS_OCTEON(CPU) ((CPU) == CPU_OCTEON || (CPU) == CPU_OCTEONP \
-++                           || (CPU) == CPU_OCTEON2 || (CPU) == CPU_OCTEON3)
-+ 
-+ /* True if CPU has seq/sne and seqi/snei instructions.  */
-+ #define CPU_HAS_SEQ(CPU)	(CPU_IS_OCTEON (CPU))
-+@@ -18677,6 +18678,7 @@ static const struct mips_cpu_info mips_c
-+   { "octeon",	      0, 0,			ISA_MIPS64R2, CPU_OCTEON },
-+   { "octeon+",	      0, 0,			ISA_MIPS64R2, CPU_OCTEONP },
-+   { "octeon2",	      0, 0,			ISA_MIPS64R2, CPU_OCTEON2 },
-++  { "octeon3",        0, ASE_VIRT | ASE_VIRT64, ISA_MIPS64R2, CPU_OCTEON3 },
-+ 
-+   /* RMI Xlr */
-+   { "xlr",	      0, 0,			ISA_MIPS64,   CPU_XLR },
-+Index: git/gas/doc/c-mips.texi
-+===================================================================
-+--- git.orig/gas/doc/c-mips.texi
-++++ git/gas/doc/c-mips.texi
-+@@ -382,6 +382,7 @@ loongson3a,
-+ octeon,
-+ octeon+,
-+ octeon2,
-++octeon3,
-+ xlr,
-+ xlp
-+ @end quotation
-+Index: git/gas/testsuite/gas/mips/mips.exp
-+===================================================================
-+--- git.orig/gas/testsuite/gas/mips/mips.exp
-++++ git/gas/testsuite/gas/mips/mips.exp
-+@@ -1102,6 +1102,7 @@ if { [istarget mips*-*-vxworks*] } {
-+     run_list_test_arches "octeon-ill"	[mips_arch_list_matching octeon]
-+     run_dump_test_arches "octeon-pref"	[mips_arch_list_matching octeon]
-+     run_dump_test_arches "octeon2"	[mips_arch_list_matching octeon2]
-++    run_dump_test_arches "octeon3"	[mips_arch_list_matching octeon3]
-+ 
-+     run_dump_test "smartmips"
-+     run_dump_test_arches "mips32-dsp"	[mips_arch_list_matching mips32r2 \
-+Index: git/gas/testsuite/gas/mips/octeon3.d
-+===================================================================
-+--- /dev/null
-++++ git/gas/testsuite/gas/mips/octeon3.d
-+@@ -0,0 +1,20 @@
-++#objdump: -d -r --show-raw-insn
-++#name: MIPS octeon3 instructions
-++
-++.*: +file format .*mips.*
-++
-++Disassembly of section .text:
-++
-++[0-9a-f]+ <foo>:
-++.*:    71ec0008        mtm0    t3,t0
-++.*:    71a40008        mtm0    t1,a0
-++.*:    7083000c        mtm1    a0,v1
-++.*:    70e1000c        mtm1    a3,at
-++.*:    7022000d        mtm2    at,v0
-++.*:    7083000c        mtm1    a0,v1
-++.*:    70a20009        mtp0    a1,v0
-++.*:    70c40009        mtp0    a2,a0
-++.*:    7083000a        mtp1    a0,v1
-++.*:    70e1000a        mtp1    a3,at
-++.*:    7022000b        mtp2    at,v0
-++.*:    7083000a        mtp1    a0,v1
-+Index: git/gas/testsuite/gas/mips/octeon3.s
-+===================================================================
-+--- /dev/null
-++++ git/gas/testsuite/gas/mips/octeon3.s
-+@@ -0,0 +1,22 @@
-+++       .text
-++       .set noreorder
-++       .set noat
-++
-++foo:
-++        mtm0 $15,$12
-++        mtm0 $13,$4
-++
-++        mtm1 $4,$3
-++        mtm1 $7,$1
-++
-++        mtm2 $1,$2
-++        mtm1 $4,$3
-++
-++        mtp0 $5,$2
-++        mtp0 $6,$4
-++
-++        mtp1 $4,$3
-++        mtp1 $7,$1
-++
-++        mtp2 $1,$2
-++        mtp1 $4,$3
-+Index: git/include/opcode/mips.h
-+===================================================================
-+--- git.orig/include/opcode/mips.h
-++++ git/include/opcode/mips.h
-+@@ -1196,6 +1196,7 @@ static const unsigned int mips_isa_table
-+ #define INSN_OCTEON		  0x00000800
-+ #define INSN_OCTEONP		  0x00000200
-+ #define INSN_OCTEON2		  0x00000100
-++#define INSN_OCTEON3		  0x00000040
-+ 
-+ /* MIPS R5900 instruction */
-+ #define INSN_5900                 0x00004000
-+@@ -1325,6 +1326,7 @@ static const unsigned int mips_isa_table
-+ #define CPU_OCTEON	6501
-+ #define CPU_OCTEONP	6601
-+ #define CPU_OCTEON2	6502
-++#define CPU_OCTEON3	6503
-+ #define CPU_XLR     	887682   	/* decimal 'XLR'   */
-+ #define CPU_XLP         887680      /* decimal 'XLP'   */
-+ 
-+@@ -1391,6 +1393,9 @@ cpu_is_member (int cpu, unsigned int mas
-+     case CPU_OCTEON2:
-+       return (mask & INSN_OCTEON2) != 0;
-+ 
-++    case CPU_OCTEON3:
-++      return (mask & INSN_OCTEON3) != 0;
-++
-+     case CPU_XLR:
-+       return (mask & INSN_XLR) != 0;
-+ 
-+Index: git/opcodes/mips-dis.c
-+===================================================================
-+--- git.orig/opcodes/mips-dis.c
-++++ git/opcodes/mips-dis.c
-+@@ -649,6 +649,11 @@ const struct mips_arch_choice mips_arch_
-+     ISA_MIPS64R2 | INSN_OCTEON2, 0, mips_cp0_names_numeric,
-+     NULL, 0, mips_cp1_names_mips3264, mips_hwr_names_numeric },
-+ 
-++  { "octeon3",   1, bfd_mach_mips_octeon3, CPU_OCTEON3,
-++    ISA_MIPS64R2 | INSN_OCTEON3, ASE_VIRT | ASE_VIRT64,
-++    mips_cp0_names_numeric,
-++    NULL, 0, mips_hwr_names_numeric },
-++
-+   { "xlr", 1, bfd_mach_mips_xlr, CPU_XLR,
-+     ISA_MIPS64 | INSN_XLR, 0,
-+     mips_cp0_names_xlr,
-+Index: git/opcodes/mips-opc.c
-+===================================================================
-+--- git.orig/opcodes/mips-opc.c
-++++ git/opcodes/mips-opc.c
-+@@ -316,9 +316,10 @@ decode_mips_operand (const char *p)
-+ #define N5	(INSN_5400 | INSN_5500)
-+ #define N54	INSN_5400
-+ #define N55	INSN_5500
-+-#define IOCT	(INSN_OCTEON | INSN_OCTEONP | INSN_OCTEON2)
-+-#define IOCTP	(INSN_OCTEONP | INSN_OCTEON2)
-+-#define IOCT2	INSN_OCTEON2
-++#define IOCT	(INSN_OCTEON | INSN_OCTEONP | INSN_OCTEON2 | INSN_OCTEON3)
-++#define IOCTP	(INSN_OCTEONP | INSN_OCTEON2 | INSN_OCTEON3)
-++#define IOCT2	(INSN_OCTEON2 | INSN_OCTEON3)
-++#define IOCT3  INSN_OCTEON3
-+ #define XLR	INSN_XLR
-+ #define XLP	INSN_XLP
-+ #define IVIRT	ASE_VIRT
-+@@ -1505,11 +1506,17 @@ const struct mips_opcode mips_builtin_op
-+ {"mtlhx",		"s",		0x00000053, 0xfc1fffff,	RD_1|MOD_HILO,		0,		0,		SMT,	0 },
-+ {"mtcr",		"t,s",		0x70000019, 0xfc00ffff, RD_1,			0,		XLR|XLP,	0,	0 },
-+ {"mtm0",		"s",		0x70000008, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
-++{"mtm0",                "s,t",          0x70000008, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
-+ {"mtm1",		"s",		0x7000000c, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
-++{"mtm1",                "s,t",          0x7000000c, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
-+ {"mtm2",		"s",		0x7000000d, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
-++{"mtm2",                "s,t",          0x7000000d, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
-+ {"mtp0",		"s",		0x70000009, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
-++{"mtp0",                "s,t",          0x70000009, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
-+ {"mtp1",		"s",		0x7000000a, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
-++{"mtp1",                "s,t",          0x7000000a, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
-+ {"mtp2",		"s",		0x7000000b, 0xfc1fffff, RD_1,			0,		IOCT,		0,	0 },
-++{"mtp2",                "s,t",          0x7000000b, 0xfc00ffff, RD_1|RD_2,              0,              IOCT3,          0,      0 },
-+ {"mtsa",		"s",		0x00000029, 0xfc1fffff,	RD_1,			0,		EE,		0,	0 },
-+ {"mtsab",		"s,j",		0x04180000, 0xfc1f0000,	RD_1,			0,		EE,		0,	0 },
-+ {"mtsah",		"s,j",		0x04190000, 0xfc1f0000,	RD_1,			0,		EE,		0,	0 },
++TUNEVALID[octeon2] = "Enable optimization related to octeon2 support"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "octeon2", " -march=octeon2 ", "",d)}"
++TUNE_FEATURES_tune-octeon2 = "${TUNE_FEATURES_tune-mips64-n32} octeon2"
++MIPSPKGSFX_VARIANT_tune-octeon2 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-octeon2 = "mips64-n32 octeon2 octeon2_64-n32"
++
++TUNE_FEATURES_tune-octeon2_64 = "${TUNE_FEATURES_tune-mips64} octeon2"
++MIPSPKGSFX_VARIANT_tune-octeon2_64 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-octeon2_64 = "mips64 octeon2_64"
++
++
++TUNEVALID[octeon3] = "Enable optimization related to octeon3 support"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "octeon3", " -march=octeon3 ", "",d)}"
++
++TUNE_FEATURES_tune-octeon3 = "${TUNE_FEATURES_tune-mips64-n32} octeon3"
++MIPSPKGSFX_VARIANT_tune-octeon3 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-octeon3 = "mips64-n32 octeon3 octeon3_64-n32"
++
++TUNE_FEATURES_tune-octeon3_64 = "${TUNE_FEATURES_tune-mips64} octeon3"
++MIPSPKGSFX_VARIANT_tune-octeon3_64 = "${TUNE_ARCH}"
++PACKAGE_EXTRA_ARCHS_tune-octeon3_64 = "mips64 octeon3_64"
 -- 
 2.3.5
 
