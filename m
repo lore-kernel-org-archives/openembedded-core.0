@@ -1,25 +1,38 @@
-Return-Path: <caschebe@techfak.uni-bielefeld.de>
-Received: from smarthost.TechFak.Uni-Bielefeld.DE
-	(smarthost.TechFak.Uni-Bielefeld.DE [129.70.137.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 73B5772A78
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 60AC860043
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Aug 2015 23:33:09 +0000 (UTC)
-Received: from [192.168.0.190] (unknown [89.244.98.117])
-	(using TLSv1.2 with cipher DHE-RSA-AES128-SHA (128/128 bits))
-	(No client certificate requested) (Authenticated sender: caschebe)
-	by smarthost.TechFak.Uni-Bielefeld.DE (Postfix) with ESMTPSA id
-	D9B0880041 for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 01:33:08 +0200 (CEST)
-Message-ID: <55CFCC35.9090005@techfak.uni-bielefeld.de>
-Date: Sun, 16 Aug 2015 01:33:09 +0200
-From: Christian Ascheberg <caschebe@techfak.uni-bielefeld.de>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Sun, 16 Aug 2015 00:30:24 +0000 (UTC)
+Received: by igui7 with SMTP id i7so33783745igu.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 15 Aug 2015 17:30:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=3YtmlJKIn64LdyCswdR/XN5K1hTmImioJNAiFbMdNzY=;
+	b=mtQ3TLk5bwci/fX/uKrB2S9wHJw4htVPqDPAgrwU0hWJqbOPdrvNiecEiVY/0Q39BY
+	JgOGyhg64tlpLWGnsgcl3Q+CiP9I2uLkDctjCAtZx/eYza0FdHf2zsWncBa8p6BFEMET
+	DO+9+fzjUw6uTnQxdyQibYE7sU4oO8iPwglnQQzof6XDGwVvF0nB+Y7D6H4PTp35JAwZ
+	Cvdnxsf4+vjrhq1A8zlLx6JFo4ZxNXkWhvharzSu6D7EONtP4TYsPMYpxbuiDpA2pbWn
+	d69d2Z759BrOIgQigfeDULmvO/hHWdyMD7G/rS8gKQq818DBDNMvLEuBWXIVe0Do5qbu
+	UuSw==
+X-Received: by 10.50.17.66 with SMTP id m2mr10383409igd.77.1439685024835; Sat,
+	15 Aug 2015 17:30:24 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <cover.1361976853.git.tom.zanussi@linux.intel.com>
-In-Reply-To: <cover.1361976853.git.tom.zanussi@linux.intel.com>
-Subject: Re: [PATCH 0/3] add libaudit and enable 'perf trace'
+Received: by 10.107.38.79 with HTTP; Sat, 15 Aug 2015 17:29:55 -0700 (PDT)
+In-Reply-To: <CALT56yOdHWxUkEpvMfi6u22mUX16HjvOLFOM+QEsgYyBqYOiRw@mail.gmail.com>
+References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+	<1435759342-5312-5-git-send-email-dbaryshkov@gmail.com>
+	<B8E44407-53A5-4332-8124-3DC507180D8E@gmail.com>
+	<CALT56yOdHWxUkEpvMfi6u22mUX16HjvOLFOM+QEsgYyBqYOiRw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 15 Aug 2015 17:29:55 -0700
+Message-ID: <CAMKF1sqN_moGReYFdyLEWm+C1EGBXfLs5vTvT9KDH36EV2M+sQ@mail.gmail.com>
+To: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] glibc: don't override TUNE_CCARGS for MIPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,17 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Aug 2015 23:33:13 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 16 Aug 2015 00:30:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hello,
+On Sat, Aug 15, 2015 at 4:15 PM, Dmitry Eremin-Solenikov
+<dbaryshkov@gmail.com> wrote:
+> 2015-08-15 22:34 GMT+03:00 Khem Raj <raj.khem@gmail.com>:
+>>
+>>> On Jul 1, 2015, at 7:02 AM, Dmitry Eremin-Solenikov <dbaryshkov@gmail.com> wrote:
+>>>
+>>> Overriding TUNE_CCARGS this way breaks MULTILIB setup for MIPS. This
+>>> override disables multilib handling of tunes for TUNE_CCARGS, thus
+>>> enforcing glibc's TUNE_CCARGS to the TUNE_CCARGS of main DEFAULTTUNE.
+>>>
+>>> Glibc perfectly build without this override for both simple and multilib
+>>> cases.
+>>>
+>>
+>> this patch has been applied however we should reopen it.
+>> This has to be fixed differently. its not a build time issue but a runtime one. So find
+>> alternative way of passing these options to glibc build to accommodate your changes.
+>
+> What is the issue that you  are facing with the current OE-Core?
+>
 
-perf-trace requires libaudit, but there is still no support for it 
-integrated into openembedded, although a patch has been suggested quite 
-a while ago.
-It would still be great to see that being implemented.
+systemd remount segfaults in glibc. The problems will be more where it
+will use wrong syscall headers.
 
-Thanks
-Christian
+>
+> --
+> With best wishes
+> Dmitry
 
