@@ -1,36 +1,34 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pd0-f175.google.com (mail-pd0-f175.google.com
-	[209.85.192.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 90819606E8
+Received: from mail-pa0-f44.google.com (mail-pa0-f44.google.com
+	[209.85.220.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ED74606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 18:20:57 +0000 (UTC)
-Received: by pdbfa8 with SMTP id fa8so47557474pdb.1
+	Sun, 16 Aug 2015 18:20:56 +0000 (UTC)
+Received: by pabyb7 with SMTP id yb7so92179817pab.0
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 16 Aug 2015 11:20:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eRC6VoMF2r4+V6DY+AUh5sdBFtDHxrj7Fmx10vpXE+c=;
-	b=zoDCbNEiSG8KXxKRcXJC8Z3Mn3bmfnGC7yChsv4LdlLby7f1BBqi0n8lEIedgBd9LP
-	gonCb0KPWak1Znp+Ul7n/bneqi9nMbAqz5IGWkm8W7QiIaKcBW/vgqW8PfBi4uI7VTTN
-	1XopQRq41q2xWCIrZoSu2cOfPcQBd7HB7Zc1Z/m7ui4zvphy2QBpn6LMZ001d/ISRj7B
-	RiXISqbzRFDnOqcoeqTvCxseChLO/H6ESClcDv48e/FjqQcOocD7B3fGWXQbp6xBrp+n
-	rE2ecXgqZYWebcOhpwMDBn/cdO7TmvyPS9aywsRmjCUyxn6+GyyaEW0w55g4R7H642f6
-	FgAw==
-X-Received: by 10.70.108.198 with SMTP id hm6mr111044315pdb.12.1439749257633; 
-	Sun, 16 Aug 2015 11:20:57 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id;
+	bh=C6Y1VLSE6pckw+HOy0FE9y4ss6lopJcMcMXZREaQOSU=;
+	b=PwM9NiNM9oWHfIqbOpp5DiAGWppASS7h34stuSjMTZYSh9r2hP1vc8K05ZBVkol70Y
+	o49z+MKhlpkTefivNCGFaTs7L+r8FpXC4CJ1DlAA/1O4c12Z0/ny3/8RM18knI69e3SC
+	BhYAPOXrzgmry3hjnH4YReKqSqWMIW1eE6g5ZZuP7E5AX0MJQz/HyhXCQOnksCzLdxIS
+	TDUnFMg2bRpCVlLF5MSKvv8efa6vi63O+Bj+dy7EabbdInzxb3eEQuoJhqVAtVhnl32j
+	Y06ooJcnd+fvO8OSA90Ev8ZmI6mi54peJoXyMxG1Cz0PryiBwuA/NWPvcGhFscbwQFi1
+	D7hA==
+X-Received: by 10.66.191.196 with SMTP id ha4mr3704414pac.119.1439749256966;
+	Sun, 16 Aug 2015 11:20:56 -0700 (PDT)
 Received: from haswell.localdomain ([2601:646:8601:4580:baca:3aff:fe80:aa8f])
 	by smtp.gmail.com with ESMTPSA id
-	s13sm12053365pdi.70.2015.08.16.11.20.57
+	s13sm12053365pdi.70.2015.08.16.11.20.56
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 16 Aug 2015 11:20:57 -0700 (PDT)
+	Sun, 16 Aug 2015 11:20:56 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Aug 2015 11:30:02 -0700
-Message-Id: <1439749803-26868-2-git-send-email-raj.khem@gmail.com>
+Date: Sun, 16 Aug 2015 11:30:01 -0700
+Message-Id: <1439749803-26868-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1439749803-26868-1-git-send-email-raj.khem@gmail.com>
-References: <1439749803-26868-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 2/3] libunistring: Upgrade recipe 0.9.4 -> 0.9.5
+Subject: [PATCH 1/3] guile: Specify directories to find proper libunistring, libgmp and libltdl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,41 +43,57 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 16 Aug 2015 18:21:00 -0000
 
+Just when building on host which doesnt have libunistring on host guile
+fails the following configure test
+
+| configure: error: GNU libunistring is required, please install it.
+| Configure failed. The contents of all config.log files follows to aid
+debugging
+
+The reason is that its looking for libunistring dev files on build
+system, so lets point the configure into target sysroot, similar issue
+exist for libgmp, libltdl detection as well, fixed thusly
+
+Get rid of trailing whitespaces while here
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../{libunistring_0.9.4.bb => libunistring_0.9.5.bb}             | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
- rename meta/recipes-support/libunistring/{libunistring_0.9.4.bb => libunistring_0.9.5.bb} (87%)
+ meta/recipes-devtools/guile/guile_2.0.11.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libunistring/libunistring_0.9.4.bb b/meta/recipes-support/libunistring/libunistring_0.9.5.bb
-similarity index 87%
-rename from meta/recipes-support/libunistring/libunistring_0.9.4.bb
-rename to meta/recipes-support/libunistring/libunistring_0.9.5.bb
-index 289c813..45cf633 100644
---- a/meta/recipes-support/libunistring/libunistring_0.9.4.bb
-+++ b/meta/recipes-support/libunistring/libunistring_0.9.5.bb
-@@ -13,17 +13,16 @@ DESCRIPTION = "Text files are nowadays usually encoded in Unicode, and may\
- 
- HOMEPAGE = "http://www.gnu.org/software/libunistring/"
+diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb b/meta/recipes-devtools/guile/guile_2.0.11.bb
+index ea9017b..71f696e 100644
+--- a/meta/recipes-devtools/guile/guile_2.0.11.bb
++++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+@@ -11,7 +11,7 @@ DESCRIPTION = "Guile is the GNU Ubiquitous Intelligent Language for Extensions,\
+ HOMEPAGE = "http://www.gnu.org/software/guile/"
  SECTION = "devel"
--LICENSE = "GPLv3&LGPLv3"
-+LICENSE = "GPLv3 & LGPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6" 
-+                    file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6"
+ LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504" 
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
  
- SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz \
-            file://iconv-m4-remove-the-test-to-convert-euc-jp.patch \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
- "
--
--SRC_URI[md5sum] = "c24a6a3838d9ad4a41a62549312c4226"
--SRC_URI[sha256sum] = "f5246d63286a42902dc096d6d44541fbe4204b6c02d6d5d28b457c9882ddd8a6"
-+SRC_URI[md5sum] = "1a705bcdcb83799d544137617b377cfd"
-+SRC_URI[sha256sum] = "1a8c0772467850bef7197318a95f44abbb678ea83cbf119a3500cc7848276a17"
+ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+            file://debian/0002-Mark-Unused-modules-are-removed-gc-test-as-unresolve.patch \
+@@ -26,7 +26,7 @@ SRC_URI = "${GNU_MIRROR}/guile/guile-${PV}.tar.xz \
+            "
  
- inherit autotools texinfo
- BBCLASSEXTEND = "native nativesdk"
+ #           file://debian/0001-Change-guile-to-guile-X.Y-for-info-pages.patch
+-#           file://opensuse/guile-turn-off-gc-test.patch 
++#           file://opensuse/guile-turn-off-gc-test.patch
+ 
+ SRC_URI[md5sum] = "03f1bce1a4983076d955003472306a13"
+ SRC_URI[sha256sum] = "aed0a4a6db4e310cbdfeb3613fa6f86fddc91ef624c1e3f8937a6304c69103e2"
+@@ -43,6 +43,10 @@ RDEPENDS_${PN}_append_libc-glibc_class-target = "glibc-gconv-iso8859-1"
+ 
+ EXTRA_OECONF += "${@['--without-libltdl-prefix --without-libgmp-prefix --without-libreadline-prefix', ''][bb.data.inherits_class('native',d)]}"
+ 
++EXTRA_OECONF_append_class-target = " --with-libunistring-prefix=${STAGING_LIBDIR} \
++                                     --with-libgmp-prefix=${STAGING_LIBDIR} \
++                                     --with-libltdl-prefix=${STAGING_LIBDIR}"
++
+ do_configure_prepend() {
+ 	mkdir -p po
+ }
 -- 
 2.5.0
 
