@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 388EF65CBC
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0303C606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 07:29:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7H7RoLH023159; Mon, 17 Aug 2015 08:29:37 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id crDoNFgqDJbU; Mon, 17 Aug 2015 08:29:37 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7H7TMI4023168
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 17 Aug 2015 08:29:33 +0100
-Message-ID: <1439796562.1218.32.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 17 Aug 2015 08:29:22 +0100
-In-Reply-To: <6591f1a55a50b6417755e7e6720750818dab6532.1439318387.git.jussi.kukkonen@intel.com>
-References: <65f10f6264c7a8d751c5d0a56a38c920e02236b2.1439318387.git.jussi.kukkonen@intel.com>
-	<6591f1a55a50b6417755e7e6720750818dab6532.1439318387.git.jussi.kukkonen@intel.com>
-X-Mailer: Evolution 3.12.10-0ubuntu1~14.10.1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] nfs-utils: Upgrade 1.3.1 -> 1.3.2
+	Mon, 17 Aug 2015 08:17:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7H8HAGf029701
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Aug 2015 01:17:11 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Mon, 17 Aug 2015 01:17:10 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Aug 2015 01:17:09 -0700
+Message-ID: <cover.1439799402.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+MIME-Version: 1.0
+Subject: [PATCH 0/1] ncurses: 5.9 -> 6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 07:29:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Aug 2015 08:17:12 -0000
+Content-Type: text/plain
 
-On Tue, 2015-08-11 at 22:13 +0300, Jussi Kukkonen wrote:
-> Let "--enable-tirpc" be selected in configure by default: it is
-> a requirement for ipv6 support. This should not grow a typical
-> image size as libtirpc is a rpcbind dependency already.
-> 
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-> ---
->  .../nfs-utils/{nfs-utils_1.3.1.bb => nfs-utils_1.3.2.bb}           | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->  rename meta/recipes-connectivity/nfs-utils/{nfs-utils_1.3.1.bb => nfs-utils_1.3.2.bb} (95%)
+The following changes since commit 059db140885bad379534e6ec713f3ceb4e18faea:
 
-It appears this is the patch which has been causing boot issues in the
-runtime sanity tests on the autobuilder, e.g.:
+  adt-installer: use DEPLOY_DIR in ANT_DEPLOY expansion (2015-08-16 17:28:14 +0100)
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-qa-logrotate/builds/434/steps/Running%20Sanity%20Tests/logs/stdio
+are available in the git repository at:
 
-Since backing this patch out, these failures stopped so there seems to
-be some kind of relation...
+  git://git.openembedded.org/openembedded-core-contrib rbt/ncurses
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ncurses
 
-Cheers,
+Robert Yang (1):
+  ncurses: 5.9 -> 6.0
 
-Richard
+ meta/recipes-core/ncurses/ncurses.inc              |   11 ++++++++---
+ .../ncurses/{ncurses-5.9 => ncurses}/config.cache  |    0
+ .../{ncurses-5.9 => ncurses}/tic-hang.patch        |    0
+ .../ncurses/{ncurses_5.9.bb => ncurses_6.0.bb}     |    8 +++-----
+ 4 files changed, 11 insertions(+), 8 deletions(-)
+ rename meta/recipes-core/ncurses/{ncurses-5.9 => ncurses}/config.cache (100%)
+ rename meta/recipes-core/ncurses/{ncurses-5.9 => ncurses}/tic-hang.patch (100%)
+ rename meta/recipes-core/ncurses/{ncurses_5.9.bb => ncurses_6.0.bb} (41%)
+
+-- 
+1.7.9.5
 
 
