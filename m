@@ -1,35 +1,35 @@
-Return-Path: <net147@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 811E1759CD
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 583BA759CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 02:43:22 +0000 (UTC)
-Received: by paccq16 with SMTP id cq16so54204487pac.1
+	Mon, 17 Aug 2015 02:50:32 +0000 (UTC)
+Received: by paccq16 with SMTP id cq16so54334629pac.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 19:43:22 -0700 (PDT)
+	Sun, 16 Aug 2015 19:50:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=NOAmrCol+9IzqEfm/rO9Gv3AJBQSspfxCT5K0CIZJDk=;
-	b=QxXbMI1xUf0Kj0d1liGqkcFlO7x3mShrfafJX89Knv/OQyq/cjVg3hd0+bXc1kz80S
-	3YYNmRh6KXcX/AzBWFlu9joVYHjEoxBbnZeLq253wqj1ENYmvtWfOOt+w9I0aWWHUu8d
-	Kn57Th8F5GZuTCeVT5/peoaltwK3KQBCPwrW4r1WWljnofwriJEL1py9eE+JJsDamCz3
-	LfgLCJUqeaIQu1rA+ifnqxfnTjPQU4cQdTLcYifmG7bUgtERf3/93K208gvaIAqh+MgW
-	N6KYAq7TQGqdwfXD9s5tn0Ci22vpkxSlQiGPwkxXYfH8Lnyea4IfMoV6QjqS0VHzcU9E
-	WtQQ==
-MIME-Version: 1.0
-X-Received: by 10.69.27.68 with SMTP id je4mr49247854pbd.163.1439779402788;
-	Sun, 16 Aug 2015 19:43:22 -0700 (PDT)
-Received: by 10.66.48.97 with HTTP; Sun, 16 Aug 2015 19:43:22 -0700 (PDT)
-In-Reply-To: <1439688121-32636-1-git-send-email-raj.khem@gmail.com>
-References: <1439688121-32636-1-git-send-email-raj.khem@gmail.com>
-Date: Mon, 17 Aug 2015 12:43:22 +1000
-Message-ID: <CANwerB16-bm0+S2tQ2sa7MXzNjW8Qr7c4960PXcENA7zZWMc6w@mail.gmail.com>
-From: Jonathan Liu <net147@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] systemd: Upgrade 219 -> 224
+	h=from:to:cc:subject:date:message-id;
+	bh=dhY31ihrx+6n6S3hYgpjgXR6okN3qe8iR/s0yC1nrsU=;
+	b=ZDkC9Z+SYTXZ16i6weh76CHK4xbp01q5Bveuw/neFQFI8pHvviLZzMx8Mbv31Cm6Fa
+	day9f6Db44tC4FWYIBxeppKHQZyoztH3u/b3ranIaiIZKdvtL/9zlOScBaA3Yv4rdCHo
+	GzwjpKYeEsBvX/xJ9Ia+dT3/1DYBEom/T17CK+R7gh5SP3ldmPZh8Ah+aZFPE57iySec
+	cJMEUWOXN/Q/Jo7R1tuR8X+MUWGzXk2jcyKQuHQKi/afdRVB/Lt9CN5l5J5q7PNNBSqh
+	fLWoOjsfGR48KIEzs+0Vs0Q9VSRdEtdY9ZzvKpawcBW5rss3EoE67on33XUI1+XkuHpJ
+	/cNQ==
+X-Received: by 10.66.131.101 with SMTP id ol5mr112229950pab.0.1439779832933;
+	Sun, 16 Aug 2015 19:50:32 -0700 (PDT)
+Received: from Pahoa2.hsd1.ca.comcast.net (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
+	q7sm12732589pdj.31.2015.08.16.19.50.31
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 16 Aug 2015 19:50:32 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 16 Aug 2015 19:50:26 -0700
+Message-Id: <1439779827-15189-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH 1/2] bitbake.conf: Add Github mirror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,40 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 02:43:25 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Aug 2015 02:50:36 -0000
 
-Hi Khem,
+From: Armin Kuster <akuster@mvista.com>
 
-On 16 August 2015 at 11:21, Khem Raj <raj.khem@gmail.com> wrote:
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_224.bb
-> similarity index 94%
-> rename from meta/recipes-core/systemd/systemd_219.bb
-> rename to meta/recipes-core/systemd/systemd_224.bb
-> index 83e4bce..16eb497 100644
-> @@ -23,14 +22,13 @@ DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl rea
->
->  SECTION = "base/shell"
->
-> -inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
-> +inherit useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
->
-> -SRCREV = "85a6fabdd3e43cfab0fc6359e9f2a9e368d4a3ed"
-> +SRCREV = "b2a0ac5e5b29c73ca7c0da23369a4769d5a91ddd"
->
-> -PV = "219-stable+git${SRCPV}"
-> +PV = "224+git${SRCPV}"
->
-> -SRC_URI = "git://anongit.freedesktop.org/systemd/systemd-stable;branch=v219-stable;protocol=git \
-> -           file://0002-shared-missing.h-fall-back-to-insecure-getenv.patch \
-> +SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
->             file://0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
->             file://0004-configure-Check-for-additional-features-that-uclibc-.patch \
->             file://0005-nspawn-Use-execvpe-only-when-libc-supports-it.patch \
+This adds Github mirror variable.
 
-The git repository URL has already been changed to github.com in
-master. Please rebase.
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-Regards,
-Jonathan
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 21f1698..56e7ca7 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -571,6 +571,7 @@ DEBIAN_MIRROR = "ftp://ftp.debian.org/debian/pool"
+ GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
+ GNOME_GIT = "git://git.gnome.org"
+ GNOME_MIRROR = "http://ftp.gnome.org/pub/GNOME/sources"
++GITHUB_MIRROR = "git://github.com"
+ GNU_MIRROR = "http://ftp.gnu.org/gnu"
+ GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
+ KERNELORG_MIRROR = "http://kernel.org/pub"
+-- 
+2.3.5
+
 
