@@ -1,29 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C777A73E11
+Return-Path: <clemens.lang@bmw-carit.de>
+Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
+	by mail.openembedded.org (Postfix) with ESMTP id 81428606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 08:30:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7H8UCXK029346
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Aug 2015 01:30:12 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 17 Aug 2015 01:30:12 -0700
-Message-ID: <55D19B92.8050405@windriver.com>
-Date: Mon, 17 Aug 2015 16:30:10 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Mon, 17 Aug 2015 08:37:51 +0000 (UTC)
+Received: from exchange2010.bmw-carit.intra ([192.168.100.28]:23119
+	helo=mail.bmw-carit.de)
+	by mail.bmw-carit.de with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
+	id 1ZRFvQ-00041r-0j; Mon, 17 Aug 2015 10:37:48 +0200
+Received: from localhost (172.20.20.163) by Exchange2010.bmw-carit.intra
+	(192.168.100.28) with Microsoft SMTP Server (TLS) id 14.1.218.12;
+	Mon, 17 Aug 2015 10:37:47 +0200
+X-CTCH-RefID: str=0001.0A0C0201.55D19D5C.00F8, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0
+From: Clemens Lang <clemens.lang@bmw-carit.de>
+To: Ross Burton <ross.burton@intel.com>
+Date: Mon, 17 Aug 2015 10:37:47 +0200
+Message-ID: <1439800667-31696-1-git-send-email-clemens.lang@bmw-carit.de>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <CAJTo0LZ4u-Q2nc+_phmq4NxR9o7Xyyij=tGmE-KxgsODhQdN5A@mail.gmail.com>
+References: <CAJTo0LZ4u-Q2nc+_phmq4NxR9o7Xyyij=tGmE-KxgsODhQdN5A@mail.gmail.com>
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>
-References: <cover.1439799402.git.liezhi.yang@windriver.com>
-	<d8436791cacfc94de5b6b55d1ed9510614f806d1.1439799402.git.liezhi.yang@windriver.com>
-	<B93083F2-C8D8-469C-A52F-FE206797707A@gmail.com>
-In-Reply-To: <B93083F2-C8D8-469C-A52F-FE206797707A@gmail.com>
+X-Originating-IP: [172.20.20.163]
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] ncurses: 5.9 -> 6.0
+Subject: [PATCH] archiver.bbclass: Run deploy_archives in $WORKDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,123 +36,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 08:30:17 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Aug 2015 08:37:53 -0000
+Content-Type: text/plain
 
+In recipes that are exempt from source code archiving due to
+COPYLEFT_LICENSE_EXCLUDE, do_deploy_archives does not have a transitive
+dependency on do_unpack. Given enough parallelism, this means
+do_deploy_archives can run at the same time or before do_unpack.
 
+Because do_deploy_archives did not specify a working directory, its
+working directory was ${B}, which defaults to ${S}, which may be set by
+a recipe to a directory that is created by do_unpack.
 
-On 08/17/2015 04:26 PM, Khem Raj wrote:
->
->> On Aug 17, 2015, at 1:17 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
->>
->> Use -fPIC to fix when build readline: libtinfo.a(lib_termcap.o):
->> relocation R_X86_64_32 against `_nc_globals' can not be used when making
->> a shared object; recompile with -fPIC
->
-> It a progressive change but
-> FYI, ncurses6 is not intended to be binary compatible with ncurses5 even though as of first release its source compatible with 5
-> its not going to remain that way for long, so as such this change can break
-> a lot of things. but there is a configure option to let nurses6 still keep using ncurses5 ABI for some time
-> so please use --with-abi-version 5 explicitly.
->
-> and this needs quite rigorous testing if we have to go with it for 1.9
+In this case, do_deploy_archives can fail because do_unpack deletes and
+re-creates the directory and do_deploy_archives cannot change into the
+non-existent directory. Avoid this problem by explicitly specifying
+a working directory for do_deploy_archives (and for
+do_deploy_all_archives as well for good measure).
 
-Thanks, I prefer to drop the upgrade since it is so dangerous:-)
+Signed-off-by: Clemens Lang <clemens.lang@bmw-carit.de>
+---
+ meta/classes/archiver.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-// Robert
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index d908d16..f9c439e 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -45,6 +45,11 @@ ARCHIVER_WORKDIR = "${WORKDIR}/archiver-work/"
+ do_dumpdata[dirs] = "${ARCHIVER_OUTDIR}"
+ do_ar_recipe[dirs] = "${ARCHIVER_OUTDIR}"
+ do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
++# When not set, the working directory for the following tasks can default to
++# a location that will be deleted and re-created by do_unpack, which can lead
++# to failure; avoid that by explicitly setting them.
++do_deploy_archives[dirs] = "${WORKDIR}"
++do_deploy_all_archives[dirs] = "${WORKDIR}"
+ 
+ # This is a convenience for the shell script to use it
+ 
+-- 
+2.1.0
 
->
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->> meta/recipes-core/ncurses/ncurses.inc              |   11 ++++++++---
->> .../ncurses/{ncurses-5.9 => ncurses}/config.cache  |    0
->> .../{ncurses-5.9 => ncurses}/tic-hang.patch        |    0
->> .../ncurses/{ncurses_5.9.bb => ncurses_6.0.bb}     |    8 +++-----
->> 4 files changed, 11 insertions(+), 8 deletions(-)
->> rename meta/recipes-core/ncurses/{ncurses-5.9 => ncurses}/config.cache (100%)
->> rename meta/recipes-core/ncurses/{ncurses-5.9 => ncurses}/tic-hang.patch (100%)
->> rename meta/recipes-core/ncurses/{ncurses_5.9.bb => ncurses_6.0.bb} (41%)
->>
->> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
->> index ffd80ee..ea18d41 100644
->> --- a/meta/recipes-core/ncurses/ncurses.inc
->> +++ b/meta/recipes-core/ncurses/ncurses.inc
->> @@ -6,7 +6,6 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
->> SECTION = "libs"
->> DEPENDS = "ncurses-native"
->> DEPENDS_class-native = ""
->> -INC_PR = "r15"
->>
->> BINCONFIG = "${bindir}/ncurses-config"
->>
->> @@ -83,7 +82,7 @@ ncurses_configure() {
->> 	        --enable-sigwinch \
->> 	        --enable-pc-files \
->> 	        --disable-rpath-hack \
->> -		${EXCONFIG_ARGS} \
->> +	        ${EXCONFIG_ARGS} \
->> 	        --with-manpage-format=normal \
->> 	        "$@" || return 1
->> 	cd ..
->> @@ -206,7 +205,7 @@ do_install() {
->>                  test -h $f || continue
->>                  rm -f $f
->>                  echo '/* GNU ld script */'  >$f
->> -                echo "INPUT($i.so.5 AS_NEEDED(-ltinfo))" >>$f
->> +                echo "INPUT($i.so.6 AS_NEEDED(-ltinfo))" >>$f
->>          done
->>
->>          # Make sure that libcurses is linked so that it gets -ltinfo
->> @@ -304,3 +303,9 @@ FILES_${PN}-terminfo-base = "\
->>
->> RSUGGESTS_${PN}-libtinfo = "${PN}-terminfo"
->> RRECOMMENDS_${PN}-libtinfo = "${PN}-terminfo-base"
->> +
->> +# Fixed when build readline:
->> +# libtinfo.a(lib_termcap.o): relocation R_X86_64_32 against
->> +# `_nc_globals' can not be used when making a shared object; recompile
->> +# with -fPIC
->> +CFLAGS_append = " -fPIC"
->> diff --git a/meta/recipes-core/ncurses/ncurses-5.9/config.cache b/meta/recipes-core/ncurses/ncurses/config.cache
->> similarity index 100%
->> rename from meta/recipes-core/ncurses/ncurses-5.9/config.cache
->> rename to meta/recipes-core/ncurses/ncurses/config.cache
->> diff --git a/meta/recipes-core/ncurses/ncurses-5.9/tic-hang.patch b/meta/recipes-core/ncurses/ncurses/tic-hang.patch
->> similarity index 100%
->> rename from meta/recipes-core/ncurses/ncurses-5.9/tic-hang.patch
->> rename to meta/recipes-core/ncurses/ncurses/tic-hang.patch
->> diff --git a/meta/recipes-core/ncurses/ncurses_5.9.bb b/meta/recipes-core/ncurses/ncurses_6.0.bb
->> similarity index 41%
->> rename from meta/recipes-core/ncurses/ncurses_5.9.bb
->> rename to meta/recipes-core/ncurses/ncurses_6.0.bb
->> index 54d27a9..e956e3f 100644
->> --- a/meta/recipes-core/ncurses/ncurses_5.9.bb
->> +++ b/meta/recipes-core/ncurses/ncurses_6.0.bb
->> @@ -1,12 +1,10 @@
->> require ncurses.inc
->>
->> -REVISION = "20150329"
->> -
->> -PR = "${INC_PR}.1"
->> +REVISION = "20150810"
->>
->> SRC_URI += "file://tic-hang.patch \
->>              file://config.cache \
->> "
->> S = "${WORKDIR}/${BP}-${REVISION}"
->> -SRC_URI[md5sum] = "cee991d09e69e60ebedef424804c52d4"
->> -SRC_URI[sha256sum] = "5b64f40e4dce73e3aa83d15bd9257c6eff8790ec41150f0938bd87c0eb75828f"
->> +SRC_URI[md5sum] = "78bfcb4634a87b4cda390956586f8f1f"
->> +SRC_URI[sha256sum] = "85d4a615731bc71075416fc3bea15a56740bed42b3596bbb126226af4111c65c"
->> --
->> 1.7.9.5
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
