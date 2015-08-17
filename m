@@ -1,29 +1,28 @@
-Return-Path: <clemens.lang@bmw-carit.de>
-Received: from mail.bmw-carit.de (mail.bmw-carit.de [62.245.222.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 81428606E8
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id EA235606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 08:37:51 +0000 (UTC)
-Received: from exchange2010.bmw-carit.intra ([192.168.100.28]:23119
-	helo=mail.bmw-carit.de)
-	by mail.bmw-carit.de with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.82_1-5b7a7c0-XX) (envelope-from <Clemens.Lang@bmw-carit.de>)
-	id 1ZRFvQ-00041r-0j; Mon, 17 Aug 2015 10:37:48 +0200
-Received: from localhost (172.20.20.163) by Exchange2010.bmw-carit.intra
-	(192.168.100.28) with Microsoft SMTP Server (TLS) id 14.1.218.12;
-	Mon, 17 Aug 2015 10:37:47 +0200
-X-CTCH-RefID: str=0001.0A0C0201.55D19D5C.00F8, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0
-From: Clemens Lang <clemens.lang@bmw-carit.de>
-To: Ross Burton <ross.burton@intel.com>
-Date: Mon, 17 Aug 2015 10:37:47 +0200
-Message-ID: <1439800667-31696-1-git-send-email-clemens.lang@bmw-carit.de>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <CAJTo0LZ4u-Q2nc+_phmq4NxR9o7Xyyij=tGmE-KxgsODhQdN5A@mail.gmail.com>
-References: <CAJTo0LZ4u-Q2nc+_phmq4NxR9o7Xyyij=tGmE-KxgsODhQdN5A@mail.gmail.com>
+	Mon, 17 Aug 2015 09:15:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7H9FEAC029848
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Aug 2015 02:15:15 -0700 (PDT)
+Received: from [128.224.162.235] (128.224.162.235) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
+	Mon, 17 Aug 2015 02:15:13 -0700
+Message-ID: <55D1A5FB.90504@windriver.com>
+Date: Mon, 17 Aug 2015 17:14:35 +0800
+From: He Zhe <zhe.he@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-X-Originating-IP: [172.20.20.163]
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] archiver.bbclass: Run deploy_archives in $WORKDIR
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1439204789.git.zhe.he@windriver.com>
+In-Reply-To: <cover.1439204789.git.zhe.he@windriver.com>
+X-Originating-IP: [128.224.162.235]
+Cc: bruce.ashfield@windriver.com
+Subject: Re: [PATCH v4 0/1] Yocto Bug #6945
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,46 +35,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 08:37:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 17 Aug 2015 09:15:17 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-In recipes that are exempt from source code archiving due to
-COPYLEFT_LICENSE_EXCLUDE, do_deploy_archives does not have a transitive
-dependency on do_unpack. Given enough parallelism, this means
-do_deploy_archives can run at the same time or before do_unpack.
+Ping.
 
-Because do_deploy_archives did not specify a working directory, its
-working directory was ${B}, which defaults to ${S}, which may be set by
-a recipe to a directory that is created by do_unpack.
-
-In this case, do_deploy_archives can fail because do_unpack deletes and
-re-creates the directory and do_deploy_archives cannot change into the
-non-existent directory. Avoid this problem by explicitly specifying
-a working directory for do_deploy_archives (and for
-do_deploy_all_archives as well for good measure).
-
-Signed-off-by: Clemens Lang <clemens.lang@bmw-carit.de>
----
- meta/classes/archiver.bbclass | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index d908d16..f9c439e 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -45,6 +45,11 @@ ARCHIVER_WORKDIR = "${WORKDIR}/archiver-work/"
- do_dumpdata[dirs] = "${ARCHIVER_OUTDIR}"
- do_ar_recipe[dirs] = "${ARCHIVER_OUTDIR}"
- do_ar_original[dirs] = "${ARCHIVER_OUTDIR} ${ARCHIVER_WORKDIR}"
-+# When not set, the working directory for the following tasks can default to
-+# a location that will be deleted and re-created by do_unpack, which can lead
-+# to failure; avoid that by explicitly setting them.
-+do_deploy_archives[dirs] = "${WORKDIR}"
-+do_deploy_all_archives[dirs] = "${WORKDIR}"
- 
- # This is a convenience for the shell script to use it
- 
--- 
-2.1.0
+On 08/10/2015 08:46 PM, zhe.he@windriver.com wrote:
+> From: He Zhe <zhe.he@windriver.com>
+>
+>  - Add KERNEL_IMAGETYPES to support building packaging and installing
+> multi types of kernel images, such as zImage uImage, at one time.
+>  - KERNEL_IMAGETYPE works as it did.
+>  - v2: Update with the latest oe-core
+>  - v3: Add KERNEL_IMAGETYPES, leave KERNEL_IMAGETYPE as is
+>  - v4: Turn package name to lower case to meet opkg's requrement
+>        Modify "if test" in kernel-fitimage.bbclass and kernel-uimage.bbclass
+>
+>
+> He Zhe (1):
+>   kernel: Add KERNEL_IMAGETYPES to build multi types of kernel at one
+>     time
+>
+>  meta/classes/kernel-fitimage.bbclass    |  21 +++---
+>  meta/classes/kernel-grub.bbclass        |  46 +++++++----
+>  meta/classes/kernel-uimage.bbclass      |  22 +++---
+>  meta/classes/kernel.bbclass             | 130 +++++++++++++++++++++++---------
+>  meta/conf/documentation.conf            |   1 +
+>  meta/recipes-kernel/linux/linux-dtb.inc |  81 ++++++++++++--------
+>  6 files changed, 199 insertions(+), 102 deletions(-)
+>
 
 
