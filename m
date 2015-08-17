@@ -1,38 +1,29 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 82EB873E11
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C777A73E11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 08:28:45 +0000 (UTC)
-Received: by obbhe7 with SMTP id he7so106408394obb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 01:28:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=nHoL/AcR2No7chbgnunXnRVmNpqrlTKwzuwaRzkho8s=;
-	b=W2PzbnUXSTP/+FaYAfqeqKDvD0vDR6BAf4f00JBKbN/JT6GxTaRpNh/anCD4g0bGUv
-	/vwyLJfNCGHZew0wd85VwmzaIQ0qfsUVBshkoQXv72V5bVTmADXz2jh7qY3CYf9j1z2F
-	5TD2M3vIfnxkLHtEARAdDa84NlmmFwkjGHnfiBvW7bOtxDUXhUaJE3zfX4gr9kdozuRp
-	XmzEOlmiL23CVIAsJiN9w8cwiKumcn5r9buuzPfG+pJ0AIOn2KHIH9cLhGp1zwMy1trI
-	uyHslfHudoGE29jWGdhQSrrlpY+/dZIVrzsPJSJG0kfNLoWGOnh/tsnAtVO8Y/KOIzFO
-	URpw==
-X-Gm-Message-State: ALoCoQl7bFklc0hkUBODussjSqxxlk/TfR7jIqdZev2nrnd9M9uWkf27ocCam4lnuiyDRxRMFXPb
-X-Received: by 10.182.246.41 with SMTP id xt9mr195993obc.55.1439800126126;
-	Mon, 17 Aug 2015 01:28:46 -0700 (PDT)
+	Mon, 17 Aug 2015 08:30:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7H8UCXK029346
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Aug 2015 01:30:12 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Mon, 17 Aug 2015 01:30:12 -0700
+Message-ID: <55D19B92.8050405@windriver.com>
+Date: Mon, 17 Aug 2015 16:30:10 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Received: by 10.202.221.70 with HTTP; Mon, 17 Aug 2015 01:28:16 -0700 (PDT)
-In-Reply-To: <E8CC593E-A8EA-434A-8E13-09370E39E498@gmail.com>
-References: <cover.1439318387.git.jussi.kukkonen@intel.com>
-	<E8CC593E-A8EA-434A-8E13-09370E39E498@gmail.com>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 17 Aug 2015 11:28:16 +0300
-Message-ID: <CAHiDW_FpA2VW=9=b+Tbs7vy0Zgvk99DJMm6TktKwP3Og5qtUfw@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Upgrades: openssh, nss, nfs-utils, rsvg
+References: <cover.1439799402.git.liezhi.yang@windriver.com>
+	<d8436791cacfc94de5b6b55d1ed9510614f806d1.1439799402.git.liezhi.yang@windriver.com>
+	<B93083F2-C8D8-469C-A52F-FE206797707A@gmail.com>
+In-Reply-To: <B93083F2-C8D8-469C-A52F-FE206797707A@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] ncurses: 5.9 -> 6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,28 +36,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 08:28:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Aug 2015 08:30:17 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 17 August 2015 at 08:15, Khem Raj <raj.khem@gmail.com> wrote:
+
+
+On 08/17/2015 04:26 PM, Khem Raj wrote:
 >
->> On Aug 11, 2015, at 12:12 PM, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>> On Aug 17, 2015, at 1:17 AM, Robert Yang <liezhi.yang@windriver.com> wrote:
 >>
->> The openssh upgrade adds a test that currently fails: that looks
->> like a failure in our test setup, I've filed a bug for that.
+>> Use -fPIC to fix when build readline: libtinfo.a(lib_termcap.o):
+>> relocation R_X86_64_32 against `_nc_globals' can not be used when making
+>> a shared object; recompile with -fPIC
 >
-> openssl 7.0 has now been released,
-> see
-> http://www.openssh.com/txt/release-7.0
+> It a progressive change but
+> FYI, ncurses6 is not intended to be binary compatible with ncurses5 even though as of first release its source compatible with 5
+> its not going to remain that way for long, so as such this change can break
+> a lot of things. but there is a configure option to let nurses6 still keep using ncurses5 ABI for some time
+> so please use --with-abi-version 5 explicitly.
 >
-> it deprecates few things e.g. dsa is disabled by default but its good in general
-> one can still add PubkeyAcceptedKeyTypes=+ssh-dss to ssh config files keep going. but in general it will be improvement
+> and this needs quite rigorous testing if we have to go with it for 1.9
 
-Well of course it now gets released after I grew tired of waiting and
-sent 6.9... I agree that 7.0 would make sense, I can send another
-update -- it should be mostly deprecations and default build config
-changes compared to 6.9.
+Thanks, I prefer to drop the upgrade since it is so dangerous:-)
 
-Thanks,
-  Jussi
+// Robert
+
+>
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>> meta/recipes-core/ncurses/ncurses.inc              |   11 ++++++++---
+>> .../ncurses/{ncurses-5.9 => ncurses}/config.cache  |    0
+>> .../{ncurses-5.9 => ncurses}/tic-hang.patch        |    0
+>> .../ncurses/{ncurses_5.9.bb => ncurses_6.0.bb}     |    8 +++-----
+>> 4 files changed, 11 insertions(+), 8 deletions(-)
+>> rename meta/recipes-core/ncurses/{ncurses-5.9 => ncurses}/config.cache (100%)
+>> rename meta/recipes-core/ncurses/{ncurses-5.9 => ncurses}/tic-hang.patch (100%)
+>> rename meta/recipes-core/ncurses/{ncurses_5.9.bb => ncurses_6.0.bb} (41%)
+>>
+>> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+>> index ffd80ee..ea18d41 100644
+>> --- a/meta/recipes-core/ncurses/ncurses.inc
+>> +++ b/meta/recipes-core/ncurses/ncurses.inc
+>> @@ -6,7 +6,6 @@ LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc
+>> SECTION = "libs"
+>> DEPENDS = "ncurses-native"
+>> DEPENDS_class-native = ""
+>> -INC_PR = "r15"
+>>
+>> BINCONFIG = "${bindir}/ncurses-config"
+>>
+>> @@ -83,7 +82,7 @@ ncurses_configure() {
+>> 	        --enable-sigwinch \
+>> 	        --enable-pc-files \
+>> 	        --disable-rpath-hack \
+>> -		${EXCONFIG_ARGS} \
+>> +	        ${EXCONFIG_ARGS} \
+>> 	        --with-manpage-format=normal \
+>> 	        "$@" || return 1
+>> 	cd ..
+>> @@ -206,7 +205,7 @@ do_install() {
+>>                  test -h $f || continue
+>>                  rm -f $f
+>>                  echo '/* GNU ld script */'  >$f
+>> -                echo "INPUT($i.so.5 AS_NEEDED(-ltinfo))" >>$f
+>> +                echo "INPUT($i.so.6 AS_NEEDED(-ltinfo))" >>$f
+>>          done
+>>
+>>          # Make sure that libcurses is linked so that it gets -ltinfo
+>> @@ -304,3 +303,9 @@ FILES_${PN}-terminfo-base = "\
+>>
+>> RSUGGESTS_${PN}-libtinfo = "${PN}-terminfo"
+>> RRECOMMENDS_${PN}-libtinfo = "${PN}-terminfo-base"
+>> +
+>> +# Fixed when build readline:
+>> +# libtinfo.a(lib_termcap.o): relocation R_X86_64_32 against
+>> +# `_nc_globals' can not be used when making a shared object; recompile
+>> +# with -fPIC
+>> +CFLAGS_append = " -fPIC"
+>> diff --git a/meta/recipes-core/ncurses/ncurses-5.9/config.cache b/meta/recipes-core/ncurses/ncurses/config.cache
+>> similarity index 100%
+>> rename from meta/recipes-core/ncurses/ncurses-5.9/config.cache
+>> rename to meta/recipes-core/ncurses/ncurses/config.cache
+>> diff --git a/meta/recipes-core/ncurses/ncurses-5.9/tic-hang.patch b/meta/recipes-core/ncurses/ncurses/tic-hang.patch
+>> similarity index 100%
+>> rename from meta/recipes-core/ncurses/ncurses-5.9/tic-hang.patch
+>> rename to meta/recipes-core/ncurses/ncurses/tic-hang.patch
+>> diff --git a/meta/recipes-core/ncurses/ncurses_5.9.bb b/meta/recipes-core/ncurses/ncurses_6.0.bb
+>> similarity index 41%
+>> rename from meta/recipes-core/ncurses/ncurses_5.9.bb
+>> rename to meta/recipes-core/ncurses/ncurses_6.0.bb
+>> index 54d27a9..e956e3f 100644
+>> --- a/meta/recipes-core/ncurses/ncurses_5.9.bb
+>> +++ b/meta/recipes-core/ncurses/ncurses_6.0.bb
+>> @@ -1,12 +1,10 @@
+>> require ncurses.inc
+>>
+>> -REVISION = "20150329"
+>> -
+>> -PR = "${INC_PR}.1"
+>> +REVISION = "20150810"
+>>
+>> SRC_URI += "file://tic-hang.patch \
+>>              file://config.cache \
+>> "
+>> S = "${WORKDIR}/${BP}-${REVISION}"
+>> -SRC_URI[md5sum] = "cee991d09e69e60ebedef424804c52d4"
+>> -SRC_URI[sha256sum] = "5b64f40e4dce73e3aa83d15bd9257c6eff8790ec41150f0938bd87c0eb75828f"
+>> +SRC_URI[md5sum] = "78bfcb4634a87b4cda390956586f8f1f"
+>> +SRC_URI[sha256sum] = "85d4a615731bc71075416fc3bea15a56740bed42b3596bbb126226af4111c65c"
+>> --
+>> 1.7.9.5
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
