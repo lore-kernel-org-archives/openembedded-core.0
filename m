@@ -1,27 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EA8E606E8
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D3079606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 14:33:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7HEXoPP006255
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 17 Aug 2015 07:33:50 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 17 Aug 2015 07:33:50 -0700
-Message-ID: <55D1F0BD.5060008@windriver.com>
-Date: Mon, 17 Aug 2015 10:33:33 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+	Mon, 17 Aug 2015 14:42:32 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 17 Aug 2015 07:42:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,695,1432623600"; d="scan'208";a="785334683"
+Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.46])
+	([10.219.5.46])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Aug 2015 07:42:31 -0700
+Message-ID: <55D1F315.8010308@linux.intel.com>
+Date: Mon, 17 Aug 2015 09:43:33 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-To: He Zhe <zhe.he@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <cover.1439204789.git.zhe.he@windriver.com>
-	<55D1A5FB.90504@windriver.com>
-In-Reply-To: <55D1A5FB.90504@windriver.com>
-Subject: Re: [PATCH v4 0/1] Yocto Bug #6945
+To: "Burton, Ross" <ross.burton@intel.com>, Khem Raj <raj.khem@gmail.com>
+References: <cover.1439456090.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<757e0230b801d19350e30523d62ac9b963c542bf.1439456090.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<CAJTo0LbpYSNWZ39Vik4U8eT-+B+tg4-RpY+0nsDphLA5a-wOQA@mail.gmail.com>
+	<CAMKF1sqHK5q-Xq9Gv4wae4MZdSw57e_OVyc_kdFkWgeAKd8v+g@mail.gmail.com>
+	<CAJTo0LaTHTHis8e3X+5STP8VDsJ0z8mcNLGjJQS9RFLGmZNDSQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LaTHTHis8e3X+5STP8VDsJ0z8mcNLGjJQS9RFLGmZNDSQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] package_deb.bbclass: Handle exception when encoding non-ASCII characters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,47 +37,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 14:33:56 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Mon, 17 Aug 2015 14:42:35 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 15-08-17 05:14 AM, He Zhe wrote:
-> Ping.
+Ross/Raj, thanks for your comments. I will send a v2 patches, this time 
+with the correct checks (invalid characters are those non-UTF8) and 
+patch titles.
 
-Everyone still has this on their list. I'm just back from vacation now,
-and will put a review in my TODO list.
-
-But for now .. patience is still requested.
-
-Cheers,
-
-Bruce
-
+On 08/13/2015 02:34 PM, Burton, Ross wrote:
+> On 13 August 2015 at 20:21, Khem Raj <raj.khem@gmail.com> wrote:
 >
-> On 08/10/2015 08:46 PM, zhe.he@windriver.com wrote:
->> From: He Zhe <zhe.he@windriver.com>
->>
->>   - Add KERNEL_IMAGETYPES to support building packaging and installing
->> multi types of kernel images, such as zImage uImage, at one time.
->>   - KERNEL_IMAGETYPE works as it did.
->>   - v2: Update with the latest oe-core
->>   - v3: Add KERNEL_IMAGETYPES, leave KERNEL_IMAGETYPE as is
->>   - v4: Turn package name to lower case to meet opkg's requrement
->>         Modify "if test" in kernel-fitimage.bbclass and kernel-uimage.bbclass
->>
->>
->> He Zhe (1):
->>    kernel: Add KERNEL_IMAGETYPES to build multi types of kernel at one
->>      time
->>
->>   meta/classes/kernel-fitimage.bbclass    |  21 +++---
->>   meta/classes/kernel-grub.bbclass        |  46 +++++++----
->>   meta/classes/kernel-uimage.bbclass      |  22 +++---
->>   meta/classes/kernel.bbclass             | 130 +++++++++++++++++++++++---------
->>   meta/conf/documentation.conf            |   1 +
->>   meta/recipes-kernel/linux/linux-dtb.inc |  81 ++++++++++++--------
->>   6 files changed, 199 insertions(+), 102 deletions(-)
+>> but check it still fine isnt it.
 >>
 >
-
+> Of course, gracefully handling encoding failures is still sensible.
+>
+> Ross
+>
 
