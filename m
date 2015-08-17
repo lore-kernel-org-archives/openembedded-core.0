@@ -1,59 +1,41 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F1C6606E8
+Return-Path: <christian.ziethen@linaro.org>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E43E606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 10:52:43 +0000 (UTC)
-Received: by iodt126 with SMTP id t126so146887014iod.2
+	Mon, 17 Aug 2015 10:54:37 +0000 (UTC)
+Received: by lahi9 with SMTP id i9so76196594lah.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 03:52:44 -0700 (PDT)
+	Mon, 17 Aug 2015 03:54:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=C5O0QeKpaCmBvG91DukzME+E+Gv1CapRuN6azEqbFM0=;
-	b=iRMLWMq1DdEQ4Q9qe1fBM2qiYzPNrXamKhLuzxGqKaj8l9Pq+W8UIN2Rs5QujF29HC
-	dUw/snk5MTb7L0P+t1Y9xw4GII65YOG5wOBUhA0aF/PxzfsUnVuQEE0YpPcuiUTMNHDs
-	ONsDQfLQPJnVCGWG8CCN4gQqoVhtCizgeIN5ltvNn/082PuuRwaWFWJcPIZZvoOha06n
-	82nh/w3BULZU5E9vf02z070B6Sa9fyeB6GKvn8wlkZyOuzXDfaNWxzmuyGfeSAYqNsii
-	/dag3UiaS9YMzKOSnSORrRhdIOc/QFnbqZQ7DWw5Qg8DmPAPHPctfeFJldE14MFIC+Cr
-	XY3A==
-X-Gm-Message-State: ALoCoQliJzivoCUd4hqaCh6zdc3Cs3PA6DjWSb3cPBi4GGsl2fhXIKWuyQgaiLFU/v/CG8bdlo5Z
-X-Received: by 10.107.130.153 with SMTP id m25mr648415ioi.192.1439808764135;
-	Mon, 17 Aug 2015 03:52:44 -0700 (PDT)
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com.
-	[209.85.213.169]) by smtp.gmail.com with ESMTPSA id
-	vk8sm10018324igb.4.2015.08.17.03.52.42
+	h=x-gm-message-state:date:from:to:subject:message-id:references
+	:mime-version:content-type:content-disposition
+	:content-transfer-encoding:in-reply-to:user-agent;
+	bh=CeZ7GqQ/0aVZg+7oHRwD1JR9TVJtgK2NuEujYpX96Ps=;
+	b=h3ZqaQaZma1V5VKzv27CqiahKR+yRt9mF452nUBh98TJzF7JO8P/bKjSD/5P2kgRWO
+	RNDy6qXNTNk9kpSplLYj4SyjK3q3/PCVqFYjck/enx2/xmY/O7VUU8fmrS7e3QdntCdZ
+	OspeSKSE3mEFKVTC9+5ztFLl2zYetdF3qxllXUT1WUJr+sejyCevGLsxVp90i7SZvn/l
+	rJRRsVBCbS5nPvsB5lBMoZRoAv/UQjfRDDWqaajcfTg7RQyBX5UKRjxn9njVk9Cj2Hkl
+	DmscBXl2PVV8+lfTqt8pNGUCweoqezUsJ4L9lg/2fwdFmB9z9QbfYFqcHox/9yc2kEjG
+	KrMw==
+X-Gm-Message-State: ALoCoQnv3mmNdTEn02wLF7FfG9T6TgGhlaeJpnMXuSYyQplNHOf97k4LXOu+j6BvOLBoiiLWBw+b
+X-Received: by 10.112.185.66 with SMTP id fa2mr673348lbc.42.1439808876370;
+	Mon, 17 Aug 2015 03:54:36 -0700 (PDT)
+Received: from gmail.com (sestofw01.enea.se. [192.36.1.252])
+	by smtp.gmail.com with ESMTPSA id j2sm3830694lag.10.2015.08.17.03.54.35
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Aug 2015 03:52:42 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igfj19 with SMTP id j19so54079465igf.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 03:52:42 -0700 (PDT)
+	Mon, 17 Aug 2015 03:54:35 -0700 (PDT)
+Date: Mon, 17 Aug 2015 12:54:28 +0200
+From: Christian =?iso-8859-1?Q?Zieth=E9n?= <christian.ziethen@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20150817105427.GA28145@gmail.com>
+References: <1437661949-9295-1-git-send-email-christian.ziethen@linaro.org>
 MIME-Version: 1.0
-X-Received: by 10.50.88.8 with SMTP id bc8mr16929534igb.46.1439808762392; Mon,
-	17 Aug 2015 03:52:42 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Mon, 17 Aug 2015 03:52:42 -0700 (PDT)
-In-Reply-To: <20150817061425.GA6102@loska>
-References: <1439303596-18965-1-git-send-email-ed.bartosh@linux.intel.com>
-	<1439372011-26268-1-git-send-email-ed.bartosh@linux.intel.com>
-	<20150812094953.GL6102@loska>
-	<CAMKF1squ7h9gzvrX8u3m2_K_BeO7gto_ji5f4UBdJxnuNMyLZA@mail.gmail.com>
-	<CABcZANmtCK18u2m2R51SmZN3Xrq7+FxY8PXMXJ4Y6-WVA3tGMQ@mail.gmail.com>
-	<CABcZANkHBUNH5Zo3opKT-uwfneMYghTBTJCV8awOm-6D_0SK1w@mail.gmail.com>
-	<20150813062742.GN6102@loska>
-	<CABcZANkKkXbb+5BFYBARLOTGKBdaon_+4cvQDGDZw8WWqSmt_g@mail.gmail.com>
-	<CABcZANkBfrtA86wHOEnXY=2vKb6QLerR8OG7njcQRbVqsDV+-g@mail.gmail.com>
-	<20150817061425.GA6102@loska>
-Date: Mon, 17 Aug 2015 07:52:42 -0300
-Message-ID: <CAP9ODKqXDej63zLcCCjPxeUADT6+ZV5mww=b3-wdkzjNJ0bmTw@mail.gmail.com>
-To: Mikko.Rapeli@bmw.de
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: shell script guidelines in oe-core? (was Re: [PATCH v4] create-pull-request: cleanup bashisms)
+In-Reply-To: <1437661949-9295-1-git-send-email-christian.ziethen@linaro.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: [PATCH 1/2] image: Support for qcow2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,20 +48,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 10:52:45 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 17 Aug 2015 10:54:42 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 17, 2015 at 3:14 AM,  <Mikko.Rapeli@bmw.de> wrote:
-> On Sat, Aug 15, 2015 at 06:38:18PM -0700, Christopher Larson wrote:
->> Update: checkbashisms and shellcheck both check for this now.
->
-> This is great! How about formulating that oe-core shell scripts should
-> pass shellcheck and checkbashisms checks without warnings?
+ping
 
-I second this; the more picky we are now, less bashism we have to handle later.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+On 2015-07-23 16:32, Christian Ziethén wrote:
+> Add support for qcow2 image format. Implemented in the same way as
+> the previously existing vmdk and vdi solutions.
+> 
+> Signed-off-by: Christian Ziethén <christian.ziethen@linaro.org>
+> ---
+>  meta/classes/boot-directdisk.bbclass |  2 +-
+>  meta/classes/image-vm.bbclass        | 12 ++++++++++--
+>  meta/classes/image.bbclass           |  2 +-
+>  meta/classes/image_types.bbclass     |  5 +++--
+>  meta/classes/sanity.bbclass          |  4 ++++
+>  5 files changed, 19 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+> index c576523..d256fff 100644
+> --- a/meta/classes/boot-directdisk.bbclass
+> +++ b/meta/classes/boot-directdisk.bbclass
+> @@ -63,7 +63,7 @@ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+>  SYSLINUX_ROOT ?= "root=/dev/sda2"
+>  SYSLINUX_TIMEOUT ?= "10"
+>  
+> -IS_VM = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk" ,"vdi"], "true", "false", d)}'
+> +IS_VM = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2"], "true", "false", d)}'
+>  
+>  boot_direct_populate() {
+>  	dest=$1
+> diff --git a/meta/classes/image-vm.bbclass b/meta/classes/image-vm.bbclass
+> index fdfd14f..28519c8 100644
+> --- a/meta/classes/image-vm.bbclass
+> +++ b/meta/classes/image-vm.bbclass
+> @@ -14,7 +14,8 @@ inherit boot-directdisk
+>  
+>  IMAGE_TYPEDEP_vmdk = "ext3"
+>  IMAGE_TYPEDEP_vdi = "ext3"
+> -IMAGE_TYPES_MASKED += "vmdk vdi"
+> +IMAGE_TYPEDEP_qcow2 = "ext3"
+> +IMAGE_TYPES_MASKED += "vmdk vdi qcow2"
+>  
+>  create_vmdk_image () {
+>      qemu-img convert -O vmdk ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.vmdk
+> @@ -26,11 +27,18 @@ create_vdi_image () {
+>      ln -sf ${IMAGE_NAME}.vdi ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.vdi
+>  }
+>  
+> +create_qcow2_image () {
+> +    qemu-img convert -O qcow2 ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.hdddirect ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.qcow2
+> +    ln -sf ${IMAGE_NAME}.qcow2 ${DEPLOY_DIR_IMAGE}/${IMAGE_LINK_NAME}.qcow2
+> +}
+> +
+>  python do_vmimg() {
+>      if 'vmdk' in d.getVar('IMAGE_FSTYPES', True):
+>          bb.build.exec_func('create_vmdk_image', d)
+>      if 'vdi' in d.getVar('IMAGE_FSTYPES', True):
+> -        bb.build.exec_func('create_vdi_image', d)        
+> +        bb.build.exec_func('create_vdi_image', d)
+> +    if 'qcow2' in d.getVar('IMAGE_FSTYPES', True):
+> +        bb.build.exec_func('create_qcow2_image', d)
+>  }
+>  
+>  addtask vmimg after do_bootdirectdisk before do_build
+> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> index e2995e2..ff2ed0d 100644
+> --- a/meta/classes/image.bbclass
+> +++ b/meta/classes/image.bbclass
+> @@ -132,7 +132,7 @@ def build_live(d):
+>  IMAGE_TYPE_live = "${@build_live(d)}"
+>  inherit ${IMAGE_TYPE_live}
+>  
+> -IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi"], "image-vm", "", d)}'
+> +IMAGE_TYPE_vm = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2"], "image-vm", "", d)}'
+>  inherit ${IMAGE_TYPE_vm}
+>  
+>  python () {
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 588a474..cc789fc 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -13,7 +13,7 @@ def imagetypes_getdepends(d):
+>      deps = []
+>      ctypes = d.getVar('COMPRESSIONTYPES', True).split()
+>      for type in (d.getVar('IMAGE_FSTYPES', True) or "").split():
+> -        if type in ["vmdk", "vdi", "live", "iso", "hddimg"]:
+> +        if type in ["vmdk", "vdi", "qcow2", "live", "iso", "hddimg"]:
+>              type = "ext3"
+>          basetype = type
+>          for ctype in ctypes:
+> @@ -187,6 +187,7 @@ IMAGE_TYPES = " \
+>      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+>      vmdk \
+>      vdi \
+> +    qcow2 \
+>      elf \
+>  "
+>  
+> @@ -213,5 +214,5 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
+>  IMAGE_EXTENSION_live = "hddimg iso"
+>  
+>  # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+> -# images that will not be built at do_rootfs time: vmdk, vdi, hddimg, iso, etc.
+> +# images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hddimg, iso, etc.
+>  IMAGE_TYPES_MASKED ?= ""
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index 2855941..6ad620b 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -835,6 +835,10 @@ def check_sanity_everybuild(status, d):
+>      if 'vdi' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
+>          status.addresult("Error, IMAGE_FSTYPES vdi and live can't be built together\n")
+>  
+> +    # Check qcow2 and live can't be built together.
+> +    if 'qcow2' in d.getVar('IMAGE_FSTYPES', True) and 'live' in d.getVar('IMAGE_FSTYPES', True):
+> +        status.addresult("Error, IMAGE_FSTYPES qcow2 and live can't be built together\n")
+> +
+>      # Check /bin/sh links to dash or bash
+>      real_sh = os.path.realpath('/bin/sh')
+>      if not real_sh.endswith('/dash') and not real_sh.endswith('/bash'):
+> -- 
+> 2.1.4
+> 
 
