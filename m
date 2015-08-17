@@ -1,42 +1,25 @@
-Return-Path: <christian.ziethen@linaro.org>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by mail.openembedded.org (Postfix) with ESMTP id B740E606E8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CC2E65CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 10:55:05 +0000 (UTC)
-Received: by lbbpu9 with SMTP id pu9so79535477lbb.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 03:55:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:references
-	:mime-version:content-type:content-disposition
-	:content-transfer-encoding:in-reply-to:user-agent;
-	bh=mbEe7BtrqNtBPF/n57RYWDCrKWe+QLL+3pgHm9JjawU=;
-	b=R5GE1S86G9H2mUZf0MoKNcJho3dpxq3geUM4SG0ALz/6eQDxQlgfhclksc+6T8M8fO
-	duIdmN8Gmer6yANsBjO6e/haqmOoOKwAgVmJUZPvEWZGFBcz7ef51OMZe2dgjgD7AGEx
-	3Xja/EcYj3kH9OryppdClDAMmvYEXZX4kSWw7sJMzmiOdIC/Y7ZGVmNAdAvUTf8tg7yh
-	sqibRsHMXUqrZQIlVCgcU3YhQ7zn+esq2H34VXzJ6Synv5MTEKqNki/00VTP1LNjk+VO
-	JsabLtABhVk19bDLv0GuA6PE47J/I6kIxUkv3dkVEIcdhpBrjqB1RF0qh1ohdmL961cS
-	xLmg==
-X-Gm-Message-State: ALoCoQneGPra3AjoSoVZx1P1mhtaUaSZ1A+E8gwvb7bE9ADxOxYaMv6v/dRc6phCnFOT/TK/yxFA
-X-Received: by 10.152.44.130 with SMTP id e2mr669676lam.14.1439808905416;
-	Mon, 17 Aug 2015 03:55:05 -0700 (PDT)
-Received: from gmail.com (sestofw01.enea.se. [192.36.1.252])
-	by smtp.gmail.com with ESMTPSA id n6sm1633577laf.18.2015.08.17.03.55.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 17 Aug 2015 03:55:04 -0700 (PDT)
-Date: Mon, 17 Aug 2015 12:55:03 +0200
-From: Christian =?iso-8859-1?Q?Zieth=E9n?= <christian.ziethen@linaro.org>
+	Mon, 17 Aug 2015 11:23:11 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Aug 2015 04:23:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,694,1432623600"; d="scan'208";a="626925817"
+Received: from jwanrooi-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.11.216])
+	by orsmga003.jf.intel.com with ESMTP; 17 Aug 2015 04:23:11 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20150817105502.GB28145@gmail.com>
-References: <1437661949-9295-1-git-send-email-christian.ziethen@linaro.org>
-	<1437661949-9295-2-git-send-email-christian.ziethen@linaro.org>
-MIME-Version: 1.0
-In-Reply-To: <1437661949-9295-2-git-send-email-christian.ziethen@linaro.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: [PATCH 2/2] boot-directdisk: Make kernel image inclusion conditional.
+Date: Mon, 17 Aug 2015 12:23:03 +0100
+Message-Id: <8388b5c3f125ca8bfbe73e55492411d885f1e953.1439810551.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1439810551.git.paul.eggleton@linux.intel.com>
+References: <cover.1439810551.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1439810551.git.paul.eggleton@linux.intel.com>
+References: <cover.1439810551.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/4] devtool: extract: prevent externalsrc from interfering with extraction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,38 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 10:55:09 -0000
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 17 Aug 2015 11:23:11 -0000
 
-ping
+In case the user has set up externalsrc outside of devtool, force
+EXTERNALSRC to blank for the recipe when extracting so that the original
+source URI is still in SRC_URI and we're still able to extract it. (This
+isn't a problem with devtool itself because the bbappends within the
+workspace layer that apply externalsrc are explicitly filtered out when
+devtool parses a recipe).
 
-On 2015-07-23 16:32, Christian Ziethén wrote:
-> When building for qcow2 and a dummy kernel, avoid installing
-> a non existing bzImage.
-> 
-> Signed-off-by: Christian Ziethén <christian.ziethen@linaro.org>
-> ---
->  meta/classes/boot-directdisk.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-> index d256fff..600e21a 100644
-> --- a/meta/classes/boot-directdisk.bbclass
-> +++ b/meta/classes/boot-directdisk.bbclass
-> @@ -70,7 +70,9 @@ boot_direct_populate() {
->  	install -d $dest
->  
->  	# Install bzImage, initrd, and rootfs.img in DEST for all loaders to use.
-> -	install -m 0644 ${DEPLOY_DIR_IMAGE}/bzImage $dest/vmlinuz
-> +	if [ -e ${DEPLOY_DIR_IMAGE}/bzImage ]; then
-> +		install -m 0644 ${DEPLOY_DIR_IMAGE}/bzImage $dest/vmlinuz
-> +	fi
->  
->  	# initrd is made of concatenation of multiple filesystem images
->  	if [ -n "${INITRD}" ]; then
-> -- 
-> 2.1.4
-> 
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/devtool/standard.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index ea21877..e4ee7f7 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -294,6 +294,8 @@ def _extract_source(srctree, keep_temp, devbranch, d):
+ 
+         task_executor = BbTaskExecutor(crd)
+ 
++        crd.setVar('EXTERNALSRC_forcevariable', '')
++
+         logger.info('Fetching %s...' % pn)
+         task_executor.exec_func('do_fetch', False)
+         logger.info('Unpacking...')
+-- 
+2.1.0
+
 
