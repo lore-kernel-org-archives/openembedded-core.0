@@ -1,36 +1,34 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id F002565CBC
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 7933065CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 04:28:28 +0000 (UTC)
-Received: by iodv127 with SMTP id v127so122520304iod.3
+	Mon, 17 Aug 2015 05:03:27 +0000 (UTC)
+Received: by igxp17 with SMTP id p17so47840402igx.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Aug 2015 21:28:28 -0700 (PDT)
+	Sun, 16 Aug 2015 22:03:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=80wPxJTei/AX3dK/4emWfvfyEmlm5Ng9P0h4cv/Q+LM=;
-	b=Raht79bt9+JCW8mkEeNyncl+uUQ6GzEzmrcb5Hkub9wCv8X56iJSMd3e5JUHc9GuBM
-	LAeQqEBMBfrMMPawl9RmcSQFhb8upOEDTlFzyB86h6PlAmaN2hqSFdALbWLySHO/G4+h
-	S4VdHDemRu5EQi293Zs3fzArPQnjp5+XGPEX14ZBqVaM2ZDWv291v48OrQTUGPrjNfxK
-	gjnwNgKKyCn5ad9jXlr7fsP2i54IpCWSTGEN4V2G/w+wEc/WMJXlPbWmqADhS/b2xUuP
-	jn82ACxjbq1NeOml3QRhoPBSgZzkT7KHmrfFcFmx70GcXr2mSIut8JOnzcCtHY3yDvOC
-	P6Ug==
-X-Received: by 10.107.17.166 with SMTP id 38mr20757137ior.21.1439785707934;
-	Sun, 16 Aug 2015 21:28:27 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id;
+	bh=F7E6supxG3cO9B4Q0ednKAbgLRWYgl5WUYFaqqY/3UA=;
+	b=0l8FoX7qlk7RLoThndIrkOFJVcpwrC1A3QCSH5TZhhqllNVs2SnNJyKT50eW9V0ZH1
+	MSObzy+VziJMPEnirYrh6aOokVhgVfm8/eUR96fvHhy6h68wKAHPOICVQ0FD+nSdobJz
+	dIowHekvNB8p2umpHB9feJTJPgk6l/MoY4YjBe0YrO1wBp/Woqnorpx2yjtfHguaQZ16
+	/wvZhqcxasIIQ51s1SnSMCCaZhBEDvF8jPoRwMQB/UM2nLKISEK3kZVxiQPuTLnsvpPl
+	KOQUm/gyJ6gGuT4MF1T4vm2Ib31Y2gGbM9oF3ABF/BELFWkpws64zeTueiFFwpwG3wvp
+	/YSA==
+X-Received: by 10.50.141.193 with SMTP id rq1mr10331273igb.4.1439787807555;
+	Sun, 16 Aug 2015 22:03:27 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
-	[96.119.89.79])
-	by smtp.gmail.com with ESMTPSA id 85sm11885739iot.6.2015.08.16.21.28.27
+	[96.119.89.79]) by smtp.gmail.com with ESMTPSA id
+	e33sm11927035ioi.12.2015.08.16.22.03.26
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 16 Aug 2015 21:28:27 -0700 (PDT)
+	Sun, 16 Aug 2015 22:03:26 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Aug 2015 21:28:22 -0700
-Message-Id: <1439785702-23558-1-git-send-email-raj.khem@gmail.com>
+Date: Sun, 16 Aug 2015 22:03:20 -0700
+Message-Id: <1439787800-21088-1-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
-MIME-Version: 1.0
-Subject: [PATCH] uclibc: Upgrade to tip of master
+Subject: [PATCH 2/4 V2] systemd: Upgrade 219 -> 224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,2027 +41,1049 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 04:28:34 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 17 Aug 2015 05:03:32 -0000
 
-Drop upstreamed patches convert the rest to git am'able patches
-
+Change-Id: I998e652382950a3c74c4839f3767ef8bef23d88f
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/uclibc/uclibc-git.inc            |  38 +--
- .../0001-Add-eventfd_read-and-eventfd_write.patch  | 120 --------
- ...IPTOS_CLASS_-macros-according-to-RFC-2474.patch |  75 -----
- .../0001-Disable-lrount_tes-function.patch         |  37 +++
- ...nt.c-wtent.c-move-functions-from-utxent.c.patch | 319 ---------------------
- ...1-atexit_old-Do-not-add-it-to-shared-libc.patch |  44 ---
- ...-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch |  28 --
- ...rk-Hide-pthread_atfork-in-shared-versions.patch |  74 -----
- .../uclibc-git/0001-timex-Sync-with-glibc.patch    |  33 ---
- ...Add-implementation-for-copysignl-for-ppc.patch} |  33 ++-
- .../uclibc-git/0002-wire-setns-syscall.patch       |  68 -----
- ...rt.patch => 0003-Add-argp-implementation.patch} | 311 +++++++++++---------
- ...dded-headers-file-needed-by-argp-sources.patch} |  27 +-
- ...t-localised-optimizations-this-helps-to-h.patch |  29 ++
- .../0006-Always-use-O2-for-compiling-fork.c.patch  |  32 +++
- ...ldso-limited-support-for-ORIGIN-in-rpath.patch} |  12 +-
- ...rk-Hide-pthread_atfork-in-shared-versions.patch |  36 +++
- ...rt-Use-nodefaultlibs-instead-of-nostdlib.patch} |  29 +-
- .../uclibc-git/compile-arm-fork-with-O2.patch      |  21 --
- .../ldso-mark-_dl_exit-as-noreturn.patch           |  48 ----
- .../uclibc-git/remove_attribute_optimize_Os.patch  |  19 --
- .../uclibc-git/uclibc_enable_log2_test.patch       |  35 ---
- meta/recipes-core/uclibc/uclibc.inc                |   2 +-
- 23 files changed, 381 insertions(+), 1089 deletions(-)
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Add-eventfd_read-and-eventfd_write.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Define-IPTOS_CLASS_-macros-according-to-RFC-2474.patch
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Disable-lrount_tes-function.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-atexit_old-Do-not-add-it-to-shared-libc.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0001-timex-Sync-with-glibc.patch
- rename meta/recipes-core/uclibc/uclibc-git/{powerpc_copysignl.patch => 0002-Add-implementation-for-copysignl-for-ppc.patch} (73%)
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/0002-wire-setns-syscall.patch
- rename meta/recipes-core/uclibc/uclibc-git/{argp-support.patch => 0003-Add-argp-implementation.patch} (96%)
- rename meta/recipes-core/uclibc/uclibc-git/{argp-headers.patch => 0004-Added-headers-file-needed-by-argp-sources.patch} (97%)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0005-Dont-support-localised-optimizations-this-helps-to-h.patch
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0006-Always-use-O2-for-compiling-fork.c.patch
- rename meta/recipes-core/uclibc/uclibc-git/{0001-ldso-limited-support-for-ORIGIN-in-rpath.patch => 0007-ldso-limited-support-for-ORIGIN-in-rpath.patch} (96%)
- create mode 100644 meta/recipes-core/uclibc/uclibc-git/0008-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch
- rename meta/recipes-core/uclibc/uclibc-git/{0001-librt-Use-nodefaultlibs-instead-of-nostdlib.patch => 0009-librt-Use-nodefaultlibs-instead-of-nostdlib.patch} (50%)
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/ldso-mark-_dl_exit-as-noreturn.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/remove_attribute_optimize_Os.patch
- delete mode 100644 meta/recipes-core/uclibc/uclibc-git/uclibc_enable_log2_test.patch
+ ...-mount-add-dependencies-to-dynamically-mo.patch |  36 ----
+ ...ed-missing.h-fall-back-to-insecure-getenv.patch |  25 ---
+ ...t-install-dependency-links-at-install-tim.patch |  35 ++--
+ ...heck-for-additional-features-that-uclibc-.patch |  23 ++-
+ ...wn-Use-execvpe-only-when-libc-supports-it.patch |  37 ++---
+ ...til-Use-mkostemp-only-if-libc-supports-it.patch |   8 +-
+ ...-unimplemented-_SC_PHYS_PAGES-system-conf.patch |   8 +-
+ ...0-Make-root-s-home-directory-configurable.patch | 136 ++++++++-------
+ ...files.c-Honor-ordering-within-files-as-th.patch | 185 ---------------------
+ ...-remove-userspace-firmware-loading-suppor.patch |  99 ++++++-----
+ .../systemd/systemd/tmpfiles-pam.patch             |  30 ----
+ .../systemd/{systemd_219.bb => systemd_224.bb}     |  25 +--
+ 12 files changed, 174 insertions(+), 473 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0002-shared-missing.h-fall-back-to-insecure-getenv.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/tmpfiles-pam.patch
+ rename meta/recipes-core/systemd/{systemd_219.bb => systemd_224.bb} (95%)
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-index 3c48940..8db3b9e 100644
---- a/meta/recipes-core/uclibc/uclibc-git.inc
-+++ b/meta/recipes-core/uclibc/uclibc-git.inc
-@@ -1,30 +1,22 @@
--SRCREV = "48a0006012679ff0eda6f256da958d73a924fb57"
-+SRCREV = "ca1c74d67dd115d059a875150e10b8560a9c35a8"
+diff --git a/meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch b/meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch
+deleted file mode 100644
+index d69cfe0..0000000
+--- a/meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From eb7a760052667c5a35637901de9359c377263804 Mon Sep 17 00:00:00 2001
+-From: Colin Walters <walters@verbum.org>
+-Date: Tue, 24 Feb 2015 10:12:28 -0500
+-Subject: [PATCH] Revert "core/mount: add dependencies to dynamically mounted
+- mounts too"
+-
+-This reverts commit 06e97888883e2cc12eb6514e80c7f0014295f59b.
+-
+-This patch was imported from Fedora (http://pkgs.fedoraproject.org/cgit/systemd.git/commit/?h=f22&id=9bbe0e92dc59d5a42258c729b105a7d9901eb35e).
+-
+-It fixes an issue where mount points not listed in fstab are immediately
+-unmounted after a call to mount.
+-
+-Upstream-Status: Inappropriate [fixed upstream]
+-
+-Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+----
+- src/core/mount.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/core/mount.c b/src/core/mount.c
+-index 40037e7..cddb5e2 100644
+---- a/src/core/mount.c
+-+++ b/src/core/mount.c
+-@@ -295,7 +295,7 @@ static int mount_add_device_links(Mount *m) {
+- 
+-         assert(m);
+- 
+--        p = get_mount_parameters(m);
+-+        p = get_mount_parameters_fragment(m);
+-         if (!p)
+-                 return 0;
+- 
+--- 
+-1.8.3.1
+-
+diff --git a/meta/recipes-core/systemd/systemd/0002-shared-missing.h-fall-back-to-insecure-getenv.patch b/meta/recipes-core/systemd/systemd/0002-shared-missing.h-fall-back-to-insecure-getenv.patch
+deleted file mode 100644
+index 1cf7840..0000000
+--- a/meta/recipes-core/systemd/systemd/0002-shared-missing.h-fall-back-to-insecure-getenv.patch
++++ /dev/null
+@@ -1,25 +0,0 @@
+-From 03baade6db2cf83b44a157818ba827d725449bb0 Mon Sep 17 00:00:00 2001
+-From: Emil Renner Berthing <systemd@esmil.dk>
+-Date: Thu, 18 Sep 2014 15:24:47 +0200
+-Subject: [PATCH 02/11] shared/missing.h: fall back to insecure getenv
+-
+----
+- src/shared/missing.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/src/shared/missing.h b/src/shared/missing.h
+-index b33a70c..11cca04 100644
+---- a/src/shared/missing.h
+-+++ b/src/shared/missing.h
+-@@ -366,7 +366,7 @@ static inline int name_to_handle_at(int fd, const char *name, struct file_handle
+- #  ifdef HAVE___SECURE_GETENV
+- #    define secure_getenv __secure_getenv
+- #  else
+--#    error "neither secure_getenv nor __secure_getenv are available"
+-+#    define secure_getenv getenv
+- #  endif
+- #endif
+- 
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-core/systemd/systemd/0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+index c14cc6f..0e20fd0 100644
+--- a/meta/recipes-core/systemd/systemd/0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch
++++ b/meta/recipes-core/systemd/systemd/0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+@@ -23,11 +23,11 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  units/systemd-binfmt.service.in         | 5 +++++
+  3 files changed, 8 insertions(+), 4 deletions(-)
  
- PV = "0.9.33+git${SRCPV}"
+-diff --git a/Makefile.am b/Makefile.am
+-index ba63f68..0fb3f9f 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -4838,10 +4838,6 @@ INSTALL_DIRS += \
++Index: git/Makefile.am
++===================================================================
++--- git.orig/Makefile.am
+++++ git/Makefile.am
++@@ -4271,10 +4271,6 @@ INSTALL_DIRS += \
+  	$(prefix)/lib/binfmt.d \
+  	$(sysconfdir)/binfmt.d
+  
+@@ -38,10 +38,10 @@ index ba63f68..0fb3f9f 100644
+  endif
+  
+  EXTRA_DIST += \
+-diff --git a/units/proc-sys-fs-binfmt_misc.automount b/units/proc-sys-fs-binfmt_misc.automount
+-index 6be3893..709adef 100644
+---- a/units/proc-sys-fs-binfmt_misc.automount
+-+++ b/units/proc-sys-fs-binfmt_misc.automount
++Index: git/units/proc-sys-fs-binfmt_misc.automount
++===================================================================
++--- git.orig/units/proc-sys-fs-binfmt_misc.automount
+++++ git/units/proc-sys-fs-binfmt_misc.automount
+ @@ -16,3 +16,6 @@ ConditionPathIsReadWrite=/proc/sys/
+  
+  [Automount]
+@@ -49,11 +49,11 @@ index 6be3893..709adef 100644
+ +
+ +[Install]
+ +WantedBy=sysinit.target
+-diff --git a/units/systemd-binfmt.service.in b/units/systemd-binfmt.service.in
+-index 34a5d52..617462b 100644
+---- a/units/systemd-binfmt.service.in
+-+++ b/units/systemd-binfmt.service.in
+-@@ -11,6 +11,8 @@ Documentation=man:systemd-binfmt.service(8) man:binfmt.d(5)
++Index: git/units/systemd-binfmt.service.in
++===================================================================
++--- git.orig/units/systemd-binfmt.service.in
+++++ git/units/systemd-binfmt.service.in
++@@ -11,6 +11,8 @@ Documentation=man:systemd-binfmt.service
+  Documentation=https://www.kernel.org/doc/Documentation/binfmt_misc.txt
+  DefaultDependencies=no
+  Conflicts=shutdown.target
+@@ -62,13 +62,10 @@ index 34a5d52..617462b 100644
+  After=proc-sys-fs-binfmt_misc.automount
+  Before=sysinit.target shutdown.target
+  ConditionPathIsReadWrite=/proc/sys/
+-@@ -24,3 +26,6 @@ ConditionDirectoryNotEmpty=|/run/binfmt.d
+- Type=oneshot
++@@ -25,3 +27,6 @@ Type=oneshot
+  RemainAfterExit=yes
+  ExecStart=@rootlibexecdir@/systemd-binfmt
++ TimeoutSec=90s
+ +
+ +[Install]
+ +WantedBy=sysinit.target
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-core/systemd/systemd/0004-configure-Check-for-additional-features-that-uclibc-.patch b/meta/recipes-core/systemd/systemd/0004-configure-Check-for-additional-features-that-uclibc-.patch
+index dddb7da..8078da9 100644
+--- a/meta/recipes-core/systemd/systemd/0004-configure-Check-for-additional-features-that-uclibc-.patch
++++ b/meta/recipes-core/systemd/systemd/0004-configure-Check-for-additional-features-that-uclibc-.patch
+@@ -14,13 +14,13 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  configure.ac | 18 ++++++++++++++++++
+  1 file changed, 18 insertions(+)
  
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/uclibc-git:"
+-diff --git a/configure.ac b/configure.ac
+-index 9a2235b..a5b2e6e 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -103,6 +103,24 @@ AS_IF([! ln --relative --help > /dev/null 2>&1], [AC_MSG_ERROR([*** ln doesn't s
++Index: git/configure.ac
++===================================================================
++--- git.orig/configure.ac
+++++ git/configure.ac
++@@ -110,6 +110,24 @@ AC_PATH_PROG([UMOUNT_PATH], [umount], [/
+  
+- M4_DEFINES=
++ AS_IF([! ln --relative --help > /dev/null 2>&1], [AC_MSG_ERROR([*** ln doesn't support --relative ***])])
+  
+ +# check for few functions not implemented in uClibc
+ +
+@@ -31,7 +31,7 @@ index 9a2235b..a5b2e6e 100644
+ +AC_MSG_CHECKING([whether %ms format is supported by *scanf])
+ +
+ +AC_LINK_IFELSE(
+-+	[AC_LANG_PROGRAM([ 
+++	[AC_LANG_PROGRAM([
+ +	 #include <stdio.h>
+ +	 ],[
+ +	    char *buf1, *buf2, *buf3, str="1 2.3 abcde" ;
+@@ -40,9 +40,6 @@ index 9a2235b..a5b2e6e 100644
+ +	[AC_DEFINE([HAVE_MSFORMAT], [1], [Define if %ms format is supported by *scanf.])],
+ +	[AC_MSG_RESULT([no])])
+ +
+- # gtkdocize greps for '^GTK_DOC_CHECK', so it needs to be on its own line
+- m4_ifdef([GTK_DOC_CHECK], [
+- GTK_DOC_CHECK([1.18],[--flavour no-tmpl])],
+--- 
+-2.1.4
+-
++ M4_DEFINES=
++ 
++ AC_CHECK_TOOL(OBJCOPY, objcopy)
+diff --git a/meta/recipes-core/systemd/systemd/0005-nspawn-Use-execvpe-only-when-libc-supports-it.patch b/meta/recipes-core/systemd/systemd/0005-nspawn-Use-execvpe-only-when-libc-supports-it.patch
+index 85279d6..55a0088 100644
+--- a/meta/recipes-core/systemd/systemd/0005-nspawn-Use-execvpe-only-when-libc-supports-it.patch
++++ b/meta/recipes-core/systemd/systemd/0005-nspawn-Use-execvpe-only-when-libc-supports-it.patch
+@@ -10,32 +10,29 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  src/nspawn/nspawn.c | 7 +++++++
+  1 file changed, 7 insertions(+)
  
- SRC_URI = "git://uclibc.org/uClibc.git;branch=master \
--	file://uClibc.machine \
--	file://uClibc.distro \
--	file://obstack.cfg \
--	file://locale.cfg \
--	file://uclibc_enable_log2_test.patch \
--	file://powerpc_copysignl.patch \
--	file://argp-support.patch \
--	file://argp-headers.patch \
--	file://remove_attribute_optimize_Os.patch \
--	file://compile-arm-fork-with-O2.patch \
--	file://0001-ldso-limited-support-for-ORIGIN-in-rpath.patch \
--	file://0001-atexit_old-Do-not-add-it-to-shared-libc.patch \
--	file://0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch \
--	file://0001-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch \
--	file://0001-librt-Use-nodefaultlibs-instead-of-nostdlib.patch \
--	file://0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch \
--	file://0001-Add-eventfd_read-and-eventfd_write.patch \
--	file://0002-wire-setns-syscall.patch \
--	file://0001-Define-IPTOS_CLASS_-macros-according-to-RFC-2474.patch \
--	file://0001-timex-Sync-with-glibc.patch \
--	file://ldso-mark-_dl_exit-as-noreturn.patch \
--	"
-+        file://uClibc.machine \
-+        file://uClibc.distro \
-+        file://obstack.cfg \
-+        file://locale.cfg \
-+        file://0001-Disable-lrount_tes-function.patch \
-+        file://0002-Add-implementation-for-copysignl-for-ppc.patch \
-+        file://0003-Add-argp-implementation.patch \
-+        file://0004-Added-headers-file-needed-by-argp-sources.patch \
-+        file://0005-Dont-support-localised-optimizations-this-helps-to-h.patch \
-+        file://0006-Always-use-O2-for-compiling-fork.c.patch \
-+        file://0007-ldso-limited-support-for-ORIGIN-in-rpath.patch \
-+        file://0008-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch \
-+        file://0009-librt-Use-nodefaultlibs-instead-of-nostdlib.patch \
-+"
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Add-eventfd_read-and-eventfd_write.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Add-eventfd_read-and-eventfd_write.patch
-deleted file mode 100644
-index dd0efc0..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0001-Add-eventfd_read-and-eventfd_write.patch
-+++ /dev/null
-@@ -1,120 +0,0 @@
--From e3aae24ede969e2dede1aa19c2ee520cab71ce11 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 20 Feb 2014 00:30:18 -0800
--Subject: [PATCH 1/3] Add eventfd_read() and eventfd_write()
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
-----
-- libc/sysdeps/linux/common/Makefile.in     |  2 ++
-- libc/sysdeps/linux/common/eventfd_read.c  | 27 +++++++++++++++++++++++++++
-- libc/sysdeps/linux/common/eventfd_write.c | 28 ++++++++++++++++++++++++++++
-- libc/sysdeps/linux/common/sys/eventfd.h   |  4 ----
-- 4 files changed, 57 insertions(+), 4 deletions(-)
-- create mode 100644 libc/sysdeps/linux/common/eventfd_read.c
-- create mode 100644 libc/sysdeps/linux/common/eventfd_write.c
--
--diff --git a/libc/sysdeps/linux/common/Makefile.in b/libc/sysdeps/linux/common/Makefile.in
--index dbf0b0f..45d2e21 100644
----- a/libc/sysdeps/linux/common/Makefile.in
--+++ b/libc/sysdeps/linux/common/Makefile.in
--@@ -25,6 +25,8 @@ CSRC-$(UCLIBC_LINUX_SPECIFIC) += \
-- 	capset.c \
-- 	dup3.c \
-- 	eventfd.c \
--+	eventfd_read.c \
--+	eventfd_write.c \
-- 	inotify.c \
-- 	ioperm.c \
-- 	iopl.c \
--diff --git a/libc/sysdeps/linux/common/eventfd_read.c b/libc/sysdeps/linux/common/eventfd_read.c
--new file mode 100644
--index 0000000..75f2aaa
----- /dev/null
--+++ b/libc/sysdeps/linux/common/eventfd_read.c
--@@ -0,0 +1,27 @@
--+/* Copyright (C) 2007-2014 Free Software Foundation, Inc.
--+   This file is part of the GNU C Library.
--+
--+   The GNU C Library is free software; you can redistribute it and/or
--+   modify it under the terms of the GNU Lesser General Public
--+   License as published by the Free Software Foundation; either
--+   version 2.1 of the License, or (at your option) any later version.
--+
--+   The GNU C Library is distributed in the hope that it will be useful,
--+   but WITHOUT ANY WARRANTY; without even the implied warranty of
--+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--+   Lesser General Public License for more details.
--+
--+   You should have received a copy of the GNU Lesser General Public
--+   License along with the GNU C Library; if not, see
--+   <http://www.gnu.org/licenses/>.  */
--+
--+#include <errno.h>
--+#include <unistd.h>
--+#include <sys/eventfd.h>
--+
--+
--+int
--+eventfd_read (int fd, eventfd_t *value)
--+{
--+  return read (fd, value, sizeof (eventfd_t)) != sizeof (eventfd_t) ? -1 : 0;
--+}
--diff --git a/libc/sysdeps/linux/common/eventfd_write.c b/libc/sysdeps/linux/common/eventfd_write.c
--new file mode 100644
--index 0000000..e1509cf
----- /dev/null
--+++ b/libc/sysdeps/linux/common/eventfd_write.c
--@@ -0,0 +1,28 @@
--+/* Copyright (C) 2007-2014 Free Software Foundation, Inc.
--+   This file is part of the GNU C Library.
--+
--+   The GNU C Library is free software; you can redistribute it and/or
--+   modify it under the terms of the GNU Lesser General Public
--+   License as published by the Free Software Foundation; either
--+   version 2.1 of the License, or (at your option) any later version.
--+
--+   The GNU C Library is distributed in the hope that it will be useful,
--+   but WITHOUT ANY WARRANTY; without even the implied warranty of
--+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
--+   Lesser General Public License for more details.
--+
--+   You should have received a copy of the GNU Lesser General Public
--+   License along with the GNU C Library; if not, see
--+   <http://www.gnu.org/licenses/>.  */
--+
--+#include <errno.h>
--+#include <unistd.h>
--+#include <sys/eventfd.h>
--+
--+
--+int
--+eventfd_write (int fd, eventfd_t value)
--+{
--+  return write (fd, &value,
--+		sizeof (eventfd_t)) != sizeof (eventfd_t) ? -1 : 0;
--+}
--diff --git a/libc/sysdeps/linux/common/sys/eventfd.h b/libc/sysdeps/linux/common/sys/eventfd.h
--index 1bf785f..91b265b 100644
----- a/libc/sysdeps/linux/common/sys/eventfd.h
--+++ b/libc/sysdeps/linux/common/sys/eventfd.h
--@@ -33,16 +33,12 @@ __BEGIN_DECLS
--    value to COUNT.  */
-- extern int eventfd (int __count, int __flags) __THROW;
-- 
---#if 0 /* not (yet) implemented in uClibc */
---
-- /* Read event counter and possibly wait for events.  */
-- extern int eventfd_read (int __fd, eventfd_t *__value);
-- 
-- /* Increment event counter.  */
-- extern int eventfd_write (int __fd, eventfd_t __value);
-- 
---#endif
---
-- __END_DECLS
-- 
-- #endif /* sys/eventfd.h */
+-diff --git a/src/nspawn/nspawn.c b/src/nspawn/nspawn.c
+-index 0d8d199..b597edb 100644
+---- a/src/nspawn/nspawn.c
+-+++ b/src/nspawn/nspawn.c
+-@@ -129,6 +129,8 @@ typedef enum Volatile {
+-         VOLATILE_STATE,
+- } Volatile;
++Index: git/src/nspawn/nspawn.c
++===================================================================
++--- git.orig/src/nspawn/nspawn.c
+++++ git/src/nspawn/nspawn.c
++@@ -143,6 +143,8 @@ typedef struct CustomMount {
++         char **lower;
++ } CustomMount;
+  
+ +#include "config.h"
+ +
+  static char *arg_directory = NULL;
+  static char *arg_template = NULL;
+  static char *arg_user = NULL;
+-@@ -4257,7 +4259,12 @@ int main(int argc, char *argv[]) {
+-                                 a[0] = (char*) "/sbin/init";
+-                                 execve(a[0], a, env_use);
+-                         } else if (argc > optind)
++@@ -4238,7 +4240,12 @@ static int inner_child(
++                 a[0] = (char*) "/sbin/init";
++                 execve(a[0], a, env_use);
++         } else if (argc > optind)
+ +#ifdef HAVE_EXECVPE
+-                                 execvpe(argv[optind], argv + optind, env_use);
++                 execvpe(argv[optind], argv + optind, env_use);
+ +#else
+-+                                environ = env_use;
+-+                                execvp(argv[optind], argv + optind);
+++                environ = env_use;
+++                execvp(argv[optind], argv + optind);
+ +#endif /* HAVE_EXECVPE */
+-                         else {
+-                                 chdir(home ? home : "/root");
+-                                 execle("/bin/bash", "-bash", NULL, env_use);
 --- 
--1.9.0
+-2.1.4
 -
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Define-IPTOS_CLASS_-macros-according-to-RFC-2474.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Define-IPTOS_CLASS_-macros-according-to-RFC-2474.patch
-deleted file mode 100644
-index d613823..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0001-Define-IPTOS_CLASS_-macros-according-to-RFC-2474.patch
-+++ /dev/null
-@@ -1,75 +0,0 @@
--From be8ed13a90c528adfbe3c8543946bb2c5a2ad713 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 25 Aug 2014 15:50:36 -0700
--Subject: [PATCH] Define IPTOS_CLASS_* macros according to RFC 2474
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-status: Pending
-----
-- include/netinet/ip.h | 42 ++++++++++++++++++++++++++++++------------
-- 1 file changed, 30 insertions(+), 12 deletions(-)
--
--diff --git a/include/netinet/ip.h b/include/netinet/ip.h
--index 19e1249..3fe58b9 100644
----- a/include/netinet/ip.h
--+++ b/include/netinet/ip.h
--@@ -188,7 +188,25 @@ struct ip_timestamp
-- #define	IPTOS_DSCP_EF		0xb8
-- 
-- /*
--- * Definitions for IP type of service (ip_tos)
--+ * In RFC 2474, Section 4.2.2.1, the Class Selector Codepoints subsume
--+ * the old ToS Precedence values.
--+ */
--+#define	IPTOS_CLASS_MASK		0xe0
--+#define	IPTOS_CLASS(class)		((class) & IPTOS_CLASS_MASK)
--+#define	IPTOS_CLASS_CS0			0x00
--+#define	IPTOS_CLASS_CS1			0x20
--+#define	IPTOS_CLASS_CS2			0x40
--+#define	IPTOS_CLASS_CS3			0x60
--+#define	IPTOS_CLASS_CS4			0x80
--+#define	IPTOS_CLASS_CS5			0xa0
--+#define	IPTOS_CLASS_CS6			0xc0
--+#define	IPTOS_CLASS_CS7			0xe0
--+
--+#define	IPTOS_CLASS_DEFAULT		IPTOS_CLASS_CS0
--+
--+/*
--+ * Definitions for IP type of service (ip_tos) [deprecated; use DSCP
--+ * and CS definitions above instead.]
--  */
-- #define	IPTOS_TOS_MASK		0x1E
-- #define	IPTOS_TOS(tos)		((tos) & IPTOS_TOS_MASK)
--@@ -199,18 +217,18 @@ struct ip_timestamp
-- #define	IPTOS_MINCOST		IPTOS_LOWCOST
-- 
-- /*
--- * Definitions for IP precedence (also in ip_tos) (hopefully unused)
--+ * Definitions for IP precedence (also in ip_tos) [also deprecated.]
--  */
---#define	IPTOS_PREC_MASK			0xe0
---#define	IPTOS_PREC(tos)                ((tos) & IPTOS_PREC_MASK)
---#define	IPTOS_PREC_NETCONTROL		0xe0
---#define	IPTOS_PREC_INTERNETCONTROL	0xc0
---#define	IPTOS_PREC_CRITIC_ECP		0xa0
---#define	IPTOS_PREC_FLASHOVERRIDE	0x80
---#define	IPTOS_PREC_FLASH		0x60
---#define	IPTOS_PREC_IMMEDIATE		0x40
---#define	IPTOS_PREC_PRIORITY		0x20
---#define	IPTOS_PREC_ROUTINE		0x00
--+#define	IPTOS_PREC_MASK			IPTOS_CLASS_MASK
--+#define	IPTOS_PREC(tos)			IPTOS_CLASS(tos)
--+#define	IPTOS_PREC_NETCONTROL		IPTOS_CLASS_CS7
--+#define	IPTOS_PREC_INTERNETCONTROL	IPTOS_CLASS_CS6
--+#define	IPTOS_PREC_CRITIC_ECP		IPTOS_CLASS_CS5
--+#define	IPTOS_PREC_FLASHOVERRIDE	IPTOS_CLASS_CS4
--+#define	IPTOS_PREC_FLASH		IPTOS_CLASS_CS3
--+#define	IPTOS_PREC_IMMEDIATE		IPTOS_CLASS_CS2
--+#define	IPTOS_PREC_PRIORITY		IPTOS_CLASS_CS1
--+#define	IPTOS_PREC_ROUTINE		IPTOS_CLASS_CS0
-- 
-- /*
--  * Definitions for options.
---- 
--2.1.0
--
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Disable-lrount_tes-function.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Disable-lrount_tes-function.patch
-new file mode 100644
-index 0000000..ec6b3fa
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0001-Disable-lrount_tes-function.patch
-@@ -0,0 +1,37 @@
-+From 14b865b3438d0df29b4969148678d8fa8943e1ef Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Aug 2015 20:49:33 -0700
-+Subject: [PATCH 1/9] Disable lrount_tes() function
-+
-+Its not used anyway, avoids some strict compiler warnings
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ test/math/libm-test.inc | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/test/math/libm-test.inc b/test/math/libm-test.inc
-+index f50b48b..6d70a95 100644
-+--- a/test/math/libm-test.inc
-++++ b/test/math/libm-test.inc
-+@@ -3470,7 +3470,6 @@ logb_test (void)
-+ }
-+ 
-+ 
-+-#if 0
-+ static void
-+ lround_test (void)
-+ {
-+@@ -3605,7 +3604,6 @@ llround_test (void)
-+ 
-+   END (llround);
-+ }
-+-#endif
-+ 
-+ static void
-+ modf_test (void)
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch b/meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch
-deleted file mode 100644
-index 4ac765c..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0001-Revert-utent.c-wtent.c-move-functions-from-utxent.c.patch
-+++ /dev/null
-@@ -1,319 +0,0 @@
--Upstream-Status: Pending
--
--From 096abf14d2dc978607ccd8a0d7f42da65d8991f3 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sun, 9 Sep 2012 22:00:04 -0700
--Subject: [PATCH] Revert "utent.c, wtent.c: move functions from utxent.c"
--
--This reverts commit 84135275cfeebc0b233c1c96eeada4d4178a0b18.
-----
-- include/utmp.h          |    8 +++++
-- libc/misc/utmp/utent.c  |   80 +++++++++++------------------------------------
-- libc/misc/utmp/utxent.c |    4 +--
-- libc/misc/utmp/wtent.c  |   14 ++-------
-- 4 files changed, 30 insertions(+), 76 deletions(-)
--
--Index: git/include/utmp.h
--===================================================================
----- git.orig/include/utmp.h	2013-01-21 16:37:18.000000000 -0800
--+++ git/include/utmp.h	2013-01-21 16:40:56.987583099 -0800
--@@ -56,30 +56,37 @@
-- /* Append entry UTMP to the wtmp-like file WTMP_FILE.  */
-- extern void updwtmp (const char *__wtmp_file, const struct utmp *__utmp)
--      __THROW;
--+libc_hidden_proto(updwtmp)
-- 
-- /* Change name of the utmp file to be examined.  */
-- extern int utmpname (const char *__file) __THROW;
--+libc_hidden_proto(utmpname)
-- 
-- /* Read next entry from a utmp-like file.  */
-- extern struct utmp *getutent (void) __THROW;
--+libc_hidden_proto(getutent)
-- 
-- /* Reset the input stream to the beginning of the file.  */
-- extern void setutent (void) __THROW;
--+libc_hidden_proto(setutent)
-- 
-- /* Close the current open file.  */
-- extern void endutent (void) __THROW;
--+libc_hidden_proto(endutent)
-- 
-- /* Search forward from the current point in the utmp file until the
--    next entry with a ut_type matching ID->ut_type.  */
-- extern struct utmp *getutid (const struct utmp *__id) __THROW;
--+libc_hidden_proto(getutid)
-- 
-- /* Search forward from the current point in the utmp file until the
--    next entry with a ut_line matching LINE->ut_line.  */
-- extern struct utmp *getutline (const struct utmp *__line) __THROW;
--+libc_hidden_proto(getutline)
-- 
-- /* Write out entry pointed to by UTMP_PTR into the utmp file.  */
-- extern struct utmp *pututline (const struct utmp *__utmp_ptr) __THROW;
---
--+libc_hidden_proto(pututline)
-- 
-- #if 0 /* def	__USE_MISC */
-- /* Reentrant versions of the file for handling utmp files.  */
--Index: git/libc/misc/utmp/utent.c
--===================================================================
----- git.orig/libc/misc/utmp/utent.c	2013-01-21 16:37:18.000000000 -0800
--+++ git/libc/misc/utmp/utent.c	2013-01-21 16:38:14.035578638 -0800
--@@ -19,9 +19,6 @@
-- #include <errno.h>
-- #include <string.h>
-- #include <utmp.h>
---#ifdef __UCLIBC_HAS_UTMPX__
---# include <utmpx.h>
---#endif
-- #include <not-cancel.h>
-- 
-- #include <bits/uClibc_mutex.h>
--@@ -34,7 +31,7 @@
-- static const char *static_ut_name = default_file_name;
-- 
-- /* This function must be called with the LOCK held */
---static void __setutent_unlocked(void)
--+static void __setutent(void)
-- {
--     if (static_fd < 0) {
-- 	static_fd = open_not_cancel_2(static_ut_name, O_RDWR | O_CLOEXEC);
--@@ -53,24 +50,19 @@
--     lseek(static_fd, 0, SEEK_SET);
-- }
-- #if defined __UCLIBC_HAS_THREADS__
---static void __setutent(void)
--+void setutent(void)
-- {
--     __UCLIBC_MUTEX_LOCK(utmplock);
---    __setutent_unlocked();
--+    __setutent();
--     __UCLIBC_MUTEX_UNLOCK(utmplock);
-- }
-- #else
---static void __setutent(void);
---strong_alias(__setutent_unlocked,__setutent)
---#endif
-- strong_alias(__setutent,setutent)
---
---#ifdef __UCLIBC_HAS_UTMPX__
---strong_alias(__setutent,setutxent)
-- #endif
--+libc_hidden_def(setutent)
-- 
-- /* This function must be called with the LOCK held */
---static struct utmp *__getutent_unlocked(void)
--+static struct utmp *__getutent(void)
-- {
--     if (static_fd < 0) {
-- 	__setutent();
--@@ -86,27 +78,19 @@
--     return NULL;
-- }
-- #if defined __UCLIBC_HAS_THREADS__
---static struct utmp *__getutent(void)
--+struct utmp *getutent(void)
-- {
--     struct utmp *ret;
-- 
--     __UCLIBC_MUTEX_LOCK(utmplock);
---    ret = __getutent_unlocked();
--+    ret = __getutent();
--     __UCLIBC_MUTEX_UNLOCK(utmplock);
--     return ret;
-- }
-- #else
---static struct utmp *__getutent(void);
---strong_alias(__getutent_unlocked,__getutent)
---#endif
-- strong_alias(__getutent,getutent)
---
---#ifdef __UCLIBC_HAS_UTMPX__
---struct utmpx *getutxent(void)
---{
---	return (struct utmpx *) __getutent ();
---}
-- #endif
--+libc_hidden_def(getutent)
-- 
-- static void __endutent(void)
-- {
--@@ -117,13 +101,10 @@
--     __UCLIBC_MUTEX_UNLOCK(utmplock);
-- }
-- strong_alias(__endutent,endutent)
---
---#ifdef __UCLIBC_HAS_UTMPX__
---strong_alias(__endutent,endutxent)
---#endif
--+libc_hidden_def(endutent)
-- 
-- /* This function must be called with the LOCK held */
---static struct utmp *__getutid_unlocked(const struct utmp *utmp_entry)
--+static struct utmp *__getutid(const struct utmp *utmp_entry)
-- {
--     struct utmp *lutmp;
--     unsigned type;
--@@ -133,7 +114,7 @@
--     type = utmp_entry->ut_type - 1;
--     type /= 4;
-- 
---    while ((lutmp = __getutent_unlocked()) != NULL) {
--+    while ((lutmp = __getutent()) != NULL) {
-- 	if (type == 0 && lutmp->ut_type == utmp_entry->ut_type)	{
-- 	    /* one of RUN_LVL, BOOT_TIME, NEW_TIME, OLD_TIME */
-- 	    return lutmp;
--@@ -147,34 +128,26 @@
--     return NULL;
-- }
-- #if defined __UCLIBC_HAS_THREADS__
---static struct utmp *__getutid(const struct utmp *utmp_entry)
--+struct utmp *getutid(const struct utmp *utmp_entry)
-- {
--     struct utmp *ret;
-- 
--     __UCLIBC_MUTEX_LOCK(utmplock);
---    ret = __getutid_unlocked(utmp_entry);
--+    ret = __getutid(utmp_entry);
--     __UCLIBC_MUTEX_UNLOCK(utmplock);
--     return ret;
-- }
-- #else
---static struct utmp *__getutid(const struct utmp *utmp_entry);
---strong_alias(__getutid_unlocked,__getutid)
---#endif
-- strong_alias(__getutid,getutid)
---
---#ifdef __UCLIBC_HAS_UTMPX__
---struct utmpx *getutxid(const struct utmpx *utmp_entry)
---{
---	return (struct utmpx *) __getutid ((const struct utmp *) utmp_entry);
---}
-- #endif
--+libc_hidden_def(getutid)
-- 
-- static struct utmp *__getutline(const struct utmp *utmp_entry)
-- {
--     struct utmp *lutmp;
-- 
--     __UCLIBC_MUTEX_LOCK(utmplock);
---    while ((lutmp = __getutent_unlocked()) != NULL) {
--+    while ((lutmp = __getutent()) != NULL) {
-- 	if (lutmp->ut_type == USER_PROCESS || lutmp->ut_type == LOGIN_PROCESS) {
-- 	    if (strncmp(lutmp->ut_line, utmp_entry->ut_line, sizeof(lutmp->ut_line)) == 0) {
-- 		break;
--@@ -185,13 +158,7 @@
--     return lutmp;
-- }
-- strong_alias(__getutline,getutline)
---
---#ifdef __UCLIBC_HAS_UTMPX__
---struct utmpx *getutxline(const struct utmpx *utmp_entry)
---{
---	return (struct utmpx *) __getutline ((const struct utmp *) utmp_entry);
---}
---#endif
--+libc_hidden_def(getutline)
-- 
-- static struct utmp *__pututline(const struct utmp *utmp_entry)
-- {
--@@ -200,7 +167,7 @@
--        the file pointer where they want it, everything will work out. */
--     lseek(static_fd, (off_t) - sizeof(struct utmp), SEEK_CUR);
-- 
---    if (__getutid_unlocked(utmp_entry) != NULL)
--+    if (__getutid(utmp_entry) != NULL)
-- 	lseek(static_fd, (off_t) - sizeof(struct utmp), SEEK_CUR);
--     else
-- 	lseek(static_fd, (off_t) 0, SEEK_END);
--@@ -211,13 +178,7 @@
--     return (struct utmp *)utmp_entry;
-- }
-- strong_alias(__pututline,pututline)
---
---#ifdef __UCLIBC_HAS_UTMPX__
---struct utmpx *pututxline (const struct utmpx *utmp_entry)
---{
---	return (struct utmpx *) __pututline ((const struct utmp *) utmp_entry);
---}
---#endif
--+libc_hidden_def(pututline)
-- 
-- static int __utmpname(const char *new_ut_name)
-- {
--@@ -241,7 +202,4 @@
--     return 0; /* or maybe return -(static_ut_name != new_ut_name)? */
-- }
-- strong_alias(__utmpname,utmpname)
---
---#ifdef __UCLIBC_HAS_UTMPX__
---strong_alias(__utmpname,utmpxname)
---#endif
--+libc_hidden_def(utmpname)
--Index: git/libc/misc/utmp/utxent.c
--===================================================================
----- git.orig/libc/misc/utmp/utxent.c	2013-01-21 16:37:18.000000000 -0800
--+++ git/libc/misc/utmp/utxent.c	2013-01-21 16:38:14.035578638 -0800
--@@ -13,7 +13,6 @@
-- #include <utmpx.h>
-- #include <utmp.h>
-- 
---#if 0 /* moved to utent.c */
-- void setutxent(void)
-- {
-- 	setutent ();
--@@ -49,12 +48,10 @@
-- 	return utmpname (new_ut_name);
-- }
-- 
---/* moved to wtent.c */
-- void updwtmpx (const char *wtmpx_file, const struct utmpx *utmpx)
-- {
-- 	updwtmp (wtmpx_file, (const struct utmp *) utmpx);
-- }
---#endif
-- 
-- /* Copy the information in UTMPX to UTMP. */
-- void getutmp (const struct utmpx *utmpx, struct utmp *utmp)
--@@ -107,3 +104,4 @@
-- 	utmpx->ut_time = utmp->ut_time;
-- #endif
-- }
--+
--Index: git/libc/misc/utmp/wtent.c
--===================================================================
----- git.orig/libc/misc/utmp/wtent.c	2013-01-21 16:37:18.000000000 -0800
--+++ git/libc/misc/utmp/wtent.c	2013-01-21 16:38:14.035578638 -0800
--@@ -11,9 +11,6 @@
-- #include <time.h>
-- #include <unistd.h>
-- #include <utmp.h>
---#ifdef __UCLIBC_HAS_UTMPX__
---# include <utmpx.h>
---#endif
-- #include <fcntl.h>
-- #include <sys/file.h>
-- #include <not-cancel.h>
--@@ -36,7 +33,7 @@
-- }
-- #endif
-- 
---static void __updwtmp(const char *wtmp_file, const struct utmp *lutmp)
--+void updwtmp(const char *wtmp_file, const struct utmp *lutmp)
-- {
--     int fd;
-- 
--@@ -49,11 +46,4 @@
-- 	}
--     }
-- }
---strong_alias(__updwtmp,updwtmp)
---
---#ifdef __UCLIBC_HAS_UTMPX__
---void updwtmpx (const char *wtmpx_file, const struct utmpx *utmpx)
---{
---	__updwtmp (wtmpx_file, (const struct utmp *) utmpx);
---}
---#endif
--+libc_hidden_def(updwtmp)
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-atexit_old-Do-not-add-it-to-shared-libc.patch b/meta/recipes-core/uclibc/uclibc-git/0001-atexit_old-Do-not-add-it-to-shared-libc.patch
-deleted file mode 100644
-index b6dfce4..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0001-atexit_old-Do-not-add-it-to-shared-libc.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 74667582526b39a1906228574d73a6528f4587eb Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 23 Jun 2012 13:26:30 -0700
--Subject: [PATCH] atexit_old: Do not add it to shared libc
--
--atexit should only be in either uclibc_nonshared.a
--shared libc case or libc.a in static build case
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Pending
-----
-- libc/stdlib/Makefile.in |    4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/libc/stdlib/Makefile.in b/libc/stdlib/Makefile.in
--index 3166b8e..3d686d9 100644
----- a/libc/stdlib/Makefile.in
--+++ b/libc/stdlib/Makefile.in
--@@ -60,7 +60,6 @@ CSRC-$(if $(findstring yyy,$(UCLIBC_HAS_FLOATS)$(UCLIBC_HAS_WCHAR)$(UCLIBC_HAS_X
-- 
-- # multi source _atexit.c
-- CSRC-y += __cxa_atexit.c __cxa_finalize.c __exit_handler.c exit.c on_exit.c
---CSRC-$(COMPAT_ATEXIT) += old_atexit.c
-- 
-- STDLIB_DIR := $(top_srcdir)libc/stdlib
-- STDLIB_OUT := $(top_builddir)libc/stdlib
--@@ -70,11 +69,12 @@ STDLIB_OBJ := $(patsubst %.c,$(STDLIB_OUT)/%.o,$(CSRC-y))
-- 
-- libc-y += $(STDLIB_OBJ)
-- libc-static-y += $(STDLIB_OUT)/atexit.o $(STDLIB_OUT)/system.o
--+libc-static-$(COMPAT_ATEXIT) += $(STDLIB_OUT)/old_atexit.o
-- libc-shared-y += $(STDLIB_OUT)/system.oS
-- 
-- # this should always be the PIC version, because it could be used in shared libs
-- libc-nonshared-y += $(STDLIB_OUT)/atexit.os
---
--+libc-nonshared-$(COMPAT_ATEXIT) += $(STDLIB_OUT)/old_atexit.os
-- libc-nomulti-y += $(STDLIB_OUT)/labs.o $(STDLIB_OUT)/atol.o $(STDLIB_OUT)/_stdlib_strto_l.o $(STDLIB_OUT)/_stdlib_strto_ll.o
-- libc-nomulti-$(UCLIBC_HAS_XLOCALE) += $(STDLIB_OUT)/_stdlib_strto_l_l.o $(STDLIB_OUT)/_stdlib_strto_ll_l.o
-- 
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch b/meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch
-deleted file mode 100644
-index 7e7c579..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0001-nptl-arm-Move-aeabi_read_tp-to-uclibc_nonshared.a.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 714f543f4fa8fb3911449b6ce1517481359e0cff Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 23 Jun 2012 14:21:17 -0700
--Subject: [PATCH] nptl/arm: Move aeabi_read_tp to uclibc_nonshared.a
--
--Otherwise it creates wrong references from shared libs
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
-----
-- libc/sysdeps/linux/arm/Makefile.arch |    4 +++-
-- 1 file changed, 3 insertions(+), 1 deletion(-)
--
--Index: git/libc/sysdeps/linux/arm/Makefile.arch
--===================================================================
----- git.orig/libc/sysdeps/linux/arm/Makefile.arch	2013-05-23 11:13:32.000000000 -0700
--+++ git/libc/sysdeps/linux/arm/Makefile.arch	2013-05-23 11:16:18.304333131 -0700
--@@ -13,7 +13,9 @@
-- 	vfork.S clone.S
-- 
-- SSRC-$(UCLIBC_HAS_LFS) += mmap64.S
---SSRC-$(UCLIBC_HAS_THREADS_NATIVE) += libc-aeabi_read_tp.S libc-thumb_atomics.S
--+SSRC-$(UCLIBC_HAS_THREADS_NATIVE) += libc-thumb_atomics.S
--+libc-nonshared-$(UCLIBC_HAS_THREADS_NATIVE) += $(ARCH_OUT)/libc-aeabi_read_tp.os
--+libc-static-$(UCLIBC_HAS_THREADS_NATIVE) += $(ARCH_OUT)/libc-aeabi_read_tp.o
-- CSRC-$(UCLIBC_HAS_CONTEXT_FUNCS) += makecontext.c
-- SSRC-$(UCLIBC_HAS_CONTEXT_FUNCS) += getcontext.S setcontext.S swapcontext.S
-- 
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch b/meta/recipes-core/uclibc/uclibc-git/0001-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch
-deleted file mode 100644
-index 297a40b..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0001-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch
-+++ /dev/null
-@@ -1,74 +0,0 @@
--From d021e6252b33e779857846714fb1899a25c9965d Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 23 Jun 2012 15:59:01 -0700
--Subject: [PATCH] nptl/atfork: Hide pthread_atfork in shared versions
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
-----
-- libpthread/nptl/Makefile.in      |    4 +++-
-- libpthread/nptl/pthread_atfork.c |   12 ++++++++++--
-- 2 files changed, 13 insertions(+), 3 deletions(-)
--
--diff --git a/libpthread/nptl/Makefile.in b/libpthread/nptl/Makefile.in
--index 158bcae..3ef7175 100644
----- a/libpthread/nptl/Makefile.in
--+++ b/libpthread/nptl/Makefile.in
--@@ -16,6 +16,7 @@ libc-shared-routines-y = forward.c libc-cancellation.c
-- libc-static-routines-y = alloca_cutoff.c libc-cancellation.c
-- libpthread-shared-only-routines-y = version.c
-- libpthread-static-only-routines-y = pthread_atfork.c
--+
-- libpthread-routines- += $(notdir $(wildcard $(libpthread_DIR)/gen_*.c)) # dummy generated files
-- libpthread-routines- += allocatestack.c # dummy included by pthread_create.c
-- libpthread-routines- += pthread_mutex_getprioceiling.c pthread_mutex_setprioceiling.c # XXX: delete those or use them!
--@@ -208,7 +209,7 @@ CFLAGS-msgsnd.c = -fexceptions -fasynchronous-unwind-tables
-- CFLAGS-tcdrain.c = -fexceptions -fasynchronous-unwind-tables
-- 
-- CFLAGS-pt-system.c = -fexceptions -I$(top_srcdir)libc/stdlib
---
--+CFLAGS-pthread_atfork.c = -DNOT_IN_libc
-- #
-- # The rest of this file is uClibc specific.
-- #
--@@ -224,3 +225,4 @@ CFLAGS-OMIT-alloca_cutoff.c = $(CFLAGS-nptl)
-- CFLAGS-OMIT-forward.c = $(CFLAGS-nptl)
-- CFLAGS-OMIT-libc-lowlevelock.c = $(CFLAGS-nptl)
-- CFLAGS-OMIT-libc-cancellation.c = $(CFLAGS-nptl)
--+
--diff --git a/libpthread/nptl/pthread_atfork.c b/libpthread/nptl/pthread_atfork.c
--index e607d49..6224c17 100644
----- a/libpthread/nptl/pthread_atfork.c
--+++ b/libpthread/nptl/pthread_atfork.c
--@@ -38,13 +38,17 @@
-- #include <fork.h>
-- 
-- /* This is defined by newer gcc version unique for each module.  */
---extern void *__dso_handle __attribute__ ((__weak__));
---					  //,__visibility__ ("hidden")));
--+extern void *__dso_handle __attribute__ ((__weak__,
--+					  __visibility__ ("hidden")));
-- 
-- 
-- /* Hide the symbol so that no definition but the one locally in the
--    executable or DSO is used.  */
-- int
--+#ifndef __pthread_atfork
--+/* Don't mark the compatibility function as hidden.  */
--+attribute_hidden
--+#endif
-- __pthread_atfork (
--      void (*prepare) (void),
--      void (*parent) (void),
--@@ -53,4 +57,8 @@ __pthread_atfork (
--   return __register_atfork (prepare, parent, child,
-- 			    &__dso_handle == NULL ? NULL : __dso_handle);
-- }
--+#ifndef __pthread_atfork
--+extern int pthread_atfork (void (*prepare) (void), void (*parent) (void),
--+	                           void (*child) (void)) attribute_hidden;
-- strong_alias (__pthread_atfork, pthread_atfork)
--+#endif
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-timex-Sync-with-glibc.patch b/meta/recipes-core/uclibc/uclibc-git/0001-timex-Sync-with-glibc.patch
-deleted file mode 100644
-index 5d6a0a5..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0001-timex-Sync-with-glibc.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From f489cc44a209f6c4370e94c9c788fc9cc4820be1 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 25 Aug 2014 16:22:57 -0700
--Subject: [PATCH] timex: Sync with glibc
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-status: Pending
-----
-- include/sys/timex.h | 8 ++++++--
-- 1 file changed, 6 insertions(+), 2 deletions(-)
--
--diff --git a/include/sys/timex.h b/include/sys/timex.h
--index 9082a28..57059bd 100644
----- a/include/sys/timex.h
--+++ b/include/sys/timex.h
--@@ -67,8 +67,12 @@ struct timex
-- #define ADJ_ESTERROR		0x0008	/* estimated time error */
-- #define ADJ_STATUS		0x0010	/* clock status */
-- #define ADJ_TIMECONST		0x0020	/* pll time constant */
---#define ADJ_TICK		0x4000	/* tick value */
---#define ADJ_OFFSET_SINGLESHOT	0x8001	/* old-fashioned adjtime */
--+#define ADJ_TAI			0x0080  /* set TAI offset */
--+#define ADJ_MICRO		0x1000  /* select microsecond resolution */
--+#define ADJ_NANO		0x2000  /* select nanosecond resolution */
--+#define ADJ_TICK		0x4000  /* tick value */
--+#define ADJ_OFFSET_SINGLESHOT	0x8001  /* old-fashioned adjtime */
--+#define ADJ_OFFSET_SS_READ	0xa001  /* read-only adjtime */
-- 
-- /* xntp 3.4 compatibility names */
-- #define MOD_OFFSET	ADJ_OFFSET
---- 
--2.1.0
--
-diff --git a/meta/recipes-core/uclibc/uclibc-git/powerpc_copysignl.patch b/meta/recipes-core/uclibc/uclibc-git/0002-Add-implementation-for-copysignl-for-ppc.patch
-similarity index 73%
-rename from meta/recipes-core/uclibc/uclibc-git/powerpc_copysignl.patch
-rename to meta/recipes-core/uclibc/uclibc-git/0002-Add-implementation-for-copysignl-for-ppc.patch
-index 2f014cd..a4b2a45 100644
---- a/meta/recipes-core/uclibc/uclibc-git/powerpc_copysignl.patch
-+++ b/meta/recipes-core/uclibc/uclibc-git/0002-Add-implementation-for-copysignl-for-ppc.patch
-@@ -1,13 +1,20 @@
--Add ppc copysignl implementation
--
--Upstream-Status: Pending
-+From 5d362074e5975b150a35bcfa77eab1bfa4e30de7 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Aug 2015 20:50:56 -0700
-+Subject: [PATCH 2/9] Add implementation for copysignl for ppc
++         else {
++                 chdir(home ? home : "/root");
++                 execle("/bin/bash", "-bash", NULL, env_use);
+diff --git a/meta/recipes-core/systemd/systemd/0007-util-Use-mkostemp-only-if-libc-supports-it.patch b/meta/recipes-core/systemd/systemd/0007-util-Use-mkostemp-only-if-libc-supports-it.patch
+index 29c20c0..b8ab7c4 100644
+--- a/meta/recipes-core/systemd/systemd/0007-util-Use-mkostemp-only-if-libc-supports-it.patch
++++ b/meta/recipes-core/systemd/systemd/0007-util-Use-mkostemp-only-if-libc-supports-it.patch
+@@ -7,13 +7,13 @@ Upstream-Status: Denied [no desire for uclibc support]
  
  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+ libc/sysdeps/linux/powerpc/Makefile.arch |  2 +-
-+ libc/sysdeps/linux/powerpc/copysignl.c   | 89 ++++++++++++++++++++++++++++++++
-+ 2 files changed, 90 insertions(+), 1 deletion(-)
-+ create mode 100644 libc/sysdeps/linux/powerpc/copysignl.c
+ ---
+- src/shared/util.c | 8 ++++++++
++ src/basic/util.c | 8 ++++++++
+  1 file changed, 8 insertions(+)
  
--Index: git/libc/sysdeps/linux/powerpc/Makefile.arch
--===================================================================
----- git.orig/libc/sysdeps/linux/powerpc/Makefile.arch	2013-05-23 11:09:50.000000000 -0700
--+++ git/libc/sysdeps/linux/powerpc/Makefile.arch	2013-05-23 11:12:06.072328399 -0700
-+diff --git a/libc/sysdeps/linux/powerpc/Makefile.arch b/libc/sysdeps/linux/powerpc/Makefile.arch
-+index 4fbcb11..7c09c87 100644
-+--- a/libc/sysdeps/linux/powerpc/Makefile.arch
-++++ b/libc/sysdeps/linux/powerpc/Makefile.arch
- @@ -5,7 +5,7 @@
-  # Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
-  #
-@@ -17,10 +24,11 @@ Index: git/libc/sysdeps/linux/powerpc/Makefile.arch
+-diff --git a/src/shared/util.c b/src/shared/util.c
++diff --git a/src/basic/util.c b/src/basic/util.c
+ index dc65280..72f4665 100644
+---- a/src/shared/util.c
+-+++ b/src/shared/util.c
++--- a/src/basic/util.c
+++++ b/src/basic/util.c
+ @@ -97,6 +97,8 @@
+  #include "def.h"
+  #include "sparse-endian.h"
+diff --git a/meta/recipes-core/systemd/systemd/0008-util-bypass-unimplemented-_SC_PHYS_PAGES-system-conf.patch b/meta/recipes-core/systemd/systemd/0008-util-bypass-unimplemented-_SC_PHYS_PAGES-system-conf.patch
+index 5297625..3f4d4de 100644
+--- a/meta/recipes-core/systemd/systemd/0008-util-bypass-unimplemented-_SC_PHYS_PAGES-system-conf.patch
++++ b/meta/recipes-core/systemd/systemd/0008-util-bypass-unimplemented-_SC_PHYS_PAGES-system-conf.patch
+@@ -8,13 +8,13 @@ Upstream-Status: Inappropriate [uclibc-specific]
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- src/shared/util.c | 15 +++++++++++++++
++ src/basic/util.c | 15 +++++++++++++++
+  1 file changed, 15 insertions(+)
+ 
+-diff --git a/src/shared/util.c b/src/shared/util.c
++diff --git a/src/basic/util.c b/src/basic/util.c
+ index 72f4665..cbbe3b1 100644
+---- a/src/shared/util.c
+-+++ b/src/shared/util.c
++--- a/src/basic/util.c
+++++ b/src/basic/util.c
+ @@ -6793,10 +6793,25 @@ uint64_t physical_memory(void) {
+          /* We return this as uint64_t in case we are running as 32bit
+           * process on a 64bit kernel with huge amounts of memory */
+diff --git a/meta/recipes-core/systemd/systemd/0010-Make-root-s-home-directory-configurable.patch b/meta/recipes-core/systemd/systemd/0010-Make-root-s-home-directory-configurable.patch
+index 76a9481..ed7ff5b 100644
+--- a/meta/recipes-core/systemd/systemd/0010-Make-root-s-home-directory-configurable.patch
++++ b/meta/recipes-core/systemd/systemd/0010-Make-root-s-home-directory-configurable.patch
+@@ -19,26 +19,25 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  configure.ac                      | 7 +++++++
+  src/core/unit-printf.c            | 2 +-
+  src/nspawn/nspawn.c               | 4 ++--
+- src/shared/util.c                 | 4 ++--
++ src/basic/util.c                 | 4 ++--
+  units/console-shell.service.m4.in | 4 ++--
+  units/emergency.service.in        | 4 ++--
+  units/rescue.service.in           | 4 ++--
+  8 files changed, 20 insertions(+), 11 deletions(-)
+ 
+-diff --git a/Makefile.am b/Makefile.am
+-index 0fb3f9f..4623963 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -199,7 +199,8 @@ AM_CPPFLAGS = \
+- 	-DKEXEC=\"$(KEXEC)\" \
++Index: git/Makefile.am
++===================================================================
++--- git.orig/Makefile.am
+++++ git/Makefile.am
++@@ -208,6 +208,7 @@ AM_CPPFLAGS = \
+  	-DLIBDIR=\"$(libdir)\" \
+  	-DROOTLIBDIR=\"$(rootlibdir)\" \
+  	-DROOTLIBEXECDIR=\"$(rootlibexecdir)\" \
+ +	-DROOTHOMEDIR=\"$(roothomedir)\" \
+  	-DTEST_DIR=\"$(abs_top_srcdir)/test\" \
+  	-I $(top_srcdir)/src \
+- 	-I $(top_builddir)/src/shared \
+-@@ -6342,6 +6343,7 @@ EXTRA_DIST += \
++ 	-I $(top_builddir)/src/basic \
++@@ -5615,6 +5616,7 @@ EXTRA_DIST += \
+  substitutions = \
+         '|rootlibexecdir=$(rootlibexecdir)|' \
+         '|rootbindir=$(rootbindir)|' \
+@@ -46,13 +45,13 @@ index 0fb3f9f..4623963 100644
+         '|bindir=$(bindir)|' \
+         '|SYSTEMCTL=$(rootbindir)/systemctl|' \
+         '|SYSTEMD_NOTIFY=$(rootbindir)/systemd-notify|' \
+-diff --git a/configure.ac b/configure.ac
+-index a5b2e6e..55bb7d8 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1428,6 +1428,11 @@ AC_ARG_WITH([rootlibdir],
+-         [],
++Index: git/configure.ac
++===================================================================
++--- git.orig/configure.ac
+++++ git/configure.ac
++@@ -1383,6 +1383,11 @@ AC_ARG_WITH([rootlibdir],
+          [with_rootlibdir=${libdir}])
++ AX_NORMALIZE_PATH([with_rootlibdir])
   
-  SSRC-y := \
-  	__longjmp.S setjmp.S bsd-setjmp.S bsd-_setjmp.S brk.S \
--Index: git/libc/sysdeps/linux/powerpc/copysignl.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libc/sysdeps/linux/powerpc/copysignl.c	2013-05-23 11:11:37.600327865 -0700
-+diff --git a/libc/sysdeps/linux/powerpc/copysignl.c b/libc/sysdeps/linux/powerpc/copysignl.c
-+new file mode 100644
-+index 0000000..000f653
-+--- /dev/null
-++++ b/libc/sysdeps/linux/powerpc/copysignl.c
- @@ -0,0 +1,89 @@
- +/* s_copysignl.c -- long double version of s_copysign.c.
- + * Conversion to long double by Ulrich Drepper,
-@@ -111,3 +119,6 @@ Index: git/libc/sysdeps/linux/powerpc/copysignl.c
- +}
- +
- +libc_hidden_def(copysignl);
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0002-wire-setns-syscall.patch b/meta/recipes-core/uclibc/uclibc-git/0002-wire-setns-syscall.patch
-deleted file mode 100644
-index 94c6f68..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/0002-wire-setns-syscall.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From db575359d4b8164ad6c2ac5f36c7a50c065a2864 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 20 Feb 2014 00:44:34 -0800
--Subject: [PATCH 2/3] wire setns syscall
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
-----
-- libc/sysdeps/linux/common/Makefile.in  |  1 +
-- libc/sysdeps/linux/common/bits/sched.h |  4 ++++
-- libc/sysdeps/linux/common/setns.c      | 18 ++++++++++++++++++
-- 3 files changed, 23 insertions(+)
-- create mode 100644 libc/sysdeps/linux/common/setns.c
--
--diff --git a/libc/sysdeps/linux/common/Makefile.in b/libc/sysdeps/linux/common/Makefile.in
--index 45d2e21..10d9884 100644
----- a/libc/sysdeps/linux/common/Makefile.in
--+++ b/libc/sysdeps/linux/common/Makefile.in
--@@ -45,6 +45,7 @@ CSRC-$(UCLIBC_LINUX_SPECIFIC) += \
-- 	sendfile.c \
-- 	setfsgid.c \
-- 	setfsuid.c \
--+	setns.c \
-- 	setresgid.c \
-- 	setresuid.c \
-- 	signalfd.c \
--diff --git a/libc/sysdeps/linux/common/bits/sched.h b/libc/sysdeps/linux/common/bits/sched.h
--index a5eb6ee..9436f66 100644
----- a/libc/sysdeps/linux/common/bits/sched.h
--+++ b/libc/sysdeps/linux/common/bits/sched.h
--@@ -85,6 +85,10 @@ extern int unshare (int __flags) __THROW;
-- 
-- /* Get index of currently used CPU.  */
-- extern int sched_getcpu (void) __THROW;
--+
--+/* Switch process to namespace of type NSTYPE indicated by FD.  */
--+extern int setns (int __fd, int __nstype) __THROW;
--+
-- #endif
-- 
-- __END_DECLS
--diff --git a/libc/sysdeps/linux/common/setns.c b/libc/sysdeps/linux/common/setns.c
--new file mode 100644
--index 0000000..376bf26
----- /dev/null
--+++ b/libc/sysdeps/linux/common/setns.c
--@@ -0,0 +1,18 @@
--+/* vi: set sw=4 ts=4: */
--+/*
--+ * setns() for uClibc
--+ *
--+ * Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
--+ *
--+ * Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
--+ */
--+
--+#include <sys/syscall.h>
--+#include <sched.h>
--+
--+/*
--+ * setns()
--+ */
--+#ifdef __NR_setns
--+_syscall2(int, setns, int, fd, int, nstype)
--+#endif
+ +AC_ARG_WITH([roothomedir],
+ +        AS_HELP_STRING([--with-roothomedir=DIR], [Home directory for the root user]),
+@@ -62,62 +61,62 @@ index a5b2e6e..55bb7d8 100644
+  AC_ARG_WITH([pamlibdir],
+          AS_HELP_STRING([--with-pamlibdir=DIR], [Directory for PAM modules]),
+          [],
+-@@ -1518,6 +1523,7 @@ AC_SUBST([pamlibdir], [$with_pamlibdir])
++@@ -1474,6 +1479,7 @@ AC_SUBST([pamlibdir], [$with_pamlibdir])
+  AC_SUBST([pamconfdir], [$with_pamconfdir])
+  AC_SUBST([rootprefix], [$with_rootprefix])
+  AC_SUBST([rootlibdir], [$with_rootlibdir])
+ +AC_SUBST([roothomedir], [$with_roothomedir])
+  
+  AC_CONFIG_FILES([
+-         Makefile po/Makefile.in
+-@@ -1617,6 +1623,7 @@ AC_MSG_RESULT([
+-         include_prefix:          ${INCLUDE_PREFIX}
++         Makefile
++@@ -1563,6 +1569,7 @@ AC_MSG_RESULT([
++         includedir:              ${includedir}
+          lib dir:                 ${libdir}
+          rootlib dir:             ${with_rootlibdir}
+ +        root home dir:           ${with_roothomedir}
+          SysV init scripts:       ${SYSTEM_SYSVINIT_PATH}
+          SysV rc?.d directories:  ${SYSTEM_SYSVRCND_PATH}
+          Build Python:            ${PYTHON}
+-diff --git a/src/core/unit-printf.c b/src/core/unit-printf.c
+-index 97135db..14d12f1 100644
+---- a/src/core/unit-printf.c
+-+++ b/src/core/unit-printf.c
+-@@ -259,7 +259,7 @@ static int specifier_user_home(char specifier, void *data, void *userdata, char
++Index: git/src/core/unit-printf.c
++===================================================================
++--- git.orig/src/core/unit-printf.c
+++++ git/src/core/unit-printf.c
++@@ -237,7 +237,7 @@ static int specifier_user_home(char spec
+                   * best of it if we can, but fail if we can't */
+  
+                  if (!c->user || streq(c->user, "root") || streq(c->user, "0"))
+ -                        n = strdup("/root");
+ +                        n = strdup(ROOTHOMEDIR);
+                  else
+-                         return -ENOTSUP;
++                         return -EOPNOTSUPP;
+  
+-diff --git a/src/nspawn/nspawn.c b/src/nspawn/nspawn.c
+-index b597edb..0b32673 100644
+---- a/src/nspawn/nspawn.c
+-+++ b/src/nspawn/nspawn.c
+-@@ -4192,7 +4192,7 @@ int main(int argc, char *argv[]) {
+-                         if (r < 0)
+-                                 _exit(EXIT_FAILURE);
++Index: git/src/nspawn/nspawn.c
++===================================================================
++--- git.orig/src/nspawn/nspawn.c
+++++ git/src/nspawn/nspawn.c
++@@ -4176,7 +4176,7 @@ static int inner_child(
++         if (envp[n_env])
++                 n_env ++;
+  
+--                        if ((asprintf((char**)(envp + n_env++), "HOME=%s", home ? home: "/root") < 0) ||
+-+                        if ((asprintf((char**)(envp + n_env++), "HOME=%s", home ? home: ROOTHOMEDIR) < 0) ||
+-                             (asprintf((char**)(envp + n_env++), "USER=%s", arg_user ? arg_user : "root") < 0) ||
+-                             (asprintf((char**)(envp + n_env++), "LOGNAME=%s", arg_user ? arg_user : "root") < 0)) {
+-                                 log_oom();
+-@@ -4266,7 +4266,7 @@ int main(int argc, char *argv[]) {
+-                                 execvp(argv[optind], argv + optind);
++-        if ((asprintf((char**)(envp + n_env++), "HOME=%s", home ? home: "/root") < 0) ||
+++        if ((asprintf((char**)(envp + n_env++), "HOME=%s", home ? home: ROOTHOMEDIR) < 0) ||
++             (asprintf((char**)(envp + n_env++), "USER=%s", arg_user ? arg_user : "root") < 0) ||
++             (asprintf((char**)(envp + n_env++), "LOGNAME=%s", arg_user ? arg_user : "root") < 0))
++                 return log_oom();
++@@ -4247,7 +4247,7 @@ static int inner_child(
++                 execvp(argv[optind], argv + optind);
+  #endif /* HAVE_EXECVPE */
+-                         else {
+--                                chdir(home ? home : "/root");
+-+                                chdir(home ? home : ROOTHOMEDIR);
+-                                 execle("/bin/bash", "-bash", NULL, env_use);
+-                                 execle("/bin/sh", "-sh", NULL, env_use);
+-                         }
+-diff --git a/src/shared/util.c b/src/shared/util.c
+-index cbbe3b1..a0e3cc5 100644
+---- a/src/shared/util.c
+-+++ b/src/shared/util.c
+-@@ -4609,7 +4609,7 @@ int get_user_creds(
++         else {
++-                chdir(home ? home : "/root");
+++                chdir(home ? home : ROOTHOMEDIR);
++                 execle("/bin/bash", "-bash", NULL, env_use);
++                 execle("/bin/sh", "-sh", NULL, env_use);
++         }
++Index: git/src/basic/util.c
++===================================================================
++--- git.orig/src/basic/util.c
+++++ git/src/basic/util.c
++@@ -3233,7 +3233,7 @@ int get_user_creds(
+                          *gid = 0;
+  
+                  if (home)
+@@ -126,7 +125,7 @@ index cbbe3b1..a0e3cc5 100644
+  
+                  if (shell)
+                          *shell = "/bin/sh";
+-@@ -5611,7 +5611,7 @@ int get_home_dir(char **_h) {
++@@ -4069,7 +4069,7 @@ int get_home_dir(char **_h) {
+          /* Hardcode home directory for root to avoid NSS */
+          u = getuid();
+          if (u == 0) {
+@@ -135,10 +134,10 @@ index cbbe3b1..a0e3cc5 100644
+                  if (!h)
+                          return -ENOMEM;
+  
+-diff --git a/units/console-shell.service.m4.in b/units/console-shell.service.m4.in
+-index 5c80722..efde5f0 100644
+---- a/units/console-shell.service.m4.in
+-+++ b/units/console-shell.service.m4.in
++Index: git/units/console-shell.service.m4.in
++===================================================================
++--- git.orig/units/console-shell.service.m4.in
+++++ git/units/console-shell.service.m4.in
+ @@ -15,8 +15,8 @@ After=rc-local.service
+  Before=getty.target
+  
+@@ -150,10 +149,10 @@ index 5c80722..efde5f0 100644
+  ExecStart=-@SULOGIN@
+  ExecStopPost=-@SYSTEMCTL@ poweroff
+  Type=idle
+-diff --git a/units/emergency.service.in b/units/emergency.service.in
+-index 2695d7b..7f47b73 100644
+---- a/units/emergency.service.in
+-+++ b/units/emergency.service.in
++Index: git/units/emergency.service.in
++===================================================================
++--- git.orig/units/emergency.service.in
+++++ git/units/emergency.service.in
+ @@ -14,8 +14,8 @@ Conflicts=rescue.service
+  Before=shutdown.target
+  
+@@ -162,14 +161,14 @@ index 2695d7b..7f47b73 100644
+ -WorkingDirectory=/root
+ +Environment=HOME=@roothomedir@
+ +WorkingDirectory=@roothomedir@
+- ExecStartPre=-/bin/plymouth quit
++ ExecStartPre=-/bin/plymouth --wait quit
+  ExecStartPre=-/bin/echo -e 'Welcome to emergency mode! After logging in, type "journalctl -xb" to view\\nsystem logs, "systemctl reboot" to reboot, "systemctl default" or ^D to\\ntry again to boot into default mode.'
+- ExecStart=-/bin/sh -c "@SULOGIN@; @SYSTEMCTL@ --fail --no-block default"
+-diff --git a/units/rescue.service.in b/units/rescue.service.in
+-index de73fee..47f3593 100644
+---- a/units/rescue.service.in
+-+++ b/units/rescue.service.in
+-@@ -14,8 +14,8 @@ After=sysinit.target plymouth-start.service
++ ExecStart=-/bin/sh -c "@SULOGIN@; @SYSTEMCTL@ --job-mode=fail --no-block default"
++Index: git/units/rescue.service.in
++===================================================================
++--- git.orig/units/rescue.service.in
+++++ git/units/rescue.service.in
++@@ -14,8 +14,8 @@ After=sysinit.target plymouth-start.serv
+  Before=shutdown.target
+  
+  [Service]
+@@ -179,7 +178,4 @@ index de73fee..47f3593 100644
+ +WorkingDirectory=@roothomedir@
+  ExecStartPre=-/bin/plymouth quit
+  ExecStartPre=-/bin/echo -e 'Welcome to emergency mode! After logging in, type "journalctl -xb" to view\\nsystem logs, "systemctl reboot" to reboot, "systemctl default" or ^D to\\nboot into default mode.'
+- ExecStart=-/bin/sh -c "@SULOGIN@; @SYSTEMCTL@ --fail --no-block default"
 --- 
--1.9.0
+-2.1.4
 -
-diff --git a/meta/recipes-core/uclibc/uclibc-git/argp-support.patch b/meta/recipes-core/uclibc/uclibc-git/0003-Add-argp-implementation.patch
-similarity index 96%
-rename from meta/recipes-core/uclibc/uclibc-git/argp-support.patch
-rename to meta/recipes-core/uclibc/uclibc-git/0003-Add-argp-implementation.patch
-index bcec6a5..1d222e5 100644
---- a/meta/recipes-core/uclibc/uclibc-git/argp-support.patch
-+++ b/meta/recipes-core/uclibc/uclibc-git/0003-Add-argp-implementation.patch
-@@ -1,31 +1,35 @@
--From: Salvatore Cro <salvatore.cro at st.com>
-+From adbd318381a662485cc850f3418714f3f67ce531 Mon Sep 17 00:00:00 2001
-+From: Salvatore Cro <salvatore.cro@st.com>
-+Date: Sun, 16 Aug 2015 20:53:37 -0700
-+Subject: [PATCH 3/9] Add argp implementation
- 
- Argp is an advanced support for parsing unix-style argument vectors.
--In addition to the common getopt interface, it provides automatic response
--to `--help' and `--version' options and use of custom parser in conjunction
-+In addition to the common getopt interface, it provides automatic
-+response
-+to `--help' and `--version' options and use of custom parser in
-+conjunction
- with argp native option parser, among others.
- Argp support is required by elfutils package and prelink.
- 
--In uClibc argp functionalities has been moved from C library to libuargp.so
-+In uClibc argp functionalities has been moved from C library to
-+libuargp.so
- Further the libc.so linker script contains an AS_NEEDED entry so that
- it doesn't need to link libuargp.so explicitely.
- 
--Signed-off-by: Salvatore Cro <salvatore.cro at st.com>
--Signed-off-by: Filippo Arcidiacono <filippo.arcidiacono at st.com>
--Signed-off-by: Carmelo Amoroso <carmelo.amoroso at st.com>
++ ExecStart=-/bin/sh -c "@SULOGIN@; @SYSTEMCTL@ --job-mode=fail --no-block default"
+diff --git a/meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch b/meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch
+deleted file mode 100644
+index ccd6757..0000000
+--- a/meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch
++++ /dev/null
+@@ -1,185 +0,0 @@
+-From 2abf886295b979bce6d3f0a240f6f5ecfd70ba37 Mon Sep 17 00:00:00 2001
+-From: Randy Witt <randy.e.witt@linux.intel.com>
+-Date: Wed, 4 Mar 2015 18:32:40 -0800
+-Subject: [PATCH] tmpfiles.c: Honor ordering within files as the docs say.
 -
--Upstream-Status: Pending
+-Previously, globs would always get processed first followed by any other
+-items in arbitrary order. This is contrary to the documentation which
+-states "Otherwise, the files/directories are processed in the order they
+-are listed."
 -
-+Signed-off-by: Salvatore Cro <salvatore.cro@st.com>
-+Signed-off-by: Filippo Arcidiacono <filippo.arcidiacono@st.com>
-+Signed-off-by: Carmelo Amoroso <carmelo.amoroso@st.com>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-+Upstream-Status: Pending
-  Makefile.in                                 |    8 +
-- Makerules                                   |    8 +-
-+ Makerules                                   |    6 +-
-  Rules.mak                                   |    7 +
-  extra/Configs/Config.in                     |   17 +
-  libc/sysdeps/linux/common/bits/getopt_int.h |  136 ++
-- libc/unistd/getopt.c                        |   18 +-
-- libc/unistd/getopt_int.h                    |  134 --
-+ libc/unistd/getopt.c                        |   19 +-
-  libuargp/Makefile                           |   14 +
-- libuargp/Makefile.in                        |   76 ++
-+ libuargp/Makefile.in                        |   73 ++
-  libuargp/argp-ba.c                          |   26 +
-  libuargp/argp-eexst.c                       |   32 +
-  libuargp/argp-fmtstream.c                   |  439 +++++++
-@@ -46,9 +50,8 @@ Upstream-Status: Pending
-  test/argp/bug-argp1.c                       |   26 +
-  test/argp/tst-argp1.c                       |  118 ++
-  test/argp/tst-argp2.c                       |  101 ++
-- 29 files changed, 4911 insertions(+), 138 deletions(-)
-+ 28 files changed, 4907 insertions(+), 4 deletions(-)
-  create mode 100644 libc/sysdeps/linux/common/bits/getopt_int.h
-- delete mode 100644 libc/unistd/getopt_int.h
-  create mode 100644 libuargp/Makefile
-  create mode 100644 libuargp/Makefile.in
-  create mode 100644 libuargp/argp-ba.c
-@@ -72,19 +75,19 @@ Upstream-Status: Pending
-  create mode 100644 test/argp/tst-argp1.c
-  create mode 100644 test/argp/tst-argp2.c
- 
--Index: git/Makefile.in
--===================================================================
----- git.orig/Makefile.in	2012-06-18 13:10:12.000000000 -0700
--+++ git/Makefile.in	2012-06-18 13:12:06.448829343 -0700
--@@ -48,6 +48,7 @@
-+diff --git a/Makefile.in b/Makefile.in
-+index 04671a4..9b146bb 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -39,6 +39,7 @@ include $(top_srcdir)libresolv/Makefile.in
-  include $(top_srcdir)libutil/Makefile.in
-  include $(top_srcdir)libpthread/Makefile.in
-  include $(top_srcdir)librt/Makefile.in
- +include $(top_srcdir)libuargp/Makefile.in
-  include $(top_srcdir)libubacktrace/Makefile.in
-- include $(top_srcdir)extra/locale/Makefile.in
-  
--@@ -250,6 +251,7 @@
-+ # last included to catch all the objects added by others (locales/threads)
-+@@ -262,6 +263,7 @@ HEADERS_RM- += sgtty.h
-  endif
-  HEADERS_RM-$(HAVE_SHARED)                    += dlfcn.h bits/dlfcn.h
-  HEADERS_RM-$(PTHREADS_DEBUG_SUPPORT)         += thread_db.h
-@@ -92,7 +95,7 @@ Index: git/Makefile.in
-  HEADERS_RM-$(UCLIBC_HAS_BSD_ERR)             += err.h
-  HEADERS_RM-$(UCLIBC_HAS_CRYPT)               += crypt.h
-  HEADERS_RM-$(UCLIBC_HAS_EPOLL)               += sys/epoll.h
--@@ -368,6 +370,12 @@
-+@@ -386,6 +388,12 @@ else
-  	-$(INSTALL) -m 755 $(top_builddir)lib/libc.so $(PREFIX)$(DEVEL_PREFIX)$(MULTILIB_DIR)/
-  endif
-  	echo "$(UBACKTRACE_ASNEEDED)" >> $(PREFIX)$(DEVEL_PREFIX)$(MULTILIB_DIR)/libc.so
-@@ -105,11 +108,11 @@ Index: git/Makefile.in
-  ifeq ($(UCLIBC_HAS_THREADS),y)
-  ifneq ($(LINUXTHREADS_OLD),y)
-  ifeq ($(HARDWIRED_ABSPATH),y)
--Index: git/Makerules
--===================================================================
----- git.orig/Makerules	2012-06-18 13:10:12.000000000 -0700
--+++ git/Makerules	2012-06-18 13:10:44.052825547 -0700
--@@ -32,12 +32,12 @@
-+diff --git a/Makerules b/Makerules
-+index d6f7e24..2c64f8e 100644
-+--- a/Makerules
-++++ b/Makerules
-+@@ -55,12 +55,12 @@ shared_objs = $(libc-y:.o=.os) $(libc-shared-y) $(libc-nonshared-y) \
-  	$(libpthread-so-y) $(libpthread-nonshared-y) $(libthread_db-so-y) \
-  	$(libresolv-so-y) $(librt-so-y) \
-  	$(ldso-y) \
-@@ -124,7 +127,7 @@ Index: git/Makerules
-  ifeq ($(DOPIC),y)
-  ar_objs := $(ar_objs:.o=.os)
-  endif
--@@ -472,7 +472,7 @@
-+@@ -498,7 +498,7 @@ files.dep := $(libc-a-y) $(libc-so-y) $(libc-nonshared-y) \
-  	$(librt-a-y) $(librt-so-y)  $(libresolv-a-y) $(libresolv-so-y) \
-  	$(libcrypt-a-y) $(libcrypt-so-y) $(libutil-a-y) $(libutil-so-y) \
-  	$(libnsl-a-y) $(libnsl-so-y) $(ldso-y) $(libdl-a-y) $(libdl-so-y) \
-@@ -133,11 +136,11 @@ Index: git/Makerules
-  .depends.dep := \
-  	$(patsubst %.s,%.s.dep,$(filter %.s,$(files.dep))) \
-  	$(patsubst %.o,%.o.dep,$(filter %.o,$(files.dep))) \
--Index: git/Rules.mak
--===================================================================
----- git.orig/Rules.mak	2012-06-18 13:10:12.000000000 -0700
--+++ git/Rules.mak	2012-06-18 13:10:44.056825544 -0700
--@@ -589,6 +589,13 @@
-+diff --git a/Rules.mak b/Rules.mak
-+index de9ffb3..5818d75 100644
-+--- a/Rules.mak
-++++ b/Rules.mak
-+@@ -602,6 +602,13 @@ export UBACKTRACE_ASNEEDED:=$(shell $(CC) -Wl,--help 2>/dev/null | grep -q -- --
-  else
-  export UBACKTRACE_ASNEEDED:=""
-  endif
-@@ -151,12 +154,12 @@ Index: git/Rules.mak
-  endif
-  
-  # Add a bunch of extra pedantic annoyingly strict checks
--Index: git/extra/Configs/Config.in
--===================================================================
----- git.orig/extra/Configs/Config.in	2012-06-18 13:10:12.000000000 -0700
--+++ git/extra/Configs/Config.in	2012-06-18 13:10:44.056825544 -0700
--@@ -1853,6 +1853,23 @@
-- 	  smaller SUSv3 compatible getsubopt().
-+diff --git a/extra/Configs/Config.in b/extra/Configs/Config.in
-+index 242e45a..b36d4c9 100644
-+--- a/extra/Configs/Config.in
-++++ b/extra/Configs/Config.in
-+@@ -1943,6 +1943,23 @@ config UCLIBC_HAS_GNU_GETSUBOPT
-+ 	  Answer Y if you want to include getsubopt().
-  
-  	  Most people will answer Y.
- +
-@@ -179,10 +182,11 @@ Index: git/extra/Configs/Config.in
-  endmenu
-  
-  
--Index: git/libc/sysdeps/linux/common/bits/getopt_int.h
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libc/sysdeps/linux/common/bits/getopt_int.h	2012-06-18 13:10:44.056825544 -0700
-+diff --git a/libc/sysdeps/linux/common/bits/getopt_int.h b/libc/sysdeps/linux/common/bits/getopt_int.h
-+new file mode 100644
-+index 0000000..291edfe
-+--- /dev/null
-++++ b/libc/sysdeps/linux/common/bits/getopt_int.h
- @@ -0,0 +1,136 @@
- +/* Internal declarations for getopt.
- +   Copyright (C) 1989-1994,1996-1999,2001,2003,2004
-@@ -320,11 +324,11 @@ Index: git/libc/sysdeps/linux/common/bits/getopt_int.h
- +#endif
- +#endif
- +#endif /* getopt_int.h */
--Index: git/libc/unistd/getopt.c
--===================================================================
----- git.orig/libc/unistd/getopt.c	2012-06-18 13:10:12.000000000 -0700
--+++ git/libc/unistd/getopt.c	2012-06-18 13:10:44.056825544 -0700
--@@ -106,7 +106,7 @@
-+diff --git a/libc/unistd/getopt.c b/libc/unistd/getopt.c
-+index f63482b..db5e12c 100644
-+--- a/libc/unistd/getopt.c
-++++ b/libc/unistd/getopt.c
-+@@ -105,7 +105,7 @@
-     they can distinguish the relative order of options and other arguments.  */
-  
-  #include <getopt.h>
-@@ -333,7 +337,7 @@ Index: git/libc/unistd/getopt.c
-  
-  
-  /* For communication from `getopt' to the caller.
--@@ -1170,6 +1170,15 @@
-+@@ -1170,6 +1170,15 @@ getopt_long (int argc, char *const *argv, const char *options,
-    return _getopt_internal (argc, argv, options, long_options, opt_index, 0);
-  }
-  
-@@ -349,9 +353,9 @@ Index: git/libc/unistd/getopt.c
-  /* Like getopt_long, but '-' as well as '--' can indicate a long option.
-     If an option that starts with '-' (not '--') doesn't match a long option,
-     but does match a short option, it is parsed as a short option
--@@ -1182,4 +1191,12 @@
--   return _getopt_internal (argc, argv, options, long_options, opt_index, 1);
-+@@ -1183,4 +1192,12 @@ getopt_long_only (int argc, char *const *argv, const char *options,
-  }
-+ #endif /* __UCLIBC_HAS_GETOPT_LONG__ */
-  
- +int
- +_getopt_long_only_r (int argc, char *const *argv, const char *options,
-@@ -362,10 +366,11 @@ Index: git/libc/unistd/getopt.c
- +}
- +
-  #endif	/* Not ELIDE_CODE.  */
--Index: git/libuargp/Makefile
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/Makefile	2012-06-18 13:10:44.056825544 -0700
-+diff --git a/libuargp/Makefile b/libuargp/Makefile
-+new file mode 100644
-+index 0000000..45acdd9
-+--- /dev/null
-++++ b/libuargp/Makefile
- @@ -0,0 +1,14 @@
- +# Makefile for uClibc (libuargp)
- +#
-@@ -381,10 +386,11 @@ Index: git/libuargp/Makefile
- +all: libs
- +include Makefile.in
- +include $(top_srcdir)Makerules
--Index: git/libuargp/Makefile.in
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/Makefile.in	2012-06-18 13:10:44.056825544 -0700
-+diff --git a/libuargp/Makefile.in b/libuargp/Makefile.in
-+new file mode 100644
-+index 0000000..1498abb
-+--- /dev/null
-++++ b/libuargp/Makefile.in
- @@ -0,0 +1,73 @@
- +# Makefile for uClibc (libuargp)
- +#
-@@ -459,10 +465,11 @@ Index: git/libuargp/Makefile.in
- +
- +CLEAN_libuargp:
- +	$(do_rm) $(addprefix $(libuargp_OUT)/*., o os oS a)
--Index: git/libuargp/argp-ba.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-ba.c	2012-06-18 13:10:44.056825544 -0700
-+diff --git a/libuargp/argp-ba.c b/libuargp/argp-ba.c
-+new file mode 100644
-+index 0000000..3522b02
-+--- /dev/null
-++++ b/libuargp/argp-ba.c
- @@ -0,0 +1,26 @@
- +/* Default definition for ARGP_PROGRAM_BUG_ADDRESS.
- +   Copyright (C) 1996, 1997, 1999 Free Software Foundation, Inc.
-@@ -490,10 +497,11 @@ Index: git/libuargp/argp-ba.c
- +   messages), embedded in a sentence that says something like `Report bugs to
- +   ADDR.'.  */
- +const char *argp_program_bug_address;
--Index: git/libuargp/argp-eexst.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-eexst.c	2012-06-18 13:10:44.056825544 -0700
-+diff --git a/libuargp/argp-eexst.c b/libuargp/argp-eexst.c
-+new file mode 100644
-+index 0000000..445b68d
-+--- /dev/null
-++++ b/libuargp/argp-eexst.c
- @@ -0,0 +1,32 @@
- +/* Default definition for ARGP_ERR_EXIT_STATUS
- +   Copyright (C) 1997 Free Software Foundation, Inc.
-@@ -527,10 +535,11 @@ Index: git/libuargp/argp-eexst.c
- +   If not defined or set by the user program, this defaults to EX_USAGE from
- +   <sysexits.h>.  */
- +error_t argp_err_exit_status = EX_USAGE;
--Index: git/libuargp/argp-fmtstream.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-fmtstream.c	2012-06-18 13:10:44.056825544 -0700
-+diff --git a/libuargp/argp-fmtstream.c b/libuargp/argp-fmtstream.c
-+new file mode 100644
-+index 0000000..75227f9
-+--- /dev/null
-++++ b/libuargp/argp-fmtstream.c
- @@ -0,0 +1,439 @@
- +/* Word-wrapping and line-truncating streams
- +   Copyright (C) 1997-1999,2001,2002,2003,2005 Free Software Foundation, Inc.
-@@ -971,10 +980,11 @@ Index: git/libuargp/argp-fmtstream.c
- +#endif
- +
- +#endif /* !ARGP_FMTSTREAM_USE_LINEWRAP */
--Index: git/libuargp/argp-fmtstream.h
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-fmtstream.h	2012-06-18 13:10:44.056825544 -0700
-+diff --git a/libuargp/argp-fmtstream.h b/libuargp/argp-fmtstream.h
-+new file mode 100644
-+index 0000000..ca7c834
-+--- /dev/null
-++++ b/libuargp/argp-fmtstream.h
- @@ -0,0 +1,314 @@
- +/* Word-wrapping and line-truncating streams.
- +   Copyright (C) 1997 Free Software Foundation, Inc.
-@@ -1290,10 +1300,11 @@ Index: git/libuargp/argp-fmtstream.h
- +#endif /* ARGP_FMTSTREAM_USE_LINEWRAP */
- +
- +#endif /* argp-fmtstream.h */
--Index: git/libuargp/argp-fs-xinl.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-fs-xinl.c	2012-06-18 13:10:44.056825544 -0700
-+diff --git a/libuargp/argp-fs-xinl.c b/libuargp/argp-fs-xinl.c
-+new file mode 100644
-+index 0000000..473cbbd
-+--- /dev/null
-++++ b/libuargp/argp-fs-xinl.c
- @@ -0,0 +1,44 @@
- +/* Real definitions for extern inline functions in argp-fmtstream.h
- +   Copyright (C) 1997, 2003, 2004 Free Software Foundation, Inc.
-@@ -1339,10 +1350,11 @@ Index: git/libuargp/argp-fs-xinl.c
- +
- +#endif
- +#endif
--Index: git/libuargp/argp-help.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-help.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/libuargp/argp-help.c b/libuargp/argp-help.c
-+new file mode 100644
-+index 0000000..58a5e6e
-+--- /dev/null
-++++ b/libuargp/argp-help.c
- @@ -0,0 +1,1882 @@
- +/* Hierarchial argument parsing help output
- +   Copyright (C) 1995-2003, 2004, 2005, 2006, 2007
-@@ -3226,10 +3238,11 @@ Index: git/libuargp/argp-help.c
- +       }
- +    }
- +}
--Index: git/libuargp/argp-parse.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-parse.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/libuargp/argp-parse.c b/libuargp/argp-parse.c
-+new file mode 100644
-+index 0000000..86b2b24
-+--- /dev/null
-++++ b/libuargp/argp-parse.c
- @@ -0,0 +1,949 @@
- +/* Hierarchial argument parsing, layered over getopt
- +   Copyright (C) 1995-2000, 2002, 2003, 2004 Free Software Foundation, Inc.
-@@ -4180,10 +4193,11 @@ Index: git/libuargp/argp-parse.c
- +
- +  return 0;
- +}
--Index: git/libuargp/argp-pv.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-pv.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/libuargp/argp-pv.c b/libuargp/argp-pv.c
-+new file mode 100644
-+index 0000000..f1227b5
-+--- /dev/null
-++++ b/libuargp/argp-pv.c
- @@ -0,0 +1,25 @@
- +/* Default definition for ARGP_PROGRAM_VERSION.
- +   Copyright (C) 1996, 1997, 1999 Free Software Foundation, Inc.
-@@ -4210,10 +4224,11 @@ Index: git/libuargp/argp-pv.c
- +   print this this string followed by a newline and exit (unless the
- +   ARGP_NO_EXIT flag is used).  Overridden by ARGP_PROGRAM_VERSION_HOOK.  */
- +const char *argp_program_version;
--Index: git/libuargp/argp-pvh.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-pvh.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/libuargp/argp-pvh.c b/libuargp/argp-pvh.c
-+new file mode 100644
-+index 0000000..1f1d962
-+--- /dev/null
-++++ b/libuargp/argp-pvh.c
- @@ -0,0 +1,32 @@
- +/* Default definition for ARGP_PROGRAM_VERSION_HOOK.
- +   Copyright (C) 1996, 1997, 1999 Free Software Foundation, Inc.
-@@ -4247,10 +4262,11 @@ Index: git/libuargp/argp-pvh.c
- +   current parsing state, and then exits (unless the ARGP_NO_EXIT flag is
- +   used).  This variable takes precedent over ARGP_PROGRAM_VERSION.  */
- +void (*argp_program_version_hook) (FILE *stream, struct argp_state *state);
--Index: git/libuargp/argp-xinl.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/libuargp/argp-xinl.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/libuargp/argp-xinl.c b/libuargp/argp-xinl.c
-+new file mode 100644
-+index 0000000..f1d3000
-+--- /dev/null
-++++ b/libuargp/argp-xinl.c
- @@ -0,0 +1,35 @@
- +/* Real definitions for extern inline functions in argp.h
- +   Copyright (C) 1997, 1998, 2004 Free Software Foundation, Inc.
-@@ -4287,10 +4303,11 @@ Index: git/libuargp/argp-xinl.c
- +#undef __OPTIMIZE__
- +#define __OPTIMIZE__ 1
- +#include <argp.h>
--Index: git/test/argp/Makefile
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/Makefile	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/Makefile b/test/argp/Makefile
-+new file mode 100644
-+index 0000000..616fe71
-+--- /dev/null
-++++ b/test/argp/Makefile
- @@ -0,0 +1,7 @@
- +# uClibc argp tests
- +# Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
-@@ -4299,10 +4316,11 @@ Index: git/test/argp/Makefile
- +include ../Rules.mak
- +-include Makefile.in
- +include ../Test.mak
--Index: git/test/argp/Makefile.in
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/Makefile.in	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/Makefile.in b/test/argp/Makefile.in
-+new file mode 100644
-+index 0000000..d81b359
-+--- /dev/null
-++++ b/test/argp/Makefile.in
- @@ -0,0 +1,12 @@
- +# uClibc argp tests
- +# Licensed under the LGPL v2.1, see the file COPYING.LIB in this tarball.
-@@ -4316,10 +4334,11 @@ Index: git/test/argp/Makefile.in
- +OPTS_argp-ex4 = ARG1 string1 string2 string3
- +OPTS_bug-argp1 = -- --help
- +
--Index: git/test/argp/argp-ex1.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/argp-ex1.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/argp-ex1.c b/test/argp/argp-ex1.c
-+new file mode 100644
-+index 0000000..7bb5f22
-+--- /dev/null
-++++ b/test/argp/argp-ex1.c
- @@ -0,0 +1,15 @@
- +/* Argp example #1 -- a minimal program using argp */
- +
-@@ -4336,10 +4355,11 @@ Index: git/test/argp/argp-ex1.c
- +  argp_parse (0, argc, argv, 0, 0, 0);
- +  exit (0);
- +}
--Index: git/test/argp/argp-ex2.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/argp-ex2.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/argp-ex2.c b/test/argp/argp-ex2.c
-+new file mode 100644
-+index 0000000..c49fbac
-+--- /dev/null
-++++ b/test/argp/argp-ex2.c
- @@ -0,0 +1,45 @@
- +/* Argp example #2 -- a pretty minimal program using argp */
- +
-@@ -4386,10 +4406,11 @@ Index: git/test/argp/argp-ex2.c
- +  argp_parse (&argp, argc, argv, 0, 0, 0);
- +  exit (0);
- +}
--Index: git/test/argp/argp-ex3.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/argp-ex3.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/argp-ex3.c b/test/argp/argp-ex3.c
-+new file mode 100644
-+index 0000000..24d5c50
-+--- /dev/null
-++++ b/test/argp/argp-ex3.c
- @@ -0,0 +1,153 @@
- +/* Argp example #3 -- a program with options and arguments using argp */
- +
-@@ -4544,10 +4565,11 @@ Index: git/test/argp/argp-ex3.c
- +
- +  exit (0);
- +}
--Index: git/test/argp/argp-ex4.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/argp-ex4.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/argp-ex4.c b/test/argp/argp-ex4.c
-+new file mode 100644
-+index 0000000..c77c7ef
-+--- /dev/null
-++++ b/test/argp/argp-ex4.c
- @@ -0,0 +1,167 @@
- +/* Argp example #4 -- a program with somewhat more complicated options */
- +
-@@ -4716,10 +4738,11 @@ Index: git/test/argp/argp-ex4.c
- +
- +  exit (0);
- +}
--Index: git/test/argp/argp-test.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/argp-test.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/argp-test.c b/test/argp/argp-test.c
-+new file mode 100644
-+index 0000000..b3d573b
-+--- /dev/null
-++++ b/test/argp/argp-test.c
- @@ -0,0 +1,209 @@
- +/* Test program for argp argument parser
- +   Copyright (C) 1997 Free Software Foundation, Inc.
-@@ -4930,10 +4953,11 @@ Index: git/test/argp/argp-test.c
- +  printf ("After parsing: foonly = %x\n", params.foonly);
- +  return 0;
- +}
--Index: git/test/argp/bug-argp1.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/bug-argp1.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/bug-argp1.c b/test/argp/bug-argp1.c
-+new file mode 100644
-+index 0000000..a28cf4b
-+--- /dev/null
-++++ b/test/argp/bug-argp1.c
- @@ -0,0 +1,26 @@
- +#include <argp.h>
- +
-@@ -4961,10 +4985,11 @@ Index: git/test/argp/bug-argp1.c
- +
- +#define TEST_FUNCTION do_test (argc, argv)
- +#include "../test-skeleton.c"
--Index: git/test/argp/tst-argp1.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/tst-argp1.c	2012-06-18 13:10:44.060825542 -0700
-+diff --git a/test/argp/tst-argp1.c b/test/argp/tst-argp1.c
-+new file mode 100644
-+index 0000000..827daca
-+--- /dev/null
-++++ b/test/argp/tst-argp1.c
- @@ -0,0 +1,118 @@
- +/* Copyright (C) 2002, 2003 Free Software Foundation, Inc.
- +   This file is part of the GNU C Library.
-@@ -5084,10 +5109,11 @@ Index: git/test/argp/tst-argp1.c
- +
- +#define TEST_FUNCTION do_test ()
- +#include "../test-skeleton.c"
--Index: git/test/argp/tst-argp2.c
--===================================================================
----- /dev/null	1970-01-01 00:00:00.000000000 +0000
--+++ git/test/argp/tst-argp2.c	2012-06-18 13:10:44.064825538 -0700
-+diff --git a/test/argp/tst-argp2.c b/test/argp/tst-argp2.c
-+new file mode 100644
-+index 0000000..705cdca
-+--- /dev/null
-++++ b/test/argp/tst-argp2.c
- @@ -0,0 +1,101 @@
- +/* Copyright (C) 2007 Free Software Foundation, Inc.
- +   This file is part of the GNU C Library.
-@@ -5190,3 +5216,6 @@ Index: git/test/argp/tst-argp2.c
- +
- +#define TEST_FUNCTION do_test ()
- +#include "../test-skeleton.c"
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc-git/argp-headers.patch b/meta/recipes-core/uclibc/uclibc-git/0004-Added-headers-file-needed-by-argp-sources.patch
-similarity index 97%
-rename from meta/recipes-core/uclibc/uclibc-git/argp-headers.patch
-rename to meta/recipes-core/uclibc/uclibc-git/0004-Added-headers-file-needed-by-argp-sources.patch
-index b31b991..20dcdf9 100644
---- a/meta/recipes-core/uclibc/uclibc-git/argp-headers.patch
-+++ b/meta/recipes-core/uclibc/uclibc-git/0004-Added-headers-file-needed-by-argp-sources.patch
-@@ -1,19 +1,21 @@
--Added headers file needed by argp sources.
-+From e7e462e0f21c573ba6010d2e4dddfa45e56faf9a Mon Sep 17 00:00:00 2001
-+From: Salvatore Cro <salvatore.cro@st.com>
-+Date: Sun, 16 Aug 2015 20:57:26 -0700
-+Subject: [PATCH 4/9] Added headers file needed by argp sources
- 
--Signed-off-by: Salvatore Cro <salvatore.cro at st.com>
-+Signed-off-by: Salvatore Cro <salvatore.cro@st.com>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-- include/argp.h             |  566 ++++++++++++++++++++++++++++++++++++++++++++
-- libc/argp/argp-fmtstream.h |  314 ++++++++++++++++++++++++
-- 2 files changed, 880 insertions(+), 0 deletions(-)
-- create mode 100644 include/argp.h
-- create mode 100644 libc/argp/argp-fmtstream.h
+-To fix this, remove the separate "globs" hashmap, and instead use only one
+-marking each entry as a glob or not. There should be little overhead
+-from doing this, considering the only time nested processing will occur
+-is for processing of globs which are not of type "X".
 -
- Upstream-Status: Pending
-+ include/argp.h | 566 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 566 insertions(+)
-+ create mode 100644 include/argp.h
+-Signed-off-by: Randy Witt <randy.e.witt@linux.intel.com>
+----
+- src/tmpfiles/tmpfiles.c | 53 ++++++++++++++++++++++---------------------------
+- 1 file changed, 24 insertions(+), 29 deletions(-)
+-
+-diff --git a/src/tmpfiles/tmpfiles.c b/src/tmpfiles/tmpfiles.c
+-index 917bb3c..0b6d226 100644
+---- a/src/tmpfiles/tmpfiles.c
+-+++ b/src/tmpfiles/tmpfiles.c
+-@@ -116,6 +116,7 @@ typedef struct Item {
+-         bool force:1;
+- 
+-         bool done:1;
+-+        bool glob:1;
+- } Item;
+- 
+- typedef struct ItemArray {
+-@@ -137,7 +138,7 @@ static const char conf_file_dirs[] = CONF_DIRS_NULSTR("tmpfiles");
+- 
+- #define MAX_DEPTH 256
+- 
+--static Hashmap *items = NULL, *globs = NULL;
+-+static OrderedHashmap *items = NULL;
+- static Set *unix_sockets = NULL;
+- 
+- static bool needs_glob(ItemType t) {
+-@@ -176,17 +177,17 @@ static bool takes_ownership(ItemType t) {
+-                       RECURSIVE_REMOVE_PATH);
+- }
+- 
+--static struct Item* find_glob(Hashmap *h, const char *match) {
+-+static struct Item* find_glob(OrderedHashmap *h, const char *match) {
+-         ItemArray *j;
+-         Iterator i;
+- 
+--        HASHMAP_FOREACH(j, h, i) {
+-+        ORDERED_HASHMAP_FOREACH(j, h, i) {
+-                 unsigned n;
+- 
+-                 for (n = 0; n < j->count; n++) {
+-                         Item *item = j->items + n;
+- 
+--                        if (fnmatch(item->path, match, FNM_PATHNAME|FNM_PERIOD) == 0)
+-+                        if (item->glob && fnmatch(item->path, match, FNM_PATHNAME|FNM_PERIOD) == 0)
+-                                 return item;
+-                 }
+-         }
+-@@ -391,12 +392,12 @@ static int dir_cleanup(
+-                 }
+- 
+-                 /* Is there an item configured for this path? */
+--                if (hashmap_get(items, sub_path)) {
+-+                if (ordered_hashmap_get(items, sub_path)) {
+-                         log_debug("Ignoring \"%s\": a separate entry exists.", sub_path);
+-                         continue;
+-                 }
+- 
+--                if (find_glob(globs, sub_path)) {
+-+                if (find_glob(items, sub_path)) {
+-                         log_debug("Ignoring \"%s\": a separate glob exists.", sub_path);
+-                         continue;
+-                 }
+-@@ -1378,7 +1379,7 @@ static int process_item(Item *i) {
+-         PATH_FOREACH_PREFIX(prefix, i->path) {
+-                 ItemArray *j;
+- 
+--                j = hashmap_get(items, prefix);
+-+                j = ordered_hashmap_get(items, prefix);
+-                 if (j) {
+-                         int s;
+- 
+-@@ -1505,7 +1506,6 @@ static int parse_line(const char *fname, unsigned line, const char *buffer) {
+-         _cleanup_free_ char *action = NULL, *mode = NULL, *user = NULL, *group = NULL, *age = NULL, *path = NULL;
+-         _cleanup_(item_free_contents) Item i = {};
+-         ItemArray *existing;
+--        Hashmap *h;
+-         int r, c = -1, pos;
+-         bool force = false, boot = false;
+- 
+-@@ -1739,9 +1739,9 @@ static int parse_line(const char *fname, unsigned line, const char *buffer) {
+-                 i.age_set = true;
+-         }
+- 
+--        h = needs_glob(i.type) ? globs : items;
+-+        i.glob = needs_glob(i.type);
+- 
+--        existing = hashmap_get(h, i.path);
+-+        existing = ordered_hashmap_get(items, i.path);
+-         if (existing) {
+-                 unsigned n;
+- 
+-@@ -1752,7 +1752,7 @@ static int parse_line(const char *fname, unsigned line, const char *buffer) {
+-                 }
+-         } else {
+-                 existing = new0(ItemArray, 1);
+--                r = hashmap_put(h, i.path, existing);
+-+                r = ordered_hashmap_put(items, i.path, existing);
+-                 if (r < 0)
+-                         return log_oom();
+-         }
+-@@ -1911,14 +1911,20 @@ static int read_config_file(const char *fn, bool ignore_enoent) {
+-         }
+- 
+-         /* we have to determine age parameter for each entry of type X */
+--        HASHMAP_FOREACH(i, globs, iterator) {
+-+        ORDERED_HASHMAP_FOREACH(i, items, iterator) {
+-                 Iterator iter;
+-                 Item *j, *candidate_item = NULL;
+-+                int number = 0;
+- 
+-+                if (!i->glob)
+-+                        continue;
+-                 if (i->type != IGNORE_DIRECTORY_PATH)
+-                         continue;
+- 
+--                HASHMAP_FOREACH(j, items, iter) {
+-+                ORDERED_HASHMAP_FOREACH(j, items, iter) {
+-+                        number++;
+-+                        if (j == i)
+-+                                continue;
+-                         if (j->type != CREATE_DIRECTORY && j->type != TRUNCATE_DIRECTORY && j->type != CREATE_SUBVOLUME)
+-                                 continue;
+- 
+-@@ -1964,10 +1970,9 @@ int main(int argc, char *argv[]) {
+- 
+-         mac_selinux_init(NULL);
+- 
+--        items = hashmap_new(&string_hash_ops);
+--        globs = hashmap_new(&string_hash_ops);
+-+        items = ordered_hashmap_new(&string_hash_ops);
+- 
+--        if (!items || !globs) {
+-+        if (!items) {
+-                 r = log_oom();
+-                 goto finish;
+-         }
+-@@ -2000,27 +2005,17 @@ int main(int argc, char *argv[]) {
+-                 }
+-         }
+- 
+--        HASHMAP_FOREACH(a, globs, iterator) {
+--                k = process_item_array(a);
+--                if (k < 0 && r == 0)
+--                        r = k;
+--        }
+--
+--        HASHMAP_FOREACH(a, items, iterator) {
+-+        ORDERED_HASHMAP_FOREACH(a, items, iterator) {
+-                 k = process_item_array(a);
+-                 if (k < 0 && r == 0)
+-                         r = k;
+-         }
+- 
+- finish:
+--        while ((a = hashmap_steal_first(items)))
+--                item_array_free(a);
+--
+--        while ((a = hashmap_steal_first(globs)))
+-+        while ((a = ordered_hashmap_steal_first(items)))
+-                 item_array_free(a);
+- 
+--        hashmap_free(items);
+--        hashmap_free(globs);
+-+        ordered_hashmap_free(items);
+- 
+-         free(arg_include_prefixes);
+-         free(arg_exclude_prefixes);
+--- 
+-1.9.3
+-
+diff --git a/meta/recipes-core/systemd/systemd/0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch b/meta/recipes-core/systemd/systemd/0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch
+index 3e3aa27..6308cc7 100644
+--- a/meta/recipes-core/systemd/systemd/0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch
++++ b/meta/recipes-core/systemd/systemd/0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch
+@@ -21,11 +21,11 @@ Signed-off-by: Jonathan Liu <net147@gmail.com>
+  8 files changed, 214 insertions(+), 4 deletions(-)
+  create mode 100644 src/udev/udev-builtin-firmware.c
  
--Index: git/include/argp.h
--===================================================================
-+diff --git a/include/argp.h b/include/argp.h
-+new file mode 100644
-+index 0000000..9d53728
+-diff --git a/Makefile.am b/Makefile.am
+-index bf04d31..9394700 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -3678,6 +3678,18 @@ libudev_core_la_LIBADD = \
++Index: git/Makefile.am
++===================================================================
++--- git.orig/Makefile.am
+++++ git/Makefile.am
++@@ -3470,6 +3470,18 @@ libudev_core_la_LIBADD = \
+  	$(BLKID_LIBS) \
+  	$(KMOD_LIBS)
+  
+@@ -44,10 +44,10 @@ index bf04d31..9394700 100644
+  if HAVE_KMOD
+  libudev_core_la_SOURCES += \
+  	src/udev/udev-builtin-kmod.c
+-diff --git a/README b/README
+-index c722092..db382d2 100644
+---- a/README
+-+++ b/README
++Index: git/README
++===================================================================
++--- git.orig/README
+++++ git/README
+ @@ -36,7 +36,8 @@ LICENSE:
+          - except src/udev/* which is (currently still) GPLv2, GPLv2+
+  
+@@ -76,11 +76,11 @@ index c722092..db382d2 100644
+            CONFIG_FW_LOADER_USER_HELPER=n
+  
+          Some udev rules and virtualization detection relies on it:
+-diff --git a/TODO b/TODO
+-index 255a4f2..407bdd0 100644
+---- a/TODO
+-+++ b/TODO
+-@@ -727,6 +727,7 @@ Features:
++Index: git/TODO
++===================================================================
++--- git.orig/TODO
+++++ git/TODO
++@@ -754,6 +754,7 @@ Features:
+  * ExecOnFailure=/usr/bin/foo
+  
+  * udev:
+@@ -88,11 +88,11 @@ index 255a4f2..407bdd0 100644
+    - move to LGPL
+    - kill scsi_id
+    - add trigger --subsystem-match=usb/usb_device device
+-diff --git a/configure.ac b/configure.ac
+-index 97a29d6..13b80ce 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1245,6 +1245,25 @@ fi
++Index: git/configure.ac
++===================================================================
++--- git.orig/configure.ac
+++++ git/configure.ac
++@@ -1268,6 +1268,26 @@ fi
+  AM_CONDITIONAL(HAVE_MYHOSTNAME, [test "$have_myhostname" = "yes"])
+  
+  # ------------------------------------------------------------------------------
+@@ -114,23 +114,23 @@ index 97a29d6..13b80ce 100644
+ +AS_IF([test "x${FIRMWARE_PATH}" != "x"], [ AC_DEFINE(HAVE_FIRMWARE, 1, [Define if FIRMWARE is available]) ])
+ +AM_CONDITIONAL(ENABLE_FIRMWARE, [test "x${FIRMWARE_PATH}" != "x"])
+ +
+++
+ +# ------------------------------------------------------------------------------
+- AC_ARG_ENABLE([gudev],
+-        AS_HELP_STRING([--disable-gudev], [disable Gobject libudev support @<:@default=enabled@:>@]),
+-        [], [enable_gudev=yes])
+-@@ -1533,6 +1552,7 @@ AC_MSG_RESULT([
++ AC_ARG_ENABLE(hwdb, [AC_HELP_STRING([--disable-hwdb], [disable hardware database support])],
++        enable_hwdb=$enableval, enable_hwdb=yes)
++ AM_CONDITIONAL(ENABLE_HWDB, [test x$enable_hwdb = xyes])
++@@ -1574,6 +1594,7 @@ AC_MSG_RESULT([
++         SysV rc?.d directories:  ${SYSTEM_SYSVRCND_PATH}
+          Build Python:            ${PYTHON}
+-         Installation Python:     ${PYTHON_BINARY}
+          sphinx binary:           ${SPHINX_BUILD}
+ +        firmware path:           ${FIRMWARE_PATH}
+          PAM modules dir:         ${with_pamlibdir}
+          PAM configuration dir:   ${with_pamconfdir}
+          D-Bus policy dir:        ${with_dbuspolicydir}
+-diff --git a/src/udev/udev-builtin-firmware.c b/src/udev/udev-builtin-firmware.c
+-new file mode 100644
+-index 0000000..bd8c2fb
++Index: git/src/udev/udev-builtin-firmware.c
++===================================================================
  --- /dev/null
--+++ git/include/argp.h
-++++ b/include/argp.h
- @@ -0,0 +1,566 @@
- +/* Hierarchial argument parsing, layered over getopt.
- +   Copyright (C) 1995-1999, 2003, 2004, 2005, 2006, 2007, 2009
-@@ -581,3 +583,6 @@ Index: git/include/argp.h
+-+++ b/src/udev/udev-builtin-firmware.c
+++++ git/src/udev/udev-builtin-firmware.c
+ @@ -0,0 +1,154 @@
+ +/*
+ + * firmware - Kernel firmware loader
+@@ -286,11 +286,11 @@ index 0000000..bd8c2fb
+ +        .help = "kernel firmware loader",
+ +        .run_once = true,
+ +};
+-diff --git a/src/udev/udev-builtin.c b/src/udev/udev-builtin.c
+-index 1950ec2..f21c0b6 100644
+---- a/src/udev/udev-builtin.c
+-+++ b/src/udev/udev-builtin.c
+-@@ -34,6 +34,9 @@ static const struct udev_builtin *builtins[] = {
++Index: git/src/udev/udev-builtin.c
++===================================================================
++--- git.orig/src/udev/udev-builtin.c
+++++ git/src/udev/udev-builtin.c
++@@ -30,6 +30,9 @@ static const struct udev_builtin *builti
+          [UDEV_BUILTIN_BLKID] = &udev_builtin_blkid,
+  #endif
+          [UDEV_BUILTIN_BTRFS] = &udev_builtin_btrfs,
+@@ -300,11 +300,11 @@ index 1950ec2..f21c0b6 100644
+          [UDEV_BUILTIN_HWDB] = &udev_builtin_hwdb,
+          [UDEV_BUILTIN_INPUT_ID] = &udev_builtin_input_id,
+          [UDEV_BUILTIN_KEYBOARD] = &udev_builtin_keyboard,
+-diff --git a/src/udev/udev.h b/src/udev/udev.h
+-index dece6ec..f7ee1e7 100644
+---- a/src/udev/udev.h
+-+++ b/src/udev/udev.h
+-@@ -151,6 +151,9 @@ enum udev_builtin_cmd {
++Index: git/src/udev/udev.h
++===================================================================
++--- git.orig/src/udev/udev.h
+++++ git/src/udev/udev.h
++@@ -146,6 +146,9 @@ enum udev_builtin_cmd {
+          UDEV_BUILTIN_BLKID,
+  #endif
+          UDEV_BUILTIN_BTRFS,
+@@ -314,7 +314,7 @@ index dece6ec..f7ee1e7 100644
+          UDEV_BUILTIN_HWDB,
+          UDEV_BUILTIN_INPUT_ID,
+          UDEV_BUILTIN_KEYBOARD,
+-@@ -179,6 +182,9 @@ struct udev_builtin {
++@@ -174,6 +177,9 @@ struct udev_builtin {
+  extern const struct udev_builtin udev_builtin_blkid;
+  #endif
+  extern const struct udev_builtin udev_builtin_btrfs;
+@@ -324,21 +324,21 @@ index dece6ec..f7ee1e7 100644
+  extern const struct udev_builtin udev_builtin_hwdb;
+  extern const struct udev_builtin udev_builtin_input_id;
+  extern const struct udev_builtin udev_builtin_keyboard;
+-diff --git a/src/udev/udevd.c b/src/udev/udevd.c
+-index 99d4c89..71af1e1 100644
+---- a/src/udev/udevd.c
+-+++ b/src/udev/udevd.c
+-@@ -99,6 +99,9 @@ struct event {
+-         dev_t devnum;
+-         int ifindex;
++Index: git/src/udev/udevd.c
++===================================================================
++--- git.orig/src/udev/udevd.c
+++++ git/src/udev/udevd.c
++@@ -116,6 +116,9 @@ struct event {
+          bool is_block;
++         sd_event_source *timeout_warning;
++         sd_event_source *timeout;
+ +#ifdef HAVE_FIRMWARE
+ +        bool nodelay;
  +#endif
- +
- +#endif /* argp.h */
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0005-Dont-support-localised-optimizations-this-helps-to-h.patch b/meta/recipes-core/uclibc/uclibc-git/0005-Dont-support-localised-optimizations-this-helps-to-h.patch
-new file mode 100644
-index 0000000..8e1bf71
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0005-Dont-support-localised-optimizations-this-helps-to-h.patch
-@@ -0,0 +1,29 @@
-+From 999912a473dcfea15477263256179d16c00e8aba Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Aug 2015 20:58:59 -0700
-+Subject: [PATCH 5/9] Dont support localised optimizations this helps to have a
-+ global -O level
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+ libpthread/nptl/pthread_mutex_timedlock.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/libpthread/nptl/pthread_mutex_timedlock.c b/libpthread/nptl/pthread_mutex_timedlock.c
-+index 04187f6..f56f6c5 100644
-+--- a/libpthread/nptl/pthread_mutex_timedlock.c
-++++ b/libpthread/nptl/pthread_mutex_timedlock.c
-+@@ -28,7 +28,9 @@
-+  * error: can't find a register in class ‘GENERAL_REGS’ while reloading ‘asm’
-+  */
-+ int
-++#ifndef  __OPTIMIZE__
-+ attribute_optimize("Os")
-++#endif
-+ pthread_mutex_timedlock (
-+      pthread_mutex_t *mutex,
-+      const struct timespec *abstime)
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0006-Always-use-O2-for-compiling-fork.c.patch b/meta/recipes-core/uclibc/uclibc-git/0006-Always-use-O2-for-compiling-fork.c.patch
-new file mode 100644
-index 0000000..438cef1
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0006-Always-use-O2-for-compiling-fork.c.patch
-@@ -0,0 +1,32 @@
-+From a39b30214c7424e3906db27b2b561b20e1c16fb7 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 16 Aug 2015 20:59:56 -0700
-+Subject: [PATCH 6/9] Always use -O2 for compiling fork.c
-+
-+When compiling in thumb mode for arm with -Os gcc gives up since it can
-+not find registers to spill. So we use -O2 option for compiling fork.c
-+It may be addressable in gcc.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+ libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch b/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
-+index 0ea0b29..0767e9c 100644
-+--- a/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
-++++ b/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
-+@@ -21,3 +21,9 @@ ASFLAGS-pt-vfork.S = -marm
-+ CFLAGS-OMIT-pt-vfork.S = -mthumb
-+ ASFLAGS-vfork.S = -marm
-+ CFLAGS-OMIT-vfork.S = -mthumb
-++
-++# For arm fork.c does not compile with -Os when compiling
-++# in thumb1 mode
-++ifeq ($(COMPILE_IN_THUMB_MODE),y)
-++CFLAGS-fork.c = -O2
-++endif
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-ldso-limited-support-for-ORIGIN-in-rpath.patch b/meta/recipes-core/uclibc/uclibc-git/0007-ldso-limited-support-for-ORIGIN-in-rpath.patch
-similarity index 96%
-rename from meta/recipes-core/uclibc/uclibc-git/0001-ldso-limited-support-for-ORIGIN-in-rpath.patch
-rename to meta/recipes-core/uclibc/uclibc-git/0007-ldso-limited-support-for-ORIGIN-in-rpath.patch
-index 7479ec3..555b19b 100644
---- a/meta/recipes-core/uclibc/uclibc-git/0001-ldso-limited-support-for-ORIGIN-in-rpath.patch
-+++ b/meta/recipes-core/uclibc/uclibc-git/0007-ldso-limited-support-for-ORIGIN-in-rpath.patch
-@@ -1,7 +1,7 @@
--From 32eaf738faafad2b16e1f3f5beb91736b3c27a3b Mon Sep 17 00:00:00 2001
-+From 7e6d74573a6eb70ac4518e45e5c52b867db07453 Mon Sep 17 00:00:00 2001
- From: Junling Zheng <zhengjunling@huawei.com>
- Date: Fri, 3 Apr 2015 05:02:27 +0000
--Subject: [PATCH] ldso: limited support for $ORIGIN in rpath
-+Subject: [PATCH 7/9] ldso: limited support for $ORIGIN in rpath
- MIME-Version: 1.0
- Content-Type: text/plain; charset=UTF-8
- Content-Transfer-Encoding: 8bit
-@@ -26,7 +26,9 @@ Upstream-Status: Submitted
- 
- Signed-off-by: Timo Teräs <timo.teras at iki.fi>
- Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
- ---
-+Upstream-Status: Pending
-  ldso/include/dl-string.h |  2 ++
-  ldso/ldso/dl-elf.c       | 79 +++++++++++++++++++++++++-----------------------
-  ldso/ldso/ldso.c         | 18 +++++++++--
-@@ -47,7 +49,7 @@ index aacad10..14ae617 100644
-  # define _dl_memcmp memcmp
-  # define _dl_memset memset
- diff --git a/ldso/ldso/dl-elf.c b/ldso/ldso/dl-elf.c
--index 1b06bc1..b323c90 100644
-+index 5631905..6ab7afe 100644
- --- a/ldso/ldso/dl-elf.c
- +++ b/ldso/ldso/dl-elf.c
- @@ -133,56 +133,60 @@ _dl_protect_relro (struct elf_resolve *l)
-@@ -190,7 +192,7 @@ index 1b06bc1..b323c90 100644
-  		return tpnt1;
+  };
   
- diff --git a/ldso/ldso/ldso.c b/ldso/ldso/ldso.c
--index 5619629..73bcc41 100644
-+index f38f9e3..3812908 100644
- --- a/ldso/ldso/ldso.c
- +++ b/ldso/ldso/ldso.c
- @@ -402,6 +402,20 @@ static ptrdiff_t _dl_build_local_scope (struct elf_resolve **list,
-@@ -226,5 +228,5 @@ index 5619629..73bcc41 100644
-  #ifdef __DSBT__
-  	_dl_ldso_dsbt = (void *)tpnt->dynamic_info[DT_DSBT_BASE_IDX];
- -- 
--1.8.3.4
-+2.1.4
- 
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0008-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch b/meta/recipes-core/uclibc/uclibc-git/0008-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch
-new file mode 100644
-index 0000000..94669ec
---- /dev/null
-+++ b/meta/recipes-core/uclibc/uclibc-git/0008-nptl-atfork-Hide-pthread_atfork-in-shared-versions.patch
-@@ -0,0 +1,36 @@
-+From a087b71655d6e53fd9897362a9c7eba9b97440fc Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 23 Jun 2012 15:59:01 -0700
-+Subject: [PATCH 8/9] nptl/atfork: Hide pthread_atfork in shared versions
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
-+---
-+Upstream-Status: Pending
-+ libpthread/nptl/Makefile.in | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/libpthread/nptl/Makefile.in b/libpthread/nptl/Makefile.in
-+index 55eeba2..8cb8fa9 100644
-+--- a/libpthread/nptl/Makefile.in
-++++ b/libpthread/nptl/Makefile.in
-+@@ -16,6 +16,7 @@ libc-shared-routines-y = forward.c libc-cancellation.c
-+ libc-static-routines-y = alloca_cutoff.c libc-cancellation.c
-+ libpthread-shared-only-routines-y = version.c
-+ libpthread-static-only-routines-y = pthread_atfork.c
-++
-+ libpthread-routines- += $(notdir $(wildcard $(libpthread_DIR)/gen_*.c)) # dummy generated files
-+ libpthread-routines- += allocatestack.c # dummy included by pthread_create.c
-+ libpthread-routines- += pthread_mutex_getprioceiling.c pthread_mutex_setprioceiling.c # XXX: delete those or use them!
-+@@ -201,7 +202,7 @@ CFLAGS-msgsnd.c = -fexceptions -fasynchronous-unwind-tables
-+ CFLAGS-tcdrain.c = -fexceptions -fasynchronous-unwind-tables
-+ 
-+ CFLAGS-pt-system.c = -fexceptions -I$(top_srcdir)libc/stdlib
-+-
-++CFLAGS-pthread_atfork.c = -DNOT_IN_libc
-+ #
-+ # The rest of this file is uClibc specific.
-+ #
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc-git/0001-librt-Use-nodefaultlibs-instead-of-nostdlib.patch b/meta/recipes-core/uclibc/uclibc-git/0009-librt-Use-nodefaultlibs-instead-of-nostdlib.patch
-similarity index 50%
-rename from meta/recipes-core/uclibc/uclibc-git/0001-librt-Use-nodefaultlibs-instead-of-nostdlib.patch
-rename to meta/recipes-core/uclibc/uclibc-git/0009-librt-Use-nodefaultlibs-instead-of-nostdlib.patch
-index ecb9d31..5ad9bb7 100644
---- a/meta/recipes-core/uclibc/uclibc-git/0001-librt-Use-nodefaultlibs-instead-of-nostdlib.patch
-+++ b/meta/recipes-core/uclibc/uclibc-git/0009-librt-Use-nodefaultlibs-instead-of-nostdlib.patch
-@@ -1,7 +1,7 @@
--From 95f9b6f37152b8316735d3c86c0db963ff59e22d Mon Sep 17 00:00:00 2001
-+From 7e89347e452d90674fa739be367bdf8ce71cc7d8 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 23 Jun 2012 16:51:52 -0700
--Subject: [PATCH] librt: Use -nodefaultlibs instead of -nostdlib
-+Date: Sun, 16 Aug 2015 21:03:45 -0700
-+Subject: [PATCH 9/9] librt: Use -nodefaultlibs instead of -nostdlib
- 
- nostdlib disables linking in startup files too which is not
- what we want here since it needs to resolve __dso_handle
-@@ -12,18 +12,18 @@ when shared libraries are being built which are
- linking in librt
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
- ---
-- librt/Makefile.in |    1 +
-- 1 file changed, 1 insertion(+)
-+Upstream-Status: Pending
-+ librt/Makefile.in | 3 +++
-+ 1 file changed, 3 insertions(+)
- 
--Index: git/librt/Makefile.in
--===================================================================
----- git.orig/librt/Makefile.in	2012-06-24 10:32:59.512653237 -0700
--+++ git/librt/Makefile.in	2012-06-24 11:31:00.660821666 -0700
--@@ -15,6 +15,9 @@
-- ifeq ($(UCLIBC_HAS_THREADS_NATIVE),y)
-- LIBS-librt.so += $(top_builddir)lib/libdl.so $(top_builddir)lib/libpthread.so
-+diff --git a/librt/Makefile.in b/librt/Makefile.in
-+index 1536a5c..5fcb1d6 100644
-+--- a/librt/Makefile.in
-++++ b/librt/Makefile.in
-+@@ -16,6 +16,9 @@ ifeq ($(UCLIBC_HAS_THREADS_NATIVE),y)
-+ LIBS-librt.so += $(top_builddir)lib/libpthread.so \
-+ 	$(CC_FLAG_ASNEEDED) $(top_builddir)lib/libdl.so $(CC_FLAG_NO_ASNEEDED)
-  endif
- +START_FILE-librt.so := $(SHARED_START_FILES)
- +END_FILE-librt.so := $(SHARED_END_FILES)
-@@ -31,3 +31,6 @@ Index: git/librt/Makefile.in
+  static inline struct event *node_to_event(struct udev_list_node *node) {
+-@@ -472,6 +475,10 @@ static int event_queue_insert(struct udev_device *dev) {
++@@ -607,6 +610,10 @@ static int event_queue_insert(Manager *m
+          event->devnum = udev_device_get_devnum(dev);
+          event->is_block = streq("block", udev_device_get_subsystem(dev));
+          event->ifindex = udev_device_get_ifindex(dev);
+@@ -349,7 +349,7 @@ index 99d4c89..71af1e1 100644
   
-  librt_FULL_NAME := librt-$(VERSION).so
+          log_debug("seq %llu queued, '%s' '%s'", udev_device_get_seqnum(dev),
+               udev_device_get_action(dev), udev_device_get_subsystem(dev));
+-@@ -548,6 +555,12 @@ static bool is_devpath_busy(struct event *event) {
++@@ -692,6 +699,12 @@ static bool is_devpath_busy(Manager *man
+                          return true;
+                  }
   
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch b/meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch
-deleted file mode 100644
-index 15ee0ca..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/compile-arm-fork-with-O2.patch
-+++ /dev/null
-@@ -1,21 +0,0 @@
--When compiling in thumb mode for arm with -Os gcc gives up since it can not find registers
--to spill. So we use -O2 option for compiling fork.c It may be addressable in gcc.
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Pending
--
--diff --git a/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch b/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
--index 329d8a9..41e3646 100644
----- a/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
--+++ b/libpthread/nptl/sysdeps/unix/sysv/linux/arm/Makefile.arch
--@@ -30,3 +30,9 @@ CFLAGS-OMIT-libc-lowlevellock.c = -DNOT_IN_libc -DIS_IN_libpthread
-- # This macro should be alternatively implemented in THUMB
-- # assembly.
-- ASFLAGS-vfork.S = -marm
--+
--+# For arm fork.c does not compile with -Os when in compiling
--+# in thumb1 mode
--+ifeq ($(COMPILE_IN_THUMB_MODE),y)
--+CFLAGS-fork.c = -O2
--+endif
-diff --git a/meta/recipes-core/uclibc/uclibc-git/ldso-mark-_dl_exit-as-noreturn.patch b/meta/recipes-core/uclibc/uclibc-git/ldso-mark-_dl_exit-as-noreturn.patch
-deleted file mode 100644
-index 5279f8a..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/ldso-mark-_dl_exit-as-noreturn.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--From 2c8a7766681b704e710f51c0817534e3f9a952d1 Mon Sep 17 00:00:00 2001
--From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
--Date: Thu, 26 Mar 2015 00:02:58 +0100
--Subject: [PATCH] ldso: mark _dl_exit as noreturn
--
--Otherwise gcc might not understand that oom() ended control-flow and
--might emit an (untaken) reference to abort() in _dl_update_slotinfo()
--on e.g. SH4 which breaks linking ld-uClibc.so.
--Arguably -ffreestanding should prevent GCC from emitting this
--'.global abort' but alas, it does not, which is another bug..
--
--Also mark the function cold to further lower the incoming frequency and
--branch probability.
--
--Upstream-Status: Backport
--
--  http://git.uclibc.org/uClibc/commit/?id=2c8a7766681b704e710f51c0817534e3f9a952d1
--
--Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
--Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-----
-- ldso/include/dl-syscall.h | 10 +++++++++-
-- 1 file changed, 9 insertions(+), 1 deletion(-)
--
--diff --git a/ldso/include/dl-syscall.h b/ldso/include/dl-syscall.h
--index 675b93a..e556f7b 100644
----- a/ldso/include/dl-syscall.h
--+++ b/ldso/include/dl-syscall.h
--@@ -52,7 +52,15 @@ extern int _dl_errno;
--    dynamic linking at all, so we cannot return any error codes.
--    We just punt if there is an error. */
-- #define __NR__dl_exit __NR_exit
---static __always_inline _syscall1(void, _dl_exit, int, status)
--+static __always_inline attribute_noreturn __cold void _dl_exit(int status)
--+{
--+	INLINE_SYSCALL(_dl_exit, 1, status);
--+#if defined __GNUC__
--+	__builtin_unreachable(); /* shut up warning: 'noreturn' function does return*/
--+#else
--+	while (1);
--+#endif
--+}
-- 
-- #define __NR__dl_close __NR_close
-- static __always_inline _syscall1(int, _dl_close, int, fd)
+@@ -362,6 +362,3 @@ index 99d4c89..71af1e1 100644
+                  /* parent device event found */
+                  if (event->devpath[common] == '/') {
+                          event->delaying_seqnum = loop_event->seqnum;
 --- 
--1.9.1
+-2.3.3
 -
-diff --git a/meta/recipes-core/uclibc/uclibc-git/remove_attribute_optimize_Os.patch b/meta/recipes-core/uclibc/uclibc-git/remove_attribute_optimize_Os.patch
+diff --git a/meta/recipes-core/systemd/systemd/tmpfiles-pam.patch b/meta/recipes-core/systemd/systemd/tmpfiles-pam.patch
 deleted file mode 100644
-index fb52faa..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/remove_attribute_optimize_Os.patch
+index a40b1b9..0000000
+--- a/meta/recipes-core/systemd/systemd/tmpfiles-pam.patch
 +++ /dev/null
-@@ -1,19 +0,0 @@
--Dont support localised optimizations this helps to have a global -O level
+@@ -1,30 +0,0 @@
+-Upstream-Status: Submitted
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
+-From 0802aaaa9784813d318d045c79533a044eedf542 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Tue, 3 Mar 2015 11:32:29 +0000
+-Subject: [PATCH] tmpfiles.d: only copy /etc/pam.d if PAM is present
 -
--Index: git/libpthread/nptl/pthread_mutex_timedlock.c
--===================================================================
----- git.orig/libpthread/nptl/pthread_mutex_timedlock.c	2014-08-25 10:58:06.000000000 -0700
--+++ git/libpthread/nptl/pthread_mutex_timedlock.c	2014-08-25 11:00:42.078242266 -0700
--@@ -28,7 +28,9 @@
--  * error: can't find a register in class ‘GENERAL_REGS’ while reloading ‘asm’
--  */
-- int
--+#ifndef  __OPTIMIZE__
-- attribute_optimize("Os")
--+#endif
-- pthread_mutex_timedlock (
--      pthread_mutex_t *mutex,
--      const struct timespec *abstime)
-diff --git a/meta/recipes-core/uclibc/uclibc-git/uclibc_enable_log2_test.patch b/meta/recipes-core/uclibc/uclibc-git/uclibc_enable_log2_test.patch
-deleted file mode 100644
-index 37a5988..0000000
---- a/meta/recipes-core/uclibc/uclibc-git/uclibc_enable_log2_test.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--uclibc now has log2 so enable the tests
+-If HAVE_PAM isn't set then don't attempt to copy /etc/pam.d from the factory, as
+-it doesn't get installed.
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- tmpfiles.d/etc.conf.m4 |    2 ++
+- 1 file changed, 2 insertions(+)
 -
--Index: uClibc/test/math/libm-test.inc
--===================================================================
----- uClibc/test/math/libm-test.inc	(revision 23784)
--+++ uClibc/test/math/libm-test.inc	(working copy)
--@@ -3414,7 +3414,6 @@
-- }
-- 
-- 
---#if 0
-- static void
-- log2_test (void)
-- {
--@@ -3444,7 +3443,6 @@
-- 
--   END (log2);
-- }
---#endif
-- 
-- 
-- static void
--@@ -4967,9 +4965,7 @@
--   log_test ();
--   log10_test ();
--   log1p_test ();
---#if 0
--   log2_test ();
---#endif
--   logb_test ();
--   modf_test ();
--   ilogb_test ();
-diff --git a/meta/recipes-core/uclibc/uclibc.inc b/meta/recipes-core/uclibc/uclibc.inc
-index c483228..533aa3d 100644
---- a/meta/recipes-core/uclibc/uclibc.inc
-+++ b/meta/recipes-core/uclibc/uclibc.inc
-@@ -21,7 +21,7 @@ PATH_prepend = "${STAGING_BINDIR_TOOLCHAIN}.${STAGINGCC}:"
- TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TCBOOTSTRAP}"
+-diff --git a/tmpfiles.d/etc.conf.m4 b/tmpfiles.d/etc.conf.m4
+-index 9b0e080..ab5cd16 100644
+---- a/tmpfiles.d/etc.conf.m4
+-+++ b/tmpfiles.d/etc.conf.m4
+-@@ -14,4 +14,6 @@ m4_ifdef(`ENABLE_RESOLVED',
+- L /etc/resolv.conf - - - - ../run/systemd/resolve/resolv.conf
+- )m4_dnl
+- C /etc/nsswitch.conf - - - -
+-+m4_ifdef(`HAVE_PAM',
+- C /etc/pam.d - - - -
+-+)m4_dnl
+--- 
+-1.7.10.4
+-
+diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_224.bb
+similarity index 95%
+rename from meta/recipes-core/systemd/systemd_219.bb
+rename to meta/recipes-core/systemd/systemd_224.bb
+index e187cea..16eb497 100644
+--- a/meta/recipes-core/systemd/systemd_219.bb
++++ b/meta/recipes-core/systemd/systemd_224.bb
+@@ -10,10 +10,9 @@ state, maintains mount and automount points and implements an \
+ elaborate transactional dependency-based service control logic. It can \
+ work as a drop-in replacement for sysvinit."
  
- # siteconfig.bbclass runs configure which needs a working compiler
--# For the compiler to work we need a working libc yet libc isn't 
-+# For the compiler to work we need a working libc yet libc isn't
- # in the sysroots directory at this point. This means the libc.so
- # linker script won't work as the --sysroot setting isn't correct.
- # Here we create a hacked up libc linker script and pass in the right
+-LICENSE = "GPLv2 & LGPLv2.1 & MIT"
++LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+-                    file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c \
+-                    file://LICENSE.MIT;md5=544799d0b492f119fa04641d1b8868ed"
++                    file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+ PROVIDES = "udev"
+ 
+@@ -23,14 +22,13 @@ DEPENDS = "kmod docbook-sgml-dtd-4.1-native intltool-native gperf-native acl rea
+ 
+ SECTION = "base/shell"
+ 
+-inherit gtk-doc useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
++inherit useradd pkgconfig autotools perlnative update-rc.d update-alternatives qemu systemd ptest gettext
+ 
+-SRCREV = "85a6fabdd3e43cfab0fc6359e9f2a9e368d4a3ed"
++SRCREV = "b2a0ac5e5b29c73ca7c0da23369a4769d5a91ddd"
+ 
+-PV = "219-stable+git${SRCPV}"
++PV = "224+git${SRCPV}"
+ 
+-SRC_URI = "git://github.com/systemd/systemd-stable;branch=v219-stable;protocol=git \
+-           file://0002-shared-missing.h-fall-back-to-insecure-getenv.patch \
++SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
+            file://0003-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0004-configure-Check-for-additional-features-that-uclibc-.patch \
+            file://0005-nspawn-Use-execvpe-only-when-libc-supports-it.patch \
+@@ -40,11 +38,8 @@ SRC_URI = "git://github.com/systemd/systemd-stable;branch=v219-stable;protocol=g
+            file://0009-sysv-generator-add-support-for-executing-scripts-und.patch \
+            file://0010-Make-root-s-home-directory-configurable.patch \
+            file://0011-systemd-user-avoid-using-system-auth.patch \
+-           file://0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch \
+            file://0014-Revert-rules-remove-firmware-loading-rules.patch \
+            file://0015-Revert-udev-remove-userspace-firmware-loading-suppor.patch \
+-           file://tmpfiles-pam.patch \
+-           file://0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch \
+            file://touchscreen.rules \
+            file://00-create-volatile.conf \
+            file://init \
+@@ -108,8 +103,6 @@ EXTRA_OECONF = " --with-rootprefix=${rootprefix} \
+                  --with-rootlibdir=${rootlibdir} \
+                  --with-roothomedir=${ROOT_HOME} \
+                  --disable-coredump \
+-                 --disable-introspection \
+-                 --disable-kdbus \
+                  --enable-split-usr \
+                  --without-python \
+                  --with-sysvrcnd-path=${sysconfdir} \
+@@ -210,7 +203,7 @@ python populate_packages_prepend (){
+ PACKAGES_DYNAMIC += "^lib(udev|systemd).*"
+ 
+ PACKAGES =+ "${PN}-gui ${PN}-vconsole-setup ${PN}-initramfs ${PN}-analyze ${PN}-kernel-install \
+-             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-zsh libgudev"
++             ${PN}-rpm-macros ${PN}-binfmt ${PN}-pam ${PN}-zsh ${PN}-xorg-xinitrc"
+ 
+ SYSTEMD_PACKAGES = "${PN}-binfmt"
+ SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+@@ -224,8 +217,6 @@ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+ FILES_${PN}-initramfs = "/init"
+ RDEPENDS_${PN}-initramfs = "${PN}"
+ 
+-FILES_libgudev = "${libdir}/libgudev*${SOLIBS}"
+-
+ RDEPENDS_${PN}-ptest += "perl python bash"
+ FILES_${PN}-ptest += "${libdir}/udev/rules.d"
+ 
+@@ -245,6 +236,8 @@ FILES_${PN}-kernel-install = "${bindir}/kernel-install \
+ FILES_${PN}-rpm-macros = "${exec_prefix}/lib/rpm \
+                          "
+ 
++FILES_${PN}-xorg-xinitrc = "${sysconfdir}/X11/xinit/xinitrc.d/*"
++
+ FILES_${PN}-zsh = "${datadir}/zsh/site-functions"
+ 
+ FILES_${PN}-binfmt = "${sysconfdir}/binfmt.d/ \
 -- 
 2.1.4
 
