@@ -1,25 +1,21 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CC5FF73E19
+	by mail.openembedded.org (Postfix) with ESMTP id D89CF73E20
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 15:16:21 +0000 (UTC)
+	Mon, 17 Aug 2015 15:16:23 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
 	by orsmga103.jf.intel.com with ESMTP; 17 Aug 2015 08:16:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,695,1432623600"; d="scan'208";a="785698485"
+X-IronPort-AV: E=Sophos;i="5.15,695,1432623600"; d="scan'208";a="785698481"
 Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
 	([10.23.219.54])
 	by orsmga002.jf.intel.com with ESMTP; 17 Aug 2015 08:16:18 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Aug 2015 07:10:12 +0000
-Message-Id: <8a6c98b192128c361fe5d5692b0f1d23f1cfcbad.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Mon, 17 Aug 2015 07:10:11 +0000
+Message-Id: <cover.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH v2 1/2] insane.bbclass: Check for invalid characters (non UTF8) on recipe metadata
+Subject: [PATCH v2 0/2] Check invalid characters on some recipe metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,70 +32,29 @@ X-List-Received-Date: Mon, 17 Aug 2015 15:16:24 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Check if invalid characters are present on recipe's metadata. Fields
-taken into account are: 'DESCRIPTION', 'SUMMARY', 'LICENSE' and 'SECTION'.
+* insane.bbclass: QA check for invalid chars
+* package_deb.bbclass: Opens the control file allowing UTF-8 chars
+and handles a string decoding exception, reported on [1]
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- meta/classes/insane.bbclass | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=6693
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 9c05c86..fc16540 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -11,6 +11,7 @@
- #  -Check if packages contains .debug directories or .so files
- #   where they should be in -dev or -dbg
- #  -Check if config.log contains traces to broken autoconf tests
-+#  -Check invalid characters (non-utf8) on some package metadata
- #  -Ensure that binaries in base_[bindir|sbindir|libdir] do not link
- #   into exec_prefix
- #  -Check that scripts in base_[bindir|sbindir|libdir] do not reference
-@@ -36,7 +37,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-             split-strip packages-list pkgv-undefined var-undefined \
--            version-going-backwards expanded-d \
-+            version-going-backwards expanded-d invalid-chars \
-             "
- 
- ALL_QA = "${WARN_QA} ${ERROR_QA}"
-@@ -947,6 +948,24 @@ def package_qa_check_expanded_d(path,name,d,elf,messages):
-                         sane = False
-     return sane
- 
-+def package_qa_check_encoding(keys, encode, d):
-+    def check_encoding(key,enc):
-+        sane = True
-+        value = d.getVar(key, True)
-+        if value:
-+            try:
-+                s = unicode(value, enc)
-+            except UnicodeDecodeError as e:
-+                error_msg = "%s has non %s characters" % (key,enc)
-+                sane = False
-+                package_qa_handle_error("invalid-chars", error_msg, d)
-+        return sane
-+
-+    for key in keys:
-+        sane = check_encoding(key, encode)
-+        if not sane:
-+            break
-+
- # The PACKAGE FUNC to scan each package
- python do_package_qa () {
-     import subprocess
-@@ -956,6 +975,9 @@ python do_package_qa () {
- 
-     bb.build.exec_func("read_subpackage_metadata", d)
- 
-+    # Check non UTF-8 characters on recipe's metadata
-+    package_qa_check_encoding(['DESCRIPTION', 'SUMMARY', 'LICENSE', 'SECTION'], 'utf-8', d)
-+
-     logdir = d.getVar('T', True)
-     pkg = d.getVar('PN', True)
- 
+The following changes since commit a533776d6ff83b6e3e830137455b8382d002768b:
+
+  perf: fix build breakage on kernels after 4.1 (2015-08-12 11:31:49 -0700)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lsandov1/package_deb-handle-non-ascii-6693-v2
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/package_deb-handle-non-ascii-6693-v2
+
+Leonardo Sandoval (2):
+  insane.bbclass: Check invalid characters (non UTF8) on recipe metadata
+  package_deb.bbclass: Allow UTF-8 characters on control files
+
+ meta/classes/insane.bbclass      | 24 +++++++++++++++++++++++-
+ meta/classes/package_deb.bbclass | 18 +++++++++++-------
+ 2 files changed, 34 insertions(+), 8 deletions(-)
+
 -- 
 1.8.4.5
 
