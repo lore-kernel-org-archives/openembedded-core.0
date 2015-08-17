@@ -1,25 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CC2E65CBC
+	by mail.openembedded.org (Postfix) with ESMTP id 00CA5606E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 11:23:11 +0000 (UTC)
+	Mon, 17 Aug 2015 11:23:10 +0000 (UTC)
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Aug 2015 04:23:11 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 17 Aug 2015 04:23:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,694,1432623600"; d="scan'208";a="626925817"
+X-IronPort-AV: E=Sophos;i="5.15,694,1432623600"; d="scan'208";a="626925800"
 Received: from jwanrooi-mobl.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.11.216])
-	by orsmga003.jf.intel.com with ESMTP; 17 Aug 2015 04:23:11 -0700
+	by orsmga003.jf.intel.com with ESMTP; 17 Aug 2015 04:23:10 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Aug 2015 12:23:03 +0100
-Message-Id: <8388b5c3f125ca8bfbe73e55492411d885f1e953.1439810551.git.paul.eggleton@linux.intel.com>
+Date: Mon, 17 Aug 2015 12:23:02 +0100
+Message-Id: <cover.1439810551.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1439810551.git.paul.eggleton@linux.intel.com>
-References: <cover.1439810551.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1439810551.git.paul.eggleton@linux.intel.com>
-References: <cover.1439810551.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 1/4] devtool: extract: prevent externalsrc from interfering with extraction
+Subject: [PATCH 0/4] devtool fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,31 +30,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 17 Aug 2015 11:23:11 -0000
 
-In case the user has set up externalsrc outside of devtool, force
-EXTERNALSRC to blank for the recipe when extracting so that the original
-source URI is still in SRC_URI and we're still able to extract it. (This
-isn't a problem with devtool itself because the bbappends within the
-workspace layer that apply externalsrc are explicitly filtered out when
-devtool parses a recipe).
+Three bugfixes for devtool plus one refactoring patch to improve a
+related function in the recipeutils module.
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- scripts/lib/devtool/standard.py | 2 ++
- 1 file changed, 2 insertions(+)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index ea21877..e4ee7f7 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -294,6 +294,8 @@ def _extract_source(srctree, keep_temp, devbranch, d):
- 
-         task_executor = BbTaskExecutor(crd)
- 
-+        crd.setVar('EXTERNALSRC_forcevariable', '')
-+
-         logger.info('Fetching %s...' % pn)
-         task_executor.exec_func('do_fetch', False)
-         logger.info('Unpacking...')
+The following changes since commit 059db140885bad379534e6ec713f3ceb4e18faea:
+
+  adt-installer: use DEPLOY_DIR in ANT_DEPLOY expansion (2015-08-16 17:28:14 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/devtool-fixes5
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool-fixes5
+
+Paul Eggleton (4):
+  devtool: extract: prevent externalsrc from interfering with extraction
+  devtool: extract: remove patches subdirectory when S == WORKDIR
+  devtool: fix handling of BBCLASSEXTENDed recipes
+  lib/oe/recipeutils: avoid parsing in get_var_files()
+
+ meta/lib/oe/recipeutils.py        |  3 +--
+ meta/lib/oeqa/selftest/devtool.py | 30 ++++++++++++++++++++++++++++++
+ scripts/devtool                   | 12 ++++++------
+ scripts/lib/devtool/standard.py   | 29 +++++++++++++++++------------
+ 4 files changed, 54 insertions(+), 20 deletions(-)
+
 -- 
 2.1.0
 
