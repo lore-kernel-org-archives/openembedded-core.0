@@ -1,38 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B16660088
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 71ED160557
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 22:57:55 +0000 (UTC)
-Received: by igfj19 with SMTP id j19so67233396igf.1
+	Tue, 18 Aug 2015 01:36:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7I1asKE017436
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 15:57:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=3XmrV6gJx2N/rGyalsz3g1pXZU8GihWG8tMZzNHGmpQ=;
-	b=LwCaRBWVkqoK3tSD+UoehXXwmxv/V3pPtW8/gRKgCq8b4hdqCMIIAua21tUz2Zq7jv
-	opZQtdlz6UT9Fn2G1gaSehuGyDMGeP5cQFi1lLlK5RyTon0vOVoR0hDuXKott4j9Twcf
-	GmtHkd5tc44AL6P+yRqIe8GUc10JZ29iikiYJq0x/XOEq9h2d/BEAkp1IE9XHhUq57Od
-	c20wIcD5b3pjMchHilTlWJo1EXC+LeGTB4fteZwgYfRC587zfCTA0wvJUG0rtKxyD5ze
-	m7E38NibOOPgkA+LIwkB5KPIHiAdZb2HpULp3EQTymT2BFKKRPENyUbV+YHzW0hpWCT9
-	2COQ==
-X-Received: by 10.50.103.71 with SMTP id fu7mr20032044igb.38.1439852276100;
-	Mon, 17 Aug 2015 15:57:56 -0700 (PDT)
+	Mon, 17 Aug 2015 18:36:54 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 17 Aug 2015 18:36:54 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Aug 2015 09:33:10 +0800
+Message-ID: <1439861590-17352-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.118.150 with HTTP; Mon, 17 Aug 2015 15:57:36 -0700 (PDT)
-In-Reply-To: <8a6c98b192128c361fe5d5692b0f1d23f1cfcbad.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<8a6c98b192128c361fe5d5692b0f1d23f1cfcbad.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 17 Aug 2015 15:57:36 -0700
-X-Google-Sender-Auth: mWtgjgnyyWkDOiJUMYTB-5upvoA
-Message-ID: <CABcZANkAWDD5Heo+gd4G+dVuOakL1tf7qt6Qz0-Teq6_FVCDaQ@mail.gmail.com>
-To: leonardo.sandoval.gonzalez@linux.intel.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] insane.bbclass: Check for invalid characters (non UTF8) on recipe metadata
+Subject: [PATCH] openssh: Upgrade 6.9p1 -> 7.0p1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,57 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 22:57:57 -0000
-Content-Type: multipart/alternative; boundary=047d7b2e11e77235db051d89bb89
+X-List-Received-Date: Tue, 18 Aug 2015 01:36:58 -0000
+Content-Type: text/plain
 
---047d7b2e11e77235db051d89bb89
-Content-Type: text/plain; charset=UTF-8
+From: Roy Li <rongqing.li@windriver.com>
 
-On Mon, Aug 17, 2015 at 12:10 AM, <
-leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+7.0p1 includes the fix for CVE-2015-5600, and release note is in:
+http://www.openssh.com/txt/release-7.0
 
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->
-> Check if invalid characters are present on recipe's metadata. Fields
-> taken into account are: 'DESCRIPTION', 'SUMMARY', 'LICENSE' and 'SECTION'.
->
-> Signed-off-by: Leonardo Sandoval <
-> leonardo.sandoval.gonzalez@linux.intel.com>
->
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ .../openssh/{openssh_6.9p1.bb => openssh_7.0p1.bb}                    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssh/{openssh_6.9p1.bb => openssh_7.0p1.bb} (97%)
 
-This commit message doesn't define what "invalid" is.
+diff --git a/meta/recipes-connectivity/openssh/openssh_6.9p1.bb b/meta/recipes-connectivity/openssh/openssh_7.0p1.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssh/openssh_6.9p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_7.0p1.bb
+index 3529c86..105875a 100644
+--- a/meta/recipes-connectivity/openssh/openssh_6.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_7.0p1.bb
+@@ -24,8 +24,8 @@ SRC_URI = "ftp://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar.
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-SRC_URI[md5sum] = "0b161c44fc31fbc6b76a6f8ae639f16f"
+-SRC_URI[sha256sum] = "6e074df538f357d440be6cf93dc581a21f22d39e236f217fcd8eacbb6c896cfe"
++SRC_URI[md5sum] = "831883f251ac34f0ab9c812acc24ee69"
++SRC_URI[sha256sum] = "fd5932493a19f4c81153d812ee4e042b49bbd3b759ab3d9344abecc2bc1485e5"
+ 
+ inherit useradd update-rc.d update-alternatives systemd
+ 
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+1.9.1
 
---047d7b2e11e77235db051d89bb89
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Aug 17, 2015 at 12:10 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:=
-leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blank">leonardo.sand=
-oval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D=
-"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding=
--left:1ex"><div id=3D":1ls" class=3D"a3s" style=3D"overflow:hidden">From: L=
-eonardo Sandoval &lt;<a href=3D"mailto:leonardo.sandoval.gonzalez@linux.int=
-el.com">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;<br>
-<br>
-Check if invalid characters are present on recipe&#39;s metadata. Fields<br=
->
-taken into account are: &#39;DESCRIPTION&#39;, &#39;SUMMARY&#39;, &#39;LICE=
-NSE&#39; and &#39;SECTION&#39;.<br>
-<br>
-Signed-off-by: Leonardo Sandoval &lt;<a href=3D"mailto:leonardo.sandoval.go=
-nzalez@linux.intel.com">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;<=
-/div></blockquote></div><br>This commit message doesn&#39;t define what &qu=
-ot;invalid&quot; is.<br>-- <br><div class=3D"gmail_signature">Christopher L=
-arson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, Ope=
-nZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics<=
-/div>
-</div></div>
-
---047d7b2e11e77235db051d89bb89--
