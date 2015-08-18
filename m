@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 1190E767D6
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CE0260043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 16:40:51 +0000 (UTC)
-Received: by wijp15 with SMTP id p15so105423023wij.0
+	Tue, 18 Aug 2015 17:02:29 +0000 (UTC)
+Received: by qkdv3 with SMTP id v3so60298749qkd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 09:40:51 -0700 (PDT)
+	Tue, 18 Aug 2015 10:02:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ASBLgmq6RmUgNrVj9swsv0tEnOU7gsK70n5Ytbqulyk=;
-	b=Ppv8GgswG3og6Rxyuc3Efuf3K4kodsgeW8BSShmjJ299rkZwwO5Sn+TGmpXP7ubAu7
-	mxfyTs2/KCV9D28KkUE6Wb1psAaPeRTU+4w1lAJ1IZ/x7lq8YnaYZdhPDobvok7vpKlO
-	iD0nzaBT1Mc/kjAVo0QSxxaHk9w+Krqfhukbbu+xg3mVM/VcsZDvwDuFXMiW9IT08EgZ
-	SOYKDgw0iSeS9kK+GnPMgf3YGXUvQrPZh9j8LCC22TKaEu00qEewMhy6U9Kin6/xR53W
-	2cUfKec5nDW2fpyeaZtDwrOkiWsokNPRQ8dZXZgFgMN1QnrRtVQYkIVNHCMCOeigYWbU
-	ndng==
-X-Gm-Message-State: ALoCoQmsNZoAJ3wqtUSPKH3z/gMrRQYqifwYghSJTlMEJjYXsxHoXQV9vI12bJutD4Vf9dy5Jzvj
-X-Received: by 10.181.12.111 with SMTP id ep15mr44725532wid.15.1439916051767; 
-	Tue, 18 Aug 2015 09:40:51 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o9sm27222017wja.29.2015.08.18.09.40.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Aug 2015 09:40:51 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Aug 2015 17:34:33 +0100
-Message-Id: <1439915673-25115-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] binconfig-disabled: write an message to stderr to help confused developers
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=lDrQYxIZCUXU9Jb8sEOQ6rIWXgBPlWwgpvf09Ja58c4=;
+	b=aLkZkT9IJY54kcm7jFyFwP03z0xvrP7LHpbVB0utpeTVkpcmM0wP/1y+284L0HCSkx
+	WS1Rcatt3HKLncsIns/1wofMgOeRT4g9g9s3pPIXQfDjGPyyRUbBrRRGqUSsl4xXNvL/
+	JewL+dEcKOEn3tnKx7aiUGcNxEy/XXCl3YfSoniyXMPCuZlc5p3C+9Fx/+CKttlSvUfg
+	i40/E5RTx/Z/cRW5m0i4sOPCo/QfGpJQdsK9zZpt3EbQoEL/EmZYzInHYDXQV6VewVYn
+	WSbcA56O3YNH1Zidds0Nw/8NfAG4l8rhvXfrseIc+cOpzFRE37/mb0BZKHkv4j+Xwr0l
+	V42Q==
+X-Gm-Message-State: ALoCoQnja690no8H4fXqirDKpof/te7OZDOHHiQyGGzF/aqieRdnZWNZvEwhbhXo/u4sImtUrPtd
+X-Received: by 10.55.23.224 with SMTP id 93mr11015580qkx.13.1439917349773;
+	Tue, 18 Aug 2015 10:02:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.98.67 with HTTP; Tue, 18 Aug 2015 10:02:10 -0700 (PDT)
+In-Reply-To: <CAJTo0La9x-ZtY=+FrFL1FPCkg86XGGeL=+FJ+ZARpcN-y58Pww@mail.gmail.com>
+References: <cover.1436781736.git.liezhi.yang@windriver.com>
+	<7c7e76c69064f59ae5b4c6ac44235bee4332d494.1436781736.git.liezhi.yang@windriver.com>
+	<CAMKF1sqVDngrV0zZEzZcCScM+HyV+LC++VzpFtVV9ZBW0M8jSQ@mail.gmail.com>
+	<CAJTo0La9x-ZtY=+FrFL1FPCkg86XGGeL=+FJ+ZARpcN-y58Pww@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Aug 2015 18:02:10 +0100
+Message-ID: <CAJTo0LY6EovxS=ACBen-Wp9xvx112J1EHMDE+OBxuf3ooi4b2A@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] glibc: print PN when bbwarn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +47,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 16:40:56 -0000
+X-List-Received-Date: Tue, 18 Aug 2015 17:02:33 -0000
+Content-Type: multipart/alternative; boundary=001a1147a0be23b8aa051d98e22c
 
-Often configure scripts or Makefiles that use the stub scripts written by
-binconfig-disabled fail mysteriously with no obvious problem.  Attempt to solve
-this by writing an error to stderr which hopefully makes it to the logs.
+--001a1147a0be23b8aa051d98e22c
+Content-Type: text/plain; charset=UTF-8
 
-[ YOCTO #8169 ]
+On 17 August 2015 at 13:33, Burton, Ross <ross.burton@intel.com> wrote:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/binconfig-disabled.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+> There's been a related report on the yocto@ list where it was noticed
+> that we're executing the host rpcgen during glibc builds, so consider
+> this is a ping. :)
+>
 
-diff --git a/meta/classes/binconfig-disabled.bbclass b/meta/classes/binconfig-disabled.bbclass
-index 595cd09..602a669 100644
---- a/meta/classes/binconfig-disabled.bbclass
-+++ b/meta/classes/binconfig-disabled.bbclass
-@@ -9,9 +9,10 @@ FILES_${PN}-dev += "${bindir}/*-config"
- 
- do_install_append () {
- 	for x in ${BINCONFIG}; do
--		echo "#!/bin/sh" > ${D}$x
- 		# Make the disabled script emit invalid parameters for those configure
- 		# scripts which call it without checking the return code.
-+		echo "#!/bin/sh" > ${D}$x
-+		echo "echo 'ERROR: $x should not be used, use an alternative such as pkg-config' >&2" >> ${D}$x
- 		echo "echo '--should-not-have-used-$x'" >> ${D}$x
- 		echo "exit 1" >> ${D}$x
- 	done
--- 
-2.1.4
+Filed #8181 so this doesn't get lost.
 
+Ross
 
+--001a1147a0be23b8aa051d98e22c
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 August 2015 at 13:33, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt=
+;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div>There&#39;s been a r=
+elated report on the yocto@ list where it was noticed that we&#39;re execut=
+ing the host <span class=3D"il">rpcgen</span> during glibc builds, so consi=
+der this is a ping. :)</div></blockquote><div><br></div><div>Filed #8181 so=
+ this doesn&#39;t get lost.</div><div><br></div><div>Ross=C2=A0</div></div>=
+</div></div>
+
+--001a1147a0be23b8aa051d98e22c--
