@@ -1,25 +1,48 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0334760557
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
+	[209.85.212.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ED4360043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 03:46:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7I3kB9G018882
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 18 Aug 2015 07:54:06 +0000 (UTC)
+Received: by wicja10 with SMTP id ja10so100449791wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Aug 2015 20:46:11 -0700 (PDT)
-Received: from pek-lzhou2-d1.corp.ad.wrs.com (128.224.162.243) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server
-	(TLS) id 14.3.235.1; Mon, 17 Aug 2015 20:46:11 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Aug 2015 11:45:41 +0800
-Message-ID: <1439869541-5338-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 18 Aug 2015 00:54:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=nOP+8xJ3qazOrVBFWxdj1KkJxx5qH6mWz2zPu84gsAg=;
+	b=L9us4juHYVqKQ/RT0dx2dWr5xln8o9MWI3+T+AHrcChqzMiFUhY9miRXn7fPhw4SUK
+	/6HgkSBYT/sekXoaNr2Qse5iTrM1BaPjuFWgtFW4zqrowuzWIUbFAegSRwSHCmTwsBQp
+	dCgr/fChe/S3Y4hA+gcWcks7HBszSePtu0LC50jICYaId7VV0zJmrmJ14c+H4O9H+lZu
+	HpoYuWuBIp5NMNHX3lsx0spRdXkakUXW7Ko23lJKD/sZv1g3053xTjROWZ1PH4UfUfgD
+	u9mGV5tKrG83vdOENa1SPHsVlHIKKZhTpu9ChvO8YZueuFP8/G+DRoJSmyxSNRHOFnpR
+	QXiQ==
+X-Received: by 10.180.73.13 with SMTP id h13mr40150164wiv.79.1439884446467;
+	Tue, 18 Aug 2015 00:54:06 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	c7sm25280215wjb.19.2015.08.18.00.54.05
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Aug 2015 00:54:05 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 18 Aug 2015 09:54:09 +0200
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Message-ID: <20150818075409.GA2458@jama>
+References: <CAP9ODKqHNtENns2SOk-C9S2hh1weyf15=n1V8Rxgs+Rh5rMJGw@mail.gmail.com>
+	<CAJTo0Layj-AXfYMmvqjZ-ASSDx_PptbysS7tUiGDLAyPjLGN5A@mail.gmail.com>
+	<CAJ86T=WJiNC5fJj+Vgj=4T-dS+E9_CvTw79nFLVuFETxrp1qdw@mail.gmail.com>
+	<1436601450.3310.27.camel@linuxfoundation.org>
+	<55BA134F.9010908@linux.intel.com>
+	<CAJ86T=UHTjTA7S_4EV66VEUoaRhYmaYveVcfxbqzVJsxZ4s6dg@mail.gmail.com>
+	<55BB5F06.4010901@linux.intel.com>
+	<CAMKF1srWcMoRui4kqRY5vCdLd-SPQ+EMihTci=NUghHsnGiBqQ@mail.gmail.com>
+	<55C477AE.8030308@balister.org> <55C4A405.6050209@linux.intel.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.243]
-Subject: [PATCH] gdk-pixbuf: Security Advisory - gdk-pixbuf - CVE-2015-4491
+In-Reply-To: <55C4A405.6050209@linux.intel.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: meta-gplv2? [Was Re: parted_1.8.6.bb: add parted that not GPLv3]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,133 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 03:46:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Aug 2015 07:54:08 -0000
+X-Groupsio-MsgNum: 69551
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="bp/iNruPH9dso1Pn"
+Content-Disposition: inline
 
-pixops: Be more careful about integer overflow
+--bp/iNruPH9dso1Pn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Integer overflow in the make_filter_table function in pixops/pixops.c
-in gdk-pixbuf before 2.31.5, as used in Mozilla Firefox before 40.0 and
-Firefox ESR 38.x before 38.2 on Linux, Google Chrome on Linux, and other
-products, allows remote attackers to execute arbitrary code or cause a
-denial of service (heap-based buffer overflow and application crash) via
-crafted bitmap dimensions that are mishandled during scaling.
+On Fri, Aug 07, 2015 at 03:26:45PM +0300, Alexander Kanavin wrote:
+> On 08/07/2015 12:17 PM, Philip Balister wrote:
+>=20
+> > Thanks Khem. I also do not agree that we lack a self-sustaining
+> > community. OpenEmbedded has functioned independently for far longer than
+> > the Yocto Project has existed.
+>=20
+> By 'self-sustaining' I mean 'being able to continuously produce quality=
+=20
+> work'. Looking at layers in meta-openembedded, not all of them are of=20
+> high quality. Meta-gnome in particular is badly out of date, because no=
+=20
+> one wants to maintain it properly. If oe-core starts taking a lot more=20
+> volunteer contributions, and the same thing happens (a volunteer=20
+> contributes a large set of recipes, then disappears), what is supposed=20
+> to happen then?
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- ...ps-Be-more-careful-about-integer-overflow.patch |   89 ++++++++++++++++++++
- meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb |    1 +
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
+Having latest version of all recipes is good thing, but it's not the
+best quality indicator.
 
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
-new file mode 100644
-index 0000000..fe7c1d5
---- /dev/null
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/0001-pixops-Be-more-careful-about-integer-overflow.patch
-@@ -0,0 +1,89 @@
-+From ffec86ed5010c5a2be14f47b33bcf4ed3169a199 Mon Sep 17 00:00:00 2001
-+From: Matthias Clasen <mclasen@redhat.com>
-+Date: Mon, 13 Jul 2015 00:33:40 -0400
-+Subject: [PATCH] pixops: Be more careful about integer overflow
-+
-+Our loader code is supposed to handle out-of-memory and overflow
-+situations gracefully, reporting errors instead of aborting. But
-+if you load an image at a specific size, we also execute our
-+scaling code, which was not careful enough about overflow in some
-+places.
-+
-+This commit makes the scaling code silently return if it fails to
-+allocate filter tables. This is the best we can do, since
-+gdk_pixbuf_scale() is not taking a GError.
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=752297
-+
-+Upstream-Status: backport
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ gdk-pixbuf/pixops/pixops.c |   22 +++++++++++++++++-----
-+ 1 file changed, 17 insertions(+), 5 deletions(-)
-+
-+diff --git a/gdk-pixbuf/pixops/pixops.c b/gdk-pixbuf/pixops/pixops.c
-+index 29a1c14..ce51745 100644
-+--- a/gdk-pixbuf/pixops/pixops.c
-++++ b/gdk-pixbuf/pixops/pixops.c
-+@@ -1272,7 +1272,16 @@ make_filter_table (PixopsFilter *filter)
-+   int i_offset, j_offset;
-+   int n_x = filter->x.n;
-+   int n_y = filter->y.n;
-+-  int *weights = g_new (int, SUBSAMPLE * SUBSAMPLE * n_x * n_y);
-++  gsize n_weights;
-++  int *weights;
-++
-++  n_weights = SUBSAMPLE * SUBSAMPLE * n_x * n_y;
-++  if (n_weights / (SUBSAMPLE * SUBSAMPLE * n_x) != n_y)
-++    return NULL; /* overflow, bail */
-++
-++  weights = g_try_new (int, n_weights);
-++  if (!weights)
-++    return NULL; /* overflow, bail */
-+ 
-+   for (i_offset=0; i_offset < SUBSAMPLE; i_offset++)
-+     for (j_offset=0; j_offset < SUBSAMPLE; j_offset++)
-+@@ -1347,8 +1356,11 @@ pixops_process (guchar         *dest_buf,
-+   if (x_step == 0 || y_step == 0)
-+     return; /* overflow, bail out */
-+ 
-+-  line_bufs = g_new (guchar *, filter->y.n);
-+   filter_weights = make_filter_table (filter);
-++  if (!filter_weights)
-++    return; /* overflow, bail out */
-++
-++  line_bufs = g_new (guchar *, filter->y.n);
-+ 
-+   check_shift = check_size ? get_check_shift (check_size) : 0;
-+ 
-+@@ -1468,7 +1480,7 @@ tile_make_weights (PixopsFilterDimension *dim,
-+ 		   double                 scale)
-+ {
-+   int n = ceil (1 / scale + 1);
-+-  double *pixel_weights = g_new (double, SUBSAMPLE * n);
-++  double *pixel_weights = g_malloc_n (sizeof (double) * SUBSAMPLE, n);
-+   int offset;
-+   int i;
-+ 
-+@@ -1526,7 +1538,7 @@ bilinear_magnify_make_weights (PixopsFilterDimension *dim,
-+     }
-+ 
-+   dim->n = n;
-+-  dim->weights = g_new (double, SUBSAMPLE * n);
-++  dim->weights = g_malloc_n (sizeof (double) * SUBSAMPLE, n);
-+ 
-+   pixel_weights = dim->weights;
-+ 
-+@@ -1617,7 +1629,7 @@ bilinear_box_make_weights (PixopsFilterDimension *dim,
-+ 			   double                 scale)
-+ {
-+   int n = ceil (1/scale + 3.0);
-+-  double *pixel_weights = g_new (double, SUBSAMPLE * n);
-++  double *pixel_weights = g_malloc_n (sizeof (double) * SUBSAMPLE, n);
-+   double w;
-+   int offset, i;
-+ 
-+-- 
-+1.7.9.5
-+
-diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
-index a63d454..07c2dce 100644
---- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
-+++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.30.8.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://extending-libinstall-dependencies.patch \
-            file://run-ptest \
-            file://fatal-loader.patch \
-+           file://0001-pixops-Be-more-careful-about-integer-overflow.patch \
-            "
- 
- SRC_URI[md5sum] = "4fed0d54432f1b69fc6e66e608bd5542"
--- 
-1.7.9.5
+In meta-oe and oe-classic package upgrades were usually done by people
+who were actively using those recipes and only when the new version
+introduced something they really needed or wanted. Still it was causing
+new issues, because nobody can test every combination how something can
+be used.
 
+Now we see a lot of upgrades in oe-core which are done by people just
+because "package upgrade report" says it's possible and the upgrade is
+tested mostly by autobuilder (which doesn't exersize any "extra" layers
+and runtime-test coverage is very low) - so in the end many of these
+"good to have" upgrades are breaking some other components which aren't
+upgraded so often or breaking/changing runtime behavior and only couple
+months later someone who is actually using them will report that.
 
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--bp/iNruPH9dso1Pn
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlXS5KAACgkQN1Ujt2V2gBzdQQCgtwY4KU4x8fl1BTt7ONJTeHEt
+HvAAnjl685o6hRgv0v05VT/Bu5ls2tS1
+=bhpO
+-----END PGP SIGNATURE-----
+
+--bp/iNruPH9dso1Pn--
