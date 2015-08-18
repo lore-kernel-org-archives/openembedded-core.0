@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EF7475E7E
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E7D273D17
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 21:31:35 +0000 (UTC)
-Received: by wicja10 with SMTP id ja10so119681234wic.1
+	Tue, 18 Aug 2015 21:31:36 +0000 (UTC)
+Received: by wicne3 with SMTP id ne3so105438799wic.0
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 18 Aug 2015 14:31:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=8SQArjoT+WGB65P+fzV4g9o14GicFda4an9nzSbpxno=;
-	b=BQpjZbbluD5OlnrMdwYzCkVOZviPl88s5BrzeCE6TIO1sQ4XEbrK/273VgHA813W1h
-	HNSHIygbHu/1CmlKE5YH9WBuyE80GYhcWHGX6yYepKf++TjFCyopSVD5nYJyl0juqnOx
-	nwf4k3YgGlB/zx2XMdJqI0Y2Cjw0G6ADmTvqcy+s0UBA22+DLj8KNVVB/30p48etPWpn
-	2O94SbjX0aj436q5oqFeMGYb6Dy+GvQUcHh63KKQeS//zoJDm/6HHGSEysUkNlpYeX5n
-	BEcqW0Hr92tEZJygA66hxpYySe/ELjA6LCwIakIXxOSzd+EIpuvCb2Qo9x7PO2/ymyHN
-	YWrg==
-X-Gm-Message-State: ALoCoQkDi/ktiGO1cw0clXZ2xkOqNJ/JqMZxnQkZslmLhIqmbccAwPRhZnuk00DHF5qGFQA0+AmM
-X-Received: by 10.194.95.71 with SMTP id di7mr17244455wjb.125.1439933495869;
-	Tue, 18 Aug 2015 14:31:35 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=LI9Rr2eutrpsU3NrukDD10EMvCzURv4qooy3Hi9kobA=;
+	b=L/B74RAoShFAfvDNkBcdYlc41K/9pwpRGU/P+id9Y5VABJhmKlftG0ecNZczn5IUks
+	nA5IVhreZs7CH+hg9QMeMitEbqN4jwXWMiTQm9ow8lsFbjk71ET08P2kIPx15CfW4/yS
+	MD09/v4+W2ixZoPsXemp2VqQE21WE5XVLWI19agtev0wLP4JUN5GqqGVV72i9sSNHRSx
+	dISEpa+pOL/ZemH/iwh9fPgSSp2OWYFr3bw6qLINIXiD7RRIX4dJzrU23X+cAIE776m8
+	lXQNx3+lKhKDE+3f9foY5ggEn/3MydrSkRbvzosQlxpdJDrbITJsoMhMZZobsJLlBJUQ
+	fdEg==
+X-Gm-Message-State: ALoCoQlF5QBSkZJO8LTz+9tZcI6Jmol6rPFjnTfD7h4/rrlEu9ii4GJp/lsMWZB5Q2Q48vxIlBc1
+X-Received: by 10.194.109.97 with SMTP id hr1mr17391007wjb.38.1439933496799;
+	Tue, 18 Aug 2015 14:31:36 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a19sm23966351wjr.27.2015.08.18.14.31.34
+	a19sm23966351wjr.27.2015.08.18.14.31.35
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 18 Aug 2015 14:31:35 -0700 (PDT)
+	Tue, 18 Aug 2015 14:31:36 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Aug 2015 22:25:17 +0100
-Message-Id: <1439933118-17773-1-git-send-email-ross.burton@intel.com>
+Date: Tue, 18 Aug 2015 22:25:18 +0100
+Message-Id: <1439933118-17773-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/2] gnome: move introspection options to gnomebase
+In-Reply-To: <1439933118-17773-1-git-send-email-ross.burton@intel.com>
+References: <1439933118-17773-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] json-glib: inherit gnomebase instead of gnome
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,36 +49,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 18 Aug 2015 21:31:41 -0000
 
-The gnome class is really a convenience class to include other classes, so move
-the introspection arguments into gnomebase.bbclass.
+There's no need to inherit gnome as it pulls in spurious dependencies for a
+non-graphical library, so just inherit gnomebase.
+
+Also remove the --disable-introspection option as gnomebase already does that.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/gnome.bbclass     | 4 ----
- meta/classes/gnomebase.bbclass | 3 +++
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-gnome/json-glib/json-glib_1.0.4.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
-index 0de22dd..c6202bbb75 100644
---- a/meta/classes/gnome.bbclass
-+++ b/meta/classes/gnome.bbclass
-@@ -1,5 +1 @@
- inherit gnomebase gtk-icon-cache gconf mime
--
--EXTRA_OECONF += "--disable-introspection"
--
--UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
-diff --git a/meta/classes/gnomebase.bbclass b/meta/classes/gnomebase.bbclass
-index 6ca13cb..fa8f88d 100644
---- a/meta/classes/gnomebase.bbclass
-+++ b/meta/classes/gnomebase.bbclass
-@@ -28,3 +28,6 @@ do_install_append() {
- 	rm -f ${D}${datadir}/applications/*.cache
- }
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.0.4.bb b/meta/recipes-gnome/json-glib/json-glib_1.0.4.bb
+index 7ae1fee..2e6a908 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.0.4.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.0.4.bb
+@@ -15,8 +15,6 @@ GNOME_COMPRESS_TYPE = "xz"
+ SRC_URI[archive.md5sum] = "3131b0417ecde3da1ae72acceaa375cf"
+ SRC_URI[archive.sha256sum] = "80f3593cb6bd13f1465828e46a9f740e2e9bd3cd2257889442b3e62bd6de05cd"
  
-+EXTRA_OECONF += "--disable-introspection"
-+
-+UNKNOWN_CONFIGURE_WHITELIST += "--disable-introspection"
+-inherit gnome gettext lib_package
+-
+-EXTRA_OECONF = "--disable-introspection"
++inherit gnomebase gettext lib_package
+ 
+ BBCLASSEXTEND = "native"
 -- 
 2.1.4
 
