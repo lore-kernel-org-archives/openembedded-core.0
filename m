@@ -1,22 +1,38 @@
-Return-Path: <alejandro.hernandez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C7D637696D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 17:40:41 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 18 Aug 2015 10:40:42 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,703,1432623600"; d="scan'208";a="786485623"
-Received: from aehernan-mobl1.zpn.intel.com ([10.219.26.251])
-	by orsmga002.jf.intel.com with ESMTP; 18 Aug 2015 10:40:41 -0700
-From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BB7460043;
+	Tue, 18 Aug 2015 19:04:02 +0000 (UTC)
+Received: by wicja10 with SMTP id ja10so116766687wic.1;
+	Tue, 18 Aug 2015 12:04:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=/NbH1/TYmx92TAO+meQ54VmEthFawACH5Js3KSD1/Jg=;
+	b=P2x6rk6NXHI7tGKbeWTXsLbK6eHf69l69l1voDnzyTyOgeHWuMlPJJ7AYd5t66tKZk
+	oTTKpJW5JXYB0X0IPI0DJCZT5AAEulIdM9MSVnSO3Rj+0HJ8Ly8eT8eWBiRLl+o4s9RT
+	L7Um+7bLyuYxPiHe4VhksonNcnHBcq127gnES4m5VDj0t7h0IIxh1/ZFBvhYqk7LNtPX
+	FBY5N3Xz7WMynpjFTnbjgZJ2ItzB6o+CeUcjf2DKR+/NqE7S8g7GS9kWOZqFiMFQA6zo
+	/sc9TmaLaXavaa6AlVAqAMVfUVOU+rLCwM1eb0g+wCaSBs87cUwaAXa5s1Lt4Y81kEHE
+	D1bg==
+X-Received: by 10.180.186.7 with SMTP id fg7mr46345697wic.40.1439924642840;
+	Tue, 18 Aug 2015 12:04:02 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	fb3sm22538542wib.21.2015.08.18.12.04.01
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Aug 2015 12:04:01 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 18 Aug 2015 21:04:06 +0200
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Aug 2015 12:41:21 -0500
-Message-Id: <087e03015a10c13583c30d7e4895a38b17f5710e.1439919346.git.alejandro.hernandez@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1439919346.git.alejandro.hernandez@linux.intel.com>
-References: <cover.1439919346.git.alejandro.hernandez@linux.intel.com>
-Subject: [PATCH 1/1] terminal.py: Provides devshell support for gnome-terminal >= 3.10
+Message-ID: <20150818190406.GB10246@jama>
+References: <20150810194122.4ED1750388@opal.openembedded.org>
+MIME-Version: 1.0
+In-Reply-To: <20150810194122.4ED1750388@opal.openembedded.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Nicolas Dechesne : mesa: upgrade 10.5.8 -> 10.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,108 +45,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 17:40:43 -0000
+X-List-Received-Date: Tue, 18 Aug 2015 19:04:03 -0000
+X-Groupsio-MsgNum: 69584
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="NDin8bjvE/0mNLFQ"
+Content-Disposition: inline
 
-gnome-terminal works in a server-client model, we used to disable this
-using --disable-factory switch, but newer gnome terminals (>= v3.10)
-lack support for this switch, now were forced to use its default behavior,
-which is: when launching a new terminal, return immediately and
-reparent the new bash/sh process to the server gnome-terminal process,
-instead of returning once the user closes the terminal,
-this behavior also breaks the relationship between our running process and the
-new spawned one, giving us no way of checking if it is stil running.
+--NDin8bjvE/0mNLFQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This patch finds the PID of the gnome-terminal server, gets its children
-processes before and after spawning our new terminal, finds out the PID
-of our new spawned terminal, and lastly forces bitbake to wait for it to end
-before continuing.
+On Mon, Aug 10, 2015 at 07:41:22PM +0000, git@git.openembedded.org wrote:
+> Module: openembedded-core.git
+> Branch: master
+> Commit: 8c7803683bee780f0bc8913cc32653ff173329b7
+> URL:    http://git.openembedded.org/?p=3Dopenembedded-core.git&a=3Dcommit=
+;h=3D8c7803683bee780f0bc8913cc32653ff173329b7
+>=20
+> Author: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> Date:   Tue Aug  4 08:37:49 2015 +0100
+>=20
+> mesa: upgrade 10.5.8 -> 10.6.3
+>=20
+> * Removed openvg references in PACKAGECONFIG, FILES and PACKAGES since Op=
+enVG
+>   support was removed in mesa 10.6
+> * Tested with X11 :
+>  * xf86-video-freedreno on IFC6410 and DragonBoard 410c
+>  * softpipe on DragonBoard 410c
+>  * using meta-qualcomm BSP
 
-[YOCTO #7254]
+Some configurations which were working with 10.5.8 are no longer
+available in 10.6.3, e.g.:
 
-Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
----
- meta/lib/oe/terminal.py | 46 ++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 38 insertions(+), 8 deletions(-)
+| checking for PTHREAD_PRIO_INHERIT... no
+| checking for LIBDRM... yes
+| checking for LIBUDEV... yes
+| checking for GLPROTO... yes
+| checking for DRI2PROTO... yes
+| checking for XF86VIDMODE... yes
+| checking for DRIGL... yes
+| checking for EXPAT... yes
+| checking for mincore... yes
+| checking for elf_memory in -lelf... no
+| checking for WAYLAND_SCANNER... no
+| checking for wayland-scanner... /home/jenkins/oe/world/shr-core/tmp-glibc=
+/sysroots/x86_64-linux/usr/bin/wayland-scanner
+| checking for XCB_DRI2... yes
+| checking for WAYLAND... yes
+| configure: error: EGL platform 'fbdev' does not exist
+| Configure failed. The contents of all config.log files follows to aid deb=
+ugging
+| WARNING: exit code 1 from a shell command.
+| ERROR: oe_runconf failed
 
-diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
-index 52a8913..a4798e9 100644
---- a/meta/lib/oe/terminal.py
-+++ b/meta/lib/oe/terminal.py
-@@ -3,6 +3,9 @@ import oe.classutils
- import shlex
- from bb.process import Popen, ExecutionError
- from distutils.version import LooseVersion
-+import os
-+import time
-+from subprocess import check_output
- 
- logger = logging.getLogger('BitBake.OE.Terminal')
- 
-@@ -53,7 +56,7 @@ class XTerminal(Terminal):
-             raise UnsupportedTerminal(self.name)
- 
- class Gnome(XTerminal):
--    command = 'gnome-terminal -t "{title}" --disable-factory -x {command}'
-+    command = 'gnome-terminal -t "{title}" -x {command}'
-     priority = 2
- 
-     def __init__(self, sh_cmd, title=None, env=None, d=None):
-@@ -63,11 +66,6 @@ class Gnome(XTerminal):
-         # Once fixed on the gnome-terminal project, this should be removed.
-         if os.getenv('LC_ALL'): os.putenv('LC_ALL','')
- 
--        # Check version
--        vernum = check_terminal_version("gnome-terminal")
--        if vernum and LooseVersion(vernum) >= '3.10':
--            logger.debug(1, 'Gnome-Terminal 3.10 or later does not support --disable-factory')
--            self.command = 'gnome-terminal -t "{title}" -x {command}'
-         XTerminal.__init__(self, sh_cmd, title, env, d)
- 
- class Mate(XTerminal):
-@@ -211,8 +209,40 @@ def spawn(name, sh_cmd, title=None, env=None, d=None):
-     except KeyError:
-         raise UnsupportedTerminal(name)
- 
--    pipe = terminal(sh_cmd, title, env, d)
--    output = pipe.communicate()[0]
-+
-+    # We handle gnome-terminal as a special case
-+    # we need to check which is our new spawned process
-+    # so we can wait for it to end before we can continue
-+
-+    if('gnome' in name):
-+        logger.debug(1, 'Attempting to get our new spawned gnome-terminal process ID')
-+        try:
-+            gnome_pid = check_output(["ps", "-C", "gnome-terminal", "-o", "pid"]).split()[1]
-+        except subprocess.CalledProcessError as ex:
-+            bb.error("Couldn't get gnome-terminal process ID")
-+        try:
-+            g_children_bfr = check_output(["ps", "--ppid", str(gnome_pid), "-o", "pid"]).split("\n")
-+        except subprocess.CalledProcessError as ex:
-+            bb.error("Couldn't get gnome-terminal children processes")
-+
-+        pipe = terminal(sh_cmd, title, env, d)
-+        output = pipe.communicate()[0]
-+
-+        try:
-+            g_children_aftr = check_output(["ps", "--ppid", str(gnome_pid), "-o", "pid"]).split("\n")
-+        except subprocess.CalledProcessError as ex:
-+            bb.error("Couldn't get gnome-terminal children processes")
-+
-+        new_pid = list(set(g_children_aftr)-set(g_children_bfr))
-+        if (len(new_pid) != 1):
-+            bb.error("Couldn't get new terminal process ID")
-+        else:
-+            new_pid = new_pid[0].strip()
-+            while(os.path.exists("/proc/%s" % new_pid)):
-+                time.sleep(1)
-+    else:
-+        pipe = terminal(sh_cmd, title, env, d)
-+        output = pipe.communicate()[0]
-     if pipe.returncode != 0:
-         raise ExecutionError(sh_cmd, pipe.returncode, output)
- 
--- 
-1.9.1
+I haven't tried to find out what's the replacement for this yet, but
+it's the reason why mesa is now failing in my bitbake world builds
+(fbdev is added in ./meta-luneui/recipes-graphics/mesa/mesa_%.bbappend)
 
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>=20
+> ---
+>=20
+>  meta/recipes-graphics/mesa/{mesa-gl_10.5.8.bb =3D> mesa-gl_10.6.3.bb} | 0
+>  meta/recipes-graphics/mesa/mesa.inc                                 | 6 =
+------
+>  meta/recipes-graphics/mesa/{mesa_10.5.8.bb =3D> mesa_10.6.3.bb}       | =
+4 ++--
+>  3 files changed, 2 insertions(+), 8 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_10.5.8.bb b/meta/recipes-=
+graphics/mesa/mesa-gl_10.6.3.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_10.5.8.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_10.6.3.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
+mesa/mesa.inc
+> index 09e80e8..af7a2c4 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -49,8 +49,6 @@ EGL_PLATFORMS .=3D"${@bb.utils.contains('PACKAGECONFIG'=
+, 'x11', ',x11', '', d)}"
+>  EGL_PLATFORMS .=3D"${@bb.utils.contains('PACKAGECONFIG', 'wayland', ',wa=
+yland', '', d)}"
+>  PACKAGECONFIG[egl] =3D "--enable-egl --with-egl-platforms=3D${EGL_PLATFO=
+RMS}, --disable-egl"
+> =20
+> -PACKAGECONFIG[openvg] =3D "--enable-openvg, --disable-openvg"
+> -
+>  GALLIUMDRIVERS =3D "swrast"
+>  GALLIUMDRIVERS_LLVM33 =3D "${@bb.utils.contains('PACKAGECONFIG', 'r600',=
+ 'radeonsi,r600', '', d)}"
+>  PACKAGECONFIG[r600] =3D ""
+> @@ -84,7 +82,6 @@ PACKAGES =3D+ "libegl-mesa libegl-mesa-dev \
+>               libgles2-mesa libgles2-mesa-dev \
+>               libgles3-mesa libgles3-mesa-dev \
+>               libwayland-egl libwayland-egl-dev \
+> -             libopenvg libopenvg-dev \
+>               libxvmcsoftpipe libxvmcsoftpipe-dev \
+>               libxatracker libxatracker-dev \
+>               mesa-megadriver \
+> @@ -167,7 +164,6 @@ FILES_libgl-mesa =3D "${libdir}/libGL.so.*"
+>  FILES_libglapi =3D "${libdir}/libglapi.so.*"
+>  FILES_libosmesa =3D "${libdir}/libOSMesa.so.*"
+>  FILES_libwayland-egl =3D "${libdir}/libwayland-egl.so.*"
+> -FILES_libopenvg =3D "${libdir}/libOpenVG.so.*"
+>  FILES_libxvmcsoftpipe =3D "${libdir}/libXvMCsoftpipe.so.*"
+>  FILES_libxatracker =3D "${libdir}/libxatracker.so.*"
+> =20
+> @@ -181,8 +177,6 @@ FILES_libgles2-mesa-dev =3D "${libdir}/libGLESv2.* ${=
+includedir}/GLES2 ${libdir}/p
+>  FILES_libgles3-mesa-dev =3D "${includedir}/GLES3"
+>  FILES_libosmesa-dev =3D "${libdir}/libOSMesa.* ${includedir}/osmesa.h ${=
+libdir}/pkgconfig/osmesa.pc"
+>  FILES_libwayland-egl-dev =3D "${libdir}/pkgconfig/wayland-egl.pc ${libdi=
+r}/libwayland-egl.*"
+> -FILES_libopenvg-dev =3D "${libdir}/libOpenVG.so ${libdir}/libOpenVG.la* \
+> -                       ${includedir}/VG ${libdir}/pkgconfig/vg.pc"
+>  FILES_libxvmcsoftpipe-dev =3D "${libdir}/libXvMCsoftpipe.so ${libdir}/li=
+bXvMCsoftpipe.la"
+>  FILES_libxatracker-dev =3D "${libdir}/libxatracker.so ${libdir}/libxatra=
+cker.la \
+>                            ${includedir}/xa_tracker.h ${includedir}/xa_co=
+mposite.h ${includedir}/xa_context.h \
+> diff --git a/meta/recipes-graphics/mesa/mesa_10.5.8.bb b/meta/recipes-gra=
+phics/mesa/mesa_10.6.3.bb
+> similarity index 78%
+> rename from meta/recipes-graphics/mesa/mesa_10.5.8.bb
+> rename to meta/recipes-graphics/mesa/mesa_10.6.3.bb
+> index 072cde9..8c55064 100644
+> --- a/meta/recipes-graphics/mesa/mesa_10.5.8.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_10.6.3.bb
+> @@ -2,8 +2,8 @@ require ${BPN}.inc
+> =20
+>  SRC_URI =3D "ftp://ftp.freedesktop.org/pub/mesa/${PV}/mesa-${PV}.tar.xz"
+> =20
+> -SRC_URI[md5sum] =3D "5332a3576c5e3a0c3947ee6668dd4157"
+> -SRC_URI[sha256sum] =3D "2866b855c5299a4aed066338c77ff6467c389b2c30ada764=
+7be8758663da2b54"
+> +SRC_URI[md5sum] =3D "553e525d2f20ed48fca8f1ec3176fd83"
+> +SRC_URI[sha256sum] =3D "58592e07c350cd2e8969b73fa83048c657a39fe2f13f3b88=
+f5e5818fe2e4676d"
+> =20
+>  #because we cannot rely on the fact that all apps will use pkgconfig,
+>  #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-commits mailing list
+> Openembedded-commits@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--NDin8bjvE/0mNLFQ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlXTgaUACgkQN1Ujt2V2gBxvtQCeLrUj8ikgBbusTQi1AzbVfhcy
+jEsAn2z2DzsUtmyjyCOshiAlceyoBB8F
+=Zbg+
+-----END PGP SIGNATURE-----
+
+--NDin8bjvE/0mNLFQ--
