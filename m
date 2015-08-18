@@ -1,36 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 5972D65C85
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 6229775E7E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 11:48:48 +0000 (UTC)
-Received: by qgj62 with SMTP id 62so114613518qgj.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 04:48:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=EGfrtPXQ0OXPjbFEtCYP6HVlxoQxcV4Ger/LIp3OoDk=;
-	b=BqIW2vRj8q8x85YQfBF0Z2nvgyTw9hOUS1OSwAT3M7isI/n2AINM6r4Fo7Ffykc5lG
-	QXlvKPXn/GNf8GmiIn8ot/eeqTYfq3WqEY8R0m6wYYMJsaTisxEsiyrwuGmz+raee9l5
-	5KweLP+I/ir4nASgVKfVRtbQGwwi9tT6ohrQLbuZ0Kb+6T2ztDl3tJlpjIegKQdNL+HI
-	rJdnXTkbrF/vLNmEjCJ65l18Lbn2OlvSh8xbUgieN+b1ndkAcGlm9NEIE08hRg2WY8bq
-	Na+Xls0qN4ErmcZY5nBUfEfmIg9+aC1Xu3aV+fkTMW3FwvpyC1wBfBsousKMx6D5Yzxm
-	7PkQ==
-X-Gm-Message-State: ALoCoQka9ZUHY1Z9eGbd48Ayim0yse+O3jMKbF9zDGVuG6uDRYbvhIjS+3qfj+c4ob2zPByyYjOk
-X-Received: by 10.140.133.67 with SMTP id 64mr12513104qhf.52.1439898528794;
-	Tue, 18 Aug 2015 04:48:48 -0700 (PDT)
+	Tue, 18 Aug 2015 12:51:52 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 18 Aug 2015 05:51:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,701,1432623600"; d="scan'208";a="627659788"
+Received: from jburrows-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.8.34])
+	by orsmga003.jf.intel.com with ESMTP; 18 Aug 2015 05:51:47 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Tue, 18 Aug 2015 13:51:46 +0100
+Message-ID: <4352851.5LMMg7aRMi@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.4-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <55CCD7A4.7050209@linux.intel.com>
+References: <cover.1439301278.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<4365231.OlMhXKZDbM@peggleto-mobl.ger.corp.intel.com>
+	<55CCD7A4.7050209@linux.intel.com>
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Tue, 18 Aug 2015 04:48:29 -0700 (PDT)
-In-Reply-To: <1439453357-27173-1-git-send-email-rongqing.li@windriver.com>
-References: <1439453357-27173-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Aug 2015 12:48:29 +0100
-Message-ID: <CAJTo0LaE6h3_uXobYVy0BtydyNWQQ_m2d5j6H-vGnnN0+meyNg@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: package nscd related files
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1][RFC] devtool: Upgrade feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +35,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 11:48:51 -0000
-Content-Type: multipart/alternative; boundary=001a1136fdce525fc5051d9480d1
+X-List-Received-Date: Tue, 18 Aug 2015 12:51:59 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a1136fdce525fc5051d9480d1
-Content-Type: text/plain; charset=UTF-8
+On Thursday 13 August 2015 12:45:08 Leonardo Sandoval wrote:
+> On 08/13/2015 05:06 AM, Paul Eggleton wrote:
+> > On Tuesday 11 August 2015 14:04:14
+> > leonardo.sandoval.gonzalez@linux.intel.com> 
+> > wrote:
+> >> This is a new devtool's feature, which upgrades a recipe to a
+> >> particular version number. Code was taken from [1] where some
+> >> modifications
+> >> were done (remove all email, buildhistory and statistics features,
+> >> use devtool logger instead of AUH logger) to adapt the devtool framework.
+> >> Once the upgrade is over, the new recipe will be located under the
+> >> devtool's workspace. This is a first approach to this feature; pending
+> >> tasks include:
+> >> 
+> >> 1. The AUH [1] is used to rename and update the recipe. AUH is not
+> >> using the lib/oe/recipeutils library to do this work. AUH ported code
+> >> should use this library which is the one being used by the rest of the
+> >> devtool features.
+> >> 
+> >> 2. Currently, when 'update-recipe' is executed, the recipe under
+> >> workspace
+> >> is updated with latest commits. The only task missing is to replace the
+> >> new
+> >> recipe with the old one, commonly located under the meta layer.
+> >> 
+> >> 3. When patches fail to apply, follow the PATCHRESOLVE behavior instead
+> >> of
+> >> just failing.
+> >> 
+> >> 4. Patches most of the time do not apply correctly on the new recipe
+> >> version, so include a command line option to indicate the system not to
+> >> apply these, so it can be applied manually later on.
+> > 
+> > So, this is a good first implementation and gives an idea of how the
+> > command will work - and I'm quite keen for us to have this, I've had
+> > several people asking me recently about when we'll be adding it, so it's
+> > definitely something we want.
+> > 
+> > However, I'm concerned about the volume of code we're adding here, some of
+> > which duplicates what we already have in devtool or elsewhere in lib/oe. I
+> > know this is the easiest approach and you've noted it's todo item #1 above
+> > to work on - I'll be a lot happier if you can improve that before the
+> > final version.
+> > 
+> > In particular, I see the upgrade() function is duplicating a bunch of code
+> > from modify() - we should split the common parts out to separate
+> > function(s) that can be called from both places instead.
+> 
+> As you noticed, there is code duplication specially on the standard.py.
+> Code on this file needs to be refactor somehow so the function upgrade
+> can call these new functions.
+> 
+> > Some other comments:
+> > 
+> > * I can see it's actually making changes to the original recipe - I found
+> > this because I'd run a devtool upgrade on dropbear and specified the
+> > wrong version to --version Ctrl+C'd out during the fetch part, and the
+> > original dropbear.inc was modified instead of the one in the workspace.
+> > We don't want to touch the original recipe, not until you run
+> > update-recipe at least.
+> 
+> Ok. This is definitely a bug. All work must be done in the workspace.
+> This is contrary to the AUH code, which works on poky default layers, so
+> this bug may be something I did not change on the ported code.
 
-On 13 August 2015 at 09:09, <rongqing.li@windriver.com> wrote:
+That's what I'd assume as well yes.
+ 
+> > * As far as the source tree is concerned I think that this is doing things
+> > slightly backwards - it's using the AUH code to do the upgrade, and then
+> > it's extracting the code. What I'd like to see happen is it extract the
+> > code for the old version (including applying patches), use the AUH code
+> > to figure out how to fetch the new version, fetch it into a different
+> > branch (assuming it's not already there since it was fetched from git),
+> > then rebase the patches onto the new version - the user can then use git
+> > to fix things up if patches don't apply.
+> 
+> got it. Looks good to me. I also though using the recipetool script
+> (instead of AUH), but this one creates a recipe from scratch so it is
+> not really useful at this moment.
 
-> install nscd related configuration file, startup files, and package them,
-> make nscd easy to startup
->
+For pointers, look at how "devtool extract" and "devtool modify" work (for the 
+extraction part, they use the same _extract_source() function).
+ 
+> > * I'm not sure if using an existing source tree is a reasonable default
+> > for this command - I'm not even sure it's something people will want to do
+> > at all in the context of an upgrade. I'm willing to be convinced otherwise
+> > though - any opinions (from anyone)?
+> > 
+> > * We need oe-selftest tests for this that test as much of the
+> > functionality as possible. This may require adding some simple
+> > "synthetic" recipes to meta- selftest so that we have something that's
+> > always there to upgrade. Based upon my recent experience in devtool (with
+> > my own code), the sooner we add these the better.
+> 
+> good point. I will add these on v2.
+> 
+> > * I'd like to see the implementation for this in its own file rather than
+> > in standard.py.
+> 
+> Good. What about the other features (add, update-recipe, modify, etc.)?
+> will these remain in the same place?
 
-systemd.bbclass is inherited but SYSTEMD_PACKAGES isn't set, so the systemd
-postinst/prerm fragments won't get added.
+At some point we might refactor these out, but I don't know if I'd make it a 
+priority at the moment.
 
-Ross
+> > * Probably just a result of this being WIP, but I found that if I don't
+> > specify a version with --version then it says "NOTE: Upgrading to None"
+> > and
+> > then fails with "ERROR: cannot concatenate 'str' and 'NoneType' objects".
+> 
+> Bug. I will also add it on V2.
 
---001a1136fdce525fc5051d9480d1
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Cheers,
+Paul
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 13 August 2015 at 09:09,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqi=
-ng.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1at" class=3D"a3s=
-" style=3D"overflow:hidden">install nscd related configuration file, startu=
-p files, and package them,<br>
-make nscd easy to startup<br></div></blockquote></div><br>systemd.bbclass i=
-s inherited but SYSTEMD_PACKAGES isn&#39;t set, so the systemd postinst/pre=
-rm fragments won&#39;t get added.</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div></div>
+-- 
 
---001a1136fdce525fc5051d9480d1--
+Paul Eggleton
+Intel Open Source Technology Centre
+
