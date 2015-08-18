@@ -1,28 +1,30 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 5917C60043
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id F3B5060043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 15:23:37 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 18 Aug 2015 08:23:40 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,702,1432623600"; d="scan'208";a="544131931"
-Received: from jburrows-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.8.34])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Aug 2015 08:23:37 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Mariano Lopez <mariano.lopez@linux.intel.com>
-Date: Tue, 18 Aug 2015 16:23:36 +0100
-Message-ID: <2899899.sVdgv9iT9t@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.4-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <55D34CB3.8060505@linux.intel.com>
-References: <1439815302-12812-1-git-send-email-mariano.lopez@linux.intel.com>
-	<3297628.6dWWSbZelC@peggleto-mobl.ger.corp.intel.com>
-	<55D34CB3.8060505@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] testimage: Run commands in target and host when test fails
+	Tue, 18 Aug 2015 15:24:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7IFOvvA016001 for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Aug 2015 16:24:57 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id FmF833PyBxZ7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Aug 2015 16:24:56 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7IFOi0w015970
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Aug 2015 16:24:55 +0100
+Message-ID: <1439911484.12105.126.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Aug 2015 16:24:44 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] oeqa/targetbuild: Remove bashism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,121 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 15:23:38 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 18 Aug 2015 15:25:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 18 August 2015 10:18:11 Mariano Lopez wrote:
-> On 08/18/2015 03:33 AM, Paul Eggleton wrote:
-> > On Monday 17 August 2015 12:41:42 mariano.lopez@linux.intel.com wrote:
-> >> From: Mariano Lopez <mariano.lopez@linux.intel.com>
-> >> 
-> >> This patch modify three files altought two of them
-> >> are minimal modifications:
-> >> 
-> >> testimage.bbclass:
-> >>      Create new vars for easy modification of the dump
-> >> 
-> >> directory and commands to be run on host and target
-> >> when a test fails
-> >> 
-> >>      TESTIMAGE_DUMP_DIR: Directory to save the dumps
-> >>      TESTIMAGE_DUMP_TRG: Commands to run on target
-> >>      TESTIMAGE_DUMP_HST: Commands to run on host
-> > 
-> > Can we please use full names (i.e. "...HOST" and "...TARGET")? We're not
-> > short of space here ;)
-> 
-> Sure, no problem
-> 
-> >> targetcontrol.py:
-> >>      Extract vars from the datastore for later use
-> >> 
-> >> oetest.py:
-> >>      - Allow to use the vars defined in testimage class
-> >>      - Now able to run commands in the host and dump the
-> >>      
-> >>        results
-> >>      
-> >>      - Fix an issue with the condition where to run the
-> >>      
-> >>        dump commands (Before it run the commands every
-> >>        test after a failure, now it runs the commands only
-> >>        in tests that failed)
-> >>      
-> >>      - Fix the output to stdout
-> >> 
-> >> [YOCTO #8118]
-> >> 
-> >> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
-> >> ---
-> >> 
-> >>   meta/classes/testimage.bbclass |  9 +++++++++
-> >>   meta/lib/oeqa/oetest.py        | 42
-> >> 
-> >> +++++++++++++++++++++++++++--------------- meta/lib/oeqa/targetcontrol.py
-> >> |
-> >> 
-> >>   3 +++
-> >>   3 files changed, 39 insertions(+), 15 deletions(-)
-> >> 
-> >> diff --git a/meta/classes/testimage.bbclass
-> >> b/meta/classes/testimage.bbclass index 140babe..1580a4e 100644
-> >> --- a/meta/classes/testimage.bbclass
-> >> +++ b/meta/classes/testimage.bbclass
-> >> @@ -56,6 +56,15 @@ TESTIMAGEDEPENDS_qemuall =
-> >> "qemu-native:do_populate_sysroot qemu-helper-native:d TESTIMAGELOCK =
-> >> "${TMPDIR}/testimage.lock"
-> >> 
-> >>   TESTIMAGELOCK_qemuall = ""
-> >> 
-> >> +TESTIMAGE_DUMP_DIR ?= "/tmp/oe-saved-tests/"
-> >> +
-> >> +python () {
-> >> +    target_cmds = ["top -bn1", "ps", "free", "df", "_ping", "dmesg",
-> >> "netstat -an", "ip address", "_logs"] +    host_cmds = ["top -bn1", "ps",
-> >> "free", "df", "memstat", "dmesg", "netstat -an"] +
-> >> d.setVar("TESTIMAGE_DUMP_TRG", target_cmds)
-> >> +    d.setVar("TESTIMAGE_DUMP_HST", host_cmds)
-> >> +}
-> > 
-> > This is isn't how I would recommend doing this. What I suggested earlier
-> > when we talked about this was:
-> > 
-> > testimage_dump_target() {
-> > 
-> > 	top -bn1
-> > 	ps
-> > 	free
-> > 	df
-> > 	...
-> > 
-> > }
-> > 
-> > Then you'd just d.getVar('testimage_dump_target', True), and treat the
-> > contents as a complete shell script to be run - i.e. write it to a file
-> > with #!/bin/sh as a prefix and run it. As a bonus, the value can be
-> > overridden or appended to from elsewhere. (This is similar to how we deal
-> > with
-> > pkg_postinst_<packagename> for postinstall scripts.)
-> 
-> Implement this for the host wouldn't be a problem, it gets
-> interesting for the target.These commands would be run from
->   the serial console, when the network fails, so it would be
-> difficult to run as a shell script. And also would be difficult
-> to install the scripts on the image because testimage would
-> run after do_rootfs takes place.
-> 
-> What would be the best approach for the target case?
+Use '.' instead of 'source' so this works with dash as /bin/sh.
 
-Alright, in that case just split it on newline and send each command one by 
-one.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Cheers,
-Paul
+diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
+index d499bb1..9d532e7 100644
+--- a/meta/lib/oeqa/utils/targetbuild.py
++++ b/meta/lib/oeqa/utils/targetbuild.py
+@@ -132,6 +132,6 @@ class SDKBuildProject(BuildProject):
+                f.write("%s\n" % msg)
+ 
+     def _run(self, cmd):
+-        self.log("Running source %s; " % self.sdkenv + cmd)
+-        return subprocess.call("source %s; " % self.sdkenv + cmd, shell=True)
++        self.log("Running . %s; " % self.sdkenv + cmd)
++        return subprocess.call(". %s; " % self.sdkenv + cmd, shell=True)
+ 
 
--- 
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
