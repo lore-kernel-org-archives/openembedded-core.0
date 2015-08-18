@@ -1,35 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id B54FE767D6
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 1190E767D6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 16:36:39 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7IGZ4eg019313; Tue, 18 Aug 2015 17:36:27 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CXZP5h87z5Gq; Tue, 18 Aug 2015 17:36:27 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7IGaDlf019335
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 18 Aug 2015 17:36:24 +0100
-Message-ID: <1439915773.12105.128.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 18 Aug 2015 17:36:13 +0100
-In-Reply-To: <CABcZAN==rSZ2M4f_2-eZ5yvAaHV+k=rC8pgRju425151ijWMZw@mail.gmail.com>
-References: <365E1805BC95084CBE82381A0B869994E73E4FE9@EU-MBX-03.mgc.mentorg.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16CFA7F5@IRSMSX105.ger.corp.intel.com>
-	<CAP71WjyESzCxJrJsxgSk0ZxnM8q0tQYU+CFmm-QVQGVouYWB+A@mail.gmail.com>
-	<CABcZANkgxRSRA9afEaOD0cpeNzzSAti_Ef9D4V4ThoJkQzwmgg@mail.gmail.com>
-	<CABcZANmjXndEm+OF8aKvSgHwkiOMuFgHrrJy97CYLpDNtZxCmg@mail.gmail.com>
-	<CABcZAN==rSZ2M4f_2-eZ5yvAaHV+k=rC8pgRju425151ijWMZw@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: iw in place of wireless-tools
+	Tue, 18 Aug 2015 16:40:51 +0000 (UTC)
+Received: by wijp15 with SMTP id p15so105423023wij.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Aug 2015 09:40:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ASBLgmq6RmUgNrVj9swsv0tEnOU7gsK70n5Ytbqulyk=;
+	b=Ppv8GgswG3og6Rxyuc3Efuf3K4kodsgeW8BSShmjJ299rkZwwO5Sn+TGmpXP7ubAu7
+	mxfyTs2/KCV9D28KkUE6Wb1psAaPeRTU+4w1lAJ1IZ/x7lq8YnaYZdhPDobvok7vpKlO
+	iD0nzaBT1Mc/kjAVo0QSxxaHk9w+Krqfhukbbu+xg3mVM/VcsZDvwDuFXMiW9IT08EgZ
+	SOYKDgw0iSeS9kK+GnPMgf3YGXUvQrPZh9j8LCC22TKaEu00qEewMhy6U9Kin6/xR53W
+	2cUfKec5nDW2fpyeaZtDwrOkiWsokNPRQ8dZXZgFgMN1QnrRtVQYkIVNHCMCOeigYWbU
+	ndng==
+X-Gm-Message-State: ALoCoQmsNZoAJ3wqtUSPKH3z/gMrRQYqifwYghSJTlMEJjYXsxHoXQV9vI12bJutD4Vf9dy5Jzvj
+X-Received: by 10.181.12.111 with SMTP id ep15mr44725532wid.15.1439916051767; 
+	Tue, 18 Aug 2015 09:40:51 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o9sm27222017wja.29.2015.08.18.09.40.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 18 Aug 2015 09:40:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Aug 2015 17:34:33 +0100
+Message-Id: <1439915673-25115-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] binconfig-disabled: write an message to stderr to help confused developers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,28 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 16:36:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Aug 2015 16:40:56 -0000
 
-On Tue, 2015-08-18 at 09:00 -0700, Christopher Larson wrote:
-> On Tue, Aug 18, 2015 at 8:53 AM, Christopher Larson
-> <clarson@kergoth.com> wrote:
->         Bringing this back up again, as I think we really need to at
->         the *very* least pull in iw from meta-oe into oe-core, and
->         adjust packagegroup-base (worst case, with a VIRTUAL-RUNTIME),
->         and better yet also drop wireless-tools / move it to
->         meta-networking.
-> 
-> Worst case, we could keep both in VIRTUAL-RUNTIME for compatibility,
-> as a temporary measure, but I think we need to get iw into oe-core and
-> into the base images for sure.
+Often configure scripts or Makefiles that use the stub scripts written by
+binconfig-disabled fail mysteriously with no obvious problem.  Attempt to solve
+this by writing an error to stderr which hopefully makes it to the logs.
 
-Agreed, patches would be welcome!
+[ YOCTO #8169 ]
 
-Cheers,
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/binconfig-disabled.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Richard
-
+diff --git a/meta/classes/binconfig-disabled.bbclass b/meta/classes/binconfig-disabled.bbclass
+index 595cd09..602a669 100644
+--- a/meta/classes/binconfig-disabled.bbclass
++++ b/meta/classes/binconfig-disabled.bbclass
+@@ -9,9 +9,10 @@ FILES_${PN}-dev += "${bindir}/*-config"
+ 
+ do_install_append () {
+ 	for x in ${BINCONFIG}; do
+-		echo "#!/bin/sh" > ${D}$x
+ 		# Make the disabled script emit invalid parameters for those configure
+ 		# scripts which call it without checking the return code.
++		echo "#!/bin/sh" > ${D}$x
++		echo "echo 'ERROR: $x should not be used, use an alternative such as pkg-config' >&2" >> ${D}$x
+ 		echo "echo '--should-not-have-used-$x'" >> ${D}$x
+ 		echo "exit 1" >> ${D}$x
+ 	done
+-- 
+2.1.4
 
 
