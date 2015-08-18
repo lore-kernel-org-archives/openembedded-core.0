@@ -1,27 +1,40 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 80C0160043
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id EC2C460043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 15:36:12 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 18 Aug 2015 08:36:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,702,1432623600"; d="scan'208";a="544138186"
-Received: from unknown (HELO [10.219.16.37]) ([10.219.16.37])
-	by FMSMGA003.fm.intel.com with ESMTP; 18 Aug 2015 08:36:05 -0700
-Message-ID: <55D350E5.3060709@linux.intel.com>
-Date: Tue, 18 Aug 2015 10:36:05 -0500
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Tue, 18 Aug 2015 15:53:54 +0000 (UTC)
+Received: by igui7 with SMTP id i7so86083060igu.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Aug 2015 08:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=kNCbXmmF+hiCBL/0nQj6yxdtM9wSdKEXI1i0yhvZAVY=;
+	b=x13AwnRtiUh4re+6yplsjoZEzhdNwt9ksrU5bqKFQeEL3upk/y3GdN1vUUy/4YNuqU
+	uKoOsIQaWq1T0hJnYoB3UvDq7vQ8LUXjmYU+KTl7IkLgTZqRrCU+YpQLkFF18DB2bw2P
+	ZRwwVWZ0UacY5WH6/oGjNE4QfPcLZ0qGprEXi7QDKXydeBudK3P4yx3w0qANZMhyL57E
+	X2o3nHoluzbfmhJ8I+/6rtgbTl1uS4EbsHW/FzMHbo5882HEcp/3hAdzgHSAyDCVivSZ
+	8g2M6yJT8qP+MK7r7sZ2KGO4hmPzMyIZBjfetcNMV+srL3zTb9vPcHZm1JPTosswWNNS
+	E5dA==
+X-Received: by 10.50.50.69 with SMTP id a5mr22335742igo.68.1439913234219; Tue,
+	18 Aug 2015 08:53:54 -0700 (PDT)
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1438865345-39231-1-git-send-email-mariano.lopez@linux.intel.com>
-	<1438865345-39231-2-git-send-email-mariano.lopez@linux.intel.com>
-	<6182540.HgHPSCFIUP@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <6182540.HgHPSCFIUP@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] license.bbclass: Add support for deployed packages not in rootfs
+Sender: kergoth@gmail.com
+Received: by 10.79.118.150 with HTTP; Tue, 18 Aug 2015 08:53:34 -0700 (PDT)
+In-Reply-To: <CABcZANkgxRSRA9afEaOD0cpeNzzSAti_Ef9D4V4ThoJkQzwmgg@mail.gmail.com>
+References: <365E1805BC95084CBE82381A0B869994E73E4FE9@EU-MBX-03.mgc.mentorg.com>
+	<969F26A8BAB325438E7EB80D3C3134FB16CFA7F5@IRSMSX105.ger.corp.intel.com>
+	<CAP71WjyESzCxJrJsxgSk0ZxnM8q0tQYU+CFmm-QVQGVouYWB+A@mail.gmail.com>
+	<CABcZANkgxRSRA9afEaOD0cpeNzzSAti_Ef9D4V4ThoJkQzwmgg@mail.gmail.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 18 Aug 2015 08:53:34 -0700
+X-Google-Sender-Auth: ITaEiG1Oz36ctKbAgj5E7fwm3N4
+Message-ID: <CABcZANmjXndEm+OF8aKvSgHwkiOMuFgHrrJy97CYLpDNtZxCmg@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: iw in place of wireless-tools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,244 +47,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 15:36:13 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 18 Aug 2015 15:53:57 -0000
+Content-Type: multipart/alternative; boundary=089e010d9e9ed54bba051d97ecd8
 
+--089e010d9e9ed54bba051d97ecd8
+Content-Type: text/plain; charset=UTF-8
 
+On Fri, Jan 31, 2014 at 2:05 PM, Chris Larson <clarson@kergoth.com> wrote:
 
-On 08/18/2015 08:27 AM, Paul Eggleton wrote:
-> Hi Mariano,
+> On Friday, January 31, 2014, Nicolas Dechesne <nicolas.dechesne@linaro.org>
+> wrote:
 >
-> So aside from the error due to blank lines in the package list that I know
-> you're looking into, I did have a couple of comments:
->
-> On Thursday 06 August 2015 12:49:05 mariano.lopez@linux.intel.com wrote:
->> From: Mariano Lopez <mariano.lopez@linux.intel.com>
+>> On Fri, Jan 31, 2014 at 8:01 PM, Iorga, Cristian
+>> <cristian.iorga@intel.com> wrote:
+>> > On my Ubuntu 13.10 dev machine, wireless-tools and iw are both
+>> installed by
+>> > default (I might be wrong here, maybe I installed them some time ago by
+>> > hand).
 >>
->> This adds a new manifest file for the packages that were
->> deployed but not included into rootfs. The new manifest file
->> is in the same directory as the rootfs manifest but the name is
->> image_license.manifest.
+>> you are right, they are both on the default install, see
 >>
->> It also creates the directory structure for the packages and
->> add the license file in such directories.
->>
->> The bootloader is an example of such packages.
->>
->> [YOCTO #6772]
->>
->> Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
->> ---
->>   meta/classes/license.bbclass | 126
->> ++++++++++++++++++++++++++++++++++++++----- 1 file changed, 113
->> insertions(+), 13 deletions(-)
->>
->> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
->> index 32e172a..d4ad263 100644
->> --- a/meta/classes/license.bbclass
->> +++ b/meta/classes/license.bbclass
->> @@ -26,18 +26,14 @@ python write_package_manifest() {
->>   }
->>
->>   python license_create_manifest() {
->> -    import re
->>       import oe.packagedata
->>       from oe.rootfs import image_list_installed_packages
->>
->> -    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
->> -    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
->> -    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
->> -
->>       build_images_from_feeds = d.getVar('BUILD_IMAGES_FROM_FEEDS', True)
->>       if build_images_from_feeds == "1":
->>           return 0
->>
->> +    # Files that are installed in the rootfs
->>       pkg_dic = {}
->>       for pkg in image_list_installed_packages(d).split("\n"):
->>           pkg_info = os.path.join(d.getVar('PKGDATA_DIR', True),
->> @@ -49,8 +45,109 @@ python license_create_manifest() {
->>               pkg_lic_name = "LICENSE_" + pkg_name
->>               pkg_dic[pkg_name]["LICENSE"] = pkg_dic[pkg_name][pkg_lic_name]
->>
->> -    license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY', True),
->> +    # Files that are part of the image but no installed in rootfs
->> +    imgpkg_dic = {}
->> +    for pkg in list_deployed_packages(d, pkg_dic.keys()).split("\n"):
->> +        pkg_info = os.path.join(d.getVar('PKGDATA_DIR', True),
->> +                                'runtime', pkg)
->> +        pkg_name = os.path.basename(pkg_info)
->> +        imgpkg_dic[pkg] = oe.packagedata.read_pkgdatafile(pkg_info)
->> +        if not "LICENSE" in imgpkg_dic[pkg].keys():
->> +            pkg_lic_name = "LICENSE_%s" % pkg
->> +            imgpkg_dic[pkg]["LICENSE"] = imgpkg_dic[pkg][pkg_lic_name]
->> +
->> +    rootfs_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY',
->> True), d.getVar('IMAGE_NAME', True), 'license.manifest')
->> +    image_license_manifest = os.path.join(d.getVar('LICENSE_DIRECTORY',
->> True),
->> +                        d.getVar('IMAGE_NAME', True),
->> 'image_license.manifest')
-> Rather than image_license.manifest can we call this "image_extra.manifest"?
-> Then it's just a little bit more clear what this file is for.
-
-Sure
-
+>> http://releases.ubuntu.com/13.10/ubuntu-13.10-desktop-amd64.manifest
 >
 >
->> +    write_license_files(d,
->> rootfs_license_manifest, pkg_dic)
->> +    write_license_files(d, image_license_manifest, imgpkg_dic)
->> +}
->> +
->> +
->> +def list_deployed_packages(d, installed_packages):
->> +    """
->> +    Get all the deployed packages (not installed on rootfs) of an image
->> +
->> +    This function needs the BB_TASKDEPDATA from do_rootfs.
->> +    This won't work outside do_rootfs.
->> +    """
->> +    import oe.packagedata
->> +
->> +    packages = []
->> +    taskdepdata = d.getVar("BB_TASKDEPDATA", True)
->> +    all_depends = imagetypes_getdepends(d)
->> +    all_depends += " %s" % d.getVar("EXTRA_IMAGEDEPENDS", True)
->> +    for depend in all_depends.split():
->> +        # Get package name without task
->> +        depend = depend.split(":")[0]
->> +        if not depend.endswith("native"):
->> +            pkgs_file = os.path.join(
->> +                    d.getVar('PKGDATA_DIR', True), depend)
->> +            # Search for the file on the installed packages with the
->> +            # same name as depend if not found fallback to search
->> +            # the provider for that depend.
->> +            if not os.path.isfile(pkgs_file):
->> +                pkgs_file = ""
->> +                for taskdep in taskdepdata.itervalues():
->> +                    # The fifth field of BB_TASKDEPDATA is PROVIDES
->> +                    if depend in taskdep[4]:
->> +                        pkgs_file = os.path.join(
->> +                                d.getVar('PKGDATA_DIR', True),
->> +                                taskdep[0])
->> +                        if os.path.isfile(pkgs_file):
->> +                            break
->> +                        else:
->> +                            pkgs_file = ""
->> +            if pkgs_file:
->> +                pkgs_dep = oe.packagedata.read_pkgdatafile(pkgs_file)
->> +                # There is no need to duplicate license info for
->> +                # derivated packages or packages in the other
->> +                # license manifest
->> +                for pkg in pkgs_dep['PACKAGES'].split():
->> +                    if (pkg.endswith("-dbg") or
->> +                            pkg.endswith("-dev") or
->> +                            pkg.endswith("-doc") or
->> +                            pkg.endswith("-locale") or
->> +                            pkg.endswith("-localedata") or
->> +                            pkg.endswith("-staticdev") or
-> This kind of hardcoded list rings alarm bells. Are we really looking at
-> the right thing here if we have to do this kind of filtering?
-
-When there is a virtual dependency in IMAGE_DEPENDS the
-pkgdata file can have several installed packages in there
-(an example is the kernel in raspberry pi), so we need to get
-the list of the packages that were installed, but also filter
-those that are redundant.
-
-So, I think the hardcoded filter is needed there, although
-it can be done with a for loop.
-
-What do you think?
-
+> For what its worth, I personally would love to see wireless-tools go away
+> in favor of iw, much as ifconfig has gone to the wayside in favor of
+> iputils.
 >
->
->> +                            pkg in installed_packages):
->> +                        continue
->> +                    pkg_data_file = os.path.join(
->> +                            d.getVar('PKGDATA_DIR', True),
->> +                            "runtime", pkg)
->> +                    pkg_data =  oe.packagedata.read_pkgdatafile(
->> +                            pkg_data_file)
->> +                    pkg_pe = pkg_data.get("PE","0")
->> +                    if pkg_pe is "0":
->> +                        pkg_pf = "%s-%s" % (pkg_data["PV"], pkg_data["PR"])
->> +                    else:
->> +                        pkg_pf = "%s_%s-%s" % (pkg_pe,
->> +                                pkg_data["PV"], pkg_data["PR"])
->> +                    # There is no need to add the license for
->> +                    # packages that were not deployed
->> +                    pkg_deploy = os.path.join(
->> +                            d.getVar("TMPDIR", True), "work",
->> +                            d.getVar("MULTIMACH_TARGET_SYS", True),
->> +                            pkg_data["PN"], pkg_pf, "temp",
->> "run.do_deploy") +                    if os.path.isfile(pkg_deploy):
->> +                        packages.append(pkg)
->> +            # If for some reason, couldn't find the provider
->> +            # print a warning to add the license manually
->> +            else:
->> +                bb.warn("Couldn't find packages that provides "
->> +                        "%s, please add licenses manually" % depend)
->> +
->> +    return "\n".join(packages)
->> +
->> +
->> +def write_license_files(d, license_manifest, pkg_dic):
->> +    import re
->> +
->> +    bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE", True) or "").split()
->> +    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
->> +    bad_licenses = expand_wildcard_licenses(d, bad_licenses)
->> +
->>       with open(license_manifest, "w") as license_file:
->>           for pkg in sorted(pkg_dic):
->>               if bad_licenses:
->> @@ -98,15 +195,16 @@ python license_create_manifest() {
->>       if copy_lic_manifest == "1":
->>           rootfs_license_dir = os.path.join(d.getVar('IMAGE_ROOTFS', 'True'),
->> 'usr', 'share', 'common-licenses') -        os.makedirs(rootfs_license_dir)
->> +        bb.utils.mkdirhier(rootfs_license_dir)
->>           rootfs_license_manifest = os.path.join(rootfs_license_dir,
->> -                                                'license.manifest')
->> +                os.path.split(license_manifest)[1])
->> +
->>           os.link(license_manifest, rootfs_license_manifest)
->>
->>           if copy_lic_dirs == "1":
->>               for pkg in sorted(pkg_dic):
->>                   pkg_rootfs_license_dir = os.path.join(rootfs_license_dir,
->> pkg) -                os.makedirs(pkg_rootfs_license_dir)
->> +                bb.utils.mkdirhier(pkg_rootfs_license_dir)
->>                   pkg_license_dir =
->> os.path.join(d.getVar('LICENSE_DIRECTORY', True), pkg_dic[pkg]["PN"])
->>                   licenses = os.listdir(pkg_license_dir)
->> @@ -124,14 +222,16 @@ python license_create_manifest() {
->>                           if not os.path.exists(rootfs_license):
->>                               os.link(pkg_license, rootfs_license)
->>
->> -                        os.symlink(os.path.join('..', lic),
->> pkg_rootfs_license) +                        if not
->> os.path.exists(pkg_rootfs_license): +
->> os.symlink(os.path.join('..', lic), pkg_rootfs_license) else:
->> -                        if oe.license.license_ok(canonical_license(d,
->> -                            lic), bad_licenses) == False:
->> +                        if ((oe.license.license_ok(canonical_license(d,
->> +                            lic), bad_licenses) == False) or
->> +                            os.path.exists(pkg_rootfs_license)):
->>                               continue
->>
->>                           os.link(pkg_license, pkg_rootfs_license)
->> -}
->> +
->>
->>   python do_populate_lic() {
->>       """
->
->
-Cheers,
 
+Bringing this back up again, as I think we really need to at the *very*
+least pull in iw from meta-oe into oe-core, and adjust packagegroup-base
+(worst case, with a VIRTUAL-RUNTIME), and better yet also drop
+wireless-tools / move it to meta-networking.
+
+From the debian /usr/share/doc/iw/README.Debian:
+
+    Why is wireless-tools being replaced?
+    =====================================
+
+    A complete summary of technical reasons for the abandonment of Linux
+Wireless
+    Extensions API is documented on the wireless.kernel.org wiki page for
+WEXT [3].
+
+    In brief, WEXT uses ioctl's as the kernel<->userspace communication
+mechanism,
+    but some developers wish to have a more structured transport mechanism,
+which
+    cfg80211 and nl80211 provide, to allow them to address old nagging
+problems
+    with the current wireless device configuration implementation, and give
+them
+    more freedom to enhance the process of wireless configuration [4].
+
+    WEXT is in deep maintenance mode, cfg80211 and nl80211 are the
+communication
+    transport mechanism of the future.
+
+    [3]
+http://wireless.kernel.org/en/developers/Documentation/Wireless-Extensions
+    [4] which is one of the areas which, in my opinion, has always been
+difficult
+        for new adopters on Linux, especially on the desktop.
+
+Also:
+
+    https://wireless.wiki.kernel.org/en/users/Documentation/iw indicates
+"The old tool iwconfing, which uses Wireless Extensions interface, is
+deprecated and it's strongly recommended to switch to iw and nl80211."
 -- 
-Mariano Lopez
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--089e010d9e9ed54bba051d97ecd8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Fri, Jan 31, 2014 at 2:05 PM, Chris Larson <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:clarson@kergoth.com" target=3D"_blank">clarson@kergoth.com</a>&g=
+t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On Frid=
+ay, January 31, 2014, Nicolas Dechesne &lt;<a href=3D"mailto:nicolas.deches=
+ne@linaro.org" target=3D"_blank">nicolas.dechesne@linaro.org</a>&gt; wrote:=
+<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">
+On Fri, Jan 31, 2014 at 8:01 PM, Iorga, Cristian<br>
+&lt;<a>cristian.iorga@intel.com</a>&gt; wrote:<br>
+&gt; On my Ubuntu 13.10 dev machine, wireless-tools and iw are both install=
+ed by<br>
+&gt; default (I might be wrong here, maybe I installed them some time ago b=
+y<br>
+&gt; hand).<br>
+<br>
+you are right, they are both on the default install, see<br>
+<br>
+<a href=3D"http://releases.ubuntu.com/13.10/ubuntu-13.10-desktop-amd64.mani=
+fest" target=3D"_blank">http://releases.ubuntu.com/13.10/ubuntu-13.10-deskt=
+op-amd64.manifest</a></blockquote><div><br></div></span><div>For what its w=
+orth, I personally would love to see wireless-tools go away in favor of iw,=
+ much as ifconfig has gone to the wayside in favor of iputils.</div></block=
+quote><div><br></div><div>Bringing this back up again, as I think we really=
+ need to at the *very* least pull in iw from meta-oe into oe-core, and adju=
+st packagegroup-base (worst case, with a VIRTUAL-RUNTIME), and better yet a=
+lso drop wireless-tools / move it to meta-networking.</div><div>=C2=A0</div=
+></div><div class=3D"gmail_extra">From the debian /usr/share/doc/iw/README.=
+Debian:</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra=
+">=C2=A0 =C2=A0 Why is wireless-tools being replaced?</div><div class=3D"gm=
+ail_extra">=C2=A0 =C2=A0 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div><div c=
+lass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 A c=
+omplete summary of technical reasons for the abandonment of Linux Wireless<=
+/div><div class=3D"gmail_extra">=C2=A0 =C2=A0 Extensions API is documented =
+on the <a href=3D"http://wireless.kernel.org">wireless.kernel.org</a> wiki =
+page for WEXT [3].</div><div class=3D"gmail_extra"><br></div><div class=3D"=
+gmail_extra">=C2=A0 =C2=A0 In brief, WEXT uses ioctl&#39;s as the kernel&lt=
+;-&gt;userspace communication mechanism,</div><div class=3D"gmail_extra">=
+=C2=A0 =C2=A0 but some developers wish to have a more structured transport =
+mechanism, which</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 cfg80211 and=
+ nl80211 provide, to allow them to address old nagging problems</div><div c=
+lass=3D"gmail_extra">=C2=A0 =C2=A0 with the current wireless device configu=
+ration implementation, and give them</div><div class=3D"gmail_extra">=C2=A0=
+ =C2=A0 more freedom to enhance the process of wireless configuration [4].<=
+/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=C2=A0=
+ =C2=A0 WEXT is in deep maintenance mode, cfg80211 and nl80211 are the comm=
+unication</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 transport mechanism=
+ of the future.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
+il_extra">=C2=A0 =C2=A0 [3] <a href=3D"http://wireless.kernel.org/en/develo=
+pers/Documentation/Wireless-Extensions">http://wireless.kernel.org/en/devel=
+opers/Documentation/Wireless-Extensions</a></div><div class=3D"gmail_extra"=
+>=C2=A0 =C2=A0 [4] which is one of the areas which, in my opinion, has alwa=
+ys been difficult</div><div class=3D"gmail_extra">=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 for new adopters on Linux, especially on the desktop.</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Also:</div><div class=
+=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 <a href=
+=3D"https://wireless.wiki.kernel.org/en/users/Documentation/iw">https://wir=
+eless.wiki.kernel.org/en/users/Documentation/iw</a> indicates &quot;The old=
+ tool iwconfing, which uses Wireless Extensions interface, is deprecated an=
+d it&#39;s strongly recommended to switch to iw and nl80211.&quot;</div></d=
+iv><div class=3D"gmail_extra"><div class=3D"gmail_extra">--=C2=A0<br></div>=
+<div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot=
+ com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<b=
+r>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--089e010d9e9ed54bba051d97ecd8--
