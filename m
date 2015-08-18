@@ -1,39 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 9751C75F44
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id E8B3465CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 19:24:15 +0000 (UTC)
-Received: by qgeb6 with SMTP id b6so6835401qge.3
+	Tue, 18 Aug 2015 20:10:10 +0000 (UTC)
+Received: by wijp15 with SMTP id p15so109608060wij.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 12:24:15 -0700 (PDT)
+	Tue, 18 Aug 2015 13:10:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=0bO5J9MZkEFCiQEcmjWAQtcwZzvRJx1D162mmq5eKCA=;
-	b=OwqtNBZOt6kRuNZFZaJoGAJvOigmZyZb4cLg2U+ypJPJjd+mMA9dFEdjDtAD9q6l3B
-	YBSgyb4m5j3PKru2nlxwcsXL6K9D4fGsODXbgr5Xh91pJJ86L88p9jcg0+PDPD0ZrEuc
-	ARRsLoVTHsUXpoXdo/ZfFhZHITF0UU9BiRzoudL9rpstOoqL1LGVenbI4ciQJ7BMHa8/
-	sybVGAmS2bNTL6ENOEqzPpq5PeeLlxDGw1YjmJGDNpGW0ihkUkmXuntHcKE3RVidbTkI
-	TZrOlLk14ZJGddSsZHQgOCm2S3YdVM4H1Wv0XO3LC1aF1jERR9nEfiMiAPVRJL9iPsz5
-	Omeg==
-X-Gm-Message-State: ALoCoQn9wZZOGpYPmFENUmsD+vo+5dcWpJAFBgcP9gwRdAaromaCmUs5bQ+EtoXgq5oc4h1Mx6yo
-X-Received: by 10.140.33.164 with SMTP id j33mr15742466qgj.77.1439925855499;
-	Tue, 18 Aug 2015 12:24:15 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Tue, 18 Aug 2015 12:23:56 -0700 (PDT)
-In-Reply-To: <20150818190406.GB10246@jama>
-References: <20150810194122.4ED1750388@opal.openembedded.org>
-	<20150818190406.GB10246@jama>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Aug 2015 20:23:56 +0100
-Message-ID: <CAJTo0Lbpqowa0Vmq7HziVBUR_pwyPcLSxtfzaphg1RS3fwZrfQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-commits@lists.openembedded.org"
-	<openembedded-commits@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Nicolas Dechesne : mesa: upgrade 10.5.8 -> 10.6.3
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Oqi8V8BEp1vD2Ggc5fO1B4dIEYe5XV8+eRamqNZ+p7M=;
+	b=dMQBTf0+XtdQo+Rqto34G4GMf7XqeJr+O3HWb4R0KCiHAcdbarXFvTCd1ytTIIH9JB
+	7dI1puuXCK1L4HYDE1R1bli2ozVoqWW/agMS4tjFME2KcEgkVo68LdyPzm7tgLdKYGkw
+	l+uDMxklZ32JkmynGoygNuzspHbfzJT03T87TjfEhbJTb+uVh/RHW9yKDOaxpXObG9Dr
+	f2B76MB7+Gv2mKyZZic4xFWg8w0XQ1QVOiG2F8LRGnGSeq6YmWOthvRQ1xVOugWH2VUN
+	PDSWwlmZUIxKgM6iyIsCQLnmD3H4W9JMMIW7+XvbjiIj1sEAMI9diP9I1b+HnH6Z/zhI
+	B9rg==
+X-Gm-Message-State: ALoCoQkU3ThPvtFpFjHR3IVRcaC18+dRDqJOd28CC0U0p6p3nvbGp0hFZlf9XE84248Sf3h/PM2F
+X-Received: by 10.194.58.199 with SMTP id t7mr16729861wjq.45.1439928610529;
+	Tue, 18 Aug 2015 13:10:10 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	v8sm27894057wjr.15.2015.08.18.13.10.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 18 Aug 2015 13:10:10 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Aug 2015 21:03:54 +0100
+Message-Id: <1439928234-28554-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] json-glib: enable native builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,56 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 19:24:18 -0000
-Content-Type: multipart/alternative; boundary=001a1139bd9c1f193e051d9addc7
+X-List-Received-Date: Tue, 18 Aug 2015 20:10:13 -0000
 
---001a1139bd9c1f193e051d9addc7
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-gnome/json-glib/json-glib_1.0.4.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On 18 August 2015 at 20:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+diff --git a/meta/recipes-gnome/json-glib/json-glib_1.0.4.bb b/meta/recipes-gnome/json-glib/json-glib_1.0.4.bb
+index 4d2b613..7ae1fee 100644
+--- a/meta/recipes-gnome/json-glib/json-glib_1.0.4.bb
++++ b/meta/recipes-gnome/json-glib/json-glib_1.0.4.bb
+@@ -18,3 +18,5 @@ SRC_URI[archive.sha256sum] = "80f3593cb6bd13f1465828e46a9f740e2e9bd3cd2257889442
+ inherit gnome gettext lib_package
+ 
+ EXTRA_OECONF = "--disable-introspection"
++
++BBCLASSEXTEND = "native"
+-- 
+2.1.4
 
-> I haven't tried to find out what's the replacement for this yet, but
-> it's the reason why mesa is now failing in my bitbake world builds
-> (fbdev is added in ./meta-luneui/recipes-graphics/mesa/mesa_%.bbappend)
->
 
-I think what you were building wouldn't actually have done anything useful
-anyway, that configuration was removed by this commit:
-
-commit 0d6e7620f35331be301ec3177c0d9236838a845b
-Author: Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Sat Mar 14 22:36:28 2015 +0000
-
-    egl/main: drop platform fbdev specific code
-
-    st/egl was the only one which had support for this platform.
-
-Ross
-
---001a1139bd9c1f193e051d9addc7
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 18 August 2015 at 20:04, Martin Jansa <span dir=3D"ltr">&lt;<a href=3D"m=
-ailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":40s" class=
-=3D"a3s" style=3D"overflow:hidden">I haven&#39;t tried to find out what&#39=
-;s the replacement for this yet, but<br>
-it&#39;s the reason why mesa is now failing in my bitbake world builds<br>
-(fbdev is added in ./meta-luneui/recipes-graphics/mesa/mesa_%.bbappend)</di=
-v></blockquote></div><div class=3D"gmail_extra"><br></div>I think what you =
-were building wouldn&#39;t actually have done anything useful anyway, that =
-configuration was removed by this commit:</div><div class=3D"gmail_extra"><=
-br><div class=3D"gmail_extra">commit 0d6e7620f35331be301ec3177c0d9236838a84=
-5b</div><div class=3D"gmail_extra">Author: Emil Velikov &lt;<a href=3D"mail=
-to:emil.l.velikov@gmail.com">emil.l.velikov@gmail.com</a>&gt;</div><div cla=
-ss=3D"gmail_extra">Date: =C2=A0 Sat Mar 14 22:36:28 2015 +0000</div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 egl/=
-main: drop platform fbdev specific code</div><div class=3D"gmail_extra"><br=
-></div><div class=3D"gmail_extra">=C2=A0 =C2=A0 st/egl was the only one whi=
-ch had support for this platform.</div><div class=3D"gmail_extra"><br></div=
-><div class=3D"gmail_extra">Ross</div></div></div>
-
---001a1139bd9c1f193e051d9addc7--
