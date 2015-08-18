@@ -1,35 +1,40 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 7298D60043
+Return-Path: <dbaryshkov@gmail.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 60A2060043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 13:55:45 +0000 (UTC)
-Received: by wicne3 with SMTP id ne3so96129603wic.0
+	Tue, 18 Aug 2015 15:05:13 +0000 (UTC)
+Received: by iodv127 with SMTP id v127so176647336iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 06:55:45 -0700 (PDT)
+	Tue, 18 Aug 2015 08:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=a8JFEJzLk5L+khtI2yudWm8HN+OKMv6reaqeApekISw=;
-	b=HXHbzqm0q8xOn/Eod+KVKl+1Eq8uC7XGEIloNHY7Vo3zvYFyT57ERmMInFkWNWndN2
-	BcPxQrqpoUinACRdSynq/DLqVErwL06eJj8vEw7G6S6rh89L8q6WT7fqR2XGubnx72lb
-	l5HrsO6xegmP/9y6EAzsAe5mOJemG7QboqLV+KK/hy3MmEExaOBlc5sMlOKsapqllLR7
-	HKZZuJoJ9kK8NA1cumotEUnleNZunidP93fcs/OsrF7uIhOGzU+Vn8yL8nsf7rWIyMDd
-	tis/5DR9Ni+cdH+l6gwmYmeQETIYwHhqrnpK/uTTzrfV8qzyQeX53LGcRaZ+rHuPjK2V
-	JCZQ==
-X-Received: by 10.180.188.201 with SMTP id gc9mr45030086wic.39.1439906145892; 
-	Tue, 18 Aug 2015 06:55:45 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	ev2sm21515907wib.21.2015.08.18.06.55.44
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 18 Aug 2015 06:55:44 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Aug 2015 15:55:47 +0200
-Message-Id: <1439906147-14749-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] glibc-package: use ${PN} in INSANE_SKIP
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=xN3tCFsHwMU3cH8RdHnrGebbVvdO7+Dm/zRWw1QYzbw=;
+	b=rq8Ixvor1n9f8AjYm2reysHu9uyqH4Q+/mkZj6hGjegmv1UkiOH7oelEFs5HfsAq66
+	ujVPMHNi8Q3e+SVFut9jGzKwFQnyQSdnhA2mI54QhNmRFWsFAqJueGwHvI4TTJ1mVLNP
+	xQDuxT6lmZmLCDOs65EgfmzKA3PWciCZOPbJyYqLrRAFfnFvLx611kSCf1xFNWtd+Icl
+	WxwGx3WvQaOWOczb5AwPFG3NXo5hEacXitA8JVEo/94uDzyC70L6FTrNlbXbtM1v4RHI
+	/KwNngk0Hz+qqOWMO7dURdy4NnfKBLO1mdUgGSucfNu2h1KKB/UoTvT/MOHe+PKGQT4p
+	Nh/A==
+MIME-Version: 1.0
+X-Received: by 10.107.150.145 with SMTP id y139mr7084964iod.128.1439910313871; 
+	Tue, 18 Aug 2015 08:05:13 -0700 (PDT)
+Received: by 10.64.38.229 with HTTP; Tue, 18 Aug 2015 08:05:13 -0700 (PDT)
+In-Reply-To: <CALT56yN=2EJosZX+RKF-3YfJsQxgRSVUWRA-+UAWv9woHSojsw@mail.gmail.com>
+References: <1435759342-5312-1-git-send-email-dbaryshkov@gmail.com>
+	<1435759342-5312-5-git-send-email-dbaryshkov@gmail.com>
+	<B8E44407-53A5-4332-8124-3DC507180D8E@gmail.com>
+	<CALT56yOdHWxUkEpvMfi6u22mUX16HjvOLFOM+QEsgYyBqYOiRw@mail.gmail.com>
+	<CAMKF1sqN_moGReYFdyLEWm+C1EGBXfLs5vTvT9KDH36EV2M+sQ@mail.gmail.com>
+	<CALT56yN=2EJosZX+RKF-3YfJsQxgRSVUWRA-+UAWv9woHSojsw@mail.gmail.com>
+Date: Tue, 18 Aug 2015 18:05:13 +0300
+Message-ID: <CALT56yO_KcWOJQrGY+NeOiozza3za6Wd5PDaqThjdCufLNAV_g@mail.gmail.com>
+From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] glibc: don't override TUNE_CCARGS for MIPS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,50 +47,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 13:55:48 -0000
+X-List-Received-Date: Tue, 18 Aug 2015 15:05:14 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* INSANE_SKIP_${PN}_append_aarch64 is causing following warning in some
-  setups:
-  WARNING: Variable key INSANE_SKIP_${PN} () replaces original key INSANE_SKIP_glibc ().
-* in worst case this will be applied also for glibc-initial package
-  which is using the same glibc-package.inc, but glibc-initial doesn't
-  create any packages so we should be fine
-* someone building for aarch64 should confirm verify that this
-  INSANE_SKIP is still needed and cannot be fixed properly it was
-  introduced in:
-    commit aeb6f53dd607ceb0d2265a05c27f751109c73752
-    Author: Mark Hatle <mark.hatle@windriver.com>
-    Date:   Thu Dec 18 16:51:13 2014 +0800
+2015-08-17 18:30 GMT+03:00 Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>:
+> 2015-08-16 3:29 GMT+03:00 Khem Raj <raj.khem@gmail.com>:
+>> On Sat, Aug 15, 2015 at 4:15 PM, Dmitry Eremin-Solenikov
+>> <dbaryshkov@gmail.com> wrote:
+>>> 2015-08-15 22:34 GMT+03:00 Khem Raj <raj.khem@gmail.com>:
+>>>>
+>>>>> On Jul 1, 2015, at 7:02 AM, Dmitry Eremin-Solenikov <dbaryshkov@gmail.com> wrote:
+>>>>>
+>>>>> Overriding TUNE_CCARGS this way breaks MULTILIB setup for MIPS. This
+>>>>> override disables multilib handling of tunes for TUNE_CCARGS, thus
+>>>>> enforcing glibc's TUNE_CCARGS to the TUNE_CCARGS of main DEFAULTTUNE.
+>>>>>
+>>>>> Glibc perfectly build without this override for both simple and multilib
+>>>>> cases.
+>>>>>
+>>>>
+>>>> this patch has been applied however we should reopen it.
+>>>> This has to be fixed differently. its not a build time issue but a runtime one. So find
+>>>> alternative way of passing these options to glibc build to accommodate your changes.
+>>>
+>>> What is the issue that you  are facing with the current OE-Core?
+>>>
+>>
+>> systemd remount segfaults in glibc. The problems will be more where it
+>> will use wrong syscall headers.
+>
+> Hmm. N32 and N64 packages seem to work for me. O32 programs segfault
+> with illegal
+> instruction. I'll take a look.
 
-    glibc-package: aarch64 enable symlink for ABI compliance
+It looks like something is broken wrt. MIPS64 kernel or QEMU. Because N64 kernel
+causes segfaults with plain O32 rootfs. O32 kernel + O32 rootfs work w/o
+any issues on emulated mips32. Emulated MIPS64 boots  32-bit kernel just fine,
+but then the rootfs segfaults (?).
 
-    aarch64 requires the ld.so to be present in /lib, even if the rest
-    of the libraries are installed into an alternative directory.
-
-    See: https://sourceware.org/glibc/wiki/ABIList
-
-    Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-core/glibc/glibc-package.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index def0e0c..c72a49e 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -35,7 +35,7 @@ RPROVIDES_${PN}-pcprofile = "eglibc-pcprofile"
- RPROVIDES_${PN}-dbg = "eglibc-dbg"
- libc_baselibs = "${base_libdir}/libcrypt*.so.* ${base_libdir}/libcrypt-*.so ${base_libdir}/libc.so.* ${base_libdir}/libc-*.so ${base_libdir}/libm*.so.* ${base_libdir}/libm-*.so ${base_libdir}/libmvec-*.so ${base_libdir}/ld*.so.* ${base_libdir}/ld-*.so ${base_libdir}/libpthread*.so.* ${base_libdir}/libpthread-*.so ${base_libdir}/libresolv*.so.* ${base_libdir}/libresolv-*.so ${base_libdir}/librt*.so.* ${base_libdir}/librt-*.so ${base_libdir}/libutil*.so.* ${base_libdir}/libutil-*.so ${base_libdir}/libnsl*.so.* ${base_libdir}/libnsl-*.so ${base_libdir}/libnss_files*.so.* ${base_libdir}/libnss_files-*.so ${base_libdir}/libnss_compat*.so.* ${base_libdir}/libnss_compat-*.so ${base_libdir}/libnss_dns*.so.* ${base_libdir}/libnss_dns-*.so ${base_libdir}/libdl*.so.* ${base_libdir}/libdl-*.so ${base_libdir}/libanl*.so.* ${base_libdir}/libanl-*.so ${base_libdir}/libBrokenLocale*.so.* ${base_libdir}/libBrokenLocale-*.so"
- libc_baselibs_append_aarch64 = " /lib/ld-linux-aarch64*.so.1"
--INSANE_SKIP_glibc_append_aarch64 = " libdir"
-+INSANE_SKIP_${PN}_append_aarch64 = " libdir"
- 
- FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${@base_conditional('USE_LDCONFIG', '1', '${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf', '', d)}"
- FILES_ldd = "${bindir}/ldd"
 -- 
-2.5.0
-
+With best wishes
+Dmitry
 
