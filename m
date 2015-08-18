@@ -1,41 +1,40 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id CC48060043
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E694D60043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 07:56:40 +0000 (UTC)
-Received: by wicne3 with SMTP id ne3so93146959wic.1
+	Tue, 18 Aug 2015 08:03:14 +0000 (UTC)
+Received: by wicja10 with SMTP id ja10so87851604wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 00:56:40 -0700 (PDT)
+	Tue, 18 Aug 2015 01:03:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:date:to:cc:subject:message-id:references:mime-version
 	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=XWrSZufX1I2GnSda5in3nsQZM9jExfFkO94Yv50FLf0=;
-	b=EoFiXIhkYDaBx8mbZcr04ZzNILnMxyQL2zc0dnNNUCThvqSwcepcEOGoII3GK1vOEQ
-	WubIpl1mp2NZXi5VIJocA2pZTTM1ZKJkF6f67z/qeJCGDxrzrrUq1BYDSLcpI/MftwPL
-	AwqSHltlkQHgJRqsK24Vgq5GUbyxitoXmjCGiGkGfNynqadg2aDUQP44fE4Y3Fiax4il
-	V7VmDs+J2icgokE0vpolvUkXQ1ird/1TjtoVaxUaHzJLjr4/aqi5eQtGCqVoQL7CvsKB
-	11YyIOYE+kY+B5zzVOAMep6ndAEfl8TmLECf0eV3NeqCOTg8OeoY26dUl72GmOm7jnUv
-	dOvA==
-X-Received: by 10.194.86.161 with SMTP id q1mr10839720wjz.18.1439884600110;
-	Tue, 18 Aug 2015 00:56:40 -0700 (PDT)
+	bh=TCWnjj+1KAm6frPCg84v+57ig/Y1YIxCNrjjvE591vw=;
+	b=b0kDMvQs9rIbgT+U540K2BfSl4e5fP1p2y8/2Re6W3z8rYsBiBY0N53m9jhHL6X1yg
+	WanOLZYd+w8gvh774raKvcA5wAU5xTBrThaP2O6MiVHCALNkf8qDAR+a89VpJM1eBl7/
+	zDYwFNYFJoHPKA10SkY2dG+aXrY4GHsqAEA65u6N+Bpd4qecOLC5VrZMsGMCYeUxhKK9
+	X/VcryUNGSNMw3QDVNXhb9fRcZyYB2xL6wiOtjZNXpmlzvEiDQcBjuQ632IY45gThoxL
+	Q9ppBDqJx1VwZ7P3b7xNWjcrEfv8Sg4xH1Qflxf2XlTdCoIB8Zpt15/v5xyBD//7Qyg9
+	oxMw==
+X-Received: by 10.194.87.102 with SMTP id w6mr10467248wjz.111.1439884994983;
+	Tue, 18 Aug 2015 01:03:14 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	uo6sm25246792wjc.1.2015.08.18.00.56.38
+	i6sm25293609wje.33.2015.08.18.01.03.13
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 18 Aug 2015 00:56:39 -0700 (PDT)
+	Tue, 18 Aug 2015 01:03:13 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 18 Aug 2015 09:56:43 +0200
-To: "Belal, Awais" <Awais_Belal@mentor.com>
-Message-ID: <20150818075643.GB2458@jama>
-References: <2021B186DC632746BD5A3CE32F12BD28FAB93191@EU-MBX-03.mgc.mentorg.com>
+Date: Tue, 18 Aug 2015 10:03:17 +0200
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20150818080317.GC2458@jama>
+References: <1439098101-9400-1-git-send-email-akuster808@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <2021B186DC632746BD5A3CE32F12BD28FAB93191@EU-MBX-03.mgc.mentorg.com>
+In-Reply-To: <1439098101-9400-1-git-send-email-akuster808@gmail.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Issue with debian packaging - packagegroup-core-x11
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] nettle: clean up license information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,65 +47,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Aug 2015 07:56:44 -0000
-X-Groupsio-MsgNum: 69552
+X-List-Received-Date: Tue, 18 Aug 2015 08:03:16 -0000
+X-Groupsio-MsgNum: 69553
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="wq9mPyueHGvFACwf"
+	protocol="application/pgp-signature"; boundary="oJ71EGRlYNjSvfq7"
 Content-Disposition: inline
 
---wq9mPyueHGvFACwf
+--oJ71EGRlYNjSvfq7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Aug 07, 2015 at 02:08:48PM +0000, Belal, Awais wrote:
-> Hi guys,
+On Sun, Aug 09, 2015 at 10:58:21AM +0530, Armin Kuster wrote:
+> adding the license definitions on the few packages that
+> deviate from the overall package license.
 >=20
-> I have run into a do_rootfs failure which is only evident when debian pac=
-kaging is used. The issue roots up due to incompatibility of xserver-nodm-i=
-nit between oe-core and meta-oe. I see that it has been discussed quite a f=
-ew times. It also seems that debian packaging (apt-get I believe) is unable=
- to handle the package dependencies accurately in this case. The dependency=
- chain (when both oe-core and meta-oe are used) is as follows:
+> based on http://www.lysator.liu.se/~nisse/nettle/nettle.html#Copyright
+> and spot checking files.
 >=20
-> packagegroup-core-x11-utils ---> x11-common
->                                                   \
->                                                    \--> xserver-nodm-init=
- --> xserver-common
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/recipes-support/nettle/nettle_2.7.1.bb | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 >=20
-> x11-common does not get installed because xserver-common conflicts and re=
-places it. But then installation of packagegroup-core-x11-utils fails becau=
-se it does not see x11-common installed. This failure, as said earlier, is =
-only visible with debian packaging hence I believe it is either a bug in pa=
-ckaging or it simply does not support such a case. I tested this more gener=
-ically by creating two empty packages 'a' and 'b', where 'b' RCONFLICTS and=
- RREPLACES 'a'. If I add both these packages to my image's RDEPENDS the do_=
-rootfs fails with same error. I am not very familiar with debian packaging =
-hence I cannot comment whether this is a fault from package manager or the =
-recipe (xserver-common) so I though it best to ask here.
-> Doing an RPROVIDES_${PN} =3D "x11-common" in xserver-common fixes the iss=
-ue but fires up:
-> NOTE: multiple providers are available for runtime x11-common (x11-common=
-, xserver-common)
-> NOTE: consider defining a PREFERRED_PROVIDER entry to match x11-common
->=20
-> Any pointers will be highly appreciated!
+> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-s=
+upport/nettle/nettle_2.7.1.bb
+> index f53afcc..f9d331f 100644
+> --- a/meta/recipes-support/nettle/nettle_2.7.1.bb
+> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
+> @@ -2,6 +2,15 @@ SUMMARY =3D "A low level cryptographic library"
+>  HOMEPAGE =3D "http://www.lysator.liu.se/~nisse/nettle/"
+>  SECTION =3D "libs"
+>  LICENSE =3D "LGPLv2.1 & GPLv2"
 
-Set VIRTUAL-RUNTIME_xserver_common =3D "xserver-common" in your DISTRO.
+It would be nice to package GPLv2 files in separate package as well (or
+LGPLv2.1 library in seprate package) if you have time to do that.
+
+> +LICENSE_${PN}-cast =3D "CC0"
+> +LICENSE_${PN}-gosthash =3D "MIT"
+> +
+> +# both public and GPL license listed
+> +LICENSE_${PN}-md2 =3D "CC0 & LGPLv2.1+"
+> +LICENSE_${PN}-md4 =3D "CC0 & LGPLv2.1+"
+> +
+> +
+>  LIC_FILES_CHKSUM =3D "file://COPYING.LIB;md5=3D2d5025d4aa3495befef8f1720=
+6a5b0a1 \
+>                      file://serpent-decrypt.c;beginline=3D53;endline=3D67=
+;md5=3Dbcfd4745d53ca57f82907089898e390d \
+>                      file://serpent-set-key.c;beginline=3D56;endline=3D70=
+;md5=3Dbcfd4745d53ca57f82907089898e390d"
+> --=20
+> 2.3.5
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 --=20
 Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---wq9mPyueHGvFACwf
+--oJ71EGRlYNjSvfq7
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: Digital signature
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v2
 
-iEYEARECAAYFAlXS5ToACgkQN1Ujt2V2gBwZ8wCfWAPZUtvIO6oo6bk7k7cKndPd
-tIYAn0fXzH5yaPfT5QvGeFQ0MZENc+br
-=bvxF
+iEYEARECAAYFAlXS5sUACgkQN1Ujt2V2gBxtFgCfTp4q94Tz/kjQlJoIXcV402GB
+I48Ani/GhzIckgliKVvm3vHTpkERID80
+=mXzF
 -----END PGP SIGNATURE-----
 
---wq9mPyueHGvFACwf--
+--oJ71EGRlYNjSvfq7--
