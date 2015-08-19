@@ -1,38 +1,20 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FE2173E11;
-	Wed, 19 Aug 2015 14:07:57 +0000 (UTC)
-Received: by lbbpu9 with SMTP id pu9so3993707lbb.3;
-	Wed, 19 Aug 2015 07:07:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=ag0lIxUI2LMtd/vx5rekJGvUou5ASiq/9pOT+ECzcpg=;
-	b=K6ejWQQ3IR8V66uMLFUEnNRnAWp9aFLu/zmmmMFwFPapBM9a1FnlZ3z+6B+Gqi4s/u
-	noWfZyGuxqogX2RMhKDk78E/RrBaIMuA736YfXo9NQW0LCg2Gm58n2xmN7Oqi8rF6C4R
-	Lrtzv7NekJ2UHz9541lta7du84PO0tKBes859TlsXTlanuKvyLQjCs1AFH/Rzw9hG2Gy
-	iB3w5+Uk7mILKiCF0iYB2w8fUhVETlnp2bmOx8j1oR06JfXHE+tARELWhEHopNXCcXzr
-	Pr/B5Oq7acvyoTlsYsP+C1dV2KsMBQATpMQS6kPElNt2kuMQJs6ZJGoJmkiF+cm8yaDL
-	M9Zw==
-X-Received: by 10.152.179.170 with SMTP id dh10mr11286286lac.22.1439993277502; 
-	Wed, 19 Aug 2015 07:07:57 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id db9sm249424lad.11.2015.08.19.07.07.55
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 19 Aug 2015 07:07:56 -0700 (PDT)
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	openembedded-devel@lists.openembedded.org,
-	Mike Looijmans <mike.looijmans@topic.nl>,
-	Martin Jansa <Martin.Jansa@gmail.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>,
-	Nathan Lynch <Nathan_Lynch@mentor.com>
-Date: Wed, 19 Aug 2015 16:07:54 +0200
-Message-Id: <1439993274-3955-1-git-send-email-ricardo.ribalda@gmail.com>
+Return-Path: <brendan.le.foll@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id D07AA75E80
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Aug 2015 16:33:28 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 19 Aug 2015 09:33:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,710,1432623600"; d="scan'208";a="771847819"
+Received: from jupiter.iwi.intel.com ([172.28.33.51])
+	by fmsmga001.fm.intel.com with ESMTP; 19 Aug 2015 09:33:28 -0700
+From: brendan.le.foll@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Aug 2015 17:33:27 +0100
+Message-Id: <1440002007-9895-1-git-send-email-brendan.le.foll@intel.com>
 X-Mailer: git-send-email 2.5.0
-Subject: [PATCH v4] Opencv: Add OpenCV 3.0
+Subject: [PATCH] devtool: add package plugin that lets you create package via devtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,157 +27,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 14:08:01 -0000
+X-List-Received-Date: Wed, 19 Aug 2015 16:33:29 -0000
 
--Support for new PACKAGECONFIGS
--Merge with opencv-samples
+From: Brendan Le Foll <brendan.le.foll@intel.com>
 
-Since it is not backward compatible with 2.x and cannot be installed in
-parallel it has a DEFAULT_PREFERENCE of -1.
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
 ---
-v4: Fix suggested by Nathan Lynch <Nathan_Lynch@mentor.com>
-  Wrong url on HOMEPAGE
+ scripts/lib/devtool/package.py | 63 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 63 insertions(+)
+ create mode 100644 scripts/lib/devtool/package.py
 
- meta-oe/recipes-support/opencv/opencv_3.0.bb | 128 +++++++++++++++++++++++++++
- 1 file changed, 128 insertions(+)
- create mode 100644 meta-oe/recipes-support/opencv/opencv_3.0.bb
-
-diff --git a/meta-oe/recipes-support/opencv/opencv_3.0.bb b/meta-oe/recipes-support/opencv/opencv_3.0.bb
+diff --git a/scripts/lib/devtool/package.py b/scripts/lib/devtool/package.py
 new file mode 100644
-index 000000000000..36ab6271edd6
+index 0000000..18b9eb0
 --- /dev/null
-+++ b/meta-oe/recipes-support/opencv/opencv_3.0.bb
-@@ -0,0 +1,128 @@
-+SUMMARY = "Opencv : The Open Computer Vision Library"
-+HOMEPAGE = "http://opencv.org/"
-+SECTION = "libs"
++++ b/scripts/lib/devtool/package.py
+@@ -0,0 +1,63 @@
++# Development tool - package command plugin
++#
++# Copyright (C) 2014-2015 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++"""Devtool plugin containing the package subcommands"""
 +
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://include/opencv2/opencv.hpp;endline=41;md5=6d690d8488a6fca7a2c192932466bb14"
++import os
++import subprocess
++import logging
++from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
 +
-+ARM_INSTRUCTION_SET = "arm"
++logger = logging.getLogger('devtool')
 +
-+DEFAULT_PREFERENCE = "-1"
++def plugin_init(pluginlist):
++    """Plugin initialization"""
++    pass
 +
-+DEPENDS = "python-numpy libtool swig swig-native python bzip2 zlib glib-2.0"
++def package(args, config, basepath, workspace):
++    """Entry point for the devtool 'package' subcommand"""
++    import re
++    import bb
++    if not args.recipename in workspace:
++        raise DevtoolError("no recipe named %s in your workspace" %
++                           args.recipename)
 +
-+SRCREV_opencv = "424c2bddb39dae97dc4639a24eaa0e0c8fbb8e69"
-+SRCREV_contrib = "844c30e8b2f2f4b34b96a169fafe9beea3c45e87"
-+SRCREV_FORMAT = "opencv"
-+SRC_URI = "git://github.com/Itseez/opencv.git;name=opencv \
-+	   git://github.com/Itseez/opencv_contrib.git;destsuffix=contrib;name=contrib"
++    try:
++        image_pkgtype = exec_build_env_command(config.init_path, basepath, 'bitbake -e %s | grep IMAGE_PKGTYPE' % (args.recipename), watch=False)
++    except bb.process.ExecutionError as e:
++        logger.error('Unable to get IMAGE_PKGTYPE for image')
++        return e.exitcode
 +
-+PV = "3.0+git${SRCPV}"
++    image_pkgtype = str(image_pkgtype).split('=', 1)[1].split('"', 2)[1]
++    if image_pkgtype not in ("rpm", "ipk", "tar", "deb"):
++        logger.error('Invalid package format (%s) found' % image_pkgtype)
++        return 1
 +
-+S = "${WORKDIR}/git"
++    package_task = config.get('Package', 'package_task', 'package_write_%s' % image_pkgtype)
++    try:
++        exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s' % (package_task, args.recipename), watch=True)
++    except bb.process.ExecutionError as e:
++        # We've already seen the output since watch=True, so just ensure we return something to the user
++        return e.exitcode
++    logger.info('Your packages are in %s/tmp/deploy/%s' % (basepath, image_pkgtype))
 +
-+EXTRA_OECMAKE = "-DPYTHON2_NUMPY_INCLUDE_DIRS:PATH=${STAGING_LIBDIR}/${PYTHON_DIR}/site-packages/numpy/core/include \
-+		 -DOPENCV_EXTRA_MODULES_PATH=${WORKDIR}/contrib/modules \
-+                 -DWITH_1394=OFF \
-+                 -DCMAKE_SKIP_RPATH=ON \
-+                 ${@bb.utils.contains("TARGET_CC_ARCH", "-msse3", "-DENABLE_SSE=1 -DENABLE_SSE2=1 -DENABLE_SSE3=1 -DENABLE_SSSE3=1", "", d)} \
-+                 ${@base_conditional("libdir", "/usr/lib64", "-DLIB_SUFFIX=64", "", d)} \
-+                 ${@base_conditional("libdir", "/usr/lib32", "-DLIB_SUFFIX=32", "", d)} \
-+"
++    return 0
 +
-+PACKAGECONFIG ??= "eigen jpeg libav png tiff v4l gstreamer samples tbb\
-+                   ${@bb.utils.contains("DISTRO_FEATURES", "x11", "gtk", "", d)}"
-+PACKAGECONFIG[eigen] = "-DWITH_EIGEN=ON,-DWITH_EIGEN=OFF,libeigen,"
-+PACKAGECONFIG[gtk] = "-DWITH_GTK=ON,-DWITH_GTK=OFF,gtk+3,"
-+PACKAGECONFIG[jpeg] = "-DWITH_JPEG=ON,-DWITH_JPEG=OFF,jpeg,"
-+PACKAGECONFIG[libav] = "-DWITH_FFMPEG=ON,-DWITH_FFMPEG=OFF,libav,"
-+PACKAGECONFIG[png] = "-DWITH_PNG=ON,-DWITH_PNG=OFF,libpng,"
-+PACKAGECONFIG[tiff] = "-DWITH_TIFF=ON,-DWITH_TIFF=OFF,tiff,"
-+PACKAGECONFIG[v4l] = "-DWITH_V4L=ON,-DWITH_V4L=OFF,v4l-utils,"
-+PACKAGECONFIG[jasper] = "-DWITH_JASPER=ON,-DWITH_JASPER=OFF,jasper,"
-+PACKAGECONFIG[amdblas] = "-DWITH_OPENCLAMDBLAS=ON,-DWITH_OPENCLAMDBLAS=OFF,libclamdblas,"
-+PACKAGECONFIG[amdfft] = "-DWITH_OPENCLAMDFFT=ON,-DWITH_OPENCLAMDFFT=OFF,libclamdfft,"
-+PACKAGECONFIG[opencl] = "-DWITH_OPENCL=ON,-DWITH_OPENCL=OFF,opencl-headers,"
-+PACKAGECONFIG[gstreamer] = "-DWITH_GSTREAMER=ON,-DWITH_GSTREAMER=OFF,gstreamer1.0 gstreamer1.0-plugins-base,"
-+PACKAGECONFIG[oracle-java] = "-DJAVA_INCLUDE_PATH=${JAVA_HOME}/include -DJAVA_INCLUDE_PATH2=${JAVA_HOME}/include/linux -DJAVA_AWT_INCLUDE_PATH=${JAVA_HOME}/include -DJAVA_AWT_LIBRARY=${JAVA_HOME}/lib/amd64/libjawt.so -DJAVA_JVM_LIBRARY=${JAVA_HOME}/lib/amd64/server/libjvm.so,,ant-native oracle-jse-jdk oracle-jse-jdk-native,"
-+PACKAGECONFIG[samples] = "-DBUILD_EXAMPLES=ON -DINSTALL_PYTHON_EXAMPLES=ON,-DBUILD_EXAMPLES=OFF,,"
-+PACKAGECONFIG[tbb] = "-DWITH_TBB=ON,-DWITH_TBB=OFF,tbb,"
-+
-+inherit distutils-base pkgconfig cmake
-+
-+export BUILD_SYS
-+export HOST_SYS
-+export PYTHON_CSPEC="-I${STAGING_INCDIR}/${PYTHON_DIR}"
-+export PYTHON="${STAGING_BINDIR_NATIVE}/python"
-+export JAVA_HOME="${STAGING_DIR_NATIVE}/usr/bin/java"
-+export ANT_DIR="${STAGING_DIR_NATIVE}/usr/share/ant/"
-+
-+TARGET_CC_ARCH += "-I${S}/include "
-+
-+PACKAGES += "${PN}-java-dbg ${PN}-java ${PN}-samples-dbg ${PN}-samples ${PN}-apps python-opencv"
-+
-+python populate_packages_prepend () {
-+    cv_libdir = d.expand('${libdir}')
-+    cv_libdir_dbg = d.expand('${libdir}/.debug')
-+    do_split_packages(d, cv_libdir, '^lib(.*)\.so$', 'lib%s-dev', 'OpenCV %s development package', extra_depends='${PN}-dev', allow_links=True)
-+    do_split_packages(d, cv_libdir, '^lib(.*)\.la$', 'lib%s-dev', 'OpenCV %s development package', extra_depends='${PN}-dev')
-+    do_split_packages(d, cv_libdir, '^lib(.*)\.a$', 'lib%s-dev', 'OpenCV %s development package', extra_depends='${PN}-dev')
-+    do_split_packages(d, cv_libdir, '^lib(.*)\.so\.*', 'lib%s', 'OpenCV %s library', extra_depends='', allow_links=True)
-+
-+    pn = d.getVar('PN', 1)
-+    metapkg =  pn + '-dev'
-+    d.setVar('ALLOW_EMPTY_' + metapkg, "1")
-+    blacklist = [ metapkg ]
-+    metapkg_rdepends = [ ]
-+    packages = d.getVar('PACKAGES', 1).split()
-+    for pkg in packages[1:]:
-+        if not pkg in blacklist and not pkg in metapkg_rdepends and pkg.endswith('-dev'):
-+            metapkg_rdepends.append(pkg)
-+    d.setVar('RRECOMMENDS_' + metapkg, ' '.join(metapkg_rdepends))
-+
-+    blacklist = [ metapkg ]
-+    metapkg =  pn
-+    metapkg_rdepends = [ ]
-+    for pkg in packages[1:]:
-+        if not pkg in blacklist and not pkg in metapkg_rdepends and not pkg.endswith('-dev') and not pkg.endswith('-dbg') and not pkg.endswith('-doc') :
-+            metapkg_rdepends.append(pkg)
-+    bb.data.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends), d)
-+
-+}
-+
-+PACKAGES_DYNAMIC += "^libopencv-.*"
-+
-+FILES_${PN} = ""
-+FILES_${PN}-apps = "${bindir}/* ${datadir}/OpenCV"
-+FILES_${PN}-dbg += "${libdir}/.debug"
-+FILES_${PN}-dev = "${includedir} ${libdir}/pkgconfig"
-+FILES_${PN}-doc = "${datadir}/OpenCV/doc"
-+FILES_${PN}-java = "${datadir}/OpenCV/java"
-+FILES_${PN}-java-dbg = "${datadir}/OpenCV/java/.debug/"
-+FILES_${PN}-samples = "${datadir}/OpenCV/samples/"
-+FILES_${PN}-samples-dbg = "${datadir}/OpenCV/samples/bin/.debug"
-+
-+INSANE_SKIP_${PN}-apps = "staticdev"
-+INSANE_SKIP_${PN}-java = "libdir"
-+INSANE_SKIP_${PN}-java-dbg = "libdir"
-+
-+ALLOW_EMPTY_${PN} = "1"
-+
-+INSANE_SKIP_python-opencv = "True"
-+SUMMARY_python-opencv = "Python bindings to opencv"
-+FILES_python-opencv = "${PYTHON_SITEPACKAGES_DIR}/*"
-+RDEPENDS_python-opencv = "python-core python-numpy"
-+
-+do_install_append() {
-+    cp ${S}/include/opencv/*.h ${D}${includedir}/opencv/
-+    sed -i '/blobtrack/d' ${D}${includedir}/opencv/cvaux.h
-+
-+    # Move Python files into correct library folder (for multilib build)
-+    if [ "$libdir" != "/usr/lib" ]; then
-+        mv ${D}/usr/lib/* ${D}/${libdir}/
-+        rm -rf ${D}/usr/lib
-+    fi
-+
-+    install -d ${D}${datadir}/OpenCV/samples/bin/
-+    cp -f bin/*-tutorial-* bin/*-example-* ${D}${datadir}/OpenCV/samples/bin/
-+}
++def register_commands(subparsers, context):
++    """Register devtool subcommands from the package plugin"""
++    parser_package = subparsers.add_parser('package', help='Package a recipe output files')
++    parser_package.add_argument('recipename', help='Recipe to package')
++    parser_package.set_defaults(func=package)
 -- 
 2.5.0
 
