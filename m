@@ -1,28 +1,28 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D05560043
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 208F860043
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 01:22:50 +0000 (UTC)
+	Wed, 19 Aug 2015 01:48:08 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7J1MoSr008739
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 18 Aug 2015 18:22:50 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 18 Aug 2015 18:22:49 -0700
-Message-ID: <55D3DA68.5030700@windriver.com>
-Date: Wed, 19 Aug 2015 09:22:48 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7J1m7IG012989
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Aug 2015 18:48:08 -0700 (PDT)
+Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
+	Tue, 18 Aug 2015 18:48:07 -0700
+Message-ID: <55D3E073.3060903@windriver.com>
+Date: Wed, 19 Aug 2015 09:48:35 +0800
+From: ChenQi <Qi.Chen@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1439453357-27173-1-git-send-email-rongqing.li@windriver.com>
-	<CAJTo0LaE6h3_uXobYVy0BtydyNWQQ_m2d5j6H-vGnnN0+meyNg@mail.gmail.com>
-In-Reply-To: <CAJTo0LaE6h3_uXobYVy0BtydyNWQQ_m2d5j6H-vGnnN0+meyNg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: package nscd related files
+To: <openembedded-core@lists.openembedded.org>
+References: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
+X-Originating-IP: [128.224.162.211]
+Subject: Re: [PATCH] systemd: fix systemd-udev-hwdb-update service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +35,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 01:22:53 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 19 Aug 2015 01:48:09 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
+ping
 
+If we build core-image-minimal for qemux86-64 and start it with qemu, 
+we'll see failure of this service without this patch.
+Please consider merging this patch.
 
-On 2015年08月18日 19:48, Burton, Ross wrote:
->
-> On 13 August 2015 at 09:09, <rongqing.li@windriver.com
-> <mailto:rongqing.li@windriver.com>> wrote:
->
->     install nscd related configuration file, startup files, and package
->     them,
->     make nscd easy to startup
->
->
-> systemd.bbclass is inherited but SYSTEMD_PACKAGES isn't set, so the
-> systemd postinst/prerm fragments won't get added.
->
-> Ross
+Regards,
+Chen Qi
 
-Thanks, I will fix it
+On 06/30/2015 01:16 PM, rongqing.li@windriver.com wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> The new version of systemd has implemented the following feature.
+> Opointer.de/blog/projects/stateless.html
+>
+> As a result, the systemd-udev-hwdb-update.service would always run
+> at first boot. This will cause failure if the target device doesn't
+> have enough storage space. Besides, as we run `udevadm hwdb --update' as
+> a postinst of udev-hwdb at rootfs time, there's no need to run this
+> again at system start-up.
+>
+> The purpose of this patch is as follows.
+> If `udev hwdb --update' fails at rootfs time, systemd-udev-hwdb-update.service
+> is executed at first boot; otherwise, the service is not executed.
+>
+> This patch achieves the above goal by setting CondistonNeedsUpdate to
+> "/etc/udev" in the service file, and creating /etc/udev/.updated file if the
+> postinst succeeds.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>   meta/recipes-core/systemd/systemd_219.bb | 18 +++++++++++++++---
+>   1 file changed, 15 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
+> index 6ed4fe0..dc5c7b3 100644
+> --- a/meta/recipes-core/systemd/systemd_219.bb
+> +++ b/meta/recipes-core/systemd/systemd_219.bb
+> @@ -180,6 +180,10 @@ do_install() {
+>   	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
+>   		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
+>   	fi
+> +
+> +	# Make systemd-udev-hwdb-update to check /etc/udev
+> +	cp ${D}${systemd_unitdir}/system/systemd-udev-hwdb-update.service ${D}${sysconfdir}/systemd/system
+> +	sed -i -e 's#ConditionNeedsUpdate=/etc#ConditionNeedsUpdate=/etc/udev#g' ${D}${sysconfdir}/systemd/system/systemd-udev-hwdb-update.service
+>   }
+>   
+>   do_install_ptest () {
+> @@ -381,10 +385,18 @@ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
+>   
+>   pkg_postinst_udev-hwdb () {
+>   	if test -n "$D"; then
+> -		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
+> -			--root $D
+> +		if ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
+> +			--root $D; then
+> +			touch $D/etc/udev/.updated
+> +		else
+> +			exit 1
+> +		fi
+>   	else
+> -		udevadm hwdb --update
+> +		if udevadm hwdb --update; then
+> +			touch $D/etc/udev/.updated
+> +		else
+> +			exit 1
+> +		fi
+>   	fi
+>   }
+>   
 
--- 
-Best Reagrds,
-Roy | RongQing Li
 
