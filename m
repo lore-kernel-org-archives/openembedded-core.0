@@ -1,28 +1,36 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 208F860043
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 01:48:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7J1m7IG012989
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Aug 2015 18:48:08 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Tue, 18 Aug 2015 18:48:07 -0700
-Message-ID: <55D3E073.3060903@windriver.com>
-Date: Wed, 19 Aug 2015 09:48:35 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 275FA608B7;
+	Wed, 19 Aug 2015 03:36:45 +0000 (UTC)
+Received: by pabyb7 with SMTP id yb7so147135230pab.0;
+	Tue, 18 Aug 2015 20:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=ddid8z/j3vme2pGAtlbgpUqtDtq90nFmGsAVYBDvvGY=;
+	b=VuiXCc9OSZLYAdYP9AS9SwrIVCqTLldW31JQR7v6JhVm3Q8MCvBZh0u44KlBwPECtb
+	4pdIMpZt5kTZY1X9hwNZQ5KHUnr4c68n8F5gU87VFAGd+2W/UHJgGlylzIDHQag/BMdx
+	I/7Gc3Kl0hP5jKVwAKG+C3P4GurGQVdEJX67i41MsxKMu0OLXihNsdUhkfYxhSrBEaRh
+	jlHEGFX9gkSH1B2d4IC333MHJPotT/phCI+KGpwSH3enupT/6bDgL8S+pC4JqAsCTtjX
+	Nh7qqt7WjZn0FkbeofK6mKY/56d+Aby3sIgYpQ2SJlwU4dvtHp+c/gf4tHYWhjlbiZjp
+	3cng==
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1435641416-2577-1-git-send-email-rongqing.li@windriver.com>
-X-Originating-IP: [128.224.162.211]
-Subject: Re: [PATCH] systemd: fix systemd-udev-hwdb-update service
+X-Received: by 10.66.193.73 with SMTP id hm9mr20614603pac.105.1439955405031;
+	Tue, 18 Aug 2015 20:36:45 -0700 (PDT)
+Received: by 10.66.48.97 with HTTP; Tue, 18 Aug 2015 20:36:44 -0700 (PDT)
+In-Reply-To: <CAJTo0Lbpqowa0Vmq7HziVBUR_pwyPcLSxtfzaphg1RS3fwZrfQ@mail.gmail.com>
+References: <20150810194122.4ED1750388@opal.openembedded.org>
+	<20150818190406.GB10246@jama>
+	<CAJTo0Lbpqowa0Vmq7HziVBUR_pwyPcLSxtfzaphg1RS3fwZrfQ@mail.gmail.com>
+Date: Wed, 19 Aug 2015 13:36:44 +1000
+Message-ID: <CANwerB1VTh_Q9PmhS9cUvrqR=V=TDeYRYxyO7u4rwXTJdfBGGA@mail.gmail.com>
+From: Jonathan Liu <net147@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>
+Subject: Re: [oe-commits] Nicolas Dechesne : mesa: upgrade 10.5.8 -> 10.6.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,81 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 01:48:09 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Aug 2015 03:36:48 -0000
+Content-Type: text/plain; charset=UTF-8
 
-ping
+On 19 August 2015 at 05:23, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 18 August 2015 at 20:04, Martin Jansa <martin.jansa@gmail.com> wrote:
+>>
+>> I haven't tried to find out what's the replacement for this yet, but
+>> it's the reason why mesa is now failing in my bitbake world builds
+>> (fbdev is added in ./meta-luneui/recipes-graphics/mesa/mesa_%.bbappend)
+>
+>
+> I think what you were building wouldn't actually have done anything useful
+> anyway, that configuration was removed by this commit:
+>
+> commit 0d6e7620f35331be301ec3177c0d9236838a845b
+> Author: Emil Velikov <emil.l.velikov@gmail.com>
+> Date:   Sat Mar 14 22:36:28 2015 +0000
+>
+>     egl/main: drop platform fbdev specific code
+>
+>     st/egl was the only one which had support for this platform.
+>
+> Ross
 
-If we build core-image-minimal for qemux86-64 and start it with qemu, 
-we'll see failure of this service without this patch.
-Please consider merging this patch.
+The last version of Mesa where software rendering using EGL to fbdev
+works is 10.3.7 after reverting
+91ff0d4c6510dc38f279c586ced17fba917873e7.
 
 Regards,
-Chen Qi
-
-On 06/30/2015 01:16 PM, rongqing.li@windriver.com wrote:
-> From: Chen Qi <Qi.Chen@windriver.com>
->
-> The new version of systemd has implemented the following feature.
-> Opointer.de/blog/projects/stateless.html
->
-> As a result, the systemd-udev-hwdb-update.service would always run
-> at first boot. This will cause failure if the target device doesn't
-> have enough storage space. Besides, as we run `udevadm hwdb --update' as
-> a postinst of udev-hwdb at rootfs time, there's no need to run this
-> again at system start-up.
->
-> The purpose of this patch is as follows.
-> If `udev hwdb --update' fails at rootfs time, systemd-udev-hwdb-update.service
-> is executed at first boot; otherwise, the service is not executed.
->
-> This patch achieves the above goal by setting CondistonNeedsUpdate to
-> "/etc/udev" in the service file, and creating /etc/udev/.updated file if the
-> postinst succeeds.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/recipes-core/systemd/systemd_219.bb | 18 +++++++++++++++---
->   1 file changed, 15 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-> index 6ed4fe0..dc5c7b3 100644
-> --- a/meta/recipes-core/systemd/systemd_219.bb
-> +++ b/meta/recipes-core/systemd/systemd_219.bb
-> @@ -180,6 +180,10 @@ do_install() {
->   	if [ -s ${D}${libdir}/tmpfiles.d/systemd.conf ]; then
->   		${@bb.utils.contains('PACKAGECONFIG', 'networkd', ':', 'sed -i -e "\$ad /run/systemd/netif/links 0755 root root -" ${D}${libdir}/tmpfiles.d/systemd.conf', d)}
->   	fi
-> +
-> +	# Make systemd-udev-hwdb-update to check /etc/udev
-> +	cp ${D}${systemd_unitdir}/system/systemd-udev-hwdb-update.service ${D}${sysconfdir}/systemd/system
-> +	sed -i -e 's#ConditionNeedsUpdate=/etc#ConditionNeedsUpdate=/etc/udev#g' ${D}${sysconfdir}/systemd/system/systemd-udev-hwdb-update.service
->   }
->   
->   do_install_ptest () {
-> @@ -381,10 +385,18 @@ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
->   
->   pkg_postinst_udev-hwdb () {
->   	if test -n "$D"; then
-> -		${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-> -			--root $D
-> +		if ${@qemu_run_binary(d, '$D', '${base_bindir}/udevadm')} hwdb --update \
-> +			--root $D; then
-> +			touch $D/etc/udev/.updated
-> +		else
-> +			exit 1
-> +		fi
->   	else
-> -		udevadm hwdb --update
-> +		if udevadm hwdb --update; then
-> +			touch $D/etc/udev/.updated
-> +		else
-> +			exit 1
-> +		fi
->   	fi
->   }
->   
-
+Jonathan
 
