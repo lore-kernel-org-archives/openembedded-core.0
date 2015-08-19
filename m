@@ -1,24 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 97F2B76A7D
+	by mail.openembedded.org (Postfix) with ESMTP id 668F576A7E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 13:40:02 +0000 (UTC)
+	Wed, 19 Aug 2015 13:40:03 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 19 Aug 2015 06:40:03 -0700
+	by orsmga103.jf.intel.com with ESMTP; 19 Aug 2015 06:40:04 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,710,1432623600"; d="scan'208";a="771742334"
+X-IronPort-AV: E=Sophos;i="5.15,710,1432623600"; d="scan'208";a="771742390"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.143])
-	by fmsmga001.fm.intel.com with ESMTP; 19 Aug 2015 06:40:02 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 19 Aug 2015 06:40:03 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Aug 2015 16:40:58 +0300
-Message-Id: <9b0e41b527fd4c0a43f7ffe69bd719c422d3c6fa.1439991562.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 19 Aug 2015 16:40:59 +0300
+Message-Id: <5d7a87b67d76994b2a71bcb40d256e22304c6f31.1439991562.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1439991562.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439991562.git.alexander.kanavin@linux.intel.com>
 In-Reply-To: <cover.1439991562.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439991562.git.alexander.kanavin@linux.intel.com>
-Subject: [PATCH 16/22] gnome-desktop3: add a recipe from meta-gnome
+Subject: [PATCH 17/22] glib: add a warning suppression patch to glib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +31,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 13:40:02 -0000
+X-List-Received-Date: Wed, 19 Aug 2015 13:40:03 -0000
 
-gnome-desktop3 is a dependency of epiphany
+Otherwise QA check will fail.
+Some schemas in gsettings-desktop-schemas (such as proxy and locale)
+are still using deprecated paths, as of 3.16.1. This causes warning
+messages, and meta/lib/oe/rootfs.py complaints about them.
 
 Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 ---
- .../gnome-desktop/gnome-desktop3_3.16.2.bb          | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
+ ...warning-about-deprecated-paths-in-schemas.patch | 32 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb      |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
 
-diff --git a/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
 new file mode 100644
-index 0000000..1f2f06c
+index 0000000..54e830c
 --- /dev/null
-+++ b/meta/recipes-gnome/gnome-desktop/gnome-desktop3_3.16.2.bb
-@@ -0,0 +1,21 @@
-+SUMMARY = "GNOME library for reading .desktop files"
-+SECTION = "x11/gnome"
-+LICENSE = "GPLv2 & LGPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-+                    file://COPYING.LIB;md5=5f30f0716dfdd0d91eb439ebec522ec2"
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+@@ -0,0 +1,32 @@
++From 41534253b6b61ed4769eb6a3966698a50ee73b71 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 12 Jun 2015 17:08:46 +0300
++Subject: [PATCH] Remove the warning about deprecated paths in schemas
 +
-+BPN = "gnome-desktop"
++Some schemas in gsettings-desktop-schemas (such as proxy and locale)
++are still using deprecated paths, as of 3.16.1. This causes warning
++messages, and meta/lib/oe/rootfs.py complaints about them.
++---
++ gio/glib-compile-schemas.c | 6 ------
++ 1 file changed, 6 deletions(-)
 +
-+inherit gnome pkgconfig
-+SRC_URI[archive.md5sum] = "ab5bf4cc94ad63639f42adcc1542b1f0"
-+SRC_URI[archive.sha256sum] = "3a8f196b46eb9dbd3ba2afb8fb5fef6a8825539d449a02181311242e22227bd0"
++diff --git a/gio/glib-compile-schemas.c b/gio/glib-compile-schemas.c
++index e42949b..ec79d7c 100644
++--- a/gio/glib-compile-schemas.c
+++++ b/gio/glib-compile-schemas.c
++@@ -1202,12 +1202,6 @@ parse_state_start_schema (ParseState  *state,
++       return;
++     }
++ 
++-  if (path && (g_str_has_prefix (path, "/apps/") ||
++-               g_str_has_prefix (path, "/desktop/") ||
++-               g_str_has_prefix (path, "/system/")))
++-    g_printerr ("warning: Schema '%s' has path '%s'.  Paths starting with "
++-                "'/apps/', '/desktop/' or '/system/' are deprecated.\n", id, path);
++-
++   state->schema_state = schema_state_new (path, gettext_domain,
++                                           extends, extends_name, list_of);
++ 
++-- 
++2.1.4
 +
-+DEPENDS += "gsettings-desktop-schemas gconf libxrandr virtual/libx11 gtk+3 glib-2.0 gnome-doc-utils gnome-common startup-notification iso-codes"
-+
-+EXTRA_OECONF = "--disable-desktop-docs"
-+
-+PACKAGES =+ "libgnome-desktop3"
-+FILES_libgnome-desktop3 = "${libdir}/lib*${SOLIBS} ${datadir}/libgnome-desktop*/pnp.ids ${datadir}/gnome/*xml"
-+
-+RRECOMMENDS_libgnome-desktop3 += "gsettings-desktop-schemas"
-+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
+index 8eaccfb..1e3d36a 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://uclibc.patch \
+            file://0001-configure.ac-Do-not-use-readlink-when-cross-compilin.patch \
+            file://allow-run-media-sdX-drive-mount-if-username-root.patch \
++	   file://0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch \
+           "
+ 
+ SRC_URI_append_class-native = " file://glib-gettextize-dir.patch"
 -- 
 2.1.4
 
