@@ -1,37 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C6EF73CC7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 62B8973CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 21:09:39 +0000 (UTC)
-Received: by qgeb6 with SMTP id b6so14713757qge.3
+	Wed, 19 Aug 2015 22:52:46 +0000 (UTC)
+Received: by igfj19 with SMTP id j19so1212269igf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 14:09:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=fPeDLsKjfA0RdvWIdqzUMIo2LOSrDnpLzV23WeSWX9o=;
-	b=j4Gd9WIKae81imLZPcsUWTwWKlp5JgEX6wWSjkhmM1DtIBJHhoPa5UK6W+x3FnqBTD
-	j822eKI+Qv3ysr+j3GWtZp7vfDnDVKaaOOKG79iZHPBKwS3BpQev0MuESBMeNWGuY09S
-	Fh2sDzTvBMMumUXmHbhWNFD7W6JIOl6WvPhFMBl52eJ6i4FXEgcJECiVcufZWnGKdikq
-	EDJM2CUvd2MMkwWNA1eJeKRpWQixGzpn2UejSM6wvFdaRcCsoOZwqUhQGXiC+wzHyl22
-	Z9Q03nHjeHh3a94K5D2N9IkDy4ZQAKkTciiPjjfZzY/hHwe3gy9qpMhi1IEhbMr+Dlbn
-	j6YQ==
-X-Gm-Message-State: ALoCoQl5unpyVTAPLgFSX1tP3Tqeb7ojMr9Uop63e2pecFyaXsLGG1rfB8MAORdKXKDXglcMUfTk
-X-Received: by 10.140.38.82 with SMTP id s76mr26718935qgs.10.1440018579100;
-	Wed, 19 Aug 2015 14:09:39 -0700 (PDT)
+	Wed, 19 Aug 2015 15:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=Pfnt6N1yLS/bAXKE9D/8b2ZEsQAiNjXPWtRxmw9ZMF0=;
+	b=YnmqPcV5l3RLBlC2jrM5Pir6qxM3/a0OhZNlF6rdjEW/O1rOatBtsCPlzxJ4vxnH/c
+	DIfITzFoM1AIdpOTp+gcNH0nzjxJA38AJmlahdN9pYBeL1ZXDBxZDeH1jeZ7HHaQbm/f
+	1i68/I88xkNQby3sizNUZSgyzYkhLoWx/pkheeRUZJDa3DUHKPhdI+7S0pdSooq7dMA+
+	1Xx+Y0NfxJLnLAkcYYCIQ5Pll2URKAdUNTNaqFzBisvRGqgcMHCJ4rN+tY2GXRnIPIgA
+	5rTLJ0x6nvR19N4HPpsK3GnyARH77NddhoInuKj1DXEqfJVsgUipyyEI9Y3uNUO0tL4T
+	MrSw==
+X-Received: by 10.50.93.102 with SMTP id ct6mr4223097igb.75.1440024766298;
+	Wed, 19 Aug 2015 15:52:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.92.9 with HTTP; Wed, 19 Aug 2015 14:09:19 -0700 (PDT)
-In-Reply-To: <55D4EC10.9060001@gmail.com>
-References: <cover.1439991562.git.alexander.kanavin@linux.intel.com>
-	<55D4EC10.9060001@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Aug 2015 22:09:19 +0100
-Message-ID: <CAJTo0LaJ=sUw9-9h4ZHUn3eQrPpODARpWyVB=94kaATi14HMHA@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/22] Update webkitgtk to latest stable upstream; replace midori with epiphany
+Received: by 10.107.38.79 with HTTP; Wed, 19 Aug 2015 15:52:16 -0700 (PDT)
+In-Reply-To: <CAJTo0LasGyh_erWWWPPKWtOwbBi0tWVXudxKgXnZhL42SL3WWQ@mail.gmail.com>
+References: <1440006296-15277-1-git-send-email-raj.khem@gmail.com>
+	<55D4E00C.9060601@mentor.com>
+	<CAJTo0LasGyh_erWWWPPKWtOwbBi0tWVXudxKgXnZhL42SL3WWQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 19 Aug 2015 15:52:16 -0700
+Message-ID: <CAMKF1srbSN-_26r-_9sq1uBYcioXMu3woxBQjRHvZ5TcTQtSOw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	Nathan Lynch <Nathan_Lynch@mentor.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-arch: Force BFD kernel when using gcc for linking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +45,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 21:09:41 -0000
-Content-Type: multipart/alternative; boundary=001a11c137eee0b969051db07308
-
---001a11c137eee0b969051db07308
+X-List-Received-Date: Wed, 19 Aug 2015 22:52:48 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On 19 August 2015 at 21:50, akuster808 <akuster808@gmail.com> wrote:
+On Wed, Aug 19, 2015 at 1:12 PM, Burton, Ross <ross.burton@intel.com> wrote:
+> On 19 August 2015 at 20:59, Nathan Lynch <Nathan_Lynch@mentor.com> wrote:
+>>
+>> On 08/19/2015 12:44 PM, Khem Raj wrote:
+>> > We redefine LD to point to ld.bfd when building kernel, which works in
+>> > most cases since kbuild system calls out for bare LD most of the time,
+>> > however some of newer kernels e.g. 4.1+ have some code added which can
+>> > call gcc directly to do the linking job e.g. arm vdso code
+>> >
+>> > This causes build failures when we have configured the default cross
+>> > toolchain to use gold linker as default. Errors like
+>> >
+>> > BFD: arch/arm/vdso/vdso.so: Not enough room for program headers, try
+>> > linking with -N
+>> > | arm-angstrom-linux-gnueabi-objcopy:arch/arm/vdso/vdso.so[.hash]: Bad
+>> > value
+>> >
+>> > start happening.
+>> >
+>> > With this patch we force gcc to choose bfd linker as well
+>>
+>>
+>> This is fixed upstream as of:
+>>
+>> commit d2b30cd4b7223a96e606dfc8120626f66d81e091
+>> Author: Nathan Lynch <nathan_lynch@mentor.com>
+>> Date:   Wed Jun 3 00:41:15 2015 +0100
+>>
+>>     ARM: 8384/1: VDSO: force use of BFD linker
+>>
+>> which should make it to 4.1-stable soon.
 
-> Do we have any idea how long this will be before hitting master-next?
+it fixes one case yes, there could be many more to come. We want to
+make sure that we use bfd ld through out the kernel.
+
 >
-> I am leaning towards sending an update to meta-ruby while this patches
-> series makes it way through the process.
 >
+>  CC'ing Bruce.
+>
+> I'll stage the fix from Khem in my master-unde-test branch.  Bruce: if you
+> end up merging this fix into the oe-core kernels, please remind me to revert
+> Khem's patch. :)
 
-I'm actively looking at it now - M3 deadline is next week.
+There is no need to revert it. Since it convey's what we want to do in
+more comprehensive way i.e. to use bfd linker for all kernel links in
+all forms.
+ It covers us for future issues of similar kind
 
-Sending an update to meta-ruby is probably sensible, worst case the older
-ruby ends up in oe-core and we update it based on the meta-ruby recipe.
-
-Ross
-
---001a11c137eee0b969051db07308
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 19 August 2015 at 21:50, akuster808 <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:akuster808@gmail.com" target=3D"_blank">akuster808@gmail.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":40b" class=3D"a3s=
-" style=3D"overflow:hidden">Do we have any idea how long this will be befor=
-e hitting master-next?<br>
-<br>
-I am leaning towards sending an update to meta-ruby while this patches seri=
-es makes it way through the process.<br></div></blockquote><div><br></div><=
-div>I&#39;m actively looking at it now - M3 deadline is next week.</div><di=
-v><br></div><div>Sending an update to meta-ruby is probably sensible, worst=
- case the older ruby ends up in oe-core and we update it based on the meta-=
-ruby recipe.</div><div><br></div><div>Ross</div></div></div></div>
-
---001a11c137eee0b969051db07308--
