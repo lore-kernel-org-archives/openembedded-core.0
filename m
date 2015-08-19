@@ -1,38 +1,38 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
-	[209.85.223.180])
-	by mail.openembedded.org (Postfix) with ESMTP id B9AEB75E81
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DEFD73CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 17:53:08 +0000 (UTC)
-Received: by iodb91 with SMTP id b91so17966373iod.1
+	Wed, 19 Aug 2015 19:56:18 +0000 (UTC)
+Received: by qgj62 with SMTP id 62so13064791qgj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 10:53:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=tpgs7/8A9ltiE0cOl5DXvx95oO2EoXKkKv76WkhCIWo=;
-	b=NLiPZzpaunXX5OJC19vti0aFaOoWT/qQcqy9ynUXOJzsIJlIRwSQjjQkCyeiWsISHG
-	Rx6UzpuDbspFzC3fK9VdJ0Odd13yAE+oSGz446ryPaqs3RK3tZL6XbAADnjclnnwNN74
-	JmCamc2IFq/vYKl5/aMXG2ticputyIPCZrJSuc+Q0UuPqOV1tL4SFYfkVFW+jc/CAnAQ
-	D6PAbzI8fTO0M1TTUk1mbB7Y5mbKM6EwUTAkovETDmWXlcVIL4c7XSDbK3R+95XpFzfi
-	+H6l6LPfxXL8z5nVSGPgBud1ThQtspYlZVA07l08RXogNW0VIj1ME09+DsWJcvy6RT8i
-	Yxfg==
-X-Received: by 10.107.40.85 with SMTP id o82mr13393814ioo.83.1440006788910;
-	Wed, 19 Aug 2015 10:53:08 -0700 (PDT)
+	Wed, 19 Aug 2015 12:56:18 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=bpTv5Rr1k2bBAjHfcwsjGpovT1uXvraPn1SwmEf8FVQ=;
+	b=EY0R8LeT9ktk834apAFOkfSebZ+2ehkPobRjw18BieyOsdKWChYq+DnsFVE7KkTS5I
+	+Cbc1pvWdOrrWF/VzIPA72kAj+vkx53z0hzkJxWdvxcFJA6ov3whfBhU9wHVsS7w5bGd
+	ZNcR7hIH4aJ2anpJbZ14v1XQqBsuozslqRdrHaDXUuIs+1YJC+ipPIiB7wt6ljyZaNr1
+	Jxg6jgqOxlnqx2pngjm+w0u69puvNayeKdMcLsWZaaHPziBnaBkWWTFDjuhSKcML0MHv
+	s5gbQWmT2dyOqdIiDpR/9fQQSWvrSEDrIOzH3wMVw47iA8hFTKP78TQ0WO/D+Qj+VHej
+	lERw==
+X-Gm-Message-State: ALoCoQliIk3FqOZSPTP+2Nj6QTeg5rOkrrnPnEqAYVG09ZdOpRtCD7QxZcDpfDj4K/OKgqPBgT6U
+X-Received: by 10.140.108.244 with SMTP id j107mr12819349qgf.59.1440014178101; 
+	Wed, 19 Aug 2015 12:56:18 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.118.150 with HTTP; Wed, 19 Aug 2015 10:52:49 -0700 (PDT)
-In-Reply-To: <1439991165-13121-3-git-send-email-brendan.le.foll@intel.com>
-References: <1439991165-13121-1-git-send-email-brendan.le.foll@intel.com>
-	<1439991165-13121-3-git-send-email-brendan.le.foll@intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 19 Aug 2015 10:52:49 -0700
-X-Google-Sender-Auth: jGKIbMGrkg-jW_RkSVy1bB8aNfw
-Message-ID: <CABcZANnhYzCmt0yZHayQ4TxQMgQ1DPYwZRAXJMH-9sovCHY6mg@mail.gmail.com>
-To: brendan.le.foll@intel.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] toolchain-shar-extract.sh: better default install path for extensible SDK
+Received: by 10.140.98.67 with HTTP; Wed, 19 Aug 2015 12:55:58 -0700 (PDT)
+In-Reply-To: <5402FBA9-07E4-47CF-983E-E8778B5AE2F6@gmail.com>
+References: <1439787800-21088-1-git-send-email-raj.khem@gmail.com>
+	<CAJTo0LZRWXQOc+SCbL1PeJ9QXn_9WHKDC3y6t+QpJ8-_689Y6w@mail.gmail.com>
+	<5402FBA9-07E4-47CF-983E-E8778B5AE2F6@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Aug 2015 20:55:58 +0100
+Message-ID: <CAJTo0La4nHiHRLzraJdmO1AMSZ9RJGi=WSZAemrcGPFZTsoXrg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4 V2] systemd: Upgrade 219 -> 224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,61 +45,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 17:53:08 -0000
-Content-Type: multipart/alternative; boundary=001a1141f3fc20b6a6051dadb5af
+X-List-Received-Date: Wed, 19 Aug 2015 19:56:20 -0000
+Content-Type: multipart/alternative; boundary=001a113ad8fa8ef9de051daf6db9
 
---001a1141f3fc20b6a6051dadb5af
+--001a113ad8fa8ef9de051daf6db9
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Aug 19, 2015 at 6:32 AM, <brendan.le.foll@intel.com> wrote:
+On 17 August 2015 at 16:41, Khem Raj <raj.khem@gmail.com> wrote:
 
-> From: Brendan Le Foll <brendan.le.foll@intel.com>
+> There are many reasons, for me its overlay support for systemd-nspawn,
+> networkd has got many new features that is now usable w.r.t. IP forwarding,
+> vxlan etc.
+> and it has many bug fixed in those 2000 odd commits since 219, no
+> different then any other package upgrades we do in general it keep the
+> upgrade workload lower as we roll the releases.
+> Any specific concerns ?
 >
-> Extensible SDK cannot be installed as root so by default offer to install
-> it in
-> user's home directory under distro/distro_version replacing the normal SDK
-> version '+' char with a '_' as that's a restricted character for bitbake
 >
-> Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
->
+Can we get an updated patch with a clearer commit log?
 
-Why not use a metadata variable for the default, replacing with @@ as with
-the other metadata variables, rather than hardcoding the default in the .sh
-where it can't be easily overridden by the distro or user?
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+My concerns with the systemd upgrade were simply that until now we were
+tracking the systemd-stable repository.  If we want to change that policy
+to the latest release, that's fine by me.
 
---001a1141f3fc20b6a6051dadb5af
+Anyone else have an opinion here?
+
+Ross
+
+--001a113ad8fa8ef9de051daf6db9
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
-ed, Aug 19, 2015 at 6:32 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:brend=
-an.le.foll@intel.com" target=3D"_blank">brendan.le.foll@intel.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":13e" class=3D"a3=
-s" style=3D"overflow:hidden">From: Brendan Le Foll &lt;<a href=3D"mailto:br=
-endan.le.foll@intel.com">brendan.le.foll@intel.com</a>&gt;<br>
-<br>
-Extensible SDK cannot be installed as root so by default offer to install i=
-t in<br>
-user&#39;s home directory under distro/distro_version replacing the normal =
-SDK<br>
-version &#39;+&#39; char with a &#39;_&#39; as that&#39;s a restricted char=
-acter for <span class=3D"il">bitbake</span><br>
-<br>
-Signed-off-by: Brendan Le Foll &lt;<a href=3D"mailto:brendan.le.foll@intel.=
-com">brendan.le.foll@intel.com</a>&gt;</div></blockquote></div><br>Why not =
-use a metadata variable for the default, replacing with @@ as with the othe=
-r metadata variables, rather than hardcoding the default in the .sh where i=
-t can&#39;t be easily overridden by the distro or user?<br>-- <br><div clas=
-s=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<br>F=
-ounder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior =
-Software Engineer, Mentor Graphics</div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 August 2015 at 16:41, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
+rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div>There are many reasons, for me=
+ its overlay support for systemd-nspawn, networkd has got many new features=
+ that is now usable w.r.t. IP forwarding, vxlan etc.</div><div>and it has m=
+any bug fixed in those 2000 odd commits since 219, no different then any ot=
+her package upgrades we do in general it keep the upgrade workload lower as=
+ we roll the releases.=C2=A0</div><div>Any specific concerns ?</div><blockq=
+uote type=3D"cite"><div><div dir=3D"ltr"><div class=3D"gmail_extra"><div cl=
+ass=3D"gmail_quote"><div></div></div></div></div></div></blockquote></block=
+quote></div><br>Can we get an updated patch with a clearer commit log?</div=
+><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">My concern=
+s with the systemd upgrade were simply that until now we were tracking the =
+systemd-stable repository.=C2=A0 If we want to change that policy to the la=
+test release, that&#39;s fine by me.</div><div class=3D"gmail_extra"><br></=
+div><div class=3D"gmail_extra">Anyone else have an opinion here?</div><div =
+class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
---001a1141f3fc20b6a6051dadb5af--
+--001a113ad8fa8ef9de051daf6db9--
