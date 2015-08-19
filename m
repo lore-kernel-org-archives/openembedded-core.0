@@ -1,53 +1,24 @@
-Return-Path: <anders@chargestorm.se>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 27FAE73CC7
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2112C73CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 07:10:06 +0000 (UTC)
-Received: by laba3 with SMTP id a3so10096945lab.1
+	Wed, 19 Aug 2015 07:29:31 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7J7TVYZ009786
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 00:10:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:date:from:to:subject:message-id:mail-followup-to
-	:references:mime-version:content-type:content-disposition
-	:in-reply-to:organization:user-agent;
-	bh=MPKzSpdHoy35UPVChRlv+H0ZWnKTkHKflTv66Bd8IGI=;
-	b=e08q7eZyHEVdzscHLgYdoRqqFyqWOU6Xpfhlw8i0ZrvTIr+siPs/jZseVb9ancbZPM
-	65vFcsr7MVKPOYu5PZ1ItgvTkwjP95lzyXz3U6WkVAEMlwFI5rxnxwAwcSiGmDkst4r7
-	XxCrtMuBwlVB8mQuXz/gpq/2OkvaERQYUDD/HnLIefbuZI08Cc+Q+2z4WuQ4m0sjXoj9
-	DGDBdlbhVP28MFdtIerQj6UwHPHIP7NFjuL5/y3dlT4MhAMYFKH1oq9BmOOqfNAqAEfY
-	qGUWrf4NFNBJnHlJD3hw0vU+NZy3givgGUkjhBQB39THXbbqOB4N3HOO0OfaNEOvN8Sc
-	P2jA==
-X-Gm-Message-State: ALoCoQk/EPo56HUpEZNAcBm836L2QTucMR+4OOfxe1GuHyinyr5G4DYeWkuLqKgnUcs7fJsRHGn1
-X-Received: by 10.152.7.101 with SMTP id i5mr1475697laa.63.1439968204956;
-	Wed, 19 Aug 2015 00:10:04 -0700 (PDT)
-Received: from ad.chargestorm.se (213-64-219-84-no126.business.telia.com.
-	[213.64.219.84]) by smtp.gmail.com with ESMTPSA id
-	cy1sm5612415lac.22.2015.08.19.00.10.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Aug 2015 00:10:04 -0700 (PDT)
-Date: Wed, 19 Aug 2015 09:10:02 +0200
-From: Anders Darander <anders@chargestorm.se>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20150819071002.GA10916@ad.chargestorm.se>
-Mail-Followup-To: openembedded-core@lists.openembedded.org
-References: <365E1805BC95084CBE82381A0B869994E73E4FE9@EU-MBX-03.mgc.mentorg.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16CFA7F5@IRSMSX105.ger.corp.intel.com>
-	<CAP71WjyESzCxJrJsxgSk0ZxnM8q0tQYU+CFmm-QVQGVouYWB+A@mail.gmail.com>
-	<CABcZANkgxRSRA9afEaOD0cpeNzzSAti_Ef9D4V4ThoJkQzwmgg@mail.gmail.com>
-	<CABcZANmjXndEm+OF8aKvSgHwkiOMuFgHrrJy97CYLpDNtZxCmg@mail.gmail.com>
-	<CABcZAN==rSZ2M4f_2-eZ5yvAaHV+k=rC8pgRju425151ijWMZw@mail.gmail.com>
+	Wed, 19 Aug 2015 00:29:31 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Wed, 19 Aug 2015 00:29:31 -0700
+From: <wenzong.fan@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Aug 2015 03:29:27 -0400
+Message-ID: <cover.1439967611.git.wenzong.fan@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CABcZAN==rSZ2M4f_2-eZ5yvAaHV+k=rC8pgRju425151ijWMZw@mail.gmail.com>
-X-Accept-Language: sv, en, de
-X-GPG-Fingerprint: 5AF0 B2E9 78FE 9D75 D110  6F8F 3E31 84D7 920E 938C
-X-GPG-Key-Id: 0x920E938C
-X-GPG-Keyserver: hkp://keys.gnupg.net
-Organization: ChargeStorm AB
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: iw in place of wireless-tools
+Subject: [PATCH 0/2] libcap-ng, swig: add packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,27 +31,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 07:10:08 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Aug 2015 07:29:35 -0000
+Content-Type: text/plain
 
-* Christopher Larson <clarson@kergoth.com> [150818 18:00]:
-> On Tue, Aug 18, 2015 at 8:53 AM, Christopher Larson <clarson@kergoth.com>
-> wrote:
-> > Bringing this back up again, as I think we really need to at the *very*
-> > least pull in iw from meta-oe into oe-core, and adjust packagegroup-base
-> > (worst case, with a VIRTUAL-RUNTIME), and better yet also drop
-> > wireless-tools / move it to meta-networking.
+From: Wenzong Fan <wenzong.fan@windriver.com>
 
-> Worst case, we could keep both in VIRTUAL-RUNTIME for compatibility, as a
-> temporary measure, but I think we need to get iw into oe-core and into the
-> base images for sure.
+Add packages libcap-ng and swig.
 
-Yes, we should get iw into oe-core. So, I agree completely with this.
+They are from meta-oe and with adding them to oe-core, the copies from
+multiple layers could be removed: meta-oe, meta-selinux ...
 
-/Anders
+* The swig is depended by libcap-ng to build python bindings
+
+* The libcap-ng library is intended to make programming with posix
+  capabilities much easier than the traditional libcap library.
+    
+  It's not a replacement to libcap, it provides different library
+  (libcap-ng.so) while packages explicitly look for libcap.so. It
+  could be used by qemu, util-linux, libvirt, audit ... to work
+  with posix capabilities.
+
+The following changes since commit c348fa50186fb0796bc7b793c4b8d710419f2a0d:
+
+  bitbake: toaster: move code from setup_lv_tests to setUp (2015-08-17 14:41:45 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib wenzong/libcap-ng
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=wenzong/libcap-ng
+
+Wenzong Fan (2):
+  swig: add package 3.0.2
+  libcap-ng: add package 0.7.7
+
+ meta/recipes-devtools/swig/swig.inc                | 63 ++++++++++++++++++++
+ ...lf-exe-for-swig-swiglib-on-non-Win32-plat.patch | 69 ++++++++++++++++++++++
+ ...nfigure-use-pkg-config-for-pcre-detection.patch | 64 ++++++++++++++++++++
+ meta/recipes-devtools/swig/swig_3.0.2.bb           |  8 +++
+ .../libcap-ng/libcap-ng/python.patch               | 58 ++++++++++++++++++
+ meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb  | 39 ++++++++++++
+ 6 files changed, 301 insertions(+)
+ create mode 100644 meta/recipes-devtools/swig/swig.inc
+ create mode 100644 meta/recipes-devtools/swig/swig/0001-Use-proc-self-exe-for-swig-swiglib-on-non-Win32-plat.patch
+ create mode 100644 meta/recipes-devtools/swig/swig/0001-configure-use-pkg-config-for-pcre-detection.patch
+ create mode 100644 meta/recipes-devtools/swig/swig_3.0.2.bb
+ create mode 100644 meta/recipes-support/libcap-ng/libcap-ng/python.patch
+ create mode 100644 meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
 
 -- 
-Anders Darander
-ChargeStorm AB / eStorm AB
+1.9.1
+
 
