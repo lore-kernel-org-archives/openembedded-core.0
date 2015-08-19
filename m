@@ -1,38 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
-	[209.85.192.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DEFD73CC7
+Return-Path: <Nathan_Lynch@mentor.com>
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E3AD73CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 19:56:18 +0000 (UTC)
-Received: by qgj62 with SMTP id 62so13064791qgj.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 12:56:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=bpTv5Rr1k2bBAjHfcwsjGpovT1uXvraPn1SwmEf8FVQ=;
-	b=EY0R8LeT9ktk834apAFOkfSebZ+2ehkPobRjw18BieyOsdKWChYq+DnsFVE7KkTS5I
-	+Cbc1pvWdOrrWF/VzIPA72kAj+vkx53z0hzkJxWdvxcFJA6ov3whfBhU9wHVsS7w5bGd
-	ZNcR7hIH4aJ2anpJbZ14v1XQqBsuozslqRdrHaDXUuIs+1YJC+ipPIiB7wt6ljyZaNr1
-	Jxg6jgqOxlnqx2pngjm+w0u69puvNayeKdMcLsWZaaHPziBnaBkWWTFDjuhSKcML0MHv
-	s5gbQWmT2dyOqdIiDpR/9fQQSWvrSEDrIOzH3wMVw47iA8hFTKP78TQ0WO/D+Qj+VHej
-	lERw==
-X-Gm-Message-State: ALoCoQliIk3FqOZSPTP+2Nj6QTeg5rOkrrnPnEqAYVG09ZdOpRtCD7QxZcDpfDj4K/OKgqPBgT6U
-X-Received: by 10.140.108.244 with SMTP id j107mr12819349qgf.59.1440014178101; 
-	Wed, 19 Aug 2015 12:56:18 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Wed, 19 Aug 2015 12:55:58 -0700 (PDT)
-In-Reply-To: <5402FBA9-07E4-47CF-983E-E8778B5AE2F6@gmail.com>
-References: <1439787800-21088-1-git-send-email-raj.khem@gmail.com>
-	<CAJTo0LZRWXQOc+SCbL1PeJ9QXn_9WHKDC3y6t+QpJ8-_689Y6w@mail.gmail.com>
-	<5402FBA9-07E4-47CF-983E-E8778B5AE2F6@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 19 Aug 2015 20:55:58 +0100
-Message-ID: <CAJTo0La4nHiHRLzraJdmO1AMSZ9RJGi=WSZAemrcGPFZTsoXrg@mail.gmail.com>
+	Wed, 19 Aug 2015 19:59:11 +0000 (UTC)
+Received: from svr-orw-fem-04.mgc.mentorg.com ([147.34.97.41])
+	by relay1.mentorg.com with esmtp 
+	id 1ZS9ea-00027B-UB from Nathan_Lynch@mentor.com ;
+	Wed, 19 Aug 2015 13:08:08 -0700
+Received: from [172.30.80.73] (147.34.91.1) by SVR-ORW-FEM-04.mgc.mentorg.com
+	(147.34.97.41) with Microsoft SMTP Server id 14.3.224.2;
+	Wed, 19 Aug 2015 12:59:10 -0700
 To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4 V2] systemd: Upgrade 219 -> 224
+References: <1440006296-15277-1-git-send-email-raj.khem@gmail.com>
+From: Nathan Lynch <Nathan_Lynch@mentor.com>
+Message-ID: <55D4E00C.9060601@mentor.com>
+Date: Wed, 19 Aug 2015 14:59:08 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
+MIME-Version: 1.0
+In-Reply-To: <1440006296-15277-1-git-send-email-raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel-arch: Force BFD kernel when using gcc for linking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,55 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 19:56:20 -0000
-Content-Type: multipart/alternative; boundary=001a113ad8fa8ef9de051daf6db9
+X-List-Received-Date: Wed, 19 Aug 2015 19:59:11 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
---001a113ad8fa8ef9de051daf6db9
-Content-Type: text/plain; charset=UTF-8
+On 08/19/2015 12:44 PM, Khem Raj wrote:
+> We redefine LD to point to ld.bfd when building kernel, which works in
+> most cases since kbuild system calls out for bare LD most of the time,
+> however some of newer kernels e.g. 4.1+ have some code added which can
+> call gcc directly to do the linking job e.g. arm vdso code
+> 
+> This causes build failures when we have configured the default cross
+> toolchain to use gold linker as default. Errors like
+> 
+> BFD: arch/arm/vdso/vdso.so: Not enough room for program headers, try
+> linking with -N
+> | arm-angstrom-linux-gnueabi-objcopy:arch/arm/vdso/vdso.so[.hash]: Bad
+> value
+> 
+> start happening.
+> 
+> With this patch we force gcc to choose bfd linker as well
 
-On 17 August 2015 at 16:41, Khem Raj <raj.khem@gmail.com> wrote:
 
-> There are many reasons, for me its overlay support for systemd-nspawn,
-> networkd has got many new features that is now usable w.r.t. IP forwarding,
-> vxlan etc.
-> and it has many bug fixed in those 2000 odd commits since 219, no
-> different then any other package upgrades we do in general it keep the
-> upgrade workload lower as we roll the releases.
-> Any specific concerns ?
->
->
-Can we get an updated patch with a clearer commit log?
+This is fixed upstream as of:
 
-My concerns with the systemd upgrade were simply that until now we were
-tracking the systemd-stable repository.  If we want to change that policy
-to the latest release, that's fine by me.
+commit d2b30cd4b7223a96e606dfc8120626f66d81e091
+Author: Nathan Lynch <nathan_lynch@mentor.com>
+Date:   Wed Jun 3 00:41:15 2015 +0100
 
-Anyone else have an opinion here?
+    ARM: 8384/1: VDSO: force use of BFD linker
 
-Ross
+which should make it to 4.1-stable soon.
 
---001a113ad8fa8ef9de051daf6db9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 August 2015 at 16:41, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div>There are many reasons, for me=
- its overlay support for systemd-nspawn, networkd has got many new features=
- that is now usable w.r.t. IP forwarding, vxlan etc.</div><div>and it has m=
-any bug fixed in those 2000 odd commits since 219, no different then any ot=
-her package upgrades we do in general it keep the upgrade workload lower as=
- we roll the releases.=C2=A0</div><div>Any specific concerns ?</div><blockq=
-uote type=3D"cite"><div><div dir=3D"ltr"><div class=3D"gmail_extra"><div cl=
-ass=3D"gmail_quote"><div></div></div></div></div></div></blockquote></block=
-quote></div><br>Can we get an updated patch with a clearer commit log?</div=
-><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">My concern=
-s with the systemd upgrade were simply that until now we were tracking the =
-systemd-stable repository.=C2=A0 If we want to change that policy to the la=
-test release, that&#39;s fine by me.</div><div class=3D"gmail_extra"><br></=
-div><div class=3D"gmail_extra">Anyone else have an opinion here?</div><div =
-class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a113ad8fa8ef9de051daf6db9--
