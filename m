@@ -1,47 +1,34 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
-	[209.85.213.173])
-	by mail.openembedded.org (Postfix) with ESMTP id B8F8E73CC7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
+	[209.85.223.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 01F0E76A64
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 17:43:47 +0000 (UTC)
-Received: by igfj19 with SMTP id j19so114067259igf.0
+	Wed, 19 Aug 2015 17:45:02 +0000 (UTC)
+Received: by iods203 with SMTP id s203so17806683iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 10:43:47 -0700 (PDT)
+	Wed, 19 Aug 2015 10:45:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=ORbVvuyywwegSOjfN0ofJT2XRmCkxSXikJYr/i6rNzs=;
-	b=0Nsf4VG4KPakYdOHkt+Lpchcw2+sg+0ZC+8FFCSljl8GDJYOJRASDdhFK19XAi2IBW
-	///yQtJBJYajT5BeWwfOGUB7bBU1sGrEUNC6Hj+w3+5bIT4BNYl+lH98rUElWeRA4s11
-	KLDAO1ku59gjghN3VN/CVR2H5U2mT8opFoDaJIwj8qZqkbCM0AE4tQMVCVNX/mBHwGSu
-	vPSpyTMAM+aeAh9InfqWRyHJqfqMUYE7ThidOUVRZyYu2LIGTFk8hV/SlxzbP8Ge1YeK
-	/w87M0KDIdJbp/s5uhwdboEWBu04OoFY7r2AnjEBR1wFUhZdbBzFky6XgNeja6CpQbt0
-	XOFQ==
-X-Received: by 10.50.138.76 with SMTP id qo12mr3284048igb.38.1440006227281;
-	Wed, 19 Aug 2015 10:43:47 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.118.150 with HTTP; Wed, 19 Aug 2015 10:43:27 -0700 (PDT)
-In-Reply-To: <CAJTo0LZLL+ui3GEG7HeC7y+JxWdmBXaYwWEzbQB3DZU3ypfckw@mail.gmail.com>
-References: <365E1805BC95084CBE82381A0B869994E73E4FE9@EU-MBX-03.mgc.mentorg.com>
-	<969F26A8BAB325438E7EB80D3C3134FB16CFA7F5@IRSMSX105.ger.corp.intel.com>
-	<CAP71WjyESzCxJrJsxgSk0ZxnM8q0tQYU+CFmm-QVQGVouYWB+A@mail.gmail.com>
-	<CABcZANkgxRSRA9afEaOD0cpeNzzSAti_Ef9D4V4ThoJkQzwmgg@mail.gmail.com>
-	<CABcZANmjXndEm+OF8aKvSgHwkiOMuFgHrrJy97CYLpDNtZxCmg@mail.gmail.com>
-	<CABcZAN==rSZ2M4f_2-eZ5yvAaHV+k=rC8pgRju425151ijWMZw@mail.gmail.com>
-	<20150819071002.GA10916@ad.chargestorm.se>
-	<CAJTo0LaoZcQ+398vYS-iaVssQnAVHr0cJCY4izC8=T73nWy4rQ@mail.gmail.com>
-	<CAP9ODKok+TydzwtDA7o9YRS_tVEqffMPWAJtgPPPsbAjv5XpBA@mail.gmail.com>
-	<CAJTo0LZLL+ui3GEG7HeC7y+JxWdmBXaYwWEzbQB3DZU3ypfckw@mail.gmail.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Wed, 19 Aug 2015 10:43:27 -0700
-X-Google-Sender-Auth: 0EklnbNC-mGlmwg0yhRg7yE3Ago
-Message-ID: <CABcZANmxXgLG7HCxedbXq=1KcwOcbY-CJV4fF1gcB_TNweSEug@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: iw in place of wireless-tools
+	h=from:to:cc:subject:date:message-id;
+	bh=vorK6PAlvOwZDU/VTS6/GtVRnsQfMgdYXvDBhEtdsBg=;
+	b=mUlw98z0Bw51nmF7mO8ASM0VIkwycV7U8x1oLH5xrhDMPA8n8JYGFl9jEdheLRT1pa
+	2XF9a+K1Ks1HRRQ75sZ6gtt2zogo0a1hGoHtfWzU0umcWA15mCzvTnCSNRkgCzV8T7n5
+	PnoDs7I97+meR5RoD+JCtAKgDGLtnd3Ecr2gmjWHM21mSsGIA3Ry/Hx2yvo1fuzyDZbW
+	Xlnx569RAlb7idP+pssRPbTn1eUzFYM2+kQU+QfmQa1MiQijwtJqij0C4xIT0aps4yJP
+	0OINK+B7wo5LOEXVvA1tjEGGsw1hBrnVUEilDa/Ozp/RpFq1P5fZH/fMvf7zPyFaOomV
+	oQXA==
+X-Received: by 10.107.164.92 with SMTP id n89mr14406746ioe.91.1440006302708;
+	Wed, 19 Aug 2015 10:45:02 -0700 (PDT)
+Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
+	[96.119.89.79]) by smtp.gmail.com with ESMTPSA id
+	bd7sm2633341igb.19.2015.08.19.10.45.02
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 19 Aug 2015 10:45:02 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Aug 2015 10:44:56 -0700
+Message-Id: <1440006296-15277-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] kernel-arch: Force BFD kernel when using gcc for linking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,79 +41,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 17:43:47 -0000
-Content-Type: multipart/alternative; boundary=001a1134b964a6f78a051dad9314
+X-List-Received-Date: Wed, 19 Aug 2015 17:45:03 -0000
 
---001a1134b964a6f78a051dad9314
-Content-Type: text/plain; charset=UTF-8
+We redefine LD to point to ld.bfd when building kernel, which works in
+most cases since kbuild system calls out for bare LD most of the time,
+however some of newer kernels e.g. 4.1+ have some code added which can
+call gcc directly to do the linking job e.g. arm vdso code
 
-On Wed, Aug 19, 2015 at 4:56 AM, Burton, Ross <ross.burton@intel.com> wrote:
+This causes build failures when we have configured the default cross
+toolchain to use gold linker as default. Errors like
 
-> On 19 August 2015 at 12:35, Otavio Salvador <
-> otavio.salvador@ossystems.com.br> wrote:
->
->> Em 19/08/2015 12:26, "Burton, Ross" <ross.burton@intel.com> escreveu:
->> >
->> > And now for the elephant in the room: is anyone going to work on this?
->> :)
->>
->> I can ask our people to work on this.
->>
->> Is there a bug number to assign for me?
->>
-> Not as far as I'm aware.  Note that M3 cut-off is fairly soon (August 23rd,
-> technically) and this would count as a Feature so switching to iw would be
-> out of scope for M4.
+BFD: arch/arm/vdso/vdso.so: Not enough room for program headers, try
+linking with -N
+| arm-angstrom-linux-gnueabi-objcopy:arch/arm/vdso/vdso.so[.hash]: Bad
+value
 
+start happening.
 
-While we're at it, we should enable ip/ss/etc in busybox and decide whether
-to keep netstat/ifconfig/route enabled there alongside them (I'd vote no,
-personally, but don't feel very strongly about it), and drop net-tools from
-full tools packagegroups in favor of iproute2.
+With this patch we force gcc to choose bfd linker as well
 
-If nobody else gets to it, I might be able to find the time.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/kernel-arch.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
+index 6650870..211b72b 100644
+--- a/meta/classes/kernel-arch.bbclass
++++ b/meta/classes/kernel-arch.bbclass
+@@ -53,7 +53,7 @@ HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
+ TARGET_AR_KERNEL_ARCH ?= ""
+ HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
+ 
+-KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH}"
++KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd"
+ KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
+ KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
+ 
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+2.1.4
 
---001a1134b964a6f78a051dad9314
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
-ed, Aug 19, 2015 at 4:56 AM, Burton, Ross <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><div>On 19 August 2=
-015 at 12:35, Otavio Salvador <span dir=3D"ltr">&lt;<a href=3D"mailto:otavi=
-o.salvador@ossystems.com.br" target=3D"_blank">otavio.salvador@ossystems.co=
-m.br</a>&gt;</span> wrote:<div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
-eft:1ex"><p dir=3D"ltr"><span>
-Em 19/08/2015 12:26, &quot;Burton, Ross&quot; &lt;<a href=3D"mailto:ross.bu=
-rton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; escreveu:<b=
-r>
-&gt;<br></span><span>
-&gt; And now for the elephant in the room: is anyone going to work on this?=
- :)</span></p>
-<p dir=3D"ltr">I can ask our people to work on this.</p>
-<p dir=3D"ltr">Is there a bug number to assign for me?<br>
-</p>
-</blockquote></div></div></div>Not as far as I&#39;m aware.=C2=A0 Note that=
- M3 cut-off is fairly soon (<span><span>August 23rd</span></span>, technica=
-lly) and this would count as a Feature so switching to iw would be out of s=
-cope for M4.</blockquote></div><br>While we&#39;re at it, we should enable =
-ip/ss/etc in busybox and decide whether to keep netstat/ifconfig/route enab=
-led there alongside them (I&#39;d vote no, personally, but don&#39;t feel v=
-ery strongly about it), and drop net-tools from full tools packagegroups in=
- favor of iproute2.</div><div class=3D"gmail_extra"><br></div><div class=3D=
-"gmail_extra">If nobody else gets to it, I might be able to find the time.<=
-br>-- <br><div>Christopher Larson<br>clarson at kergoth dot com<br>Founder =
-- BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Softwar=
-e Engineer, Mentor Graphics</div>
-</div></div>
-
---001a1134b964a6f78a051dad9314--
