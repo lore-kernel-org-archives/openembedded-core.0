@@ -1,34 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 01F0E76A64
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id B9AEB75E81
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 17:45:02 +0000 (UTC)
-Received: by iods203 with SMTP id s203so17806683iod.0
+	Wed, 19 Aug 2015 17:53:08 +0000 (UTC)
+Received: by iodb91 with SMTP id b91so17966373iod.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 10:45:02 -0700 (PDT)
+	Wed, 19 Aug 2015 10:53:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=vorK6PAlvOwZDU/VTS6/GtVRnsQfMgdYXvDBhEtdsBg=;
-	b=mUlw98z0Bw51nmF7mO8ASM0VIkwycV7U8x1oLH5xrhDMPA8n8JYGFl9jEdheLRT1pa
-	2XF9a+K1Ks1HRRQ75sZ6gtt2zogo0a1hGoHtfWzU0umcWA15mCzvTnCSNRkgCzV8T7n5
-	PnoDs7I97+meR5RoD+JCtAKgDGLtnd3Ecr2gmjWHM21mSsGIA3Ry/Hx2yvo1fuzyDZbW
-	Xlnx569RAlb7idP+pssRPbTn1eUzFYM2+kQU+QfmQa1MiQijwtJqij0C4xIT0aps4yJP
-	0OINK+B7wo5LOEXVvA1tjEGGsw1hBrnVUEilDa/Ozp/RpFq1P5fZH/fMvf7zPyFaOomV
-	oQXA==
-X-Received: by 10.107.164.92 with SMTP id n89mr14406746ioe.91.1440006302708;
-	Wed, 19 Aug 2015 10:45:02 -0700 (PDT)
-Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
-	[96.119.89.79]) by smtp.gmail.com with ESMTPSA id
-	bd7sm2633341igb.19.2015.08.19.10.45.02
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 19 Aug 2015 10:45:02 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Aug 2015 10:44:56 -0700
-Message-Id: <1440006296-15277-1-git-send-email-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] kernel-arch: Force BFD kernel when using gcc for linking
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=tpgs7/8A9ltiE0cOl5DXvx95oO2EoXKkKv76WkhCIWo=;
+	b=NLiPZzpaunXX5OJC19vti0aFaOoWT/qQcqy9ynUXOJzsIJlIRwSQjjQkCyeiWsISHG
+	Rx6UzpuDbspFzC3fK9VdJ0Odd13yAE+oSGz446ryPaqs3RK3tZL6XbAADnjclnnwNN74
+	JmCamc2IFq/vYKl5/aMXG2ticputyIPCZrJSuc+Q0UuPqOV1tL4SFYfkVFW+jc/CAnAQ
+	D6PAbzI8fTO0M1TTUk1mbB7Y5mbKM6EwUTAkovETDmWXlcVIL4c7XSDbK3R+95XpFzfi
+	+H6l6LPfxXL8z5nVSGPgBud1ThQtspYlZVA07l08RXogNW0VIj1ME09+DsWJcvy6RT8i
+	Yxfg==
+X-Received: by 10.107.40.85 with SMTP id o82mr13393814ioo.83.1440006788910;
+	Wed, 19 Aug 2015 10:53:08 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.118.150 with HTTP; Wed, 19 Aug 2015 10:52:49 -0700 (PDT)
+In-Reply-To: <1439991165-13121-3-git-send-email-brendan.le.foll@intel.com>
+References: <1439991165-13121-1-git-send-email-brendan.le.foll@intel.com>
+	<1439991165-13121-3-git-send-email-brendan.le.foll@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 19 Aug 2015 10:52:49 -0700
+X-Google-Sender-Auth: jGKIbMGrkg-jW_RkSVy1bB8aNfw
+Message-ID: <CABcZANnhYzCmt0yZHayQ4TxQMgQ1DPYwZRAXJMH-9sovCHY6mg@mail.gmail.com>
+To: brendan.le.foll@intel.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] toolchain-shar-extract.sh: better default install path for extensible SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,44 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 17:45:03 -0000
+X-List-Received-Date: Wed, 19 Aug 2015 17:53:08 -0000
+Content-Type: multipart/alternative; boundary=001a1141f3fc20b6a6051dadb5af
 
-We redefine LD to point to ld.bfd when building kernel, which works in
-most cases since kbuild system calls out for bare LD most of the time,
-however some of newer kernels e.g. 4.1+ have some code added which can
-call gcc directly to do the linking job e.g. arm vdso code
+--001a1141f3fc20b6a6051dadb5af
+Content-Type: text/plain; charset=UTF-8
 
-This causes build failures when we have configured the default cross
-toolchain to use gold linker as default. Errors like
+On Wed, Aug 19, 2015 at 6:32 AM, <brendan.le.foll@intel.com> wrote:
 
-BFD: arch/arm/vdso/vdso.so: Not enough room for program headers, try
-linking with -N
-| arm-angstrom-linux-gnueabi-objcopy:arch/arm/vdso/vdso.so[.hash]: Bad
-value
+> From: Brendan Le Foll <brendan.le.foll@intel.com>
+>
+> Extensible SDK cannot be installed as root so by default offer to install
+> it in
+> user's home directory under distro/distro_version replacing the normal SDK
+> version '+' char with a '_' as that's a restricted character for bitbake
+>
+> Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+>
 
-start happening.
-
-With this patch we force gcc to choose bfd linker as well
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/kernel-arch.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index 6650870..211b72b 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -53,7 +53,7 @@ HOST_LD_KERNEL_ARCH ?= "${TARGET_LD_KERNEL_ARCH}"
- TARGET_AR_KERNEL_ARCH ?= ""
- HOST_AR_KERNEL_ARCH ?= "${TARGET_AR_KERNEL_ARCH}"
- 
--KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH}"
-+KERNEL_CC = "${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd"
- KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
- KERNEL_AR = "${CCACHE}${HOST_PREFIX}ar ${HOST_AR_KERNEL_ARCH}"
- 
+Why not use a metadata variable for the default, replacing with @@ as with
+the other metadata variables, rather than hardcoding the default in the .sh
+where it can't be easily overridden by the distro or user?
 -- 
-2.1.4
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--001a1141f3fc20b6a6051dadb5af
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On W=
+ed, Aug 19, 2015 at 6:32 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:brend=
+an.le.foll@intel.com" target=3D"_blank">brendan.le.foll@intel.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":13e" class=3D"a3=
+s" style=3D"overflow:hidden">From: Brendan Le Foll &lt;<a href=3D"mailto:br=
+endan.le.foll@intel.com">brendan.le.foll@intel.com</a>&gt;<br>
+<br>
+Extensible SDK cannot be installed as root so by default offer to install i=
+t in<br>
+user&#39;s home directory under distro/distro_version replacing the normal =
+SDK<br>
+version &#39;+&#39; char with a &#39;_&#39; as that&#39;s a restricted char=
+acter for <span class=3D"il">bitbake</span><br>
+<br>
+Signed-off-by: Brendan Le Foll &lt;<a href=3D"mailto:brendan.le.foll@intel.=
+com">brendan.le.foll@intel.com</a>&gt;</div></blockquote></div><br>Why not =
+use a metadata variable for the default, replacing with @@ as with the othe=
+r metadata variables, rather than hardcoding the default in the .sh where i=
+t can&#39;t be easily overridden by the distro or user?<br>-- <br><div clas=
+s=3D"gmail_signature">Christopher Larson<br>clarson at kergoth dot com<br>F=
+ounder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior =
+Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--001a1141f3fc20b6a6051dadb5af--
