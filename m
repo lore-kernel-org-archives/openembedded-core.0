@@ -1,37 +1,37 @@
 Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CC1873CC7
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4714173CC7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 20:23:22 +0000 (UTC)
-Received: by igfj19 with SMTP id j19so117520489igf.0
+	Wed, 19 Aug 2015 20:26:30 +0000 (UTC)
+Received: by iodt126 with SMTP id t126so23040571iod.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 13:23:23 -0700 (PDT)
+	Wed, 19 Aug 2015 13:26:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=googlemail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=afuNNMoRH4245qGcDiNrWikILQBhxG2MpOTRAPe/2OY=;
-	b=rsdVPXtbPE1ageymbVgfRYFSgzU3ISslY4B4//256MWjuO05KojWfe2bQFEZOFUlZb
-	uSa+MzkODtiqp+c/1oYLUXJ2M0IUrfNdmp0ebfqNOGzS34uMdbdP53aC14vQId7GPWJb
-	KV3/5fodzz9jYFAqxj2La+MIj//JRayOERfZyDbXNo7kFsrUqNd4juLl8bszuml5EigD
-	8b56+KfaAj3vdgUgq2OUTDNMkzTecoq4CMbywla6qX5C9zYe1Vkn11js39QnK+jRbykb
-	PCufj9ho09uGPZpqRG21K9tB6aCg1yZ1OOdSrvDpyr1NzIabS369niY9jnZvG7iMHk2/
-	gWuA==
+	bh=xdPs+bPPnWuPs30bW3pI2oStTYt/nji+SIaYxtbQtOw=;
+	b=icIIJlU0pbH8/PY8maH8Q8Q+THp8FJe24EDFggQG/U2Feff7FihYCfyb+wvsV2N/SC
+	zl77FHaBQXJTS1iCyaS6Rw5Ot5Q8o6R/Z0/nrx8Vgae/JJEGAnis+nt/FRHFxYR9tUnN
+	GXn0Pr/KB+beiQXVitkLurvqFU7s6Qz23kNGUY4i5VNFK7hhfOP/AUannEKTANd8od+c
+	ZoDqDmpDlqY1Kni2arrvHw9qfihJ6aCBVsEMEX6a8iSZpHGRJx1J1A0fBP2QNFtHBDMK
+	i8iNVR+l4fuuiQjfY9nFpHCjBQTnI3SdEiLXW3tzr3dFmWBJ7ZLAGIgQHDKXueESIuBC
+	BKwg==
 MIME-Version: 1.0
-X-Received: by 10.50.153.75 with SMTP id ve11mr28344188igb.52.1440015803208;
-	Wed, 19 Aug 2015 13:23:23 -0700 (PDT)
-Received: by 10.36.98.5 with HTTP; Wed, 19 Aug 2015 13:23:23 -0700 (PDT)
-In-Reply-To: <68fe672e09b44fb814b733199c4058e3cce78bf0.1439991562.git.alexander.kanavin@linux.intel.com>
+X-Received: by 10.107.6.166 with SMTP id f38mr13439737ioi.148.1440015990605;
+	Wed, 19 Aug 2015 13:26:30 -0700 (PDT)
+Received: by 10.36.98.5 with HTTP; Wed, 19 Aug 2015 13:26:30 -0700 (PDT)
+In-Reply-To: <5d7a87b67d76994b2a71bcb40d256e22304c6f31.1439991562.git.alexander.kanavin@linux.intel.com>
 References: <cover.1439991562.git.alexander.kanavin@linux.intel.com>
-	<68fe672e09b44fb814b733199c4058e3cce78bf0.1439991562.git.alexander.kanavin@linux.intel.com>
-Date: Wed, 19 Aug 2015 22:23:23 +0200
-Message-ID: <CALbNGRTnJfkUDJSyH4-v3642e_=ea3m4-JAb6znDLUbpn0w+yQ@mail.gmail.com>
+	<5d7a87b67d76994b2a71bcb40d256e22304c6f31.1439991562.git.alexander.kanavin@linux.intel.com>
+Date: Wed, 19 Aug 2015 22:26:30 +0200
+Message-ID: <CALbNGRSyp39S0FcAsGw+EXHp85GaU=HAW9OKJQi0Ta4WeFnHQA@mail.gmail.com>
 From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/22] libnotify: update to version 0.7.6
+Subject: Re: [PATCH 17/22] glib: add a warning suppression patch to glib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,70 +44,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 20:23:26 -0000
+X-List-Received-Date: Wed, 19 Aug 2015 20:26:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On Wed, Aug 19, 2015 at 3:40 PM, Alexander Kanavin
 <alexander.kanavin@linux.intel.com> wrote:
-> New webkit requires at least version 0.7
+> Otherwise QA check will fail.
+> Some schemas in gsettings-desktop-schemas (such as proxy and locale)
+> are still using deprecated paths, as of 3.16.1. This causes warning
+> messages, and meta/lib/oe/rootfs.py complaints about them.
 >
 > Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 > ---
->  meta/recipes-gnome/libnotify/libnotify_0.6.0.bb | 21 ---------------------
->  meta/recipes-gnome/libnotify/libnotify_0.7.6.bb | 12 ++++++++++++
->  2 files changed, 12 insertions(+), 21 deletions(-)
->  delete mode 100644 meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
->  create mode 100644 meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+>  ...warning-about-deprecated-paths-in-schemas.patch | 32 ++++++++++++++++++++++
+>  meta/recipes-core/glib-2.0/glib-2.0_2.44.1.bb      |  1 +
+>  2 files changed, 33 insertions(+)
+>  create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
 >
-> diff --git a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-> deleted file mode 100644
-> index e6ee89b..0000000
-> --- a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-> +++ /dev/null
-> @@ -1,21 +0,0 @@
-> -SUMMARY = "Library for sending desktop notifications to a notification daemon"
-> -SECTION = "libs"
-> -LICENSE = "LGPLv2.1"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-> -
-> -PR = "r1"
-> -
-> -DEPENDS = "dbus gtk+ dbus-glib"
-> -
-> -inherit gnomebase distro_features_check
-> -
-> -# Requires gdk/gdkx.h which is provided by gtk when x11 in DISTRO_FEATURES
-> -REQUIRED_DISTRO_FEATURES = "x11"
-> -
-> -SRC_URI[archive.md5sum] = "732c9d2cd5eb6a9069264a319d330516"
-> -SRC_URI[archive.sha256sum] = "73b16a79bb2fed62dcf146b11c4405776cb96a09dce66379ca541da7dbd64210"
-> -
-> -do_configure_prepend() {
-> -    sed -i /GTK3/d ${S}/configure.ac
-> -    sed -i -e /test-gtk3/d -e 's/test-xy-stress \\/test-xy-stress/' ${S}/tests/Makefile.am
-> -}
-> diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
 > new file mode 100644
-> index 0000000..5d7b4ce
+> index 0000000..54e830c
 > --- /dev/null
-> +++ b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
-> @@ -0,0 +1,12 @@
-> +SUMMARY = "Library for sending desktop notifications to a notification daemon"
-> +SECTION = "libs"
-> +LICENSE = "LGPLv2.1"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-Remove-the-warning-about-deprecated-paths-in-schemas.patch
+> @@ -0,0 +1,32 @@
+> +From 41534253b6b61ed4769eb6a3966698a50ee73b71 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> +Date: Fri, 12 Jun 2015 17:08:46 +0300
+> +Subject: [PATCH] Remove the warning about deprecated paths in schemas
 > +
-> +DEPENDS = "dbus gtk+3 dbus-glib"
-> +
-> +inherit gnomebase distro_features_check gtk-doc
-> +
-> +SRC_URI[archive.md5sum] = "a4997019d08f46f3bf57b78e6f795a59"
-> +SRC_URI[archive.sha256sum] = "0ef61ca400d30e28217979bfa0e73a7406b19c32dd76150654ec5b2bdf47d837"
-> +
-> --
-What about
-
-REQUIRED_DISTRO_FEATURES = "x11"?
+> +Some schemas in gsettings-desktop-schemas (such as proxy and locale)
+> +are still using deprecated paths, as of 3.16.1. This causes warning
+> +messages, and meta/lib/oe/rootfs.py complaints about them.
+Upstream-Status?
 
 Andreas
 
