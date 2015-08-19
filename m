@@ -1,22 +1,21 @@
-Return-Path: <brendan.le.foll@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id EC8EB76A68
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0877A73E11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Aug 2015 13:32:52 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 19 Aug 2015 06:32:53 -0700
+	Wed, 19 Aug 2015 13:34:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 19 Aug 2015 06:34:51 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,710,1432623600"; d="scan'208";a="786789199"
-Received: from jupiter.iwi.intel.com ([172.28.33.51])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Aug 2015 06:32:52 -0700
-From: brendan.le.foll@intel.com
+X-IronPort-AV: E=Sophos;i="5.15,710,1432623600"; d="scan'208";a="787060584"
+Received: from mclawlor-mobl5.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.12.193])
+	by orsmga002.jf.intel.com with ESMTP; 19 Aug 2015 06:34:49 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Aug 2015 14:32:45 +0100
-Message-Id: <1439991165-13121-4-git-send-email-brendan.le.foll@intel.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1439991165-13121-1-git-send-email-brendan.le.foll@intel.com>
-References: <1439991165-13121-1-git-send-email-brendan.le.foll@intel.com>
-Subject: [PATCH 3/3] toolchain-shar-extract.sh: explain why we cannot use sudo in extensible SDK
+Date: Wed, 19 Aug 2015 14:34:44 +0100
+Message-Id: <cover.1439991144.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [RFC PATCH 0/1] Add recipe whitelisting class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,29 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Aug 2015 13:32:53 -0000
+X-List-Received-Date: Wed, 19 Aug 2015 13:34:52 -0000
 
-From: Brendan Le Foll <brendan.le.foll@intel.com>
+This adds a class to allow whitelisting recipes from one or more layers,
+working in a similar manner to blacklist.bbclass. Let me know if you
+think this looks reasonable, in particular the naming and usage of the
+variables (which by necessity has to be different than blacklist.bbclass).
 
-Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
----
- meta/files/toolchain-shar-extract.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index c4c2a70..d8e714a 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -135,7 +135,7 @@ mkdir -p $target_sdk_dir >/dev/null 2>&1
- # if don't have the right to access dir, gain by sudo 
- if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then 
- 	if [ "$SDK_EXTENSIBLE" = "1" ]; then
--		echo "Unable to access \"$target_sdk_dir\"."
-+		echo "Unable to access \"$target_sdk_dir\", can\'t install extensible SDK as root."
- 		exit 1
- 	fi
- 
+Please review the following changes for suitability for inclusion. If you have
+any objections or suggestions for improvement, please respond to the patches. If
+you agree with the changes, please provide your Acked-by.
+
+The following changes since commit 059db140885bad379534e6ec713f3ceb4e18faea:
+
+  adt-installer: use DEPLOY_DIR in ANT_DEPLOY expansion (2015-08-16 17:28:14 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/whitelist
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/whitelist
+
+Paul Eggleton (1):
+  classes/whitelist: add class to allow whitelisting recipes from a
+    layer
+
+ meta/classes/whitelist.bbclass | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
+ create mode 100644 meta/classes/whitelist.bbclass
+
 -- 
-2.5.0
+2.1.0
 
 
