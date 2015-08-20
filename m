@@ -1,22 +1,24 @@
 Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id DC5B776A6A
+	by mail.openembedded.org (Postfix) with ESMTP id DD36976A88
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 11:37:40 +0000 (UTC)
+	Thu, 20 Aug 2015 11:37:41 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Aug 2015 04:37:40 -0700
+	by fmsmga102.fm.intel.com with ESMTP; 20 Aug 2015 04:37:41 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="752149057"
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="752149070"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2015 04:37:39 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2015 04:37:40 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 14:39:18 +0300
-Message-Id: <3e2150ea28539ba5780188819fd16172c9b2e7d3.1440070230.git.jussi.kukkonen@intel.com>
+Date: Thu, 20 Aug 2015 14:39:19 +0300
+Message-Id: <7c60fe976611a7fea4255f4f2a37021af9deb954.1440070230.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <3e2150ea28539ba5780188819fd16172c9b2e7d3.1440070230.git.jussi.kukkonen@intel.com>
+References: <3e2150ea28539ba5780188819fd16172c9b2e7d3.1440070230.git.jussi.kukkonen@intel.com>
 In-Reply-To: <cover.1440070230.git.jussi.kukkonen@intel.com>
 References: <cover.1440070230.git.jussi.kukkonen@intel.com>
-Subject: [PATCH 1/3] lsof: Upgrade 4.88 -> 4.89
+Subject: [PATCH 2/3] lsbinitscripts: Upgrade 9.63 -> 9.64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +35,34 @@ X-List-Received-Date: Thu, 20 Aug 2015 11:37:48 -0000
 
 Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ---
- meta/recipes-extended/lsof/{lsof_4.88.bb => lsof_4.89.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/lsof/{lsof_4.88.bb => lsof_4.89.bb} (91%)
+ .../lsb/{lsbinitscripts_9.63.bb => lsbinitscripts_9.64.bb}          | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/lsb/{lsbinitscripts_9.63.bb => lsbinitscripts_9.64.bb} (81%)
 
-diff --git a/meta/recipes-extended/lsof/lsof_4.88.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
-similarity index 91%
-rename from meta/recipes-extended/lsof/lsof_4.88.bb
-rename to meta/recipes-extended/lsof/lsof_4.89.bb
-index c0f34b6..9b7de9a 100644
---- a/meta/recipes-extended/lsof/lsof_4.88.bb
-+++ b/meta/recipes-extended/lsof/lsof_4.89.bb
-@@ -6,8 +6,8 @@ LICENSE = "BSD"
+diff --git a/meta/recipes-extended/lsb/lsbinitscripts_9.63.bb b/meta/recipes-extended/lsb/lsbinitscripts_9.64.bb
+similarity index 81%
+rename from meta/recipes-extended/lsb/lsbinitscripts_9.63.bb
+rename to meta/recipes-extended/lsb/lsbinitscripts_9.64.bb
+index b937c15..6db667c 100644
+--- a/meta/recipes-extended/lsb/lsbinitscripts_9.63.bb
++++ b/meta/recipes-extended/lsb/lsbinitscripts_9.64.bb
+@@ -6,13 +6,13 @@ DEPENDS = "popt glib-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ebf4e8b49780ab187d51bd26aaa022c6"
  
- SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
+ S="${WORKDIR}/initscripts-${PV}"
+-SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-9.63.tar.bz2/1ae0f15e54a904ac30185548d43daa1c/initscripts-9.63.tar.bz2 \
++SRC_URI = "http://pkgs.fedoraproject.org/repo/pkgs/initscripts/initscripts-${PV}.tar.bz2/9cce2ae1009750e84be37c09a028757e/initscripts-${PV}.tar.bz2 \
+            file://functions.patch \
+            file://0001-functions-avoid-exit-1-which-causes-init-scripts-to-.patch \
+           " 
  
--SRC_URI[md5sum] = "1b29c10db4aa88afcaeeaabeef6790db"
--SRC_URI[sha256sum] = "fe6f9b0e26b779ccd0ea5a0b6327c2b5c38d207a6db16f61ac01bd6c44e5c99b"
-+SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
-+SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
+-SRC_URI[md5sum] = "1ae0f15e54a904ac30185548d43daa1c"
+-SRC_URI[sha256sum] = "39474c3a83e2e03077e27bf9418a4296651c421cf0ba7672e67fe2e3567b36e1"
++SRC_URI[md5sum] = "9cce2ae1009750e84be37c09a028757e"
++SRC_URI[sha256sum] = "48b59ce8157cfc58bbd4b1dfa58ad1087245761ae11c2033b66ae3864ea7e1cf"
  
- LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
- S = "${WORKDIR}/lsof_${PV}_src"
+ inherit update-alternatives
+ 
 -- 
 2.1.4
 
