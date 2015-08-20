@@ -1,37 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id E802A65CCD
+Return-Path: <sgw@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AB9DD76AB0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 15:19:16 +0000 (UTC)
-Received: by wicne3 with SMTP id ne3so19159497wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 08:19:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ggw4zDt6LE4nsk/Kg/He7WFvqohXFx8KqyOvTZ+ekfI=;
-	b=dW7ML+MzSuRuQLBchTjOb/0I2srDzgSquJqxqXBGz9WjX3R+XF3tumqezHSh7Lopwt
-	6MOhaKtB8OJ7+3vQCycZTmu3tgxxI1d+/Itkpc26188Hu8KswwO1GBVw1K71jsE13Brn
-	87A7Fab+Gizboq2PDH0xCiV8mIIDf8UwGzB4iQg4QrNiZL1uSaSsNxafiOomY06ttrz1
-	hCISwlT6BpmhOpn/E4Mo5bR0tu2EZxM2PYn8FauqxgJ735FExaVrVOWwDvb44xxiEh9K
-	39NQykA6ep+EMcaoVoLBgau3/x8+UMMrr9tZIs697FOrE+GjFaBRkyck8QD9UgGjLni/
-	5ypA==
-X-Gm-Message-State: ALoCoQnSfp6E9YeBCLYzv8oklwBj6kVxbf945v16LN/8gP3U0DNhjpcYxCfrPt0DLxQ2MDTnMx/t
-X-Received: by 10.180.83.227 with SMTP id t3mr67260895wiy.55.1440083956201;
-	Thu, 20 Aug 2015 08:19:16 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id s1sm6575671wix.13.2015.08.20.08.19.15
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 20 Aug 2015 08:19:15 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 16:12:52 +0100
-Message-Id: <1440083572-22706-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] multilib: let pkg-config find architecture-independent .pc files
+	Thu, 20 Aug 2015 15:24:26 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2015 08:24:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="629109663"
+Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.254.61.80])
+	by orsmga003.jf.intel.com with ESMTP; 20 Aug 2015 08:24:26 -0700
+From: Saul Wold <sgw@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, akuster808@gmail.com
+Date: Thu, 20 Aug 2015 08:24:25 -0700
+Message-Id: <1440084265-31966-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH][DIZZY] grub-efi: Use the backport patch from grub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +28,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 15:19:21 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 15:24:26 -0000
 
-If a multilib package depends on an allarch recipe that installs an
-architecture-independent .pc file it will not be able to find the .pc file as
-the recipe gets installed into the MACHINE sysroot but pkg-config looks in the
-MLPREFIX-prefixed sysroot.
+This fixes the build error seen on newer distros that use gcc5 such as Fedora22
 
-Solve this by extending PKG_CONFIG_PATH in multilib environments to include the
-architecture-independent path in the MACHINE sysroot
-(sysroots/MACHINE/usr/share/pkgconfig/).
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Saul Wold <sgw@linux.intel.com>
 ---
- meta/conf/multilib.conf | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-bsp/grub/grub-efi_2.00.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index 37e8481..89a8e90 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -17,3 +17,10 @@ BBCLASSEXTEND_append = " ${MULTILIBS}"
- MULTILIB_GLOBAL_VARIANTS ?= "lib32 lib64 libx32"
- 
- OPKG_ARGS_append = " --force-maintainer --force-overwrite"
-+
-+# When multilib is enabled, allarch recipes will be installed into the MACHINE
-+# sysroot, not MLPREFIXMACHINE.  This means that anything using pkg-config to
-+# find an allarch pkgconfig file will fail as the PKG_CONFIG_PATH only looks
-+# inside the multilib sysroot.  Fix this by explicitly adding the MACHINE's
-+# architecture-independent pkgconfig location to PKG_CONFIG_PATH.
-+PKG_CONFIG_PATH .= ":${STAGING_DIR}/${MACHINE}${datadir}/pkgconfig"
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+index d213f31..91b0cb6 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
+@@ -29,6 +29,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://grub-efi-allow-a-compilation-without-mcmodel-large.patch \
+            file://grub-2.00-add-oe-kernel.patch \
+            file://grub-efi-fix-with-glibc-2.20.patch \
++           file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch
+           "
+ SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
+ SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
 -- 
-2.1.4
+2.1.0
 
 
