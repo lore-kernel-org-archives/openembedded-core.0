@@ -1,37 +1,31 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B7C65737F4
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 41730737F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 16:12:12 +0000 (UTC)
-Received: by qkbm65 with SMTP id m65so17686135qkb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 09:12:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=iJIn2cYmsMvVhPZQ7OXpc3BhF7xBthAH/9mv/Kv/b9E=;
-	b=gkSBrhardSPB/PVPN9jMKphCKpyFu8VjZGDC2kHXKT4KaUA2+fEUfuECxj+9nJBlth
-	5zNHM1X2nIh7BUj8vAB2JnYYBIqM8UmBramTNHZsUs9rMV10q/sNK4ygJMA0c9DEg9q8
-	yddmkzWEiMmKwDZ3drE8qjAK+2rK4eSv0VkWnB6lux3oApNQX6kBOGmZa1eDu/xYlLKU
-	QwJcemvnLycmIBRHo73ne4Ig/AXOuzXqb7A3hoUf/ODcdABtJKc6V2bYePloBiAp/ZTO
-	5CbRI3k+43b6SptdOKiQ1Uc20CpMR9TjIyC2je0Pz0ouheQ3/uaEuoaF64535xAr/R9t
-	ZSOw==
-X-Gm-Message-State: ALoCoQmH+MREIDrDbW6GzDyG1oj7s6wSW2Jx9yhbiat1tWyuBSXfH4ypt0xKY94HJAOsg2/kYX6e
-X-Received: by 10.55.212.13 with SMTP id l13mr6908757qki.29.1440087132454;
-	Thu, 20 Aug 2015 09:12:12 -0700 (PDT)
+	Thu, 20 Aug 2015 16:20:58 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2015 09:20:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="772530139"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 20 Aug 2015 09:20:58 -0700
+Received: by linux.intel.com (Postfix, from userid 48)
+	id 277E16A4087; Thu, 20 Aug 2015 09:20:10 -0700 (PDT)
+Received: from 10.252.47.114
+	(SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Thu, 20 Aug 2015 19:20:10 +0300 (EEST)
+Message-ID: <53995.10.252.47.114.1440087610.squirrel@linux.intel.com>
+In-Reply-To: <CAHyyKNnpUqqsDahww8wCKbDCrFSS8Ry7cdnpmTYXx0ipgxx0JA@mail.gmail.com>
+References: <CAHyyKNnpUqqsDahww8wCKbDCrFSS8Ry7cdnpmTYXx0ipgxx0JA@mail.gmail.com>
+Date: Thu, 20 Aug 2015 19:20:10 +0300 (EEST)
+From: alexander.kanavin@linux.intel.com
+To: "Alex M" <0xf777@gmail.com>
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Thu, 20 Aug 2015 09:11:53 -0700 (PDT)
-In-Reply-To: <53a7964df547908768b1554486603bb4f0d9830e.1440070230.git.jussi.kukkonen@intel.com>
-References: <cover.1440070230.git.jussi.kukkonen@intel.com>
-	<53a7964df547908768b1554486603bb4f0d9830e.1440070230.git.jussi.kukkonen@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 20 Aug 2015 17:11:53 +0100
-Message-ID: <CAJTo0LZgiz9jVRwkyZpAVxv50EwEo=BDBUb0U7M4fBxZexkU-g@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libical: Upgrade 1.0.0 -> 1.0.1
+X-Priority: 3 (Normal)
+Importance: Normal
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Phonon is not available Qt 4.8.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 16:12:16 -0000
-Content-Type: multipart/alternative; boundary=001a1147a520f9ead0051dc069cc
+X-List-Received-Date: Thu, 20 Aug 2015 16:21:01 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
---001a1147a520f9ead0051dc069cc
-Content-Type: text/plain; charset=UTF-8
+> Hello!
+> I have a piece of my custom software which is depends on Qt4 + Phonon +
+> gstreamer 0.1 and two years ago I had successfully built oe-core image.
+> Recent version of oe-core (19 Aug 2015) contain QT_PHONON ?= "-no-phonon"
+> option inside qt4.inc file. Why this option banned in default Qt 4
+> configuration? Also I do not see qt4-plugin-phonon-backend-gstreamer
+> package in recent version, which my software also requires. Other
+> gstreamer-0.1 components is fine and already built. What I should do to
+> activate Phonon support for Qt4 in oe-core?
 
-On 20 August 2015 at 12:39, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+The reasons for this are explained here:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=6294
 
-> +inherit cmake perlnative
->
+In the short term, don't use the master branch of oe-core. Use the current
+stable branch (fido) which should still have the Qt4 with Phonon enabled.
+It's also possible to use the master branch, by creating a custom layer
+with a .bbappend file that tweaks the Qt4 build options, but I think it's
+less hassle to roll back to fido.
 
-Why perlnative considering it doesn't depend on any native perl modules?
+In the long term, do port your software to Qt5. Qt4 itself goes out of
+support at the end of 2015, and we plan to move it out of oe-core around
+same time.
 
-Ross
+Alex
 
---001a1147a520f9ead0051dc069cc
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 20 August 2015 at 12:39, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":197" =
-class=3D"a3s" style=3D"overflow:hidden">+inherit cmake perlnative<br></div>=
-</blockquote></div><br>Why perlnative considering it doesn&#39;t depend on =
-any native perl modules?</div><div class=3D"gmail_extra"><br></div><div cla=
-ss=3D"gmail_extra">Ross</div></div>
-
---001a1147a520f9ead0051dc069cc--
