@@ -1,50 +1,23 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DF6A65CBC
+Return-Path: <Maxin.John@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id BBDF065CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 09:55:35 +0000 (UTC)
-Received: by iods203 with SMTP id s203so40060787iod.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 02:55:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=eKla/ebNZ+QG3crP5x9vMxJZ4KFVnn+4Ha4Ng6wxJ7Y=;
-	b=hdjuSiFodLSPuO5bxq9rJSRhTzMG2zN+XaqZ22/ezBbv7imd96yWiiDqj2qDmtJTKB
-	VgQv/nwHJbh41/57DS0/UatPkmT7/CQQaG8RCHZKN4CZqfo47Mpbiy0PagPzCkGamFxm
-	Z+EFdET2HttyWINLdB874OjoyYZ5UjVvKI9L+2vq8t3V6xbeqM6CrpryFQiWyJB/bbCO
-	CEkZBeFipuNN9ysFe5y9H/to91T09ekFCV5od1+FH9XcKBYAGNCYJSpxzECMQJWj4df9
-	5a8q3EY+BNraQuuYgTzLI3D8OKD2Hd8tFPY0uEfibLqhT6y2qvKqPC/bMsrxUXHd1EyW
-	dsrA==
-X-Gm-Message-State: ALoCoQlKhRQhzlENwGwJtKFWWjdqls8XYEpTG2lY6p1R76zxVuVTZHP3KcQY0d2ajfxkhuwDd7OB
-X-Received: by 10.107.136.34 with SMTP id k34mr1799220iod.6.1440064535543;
-	Thu, 20 Aug 2015 02:55:35 -0700 (PDT)
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com.
-	[209.85.213.181]) by smtp.gmail.com with ESMTPSA id
-	i123sm2999167ioi.13.2015.08.20.02.55.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Aug 2015 02:55:34 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igui7 with SMTP id i7so26583771igu.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 02:55:33 -0700 (PDT)
+	Thu, 20 Aug 2015 11:11:55 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 20 Aug 2015 13:11:52 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4454)	id 9C1C128BA20;
+	Thu, 20 Aug 2015 13:11:52 +0200 (CEST)
+From: "Maxin B. John" <maxin.john@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Aug 2015 13:11:27 +0200
+Message-ID: <1440069087-10139-1-git-send-email-maxin.john@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.50.64.212 with SMTP id q20mr6904124igs.5.1440064533861; Thu,
-	20 Aug 2015 02:55:33 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Thu, 20 Aug 2015 02:55:33 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Thu, 20 Aug 2015 02:55:33 -0700 (PDT)
-In-Reply-To: <55D5A12F.3060007@pseudoterminal.org>
-References: <55D5A12F.3060007@pseudoterminal.org>
-Date: Thu, 20 Aug 2015 06:55:33 -0300
-Message-ID: <CAP9ODKps_5p-Oqenu55CP8yf1e1wcJ6mDSofKqbZ=byAtcv8yQ@mail.gmail.com>
-To: Carlos Rafael Giani <dv@pseudoterminal.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Suggestion: sanity check for git branch value
+Received-SPF: None (SESTOEX03.enea.se: maxin.john@enea.com does not
+	designate permitted sender hosts)
+Cc: "Maxin B. John" <maxin.john@enea.com>
+Subject: [PATCH] man-pages: update to 4.02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 09:55:36 -0000
-Content-Type: multipart/alternative; boundary=047d7bd75fcefe9ed7051dbb267a
+X-List-Received-Date: Thu, 20 Aug 2015 11:11:59 -0000
+Content-Type: text/plain
 
---047d7bd75fcefe9ed7051dbb267a
-Content-Type: text/plain; charset=UTF-8
+4.01 -> 4.02
 
-Em 20/08/2015 10:43, "Carlos Rafael Giani" <dv@pseudoterminal.org> escreveu:
-> several recipes have SRC_URI lines like: "git://
-server.name/repository;branch=${SRCBRANCH}". If for some reason SRCBRANCH
-is empty, this essentially evaluates to "branch=". I think a simple sanity
-check that outputs an error if the branch value is empty would be useful,
-since otherwise, this leads to a very confusing error later (git fetcher
-tries to use a command line like: --set-upstream origin/  , which causes
-git to complain that "origin/" is not valid).
->
-> thoughts?
+Signed-off-by: Maxin B. John <maxin.john@enea.com>
+---
+ .../man-pages/{man-pages_4.01.bb => man-pages_4.02.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/man-pages/{man-pages_4.01.bb => man-pages_4.02.bb} (86%)
 
-I fully agree. It seems to need to be done in bitbake code.
+diff --git a/meta/recipes-extended/man-pages/man-pages_4.01.bb b/meta/recipes-extended/man-pages/man-pages_4.02.bb
+similarity index 86%
+rename from meta/recipes-extended/man-pages/man-pages_4.01.bb
+rename to meta/recipes-extended/man-pages/man-pages_4.02.bb
+index f6a5c49..1b90a44 100644
+--- a/meta/recipes-extended/man-pages/man-pages_4.01.bb
++++ b/meta/recipes-extended/man-pages/man-pages_4.02.bb
+@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+ 
+-SRC_URI[md5sum] = "575f4e8920166b1433c329bb621819d1"
+-SRC_URI[sha256sum] = "ba89f3453982fae6c699a877368d51ee27883b4de709e753eee3783b447a8381"
++SRC_URI[md5sum] = "93df3279798a3345bb2c709584c83639"
++SRC_URI[sha256sum] = "42324f9ed47c89a43cb37b6bb0d5fbcad44838eee45cd394e181c98d038c49ff"
+ 
+ RDEPENDS_${PN} = "man"
+ 
+-- 
+1.9.1
 
---047d7bd75fcefe9ed7051dbb267a
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<p dir=3D"ltr"><br>
-Em 20/08/2015 10:43, &quot;Carlos Rafael Giani&quot; &lt;<a href=3D"mailto:=
-dv@pseudoterminal.org">dv@pseudoterminal.org</a>&gt; escreveu:<br>
-&gt; several recipes have SRC_URI lines like: &quot;git://<a href=3D"http:/=
-/server.name/repository;branch=3D${SRCBRANCH}">server.name/repository;branc=
-h=3D${SRCBRANCH}</a>&quot;. If for some reason SRCBRANCH is empty, this ess=
-entially evaluates to &quot;branch=3D&quot;. I think a simple sanity check =
-that outputs an error if the branch value is empty would be useful, since o=
-therwise, this leads to a very confusing error later (git fetcher tries to =
-use a command line like: --set-upstream origin/=C2=A0 , which causes git to=
- complain that &quot;origin/&quot; is not valid).<br>
-&gt;<br>
-&gt; thoughts?</p>
-<p dir=3D"ltr">I fully agree. It seems to need to be done in bitbake code.<=
-/p>
-
---047d7bd75fcefe9ed7051dbb267a--
