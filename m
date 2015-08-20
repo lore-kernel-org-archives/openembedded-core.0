@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 00C8C76AB4
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AEA6676AB3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 11:56:56 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 20 Aug 2015 04:56:57 -0700
+	Thu, 20 Aug 2015 11:56:55 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 20 Aug 2015 04:56:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787700992"
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="629004542"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 20 Aug 2015 04:56:57 -0700
+	by orsmga003.jf.intel.com with ESMTP; 20 Aug 2015 04:56:53 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 562386A4005
+	by linux.intel.com (Postfix) with ESMTP id 0BD116A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 04:56:08 -0700 (PDT)
+	Thu, 20 Aug 2015 04:56:04 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 14:56:25 +0300
-Message-Id: <da3060504d7afecd5f6b93e74253a5444fc60a38.1440071413.git.ed.bartosh@linux.intel.com>
+Date: Thu, 20 Aug 2015 14:56:22 +0300
+Message-Id: <f216fab9a70268f8703f63285c63767c32e1dc8b.1440071413.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 12/17] image_types.bbclass: add wic image type
+Subject: [PATCH 09/17] wic: implement --vars option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,57 +37,45 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Aug 2015 11:56:57 -0000
 
-wic image type is used to produce partitioned images.
+This option is used to point wic to the directory with .env
+files containing list of bitbake variables and their values.
 
-Image configuration should be stored in either <recipe>.<machine>.wks
-or <recipe>.wks file.
-.wks file should be put to the same location as image recipe
-and have the same name.
+If this option is used wic will get bitbake variables from
+files instead of parsing 'bitbake -e' output.
 
-[YOCTO #7672]
+The main reason for this is to support new mode, when bitbake
+runs wic to produce wic images. In this case wic can't run bitbake
+again as it's locked, so it will get variables from .env files.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image_types.bbclass | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ scripts/wic | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 8547574..cdd66ff 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -154,6 +154,16 @@ IMAGE_CMD_ubi = "multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "${UBI_VOLNAM
+diff --git a/scripts/wic b/scripts/wic
+index 87ada36..815b84e 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -114,6 +114,9 @@ def wic_create_subcommand(args, usage_str):
+     parser.add_option("-c", "--compress-with", choices=("gzip", "bzip2", "xz"),
+                       dest='compressor',
+                       help="compress image with specified compressor")
++    parser.add_option("-v", "--vars", dest='vars_dir',
++                      help="directory with <image>.env files that store "
++                           "bitbake variables")
+     parser.add_option("-D", "--debug", dest="debug", action="store_true",
+                       default=False, help="output debug information")
  
- IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
+@@ -146,6 +149,9 @@ def wic_create_subcommand(args, usage_str):
+     else:
+         options.build_check = False
  
-+IMAGE_CMD_wic () {
-+	out=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}
-+	wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHINE}.wks
-+	[ -e $wks ] || wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.wks
-+	[ -e $wks ] || bbfatal "Kiskstart file $wks doesn't exist"
-+	BUILDDIR=${TOPDIR} wic create $wks --vars ${STAGING_DIR_TARGET}/imgdata/ -e ${IMAGE_BASENAME} -o $out/
-+	mv $out/build/${IMAGE_BASENAME}*.direct $out.rootfs.wic
-+	rm -rf $out/
-+}
++    if options.vars_dir:
++        BB_VARS.vars_dir = options.vars_dir
 +
- EXTRA_IMAGECMD = ""
- 
- inherit siteinfo
-@@ -182,6 +192,7 @@ IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
- IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- IMAGE_DEPENDS_multiubi = "mtd-utils-native"
-+IMAGE_DEPENDS_wic = "parted-native"
- 
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
- IMAGE_TYPES = " \
-@@ -201,6 +212,7 @@ IMAGE_TYPES = " \
-     vdi \
-     qcow2 \
-     elf \
-+    wic wic.gz wic.bz2 wic.lzma \
- "
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
+     if options.build_check:
+         print "Checking basic build environment..."
+         if not engine.verify_build_env():
 -- 
 2.1.4
 
