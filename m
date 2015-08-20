@@ -1,31 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C15576A93
+	by mail.openembedded.org (Postfix) with ESMTP id 58C9273E11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 07:07:52 +0000 (UTC)
+	Thu, 20 Aug 2015 07:17:26 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7K77p4F025799
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Aug 2015 00:07:52 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Thu, 20 Aug 2015 00:07:51 -0700
-Message-ID: <55D57CE4.7010607@windriver.com>
-Date: Thu, 20 Aug 2015 15:08:20 +0800
-From: ChenQi <Qi.Chen@windriver.com>
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7K7HQm5025852
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Aug 2015 00:17:26 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 20 Aug 2015 00:17:26 -0700
+Message-ID: <55D57F04.10100@windriver.com>
+Date: Thu, 20 Aug 2015 15:17:24 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>, Randy Witt
-	<randy.e.witt@intel.com>
-References: <cover.1438667914.git.Qi.Chen@windriver.com>
-	<61284f2a7056896fb87e51be2ade7dd72528f442.1438667914.git.Qi.Chen@windriver.com>
-	<1839307.RBueBEjXet@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <1839307.RBueBEjXet@peggleto-mobl.ger.corp.intel.com>
-X-Originating-IP: [128.224.162.211]
-Subject: Re: [PATCH 1/8] populate_sdk_ext: install the latest buildtools-tarball
+To: <openembedded-core@lists.openembedded.org>
+References: <1437114709-26291-1-git-send-email-rongqing.li@windriver.com>	<55B58190.7020409@windriver.com>
+	<55C807ED.1030201@windriver.com>
+In-Reply-To: <55C807ED.1030201@windriver.com>
+Subject: Re: [PATCH][resend][v2] dhcp: make dhclient to get configuration for other programs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,74 +35,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 07:07:52 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Aug 2015 07:17:29 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 08/18/2015 09:51 PM, Paul Eggleton wrote:
-> On Monday 10 August 2015 11:17:59 Chen Qi wrote:
->> If we do `bitbake buildtools-tarball' and then after one day do `bitbake
->> core-image-minimal -c populate_sdk_ext', we would meet errors like below.
->>
->> | install: cannot stat
->> | '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
->>
->> poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalon
->> e -1.8+snapshot-20150429.sh': No such file or directory
->>
->> The problem is that the output name for buildtools-tarball has ${DATE} in
->> it. So if populate_sdk_ext task is executed but buildtools-tarball is not
->> rebuilt, the above error appears.
->>
->> Instead of hardcoding ${DISTRO_VERSION} which consists of ${DATE} in the
->> install_tools() function, we should find the latest buildtools-tarball based
->> on the modification time and install it.
->>
->> [YOCTO #7674]
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/populate_sdk_ext.bbclass | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/populate_sdk_ext.bbclass
->> b/meta/classes/populate_sdk_ext.bbclass index a36bf16..b6725e0 100644
->> --- a/meta/classes/populate_sdk_ext.bbclass
->> +++ b/meta/classes/populate_sdk_ext.bbclass
->> @@ -169,7 +169,9 @@ install_tools() {
->>   	lnr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool
->> ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool touch
->> ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
->>
->> -	install
->> ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKG
->> ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh
->> ${SDK_OUTPUT}/${SDKPATH} +	# find latest buildtools-tarball and install it
->> +	buildtools_path=`ls -t1
->> ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKG
->> ARCH}-buildtools-nativesdk-standalone-*.sh | head -n1` +	install
->> $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
->>
->>   	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2
->> ${SDK_OUTPUT}/${SDKPATH} }
-> Hmm, it turns out there's another problem here - this assumes SDK_NAME is set
-> as it is in poky. Perhaps we correct that in a follow-up patch though, but
-> it'll be a little bit tricky as it'll need to be done by getting the actual
-> value of SDK_NAME as it would have been when IMAGE_BASENAME is "buildtools-
-> tarball".
->
-> The more I think about this though the more I wonder why we're bothering with
-> buildtools instead of just bundling its contents inside the native part of the
-> extensible SDK itself. Randy can you remind me why we did it that way?
->
-> Cheers,
-> Paul
->
-Hi Paul,
 
-I've dropped this patch from the patchset and sent out V2.
-I think we can fix this buildtool problem in other patches.
 
-Best Regards,
-Chen Qi
+On 2015年08月10日 10:09, Rongqing Li wrote:
+>
+>
+> On 2015年07月27日 08:55, Rongqing Li wrote:
+>> ping
+>>
+>> -Roy
+>
+> ping
+>
+> -R
+
+Ping
+
+-Roy
+
+>
+>>
+>> On 2015年07月17日 14:31, rongqing.li@windriver.com wrote:
+>>> From: Li Wang <li.wang@windriver.com>
+>>>
+>>> Make dhclient to run /etc/dhcp/dhclient.d/*.sh, and get the
+>>> configuration
+>>> for ntp, nis or other programes
+>>>
+>>> These codes are from redhat rpm package.
+>>>
+>>> Signed-off-by: Li Wang <li.wang@windriver.com>
+>>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>>> ---
+>>>   .../dhcp/dhcp/dhcp-add-exec-script-function.patch  | 101
+>>> +++++++++++++++++++++
+>>>   meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb       |   1 +
+>>>   meta/recipes-connectivity/dhcp/files/dhclient.conf |   1 +
+>>>   3 files changed, 103 insertions(+)
+>>>   create mode 100644
+>>> meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+>>>
+>>> b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+>>>
+>>> new file mode 100644
+>>> index 0000000..73b3ce4
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-connectivity/dhcp/dhcp/dhcp-add-exec-script-function.patch
+>>>
+>>> @@ -0,0 +1,101 @@
+>>> +[PATCH] dhcp: add exec script function
+>>> +
+>>> +Upstream-Statue: Pending
+>>> +
+>>> +Make dhclient to run /etc/dhcp/dhclient.d/*.sh, and get the
+>>> configuration
+>>> +for ntp, nis or other programes
+>>> +
+>>> +These codes are from redhat rpm packages.
+>>> +
+>>> +Signed-off-by: Li Wang <li.wang@windriver.com>
+>>> +Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>>> +---
+>>> + client/scripts/linux | 25 ++++++++++++++++++++++++-
+>>> + 1 file changed, 24 insertions(+), 1 deletion(-)
+>>> +
+>>> +diff --git a/client/scripts/linux b/client/scripts/linux
+>>> +index 232a0aa..bdb5e22 100755
+>>> +--- a/client/scripts/linux
+>>> ++++ b/client/scripts/linux
+>>> +@@ -24,6 +24,8 @@
+>>> +
+>>> + # 'ip' just looks too weird.  /sbin/ip looks less weird.
+>>> + ip=/sbin/ip
+>>> ++ETCDIR="/etc/dhcp"
+>>> ++export SAVEDIR=/var/lib/dhclient
+>>> +
+>>> + make_resolv_conf() {
+>>> +   if [ x"$new_domain_name_servers" != x ]; then
+>>> +@@ -80,6 +82,20 @@ exit_with_hooks() {
+>>> +   exit $exit_status
+>>> + }
+>>> +
+>>> ++execute_client_side_configuration_scripts() {
+>>> ++# execute any additional client side configuration scripts we have
+>>> ++    if [ "${1}" == "config" ] || [ "${1}" == "restore" ]; then
+>>> ++        for f in ${ETCDIR}/dhclient.d/*.sh ; do
+>>> ++            if [ -x ${f} ]; then
+>>> ++                subsystem="${f%.sh}"
+>>> ++                subsystem="${subsystem##*/}"
+>>> ++                . ${f}
+>>> ++                "${subsystem}_${1}"
+>>> ++            fi
+>>> ++        done
+>>> ++    fi
+>>> ++}
+>>> ++
+>>> + # Invoke the local dhcp client enter hooks, if they exist.
+>>> + if [ -f /etc/dhclient-enter-hooks ]; then
+>>> +   exit_status=0
+>>> +@@ -198,11 +214,14 @@ if [ x$reason = xBOUND ] || [ x$reason = xRENEW
+>>> ] || \
+>>> +     ${ip} -4 route add ${alias_ip_address} dev ${interface}
+>>> >/dev/null 2>&1
+>>> +   fi
+>>> +   make_resolv_conf
+>>> ++  execute_client_side_configuration_scripts "config"
+>>> +   exit_with_hooks 0
+>>> + fi
+>>> +
+>>> + if [ x$reason = xEXPIRE ] || [ x$reason = xFAIL ] || [ x$reason =
+>>> xRELEASE ] \
+>>> +    || [ x$reason = xSTOP ]; then
+>>> ++  execute_client_side_configuration_scripts "restore"
+>>> ++
+>>> +   if [ x$alias_ip_address != x ]; then
+>>> +     # Turn off alias interface.
+>>> +     ${ip} -4 addr flush dev ${interface} label ${interface}:0
+>>> +@@ -281,7 +300,7 @@ if [ x$reason = xBOUND6 ] ; then
+>>> +
+>>> +   # Check for nameserver options.
+>>> +   make_resolv_conf
+>>> +-
+>>> ++  execute_client_side_configuration_scripts "config"
+>>> +   exit_with_hooks 0
+>>> + fi
+>>> +
+>>> +@@ -299,6 +318,7 @@ if [ x$reason = xRENEW6 ] || [ x$reason =
+>>> xREBIND6 ] ; then
+>>> +     make_resolv_conf
+>>> +   fi
+>>> +
+>>> ++  execute_client_side_configuration_scripts "config"
+>>> +   exit_with_hooks 0
+>>> + fi
+>>> +
+>>> +@@ -310,6 +330,7 @@ if [ x$reason = xDEPREF6 ] ; then
+>>> +   ${ip} -f inet6 addr change ${new_ip6_address}/${new_ip6_prefixlen} \
+>>> +        dev ${interface} scope global preferred_lft 0
+>>> +
+>>> ++  execute_client_side_configuration_scripts "config"
+>>> +   exit_with_hooks 0
+>>> + fi
+>>> +
+>>> +@@ -318,6 +339,8 @@ if [ x$reason = xEXPIRE6 -o x$reason = xRELEASE6
+>>> -o x$reason = xSTOP6 ] ; then
+>>> +     exit_with_hooks 2;
+>>> +   fi
+>>> +
+>>> ++  execute_client_side_configuration_scripts "restore"
+>>> ++
+>>> +   ${ip} -f inet6 addr del ${old_ip6_address}/${old_ip6_prefixlen} \
+>>> +     dev ${interface}
+>>> +
+>>> +--
+>>> +1.9.1
+>>> +
+>>> diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+>>> b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+>>> index b4a05fc..a73d31f 100644
+>>> --- a/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+>>> +++ b/meta/recipes-connectivity/dhcp/dhcp_4.3.2.bb
+>>> @@ -6,6 +6,7 @@ SRC_URI +=
+>>> "file://dhcp-3.0.3-dhclient-dbus.patch;striplevel=0 \
+>>>               file://fixsepbuild.patch \
+>>>               file://dhclient-script-drop-resolv.conf.dhclient.patch \
+>>>               file://replace-ifconfig-route.patch \
+>>> +            file://dhcp-add-exec-script-function.patch \
+>>>              "
+>>>
+>>>   SRC_URI[md5sum] = "5a284875dd2c12ddd388416d69156a67"
+>>> diff --git a/meta/recipes-connectivity/dhcp/files/dhclient.conf
+>>> b/meta/recipes-connectivity/dhcp/files/dhclient.conf
+>>> index 0e6dcf9..0f7d42f 100644
+>>> --- a/meta/recipes-connectivity/dhcp/files/dhclient.conf
+>>> +++ b/meta/recipes-connectivity/dhcp/files/dhclient.conf
+>>> @@ -17,6 +17,7 @@
+>>>   #supersede domain-name "fugue.com home.vix.com";
+>>>   #prepend domain-name-servers 127.0.0.1;
+>>>   request subnet-mask, broadcast-address, time-offset, routers,
+>>> +    nis-domain, nis-servers, domain-search, ntp-servers,
+>>>       domain-name, domain-name-servers, host-name,
+>>>       netbios-name-servers, netbios-scope;
+>>>   #require subnet-mask, domain-name-servers;
+>>>
+>>
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
