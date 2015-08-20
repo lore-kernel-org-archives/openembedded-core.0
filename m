@@ -1,37 +1,40 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E4CD73E20
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 207E660557
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 19:20:36 +0000 (UTC)
-Received: by padfo6 with SMTP id fo6so28667960pad.0
+	Thu, 20 Aug 2015 19:30:43 +0000 (UTC)
+Received: by wicja10 with SMTP id ja10so44334482wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 12:20:36 -0700 (PDT)
+	Thu, 20 Aug 2015 12:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=98sOL6tdy6w3uTqogWEQ29EnPTMf6Fjf75ipoSsjYF4=;
-	b=hvkPKxrjRFoXAoJBEeYYbZybeCBkRLnX5pryTtRZbihw/OP5gfxSgTyMW1rn/W3cXL
-	7BaPHO8dCcFXUkCioLgVTehstswEO23RJFNXxKOSKe3HHsCf4ortgRCeGWdWSlDrffDk
-	d0oNSysTvPct7Mfrk1+FHePQGk8Xt6GFCO2WnDBqUSYYuOP8rQkUcZjxq6pVv7TCd4rP
-	I56Itp62+dWLSEMMcBqJVSuwjXFbiLhaSGjmSBAzQqU9LhAob8JCnLSRVjdkGlCK7Rfg
-	+ecaGMKEjMPOJBEgu11VQQJwGEAQfRPmv/QwIWPLGGMk3WlyhunzevSN/sEr0tRkYJVD
-	vd7Q==
-X-Received: by 10.68.203.42 with SMTP id kn10mr9471717pbc.43.1440098436439;
-	Thu, 20 Aug 2015 12:20:36 -0700 (PDT)
-Received: from bigIsland.kama-aina.net (c-76-20-92-207.hsd1.ca.comcast.net.
-	[76.20.92.207]) by smtp.gmail.com with ESMTPSA id
-	ob4sm5203661pbb.40.2015.08.20.12.20.34
-	for <openembedded-core@lists.openembedded.org>
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=vDWGAsNeouPp4FowVR77CnxVpE7wD+aLxsZX862AUtw=;
+	b=OWnYjEioLiJTEL/8dLDQABlAR+0hwXHDKlb6baySSSbjZ/MXM7HS4mGtTX4I9r0p4s
+	HxO5aLEX5cbx3UDrs0RTISnD6Iwh6swIqZD6nCad/mxhdaUMmhcrpJ0KthJeTm8nOvRt
+	S9gdkX+5oJkPbAXMDR9raZhHMrRDcoNPSzjfDk4hw+xXvGbydTI5CKS6DRmQojeTaKv0
+	1LDl9dU2jICPh9S3z8YuMatzecV3FSiZ0GZT0CisdXPP8hxrtlDXSxO/rwu0q0rHMwee
+	BStZ+ikLZWyOtW60TyNcrMxAsUnhSYUhM/ZwSTieHeW1DDMcQZ9JO61AVrBi9YrOMqw/
+	tOyA==
+X-Received: by 10.180.216.42 with SMTP id on10mr68769826wic.3.1440099043532;
+	Thu, 20 Aug 2015 12:30:43 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	pu6sm6830225wjc.34.2015.08.20.12.30.42
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Aug 2015 12:20:35 -0700 (PDT)
-Received: by bigIsland.kama-aina.net (Postfix, from userid 1000)
-	id 5B3A1FC07A4; Thu, 20 Aug 2015 12:20:33 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 12:20:31 -0700
-Message-Id: <cover.1440098114.git.akuster808@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Subject: [PATCH 0/7] Dizzy-next for 1.7.3
+	Thu, 20 Aug 2015 12:30:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 20 Aug 2015 21:31:10 +0200
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20150820193110.GA15465@jama>
+References: <cover.1440098114.git.akuster808@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <cover.1440098114.git.akuster808@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/7] Dizzy-next for 1.7.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +47,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 19:20:39 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 19:30:44 -0000
+X-Groupsio-MsgNum: 69741
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0OAP2g/MAC+5xKAE"
+Content-Disposition: inline
 
-Please consider these changes for inclusion to the 1.7.3 update.
+--0OAP2g/MAC+5xKAE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The following changes since commit e8da5133c2efd3bc4c5f41bb27207c053bc2360d:
+On Thu, Aug 20, 2015 at 12:20:31PM -0700, Armin Kuster wrote:
+> Please consider these changes for inclusion to the 1.7.3 update.
+>=20
+> The following changes since commit e8da5133c2efd3bc4c5f41bb27207c053bc236=
+0d:
+>=20
+>   runqueue: Add message to explain the problem if diffsigs multiple tasks=
+ don't exist (2015-08-20 12:11:24 -0700)
 
-  runqueue: Add message to explain the problem if diffsigs multiple tasks don't exist (2015-08-20 12:11:24 -0700)
+Can you add:
+http://patchwork.openembedded.org/patch/97485/
+?
 
-are available in the git repository at:
+It's already in master and fido.
 
-  git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
-  http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
+> are available in the git repository at:
+>=20
+>   git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
+>   http://git.yoctoproject.org/cgit.cgi//log/?h=3Dakuster/dizzy-next
+>=20
+> Richard Purdie (2):
+>   fetch2: Extend mirroruri handlling
+>   sstate: Use SSTATE_DIR for FILESPATH
+>=20
+> Saul Wold (2):
+>   grub-efi: Use the backport patch from grub
+>   grub-efi: Add trailing \ missed in last patch
+>=20
+> Sona Sarmadi (3):
+>   bind9.9.5: CVE-2015-5477
+>   qemu: CVE-2014-7840
+>   qemu-vnc: CVE-2014-7815
+>=20
+>  bitbake/lib/bb/fetch2/__init__.py                  |  1 +
+>  meta/classes/sstate.bbclass                        |  4 +-
+>  meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +
+>  .../bind/bind/bind9_9_5-CVE-2015-5477.patch        | 45 +++++++++++++++++
+>  meta/recipes-connectivity/bind/bind_9.9.5.bb       |  1 +
+>  .../recipes-devtools/qemu/qemu/CVE-2014-7840.patch | 57 ++++++++++++++++=
+++++++
+>  .../qemu/qemu/vnc-CVE-2014-7815.patch              | 53 ++++++++++++++++=
+++++
+>  meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  2 +
+>  8 files changed, 163 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-201=
+5-5477.patch
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2014-7840.patch
+>  create mode 100644 meta/recipes-devtools/qemu/qemu/vnc-CVE-2014-7815.pat=
+ch
+>=20
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Richard Purdie (2):
-  fetch2: Extend mirroruri handlling
-  sstate: Use SSTATE_DIR for FILESPATH
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-Saul Wold (2):
-  grub-efi: Use the backport patch from grub
-  grub-efi: Add trailing \ missed in last patch
+--0OAP2g/MAC+5xKAE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Sona Sarmadi (3):
-  bind9.9.5: CVE-2015-5477
-  qemu: CVE-2014-7840
-  qemu-vnc: CVE-2014-7815
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
 
- bitbake/lib/bb/fetch2/__init__.py                  |  1 +
- meta/classes/sstate.bbclass                        |  4 +-
- meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +
- .../bind/bind/bind9_9_5-CVE-2015-5477.patch        | 45 +++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |  1 +
- .../recipes-devtools/qemu/qemu/CVE-2014-7840.patch | 57 ++++++++++++++++++++++
- .../qemu/qemu/vnc-CVE-2014-7815.patch              | 53 ++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  2 +
- 8 files changed, 163 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-2015-5477.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2014-7840.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/vnc-CVE-2014-7815.patch
+iEYEARECAAYFAlXWKv0ACgkQN1Ujt2V2gByD2ACgiPJ+RhFrWr3DVvpAMbdRMYHq
+fGAAniz8ZzMLuedvc0vmi+eX5jnOdjQ5
+=vDuC
+-----END PGP SIGNATURE-----
 
--- 
-1.9.1
-
-
+--0OAP2g/MAC+5xKAE--
