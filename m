@@ -1,41 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id D4E97737F4
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F0AA737F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 21:41:42 +0000 (UTC)
-Received: by igfj19 with SMTP id j19so1233807igf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 14:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=eJkeUOTY8JAQANbSnFi0GCFzTPL3bNDkFdVBWQ0BadM=;
-	b=VUPEQtmYcxvrt2ZkItJ9inB92/K9IbyW6cK/k/OL9C2ENt6An2wLjHCimhYchax2qK
-	x4tKTGxTD7k9kLx71YAABK/seyH8AE/qDrAVydjsAkSUfocITp9sp1MZFKLNEWmjByJ8
-	6XnXbD5bGBNe4ELEgee8Tr144uFY4A/HbBBQVxMFwg/vrguTgiXtajvkwM0QGxrH7uKT
-	qJxFGbh2PsPsFZxOJ9BwOOmCKkc3dw9PovxO380E5GqE0J62skzYu3CofwhD4h6xpkMn
-	odL8PTKvtHmT+J0ijwVc0m75M0xQQfxrGrh9z/UHflNEfokLy2H8HrmByKgWJ6gFi0en
-	8Idw==
-X-Received: by 10.50.93.102 with SMTP id ct6mr165401igb.75.1440106902659; Thu,
-	20 Aug 2015 14:41:42 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Thu, 20 Aug 2015 14:41:13 -0700 (PDT)
-In-Reply-To: <CAJTo0LZJv5pJv+x46LjMa_NzT3hppzfUewHNBZjPa-i_owDdNQ@mail.gmail.com>
-References: <cover.1439471616.git.jussi.kukkonen@intel.com>
-	<10269744a7e91ddf317b041f70d5810ae5c94c36.1439471616.git.jussi.kukkonen@intel.com>
-	<20150818083635.GE2458@jama>
-	<CAHiDW_EKTkPcQ+NVP9AocSfvpusiBtwp25rpkTDr5Zn0Ut=A4Q@mail.gmail.com>
-	<tor.121455D5F425.1070308@windriver.com>
-	<33006C99F5A5194A9B7A7715DFA3E383DC174C19@ALA-MBB.corp.ad.wrs.com>
-	<CAJTo0LZJv5pJv+x46LjMa_NzT3hppzfUewHNBZjPa-i_owDdNQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Aug 2015 14:41:13 -0700
-Message-ID: <CAMKF1sonYtB4VySwxO5r8Fkw4JBC+hQjZEF5ENcHHx1TmLPDsA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 1/1] screen: Upgrade 4.0.3 -> 4.3.1
+	Thu, 20 Aug 2015 22:03:35 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2015 15:03:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,717,1432623600"; d="scan'208";a="545661185"
+Received: from yctb04.ostc.intel.com (HELO yctb04.otcr.jf.intel.com)
+	([10.23.219.53])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Aug 2015 15:03:23 -0700
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Aug 2015 13:59:58 +0000
+Message-Id: <1440079198-31036-1-git-send-email-benjamin.esquivel@linux.intel.com>
+X-Mailer: git-send-email 2.3.0
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH] utils.movefile: specify dest file name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,20 +29,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 21:41:44 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 20 Aug 2015 22:03:36 -0000
 
-On Thu, Aug 20, 2015 at 2:34 PM, Burton, Ross <ross.burton@intel.com> wrote:
-> Basically you need to have a good reason why oe-core should invest the time
-> maintaining both modern screen and ancient screen (4.0.3 was released in
-> 2008).   The easiest solution would be for your distro to maintain a copy of
-> ancient screen for people who want screen but also don't want GPLv3.  Or,
-> switch to tmux which is BSD licensed.
+ When moving a file via the os.rename function, it was missing the
+ destination file name which caused an OSError
 
-I think this will be common interest for more than one distro or
-person. It will be good to start moving them into a new layer under
-meta-openembedded repo, something like meta-gplv2-pinned or
-somethings, then users who are interested can prioritize this layer
-over oe-core and there by use these versions easily instead of what
-comes from oe-core.
+ [YOCTO#8180]
+
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+---
+ bitbake/lib/bb/utils.py | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
+index 5b94432..5eec787 100644
+--- a/bitbake/lib/bb/utils.py
++++ b/bitbake/lib/bb/utils.py
+@@ -741,7 +741,9 @@ def movefile(src, dest, newmtime = None, sstat = None):
+     renamefailed = 1
+     if sstat[stat.ST_DEV] == dstat[stat.ST_DEV]:
+         try:
+-            os.rename(src, dest)
++            # os.rename needs to know the destination path with file name
++            destfile = os.path.join(dest, os.path.basename(src))
++            os.rename(src, destfile) 
+             renamefailed = 0
+         except Exception as e:
+             if e[0] != errno.EXDEV:
+-- 
+2.3.0
+
 
