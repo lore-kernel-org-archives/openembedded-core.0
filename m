@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 55E36765DB
+	by mail.openembedded.org (Postfix) with ESMTP id 61629767C4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 08:32:06 +0000 (UTC)
+	Thu, 20 Aug 2015 08:32:09 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2015 01:32:08 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2015 01:32:10 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787609106"
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787609111"
 Received: from ljegan-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.8.54])
-	by orsmga002.jf.intel.com with ESMTP; 20 Aug 2015 01:32:06 -0700
+	by orsmga002.jf.intel.com with ESMTP; 20 Aug 2015 01:32:08 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 09:31:56 +0100
-Message-Id: <86f931f8af001566551240637ac840ab9ef8aa1f.1440059460.git.paul.eggleton@linux.intel.com>
+Date: Thu, 20 Aug 2015 09:31:58 +0100
+Message-Id: <8c771eed9a7ed518a99615f73d5c1bca09340ae8.1440059460.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1440059460.git.paul.eggleton@linux.intel.com>
 References: <cover.1440059460.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1440059460.git.paul.eggleton@linux.intel.com>
 References: <cover.1440059460.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 2/5] classes/insane: fix QA check message referring to nativesdk
+Subject: [PATCH 4/5] hello-mod: drop PV and PR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,26 +34,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Aug 2015 08:32:09 -0000
 
-nativesdk has been a prefix rather than a suffix for some time now.
+* PR = "r0" is the default, no need to set it (and most people won't
+  need to set it anyway with the PR service)
+* PV = "0.1" is already set by virtue of 0.1 being in the filename
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/insane.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 9c05c86..d9befc4 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -260,7 +260,7 @@ def package_qa_check_dev(path, name, d, elf, messages):
-     """
+diff --git a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
+index c40b393..b140b0a 100644
+--- a/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
++++ b/meta-skeleton/recipes-kernel/hello-mod/hello-mod_0.1.bb
+@@ -4,9 +4,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e"
  
-     if not name.endswith("-dev") and not name.endswith("-dbg") and not name.endswith("-ptest") and not name.startswith("nativesdk-") and path.endswith(".so") and os.path.islink(path):
--        messages["dev-so"] = "non -dev/-dbg/-nativesdk package contains symlink .so: %s path '%s'" % \
-+        messages["dev-so"] = "non -dev/-dbg/nativesdk- package contains symlink .so: %s path '%s'" % \
-                  (name, package_qa_clean_path(path,d))
+ inherit module
  
- QAPATHTEST[staticdev] = "package_qa_check_staticdev"
+-PR = "r0"
+-PV = "0.1"
+-
+ SRC_URI = "file://Makefile \
+            file://hello.c \
+            file://COPYING \
 -- 
 2.1.0
 
