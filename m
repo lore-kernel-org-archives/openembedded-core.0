@@ -1,21 +1,37 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id AB9DD76AB0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FF62766DF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 15:24:26 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2015 08:24:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="629109663"
-Received: from unknown (HELO swold-mobl.amr.corp.intel.com) ([10.254.61.80])
-	by orsmga003.jf.intel.com with ESMTP; 20 Aug 2015 08:24:26 -0700
-From: Saul Wold <sgw@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	richard.purdie@linuxfoundation.org, akuster808@gmail.com
-Date: Thu, 20 Aug 2015 08:24:25 -0700
-Message-Id: <1440084265-31966-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH][DIZZY] grub-efi: Use the backport patch from grub
+	Thu, 20 Aug 2015 15:51:39 +0000 (UTC)
+Received: by qgeb6 with SMTP id b6so30520527qge.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Aug 2015 08:51:39 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=wQALCk3SZXN8EkMWkuc/VRjdLR4KPuPWbQCkkq/r5lg=;
+	b=ijzgOL9XbjUn/LFMVvThqhKJhRDKbBGzjXJpH9vTDl53UwffpvM1UcM/kexJ+IEBjc
+	1OQu6n5fnjylK32qWvytJHMIOGoAzXXw3slGxnfx7WpFuUXwNjhP63jaN0jxAxJMgdit
+	YZneFomLVrtJAY9tXq1gkvmsOEeoLtm6EST/ooWw17WoqCgseYV06jeR0LhjXL0YZylJ
+	D2x5237IhP+hTCWtgTaD7BeNk4EGSoI84g6CHW58zh3gTudGjwz6luCTVj2ajLfzYwJL
+	UasNUSPTPL5cj3+S2NPsb9rY6m35iQgXnUFFfk4vPSYeIuHkFQuJNlv8ZziYMjfxPYD2
+	rKDw==
+X-Gm-Message-State: ALoCoQnUeePmM6YgKUUKt0abnGNmQUXjNEEkdqZiyAzLXBstJIO4BOkquBTem6yRTIfk4P1mSr/e
+X-Received: by 10.140.145.83 with SMTP id 80mr7184098qhr.17.1440085899728;
+	Thu, 20 Aug 2015 08:51:39 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.98.67 with HTTP; Thu, 20 Aug 2015 08:51:20 -0700 (PDT)
+In-Reply-To: <6b606c162897d5e2e5fb5bca2c57f85a25e685aa.1439991562.git.alexander.kanavin@linux.intel.com>
+References: <cover.1439991562.git.alexander.kanavin@linux.intel.com>
+	<6b606c162897d5e2e5fb5bca2c57f85a25e685aa.1439991562.git.alexander.kanavin@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Aug 2015 16:51:20 +0100
+Message-ID: <CAJTo0LZgFX7PjbpgpGpVcEVBzfvzsvOgc=Th1umM2HTdo4pC9g@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 14/22] iso-codes: add a recipe from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,28 +44,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 15:24:26 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 15:51:40 -0000
+Content-Type: multipart/alternative; boundary=001a11355bc6801047051dc02046
 
-This fixes the build error seen on newer distros that use gcc5 such as Fedora22
+--001a11355bc6801047051dc02046
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Saul Wold <sgw@linux.intel.com>
----
- meta/recipes-bsp/grub/grub-efi_2.00.bb | 1 +
- 1 file changed, 1 insertion(+)
+On 19 August 2015 at 14:40, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.00.bb b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-index d213f31..91b0cb6 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.00.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.00.bb
-@@ -29,6 +29,7 @@ SRC_URI = "ftp://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
-            file://grub-efi-allow-a-compilation-without-mcmodel-large.patch \
-            file://grub-2.00-add-oe-kernel.patch \
-            file://grub-efi-fix-with-glibc-2.20.patch \
-+           file://0001-parse_dhcp_vendor-Add-missing-const-qualifiers.patch
-           "
- SRC_URI[md5sum] = "e927540b6eda8b024fb0391eeaa4091c"
- SRC_URI[sha256sum] = "65b39a0558f8c802209c574f4d02ca263a804e8a564bc6caf1cd0fd3b3cc11e3"
--- 
-2.1.0
+> +# inherit gettext cannot be used, because it adds gettext-native to
+> BASEDEPENDS which
+> +# are inhibited by allarch
+> +DEPENDS = "gettext-native"
+> +
+> +inherit autotools
+>
 
+I fixed the problem with allarch / pkgconfig / multilib today (see my patch
+to multilib.conf) so you can bring back allarch to this.
 
+Ross
+
+--001a11355bc6801047051dc02046
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 19 August 2015 at 14:40, Alexander Kanavin <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander.k=
+anavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div id=3D":1hl" class=3D"a3s" style=3D"overflow:hidden">+# inherit get=
+text cannot be used, because it adds gettext-native to BASEDEPENDS which<br=
+>
++# are inhibited by allarch<br>
++DEPENDS =3D &quot;gettext-native&quot;<br>
++<br>
++inherit autotools</div></blockquote></div><br>I fixed the problem with all=
+arch / pkgconfig / multilib today (see my patch to multilib.conf) so you ca=
+n bring back allarch to this.</div><div class=3D"gmail_extra"><br></div><di=
+v class=3D"gmail_extra">Ross</div></div>
+
+--001a11355bc6801047051dc02046--
