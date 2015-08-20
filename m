@@ -1,20 +1,42 @@
-Return-Path: <reinette.chatre@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D56D76A64
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D18E976A64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 21:32:48 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 20 Aug 2015 14:32:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,717,1432623600"; d="scan'208";a="629314211"
-Received: from rchatre-builder.jf.intel.com ([10.54.39.14])
-	by orsmga003.jf.intel.com with ESMTP; 20 Aug 2015 14:32:47 -0700
-From: Reinette Chatre <reinette.chatre@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 14:34:33 -0700
-Message-Id: <02c13f68fd830f0780c134fc77197f5153f6bf85.1440106310.git.reinette.chatre@intel.com>
-X-Mailer: git-send-email 2.4.3
-Subject: [PATCH] xf86-video-intel: enable xvmc feature by default and fix dependency
+	Thu, 20 Aug 2015 21:34:55 +0000 (UTC)
+Received: by qgeg42 with SMTP id g42so36644058qge.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Aug 2015 14:34:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=T1Sa0SEb0BWsjnNSux9XoJC0m4kG71peBn6fw+Oz3ZQ=;
+	b=O666icnv/GE11oC73n5/C0xZac5Ql6FyAjZQvWIHbxPJLb372gj7NEI8BgkpEKF7OQ
+	J8uKnIHgA/NF+xpUXhVQhsaswCaCDwFewN26lmZyINyBjU+hmMhBuZeC47sBRelkqSGG
+	2UXGyA32BSrJruurPVVbxkGyZiakGh/mmGnqMtOz2IALw5EG4aiSKK0F8e/geGfTj13N
+	SvDwRY8adYvnDOSQ2S8boZvAfccYAMGUM9cwOuMhtokPg6aNd4OYKJgM8DD/+BEPPtno
+	ivauZYNsNb/cBSgzeyDhRIGH9MyTmIHM963YWuLzuiR7tIT6SYjECr2iUFLTCMVX1gcB
+	8qsg==
+X-Gm-Message-State: ALoCoQkufqXSvbbIu9VrDJKihoEjdT6N4JGLyXA7/nDNoj6owiPjOXOEnlxF+NVaS5wsmv0oKwDH
+X-Received: by 10.140.194.145 with SMTP id p139mr10531363qha.84.1440106495377; 
+	Thu, 20 Aug 2015 14:34:55 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.98.67 with HTTP; Thu, 20 Aug 2015 14:34:35 -0700 (PDT)
+In-Reply-To: <33006C99F5A5194A9B7A7715DFA3E383DC174C19@ALA-MBB.corp.ad.wrs.com>
+References: <cover.1439471616.git.jussi.kukkonen@intel.com>
+	<10269744a7e91ddf317b041f70d5810ae5c94c36.1439471616.git.jussi.kukkonen@intel.com>
+	<20150818083635.GE2458@jama>
+	<CAHiDW_EKTkPcQ+NVP9AocSfvpusiBtwp25rpkTDr5Zn0Ut=A4Q@mail.gmail.com>
+	<tor.121455D5F425.1070308@windriver.com>
+	<33006C99F5A5194A9B7A7715DFA3E383DC174C19@ALA-MBB.corp.ad.wrs.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Aug 2015 22:34:35 +0100
+Message-ID: <CAJTo0LZJv5pJv+x46LjMa_NzT3hppzfUewHNBZjPa-i_owDdNQ@mail.gmail.com>
+To: "Radzykewycz, T (Radzy)" <radzy@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 1/1] screen: Upgrade 4.0.3 -> 4.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,49 +49,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 21:32:50 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 21:34:57 -0000
+Content-Type: multipart/alternative; boundary=001a114323f0189719051dc4ece2
 
-XvMC extends the X Video extension (Xv) and enables hardware rendered
-motion compensation support. In a test build enabling this feature
-increased the size of the xf86-video-intel package from 1386841 to
-1847154 bytes.
+--001a114323f0189719051dc4ece2
+Content-Type: text/plain; charset=UTF-8
 
-When we enable the xvmc feature in xf86-video-intel we see the
-following QA issue reported:
-QA Issue: xf86-video-intel rdepends on xcb-util, but it isn't
-a build dependency?
+On 20 August 2015 at 21:15, Radzykewycz, T (Radzy) <radzy@windriver.com>
+wrote:
 
-We fix this by ensuring the build dependencies are set correctly when
-the xvmc feature is enabled.
+> I would very much prefer that the GPLv2 license of screen be
+> maintained.  What do I need to do to keep a GPLv2 license on
+> it ?
+>
 
-Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
----
- meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Basically you need to have a good reason why oe-core should invest the time
+maintaining both modern screen and ancient screen (4.0.3 was released in
+2008).   The easiest solution would be for your distro to maintain a copy
+of ancient screen for people who want screen but also don't want GPLv3.
+Or, switch to tmux which is BSD licensed.
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
-index 26b68b4..d041877 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
-@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "00b781eea055582820a123c47b62411bdf6aabf4f03dc0568faec55faf
- 
- DEPENDS += "virtual/libx11 drm libpciaccess pixman"
- 
--PACKAGECONFIG ??= "sna udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri1 dri2', '', d)}"
-+PACKAGECONFIG ??= "xvmc sna udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri1 dri2', '', d)}"
- 
- PACKAGECONFIG[dri] = "--enable-dri,--disable-dri"
- PACKAGECONFIG[dri1] = "--enable-dri1,--disable-dri1,xf86driproto"
-@@ -27,7 +27,7 @@ PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto"
- PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
- PACKAGECONFIG[uxa] = "--enable-uxa,--disable-uxa"
- PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
--PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
-+PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc xcb-util"
- PACKAGECONFIG[tools] = "--enable-tools,--disable-tools,libxinerama libxrandr libxdamage libxfixes libxcursor libxtst libxext libxrender"
- 
- # --enable-kms-only option is required by ROOTLESS_X
--- 
-2.4.3
+Ross
 
+--001a114323f0189719051dc4ece2
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 August 2015 at 21:15, Radzykewycz, T (Radzy) <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:radzy@windriver.com" target=3D"_blank">radzy@windriver.com<=
+/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
+0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":4x7" cl=
+ass=3D"a3s" style=3D"overflow:hidden">I would very much prefer that the GPL=
+v2 license of screen be<br>
+maintained.=C2=A0 What do I need to do to keep a GPLv2 license on<br>
+it ?<br></div></blockquote></div><br>Basically you need to have a good reas=
+on why oe-core should invest the time maintaining both modern screen and an=
+cient screen (4.0.3 was released in 2008). =C2=A0 The easiest solution woul=
+d be for your distro to maintain a copy of ancient screen for people who wa=
+nt screen but also don&#39;t want GPLv3.=C2=A0 Or, switch to tmux which is =
+BSD licensed.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail=
+_extra">Ross</div></div>
+
+--001a114323f0189719051dc4ece2--
