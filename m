@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A4E0876A6A
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 509F365CCD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 11:56:44 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Aug 2015 04:56:44 -0700
+	Thu, 20 Aug 2015 11:56:46 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2015 04:56:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="772375894"
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787700932"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 20 Aug 2015 04:56:44 -0700
+	by orsmga002.jf.intel.com with ESMTP; 20 Aug 2015 04:56:47 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id AC7996A4005
+	by linux.intel.com (Postfix) with ESMTP id 2D13A6A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 04:55:55 -0700 (PDT)
+	Thu, 20 Aug 2015 04:55:57 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 14:56:14 +0300
-Message-Id: <db48ab408d16d06aa46cbae805d88217f24f64c2.1440071413.git.ed.bartosh@linux.intel.com>
+Date: Thu, 20 Aug 2015 14:56:16 +0300
+Message-Id: <f0ae5f4d1fe0e611bd0b805a06746c3af6771956.1440071413.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 01/17] image.py: write bitbake variables to .env file
+Subject: [PATCH 03/17] wic: remove undescore from function name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +35,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 11:56:45 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 11:56:47 -0000
 
-Write set of bitbake variables associated with the image into
-build/tmp/sysroots/<machine>/imagedata/<image>.env
-
-This is needed for wic to be able to get bitbake variables without
-running 'bitbake -e'.
+Renamed __exec_cmd -> _exec_cmd as double underscores cause
+strange behaviour when function is called in class method.
+Python complains that __exec_cmd method(!!!) of the same class
+doesn't exist.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oe/image.py | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ scripts/lib/wic/utils/oe/misc.py | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-index 699c30f..a7fdefa 100644
---- a/meta/lib/oe/image.py
-+++ b/meta/lib/oe/image.py
-@@ -321,6 +321,27 @@ class Image(ImageDepGraph):
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index d399f2a..9c8f52d 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -46,13 +46,13 @@ NATIVE_RECIPES = {"mcopy": "mtools",
+                   "syslinux": "syslinux"
+                  }
  
-         return image_cmd_groups
+-def __exec_cmd(cmd_and_args, as_shell=False, catch=3):
++def _exec_cmd(cmd_and_args, as_shell=False, catch=3):
+     """
+     Execute command, catching stderr, stdout
  
-+    def _write_env(self):
-+        """
-+        Write environment variables
-+        to tmp/sysroots/<machine>/imgdata/<image>.env
-+        """
-+        stdir = self.d.getVar('STAGING_DIR_TARGET', True)
-+        outdir = os.path.join(stdir, 'imgdata')
-+        if not os.path.exists(outdir):
-+            os.makedirs(outdir)
-+        basename = self.d.getVar('IMAGE_BASENAME', True)
-+        with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-+            for var in sorted(self.d.keys()):
-+                # filter out as much as we can to reduce file size
-+                if var.startswith('_') or var.startswith('BB_') \
-+                   or not var.isupper() or self.d.getVarFlag(var, "func") \
-+                   or var in ('BBINCLUDED', 'SRCPV', 'MIRRORS'):
-+                    continue
-+                value = self.d.getVar(var, True)
-+                if value:
-+                    envf.write('%s="%s"\n' % (var, value.strip()))
-+
-     def create(self):
-         bb.note("###### Generate images #######")
-         pre_process_cmds = self.d.getVar("IMAGE_PREPROCESS_COMMAND", True)
-@@ -332,6 +353,8 @@ class Image(ImageDepGraph):
+     Need to execute as_shell if the command uses wildcards
+     """
+-    msger.debug("__exec_cmd: %s" % cmd_and_args)
++    msger.debug("_exec_cmd: %s" % cmd_and_args)
+     args = cmd_and_args.split()
+     msger.debug(args)
  
-         image_cmd_groups = self._get_imagecmds()
+@@ -61,7 +61,7 @@ def __exec_cmd(cmd_and_args, as_shell=False, catch=3):
+     else:
+         ret, out = runner.runtool(args, catch)
+     out = out.strip()
+-    msger.debug("__exec_cmd: output for %s (rc = %d): %s" % \
++    msger.debug("_exec_cmd: output for %s (rc = %d): %s" % \
+                 (cmd_and_args, ret, out))
  
-+        self._write_env()
-+
-         for image_cmds in image_cmd_groups:
-             # create the images in parallel
-             nproc = multiprocessing.cpu_count()
+     return (ret, out)
+@@ -73,7 +73,7 @@ def exec_cmd(cmd_and_args, as_shell=False, catch=3):
+ 
+     Exits if rc non-zero
+     """
+-    ret, out = __exec_cmd(cmd_and_args, as_shell, catch)
++    ret, out = _exec_cmd(cmd_and_args, as_shell, catch)
+ 
+     if ret != 0:
+         msger.error("exec_cmd: %s returned '%s' instead of 0" % \
+@@ -99,7 +99,7 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
+     args = cmd_and_args.split()
+     msger.debug(args)
+ 
+-    ret, out = __exec_cmd(native_cmd_and_args, True, catch)
++    ret, out = _exec_cmd(native_cmd_and_args, True, catch)
+ 
+     if ret == 127: # shell command-not-found
+         prog = args[0]
+@@ -139,7 +139,7 @@ def get_bitbake_var(var, image=None):
+ 
+         log_level = msger.get_loglevel()
+         msger.set_loglevel('normal')
+-        ret, lines = __exec_cmd(cmd)
++        ret, lines = _exec_cmd(cmd)
+         msger.set_loglevel(log_level)
+ 
+         if ret:
 -- 
 2.1.4
 
