@@ -1,43 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C981766DF
+Return-Path: <0xf777@gmail.com>
+Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
+	[209.85.160.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2326873DF0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 13:47:26 +0000 (UTC)
-Received: by iods203 with SMTP id s203so46377580iod.0
+	Thu, 20 Aug 2015 14:18:47 +0000 (UTC)
+Received: by ykfw73 with SMTP id w73so38737435ykf.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 06:47:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=TR9q9Va/RqKY4E/RYXJJGIE6kOLi1Y9W2peTrdakXvo=;
-	b=jeswtnkr1bOEsuSooehdDywFe0FYeMcGyELyQ1cqy5UjiwQZEKo+VHu0s2tMCDOzWW
-	okGxkU1oOl72habXuDvoGPrJFDpH/tyCeQs3dDrXPo//wwdcJRjQuUo492Sbg7YFu2EJ
-	V1eh1LZySpokdpvapANayjNP0nYOu4TtAxTpjZGSiYTQZNo6+1v2zIEOxFnlmtAJI0je
-	DuagPe0cvdnkcryKlLt90R9A4/ai+jcskjlXYycVQASU6VAo/W2ZcOzqVJIHcfjDS0e6
-	XbJCX4HsObZ7O88YyXgZMjywzZTlNIM+w2i3pSbTN4W2CnoQN/m38/4Yvie0BvDtN7Xv
-	FRow==
-X-Gm-Message-State: ALoCoQlRCMYNy/fx/JIZcyho1tB3Evj4VofK4pEBMh7pjzbfT0vRpHEavEUCq4SaNdAzHFbMkPnT
-X-Received: by 10.107.15.209 with SMTP id 78mr2609187iop.51.1440078446916;
-	Thu, 20 Aug 2015 06:47:26 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8C81A.dip0.t-ipconnect.de. [93.232.200.26])
-	by smtp.gmail.com with ESMTPSA id hs4sm4913078igb.7.2015.08.20.06.47.24
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Aug 2015 06:47:25 -0700 (PDT)
-Message-ID: <1440078442.17136.60.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Date: Thu, 20 Aug 2015 15:47:22 +0200
-In-Reply-To: <d1dcc85512f0c7b9b93f2780048bb9fad8c9da2d.1439991144.git.paul.eggleton@linux.intel.com>
-References: <cover.1439991144.git.paul.eggleton@linux.intel.com>
-	<d1dcc85512f0c7b9b93f2780048bb9fad8c9da2d.1439991144.git.paul.eggleton@linux.intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [RFC PATCH 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
+	Thu, 20 Aug 2015 07:18:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=x2IE+Fr0LsnhmgFz/duWJNBKK7N+J5S+20KvHtZN/IQ=;
+	b=hJfjRApYH/5z0Hyx4pRnZOY1DEKvYdDm9EUT5ChqUpgAmmpJ/yzWxg8hkUb/mhMUzV
+	P77PQ9cxyYa2SQ9Q35ugF8+mZ5nAD/2FzyRQ1LNrw2ZNNqZS/MsGtf7wB3/dmDDy2vQk
+	Zj0jYKGnO4yj9bd8UTuYDdjhwMyxofh1yWspKPyTCGyyFmO0XPxQnRTqf56nosM0Akzf
+	dsC3mlElZLXfnA54xOlhKncNSTepZtDs54YZ1krIXb/wKgNXNnptx0vept9THKh3snUS
+	EmGIT1F+NLNAgIoNlvTjvkUBpz+jfR481A5zHNvm3H3nfUzQduN7B6mwxV4y6l+Fso6t
+	pNPg==
+MIME-Version: 1.0
+X-Received: by 10.170.212.193 with SMTP id d184mr3379977ykf.51.1440080327628; 
+	Thu, 20 Aug 2015 07:18:47 -0700 (PDT)
+Received: by 10.13.221.147 with HTTP; Thu, 20 Aug 2015 07:18:47 -0700 (PDT)
+Date: Thu, 20 Aug 2015 17:18:47 +0300
+Message-ID: <CAHyyKNnpUqqsDahww8wCKbDCrFSS8Ry7cdnpmTYXx0ipgxx0JA@mail.gmail.com>
+From: Alex M <0xf777@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Phonon is not available Qt 4.8.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,76 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 13:47:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Aug 2015 14:18:48 -0000
+Content-Type: multipart/alternative; boundary=001a11393888605c1f051dbed404
 
-On Wed, 2015-08-19 at 14:34 +0100, Paul Eggleton wrote:
-> Allow restricting recipes brought from a layer to a specified list. This
-> is similar in operation to blacklist.bbclass, but instead specifies a
-> per-layer whitelist of recipes (matched by BPN) that are able to be
-> built from the layer - anything else is skipped. This is potentially
-> useful where you want to bring in a select set of recipes from a larger
-> layer e.g. meta-oe.
+--001a11393888605c1f051dbed404
+Content-Type: text/plain; charset=UTF-8
 
-Worked for all of my tests. I added all layers in meta-openembedded and
-then white-listed just gmock in meta-oe (aka openembedded-layer):
+Hello!
+I have a piece of my custom software which is depends on Qt4 + Phonon +
+gstreamer 0.1 and two years ago I had successfully built oe-core image.
+Recent version of oe-core (19 Aug 2015) contain QT_PHONON ?= "-no-phonon"
+option inside qt4.inc file. Why this option banned in default Qt 4
+configuration? Also I do not see qt4-plugin-phonon-backend-gstreamer
+package in recent version, which my software also requires. Other
+gstreamer-0.1 components is fine and already built. What I should do to
+activate Phonon support for Qt4 in oe-core?
 
-INHERIT += "whitelist"
+Also I saw "Phonon for Qt5" meta layers in meta-qt5-extra however I don't
+understand how it will work without "***-plugin-phonon-backend-gstreamer"?
+Is this package required in case of "Phonon for Qt5"? Should I rewrite my
+old Qt4/Phonon code for this?
 
-PNWHITELIST_efl-layer = "no-recipe-enabled"
-PNWHITELIST_filesystems-layer = "no-recipe-enabled"
-PNWHITELIST_gnome-layer = "no-recipe-enabled"
-PNWHITELIST_gpe-layer = "no-recipe-enabled"
-PNWHITELIST_meta-initramfs = "no-recipe-enabled"
-PNWHITELIST_meta-python = "no-recipe-enabled"
-PNWHITELIST_multimedia-layer = "no-recipe-enabled"
-PNWHITELIST_networking-layer = "no-recipe-enabled"
-PNWHITELIST_openembedded-layer = "gmock"
-PNWHITELIST_perl-layer = "no-recipe-enabled"
-PNWHITELIST_ruby-layer = "no-recipe-enabled"
-PNWHITELIST_systemd-layer = "no-recipe-enabled"
-PNWHITELIST_toolchain-layer = "no-recipe-enabled"
-PNWHITELIST_webserver = "no-recipe-enabled"
-PNWHITELIST_xfce-layer = "no-recipe-enabled"
+Thank you for attention :)
 
-I got warnings for several of the layers, but strangely not for all of
-them:
+--001a11393888605c1f051dbed404
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-WARNING: No bb files matched BBFILE_PATTERN_efl-layer '^/work/meta-openembedded/meta-efl/'
-WARNING: No bb files matched BBFILE_PATTERN_filesystems-layer '^/work/meta-openembedded/meta-filesystems/'
-WARNING: No bb files matched BBFILE_PATTERN_gpe-layer '^/work/meta-openembedded/meta-gpe/'
-WARNING: No bb files matched BBFILE_PATTERN_meta-initramfs '^/work/meta-openembedded/meta-initramfs/'
-WARNING: No bb files matched BBFILE_PATTERN_multimedia-layer '^/work/meta-openembedded/meta-multimedia/'
-WARNING: No bb files matched BBFILE_PATTERN_networking-layer '^/work/meta-openembedded/meta-networking/'
-WARNING: No bb files matched BBFILE_PATTERN_perl-layer '^/work/meta-openembedded/meta-perl/'
-WARNING: No bb files matched BBFILE_PATTERN_meta-python '^/work/meta-openembedded/meta-python/'
-WARNING: No bb files matched BBFILE_PATTERN_ruby-layer '^/work/meta-openembedded/meta-ruby/'
-WARNING: No bb files matched BBFILE_PATTERN_webserver '^/work/meta-openembedded/meta-webserver/'
-WARNING: No bb files matched BBFILE_PATTERN_xfce-layer '^/work/meta-openembedded/meta-xfce/'
+<div dir=3D"ltr">Hello!<br>I have a piece of my custom software which is de=
+pends on Qt4 + Phonon + gstreamer 0.1 and two years ago I had successfully =
+built oe-core image. Recent version of oe-core (19 Aug 2015) contain QT_PHO=
+NON ?=3D &quot;-no-phonon&quot; option inside qt4.inc file. Why this option=
+ banned in default Qt 4 configuration? Also I do not see qt4-plugin-phonon-=
+backend-gstreamer package in recent version, which my software also require=
+s. Other gstreamer-0.1 components is fine and already built. What I should =
+do to activate Phonon support for Qt4 in oe-core?<br><br>Also I saw &quot;P=
+honon for Qt5&quot; meta layers in meta-qt5-extra however I don&#39;t under=
+stand how it will work without &quot;***-plugin-phonon-backend-gstreamer&qu=
+ot;? Is this package required in case of &quot;Phonon for Qt5&quot;? Should=
+ I rewrite my old Qt4/Phonon code for this?<br><br>Thank you for attention =
+:)</div>
 
-Note that gnome-layer is not warned about, although none of its recipes
-are enabled (checked with "bitbake-layers show-recipes -f | grep -v
-'(skipped)' | grep meta-gnome"). Any idea why?
-
-One more comment: it would be slightly nicer if empty whitelist could be
-distinguished from no whitelist, with "empty" meaning "enable no
-recipes". In other words, replace "if whitelist" with "if whitelist is
-not None".
-
-I want to list all PNWHITELIST_xxx values for meta-openembedded, even
-when the layer is not (yet) in bblayers.sample.conf, in order to be
-prepared for adding it later. Doing that with an empty string is more
-readable than with a fake recipe name to make the variable non-empty.
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
-
+--001a11393888605c1f051dbed404--
