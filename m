@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 54B5465CBC
+	by mail.openembedded.org (Postfix) with ESMTP id 55E36765DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 08:32:08 +0000 (UTC)
+	Thu, 20 Aug 2015 08:32:06 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2015 01:32:09 -0700
+	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2015 01:32:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787609109"
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787609106"
 Received: from ljegan-mobl1.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.8.54])
-	by orsmga002.jf.intel.com with ESMTP; 20 Aug 2015 01:32:07 -0700
+	by orsmga002.jf.intel.com with ESMTP; 20 Aug 2015 01:32:06 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 09:31:57 +0100
-Message-Id: <d5b584748fbfb60c8be339bd71b300ca3a4cbf75.1440059460.git.paul.eggleton@linux.intel.com>
+Date: Thu, 20 Aug 2015 09:31:56 +0100
+Message-Id: <86f931f8af001566551240637ac840ab9ef8aa1f.1440059460.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1440059460.git.paul.eggleton@linux.intel.com>
 References: <cover.1440059460.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1440059460.git.paul.eggleton@linux.intel.com>
 References: <cover.1440059460.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 3/5] oe-selftest: replace assertTrue(False, ...) with fail(...)
+Subject: [PATCH 2/5] classes/insane: fix QA check message referring to nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,51 +34,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Aug 2015 08:32:09 -0000
 
-I'd somehow missed the existence of fail() when I wrote these. It's
-preferable here so you don't get the somewhat useless "false is not
-true" message in the case of failure.
+nativesdk has been a prefix rather than a suffix for some time now.
 
 Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/devtool.py    | 2 +-
- meta/lib/oeqa/selftest/recipetool.py | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 947d8ee..70ee634 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -51,7 +51,7 @@ class DevtoolBase(oeSelfTest):
-                 bbappendfile = bbappend
-                 break
-         else:
--            self.assertTrue(False, 'bbappend for recipe %s does not seem to be created in test layer' % testrecipe)
-+            self.fail('bbappend for recipe %s does not seem to be created in test layer' % testrecipe)
-         return bbappendfile
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 9c05c86..d9befc4 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -260,7 +260,7 @@ def package_qa_check_dev(path, name, d, elf, messages):
+     """
  
-     def _create_temp_layer(self, templayerdir, addlayer, templayername, priority=999, recipepathspec='recipes-*/*'):
-diff --git a/meta/lib/oeqa/selftest/recipetool.py b/meta/lib/oeqa/selftest/recipetool.py
-index 689d41b..c34ad68 100644
---- a/meta/lib/oeqa/selftest/recipetool.py
-+++ b/meta/lib/oeqa/selftest/recipetool.py
-@@ -282,7 +282,7 @@ class RecipetoolTests(RecipetoolBase):
-                 self.assertIn('add-file.patch', line, 'Unexpected warning found in output:\n%s' % line)
-                 break
-         else:
--            self.assertTrue(False, 'Patch warning not found in output:\n%s' % output)
-+            self.fail('Patch warning not found in output:\n%s' % output)
+     if not name.endswith("-dev") and not name.endswith("-dbg") and not name.endswith("-ptest") and not name.startswith("nativesdk-") and path.endswith(".so") and os.path.islink(path):
+-        messages["dev-so"] = "non -dev/-dbg/-nativesdk package contains symlink .so: %s path '%s'" % \
++        messages["dev-so"] = "non -dev/-dbg/nativesdk- package contains symlink .so: %s path '%s'" % \
+                  (name, package_qa_clean_path(path,d))
  
-     @testcase(1188)
-     def test_recipetool_appendfile_script(self):
-@@ -351,7 +351,7 @@ class RecipetoolTests(RecipetoolBase):
-                         bbappendfile = f
-                         break
-             if not bbappendfile:
--                self.assertTrue(False, 'No bbappend file created')
-+                self.fail('No bbappend file created')
-             runCmd('rm -rf %s/recipes-*' % self.templayerdir)
-             return bbappendfile
- 
+ QAPATHTEST[staticdev] = "package_qa_check_staticdev"
 -- 
 2.1.0
 
