@@ -1,43 +1,28 @@
-Return-Path: <mario.goulart@gmail.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id ADAF476A45
+Return-Path: <philip@balister.org>
+Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
+	by mail.openembedded.org (Postfix) with SMTP id 56D4365CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 12:55:52 +0000 (UTC)
-Received: by iodt126 with SMTP id t126so44663643iod.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 05:55:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:references:date:in-reply-to:message-id
-	:user-agent:mime-version:content-type;
-	bh=Dn9gTTZ1ZQHO9MczqeBtwJmkBX9NSc5lJkOFutu5WQg=;
-	b=oNlKA5Ve26P9u6E+cKv7/9+yZp4nj0O8tOvxSWHEnUMqZBxD22L2+g4xHTBYK0u55g
-	CDq5UhjwdIQrsOpPc2csVDCoS7ndGYWeT/GzrpknAGgar5kz2a70bsR3avQmV24CoSb2
-	dUbj0SGQDHCEgocoSP6EyEHoOYBvOStTM0pZmcrvkGltaUDalTcMDyP3Wk5uxO+edqTc
-	lZ9QMo7wWxdZhLiB7SPnbgs20sJNEYKpfUczR/j6wok3Mz+kRhfXA8XAG7FPiIYXCx0i
-	Ug/cnqgQfzqLY7nq/GqZlXG8O/VQ5EwT7b/s7R3+9lKjr0y56mw74XjyyzX8SDVcAUA8
-	oNBw==
-X-Received: by 10.107.132.20 with SMTP id g20mr2959727iod.175.1440075352439;
-	Thu, 20 Aug 2015 05:55:52 -0700 (PDT)
-Received: from email.parenteses.org.gmail.com (email.parenteses.org.
-	[198.199.72.94])
-	by smtp.gmail.com with ESMTPSA id n5sm4820752iga.0.2015.08.20.05.55.51
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Aug 2015 05:55:52 -0700 (PDT)
-Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
-From: Mario Domenech Goulart <mario@ossystems.com.br>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
-	<cover.1440071413.git.ed.bartosh@linux.intel.com>
-	<fd86d6aa0db030b3d6d708ed08e8b8d14fd4816d.1440071413.git.ed.bartosh@linux.intel.com>
-Date: Thu, 20 Aug 2015 12:55:50 +0000
-In-Reply-To: <fd86d6aa0db030b3d6d708ed08e8b8d14fd4816d.1440071413.git.ed.bartosh@linux.intel.com>
-	(Ed Bartosh's message of "Thu, 20 Aug 2015 14:56:27 +0300")
-Message-ID: <871teynmp5.fsf@email.parenteses.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.4 (gnu/linux)
+	Thu, 20 Aug 2015 13:04:58 +0000 (UTC)
+Received: (qmail 2153 invoked by uid 1003); 20 Aug 2015 13:04:58 -0000
+Received: from unknown (HELO ?192.168.10.72?)
+	(philip@opensdr.com@64.134.178.169)
+	by mail.geekisp.com with (DHE-RSA-AES128-SHA encrypted) SMTP;
+	20 Aug 2015 13:04:58 -0000
+To: Khem Raj <raj.khem@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+References: <1439787800-21088-1-git-send-email-raj.khem@gmail.com>
+	<CAJTo0LZRWXQOc+SCbL1PeJ9QXn_9WHKDC3y6t+QpJ8-_689Y6w@mail.gmail.com>
+	<5402FBA9-07E4-47CF-983E-E8778B5AE2F6@gmail.com>
+	<CAJTo0La4nHiHRLzraJdmO1AMSZ9RJGi=WSZAemrcGPFZTsoXrg@mail.gmail.com>
+	<CAMKF1soxndfF7OLyAx-c49WBDdLhbbecQhxSj7ixeo2hFsRcTA@mail.gmail.com>
+From: Philip Balister <philip@balister.org>
+Message-ID: <55D5D076.5000106@balister.org>
+Date: Thu, 20 Aug 2015 09:04:54 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 14/17] oe-selftest: test building wic image by bitbake
+In-Reply-To: <CAMKF1soxndfF7OLyAx-c49WBDdLhbbecQhxSj7ixeo2hFsRcTA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4 V2] systemd: Upgrade 219 -> 224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,51 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 12:55:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Aug 2015 13:04:59 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-Hi Ed,
+On 08/19/2015 10:21 PM, Khem Raj wrote:
+> On Wed, Aug 19, 2015 at 12:55 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> On 17 August 2015 at 16:41, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>> There are many reasons, for me its overlay support for systemd-nspawn,
+>>> networkd has got many new features that is now usable w.r.t. IP forwarding,
+>>> vxlan etc.
+>>> and it has many bug fixed in those 2000 odd commits since 219, no
+>>> different then any other package upgrades we do in general it keep the
+>>> upgrade workload lower as we roll the releases.
+>>> Any specific concerns ?
+>>
+>>
+>> Can we get an updated patch with a clearer commit log?
 
-On Thu, 20 Aug 2015 14:56:27 +0300 Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+I've also heard that as systemd evolves, more binaries are getting added
+to the base package that should be packaged separately for people
+interested in small images. I do not have personal experience here, but
+wanted to pass along the feedback.
 
-> Added test case to verify building of wic-image-minimal recipe
-> and produced artifacts: manifest and bzipped partitioned image.
->
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/lib/oeqa/selftest/wic.py | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-> index 15de621..dc0745a 100644
-> --- a/meta/lib/oeqa/selftest/wic.py
-> +++ b/meta/lib/oeqa/selftest/wic.py
-> @@ -180,3 +180,17 @@ class Wic(oeSelfTest):
->                          'IMAGE_LINK_NAME', 'STAGING_LIBDIR', 'ROOTFS_SIZE'):
->                  self.assertTrue(var in content)
->                  self.assertTrue(content[var])
-> +
-> +    def test19_wic_image_type(self):
-> +        """Test building wic images by bitbake"""
-> +        self.assertEqual(0, bitbake('wic-image-minimal').status)
-> +
-> +        deploy_dir = get_bb_var('DEPLOY_DIR_IMAGE')
-> +        machine = get_bb_var('MACHINE')
-> +        prefix = os.path.join(deploy_dir, 'wic-image-minimal-%s.' % machine)
-> +        # check if we have result image and manifests synmlinks
+We should look at buildhistory packaging differences when we do upgrades.
 
-Small typo: s/synmlinks/symlinks/.
+Philip
 
-> +        # pointing to existing files
-> +        for suffix in ('wic.bz2', 'manifest'):
-> +            path = prefix + suffix
-> +            self.assertTrue(os.path.islink(path))
-> +            self.assertTrue(os.path.isfile(os.path.realpath(path)))
-> -- 
-> 2.1.4
-
-Best wishes.
-Mario
--- 
-http://www.ossystems.com.br
+> 
+> sent a v2 with more descriptions
+>>
+>> My concerns with the systemd upgrade were simply that until now we were
+>> tracking the systemd-stable repository.
+> 
+> it was only in last release that it was switched to use stable
+> repository in hope that it will help
+> backporting to 1.8 release any future updates done on 219 easily. We
+> never were pinned to stable release
+> it just was a coincidence that 219 was right in time for 1.8 release.
+> We want to avoid situations where core recipes
+> from oe-core are overridden in other layers and staying latest helps that.
+> 
+>   If we want to change that policy to
+>> the latest release, that's fine by me.
+>>
+>> Anyone else have an opinion here?
+>>
+>> Ross
 
