@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 509F365CCD
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D62AA767D6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 11:56:46 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2015 04:56:48 -0700
+	Thu, 20 Aug 2015 11:56:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 20 Aug 2015 04:56:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787700932"
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787471316"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 20 Aug 2015 04:56:47 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2015 04:56:49 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 2D13A6A4005
+	by linux.intel.com (Postfix) with ESMTP id 74C4A6A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 04:55:57 -0700 (PDT)
+	Thu, 20 Aug 2015 04:56:00 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 14:56:16 +0300
-Message-Id: <f0ae5f4d1fe0e611bd0b805a06746c3af6771956.1440071413.git.ed.bartosh@linux.intel.com>
+Date: Thu, 20 Aug 2015 14:56:18 +0300
+Message-Id: <9d055074554bcbae9fdc18c3538238308c04f83b.1440071413.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 03/17] wic: remove undescore from function name
+Subject: [PATCH 05/17] wic: create new method _parse_line
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,74 +35,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 11:56:47 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 11:56:49 -0000
 
-Renamed __exec_cmd -> _exec_cmd as double underscores cause
-strange behaviour when function is called in class method.
-Python complains that __exec_cmd method(!!!) of the same class
-doesn't exist.
+Moved code that parses one line of 'bitbake -e' output
+to separate method _parse_line.
+
+This method will be also used later to parse lines of .env files.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/utils/oe/misc.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ scripts/lib/wic/utils/oe/misc.py | 27 +++++++++++++++++----------
+ 1 file changed, 17 insertions(+), 10 deletions(-)
 
 diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-index d399f2a..9c8f52d 100644
+index 3537a2e..41e435f 100644
 --- a/scripts/lib/wic/utils/oe/misc.py
 +++ b/scripts/lib/wic/utils/oe/misc.py
-@@ -46,13 +46,13 @@ NATIVE_RECIPES = {"mcopy": "mtools",
-                   "syslinux": "syslinux"
-                  }
+@@ -131,6 +131,22 @@ class BitbakeVars(defaultdict):
+     def __init__(self):
+         defaultdict.__init__(self, dict)
  
--def __exec_cmd(cmd_and_args, as_shell=False, catch=3):
-+def _exec_cmd(cmd_and_args, as_shell=False, catch=3):
-     """
-     Execute command, catching stderr, stdout
++    def _parse_line(self, line, image):
++        """
++        Parse one line from bitbake -e output.
++        Put result key-value pair into the storage.
++        """
++        if "=" not in line:
++            return
++        try:
++            key, val = line.split("=")
++        except ValueError:
++            return
++        key = key.strip()
++        val = val.strip()
++        if key.replace('_', '').isalnum():
++            self[image][key] = val.strip('"')
++
+     def get_var(self, var, image=None):
+         """
+         Get bitbake variable value lazy way, i.e. run
+@@ -154,16 +170,7 @@ class BitbakeVars(defaultdict):
  
-     Need to execute as_shell if the command uses wildcards
-     """
--    msger.debug("__exec_cmd: %s" % cmd_and_args)
-+    msger.debug("_exec_cmd: %s" % cmd_and_args)
-     args = cmd_and_args.split()
-     msger.debug(args)
+             # Parse bitbake -e output
+             for line in lines.split('\n'):
+-                if "=" not in line:
+-                    continue
+-                try:
+-                    key, val = line.split("=")
+-                except ValueError:
+-                    continue
+-                key = key.strip()
+-                val = val.strip()
+-                if key.replace('_', '').isalnum():
+-                    self[image][key] = val.strip('"')
++                self._parse_line(line, image)
  
-@@ -61,7 +61,7 @@ def __exec_cmd(cmd_and_args, as_shell=False, catch=3):
-     else:
-         ret, out = runner.runtool(args, catch)
-     out = out.strip()
--    msger.debug("__exec_cmd: output for %s (rc = %d): %s" % \
-+    msger.debug("_exec_cmd: output for %s (rc = %d): %s" % \
-                 (cmd_and_args, ret, out))
- 
-     return (ret, out)
-@@ -73,7 +73,7 @@ def exec_cmd(cmd_and_args, as_shell=False, catch=3):
- 
-     Exits if rc non-zero
-     """
--    ret, out = __exec_cmd(cmd_and_args, as_shell, catch)
-+    ret, out = _exec_cmd(cmd_and_args, as_shell, catch)
- 
-     if ret != 0:
-         msger.error("exec_cmd: %s returned '%s' instead of 0" % \
-@@ -99,7 +99,7 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
-     args = cmd_and_args.split()
-     msger.debug(args)
- 
--    ret, out = __exec_cmd(native_cmd_and_args, True, catch)
-+    ret, out = _exec_cmd(native_cmd_and_args, True, catch)
- 
-     if ret == 127: # shell command-not-found
-         prog = args[0]
-@@ -139,7 +139,7 @@ def get_bitbake_var(var, image=None):
- 
-         log_level = msger.get_loglevel()
-         msger.set_loglevel('normal')
--        ret, lines = __exec_cmd(cmd)
-+        ret, lines = _exec_cmd(cmd)
-         msger.set_loglevel(log_level)
- 
-         if ret:
+             # Make first image a default set of variables
+             images = [key for key in self if key]
 -- 
 2.1.4
 
