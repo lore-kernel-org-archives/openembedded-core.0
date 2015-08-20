@@ -1,25 +1,36 @@
-Return-Path: <randy.e.witt@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B584B608B7
+Return-Path: <radzy@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E0AE665CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 19:30:52 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 20 Aug 2015 12:30:53 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,716,1432623600"; d="scan'208";a="787961027"
-Received: from bitbang.jf.intel.com ([10.7.201.51])
-	by orsmga002.jf.intel.com with ESMTP; 20 Aug 2015 12:30:52 -0700
-To: brendan.le.foll@intel.com, openembedded-core@lists.openembedded.org
-References: <1439991165-13121-1-git-send-email-brendan.le.foll@intel.com>
-	<1439991165-13121-4-git-send-email-brendan.le.foll@intel.com>
-From: Randy Witt <randy.e.witt@linux.intel.com>
-Message-ID: <55D62AEC.6040606@linux.intel.com>
-Date: Thu, 20 Aug 2015 12:30:52 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
+	Thu, 20 Aug 2015 20:15:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7KKF6DS005675
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Aug 2015 13:15:06 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.3.206]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0235.001;
+	Thu, 20 Aug 2015 13:15:05 -0700
+From: "Radzykewycz, T (Radzy)" <radzy@windriver.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCHv2 1/1] screen: Upgrade 4.0.3 -> 4.3.1
+Thread-Index: AQHQ214T/RTVAhp3Tk2Wq+uqAD3auZ4VUqw+
+Date: Thu, 20 Aug 2015 20:15:05 +0000
+Message-ID: <33006C99F5A5194A9B7A7715DFA3E383DC174C19@ALA-MBB.corp.ad.wrs.com>
+References: <cover.1439471616.git.jussi.kukkonen@intel.com>
+	<10269744a7e91ddf317b041f70d5810ae5c94c36.1439471616.git.jussi.kukkonen@intel.com>
+	<20150818083635.GE2458@jama>
+	<CAHiDW_EKTkPcQ+NVP9AocSfvpusiBtwp25rpkTDr5Zn0Ut=A4Q@mail.gmail.com>,
+	<tor.121455D5F425.1070308@windriver.com>
+In-Reply-To: <tor.121455D5F425.1070308@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.216.78]
 MIME-Version: 1.0
-In-Reply-To: <1439991165-13121-4-git-send-email-brendan.le.foll@intel.com>
-Subject: Re: [PATCH 3/3] toolchain-shar-extract.sh: explain why we cannot use sudo in extensible SDK
+Subject: Re: [PATCHv2 1/1] screen: Upgrade 4.0.3 -> 4.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,37 +43,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 19:30:52 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Aug 2015 20:15:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 08/19/2015 06:32 AM, brendan.le.foll@intel.com wrote:
-> From: Brendan Le Foll <brendan.le.foll@intel.com>
->
-> Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
-> ---
->   meta/files/toolchain-shar-extract.sh | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-> index c4c2a70..d8e714a 100644
-> --- a/meta/files/toolchain-shar-extract.sh
-> +++ b/meta/files/toolchain-shar-extract.sh
-> @@ -135,7 +135,7 @@ mkdir -p $target_sdk_dir >/dev/null 2>&1
->   # if don't have the right to access dir, gain by sudo
->   if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; then
->   	if [ "$SDK_EXTENSIBLE" = "1" ]; then
-> -		echo "Unable to access \"$target_sdk_dir\"."
-> +		echo "Unable to access \"$target_sdk_dir\", can\'t install extensible SDK as root."
+I would very much prefer that the GPLv2 license of screen be
+maintained.  What do I need to do to keep a GPLv2 license on
+it ?
 
-This is a bit unclear since it makes it sound like the user was trying to 
-install as root, which would have already failed if that were the case. Perhaps 
-wording it as: "Unable to access $dir, will not attempt to install using sudo, 
-because the extensible sdk can't be installed as root."
+(Sorry for taking so long to respond to this, but I didn't see the
+initial thread.)
 
->   		exit 1
->   	fi
->
->
+Enjoy!
 
+                                      -- radzy
+
+________________________________________
+From: Randy MacLeod [randy.macleod@windriver.com]
+Sent: Thursday, August 20, 2015 8:37 AM
+To: Radzykewycz, T (Radzy)
+Subject: Re: [OE-core] [PATCHv2 1/1] screen: Upgrade 4.0.3 -> 4.3.1
+
+On 19 August 2015 at 09:17, Jussi Kukkonen <jussi.kukkonen@intel.com<mailto=
+:jussi.kukkonen@intel.com>> wrote:
+>> * License is now GPLv3+
+>
+> What about GPLv2 version which was preserved (IIRC) in prevous patch?
+>
+> Why did you decide to drop it now?
+
+Mostly because of Ross' comment "Is screen considered sufficiently
+core that we should maintain both GPLv2 and v3 recipes?  I'm not
+convinced it is".
+
+I did try to coax people to explain their thoughts in a little more
+detail (because I wasn't sure what exactly they were saying) in my
+reply on Aug 12 but no-one did... So I figured it's better to talk
+with patches: I believe maintaining the GPLv2 version is not a great
+use of anyones time (and I think it's fair to say that the recipe
+wasn't receiving the sort of attention it would have required) and
+making a developer tool like that GPLv3 shouldn't be a problem to most
+people.
+
+FWIW, I still agree with my statement and with Jussi here.
+
+Ross
 
