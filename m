@@ -1,20 +1,22 @@
 Return-Path: <brendan.le.foll@intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E3F8873DF0
+	by mail.openembedded.org (Postfix) with ESMTP id 0E44E76A11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 21:38:21 +0000 (UTC)
+	Thu, 20 Aug 2015 21:38:23 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2015 14:38:22 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2015 14:38:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,717,1432623600"; d="scan'208";a="545648668"
+X-IronPort-AV: E=Sophos;i="5.15,717,1432623600"; d="scan'208";a="545648675"
 Received: from jupiter.iwi.intel.com ([172.28.33.51])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Aug 2015 14:38:22 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Aug 2015 14:38:23 -0700
 From: brendan.le.foll@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 22:38:19 +0100
-Message-Id: <1440106702-23272-1-git-send-email-brendan.le.foll@intel.com>
+Date: Thu, 20 Aug 2015 22:38:20 +0100
+Message-Id: <1440106702-23272-2-git-send-email-brendan.le.foll@intel.com>
 X-Mailer: git-send-email 2.5.0
-Subject: [PATCH V2 0/3] Better defaults for extensible toolchain extraction and checks for invalid paths
+In-Reply-To: <1440106702-23272-1-git-send-email-brendan.le.foll@intel.com>
+References: <1440106702-23272-1-git-send-email-brendan.le.foll@intel.com>
+Subject: [PATCH V2 1/3] toolchain-shar-extract.sh: ensure extensible SDK install path obeys restrictions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,8 +31,37 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 20 Aug 2015 21:38:23 -0000
 
-You can now set SDKEXTPATH which will change the default extensible SDK install
-path, as feedback from Christopher and change the error message as suggest by
-Randy.
+From: Brendan Le Foll <brendan.le.foll@intel.com>
+
+There are some characters that cannot appear in the installation path, so we
+need to check for these
+
+Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+---
+ meta/files/toolchain-shar-extract.sh | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 3a50991..0a95aba 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -85,9 +85,12 @@ else
+ 	target_sdk_dir=$(readlink -m "$target_sdk_dir")
+ fi
+ 
+-if [ -n "$(echo $target_sdk_dir|grep ' ')" ]; then
+-	echo "The target directory path ($target_sdk_dir) contains spaces. Abort!"
+-	exit 1
++if [ "$SDK_EXTENSIBLE" = "1" ]; then
++	if [[ "$target_sdk_dir" =~ [+\ @] ]]; then
++		echo "The target directory path ($target_sdk_dir) contains illegal" \
++		     "characters such as spaces, @ or +. Abort!"
++		exit 1
++	fi
+ fi
+ 
+ if [ -e "$target_sdk_dir/environment-setup-@REAL_MULTIMACH_TARGET_SYS@" ]; then
+-- 
+2.5.0
 
 
