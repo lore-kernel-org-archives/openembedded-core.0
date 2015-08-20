@@ -1,37 +1,37 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
-	[209.85.215.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E2AB766DF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id B7C65737F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 15:56:10 +0000 (UTC)
-Received: by lalv9 with SMTP id v9so25311810lal.0
+	Thu, 20 Aug 2015 16:12:12 +0000 (UTC)
+Received: by qkbm65 with SMTP id m65so17686135qkb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 08:56:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=J5loG2xsMyMXSLGfR5lT9gpKRPfRg/9IO4sjwYXPTL4=;
-	b=OYat9NopJGjJpIFhl5IM12lOL53TYXuXSN3ulDsoau8aU7QfEYQCZKnDLX+YWZ162y
-	kD+HjbKE7mfdLaRoQQYltXoTp0+OCdWEiSofa06xUBY/VCAn7euHxOxBdJ3z8huCIjBS
-	X8RKQRImSESABbxK5u8wkAHHjhrRMKCxhqZqDb82RYXs9UnXGucyc+j6oJ8x+o5oHOIG
-	G6ehVJgtP+N19PbkJr1MdNkWlxo5VmwIR15QWokO32qv/2quKBca5d+tHJ8g1Oc0jRAX
-	C+m68LGa6Ygf/kiU0V6beil5QVUHXa72wHEa2d10Gb/lyQBa7CPzUho0E1Kf6iV5xt5L
-	DrUw==
-X-Received: by 10.152.178.133 with SMTP id cy5mr3550639lac.42.1440086170293;
-	Thu, 20 Aug 2015 08:56:10 -0700 (PDT)
-Received: from umbar.auriga.ru (cl-1614.mbx-01.si.sixxs.net.
-	[2001:15c0:65ff:64d::2])
-	by smtp.gmail.com with ESMTPSA id y1sm1338070lad.25.2015.08.20.08.56.08
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 20 Aug 2015 08:56:09 -0700 (PDT)
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 18:56:04 +0300
-Message-Id: <1440086164-21146-2-git-send-email-dbaryshkov@gmail.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1440086164-21146-1-git-send-email-dbaryshkov@gmail.com>
-References: <1440086164-21146-1-git-send-email-dbaryshkov@gmail.com>
-Subject: [PATCH 2/2] tune-octeon.inc: add BASE_LIB settings
+	Thu, 20 Aug 2015 09:12:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=iJIn2cYmsMvVhPZQ7OXpc3BhF7xBthAH/9mv/Kv/b9E=;
+	b=gkSBrhardSPB/PVPN9jMKphCKpyFu8VjZGDC2kHXKT4KaUA2+fEUfuECxj+9nJBlth
+	5zNHM1X2nIh7BUj8vAB2JnYYBIqM8UmBramTNHZsUs9rMV10q/sNK4ygJMA0c9DEg9q8
+	yddmkzWEiMmKwDZ3drE8qjAK+2rK4eSv0VkWnB6lux3oApNQX6kBOGmZa1eDu/xYlLKU
+	QwJcemvnLycmIBRHo73ne4Ig/AXOuzXqb7A3hoUf/ODcdABtJKc6V2bYePloBiAp/ZTO
+	5CbRI3k+43b6SptdOKiQ1Uc20CpMR9TjIyC2je0Pz0ouheQ3/uaEuoaF64535xAr/R9t
+	ZSOw==
+X-Gm-Message-State: ALoCoQmH+MREIDrDbW6GzDyG1oj7s6wSW2Jx9yhbiat1tWyuBSXfH4ypt0xKY94HJAOsg2/kYX6e
+X-Received: by 10.55.212.13 with SMTP id l13mr6908757qki.29.1440087132454;
+	Thu, 20 Aug 2015 09:12:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.98.67 with HTTP; Thu, 20 Aug 2015 09:11:53 -0700 (PDT)
+In-Reply-To: <53a7964df547908768b1554486603bb4f0d9830e.1440070230.git.jussi.kukkonen@intel.com>
+References: <cover.1440070230.git.jussi.kukkonen@intel.com>
+	<53a7964df547908768b1554486603bb4f0d9830e.1440070230.git.jussi.kukkonen@intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Aug 2015 17:11:53 +0100
+Message-ID: <CAJTo0LZgiz9jVRwkyZpAVxv50EwEo=BDBUb0U7M4fBxZexkU-g@mail.gmail.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] libical: Upgrade 1.0.0 -> 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,46 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 15:56:16 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 16:12:16 -0000
+Content-Type: multipart/alternative; boundary=001a1147a520f9ead0051dc069cc
 
-Provide BASE_LIB settings for octeon* tunes that follow the practice of
-mips64/mips64-n32 tunes (lib64 for N64 ABI, lib32 for N32 ABI).
+--001a1147a520f9ead0051dc069cc
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
----
- meta/conf/machine/include/tune-octeon.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+On 20 August 2015 at 12:39, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
 
-diff --git a/meta/conf/machine/include/tune-octeon.inc b/meta/conf/machine/include/tune-octeon.inc
-index fdd48b5..f24d9db 100644
---- a/meta/conf/machine/include/tune-octeon.inc
-+++ b/meta/conf/machine/include/tune-octeon.inc
-@@ -8,10 +8,12 @@ TUNEVALID[octeon2] = "Enable optimization related to octeon2 support"
- TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "octeon2", " -march=octeon2 ", "",d)}"
- 
- TUNE_FEATURES_tune-octeon2 = "${TUNE_FEATURES_tune-mips64-n32} octeon2"
-+BASE_LIB_tune-octeon2 = "lib32"
- MIPSPKGSFX_VARIANT_tune-octeon2 = "octeon2"
- PACKAGE_EXTRA_ARCHS_tune-octeon2 = "mips64-n32 octeon2-n32"
- 
- TUNE_FEATURES_tune-octeon2_64 = "${TUNE_FEATURES_tune-mips64} octeon2"
-+BASE_LIB_tune-octeon2_64 = "lib64"
- MIPSPKGSFX_VARIANT_tune-octeon2_64 = "octeon2_64"
- PACKAGE_EXTRA_ARCHS_tune-octeon2_64 = "mips64 octeon2_64"
- 
-@@ -20,9 +22,11 @@ TUNEVALID[octeon3] = "Enable optimization related to octeon3 support"
- TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "octeon3", " -march=octeon3 ", "",d)}"
- 
- TUNE_FEATURES_tune-octeon3 = "${TUNE_FEATURES_tune-mips64-n32} octeon3"
-+BASE_LIB_tune-octeon3 = "lib32"
- MIPSPKGSFX_VARIANT_tune-octeon3 = "octeon3"
- PACKAGE_EXTRA_ARCHS_tune-octeon3 = "mips64-n32 octeon3-n32"
- 
- TUNE_FEATURES_tune-octeon3_64 = "${TUNE_FEATURES_tune-mips64} octeon3"
-+BASE_LIB_tune-octeon3_64 = "lib64"
- MIPSPKGSFX_VARIANT_tune-octeon3_64 = "octeon3_64"
- PACKAGE_EXTRA_ARCHS_tune-octeon3_64 = "mips64 octeon3_64"
--- 
-2.5.0
+> +inherit cmake perlnative
+>
 
+Why perlnative considering it doesn't depend on any native perl modules?
 
+Ross
+
+--001a1147a520f9ead0051dc069cc
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 20 August 2015 at 12:39, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.co=
+m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":197" =
+class=3D"a3s" style=3D"overflow:hidden">+inherit cmake perlnative<br></div>=
+</blockquote></div><br>Why perlnative considering it doesn&#39;t depend on =
+any native perl modules?</div><div class=3D"gmail_extra"><br></div><div cla=
+ss=3D"gmail_extra">Ross</div></div>
+
+--001a1147a520f9ead0051dc069cc--
