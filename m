@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D62AA767D6
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2706D65CBC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 11:56:48 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 20 Aug 2015 04:56:49 -0700
+	Thu, 20 Aug 2015 11:56:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 20 Aug 2015 04:56:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="787471316"
+X-IronPort-AV: E=Sophos;i="5.15,714,1432623600"; d="scan'208";a="752156342"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 20 Aug 2015 04:56:49 -0700
+	by orsmga001.jf.intel.com with ESMTP; 20 Aug 2015 04:56:51 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 74C4A6A4005
+	by linux.intel.com (Postfix) with ESMTP id A83F96A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 04:56:00 -0700 (PDT)
+	Thu, 20 Aug 2015 04:56:02 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 14:56:18 +0300
-Message-Id: <9d055074554bcbae9fdc18c3538238308c04f83b.1440071413.git.ed.bartosh@linux.intel.com>
+Date: Thu, 20 Aug 2015 14:56:20 +0300
+Message-Id: <31a2406c8d4977e84ee40c5f5da40cf1d93581f5.1440071413.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440071413.git.ed.bartosh@linux.intel.com>
 References: <cover.1440071413.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 05/17] wic: create new method _parse_line
+Subject: [PATCH 07/17] wic: set default image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,63 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 11:56:49 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 11:56:51 -0000
 
-Moved code that parses one line of 'bitbake -e' output
-to separate method _parse_line.
-
-This method will be also used later to parse lines of .env files.
+Set BitbakeVars.default_image when wic is called with -e option.
+This makes get_bitbake_var API to use provided image as a default
+source of variables.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/utils/oe/misc.py | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
+ scripts/wic | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-index 3537a2e..41e435f 100644
---- a/scripts/lib/wic/utils/oe/misc.py
-+++ b/scripts/lib/wic/utils/oe/misc.py
-@@ -131,6 +131,22 @@ class BitbakeVars(defaultdict):
-     def __init__(self):
-         defaultdict.__init__(self, dict)
+diff --git a/scripts/wic b/scripts/wic
+index c1d3003..87ada36 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -52,7 +52,7 @@ if bitbake_exe:
+ else:
+     bitbake_main = None
  
-+    def _parse_line(self, line, image):
-+        """
-+        Parse one line from bitbake -e output.
-+        Put result key-value pair into the storage.
-+        """
-+        if "=" not in line:
-+            return
-+        try:
-+            key, val = line.split("=")
-+        except ValueError:
-+            return
-+        key = key.strip()
-+        val = val.strip()
-+        if key.replace('_', '').isalnum():
-+            self[image][key] = val.strip('"')
-+
-     def get_var(self, var, image=None):
-         """
-         Get bitbake variable value lazy way, i.e. run
-@@ -154,16 +170,7 @@ class BitbakeVars(defaultdict):
+-from wic.utils.oe.misc import get_bitbake_var
++from wic.utils.oe.misc import get_bitbake_var, BB_VARS
+ from wic.utils.errors import WicError
+ from image import engine
+ from image import help as hlp
+@@ -141,7 +141,9 @@ def wic_create_subcommand(args, usage_str):
+             print "  " + ", ".join(missed)
+             sys.exit(1)
  
-             # Parse bitbake -e output
-             for line in lines.split('\n'):
--                if "=" not in line:
--                    continue
--                try:
--                    key, val = line.split("=")
--                except ValueError:
--                    continue
--                key = key.strip()
--                val = val.strip()
--                if key.replace('_', '').isalnum():
--                    self[image][key] = val.strip('"')
-+                self._parse_line(line, image)
+-    if not options.image_name:
++    if options.image_name:
++        BB_VARS.default_image = options.image_name
++    else:
+         options.build_check = False
  
-             # Make first image a default set of variables
-             images = [key for key in self if key]
+     if options.build_check:
 -- 
 2.1.4
 
