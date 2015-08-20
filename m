@@ -1,27 +1,37 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E61873E11
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 65D3C73E11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 01:42:22 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99826609"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Aug 2015 09:45:35 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t7K1gD1W019450
+	Thu, 20 Aug 2015 02:21:57 +0000 (UTC)
+Received: by igfj19 with SMTP id j19so4053840igf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 09:42:14 +0800
-Received: from localhost.localdomain (10.167.226.92) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Thu, 20 Aug 2015 09:42:17 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Aug 2015 09:42:09 +0800
-Message-ID: <1440034929-1709-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 19 Aug 2015 19:21:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=NWDrRytenBm59pJKk7ly50ureDDnsMnmY0RVT/bEVTA=;
+	b=I0L+cWXaUanMLxOyu5tf5yi2UCHloNpqwfVPFTn9jmnzDe54xbOQs1DVFY0UDdEDxC
+	hgbjvrbJWztAVi6M6XoIKmpyjS1914oEFlvbfsG24HdZB20JEoQRJ++YaoPEU59IMw6A
+	/DSapAKpoEKG70/ssRWyqgGXMAFMWMz0erh2uFxhhevv/gpOcX7GvQDCcfWNoWZ4+hgJ
+	ks32is+iK+VJIEXDH1Nkxz4bw4tnzqFILm6mKlLzmE44JpHZ6IFaYPd/AJGH6vtOPhR9
+	JlfKkV8S83EclqtOLuZ6LL6Eu7HQujqra3UiFUZ1xl9LAL9RMg2qRBsWWQkIZDR32NHC
+	PbDg==
+X-Received: by 10.50.59.148 with SMTP id z20mr5386190igq.77.1440037318064;
+	Wed, 19 Aug 2015 19:21:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.92]
-Subject: [PATCH] gmp.inc: Delete "LICENSE = "GPLv3 LGPLv3""
+Received: by 10.107.38.79 with HTTP; Wed, 19 Aug 2015 19:21:28 -0700 (PDT)
+In-Reply-To: <CAJTo0La4nHiHRLzraJdmO1AMSZ9RJGi=WSZAemrcGPFZTsoXrg@mail.gmail.com>
+References: <1439787800-21088-1-git-send-email-raj.khem@gmail.com>
+	<CAJTo0LZRWXQOc+SCbL1PeJ9QXn_9WHKDC3y6t+QpJ8-_689Y6w@mail.gmail.com>
+	<5402FBA9-07E4-47CF-983E-E8778B5AE2F6@gmail.com>
+	<CAJTo0La4nHiHRLzraJdmO1AMSZ9RJGi=WSZAemrcGPFZTsoXrg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 19 Aug 2015 19:21:28 -0700
+Message-ID: <CAMKF1soxndfF7OLyAx-c49WBDdLhbbecQhxSj7ixeo2hFsRcTA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4 V2] systemd: Upgrade 219 -> 224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,30 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 01:42:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Aug 2015 02:22:00 -0000
+Content-Type: text/plain; charset=UTF-8
 
-LICENSE are exist both in gmp.inc and gmp_6.0.0.bb,
-And the LICENSE in gmp.inc is not right,so delete it.
+On Wed, Aug 19, 2015 at 12:55 PM, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 17 August 2015 at 16:41, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> There are many reasons, for me its overlay support for systemd-nspawn,
+>> networkd has got many new features that is now usable w.r.t. IP forwarding,
+>> vxlan etc.
+>> and it has many bug fixed in those 2000 odd commits since 219, no
+>> different then any other package upgrades we do in general it keep the
+>> upgrade workload lower as we roll the releases.
+>> Any specific concerns ?
+>
+>
+> Can we get an updated patch with a clearer commit log?
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- meta/recipes-support/gmp/gmp.inc | 1 -
- 1 file changed, 1 deletion(-)
+sent a v2 with more descriptions
+>
+> My concerns with the systemd upgrade were simply that until now we were
+> tracking the systemd-stable repository.
 
-diff --git a/meta/recipes-support/gmp/gmp.inc b/meta/recipes-support/gmp/gmp.inc
-index 65cde21..7477714 100644
---- a/meta/recipes-support/gmp/gmp.inc
-+++ b/meta/recipes-support/gmp/gmp.inc
-@@ -2,7 +2,6 @@ SECTION = "devel"
- SUMMARY = "GNU multiprecision arithmetic library"
- DESCRIPTION = "GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating point numbers"
- HOMEPAGE = "http://gmplib.org/"
--LICENSE = "GPLv3 LGPLv3"
- 
- REVISION ?= ""
- 
--- 
-1.8.4.2
+it was only in last release that it was switched to use stable
+repository in hope that it will help
+backporting to 1.8 release any future updates done on 219 easily. We
+never were pinned to stable release
+it just was a coincidence that 219 was right in time for 1.8 release.
+We want to avoid situations where core recipes
+from oe-core are overridden in other layers and staying latest helps that.
 
+  If we want to change that policy to
+> the latest release, that's fine by me.
+>
+> Anyone else have an opinion here?
+>
+> Ross
 
