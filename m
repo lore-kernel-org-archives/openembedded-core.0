@@ -1,41 +1,20 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 155A8737F4
+Return-Path: <reinette.chatre@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D56D76A64
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 21:31:26 +0000 (UTC)
-Received: by paom9 with SMTP id m9so2808078pao.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 14:31:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=eaZrHWpgbO7htg3hTqf+sPrXOvD2VN9zXUXvovEdqv4=;
-	b=n0Wtbq7itUlNKsaMyGfwwDAqNhKtUxH6O7JFpZbv8qDBpog2620amLyTynnanvOmfH
-	AgiXoLgsW4fWEUzsWh6qnQxu8N0f9+WVUTNJ3C/g55gc6auEBWQxk60brU2VN/ySfHSa
-	U1KczQqsELq0muFk6LWNVqYy6+gCg9hX825mJ18A+FDK8nKvD7tE1DGegjra0DQaFkse
-	qujxeYvHw1Bqyc8CdKE8tOffMJFMJZSR4Lac1Yrvr3+1nLh1jBc1QS0X/cs+uWyB2mJU
-	ErH7oikUlRBu28Rr/CeFntj4r0MzstPYUmSTt2c2h1acHlZmAdEDLPxBPdcl+HY3yxsd
-	GKSQ==
-X-Received: by 10.66.141.74 with SMTP id rm10mr10340411pab.56.1440106286601;
-	Thu, 20 Aug 2015 14:31:26 -0700 (PDT)
-Received: from [10.43.100.29] (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
-	by smtp.googlemail.com with ESMTPSA id
-	fl6sm5408103pab.12.2015.08.20.14.31.24
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 20 Aug 2015 14:31:25 -0700 (PDT)
-Message-ID: <55D6472C.9040901@gmail.com>
-Date: Thu, 20 Aug 2015 14:31:24 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <cover.1440098114.git.akuster808@gmail.com>
-	<20150820193110.GA15465@jama>
-In-Reply-To: <20150820193110.GA15465@jama>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/7] Dizzy-next for 1.7.3
+	Thu, 20 Aug 2015 21:32:48 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 20 Aug 2015 14:32:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,717,1432623600"; d="scan'208";a="629314211"
+Received: from rchatre-builder.jf.intel.com ([10.54.39.14])
+	by orsmga003.jf.intel.com with ESMTP; 20 Aug 2015 14:32:47 -0700
+From: Reinette Chatre <reinette.chatre@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Aug 2015 14:34:33 -0700
+Message-Id: <02c13f68fd830f0780c134fc77197f5153f6bf85.1440106310.git.reinette.chatre@intel.com>
+X-Mailer: git-send-email 2.4.3
+Subject: [PATCH] xf86-video-intel: enable xvmc feature by default and fix dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,68 +27,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 21:31:31 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Aug 2015 21:32:50 -0000
 
+XvMC extends the X Video extension (Xv) and enables hardware rendered
+motion compensation support. In a test build enabling this feature
+increased the size of the xf86-video-intel package from 1386841 to
+1847154 bytes.
 
+When we enable the xvmc feature in xf86-video-intel we see the
+following QA issue reported:
+QA Issue: xf86-video-intel rdepends on xcb-util, but it isn't
+a build dependency?
 
-On 08/20/2015 12:31 PM, Martin Jansa wrote:
-> On Thu, Aug 20, 2015 at 12:20:31PM -0700, Armin Kuster wrote:
->> Please consider these changes for inclusion to the 1.7.3 update.
->>
->> The following changes since commit e8da5133c2efd3bc4c5f41bb27207c053bc2360d:
->>
->>    runqueue: Add message to explain the problem if diffsigs multiple tasks don't exist (2015-08-20 12:11:24 -0700)
->
-> Can you add:
-> http://patchwork.openembedded.org/patch/97485/
+We fix this by ensuring the build dependencies are set correctly when
+the xvmc feature is enabled.
 
-This and its depend patch merged to akuster/dizzy-next
+Signed-off-by: Reinette Chatre <reinette.chatre@intel.com>
+---
+ meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-- armin
-> ?
->
-> It's already in master and fido.
->
->> are available in the git repository at:
->>
->>    git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
->>    http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
->>
->> Richard Purdie (2):
->>    fetch2: Extend mirroruri handlling
->>    sstate: Use SSTATE_DIR for FILESPATH
->>
->> Saul Wold (2):
->>    grub-efi: Use the backport patch from grub
->>    grub-efi: Add trailing \ missed in last patch
->>
->> Sona Sarmadi (3):
->>    bind9.9.5: CVE-2015-5477
->>    qemu: CVE-2014-7840
->>    qemu-vnc: CVE-2014-7815
->>
->>   bitbake/lib/bb/fetch2/__init__.py                  |  1 +
->>   meta/classes/sstate.bbclass                        |  4 +-
->>   meta/recipes-bsp/grub/grub-efi_2.00.bb             |  1 +
->>   .../bind/bind/bind9_9_5-CVE-2015-5477.patch        | 45 +++++++++++++++++
->>   meta/recipes-connectivity/bind/bind_9.9.5.bb       |  1 +
->>   .../recipes-devtools/qemu/qemu/CVE-2014-7840.patch | 57 ++++++++++++++++++++++
->>   .../qemu/qemu/vnc-CVE-2014-7815.patch              | 53 ++++++++++++++++++++
->>   meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  2 +
->>   8 files changed, 163 insertions(+), 1 deletion(-)
->>   create mode 100644 meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-2015-5477.patch
->>   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2014-7840.patch
->>   create mode 100644 meta/recipes-devtools/qemu/qemu/vnc-CVE-2014-7815.patch
->>
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
+index 26b68b4..d041877 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.99.917.bb
+@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "00b781eea055582820a123c47b62411bdf6aabf4f03dc0568faec55faf
+ 
+ DEPENDS += "virtual/libx11 drm libpciaccess pixman"
+ 
+-PACKAGECONFIG ??= "sna udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri1 dri2', '', d)}"
++PACKAGECONFIG ??= "xvmc sna udev ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'dri dri1 dri2', '', d)}"
+ 
+ PACKAGECONFIG[dri] = "--enable-dri,--disable-dri"
+ PACKAGECONFIG[dri1] = "--enable-dri1,--disable-dri1,xf86driproto"
+@@ -27,7 +27,7 @@ PACKAGECONFIG[dri3] = "--enable-dri3,--disable-dri3,dri3proto"
+ PACKAGECONFIG[sna] = "--enable-sna,--disable-sna"
+ PACKAGECONFIG[uxa] = "--enable-uxa,--disable-uxa"
+ PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
+-PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc"
++PACKAGECONFIG[xvmc] = "--enable-xvmc,--disable-xvmc,libxvmc xcb-util"
+ PACKAGECONFIG[tools] = "--enable-tools,--disable-tools,libxinerama libxrandr libxdamage libxfixes libxcursor libxtst libxext libxrender"
+ 
+ # --enable-kms-only option is required by ROOTLESS_X
+-- 
+2.4.3
+
 
