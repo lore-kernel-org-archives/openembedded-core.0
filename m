@@ -1,22 +1,20 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F0AA737F4
+Return-Path: <randy.e.witt@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FAA8608B7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 22:03:35 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 20 Aug 2015 15:03:23 -0700
+	Thu, 20 Aug 2015 22:24:11 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 20 Aug 2015 15:24:11 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,717,1432623600"; d="scan'208";a="545661185"
-Received: from yctb04.ostc.intel.com (HELO yctb04.otcr.jf.intel.com)
-	([10.23.219.53])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Aug 2015 15:03:23 -0700
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.15,717,1432623600"; d="scan'208";a="629341549"
+Received: from bitbang.jf.intel.com ([10.7.201.51])
+	by orsmga003.jf.intel.com with ESMTP; 20 Aug 2015 15:24:12 -0700
+From: Randy Witt <randy.e.witt@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Aug 2015 13:59:58 +0000
-Message-Id: <1440079198-31036-1-git-send-email-benjamin.esquivel@linux.intel.com>
-X-Mailer: git-send-email 2.3.0
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH] utils.movefile: specify dest file name
+Date: Thu, 20 Aug 2015 15:24:07 -0700
+Message-Id: <1440109450-9173-1-git-send-email-randy.e.witt@linux.intel.com>
+X-Mailer: git-send-email 2.4.3
+Subject: Try to fix qemu freezing due to full socket buffers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,34 +27,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Aug 2015 22:03:36 -0000
+X-List-Received-Date: Thu, 20 Aug 2015 22:24:12 -0000
 
- When moving a file via the os.rename function, it was missing the
- destination file name which caused an OSError
+The following changes since commit a3d228a484cf471e999b6537987e2897d8a7bd4e:
 
- [YOCTO#8180]
+  bitbake: main: Handle RuntimeError exception in list_extension_modules (2015-08-20 22:04:43 +0100)
 
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
----
- bitbake/lib/bb/utils.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/bitbake/lib/bb/utils.py b/bitbake/lib/bb/utils.py
-index 5b94432..5eec787 100644
---- a/bitbake/lib/bb/utils.py
-+++ b/bitbake/lib/bb/utils.py
-@@ -741,7 +741,9 @@ def movefile(src, dest, newmtime = None, sstat = None):
-     renamefailed = 1
-     if sstat[stat.ST_DEV] == dstat[stat.ST_DEV]:
-         try:
--            os.rename(src, dest)
-+            # os.rename needs to know the destination path with file name
-+            destfile = os.path.join(dest, os.path.basename(src))
-+            os.rename(src, destfile) 
-             renamefailed = 0
-         except Exception as e:
-             if e[0] != errno.EXDEV:
--- 
-2.3.0
+  git://git.yoctoproject.org/poky-contrib rewitt/logthread
 
+for you to fetch changes up to c0f8b3c28c4410031dc763e714bc2ad0f87171d6:
+
+  qemurunner: Use two serial ports and log console with a thread (2015-08-20 14:16:29 -0700)
+
+----------------------------------------------------------------
+Randy Witt (3):
+      qemurunner.py: Move some class variables that should only be local
+      qemurunner: Make create_socket() return data and use exceptions
+      qemurunner: Use two serial ports and log console with a thread
+
+ meta/conf/machine/qemuarm.conf    |   2 +-
+ meta/conf/machine/qemuarm64.conf  |   2 +-
+ meta/conf/machine/qemumips.conf   |   2 +-
+ meta/conf/machine/qemumips64.conf |   2 +-
+ meta/conf/machine/qemuppc.conf    |   2 +-
+ meta/conf/machine/qemux86-64.conf |   2 +-
+ meta/conf/machine/qemux86.conf    |   2 +-
+ meta/lib/oeqa/utils/qemurunner.py | 174 ++++++++++++++++++++++++++++++++------
+ 8 files changed, 155 insertions(+), 33 deletions(-)
 
