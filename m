@@ -1,39 +1,35 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A8A860557
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 2087660557
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 13:02:32 +0000 (UTC)
-Received: by qkep139 with SMTP id p139so31256734qke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 06:02:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=cp4Md+8Ho2mKM8vqoOk6+k9ZQpHclQIXBuvstAq2foc=;
-	b=OtNkGe/sBS1FEQAo1i3vpd61DQek/65QbpE5vp3wCiLnoEtCbEqHZZnWHfXtTqYmDQ
-	QWzW5es1Vy+N7VnXZ3sAGCgP71UkphfJscLBkNzGAoL7i5JbGAYCYpMKBRYe6i6QIrl+
-	0Hf5dpmC9uWB0yvWrQeyIuNAlaNbzjEAZVqsqCt6S8M7cZLsR2dK8ZcEQxMvHoDpVZSC
-	qZxtycDbI5xCIOxYroZHxMCkE+cstEYKKGdNy3+NUY/giM2n27cc4PC/4TuCnrtM6Lrm
-	mDfw67RZBS281H46xT5XOVD65eChyyB8Cpnzn5PHsGouNLG2LBKy5heNCsD+/i0seJY6
-	UF2A==
-X-Gm-Message-State: ALoCoQmPWj9WarMkyi8CZqlfprcTLvx2WGMsiu/qYI/E3kFX8ShPokuJuZCGIFPQ4Veb+fUvWL2r
-X-Received: by 10.55.53.193 with SMTP id c184mr16922666qka.62.1440162152926;
-	Fri, 21 Aug 2015 06:02:32 -0700 (PDT)
+	Fri, 21 Aug 2015 13:22:52 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 21 Aug 2015 06:22:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,721,1432623600"; d="scan'208";a="788432908"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 21 Aug 2015 06:22:52 -0700
+Received: by linux.intel.com (Postfix, from userid 48)
+	id 00ACC6A4087; Fri, 21 Aug 2015 06:22:03 -0700 (PDT)
+Received: from 10.252.47.114
+	(SquirrelMail authenticated user alexander.kanavin)
+	by linux.intel.com with HTTP; Fri, 21 Aug 2015 16:22:03 +0300 (EEST)
+Message-ID: <58077.10.252.47.114.1440163323.squirrel@linux.intel.com>
+In-Reply-To: <55D70349.7080003@windriver.com>
+References: <cover.1440145857.git.liezhi.yang@windriver.com>
+	<74b4262e5df004800e56b273e7d7a3d64d7af9b3.1440145857.git.liezhi.yang@windriver.com>
+	<CAHiDW_HqD908Y_F7i6kFNrLhD4UohnUp1FSMtF-aVnCoW=A7TQ@mail.gmail.com>
+	<55D70349.7080003@windriver.com>
+Date: Fri, 21 Aug 2015 16:22:03 +0300 (EEST)
+From: alexander.kanavin@linux.intel.com
+To: "Robert Yang" <liezhi.yang@windriver.com>
+User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Fri, 21 Aug 2015 06:02:13 -0700 (PDT)
-In-Reply-To: <CAHiDW_E2xi68qwAikPy18aQw-r-Ue5qU8v8pApUFiPX37gLMTA@mail.gmail.com>
-References: <cover.1440070230.git.jussi.kukkonen@intel.com>
-	<53a7964df547908768b1554486603bb4f0d9830e.1440070230.git.jussi.kukkonen@intel.com>
-	<CAJTo0LZgiz9jVRwkyZpAVxv50EwEo=BDBUb0U7M4fBxZexkU-g@mail.gmail.com>
-	<CAHiDW_E2xi68qwAikPy18aQw-r-Ue5qU8v8pApUFiPX37gLMTA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Aug 2015 14:02:13 +0100
-Message-ID: <CAJTo0LZFKgf-GzRBd4YdEH-Ho5XH9RUMx+3-hxSz3us1YYCDjQ@mail.gmail.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libical: Upgrade 1.0.0 -> 1.0.1
+X-Priority: 3 (Normal)
+Importance: Normal
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/5] btrfs-tools: 4.1.1 -> 4.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,41 +42,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Aug 2015 13:02:34 -0000
-Content-Type: multipart/alternative; boundary=001a11476f148b5dd9051dd1e1d4
+X-List-Received-Date: Fri, 21 Aug 2015 13:22:53 -0000
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
---001a11476f148b5dd9051dd1e1d4
-Content-Type: text/plain; charset=UTF-8
-
-On 21 August 2015 at 08:08, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
-
-> It does some fairly simple header autogeneration during build (see
-> src/libical/Makefile.am and scripts/). As far as I can tell it does
-> not require modules other than core -- but I don't know much about
-> perl (especially in OE build) so let me know if there's gotchas I
-> should look out for.
+>> Is there no PV change here?
 >
+> Thanks, I updated in the repo.
+> -PV = "4.1.1+git${SRCPV}"
+> +PV = "4.1.2+git${SRCPV}"
 
-In that case we can just the host perl, and don't need perlnative.
+You can also rename the recipe to btrfs-tools_4.1.2.bb and remove the PV
+altogether. The above form is only needed if you're taking something from
+git that is not a pristine tagged release (i.e. when it is a tagged
+commit+additional commits).
 
-Ross
+Alex
 
---001a11476f148b5dd9051dd1e1d4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 21 August 2015 at 08:08, Jussi Kukkonen <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:jussi.kukkonen@intel.com" target=3D"_blank">jussi.kukkonen@intel.co=
-m</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":3u3" =
-class=3D"a3s" style=3D"overflow:hidden">It does some fairly simple header a=
-utogeneration during build (see<br>
-src/libical/Makefile.am and scripts/). As far as I can tell it does<br>
-not require modules other than core -- but I don&#39;t know much about<br>
-perl (especially in OE build) so let me know if there&#39;s gotchas I<br>
-should look out for.</div></blockquote></div><br>In that case we can just t=
-he host perl, and don&#39;t need perlnative.</div><div class=3D"gmail_extra=
-"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11476f148b5dd9051dd1e1d4--
