@@ -1,22 +1,50 @@
-Return-Path: <dv@pseudoterminal.org>
-Received: from ptmx.org (ptmx.org [178.63.28.110])
-	by mail.openembedded.org (Postfix) with ESMTP id BE8B360657
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 144317391A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 21:57:33 +0000 (UTC)
-Received: from [192.168.178.14] (chello062178118086.5.14.vie.surfer.at
-	[62.178.118.86]) by ptmx.org (Postfix) with ESMTPSA id 657F037AF6
+	Fri, 21 Aug 2015 21:59:00 +0000 (UTC)
+Received: by igfj19 with SMTP id j19so23453076igf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 23:57:15 +0200 (CEST)
-Message-ID: <55D79ECC.9070308@pseudoterminal.org>
-Date: Fri, 21 Aug 2015 23:57:32 +0200
-From: Carlos Rafael Giani <dv@pseudoterminal.org>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Fri, 21 Aug 2015 14:59:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=GR76ee8hRVyG92xyindJbuY5uqSn72Phu4AjZuPB+ro=;
+	b=NpBsY6jynHTpWR7LbjBlW3DP4I16hpTph7SyVOPSWzqy7A/e5S/5gKnktdX79o8srO
+	94kC1Elzjwrmu9Wer+6xCt++PITNbgTttPT6mTpM6ouu5BSmd2GowwMc0T0cSDOCqpDj
+	1cC0io29LJyH+J0+td8v5SRIxth5j3iIfnvv67LZ3ixr66sKSfmLUq6jyJ4VAmRXV5SD
+	4wYHDbWTABwZMm/nIw13syl0qKVbg0U4/BF24u/jG8LPQFlyHT2Yi1Q340IZ3Fc19BFk
+	Gl6Lu7+0JD3X0d7Im3EPe+/4WJVB0hudvG3Sbramaz1HbYZcNzjkGISgkcP1wara608A
+	IrIQ==
+X-Gm-Message-State: ALoCoQnD7+zMefvGMm+j/G8INoA+O6UnDDbaTfgHqAAvU5sVnZCUZlh7DaRTQT6WYBzd6wUBi5km
+X-Received: by 10.50.30.196 with SMTP id u4mr5166940igh.11.1440194340548;
+	Fri, 21 Aug 2015 14:59:00 -0700 (PDT)
+Received: from mail-io0-f173.google.com (mail-io0-f173.google.com.
+	[209.85.223.173])
+	by smtp.gmail.com with ESMTPSA id au6sm3041391igc.0.2015.08.21.14.58.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 21 Aug 2015 14:58:59 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by iods203 with SMTP id s203so96323526iod.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Aug 2015 14:58:58 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1440167394-20065-1-git-send-email-b54851@freescale.com>
-In-Reply-To: <1440167394-20065-1-git-send-email-b54851@freescale.com>
-Subject: Re: [poky][PATCH v4 0/2] gstreamer1.0: Add patches for Gstreamer 1.4.5
+X-Received: by 10.107.14.145 with SMTP id 139mr8604237ioo.37.1440194338666;
+	Fri, 21 Aug 2015 14:58:58 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Fri, 21 Aug 2015 14:58:58 -0700 (PDT)
+In-Reply-To: <2ADD7CA4-0184-4D54-9E0B-8A58ACB51DC1@gmail.com>
+References: <1440193082-508-1-git-send-email-otavio@ossystems.com.br>
+	<2ADD7CA4-0184-4D54-9E0B-8A58ACB51DC1@gmail.com>
+Date: Fri, 21 Aug 2015 18:58:58 -0300
+Message-ID: <CAP9ODKrEBfBH-+Z2VYg3qG5Bpi7aDozn6F1Z9r7MP3qC8Zs+RQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Rename 'BRANCH' variable to 'SRC_BRANCH' for clearness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,35 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Aug 2015 21:57:36 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Aug 2015 21:59:03 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-These are backports, so I do not see a problem with them. However, keep 
-in mind that GStreamer 1.6 will be out in a few days, so I recommend 
-hold off any patches that are not backports. I have recipes prepared for 
-1.5.90 (= 1.6 release candidate) that I will then send to the mailing 
-list. New patches should be applied on top of that, not 1.4.5.
+On Fri, Aug 21, 2015 at 6:49 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Aug 21, 2015, at 2:38 PM, Otavio Salvador <otavio@ossystems.com.br> w=
+rote:
+>>
+>> The 'BRANCH' variable name has no explicit relation with the
+>> SRC_URI. Using 'SRC_BRANCH' makes it more obvious and easier to
+>> identify.
+>
+> Look good to me, just may be avoid =E2=80=98_=E2=80=99 and call it SRCBRA=
+NCH
 
+I did this initially but looking at how it looks in the source code,
+it seems SRC_BRANCH makes easier to spot the relation with SRC_URI. So
+I took the second.
 
-Am 2015-08-21 um 16:29 schrieb Yuqing Zhu:
-> Fix sticky events haven't been sent out when active track reach EOS
->
-> Fix QoS/lateness checking if subclass implements prepare/prepare_list vfuncs
->
->
-> Yuqing Zhu (2):
->    gstreamer1.0: Fix ticky events haven't been sent out when active track
->      reach EOS
->    gstreamer1.0: Fix QoS/lateness checking if subclass implements
->      prepare/prepare_list vfuncs
->
->   ...x-QoS-lateness-checking-if-subclass-imple.patch |  70 +++++++++
->   ...cky-events-haven-t-send-out-when-ac-1-4-1.patch | 167 +++++++++++++++++++++
->   .../gstreamer/gstreamer1.0_1.4.5.bb                |   2 +
->   3 files changed, 239 insertions(+)
->   create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-basesink-Fix-QoS-lateness-checking-if-subclass-imple.patch
->   create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0/inputselector-sticky-events-haven-t-send-out-when-ac-1-4-1.patch
->
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
