@@ -1,53 +1,40 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E8BD60657
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 099BD60657
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 21:43:06 +0000 (UTC)
-Received: by igfj19 with SMTP id j19so27243111igf.0
+	Fri, 21 Aug 2015 21:49:58 +0000 (UTC)
+Received: by pacdd16 with SMTP id dd16so52241700pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 14:43:06 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=zpkm24V3ZUOrQxyG1hDd8vjepUoJ3RDyu6l060cE14U=;
-	b=aIVoPCFX8YjT6K6XxdDCqmHC0wz4M8UzET5bh7yk5WX0MwTviygU5toAiJhaz86j/A
-	brnCtx1EB/jdiSGKrgzFmY5hlQRkF/uz05l3RboIRWaBmdoX49A56gS6TZ2Uw3gdU4Xy
-	IARxCnhlIYzItjJbI3ZqgBnlaJjPfEFhWuw0hKbMoSMa+q/53yBsiB72bLBgeaQ17d6y
-	roAxjF1CGouJia3/izyP2SVyHkQicbtZHW5yPS9W52GyiUzYjH6X4VP4xKAAiQONpnVc
-	/eg5KD4k0ohbgjOlFkBjN1Ab18N+b+sFlF5fimxkE5hYcbG0FalJXhqORI+Ko12uHVlh
-	05sg==
-X-Gm-Message-State: ALoCoQn5NYPfPOspoAxUuhP4BAhxHrHiF4FpXAbtMR3jUeBYqe2V0/3sGcaWypZMW8hYMntj7eGA
-X-Received: by 10.50.253.36 with SMTP id zx4mr4935424igc.43.1440193386295;
-	Fri, 21 Aug 2015 14:43:06 -0700 (PDT)
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com.
-	[209.85.223.177]) by smtp.gmail.com with ESMTPSA id
-	ci7sm2733400igc.16.2015.08.21.14.43.04
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 21 Aug 2015 14:43:04 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by iodt126 with SMTP id t126so96193014iod.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 14:43:04 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.107.14.145 with SMTP id 139mr8553369ioo.37.1440193384216;
-	Fri, 21 Aug 2015 14:43:04 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Fri, 21 Aug 2015 14:43:04 -0700 (PDT)
-In-Reply-To: <CAMKF1srDn=2kMGpkn0Pp1fF89PBk+Ex6AonVgur5vSFnkAOfdQ@mail.gmail.com>
-References: <cover.1439991144.git.paul.eggleton@linux.intel.com>
-	<d1dcc85512f0c7b9b93f2780048bb9fad8c9da2d.1439991144.git.paul.eggleton@linux.intel.com>
-	<1440153906.12105.233.camel@linuxfoundation.org>
-	<CAMKF1srDn=2kMGpkn0Pp1fF89PBk+Ex6AonVgur5vSFnkAOfdQ@mail.gmail.com>
-Date: Fri, 21 Aug 2015 18:43:04 -0300
-Message-ID: <CAP9ODKraiRiKPOq1mYDNWjMXex4Cn1jrSjVhxyUU-_jpFbW_nw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
+	Fri, 21 Aug 2015 14:49:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=t3Y1Dh6ogUGLLR7wG7MqzKtNVBEd8MUaa/KAzW1oyhc=;
+	b=XXdgM0v9OqseICEQ+Icue0ysKNaIy1YMQTo1eleOX8R2JFqwvFuHjQanETquuKD3jr
+	2rV16ap7FLBUg3r+Q/PBAI7xtm+KG1Wa9bPMJpObQ2j1mb/eddEa/LtGKYAkDtdvWq2r
+	NJEIq15DFjTOhMuo2bUQ5VIaSn7vX9CJN36PQ9F6oLrgAX+zqSKqQgZwtwuYJn560LWM
+	/9EYyoVE2LQ40kK2yO6BG0/6sumt5MT0fwFEut9IvgbmddMYWMf6r+0j68l2f3r2AaqX
+	+JmHqvrwfzXlcr7MTPgRRqUtv9CF8jNwOtGL7j6y9PhGBwTU3iwI9fHVqUAXAsbRW8G/
+	fLFA==
+X-Received: by 10.68.98.194 with SMTP id ek2mr21045846pbb.152.1440193798708;
+	Fri, 21 Aug 2015 14:49:58 -0700 (PDT)
+Received: from [10.11.15.192] ([69.84.245.29])
+	by smtp.gmail.com with ESMTPSA id
+	pg5sm8865603pdb.81.2015.08.21.14.49.56
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 21 Aug 2015 14:49:56 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1440193082-508-1-git-send-email-otavio@ossystems.com.br>
+Date: Fri, 21 Aug 2015 14:49:52 -0700
+Message-Id: <2ADD7CA4-0184-4D54-9E0B-8A58ACB51DC1@gmail.com>
+References: <1440193082-508-1-git-send-email-otavio@ossystems.com.br>
+To: Otavio Salvador <otavio@ossystems.com.br>
+X-Mailer: Apple Mail (2.2104)
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Rename 'BRANCH' variable to 'SRC_BRANCH' for clearness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,90 +47,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Aug 2015 21:43:06 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 21 Aug 2015 21:49:59 -0000
+X-Groupsio-MsgNum: 69831
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_9374C928-A814-475A-89BD-992354CF6B14";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Fri, Aug 21, 2015 at 2:45 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> On Fri, Aug 21, 2015 at 3:45 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Wed, 2015-08-19 at 14:34 +0100, Paul Eggleton wrote:
->>> Allow restricting recipes brought from a layer to a specified list. This
->>> is similar in operation to blacklist.bbclass, but instead specifies a
->>> per-layer whitelist of recipes (matched by BPN) that are able to be
->>> built from the layer - anything else is skipped. This is potentially
->>> useful where you want to bring in a select set of recipes from a larger
->>> layer e.g. meta-oe.
->>>
->>> Implements [YOCTO #8150].
->>>
->>> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
->>> ---
->>>  meta/classes/whitelist.bbclass | 28 ++++++++++++++++++++++++++++
->>>  1 file changed, 28 insertions(+)
->>>  create mode 100644 meta/classes/whitelist.bbclass
->>
->> I should go on record as having some pretty strong reservations about
->> this from a philosophical standpoint.
->>
->> Why? I think its going to encourage behaviours which will result in a
->> decrease in layer quality, particularly for meta-oe.
->>
->> Taking a simple example, today if someone breaks parsing in meta-oe, its
->> quickly known about and multiple people can see and resolve the issue.
->> Once people start using this class, many users will simply never
->> see/care about parsing breakage in less maintained parts of the layer.
->>
->> I appreciate Martin will likely notice, however this shouldn't Martin's
->> sole responsibility.
->>
->> Since people's focus will be on to narrow parts of the layer, we'll
->> start to see islands which are well maintained/used and islands which
->> are not. Worse, just looking at the layer, we won't be able to tell
->> which is which.
->>
->> I'm nervous about anything which pushes responsibility onto already
->> overloaded maintainers and encourages behaviour which is a net loss on
->> "quality".
->>
->> I've talked to several significant users and they all "love" the idea of
->> this class and plan to adopt it ASAP over existing tools like
->> combo-layer. I therefore can't see much advantage of not merging the
->> class as people are going to use it regardless.
->>
->> Speaking of it, combo-layer was designed to be an alternative way of
->> dealing with these issues (more pain to use but causing less of a
->> quality impact). Sadly, whilst it has seen some improvements, it still
->> doesn't handle every operation it would need to make it work for some
->> users and isn't widely adopted. I simply don't have the time to go and
->> push it forward.
->>
->> So my objection is on record but that is likely about all I can do,
->> other than hope I'm overly paranoid...
->
-> All points here are valid. We already see this with distro's which use
-> layers verbatim e.g. angstrom
-> I wish everyone derived their distros that way since that respects the
-> layer boundaries, a good chunk of work
-> there is still we send patches to layers to keep them up to date with
-> changes in other layers and there still are patches
-> pending since every layer maintainer doesnt respond in sam time frame,
-> but this sort of facilities if added is just going to worsen that
-> workload.
-> I think amalgmation of layers start with use of combo-tool itself.
-> This patch just takes it a step further. If we want to preserve
-> the layer model's health we have to work towards respecting layer
-> boundaries and I would even go a step further and suggest to
-> discourage use of combo-tool or any sort of layer squashing.
+--Apple-Mail=_9374C928-A814-475A-89BD-992354CF6B14
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-I fully agree; in fact Poky itself is a bad example that I often have
-to explain for vendors. People justify putting several layers together
-in same repository saying that Poky does that and this is a
-contradiction which we need to justify as Yocto Project promotes the
-use of layers as one of most preeminent features but Poky does the
-opposite ...
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+> On Aug 21, 2015, at 2:38 PM, Otavio Salvador <otavio@ossystems.com.br> =
+wrote:
+>=20
+> The 'BRANCH' variable name has no explicit relation with the
+> SRC_URI. Using 'SRC_BRANCH' makes it more obvious and easier to
+> identify.
 
+Look good to me, just may be avoid =E2=80=98_=E2=80=99 and call it =
+SRCBRANCH
+
+>=20
+> This patch makes the use consistent across the metadata.
+>=20
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+>=20
+> meta/recipes-core/glibc/cross-localedef-native_2.22.bb | 4 ++--
+> meta/recipes-core/glibc/glibc_2.22.bb                  | 4 ++--
+> meta/recipes-devtools/mmc/mmc-utils_git.bb             | 4 ++--
+> 3 files changed, 6 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.22.bb =
+b/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+> index 2153ece..869cb3a 100644
+> --- a/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+> +++ b/meta/recipes-core/glibc/cross-localedef-native_2.22.bb
+> @@ -14,10 +14,10 @@ inherit autotools
+>=20
+> FILESEXTRAPATHS =3D. "${FILE_DIRNAME}/${PN}:${FILE_DIRNAME}/glibc:"
+>=20
+> -BRANCH ?=3D "release/${PV}/master"
+> +SRC_BRANCH ?=3D "release/${PV}/master"
+> GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
+>=20
+> -SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${BRANCH};name=3Dglibc \
+> +SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRC_BRANCH};name=3Dglibc \
+>            =
+git://github.com/kraj/localedef;branch=3Dmaster;name=3Dlocaledef;destsuffi=
+x=3Dgit/localedef \
+>            file://fix_for_centos_5.8.patch \
+>            ${EGLIBCPATCHES} \
+> diff --git a/meta/recipes-core/glibc/glibc_2.22.bb =
+b/meta/recipes-core/glibc/glibc_2.22.bb
+> index 6aaf722..c02b6c8 100644
+> --- a/meta/recipes-core/glibc/glibc_2.22.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.22.bb
+> @@ -9,11 +9,11 @@ DEPENDS +=3D "gperf-native kconfig-frontends-native"
+>=20
+> SRCREV ?=3D "a34d1c6afc86521d6ad17662a3b5362d8481514c"
+>=20
+> -BRANCH ?=3D "release/${PV}/master"
+> +SRC_BRANCH ?=3D "release/${PV}/master"
+>=20
+> GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
+>=20
+> -SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${BRANCH};name=3Dglibc \
+> +SRC_URI =3D "${GLIBC_GIT_URI};branch=3D${SRC_BRANCH};name=3Dglibc \
+>            =
+file://0004-Backport-https-sourceware.org-ml-libc-ports-2007-12-.patch \
+>            =
+file://0005-fsl-e500-e5500-e6500-603e-fsqrt-implementation.patch \
+>            =
+file://0006-readlib-Add-OECORE_KNOWN_INTERPRETER_NAMES-to-known-.patch \
+> diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb =
+b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> index 8950360..c6947e8 100644
+> --- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> +++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+> @@ -3,12 +3,12 @@ HOMEPAGE =3D =
+"http://git.kernel.org/cgit/linux/kernel/git/cjb/mmc-utils.git/"
+> LICENSE =3D "GPLv2"
+> LIC_FILES_CHKSUM =3D =
+"file://mmc.c;beginline=3D1;endline=3D17;md5=3Dd7747fc87f1eb22b946ef819969=
+503f0"
+>=20
+> -BRANCH ?=3D "master"
+> +SRC_BRANCH ?=3D "master"
+> SRCREV =3D "f4eb241519f8d500ce6068a70d2389be39ac5189"
+>=20
+> PV =3D "0.1"
+>=20
+> -SRC_URI =3D =
+"git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=3D=
+${BRANCH} \
+> +SRC_URI =3D =
+"git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=3D=
+${SRC_BRANCH} \
+>            =
+file://0001-mmc.h-don-t-include-asm-generic-int-ll64.h.patch"
+>=20
+> S =3D "${WORKDIR}/git"
+> --
+> 2.5.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_9374C928-A814-475A-89BD-992354CF6B14
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXXnQMACgkQuwUzVZGdMxSX4wCfQaieN7nlP5SCuXtGs9fi1Qvv
+az4AoI+yT0psJddUeUr3DFobT4gLTzx2
+=29NB
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_9374C928-A814-475A-89BD-992354CF6B14--
