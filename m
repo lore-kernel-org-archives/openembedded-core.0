@@ -1,23 +1,23 @@
 Return-Path: <mariano.lopez@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 85953759C7
+	by mail.openembedded.org (Postfix) with ESMTP id 7B81076AE2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Aug 2015 01:05:29 +0000 (UTC)
+	Sat, 22 Aug 2015 01:05:30 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 21 Aug 2015 18:05:29 -0700
+	by orsmga103.jf.intel.com with ESMTP; 21 Aug 2015 18:05:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,723,1432623600"; d="scan'208";a="788755848"
+X-IronPort-AV: E=Sophos;i="5.15,723,1432623600"; d="scan'208";a="788755864"
 Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
 	([10.23.219.46])
-	by orsmga002.jf.intel.com with ESMTP; 21 Aug 2015 18:05:28 -0700
+	by orsmga002.jf.intel.com with ESMTP; 21 Aug 2015 18:05:31 -0700
 From: mariano.lopez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Aug 2015 16:56:15 +0000
-Message-Id: <1440176176-35232-3-git-send-email-mariano.lopez@linux.intel.com>
+Date: Fri, 21 Aug 2015 16:56:16 +0000
+Message-Id: <1440176176-35232-4-git-send-email-mariano.lopez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
 In-Reply-To: <1440176176-35232-1-git-send-email-mariano.lopez@linux.intel.com>
 References: <1440176176-35232-1-git-send-email-mariano.lopez@linux.intel.com>
-Subject: [PATCH 2/3] qemurunner: Added host dumps when there are errors
+Subject: [PATCH 3/3] dump: allow to have datastore vars on dump commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,153 +30,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Aug 2015 01:05:29 -0000
+X-List-Received-Date: Sat, 22 Aug 2015 01:05:30 -0000
 
 From: Mariano Lopez <mariano.lopez@linux.intel.com>
 
-This adds an instance of HostDumper to qemurunner,
-with this instance now is possible to get dumps
-from the host when there is an error.
+This allows to have datastore variables in the dump
+commands and will get the data when a new instance
+it's created.
 
-This also adds dump points in the next cases:
-    - runqemu exits before seeing qemu pid
-    - Fail to get qemu process arguments
-    - Not reach login banner before timeout
-    - qemu pid never appears
+Also this remove special cases from the commands.
 
 [YOCTO #8118]
 
 Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
 ---
- meta/classes/testimage.bbclass    |  2 +-
- meta/lib/oeqa/targetcontrol.py    | 10 ++++++----
- meta/lib/oeqa/utils/qemurunner.py | 15 +++++++++++++--
- 3 files changed, 20 insertions(+), 7 deletions(-)
+ meta/classes/testimage.bbclass |  7 +++++--
+ meta/lib/oeqa/utils/dump.py    | 43 ++++++++++++++++++++++++++----------------
+ 2 files changed, 32 insertions(+), 18 deletions(-)
 
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 824b47f..2131869 100644
+index 2131869..6a4b80a 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -250,7 +250,7 @@ def testimage_main(d):
-     host_dumper = get_host_dumper(d)
+@@ -63,11 +63,14 @@ testimage_dump_target () {
+     ps
+     free
+     df
+-    _ping
++    # The next command will export the default gateway IP
++    export DEFAULT_GATEWAY=$(ip route | awk '/default/ { print $3}')
++    ping -c3 $DEFAULT_GATEWAY
+     dmesg
+     netstat -an
+     ip address
+-    _logs
++    # Next command will dump logs from /var/log/
++    find /var/log/ -type f 2>/dev/null -exec echo "====================" \; -exec echo {} \; -exec echo "====================" \; -exec cat {} \; -exec echo "" \;
+ }
  
-     # the robot dance
--    target = get_target_controller(d)
-+    target = get_target_controller(d, host_dumper)
+ testimage_dump_host () {
+diff --git a/meta/lib/oeqa/utils/dump.py b/meta/lib/oeqa/utils/dump.py
+index 1475b27..85bbc7a 100644
+--- a/meta/lib/oeqa/utils/dump.py
++++ b/meta/lib/oeqa/utils/dump.py
+@@ -11,8 +11,24 @@ def get_host_dumper(d):
  
-     class TestContext(object):
-         def __init__(self):
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 2d58f17..14ba1d9 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -18,11 +18,11 @@ from oeqa.utils.dump import TargetDumper
- from oeqa.controllers.testtargetloader import TestTargetLoader
- from abc import ABCMeta, abstractmethod
- 
--def get_target_controller(d):
-+def get_target_controller(d, host_dumper):
-     testtarget = d.getVar("TEST_TARGET", True)
-     # old, simple names
-     if testtarget == "qemu":
--        return QemuTarget(d)
-+        return QemuTarget(d, host_dumper)
-     elif testtarget == "simpleremote":
-         return SimpleRemoteTarget(d)
-     else:
-@@ -115,7 +115,7 @@ class QemuTarget(BaseTarget):
- 
-     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz']
+ class BaseDumper(object):
  
 -    def __init__(self, d):
-+    def __init__(self, d, host_dumper):
++    def __init__(self, d, cmds):
++        self.cmds = []
+         self.parent_dir = d.getVar("TESTIMAGE_DUMP_DIR", True)
++        for cmd in cmds.split('\n'):
++            cmd = cmd.lstrip()
++            if not cmd or cmd[0] == '#':
++                continue
++            # Replae variables from the datastore
++            while True:
++                index_start = cmd.find("${")
++                if index_start == -1:
++                    break
++                index_start += 2
++                index_end = cmd.find("}", index_start)
++                var = cmd[index_start:index_end]
++                value = d.getVar(var, True)
++                cmd = cmd.replace("${%s}" % var, value)
++            self.cmds.append(cmd)
  
-         super(QemuTarget, self).__init__(d)
+     def create_dir(self, dir_suffix):
+         dump_subdir = ("%s_%s" % (
+@@ -26,7 +42,7 @@ class BaseDumper(object):
+                 raise err
+         self.dump_dir = dump_dir
  
-@@ -124,6 +124,7 @@ class QemuTarget(BaseTarget):
-         self.origrootfs = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True),  d.getVar("IMAGE_LINK_NAME", True) + '.' + self.image_fstype)
-         self.rootfs = os.path.join(self.testdir, d.getVar("IMAGE_LINK_NAME", True) + '-testimage.' + self.image_fstype)
-         self.kernel = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("KERNEL_IMAGETYPE", False) + '-' + d.getVar('MACHINE', False) + '.bin')
-+        self.host_dumper = host_dumper
+-    def write_dump(self, command, output):
++    def _write_dump(self, command, output):
+         if isinstance(self, HostDumper):
+             prefix = "host"
+         elif isinstance(self, TargetDumper):
+@@ -45,33 +61,28 @@ class BaseDumper(object):
+ class HostDumper(BaseDumper):
  
-         # Log QemuRunner log output to a file
-         import oe.path
-@@ -151,7 +152,8 @@ class QemuTarget(BaseTarget):
-                             deploy_dir_image = d.getVar("DEPLOY_DIR_IMAGE", True),
-                             display = d.getVar("BB_ORIGENV", False).getVar("DISPLAY", True),
-                             logfile = self.qemulog,
--                            boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT", True)))
-+                            boottime = int(d.getVar("TEST_QEMUBOOT_TIMEOUT", True)),
-+                            host_dumper = self.host_dumper)
+     def __init__(self, d):
+-        super(HostDumper, self).__init__(d)
+-        self.host_cmds = d.getVar("testimage_dump_host", True)
++        host_cmds = d.getVar("testimage_dump_host", True)
++        super(HostDumper, self).__init__(d, host_cmds)
  
-         self.target_dumper = TargetDumper(d, self.runner)
+     def dump_host(self, dump_dir=""):
+         if dump_dir:
+             self.dump_dir = dump_dir
+-        for cmd in self.host_cmds.split('\n'):
+-            cmd = cmd.lstrip()
+-            if not cmd or cmd[0] == '#':
+-                continue
++        for cmd in self.cmds:
+             result = runCmd(cmd, ignore_status=True)
+-            self.write_dump(cmd.split()[0], result.output)
++            self._write_dump(cmd.split()[0], result.output)
  
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 0458447..6c17f11 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -19,7 +19,7 @@ logger = logging.getLogger("BitBake.QemuRunner")
  
- class QemuRunner:
+ class TargetDumper(BaseDumper):
  
--    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime):
-+    def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image, logfile, boottime, host_dumper):
+     def __init__(self, d, qemurunner):
+-        super(TargetDumper, self).__init__(d)
+-        self.target_cmds = d.getVar("testimage_dump_target", True)
++        target_cmds = d.getVar("testimage_dump_target", True)
++        super(TargetDumper, self).__init__(d, target_cmds)
+         self.runner = qemurunner
  
-         # Popen object for runqemu
-         self.runqemu = None
-@@ -37,8 +37,9 @@ class QemuRunner:
-         self.deploy_dir_image = deploy_dir_image
-         self.logfile = logfile
-         self.boottime = boottime
--        self.logged = False
-+        self.host_dumper = host_dumper
- 
-+        self.logged = False
-         self.runqemutime = 60
- 
-     def create_socket(self):
-@@ -117,6 +118,7 @@ class QemuRunner:
-                 if self.runqemu.returncode:
-                     # No point waiting any longer
-                     logger.info('runqemu exited with code %d' % self.runqemu.returncode)
-+                    self._dump_host()
-                     self.stop()
-                     logger.info("Output from runqemu:\n%s" % getOutput(output))
-                     return False
-@@ -136,6 +138,7 @@ class QemuRunner:
-                     self.server_ip = ips[1]
-             except IndexError, ValueError:
-                 logger.info("Couldn't get ip from qemu process arguments! Here is the qemu command line used:\n%s\nand output from runqemu:\n%s" % (cmdline, getOutput(output)))
-+                self._dump_host()
-                 self.stop()
-                 return False
-             logger.info("Target IP: %s" % self.ip)
-@@ -174,6 +177,7 @@ class QemuRunner:
-                 lines = "\n".join(self.bootlog.splitlines()[-25:])
-                 logger.info("Last 25 lines of text:\n%s" % lines)
-                 logger.info("Check full boot log: %s" % self.logfile)
-+                self._dump_host()
-                 self.stop()
-                 return False
- 
-@@ -187,6 +191,7 @@ class QemuRunner:
- 
-         else:
-             logger.info("Qemu pid didn't appeared in %s seconds" % self.runqemutime)
-+            self._dump_host()
-             self.stop()
-             logger.info("Output from runqemu:\n%s" % getOutput(output))
-             return False
-@@ -312,3 +317,9 @@ class QemuRunner:
-                 if (status_cmd == "0"):
-                     status = 1
-         return (status, str(data))
-+
-+    def _dump_host(self):
-+        self.host_dumper.create_dir("qemu")
-+        logger.error("Qemu ended unexpectedly, dump data from host"
-+                " is in %s" % self.host_dumper.dump_dir)
-+        self.host_dumper.dump_host()
+     def dump_target(self, dump_dir=""):
+         if dump_dir:
+             self.dump_dir = dump_dir
+-        for cmd in self.target_cmds.split('\n'):
+-            cmd = cmd.lstrip()
+-            if not cmd or cmd[0] == '#':
+-                continue
++        print ("Target cmds %s" % self.cmds)
++        for cmd in self.cmds:
+             (status, output) = self.runner.run_serial(cmd)
+-            self.write_dump(cmd.split()[0], output)
++            self._write_dump(cmd.split()[0], output)
 -- 
 1.8.4.5
 
