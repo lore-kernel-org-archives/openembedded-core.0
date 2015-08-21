@@ -1,30 +1,30 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5112273E11
+	by mail.openembedded.org (Postfix) with ESMTP id BBAF673E11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 10:54:03 +0000 (UTC)
+	Fri, 21 Aug 2015 10:54:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7LAs3pr000315
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7LAsvQ9000379
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 21 Aug 2015 03:54:03 -0700 (PDT)
+	Fri, 21 Aug 2015 03:54:57 -0700 (PDT)
 Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Fri, 21 Aug 2015 03:54:03 -0700
-Message-ID: <55D70349.7080003@windriver.com>
-Date: Fri, 21 Aug 2015 18:54:01 +0800
+	Fri, 21 Aug 2015 03:54:57 -0700
+Message-ID: <55D7037F.3020509@windriver.com>
+Date: Fri, 21 Aug 2015 18:54:55 +0800
 From: Robert Yang <liezhi.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
 To: Jussi Kukkonen <jussi.kukkonen@intel.com>
 References: <cover.1440145857.git.liezhi.yang@windriver.com>
-	<74b4262e5df004800e56b273e7d7a3d64d7af9b3.1440145857.git.liezhi.yang@windriver.com>
-	<CAHiDW_HqD908Y_F7i6kFNrLhD4UohnUp1FSMtF-aVnCoW=A7TQ@mail.gmail.com>
-In-Reply-To: <CAHiDW_HqD908Y_F7i6kFNrLhD4UohnUp1FSMtF-aVnCoW=A7TQ@mail.gmail.com>
+	<9dd6d914345f37e8584ef7a879afbe2d2e1835b8.1440145857.git.liezhi.yang@windriver.com>
+	<CAHiDW_HjW089mLdSNCKxtTjRdY9rLzs0G-okYrCrjJRyN_TxYQ@mail.gmail.com>
+In-Reply-To: <CAHiDW_HjW089mLdSNCKxtTjRdY9rLzs0G-okYrCrjJRyN_TxYQ@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/5] btrfs-tools: 4.1.1 -> 4.1.2
+Subject: Re: [PATCH 2/5] man-pages: 4.01 -> 4.02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,64 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Aug 2015 10:54:09 -0000
+X-List-Received-Date: Fri, 21 Aug 2015 10:54:58 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 08/21/2015 06:47 PM, Jussi Kukkonen wrote:
+On 08/21/2015 06:45 PM, Jussi Kukkonen wrote:
 > On 21 August 2015 at 13:15, Robert Yang <liezhi.yang@windriver.com> wrote:
 >> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 >> ---
->>   .../btrfs-tools/btrfs-tools_git.bb                 |    2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
->> index 4ad4b81..15cc3f2 100644
->> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
->> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
->> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
->>   SECTION = "base"
->>   DEPENDS = "util-linux attr e2fsprogs lzo acl"
->>
->> -SRCREV = "20be329fdb569fefdf88ba0e4ca1a41488fcbc19"
->> +SRCREV = "7f1328ccb5d159efe850d4eaea9b49bbe8c4181e"
->>   SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
->>              file://fix-parallel.patch \
->>   "
->> --
+>>   .../{man-pages_4.01.bb => man-pages_4.02.bb}       |    4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>   rename meta/recipes-extended/man-pages/{man-pages_4.01.bb => man-pages_4.02.bb} (86%)
 >
-> Is there no PV change here?
+> Maxin sent this patch yesterday already.
 
-Thanks, I updated in the repo.
-
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb 
-b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-index 4ad4b81..ae6c8f4 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = 
-"file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
-  SECTION = "base"
-  DEPENDS = "util-linux attr e2fsprogs lzo acl"
-
--SRCREV = "20be329fdb569fefdf88ba0e4ca1a41488fcbc19"
-+SRCREV = "7f1328ccb5d159efe850d4eaea9b49bbe8c4181e"
-  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
-             file://fix-parallel.patch \
-  "
-@@ -27,6 +27,6 @@ do_configure_prepend() {
-
-  S = "${WORKDIR}/git"
-
--PV = "4.1.1+git${SRCPV}"
-+PV = "4.1.2+git${SRCPV}"
-
+Thanks, I dropped this one in the repo.
 
 // Robert
 
 >
+>   - Jussi
+>
+>>
+>> diff --git a/meta/recipes-extended/man-pages/man-pages_4.01.bb b/meta/recipes-extended/man-pages/man-pages_4.02.bb
+>> similarity index 86%
+>> rename from meta/recipes-extended/man-pages/man-pages_4.01.bb
+>> rename to meta/recipes-extended/man-pages/man-pages_4.02.bb
+>> index f6a5c49..1b90a44 100644
+>> --- a/meta/recipes-extended/man-pages/man-pages_4.01.bb
+>> +++ b/meta/recipes-extended/man-pages/man-pages_4.02.bb
+>> @@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
+>>   LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
+>>   SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+>>
+>> -SRC_URI[md5sum] = "575f4e8920166b1433c329bb621819d1"
+>> -SRC_URI[sha256sum] = "ba89f3453982fae6c699a877368d51ee27883b4de709e753eee3783b447a8381"
+>> +SRC_URI[md5sum] = "93df3279798a3345bb2c709584c83639"
+>> +SRC_URI[sha256sum] = "42324f9ed47c89a43cb37b6bb0d5fbcad44838eee45cd394e181c98d038c49ff"
+>>
+>>   RDEPENDS_${PN} = "man"
+>>
+>> --
 >> 1.7.9.5
 >>
 >> --
