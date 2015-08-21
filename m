@@ -1,30 +1,35 @@
-Return-Path: <adam.yh.lee@gmail.com>
-Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
-	[209.85.160.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 63C347391A;
-	Fri, 21 Aug 2015 22:06:25 +0000 (UTC)
-Received: by ykll84 with SMTP id l84so84380617ykl.0;
-	Fri, 21 Aug 2015 15:06:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=yh3huSsax8H4CtNJ6g6ZMiAAGMCgDDTkZyarmpi8vuU=;
-	b=UbtwBr2zOeOSt8YFuPC0+C3ekT8GJVhmDgxWiw1acRVx6pCmOhEnhdcruvCVUR8kkc
-	nS22BHWERY09/oyv/bdyG08MQ20mcGwtWNTs6Lv8+R5oDzvoUrlDDAHsVIwd/BOEPA/E
-	cSldU+NX6dzdio9jNLoQSVJIviU2uhdoT2eQjoRwOK3AxmNsF3TPLQiH1FAU5AY/oht0
-	1VcKUJXxREjuhEQsiBGx4sxNNSHrBx68XLN/VCqrhtGUSlMNlf72rVc6bdt6hzoX5jcs
-	coiOdZuI2XZGq2JGhQL8rdn+A+pO1yb6vf4Z1uqE2NnMG22Rtu/4v8Ku09+R1pl4xdTk
-	fXxw==
-MIME-Version: 1.0
-X-Received: by 10.170.219.5 with SMTP id l5mr15185620ykf.105.1440194785810;
-	Fri, 21 Aug 2015 15:06:25 -0700 (PDT)
-Received: by 10.13.247.68 with HTTP; Fri, 21 Aug 2015 15:06:25 -0700 (PDT)
-Date: Fri, 21 Aug 2015 15:06:25 -0700
-Message-ID: <CAFeBWL6xGuzEcOR5B1sfEgZR=i-T=EZ-b-TKPT9DGZpCmDPy4g@mail.gmail.com>
-From: Adam Lee <adam.yh.lee@gmail.com>
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>, 
-	openembedded-core@lists.openembedded.org
-Subject: Extensible SDK install errors
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B1D97391A
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Aug 2015 22:42:11 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7LMg5C5011031; Fri, 21 Aug 2015 23:42:05 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id cWd2WKbKXGQu; Fri, 21 Aug 2015 23:42:05 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7LMfqfK011028
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 21 Aug 2015 23:42:03 +0100
+Message-ID: <1440196912.12105.279.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Fri, 21 Aug 2015 23:41:52 +0100
+In-Reply-To: <CAP9ODKraiRiKPOq1mYDNWjMXex4Cn1jrSjVhxyUU-_jpFbW_nw@mail.gmail.com>
+References: <cover.1439991144.git.paul.eggleton@linux.intel.com>
+	<d1dcc85512f0c7b9b93f2780048bb9fad8c9da2d.1439991144.git.paul.eggleton@linux.intel.com>
+	<1440153906.12105.233.camel@linuxfoundation.org>
+	<CAMKF1srDn=2kMGpkn0Pp1fF89PBk+Ex6AonVgur5vSFnkAOfdQ@mail.gmail.com>
+	<CAP9ODKraiRiKPOq1mYDNWjMXex4Cn1jrSjVhxyUU-_jpFbW_nw@mail.gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,105 +42,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Aug 2015 22:06:29 -0000
-Content-Type: multipart/alternative; boundary=001a113a4e7e9da00c051dd97a9d
+X-List-Received-Date: Fri, 21 Aug 2015 22:42:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113a4e7e9da00c051dd97a9d
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2015-08-21 at 18:43 -0300, Otavio Salvador wrote:
+> On Fri, Aug 21, 2015 at 2:45 PM, Khem Raj <raj.khem@gmail.com> wrote:
+> > All points here are valid. We already see this with distro's which use
+> > layers verbatim e.g. angstrom
+> > I wish everyone derived their distros that way since that respects the
+> > layer boundaries, a good chunk of work
+> > there is still we send patches to layers to keep them up to date with
+> > changes in other layers and there still are patches
+> > pending since every layer maintainer doesnt respond in sam time frame,
+> > but this sort of facilities if added is just going to worsen that
+> > workload.
+> > I think amalgmation of layers start with use of combo-tool itself.
+> > This patch just takes it a step further. If we want to preserve
+> > the layer model's health we have to work towards respecting layer
+> > boundaries and I would even go a step further and suggest to
+> > discourage use of combo-tool or any sort of layer squashing.
+> 
+> I fully agree; in fact Poky itself is a bad example that I often have
+> to explain for vendors. People justify putting several layers together
+> in same repository saying that Poky does that and this is a
+> contradiction which we need to justify as Yocto Project promotes the
+> use of layers as one of most preeminent features but Poky does the
+> opposite ...
 
-Hello, I built the Extensible SDK on Fido (bitbake core-image-minimal -c
-populate_sdk_ext).
+Another way of looking at the issues people are having is that
+meta-openembedded is simply too large and it really needs to get split
+up into separate repos so people can get more granularity.
 
-During the installation I get this permission error:
+That is both technically hard in some ways and controversial and nobody
+wants to step up and try and form a consensus about doing it though. I
+would note the internal splits are a good start though and there is some
+separation of maintainership happened there already.
 
-$ ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh
-> Enter target directory for SDK (default: /opt/poky/1.8):
-> You are about to install the SDK to "/opt/poky/1.8". Proceed[Y/n]?
-> Extracting SDK...done
-> Setting it up...
-> Extracting buildtools...
-> ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh: line
-> 148: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: Permissio=
-n
-> denied
-> ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh: line
-> 151: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: Permissio=
-n
-> denied
-> ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh: line
-> 155: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: Permissio=
-n
-> denied
-> mv: cannot move =E2=80=98x86_64-nativesdk-libc.tar.bz2=E2=80=99 to
-> =E2=80=98/opt/poky/1.8/layers/poky/x86_64-nativesdk-libc.tar.bz2=E2=80=99=
-: Permission denied
-> Preparing build system...
-> sh: 1: cannot create preparing_build_system.log: Permission denied
-> SDK preparation failed: see /opt/poky/1.8/preparing_build_system.log
+On the subject of poky, right from the start poky was a subset of
+OpenEmbedded, for good reason if we remember OE from those days. That
+reason was originally that OpenedHand didn't want to support all of OE
+for a customer, only some subset. The OSVs using the Yocto Project still
+have this issue today. The big difference between combo-layer and the
+whitelist is that in one case you don't ship the recipe. This makes it
+really clear to the customer what is and what is not supported. This has
+pros and cons, obviously.
 
+I will state for the record that poky only has complete layers in it
+though, it doesn't pick components of meta-oe, I've actively avoided it.
+Putting layers together in one accessible form is a different topic in
+some ways to filtering one layer into a sublayer.
 
- It looks like `/opt/poky/1.8/layers/poky` directory belongs to the root
-user:
+Patrick commented that whitelist and combo-layer both have the same
+drawback to metadata quality and that is probably true, I wasn't trying
+to suggest otherwise, merely highlight the other options available and
+their relative merits (which I didn't do a good job of).
 
-$ ls -l /opt/poky/1.8/layers/
-> total 36
-> drwxrwxr-x 9 root root 4096 Jun 16 10:25 meta-gnome
-> drwxrwxr-x 9 root root 4096 Jun 15 10:44 meta-multimedia
-> drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-networking
-> drwxrwxr-x 20 root root 4096 Jun 15 10:44 meta-oe
-> drwxrwxr-x 7 root root 4096 Jun 15 10:44 meta-python
-> drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-ruby
-> drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-systemd
-> drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-xfce
-> drwxrwxr-x 13 root root 4096 Aug 21 14:46 poky
+Cheers,
+
+Richard
 
 
- I may have missed something obvious. Has anyone seen this?
-
-Thanks!
-
---001a113a4e7e9da00c051dd97a9d
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello, I built the Extensible SDK on Fido (bitbake core-im=
-age-minimal -c populate_sdk_ext).<br><div><br>During the installation I get=
- this permission error:<br><br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204=
-,204);border-left-style:solid;padding-left:1ex">$ ./<a href=3D"http://poky-=
-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh">poky-glibc-x86=
-_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh</a><br> Enter target dir=
-ectory for SDK (default: /opt/poky/1.8):<br> You are about to install the S=
-DK to &quot;/opt/poky/1.8&quot;. Proceed[Y/n]?<br>Extracting SDK...done<br>=
-Setting it up...<br>Extracting buildtools...<br>./<a href=3D"http://poky-gl=
-ibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh">poky-glibc-x86_6=
-4-core-image-minimal-armv5e-toolchain-ext-1.8.sh</a>: line 148: /opt/poky/1=
-.8/environment-setup-armv5e-poky-linux-gnueabi: Permission denied<br>./<a h=
-ref=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8=
-.sh">poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh</a>: =
-line 151: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: Permis=
-sion denied<br>./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-arm=
-v5e-toolchain-ext-1.8.sh">poky-glibc-x86_64-core-image-minimal-armv5e-toolc=
-hain-ext-1.8.sh</a>: line 155: /opt/poky/1.8/environment-setup-armv5e-poky-=
-linux-gnueabi: Permission denied<br>mv: cannot move =E2=80=98x86_64-natives=
-dk-libc.tar.bz2=E2=80=99 to =E2=80=98/opt/poky/1.8/layers/poky/x86_64-nativ=
-esdk-libc.tar.bz2=E2=80=99: Permission denied<br>Preparing build system...<=
-br>sh: 1: cannot create preparing_build_system.log: Permission denied<br>SD=
-K preparation failed: see /opt/poky/1.8/preparing_build_system.log</blockqu=
-ote><div><br></div><div>=C2=A0It looks like `/opt/poky/1.8/layers/poky` dir=
-ectory belongs to the root user:</div></div><div><br></div><div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:=
-1px;border-left-color:rgb(204,204,204);border-left-style:solid;padding-left=
-:1ex">$ ls -l /opt/poky/1.8/layers/<br>total 36<br>drwxrwxr-x 9 root root 4=
-096 Jun 16 10:25 meta-gnome<br>drwxrwxr-x 9 root root 4096 Jun 15 10:44 met=
-a-multimedia<br>drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-networking<b=
-r>drwxrwxr-x 20 root root 4096 Jun 15 10:44 meta-oe<br>drwxrwxr-x 7 root ro=
-ot 4096 Jun 15 10:44 meta-python<br>drwxrwxr-x 5 root root 4096 Jun 15 10:4=
-4 meta-ruby<br>drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-systemd<br>drw=
-xrwxr-x 11 root root 4096 Jun 15 10:44 meta-xfce<br>drwxrwxr-x 13 root root=
- 4096 Aug 21 14:46 poky</blockquote><div><br></div><div>=C2=A0I may have mi=
-ssed something obvious. Has anyone seen this?</div></div><div><br></div><di=
-v>Thanks!</div></div>
-
---001a113a4e7e9da00c051dd97a9d--
