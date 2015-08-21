@@ -1,38 +1,31 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
-	[209.85.214.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D60360557
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E0B2875794
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 08:48:59 +0000 (UTC)
-Received: by obbhe7 with SMTP id he7so53696843obb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 01:49:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=b+PKbgsJci16rXdck88QA2VPGelN4iRhc9Ak26Falq4=;
-	b=NTSSe0r0Kk3+ROxDfBcdCwYgPpOSKHrMntlmDJnGlP+9QWLruwzEernkb6PmcaBJ8r
-	AXFqD8JnzV7jtaMvE3K4OxR6NM7iIBn5cjlLvpkA/Ky2lR0lsmFk59eoA0JM4b45FTLl
-	qZEne8mm148iyMLG+XBmf+MRZh0Kmaoilyl+xeWBgULl4O3NEdu1xY7O1imFWHcPKyY2
-	Fg1lUk9Cqta+C1HN2GXznhf7U4/QEq2SZtbW3o5eS25iXrRITX6fdhlpxVLxrnTM/qb9
-	4CF0Iu7ZMc0e6MHU+7VdMH5q4hvw+g5ItWUD56KcQLLzkoiq4x7i6fDVMP5ch4Z1AyQR
-	UMKw==
-X-Gm-Message-State: ALoCoQkKbgGziqveYzhFTWfOrYdTygX8mimHpszm/JB/BIwlXSaiUH2FcA7DhtbVNBqjJd6/3Oex
-X-Received: by 10.60.50.169 with SMTP id d9mr3893969oeo.9.1440146940037; Fri,
-	21 Aug 2015 01:49:00 -0700 (PDT)
+	Fri, 21 Aug 2015 10:14:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7LADomh027084
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 21 Aug 2015 03:13:50 -0700 (PDT)
+Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
+	Fri, 21 Aug 2015 03:13:50 -0700
+Message-ID: <55D6F9FC.9020807@windriver.com>
+Date: Fri, 21 Aug 2015 18:14:20 +0800
+From: ChenQi <Qi.Chen@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
 MIME-Version: 1.0
-Received: by 10.202.221.70 with HTTP; Fri, 21 Aug 2015 01:48:30 -0700 (PDT)
-In-Reply-To: <20150818080317.GC2458@jama>
-References: <1439098101-9400-1-git-send-email-akuster808@gmail.com>
-	<20150818080317.GC2458@jama>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 21 Aug 2015 11:48:30 +0300
-Message-ID: <CAHiDW_HCSh-FquWyhib9WDSHxpTVB6iHu-5DP40ugP2=D3O3gw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] nettle: clean up license information
+To: Randy MacLeod <randy.macleod@windriver.com>, Khem Raj
+	<raj.khem@gmail.com>, Philip Balister <philip@balister.org>
+References: <1439787800-21088-1-git-send-email-raj.khem@gmail.com>	<CAJTo0LZRWXQOc+SCbL1PeJ9QXn_9WHKDC3y6t+QpJ8-_689Y6w@mail.gmail.com>	<5402FBA9-07E4-47CF-983E-E8778B5AE2F6@gmail.com>	<CAJTo0La4nHiHRLzraJdmO1AMSZ9RJGi=WSZAemrcGPFZTsoXrg@mail.gmail.com>	<CAMKF1soxndfF7OLyAx-c49WBDdLhbbecQhxSj7ixeo2hFsRcTA@mail.gmail.com>	<55D5D076.5000106@balister.org>
+	<CAMKF1sqfGP1VGefHU_HRBSZnF=UikHZcs=b9sO92PO5v5TBaBQ@mail.gmail.com>
+	<55D682D9.4050902@windriver.com>
+In-Reply-To: <55D682D9.4050902@windriver.com>
+X-Originating-IP: [128.224.162.211]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4 V2] systemd: Upgrade 219 -> 224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,79 +38,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Aug 2015 08:49:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 21 Aug 2015 10:14:06 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 18 August 2015 at 11:03, Martin Jansa <martin.jansa@gmail.com> wrote:
-> On Sun, Aug 09, 2015 at 10:58:21AM +0530, Armin Kuster wrote:
->> adding the license definitions on the few packages that
->> deviate from the overall package license.
+Hi Khem,
+
+I built core-image-minimal for qemuarm64.
+There's a lot of failures and warnings at boot time and the system boots 
+into rescue mode.
+And I also verified 199 has no such problem.
+
+Best Regards,
+Chen Qi
+
+On 08/21/2015 09:46 AM, Randy MacLeod wrote:
+> On 2015-08-20 09:17 PM, Khem Raj wrote:
+>> On Thu, Aug 20, 2015 at 6:04 AM, Philip Balister 
+>> <philip@balister.org> wrote:
+>>> On 08/19/2015 10:21 PM, Khem Raj wrote:
+>>>> On Wed, Aug 19, 2015 at 12:55 PM, Burton, Ross 
+>>>> <ross.burton@intel.com> wrote:
+>>>>>
+>>>>> On 17 August 2015 at 16:41, Khem Raj <raj.khem@gmail.com> wrote:
+>>>>>>
+>>>>>> There are many reasons, for me its overlay support for 
+>>>>>> systemd-nspawn,
+>>>>>> networkd has got many new features that is now usable w.r.t. IP 
+>>>>>> forwarding,
+>>>>>> vxlan etc.
+>>>>>> and it has many bug fixed in those 2000 odd commits since 219, no
+>>>>>> different then any other package upgrades we do in general it 
+>>>>>> keep the
+>>>>>> upgrade workload lower as we roll the releases.
+>>>>>> Any specific concerns ?
+>>>>>
+>>>>>
+>>>>> Can we get an updated patch with a clearer commit log?
+>>>
+>>> I've also heard that as systemd evolves, more binaries are getting 
+>>> added
+>>> to the base package that should be packaged separately for people
+>>> interested in small images. I do not have personal experience here, but
+>>> wanted to pass along the feedback.
+>>>
+>>> We should look at buildhistory packaging differences when we do 
+>>> upgrades.
 >>
->> based on http://www.lysator.liu.se/~nisse/nettle/nettle.html#Copyright
->> and spot checking files.
+>> Here is the diff between files in 219 and 224, if you want to know
+>> more I can paste more info just let me know.
 >>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  meta/recipes-support/nettle/nettle_2.7.1.bb | 9 +++++++++
->>  1 file changed, 9 insertions(+)
+>> https://gist.github.com/kraj/2a066973a5e5cf83ed24
 >>
->> diff --git a/meta/recipes-support/nettle/nettle_2.7.1.bb b/meta/recipes-support/nettle/nettle_2.7.1.bb
->> index f53afcc..f9d331f 100644
->> --- a/meta/recipes-support/nettle/nettle_2.7.1.bb
->> +++ b/meta/recipes-support/nettle/nettle_2.7.1.bb
->> @@ -2,6 +2,15 @@ SUMMARY = "A low level cryptographic library"
->>  HOMEPAGE = "http://www.lysator.liu.se/~nisse/nettle/"
->>  SECTION = "libs"
->>  LICENSE = "LGPLv2.1 & GPLv2"
->
-> It would be nice to package GPLv2 files in separate package as well (or
-> LGPLv2.1 library in seprate package) if you have time to do that.
-
-Forgot to answer this, sorry.
-
-For 2.7.1 what you suggest may work -- there may be some tools that
-are GPLv2 that we could separate. But for the new version the strange
-" "LGPLv3+ | GPLv2+" license combo is _not_ a result of the library
-being LGPL and some utilities being GPL: the library itself (like a
-lot of GNU stuff nowadays) is dual licensed like that.
-
-It seems weird but actually makes sense for GNU: It forces all users
-to comply with LGPLv3, except the GPLv2 programs that can't easily be
-relicensed to GPLv3. Those GPLv2 programs would be incompatible with
-the newer LGPLv3 libraries but this dual-licensing lets them off the
-hook.
-
-Jussi
-
-
-
->> +LICENSE_${PN}-cast = "CC0"
->> +LICENSE_${PN}-gosthash = "MIT"
->> +
->> +# both public and GPL license listed
->> +LICENSE_${PN}-md2 = "CC0 & LGPLv2.1+"
->> +LICENSE_${PN}-md4 = "CC0 & LGPLv2.1+"
->> +
->> +
->>  LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->>                      file://serpent-decrypt.c;beginline=53;endline=67;md5=bcfd4745d53ca57f82907089898e390d \
->>                      file://serpent-set-key.c;beginline=56;endline=70;md5=bcfd4745d53ca57f82907089898e390d"
->> --
->> 2.3.5
+>> sizes have gone up on daemons, no new daemons besides some new 
+>> service files
+>> and scripts are added
 >>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+> ubu-15.10 will use v224 as well:
+> http://cdimage.ubuntu.com/daily-live/current/wily-desktop-amd64.manifest
+> and Arch and a couple other distro are using this version already:
+>    http://pkgs.org/download/systemd
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> v224 was released 3 weeks ago:
+> ---
+> $ git log -1 v224
+> commit b2a0ac5e5b29c73ca7c0da23369a4769d5a91ddd
+> ...
+> Date:   Fri Jul 31 18:56:38 2015 +0200
+> ---
 >
+> Khem's summary of the binaries is reassuring given that there
+> has been lots of churn:
+>
+> $ git log --oneline v219..v224 |  wc -l
+> 2167
+> $ git diff v219..v224 | diffstat | tail -1
+>  1367 files changed, 109907 insertions(+), 166577 deletions(-)
+>
+> I'm skimming the NEWS file from 219->224 and I haven't seen
+> anything that concerns me yet:
+>    https://github.com/systemd/systemd/blob/master/NEWS
+> Qi,
+> Please take a closer look at the NEWS file,
+> review Khem's uprev and build and boot qemuarm64, qemuppc
+> when you have time. Send partial feedback today even if you
+> just review the commit and NEWS file.
+>
+> Qi may not be able to do that in the next couple of day
+> due to SDK work.
+>
+> Khem,
+> What testing have you done so far?
+> Any ptest?
+> What toolchain version are you building with, btw?
+>
+>
+> It's late in M3 and we still have the kernel and toolchain coming in
+> but unless we hear of known problems with v224, let's go for it
+> once the new toolchain and kernel have settled.
+>
+
 
