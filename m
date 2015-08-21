@@ -1,33 +1,38 @@
-Return-Path: <coldnew.tw@gmail.com>
-Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
-	[209.85.220.49])
-	by mail.openembedded.org (Postfix) with ESMTP id D0DD760557
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id E02AB60557
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 05:55:42 +0000 (UTC)
-Received: by pacdd16 with SMTP id dd16so36589688pac.2
+	Fri, 21 Aug 2015 07:09:22 +0000 (UTC)
+Received: by obbfr1 with SMTP id fr1so51964415obb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Aug 2015 22:55:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=mM50Uad77ZJtXF1syOpfqUnh+h6MU5SlM0LN9WpB/wI=;
-	b=FVQjbPse0si4R29/mbyrePw1PrRWaXohzsgoIiGw4G0d2jo5238RwoJ/cAu5BhIrAS
-	nMUHxliwpGtjDHeWLOB3/5mwX1TnscOsgocXFyzX9VA503j66xeGGSOMJ8OtpEvrYspp
-	5oKNtQosCS3xOtYJysnfjq3tqC/xiOdc5DSJ0MIVEnBEuXfrAHrWVopxgo48I8mRz1qT
-	1JCW4ZAtG3FvYN4hQgSH5I9rZA+LRWjvgKpFRp0ZfXsi4j+4WzB1F2c6phMTH9Gzvnly
-	v99h3nUpU8SESc+dgl+Ml/IHhrXtj8CGaqlAUP5D+1GAYwn0MNBtYFNOglADK6qIncvm
-	JD0w==
-X-Received: by 10.66.164.130 with SMTP id yq2mr14256409pab.67.1440136542669;
-	Thu, 20 Aug 2015 22:55:42 -0700 (PDT)
-Received: from localhost.localdomain ([203.70.194.104])
-	by smtp.gmail.com with ESMTPSA id d4sm6297223pdc.93.2015.08.20.22.55.41
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 20 Aug 2015 22:55:41 -0700 (PDT)
-From: Yen-Chin Lee <coldnew.tw@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Aug 2015 05:55:29 +0000
-Message-Id: <1440136529-4762-1-git-send-email-coldnew.tw@gmail.com>
-X-Mailer: git-send-email 2.3.6
-Subject: [PATCHv2] Use BRANCH to control git branch
+	Fri, 21 Aug 2015 00:09:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=nA1loDOBz/SUkN9TTE67vEhOHbM9C6TsEM2AQqt2b5Q=;
+	b=BIcSXo0cfm7Tm74uf4I91+UYjwcf4JGTJUbqqmQZcN7KdvjpNZyxqLTzDzigInPOba
+	f+QqWhBLlrdix8CqNLYeGSR1TUCvGT8JnU10DZ9qlFlC42wR+Ww0vEglAMK65zXg1IsS
+	p/T5J616/5T34vPcoTUamY//tgjVeZCMKCnRPhdcSTOSKLf6BYciZ1S44di5dBZ4PnGS
+	dNujg6/qs7QRooiDL7MTLaIvusJZTxe9SEu/4TVCXWvDXhpbcezYg9b1yEM7Z/W9+A1E
+	O49VwP/+NzbThYqOoahpmoGl6Wk2mhVv8Y/4ovf/5rl9NXqjTUum7bJoMlbhcEgryTtS
+	GsSw==
+X-Gm-Message-State: ALoCoQmjij/JHGoWhsFIUPB9h4oMBJx67z0b/mhB1DkrsPpCyW0HizIkwoly3B02Wml3CFyuoxl7
+X-Received: by 10.60.145.134 with SMTP id su6mr6462221oeb.22.1440140962926;
+	Fri, 21 Aug 2015 00:09:22 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.202.221.70 with HTTP; Fri, 21 Aug 2015 00:08:53 -0700 (PDT)
+In-Reply-To: <CAJTo0LZgiz9jVRwkyZpAVxv50EwEo=BDBUb0U7M4fBxZexkU-g@mail.gmail.com>
+References: <cover.1440070230.git.jussi.kukkonen@intel.com>
+	<53a7964df547908768b1554486603bb4f0d9830e.1440070230.git.jussi.kukkonen@intel.com>
+	<CAJTo0LZgiz9jVRwkyZpAVxv50EwEo=BDBUb0U7M4fBxZexkU-g@mail.gmail.com>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Fri, 21 Aug 2015 10:08:53 +0300
+Message-ID: <CAHiDW_E2xi68qwAikPy18aQw-r-Ue5qU8v8pApUFiPX37gLMTA@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] libical: Upgrade 1.0.0 -> 1.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,29 +45,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Aug 2015 05:55:43 -0000
+X-List-Received-Date: Fri, 21 Aug 2015 07:09:27 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Yen-Chin Lee <coldnew.tw@gmail.com>
----
- meta/recipes-core/uclibc/uclibc-git.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On 20 August 2015 at 19:11, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On 20 August 2015 at 12:39, Jussi Kukkonen <jussi.kukkonen@intel.com> wrote:
+>>
+>> +inherit cmake perlnative
+>
+> Why perlnative considering it doesn't depend on any native perl modules?
 
-diff --git a/meta/recipes-core/uclibc/uclibc-git.inc b/meta/recipes-core/uclibc/uclibc-git.inc
-index 14a577f..32076cc 100644
---- a/meta/recipes-core/uclibc/uclibc-git.inc
-+++ b/meta/recipes-core/uclibc/uclibc-git.inc
-@@ -4,7 +4,9 @@ PV = "0.9.33+git${SRCPV}"
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/uclibc-git:"
- 
--SRC_URI = "git://uclibc.org/uClibc.git;branch=master \
-+BRANCH ??= "master"
-+
-+SRC_URI = "git://uclibc.org/uClibc.git;branch=${BRANCH} \
-         file://uClibc.machine \
-         file://uClibc.distro \
-         file://obstack.cfg \
--- 
-2.3.6
+It does some fairly simple header autogeneration during build (see
+src/libical/Makefile.am and scripts/). As far as I can tell it does
+not require modules other than core -- but I don't know much about
+perl (especially in OE build) so let me know if there's gotchas I
+should look out for.
 
+Jussi
 
