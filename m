@@ -1,38 +1,38 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id EBFDB76536
+Received: from mail-ob0-f176.google.com (mail-ob0-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id DB49D73E11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 10:45:35 +0000 (UTC)
-Received: by obbfr1 with SMTP id fr1so55377364obb.1
+	Fri, 21 Aug 2015 10:47:49 +0000 (UTC)
+Received: by obkg7 with SMTP id g7so55421765obk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Aug 2015 03:45:35 -0700 (PDT)
+	Fri, 21 Aug 2015 03:47:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=DzdbMNkymikZJpLEfanIwwaDQJjic18fX4cV5bNRGhU=;
-	b=KRS+j3hOjPgGx52SrRyCF9Qu4oW2RWiizwJcweMEoKTW+ZQkxG50mwurnu448gpQvh
-	jDRqEaonWrxZrU0sMnHPJMfrkMoBQaUbt6RMNsgTPCbnv8ENJ22vrxkvrzGL0kbyxAy6
-	roRX77Z7nyi+1gitoH3cjNlWcuqTG3Cq/O6DhoexJOgwdGLguZY6EDjZ1nPWJk0U3uDW
-	TB+uzxc1t8EwY0bq5xzCCGLeaTcgRZVNiGKzHP89Q9R6P6PBRKU76NSbp1oiV9TJ21Js
-	bhNiydJFyy4pNou2wJE5t8ACq0sdcfGkGmQrgBzRPqNO08PPpoohRAhjsB01OVs49bZJ
-	qfuQ==
-X-Gm-Message-State: ALoCoQkOxSA4cjQ7lHnhgyvCD4xfty2eE8I2Zzf+oa9Q19By4Q5zxPV49pWZH0ODpyNPb1LCm+mc
-X-Received: by 10.60.50.169 with SMTP id d9mr4268493oeo.9.1440153935796; Fri,
-	21 Aug 2015 03:45:35 -0700 (PDT)
+	bh=acq74cR0j7Ak8d1QaaNgCwtfM6mGsrWeBvdFGScrypo=;
+	b=Y5vVs1nAxCdE9TK+vg7l8FH6udP0QA85DjzNMXAhkCL0EV2oNggSWo2PtWLrOfYEhl
+	6ssBiqM7uM7ZlxirS+9JaFGKiZwU2JTNwlM/XFNCktsDK95KVu9JPZpB8y3G9a4olbCC
+	0hTCd1AyLzlktxfZn1qIMMS6/Wz9eQ1o4+WokYUd86bGhVVqjEw3960t79wdWWmc1C1o
+	egVjR2FVVvvGI/hzcr3cB+Trfff/76XrON3nkuGIvagU4vTxFMQXwQXB+t5D5cAmwQ8M
+	rvBJm23mVXBeFrE5gpJoDy/hHgkvbVuHA6H7Ns0MU1jggMIMR1U8kQUxerZyv6k51VwK
+	+LDg==
+X-Gm-Message-State: ALoCoQneLYX60GM4A2zVitsmsRvsk7OZQUcg+gqtFVd8fCY2MpY/Dxd43hdULefvXt6Q+cyYKyLN
+X-Received: by 10.182.148.65 with SMTP id tq1mr7506046obb.12.1440154069677;
+	Fri, 21 Aug 2015 03:47:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.202.221.70 with HTTP; Fri, 21 Aug 2015 03:45:06 -0700 (PDT)
-In-Reply-To: <9dd6d914345f37e8584ef7a879afbe2d2e1835b8.1440145857.git.liezhi.yang@windriver.com>
+Received: by 10.202.221.70 with HTTP; Fri, 21 Aug 2015 03:47:20 -0700 (PDT)
+In-Reply-To: <74b4262e5df004800e56b273e7d7a3d64d7af9b3.1440145857.git.liezhi.yang@windriver.com>
 References: <cover.1440145857.git.liezhi.yang@windriver.com>
-	<9dd6d914345f37e8584ef7a879afbe2d2e1835b8.1440145857.git.liezhi.yang@windriver.com>
+	<74b4262e5df004800e56b273e7d7a3d64d7af9b3.1440145857.git.liezhi.yang@windriver.com>
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Fri, 21 Aug 2015 13:45:06 +0300
-Message-ID: <CAHiDW_HjW089mLdSNCKxtTjRdY9rLzs0G-okYrCrjJRyN_TxYQ@mail.gmail.com>
+Date: Fri, 21 Aug 2015 13:47:20 +0300
+Message-ID: <CAHiDW_HqD908Y_F7i6kFNrLhD4UohnUp1FSMtF-aVnCoW=A7TQ@mail.gmail.com>
 To: Robert Yang <liezhi.yang@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] man-pages: 4.01 -> 4.02
+Subject: Re: [PATCH 4/5] btrfs-tools: 4.1.1 -> 4.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,40 +45,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Aug 2015 10:45:38 -0000
+X-List-Received-Date: Fri, 21 Aug 2015 10:47:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On 21 August 2015 at 13:15, Robert Yang <liezhi.yang@windriver.com> wrote:
 > Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > ---
->  .../{man-pages_4.01.bb => man-pages_4.02.bb}       |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-extended/man-pages/{man-pages_4.01.bb => man-pages_4.02.bb} (86%)
-
-Maxin sent this patch yesterday already.
-
- - Jussi
-
+>  .../btrfs-tools/btrfs-tools_git.bb                 |    2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-extended/man-pages/man-pages_4.01.bb b/meta/recipes-extended/man-pages/man-pages_4.02.bb
-> similarity index 86%
-> rename from meta/recipes-extended/man-pages/man-pages_4.01.bb
-> rename to meta/recipes-extended/man-pages/man-pages_4.02.bb
-> index f6a5c49..1b90a44 100644
-> --- a/meta/recipes-extended/man-pages/man-pages_4.01.bb
-> +++ b/meta/recipes-extended/man-pages/man-pages_4.02.bb
-> @@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://README;md5=8f2a3d43057d458e5066714980567a60"
->  SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+> diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> index 4ad4b81..15cc3f2 100644
+> --- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> +++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_git.bb
+> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
+>  SECTION = "base"
+>  DEPENDS = "util-linux attr e2fsprogs lzo acl"
 >
-> -SRC_URI[md5sum] = "575f4e8920166b1433c329bb621819d1"
-> -SRC_URI[sha256sum] = "ba89f3453982fae6c699a877368d51ee27883b4de709e753eee3783b447a8381"
-> +SRC_URI[md5sum] = "93df3279798a3345bb2c709584c83639"
-> +SRC_URI[sha256sum] = "42324f9ed47c89a43cb37b6bb0d5fbcad44838eee45cd394e181c98d038c49ff"
->
->  RDEPENDS_${PN} = "man"
->
+> -SRCREV = "20be329fdb569fefdf88ba0e4ca1a41488fcbc19"
+> +SRCREV = "7f1328ccb5d159efe850d4eaea9b49bbe8c4181e"
+>  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+>             file://fix-parallel.patch \
+>  "
 > --
+
+Is there no PV change here?
+
 > 1.7.9.5
 >
 > --
