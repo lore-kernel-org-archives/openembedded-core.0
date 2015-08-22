@@ -1,53 +1,34 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BCAB73E11
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A224E73E11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Aug 2015 10:48:16 +0000 (UTC)
-Received: by wicja10 with SMTP id ja10so33630699wic.1
+	Sat, 22 Aug 2015 15:58:37 +0000 (UTC)
+Received: by iodv127 with SMTP id v127so110061891iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Aug 2015 03:48:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type:content-transfer-encoding;
-	bh=A7XJkQEZ4CEu9L4oxMKvYkbY0xHpOcg1r27rNUNnVME=;
-	b=IZlk08M4jrOXvYMBWQajFajgW+SWvN38f5lA863rZz+TLz2X4hicwKKXeOWbfKOFj6
-	63opc2FGCU3tCV/SSmyEvPHsHm5JLbluge8OCkI/Iwft/+blc8qVj0X6vn0V0xGvNtd6
-	EDal2H2/zxUF2s8aRGVkqaT3xrrZgYkIJf5D13FQdzXxSrNhP9sDyt/Lp0w7d8CzRS5U
-	lUz3gcE4Y6HZw3QeGS838tX8NR0mgUSbGqpO3U3F+HSB7XnkrImToS6iUrT582dKARhT
-	sx4BUMVN3i+sFugc0fyLigT8EeRzo1F7KpjWxaMYdh257B6r5pQZ0BRm1xKGMLXXPskK
-	JHUQ==
-X-Gm-Message-State: ALoCoQmFQ+Fq5xpGNgykxvvgkDULDJclzybgeLW6fZ0PpmqwRPDev+7RAjCeVzoemKH7eUPRuxZR
-X-Received: by 10.194.57.19 with SMTP id e19mr25351629wjq.152.1440240496181;
-	Sat, 22 Aug 2015 03:48:16 -0700 (PDT)
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com.
-	[209.85.212.174]) by smtp.gmail.com with ESMTPSA id
-	kb1sm13863771wjc.24.2015.08.22.03.48.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 22 Aug 2015 03:48:15 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by wijp15 with SMTP id p15so38025083wij.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Aug 2015 03:48:14 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.180.73.13 with SMTP id h13mr13423519wiv.79.1440240494716;
-	Sat, 22 Aug 2015 03:48:14 -0700 (PDT)
-Received: by 10.28.135.72 with HTTP; Sat, 22 Aug 2015 03:48:14 -0700 (PDT)
-In-Reply-To: <1440234522.12105.283.camel@linuxfoundation.org>
-References: <1440193082-508-1-git-send-email-otavio@ossystems.com.br>
-	<2ADD7CA4-0184-4D54-9E0B-8A58ACB51DC1@gmail.com>
-	<CAP9ODKrEBfBH-+Z2VYg3qG5Bpi7aDozn6F1Z9r7MP3qC8Zs+RQ@mail.gmail.com>
-	<F5709C6C-5297-49D4-B2BD-931B59837210@gmail.com>
-	<1440234522.12105.283.camel@linuxfoundation.org>
-Date: Sat, 22 Aug 2015 07:48:14 -0300
-Message-ID: <CAP9ODKrUt6S=NC2CCre2y3hC3fKpGD=PvAnWtAJyO3di+O0-1Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Rename 'BRANCH' variable to 'SRC_BRANCH' for clearness
+	Sat, 22 Aug 2015 08:58:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=gjfQ44AaoMQ/X4IWHpnYRGmpPFBFRVYAkzN17rloW90=;
+	b=Qw6WUq4afmNNs1bjxh8rPV68CZeCiIIRysfIysv1L7zRk11GXLz3DmVeKPrXoiW2/B
+	t5HiMSafNQso7wTa/SSKU/gmzIAoUaRHdMoSrsoyHeN7oq0vzRo6SkjfuESPbmGshgoY
+	YtEDYLYrhd2XdLdSk/WtCo3JLwDtXL7hTpcAkkAY713oKlDKGVpl8OYG48e/xDwYOw+b
+	GF0l2vXnNWXC4V6Ov4mGJF+lxEVeY8tFK8Yk4yGhOu5cESlL7KbXyVwux04zz88Q4apP
+	zLB1Y5YYU4sdU2Ai20akYh7OPUy1ZLeEXiZp95fm2byLLOpJVnkxABNSG29FMqGZdYLl
+	/InQ==
+X-Received: by 10.107.10.144 with SMTP id 16mr11691653iok.72.1440259117761;
+	Sat, 22 Aug 2015 08:58:37 -0700 (PDT)
+Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
+	[96.119.89.79])
+	by smtp.gmail.com with ESMTPSA id r8sm8726088ioi.10.2015.08.22.08.58.36
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 22 Aug 2015 08:58:36 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 22 Aug 2015 08:58:10 -0700
+Message-Id: <1440259095-24566-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 1/6] sysvinit: Fix makefile bug found with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,58 +41,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Aug 2015 10:48:16 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 22 Aug 2015 15:58:39 -0000
 
-On Sat, Aug 22, 2015 at 6:08 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Fri, 2015-08-21 at 23:03 -0700, Khem Raj wrote:
->> > On Aug 21, 2015, at 2:58 PM, Otavio Salvador <otavio.salvador@ossystem=
-s.com.br> wrote:
->> >
->> > On Fri, Aug 21, 2015 at 6:49 PM, Khem Raj <raj.khem@gmail.com> wrote:
->> >>
->> >>> On Aug 21, 2015, at 2:38 PM, Otavio Salvador <otavio@ossystems.com.b=
-r> wrote:
->> >>>
->> >>> The 'BRANCH' variable name has no explicit relation with the
->> >>> SRC_URI. Using 'SRC_BRANCH' makes it more obvious and easier to
->> >>> identify.
->> >>
->> >> Look good to me, just may be avoid =E2=80=98_=E2=80=99 and call it SR=
-CBRANCH
->> >
->> > I did this initially but looking at how it looks in the source code,
->> > it seems SRC_BRANCH makes easier to spot the relation with SRC_URI. So
->> > I took the second.
->>
->> since bitbake use =E2=80=98_=E2=80=99 as a override separator, its less =
-confusing if variables don=E2=80=99t have underscore in them
->> for future collision.
->
-> Names with '_' in them might look better but there is a small price to
-> pay for it in that bitbake then has to track whether "BRANCH" is an
-> override. Obviously it does this in many cases already (e.g. URI from
-> SRC_URI) but when you've looked at what the datastore actually has to do
-> to keep the system working, you start to lean against creating more work
-> for it.
->
-> I continue to believe we should probably find a better syntax for
-> overrides. If someone had a good alternative, it would probably be worth
-> the pain of switching...
->
-> I'm not saying we shouldn't take the above patch here, just that this is
-> something which does have a cost and all the uses do mount up
-> significantly.
+This is due to specifying .h files on linker cmdline
+clang driver is picky about it, and its not entirely correct
+either
 
-So we should consider renaming SRC_URI for SRCURI. ;-)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...an-issue-that-clang-reports-about-mutlipl.patch | 52 ++++++++++++++++++++++
+ meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-core/sysvinit/sysvinit/0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch
 
-I am Ok sending it as SRCBRANCH but it does looks less obvious for news com=
-ers.
+diff --git a/meta/recipes-core/sysvinit/sysvinit/0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch b/meta/recipes-core/sysvinit/sysvinit/0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch
+new file mode 100644
+index 0000000..f35c15c
+--- /dev/null
++++ b/meta/recipes-core/sysvinit/sysvinit/0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch
+@@ -0,0 +1,52 @@
++From 36ac97bfe51797458442a6035219a504a42e703a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 21 Aug 2015 10:56:40 -0700
++Subject: [PATCH] This fixes an issue that clang reports about mutliple output
++ files
++
++Issue is that we are passing .h file to link step as seen below.
++
++| arm-oe-linux-gnueabi-clang  -march=armv7-a -mthumb  -mfloat-abi=hard
++-mfpu=neon-vfpv4 -mtune=cortex-a7 -D__extern_always_inline=inline
++-no-integrated-as
++--sysroot=/mnt/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-glibc/sysroots/raspberrypi2
++-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed  halt.o ifdown.o hddown.o
++utmp.o reboot.h   -o halt
++| clang-3.7: error: cannot specify -o when generating multiple output
++files
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/Makefile | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/Makefile b/src/Makefile
++index e77ed5f..a6f9f40 100644
++--- a/src/Makefile
+++++ b/src/Makefile
++@@ -103,9 +103,9 @@ all:		$(BIN) $(SBIN) $(USRBIN)
++ init:		LDLIBS += $(INITLIBS) $(STATIC)
++ init:		init.o init_utmp.o
++ 
++-halt:		halt.o ifdown.o hddown.o utmp.o reboot.h
+++halt:		halt.o ifdown.o hddown.o utmp.o
++ 
++-last:		last.o oldutmp.h
+++last:		last.o
++ 
++ mesg:		mesg.o
++ 
++@@ -120,7 +120,7 @@ sulogin:	sulogin.o
++ 
++ wall:		dowall.o wall.o
++ 
++-shutdown:	dowall.o shutdown.o utmp.o reboot.h
+++shutdown:	dowall.o shutdown.o utmp.o
++ 
++ bootlogd:	LDLIBS += -lutil
++ bootlogd:	bootlogd.o
++-- 
++2.1.4
++
+diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+index 6709a9b..5dfe39e 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.bz2 \
+            file://install.patch \
+            file://crypt-lib.patch \
+            file://pidof-add-m-option.patch \
++           file://0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch \
+            file://rcS-default \
+            file://rc \
+            file://rcS \
+-- 
+2.1.4
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
