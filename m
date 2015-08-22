@@ -1,36 +1,53 @@
-Return-Path: <andrea.adami@gmail.com>
-Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
-	[209.85.213.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E18273E11
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BCAB73E11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Aug 2015 09:50:06 +0000 (UTC)
-Received: by igfj19 with SMTP id j19so33272005igf.0
+	Sat, 22 Aug 2015 10:48:16 +0000 (UTC)
+Received: by wicja10 with SMTP id ja10so33630699wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Aug 2015 02:50:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=lfQU3gKHAAT3C/VWtDkVeJLmAsAb+K1aW5RjhAOp9kI=;
-	b=sSWMswHzfhk1DTpJYySXX8Y5wZBFiXO8qLSvKPmQ+ezNF5fvpq6FLKCJENkJXNwb5I
-	UmBFB3KGqMBxAP3rslKNYv+mKyzcBOTCOihCvoJ/I56czMrY7zGka0ZCXxq9jO5f4TGJ
-	pHkhA2kt/r6pxVmbBeZ+IW55FpKBBYsOc0eB11pxTYxhBuEKmP48BFE1OaQB/gBEs2r2
-	tziB7I8gFKj0kcdNT7FBZevYKBBVuZl0MEbWUHDGDsxWgAm5SLbxSREoepUl/SEpYM7y
-	Jh/a9+mrtf+IEHY1pkAERlfv5sRtMYE3b8ZdvLKWsYblsCvxsQBcz7yN5Kja7UhyNVl3
-	aDaQ==
+	Sat, 22 Aug 2015 03:48:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type:content-transfer-encoding;
+	bh=A7XJkQEZ4CEu9L4oxMKvYkbY0xHpOcg1r27rNUNnVME=;
+	b=IZlk08M4jrOXvYMBWQajFajgW+SWvN38f5lA863rZz+TLz2X4hicwKKXeOWbfKOFj6
+	63opc2FGCU3tCV/SSmyEvPHsHm5JLbluge8OCkI/Iwft/+blc8qVj0X6vn0V0xGvNtd6
+	EDal2H2/zxUF2s8aRGVkqaT3xrrZgYkIJf5D13FQdzXxSrNhP9sDyt/Lp0w7d8CzRS5U
+	lUz3gcE4Y6HZw3QeGS838tX8NR0mgUSbGqpO3U3F+HSB7XnkrImToS6iUrT582dKARhT
+	sx4BUMVN3i+sFugc0fyLigT8EeRzo1F7KpjWxaMYdh257B6r5pQZ0BRm1xKGMLXXPskK
+	JHUQ==
+X-Gm-Message-State: ALoCoQmFQ+Fq5xpGNgykxvvgkDULDJclzybgeLW6fZ0PpmqwRPDev+7RAjCeVzoemKH7eUPRuxZR
+X-Received: by 10.194.57.19 with SMTP id e19mr25351629wjq.152.1440240496181;
+	Sat, 22 Aug 2015 03:48:16 -0700 (PDT)
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com.
+	[209.85.212.174]) by smtp.gmail.com with ESMTPSA id
+	kb1sm13863771wjc.24.2015.08.22.03.48.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 22 Aug 2015 03:48:15 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by wijp15 with SMTP id p15so38025083wij.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Aug 2015 03:48:14 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.50.117.98 with SMTP id kd2mr7226022igb.78.1440237006847;
-	Sat, 22 Aug 2015 02:50:06 -0700 (PDT)
-Received: by 10.36.158.5 with HTTP; Sat, 22 Aug 2015 02:50:06 -0700 (PDT)
-In-Reply-To: <CAAQYJAugiMk95tg9rKk1PXfWQ4HXZXZnHeyHbjvWSQgfJ9kAOg@mail.gmail.com>
-References: <1440199709-23502-1-git-send-email-andrea.adami@gmail.com>
-	<CAJ86T=XmEdEQWhpSR9nZsnqn+pZqBdZmNqtfnKfXDx52CGXaxw@mail.gmail.com>
-	<CAAQYJAugiMk95tg9rKk1PXfWQ4HXZXZnHeyHbjvWSQgfJ9kAOg@mail.gmail.com>
-Date: Sat, 22 Aug 2015 11:50:06 +0200
-Message-ID: <CAAQYJAt1ErcWAXsW4wTdYVOU7GoD3fwwU6HWrypEeJe5rymOnw@mail.gmail.com>
-From: Andrea Adami <andrea.adami@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mtd-utils: add dependency on acl
+X-Received: by 10.180.73.13 with SMTP id h13mr13423519wiv.79.1440240494716;
+	Sat, 22 Aug 2015 03:48:14 -0700 (PDT)
+Received: by 10.28.135.72 with HTTP; Sat, 22 Aug 2015 03:48:14 -0700 (PDT)
+In-Reply-To: <1440234522.12105.283.camel@linuxfoundation.org>
+References: <1440193082-508-1-git-send-email-otavio@ossystems.com.br>
+	<2ADD7CA4-0184-4D54-9E0B-8A58ACB51DC1@gmail.com>
+	<CAP9ODKrEBfBH-+Z2VYg3qG5Bpi7aDozn6F1Z9r7MP3qC8Zs+RQ@mail.gmail.com>
+	<F5709C6C-5297-49D4-B2BD-931B59837210@gmail.com>
+	<1440234522.12105.283.camel@linuxfoundation.org>
+Date: Sat, 22 Aug 2015 07:48:14 -0300
+Message-ID: <CAP9ODKrUt6S=NC2CCre2y3hC3fKpGD=PvAnWtAJyO3di+O0-1Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Rename 'BRANCH' variable to 'SRC_BRANCH' for clearness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,171 +60,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Aug 2015 09:50:09 -0000
-Content-Type: multipart/alternative; boundary=089e011608f42fa6a5051de34f38
-
---089e011608f42fa6a5051de34f38
+X-List-Received-Date: Sat, 22 Aug 2015 10:48:16 -0000
 Content-Type: text/plain; charset=UTF-8
-
-On Sat, Aug 22, 2015 at 11:47 AM, Andrea Adami <andrea.adami@gmail.com>
-wrote:
-
->
->
-> On Sat, Aug 22, 2015 at 2:44 AM, Andre McCurdy <armccurdy@gmail.com>
-> wrote:
->
->> On Fri, Aug 21, 2015 at 4:28 PM, Andrea Adami <andrea.adami@gmail.com>
->> wrote:
->> > After commit 24fde4d do_compile fails:
->> >
->> > | mkfs.jffs2.c:70:21: fatal error: sys/acl.h: No such file or directory
->> > |  #include <sys/acl.h>
->> >
->> > Adding acl to the list of dependencies fixes the build.
->>
->> Unconditionally enabling xattr and acl support is OK for the native
->> build, but for the target both should probably be conditional on their
->> respective DISTRO_FEATURES.
->>
->
-> I can agree, acl is one distro feature but atm it is not used by nodistro
-> and poky.
-> So the patch unconditionally  -DWITHOUT_XATTR seems wrong...this should be
-> done only if acl is used.
->
-
-
-ofc I meant unconditionally removing -DWITHOUT_XATTR
-( commit24fde4d983cc8f056177de6c1ad308369f6279ad )
-<http://cgit.openembedded.org/openembedded-core/commit/meta/recipes-devtools/mtd/mtd-utils_git.bb?id=24fde4d983cc8f056177de6c1ad308369f6279ad>
-
-
->
-> Andrea
->
->
->
->>
->>
->> > Signed-off-by: Andrea Adami <andrea.adami@gmail.com>
->> > ---
->> >  meta/recipes-devtools/mtd/mtd-utils_git.bb | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb
->> b/meta/recipes-devtools/mtd/mtd-utils_git.bb
->> > index 8d4892a..72ce9ed 100644
->> > --- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
->> > +++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
->> > @@ -5,7 +5,7 @@ LICENSE = "GPLv2+"
->> >  LIC_FILES_CHKSUM =
->> "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
->> >
->> file://include/common.h;beginline=1;endline=17;md5=ba05b07912a44ea2bf81ce409380049c"
->> >
->> > -DEPENDS = "zlib lzo e2fsprogs util-linux"
->> > +DEPENDS = "zlib lzo e2fsprogs util-linux acl"
->> >
->> >  PV = "1.5.1+git${SRCPV}"
->> >
->> > --
->> > 1.9.1
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
->
-
---089e011608f42fa6a5051de34f38
-Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Sat, Aug 22, 2015 at 11:47 AM, Andrea Adami <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:andrea.adami@gmail.com" target=3D"_blank">andrea.adami@gmai=
-l.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"l=
-tr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><span cla=
-ss=3D"">On Sat, Aug 22, 2015 at 2:44 AM, Andre McCurdy <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:armccurdy@gmail.com" target=3D"_blank">armccurdy@gmail.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span>On Fri, A=
-ug 21, 2015 at 4:28 PM, Andrea Adami &lt;<a href=3D"mailto:andrea.adami@gma=
-il.com" target=3D"_blank">andrea.adami@gmail.com</a>&gt; wrote:<br>
-&gt; After commit 24fde4d do_compile fails:<br>
-&gt;<br>
-&gt; | mkfs.jffs2.c:70:21: fatal error: sys/acl.h: No such file or director=
-y<br>
-&gt; |=C2=A0 #include &lt;sys/acl.h&gt;<br>
-&gt;<br>
-&gt; Adding acl to the list of dependencies fixes the build.<br>
-<br>
-</span>Unconditionally enabling xattr and acl support is OK for the native<=
-br>
-build, but for the target both should probably be conditional on their<br>
-respective DISTRO_FEATURES.<br></blockquote><div><br></div></span><div>I ca=
-n agree, acl is one distro feature but atm it is not used by nodistro and p=
-oky.<br></div><div>So the patch unconditionally=C2=A0 -DWITHOUT_XATTR seems=
- wrong...this should be done only if acl is used.<span class=3D"HOEnZb"><fo=
-nt color=3D"#888888"><br></font></span></div></div></div></div></blockquote=
-><div><br><br></div><div>ofc I meant unconditionally removing -DWITHOUT_XAT=
-TR<br>( commit<a href=3D"http://cgit.openembedded.org/openembedded-core/com=
-mit/meta/recipes-devtools/mtd/mtd-utils_git.bb?id=3D24fde4d983cc8f056177de6=
-c1ad308369f6279ad">24fde4d983cc8f056177de6c1ad308369f6279ad )</a></div><div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
-order-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"=
-gmail_extra"><div class=3D"gmail_quote"><div><span class=3D"HOEnZb"><font c=
-olor=3D"#888888"></font></span></div><span class=3D"HOEnZb"><font color=3D"=
-#888888"><div><br></div><div>Andrea<br></div></font></span><span class=3D""=
-><div><br>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div><div><br>
-<br>
-&gt; Signed-off-by: Andrea Adami &lt;<a href=3D"mailto:andrea.adami@gmail.c=
-om" target=3D"_blank">andrea.adami@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-devtools/mtd/<a href=3D"http://mtd-utils_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">mtd-utils_git.bb</a> | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/mtd/<a href=3D"http://mtd-utils_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">mtd-utils_git.bb</a> b/meta/recip=
-es-devtools/mtd/<a href=3D"http://mtd-utils_git.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">mtd-utils_git.bb</a><br>
-&gt; index 8d4892a..72ce9ed 100644<br>
-&gt; --- a/meta/recipes-devtools/mtd/<a href=3D"http://mtd-utils_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">mtd-utils_git.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/mtd/<a href=3D"http://mtd-utils_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">mtd-utils_git.bb</a><br>
-&gt; @@ -5,7 +5,7 @@ LICENSE =3D &quot;GPLv2+&quot;<br>
-&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D0636e73ff0215e8d=
-672dc4c32c317bb3 \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 file://include/common.h;beginline=3D1;endline=3D17;md5=3Dba05b07912a=
-44ea2bf81ce409380049c&quot;<br>
-&gt;<br>
-&gt; -DEPENDS =3D &quot;zlib lzo e2fsprogs util-linux&quot;<br>
-&gt; +DEPENDS =3D &quot;zlib lzo e2fsprogs util-linux acl&quot;<br>
-&gt;<br>
-&gt;=C2=A0 PV =3D &quot;1.5.1+git${SRCPV}&quot;<br>
-&gt;<br>
-&gt; --<br>
-&gt; 1.9.1<br>
-&gt;<br>
-</div></div><span><font color=3D"#888888">&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
-</font></span></blockquote></span></div><br></div></div>
-</blockquote></div><br></div></div>
+On Sat, Aug 22, 2015 at 6:08 AM, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Fri, 2015-08-21 at 23:03 -0700, Khem Raj wrote:
+>> > On Aug 21, 2015, at 2:58 PM, Otavio Salvador <otavio.salvador@ossystem=
+s.com.br> wrote:
+>> >
+>> > On Fri, Aug 21, 2015 at 6:49 PM, Khem Raj <raj.khem@gmail.com> wrote:
+>> >>
+>> >>> On Aug 21, 2015, at 2:38 PM, Otavio Salvador <otavio@ossystems.com.b=
+r> wrote:
+>> >>>
+>> >>> The 'BRANCH' variable name has no explicit relation with the
+>> >>> SRC_URI. Using 'SRC_BRANCH' makes it more obvious and easier to
+>> >>> identify.
+>> >>
+>> >> Look good to me, just may be avoid =E2=80=98_=E2=80=99 and call it SR=
+CBRANCH
+>> >
+>> > I did this initially but looking at how it looks in the source code,
+>> > it seems SRC_BRANCH makes easier to spot the relation with SRC_URI. So
+>> > I took the second.
+>>
+>> since bitbake use =E2=80=98_=E2=80=99 as a override separator, its less =
+confusing if variables don=E2=80=99t have underscore in them
+>> for future collision.
+>
+> Names with '_' in them might look better but there is a small price to
+> pay for it in that bitbake then has to track whether "BRANCH" is an
+> override. Obviously it does this in many cases already (e.g. URI from
+> SRC_URI) but when you've looked at what the datastore actually has to do
+> to keep the system working, you start to lean against creating more work
+> for it.
+>
+> I continue to believe we should probably find a better syntax for
+> overrides. If someone had a good alternative, it would probably be worth
+> the pain of switching...
+>
+> I'm not saying we shouldn't take the above patch here, just that this is
+> something which does have a cost and all the uses do mount up
+> significantly.
 
---089e011608f42fa6a5051de34f38--
+So we should consider renaming SRC_URI for SRCURI. ;-)
+
+I am Ok sending it as SRCBRANCH but it does looks less obvious for news com=
+ers.
+
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+
