@@ -1,34 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A224E73E11
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 84A1160657
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 22 Aug 2015 15:58:37 +0000 (UTC)
-Received: by iodv127 with SMTP id v127so110061891iod.3
+Received: by iodb91 with SMTP id b91so109849547iod.1
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 22 Aug 2015 08:58:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=gjfQ44AaoMQ/X4IWHpnYRGmpPFBFRVYAkzN17rloW90=;
-	b=Qw6WUq4afmNNs1bjxh8rPV68CZeCiIIRysfIysv1L7zRk11GXLz3DmVeKPrXoiW2/B
-	t5HiMSafNQso7wTa/SSKU/gmzIAoUaRHdMoSrsoyHeN7oq0vzRo6SkjfuESPbmGshgoY
-	YtEDYLYrhd2XdLdSk/WtCo3JLwDtXL7hTpcAkkAY713oKlDKGVpl8OYG48e/xDwYOw+b
-	GF0l2vXnNWXC4V6Ov4mGJF+lxEVeY8tFK8Yk4yGhOu5cESlL7KbXyVwux04zz88Q4apP
-	zLB1Y5YYU4sdU2Ai20akYh7OPUy1ZLeEXiZp95fm2byLLOpJVnkxABNSG29FMqGZdYLl
-	/InQ==
-X-Received: by 10.107.10.144 with SMTP id 16mr11691653iok.72.1440259117761;
-	Sat, 22 Aug 2015 08:58:37 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=AGoJq8WQGPu89iLcs8BMcLE0XG2vXl/i+FeTfOa4QfU=;
+	b=TEQYcnA0X0YYzkd9xV8Jm4J9tk7uJGsMwUodJ8dQxUSbEghBLyKfNODx83iXwuhGKU
+	pq15nFbaWDwko5HDvvTJKk4q2WCmN27Ov2e3YcKUIIiBlPr2Zbz6l/YyNr/9LDNaHAy/
+	tbtgowwsbWd9Vogj7udlB+JjqkjlLMW7eToxoyA74q6Yk1/sVkAln/gcFbYSdsu00zoh
+	lxfBUY3G74aiBEjW38K+KCk1eyPvMZfdULjC38U96sIiQ9lAV/Ff3AT2F+8cCvqW9A8f
+	MwqXWysCLouNHCXTgk/PnfRW0ZVJ6C+2UNkms4V4PL3h9IENuF71t/lbS+3mMrypCquL
+	L9+g==
+X-Received: by 10.107.132.146 with SMTP id o18mr12077567ioi.134.1440259118330; 
+	Sat, 22 Aug 2015 08:58:38 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by smtp.gmail.com with ESMTPSA id r8sm8726088ioi.10.2015.08.22.08.58.36
+	by smtp.gmail.com with ESMTPSA id r8sm8726088ioi.10.2015.08.22.08.58.37
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 22 Aug 2015 08:58:36 -0700 (PDT)
+	Sat, 22 Aug 2015 08:58:37 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Aug 2015 08:58:10 -0700
-Message-Id: <1440259095-24566-1-git-send-email-raj.khem@gmail.com>
+Date: Sat, 22 Aug 2015 08:58:11 -0700
+Message-Id: <1440259095-24566-2-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/6] sysvinit: Fix makefile bug found with clang
+In-Reply-To: <1440259095-24566-1-git-send-email-raj.khem@gmail.com>
+References: <1440259095-24566-1-git-send-email-raj.khem@gmail.com>
+Subject: [PATCH 2/6] alsa-lib: Lift the limitation to use gcc only cross compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,87 +45,82 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 22 Aug 2015 15:58:39 -0000
 
-This is due to specifying .h files on linker cmdline
-clang driver is picky about it, and its not entirely correct
-either
+alsa-lib configure tries to see that if CC variabled doesnt contain
+'gcc' then it tries to guess and redefine CC to be something gcc, which
+doesnt work with OE since we define CC to have sysroot and options
+attached to it. So all tests fail when configure constructs the CC for
+cross compiler like this. This portion is not needed at all
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...an-issue-that-clang-reports-about-mutlipl.patch | 52 ++++++++++++++++++++++
- meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-core/sysvinit/sysvinit/0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch
+ ...build-Do-not-try-to-detect-cross-compiler.patch | 45 ++++++++++++++++++++++
+ meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb    |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
 
-diff --git a/meta/recipes-core/sysvinit/sysvinit/0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch b/meta/recipes-core/sysvinit/sysvinit/0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
 new file mode 100644
-index 0000000..f35c15c
+index 0000000..583bc3d
 --- /dev/null
-+++ b/meta/recipes-core/sysvinit/sysvinit/0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch
-@@ -0,0 +1,52 @@
-+From 36ac97bfe51797458442a6035219a504a42e703a Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
+@@ -0,0 +1,45 @@
++From 17aeb3565f411e7796cabe403f92d15948a8ca95 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 21 Aug 2015 10:56:40 -0700
-+Subject: [PATCH] This fixes an issue that clang reports about mutliple output
-+ files
++Date: Fri, 21 Aug 2015 14:42:45 -0700
++Subject: [PATCH] build: Do not try to detect cross-compiler
 +
-+Issue is that we are passing .h file to link step as seen below.
-+
-+| arm-oe-linux-gnueabi-clang  -march=armv7-a -mthumb  -mfloat-abi=hard
-+-mfpu=neon-vfpv4 -mtune=cortex-a7 -D__extern_always_inline=inline
-+-no-integrated-as
-+--sysroot=/mnt/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-glibc/sysroots/raspberrypi2
-+-Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed  halt.o ifdown.o hddown.o
-+utmp.o reboot.h   -o halt
-+| clang-3.7: error: cannot specify -o when generating multiple output
-+files
-+
-+Upstream-Status: Pending
++cross compilers are passed via path may not be a gcc based cross
++compiler in such cases this check fails and try's to force gcc based
++cross compiler detection, This code is a convenience that limits the
++build system
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ src/Makefile | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++Upstream-Status: Pending
 +
-+diff --git a/src/Makefile b/src/Makefile
-+index e77ed5f..a6f9f40 100644
-+--- a/src/Makefile
-++++ b/src/Makefile
-+@@ -103,9 +103,9 @@ all:		$(BIN) $(SBIN) $(USRBIN)
-+ init:		LDLIBS += $(INITLIBS) $(STATIC)
-+ init:		init.o init_utmp.o
++ configure.ac | 14 --------------
++ 1 file changed, 14 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 3022cf8..9d77440 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -27,20 +27,6 @@ AC_PREFIX_DEFAULT(/usr)
 + 
-+-halt:		halt.o ifdown.o hddown.o utmp.o reboot.h
-++halt:		halt.o ifdown.o hddown.o utmp.o
++ dnl Checks for programs.
 + 
-+-last:		last.o oldutmp.h
-++last:		last.o
++-dnl try to gues cross-compiler if not set
++-if test "x$host" != "x$build" -a -z "`echo $CC | grep -e '-gcc'`";
++-then
++-  AC_MSG_CHECKING(for cross-compiler)
++-
++-  which ${program_prefix}gcc >/dev/null 2>&1 && CC=${program_prefix}gcc
++-  which ${host_cpu}-${host_os}-gcc >/dev/null 2>&1 \
++-  && CC=${host_cpu}-${host_os}-gcc
++-  which ${host_cpu}-${host_vendor}-${host_os}-gcc >/dev/null 2>&1 \
++-  && CC=${host_cpu}-${host_vendor}-${host_os}-gcc
++-
++-  AC_MSG_RESULT($CC)
++-fi
++-	    
++ CFLAGS="$CFLAGS -D_GNU_SOURCE"
 + 
-+ mesg:		mesg.o
 + 
-+@@ -120,7 +120,7 @@ sulogin:	sulogin.o
-+ 
-+ wall:		dowall.o wall.o
-+ 
-+-shutdown:	dowall.o shutdown.o utmp.o reboot.h
-++shutdown:	dowall.o shutdown.o utmp.o
-+ 
-+ bootlogd:	LDLIBS += -lutil
-+ bootlogd:	bootlogd.o
 +-- 
 +2.1.4
 +
-diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-index 6709a9b..5dfe39e 100644
---- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-+++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/sysvinit/sysvinit-${PV}.tar.bz2 \
-            file://install.patch \
-            file://crypt-lib.patch \
-            file://pidof-add-m-option.patch \
-+           file://0001-This-fixes-an-issue-that-clang-reports-about-mutlipl.patch \
-            file://rcS-default \
-            file://rc \
-            file://rcS \
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb
+index fc6ba69..730f427 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb
+@@ -16,6 +16,7 @@ ARM_INSTRUCTION_SET = "arm"
+ 
+ SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2 \
+            file://Check-if-wordexp-function-is-supported.patch \
++           file://0001-build-Do-not-try-to-detect-cross-compiler.patch \
+ "
+ SRC_URI[md5sum] = "de67e0eca72474d6b1121037dafe1024"
+ SRC_URI[sha256sum] = "73043c35eb9636be0f4af6a240235c213f12a25feb1f04aeeac8cb7e30fcbdd0"
 -- 
 2.1.4
 
