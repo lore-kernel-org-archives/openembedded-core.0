@@ -1,36 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
-	[209.85.223.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 84A1160657
+Received: from mail-io0-f180.google.com (mail-io0-f180.google.com
+	[209.85.223.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 1882075794
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Aug 2015 15:58:37 +0000 (UTC)
-Received: by iodb91 with SMTP id b91so109849547iod.1
+	Sat, 22 Aug 2015 15:58:38 +0000 (UTC)
+Received: by iodv127 with SMTP id v127so110062159iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Aug 2015 08:58:38 -0700 (PDT)
+	Sat, 22 Aug 2015 08:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=AGoJq8WQGPu89iLcs8BMcLE0XG2vXl/i+FeTfOa4QfU=;
-	b=TEQYcnA0X0YYzkd9xV8Jm4J9tk7uJGsMwUodJ8dQxUSbEghBLyKfNODx83iXwuhGKU
-	pq15nFbaWDwko5HDvvTJKk4q2WCmN27Ov2e3YcKUIIiBlPr2Zbz6l/YyNr/9LDNaHAy/
-	tbtgowwsbWd9Vogj7udlB+JjqkjlLMW7eToxoyA74q6Yk1/sVkAln/gcFbYSdsu00zoh
-	lxfBUY3G74aiBEjW38K+KCk1eyPvMZfdULjC38U96sIiQ9lAV/Ff3AT2F+8cCvqW9A8f
-	MwqXWysCLouNHCXTgk/PnfRW0ZVJ6C+2UNkms4V4PL3h9IENuF71t/lbS+3mMrypCquL
-	L9+g==
-X-Received: by 10.107.132.146 with SMTP id o18mr12077567ioi.134.1440259118330; 
+	bh=DM0nVDdRZ/iXoZ27E629CSIMJpP00HXWE2VT4Gw/rMA=;
+	b=MXrOymPlJpSR0kPbVht8nalxjysqWTcxlF+JYDu5VAZj9aaGKZq7fVET510fpcwu9C
+	rbppJ2Vzy0gCNb7jyZ0IuwPNgzMan1aFlwUAI0BgcR3DFklRQ7LzpyvV+Wldsy+6W6XI
+	Sd3/H4hQCs6l7fgDN5nsi3hxY7QvSLkIDaVSjJPIjB6RjY/NFS7i1F3sCjxMztUCAhs8
+	d3f52fRyYHvPC5qMC7y7njCNnmOi5hx0h/vU06CreI/Fz4IhWjJAhIOcdiBG1Hwpw77G
+	XSLzLVx9onjNFcFCMu3Gsx8kJb8jZEG7mACp19gSCkXwJhPGpGdNsoD1oCy0yGR/U9yq
+	CDnQ==
+X-Received: by 10.107.132.160 with SMTP id o32mr12395551ioi.25.1440259118927; 
 	Sat, 22 Aug 2015 08:58:38 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79])
-	by smtp.gmail.com with ESMTPSA id r8sm8726088ioi.10.2015.08.22.08.58.37
+	by smtp.gmail.com with ESMTPSA id r8sm8726088ioi.10.2015.08.22.08.58.38
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 22 Aug 2015 08:58:37 -0700 (PDT)
+	Sat, 22 Aug 2015 08:58:38 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Aug 2015 08:58:11 -0700
-Message-Id: <1440259095-24566-2-git-send-email-raj.khem@gmail.com>
+Date: Sat, 22 Aug 2015 08:58:12 -0700
+Message-Id: <1440259095-24566-3-git-send-email-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1440259095-24566-1-git-send-email-raj.khem@gmail.com>
 References: <1440259095-24566-1-git-send-email-raj.khem@gmail.com>
-Subject: [PATCH 2/6] alsa-lib: Lift the limitation to use gcc only cross compiler
+Subject: [PATCH 3/6] json-c: Include math_compat.c for NAN/INF values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,82 +45,75 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 22 Aug 2015 15:58:39 -0000
 
-alsa-lib configure tries to see that if CC variabled doesnt contain
-'gcc' then it tries to guess and redefine CC to be something gcc, which
-doesnt work with OE since we define CC to have sysroot and options
-attached to it. So all tests fail when configure constructs the CC for
-cross compiler like this. This portion is not needed at all
+The backport patch also fixes the warning which was being work arounded
+by disabling unused-but-set-variable
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...build-Do-not-try-to-detect-cross-compiler.patch | 45 ++++++++++++++++++++++
- meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb    |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
+ .../0001-json_tokener-requires-INF-and-NAN.patch   | 32 ++++++++++++++++++++++
+ meta/recipes-devtools/json-c/json-c_0.12.bb        |  6 ++--
+ 2 files changed, 35 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c/0001-json_tokener-requires-INF-and-NAN.patch
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
+diff --git a/meta/recipes-devtools/json-c/json-c/0001-json_tokener-requires-INF-and-NAN.patch b/meta/recipes-devtools/json-c/json-c/0001-json_tokener-requires-INF-and-NAN.patch
 new file mode 100644
-index 0000000..583bc3d
+index 0000000..58ccf7b
 --- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/0001-build-Do-not-try-to-detect-cross-compiler.patch
-@@ -0,0 +1,45 @@
-+From 17aeb3565f411e7796cabe403f92d15948a8ca95 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 21 Aug 2015 14:42:45 -0700
-+Subject: [PATCH] build: Do not try to detect cross-compiler
++++ b/meta/recipes-devtools/json-c/json-c/0001-json_tokener-requires-INF-and-NAN.patch
+@@ -0,0 +1,32 @@
++From 9be71700eb580c815688584a64621a38867c3fdd Mon Sep 17 00:00:00 2001
++From: James Myatt <james.myatt@tessella.com>
++Date: Thu, 5 Feb 2015 15:57:14 +0000
++Subject: [PATCH] json_tokener requires INF and NAN
 +
-+cross compilers are passed via path may not be a gcc based cross
-+compiler in such cases this check fails and try's to force gcc based
-+cross compiler detection, This code is a convenience that limits the
-+build system
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+Upstream-Status: Pending
++Upstream-Status: Backport
 +
-+ configure.ac | 14 --------------
-+ 1 file changed, 14 deletions(-)
++ json_tokener.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 3022cf8..9d77440 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -27,20 +27,6 @@ AC_PREFIX_DEFAULT(/usr)
++Index: json-c-0.12/json_tokener.c
++===================================================================
++--- json-c-0.12.orig/json_tokener.c
+++++ json-c-0.12/json_tokener.c
++@@ -16,6 +16,7 @@
++ #include "config.h"
 + 
-+ dnl Checks for programs.
++ #include <math.h>
+++#include "math_compat.h"
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <stddef.h>
++@@ -353,7 +354,7 @@ struct json_object* json_tokener_parse_e
++     case json_tokener_state_inf: /* aka starts with 'i' */
++       {
++ 	int size;
++-	int size_inf;
+++	size_t size_inf;
++ 	int is_negative = 0;
 + 
-+-dnl try to gues cross-compiler if not set
-+-if test "x$host" != "x$build" -a -z "`echo $CC | grep -e '-gcc'`";
-+-then
-+-  AC_MSG_CHECKING(for cross-compiler)
-+-
-+-  which ${program_prefix}gcc >/dev/null 2>&1 && CC=${program_prefix}gcc
-+-  which ${host_cpu}-${host_os}-gcc >/dev/null 2>&1 \
-+-  && CC=${host_cpu}-${host_os}-gcc
-+-  which ${host_cpu}-${host_vendor}-${host_os}-gcc >/dev/null 2>&1 \
-+-  && CC=${host_cpu}-${host_vendor}-${host_os}-gcc
-+-
-+-  AC_MSG_RESULT($CC)
-+-fi
-+-	    
-+ CFLAGS="$CFLAGS -D_GNU_SOURCE"
-+ 
-+ 
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb
-index fc6ba69..730f427 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.0.29.bb
-@@ -16,6 +16,7 @@ ARM_INSTRUCTION_SET = "arm"
++ 	printbuf_memappend_fast(tok->pb, &c, 1);
+diff --git a/meta/recipes-devtools/json-c/json-c_0.12.bb b/meta/recipes-devtools/json-c/json-c_0.12.bb
+index e9c5b31..cfef03d 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.12.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.12.bb
+@@ -4,7 +4,9 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
  
- SRC_URI = "ftp://ftp.alsa-project.org/pub/lib/${BP}.tar.bz2 \
-            file://Check-if-wordexp-function-is-supported.patch \
-+           file://0001-build-Do-not-try-to-detect-cross-compiler.patch \
- "
- SRC_URI[md5sum] = "de67e0eca72474d6b1121037dafe1024"
- SRC_URI[sha256sum] = "73043c35eb9636be0f4af6a240235c213f12a25feb1f04aeeac8cb7e30fcbdd0"
+-SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++           file://0001-json_tokener-requires-INF-and-NAN.patch \
++          "
+ 
+ SRC_URI[md5sum] = "3ca4bbb881dfc4017e8021b5e0a8c491"
+ SRC_URI[sha256sum] = "000c01b2b3f82dcb4261751eb71f1b084404fb7d6a282f06074d3c17078b9f3f"
+@@ -17,5 +19,3 @@ do_configure_prepend() {
+     # Clean up autoconf cruft that should not be in the tarball
+     rm -f ${S}/config.status
+ }
+-
+-CFLAGS += "-Wno-error=unused-but-set-variable"
 -- 
 2.1.4
 
