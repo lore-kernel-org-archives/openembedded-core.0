@@ -1,36 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by mail.openembedded.org (Postfix) with ESMTP id A73A2766DF
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D6B3F6AC1E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 16:18:33 +0000 (UTC)
-Received: by qkbm65 with SMTP id m65so74157604qkb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 09:18:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Qzrq/KxFh/w3/jLKwlRJWj/Lv5rG4iq56cWJ41vupbM=;
-	b=KMDtzFl2IrOmlgc7Vqetdd4MFNeeWbmWXs2U7MkmRKoOa516+f3thTW+P3rKIFQzSB
-	iMIjjUgvWTUC71b2mC6YCpaaeg+aA9+EUoHQ9m1xUgkKedCL+nU2S3xsW8Fs2WBg9/ah
-	cpPUQiSsJtB0MClGoJRs0rsrW4g0qT8M8/CczgvIFJm5BmTwg2D5iBCT6BChZEpLy/WT
-	jodkXhr63N0M8JZHQfdyaR0ULJXeG+sIe30AZBRyFX29LzbKPo9bcgiG2dN3BFUKyQ3i
-	Qqie/t2JtkVoXj3cGGbqmb0CDVUSWnz1OvXt46qyxuIwbC0yFg1A01lddrWWGku4WhJ7
-	2fDQ==
-X-Gm-Message-State: ALoCoQmABy2B8CLAjLsf5jrQUSi27hmLw1O16uf8dHBSUKEy/38cP3jpklCCFuCX4H4TXsZ+t2ll
-X-Received: by 10.55.212.13 with SMTP id l13mr54624771qki.29.1440433113272;
-	Mon, 24 Aug 2015 09:18:33 -0700 (PDT)
+	Mon, 24 Aug 2015 17:12:17 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 24 Aug 2015 10:12:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,739,1432623600"; d="scan'208";a="789926549"
+Received: from alimon-thinkpad-w540.zpn.intel.com ([10.219.5.148])
+	by fmsmga002.fm.intel.com with ESMTP; 24 Aug 2015 10:12:17 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Aug 2015 12:12:17 -0500
+Message-Id: <1440436338-28264-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Mon, 24 Aug 2015 09:18:13 -0700 (PDT)
-In-Reply-To: <1440386359-14110-1-git-send-email-rongqing.li@windriver.com>
-References: <1440386359-14110-1-git-send-email-rongqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 24 Aug 2015 17:18:13 +0100
-Message-ID: <CAJTo0LbOFtEZwj3j39ukrSmZAp0O4s==9baGqLaqHYJZdJaMpw@mail.gmail.com>
-To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xmlto: xsltproc is required by both native and target
+Subject: [PATCH 1/2][dizzy] license_class: fix license.manifest shows LICENSE field differently to recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,57 +28,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 16:18:37 -0000
-Content-Type: multipart/alternative; boundary=001a1147a5200a3892051e10f8b0
-
---001a1147a5200a3892051e10f8b0
+X-List-Received-Date: Mon, 24 Aug 2015 17:12:18 -0000
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 24 August 2015 at 04:19, <rongqing.li@windriver.com> wrote:
+Drop removal of [|&()*] operators in pkged_lic because this removal is only
+needed to validate if license is collected.
 
-> @@ -20,9 +20,7 @@ RDEPENDS_${PN} = "docbook-xml-dtd4 \
->                    util-linux \
->                    libxml2 \
->                    bash \
-> -"
-> -RDEPENDS_${PN}_append_class-target = " \
-> -                  libxslt-bin \
-> +                  libxslt \
->
+[YOCTO #6757]
 
-This drops the runtime dependency on libxslt-bin, is this intentional?
-Should the dependency on libxslt be libxslt-bin?  Does it even need an
-explicit dependency on libxml? (does it use the xmllint or xmlcatalog
-binaries).
+(From OE-Core rev: 57e5f74382d51f2a8df00e18b6008e3d2b44ad1a)
 
-Ross
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/license.bbclass | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
---001a1147a5200a3892051e10f8b0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 91d8bab..dfb162d 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -49,24 +49,25 @@ license_create_manifest() {
+ 
+ 		pkged_pv="$(sed -n 's/^PV: //p' ${filename})"
+ 		pkged_name="$(basename $(readlink ${filename}))"
+-		pkged_lic="$(sed -n "/^LICENSE_${pkged_name}: /{ s/^LICENSE_${pkged_name}: //; s/[|&()*]/ /g; s/  */ /g; p }" ${filename})"
++		pkged_lic="$(sed -n "/^LICENSE_${pkged_name}: /{ s/^LICENSE_${pkged_name}: //; p }" ${filename})"
+ 		if [ -z ${pkged_lic} ]; then
+ 			# fallback checking value of LICENSE
+-			pkged_lic="$(sed -n "/^LICENSE: /{ s/^LICENSE: //; s/[|&()*]/ /g; s/  */ /g; p }" ${filename})"
++			pkged_lic="$(sed -n "/^LICENSE: /{ s/^LICENSE: //; p }" ${filename})"
+ 		fi
+ 
+ 		echo "PACKAGE NAME:" ${pkg} >> ${LICENSE_MANIFEST}
+ 		echo "PACKAGE VERSION:" ${pkged_pv} >> ${LICENSE_MANIFEST}
+ 		echo "RECIPE NAME:" ${pkged_pn} >> ${LICENSE_MANIFEST}
+-		printf "LICENSE:" >> ${LICENSE_MANIFEST}
+-		for lic in ${pkged_lic}; do
++		echo "LICENSE:" ${pkged_lic} >> ${LICENSE_MANIFEST}
++		echo "" >> ${LICENSE_MANIFEST}
++
++		lics="$(echo ${pkged_lic} | sed "s/[|&()*]/ /g" | sed "s/  */ /g" )"
++		for lic in ${lics}; do
+ 			# to reference a license file trim trailing + symbol
+ 			if ! [ -e "${LICENSE_DIRECTORY}/${pkged_pn}/generic_${lic%+}" ]; then
+ 				bbwarn "The license listed ${lic} was not in the licenses collected for ${pkged_pn}"
+ 			fi
+-                        printf " ${lic}" >> ${LICENSE_MANIFEST}
+ 		done
+-		printf "\n\n" >> ${LICENSE_MANIFEST}
+ 	done
+ 
+ 	# Two options here:
+-- 
+1.9.1
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 24 August 2015 at 04:19,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqi=
-ng.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</s=
-pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":d5" class=3D"a3s"=
- style=3D"overflow:hidden">@@ -20,9 +20,7 @@ RDEPENDS_${PN} =3D &quot;docbo=
-ok-xml-dtd4 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0util-l=
-inux \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libxml=
-2 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bash \=
-<br>
--&quot;<br>
--RDEPENDS_${PN}_append_class-target =3D &quot; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libxslt-bin=
- \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libxslt \</=
-div></blockquote></div><br>This drops the runtime dependency on libxslt-bin=
-, is this intentional?=C2=A0 Should the dependency on libxslt be libxslt-bi=
-n?=C2=A0 Does it even need an explicit dependency on libxml? (does it use t=
-he xmllint or xmlcatalog binaries).</div><div class=3D"gmail_extra"><br></d=
-iv><div class=3D"gmail_extra">Ross</div></div>
 
---001a1147a5200a3892051e10f8b0--
