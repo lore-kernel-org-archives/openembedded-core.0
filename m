@@ -1,24 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id DEBE576B49
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 52EBC76B49
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 24 Aug 2015 20:03:44 +0000 (UTC)
-Received: by iodb91 with SMTP id b91so161610601iod.1
+Received: by iods203 with SMTP id s203so162257762iod.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 13:03:44 -0700 (PDT)
+	Mon, 24 Aug 2015 13:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=wRTEanJltvN9C3ctZYBUTt5OmNjbzwelAPUD0ILAITo=;
-	b=hEeqZCZQ+Z8LhRfCFye4tyYuK3vqri2MhLx/3f6htF+FIeqgn9EP90OAqqunoAy3x0
-	7NgsxdiR+ctXqSZsPtfk7xvab9ghfcHXVeAuRgErLiLbVhS8wmbAx1GnmPqUdzeWFWUL
-	xgFhk9FskAr0qxnPfAfRdgd4wGo6B2+kkMTmpVAjGbtqOXTNUPq5ccaI3mL8xWuncYFX
-	2P2UXtxP0BFz/dded9bahLyINHBMXZv6Bghrk8Q4Ia27UXDK5uS56zocZSsyyE97pZu3
-	QuSPmXIliJdC1eKNkrZ/aoYKHIZEfa0BgAWvTewOCDo6A2o+utaYoYNLjzO5WiTDLhEB
-	sWCA==
-X-Received: by 10.107.157.133 with SMTP id g127mr21073683ioe.102.1440446624717;
-	Mon, 24 Aug 2015 13:03:44 -0700 (PDT)
+	bh=9Wv83qO5FrVJwaRXFQEyCk3EKre8CKBO3f+fYjPKFtI=;
+	b=G4jWRg3sNYZufD4+iKwbh4karK1VlYhRnVSTAK1TS9DFIL6Mcr9oPpMjMnEZNI/j1L
+	wvTBc4tFnneuzPw77Evl0geWlqF0/erCknAUuCnsVeb516oMmpGAJQAHGXHvedVGme/L
+	k7O0A4nFhJ++hCp7USkOOSMwWGNArUoWmk4NrMrB31VaImNkGKrr+83hnplA66Qni4P0
+	ITBv/gkE0naBDYPb/qtRfL/FtSRs6zmxxpiE+r3tLx8spmXIgYO5ubPBCI8zU2KDUUpL
+	/uW06MY2P7jnTGHXD8S2zUKOP+XLaPuFmScHdcc65ADMpRtolIlMCLGueLklIp8IFYl6
+	NySA==
+X-Received: by 10.107.15.209 with SMTP id 78mr20799643iop.51.1440446625262;
+	Mon, 24 Aug 2015 13:03:45 -0700 (PDT)
 Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	[96.119.89.79]) by smtp.gmail.com with ESMTPSA id
 	hh9sm9538417igb.18.2015.08.24.13.03.44
@@ -26,14 +26,14 @@ Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
 	Mon, 24 Aug 2015 13:03:44 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Aug 2015 13:03:26 -0700
-Message-Id: <a0c8ca382615a48e01946d50187559d45cd6e097.1440446289.git.raj.khem@gmail.com>
+Date: Mon, 24 Aug 2015 13:03:27 -0700
+Message-Id: <a2512d53ec4dbc1559d1673c91750d022f3aa23c.1440446289.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <87b72ec93b53c0a0ac61950f52480fa86a93c937.1440446289.git.raj.khem@gmail.com>
 References: <87b72ec93b53c0a0ac61950f52480fa86a93c937.1440446289.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1440446289.git.raj.khem@gmail.com>
 References: <cover.1440446289.git.raj.khem@gmail.com>
-Subject: [PATCH 08/17] libvorbis: Update libvorbis_1.3.4.bb -> libvorbis_1.3.5.bb
+Subject: [PATCH 09/17] psplash: Turn psplash_fb_plot_pixel() into static inline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,41 +48,92 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 24 Aug 2015 20:03:45 -0000
 
-Licence years have changes causing checksum changes
+This function is not used anywhere except psplash-fb.c so make it static
+inline function which is portable across compilers
 
--Copyright (c) 2002-2008 Xiph.org Foundation
-+Copyright (c) 2002-2015 Xiph.org Foundation
+Fixes issues like
+psplash-fb.o: In function `psplash_fb_draw_rect':
+|
+/mnt/home/kraj/work/angstrom/sources/openembedded-core/build/tmp-glibc/work/i586-oe-linux/psplash/0.1+gitAUTOINC+14c8f7b705-r15/git/psplash-fb.c:363:
+undefined reference to `psplash_fb_plot_pixel'
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libvorbis/{libvorbis_1.3.4.bb => libvorbis_1.3.5.bb}           | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/libvorbis/{libvorbis_1.3.4.bb => libvorbis_1.3.5.bb} (78%)
+ ...Convert-psplash_fb_plot_pixel-to-a-static.patch | 53 ++++++++++++++++++++++
+ meta/recipes-core/psplash/psplash_git.bb           |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-core/psplash/files/0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-similarity index 78%
-rename from meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb
-rename to meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-index 0788c94..b7a0667 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis_1.3.4.bb
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis_1.3.5.bb
-@@ -6,14 +6,13 @@ HOMEPAGE = "http://www.vorbis.com/"
- BUGTRACKER = "https://trac.xiph.org"
- SECTION = "libs"
- LICENSE = "BSD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=ca77c6c3ea4d29cb68dce8ef5ab0d897 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7d2c487d2fc7dd3e3c7c465a5b7f6217 \
-                     file://include/vorbis/vorbisenc.h;beginline=1;endline=11;md5=d1c1d138863d6315131193d4046d81cb"
- DEPENDS = "libogg"
+diff --git a/meta/recipes-core/psplash/files/0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch b/meta/recipes-core/psplash/files/0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch
+new file mode 100644
+index 0000000..93b3c6b
+--- /dev/null
++++ b/meta/recipes-core/psplash/files/0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch
+@@ -0,0 +1,53 @@
++From 8f5de12cc75bfaa8400adf32f30c015d8f813540 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 22 Aug 2015 07:12:20 -0700
++Subject: [PATCH] psplash-fb: Convert psplash_fb_plot_pixel() to a static
++ inline
++
++This function is not used outside psplash-fb.c and by making it
++static inline we keep the performance and also make it portable across
++multiple compilers and gcc versions
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++Upstream-Status: Pending
++
++ psplash-fb.c | 2 +-
++ psplash-fb.h | 8 --------
++ 2 files changed, 1 insertion(+), 9 deletions(-)
++
++diff --git a/psplash-fb.c b/psplash-fb.c
++index bd9cd9d..6d235db 100644
++--- a/psplash-fb.c
+++++ b/psplash-fb.c
++@@ -260,7 +260,7 @@ psplash_fb_new (int angle)
++ 
++ #define OFFSET(fb,x,y) (((y) * (fb)->stride) + ((x) * ((fb)->bpp >> 3)))
++ 
++-inline void
+++static inline void
++ psplash_fb_plot_pixel (PSplashFB    *fb,
++ 		       int          x,
++ 		       int          y,
++diff --git a/psplash-fb.h b/psplash-fb.h
++index 42592ed..c6c3144 100644
++--- a/psplash-fb.h
+++++ b/psplash-fb.h
++@@ -57,14 +57,6 @@ psplash_fb_destroy (PSplashFB *fb);
++ PSplashFB*
++ psplash_fb_new (int angle);
++ 
++-inline void
++-psplash_fb_plot_pixel (PSplashFB    *fb, 
++-		       int          x, 
++-		       int          y, 
++-		       uint8        red,
++-		       uint8        green,
++-		       uint8        blue);
++-
++ void
++ psplash_fb_draw_rect (PSplashFB    *fb, 
++ 		      int          x, 
++-- 
++2.1.4
++
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index 7f0dc78..b3b6479 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -10,6 +10,7 @@ PV = "0.1+git${SRCPV}"
+ PR = "r15"
  
- SRC_URI = "http://downloads.xiph.org/releases/vorbis/${BP}.tar.xz"
--
--SRC_URI[md5sum] = "55f2288055e44754275a17c9a2497391"
--SRC_URI[sha256sum] = "2f05497d29195dc23ee952a24ee3973a74e6277569c4c2eca0ec5968e541f372"
-+SRC_URI[md5sum] = "28cb28097c07a735d6af56e598e1c90f"
-+SRC_URI[sha256sum] = "54f94a9527ff0a88477be0a71c0bab09a4c3febe0ed878b24824906cd4b0e1d1"
- 
- inherit autotools pkgconfig
+ SRC_URI = "git://git.yoctoproject.org/${BPN} \
++           file://0001-psplash-fb-Convert-psplash_fb_plot_pixel-to-a-static.patch \
+            file://psplash-init \
+            ${SPLASH_IMAGES}"
  
 -- 
 2.1.4
