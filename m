@@ -1,26 +1,41 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D20B6AC1E;
-	Mon, 24 Aug 2015 11:11:36 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 24 Aug 2015 04:11:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,737,1432623600"; d="scan'208";a="774490230"
-Received: from achalot-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.20.62])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2015 04:11:35 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Adam Lee <adam.yh.lee@gmail.com>
-Date: Mon, 24 Aug 2015 12:11:34 +0100
-Message-ID: <5607133.YNgYITpZsc@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <CAFeBWL6xGuzEcOR5B1sfEgZR=i-T=EZ-b-TKPT9DGZpCmDPy4g@mail.gmail.com>
-References: <CAFeBWL6xGuzEcOR5B1sfEgZR=i-T=EZ-b-TKPT9DGZpCmDPy4g@mail.gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Extensible SDK install errors
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B9BA737F4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Aug 2015 11:50:15 +0000 (UTC)
+Received: by iodt126 with SMTP id t126so145441249iod.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Aug 2015 04:50:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:content-type:mime-version:content-transfer-encoding;
+	bh=BJ3N1uMbwOXebjAimukk5stREh8wwAVWL5FmduLcHQQ=;
+	b=M3RSveJelxdWnv9sP3nfsNjPxZuedoXZEhOakoMRVybBpxCjlBCT9Ngq1eo2Nullro
+	2nFh/kW9xlBmV2mrb1+mNxO1AJPsPgLof93wMOhTkTmzVtqCthwL+Bx0rFpvbytDuzoB
+	AjOTPjyd8CpRUBItQCcQNEl4Rp6u+7zJ3rZrHdVqziduFq0hQu7aSEPUmNWje/6O/mcg
+	sbG6BGt53K5SwkaEaQU9Pc1SrKqfRhgqf11A8QH0RBpg/hxA3n/gJfeDYety/nlAHDey
+	aVHu+jz/F7s/kXpyNHdV4lgAi2216cxhBYVsQKiT/7a2IZJ9nnlAi/qzmKj+B7EEomv/
+	dgvg==
+X-Gm-Message-State: ALoCoQmwSF5KbpqD5zrFUVtteXCULUPIZT4jDOoeNY3neqa/QymOkDZetdV+LTTSI8xKvWFbhS+7
+X-Received: by 10.107.132.91 with SMTP id g88mr21095994iod.182.1440417015547; 
+	Mon, 24 Aug 2015 04:50:15 -0700 (PDT)
+Received: from pohly-mobl1 (p57A56DBD.dip0.t-ipconnect.de. [87.165.109.189])
+	by smtp.gmail.com with ESMTPSA id
+	m65sm12911174ioe.1.2015.08.24.04.50.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Aug 2015 04:50:14 -0700 (PDT)
+Message-ID: <1440417012.3543.16.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Aug 2015 13:50:12 +0200
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: qemu + initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,81 +48,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 11:11:39 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 24 Aug 2015 11:50:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Adam,
+Hello!
 
-On Friday 21 August 2015 15:06:25 Adam Lee wrote:
-> Hello, I built the Extensible SDK on Fido (bitbake core-image-minimal=
- -c
-> populate_sdk_ext).
->=20
-> During the installation I get this permission error:
->=20
-> $ ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh
->=20
-> > Enter target directory for SDK (default: /opt/poky/1.8):
-> > You are about to install the SDK to "/opt/poky/1.8". Proceed[Y/n]?
-> > Extracting SDK...done
-> > Setting it up...
-> > Extracting buildtools...
-> > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:=
- line
-> > 148: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: Per=
-mission
-> > denied
-> > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:=
- line
-> > 151: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: Per=
-mission
-> > denied
-> > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:=
- line
-> > 155: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: Per=
-mission
-> > denied
-> > mv: cannot move =E2=80=98x86_64-nativesdk-libc.tar.bz2=E2=80=99 to
-> > =E2=80=98/opt/poky/1.8/layers/poky/x86_64-nativesdk-libc.tar.bz2=E2=
-=80=99: Permission
-> > denied Preparing build system...
-> > sh: 1: cannot create preparing_build_system.log: Permission denied
-> > SDK preparation failed: see /opt/poky/1.8/preparing_build_system.lo=
-g
->=20
->  It looks like `/opt/poky/1.8/layers/poky` directory belongs to the r=
-oot
-> user:
->=20
-> $ ls -l /opt/poky/1.8/layers/
->=20
-> > total 36
-> > drwxrwxr-x 9 root root 4096 Jun 16 10:25 meta-gnome
-> > drwxrwxr-x 9 root root 4096 Jun 15 10:44 meta-multimedia
-> > drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-networking
-> > drwxrwxr-x 20 root root 4096 Jun 15 10:44 meta-oe
-> > drwxrwxr-x 7 root root 4096 Jun 15 10:44 meta-python
-> > drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-ruby
-> > drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-systemd
-> > drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-xfce
-> > drwxrwxr-x 13 root root 4096 Aug 21 14:46 poky
->=20
->  I may have missed something obvious. Has anyone seen this?
+I just tried to boot a custom image under qemu with
+core-image-minimal-initramfs included in the kernel. For that, I added
+to my local.conf:
+        
+        INITRAMFS_IMAGE = "core-image-minimal-initramfs"
+        INITRAMFS_IMAGE_BUNDLE = "1"
 
-Basically you shouldn't be installing the extensible SDK as root. We ou=
-ght to=20
-be telling you about this up front and we should have a more reasonable=
-=20
-default path - these are open bugs and patches are in review on the lis=
-t to fix=20
-them.
+The extended kernel now gets built fine with the normal "bitbake
+<image>".
 
-Cheers,
-Paul
+To get runqemu to use the extended kernel, I had to mention it
+explicitly:
 
---=20
+        runqemu qemux86 <my-custom-image> ext4 serial kvm tmp-glibc/deploy/images/qemux86/bzImage-initramfs-qemux86.bin  'bootparams=systemd.journald.forward_to_console=1'
 
-Paul Eggleton
-Intel Open Source Technology Centre
+However, that failed initially with:
+
+        IP-Config: Complete:
+             device=eth0, hwaddr=52:54:00:12:34:56, ipaddr=192.168.7.2, mask=255.255.255.0, gw=192.168.7.1
+             host=192.168.7.2, domain=, nis-domain=(none)
+             bootserver=255.255.255.255, rootserver=255.255.255.255, rootpath=
+        ALSA device list:
+          No soundcards found.
+        Kernel panic - not syncing: /dev/console is missing or not a character device!
+        Please ensure your rootfs is properly configured
+        
+        CPU: 0 PID: 1 Comm: swapper/0 Not tainted 3.19.5-yocto-standard #7
+        Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS rel-1.8.2-0-g33fbe13 by qemu-project.org 04/01/2014
+         00000000 00000000 cf89ff28 c18661ca c1cadc1c cf89ff40 c1864655 00000008
+         c1cadc1c 00000008 00000166 cf89ff98 c1c0fbf3 c1a80990 00000000 00000000
+         00000000 00000000 00000000 00000000 00000000 00000000 c236e380 cf8a0d60
+        Call Trace:
+         [<c18661ca>] dump_stack+0x4b/0x75
+         [<c1864655>] panic+0x81/0x178
+         [<c1c0fbf3>] kernel_init_freeable+0x16e/0x1e5
+         [<c186b98b>] ? _raw_spin_unlock_irq+0x1b/0x40
+         [<c106ae54>] ? finish_task_switch+0x54/0xc0
+         [<c1862970>] kernel_init+0x10/0xe0
+         [<c186c101>] ret_from_kernel_thread+0x21/0x30
+         [<c1862960>] ? rest_init+0x80/0x80
+        Kernel Offset: 0x0 from 0xc1000000 (relocation range: 0xc0000000-0xd07dffff)
+        ---[ end Kernel panic - not syncing: /dev/console is missing or not a character device!
+        Please ensure your rootfs is properly configured
+
+Searching for the kernel panic led me to:
+http://stackoverflow.com/questions/10437995/initramfs-built-into-custom-linux-kernel-is-not-running
+
+The hint given there (/dev/console must exist in the initramfs because
+the kernel opens it before executing /init) worked for like this:
+
+diff --git a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+index b54cb61..4066beb 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-live-boot_1.0.bb
+@@ -11,9 +11,12 @@ S = "${WORKDIR}"
+ 
+ do_install() {
+         install -m 0755 ${WORKDIR}/init-live.sh ${D}/init
++        install -d ${D}/dev
++        mknod -m 622 ${D}/dev/console c 5 1
++        mknod -m 622 ${D}/dev/tty0 c 4 0
+ }
+ 
+-FILES_${PN} += " /init "
++FILES_${PN} += " /init /dev "
+ 
+ # Due to kernel dependency
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+
+But I am surprised that I had to make such an adjustment. Isn't that
+something that also occurs in other build configurations? Do I perhaps
+miss something which avoids the issue (some kernel configuration
+perhaps)?
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
