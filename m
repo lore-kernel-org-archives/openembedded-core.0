@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id AB82976BDE
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by mail.openembedded.org (Postfix) with ESMTP id A4DD576BE7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 22:18:48 +0000 (UTC)
-Received: by pacdd16 with SMTP id dd16so106431495pac.2
+	Mon, 24 Aug 2015 22:18:50 +0000 (UTC)
+Received: by pdob1 with SMTP id b1so58158301pdo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 15:18:48 -0700 (PDT)
+	Mon, 24 Aug 2015 15:18:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=8f7G/vTs69HBSJNU4n40MIUVAAJDjvlQx1hzXWa0UMQ=;
-	b=ikhq6QP/Rc31Gcd4mpS7FmFljvJxM6g08hqO7ebyC5B2OQ529edJJVGD86cBKkjt1n
-	NrGuaKMGgpx57AucN8FyxVNtKSO2LHBcZny2Whr3nMoYe3wW0A+zes5aJYkdgY/al7TX
-	+zNqDMwAJtNvKISsw0xquTnSuGm+1r9G/C/x/vomdrWQxFZkxAA71RgLcyCo05dmMoes
-	GLI4hquGEVpZDhX8yz6XvYasGs8qs8cILKeAFeF+zrppVu1Y+FYpHpyFhVwVchSJJ8rf
-	iberjSB1Ec/mw6sg4jhl1Uckf+r9R8E4ecGCxb6V0jlj+rJLbzuFibp1P/5e6VkCDDQ5
-	JdVA==
-X-Received: by 10.66.248.72 with SMTP id yk8mr48676852pac.112.1440454728670;
-	Mon, 24 Aug 2015 15:18:48 -0700 (PDT)
+	bh=xfTG1k9G9uitvttjF+oiogSih57BDrwONmUuLFVclug=;
+	b=wvYH8NnHB+q4eLm4a3AxhDqZhYwGULW1d1wKd/r/HcaktXFfd2bbJO8+dA2NiMX+ck
+	IqTzjvw8RAIvroGY81xURCzkBKOMj0OHmNQ8YpVb0wqkPF6UAq9aNjZqwxhke+OxJV/l
+	X9xobXtiuGvTTr5CWMiseJcA+Ymg4RzgIbzVQ6ICs7vAMLm4AtQnDy1tVMQyfs6dWo0Q
+	0NbiB4HY30NUbfZ0NrC2LOzuQ40mpduLi2HWLJCVWzcskcX4f1qS03V/sVsXNTzpblUE
+	QDgxTya8IhlKkkEENwUvTlLNnK3cJUe55WFb8P06PFQvemzO2mdMbTLIbAKJm9Ppde0u
+	ACBQ==
+X-Received: by 10.70.129.102 with SMTP id nv6mr49573948pdb.126.1440454730748; 
+	Mon, 24 Aug 2015 15:18:50 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	mc1sm18565465pdb.14.2015.08.24.15.18.47
+	mc1sm18565465pdb.14.2015.08.24.15.18.48
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 24 Aug 2015 15:18:47 -0700 (PDT)
+	Mon, 24 Aug 2015 15:18:49 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Aug 2015 15:18:34 -0700
-Message-Id: <ca7446426bd9e8855331f9b61733745582bc62a8.1440454289.git.chris_larson@mentor.com>
+Date: Mon, 24 Aug 2015 15:18:35 -0700
+Message-Id: <9da00495ad901a0075f1030422706d94428447de.1440454289.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <88f419e3f0f9c1a3fa5619641be68b9832de9196.1440454289.git.chris_larson@mentor.com>
 References: <88f419e3f0f9c1a3fa5619641be68b9832de9196.1440454289.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1440454289.git.chris_larson@mentor.com>
 References: <cover.1440454289.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 2/7] update-rc.d.bbclass: explicitly dep on initscripts
+Subject: [PATCH 3/7] nativesdk.bbclass: set sbindir to bindir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,37 +47,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 22:18:48 -0000
+X-List-Received-Date: Mon, 24 Aug 2015 22:18:51 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-update-rc.d doesn't just want an initscripts package, it wants
-initscripts-functions. In the case where VIRTUAL-RUNTIME_initscripts is set to
-nothing, update-rc.d still needs initscripts-functions to satisfy its runtime
-dependencies. Further, we shouldn't be using a *runtime* virtual in a *build
-time* variable. This should resolve image creation failures with
-configurations without sysv initscripts when a recipe inherits update-rc.d and
-doesn't inherit systemd.
+The sbindir vs bindir separation really doesn't mean much in this context, and
+toolchain-scripts.bbclass doesn't add sbindir to the PATH, so set the former
+to the latter.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/classes/update-rc.d.bbclass | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/classes/nativesdk.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/update-rc.d.bbclass b/meta/classes/update-rc.d.bbclass
-index 6a08315..2a0a74a 100644
---- a/meta/classes/update-rc.d.bbclass
-+++ b/meta/classes/update-rc.d.bbclass
-@@ -1,8 +1,6 @@
- UPDATERCPN ?= "${PN}"
+diff --git a/meta/classes/nativesdk.bbclass b/meta/classes/nativesdk.bbclass
+index 30bcdfe..f74da62 100644
+--- a/meta/classes/nativesdk.bbclass
++++ b/meta/classes/nativesdk.bbclass
+@@ -56,6 +56,7 @@ base_prefix = "${SDKPATHNATIVE}"
+ prefix = "${SDKPATHNATIVE}${prefix_nativesdk}"
+ exec_prefix = "${SDKPATHNATIVE}${prefix_nativesdk}"
+ baselib = "lib"
++sbindir = "${bindir}"
  
--DEPENDS_append_class-target = " update-rc.d-native update-rc.d"
--VIRTUAL-RUNTIME_initscripts ?= "initscripts"
--DEPENDS_append_class-target = " ${VIRTUAL-RUNTIME_initscripts}"
-+DEPENDS_append_class-target = " update-rc.d-native update-rc.d initscripts"
- UPDATERCD = "update-rc.d"
- UPDATERCD_class-cross = ""
- UPDATERCD_class-native = ""
+ export PKG_CONFIG_DIR = "${STAGING_DIR_HOST}${libdir}/pkgconfig"
+ export PKG_CONFIG_SYSROOT_DIR = "${STAGING_DIR_HOST}"
 -- 
 2.2.1
 
