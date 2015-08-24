@@ -1,37 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A087E76BEB
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id E6E8176C00
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 22:19:28 +0000 (UTC)
-Received: by pacdd16 with SMTP id dd16so106441418pac.2
+	Mon, 24 Aug 2015 22:19:31 +0000 (UTC)
+Received: by pdrh1 with SMTP id h1so59256902pdr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 15:19:28 -0700 (PDT)
+	Mon, 24 Aug 2015 15:19:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HEGYp7O1ux88oHbFjOrFxZZ0MUzEpUzuilPxRcl37Cc=;
-	b=vgKSRpx4Jkgc3Lqim3KtiwUtivPWvRngD9+M7TR11stZRfNX4esJSz6ilYfb9zoIYU
-	XKAmT3JcKzkEUaPhetPJ+MHvPfDMT2NGCnaU/7RhGrzreTqAUNPbvjk7lXm6ZhQgXT55
-	qroL38oesL371Npyp2ZDynCKEYGrDEkAaa348oX6bNhLRCV3+RXLd5bNBLPz88Q3nAlF
-	zkpB2zztW3yH97GfsMuf5qYOjyZjHWh++iBZyrVuI0AGtB5mUDlX/0NxztBwNLOQB20P
-	TqcgWugvyb7C9deyMezgwxCHA0HaBgMhpUBIfNFJuCHlHuOrjGctgOHyfuS4dpsBBzwh
-	AC/Q==
-X-Received: by 10.68.228.36 with SMTP id sf4mr50286870pbc.0.1440454768855;
-	Mon, 24 Aug 2015 15:19:28 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=C/GYlc7Wq0bidJBNrnO73F7nvTtGKjQ5BzIrWuQYBuY=;
+	b=I6fSejzHkZSVWtgikbIO4gZrFRTalzhHT77Fj5kFFWefuPt3MnqILeEGhgJp5LbBKx
+	qmER7O4HlwGtVfCJz5tCejVy20QMkeDAAwC4HV+PgvZomQiLwWzSKRowtbpUwUE3SxMD
+	iYtqZAIRLUbGunyTM5AOIvZCYHSPLleRxKP3KVSQcvSL9oQMbPmPkq3zuMiNSe9jDFHb
+	JjkxHAipj0tcalvTbYqEduV89T3ULiI6qnkSuh0xKox/zfpnZ165ARYhwHmQNsrMpbqi
+	VeevilMKCbpvGurzCUAtmr2DP+vC+vmVQ2WTby1uTq38IdO9XtMeGf8ATumwBXHqfUWg
+	gTcg==
+X-Received: by 10.70.34.228 with SMTP id c4mr50031618pdj.114.1440454772462;
+	Mon, 24 Aug 2015 15:19:32 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	cr6sm7550698pdb.17.2015.08.24.15.19.25
+	cr6sm7550698pdb.17.2015.08.24.15.19.29
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 24 Aug 2015 15:19:27 -0700 (PDT)
+	Mon, 24 Aug 2015 15:19:31 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Aug 2015 15:19:15 -0700
-Message-Id: <19f46bb2f6951eca80f159b612b407e3df0b6ea1.1440454290.git.chris_larson@mentor.com>
+Date: Mon, 24 Aug 2015 15:19:16 -0700
+Message-Id: <3843d76235f7517207f9aa178d70c731f2b2d51e.1440454290.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
+In-Reply-To: <19f46bb2f6951eca80f159b612b407e3df0b6ea1.1440454290.git.chris_larson@mentor.com>
+References: <19f46bb2f6951eca80f159b612b407e3df0b6ea1.1440454290.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1440454290.git.chris_larson@mentor.com>
 References: <cover.1440454290.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 1/3] insane.bbclass: handle tests which need fakeroot
+Subject: [PATCH 2/3] insane.bbclass: add host-user-contaminated test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +47,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 22:19:30 -0000
+X-List-Received-Date: Mon, 24 Aug 2015 22:19:32 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-If any tests listed in FAKEROOT_QA are enabled (listed in ALL_QA), then
-run do_package_qa under fakeroot.
+- Add a test which checks for any paths outside of /home which are owned by
+  the user running bitbake.
+- Add the test to WARN_QA by default.
+
+This test has been in meta-mentor for some time, and in our ERROR_QA for our
+builds, and has caught a number of issues for us.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/classes/insane.bbclass | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ meta/classes/insane.bbclass | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 9c05c86..cd773b7 100644
+index cd773b7..aec9800 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
-@@ -38,6 +38,9 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+@@ -31,14 +31,14 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             installed-vs-shipped compile-host-path install-host-path \
+             pn-overrides infodir build-deps file-rdeps \
+             unknown-configure-option symlink-to-sysroot multilib \
+-            invalid-pkgconfig \
++            invalid-pkgconfig host-user-contaminated \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
              split-strip packages-list pkgv-undefined var-undefined \
              version-going-backwards expanded-d \
              "
-+FAKEROOT_QA = ""
-+FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
-+enabled tests are listed here, the do_package_qa task will run under fakeroot."
+-FAKEROOT_QA = ""
++FAKEROOT_QA = "host-user-contaminated"
+ FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
+ enabled tests are listed here, the do_package_qa task will run under fakeroot."
  
- ALL_QA = "${WARN_QA} ${ERROR_QA}"
+@@ -950,6 +950,34 @@ def package_qa_check_expanded_d(path,name,d,elf,messages):
+                         sane = False
+     return sane
  
-@@ -1210,6 +1213,11 @@ python () {
-         for var in 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RCONFLICTS', 'RPROVIDES', 'RREPLACES', 'FILES', 'pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm', 'ALLOW_EMPTY':
-             if d.getVar(var, False):
-                 issues.append(var)
++HOST_USER_UID := "${@os.getuid()}"
++HOST_USER_GID := "${@os.getgid()}"
 +
-+        fakeroot_tests = d.getVar('FAKEROOT_QA', True).split()
-+        if set(tests) & set(fakeroot_tests):
-+            d.setVarFlag('do_package_qa', 'fakeroot', '1')
-+            d.appendVarFlag('do_package_qa', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
-     else:
-         d.setVarFlag('do_package_qa', 'rdeptask', '')
-     for i in issues:
++QAPATHTEST[host-user-contaminated] = "package_qa_check_host_user"
++def package_qa_check_host_user(path, name, d, elf, messages):
++    """Check for paths outside of /home which are owned by the user running bitbake."""
++
++    if not os.path.lexists(path):
++        return
++
++    check_uid = int(d.getVar('HOST_USER_UID', True))
++    check_gid = int(d.getVar('HOST_USER_GID', True))
++
++    dest = d.getVar('PKGDEST', True)
++    home = os.path.join(dest, 'home')
++    if path == home or path.startswith(home + os.sep):
++        return
++
++    stat = os.lstat(path)
++    if stat.st_uid == check_uid:
++        messages["host-user-contaminated"] = "%s is owned by uid %d, which is the same as the user running bitbake. This may be due to host contamination" % (path, check_uid)
++        return False
++
++    if stat.st_gid == check_gid:
++        messages["host-user-contaminated"] = "%s is owned by gid %d, which is the same as the user running bitbake. This may be due to host contamination" % (path, check_gid)
++        return False
++    return True
++
+ # The PACKAGE FUNC to scan each package
+ python do_package_qa () {
+     import subprocess
 -- 
 2.2.1
 
