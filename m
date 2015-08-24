@@ -1,40 +1,30 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id F0DEF76C25
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 708A276B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 22:19:56 +0000 (UTC)
-Received: by pacti10 with SMTP id ti10so33376463pac.0
+	Mon, 24 Aug 2015 22:27:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7OMR43B010947
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 15:19:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=u8qgnnTlPJcSGdNHb8L33sWFS+N2Z3e2RKa2hMY649A=;
-	b=AQYIfxgxYLVAyhlZrl/mJDBJNum/h74rjB+EUoLGcwce5FIyeJhgclpj3LvIvsu7X7
-	6ol5zptvDo+7YHJ6WDbKr9ncaBXkti5gNfnCvdNrqvK+dpuHiymuX3OTY2I4LkYRaZbB
-	xIWT5+ykx7dO2rITXiTgZcgSmPjCvPdx+1zkvasFircE0T0QYM3ukgX2OeyWsw12s6IZ
-	4AcAdZvd4WYUHAljB2nLlzItI8l8y/QieyJt86GTCnS+63Pl7sjLd3BppQVCL96ZjRUI
-	6LXn7jZNic+QGk7ujgLYP6cofEWM160zmI2Kp+D089z5WHrf8xy4MJ4mCpCYmVX03f/n
-	mFwQ==
-X-Received: by 10.68.234.69 with SMTP id uc5mr49328509pbc.81.1440454796875;
-	Mon, 24 Aug 2015 15:19:56 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	u10sm18537623pdp.85.2015.08.24.15.19.55
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 24 Aug 2015 15:19:56 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Aug 2015 15:19:46 -0700
-Message-Id: <327ee498b15c62b6763dc6ad4907f6d633d1c2bb.1440454579.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 2.2.1
-In-Reply-To: <efbd9a5c0ebb330d105c707bbb1ebf9875003caa.1440454579.git.chris_larson@mentor.com>
-References: <efbd9a5c0ebb330d105c707bbb1ebf9875003caa.1440454579.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1440454579.git.chris_larson@mentor.com>
-References: <cover.1440454579.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 4/5] pulseaudio: pass --with-systemduserunitdir
+	Mon, 24 Aug 2015 15:27:04 -0700 (PDT)
+Received: from Marks-MacBook-Pro-2.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 24 Aug 2015 15:27:03 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <cover.1440126018.git.wenzong.fan@windriver.com>
+	<c22d818de805fde488bce9e0263d573c51cee5c9.1440126018.git.wenzong.fan@windriver.com>
+	<CAMKF1srnPDL=yzcu7_niSfwuxa8a-93bBQLN0ba-Roru4DRHhw@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <55DB9A37.8080600@windriver.com>
+Date: Mon, 24 Aug 2015 17:27:03 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1srnPDL=yzcu7_niSfwuxa8a-93bBQLN0ba-Roru4DRHhw@mail.gmail.com>
+Subject: Re: [PATCH 2/2 v2] libcap-ng: add package 0.7.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,31 +37,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 22:19:58 -0000
+X-List-Received-Date: Mon, 24 Aug 2015 22:27:04 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+On 8/21/15 2:25 AM, Khem Raj wrote:
+> On Thu, Aug 20, 2015 at 10:38 PM,  <wenzong.fan@windriver.com> wrote:
+>> From: Wenzong Fan <wenzong.fan@windriver.com>
+>>
+>> Pull package from meta-oe to oe-core:
+>> meta-oe commit: bce4dba5546480c8e43c6442959ac7d0a4ef32f6
+>>
+>> The libcap-ng library is intended to make programming with posix
+>> capabilities much easier than the traditional libcap library.
+>>
+>> It's not a replacement to libcap, it provides different library
+>> (libcap-ng.so) while packages explicitly look for libcap.so. It
+>> could be used by qemu, util-linux, libvirt, audit ...
+>>
+>> With adding it to oe-core, the copies from following layers could
+>> be removed:
+>>
+>> * meta-oe, meta-selinux, meta-security-framework ...
+> 
+> I am afraid that we  are setting a pretext for moving all recipes that
+> are in multiple layers to be eligible for OE-core now.
+> met-oe is common layer for extended recipes, so may be other layers
+> should have been a bit more vigilant and made sure
+> there requirements were met with whats in meta-oe.
+> we should ask what core feature does it enable for reference images
+> and machines.
 
-We want to make sure our path variables are obeyed.
+I agree BTW that it's the wrong answer to say since it's used in multiple places
+that it belongs in oe-core.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+HOWEVER, in this case, I think the use in multiple places is a reasonable
+justification that it's a commonly used, and potentially core component.
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index a098473..6199dcd 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -43,7 +43,7 @@ PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
- PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
- PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
- PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
--PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal,--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
-+PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal --with-systemduserunitdir=${systemd_user_unitdir},--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
- PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
- PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
- PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
--- 
-2.2.1
+Add that that it's implementing posix capabilities.. and I do think it's
+reasonable to put this -one- in oe-core.  (The key to this, as always, is that
+these things need to be looked at individually to see if it's reasonable.)
+
+Anyway, this ONE has my vote to go into oe-core, based on the usage patterns I
+routinely see.. and that fact that I believe we have people willing to step in
+and upgrade/maintain it moving forward.
+
+--Mark
+
+>>
+>> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+>> ---
+>>  .../libcap-ng/libcap-ng/python.patch               | 58 ++++++++++++++++++++++
+>>  meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb  | 39 +++++++++++++++
+>>  2 files changed, 97 insertions(+)
+>>  create mode 100644 meta/recipes-support/libcap-ng/libcap-ng/python.patch
+>>  create mode 100644 meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
+>>
+>> diff --git a/meta/recipes-support/libcap-ng/libcap-ng/python.patch b/meta/recipes-support/libcap-ng/libcap-ng/python.patch
+>> new file mode 100644
+>> index 0000000..59591eb
+>> --- /dev/null
+>> +++ b/meta/recipes-support/libcap-ng/libcap-ng/python.patch
+>> @@ -0,0 +1,58 @@
+>> +From b01bb2694f66cd981e6d61523433dc3eb5ed32f2 Mon Sep 17 00:00:00 2001
+>> +From: Li xin <lixin.fnst@cn.fujitsu.com>
+>> +Date: Sat, 18 Jul 2015 23:03:30 +0900
+>> +Subject: [PATCH] configure.ac - Avoid an incorrect check for python.
+>> + Makefile.am - avoid hard coded host include paths.
+>> +
+>> +Upstream-Status: pending
+>> +
+>> +Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+>> +Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+>> +---
+>> + bindings/python/Makefile.am |  3 ++-
+>> + configure.ac                | 15 ++-------------
+>> + 2 files changed, 4 insertions(+), 14 deletions(-)
+>> +
+>> +diff --git a/bindings/python/Makefile.am b/bindings/python/Makefile.am
+>> +index 82b9bb8..f9fe7a8 100644
+>> +--- a/bindings/python/Makefile.am
+>> ++++ b/bindings/python/Makefile.am
+>> +@@ -23,7 +23,8 @@ SUBDIRS = test
+>> + CONFIG_CLEAN_FILES = *.loT *.rej *.orig
+>> + AM_CFLAGS = -fPIC -DPIC
+>> + PYLIBVER ?= python$(PYTHON_VERSION)
+>> +-AM_CPPFLAGS = -I. -I$(top_builddir) -I@PYINCLUDEDIR@
+>> ++PYINC ?= /usr/include/$(PYLIBVER)
+>> ++AM_CPPFLAGS = -I. -I$(top_builddir) -I$(PYINC)
+>> + LIBS = $(top_builddir)/src/libcap-ng.la
+>> + SWIG_FLAGS = -python
+>> + SWIG_INCLUDES = ${AM_CPPFLAGS}
+>> +diff --git a/configure.ac b/configure.ac
+>> +index 1d777d5..9d90f64 100644
+>> +--- a/configure.ac
+>> ++++ b/configure.ac
+>> +@@ -123,19 +123,8 @@ if test x$use_python = xno ; then
+>> + else
+>> + AC_MSG_RESULT(testing)
+>> + AM_PATH_PYTHON
+>> +-PYINCLUDEDIR=`python${am_cv_python_version} -c "from distutils import sysconfig; print(sysconfig.get_config_var('INCLUDEPY'))"`
+>> +-if test -f ${PYINCLUDEDIR}/Python.h ; then
+>> +-      python_found="yes"
+>> +-      AC_SUBST(PYINCLUDEDIR)
+>> +-      AC_MSG_NOTICE(Python bindings will be built)
+>> +-else
+>> +-      python_found="no"
+>> +-      if test x$use_python = xyes ; then
+>> +-              AC_MSG_ERROR([Python explicitly required and python headers found])
+>> +-      else
+>> +-              AC_MSG_WARN("Python headers not found - python bindings will not be made")
+>> +-      fi
+>> +-fi
+>> ++python_found="yes"
+>> ++AC_MSG_NOTICE(Python bindings will be built)
+>> + fi
+>> + AM_CONDITIONAL(HAVE_PYTHON, test ${python_found} = "yes")
+>> +
+>> +--
+>> +1.8.4.2
+>> +
+>> diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
+>> new file mode 100644
+>> index 0000000..a31d5dc
+>> --- /dev/null
+>> +++ b/meta/recipes-support/libcap-ng/libcap-ng_0.7.7.bb
+>> @@ -0,0 +1,39 @@
+>> +SUMMARY = "An alternate posix capabilities library"
+>> +DESCRIPTION = "The libcap-ng library is intended to make programming \
+>> +with POSIX capabilities much easier than the traditional libcap library."
+>> +HOMEPAGE = "http://freecode.com/projects/libcap-ng"
+>> +SECTION = "base"
+>> +LICENSE = "GPLv2+ & LGPLv2.1+"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+>> +                   file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
+>> +
+>> +SRC_URI = "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
+>> +           file://python.patch"
+>> +
+>> +inherit lib_package autotools pythonnative
+>> +
+>> +SRC_URI[md5sum] = "3d7d126b29e2869a0257c17c8b0d9b2e"
+>> +SRC_URI[sha256sum] = "615549ce39b333f6b78baee0c0b4ef18bc726c6bf1cca123dfd89dd963f6d06b"
+>> +
+>> +DEPENDS += "swig-native python"
+>> +
+>> +EXTRA_OECONF += "--without-python3"
+>> +
+>> +EXTRA_OEMAKE += "PYLIBVER='python${PYTHON_BASEVERSION}' PYINC='${STAGING_INCDIR}/${PYLIBVER}'"
+>> +
+>> +PACKAGES += "${PN}-python"
+>> +
+>> +FILES_${PN}-dbg += "${libdir}/python${PYTHON_BASEVERSION}/*/.debug"
+>> +FILES_${PN}-python = "${libdir}/python${PYTHON_BASEVERSION}"
+>> +
+>> +BBCLASSEXTEND = "native"
+>> +
+>> +do_install_append() {
+>> +       # Moving libcap-ng to base_libdir
+>> +       if [ ! ${D}${libdir} -ef ${D}${base_libdir} ]; then
+>> +               mkdir -p ${D}/${base_libdir}/
+>> +               mv -f ${D}${libdir}/libcap-ng.so.* ${D}${base_libdir}/
+>> +               relpath=${@os.path.relpath("${base_libdir}", "${libdir}")}
+>> +               ln -sf ${relpath}/libcap-ng.so.0.0.0 ${D}${libdir}/libcap-ng.so
+>> +       fi
+>> +}
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
