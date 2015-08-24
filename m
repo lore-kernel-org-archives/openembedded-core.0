@@ -1,28 +1,34 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D8A071633
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
+	[209.85.213.180])
+	by mail.openembedded.org (Postfix) with ESMTP id E06396AC1E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 06:50:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7O6oNSR000377
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 23 Aug 2015 23:50:24 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 23 Aug 2015 23:50:23 -0700
-Message-ID: <55DABEAD.7020102@windriver.com>
-Date: Mon, 24 Aug 2015 14:50:21 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1440144361-16138-1-git-send-email-rongqing.li@windriver.com>
-	<CAJTo0LYOCmMy_5L8qWxSfTveeevZkPZrYAjHMj4r_DViX1H+SQ@mail.gmail.com>
-In-Reply-To: <CAJTo0LYOCmMy_5L8qWxSfTveeevZkPZrYAjHMj4r_DViX1H+SQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: fix the check
+	Mon, 24 Aug 2015 07:07:24 +0000 (UTC)
+Received: by igfj19 with SMTP id j19so49955101igf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Aug 2015 00:07:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=OflT+NlMxk+BVTv2Bdl41SYqbeVTycF8ff1AxHXMhp0=;
+	b=0UcFMik6ZuJteo4jSpPs1BSeZP23UotZCCQhTvAzDEi8czn2g6JpXXTQcFrbXzgSGL
+	sZR1wFcYlkp20wil1P4BbaaWZUeU2QGQWUOYHKbNwVdhTcCqi0Te6jpyHEQAFhd7JAR/
+	P2zfg21leaOFcUIx/xT4muHUg0MukxyyNgJkjojhexbzFXHjPJmbd7gAceVIDFbHuEr5
+	koHgR0/5p/6LB1IrrIWTm0knHxhLmccrgEoTKUNCt9dmVhGw7flTyrDKJcLJeVC+Nn8X
+	Wma4iu0VUdlIphjTF2ilJzkTtTkCdeK+Cddb+462RY7cJrEt/iHtMOjYA266vUQIt9Hd
+	0i1g==
+X-Received: by 10.50.30.65 with SMTP id q1mr13463410igh.28.1440400044188;
+	Mon, 24 Aug 2015 00:07:24 -0700 (PDT)
+Received: from dvm-ch2e-038.sys.comcast.net (a-96-119-89-79.sys.comcast.net.
+	[96.119.89.79]) by smtp.gmail.com with ESMTPSA id
+	q10sm8312490ige.16.2015.08.24.00.07.23
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 24 Aug 2015 00:07:23 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Aug 2015 00:07:16 -0700
+Message-Id: <1440400036-19418-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH V2] json-c: Include math_compat.c for NAN/INF values
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,68 +41,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 06:50:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Aug 2015 07:07:25 -0000
 
+The backport patch also fixes the warning which was being work arounded
+by disabling unused-but-set-variable
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../0001-json_tokener-requires-INF-and-NAN.patch   | 37 ++++++++++++++++++++++
+ meta/recipes-devtools/json-c/json-c_0.12.bb        |  6 ++--
+ 2 files changed, 40 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/json-c/json-c/0001-json_tokener-requires-INF-and-NAN.patch
 
-On 2015年08月21日 21:26, Burton, Ross wrote:
->
-> On 21 August 2015 at 09:06, <rongqing.li@windriver.com
-> <mailto:rongqing.li@windriver.com>> wrote:
->
->     +       if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" =
->     "1" ] && grep -q install-python_ext ${S}/tools/perf/Makefile; then
->
->
-> So now of course Python gets installed, but not packaged:
->
-> ERROR: QA Issue: perf: Files/directories were installed but not shipped
-> in any package:
->    /home
->    /home/pokybuild
->    /home/pokybuild/yocto-autobuilder
->    /home/pokybuild/yocto-autobuilder/yocto-worker
->    /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb
->    /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/perf.so
->
-> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/perf-0.1-py2.7.egg-info
-> Please set FILES such that these items are packaged. Alternatively if
-> they are unneeded, avoid installing them or delete them within
-> do_install. [installed-vs-shipped]
->
-> Ross
-
-Hi Ross:
-
-which branch do you use to test this patch?
-
-since the install-python_ext is moved from Makefile to
-Makefile.perf from linux v3.13, and this patch is not working
-and I can not reproduce this issue of installing the target
-file to native dir
-
-
+diff --git a/meta/recipes-devtools/json-c/json-c/0001-json_tokener-requires-INF-and-NAN.patch b/meta/recipes-devtools/json-c/json-c/0001-json_tokener-requires-INF-and-NAN.patch
+new file mode 100644
+index 0000000..d29d911
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c/0001-json_tokener-requires-INF-and-NAN.patch
+@@ -0,0 +1,37 @@
++From 9be71700eb580c815688584a64621a38867c3fdd Mon Sep 17 00:00:00 2001
++From: James Myatt <james.myatt@tessella.com>
++Date: Thu, 5 Feb 2015 15:57:14 +0000
++Subject: [PATCH] json_tokener requires INF and NAN
++
++---
++Upstream-Status: Backport
++
++ json_tokener.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++Index: json-c-0.12/json_tokener.c
++===================================================================
++--- json-c-0.12.orig/json_tokener.c
+++++ json-c-0.12/json_tokener.c
++@@ -16,6 +16,7 @@
++ #include "config.h"
++ 
++ #include <math.h>
+++#include "math_compat.h"
++ #include <stdio.h>
++ #include <stdlib.h>
++ #include <stddef.h>
++@@ -352,12 +353,10 @@ struct json_object* json_tokener_parse_e
++ 
++     case json_tokener_state_inf: /* aka starts with 'i' */
++       {
++-	int size;
++-	int size_inf;
+++	size_t size_inf;
++ 	int is_negative = 0;
++ 
++ 	printbuf_memappend_fast(tok->pb, &c, 1);
++-	size = json_min(tok->st_pos+1, json_null_str_len);
++ 	size_inf = json_min(tok->st_pos+1, json_inf_str_len);
++ 	char *infbuf = tok->pb->buf;
++ 	if (*infbuf == '-')
+diff --git a/meta/recipes-devtools/json-c/json-c_0.12.bb b/meta/recipes-devtools/json-c/json-c_0.12.bb
+index e9c5b31..cfef03d 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.12.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.12.bb
+@@ -4,7 +4,9 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+ 
+-SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++           file://0001-json_tokener-requires-INF-and-NAN.patch \
++          "
+ 
+ SRC_URI[md5sum] = "3ca4bbb881dfc4017e8021b5e0a8c491"
+ SRC_URI[sha256sum] = "000c01b2b3f82dcb4261751eb71f1b084404fb7d6a282f06074d3c17078b9f3f"
+@@ -17,5 +19,3 @@ do_configure_prepend() {
+     # Clean up autoconf cruft that should not be in the tarball
+     rm -f ${S}/config.status
+ }
+-
+-CFLAGS += "-Wno-error=unused-but-set-variable"
 -- 
-Best Reagrds,
-Roy | RongQing Li
+2.1.4
+
 
