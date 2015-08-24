@@ -1,38 +1,36 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D073776BEA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A73A2766DF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 15:36:38 +0000 (UTC)
-Received: by iods203 with SMTP id s203so153036668iod.0
+	Mon, 24 Aug 2015 16:18:33 +0000 (UTC)
+Received: by qkbm65 with SMTP id m65so74157604qkb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 08:36:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=GogeFIa84TIbjkrippQW6mkaw2Qc9+KY32M8R3meZr0=;
-	b=RSRuKMlnGIuJOr/v4fKd5qJ/7vKxwMGP9J9wLxN/RlazHDmusoQ1cyQ7TSUmd8oDXF
-	Icf+3Xo2UB0ZPCmAOG0IapgVdLWTZm5eqTLREyYoR8JGLrwzIVx2pXGhSyruMSD+VefJ
-	eMQiRFO0MdYuRNT14/DdBptnvzhtKCvl+b3yySBlE2C5T1tbZhStISlEfaom64Eg+9yg
-	sv9rd0iZ3uB7+sMO8XI0y+LCkrlyZncm57B27Y4LpYA7ws5NDKEcMTwXrTQ4SS2n0qH6
-	YhYsINI5kVMTMsSjM+y+JxLwYmWG8db18UzEmi+3OKSyjVUWHzoXkdN9/2bWTdHeHi1p
-	pBgw==
-X-Received: by 10.107.40.200 with SMTP id o191mr392009ioo.83.1440430598484;
-	Mon, 24 Aug 2015 08:36:38 -0700 (PDT)
+	Mon, 24 Aug 2015 09:18:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Qzrq/KxFh/w3/jLKwlRJWj/Lv5rG4iq56cWJ41vupbM=;
+	b=KMDtzFl2IrOmlgc7Vqetdd4MFNeeWbmWXs2U7MkmRKoOa516+f3thTW+P3rKIFQzSB
+	iMIjjUgvWTUC71b2mC6YCpaaeg+aA9+EUoHQ9m1xUgkKedCL+nU2S3xsW8Fs2WBg9/ah
+	cpPUQiSsJtB0MClGoJRs0rsrW4g0qT8M8/CczgvIFJm5BmTwg2D5iBCT6BChZEpLy/WT
+	jodkXhr63N0M8JZHQfdyaR0ULJXeG+sIe30AZBRyFX29LzbKPo9bcgiG2dN3BFUKyQ3i
+	Qqie/t2JtkVoXj3cGGbqmb0CDVUSWnz1OvXt46qyxuIwbC0yFg1A01lddrWWGku4WhJ7
+	2fDQ==
+X-Gm-Message-State: ALoCoQmABy2B8CLAjLsf5jrQUSi27hmLw1O16uf8dHBSUKEy/38cP3jpklCCFuCX4H4TXsZ+t2ll
+X-Received: by 10.55.212.13 with SMTP id l13mr54624771qki.29.1440433113272;
+	Mon, 24 Aug 2015 09:18:33 -0700 (PDT)
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.71 with HTTP; Mon, 24 Aug 2015 08:36:19 -0700 (PDT)
-In-Reply-To: <1440417912.3543.20.camel@intel.com>
-References: <1440417012.3543.16.camel@intel.com>
-	<1440417912.3543.20.camel@intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 24 Aug 2015 08:36:19 -0700
-X-Google-Sender-Auth: 8lReZGlUWHqL73Lg8kPEqh3GAb0
-Message-ID: <CABcZAN=TNxDav=KcF+dgzOw8Npgn+=4wbKg919uT+o7zfoFj_g@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: qemu + initramfs
+Received: by 10.140.98.67 with HTTP; Mon, 24 Aug 2015 09:18:13 -0700 (PDT)
+In-Reply-To: <1440386359-14110-1-git-send-email-rongqing.li@windriver.com>
+References: <1440386359-14110-1-git-send-email-rongqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 24 Aug 2015 17:18:13 +0100
+Message-ID: <CAJTo0LbOFtEZwj3j39ukrSmZAp0O4s==9baGqLaqHYJZdJaMpw@mail.gmail.com>
+To: "rongqing.li@windriver.com" <rongqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xmlto: xsltproc is required by both native and target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,96 +43,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 15:36:38 -0000
-Content-Type: multipart/alternative; boundary=001a1141cf8c257a75051e1062d1
+X-List-Received-Date: Mon, 24 Aug 2015 16:18:37 -0000
+Content-Type: multipart/alternative; boundary=001a1147a5200a3892051e10f8b0
 
---001a1141cf8c257a75051e1062d1
+--001a1147a5200a3892051e10f8b0
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Aug 24, 2015 at 5:05 AM, Patrick Ohly <patrick.ohly@intel.com>
-wrote:
+On 24 August 2015 at 04:19, <rongqing.li@windriver.com> wrote:
 
-> On Mon, 2015-08-24 at 13:50 +0200, Patrick Ohly wrote:
-> > Hello!
-> >
-> > I just tried to boot a custom image under qemu with
-> > core-image-minimal-initramfs included in the kernel. For that, I added
-> > to my local.conf:
-> >
-> >         INITRAMFS_IMAGE = "core-image-minimal-initramfs"
-> >         INITRAMFS_IMAGE_BUNDLE = "1"
-> >
-> > The extended kernel now gets built fine with the normal "bitbake
-> > <image>".
+> @@ -20,9 +20,7 @@ RDEPENDS_${PN} = "docbook-xml-dtd4 \
+>                    util-linux \
+>                    libxml2 \
+>                    bash \
+> -"
+> -RDEPENDS_${PN}_append_class-target = " \
+> -                  libxslt-bin \
+> +                  libxslt \
 >
-> Speaking of qemu and core-image-minimal-initramfs, that initramfs isn't
-> really suitable as it stands. It uses init-live-boot, which expects to
-> boot from removable media instead of the fixed disk provided by qemu.
->
-> Is there anything more suitable or do I have to roll my own init script
-> entirely, perhaps based on initramfs-framework?
 
+This drops the runtime dependency on libxslt-bin, is this intentional?
+Should the dependency on libxslt be libxslt-bin?  Does it even need an
+explicit dependency on libxml? (does it use the xmllint or xmlcatalog
+binaries).
 
-Just a note, in meta-mentor we removed initramfs-live-install and
-initramfs-live-install-efi from core-image-minimal-initramfs and split that
-off into core-image-minimal-install-initramfs, and set INITRD_IMAGE =
-"core-image-minimal-install-initramfs" (that's what image-live.bbclass
-obeys). Not sure if that's ideal, and admittedly haven't done much testing
-with those images, but I think it makes more sense, name wise, for
-core-image-minimal-initramfs to be a general image, not something which
-handles installation.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Ross
 
---001a1141cf8c257a75051e1062d1
+--001a1147a5200a3892051e10f8b0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Aug 24, 2015 at 5:05 AM, Patrick Ohly <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204)=
-;border-left-style:solid;padding-left:1ex"><span class=3D"">On Mon, 2015-08=
--24 at 13:50 +0200, Patrick Ohly wrote:<br>
-&gt; Hello!<br>
-&gt;<br>
-&gt; I just tried to boot a custom image under qemu with<br>
-&gt; core-image-minimal-initramfs included in the kernel. For that, I added=
+On 24 August 2015 at 04:19,  <span dir=3D"ltr">&lt;<a href=3D"mailto:rongqi=
+ng.li@windriver.com" target=3D"_blank">rongqing.li@windriver.com</a>&gt;</s=
+pan> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":d5" class=3D"a3s"=
+ style=3D"overflow:hidden">@@ -20,9 +20,7 @@ RDEPENDS_${PN} =3D &quot;docbo=
+ok-xml-dtd4 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0util-l=
+inux \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libxml=
+2 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bash \=
 <br>
-&gt; to my local.conf:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0INITRAMFS_IMAGE =3D &quot;core-image-=
-minimal-initramfs&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0INITRAMFS_IMAGE_BUNDLE =3D &quot;1&qu=
-ot;<br>
-&gt;<br>
-&gt; The extended kernel now gets built fine with the normal &quot;bitbake<=
-br>
-&gt; &lt;image&gt;&quot;.<br>
-<br>
-</span>Speaking of qemu and core-image-minimal-initramfs, that initramfs is=
-n&#39;t<br>
-really suitable as it stands. It uses init-live-boot, which expects to<br>
-boot from removable media instead of the fixed disk provided by qemu.<br>
-<br>
-Is there anything more suitable or do I have to roll my own init script<br>
-entirely, perhaps based on initramfs-framework?</blockquote></div><br>Just =
-a note, in meta-mentor we removed=C2=A0initramfs-live-install and initramfs=
--live-install-efi from core-image-minimal-initramfs and split that off into=
- core-image-minimal-install-initramfs, and set INITRD_IMAGE =3D &quot;core-=
-image-minimal-install-initramfs&quot; (that&#39;s what image-live.bbclass o=
-beys). Not sure if that&#39;s ideal, and admittedly haven&#39;t done much t=
-esting with those images, but I think it makes more sense, name wise, for c=
-ore-image-minimal-initramfs to be a general image, not something which hand=
-les installation.<br>-- <br><div class=3D"gmail_signature">Christopher Lars=
-on<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZa=
-urus<br>Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics</di=
-v>
-</div></div>
+-&quot;<br>
+-RDEPENDS_${PN}_append_class-target =3D &quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libxslt-bin=
+ \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libxslt \</=
+div></blockquote></div><br>This drops the runtime dependency on libxslt-bin=
+, is this intentional?=C2=A0 Should the dependency on libxslt be libxslt-bi=
+n?=C2=A0 Does it even need an explicit dependency on libxml? (does it use t=
+he xmllint or xmlcatalog binaries).</div><div class=3D"gmail_extra"><br></d=
+iv><div class=3D"gmail_extra">Ross</div></div>
 
---001a1141cf8c257a75051e1062d1--
+--001a1147a5200a3892051e10f8b0--
