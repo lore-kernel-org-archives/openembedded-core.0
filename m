@@ -1,34 +1,37 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
-	[209.85.220.54])
-	by mail.openembedded.org (Postfix) with ESMTP id E3FA976C19
+Received: from mail-pd0-f178.google.com (mail-pd0-f178.google.com
+	[209.85.192.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E3FC76AC2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 22:19:45 +0000 (UTC)
-Received: by pabzx8 with SMTP id zx8so15928598pab.1
+	Mon, 24 Aug 2015 22:19:52 +0000 (UTC)
+Received: by pdob1 with SMTP id b1so58166356pdo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 15:19:46 -0700 (PDT)
+	Mon, 24 Aug 2015 15:19:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=7b42+IIFfXcusIp6z9PvYr2vxXAwAWE4+vKQiD9hBdE=;
-	b=ZY1moquoUHCNGq3FRZTW282IrUYRbO9AoMIixuGsBRXGL26HegWfEMnMqDF2HIzm7Y
-	HtqOMEQhAJwoTGwrkutOkxCHouDtWMNkWfOnjWFd86JkcZ6wuJwWrgGvuJMKyY0B+2+4
-	EX56UlzaHY4PaHcGbCogo7CPeqO1g3rNiikm2NXFglhCpes/cC4NX6CsIigGDFe6SFU4
-	Tq6uIL/rJCcPq8NAo26ZzKfFNb4zJJlQI/J7Ievm8qmBL6/2aWcWQzr2o/ft9TMMwNTe
-	TvOn+5X8T69DSU36q1KDzSW3FekkyEs/ss7xVdYyhdSBSQwwGPaMWCGZl4FJKi5e51vW
-	EwjQ==
-X-Received: by 10.66.233.97 with SMTP id tv1mr49524178pac.110.1440454785918;
-	Mon, 24 Aug 2015 15:19:45 -0700 (PDT)
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=qBge0zeMGrpriwmj+rNsOv7838OZA1xErMkJl771/GQ=;
+	b=Jm8KSzc3mjUSMfDEc0fyN15MWIwZufM3tgn+HsU6iRy1mZ5W4YFutyE6q726UfYylZ
+	pwKBRbw7FDzndqmq+TXZERAbFhIhqYAJ8EYX16rEa2EzCVCSdO/ZqAhEmF/q2LByy+Il
+	28PqETCH14aikqU4VbAiGGLlrO2hBq5MGC2cTXuuKQ+pp4tA6IXECDAwtBOH6SFL5HJ+
+	lvhG0SvUXtnLnc42wM807DuKqFEMrs+OUgm1UOukWNoD9PUc0ODW9brMtr1yE0/en+T5
+	kskttb+YVRRmRmvzbP2NbfJsDoz2fKCYO9sd0bIKKx0D91E9+qEv4MjJ+0uBpx/48OHb
+	JX5w==
+X-Received: by 10.70.16.3 with SMTP id b3mr49400903pdd.54.1440454793192;
+	Mon, 24 Aug 2015 15:19:53 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id p3sm18580706pdf.3.2015.08.24.15.19.44
+	by smtp.gmail.com with ESMTPSA id
+	u10sm18537623pdp.85.2015.08.24.15.19.51
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 24 Aug 2015 15:19:45 -0700 (PDT)
+	Mon, 24 Aug 2015 15:19:52 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Aug 2015 15:19:35 -0700
-Message-Id: <cover.1440454579.git.chris_larson@mentor.com>
+Date: Mon, 24 Aug 2015 15:19:43 -0700
+Message-Id: <efbd9a5c0ebb330d105c707bbb1ebf9875003caa.1440454579.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/5] Various bits related to pulseaudio
+In-Reply-To: <cover.1440454579.git.chris_larson@mentor.com>
+References: <cover.1440454579.git.chris_larson@mentor.com>
+Subject: [PATCH 1/5] libunwind: always depend on libatomics-ops
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,35 +44,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 22:19:47 -0000
+X-List-Received-Date: Mon, 24 Aug 2015 22:19:52 -0000
 
-From: Christopher Larson <chris_larson@mentor.com>
+- Depend on libatomics-ops unconditionally for all archs, as it's used by more
+  than just arm, and currently the configure script auto-detects and enables
+  its use based on the existence of its header, resulting in non-deterministic
+  builds.
+- Drop the ldflags bits which link against libatomic_ops, because libunwind
+  doesn't actually link against it, nor does it need to, as it currently uses
+  all inline functions from the header file.
 
-The following changes since commit c38acd720b3f6ffbeb544063692eb471dada8593:
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ meta/recipes-support/libunwind/libunwind.inc | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-  binconfig-disabled: write an message to stderr to help confused developers (2015-08-19 17:57:58 +0100)
-
-are available in the git repository at:
-
-  git://github.com/kergoth/openembedded-core pulseaudio-related-bits
-  https://github.com/kergoth/openembedded-core/tree/pulseaudio-related-bits
-
-Christopher Larson (5):
-  libunwind: always depend on libatomics-ops
-  libatomic-ops: move to recipes-support, fix recipe name
-  packagegroup-core-x11-sato: obey the pulseaudio distro feature
-  pulseaudio: pass --with-systemduserunitdir
-  pulseaudio: add 'autospawn-for-root' PACKAGECONFIG
-
- meta/recipes-devtools/guile/guile_2.0.11.bb        |  2 +-
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc  | 22 ++++++++++++++++++++--
- .../packagegroups/packagegroup-core-x11-sato.bb    |  3 +--
- meta/recipes-support/bdwgc/bdwgc_7.4.2.bb          |  2 +-
- .../libatomic-ops/libatomic-ops_7.4.2.bb}          |  1 +
- meta/recipes-support/libunwind/libunwind.inc       | 11 +----------
- 6 files changed, 25 insertions(+), 16 deletions(-)
- rename meta/{recipes-multimedia/pulseaudio/libatomics-ops_7.4.2.bb => recipes-support/libatomic-ops/libatomic-ops_7.4.2.bb} (96%)
-
+diff --git a/meta/recipes-support/libunwind/libunwind.inc b/meta/recipes-support/libunwind/libunwind.inc
+index 406bbe4..c8eab58 100644
+--- a/meta/recipes-support/libunwind/libunwind.inc
++++ b/meta/recipes-support/libunwind/libunwind.inc
+@@ -2,6 +2,7 @@ DESCRIPTION = "a portable and efficient C programming interface (API) to determi
+ HOMEPAGE = "http://www.nongnu.org/libunwind"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3fced11d6df719b47505837a51c16ae5"
++DEPENDS += "libatomics-ops"
+ 
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+ 
+@@ -18,11 +19,6 @@ ATOMICOPS_armv5 = "-DAO_USE_PTHREAD_DEFS=1"
+ ATOMICOPS_armv4 = "-DAO_USE_PTHREAD_DEFS=1"
+ ATOMICOPS ?= ""
+ 
+-LDFLAGS += "${LIBATOMICS}"
+-LIBATOMICS_armv5 = "-latomic_ops"
+-LIBATOMICS_armv4 = "-latomic_ops"
+-LIBATOMICS ?= ""
+-
+ LDFLAGS_append_x86 = " -fuse-ld=gold"
+ LDFLAGS_append_x86-64 = " -fuse-ld=gold"
+ 
+@@ -32,9 +28,4 @@ LDFLAGS_append_aarch64 = " -fuse-ld=gold"
+ LDFLAGS_append_powerpc = " -fuse-ld=gold"
+ LDFLAGS_append_powerpc64 = " -fuse-ld=gold"
+ 
+-DEPENDS += "${DEPLIBATOMICS}"
+-DEPLIBATOMICS_armv5 = "libatomics-ops"
+-DEPLIBATOMICS_armv4 = "libatomics-ops"
+-DEPLIBATOMICS ?= ""
+-
+ BBCLASSEXTEND = "native"
 -- 
 2.2.1
 
