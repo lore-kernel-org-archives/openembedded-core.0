@@ -1,26 +1,28 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 82A7D76B16
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 121716AC1E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 07:46:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7O7kT8k000888
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 00:46:29 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 24 Aug 2015 00:46:28 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Aug 2015 15:46:56 +0800
-Message-ID: <76bc847f69894ced713cda8acf7af0fb72d78a59.1440402125.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1440402124.git.Qi.Chen@windriver.com>
-References: <cover.1440402124.git.Qi.Chen@windriver.com>
+	Mon, 24 Aug 2015 11:02:24 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 24 Aug 2015 04:02:24 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,737,1432623600"; d="scan'208";a="774485966"
+Received: from achalot-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.20.62])
+	by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2015 04:02:24 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Mon, 24 Aug 2015 12:02:22 +0100
+Message-ID: <3261262.kYkpH9KIeH@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1440153906.12105.233.camel@linuxfoundation.org>
+References: <cover.1439991144.git.paul.eggleton@linux.intel.com>
+	<d1dcc85512f0c7b9b93f2780048bb9fad8c9da2d.1439991144.git.paul.eggleton@linux.intel.com>
+	<1440153906.12105.233.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH V3 8/8] populate_sdk_ext: get rid of buildtools
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,103 +35,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 07:46:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 24 Aug 2015 11:02:26 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-If we do `bitbake buildtools-tarball' and then after one day do `bitbake
-core-image-minimal -c populate_sdk_ext', we would meet errors like below.
+On Friday 21 August 2015 11:45:06 Richard Purdie wrote:
+> On Wed, 2015-08-19 at 14:34 +0100, Paul Eggleton wrote:
+> > Allow restricting recipes brought from a layer to a specified list. This
+> > is similar in operation to blacklist.bbclass, but instead specifies a
+> > per-layer whitelist of recipes (matched by BPN) that are able to be
+> > built from the layer - anything else is skipped. This is potentially
+> > useful where you want to bring in a select set of recipes from a larger
+> > layer e.g. meta-oe.
+> > 
+> > Implements [YOCTO #8150].
+> > 
+> > Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> > ---
+> > 
+> >  meta/classes/whitelist.bbclass | 28 ++++++++++++++++++++++++++++
+> >  1 file changed, 28 insertions(+)
+> >  create mode 100644 meta/classes/whitelist.bbclass
+> 
+> I should go on record as having some pretty strong reservations about
+> this from a philosophical standpoint.
+> 
+> Why? I think its going to encourage behaviours which will result in a
+> decrease in layer quality, particularly for meta-oe.
+> 
+> Taking a simple example, today if someone breaks parsing in meta-oe, its
+> quickly known about and multiple people can see and resolve the issue.
+> Once people start using this class, many users will simply never
+> see/care about parsing breakage in less maintained parts of the layer.
+> 
+> I appreciate Martin will likely notice, however this shouldn't Martin's
+> sole responsibility.
+> 
+> Since people's focus will be on to narrow parts of the layer, we'll
+> start to see islands which are well maintained/used and islands which
+> are not. Worse, just looking at the layer, we won't be able to tell
+> which is which.
+> 
+> I'm nervous about anything which pushes responsibility onto already
+> overloaded maintainers and encourages behaviour which is a net loss on
+> "quality".
+>
+> I've talked to several significant users and they all "love" the idea of
+> this class and plan to adopt it ASAP over existing tools like
+> combo-layer. I therefore can't see much advantage of not merging the
+> class as people are going to use it regardless.
 
-| install: cannot stat '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
-poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalone
--1.8+snapshot-20150429.sh': No such file or directory
+I appreciate the concern, but I have to be honest, I don't see this as being a 
+problem with this class per se, for a couple of reasons:
 
-The problem is that the output name for buildtools-tarball has ${DATE} in it.
-So if populate_sdk_ext task is executed but buildtools-tarball is not rebuilt,
-the above error appears.
+1) People already feel the need to be selective in some way about the recipes 
+they pull from larger layers such as meta-oe - whether they do it by using 
+combo-layer, this class, git-filter-branch or simply by copying the recipes 
+they want into their own layers. Using the whitelist class has one advantage 
+over all the rest for the simple filtering case - you are always using the 
+recipes from upstream. (OK, with combo-layer you probably are, but here it's 
+direct.) Besides, even if people aren't doing any active filtering on the 
+layer, they almost certainly aren't building the entire thing in any case - so 
+can we really say they are testing it now?
 
-In fact, ext SDK does not have to depend on buildtools. This patch removes the
-buildtools from the ext SDK. After this patch, the ext SDK still works and we
-can no longer see the buildtools error.
+2) Responsibility - it's great when people do report issues they find, but we 
+shouldn't need to rely on people randomly coming across an issue in order to 
+find it, we should be testing it ourselves. The job of maintaining the quality 
+of layers rests with us - i.e. the people who are involved in maintaining the 
+layers and developing the tools needed to do so. Martin does regular builds 
+with a variety of layers as do others. If it's simply parse checking that we 
+feel we are losing, it would be trivial to add extra regular checks; if 
+nothing else, the layer index is parsing every recipe in almost every public 
+layer every three hours; with a little extra work we could log and expose the 
+results of that through the interface. (Am I volunteering to do this? Sure, as 
+it'll probably be on my own time I can't promise to do it soon, but I will get 
+to it if nobody else does first.)
 
-[YOCTO #7674]
+Cheers,
+Paul
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/populate_sdk_ext.bbclass | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
-
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 151ae1d..1dcd982 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -7,8 +7,25 @@ inherit populate_sdk_base
- 
- TOOLCHAIN_HOST_TASK_task-populate-sdk-ext = " \
-     meta-environment-extsdk-${MACHINE} \
-+    nativesdk-python-core \
-+    nativesdk-python-modules \
-+    nativesdk-python-misc \
-+    nativesdk-python-git \
-+    nativesdk-python-pexpect \
-+    nativesdk-ncurses-terminfo-base \
-+    nativesdk-chrpath \
-+    nativesdk-tar \
-+    nativesdk-buildtools-perl-dummy \
-+    nativesdk-git \
-+    nativesdk-git-perltools \
-+    nativesdk-pigz \
-+    nativesdk-make \
-+    nativesdk-wget \
-+    nativesdk-ca-certificates \
-     "
- 
-+SDK_PACKAGE_ARCHS =+ "buildtools-dummy-${SDKPKGSUFFIX}"
-+
- TOOLCHAIN_TARGET_TASK_task-populate-sdk-ext = ""
- 
- SDK_RDEPENDS_append_task-populate-sdk-ext = " ${SDK_TARGETS}"
-@@ -183,8 +200,6 @@ install_tools() {
- 	lnr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool
- 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
- 
--	install ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh ${SDK_OUTPUT}/${SDKPATH}
--
- 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
- }
- 
-@@ -201,13 +216,7 @@ SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext = "${sdk_ext_preinst}"
- 
- # FIXME this preparation should be done as part of the SDK construction
- sdk_ext_postinst() {
--	printf "\nExtracting buildtools...\n"
- 	cd $target_sdk_dir
--	printf "buildtools\ny" | ./*buildtools-tarball* > /dev/null
--
--	# Make sure when the user sets up the environment, they also get
--	# the buildtools-tarball tools in their path.
--	echo ". $target_sdk_dir/buildtools/environment-setup*" >> $target_sdk_dir/environment-setup*
- 
- 	# Allow bitbake environment setup to be ran as part of this sdk.
- 	echo "export OE_SKIP_SDK_CHECK=1" >> $target_sdk_dir/environment-setup*
-@@ -224,7 +233,7 @@ sdk_ext_postinst() {
- 	    # dash which is /bin/sh on Ubuntu will not preserve the
- 	    # current working directory when first ran, nor will it set $1 when
- 	    # sourcing a script. That is why this has to look so ugly.
--	    sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
-+	    sh -c "cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
- 	fi
- 	echo done
- }
-@@ -249,7 +258,7 @@ do_populate_sdk_ext[rdepends] = "${@get_sdk_ext_rdepends(d)}"
- do_populate_sdk_ext[recrdeptask] += "${@d.getVarFlag('do_populate_sdk', 'recrdeptask', False)}"
- 
- 
--do_populate_sdk_ext[depends] += "buildtools-tarball:do_populate_sdk uninative-tarball:do_populate_sdk"
-+do_populate_sdk_ext[depends] += "uninative-tarball:do_populate_sdk"
- 
- do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':do_build' for x in d.getVar('SDK_TARGETS', True).split()])}"
- do_populate_sdk_ext[recrdeptask] += "do_populate_lic do_package_qa do_populate_sysroot do_deploy"
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
