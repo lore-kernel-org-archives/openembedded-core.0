@@ -1,20 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 481E66AC1E
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 933DF76A33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 12:53:55 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 24 Aug 2015 05:53:55 -0700
+	Mon, 24 Aug 2015 12:54:07 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 24 Aug 2015 05:54:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,737,1432623600"; d="scan'208";a="774540445"
+X-IronPort-AV: E=Sophos;i="5.15,737,1432623600"; d="scan'208";a="754330046"
 Received: from theory.fi.intel.com ([10.237.72.51])
-	by fmsmga001.fm.intel.com with ESMTP; 24 Aug 2015 05:53:54 -0700
+	by orsmga001.jf.intel.com with ESMTP; 24 Aug 2015 05:54:06 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Aug 2015 15:55:33 +0300
-Message-Id: <cover.1440420666.git.jussi.kukkonen@intel.com>
+Date: Mon, 24 Aug 2015 15:55:49 +0300
+Message-Id: <b93e9e96bb37641bf112d201daeb837d04d50363.1440420666.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCHv2 0/3] Upgrade lsof, libical, lsbinitscripts
+In-Reply-To: <cover.1440420666.git.jussi.kukkonen@intel.com>
+References: <cover.1440420666.git.jussi.kukkonen@intel.com>
+Subject: [PATCHv2 1/3] lsof: Upgrade 4.88 -> 4.89
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,36 +29,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 12:53:59 -0000
+X-List-Received-Date: Mon, 24 Aug 2015 12:54:08 -0000
 
-Changes since v1:
-* libical now does not inherit perlnative, but uses host perl
-* patched libical CMakeLists.txt so it doesn't try to find perl
-
-The following changes since commit a3d228a484cf471e999b6537987e2897d8a7bd4e:
-
-  bitbake: main: Handle RuntimeError exception in list_extension_modules (2015-08-20 22:04:43 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/lsof-lsb-libical
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/lsof-lsb-libical
-
-Jussi Kukkonen (3):
-  lsof: Upgrade 4.88 -> 4.89
-  lsbinitscripts: Upgrade 9.63 -> 9.64
-  libical: Upgrade 1.0.0 -> 1.0.1
-
- ...binitscripts_9.63.bb => lsbinitscripts_9.64.bb} |  6 ++--
- .../lsof/{lsof_4.88.bb => lsof_4.89.bb}            |  4 +--
- .../libical/Remove-cmake-check-for-Perl.patch      | 33 ++++++++++++++++++++++
- .../libical/{libical_1.0.0.bb => libical_1.0.1.bb} | 12 +++++---
- 4 files changed, 46 insertions(+), 9 deletions(-)
- rename meta/recipes-extended/lsb/{lsbinitscripts_9.63.bb => lsbinitscripts_9.64.bb} (81%)
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
+ meta/recipes-extended/lsof/{lsof_4.88.bb => lsof_4.89.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-extended/lsof/{lsof_4.88.bb => lsof_4.89.bb} (91%)
- create mode 100644 meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
- rename meta/recipes-support/libical/{libical_1.0.0.bb => libical_1.0.1.bb} (61%)
 
+diff --git a/meta/recipes-extended/lsof/lsof_4.88.bb b/meta/recipes-extended/lsof/lsof_4.89.bb
+similarity index 91%
+rename from meta/recipes-extended/lsof/lsof_4.88.bb
+rename to meta/recipes-extended/lsof/lsof_4.89.bb
+index c0f34b6..9b7de9a 100644
+--- a/meta/recipes-extended/lsof/lsof_4.88.bb
++++ b/meta/recipes-extended/lsof/lsof_4.89.bb
+@@ -6,8 +6,8 @@ LICENSE = "BSD"
+ 
+ SRC_URI = "ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "1b29c10db4aa88afcaeeaabeef6790db"
+-SRC_URI[sha256sum] = "fe6f9b0e26b779ccd0ea5a0b6327c2b5c38d207a6db16f61ac01bd6c44e5c99b"
++SRC_URI[md5sum] = "1b9cd34f3fb86856a125abbf2be3a386"
++SRC_URI[sha256sum] = "81ac2fc5fdc944793baf41a14002b6deb5a29096b387744e28f8c30a360a3718"
+ 
+ LOCALSRC = "file://${WORKDIR}/lsof_${PV}/lsof_${PV}_src.tar"
+ S = "${WORKDIR}/lsof_${PV}_src"
 -- 
 2.1.4
 
