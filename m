@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 40960766D2
+	by mail.openembedded.org (Postfix) with ESMTP id 41B947689C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 07:46:22 +0000 (UTC)
+	Mon, 24 Aug 2015 07:46:20 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7O7kNW2010434
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7O7kKYY010417
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 00:46:23 -0700 (PDT)
+	Mon, 24 Aug 2015 00:46:20 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 24 Aug 2015 00:46:22 -0700
+	14.3.235.1; Mon, 24 Aug 2015 00:46:20 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Aug 2015 15:46:51 +0800
-Message-ID: <8fcfab3d05d933e87d9eb222429a1dbed93c613f.1440402125.git.Qi.Chen@windriver.com>
+Date: Mon, 24 Aug 2015 15:46:49 +0800
+Message-ID: <feb9a0850e4a24335e9e0295ccab1818c43ba917.1440402124.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1440402124.git.Qi.Chen@windriver.com>
 References: <cover.1440402124.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 3/8] populate_sdk_ext: don't remove the native qemu dependencies
+Subject: [PATCH V3 1/8] copy_buildsystem: make sure bitbake directory is copied
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +36,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 24 Aug 2015 07:46:23 -0000
 Content-Type: text/plain
 
-These dependencies were deliberately removed because it was assumed that
-they were provided by nativesdk packages. On the one hand, nativesdk packages
-in extensible SDK don't have these packages; on the other hand, even if we
-add these nativesdk packages, they are still not useful because we we need
-runqemu to run correctly.
-
-So we don't remove these native qemu dependencies.
+The previous code assumes that bitbake/ directory is under the core layer.
+This is the case for Yocto project. But users might clone oe-core and bitbake
+separately. So we use bb.__file__ to locate the bitbake directory to make sure
+it's copied into the extensible SDK.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 5 -----
- 1 file changed, 5 deletions(-)
+ meta/lib/oe/copy_buildsystem.py | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index da5ec2c..df87edb 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -137,11 +137,6 @@ python copy_buildsystem () {
-         # Some classes are not suitable for SDK, remove them from INHERIT
-         f.write('INHERIT_remove = "%s"\n' % d.getVar('SDK_INHERIT_BLACKLIST'))
-     
--        # This is a bit of a hack, but we really don't want these dependencies
--        # (we're including them in the SDK as nativesdk- versions instead)
--        f.write('POKYQEMUDEPS_forcevariable = ""\n\n')
--        f.write('EXTRA_IMAGEDEPENDS_remove = "qemu-native qemu-helper-native"\n\n')
--
-         # Bypass the default connectivity check if any
-         f.write('CONNECTIVITY_CHECK_URIS = ""\n\n')
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index cf7fada..979578c 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -28,11 +28,10 @@ class BuildSystem(object):
+         layers.append(corebase)
  
+         corebase_files = self.d.getVar('COREBASE_FILES', True).split()
+-
+-        # bitbake belongs in corebase so make sure it goes there
+-        if "bitbake" not in corebase_files:
+-            corebase_files.append("bitbake")
+         corebase_files = [corebase + '/' +x for x in corebase_files]
++        # Make sure bitbake goes in
++        bitbake_dir = bb.__file__.rsplit('/', 3)[0]
++        corebase_files.append(bitbake_dir)
+ 
+         for layer in layers:
+             layerconf = os.path.join(layer, 'conf', 'layer.conf')
 -- 
 1.9.1
 
