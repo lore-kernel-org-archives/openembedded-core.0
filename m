@@ -1,26 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 41B947689C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DE83F7689C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 07:46:20 +0000 (UTC)
+	Mon, 24 Aug 2015 07:46:23 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7O7kKYY010417
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7O7kOPf000882
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 00:46:20 -0700 (PDT)
+	Mon, 24 Aug 2015 00:46:24 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.211) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 24 Aug 2015 00:46:20 -0700
+	14.3.235.1; Mon, 24 Aug 2015 00:46:24 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Aug 2015 15:46:49 +0800
-Message-ID: <feb9a0850e4a24335e9e0295ccab1818c43ba917.1440402124.git.Qi.Chen@windriver.com>
+Date: Mon, 24 Aug 2015 15:46:52 +0800
+Message-ID: <9930c73e672bd30e2a30a3d5746931707a3dbfe2.1440402125.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1440402124.git.Qi.Chen@windriver.com>
 References: <cover.1440402124.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3 1/8] copy_buildsystem: make sure bitbake directory is copied
+Subject: [PATCH V3 4/8] Extensible SDK: allow for installation without preparing build system
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 07:46:23 -0000
+X-List-Received-Date: Mon, 24 Aug 2015 07:46:24 -0000
 Content-Type: text/plain
 
-The previous code assumes that bitbake/ directory is under the core layer.
-This is the case for Yocto project. But users might clone oe-core and bitbake
-separately. So we use bb.__file__ to locate the bitbake directory to make sure
-it's copied into the extensible SDK.
+When publishing SDK, what we want is basically its metadata and sstate
+cache objects. We don't want the SDK to be prepared with running bitbake
+as it takes time which reproduces meaningless output for the published SDK.
+
+So this patch adds an option to allow for SDK to be extracted without
+preparing the build system.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/lib/oe/copy_buildsystem.py | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 12 +++++++-----
+ meta/files/toolchain-shar-extract.sh  |  7 ++++++-
+ 2 files changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
-index cf7fada..979578c 100644
---- a/meta/lib/oe/copy_buildsystem.py
-+++ b/meta/lib/oe/copy_buildsystem.py
-@@ -28,11 +28,10 @@ class BuildSystem(object):
-         layers.append(corebase)
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index df87edb..d2ebcef 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -217,11 +217,13 @@ sdk_ext_postinst() {
+ 	# For now this is where uninative.bbclass expects the tarball
+ 	mv *-nativesdk-libc.tar.* $target_sdk_dir/`dirname ${oe_init_build_env_path}`
  
-         corebase_files = self.d.getVar('COREBASE_FILES', True).split()
--
--        # bitbake belongs in corebase so make sure it goes there
--        if "bitbake" not in corebase_files:
--            corebase_files.append("bitbake")
-         corebase_files = [corebase + '/' +x for x in corebase_files]
-+        # Make sure bitbake goes in
-+        bitbake_dir = bb.__file__.rsplit('/', 3)[0]
-+        corebase_files.append(bitbake_dir)
+-	printf "Preparing build system...\n"
+-	# dash which is /bin/sh on Ubuntu will not preserve the
+-	# current working directory when first ran, nor will it set $1 when
+-	# sourcing a script. That is why this has to look so ugly.
+-	sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
++	if [ "$prepare_buildsystem" != "no" ]; then
++	    printf "Preparing build system...\n"
++	    # dash which is /bin/sh on Ubuntu will not preserve the
++	    # current working directory when first ran, nor will it set $1 when
++	    # sourcing a script. That is why this has to look so ugly.
++	    sh -c ". buildtools/environment-setup* > preparing_build_system.log && cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >> preparing_build_system.log" || { echo "SDK preparation failed: see `pwd`/preparing_build_system.log" ; exit 1 ; }
++	fi
+ 	echo done
+ }
  
-         for layer in layers:
-             layerconf = os.path.join(layer, 'conf', 'layer.conf')
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 3a50991..23cb69a 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -32,7 +32,7 @@ answer=""
+ relocate=1
+ savescripts=0
+ verbose=0
+-while getopts ":yd:DRS" OPT; do
++while getopts ":yd:nDRS" OPT; do
+ 	case $OPT in
+ 	y)
+ 		answer="Y"
+@@ -41,6 +41,9 @@ while getopts ":yd:DRS" OPT; do
+ 	d)
+ 		target_sdk_dir=$OPTARG
+ 		;;
++	n)
++		prepare_buildsystem="no"
++		;;
+ 	D)
+ 		verbose=1
+ 		;;
+@@ -55,6 +58,8 @@ while getopts ":yd:DRS" OPT; do
+ 		echo "Usage: $(basename $0) [-y] [-d <dir>]"
+ 		echo "  -y         Automatic yes to all prompts"
+ 		echo "  -d <dir>   Install the SDK to <dir>"
++		echo "======== Extensible SDK only options ============"
++		echo "  -n         Do not prepare the build system"
+ 		echo "======== Advanced DEBUGGING ONLY OPTIONS ========"
+ 		echo "  -S         Save relocation scripts"
+ 		echo "  -R         Do not relocate executables"
 -- 
 1.9.1
 
