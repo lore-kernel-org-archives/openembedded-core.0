@@ -1,40 +1,35 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0080976B69
+Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
+	[209.85.192.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 190D376BDE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 22:19:03 +0000 (UTC)
-Received: by pacdd16 with SMTP id dd16so106435203pac.2
+	Mon, 24 Aug 2015 22:19:14 +0000 (UTC)
+Received: by pdob1 with SMTP id b1so58161429pdo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 15:19:03 -0700 (PDT)
+	Mon, 24 Aug 2015 15:19:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=Yta6xcH0XHjktPPS1dH4JasHTbEG+bhI8wyuMD2xYwk=;
-	b=ZtZup/fZjn+Y7SRMzaO5QtAoKiSRXC/qAkMavk8+La3toa0vKgQQjp+8OnHx2nxWzM
-	s2bQOgdh3hnu6ahyCDN5rMIQ/+TWprv3xAKJcmT49pXZjBZinMs82PpyUEqzoPsG7fbT
-	ssvGKJWe1bCrUKsT0r3rSnMnTomj4m0c+h5t0il9oaXyRduRe6HzWfxttp0IdwtBir3L
-	KBk3/ucQj/rkweDSn3yvqamb84NNF3unJjJbMv5gOAQZEzO91HsRF3th5jC8j37gPxLE
-	BUfyWFkSBtDr5NtAR/KjURgrw3n0G05HjBPdZsHllfciav+CzOeygYHQMcWo1JXmGGMK
-	aX+Q==
-X-Received: by 10.66.142.233 with SMTP id rz9mr49571717pab.23.1440454743886;
-	Mon, 24 Aug 2015 15:19:03 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id;
+	bh=lo4JAdUYq0Y/1UAsk63XKsDQVBy1OA4O3Lrnzr9TFjo=;
+	b=hZFNpSceWFR/quQ9JdzTnyby7abshg4N7tAQ+O5mcq1O46LhroF6RGFKb+CrZ0vUU3
+	jDMCA9oqdTV9oBvNrhdYzpTEjjIBtHNeA+3M29FNbVk9Spsuse+7YQbLdlz+CJb2oh+X
+	KFWRK3DDD58kk5QWHqqFtg2qL0GeLyrG2yykdDWh1Q44zkYo9ac4HPNZQ1mUnPeaPxaM
+	yBJnTSdLE7+DhTTFHpb/BvN1XdSYzyHN3DMprMJvy6mWKFY+yo+iradx6ZQwDL/qqtEE
+	PmhAO1nT0LeUj4ZzFKnhOqqZ7PAiiLpoGZ/cttaZUk5RDUslXaod2zBCHwukQ830Fes9
+	YGuA==
+X-Received: by 10.70.127.206 with SMTP id ni14mr49608744pdb.53.1440454755027; 
+	Mon, 24 Aug 2015 15:19:15 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	mc1sm18565465pdb.14.2015.08.24.15.19.01
+	dh9sm4440036pdb.67.2015.08.24.15.19.12
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 24 Aug 2015 15:19:02 -0700 (PDT)
+	Mon, 24 Aug 2015 15:19:14 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Aug 2015 15:18:39 -0700
-Message-Id: <6761ce41fe842352a8074227387736e5d7e18285.1440454289.git.chris_larson@mentor.com>
+Date: Mon, 24 Aug 2015 15:19:05 -0700
+Message-Id: <cover.1440454290.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
-In-Reply-To: <88f419e3f0f9c1a3fa5619641be68b9832de9196.1440454289.git.chris_larson@mentor.com>
-References: <88f419e3f0f9c1a3fa5619641be68b9832de9196.1440454289.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1440454289.git.chris_larson@mentor.com>
-References: <cover.1440454289.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 7/7] bitbake.conf: set PATCHRESOLVE to noop by default
+Subject: [PATCH 0/3] Add checks for "host user contamination"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Aug 2015 22:19:04 -0000
+X-List-Received-Date: Mon, 24 Aug 2015 22:19:17 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-Automatically spawning a devshell, rather than doing so on demand, is
-questionable default behavior, and is potentially problematic in headless
-builds. Further, there are problems with the patch resolver today. Default to
-noop, and the user can always opt-in to use of the patch resolver by setting
-PATCHRESOLVE to user.
+This adds a QA test, as well as a rootfs_ function for use in
+ROOTFS_POSTPROCESS_COMMAND, to warn/error when paths are owned by the same
+user/group as the user running bitbake. This is useful to catch stuff which is
+written outside of pseudo's control, for example.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/conf/bitbake.conf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+The following changes since commit c38acd720b3f6ffbeb544063692eb471dada8593:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 0ef185d..be681cb 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -483,8 +483,8 @@ export LC_ALL = "C"
- ##################################################################
- # Patch handling.
- ##################################################################
--PATCHTOOL = 'quilt'
--PATCHRESOLVE = 'user'
-+PATCHTOOL = "quilt"
-+PATCHRESOLVE = "noop"
- 
- ##################################################################
- # Build flags and options.
+  binconfig-disabled: write an message to stderr to help confused developers (2015-08-19 17:57:58 +0100)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core host-user-contaminated
+  https://github.com/kergoth/openembedded-core/tree/host-user-contaminated
+
+Christopher Larson (3):
+  insane.bbclass: handle tests which need fakeroot
+  insane.bbclass: add host-user-contaminated test
+  image.bbclass: add rootfs_check_host_user_contaminated
+
+ meta/classes/image.bbclass  | 14 ++++++++++++++
+ meta/classes/insane.bbclass | 38 +++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 51 insertions(+), 1 deletion(-)
+
 -- 
 2.2.1
 
