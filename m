@@ -1,37 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
-	[209.85.223.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 83E1273CF2
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ECE372B1E
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Aug 2015 23:18:18 +0000 (UTC)
-Received: by iodt126 with SMTP id t126so131176732iod.2
+	Mon, 24 Aug 2015 03:23:30 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7O3NUXk029614
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Aug 2015 16:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Mvsq7pbS4adXM4qMx5mRk0JpjvFh+T7eNROwKC44uZE=;
-	b=RRrR9Msi7vnJQ4qAZkK21SFsIqgQ/JHFgVmm2yVGIUxfBqudrsixf7jPnuk/+S9tJR
-	Y/U69/DKGTrVEbxXHzBKljO4sLj1ko1moMp8piyF4dCO0OMzbxPP/tdixzjt+ngHOBC8
-	ka1GV77VtYOnbJZ9VP9AAgtoj/LO8Tyyr54n8dUWW3FGABLZBPyUWSIckEz5QUgsXvKI
-	aNuZnNYux2UlcM8osCcPr8cc3IsGq9EHKEzwEazFWyAhCCz+91hmdzOEmyA/92H3NiTc
-	aYv++fiygr+BENQgcmk7gmhTGvVC9b3IvS+wWyOlHuOH7VJvUTdzuIAdsk5bpbpVlMMe
-	jsbw==
-X-Received: by 10.107.14.203 with SMTP id 194mr19397783ioo.195.1440371898515; 
-	Sun, 23 Aug 2015 16:18:18 -0700 (PDT)
+	Sun, 23 Aug 2015 20:23:30 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Sun, 23 Aug 2015 20:23:29 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Aug 2015 11:19:19 +0800
+Message-ID: <1440386359-14110-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received: by 10.107.38.79 with HTTP; Sun, 23 Aug 2015 16:17:48 -0700 (PDT)
-In-Reply-To: <1440364561.5373.19.camel@iki.fi>
-References: <1440259095-24566-1-git-send-email-raj.khem@gmail.com>
-	<1440259095-24566-2-git-send-email-raj.khem@gmail.com>
-	<1440364561.5373.19.camel@iki.fi>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 23 Aug 2015 16:17:48 -0700
-Message-ID: <CAMKF1sqJoC=sE-dJ3RXO27hW3onMypMpDu81VMM4WX6iyU-s9w@mail.gmail.com>
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] alsa-lib: Lift the limitation to use gcc only cross compiler
+Subject: [PATCH] xmlto: xsltproc is required by both native and target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,20 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Aug 2015 23:18:18 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 24 Aug 2015 03:23:31 -0000
+Content-Type: text/plain
 
-On Sun, Aug 23, 2015 at 2:16 PM, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> On Sat, 2015-08-22 at 08:58 -0700, Khem Raj wrote:
->> alsa-lib configure tries to see that if CC variabled doesnt contain
->> 'gcc' then it tries to guess and redefine CC to be something gcc, which
->> doesnt work with OE since we define CC to have sysroot and options
->> attached to it.
->
-> Can you give an example of a CC value that you've seen failing? If you
-> don't plan to send this to upstream yourself, it's probably me who's
-> going to do that, and I'd like to be able to point out a concrete
-> example where the removed code has been failing.
+From: Roy Li <rongqing.li@windriver.com>
 
-CC = "arm-oe-linux-clang"
+xsltproc is required by both native and target, so add libxslt to
+RDEPENDS unconditionally
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta/recipes-devtools/xmlto/xmlto_0.0.26.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
+index a7a0183..767d258 100644
+--- a/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
++++ b/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
+@@ -20,9 +20,7 @@ RDEPENDS_${PN} = "docbook-xml-dtd4 \
+                   util-linux \
+                   libxml2 \
+                   bash \
+-"
+-RDEPENDS_${PN}_append_class-target = " \
+-                  libxslt-bin \
++                  libxslt \
+ "
+ 
+ BBCLASSEXTEND = "native"
+-- 
+1.9.1
+
 
