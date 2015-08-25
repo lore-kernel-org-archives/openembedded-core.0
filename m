@@ -1,32 +1,29 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 84DF065CCD
+	by mail.openembedded.org (Postfix) with ESMTP id 6E69C65CCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 20:46:57 +0000 (UTC)
+	Tue, 25 Aug 2015 20:52:26 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7PKkrgp028381; Tue, 25 Aug 2015 21:46:53 +0100
+	t7PKqLNF028609; Tue, 25 Aug 2015 21:52:21 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id GyA08Zvpf1Pe; Tue, 25 Aug 2015 21:46:53 +0100 (BST)
+	with LMTP id mYWmGWttcGRj; Tue, 25 Aug 2015 21:52:21 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7PKkeVI028377
+	t7PKq5Et028603
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 25 Aug 2015 21:46:52 +0100
-Message-ID: <1440535600.12105.442.camel@linuxfoundation.org>
+	Tue, 25 Aug 2015 21:52:16 +0100
+Message-ID: <1440535925.12105.445.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 25 Aug 2015 21:46:40 +0100
-In-Reply-To: <F48F6534-0553-41E1-84C9-45181AA4FCDC@gmail.com>
-References: <cover.1440446289.git.raj.khem@gmail.com>
-	<9bf77291c7084cfdef86008d204932e7adb1067a.1440446290.git.raj.khem@gmail.com>
-	<CAJTo0LZLhzWSo-vN79hKbOdZ-N7U+zD_wECtXCAGgN5y56=Y2A@mail.gmail.com>
-	<F48F6534-0553-41E1-84C9-45181AA4FCDC@gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Date: Tue, 25 Aug 2015 21:52:05 +0100
+In-Reply-To: <1440521261-5444-1-git-send-email-ross.burton@intel.com>
+References: <1440521261-5444-1-git-send-email-ross.burton@intel.com>
 X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 16/17] python-distribute, python-setuptools: Migrate to good old python-setuptools
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH][RFC] sstate: implement basic signing/validation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,44 +36,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 20:46:59 -0000
+X-List-Received-Date: Tue, 25 Aug 2015 20:52:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2015-08-25 at 13:34 -0700, Khem Raj wrote:
-> 
-> > On Aug 25, 2015, at 9:26 AM, Burton, Ross <ross.burton@intel.com>
-> > wrote:
-> > 
-> > On 24 August 2015 at 21:03, Khem Raj <raj.khem@gmail.com> wrote:
-> >         setuptools the old king is ruling again, distribute fork has
-> >         been merged
-> >         into setuptools starting 0.7x, so lets move to use it as
-> >         well
-> > 
-> > 
-> > This fails dramatically on the autobuilder with the core error
-> > being:
-> > 
-> > ERROR: Nothing PROVIDES 'python-setuptools-native' (but
-> > virtual:nativesdk:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm64/build/meta/recipes-devtools/python/python-git_1.0.1.bb DEPENDS on or otherwise requires it). Close matches:
-> >   python3-setuptools-native
-> >   python3-setuptools
-> >   python-scons-native
->
+On Tue, 2015-08-25 at 17:47 +0100, Ross Burton wrote:
+> To provide some element of integrity to sstate archives, allow sstate archives
+> to be GPG signed with a specified key (detached signature to a sidecar .sig
+> file), and verify the signatures when sstate archives are unpacked.
 
-> I can not reproduce it. I did bitbake nativesdk-python-git
-> from scratch and all worked fine. I used qemux86 but I guess its
-> target independent problem. How do you reproduce it.
+Some random thoughts. We could add the signature into the tarball using
+something like the --use-compress-program option  (see
+https://www.gnu.org/software/tar/manual/html_chapter/tar_8.html and the
+gpg references). That would mean we have one less separate file to worry
+about.
 
-"bitbake buildtools-tarball" seemed to reproduce issues, as did a
-"bitbake world -c fetch" on the autobuilder so I'd try those.
+Not sure which approach I prefer, just putting the idea out there...
+
+> TODO: fetch .sig from remote sstate mirrors
+
+We do something similar for siginfo already FWIW.
+
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+I'd also probably make these callable functions, then others can
+override them and use them as hooks if they want to.
 
 Cheers,
 
 Richard
-
-
 
 
 
