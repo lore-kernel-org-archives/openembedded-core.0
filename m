@@ -1,25 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EA2B76AB2
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 53EF276AB2
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 25 Aug 2015 09:05:05 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Aug 2015 02:04:38 -0700
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 25 Aug 2015 02:04:57 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,744,1432623600"; d="scan'208";a="790452267"
+X-IronPort-AV: E=Sophos;i="5.15,744,1432623600"; d="scan'208";a="548073881"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 25 Aug 2015 02:04:36 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Aug 2015 02:04:56 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 90DC66A4083;
-	Tue, 25 Aug 2015 02:03:44 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id AA4826A4083;
+	Tue, 25 Aug 2015 02:04:06 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Aug 2015 12:04:12 +0300
-Message-Id: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
+Date: Tue, 25 Aug 2015 12:04:27 +0300
+Message-Id: <03b2a853be180119e0e3efc73b5b1042dc13c738.1440492980.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
+In-Reply-To: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
+References: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440492980.git.ed.bartosh@linux.intel.com>
 References: <cover.1440492980.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 01/17] image.py: write bitbake variables to .env file
+Subject: [PATCH 16/17] wic: use bitbake variable ROOTFS_SIZE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,58 +36,51 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 25 Aug 2015 09:05:05 -0000
 
-Write set of bitbake variables associated with the image into
-build/tmp/sysroots/<machine>/imagedata/<image>.env
+If bitbake image is referenced in .ks file and --size is not used
+there wic uses ROOTFS_SIZE variable to set minimum partition size.
 
-This is needed for wic to be able to get bitbake variables without
-running 'bitbake -e'.
+ROOTFS_SIZE is calculated in meta/lib/oe/image.py when rootfs is
+created. The calculation is done using other image parameters:
+IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT, IMAGE_OVERHEAD_FACTOR
+and IMAGE_ROOTFS_EXTRA_SPACE.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oe/image.py | 23 +++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ scripts/lib/wic/imager/direct.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
-index 699c30f..a7fdefa 100644
---- a/meta/lib/oe/image.py
-+++ b/meta/lib/oe/image.py
-@@ -321,6 +321,27 @@ class Image(ImageDepGraph):
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index 57b1335..d68fd2a 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -29,6 +29,7 @@ import shutil
  
-         return image_cmd_groups
+ from wic import kickstart, msger
+ from wic.utils import fs_related
++from wic.utils.oe.misc import get_bitbake_var
+ from wic.utils.partitionedfs import Image
+ from wic.utils.errors import CreatorError, ImageError
+ from wic.imager.baseimager import BaseImageCreator
+@@ -229,6 +230,19 @@ class DirectImageCreator(BaseImageCreator):
+         fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
  
-+    def _write_env(self):
-+        """
-+        Write environment variables
-+        to tmp/sysroots/<machine>/imgdata/<image>.env
-+        """
-+        stdir = self.d.getVar('STAGING_DIR_TARGET', True)
-+        outdir = os.path.join(stdir, 'imgdata')
-+        if not os.path.exists(outdir):
-+            os.makedirs(outdir)
-+        basename = self.d.getVar('IMAGE_BASENAME', True)
-+        with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
-+            for var in sorted(self.d.keys()):
-+                # filter out as much as we can to reduce file size
-+                if var.startswith('_') or var.startswith('BB_') \
-+                   or not var.isupper() or self.d.getVarFlag(var, "func") \
-+                   or var in ('BBINCLUDED', 'SRCPV', 'MIRRORS'):
-+                    continue
-+                value = self.d.getVar(var, True)
-+                if value:
-+                    envf.write('%s="%s"\n' % (var, value.strip()))
-+
-     def create(self):
-         bb.note("###### Generate images #######")
-         pre_process_cmds = self.d.getVar("IMAGE_PREPROCESS_COMMAND", True)
-@@ -332,6 +353,8 @@ class Image(ImageDepGraph):
- 
-         image_cmd_groups = self._get_imagecmds()
- 
-+        self._write_env()
-+
-         for image_cmds in image_cmd_groups:
-             # create the images in parallel
-             nproc = multiprocessing.cpu_count()
+         for p in parts:
++            # get rootfs size from bitbake variable if it's not set in .ks file
++            if not p.size:
++                # and if rootfs name is specified for the partition
++                image_name = p.get_rootfs()
++                if image_name:
++                    # Bitbake variable ROOTFS_SIZE is calculated in
++                    # Image._get_rootfs_size method from meta/lib/oe/image.py
++                    # using IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT,
++                    # IMAGE_OVERHEAD_FACTOR and IMAGE_ROOTFS_EXTRA_SPACE
++                    rsize_bb = get_bitbake_var('ROOTFS_SIZE', image_name)
++                    if rsize_bb:
++                        # convert from Kb to Mb
++                        p.size = int(rsize_bb) / 1024
+             # need to create the filesystems in order to get their
+             # sizes before we can add them and do the layout.
+             # Image.create() actually calls __format_disks() to create
 -- 
 2.1.4
 
