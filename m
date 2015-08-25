@@ -1,37 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8605865CCD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 6448F65CCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 16:54:11 +0000 (UTC)
-Received: by wicja10 with SMTP id ja10so20896119wic.1
+	Tue, 25 Aug 2015 16:56:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7PGuRdQ015043 for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Aug 2015 17:56:27 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 1wXN3JYKKr2W
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 09:54:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=hu5DA8tXPA/FEprICZk/L59Oj9u5m4SjlcqlBCmvMMo=;
-	b=kgNR8g2lne49/HYfjeYikgE4EEiD9qP1cikriwyhv1PCT4W0AgCuiwqQKpIvjzdHwM
-	SQthluzvyIB0YZdZYWwM+lYnwWCIt1C0ir/O0b8YOWe+5/3/7+Orn0XgVnlsY8K7iUwu
-	+31BwbXRnKuOXjfA4BZG0u69i1Sum/ubf2sjs+Hda2fsYmYwwoz4lWrUjgGjGxVLR8xw
-	+gOqcXaHNdDikXnXD6Q3ppB8k571bklYveBU2SKEe7sb6deh3Y8QlPrBq8ebwkLw77Ng
-	9wUD6ePtg0z6oI+E3m3mqDpOejJnDzYuRtEfSNwECBL//xc9M/vSXH3KME7WGpVa9jog
-	Gq5w==
-X-Gm-Message-State: ALoCoQlCldFcQrVMYF5lXvIeHLpDbZgR0WP68rltbt1YCfWfGmKs0BTRiBMtAr6xjDBH1UO5JJbw
-X-Received: by 10.194.62.77 with SMTP id w13mr52139462wjr.118.1440521650984;
-	Tue, 25 Aug 2015 09:54:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	wx9sm27948544wjb.6.2015.08.25.09.54.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 25 Aug 2015 09:54:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Aug 2015 17:47:41 +0100
-Message-Id: <1440521261-5444-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][RFC] sstate: implement basic signing/validation
+	Tue, 25 Aug 2015 17:56:27 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7PGuCXV015036
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Aug 2015 17:56:23 +0100
+Message-ID: <1440521772.12105.434.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Aug 2015 17:56:12 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] oeqa: Optimise sstate tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,67 +37,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 16:54:12 -0000
+X-List-Received-Date: Tue, 25 Aug 2015 16:56:31 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-To provide some element of integrity to sstate archives, allow sstate archives
-to be GPG signed with a specified key (detached signature to a sidecar .sig
-file), and verify the signatures when sstate archives are unpacked.
+We can use "none" here instead of printdiff for some small performance
+gains. This also means we can remove the ignore exit code hack which
+leads to safer code.
 
-TODO: fetch .sig from remote sstate mirrors
+Also drop an unused variable.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sstate.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 4e6afef..69145e5 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -54,6 +54,11 @@ EXTRA_STAGING_FIXMES ?= ""
+diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
+index 6eacb57..0a76167 100644
+--- a/meta/lib/oeqa/selftest/sstatetests.py
++++ b/meta/lib/oeqa/selftest/sstatetests.py
+@@ -220,14 +220,14 @@ BUILD_ARCH = \"x86_64\"
+ BUILD_OS = \"linux\"
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
+-        bitbake("core-image-sato -S printdiff", ignore_status=True)
++        bitbake("core-image-sato -S none")
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+ BUILD_ARCH = \"i686\"
+ BUILD_OS = \"linux\"
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
+-        bitbake("core-image-sato -S printdiff", ignore_status=True)
++        bitbake("core-image-sato -S none")
  
- SIGGEN_LOCKEDSIGS_CHECK_LEVEL ?= 'error'
+         def get_files(d):
+             f = []
+@@ -249,19 +249,18 @@ BUILD_OS = \"linux\"
+         """
  
-+# The GnuPG key ID to use to sign sstate archives (or unset to not sign)
-+SSTATE_SIG_KEY ?= ""
-+# Whether to verify the GnUPG signatures when extracting sstate archives
-+SSTATE_VERIFY_SIG ?= "0"
-+
- # Specify dirs in which the shell function is executed and don't use ${B}
- # as default dirs to avoid possible race about ${B} with other task.
- sstate_create_package[dirs] = "${SSTATE_BUILDDIR}"
-@@ -298,6 +303,10 @@ def sstate_installpkg(ss, d):
-     d.setVar('SSTATE_INSTDIR', sstateinst)
-     d.setVar('SSTATE_PKG', sstatepkg)
+         topdir = get_bb_var('TOPDIR')
+-        targetvendor = get_bb_var('TARGET_VENDOR')
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
+ NATIVELSBSTRING = \"DistroA\"
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash")
+-        bitbake("core-image-sato -S printdiff", ignore_status=True)
++        bitbake("core-image-sato -S none")
+         self.write_config("""
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+ NATIVELSBSTRING = \"DistroB\"
+ """)
+         self.track_for_cleanup(topdir + "/tmp-sstatesamehash2")
+-        bitbake("core-image-sato -S printdiff", ignore_status=True)
++        bitbake("core-image-sato -S none")
  
-+    if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG", True), False):
-+        if subprocess.call(["gpg", "--verify", sstatepkg + ".sig", sstatepkg]) != 0:
-+            bb.warn("Cannot verify signature on sstate package %s" % sstatepkg)
-+
-     for f in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split() + ['sstate_unpack_package'] + (d.getVar('SSTATEPOSTUNPACKFUNCS', True) or '').split():
-         bb.build.exec_func(f, d)
- 
-@@ -604,6 +613,7 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
- 
-     # Try a fetch from the sstate mirror, if it fails just return and
-     # we will build the package
-+    # TODO attempt to fetch (and silently handle) the .sig file
-     for srcuri in ['file://{0}'.format(sstatefetch),
-                    'file://{0}.siginfo'.format(sstatefetch)]:
-         localdata.setVar('SRC_URI', srcuri)
-@@ -665,6 +675,11 @@ sstate_create_package () {
- 	chmod 0664 $TFILE 
- 	mv -f $TFILE ${SSTATE_PKG}
- 
-+	if [ -n "${SSTATE_SIG_KEY}" ]; then
-+		rm -f ${SSTATE_PKG}.sig
-+		gpg --detach-sign --local-user ${SSTATE_SIG_KEY} --output ${SSTATE_PKG}.sig ${SSTATE_PKG}
-+	fi
-+
- 	cd ${WORKDIR}
- 	rm -rf ${SSTATE_BUILDDIR}
- }
--- 
-2.1.4
+         def get_files(d):
+             f = []
+
 
 
