@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B794C76C4B
+	by mail.openembedded.org (Postfix) with ESMTP id 44A107689C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 09:05:08 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Aug 2015 02:04:50 -0700
+	Tue, 25 Aug 2015 09:05:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 25 Aug 2015 02:04:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,744,1432623600"; d="scan'208";a="790452349"
+X-IronPort-AV: E=Sophos;i="5.15,744,1432623600"; d="scan'208";a="754914628"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga002.jf.intel.com with ESMTP; 25 Aug 2015 02:04:49 -0700
+	by orsmga001.jf.intel.com with ESMTP; 25 Aug 2015 02:04:52 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 448406A4083;
-	Tue, 25 Aug 2015 02:03:59 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 38F806A4083;
+	Tue, 25 Aug 2015 02:04:01 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Aug 2015 12:04:22 +0300
-Message-Id: <87c25db971bc38c316c9c8ffd9d7f3600a5fcdd0.1440492980.git.ed.bartosh@linux.intel.com>
+Date: Tue, 25 Aug 2015 12:04:24 +0300
+Message-Id: <b86a188ccd684d006faa185ad179ad41f5d79dc0.1440492980.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
 References: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440492980.git.ed.bartosh@linux.intel.com>
 References: <cover.1440492980.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 11/17] wic: deferred call of hlp.get_wic_plugins_help()
+Subject: [PATCH 13/17] wic-image-minimal: add wic image recipe and .wks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,49 +34,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 09:05:08 -0000
+X-List-Received-Date: Tue, 25 Aug 2015 09:05:09 -0000
 
-If get_wic_plugins_help is called from wic main module
-it calls git_bitbake_var at some point. This fails when
-wic is called from bitbake as 'bitbake -e' can't be
-run.
+Added example of recipe and .wks file to create partitioned image.
 
-Moved call of this method to help.py in order to call it
-later, when BitbakeVariables singleton is properly initialized
-to get variables from .env files.
+This image is using quite complex partitioning scheme.
+It uses its own rootfs to populate two partitions in two different ways.
+It also uses core-image-minimal rootfs to populate another partition.
+
+This is how wic reports about artifacts used to create this image:
+  ROOTFS_DIR: tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/rootfs
+  ROOTFS_DIR["/core"]: tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs
+  ROOTFS_DIR["/backup"]: tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/rootfs
+  BOOTIMG_DIR: tmp/sysroots/qemux86-64/usr/share
+  KERNEL_DIR: tmp/deploy/images/qemux86-64
+  NATIVE_SYSROOT: tmp/sysroots/x86_64-linux
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/image/help.py | 2 ++
- scripts/wic               | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-extended/images/wic-image-minimal.bb  | 14 ++++++++++++++
+ meta/recipes-extended/images/wic-image-minimal.wks | 10 ++++++++++
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-extended/images/wic-image-minimal.bb
+ create mode 100644 meta/recipes-extended/images/wic-image-minimal.wks
 
-diff --git a/scripts/lib/image/help.py b/scripts/lib/image/help.py
-index dc6ff36..717d847 100644
---- a/scripts/lib/image/help.py
-+++ b/scripts/lib/image/help.py
-@@ -42,6 +42,8 @@ def display_help(subcommand, subcommands):
-         return False
- 
-     hlp = subcommands.get(subcommand, subcommand_error)[2]
-+    if callable(hlp):
-+        hlp = hlp()
-     pager = subprocess.Popen('less', stdin=subprocess.PIPE)
-     pager.communicate(hlp)
- 
-diff --git a/scripts/wic b/scripts/wic
-index 815b84e..25b0d67 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -288,7 +288,7 @@ subcommands = {
-                   hlp.wic_list_help],
-     "plugins":   [wic_help_topic_subcommand,
-                   wic_help_topic_usage,
--                  hlp.get_wic_plugins_help()],
-+                  hlp.get_wic_plugins_help],
-     "overview":  [wic_help_topic_subcommand,
-                   wic_help_topic_usage,
-                   hlp.wic_overview_help],
+diff --git a/meta/recipes-extended/images/wic-image-minimal.bb b/meta/recipes-extended/images/wic-image-minimal.bb
+new file mode 100644
+index 0000000..073c569
+--- /dev/null
++++ b/meta/recipes-extended/images/wic-image-minimal.bb
+@@ -0,0 +1,14 @@
++SUMMARY = "An example of partitioned image."
++
++IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
++
++IMAGE_FSTYPES = "wic.bz2"
++RM_OLD_IMAGE = "1"
++
++# core-image-minimal is referenced in .wks, so we need its rootfs
++# to be ready before our rootfs
++do_rootfs[depends] += "core-image-minimal:do_rootfs"
++
++IMAGE_ROOTFS_EXTRA_SPACE = "2000"
++
++inherit image
+diff --git a/meta/recipes-extended/images/wic-image-minimal.wks b/meta/recipes-extended/images/wic-image-minimal.wks
+new file mode 100644
+index 0000000..29cd8f2
+--- /dev/null
++++ b/meta/recipes-extended/images/wic-image-minimal.wks
+@@ -0,0 +1,10 @@
++# short-description: Example of partitioned image with complex layout
++# long-description: This image contains boot partition and 3 rootfs partitions
++# created from core-image-minimal and wic-image-minimal image recipes.
++
++part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
++part / --source rootfs --ondisk sda --fstype=ext2 --label platform --align 1024
++part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext2 --label core --align 1024
++part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext2 --label backup --align 1024
++
++bootloader  --timeout=0  --append="rootwait console=tty0"
 -- 
 2.1.4
 
