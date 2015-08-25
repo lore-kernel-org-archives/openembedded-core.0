@@ -1,28 +1,20 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D025675E80
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 58C1071633
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 09:42:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7P9glcd009883
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 02:42:47 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 25 Aug 2015 02:42:47 -0700
-Message-ID: <55DC3896.5080001@windriver.com>
-Date: Tue, 25 Aug 2015 17:42:46 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
+	Tue, 25 Aug 2015 09:50:11 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
+	Tue, 25 Aug 2015 11:50:08 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <cover.1440495482.git.liezhi.yang@windriver.com>
-	<4ada90ff0e1b302636d6f9a23e932956d99a0a82.1440495482.git.liezhi.yang@windriver.com>
-In-Reply-To: <4ada90ff0e1b302636d6f9a23e932956d99a0a82.1440495482.git.liezhi.yang@windriver.com>
-Subject: Re: [PATCH 1/1] libnotify: set GNOME_COMPRESS_TYPE to bz2
+Date: Tue, 25 Aug 2015 11:50:07 +0200
+Message-ID: <1440496207-22738-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH][dizzy] qemu-slirp: CVE-2014-3640
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +27,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 09:42:50 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Aug 2015 09:50:13 -0000
+Content-Type: text/plain
 
+Fixes NULL pointer deref in sosendto().
 
+Reference:
+http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3640
 
-On 08/25/2015 05:38 PM, Robert Yang wrote:
-> Fixed do_fetch error:
-> WARNING: Failed to fetch URL http://ftp.gnome.org/pub/GNOME/sources/libnotify/0.6/libnotify-0.6.0.tar.xz;name=archive, attempting MIRRORS if available
-> ERROR: Fetcher failure: Fetch command failed with exit code 8, output:
-> http://ftp.gnome.org/pub/GNOME/sources/libnotify/0.6/libnotify-0.6.0.tar.xz:
-> 2015-08-25 02:31:32 ERROR 404: Not Found.
->
-> There are .tar.gz and .bz2, but no .tar.xz.
->
-> (LOCAL REV: NOT UPSTREAM) -- Sent to oe-core 20150825
+Upstream patch:
+http://git.qemu.org/?p=qemu.git;a=commit;
+h=9a72433843d912a45046959b1953861211d1838d
 
-Sorry, this line should not be here, I updated it in the repo.
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../qemu/qemu/slirp-CVE-2014-3640.patch            | 48 ++++++++++++++++++++++
+ meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch
 
-// Robert
+diff --git a/meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch b/meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch
+new file mode 100644
+index 0000000..a7ecf31
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch
+@@ -0,0 +1,48 @@
++From 9a72433843d912a45046959b1953861211d1838d Mon Sep 17 00:00:00 2001
++From: Petr Matousek <pmatouse@redhat.com>
++Date: Thu, 18 Sep 2014 08:35:37 +0200
++Subject: [PATCH] slirp: udp: fix NULL pointer dereference because of
++ uninitialized socket
++
++When guest sends udp packet with source port and source addr 0,
++uninitialized socket is picked up when looking for matching and already
++created udp sockets, and later passed to sosendto() where NULL pointer
++dereference is hit during so->slirp->vnetwork_mask.s_addr access.
++
++Fix this by checking that the socket is not just a socket stub.
++
++This is CVE-2014-3640.
++
++Upstream-Status: Backport
++
++Signed-off-by: Petr Matousek <pmatouse@redhat.com>
++Reported-by: Xavier Mehrenberger <xavier.mehrenberger@airbus.com>
++Reported-by: Stephane Duverger <stephane.duverger@eads.net>
++Reviewed-by: Jan Kiszka <jan.kiszka@siemens.com>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Reviewed-by: Michael Tokarev <mjt@tls.msk.ru>
++Message-id: 20140918063537.GX9321@dhcp-25-225.brq.redhat.com
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++(cherry picked from commit 01f7cecf0037997cb0e58ec0d56bf9b5a6f7cb2a)
++Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ slirp/udp.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/slirp/udp.c b/slirp/udp.c
++index 8cc6cb6..f77e00f 100644
++--- a/slirp/udp.c
+++++ b/slirp/udp.c
++@@ -152,7 +152,7 @@ udp_input(register struct mbuf *m, int iphlen)
++ 	 * Locate pcb for datagram.
++ 	 */
++ 	so = slirp->udp_last_so;
++-	if (so->so_lport != uh->uh_sport ||
+++	if (so == &slirp->udb || so->so_lport != uh->uh_sport ||
++ 	    so->so_laddr.s_addr != ip->ip_src.s_addr) {
++ 		struct socket *tmp;
++ 
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/qemu/qemu_2.1.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+index 444a422..92a89d6 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.1.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://qemu-CVE-2015-3456.patch \
+             file://CVE-2014-7840.patch \
+             file://vnc-CVE-2014-7815.patch \
++            file://slirp-CVE-2014-3640.patch \
+             "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
+-- 
+1.9.1
 
->
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->   meta/recipes-gnome/libnotify/libnotify_0.6.0.bb |    2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-> index e6ee89b..b90dbe4 100644
-> --- a/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-> +++ b/meta/recipes-gnome/libnotify/libnotify_0.6.0.bb
-> @@ -12,6 +12,8 @@ inherit gnomebase distro_features_check
->   # Requires gdk/gdkx.h which is provided by gtk when x11 in DISTRO_FEATURES
->   REQUIRED_DISTRO_FEATURES = "x11"
->
-> +GNOME_COMPRESS_TYPE = "bz2"
-> +
->   SRC_URI[archive.md5sum] = "732c9d2cd5eb6a9069264a319d330516"
->   SRC_URI[archive.sha256sum] = "73b16a79bb2fed62dcf146b11c4405776cb96a09dce66379ca541da7dbd64210"
->
->
 
