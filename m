@@ -1,36 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id A3C0765CCD
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 6888765CCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 17:56:03 +0000 (UTC)
-Received: by pacdd16 with SMTP id dd16so131052129pac.2
+	Tue, 25 Aug 2015 19:06:20 +0000 (UTC)
+Received: by pacgr6 with SMTP id gr6so2346530pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 10:56:03 -0700 (PDT)
+	Tue, 25 Aug 2015 12:06:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=fJ/JNl1863l/fm3Gbqr9FAr4Xo8vOEdA1R+ZdBzI93c=;
-	b=q1YbYn5r2jN6LGL+Gnm15/Ic8whpZ/PoxJb2l9c9XmDVdkRW91rqBPwJ1aR81LpvOa
-	iMzUWddcU7F/W5bU968SX63nwfZSDEwY/PBmuET+PJMnFO9OsUWa7cs1pQdQKvzKf9Wf
-	Uj4q+S0zszTdBNf9EJ4SaL+ZsD5JHd7vLMErVx1S5EkA8Mg7nwntHKU0F8a/T0qNYN1o
-	14NdpEl1k6T6jFFba/k+dH7CtAhABRnAwgEyVWk/meAo6VOU5e6v7Y+aEjFIzNtsqpRH
-	F7lVHoVlhlAfUJnGucg4JKx/heKPTCvkJLx7n8XQuzMxpahtRzqU+8/8tkK9P/R6FCyp
-	9LuA==
-X-Received: by 10.67.8.106 with SMTP id dj10mr48813433pad.123.1440525363794;
-	Tue, 25 Aug 2015 10:56:03 -0700 (PDT)
+	bh=YWmCCK2O9QkEDVs+LBxMrf+5a4MAAudNP0xbWsRfpzI=;
+	b=rIV5eimChwTcgSk46x9kGZZOAVWqlyP28Rx5C/CxdmiHLGqjpfXfl6qWn7TKunegGF
+	IusJ4qocKdxVq1JncOjIBKB4flFXEOfVcF9EXi4IJMVN7UMVUqEw3L9a/58yD7Pi2J8+
+	rx79jVkeKTMEBI/vtkQIDWXGc8PK066G0zwA42qm+5N777ZZzKh9w/IisE5YEDw3IK6g
+	TmMa/SsI62KUPR7EVKlxqreWKnu2uzyFuzppzRcuwp0dYdB5FdQEVkuPYr1xMN04coID
+	jk4Vcl++nnLElpTKRCoFtH3+YaxO+BGkvTjA6LD8eYzyzvQD4H3FL06YX2SFYyfqWJJE
+	jHpA==
+X-Received: by 10.68.116.109 with SMTP id jv13mr58711632pbb.137.1440529580836; 
+	Tue, 25 Aug 2015 12:06:20 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:316a:3272:24e7:4679?
 	([2601:646:8601:4580:316a:3272:24e7:4679])
 	by smtp.gmail.com with ESMTPSA id
-	uz5sm11643411pac.1.2015.08.25.10.56.03
+	fw15sm21946039pdb.26.2015.08.25.12.06.19
 	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 25 Aug 2015 10:56:03 -0700 (PDT)
+	Tue, 25 Aug 2015 12:06:20 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5.1
 From: Khem Raj <raj.khem@gmail.com>
 In-Reply-To: <CAJTo0LZLhzWSo-vN79hKbOdZ-N7U+zD_wECtXCAGgN5y56=Y2A@mail.gmail.com>
-Date: Tue, 25 Aug 2015 10:55:57 -0700
-Message-Id: <DF29D7C7-7BA7-40C9-9DA3-60F6648C93A5@gmail.com>
+Date: Tue, 25 Aug 2015 12:06:15 -0700
+Message-Id: <03BBEAE9-4C5F-429A-85EC-D4F630E4F65E@gmail.com>
 References: <cover.1440446289.git.raj.khem@gmail.com>
 	<9bf77291c7084cfdef86008d204932e7adb1067a.1440446290.git.raj.khem@gmail.com>
 	<CAJTo0LZLhzWSo-vN79hKbOdZ-N7U+zD_wECtXCAGgN5y56=Y2A@mail.gmail.com>
@@ -50,17 +50,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 17:56:04 -0000
-X-Groupsio-MsgNum: 70027
+X-List-Received-Date: Tue, 25 Aug 2015 19:06:23 -0000
+X-Groupsio-MsgNum: 70028
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_27AC1F8C-A0CC-4221-93FF-C4403C372BB9";
+	boundary="Apple-Mail=_D568C9E2-1D04-4800-80C2-7376EAED6D0F";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_27AC1F8C-A0CC-4221-93FF-C4403C372BB9
+--Apple-Mail=_D568C9E2-1D04-4800-80C2-7376EAED6D0F
 Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_1B504ADD-B842-4F3B-9902-752698CFDC13"
+	boundary="Apple-Mail=_FE3207D5-96F2-463F-A2CC-4A60CAB6197C"
 
---Apple-Mail=_1B504ADD-B842-4F3B-9902-752698CFDC13
+--Apple-Mail=_FE3207D5-96F2-463F-A2CC-4A60CAB6197C
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
@@ -85,16 +85,15 @@ Close matches:
 >   python3-setuptools-native
 >   python3-setuptools
 >   python-scons-native
-
-New recipe has bbclassextend for native so I wonder why it did not find =
-it. I will try to reproduce it. meanwhile you can exclude the two =
-setuptools related commits.
-
 >=20
+
+sdks build shows this probably. Pull out those two setuptools related =
+commits for now.
+
 > Ross
 
 
---Apple-Mail=_1B504ADD-B842-4F3B-9902-752698CFDC13
+--Apple-Mail=_FE3207D5-96F2-463F-A2CC-4A60CAB6197C
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/html;
 	charset=us-ascii
@@ -126,19 +125,18 @@ rm64/build/meta/recipes-devtools/python/<a =
 href=3D"http://python-git_1.0.1.bb/" class=3D"">python-git_1.0.1.bb</a> =
 DEPENDS on or otherwise requires it). Close matches:<br class=3D"">&nbsp; =
 python3-setuptools-native<br class=3D"">&nbsp; python3-setuptools<br =
-class=3D"">&nbsp; python-scons-native<br =
+class=3D"">&nbsp; python-scons-native<br class=3D""></div><div =
+class=3D"gmail_extra"><br =
 class=3D""></div></div></div></blockquote><div><br =
-class=3D""></div><div>New recipe has bbclassextend for native so I =
-wonder why it did not find it. I will try to reproduce it. meanwhile you =
-can exclude the two setuptools related commits.&nbsp;</div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
-dir=3D"ltr" class=3D""><div class=3D"gmail_extra"><br =
-class=3D""></div><div class=3D"gmail_extra">Ross</div></div>
+class=3D""></div><div>sdks build shows this probably. Pull out those two =
+setuptools related commits for now.</div><br class=3D""><blockquote =
+type=3D"cite" class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
+class=3D"gmail_extra">Ross</div></div>
 </div></blockquote></div><br class=3D""></body></html>=
 
---Apple-Mail=_1B504ADD-B842-4F3B-9902-752698CFDC13--
+--Apple-Mail=_FE3207D5-96F2-463F-A2CC-4A60CAB6197C--
 
---Apple-Mail=_27AC1F8C-A0CC-4221-93FF-C4403C372BB9
+--Apple-Mail=_D568C9E2-1D04-4800-80C2-7376EAED6D0F
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -149,9 +147,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXcrDIACgkQuwUzVZGdMxTjkACfemw9CrqiF9ARLaUZTXyLRq3W
-zYAAoI4YZtAi3Vc0UqGLgHufNalfMYd3
-=Q4+v
+iEYEARECAAYFAlXcvKoACgkQuwUzVZGdMxTfiACeK9MMmk6QEElNpEkN8vNG+WI0
+ScsAn3JPUP+1zH2UrIK0qjEbU37HoLKc
+=BjgU
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_27AC1F8C-A0CC-4221-93FF-C4403C372BB9--
+--Apple-Mail=_D568C9E2-1D04-4800-80C2-7376EAED6D0F--
