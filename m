@@ -1,37 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 8887876B1C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id DBD1765CCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 16:26:30 +0000 (UTC)
-Received: by qkch123 with SMTP id h123so97486786qkc.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 09:26:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=St43KpE+cnkXoa561N/Ov6hLZgdRRNHS+oJKBP3BOjQ=;
-	b=frd9OIa3ZlVxFrNpplhoG/fFKGLbgvktLmcESHwvpqLU+VhO7irH/OlKRhCEMsUpuA
-	eKWjm0Oq49jvgyz6JDlyM8fPGVxZzSZrd/LqgHZidzw1GgHYlf6QHwhdwy4pcILt3dIR
-	HEU368wgQdzWoPdTYV2s6IWe8ZvQSUPoa1zN939gajdAERYOblkB0LCZ5X3bX984IQ1a
-	RniC7JU6uRX5rF10Yfpwqd3B3GXFbKIcZFRgeLCifcSl06ELCTX3eTcLU2VJ3oiD5JV6
-	X3i2ZiY+U9sxAN27aLoJEi61WO4mcfE8DbmLatH78Q3MR2YqTaIzEYvr0oe7Sxb1+Zt4
-	J5ng==
-X-Gm-Message-State: ALoCoQklSA4Vmu9iYJAMU9NbrXk9w0aVkSHkYS+t54D1O9Vzh42BBBSzguULq9EPxOP3HaSUTpsi
-X-Received: by 10.55.197.151 with SMTP id k23mr67263666qkl.13.1440519989972;
-	Tue, 25 Aug 2015 09:26:29 -0700 (PDT)
+	Tue, 25 Aug 2015 16:33:00 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga102.fm.intel.com with ESMTP; 25 Aug 2015 09:33:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,747,1432623600"; d="scan'208";a="548298876"
+Received: from kkkuntal-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.11.36])
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Aug 2015 09:32:59 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Aug 2015 17:32:58 +0100
+Message-ID: <1912949.niIussp3QS@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <55DC95D8.4000002@windriver.com>
+References: <cover.1439991144.git.paul.eggleton@linux.intel.com>
+	<3261262.kYkpH9KIeH@peggleto-mobl.ger.corp.intel.com>
+	<55DC95D8.4000002@windriver.com>
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Tue, 25 Aug 2015 09:26:10 -0700 (PDT)
-In-Reply-To: <9bf77291c7084cfdef86008d204932e7adb1067a.1440446290.git.raj.khem@gmail.com>
-References: <cover.1440446289.git.raj.khem@gmail.com>
-	<9bf77291c7084cfdef86008d204932e7adb1067a.1440446290.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 25 Aug 2015 17:26:10 +0100
-Message-ID: <CAJTo0LZLhzWSo-vN79hKbOdZ-N7U+zD_wECtXCAGgN5y56=Y2A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 16/17] python-distribute, python-setuptools: Migrate to good old python-setuptools
+Subject: Re: [RFC PATCH 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,49 +34,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 16:26:33 -0000
-Content-Type: multipart/alternative; boundary=001a114996704bb762051e25327e
+X-List-Received-Date: Tue, 25 Aug 2015 16:33:01 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---001a114996704bb762051e25327e
-Content-Type: text/plain; charset=UTF-8
+On Tuesday 25 August 2015 12:20:40 Randy MacLeod wrote:
+> On 2015-08-24 07:02 AM, Paul Eggleton wrote:
+> > On Friday 21 August 2015 11:45:06 Richard Purdie wrote:
+> >> On Wed, 2015-08-19 at 14:34 +0100, Paul Eggleton wrote:
+> >>> Allow restricting recipes brought from a layer to a specified list. This
+> >>> is similar in operation to blacklist.bbclass, but instead specifies a
+> >>> per-layer whitelist of recipes (matched by BPN) that are able to be
+> >>> built from the layer - anything else is skipped. This is potentially
+> >>> useful where you want to bring in a select set of recipes from a larger
+> >>> layer e.g. meta-oe.
+> >>> 
+> >>> Implements [YOCTO #8150].
+> >>> 
+> >>> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> >>> ---
+> >>> 
+> >>>   meta/classes/whitelist.bbclass | 28 ++++++++++++++++++++++++++++
+> >>>   1 file changed, 28 insertions(+)
+> >>>   create mode 100644 meta/classes/whitelist.bbclass
+> >> 
+> >> I should go on record as having some pretty strong reservations about
+> >> this from a philosophical standpoint.
+> >> 
+> >> Why? I think its going to encourage behaviours which will result in a
+> >> decrease in layer quality, particularly for meta-oe.
+> >> 
+> >> Taking a simple example, today if someone breaks parsing in meta-oe, its
+> >> quickly known about and multiple people can see and resolve the issue.
+> >> Once people start using this class, many users will simply never
+> >> see/care about parsing breakage in less maintained parts of the layer.
+> >> 
+> >> I appreciate Martin will likely notice, however this shouldn't Martin's
+> >> sole responsibility.
+> >> 
+> >> Since people's focus will be on to narrow parts of the layer, we'll
+> >> start to see islands which are well maintained/used and islands which
+> >> are not. Worse, just looking at the layer, we won't be able to tell
+> >> which is which.
+> >> 
+> >> I'm nervous about anything which pushes responsibility onto already
+> >> overloaded maintainers and encourages behaviour which is a net loss on
+> >> "quality".
+> >> 
+> >> I've talked to several significant users and they all "love" the idea of
+> >> this class and plan to adopt it ASAP over existing tools like
+> >> combo-layer. I therefore can't see much advantage of not merging the
+> >> class as people are going to use it regardless.
+> > 
+> > I appreciate the concern, but I have to be honest, I don't see this as
+> > being a problem with this class per se, for a couple of reasons:
+> > 
+> > 1) People already feel the need to be selective in some way about the
+> > recipes they pull from larger layers such as meta-oe - whether they do it
+> > by using combo-layer, this class, git-filter-branch or simply by copying
+> > the recipes they want into their own layers. Using the whitelist class
+> > has one advantage over all the rest for the simple filtering case - you
+> > are always using the recipes from upstream. (OK, with combo-layer you
+> > probably are, but here it's direct.) Besides, even if people aren't doing
+> > any active filtering on the layer, they almost certainly aren't building
+> > the entire thing in any case - so can we really say they are testing it
+> > now?
+> > 
+> > 2) Responsibility - it's great when people do report issues they find, but
+> > we shouldn't need to rely on people randomly coming across an issue in
+> > order to find it, we should be testing it ourselves. The job of
+> > maintaining the quality of layers rests with us - i.e. the people who are
+> > involved in maintaining the layers and developing the tools needed to do
+> > so. Martin does regular builds with a variety of layers as do others. If
+> > it's simply parse checking that we feel we are losing, it would be
+> > trivial to add extra regular checks; if nothing else, the layer index is
+> > parsing every recipe in almost every public layer every three hours; with
+> > a little extra work we could log and expose the results of that through
+> > the interface. (Am I volunteering to do this? Sure, as it'll probably be
+> > on my own time I can't promise to do it soon, but I will get to it if
+> > nobody else does first.)
+> 
+> Makes sense to me. I don't see the whitelist.bbclass in master-next yet.
+> Are you just waiting for the linux-4.1 and gcc-5.2 to go in?
 
-On 24 August 2015 at 21:03, Khem Raj <raj.khem@gmail.com> wrote:
+Patrick was asking me to address his remaining issue, so at minimum we're 
+waiting for me to do that I believe.
 
-> setuptools the old king is ruling again, distribute fork has been merged
-> into setuptools starting 0.7x, so lets move to use it as well
->
+Cheers,
+Paul
 
-This fails dramatically on the autobuilder with the core error being:
+-- 
 
-ERROR: Nothing PROVIDES 'python-setuptools-native' (but
-virtual:nativesdk:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-arm64/build/meta/recipes-devtools/python/
-python-git_1.0.1.bb DEPENDS on or otherwise requires it). Close matches:
-  python3-setuptools-native
-  python3-setuptools
-  python-scons-native
+Paul Eggleton
+Intel Open Source Technology Centre
 
-Ross
-
---001a114996704bb762051e25327e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra">On 24 August 2015 at 21:03, Khe=
-m Raj <span dir=3D"ltr">&lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D=
-"_blank">raj.khem@gmail.com</a>&gt;</span> wrote:<br><div class=3D"gmail_qu=
-ote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:so=
-lid;padding-left:1ex"><span class=3D"">setuptools</span> the old king is ru=
-ling again, distribute fork has been merged<br>
-into <span class=3D"">setuptools</span> starting 0.7x, so lets move to use =
-it as well<br></blockquote></div><div class=3D"gmail_extra"><br></div>This =
-fails dramatically on the autobuilder with the core error being:</div><div =
-class=3D"gmail_extra"><br>ERROR: Nothing PROVIDES &#39;python-setuptools-na=
-tive&#39; (but virtual:nativesdk:/home/pokybuild/yocto-autobuilder/yocto-wo=
-rker/nightly-arm64/build/meta/recipes-devtools/python/<a href=3D"http://pyt=
-hon-git_1.0.1.bb">python-git_1.0.1.bb</a> DEPENDS on or otherwise requires =
-it). Close matches:<br>=C2=A0 python3-setuptools-native<br>=C2=A0 python3-s=
-etuptools<br>=C2=A0 python-scons-native<br></div><div class=3D"gmail_extra"=
-><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114996704bb762051e25327e--
