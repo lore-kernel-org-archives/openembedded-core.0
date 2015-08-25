@@ -1,28 +1,32 @@
-Return-Path: <benjamin.esquivel@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 7255765CCD
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 703EB65CCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 19:24:29 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 25 Aug 2015 12:24:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,747,1437462000"; d="scan'208";a="790797490"
-Received: from besquive-mobl2.amr.corp.intel.com ([10.219.17.159])
-	by orsmga002.jf.intel.com with ESMTP; 25 Aug 2015 12:24:28 -0700
-Message-ID: <1440530671.15187.38.camel@linux.intel.com>
-From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-To: mariano.lopez@linux.intel.com, openembedded-core@lists.openembedded.org
-In-Reply-To: <1440518117-6722-1-git-send-email-mariano.lopez@linux.intel.com>
-References: <1440518117-6722-1-git-send-email-mariano.lopez@linux.intel.com>
-Organization: Intel Corporation
-Date: Tue, 25 Aug 2015 14:24:31 -0500
-Mime-Version: 1.0
-X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
-Subject: Re: [PATCH 0/4 v2] Get dumps when qemu fails
+	Tue, 25 Aug 2015 19:33:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7PJXkBg022655
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 25 Aug 2015 12:33:46 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 25 Aug 2015 12:33:46 -0700
+Message-ID: <55DCC304.1030204@windriver.com>
+Date: Tue, 25 Aug 2015 15:33:24 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1440424002.git.bruce.ashfield@windriver.com>
+	<136c1b0650d3273e647022a60ef3845287d11af3.1440424002.git.bruce.ashfield@windriver.com>
+	<CAJTo0LYA9kHUNQif7jEyuYSjjiBjnCDLfatckoO43C3dK5KrfQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LYA9kHUNQif7jEyuYSjjiBjnCDLfatckoO43C3dK5KrfQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] linux-yocto/4.1: enable DRM_CIRRUS_QEMU and EXT4_USE_FOR_EXT23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -32,53 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 19:24:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 25 Aug 2015 19:33:49 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Mariano, a minor correction below:
+On 15-08-25 05:19 AM, Burton, Ross wrote:
+>
+> On 24 August 2015 at 14:51, Bruce Ashfield <bruce.ashfield@windriver.com
+> <mailto:bruce.ashfield@windriver.com>> wrote:
+>
+>     Updating the meta SRCREV to enable cirrus graphics emulation and wider
+>     compatibility for the ext4 driver.
+>
+>
+> This causes our friend "config value requested not present in final
+> .config" for at least qemuppc and qemumips in my local testing.
 
-On Tue, 2015-08-25 at 10:55 -0500, mariano.lopez@linux.intel.com wrote:
-> From: Mariano Lopez <mariano.lopez@linux.intel.com>
-> 
-> This provides classes for dump logs from the host
-> and the target. This way it's easier to get dumps
-> from the runner or the target and not just from
-> the test. With this now the qemurunner instance
-> get the dumps from the host when qemu fails.
-> 
-> This also allows to have datastore vars in the
-> commands and removes the special case commands.
-> 
-> This fix the regresion regression when testin real
-> hardware
-*This fixes the regression encountered when tested
-in hardware
-> 
-> This depends on:
-> 
-> http://lists.openembedded.org/pipermail/openembedded-core/2015-August
-> /108912.html
-> 
-> [YOCTO #8118]
-> [YOCTO #8203]
-> 
-> Mariano Lopez (4):
->   dump: Created new classes for dump host and target
->   qemurunner: Added host dumps when there are errors
->   dump: allow to have datastore vars on dump commands
->   oetest: Fix regression when testing real hardware
-> 
->  meta/classes/testimage.bbclass    | 14 +++++--
->  meta/lib/oeqa/oetest.py           | 56 ++++---------------------
->  meta/lib/oeqa/targetcontrol.py    | 16 +++----
->  meta/lib/oeqa/utils/dump.py       | 87
-> +++++++++++++++++++++++++++++++++++++++
->  meta/lib/oeqa/utils/qemurunner.py | 14 ++++++-
->  5 files changed, 129 insertions(+), 58 deletions(-)
->  create mode 100644 meta/lib/oeqa/utils/dump.py
-> 
-> -- 
-> 1.9.1
-> 
+I was too ambitious with the options .. I saw (and fixed) the warnings.
+
+New patches are on poky-contrib zedd/kernel
+
+Cheers,
+
+Bruce
+
+>
+> Ross
+
 
