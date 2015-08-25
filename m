@@ -1,27 +1,27 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id E0B6C76AB2
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 1435576AB2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 09:04:50 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 25 Aug 2015 02:04:51 -0700
+	Tue, 25 Aug 2015 09:04:49 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP; 25 Aug 2015 02:04:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.15,744,1432623600"; d="scan'208";a="548073848"
+X-IronPort-AV: E=Sophos;i="5.15,744,1432623600"; d="scan'208";a="631743431"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Aug 2015 02:04:50 -0700
+	by orsmga003.jf.intel.com with ESMTP; 25 Aug 2015 02:04:42 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id B0EE36A4083;
-	Tue, 25 Aug 2015 02:04:00 -0700 (PDT)
+	by linux.intel.com (Postfix) with ESMTP id 0E8176A4083;
+	Tue, 25 Aug 2015 02:03:48 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Aug 2015 12:04:23 +0300
-Message-Id: <5615adf8a3d194f11430dc722ae518698cb9b31c.1440492980.git.ed.bartosh@linux.intel.com>
+Date: Tue, 25 Aug 2015 12:04:15 +0300
+Message-Id: <fa177df9c0503900f59f2438f1336359f9debc38.1440492980.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
 References: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440492980.git.ed.bartosh@linux.intel.com>
 References: <cover.1440492980.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 12/17] image_types.bbclass: add wic image type
+Subject: [PATCH 04/17] wic: add BitbakeVars class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +36,123 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 25 Aug 2015 09:04:53 -0000
 
-wic image type is used to produce partitioned images.
+Moved code of getting bitbake variables into separate class.
 
-Image configuration should be stored in either <recipe>.<machine>.wks
-or <recipe>.wks file.
-.wks file should be put to the same location as image recipe
-and have the same name.
+Created singleton object of this class in the module namespace.
 
-[YOCTO #7672]
+Preserved existing API get_bitbake_var.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/classes/image_types.bbclass | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ scripts/lib/wic/utils/oe/misc.py | 91 +++++++++++++++++++++++-----------------
+ 1 file changed, 53 insertions(+), 38 deletions(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 8547574..cdd66ff 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -154,6 +154,16 @@ IMAGE_CMD_ubi = "multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "${UBI_VOLNAM
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index 9c8f52d..3537a2e 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -124,48 +124,63 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
  
- IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
+ BOOTDD_EXTRA_SPACE = 16384
  
-+IMAGE_CMD_wic () {
-+	out=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}
-+	wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHINE}.wks
-+	[ -e $wks ] || wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.wks
-+	[ -e $wks ] || bbfatal "Kiskstart file $wks doesn't exist"
-+	BUILDDIR=${TOPDIR} wic create $wks --vars ${STAGING_DIR_TARGET}/imgdata/ -e ${IMAGE_BASENAME} -o $out/
-+	mv $out/build/${IMAGE_BASENAME}*.direct $out.rootfs.wic
-+	rm -rf $out/
-+}
+-_BITBAKE_VARS = defaultdict(dict)
++class BitbakeVars(defaultdict):
++    """
++    Container for Bitbake variables.
++    """
++    def __init__(self):
++        defaultdict.__init__(self, dict)
 +
- EXTRA_IMAGECMD = ""
++    def get_var(self, var, image=None):
++        """
++        Get bitbake variable value lazy way, i.e. run
++        'bitbake -e' only when variable is requested.
++        """
++        if image not in self:
++            # Get bitbake -e output
++            cmd = "bitbake -e"
++            if image:
++                cmd += " %s" % image
++
++            log_level = msger.get_loglevel()
++            msger.set_loglevel('normal')
++            ret, lines = _exec_cmd(cmd)
++            msger.set_loglevel(log_level)
++
++            if ret:
++                print "Couldn't get '%s' output." % cmd
++                print "Bitbake failed with error:\n%s\n" % lines
++                return
++
++            # Parse bitbake -e output
++            for line in lines.split('\n'):
++                if "=" not in line:
++                    continue
++                try:
++                    key, val = line.split("=")
++                except ValueError:
++                    continue
++                key = key.strip()
++                val = val.strip()
++                if key.replace('_', '').isalnum():
++                    self[image][key] = val.strip('"')
++
++            # Make first image a default set of variables
++            images = [key for key in self if key]
++            if len(images) == 1:
++                self[None] = self[image]
++
++        return self[image].get(var)
++
++# Create BB_VARS singleton
++BB_VARS = BitbakeVars()
  
- inherit siteinfo
-@@ -182,6 +192,7 @@ IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
- IMAGE_DEPENDS_ubi = "mtd-utils-native"
- IMAGE_DEPENDS_ubifs = "mtd-utils-native"
- IMAGE_DEPENDS_multiubi = "mtd-utils-native"
-+IMAGE_DEPENDS_wic = "parted-native"
+ def get_bitbake_var(var, image=None):
+     """
+-    Get bitbake variable value lazy way, i.e. run
+-    'bitbake -e' only when variable is requested.
++    Provide old get_bitbake_var API by wrapping
++    get_var method of BB_VARS singleton.
+     """
+-    if image not in _BITBAKE_VARS:
+-        # Get bitbake -e output
+-        cmd = "bitbake -e"
+-        if image:
+-            cmd += " %s" % image
+-
+-        log_level = msger.get_loglevel()
+-        msger.set_loglevel('normal')
+-        ret, lines = _exec_cmd(cmd)
+-        msger.set_loglevel(log_level)
+-
+-        if ret:
+-            print "Couldn't get '%s' output." % cmd
+-            print "Bitbake failed with error:\n%s\n" % lines
+-            return
+-
+-        # Parse bitbake -e output
+-        for line in lines.split('\n'):
+-            if "=" not in line:
+-                continue
+-            try:
+-                key, val = line.split("=")
+-            except ValueError:
+-                continue
+-            key = key.strip()
+-            val = val.strip()
+-            if key.replace('_', '').isalnum():
+-                _BITBAKE_VARS[image][key] = val.strip('"')
+-
+-        # Make first image a default set of variables
+-        images = [key for key in _BITBAKE_VARS if key]
+-        if len(images) == 1:
+-            _BITBAKE_VARS[None] = _BITBAKE_VARS[image]
+-
+-    return _BITBAKE_VARS[image].get(var)
++    return BB_VARS.get_var(var, image)
  
- # This variable is available to request which values are suitable for IMAGE_FSTYPES
- IMAGE_TYPES = " \
-@@ -201,6 +212,7 @@ IMAGE_TYPES = " \
-     vdi \
-     qcow2 \
-     elf \
-+    wic wic.gz wic.bz2 wic.lzma \
- "
- 
- COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
+ def parse_sourceparams(sourceparams):
+     """
 -- 
 2.1.4
 
