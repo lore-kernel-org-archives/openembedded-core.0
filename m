@@ -1,42 +1,43 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B3D5A734B8
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 09026734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 00:21:19 +0000 (UTC)
-Received: by padfo6 with SMTP id fo6so5061284pad.3
+	Tue, 25 Aug 2015 00:32:14 +0000 (UTC)
+Received: by pabzx8 with SMTP id zx8so18156397pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Aug 2015 17:21:20 -0700 (PDT)
+	Mon, 24 Aug 2015 17:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=LB4tHdq3zb7IdoNjumVNcQkkKnb4kzvoqxphZW9PKa4=;
-	b=hatqH4rkwXQP7Tv3JfZsSEyPmEr0nTpFoZyFtBMgc1GZc+U5lqxvrUJTR2Mn0g2sFj
-	iNYwsWxunouHexQZd3syoss7/aqdqvpOJH0mE1Nbr0ejvn25VBk4338Ys8+RDhSvogpp
-	SFW6T50+Z8lNubOXmyQ076jqI2J1n4603iOBqKmuaesvTBviyVdCAmnqCwGVKaEZcizd
-	tR9vdMkMQA+DUTY/B4ntlnR1s+63e5T+FC/DWT1201/w63/KcrwdOwg3yDv4F5LnHVBe
-	RvweDbbN6+sGLFVETDnRUZuq23/Xgpa6P0sgHBqbTmtGqKNoNqPMnaCAE4ifGjYVbFpd
-	t+WQ==
-X-Received: by 10.66.253.201 with SMTP id ac9mr51346837pad.69.1440462079934;
-	Mon, 24 Aug 2015 17:21:19 -0700 (PDT)
+	bh=Ew9Dsgju76SpiuTzR0cAD2EVHg9tB5wgiddpJOlcaeo=;
+	b=kN+xJCo6nqPMg+QqEDZrAt0eebG1CRES0HDafIPA7/Rp6umcbYh6Hg2p3Uoczc4s0F
+	iol1rJ58/29cuhz0bMjvb4EyRZquQN7sonSXt5NEz2q1tXtl+ZD71gtoG/lKn4VzlcVT
+	kMZN5HyLTldhotPcBlj0NFBZrhfijhwWY8idblXfDx/8UxsUlr/6TMmBr2USpcVxlZe3
+	5h49wEhOiMM7kc5PUY7FPhkJyiN0S0lWer3kAMd9TGtZzlq6TYpkzBkIQf47aouRhhcX
+	tMvYEmXh2A3HR8BKnSf5Gi+MjqdD/LcJiPO3YNs8iRPC5oSefgDp6EubIHUBIwNvduvw
+	eaFQ==
+X-Received: by 10.66.228.71 with SMTP id sg7mr50916780pac.121.1440462735207;
+	Mon, 24 Aug 2015 17:32:15 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:4ded:b62b:f72d:209d?
 	([2601:646:8601:4580:4ded:b62b:f72d:209d])
 	by smtp.gmail.com with ESMTPSA id
-	le8sm18699847pbc.24.2015.08.24.17.21.19
+	pk8sm18744963pdb.54.2015.08.24.17.32.14
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 24 Aug 2015 17:21:19 -0700 (PDT)
+	Mon, 24 Aug 2015 17:32:14 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5.1
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1440072348-31971-1-git-send-email-jussi.kukkonen@intel.com>
-Date: Mon, 24 Aug 2015 17:21:13 -0700
-Message-Id: <59A5C75C-9A4A-43C2-A481-976AFD7FDFBC@gmail.com>
-References: <1439974264-7891-1-git-send-email-jussi.kukkonen@intel.com>
-	<1440072348-31971-1-git-send-email-jussi.kukkonen@intel.com>
-To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+In-Reply-To: <a4f5aee1dac48d9455c616c8fe75f780f2d4246e.1440454579.git.chris_larson@mentor.com>
+Date: Mon, 24 Aug 2015 17:32:12 -0700
+Message-Id: <1BF41B12-84C2-4B3E-B6D8-28513FB87A12@gmail.com>
+References: <efbd9a5c0ebb330d105c707bbb1ebf9875003caa.1440454579.git.chris_larson@mentor.com>
+	<cover.1440454579.git.chris_larson@mentor.com>
+	<a4f5aee1dac48d9455c616c8fe75f780f2d4246e.1440454579.git.chris_larson@mentor.com>
+To: Christopher Larson <kergoth@gmail.com>
 X-Mailer: Apple Mail (2.2104)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] openssh: build regression test binaries
+Subject: Re: [PATCH 2/5] libatomic-ops: move to recipes-support, fix recipe name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,98 +50,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 00:21:25 -0000
-X-Groupsio-MsgNum: 69959
+X-List-Received-Date: Tue, 25 Aug 2015 00:32:20 -0000
+X-Groupsio-MsgNum: 69960
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_B5D1414E-2BD8-4D8C-ACBD-2468F63A94BB";
+	boundary="Apple-Mail=_E8EFF500-FEFD-4917-AE30-5A20E7765C1D";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_B5D1414E-2BD8-4D8C-ACBD-2468F63A94BB
+--Apple-Mail=_E8EFF500-FEFD-4917-AE30-5A20E7765C1D
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-> On Aug 20, 2015, at 5:05 AM, Jussi Kukkonen <jussi.kukkonen@intel.com> =
+> On Aug 24, 2015, at 3:19 PM, Christopher Larson <kergoth@gmail.com> =
 wrote:
 >=20
-> ptests were failing and many more were being silently skipped because
-> required binaries were not being built.
+> - This recipe is useful for more than just pulseaudio, so move it to
+>  recipes-support.
+> - Rename to the correct upstream name, which corresponds to the =
+library name.
+>  Keep a PROVIDES of libatomics-ops for compatibility.
 >=20
-> Build the binaries in regress/ and set SUDO environment variable in
-> run-ptests: after this all tests in regress/ are now run. Continue to
-> skip building binaries in regress/unittests/: unittest runtime is
-> excessive.
->=20
-> On a NUC running intel-corei7-64 core-image-sato, new results are:
-> PASS: 55, SKIP: 3, FAIL: 0
 
-btw. openssh 7.1 is already out.
+There have been few fixes especially for gcc5 see
+=
+https://github.com/ivmai/libatomic_ops/commit/437c10b73ae4b83306f77c851cf8=
+385172ae3759
+can you also bring those in while you are at it ?
 
->=20
-> [YOCTO #8153]
->=20
-> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> Signed-off-by: Christopher Larson <kergoth@gmail.com>
 > ---
+> meta/recipes-devtools/guile/guile_2.0.11.bb                            =
+ | 2 +-
+> meta/recipes-multimedia/pulseaudio/pulseaudio.inc                      =
+ | 2 +-
+> meta/recipes-support/bdwgc/bdwgc_7.4.2.bb                              =
+ | 2 +-
+> .../libatomic-ops/libatomic-ops_7.4.2.bb}                              =
+ | 1 +
+> meta/recipes-support/libunwind/libunwind.inc                           =
+ | 2 +-
+> 5 files changed, 5 insertions(+), 4 deletions(-)
+> rename meta/{recipes-multimedia/pulseaudio/libatomics-ops_7.4.2.bb =3D> =
+recipes-support/libatomic-ops/libatomic-ops_7.4.2.bb} (96%)
 >=20
-> Changes in v2:
-> * ptest package RDEPENDS on sudo
+> diff --git a/meta/recipes-devtools/guile/guile_2.0.11.bb =
+b/meta/recipes-devtools/guile/guile_2.0.11.bb
+> index 71f696e..4869694 100644
+> --- a/meta/recipes-devtools/guile/guile_2.0.11.bb
+> +++ b/meta/recipes-devtools/guile/guile_2.0.11.bb
+> @@ -37,7 +37,7 @@ BBCLASSEXTEND =3D "native"
 >=20
+> DEPENDS =3D "libunistring bdwgc gmp libtool libffi ncurses readline"
+> # add guile-native only to the target recipe's DEPENDS
+> -DEPENDS_append_class-target =3D " guile-native libatomics-ops"
+> +DEPENDS_append_class-target =3D " guile-native libatomic-ops"
 >=20
-> meta/recipes-connectivity/openssh/openssh/run-ptest | 2 +-
-> meta/recipes-connectivity/openssh/openssh_7.0p1.bb  | 8 +++++++-
-> 2 files changed, 8 insertions(+), 2 deletions(-)
+> RDEPENDS_${PN}_append_libc-glibc_class-target =3D =
+"glibc-gconv-iso8859-1"
 >=20
-> diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest =
-b/meta/recipes-connectivity/openssh/openssh/run-ptest
-> index 3e725cf..564c0c8 100755
-> --- a/meta/recipes-connectivity/openssh/openssh/run-ptest
-> +++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
-> @@ -3,5 +3,5 @@
-> export TEST_SHELL=3Dsh
+> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc =
+b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> index 3389ec9..a098473 100644
+> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+> @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM =3D =
+"file://GPL;md5=3D4325afd396febcb659c36b49533135d4 \
+>                     file://LGPL;md5=3D2d5025d4aa3495befef8f17206a5b0a1 =
+\
+>                     =
+file://src/pulsecore/resampler.h;beginline=3D4;endline=3D21;md5=3D09794012=
+ae16912c0270f3280cc8ff84"
 >=20
-> cd regress
-> -make -k .OBJDIR=3D`pwd` .CURDIR=3D`pwd` tests \
-> +make -k .OBJDIR=3D`pwd` .CURDIR=3D`pwd` SUDO=3D"sudo" tests \
->         | sed -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e =
-'s/^failed/FAIL: /g'
-> diff --git a/meta/recipes-connectivity/openssh/openssh_7.0p1.bb =
-b/meta/recipes-connectivity/openssh/openssh_7.0p1.bb
-> index 105875a..8519a4c 100644
-> --- a/meta/recipes-connectivity/openssh/openssh_7.0p1.bb
-> +++ b/meta/recipes-connectivity/openssh/openssh_7.0p1.bb
-> @@ -79,6 +79,12 @@ do_configure_prepend () {
-> 	fi
-> }
+> -DEPENDS =3D "libatomics-ops liboil libsndfile1 libtool"
+> +DEPENDS =3D "libatomic-ops liboil libsndfile1 libtool"
+> # optional
+> DEPENDS +=3D "udev alsa-lib glib-2.0 dbus gconf"
+> DEPENDS +=3D "json-c gdbm speexdsp libxml-parser-perl-native libcap"
+> diff --git a/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb =
+b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
+> index 23ec954..1ca8cf7 100644
+> --- a/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
+> +++ b/meta/recipes-support/bdwgc/bdwgc_7.4.2.bb
+> @@ -36,6 +36,6 @@ inherit autotools pkgconfig
 >=20
-> +do_compile_ptest() {
-> +        # skip regress/unittests/ binaries: this will silently skip
-> +        # unittests in run-ptests which is good because they are so =
-slow.
-> +        oe_runmake regress/modpipe regress/setuid-allowed =
-regress/netcat
-> +}
-> +
-> do_install_append () {
-> 	if [ "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam', '', =
-d)}" =3D "pam" ]; then
-> 		install -D -m 0755 ${WORKDIR}/sshd =
-${D}${sysconfdir}/pam.d/sshd
-> @@ -130,7 +136,7 @@ FILES_${PN}-keygen =3D "${bindir}/ssh-keygen"
+> # by default use external libatomic-ops
+> PACKAGECONFIG ??=3D "libatomic-ops"
+> -PACKAGECONFIG[libatomic-ops] =3D =
+"--with-libatomic-ops=3Dyes,--with-libatomic-ops=3Dno,libatomics-ops"
+> +PACKAGECONFIG[libatomic-ops] =3D =
+"--with-libatomic-ops=3Dyes,--with-libatomic-ops=3Dno,libatomic-ops"
 >=20
-> RDEPENDS_${PN} +=3D "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
-> RDEPENDS_${PN}-sshd +=3D "${PN}-keygen =
-${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit =
-pam-plugin-loginuid', '', d)}"
-> -RDEPENDS_${PN}-ptest +=3D "${PN}-sftp ${PN}-misc ${PN}-sftp-server =
-make"
-> +RDEPENDS_${PN}-ptest +=3D "${PN}-sftp ${PN}-misc ${PN}-sftp-server =
-make sudo"
+> BBCLASSEXTEND =3D "native nativesdk"
+> diff --git =
+a/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.4.2.bb =
+b/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.2.bb
+> similarity index 96%
+> rename from meta/recipes-multimedia/pulseaudio/libatomics-ops_7.4.2.bb
+> rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.4.2.bb
+> index 26faabb..4d0e299 100644
+> --- a/meta/recipes-multimedia/pulseaudio/libatomics-ops_7.4.2.bb
+> +++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.4.2.bb
+> @@ -1,6 +1,7 @@
+> SUMMARY =3D "A library for atomic integer operations"
+> HOMEPAGE =3D "https://github.com/ivmai/libatomic_ops/"
+> SECTION =3D "optional"
+> +PROVIDES +=3D "libatomics-ops"
+> LICENSE =3D "GPLv2 & MIT"
+> LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3D94d55d512a9ba36caa9b7df079bae19f \
+>                     =
+file://doc/LICENSING.txt;md5=3De00dd5c8ac03a14c5ae5225a4525fa2d \
+> diff --git a/meta/recipes-support/libunwind/libunwind.inc =
+b/meta/recipes-support/libunwind/libunwind.inc
+> index c8eab58..6660af2 100644
+> --- a/meta/recipes-support/libunwind/libunwind.inc
+> +++ b/meta/recipes-support/libunwind/libunwind.inc
+> @@ -2,7 +2,7 @@ DESCRIPTION =3D "a portable and efficient C =
+programming interface (API) to determi
+> HOMEPAGE =3D "http://www.nongnu.org/libunwind"
+> LICENSE =3D "MIT"
+> LIC_FILES_CHKSUM =3D =
+"file://LICENSE;md5=3D3fced11d6df719b47505837a51c16ae5"
+> -DEPENDS +=3D "libatomics-ops"
+> +DEPENDS +=3D "libatomic-ops"
 >=20
-> RPROVIDES_${PN}-ssh =3D "ssh"
-> RPROVIDES_${PN}-sshd =3D "sshd"
+> SRC_URI =3D "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+>=20
 > --
-> 2.1.4
+> 2.2.1
 >=20
 > --
 > _______________________________________________
@@ -149,7 +187,7 @@ make sudo"
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
---Apple-Mail=_B5D1414E-2BD8-4D8C-ACBD-2468F63A94BB
+--Apple-Mail=_E8EFF500-FEFD-4917-AE30-5A20E7765C1D
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -160,9 +198,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXbtQEACgkQuwUzVZGdMxTQVgCghEWLUkl5U3MuapgW6dy81+RF
-NyMAnArxv34JPI1xqlLgYBuAO2954r3I
-=kGBg
+iEYEARECAAYFAlXbt5AACgkQuwUzVZGdMxRQtACfUF3Ly74qCCP3ofa8wwv31y5G
+DL8An121hsyZROJtwdBi431713za9A86
+=0L7T
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_B5D1414E-2BD8-4D8C-ACBD-2468F63A94BB--
+--Apple-Mail=_E8EFF500-FEFD-4917-AE30-5A20E7765C1D--
