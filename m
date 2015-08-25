@@ -1,33 +1,43 @@
-Return-Path: <Noor_Ahsan@mentor.com>
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by mail.openembedded.org (Postfix) with ESMTP id 10F9265CCD
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A3C0765CCD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 17:46:10 +0000 (UTC)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-02.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1ZUIIT-000425-Vb from Noor_Ahsan@mentor.com ;
-	Tue, 25 Aug 2015 10:46:10 -0700
-Received: from EU-MBX-01.mgc.mentorg.com ([169.254.1.194]) by
-	SVR-IES-FEM-02.mgc.mentorg.com ([137.202.0.106]) with mapi id
-	14.03.0224.002; Tue, 25 Aug 2015 18:46:09 +0100
-From: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 12/17] image_types.bbclass: add wic image type
-Thread-Index: AQHQ3xUrXGmiNLxFDkmuhqIfjfgPAp4c/WXQ
-Date: Tue, 25 Aug 2015 17:46:08 +0000
-Message-ID: <365E1805BC95084CBE82381A0B86999401095CC0C4@EU-MBX-01.mgc.mentorg.com>
-References: <cover.1440492980.git.ed.bartosh@linux.intel.com>
-	<5615adf8a3d194f11430dc722ae518698cb9b31c.1440492980.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <5615adf8a3d194f11430dc722ae518698cb9b31c.1440492980.git.ed.bartosh@linux.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [137.202.0.76]
-MIME-Version: 1.0
-Subject: Re: [PATCH 12/17] image_types.bbclass: add wic image type
+	Tue, 25 Aug 2015 17:56:03 +0000 (UTC)
+Received: by pacdd16 with SMTP id dd16so131052129pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Aug 2015 10:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=fJ/JNl1863l/fm3Gbqr9FAr4Xo8vOEdA1R+ZdBzI93c=;
+	b=q1YbYn5r2jN6LGL+Gnm15/Ic8whpZ/PoxJb2l9c9XmDVdkRW91rqBPwJ1aR81LpvOa
+	iMzUWddcU7F/W5bU968SX63nwfZSDEwY/PBmuET+PJMnFO9OsUWa7cs1pQdQKvzKf9Wf
+	Uj4q+S0zszTdBNf9EJ4SaL+ZsD5JHd7vLMErVx1S5EkA8Mg7nwntHKU0F8a/T0qNYN1o
+	14NdpEl1k6T6jFFba/k+dH7CtAhABRnAwgEyVWk/meAo6VOU5e6v7Y+aEjFIzNtsqpRH
+	F7lVHoVlhlAfUJnGucg4JKx/heKPTCvkJLx7n8XQuzMxpahtRzqU+8/8tkK9P/R6FCyp
+	9LuA==
+X-Received: by 10.67.8.106 with SMTP id dj10mr48813433pad.123.1440525363794;
+	Tue, 25 Aug 2015 10:56:03 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:316a:3272:24e7:4679?
+	([2601:646:8601:4580:316a:3272:24e7:4679])
+	by smtp.gmail.com with ESMTPSA id
+	uz5sm11643411pac.1.2015.08.25.10.56.03
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 25 Aug 2015 10:56:03 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LZLhzWSo-vN79hKbOdZ-N7U+zD_wECtXCAGgN5y56=Y2A@mail.gmail.com>
+Date: Tue, 25 Aug 2015 10:55:57 -0700
+Message-Id: <DF29D7C7-7BA7-40C9-9DA3-60F6648C93A5@gmail.com>
+References: <cover.1440446289.git.raj.khem@gmail.com>
+	<9bf77291c7084cfdef86008d204932e7adb1067a.1440446290.git.raj.khem@gmail.com>
+	<CAJTo0LZLhzWSo-vN79hKbOdZ-N7U+zD_wECtXCAGgN5y56=Y2A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 16/17] python-distribute, python-setuptools: Migrate to good old python-setuptools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,84 +50,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 17:46:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 25 Aug 2015 17:56:04 -0000
+X-Groupsio-MsgNum: 70027
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_27AC1F8C-A0CC-4221-93FF-C4403C372BB9";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_27AC1F8C-A0CC-4221-93FF-C4403C372BB9
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_1B504ADD-B842-4F3B-9902-752698CFDC13"
+
+--Apple-Mail=_1B504ADD-B842-4F3B-9902-752698CFDC13
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Would it not be better approach if we don't hardcore the name and path and =
-handle it using some variable?
 
-Noor
+> On Aug 25, 2015, at 9:26 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+> On 24 August 2015 at 21:03, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> setuptools the old king is ruling again, distribute fork has been =
+merged
+> into setuptools starting 0.7x, so lets move to use it as well
+>=20
+> This fails dramatically on the autobuilder with the core error being:
+>=20
+> ERROR: Nothing PROVIDES 'python-setuptools-native' (but =
+virtual:nativesdk:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-a=
+rm64/build/meta/recipes-devtools/python/python-git_1.0.1.bb =
+<http://python-git_1.0.1.bb/> DEPENDS on or otherwise requires it). =
+Close matches:
+>   python3-setuptools-native
+>   python3-setuptools
+>   python-scons-native
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
--core-bounces@lists.openembedded.org] On Behalf Of Ed Bartosh
-Sent: Tuesday, August 25, 2015 2:04 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH 12/17] image_types.bbclass: add wic image type
+New recipe has bbclassextend for native so I wonder why it did not find =
+it. I will try to reproduce it. meanwhile you can exclude the two =
+setuptools related commits.
 
-wic image type is used to produce partitioned images.
+>=20
+> Ross
 
-Image configuration should be stored in either <recipe>.<machine>.wks or <r=
-ecipe>.wks file.
-.wks file should be put to the same location as image recipe and have the s=
-ame name.
 
-[YOCTO #7672]
+--Apple-Mail=_1B504ADD-B842-4F3B-9902-752698CFDC13
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
 
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
----
- meta/classes/image_types.bbclass | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Aug 25, 2015, at 9:26 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra">On 24 August 2015 at 21:03, Khem =
+Raj <span dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com"=
+ target=3D"_blank" class=3D"">raj.khem@gmail.com</a>&gt;</span> =
+wrote:<br class=3D""><div class=3D"gmail_quote"><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
+-style:solid;padding-left:1ex"><span class=3D"">setuptools</span> the =
+old king is ruling again, distribute fork has been merged<br class=3D"">
+into <span class=3D"">setuptools</span> starting 0.7x, so lets move to =
+use it as well<br class=3D""></blockquote></div><div =
+class=3D"gmail_extra"><br class=3D""></div>This fails dramatically on =
+the autobuilder with the core error being:</div><div =
+class=3D"gmail_extra"><br class=3D"">ERROR: Nothing PROVIDES =
+'python-setuptools-native' (but =
+virtual:nativesdk:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-a=
+rm64/build/meta/recipes-devtools/python/<a =
+href=3D"http://python-git_1.0.1.bb/" class=3D"">python-git_1.0.1.bb</a> =
+DEPENDS on or otherwise requires it). Close matches:<br class=3D"">&nbsp; =
+python3-setuptools-native<br class=3D"">&nbsp; python3-setuptools<br =
+class=3D"">&nbsp; python-scons-native<br =
+class=3D""></div></div></div></blockquote><div><br =
+class=3D""></div><div>New recipe has bbclassextend for native so I =
+wonder why it did not find it. I will try to reproduce it. meanwhile you =
+can exclude the two setuptools related commits.&nbsp;</div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
+dir=3D"ltr" class=3D""><div class=3D"gmail_extra"><br =
+class=3D""></div><div class=3D"gmail_extra">Ross</div></div>
+</div></blockquote></div><br class=3D""></body></html>=
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bb=
-class
-index 8547574..cdd66ff 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -154,6 +154,16 @@ IMAGE_CMD_ubi =3D "multiubi_mkfs "${MKUBIFS_ARGS}" "${=
-UBINIZE_ARGS}" "${UBI_VOLNAM
-=20
- IMAGE_CMD_ubifs =3D "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/=
-${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
-=20
-+IMAGE_CMD_wic () {
-+	out=3D${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}
-+	wks=3D${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHINE}.wks
-+	[ -e $wks ] || wks=3D${FILE_DIRNAME}/${IMAGE_BASENAME}.wks
-+	[ -e $wks ] || bbfatal "Kiskstart file $wks doesn't exist"
-+	BUILDDIR=3D${TOPDIR} wic create $wks --vars ${STAGING_DIR_TARGET}/imgdata=
-/ -e ${IMAGE_BASENAME} -o $out/
-+	mv $out/build/${IMAGE_BASENAME}*.direct $out.rootfs.wic
-+	rm -rf $out/
-+}
-+
- EXTRA_IMAGECMD =3D ""
-=20
- inherit siteinfo
-@@ -182,6 +192,7 @@ IMAGE_DEPENDS_elf =3D "virtual/kernel mkelfimage-native=
-"
- IMAGE_DEPENDS_ubi =3D "mtd-utils-native"
- IMAGE_DEPENDS_ubifs =3D "mtd-utils-native"
- IMAGE_DEPENDS_multiubi =3D "mtd-utils-native"
-+IMAGE_DEPENDS_wic =3D "parted-native"
-=20
- # This variable is available to request which values are suitable for IMAG=
-E_FSTYPES  IMAGE_TYPES =3D " \ @@ -201,6 +212,7 @@ IMAGE_TYPES =3D " \
-     vdi \
-     qcow2 \
-     elf \
-+    wic wic.gz wic.bz2 wic.lzma \
- "
-=20
- COMPRESSIONTYPES =3D "gz bz2 lzma xz lz4 sum"
---
-2.1.4
+--Apple-Mail=_1B504ADD-B842-4F3B-9902-752698CFDC13--
 
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
+--Apple-Mail=_27AC1F8C-A0CC-4221-93FF-C4403C372BB9
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXcrDIACgkQuwUzVZGdMxTjkACfemw9CrqiF9ARLaUZTXyLRq3W
+zYAAoI4YZtAi3Vc0UqGLgHufNalfMYd3
+=Q4+v
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_27AC1F8C-A0CC-4221-93FF-C4403C372BB9--
