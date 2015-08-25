@@ -1,38 +1,31 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
-	[66.111.4.28])
-	by mail.openembedded.org (Postfix) with ESMTP id AAF6F73E11
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C3D973E11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 08:35:54 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id B32CC2096F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 04:35:52 -0400 (EDT)
-Received: from frontend1 ([10.202.2.160])
-	by compute4.internal (MEProxy); Tue, 25 Aug 2015 04:35:52 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=iTgIbFqu+1kGVAw
-	7fo/6PBFRqzE=; b=HCEOBy/l3Wo9nwtFAOlrqkjBmu1OTfey2W9E9SC4Ql3vxZn
-	wJYiXewA+CNmlWM04CyMHE6O891q0liSo88kEJmBfUNixBSe1r3QqBkXZKbsBTMn
-	8T0HSOla8M/X09l6NVZSFNLmH1ztBBdxkZFfJtqULvBc312F8RUR+tBBLCBM=
-X-Sasl-enc: kjE4R44VccPiuwpnnOmGkms6YL4NX/x9QH/v9Djbhp7G 1440491752
-Received: from laptop (a88-114-110-232.elisa-laajakaista.fi [88.114.110.232])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 0A41BC00026;
-	Tue, 25 Aug 2015 04:35:51 -0400 (EDT)
-Message-ID: <1440491751.5373.27.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: Christopher Larson <kergoth@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 25 Aug 2015 11:35:51 +0300
-In-Reply-To: <b22733643db015ebedf00241ab7ef40a0ee50a7b.1440454579.git.chris_larson@mentor.com>
-References: <efbd9a5c0ebb330d105c707bbb1ebf9875003caa.1440454579.git.chris_larson@mentor.com>
-	<b22733643db015ebedf00241ab7ef40a0ee50a7b.1440454579.git.chris_larson@mentor.com>
-X-Mailer: Evolution 3.16.3-1 
+	Tue, 25 Aug 2015 08:51:33 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7P8pVtw008147; Tue, 25 Aug 2015 09:51:31 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 56-eh6B6KJrC; Tue, 25 Aug 2015 09:51:31 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7P8pIkG008142
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 25 Aug 2015 09:51:30 +0100
+Message-ID: <1440492678.12105.413.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Christopher Larson <kergoth@gmail.com>
+Date: Tue, 25 Aug 2015 09:51:18 +0100
+In-Reply-To: <16c46495d37fed950d54ef66134e6cb77771e696.1440454289.git.chris_larson@mentor.com>
+References: <88f419e3f0f9c1a3fa5619641be68b9832de9196.1440454289.git.chris_larson@mentor.com>
+	<16c46495d37fed950d54ef66134e6cb77771e696.1440454289.git.chris_larson@mentor.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH 5/5] pulseaudio: add 'autospawn-for-root' PACKAGECONFIG
+Cc: Christopher Larson <chris_larson@mentor.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/7] bitbake.conf: add MIRROR vars to SRC_URI vardeps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,72 +38,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 08:35:56 -0000
+X-List-Received-Date: Tue, 25 Aug 2015 08:51:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2015-08-24 at 15:19 -0700, Christopher Larson wrote:
+On Mon, 2015-08-24 at 15:18 -0700, Christopher Larson wrote:
 > From: Christopher Larson <chris_larson@mentor.com>
 > 
-> Since many embedded systems don't have non-root users, it's useful to be able
-> to use pulseaudio autospawn for root as well.
+> Changes to what mirror we happen to fetch from shouldn't cause rebuilds.
 > 
 > Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 > ---
->  meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 18 
-> ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  meta/conf/bitbake.conf | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
 > 
-> diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> index 6199dcd..70009d0 100644
-> --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-> @@ -47,6 +47,11 @@ PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enabl
->  PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
->  PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
->  PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
-> +# Since many embedded systems don't have non-root users, it's useful to be
-> +# able to use pulseaudio autospawn for root as well. Autospawn will only be
-> +# used if the systemd packageconfig is not enabled, otherwise it will rely on
-> +# systemd's user services to spawn it.
-
-The latter sentence is incorrect. Having systemd enabled does not
-currently have any effect on autospawning. The systemd service and
-socket files get installed, but not enabled by default, because the D
--Bus session socket is not available to services that are started by
-systemd, which causes some trouble for PulseAudio. Once D-Bus works
-better out of the box, systemd socket activation will be enabled for
-PulseAudio, but until then we will rely on PulseAudio's own
-autospawning.
-
-> +PACKAGECONFIG[autospawn-for-root] = ",,,"
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 21f1698..1407c5f 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -581,6 +581,23 @@ SAVANNAH_GNU_MIRROR = "http://download.savannah.gnu.org/releases"
+>  SAVANNAH_NONGNU_MIRROR = "http://download.savannah.nongnu.org/releases"
+>  CPAN_MIRROR = "http://search.cpan.org/CPAN"
 >  
->  EXTRA_OECONF_append_arm = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
->  EXTRA_OECONF_append_armeb = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
-> @@ -59,6 +64,19 @@ export TARGET_PFPU = "${TARGET_FPU}"
->  OE_LT_RPATH_ALLOW = "any"
->  OE_LT_RPATH_ALLOW[export]="1"
->  
-> +set_cfg_value () {
-> +	sed -i -e "s/\(; *\)\?$2 =.*/$2 = $3/" "$1"
-> +	if ! grep -q "^$2 = $3\$" "$1"; then
-> +		die "Use of sed to set '$2' to '$3' in '$1' failed"
-> +	fi
-> +}
-> +
-> +do_compile_append () {
-> +	if ${@bb.utils.contains('PACKAGECONFIG', 'autospawn-for-root', 'true', 'false', d)}; then
-> +		set_cfg_value src/client.conf allow-autospawn-for-root yes
-> +	fi
-> +}
+> +SRC_URI[vardeps] += "\
+> +    APACHE_MIRROR \
+> +    CPAN_MIRROR \
+> +    DEBIAN_MIRROR \
+> +    GENTOO_MIRROR \
+> +    GNOME_GIT \
+> +    GNOME_MIRROR \
+> +    GNU_MIRROR \
+> +    GPE_MIRROR \
+> +    KERNELORG_MIRROR \
+> +    SAVANNAH_GNU_MIRROR \
+> +    SAVANNAH_NONGNU_MIRROR \
+> +    SOURCEFORGE_MIRROR \
+> +    XLIBS_MIRROR \
+> +    XORG_MIRROR \
+> +"
 
-I think a configure option like --allow-autospawn-for-root-by-default
-would be nicer than patching configuration files like this. What do you
-(and others) think? I'm not against applying this patch for now, but if
-I'm not alone with this preference, I'll add the configure option later
-myself.
+Do you mean vardeps here? Don't you want to exclude them?
 
--- 
-Tanu
+Cheers,
+
+Richard
 
 
