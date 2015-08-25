@@ -1,31 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C3D973E11
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2788575E80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 08:51:33 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7P8pVtw008147; Tue, 25 Aug 2015 09:51:31 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 56-eh6B6KJrC; Tue, 25 Aug 2015 09:51:31 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7P8pIkG008142
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 25 Aug 2015 09:51:30 +0100
-Message-ID: <1440492678.12105.413.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 25 Aug 2015 09:51:18 +0100
-In-Reply-To: <16c46495d37fed950d54ef66134e6cb77771e696.1440454289.git.chris_larson@mentor.com>
-References: <88f419e3f0f9c1a3fa5619641be68b9832de9196.1440454289.git.chris_larson@mentor.com>
-	<16c46495d37fed950d54ef66134e6cb77771e696.1440454289.git.chris_larson@mentor.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/7] bitbake.conf: add MIRROR vars to SRC_URI vardeps
+	Tue, 25 Aug 2015 09:04:47 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 25 Aug 2015 02:04:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.15,744,1432623600"; d="scan'208";a="775153190"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Aug 2015 02:04:46 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 58E2B6A4083;
+	Tue, 25 Aug 2015 02:03:56 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Aug 2015 12:04:20 +0300
+Message-Id: <3641de631a1d0ea22014c1c6deece2d925ec3794.1440492980.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
+References: <65da9b2235891726ab3697e6aaab30453277f2f4.1440492980.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1440492980.git.ed.bartosh@linux.intel.com>
+References: <cover.1440492980.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH 09/17] wic: implement --vars option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,49 +34,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 08:51:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Aug 2015 09:04:48 -0000
 
-On Mon, 2015-08-24 at 15:18 -0700, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
-> 
-> Changes to what mirror we happen to fetch from shouldn't cause rebuilds.
-> 
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> ---
->  meta/conf/bitbake.conf | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 21f1698..1407c5f 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -581,6 +581,23 @@ SAVANNAH_GNU_MIRROR = "http://download.savannah.gnu.org/releases"
->  SAVANNAH_NONGNU_MIRROR = "http://download.savannah.nongnu.org/releases"
->  CPAN_MIRROR = "http://search.cpan.org/CPAN"
->  
-> +SRC_URI[vardeps] += "\
-> +    APACHE_MIRROR \
-> +    CPAN_MIRROR \
-> +    DEBIAN_MIRROR \
-> +    GENTOO_MIRROR \
-> +    GNOME_GIT \
-> +    GNOME_MIRROR \
-> +    GNU_MIRROR \
-> +    GPE_MIRROR \
-> +    KERNELORG_MIRROR \
-> +    SAVANNAH_GNU_MIRROR \
-> +    SAVANNAH_NONGNU_MIRROR \
-> +    SOURCEFORGE_MIRROR \
-> +    XLIBS_MIRROR \
-> +    XORG_MIRROR \
-> +"
+This option is used to point wic to the directory with .env
+files containing list of bitbake variables and their values.
 
-Do you mean vardeps here? Don't you want to exclude them?
+If this option is used wic will get bitbake variables from
+files instead of parsing 'bitbake -e' output.
 
-Cheers,
+The main reason for this is to support new mode, when bitbake
+runs wic to produce wic images. In this case wic can't run bitbake
+again as it's locked, so it will get variables from .env files.
 
-Richard
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/wic | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/scripts/wic b/scripts/wic
+index 87ada36..815b84e 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -114,6 +114,9 @@ def wic_create_subcommand(args, usage_str):
+     parser.add_option("-c", "--compress-with", choices=("gzip", "bzip2", "xz"),
+                       dest='compressor',
+                       help="compress image with specified compressor")
++    parser.add_option("-v", "--vars", dest='vars_dir',
++                      help="directory with <image>.env files that store "
++                           "bitbake variables")
+     parser.add_option("-D", "--debug", dest="debug", action="store_true",
+                       default=False, help="output debug information")
+ 
+@@ -146,6 +149,9 @@ def wic_create_subcommand(args, usage_str):
+     else:
+         options.build_check = False
+ 
++    if options.vars_dir:
++        BB_VARS.vars_dir = options.vars_dir
++
+     if options.build_check:
+         print "Checking basic build environment..."
+         if not engine.verify_build_env():
+-- 
+2.1.4
 
 
