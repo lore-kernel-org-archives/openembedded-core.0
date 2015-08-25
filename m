@@ -1,34 +1,24 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F31073E11
+Return-Path: <Jian.Liu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D8E7973E11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 08:19:10 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99991420"
-Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 25 Aug 2015 16:22:20 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t7P8J3R4024075
+	Tue, 25 Aug 2015 08:29:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7P8T3jA014193
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 16:19:03 +0800
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0181.006; Tue, 25 Aug 2015 16:19:09 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH] sysstat: add systemd service files
-Thread-Index: AQHQpNbvlYSu3sfuAUuTzkwaCooj/54c06bA
-Date: Tue, 25 Aug 2015 08:19:08 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E8011BCBCE60@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1434089620-1683-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-In-Reply-To: <1434089620-1683-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.92]
+	Tue, 25 Aug 2015 01:29:03 -0700 (PDT)
+Received: from localhost.localdomain (128.224.153.43) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 25 Aug 2015 01:29:02 -0700
+From: Jian Liu <jian.liu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 25 Aug 2015 16:29:01 +0800
+Message-ID: <1440491341-29988-1-git-send-email-jian.liu@windriver.com>
+X-Mailer: git-send-email 1.7.0.5
 MIME-Version: 1.0
-Subject: Re: [PATCH] sysstat: add systemd service files
+Subject: [PATCH] sdk.py: fix conflicts of packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,91 +31,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Aug 2015 08:19:12 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 25 Aug 2015 08:29:07 -0000
+Content-Type: text/plain
 
-Ping
+If packages are conveyed to smart to install at the same time,
+conflicts will not happen.
+Try to install packages into sdk image at the same time.
 
-Thanks
+This patch is not so perfect. For example,
+  IMAGE_INSTALL += "lib32-ncurses"
+  IMAGE_INSTALL += "ncurses-dev"
+ ncurses-dev and lib32-ncurses-dev will have conflicts during packages installation.
 
->-----Original Message-----
->From: Li, Xin/=1B$BM{=1B(B =1B$B6U=1B(B
->Sent: Friday, June 12, 2015 2:14 PM
->To: openembedded-core@lists.openembedded.org
->Cc: Li, Xin/=1B$BM{=1B(B =1B$B6U=1B(B
->Subject: [OE-core][PATCH] sysstat: add systemd service files
->
->Add sysstat.service to support systemd systems.
->
->Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
->---
-> meta/recipes-extended/sysstat/sysstat.inc             | 11 ++++++++++-
-> meta/recipes-extended/sysstat/sysstat/sysstat.service | 12 ++++++++++++
-> 2 files changed, 22 insertions(+), 1 deletion(-)  create mode 100644
->meta/recipes-extended/sysstat/sysstat/sysstat.service
->
->diff --git a/meta/recipes-extended/sysstat/sysstat.inc
->b/meta/recipes-extended/sysstat/sysstat.inc
->index 4063007..5c761fa 100644
->--- a/meta/recipes-extended/sysstat/sysstat.inc
->+++ b/meta/recipes-extended/sysstat/sysstat.inc
->@@ -6,15 +6,20 @@ SECTION =3D "console/utils"
->
-> SRC_URI =3D "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.t=
-ar.xz \
->            file://99_sysstat \
->+           file://sysstat.service \
->           "
->
-> DEPENDS +=3D "base-passwd"
->
->-inherit autotools-brokensep gettext
->+inherit autotools-brokensep gettext systemd
->
-> EXTRA_OECONF +=3D "--disable-sensors"
-> EXTRA_OEMAKE +=3D 'LFLAGS=3D""'
->
->+SYSTEMD_PACKAGES =3D "${PN}"
->+SYSTEMD_SERVICE_${PN} =3D "sysstat.service"
->+SYSTEMD_AUTO_ENABLE =3D "enable"
->+
-> do_configure_prepend() {
->     export sa_lib_dir=3D${libdir}/sa
-> }
->@@ -27,6 +32,10 @@ do_install() {
-> 	rm -rf ${D}/var
-> 	install -d ${D}/etc/default/volatiles
-> 	install -m 0644 ${WORKDIR}/99_sysstat ${D}/etc/default/volatiles
->+
->+	install -d ${D}${systemd_unitdir}/system
->+	install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_unitdir}/system
->+	sed -i -e 's#@LIBDIR@#${libdir}#g'
->+${D}${systemd_unitdir}/system/sysstat.service
-> }
->
-> pkg_postinst_${PN} () {
->diff --git a/meta/recipes-extended/sysstat/sysstat/sysstat.service
->b/meta/recipes-extended/sysstat/sysstat/sysstat.service
->new file mode 100644
->index 0000000..aff0710
->--- /dev/null
->+++ b/meta/recipes-extended/sysstat/sysstat/sysstat.service
->@@ -0,0 +1,12 @@
->+[Unit]
->+Description=3DResets System Activity Logs
->+
->+[Service]
->+Type=3Doneshot
->+RemainAfterExit=3Dyes
->+User=3Droot
->+ExecStart=3D@LIBDIR@/sa/sa1 --boot
->+
->+[Install]
->+WantedBy=3Dmulti-user.target
->+
->--
->1.8.4.2
+Signed-off-by: Jian Liu <jian.liu@windriver.com>
+---
+ sdk.py |   45 +++++++++++++++++++++++++++++++++------------
+ 1 file changed, 33 insertions(+), 12 deletions(-)
 
+diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+index c57a441..7b43a29 100644
+--- a/meta/lib/oe/sdk.py
++++ b/meta/lib/oe/sdk.py
+@@ -107,10 +107,17 @@ class RpmSdk(Sdk):
+         pm.dump_all_available_pkgs()
+         pm.update()
+ 
+-        for pkg_type in self.install_order:
+-            if pkg_type in pkgs_to_install:
+-                pm.install(pkgs_to_install[pkg_type],
+-                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
++        pkgs = []
++        pkgs_attempt = []
++        for pkg_type in pkgs_to_install:
++            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
++                pkgs_attempt += pkgs_to_install[pkg_type]
++            else:
++                pkgs += pkgs_to_install[pkg_type]
++
++        pm.install(pkgs)
++
++        pm.install(pkgs_attempt, True)
+ 
+     def _populate(self):
+         bb.note("Installing TARGET packages")
+@@ -184,10 +191,17 @@ class OpkgSdk(Sdk):
+ 
+         pm.update()
+ 
+-        for pkg_type in self.install_order:
+-            if pkg_type in pkgs_to_install:
+-                pm.install(pkgs_to_install[pkg_type],
+-                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
++        pkgs = []
++        pkgs_attempt = []
++        for pkg_type in pkgs_to_install:
++            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
++                pkgs_attempt += pkgs_to_install[pkg_type]
++            else:
++                pkgs += pkgs_to_install[pkg_type]
++
++        pm.install(pkgs)
++
++        pm.install(pkgs_attempt, True)
+ 
+     def _populate(self):
+         bb.note("Installing TARGET packages")
+@@ -260,10 +274,17 @@ class DpkgSdk(Sdk):
+         pm.write_index()
+         pm.update()
+ 
+-        for pkg_type in self.install_order:
+-            if pkg_type in pkgs_to_install:
+-                pm.install(pkgs_to_install[pkg_type],
+-                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
++        pkgs = []
++        pkgs_attempt = []
++        for pkg_type in pkgs_to_install:
++            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
++                pkgs_attempt += pkgs_to_install[pkg_type]
++            else:
++                pkgs += pkgs_to_install[pkg_type]
++
++        pm.install(pkgs)
++
++        pm.install(pkgs_attempt, True)
+ 
+     def _populate(self):
+         bb.note("Installing TARGET packages")
 
