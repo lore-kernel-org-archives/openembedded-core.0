@@ -1,29 +1,23 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 79F2A760FB
+Return-Path: <Paul.Gortmaker@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CB28576D72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 16:50:18 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 26 Aug 2015 09:50:18 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,417,1437462000"; d="scan'208";a="776140578"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.168])
-	([10.219.5.168])
-	by fmsmga001.fm.intel.com with ESMTP; 26 Aug 2015 09:50:18 -0700
-Message-ID: <55DDEE8F.8060100@linux.intel.com>
-Date: Wed, 26 Aug 2015 11:51:27 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Wed, 26 Aug 2015 17:30:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7QHUboR004286
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 26 Aug 2015 10:30:37 -0700 (PDT)
+Received: from co-op.corp.ad.wrs.com (128.224.56.221) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 26 Aug 2015 10:30:36 -0700
+From: Paul Gortmaker <paul.gortmaker@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Aug 2015 13:30:27 -0400
+Message-ID: <1440610227-31587-1-git-send-email-paul.gortmaker@windriver.com>
+X-Mailer: git-send-email 2.4.4
 MIME-Version: 1.0
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <cover.1440574631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<55DDE63D.4020204@linux.intel.com>
-	<55DDE971.3040803@linux.intel.com>
-	<3218476.qDKd8vBb19@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <3218476.qDKd8vBb19@peggleto-mobl.ger.corp.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 2/2] oeqa/selftest: new tests for devtool upgrage feature
+Subject: [PATCH] gnome: revector some older versions of pkgs back to bz2 compression
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,92 +30,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 16:50:18 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Aug 2015 17:30:46 -0000
+Content-Type: text/plain
 
+In commit 429985c1f6e50baec6ba03f35f323a4e8c7f72dd and/or
+OE-Core rev: 0f9ea90dde8f63aace19531e066580e41bf3d7cc
+("classes/gnomebase: change tarball compression to xz")
 
+the default changed, and some pkgs were kept back on bz2 where
+the xz did not exist.  However it seems some were missed, and
+I found the fetcher gets 404s on the ones in this commit.
 
-On 08/26/2015 11:47 AM, Paul Eggleton wrote:
-> On Wednesday 26 August 2015 11:29:37 Leonardo Sandoval wrote:
->> On 08/26/2015 11:15 AM, Aníbal Limón wrote:
->>> Comments below.
->>>
->>> On 26/08/15 02:43, leonardo.sandoval.gonzalez@linux.intel.com wrote:
->>>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->>>>
->>>> Basic tests for the devtool's upgrade feature, including:
->>>>         * Parameter check
->>>>         * Upgrading a real recipe (e2fsprogrs) without patching and
->>>>
->>>>             checing its output
->>>>
->>>>         * Devtool status after upgrade
->>>>
->>>> Signed-off-by: Leonardo Sandoval
->>>> <leonardo.sandoval.gonzalez@linux.intel.com>
->>>> ---
->>>>
->>>>    meta/lib/oeqa/selftest/devtool.py | 36
->>>>
->>>> ++++++++++++++++++++++++++++++++++++
->>>>
->>>>    1 file changed, 36 insertions(+)
->>>>
->>>> diff --git a/meta/lib/oeqa/selftest/devtool.py
->>>> b/meta/lib/oeqa/selftest/devtool.py
->>>> index b59db15..f72e010 100644
->>>> --- a/meta/lib/oeqa/selftest/devtool.py
->>>> +++ b/meta/lib/oeqa/selftest/devtool.py
->>>>
->>>> @@ -857,3 +857,39 @@ class DevtoolTests(DevtoolBase):
->>>>                result = runCmd('devtool undeploy-target -c %s root@%s'
->>>>
->>>> % (testrecipe, qemu.ip))
->>>>
->>>>                result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip,
->>>>
->>>> testcommand), ignore_status=True)
->>>>
->>>>                self.assertNotEqual(result, 0, 'undeploy-target did not
->>>>
->>>> remove command as it should have')
->>>> +
->>>> +    def test_devtool_upgrade(self):
->>>> +        # Check preconditions
->>>> +        workspacedir = os.path.join(self.builddir, 'workspace')
->>>> +        self.assertTrue(not os.path.exists(workspacedir), 'This test
->>>> cannot be run with a workspace directory under the build directory')
->>>> +        # Check parameters
->>>> +        result = runCmd('devtool upgrade -h')
->>>> +        for param in 'recipename srctree --version -V --branch -b
->>>> --keep-temp --no-patch'.split():
->>>> +            self.assertIn(param, result.output)
->>>> +        # For the moment, we are using a real recipe.
->>>> +        recipe='e2fsprogs'
->>>> +        version='1.42.13'
->>>
->>> Isn't a guarantee that this version will be newer ever (i.e. if someone
->>> upgrade e2fsprogs to 1.42.13) what happen in this case?
->>
->> Good question. In fact, the code will fail just in case current and
->> upgrade version are the same. The tool can also do downgrades, so at the
->> end it does not matter what the version is. I will correct this point
->> and send a v3.
->>
->> As mentioned by Paul in a previous message, we need 'upgradable' recipes
->> which whenever the test is done, it can be upgrade. The only point here
->> is that we need a tarball somewhere, so the URL is always live. Not sure
->> if poky repository is a good place for the latter, any suggestion?
->
-> This is what we have meta-selftest for. We can put a recipe (or multiple
-> recipes) in there that's named specially so as not to overlap with one in OE-
-> Core and is a known old version.
+Cc: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Ross Burton <ross.burton@intel.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 
-Good. I will add a new recipe there and a tarball. Sending a V3 today.
+diff --git a/meta-gnome/recipes-gnome/gnome-disk-utility/gnome-disk-utility_2.32.0.bb b/meta-gnome/recipes-gnome/gnome-disk-utility/gnome-disk-utility_2.32.0.bb
+index 2c526c8edefd..4f95066ec51e 100644
+--- a/meta-gnome/recipes-gnome/gnome-disk-utility/gnome-disk-utility_2.32.0.bb
++++ b/meta-gnome/recipes-gnome/gnome-disk-utility/gnome-disk-utility_2.32.0.bb
+@@ -10,6 +10,7 @@ PR = "r4"
+ inherit gnomebase gtk-icon-cache
+ SRC_URI[archive.md5sum] = "f0366c8baebca0404d190b2d78f3582d"
+ SRC_URI[archive.sha256sum] = "03e461b6bda7f773f8018d25fa3213d3073d4dc83a76e6b39d962652f4de6a98"
++GNOME_COMPRESS_TYPE="bz2"
+ 
+ SRC_URI += "\
+     file://disable-scrollkeeper.patch \
+diff --git a/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb b/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb
+index 860851d98379..1bbfb17d9f05 100644
+--- a/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb
++++ b/meta-gnome/recipes-gnome/gnome-keyring/gnome-keyring_2.32.1.bb
+@@ -24,6 +24,7 @@ EXTRA_OECONF = "${@base_contains('DISTRO_FEATURES', 'pam', '--enable-pam --with-
+ 
+ SRC_URI[archive.md5sum] = "9a8aa74e03361676f29d6e73155786fc"
+ SRC_URI[archive.sha256sum] = "31fecec1430a97f59a6159a5a2ea8d6a1b44287f1e9e595b3594df46bf7f18f9"
++GNOME_COMPRESS_TYPE="bz2"
+ 
+ FILES_${PN} += "${datadir}/dbus-1/services ${datadir}/gcr \
+                 ${base_libdir}/security/*${SOLIBSDEV} \
+diff --git a/meta-gnome/recipes-gnome/gnome-keyring/libgnome-keyring_2.32.0.bb b/meta-gnome/recipes-gnome/gnome-keyring/libgnome-keyring_2.32.0.bb
+index 43379bdca2e5..e24188232774 100644
+--- a/meta-gnome/recipes-gnome/gnome-keyring/libgnome-keyring_2.32.0.bb
++++ b/meta-gnome/recipes-gnome/gnome-keyring/libgnome-keyring_2.32.0.bb
+@@ -17,3 +17,4 @@ DEPENDS = "dbus libgcrypt glib-2.0 intltool-native"
+ 
+ SRC_URI[archive.md5sum] = "c42b2ca66204835d901d3dbfc1fa5ae6"
+ SRC_URI[archive.sha256sum] = "56388c0d81ddfdb57d30e4963c83ecc1c18498aab99395420e0fff69929a0f0c"
++GNOME_COMPRESS_TYPE="bz2"
+-- 
+2.4.4
 
->
-> Cheers,
-> Paul
->
 
