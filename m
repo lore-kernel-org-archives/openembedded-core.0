@@ -1,29 +1,28 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 100A576D28
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 70A1676DB0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 16:28:34 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 26 Aug 2015 09:28:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,416,1437462000"; d="scan'208";a="791395384"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.168])
-	([10.219.5.168])
-	by orsmga002.jf.intel.com with ESMTP; 26 Aug 2015 09:28:28 -0700
-Message-ID: <55DDE971.3040803@linux.intel.com>
-Date: Wed, 26 Aug 2015 11:29:37 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Wed, 26 Aug 2015 16:42:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7QGgD1I014944
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 26 Aug 2015 09:42:13 -0700 (PDT)
+Received: from Marks-MacBook-Pro-2.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 26 Aug 2015 09:42:12 -0700
+To: Patrick Ohly <patrick.ohly@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <f1fe5d98cb0737847778531368eab04778076750.1440603928.git.patrick.ohly@intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <55DDEC63.7050707@windriver.com>
+Date: Wed, 26 Aug 2015 11:42:11 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.2.0
 MIME-Version: 1.0
-To: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1440574631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<195df149001acccaffb6ecfbc9b837c2e8a6720d.1440574631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<55DDE63D.4020204@linux.intel.com>
-In-Reply-To: <55DDE63D.4020204@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: Re: [PATCH v2 2/2] oeqa/selftest: new tests for devtool upgrage feature
+In-Reply-To: <f1fe5d98cb0737847778531368eab04778076750.1440603928.git.patrick.ohly@intel.com>
+Subject: Re: [PATCH 1/1] mtd-utils: add xattr PACKAGECONFIG and fix acl dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,103 +35,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 16:28:35 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Aug 2015 16:42:18 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
+While I haven't tried this, it is exactly what I would have expected.
 
+Acked-by: Mark Hatle <mark.hatle@windriver.com>
 
-On 08/26/2015 11:15 AM, Aníbal Limón wrote:
-> Comments below.
->
-> On 26/08/15 02:43, leonardo.sandoval.gonzalez@linux.intel.com wrote:
->> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->>
->> Basic tests for the devtool's upgrade feature, including:
->>        * Parameter check
->>        * Upgrading a real recipe (e2fsprogrs) without patching and
->>            checing its output
->>        * Devtool status after upgrade
->>
->> Signed-off-by: Leonardo Sandoval
->> <leonardo.sandoval.gonzalez@linux.intel.com>
->> ---
->>   meta/lib/oeqa/selftest/devtool.py | 36
->> ++++++++++++++++++++++++++++++++++++
->>   1 file changed, 36 insertions(+)
->>
->> diff --git a/meta/lib/oeqa/selftest/devtool.py
->> b/meta/lib/oeqa/selftest/devtool.py
->> index b59db15..f72e010 100644
->> --- a/meta/lib/oeqa/selftest/devtool.py
->> +++ b/meta/lib/oeqa/selftest/devtool.py
->> @@ -857,3 +857,39 @@ class DevtoolTests(DevtoolBase):
->>               result = runCmd('devtool undeploy-target -c %s root@%s'
->> % (testrecipe, qemu.ip))
->>               result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip,
->> testcommand), ignore_status=True)
->>               self.assertNotEqual(result, 0, 'undeploy-target did not
->> remove command as it should have')
->> +
->> +    def test_devtool_upgrade(self):
->> +        # Check preconditions
->> +        workspacedir = os.path.join(self.builddir, 'workspace')
->> +        self.assertTrue(not os.path.exists(workspacedir), 'This test
->> cannot be run with a workspace directory under the build directory')
->> +        # Check parameters
->> +        result = runCmd('devtool upgrade -h')
->> +        for param in 'recipename srctree --version -V --branch -b
->> --keep-temp --no-patch'.split():
->> +            self.assertIn(param, result.output)
->> +        # For the moment, we are using a real recipe.
->> +        recipe='e2fsprogs'
->> +        version='1.42.13'
->
-> Isn't a guarantee that this version will be newer ever (i.e. if someone
-> upgrade e2fsprogs to 1.42.13) what happen in this case?
+On 8/26/15 11:10 AM, Patrick Ohly wrote:
+> The unconditional removal of -DWITHOUT_XATTR accidentally introduced a
+> compile-time dependency on "acl", because "sys/acl.h" gets
+> included. This caused random compile failures.
+> 
+> To fix this, we introduce a proper PACKAGECONFIG for the "xattr"
+> support, with the distro's "xattr" feature determining the
+> default. Setting the define must be done with custom code because
+> PACKAGECONFIG can only influence configure parameters.
+> 
+> The "acl" distro feature is not checked because although enabling
+> "xattr" support now triggers a build of acl, nothing from it will not
+> get included in the resulting target image. This seems more suitable
+> than not enabling xattr support in mtd-utils when acl support in the
+> distro is disabled.
+> 
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> ---
+>  meta/recipes-devtools/mtd/mtd-utils_git.bb | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> index 8d4892a..17dca77 100644
+> --- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> +++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> @@ -19,7 +19,13 @@ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+>  
+>  S = "${WORKDIR}/git/"
+>  
+> -EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} -I${S}/include' 'BUILDDIR=${S}'"
+> +# xattr support creates an additional compile-time dependency on acl because
+> +# the sys/acl.h header is needed. libacl is not needed and thus enabling xattr
+> +# regardless whether acl is enabled or disabled in the distro should be okay.
+> +PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'xattr', '', d)}"
+> +PACKAGECONFIG[xattr] = ",,acl,"
+> +
+> +EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} ${@bb.utils.contains('PACKAGECONFIG', 'xattr', '', '-DWITHOUT_XATTR', d)} -I${S}/include' 'BUILDDIR=${S}'"
+>  
+>  do_install () {
+>  	oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
+> 
 
-Good question. In fact, the code will fail just in case current and 
-upgrade version are the same. The tool can also do downgrades, so at the 
-end it does not matter what the version is. I will correct this point 
-and send a v3.
-
-As mentioned by Paul in a previous message, we need 'upgradable' recipes 
-which whenever the test is done, it can be upgrade. The only point here 
-is that we need a tarball somewhere, so the URL is always live. Not sure 
-if poky repository is a good place for the latter, any suggestion?
-
-
->> +        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
->> +        # Check that recipe is not already under devtool control
->> +        result = runCmd('devtool status')
->> +        self.assertNotIn(recipe, result.output)
->> +        # Check upgrade. Code does not check if new PV is older or
->> newer that current PV, so, it may be that
->> +        # we are downgrading instead of upgrading.
->> +        result = runCmd('devtool upgrade %s %s -V %s --no-patch' %
->> (recipe, tempdir, version))
->> +        # Check if srctree at least is populated
->> +        self.assertTrue(len(os.listdir(tempdir)) > 0, 'scrtree (%s)
->> should be populated with new (%s) source code' % (tempdir, version))
->> +        # Check new recipe folder is present
->> +
->> self.assertTrue(os.path.exists(os.path.join(workspacedir,'recipes',recipe)),
->> 'Recipe folder should exist')
->> +        # Check new recipe file is present
->> +
->> self.assertTrue(os.path.exists(os.path.join(workspacedir,'recipes',recipe,"%s_%s.bb"
->> % (recipe,version))), 'Recipe folder should exist')
->> +        # Check devtool status and make sure recipe is present
->> +        result = runCmd('devtool status')
->> +        self.assertIn(recipe, result.output)
->> +        self.assertIn(tempdir, result.output)
->> +        # Check devtool reset recipe
->> +        result = runCmd('devtool reset %s -n' % recipe)
->> +        result = runCmd('devtool status')
->> +        self.assertNotIn(recipe, result.output)
->> +        self.track_for_cleanup(tempdir)
->> +        self.track_for_cleanup(workspacedir)
->> +        self.add_command_to_tearDown('bitbake-layers remove-layer
->> */workspace')
->
 
