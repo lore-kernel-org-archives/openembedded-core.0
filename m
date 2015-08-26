@@ -1,33 +1,34 @@
-Return-Path: <adam.yh.lee@gmail.com>
-Received: from mail-yk0-f175.google.com (mail-yk0-f175.google.com
-	[209.85.160.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 25A0F736B6;
-	Wed, 26 Aug 2015 01:11:17 +0000 (UTC)
-Received: by ykdt205 with SMTP id t205so172670241ykd.1;
-	Tue, 25 Aug 2015 18:11:17 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 0366071633
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Aug 2015 01:41:02 +0000 (UTC)
+Received: by qkda128 with SMTP id a128so61847186qkd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Aug 2015 18:41:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=Z4pU/LCsJA2/Xug3JZOXhIZ1DMEI4WzpkLULHv0HcZg=;
-	b=w04nc/NQqzJjJf0HgmMGEeIzGhA/Y1zufpO4ptONTa+J3sHiE+9jaZZlhHlit0+R9t
-	iyRsNE5XPBouWT2LCg3ahINURMitI6/t7XpMR+izJUp3soh9XcR2BSCLGpemTOxDNEhO
-	KUC8Ec9nY2e/q+2F3nnSDbBWLXeDSUrOeSZ1sPHRS1ijsgQHJLMTR2JvCXENPfWavKxq
-	RpnZqICTYKDV8KRGIwCE/+Moj/8Fn76JsDI37abwYh8yyt935/kMkE+rF6baFO9//jlJ
-	fbgqGZR0eDdDPQ2G/X+ZwJQXpnhd5+Lcb7t/ed0WtNDGTUlCk3Zx/Fqje3WiSosdni8B
-	iWPg==
-X-Received: by 10.129.111.11 with SMTP id k11mr41165195ywc.114.1440551477711; 
-	Tue, 25 Aug 2015 18:11:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAFeBWL6xGuzEcOR5B1sfEgZR=i-T=EZ-b-TKPT9DGZpCmDPy4g@mail.gmail.com>
-	<5607133.YNgYITpZsc@peggleto-mobl.ger.corp.intel.com>
-In-Reply-To: <5607133.YNgYITpZsc@peggleto-mobl.ger.corp.intel.com>
-From: Adam Lee <adam.yh.lee@gmail.com>
-Date: Wed, 26 Aug 2015 01:11:08 +0000
-Message-ID: <CAFeBWL4as4_aeTWOZox+V=NB_s7LriLof-sYNc04PB6vjDRBnw@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] Extensible SDK install errors
+	h=from:to:cc:subject:date:message-id;
+	bh=XVbmmerDp4XahaP/w5/YcfugNaZoWNcaOi4IoS+f0Cg=;
+	b=D1wA118Z5MVuZ57QxLSx3dvIEjzRtmSescDj6hRggNQxC/nIzEwxulzmsQ/WMYCPJl
+	txQcZRLjxCOWRcoLZCsEspQtpLiId78topycbeele2mSVEBhX2qTGV2Fp0Ui45zkc1Dl
+	vE8ihGJLgwWxcf0HMUeVDGL1TFytglfwAMujYPzxUpN9doq22D0YoiW55aF8F65O1imH
+	e7ctbvPZON/BvxtnacAKm79p8HDIEoV7TI01Bs3vWuJx1DJUkdAZ7ZatNTwk5yf96FLJ
+	W20fC3XIfNgcC5YRr6Q8lKbnAx51lYmD9zvYPQ2f076T5tNAmKiOUYxFXv4LdhflD5Gn
+	5LVw==
+X-Received: by 10.55.197.69 with SMTP id p66mr15067105qki.59.1440553262724;
+	Tue, 25 Aug 2015 18:41:02 -0700 (PDT)
+Received: from khem-dvm-001.sys.comcast.net (a-96-119-177-31.sys.comcast.net.
+	[96.119.177.31]) by smtp.gmail.com with ESMTPSA id
+	h49sm15175823qgh.43.2015.08.25.18.41.01
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 25 Aug 2015 18:41:01 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Aug 2015 01:40:56 +0000
+Message-Id: <1440553256-9914-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 1.9.1
+Subject: [PATCH V2 15/16] python-distribute, python-setuptools: Migrate to good old python-setuptools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,197 +41,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 01:11:18 -0000
-Content-Type: multipart/alternative; boundary=001a114903781c1a8b051e2c872b
+X-List-Received-Date: Wed, 26 Aug 2015 01:41:06 -0000
 
---001a114903781c1a8b051e2c872b
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+setuptools the old king is ruling again, distribute fork has been merged
+into setuptools starting 0.7x, so lets move to use it as well
 
-Thanks for your comments. I was not running the installer as root.
-I tried again and specified the install path in my home directory.
-This time it seems to have gone further, but still failed with this:
+Remove licence ambiguity we need to say which verison of PSF and Zope license is in use
 
-"error: Can't install packagegroup-core-boot-1.0-r17.0@qemuarm: no package
-provides systemd"
+Fixes [YOCTO #8201]
 
-Perhaps I need to disable systemd from distro features?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../python/python-distribute_0.6.32.bb             | 63 ----------------------
+ .../python/python-setuptools_18.2.bb               | 46 ++++++++++++++++
+ ...tuptools_15.2.bb => python3-setuptools_18.2.bb} |  4 +-
+ 3 files changed, 48 insertions(+), 65 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-distribute_0.6.32.bb
+ create mode 100644 meta/recipes-devtools/python/python-setuptools_18.2.bb
+ rename meta/recipes-devtools/python/{python3-setuptools_15.2.bb => python3-setuptools_18.2.bb} (90%)
 
-I will also check my user's permission to solve the permission error.
+diff --git a/meta/recipes-devtools/python/python-distribute_0.6.32.bb b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
+deleted file mode 100644
+index aa07633..0000000
+--- a/meta/recipes-devtools/python/python-distribute_0.6.32.bb
++++ /dev/null
+@@ -1,63 +0,0 @@
+-SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
+-HOMEPAGE = "http://packages.python.org/distribute"
+-SECTION = "devel/python"
+-LICENSE = "PSF"
+-LIC_FILES_CHKSUM = "file://setup.py;beginline=234;endline=234;md5=26f6b02022b737126d3c88838782dddb"
+-
+-SRCNAME = "distribute"
+-PR = "ml5"
+-DEPENDS += "python"
+-DEPENDS_class-native += "python-native"
+-
+-SRC_URI = " \
+-  http://pypi.python.org/packages/source/d/distribute/${SRCNAME}-${PV}.tar.gz \
+-"
+-SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
+-SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-#  http://python-distribute.org/distribute_setup.py 
+-
+-# force the selection of python3
+-#PYTHON_BASEVERSION = "3.3"
+-#PYTHON_MAJMIN = "3.3"
+-
+-inherit distutils
+-
+-DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
+-
+-do_install_prepend() {
+-    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
+-}
+-
+-#
+-#  The installer puts the wrong path in the setuptools.pth file.  Correct it.
+-#
+-do_install_append() {
+-    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
+-    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
+-}
+-
+-do_install_append_class-nativesdk() {
+-	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${PYTHON_SITEPACKAGES_DIR}/distribute-${PV}-py${PYTHON_BASEVERSION}.egg/setuptools/tests/test_resources.py
+-	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${bindir}/easy_install
+-	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${bindir}/easy_install-${PYTHON_BASEVERSION}
+-}
+-
+-RDEPENDS_${PN} = "\
+-  python-distutils \
+-  python-compression \
+-"
+-
+-RDEPENDS_${PN}_class-target = "\
+-  python-distutils \
+-  python-compression \
+-  python-netclient \
+-  python-email \
+-  python-shell \
+-"
+-
+-RPROVIDES_${PN} += "python-setuptools"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python-setuptools_18.2.bb b/meta/recipes-devtools/python/python-setuptools_18.2.bb
+new file mode 100644
+index 0000000..1de2b2e
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-setuptools_18.2.bb
+@@ -0,0 +1,46 @@
++SUMMARY = "Downloads, builds, installs, upgrades, and uninstalls Python packages"
++HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
++SECTION = "devel/python"
++LICENSE = "Python-2.0 | ZPL-2.0"
++LIC_FILES_CHKSUM = "file://setup.py;beginline=78;endline=78;md5=8a314270dd7a8dbca741775415f1716e"
++
++SRCNAME = "setuptools"
++
++PROVIDES = "python-distribute"
++
++DEPENDS += "python"
++DEPENDS_class-native += "python-native"
++
++inherit distutils
++
++SRC_URI = "https://pypi.python.org/packages/source/s/setuptools/setuptools-${PV}.tar.gz"
++SRC_URI[md5sum] = "52b4e48939ef311d7204f8fe940764f4"
++SRC_URI[sha256sum] = "0994a58df27ea5dc523782a601357a2198b7493dcc99a30d51827a23585b5b1d"
++
++S = "${WORKDIR}/${SRCNAME}-${PV}"
++
++
++DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
++
++do_install_prepend() {
++    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
++}
++
++RDEPENDS_${PN} = "\
++  python-stringold \
++  python-email \
++  python-shell \
++  python-distutils \
++  python-compression \
++"
++
++RDEPENDS_${PN}_class-native = "\
++  python-distutils \
++  python-compression \
++"
++
++RREPLACES_${PN} = "python-distribute"
++RPROVIDES_${PN} = "python-distribute"
++RCONFLICTS_${PN} = "python-distribute"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-setuptools_15.2.bb b/meta/recipes-devtools/python/python3-setuptools_18.2.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-setuptools_15.2.bb
+rename to meta/recipes-devtools/python/python3-setuptools_18.2.bb
+index 97058c1..dc0ac80 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_15.2.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_18.2.bb
+@@ -11,8 +11,8 @@ DEPENDS_class-native += "python3-native"
+ SRC_URI = " \
+   http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+ "
+-SRC_URI[md5sum] = "a9028a9794fc7ae02320d32e2d7e12ee"
+-SRC_URI[sha256sum] = "381e78471fb0eff89c4b1a219e8739f48dd87c76ad2d3a790010ca3a62ee29a4"
++SRC_URI[md5sum] = "52b4e48939ef311d7204f8fe940764f4"
++SRC_URI[sha256sum] = "0994a58df27ea5dc523782a601357a2198b7493dcc99a30d51827a23585b5b1d"
+ 
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+-- 
+1.9.1
 
-On Mon, Aug 24, 2015 at 4:11 AM Paul Eggleton <paul.eggleton@linux.intel.co=
-m>
-wrote:
 
-> Hi Adam,
->
-> On Friday 21 August 2015 15:06:25 Adam Lee wrote:
-> > Hello, I built the Extensible SDK on Fido (bitbake core-image-minimal -=
-c
-> > populate_sdk_ext).
-> >
-> > During the installation I get this permission error:
-> >
-> > $ ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh
-> >
-> > > Enter target directory for SDK (default: /opt/poky/1.8):
-> > > You are about to install the SDK to "/opt/poky/1.8". Proceed[Y/n]?
-> > > Extracting SDK...done
-> > > Setting it up...
-> > > Extracting buildtools...
-> > > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:
-> line
-> > > 148: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi:
-> Permission
-> > > denied
-> > > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:
-> line
-> > > 151: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi:
-> Permission
-> > > denied
-> > > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:
-> line
-> > > 155: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi:
-> Permission
-> > > denied
-> > > mv: cannot move =E2=80=98x86_64-nativesdk-libc.tar.bz2=E2=80=99 to
-> > > =E2=80=98/opt/poky/1.8/layers/poky/x86_64-nativesdk-libc.tar.bz2=E2=
-=80=99: Permission
-> > > denied Preparing build system...
-> > > sh: 1: cannot create preparing_build_system.log: Permission denied
-> > > SDK preparation failed: see /opt/poky/1.8/preparing_build_system.log
-> >
-> >  It looks like `/opt/poky/1.8/layers/poky` directory belongs to the roo=
-t
-> > user:
-> >
-> > $ ls -l /opt/poky/1.8/layers/
-> >
-> > > total 36
-> > > drwxrwxr-x 9 root root 4096 Jun 16 10:25 meta-gnome
-> > > drwxrwxr-x 9 root root 4096 Jun 15 10:44 meta-multimedia
-> > > drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-networking
-> > > drwxrwxr-x 20 root root 4096 Jun 15 10:44 meta-oe
-> > > drwxrwxr-x 7 root root 4096 Jun 15 10:44 meta-python
-> > > drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-ruby
-> > > drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-systemd
-> > > drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-xfce
-> > > drwxrwxr-x 13 root root 4096 Aug 21 14:46 poky
-> >
-> >  I may have missed something obvious. Has anyone seen this?
->
-> Basically you shouldn't be installing the extensible SDK as root. We ough=
-t
-> to
-> be telling you about this up front and we should have a more reasonable
-> default path - these are open bugs and patches are in review on the list
-> to fix
-> them.
->
-> Cheers,
-> Paul
->
-> --
->
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
-
---001a114903781c1a8b051e2c872b
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Thanks for your comments. I was not running the installer =
-as root.<div>I tried again and specified the install path in my home direct=
-ory.</div><div>This time it seems to have gone further, but still failed wi=
-th this:</div><div><br></div><div>&quot;error: Can&#39;t install packagegro=
-up-core-boot-1.0-r17.0@qemuarm: no package provides systemd&quot;</div><div=
-><br></div><div>Perhaps I need to disable systemd from distro features?</di=
-v><div><br></div><div>I will also check my user&#39;s permission to solve t=
-he permission error.</div></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr">On Mon, Aug 24, 2015 at 4:11 AM Paul Eggleton &lt;<a href=3D"mailto:pa=
-ul.eggleton@linux.intel.com">paul.eggleton@linux.intel.com</a>&gt; wrote:<b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex">Hi Adam,<br>
-<br>
-On Friday 21 August 2015 15:06:25 Adam Lee wrote:<br>
-&gt; Hello, I built the Extensible SDK on Fido (bitbake core-image-minimal =
--c<br>
-&gt; populate_sdk_ext).<br>
-&gt;<br>
-&gt; During the installation I get this permission error:<br>
-&gt;<br>
-&gt; $ ./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-tool=
-chain-ext-1.8.sh" rel=3D"noreferrer" target=3D"_blank">poky-glibc-x86_64-co=
-re-image-minimal-armv5e-toolchain-ext-1.8.sh</a><br>
-&gt;<br>
-&gt; &gt; Enter target directory for SDK (default: /opt/poky/1.8):<br>
-&gt; &gt; You are about to install the SDK to &quot;/opt/poky/1.8&quot;. Pr=
-oceed[Y/n]?<br>
-&gt; &gt; Extracting SDK...done<br>
-&gt; &gt; Setting it up...<br>
-&gt; &gt; Extracting buildtools...<br>
-&gt; &gt; ./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-t=
-oolchain-ext-1.8.sh" rel=3D"noreferrer" target=3D"_blank">poky-glibc-x86_64=
--core-image-minimal-armv5e-toolchain-ext-1.8.sh</a>: line<br>
-&gt; &gt; 148: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: P=
-ermission<br>
-&gt; &gt; denied<br>
-&gt; &gt; ./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-t=
-oolchain-ext-1.8.sh" rel=3D"noreferrer" target=3D"_blank">poky-glibc-x86_64=
--core-image-minimal-armv5e-toolchain-ext-1.8.sh</a>: line<br>
-&gt; &gt; 151: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: P=
-ermission<br>
-&gt; &gt; denied<br>
-&gt; &gt; ./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-t=
-oolchain-ext-1.8.sh" rel=3D"noreferrer" target=3D"_blank">poky-glibc-x86_64=
--core-image-minimal-armv5e-toolchain-ext-1.8.sh</a>: line<br>
-&gt; &gt; 155: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: P=
-ermission<br>
-&gt; &gt; denied<br>
-&gt; &gt; mv: cannot move =E2=80=98x86_64-nativesdk-libc.tar.bz2=E2=80=99 t=
-o<br>
-&gt; &gt; =E2=80=98/opt/poky/1.8/layers/poky/x86_64-nativesdk-libc.tar.bz2=
-=E2=80=99: Permission<br>
-&gt; &gt; denied Preparing build system...<br>
-&gt; &gt; sh: 1: cannot create preparing_build_system.log: Permission denie=
-d<br>
-&gt; &gt; SDK preparation failed: see /opt/poky/1.8/preparing_build_system.=
-log<br>
-&gt;<br>
-&gt;=C2=A0 It looks like `/opt/poky/1.8/layers/poky` directory belongs to t=
-he root<br>
-&gt; user:<br>
-&gt;<br>
-&gt; $ ls -l /opt/poky/1.8/layers/<br>
-&gt;<br>
-&gt; &gt; total 36<br>
-&gt; &gt; drwxrwxr-x 9 root root 4096 Jun 16 10:25 meta-gnome<br>
-&gt; &gt; drwxrwxr-x 9 root root 4096 Jun 15 10:44 meta-multimedia<br>
-&gt; &gt; drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-networking<br>
-&gt; &gt; drwxrwxr-x 20 root root 4096 Jun 15 10:44 meta-oe<br>
-&gt; &gt; drwxrwxr-x 7 root root 4096 Jun 15 10:44 meta-python<br>
-&gt; &gt; drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-ruby<br>
-&gt; &gt; drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-systemd<br>
-&gt; &gt; drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-xfce<br>
-&gt; &gt; drwxrwxr-x 13 root root 4096 Aug 21 14:46 poky<br>
-&gt;<br>
-&gt;=C2=A0 I may have missed something obvious. Has anyone seen this?<br>
-<br>
-Basically you shouldn&#39;t be installing the extensible SDK as root. We ou=
-ght to<br>
-be telling you about this up front and we should have a more reasonable<br>
-default path - these are open bugs and patches are in review on the list to=
- fix<br>
-them.<br>
-<br>
-Cheers,<br>
-Paul<br>
-<br>
---<br>
-<br>
-Paul Eggleton<br>
-Intel Open Source Technology Centre<br>
-</blockquote></div>
-
---001a114903781c1a8b051e2c872b--
