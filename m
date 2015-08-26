@@ -1,28 +1,40 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1610A76B7C
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B45F676B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 16:15:54 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 26 Aug 2015 09:15:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,416,1437462000"; d="scan'208";a="755874297"
-Received: from jachar-mobl1.amr.corp.intel.com (HELO [10.254.45.92])
-	([10.254.45.92])
-	by orsmga001.jf.intel.com with ESMTP; 26 Aug 2015 09:15:53 -0700
-Message-ID: <55DDE63D.4020204@linux.intel.com>
-Date: Wed, 26 Aug 2015 11:15:57 -0500
-From: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Wed, 26 Aug 2015 16:16:07 +0000 (UTC)
+Received: by igbjg10 with SMTP id jg10so44333804igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Aug 2015 09:16:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=LKilz40W061BDRQmJ0KUNryQWH+KYILkGSd8VxyLD6c=;
+	b=irneQRctho7hc5X96PoY8lT5ikwzY8t1wXhaW3QovQ3sj0MOjKThwRTb91xdhpE5dD
+	8ktTkz5rjWixFVc2foSgdDSCyiLg2WQfEoUjwlcoPHeslRBEkXAorBFfcwv3HBqAxtuk
+	mzfFOW12lyRtkxwYwv7cJMMRzj1qo83r5645GYgfBIXbcQTabvij6Z9KXZqTU2r9ADoh
+	yYUmijUDnrvn5rTd6jfLLidZaVu4DgRVc79pIw6U7YaxpMumatpDCrNY4EmcEuRK6nZo
+	CfoAKn0/tiYgoJDUjytA0hDNlNbn+xOnr31Qkr4UVPPET9W8H0zKagFmi0ENQpqsM49Q
+	XgLg==
+X-Received: by 10.50.108.37 with SMTP id hh5mr669958igb.10.1440605767598; Wed,
+	26 Aug 2015 09:16:07 -0700 (PDT)
 MIME-Version: 1.0
-To: leonardo.sandoval.gonzalez@linux.intel.com, 
-	openembedded-core@lists.openembedded.org
-References: <cover.1440574631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<195df149001acccaffb6ecfbc9b837c2e8a6720d.1440574631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <195df149001acccaffb6ecfbc9b837c2e8a6720d.1440574631.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: Re: [PATCH v2 2/2] oeqa/selftest: new tests for devtool upgrage feature
+Sender: kergoth@gmail.com
+Received: by 10.79.100.71 with HTTP; Wed, 26 Aug 2015 09:15:48 -0700 (PDT)
+In-Reply-To: <55DDE5BE.9020405@linux.intel.com>
+References: <cover.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<8a6c98b192128c361fe5d5692b0f1d23f1cfcbad.1439794714.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<CABcZANkAWDD5Heo+gd4G+dVuOakL1tf7qt6Qz0-Teq6_FVCDaQ@mail.gmail.com>
+	<55DDE5BE.9020405@linux.intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 26 Aug 2015 09:15:48 -0700
+X-Google-Sender-Auth: gLVVfhseoCMDlQXGNDAWAzbcc_g
+Message-ID: <CABcZANmGQyBCxZJzL3gSXGFZNiy1_GTsk=RvO67gVU4e6vg8Kg@mail.gmail.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] insane.bbclass: Check for invalid characters (non UTF8) on recipe metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,72 +47,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 16:15:57 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Aug 2015 16:16:09 -0000
+Content-Type: multipart/alternative; boundary=089e01493b5a0a0a89051e392bf5
 
-Comments below.
+--089e01493b5a0a0a89051e392bf5
+Content-Type: text/plain; charset=UTF-8
 
-On 26/08/15 02:43, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Wed, Aug 26, 2015 at 9:13 AM, Leonardo Sandoval <
+leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+
+> hi Chris,
 >
-> Basic tests for the devtool's upgrade feature, including:
->        * Parameter check
->        * Upgrading a real recipe (e2fsprogrs) without patching and
->        	checing its output
->        * Devtool status after upgrade
+> On 08/17/2015 05:57 PM, Christopher Larson wrote:
 >
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->   meta/lib/oeqa/selftest/devtool.py | 36 ++++++++++++++++++++++++++++++++++++
->   1 file changed, 36 insertions(+)
+>> On Mon, Aug 17, 2015 at 12:10 AM, <
+>> leonardo.sandoval.gonzalez@linux.intel.com> wrote:
+>>
+>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>>>
+>>> Check if invalid characters are present on recipe's metadata. Fields
+>>> taken into account are: 'DESCRIPTION', 'SUMMARY', 'LICENSE' and
+>>> 'SECTION'.
+>>>
+>>> Signed-off-by: Leonardo Sandoval <
+>>> leonardo.sandoval.gonzalez@linux.intel.com>
+>>>
+>>>
+>> This commit message doesn't define what "invalid" is.
+>>
 >
-> diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-> index b59db15..f72e010 100644
-> --- a/meta/lib/oeqa/selftest/devtool.py
-> +++ b/meta/lib/oeqa/selftest/devtool.py
-> @@ -857,3 +857,39 @@ class DevtoolTests(DevtoolBase):
->               result = runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
->               result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand), ignore_status=True)
->               self.assertNotEqual(result, 0, 'undeploy-target did not remove command as it should have')
-> +
-> +    def test_devtool_upgrade(self):
-> +        # Check preconditions
-> +        workspacedir = os.path.join(self.builddir, 'workspace')
-> +        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-> +        # Check parameters
-> +        result = runCmd('devtool upgrade -h')
-> +        for param in 'recipename srctree --version -V --branch -b --keep-temp --no-patch'.split():
-> +            self.assertIn(param, result.output)
-> +        # For the moment, we are using a real recipe.
-> +        recipe='e2fsprogs'
-> +        version='1.42.13'
+> Looking it closely, the commit message does include in parenthesis what is
+> meant by 'invalid'.
+>
+> Any concert about this definition?
+>
 
-Isn't a guarantee that this version will be newer ever (i.e. if someone 
-upgrade e2fsprogs to 1.42.13) what happen in this case?
-> +        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-> +        # Check that recipe is not already under devtool control
-> +        result = runCmd('devtool status')
-> +        self.assertNotIn(recipe, result.output)
-> +        # Check upgrade. Code does not check if new PV is older or newer that current PV, so, it may be that
-> +        # we are downgrading instead of upgrading.
-> +        result = runCmd('devtool upgrade %s %s -V %s --no-patch' % (recipe, tempdir, version))
-> +        # Check if srctree at least is populated
-> +        self.assertTrue(len(os.listdir(tempdir)) > 0, 'scrtree (%s) should be populated with new (%s) source code' % (tempdir, version))
-> +        # Check new recipe folder is present
-> +        self.assertTrue(os.path.exists(os.path.join(workspacedir,'recipes',recipe)), 'Recipe folder should exist')
-> +        # Check new recipe file is present
-> +        self.assertTrue(os.path.exists(os.path.join(workspacedir,'recipes',recipe,"%s_%s.bb" % (recipe,version))), 'Recipe folder should exist')
-> +        # Check devtool status and make sure recipe is present
-> +        result = runCmd('devtool status')
-> +        self.assertIn(recipe, result.output)
-> +        self.assertIn(tempdir, result.output)
-> +        # Check devtool reset recipe
-> +        result = runCmd('devtool reset %s -n' % recipe)
-> +        result = runCmd('devtool status')
-> +        self.assertNotIn(recipe, result.output)
-> +        self.track_for_cleanup(tempdir)
-> +        self.track_for_cleanup(workspacedir)
-> +        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
+Ah, the details were in the summary, but not the description. Generally
+that should be the other way around, but at least the info is there, so no
+objections.
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
+--089e01493b5a0a0a89051e392bf5
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Aug 26, 2015 at 9:13 AM, Leonardo Sandoval <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_blan=
+k">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;</span> wrote:<br><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex"><div id=3D":1tg" class=3D"a3s" style=3D"overflow=
+:hidden">hi Chris,<span class=3D""><br>
+<br>
+On 08/17/2015 05:57 PM, Christopher Larson wrote:<br>
+</span><span class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+On Mon, Aug 17, 2015 at 12:10 AM, &lt;<br>
+<a href=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_bl=
+ank">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt; wrote:<br>
+<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">
+From: Leonardo Sandoval &lt;<a href=3D"mailto:leonardo.sandoval.gonzalez@li=
+nux.intel.com" target=3D"_blank">leonardo.sandoval.gonzalez@linux.intel.com=
+</a>&gt;<br>
+<br>
+Check if invalid characters are present on recipe&#39;s metadata. Fields<br=
+>
+taken into account are: &#39;DESCRIPTION&#39;, &#39;SUMMARY&#39;, &#39;LICE=
+NSE&#39; and &#39;SECTION&#39;.<br>
+<br>
+Signed-off-by: Leonardo Sandoval &lt;<br>
+<a href=3D"mailto:leonardo.sandoval.gonzalez@linux.intel.com" target=3D"_bl=
+ank">leonardo.sandoval.gonzalez@linux.intel.com</a>&gt;<br>
+<br>
+</blockquote>
+<br>
+This commit message doesn&#39;t define what &quot;invalid&quot; is.<br>
+</blockquote>
+<br></span>
+Looking it closely, the commit message does include in parenthesis what is =
+meant by &#39;invalid&#39;.<br>
+<br>
+Any concert about this definition?</div></blockquote></div><br>Ah, the deta=
+ils were in the summary, but not the description. Generally that should be =
+the other way around, but at least the info is there, so no objections.<br>=
+-- <br><div class=3D"gmail_signature">Christopher Larson<br>clarson at kerg=
+oth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - =
+Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
+
+--089e01493b5a0a0a89051e392bf5--
