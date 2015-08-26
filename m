@@ -1,37 +1,49 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E78A76DC0
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id EB3F673F97
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 15:54:58 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 26 Aug 2015 08:54:59 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,416,1437462000"; d="scan'208";a="755859240"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 26 Aug 2015 08:54:59 -0700
-Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by linux.intel.com (Postfix) with ESMTP id D07CF6A4005;
-	Wed, 26 Aug 2015 08:54:08 -0700 (PDT)
-Date: Wed, 26 Aug 2015 18:54:53 +0300
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
-To: "Ahsan, Noor" <Noor_Ahsan@mentor.com>
-Message-ID: <20150826155453.GA17207@linux.intel.com>
-References: <cover.1440492980.git.ed.bartosh@linux.intel.com>
-	<5615adf8a3d194f11430dc722ae518698cb9b31c.1440492980.git.ed.bartosh@linux.intel.com>
-	<365E1805BC95084CBE82381A0B86999401095CC0C4@EU-MBX-01.mgc.mentorg.com>
-MIME-Version: 1.0
-In-Reply-To: <365E1805BC95084CBE82381A0B86999401095CC0C4@EU-MBX-01.mgc.mentorg.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.5.21 (2010-09-15)
+	Wed, 26 Aug 2015 16:03:58 +0000 (UTC)
+Received: by igbjg10 with SMTP id jg10so43988553igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Aug 2015 09:03:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=zuvswqDxdDDQX+WvSgtZuV1Rgt9cdVDjosfUHDdEQjI=;
+	b=LyNNS6629CwdWx5qUgEAsKOP7poxCtVehjRbyEFUT9J+AkCZRM6orJg9e5cjUlku1f
+	RmY/GRSlDV4IzoHzeHpypLwcyFbm4+ppU/d2F54/SmcPkuC6q0oyWSnSIJIDbW1/7h2/
+	hmdJ6asyW9s1HQ274E8+xagPmSyrl9bgvEbbTidzGPFGcJ28eMg4V+Y73qz7QtcLI5Qd
+	kSihrjMqsyXUom9lWF6ZmFm9BFHzJousbdoT/eupU2EPWpTqUc3/4fVJiwLddZAeoqck
+	pbjVTypgKrrVAHh/fUxk2HzMAJOKcx3fHQN9s+KVnYNRNxp+v9dDC7Y7CuncBQaEqDX9
+	xzuA==
+X-Gm-Message-State: ALoCoQkbIL/lWs++6mxxilyNCgWiRJIeIFaRMd7RJm2h0ph3EfxSxA6pRPfZ5lqZVL9UaJG6d73Q
+X-Received: by 10.50.12.34 with SMTP id v2mr5000209igb.69.1440605038678;
+	Wed, 26 Aug 2015 09:03:58 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8F619.dip0.t-ipconnect.de. [93.232.246.25])
+	by smtp.gmail.com with ESMTPSA id
+	q79sm18238328ioi.0.2015.08.26.09.03.57
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 26 Aug 2015 09:03:58 -0700 (PDT)
+Message-ID: <1440605035.20082.20.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>, Mark Hatle
+	<mark.hatle@windriver.com>
+Date: Wed, 26 Aug 2015 18:03:55 +0200
+In-Reply-To: <1B858668EC6A94408DCA5225FDFA85AAFC716948@ALA-MBB.corp.ad.wrs.com>
+References: <1440280746-11401-1-git-send-email-andrea.adami@gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AAFC716948@ALA-MBB.corp.ad.wrs.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 12/17] image_types.bbclass: add wic image type
+Subject: Re: [PATCH v2] mtd-utils: disable xattr if DISTRO_FEATURES	doesn't contain acl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
-Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -41,84 +53,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 15:55:01 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Aug 2015 16:04:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Aug 25, 2015 at 05:46:08PM +0000, Ahsan, Noor wrote:
-> Would it not be better approach if we don't hardcore the name and path and handle it using some variable?
+On Wed, 2015-08-26 at 09:50 +0000, Huang, Jie (Jackie) wrote:
 > 
-Can you elaborate a bit? I don't see any hardcoded names and paths in
-this patch.
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-
+> > bounces@lists.openembedded.org] On Behalf Of Andrea Adami
+> > Sent: Sunday, August 23, 2015 5:59 AM
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH v2] mtd-utils: disable xattr if DISTRO_FEATURES doesn't contain acl
+> > 
+> > After commit 24fde4d do_compile fails:
+> > 
+> > | mkfs.jffs2.c:70:21: fatal error: sys/acl.h: No such file or directory
+> > | #include <sys/acl.h>
+> > 
+> > This is a missing dependency on acl.
+> > To fix this we add a check to disable xattr when acl is not in DISTRO_FEATURES.
+> 
+> I think you should check the xattr distro feature, but only checking the DISTRO_FEATURES
+> can't ensure the dependency satisfied, why not use the PACKAGECONFIG, something like:
+> 
+> PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'xattr', '', d)}"
+> PACKAGECONFIG[xattr] = ", -DWITHOUT_XATTR,attr acl,"
 
-Regards,
-Ed
-> Noor
-> 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf Of Ed Bartosh
-> Sent: Tuesday, August 25, 2015 2:04 PM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 12/17] image_types.bbclass: add wic image type
-> 
-> wic image type is used to produce partitioned images.
-> 
-> Image configuration should be stored in either <recipe>.<machine>.wks or <recipe>.wks file.
-> .wks file should be put to the same location as image recipe and have the same name.
-> 
-> [YOCTO #7672]
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
-> ---
->  meta/classes/image_types.bbclass | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 8547574..cdd66ff 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -154,6 +154,16 @@ IMAGE_CMD_ubi = "multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "${UBI_VOLNAM
->  
->  IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
->  
-> +IMAGE_CMD_wic () {
-> +	out=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}
-> +	wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHINE}.wks
-> +	[ -e $wks ] || wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.wks
-> +	[ -e $wks ] || bbfatal "Kiskstart file $wks doesn't exist"
-> +	BUILDDIR=${TOPDIR} wic create $wks --vars ${STAGING_DIR_TARGET}/imgdata/ -e ${IMAGE_BASENAME} -o $out/
-> +	mv $out/build/${IMAGE_BASENAME}*.direct $out.rootfs.wic
-> +	rm -rf $out/
-> +}
-> +
->  EXTRA_IMAGECMD = ""
->  
->  inherit siteinfo
-> @@ -182,6 +192,7 @@ IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
->  IMAGE_DEPENDS_ubi = "mtd-utils-native"
->  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->  IMAGE_DEPENDS_multiubi = "mtd-utils-native"
-> +IMAGE_DEPENDS_wic = "parted-native"
->  
->  # This variable is available to request which values are suitable for IMAGE_FSTYPES  IMAGE_TYPES = " \ @@ -201,6 +212,7 @@ IMAGE_TYPES = " \
->      vdi \
->      qcow2 \
->      elf \
-> +    wic wic.gz wic.bz2 wic.lzma \
->  "
->  
->  COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
-> --
-> 2.1.4
-> 
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I agree that we should check the xattr distro feature. The actual patch
+is a bit more complex, though, because PACKAGECONFIG cannot influence
+EXTRA_OEMAKE, can it?
+
+I'll reply with a patch that worked for me.
 
 -- 
---
-Regards,
-Ed
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
 
