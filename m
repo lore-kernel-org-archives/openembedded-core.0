@@ -1,21 +1,27 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CDD1734B8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 723A5734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 08:44:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id BDF11608F40
-To: openembedded-core@lists.openembedded.org
-References: <19f46bb2f6951eca80f159b612b407e3df0b6ea1.1440454290.git.chris_larson@mentor.com>
-	<3843d76235f7517207f9aa178d70c731f2b2d51e.1440454290.git.chris_larson@mentor.com>
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-Message-ID: <55DD7C88.4080305@collabora.co.uk>
-Date: Wed, 26 Aug 2015 09:44:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
+	Wed, 26 Aug 2015 08:46:16 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 26 Aug 2015 01:46:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,415,1437462000"; d="scan'208";a="548745450"
+Received: from tlomotow-mobl.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.18.45])
+	by FMSMGA003.fm.intel.com with ESMTP; 26 Aug 2015 01:46:16 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Joshua Lock <joshua.lock@collabora.co.uk>
+Date: Wed, 26 Aug 2015 09:46:14 +0100
+Message-ID: <1481867.gp5o9Mtvqd@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <55DD7BAD.8040505@collabora.co.uk>
+References: <1440521935.12105.438.camel@linuxfoundation.org>
+	<55DD7BAD.8040505@collabora.co.uk>
 MIME-Version: 1.0
-In-Reply-To: <3843d76235f7517207f9aa178d70c731f2b2d51e.1440454290.git.chris_larson@mentor.com>
-Subject: Re: [PATCH 2/3] insane.bbclass: add host-user-contaminated test
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] os-release: Exclude DATETIME from sstate signature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,92 +34,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 08:45:01 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Aug 2015 08:46:19 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On 24/08/15 23:19, Christopher Larson wrote:
-> From: Christopher Larson <chris_larson@mentor.com>
->
-> - Add a test which checks for any paths outside of /home which are owned by
->    the user running bitbake.
-> - Add the test to WARN_QA by default.
+On Wednesday 26 August 2015 09:41:17 Joshua Lock wrote:
+> On 25/08/15 17:58, Richard Purdie wrote:
+> > I'm torn over this, I can see someone wanting this to vary in each
+> > build. What pushed me to believe its incorrect in its current form
+> > is that it changes for every MACHINE build, making a complete mess
+> > if you try and generate package feeds using it.
+> 
+> It's also worth pointing out that the BUILD_ID isn't included in the
+> generated os-release file unless you add BUILD_ID to OS_RELEASE_FIELDS.
+> 
+> I'm personally not certain whether DATETIME makes sense as BUILD_ID a
+> multi-MACHINE distro anyway.
 
-I do all of my builds on a separate partition in a directory hierarchy 
-which is owned by my user - if I'm understanding this correctly I'll get 
-QA WARNINGS for all of my builds with this change?
+Indeed, since you have to invoke bitbake multiple times, under those 
+circumstances you probably ought to be pre-calculating the BUILD_ID and 
+passing it into the build.
 
-It would be nice to be able to bless my build directory and still 
-benefit from this check.
+Cheers,
+Paul
 
-Regards,
+-- 
 
-Joshua
-
-> This test has been in meta-mentor for some time, and in our ERROR_QA for our
-> builds, and has caught a number of issues for us.
->
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> ---
->   meta/classes/insane.bbclass | 32 ++++++++++++++++++++++++++++++--
->   1 file changed, 30 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index cd773b7..aec9800 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -31,14 +31,14 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
->               installed-vs-shipped compile-host-path install-host-path \
->               pn-overrides infodir build-deps file-rdeps \
->               unknown-configure-option symlink-to-sysroot multilib \
-> -            invalid-pkgconfig \
-> +            invalid-pkgconfig host-user-contaminated \
->               "
->   ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
->               perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
->               split-strip packages-list pkgv-undefined var-undefined \
->               version-going-backwards expanded-d \
->               "
-> -FAKEROOT_QA = ""
-> +FAKEROOT_QA = "host-user-contaminated"
->   FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
->   enabled tests are listed here, the do_package_qa task will run under fakeroot."
->
-> @@ -950,6 +950,34 @@ def package_qa_check_expanded_d(path,name,d,elf,messages):
->                           sane = False
->       return sane
->
-> +HOST_USER_UID := "${@os.getuid()}"
-> +HOST_USER_GID := "${@os.getgid()}"
-> +
-> +QAPATHTEST[host-user-contaminated] = "package_qa_check_host_user"
-> +def package_qa_check_host_user(path, name, d, elf, messages):
-> +    """Check for paths outside of /home which are owned by the user running bitbake."""
-> +
-> +    if not os.path.lexists(path):
-> +        return
-> +
-> +    check_uid = int(d.getVar('HOST_USER_UID', True))
-> +    check_gid = int(d.getVar('HOST_USER_GID', True))
-> +
-> +    dest = d.getVar('PKGDEST', True)
-> +    home = os.path.join(dest, 'home')
-> +    if path == home or path.startswith(home + os.sep):
-> +        return
-> +
-> +    stat = os.lstat(path)
-> +    if stat.st_uid == check_uid:
-> +        messages["host-user-contaminated"] = "%s is owned by uid %d, which is the same as the user running bitbake. This may be due to host contamination" % (path, check_uid)
-> +        return False
-> +
-> +    if stat.st_gid == check_gid:
-> +        messages["host-user-contaminated"] = "%s is owned by gid %d, which is the same as the user running bitbake. This may be due to host contamination" % (path, check_gid)
-> +        return False
-> +    return True
-> +
->   # The PACKAGE FUNC to scan each package
->   python do_package_qa () {
->       import subprocess
->
-
+Paul Eggleton
+Intel Open Source Technology Centre
 
