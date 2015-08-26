@@ -1,29 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 994B8734B8
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 788DF734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 15:10:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7QFAliQ002934
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 26 Aug 2015 08:10:47 -0700 (PDT)
-Received: from Marks-MacBook-Pro-2.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 26 Aug 2015 08:10:47 -0700
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1440587914-1280-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1440587914-1280-4-git-send-email-markus.lehtonen@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <55DDD6F6.7090800@windriver.com>
-Date: Wed, 26 Aug 2015 10:10:46 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <1440587914-1280-4-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: Re: [PATCH 3/3] package_manager: support for signed RPM package feeds
+	Wed, 26 Aug 2015 15:48:55 +0000 (UTC)
+Received: by wijn1 with SMTP id n1so28765307wij.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Aug 2015 08:48:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Gp6apEznDUL6JU+xIxbL9DYe0cme1CUxUHm+cIW7guA=;
+	b=DzgHMOHKnEEEW4+Qpzjhy14tQoKWaR5CN64hFbM0GtE8g0S6WbNKvmE+P93mblIZ4s
+	fgNO/w8asUh8Ublbnx9QRz/9295kVepfqgB4GYiNaa2KNH4D2DotMwvBsfGX/0NSXYo6
+	eON6cJAQW9Ql62NF/BRSeF3j/6+JltJTHmCCssDwmnBjGbIQZgNyYTMANA3mxocKsapx
+	BUTImEY5q3FovrZxkQKl+TfnGxhlKhcZR8zzAtJVL4Jv+pkbufofvAvLRXtMmclp1FFJ
+	HpIfwjVeCsZGquVVCUcxj6eDqm0rs4qeTEA7sjDM/kYcmQtK1w3YMwgdla9IRqRHZ8LY
+	EUTg==
+X-Gm-Message-State: ALoCoQnUOW+sTL9tOB5c+7QeXiPEy5sRX109phVIkpaQW7FBDqONk9Aezcj0LNYF0dZHEps14eV9
+X-Received: by 10.180.12.243 with SMTP id b19mr13274533wic.15.1440604135226;
+	Wed, 26 Aug 2015 08:48:55 -0700 (PDT)
+Received: from hackbox.linaro.org ([81.128.185.36])
+	by smtp.gmail.com with ESMTPSA id
+	ir5sm4457290wjb.23.2015.08.26.08.48.54
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 26 Aug 2015 08:48:54 -0700 (PDT)
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Aug 2015 16:48:27 +0100
+Message-Id: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
+X-Mailer: git-send-email 2.3.5
+Cc: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Subject: [RFC PATCH 0/2] Add support for fastboot images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,114 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 15:10:48 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 26 Aug 2015 15:48:55 -0000
 
-On 8/26/15 6:18 AM, Markus Lehtonen wrote:
-> This change makes it possible to create GPG signed RPM package feeds -
-> i.e. package feed with GPG signed metadata (repodata). All deployed RPM
-> repositories will be signed and the GPG public key is copied to the rpm
-> deployment directory.
-> 
-> In order to enable the new feature one needs to define four variables in
-> bitbake configuration.
-> 1. 'PACKAGE_FEED_SIGN = "1"' enabling the feature
-> 2. 'PACKAGE_FEED_GPG_NAME = "<key_id>"' defining the GPG key to use for
->    signing
-> 3. 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "<path_to_file>"' pointing to a
->    file containing the passphrase for the secret signing key
-> 4. 'PACKAGE_FEED_GPG_PUBKEY = "<path_to_pubkey>"' pointing to the
->    corresponding public key (in "armor" format)
-> 
-> [YOCTO #8134]
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  meta/lib/oe/package_manager.py | 24 ++++++++++++++++++++++--
->  1 file changed, 22 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 753b3eb..5d7ef54 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -113,8 +113,15 @@ class RpmIndexer(Indexer):
->              rpm_pubkey = self.d.getVar('RPM_GPG_PUBKEY', True)
->          else:
->              rpm_pubkey = None
-> +        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-> +            pkgfeed_gpg_name = self.d.getVar('PACKAGE_FEED_GPG_NAME', True)
-> +            pkgfeed_gpg_pass = self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True)
-> +        else:
-> +            pkgfeed_gpg_name = None
-> +            pkgfeed_gpg_pass = None
->  
->          index_cmds = []
-> +        repo_sign_cmds = []
->          key_import_cmds = []
->          rpm_dirs_found = False
->          for arch in archs:
-> @@ -126,10 +133,16 @@ class RpmIndexer(Indexer):
->                  continue
->  
->              if rpm_pubkey:
-> -                key_import_cmds.append("%s --define '_dbpath %s' --import %s" %
-> +                key_import_cmds.append("%s --dbpath '%s' --import %s" %
->                                     (rpm_bin, dbpath, rpm_pubkey))
->              index_cmds.append("%s --dbpath %s --update -q %s" % \
->                               (rpm_createrepo, dbpath, arch_dir))
-> +            if pkgfeed_gpg_name:
-> +                repomd_file = os.path.join(arch_dir, 'repodata', 'repomd.xml')
-> +                gpg_cmd = "gpg2 --detach-sign --armor --batch --no-tty --yes " \
-> +                          "--passphrase-file '%s' -u '%s' %s" % \
-> +                          (pkgfeed_gpg_pass, pkgfeed_gpg_name, repomd_file)
-> +                repo_sign_cmds.append(gpg_cmd)
+Some (many?) embedded SBCs and Android devices (such as Nexus devices) come with
+Android bootloaders/BSP by default, and often the fastboot protocol may be even
+the only way we can flash the device. So this RFC series is an attempt to be
+able to easily use such devices while building OE images. I believe the use case
+is common enough so that we can have this feature in OE Core.
 
-I've had problems in the past hard coding 'gpg' or 'gpg2' as the name to use.
+First we import the android-tools recipe from meta-smartphone. That provides
+make_ext4fs utility that can be used to create sparse images suitable for
+fastboot. The original android-tools recipe had support for adb (and adbd) which
+has been removed during the import since it's huge, and not strictly needed for
+building the images. Alternatively I found a standalone fork for make_ext4fs at
+[1], from the OpenWrt project, but it is quite new, and i have not tested it
+yet. I would appreciate any feedback on that.
 
-Can we get this to be dynamic.. even if it's a system level define for what
-GPG/PGP program to use?
+Then we add a new image type called ext4.fastboot that uses make_ext4fs to
+create the appropriate images. A specific variable can be used to set the image
+size which defaults to 16MB.
 
-Also I'd forgotten about it until there.  RPM has a similar variable to define
-the GPG program to use.  So using that variable (_signature) and defaulting to
-the same item would be a good idea.
+These patches have been tested on various devices such as IFC6410, DragonBoard
+410c, and a few other Qualcomm based devices.
 
-(One such reason to do this is to write a wrapper that uses an alternative
-keychain for these keys....)
+I understand these patches would break meta-smartphone, but this is an RFC, so
+let's discuss how to best handle that.
 
->  
->              rpm_dirs_found = True
->  
-> @@ -145,10 +158,17 @@ class RpmIndexer(Indexer):
->          result = oe.utils.multiprocess_exec(index_cmds, create_index)
->          if result:
->              bb.fatal('%s' % ('\n'.join(result)))
-> -        # Copy pubkey to repo
-> +        # Sign repomd
-> +        result = oe.utils.multiprocess_exec(repo_sign_cmds, create_index)
-> +        if result:
-> +            bb.fatal('%s' % ('\n'.join(result)))
-> +        # Copy pubkey(s) to repo
->          if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
->              shutil.copy2(self.d.getVar('RPM_GPG_PUBKEY', True),
->                           os.path.join(self.deploy_dir, 'RPM-GPG-KEY-oe'))
-> +        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-> +            shutil.copy2(self.d.getVar('PACKAGE_FEED_GPG_PUBKEY', True),
-> +                         os.path.join(self.deploy_dir, 'REPODATA-GPG-KEY'))
+[1] http://git.openwrt.org/?p=project/make_ext4fs.git;a=summary
 
-I didn't notice this before..  but we shouldn't hardcode RPM-GPG-KEY-oe, it
-should use a value such as 'DISTRO' to allow different distributions to have
-non-conflicting keys.  The repository keys I would think would be similar as
-well.. since you may have multiple repositories from different sources.  So
-naming the key ending in -${DISTRO} might be a good idea there as well.
-(Extending it to ${DISTRO_VERSION} might be make sense... since these will be
-used for long-term upgradable systems.)
+Nicolas Dechesne (2):
+  android-tools: import android-tools from meta-smartphone into oe-core
+  image_types.bbclass: add support for fastboot image type
 
---Mark
+ meta/classes/image_types.bbclass                   |  16 +++
+ .../android-tools/disable-selinux-support.patch    | 137 +++++++++++++++++++++
+ .../android-tools/reboot-syscall.patch             |  25 ++++
+ .../android-tools/remove-libselinux.patch          |  13 ++
+ .../android-tools/android-tools_4.2.2.bb           |  51 ++++++++
+ 5 files changed, 242 insertions(+)
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/disable-selinux-support.patch
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/reboot-syscall.patch
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools/remove-libselinux.patch
+ create mode 100644 meta/recipes-devtools/android-tools/android-tools_4.2.2.bb
 
->  
->  
->  class OpkgIndexer(Indexer):
-> 
+-- 
+2.3.5
 
 
