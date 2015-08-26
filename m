@@ -1,40 +1,35 @@
-Return-Path: <joshc@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id EE14576DFB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id DD88D76DFB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 18:56:06 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t7QHtm6X006480; Wed, 26 Aug 2015 12:55:48 -0500
-Received: from jcartwri.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015082612554792-660549 ;
-	Wed, 26 Aug 2015 12:55:47 -0500 
-Received: by jcartwri.amer.corp.natinst.com (Postfix, from userid 1000)
-	id EE2963002CC; Wed, 26 Aug 2015 12:55:47 -0500 (CDT)
-Date: Wed, 26 Aug 2015 12:55:47 -0500
-From: Josh Cartwright <joshc@ni.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Message-ID: <20150826175547.GL8016@jcartwri.amer.corp.natinst.com>
-References: <1438634128-4347-1-git-send-email-juro.bystricky@intel.com>
-	<1438634128-4347-2-git-send-email-juro.bystricky@intel.com>
-	<CADkTA4N6M5nnq9Y_eSKKdotUCNkPfpJBLuu5dZnwWSdszVgxuQ@mail.gmail.com>
+	Wed, 26 Aug 2015 19:02:24 +0000 (UTC)
+Received: by obbfr1 with SMTP id fr1so179720014obb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Aug 2015 12:02:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=t/G8rj5D/nsxHQtA3qQZyD7c9t5epIWbBt6lSCQGUMo=;
+	b=BgIUEvyL4duc+zQMVOv5fCErJJ/dbGCvWp1I7DEcpMKibCnO29OhOwdg5m+fnT+pn9
+	Gi3JWcVf5HOgD9QGb6lzuPXRi/FoSXRZC1d3LGphk0/Y88SHjVYj6DLw54+LJN9riPF7
+	fWL3rRBKuicU5cS0+8VE9CjC9RU3k/qpTaio97iH5nKVjM0VS4a8RtrKAgBhLAhrbev/
+	sQ9qCem0/1/Z1CeBt2c41TU+H6xT+Xel7IAbf6sDMOoidyWUCidjjXiJyTBXq86dmzX1
+	EEYJK8cMTMgM8QRhW1RRhIiyrXQjq2svfeVpRfaX7NvcTcpq4rU+WIHqpRqSjOMDtfmx
+	c+ig==
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4N6M5nnq9Y_eSKKdotUCNkPfpJBLuu5dZnwWSdszVgxuQ@mail.gmail.com>
-User-Agent: Mutt/1.5.23+102 (2ca89bed6448) (2014-03-12)
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 08/26/2015 12:55:47 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 08/26/2015 12:55:48 PM,
-	Serialize complete at 08/26/2015 12:55:48 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-08-26_06:, , signatures=0
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	Juro Bystricky <jurobystricky@hotmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] kernel-headers: linux kernel headers
+X-Received: by 10.182.28.165 with SMTP id c5mr2443921obh.29.1440615744578;
+	Wed, 26 Aug 2015 12:02:24 -0700 (PDT)
+Received: by 10.202.6.72 with HTTP; Wed, 26 Aug 2015 12:02:24 -0700 (PDT)
+In-Reply-To: <f1fe5d98cb0737847778531368eab04778076750.1440603928.git.patrick.ohly@intel.com>
+References: <1440605035.20082.20.camel@intel.com>
+	<f1fe5d98cb0737847778531368eab04778076750.1440603928.git.patrick.ohly@intel.com>
+Date: Wed, 26 Aug 2015 12:02:24 -0700
+Message-ID: <CAJ86T=WnRNNrh9kr7QfHtP-tqmxdtZ1qm-0mnsAA1ANW04qysA@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] mtd-utils: add xattr PACKAGECONFIG and fix acl dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,62 +42,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 18:56:09 -0000
-X-Groupsio-MsgNum: 70104
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="XjbSsFHOHxvQpKib"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Aug 2015 19:02:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
---XjbSsFHOHxvQpKib
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Aug 26, 2015 at 9:10 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> The unconditional removal of -DWITHOUT_XATTR accidentally introduced a
+> compile-time dependency on "acl", because "sys/acl.h" gets
+> included. This caused random compile failures.
+>
+> To fix this, we introduce a proper PACKAGECONFIG for the "xattr"
+> support, with the distro's "xattr" feature determining the
+> default. Setting the define must be done with custom code because
+> PACKAGECONFIG can only influence configure parameters.
+>
+> The "acl" distro feature is not checked because although enabling
+> "xattr" support now triggers a build of acl, nothing from it will not
+> get included in the resulting target image.
 
-Hey Bruce-
+Typo?
 
-(Just dug this up because it was relevant to a conversation in the
-office.)
+> This seems more suitable
+> than not enabling xattr support in mtd-utils when acl support in the
+> distro is disabled.
+>
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+> ---
+>  meta/recipes-devtools/mtd/mtd-utils_git.bb | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> index 8d4892a..17dca77 100644
+> --- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> +++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+> @@ -19,7 +19,13 @@ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+>
+>  S = "${WORKDIR}/git/"
+>
+> -EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} -I${S}/include' 'BUILDDIR=${S}'"
+> +# xattr support creates an additional compile-time dependency on acl because
+> +# the sys/acl.h header is needed. libacl is not needed and thus enabling xattr
+> +# regardless whether acl is enabled or disabled in the distro should be okay.
+> +PACKAGECONFIG ?= "${@bb.utils.contains('DISTRO_FEATURES', 'xattr', 'xattr', '', d)}"
+> +PACKAGECONFIG[xattr] = ",,acl,"
+> +
+> +EXTRA_OEMAKE = "'CC=${CC}' 'RANLIB=${RANLIB}' 'AR=${AR}' 'CFLAGS=${CFLAGS} ${@bb.utils.contains('PACKAGECONFIG', 'xattr', '', '-DWITHOUT_XATTR', d)} -I${S}/include' 'BUILDDIR=${S}'"
+>
+>  do_install () {
+>         oe_runmake install DESTDIR=${D} SBINDIR=${sbindir} MANDIR=${mandir} INCLUDEDIR=${includedir}
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-On Tue, Aug 04, 2015 at 11:20:11PM -0300, Bruce Ashfield wrote:
-> On Mon, Aug 3, 2015 at 5:35 PM, Juro Bystricky <juro.bystricky@intel.com>=
- wrote:
-> > Header files and scripts for building modules for Linux kernel.
-> >
-> > A set of files is needed to allow building new Linux kernel modules
-> > against an already installed Linux kernel. The files include various
-> > header files, script files, Makefiles, source code files for several
-> > utility programs and Linux kerenl .config file.
->=20
-> We already have our kernel devsrc packages. This is simply creating more
-> copies of the same functionality.
-
-The kernel-devsrc package contains much more than is explicitly required
-just to build external kernel modules (a full kernel source tree isn't
-required), and the kernel-dev package doesn't install enough.  Right
-now, there is no "just enough".
-
-> If you have issues with devsrc .. why aren't you fixing it ? It certainly
-> shouldn't be left as is, while introducing something new.
-
-I would expect this -headers package to contain a subset of what -devsrc
-is currently installing; might an option be to make the -devsrc package
-depend on this -headers package?
-
-  Josh
-
---XjbSsFHOHxvQpKib
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iQEcBAABCAAGBQJV3f2gAAoJEKp7ZBKwQFArEecIAI1dD6UqPcJQjohVdPUK2CP/
-uAu3/yXv14kkZtJtKSOIaQhPevOgy71btVcOHofQDGbUXte0cM8EiQIv6iiK6EHa
-CIkxedVg83rau2x9bPKLj7qEe7q5QPCPRxP70WCxRFhJItihSsHCl0KYcB1NX1+b
-3noxkusi/ilDpoU3FpGkDGv7croJVnkYblCPMfSPtitV5kNfPqfNw5qr8kugzzZH
-4PPsUZljY9W8DclqucfdnX2prhON0ZTc2X1Np+Uk5Jvnc7lmis7bcRtYdcrnrmNe
-NXJ5hNB3uzTTcg8FHTkXJsj6Q2mjoj0Vxl/sxzOvuW92LbCIlB4k01sR+IMszOs=
-=+gIX
------END PGP SIGNATURE-----
-
---XjbSsFHOHxvQpKib--
