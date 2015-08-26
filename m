@@ -1,37 +1,24 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id AE461734B8
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B8B77734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 04:42:03 +0000 (UTC)
-Received: by wijn1 with SMTP id n1so11558969wij.0
+	Wed, 26 Aug 2015 05:55:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7Q5tcsu008581
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 21:42:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=AlItKdFuxhuLmWVxNLtD+ooK86XMr4mh8di6+uZDANA=;
-	b=eJKhgK5+OLo924J+LprxhnCuP4dDYaN4zB1pwt9HkTCe3n4olMZw8eXDMkTX3XaI52
-	1KBzLZ0UCJyseap2DVt8lvcvM9TY0r0Tl9dI2p8VALoiT6NZjabPTErHz/MswFaxe+WK
-	11bqhHZfzmYrVk06Vb6TYv3sh+MRc1poD/p9buikSVaMSPOsdagtxTDvnAib4Rye0zqB
-	YzPqhDX0SYAzSIRVQ+EU1OOTzIPtVPJPrvazMwvmpqkiAY8vOXxHvypv2SifRXpwFPzt
-	Cb9sUUcL3S1iDcHNjd8mKRu73tz2AeAJRQAHPpuVQqX18yfpr2FbdnlfCiYh2YdjjVTH
-	CPgw==
-X-Received: by 10.194.122.200 with SMTP id lu8mr53293112wjb.83.1440564123266; 
-	Tue, 25 Aug 2015 21:42:03 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	cd16sm5586204wib.19.2015.08.25.21.42.01
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 25 Aug 2015 21:42:02 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Aug 2015 21:41:52 -0700
-Message-Id: <1440564112-28879-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 2.2.1
-In-Reply-To: <1440563739-28496-1-git-send-email-kergoth@gmail.com>
-References: <1440563739-28496-1-git-send-email-kergoth@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv3] sanity.bbclass: remove abspath warning for SSTATE_MIRRORS
+	Tue, 25 Aug 2015 22:55:38 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 25 Aug 2015 22:55:37 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Aug 2015 13:51:18 +0800
+Message-ID: <1440568278-25662-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] autotools.bbclass: Allow dependency tracking option to be overridden
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 04:42:07 -0000
+X-List-Received-Date: Wed, 26 Aug 2015 05:55:39 -0000
+Content-Type: text/plain
 
-From: Christopher Larson <chris_larson@mentor.com>
+From: Roy Li <rongqing.li@windriver.com>
 
-The sstate URI is relative to begin with, so it's completely valid to want to
-alter it in a way that keeps it relative using a mirror, and I have real world
-cases where this is causing issues. Remove the warning.
+CONFIGUREOPT_DEPTRACK can not be overridden since it is set by =
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- meta/classes/sanity.bbclass | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/autotools.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index ef90fc8..c142274 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -818,8 +818,6 @@ def check_sanity_everybuild(status, d):
-                 continue
+diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
+index 6f51429..9ccd7d2 100644
+--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -75,7 +75,7 @@ CONFIGUREOPTS = " --build=${BUILD_SYS} \
+ 		  --disable-silent-rules \
+ 		  ${CONFIGUREOPT_DEPTRACK} \
+ 		  ${@append_libtool_sysroot(d)}"
+-CONFIGUREOPT_DEPTRACK = "--disable-dependency-tracking"
++CONFIGUREOPT_DEPTRACK ?= "--disable-dependency-tracking"
  
-             if mirror.startswith('file://'):
--                if not mirror.startswith('file:///'):
--                    bb.warn('Invalid file url in %s: %s, must be absolute path (file:///)' % (mirror_var, mirror_entry))
-                 import urlparse
-                 check_symlink(urlparse.urlparse(mirror).path, d)
-                 # SSTATE_MIRROR ends with a /PATH string
+ 
+ oe_runconf () {
 -- 
-2.2.1
+1.9.1
 
 
