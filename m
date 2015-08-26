@@ -1,40 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A076734B8
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B935734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 20:41:50 +0000 (UTC)
-Received: by wicne3 with SMTP id ne3so55965457wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 13:41:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=FZn/z0efDLXKMTsE6bQy3taC1I+wK1OhB+BKjsG3Z7k=;
-	b=fC3Gho2uHzmqEGlPzzkr6MFXHWsrplBMZRxChpb6RHkru4K8NPuCwqSSxzcraEEXTO
-	DZQyY8Feir/YpbBU++0sG/9631a2LFjSGimmzEPTGbHE/QWmzBXkr0TykMRcJ21O8JZS
-	y9KM7x+GNUfEp/ztdOwgMaPh1YoxxYO5nO7VHKiOJdJdPLBsKScXXirG6nHQuLz7XtWF
-	423SxyDWDeOU43wq0nfKC9djhFDgxVq0qH6iNXvTOWhf5ndlW2gjC/ueTf5vHcOmYJ+0
-	/VtHpnfyZJ74cHNdxg+EGJ3MromXh/0UdH72/wjj7M4QBDpLoaKSvr2LfnTrq7uaJEzd
-	nfAw==
-X-Gm-Message-State: ALoCoQkhQ6lXu+jq1ivihrgerNXaJ9sizRVG41ECnXWBYMzAk1MLO7xYDoEv+96Oc6PuSnvtNtC2
-X-Received: by 10.180.219.101 with SMTP id pn5mr14312522wic.89.1440621709932; 
-	Wed, 26 Aug 2015 13:41:49 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id v8sm5560547wjr.15.2015.08.26.13.41.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Aug 2015 13:41:49 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Aug 2015 21:35:20 +0100
-Message-Id: <1440621320-22747-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] byacc: fix compilation on Ubuntu 14.04
+	Wed, 26 Aug 2015 21:52:58 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Aug 2015 14:52:59 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,418,1437462000"; d="scan'208";a="756078910"
+Received: from besquive-mobl2.zpn.intel.com ([10.219.17.159])
+	by orsmga001.jf.intel.com with ESMTP; 26 Aug 2015 14:52:58 -0700
+Message-ID: <1440625980.15187.59.camel@linux.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: =?ISO-8859-1?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+In-Reply-To: <1440600498-10313-1-git-send-email-anibal.limon@linux.intel.com>
+References: <1440600498-10313-1-git-send-email-anibal.limon@linux.intel.com>
+Organization: Intel Corporation
+Date: Wed, 26 Aug 2015 16:53:00 -0500
+Mime-Version: 1.0
+X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
+Subject: Re: [PATCH] runqemu-internal: Fixes unary operator expected in new TCPSERIAL_PORTNUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -44,59 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 20:41:53 -0000
+X-List-Received-Date: Wed, 26 Aug 2015 21:52:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Ubuntu defaults to passing _FORTIFY_SOURCE=2 which breaks byacc as it doesn't
-pass enough arguments to open():
-
-inlined from 'open_tmpfile' at byacc-20150711/main.c:588:5:
-/usr/include/x86_64-linux-gnu/bits/fcntl2.h:50:24: error: call to '__open_missing_mode' declared with attribute error:
-open with O_CREAT in second argument needs 3 arguments
-
-Add a mode of 0666 to fix this.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-extended/byacc/byacc.inc              |  4 +++-
- meta/recipes-extended/byacc/byacc/byacc-open.patch | 13 +++++++++++++
- 2 files changed, 16 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/byacc/byacc/byacc-open.patch
-
-diff --git a/meta/recipes-extended/byacc/byacc.inc b/meta/recipes-extended/byacc/byacc.inc
-index fae9e25..f9f8d6b 100644
---- a/meta/recipes-extended/byacc/byacc.inc
-+++ b/meta/recipes-extended/byacc/byacc.inc
-@@ -5,7 +5,9 @@ programming language."
- SECTION = "devel"
- LICENSE = "PD"
- 
--SRC_URI = "ftp://invisible-island.net/byacc/byacc-${PV}.tgz"
-+SRC_URI = "ftp://invisible-island.net/byacc/byacc-${PV}.tgz \
-+           file://byacc-open.patch"
-+
- EXTRA_OECONF += "--program-transform-name='s,^,b,'"
- 
- BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-extended/byacc/byacc/byacc-open.patch b/meta/recipes-extended/byacc/byacc/byacc-open.patch
-new file mode 100644
-index 0000000..9160543
---- /dev/null
-+++ b/meta/recipes-extended/byacc/byacc/byacc-open.patch
-@@ -0,0 +1,13 @@
-+diff --git a/main.c b/main.c
-+index 620ce3f..82071a4 100644
-+--- a/main.c
-++++ b/main.c
-+@@ -526,7 +526,7 @@ my_mkstemp(char *temp)
-+     }
-+     if ((name = tempnam(dname, fname)) != 0)
-+     {
-+-	fd = open(name, O_CREAT | O_EXCL | O_RDWR);
-++      fd = open(name, O_CREAT | O_EXCL | O_RDWR, 0666);
-+ 	strcpy(temp, name);
-+     }
-+     else
--- 
-2.1.4
-
+On Wed, 2015-08-26 at 09:48 -0500, Aníbal Limón wrote:
+> If $TCPSERIAL_PORTNUM is empty string causes an error because
+> expands the expresion to,
+> 
+> $TCPSERIAL_PORTNUM == "" -> == ""
+> 
+> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+> ---
+>  scripts/runqemu-internal | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index b317358..1b1bc9e 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -620,7 +620,7 @@ if [ "x$QEMUOPTIONS" = "x" ]; then
+>      return 1
+>  fi
+>  
+> -if [ $TCPSERIAL_PORTNUM != "" ]; then
+> +if [ "$TCPSERIAL_PORTNUM" != "" ]; then
+I believe this would work but if you want to make it bulletproof you'd:
+if [ X"$TCPSERIAL_PORTNUM" != X"" ]; then
+>      if [ "$MACHINE" = "qemuarm64" ]; then
+>          QEMUOPTIONS="$QEMUOPTIONS -device virtio-serial-device 
+> -chardev socket,id=virtcon,port=$TCPSERIAL_PORTNUM,host=127.0.0.1 
+> -device virtconsole,chardev=virtcon"
+>      else
+> -- 
+> 1.9.1
+> 
 
