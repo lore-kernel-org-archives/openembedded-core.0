@@ -1,24 +1,20 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E0079734B8
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 56A5F734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 08:09:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7Q89Sm2027250
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 01:09:28 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 26 Aug 2015 01:09:27 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Aug 2015 16:05:07 +0800
-Message-ID: <1440576307-16564-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 26 Aug 2015 08:41:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 131B0608F40
+To: openembedded-core@lists.openembedded.org
+References: <1440521935.12105.438.camel@linuxfoundation.org>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+Message-ID: <55DD7BAD.8040505@collabora.co.uk>
+Date: Wed, 26 Aug 2015 09:41:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.1.0
 MIME-Version: 1.0
-Subject: [PATCH] asciidoc: create recipe
+In-Reply-To: <1440521935.12105.438.camel@linuxfoundation.org>
+Subject: Re: [PATCH] os-release: Exclude DATETIME from sstate signature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,53 +27,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 08:09:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Aug 2015 08:41:23 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+On 25/08/15 17:58, Richard Purdie wrote:
+> I'm torn over this, I can see someone wanting this to vary in each
+> build. What pushed me to believe its incorrect in its current form
+> is that it changes for every MACHINE build, making a complete mess
+> if you try and generate package feeds using it.
 
-To fix [YOCTO #3388], asciidoc is needed
+It's also worth pointing out that the BUILD_ID isn't included in the 
+generated os-release file unless you add BUILD_ID to OS_RELEASE_FIELDS.
 
-AsciiDoc is a text document format for writing short documents, articles,
-books and UNIX man pages.
+I'm personally not certain whether DATETIME makes sense as BUILD_ID a 
+multi-MACHINE distro anyway.
 
-get recipe from openembedded, update the download url, remove the vim magic
-since it becomes useless, enable native, and upgrade to 8.6.9
+Cheers,
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+Joshua
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-new file mode 100644
-index 0000000..79747ae
---- /dev/null
-+++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-@@ -0,0 +1,21 @@
-+DESCRIPTION = "AsciiDoc is a text document format for writing short documents, \
-+articles, books and UNIX man pages."
-+
-+HOMEPAGE = "http://www.methods.co.nz/asciidoc/"
-+LICENSE = "GPLv2"
-+
-+SRC_URI = " http://downloads.sourceforge.net/project/${BPN}/${BPN}/${PV}/${BPN}-${PV}.tar.gz"
-+
-+inherit distutils-base autotools-brokensep
-+
-+export DESTDIR = "${D}"
-+
-+FILES_${PN} += "${sysconfdir}"
-+
-+RDEPENDS_${PN} += "python"
-+
-+SRC_URI[md5sum] = "c59018f105be8d022714b826b0be130a"
-+SRC_URI[sha256sum] = "78db9d0567c8ab6570a6eff7ffdf84eadd91f2dfc0a92a2d0105d323cab4e1f0"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
-+
-+BBCLASSEXTEND = "native"
--- 
-1.9.1
+> The alternative would be to give up on allarch in this case and make
+> it MACHINE specific which at least would then be more consistent when
+> the package makes it to a package feed. If someone wants to do that,
+> the can propose another patch but this change at least make package
+> feed usage 'sane' again and avoids the perpetual rebuilds.
+>
+> Incidentally, its worth noting that changes in source metadata revision
+> used for the build and included in this recipe would still trigger
+> rebuilds which is likely the common use case people actually care about.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
+> index 87fea6f..10a4570 100644
+> --- a/meta/recipes-core/os-release/os-release.bb
+> +++ b/meta/recipes-core/os-release/os-release.bb
+> @@ -21,6 +21,7 @@ VERSION = "${DISTRO_VERSION}${@' (%s)' % DISTRO_CODENAME if 'DISTRO_CODENAME' in
+>   VERSION_ID = "${DISTRO_VERSION}"
+>   PRETTY_NAME = "${DISTRO_NAME} ${VERSION}"
+>   BUILD_ID ?= "${DATETIME}"
+> +BUILD_ID[vardepsexclude] = "DATETIME"
+>
+>   python do_compile () {
+>       with open(d.expand('${B}/os-release'), 'w') as f:
+>
+>
 
 
