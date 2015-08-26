@@ -1,43 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E76871633
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AF69471633
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 01:45:27 +0000 (UTC)
-Received: by pacgr6 with SMTP id gr6so9163357pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 18:45:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=qdm1vt8tA4lNTxmLFQA1pMNpKqHKsVT0kyN2CvTSuv0=;
-	b=tG+5QfpTc+zkSzQtQyPewQJshnSYMvoGQIH6gNj8RiGsqxGHt5L+RMbgntjWqKPWzR
-	dIFBUrlu9jNDgxzJ6kl5u9C/YH/eHKxKBBiNZb0U6sn0Y90/eD+WOUoMJl/blchCbv11
-	W4/LHXq9bKVzlaHlTPPq1zI35n54NHGy/QpJQfxsFMinWsalOHlGpJt19psqNOVfuEev
-	FfndDrT/ydX/FY+XqEOLtjZTu0lGl79IRzEmBoP7/5qBvz+LPfDhzGI87wlt7vPadQjw
-	M72b18d/nPImuNrpvQL4nQOVCF5TlXOXPgycYm3WlF2hORoW8zZAsMQr6K1m1RscUqlH
-	wQvQ==
-X-Received: by 10.68.224.162 with SMTP id rd2mr63215656pbc.33.1440553528339;
-	Tue, 25 Aug 2015 18:45:28 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:154a:7662:3b48:ac9?
-	([2601:646:8601:4580:154a:7662:3b48:ac9])
-	by smtp.gmail.com with ESMTPSA id
-	bv4sm22495585pbb.86.2015.08.25.18.45.27
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 25 Aug 2015 18:45:27 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LZLhzWSo-vN79hKbOdZ-N7U+zD_wECtXCAGgN5y56=Y2A@mail.gmail.com>
-Date: Tue, 25 Aug 2015 18:45:17 -0700
-Message-Id: <063FD23A-8854-40BB-B5EC-2D09048DDAF9@gmail.com>
-References: <cover.1440446289.git.raj.khem@gmail.com>
-	<9bf77291c7084cfdef86008d204932e7adb1067a.1440446290.git.raj.khem@gmail.com>
-	<CAJTo0LZLhzWSo-vN79hKbOdZ-N7U+zD_wECtXCAGgN5y56=Y2A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 16/17] python-distribute, python-setuptools: Migrate to good old python-setuptools
+	Wed, 26 Aug 2015 01:46:40 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7Q1kelO022661
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 25 Aug 2015 18:46:40 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 25 Aug 2015 18:46:40 -0700
+Message-ID: <55DD1A7E.6080802@windriver.com>
+Date: Wed, 26 Aug 2015 09:46:38 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <1440553256-9914-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1440553256-9914-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH V2 15/16] python-distribute, python-setuptools: Migrate to good old python-setuptools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,109 +33,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 01:45:28 -0000
-X-Groupsio-MsgNum: 70041
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_2C6449F7-014C-40C1-8824-CDD6A723104D";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_2C6449F7-014C-40C1-8824-CDD6A723104D
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_3A04A572-3983-4755-9CC2-BBE5CDC1981A"
-
---Apple-Mail=_3A04A572-3983-4755-9CC2-BBE5CDC1981A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
-
-
-> On Aug 25, 2015, at 9:26 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
-> On 24 August 2015 at 21:03, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
-> setuptools the old king is ruling again, distribute fork has been =
-merged
-> into setuptools starting 0.7x, so lets move to use it as well
->=20
-> This fails dramatically on the autobuilder with the core error being:
->=20
-> ERROR: Nothing PROVIDES 'python-setuptools-native' (but =
-virtual:nativesdk:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-a=
-rm64/build/meta/recipes-devtools/python/python-git_1.0.1.bb =
-<http://python-git_1.0.1.bb/> DEPENDS on or otherwise requires it). =
-Close matches:
->   python3-setuptools-native
->   python3-setuptools
->   python-scons-native
->=20
-
-I sent a V2 for this
-
-1. Fixes licenses
-2. Fixes SRC_URI checksum for python3-setuptools
-
-Hopefully that fixes it.
-
-
-
---Apple-Mail=_3A04A572-3983-4755-9CC2-BBE5CDC1981A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Aug 25, 2015, at 9:26 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra">On 24 August 2015 at 21:03, Khem =
-Raj <span dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com"=
- target=3D"_blank" class=3D"">raj.khem@gmail.com</a>&gt;</span> =
-wrote:<br class=3D""><div class=3D"gmail_quote"><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left=
--style:solid;padding-left:1ex"><span class=3D"">setuptools</span> the =
-old king is ruling again, distribute fork has been merged<br class=3D"">
-into <span class=3D"">setuptools</span> starting 0.7x, so lets move to =
-use it as well<br class=3D""></blockquote></div><div =
-class=3D"gmail_extra"><br class=3D""></div>This fails dramatically on =
-the autobuilder with the core error being:</div><div =
-class=3D"gmail_extra"><br class=3D"">ERROR: Nothing PROVIDES =
-'python-setuptools-native' (but =
-virtual:nativesdk:/home/pokybuild/yocto-autobuilder/yocto-worker/nightly-a=
-rm64/build/meta/recipes-devtools/python/<a =
-href=3D"http://python-git_1.0.1.bb/" class=3D"">python-git_1.0.1.bb</a> =
-DEPENDS on or otherwise requires it). Close matches:<br class=3D"">&nbsp; =
-python3-setuptools-native<br class=3D"">&nbsp; python3-setuptools<br =
-class=3D"">&nbsp; python-scons-native<br class=3D""></div><div =
-class=3D"gmail_extra"><br =
-class=3D""></div></div></div></blockquote><div><br class=3D""></div><div>I=
- sent a V2 for this</div><div><br class=3D""></div><div>1. Fixes =
-licenses</div><div>2. Fixes SRC_URI checksum for =
-python3-setuptools</div><div><br class=3D""></div><div>Hopefully that =
-fixes it.</div></div><br class=3D""><div class=3D""><br =
-class=3D""></div></body></html>=
-
---Apple-Mail=_3A04A572-3983-4755-9CC2-BBE5CDC1981A--
-
---Apple-Mail=_2C6449F7-014C-40C1-8824-CDD6A723104D
+X-List-Received-Date: Wed, 26 Aug 2015 01:46:41 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXdGjYACgkQuwUzVZGdMxSoUwCfWD9GoilfXvYbE+oxV6fjvW5f
-bdYAnjBE1ECqdDXlT6tlODBAdMzQou39
-=ZRC8
------END PGP SIGNATURE-----
 
---Apple-Mail=_2C6449F7-014C-40C1-8824-CDD6A723104D--
+On 08/26/2015 09:40 AM, Khem Raj wrote:
+> setuptools the old king is ruling again, distribute fork has been merged
+> into setuptools starting 0.7x, so lets move to use it as well
+>
+> Remove licence ambiguity we need to say which verison of PSF and Zope license is in use
+>
+> Fixes [YOCTO #8201]
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>   .../python/python-distribute_0.6.32.bb             | 63 ----------------------
+>   .../python/python-setuptools_18.2.bb               | 46 ++++++++++++++++
+>   ...tuptools_15.2.bb => python3-setuptools_18.2.bb} |  4 +-
+>   3 files changed, 48 insertions(+), 65 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/python/python-distribute_0.6.32.bb
+>   create mode 100644 meta/recipes-devtools/python/python-setuptools_18.2.bb
+>   rename meta/recipes-devtools/python/{python3-setuptools_15.2.bb => python3-setuptools_18.2.bb} (90%)
+>
+> diff --git a/meta/recipes-devtools/python/python-distribute_0.6.32.bb b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
+> deleted file mode 100644
+> index aa07633..0000000
+> --- a/meta/recipes-devtools/python/python-distribute_0.6.32.bb
+> +++ /dev/null
+> @@ -1,63 +0,0 @@
+> -SUMMARY = "Download, build, install, upgrade, and uninstall Python packages"
+> -HOMEPAGE = "http://packages.python.org/distribute"
+> -SECTION = "devel/python"
+> -LICENSE = "PSF"
+> -LIC_FILES_CHKSUM = "file://setup.py;beginline=234;endline=234;md5=26f6b02022b737126d3c88838782dddb"
+> -
+> -SRCNAME = "distribute"
+> -PR = "ml5"
+> -DEPENDS += "python"
+> -DEPENDS_class-native += "python-native"
+> -
+> -SRC_URI = " \
+> -  http://pypi.python.org/packages/source/d/distribute/${SRCNAME}-${PV}.tar.gz \
+> -"
+> -SRC_URI[md5sum] = "acb7a2da81e3612bfb1608abe4f0e568"
+> -SRC_URI[sha256sum] = "8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
+> -
+> -S = "${WORKDIR}/${SRCNAME}-${PV}"
+> -
+> -#  http://python-distribute.org/distribute_setup.py
+> -
+> -# force the selection of python3
+> -#PYTHON_BASEVERSION = "3.3"
+> -#PYTHON_MAJMIN = "3.3"
+> -
+> -inherit distutils
+> -
+> -DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
+> -
+> -do_install_prepend() {
+> -    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
+> -}
+> -
+> -#
+> -#  The installer puts the wrong path in the setuptools.pth file.  Correct it.
+> -#
+> -do_install_append() {
+> -    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
+> -    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
+> -}
+> -
+> -do_install_append_class-nativesdk() {
+> -	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${PYTHON_SITEPACKAGES_DIR}/distribute-${PV}-py${PYTHON_BASEVERSION}.egg/setuptools/tests/test_resources.py
+> -	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${bindir}/easy_install
+> -	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' ${D}${bindir}/easy_install-${PYTHON_BASEVERSION}
+> -}
+> -
+> -RDEPENDS_${PN} = "\
+> -  python-distutils \
+> -  python-compression \
+> -"
+> -
+> -RDEPENDS_${PN}_class-target = "\
+> -  python-distutils \
+> -  python-compression \
+> -  python-netclient \
+> -  python-email \
+> -  python-shell \
+> -"
+> -
+> -RPROVIDES_${PN} += "python-setuptools"
+> -
+> -BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-devtools/python/python-setuptools_18.2.bb b/meta/recipes-devtools/python/python-setuptools_18.2.bb
+> new file mode 100644
+> index 0000000..1de2b2e
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python-setuptools_18.2.bb
+> @@ -0,0 +1,46 @@
+> +SUMMARY = "Downloads, builds, installs, upgrades, and uninstalls Python packages"
+> +HOMEPAGE = "https://pypi.python.org/pypi/setuptools"
+> +SECTION = "devel/python"
+> +LICENSE = "Python-2.0 | ZPL-2.0"
+
+The license info inside the tarball doesn't declare which version of ZPL IIRC ?
+
+// Robert
+
+> +LIC_FILES_CHKSUM = "file://setup.py;beginline=78;endline=78;md5=8a314270dd7a8dbca741775415f1716e"
+> +
+> +SRCNAME = "setuptools"
+> +
+> +PROVIDES = "python-distribute"
+> +
+> +DEPENDS += "python"
+> +DEPENDS_class-native += "python-native"
+> +
+> +inherit distutils
+> +
+> +SRC_URI = "https://pypi.python.org/packages/source/s/setuptools/setuptools-${PV}.tar.gz"
+> +SRC_URI[md5sum] = "52b4e48939ef311d7204f8fe940764f4"
+> +SRC_URI[sha256sum] = "0994a58df27ea5dc523782a601357a2198b7493dcc99a30d51827a23585b5b1d"
+> +
+> +S = "${WORKDIR}/${SRCNAME}-${PV}"
+> +
+> +
+> +DISTUTILS_INSTALL_ARGS += "--install-lib=${D}${libdir}/${PYTHON_DIR}/site-packages"
+> +
+> +do_install_prepend() {
+> +    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
+> +}
+> +
+> +RDEPENDS_${PN} = "\
+> +  python-stringold \
+> +  python-email \
+> +  python-shell \
+> +  python-distutils \
+> +  python-compression \
+> +"
+> +
+> +RDEPENDS_${PN}_class-native = "\
+> +  python-distutils \
+> +  python-compression \
+> +"
+> +
+> +RREPLACES_${PN} = "python-distribute"
+> +RPROVIDES_${PN} = "python-distribute"
+> +RCONFLICTS_${PN} = "python-distribute"
+> +
+> +BBCLASSEXTEND = "native nativesdk"
+> diff --git a/meta/recipes-devtools/python/python3-setuptools_15.2.bb b/meta/recipes-devtools/python/python3-setuptools_18.2.bb
+> similarity index 90%
+> rename from meta/recipes-devtools/python/python3-setuptools_15.2.bb
+> rename to meta/recipes-devtools/python/python3-setuptools_18.2.bb
+> index 97058c1..dc0ac80 100644
+> --- a/meta/recipes-devtools/python/python3-setuptools_15.2.bb
+> +++ b/meta/recipes-devtools/python/python3-setuptools_18.2.bb
+> @@ -11,8 +11,8 @@ DEPENDS_class-native += "python3-native"
+>   SRC_URI = " \
+>     http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+>   "
+> -SRC_URI[md5sum] = "a9028a9794fc7ae02320d32e2d7e12ee"
+> -SRC_URI[sha256sum] = "381e78471fb0eff89c4b1a219e8739f48dd87c76ad2d3a790010ca3a62ee29a4"
+> +SRC_URI[md5sum] = "52b4e48939ef311d7204f8fe940764f4"
+> +SRC_URI[sha256sum] = "0994a58df27ea5dc523782a601357a2198b7493dcc99a30d51827a23585b5b1d"
+>
+>   S = "${WORKDIR}/${SRCNAME}-${PV}"
+>
+>
+
