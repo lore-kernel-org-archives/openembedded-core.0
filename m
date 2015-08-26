@@ -1,35 +1,37 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ob0-f177.google.com (mail-ob0-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 26F79734B8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A076734B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 20:31:42 +0000 (UTC)
-Received: by obkg7 with SMTP id g7so181873744obk.3
+	Wed, 26 Aug 2015 20:41:50 +0000 (UTC)
+Received: by wicne3 with SMTP id ne3so55965457wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 13:31:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=H+bz37qXUNNYt9TnGAwyS89d9qahXBbSG9TFD+xeEY0=;
-	b=fBQ34MnVj/Hs+kP/e/cMvTEEKe1hT+29u15lAF+V4Ju7C3BvKeP8L3RI8CbXQ2TSd8
-	G38WgCKQ+N9wLrOF9gpPylGQEW+mpFTY7Zm+OCmOXOq+HjYm4gS29ceT/tOyUPXEtY0C
-	4yRjz/glvtO430FwNBbv4n0HJq5xaNcn4DF7bPR4e3m53jGLllb+NiKONrwTHRI7RAdU
-	u84cjJ1PTjnS2aY+V48LJmB0TSUECIZwCDC5QRhZ+zougtqNATrCAzPmz286pyuyYwIF
-	khfhoT0purt5RwuEwoAp3UWny7azIf6veXMfYBJQYOcSEPiYEehWqSPZ7rP9e/rk6uUo
-	jTyg==
-MIME-Version: 1.0
-X-Received: by 10.182.28.165 with SMTP id c5mr300873obh.29.1440621102466; Wed,
-	26 Aug 2015 13:31:42 -0700 (PDT)
-Received: by 10.202.6.72 with HTTP; Wed, 26 Aug 2015 13:31:42 -0700 (PDT)
-In-Reply-To: <1440604110-4306-3-git-send-email-nicolas.dechesne@linaro.org>
-References: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
-	<1440604110-4306-3-git-send-email-nicolas.dechesne@linaro.org>
-Date: Wed, 26 Aug 2015 13:31:42 -0700
-Message-ID: <CAJ86T=UEPqUz2ACbRpGkOkmxB7Z_U88iPEeoJfpA4Ox+pRbr2Q@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 2/2] image_types.bbclass: add support for fastboot image type
+	Wed, 26 Aug 2015 13:41:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=FZn/z0efDLXKMTsE6bQy3taC1I+wK1OhB+BKjsG3Z7k=;
+	b=fC3Gho2uHzmqEGlPzzkr6MFXHWsrplBMZRxChpb6RHkru4K8NPuCwqSSxzcraEEXTO
+	DZQyY8Feir/YpbBU++0sG/9631a2LFjSGimmzEPTGbHE/QWmzBXkr0TykMRcJ21O8JZS
+	y9KM7x+GNUfEp/ztdOwgMaPh1YoxxYO5nO7VHKiOJdJdPLBsKScXXirG6nHQuLz7XtWF
+	423SxyDWDeOU43wq0nfKC9djhFDgxVq0qH6iNXvTOWhf5ndlW2gjC/ueTf5vHcOmYJ+0
+	/VtHpnfyZJ74cHNdxg+EGJ3MromXh/0UdH72/wjj7M4QBDpLoaKSvr2LfnTrq7uaJEzd
+	nfAw==
+X-Gm-Message-State: ALoCoQkhQ6lXu+jq1ivihrgerNXaJ9sizRVG41ECnXWBYMzAk1MLO7xYDoEv+96Oc6PuSnvtNtC2
+X-Received: by 10.180.219.101 with SMTP id pn5mr14312522wic.89.1440621709932; 
+	Wed, 26 Aug 2015 13:41:49 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id v8sm5560547wjr.15.2015.08.26.13.41.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 26 Aug 2015 13:41:49 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Aug 2015 21:35:20 +0100
+Message-Id: <1440621320-22747-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] byacc: fix compilation on Ubuntu 14.04
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,80 +44,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 20:31:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 26 Aug 2015 20:41:53 -0000
 
-On Wed, Aug 26, 2015 at 8:48 AM, Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
-> Fastboot images are images that can be flashed using the fastboot protocol
-> implemented in many popular bootloader for SBCs or even real world products
-> (such as Android phones and tablets).
->
-> This image type was implemented in meta-smartphone, and is being moved in
-> oe-core.
->
-> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-> ---
->  meta/classes/image_types.bbclass | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 8547574..4c53dc9 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -156,6 +156,19 @@ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_
->
->  EXTRA_IMAGECMD = ""
->
-> +FASTBOOT_PARTITION_SIZE ?= "16384"
-> +
-> +IMAGE_CMD_ext4.fastboot () {
-> +       if [ ${ROOTFS_SIZE} -lt ${FASTBOOT_PARTITION_SIZE} ]; then
-> +               make_ext4fs -l `expr ${FASTBOOT_PARTITION_SIZE} \* 1024` \
-> +                       ${EXTRA_IMAGECMD} \
-> +                       ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4.fastboot \
-> +                       ${IMAGE_ROOTFS}
-> +       else
-> +               bbfatal "Rootfs is too small for partition (Rootfs Actual Size: ${ROOTFS_SIZE}, Partition size: ${FASTBOOT_PARTITION_SIZE})"
+Ubuntu defaults to passing _FORTIFY_SOURCE=2 which breaks byacc as it doesn't
+pass enough arguments to open():
 
-Should the error be "Rootfs is too LARGE for partition" ?
+inlined from 'open_tmpfile' at byacc-20150711/main.c:588:5:
+/usr/include/x86_64-linux-gnu/bits/fcntl2.h:50:24: error: call to '__open_missing_mode' declared with attribute error:
+open with O_CREAT in second argument needs 3 arguments
 
-> +       fi
-> +}
-> +
->  inherit siteinfo
->  JFFS2_ENDIANNESS ?= "${@base_conditional('SITEINFO_ENDIANNESS', 'le', '-l', '-b', d)}"
->  JFFS2_ERASEBLOCK ?= "0x40000"
-> @@ -167,6 +180,7 @@ EXTRA_IMAGECMD_ext3 ?= "-i 4096"
->  EXTRA_IMAGECMD_ext4 ?= "-i 4096"
->  EXTRA_IMAGECMD_btrfs ?= ""
->  EXTRA_IMAGECMD_elf ?= ""
-> +EXTRA_IMAGECMD_ext4.fastboot ?= "-s -b 4096"
->
->  IMAGE_DEPENDS = ""
->  IMAGE_DEPENDS_jffs2 = "mtd-utils-native"
-> @@ -182,6 +196,7 @@ IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
->  IMAGE_DEPENDS_ubi = "mtd-utils-native"
->  IMAGE_DEPENDS_ubifs = "mtd-utils-native"
->  IMAGE_DEPENDS_multiubi = "mtd-utils-native"
-> +IMAGE_DEPENDS_ext4.fastboot = "android-tools-native"
->
->  # This variable is available to request which values are suitable for IMAGE_FSTYPES
->  IMAGE_TYPES = " \
-> @@ -201,6 +216,7 @@ IMAGE_TYPES = " \
->      vdi \
->      qcow2 \
->      elf \
-> +    ext4.fastboot \
->  "
->
->  COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
-> --
-> 2.3.5
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Add a mode of 0666 to fix this.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/byacc/byacc.inc              |  4 +++-
+ meta/recipes-extended/byacc/byacc/byacc-open.patch | 13 +++++++++++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/byacc/byacc/byacc-open.patch
+
+diff --git a/meta/recipes-extended/byacc/byacc.inc b/meta/recipes-extended/byacc/byacc.inc
+index fae9e25..f9f8d6b 100644
+--- a/meta/recipes-extended/byacc/byacc.inc
++++ b/meta/recipes-extended/byacc/byacc.inc
+@@ -5,7 +5,9 @@ programming language."
+ SECTION = "devel"
+ LICENSE = "PD"
+ 
+-SRC_URI = "ftp://invisible-island.net/byacc/byacc-${PV}.tgz"
++SRC_URI = "ftp://invisible-island.net/byacc/byacc-${PV}.tgz \
++           file://byacc-open.patch"
++
+ EXTRA_OECONF += "--program-transform-name='s,^,b,'"
+ 
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-extended/byacc/byacc/byacc-open.patch b/meta/recipes-extended/byacc/byacc/byacc-open.patch
+new file mode 100644
+index 0000000..9160543
+--- /dev/null
++++ b/meta/recipes-extended/byacc/byacc/byacc-open.patch
+@@ -0,0 +1,13 @@
++diff --git a/main.c b/main.c
++index 620ce3f..82071a4 100644
++--- a/main.c
+++++ b/main.c
++@@ -526,7 +526,7 @@ my_mkstemp(char *temp)
++     }
++     if ((name = tempnam(dname, fname)) != 0)
++     {
++-	fd = open(name, O_CREAT | O_EXCL | O_RDWR);
+++      fd = open(name, O_CREAT | O_EXCL | O_RDWR, 0666);
++ 	strcpy(temp, name);
++     }
++     else
+-- 
+2.1.4
+
 
