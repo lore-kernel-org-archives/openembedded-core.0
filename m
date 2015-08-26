@@ -1,42 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id F385471633
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 01:51:27 +0000 (UTC)
-Received: by pabzx8 with SMTP id zx8so51840600pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Aug 2015 18:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=fb6Ao3jFIg6nuxKX+xwAbWrxbrxFLUd40JATZ6/Ht/A=;
-	b=TqJMtwcsTe7GKnPecgl4BScknJeTx0PAV3yJzhMwoWnsm7QsqbzcRcnLkYMGt5tDnK
-	IehmWG21M1QNuw3RC+ARzdwg8/JRjUeQLHdjVDZu7cOQ5ssS7j8lXCp6tqdk1OX9hOzJ
-	c8yX+Qla6EJuxm+8YBNx72/+JWHQunGm46G0StfkjG2VoctN4qQ07+2uihcBboQKr8Pm
-	k/zXULc7yQTSrgtx3GrasooP/h/VmAL3i3OagLgTQ+llm4BaaXNK40CgSkr9TkbmOSmw
-	xNTFTpwu3MLHdnOHtjia0/aPcgkR7k8nmQDv8JLRC1wpP7/7Sh9X3vGwuibIQ12uPS17
-	5TWw==
-X-Received: by 10.69.26.196 with SMTP id ja4mr62351236pbd.121.1440553887898;
-	Tue, 25 Aug 2015 18:51:27 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:154a:7662:3b48:ac9?
-	([2601:646:8601:4580:154a:7662:3b48:ac9])
-	by smtp.gmail.com with ESMTPSA id
-	ye2sm21230686pab.31.2015.08.25.18.51.27
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 25 Aug 2015 18:51:27 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <55DD1A7E.6080802@windriver.com>
-Date: Tue, 25 Aug 2015 18:51:21 -0700
-Message-Id: <D5BE9B70-DA12-4158-A179-7A5141AE4E11@gmail.com>
-References: <1440553256-9914-1-git-send-email-raj.khem@gmail.com>
-	<55DD1A7E.6080802@windriver.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V2 15/16] python-distribute, python-setuptools: Migrate to good old python-setuptools
+Return-Path: <rewitt@declaratino.com>
+X-Greylist: delayed 430 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 26 Aug 2015 02:40:49 UTC
+Received: from p3plsmtpa06-10.prod.phx3.secureserver.net
+	(p3plsmtpa06-10.prod.phx3.secureserver.net [173.201.192.111])
+	by mail.openembedded.org (Postfix) with ESMTP id B78F171633;
+	Wed, 26 Aug 2015 02:40:49 +0000 (UTC)
+Received: from mail-lb0-f181.google.com ([209.85.217.181])
+	by p3plsmtpa06-10.prod.phx3.secureserver.net with 
+	id 9EZe1r0013vQdcH01EZeY1; Tue, 25 Aug 2015 19:33:39 -0700
+Received: by lbbtg9 with SMTP id tg9so112008529lbb.1;
+	Tue, 25 Aug 2015 19:33:37 -0700 (PDT)
+X-Received: by 10.152.21.231 with SMTP id y7mr25542729lae.63.1440556417768;
+	Tue, 25 Aug 2015 19:33:37 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.25.206.197 with HTTP; Tue, 25 Aug 2015 19:33:08 -0700 (PDT)
+In-Reply-To: <CAFeBWL4as4_aeTWOZox+V=NB_s7LriLof-sYNc04PB6vjDRBnw@mail.gmail.com>
+References: <CAFeBWL6xGuzEcOR5B1sfEgZR=i-T=EZ-b-TKPT9DGZpCmDPy4g@mail.gmail.com>
+	<5607133.YNgYITpZsc@peggleto-mobl.ger.corp.intel.com>
+	<CAFeBWL4as4_aeTWOZox+V=NB_s7LriLof-sYNc04PB6vjDRBnw@mail.gmail.com>
+From: Randy Witt <rewitt@declaratino.com>
+Date: Tue, 25 Aug 2015 19:33:08 -0700
+Message-ID: <CAP5N7XGHHKD7A+cWZaFyxiZR+NMrzPF0_1wW2pT-ion=T6PoXw@mail.gmail.com>
+To: Adam Lee <adam.yh.lee@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] Extensible SDK install errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,242 +38,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Aug 2015 01:51:28 -0000
-X-Groupsio-MsgNum: 70043
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_77CE8A6F-9ADF-4248-B8B4-6757AE96EF0D";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 26 Aug 2015 02:40:52 -0000
+Content-Type: multipart/alternative; boundary=089e0158aea08f6526051e2dad7b
 
---Apple-Mail=_77CE8A6F-9ADF-4248-B8B4-6757AE96EF0D
+--089e0158aea08f6526051e2dad7b
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=windows-1252
+
+On Tue, Aug 25, 2015 at 6:11 PM, Adam Lee <adam.yh.lee@gmail.com> wrote:
+
+> Thanks for your comments. I was not running the installer as root.
+> I tried again and specified the install path in my home directory.
+> This time it seems to have gone further, but still failed with this:
+>
+> "error: Can't install packagegroup-core-boot-1.0-r17.0@qemuarm: no
+> package provides systemd"
+>
+> Perhaps I need to disable systemd from distro features?
+>
+>
+You could do that, however there is a patch on the list to fix this kind of
+problem.
+
+http://patchwork.openembedded.org/patch/101213/
+
+It may fix your problem until the next release comes out. I'm sorry you've
+had this trouble. It was just something that was missed in the first
+version of the extensible sdk.
 
 
-> On Aug 25, 2015, at 6:46 PM, Robert Yang <liezhi.yang@windriver.com> =
-wrote:
->=20
->=20
->=20
-> On 08/26/2015 09:40 AM, Khem Raj wrote:
->> setuptools the old king is ruling again, distribute fork has been =
-merged
->> into setuptools starting 0.7x, so lets move to use it as well
->>=20
->> Remove licence ambiguity we need to say which verison of PSF and Zope =
-license is in use
->>=20
->> Fixes [YOCTO #8201]
->>=20
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->>  .../python/python-distribute_0.6.32.bb             | 63 =
-----------------------
->>  .../python/python-setuptools_18.2.bb               | 46 =
-++++++++++++++++
->>  ...tuptools_15.2.bb =3D> python3-setuptools_18.2.bb} |  4 +-
->>  3 files changed, 48 insertions(+), 65 deletions(-)
->>  delete mode 100644 =
-meta/recipes-devtools/python/python-distribute_0.6.32.bb
->>  create mode 100644 =
-meta/recipes-devtools/python/python-setuptools_18.2.bb
->>  rename meta/recipes-devtools/python/{python3-setuptools_15.2.bb =3D> =
-python3-setuptools_18.2.bb} (90%)
->>=20
->> diff --git a/meta/recipes-devtools/python/python-distribute_0.6.32.bb =
-b/meta/recipes-devtools/python/python-distribute_0.6.32.bb
->> deleted file mode 100644
->> index aa07633..0000000
->> --- a/meta/recipes-devtools/python/python-distribute_0.6.32.bb
->> +++ /dev/null
->> @@ -1,63 +0,0 @@
->> -SUMMARY =3D "Download, build, install, upgrade, and uninstall Python =
-packages"
->> -HOMEPAGE =3D "http://packages.python.org/distribute"
->> -SECTION =3D "devel/python"
->> -LICENSE =3D "PSF"
->> -LIC_FILES_CHKSUM =3D =
-"file://setup.py;beginline=3D234;endline=3D234;md5=3D26f6b02022b737126d3c8=
-8838782dddb"
->> -
->> -SRCNAME =3D "distribute"
->> -PR =3D "ml5"
->> -DEPENDS +=3D "python"
->> -DEPENDS_class-native +=3D "python-native"
->> -
->> -SRC_URI =3D " \
->> -  =
-http://pypi.python.org/packages/source/d/distribute/${SRCNAME}-${PV}.tar.g=
-z \
->> -"
->> -SRC_URI[md5sum] =3D "acb7a2da81e3612bfb1608abe4f0e568"
->> -SRC_URI[sha256sum] =3D =
-"8970cd1e148b5d1fea9430584aea66c45ea22d80e0933393ec49ebc388f718df"
->> -
->> -S =3D "${WORKDIR}/${SRCNAME}-${PV}"
->> -
->> -#  http://python-distribute.org/distribute_setup.py
->> -
->> -# force the selection of python3
->> -#PYTHON_BASEVERSION =3D "3.3"
->> -#PYTHON_MAJMIN =3D "3.3"
->> -
->> -inherit distutils
->> -
->> -DISTUTILS_INSTALL_ARGS +=3D =
-"--install-lib=3D${D}${libdir}/${PYTHON_DIR}/site-packages"
->> -
->> -do_install_prepend() {
->> -    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
->> -}
->> -
->> -#
->> -#  The installer puts the wrong path in the setuptools.pth file.  =
-Correct it.
->> -#
->> -do_install_append() {
->> -    rm ${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
->> -    echo "./${SRCNAME}-${PV}-py${PYTHON_BASEVERSION}.egg" > =
-${D}${PYTHON_SITEPACKAGES_DIR}/setuptools.pth
->> -}
->> -
->> -do_install_append_class-nativesdk() {
->> -	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' =
-${D}${PYTHON_SITEPACKAGES_DIR}/distribute-${PV}-py${PYTHON_BASEVERSION}.eg=
-g/setuptools/tests/test_resources.py
->> -	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' =
-${D}${bindir}/easy_install
->> -	sed -i -e '1s|^#!.*|#!/usr/bin/env python|' =
-${D}${bindir}/easy_install-${PYTHON_BASEVERSION}
->> -}
->> -
->> -RDEPENDS_${PN} =3D "\
->> -  python-distutils \
->> -  python-compression \
->> -"
->> -
->> -RDEPENDS_${PN}_class-target =3D "\
->> -  python-distutils \
->> -  python-compression \
->> -  python-netclient \
->> -  python-email \
->> -  python-shell \
->> -"
->> -
->> -RPROVIDES_${PN} +=3D "python-setuptools"
->> -
->> -BBCLASSEXTEND =3D "native nativesdk"
->> diff --git a/meta/recipes-devtools/python/python-setuptools_18.2.bb =
-b/meta/recipes-devtools/python/python-setuptools_18.2.bb
->> new file mode 100644
->> index 0000000..1de2b2e
->> --- /dev/null
->> +++ b/meta/recipes-devtools/python/python-setuptools_18.2.bb
->> @@ -0,0 +1,46 @@
->> +SUMMARY =3D "Downloads, builds, installs, upgrades, and uninstalls =
-Python packages"
->> +HOMEPAGE =3D "https://pypi.python.org/pypi/setuptools"
->> +SECTION =3D "devel/python"
->> +LICENSE =3D "Python-2.0 | ZPL-2.0"
->=20
-> The license info inside the tarball doesn't declare which version of =
-ZPL IIRC ?
+> I will also check my user's permission to solve the permission error.
+>
+> On Mon, Aug 24, 2015 at 4:11 AM Paul Eggleton <
+> paul.eggleton@linux.intel.com> wrote:
+>
+>> Hi Adam,
+>>
+>> On Friday 21 August 2015 15:06:25 Adam Lee wrote:
+>> > Hello, I built the Extensible SDK on Fido (bitbake core-image-minimal =
+-c
+>> > populate_sdk_ext).
+>> >
+>> > During the installation I get this permission error:
+>> >
+>> > $ ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh
+>> >
+>> > > Enter target directory for SDK (default: /opt/poky/1.8):
+>> > > You are about to install the SDK to "/opt/poky/1.8". Proceed[Y/n]?
+>> > > Extracting SDK...done
+>> > > Setting it up...
+>> > > Extracting buildtools...
+>> > > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:
+>> line
+>> > > 148: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi:
+>> Permission
+>> > > denied
+>> > > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:
+>> line
+>> > > 151: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi:
+>> Permission
+>> > > denied
+>> > > ./poky-glibc-x86_64-core-image-minimal-armv5e-toolchain-ext-1.8.sh:
+>> line
+>> > > 155: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi:
+>> Permission
+>> > > denied
+>> > > mv: cannot move =E2=80=98x86_64-nativesdk-libc.tar.bz2=E2=80=99 to
+>> > > =E2=80=98/opt/poky/1.8/layers/poky/x86_64-nativesdk-libc.tar.bz2=E2=
+=80=99: Permission
+>> > > denied Preparing build system...
+>> > > sh: 1: cannot create preparing_build_system.log: Permission denied
+>> > > SDK preparation failed: see /opt/poky/1.8/preparing_build_system.log
+>> >
+>> >  It looks like `/opt/poky/1.8/layers/poky` directory belongs to the ro=
+ot
+>> > user:
+>> >
+>> > $ ls -l /opt/poky/1.8/layers/
+>> >
+>> > > total 36
+>> > > drwxrwxr-x 9 root root 4096 Jun 16 10:25 meta-gnome
+>> > > drwxrwxr-x 9 root root 4096 Jun 15 10:44 meta-multimedia
+>> > > drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-networking
+>> > > drwxrwxr-x 20 root root 4096 Jun 15 10:44 meta-oe
+>> > > drwxrwxr-x 7 root root 4096 Jun 15 10:44 meta-python
+>> > > drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-ruby
+>> > > drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-systemd
+>> > > drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-xfce
+>> > > drwxrwxr-x 13 root root 4096 Aug 21 14:46 poky
+>> >
+>> >  I may have missed something obvious. Has anyone seen this?
+>>
+>> Basically you shouldn't be installing the extensible SDK as root. We
+>> ought to
+>> be telling you about this up front and we should have a more reasonable
+>> default path - these are open bugs and patches are in review on the list
+>> to fix
+>> them.
+>>
+>> Cheers,
+>> Paul
+>>
+>> --
+>>
+>> Paul Eggleton
+>> Intel Open Source Technology Centre
+>>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
 
-however it says it follows OSI approved version thats what is depicted =
-here, there is no general version of these licenses available.
-like BSD without clause.
+--089e0158aea08f6526051e2dad7b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
->=20
-> // Robert
->=20
->> +LIC_FILES_CHKSUM =3D =
-"file://setup.py;beginline=3D78;endline=3D78;md5=3D8a314270dd7a8dbca741775=
-415f1716e"
->> +
->> +SRCNAME =3D "setuptools"
->> +
->> +PROVIDES =3D "python-distribute"
->> +
->> +DEPENDS +=3D "python"
->> +DEPENDS_class-native +=3D "python-native"
->> +
->> +inherit distutils
->> +
->> +SRC_URI =3D =
-"https://pypi.python.org/packages/source/s/setuptools/setuptools-${PV}.tar=
-.gz"
->> +SRC_URI[md5sum] =3D "52b4e48939ef311d7204f8fe940764f4"
->> +SRC_URI[sha256sum] =3D =
-"0994a58df27ea5dc523782a601357a2198b7493dcc99a30d51827a23585b5b1d"
->> +
->> +S =3D "${WORKDIR}/${SRCNAME}-${PV}"
->> +
->> +
->> +DISTUTILS_INSTALL_ARGS +=3D =
-"--install-lib=3D${D}${libdir}/${PYTHON_DIR}/site-packages"
->> +
->> +do_install_prepend() {
->> +    install -d ${D}/${libdir}/${PYTHON_DIR}/site-packages
->> +}
->> +
->> +RDEPENDS_${PN} =3D "\
->> +  python-stringold \
->> +  python-email \
->> +  python-shell \
->> +  python-distutils \
->> +  python-compression \
->> +"
->> +
->> +RDEPENDS_${PN}_class-native =3D "\
->> +  python-distutils \
->> +  python-compression \
->> +"
->> +
->> +RREPLACES_${PN} =3D "python-distribute"
->> +RPROVIDES_${PN} =3D "python-distribute"
->> +RCONFLICTS_${PN} =3D "python-distribute"
->> +
->> +BBCLASSEXTEND =3D "native nativesdk"
->> diff --git a/meta/recipes-devtools/python/python3-setuptools_15.2.bb =
-b/meta/recipes-devtools/python/python3-setuptools_18.2.bb
->> similarity index 90%
->> rename from meta/recipes-devtools/python/python3-setuptools_15.2.bb
->> rename to meta/recipes-devtools/python/python3-setuptools_18.2.bb
->> index 97058c1..dc0ac80 100644
->> --- a/meta/recipes-devtools/python/python3-setuptools_15.2.bb
->> +++ b/meta/recipes-devtools/python/python3-setuptools_18.2.bb
->> @@ -11,8 +11,8 @@ DEPENDS_class-native +=3D "python3-native"
->>  SRC_URI =3D " \
->>    =
-http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.g=
-z \
->>  "
->> -SRC_URI[md5sum] =3D "a9028a9794fc7ae02320d32e2d7e12ee"
->> -SRC_URI[sha256sum] =3D =
-"381e78471fb0eff89c4b1a219e8739f48dd87c76ad2d3a790010ca3a62ee29a4"
->> +SRC_URI[md5sum] =3D "52b4e48939ef311d7204f8fe940764f4"
->> +SRC_URI[sha256sum] =3D =
-"0994a58df27ea5dc523782a601357a2198b7493dcc99a30d51827a23585b5b1d"
->>=20
->>  S =3D "${WORKDIR}/${SRCNAME}-${PV}"
->>=20
->>=20
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
+ue, Aug 25, 2015 at 6:11 PM, Adam Lee <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:adam.yh.lee@gmail.com" target=3D"_blank">adam.yh.lee@gmail.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-le=
+ft-style:solid;padding-left:1ex"><div dir=3D"ltr">Thanks for your comments.=
+ I was not running the installer as root.<div>I tried again and specified t=
+he install path in my home directory.</div><div>This time it seems to have =
+gone further, but still failed with this:</div><div><br></div><div>&quot;er=
+ror: Can&#39;t install packagegroup-core-boot-1.0-r17.0@qemuarm: no package=
+ provides systemd&quot;</div><div><br></div><div>Perhaps I need to disable =
+systemd from distro features?</div><div><br></div></div></blockquote><div>=
+=C2=A0</div><div><div>You could do that, however there is a patch on the li=
+st to fix this kind of problem.</div><div><br></div><div><a href=3D"http://=
+patchwork.openembedded.org/patch/101213/">http://patchwork.openembedded.org=
+/patch/101213/</a><br></div><div><br></div><div>It may fix your problem unt=
+il the next release comes out. I&#39;m sorry you&#39;ve had this trouble. I=
+t was just something that was missed in the first version of the extensible=
+ sdk.</div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><div dir=3D"ltr"><div>=
+</div><div>I will also check my user&#39;s permission to solve the permissi=
+on error.</div></div><div class=3D""><div class=3D"h5"><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr">On Mon, Aug 24, 2015 at 4:11 AM Paul Eggleton &=
+lt;<a href=3D"mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.=
+eggleton@linux.intel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left=
+-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">Hi Adam,<=
+br>
+<br>
+On Friday 21 August 2015 15:06:25 Adam Lee wrote:<br>
+&gt; Hello, I built the Extensible SDK on Fido (bitbake core-image-minimal =
+-c<br>
+&gt; populate_sdk_ext).<br>
+&gt;<br>
+&gt; During the installation I get this permission error:<br>
+&gt;<br>
+&gt; $ ./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-tool=
+chain-ext-1.8.sh" rel=3D"noreferrer" target=3D"_blank">poky-glibc-x86_64-co=
+re-image-minimal-armv5e-toolchain-ext-1.8.sh</a><br>
+&gt;<br>
+&gt; &gt; Enter target directory for SDK (default: /opt/poky/1.8):<br>
+&gt; &gt; You are about to install the SDK to &quot;/opt/poky/1.8&quot;. Pr=
+oceed[Y/n]?<br>
+&gt; &gt; Extracting SDK...done<br>
+&gt; &gt; Setting it up...<br>
+&gt; &gt; Extracting buildtools...<br>
+&gt; &gt; ./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-t=
+oolchain-ext-1.8.sh" rel=3D"noreferrer" target=3D"_blank">poky-glibc-x86_64=
+-core-image-minimal-armv5e-toolchain-ext-1.8.sh</a>: line<br>
+&gt; &gt; 148: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: P=
+ermission<br>
+&gt; &gt; denied<br>
+&gt; &gt; ./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-t=
+oolchain-ext-1.8.sh" rel=3D"noreferrer" target=3D"_blank">poky-glibc-x86_64=
+-core-image-minimal-armv5e-toolchain-ext-1.8.sh</a>: line<br>
+&gt; &gt; 151: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: P=
+ermission<br>
+&gt; &gt; denied<br>
+&gt; &gt; ./<a href=3D"http://poky-glibc-x86_64-core-image-minimal-armv5e-t=
+oolchain-ext-1.8.sh" rel=3D"noreferrer" target=3D"_blank">poky-glibc-x86_64=
+-core-image-minimal-armv5e-toolchain-ext-1.8.sh</a>: line<br>
+&gt; &gt; 155: /opt/poky/1.8/environment-setup-armv5e-poky-linux-gnueabi: P=
+ermission<br>
+&gt; &gt; denied<br>
+&gt; &gt; mv: cannot move =E2=80=98x86_64-nativesdk-libc.tar.bz2=E2=80=99 t=
+o<br>
+&gt; &gt; =E2=80=98/opt/poky/1.8/layers/poky/x86_64-nativesdk-libc.tar.bz2=
+=E2=80=99: Permission<br>
+&gt; &gt; denied Preparing build system...<br>
+&gt; &gt; sh: 1: cannot create preparing_build_system.log: Permission denie=
+d<br>
+&gt; &gt; SDK preparation failed: see /opt/poky/1.8/preparing_build_system.=
+log<br>
+&gt;<br>
+&gt;=C2=A0 It looks like `/opt/poky/1.8/layers/poky` directory belongs to t=
+he root<br>
+&gt; user:<br>
+&gt;<br>
+&gt; $ ls -l /opt/poky/1.8/layers/<br>
+&gt;<br>
+&gt; &gt; total 36<br>
+&gt; &gt; drwxrwxr-x 9 root root 4096 Jun 16 10:25 meta-gnome<br>
+&gt; &gt; drwxrwxr-x 9 root root 4096 Jun 15 10:44 meta-multimedia<br>
+&gt; &gt; drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-networking<br>
+&gt; &gt; drwxrwxr-x 20 root root 4096 Jun 15 10:44 meta-oe<br>
+&gt; &gt; drwxrwxr-x 7 root root 4096 Jun 15 10:44 meta-python<br>
+&gt; &gt; drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-ruby<br>
+&gt; &gt; drwxrwxr-x 5 root root 4096 Jun 15 10:44 meta-systemd<br>
+&gt; &gt; drwxrwxr-x 11 root root 4096 Jun 15 10:44 meta-xfce<br>
+&gt; &gt; drwxrwxr-x 13 root root 4096 Aug 21 14:46 poky<br>
+&gt;<br>
+&gt;=C2=A0 I may have missed something obvious. Has anyone seen this?<br>
+<br>
+Basically you shouldn&#39;t be installing the extensible SDK as root. We ou=
+ght to<br>
+be telling you about this up front and we should have a more reasonable<br>
+default path - these are open bugs and patches are in review on the list to=
+ fix<br>
+them.<br>
+<br>
+Cheers,<br>
+Paul<br>
+<br>
+--<br>
+<br>
+Paul Eggleton<br>
+Intel Open Source Technology Centre<br>
+</blockquote></div>
+</div></div><br>--<br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
+re@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+<br></blockquote></div><br></div></div>
 
-
---Apple-Mail=_77CE8A6F-9ADF-4248-B8B4-6757AE96EF0D
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXdG54ACgkQuwUzVZGdMxRsQACggS7OR5qEb4BttAsGJeT6DMw7
-Z5oAmwQg+pZY7b9/lf8joF/FtNnkEjMO
-=TESd
------END PGP SIGNATURE-----
-
---Apple-Mail=_77CE8A6F-9ADF-4248-B8B4-6757AE96EF0D--
+--089e0158aea08f6526051e2dad7b--
