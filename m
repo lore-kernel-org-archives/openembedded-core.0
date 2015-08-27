@@ -1,35 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
-	[209.85.213.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8421E60043
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 87D6060043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 16:19:38 +0000 (UTC)
-Received: by igcse8 with SMTP id se8so71707071igc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 09:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=h9j9eSu889HapPpQr9KdE90hdzALc++rvS5rr5nJnFM=;
-	b=yCbd9EAZ1VfC7O1vlMTLor1N5cAVu4WAf3tvK/xm7E8SFrmgDeMQtg5MM0NTFYYoTz
-	4pGDuxjQZq0QED8m2+v1YU7FxPKFsjRaFUs0FSAqFJsFuXRnP83zaNk5jiObi9Pl3bnM
-	0WoUHApa1o2pI18FnfaFkG2fmAJ2A1WhAFMepRoV97mgEnk5t3xEL9cFmOxaTwcNYd9K
-	337UeIkYKcuFFdx5xQwmF3b5qWQab/79DS9B+kd7roxbj1JZuq4mfGJ/Iivl0NjXmNDo
-	zyM5yS1xYfrd3enGLrEiPQ/XH9Zm0rK5uljFlSTc3OHYkSxzWMpRt6IEgcyW26nG+7MC
-	GRTw==
-X-Received: by 10.50.93.102 with SMTP id ct6mr9770807igb.75.1440692378715;
-	Thu, 27 Aug 2015 09:19:38 -0700 (PDT)
+	Thu, 27 Aug 2015 16:27:24 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga101.jf.intel.com with ESMTP; 27 Aug 2015 09:27:26 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,422,1437462000"; d="scan'208";a="756614794"
+Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.66]) ([10.219.5.66])
+	by orsmga001.jf.intel.com with ESMTP; 27 Aug 2015 09:27:24 -0700
+Message-ID: <55DF3A71.1020204@linux.intel.com>
+Date: Thu, 27 Aug 2015 11:27:29 -0500
+From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Received: by 10.107.3.135 with HTTP; Thu, 27 Aug 2015 09:19:09 -0700 (PDT)
-In-Reply-To: <1440691301-8285-1-git-send-email-ross.burton@intel.com>
-References: <1440691301-8285-1-git-send-email-ross.burton@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 27 Aug 2015 09:19:09 -0700
-Message-ID: <CAMKF1srXapg39duVdoQXD=SfG+S+V+1-KBayZhTNFCLdB3RL-g@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bind: remove dependency on bind in bind-dev
+To: openembedded-core@lists.openembedded.org
+References: <1440600498-10313-1-git-send-email-anibal.limon@linux.intel.com>
+In-Reply-To: <1440600498-10313-1-git-send-email-anibal.limon@linux.intel.com>
+Subject: Re: [PATCH] runqemu-internal: Fixes unary operator expected in new TCPSERIAL_PORTNUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,16 +31,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 16:19:41 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 27 Aug 2015 16:27:26 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Aug 27, 2015 at 9:01 AM, Ross Burton <ross.burton@intel.com> wrote:
-> bind doesn't ship shared libraries only static libraries, so the default
-> dependency on PN from PN-dev is pointless and means that an image with bind-dev
-> installed (via dhcp-dev's automatic dependency) ends up with named installed and
-> started on boot which is rarely intended.
+ping
 
-I see similar issues in meta-oe I wish this could be abstracted out to
-a general solution would be awesome
-detecting if there are no .so in PN detach PN-dev from it.
+On 26/08/15 09:48, Aníbal Limón wrote:
+> If $TCPSERIAL_PORTNUM is empty string causes an error because
+> expands the expresion to,
+>
+> $TCPSERIAL_PORTNUM == "" -> == ""
+>
+> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+> ---
+>   scripts/runqemu-internal | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
+> index b317358..1b1bc9e 100755
+> --- a/scripts/runqemu-internal
+> +++ b/scripts/runqemu-internal
+> @@ -620,7 +620,7 @@ if [ "x$QEMUOPTIONS" = "x" ]; then
+>       return 1
+>   fi
+>   
+> -if [ $TCPSERIAL_PORTNUM != "" ]; then
+> +if [ "$TCPSERIAL_PORTNUM" != "" ]; then
+>       if [ "$MACHINE" = "qemuarm64" ]; then
+>           QEMUOPTIONS="$QEMUOPTIONS -device virtio-serial-device -chardev socket,id=virtcon,port=$TCPSERIAL_PORTNUM,host=127.0.0.1 -device virtconsole,chardev=virtcon"
+>       else
+
 
