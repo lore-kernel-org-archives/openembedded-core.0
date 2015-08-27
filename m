@@ -1,25 +1,23 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E0792760FB
+	by mail.openembedded.org (Postfix) with ESMTP id DF91B73217
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 02:31:41 +0000 (UTC)
+	Thu, 27 Aug 2015 02:31:39 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7R2Vehi007976
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7R2VdWr007973
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 26 Aug 2015 19:31:40 -0700 (PDT)
+	Wed, 26 Aug 2015 19:31:39 -0700 (PDT)
 Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 26 Aug 2015 19:31:40 -0700
+	14.3.235.1; Wed, 26 Aug 2015 19:31:38 -0700
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Aug 2015 22:31:31 -0400
-Message-ID: <c2caeb07f4cf540d608ec48781f1bc0617551290.1440642427.git.bruce.ashfield@windriver.com>
+Date: Wed, 26 Aug 2015 22:31:29 -0400
+Message-ID: <cover.1440642427.git.bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1440642427.git.bruce.ashfield@windriver.com>
-References: <cover.1440642427.git.bruce.ashfield@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/9] linux-yocto/3.19/4.1: add coretemp to intel-common-drivers
+Subject: [PATCH 0/9 v2] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,85 +33,61 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 27 Aug 2015 02:31:44 -0000
 Content-Type: text/plain
 
-Updating the 3.19 and 4.1 meta SRCREVs to pull in the coretemp
-configuration values.
+Hi all,
 
-Partial fix for [YOCTO #8107].
+Patches 0-6 are the same as my previous pull request, but I've added
+them here for completness sake.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  | 2 +-
- meta/recipes-kernel/linux/linux-yocto_3.19.bb      | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+As Ross pointed out, I got a little bit carried away enabling CIRRUS
+drm support, so I've now dialed it back and only enabled it for our
+x86 targets. 
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index 1cefff871440..848bc965a0b0 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -3,7 +3,7 @@ KBRANCH ?= "standard/preempt-rt"
- require recipes-kernel/linux/linux-yocto.inc
- 
- SRCREV_machine ?= "fe1ee443489d4ab5ce04c903b0362ae565547bd1"
--SRCREV_meta ?= "45393dd54f5ad77d43014c407c2b3520da42f427"
-+SRCREV_meta ?= "4ea43922558a9032af33ea42ea74ac02416079e7"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
-index c82da372681d..a6a58a2ed84f 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
--SRCREV_meta ?= "361c186effc0b0038dfbfd3fe71ecf3df5edb43d"
-+SRCREV_meta ?= "1016714868249d64fc16692fd7679672b1efa17b"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index 38167cc2e85e..0e53d1d9149c 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
--SRCREV_meta ?= "45393dd54f5ad77d43014c407c2b3520da42f427"
-+SRCREV_meta ?= "4ea43922558a9032af33ea42ea74ac02416079e7"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-index 364f1f60ddcd..e8c16407a1c5 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
- SRCREV_machine_qemux86-64 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
- SRCREV_machine_qemumips64 ?= "3eb70cea3532e22ab1b6da9864446621229e6616"
- SRCREV_machine ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
--SRCREV_meta ?= "361c186effc0b0038dfbfd3fe71ecf3df5edb43d"
-+SRCREV_meta ?= "1016714868249d64fc16692fd7679672b1efa17b"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.19.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-3.19;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index 9eff93d35764..cbc3981f6d54 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
- SRCREV_machine_qemux86-64 ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
- SRCREV_machine_qemumips64 ?= "5c2b3697082a4ec6641aa5a8eca3974ca609cecf"
- SRCREV_machine ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
--SRCREV_meta ?= "0a1457774f203eae4213822a0bd17a07f3b5d89a"
-+SRCREV_meta ?= "4ea43922558a9032af33ea42ea74ac02416079e7"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+I've also addressed a couple of quark and coretemp issues that Saul
+noticed in [linux-yocto/4.1: CIRRUS config and quark thermal support]
+
+The interesting parts of this refreshed series are:
+
+  linux-yocto-dev: update to 4.2-rc
+  linux-yocto/3.14/4.1: fix ARM boot with gcc 5.x
+
+With these, we have a 4.2 kernel available AND qemuarm targets that
+build and boot with gcc 5.2 (for both the 3.14 and 4.1 kernel).
+
+Cheers,
+
+Bruce
+
+The following changes since commit 393bd7496d71eb101f21234c1233a2d18fd2c73e:
+
+  oeqa/oetest.py: add better package search for hasPackage() (2015-08-26 08:28:06 +0100)
+
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (9):
+  linux-yocto/4.1: fix qemuarm preempt-rt configuration
+  linux-yocto/3.19/4.1: add coretemp to intel-common-drivers
+  linux-yocto/4.1: quark configuration and thermal support
+  linux-yocto/3.14: cleanups and gcc5 ARM build fixes
+  linux-yocto/4.1: update to v4.1.6 and v4.1.6-rt5
+  linux-yocto/4.1: enable DRM_CIRRUS_QEMU and EXT4_USE_FOR_EXT23
+  linux-yocto/4.1: CIRRUS config and quark thermal support
+  linux-yocto-dev: update to 4.2-rc
+  linux-yocto/3.14/4.1: fix ARM boot with gcc 5.x
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb |  2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb      |  2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 20 ++++++++++----------
+ 9 files changed, 33 insertions(+), 33 deletions(-)
+
 -- 
 2.1.0
 
