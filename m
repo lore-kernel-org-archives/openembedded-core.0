@@ -1,32 +1,21 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 45C2660043
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 40B0060043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 12:03:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7RC3ZPY019951
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 27 Aug 2015 05:03:35 -0700 (PDT)
-Received: from Marks-MacBook-Pro-2.local (172.25.36.227) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 27 Aug 2015 05:03:34 -0700
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1440587914-1280-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1440587914-1280-4-git-send-email-markus.lehtonen@linux.intel.com>
-	<55DDD6F6.7090800@windriver.com>
-	<D2046695.577C6%markus.lehtonen@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <55DEFC96.2020202@windriver.com>
-Date: Thu, 27 Aug 2015 07:03:34 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <D2046695.577C6%markus.lehtonen@linux.intel.com>
-Subject: Re: [PATCH 3/3] package_manager: support for signed RPM package feeds
+	Thu, 27 Aug 2015 12:37:41 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 27 Aug 2015 05:37:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,422,1437462000"; d="scan'208";a="791975271"
+Received: from djcarton-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.20.50])
+	by orsmga002.jf.intel.com with ESMTP; 27 Aug 2015 05:37:40 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Aug 2015 13:36:52 +0100
+Message-Id: <cover.1440678731.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH v2 0/1] Add recipe whitelisting class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,178 +28,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 12:03:45 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Aug 2015 12:37:43 -0000
 
-On 8/26/15 11:27 PM, Markus Lehtonen wrote:
-> Hi Mark,
-> 
-> On 26/08/15 18:10, "Mark Hatle" <mark.hatle@windriver.com> wrote:
-> 
->> On 8/26/15 6:18 AM, Markus Lehtonen wrote:
->>> This change makes it possible to create GPG signed RPM package feeds -
->>> i.e. package feed with GPG signed metadata (repodata). All deployed RPM
->>> repositories will be signed and the GPG public key is copied to the rpm
->>> deployment directory.
->>>
->>> In order to enable the new feature one needs to define four variables in
->>> bitbake configuration.
->>> 1. 'PACKAGE_FEED_SIGN = "1"' enabling the feature
->>> 2. 'PACKAGE_FEED_GPG_NAME = "<key_id>"' defining the GPG key to use for
->>>    signing
->>> 3. 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "<path_to_file>"' pointing to a
->>>    file containing the passphrase for the secret signing key
->>> 4. 'PACKAGE_FEED_GPG_PUBKEY = "<path_to_pubkey>"' pointing to the
->>>    corresponding public key (in "armor" format)
->>>
->>> [YOCTO #8134]
->>>
->>> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
->>> ---
->>>  meta/lib/oe/package_manager.py | 24 ++++++++++++++++++++++--
->>>  1 file changed, 22 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/lib/oe/package_manager.py
->>> b/meta/lib/oe/package_manager.py
->>> index 753b3eb..5d7ef54 100644
->>> --- a/meta/lib/oe/package_manager.py
->>> +++ b/meta/lib/oe/package_manager.py
->>> @@ -113,8 +113,15 @@ class RpmIndexer(Indexer):
->>>              rpm_pubkey = self.d.getVar('RPM_GPG_PUBKEY', True)
->>>          else:
->>>              rpm_pubkey = None
->>> +        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
->>> +            pkgfeed_gpg_name = self.d.getVar('PACKAGE_FEED_GPG_NAME',
->>> True)
->>> +            pkgfeed_gpg_pass =
->>> self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True)
->>> +        else:
->>> +            pkgfeed_gpg_name = None
->>> +            pkgfeed_gpg_pass = None
->>>  
->>>          index_cmds = []
->>> +        repo_sign_cmds = []
->>>          key_import_cmds = []
->>>          rpm_dirs_found = False
->>>          for arch in archs:
->>> @@ -126,10 +133,16 @@ class RpmIndexer(Indexer):
->>>                  continue
->>>  
->>>              if rpm_pubkey:
->>> -                key_import_cmds.append("%s --define '_dbpath %s'
->>> --import %s" %
->>> +                key_import_cmds.append("%s --dbpath '%s' --import %s" %
->>>                                     (rpm_bin, dbpath, rpm_pubkey))
->>>              index_cmds.append("%s --dbpath %s --update -q %s" % \
->>>                               (rpm_createrepo, dbpath, arch_dir))
->>> +            if pkgfeed_gpg_name:
->>> +                repomd_file = os.path.join(arch_dir, 'repodata',
->>> 'repomd.xml')
->>> +                gpg_cmd = "gpg2 --detach-sign --armor --batch --no-tty
->>> --yes " \
->>> +                          "--passphrase-file '%s' -u '%s' %s" % \
->>> +                          (pkgfeed_gpg_pass, pkgfeed_gpg_name,
->>> repomd_file)
->>> +                repo_sign_cmds.append(gpg_cmd)
->>
->> I've had problems in the past hard coding 'gpg' or 'gpg2' as the name to
->> use.
->>
->> Can we get this to be dynamic.. even if it's a system level define for
->> what
->> GPG/PGP program to use?
-> 
-> OK, I can introduce a new variable for defining this.
-> 
-> 
->> Also I'd forgotten about it until there.  RPM has a similar variable to
->> define
->> the GPG program to use.  So using that variable (_signature) and
->> defaulting to
->> the same item would be a good idea.
-> 
-> I think this is not feasible as we're actually using the host's gpg(2)
-> here and rpm might not even be available.
+Changes since the RFC version:
+* Check BPN in addition to PN for matching, to make it easier in the
+  multilib case
+* Use PNWHITELIST_LAYERS to specify which layers to apply whitelisting to,
+  and consider an empty whitelist value to be no recipes whitelisted (so
+  you can set up empty whitelists for layers not yet in your
+  configuration if you wish to do so). This also makes setting
+  PNWHITELIST without an override practical.
+* Touch up the comments
 
-Sorry I listed the wrong variable..  What I was referring to was the gpg
-program.  See below..
+The following changes since commit f07045fcae859c902434062d1725f1348f42d1dd:
 
-What I'm asking for is similar to the above of replacing:
+  oeqa/oetest.py: add better package search for hasPackage() (2015-08-26 08:26:37 +0100)
 
-gpg_cmd = "gpg2 --detach-sign --armor --batch --no-tty --yes "
+are available in the git repository at:
 
-with something like:
+  git://git.openembedded.org/openembedded-core-contrib paule/whitelist
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/whitelist
 
-gpg_cmd = d.getVar("GPG", True) + "--detach-sign --armor --batch --no-tty --yes "
+Paul Eggleton (1):
+  classes/whitelist: add class to allow whitelisting recipes from a
+    layer
 
-In the sections where you setup the RPM macros you would define signature in the
-same way:
+ meta/classes/whitelist.bbclass | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100644 meta/classes/whitelist.bbclass
 
-(patch 1/3)
-
-    if gpg_name:
-        cmd += "--define '%%_gpg_name %s' " % gpg_name
-
-cmd += "--define '__gpg %s' --define '%%_gpg_name %s' " % (d.getVar("GPG",
-True), gpg_name)
-
---Mark
-
-> 
-> Thanks,
->    Markus
-> 
-> 
-> 
->> (One such reason to do this is to write a wrapper that uses an alternative
->> keychain for these keys....)
->>
->>>  
->>>              rpm_dirs_found = True
->>>  
->>> @@ -145,10 +158,17 @@ class RpmIndexer(Indexer):
->>>          result = oe.utils.multiprocess_exec(index_cmds, create_index)
->>>          if result:
->>>              bb.fatal('%s' % ('\n'.join(result)))
->>> -        # Copy pubkey to repo
->>> +        # Sign repomd
->>> +        result = oe.utils.multiprocess_exec(repo_sign_cmds,
->>> create_index)
->>> +        if result:
->>> +            bb.fatal('%s' % ('\n'.join(result)))
->>> +        # Copy pubkey(s) to repo
->>>          if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
->>>              shutil.copy2(self.d.getVar('RPM_GPG_PUBKEY', True),
->>>                           os.path.join(self.deploy_dir,
->>> 'RPM-GPG-KEY-oe'))
->>> +        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
->>> +            shutil.copy2(self.d.getVar('PACKAGE_FEED_GPG_PUBKEY',
->>> True),
->>> +                         os.path.join(self.deploy_dir,
->>> 'REPODATA-GPG-KEY'))
->>
->> I didn't notice this before..  but we shouldn't hardcode RPM-GPG-KEY-oe,
->> it
->> should use a value such as 'DISTRO' to allow different distributions to
->> have
->> non-conflicting keys.  The repository keys I would think would be similar
->> as
->> well.. since you may have multiple repositories from different sources.
->> So
->> naming the key ending in -${DISTRO} might be a good idea there as well.
->> (Extending it to ${DISTRO_VERSION} might be make sense... since these
->> will be
->> used for long-term upgradable systems.)
->>
->> --Mark
->>
->>>  
->>>  
->>>  class OpkgIndexer(Indexer):
->>>
->>
-> 
-> 
+-- 
+2.1.0
 
 
