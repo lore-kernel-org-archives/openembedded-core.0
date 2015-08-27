@@ -1,25 +1,36 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B6ABA76ACD
+	by mail.openembedded.org (Postfix) with ESMTP id 53F8860043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 02:31:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7R2VnNJ000645
+	Thu, 27 Aug 2015 03:33:42 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7R3XfHL005996
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 26 Aug 2015 19:31:49 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Wed, 26 Aug 2015 19:31:48 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Aug 2015 22:31:38 -0400
-Message-ID: <b5fa9b3e6642db8d051c02bbd293acfec95371ab.1440642427.git.bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1440642427.git.bruce.ashfield@windriver.com>
-References: <cover.1440642427.git.bruce.ashfield@windriver.com>
+	Wed, 26 Aug 2015 20:33:41 -0700 (PDT)
+Received: from ALA-MBB.corp.ad.wrs.com ([169.254.3.206]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0235.001;
+	Wed, 26 Aug 2015 20:33:41 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: "OHLY, PATRICK" <patrick.ohly@intel.com>, "Hatle, Mark"
+	<mark.hatle@windriver.com>
+Thread-Topic: [OE-core] [PATCH v2] mtd-utils: disable xattr if
+	DISTRO_FEATURES	doesn't contain acl
+Thread-Index: AQHQ3SXT8CoGNSMM0k6kHWkTAgg2c54eC3fggADhNICAAEri4A==
+Date: Thu, 27 Aug 2015 03:33:40 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AAFC717B01@ALA-MBB.corp.ad.wrs.com>
+References: <1440280746-11401-1-git-send-email-andrea.adami@gmail.com>
+	<1B858668EC6A94408DCA5225FDFA85AAFC716948@ALA-MBB.corp.ad.wrs.com>
+	<1440605035.20082.20.camel@intel.com>
+In-Reply-To: <1440605035.20082.20.camel@intel.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.153]
 MIME-Version: 1.0
-Subject: [PATCH 9/9] linux-yocto/3.14/4.1: fix ARM boot with gcc 5.x
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] mtd-utils: disable xattr if DISTRO_FEATURES	doesn't contain acl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,97 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 02:31:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 27 Aug 2015 03:33:46 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Booting qemuarm when the kernel was built with gcc 5.x would result in
-a boot hang (or at least no visible output).
-
-Updating the SRCREVs for the following change:
-
-    Author: Jianchuan Wang
-    Email: jianchuan.wang@windriver.com
-    Subject: Omit to optimize vsprintf.c/kasprintf.c
-    Date: Wed, 26 Aug 2015 13:54:57 +0800
-
-    Add "-O0" for vsprintf.c/kasprintf.c
-
-    Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-
-While this may not be the final fix (it still has to go usptream and
-be better explained), it gets us booting, so is good enough for the
-time being.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_3.14.bb     | 2 +-
- meta/recipes-kernel/linux/linux-yocto_4.1.bb      | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-index dfbf3a2b2c1a..06483c3ee8b9 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
-@@ -3,7 +3,7 @@ KBRANCH ?= "standard/preempt-rt"
- require recipes-kernel/linux/linux-yocto.inc
- 
- SRCREV_machine ?= "59b8c4f5e8ddb9c33c62fff22204fe2b0d8c703e"
--SRCREV_meta ?= "92977854ff528bac281772dfb4823f4ca1513688"
-+SRCREV_meta ?= "429f9e2ff0649b8c9341345622545d874d5e303a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-index d085b0336d75..061205e92088 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
-@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "59b8c4f5e8ddb9c33c62fff22204fe2b0d8c703e"
--SRCREV_meta ?= "92977854ff528bac281772dfb4823f4ca1513688"
-+SRCREV_meta ?= "429f9e2ff0649b8c9341345622545d874d5e303a"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index db77e9ead037..fc826a17c4ef 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -11,7 +11,7 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "7e763688134a64b67f35af4f5a289be0b0c95126"
-+SRCREV_machine_qemuarm ?= "9d0a4947dc7117e393dc3b8c07246d26e22ecdec"
- SRCREV_machine_qemuarm64 ?= "302ca233332fd364ecd028a0cf21b4cdc045e056"
- SRCREV_machine_qemumips ?= "9c6fdae47597756042a1d4ed613dff96e430e8e9"
- SRCREV_machine_qemuppc ?= "e4847afbb42583fa05e6a94c8d0c8f8e37ed5622"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-index b1d4e5da8150..46d46165b359 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
-@@ -11,7 +11,7 @@ KBRANCH_qemux86  ?= "standard/base"
- KBRANCH_qemux86-64 ?= "standard/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "89601a6f23a7dd842f24911f0438d0b45c85aa00"
-+SRCREV_machine_qemuarm ?= "3c1245d162ccb55de1af42bcf3dbf690457bf9e4"
- SRCREV_machine_qemuarm64 ?= "59b8c4f5e8ddb9c33c62fff22204fe2b0d8c703e"
- SRCREV_machine_qemumips ?= "4132a691d0908d10b8f07ce7ece02e6dc94e17bc"
- SRCREV_machine_qemuppc ?= "59b8c4f5e8ddb9c33c62fff22204fe2b0d8c703e"
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "59b8c4f5e8ddb9c33c62fff22204fe2b0d8c703e"
- SRCREV_machine_qemux86-64 ?= "59b8c4f5e8ddb9c33c62fff22204fe2b0d8c703e"
- SRCREV_machine_qemumips64 ?= "033e1aa633465449edf544eb81adda0caf16ec60"
- SRCREV_machine ?= "59b8c4f5e8ddb9c33c62fff22204fe2b0d8c703e"
--SRCREV_meta ?= "92977854ff528bac281772dfb4823f4ca1513688"
-+SRCREV_meta ?= "429f9e2ff0649b8c9341345622545d874d5e303a"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
--- 
-2.1.0
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGF0cmljayBPaGx5IFtt
+YWlsdG86cGF0cmljay5vaGx5QGludGVsLmNvbV0NCj4gU2VudDogVGh1cnNkYXksIEF1Z3VzdCAy
+NywgMjAxNSAxMjowNCBBTQ0KPiBUbzogSHVhbmcsIEppZSAoSmFja2llKTsgSGF0bGUsIE1hcmsN
+Cj4gQ2M6IEFuZHJlYSBBZGFtaTsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0gbXRkLXV0aWxzOiBkaXNh
+YmxlIHhhdHRyIGlmIERJU1RST19GRUFUVVJFUyBkb2Vzbid0IGNvbnRhaW4gYWNsDQo+IA0KPiBP
+biBXZWQsIDIwMTUtMDgtMjYgYXQgMDk6NTAgKzAwMDAsIEh1YW5nLCBKaWUgKEphY2tpZSkgd3Jv
+dGU6DQo+ID4NCj4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4gPiBGcm9tOiBv
+cGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFtt
+YWlsdG86b3BlbmVtYmVkZGVkLWNvcmUtIGJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10g
+T24gQmVoYWxmDQo+ID4gPiBPZiBBbmRyZWEgQWRhbWkNCj4gPiA+IFNlbnQ6IFN1bmRheSwgQXVn
+dXN0IDIzLCAyMDE1IDU6NTkgQU0NCj4gPiA+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQo+ID4gPiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIIHYyXSBtdGQt
+dXRpbHM6IGRpc2FibGUgeGF0dHIgaWYNCj4gPiA+IERJU1RST19GRUFUVVJFUyBkb2Vzbid0IGNv
+bnRhaW4gYWNsDQo+ID4gPg0KPiA+ID4gQWZ0ZXIgY29tbWl0IDI0ZmRlNGQgZG9fY29tcGlsZSBm
+YWlsczoNCj4gPiA+DQo+ID4gPiB8IG1rZnMuamZmczIuYzo3MDoyMTogZmF0YWwgZXJyb3I6IHN5
+cy9hY2wuaDogTm8gc3VjaCBmaWxlIG9yDQo+ID4gPiB8IGRpcmVjdG9yeSAjaW5jbHVkZSA8c3lz
+L2FjbC5oPg0KPiA+ID4NCj4gPiA+IFRoaXMgaXMgYSBtaXNzaW5nIGRlcGVuZGVuY3kgb24gYWNs
+Lg0KPiA+ID4gVG8gZml4IHRoaXMgd2UgYWRkIGEgY2hlY2sgdG8gZGlzYWJsZSB4YXR0ciB3aGVu
+IGFjbCBpcyBub3QgaW4gRElTVFJPX0ZFQVRVUkVTLg0KPiA+DQo+ID4gSSB0aGluayB5b3Ugc2hv
+dWxkIGNoZWNrIHRoZSB4YXR0ciBkaXN0cm8gZmVhdHVyZSwgYnV0IG9ubHkgY2hlY2tpbmcNCj4g
+PiB0aGUgRElTVFJPX0ZFQVRVUkVTIGNhbid0IGVuc3VyZSB0aGUgZGVwZW5kZW5jeSBzYXRpc2Zp
+ZWQsIHdoeSBub3QgdXNlIHRoZSBQQUNLQUdFQ09ORklHLA0KPiBzb21ldGhpbmcgbGlrZToNCj4g
+Pg0KPiA+IFBBQ0tBR0VDT05GSUcgPz0gIiR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVB
+VFVSRVMnLCAneGF0dHInLCAneGF0dHInLCAnJywgZCl9Ig0KPiA+IFBBQ0tBR0VDT05GSUdbeGF0
+dHJdID0gIiwgLURXSVRIT1VUX1hBVFRSLGF0dHIgYWNsLCINCj4gDQo+IEkgYWdyZWUgdGhhdCB3
+ZSBzaG91bGQgY2hlY2sgdGhlIHhhdHRyIGRpc3RybyBmZWF0dXJlLiBUaGUgYWN0dWFsIHBhdGNo
+IGlzIGEgYml0IG1vcmUgY29tcGxleCwgdGhvdWdoLA0KPiBiZWNhdXNlIFBBQ0tBR0VDT05GSUcg
+Y2Fubm90IGluZmx1ZW5jZSBFWFRSQV9PRU1BS0UsIGNhbiBpdD8NCg0KT2gsIEkgZGlkbid0IG5v
+dGljZSBpdCB3YXMgZm9yIEVYVFJBX09FTUFLRS4NCg0KPiANCj4gSSdsbCByZXBseSB3aXRoIGEg
+cGF0Y2ggdGhhdCB3b3JrZWQgZm9yIG1lLg0KDQpJIHNlZSB5b3VyIHBhdGNoLCBpdCBsb29rcyBm
+aW5lIHRvIG1lLg0KDQpUaGFua3MsDQpKYWNraWUNCg0KPiANCj4gLS0NCj4gQmVzdCBSZWdhcmRz
+LCBQYXRyaWNrIE9obHkNCj4gDQo+IFRoZSBjb250ZW50IG9mIHRoaXMgbWVzc2FnZSBpcyBteSBw
+ZXJzb25hbCBvcGluaW9uIG9ubHkgYW5kIGFsdGhvdWdoIEkgYW0gYW4gZW1wbG95ZWUgb2YgSW50
+ZWwsIHRoZQ0KPiBzdGF0ZW1lbnRzIEkgbWFrZSBoZXJlIGluIG5vIHdheSByZXByZXNlbnQgSW50
+ZWwncyBwb3NpdGlvbiBvbiB0aGUgaXNzdWUsIG5vciBhbSBJIGF1dGhvcml6ZWQgdG8gc3BlYWsN
+Cj4gb24gYmVoYWxmIG9mIEludGVsIG9uIHRoaXMgbWF0dGVyLg0KPiANCj4gDQoNCg==
 
