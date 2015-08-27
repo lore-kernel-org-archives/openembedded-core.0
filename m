@@ -1,34 +1,37 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 089DB60043
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A68176536
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 18:47:29 +0000 (UTC)
-Received: by wicne3 with SMTP id ne3so868193wic.0
+	Thu, 27 Aug 2015 18:47:38 +0000 (UTC)
+Received: by wicgk12 with SMTP id gk12so835262wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 11:47:29 -0700 (PDT)
+	Thu, 27 Aug 2015 11:47:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=yi0srTvPYPDPNt7I8r8KaLxjAj93vsbn+IaY1Kd6ZcM=;
-	b=ewAg6m2dev2PELg62+TtKkHGP5UdE+z4SUvbLTGNKchAl1Mz+pebudKZH8N4m5Bokw
-	AHXuIul8vLB28CHt+vDYKvmFoj03Abs0m189ciTTCKbf9FazktYPxIhilJ6HvBd+CiJG
-	HKiDOF5rlRG+E1D/9YBWLBj3NztCtccx2YN/ukj4SxjC5tLVAZL1cK/zTOnoyJ2gfzBL
-	uGCbfFScoxQgMHWfVHtih/5HxILg++52J4OO2MxHIwA47VML+Cj8ayiHVfl1H46qAMYf
-	ESzE46qTjSokWYacH9qgnvyMTHkFzlG7Y1XfFO0qBmy8lXU4cfGQlRaXBq/+K3itrCdF
-	Osdg==
-X-Received: by 10.180.39.229 with SMTP id s5mr100806wik.70.1440701249439;
-	Thu, 27 Aug 2015 11:47:29 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=ZsYbe0/ZlcuiCnbfHgIpmZp+9zoSutbc//LcoBpTe3Y=;
+	b=pZ8zwXfkJrcw9UuVpOfXZUlo6vfOZ+NMc0Xxqepd3CQvcZXSGpl8gRKUCkBhbCq5na
+	IZexDQyChENR42XzuRYEGMZUI+uob8XaxZ0fW4czTpY1OE8wPvdHgds5OQQiaUlEPvoe
+	GGP7tPhYsCWo66nxhuwYNrNdqWuySIeTqJAZWdwIx/gH7dH/DDkGuULu1KMK/9jbeQc2
+	Ug26ObdBSDe3KrBAjD1Uaxb3DZjjF23pwognd94NRnCDGuS7Ous7RdZri9y6vLTAb7yP
+	lomnZQ+T4oqEQU5f5vUBMNJpgWKoyt0/M0nRI+wkTpnG8y0vm0MZAZiavMqila8Sp8wK
+	wY6g==
+X-Received: by 10.194.83.101 with SMTP id p5mr61363wjy.19.1440701258468;
+	Thu, 27 Aug 2015 11:47:38 -0700 (PDT)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id x6sm68821wiy.6.2015.08.27.11.47.26
+	by smtp.gmail.com with ESMTPSA id
+	ul1sm4326362wjc.30.2015.08.27.11.47.35
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Aug 2015 11:47:27 -0700 (PDT)
+	Thu, 27 Aug 2015 11:47:36 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Aug 2015 11:48:19 -0700
-Message-Id: <cover.1440700983.git.chris_larson@mentor.com>
+Date: Thu, 27 Aug 2015 11:48:24 -0700
+Message-Id: <9a2ca49a3f1695810eaf999dde1cc44a336cbf8f.1440700983.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
+In-Reply-To: <cover.1440700983.git.chris_larson@mentor.com>
+References: <cover.1440700983.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 0/5] Add 'iw' recipe and include in packagegroup-base
+Subject: [PATCH 1/5] iw: add recipe from meta-networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,7 +44,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 18:47:30 -0000
+X-List-Received-Date: Thu, 27 Aug 2015 18:47:41 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
@@ -52,34 +55,92 @@ Also https://wireless.wiki.kernel.org/en/users/Documentation/iw indicates "The
 old tool iwconfing, which uses Wireless Extensions interface, is deprecated
 and it's strongly recommended to switch to iw and nl80211."
 
-See also the mailing list thread '[OE-core] iw in place of wireless-tools'.
-
-The following changes since commit f07045fcae859c902434062d1725f1348f42d1dd:
-
-  oeqa/oetest.py: add better package search for hasPackage() (2015-08-26 08:26:37 +0100)
-
-are available in the git repository at:
-
-  git://github.com/kergoth/openembedded-core add-iw
-  https://github.com/kergoth/openembedded-core/tree/add-iw
-
-Christopher Larson (5):
-  iw: add recipe from meta-networking
-  iw: inherit pkgconfig
-  iw: obey our target path variables
-  iw: support and enable separate build dir
-  packagegroup-base: pull in iw as well as wireless-tools
-
- meta/conf/distro/include/default-providers.inc     |  1 +
- ....sh-don-t-use-git-describe-for-versioning.patch | 43 +++++++++++++++++
- .../iw/iw/separate-objdir.patch                    | 55 ++++++++++++++++++++++
- meta/recipes-connectivity/iw/iw_4.1.bb             | 33 +++++++++++++
- .../packagegroups/packagegroup-base.bb             |  6 ++-
- 5 files changed, 137 insertions(+), 1 deletion(-)
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ ....sh-don-t-use-git-describe-for-versioning.patch | 43 ++++++++++++++++++++++
+ meta/recipes-connectivity/iw/iw_4.1.bb             | 23 ++++++++++++
+ 2 files changed, 66 insertions(+)
  create mode 100644 meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
- create mode 100644 meta/recipes-connectivity/iw/iw/separate-objdir.patch
  create mode 100644 meta/recipes-connectivity/iw/iw_4.1.bb
 
+diff --git a/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch b/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+new file mode 100644
+index 0000000..e64dd0a
+--- /dev/null
++++ b/meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+@@ -0,0 +1,43 @@
++From 5310abba864cfe3a8b65af130729447604190b29 Mon Sep 17 00:00:00 2001
++From: Koen Kooi <koen@dominion.thruhere.net>
++Date: Tue, 29 Nov 2011 17:03:27 +0100
++Subject: [PATCH] iw: version.sh: don't use git describe for versioning
++
++It will detect top-level git repositories like the Angstrom setup-scripts and break.
++
++Upstream-Status: Unknown
++
++Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
++---
++ version.sh | 16 +---------------
++ 1 file changed, 1 insertion(+), 15 deletions(-)
++
++diff --git a/version.sh b/version.sh
++index 11d124b..5d423c4 100755
++--- a/version.sh
+++++ b/version.sh
++@@ -3,21 +3,7 @@
++ VERSION="3.15"
++ OUT="$1"
++ 
++-if [ -d .git ] && head=`git rev-parse --verify HEAD 2>/dev/null`; then
++-	git update-index --refresh --unmerged > /dev/null
++-	descr=$(git describe)
++-
++-	# on git builds check that the version number above
++-	# is correct...
++-	[ "${descr%%-*}" = "v$VERSION" ] || exit 2
++-
++-	v="${descr#v}"
++-	if git diff-index --name-only HEAD | read dummy ; then
++-		v="$v"-dirty
++-	fi
++-else
++-	v="$VERSION"
++-fi
+++v="$VERSION"
++ 
++ echo '#include "iw.h"' > "$OUT"
++ echo "const char iw_version[] = \"$v\";" >> "$OUT"
++-- 
++1.7.7.3
+diff --git a/meta/recipes-connectivity/iw/iw_4.1.bb b/meta/recipes-connectivity/iw/iw_4.1.bb
+new file mode 100644
+index 0000000..e1e7c12e
+--- /dev/null
++++ b/meta/recipes-connectivity/iw/iw_4.1.bb
+@@ -0,0 +1,23 @@
++SUMMARY = "nl80211 based CLI configuration utility for wireless devices"
++DESCRIPTION = "iw is a new nl80211 based CLI configuration utility for \
++wireless devices. It supports almost all new drivers that have been added \
++to the kernel recently. "
++HOMEPAGE = "http://wireless.kernel.org/en/users/Documentation/iw"
++SECTION = "base"
++LICENSE = "BSD"
++LIC_FILES_CHKSUM = "file://COPYING;md5=878618a5c4af25e9b93ef0be1a93f774"
++
++DEPENDS = "libnl pkgconfig"
++
++SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
++           file://0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch \
++"
++
++SRC_URI[md5sum] = "68c282285c71c956069957e9ca10a6a7"
++SRC_URI[sha256sum] = "14bfc627b37f7f607e4ffa63a70ded15fa2ea85177f703cb17d7fe36f9c8f33d"
++
++EXTRA_OEMAKE = ""
++
++do_install() {
++    oe_runmake DESTDIR=${D} install
++}
 -- 
 2.2.1
 
