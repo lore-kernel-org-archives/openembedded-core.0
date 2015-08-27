@@ -1,38 +1,27 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id AE62060043
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E5BFC60043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 12:39:42 +0000 (UTC)
-Received: by wicgk12 with SMTP id gk12so7348882wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 05:39:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=from:to:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=Gvhc9x16SNsl23aoLWSZ4yT1els1tbvKykz2+bG43Ms=;
-	b=hUweXZVMdlqtP1foBXUhK2jtBD0mOZp0+EK/5Jv7OgzYRcZemzeqTKDYerHiIiBF4N
-	iRQxkZR03GePI0TZO2bKRhsUESxF8QEUqson9VweXevbqqWu5hcp2khzafIwkdtsEsqi
-	/CF0tXi2OVsOC9rA/kyIf1+qkJwf+KqTNh+++50FstWJO1d4yXTb5DHm27Vz+tawCUaB
-	ElkmD+gfS5RZCpLkN6XxvFkMYYQbUmHe+9v/ISrkdOQmtTIUOYIKGWslYWTdqkba2khg
-	N6NVaILasaJ/KbVHEzvn/bZ3Nw/jEqdforQHwp+aiSAaIq4BIAr0jMwMdPZ0k8FIGhfW
-	zllw==
-X-Received: by 10.194.92.109 with SMTP id cl13mr4582620wjb.156.1440679182173; 
-	Thu, 27 Aug 2015 05:39:42 -0700 (PDT)
-Received: from localhost.localdomain ([5.147.14.94])
-	by smtp.googlemail.com with ESMTPSA id
-	o3sm2934900wjx.16.2015.08.27.05.39.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Aug 2015 05:39:41 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Aug 2015 14:39:05 +0200
-Message-Id: <1440679145-18993-1-git-send-email-schnitzeltony@googlemail.com>
-X-Mailer: git-send-email 2.1.0
+	Thu, 27 Aug 2015 12:45:34 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 27 Aug 2015 05:45:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,422,1437462000"; d="scan'208";a="791978966"
+Received: from djcarton-mobl2.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.20.50])
+	by orsmga002.jf.intel.com with ESMTP; 27 Aug 2015 05:45:34 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+Date: Thu, 27 Aug 2015 13:45:33 +0100
+Message-ID: <1610283.bR69gNP3St@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1440676190-2167-4-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1440676190-2167-1-git-send-email-markus.lehtonen@linux.intel.com>
+	<1440676190-2167-4-git-send-email-markus.lehtonen@linux.intel.com>
 MIME-Version: 1.0
-Subject: [PATCH] libnotify: add (R)PROVIDES/RCONFLICTS/RREPLACES for meta-gnome's libnotify
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] devtool: run kernel dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,32 +34,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 12:39:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Aug 2015 12:45:36 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Avoid package feed issues caused by removing meta-gnome's libnotify3
+Hi Markus,
 
-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
----
- meta/recipes-gnome/libnotify/libnotify_0.7.6.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+On Thursday 27 August 2015 14:49:50 Markus Lehtonen wrote:
+> The kernel package needs "kern-tools-native" in order for it's
+> do_kernel_metadata. Thus, devtool extract for kernel in a pristine
+> environment fails. With the current bb.tinfoil implementation it is not
+> possible to run arbitrary bitbake commands - e.g. run
+> "bitbake kern-tools-native -c populate_sysroot" in our case. This patch
+> implements an ugly workaround for that problem, basically by hardcoding
+> this dependency and running the required bitbake task(s) before tinfoil
+> is initialized.
+> 
+> [YOCTO #6658]
+> 
+> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> ---
+>  scripts/lib/devtool/standard.py | 19 ++++++++++++++++++-
+>  1 file changed, 18 insertions(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py index 3725d87..bf24e32 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -197,6 +197,8 @@ def extract(args, config, basepath, workspace):
+>      """Entry point for the devtool 'extract' subcommand"""
+>      import bb
+> 
+> +    _check_extract_deps(config, basepath, args.recipename)
+> +
+>      tinfoil = setup_tinfoil()
+> 
+>      rd = _parse_recipe(config, tinfoil, args.recipename, True)
+> @@ -237,6 +239,20 @@ class BbTaskExecutor(object):
+>              self.executed.append(func)
+> 
+> 
+> +def _check_extract_deps(config, basepath, recipename):
+> +    """HACK: Ugly workaround for making sure that requirements are met when
+> +       trying to extract a package"""
+> +    tinfoil = setup_tinfoil()
+> +    rd = _parse_recipe(config, tinfoil, recipename, True)
+> +    if bb.data.inherits_class('kernel-yocto', rd):
+> +        tinfoil.shutdown()
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
-index 5d7b4ce..6d9c596 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
-@@ -10,3 +10,9 @@ inherit gnomebase distro_features_check gtk-doc
- SRC_URI[archive.md5sum] = "a4997019d08f46f3bf57b78e6f795a59"
- SRC_URI[archive.sha256sum] = "0ef61ca400d30e28217979bfa0e73a7406b19c32dd76150654ec5b2bdf47d837"
- 
-+# there were times, we had two versions of libnotify (oe-core libnotify:0.6.x /
-+# meta-gnome libnotify3: 0.7.x)
-+PROVIDES += "libnotify3"
-+RPROVIDES_${PN} += "libnotify3"
-+RCONFLICTS_${PN} += "libnotify3"
-+RREPLACES_${PN} += "libnotify3"
+Hmm, surely you need to call shutdown() in the non-kernel case as well? 
+Otherwise won't the lock still be in place when this function returns and then 
+setup_tinfoil() is called a second time?
+
+> +        try:
+> +            stdout, _ = exec_build_env_command(config.init_path, basepath,
+> +                                               'bitbake kern-tools-native')
+> +        except bb.process.ExecutionError as err:
+> +            raise DevtoolError("Failed to build kern-tools-native:\n%s" %
+> +                               err.stdout)
+> +
+>  def _extract_source(srctree, keep_temp, devbranch, d):
+>      """Extract sources of a recipe"""
+>      import bb.event
+> @@ -422,7 +438,8 @@ def modify(args, config, basepath, workspace):
+>          raise DevtoolError("directory %s does not exist or not a directory
+> " "(specify -x to extract source from recipe)" % args.srctree)
+> -
+> +    if args.extract:
+> +        _check_extract_deps(config, basepath, args.recipename)
+>      tinfoil = setup_tinfoil()
+> 
+>      rd = _parse_recipe(config, tinfoil, args.recipename, True)
+
+Cheers,
+Paul
+
 -- 
-2.1.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
