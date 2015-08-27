@@ -1,30 +1,32 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-Received: from root.phytec.de (mail.phycard.co.uk [217.6.246.34])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CA6760043
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 462B660043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 14:46:38 +0000 (UTC)
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by root.phytec.de (Postfix) with ESMTP id 880D8A00226
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 16:48:35 +0200 (CEST)
-Received: from lws-mklieser.phytec.de ([172.16.10.21])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP2 HF590)
-	with ESMTP id 2015082716463729-152809 ;
-	Thu, 27 Aug 2015 16:46:37 +0200 
-From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Aug 2015 16:46:37 +0200
-Message-Id: <1440686797-24415-1-git-send-email-s.mueller-klieser@phytec.de>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP2
-	HF590|December 11, 2014) at 27.08.2015 16:46:37,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP2 HF590|December 11,
-	2014) at 27.08.2015 16:46:37
-Subject: [PATCH] libvorbis: remove legacy options
+	Thu, 27 Aug 2015 15:50:48 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 27 Aug 2015 08:50:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,422,1437462000"; d="scan'208";a="792144553"
+Received: from besquive-mobl2.zpn.intel.com (HELO
+	besquive-mobl2.amr.corp.intel.com) ([10.219.17.159])
+	by fmsmga002.fm.intel.com with ESMTP; 27 Aug 2015 08:50:48 -0700
+Message-ID: <1440690651.15187.88.camel@linux.intel.com>
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>, Mariano Lopez
+	<mariano.lopez@linux.intel.com>
+In-Reply-To: <3276619.q6MX28H7QK@peggleto-mobl.ger.corp.intel.com>
+References: <1440591962-35348-1-git-send-email-benjamin.esquivel@linux.intel.com>
+	<3276619.q6MX28H7QK@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+Date: Thu, 27 Aug 2015 10:50:51 -0500
+Mime-Version: 1.0
+X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] selftest/manifest.py: Test to verify rootfs manifest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: benjamin.esquivel@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -34,42 +36,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 14:46:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 27 Aug 2015 15:50:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Those code fragments date back to ancient times. EXTRA=5FOECONF is not
-required anymore and we should give gcc another try to do it right.
-Testing on cortex-a8 with thumb and -O2 reveals a performance boost of
-82 percent during encoding in comparison to -O0. -O4 gives another 7
-percent.
+Hey Paul, thanks for looking at this, check the comments below.
 
-Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
----
-- this requires patch 0fe770ef9817319bb82 from master-next. It is
-  already for version 1.3.5
+On Thu, 2015-08-27 at 09:34 +0100, Paul Eggleton wrote:
+> Hi Benjamin / Mariano,
+> 
+> On Wednesday 26 August 2015 12:26:02 Benjamin Esquivel wrote:
+> > Adding a new test to verify if the packages in the
+> > manifest files actually exists in pkgdata.
+> >  -adding a setUpClass for when more tests get created here
+> >  -check for the paths and fail gracefully if not there
+> >  -skip the test when there are no manifest files to check
+> >  -debug prints for failure analysis
+> > 
+> > [YOCTO#8028]
+> > 
+> > Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com
+> > >
+> > Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+> > ---
+> >  meta/lib/oeqa/selftest/manifest.py | 52
+> > ++++++++++++++++++++++++++++++++++++++ 1 file changed, 52
+> > insertions(+)
+> >  create mode 100644 meta/lib/oeqa/selftest/manifest.py
+> > 
+> > diff --git a/meta/lib/oeqa/selftest/manifest.py
+> > b/meta/lib/oeqa/selftest/manifest.py new file mode 100644
+> > index 0000000..c2bc945
+> > --- /dev/null
+> > +++ b/meta/lib/oeqa/selftest/manifest.py
+> > @@ -0,0 +1,52 @@
+> > +import unittest
+> > +import os
+> > +from glob import glob
+> > +
+> > +from oeqa.selftest.base import oeSelfTest
+> > +from oeqa.utils.commands import get_bb_var
+> > +from oeqa.utils.decorators import testcase
+> > +
+> > +class VerifyManifest(oeSelfTest):
+> > +    '''Tests for the manifest files and contents of an image'''
+> > +
+> > +    @classmethod
+> > +    def setUpClass(self):
+> > +
+> > +        # get directory locations from variable values and check
+> > them
+> > +        self.deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE');
+> > +        if not self.deploy_dir_image \
+> > +            or not os.path.isdir(self.deploy_dir_image):
+> > +            raise unittest.SkipTest("{}: DEPLOY_DIR_IMAGE does not
+> > exist:
+> > {}"\ +                    .format("VerifyManifest",
+> > self.deploy_dir_image))
+> > +
+> > +        self.pkgdata_dir = get_bb_var('PKGDATA_DIR');
+> > +        if not self.pkgdata_dir \
+> > +            or not os.path.isdir(self.pkgdata_dir):
+> > +            raise unittest.SkipTest("{}: PKGDATA_DIR does not
+> > exist: {}"\
+> > +                    .format("VerifyManifest", self.pkgdata_dir))
+> > +
+> > +        # get the manifest files
+> > +        # no need to try: since glob would return an empty list if
+> > +        # the path is non-existant
+> > +        self.manifest_files = glob("%s/*.manifest" %
+> > self.deploy_dir_image)
+> > +        self.log.debug("manifest files:
+> > {}".format(self.manifest_files)) +
+> >        if not self.manifest_files:
+> > +            raise unittest.SkipTest("{}: No manifest files found
+> > in: {}"\
+> > +                .format("VerifyManifest", self.deploy_dir_image))
+> > +
+> > +
+> > +    def test_manifest_entries(self):
+> > +        '''Verifying the manifest entries as packages '''
+> > +        testname = self.id().split('.')[-1]
+> > +        rundir = os.path.join(self.pkgdata_dir, "runtime-reverse")
+> > +
+> > +        errmsg = "ERROR: Package %s is in manifest but not in
+> > pkgdata"
+> > +        for manifest in self.manifest_files:
+> > +            with open(manifest, "r") as mfile:
+> > +                for manifest_entries in mfile:
+> > +                    pkg = manifest_entries.split()[0]
+> > +                    pkgfile = os.path.join(rundir, pkg)
+> > +                    self.log.debug("{}: looking for {}"\
+> > +                            .format(testname, pkgfile))
+> > +                    self.assertTrue(os.path.isfile(pkgfile),
+> > +                            errmsg % pkg)
+> 
+> Shouldn't this test actually be building an image (e.g. using
+> bitbake('core-image-minimal') ) in order to ensure there's a manifest
+> file for 
+> it to look at? Then you can make the test fail rather than skipping
+> if the file 
+> isn't there or doesn't contain a small set of packages we know should
+> be 
+> listed.
+The reason the actual build of an image was not included in the test is
+because it is abstracted from it. That's why it contains checks for
+when the manifests are not there it skips the test instead of failing.
 
- meta/recipes-multimedia/libvorbis/libvorbis=5F1.3.5.bb | 7 -------
- 1 file changed, 7 deletions(-)
+This would give you the chance to write some level of abstraction that
+is able to have test subjects (i.e. subject A: core-image-minimal with
+systemd and ipk). Otherwise you're locking the test to a single
+scenario which is usually the most common. All the corner cases are
+hidden from that scope of testing.
 
-diff --git a/meta/recipes-multimedia/libvorbis/libvorbis=5F1.3.5.bb b/meta/=
-recipes-multimedia/libvorbis/libvorbis=5F1.3.5.bb
-index b7a0667..636e0f3 100644
---- a/meta/recipes-multimedia/libvorbis/libvorbis=5F1.3.5.bb
-+++ b/meta/recipes-multimedia/libvorbis/libvorbis=5F1.3.5.bb
-@@ -15,10 +15,3 @@ SRC=5FURI[md5sum] =3D "28cb28097c07a735d6af56e598e1c90f"
- SRC=5FURI[sha256sum] =3D "54f94a9527ff0a88477be0a71c0bab09a4c3febe0ed878b2=
-4824906cd4b0e1d1"
-=20
- inherit autotools pkgconfig
--
--# vorbisfile.c reveals a problem in the gcc register spilling for the
--# thumb instruction set...
--FULL=5FOPTIMIZATION=5Fthumb =3D "-O0"
--
--EXTRA=5FOECONF =3D "--with-ogg-libraries=3D${STAGING=5FLIBDIR} \
--                --with-ogg-includes=3D${STAGING=5FINCDIR}"
---=20
-1.9.1
+On the other hand, if we had that design I'm talking about we could
+easily have a default behavior that does exactly what you're proposing.
 
+What do you think?
+ 
+> 
+> Also while you're adding this could you add a similar test function
+> for the 
+> SDK (both host + target manifests).
+> 
+I believe we could add many more tests that's why I started splitting
+common tasks to the setup function of the test.
+
+I'll add this in the next patch version.
+
+> Paul
+> 
 
