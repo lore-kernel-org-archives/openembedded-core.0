@@ -1,35 +1,22 @@
-Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B36E560043
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id B3C5260043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 11:22:59 +0000 (UTC)
-Received: by obbhe7 with SMTP id he7so17583921obb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 04:22:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=SDLP1XazoBJp9jWR4ZjU7JObP61xHAy4tWHB9kLq6SU=;
-	b=EJyVUQTBLSDRxF83kjNrfzO6TvWhMszFhTilymZ/IDIIuMnmBH6JI3rDUbrbKAiMfJ
-	fg/stlCyNSQovztZA/Lfn7LXOWghaEl1OZlzjX69fH7Bjt9WGclRoVLjTwLWAbVfVbse
-	EqAziHrjui/cCUgAJL7z3VvnRVrQm0oFdzI/J2SuoUHgzMJ8rxS5BqaSHNIR9l4Ge+zq
-	iDGu6UEJTRWRPZTaNxQ9OgrKdiLpAI9rX1pKnEmTkypkhj1Nyi/SCYRSP440YzeI+kWs
-	U771Gkt7RA+Bnya5ReHbWHTKaOynJ58IlLx+buXrbeJanMNj7MtkPaY5eOvDX2C3yS0d
-	I2jw==
-X-Gm-Message-State: ALoCoQn2JSUb1cwQ5/KI5G9K52BwuP7WpmgkV4V+jNfzZOrtJ8ZZFfzPcrafe89/jI+8CMDJAe9j
-X-Received: by 10.182.112.163 with SMTP id ir3mr2155583obb.44.1440674579556;
-	Thu, 27 Aug 2015 04:22:59 -0700 (PDT)
+	Thu, 27 Aug 2015 11:38:04 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrewsh) with ESMTPSA id 7EF45608F8A
+Message-ID: <55DEF697.5010106@collabora.co.uk>
+Date: Thu, 27 Aug 2015 13:37:59 +0200
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Organization: Collabora Limited
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Received: by 10.202.221.70 with HTTP; Thu, 27 Aug 2015 04:22:30 -0700 (PDT)
-In-Reply-To: <1440666743-12035-2-git-send-email-andrew.shadura@collabora.co.uk>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
 References: <1440666743-12035-1-git-send-email-andrew.shadura@collabora.co.uk>
 	<1440666743-12035-2-git-send-email-andrew.shadura@collabora.co.uk>
-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Thu, 27 Aug 2015 14:22:30 +0300
-Message-ID: <CAHiDW_E+9HLPzehoxvm2S6RUuRfy5mcgYqXEL69rrr-d2=U+mQ@mail.gmail.com>
-To: Andrew Shadura <andrew.shadura@collabora.co.uk>
+	<CAHiDW_E+9HLPzehoxvm2S6RUuRfy5mcgYqXEL69rrr-d2=U+mQ@mail.gmail.com>
+In-Reply-To: <CAHiDW_E+9HLPzehoxvm2S6RUuRfy5mcgYqXEL69rrr-d2=U+mQ@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/3] dbus: update the recipes to 1.10.0
@@ -45,61 +32,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 11:23:01 -0000
-Content-Type: multipart/alternative; boundary=089e012955768d46c7051e4930b8
+X-List-Received-Date: Thu, 27 Aug 2015 11:38:08 -0000
+X-Groupsio-MsgNum: 70147
+Content-Type: multipart/mixed; boundary="------------050003090803090802080204"
 
---089e012955768d46c7051e4930b8
-Content-Type: text/plain; charset=UTF-8
+--------------050003090803090802080204
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-On 27 August 2015 at 12:12, Andrew Shadura <andrew.shadura@collabora.co.uk>
-wrote:
->
-> Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
-> ---
->  meta/recipes-core/dbus/dbus-test_1.10.0.bb      |  61 ++++++++
->  meta/recipes-core/dbus/dbus-test_1.8.20.bb      |  61 --------
->  meta/recipes-core/dbus/dbus/python-config.patch |  13 +-
->  meta/recipes-core/dbus/dbus_1.10.0.bb           | 177
-++++++++++++++++++++++++
->  meta/recipes-core/dbus/dbus_1.8.20.bb           | 173
------------------------
->  5 files changed, 245 insertions(+), 240 deletions(-)
+On 27/08/15 13:22, Jussi Kukkonen wrote:
+> Could you please configure your git so that it tries harder to find
+> renames: it's hard to see the changes otherwise. Something like this
+> would work in git config (the other option is renames=copies):
+
+Right, thanks for the suggestion. Resubmitting that patch.
+
+-- 
+Cheers,
+  Andrew
+
+--------------050003090803090802080204
+Content-Type: text/x-patch;
+ name="0002-dbus-update-the-recipes-to-1.10.0.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0002-dbus-update-the-recipes-to-1.10.0.patch"
+
+From 863fb3ce148485e3838b68fc5bb1531465ac37bb Mon Sep 17 00:00:00 2001
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Date: Wed, 29 Jul 2015 16:00:37 +0100
+Subject: [PATCH 2/3] dbus: update the recipes to 1.10.0
+
+Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
+---
+ .../dbus/{dbus-test_1.8.20.bb => dbus-test_1.10.0.bb}      |  6 +++---
+ meta/recipes-core/dbus/dbus/python-config.patch            | 13 +++++++------
+ meta/recipes-core/dbus/{dbus_1.8.20.bb => dbus_1.10.0.bb}  | 14 +++++++++-----
+ 3 files changed, 19 insertions(+), 14 deletions(-)
+ rename meta/recipes-core/dbus/{dbus-test_1.8.20.bb => dbus-test_1.10.0.bb} (91%)
+ rename meta/recipes-core/dbus/{dbus_1.8.20.bb => dbus_1.10.0.bb} (93%)
+
+diff --git a/meta/recipes-core/dbus/dbus-test_1.8.20.bb b/meta/recipes-core/dbus/dbus-test_1.10.0.bb
+similarity index 91%
+rename from meta/recipes-core/dbus/dbus-test_1.8.20.bb
+rename to meta/recipes-core/dbus/dbus-test_1.10.0.bb
+index 704070b..7dec16e 100644
+--- a/meta/recipes-core/dbus/dbus-test_1.8.20.bb
++++ b/meta/recipes-core/dbus/dbus-test_1.10.0.bb
+@@ -5,7 +5,7 @@ LICENSE = "AFL-2 | GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
+                     file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974538bb3c"
+ 
+-DEPENDS = "python-pygobject dbus dbus-glib"
++DEPENDS = "python-pygobject dbus"
+ 
+ RDEPENDS_${PN} += "make"
+ RDEPENDS_${PN}-dev = ""
+@@ -18,8 +18,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+            "
+ 
+-SRC_URI[md5sum] = "b49890bbabedab3a1c3f4f73c7ff8b2b"
+-SRC_URI[sha256sum] = "5c4fbf4c64621c96e871da91d2b729a5b00536e116d3c4612a469d924b1b703a"
++SRC_URI[md5sum] = "5af6297348107a906c8449817a728b3b"
++SRC_URI[sha256sum] = "1dfb9745fb992f1ccd43c920490de8caddf6726a6222e8b803be6098293f924b"
+ 
+ S="${WORKDIR}/dbus-${PV}"
+ FILESEXTRAPATHS =. "${FILE_DIRNAME}/dbus:"
+diff --git a/meta/recipes-core/dbus/dbus/python-config.patch b/meta/recipes-core/dbus/dbus/python-config.patch
+index 2944002..fbb4ede 100644
+--- a/meta/recipes-core/dbus/dbus/python-config.patch
++++ b/meta/recipes-core/dbus/dbus/python-config.patch
+@@ -6,19 +6,20 @@ Disable the python module check for cross compiling.
+ Upstream-Status: Inappropriate [oe specific]
+ 
+ Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
++Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
+ 
+---- dbus-1.6.8/configure.ac.orig	2013-07-11 14:15:58.834554799 -0500
+-+++ dbus-1.6.8/configure.ac	2013-07-11 14:14:40.969554848 -0500
+-@@ -257,13 +257,6 @@
++--- a/configure.ac
+++++ b/configure.ac
++@@ -267,13 +267,6 @@
+    # full test coverage is required, Python is a hard dependency
+-   AC_MSG_NOTICE([Full test coverage (--enable-tests=yes) requires Python, dbus-python, pygobject])
++   AC_MSG_NOTICE([Full test coverage (--enable-tests=yes) requires Python, dbus-python, pygi])
+    AM_PATH_PYTHON([2.6])
+ -  AC_MSG_CHECKING([for Python modules for full test coverage])
+--  if "$PYTHON" -c "import dbus, gobject, dbus.mainloop.glib"; then
++-  if "$PYTHON" -c "import dbus, gi.repository.GObject, dbus.mainloop.glib"; then
+ -    AC_MSG_RESULT([yes])
+ -  else
+ -    AC_MSG_RESULT([no])
+--    AC_MSG_ERROR([cannot import dbus, gobject, dbus.mainloop.glib Python modules])
++-    AC_MSG_ERROR([cannot import dbus, gi.repository.GObject, dbus.mainloop.glib Python modules])
+ -  fi
+  else
+    # --enable-tests not given: do not abort if Python is missing
+diff --git a/meta/recipes-core/dbus/dbus_1.8.20.bb b/meta/recipes-core/dbus/dbus_1.10.0.bb
+similarity index 93%
+rename from meta/recipes-core/dbus/dbus_1.8.20.bb
+rename to meta/recipes-core/dbus/dbus_1.10.0.bb
+index 207a018..cbfdf05 100644
+--- a/meta/recipes-core/dbus/dbus_1.8.20.bb
++++ b/meta/recipes-core/dbus/dbus_1.10.0.bb
+@@ -19,8 +19,8 @@ SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
+            file://clear-guid_from_server-if-send_negotiate_unix_f.patch \
+ "
+ 
+-SRC_URI[md5sum] = "b49890bbabedab3a1c3f4f73c7ff8b2b"
+-SRC_URI[sha256sum] = "5c4fbf4c64621c96e871da91d2b729a5b00536e116d3c4612a469d924b1b703a"
++SRC_URI[md5sum] = "5af6297348107a906c8449817a728b3b"
++SRC_URI[sha256sum] = "1dfb9745fb992f1ccd43c920490de8caddf6726a6222e8b803be6098293f924b"
+ 
+ inherit useradd autotools pkgconfig gettext update-rc.d
+ 
+@@ -58,15 +58,20 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+                ${bindir}/dbus-monitor \
+                ${bindir}/dbus-launch \
+                ${bindir}/dbus-run-session \
++               ${bindir}/dbus-update-activation-environment \
+                ${libexecdir}/dbus* \
+                ${sysconfdir} \
+                ${localstatedir} \
+                ${datadir}/dbus-1/services \
+                ${datadir}/dbus-1/system-services \
++               ${datadir}/dbus-1/session.d \
++               ${datadir}/dbus-1/session.conf \
++               ${datadir}/dbus-1/system.d \
++               ${datadir}/dbus-1/system.conf \
+                ${systemd_unitdir}/system/"
+ FILES_${PN}-lib = "${libdir}/lib*.so.*"
+ RRECOMMENDS_${PN}-lib = "${PN}"
+-FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool"
++FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool ${bindir}/dbus-test-tool"
+ 
+ pkg_postinst_dbus() {
+ 	# If both systemd and sysvinit are enabled, mask the dbus-1 init script
+@@ -86,8 +91,7 @@ EXTRA_OECONF = "--disable-tests \
+                 --disable-xml-docs \
+                 --disable-doxygen-docs \
+                 --disable-libaudit \
+-                --disable-systemd \
+-                --without-dbus-glib"
++                --disable-systemd"
+ 
+ EXTRA_OECONF_append_class-native = " --disable-selinux"
+ 
+-- 
+2.1.4
 
 
-Could you please configure your git so that it tries harder to find
-renames: it's hard to see the changes otherwise. Something like this would
-work in git config (the other option is renames=copies):
-
-
-    [diff]
-        renames = true
-
-
-Thanks,
-  Jussi
-
---089e012955768d46c7051e4930b8
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">On 27 August 2015 at 12:12, Andrew Shadura &lt;<a href=3D"=
-mailto:andrew.shadura@collabora.co.uk">andrew.shadura@collabora.co.uk</a>&g=
-t; wrote:<br>&gt;<br>&gt; Signed-off-by: Andrew Shadura &lt;<a href=3D"mail=
-to:andrew.shadura@collabora.co.uk">andrew.shadura@collabora.co.uk</a>&gt;<b=
-r>&gt; ---<br>&gt; =C2=A0meta/recipes-core/dbus/<a href=3D"http://dbus-test=
-_1.10.0.bb">dbus-test_1.10.0.bb</a> =C2=A0 =C2=A0 =C2=A0| =C2=A061 ++++++++=
-<br>&gt; =C2=A0meta/recipes-core/dbus/<a href=3D"http://dbus-test_1.8.20.bb=
-">dbus-test_1.8.20.bb</a> =C2=A0 =C2=A0 =C2=A0| =C2=A061 --------<br>&gt; =
-=C2=A0meta/recipes-core/dbus/dbus/python-config.patch | =C2=A013 +-<br>&gt;=
- =C2=A0meta/recipes-core/dbus/<a href=3D"http://dbus_1.10.0.bb">dbus_1.10.0=
-.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 177 ++++++++++++++++++++++++<b=
-r>&gt; =C2=A0meta/recipes-core/dbus/<a href=3D"http://dbus_1.8.20.bb">dbus_=
-1.8.20.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 173 --------------------=
----<br>&gt; =C2=A05 files changed, 245 insertions(+), 240 deletions(-)<br><=
-br><br>Could you please configure your git so that it tries harder to find =
-renames: it&#39;s hard to see the changes otherwise. Something like this wo=
-uld work in git config (the other option is renames=3Dcopies):<br><br>=C2=
-=A0<br>=C2=A0 =C2=A0 [diff]<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 renames =3D true=
-<br><br><br>Thanks,<br>=C2=A0 Jussi</div>
-
---089e012955768d46c7051e4930b8--
+--------------050003090803090802080204--
