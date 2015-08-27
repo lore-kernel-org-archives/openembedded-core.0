@@ -1,40 +1,28 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 737DB76DE5
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id E4D7F60043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 18:47:47 +0000 (UTC)
-Received: by widdq5 with SMTP id dq5so885104wid.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 11:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=ZvTUv3m+BzaDK0fZGHeDQ52SpUTp1GbFoSRUNaQ5Nlc=;
-	b=Kc0lIjA8WXFHLiNPA9+QvG3zirs7tUpZ/hFG9x675Qcg0RDJLQWvzwM2sb6Oh3LayU
-	QInUVd6NzuGsHUiXV5oaigE/Jp/GPqblypNP1KEL1+Ce+xR3h70afvKTh07ARklGB5Gf
-	X/FhYxVyDdnWl9f+/Wqtbc/pWuYTCI2+FnIfsIupSAdYJlkCFzsJtB7vXGbGyuXcycx3
-	tMPsqX7f7JnsOUSMoA0g8/pGzyUxcSuFilwC2xFrJpMme+RMWEb2NbfjeY9MdTEtwoW/
-	qreIP0eWRl1BVErgk7IJ3QvLVtEQhgbhMf2xtGpQPVqgMh16xXaPynLd6w89tivsVyfC
-	vqrg==
-X-Received: by 10.180.82.162 with SMTP id j2mr122431wiy.4.1440701267407;
-	Thu, 27 Aug 2015 11:47:47 -0700 (PDT)
-Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	ul1sm4326362wjc.30.2015.08.27.11.47.45
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 27 Aug 2015 11:47:46 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Aug 2015 11:48:28 -0700
-Message-Id: <9873f94b4a88ca4ecf7ed28737c5f7c6f9d6d199.1440700983.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 2.2.1
-In-Reply-To: <9a2ca49a3f1695810eaf999dde1cc44a336cbf8f.1440700983.git.chris_larson@mentor.com>
-References: <9a2ca49a3f1695810eaf999dde1cc44a336cbf8f.1440700983.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1440700983.git.chris_larson@mentor.com>
-References: <cover.1440700983.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH 5/5] packagegroup-base: pull in iw as well as wireless-tools
+	Thu, 27 Aug 2015 19:49:05 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 27 Aug 2015 12:49:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,423,1437462000"; d="scan'208";a="633521736"
+Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.168])
+	([10.219.5.168])
+	by orsmga003.jf.intel.com with ESMTP; 27 Aug 2015 12:49:00 -0700
+Message-ID: <55DF69EF.9050303@linux.intel.com>
+Date: Thu, 27 Aug 2015 14:50:07 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
+MIME-Version: 1.0
+To: Patrick Ohly <patrick.ohly@intel.com>
+References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<1440681597.3006.35.camel@intel.com>
+In-Reply-To: <1440681597.3006.35.camel@intel.com>
+Cc: leonardo.sandoval.gonzalez@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 0/3] Add UEFI firmware for qemux86*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,67 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 18:47:47 -0000
+X-List-Received-Date: Thu, 27 Aug 2015 19:49:08 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
 
-As was discussed in the commit which adds iw:
 
-iw uses cfg80211/nl80211, which is the way of the future. wireless-tools uses
-WEXT, which uses ioctl, which is in deep maintenance mode. See
-http://wireless.kernel.org/en/developers/Documentation/Wireless-Extensions.
-Also https://wireless.wiki.kernel.org/en/users/Documentation/iw indicates "The
-old tool iwconfing, which uses Wireless Extensions interface, is deprecated
-and it's strongly recommended to switch to iw and nl80211."
+On 08/27/2015 08:19 AM, Patrick Ohly wrote:
+> On Tue, 2015-07-14 at 20:07 +0000,
+> leonardo.sandoval.gonzalez@linux.intel.com wrote:
+>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>>
+>> These patches include:
+>>
+>>      1. iasl recipe taken from luv-yocto repository into OE-Core (the only
+>>         change done was the LICENSE, from Intel-ACPI to BSD | GPLv2)
+>>      2. OVMF recipe (taken from luv-yocto repository) into OE-Core
+>>      3. Boot script: Instrumenting runqemu to include OECORE_MACHINE_SYSROOT,
+>>      so the OVMF BIOS can be found.
+>
+> I've tried out these patches. Mostly it worked as advertised and I'd
+> love to use EFI with qemu, so I'd like to see this merged.
+>
+> I noticed that "git format-patches" from your branch followed by "git
+> am" mangles the
+> meta/recipes-core/ovmf/ovmf/0001-BaseTools-Force-tools-variables-to-host-toolchain.patch because it is a mixture of Unix line ends (patch boiler plate) and DOS line ends (actual patches). The file ended up with all Unix line ends, which then failed during do_patch. I solved that by checking out your branch and copying the file. Whoever merges needs to be careful here. This might also be a problem for combo-layer, so perhaps a solution not based on patching the makefiles may be needed.
+>
 
-wireless-tools is kept as well for now for compatibility reasons, until we
-have verified that all the network configuration mechanisms are using iw.
+I believe Paul has answered this. I also got some trouble, in fact the 
+reason I sent V3 was because I patch incorrectly V2. it is a pain these 
+line endings.
 
-This adds VIRTUAL-RUNTIME_wireless-tools as a distro convenience.
+> When I use runqemu, it ends up invoking qemu with "-vga vmware". With
+> that, I don't see any output from TianoCore and booting hangs. It boots
+> when disabling graphical output ("serial nographic" as parameter of
+> runqemu) or when explicitly selecting a different graphics
+> ("'qemuparams=-vga std'"). Might be worthwhile adding to the commit
+> message.
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/conf/distro/include/default-providers.inc       | 1 +
- meta/recipes-core/packagegroups/packagegroup-base.bb | 6 +++++-
- 2 files changed, 6 insertions(+), 1 deletion(-)
+In the 3/3 commit's description, there is a command line with the 
+nographic parameter. I did not test with any other kernel command line.
 
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 8d92c2e..9f84d5c 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -22,6 +22,7 @@ VIRTUAL-RUNTIME_update-alternatives ?= "update-alternatives-opkg"
- VIRTUAL-RUNTIME_apm ?= "apm"
- VIRTUAL-RUNTIME_alsa-state ?= "alsa-state"
- VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
-+VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
- 
- #
- # Default recipe providers
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 262d65f..c5530aa 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -48,6 +48,10 @@ PACKAGES = ' \
- # Override by distro if needed
- VIRTUAL-RUNTIME_keymaps ?= "keymaps"
- 
-+# Override by distro if needed. iw is the future, but wireless-tools is kept
-+# for now as well for compatibility.
-+VIRTUAL-RUNTIME_wireless-tools ?= "iw wireless-tools"
-+
- #
- # packagegroup-base contain stuff needed for base system (machine related)
- #
-@@ -292,7 +296,7 @@ RRECOMMENDS_packagegroup-base-ipsec = "\
- #
- SUMMARY_packagegroup-base-wifi = "WiFi support"
- RDEPENDS_packagegroup-base-wifi = "\
--    wireless-tools \
-+    ${VIRTUAL-RUNTIME_wireless-tools} \
-     ${@bb.utils.contains('COMBINED_FEATURES', 'pcmcia', 'hostap-utils', '',d)} \
-     ${@bb.utils.contains('COMBINED_FEATURES', 'pci', 'hostap-utils', '',d)} \
-     wpa-supplicant"
--- 
-2.2.1
+>
+> It wasn't clear from the description whether one had to build "ovmf" or
+> "ovmf-native" - it's the former (obvious after thinking about it some
+> more, because the code runs on the target).
+>
 
+you are right. It is not obvious.
+
+> Do you happen to know how non-volatile EFI variables are handled? There
+> are several posts from around 2012 saying that qemu does not support
+> storing nvram persistently (for example, [1]). I've not seen anything
+> more recent directly contradicting that, but there seems to be
+> something, at least in Fedora [2]. That patch mentions that "OVMF [...]
+> works in two
+> modes: 1) Code and UEFI variable store is mixed in one file. ...".
+>
+
+sorry, I do not know.
+
+> I'm probably doing something wrong (haven't tried this before), but when
+> I do a "setvar foobar ="foobar" in the EFI shell, I just get a "unable
+> to set: Invalid Parameter" error, with and without -nv.
+>
+> [1] http://blog.hansenpartnership.com/uefi-secure-boot/
+> [2] http://www.redhat.com/archives/libvir-list/2014-August/msg00960.html
+>
+>
 
