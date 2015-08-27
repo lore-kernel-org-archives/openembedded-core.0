@@ -1,26 +1,38 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B1DC76E17
+Return-Path: <jussi.kukkonen@intel.com>
+Received: from mail-ob0-f171.google.com (mail-ob0-f171.google.com
+	[209.85.214.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B36E560043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 09:33:29 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7R9XTNR023576
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 27 Aug 2015 11:22:59 +0000 (UTC)
+Received: by obbhe7 with SMTP id he7so17583921obb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 02:33:29 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 27 Aug 2015 02:33:28 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Aug 2015 17:28:59 +0800
-Message-ID: <883baed64d4645e7d054209cbfb22fbfdaccc228.1440667679.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1440667679.git.kai.kang@windriver.com>
-References: <cover.1440667679.git.kai.kang@windriver.com>
+	Thu, 27 Aug 2015 04:22:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=SDLP1XazoBJp9jWR4ZjU7JObP61xHAy4tWHB9kLq6SU=;
+	b=EJyVUQTBLSDRxF83kjNrfzO6TvWhMszFhTilymZ/IDIIuMnmBH6JI3rDUbrbKAiMfJ
+	fg/stlCyNSQovztZA/Lfn7LXOWghaEl1OZlzjX69fH7Bjt9WGclRoVLjTwLWAbVfVbse
+	EqAziHrjui/cCUgAJL7z3VvnRVrQm0oFdzI/J2SuoUHgzMJ8rxS5BqaSHNIR9l4Ge+zq
+	iDGu6UEJTRWRPZTaNxQ9OgrKdiLpAI9rX1pKnEmTkypkhj1Nyi/SCYRSP440YzeI+kWs
+	U771Gkt7RA+Bnya5ReHbWHTKaOynJ58IlLx+buXrbeJanMNj7MtkPaY5eOvDX2C3yS0d
+	I2jw==
+X-Gm-Message-State: ALoCoQn2JSUb1cwQ5/KI5G9K52BwuP7WpmgkV4V+jNfzZOrtJ8ZZFfzPcrafe89/jI+8CMDJAe9j
+X-Received: by 10.182.112.163 with SMTP id ir3mr2155583obb.44.1440674579556;
+	Thu, 27 Aug 2015 04:22:59 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] screen: fix parallel build failure
+Received: by 10.202.221.70 with HTTP; Thu, 27 Aug 2015 04:22:30 -0700 (PDT)
+In-Reply-To: <1440666743-12035-2-git-send-email-andrew.shadura@collabora.co.uk>
+References: <1440666743-12035-1-git-send-email-andrew.shadura@collabora.co.uk>
+	<1440666743-12035-2-git-send-email-andrew.shadura@collabora.co.uk>
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Date: Thu, 27 Aug 2015 14:22:30 +0300
+Message-ID: <CAHiDW_E+9HLPzehoxvm2S6RUuRfy5mcgYqXEL69rrr-d2=U+mQ@mail.gmail.com>
+To: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/3] dbus: update the recipes to 1.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,101 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 09:33:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Aug 2015 11:23:01 -0000
+Content-Type: multipart/alternative; boundary=089e012955768d46c7051e4930b8
 
-From: Kai Kang <kai.kang@windriver.com>
+--089e012955768d46c7051e4930b8
+Content-Type: text/plain; charset=UTF-8
 
-Backport patch to fix screen parallel build failure.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../screen/0001-fix-for-multijob-build.patch       | 58 ++++++++++++++++++++++
- meta/recipes-extended/screen/screen_4.3.1.bb       |  4 +-
- 2 files changed, 61 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
-
-diff --git a/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch b/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
-new file mode 100644
-index 0000000..40ecef0
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
-@@ -0,0 +1,58 @@
-+Upstream-Status: Backport
-+
-+Backport patch to fix parallel build failure and update context to make patch
-+coulde be applied.
-+
-+http://git.savannah.gnu.org/cgit/screen.git/commit?id=c0de6dd
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+From c0de6dd7970b2c7b426a5c39dcbc31c2bef87232 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
-+Date: Thu, 2 Jan 2014 18:18:06 +0100
-+Subject: [PATCH] fix for multijob build
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+make sure that comm.sh script generates comm.h header before doing
-+anything else
-+
-+Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
-+---
-+ Makefile.in | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index ce86cbc..dea16d8 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -298,7 +298,7 @@ search.o: layout.h viewport.h canvas.h search.c config.h screen.h os.h osdef.h a
-+  comm.h layer.h term.h image.h display.h window.h mark.h extern.h
-+ tty.o: layout.h viewport.h canvas.h tty.c config.h screen.h os.h osdef.h ansi.h acls.h comm.h \
-+  layer.h term.h image.h display.h window.h extern.h
-+-term.o: layout.h viewport.h canvas.h term.c term.h
-++term.o: layout.h viewport.h canvas.h term.c term.h comm.h
-+ window.o: layout.h viewport.h canvas.h window.c config.h screen.h os.h osdef.h ansi.h acls.h \
-+  comm.h layer.h term.h image.h display.h window.h extern.h logfile.h
-+ utmp.o: layout.h viewport.h canvas.h utmp.c config.h screen.h os.h osdef.h ansi.h acls.h \
-+@@ -324,7 +324,7 @@ canvas.o: layout.h viewport.h canvas.h canvas.c config.h screen.h os.h osdef.h a
-+  comm.h layer.h term.h image.h display.h window.h extern.h \
-+  braille.h
-+ comm.o: layout.h viewport.h canvas.h comm.c config.h acls.h comm.h
-+-kmapdef.o: layout.h viewport.h canvas.h kmapdef.c config.h
-++kmapdef.o: layout.h viewport.h canvas.h kmapdef.c config.h comm.h
-+ acls.o: layout.h viewport.h canvas.h acls.c config.h screen.h os.h osdef.h ansi.h acls.h comm.h \
-+  layer.h term.h image.h display.h window.h extern.h
-+ braille.o: layout.h viewport.h canvas.h braille.c config.h screen.h os.h osdef.h ansi.h acls.h \
-+@@ -350,7 +350,7 @@ layout.o: layout.h viewport.h canvas.h layout.c config.h screen.h os.h osdef.h a
-+ viewport.o: layout.h viewport.h canvas.h viewport.c config.h screen.h os.h osdef.h ansi.h acls.h \
-+  comm.h layer.h term.h image.h display.h window.h extern.h \
-+  braille.h
-+-list_generic.o: list_generic.h list_generic.c layer.h screen.h osdef.h
-+-list_display.o: list_generic.h list_display.c layer.h screen.h osdef.h
-+-list_window.o: list_generic.h list_window.c window.h layer.h screen.h osdef.h
-++list_generic.o: list_generic.h list_generic.c layer.h screen.h osdef.h comm.h
-++list_display.o: list_generic.h list_display.c layer.h screen.h osdef.h comm.h
-++list_window.o: list_generic.h list_window.c window.h layer.h screen.h osdef.h comm.h
-+ 
-diff --git a/meta/recipes-extended/screen/screen_4.3.1.bb b/meta/recipes-extended/screen/screen_4.3.1.bb
-index f95578b..6aea56d 100644
---- a/meta/recipes-extended/screen/screen_4.3.1.bb
-+++ b/meta/recipes-extended/screen/screen_4.3.1.bb
-@@ -21,7 +21,9 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://Remove-redundant-compiler-sanity-checks.patch \
-            file://Provide-cross-compile-alternatives-for-AC_TRY_RUN.patch \
-            file://Skip-host-file-system-checks-when-cross-compiling.patch \
--           file://Avoid-mis-identifying-systems-as-SVR4.patch"
-+           file://Avoid-mis-identifying-systems-as-SVR4.patch \
-+           file://0001-fix-for-multijob-build.patch \
-+          "
- 
- SRC_URI[md5sum] = "5bb3b0ff2674e29378c31ad3411170ad"
- SRC_URI[sha256sum] = "fa4049f8aee283de62e283d427f2cfd35d6c369b40f7f45f947dbfd915699d63"
--- 
-1.9.1
+On 27 August 2015 at 12:12, Andrew Shadura <andrew.shadura@collabora.co.uk>
+wrote:
+>
+> Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
+> ---
+>  meta/recipes-core/dbus/dbus-test_1.10.0.bb      |  61 ++++++++
+>  meta/recipes-core/dbus/dbus-test_1.8.20.bb      |  61 --------
+>  meta/recipes-core/dbus/dbus/python-config.patch |  13 +-
+>  meta/recipes-core/dbus/dbus_1.10.0.bb           | 177
+++++++++++++++++++++++++
+>  meta/recipes-core/dbus/dbus_1.8.20.bb           | 173
+-----------------------
+>  5 files changed, 245 insertions(+), 240 deletions(-)
 
 
+Could you please configure your git so that it tries harder to find
+renames: it's hard to see the changes otherwise. Something like this would
+work in git config (the other option is renames=copies):
+
+
+    [diff]
+        renames = true
+
+
+Thanks,
+  Jussi
+
+--089e012955768d46c7051e4930b8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On 27 August 2015 at 12:12, Andrew Shadura &lt;<a href=3D"=
+mailto:andrew.shadura@collabora.co.uk">andrew.shadura@collabora.co.uk</a>&g=
+t; wrote:<br>&gt;<br>&gt; Signed-off-by: Andrew Shadura &lt;<a href=3D"mail=
+to:andrew.shadura@collabora.co.uk">andrew.shadura@collabora.co.uk</a>&gt;<b=
+r>&gt; ---<br>&gt; =C2=A0meta/recipes-core/dbus/<a href=3D"http://dbus-test=
+_1.10.0.bb">dbus-test_1.10.0.bb</a> =C2=A0 =C2=A0 =C2=A0| =C2=A061 ++++++++=
+<br>&gt; =C2=A0meta/recipes-core/dbus/<a href=3D"http://dbus-test_1.8.20.bb=
+">dbus-test_1.8.20.bb</a> =C2=A0 =C2=A0 =C2=A0| =C2=A061 --------<br>&gt; =
+=C2=A0meta/recipes-core/dbus/dbus/python-config.patch | =C2=A013 +-<br>&gt;=
+ =C2=A0meta/recipes-core/dbus/<a href=3D"http://dbus_1.10.0.bb">dbus_1.10.0=
+.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 177 ++++++++++++++++++++++++<b=
+r>&gt; =C2=A0meta/recipes-core/dbus/<a href=3D"http://dbus_1.8.20.bb">dbus_=
+1.8.20.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 173 --------------------=
+---<br>&gt; =C2=A05 files changed, 245 insertions(+), 240 deletions(-)<br><=
+br><br>Could you please configure your git so that it tries harder to find =
+renames: it&#39;s hard to see the changes otherwise. Something like this wo=
+uld work in git config (the other option is renames=3Dcopies):<br><br>=C2=
+=A0<br>=C2=A0 =C2=A0 [diff]<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 renames =3D true=
+<br><br><br>Thanks,<br>=C2=A0 Jussi</div>
+
+--089e012955768d46c7051e4930b8--
