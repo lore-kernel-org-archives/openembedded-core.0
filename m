@@ -1,23 +1,24 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id BEE9976DFB
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3141B76DFB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 09:31:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 27 Aug 2015 02:31:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,421,1437462000"; d="scan'208";a="776621089"
-Received: from wneubaue-mobl1.ger.corp.intel.com (HELO
-	mqz-osx-suse64.fi.intel.com) ([10.252.11.162])
-	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2015 02:31:23 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Aug 2015 12:31:16 +0300
-Message-Id: <1440667876-1024-5-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1440667876-1024-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1440667876-1024-1-git-send-email-markus.lehtonen@linux.intel.com>
-Subject: [PATCH v2 4/4] package_manager: support for signed RPM package feeds
+	Thu, 27 Aug 2015 09:33:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7R9XScc010386
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Aug 2015 02:33:28 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Thu, 27 Aug 2015 02:33:27 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Aug 2015 17:28:58 +0800
+Message-ID: <cover.1440667679.git.kai.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] Fix screen parallel build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,90 +31,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 09:31:21 -0000
+X-List-Received-Date: Thu, 27 Aug 2015 09:33:28 -0000
+Content-Type: text/plain
 
-This change makes it possible to create GPG signed RPM package feeds -
-i.e. package feed with GPG signed metadata (repodata). All deployed RPM
-repositories will be signed and the GPG public key is copied to the rpm
-deployment directory.
+From: Kai Kang <kai.kang@windriver.com>
 
-In order to enable the new feature one needs to define four variables in
-bitbake configuration.
-1. 'PACKAGE_FEED_SIGN = "1"' enabling the feature
-2. 'PACKAGE_FEED_GPG_NAME = "<key_id>"' defining the GPG key to use for
-   signing
-3. 'PACKAGE_FEED_GPG_PASSPHRASE_FILE = "<path_to_file>"' pointing to a
-   file containing the passphrase for the secret signing key
-4. 'PACKAGE_FEED_GPG_PUBKEY = "<path_to_pubkey>"' pointing to the
-   corresponding public key (in "armor" format)
-The user may define "GPG_CMD" in the bitbake configuration in order to
-specify a specific the gpg binary/wrapper to use for signing.
+The following changes since commit 393bd7496d71eb101f21234c1233a2d18fd2c73e:
 
-[YOCTO #8134]
+  oeqa/oetest.py: add better package search for hasPackage() (2015-08-26 08:28:06 +0100)
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- meta/lib/oe/package_manager.py | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+are available in the git repository at:
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 936887c..83c119a 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -108,8 +108,17 @@ class RpmIndexer(Indexer):
-         archs = archs.union(set(sdk_pkg_archs))
- 
-         rpm_createrepo = bb.utils.which(os.getenv('PATH'), "createrepo")
-+        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-+            pkgfeed_gpg_name = self.d.getVar('PACKAGE_FEED_GPG_NAME', True)
-+            pkgfeed_gpg_pass = self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True)
-+        else:
-+            pkgfeed_gpg_name = None
-+            pkgfeed_gpg_pass = None
-+        gpg_bin = self.d.getVar('GPG_BIN', True) or \
-+                  bb.utils.which(os.getenv('PATH'), "gpg")
- 
-         index_cmds = []
-+        repo_sign_cmds = []
-         rpm_dirs_found = False
-         for arch in archs:
-             dbpath = os.path.join(self.d.getVar('WORKDIR', True), 'rpmdb', arch)
-@@ -121,6 +130,12 @@ class RpmIndexer(Indexer):
- 
-             index_cmds.append("%s --dbpath %s --update -q %s" % \
-                              (rpm_createrepo, dbpath, arch_dir))
-+            if pkgfeed_gpg_name:
-+                repomd_file = os.path.join(arch_dir, 'repodata', 'repomd.xml')
-+                gpg_cmd = "%s --detach-sign --armor --batch --no-tty --yes " \
-+                          "--passphrase-file '%s' -u '%s' %s" % (gpg_bin,
-+                          pkgfeed_gpg_pass, pkgfeed_gpg_name, repomd_file)
-+                repo_sign_cmds.append(gpg_cmd)
- 
-             rpm_dirs_found = True
- 
-@@ -132,12 +147,20 @@ class RpmIndexer(Indexer):
-         result = oe.utils.multiprocess_exec(index_cmds, create_index)
-         if result:
-             bb.fatal('%s' % ('\n'.join(result)))
--        # Copy pubkey to repo
-+        # Sign repomd
-+        result = oe.utils.multiprocess_exec(repo_sign_cmds, create_index)
-+        if result:
-+            bb.fatal('%s' % ('\n'.join(result)))
-+        # Copy pubkey(s) to repo
-         distro_version = self.d.getVar('DISTRO_VERSION', True) or "oe.0"
-         if self.d.getVar('RPM_SIGN_PACKAGES', True) == '1':
-             shutil.copy2(self.d.getVar('RPM_GPG_PUBKEY', True),
-                          os.path.join(self.deploy_dir,
-                                       'RPM-GPG-KEY-%s' % distro_version))
-+        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-+            shutil.copy2(self.d.getVar('PACKAGE_FEED_GPG_PUBKEY', True),
-+                         os.path.join(self.deploy_dir,
-+                                      'REPODATA-GPG-KEY-%s' % distro_version))
- 
- 
- class OpkgIndexer(Indexer):
+  git://git.yoctoproject.org/poky-contrib kangkai/screen
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kangkai/screen
+
+Kai Kang (1):
+  screen: fix parallel build failure
+
+ .../screen/0001-fix-for-multijob-build.patch       | 58 ++++++++++++++++++++++
+ meta/recipes-extended/screen/screen_4.3.1.bb       |  4 +-
+ 2 files changed, 61 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
+
 -- 
-2.1.4
+1.9.1
 
 
