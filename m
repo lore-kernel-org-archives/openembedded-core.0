@@ -1,44 +1,38 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
-	[209.85.223.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 138AE76DDF
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 600A976DB0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 06:45:23 +0000 (UTC)
-Received: by iods203 with SMTP id s203so46616675iod.0
+	Thu, 27 Aug 2015 07:57:07 +0000 (UTC)
+Received: by qkch123 with SMTP id h123so6181424qkc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 23:45:24 -0700 (PDT)
+	Thu, 27 Aug 2015 00:57:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=L5RPgabtDiACWnQw4kZsp5NK6AomEZarrNppgYvWUwo=;
-	b=mEOWhtI8raF9HpkmXP+AI3BF5M6TVQO9TnyP4zZRRPkefO/RlUoBH3CyoEfYkC7lDy
-	9UQycpUlCwtwmJY0KgfVVYn8H/JRkx4k4AKj+Rf7uBeMM0qvp6LMJUvzwtKaMDKqy/Ov
-	8tSUzbfNNv2IrQq4uclIFE0tuPGEqsrZx76FrOn30iJSQoZZN2boR4dUEIH+OxPLwJ5W
-	EZSc9tGxFDec2ysx2/WawCmYPQy6EPWima4eWJN4mkHtso6lke9gzHfMKJAALS/cj6h+
-	hKI2KRtdJuVPsCaO3NbMEi6UNJneFOYQenxCCje929OPXs4Ps2vFgUzGUSV8wAo4a4FP
-	XJkA==
-X-Gm-Message-State: ALoCoQmlapL1LJKOBnpp0e/vyWtQMH6B3F4PwrbgpPa5OPqyIUisZzAICDYyHYBpbxg9hx09nNi7
-X-Received: by 10.107.15.39 with SMTP id x39mr8300352ioi.156.1440657923717;
-	Wed, 26 Aug 2015 23:45:23 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8F2EE.dip0.t-ipconnect.de. [93.232.242.238])
-	by smtp.gmail.com with ESMTPSA id b5sm1125027iob.39.2015.08.26.23.45.22
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 26 Aug 2015 23:45:22 -0700 (PDT)
-Message-ID: <1440657920.20082.28.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=4TSciuL92W9c0JVP3sjl4mt+m6fiU2jAAws2oaTjgio=;
+	b=i4Ykf24FN8l8Rs0QD9YATiRMRstvYkRfbLJCRjp8eNybOs1NMuq9sDclvut/QaQ3C8
+	CfREUHLnJB0bYmd1E4AGw//roB0YC3tDlC5U9ImxmnulmaFdJBbbOXF7XJ/5PKr42zTw
+	4eIXDYO4nxcXJ4WP5EvHbmI+KG3+3vNLiYs917X6vi3MYGqT5e+tvzEIXuPHxGFmkwYZ
+	qQz3cG9yYxBi+mRdE3KUkgOezBY6hNyXjwyq8FDcw10rNRob7Et31yiyvJ48GSzykKC+
+	axvJzq4X1y34tU0w1sJi4U56QDCr1PiTDMMBELLapgLij59serwSDekpVJ0/qIwxEq3U
+	e5jw==
+X-Gm-Message-State: ALoCoQlRYGrqy54qHe/7D5z7AaHECAyGpOUmNhkgK0LBHrWWTlPlEJxlH7WrAl4jAA6oRryO25e7
+X-Received: by 10.55.195.66 with SMTP id a63mr4210325qkj.67.1440662227261;
+	Thu, 27 Aug 2015 00:57:07 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.98.9 with HTTP; Thu, 27 Aug 2015 00:56:47 -0700 (PDT)
+In-Reply-To: <CAJ86T=UEPqUz2ACbRpGkOkmxB7Z_U88iPEeoJfpA4Ox+pRbr2Q@mail.gmail.com>
+References: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
+	<1440604110-4306-3-git-send-email-nicolas.dechesne@linaro.org>
+	<CAJ86T=UEPqUz2ACbRpGkOkmxB7Z_U88iPEeoJfpA4Ox+pRbr2Q@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 27 Aug 2015 09:56:47 +0200
+Message-ID: <CAP71WjwS88zC0rMnaeNe9+bC+3tdFrHDTPhepEMXyGdztQ8nzg@mail.gmail.com>
 To: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 27 Aug 2015 08:45:20 +0200
-In-Reply-To: <CAJ86T=WnRNNrh9kr7QfHtP-tqmxdtZ1qm-0mnsAA1ANW04qysA@mail.gmail.com>
-References: <1440605035.20082.20.camel@intel.com>
-	<f1fe5d98cb0737847778531368eab04778076750.1440603928.git.patrick.ohly@intel.com>
-	<CAJ86T=WnRNNrh9kr7QfHtP-tqmxdtZ1qm-0mnsAA1ANW04qysA@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] mtd-utils: add xattr PACKAGECONFIG and fix acl dependency
+Subject: Re: [RFC PATCH 2/2] image_types.bbclass: add support for fastboot image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,38 +45,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 06:45:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Aug 2015 07:57:08 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wed, 2015-08-26 at 12:02 -0700, Andre McCurdy wrote:
-> On Wed, Aug 26, 2015 at 9:10 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> > The unconditional removal of -DWITHOUT_XATTR accidentally introduced a
-> > compile-time dependency on "acl", because "sys/acl.h" gets
-> > included. This caused random compile failures.
-> >
-> > To fix this, we introduce a proper PACKAGECONFIG for the "xattr"
-> > support, with the distro's "xattr" feature determining the
-> > default. Setting the define must be done with custom code because
-> > PACKAGECONFIG can only influence configure parameters.
-> >
-> > The "acl" distro feature is not checked because although enabling
-> > "xattr" support now triggers a build of acl, nothing from it will not
-> > get included in the resulting target image.
-> 
-> Typo?
+On Wed, Aug 26, 2015 at 10:31 PM, Andre McCurdy <armccurdy@gmail.com> wrote:
+>
+> > +IMAGE_CMD_ext4.fastboot () {
+> > +       if [ ${ROOTFS_SIZE} -lt ${FASTBOOT_PARTITION_SIZE} ]; then
+> > +               make_ext4fs -l `expr ${FASTBOOT_PARTITION_SIZE} \* 1024` \
+> > +                       ${EXTRA_IMAGECMD} \
+> > +                       ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4.fastboot \
+> > +                       ${IMAGE_ROOTFS}
+> > +       else
+> > +               bbfatal "Rootfs is too small for partition (Rootfs Actual Size: ${ROOTFS_SIZE}, Partition size: ${FASTBOOT_PARTITION_SIZE})"
+>
+> Should the error be "Rootfs is too LARGE for partition" ?
 
-Yes, the "not" needs to be removed. Can whoever merges the patch fix
-that or should I send a revised version?
-
--- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
-
+you're right.. wrong copy/paste, will fix.
 
