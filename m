@@ -1,27 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <jussi.kukkonen@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E5BFC60043
+	by mail.openembedded.org (Postfix) with ESMTP id 6F1AC60043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 12:45:34 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 27 Aug 2015 05:45:35 -0700
+	Thu, 27 Aug 2015 13:04:20 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 27 Aug 2015 06:03:49 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,422,1437462000"; d="scan'208";a="791978966"
-Received: from djcarton-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.20.50])
-	by orsmga002.jf.intel.com with ESMTP; 27 Aug 2015 05:45:34 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-Date: Thu, 27 Aug 2015 13:45:33 +0100
-Message-ID: <1610283.bR69gNP3St@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1440676190-2167-4-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1440676190-2167-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<1440676190-2167-4-git-send-email-markus.lehtonen@linux.intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] devtool: run kernel dependencies
+X-IronPort-AV: E=Sophos;i="5.17,422,1437462000"; d="scan'208";a="776729538"
+Received: from theory.fi.intel.com ([10.237.72.51])
+	by fmsmga001.fm.intel.com with ESMTP; 27 Aug 2015 06:03:48 -0700
+From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Aug 2015 16:05:24 +0300
+Message-Id: <cover.1440680489.git.jussi.kukkonen@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/6] Bring back LGPLv2 gmp, upgrade gnutls stack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,83 +27,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 12:45:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 27 Aug 2015 13:04:21 -0000
 
-Hi Markus,
+This patch set is the result of gnutls/nettle/gmp license discussion
+on the mailing list. The end result is that gnutls stack is available
+as LGPLv2.1 and also as the newest versions (where nettle and gmp are
+LGPLv3 | GPLv2).
 
-On Thursday 27 August 2015 14:49:50 Markus Lehtonen wrote:
-> The kernel package needs "kern-tools-native" in order for it's
-> do_kernel_metadata. Thus, devtool extract for kernel in a pristine
-> environment fails. With the current bb.tinfoil implementation it is not
-> possible to run arbitrary bitbake commands - e.g. run
-> "bitbake kern-tools-native -c populate_sysroot" in our case. This patch
-> implements an ugly workaround for that problem, basically by hardcoding
-> this dependency and running the required bitbake task(s) before tinfoil
-> is initialized.
-> 
-> [YOCTO #6658]
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  scripts/lib/devtool/standard.py | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/scripts/lib/devtool/standard.py
-> b/scripts/lib/devtool/standard.py index 3725d87..bf24e32 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -197,6 +197,8 @@ def extract(args, config, basepath, workspace):
->      """Entry point for the devtool 'extract' subcommand"""
->      import bb
-> 
-> +    _check_extract_deps(config, basepath, args.recipename)
-> +
->      tinfoil = setup_tinfoil()
-> 
->      rd = _parse_recipe(config, tinfoil, args.recipename, True)
-> @@ -237,6 +239,20 @@ class BbTaskExecutor(object):
->              self.executed.append(func)
-> 
-> 
-> +def _check_extract_deps(config, basepath, recipename):
-> +    """HACK: Ugly workaround for making sure that requirements are met when
-> +       trying to extract a package"""
-> +    tinfoil = setup_tinfoil()
-> +    rd = _parse_recipe(config, tinfoil, recipename, True)
-> +    if bb.data.inherits_class('kernel-yocto', rd):
-> +        tinfoil.shutdown()
+In more detail:
+ * Re-introduce an older LGPLv2 version of gmp
+ * Fix nettle binary package license
+ * Upgrade gnutls and nettle (keep LGPLv2 nettle as well)
 
-Hmm, surely you need to call shutdown() in the non-kernel case as well? 
-Otherwise won't the lock still be in place when this function returns and then 
-setup_tinfoil() is called a second time?
+gmp 4.2.1 was in better shape than I expected but it's still
+software that was last updated 9 years ago and is used in a crypto
+context... If there are other solutions to this problem I'll be
+happy to hear them out.
 
-> +        try:
-> +            stdout, _ = exec_build_env_command(config.init_path, basepath,
-> +                                               'bitbake kern-tools-native')
-> +        except bb.process.ExecutionError as err:
-> +            raise DevtoolError("Failed to build kern-tools-native:\n%s" %
-> +                               err.stdout)
-> +
->  def _extract_source(srctree, keep_temp, devbranch, d):
->      """Extract sources of a recipe"""
->      import bb.event
-> @@ -422,7 +438,8 @@ def modify(args, config, basepath, workspace):
->          raise DevtoolError("directory %s does not exist or not a directory
-> " "(specify -x to extract source from recipe)" % args.srctree)
-> -
-> +    if args.extract:
-> +        _check_extract_deps(config, basepath, args.recipename)
->      tinfoil = setup_tinfoil()
-> 
->      rd = _parse_recipe(config, tinfoil, args.recipename, True)
+Most of the commits depend on the ones before them either via version
+incompatibilities or via applying on top of each other. I've smoke
+tested two combinations of versions:
+ * everything upgraded to newest
+ * everything at LGPLv2.1 versions
+
 
 Cheers,
-Paul
+ Jussi
+
+
+
+The following changes since commit 778fc612cb584d17da02ecc115c4e6edba995602:
+
+  libnotify: update to version 0.7.6 (2015-08-26 07:36:15 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib jku/lgpl-all-the-things
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/lgpl-all-the-things
+
+Jussi Kukkonen (6):
+  nettle: Fix binary license to LGPLv2.1+
+  gmp: Bring back version 4.2.1 (LGPL 2.1+)
+  nettle: Add (LGPLv3) version 3.1.1
+  nettle: Add ptests
+  gnutls: Upgrade 3.3.14 -> 3.3.17.1
+  mirrors.bbclass: Update gnutls mirrors
+
+ meta/classes/mirrors.bbclass                       |  5 +-
+ .../gmp/gmp-4.2.1/disable-stdc.patch               | 39 +++++++++++++++
+ .../gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch  | 56 ++++++++++++++++++++++
+ .../gmp/{gmp => gmp-6.0.0}/amd64.patch             |  0
+ .../append_user_provided_flags.patch               |  0
+ .../gmp/{gmp => gmp-6.0.0}/configure.patch         |  0
+ .../gmp/{gmp => gmp-6.0.0}/gmp-6.0.0-ppc64.patch   |  0
+ .../gmp/{gmp => gmp-6.0.0}/use-includedir.patch    |  0
+ meta/recipes-support/gmp/gmp.inc                   | 19 +-------
+ meta/recipes-support/gmp/gmp_4.2.1.bb              | 15 ++++++
+ meta/recipes-support/gmp/gmp_6.0.0.bb              | 33 ++++++++++---
+ .../{gnutls_3.3.14.bb => gnutls_3.3.17.1.bb}       |  4 +-
+ ...d-target-to-only-build-tests-not-run-them.patch | 43 +++++++++++++++++
+ meta/recipes-support/nettle/files/run-ptest        | 36 ++++++++++++++
+ meta/recipes-support/nettle/nettle.inc             | 43 +++++++++++++++++
+ meta/recipes-support/nettle/nettle_2.7.1.bb        | 29 ++---------
+ meta/recipes-support/nettle/nettle_3.1.1.bb        | 11 +++++
+ 17 files changed, 276 insertions(+), 57 deletions(-)
+ create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/disable-stdc.patch
+ create mode 100644 meta/recipes-support/gmp/gmp-4.2.1/gmp_fix_for_automake-1.12.patch
+ rename meta/recipes-support/gmp/{gmp => gmp-6.0.0}/amd64.patch (100%)
+ rename meta/recipes-support/gmp/{gmp => gmp-6.0.0}/append_user_provided_flags.patch (100%)
+ rename meta/recipes-support/gmp/{gmp => gmp-6.0.0}/configure.patch (100%)
+ rename meta/recipes-support/gmp/{gmp => gmp-6.0.0}/gmp-6.0.0-ppc64.patch (100%)
+ rename meta/recipes-support/gmp/{gmp => gmp-6.0.0}/use-includedir.patch (100%)
+ create mode 100644 meta/recipes-support/gmp/gmp_4.2.1.bb
+ rename meta/recipes-support/gnutls/{gnutls_3.3.14.bb => gnutls_3.3.17.1.bb} (59%)
+ create mode 100644 meta/recipes-support/nettle/files/Add-target-to-only-build-tests-not-run-them.patch
+ create mode 100644 meta/recipes-support/nettle/files/run-ptest
+ create mode 100644 meta/recipes-support/nettle/nettle.inc
+ create mode 100644 meta/recipes-support/nettle/nettle_3.1.1.bb
 
 -- 
+2.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
