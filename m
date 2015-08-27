@@ -1,25 +1,38 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E9A9736B6
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by mail.openembedded.org (Postfix) with ESMTP id AE62060043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 12:37:42 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 27 Aug 2015 05:37:43 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,422,1437462000"; d="scan'208";a="791975279"
-Received: from djcarton-mobl2.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.20.50])
-	by orsmga002.jf.intel.com with ESMTP; 27 Aug 2015 05:37:41 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+	Thu, 27 Aug 2015 12:39:42 +0000 (UTC)
+Received: by wicgk12 with SMTP id gk12so7348882wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Aug 2015 05:39:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=from:to:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=Gvhc9x16SNsl23aoLWSZ4yT1els1tbvKykz2+bG43Ms=;
+	b=hUweXZVMdlqtP1foBXUhK2jtBD0mOZp0+EK/5Jv7OgzYRcZemzeqTKDYerHiIiBF4N
+	iRQxkZR03GePI0TZO2bKRhsUESxF8QEUqson9VweXevbqqWu5hcp2khzafIwkdtsEsqi
+	/CF0tXi2OVsOC9rA/kyIf1+qkJwf+KqTNh+++50FstWJO1d4yXTb5DHm27Vz+tawCUaB
+	ElkmD+gfS5RZCpLkN6XxvFkMYYQbUmHe+9v/ISrkdOQmtTIUOYIKGWslYWTdqkba2khg
+	N6NVaILasaJ/KbVHEzvn/bZ3Nw/jEqdforQHwp+aiSAaIq4BIAr0jMwMdPZ0k8FIGhfW
+	zllw==
+X-Received: by 10.194.92.109 with SMTP id cl13mr4582620wjb.156.1440679182173; 
+	Thu, 27 Aug 2015 05:39:42 -0700 (PDT)
+Received: from localhost.localdomain ([5.147.14.94])
+	by smtp.googlemail.com with ESMTPSA id
+	o3sm2934900wjx.16.2015.08.27.05.39.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Aug 2015 05:39:41 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Aug 2015 13:36:53 +0100
-Message-Id: <762e79dfb769e885758bdcc627fadbe4dc6454fd.1440678731.git.paul.eggleton@linux.intel.com>
+Date: Thu, 27 Aug 2015 14:39:05 +0200
+Message-Id: <1440679145-18993-1-git-send-email-schnitzeltony@googlemail.com>
 X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
+MIME-Version: 1.0
+Subject: [PATCH] libnotify: add (R)PROVIDES/RCONFLICTS/RREPLACES for meta-gnome's libnotify
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,63 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 12:37:43 -0000
+X-List-Received-Date: Thu, 27 Aug 2015 12:39:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Allow restricting recipes brought from a layer to a specified list. This
-is similar in operation to blacklist.bbclass, but instead specifies a
-per-layer whitelist of recipes (matched by PN or BPN) that are able to
-be built from the layer - anything else is skipped. This is potentially
-useful where you want to bring in a select set of recipes from a larger
-layer e.g. meta-oe.
+Avoid package feed issues caused by removing meta-gnome's libnotify3
 
-Implements [YOCTO #8150].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ---
- meta/classes/whitelist.bbclass | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
- create mode 100644 meta/classes/whitelist.bbclass
+ meta/recipes-gnome/libnotify/libnotify_0.7.6.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes/whitelist.bbclass b/meta/classes/whitelist.bbclass
-new file mode 100644
-index 0000000..ab6ac73
---- /dev/null
-+++ b/meta/classes/whitelist.bbclass
-@@ -0,0 +1,34 @@
-+# Class that allows you to restrict the recipes brought from a layer to
-+# a specified list. This is similar in operation to blacklist.bbclass
-+# but note the difference in how PNWHITELIST is set - we don't use varflags
-+# here, the recipe name goes in the value and we use an override for the
-+# layer name (although this is not strictly required - you can have one
-+# PNWHITELIST value shared by all of the layers specified in
-+# PNWHITELIST_LAYERS). The layer name used here is actually the name that
-+# gets added to BBFILE_COLLECTIONS in the layer's layer.conf, which may
-+# differ from how the layer is otherwise known - e.g. meta-oe uses
-+# "openembedded-layer".
-+#
-+# INHERIT += "whitelist"
-+# PNWHITELIST_LAYERS = "layername"
-+# PNWHITELIST_layername = "recipe1 recipe2"
-+#
-+# If you would prefer to set a reason message other than the default, you
-+# can do so:
-+#
-+# PNWHITELIST_REASON_layername = "not supported by ${DISTRO}"
-+
-+python() {
-+    layer = bb.utils.get_file_layer(d.getVar('FILE', True), d)
-+    if layer:
-+        layers = (d.getVar('PNWHITELIST_LAYERS', True) or '').split()
-+        if layer in layers:
-+            localdata = bb.data.createCopy(d)
-+            localdata.setVar('OVERRIDES', layer)
-+            whitelist = (localdata.getVar('PNWHITELIST', True) or '').split()
-+            if not (d.getVar('PN', True) in whitelist or d.getVar('BPN', True) in whitelist):
-+                reason = localdata.getVar('PNWHITELIST_REASON', True)
-+                if not reason:
-+                    reason = 'not in PNWHITELIST for layer %s' % layer
-+                raise bb.parse.SkipRecipe(reason)
-+}
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+index 5d7b4ce..6d9c596 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.7.6.bb
+@@ -10,3 +10,9 @@ inherit gnomebase distro_features_check gtk-doc
+ SRC_URI[archive.md5sum] = "a4997019d08f46f3bf57b78e6f795a59"
+ SRC_URI[archive.sha256sum] = "0ef61ca400d30e28217979bfa0e73a7406b19c32dd76150654ec5b2bdf47d837"
+ 
++# there were times, we had two versions of libnotify (oe-core libnotify:0.6.x /
++# meta-gnome libnotify3: 0.7.x)
++PROVIDES += "libnotify3"
++RPROVIDES_${PN} += "libnotify3"
++RCONFLICTS_${PN} += "libnotify3"
++RREPLACES_${PN} += "libnotify3"
 -- 
 2.1.0
 
