@@ -1,40 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id BA31373217
+Return-Path: <Bruce.Ashfield@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E0792760FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 01:28:04 +0000 (UTC)
-Received: by pacdd16 with SMTP id dd16so6052828pac.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Aug 2015 18:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=XM6AohVg8HCEpJX8mqvSDSRBA57LXFe65vsbLlGNGDQ=;
-	b=iKFKWvBSV/SZOGfJGh3mixoDLotKu4qKM0dcFNCUYlE1Eow8lGR38AQxyuF1KwKM44
-	ki2f5Frh+sGc2eOjWmu6Yzuk2vxBXO6nTBMtycxe4NZIVtB5hV2zYCWdP+XRrJ6WGDwg
-	gpXdTVCxvllTfls7xO1D0n8uX3ohHnSKaxk5Bxe2e+wbcd2aAjpW/0/vNO0av/KRFicL
-	WHSQkDNOG7AnA3Ouwb3KhuBok/WpZbqgcW0cLyjIXuD2gJHvy/ahbi0EFBxoVd9esI+H
-	920DpRflxJwpH9D8RJ/zqMqi/pvCXoY9/qx2ZIZdsMm//H5tm8bBPO5PX4SIQX7buXn0
-	bxqA==
-X-Received: by 10.68.239.69 with SMTP id vq5mr2417115pbc.111.1440638884669;
-	Wed, 26 Aug 2015 18:28:04 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:1183:c1:9996:5a2a?
-	([2601:646:8601:4580:1183:c1:9996:5a2a])
-	by smtp.gmail.com with ESMTPSA id m4sm327205pda.90.2015.08.26.18.28.03
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 26 Aug 2015 18:28:04 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1440621320-22747-1-git-send-email-ross.burton@intel.com>
-Date: Wed, 26 Aug 2015 18:27:59 -0700
-Message-Id: <3A1BA03C-27A2-44A3-96A1-987BC62575D5@gmail.com>
-References: <1440621320-22747-1-git-send-email-ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] byacc: fix compilation on Ubuntu 14.04
+	Thu, 27 Aug 2015 02:31:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t7R2Vehi007976
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 26 Aug 2015 19:31:40 -0700 (PDT)
+Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 26 Aug 2015 19:31:40 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Aug 2015 22:31:31 -0400
+Message-ID: <c2caeb07f4cf540d608ec48781f1bc0617551290.1440642427.git.bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1440642427.git.bruce.ashfield@windriver.com>
+References: <cover.1440642427.git.bruce.ashfield@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/9] linux-yocto/3.19/4.1: add coretemp to intel-common-drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,105 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 01:28:07 -0000
-X-Groupsio-MsgNum: 70118
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_82C553DD-AB42-472C-8D03-C67AE29DD9FF";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Thu, 27 Aug 2015 02:31:44 -0000
+Content-Type: text/plain
 
---Apple-Mail=_82C553DD-AB42-472C-8D03-C67AE29DD9FF
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+Updating the 3.19 and 4.1 meta SRCREVs to pull in the coretemp
+configuration values.
+
+Partial fix for [YOCTO #8107].
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb    | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb  | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_3.19.bb      | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_4.1.bb       | 2 +-
+ 5 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+index 1cefff871440..848bc965a0b0 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.1.bb
+@@ -3,7 +3,7 @@ KBRANCH ?= "standard/preempt-rt"
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+ SRCREV_machine ?= "fe1ee443489d4ab5ce04c903b0362ae565547bd1"
+-SRCREV_meta ?= "45393dd54f5ad77d43014c407c2b3520da42f427"
++SRCREV_meta ?= "4ea43922558a9032af33ea42ea74ac02416079e7"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
+index c82da372681d..a6a58a2ed84f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.19.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
+-SRCREV_meta ?= "361c186effc0b0038dfbfd3fe71ecf3df5edb43d"
++SRCREV_meta ?= "1016714868249d64fc16692fd7679672b1efa17b"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+index 38167cc2e85e..0e53d1d9149c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.1.bb
+@@ -10,7 +10,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
+-SRCREV_meta ?= "45393dd54f5ad77d43014c407c2b3520da42f427"
++SRCREV_meta ?= "4ea43922558a9032af33ea42ea74ac02416079e7"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_3.19.bb b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
+index 364f1f60ddcd..e8c16407a1c5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_3.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_3.19.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
+ SRCREV_machine_qemux86-64 ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
+ SRCREV_machine_qemumips64 ?= "3eb70cea3532e22ab1b6da9864446621229e6616"
+ SRCREV_machine ?= "e152349de59b43b2a75f2c332b44171df461d5a0"
+-SRCREV_meta ?= "361c186effc0b0038dfbfd3fe71ecf3df5edb43d"
++SRCREV_meta ?= "1016714868249d64fc16692fd7679672b1efa17b"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.19.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-3.19;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.1.bb b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+index 9eff93d35764..cbc3981f6d54 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.1.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.1.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
+ SRCREV_machine_qemux86-64 ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
+ SRCREV_machine_qemumips64 ?= "5c2b3697082a4ec6641aa5a8eca3974ca609cecf"
+ SRCREV_machine ?= "4e30e64c44df9e59bd13239951bb8d2b5b276e6f"
+-SRCREV_meta ?= "0a1457774f203eae4213822a0bd17a07f3b5d89a"
++SRCREV_meta ?= "4ea43922558a9032af33ea42ea74ac02416079e7"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto-4.1.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.1;destsuffix=${KMETA}"
+-- 
+2.1.0
 
 
-> On Aug 26, 2015, at 1:35 PM, Ross Burton <ross.burton@intel.com> =
-wrote:
->=20
-> Ubuntu defaults to passing _FORTIFY_SOURCE=3D2 which breaks byacc as =
-it doesn't
-> pass enough arguments to open():
->=20
-> inlined from 'open_tmpfile' at byacc-20150711/main.c:588:5:
-> /usr/include/x86_64-linux-gnu/bits/fcntl2.h:50:24: error: call to =
-'__open_missing_mode' declared with attribute error:
-> open with O_CREAT in second argument needs 3 arguments
->=20
-> Add a mode of 0666 to fix this.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
-> meta/recipes-extended/byacc/byacc.inc              |  4 +++-
-> meta/recipes-extended/byacc/byacc/byacc-open.patch | 13 +++++++++++++
-> 2 files changed, 16 insertions(+), 1 deletion(-)
-> create mode 100644 meta/recipes-extended/byacc/byacc/byacc-open.patch
->=20
-> diff --git a/meta/recipes-extended/byacc/byacc.inc =
-b/meta/recipes-extended/byacc/byacc.inc
-> index fae9e25..f9f8d6b 100644
-> --- a/meta/recipes-extended/byacc/byacc.inc
-> +++ b/meta/recipes-extended/byacc/byacc.inc
-> @@ -5,7 +5,9 @@ programming language."
-> SECTION =3D "devel"
-> LICENSE =3D "PD"
->=20
-> -SRC_URI =3D "ftp://invisible-island.net/byacc/byacc-${PV}.tgz"
-> +SRC_URI =3D "ftp://invisible-island.net/byacc/byacc-${PV}.tgz \
-> +           file://byacc-open.patch"
-> +
-> EXTRA_OECONF +=3D "--program-transform-name=3D's,^,b,'"
->=20
-> BBCLASSEXTEND =3D "native"
-> diff --git a/meta/recipes-extended/byacc/byacc/byacc-open.patch =
-b/meta/recipes-extended/byacc/byacc/byacc-open.patch
-> new file mode 100644
-> index 0000000..9160543
-> --- /dev/null
-> +++ b/meta/recipes-extended/byacc/byacc/byacc-open.patch
-> @@ -0,0 +1,13 @@
-> +diff --git a/main.c b/main.c
-> +index 620ce3f..82071a4 100644
-> +--- a/main.c
-> ++++ b/main.c
-> +@@ -526,7 +526,7 @@ my_mkstemp(char *temp)
-> +     }
-> +     if ((name =3D tempnam(dname, fname)) !=3D 0)
-> +     {
-> +-	fd =3D open(name, O_CREAT | O_EXCL | O_RDWR);
-> ++      fd =3D open(name, O_CREAT | O_EXCL | O_RDWR, 0666);
-
-
-hmm its cryptic may be you can use (S_IRUSR|S_IWUSR) instead of 0666 and =
-add ore flags if it needs.
-and the patch will need upstreaming status.
-
-> + 	strcpy(temp, name);
-> +     }
-> +     else
-> --
-> 2.1.4
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---Apple-Mail=_82C553DD-AB42-472C-8D03-C67AE29DD9FF
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXeZ6IACgkQuwUzVZGdMxTbDgCghpBRPhMBeye4xNKl9TfFfgQn
-S6cAnjV5weDrhid+H858LJMHFPibi3tK
-=a/sy
------END PGP SIGNATURE-----
-
---Apple-Mail=_82C553DD-AB42-472C-8D03-C67AE29DD9FF--
