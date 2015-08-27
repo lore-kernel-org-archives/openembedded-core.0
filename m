@@ -1,23 +1,36 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 87D6060043
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C41760043
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 16:27:24 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 27 Aug 2015 09:27:26 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,422,1437462000"; d="scan'208";a="756614794"
-Received: from alimonb-mobl1.zpn.intel.com (HELO [10.219.5.66]) ([10.219.5.66])
-	by orsmga001.jf.intel.com with ESMTP; 27 Aug 2015 09:27:24 -0700
-Message-ID: <55DF3A71.1020204@linux.intel.com>
-Date: Thu, 27 Aug 2015 11:27:29 -0500
-From: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Thu, 27 Aug 2015 17:09:13 +0000 (UTC)
+Received: by qgj62 with SMTP id 62so14507274qgj.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Aug 2015 10:09:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=MZ2/GrfEvmngKOIbSa0fOSyY6+CE1Sz8WQb2wZfVP2A=;
+	b=eD0/xSNAZmnHdHfODC/ANzkcVivI6DBg+finA6aoAHkjRpWZUbvMJzaXFlZn0GoJjO
+	YZnAqILUTkAHFY+Lt7eaK2U92IyGOIUBM9uiKRjXLE957oLjoG5ueHD2xg8zhOzcRxv6
+	wrX5gsPYduxlwXyE69IF8nMHDDvOKzSyzucORBjbLDmP32XlZxMMo3PldO+VIIt7e/a/
+	chAqPI9UCKic0H9D0TwUResKCHNW+xmS0Dpn4qKxkvs1sopjHiBfJvYtabMZwIo5sypX
+	2XKZaGToLb/9qVQJH+StKCfrI/kCF6Q+gKmNvI285TdeucERmtWjF0sT7Mg082xjqY74
+	zqMg==
+X-Gm-Message-State: ALoCoQlFCNkk9Mr7INMXvFdGSoR0aWoIuu0rEHZScrF2Y3Zg7tCyIZhyhmyxDhbVDlfcxQP6RRsg
+X-Received: by 10.140.237.204 with SMTP id i195mr9016409qhc.93.1440695353729; 
+	Thu, 27 Aug 2015 10:09:13 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
+Received: by 10.140.98.67 with HTTP; Thu, 27 Aug 2015 10:08:54 -0700 (PDT)
+In-Reply-To: <55DF3A71.1020204@linux.intel.com>
 References: <1440600498-10313-1-git-send-email-anibal.limon@linux.intel.com>
-In-Reply-To: <1440600498-10313-1-git-send-email-anibal.limon@linux.intel.com>
+	<55DF3A71.1020204@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 27 Aug 2015 18:08:54 +0100
+Message-ID: <CAJTo0La82wdfcDWRHF8AwoSjY0CL85k9HBaY=_Xz=4Ev33b9xA@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] runqemu-internal: Fixes unary operator expected in new TCPSERIAL_PORTNUM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -31,35 +44,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Aug 2015 16:27:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Aug 2015 17:09:17 -0000
+Content-Type: multipart/alternative; boundary=001a1135a030ca12a3051e4e062b
 
-ping
+--001a1135a030ca12a3051e4e062b
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 26/08/15 09:48, Aníbal Limón wrote:
-> If $TCPSERIAL_PORTNUM is empty string causes an error because
-> expands the expresion to,
+On 27 August 2015 at 17:27, An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.inte=
+l.com>
+wrote:
+
+> ping
 >
-> $TCPSERIAL_PORTNUM == "" -> == ""
->
-> Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-> ---
->   scripts/runqemu-internal | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-> index b317358..1b1bc9e 100755
-> --- a/scripts/runqemu-internal
-> +++ b/scripts/runqemu-internal
-> @@ -620,7 +620,7 @@ if [ "x$QEMUOPTIONS" = "x" ]; then
->       return 1
->   fi
->   
-> -if [ $TCPSERIAL_PORTNUM != "" ]; then
-> +if [ "$TCPSERIAL_PORTNUM" != "" ]; then
->       if [ "$MACHINE" = "qemuarm64" ]; then
->           QEMUOPTIONS="$QEMUOPTIONS -device virtio-serial-device -chardev socket,id=virtcon,port=$TCPSERIAL_PORTNUM,host=127.0.0.1 -device virtconsole,chardev=virtcon"
->       else
 
+It's in the queue - ross/mut is *giant* at this point but I just want to
+see master pass once with all green...
 
+Ross
+
+--001a1135a030ca12a3051e4e062b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 27 August 2015 at 17:27, An=C3=ADbal Lim=C3=B3n <span dir=3D"ltr">&lt;<a=
+ href=3D"mailto:anibal.limon@linux.intel.com" target=3D"_blank">anibal.limo=
+n@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
+div id=3D":1h6" class=3D"a3s" style=3D"overflow:hidden">ping</div></blockqu=
+ote><div><br></div><div>It&#39;s in the queue - ross/mut is *giant* at this=
+ point but I just want to see master pass once with all green...</div><div>=
+<br></div><div>Ross=C2=A0</div></div></div></div>
+
+--001a1135a030ca12a3051e4e062b--
