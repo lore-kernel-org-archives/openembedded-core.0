@@ -1,35 +1,36 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by mail.openembedded.org (Postfix) with ESMTP id B351A76DE5
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com
+	[209.85.213.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 3005D71633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 03:54:20 +0000 (UTC)
-Received: by iodt126 with SMTP id t126so80469161iod.2
+	Fri, 28 Aug 2015 04:00:53 +0000 (UTC)
+Received: by igui7 with SMTP id i7so9327862igu.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 20:54:20 -0700 (PDT)
+	Thu, 27 Aug 2015 21:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type:content-transfer-encoding;
-	bh=5O2M0ct6NjBjvCHSbVk8AwjxQAyZBHo3NoIsoZ4qpvw=;
-	b=Aa4reEMZ0l3pWoPDXkWunOi8CC17dCaoBxZh01+4J6op+V0qzC74l4VpEtCAN/s7ll
-	p1bSn/VahJmYINonHnUF15kVpf7RXj6FJQsBAt44GSm5MZwRNu0+En10u+BoHijfGClZ
-	E43Xqk6KjDYlgN0sQVXdAwpdalMEFq68nKr0V9cMy9Jb+iClJDx0BQMKL6FRxBF+zLkn
-	eiLV9yJycEiagSbxa+EdPJ+Kk04Puzy9re04oPwoFy7NGbG+MHtAwVJJ4TeNm2A/yDKO
-	uIkJTAGgpMEtgTcW9WbXZs5XZ9Xg/z8YG6UwsFMzAKF9MnWiyYShVgzIzSZTh+/MWooU
-	DtTw==
-X-Received: by 10.107.168.214 with SMTP id e83mr11949008ioj.112.1440734060375; 
-	Thu, 27 Aug 2015 20:54:20 -0700 (PDT)
+	bh=g6LhGGYk5cEet6LPnkruqLHxsCsdBYfdU29QKMCJgYQ=;
+	b=A61mLOJl95cZDWH2+P/oPt4OfvY4IZaGEyncAxMV9YrbF10mcDvB0VfzSR+yibb6av
+	fofcSkzFZId/GPxKIUdGz6c2A2E4e3At8SjuKu0PQnepztxFB372veF3jy0OR6GLOkE5
+	Q/USvpzmL7ShLkt9mOkfOtmAk20QqktW3TzHmDxigJDbdrY4gOTbsETW3CC1yvGMiMT2
+	r7qHSZmgfyPx7VNnaDApwwyq8CMJZqXMEIZDNodm3bRLcd4Z6auuqFc85fXeaVaBLU60
+	2hme+mBGfv44CLjJ4z4/C5DoR1ViCDpTr62C5HskPxUmVWkg6zzwSKxEGkv7H6F8lp2r
+	oMLg==
+X-Received: by 10.50.30.226 with SMTP id v2mr1734317igh.11.1440734453682; Thu,
+	27 Aug 2015 21:00:53 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.3.135 with HTTP; Thu, 27 Aug 2015 20:53:50 -0700 (PDT)
-In-Reply-To: <1440666743-12035-1-git-send-email-andrew.shadura@collabora.co.uk>
-References: <1440666743-12035-1-git-send-email-andrew.shadura@collabora.co.uk>
+Received: by 10.107.3.135 with HTTP; Thu, 27 Aug 2015 21:00:24 -0700 (PDT)
+In-Reply-To: <1440604110-4306-2-git-send-email-nicolas.dechesne@linaro.org>
+References: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
+	<1440604110-4306-2-git-send-email-nicolas.dechesne@linaro.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 27 Aug 2015 20:53:50 -0700
-Message-ID: <CAMKF1so6_ftdkbU5afVrGdnZA9LRDLhktNTgcdnZw2iqrYwSnQ@mail.gmail.com>
-To: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Date: Thu, 27 Aug 2015 21:00:24 -0700
+Message-ID: <CAMKF1sobN5CufVtRTaMFD9ZAnnWec-je4Y6O=2dnRWd7wgP2oA@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] dbus: merge .bb and .inc
+Subject: Re: [RFC PATCH 1/2] android-tools: import android-tools from meta-smartphone into oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,453 +43,352 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 03:54:20 -0000
+X-List-Received-Date: Fri, 28 Aug 2015 04:00:54 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Aug 27, 2015 at 2:12 AM, Andrew Shadura
-<andrew.shadura@collabora.co.uk> wrote:
-> The split is no longer necessary, and only makes it more complicated to
-> do changes in external layers.
+On Wed, Aug 26, 2015 at 8:48 AM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> The following changes were done to trim down the recipe size:
+> * removed adbd support
+> * removed android-tools-conf
 >
-> Signed-off-by: Andrew Shadura <andrew.shadura@collabora.co.uk>
+> The main idea is to keep only what is strictly needed for make_ext4fs too=
+l.
+>
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 > ---
->  meta/recipes-core/dbus/dbus.inc       | 170 ----------------------------=
------
->  meta/recipes-core/dbus/dbus_1.8.20.bb | 171 ++++++++++++++++++++++++++++=
-+++++-
->  2 files changed, 170 insertions(+), 171 deletions(-)
->  delete mode 100644 meta/recipes-core/dbus/dbus.inc
-
-can you send patch generated with -M 1
-
+>  .../android-tools/disable-selinux-support.patch    | 137 +++++++++++++++=
+++++++
+>  .../android-tools/reboot-syscall.patch             |  25 ++++
+>  .../android-tools/remove-libselinux.patch          |  13 ++
+>  .../android-tools/android-tools_4.2.2.bb           |  51 ++++++++
+>  4 files changed, 226 insertions(+)
+>  create mode 100644 meta/recipes-devtools/android-tools/android-tools/dis=
+able-selinux-support.patch
+>  create mode 100644 meta/recipes-devtools/android-tools/android-tools/reb=
+oot-syscall.patch
+>  create mode 100644 meta/recipes-devtools/android-tools/android-tools/rem=
+ove-libselinux.patch
+>  create mode 100644 meta/recipes-devtools/android-tools/android-tools_4.2=
+.2.bb
 >
-> diff --git a/meta/recipes-core/dbus/dbus.inc b/meta/recipes-core/dbus/dbu=
-s.inc
-> deleted file mode 100644
-> index 3971081..0000000
-> --- a/meta/recipes-core/dbus/dbus.inc
-> +++ /dev/null
-> @@ -1,170 +0,0 @@
-> -SUMMARY =3D "D-Bus message bus"
-> -DESCRIPTION =3D "D-Bus is a message bus system, a simple way for applica=
-tions to talk to one another. In addition to interprocess communication, D-=
-Bus helps coordinate process lifecycle; it makes it simple and reliable to =
-code a \"single instance\" application or daemon, and to launch application=
-s and daemons on demand when their services are needed."
-> -HOMEPAGE =3D "http://dbus.freedesktop.org"
-> -SECTION =3D "base"
-> -LICENSE =3D "AFL-2 | GPLv2+"
-> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D10dded3b58148f3f1fd804b26354a=
-f3e \
-> -                    file://dbus/dbus.h;beginline=3D6;endline=3D20;md5=3D=
-7755c9d7abccd5dbd25a6a974538bb3c"
-> -DEPENDS =3D "expat virtual/libintl"
-> -RDEPENDS_dbus_class-native =3D ""
-> -RDEPENDS_dbus_class-nativesdk =3D ""
-> -PACKAGES +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-p=
-test', '', d)}"
-> -ALLOW_EMPTY_dbus-ptest =3D "1"
-> -RDEPENDS_dbus-ptest_class-target =3D "dbus-test-ptest"
-> -
-> -SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz=
- \
-> -           file://tmpdir.patch \
-> -           file://dbus-1.init \
-> -           file://os-test.patch \
-> -           file://clear-guid_from_server-if-send_negotiate_unix_f.patch =
-\
-> -"
-> -
-> -inherit useradd autotools pkgconfig gettext update-rc.d
-> -
-> -INITSCRIPT_NAME =3D "dbus-1"
-> -INITSCRIPT_PARAMS =3D "start 02 5 3 2 . stop 20 0 1 6 ."
-> -
-> -python __anonymous() {
-> -    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False,=
- d):
-> -        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
-> -}
-> -
-> -USERADD_PACKAGES =3D "${PN}"
-> -GROUPADD_PARAM_${PN} =3D "-r netdev"
-> -USERADD_PARAM_${PN} =3D "--system --home ${localstatedir}/lib/dbus \
-> -                       --no-create-home --shell /bin/false \
-> -                       --user-group messagebus"
-> -
-> -CONFFILES_${PN} =3D "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus=
--1/session.conf"
-> -
-> -DEBIANNAME_${PN} =3D "dbus-1"
-> -
-> -PACKAGES =3D+ "${PN}-lib"
-> -
-> -OLDPKGNAME =3D "dbus-x11"
-> -OLDPKGNAME_class-nativesdk =3D ""
-> -
-> -# for compatibility
-> -RPROVIDES_${PN} =3D "${OLDPKGNAME}"
-> -RREPLACES_${PN} +=3D "${OLDPKGNAME}"
-> -
-> -FILES_${PN} =3D "${bindir}/dbus-daemon* \
-> -               ${bindir}/dbus-uuidgen \
-> -               ${bindir}/dbus-cleanup-sockets \
-> -               ${bindir}/dbus-send \
-> -               ${bindir}/dbus-monitor \
-> -               ${bindir}/dbus-launch \
-> -               ${bindir}/dbus-run-session \
-> -               ${libexecdir}/dbus* \
-> -               ${sysconfdir} \
-> -               ${localstatedir} \
-> -               ${datadir}/dbus-1/services \
-> -               ${datadir}/dbus-1/system-services \
-> -               ${systemd_unitdir}/system/"
-> -FILES_${PN}-lib =3D "${libdir}/lib*.so.*"
-> -RRECOMMENDS_${PN}-lib =3D "${PN}"
-> -FILES_${PN}-dev +=3D "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-too=
-l"
-> -
-> -pkg_postinst_dbus() {
-> -       # If both systemd and sysvinit are enabled, mask the dbus-1 init =
-script
-> -        if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','tr=
-ue','false',d)}; then
-> -               if [ -n "$D" ]; then
-> -                       OPTS=3D"--root=3D$D"
-> -               fi
-> -               systemctl $OPTS mask dbus-1.service
-> -       fi
-> -
-> -       if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-> -               /etc/init.d/populate-volatile.sh update
-> -       fi
-> -}
-> -
-> -EXTRA_OECONF =3D "--disable-tests \
-> -                --disable-xml-docs \
-> -                --disable-doxygen-docs \
-> -                --disable-libaudit \
-> -                --disable-systemd \
-> -                --without-dbus-glib"
-> -
-> -EXTRA_OECONF_append_class-native =3D " --disable-selinux"
-> -
-> -PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
-'systemd', '', d)} \
-> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11',=
- '', d)}"
-> -PACKAGECONFIG_class-native =3D ""
-> -PACKAGECONFIG_class-nativesdk =3D ""
-> -
-> -# Would like to --enable-systemd but that's a circular build-dependency =
-between
-> -# systemd<->dbus
-> -PACKAGECONFIG[systemd] =3D "--with-systemdsystemunitdir=3D${systemd_unit=
-dir}/system/,--without-systemdsystemunitdir"
-> -PACKAGECONFIG[x11] =3D "--with-x --enable-x11-autolaunch,--without-x --d=
-isable-x11-autolaunch, virtual/libx11 libsm"
-> -
-> -do_install() {
-> -       autotools_do_install
-> -
-> -       if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'f=
-alse', d)}; then
-> -               install -d ${D}${sysconfdir}/init.d
-> -               sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init >${W=
-ORKDIR}/dbus-1.init.sh
-> -               install -m 0755 ${WORKDIR}/dbus-1.init.sh ${D}${sysconfdi=
-r}/init.d/dbus-1
-> -       fi
-> -
-> -       if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'fa=
-lse', d)}; then
-> -               for i in dbus.target.wants sockets.target.wants multi-use=
-r.target.wants; do \
-> -                       install -d ${D}${systemd_unitdir}/system/$i; done
-> -               install -m 0644 ${B}/bus/dbus.service ${B}/bus/dbus.socke=
-t ${D}${systemd_unitdir}/system/
-> -               cd ${D}${systemd_unitdir}/system/dbus.target.wants/
-> -               ln -fs ../dbus.socket ${D}${systemd_unitdir}/system/dbus.=
-target.wants/dbus.socket
-> -               ln -fs ../dbus.socket ${D}${systemd_unitdir}/system/socke=
-ts.target.wants/dbus.socket
-> -               ln -fs ../dbus.service ${D}${systemd_unitdir}/system/mult=
-i-user.target.wants/dbus.service
-> -       fi
-> -
-> -       install -d ${D}${sysconfdir}/default/volatiles
-> -       echo "d messagebus messagebus 0755 ${localstatedir}/run/dbus none=
-" \
-> -            > ${D}${sysconfdir}/default/volatiles/99_dbus
-> -
-> -
-> -       mkdir -p ${D}${localstatedir}/lib/dbus
-> -
-> -       chown messagebus:messagebus ${D}${localstatedir}/lib/dbus
-> -
-> -       chown root:messagebus ${D}${libexecdir}/dbus-daemon-launch-helper
-> -       chmod 4755 ${D}${libexecdir}/dbus-daemon-launch-helper
-> -
-> -       # Remove Red Hat initscript
-> -       rm -rf ${D}${sysconfdir}/rc.d
-> -
-> -       # Remove empty testexec directory as we don't build tests
-> -       rm -rf ${D}${libdir}/dbus-1.0/test
-> -
-> -       # Remove /var/run as it is created on startup
-> -       rm -rf ${D}${localstatedir}/run
-> -}
-> -
-> -do_install_class-native() {
-> -       autotools_do_install
-> -
-> -       # for dbus-glib-native introspection generation
-> -       install -d ${D}${STAGING_DATADIR_NATIVE}/dbus/
-> -       # N.B. is below install actually required?
-> -       install -m 0644 bus/session.conf ${D}${STAGING_DATADIR_NATIVE}/db=
-us/session.conf
-> -
-> -       # dbus-glib-native and dbus-glib need this xml file
-> -       ./bus/dbus-daemon --introspect > ${D}${STAGING_DATADIR_NATIVE}/db=
-us/dbus-bus-introspect.xml
-> -
-> -       # dbus-launch has no X support so lets not install it in case the=
- host
-> -       # has a more featured and useful version
-> -       rm -f ${D}${bindir}/dbus-launch
-> -}
-> -
-> -do_install_class-nativesdk() {
-> -       autotools_do_install
-> -
-> -       # dbus-launch has no X support so lets not install it in case the=
- host
-> -       # has a more featured and useful version
-> -       rm -f ${D}${bindir}/dbus-launch
-> -
-> -       # Remove /var/run to avoid QA error
-> -       rm -rf ${D}${localstatedir}/run
-> -}
-> -BBCLASSEXTEND =3D "native nativesdk"
-> -
-> -INSANE_SKIP_${PN}-ptest +=3D "build-deps"
-> diff --git a/meta/recipes-core/dbus/dbus_1.8.20.bb b/meta/recipes-core/db=
-us/dbus_1.8.20.bb
-> index a8f2094..207a018 100644
-> --- a/meta/recipes-core/dbus/dbus_1.8.20.bb
-> +++ b/meta/recipes-core/dbus/dbus_1.8.20.bb
-> @@ -1,4 +1,173 @@
-> -include dbus.inc
-> +SUMMARY =3D "D-Bus message bus"
-> +DESCRIPTION =3D "D-Bus is a message bus system, a simple way for applica=
-tions to talk to one another. In addition to interprocess communication, D-=
-Bus helps coordinate process lifecycle; it makes it simple and reliable to =
-code a \"single instance\" application or daemon, and to launch application=
-s and daemons on demand when their services are needed."
-> +HOMEPAGE =3D "http://dbus.freedesktop.org"
-> +SECTION =3D "base"
-> +LICENSE =3D "AFL-2 | GPLv2+"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D10dded3b58148f3f1fd804b26354a=
-f3e \
-> +                    file://dbus/dbus.h;beginline=3D6;endline=3D20;md5=3D=
-7755c9d7abccd5dbd25a6a974538bb3c"
-> +DEPENDS =3D "expat virtual/libintl"
-> +RDEPENDS_dbus_class-native =3D ""
-> +RDEPENDS_dbus_class-nativesdk =3D ""
-> +PACKAGES +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '${PN}-p=
-test', '', d)}"
-> +ALLOW_EMPTY_dbus-ptest =3D "1"
-> +RDEPENDS_dbus-ptest_class-target =3D "dbus-test-ptest"
+> diff --git a/meta/recipes-devtools/android-tools/android-tools/disable-se=
+linux-support.patch b/meta/recipes-devtools/android-tools/android-tools/dis=
+able-selinux-support.patch
+> new file mode 100644
+> index 0000000..738f575
+> --- /dev/null
+> +++ b/meta/recipes-devtools/android-tools/android-tools/disable-selinux-s=
+upport.patch
+> @@ -0,0 +1,137 @@
+> +diff --git a/extras/ext4_utils/make_ext4fs.c b/extras/ext4_utils/make_ex=
+t4fs.c
+> +index b2d1426..94e92d6 100644
+> +--- a/extras/ext4_utils/make_ext4fs.c
+> ++++ b/extras/ext4_utils/make_ext4fs.c
+> +@@ -59,9 +59,11 @@
 > +
-> +SRC_URI =3D "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz=
- \
-> +           file://tmpdir.patch \
-> +           file://dbus-1.init \
-> +           file://os-test.patch \
-> +           file://clear-guid_from_server-if-send_negotiate_unix_f.patch =
-\
+> + #else
+> +
+> ++#if 0
+> + #include <selinux/selinux.h>
+> + #include <selinux/label.h>
+> + #include <selinux/android.h>
+> ++#endif
+> +
+
+Can this be config,ed out insread of if 0 ?
+
+> + #define O_BINARY 0
+> +
+> +@@ -178,6 +180,7 @@ static u32 build_directory_structure(const char *ful=
+l_path, const char *dir_path
+> +                       error("can't set android permissions - built with=
+out android support");
+> + #endif
+> +               }
+> ++#if 0
+> + #ifndef USE_MINGW
+> +               if (sehnd) {
+> +                       if (selabel_lookup(sehnd, &dentries[i].secon, den=
+tries[i].path, stat.st_mode) < 0) {
+> +@@ -188,6 +191,7 @@ static u32 build_directory_structure(const char *ful=
+l_path, const char *dir_path
+> +                               printf("Labeling %s as %s\n", dentries[i]=
+.path, dentries[i].secon);
+> +               }
+> + #endif
+> ++#endif
+> +
+> +               if (S_ISREG(stat.st_mode)) {
+> +                       dentries[i].file_type =3D EXT4_FT_REG_FILE;
+> +@@ -229,10 +233,12 @@ static u32 build_directory_structure(const char *f=
+ull_path, const char *dir_path
+> +               dentries[0].file_type =3D EXT4_FT_DIR;
+> +               dentries[0].uid =3D 0;
+> +               dentries[0].gid =3D 0;
+> ++#if 0
+> +               if (sehnd) {
+> +                       if (selabel_lookup(sehnd, &dentries[0].secon, den=
+tries[0].path, dentries[0].mode) < 0)
+> +                               error("cannot lookup security context for=
+ %s", dentries[0].path);
+> +               }
+> ++#endif
+> +               entries++;
+> +               dirs++;
+> +       }
+> +@@ -270,9 +276,11 @@ static u32 build_directory_structure(const char *fu=
+ll_path, const char *dir_path
+> +                       dentries[i].mtime);
+> +               if (ret)
+> +                       error("failed to set permissions on %s\n", dentri=
+es[i].path);
+> ++#if 0
+> +               ret =3D inode_set_selinux(entry_inode, dentries[i].secon)=
+;
+> +               if (ret)
+> +                       error("failed to set SELinux context on %s\n", de=
+ntries[i].path);
+> ++#endif
+> +
+> +               free(dentries[i].path);
+> +               free(dentries[i].full_path);
+> +@@ -562,6 +570,7 @@ int make_ext4fs_internal(int fd, const char *_direct=
+ory,
+> +       root_mode =3D S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH;
+> +       inode_set_permissions(root_inode_num, root_mode, 0, 0, 0);
+> +
+> ++#if 0
+> + #ifndef USE_MINGW
+> +       if (sehnd) {
+> +               char *secontext =3D NULL;
+> +@@ -578,6 +587,7 @@ int make_ext4fs_internal(int fd, const char *_direct=
+ory,
+> +               freecon(secontext);
+> +       }
+> + #endif
+> ++#endif
+> +
+> +       ext4_update_free();
+> +
+> +diff --git a/extras/ext4_utils/make_ext4fs_main.c b/extras/ext4_utils/ma=
+ke_ext4fs_main.c
+> +index b6c740d..ce31764 100644
+> +--- a/extras/ext4_utils/make_ext4fs_main.c
+> ++++ b/extras/ext4_utils/make_ext4fs_main.c
+> +@@ -29,6 +29,7 @@
+> + #include <private/android_filesystem_config.h>
+> + #endif
+> +
+> ++#if 0
+> + #ifndef USE_MINGW
+> + #include <selinux/selinux.h>
+> + #include <selinux/label.h>
+> +@@ -36,6 +37,7 @@
+> + #else
+> + struct selabel_handle;
+> + #endif
+> ++#endif
+> +
+> + #include "make_ext4fs.h"
+> + #include "ext4_utils.h"
+> +@@ -72,9 +74,11 @@ int main(int argc, char **argv)
+> +       int exitcode;
+> +       int verbose =3D 0;
+> +       struct selabel_handle *sehnd =3D NULL;
+> ++#if 0
+> + #ifndef USE_MINGW
+> +       struct selinux_opt seopts[] =3D { { SELABEL_OPT_PATH, "" } };
+> + #endif
+> ++#endif
+> +
+> +       while ((opt =3D getopt(argc, argv, "l:j:b:g:i:I:L:a:S:fwzJsctv"))=
+ !=3D -1) {
+> +               switch (opt) {
+> +@@ -131,6 +135,7 @@ int main(int argc, char **argv)
+> +                       fprintf(stderr, "Warning: -t (initialize inode ta=
+bles) is deprecated\n");
+> +                       break;
+> +               case 'S':
+> ++#if 0
+> + #ifndef USE_MINGW
+> +                       seopts[0].value =3D optarg;
+> +                       sehnd =3D selabel_open(SELABEL_CTX_FILE, seopts, =
+1);
+> +@@ -139,6 +144,7 @@ int main(int argc, char **argv)
+> +                               exit(EXIT_FAILURE);
+> +                       }
+> + #endif
+> ++#endif
+> +                       break;
+> +               case 'v':
+> +                       verbose =3D 1;
+> +@@ -149,6 +155,7 @@ int main(int argc, char **argv)
+> +               }
+> +       }
+> +
+> ++#if 0
+> + #if !defined(HOST)
+> +       // Use only if -S option not requested
+> +       if (!sehnd && mountpoint) {
+> +@@ -160,6 +167,7 @@ int main(int argc, char **argv)
+> +               }
+> +       }
+> + #endif
+> ++#endif
+> +
+> +       if (wipe && sparse) {
+> +               fprintf(stderr, "Cannot specifiy both wipe and sparse\n")=
+;
+> diff --git a/meta/recipes-devtools/android-tools/android-tools/reboot-sys=
+call.patch b/meta/recipes-devtools/android-tools/android-tools/reboot-sysca=
+ll.patch
+> new file mode 100644
+> index 0000000..0055416
+> --- /dev/null
+> +++ b/meta/recipes-devtools/android-tools/android-tools/reboot-syscall.pa=
+tch
+> @@ -0,0 +1,25 @@
+> +Subject: port android_reboot() to call the reboot syscall via syscall() =
+(glibc) rather than __reboot (bionic)
+> +Author: Lo=C3=AFc Minier <loic.minier@ubuntu.com>
+> +
+> +--- a/core/libcutils/android_reboot.c
+> ++++ b/core/libcutils/android_reboot.c
+> +@@ -21,6 +21,8 @@
+> + #include <fcntl.h>
+> + #include <stdio.h>
+> + #include <string.h>
+> ++#include <linux/reboot.h>
+> ++#include <sys/syscall.h>
+> +
+> + #include <cutils/android_reboot.h>
+> +
+> +@@ -121,8 +123,8 @@
+> +             break;
+> +
+> +         case ANDROID_RB_RESTART2:
+> +-            ret =3D __reboot(LINUX_REBOOT_MAGIC1, LINUX_REBOOT_MAGIC2,
+> +-                           LINUX_REBOOT_CMD_RESTART2, arg);
+> ++            ret =3D syscall(SYS_reboot, LINUX_REBOOT_MAGIC1, LINUX_REBO=
+OT_MAGIC2,
+> ++                          LINUX_REBOOT_CMD_RESTART2, arg);
+> +             break;
+> +
+> +         default:
+> diff --git a/meta/recipes-devtools/android-tools/android-tools/remove-lib=
+selinux.patch b/meta/recipes-devtools/android-tools/android-tools/remove-li=
+bselinux.patch
+> new file mode 100644
+> index 0000000..24690b2
+> --- /dev/null
+> +++ b/meta/recipes-devtools/android-tools/android-tools/remove-libselinux=
+.patch
+> @@ -0,0 +1,13 @@
+> +diff --git a/debian/makefiles/ext4_utils.mk b/debian/makefiles/ext4_util=
+s.mk
+> +index cb64916..60e81d6 100644
+> +--- a/debian/makefiles/ext4_utils.mk
+> ++++ b/debian/makefiles/ext4_utils.mk
+> +@@ -36,7 +36,7 @@ CPPFLAGS+=3D -I/usr/include
+> + CPPFLAGS+=3D -I../../core/include
+> + CPPFLAGS+=3D -I../../core/libsparse/include/
+> +
+> +-LIBS+=3D -lz -lselinux
+> ++LIBS+=3D -lz
+> +
+> + OBJS=3D $(SRCS:.c=3D.o)
+> +
+> diff --git a/meta/recipes-devtools/android-tools/android-tools_4.2.2.bb b=
+/meta/recipes-devtools/android-tools/android-tools_4.2.2.bb
+> new file mode 100644
+> index 0000000..7780e09
+> --- /dev/null
+> +++ b/meta/recipes-devtools/android-tools/android-tools_4.2.2.bb
+> @@ -0,0 +1,51 @@
+> +DESCRIPTION =3D "Different utilities from Android - based on the corresp=
+onding ubuntu \
+> +package"
+> +SECTION =3D "console/utils"
+> +LICENSE =3D "Apache-2.0 & GPL-2.0 & BSD-2-Clause & BSD-3-Clause"
+> +LIC_FILES_CHKSUM =3D " \
+> +  file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=3D89aea4e17d99a7cacdbeed46=
+a0096b10 \
+> +  file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=3D801f80980d171dd6425610833a2=
+2dbe6 \
+> +  file://${COMMON_LICENSE_DIR}/BSD-2-Clause;md5=3D8bef8e6712b1be5aa76af1=
+ebde9d6378 \
+> +  file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=3D550794465ba0ec5312d691=
+9e203a55f9 \
+> +  file://${WORKDIR}/debian/copyright;md5=3D141efd1050596168ca05ced04e4f4=
+98b \
 > +"
->
->  SRC_URI[md5sum] =3D "b49890bbabedab3a1c3f4f73c7ff8b2b"
->  SRC_URI[sha256sum] =3D "5c4fbf4c64621c96e871da91d2b729a5b00536e116d3c461=
-2a469d924b1b703a"
 > +
-> +inherit useradd autotools pkgconfig gettext update-rc.d
+> +DEPENDS =3D "zlib openssl"
 > +
-> +INITSCRIPT_NAME =3D "dbus-1"
-> +INITSCRIPT_PARAMS =3D "start 02 5 3 2 . stop 20 0 1 6 ."
+> +# Use same version than ubuntu does here
+> +BASE_PV =3D "4.2.2+git20130218"
+
+> +PV =3D "${BASE_PV}-3ubuntu13"
 > +
-> +python __anonymous() {
-> +    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False,=
- d):
-> +        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+
+we are not ubuntu why do this ?
+
+> +BBCLASSEXTEND +=3D "native"
+> +
+> +SRC_URI =3D " \
+> +    https://launchpad.net/ubuntu/+archive/primary/+files/android-tools_$=
+{BASE_PV}.orig.tar.xz;name=3Dsource \
+> +    https://launchpad.net/ubuntu/+archive/primary/+files/android-tools_$=
+{PV}.debian.tar.gz;name=3Ddebian \
+> +    file://reboot-syscall.patch \
+> +    file://disable-selinux-support.patch \
+> +    file://remove-libselinux.patch;patchdir=3D.. \
+> +"
+> +S =3D "${WORKDIR}/android-tools"
+> +
+> +SRC_URI[source.md5sum] =3D "0e653b129ab0c95bdffa91410c8b55be"
+> +SRC_URI[source.sha256sum] =3D "9bfba987e1351b12aa983787b9ae4424ab752e9e6=
+46d8e93771538dc1e5d932f"
+> +SRC_URI[debian.md5sum] =3D "5e409d01caf3c33fc60a2100464754ff"
+> +SRC_URI[debian.sha256sum] =3D "320757edc8af015f40335c41dc96bf37e2d50c9f3=
+a40a31e64264ff6e2dba5e3"
+> +
+> +do_compile() {
+> +    # Setting both variables below causing our makefiles to not work wit=
+h implicit make
+> +    # rules
+> +    unset CFLAGS
+> +    unset CPPFLAGS
+> +
+> +    sed -i "s%^CPPFLAGS+=3D -I/usr/include%# we don't want to include he=
+aders from host CPPFLAGS+=3D -I/usr/include%g" ${WORKDIR}/debian/makefiles/=
+ext4_utils.mk
+> +
+
+turn this into -I=3D/usr/include
+
+> +    oe_runmake -f ${WORKDIR}/debian/makefiles/ext4_utils.mk -C ${S}/extr=
+as/ext4_utils clean
+> +    oe_runmake -f ${WORKDIR}/debian/makefiles/ext4_utils.mk -C ${S}/extr=
+as/ext4_utils
 > +}
-> +
-> +USERADD_PACKAGES =3D "${PN}"
-> +GROUPADD_PARAM_${PN} =3D "-r netdev"
-> +USERADD_PARAM_${PN} =3D "--system --home ${localstatedir}/lib/dbus \
-> +                       --no-create-home --shell /bin/false \
-> +                       --user-group messagebus"
-> +
-> +CONFFILES_${PN} =3D "${sysconfdir}/dbus-1/system.conf ${sysconfdir}/dbus=
--1/session.conf"
-> +
-> +DEBIANNAME_${PN} =3D "dbus-1"
-> +
-> +PACKAGES =3D+ "${PN}-lib"
-> +
-> +OLDPKGNAME =3D "dbus-x11"
-> +OLDPKGNAME_class-nativesdk =3D ""
-> +
-> +# for compatibility
-> +RPROVIDES_${PN} =3D "${OLDPKGNAME}"
-> +RREPLACES_${PN} +=3D "${OLDPKGNAME}"
-> +
-> +FILES_${PN} =3D "${bindir}/dbus-daemon* \
-> +               ${bindir}/dbus-uuidgen \
-> +               ${bindir}/dbus-cleanup-sockets \
-> +               ${bindir}/dbus-send \
-> +               ${bindir}/dbus-monitor \
-> +               ${bindir}/dbus-launch \
-> +               ${bindir}/dbus-run-session \
-> +               ${libexecdir}/dbus* \
-> +               ${sysconfdir} \
-> +               ${localstatedir} \
-> +               ${datadir}/dbus-1/services \
-> +               ${datadir}/dbus-1/system-services \
-> +               ${systemd_unitdir}/system/"
-> +FILES_${PN}-lib =3D "${libdir}/lib*.so.*"
-> +RRECOMMENDS_${PN}-lib =3D "${PN}"
-> +FILES_${PN}-dev +=3D "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-too=
-l"
-> +
-> +pkg_postinst_dbus() {
-> +       # If both systemd and sysvinit are enabled, mask the dbus-1 init =
-script
-> +        if ${@bb.utils.contains('DISTRO_FEATURES','systemd sysvinit','tr=
-ue','false',d)}; then
-> +               if [ -n "$D" ]; then
-> +                       OPTS=3D"--root=3D$D"
-> +               fi
-> +               systemctl $OPTS mask dbus-1.service
-> +       fi
-> +
-> +       if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-> +               /etc/init.d/populate-volatile.sh update
-> +       fi
-> +}
-> +
-> +EXTRA_OECONF =3D "--disable-tests \
-> +                --disable-xml-docs \
-> +                --disable-doxygen-docs \
-> +                --disable-libaudit \
-> +                --disable-systemd \
-> +                --without-dbus-glib"
-> +
-> +EXTRA_OECONF_append_class-native =3D " --disable-selinux"
-> +
-> +PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', =
-'systemd', '', d)} \
-> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11',=
- '', d)}"
-> +PACKAGECONFIG_class-native =3D ""
-> +PACKAGECONFIG_class-nativesdk =3D ""
-> +
-> +# Would like to --enable-systemd but that's a circular build-dependency =
-between
-> +# systemd<->dbus
-> +PACKAGECONFIG[systemd] =3D "--with-systemdsystemunitdir=3D${systemd_unit=
-dir}/system/,--without-systemdsystemunitdir"
-> +PACKAGECONFIG[x11] =3D "--with-x --enable-x11-autolaunch,--without-x --d=
-isable-x11-autolaunch, virtual/libx11 libsm"
 > +
 > +do_install() {
-> +       autotools_do_install
+> +    install -d ${D}${bindir}
+> +    install -m 0755 ${S}/extras/ext4_utils/make_ext4fs ${D}${bindir}
+
+squash it into
+
+install -Dm 0755 ${S}/extras/ext4_utils/make_ext4fs ${D}${bindir}/make_ext4=
+fs
+
 > +
-> +       if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'f=
-alse', d)}; then
-> +               install -d ${D}${sysconfdir}/init.d
-> +               sed 's:@bindir@:${bindir}:' < ${WORKDIR}/dbus-1.init >${W=
-ORKDIR}/dbus-1.init.sh
-> +               install -m 0755 ${WORKDIR}/dbus-1.init.sh ${D}${sysconfdi=
-r}/init.d/dbus-1
-> +       fi
-> +
-> +       if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'fa=
-lse', d)}; then
-> +               for i in dbus.target.wants sockets.target.wants multi-use=
-r.target.wants; do \
-> +                       install -d ${D}${systemd_unitdir}/system/$i; done
-> +               install -m 0644 ${B}/bus/dbus.service ${B}/bus/dbus.socke=
-t ${D}${systemd_unitdir}/system/
-> +               cd ${D}${systemd_unitdir}/system/dbus.target.wants/
-> +               ln -fs ../dbus.socket ${D}${systemd_unitdir}/system/dbus.=
-target.wants/dbus.socket
-> +               ln -fs ../dbus.socket ${D}${systemd_unitdir}/system/socke=
-ts.target.wants/dbus.socket
-> +               ln -fs ../dbus.service ${D}${systemd_unitdir}/system/mult=
-i-user.target.wants/dbus.service
-> +       fi
-> +
-> +       install -d ${D}${sysconfdir}/default/volatiles
-> +       echo "d messagebus messagebus 0755 ${localstatedir}/run/dbus none=
-" \
-> +            > ${D}${sysconfdir}/default/volatiles/99_dbus
-> +
-> +
-> +       mkdir -p ${D}${localstatedir}/lib/dbus
-> +
-> +       chown messagebus:messagebus ${D}${localstatedir}/lib/dbus
-> +
-> +       chown root:messagebus ${D}${libexecdir}/dbus-daemon-launch-helper
-> +       chmod 4755 ${D}${libexecdir}/dbus-daemon-launch-helper
-> +
-> +       # Remove Red Hat initscript
-> +       rm -rf ${D}${sysconfdir}/rc.d
-> +
-> +       # Remove empty testexec directory as we don't build tests
-> +       rm -rf ${D}${libdir}/dbus-1.0/test
-> +
-> +       # Remove /var/run as it is created on startup
-> +       rm -rf ${D}${localstatedir}/run
 > +}
-> +
-> +do_install_class-native() {
-> +       autotools_do_install
-> +
-> +       # for dbus-glib-native introspection generation
-> +       install -d ${D}${STAGING_DATADIR_NATIVE}/dbus/
-> +       # N.B. is below install actually required?
-> +       install -m 0644 bus/session.conf ${D}${STAGING_DATADIR_NATIVE}/db=
-us/session.conf
-> +
-> +       # dbus-glib-native and dbus-glib need this xml file
-> +       ./bus/dbus-daemon --introspect > ${D}${STAGING_DATADIR_NATIVE}/db=
-us/dbus-bus-introspect.xml
-> +
-> +       # dbus-launch has no X support so lets not install it in case the=
- host
-> +       # has a more featured and useful version
-> +       rm -f ${D}${bindir}/dbus-launch
-> +}
-> +
-> +do_install_class-nativesdk() {
-> +       autotools_do_install
-> +
-> +       # dbus-launch has no X support so lets not install it in case the=
- host
-> +       # has a more featured and useful version
-> +       rm -f ${D}${bindir}/dbus-launch
-> +
-> +       # Remove /var/run to avoid QA error
-> +       rm -rf ${D}${localstatedir}/run
-> +}
-> +BBCLASSEXTEND =3D "native nativesdk"
-> +
-> +INSANE_SKIP_${PN}-ptest +=3D "build-deps"
 > --
-> 2.1.4
+> 2.3.5
 >
 > --
 > _______________________________________________
