@@ -1,32 +1,28 @@
-Return-Path: <joshc@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BFE071633
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A6C9771633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 13:00:04 +0000 (UTC)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t7SCxjVv020338; Fri, 28 Aug 2015 07:59:45 -0500
-Received: from jcartwri.amer.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015082807594560-789994 ;
-	Fri, 28 Aug 2015 07:59:45 -0500 
-Received: by jcartwri.amer.corp.natinst.com (Postfix, from userid 1000)
-	id 93052300322; Fri, 28 Aug 2015 07:59:45 -0500 (CDT)
-From: Josh Cartwright <joshc@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Aug 2015 07:59:45 -0500
-Message-Id: <1440766785-23743-1-git-send-email-joshc@ni.com>
-X-Mailer: git-send-email 2.5.0
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 08/28/2015 07:59:45 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 08/28/2015 07:59:45 AM,
-	Serialize complete at 08/28/2015 07:59:45 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-08-28_06:, , signatures=0
-Cc: "Maxin B. John" <maxin.john@enea.com>
-Subject: [PATCH] rt-tests: drop unnecessary added-missing-dependencies.patch
+	Fri, 28 Aug 2015 13:09:39 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 28 Aug 2015 06:09:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,424,1437462000"; d="scan'208";a="792727833"
+Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
+	([10.252.13.245])
+	by orsmga002.jf.intel.com with ESMTP; 28 Aug 2015 06:09:38 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 28 Aug 2015 14:09:37 +0100
+Message-ID: <2222528.ueMDq1ARAi@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <14855649.MLpkRK5kp1@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
+	<26B844B8-BE69-427B-8DA7-B649C46A5632@gmail.com>
+	<14855649.MLpkRK5kp1@peggleto-mobl.ger.corp.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,79 +35,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 13:00:08 -0000
+X-List-Received-Date: Fri, 28 Aug 2015 13:09:44 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Neither the hackbench target, or the rt-migrate-test target actually
-depend on librttest.a; drop this unnecessary patch.
+On Friday 28 August 2015 09:34:18 Paul Eggleton wrote:
+> On Thursday 27 August 2015 23:07:44 Khem Raj wrote:
+> > > On Aug 27, 2015, at 5:36 AM, Paul Eggleton
+> > > <paul.eggleton@linux.intel.com>
+> > > wrote:
+> > > 
+> > > Allow restricting recipes brought from a layer to a specified list. This
+> > > is similar in operation to blacklist.bbclass, but instead specifies a
+> > > per-layer whitelist of recipes (matched by PN or BPN) that are able to
+> > > be built from the layer - anything else is skipped. This is potentially
+> > > useful where you want to bring in a select set of recipes from a larger
+> > > layer e.g. meta-oe.
+> > 
+> > For the record, I am not in favor of such feature in OE, Distros can still
+> > use BBMASK if they wish to
+> 
+> This is significantly easier to use than BBMASK though. (Perhaps that's why
+> you don't like it?)
 
-Signed-off-by: Josh Cartwright <joshc@ni.com>
----
- .../files/added-missing-dependencies.patch         | 42 ----------------------
- meta/recipes-rt/rt-tests/rt-tests.inc              |  1 -
- 2 files changed, 43 deletions(-)
- delete mode 100644 meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
+I should expand upon this with a couple of important distinctions:
 
-diff --git a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch b/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
-deleted file mode 100644
-index 0bf768e..0000000
---- a/meta/recipes-rt/rt-tests/files/added-missing-dependencies.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 3f948f22d9106a2b957d1d430b16a7c51ccfc067 Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@enea.com>
--Date: Tue, 16 Jun 2015 22:53:23 +0200
--Subject: [PATCH] Added missing dependencies
--
--Upstream-Status: Submitted [linux-rt-users]
--
--The following targets missed dependency on librttest.a:
--rt-migrate-test
--hackbench
--
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
--Signed-off-by: Maxin B. John <maxin.john@enea.com>
-----
-- Makefile | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/Makefile b/Makefile
--index a48e759..7a3f192 100644
----- a/Makefile
--+++ b/Makefile
--@@ -85,7 +85,7 @@ hwlatdetect:  src/hwlatdetect/hwlatdetect.py
-- 	chmod +x src/hwlatdetect/hwlatdetect.py
-- 	ln -s src/hwlatdetect/hwlatdetect.py hwlatdetect
-- 
---rt-migrate-test: rt-migrate-test.o
--+rt-migrate-test: rt-migrate-test.o librttest.a
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS)
-- 
-- ptsematest: ptsematest.o librttest.a
--@@ -106,7 +106,7 @@ sendme: sendme.o librttest.a
-- pip_stress: pip_stress.o librttest.a
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS) $(RTTESTLIB)
-- 
---hackbench: hackbench.o
--+hackbench: hackbench.o librttest.a
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $< $(LIBS)
-- 
-- librttest.a: rt-utils.o error.o rt-get_cpu.o rt-sched.o
---- 
--1.9.1
--
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tests/rt-tests.inc
-index 9a076ad..871db13 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -5,7 +5,6 @@ SRCREV = "5f9f1e3fe327440a9d405f4af8feb16ff7a909eb"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/clrkwllms/rt-tests.git \
-            file://0001-rt-tests-Allow-for-user-specified-PYLIB.patch \
-            file://0002-rt-tests-Break-out-install_hwlatdetect.patch \
--           file://added-missing-dependencies.patch \
-            file://hackbench-fix-error-check.patch \
-            file://Makefile-fix-gzip-command.patch \
-            file://fix-re-install-failure.patch \
+* BBMASK is a list of files to mask out, so it's a blacklist not a whitelist. 
+(Sure, you could probably construct a regex that effectively gives you a 
+whitelist; it probably won't be pretty though.)
+
+* BBMASK tells bitbake not to even try reading the masked files, which means if 
+you then request to build any of them (either directly or via a dependency) 
+you'll be told that there's nothing providing that with no explanation as to 
+why. With whitelist.bbclass (and blacklist.bbclass, which whitelist.bbclass is 
+modelled after) we are using SkipPackage/SkipRecipe so you at least get a 
+statement that the recipe was skipped as well as hopefully an explanatory 
+reason as to why.
+
+Cheers,
+Paul
+
 -- 
-2.5.0
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
