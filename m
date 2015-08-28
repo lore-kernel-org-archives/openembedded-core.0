@@ -1,41 +1,52 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 00D2B76DFD
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com
+	[209.85.212.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 64E7476DE8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 16:40:03 +0000 (UTC)
-Received: by padfo6 with SMTP id fo6so29394663pad.0
+	Fri, 28 Aug 2015 17:32:59 +0000 (UTC)
+Received: by wicne3 with SMTP id ne3so25185987wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 09:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=fGEHvzgpJU1tjcGBN4MotSQKQo5/jy4iw2IYqT0nBMA=;
-	b=mbY4DTx8ppSKQniajq0+PUOmZF8GiTBRWjAIi0mdL1bXqoBKcPs/1rdTcakjJSglzw
-	ucsRK9QS6RpSKhSLCOKZASenMBn7hfxU1FM/ywkU++xF7ku/NlY02Ps7+77VexQXVXwq
-	+hQirJINbza4XDRLsMWew9RutkIRuvVjJG/5s4/iXwKR1NUlGv/m9GGQb74ETCL12cIu
-	/GFNSzlvd24apUKs6QN9kXLFNY6nbGNoK8EDamymzKldMg/wCRroKh/pMPSlgKVW6+E8
-	Ff1uyouiMbByRPgqw0WETbNFH3ZNON12Cup1GGdVeGVcYBruAG+pC1zjSK5eGDJ8UH1Q
-	6LaQ==
-X-Received: by 10.66.251.197 with SMTP id zm5mr15949512pac.157.1440780004232; 
-	Fri, 28 Aug 2015 09:40:04 -0700 (PDT)
-Received: from ?IPv6:2601:202:4000:1239:d511:789c:724b:54b9?
-	([2601:202:4000:1239:d511:789c:724b:54b9])
-	by smtp.googlemail.com with ESMTPSA id
-	bz1sm6234681pbb.85.2015.08.28.09.40.02
+	Fri, 28 Aug 2015 10:32:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=JDxszGZFd5Ir1QVhEV5uom7+3C6EpOD1du6C17xM9B0=;
+	b=EA0HKx8F8uK4z34vyN8JcOQVlCxRXgx+MVlojg+QRukz3ZCrBL2lGmhb3+nNJw6P/t
+	ooU92xry/TKnWdb4wT42eeFpdfnP+N9LAVDCxCgfBU6TomydxYFhxHglJ0HJbHWZhQS3
+	pSwej937fUvn1JJXwGLiTP3oxfyi/mT5D9hH8WMQK2Ekerql5KMw6mkqL2meH1K0c42o
+	oqUD7B+kalAEaAeoWY3peBc7801yphhLIiSifq+LF2Ww2iiUCUOLLD6vOp9W0DAZ53YI
+	mA87YjtGpgrZ2ThexunqBSsnket23EGfcg09yqb+guMmGMabITu/A+o3A8on9PDagz4W
+	LbQA==
+X-Gm-Message-State: ALoCoQlIUhQKXEGFqlfjAl+JhcW0SJYcyeh0tocsYXA6o138A0xk8i9ohGXf/nhJliY3bgxGfH6r
+X-Received: by 10.180.102.74 with SMTP id fm10mr5964883wib.25.1440783179505;
+	Fri, 28 Aug 2015 10:32:59 -0700 (PDT)
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com.
+	[209.85.212.180])
+	by smtp.gmail.com with ESMTPSA id r19sm4739108wib.7.2015.08.28.10.32.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Aug 2015 09:40:03 -0700 (PDT)
-Message-ID: <55E08EE1.50403@gmail.com>
-Date: Fri, 28 Aug 2015 09:40:01 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+	Fri, 28 Aug 2015 10:32:58 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by wiae7 with SMTP id e7so3387016wia.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Aug 2015 10:32:58 -0700 (PDT)
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1440496207-22738-1-git-send-email-sona.sarmadi@enea.com>
-In-Reply-To: <1440496207-22738-1-git-send-email-sona.sarmadi@enea.com>
-Subject: Re: [PATCH][dizzy] qemu-slirp: CVE-2014-3640
+X-Received: by 10.180.72.230 with SMTP id g6mr1551177wiv.79.1440783178286;
+	Fri, 28 Aug 2015 10:32:58 -0700 (PDT)
+Received: by 10.28.135.72 with HTTP; Fri, 28 Aug 2015 10:32:58 -0700 (PDT)
+In-Reply-To: <4561951.P3JYBJt1QK@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
+	<3982576.S6LufBxnUW@peggleto-mobl.ger.corp.intel.com>
+	<CAP9ODKogFOzQxfJkQ-vm=H9H7ozcSk5esYrozOigrhNUKb6mEQ@mail.gmail.com>
+	<4561951.P3JYBJt1QK@peggleto-mobl.ger.corp.intel.com>
+Date: Fri, 28 Aug 2015 14:32:58 -0300
+Message-ID: <CAP9ODKo0LSYQ7B6BePUGwYm97AwUv2OTyEM8QaJQANMNc8i-5A@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,97 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 16:40:06 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Aug 2015 17:33:03 -0000
+Content-Type: text/plain; charset=UTF-8
 
-merged to staging
+On Fri, Aug 28, 2015 at 11:19 AM, Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+> On Friday 28 August 2015 11:09:19 Otavio Salvador wrote:
+>> On Fri, Aug 28, 2015 at 11:00 AM, Paul Eggleton
+>>
+>> <paul.eggleton@linux.intel.com> wrote:
+>> > On Friday 28 August 2015 10:55:41 Otavio Salvador wrote:
+>> >> On Fri, Aug 28, 2015 at 3:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>> >> >> On Aug 27, 2015, at 5:36 AM, Paul Eggleton
+>> >> >> <paul.eggleton@linux.intel.com> wrote:
+>> >> >>
+>> >> >> Allow restricting recipes brought from a layer to a specified list.
+>> >> >> This
+>> >> >> is similar in operation to blacklist.bbclass, but instead specifies a
+>> >> >> per-layer whitelist of recipes (matched by PN or BPN) that are able to
+>> >> >> be built from the layer - anything else is skipped. This is
+>> >> >> potentially
+>> >> >> useful where you want to bring in a select set of recipes from a
+>> >> >> larger
+>> >> >> layer e.g. meta-oe.
+>> >> >
+>> >> > For the record, I am not in favor of such feature in OE, Distros can
+>> >> > still
+>> >> > use BBMASK if they wish to
+>> >>
+>> >> I am also not in favor of the merge of this.
+>> >
+>> > Do you have a practical alternative that has less downsides?
+>>
+>> I do want people using full layers and offer tools to make fancy
+>> combinations does not enhance our quality in long term.
+>
+> OK, sure - but you do appreciate that we do have an underlying problem here
+> irrespective of whether this class gets taken into OE-Core or not, right?
+>
+> Look, if people are really opposed to this then fine, I withdraw it. I just
+> hope that it's understood that this class or other equivalent methods *will*
+> get used until we fix the problem properly - all it means is the class will get
+> copied around instead of being in one place.
 
-thanks
-- armin
+I don't think we (as OE) should help people to do bad things; people
+are good in inventing ways of doing bad things and we should try to
+provide them guidance to avoid those, not promote tools to help them
+in doing bad development practices.
 
-On 08/25/2015 02:50 AM, Sona Sarmadi wrote:
-> Fixes NULL pointer deref in sosendto().
-> 
-> Reference:
-> http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2014-3640
-> 
-> Upstream patch:
-> http://git.qemu.org/?p=qemu.git;a=commit;
-> h=9a72433843d912a45046959b1953861211d1838d
-> 
-> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-> ---
->  .../qemu/qemu/slirp-CVE-2014-3640.patch            | 48 ++++++++++++++++++++++
->  meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  1 +
->  2 files changed, 49 insertions(+)
->  create mode 100644 meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch
-> 
-> diff --git a/meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch b/meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch
-> new file mode 100644
-> index 0000000..a7ecf31
-> --- /dev/null
-> +++ b/meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch
-> @@ -0,0 +1,48 @@
-> +From 9a72433843d912a45046959b1953861211d1838d Mon Sep 17 00:00:00 2001
-> +From: Petr Matousek <pmatouse@redhat.com>
-> +Date: Thu, 18 Sep 2014 08:35:37 +0200
-> +Subject: [PATCH] slirp: udp: fix NULL pointer dereference because of
-> + uninitialized socket
-> +
-> +When guest sends udp packet with source port and source addr 0,
-> +uninitialized socket is picked up when looking for matching and already
-> +created udp sockets, and later passed to sosendto() where NULL pointer
-> +dereference is hit during so->slirp->vnetwork_mask.s_addr access.
-> +
-> +Fix this by checking that the socket is not just a socket stub.
-> +
-> +This is CVE-2014-3640.
-> +
-> +Upstream-Status: Backport
-> +
-> +Signed-off-by: Petr Matousek <pmatouse@redhat.com>
-> +Reported-by: Xavier Mehrenberger <xavier.mehrenberger@airbus.com>
-> +Reported-by: Stephane Duverger <stephane.duverger@eads.net>
-> +Reviewed-by: Jan Kiszka <jan.kiszka@siemens.com>
-> +Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> +Reviewed-by: Michael Tokarev <mjt@tls.msk.ru>
-> +Message-id: 20140918063537.GX9321@dhcp-25-225.brq.redhat.com
-> +Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> +(cherry picked from commit 01f7cecf0037997cb0e58ec0d56bf9b5a6f7cb2a)
-> +Signed-off-by: Michael Roth <mdroth@linux.vnet.ibm.com>
-> +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-> +---
-> + slirp/udp.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/slirp/udp.c b/slirp/udp.c
-> +index 8cc6cb6..f77e00f 100644
-> +--- a/slirp/udp.c
-> ++++ b/slirp/udp.c
-> +@@ -152,7 +152,7 @@ udp_input(register struct mbuf *m, int iphlen)
-> + 	 * Locate pcb for datagram.
-> + 	 */
-> + 	so = slirp->udp_last_so;
-> +-	if (so->so_lport != uh->uh_sport ||
-> ++	if (so == &slirp->udb || so->so_lport != uh->uh_sport ||
-> + 	    so->so_laddr.s_addr != ip->ip_src.s_addr) {
-> + 		struct socket *tmp;
-> + 
-> +-- 
-> +1.9.1
-> +
-> diff --git a/meta/recipes-devtools/qemu/qemu_2.1.0.bb b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-> index 444a422..92a89d6 100644
-> --- a/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu_2.1.0.bb
-> @@ -10,6 +10,7 @@ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
->              file://qemu-CVE-2015-3456.patch \
->              file://CVE-2014-7840.patch \
->              file://vnc-CVE-2014-7815.patch \
-> +            file://slirp-CVE-2014-3640.patch \
->              "
->  SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
->  SRC_URI[md5sum] = "6726977292b448cbc7f89998fac6983b"
-> 
+OE-Core shouldn't handle and maintain this infrastructure, in my view.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
