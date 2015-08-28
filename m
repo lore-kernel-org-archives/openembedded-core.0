@@ -1,28 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A6C9771633
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 225E771633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 13:09:39 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 28 Aug 2015 06:09:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,424,1437462000"; d="scan'208";a="792727833"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.252.13.245])
-	by orsmga002.jf.intel.com with ESMTP; 28 Aug 2015 06:09:38 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Aug 2015 14:09:37 +0100
-Message-ID: <2222528.ueMDq1ARAi@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <14855649.MLpkRK5kp1@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-	<26B844B8-BE69-427B-8DA7-B649C46A5632@gmail.com>
-	<14855649.MLpkRK5kp1@peggleto-mobl.ger.corp.intel.com>
+	Fri, 28 Aug 2015 13:12:07 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
+	Fri, 28 Aug 2015 15:12:06 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 28 Aug 2015 15:12:04 +0200
+Message-ID: <1440767524-26149-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
+Received-SPF: None (SESTOEX03.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH][fido] icu: CVE-2014-8146-CVE-2014-8147
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,48 +27,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 13:09:44 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 28 Aug 2015 13:12:10 -0000
+Content-Type: text/plain
 
-On Friday 28 August 2015 09:34:18 Paul Eggleton wrote:
-> On Thursday 27 August 2015 23:07:44 Khem Raj wrote:
-> > > On Aug 27, 2015, at 5:36 AM, Paul Eggleton
-> > > <paul.eggleton@linux.intel.com>
-> > > wrote:
-> > > 
-> > > Allow restricting recipes brought from a layer to a specified list. This
-> > > is similar in operation to blacklist.bbclass, but instead specifies a
-> > > per-layer whitelist of recipes (matched by PN or BPN) that are able to
-> > > be built from the layer - anything else is skipped. This is potentially
-> > > useful where you want to bring in a select set of recipes from a larger
-> > > layer e.g. meta-oe.
-> > 
-> > For the record, I am not in favor of such feature in OE, Distros can still
-> > use BBMASK if they wish to
-> 
-> This is significantly easier to use than BBMASK though. (Perhaps that's why
-> you don't like it?)
+CVE-2014-8146 icu: heap overflow via incorrect isolateCount
+CVE-2014-8147 icu: integer truncation in the resolveImplicitLevels function
 
-I should expand upon this with a couple of important distinctions:
+References:
+[1] https://github.com/pedrib/PoC/raw/master/generic/i-c-u-fail.7z
+[2] https://www.kb.cert.org/vuls/id/602540
+[3] http://bugs.icu-project.org/trac/changeset/37080
+[4] http://bugs.icu-project.org/trac/changeset/37162
 
-* BBMASK is a list of files to mask out, so it's a blacklist not a whitelist. 
-(Sure, you could probably construct a regex that effectively gives you a 
-whitelist; it probably won't be pretty though.)
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch  | 49 ++++++++++++++++++++++
+ meta/recipes-support/icu/icu_54.1.bb               |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch
 
-* BBMASK tells bitbake not to even try reading the masked files, which means if 
-you then request to build any of them (either directly or via a dependency) 
-you'll be told that there's nothing providing that with no explanation as to 
-why. With whitelist.bbclass (and blacklist.bbclass, which whitelist.bbclass is 
-modelled after) we are using SkipPackage/SkipRecipe so you at least get a 
-statement that the recipe was skipped as well as hopefully an explanatory 
-reason as to why.
-
-Cheers,
-Paul
-
+diff --git a/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch b/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch
+new file mode 100644
+index 0000000..cf32d13c
+--- /dev/null
++++ b/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch
+@@ -0,0 +1,49 @@
++ICU: CVE-2014-8146-CVE-2014-8147
++
++CVE-2014-8146 icu: heap overflow via incorrect isolateCount
++CVE-2014-8147 icu: integer truncation in the resolveImplicitLevels function
++
++References:
++[1] https://github.com/pedrib/PoC/raw/master/generic/i-c-u-fail.7z
++[2] https://www.kb.cert.org/vuls/id/602540
++[3] http://bugs.icu-project.org/trac/changeset/37080
++[4] http://bugs.icu-project.org/trac/changeset/37162
++
++Upstream-Status: Backport
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++diff -ruN a/common/ubidi.c b/common/ubidi.c
++--- a/common/ubidi.c	2014-10-03 18:11:20.000000000 +0200
+++++ b/common/ubidi.c	2015-08-28 08:22:39.455906194 +0200
++@@ -2138,7 +2138,7 @@
++     /* The isolates[] entries contain enough information to
++        resume the bidi algorithm in the same state as it was
++        when it was interrupted by an isolate sequence. */
++-    if(dirProps[start]==PDI) {
+++    if(dirProps[start]==PDI  && pBiDi->isolateCount >= 0) {
++         levState.startON=pBiDi->isolates[pBiDi->isolateCount].startON;
++         start1=pBiDi->isolates[pBiDi->isolateCount].start1;
++         stateImp=pBiDi->isolates[pBiDi->isolateCount].stateImp;
++diff -ruN a/common/ubidiimp.h b/common/ubidiimp.h
++--- a/common/ubidiimp.h	2014-10-03 18:11:16.000000000 +0200
+++++ b/common/ubidiimp.h	2015-08-28 08:28:24.069163845 +0200
++@@ -1,7 +1,7 @@
++ /*
++ ******************************************************************************
++ *
++-*   Copyright (C) 1999-2014, International Business Machines
+++*   Copyright (C) 1999-2015, International Business Machines
++ *   Corporation and others.  All Rights Reserved.
++ *
++ ******************************************************************************
++@@ -184,8 +184,8 @@
++ typedef struct Isolate {
++     int32_t startON;
++     int32_t start1;
+++    int32_t state;
++     int16_t stateImp;
++-    int16_t state;
++ } Isolate;
++
++ typedef struct Run {
+diff --git a/meta/recipes-support/icu/icu_54.1.bb b/meta/recipes-support/icu/icu_54.1.bb
+index 45b5cb6..9f10beb 100644
+--- a/meta/recipes-support/icu/icu_54.1.bb
++++ b/meta/recipes-support/icu/icu_54.1.bb
+@@ -11,6 +11,7 @@ ICU_PV = "${@icu_download_version(d)}"
+ BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV}-src.tgz"
+ SRC_URI = "${BASE_SRC_URI} \
+            file://icu-pkgdata-large-cmd.patch \
++           file://icu-CVE-2014-8146-CVE-2014-8147.patch \
+           "
+ 
+ SRC_URI_append_class-target = "\
 -- 
+1.9.1
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
