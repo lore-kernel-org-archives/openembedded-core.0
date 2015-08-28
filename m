@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 1340A76DC0
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 67EE876DC0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 20:22:11 +0000 (UTC)
-Received: by wicne3 with SMTP id ne3so28134384wic.0
+	Fri, 28 Aug 2015 20:22:13 +0000 (UTC)
+Received: by wieo17 with SMTP id o17so1636609wie.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 13:22:11 -0700 (PDT)
+	Fri, 28 Aug 2015 13:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=l+l/VJfSW098O3eyh0ZqTe0GpKKK/L1wEGxkPRpNZSU=;
-	b=ppQjiqjmfpT6vWvJ3hgC7RPCcZU9aJgZJ+vTotvGr07AztHJPwJr1/brs6q9nlC7vR
-	MbvzX5Apj5bvlhsEQY6OBkOUzRCeVWluEXFEsH6G98ZsU4axEbZ3+KeBkkN1Vl4nboH+
-	0XaLr0D8gTFB8sLmLRjK0M4/2PM9EfiANdfxOLj/6YYGmhUR9+TzAaQxzDKrWqWa/2Eh
-	EPZxABIfOLXslfCOq8dquKwTmgYobgndZ7i6sHeyi0ZcR4F156HnTHmgi5AjzpXC0Fsr
-	Q6U/lhhDtoU2dylWETv5dlzuoAWi/BaufRP8hCVDxHxvpAczlj25KL5DeLDC0Qq+Eb3y
-	0IxA==
-X-Received: by 10.194.122.97 with SMTP id lr1mr13470890wjb.26.1440793331773;
-	Fri, 28 Aug 2015 13:22:11 -0700 (PDT)
+	bh=tDS3s3UGEkWVvdKaWBEyL4/VIPxOtftF2OHJgZIxukA=;
+	b=dvVeRPescJ32Qc5q3W7b5lxacqN5nbs+4MOnmGkps4HIgWI09qX6xc7YrGXeC/AoY5
+	lbPAeCG8Qe6OlgHOf55U8tRG4A5/RU9/nJrUkI0EQ8FWDoWJomyEA4fLDa4DO95l3chz
+	3SLGegmS5BeWhs1X5VZ0PS9+a8B5R9frg3QzAbzIb7BE1XtOMsJpt1xVP2FKoxT+giaE
+	G0XT3vpCBV9JSGV6FwLWLC9EmoPjtt3uzq24QULZJPilhgznXX4ANottZY8cpbNQKiLK
+	wdBwK35jusQ9IuN9d/Gq8mTrYmm3UGzekW6tiDmLDXJfv5aSZec8/Y42lq36gvaVt8l1
+	ofyw==
+X-Received: by 10.180.216.108 with SMTP id op12mr6541441wic.43.1440793333989; 
+	Fri, 28 Aug 2015 13:22:13 -0700 (PDT)
 Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	fa8sm5331474wib.14.2015.08.28.13.22.09
+	fa8sm5331474wib.14.2015.08.28.13.22.11
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Aug 2015 13:22:10 -0700 (PDT)
+	Fri, 28 Aug 2015 13:22:12 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Aug 2015 13:23:00 -0700
-Message-Id: <531a2a54e33ecd94f85ef0df43733d1fd685905f.1440793291.git.chris_larson@mentor.com>
+Date: Fri, 28 Aug 2015 13:23:01 -0700
+Message-Id: <e427971a8ab319670b5c76c7a54b42cefad1076f.1440793291.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <9a2ca49a3f1695810eaf999dde1cc44a336cbf8f.1440793291.git.chris_larson@mentor.com>
 References: <9a2ca49a3f1695810eaf999dde1cc44a336cbf8f.1440793291.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1440793291.git.chris_larson@mentor.com>
 References: <cover.1440793291.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2 2/5] iw: inherit pkgconfig
+Subject: [PATCHv2 3/5] iw: obey our target path variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,40 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 20:22:12 -0000
+X-List-Received-Date: Fri, 28 Aug 2015 20:22:15 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-We want the dep on pkgconfig-native, not pkgconfig, and the convention is to
-inherit pkgconfig when running pkg-config at build time.
-
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-connectivity/iw/iw_4.1.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/iw/iw_4.1.bb | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-connectivity/iw/iw_4.1.bb b/meta/recipes-connectivity/iw/iw_4.1.bb
-index e1e7c12e..556af2b 100644
+index 556af2b..8e27862 100644
 --- a/meta/recipes-connectivity/iw/iw_4.1.bb
 +++ b/meta/recipes-connectivity/iw/iw_4.1.bb
-@@ -7,7 +7,7 @@ SECTION = "base"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://COPYING;md5=878618a5c4af25e9b93ef0be1a93f774"
+@@ -18,8 +18,12 @@ SRC_URI[sha256sum] = "14bfc627b37f7f607e4ffa63a70ded15fa2ea85177f703cb17d7fe36f9
  
--DEPENDS = "libnl pkgconfig"
-+DEPENDS = "libnl"
+ inherit pkgconfig
  
- SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
-            file://0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch \
-@@ -16,6 +16,8 @@ SRC_URI = "http://www.kernel.org/pub/software/network/iw/${BP}.tar.gz \
- SRC_URI[md5sum] = "68c282285c71c956069957e9ca10a6a7"
- SRC_URI[sha256sum] = "14bfc627b37f7f607e4ffa63a70ded15fa2ea85177f703cb17d7fe36f9c8f33d"
- 
-+inherit pkgconfig
-+
- EXTRA_OEMAKE = ""
+-EXTRA_OEMAKE = ""
++EXTRA_OEMAKE = "\
++    'PREFIX=${prefix}' \
++    'SBINDIR=${sbindir}' \
++    'MANDIR=${mandir}' \
++"
  
  do_install() {
+-    oe_runmake DESTDIR=${D} install
++    oe_runmake 'DESTDIR=${D}' install
+ }
 -- 
 2.2.1
 
