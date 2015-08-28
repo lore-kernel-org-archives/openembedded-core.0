@@ -1,21 +1,35 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A000671633
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 22CDA71633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 20:12:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga101.jf.intel.com with ESMTP; 28 Aug 2015 13:12:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,426,1437462000"; d="scan'208";a="757486707"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.66])
-	by orsmga001.jf.intel.com with ESMTP; 28 Aug 2015 13:12:28 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+	Fri, 28 Aug 2015 20:22:01 +0000 (UTC)
+Received: by wiae7 with SMTP id e7so7197190wia.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Aug 2015 13:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=MJ1cBKw8JaZND+0Y3xEuBswh36mI2DeIC9c5PaFNb0A=;
+	b=OqCd5r+Uvc7bWdfNiOjE1fY114RlMdWmOu2Gt+kyDacVLaXjGRalhsa/w3bHBh6bzC
+	8NJxrR3lI9oQ7OCD7zHNxaS5IAxkY13209qvzxl6QAgCzUEOVf9WW9ftBj/B9GZHnTwK
+	p0qn4hEUZn7aMQ2+gSBIzpPhFgxYVSQclzvxamuuZkX0UWsDUY5sf+lnbpH23BIm0kiI
+	ko81QDRBK/cyd86rCZE29Ws26tJb5L5A0Rw8tbwY1JAfMSXoloWlOO7uoZbGVf579tMM
+	Fx5MsCAcYbglveD9YdD13BHsjKbnv8oRSfWJv2uf1HlDVtc0wDsNbna75ono4v+U5vl7
+	HXcA==
+X-Received: by 10.180.85.36 with SMTP id e4mr472022wiz.7.1440793321087;
+	Fri, 28 Aug 2015 13:22:01 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	ne7sm5323172wic.12.2015.08.28.13.21.58
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 28 Aug 2015 13:21:59 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Aug 2015 15:12:32 -0500
-Message-Id: <1440792752-25025-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH] qemu-native: Enable temporary debug info as default.
+Date: Fri, 28 Aug 2015 13:22:54 -0700
+Message-Id: <cover.1440793291.git.chris_larson@mentor.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCHv2 0/5] Add 'iw' recipe and include in packagegroup-base
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,38 +42,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 20:12:33 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Aug 2015 20:22:02 -0000
 
-We recently enable backtrace print rev[1] for address
-qemu_cpu_kick_thread() issue but without debug information
-isn't useful.
+From: Christopher Larson <chris_larson@mentor.com>
 
-[YOCTO #8143]
+iw uses cfg80211/nl80211, which is the way of the future. wireless-tools uses
+WEXT, which uses ioctl, which is in deep maintenance mode. See
+http://wireless.kernel.org/en/developers/Documentation/Wireless-Extensions.
+Also https://wireless.wiki.kernel.org/en/users/Documentation/iw indicates "The
+old tool iwconfing, which uses Wireless Extensions interface, is deprecated
+and it's strongly recommended to switch to iw and nl80211."
 
-[1] 73a876e4ff04ebbbcd3bde62efe02146ab601e25
+See also the mailing list thread '[OE-core] iw in place of wireless-tools'.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 3 +++
- 1 file changed, 3 insertions(+)
+v2 changes: add Upstream-Status to patch, remove duplicate
+VIRTUAL-RUNTIME_wireless-tools definition.
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 8c1e779..d7457f2 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -30,6 +30,9 @@ SRC_URI_append_class-native = "\
- 
- EXTRA_OECONF += "--target-list=${@get_qemu_target_list(d)} --disable-werror  --disable-bluez --disable-libiscsi --with-system-pixman --extra-cflags='${CFLAGS}'"
- 
-+EXTRA_OECONF_append_class-native = " --enable-debug --enable-debug-info"
-+INHIBIT_SYSROOT_STRIP = "1"
-+
- EXTRA_OECONF_class-nativesdk = "--target-list=${@get_qemu_target_list(d)} --disable-werror \
- 				"
- export LIBTOOL="${HOST_SYS}-libtool"
+The following changes since commit f07045fcae859c902434062d1725f1348f42d1dd:
+
+  oeqa/oetest.py: add better package search for hasPackage() (2015-08-26 08:26:37 +0100)
+
+are available in the git repository at:
+
+  git://github.com/kergoth/openembedded-core add-iw
+  https://github.com/kergoth/openembedded-core/tree/add-iw
+
+Christopher Larson (5):
+  iw: add recipe from meta-networking
+  iw: inherit pkgconfig
+  iw: obey our target path variables
+  iw: support and enable separate build dir
+  packagegroup-base: pull in iw as well as wireless-tools
+
+ meta/conf/distro/include/default-providers.inc     |  1 +
+ ....sh-don-t-use-git-describe-for-versioning.patch | 43 ++++++++++++++++
+ .../iw/iw/separate-objdir.patch                    | 57 ++++++++++++++++++++++
+ meta/recipes-connectivity/iw/iw_4.1.bb             | 33 +++++++++++++
+ .../packagegroups/packagegroup-base.bb             |  2 +-
+ 5 files changed, 135 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/iw/iw/0001-iw-version.sh-don-t-use-git-describe-for-versioning.patch
+ create mode 100644 meta/recipes-connectivity/iw/iw/separate-objdir.patch
+ create mode 100644 meta/recipes-connectivity/iw/iw_4.1.bb
+
 -- 
-1.9.1
+2.2.1
 
 
