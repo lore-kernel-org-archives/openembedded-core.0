@@ -1,42 +1,41 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 7391960043
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 24B5F60043
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 06:07:46 +0000 (UTC)
-Received: by pacdd16 with SMTP id dd16so51407150pac.2
+	Fri, 28 Aug 2015 06:47:20 +0000 (UTC)
+Received: by pabzx8 with SMTP id zx8so52697581pab.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 23:07:46 -0700 (PDT)
+	Thu, 27 Aug 2015 23:47:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=MygEOrrgtlFQJiMM4IHb9XMkV6TqVePoNNoUvuZUKl0=;
-	b=0fCR3rdXn67zRRi24Nps4M6hoEX0XGTq1kIeC/eRsGomUQzTecPzv8aI1Av7GoETD5
-	9LKZ29LM1jX/VvXPac61uEBAKUScIb7wKwBBzoHvdh9bz7/c1Ijx1JeAzfsYFck+s5Ru
-	joQAg8dmPNlSdlwQ63hZ2xC1l9c/S1mm6Y4exgNnItGPNs1PiQ0rJvvDS6aFniGtKUJX
-	InYRd4YymC/NVXYdSY1h3e3aQ5LnJJK65Rxp3dQxpGSw81cUZZuIMVGGGBHaeYjiZfJs
-	8isE4ax+2HgmqYeNksNrKyLr7B51krqv7Pyqk3tQjnSWXcjNSdIVHuQ7SgybcEMV/+Ki
-	7qfQ==
-X-Received: by 10.68.178.1 with SMTP id cu1mr12653124pbc.1.1440742066524;
-	Thu, 27 Aug 2015 23:07:46 -0700 (PDT)
+	bh=e5N9Uu6WIuyKIO3RqSg4g8JOHQgkebfc8o5ABnac6A8=;
+	b=AhAmyNd21N1dqpKlthSY+ju26hdWNSeNaBvr5F+GqsZuVhy9LMhR21BccZrDmYmYlG
+	8+lssl0Ru0k/N+7ThW+HQqWYuQolqAbHZZcSoitSOCUbMv2GyhlcMVuB2dQtpWnJDrxg
+	/WQWw6wse/56FpInTsigdnI1s3YTzpCsV6qSSEEBETdyAt3lGL6pq/8QKOt7CGMjKcna
+	ZJBJtc1/5enOxQ5fG4Ob1M3FHl/RhZReXvUx7jFIvv5Jb9N1VQ+AVbuJJp9gefhkCuHf
+	kRowxQcfomS6hBPQZguZF2aiRS205SCHQPQ1hGGxOR5SgWDUc7/6Zdl62pyplbL97QOE
+	yTQA==
+X-Received: by 10.68.99.197 with SMTP id es5mr6914980pbb.112.1440744440621;
+	Thu, 27 Aug 2015 23:47:20 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:e943:4351:71e0:b332?
 	([2601:646:8601:4580:e943:4351:71e0:b332])
-	by smtp.gmail.com with ESMTPSA id l4sm4409936pde.31.2015.08.27.23.07.45
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 27 Aug 2015 23:07:45 -0700 (PDT)
+	by smtp.gmail.com with ESMTPSA id c6sm4562847pat.13.2015.08.27.23.47.19
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 27 Aug 2015 23:47:19 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5.1
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <762e79dfb769e885758bdcc627fadbe4dc6454fd.1440678731.git.paul.eggleton@linux.intel.com>
-Date: Thu, 27 Aug 2015 23:07:44 -0700
-Message-Id: <26B844B8-BE69-427B-8DA7-B649C46A5632@gmail.com>
-References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-	<cover.1440678731.git.paul.eggleton@linux.intel.com>
-	<762e79dfb769e885758bdcc627fadbe4dc6454fd.1440678731.git.paul.eggleton@linux.intel.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+In-Reply-To: <6CC83472A885EA4DB329C78841C52459131205DB@VF2WDEXMB3.verifone.com>
+Date: Thu, 27 Aug 2015 23:47:13 -0700
+Message-Id: <FE86B0D4-35C3-47CE-9996-5AE36D3BEE63@gmail.com>
+References: <6CC83472A885EA4DB329C78841C52459131205DB@VF2WDEXMB3.verifone.com>
+To: Nageswari Srinivasan <NageswariS1@VERIFONE.com>
 X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: STAGING_KERNEL_DIR not populated with kernel source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,108 +48,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 06:07:51 -0000
-X-Groupsio-MsgNum: 70204
+X-List-Received-Date: Fri, 28 Aug 2015 06:47:23 -0000
+X-Groupsio-MsgNum: 70205
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_66693188-9123-419C-8662-CED5A13B3545";
+	boundary="Apple-Mail=_248B9328-2D15-43C0-BE5D-1A429FD99CA5";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_66693188-9123-419C-8662-CED5A13B3545
+--Apple-Mail=_248B9328-2D15-43C0-BE5D-1A429FD99CA5
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_35914B52-828F-4951-A0A8-EED47904A0B9"
+
+--Apple-Mail=_35914B52-828F-4951-A0A8-EED47904A0B9
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=us-ascii
+	charset=iso-8859-1
 
 
-> On Aug 27, 2015, at 5:36 AM, Paul Eggleton =
-<paul.eggleton@linux.intel.com> wrote:
+> On Aug 26, 2015, at 4:33 AM, Nageswari Srinivasan =
+<NageswariS1@VERIFONE.com> wrote:
 >=20
-> Allow restricting recipes brought from a layer to a specified list. =
-This
-> is similar in operation to blacklist.bbclass, but instead specifies a
-> per-layer whitelist of recipes (matched by PN or BPN) that are able to
-> be built from the layer - anything else is skipped. This is =
-potentially
-> useful where you want to bring in a select set of recipes from a =
-larger
-> layer e.g. meta-oe.
+> Hi,
+>=20
+> While migrating my current build to fido,  STAGING_KERNEL_DIR  is not =
+getting populated with kernel sources so  custom module builds are =
+failing?
+>=20
+> Any pointers here?
+>=20
 
-For the record, I am not in favor of such feature in OE, Distros can =
-still use BBMASK if they wish to
+you should be able to use STAGING_KERNEL_BUILDDIR
 
-
+> regards,
+> Nageswari
 >=20
-> Implements [YOCTO #8150].
 >=20
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
-> ---
-> meta/classes/whitelist.bbclass | 34 ++++++++++++++++++++++++++++++++++
-> 1 file changed, 34 insertions(+)
-> create mode 100644 meta/classes/whitelist.bbclass
->=20
-> diff --git a/meta/classes/whitelist.bbclass =
-b/meta/classes/whitelist.bbclass
-> new file mode 100644
-> index 0000000..ab6ac73
-> --- /dev/null
-> +++ b/meta/classes/whitelist.bbclass
-> @@ -0,0 +1,34 @@
-> +# Class that allows you to restrict the recipes brought from a layer =
-to
-> +# a specified list. This is similar in operation to blacklist.bbclass
-> +# but note the difference in how PNWHITELIST is set - we don't use =
-varflags
-> +# here, the recipe name goes in the value and we use an override for =
-the
-> +# layer name (although this is not strictly required - you can have =
-one
-> +# PNWHITELIST value shared by all of the layers specified in
-> +# PNWHITELIST_LAYERS). The layer name used here is actually the name =
-that
-> +# gets added to BBFILE_COLLECTIONS in the layer's layer.conf, which =
-may
-> +# differ from how the layer is otherwise known - e.g. meta-oe uses
-> +# "openembedded-layer".
-> +#
-> +# INHERIT +=3D "whitelist"
-> +# PNWHITELIST_LAYERS =3D "layername"
-> +# PNWHITELIST_layername =3D "recipe1 recipe2"
-> +#
-> +# If you would prefer to set a reason message other than the default, =
-you
-> +# can do so:
-> +#
-> +# PNWHITELIST_REASON_layername =3D "not supported by ${DISTRO}"
-> +
-> +python() {
-> +    layer =3D bb.utils.get_file_layer(d.getVar('FILE', True), d)
-> +    if layer:
-> +        layers =3D (d.getVar('PNWHITELIST_LAYERS', True) or =
-'').split()
-> +        if layer in layers:
-> +            localdata =3D bb.data.createCopy(d)
-> +            localdata.setVar('OVERRIDES', layer)
-> +            whitelist =3D (localdata.getVar('PNWHITELIST', True) or =
-'').split()
-> +            if not (d.getVar('PN', True) in whitelist or =
-d.getVar('BPN', True) in whitelist):
-> +                reason =3D localdata.getVar('PNWHITELIST_REASON', =
-True)
-> +                if not reason:
-> +                    reason =3D 'not in PNWHITELIST for layer %s' % =
-layer
-> +                raise bb.parse.SkipRecipe(reason)
-> +}
-> --
-> 2.1.0
->=20
-> --
+> This electronic message, including attachments, is intended only for =
+the use of the individual or company named above or to which it is =
+addressed. The information contained in this message shall be considered =
+confidential and proprietary, and may include confidential work product. =
+If you are not the intended recipient, please be aware that any =
+unauthorized use, dissemination, distribution or copying of this message =
+is strictly prohibited. If you have received this email in error, please =
+notify the sender by replying to this message and deleting this email =
+immediately. --
 > _______________________________________________
 > Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Openembedded-core@lists.openembedded.org =
+<mailto:Openembedded-core@lists.openembedded.org>
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core =
+<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
 
+--Apple-Mail=_35914B52-828F-4951-A0A8-EED47904A0B9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=iso-8859-1
 
---Apple-Mail=_66693188-9123-419C-8662-CED5A13B3545
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Diso-8859-1"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Aug 26, 2015, at 4:33 AM, Nageswari Srinivasan &lt;<a =
+href=3D"mailto:NageswariS1@VERIFONE.com" =
+class=3D"">NageswariS1@VERIFONE.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div =
+style=3D"font-size: 10pt; font-style: normal; font-variant: normal; =
+font-weight: normal; letter-spacing: normal; line-height: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; direction: ltr; font-family: Tahoma;" =
+class=3D"">Hi,<br class=3D""><br class=3D"">While migrating my current =
+build to fido,&nbsp; STAGING_KERNEL_DIR&nbsp; is not getting populated =
+with kernel sources so&nbsp; custom module builds are failing?<br =
+class=3D""><br class=3D"">Any pointers here?<br class=3D""><br =
+class=3D""></div></div></blockquote><div><br class=3D""></div><div>you =
+should be able to use STAGING_KERNEL_BUILDDIR</div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
+style=3D"font-size: 10pt; font-style: normal; font-variant: normal; =
+font-weight: normal; letter-spacing: normal; line-height: normal; =
+orphans: auto; text-align: start; text-indent: 0px; text-transform: =
+none; white-space: normal; widows: auto; word-spacing: 0px; =
+-webkit-text-stroke-width: 0px; direction: ltr; font-family: Tahoma;" =
+class=3D"">regards,<br class=3D"">Nageswari<br class=3D""><br =
+class=3D""><br class=3D""></div><hr style=3D"font-family: Helvetica; =
+font-size: 13px; font-style: normal; font-variant: normal; font-weight: =
+normal; letter-spacing: normal; line-height: normal; orphans: auto; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: =
+0px;" class=3D""><font face=3D"VERDANA" color=3D"GRAY" size=3D"2" =
+style=3D"font-style: normal; font-variant: normal; font-weight: normal; =
+letter-spacing: normal; line-height: normal; orphans: auto; text-align: =
+start; text-indent: 0px; text-transform: none; white-space: normal; =
+widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
+class=3D"">This electronic message, including attachments, is intended =
+only for the use of the individual or company named above or to which it =
+is addressed. The information contained in this message shall be =
+considered confidential and proprietary, and may include confidential =
+work product. If you are not the intended recipient, please be aware =
+that any unauthorized use, dissemination, distribution or copying of =
+this message is strictly prohibited. If you have received this email in =
+error, please notify the sender by replying to this message and deleting =
+this email immediately.</font><span style=3D"font-family: Helvetica; =
+font-size: 13px; font-style: normal; font-variant: normal; font-weight: =
+normal; letter-spacing: normal; line-height: normal; orphans: auto; =
+text-align: start; text-indent: 0px; text-transform: none; white-space: =
+normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
+float: none; display: inline !important;" class=3D""><span =
+class=3D"Apple-converted-space">&nbsp;</span>--<span =
+class=3D"Apple-converted-space">&nbsp;</span></span><br =
+style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px;" class=3D""><span =
+style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px; float: none; display: inline =
+!important;" =
+class=3D"">_______________________________________________</span><br =
+style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px;" class=3D""><span =
+style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px; float: none; display: inline =
+!important;" class=3D"">Openembedded-core mailing list</span><br =
+style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org" =
+style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px;" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br =
+style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
+href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
+style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
+font-variant: normal; font-weight: normal; letter-spacing: normal; =
+line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
+text-transform: none; white-space: normal; widows: auto; word-spacing: =
+0px; -webkit-text-stroke-width: 0px;" =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e</a></div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_35914B52-828F-4951-A0A8-EED47904A0B9--
+
+--Apple-Mail=_248B9328-2D15-43C0-BE5D-1A429FD99CA5
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -161,9 +217,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXf+rAACgkQuwUzVZGdMxQy/wCfZlJ6Jn6Z/ljkzK3bSWglKD8K
-+/UAnir9BZnx2xfUZtFk98IN7d/DVSlb
-=30HN
+iEYEARECAAYFAlXgA/YACgkQuwUzVZGdMxTmLACgh/XFwVC7TKiH0KViO9+TpONu
+DwAAn0ZiqS9VbySHri/WRH0iSaKd8jIp
+=PBv4
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_66693188-9123-419C-8662-CED5A13B3545--
+--Apple-Mail=_248B9328-2D15-43C0-BE5D-1A429FD99CA5--
