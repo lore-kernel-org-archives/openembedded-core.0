@@ -1,41 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
-	[209.85.220.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 24B5F60043
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 4916975794
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 06:47:20 +0000 (UTC)
-Received: by pabzx8 with SMTP id zx8so52697581pab.1
+	Fri, 28 Aug 2015 07:29:20 +0000 (UTC)
+Received: by iofe124 with SMTP id e124so18699375iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Aug 2015 23:47:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=e5N9Uu6WIuyKIO3RqSg4g8JOHQgkebfc8o5ABnac6A8=;
-	b=AhAmyNd21N1dqpKlthSY+ju26hdWNSeNaBvr5F+GqsZuVhy9LMhR21BccZrDmYmYlG
-	8+lssl0Ru0k/N+7ThW+HQqWYuQolqAbHZZcSoitSOCUbMv2GyhlcMVuB2dQtpWnJDrxg
-	/WQWw6wse/56FpInTsigdnI1s3YTzpCsV6qSSEEBETdyAt3lGL6pq/8QKOt7CGMjKcna
-	ZJBJtc1/5enOxQ5fG4Ob1M3FHl/RhZReXvUx7jFIvv5Jb9N1VQ+AVbuJJp9gefhkCuHf
-	kRowxQcfomS6hBPQZguZF2aiRS205SCHQPQ1hGGxOR5SgWDUc7/6Zdl62pyplbL97QOE
-	yTQA==
-X-Received: by 10.68.99.197 with SMTP id es5mr6914980pbb.112.1440744440621;
-	Thu, 27 Aug 2015 23:47:20 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:e943:4351:71e0:b332?
-	([2601:646:8601:4580:e943:4351:71e0:b332])
-	by smtp.gmail.com with ESMTPSA id c6sm4562847pat.13.2015.08.27.23.47.19
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 27 Aug 2015 23:47:19 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <6CC83472A885EA4DB329C78841C52459131205DB@VF2WDEXMB3.verifone.com>
-Date: Thu, 27 Aug 2015 23:47:13 -0700
-Message-Id: <FE86B0D4-35C3-47CE-9996-5AE36D3BEE63@gmail.com>
-References: <6CC83472A885EA4DB329C78841C52459131205DB@VF2WDEXMB3.verifone.com>
-To: Nageswari Srinivasan <NageswariS1@VERIFONE.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: STAGING_KERNEL_DIR not populated with kernel source
+	Fri, 28 Aug 2015 00:29:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=MU4E9msbaxi2ljPCc2O+ZsNpo0HDwyBATHH9eoafUto=;
+	b=a4u2zrLlejSvMJp+OOypW2jghT1MZp92hka8h3a561Mypcw5LE/3xHIE8XuiewgH8T
+	IwA3V+EsylekbeCjL3uCVlxAN3Rr4KdHD1ipWNNTKIZz9fnaDkzgieL074vI6NFbUbBY
+	S7yzeKPLTMb4IqVldmLMuEobiZhBlG9R719DEPhgPJoaGR/MtEg8dgijmNyMso1FkUR8
+	Mfwk+6prMKayLkWg2+7CCmrs7o4ZFS+NKcvWOby/TOvZ26iig4qnEVC08lbe4GJVWtB/
+	XBQcBO30pHhHHpSdydsueR5OGoN2I35xt7gxqQehH0mFPwWV5PFiZ8Cala/iVMwVT69O
+	gM6Q==
+X-Gm-Message-State: ALoCoQkewBuTssbwZfxHUhVGETCoThnCClijnwRtqEnXfsXEl8DIP/nDjShrHHZq4demgkid1+I8
+X-Received: by 10.107.131.208 with SMTP id n77mr11762608ioi.138.1440746960085; 
+	Fri, 28 Aug 2015 00:29:20 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8F655.dip0.t-ipconnect.de. [93.232.246.85])
+	by smtp.gmail.com with ESMTPSA id
+	o15sm1204909igi.15.2015.08.28.00.29.18
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 28 Aug 2015 00:29:19 -0700 (PDT)
+Message-ID: <1440746955.3006.73.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: leonardo.sandoval.gonzalez@linux.intel.com, "Stoppa, Igor"
+	<igor.stoppa@intel.com>
+Date: Fri, 28 Aug 2015 09:29:15 +0200
+In-Reply-To: <16f26bbb5fa39e399b185cd26fe9205c2e0cc5d4.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<16f26bbb5fa39e399b185cd26fe9205c2e0cc5d4.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: leonardo.sandoval.gonzalez@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 3/3] runqemu: Define OECORE_MACHINE_SYSROOT on setup_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,178 +53,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 06:47:23 -0000
-X-Groupsio-MsgNum: 70205
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_248B9328-2D15-43C0-BE5D-1A429FD99CA5";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_248B9328-2D15-43C0-BE5D-1A429FD99CA5
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_35914B52-828F-4951-A0A8-EED47904A0B9"
-
---Apple-Mail=_35914B52-828F-4951-A0A8-EED47904A0B9
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=iso-8859-1
-
-
-> On Aug 26, 2015, at 4:33 AM, Nageswari Srinivasan =
-<NageswariS1@VERIFONE.com> wrote:
->=20
-> Hi,
->=20
-> While migrating my current build to fido,  STAGING_KERNEL_DIR  is not =
-getting populated with kernel sources so  custom module builds are =
-failing?
->=20
-> Any pointers here?
->=20
-
-you should be able to use STAGING_KERNEL_BUILDDIR
-
-> regards,
-> Nageswari
->=20
->=20
-> This electronic message, including attachments, is intended only for =
-the use of the individual or company named above or to which it is =
-addressed. The information contained in this message shall be considered =
-confidential and proprietary, and may include confidential work product. =
-If you are not the intended recipient, please be aware that any =
-unauthorized use, dissemination, distribution or copying of this message =
-is strictly prohibited. If you have received this email in error, please =
-notify the sender by replying to this message and deleting this email =
-immediately. --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org =
-<mailto:Openembedded-core@lists.openembedded.org>
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core =
-<http://lists.openembedded.org/mailman/listinfo/openembedded-core>
-
---Apple-Mail=_35914B52-828F-4951-A0A8-EED47904A0B9
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=iso-8859-1
-
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Diso-8859-1"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Aug 26, 2015, at 4:33 AM, Nageswari Srinivasan &lt;<a =
-href=3D"mailto:NageswariS1@VERIFONE.com" =
-class=3D"">NageswariS1@VERIFONE.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div =
-style=3D"font-size: 10pt; font-style: normal; font-variant: normal; =
-font-weight: normal; letter-spacing: normal; line-height: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; direction: ltr; font-family: Tahoma;" =
-class=3D"">Hi,<br class=3D""><br class=3D"">While migrating my current =
-build to fido,&nbsp; STAGING_KERNEL_DIR&nbsp; is not getting populated =
-with kernel sources so&nbsp; custom module builds are failing?<br =
-class=3D""><br class=3D"">Any pointers here?<br class=3D""><br =
-class=3D""></div></div></blockquote><div><br class=3D""></div><div>you =
-should be able to use STAGING_KERNEL_BUILDDIR</div><br =
-class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
-style=3D"font-size: 10pt; font-style: normal; font-variant: normal; =
-font-weight: normal; letter-spacing: normal; line-height: normal; =
-orphans: auto; text-align: start; text-indent: 0px; text-transform: =
-none; white-space: normal; widows: auto; word-spacing: 0px; =
--webkit-text-stroke-width: 0px; direction: ltr; font-family: Tahoma;" =
-class=3D"">regards,<br class=3D"">Nageswari<br class=3D""><br =
-class=3D""><br class=3D""></div><hr style=3D"font-family: Helvetica; =
-font-size: 13px; font-style: normal; font-variant: normal; font-weight: =
-normal; letter-spacing: normal; line-height: normal; orphans: auto; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: =
-0px;" class=3D""><font face=3D"VERDANA" color=3D"GRAY" size=3D"2" =
-style=3D"font-style: normal; font-variant: normal; font-weight: normal; =
-letter-spacing: normal; line-height: normal; orphans: auto; text-align: =
-start; text-indent: 0px; text-transform: none; white-space: normal; =
-widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;" =
-class=3D"">This electronic message, including attachments, is intended =
-only for the use of the individual or company named above or to which it =
-is addressed. The information contained in this message shall be =
-considered confidential and proprietary, and may include confidential =
-work product. If you are not the intended recipient, please be aware =
-that any unauthorized use, dissemination, distribution or copying of =
-this message is strictly prohibited. If you have received this email in =
-error, please notify the sender by replying to this message and deleting =
-this email immediately.</font><span style=3D"font-family: Helvetica; =
-font-size: 13px; font-style: normal; font-variant: normal; font-weight: =
-normal; letter-spacing: normal; line-height: normal; orphans: auto; =
-text-align: start; text-indent: 0px; text-transform: none; white-space: =
-normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; =
-float: none; display: inline !important;" class=3D""><span =
-class=3D"Apple-converted-space">&nbsp;</span>--<span =
-class=3D"Apple-converted-space">&nbsp;</span></span><br =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><span =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px; float: none; display: inline =
-!important;" =
-class=3D"">_______________________________________________</span><br =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><span =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px; float: none; display: inline =
-!important;" class=3D"">Openembedded-core mailing list</span><br =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" class=3D""><a =
-href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core" =
-style=3D"font-family: Helvetica; font-size: 13px; font-style: normal; =
-font-variant: normal; font-weight: normal; letter-spacing: normal; =
-line-height: normal; orphans: auto; text-align: start; text-indent: 0px; =
-text-transform: none; white-space: normal; widows: auto; word-spacing: =
-0px; -webkit-text-stroke-width: 0px;" =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e</a></div></blockquote></div><br class=3D""></body></html>=
-
---Apple-Mail=_35914B52-828F-4951-A0A8-EED47904A0B9--
-
---Apple-Mail=_248B9328-2D15-43C0-BE5D-1A429FD99CA5
+X-List-Received-Date: Fri, 28 Aug 2015 07:29:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+On Tue, 2015-07-14 at 20:07 +0000,
+leonardo.sandoval.gonzalez@linux.intel.com wrote:
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+> 
+> At least the OVFM (UEFI Firmware for Qemu and KVM) recipe stores the BIOS
+> under $OE_TMPDIR/sysroots/$MACHINE, now defined as OECORE_MACHINE_SYSROOT.
+> The latter is used when searching BIOS, VGA BIOS and keymaps. As a example,
+> to boot a OVFM BIOS, one can run the following command:
+> 
+> $ runqemu qemux86-64 core-image-minimal \
+>     biosdir=usr/share/ovmf  \
+>     biosfilename=bios.bin \
+>     nographic
+> 
+> Note the bios* parameters: these two are needed to specify the subfolder
+> (parent folder is OECORE_MACHINE_SYSROOT) and BIOS filename (without it,
+> it picks a BIOS named bios-256k.bin).
 
-iEYEARECAAYFAlXgA/YACgkQuwUzVZGdMxTmLACgh/XFwVC7TKiH0KViO9+TpONu
-DwAAn0ZiqS9VbySHri/WRH0iSaKd8jIp
-=PBv4
------END PGP SIGNATURE-----
+While researching the nvram support question I came across the ovmf
+whitepaper [1] showing how to use OVMF via "-drive
+if=pflash,format=raw,file=fedora.flash" (where fedora.flash is a per-vm
+copy of OVMF.fd = bios.bin in the sysroot).
 
---Apple-Mail=_248B9328-2D15-43C0-BE5D-1A429FD99CA5--
+I kept wondering why you were using "-bios bios.bin" instead of the
+-drive method, and how that would affect nvram support. Then I found a
+pretty clear statement by Laszlo Ersek, one of the OVMF co-maintainers,
+saying [2] that -bios and the nvram support possible with it (storing in
+an NvRam file in the EFI boot partition) are a kludge that should not be
+used anymore.
+
+So in other words, this particular patch needs further work. Perhaps add
+an "ovmf" keyword (selecting the bios.bin as pflash drive), file name
+handling (treat anything ending in .bin or .fd as pflash, supporting
+more than one) and a OVMF env variable with a corresponding colon
+separated list of pflash files?
+
+I also wonder about the "bios.bin" name and the ".bin" suffix. I think
+it would be better to stick with the upstream convention and just
+install the file in the sysroot as OVMF.fd. This simplifies the file
+name handling such that only .fd is special.
+
+Note that the upstream discussion was about per-vm nvram storage. I
+think in the context of runqemu it is okay to have a single file per
+build configuration, because effectively we are creating a single
+machine with one OS image. What's less nice is that the sysroot will get
+modified when using bios.bin as pflash drive. Resetting the nvram needs
+to be done with "bitbake -c clean ovmf && bitbake ovmf". Both is not
+obvious.
+
+Perhaps if runqemu picks up the file automatically from the sysroot (the
+"ovmf" keyword usage), it should make a copy in tmp (on first run) and
+then use that copy instead?
+
+[1] http://www.linux-kvm.org/downloads/lersek/ovmf-whitepaper-c770f8c.txt
+[2] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764918#47
+
+-- 
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
+
+
