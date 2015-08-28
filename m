@@ -1,20 +1,37 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 29A1D71633
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
+	[209.85.212.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 14DDF71633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 22:34:29 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga103.fm.intel.com with ESMTP; 28 Aug 2015 15:33:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,427,1437462000"; d="scan'208";a="757562709"
-Received: from afshjern.zpn.intel.com ([10.219.17.7])
-	by orsmga001.jf.intel.com with ESMTP; 28 Aug 2015 15:33:44 -0700
-From: Alex Franco <alejandro.franco@linux.intel.com>
+	Fri, 28 Aug 2015 23:49:47 +0000 (UTC)
+Received: by wicne3 with SMTP id ne3so30709249wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Aug 2015 16:49:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=M7Z4SPN1iuu1kr61IIeftYVEOI9jjICxM8T5v3snWa8=;
+	b=Z6lv9DRe7kg8B6el3EdY7tY69Uhj3SaHJynm2JkxhiJ+kgolHXh0NvsZBmWNI8K60z
+	r5WFZgldAuKJAu+1Nv6/6beIj4KXRcFB38o1VPE7OLkwDO+Ev+qPV/XW6eLo38fSf5nk
+	xCpNv00EeJE2/SWprtX/lJyaY45imI09Cc1CXEs5kRvRE0yDnYc9zNE81Brw/HbDTuwS
+	Botn+/8oYdavz5wb0XgMmPHrw6syNv/bjFWckMJYX4QsuCDQ0s5PJ7T56hs5VW9+prhq
+	Pd30TumZ1EvCkNScYMzcvM9wwoiTntOmhRQ7G4W+/0X8S5Yxko5WMN5QzgoEr12xpM6r
+	z6WA==
+X-Gm-Message-State: ALoCoQloEOGjiHJGzmac1Vr3KS1Vu05+mEGdoxlBmyTfz7J0nfiHHfJznvDbIuiXdmNxufJWoZXT
+X-Received: by 10.180.84.40 with SMTP id v8mr7272494wiy.77.1440805787222;
+	Fri, 28 Aug 2015 16:49:47 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	pn6sm10210520wjb.36.2015.08.28.16.49.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 28 Aug 2015 16:49:46 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Aug 2015 17:34:04 -0500
-Message-Id: <1440801244-24561-1-git-send-email-alejandro.franco@linux.intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH] Fix mode +st on TMPDIR when creating it
+Date: Sat, 29 Aug 2015 00:43:13 +0100
+Message-Id: <1440805393-3708-1-git-send-email-ross.burton@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/runtime/multilib: fix and improve multilib test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,58 +44,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 22:34:30 -0000
+X-List-Received-Date: Fri, 28 Aug 2015 23:49:48 -0000
 
-A sanity check fails when TMPDIR has setuid, setgid set. It was
-proposed to fix this on TMPDIR creation instead of failing with
-a sanity test only. This patch handles removal of those special
-bits (and additonally, the sticky bit) from BUILDDIR and TMPDIR
-when these directories are created.
+Replace the previous shell magic with a Python function to parse the readelf
+output, and fix the package names to include the lib32- prefix.
 
-[YOCTO #7669]
+[ YOCTO #8219 ]
 
-Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/sanity.bbclass | 5 +++++
- scripts/oe-setup-builddir   | 1 +
- 2 files changed, 6 insertions(+)
+ meta/lib/oeqa/runtime/multilib.py | 19 ++++++++++++++++---
+ 1 file changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index ef90fc8..2864318 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -686,6 +686,7 @@ def check_sanity_version_change(status, d):
-     status.addresult(check_not_nfs(tmpdir, "TMPDIR"))
+diff --git a/meta/lib/oeqa/runtime/multilib.py b/meta/lib/oeqa/runtime/multilib.py
+index ab0a6cc..1c1729b 100644
+--- a/meta/lib/oeqa/runtime/multilib.py
++++ b/meta/lib/oeqa/runtime/multilib.py
+@@ -10,9 +10,22 @@ def setUpModule():
  
- def check_sanity_everybuild(status, d):
-+    import os, stat
-     # Sanity tests which test the users environment so need to run at each build (or are so cheap
-     # it makes sense to always run them.
+ class MultilibTest(oeRuntimeTest):
  
-@@ -839,6 +840,10 @@ def check_sanity_everybuild(status, d):
-                 status.addresult("Error, TMPDIR has changed location. You need to either move it back to %s or rebuild\n" % saved_tmpdir)
-     else:
-         bb.utils.mkdirhier(tmpdir)
-+        # Remove setuid, setgid and sticky bits from TMPDIR
-+        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
-+        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
-+        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
-         with open(checkfile, "w") as f:
-             f.write(tmpdir)
- 
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-index add0b50..f5b7e4e 100755
---- a/scripts/oe-setup-builddir
-+++ b/scripts/oe-setup-builddir
-@@ -24,6 +24,7 @@ if [ -z "$BUILDDIR" ]; then
- fi
- 
- mkdir -p "$BUILDDIR/conf"
-+chmod -R -st "$BUILDDIR" 
- 
- if [ ! -d "$BUILDDIR" ]; then
-     echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
++    def parse(self, s):
++        """
++        Parse the output of readelf -h and return the binary class, or fail.
++        """
++        l = [l.split()[1] for l in s.split('\n') if "Class:" in l]
++        if l:
++            return l[0]
++        else:
++            self.fail("Cannot parse readelf output\n" + s)
++
+     @testcase('279')
+     @skipUnlessPassed('test_ssh')
+     def test_file_connman(self):
+-        self.assertTrue(oeRuntimeTest.hasPackage('connman-gnome'), msg="This test assumes connman-gnome is installed")
+-        (status, output) = self.target.run("readelf -h /usr/bin/connman-applet | sed -n '3p' | awk '{print $2}'")
+-        self.assertEqual(output, "ELF32", msg="connman-applet isn't an ELF32 binary. readelf says: %s" % self.target.run("readelf -h /usr/bin/connman-applet")[1])
++        self.assertTrue(oeRuntimeTest.hasPackage('lib32-connman-gnome'), msg="This test assumes lib32-connman-gnome is installed")
++
++        (status, output) = self.target.run("readelf -h /usr/bin/connman-applet")
++        self.assertEqual(status, 0, "Failed to readelf /usr/bin/connman-applet")
++        theclass = self.parse(output)
++        self.assertEqual(theclass, "ELF32", msg="connman-applet isn't ELF32 (is %s)" % theclass)
 -- 
-2.5.0
+2.1.4
 
 
