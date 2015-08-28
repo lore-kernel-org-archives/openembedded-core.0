@@ -1,29 +1,37 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B193D71633
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 69CF471633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 14:19:14 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Aug 2015 07:19:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,425,1437462000"; d="scan'208";a="634023826"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.252.13.245])
-	by orsmga003.jf.intel.com with ESMTP; 28 Aug 2015 07:19:14 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Fri, 28 Aug 2015 15:19:13 +0100
-Message-ID: <4561951.P3JYBJt1QK@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <CAP9ODKogFOzQxfJkQ-vm=H9H7ozcSk5esYrozOigrhNUKb6mEQ@mail.gmail.com>
-References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-	<3982576.S6LufBxnUW@peggleto-mobl.ger.corp.intel.com>
-	<CAP9ODKogFOzQxfJkQ-vm=H9H7ozcSk5esYrozOigrhNUKb6mEQ@mail.gmail.com>
+	Fri, 28 Aug 2015 14:24:02 +0000 (UTC)
+Received: by qgeb6 with SMTP id b6so30001203qge.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Aug 2015 07:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=ORYSXhXRJAj0rrLcLxmD6JPshHEoMv37sueZqgsUdJE=;
+	b=aBxLdz4YavpTgQolNJJq9SDtS7DhGdWd9JYoSJXQ8bNpMlgniIoa1sK2TT365F+x7g
+	v3jrhzG7Vl03afsQalZXoypZbcqYtV0vfd/57nzkkUh9W6d4qaWN8APIIMQjjuz3nDGr
+	wHWjwPjBn3qgIZsoV5FtacuiyQl4jZacKBeXg5U1j3NNwJxGPQWtN2a5mVQH2e++xFRC
+	Ls+0L3OpA5ArfXLHy3F/ADlhsHtW08J60s0gx7E/Mwt9wPMF3AlYzYKfxaa+JPS8sFc5
+	VFdyIazxARQGxmAKX3+dOwiH/3Wg/KVZikp/JMDxBfYfgpfNDQZufCTwwbmCysbfoZqi
+	rj6w==
+X-Received: by 10.140.194.132 with SMTP id p126mr17404328qha.30.1440771842651; 
+	Fri, 28 Aug 2015 07:24:02 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.55.167.70 with HTTP; Fri, 28 Aug 2015 07:23:33 -0700 (PDT)
+In-Reply-To: <55E05270.90404@collabora.co.uk>
+References: <1440666743-12035-1-git-send-email-andrew.shadura@collabora.co.uk>
+	<CAMKF1so6_ftdkbU5afVrGdnZA9LRDLhktNTgcdnZw2iqrYwSnQ@mail.gmail.com>
+	<55E05270.90404@collabora.co.uk>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 28 Aug 2015 07:23:33 -0700
+Message-ID: <CAMKF1sp-Wtg2j-EgVc=B1msLb8tS63cZH5=jYboWh8DCB6kw5A@mail.gmail.com>
+To: Andrew Shadura <andrew.shadura@collabora.co.uk>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
+Subject: Re: [PATCH 1/3] dbus: merge .bb and .inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +44,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 14:19:16 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 28 Aug 2015 14:24:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Friday 28 August 2015 11:09:19 Otavio Salvador wrote:
-> On Fri, Aug 28, 2015 at 11:00 AM, Paul Eggleton
-> 
-> <paul.eggleton@linux.intel.com> wrote:
-> > On Friday 28 August 2015 10:55:41 Otavio Salvador wrote:
-> >> On Fri, Aug 28, 2015 at 3:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
-> >> >> On Aug 27, 2015, at 5:36 AM, Paul Eggleton
-> >> >> <paul.eggleton@linux.intel.com> wrote:
-> >> >> 
-> >> >> Allow restricting recipes brought from a layer to a specified list.
-> >> >> This
-> >> >> is similar in operation to blacklist.bbclass, but instead specifies a
-> >> >> per-layer whitelist of recipes (matched by PN or BPN) that are able to
-> >> >> be built from the layer - anything else is skipped. This is
-> >> >> potentially
-> >> >> useful where you want to bring in a select set of recipes from a
-> >> >> larger
-> >> >> layer e.g. meta-oe.
-> >> > 
-> >> > For the record, I am not in favor of such feature in OE, Distros can
-> >> > still
-> >> > use BBMASK if they wish to
-> >> 
-> >> I am also not in favor of the merge of this.
-> > 
-> > Do you have a practical alternative that has less downsides?
-> 
-> I do want people using full layers and offer tools to make fancy
-> combinations does not enhance our quality in long term.
+On Fri, Aug 28, 2015 at 5:22 AM, Andrew Shadura
+<andrew.shadura@collabora.co.uk> wrote:
+>> can you send patch generated with -M 1
+>
+> Gives me exact same patch, hmm.
 
-OK, sure - but you do appreciate that we do have an underlying problem here 
-irrespective of whether this class gets taken into OE-Core or not, right?
-
-Look, if people are really opposed to this then fine, I withdraw it. I just 
-hope that it's understood that this class or other equivalent methods *will* 
-get used until we fix the problem properly - all it means is the class will get 
-copied around instead of being in one place.
-
-Cheers,
-Paul
-
--- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
+try -C
 
