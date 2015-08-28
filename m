@@ -1,37 +1,40 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C40C76D84
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 64D9076DAC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 23:49:52 +0000 (UTC)
-Received: by wiae7 with SMTP id e7so10565773wia.0
+	Fri, 28 Aug 2015 23:49:53 +0000 (UTC)
+Received: by wicne3 with SMTP id ne3so30710198wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 16:49:52 -0700 (PDT)
+	Fri, 28 Aug 2015 16:49:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=jjqUjOeBFsA85kOkq7pJ2in6U3EeDLP9OdNBkMlASdo=;
-	b=LUYxRpbc2t9DuPJ0no8vNgfZI0ZtigJVmLnM1foj67GgxLx+I40n7KPKdFSjefUIsj
-	KfXGuqio5nPbg2r1jO3Cb3R804EG/V90tJNKxLu7GeZPa2Wv9GRafwh5kxKs4/WN44c3
-	hBdEEXPCt0I6Uf9517i4IJcLjED/vj8+xZk8eHc4iMilgXQwrJ1Enj17/yxX4skMxZp1
-	muW6gbV9A766lUOEDYo+6/LTnEROBPAP6gQF6iZZdFFsA1zfDSJWvBLwgT4HaqkdZNr7
-	vLHS2c3QWC+v2bUMyCzRkwO2cpQFaNVFAN4lV0+OQ6o+1zuRZnFZ/gx7dWiGFLYlYVrL
-	UYdQ==
-X-Gm-Message-State: ALoCoQmUe2Vd30Bh1yrRsoH6B0G0jJNte6/1A1BpNrFXUN6ef/iEMu1PEsQT8Uxm/QTRSXqERd7d
-X-Received: by 10.194.95.41 with SMTP id dh9mr13863996wjb.55.1440805792427;
-	Fri, 28 Aug 2015 16:49:52 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=6cffW+8Ki0/T1LG/lnE9wBu3bwKeYk6YJdD/efuMsMw=;
+	b=k3scVUDzl7iyWeVLj5sBoGCddqjimNTP9KciRRs3cg5xs7TvU50WHcBMRM0HWDeI1d
+	C46MkirbYuI/ANZJynA4lsxs8d3xMKZruTLaYelJWJEgdSkwELtOTBdOfWalFrRo3aSV
+	3U7RGj0BLqK6H1zhWR9BLA1odeIufUJPVb/Nu3wFI4N7OfRK4QpRxCGp++rYD+5t4DDk
+	PAvcOKW/RBAMBo0GLK9yB4WIer2uNmLzeYWib+hA+bmg1FegJ6ylDORBchI4QsBh5UpA
+	qdvPPc95mDBGLRc7sDpDAHjnn5LKFkdT90Ncyus/0Wt8BwAdSeIoWncOueQkjiJOc28B
+	ZbcA==
+X-Gm-Message-State: ALoCoQmQIXkIuuZ9j1eqRl9C7SI4yjm0p9tna04VJoKj4mH/UTgn6cFy1j1XPsXk5QbvQnxXGorb
+X-Received: by 10.194.192.166 with SMTP id hh6mr13364126wjc.127.1440805793150; 
+	Fri, 28 Aug 2015 16:49:53 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id 4sm10185674wjt.46.2015.08.28.16.49.51
+	by smtp.gmail.com with ESMTPSA id 4sm10185674wjt.46.2015.08.28.16.49.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Fri, 28 Aug 2015 16:49:52 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Aug 2015 00:43:16 +0100
-Message-Id: <1440805397-3775-1-git-send-email-ross.burton@intel.com>
+Date: Sat, 29 Aug 2015 00:43:17 +0100
+Message-Id: <1440805397-3775-2-git-send-email-ross.burton@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 1/2] oeqa/runtime/multilib: add test for libc
+In-Reply-To: <1440805397-3775-1-git-send-email-ross.burton@intel.com>
+References: <1440805397-3775-1-git-send-email-ross.burton@intel.com>
+Subject: [PATCH 2/2] oeqa/runtime/multilib: change test case to use glib-2.0-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,45 +49,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 28 Aug 2015 23:49:55 -0000
 
-Add a basic test to verify that /lib/libc.so.6 and /lib32/libc.so.6 have the
-right ELF class.
+Using connman-applet as a multilib test case seems quite heavy due to the
+numerous dependencies it has, whereas the same test ("do binaries get swapped
+correctly") can be done with a lower-level library containing binaries, for
+example glib-2.0.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oeqa/runtime/multilib.py | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/multilib.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/meta/lib/oeqa/runtime/multilib.py b/meta/lib/oeqa/runtime/multilib.py
-index 1c1729b..e1bcc42 100644
+index e1bcc42..59ae86d 100644
 --- a/meta/lib/oeqa/runtime/multilib.py
 +++ b/meta/lib/oeqa/runtime/multilib.py
-@@ -20,8 +20,25 @@ class MultilibTest(oeRuntimeTest):
-         else:
-             self.fail("Cannot parse readelf output\n" + s)
+@@ -39,10 +39,10 @@ class MultilibTest(oeRuntimeTest):
  
--    @testcase('279')
-     @skipUnlessPassed('test_ssh')
-+    def test_check_multilib_libc(self):
-+        """
-+        Check that a multilib image has both 32-bit and 64-bit libc in.
-+        """
-+
-+        (status, output) = self.target.run("readelf -h /lib/libc.so.6")
-+        self.assertEqual(status, 0, "Failed to readelf /lib/libc.so.6")
-+        class32 = self.parse(output)
-+
-+        (status, output) = self.target.run("readelf -h /lib64/libc.so.6")
-+        self.assertEqual(status, 0, "Failed to readelf /lib64/libc.so.6")
-+        class64 = self.parse(output)
-+
-+        self.assertEqual(class32, "ELF32", msg="/lib/libc.so.6 isn't ELF32 (is %s)" % class32)
-+        self.assertEqual(class64, "ELF64", msg="/lib64/libc.so.6 isn't ELF64 (is %s)" % class64)
-+
-+    @testcase('279')
-+    @skipUnlessPassed('test_check_multilib_libc')
-     def test_file_connman(self):
-         self.assertTrue(oeRuntimeTest.hasPackage('lib32-connman-gnome'), msg="This test assumes lib32-connman-gnome is installed")
+     @testcase('279')
+     @skipUnlessPassed('test_check_multilib_libc')
+-    def test_file_connman(self):
+-        self.assertTrue(oeRuntimeTest.hasPackage('lib32-connman-gnome'), msg="This test assumes lib32-connman-gnome is installed")
++    def test_file_glib(self):
++        self.assertTrue(oeRuntimeTest.hasPackage('lib32-libglib-2.0-utils'), msg="This test assumes lib32-libglib-2.0-utils is installed")
  
+-        (status, output) = self.target.run("readelf -h /usr/bin/connman-applet")
+-        self.assertEqual(status, 0, "Failed to readelf /usr/bin/connman-applet")
++        (status, output) = self.target.run("readelf -h /usr/bin/glib-genmarshal")
++        self.assertEqual(status, 0, "Failed to readelf /usr/bin/glib-genmarshal")
+         theclass = self.parse(output)
+-        self.assertEqual(theclass, "ELF32", msg="connman-applet isn't ELF32 (is %s)" % theclass)
++        self.assertEqual(theclass, "ELF32", msg="glib-genmarshal isn't ELF32 (is %s)" % theclass)
 -- 
 2.1.4
 
