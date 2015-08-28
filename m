@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D0D4860043
+	by mail.openembedded.org (Postfix) with ESMTP id EB4DB71633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 09:13:27 +0000 (UTC)
+	Fri, 28 Aug 2015 09:13:32 +0000 (UTC)
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga103.jf.intel.com with ESMTP; 28 Aug 2015 02:13:27 -0700
+	by orsmga103.jf.intel.com with ESMTP; 28 Aug 2015 02:13:28 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,424,1437462000"; d="scan'208";a="792613511"
+X-IronPort-AV: E=Sophos;i="5.17,424,1437462000"; d="scan'208";a="792613516"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.252.13.245])
-	by orsmga002.jf.intel.com with ESMTP; 28 Aug 2015 02:13:27 -0700
+	by orsmga002.jf.intel.com with ESMTP; 28 Aug 2015 02:13:28 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Aug 2015 10:13:19 +0100
-Message-Id: <cover.1440753140.git.paul.eggleton@linux.intel.com>
+Date: Fri, 28 Aug 2015 10:13:20 +0100
+Message-Id: <c5e9b9984dacce1af0ea8912bddd9949aa3086bb.1440753140.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/1] Fix for issue thrown up by devtool QA test
+In-Reply-To: <cover.1440753140.git.paul.eggleton@linux.intel.com>
+References: <cover.1440753140.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1440753140.git.paul.eggleton@linux.intel.com>
+References: <cover.1440753140.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/1] lib/oe/patch: handle patches that delete files with older git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,21 +34,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 28 Aug 2015 09:13:33 -0000
 
-The following changes since commit f07045fcae859c902434062d1725f1348f42d1dd:
+When running "git add" on a directory with older git versions, deleted
+files aren't added to what is to be committed unless you explicitly
+specify the -A option. The result of this is that when applying a patch
+from a recipe which doesn't apply with "git am" (and we fall back to
+applying the patch through other means then "git add" following by
+a "git commit") these deletes weren't committed with the patch, leaving
+them sitting deleted but not committed at the end.
 
-  oeqa/oetest.py: add better package search for hasPackage() (2015-08-26 08:26:37 +0100)
+This should fix test_devtool_modify_native (which unwittingly exercises
+this scenario by attempting to run "devtool modify" on apt-native) on
+machines with older git versions.
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/patchfix
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/patchfix
-
-Paul Eggleton (1):
-  lib/oe/patch: handle patches that delete files with older git
-
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
  meta/lib/oe/patch.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index c4f042d..108bf1d 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -415,7 +415,7 @@ class GitApplyTree(PatchTree):
+                     # Fall back to patch
+                     output = PatchTree._applypatch(self, patch, force, reverse, run)
+                 # Add all files
+-                shellcmd = ["git", "add", "-f", "."]
++                shellcmd = ["git", "add", "-f", "-A", "."]
+                 output += runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+                 # Exclude the patches directory
+                 shellcmd = ["git", "reset", "HEAD", self.patchdir]
 -- 
 2.1.0
 
