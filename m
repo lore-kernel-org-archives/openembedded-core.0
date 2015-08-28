@@ -1,31 +1,52 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1728E71633
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-wi0-f182.google.com (mail-wi0-f182.google.com
+	[209.85.212.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 02E0271633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 13:33:06 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 28 Aug 2015 06:33:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,424,1437462000"; d="scan'208";a="792739036"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.168])
-	([10.219.5.168])
-	by orsmga002.jf.intel.com with ESMTP; 28 Aug 2015 06:33:05 -0700
-Message-ID: <55E06356.8000607@linux.intel.com>
-Date: Fri, 28 Aug 2015 08:34:14 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Fri, 28 Aug 2015 13:55:43 +0000 (UTC)
+Received: by wicfv10 with SMTP id fv10so12828576wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Aug 2015 06:55:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=B1fxth5eEkWA2exDYo3hrlHyYjqKvqueyDEu5Z4jjNU=;
+	b=fwGWHxA8bT78FnyBVcUKpk6ttMeQjAZRpy61UUvk8PDnbrJ99HS3MzWLLrUXdxgiWd
+	vXnx5olz+Zh68XFPGrrT9QQocew3CULKrnSeEG1foI6la7SAGzP/Y/COej/8t+xzO8cw
+	r/Rb0q9bIqIHwR02BIo+nVO2P0DJLpyXRrNexKt5ZcOJ6C6HY+xifVHgyw4vkewa5/nf
+	byYt1e0I/jxbvfEhRiaR2Jp7I4/CeJqii3k9u0XRFw4wFtkQ1usk+GCdgNgWS9XVUgb6
+	hB2Jt9eaXsdQFexh4SZ7IpCsTRE+luD/A4cpv94h2ON1Sbv/anTguzhPpVVTh4LDcR1t
+	5HVw==
+X-Gm-Message-State: ALoCoQk/tBk7Q7fuOp4RyOjSnJ+ZQD4gB57WV7+II2+IdtegcOcsWjmh8LribraLfyPuSUNFj0/d
+X-Received: by 10.180.208.81 with SMTP id mc17mr4565258wic.93.1440770143161;
+	Fri, 28 Aug 2015 06:55:43 -0700 (PDT)
+Received: from mail-wi0-f169.google.com (mail-wi0-f169.google.com.
+	[209.85.212.169]) by smtp.gmail.com with ESMTPSA id
+	ma4sm8163790wjb.38.2015.08.28.06.55.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 28 Aug 2015 06:55:42 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by wieo17 with SMTP id o17so16673710wie.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Aug 2015 06:55:41 -0700 (PDT)
 MIME-Version: 1.0
-To: Patrick Ohly <patrick.ohly@intel.com>, 
-	"Stoppa, Igor" <igor.stoppa@intel.com>,
-	matt.fleming@intel.com, ricardo.neri@intel.com
-References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>	
-	<16f26bbb5fa39e399b185cd26fe9205c2e0cc5d4.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<1440746955.3006.73.camel@intel.com>
-In-Reply-To: <1440746955.3006.73.camel@intel.com>
-Cc: leonardo.sandoval.gonzalez@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 3/3] runqemu: Define OECORE_MACHINE_SYSROOT on setup_sysroot
+X-Received: by 10.194.120.198 with SMTP id le6mr11514326wjb.133.1440770141945; 
+	Fri, 28 Aug 2015 06:55:41 -0700 (PDT)
+Received: by 10.28.135.72 with HTTP; Fri, 28 Aug 2015 06:55:41 -0700 (PDT)
+In-Reply-To: <26B844B8-BE69-427B-8DA7-B649C46A5632@gmail.com>
+References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
+	<762e79dfb769e885758bdcc627fadbe4dc6454fd.1440678731.git.paul.eggleton@linux.intel.com>
+	<26B844B8-BE69-427B-8DA7-B649C46A5632@gmail.com>
+Date: Fri, 28 Aug 2015 10:55:41 -0300
+Message-ID: <CAP9ODKr4bJH2ZWyNw6qdxaEg63ndbc+u5b8zCtBS34wn_YW5DQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,74 +59,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 13:33:08 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Aug 2015 13:55:44 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Patrick,
-
-I do not have much time for a V4 set of patches, but now with all your 
-input I can rework V3 patches on 2.1. Copying Matt and Ricardo, they 
-helped me when porting these patches into poky. They may have other 
-comments.
-
-
-
-On 08/28/2015 02:29 AM, Patrick Ohly wrote:
-> On Tue, 2015-07-14 at 20:07 +0000,
-> leonardo.sandoval.gonzalez@linux.intel.com wrote:
->> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Fri, Aug 28, 2015 at 3:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> On Aug 27, 2015, at 5:36 AM, Paul Eggleton <paul.eggleton@linux.intel.com> wrote:
 >>
->> At least the OVFM (UEFI Firmware for Qemu and KVM) recipe stores the BIOS
->> under $OE_TMPDIR/sysroots/$MACHINE, now defined as OECORE_MACHINE_SYSROOT.
->> The latter is used when searching BIOS, VGA BIOS and keymaps. As a example,
->> to boot a OVFM BIOS, one can run the following command:
->>
->> $ runqemu qemux86-64 core-image-minimal \
->>      biosdir=usr/share/ovmf  \
->>      biosfilename=bios.bin \
->>      nographic
->>
->> Note the bios* parameters: these two are needed to specify the subfolder
->> (parent folder is OECORE_MACHINE_SYSROOT) and BIOS filename (without it,
->> it picks a BIOS named bios-256k.bin).
+>> Allow restricting recipes brought from a layer to a specified list. This
+>> is similar in operation to blacklist.bbclass, but instead specifies a
+>> per-layer whitelist of recipes (matched by PN or BPN) that are able to
+>> be built from the layer - anything else is skipped. This is potentially
+>> useful where you want to bring in a select set of recipes from a larger
+>> layer e.g. meta-oe.
 >
-> While researching the nvram support question I came across the ovmf
-> whitepaper [1] showing how to use OVMF via "-drive
-> if=pflash,format=raw,file=fedora.flash" (where fedora.flash is a per-vm
-> copy of OVMF.fd = bios.bin in the sysroot).
->
-> I kept wondering why you were using "-bios bios.bin" instead of the
-> -drive method, and how that would affect nvram support. Then I found a
-> pretty clear statement by Laszlo Ersek, one of the OVMF co-maintainers,
-> saying [2] that -bios and the nvram support possible with it (storing in
-> an NvRam file in the EFI boot partition) are a kludge that should not be
-> used anymore.
->
-> So in other words, this particular patch needs further work. Perhaps add
-> an "ovmf" keyword (selecting the bios.bin as pflash drive), file name
-> handling (treat anything ending in .bin or .fd as pflash, supporting
-> more than one) and a OVMF env variable with a corresponding colon
-> separated list of pflash files?
->
-> I also wonder about the "bios.bin" name and the ".bin" suffix. I think
-> it would be better to stick with the upstream convention and just
-> install the file in the sysroot as OVMF.fd. This simplifies the file
-> name handling such that only .fd is special.
->
-> Note that the upstream discussion was about per-vm nvram storage. I
-> think in the context of runqemu it is okay to have a single file per
-> build configuration, because effectively we are creating a single
-> machine with one OS image. What's less nice is that the sysroot will get
-> modified when using bios.bin as pflash drive. Resetting the nvram needs
-> to be done with "bitbake -c clean ovmf && bitbake ovmf". Both is not
-> obvious.
->
-> Perhaps if runqemu picks up the file automatically from the sysroot (the
-> "ovmf" keyword usage), it should make a copy in tmp (on first run) and
-> then use that copy instead?
->
-> [1] http://www.linux-kvm.org/downloads/lersek/ovmf-whitepaper-c770f8c.txt
-> [2] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764918#47
->
+> For the record, I am not in favor of such feature in OE, Distros can still use BBMASK if they wish to
+
+I am also not in favor of the merge of this.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
