@@ -1,42 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 4674771633
+Return-Path: <costin.c.constantin@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4609371633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 15:57:30 +0000 (UTC)
-Received: by pabzx8 with SMTP id zx8so66832226pab.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 08:57:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=soNbf1vB/hzGLGV0PCb5QAjDXe/WxMYcASsP6eOnyvY=;
-	b=Eu30UUwLoyZ9xVNpVeN3aXfgxUCQuD79r4rGgOYmD3SUi/z9P2oqUUS2unDRl6oFyA
-	855iu2otY1ME6WeZnGO18j4MkBWK3Hbyae1uYe5tg0K0btiVh/2gwI9fO6F1qDoY+pq3
-	rUcUY4YjD5ASnVdB3szFpY68puJ5/S9NiiXnezcsLMSAHMCm/4ef7bU3y/cBw08gZ7b0
-	3XHEMLAq0owofrw112JxXfBJfnlmRrnOB+ZRJ166UERwAtlQQgr1eOxzNtZe5vdS90yc
-	pblK+sskcVmr6hrnqfemIULalH8Xnl/CkwTEMrAeHWQn77MOhUovCzhp6vWS5SHYfaqh
-	AZXQ==
-X-Received: by 10.66.233.1 with SMTP id ts1mr16114928pac.128.1440777450918;
-	Fri, 28 Aug 2015 08:57:30 -0700 (PDT)
-Received: from [192.168.0.13] (c-76-103-142-85.hsd1.ca.comcast.net.
-	[76.103.142.85])
-	by smtp.gmail.com with ESMTPSA id d4sm6153362pdc.93.2015.08.28.08.57.29
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 28 Aug 2015 08:57:30 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <146137d99b3de1a21886a68cfa1cb470fb9e6f4a.1440763946.git.alexander.kanavin@linux.intel.com>
-Date: Fri, 28 Aug 2015 08:57:19 -0700
-Message-Id: <E8C8E474-0AB1-48C9-AE1B-7EF333E5DA63@gmail.com>
-References: <cover.1440763946.git.alexander.kanavin@linux.intel.com>
-	<cover.1440763946.git.alexander.kanavin@linux.intel.com>
-	<146137d99b3de1a21886a68cfa1cb470fb9e6f4a.1440763946.git.alexander.kanavin@linux.intel.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/8] dpkg: update to 1.18.2
+	Fri, 28 Aug 2015 16:01:47 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 28 Aug 2015 09:01:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,425,1437462000"; d="scan'208";a="792821291"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 28 Aug 2015 09:01:21 -0700
+Received: from localhost.localdomain (unknown [10.237.112.252])
+	by linux.intel.com (Postfix) with ESMTP id D98EF6A4005;
+	Fri, 28 Aug 2015 09:00:29 -0700 (PDT)
+From: Costin Constantin <costin.c.constantin@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Aug 2015 19:12:18 +0300
+Message-Id: <1440778338-12630-1-git-send-email-costin.c.constantin@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] utils/decorators.py: TestNeedsBin, decorator for sending binaries to images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,45 +30,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 15:57:31 -0000
-X-Groupsio-MsgNum: 70248
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_FFA456FB-A92C-40E0-A637-7489A48F11AF";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 28 Aug 2015 16:01:48 -0000
 
---Apple-Mail=_FFA456FB-A92C-40E0-A637-7489A48F11AF
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+TestNeedsBin is a decorator to help deploy binaries to the running image.
+It uses no package management system.
+It gets it's source binaries from the rpm built packages found under
+DEPLOY_DIR_RPM. As mandatory arguments, it requires only the binary
+name. The binary is sent by default to the DUT's "/usr/bin" dir, making
+it available in system PATH. Like this, a test should only call the desired
+binary name without any path.
+
+Left to do:
+- implement support for binaries versioning
+- accept any source path to a given binaries directory
+- add a tag
+- add support for exported tests that will run on remote testing env.
+without presence of poky
+
+related to [Yocto #7850]
+
+Signed-off-by: Costin Constantin <costin.c.constantin@intel.com>
+---
+ meta/lib/oeqa/utils/decorators.py | 73 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 71 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index b9fc76c..a999018 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -6,13 +6,15 @@
+ # Most useful is skipUnlessPassed which can be used for
+ # creating dependecies between two test methods.
+ 
+-import os
++import os,re
+ import logging
+ import sys
+ import unittest
+ import threading
+ import signal
+ from functools import wraps
++import subprocess as s
++
+ 
+ #get the "result" object from one of the upper frames provided that one of these upper frames is a unittest.case frame
+ class getResults(object):
+@@ -185,4 +187,71 @@ def timeout(seconds):
+             return wrapped_f
+         else:
+             return fn
+-    return decorator
+\ No newline at end of file
++    return decorator
++
++# this part for the bin <---> test binding
++from difflib import SequenceMatcher as SM
++def get_dest_folder(tune_features, folder_list):
++    features_list = tune_features.split(" ")
++    features_list.reverse()
++    features_list = "_".join(features_list)
++    match_rate = 0
++    best_match = None
++    for folder in folder_list:
++        if SM(None, folder, features_list).ratio() > match_rate:
++            match_rate = SM(None, folder, features_list).ratio()
++            best_match = folder
++    return best_match
++
++
++
++class TestNeedsBin(object):
++
++    def __init__(self, bin_name, bin_ver=None, source_dir=None, dest_dir="/usr/bin", TAG=None):
++        try:
++            import bb
++            self.under_bitbake_env = True
++        except:
++            self.under_bitbake_env = False
++        self.bin_name = bin_name
++        self.bin_ver = bin_ver
++        self.source_dir = source_dir
++        self.dest_dir = dest_dir
++        self.TAG = TAG
++
++    def transfer_bin(self):
++        from oeqa.oetest import oeRuntimeTest
++        if self.under_bitbake_env:
++            if not self.source_dir:
++                arch_dir = get_dest_folder(oeRuntimeTest.tc.d.getVar("TUNE_FEATURES", True), os.listdir(oeRuntimeTest.tc.d.getVar("DEPLOY_DIR_RPM", True)))
++                self.source_dir = os.path.join(oeRuntimeTest.tc.d.getVar("DEPLOY_DIR_RPM", True), arch_dir)
++                if not arch_dir:
++                    bb.warn("cannot find source dir")
++            for file in os.listdir(self.source_dir):
++                if re.match("%s-[0-9].*rpm" % self.bin_name, file):
++                    rpm_name = file
++            local_binary = s.check_output("rpm -qlp %s" % os.path.join(self.source_dir, rpm_name), shell=True).split("\n")[-2]
++            if local_binary[0] == r'/':
++                local_binary = local_binary[1:]
++            if os.path.isfile(os.path.join(self.source_dir, rpm_name)):
++                command = "/usr/bin/rpm2cpio %s | cpio -idm" % os.path.join(self.source_dir, rpm_name)
++                s.check_output(command, shell=True)
++            else:
++                bb.warn("Cannot find package file to extract!")
++            if os.path.isfile(local_binary):
++                (status, output) = oeRuntimeTest.tc.target.copy_to(local_binary, self.dest_dir)
++            else:
++                bb.warn("Cannot find binary file!")
++            if status != 0:
++                bb.warn("Error at copying binary!")
++
++        else: #when decorator is on the remote machine
++            #this part will serve when tests are present on remote machine
++            pass
++
++    def __call__(self, func):
++        def wrapped_f(*args):
++            self.transfer_bin()
++            return func(*args)
++        wrapped_f.__name__ = func.__name__
++        return wrapped_f
+-- 
+2.1.4
 
 
-> On Aug 28, 2015, at 5:18 AM, Alexander Kanavin =
-<alexander.kanavin@linux.intel.com> wrote:
->=20
-> check_snprintf.patch has been dropped, because it seems to fix a =
-problem
-> that doesn't anymore exist, and doesn't have any description of what =
-the
-> problem was and how was it fixed.
-
-it is redundant. should be fine
-
-
-
---Apple-Mail=_FFA456FB-A92C-40E0-A637-7489A48F11AF
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXghOgACgkQuwUzVZGdMxQ0wACfeXJQ7SJ3GqnHeiL7NzBafO9V
-StkAnj/G6ihhZz5lPPWQz9gPNm1X6Gic
-=6uwn
------END PGP SIGNATURE-----
-
---Apple-Mail=_FFA456FB-A92C-40E0-A637-7489A48F11AF--
