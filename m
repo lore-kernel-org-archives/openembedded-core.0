@@ -1,28 +1,21 @@
 Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C84D60043
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D0D4860043
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 08:34:19 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 28 Aug 2015 01:34:21 -0700
+	Fri, 28 Aug 2015 09:13:27 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 28 Aug 2015 02:13:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,424,1437462000"; d="scan'208";a="633864513"
+X-IronPort-AV: E=Sophos;i="5.17,424,1437462000"; d="scan'208";a="792613511"
 Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
 	([10.252.13.245])
-	by orsmga003.jf.intel.com with ESMTP; 28 Aug 2015 01:34:20 -0700
+	by orsmga002.jf.intel.com with ESMTP; 28 Aug 2015 02:13:27 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Aug 2015 09:34:18 +0100
-Message-ID: <14855649.MLpkRK5kp1@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <26B844B8-BE69-427B-8DA7-B649C46A5632@gmail.com>
-References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-	<762e79dfb769e885758bdcc627fadbe4dc6454fd.1440678731.git.paul.eggleton@linux.intel.com>
-	<26B844B8-BE69-427B-8DA7-B649C46A5632@gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Aug 2015 10:13:19 +0100
+Message-Id: <cover.1440753140.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/1] Fix for issue thrown up by devtool QA test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,40 +28,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 08:34:23 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 28 Aug 2015 09:13:33 -0000
 
-On Thursday 27 August 2015 23:07:44 Khem Raj wrote:
-> > On Aug 27, 2015, at 5:36 AM, Paul Eggleton <paul.eggleton@linux.intel.com>
-> > wrote:
-> > 
-> > Allow restricting recipes brought from a layer to a specified list. This
-> > is similar in operation to blacklist.bbclass, but instead specifies a
-> > per-layer whitelist of recipes (matched by PN or BPN) that are able to
-> > be built from the layer - anything else is skipped. This is potentially
-> > useful where you want to bring in a select set of recipes from a larger
-> > layer e.g. meta-oe.
-> 
-> For the record, I am not in favor of such feature in OE, Distros can still
-> use BBMASK if they wish to
+The following changes since commit f07045fcae859c902434062d1725f1348f42d1dd:
 
-This is significantly easier to use than BBMASK though. (Perhaps that's why you 
-don't like it?)
+  oeqa/oetest.py: add better package search for hasPackage() (2015-08-26 08:26:37 +0100)
 
-I think we need to be realistic here as I said in my most recent reply to the 
-other thread - people will do this using whatever mechanism is available 
-whether we like it or not. And what are they saying by doing so? They're 
-effectively telling us that they can't consume the recipes in the way we are 
-currently collecting them together. We know what the proper fix for the problem 
-is (increased splitting of large layers such as meta-oe), it may not be easy 
-but other than workarounds like this I don't see an alternative.
+are available in the git repository at:
 
-Cheers,
-Paul
+  git://git.openembedded.org/openembedded-core-contrib paule/patchfix
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/patchfix
+
+Paul Eggleton (1):
+  lib/oe/patch: handle patches that delete files with older git
+
+ meta/lib/oe/patch.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
+2.1.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
