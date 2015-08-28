@@ -1,52 +1,50 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B0D971633
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id CA43F71633
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 14:09:20 +0000 (UTC)
-Received: by wibgu7 with SMTP id gu7so10575983wib.1
+	Fri, 28 Aug 2015 14:13:43 +0000 (UTC)
+Received: by wicfv10 with SMTP id fv10so13350366wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 07:09:21 -0700 (PDT)
+	Fri, 28 Aug 2015 07:13:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=9fXEEjd4Sb6XiM4DAUJhw33vfhztbnpcTbGDJmUemM0=;
-	b=A69fqUzaAU0n+hRtw3FTrTjDf+FOMdzgSzjeV9k0vwyEFa7f1zQ8fBUjGieMulBoLm
-	0VX1hXL1550Au3HY+YgF1So1CvJrPmLKt6pMe+xTVAj6FVXfDpZl/6SonlaEgbzy8j6P
-	p+5DwIYEzlOm33rAQdffaPRIKiXLbrHZKXH9Ir4KB9W9xs+rLoMcMO4cYKUthq5CBaSh
-	Dbc1rmZ5BVUUHUbdCmTEIH8r3ca9zdVY5ZrGVsfQ9EceD0hS07gn9fQ/6AWu4QQ0n7xB
-	qAKGdyVcARuS0J6YWPrUkosG72W/i6XOTVhmBwHSDoSmULX8g12odOUpe5jiD2rstj0x
-	m5xA==
-X-Gm-Message-State: ALoCoQnho20hWDV+cfaK21vhDOYb0zr1o+DF+x8ZzLwM4qSFRTY0WMKNSWH8mZZacP/0oX5dF8IF
-X-Received: by 10.194.87.102 with SMTP id w6mr11249968wjz.111.1440770960858;
-	Fri, 28 Aug 2015 07:09:20 -0700 (PDT)
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com.
-	[209.85.212.174]) by smtp.gmail.com with ESMTPSA id
-	mc18sm3952827wic.23.2015.08.28.07.09.19
+	bh=xowJA+DY8bmniQt63qUgMgFASfATfs9h7obLbFw6ZEs=;
+	b=ReSomydNf6IoG9HEQHOtQE0RkyZlhYTrmrJhU+RkktU4XyMN6sEpE+K2QsMAZwQCrK
+	Xk0rMlVOa06QecXGpu/nvVkiNQQMiSc5CSvqP+XhLG3/mcmO7CjsZB7MFoabjZFIRrD1
+	LyvyLwT5+gvJDILD1pIYISxz2RCZp9seWlvI+KGnAsxDH+pJ10LxAiWTZPPD89sIeA87
+	v/bDO9So3eyYNxDe0LxNj0Mc4Tx00dj4bgJZs+mAu3OLEqNbywWXs9fshCFz8Rr0JtXw
+	T6SHtnpmp2T4vWEr/mdflXPzIiCq7nHhZjz6vkPWcCa3qGdFsHsnChPBXquPL8d06eM/
+	r/SQ==
+X-Gm-Message-State: ALoCoQlhHAPiZvOoLEAy0EYW75qJBSXciGXQvVOU+4h1NsIoUIMwGxuOUbhv+Rqg955jQD+7sIVB
+X-Received: by 10.194.174.201 with SMTP id bu9mr12820774wjc.73.1440771223465; 
+	Fri, 28 Aug 2015 07:13:43 -0700 (PDT)
+Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com.
+	[209.85.212.171])
+	by smtp.gmail.com with ESMTPSA id vl1sm8281313wjc.0.2015.08.28.07.13.42
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Aug 2015 07:09:19 -0700 (PDT)
+	Fri, 28 Aug 2015 07:13:42 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by wieo17 with SMTP id o17so17099799wie.0
+Received: by wiyy7 with SMTP id y7so235401wiy.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Aug 2015 07:09:19 -0700 (PDT)
+	Fri, 28 Aug 2015 07:13:42 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.180.72.230 with SMTP id g6mr581201wiv.79.1440770959751; Fri,
-	28 Aug 2015 07:09:19 -0700 (PDT)
-Received: by 10.28.135.72 with HTTP; Fri, 28 Aug 2015 07:09:19 -0700 (PDT)
-In-Reply-To: <3982576.S6LufBxnUW@peggleto-mobl.ger.corp.intel.com>
-References: <cover.1440678731.git.paul.eggleton@linux.intel.com>
-	<26B844B8-BE69-427B-8DA7-B649C46A5632@gmail.com>
-	<CAP9ODKr4bJH2ZWyNw6qdxaEg63ndbc+u5b8zCtBS34wn_YW5DQ@mail.gmail.com>
-	<3982576.S6LufBxnUW@peggleto-mobl.ger.corp.intel.com>
-Date: Fri, 28 Aug 2015 11:09:19 -0300
-Message-ID: <CAP9ODKogFOzQxfJkQ-vm=H9H7ozcSk5esYrozOigrhNUKb6mEQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-Received: by 10.180.92.225 with SMTP id cp1mr4934738wib.2.1440771222329;
+	Fri, 28 Aug 2015 07:13:42 -0700 (PDT)
+Received: by 10.28.135.72 with HTTP; Fri, 28 Aug 2015 07:13:42 -0700 (PDT)
+In-Reply-To: <1440604110-4306-2-git-send-email-nicolas.dechesne@linaro.org>
+References: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
+	<1440604110-4306-2-git-send-email-nicolas.dechesne@linaro.org>
+Date: Fri, 28 Aug 2015 11:13:42 -0300
+Message-ID: <CAP9ODKqYojUfF=Q8YXkHD30o1Kwi8obMvfJ92rTZ5cH2sXE3Mw@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] classes/whitelist: add class to allow whitelisting recipes from a layer
+Subject: Re: [RFC PATCH 1/2] android-tools: import android-tools from meta-smartphone into oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +57,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Aug 2015 14:09:24 -0000
+X-List-Received-Date: Fri, 28 Aug 2015 14:13:45 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Aug 28, 2015 at 11:00 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> On Friday 28 August 2015 10:55:41 Otavio Salvador wrote:
->> On Fri, Aug 28, 2015 at 3:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
->> >> On Aug 27, 2015, at 5:36 AM, Paul Eggleton
->> >> <paul.eggleton@linux.intel.com> wrote:
->> >>
->> >> Allow restricting recipes brought from a layer to a specified list. This
->> >> is similar in operation to blacklist.bbclass, but instead specifies a
->> >> per-layer whitelist of recipes (matched by PN or BPN) that are able to
->> >> be built from the layer - anything else is skipped. This is potentially
->> >> useful where you want to bring in a select set of recipes from a larger
->> >> layer e.g. meta-oe.
->> >
->> > For the record, I am not in favor of such feature in OE, Distros can still
->> > use BBMASK if they wish to
->>
->> I am also not in favor of the merge of this.
+On Wed, Aug 26, 2015 at 12:48 PM, Nicolas Dechesne
+<nicolas.dechesne@linaro.org> wrote:
+> The following changes were done to trim down the recipe size:
+> * removed adbd support
+> * removed android-tools-conf
 >
-> Do you have a practical alternative that has less downsides?
+> The main idea is to keep only what is strictly needed for make_ext4fs tool.
+>
+> Signed-off-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 
-I do want people using full layers and offer tools to make fancy
-combinations does not enhance our quality in long term.
+Can you explain Why?
 
 -- 
 Otavio Salvador                             O.S. Systems
