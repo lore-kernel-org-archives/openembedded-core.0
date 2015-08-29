@@ -1,39 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 74F07759D5
+Return-Path: <sgw@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EA4F759D5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Aug 2015 12:59:02 +0000 (UTC)
-Received: by qgeh99 with SMTP id h99so45424606qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Aug 2015 05:59:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Jvq3E5y06P/Mz7/qoBXJEEMhycmbAGW1mW2aO2ivq2s=;
-	b=dqRAeQYW2xEJWKvxv22OoD8h7+3p62PvsHvdKXpX/qN7Sx5lAVop026ldd5MNliUGd
-	oX/OTHZPr/c8IHGpDx70XGF6qmC9FWrNbF+T7beKNf1K16SQ3FaLZ4mpy6Ey7Mz0GlE4
-	C4mRGi8Ys7VV9LfdTXcW1sruWfxYDRxsfkizt7hvCcjeBzjbmyCa6c5IFbYkccxwcUVB
-	jlwsyOMtP/dg/8M10yzlpD/quTeugVTGrsV7ur9wVyWLuoukJCF4bPNBuTeMpRhqkxfa
-	7TcjM4KvDBOogEcj0ItMg1iALULsQ07APOIRgypbjxvMf/H/0gN/8p2wmSJpPHr0W/U9
-	N7fA==
-X-Gm-Message-State: ALoCoQnMGaPbhq9HylkG7I3uleDgFCWpx3bRC8w9ShOizI69Gb5monzGDrYmWEW2geLKojbYhc/i
-X-Received: by 10.141.28.2 with SMTP id f2mr25174255qhe.17.1440853142854; Sat,
-	29 Aug 2015 05:59:02 -0700 (PDT)
+	Sat, 29 Aug 2015 15:45:04 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 29 Aug 2015 08:45:04 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,429,1437462000"; d="scan'208";a="778139761"
+Received: from ngniech-mobl.amr.corp.intel.com (HELO
+	swold-mobl.amr.corp.intel.com) ([10.254.55.139])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Aug 2015 08:45:04 -0700
+Message-ID: <53E80792.8070008@linux.intel.com>
+From: Saul Wold <sgw@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-Received: by 10.140.98.67 with HTTP; Sat, 29 Aug 2015 05:58:43 -0700 (PDT)
-In-Reply-To: <2282129.zWgJW2nO2n@peggleto-mobl.ger.corp.intel.com>
-References: <1440805397-3775-1-git-send-email-ross.burton@intel.com>
-	<1440805397-3775-2-git-send-email-ross.burton@intel.com>
-	<CAJTo0Lajxi8GD6DP_s4n4i4BBnQ3Sxsy0eOoYnxtEWL56u8izQ@mail.gmail.com>
-	<2282129.zWgJW2nO2n@peggleto-mobl.ger.corp.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 29 Aug 2015 13:58:43 +0100
-Message-ID: <CAJTo0LZOGj+3PFTezX8L70KYjF76YYEbKXP3W_ip-ypvZ_GFtQ@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] oeqa/runtime/multilib: change test case to use glib-2.0-utils
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+References: <alpine.LFD.2.11.1408081529290.23581@localhost>
+	<53E54245.4070704@linux.intel.com>
+	<alpine.LFD.2.11.1408090914290.7338@localhost>
+In-Reply-To: <alpine.LFD.2.11.1408090914290.7338@localhost>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Remove "SRC_URI_OVERRIDES_PACKAGE_ARCH = 0" from tslib.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,47 +34,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Aug 2015 12:59:05 -0000
-Content-Type: multipart/alternative; boundary=001a11423974c0f397051e72c363
+Date: Sat, 29 Aug 2015 15:45:05 -0000
+X-Original-Date: Sun, 10 Aug 2014 17:00:18 -0700
+X-List-Received-Date: Sat, 29 Aug 2015 15:45:05 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a11423974c0f397051e72c363
-Content-Type: text/plain; charset=UTF-8
+On 08/09/2014 06:17 AM, Robert P. J. Day wrote:
+> On Fri, 8 Aug 2014, Saul Wold wrote:
+>
+>> On 08/08/2014 12:31 PM, Robert P. J. Day wrote:
+>>>
+>>> Given that there are no machine-specific files for the tslib recipe
+>>> anymore, might as well remove this line.
+>>>
+>>
+>> Robert,
+>>
+>> Can you please review the commit guidelines
+>>
+>> http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+>>
+>> The summary line should be in the form of
+>> tslib: Remove ...
+>
+>    serious question -- how does one identify the "primary item" under
+> consideration if it's scattered over several files. recently, i
+> submitted a patch to remove a few references to "do_package_write",
+> a deleted task. the existing references under meta/:
+>
+Great question actually and maybe this needs clarification in the Wiki.
 
-On 29 August 2015 at 12:35, Paul Eggleton <paul.eggleton@linux.intel.com>
-wrote:
+Ideally if it's an atomic change around a "primary idea" than that's the 
+focus. Sometimes with refactorings we do bulk and sometime it's 
+individual, depends on if the small changes will cause bisect failures.
 
-> Why is that? Really the autobuilder should just be running all valid tests
-> for
-> the image and not have any knowledge of what tests are being run.
+> conf/documentation.conf:do_package_write[doc] = "Creates the actual packages and places them in the Package Feed area"
+> recipes-core/meta/meta-ide-support.bb:do_populate_ide_support[recrdeptask] = "do_package_write"
+> recipes-core/meta/package-index.bb:do_package_write[noexec] = "1"
+> recipes-devtools/installer/adt-installer_1.0.bb:do_package_write[noexec] = "1"
+>
+>    i'm assuming, in this case, the primary item would be
+> "do_package_write"?
+>
+Yes, that would be the primary idea in this case.
+
+Sau!
+
+> rday
 >
 
-Because the autobuilder needs to build specific images: the multilib runs
-build a core-image-sato but add IMAGE_INSTALL_append = "
-lib32-connman-gnome" to the auto.conf to get the right bits in.
-
-Merging this would mean a version bump and the AB respecting the version as
-to what libraries it installs.
-
-Ross
-
---001a11423974c0f397051e72c363
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 29 August 2015 at 12:35, Paul Eggleton <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:paul.eggleton@linux.intel.com" target=3D"_blank">paul.eggleton@linux=
-.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=
-=3D":3n9" class=3D"a3s" style=3D"overflow:hidden">Why is that? Really the a=
-utobuilder should just be running all valid tests for<br>
-the image and not have any knowledge of what tests are being run.<br></div>=
-</blockquote></div><br>Because the autobuilder needs to build specific imag=
-es: the multilib runs build a core-image-sato but add IMAGE_INSTALL_append =
-=3D &quot; lib32-connman-gnome&quot; to the auto.conf to get the right bits=
- in.</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">M=
-erging this would mean a version bump and the AB respecting the version as =
-to what libraries it installs.</div><div class=3D"gmail_extra"><br></div><d=
-iv class=3D"gmail_extra">Ross</div></div>
-
---001a11423974c0f397051e72c363--
