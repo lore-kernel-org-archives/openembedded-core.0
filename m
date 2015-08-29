@@ -1,28 +1,31 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 86F78766DF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A9751760FB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Aug 2015 11:35:35 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga103.fm.intel.com with ESMTP; 29 Aug 2015 04:35:37 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,429,1437462000"; d="scan'208";a="634501965"
-Received: from fjclune-mobl.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.18.75])
-	by orsmga003.jf.intel.com with ESMTP; 29 Aug 2015 04:35:35 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	Ross Burton <ross.burton@intel.com>
-Date: Sat, 29 Aug 2015 12:35:34 +0100
-Message-ID: <2282129.zWgJW2nO2n@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <CAJTo0Lajxi8GD6DP_s4n4i4BBnQ3Sxsy0eOoYnxtEWL56u8izQ@mail.gmail.com>
-References: <1440805397-3775-1-git-send-email-ross.burton@intel.com>
-	<1440805397-3775-2-git-send-email-ross.burton@intel.com>
-	<CAJTo0Lajxi8GD6DP_s4n4i4BBnQ3Sxsy0eOoYnxtEWL56u8izQ@mail.gmail.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] oeqa/runtime/multilib: change test case to use glib-2.0-utils
+	Sat, 29 Aug 2015 12:37:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7TCaxAI030495; Sat, 29 Aug 2015 13:36:59 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id ae2Ywc2cPIEG; Sat, 29 Aug 2015 13:36:59 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7TCajHL030450
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 29 Aug 2015 13:36:56 +0100
+Message-ID: <1440851805.32588.9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 29 Aug 2015 13:36:45 +0100
+In-Reply-To: <CAJTo0LYdwRnzLUr9egN1JSj+G8iWKmeaTyghh4amBXcBs0-Uhg@mail.gmail.com>
+References: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
+	<1440604110-4306-2-git-send-email-nicolas.dechesne@linaro.org>
+	<CAJTo0LYdwRnzLUr9egN1JSj+G8iWKmeaTyghh4amBXcBs0-Uhg@mail.gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 1/2] android-tools: import android-tools from meta-smartphone into oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +38,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Aug 2015 11:35:36 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Sat, 29 Aug 2015 12:37:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Saturday 29 August 2015 00:54:10 Burton, Ross wrote:
-> On 29 August 2015 at 00:43, Ross Burton <ross.burton@intel.com> wrote:
-> > Using connman-applet as a multilib test case seems quite heavy due to the
-> > numerous dependencies it has, whereas the same test ("do binaries get
-> > swapped
-> > correctly") can be done with a lower-level library containing binaries,
-> > for
-> > example glib-2.0.
+On Fri, 2015-08-28 at 21:39 +0100, Burton, Ross wrote:
 > 
-> Updating the related bug made me realise that this would mean adding logic
-> to the autobuilder to handle new and old tests, so it really isn't worth it.
-
-Why is that? Really the autobuilder should just be running all valid tests for 
-the image and not have any knowledge of what tests are being run.
+> On 26 August 2015 at 16:48, Nicolas Dechesne
+> <nicolas.dechesne@linaro.org> wrote:
+>         The main idea is to keep only what is strictly needed for
+>         make_ext4fs tool.
+>         
+> 
+> Assuming that make_ext4fs is a tool to create an ext4 file system,
+> what's the difference between that and our mke2fs which is used to
+> create ext4 file systems?
+> 
+We've worked quite hard to land the ext4 rootfs creation code into
+upstream e2fsprogs. I'd like to understand if we're missing anything for
+that to work with fastboot. If we are, I suspect it wouldn't be hard to
+add and should save maintenance of a separate tool (support in e2fsprogs
+means we get any other ext* improvements for free).
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+
+
 
