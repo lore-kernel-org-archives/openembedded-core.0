@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id ADA9B76E5E
+	by mail.openembedded.org (Postfix) with ESMTP id C4BA476DD8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 17:47:15 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 30 Aug 2015 10:47:16 -0700
+	Sun, 30 Aug 2015 17:47:16 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 30 Aug 2015 10:47:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="758366172"
+X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="794106114"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2015 10:47:16 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 30 Aug 2015 10:47:17 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 650246A4005
+	by linux.intel.com (Postfix) with ESMTP id 7FD5E6A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 10:46:25 -0700 (PDT)
+	Sun, 30 Aug 2015 10:46:26 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Aug 2015 20:46:59 +0300
-Message-Id: <9dbc177e45548bba4ba8930167d54afb4628bf3b.1440956535.git.ed.bartosh@linux.intel.com>
+Date: Sun, 30 Aug 2015 20:47:00 +0300
+Message-Id: <b91a30c2671c67be75c330a00d9ab7c173ef1722.1440956535.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 References: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 References: <cover.1440956535.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 02/12] oe-selftest: test generation of <image>.env
+Subject: [PATCH 03/12] wic: add BitbakeVars class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +35,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Aug 2015 17:47:16 -0000
+X-List-Received-Date: Sun, 30 Aug 2015 17:47:17 -0000
 
-Added test case to check if <image>.env file is generated
-and contains bitbake variables used in wic code.
+Moved code of getting bitbake variables into separate class.
+
+Created singleton object of this class in the module namespace.
+
+Preserved existing API get_bitbake_var.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/lib/oeqa/selftest/wic.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ scripts/lib/wic/utils/oe/misc.py | 91 +++++++++++++++++++++++-----------------
+ 1 file changed, 53 insertions(+), 38 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
-index 117bd9d..fe8a2d0 100644
---- a/meta/lib/oeqa/selftest/wic.py
-+++ b/meta/lib/oeqa/selftest/wic.py
-@@ -23,6 +23,7 @@
+diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
+index 9c8f52d..3537a2e 100644
+--- a/scripts/lib/wic/utils/oe/misc.py
++++ b/scripts/lib/wic/utils/oe/misc.py
+@@ -124,48 +124,63 @@ def exec_native_cmd(cmd_and_args, native_sysroot, catch=3):
  
- """Test cases for wic."""
+ BOOTDD_EXTRA_SPACE = 16384
  
-+import os
- import sys
- 
- from glob import glob
-@@ -168,3 +169,22 @@ class Wic(oeSelfTest):
-         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.direct")))
-         self.assertEqual(1, len(glob(self.resultdir + "HYBRID_ISO_IMG-*.iso")))
- 
-+    def test19_image_env(self):
-+        """Test generation of <image>.env files."""
-+        image = 'core-image-minimal'
-+        stdir = get_bb_var('STAGING_DIR_TARGET', image)
-+        imgdatadir = os.path.join(stdir, 'imgdata')
+-_BITBAKE_VARS = defaultdict(dict)
++class BitbakeVars(defaultdict):
++    """
++    Container for Bitbake variables.
++    """
++    def __init__(self):
++        defaultdict.__init__(self, dict)
 +
-+        basename = get_bb_var('IMAGE_BASENAME', image)
-+        self.assertEqual(basename, image)
-+        path = os.path.join(imgdatadir, basename) + '.env'
-+        self.assertTrue(os.path.isfile(path))
++    def get_var(self, var, image=None):
++        """
++        Get bitbake variable value lazy way, i.e. run
++        'bitbake -e' only when variable is requested.
++        """
++        if image not in self:
++            # Get bitbake -e output
++            cmd = "bitbake -e"
++            if image:
++                cmd += " %s" % image
 +
-+        wicvars = get_bb_var('WICVARS', image).split()
-+        wicvars.remove('IMAGE_BOOT_FILES') # this variable is optional
-+        with open(path) as envfile:
-+            content = dict(line.split("=", 1) for line in envfile)
-+            # test if variables used by wic present in the .env file
-+            for var in wicvars:
-+                self.assertTrue(var in content, "%s is not in .env file" % var)
-+                self.assertTrue(content[var])
++            log_level = msger.get_loglevel()
++            msger.set_loglevel('normal')
++            ret, lines = _exec_cmd(cmd)
++            msger.set_loglevel(log_level)
++
++            if ret:
++                print "Couldn't get '%s' output." % cmd
++                print "Bitbake failed with error:\n%s\n" % lines
++                return
++
++            # Parse bitbake -e output
++            for line in lines.split('\n'):
++                if "=" not in line:
++                    continue
++                try:
++                    key, val = line.split("=")
++                except ValueError:
++                    continue
++                key = key.strip()
++                val = val.strip()
++                if key.replace('_', '').isalnum():
++                    self[image][key] = val.strip('"')
++
++            # Make first image a default set of variables
++            images = [key for key in self if key]
++            if len(images) == 1:
++                self[None] = self[image]
++
++        return self[image].get(var)
++
++# Create BB_VARS singleton
++BB_VARS = BitbakeVars()
+ 
+ def get_bitbake_var(var, image=None):
+     """
+-    Get bitbake variable value lazy way, i.e. run
+-    'bitbake -e' only when variable is requested.
++    Provide old get_bitbake_var API by wrapping
++    get_var method of BB_VARS singleton.
+     """
+-    if image not in _BITBAKE_VARS:
+-        # Get bitbake -e output
+-        cmd = "bitbake -e"
+-        if image:
+-            cmd += " %s" % image
+-
+-        log_level = msger.get_loglevel()
+-        msger.set_loglevel('normal')
+-        ret, lines = _exec_cmd(cmd)
+-        msger.set_loglevel(log_level)
+-
+-        if ret:
+-            print "Couldn't get '%s' output." % cmd
+-            print "Bitbake failed with error:\n%s\n" % lines
+-            return
+-
+-        # Parse bitbake -e output
+-        for line in lines.split('\n'):
+-            if "=" not in line:
+-                continue
+-            try:
+-                key, val = line.split("=")
+-            except ValueError:
+-                continue
+-            key = key.strip()
+-            val = val.strip()
+-            if key.replace('_', '').isalnum():
+-                _BITBAKE_VARS[image][key] = val.strip('"')
+-
+-        # Make first image a default set of variables
+-        images = [key for key in _BITBAKE_VARS if key]
+-        if len(images) == 1:
+-            _BITBAKE_VARS[None] = _BITBAKE_VARS[image]
+-
+-    return _BITBAKE_VARS[image].get(var)
++    return BB_VARS.get_var(var, image)
+ 
+ def parse_sourceparams(sourceparams):
+     """
 -- 
 2.1.4
 
