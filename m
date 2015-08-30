@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 6357476E74
+	by mail.openembedded.org (Postfix) with ESMTP id 6166E76E6A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 16:08:52 +0000 (UTC)
+	Sun, 30 Aug 2015 16:08:51 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Aug 2015 09:08:53 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 30 Aug 2015 09:08:52 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="758326761"
+X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="758326758"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2015 09:08:52 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2015 09:08:51 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id EEBAC6A4005
+	by linux.intel.com (Postfix) with ESMTP id C11316A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 09:08:01 -0700 (PDT)
+	Sun, 30 Aug 2015 09:08:00 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Aug 2015 19:08:35 +0300
-Message-Id: <2bf929f3e6a2725f4a58a03c602973c99a09b5d0.1440950164.git.ed.bartosh@linux.intel.com>
+Date: Sun, 30 Aug 2015 19:08:34 +0300
+Message-Id: <8c9a985168c6e8d52ac777bc7322c6fda92983c2.1440950164.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440950164.git.ed.bartosh@linux.intel.com>
 References: <cover.1440950164.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440950164.git.ed.bartosh@linux.intel.com>
 References: <cover.1440950164.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 02/11] devtool: build-image: stop using add_md5
+Subject: [PATCH 01/11] devtool: make 2 functions public
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +37,126 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 30 Aug 2015 16:08:53 -0000
 
-It doesn't make sense to use it as image recipe is not
-in workspace. It means that we can't do 'devtool reset'
-for the recipe, which is a main point of using add_md5.
+Moved standard.py:_parse_recipe -> __init__.py:parse_recipe and
+      standard.py:_get_recipe_file ->  __init__.py:get_recipe_file
+to be able to call them from other modules.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/devtool/build-image.py | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ scripts/lib/devtool/__init__.py | 27 +++++++++++++++++++++++++++
+ scripts/lib/devtool/standard.py | 36 ++++--------------------------------
+ 2 files changed, 31 insertions(+), 32 deletions(-)
 
-diff --git a/scripts/lib/devtool/build-image.py b/scripts/lib/devtool/build-image.py
-index d8e7b12..ebd9c59 100644
---- a/scripts/lib/devtool/build-image.py
-+++ b/scripts/lib/devtool/build-image.py
-@@ -21,7 +21,7 @@ import os
- import logging
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
+index 1747fff..97ac6ae 100644
+--- a/scripts/lib/devtool/__init__.py
++++ b/scripts/lib/devtool/__init__.py
+@@ -116,3 +116,30 @@ def add_md5(config, recipename, filename):
+     md5 = bb.utils.md5_file(filename)
+     with open(os.path.join(config.workspace_path, '.devtool_md5'), 'a') as f:
+         f.write('%s|%s|%s\n' % (recipename, os.path.relpath(filename, config.workspace_path), md5))
++
++def get_recipe_file(cooker, pn):
++    """Find recipe file corresponding a package name"""
++    import oe.recipeutils
++    recipefile = oe.recipeutils.pn_to_recipe(cooker, pn)
++    if not recipefile:
++        skipreasons = oe.recipeutils.get_unavailable_reasons(cooker, pn)
++        if skipreasons:
++            logger.error('\n'.join(skipreasons))
++        else:
++            logger.error("Unable to find any recipe file matching %s" % pn)
++    return recipefile
++
++def parse_recipe(config, tinfoil, pn, appends):
++    """Parse recipe of a package"""
++    import oe.recipeutils
++    recipefile = get_recipe_file(tinfoil.cooker, pn)
++    if not recipefile:
++        # Error already logged
++        return None
++    if appends:
++        append_files = tinfoil.cooker.collection.get_file_appends(recipefile)
++        # Filter out appends from the workspace
++        append_files = [path for path in append_files if
++                        not path.startswith(config.workspace_path)]
++    return oe.recipeutils.parse_recipe(recipefile, append_files,
++                                       tinfoil.config_data)
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 4aa6ebd..97c45d9 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -26,7 +26,7 @@ import argparse
+ import scriptutils
+ import errno
+ from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
+-from devtool import add_md5
++from devtool import add_md5, parse_recipe
  
- from bb.process import ExecutionError
--from devtool import exec_build_env_command, add_md5
-+from devtool import exec_build_env_command
+ logger = logging.getLogger('devtool')
  
- LOG = logging.getLogger('devtool')
+@@ -157,34 +157,6 @@ def _check_compatible_recipe(pn, d):
+                            "from working. You will need to disable this "
+                            "first." % pn)
  
-@@ -38,8 +38,6 @@ def build_image(args, config, basepath, workspace):
-         afile.write('IMAGE_INSTALL_append = " %s"\n' % \
-                     ' '.join(workspace.keys()))
- 
--    add_md5(config, image, appendfile)
+-def _get_recipe_file(cooker, pn):
+-    """Find recipe file corresponding a package name"""
+-    import oe.recipeutils
+-    recipefile = oe.recipeutils.pn_to_recipe(cooker, pn)
+-    if not recipefile:
+-        skipreasons = oe.recipeutils.get_unavailable_reasons(cooker, pn)
+-        if skipreasons:
+-            logger.error('\n'.join(skipreasons))
+-        else:
+-            logger.error("Unable to find any recipe file matching %s" % pn)
+-    return recipefile
 -
-     try:
-         exec_build_env_command(config.init_path, basepath,
-                                'bitbake %s' % image, watch=True)
+-def _parse_recipe(config, tinfoil, pn, appends):
+-    """Parse recipe of a package"""
+-    import oe.recipeutils
+-    recipefile = _get_recipe_file(tinfoil.cooker, pn)
+-    if not recipefile:
+-        # Error already logged
+-        return None
+-    if appends:
+-        append_files = tinfoil.cooker.collection.get_file_appends(recipefile)
+-        # Filter out appends from the workspace
+-        append_files = [path for path in append_files if
+-                        not path.startswith(config.workspace_path)]
+-    return oe.recipeutils.parse_recipe(recipefile, append_files,
+-                                       tinfoil.config_data)
+-
+-
+ def _ls_tree(directory):
+     """Recursive listing of files in a directory"""
+     ret = []
+@@ -200,7 +172,7 @@ def extract(args, config, basepath, workspace):
+ 
+     tinfoil = setup_tinfoil()
+ 
+-    rd = _parse_recipe(config, tinfoil, args.recipename, True)
++    rd = parse_recipe(config, tinfoil, args.recipename, True)
+     if not rd:
+         return 1
+ 
+@@ -420,7 +392,7 @@ def modify(args, config, basepath, workspace):
+ 
+     tinfoil = setup_tinfoil()
+ 
+-    rd = _parse_recipe(config, tinfoil, args.recipename, True)
++    rd = parse_recipe(config, tinfoil, args.recipename, True)
+     if not rd:
+         return 1
+     recipefile = rd.getVar('FILE', True)
+@@ -762,7 +734,7 @@ def update_recipe(args, config, basepath, workspace):
+ 
+     tinfoil = setup_tinfoil()
+ 
+-    rd = _parse_recipe(config, tinfoil, args.recipename, True)
++    rd = parse_recipe(config, tinfoil, args.recipename, True)
+     if not rd:
+         return 1
+ 
 -- 
 2.1.4
 
