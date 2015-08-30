@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6028476EB7
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id F036B76E9F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 17:47:21 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 30 Aug 2015 10:47:21 -0700
+	Sun, 30 Aug 2015 17:47:23 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 30 Aug 2015 10:47:24 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="778618367"
+X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="793848383"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 30 Aug 2015 10:47:22 -0700
+	by orsmga002.jf.intel.com with ESMTP; 30 Aug 2015 10:47:24 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 03AAA6A4005
+	by linux.intel.com (Postfix) with ESMTP id 423EB6A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 10:46:30 -0700 (PDT)
+	Sun, 30 Aug 2015 10:46:33 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Aug 2015 20:47:04 +0300
-Message-Id: <0d8f6463940c702143329b3b7d6bb9387adecea7.1440956535.git.ed.bartosh@linux.intel.com>
+Date: Sun, 30 Aug 2015 20:47:06 +0300
+Message-Id: <a07c8b4d6cac5af9c86f1a658f3c0bb72e1c5c03.1440956535.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 References: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 References: <cover.1440956535.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 07/12] wic: implement getting variables from .env files
+Subject: [PATCH 09/12] image_types.bbclass: add wic image type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,111 +35,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Aug 2015 17:47:21 -0000
+X-List-Received-Date: Sun, 30 Aug 2015 17:47:24 -0000
 
-Added functionality of getting variables from <image>.env files to
-BitbakeVars class. env files will be parsed if the directory with
-env files is known, i.e. when vars_dir attribute is set.
-Otherwise 'bitbake -e' output will be parsed.
+wic image type is used to produce partitioned images.
+
+Image configuration should be stored in either <recipe>.<machine>.wks
+or <recipe>.wks file.
+.wks file should be put to the same location as image recipe
+and have the same name.
+
+[YOCTO #7672]
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/utils/oe/misc.py | 59 +++++++++++++++++++++++++---------------
- 1 file changed, 37 insertions(+), 22 deletions(-)
+ meta/classes/image_types.bbclass | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/scripts/lib/wic/utils/oe/misc.py b/scripts/lib/wic/utils/oe/misc.py
-index 040176d..0a8f3f1 100644
---- a/scripts/lib/wic/utils/oe/misc.py
-+++ b/scripts/lib/wic/utils/oe/misc.py
-@@ -26,6 +26,7 @@
- #
- """Miscellaneous functions."""
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index acee227..ecb066b 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -162,6 +162,16 @@ IMAGE_CMD_ubi = "multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "${UBI_VOLNAM
  
-+import os
- from collections import defaultdict
+ IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
  
- from wic import msger
-@@ -131,12 +132,13 @@ class BitbakeVars(defaultdict):
-     def __init__(self):
-         defaultdict.__init__(self, dict)
- 
--        # default_image attribute should be set from outside
-+        # default_image and vars_dir attributes should be set from outside
-         self.default_image = None
-+        self.vars_dir = None
- 
-     def _parse_line(self, line, image):
-         """
--        Parse one line from bitbake -e output.
-+        Parse one line from bitbake -e output or from .env file.
-         Put result key-value pair into the storage.
-         """
-         if "=" not in line:
-@@ -152,31 +154,44 @@ class BitbakeVars(defaultdict):
- 
-     def get_var(self, var, image=None):
-         """
--        Get bitbake variable value lazy way, i.e. run
--        'bitbake -e' only when variable is requested.
-+        Get bitbake variable from 'bitbake -e' output or from .env file.
-+        This is a lazy method, i.e. it runs bitbake or parses file only when
-+        only when variable is requested. It also caches results.
-         """
-         if not image:
-             image = self.default_image
- 
-         if image not in self:
--            # Get bitbake -e output
--            cmd = "bitbake -e"
--            if image:
--                cmd += " %s" % image
--
--            log_level = msger.get_loglevel()
--            msger.set_loglevel('normal')
--            ret, lines = _exec_cmd(cmd)
--            msger.set_loglevel(log_level)
--
--            if ret:
--                print "Couldn't get '%s' output." % cmd
--                print "Bitbake failed with error:\n%s\n" % lines
--                return
--
--            # Parse bitbake -e output
--            for line in lines.split('\n'):
--                self._parse_line(line, image)
-+            if image and self.vars_dir:
-+                fname = os.path.join(self.vars_dir, image + '.env')
-+                if os.path.isfile(fname):
-+                    # parse .env file
-+                    with open(fname) as varsfile:
-+                        for line in varsfile:
-+                            self._parse_line(line, image)
-+                else:
-+                    print "Couldn't get bitbake variable from %s." % fname
-+                    print "File %s doesn't exist." % fname
-+                    return
-+            else:
-+                # Get bitbake -e output
-+                cmd = "bitbake -e"
-+                if image:
-+                    cmd += " %s" % image
++IMAGE_CMD_wic () {
++	out=${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}
++	wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.${MACHINE}.wks
++	[ -e $wks ] || wks=${FILE_DIRNAME}/${IMAGE_BASENAME}.wks
++	[ -e $wks ] || bbfatal "Kiskstart file $wks doesn't exist"
++	BUILDDIR=${TOPDIR} wic create $wks --vars ${STAGING_DIR_TARGET}/imgdata/ -e ${IMAGE_BASENAME} -o $out/
++	mv $out/build/${IMAGE_BASENAME}*.direct $out.rootfs.wic
++	rm -rf $out/
++}
 +
-+                log_level = msger.get_loglevel()
-+                msger.set_loglevel('normal')
-+                ret, lines = _exec_cmd(cmd)
-+                msger.set_loglevel(log_level)
-+
-+                if ret:
-+                    print "Couldn't get '%s' output." % cmd
-+                    print "Bitbake failed with error:\n%s\n" % lines
-+                    return
-+
-+                # Parse bitbake -e output
-+                for line in lines.split('\n'):
-+                    self._parse_line(line, image)
+ EXTRA_IMAGECMD = ""
  
-             # Make first image a default set of variables
-             images = [key for key in self if key]
+ inherit siteinfo
+@@ -190,6 +200,7 @@ IMAGE_DEPENDS_elf = "virtual/kernel mkelfimage-native"
+ IMAGE_DEPENDS_ubi = "mtd-utils-native"
+ IMAGE_DEPENDS_ubifs = "mtd-utils-native"
+ IMAGE_DEPENDS_multiubi = "mtd-utils-native"
++IMAGE_DEPENDS_wic = "parted-native"
+ 
+ # This variable is available to request which values are suitable for IMAGE_FSTYPES
+ IMAGE_TYPES = " \
+@@ -209,6 +220,7 @@ IMAGE_TYPES = " \
+     vdi \
+     qcow2 \
+     elf \
++    wic wic.gz wic.bz2 wic.lzma \
+ "
+ 
+ COMPRESSIONTYPES = "gz bz2 lzma xz lz4 sum"
 -- 
 2.1.4
 
