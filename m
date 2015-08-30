@@ -1,30 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 8741676536
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 7000C76536
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 20:37:45 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7UKbh0I024166; Sun, 30 Aug 2015 21:37:43 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id qus_UGxneD35; Sun, 30 Aug 2015 21:37:43 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7UKbVOn024157
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Sun, 30 Aug 2015 21:37:42 +0100
-Message-ID: <1440967051.32588.113.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ed Bartosh <ed.bartosh@linux.intel.com>
-Date: Sun, 30 Aug 2015 21:37:31 +0100
-In-Reply-To: <a8e3762db99ca7fff60e6e83402a65f5215ec49c.1440956535.git.ed.bartosh@linux.intel.com>
-References: <cover.1440956535.git.ed.bartosh@linux.intel.com>
-	<a8e3762db99ca7fff60e6e83402a65f5215ec49c.1440956535.git.ed.bartosh@linux.intel.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 10/12] wic-image-minimal: add wic image recipe and .wks
+	Sun, 30 Aug 2015 21:14:32 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 30 Aug 2015 14:14:33 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,436,1437462000"; d="scan'208";a="793954657"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 30 Aug 2015 14:14:33 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 6EEAE6A4005
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Aug 2015 14:13:42 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Aug 2015 00:14:23 +0300
+Message-Id: <989b768736c5d92eda4f8beb230e02005811ff18.1440969020.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1440969020.git.ed.bartosh@linux.intel.com>
+References: <cover.1440969020.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1440969020.git.ed.bartosh@linux.intel.com>
+References: <cover.1440969020.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH 1/5] image.py: write bitbake variables to .env file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,35 +35,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Aug 2015 20:37:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 30 Aug 2015 21:14:33 -0000
 
-On Sun, 2015-08-30 at 20:47 +0300, Ed Bartosh wrote:
-> Added example of recipe and .wks file to create partitioned image.
-> 
-> This image is using quite complex partitioning scheme.
-> It uses its own rootfs to populate two partitions in two different ways.
-> It also uses core-image-minimal rootfs to populate another partition.
-> 
-> This is how wic reports about artifacts used to create this image:
->   ROOTFS_DIR: tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/rootfs
->   ROOTFS_DIR["/core"]: tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs
->   ROOTFS_DIR["/backup"]: tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/rootfs
->   BOOTIMG_DIR: tmp/sysroots/qemux86-64/usr/share
->   KERNEL_DIR: tmp/deploy/images/qemux86-64
->   NATIVE_SYSROOT: tmp/sysroots/x86_64-linux
-> 
-> Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Write set of bitbake variables used by wic into
+build/tmp/sysroots/<machine>/imagedata/<image>.env
 
-Since we use this as the selftest, I think this may be better positioned
-in meta-selftest?
+List of variables is defined in WICVARS variable in
+meta/classes/image_types.bbclass.
 
-Otherwise the patchset looks good thanks. I'll merge this up to this
-patch.
+This is needed for wic to be able to get bitbake variables without
+running 'bitbake -e'.
 
-Cheers,
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/classes/image_types.bbclass |  4 ++++
+ meta/lib/oe/image.py             | 18 ++++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
-Richard
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 05c45f8..ecb066b 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -248,3 +248,7 @@ IMAGE_EXTENSION_live = "hddimg iso"
+ # The IMAGE_TYPES_MASKED variable will be used to mask out from the IMAGE_FSTYPES,
+ # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hddimg, iso, etc.
+ IMAGE_TYPES_MASKED ?= ""
++
++# The WICVARS variable is used to define list of bitbake variables used in wic code
++# variables from this list is written to <image>.env file
++WICVARS ?= "BBLAYERS DEPLOY_DIR_IMAGE HDDDIR IMAGE_BASENAME IMAGE_BOOT_FILES IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD ISODIR MACHINE_ARCH ROOTFS_SIZE STAGING_DATADIR STAGING_DIR_NATIVE STAGING_LIBDIR TARGET_SYS"
+diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+index a2f94a1..95c62dc 100644
+--- a/meta/lib/oe/image.py
++++ b/meta/lib/oe/image.py
+@@ -326,6 +326,22 @@ class Image(ImageDepGraph):
+ 
+         return image_cmd_groups
+ 
++    def _write_env(self):
++        """
++        Write environment variables used by wic
++        to tmp/sysroots/<machine>/imgdata/<image>.env
++        """
++        stdir = self.d.getVar('STAGING_DIR_TARGET', True)
++        outdir = os.path.join(stdir, 'imgdata')
++        if not os.path.exists(outdir):
++            os.makedirs(outdir)
++        basename = self.d.getVar('IMAGE_BASENAME', True)
++        with open(os.path.join(outdir, basename) + '.env', 'w') as envf:
++            for var in self.d.getVar('WICVARS', True).split():
++                value = self.d.getVar(var, True)
++                if value:
++                    envf.write('%s="%s"\n' % (var, value.strip()))
++
+     def create(self):
+         bb.note("###### Generate images #######")
+         pre_process_cmds = self.d.getVar("IMAGE_PREPROCESS_COMMAND", True)
+@@ -337,6 +353,8 @@ class Image(ImageDepGraph):
+ 
+         image_cmd_groups = self._get_imagecmds()
+ 
++        self._write_env()
++
+         for image_cmds in image_cmd_groups:
+             # create the images in parallel
+             nproc = multiprocessing.cpu_count()
+-- 
+2.1.4
 
 
