@@ -1,28 +1,34 @@
-Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 35BAC76EBF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 86A0376DD8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 16:09:04 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP; 30 Aug 2015 09:09:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="758326867"
-Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2015 09:09:04 -0700
-Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id E33936A4005
+	Sun, 30 Aug 2015 16:21:58 +0000 (UTC)
+Received: by pabpg12 with SMTP id pg12so6288321pab.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 09:08:12 -0700 (PDT)
-From: Ed Bartosh <ed.bartosh@linux.intel.com>
+	Sun, 30 Aug 2015 09:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=N1N4V/Nvmv+fnWpR+939i0rO/N3C8LKMUXS09ZsoQX0=;
+	b=Fc8E08UqxCxRCOmXYEFDei7UF0dIA5808srxcoexUh4IbcymmicbquYh5ywcXS4Cfh
+	/bRO9DVGjK3ZfH9VSOMuPiGLd5aHDj12jluo6wBdNdkdty7fJelYxHZQ9eg5xPwgWr9N
+	XcbbRYrEbSTetJ3svlNh9X9zZFx6ufKoMgMXSpDYkMTLsWnByKNR5W3EKpjo4HxgATsf
+	D8jv8DP6E8GdqsNS4JfWIojXWatPjbk7yZgTC5biPspNQclLG5F7opKaGgcOQueEi8ng
+	kNNoenLtmNjm3CGJJGXSTAPIdGtZLXIYA0NwFMo2TcK+nxwM1jcnSEUpQ2YLHTd5ldbj
+	JAmA==
+X-Received: by 10.66.136.237 with SMTP id qd13mr31473660pab.84.1440951718915; 
+	Sun, 30 Aug 2015 09:21:58 -0700 (PDT)
+Received: from haswell.localdomain ([2601:646:8601:4580:baca:3aff:fe80:aa8f])
+	by smtp.gmail.com with ESMTPSA id
+	j5sm11708469pdi.7.2015.08.30.09.21.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 30 Aug 2015 09:21:58 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Aug 2015 19:08:44 +0300
-Message-Id: <060fecc2faba48316c68fc10f6a7e67f2bc8f775.1440950164.git.ed.bartosh@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <cover.1440950164.git.ed.bartosh@linux.intel.com>
-References: <cover.1440950164.git.ed.bartosh@linux.intel.com>
-In-Reply-To: <cover.1440950164.git.ed.bartosh@linux.intel.com>
-References: <cover.1440950164.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 11/11] oe-selftest: test devtool build-image plugin
+Date: Sun, 30 Aug 2015 09:31:10 -0700
+Message-Id: <1440952270-9085-1-git-send-email-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] xz: Correctly specify GPL-3.0 with autoconf exception
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,58 +41,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Aug 2015 16:09:04 -0000
+X-List-Received-Date: Sun, 30 Aug 2015 16:21:59 -0000
 
-Added test case to test functionaly of build-image plugin:
+There is m4/ax_pthread.m4 macro which uses GPL-3.0 with autoconf
+exception, there is no other occurance of GPL-3.0 use, lets mark the
+licence correctly.
 
-Add two packages to workspace and run 'devtool build-image
-core-image-minimal'.
-
-Checked if command is successful.
-
-Checked if expected package is added to generated
-core-image-minimal.bbappend file.
-
-Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/lib/oeqa/selftest/devtool.py | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ meta/recipes-extended/xz/xz_5.2.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/devtool.py b/meta/lib/oeqa/selftest/devtool.py
-index 70ee634..a6474b7 100644
---- a/meta/lib/oeqa/selftest/devtool.py
-+++ b/meta/lib/oeqa/selftest/devtool.py
-@@ -887,3 +887,29 @@ class DevtoolTests(DevtoolBase):
-             result = runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
-             result = runCmd('ssh %s root@%s %s' % (sshargs, qemu.ip, testcommand), ignore_status=True)
-             self.assertNotEqual(result, 0, 'undeploy-target did not remove command as it should have')
-+
-+    def test_devtool_build_image(self):
-+        """Test devtool build-image plugin"""
-+        # Check preconditions
-+        workspacedir = os.path.join(self.builddir, 'workspace')
-+        self.assertTrue(not os.path.exists(workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-+        image = 'core-image-minimal'
-+        self.track_for_cleanup(workspacedir)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        self.add_command_to_tearDown('bitbake -c clean %s' % image)
-+        bitbake('%s -c clean' % image)
-+        # Add target and native recipes to workspace
-+        for recipe in ('mdadm', 'parted-native'):
-+            tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+            self.track_for_cleanup(tempdir)
-+            self.add_command_to_tearDown('bitbake -c clean %s' % recipe)
-+            runCmd('devtool modify %s -x %s' % (recipe, tempdir))
-+        # Try to build image
-+        result = runCmd('devtool build-image %s' % image)
-+        self.assertNotEqual(result, 0, 'devtool build-image failed')
-+        # Check if image.bbappend has required content
-+        bbappend = os.path.join(workspacedir, 'appends', image+'.bbappend')
-+        self.assertTrue(os.path.isfile(bbappend), 'bbappend not created %s' % result.output)
-+        # NOTE: native recipe parted-native should not be in IMAGE_INSTALL_append
-+        self.assertTrue('IMAGE_INSTALL_append = " mdadm"\n' in open(bbappend).readlines(),
-+                        'IMAGE_INSTALL_append = " mdadm" not found in %s' % bbappend)
+diff --git a/meta/recipes-extended/xz/xz_5.2.1.bb b/meta/recipes-extended/xz/xz_5.2.1.bb
+index e0ae48f..cf7fba6 100644
+--- a/meta/recipes-extended/xz/xz_5.2.1.bb
++++ b/meta/recipes-extended/xz/xz_5.2.1.bb
+@@ -6,7 +6,7 @@ SECTION = "base"
+ # which is GPLv3 is an m4 macro which isn't shipped in any of our packages,
+ # and the LGPL bits are under lib/, which appears to be used for libgnu, which
+ # appears to be used for DOS builds. So we're left with GPLv2+ and PD.
+-LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+ & PD"
++LICENSE = "GPLv2+ & GPL-3.0-with-autoconf-exception & LGPLv2.1+ & PD"
+ LICENSE_${PN} = "GPLv2+"
+ LICENSE_${PN}-dev = "GPLv2+"
+ LICENSE_${PN}-staticdev = "GPLv2+"
 -- 
-2.1.4
+2.5.0
 
 
