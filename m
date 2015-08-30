@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A196A76E88
+	by mail.openembedded.org (Postfix) with ESMTP id 5021676EC2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 17:47:41 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 30 Aug 2015 10:47:25 -0700
+	Sun, 30 Aug 2015 17:47:43 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Aug 2015 10:47:27 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="758366210"
+X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="551420689"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2015 10:47:25 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 30 Aug 2015 10:47:28 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 6010E6A4005
+	by linux.intel.com (Postfix) with ESMTP id A14646A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 10:46:34 -0700 (PDT)
+	Sun, 30 Aug 2015 10:46:36 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Aug 2015 20:47:07 +0300
-Message-Id: <a8e3762db99ca7fff60e6e83402a65f5215ec49c.1440956535.git.ed.bartosh@linux.intel.com>
+Date: Sun, 30 Aug 2015 20:47:09 +0300
+Message-Id: <21d9274ad110c5dbb86fe5ce807f9b7250ea362e.1440956535.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 References: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440956535.git.ed.bartosh@linux.intel.com>
 References: <cover.1440956535.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 10/12] wic-image-minimal: add wic image recipe and .wks
+Subject: [PATCH 12/12] wic: use bitbake variable ROOTFS_SIZE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +35,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Aug 2015 17:47:41 -0000
+X-List-Received-Date: Sun, 30 Aug 2015 17:47:43 -0000
 
-Added example of recipe and .wks file to create partitioned image.
+If bitbake image is referenced in .ks file and --size is not used
+there wic uses ROOTFS_SIZE variable to set minimum partition size.
 
-This image is using quite complex partitioning scheme.
-It uses its own rootfs to populate two partitions in two different ways.
-It also uses core-image-minimal rootfs to populate another partition.
-
-This is how wic reports about artifacts used to create this image:
-  ROOTFS_DIR: tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/rootfs
-  ROOTFS_DIR["/core"]: tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs
-  ROOTFS_DIR["/backup"]: tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/rootfs
-  BOOTIMG_DIR: tmp/sysroots/qemux86-64/usr/share
-  KERNEL_DIR: tmp/deploy/images/qemux86-64
-  NATIVE_SYSROOT: tmp/sysroots/x86_64-linux
+ROOTFS_SIZE is calculated in meta/lib/oe/image.py when rootfs is
+created. The calculation is done using other image parameters:
+IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT, IMAGE_OVERHEAD_FACTOR
+and IMAGE_ROOTFS_EXTRA_SPACE.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta/recipes-extended/images/wic-image-minimal.bb  | 14 ++++++++++++++
- meta/recipes-extended/images/wic-image-minimal.wks | 10 ++++++++++
- 2 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-extended/images/wic-image-minimal.bb
- create mode 100644 meta/recipes-extended/images/wic-image-minimal.wks
+ scripts/lib/wic/imager/direct.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/recipes-extended/images/wic-image-minimal.bb b/meta/recipes-extended/images/wic-image-minimal.bb
-new file mode 100644
-index 0000000..073c569
---- /dev/null
-+++ b/meta/recipes-extended/images/wic-image-minimal.bb
-@@ -0,0 +1,14 @@
-+SUMMARY = "An example of partitioned image."
-+
-+IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
-+
-+IMAGE_FSTYPES = "wic.bz2"
-+RM_OLD_IMAGE = "1"
-+
-+# core-image-minimal is referenced in .wks, so we need its rootfs
-+# to be ready before our rootfs
-+do_rootfs[depends] += "core-image-minimal:do_rootfs"
-+
-+IMAGE_ROOTFS_EXTRA_SPACE = "2000"
-+
-+inherit image
-diff --git a/meta/recipes-extended/images/wic-image-minimal.wks b/meta/recipes-extended/images/wic-image-minimal.wks
-new file mode 100644
-index 0000000..29cd8f2
---- /dev/null
-+++ b/meta/recipes-extended/images/wic-image-minimal.wks
-@@ -0,0 +1,10 @@
-+# short-description: Example of partitioned image with complex layout
-+# long-description: This image contains boot partition and 3 rootfs partitions
-+# created from core-image-minimal and wic-image-minimal image recipes.
-+
-+part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext2 --label platform --align 1024
-+part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext2 --label core --align 1024
-+part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext2 --label backup --align 1024
-+
-+bootloader  --timeout=0  --append="rootwait console=tty0"
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index 57b1335..d68fd2a 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -29,6 +29,7 @@ import shutil
+ 
+ from wic import kickstart, msger
+ from wic.utils import fs_related
++from wic.utils.oe.misc import get_bitbake_var
+ from wic.utils.partitionedfs import Image
+ from wic.utils.errors import CreatorError, ImageError
+ from wic.imager.baseimager import BaseImageCreator
+@@ -229,6 +230,19 @@ class DirectImageCreator(BaseImageCreator):
+         fstab_path = self._write_fstab(self.rootfs_dir.get("ROOTFS_DIR"))
+ 
+         for p in parts:
++            # get rootfs size from bitbake variable if it's not set in .ks file
++            if not p.size:
++                # and if rootfs name is specified for the partition
++                image_name = p.get_rootfs()
++                if image_name:
++                    # Bitbake variable ROOTFS_SIZE is calculated in
++                    # Image._get_rootfs_size method from meta/lib/oe/image.py
++                    # using IMAGE_ROOTFS_SIZE, IMAGE_ROOTFS_ALIGNMENT,
++                    # IMAGE_OVERHEAD_FACTOR and IMAGE_ROOTFS_EXTRA_SPACE
++                    rsize_bb = get_bitbake_var('ROOTFS_SIZE', image_name)
++                    if rsize_bb:
++                        # convert from Kb to Mb
++                        p.size = int(rsize_bb) / 1024
+             # need to create the filesystems in order to get their
+             # sizes before we can add them and do the layout.
+             # Image.create() actually calls __format_disks() to create
 -- 
 2.1.4
 
