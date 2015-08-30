@@ -1,24 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A50C776536
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 6357476E74
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 16:08:50 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 30 Aug 2015 09:08:50 -0700
+	Sun, 30 Aug 2015 16:08:52 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 30 Aug 2015 09:08:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="794064901"
+X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="758326761"
 Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 30 Aug 2015 09:08:50 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2015 09:08:52 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 9B0F96A4005
+	by linux.intel.com (Postfix) with ESMTP id EEBAC6A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 09:07:59 -0700 (PDT)
+	Sun, 30 Aug 2015 09:08:01 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 30 Aug 2015 19:08:33 +0300
-Message-Id: <cover.1440950164.git.ed.bartosh@linux.intel.com>
+Date: Sun, 30 Aug 2015 19:08:35 +0300
+Message-Id: <2bf929f3e6a2725f4a58a03c602973c99a09b5d0.1440950164.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 00/11] Improve build-image plugin
+In-Reply-To: <cover.1440950164.git.ed.bartosh@linux.intel.com>
+References: <cover.1440950164.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1440950164.git.ed.bartosh@linux.intel.com>
+References: <cover.1440950164.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH 02/11] devtool: build-image: stop using add_md5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,43 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Aug 2015 16:08:52 -0000
+X-List-Received-Date: Sun, 30 Aug 2015 16:08:53 -0000
 
-This set of improvements for build-image plugin hopefully addresses
-Paul's review comments and suggestions.
+It doesn't make sense to use it as image recipe is not
+in workspace. It means that we can't do 'devtool reset'
+for the recipe, which is a main point of using add_md5.
 
-Paul, thank you for review!
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ scripts/lib/devtool/build-image.py | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-The following changes since commit 6b17c3831897ee1d46a763d807c5bd863d426bc1:
-
-  linux-yocto-3.14: Update to latest revisions (2015-08-30 12:47:51 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/devtool/8135
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/devtool/8135
-
-Ed Bartosh (11):
-  devtool: make 2 functions public
-  devtool: build-image: stop using add_md5
-  Revert "devtool: make add_md5 a public API"
-  devtool: build-image: rename LOG -> logger
-  devtool: build-image: improve help and description
-  devtool: build-image: filter out recipes
-  devtool: build-image: generate notification callback
-  devtool: build-image: add extra logging
-  devtool: build-image: remove <image>.bbappend
-  devtool: build-image: add comments
-  oe-selftest: test devtool build-image plugin
-
- meta/lib/oeqa/selftest/devtool.py  | 26 ++++++++++++++++
- scripts/lib/devtool/__init__.py    | 32 ++++++++++++++++----
- scripts/lib/devtool/build-image.py | 61 +++++++++++++++++++++++++++++++-------
- scripts/lib/devtool/standard.py    | 49 +++++++++---------------------
- 4 files changed, 116 insertions(+), 52 deletions(-)
-
---
-Regards,
-Ed
+diff --git a/scripts/lib/devtool/build-image.py b/scripts/lib/devtool/build-image.py
+index d8e7b12..ebd9c59 100644
+--- a/scripts/lib/devtool/build-image.py
++++ b/scripts/lib/devtool/build-image.py
+@@ -21,7 +21,7 @@ import os
+ import logging
+ 
+ from bb.process import ExecutionError
+-from devtool import exec_build_env_command, add_md5
++from devtool import exec_build_env_command
+ 
+ LOG = logging.getLogger('devtool')
+ 
+@@ -38,8 +38,6 @@ def build_image(args, config, basepath, workspace):
+         afile.write('IMAGE_INSTALL_append = " %s"\n' % \
+                     ' '.join(workspace.keys()))
+ 
+-    add_md5(config, image, appendfile)
+-
+     try:
+         exec_build_env_command(config.init_path, basepath,
+                                'bitbake %s' % image, watch=True)
+-- 
+2.1.4
 
 
