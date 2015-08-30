@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id EDF7F76E88
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 21EB376BC5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 21:14:34 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga102.jf.intel.com with ESMTP; 30 Aug 2015 14:14:35 -0700
+	Sun, 30 Aug 2015 21:14:36 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga103.jf.intel.com with ESMTP; 30 Aug 2015 14:14:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,436,1437462000"; d="scan'208";a="635079656"
+X-IronPort-AV: E=Sophos;i="5.17,435,1437462000"; d="scan'208";a="758485151"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 30 Aug 2015 14:14:35 -0700
+	by orsmga001.jf.intel.com with ESMTP; 30 Aug 2015 14:14:36 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id B8AB06A4005
+	by linux.intel.com (Postfix) with ESMTP id E25056A4005
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 14:13:44 -0700 (PDT)
+	Sun, 30 Aug 2015 14:13:45 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Aug 2015 00:14:25 +0300
-Message-Id: <10abf019cf59afdf2e6027a3df8b33403e4f803e.1440969020.git.ed.bartosh@linux.intel.com>
+Date: Mon, 31 Aug 2015 00:14:26 +0300
+Message-Id: <697d9e85a031e765a4e4297ebd06d970eaefa02b.1440969020.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1440969020.git.ed.bartosh@linux.intel.com>
 References: <cover.1440969020.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1440969020.git.ed.bartosh@linux.intel.com>
 References: <cover.1440969020.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 3/5] wic-image-minimal: add wic image recipe and .wks
+Subject: [PATCH 4/5] oe-selftest: test building wic image by bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +35,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Aug 2015 21:14:35 -0000
+X-List-Received-Date: Sun, 30 Aug 2015 21:14:36 -0000
 
-Added example of recipe and .wks file to create partitioned image.
-
-This image is using quite complex partitioning scheme.
-It uses its own rootfs to populate two partitions in two different ways.
-It also uses core-image-minimal rootfs to populate another partition.
-
-This is how wic reports about artifacts used to create this image:
-  ROOTFS_DIR: tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/rootfs
-  ROOTFS_DIR["/core"]: tmp/work/qemux86_64-poky-linux/core-image-minimal/1.0-r0/rootfs
-  ROOTFS_DIR["/backup"]: tmp/work/qemux86_64-poky-linux/wic-image-minimal/1.0-r0/rootfs
-  BOOTIMG_DIR: tmp/sysroots/qemux86-64/usr/share
-  KERNEL_DIR: tmp/deploy/images/qemux86-64
-  NATIVE_SYSROOT: tmp/sysroots/x86_64-linux
+Added test case to verify building of wic-image-minimal recipe
+and produced artifacts: manifest and bzipped partitioned image.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.bb  | 14 ++++++++++++++
- meta-selftest/recipes-test/images/wic-image-minimal.wks | 10 ++++++++++
- 2 files changed, 24 insertions(+)
- create mode 100644 meta-selftest/recipes-test/images/wic-image-minimal.bb
- create mode 100644 meta-selftest/recipes-test/images/wic-image-minimal.wks
+ meta/lib/oeqa/selftest/wic.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.bb b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-new file mode 100644
-index 0000000..073c569
---- /dev/null
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.bb
-@@ -0,0 +1,14 @@
-+SUMMARY = "An example of partitioned image."
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index fe8a2d0..deb2333 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -188,3 +188,17 @@ class Wic(oeSelfTest):
+             for var in wicvars:
+                 self.assertTrue(var in content, "%s is not in .env file" % var)
+                 self.assertTrue(content[var])
 +
-+IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}"
++    def test20_wic_image_type(self):
++        """Test building wic images by bitbake"""
++        self.assertEqual(0, bitbake('wic-image-minimal').status)
 +
-+IMAGE_FSTYPES = "wic.bz2"
-+RM_OLD_IMAGE = "1"
-+
-+# core-image-minimal is referenced in .wks, so we need its rootfs
-+# to be ready before our rootfs
-+do_rootfs[depends] += "core-image-minimal:do_rootfs"
-+
-+IMAGE_ROOTFS_EXTRA_SPACE = "2000"
-+
-+inherit image
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-new file mode 100644
-index 0000000..29cd8f2
---- /dev/null
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-@@ -0,0 +1,10 @@
-+# short-description: Example of partitioned image with complex layout
-+# long-description: This image contains boot partition and 3 rootfs partitions
-+# created from core-image-minimal and wic-image-minimal image recipes.
-+
-+part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext2 --label platform --align 1024
-+part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext2 --label core --align 1024
-+part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext2 --label backup --align 1024
-+
-+bootloader  --timeout=0  --append="rootwait console=tty0"
++        deploy_dir = get_bb_var('DEPLOY_DIR_IMAGE')
++        machine = get_bb_var('MACHINE')
++        prefix = os.path.join(deploy_dir, 'wic-image-minimal-%s.' % machine)
++        # check if we have result image and manifests symlinks
++        # pointing to existing files
++        for suffix in ('wic.bz2', 'manifest'):
++            path = prefix + suffix
++            self.assertTrue(os.path.islink(path))
++            self.assertTrue(os.path.isfile(os.path.realpath(path)))
 -- 
 2.1.4
 
