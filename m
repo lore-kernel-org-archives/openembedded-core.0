@@ -1,40 +1,21 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
-	[209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id D859573CBD
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CB9973CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 03:17:31 +0000 (UTC)
-Received: by ykey204 with SMTP id y204so34102139yke.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Aug 2015 20:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=MBR/nrJ6QeRm/bFPh1xtC/DQjLW77mSScfwznAuBC9Y=;
-	b=NhB0VmhJYvB+PcxdcGHLwlBmgyx31BgW0pHXGkZGsPyaxGjMYQ8wB+axo3T7pO/zk3
-	9yNafdIQhEOpiy7ARCOiOaOkcjaIXn3mcOqKtzDwS9B5OI+JsZq0VSAlnDr7XB61FmbR
-	7QoCjJm3Uzop7zvKCvbPFnzOUSgG1Kfxql9WEAcP2Atd7LqFDOYSKzn7Acuf7xUUIf3X
-	ZYVUa1/kKzn4a5M4Nc8tAOVJfXpjl+V/9isE/QqYdgyxPOpfYFZhI2XZBLupFjh9oz2s
-	GePSQ3x0wLttXXa+4BdI1NQU6ov8pKJyMWIspqeQ84UJFc1gETJmrqYgCOE7ADlDrS68
-	WLAw==
-MIME-Version: 1.0
-X-Received: by 10.129.75.3 with SMTP id y3mr4290257ywa.92.1440991051393; Sun,
-	30 Aug 2015 20:17:31 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Sun, 30 Aug 2015 20:17:31 -0700 (PDT)
-In-Reply-To: <1440949789.32588.73.camel@linuxfoundation.org>
-References: <cover.1440642427.git.bruce.ashfield@windriver.com>
-	<a31e3e1e7be69c7cdfeb2f5ce4913c9dc6256acf.1440642427.git.bruce.ashfield@windriver.com>
-	<1440943034.32588.70.camel@linuxfoundation.org>
-	<CADkTA4NBF4q4hzKvSPvrhd6XT6e9gPpA6Au3qW0dom8=Nk+nig@mail.gmail.com>
-	<CADkTA4M+Vkqg2LSgLXiryOTJtCHNwGOQJbp-8pjUifXNFADsaA@mail.gmail.com>
-	<1440949789.32588.73.camel@linuxfoundation.org>
-Date: Sun, 30 Aug 2015 23:17:31 -0400
-Message-ID: <CADkTA4Oaih1Ea6uf3_BdUfBZO+cr4LeKk+FgPd-zKvKNzEc7+w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/9] linux-yocto/3.14: cleanups and gcc5 ARM build fixes
+	Mon, 31 Aug 2015 03:22:53 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 30 Aug 2015 20:22:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,437,1437462000"; d="scan'208";a="778953254"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by fmsmga001.fm.intel.com with ESMTP; 30 Aug 2015 20:22:53 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 30 Aug 2015 19:16:07 +0000
+Message-Id: <1440962167-23420-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] buildstats: Outputs 'task recipe elapsed-time' from each buildstats' recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,110 +28,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 03:17:33 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 31 Aug 2015 03:22:54 -0000
 
-On Sun, Aug 30, 2015 at 11:49 AM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Sun, 2015-08-30 at 10:34 -0400, Bruce Ashfield wrote:
->> On Sun, Aug 30, 2015 at 10:30 AM, Bruce Ashfield
->> <bruce.ashfield@gmail.com> wrote:
->> > On Sun, Aug 30, 2015 at 9:57 AM, Richard Purdie
->> > <richard.purdie@linuxfoundation.org> wrote:
->> >> On Wed, 2015-08-26 at 22:31 -0400, Bruce Ashfield wrote:
->> >>> Updating the 3.14 SRCREVs to match the latest kernel meta data updates
->> >>> and also to merge four patches Richard Purdie located that fix the
->> >>> gcc 5.x ARM build (we still have boot issues, but building is the
->> >>> first step).
->> >>>
->> >>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
->> >>> ---
->> >>>  meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  6 +++---
->> >>>  meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 ++--
->> >>>  meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
->> >>>  3 files changed, 14 insertions(+), 14 deletions(-)
->> >>>
->> >>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
->> >>> index 0bd94f0c600d..d59f06b81c04 100644
->> >>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
->> >>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
->> >>> @@ -3,9 +3,9 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
->> >>>
->> >>>  require recipes-kernel/linux/linux-yocto.inc
->> >>>
->> >>> -SRCREV_machine ?= "863ba0912f559ba9d64ab94bf04f0226fdf0cb49"
->> >>> -SRCREV_machine_qemuppc ?= "9d464d6696a0fc755c65a2cf75ad7a4656ac6e1e"
->> >>> -SRCREV_meta ?= "b55cfc0308bf7158843db4b8f69f866487a0919e"
->> >>> +SRCREV_machine ?= "302ca233332fd364ecd028a0cf21b4cdc045e056"
->> >>> +SRCREV_machine_qemuppc ?= "e4847afbb42583fa05e6a94c8d0c8f8e37ed5622"
->> >>> +SRCREV_meta ?= "3a09b38a9f5015c56d99d17aa7c2f200c566249b"
->> >>>
->> >>
->> >> I can't find e4847afbb42583fa05e6a94c8d0c8f8e37ed5622 on the
->> >> standard/qemuppc branch? Did you miss a push?
->> >>
->> >> I merged this to master not realising this issue and the autobuilder is
->> >> now unhappy so need to get this resolved one way or another ASAP :/.
->> >
->> > I'm out until tomorrow morning. So a revert is the only way to fix it quickly.
->> >
->> > As I mentioned in my pull request, I had to update all my scripts that do the
->> > SRCREV updates for the meta branch split out .. so I warned that something
->> > unexpected may have happened (with three kernel versions, and 3 types of
->> > kernels across 8 boards ..).
->>
->> That being said, I did sneak in and check:
->>
->> > git push origin standard/preempt-rt/qemuppc
->> Everything up-to-date
->> > git branch --contains e4847afbb42583fa05e6a94c8d0c8f8e37ed5622
->>   standard/preempt-rt/qemuppc
->>
->> That's a merge commit on the top of the branch.
->>
->> If I get back early enough tonight, I'll look more.
->
-> If I have to guess, your scripts have taken the qemuppc -rt revision and
-> applied it to the qemuppc standard kernel (the non -rt version).
->
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-The revs still look right to me.
+Given a 'buildstats' path (created by bitbake when setting
+USER_CLASSES ?= "buildstats" on local.conf) and task names, outputs
+'<task> <recipe> <elapsed time>' for all recipes. Elapsed times are in
+seconds, and task should be given without the 'do_' prefix.
 
-Do you have a link to the autobuilder failure for this one ?
+Some useful pipelines
 
-You said that e4847afbb42583fa05e6a94c8d0c8f8e37ed5622 wasn't being found
-for qemuppc on standard/base, in the -rt recipe (at least that's what the first
-email in the thread seems to indicate).
+1. Tasks with largest elapsed times
 
-But KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc" is set, which matches
-the SRCREV that I pushed.
+    $ buildstats.sh -b <buildstats> | sort -k3 -n -r | head
+    do_compile perl-5.20.0-r1 221.82
+    do_configure gettext-native-0.19.4-r0 140.34
+    do_compile openssl-native-1.0.2a-r0 107.48
+    do_compile openssl-1.0.2a-r0 102.10
+    do_configure perl-native-5.20.0-r0 90.70
+    do_configure gettext-0.19.4-r0 88.17
+    do_compile gcc-cross-i586-4.9.2-r0 83.98
+    do_configure m4-native-1.4.17-r0 83.44
+    do_compile qemu-native-2.2.0-r1 71.69
+    do_compile glibc-2.21-r0 60.88
 
-So if you point me in the direction of a log, I'll figure out what
-part I'm missing.
+2. Min, max, sum per task
 
+    $ buildstats.sh | datamash -t' ' -g1 min 3 max 3 sum 3 | sort -k4 -n -r
+    do_configure 0.03 140.34 1968.66
+    do_compile 0.01 221.82 1664.44
+    do_install 0.03 40.31 330.45
+    do_populate_sysroot 0.11 34.45 229.23
+    do_unpack 0.01 36.1 193.54
+    do_patch 0.01 9.2 62.07
+    do_fetch 0.01 6.66 32.13
+    do_populate_lic 0.09 1.65 30.7
 
-> I'll try changing it to the standard/qemuppc revision instead (patch
-> pushed for that).
->
-> We also have an issue with 3.14 qemumips failing in do_patch:
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/464/steps/BuildImages/logs/stdio
->
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ scripts/contrib/bb-perf/buildstats.sh | 90 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 90 insertions(+)
+ create mode 100755 scripts/contrib/bb-perf/buildstats.sh
 
-I'll have a look at this on in the morning, I've launched a build.
-
-Bruce
-
-> I've not looked into that one.
->
-> Cheers,
->
-> Richard
->
-
-
-
+diff --git a/scripts/contrib/bb-perf/buildstats.sh b/scripts/contrib/bb-perf/buildstats.sh
+new file mode 100755
+index 0000000..96158a9
+--- /dev/null
++++ b/scripts/contrib/bb-perf/buildstats.sh
+@@ -0,0 +1,90 @@
++#!/bin/bash
++#
++# Copyright (c) 2011, Intel Corporation.
++# All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
++#
++# DESCRIPTION
++# Given a 'buildstats' path (created by bitbake when setting
++# USER_CLASSES ?= "buildstats" on local.conf) and task names, outputs
++# '<task> <recipe> <elapsed time>' for all recipes. Elapsed times are in
++# seconds, and task should be given without the 'do_' prefix.
++#
++# Some useful pipelines
++#
++# 1. Tasks with largest elapsed times
++# $ buildstats.sh -b <buildstats> | sort -k3 -n -r | head
++#
++# 2. Min, max, sum per task (in needs GNU datamash)
++# $ buildstats.sh -b <buildstats> | datamash -t' ' -g1 min 3 max 3 sum 3 | sort -k4 -n -r
++#
++# AUTHORS
++# Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
++#
++BS_DIR="tmp/buildstats"
++TASKS="compile:configure:fetch:install:patch:populate_lic:populate_sysroot:unpack"
++
++function usage {
++CMD=$(basename $0)
++cat <<EOM
++Usage: $CMD [-b buildstats_dir] [-t do_task]
++  -b buildstats The path where the folder resides
++                (default: "$BS_DIR")
++  -t tasks      The tasks to be computed
++                (default: "$TASKS")
++  -h            Display this help message
++EOM
++}
++
++# Parse and validate arguments
++while getopts "b:t:h" OPT; do
++	case $OPT in
++	b)
++		BS_DIR="$OPTARG"
++		;;
++	t)
++		TASKS="$OPTARG"
++		;;
++	h)
++		usage
++		exit 0
++		;;
++	*)
++		usage
++		exit 1
++		;;
++	esac
++done
++
++# Ensure the buildstats folder exists
++if [ ! -d "$BS_DIR" ]; then
++	echo "ERROR: $BS_DIR does not exist"
++	usage
++	exit 1
++fi
++
++RECIPE_FIELD=1
++TIME_FIELD=4
++
++tasks=(${TASKS//:/ })
++for task in "${tasks[@]}"; do
++    task="do_${task}"
++    for file in $(find ${BS_DIR} -type f -name ${task}); do
++        recipe=$(sed -n -e "/$task/p" ${file} | cut -d ':' -f${RECIPE_FIELD})
++        time=$(sed -n -e "/$task/p" ${file} | cut -d ':' -f${TIME_FIELD} | cut -d ' ' -f2)
++        echo "${task} ${recipe} ${time}"
++    done
++done
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.4.5
+
 
