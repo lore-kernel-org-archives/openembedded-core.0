@@ -1,40 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B64976FF1
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A81D76F9D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 19:12:12 +0000 (UTC)
-Received: by wicjd9 with SMTP id jd9so9772384wic.1
+	Mon, 31 Aug 2015 19:12:14 +0000 (UTC)
+Received: by wicmc4 with SMTP id mc4so9796151wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 12:12:12 -0700 (PDT)
+	Mon, 31 Aug 2015 12:12:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=u8qgnnTlPJcSGdNHb8L33sWFS+N2Z3e2RKa2hMY649A=;
-	b=Gof0yU3865P8e3o98dk88cwdvY2gZ/NskWnMIzZ8CvxVzVE4FlzAuWUzikw7dUerhP
-	FXI3ddh58gRNk9S8KP6pQWgftGeCSgQzo/wl4lCo/pDsJ4WLQplzfPcWtl9XRvaHtMOw
-	pW+//skXg7hXm4pBz/x3lMCMkMBLA4UXrIGcdB7SIHcnd6F5slsZmAwISTYLf91iWh18
-	WCCa/KHspDPGCbA9XUEblS/xyHoxbkUa27XjXxelvEQjuI+5oU0dsvlWKEo/f7yVTmxc
-	yGJuOnFxa472wMKkbIolSm9G0S8ZLdLtsqj82RYRBfYz04UDXsIz6XxNK7q5oCcy4Yit
-	7ytw==
-X-Received: by 10.194.104.39 with SMTP id gb7mr29091105wjb.150.1441048332204; 
-	Mon, 31 Aug 2015 12:12:12 -0700 (PDT)
+	bh=teHnTW2QLEBCFKqH/Krlkuyofa9zTIykyf42uRx8W6w=;
+	b=R42NyXBYFpiljfgbn7nbOcBIPCjtYiiGVd4C3jbeyaprQkriXeNHRcem8iJMbmdwI5
+	Z1nwxtpUFw76n5+C+qm20v6tfMv4R2TW3pBlJG5mNeSjicLy5FUrXuCgooRDOF6NaF/6
+	cBwjVEPvq+OjSEVqvw2RwC4NX5hxqed1mhEGbcdPXw7kShG1w+S+8EIsW1y6DdlUAOLz
+	RPlBNqchpnPEs8Fx3Sv/GcwL4LnB7aGMqwYqYIWU+tFTxJZoOATakP7zNlqpO2EbgcWQ
+	xu82vWUnDYfuXcISRCsF8oX+NQI++JXQqExUkjPRlKpDUxFzKa4mr+zo7ugg/oGB6dEz
+	Qjtw==
+X-Received: by 10.180.87.230 with SMTP id bb6mr133807wib.26.1441048334222;
+	Mon, 31 Aug 2015 12:12:14 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	pu6sm23568430wjc.34.2015.08.31.12.12.10
+	pu6sm23568430wjc.34.2015.08.31.12.12.12
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 31 Aug 2015 12:12:11 -0700 (PDT)
+	Mon, 31 Aug 2015 12:12:13 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Aug 2015 12:12:02 -0700
-Message-Id: <105a8ba3de65ee37a616bff4e1c455d29bf89bf8.1441048182.git.chris_larson@mentor.com>
+Date: Mon, 31 Aug 2015 12:12:03 -0700
+Message-Id: <00b6da871787d810007054f6a8095fbb44d6cbce.1441048182.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
 In-Reply-To: <02054faced424f2d07fb72f8ac92ee93521c519e.1441048182.git.chris_larson@mentor.com>
 References: <02054faced424f2d07fb72f8ac92ee93521c519e.1441048182.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1441048182.git.chris_larson@mentor.com>
 References: <cover.1441048182.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2 2/3] pulseaudio: pass --with-systemduserunitdir
+Subject: [PATCHv2 3/3] pulseaudio: add 'autospawn-for-root' PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,30 +47,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 19:12:12 -0000
+X-List-Received-Date: Mon, 31 Aug 2015 19:12:15 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-We want to make sure our path variables are obeyed.
+Since many embedded systems don't have non-root users, it's useful to be able
+to use pulseaudio autospawn for root as well.
 
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index a098473..6199dcd 100644
+index 6199dcd..bca8e36 100644
 --- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
 +++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -43,7 +43,7 @@ PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
- PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
- PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
- PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
--PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal,--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
-+PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal --with-systemduserunitdir=${systemd_user_unitdir},--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
+@@ -47,6 +47,9 @@ PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enabl
  PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
  PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
  PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
++# Since many embedded systems don't have non-root users, it's useful to be
++# able to use pulseaudio autospawn for root as well.
++PACKAGECONFIG[autospawn-for-root] = ",,,"
+ 
+ EXTRA_OECONF_append_arm = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
+ EXTRA_OECONF_append_armeb = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
+@@ -59,6 +62,19 @@ export TARGET_PFPU = "${TARGET_FPU}"
+ OE_LT_RPATH_ALLOW = "any"
+ OE_LT_RPATH_ALLOW[export]="1"
+ 
++set_cfg_value () {
++	sed -i -e "s/\(; *\)\?$2 =.*/$2 = $3/" "$1"
++	if ! grep -q "^$2 = $3\$" "$1"; then
++		die "Use of sed to set '$2' to '$3' in '$1' failed"
++	fi
++}
++
++do_compile_append () {
++	if ${@bb.utils.contains('PACKAGECONFIG', 'autospawn-for-root', 'true', 'false', d)}; then
++		set_cfg_value src/client.conf allow-autospawn-for-root yes
++	fi
++}
++
+ do_install_append() {
+ 	install -d ${D}${sysconfdir}/default/volatiles
+ 	install -m 0644 ${WORKDIR}/volatiles.04_pulse  ${D}${sysconfdir}/default/volatiles/volatiles.04_pulse
 -- 
 2.2.1
 
