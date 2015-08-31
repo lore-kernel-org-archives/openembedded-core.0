@@ -1,36 +1,36 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B600274197
+Return-Path: <kergoth@gmail.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2203974197
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 19:43:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t7VJhS0F019749
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 31 Aug 2015 12:43:28 -0700 (PDT)
-Received: from Marks-MacBook-Pro-2.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 31 Aug 2015 12:43:28 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <1440952270-9085-1-git-send-email-raj.khem@gmail.com>
-	<CAPhnLPBue6s_m7rYYyuy6hyxdBTz8y1MedgspDeOLcL1XaunYQ@mail.gmail.com>
-	<CAMKF1srWus=7f3EoCGtMVez0FbsFPsa1g8COMM87pqxxpkg2zw@mail.gmail.com>
-	<CABcZANmWhU5sFXSU1j=3GOPu0gOCY3Nt_b54oQkRLhzs=ERSYQ@mail.gmail.com>
-	<55E4940B.5050105@windriver.com>
-	<CAMKF1sqSTenmfkQst644-c0yGHmheSE0APwOR7cHK_5-T_d4mQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-X-Enigmail-Draft-Status: N1110
-Organization: Wind River Systems
-Message-ID: <55E4AE5F.9080804@windriver.com>
-Date: Mon, 31 Aug 2015 14:43:27 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.2.0
+	Mon, 31 Aug 2015 19:45:29 +0000 (UTC)
+Received: by iod35 with SMTP id 35so40775229iod.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Aug 2015 12:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=0DckuKBI+lkYMWgFk1Rt1+oa1SAGQgbafmhhF2h2wss=;
+	b=emydPEMEnkXSCe/s+RG3I/GC8Cf8AFwJPpfDdWQ7HE4GHJ30ZrwBb+nk/xoDERYFXr
+	dQllcnPHtECVLDPXhRpS+hGPp1UrMU5/csPegcG9lP29lx+GiPO6yfFjhekipebkxUDt
+	RI3Z05LVp3ogJciqdCPzyu8j8NdW1hGxdUHKuM9TUJbHRdE1rZ0nw5ubI1/sK9T5IThp
+	qdyA9MMctMEHdB86SDxef85FDWjy+oTgzVmlolAbCi5ChfxwQ/U0rzDFmGcXi30hk1IR
+	VNCzxx6KbdlL4iKgWYyjSifA4JFe5BN/DMX5PC7XtsdYuYDEN3s/CpRgCu1xGyc5QcxQ
+	Vhzw==
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqSTenmfkQst644-c0yGHmheSE0APwOR7cHK_5-T_d4mQ@mail.gmail.com>
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
+X-Received: by 10.107.40.200 with SMTP id o191mr25139111ioo.83.1441050329545; 
+	Mon, 31 Aug 2015 12:45:29 -0700 (PDT)
+Received: by 10.79.100.71 with HTTP; Mon, 31 Aug 2015 12:45:29 -0700 (PDT)
+In-Reply-To: <20150831184113.GF2465@jama>
+References: <20150830114819.3628250369@opal.openembedded.org>
+	<20150831184113.GF2465@jama>
+Date: Mon, 31 Aug 2015 12:45:29 -0700
+Message-ID: <CABcZANmoHZM=p5Y_TYoUhHLDY1sboz8t_i=ShCu9dyNLeVUdPg@mail.gmail.com>
+From: Christopher Larson <kergoth@gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xz: Correctly specify GPL-3.0 with autoconf exception
+Subject: Re: [oe-commits] Christopher Larson : update-rc.d.bbclass: explicitly dep on initscripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,109 +43,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 19:43:30 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 31 Aug 2015 19:45:32 -0000
+Content-Type: multipart/alternative; boundary=001a1141cf8cff0f7f051ea0ac8d
 
-On 8/31/15 2:20 PM, Khem Raj wrote:
-> On Mon, Aug 31, 2015 at 10:51 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
->>
->> The way the recipe 'LICENSE =' field was defined, AFAIK, was that it was the
->> license of the source used to construct the binaries.
->>
->> So if the autoconf was GPLv3, but the package and it's sources are GPLv2+, it
->> would be listed as GPLv2+.
->>
->> Making this assumption allows us to be confident that the general license of
->> recipe matches the binaries constructed by the recipe, allowing LICENSE-${PN} =
->> ${LICENSE} in the general case.
->>
-> 
-> it seems in your view the build system or generator files are
-> excluded. Which we can not say untill and until the generator files
-> say that explicitly like the autoconf exception.  In my understanding
-> the build scripts and files also form the part of compilatiion
-> process.
+--001a1141cf8cff0f7f051ea0ac8d
+Content-Type: text/plain; charset=UTF-8
 
-My interpretation of many licenses is that the build system does not get
-compiled into the binary.  Thus the binary does not get impacted by the build
-system's license.
+On Monday, August 31, 2015, Martin Jansa <martin.jansa@gmail.com
+<javascript:_e(%7B%7D,'cvml','martin.jansa@gmail.com');>> wrote:
 
-That isn't to say that autoconf isn't GPLv3, just that it doesn't contaminate
-the binaries in question, under normal usage.  (If a build component, or the
-output of a component WERE to influence the license of the produced executable
--- then I would expect it to be listed in the LICENSE field....)
-
-If every package that included autoconf now had to have GPLv3 listed in it, I
-think this would diminish the usefulness of the LICENSE field.  This would
-effectively confuse the developers into thinking that suddenly -everything-
-autoconf is now GPLv3, even though it isn't in my opinion.
-
-The majority of the developers in my experience really don't care about source
-code license -- they care about the license of the binaries in their deployed
-products.  (The license of the binaries over source is an important distinction.
- I ship binaries to my customers, as such I'm required to full fill the
-obligations of the software license to those binaries.  Many open sources
-license require you to redistribute the corresponding sources with the binaries,
-and some have been interpreted to say you need to include the instructions for
-building them as well.)
-
-Declaring the licenses based on the source code used to produce the output is
-the standard way of handling this from my experiences.  This matches the way
-Debian and other distributions recognized sources and have dealt with the
-license fields in their distributions, such as Debian, Fedora, etc.  I think
-it's a pretty major change to start including the license of all files in a
-source archive in the recipe.  (Especially if the files are never distributed
-except as part of the 'original source code' for a program.)
-
-If that is the way we want to move forward, then my recommendation would be to
-add a new field for that.
-
-LICENSE-SRC = "source license list"
-LICENSE = "declared license for the expected output of the build"
-LICENSE_<package> = "The license for the items in this specific package"
-
-Where:
-
- LICENSE ?= "${LICENSE-SRC}"
-
- LICENSE_<package> ?= "${LICENSE}"
-
-I see a lot of potential work here, but I don't see the benefit though.
-
-I don't know of any cases where someone has gotten in trouble, or even
-questioned, when the build system has a slightly different license then output
-of the build.  The GNU build tools are definitely the biggest example I can give
-here.
-
->> This does certainly put in an interesting situation though if there is an
->> obscure license where the binaries and sources are effectively under different
->> restrictions.  (Perhaps if a build environment contained a license that required
->> an advertising clause, but the produced binaries did not include it.  The
->> obligation to advertise or not could be up for some debate by a lawyer, even
->> though the source code may need to be redistributed.)
-> 
-> We may not treat build system differently than other sources of component.
-
-Here I disagree.  I think as long as the build system doesn't change the license
-of the resulting binaries in anyway, and the build system doesn't have a license
-that conflicts with the resulting binaries, then we can certainly treat the
-results differently.
-
-(I'm not a lawyer, and frankly this is getting into the position where a lawyer,
-if one were inclined, should be consulted for advice.)
-
-As usual the goal here is to give the technical people the information they need
-to have a reasonable chance of being compliant with the license requirements of
-the binaries/systems/devices they are creating -- as well as giving them at
-least some assistance in being a 'good' open source citizen to be able to
-redistribute the sources for the Open Source components they have used.)
-
->>
->> Do you know of any cases where this may be true or where end users may have
->> concerns that a license is not properly represented?
-> 
-> proprietary components based on some external build systems may be
-> 
+> On Sun, Aug 30, 2015 at 11:48:19AM +0000, git@git.openembedded.org wrote:
+> > Module: openembedded-core.git
+> > Branch: master
+> > Commit: 833302761df924bb503cc2ad04ecae1023381f8f
+> > URL:
+> http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=833302761df924bb503cc2ad04ecae1023381f8f
+> >
+> > Author: Christopher Larson <chris_larson@mentor.com>
+> > Date:   Mon Aug 24 15:18:34 2015 -0700
+> >
+> > update-rc.d.bbclass: explicitly dep on initscripts
+> >
+> > update-rc.d doesn't just want an initscripts package, it wants
+> > initscripts-functions. In the case where VIRTUAL-RUNTIME_initscripts is
+> set to
+> > nothing, update-rc.d still needs initscripts-functions to satisfy its
+> runtime
+> > dependencies. Further, we shouldn't be using a *runtime* virtual in a
+> *build
+> > time* variable. This should resolve image creation failures with
+> > configurations without sysv initscripts when a recipe inherits
+> update-rc.d and
+> > doesn't inherit systemd.
+> >
+> > (From OE-Core rev: e6642ae0849e5ac3174c643a7693af25d829d6d1)
+>
+> Unfortunately this means that I cannot PNBLACKLIST initscripts recipe in
+> DISTRO which provides own initscripts implementation (which also
+> provides initscripts-functions).
+>
+> What's even worse is that I'll have to overlay whole bbclass to get rid
+> of this dependency :/
 
 
+Of course you can. This is a build dependency. Add a PROVIDES +=
+"initscripts" + appropriate preferences (or keep your PNBLACKLIST). This is
+precisely what provides is for. Alternatively, we could introduce a
+virtual/initscripts-functions rather than using 'initscripts' for this. In
+either case, you don't need to override anything.
+
+
+-- 
+Christopher Larson
+kergoth at gmail dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--001a1141cf8cff0f7f051ea0ac8d
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">On Monday, August 31, 2015, Martin Jansa &lt;<a href=3D"ja=
+vascript:_e(%7B%7D,&#39;cvml&#39;,&#39;martin.jansa@gmail.com&#39;);" targe=
+t=3D"_blank">martin.jansa@gmail.com</a>&gt; wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">On Sun, Aug 30, 2015 at 11:48:19AM +0000, <a>git@git.openembedded=
+.org</a> wrote:<br>
+&gt; Module: openembedded-core.git<br>
+&gt; Branch: master<br>
+&gt; Commit: 833302761df924bb503cc2ad04ecae1023381f8f<br>
+&gt; URL:=C2=A0 =C2=A0 <a href=3D"http://git.openembedded.org/?p=3Dopenembe=
+dded-core.git&amp;a=3Dcommit;h=3D833302761df924bb503cc2ad04ecae1023381f8f" =
+target=3D"_blank">http://git.openembedded.org/?p=3Dopenembedded-core.git&am=
+p;a=3Dcommit;h=3D833302761df924bb503cc2ad04ecae1023381f8f</a><br>
+&gt;<br>
+&gt; Author: Christopher Larson &lt;<a>chris_larson@mentor.com</a>&gt;<br>
+&gt; Date:=C2=A0 =C2=A0Mon Aug 24 15:18:34 2015 -0700<br>
+&gt;<br>
+&gt; update-rc.d.bbclass: explicitly dep on initscripts<br>
+&gt;<br>
+&gt; update-rc.d doesn&#39;t just want an initscripts package, it wants<br>
+&gt; initscripts-functions. In the case where VIRTUAL-RUNTIME_initscripts i=
+s set to<br>
+&gt; nothing, update-rc.d still needs initscripts-functions to satisfy its =
+runtime<br>
+&gt; dependencies. Further, we shouldn&#39;t be using a *runtime* virtual i=
+n a *build<br>
+&gt; time* variable. This should resolve image creation failures with<br>
+&gt; configurations without sysv initscripts when a recipe inherits update-=
+rc.d and<br>
+&gt; doesn&#39;t inherit systemd.<br>
+&gt;<br>
+&gt; (From OE-Core rev: e6642ae0849e5ac3174c643a7693af25d829d6d1)<br>
+<br>
+Unfortunately this means that I cannot PNBLACKLIST initscripts recipe in<br=
+>
+DISTRO which provides own initscripts implementation (which also<br>
+provides initscripts-functions).<br>
+<br>
+What&#39;s even worse is that I&#39;ll have to overlay whole bbclass to get=
+ rid<br>
+of this dependency :/</blockquote><div><br></div><div><font size=3D"2"><spa=
+n style=3D"background-color:rgba(255,255,255,0)">Of course you can. This is=
+ a build dependency. Add a PROVIDES +=3D &quot;initscripts&quot; + appropri=
+ate preferences (or keep your PNBLACKLIST). This is precisely what provides=
+ is for. Alternatively, we could introduce a virtual/initscripts-functions =
+rather than using &#39;initscripts&#39; for this. In either case, you don&#=
+39;t need to override anything.<span></span></span></font></div>
+</div>
+<br><br>-- <br><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot =
+com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br=
+>Senior Software Engineer, Mentor Graphics</div><br>
+
+--001a1141cf8cff0f7f051ea0ac8d--
