@@ -1,36 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7683C762B7
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 021A260043
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 07:15:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7V7F2qh009914; Mon, 31 Aug 2015 08:15:02 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 5UxMjFOrIRLN; Mon, 31 Aug 2015 08:15:02 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7V7Eo8q009911
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 31 Aug 2015 08:15:02 +0100
-Message-ID: <1441005290.26554.6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 31 Aug 2015 08:14:50 +0100
-In-Reply-To: <CADkTA4Oaih1Ea6uf3_BdUfBZO+cr4LeKk+FgPd-zKvKNzEc7+w@mail.gmail.com>
-References: <cover.1440642427.git.bruce.ashfield@windriver.com>
-	<a31e3e1e7be69c7cdfeb2f5ce4913c9dc6256acf.1440642427.git.bruce.ashfield@windriver.com>
-	<1440943034.32588.70.camel@linuxfoundation.org>
-	<CADkTA4NBF4q4hzKvSPvrhd6XT6e9gPpA6Au3qW0dom8=Nk+nig@mail.gmail.com>
-	<CADkTA4M+Vkqg2LSgLXiryOTJtCHNwGOQJbp-8pjUifXNFADsaA@mail.gmail.com>
-	<1440949789.32588.73.camel@linuxfoundation.org>
-	<CADkTA4Oaih1Ea6uf3_BdUfBZO+cr4LeKk+FgPd-zKvKNzEc7+w@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/9] linux-yocto/3.14: cleanups and gcc5 ARM build fixes
+	Mon, 31 Aug 2015 08:35:40 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 31 Aug 2015 01:35:40 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,439,1437462000"; d="scan'208";a="779218439"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 31 Aug 2015 01:35:42 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
+	by linux.intel.com (Postfix) with ESMTP id 447BE6A4005;
+	Mon, 31 Aug 2015 01:34:49 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 31 Aug 2015 11:35:36 +0300
+Message-Id: <1441010136-19955-1-git-send-email-ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic][PATCH] oe-selftest: wic: fix test19_image_env test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,159 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 07:15:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 31 Aug 2015 08:35:41 -0000
 
-On Sun, 2015-08-30 at 23:17 -0400, Bruce Ashfield wrote:
-> On Sun, Aug 30, 2015 at 11:49 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Sun, 2015-08-30 at 10:34 -0400, Bruce Ashfield wrote:
-> >> On Sun, Aug 30, 2015 at 10:30 AM, Bruce Ashfield
-> >> <bruce.ashfield@gmail.com> wrote:
-> >> > On Sun, Aug 30, 2015 at 9:57 AM, Richard Purdie
-> >> > <richard.purdie@linuxfoundation.org> wrote:
-> >> >> On Wed, 2015-08-26 at 22:31 -0400, Bruce Ashfield wrote:
-> >> >>> Updating the 3.14 SRCREVs to match the latest kernel meta data updates
-> >> >>> and also to merge four patches Richard Purdie located that fix the
-> >> >>> gcc 5.x ARM build (we still have boot issues, but building is the
-> >> >>> first step).
-> >> >>>
-> >> >>> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >> >>> ---
-> >> >>>  meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  6 +++---
-> >> >>>  meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  4 ++--
-> >> >>>  meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 18 +++++++++---------
-> >> >>>  3 files changed, 14 insertions(+), 14 deletions(-)
-> >> >>>
-> >> >>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-> >> >>> index 0bd94f0c600d..d59f06b81c04 100644
-> >> >>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-> >> >>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-> >> >>> @@ -3,9 +3,9 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
-> >> >>>
-> >> >>>  require recipes-kernel/linux/linux-yocto.inc
-> >> >>>
-> >> >>> -SRCREV_machine ?= "863ba0912f559ba9d64ab94bf04f0226fdf0cb49"
-> >> >>> -SRCREV_machine_qemuppc ?= "9d464d6696a0fc755c65a2cf75ad7a4656ac6e1e"
-> >> >>> -SRCREV_meta ?= "b55cfc0308bf7158843db4b8f69f866487a0919e"
-> >> >>> +SRCREV_machine ?= "302ca233332fd364ecd028a0cf21b4cdc045e056"
-> >> >>> +SRCREV_machine_qemuppc ?= "e4847afbb42583fa05e6a94c8d0c8f8e37ed5622"
-> >> >>> +SRCREV_meta ?= "3a09b38a9f5015c56d99d17aa7c2f200c566249b"
-> >> >>>
-> >> >>
-> >> >> I can't find e4847afbb42583fa05e6a94c8d0c8f8e37ed5622 on the
-> >> >> standard/qemuppc branch? Did you miss a push?
-> >> >>
-> >> >> I merged this to master not realising this issue and the autobuilder is
-> >> >> now unhappy so need to get this resolved one way or another ASAP :/.
-> >> >
-> >> > I'm out until tomorrow morning. So a revert is the only way to fix it quickly.
-> >> >
-> >> > As I mentioned in my pull request, I had to update all my scripts that do the
-> >> > SRCREV updates for the meta branch split out .. so I warned that something
-> >> > unexpected may have happened (with three kernel versions, and 3 types of
-> >> > kernels across 8 boards ..).
-> >>
-> >> That being said, I did sneak in and check:
-> >>
-> >> > git push origin standard/preempt-rt/qemuppc
-> >> Everything up-to-date
-> >> > git branch --contains e4847afbb42583fa05e6a94c8d0c8f8e37ed5622
-> >>   standard/preempt-rt/qemuppc
-> >>
-> >> That's a merge commit on the top of the branch.
-> >>
-> >> If I get back early enough tonight, I'll look more.
-> >
-> > If I have to guess, your scripts have taken the qemuppc -rt revision and
-> > applied it to the qemuppc standard kernel (the non -rt version).
-> 
-> The revs still look right to me.
-> 
-> Do you have a link to the autobuilder failure for this one ?
-> 
-> You said that e4847afbb42583fa05e6a94c8d0c8f8e37ed5622 wasn't being found
-> for qemuppc on standard/base, in the -rt recipe (at least that's what the first
-> email in the thread seems to indicate).
-> 
-> But KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc" is set, which matches
-> the SRCREV that I pushed.
->
-> So if you point me in the direction of a log, I'll figure out what
-> part I'm missing.
-> 
+This test case fails on qemu machines as not all expected bitbake
+variables are present in .env file.
 
-I think I confusingly quoted the wrong part of the diff. The issue is
-more clearly shown by my patch:
+Fixed by filtering out optional variables.
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=92c3f03b790bdb92d5b81ad00c4815d330a4f832
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/wic.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-SRCREV_machine_qemuppc ?= "e4847afbb42583fa05e6a94c8d0c8f8e37ed5622"
-
-is set in the non -rt recipe, despite that being a -rt revision.
-
-(the failure is
-https://autobuilder.yoctoproject.org/main/builders/nightly-ppc-lsb/builds/468/steps/BuildImages/logs/stdio)
-
-I can also confirm my patch does fix this one.
-
-> > I'll try changing it to the standard/qemuppc revision instead (patch
-> > pushed for that).
-> >
-> > We also have an issue with 3.14 qemumips failing in do_patch:
-> >
-> > https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/464/steps/BuildImages/logs/stdio
-> >
-> 
-> I'll have a look at this on in the morning, I've launched a build.
-
-Thanks. Oddly enough, the do_patch succeeded this time. The original
-failure was:
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/464/steps/BuildImages/logs/stdio
-
-ERROR: Function failed: do_patch (log file is located at /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/3.14.36+gitAUTOINC+3a09b38a9f_9c6fdae475-r0/temp/log.do_patch.23426)
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/3.14.36+gitAUTOINC+3a09b38a9f_9c6fdae475-r0/temp/log.do_patch.23426
-Log data follows:
-| DEBUG: Executing shell function do_patch
-| [INFO] validating against known patches  (qemumips-standard-meta)
-| fatal: unable to read tree 81509f2de024e7f1d82d95b56fa6b03650ea556e
-| ERROR: could not checkout branch standard/mti-malta32
-| ERROR. could not update git tree
-| WARNING: /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/3.14.36+gitAUTOINC+3a09b38a9f_9c6fdae475-r0/temp/run.do_patch.23426:1 exit 1 from
-|   patchme qemumips
-| ERROR: Function failed: do_patch (log file is located at /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work/qemumips-poky-linux/linux-yocto/3.14.36+gitAUTOINC+3a09b38a9f_9c6fdae475-r0/temp/log.do_patch.23426)
-NOTE: recipe linux-yocto-3.14.36+gitAUTOINC+3a09b38a9f_9c6fdae475-r0: task do_patch: Failed
-
-this was on centos 6.6, in case its something related to the version of
-git present. The next build which worked was ubuntu1204.
-
-The other issue is edgerouter:
-
-https://autobuilder.yoctoproject.org/main/builders/nightly-mips-lsb/builds/464/steps/BuildImages_1/logs/stdio
-
-| {standard input}: Assembler messages:
-| {standard input}:157: Error: opcode not supported on this processor: octeon (mips64r2) `saa $2,($4)'
-|   CC      arch/mips/lib/uncached.o
-|   HOSTCC  lib/gen_crc32table
-|   CC      crypto/rng.o
-| {standard input}:5385: Error: opcode not supported on this processor: octeon (mips64r2) `saa $11,($2)'
-| {standard input}:5810: Error: opcode not supported on this processor: octeon (mips64r2) `saa $10,($2)'
-| {standard input}:6158: Error: opcode not supported on this processor: octeon (mips64r2) `saa $3,($7)'
-|   CC      block/bsg.o
-| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work-shared/edgerouter/kernel-source/scripts/Makefile.build:308: recipe for target 'arch/mips/cavium-octeon/executive/cvmx-srio.o' failed
-| make[5]: *** [arch/mips/cavium-octeon/executive/cvmx-srio.o] Error 1
-| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work-shared/edgerouter/kernel-source/scripts/Makefile.build:455: recipe for target 'arch/mips/cavium-octeon/executive' failed
-| make[4]: *** [arch/mips/cavium-octeon/executive] Error 2
-| /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-mips-lsb/build/build/tmp/work-shared/edgerouter/kernel-source/scripts/Makefile.build:455: recipe for target 'arch/mips/cavium-octeon' failed
-| make[3]: *** [arch/mips/cavium-octeon] Error 2
-| make[3]: *** Waiting for unfinished jobs....
-
-We 'cheat' could bump some of the machines to 4.1 at this point...
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index deb2333..6bc4b60 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -180,8 +180,10 @@ class Wic(oeSelfTest):
+         path = os.path.join(imgdatadir, basename) + '.env'
+         self.assertTrue(os.path.isfile(path))
+ 
+-        wicvars = get_bb_var('WICVARS', image).split()
+-        wicvars.remove('IMAGE_BOOT_FILES') # this variable is optional
++        wicvars = set(get_bb_var('WICVARS', image).split())
++        # filter out optional variables
++        wicvars = wicvars.difference(('HDDDIR', 'IMAGE_BOOT_FILES',
++                                      'INITRD', 'ISODIR'))
+         with open(path) as envfile:
+             content = dict(line.split("=", 1) for line in envfile)
+             # test if variables used by wic present in the .env file
+-- 
+2.1.4
 
 
