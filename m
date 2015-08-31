@@ -1,40 +1,37 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
-	[209.85.212.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A81D76F9D
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 19:12:14 +0000 (UTC)
-Received: by wicmc4 with SMTP id mc4so9796151wic.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 12:12:14 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f182.google.com (mail-io0-f182.google.com
+	[209.85.223.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C393676ED5;
+	Mon, 31 Aug 2015 19:13:02 +0000 (UTC)
+Received: by iog7 with SMTP id 7so46028881iog.2;
+	Mon, 31 Aug 2015 12:13:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=teHnTW2QLEBCFKqH/Krlkuyofa9zTIykyf42uRx8W6w=;
-	b=R42NyXBYFpiljfgbn7nbOcBIPCjtYiiGVd4C3jbeyaprQkriXeNHRcem8iJMbmdwI5
-	Z1nwxtpUFw76n5+C+qm20v6tfMv4R2TW3pBlJG5mNeSjicLy5FUrXuCgooRDOF6NaF/6
-	cBwjVEPvq+OjSEVqvw2RwC4NX5hxqed1mhEGbcdPXw7kShG1w+S+8EIsW1y6DdlUAOLz
-	RPlBNqchpnPEs8Fx3Sv/GcwL4LnB7aGMqwYqYIWU+tFTxJZoOATakP7zNlqpO2EbgcWQ
-	xu82vWUnDYfuXcISRCsF8oX+NQI++JXQqExUkjPRlKpDUxFzKa4mr+zo7ugg/oGB6dEz
-	Qjtw==
-X-Received: by 10.180.87.230 with SMTP id bb6mr133807wib.26.1441048334222;
-	Mon, 31 Aug 2015 12:12:14 -0700 (PDT)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id
-	pu6sm23568430wjc.34.2015.08.31.12.12.12
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 31 Aug 2015 12:12:13 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Aug 2015 12:12:03 -0700
-Message-Id: <00b6da871787d810007054f6a8095fbb44d6cbce.1441048182.git.chris_larson@mentor.com>
-X-Mailer: git-send-email 2.2.1
-In-Reply-To: <02054faced424f2d07fb72f8ac92ee93521c519e.1441048182.git.chris_larson@mentor.com>
-References: <02054faced424f2d07fb72f8ac92ee93521c519e.1441048182.git.chris_larson@mentor.com>
-In-Reply-To: <cover.1441048182.git.chris_larson@mentor.com>
-References: <cover.1441048182.git.chris_larson@mentor.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2 3/3] pulseaudio: add 'autospawn-for-root' PACKAGECONFIG
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=DDLNNJ+7wBpRdgCC8mdb9j48yZBEHZRIEH99MxmxfJs=;
+	b=VGwCimH0cd2NYVmdzS3IxCcMTo4kZFYZXejyBbHHm/34k+seAmW5AIrsbXrANYTTkz
+	O9URxklccsCidXjw25fHnOBLCbxqBn4Byn/8Xvl7zIGdwk1oSJCsnMgkcjday2OYqfLV
+	O41+sXCHysfx7prRNBFOq1mh6ogswoe5+3PnWZEw66Xlp6ujQozmcutlzR+plztRNbMg
+	GI+Ssps3dhXnqus4RvXhd5QeQNglqsH2WCFPiYIX7E5+08MGHAkgp0RtaSKgyEJwS2TA
+	/fE/gAQS1RgF85Ei/EUsSyC8EvPsP8RwoxMHP/C2EsG92X9KMe7qMFgBbS0zIghQRFKH
+	bfyg==
+X-Received: by 10.107.149.77 with SMTP id x74mr468275iod.112.1441048382463;
+	Mon, 31 Aug 2015 12:13:02 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.107.162.202 with HTTP; Mon, 31 Aug 2015 12:12:33 -0700 (PDT)
+In-Reply-To: <20150831184113.GF2465@jama>
+References: <20150830114819.3628250369@opal.openembedded.org>
+	<20150831184113.GF2465@jama>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 31 Aug 2015 12:12:33 -0700
+Message-ID: <CAMKF1srpZV1h5gwHXNOmoHFNqR_g32pTPneER8yJmKqtJCpazQ@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-commits@lists.openembedded.org"
+	<openembedded-commits@lists.openembedded.org>,
+	Christopher Larson <chris_larson@mentor.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [oe-commits] Christopher Larson : update-rc.d.bbclass: explicitly dep on initscripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,53 +44,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 19:12:15 -0000
+X-List-Received-Date: Mon, 31 Aug 2015 19:13:05 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Christopher Larson <chris_larson@mentor.com>
+On Mon, Aug 31, 2015 at 11:41 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
+>> update-rc.d.bbclass: explicitly dep on initscripts
+>>
+>> update-rc.d doesn't just want an initscripts package, it wants
+>> initscripts-functions. In the case where VIRTUAL-RUNTIME_initscripts is set to
+>> nothing, update-rc.d still needs initscripts-functions to satisfy its runtime
+>> dependencies. Further, we shouldn't be using a *runtime* virtual in a *build
+>> time* variable. This should resolve image creation failures with
+>> configurations without sysv initscripts when a recipe inherits update-rc.d and
+>> doesn't inherit systemd.
+>>
+>> (From OE-Core rev: e6642ae0849e5ac3174c643a7693af25d829d6d1)
+>
+> Unfortunately this means that I cannot PNBLACKLIST initscripts recipe in
+> DISTRO which provides own initscripts implementation (which also
+> provides initscripts-functions).
+>
+> What's even worse is that I'll have to overlay whole bbclass to get rid
+> of this dependency :/
+>
 
-Since many embedded systems don't have non-root users, it's useful to be able
-to use pulseaudio autospawn for root as well.
-
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
----
- meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index 6199dcd..bca8e36 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -47,6 +47,9 @@ PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enabl
- PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
- PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
- PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
-+# Since many embedded systems don't have non-root users, it's useful to be
-+# able to use pulseaudio autospawn for root as well.
-+PACKAGECONFIG[autospawn-for-root] = ",,,"
- 
- EXTRA_OECONF_append_arm = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
- EXTRA_OECONF_append_armeb = "${@bb.utils.contains("TUNE_FEATURES", "neon", "", " --enable-neon-opt=no", d)}"
-@@ -59,6 +62,19 @@ export TARGET_PFPU = "${TARGET_FPU}"
- OE_LT_RPATH_ALLOW = "any"
- OE_LT_RPATH_ALLOW[export]="1"
- 
-+set_cfg_value () {
-+	sed -i -e "s/\(; *\)\?$2 =.*/$2 = $3/" "$1"
-+	if ! grep -q "^$2 = $3\$" "$1"; then
-+		die "Use of sed to set '$2' to '$3' in '$1' failed"
-+	fi
-+}
-+
-+do_compile_append () {
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'autospawn-for-root', 'true', 'false', d)}; then
-+		set_cfg_value src/client.conf allow-autospawn-for-root yes
-+	fi
-+}
-+
- do_install_append() {
- 	install -d ${D}${sysconfdir}/default/volatiles
- 	install -m 0644 ${WORKDIR}/volatiles.04_pulse  ${D}${sysconfdir}/default/volatiles/volatiles.04_pulse
--- 
-2.2.1
-
+would it help if initscript-functions was also PROVIDED by initscript
+replacement ?
 
