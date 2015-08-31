@@ -1,27 +1,29 @@
-Return-Path: <niqingliang2003@gmail.com>
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
-	[209.85.223.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AB6C76D6C
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 018D376D6C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 15:07:10 +0000 (UTC)
-Received: by iog7 with SMTP id 7so37645961iog.2
+	Mon, 31 Aug 2015 15:15:34 +0000 (UTC)
+Received: by qkct7 with SMTP id t7so858438qkc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 08:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=QmtBFYpvTA7FdQ1MCR38XZ4LTcWwf5l6N6aqH1LMkCk=;
-	b=iP7uO3ctAGYsWYALSZm+TLCdknjFZQexvbtesbaYYRe2mR851bFCn71vRSaKGmyKhI
-	hld15509fQG8hS1dYqnCWFwGGrenYCgJlEBfPWnN3GsW/m3BAcO21jNTTRx/6LKUtjn8
-	m6ubfR5/PVkd5A9vo+xrFZdvxk99F7DKhCHy9sVhyflvYKar546HJmr2Egxs65EHxRpQ
-	9TBZA/Hz6h+S9jh6ZCdAQbu9UnvQpCr73Is4A4lXsekL9XEcMxF3zxfHN76M0Psh63zl
-	gNFcTigOMn3U2UhsyXYdUQ+cWYZBL6M9zDtaJpssth1jfPiDxlVnv4G+aftRXvO9NfNM
-	bM8w==
+	Mon, 31 Aug 2015 08:15:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=QyHR/7Qws5e80BUIy+psEE9U2c7fH2Ct5RoLHd1z+1c=;
+	b=VacCeDb+Zanjf3hQRO5sIzblBwyy/Zf2wDkGNYe5TgwJhoTmwDR9iCnXFZo7IsoDDk
+	5wF6jxy3ZEp4Nh8LIw+LwbZqzaeDuYKoTJW2etPE9W22ECmjnaB/W+0PRlVfCFeg9UI7
+	U2HiKMM+oscu6RimpUcEeWYFpCj2vqwbLtQi6qtYLOUJJQGoiZYmCQ49/U7QH3JknrWn
+	pZYzLxZS0Xl5AkJ60e6HNvnNfTXj1Q5b9iFaf7KUGQjnkjVUhK8dvlvdl4kMkS2l591Y
+	tOlFKAYExRneT7V/YZF4Il6WCKmiADQUMDq7AEz6MzoeW2gxdX+LIYBgwF7Q4jTTSZuu
+	FRnQ==
+X-Gm-Message-State: ALoCoQmfi1XiT2cGX3M7NsNEBFs5eeug6hWYuvi6vhJ8ai+eZpqujRsSXOQkVs+sCHQHLqCnIn1r
+X-Received: by 10.55.195.66 with SMTP id a63mr9727967qkj.67.1441034134518;
+	Mon, 31 Aug 2015 08:15:34 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.107.27.210 with SMTP id b201mr16246538iob.126.1441033629435; 
-	Mon, 31 Aug 2015 08:07:09 -0700 (PDT)
-Received: by 10.36.21.200 with HTTP; Mon, 31 Aug 2015 08:07:09 -0700 (PDT)
-In-Reply-To: <CAP71Wjwg3g-rv4H1u7F=owP8XW5B6QOLyeF2TTsP1a2dCHsGBw@mail.gmail.com>
+Received: by 10.140.98.9 with HTTP; Mon, 31 Aug 2015 08:15:15 -0700 (PDT)
+In-Reply-To: <CADwFkYfJn7SAhQMqpgz4NQW5V0PZi4z2_RONydy7ZN54frZ9pQ@mail.gmail.com>
 References: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
 	<1440604110-4306-2-git-send-email-nicolas.dechesne@linaro.org>
 	<CAJTo0LYdwRnzLUr9egN1JSj+G8iWKmeaTyghh4amBXcBs0-Uhg@mail.gmail.com>
@@ -29,10 +31,11 @@ References: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
 	<CAP71Wjy_i=DQOtJUL=NVbfK6jXgO8=+CYsG7LU2fATM=UX=TLQ@mail.gmail.com>
 	<CAP9ODKpznObiFaXkxOPmRBA9vfpmeoz2620sSwjUbmevX2cEPQ@mail.gmail.com>
 	<CAP71Wjwg3g-rv4H1u7F=owP8XW5B6QOLyeF2TTsP1a2dCHsGBw@mail.gmail.com>
-Date: Mon, 31 Aug 2015 23:07:09 +0800
-Message-ID: <CADwFkYfJn7SAhQMqpgz4NQW5V0PZi4z2_RONydy7ZN54frZ9pQ@mail.gmail.com>
-From: Yi Qingliang <niqingliang2003@gmail.com>
-To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+	<CADwFkYfJn7SAhQMqpgz4NQW5V0PZi4z2_RONydy7ZN54frZ9pQ@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Mon, 31 Aug 2015 17:15:15 +0200
+Message-ID: <CAP71Wjwm8SYUY1NqwOwom_4EYf9B=8pSDQwKFzdoaR-yXWB5UQ@mail.gmail.com>
+To: Yi Qingliang <niqingliang2003@gmail.com>
 Cc: Otavio Salvador <otavio.salvador@ossystems.com.br>,
 	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [RFC PATCH 1/2] android-tools: import android-tools from meta-smartphone into oe-core
@@ -48,31 +51,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 15:07:13 -0000
+X-List-Received-Date: Mon, 31 Aug 2015 15:15:35 -0000
 Content-Type: text/plain; charset=UTF-8
 
-can we compile android system using oe?
-the Makefile system of android is too complicated to load/use.
+On Mon, Aug 31, 2015 at 5:07 PM, Yi Qingliang <niqingliang2003@gmail.com> wrote:
+> can we compile android system using oe?
+> the Makefile system of android is too complicated to load/use.
 
-On Mon, Aug 31, 2015 at 10:28 PM, Nicolas Dechesne
-<nicolas.dechesne@linaro.org> wrote:
-> On Mon, Aug 31, 2015 at 4:12 PM, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->>> compared to 'regular' ext4 images , fastboot added the (convenient)
->>> ability to support sparse images, to reduce the size of what is
->>> transmitted over the USB, when flashing (and reduce the size of
->>> writting to eMMC). For devices with 8GB+ eMMC that is a big deal
->>> whether we flash a raw ext4 image, or its sparse'd version. More info
->>> about fastboot sparse format at [1].
->>
->> It does help for images it seems; did you see if someone has propose a
->> patch for e2fstools to enable this?
->
-> no, i haven't seen anything there. Note that it would be a
-> fastboot-specific sparse format.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I believe this is fairly off topic. I am not trying to rebuild Android
+here. Just trying to load a regular OE image on devices that typically
+run Android.
 
