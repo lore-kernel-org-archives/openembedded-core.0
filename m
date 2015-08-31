@@ -1,26 +1,30 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DCE576E99
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id C644D74197
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 16:16:37 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 31 Aug 2015 09:16:36 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,442,1437462000"; d="scan'208";a="552303482"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by FMSMGA003.fm.intel.com with ESMTP; 31 Aug 2015 09:16:36 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Aug 2015 08:10:00 +0000
-Message-Id: <a7907c41259e51fd12a5e4519cd4cb2bd0fd561b.1441007355.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1441007355.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1441007355.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1441007355.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1441007355.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH v3 2/3] devtool-upgrade: sample recipe to test the devtool feature
+	Mon, 31 Aug 2015 17:03:22 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7VH3IPo003846; Mon, 31 Aug 2015 18:03:18 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id CpzKHf1d0yuv; Mon, 31 Aug 2015 18:03:18 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7VH36hT003842
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 31 Aug 2015 18:03:17 +0100
+Message-ID: <1441040586.26554.54.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date: Mon, 31 Aug 2015 18:03:06 +0100
+In-Reply-To: <838cec7998682f102d8db694548d9eda8ddfe214.1440763946.git.alexander.kanavin@linux.intel.com>
+References: <cover.1440763946.git.alexander.kanavin@linux.intel.com>
+	<838cec7998682f102d8db694548d9eda8ddfe214.1440763946.git.alexander.kanavin@linux.intel.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 7/8] ccache: update to 3.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,127 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 16:16:38 -0000
+X-List-Received-Date: Mon, 31 Aug 2015 17:03:24 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+On Fri, 2015-08-28 at 15:18 +0300, Alexander Kanavin wrote:
+> The LICENSE checksum has changed because of updated copyright years.
+> 
+> SRC_URI has been changed to git, because upstream tarball is broken
+> (includes configure.ac but not .m4 files it depends on).
+> 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+>  meta/recipes-devtools/ccache/ccache.inc       | 4 +++-
+>  meta/recipes-devtools/ccache/ccache_3.1.11.bb | 7 -------
+>  meta/recipes-devtools/ccache/ccache_3.2.3.bb  | 6 ++++++
+>  3 files changed, 9 insertions(+), 8 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/ccache/ccache_3.1.11.bb
+>  create mode 100644 meta/recipes-devtools/ccache/ccache_3.2.3.bb
 
-In order to have an 'upgradable' recipe, a base recipe is created
-(devtool-upgrade_0.1.bb). Under the files folder, source code of
-the base (0.1) and the upgrade (0.2) is located.
+I suspect this resulted in:
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
----
- .../recipes-test/devtool/devtool-upgrade_0.1.bb    |  25 +++++++++++++++++++
- ...-exit-with-EXIT_SUCCESS-instead-of-a-magi.patch |  27 +++++++++++++++++++++
- .../devtool/files/devtool-upgrade-0.1.tar.gz       | Bin 0 -> 411 bytes
- .../devtool/files/devtool-upgrade-0.2.tar.gz       | Bin 0 -> 411 bytes
- 4 files changed, 52 insertions(+)
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade_0.1.bb
- create mode 100644 meta-selftest/recipes-test/devtool/files/0001-helloword.c-exit-with-EXIT_SUCCESS-instead-of-a-magi.patch
- create mode 100644 meta-selftest/recipes-test/devtool/files/devtool-upgrade-0.1.tar.gz
- create mode 100644 meta-selftest/recipes-test/devtool/files/devtool-upgrade-0.2.tar.gz
+https://autobuilder.yoctoproject.org/main/builders/nightly-rpm/builds/464/steps/BuildImages/logs/stdio
 
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade_0.1.bb b/meta-selftest/recipes-test/devtool/devtool-upgrade_0.1.bb
-new file mode 100644
-index 0000000..33ffc88
---- /dev/null
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade_0.1.bb
-@@ -0,0 +1,25 @@
-+#
-+# This file was derived from the 'Hello World!' example recipe in the
-+# Yocto Project Development Manual.
-+#
-+
-+DESCRIPTION = "Simple helloworld application used to test the devtool upgrade feature"
-+SECTION = "devtool"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+PR = "r0"
-+
-+SRC_URI = "file://${THISDIR}/files/${P}.tar.gz \
-+           file://0001-helloword.c-exit-with-EXIT_SUCCESS-instead-of-a-magi.patch \
-+           "
-+
-+S = "${WORKDIR}/${P}"
-+
-+do_compile() {
-+	     ${CC} helloworld.c -o helloworld
-+}
-+
-+do_install() {
-+	     install -d ${D}${bindir}
-+	     install -m 0755 helloworld ${D}${bindir}
-+}
-diff --git a/meta-selftest/recipes-test/devtool/files/0001-helloword.c-exit-with-EXIT_SUCCESS-instead-of-a-magi.patch b/meta-selftest/recipes-test/devtool/files/0001-helloword.c-exit-with-EXIT_SUCCESS-instead-of-a-magi.patch
-new file mode 100644
-index 0000000..2294a09
---- /dev/null
-+++ b/meta-selftest/recipes-test/devtool/files/0001-helloword.c-exit-with-EXIT_SUCCESS-instead-of-a-magi.patch
-@@ -0,0 +1,27 @@
-+From 0f37affbc6e6c71687301d99d7259f1968e57c48 Mon Sep 17 00:00:00 2001
-+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-+Date: Wed, 26 Aug 2015 12:42:23 +0000
-+Subject: [PATCH] helloword.c: exit with EXIT_SUCCESS instead of a magic number
-+
-+---
-+ helloworld.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/helloworld.c b/helloworld.c
-+index 71f2e46..54bf50b 100644
-+--- a/helloworld.c
-++++ b/helloworld.c
-+@@ -1,8 +1,9 @@
-+ #include <stdio.h>
-++#include <stdlib.h>
-+ 
-+ int main(int argc, char **argv)
-+ {
-+     printf("Hello World!\n");
-+ 
-+-    return 0;
-++    return EXIT_SUCCESS;
-+ }
-+-- 
-+1.8.4.5
-+
-diff --git a/meta-selftest/recipes-test/devtool/files/devtool-upgrade-0.1.tar.gz b/meta-selftest/recipes-test/devtool/files/devtool-upgrade-0.1.tar.gz
-new file mode 100644
-index 0000000000000000000000000000000000000000..06a1c49cd9b440bba0cc16363b60d11b206895bf
-GIT binary patch
-literal 411
-zcmV;M0c8FkiwFRs0OVBw1MSs8Z-Ous2XM}Oiq2isOzbNymALKfakpJ|X@DsSf+^rk
-zmVNiNCX1Wm=7!Ojz2Bwa6WR*@r#F01t4X5bM3)};AjB|EmQ_(?gL*O5=JNsdz-fgV
-z0q5({*d8hP%mF4Om}BOHL(M8cIAqms+QZakrL<W}+xu*9?n3yK%&T;s+yUq2_ZO0Z
-z7X*CdQx4KKRrRF`fyV{2RmN;J+JEi2cZLqp5cc7*=dgK@LfDZ3h4ndX`oTIbTlx2;
-zbci_iLYjQ!KPy!p7t6h^t}ac7{N_Fvn*XNfzw?hUOR}tZDRdTl(I4jcx&MQG{(<y;
-z^IDkifs_*a|4FcL)BmXmSs(*1q#*?1i2b(xf2p2(W9T4F`EMEb9iQ^w*#Cixo&0m^
-zkduVypZEXkG>@`6PRMOp#cAQq?p-&{D>7GU-n9oxPoo<W&6FnnzByU;+*g+v3vJ5J
-z-Oj|mE#%R@E>}-^r#E)jWt~*D&Iuj6Z`cbELI@#*5JCtcgb+dqA%qY*jd!bMh~WSz
-F005Y))ZYLA
+Cheers,
 
-literal 0
-HcmV?d00001
-
-diff --git a/meta-selftest/recipes-test/devtool/files/devtool-upgrade-0.2.tar.gz b/meta-selftest/recipes-test/devtool/files/devtool-upgrade-0.2.tar.gz
-new file mode 100644
-index 0000000000000000000000000000000000000000..9b0dcf4b6c1210f2b907ea62b62288d917effc4b
-GIT binary patch
-literal 411
-zcmV;M0c8FkiwFQe0OVBw1MSs8Z-Ous0ASDjiq2is%-WWgLfm%txZ5tfG{BSu!4z~R
-z%l`WwB#YDG=7!Ojz3)=mS1E<QCmlVQ^&~b?YzxYTuf-^eS7n~3!{uUXVSLD_=(NIs
-zCuQA&-Ij4zbhuEOR~-%GTqz+tWZiDr!z_!^Sa_7S_u1Xtg>V^}m&rW7<5I%=SDuhm
-zOW${y473ALvlZon20nwRVs$j!|J!r#3>~5&*+<7-qfTq3s#b8u>ptJqgF0Py@?XL<
-zqK^F_O+NBJEld{WE53goRLF1cbD{a)^!>m5Bh2D7&0lhxMl}4x8b8;6UVVR0yDl6H
-zm?vP+#rl5=BG}Y_rUKz<j|ME@Uf_%0mjA8jxi^Lm(v<%#)BTH2`QKRoxm4Tv&$X6N
-z|4))c|GfTRCs~*-qnO+lWt8M}cJDYzR+70%vR-vz>@>U~;mlYv7(i#$cU~O=78b(K
-zz3!wsE#$E}E>}-kw?B63u#L;5%?KMiZ&(WuLI@#*5JCtcgb+dqA%qY*jdwLBEfxSM
-F003pq%-sM0
-
-literal 0
-HcmV?d00001
-
--- 
-1.8.4.5
+Richard
 
 
