@@ -1,30 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C644D74197
+Return-Path: <elizabeth.flanagan@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 29CA674197
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 17:03:22 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7VH3IPo003846; Mon, 31 Aug 2015 18:03:18 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id CpzKHf1d0yuv; Mon, 31 Aug 2015 18:03:18 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7VH36hT003842
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 31 Aug 2015 18:03:17 +0100
-Message-ID: <1441040586.26554.54.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Date: Mon, 31 Aug 2015 18:03:06 +0100
-In-Reply-To: <838cec7998682f102d8db694548d9eda8ddfe214.1440763946.git.alexander.kanavin@linux.intel.com>
-References: <cover.1440763946.git.alexander.kanavin@linux.intel.com>
-	<838cec7998682f102d8db694548d9eda8ddfe214.1440763946.git.alexander.kanavin@linux.intel.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 7/8] ccache: update to 3.2.3
+	Mon, 31 Aug 2015 17:05:04 +0000 (UTC)
+Received: by iods203 with SMTP id s203so165517065iod.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Aug 2015 10:05:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=/17pzLxH9w/kUyZLmXlToIq6A1HdG+j26EJt4In81vA=;
+	b=elNe92KvMTlra0jv3xmEIJZ86RlP8LWlbswU4AcUJ76zdjI0VjHSZZuwkx+HmmA49e
+	K9aK12HEU7mSOGg0oTGRwlcHAORz0eV7/Yt4FrRv+FOx1dmmX9Ta8e6pHGKgtwEeNI2p
+	Z0fdvgoxkybgV4X3/TmhPN64SWJuMhPYsILD9JH/LNYSzhyjH0dZbnHfx9R4wJiBJ1mq
+	rmyUKoNp3UR5Z8+x6S6oYPtJ6mHpAuHV8aCg7TnFuLQ63BnPnzdRuB0uEgI8N0J2qiXx
+	9jsD/m9/lwaIX3/y33H88/ISdiWE0dqI9wSt2hLxcU+ISa5RHXefVI9e4MX/ZyL3535x
+	M9fA==
+X-Gm-Message-State: ALoCoQlytT+F0WCY1a7c3QVt7bQ0zWT8dIodS1icV+D3KI7h4kajTFhRwJzqTiAtv4L2EpC5stKF
+MIME-Version: 1.0
+X-Received: by 10.107.8.20 with SMTP id 20mr11289851ioi.94.1441040704475; Mon,
+	31 Aug 2015 10:05:04 -0700 (PDT)
+Received: by 10.107.39.84 with HTTP; Mon, 31 Aug 2015 10:05:04 -0700 (PDT)
+In-Reply-To: <1440952270-9085-1-git-send-email-raj.khem@gmail.com>
+References: <1440952270-9085-1-git-send-email-raj.khem@gmail.com>
+Date: Mon, 31 Aug 2015 18:05:04 +0100
+Message-ID: <CAPhnLPBue6s_m7rYYyuy6hyxdBTz8y1MedgspDeOLcL1XaunYQ@mail.gmail.com>
+From: "Flanagan, Elizabeth" <elizabeth.flanagan@intel.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xz: Correctly specify GPL-3.0 with autoconf exception
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +44,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 17:03:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 31 Aug 2015 17:05:07 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Fri, 2015-08-28 at 15:18 +0300, Alexander Kanavin wrote:
-> The LICENSE checksum has changed because of updated copyright years.
-> 
-> SRC_URI has been changed to git, because upstream tarball is broken
-> (includes configure.ac but not .m4 files it depends on).
-> 
-> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+On 30 August 2015 at 17:31, Khem Raj <raj.khem@gmail.com> wrote:
+> There is m4/ax_pthread.m4 macro which uses GPL-3.0 with autoconf
+> exception, there is no other occurance of GPL-3.0 use, lets mark the
+> licence correctly.
+
+Unless the macro is actually shipped with any of the packages, I don't
+think we actually need to do this. Generally, LICENSE should be the
+intersection of all LICENSE_${PN}*.
+
+I think the correct fix here is actually:
+
+LICENSE = "GPLv2+ & PD"
+LICENSE_${PN} = "GPLv2+"
+LICENSE_${PN}-dev = "GPLv2+"
+LICENSE_${PN}-staticdev = "GPLv2+"
+LICENSE_${PN}-doc = "GPLv2+"
+LICENSE_${PN}-dbg = "GPLv2+"
+LICENSE_${PN}-locale = "GPLv2+"
+LICENSE_liblzma = "PD"
+
+
+
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ---
->  meta/recipes-devtools/ccache/ccache.inc       | 4 +++-
->  meta/recipes-devtools/ccache/ccache_3.1.11.bb | 7 -------
->  meta/recipes-devtools/ccache/ccache_3.2.3.bb  | 6 ++++++
->  3 files changed, 9 insertions(+), 8 deletions(-)
->  delete mode 100644 meta/recipes-devtools/ccache/ccache_3.1.11.bb
->  create mode 100644 meta/recipes-devtools/ccache/ccache_3.2.3.bb
+>  meta/recipes-extended/xz/xz_5.2.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/xz/xz_5.2.1.bb b/meta/recipes-extended/xz/xz_5.2.1.bb
+> index e0ae48f..cf7fba6 100644
+> --- a/meta/recipes-extended/xz/xz_5.2.1.bb
+> +++ b/meta/recipes-extended/xz/xz_5.2.1.bb
+> @@ -6,7 +6,7 @@ SECTION = "base"
+>  # which is GPLv3 is an m4 macro which isn't shipped in any of our packages,
+>  # and the LGPL bits are under lib/, which appears to be used for libgnu, which
+>  # appears to be used for DOS builds. So we're left with GPLv2+ and PD.
+> -LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+ & PD"
+> +LICENSE = "GPLv2+ & GPL-3.0-with-autoconf-exception & LGPLv2.1+ & PD"
+>  LICENSE_${PN} = "GPLv2+"
+>  LICENSE_${PN}-dev = "GPLv2+"
+>  LICENSE_${PN}-staticdev = "GPLv2+"
+> --
+> 2.5.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-I suspect this resulted in:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-rpm/builds/464/steps/BuildImages/logs/stdio
 
-Cheers,
-
-Richard
-
+-- 
+Elizabeth Flanagan
+Yocto Project
+Build and Release
 
