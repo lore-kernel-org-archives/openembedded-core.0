@@ -1,36 +1,38 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id F016376EA4
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id EAD7176EA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 19:15:23 +0000 (UTC)
-Received: by igui7 with SMTP id i7so62957246igu.1
+	Mon, 31 Aug 2015 19:20:29 +0000 (UTC)
+Received: by iod35 with SMTP id 35so39980729iod.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 12:15:23 -0700 (PDT)
+	Mon, 31 Aug 2015 12:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
 	:cc:content-type;
-	bh=CRBBWwwjYkNdDFaFsBAwuC8IhxjTEQz7dCqEKKEMa5o=;
-	b=IaXWPKgyY4uRyPeWllKZP5RYV2yj1USk2dBv5u/VQimvLCPFJFGj9Sxz657fnpafRZ
-	gqZtN/o3pDAgneJw/bYhlSEw4DQzDm4tfokFxGULeR+maDPRotcphsBJtC7CA+3AXzYN
-	c8e1pMqgBaqguDFayCZY0P/BSUSiAN5ieECwBHI8JvmS7Io58u+LywP4YEinz4xAOcOx
-	JwO1XBCAV2eR/tu9KQiuFj4j9TBN7eveW7Mq9VhXN7Yj4KzELRsw2113wv3EQ0FLRb0+
-	RZeFc2BMiefEpZSRhNd34cvkLkU27QmXPI+JmzSpOqCEkIWDgPDTlNPSrPnxj1KcjwvO
-	E78w==
-X-Received: by 10.50.17.66 with SMTP id m2mr114019igd.77.1441048523876; Mon,
-	31 Aug 2015 12:15:23 -0700 (PDT)
+	bh=rBQNW90MGIMtVOPstyJ3uOb/26hFa9e1u2seracK7gE=;
+	b=BMuH6iG+yWj1vYB0DqemgLMpI5znhSVc+viEvZIPsLWbqh9rlj6GkHrqefViNKYXxI
+	Fs8icb6ogFuyTyynUY7HIiGgy4ImjSksXRyImTYVbMuIBTGnslwo9hWXHQ25u//nvnYy
+	lJW+yKPXu48pB5uRMc2mKDO9nvGdH12b3O45xqIbdAh3Kwt/zeBsBpqnrCTuuMbLTmKn
+	mQ9tOWV2b0WdIwpGu50g2xXofm0Xy7q89nAiSIocgaPx1XjAAXr3gn7nFJunFT3A1j6X
+	oo0XwJ+3JYQEv3TrW/h3M/3yPNBodSEyCjYDHyeJvvJg38jphfeTlq1BBLNb+FyzoRvh
+	imZA==
+X-Received: by 10.107.35.195 with SMTP id j186mr24155465ioj.49.1441048829444; 
+	Mon, 31 Aug 2015 12:20:29 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.107.162.202 with HTTP; Mon, 31 Aug 2015 12:14:54 -0700 (PDT)
-In-Reply-To: <CABcZANmWhU5sFXSU1j=3GOPu0gOCY3Nt_b54oQkRLhzs=ERSYQ@mail.gmail.com>
+Received: by 10.107.162.202 with HTTP; Mon, 31 Aug 2015 12:20:00 -0700 (PDT)
+In-Reply-To: <55E4940B.5050105@windriver.com>
 References: <1440952270-9085-1-git-send-email-raj.khem@gmail.com>
 	<CAPhnLPBue6s_m7rYYyuy6hyxdBTz8y1MedgspDeOLcL1XaunYQ@mail.gmail.com>
 	<CAMKF1srWus=7f3EoCGtMVez0FbsFPsa1g8COMM87pqxxpkg2zw@mail.gmail.com>
 	<CABcZANmWhU5sFXSU1j=3GOPu0gOCY3Nt_b54oQkRLhzs=ERSYQ@mail.gmail.com>
+	<55E4940B.5050105@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 31 Aug 2015 12:14:54 -0700
-Message-ID: <CAMKF1sr25DziqwxD=cFx6TpwpQArewbx3aZAsFJ8Givw7cVmYw@mail.gmail.com>
-To: Christopher Larson <clarson@kergoth.com>
-Cc: Patches and discussions about the oe-core layer
+Date: Mon, 31 Aug 2015 12:20:00 -0700
+Message-ID: <CAMKF1sqSTenmfkQst644-c0yGHmheSE0APwOR7cHK_5-T_d4mQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+Cc: Christopher Larson <clarson@kergoth.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] xz: Correctly specify GPL-3.0 with autoconf exception
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -45,17 +47,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 19:15:25 -0000
+X-List-Received-Date: Mon, 31 Aug 2015 19:20:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Aug 31, 2015 at 10:35 AM, Christopher Larson
-<clarson@kergoth.com> wrote:
-> I think we need a way to indicate the license of the source in addition to
-> the license of what we ship, to cover the case where the license affects the
-> ability to redistribute sources. I'd thought that the base LICENSE was
-> essentially that. If that's not the case, then we should give some careful
-> thought to how to cover both.
+On Mon, Aug 31, 2015 at 10:51 AM, Mark Hatle <mark.hatle@windriver.com> wrote:
+>
+> The way the recipe 'LICENSE =' field was defined, AFAIK, was that it was the
+> license of the source used to construct the binaries.
+>
+> So if the autoconf was GPLv3, but the package and it's sources are GPLv2+, it
+> would be listed as GPLv2+.
+>
+> Making this assumption allows us to be confident that the general license of
+> recipe matches the binaries constructed by the recipe, allowing LICENSE-${PN} =
+> ${LICENSE} in the general case.
+>
 
-thats my understanding as well, as we can enable archiver and
-distribute sources. and thats what the exception is about too.
+it seems in your view the build system or generator files are
+excluded. Which we can not say untill and until the generator files
+say that explicitly like the autoconf exception.  In my understanding
+the build scripts and files also form the part of compilatiion
+process.
+
+> This does certainly put in an interesting situation though if there is an
+> obscure license where the binaries and sources are effectively under different
+> restrictions.  (Perhaps if a build environment contained a license that required
+> an advertising clause, but the produced binaries did not include it.  The
+> obligation to advertise or not could be up for some debate by a lawyer, even
+> though the source code may need to be redistributed.)
+
+We may not treat build system differently than other sources of component.
+
+>
+> Do you know of any cases where this may be true or where end users may have
+> concerns that a license is not properly represented?
+
+proprietary components based on some external build systems may be
 
