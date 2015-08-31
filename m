@@ -1,37 +1,40 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 652F276ED5
+Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
+	[209.85.212.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B64976FF1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 19:12:10 +0000 (UTC)
-Received: by wicmx12 with SMTP id mx12so8444968wic.0
+	Mon, 31 Aug 2015 19:12:12 +0000 (UTC)
+Received: by wicjd9 with SMTP id jd9so9772384wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 12:12:10 -0700 (PDT)
+	Mon, 31 Aug 2015 12:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=3ZVk1EGiqkqnwTISk7Wl5vkOdjcHLu13bI1kdBZoO5g=;
-	b=V3sxblMtFakhtK99/Fit8m7dIhsebR9wsf2hevLUyP/E+aSo3MvLgULb0WeGweu9Vu
-	hO1kAn+Ta1gY7zp+v4izBPY0xIdtssSJ6zQDSoK4AQKrap8kS7okA4fbCh9XtaT3JjA9
-	QyMa7Zvbmg+QgrEKNGZ4JtxqzqBbLcJnTFFZym6ESKNSA65u+X7xh4Z5FT6qe1kquEEx
-	9Uxmq4CpXPiGe8e0y04qm8FQcUpxMaiHTJkzihp8+6GsDkZXueVWbCvU7vNgqbyz6KVp
-	zw+uZILoueDoqW6eFahpI7o77HBzMHB+K5BPrEnbQceYHR/eZBiLdiBjXM42VpFO30vK
-	gT2Q==
-X-Received: by 10.180.92.225 with SMTP id cp1mr151731wib.2.1441048330269;
-	Mon, 31 Aug 2015 12:12:10 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=u8qgnnTlPJcSGdNHb8L33sWFS+N2Z3e2RKa2hMY649A=;
+	b=Gof0yU3865P8e3o98dk88cwdvY2gZ/NskWnMIzZ8CvxVzVE4FlzAuWUzikw7dUerhP
+	FXI3ddh58gRNk9S8KP6pQWgftGeCSgQzo/wl4lCo/pDsJ4WLQplzfPcWtl9XRvaHtMOw
+	pW+//skXg7hXm4pBz/x3lMCMkMBLA4UXrIGcdB7SIHcnd6F5slsZmAwISTYLf91iWh18
+	WCCa/KHspDPGCbA9XUEblS/xyHoxbkUa27XjXxelvEQjuI+5oU0dsvlWKEo/f7yVTmxc
+	yGJuOnFxa472wMKkbIolSm9G0S8ZLdLtsqj82RYRBfYz04UDXsIz6XxNK7q5oCcy4Yit
+	7ytw==
+X-Received: by 10.194.104.39 with SMTP id gb7mr29091105wjb.150.1441048332204; 
+	Mon, 31 Aug 2015 12:12:12 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
 	by smtp.gmail.com with ESMTPSA id
-	pu6sm23568430wjc.34.2015.08.31.12.12.08
+	pu6sm23568430wjc.34.2015.08.31.12.12.10
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 31 Aug 2015 12:12:09 -0700 (PDT)
+	Mon, 31 Aug 2015 12:12:11 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 31 Aug 2015 12:12:01 -0700
-Message-Id: <02054faced424f2d07fb72f8ac92ee93521c519e.1441048182.git.chris_larson@mentor.com>
+Date: Mon, 31 Aug 2015 12:12:02 -0700
+Message-Id: <105a8ba3de65ee37a616bff4e1c455d29bf89bf8.1441048182.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
+In-Reply-To: <02054faced424f2d07fb72f8ac92ee93521c519e.1441048182.git.chris_larson@mentor.com>
+References: <02054faced424f2d07fb72f8ac92ee93521c519e.1441048182.git.chris_larson@mentor.com>
 In-Reply-To: <cover.1441048182.git.chris_larson@mentor.com>
 References: <cover.1441048182.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2 1/3] packagegroup-core-x11-sato: obey the pulseaudio distro feature
+Subject: [PATCHv2 2/3] pulseaudio: pass --with-systemduserunitdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,29 +47,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 19:12:10 -0000
+X-List-Received-Date: Mon, 31 Aug 2015 19:12:12 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
+We want to make sure our path variables are obeyed.
+
 Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-index 04d1e99..e0b1f51 100644
---- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-+++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-@@ -39,8 +39,7 @@ RDEPENDS_${PN}-base = "\
-     libsdl \
-     ${NETWORK_MANAGER} \
-     udev-extraconf \
--    pulseaudio-server \
--    pulseaudio-client-conf-sato \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'pulseaudio', 'pulseaudio-server pulseaudio-client-conf-sato', '', d)} \
-     "
- 
- # pcmanfm doesn't work on mips
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index a098473..6199dcd 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -43,7 +43,7 @@ PACKAGECONFIG[bluez4] = "--enable-bluez4,--disable-bluez4,bluez4 sbc"
+ PACKAGECONFIG[bluez5] = "--enable-bluez5,--disable-bluez5,bluez5 sbc"
+ PACKAGECONFIG[ofono] = "--enable-bluez5-ofono-headset,--disable-bluez5-ofono-headset,ofono"
+ PACKAGECONFIG[gtk] = "--enable-gtk3,--disable-gtk3,gtk+3"
+-PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal,--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
++PACKAGECONFIG[systemd] = "--enable-systemd-daemon --enable-systemd-login --enable-systemd-journal --with-systemduserunitdir=${systemd_user_unitdir},--disable-systemd-daemon --disable-systemd-login --disable-systemd-journal,systemd"
+ PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxtst libice libsm libxcb"
+ PACKAGECONFIG[avahi] = "--enable-avahi,--disable-avahi,avahi"
+ PACKAGECONFIG[jack] = "--enable-jack,--disable-jack,jack"
 -- 
 2.2.1
 
