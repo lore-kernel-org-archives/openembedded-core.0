@@ -1,39 +1,40 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id C351E76D6C
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 13:38:59 +0000 (UTC)
-Received: by qkfs65 with SMTP id s65so3062552qkf.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 06:38:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=7/npDZmaiEf/Q4YI1fX9FXX3S2p8v9a3Mg7ynS745oI=;
-	b=Q9y8GBwURQdyYrJuz7UkAKkFiYqgTPnYUNV/ghe+7pz6+xRHjAV3nrv/TovEl/2/Q/
-	E13UBgh3WZ+gzyolWnPslRwcO3KqAipFSLmBtHXhxiKIKCpmrF5f5yaE5CI5Yo+k4pjU
-	Hs18nd8+syvF/ey0mOFqLgrpb1s+kj1TxXkZlXNvjvnVE9YUYYEO7UgLe7VjazjxTIQ9
-	uWIS0EM39YdZrkzpmWCf0ZA+ZDTyKQ0fDh+gGMxNmv2WyZ8jAlycd3GcEh67ooymeK21
-	lNT/nBIOcDFqTJHhld57g/Nh9YZuSBMvZez3U/WqaYeKPuhmjx5vvm3cmP/ZbJKtV28O
-	YwBQ==
-X-Gm-Message-State: ALoCoQmhnvy5ct5wCZFTmg3mVkqWmSZgYFT1yln5SHIpR1WCeRl2ccZMWbeghRIpRGbl42xT1mYX
-X-Received: by 10.55.192.130 with SMTP id v2mr8979951qkv.82.1441028339177;
-	Mon, 31 Aug 2015 06:38:59 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
+	[209.85.160.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DC41F76D28;
+	Mon, 31 Aug 2015 13:45:50 +0000 (UTC)
+Received: by ykap84 with SMTP id p84so2140237yka.3;
+	Mon, 31 Aug 2015 06:45:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=+IsEuaqxzliFwSWGZmxKsVFN/Ji8pkn8UbZmlmf2z9k=;
+	b=LPSIVB8NE2G/H3VdOdfzkq05b5Nce+Q6T+yUBJiWu54MU/OeE1Jz8oV1oChp/PyQlj
+	inrc+IM+7YgdHDKdH0douvZFQQRAMrnPpGK+BI7AkqIk9mnjJVeKsuoTN3XPaN2LuUeT
+	OZSmea8ypFx68ozfFxp6SVGi15lT3xy4c8XftUKR54jozIm+axk7fzNFtMPVhhsJJXru
+	PWV0+T2HQjn9FRhWWy61I+0vaTGkFMawIwJy1rGxIK/Uh463xPhA028P2FNyDbwkVAzc
+	121n6oIq101+8FKp0tBbV5KJwCRIsNGMDj7tvjITStLTjckDxe+k54Ma/u0nCBGsuDVb
+	7fSg==
+X-Received: by 10.129.133.197 with SMTP id v188mr19850875ywf.74.1441028750629; 
+	Mon, 31 Aug 2015 06:45:50 -0700 (PDT)
+Received: from [10.22.11.207] (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
+	by smtp.googlemail.com with ESMTPSA id
+	m205sm14223509ywc.45.2015.08.31.06.45.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 31 Aug 2015 06:45:49 -0700 (PDT)
+Message-ID: <55E45A8C.5000908@gmail.com>
+Date: Mon, 31 Aug 2015 06:45:48 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
 MIME-Version: 1.0
-Received: by 10.140.98.9 with HTTP; Mon, 31 Aug 2015 06:38:39 -0700 (PDT)
-In-Reply-To: <1440851805.32588.9.camel@linuxfoundation.org>
-References: <1440604110-4306-1-git-send-email-nicolas.dechesne@linaro.org>
-	<1440604110-4306-2-git-send-email-nicolas.dechesne@linaro.org>
-	<CAJTo0LYdwRnzLUr9egN1JSj+G8iWKmeaTyghh4amBXcBs0-Uhg@mail.gmail.com>
-	<1440851805.32588.9.camel@linuxfoundation.org>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Mon, 31 Aug 2015 15:38:39 +0200
-Message-ID: <CAP71Wjy_i=DQOtJUL=NVbfK6jXgO8=+CYsG7LU2fATM=UX=TLQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 1/2] android-tools: import android-tools from meta-smartphone into oe-core
+To: Martin Jansa <martin.jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+References: <20150814073122.1BDDE5042E@opal.openembedded.org>
+	<20150828182256.GA2488@jama>
+In-Reply-To: <20150828182256.GA2488@jama>
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Armin Kuster : tzdata: update to 2015f
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,69 +47,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 13:39:00 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 31 Aug 2015 13:45:52 -0000
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: 7bit
 
-On Sat, Aug 29, 2015 at 2:36 PM, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+
+
+On 08/28/2015 11:22 AM, Martin Jansa wrote:
+> On Fri, Aug 14, 2015 at 07:31:22AM +0000, git@git.openembedded.org wrote:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: 4e0fb630d3bb0250ece6e2071ae49b2601ae3e57
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=4e0fb630d3bb0250ece6e2071ae49b2601ae3e57
 >>
->> Assuming that make_ext4fs is a tool to create an ext4 file system,
->> what's the difference between that and our mke2fs which is used to
->> create ext4 file systems?
+>> Author: Armin Kuster <akuster808@gmail.com>
+>> Date:   Tue Aug 11 11:29:04 2015 +0530
 >>
-> We've worked quite hard to land the ext4 rootfs creation code into
-> upstream e2fsprogs. I'd like to understand if we're missing anything for
-> that to work with fastboot. If we are, I suspect it wouldn't be hard to
-> add and should save maintenance of a separate tool (support in e2fsprogs
-> means we get any other ext* improvements for free).
+>> tzdata: update to 2015f
+>>
+>> Changes affecting future time stamps
+>>
+>> North Korea switches to +0830 on 2015-08-15.  (Thanks to Steffen Thorsen.)
+>> The abbreviation remains "KST".  (Thanks to Robert Elz.)
+>>
+>> Uruguay no longer observes DST.  (Thanks to Steffen Thorsen
+>> and Pablo Camargo.)
+>>
+>> Changes affecting past and future time stamps
+>>
+>> Moldova starts and ends DST at 00:00 UTC, not at 01:00 UTC.
+>> (Thanks to Roman Tudos.)
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>
+>> ---
+>>
+>>  meta/recipes-extended/tzdata/{tzdata_2015e.bb => tzdata_2015f.bb} | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> Hi Armin,
+> 
+> Is it intentional that upgrades like this usually remove old version,
 
-thanks for the feedback.
+I view these package updates no different than any other package. If I
+am not mistaken, the older packages are removed.
 
-I sent this as RFC , because I wanted to initiate a discussion... I
-decided to simply move existing recipes from meta-smartphone/android
-for that purpose.
+> e.g. 2015d upgrade in master:
+> http://git.openembedded.org/openembedded-core/commit/?id=b9f366ab4e0a9cad69b631f402b9afa02d40f667
+> 
+> but the same upgrade in dizzy:
+> http://git.openembedded.org/openembedded-core/commit/?h=dizzy&id=ff1547cccd840068500193d4aec772988a1f2023
+> kept older 2015b version, which cause me issues, because we had
+> 2015b.bbappend I've forgot to rename to 2015d.bbappend and bitbake
+> didn't complain, because 2015b was still there.
 
-compared to 'regular' ext4 images , fastboot added the (convenient)
-ability to support sparse images, to reduce the size of what is
-transmitted over the USB, when flashing (and reduce the size of
-writting to eMMC). For devices with 8GB+ eMMC that is a big deal
-whether we flash a raw ext4 image, or its sparse'd version. More info
-about fastboot sparse format at [1].
+oh, I should not have done that.
 
-Unfortunately I haven't found any tool to 'sparse' an existing image,
-make_ext4fs is doing the FS as well, so as you noticed it duplicates
-what mke2fs does. make_ext4fs generates sparse image optionally (with
--s flag), but I don't know precisely what's the difference between the
-generated image vs what mke2fs would do. The non sparse image from
-make_ext4fs doesn't have the sparse header, and as far as I can tell
-it is a valid 'ext4' image, which I can mount with mount -o loop, for
-example (or inspect with dumpe2fs).
+> 
+> What's even worse, this upgrade to 2015d is still missing in fido
+> branch:
+> http://git.openembedded.org/openembedded-core/log/?h=fido&qt=grep&q=tzdata
+> 
+> http://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/tzdata/?h=master
+> tzdata_2015f.bb
+> 
+> http://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/tzdata/?h=fido
+> tzdata_2015b.bb
 
-I've looked further into that today, and :
+my bad. I should be adding [fido][dizzy] when I update the tz packages.
 
-* when transferring an image to be flashed over USB, the target uses a
-RAM buffer. if the image file size is smaller than the RAM buffer,
-then our standard ext4 image can be flashed just fine.
+> 
+> http://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/tzdata/?h=dizzy
+> tzdata_2014h.bb
+> tzdata_2015b.bb
+> tzdata_2015d.bb
 
-* when transferring an image larger than the internal target RAM
-buffer, then the host side fastboot program will split the images into
-chunks that can be individually transferred and flashed. In that case
-I am able to load a standard OE ext4 image *only* if I round/pad the
-image to 4096 bytes, otherwise fastboot fails (with cryptic assertion
-which I don't quite understand for now). If anyone has experience with
-that, please let us know.
+I should clean those up.
 
-* Of course images from make_ext4fs whether they are sparse, non
-sparse, large or not, always work.
-
-* the size if this intermediate buffer is platform specific, the host
-side fastboot queries the target to know the size of this buffer.
-
-so in short.. OE ext4 image seems to be working fine (with the file
-size limitation), but we are missing the specific sparse support.
-Maybe that's good enough for OE core, and we can keep the
-customization/optimizations in BSP layers..
-
-
-[1] http://www.2net.co.uk/tutorial/android-sparse-image-format
+thanks,
+Armin
+> 
+>>
+>> diff --git a/meta/recipes-extended/tzdata/tzdata_2015e.bb b/meta/recipes-extended/tzdata/tzdata_2015f.bb
+>> similarity index 98%
+>> rename from meta/recipes-extended/tzdata/tzdata_2015e.bb
+>> rename to meta/recipes-extended/tzdata/tzdata_2015f.bb
+>> index 92389a9..7cda40d 100644
+>> --- a/meta/recipes-extended/tzdata/tzdata_2015e.bb
+>> +++ b/meta/recipes-extended/tzdata/tzdata_2015f.bb
+>> @@ -7,8 +7,8 @@ DEPENDS = "tzcode-native"
+>>  
+>>  SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
+>>  
+>> -SRC_URI[tzdata.md5sum] = "36f9056efb432ca945c73397acfce0d4"
+>> -SRC_URI[tzdata.sha256sum] = "ffc9b5d38abda8277aa479e3f75aa7668819d0977cd1a0c8ef3b09128334ba6f"
+>> +SRC_URI[tzdata.md5sum] = "e3b82732d20e973e48af1c6f13df9a1d"
+>> +SRC_URI[tzdata.sha256sum] = "959f81b541e042ecb13c50097d264ae92ff03a57979c478dbcf24d5da242531d"
+>>  
+>>  inherit allarch
+>>  
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-commits mailing list
+>> Openembedded-commits@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
+> 
 
