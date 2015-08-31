@@ -1,38 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 71E4776E09
+Return-Path: <akuster808@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 980DA76D6C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 13:53:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7VDrpM1027107; Mon, 31 Aug 2015 14:53:51 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id gY6HhsJgW3ZF; Mon, 31 Aug 2015 14:53:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t7VDrcdM027098
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 31 Aug 2015 14:53:49 +0100
-Message-ID: <1441029218.26554.21.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Mon, 31 Aug 2015 14:53:38 +0100
-In-Reply-To: <CAP9ODKrn8285URXOwLeR2Z_M=sAj0Y0MR_ZsL_D4mbA=UHi_zQ@mail.gmail.com>
-References: <ac5380e48da5a3385086887d8a7bd5cf5478112b.1440680489.git.jussi.kukkonen@intel.com>
-	<cover.1440680489.git.jussi.kukkonen@intel.com>
-	<694e679ee04cff2ca5029720b316cf1c6fb55496.1440680489.git.jussi.kukkonen@intel.com>
-	<7D73CC7E-2609-4B6F-8E92-6A71CB25983F@gmail.com>
-	<CAHiDW_GULRgXqOMkAyPFFEU0ROdTmL+tc93w40eLwOvnrFsd2A@mail.gmail.com>
-	<CAHiDW_FTdPR1gP12VLfVtijg5NVpYPCm_3vmDga-O_8KoHkDag@mail.gmail.com>
-	<CA+chaQe6ayG9k1Hh9sqN+EaBr8GskHMWVQ_L9LqycVhSJN3YqA@mail.gmail.com>
-	<1440843517.32588.7.camel@linuxfoundation.org>
-	<CAP9ODKrn8285URXOwLeR2Z_M=sAj0Y0MR_ZsL_D4mbA=UHi_zQ@mail.gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] gmp: Bring back version 4.2.1 (LGPL 2.1+)
+	Mon, 31 Aug 2015 13:59:27 +0000 (UTC)
+Received: by igbuu8 with SMTP id uu8so47302591igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Aug 2015 06:59:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=dsh3AlTajuQM3Kq/jVUuAMQaHIzro7A1b1hFmnNx5rw=;
+	b=gBf2vrAdRECFv4pHEQKAdALMPITeOd0GKJWw7Q2CONnYVxH82hCziNvaQJEZrQ0i3g
+	Bxw/fQ9ygyoOf/py1/xanp/ytdDV0nwOpJNnK7bjk0XWEUhbIWr1nnV04gsGfV9k4ruL
+	oa0YIUMFyEsfb22VXbDI305E+sT9hNhMk3FXjtoz6+OljTjK539VP28vEpfTNGNJJfa3
+	XBwBKLiIPap9aNYoIARTn+LoxHMBpA7slyBcGZeYq0HSf4Sp7fQAsvWXr/IiFqWqAr7y
+	IoRjFkq6EV6uCrrHPRKIPAaILdZxTIG1JqI9QgxrxgRw15mS5SQreJbaLXKZG4zky7fs
+	KcZg==
+X-Received: by 10.50.55.73 with SMTP id q9mr12543471igp.11.1441029567180;
+	Mon, 31 Aug 2015 06:59:27 -0700 (PDT)
+Received: from [10.22.11.207] (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
+	by smtp.googlemail.com with ESMTPSA id
+	ir3sm10811539igb.12.2015.08.31.06.59.26
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 31 Aug 2015 06:59:26 -0700 (PDT)
+Message-ID: <55E45DBD.7040505@gmail.com>
+Date: Mon, 31 Aug 2015 06:59:25 -0700
+From: akuster808 <akuster808@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
+MIME-Version: 1.0
+To: Saul Wold <sgw@linux.intel.com>, openembedded-core@lists.openembedded.org
+References: <cover.1440790956.git.akuster808@gmail.com>
+	<55E15167.4040302@linux.intel.com>
+In-Reply-To: <55E15167.4040302@linux.intel.com>
+Subject: Re: [PATCH 00/15] For Dizzy 1.7.3a v2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,49 +47,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 13:53:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 31 Aug 2015 13:59:28 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2015-08-31 at 10:22 -0300, Otavio Salvador wrote:
-> On Sat, Aug 29, 2015 at 7:18 AM, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Sat, 2015-08-29 at 10:43 +0200, Martin Jansa wrote:
-> >> Did you enable thumb in that qemuarm build?
-> >>
-> >>
-> >> It's disabled by default and multiple components are broken when you
-> >> enable it, see:
-> >> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
-> >
-> > I'm going to draw a line here. People are asking that the old version of
-> > gmp be brought back due license issues, fine. It doesn't mean that all
-> > the bugs in said old release should be fixed.
-> >
-> > If thumb on arm with old gmp is an issue for people, I'd suggest that
-> > those people figure out which patches are needed and send the patches.
-> > Asking Jussi to deal with this isn't right/fair though.
+
+
+On 08/28/2015 11:29 PM, Saul Wold wrote:
 > 
-> I disagree. If it will be merged it ought to support what we are
-> testing nowadays otherwise the backlog will be kept growing forever...
+> Hi Armin,
+> 
+> I added the bitbake patch to my sgw/dizzy branch and threw it against
+> the Autobuilder.
+> 
+> There where a few failures, some of which may be expected, others need
+> more investigation:
+> 
+> arm64
+> mip64
+>  - I don't think that dizzy had support for those yet.
 
-We cannot reasonably expect Jussi to do this work. 
+Those two are not officially listed. mip64 code was there but not
+included in builds or tested. Some Arm64 exited.
 
-OE needs to move onward, be it with kernel versions, compiler versions
-or library versions since not to do so effectively will result in OE
-becoming obsolete and out of touch.
+http://downloads.yoctoproject.org/releases/yocto/yocto-1.7.2/machines/qemu/
 
-The GNU world moving to *GPLv3 is unfortunate in some ways but isn't
-something I/we have any choice over.
+> 
+> 
+> deb-non-deb
+>  - did these ever work for dizzy?
 
-We have a commitment right now to have some older licenced recipes. To
-make those work, *someone* is going to have to step up and work on them.
-Who is going to do it?
+don't know.
 
-By your comment, I should just refuse the old gmp version entirely?
-
-Cheers,
-
-Richard
-
+- armin
+> 
+> wic
+>  - New build target
+> 
+> It's still finishing up right now.
+> 
+> Sau!
+> 
+> 
+> On 08/28/2015 12:44 PM, Armin Kuster wrote:
+>> Rebased against Dizzy this time.
+>>
+>> Please consider this changes for Dizzy 1.7.3
+>>
+>> The following changes since commit
+>> 137f52ac3a3cf6dc9eed27178c37e9ce235341d8:
+>>
+>>    grub-efi: Add backslash lost from previous commit (2015-08-20
+>> 21:42:31 +0100)
+>>
+>> are available in the git repository at:
+>>
+>>    git://git.yoctoproject.org/poky-contrib akuster/dizzy-next
+>>    http://git.yoctoproject.org/cgit.cgi//log/?h=akuster/dizzy-next
+>>
+>> Alejandro Hernandez (1):
+>>    qemurunner: Improves checking for server and target IPs on qemus
+>>      parameters
+>>
+>> Aníbal Limón (1):
+>>    license_class: fix license.manifest shows LICENSE field differently to
+>>      recipe
+>>
+>> Martin Jansa (2):
+>>    connman-conf: fix SRC_URI_append
+>>    license.bbclass: fix unexpected operator for LICENSE values with space
+>>
+>> Paul Eggleton (1):
+>>    oeqa/utils/qemurunner: fix logging
+>>
+>> Petter Mabäcker (1):
+>>    meta: set proper S value
+>>
+>> Richard Purdie (3):
+>>    runqueue: Add message to explain the problem if diffsigs multiple
+>>      tasks don't exist
+>>    fetch2: Extend mirroruri handlling
+>>    sstate: Use SSTATE_DIR for FILESPATH
+>>
+>> Ross Burton (1):
+>>    oeqa/QemuRunner: don't use bb for logging
+>>
+>> Sona Sarmadi (4):
+>>    bind9.9.5: CVE-2015-5477
+>>    qemu: CVE-2014-7840
+>>    qemu-vnc: CVE-2014-7815
+>>    qemu-slirp: CVE-2014-3640
+>>
+>> Yi Zhao (1):
+>>    oeqa/selftest: fix test_incremental_image_generation for changes in
+>>      log output
+>>
+>>   bitbake/lib/bb/fetch2/__init__.py                  |  1 +
+>>   bitbake/lib/bb/runqueue.py                         |  2 +
+>>   meta/classes/license.bbclass                       | 15 ++---
+>>   meta/classes/sstate.bbclass                        |  4 +-
+>>   meta/lib/oeqa/selftest/buildoptions.py             | 11 ++--
+>>   meta/lib/oeqa/utils/qemurunner.py                  | 73
+>> ++++++++++++----------
+>>   meta/recipes-bsp/alsa-state/alsa-state.bb          |  2 +
+>>   meta/recipes-bsp/hostap/hostap-conf_1.0.bb         |  2 +
+>>   meta/recipes-bsp/keymaps/keymaps_1.0.bb            |  2 +
+>>   .../bind/bind/bind9_9_5-CVE-2015-5477.patch        | 45 +++++++++++++
+>>   meta/recipes-connectivity/bind/bind_9.9.5.bb       |  1 +
+>>   meta/recipes-connectivity/connman/connman-conf.bb  |  8 ++-
+>>   .../ppp-dialin/ppp-dialin_0.1.bb                   |  2 +
+>>   .../init-ifupdown/init-ifupdown_1.0.bb             |  2 +
+>>   .../initrdscripts/initramfs-boot_1.0.bb            |  2 +
+>>   .../initrdscripts/initramfs-framework_1.0.bb       |  2 +
+>>   .../initrdscripts/initramfs-live-boot_1.0.bb       |  2 +
+>>   .../initramfs-live-install-efi-testfs_1.0.bb       |  2 +
+>>   .../initramfs-live-install-efi_1.0.bb              |  2 +
+>>   .../initramfs-live-install-testfs_1.0.bb           |  2 +
+>>   .../initrdscripts/initramfs-live-install_1.0.bb    |  2 +
+>>   meta/recipes-core/initscripts/initscripts_1.0.bb   |  2 +
+>>   .../systemd/systemd-systemctl-native.bb            |  2 +
+>>   .../sysvinit/sysvinit-inittab_2.88dsf.bb           |  2 +-
+>>   meta/recipes-core/udev/udev-extraconf_1.1.bb       |  2 +
+>>   meta/recipes-devtools/opkg/opkg-collateral.bb      |  2 +
+>>   .../recipes-devtools/qemu/qemu/CVE-2014-7840.patch | 57
+>> +++++++++++++++++
+>>   .../qemu/qemu/slirp-CVE-2014-3640.patch            | 48 ++++++++++++++
+>>   .../qemu/qemu/vnc-CVE-2014-7815.patch              | 53
+>> ++++++++++++++++
+>>   meta/recipes-devtools/qemu/qemu_2.1.0.bb           |  3 +
+>>   .../run-postinsts/run-postinsts_1.0.bb             |  2 +
+>>   .../shadow/shadow-securetty_4.2.1.bb               |  2 +
+>>   .../xorg-xserver/xserver-xf86-config_0.1.bb        |  2 +
+>>   .../modutils-initscripts/modutils-initscripts.bb   |  3 +
+>>   meta/recipes-qt/qt-demo/qt-demo-init_0.1.bb        |  2 +
+>>   .../ptest-runner/ptest-runner_1.0.bb               |  2 +
+>>   36 files changed, 318 insertions(+), 50 deletions(-)
+>>   create mode 100644
+>> meta/recipes-connectivity/bind/bind/bind9_9_5-CVE-2015-5477.patch
+>>   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2014-7840.patch
+>>   create mode 100644
+>> meta/recipes-devtools/qemu/qemu/slirp-CVE-2014-3640.patch
+>>   create mode 100644
+>> meta/recipes-devtools/qemu/qemu/vnc-CVE-2014-7815.patch
+>>
 
