@@ -1,40 +1,38 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
-	[209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id DC41F76D28;
-	Mon, 31 Aug 2015 13:45:50 +0000 (UTC)
-Received: by ykap84 with SMTP id p84so2140237yka.3;
-	Mon, 31 Aug 2015 06:45:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:references:in-reply-to:content-type:content-transfer-encoding;
-	bh=+IsEuaqxzliFwSWGZmxKsVFN/Ji8pkn8UbZmlmf2z9k=;
-	b=LPSIVB8NE2G/H3VdOdfzkq05b5Nce+Q6T+yUBJiWu54MU/OeE1Jz8oV1oChp/PyQlj
-	inrc+IM+7YgdHDKdH0douvZFQQRAMrnPpGK+BI7AkqIk9mnjJVeKsuoTN3XPaN2LuUeT
-	OZSmea8ypFx68ozfFxp6SVGi15lT3xy4c8XftUKR54jozIm+axk7fzNFtMPVhhsJJXru
-	PWV0+T2HQjn9FRhWWy61I+0vaTGkFMawIwJy1rGxIK/Uh463xPhA028P2FNyDbwkVAzc
-	121n6oIq101+8FKp0tBbV5KJwCRIsNGMDj7tvjITStLTjckDxe+k54Ma/u0nCBGsuDVb
-	7fSg==
-X-Received: by 10.129.133.197 with SMTP id v188mr19850875ywf.74.1441028750629; 
-	Mon, 31 Aug 2015 06:45:50 -0700 (PDT)
-Received: from [10.22.11.207] (64.2.3.194.ptr.us.xo.net. [64.2.3.194])
-	by smtp.googlemail.com with ESMTPSA id
-	m205sm14223509ywc.45.2015.08.31.06.45.49
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 31 Aug 2015 06:45:49 -0700 (PDT)
-Message-ID: <55E45A8C.5000908@gmail.com>
-Date: Mon, 31 Aug 2015 06:45:48 -0700
-From: akuster808 <akuster808@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.7.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-References: <20150814073122.1BDDE5042E@opal.openembedded.org>
-	<20150828182256.GA2488@jama>
-In-Reply-To: <20150828182256.GA2488@jama>
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Armin Kuster : tzdata: update to 2015f
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 71E4776E09
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 31 Aug 2015 13:53:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7VDrpM1027107; Mon, 31 Aug 2015 14:53:51 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id gY6HhsJgW3ZF; Mon, 31 Aug 2015 14:53:51 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t7VDrcdM027098
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 31 Aug 2015 14:53:49 +0100
+Message-ID: <1441029218.26554.21.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Mon, 31 Aug 2015 14:53:38 +0100
+In-Reply-To: <CAP9ODKrn8285URXOwLeR2Z_M=sAj0Y0MR_ZsL_D4mbA=UHi_zQ@mail.gmail.com>
+References: <ac5380e48da5a3385086887d8a7bd5cf5478112b.1440680489.git.jussi.kukkonen@intel.com>
+	<cover.1440680489.git.jussi.kukkonen@intel.com>
+	<694e679ee04cff2ca5029720b316cf1c6fb55496.1440680489.git.jussi.kukkonen@intel.com>
+	<7D73CC7E-2609-4B6F-8E92-6A71CB25983F@gmail.com>
+	<CAHiDW_GULRgXqOMkAyPFFEU0ROdTmL+tc93w40eLwOvnrFsd2A@mail.gmail.com>
+	<CAHiDW_FTdPR1gP12VLfVtijg5NVpYPCm_3vmDga-O_8KoHkDag@mail.gmail.com>
+	<CA+chaQe6ayG9k1Hh9sqN+EaBr8GskHMWVQ_L9LqycVhSJN3YqA@mail.gmail.com>
+	<1440843517.32588.7.camel@linuxfoundation.org>
+	<CAP9ODKrn8285URXOwLeR2Z_M=sAj0Y0MR_ZsL_D4mbA=UHi_zQ@mail.gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] gmp: Bring back version 4.2.1 (LGPL 2.1+)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,112 +45,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 13:45:52 -0000
-Content-Type: text/plain; charset=windows-1252
+X-List-Received-Date: Mon, 31 Aug 2015 13:53:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-
-
-On 08/28/2015 11:22 AM, Martin Jansa wrote:
-> On Fri, Aug 14, 2015 at 07:31:22AM +0000, git@git.openembedded.org wrote:
->> Module: openembedded-core.git
->> Branch: master
->> Commit: 4e0fb630d3bb0250ece6e2071ae49b2601ae3e57
->> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=4e0fb630d3bb0250ece6e2071ae49b2601ae3e57
->>
->> Author: Armin Kuster <akuster808@gmail.com>
->> Date:   Tue Aug 11 11:29:04 2015 +0530
->>
->> tzdata: update to 2015f
->>
->> Changes affecting future time stamps
->>
->> North Korea switches to +0830 on 2015-08-15.  (Thanks to Steffen Thorsen.)
->> The abbreviation remains "KST".  (Thanks to Robert Elz.)
->>
->> Uruguay no longer observes DST.  (Thanks to Steffen Thorsen
->> and Pablo Camargo.)
->>
->> Changes affecting past and future time stamps
->>
->> Moldova starts and ends DST at 00:00 UTC, not at 01:00 UTC.
->> (Thanks to Roman Tudos.)
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> Signed-off-by: Ross Burton <ross.burton@intel.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> ---
->>
->>  meta/recipes-extended/tzdata/{tzdata_2015e.bb => tzdata_2015f.bb} | 4 ++--
->>  1 file changed, 2 insertions(+), 2 deletions(-)
+On Mon, 2015-08-31 at 10:22 -0300, Otavio Salvador wrote:
+> On Sat, Aug 29, 2015 at 7:18 AM, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Sat, 2015-08-29 at 10:43 +0200, Martin Jansa wrote:
+> >> Did you enable thumb in that qemuarm build?
+> >>
+> >>
+> >> It's disabled by default and multiple components are broken when you
+> >> enable it, see:
+> >> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+> >
+> > I'm going to draw a line here. People are asking that the old version of
+> > gmp be brought back due license issues, fine. It doesn't mean that all
+> > the bugs in said old release should be fixed.
+> >
+> > If thumb on arm with old gmp is an issue for people, I'd suggest that
+> > those people figure out which patches are needed and send the patches.
+> > Asking Jussi to deal with this isn't right/fair though.
 > 
-> Hi Armin,
-> 
-> Is it intentional that upgrades like this usually remove old version,
+> I disagree. If it will be merged it ought to support what we are
+> testing nowadays otherwise the backlog will be kept growing forever...
 
-I view these package updates no different than any other package. If I
-am not mistaken, the older packages are removed.
+We cannot reasonably expect Jussi to do this work. 
 
-> e.g. 2015d upgrade in master:
-> http://git.openembedded.org/openembedded-core/commit/?id=b9f366ab4e0a9cad69b631f402b9afa02d40f667
-> 
-> but the same upgrade in dizzy:
-> http://git.openembedded.org/openembedded-core/commit/?h=dizzy&id=ff1547cccd840068500193d4aec772988a1f2023
-> kept older 2015b version, which cause me issues, because we had
-> 2015b.bbappend I've forgot to rename to 2015d.bbappend and bitbake
-> didn't complain, because 2015b was still there.
+OE needs to move onward, be it with kernel versions, compiler versions
+or library versions since not to do so effectively will result in OE
+becoming obsolete and out of touch.
 
-oh, I should not have done that.
+The GNU world moving to *GPLv3 is unfortunate in some ways but isn't
+something I/we have any choice over.
 
-> 
-> What's even worse, this upgrade to 2015d is still missing in fido
-> branch:
-> http://git.openembedded.org/openembedded-core/log/?h=fido&qt=grep&q=tzdata
-> 
-> http://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/tzdata/?h=master
-> tzdata_2015f.bb
-> 
-> http://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/tzdata/?h=fido
-> tzdata_2015b.bb
+We have a commitment right now to have some older licenced recipes. To
+make those work, *someone* is going to have to step up and work on them.
+Who is going to do it?
 
-my bad. I should be adding [fido][dizzy] when I update the tz packages.
+By your comment, I should just refuse the old gmp version entirely?
 
-> 
-> http://git.openembedded.org/openembedded-core/tree/meta/recipes-extended/tzdata/?h=dizzy
-> tzdata_2014h.bb
-> tzdata_2015b.bb
-> tzdata_2015d.bb
+Cheers,
 
-I should clean those up.
+Richard
 
-thanks,
-Armin
-> 
->>
->> diff --git a/meta/recipes-extended/tzdata/tzdata_2015e.bb b/meta/recipes-extended/tzdata/tzdata_2015f.bb
->> similarity index 98%
->> rename from meta/recipes-extended/tzdata/tzdata_2015e.bb
->> rename to meta/recipes-extended/tzdata/tzdata_2015f.bb
->> index 92389a9..7cda40d 100644
->> --- a/meta/recipes-extended/tzdata/tzdata_2015e.bb
->> +++ b/meta/recipes-extended/tzdata/tzdata_2015f.bb
->> @@ -7,8 +7,8 @@ DEPENDS = "tzcode-native"
->>  
->>  SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
->>  
->> -SRC_URI[tzdata.md5sum] = "36f9056efb432ca945c73397acfce0d4"
->> -SRC_URI[tzdata.sha256sum] = "ffc9b5d38abda8277aa479e3f75aa7668819d0977cd1a0c8ef3b09128334ba6f"
->> +SRC_URI[tzdata.md5sum] = "e3b82732d20e973e48af1c6f13df9a1d"
->> +SRC_URI[tzdata.sha256sum] = "959f81b541e042ecb13c50097d264ae92ff03a57979c478dbcf24d5da242531d"
->>  
->>  inherit allarch
->>  
->>
->> -- 
->> _______________________________________________
->> Openembedded-commits mailing list
->> Openembedded-commits@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-> 
 
