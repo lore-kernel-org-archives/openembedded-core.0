@@ -1,52 +1,26 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A95F76FDE
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 22:51:33 +0000 (UTC)
-Received: by iofb144 with SMTP id b144so814737iof.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 15:51:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=qrQo+NNxb1ai40HqhKSt20iJj7yGl4vPlNTRZasuMRQ=;
-	b=PL88qYFIc0EnbW/yY5hIZL0V+VDNCv/Rb0zdKiAwiQz+R+J9Se3uOHIzMpwx3hIEPz
-	qXAkCgVv/SOIA5De4I9gKamfsOfskDAUtWP+KuO1/dNxZBqnQKUkC9fixpuI+onczvhn
-	JZ/QPMABedeFzSYmzFKrt45Pi8KO6011TCFKf8qvnCT/qvxrDo/Bq6WhqahTC5gOTggq
-	9oki7ZZwmM/i+qhiOjVME7vBgYL+U+KBIzVTI6Vd1I/WaNfVCJghDRx1edPNLtY5kR1I
-	oZ3VEOsKgTqQ5Epft9umhcoYbES7NZvKdotz60jAFubLGO46DeVWu7AC1pkIiDUc6NXB
-	tLkA==
-X-Gm-Message-State: ALoCoQkTcVXKHYqd+M3Ht9UzXuu6szkm+XSQp/nMBOq9khSdTzyrA+GWzkp8XbJbKNEFBwP6JyZc
-X-Received: by 10.107.35.66 with SMTP id j63mr14662313ioj.167.1441147893868;
-	Tue, 01 Sep 2015 15:51:33 -0700 (PDT)
-Received: from mail-io0-f182.google.com (mail-io0-f182.google.com.
-	[209.85.223.182]) by smtp.gmail.com with ESMTPSA id
-	x23sm8781084ioi.41.2015.09.01.15.51.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Sep 2015 15:51:32 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by ioiz6 with SMTP id z6so772648ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 15:51:32 -0700 (PDT)
+Return-Path: <alejandro.franco@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CD0D76FDE;
+	Tue,  1 Sep 2015 23:10:49 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP; 01 Sep 2015 16:10:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,451,1437462000"; d="scan'208";a="796219336"
+Received: from afshjern.zpn.intel.com (HELO [10.219.27.118]) ([10.219.27.118])
+	by fmsmga002.fm.intel.com with ESMTP; 01 Sep 2015 16:10:50 -0700
+To: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20150901104522.9FC59505A9@opal.openembedded.org>
+	<20150901190902.GD2458@jama>
+From: Alex Franco <alejandro.franco@linux.intel.com>
+Message-ID: <55E63099.8090003@linux.intel.com>
+Date: Tue, 1 Sep 2015 18:11:21 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-X-Received: by 10.107.7.225 with SMTP id g94mr598797ioi.28.1441147892166; Tue,
-	01 Sep 2015 15:51:32 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Tue, 1 Sep 2015 15:51:32 -0700 (PDT)
-In-Reply-To: <255516EC-098E-457B-A2E6-2F7C953CAA8D@gmail.com>
-References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
-	<20150901215512.GE2458@jama>
-	<CAP9ODKq=HsV79hXhHeCwdhpF6uhHdCxYrhC53Kt5+Pe6Qdpf1w@mail.gmail.com>
-	<255516EC-098E-457B-A2E6-2F7C953CAA8D@gmail.com>
-Date: Tue, 1 Sep 2015 19:51:32 -0300
-Message-ID: <CAP9ODKp9Vkw-vHNp1PMqE1eTfmW8-s5o6+0JYTv=sFEHm9nc1g@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Patch merge process
+In-Reply-To: <20150901190902.GD2458@jama>
+Cc: openembedded-commits@lists.openembedded.org
+Subject: Re: [oe-commits] Alex Franco : Fix mode +st on TMPDIR when creating it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +33,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 22:51:36 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 01 Sep 2015 23:10:50 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Sep 1, 2015 at 7:46 PM, Khem Raj <raj.khem@gmail.com> wrote:
+Hi Martin,
+
+I gather the original reason (for the sanity test, as well as these 
+changes) is that it is better for everything under BUILDDIR - and 
+certainly TMPDIR to be owned by the user running bitbake and have 
+standard permissions, the sticky bit itself would prevent a user running 
+bitbake, even with +rwx permissions, from making changes to items it 
+might need to manipulate, if those are not owned by this user. Similarly 
+setuid and setgid might propagate user/group ownerships different from 
+the user bitbake is running as, into BUILDDIR and TMPDIR (and items 
+therein).
+
+For more info take a look at: 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=7669
+
+Perhaps there are more pressing reasons, perhaps Christopher Larson can 
+comment a bit on this.
+
+Alex Franco
+
+On 09/01/2015 02:09 PM, Martin Jansa wrote:
+> On Tue, Sep 01, 2015 at 10:45:22AM +0000, git@git.openembedded.org wrote:
+>> Module: openembedded-core.git
+>> Branch: master
+>> Commit: 8236d57439640a185c0226312cd4903a3ce2f53b
+>> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=8236d57439640a185c0226312cd4903a3ce2f53b
+>>
+>> Author: Alex Franco <alejandro.franco@linux.intel.com>
+>> Date:   Fri Aug 28 17:34:04 2015 -0500
+>>
+>> Fix mode +st on TMPDIR when creating it
+>>
+>> A sanity check fails when TMPDIR has setuid, setgid set. It was
+>> proposed to fix this on TMPDIR creation instead of failing with
+>> a sanity test only. This patch handles removal of those special
+>> bits (and additonally, the sticky bit) from BUILDDIR and TMPDIR
+>> when these directories are created.
+> Can you explain why it's needed to remove them?
 >
->> On Sep 1, 2015, at 3:05 PM, Otavio Salvador <otavio.salvador@ossystems.com.br> wrote:
->>
->> On Tue, Sep 1, 2015 at 6:55 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
->>> I hate to say it, but for meta-oe and meta-qt5 I would like to use
->>> gerrit - it's great to see all related information (all revisions of the
->>> patch, all review comments, all results of verification builds) in
->>> single location from where you do the actual submissions to official
->>> branch when all criteria are satisfied.
->>
->> Me too; we have been using Gerrit for patch management for a while and
->> it works very well.
->>
->> If you want, we can host it at our server, by the way.
+> I have tmp-glibc mounted as tmpfs:
+> drwxrwxrwt   4 root    jenkins   80 Sep  1 19:02 tmp-glibc
 >
-> hmm can we use gerrit.openembedded.org or review.openembedded.org ?
-> may be redirected to a different hosting area underneath.
+> and since this change all bitbake executions are failing with:
+>
+> NOTE: Started PRServer with DBfile: /home/jenkins/oe/world/shr-core/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 43102, PID: 9220
+> ERROR: Execution of event handler 'check_sanity_eventhandler' failed
+> Traceback (most recent call last):
+>    File "check_sanity_eventhandler(e)", line 6, in check_sanity_eventhandler(e=<bb.event.SanityCheck object at 0x3c76ad0>)
+>    File "sanity.bbclass", line 34, in check_sanity(sanity_data=<bb.data_smart.DataSmart object at 0x3c83890>)
+>    File "sanity.bbclass", line 157, in check_sanity_everybuild(status=<SanityStatus object at 0x3c83850>, d=<bb.data_smart.DataSmart object at 0x3c83890>)
+> OSError: [Errno 1] Operation not permitted: '/home/jenkins/oe/world/shr-core/tmp-glibc'
+>
+> I can change the permissions manually, but I would like to know
+> why is this needed and checked every time the bitbake is executed.
+>
+> Regards,
+>
+>> [YOCTO #7669]
+>>
+>> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>
+>> ---
+>>
+>>   meta/classes/sanity.bbclass | 5 +++++
+>>   scripts/oe-setup-builddir   | 1 +
+>>   2 files changed, 6 insertions(+)
+>>
+>> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+>> index ef90fc8..2864318 100644
+>> --- a/meta/classes/sanity.bbclass
+>> +++ b/meta/classes/sanity.bbclass
+>> @@ -686,6 +686,7 @@ def check_sanity_version_change(status, d):
+>>       status.addresult(check_not_nfs(tmpdir, "TMPDIR"))
+>>   
+>>   def check_sanity_everybuild(status, d):
+>> +    import os, stat
+>>       # Sanity tests which test the users environment so need to run at each build (or are so cheap
+>>       # it makes sense to always run them.
+>>   
+>> @@ -839,6 +840,10 @@ def check_sanity_everybuild(status, d):
+>>                   status.addresult("Error, TMPDIR has changed location. You need to either move it back to %s or rebuild\n" % saved_tmpdir)
+>>       else:
+>>           bb.utils.mkdirhier(tmpdir)
+>> +        # Remove setuid, setgid and sticky bits from TMPDIR
+>> +        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
+>> +        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
+>> +        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
+>>           with open(checkfile, "w") as f:
+>>               f.write(tmpdir)
+>>   
+>> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+>> index add0b50..f5b7e4e 100755
+>> --- a/scripts/oe-setup-builddir
+>> +++ b/scripts/oe-setup-builddir
+>> @@ -24,6 +24,7 @@ if [ -z "$BUILDDIR" ]; then
+>>   fi
+>>   
+>>   mkdir -p "$BUILDDIR/conf"
+>> +chmod -R -st "$BUILDDIR"
+>>   
+>>   if [ ! -d "$BUILDDIR" ]; then
+>>       echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-commits mailing list
+>> Openembedded-commits@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
 
-If people want it, we can provide a VM for it. So OE can freely host it.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
