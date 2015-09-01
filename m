@@ -1,34 +1,36 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-wi0-f179.google.com (mail-wi0-f179.google.com
-	[209.85.212.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E84C276FF2
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id C846376FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 22:23:03 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so187133wic.0
+	Tue,  1 Sep 2015 22:23:10 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so189278wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 15:23:02 -0700 (PDT)
+	Tue, 01 Sep 2015 15:23:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=dsGCCWdfWGOI86YgoKmL2QKDOAeU3/E1NT6HDOsF74E=;
-	b=wF9X9kFD/BzTe81w405YzyNREc2Ts954QeOB1h8g6h+i6xFvu4wBmU5Fav//36liRf
-	aN8afs0abDFCx6R5neZ6+bKTNM+czf/H9i2NsRx09U6qgX2oZwcB+SUfDogm7JMrtpdf
-	VdFwicbr/2eSQX1bSDzuy9zWMaDwGI2cpmyuDPutwuirklKhQZSp0yD8q6H6sJiYQV09
-	A2mshe/7i/FyiHq6okE04x4TJvEj0sKXZhcSRzomIQl49UbB2zyaBGwWdvXvps5B1GL4
-	c57TTIZbRnhhmXoFU7EuwJzc2I1uGZkh3MFwyrB6gAHz6cxpnYtX1FQRyywfHE7Sxbkg
-	0i/Q==
-X-Received: by 10.195.11.3 with SMTP id ee3mr35871658wjd.89.1441146182518;
-	Tue, 01 Sep 2015 15:23:02 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=h5G/flnLcRD+1j7CEpX5PVyatw+SbYLbMIAUm2BFFvw=;
+	b=cLDVq0fuT4tToLGGanT6dhfLsl6lRwwo+5rlAHLBY+IMepG8WzJtyy6enSG6Nb4IdP
+	8Ud0MrfICOHuCUSeO/jwtnjnUzru1l0HcPulEN8HrSo5nBkZAxUiBAibafUycgpqUvI1
+	aBdew3+Ndgb678vt3AruPOqYmCYo+mcbM9S3XVPTmcD/6rxCO3O6Ew43tvIWXZ54Px+a
+	qJRxkL4X4QL+VhPASj+gJp8srMKluQh12F3AN0jxPKdZgXEY16pOP8OTIKUtj3vorzJI
+	OkbesNfBMD2eleTuqntcv5ldfRIzMAiGV0NxuNw1TiBlRy0lek9m2QKMRkPAGV+baqKt
+	8mjA==
+X-Received: by 10.180.11.176 with SMTP id r16mr368214wib.87.1441146190419;
+	Tue, 01 Sep 2015 15:23:10 -0700 (PDT)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by smtp.gmail.com with ESMTPSA id r19sm442352wib.7.2015.09.01.15.23.00
+	by smtp.gmail.com with ESMTPSA id c3sm29264439wja.3.2015.09.01.15.23.08
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Sep 2015 15:23:01 -0700 (PDT)
+	Tue, 01 Sep 2015 15:23:09 -0700 (PDT)
 From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Sep 2015 15:22:56 -0700
-Message-Id: <cover.1441145177.git.chris_larson@mentor.com>
+Date: Tue,  1 Sep 2015 15:23:02 -0700
+Message-Id: <a3ec49e286110440a69f0cd3b7fd5dee7ba4ae07.1441145177.git.chris_larson@mentor.com>
 X-Mailer: git-send-email 2.2.1
+In-Reply-To: <cover.1441145177.git.chris_larson@mentor.com>
+References: <cover.1441145177.git.chris_larson@mentor.com>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCHv2 0/3] Add checks for "host user contamination"
+Subject: [PATCHv2 1/3] insane.bbclass: handle tests which need fakeroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,36 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 22:23:09 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 22:23:11 -0000
 
 From: Christopher Larson <chris_larson@mentor.com>
 
-This adds a QA test, as well as a rootfs_ function for use in
-ROOTFS_POSTPROCESS_COMMAND, to warn/error when paths are owned by the same
-user/group as the user running bitbake. This is useful to catch stuff which is
-written outside of pseudo's control, for example.
+If any tests listed in FAKEROOT_QA are enabled (listed in ALL_QA), then
+run do_package_qa under fakeroot.
 
-v2 changes: handle missing files in the host-user-contamined test by catching
-ENOENT OSErrors from os.lstat.
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+---
+ meta/classes/insane.bbclass | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-The following changes since commit bdeb32b4cdbe316f17c2fd854d59e05e8f2e8ffc:
-
-  rt-tests: drop unnecessary added-missing-dependencies.patch (2015-09-01 11:43:38 +0100)
-
-are available in the git repository at:
-
-  git://github.com/kergoth/openembedded-core host-user-contaminated
-  https://github.com/kergoth/openembedded-core/tree/host-user-contaminated
-
-Christopher Larson (3):
-  insane.bbclass: handle tests which need fakeroot
-  insane.bbclass: add host-user-contaminated test
-  image.bbclass: add rootfs_check_host_user_contaminated
-
- meta/classes/image.bbclass  | 14 ++++++++++++++
- meta/classes/insane.bbclass | 43 ++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 56 insertions(+), 1 deletion(-)
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index d9befc4..63376e7 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -38,6 +38,9 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             split-strip packages-list pkgv-undefined var-undefined \
+             version-going-backwards expanded-d \
+             "
++FAKEROOT_QA = ""
++FAKEROOT_QA[doc] = "QA tests which need to run under fakeroot. If any \
++enabled tests are listed here, the do_package_qa task will run under fakeroot."
+ 
+ ALL_QA = "${WARN_QA} ${ERROR_QA}"
+ 
+@@ -1210,6 +1213,11 @@ python () {
+         for var in 'RDEPENDS', 'RRECOMMENDS', 'RSUGGESTS', 'RCONFLICTS', 'RPROVIDES', 'RREPLACES', 'FILES', 'pkg_preinst', 'pkg_postinst', 'pkg_prerm', 'pkg_postrm', 'ALLOW_EMPTY':
+             if d.getVar(var, False):
+                 issues.append(var)
++
++        fakeroot_tests = d.getVar('FAKEROOT_QA', True).split()
++        if set(tests) & set(fakeroot_tests):
++            d.setVarFlag('do_package_qa', 'fakeroot', '1')
++            d.appendVarFlag('do_package_qa', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+     else:
+         d.setVarFlag('do_package_qa', 'rdeptask', '')
+     for i in issues:
 -- 
 2.2.1
 
