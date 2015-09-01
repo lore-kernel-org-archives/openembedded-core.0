@@ -1,37 +1,54 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id AEE3C76B7C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id AA72676B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 17:08:42 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so19667153wic.0
+	Tue,  1 Sep 2015 17:10:53 +0000 (UTC)
+Received: by pacwi10 with SMTP id wi10so1730879pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 10:08:41 -0700 (PDT)
+	Tue, 01 Sep 2015 10:10:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=S9cmrFXDUrT3EOwVO+0vroR7qOEbTB5ZQXOrldfAf60=;
-	b=M7xckylQsCRci/haEMfGXKblGOhCYAh7dhN0Zc8LfzHa+EjUs02N9PXStNxRcsDglB
-	Gv5zxsfreKnelwtW3srXumCBOusVfO5ClItwi7797+W6rkiHbTP5ateKUbBTTpCMFZSp
-	QpjL4c47pwTQIhC8uL8zIzlTgeYE/5B84ZlbMVLxM6FyDh9j4QghBodzlqONx7vfwSW2
-	DSCMWo6kUkiWRTiGuFcY83oH1XA2wVas78r/MJxY9msR/IfcsXRjtELxyPpaiNnjgLYZ
-	fn7sF8WH+fa4AqmHGpEGeUNnXBePheFEvRyujJhezXxBmAiJ+AERCE1+wdLTmJ95t390
-	mO5g==
-X-Received: by 10.180.23.71 with SMTP id k7mr4805133wif.5.1441127319707;
-	Tue, 01 Sep 2015 10:08:39 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=AodbfZ7IFFDMraMmKgafvYh8YVGQrmKJvrzdYGh5H4M=;
+	b=FV4G7H6JHeXrNcblnZpkSOC8klECjUOTit9OOCRrRe4xuOzNWJymd/BEAKnwVNkRWp
+	0by29Nlhn2HT1yfnk1w47yVq36aOWP0Fw7hijI1VeNdDeKDjpalZCLhNyXMx84BPEwZv
+	6ia5DPZsRQh/0sYKCXCcChnPgbMg2Bc827k4By2WCiYUCyIjKipizD4Azzg7bGGlwpZh
+	4w/Y+R5GgJrOL9FoWeKw7NIlhlqy/NwAezR3mV0X0/qz4r0njERhqhVbYJeThKRpiuCE
+	324EQ158FLR7BbMkFDRaRHMkHbi1gcpcvkvt4Ukgg1+fZzL2EXAhjLAyslkEK4NhyHk0
+	Lz9Q==
+X-Received: by 10.68.206.74 with SMTP id lm10mr47991999pbc.117.1441127453240; 
+	Tue, 01 Sep 2015 10:10:53 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:f406:2324:ffaf:a6f9?
+	([2601:646:8601:4580:f406:2324:ffaf:a6f9])
 	by smtp.gmail.com with ESMTPSA id
-	i3sm23891880wja.42.2015.09.01.10.08.38
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Sep 2015 10:08:38 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Sep 2015 19:08:52 +0200
-Message-Id: <1441127332-29133-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <20150828182256.GA2488@jama>
-References: <20150828182256.GA2488@jama>
-Subject: [fido][PATCH] tzdata: update to 2015d
+	uz5sm18870155pac.1.2015.09.01.10.10.52
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 01 Sep 2015 10:10:52 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <55E5BC60.4010302@windriver.com>
+Date: Tue, 1 Sep 2015 10:10:42 -0700
+Message-Id: <C9CB6C09-04C9-4546-A7B6-96D9C8423223@gmail.com>
+References: <ac5380e48da5a3385086887d8a7bd5cf5478112b.1440680489.git.jussi.kukkonen@intel.com>
+	<cover.1440680489.git.jussi.kukkonen@intel.com>
+	<694e679ee04cff2ca5029720b316cf1c6fb55496.1440680489.git.jussi.kukkonen@intel.com>
+	<7D73CC7E-2609-4B6F-8E92-6A71CB25983F@gmail.com>
+	<CAHiDW_GULRgXqOMkAyPFFEU0ROdTmL+tc93w40eLwOvnrFsd2A@mail.gmail.com>
+	<CAHiDW_FTdPR1gP12VLfVtijg5NVpYPCm_3vmDga-O_8KoHkDag@mail.gmail.com>
+	<CA+chaQe6ayG9k1Hh9sqN+EaBr8GskHMWVQ_L9LqycVhSJN3YqA@mail.gmail.com>
+	<1440843517.32588.7.camel@linuxfoundation.org>
+	<CAP9ODKrn8285URXOwLeR2Z_M=sAj0Y0MR_ZsL_D4mbA=UHi_zQ@mail.gmail.com>
+	<20150831152103.GB2465@jama>
+	<BC8B1BD5-224C-480C-BFC9-F2BA6B0254E9@gmail.com>
+	<55E5BC60.4010302@windriver.com>
+To: Mark Hatle <mark.hatle@windriver.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>
+Subject: Re: [PATCH 2/6] gmp: Bring back version 4.2.1 (LGPL 2.1+)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,64 +61,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 17:08:48 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 17:10:53 -0000
+X-Groupsio-MsgNum: 70419
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_568138F4-DAD0-460D-9EF7-BD219FB4FC4C";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-From: Armin Kuster <akuster808@gmail.com>
-
-Changes affecting future time stamps
-
-Egypt will not observe DST in 2015 and will consider canceling it
-permanently.  For now, assume no DST indefinitely.
-(Thanks to Ahmed Nazmy and Tim Parenti.)
-
-Changes affecting past time stamps
-America/Whitehorse switched from UTC-9 to UTC-8 on 1967-05-28, not
-1966-07-01.  Also, Yukon's time zone history is documented better.
-(Thanks to Brian Inglis and Dennis Ferguson.)
-
-Change affecting past and future time zone abbreviations
-The abbreviations for Hawaii-Aleutian standard and daylight times
-have been changed from HAST/HADT to HST/HDT, as per US Government
-Printing Office style.  This affects only America/Adak since 1983,
-as America/Honolulu was already using the new style.
-
-(From OE-Core rev: b9f366ab4e0a9cad69b631f402b9afa02d40f667)
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-extended/tzdata/tzdata_2015b.bb | 6 ------
- meta/recipes-extended/tzdata/tzdata_2015d.bb | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-extended/tzdata/tzdata_2015b.bb
- create mode 100644 meta/recipes-extended/tzdata/tzdata_2015d.bb
-
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015b.bb b/meta/recipes-extended/tzdata/tzdata_2015b.bb
-deleted file mode 100644
-index df97d6d..0000000
---- a/meta/recipes-extended/tzdata/tzdata_2015b.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
--
--SRC_URI[tzdata.md5sum] = "75571bb17c7b6be88a9f8872e45bc726"
--SRC_URI[tzdata.sha256sum] = "556ac1a5b3a371adc1ad4e77138f78ddd7f8ddd7bc2b52545924598c7dc8ad62"
--
--require tzdata.inc
-diff --git a/meta/recipes-extended/tzdata/tzdata_2015d.bb b/meta/recipes-extended/tzdata/tzdata_2015d.bb
-new file mode 100644
-index 0000000..d8e5f24
---- /dev/null
-+++ b/meta/recipes-extended/tzdata/tzdata_2015d.bb
-@@ -0,0 +1,6 @@
-+SRC_URI = "ftp://ftp.iana.org/tz/releases/tzdata${PV}.tar.gz;name=tzdata"
-+
-+SRC_URI[tzdata.md5sum] = "b595bdc4474b8fc1a15cffc67c66025b"
-+SRC_URI[tzdata.sha256sum] = "8b9f5008277f09e251e97dba7813f56168d691115bda90ade4638d72f296d531"
-+
-+require tzdata.inc
--- 
-2.5.0
+--Apple-Mail=_568138F4-DAD0-460D-9EF7-BD219FB4FC4C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=windows-1252
 
 
+> On Sep 1, 2015, at 7:55 AM, Mark Hatle <mark.hatle@windriver.com> =
+wrote:
+>=20
+>=20
+> Do you have any sense of the problems when gcc uses an older version =
+of GMP?  If
+> a newer version is required for gcc -- then can gcc itself check that =
+it's a
+> proper minimum version available?  (At this point I would assume if =
+someone is
+> worried about GPLv3 issues, that they would NOT be putting the =
+compiler and
+> related tools on the target.)  I know we can specify -runtime- minimum =
+versions
+> easily enough using the > directive.. but I don't think there is an =
+easy way to
+> specify minimum build version, other then verify we have the correct =
+version
+> available to us though a file check of some kind.
+
+gcc needs gmp >=3D 4.3.2 now a days but it infact does check for version =
+presented to it from build system
+thats where the problem lies but as I said it might not be a usual case.
+
+--Apple-Mail=_568138F4-DAD0-460D-9EF7-BD219FB4FC4C
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXl3BsACgkQuwUzVZGdMxSVBgCfd0cvAOzyPTYPgkUc/M9T5awh
+44sAnAmBRlCZQofdcBqHhfVn3G3Xg/mH
+=fksG
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_568138F4-DAD0-460D-9EF7-BD219FB4FC4C--
