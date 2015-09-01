@@ -1,50 +1,24 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 30FC276B7C
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 85C4B76FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 22:05:05 +0000 (UTC)
-Received: by ioii196 with SMTP id i196so17989788ioi.3
+	Tue,  1 Sep 2015 22:14:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t81MER1q008603
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 15:05:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=hi47aO45lmiCu0NIjZw1lUXK0+z2/u2ead3Yu8BZM1I=;
-	b=CvGYsU0VWALjZwn4K6FiB+q4Mzvpw4V3C/g2/3oY5xWeDdTRrMPm0ZusebR5yzTXQB
-	NebI927Q6L70v4mN6cVrb565hz/eYwNRAtcIrrHRYPYNVx65u2/Cu1nP06Os/MHctdWa
-	OKu6+hExutkBE/TryMF/qAInXnTaic3FIrPXBJOiz7pZta/KdPyn9CAHWJrWs/wXMuVB
-	3dpepKM7eQF1jxWUe+N/Gs2cLdGFJTnD538FEYP8L6KUjx/MMMv64Muohc/NTel/Ko8v
-	7v02HcpzZKbOaWc8YIG8DB5IDyOh61GnaJgfE0ZTDGwYMFouvesCwzMqf/2cOxtd7jnO
-	qFoQ==
-X-Gm-Message-State: ALoCoQmv4NuVBFAMeuslkGHdgvPEARyFBQF5um2YQ3i85xStrm+HE77pq6IJKCvMK5O6MFs4+K2k
-X-Received: by 10.107.132.35 with SMTP id g35mr5080438iod.175.1441145105257;
-	Tue, 01 Sep 2015 15:05:05 -0700 (PDT)
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com.
-	[209.85.213.175])
-	by smtp.gmail.com with ESMTPSA id je3sm259379igb.9.2015.09.01.15.05.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Sep 2015 15:05:04 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igbkq10 with SMTP id kq10so12181250igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 15:05:03 -0700 (PDT)
+	Tue, 1 Sep 2015 15:14:27 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 1 Sep 2015 15:14:27 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Sep 2015 15:14:27 -0700
+Message-ID: <1441145667-27584-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-Received: by 10.50.102.4 with SMTP id fk4mr490093igb.46.1441145103749; Tue,
-	01 Sep 2015 15:05:03 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Tue, 1 Sep 2015 15:05:03 -0700 (PDT)
-In-Reply-To: <20150901215512.GE2458@jama>
-References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
-	<20150901215512.GE2458@jama>
-Date: Tue, 1 Sep 2015 19:05:03 -0300
-Message-ID: <CAP9ODKq=HsV79hXhHeCwdhpF6uhHdCxYrhC53Kt5+Pe6Qdpf1w@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Patch merge process
+Subject: [PATCH 1/1] dpkg: put start-stop-daemon in its own package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,23 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 22:05:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 01 Sep 2015 22:14:28 -0000
+Content-Type: text/plain
 
-On Tue, Sep 1, 2015 at 6:55 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> I hate to say it, but for meta-oe and meta-qt5 I would like to use
-> gerrit - it's great to see all related information (all revisions of the
-> patch, all review comments, all results of verification builds) in
-> single location from where you do the actual submissions to official
-> branch when all criteria are satisfied.
+Also make it update-alternatives compatible and move
+it to where busybox puts its version.
 
-Me too; we have been using Gerrit for patch management for a while and
-it works very well.
+Make dpkg RDEPEND on dpkg-start-stop.
 
-If you want, we can host it at our server, by the way.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ meta/recipes-devtools/dpkg/dpkg.inc |   20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index 6eec2cd..2d7cad0 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -11,7 +11,7 @@ DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alte
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts perl"
+ RDEPENDS_${PN}_class-native = "xz-native"
+ 
+-inherit autotools gettext perlnative pkgconfig systemd
++inherit autotools gettext perlnative pkgconfig systemd update-alternatives
+ 
+ python () {
+     if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+@@ -43,6 +43,12 @@ do_configure () {
+ }
+ 
+ do_install_append () {
++	if [ -e ${D}${sbindir}/start-stop-daemon ]; then
++		mkdir -p ${D}${base_sbindir}
++		mv ${D}${sbindir}/start-stop-daemon ${D}${base_sbindir}/start-stop-daemon
++		rmdir --ignore-fail-on-non-empty ${D}${sbindir}
++	fi
++
+ 	if [ "${PN}" = "dpkg-native" ]; then
+ 		# update-alternatives doesn't have an offline mode
+ 		rm ${D}${bindir}/update-alternatives
+@@ -67,6 +73,18 @@ PROV_class-native = ""
+ 
+ PROVIDES += "${PROV}"
+ 
++# split out start-stop-daemon to its own package
++#
++PACKAGES =+ "${PN}-start-stop"
++FILES_${PN}-start-stop = "${base_sbindir}/start-stop-daemon.dpkg"
++
++ALTERNATIVE_PRIORITY="100"
++ALTERNATIVE_${PN}-start-stop = "start-stop-daemon"
++ALTERNATIVE_LINK_NAME[start-stop-daemon]="${base_sbindir}/start-stop-daemon"
++
++RDEPENDS_${PN} += "${PN}-start-stop"
++#
++
+ PACKAGES =+ "update-alternatives-dpkg"
+ FILES_update-alternatives-dpkg = "${bindir}/update-alternatives ${localstatedir}/lib/dpkg/alternatives ${sysconfdir}/alternatives"
+ RPROVIDES_update-alternatives-dpkg += "update-alternatives"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+1.7.9.5
+
 
