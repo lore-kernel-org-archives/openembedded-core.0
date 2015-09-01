@@ -1,20 +1,19 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 6964375E80
+	by mail.openembedded.org (Postfix) with ESMTP id 9043076FD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 12:17:07 +0000 (UTC)
+	Tue,  1 Sep 2015 12:17:28 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id F0E2B5188051
-Message-ID: <1441109824.4029.4.camel@collabora.co.uk>
+	(Authenticated sender: joshuagl) with ESMTPSA id 450375188051
+Message-ID: <1441109845.4029.5.camel@collabora.co.uk>
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 01 Sep 2015 13:17:04 +0100
-In-Reply-To: <de1da1b1a976acc7a5412705149b832b9a17973d.1440111536.git.avery.brian@gmail.com>
-References: <cover.1440111536.git.avery.brian@gmail.com>
-	<de1da1b1a976acc7a5412705149b832b9a17973d.1440111536.git.avery.brian@gmail.com>
+Date: Tue, 01 Sep 2015 13:17:25 +0100
+In-Reply-To: <1440767524-26149-1-git-send-email-sona.sarmadi@enea.com>
+References: <1440767524-26149-1-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
 Mime-Version: 1.0
-Subject: Re: [FIDO PATCH 1/1] toasterconf: remove master as a branch option from fido release
+Subject: Re: [PATCH][fido] icu: CVE-2014-8146-CVE-2014-8147
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,104 +26,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 12:17:09 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 12:17:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-08-20 at 16:04 -0700, brian avery wrote:
-> From: Alexandru DAMIAN <alexandru.damian@intel.com>
+On Fri, 2015-08-28 at 15:12 +0200, Sona Sarmadi wrote:
+> CVE-2014-8146 icu: heap overflow via incorrect isolateCount
+> CVE-2014-8147 icu: integer truncation in the resolveImplicitLevels
+> function
 > 
-> Toaster isn't designed to be forward compatible. As such,
-> a release cannot build releases newer then it.
+> References:
+> [1] https://github.com/pedrib/PoC/raw/master/generic/i-c-u-fail.7z
+> [2] https://www.kb.cert.org/vuls/id/602540
+> [3] http://bugs.icu-project.org/trac/changeset/37080
+> [4] http://bugs.icu-project.org/trac/changeset/37162
 > 
-> Particularly, "fido" cannot build "master", so we remove
-> "master" from the list of supported releases in "fido"
-> 
-> [YOCTO #8154]
+> Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
 
-Thanks Brian, this patch is queued in my fido-next branch[1].
+Thanks Sona, this patch is queued in my fido-next branch[1].
 
 Regards,
-
 Joshua
 
 1. http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshua
 gl/fido-next
 
-> 
-> Signed-off-by: Alexandru DAMIAN <alexandru.damian@intel.com>
-> Signed-off-by: brian avery <avery.brian@gmail.com>
 > ---
->  meta/conf/toasterconf.json | 23 ++++-------------------
->  1 file changed, 4 insertions(+), 19 deletions(-)
+>  .../icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch  | 49
+> ++++++++++++++++++++++
+>  meta/recipes-support/icu/icu_54.1.bb               |  1 +
+>  2 files changed, 50 insertions(+)
+>  create mode 100644 meta/recipes-support/icu/icu/icu-CVE-2014-8146
+> -CVE-2014-8147.patch
 > 
-> diff --git a/meta/conf/toasterconf.json b/meta/conf/toasterconf.json
-> index c8e42ef..ecd6a9f 100644
-> --- a/meta/conf/toasterconf.json
-> +++ b/meta/conf/toasterconf.json
-> @@ -12,7 +12,7 @@
->              "name": "Local OpenEmbedded",
->              "sourcetype": "local",
->              "apiurl": "../../",
-> -            "branches": ["HEAD", "master", "fido", "dizzy"],
-> +            "branches": ["HEAD", "fido", "dizzy"],
->              "layers": [
->                  {
->                      "name": "openembedded-core",
-> @@ -26,24 +26,18 @@
->              "name": "OpenEmbedded",
->              "sourcetype": "layerindex",
->              "apiurl": "
-> http://layers.openembedded.org/layerindex/api/",
-> -            "branches": ["master", "fido", "dizzy"]
-> +            "branches": ["fido", "dizzy"]
->          },
->          {
->              "name": "Imported layers",
->              "sourcetype": "imported",
->              "apiurl": "",
-> -            "branches": ["master", "fido", "dizzy", "HEAD"]
-> +            "branches": ["fido", "dizzy", "HEAD"]
+> diff --git a/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014
+> -8147.patch b/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014
+> -8147.patch
+> new file mode 100644
+> index 0000000..cf32d13c
+> --- /dev/null
+> +++ b/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014
+> -8147.patch
+> @@ -0,0 +1,49 @@
+> +ICU: CVE-2014-8146-CVE-2014-8147
+> +
+> +CVE-2014-8146 icu: heap overflow via incorrect isolateCount
+> +CVE-2014-8147 icu: integer truncation in the resolveImplicitLevels
+> function
+> +
+> +References:
+> +[1] https://github.com/pedrib/PoC/raw/master/generic/i-c-u-fail.7z
+> +[2] https://www.kb.cert.org/vuls/id/602540
+> +[3] http://bugs.icu-project.org/trac/changeset/37080
+> +[4] http://bugs.icu-project.org/trac/changeset/37162
+> +
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+> +---
+> +diff -ruN a/common/ubidi.c b/common/ubidi.c
+> +--- a/common/ubidi.c	2014-10-03 18:11:20.000000000 +0200
+> ++++ b/common/ubidi.c	2015-08-28 08:22:39.455906194 +0200
+> +@@ -2138,7 +2138,7 @@
+> +     /* The isolates[] entries contain enough information to
+> +        resume the bidi algorithm in the same state as it was
+> +        when it was interrupted by an isolate sequence. */
+> +-    if(dirProps[start]==PDI) {
+> ++    if(dirProps[start]==PDI  && pBiDi->isolateCount >= 0) {
+> +         levState.startON=pBiDi->isolates[pBiDi
+> ->isolateCount].startON;
+> +         start1=pBiDi->isolates[pBiDi->isolateCount].start1;
+> +         stateImp=pBiDi->isolates[pBiDi->isolateCount].stateImp;
+> +diff -ruN a/common/ubidiimp.h b/common/ubidiimp.h
+> +--- a/common/ubidiimp.h	2014-10-03 18:11:16.000000000 +0200
+> ++++ b/common/ubidiimp.h	2015-08-28 08:28:24.069163845 +0200
+> +@@ -1,7 +1,7 @@
+> + /*
+> +
+> *********************************************************************
+> *********
+> + *
+> +-*   Copyright (C) 1999-2014, International Business Machines
+> ++*   Copyright (C) 1999-2015, International Business Machines
+> + *   Corporation and others.  All Rights Reserved.
+> + *
+> +
+> *********************************************************************
+> *********
+> +@@ -184,8 +184,8 @@
+> + typedef struct Isolate {
+> +     int32_t startON;
+> +     int32_t start1;
+> ++    int32_t state;
+> +     int16_t stateImp;
+> +-    int16_t state;
+> + } Isolate;
+> +
+> + typedef struct Run {
+> diff --git a/meta/recipes-support/icu/icu_54.1.bb b/meta/recipes
+> -support/icu/icu_54.1.bb
+> index 45b5cb6..9f10beb 100644
+> --- a/meta/recipes-support/icu/icu_54.1.bb
+> +++ b/meta/recipes-support/icu/icu_54.1.bb
+> @@ -11,6 +11,7 @@ ICU_PV = "${@icu_download_version(d)}"
+>  BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/ic
+> u4c-${ICU_PV}-src.tgz"
+>  SRC_URI = "${BASE_SRC_URI} \
+>             file://icu-pkgdata-large-cmd.patch \
+> +           file://icu-CVE-2014-8146-CVE-2014-8147.patch \
+>            "
 >  
->          }
->      ],
->      "bitbake" : [
->          {
-> -            "name": "master",
-> -            "giturl": "git://git.openembedded.org/bitbake",
-> -            "branch": "master",
-> -            "dirpath": ""
-> -        },
-> -        {
->              "name": "fido",
->              "giturl": "git://git.openembedded.org/bitbake",
->              "branch": "1.26",
-> @@ -63,19 +57,10 @@
->          }
->      ],
->  
-> -    "defaultrelease": "master",
-> +    "defaultrelease": "fido",
->  
->      "releases": [
->          {
-> -            "name": "master",
-> -            "description": "OpenEmbedded master",
-> -            "bitbake": "master",
-> -            "branch": "master",
-> -            "defaultlayers": [ "openembedded-core" ],
-> -            "layersourcepriority": { "Imported layers": 99, "Local
-> OpenEmbedded" : 10, "OpenEmbedded" :  0 },
-> -            "helptext": "Toaster will run your builds using the tip
-> of the <a href=\"
-> http://cgit.openembedded.org/openembedded-core/log/\">OpenEmbedded ma
-> ster</a> branch, where active development takes place. This is not a
-> stable branch, so your builds might not work as expected."
-> -        },
-> -        {
->              "name": "fido",
->              "description": "OpenEmbedded Fido",
->              "bitbake": "fido",
+>  SRC_URI_append_class-target = "\
 > -- 
 > 1.9.1
 > 
