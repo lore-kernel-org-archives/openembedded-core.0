@@ -1,31 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A394976F8C
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ACB3D76F8C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 07:52:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t817qZeA006002; Tue, 1 Sep 2015 08:52:35 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 90goVcwzVFTT; Tue,  1 Sep 2015 08:52:35 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t817qKgM005994
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 1 Sep 2015 08:52:31 +0100
-Message-ID: <1441093940.26554.57.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Larson <kergoth@gmail.com>
-Date: Tue, 01 Sep 2015 08:52:20 +0100
-In-Reply-To: <1441093853.26554.56.camel@linuxfoundation.org>
-References: <cover.1440454290.git.chris_larson@mentor.com>
-	<1441093853.26554.56.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] Add checks for "host user contamination"
+	Tue,  1 Sep 2015 07:59:28 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t817xSh9028247
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Sep 2015 00:59:28 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 1 Sep 2015 00:59:27 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Sep 2015 15:54:39 +0800
+Message-ID: <1441094079-19289-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH][meta-oe] lvm2: enable lvmetad
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,45 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 07:52:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Sep 2015 07:59:30 -0000
+Content-Type: text/plain
 
-On Tue, 2015-09-01 at 08:50 +0100, Richard Purdie wrote:
-> On Mon, 2015-08-24 at 15:19 -0700, Christopher Larson wrote:
-> > From: Christopher Larson <chris_larson@mentor.com>
-> > 
-> > This adds a QA test, as well as a rootfs_ function for use in
-> > ROOTFS_POSTPROCESS_COMMAND, to warn/error when paths are owned by the same
-> > user/group as the user running bitbake. This is useful to catch stuff which is
-> > written outside of pseudo's control, for example.
-> > 
-> > The following changes since commit c38acd720b3f6ffbeb544063692eb471dada8593:
-> > 
-> >   binconfig-disabled: write an message to stderr to help confused developers (2015-08-19 17:57:58 +0100)
-> > 
-> > are available in the git repository at:
-> > 
-> >   git://github.com/kergoth/openembedded-core host-user-contaminated
-> >   https://github.com/kergoth/openembedded-core/tree/host-user-contaminated
-> > 
-> > Christopher Larson (3):
-> >   insane.bbclass: handle tests which need fakeroot
-> >   insane.bbclass: add host-user-contaminated test
-> >   image.bbclass: add rootfs_check_host_user_contaminated
-> 
-> On the autobuilder we found:
-> 
-> http://errors.yoctoproject.org/Errors/Details/16318/
-> 
-> which looks like a race against the packaging code and the creation of
-> package manager files. Not sure why we don't see this in other cases...
+From: Roy Li <rongqing.li@windriver.com>
 
-Also http://errors.yoctoproject.org/Errors/Details/16310/ which looks
-like the same issue (racing dpkg rather than opkg).
+the systemd unit file of lvm2-monitor requires lvm2-lvmetad.socket which
+asks to enable lvmetad, lvmetad is a metadata caching daemon for LVM. so
+this fixed the below error:
+  # systemctl start lvm2-monitor
+  Failed to start lvm2-monitor.service: Unit lvm2-lvmetad.socket failed to load: No such file or directory.
+  #
 
-Cheers,
+replace the installation of system unit file by make install_systemd_units
 
-Richard
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta-oe/recipes-support/lvm2/lvm2.inc | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/meta-oe/recipes-support/lvm2/lvm2.inc b/meta-oe/recipes-support/lvm2/lvm2.inc
+index 099164c..2b2d8ed 100644
+--- a/meta-oe/recipes-support/lvm2/lvm2.inc
++++ b/meta-oe/recipes-support/lvm2/lvm2.inc
+@@ -24,6 +24,7 @@ EXTRA_OECONF = "--with-user= \
+                 --enable-udev_rules \
+                 --enable-pkgconfig \
+                 --enable-dmeventd \
++                --enable-lvmetad \
+                 --with-udev-prefix= \
+                 --with-usrlibdir=${libdir} \
+ "
+@@ -38,14 +39,13 @@ do_install_append() {
+     # Install machine specific configuration file
+     install -m 0644 ${WORKDIR}/lvm.conf ${D}${sysconfdir}/lvm/lvm.conf
+     sed -i -e 's:@libdir@:${libdir}:g' ${D}${sysconfdir}/lvm/lvm.conf
+-    install -d ${D}${systemd_unitdir}/system
+-    install -m 0644 ${B}/scripts/lvm2_monitoring_systemd_red_hat.service ${D}${systemd_unitdir}/system/lvm2-monitor.service
+-    install -m 0644 ${B}/scripts/dm_event_systemd_red_hat.socket ${D}${systemd_unitdir}/system/dm-event.socket
+-    install -m 0644 ${B}/scripts/dm_event_systemd_red_hat.service ${D}${systemd_unitdir}/system/dm-event.service
++    oe_runmake 'DESTDIR=${D}' install install_systemd_units
++    sed -i -e 's:/usr/bin/true:${base_bindir}/true:g' ${D}${systemd_unitdir}/system/blk-availability.service
+ }
+ 
+ SYSTEMD_PACKAGES = "${PN}"
+-SYSTEMD_SERVICE_${PN} = "lvm2-monitor.service dm-event.socket dm-event.service"
++SYSTEMD_SERVICE_${PN} = "lvm2-monitor.service dm-event.socket dm-event.service lvm2-lvmetad.socket \
++                         lvm2-pvscan@.service blk-availability.service"
+ SYSTEMD_AUTO_ENABLE = "disable"
+ 
+ TARGET_CC_ARCH += "${LDFLAGS}"
+-- 
+1.9.1
 
 
