@@ -1,30 +1,24 @@
-Return-Path: <mark.hatle@windriver.com>
+Return-Path: <joe.slater@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F2ED76B7C
+	by mail.openembedded.org (Postfix) with ESMTP id 6E64C77005
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 21:29:03 +0000 (UTC)
+	Tue,  1 Sep 2015 21:34:30 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t81LT2Bi008224
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 1 Sep 2015 14:29:02 -0700 (PDT)
-Received: from msp-dhcp31.wrs.com (172.25.34.31) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 1 Sep 2015 14:29:01 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Jian Liu
-	<jian.liu@windriver.com>
-References: <1440491341-29988-1-git-send-email-jian.liu@windriver.com>
-	<1441141913.24871.17.camel@linuxfoundation.org>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <55E6189D.90902@windriver.com>
-Date: Tue, 1 Sep 2015 16:29:01 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.2.0
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t81LYV1G008272
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 1 Sep 2015 14:34:31 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 1 Sep 2015 14:34:30 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 1 Sep 2015 14:34:28 -0700
+Message-ID: <1441143270-27322-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-In-Reply-To: <1441141913.24871.17.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sdk.py: fix conflicts of packages
+Subject: [PATCH 0/2] add ifupdown
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,127 +31,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 21:29:04 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Sep 2015 21:34:31 -0000
+Content-Type: text/plain
 
-On 9/1/15 4:11 PM, Richard Purdie wrote:
-> On Tue, 2015-08-25 at 16:29 +0800, Jian Liu wrote:
->> If packages are conveyed to smart to install at the same time,
->> conflicts will not happen.
->> Try to install packages into sdk image at the same time.
-> 
-> Doesn't smart have an issue where if one package fails to install for
-> some reason, others listed in the same command won't be attempted? Did
-> you test that?
+I'm not sure where this should go, but these patches are for oe-core.
+This recipe overrides the versions of ifup and ifdown implemented
+by busybox, if present.
 
-I believe this was fixed in:
+This was copied, with one minor change, from meta-overc, as mentioned in
+the first patch.
 
-commit cd475aea5f5bc4b6a2dd3e576070a117ae079597
-Author: Mark Hatle <mark.hatle@windriver.com>
-Date:   Thu Jan 22 16:10:34 2015 -0600
+Joe Slater (2):
+  ifupdown: import recipe
+  ifupdown: create alternative links
 
-    python-smartpm: Fix attemptonly builds when file conflicts occur
+ meta/recipes-core/ifupdown/files/99_network        |    1 +
+ ...-don-t-rely-on-dpkg-architecture-to-set-a.patch |   56 +++++++++++
+ ...-6-.defn-fix-inverted-checks-for-loopback.patch |  103 ++++++++++++++++++++
+ meta/recipes-core/ifupdown/ifupdown_0.7.48.1.bb    |   54 ++++++++++
+ 4 files changed, 214 insertions(+)
+ create mode 100644 meta/recipes-core/ifupdown/files/99_network
+ create mode 100644 meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+ create mode 100644 meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
+ create mode 100644 meta/recipes-core/ifupdown/ifupdown_0.7.48.1.bb
 
-    [YOCTO #7299]
-
-    When file conflicts occur, the RPM transaction aborts.  Instead of
-    simply accepting the failure, we now identify, capture, and remove
-    the offending package(s) from the transaction and retry.
-
-    Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-    Signed-off-by: Ross Burton <ross.burton@intel.com>
-
-
-
-
---Mark
-
-> Cheers,
-> 
-> Richard
-> 
->> This patch is not so perfect. For example,
->>   IMAGE_INSTALL += "lib32-ncurses"
->>   IMAGE_INSTALL += "ncurses-dev"
->>  ncurses-dev and lib32-ncurses-dev will have conflicts during packages installation.
->>
->> Signed-off-by: Jian Liu <jian.liu@windriver.com>
->> ---
->>  sdk.py |   45 +++++++++++++++++++++++++++++++++------------
->>  1 file changed, 33 insertions(+), 12 deletions(-)
->>
->> diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
->> index c57a441..7b43a29 100644
->> --- a/meta/lib/oe/sdk.py
->> +++ b/meta/lib/oe/sdk.py
->> @@ -107,10 +107,17 @@ class RpmSdk(Sdk):
->>          pm.dump_all_available_pkgs()
->>          pm.update()
->>  
->> -        for pkg_type in self.install_order:
->> -            if pkg_type in pkgs_to_install:
->> -                pm.install(pkgs_to_install[pkg_type],
->> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
->> +        pkgs = []
->> +        pkgs_attempt = []
->> +        for pkg_type in pkgs_to_install:
->> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
->> +                pkgs_attempt += pkgs_to_install[pkg_type]
->> +            else:
->> +                pkgs += pkgs_to_install[pkg_type]
->> +
->> +        pm.install(pkgs)
->> +
->> +        pm.install(pkgs_attempt, True)
->>  
->>      def _populate(self):
->>          bb.note("Installing TARGET packages")
->> @@ -184,10 +191,17 @@ class OpkgSdk(Sdk):
->>  
->>          pm.update()
->>  
->> -        for pkg_type in self.install_order:
->> -            if pkg_type in pkgs_to_install:
->> -                pm.install(pkgs_to_install[pkg_type],
->> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
->> +        pkgs = []
->> +        pkgs_attempt = []
->> +        for pkg_type in pkgs_to_install:
->> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
->> +                pkgs_attempt += pkgs_to_install[pkg_type]
->> +            else:
->> +                pkgs += pkgs_to_install[pkg_type]
->> +
->> +        pm.install(pkgs)
->> +
->> +        pm.install(pkgs_attempt, True)
->>  
->>      def _populate(self):
->>          bb.note("Installing TARGET packages")
->> @@ -260,10 +274,17 @@ class DpkgSdk(Sdk):
->>          pm.write_index()
->>          pm.update()
->>  
->> -        for pkg_type in self.install_order:
->> -            if pkg_type in pkgs_to_install:
->> -                pm.install(pkgs_to_install[pkg_type],
->> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
->> +        pkgs = []
->> +        pkgs_attempt = []
->> +        for pkg_type in pkgs_to_install:
->> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
->> +                pkgs_attempt += pkgs_to_install[pkg_type]
->> +            else:
->> +                pkgs += pkgs_to_install[pkg_type]
->> +
->> +        pm.install(pkgs)
->> +
->> +        pm.install(pkgs_attempt, True)
->>  
->>      def _populate(self):
->>          bb.note("Installing TARGET packages")
-> 
-> 
+-- 
+1.7.9.5
 
 
