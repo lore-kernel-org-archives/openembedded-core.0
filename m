@@ -1,35 +1,22 @@
-Return-Path: <philip.balister@gmail.com>
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
-	[209.85.220.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 2329376A51
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id E8B1A76A51
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 13:47:27 +0000 (UTC)
-Received: by qkcj187 with SMTP id j187so39758910qkc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 06:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=BB4vA/fC5Mpoa490Eo4r9JQ6wPPUxuopm3Q/G7tJ7xs=;
-	b=d20lgEak/se69KAoEVB1Yo8Ja3Q3c1zdEhIpqbENpruZ5t84kjt6ZZWzL6QlQo/2nX
-	NPCWnz9USNeiAl7/8jKEeSSXHG/9K37ySzA5vvmp4lHyS0OekOK/UGTFiXNT8pLO/tyZ
-	6NKDfykCwhn/GrkzokwG1ExJVDdteSIDyKY7O0OJq9NDngWt06texx0nbm7OuZ5csilD
-	7K6CbTWA60aXPaM5Z6ys5RwTT83qqQuVxidOZuJ8ALzEVDBtJ/Icp8g4wl+bS1tnqgf5
-	zXwcY4hpv1dy6AxLBKiXjLlUFVKh5qTwyPVzseY+Wv/N4yzPKoTmnDnzGb9SuO3oiZhO
-	26dQ==
-X-Received: by 10.55.52.12 with SMTP id b12mr19962816qka.21.1441115247496;
-	Tue, 01 Sep 2015 06:47:27 -0700 (PDT)
-Received: from thuvia.localdomain
-	(pool-108-44-118-114.ronkva.east.verizon.net. [108.44.118.114])
-	by smtp.gmail.com with ESMTPSA id f9sm10768378qhe.7.2015.09.01.06.47.26
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 01 Sep 2015 06:47:26 -0700 (PDT)
-Sender: Philip Balister <philip.balister@gmail.com>
-From: Philip Balister <philip@balister.org>
+	Tue,  1 Sep 2015 14:20:36 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 01 Sep 2015 07:20:19 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,449,1437462000"; d="scan'208";a="795486714"
+Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
+	([10.23.219.54])
+	by orsmga002.jf.intel.com with ESMTP; 01 Sep 2015 07:20:18 -0700
+From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Sep 2015 09:47:22 -0400
-Message-Id: <1441115242-10592-1-git-send-email-philip@balister.org>
-X-Mailer: git-send-email 2.1.0
-Subject: [PATCH] libevent_2.0.22.bb: Add native and nativesdk support to the recipe.
+Date: Tue,  1 Sep 2015 06:13:40 +0000
+Message-Id: <cover.1441087651.git.leonardo.sandoval.gonzalez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH 0/2] devtool build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,29 +29,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 13:47:31 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 14:20:38 -0000
 
-Build tested against thrift recipe under development.
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-Signed-off-by: Philip Balister <philip@balister.org>
----
- meta/recipes-support/libevent/libevent_2.0.22.bb | 2 ++
- 1 file changed, 2 insertions(+)
+First patch moves all the build related code from standard.py to build.py,
+and second patch includes the --disable-parallel-make parameter, which
+as the name indicates, removes parallelism on the make tool.
 
-diff --git a/meta/recipes-support/libevent/libevent_2.0.22.bb b/meta/recipes-support/libevent/libevent_2.0.22.bb
-index 2f49293..58c263c 100644
---- a/meta/recipes-support/libevent/libevent_2.0.22.bb
-+++ b/meta/recipes-support/libevent/libevent_2.0.22.bb
-@@ -28,6 +28,8 @@ inherit ptest
- 
- DEPENDS = "zlib"
- 
-+BBCLASSEXTEND = "native nativesdk"
-+
- do_install_ptest() {
- 	install -d ${D}${PTEST_PATH}/test
- 	for file in ${B}/test/.libs/regress ${B}/test/.libs/test*
+The following changes since commit 22afc047dd1b8f83e56c4a9862710776c509e3c5:
+
+  oe-selftest: test devtool build-image plugin (2015-08-31 11:37:14 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib lsandov1/devtool-disable-parallelism
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/devtool-disable-parallelism
+
+Leonardo Sandoval (2):
+  devtool: Create a single file for the build devtool feature
+  devtool: Allow disabling make parallelism on build command
+
+ scripts/lib/devtool/build.py    | 75 +++++++++++++++++++++++++++++++++++++++++
+ scripts/lib/devtool/standard.py | 22 ------------
+ 2 files changed, 75 insertions(+), 22 deletions(-)
+ create mode 100644 scripts/lib/devtool/build.py
+
 -- 
-2.1.0
+1.8.4.5
 
 
