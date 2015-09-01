@@ -1,27 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4367D76DE5
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
+	[209.85.212.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BBD976B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 16:13:50 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga103.jf.intel.com with ESMTP; 01 Sep 2015 09:13:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,449,1437462000"; d="scan'208";a="553145343"
-Received: from dgeorges-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.12.111])
-	by FMSMGA003.fm.intel.com with ESMTP; 01 Sep 2015 09:13:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Date: Tue, 01 Sep 2015 17:13:49 +0100
-Message-ID: <1695945.fozQrkdl5z@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <76bc847f69894ced713cda8acf7af0fb72d78a59.1440402125.git.Qi.Chen@windriver.com>
-References: <cover.1440402124.git.Qi.Chen@windriver.com>
-	<76bc847f69894ced713cda8acf7af0fb72d78a59.1440402125.git.Qi.Chen@windriver.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 8/8] populate_sdk_ext: get rid of buildtools
+	Tue,  1 Sep 2015 17:03:41 +0000 (UTC)
+Received: by wicjd9 with SMTP id jd9so40192479wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Sep 2015 10:03:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=YoC2gizN4Lw4mkVGtA2PVev7oGe2UBdZ7yd0qZMMJxY=;
+	b=V4jjFmyzp9ElL7owYQwv9xqAA7joU7czKOAseeYHxFbAyiGUg70KMg+Pt+xop/Wt0l
+	RuMcHDzcFiC4e7VDv/1pHIfH9Ah7F8eQxTtabU8aSdKCfO/M/LXuwV5SjuZW6+IlZGo0
+	lVO9ae6IWaooyT5JHycMWlxX7fH6apU9Hl8jduGsGvPe/kX/jBNmenjBsAiydA7w8+WG
+	eyzefmnHCyIaYnoHLFhZ47aOZq3daN/wQOf6gXLKhTpXMeSdTu/IA66v6T/34wIs8i1b
+	dlXaRF167duyFXpF7VJ4LCofa94dKDk+3LCkE9hNwXznH5wIrnQD+Lxxyr2phEr+Fevc
+	fYwQ==
+X-Received: by 10.180.216.108 with SMTP id op12mr4678841wic.43.1441127019216; 
+	Tue, 01 Sep 2015 10:03:39 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id f7sm3647689wij.17.2015.09.01.10.03.38
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Sep 2015 10:03:38 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  1 Sep 2015 19:03:52 +0200
+Message-Id: <1441127032-30264-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <20150828182256.GA2488@jama>
+References: <20150828182256.GA2488@jama>
+Subject: [fido][PATCH] tzcode: update to 2015d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,137 +43,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 16:13:56 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 01 Sep 2015 17:03:44 -0000
 
-Hi Qi,
+From: Armin Kuster <akuster808@gmail.com>
 
-On Monday 24 August 2015 15:46:56 Chen Qi wrote:
-> If we do `bitbake buildtools-tarball' and then after one day do `bitbake
-> core-image-minimal -c populate_sdk_ext', we would meet errors like below.
-> 
-> | install: cannot stat
-> | '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
-> 
-> poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalon
-> e -1.8+snapshot-20150429.sh': No such file or directory
-> 
-> The problem is that the output name for buildtools-tarball has ${DATE} in
-> it. So if populate_sdk_ext task is executed but buildtools-tarball is not
-> rebuilt, the above error appears.
-> 
-> In fact, ext SDK does not have to depend on buildtools. This patch removes
-> the buildtools from the ext SDK. After this patch, the ext SDK still works
-> and we can no longer see the buildtools error.
-> 
-> [YOCTO #7674]
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/populate_sdk_ext.bbclass | 29 +++++++++++++++++++----------
->  1 file changed, 19 insertions(+), 10 deletions(-)
-> 
-> diff --git a/meta/classes/populate_sdk_ext.bbclass
-> b/meta/classes/populate_sdk_ext.bbclass index 151ae1d..1dcd982 100644
-> --- a/meta/classes/populate_sdk_ext.bbclass
-> +++ b/meta/classes/populate_sdk_ext.bbclass
-> @@ -7,8 +7,25 @@ inherit populate_sdk_base
-> 
->  TOOLCHAIN_HOST_TASK_task-populate-sdk-ext = " \
->      meta-environment-extsdk-${MACHINE} \
-> +    nativesdk-python-core \
-> +    nativesdk-python-modules \
-> +    nativesdk-python-misc \
-> +    nativesdk-python-git \
-> +    nativesdk-python-pexpect \
-> +    nativesdk-ncurses-terminfo-base \
-> +    nativesdk-chrpath \
-> +    nativesdk-tar \
-> +    nativesdk-buildtools-perl-dummy \
-> +    nativesdk-git \
-> +    nativesdk-git-perltools \
-> +    nativesdk-pigz \
-> +    nativesdk-make \
-> +    nativesdk-wget \
-> +    nativesdk-ca-certificates \
->      "
-> 
-> +SDK_PACKAGE_ARCHS =+ "buildtools-dummy-${SDKPKGSUFFIX}"
-> +
->  TOOLCHAIN_TARGET_TASK_task-populate-sdk-ext = ""
-> 
->  SDK_RDEPENDS_append_task-populate-sdk-ext = " ${SDK_TARGETS}"
-> @@ -183,8 +200,6 @@ install_tools() {
->  	lnr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool
-> ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool touch
-> ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
-> 
-> -	install
-> ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKG
-> ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh
-> ${SDK_OUTPUT}/${SDKPATH} -
->  	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2
-> ${SDK_OUTPUT}/${SDKPATH} }
-> 
-> @@ -201,13 +216,7 @@ SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext =
-> "${sdk_ext_preinst}"
-> 
->  # FIXME this preparation should be done as part of the SDK construction
->  sdk_ext_postinst() {
-> -	printf "\nExtracting buildtools...\n"
->  	cd $target_sdk_dir
-> -	printf "buildtools\ny" | ./*buildtools-tarball* > /dev/null
-> -
-> -	# Make sure when the user sets up the environment, they also get
-> -	# the buildtools-tarball tools in their path.
-> -	echo ". $target_sdk_dir/buildtools/environment-setup*" >>
-> $target_sdk_dir/environment-setup*
-> 
->  	# Allow bitbake environment setup to be ran as part of this sdk.
->  	echo "export OE_SKIP_SDK_CHECK=1" >> $target_sdk_dir/environment-setup*
-> @@ -224,7 +233,7 @@ sdk_ext_postinst() {
->  	    # dash which is /bin/sh on Ubuntu will not preserve the
->  	    # current working directory when first ran, nor will it set $1 when
->  	    # sourcing a script. That is why this has to look so ugly.
-> -	    sh -c ". buildtools/environment-setup* > preparing_build_system.log 
-&&
-> cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set
-> $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path}
-> $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >>
-> preparing_build_system.log" || { echo "SDK preparation failed: see
-> `pwd`/preparing_build_system.log" ; exit 1 ; } +	    sh -c "cd
-> $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir
-> && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >>
-> preparing_build_system.log && bitbake ${SDK_TARGETS} >>
-> preparing_build_system.log" || { echo "SDK preparation failed: see
-> `pwd`/preparing_build_system.log" ; exit 1 ; } fi
->  	echo done
->  }
-> @@ -249,7 +258,7 @@ do_populate_sdk_ext[rdepends] =
-> "${@get_sdk_ext_rdepends(d)}" do_populate_sdk_ext[recrdeptask] +=
-> "${@d.getVarFlag('do_populate_sdk', 'recrdeptask', False)}"
-> 
-> 
-> -do_populate_sdk_ext[depends] += "buildtools-tarball:do_populate_sdk
-> uninative-tarball:do_populate_sdk" +do_populate_sdk_ext[depends] +=
-> "uninative-tarball:do_populate_sdk"
-> 
->  do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':do_build' for x in
-> d.getVar('SDK_TARGETS', True).split()])}" do_populate_sdk_ext[recrdeptask]
-> += "do_populate_lic do_package_qa do_populate_sysroot do_deploy"
+Changes affecting code
 
-This doesn't seem to set up the environment correctly such that the components 
-we're installing into the host part of the SDK are able to be used by the 
-build system - prior to this change we were running the buildtools environment 
-setup script in order to do that. (The best way to test this is try to install 
-it on a machine that doesn't have the required git/tar/python versions e.g. 
-CentOS 6).
+    zic has some minor performance improvements.
 
-Cheers,
-Paul
+(From OE-Core rev: 3ab7e247b0662a1791169f16424abec426885f80)
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-extended/tzcode/tzcode-native_2015b.bb | 10 ----------
+ meta/recipes-extended/tzcode/tzcode-native_2015d.bb | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 10 deletions(-)
+ delete mode 100644 meta/recipes-extended/tzcode/tzcode-native_2015b.bb
+ create mode 100644 meta/recipes-extended/tzcode/tzcode-native_2015d.bb
+
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2015b.bb b/meta/recipes-extended/tzcode/tzcode-native_2015b.bb
+deleted file mode 100644
+index a4ec72d..0000000
+--- a/meta/recipes-extended/tzcode/tzcode-native_2015b.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-# note that we allow for us to use data later than our code version
+-#
+-SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
+-           ftp://ftp.iana.org/tz/releases/tzdata2015b.tar.gz;name=tzdata"
+-
+-SRC_URI[tzcode.md5sum] = "f073a7c9bca7f9fe408491f826e92968"
+-SRC_URI[tzcode.sha256sum] = "e668f1235b998c90e43ecc93c8535728c65bb01d6bb93d22467e04b5ffa35d76"
+-SRC_URI[tzdata.md5sum] = "75571bb17c7b6be88a9f8872e45bc726"
+-SRC_URI[tzdata.sha256sum] = "556ac1a5b3a371adc1ad4e77138f78ddd7f8ddd7bc2b52545924598c7dc8ad62"
+-require tzcode-native.inc
+diff --git a/meta/recipes-extended/tzcode/tzcode-native_2015d.bb b/meta/recipes-extended/tzcode/tzcode-native_2015d.bb
+new file mode 100644
+index 0000000..44a9f03
+--- /dev/null
++++ b/meta/recipes-extended/tzcode/tzcode-native_2015d.bb
+@@ -0,0 +1,11 @@
++# note that we allow for us to use data later than our code version
++#
++SRC_URI =" ftp://ftp.iana.org/tz/releases/tzcode${PV}.tar.gz;name=tzcode \
++           ftp://ftp.iana.org/tz/releases/tzdata2015d.tar.gz;name=tzdata"
++
++SRC_URI[tzcode.md5sum] = "4008a3abc025a398697b2587c48258b9"
++SRC_URI[tzcode.sha256sum] = "221af54ec5c42eaf0101159ffe1256a883d1c14c46228d42774c656a56317128"
++SRC_URI[tzdata.md5sum] = "b595bdc4474b8fc1a15cffc67c66025b"
++SRC_URI[tzdata.sha256sum] = "8b9f5008277f09e251e97dba7813f56168d691115bda90ade4638d72f296d531"
++
++require tzcode-native.inc
 -- 
+2.5.0
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
