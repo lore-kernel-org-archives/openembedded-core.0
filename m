@@ -1,29 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AE0676B7C
+	by mail.openembedded.org (Postfix) with ESMTP id E902076B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 21:14:06 +0000 (UTC)
+	Tue,  1 Sep 2015 21:15:42 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t81LE0k0015418; Tue, 1 Sep 2015 22:14:00 +0100
+	t81LFeL0015511; Tue, 1 Sep 2015 22:15:40 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id E1TR-CS6IxwS; Tue,  1 Sep 2015 22:14:00 +0100 (BST)
+	with LMTP id epEBa7vtNnm4; Tue,  1 Sep 2015 22:15:40 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t81LDmpI015412
+	t81LFQ62015504
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 1 Sep 2015 22:13:59 +0100
-Message-ID: <1441142028.24871.19.camel@linuxfoundation.org>
+	Tue, 1 Sep 2015 22:15:38 +0100
+Message-ID: <1441142126.24871.21.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Li xin <lixin.fnst@cn.fujitsu.com>
-Date: Tue, 01 Sep 2015 22:13:48 +0100
-In-Reply-To: <1433407956-1948-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-References: <1433407956-1948-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 01 Sep 2015 22:15:26 +0100
+In-Reply-To: <87b72ec93b53c0a0ac61950f52480fa86a93c937.1440446289.git.raj.khem@gmail.com>
+References: <cover.1440446289.git.raj.khem@gmail.com>
+	<87b72ec93b53c0a0ac61950f52480fa86a93c937.1440446289.git.raj.khem@gmail.com>
 X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] base-files: Fix LSB NG Cases.
+Subject: Re: [PATCH 01/17] systemd: Upgrade 219 -> 224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +37,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 21:14:08 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 21:15:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-06-04 at 16:52 +0800, Li xin wrote:
-> -/tset/LSB.fhs/var/tmp/tmp-tc.
+On Mon, 2015-08-24 at 13:03 -0700, Khem Raj wrote:
+> Drop patches that were straight backports from upstream
 > 
-> The LSB Core test requires the /var/tmp directory supports creation of files.
-> And the mount tmpfs on /var/volatile cause the /var/tmp directory can't be
-> writable for non-root users.
+> MIT licence was unused and dropped from systemd sources
+> for more details see
+> https://github.com/systemd/systemd/commit/8f1e0c5f38cdf7e401ab4d2bb93ad816d08e7715
+> 
+> Drop gtkdoc dependency since libudev API documentation has been converted from gtkdoc into man pages
+> Remove packaging gudev as it has moved to separate repository outside
+> systemd
+> 
+> For more details see
+> https://github.com/systemd/systemd/commit/2375607039517c88df51ef16ddbb624ec1c10654
+> 
+> package newly added script for xorg to be usable with systemd --user
+> intance
+> For more details see
+> https://github.com/systemd/systemd/commit/1401ec2d34bcde406ced531a72dc46ebaf332594
+> 
+> For complete differences between two releases run
+> git log --oneline v219..v224
+> in systemd git clone
 
-This change doesn't look correct to me, its a pretty fundamental change
-to the way the system operates and certainly needs more thought and
-justification than the few lines above.
+This patch seems to cause the build failures in:
 
-Surely if its a non-root users issue, the problem is permissions, not
-the tmpfs anyway?
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/466
+
+(two different sanity test failures)
 
 Cheers,
 
 Richard
-
-> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-> ---
->  meta/recipes-core/base-files/base-files/fstab | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
-> index d79a016..458ec70 100644
-> --- a/meta/recipes-core/base-files/base-files/fstab
-> +++ b/meta/recipes-core/base-files/base-files/fstab
-> @@ -4,7 +4,6 @@
->  proc                 /proc                proc       defaults              0  0
->  devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
->  tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
-> -tmpfs                /var/volatile        tmpfs      defaults              0  0
->  
->  # uncomment this if your device has a SD/MMC/Transflash slot
->  #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto  0  0
-> -- 
-> 1.8.4.2
-> 
-
 
 
