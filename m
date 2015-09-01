@@ -1,28 +1,29 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 0600776B7C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 04A9376B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 21:11:16 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 01 Sep 2015 14:11:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,450,1437462000"; d="scan'208";a="796134385"
-Received: from unknown (HELO peggleto-mobl.ger.corp.intel.com)
-	([10.252.26.145])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Sep 2015 14:11:15 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Brendan Le Foll <brendan.le.foll@intel.com>
-Date: Tue, 01 Sep 2015 22:11:13 +0100
-Message-ID: <2046670.aGx4ZuXsBC@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <20150901181617.GA24281@jupiter.iwi.intel.com>
-References: <1440002007-9895-1-git-send-email-brendan.le.foll@intel.com>
-	<2387622.aXAosN14aV@peggleto-mobl.ger.corp.intel.com>
-	<20150901181617.GA24281@jupiter.iwi.intel.com>
-MIME-Version: 1.0
+	Tue,  1 Sep 2015 21:12:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t81LC8SJ015380; Tue, 1 Sep 2015 22:12:08 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 04SQMdZlqoug; Tue,  1 Sep 2015 22:12:07 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t81LBrj1015373
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Tue, 1 Sep 2015 22:12:04 +0100
+Message-ID: <1441141913.24871.17.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jian Liu <jian.liu@windriver.com>
+Date: Tue, 01 Sep 2015 22:11:53 +0100
+In-Reply-To: <1440491341-29988-1-git-send-email-jian.liu@windriver.com>
+References: <1440491341-29988-1-git-send-email-jian.liu@windriver.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] devtool: add package plugin that lets you create package via devtool
+Subject: Re: [PATCH] sdk.py: fix conflicts of packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,61 +36,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 21:11:17 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 01 Sep 2015 21:12:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tuesday 01 September 2015 19:16:18 Brendan Le Foll wrote:
-> On Thu, Aug 27, 2015 at 03:19:01PM +0100, Paul Eggleton wrote:
-> > Hi Brendan,
-> > 
-> > > 'bitbake -e %s | grep IMAGE_PKGTYPE' % (args.recipename), watch=False) +
-> > > except bb.process.ExecutionError as e:
-> > > +        logger.error('Unable to get IMAGE_PKGTYPE for image')
-> > > +        return e.exitcode
-> > > +
-> > > +    image_pkgtype = str(image_pkgtype).split('=', 1)[1].split('"',
-> > > 2)[1]
-> > > +    if image_pkgtype not in ("rpm", "ipk", "tar", "deb"):
-> > > +        logger.error('Invalid package format (%s) found' %
-> > > image_pkgtype)
-> > > +        return 1
-> > 
-> > Instead of this, how about:
-> >     tinfoil = setup_tinfoil()
-> >     
-> >     try:
-> >         tinfoil.prepare(config_only=True)
-> >         image_pkgtype = tinfoil.config_data.getVar('IMAGE_PKGTYPE', True)
-> >     
-> >     finally:
-> >         tinfoil.shutdown()
-> 
-> Yeah that's much nicer. Wasn't too sure how to use tinfoil, I need to
-> read about it.
-> 
-> > > +    package_task = config.get('Package', 'package_task',
-> > > 'package_write_%s' % image_pkgtype)
-> > 
-> > Hmm, shouldn't the config be for image_pkgtype rather than this? (Since
-> > even if this is set we'd still be using the IMAGE_PKGTYPE value for the
-> > directory path in the message later on).
-> 
-> I don't understand what you mean, afaik I can't get IMAGE_PKGTYPE
-> using config which is why bitbake/tinfoil has to be used. I'm probably
-> missing something obvious sorry!
+On Tue, 2015-08-25 at 16:29 +0800, Jian Liu wrote:
+> If packages are conveyed to smart to install at the same time,
+> conflicts will not happen.
+> Try to install packages into sdk image at the same time.
 
-I mean optionally store the package type in the configuration instead of the 
-package write task, and if it's set there you don't need to query the build 
-system at all. At the moment the logic is a bit weird - e.g. hypothetically 
-you may have the package write function configured as "package_write_ipk" but 
-the build system could be set up to use RPM.
+Doesn't smart have an issue where if one package fails to install for
+some reason, others listed in the same command won't be attempted? Did
+you test that?
 
 Cheers,
-Paul
 
--- 
+Richard
 
-Paul Eggleton
-Intel Open Source Technology Centre
+> This patch is not so perfect. For example,
+>   IMAGE_INSTALL += "lib32-ncurses"
+>   IMAGE_INSTALL += "ncurses-dev"
+>  ncurses-dev and lib32-ncurses-dev will have conflicts during packages installation.
+> 
+> Signed-off-by: Jian Liu <jian.liu@windriver.com>
+> ---
+>  sdk.py |   45 +++++++++++++++++++++++++++++++++------------
+>  1 file changed, 33 insertions(+), 12 deletions(-)
+> 
+> diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+> index c57a441..7b43a29 100644
+> --- a/meta/lib/oe/sdk.py
+> +++ b/meta/lib/oe/sdk.py
+> @@ -107,10 +107,17 @@ class RpmSdk(Sdk):
+>          pm.dump_all_available_pkgs()
+>          pm.update()
+>  
+> -        for pkg_type in self.install_order:
+> -            if pkg_type in pkgs_to_install:
+> -                pm.install(pkgs_to_install[pkg_type],
+> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+> +        pkgs = []
+> +        pkgs_attempt = []
+> +        for pkg_type in pkgs_to_install:
+> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+> +                pkgs_attempt += pkgs_to_install[pkg_type]
+> +            else:
+> +                pkgs += pkgs_to_install[pkg_type]
+> +
+> +        pm.install(pkgs)
+> +
+> +        pm.install(pkgs_attempt, True)
+>  
+>      def _populate(self):
+>          bb.note("Installing TARGET packages")
+> @@ -184,10 +191,17 @@ class OpkgSdk(Sdk):
+>  
+>          pm.update()
+>  
+> -        for pkg_type in self.install_order:
+> -            if pkg_type in pkgs_to_install:
+> -                pm.install(pkgs_to_install[pkg_type],
+> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+> +        pkgs = []
+> +        pkgs_attempt = []
+> +        for pkg_type in pkgs_to_install:
+> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+> +                pkgs_attempt += pkgs_to_install[pkg_type]
+> +            else:
+> +                pkgs += pkgs_to_install[pkg_type]
+> +
+> +        pm.install(pkgs)
+> +
+> +        pm.install(pkgs_attempt, True)
+>  
+>      def _populate(self):
+>          bb.note("Installing TARGET packages")
+> @@ -260,10 +274,17 @@ class DpkgSdk(Sdk):
+>          pm.write_index()
+>          pm.update()
+>  
+> -        for pkg_type in self.install_order:
+> -            if pkg_type in pkgs_to_install:
+> -                pm.install(pkgs_to_install[pkg_type],
+> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+> +        pkgs = []
+> +        pkgs_attempt = []
+> +        for pkg_type in pkgs_to_install:
+> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+> +                pkgs_attempt += pkgs_to_install[pkg_type]
+> +            else:
+> +                pkgs += pkgs_to_install[pkg_type]
+> +
+> +        pm.install(pkgs)
+> +
+> +        pm.install(pkgs_attempt, True)
+>  
+>      def _populate(self):
+>          bb.note("Installing TARGET packages")
+
+
 
