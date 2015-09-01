@@ -1,31 +1,41 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C1976B7C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9532676B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 21:51:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t81LpQNh017355
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 1 Sep 2015 14:51:26 -0700 (PDT)
-Received: from msp-dhcp31.wrs.com (172.25.34.31) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 1 Sep 2015 14:51:26 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Jian Liu
-	<jian.liu@windriver.com>
-References: <1440491341-29988-1-git-send-email-jian.liu@windriver.com>
-	<1441141913.24871.17.camel@linuxfoundation.org>
-	<55E6189D.90902@windriver.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <55E61DDD.3070900@windriver.com>
-Date: Tue, 1 Sep 2015 16:51:25 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.2.0
+	Tue,  1 Sep 2015 21:54:58 +0000 (UTC)
+Received: by wiclp12 with SMTP id lp12so44727598wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Sep 2015 14:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=v14+M43Bb0v3UDJZ/YepKT2wp3gnQ0yRV4TxCYOw9Bg=;
+	b=y0vkCnWBLzKWQDLHO2d1VWgVGuQkz2iPzuNc/odgnNieMc1Cd8ST4Lf5ABPoNitdW6
+	lWtgAkc2LKce13RLOELNq+W7ctVnMO+WlHw/G3W8gMXgqn2TzSn7z56G0Dt6Nf6tZ87O
+	EOyOcPluCjfQjtmq6qvD+P9C0gC3AcRRXLnQNiQkglYayxPs71kjhtH18ULY52b6fPIl
+	6qInnfHnAbpcu0yLocLlB1ce6K41FGt3aXpFXKl3r4pCBnLsErRvamDaOJ+lsT/u5A60
+	4OTc4IjEeyPbzxORn4dHSit3nmYaYr+btU2o2Yj6x2rL/TFbj2PsFg7NjYiz/jL0eUdR
+	rswg==
+X-Received: by 10.180.208.34 with SMTP id mb2mr345219wic.88.1441144497364;
+	Tue, 01 Sep 2015 14:54:57 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	mc18sm322520wic.23.2015.09.01.14.54.56
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Sep 2015 14:54:56 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 1 Sep 2015 23:55:12 +0200
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20150901215512.GE2458@jama>
+References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <55E6189D.90902@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] sdk.py: fix conflicts of packages
+In-Reply-To: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Patch merge process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,140 +48,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 21:51:28 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 01 Sep 2015 21:54:59 -0000
+X-Groupsio-MsgNum: 70442
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="N1GIdlSm9i+YlY4t"
+Content-Disposition: inline
 
-On 9/1/15 4:29 PM, Mark Hatle wrote:
-> On 9/1/15 4:11 PM, Richard Purdie wrote:
->> On Tue, 2015-08-25 at 16:29 +0800, Jian Liu wrote:
->>> If packages are conveyed to smart to install at the same time,
->>> conflicts will not happen.
->>> Try to install packages into sdk image at the same time.
+--N1GIdlSm9i+YlY4t
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I forgot to add..  If we have two packages that are conflicting, even in an
-'attemptonly' install... it's likely a bug in those packages.  Two files of the
-same path/name should never be written to that same location.. they either need
-to be made to be identical, or we need to justify why the two packages can never
-be installed at the same time.
+On Tue, Sep 01, 2015 at 10:40:33AM -0700, Khem Raj wrote:
+> Hi All,
+>=20
+> I thought of bringing this up for discussions, I am seeing that, in some =
+pull requests some patches get dropped and I understand
+> that there might be a reason for that but that reason is not communicated=
+ in proposed patch mail often. I have experienced with some of the
+> pull requests myself and seen it with some others. I think we are not res=
+ponding to patches as it should be. Since we follow
+> just mailing list as upstreaming process thats the only channel that deve=
+loper is engaged w.r.t. patches and there should be a conclusion
 
-(In the case if ncurses-dev, I'd be hard to justify why they shouldn't be
-installed at the same time.)
+Are you seeing this issues with patches sent for meta-oe and meta-qt5
+repositories as well?
 
---Mark
+I know sometimes it takes me long time to reply, but I'm trying to send
+failure logs or at least some information back when I'm not taking some
+patches from master-next to master or worse dropping some patch from
+master-next completely.
 
->> Doesn't smart have an issue where if one package fails to install for
->> some reason, others listed in the same command won't be attempted? Did
->> you test that?
-> 
-> I believe this was fixed in:
-> 
-> commit cd475aea5f5bc4b6a2dd3e576070a117ae079597
-> Author: Mark Hatle <mark.hatle@windriver.com>
-> Date:   Thu Jan 22 16:10:34 2015 -0600
-> 
->     python-smartpm: Fix attemptonly builds when file conflicts occur
-> 
->     [YOCTO #7299]
-> 
->     When file conflicts occur, the RPM transaction aborts.  Instead of
->     simply accepting the failure, we now identify, capture, and remove
->     the offending package(s) from the transaction and retry.
-> 
->     Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
->     Signed-off-by: Ross Burton <ross.burton@intel.com>
-> 
-> 
-> 
-> 
-> --Mark
-> 
->> Cheers,
->>
->> Richard
->>
->>> This patch is not so perfect. For example,
->>>   IMAGE_INSTALL += "lib32-ncurses"
->>>   IMAGE_INSTALL += "ncurses-dev"
->>>  ncurses-dev and lib32-ncurses-dev will have conflicts during packages installation.
->>>
->>> Signed-off-by: Jian Liu <jian.liu@windriver.com>
->>> ---
->>>  sdk.py |   45 +++++++++++++++++++++++++++++++++------------
->>>  1 file changed, 33 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
->>> index c57a441..7b43a29 100644
->>> --- a/meta/lib/oe/sdk.py
->>> +++ b/meta/lib/oe/sdk.py
->>> @@ -107,10 +107,17 @@ class RpmSdk(Sdk):
->>>          pm.dump_all_available_pkgs()
->>>          pm.update()
->>>  
->>> -        for pkg_type in self.install_order:
->>> -            if pkg_type in pkgs_to_install:
->>> -                pm.install(pkgs_to_install[pkg_type],
->>> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
->>> +        pkgs = []
->>> +        pkgs_attempt = []
->>> +        for pkg_type in pkgs_to_install:
->>> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
->>> +                pkgs_attempt += pkgs_to_install[pkg_type]
->>> +            else:
->>> +                pkgs += pkgs_to_install[pkg_type]
->>> +
->>> +        pm.install(pkgs)
->>> +
->>> +        pm.install(pkgs_attempt, True)
->>>  
->>>      def _populate(self):
->>>          bb.note("Installing TARGET packages")
->>> @@ -184,10 +191,17 @@ class OpkgSdk(Sdk):
->>>  
->>>          pm.update()
->>>  
->>> -        for pkg_type in self.install_order:
->>> -            if pkg_type in pkgs_to_install:
->>> -                pm.install(pkgs_to_install[pkg_type],
->>> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
->>> +        pkgs = []
->>> +        pkgs_attempt = []
->>> +        for pkg_type in pkgs_to_install:
->>> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
->>> +                pkgs_attempt += pkgs_to_install[pkg_type]
->>> +            else:
->>> +                pkgs += pkgs_to_install[pkg_type]
->>> +
->>> +        pm.install(pkgs)
->>> +
->>> +        pm.install(pkgs_attempt, True)
->>>  
->>>      def _populate(self):
->>>          bb.note("Installing TARGET packages")
->>> @@ -260,10 +274,17 @@ class DpkgSdk(Sdk):
->>>          pm.write_index()
->>>          pm.update()
->>>  
->>> -        for pkg_type in self.install_order:
->>> -            if pkg_type in pkgs_to_install:
->>> -                pm.install(pkgs_to_install[pkg_type],
->>> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
->>> +        pkgs = []
->>> +        pkgs_attempt = []
->>> +        for pkg_type in pkgs_to_install:
->>> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
->>> +                pkgs_attempt += pkgs_to_install[pkg_type]
->>> +            else:
->>> +                pkgs += pkgs_to_install[pkg_type]
->>> +
->>> +        pm.install(pkgs)
->>> +
->>> +        pm.install(pkgs_attempt, True)
->>>  
->>>      def _populate(self):
->>>          bb.note("Installing TARGET packages")
->>
->>
-> 
+Second part of this problem is that sometimes there is no reply from
+original submitter for months, so I'm actively updating 4 branches to
+keep track of "state"
 
+* origin/master
+* origin/master-next (patches without terrible issues which seem to me at
+  least worth trying on my jenkins world builds - that doesn't mean that
+  there isn't NAK on ML about some other issues - but I still want to
+  build test it asap)
+* contrib/jansa/master (this is the actual branch used by jenkins builds,
+  it's rebased on top of master-next and can contain some of my
+  last-minute wip hotfixes I wanted to get into jenkins build even
+  before sending them to ML)
+* contrib/jansa/master-next-unresolved-review (dumping ground for
+  rejected patches abandoned by their submitters, when I get fed up with
+  seeing the same failure on jenkins builds and no reply from submitter
+  I move it here and partially forget about it - until new version is
+  sent and I can compare it here with older version - this branch is
+  updated only when I'm really dumping some patches
 
+> on the mailing list itself for a given patch. So I would request to whoev=
+er along with Richard is validating the patches and bringing them to OE-Cor=
+e from mailing lists to respond to the patches especially the ones that are=
+ not applied with reasons why its not applied and similarly to the ones tha=
+t are applied but has been rejected by some reviewers. It would also be goo=
+d to document the commit criteria somewhere, so developer can do rework and=
+ ease the pressure on maintainers. Can we explore some tools that can help =
+here ? May be failed errors.yp.org output can be sent to list of developers=
+ whose patches has been part of staging ?
+
+I fully agree that some tooling is needed, especially now with jenkins
+builds with 20+ failures, my intake process is greping console logs from
+all 3 jenkins worlds to see if modified component was even built, then
+greping the other report for possible new QA issues, then trying to find
+thread on ML if some reviewer reported really blocking issues (or
+something which can be easily fixed in follow-up patch) - sometimes I
+open the patch on patchwork from master-next bundle and check it there,
+because I still need to mark it as "Accepted" there - the git hook doesn't
+work for last few years (never finds anything to close).
+
+In the end this process is very error-prone and I often need to ask a
+bit later for follow up fix for e.g. QA issues which weren't noticed,
+because in the jenkins build I was using for check they were already
+reused from sstate.
+
+There is also small issue with errors.yp.org that many components fail
+with so big log.do_compile that whole submission is rejected (currently
+happens for qemux86* builds where webkit-efl is failing after some
+changes in oe-core)
+
+> I think its extremely important to keep a developer informed and engaged =
+about the upstreaming if we want to encourage more voluntary participation =
+in the project.
+>=20
+> It would be good to identify where we have bottlenecks and how can we imp=
+rove upon the situation, ideas are welcome.
+
+I hate to say it, but for meta-oe and meta-qt5 I would like to use
+gerrit - it's great to see all related information (all revisions of the
+patch, all review comments, all results of verification builds) in
+single location from where you do the actual submissions to official
+branch when all criteria are satisfied.
+
+Cheers,
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--N1GIdlSm9i+YlY4t
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlXmHr8ACgkQN1Ujt2V2gBzLXgCeJZCxmjmKU2o1CQMdOuA9aaig
+L24AmwZoA7qu6vagMrRja+PO/cugfgjV
+=JBC6
+-----END PGP SIGNATURE-----
+
+--N1GIdlSm9i+YlY4t--
