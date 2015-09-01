@@ -1,26 +1,26 @@
 Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D70276A51;
-	Tue,  1 Sep 2015 14:28:32 +0000 (UTC)
-Received: by laeb10 with SMTP id b10so880341lae.1;
-	Tue, 01 Sep 2015 07:28:31 -0700 (PDT)
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E04F76B7C;
+	Tue,  1 Sep 2015 14:28:33 +0000 (UTC)
+Received: by lbcao8 with SMTP id ao8so649171lbc.3;
+	Tue, 01 Sep 2015 07:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=DySRczxzvuF4vV2CU7lg5T43LEqi/LTP3Jqse+RHg4A=;
-	b=c75K9RB/YRBLPqjyVyNzlV1uXdPFNzJsIHG6g5CeDwUCs+tqhw2/PxoGFZx7pzp8wH
-	XwgyBfNvsIgTnXodw+fFQu9bJQNXBCJ5ybAkHaAbEFa7LhHJQ8mbs8EA3BfKmdzJvI4y
-	xgx+kE8/Hd94YudUzVz1MP9Ioh4JnlBoaMPDh30YeNiduliarvUyXJvSHAh1jBiwUfO0
-	ZhOpvcOljD8jYFOUXepy+1fPNlsLwp5QC16U1G0fF9p6ZVwhJsaj8jyX1L5sNiDQ6t0c
-	c7uc4tdENiOe/khJPZ3lxNCf0WjGpc6DVuc2KT4k7tNAUgbKGkG3eUKP06dYy7rb+xcd
-	L4bQ==
-X-Received: by 10.152.9.37 with SMTP id w5mr13222017laa.43.1441117711304;
-	Tue, 01 Sep 2015 07:28:31 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=ok36UOHWt0pxW2Nve9hXiXg5EwZIEAOkJ9Yj7GEvYac=;
+	b=iI/K4MgvrGVDwPi/Df8zh4tShSXgHRIHysEbvY/fKBtYEICfJMh+GBLx2OeBMgjXJ/
+	cWrIw1YERGJY4q6IwZ+zu9tcQ0hBYHyTu04syzEO24VdqbZnRNjGPhKel6N56bpnZS4o
+	cCwPBvmvmfcrQGhz2eU5TW0qYuBI+X/n3HJ8mv6/frvcliSeZ0P/YiOPcGgf2ndSjoVC
+	+RZrLhtH01o4y9MbmnhMr6G4GabmLZp61QpCooIi5NVzo/OXWsIrRhcM8J3ub/LUzWuu
+	+/mdbT31V9Eew5fMsZxuQHcu7Ypz566AoGf0ciXLBEcbkzzanCyys0o7GI588WXpoUL3
+	0sCw==
+X-Received: by 10.153.8.140 with SMTP id dk12mr5922492lad.83.1441117712349;
+	Tue, 01 Sep 2015 07:28:32 -0700 (PDT)
 Received: from neopili.qtec.com
 	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id ok2sm4816799lbb.0.2015.09.01.07.28.29
+	by smtp.gmail.com with ESMTPSA id ok2sm4816799lbb.0.2015.09.01.07.28.31
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 01 Sep 2015 07:28:29 -0700 (PDT)
+	Tue, 01 Sep 2015 07:28:31 -0700 (PDT)
 From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 To: Ross Burton <ross.burton@intel.com>,
 	=?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>,
@@ -30,10 +30,12 @@ To: Ross Burton <ross.burton@intel.com>,
 	Andreas Oberritter <obi@opendreambox.org>,
 	openembedded-core@lists.openembedded.org,
 	openembedded-devel@lists.openembedded.org
-Date: Tue,  1 Sep 2015 16:28:27 +0200
-Message-Id: <1441117708-7744-1-git-send-email-ricardo.ribalda@gmail.com>
+Date: Tue,  1 Sep 2015 16:28:28 +0200
+Message-Id: <1441117708-7744-2-git-send-email-ricardo.ribalda@gmail.com>
 X-Mailer: git-send-email 2.5.0
-Subject: [PATCH 1/2] python3: Fix python-distutils variables
+In-Reply-To: <1441117708-7744-1-git-send-email-ricardo.ribalda@gmail.com>
+References: <1441117708-7744-1-git-send-email-ricardo.ribalda@gmail.com>
+Subject: [PATCH 2/2] python: Fix python-distutils variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 14:28:33 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 14:28:34 -0000
 
 python-distutils uses the information from this file for setting the
 system variables.
@@ -75,17 +77,17 @@ root@qt5022:~# ls /usr/include/bits/wordsize.h
 
 Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 ---
- meta/recipes-devtools/python/python3_3.4.3.bb | 6 ++++--
+ meta/recipes-devtools/python/python_2.7.9.bb | 6 ++++--
  1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
-index 6c2e21d6a9c2..f61d278d79d4 100644
---- a/meta/recipes-devtools/python/python3_3.4.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.4.3.bb
-@@ -184,8 +184,10 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
- py_package_preprocess () {
+diff --git a/meta/recipes-devtools/python/python_2.7.9.bb b/meta/recipes-devtools/python/python_2.7.9.bb
+index 803a1fc7497b..ae455771653e 100644
+--- a/meta/recipes-devtools/python/python_2.7.9.bb
++++ b/meta/recipes-devtools/python/python_2.7.9.bb
+@@ -137,8 +137,10 @@ py_package_preprocess () {
  	# copy back the old Makefile to fix target package
  	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+ 
 -	# Remove references to buildmachine paths in target Makefile
 -	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
 +	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
