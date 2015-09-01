@@ -1,26 +1,43 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CD0D76FDE;
-	Tue,  1 Sep 2015 23:10:49 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 01 Sep 2015 16:10:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,451,1437462000"; d="scan'208";a="796219336"
-Received: from afshjern.zpn.intel.com (HELO [10.219.27.118]) ([10.219.27.118])
-	by fmsmga002.fm.intel.com with ESMTP; 01 Sep 2015 16:10:50 -0700
-To: Martin Jansa <martin.jansa@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20150901104522.9FC59505A9@opal.openembedded.org>
-	<20150901190902.GD2458@jama>
-From: Alex Franco <alejandro.franco@linux.intel.com>
-Message-ID: <55E63099.8090003@linux.intel.com>
-Date: Tue, 1 Sep 2015 18:11:21 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <20150901190902.GD2458@jama>
-Cc: openembedded-commits@lists.openembedded.org
-Subject: Re: [oe-commits] Alex Franco : Fix mode +st on TMPDIR when creating it
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f54.google.com (mail-pa0-f54.google.com
+	[209.85.220.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FDAF76FC9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  1 Sep 2015 23:17:35 +0000 (UTC)
+Received: by padhy1 with SMTP id hy1so10522415pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Sep 2015 16:17:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=mVwA4WwNieWyqDjkwccHBUyYT0vmsxjOav4dBHmxIAQ=;
+	b=jHq8PewxHn5kTGh/qFjuPRAaIXzrbLXxyMlDmh5Vd+H4+ucosFY+7BTzDjx0rwN/vn
+	udkBU5x+ktCnqR7yAxB4tyO7IF8Qw420BnHJ/CohMfJZHXMRPJXDkx6pHiTrXY8Q4MSg
+	vL50JN2nZY4+MPTcLDhnVhln6xGTuEw3GNFJsVfX4ERtKBPKn1544PHVdXTxrmxHIxkb
+	5ILN/gLY8xpMgAfqL+RlKJevLFWYVPd0mBzcCB3ghprUMqe5lYnu/P7th95bTa5A4V2a
+	xCnPBcSlPdAJavM3EJTIK/OzkMapYdG/TiawndA6A0hpK4sQiPt0GLcOUIYNlPwTfiCi
+	9BHQ==
+X-Received: by 10.68.230.33 with SMTP id sv1mr51287177pbc.160.1441149455822;
+	Tue, 01 Sep 2015 16:17:35 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:49fd:b69d:583d:d543?
+	([2601:646:8601:4580:49fd:b69d:583d:d543])
+	by smtp.gmail.com with ESMTPSA id
+	k10sm19330689pbq.63.2015.09.01.16.17.34
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 01 Sep 2015 16:17:35 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1441137870.24871.11.camel@linuxfoundation.org>
+Date: Tue, 1 Sep 2015 16:17:29 -0700
+Message-Id: <6BBD8EEF-2579-4C56-98E2-BAC8B974E3FE@gmail.com>
+References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
+	<1441137870.24871.11.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2104)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Patch merge process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,118 +50,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 23:10:50 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Tue, 01 Sep 2015 23:17:37 -0000
+X-Groupsio-MsgNum: 70453
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_B0C8EE2C-0359-474F-8C18-7DB0598B6334";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_B0C8EE2C-0359-474F-8C18-7DB0598B6334
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
+
+
+> On Sep 1, 2015, at 1:04 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Tue, 2015-09-01 at 10:40 -0700, Khem Raj wrote:
+>> I thought of bringing this up for discussions, I am seeing that, in
+>> some pull requests some patches get dropped and I understand
+>> that there might be a reason for that but that reason is not
+>> communicated in proposed patch mail often. I have experienced with
+>> some of the
+>> pull requests myself and seen it with some others. I think we are not
+>> responding to patches as it should be. Since we follow
+>> just mailing list as upstreaming process thats the only channel that
+>> developer is engaged w.r.t. patches and there should be a conclusion
+>> on the mailing list itself for a given patch. So I would request to
+>> whoever along with Richard is validating the patches and bringing =
+them
+>> to OE-Core from mailing lists to respond to the patches especially =
+the
+>> ones that are not applied with reasons why its not applied and
+>> similarly to the ones that are applied but has been rejected by some
+>> reviewers. It would also be good to document the commit criteria
+>> somewhere, so developer can do rework and ease the pressure on
+>> maintainers. Can we explore some tools that can help here ? May be
+>> failed errors.yp.org output can be sent to list of developers whose
+>> patches has been part of staging ?
+>>=20
+>> I think its extremely important to keep a developer informed and
+>> engaged about the upstreaming if we want to encourage more voluntary
+>> participation in the project.
+>>=20
+>> It would be good to identify where we have bottlenecks and how can we
+>> improve upon the situation, ideas are welcome.
+>=20
+> The problem basically comes down to this. We have:
+>=20
+> * two people who put patches together into blocks and try and test =
+them
+> * a single autobuilder instance capable of running the tests we need =
+to
+>  verify a set of patches
+
+will results from other auto builders reporting to errors.yp.org can =
+create some confidence
+
+> * test runs that take around 10 hours (substantially increased =
+recently
+>  by more test automation)
+> * ever increasing expectations that OE-Core master doesn't break
+
+> * ever increasing problems of 'random' autobuilder failures which seem
+>  related to auto builder load
+
+
+I understand these issues, however response would engage the developers =
+and keep them in loop even if it is delayed.
+
+>=20
+> Put all this together and its turning into a nightmare to keep things
+> flowing. The increased QA automation is catching a lot more issues =
+which
+> is good, but its also making the cycles longer. The increased load is
+> also shaking out all kinds of races and qemu issues.
+>=20
+> There is a SWAT team who is meant to help try and take the load off
+> Ross/I for some of the process. The processes there are being changed =
+to
+> try and better help Ross/I. I'd ask anyone reading this and frustrated
+> with the patch merge process, when did you last help with SWAT? When =
+did
+> you last help with any of the random autobuilder failures we're seeing
+> or with general YP bug fixing (not just bugs you yourself run into)?
+
+I think there could be better message reports that can be sent to =
+mailing list on auto builder failures. Many devs
+may not know about the YP=E2=80=99s build schedules and nomenclature.
+
+I am particularly talking about OE-core, many devs may not be involved =
+with Yocto project activities, even though those
+activities may improve the quality of OE-core. Its just the reality.
+many developers may folks chimes in when it breaks them with patches or =
+reports and thats not a bad response, It
+would be much worse if they abandoned to use the project.
+
+>=20
+> One problem is that we have to test the patches in a block due to the
+> long test cycle. If something fails, we can't know who broke it, that =
+is
+> up to someone's best guess so it can't be automated. Yes, you could =
+send
+> out block emails but those tend to confuse people. Heck, even getting
+> the autobuilder to send email at all at the moment is proving
+> problematic. I also literally spent two days last week trying to fix
+> basic issues ensuring the autobuilder actually builds the revision we
+> think its building!
+
+I agree CI is not easy while you are also doing system integration =
+iteratively.
+while the build infra issues would remain, some of these concerns can be =
+addressed if we were to use some code review tool
+which can interface with auto builders and provide quick smoke tests on =
+per patch bases, with sstate in place this could be achieved in minutes.
+
+>=20
+> We are trying to send out info where and when things break and we know
+> the cause. Equally, some things have been removed as "best guess" and =
+we
+> sometimes forget to either add them back, or follow up with a reply
+> about a likely failure they introduced :(. It comes down to simply =
+being
+> overworked. Equally, the work in doing this is to be quite honest =
+pretty
+> thankless and some of the lack of basic testing sometimes seen doesn't
+> really help :(.
+
+I think its because the process is quite manual probably, you could send =
+an auto email to patch when its picked to a staging branch
+and when its deleted/changed, many review tools do this automatically. =
+=46rom personal experience I now believe that with a code review tool we =
+can have lot more developers participate concretely in the code flight =
+and since it provides good staging it scales quite well. So I would =
+think using some review tool might help, at this time
+
+>=20
+> That all said, I will do my best to try and send more informative =
+emails
+> about patches=E2=80=A6
+
+appreciated.
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+
+
+--Apple-Mail=_B0C8EE2C-0359-474F-8C18-7DB0598B6334
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-Hi Martin,
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-I gather the original reason (for the sanity test, as well as these 
-changes) is that it is better for everything under BUILDDIR - and 
-certainly TMPDIR to be owned by the user running bitbake and have 
-standard permissions, the sticky bit itself would prevent a user running 
-bitbake, even with +rwx permissions, from making changes to items it 
-might need to manipulate, if those are not owned by this user. Similarly 
-setuid and setgid might propagate user/group ownerships different from 
-the user bitbake is running as, into BUILDDIR and TMPDIR (and items 
-therein).
+iEYEARECAAYFAlXmMg0ACgkQuwUzVZGdMxTo9gCfb8OfcdxFdBFbPGW3wV7dvpip
+ywwAn1MFhl2YQ2ZdH3qUZH1MfnagSUMF
+=Tezn
+-----END PGP SIGNATURE-----
 
-For more info take a look at: 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=7669
-
-Perhaps there are more pressing reasons, perhaps Christopher Larson can 
-comment a bit on this.
-
-Alex Franco
-
-On 09/01/2015 02:09 PM, Martin Jansa wrote:
-> On Tue, Sep 01, 2015 at 10:45:22AM +0000, git@git.openembedded.org wrote:
->> Module: openembedded-core.git
->> Branch: master
->> Commit: 8236d57439640a185c0226312cd4903a3ce2f53b
->> URL:    http://git.openembedded.org/?p=openembedded-core.git&a=commit;h=8236d57439640a185c0226312cd4903a3ce2f53b
->>
->> Author: Alex Franco <alejandro.franco@linux.intel.com>
->> Date:   Fri Aug 28 17:34:04 2015 -0500
->>
->> Fix mode +st on TMPDIR when creating it
->>
->> A sanity check fails when TMPDIR has setuid, setgid set. It was
->> proposed to fix this on TMPDIR creation instead of failing with
->> a sanity test only. This patch handles removal of those special
->> bits (and additonally, the sticky bit) from BUILDDIR and TMPDIR
->> when these directories are created.
-> Can you explain why it's needed to remove them?
->
-> I have tmp-glibc mounted as tmpfs:
-> drwxrwxrwt   4 root    jenkins   80 Sep  1 19:02 tmp-glibc
->
-> and since this change all bitbake executions are failing with:
->
-> NOTE: Started PRServer with DBfile: /home/jenkins/oe/world/shr-core/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 43102, PID: 9220
-> ERROR: Execution of event handler 'check_sanity_eventhandler' failed
-> Traceback (most recent call last):
->    File "check_sanity_eventhandler(e)", line 6, in check_sanity_eventhandler(e=<bb.event.SanityCheck object at 0x3c76ad0>)
->    File "sanity.bbclass", line 34, in check_sanity(sanity_data=<bb.data_smart.DataSmart object at 0x3c83890>)
->    File "sanity.bbclass", line 157, in check_sanity_everybuild(status=<SanityStatus object at 0x3c83850>, d=<bb.data_smart.DataSmart object at 0x3c83890>)
-> OSError: [Errno 1] Operation not permitted: '/home/jenkins/oe/world/shr-core/tmp-glibc'
->
-> I can change the permissions manually, but I would like to know
-> why is this needed and checked every time the bitbake is executed.
->
-> Regards,
->
->> [YOCTO #7669]
->>
->> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> ---
->>
->>   meta/classes/sanity.bbclass | 5 +++++
->>   scripts/oe-setup-builddir   | 1 +
->>   2 files changed, 6 insertions(+)
->>
->> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
->> index ef90fc8..2864318 100644
->> --- a/meta/classes/sanity.bbclass
->> +++ b/meta/classes/sanity.bbclass
->> @@ -686,6 +686,7 @@ def check_sanity_version_change(status, d):
->>       status.addresult(check_not_nfs(tmpdir, "TMPDIR"))
->>   
->>   def check_sanity_everybuild(status, d):
->> +    import os, stat
->>       # Sanity tests which test the users environment so need to run at each build (or are so cheap
->>       # it makes sense to always run them.
->>   
->> @@ -839,6 +840,10 @@ def check_sanity_everybuild(status, d):
->>                   status.addresult("Error, TMPDIR has changed location. You need to either move it back to %s or rebuild\n" % saved_tmpdir)
->>       else:
->>           bb.utils.mkdirhier(tmpdir)
->> +        # Remove setuid, setgid and sticky bits from TMPDIR
->> +        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
->> +        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
->> +        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
->>           with open(checkfile, "w") as f:
->>               f.write(tmpdir)
->>   
->> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
->> index add0b50..f5b7e4e 100755
->> --- a/scripts/oe-setup-builddir
->> +++ b/scripts/oe-setup-builddir
->> @@ -24,6 +24,7 @@ if [ -z "$BUILDDIR" ]; then
->>   fi
->>   
->>   mkdir -p "$BUILDDIR/conf"
->> +chmod -R -st "$BUILDDIR"
->>   
->>   if [ ! -d "$BUILDDIR" ]; then
->>       echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
->>
->> -- 
->> _______________________________________________
->> Openembedded-commits mailing list
->> Openembedded-commits@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-commits
-
-
+--Apple-Mail=_B0C8EE2C-0359-474F-8C18-7DB0598B6334--
