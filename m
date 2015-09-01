@@ -1,26 +1,39 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E7A576FF6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 14:20:37 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga103.fm.intel.com with ESMTP; 01 Sep 2015 07:20:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,449,1437462000"; d="scan'208";a="795486717"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by orsmga002.jf.intel.com with ESMTP; 01 Sep 2015 07:20:18 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  1 Sep 2015 06:13:42 +0000
-Message-Id: <bda72ad4677c0c899fd0dbeec358c168c83b4942.1441087651.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1441087651.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1441087651.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1441087651.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1441087651.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 2/2] devtool: Allow disabling make parallelism on build command
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D70276A51;
+	Tue,  1 Sep 2015 14:28:32 +0000 (UTC)
+Received: by laeb10 with SMTP id b10so880341lae.1;
+	Tue, 01 Sep 2015 07:28:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=DySRczxzvuF4vV2CU7lg5T43LEqi/LTP3Jqse+RHg4A=;
+	b=c75K9RB/YRBLPqjyVyNzlV1uXdPFNzJsIHG6g5CeDwUCs+tqhw2/PxoGFZx7pzp8wH
+	XwgyBfNvsIgTnXodw+fFQu9bJQNXBCJ5ybAkHaAbEFa7LhHJQ8mbs8EA3BfKmdzJvI4y
+	xgx+kE8/Hd94YudUzVz1MP9Ioh4JnlBoaMPDh30YeNiduliarvUyXJvSHAh1jBiwUfO0
+	ZhOpvcOljD8jYFOUXepy+1fPNlsLwp5QC16U1G0fF9p6ZVwhJsaj8jyX1L5sNiDQ6t0c
+	c7uc4tdENiOe/khJPZ3lxNCf0WjGpc6DVuc2KT4k7tNAUgbKGkG3eUKP06dYy7rb+xcd
+	L4bQ==
+X-Received: by 10.152.9.37 with SMTP id w5mr13222017laa.43.1441117711304;
+	Tue, 01 Sep 2015 07:28:31 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id ok2sm4816799lbb.0.2015.09.01.07.28.29
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 01 Sep 2015 07:28:29 -0700 (PDT)
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: Ross Burton <ross.burton@intel.com>,
+	=?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>,
+	Robert Yang <liezhi.yang@windriver.com>,
+	Alejandro Hernandez <alejandro.hernandez@linux.intel.com>,
+	Nathan Rossi <nathan.rossi@xilinx.com>,
+	Andreas Oberritter <obi@opendreambox.org>,
+	openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Date: Tue,  1 Sep 2015 16:28:27 +0200
+Message-Id: <1441117708-7744-1-git-send-email-ricardo.ribalda@gmail.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH 1/2] python3: Fix python-distutils variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,90 +46,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 14:20:38 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 14:28:33 -0000
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+python-distutils uses the information from this file for setting the
+system variables.
 
-Through --disable-parallel-make, the user can turn off parallelism
-on the make tool. This can be useful when debuging race conditions issues.
-A POSTFILE is created under 'build/conf' for further usage. So far, the
-file just clears the PARALLEL_MAKE variable. The postfile can be used with
-bitbake, including it with the '-R' parameter.
+Whithout this patch:
 
-[YOCTO #7589]
+root@qt5022:~# pip install pyzmq
 
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+...
+
+x86_64-poky-linux-gcc -m64 -march=btver1 -mtune=btver1
+--sysroot=/var/lib/jenkins/jobs/qt5022-cesium/workspace/build/tmp/sysroots/qt5022
+-fno-strict-aliasing -O2 -pipe -g -feliminate-unused-debug-types
+-DNDEBUG -g -O3 -Wall -Wstrict-prototypes -fPIC -DNATIVE_LITTLE_ENDIAN=1
+-Ibundled/libsodium/src/libsodium/include
+-Ibundled/libsodium/src/libsodium/include/sodium
+-I/usr/include/python2.7 -c buildutils/initlibsodium.c -o
+build/temp.linux-x86_64-2.7/buildutils/initlibsodium.o
+    In file included from /usr/include/python2.7/Python.h:8:0,
+                         from buildutils/initlibsodium.c:10:
+    /usr/include/python2.7/pyconfig.h:24:27: fatal error: bits/wordsize.h: No such
+file or directory
+    #include <bits/wordsize.h>
+root@qt5022:~# ls /usr/include/bits/wordsize.h
+/usr/include/bits/wordsize.h
+
+Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 ---
- scripts/lib/devtool/build.py | 31 ++++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/python/python3_3.4.3.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/devtool/build.py b/scripts/lib/devtool/build.py
-index 0f848e2..9faff27 100644
---- a/scripts/lib/devtool/build.py
-+++ b/scripts/lib/devtool/build.py
-@@ -16,9 +16,12 @@
- # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- """Devtool build plugin"""
+diff --git a/meta/recipes-devtools/python/python3_3.4.3.bb b/meta/recipes-devtools/python/python3_3.4.3.bb
+index 6c2e21d6a9c2..f61d278d79d4 100644
+--- a/meta/recipes-devtools/python/python3_3.4.3.bb
++++ b/meta/recipes-devtools/python/python3_3.4.3.bb
+@@ -184,8 +184,10 @@ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
+ py_package_preprocess () {
+ 	# copy back the old Makefile to fix target package
+ 	install -m 0644 ${B}/Makefile.orig ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+-	# Remove references to buildmachine paths in target Makefile
+-	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
++	# Remove references to buildmachine paths in target Makefile and _sysconfigdata
++	sed -i -e 's:--sysroot=${STAGING_DIR_TARGET}::g' -e s:'--with-libtool-sysroot=${STAGING_DIR_TARGET}'::g \
++		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile \
++		${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata.py
+ }
  
-+import os
-+import bb
- import logging
- import argparse
--from devtool import exec_build_env_command
-+import tempfile
-+from devtool import exec_build_env_command, DevtoolError
- 
- logger = logging.getLogger('devtool')
- 
-@@ -26,18 +29,39 @@ def plugin_init(pluginlist):
-     """Plugin initialization"""
-     pass
- 
-+def _create_conf_file(values, conf_file=None):
-+    if not conf_file:
-+        fd, conf_file = tempfile.mkstemp(suffix='.conf')
-+    elif not os.path.exists(os.path.dirname(conf_file)):
-+        logger.info("Creating folder %s" % os.path.dirname(conf_file))
-+        bb.utils.mkdirhier(os.path.dirname(conf_file))
-+    with open(conf_file,'w') as f:
-+        for key, value in values.iteritems():
-+            f.write('%s="%s"\n' % (key,value))
-+    return conf_file
-+
- def build(args, config, basepath, workspace):
-     """Entry point for the devtool 'build' subcommand"""
--    import bb
-     if not args.recipename in workspace:
-         raise DevtoolError("no recipe named %s in your workspace" %
-                            args.recipename)
-+
-     build_task = config.get('Build', 'build_task', 'populate_sysroot')
-+
-+    postfile_param = postfile = ""
-+    if args.disable_parallel_make:
-+        logger.info("Disabling 'make' parallelism")
-+        postfile = os.path.join(basepath,'conf','disable_parallelism.conf')
-+        _create_conf_file({'PARALLEL_MAKE':''}, postfile)
-+        postfile_param = "-R %s" % postfile
-     try:
--        exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s' % (build_task, args.recipename), watch=True)
-+        exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s %s' % (build_task, postfile_param, args.recipename), watch=True)
-     except bb.process.ExecutionError as e:
-         # We've already seen the output since watch=True, so just ensure we return something to the user
-         return e.exitcode
-+    finally:
-+        if args.disable_parallel_make:
-+            logger.info("POSTFILE placed on %s" % postfile)
- 
-     return 0
- 
-@@ -47,4 +71,5 @@ def register_commands(subparsers, context):
-                                          description='Builds the specified recipe using bitbake',
-                                          formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-     parser_build.add_argument('recipename', help='Recipe to build')
-+    parser_build.add_argument('--disable-parallel-make', action="store_true", help='Disable make parallelism')
-     parser_build.set_defaults(func=build)
+ require python-${PYTHON_MAJMIN}-manifest.inc
 -- 
-1.8.4.5
+2.5.0
 
 
