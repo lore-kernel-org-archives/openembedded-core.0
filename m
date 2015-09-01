@@ -1,49 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
-	[209.85.220.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1160076B7C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 47D7E76B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 17:21:07 +0000 (UTC)
-Received: by padan5 with SMTP id an5so2179052pad.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 10:21:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=NYWIsBHgDiYtLVaJfDg2UOrQfKvRYNFttQcHooGAMFE=;
-	b=vebSeP/T3rLUQvY22Rbsz0dFgb6ZFeVZLRNgivUwd7GTz+VqL6JfyKxB3FJ0HUt4mZ
-	/YmuWDtqciNYMpIYWz7hKGaWhS1SUHB464iJUpGrtPMvZLItFX/chtugIqvmHM8vQFnB
-	kCKb8ZTbj/6YZ+H0gdp6ZZYjfregtba7CaJ7Z9Eg3E1iw4+rKRMFIUrcLL1cQy3+oErm
-	QLF3j8eUJWTGsGdNvo2iAst3YLl3GzbjytJEjHQFAmxYXyjS1JXggdLXwe+fXUsUU1jH
-	PGML8jhMi3VAKvibXItp+f5VSL0KoNZF0ALlnwCdYN4UH/rAEq3z9Z+cGgpwsB1xoEb2
-	2u+w==
-X-Received: by 10.68.168.161 with SMTP id zx1mr48870965pbb.35.1441128067327;
-	Tue, 01 Sep 2015 10:21:07 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:f406:2324:ffaf:a6f9?
-	([2601:646:8601:4580:f406:2324:ffaf:a6f9])
-	by smtp.gmail.com with ESMTPSA id
-	o3sm18589352pap.37.2015.09.01.10.21.06
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 01 Sep 2015 10:21:06 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <55E4AE5F.9080804@windriver.com>
-Date: Tue, 1 Sep 2015 10:21:01 -0700
-Message-Id: <8D7C11A3-E025-42B1-AA13-545BCBE17226@gmail.com>
-References: <1440952270-9085-1-git-send-email-raj.khem@gmail.com>
-	<CAPhnLPBue6s_m7rYYyuy6hyxdBTz8y1MedgspDeOLcL1XaunYQ@mail.gmail.com>
-	<CAMKF1srWus=7f3EoCGtMVez0FbsFPsa1g8COMM87pqxxpkg2zw@mail.gmail.com>
-	<CABcZANmWhU5sFXSU1j=3GOPu0gOCY3Nt_b54oQkRLhzs=ERSYQ@mail.gmail.com>
-	<55E4940B.5050105@windriver.com>
-	<CAMKF1sqSTenmfkQst644-c0yGHmheSE0APwOR7cHK_5-T_d4mQ@mail.gmail.com>
-	<55E4AE5F.9080804@windriver.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xz: Correctly specify GPL-3.0 with autoconf exception
+	Tue,  1 Sep 2015 17:35:58 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 01 Sep 2015 10:35:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,450,1437462000"; d="scan'208";a="553194456"
+Received: from dgeorges-mobl1.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.12.111])
+	by FMSMGA003.fm.intel.com with ESMTP; 01 Sep 2015 10:35:54 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Date: Tue, 01 Sep 2015 18:35:53 +0100
+Message-ID: <120096577.WLccPTjXSt@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1695945.fozQrkdl5z@peggleto-mobl.ger.corp.intel.com>
+References: <cover.1440402124.git.Qi.Chen@windriver.com>
+	<76bc847f69894ced713cda8acf7af0fb72d78a59.1440402125.git.Qi.Chen@windriver.com>
+	<1695945.fozQrkdl5z@peggleto-mobl.ger.corp.intel.com>
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 8/8] populate_sdk_ext: get rid of buildtools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,213 +35,175 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 17:21:10 -0000
-X-Groupsio-MsgNum: 70422
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_619E5708-7529-4F58-8771-410E91450DF6";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Tue, 01 Sep 2015 17:35:58 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---Apple-Mail=_619E5708-7529-4F58-8771-410E91450DF6
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On Tuesday 01 September 2015 17:13:49 Paul Eggleton wrote:
+> Hi Qi,
+> 
+> On Monday 24 August 2015 15:46:56 Chen Qi wrote:
+> > If we do `bitbake buildtools-tarball' and then after one day do `bitbake
+> > core-image-minimal -c populate_sdk_ext', we would meet errors like below.
+> > 
+> > | install: cannot stat
+> > | '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
+> > 
+> > poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standal
+> > on e -1.8+snapshot-20150429.sh': No such file or directory
+> > 
+> > The problem is that the output name for buildtools-tarball has ${DATE} in
+> > it. So if populate_sdk_ext task is executed but buildtools-tarball is not
+> > rebuilt, the above error appears.
+> > 
+> > In fact, ext SDK does not have to depend on buildtools. This patch removes
+> > the buildtools from the ext SDK. After this patch, the ext SDK still works
+> > and we can no longer see the buildtools error.
+> > 
+> > [YOCTO #7674]
+> > 
+> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > ---
+> > 
+> >  meta/classes/populate_sdk_ext.bbclass | 29 +++++++++++++++++++----------
+> >  1 file changed, 19 insertions(+), 10 deletions(-)
+> > 
+> > diff --git a/meta/classes/populate_sdk_ext.bbclass
+> > b/meta/classes/populate_sdk_ext.bbclass index 151ae1d..1dcd982 100644
+> > --- a/meta/classes/populate_sdk_ext.bbclass
+> > +++ b/meta/classes/populate_sdk_ext.bbclass
+> > @@ -7,8 +7,25 @@ inherit populate_sdk_base
+> > 
+> >  TOOLCHAIN_HOST_TASK_task-populate-sdk-ext = " \
+> >  
+> >      meta-environment-extsdk-${MACHINE} \
+> > 
+> > +    nativesdk-python-core \
+> > +    nativesdk-python-modules \
+> > +    nativesdk-python-misc \
+> > +    nativesdk-python-git \
+> > +    nativesdk-python-pexpect \
+> > +    nativesdk-ncurses-terminfo-base \
+> > +    nativesdk-chrpath \
+> > +    nativesdk-tar \
+> > +    nativesdk-buildtools-perl-dummy \
+> > +    nativesdk-git \
+> > +    nativesdk-git-perltools \
+> > +    nativesdk-pigz \
+> > +    nativesdk-make \
+> > +    nativesdk-wget \
+> > +    nativesdk-ca-certificates \
+> > 
+> >      "
+> > 
+> > +SDK_PACKAGE_ARCHS =+ "buildtools-dummy-${SDKPKGSUFFIX}"
+> > +
+> > 
+> >  TOOLCHAIN_TARGET_TASK_task-populate-sdk-ext = ""
+> >  
+> >  SDK_RDEPENDS_append_task-populate-sdk-ext = " ${SDK_TARGETS}"
+> > 
+> > @@ -183,8 +200,6 @@ install_tools() {
+> > 
+> >  	lnr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool
+> > 
+> > ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool touch
+> > ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
+> > 
+> > -	install
+> > ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PK
+> > G
+> > ARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh
+> > ${SDK_OUTPUT}/${SDKPATH} -
+> > 
+> >  	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2
+> > 
+> > ${SDK_OUTPUT}/${SDKPATH} }
+> > 
+> > @@ -201,13 +216,7 @@ SDK_PRE_INSTALL_COMMAND_task-populate-sdk-ext =
+> > "${sdk_ext_preinst}"
+> > 
+> >  # FIXME this preparation should be done as part of the SDK construction
+> >  sdk_ext_postinst() {
+> > 
+> > -	printf "\nExtracting buildtools...\n"
+> > 
+> >  	cd $target_sdk_dir
+> > 
+> > -	printf "buildtools\ny" | ./*buildtools-tarball* > /dev/null
+> > -
+> > -	# Make sure when the user sets up the environment, they also get
+> > -	# the buildtools-tarball tools in their path.
+> > -	echo ". $target_sdk_dir/buildtools/environment-setup*" >>
+> > $target_sdk_dir/environment-setup*
+> > 
+> >  	# Allow bitbake environment setup to be ran as part of this sdk.
+> >  	echo "export OE_SKIP_SDK_CHECK=1" >> $target_sdk_dir/environment-
+setup*
+> > 
+> > @@ -224,7 +233,7 @@ sdk_ext_postinst() {
+> > 
+> >  	    # dash which is /bin/sh on Ubuntu will not preserve the
+> >  	    # current working directory when first ran, nor will it set $1 
+when
+> >  	    # sourcing a script. That is why this has to look so ugly.
+> > 
+> > -	    sh -c ". buildtools/environment-setup* > 
+preparing_build_system.log
+> 
+> &&
+> 
+> > cd $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set
+> > $target_sdk_dir && . $target_sdk_dir/${oe_init_build_env_path}
+> > $target_sdk_dir >> preparing_build_system.log && bitbake ${SDK_TARGETS} >>
+> > preparing_build_system.log" || { echo "SDK preparation failed: see
+> > `pwd`/preparing_build_system.log" ; exit 1 ; } +	    sh -c "cd
+> > $target_sdk_dir/`dirname ${oe_init_build_env_path}` && set $target_sdk_dir
+> > && . $target_sdk_dir/${oe_init_build_env_path} $target_sdk_dir >>
+> > preparing_build_system.log && bitbake ${SDK_TARGETS} >>
+> > preparing_build_system.log" || { echo "SDK preparation failed: see
+> > `pwd`/preparing_build_system.log" ; exit 1 ; } fi
+> > 
+> >  	echo done
+> >  
+> >  }
+> > 
+> > @@ -249,7 +258,7 @@ do_populate_sdk_ext[rdepends] =
+> > "${@get_sdk_ext_rdepends(d)}" do_populate_sdk_ext[recrdeptask] +=
+> > "${@d.getVarFlag('do_populate_sdk', 'recrdeptask', False)}"
+> > 
+> > 
+> > -do_populate_sdk_ext[depends] += "buildtools-tarball:do_populate_sdk
+> > uninative-tarball:do_populate_sdk" +do_populate_sdk_ext[depends] +=
+> > "uninative-tarball:do_populate_sdk"
+> > 
+> >  do_populate_sdk_ext[rdepends] += "${@' '.join([x + ':do_build' for x in
+> > 
+> > d.getVar('SDK_TARGETS', True).split()])}" do_populate_sdk_ext[recrdeptask]
+> > += "do_populate_lic do_package_qa do_populate_sysroot do_deploy"
+> 
+> This doesn't seem to set up the environment correctly such that the
+> components we're installing into the host part of the SDK are able to be
+> used by the build system - prior to this change we were running the
+> buildtools environment setup script in order to do that. (The best way to
+> test this is try to install it on a machine that doesn't have the required
+> git/tar/python versions e.g. CentOS 6).
 
+Unfortunately there's another problem - the relocation isn't happening for 
+binaries in the host part of the SDK. We can enable that by dropping the 
+SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext line but then meta-
+environment-extsdk is setting up the paths for uninative to work and that 
+means that the relocation script is looking in the wrong place for the native 
+sysroot.
 
-> On Aug 31, 2015, at 12:43 PM, Mark Hatle <mark.hatle@windriver.com> =
-wrote:
->=20
-> On 8/31/15 2:20 PM, Khem Raj wrote:
->> On Mon, Aug 31, 2015 at 10:51 AM, Mark Hatle =
-<mark.hatle@windriver.com> wrote:
->>>=20
->>> The way the recipe 'LICENSE =3D' field was defined, AFAIK, was that =
-it was the
->>> license of the source used to construct the binaries.
->>>=20
->>> So if the autoconf was GPLv3, but the package and it's sources are =
-GPLv2+, it
->>> would be listed as GPLv2+.
->>>=20
->>> Making this assumption allows us to be confident that the general =
-license of
->>> recipe matches the binaries constructed by the recipe, allowing =
-LICENSE-${PN} =3D
->>> ${LICENSE} in the general case.
->>>=20
->>=20
->> it seems in your view the build system or generator files are
->> excluded. Which we can not say untill and until the generator files
->> say that explicitly like the autoconf exception.  In my understanding
->> the build scripts and files also form the part of compilatiion
->> process.
->=20
-> My interpretation of many licenses is that the build system does not =
-get
-> compiled into the binary.  Thus the binary does not get impacted by =
-the build
-> system's license.
+Ugly as it is we may be better off sticking with the buildtools solution for 
+now and working around the problems there.
 
-Not entirely always the case. e.g. autotools generate config.h that your =
-program will use.
-and unless automake license gives you that exception your assumption is =
-invalid, thats one example
-there are many such cases with other build systems you might use which =
-has different license cadence
-then the code that produce what you call binary. e.g. With gplv3 the =
-process of creation is also included
-as part of compliance.
+Cheers,
+Paul
 
->=20
-> That isn't to say that autoconf isn't GPLv3, just that it doesn't =
-contaminate
-> the binaries in question, under normal usage.  (If a build component, =
-or the
-> output of a component WERE to influence the license of the produced =
-executable
-> -- then I would expect it to be listed in the LICENSE field....)
->=20
-> If every package that included autoconf now had to have GPLv3 listed =
-in it, I
-> think this would diminish the usefulness of the LICENSE field.  This =
-would
-> effectively confuse the developers into thinking that suddenly =
--everything-
-> autoconf is now GPLv3, even though it isn't in my opinion.
+-- 
 
-with auto tools issue is moot since by default it adds the exception to =
-generated artifacts
-but it could be valid if some component does not want the defaults.
+Paul Eggleton
+Intel Open Source Technology Centre
 
->=20
-> The majority of the developers in my experience really don't care =
-about source
-> code license -- they care about the license of the binaries in their =
-deployed
-> products.  (The license of the binaries over source is an important =
-distinction.
-> I ship binaries to my customers, as such I'm required to full fill the
-> obligations of the software license to those binaries.  Many open =
-sources
-> license require you to redistribute the corresponding sources with the =
-binaries,
-> and some have been interpreted to say you need to include the =
-instructions for
-> building them as well.)
-
-again you are painting it with a broad brush, where as you have to be =
-particular about
-component licenses, each one has its own obligations, in the end ODM is =
-one who have to split
-the hairs but if OE could help in this regard is what we are discussing =
-here and adding
-a source license is a good step.
-
->=20
-> Declaring the licenses based on the source code used to produce the =
-output is
-> the standard way of handling this from my experiences.  This matches =
-the way
-> Debian and other distributions recognized sources and have dealt with =
-the
-> license fields in their distributions, such as Debian, Fedora, etc.  I =
-think
-> it's a pretty major change to start including the license of all files =
-in a
-> source archive in the recipe.  (Especially if the files are never =
-distributed
-> except as part of the 'original source code' for a program.)
->=20
-> If that is the way we want to move forward, then my recommendation =
-would be to
-> add a new field for that.
->=20
-> LICENSE-SRC =3D "source license list"
-> LICENSE =3D "declared license for the expected output of the build"
-> LICENSE_<package> =3D "The license for the items in this specific =
-package"
->=20
-> Where:
->=20
-> LICENSE ?=3D "${LICENSE-SRC}"
->=20
-> LICENSE_<package> ?=3D "${LICENSE}"
->=20
-> I see a lot of potential work here, but I don't see the benefit =
-though.
->=20
-> I don't know of any cases where someone has gotten in trouble, or even
-> questioned, when the build system has a slightly different license =
-then output
-> of the build.  The GNU build tools are definitely the biggest example =
-I can give
-> here.
-
-if we help with compliance, chances of trouble decreases
-
-
->=20
->>> This does certainly put in an interesting situation though if there =
-is an
->>> obscure license where the binaries and sources are effectively under =
-different
->>> restrictions.  (Perhaps if a build environment contained a license =
-that required
->>> an advertising clause, but the produced binaries did not include it. =
- The
->>> obligation to advertise or not could be up for some debate by a =
-lawyer, even
->>> though the source code may need to be redistributed.)
->>=20
->> We may not treat build system differently than other sources of =
-component.
->=20
-> Here I disagree.  I think as long as the build system doesn't change =
-the license
-> of the resulting binaries in anyway, and the build system doesn't have =
-a license
-> that conflicts with the resulting binaries, then we can certainly =
-treat the
-> results differently.
->=20
-> (I'm not a lawyer, and frankly this is getting into the position where =
-a lawyer,
-> if one were inclined, should be consulted for advice.)
->=20
-> As usual the goal here is to give the technical people the information =
-they need
-> to have a reasonable chance of being compliant with the license =
-requirements of
-> the binaries/systems/devices they are creating -- as well as giving =
-them at
-> least some assistance in being a 'good' open source citizen to be able =
-to
-> redistribute the sources for the Open Source components they have =
-used.)
->=20
->>>=20
->>> Do you know of any cases where this may be true or where end users =
-may have
->>> concerns that a license is not properly represented?
->>=20
->> proprietary components based on some external build systems may be
->>=20
->=20
-
-
---Apple-Mail=_619E5708-7529-4F58-8771-410E91450DF6
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXl3oEACgkQuwUzVZGdMxQtKgCfZou6AYPeVmbyApF+QKe1NMOg
-B1QAnjzm2Z3S4rrVEeG3sR9EIHPCEjjl
-=pauA
------END PGP SIGNATURE-----
-
---Apple-Mail=_619E5708-7529-4F58-8771-410E91450DF6--
