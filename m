@@ -1,43 +1,30 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
-	[209.85.213.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A798C76F56
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 20:19:06 +0000 (UTC)
-Received: by igboj15 with SMTP id oj15so37811329igb.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 31 Aug 2015 13:19:06 -0700 (PDT)
+Return-Path: <adam.yh.lee@gmail.com>
+Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
+	[209.85.220.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 59F6D74197;
+	Tue,  1 Sep 2015 00:47:17 +0000 (UTC)
+Received: by qkbp67 with SMTP id p67so24286065qkb.3;
+	Mon, 31 Aug 2015 17:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=lE4vvVSNZtXo9U1Sz7TnSvSdLFSGzVcMn/kKuK9bKiI=;
-	b=0gf5nAJTkGCsC9iJ1ER3K7n3OWpoEozhZU3dX4rXDp00hVPeK8L7cwKSya6oGGEJIl
-	S8z9LDj6UcjypvaFX9B0VgtTnXkYfCs+EyiSxCktI2dfK0df7Yv22MQD8soQzSKq8DLJ
-	RjBwZmt+EHFGIJcSHox4DxmtHizG48Hye6a8pRH44aU+EcvUzUF8naS2aNoAIXHZTxwP
-	lh1yQsbYA455NSlHX0777nwto6443oifajsPM8HbIQ2F1xMZDazuiRsUQIRg4HFw+FRB
-	3u5eWLKMJ+eStW7I6VicVw6j1y12NfkkFseDnJzQotuRrF2NABGpwMCwQnTtpQgnacKV
-	aTkQ==
-X-Received: by 10.50.138.76 with SMTP id qo12mr432261igb.38.1441052346582;
-	Mon, 31 Aug 2015 13:19:06 -0700 (PDT)
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=hTtSjXYBQV5bEh2IM2e35DewtGLVvKl8VrgnnIzZOB0=;
+	b=nRtiQIuvZp1UHUJHdaEOAIViCASa0Toil3uE9XOvOJ0EZ9cfbDA8l8y3yIO11YBb7P
+	k2EVSVe4UkyBWKVuSm6Www6lqHT3keplwUXFom/m57gkx2MT01EP6Xsgp7NA81SRP9sk
+	FyedOk+ShWjK9jsQQSKyAaWve02ceVD6o0lzqKEe1fi/Ph3/rijxeLs6g+YTckfLUEnj
+	LX3nEEQhUrqhbGe9W6sa5NwUaBqxTvb5HPnyBz9a/9dSTr6yP3ZTN7O37nF38vGGzmDJ
+	ppwuTBQH3mBuzJ9GSO9NKeB2w/wt1fHlfOFrIMcHjQg2CYodymBYdvxCJ3MaVbqv4abO
+	qMlQ==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.71 with HTTP; Mon, 31 Aug 2015 13:18:47 -0700 (PDT)
-In-Reply-To: <55E4AE5F.9080804@windriver.com>
-References: <1440952270-9085-1-git-send-email-raj.khem@gmail.com>
-	<CAPhnLPBue6s_m7rYYyuy6hyxdBTz8y1MedgspDeOLcL1XaunYQ@mail.gmail.com>
-	<CAMKF1srWus=7f3EoCGtMVez0FbsFPsa1g8COMM87pqxxpkg2zw@mail.gmail.com>
-	<CABcZANmWhU5sFXSU1j=3GOPu0gOCY3Nt_b54oQkRLhzs=ERSYQ@mail.gmail.com>
-	<55E4940B.5050105@windriver.com>
-	<CAMKF1sqSTenmfkQst644-c0yGHmheSE0APwOR7cHK_5-T_d4mQ@mail.gmail.com>
-	<55E4AE5F.9080804@windriver.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Mon, 31 Aug 2015 13:18:47 -0700
-X-Google-Sender-Auth: Q0Dzo9urHlT_DLc3PtTVe0MoN9A
-Message-ID: <CABcZANkeKcXKumkxmMTwtw=wt4i5ja+brbeQEuLdLLLO4cVBcA@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xz: Correctly specify GPL-3.0 with autoconf exception
+X-Received: by 10.13.223.201 with SMTP id i192mr8673000ywe.7.1441068437741;
+	Mon, 31 Aug 2015 17:47:17 -0700 (PDT)
+Received: by 10.13.192.66 with HTTP; Mon, 31 Aug 2015 17:47:17 -0700 (PDT)
+Date: Mon, 31 Aug 2015 17:47:17 -0700
+Message-ID: <CAFeBWL5S7zm9mdnwvf_a_q9wYwgUjjO3KrNtXkcmKUhWgttWKw@mail.gmail.com>
+From: Adam Lee <adam.yh.lee@gmail.com>
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>, 
+	openembedded-core@lists.openembedded.org
+Subject: Using QT_DIR_NAME; Correct way of flattening QT5 directory structure?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,92 +37,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 20:19:06 -0000
-Content-Type: multipart/alternative; boundary=001a1134b964388e17051ea12531
-
---001a1134b964388e17051ea12531
+X-List-Received-Date: Tue, 01 Sep 2015 00:47:21 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Aug 31, 2015 at 12:43 PM, Mark Hatle <mark.hatle@windriver.com>
-wrote:
+My system only runs Qt5. Hence no need to have `qmake` and others in
+`/usr/bin/qt5`.
+I prefer to have them in `/usr/bin`.
 
-> If that is the way we want to move forward, then my recommendation would
-> be to
-> add a new field for that.
->
-> LICENSE-SRC = "source license list"
-> LICENSE = "declared license for the expected output of the build"
-> LICENSE_<package> = "The license for the items in this specific package"
->
-> Where:
->
->  LICENSE ?= "${LICENSE-SRC}"
->
->  LICENSE_<package> ?= "${LICENSE}"
->
-> I see a lot of potential work here, but I don't see the benefit though.
->
-> I don't know of any cases where someone has gotten in trouble, or even
-> questioned, when the build system has a slightly different license then
-> output
-> of the build.  The GNU build tools are definitely the biggest example I
-> can give
-> here.
->
+JaMa's comment[1] seems to suggest that all it takes is setting
+`QT_DIR_NAME` to an empty string.
 
-I would say we should introduce LICENSE-SRC, alter archiver.bbclass to use
-it, and set LICENSE-SRC ?= "${LICENSE}" instead. Much less work, but then
-we have a variable we can append to if we run into a case like that which
-we've discussed, without increasing work for the more common cases.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+With this, I get tonnes of QA errors because `FILES_` paths now
+contain `//`, which is the right behavior
+as per the manual[2].
 
---001a1134b964388e17051ea12531
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+For example:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Aug 31, 2015 at 12:43 PM, Mark Hatle <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:mark.hatle@windriver.com" target=3D"_blank">mark.hatle@windriver=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":9u=
-" class=3D"a3s" style=3D"overflow:hidden">If that is the way we want to mov=
-e forward, then my recommendation would be to<br>
-add a new field for that.<br>
-<br>
-LICENSE-SRC =3D &quot;source license list&quot;<br>
-LICENSE =3D &quot;declared license for the expected output of the build&quo=
-t;<br>
-LICENSE_&lt;package&gt; =3D &quot;The license for the items in this specifi=
-c package&quot;<br>
-<br>
-Where:<br>
-<br>
-=C2=A0LICENSE ?=3D &quot;${LICENSE-SRC}&quot;<br>
-<br>
-=C2=A0LICENSE_&lt;package&gt; ?=3D &quot;${LICENSE}&quot;<br>
-<br>
-I see a lot of potential work here, but I don&#39;t see the benefit though.=
-<br>
-<br>
-I don&#39;t know of any cases where someone has gotten in trouble, or even<=
-br>
-questioned, when the build system has a slightly different license then out=
-put<br>
-of the build.=C2=A0 The GNU build tools are definitely the biggest example =
-I can give<br>
-here.</div></blockquote></div><br>I would say we should introduce LICENSE-S=
-RC, alter archiver.bbclass to use it, and set LICENSE-SRC ?=3D &quot;${LICE=
-NSE}&quot; instead. Much less work, but then we have a variable we can appe=
-nd to if we run into a case like that which we&#39;ve discussed, without in=
-creasing work for the more common cases.<br>-- <br><div class=3D"gmail_sign=
-ature">Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBak=
-e, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engine=
-er, Mentor Graphics</div>
-</div></div>
+   $ bitbake qttools -e | grep FILES_qttools-mkspecs
+   # $FILES_qttools-mkspecs
+   FILES_qttools-mkspecs="    /usr/lib//mkspecs "
 
---001a1134b964388e17051ea12531--
+And the corresponding error being this:
+
+   WARNING: QA Issue: FILES variable for package qttools-mkspecs
+   contains '//' which is invalid. Attempting to fix this but you should correct
+   the metadata.
+   [files-invalid]
+
+The build system [seems to] successfully correct the issue, and I see
+the files in the resulting rootfs.
+That said, I am either doing something incorrect, or something has to be fixed.
+
+[1] http://lists.openembedded.org/pipermail/openembedded-devel/2014-February/094232.html
+[2] http://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#qa-issue-files-invalid
+
