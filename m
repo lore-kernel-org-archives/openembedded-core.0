@@ -1,29 +1,30 @@
 Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A5B477008
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F2ED76B7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 21:26:18 +0000 (UTC)
+	Tue,  1 Sep 2015 21:29:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t81LQIuu014537
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 1 Sep 2015 14:26:18 -0700 (PDT)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t81LT2Bi008224
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 1 Sep 2015 14:29:02 -0700 (PDT)
 Received: from msp-dhcp31.wrs.com (172.25.34.31) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 1 Sep 2015 14:26:18 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1433407956-1948-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-	<1441142028.24871.19.camel@linuxfoundation.org>
+	Tue, 1 Sep 2015 14:29:01 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Jian Liu
+	<jian.liu@windriver.com>
+References: <1440491341-29988-1-git-send-email-jian.liu@windriver.com>
+	<1441141913.24871.17.camel@linuxfoundation.org>
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
-Message-ID: <55E617F9.3070102@windriver.com>
-Date: Tue, 1 Sep 2015 16:26:17 -0500
+Message-ID: <55E6189D.90902@windriver.com>
+Date: Tue, 1 Sep 2015 16:29:01 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
 	Gecko/20100101 Thunderbird/38.2.0
 MIME-Version: 1.0
-In-Reply-To: <1441142028.24871.19.camel@linuxfoundation.org>
-Subject: Re: [PATCH] base-files: Fix LSB NG Cases.
+In-Reply-To: <1441141913.24871.17.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] sdk.py: fix conflicts of packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,70 +37,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 21:26:20 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 21:29:04 -0000
 Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 
-On 9/1/15 4:13 PM, Richard Purdie wrote:
-> On Thu, 2015-06-04 at 16:52 +0800, Li xin wrote:
->> -/tset/LSB.fhs/var/tmp/tmp-tc.
->>
->> The LSB Core test requires the /var/tmp directory supports creation of files.
->> And the mount tmpfs on /var/volatile cause the /var/tmp directory can't be
->> writable for non-root users.
+On 9/1/15 4:11 PM, Richard Purdie wrote:
+> On Tue, 2015-08-25 at 16:29 +0800, Jian Liu wrote:
+>> If packages are conveyed to smart to install at the same time,
+>> conflicts will not happen.
+>> Try to install packages into sdk image at the same time.
 > 
-> This change doesn't look correct to me, its a pretty fundamental change
-> to the way the system operates and certainly needs more thought and
-> justification than the few lines above.
-> 
-> Surely if its a non-root users issue, the problem is permissions, not
-> the tmpfs anyway?
+> Doesn't smart have an issue where if one package fails to install for
+> some reason, others listed in the same command won't be attempted? Did
+> you test that?
 
-I agree.. How is /var/volatile mounted in your environment?
+I believe this was fixed in:
 
-/var/volatile should be mounted as a tmpfs with default root only permissions.
-(basefiles: fstab)
+commit cd475aea5f5bc4b6a2dd3e576070a117ae079597
+Author: Mark Hatle <mark.hatle@windriver.com>
+Date:   Thu Jan 22 16:10:34 2015 -0600
 
-A directory, /var/volatile/tmp should be constructed (after volatile is mounted)
-with perms 01777.  (initscripts: populate-volatile.sh)
+    python-smartpm: Fix attemptonly builds when file conflicts occur
 
-/var/tmp should be a symbolic link to /var/volatile/tmp.  (meta/files/fs-perms.txt)
+    [YOCTO #7299]
 
+    When file conflicts occur, the RPM transaction aborts.  Instead of
+    simply accepting the failure, we now identify, capture, and remove
+    the offending package(s) from the transaction and retry.
 
-All of this will result in a /var/tmp that permits any user to write to it (as
-it should), but keep it in the volatile area.
-
-You should figure out what part of this is not working properly.  (If I had to
-guess it's the mount of the volatile and create of the tmp dir is not working
-for you -- or you have a system where the default mount rules / init scripts
-have been modified in some way.)
+    Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
 
 
+
+
+--Mark
 
 > Cheers,
 > 
 > Richard
 > 
->> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+>> This patch is not so perfect. For example,
+>>   IMAGE_INSTALL += "lib32-ncurses"
+>>   IMAGE_INSTALL += "ncurses-dev"
+>>  ncurses-dev and lib32-ncurses-dev will have conflicts during packages installation.
+>>
+>> Signed-off-by: Jian Liu <jian.liu@windriver.com>
 >> ---
->>  meta/recipes-core/base-files/base-files/fstab | 1 -
->>  1 file changed, 1 deletion(-)
+>>  sdk.py |   45 +++++++++++++++++++++++++++++++++------------
+>>  1 file changed, 33 insertions(+), 12 deletions(-)
 >>
->> diff --git a/meta/recipes-core/base-files/base-files/fstab b/meta/recipes-core/base-files/base-files/fstab
->> index d79a016..458ec70 100644
->> --- a/meta/recipes-core/base-files/base-files/fstab
->> +++ b/meta/recipes-core/base-files/base-files/fstab
->> @@ -4,7 +4,6 @@
->>  proc                 /proc                proc       defaults              0  0
->>  devpts               /dev/pts             devpts     mode=0620,gid=5       0  0
->>  tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
->> -tmpfs                /var/volatile        tmpfs      defaults              0  0
+>> diff --git a/meta/lib/oe/sdk.py b/meta/lib/oe/sdk.py
+>> index c57a441..7b43a29 100644
+>> --- a/meta/lib/oe/sdk.py
+>> +++ b/meta/lib/oe/sdk.py
+>> @@ -107,10 +107,17 @@ class RpmSdk(Sdk):
+>>          pm.dump_all_available_pkgs()
+>>          pm.update()
 >>  
->>  # uncomment this if your device has a SD/MMC/Transflash slot
->>  #/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto  0  0
->> -- 
->> 1.8.4.2
->>
+>> -        for pkg_type in self.install_order:
+>> -            if pkg_type in pkgs_to_install:
+>> -                pm.install(pkgs_to_install[pkg_type],
+>> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+>> +        pkgs = []
+>> +        pkgs_attempt = []
+>> +        for pkg_type in pkgs_to_install:
+>> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+>> +                pkgs_attempt += pkgs_to_install[pkg_type]
+>> +            else:
+>> +                pkgs += pkgs_to_install[pkg_type]
+>> +
+>> +        pm.install(pkgs)
+>> +
+>> +        pm.install(pkgs_attempt, True)
+>>  
+>>      def _populate(self):
+>>          bb.note("Installing TARGET packages")
+>> @@ -184,10 +191,17 @@ class OpkgSdk(Sdk):
+>>  
+>>          pm.update()
+>>  
+>> -        for pkg_type in self.install_order:
+>> -            if pkg_type in pkgs_to_install:
+>> -                pm.install(pkgs_to_install[pkg_type],
+>> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+>> +        pkgs = []
+>> +        pkgs_attempt = []
+>> +        for pkg_type in pkgs_to_install:
+>> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+>> +                pkgs_attempt += pkgs_to_install[pkg_type]
+>> +            else:
+>> +                pkgs += pkgs_to_install[pkg_type]
+>> +
+>> +        pm.install(pkgs)
+>> +
+>> +        pm.install(pkgs_attempt, True)
+>>  
+>>      def _populate(self):
+>>          bb.note("Installing TARGET packages")
+>> @@ -260,10 +274,17 @@ class DpkgSdk(Sdk):
+>>          pm.write_index()
+>>          pm.update()
+>>  
+>> -        for pkg_type in self.install_order:
+>> -            if pkg_type in pkgs_to_install:
+>> -                pm.install(pkgs_to_install[pkg_type],
+>> -                           [False, True][pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY])
+>> +        pkgs = []
+>> +        pkgs_attempt = []
+>> +        for pkg_type in pkgs_to_install:
+>> +            if pkg_type == Manifest.PKG_TYPE_ATTEMPT_ONLY:
+>> +                pkgs_attempt += pkgs_to_install[pkg_type]
+>> +            else:
+>> +                pkgs += pkgs_to_install[pkg_type]
+>> +
+>> +        pm.install(pkgs)
+>> +
+>> +        pm.install(pkgs_attempt, True)
+>>  
+>>      def _populate(self):
+>>          bb.note("Installing TARGET packages")
 > 
 > 
 
