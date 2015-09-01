@@ -1,37 +1,43 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f180.google.com (mail-ig0-f180.google.com
-	[209.85.213.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D977736B6;
-	Tue,  1 Sep 2015 23:47:20 +0000 (UTC)
-Received: by igbni9 with SMTP id ni9so1379652igb.0;
-	Tue, 01 Sep 2015 16:47:20 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id D739565D6E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  1 Sep 2015 23:55:47 +0000 (UTC)
+Received: by pacwi10 with SMTP id wi10so11309922pac.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Sep 2015 16:55:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=S4V/g0hWoSFhfH0kuPVmkIKokRcXUAXwGhKC0LhWmFg=;
-	b=Xdm5ba1w9C7hLKUKNFoN9C8ZfT9sROCAGBVgQnsbdhWC+PVlKLw8HFxnyzaoOBsU2h
-	133tJT8PRHYFFMPewbtSVm0lavHoRx9a0/hfSn3LiWcKpjdBV91uLh388aSXCnV8WjWj
-	cG1FDPGitR1VHGOTsnx07ot1qDM/Zizyc4Uo+XOlrDjIIVqo9JjQn5/6+nXur3Y35AxJ
-	tdmu6d7Po/Cha0COPQr1Cn9mLyQEs0QvB8CpoGjRWzlxBoc8dOqNSFSZH5tdnJcmB/2G
-	jJ/om/WBu4ycccSIYlZQA4jmzRO3euUCmp2AUGVTwuXYFjDLRgo853w+rf2TBMM8rJUI
-	FaQg==
-X-Received: by 10.50.176.134 with SMTP id ci6mr848049igc.10.1441151240729;
-	Tue, 01 Sep 2015 16:47:20 -0700 (PDT)
-MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.71 with HTTP; Tue, 1 Sep 2015 16:47:01 -0700 (PDT)
-In-Reply-To: <55E63099.8090003@linux.intel.com>
-References: <20150901104522.9FC59505A9@opal.openembedded.org>
-	<20150901190902.GD2458@jama> <55E63099.8090003@linux.intel.com>
-From: Christopher Larson <clarson@kergoth.com>
-Date: Tue, 1 Sep 2015 16:47:01 -0700
-X-Google-Sender-Auth: qlHuveZtVjmoYw3-dG7jgw6D2Ro
-Message-ID: <CABcZANnjLEcMbLLnCb3C-QeFb9+_ZEu-CDHk46UjBfbHm+7STg@mail.gmail.com>
-To: Alex Franco <alejandro.franco@linux.intel.com>
-Cc: openembedded-commits@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] Alex Franco : Fix mode +st on TMPDIR when creating it
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=3GSIeKW30heDCpx5hPPNY3CaoA/j36dOcE+z1yfkvj8=;
+	b=Y/MZC7+0ZZZkCbqw5nIZGF7bBwYBJ1hHImR846nIXFdVjnmJ3/MdYeehk9BYsyqzpg
+	1qUDdp/GMHqwGcL/O2r8OSoebUDeoDcJS9eZvEyrPZ0CGU24OFpjuahZ4XQHg9Zv9Dj+
+	bysgU1tu9W9IEhPsRHUMe/JpqAYQoJ347wrAnHnGGXJ/tDlntWwM4/AzxwMj/2sYox3G
+	Vqbp6ssqeGcm53u5ZXt9KdEaybJpAuuB98FH9wziOu44P4luFqdFkEzKyI+qGLGPzQW0
+	cS0TA7v14jJKYrFGFkyob3qwWwX5TPXS8Lh+1dB/oOVvYgcJpjo2hdZxjqsm5vdgs5wi
+	7oxQ==
+X-Received: by 10.68.182.3 with SMTP id ea3mr50591465pbc.126.1441151747622;
+	Tue, 01 Sep 2015 16:55:47 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:49fd:b69d:583d:d543?
+	([2601:646:8601:4580:49fd:b69d:583d:d543])
+	by smtp.gmail.com with ESMTPSA id
+	iw8sm19405607pbc.21.2015.09.01.16.55.46
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 01 Sep 2015 16:55:46 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1441142254.24871.22.camel@linuxfoundation.org>
+Date: Tue, 1 Sep 2015 16:55:37 -0700
+Message-Id: <7B715C23-22C6-4F08-8389-45CCE8EA7D9A@gmail.com>
+References: <87b72ec93b53c0a0ac61950f52480fa86a93c937.1440446289.git.raj.khem@gmail.com>
+	<96e447b0dad1a139b68ee85780055379147ba40f.1440446289.git.raj.khem@gmail.com>
+	<1441142254.24871.22.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 15/17] busybox: Use CC instead of bare LD to be the Linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,73 +50,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 23:47:23 -0000
-Content-Type: multipart/alternative; boundary=089e0111dd26c57ce9051eb82bf7
+X-List-Received-Date: Tue, 01 Sep 2015 23:55:49 -0000
+X-Groupsio-MsgNum: 70457
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_EDBFDBCD-717E-4E42-A3E4-57B79D136B96";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---089e0111dd26c57ce9051eb82bf7
-Content-Type: text/plain; charset=UTF-8
-
-On Tue, Sep 1, 2015 at 4:11 PM, Alex Franco <
-alejandro.franco@linux.intel.com> wrote:
-
-> I gather the original reason (for the sanity test, as well as these
-> changes) is that it is better for everything under BUILDDIR - and certainly
-> TMPDIR to be owned by the user running bitbake and have standard
-> permissions, the sticky bit itself would prevent a user running bitbake,
-> even with +rwx permissions, from making changes to items it might need to
-> manipulate, if those are not owned by this user. Similarly setuid and
-> setgid might propagate user/group ownerships different from the user
-> bitbake is running as, into BUILDDIR and TMPDIR (and items therein).
->
-> For more info take a look at:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=7669
->
-> Perhaps there are more pressing reasons, perhaps Christopher Larson can
-> comment a bit on this.
->
-
-Indeed, the g+s can flow down into the files put into the packages, and
-then into the rootfs. I ran into a this problem quite a bit, since my
-project areas are in a g+s area to keep the files accessible to the group.
--- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
-
---089e0111dd26c57ce9051eb82bf7
-Content-Type: text/html; charset=UTF-8
+--Apple-Mail=_EDBFDBCD-717E-4E42-A3E4-57B79D136B96
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Tue, Sep 1, 2015 at 4:11 PM, Alex Franco <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:alejandro.franco@linux.intel.com" target=3D"_blank">alejandro.fr=
-anco@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div id=3D":1g4" class=3D"a3s" style=3D"overflow:hidden">I gather the ori=
-ginal reason (for the sanity test, as well as these changes) is that it is =
-better for everything under BUILDDIR - and certainly TMPDIR to be owned by =
-the user running <span class=3D"il">bitbake</span> and have standard permis=
-sions, the sticky <span class=3D"il">bit</span> itself would prevent a user=
- running <span class=3D"il">bitbake</span>, even with +rwx permissions, fro=
-m making changes to items it might need to manipulate, if those are not own=
-ed by this user. Similarly setuid and setgid might propagate user/group own=
-erships different from the user <span class=3D"il">bitbake</span> is runnin=
-g as, into BUILDDIR and TMPDIR (and items therein).<br>
-<br>
-For more info take a look at: <a href=3D"https://bugzilla.yoctoproject.org/=
-show_bug.cgi?id=3D7669" rel=3D"noreferrer" target=3D"_blank">https://bugzil=
-la.yoctoproject.org/show_bug.cgi?id=3D7669</a><br>
-<br>
-Perhaps there are more pressing reasons, perhaps Christopher Larson can com=
-ment a <span class=3D"il">bit</span> on this.</div></blockquote></div><br>I=
-ndeed, the g+s can flow down into the files put into the packages, and then=
- into the rootfs. I ran into a this problem quite a bit, since my project a=
-reas are in a g+s area to keep the files accessible to the group.<br>-- <br=
-><div class=3D"gmail_signature">Christopher Larson<br>clarson at kergoth do=
-t com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<=
-br>Senior Software Engineer, Mentor Graphics</div>
-</div></div>
 
---089e0111dd26c57ce9051eb82bf7--
+> On Sep 1, 2015, at 2:17 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+>> =
+/mnt/home/kraj/work/angstrom/build/tmp-angstrom-glibc/sysroots/x86_64-linu=
+x/usr/bin/arm-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-ld:
+>> error: applets/built-in.o: unsupported ELF file type 2
+>> clang-3.7: error: linker command failed with exit code 1 (use -v to =
+see invocation)
+>=20
+> This breaks DISTRO=3Dpoky-lsb:
+>=20
+> http://errors.yoctoproject.org/Errors/Details/15705/
+>=20
+> (searching for busybox shows many other versions of this too)
+>=20
+
+OK I think we add -fpie to poky-lsb. is that right ?
+now instead of calling ld directly we are calling gcc to do linking so =
+we now also get the baggage of CFLAGS since LDFLAG =3D CFLAGS
+which is actually correct but in this case we are trying to do partial =
+linking so -pie is useless at this stage of linking. So what we need is
+to ignore -pie ( add -fno-pie) in LDFLAGS when doing partial linking. I =
+will send a reworked patch.
+
+--Apple-Mail=_EDBFDBCD-717E-4E42-A3E4-57B79D136B96
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXmOwEACgkQuwUzVZGdMxR+9gCePYhJHLaEJ7sKH0CjmRtzaz8H
+OloAn038r9hkCY33NdQ4F14WHoqNxZeZ
+=ta6p
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_EDBFDBCD-717E-4E42-A3E4-57B79D136B96--
