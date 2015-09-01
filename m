@@ -1,32 +1,43 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 97AE676FC9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id EC94F76FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 23:28:49 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t81NSmVE016210; Tue, 1 Sep 2015 18:28:48 -0500
-Received: from delcastillo2.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015090118284850-1057494 ;
-	Tue, 1 Sep 2015 18:28:48 -0500 
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-Date: Tue, 1 Sep 2015 18:28:31 -0500
-Message-Id: <1441150111-12422-1-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1441117073-23911-1-git-send-email-alejandro.delcastillo@ni.com>
-References: <1441117073-23911-1-git-send-email-alejandro.delcastillo@ni.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 09/01/2015 06:28:48 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 09/01/2015 06:28:48 PM,
-	Serialize complete at 09/01/2015 06:28:48 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-09-02_01:, , signatures=0
-Subject: [PATCH] adt-installer: upgrade to opkg 0.3.0
+	Tue,  1 Sep 2015 23:45:59 +0000 (UTC)
+Received: by padhy1 with SMTP id hy1so11173107pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 01 Sep 2015 16:45:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=/jxx+p7pBZfuoyOHJzV122aFMec2qOvxqlIEpGIdkvY=;
+	b=S5Bc7kq+LvggGfZy1RuwSbGkNCDusykwFBkcHVSo9AUCW3RGl/fEUQlYBGXMuiGD3V
+	rLKOJM7n4mA1NldP+YmSpyalgab6ZbqQTcj9fNURZCo2mX5RI2KUOe/qClt1BD3/CVom
+	KcdQm4MHfvbVm3s1j3KbXVQSQTX1TfcthEOHKzPg2mqLW3YiqfHHbNdN4ggNpDgfxMBv
+	QpwnKn+OaNEgOQ/8NUsYmvty0Lpxi/ng+IE7DiaFPWes5r7goX8uYU1TUyJTBj0d5xn9
+	3C1AL/gZ7s9fN7w/v3G99N7/n86cBmF/z2iOqIi/vcnZRI5c4uvycyJHC44C4YOQVCvB
+	vbCQ==
+X-Received: by 10.68.131.33 with SMTP id oj1mr48639025pbb.96.1441151159408;
+	Tue, 01 Sep 2015 16:45:59 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:49fd:b69d:583d:d543?
+	([2601:646:8601:4580:49fd:b69d:583d:d543])
+	by smtp.gmail.com with ESMTPSA id
+	fs13sm19432684pdb.29.2015.09.01.16.45.58
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 01 Sep 2015 16:45:58 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1441142126.24871.21.camel@linuxfoundation.org>
+Date: Tue, 1 Sep 2015 16:45:49 -0700
+Message-Id: <E9B6BF0B-EC31-4CF5-8756-9A338258CFF7@gmail.com>
+References: <cover.1440446289.git.raj.khem@gmail.com>
+	<87b72ec93b53c0a0ac61950f52480fa86a93c937.1440446289.git.raj.khem@gmail.com>
+	<1441142126.24871.21.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/17] systemd: Upgrade 219 -> 224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,118 +50,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 23:28:51 -0000
+X-List-Received-Date: Tue, 01 Sep 2015 23:46:05 -0000
+X-Groupsio-MsgNum: 70455
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_32909450-8146-4FAA-AEEE-32FA3EE5EC8C";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-- Opkg 0.3.0 deprecated --disable-shave & --withopkglibdir options.
-- Add -i option to autoreconf since opkg tarball is missing
-  conf.compile.
-- Recreate wget_cache.patch
-- Bump PR version.
-
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-
-This patch can be squashed with the opkg upgrade to 0.3.0 commit.
----
- .../installer/adt-installer/adt_installer          |  4 ++--
- .../installer/adt-installer/scripts/data_define    |  1 -
- .../installer/adt-installer_1.0.bb                 |  8 +++----
- .../installer/files/wget_cache.patch               | 27 ++++++++++++++--------
- 4 files changed, 24 insertions(+), 16 deletions(-)
-
-diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer b/meta/recipes-devtools/installer/adt-installer/adt_installer
-index 3172de7..b8cfb2e 100755
---- a/meta/recipes-devtools/installer/adt-installer/adt_installer
-+++ b/meta/recipes-devtools/installer/adt-installer/adt_installer
-@@ -182,8 +182,8 @@ if [ ! -x "$LOCAL_OPKG_LOC/bin/opkg" ]; then
-   check_result
- 
-   echo_info "Configure opkg ...\n"
--  autoreconf
--  ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --with-opkglibdir=$OPKG_LIBDIR --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg --disable-shave >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
-+  autoreconf -i
-+  ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
-   check_result
- 
-   echo_info "Make opkg ...\n"
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/data_define b/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-index 2781e77..cfd6716 100644
---- a/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-@@ -27,7 +27,6 @@ source `pwd`/$config_file
- 
- LOCAL_OPKG_LOC="./opkg/build/opkg"
- LOCAL_OPKG_FOLDER="./opkg/build"
--OPKG_LIBDIR="/var/lib"
- 
- # List all supported root fs types and target types,
- # it will be used in user configuration validity checking
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 346fd9e..336cda3 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -31,13 +31,13 @@ LICENSE = "MIT"
- PACKAGES = ""
- INHIBIT_DEFAULT_DEPS = "1"
- 
--PR = "r11"
-+PR = "r12"
- 
- ADT_DEPLOY = "${DEPLOY_DIR}/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
- S = "${WORKDIR}/opkg-${PV}"
- 
--PV = "0.2.0"
-+PV = "0.3.0"
- SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
-            file://wget_cache.patch \
-            file://adt_installer \
-@@ -50,8 +50,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
-            file://opkg/conf/opkg-sdk-i686.conf \
- 	  "
- 
--SRC_URI[md5sum] = "e8a6fd34fb2529191fe09dc14c934cc3"
--SRC_URI[sha256sum] = "81b7055eb4c12c5e5652339305c9236cf357890717d4bea063963f3f434d966f"
-+SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
-+SRC_URI[sha256sum] = "7f735d1cdb8ef3718fb0f9fba44ca0d9a5c90d3a7f014f37a6d2f9474f54988f"
- 
- ADTREPO ?= "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
- 
-diff --git a/meta/recipes-devtools/installer/files/wget_cache.patch b/meta/recipes-devtools/installer/files/wget_cache.patch
-index 1281d12..9117510 100644
---- a/meta/recipes-devtools/installer/files/wget_cache.patch
-+++ b/meta/recipes-devtools/installer/files/wget_cache.patch
-@@ -1,12 +1,21 @@
- Upstream-Status: Inappropriate [configuration]
- 
----- trunk/libopkg/opkg_download.c	2011-03-10 16:41:29.000000000 +0800
--+++ trunk/libopkg/opkg_download.c	2011-03-10 16:42:33.000000000 +0800
--@@ -162,6 +162,7 @@
-+---
-+ libopkg/opkg_download_wget.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/libopkg/opkg_download_wget.c b/libopkg/opkg_download_wget.c
-+index 9001493..18ef91e 100644
-+--- a/libopkg/opkg_download_wget.c
-++++ b/libopkg/opkg_download_wget.c
-+@@ -50,6 +50,7 @@ int opkg_download_backend(const char *src, const char *dest,
-  
--       argv[i++] = "wget";
--       argv[i++] = "-q";
--+      argv[i++] = "--no-cache";
--       if (conf->http_proxy || conf->ftp_proxy) {
-- 	argv[i++] = "-Y";
-- 	argv[i++] = "on";
-+     argv[i++] = "wget";
-+     argv[i++] = "-q";
-++    argv[i++] = "--no-cache";
-+     if (opkg_config->http_proxy || opkg_config->ftp_proxy) {
-+         argv[i++] = "-Y";
-+         argv[i++] = "on";
-+-- 
-+1.9.1
-+
--- 
-1.9.1
+--Apple-Mail=_32909450-8146-4FAA-AEEE-32FA3EE5EC8C
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
+> On Sep 1, 2015, at 2:15 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Mon, 2015-08-24 at 13:03 -0700, Khem Raj wrote:
+>> Drop patches that were straight backports from upstream
+>>=20
+>> MIT licence was unused and dropped from systemd sources
+>> for more details see
+>> =
+https://github.com/systemd/systemd/commit/8f1e0c5f38cdf7e401ab4d2bb93ad816=
+d08e7715
+>>=20
+>> Drop gtkdoc dependency since libudev API documentation has been =
+converted from gtkdoc into man pages
+>> Remove packaging gudev as it has moved to separate repository outside
+>> systemd
+>>=20
+>> For more details see
+>> =
+https://github.com/systemd/systemd/commit/2375607039517c88df51ef16ddbb624e=
+c1c10654
+>>=20
+>> package newly added script for xorg to be usable with systemd --user
+>> intance
+>> For more details see
+>> =
+https://github.com/systemd/systemd/commit/1401ec2d34bcde406ced531a72dc46eb=
+af332594
+>>=20
+>> For complete differences between two releases run
+>> git log --oneline v219..v224
+>> in systemd git clone
+>=20
+> This patch seems to cause the build failures in:
+>=20
+> =
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/buil=
+ds/466
+>=20
+> (two different sanity test failures)
+
+
+thanks for the info. Looking at the two tests.
+
+setting up date using date -s seems to be assuming that Automatic time =
+synchronization is not enabled
+that test could be improved for systemd by using systemd utils.
+
+timedatectl set-time "yyyy-MM-dd hh:mm:ss=E2=80=9D
+
+and I don=E2=80=99t believe its passing with systemd-219 since locally I =
+executed same commands on my minnow board running 219
+and it failed.
+
+Second test failure is a good one when mixing sysvinit scripts with =
+systemd which is what systemctl disable avahi-daemon.service is doing
+
+CHANGES WITH 221:
+
+        * Support for chkconfig (--enable-chkconfig) was removed in =
+favour of
+          calling an abstraction /lib/systemd/systemd-sysv-install. This =
+needs
+          to be implemented for your distribution. See "SYSV INIT.D =
+SCRIPTS" in
+          README for details.
+
+This needs implementing  /lib/systemd/systemd-sysv-install for OE and I =
+will update the patch to fix this one.
+
+
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+
+
+--Apple-Mail=_32909450-8146-4FAA-AEEE-32FA3EE5EC8C
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXmOLUACgkQuwUzVZGdMxRQOQCfeZ3G+2B8AI9SVH7iuTABINPs
+ZtcAn3LT/+EPLQxnCy/Lt203nTpnZAQ0
+=58Lz
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_32909450-8146-4FAA-AEEE-32FA3EE5EC8C--
