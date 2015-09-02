@@ -1,24 +1,27 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D9B1F77026
+Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A1AB7703E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 18:47:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t82Il99l019650
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 2 Sep 2015 11:47:10 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 2 Sep 2015 11:47:09 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Sep 2015 13:47:07 -0500
-Message-ID: <cover.1441219463.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 2.3.1
+	Wed,  2 Sep 2015 18:56:01 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga101.jf.intel.com with ESMTP; 02 Sep 2015 11:56:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,455,1437462000"; d="scan'208";a="796902839"
+Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.40])
+	([10.219.5.40])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Sep 2015 11:56:01 -0700
+Message-ID: <55E7468A.3030607@linux.intel.com>
+Date: Wed, 02 Sep 2015 13:57:14 -0500
+From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-Subject: [PATCH 0/1] v2 pseudo 1.7 (now 1.7.1)
+To: =?windows-1252?Q?An=EDbal_Lim=F3n?= <anibal.limon@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+References: <1441184383-11515-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+	<55E73B5D.2000204@linux.intel.com>
+In-Reply-To: <55E73B5D.2000204@linux.intel.com>
+Subject: Re: [PATCH] distrodata: Take account proxies on distrodata tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +34,388 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 18:47:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 Sep 2015 18:56:02 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 8bit
 
-So, this is just like the previous pseudo 1.7.0 patch, except
-that the very strange and sporadic failures that were showing up
-in the RPM backend are now fixed.
+I am passing the proxies directly into the urlopen function, this way I 
+do not pollute the environment. I saw also [1] but I found less 
+intrusive the way I implemented it.
 
-The actual issue: realpath(foo, NULL) is supposed to allocate storage.
-When I stopped having path canonicalization allocate new storage, I
-fixed the points where the returned values were being freed, but I
-did not spot this particular instance of a place where the value was
-being returned with the expectation that the caller would free it.
 
-Also changed the lstat() calls in path canonicalization so they will
-use lstat64 where appropriate (such as all the time on Linux), because
-otherwise lstat() can fail if a file has an *inode value* out of range,
-which is distinct from the "size out of range" issues previously corrected.
-This may have broken path lookups in some cases on XFS.
-
-The xattrdb stuff has not been otherwise changed, so it's still
-considered experimental.
-
-The following changes since commit bdeb32b4cdbe316f17c2fd854d59e05e8f2e8ffc:
-
-  rt-tests: drop unnecessary added-missing-dependencies.patch (2015-09-01 11:43:38 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib seebs/pseudo171
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo171
-
-Peter Seebach (1):
-  pseudo_1.7.1.bb: New version of pseudo
-
- meta/recipes-devtools/pseudo/pseudo_1.7.1.bb | 19 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb   |  4 ++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.7.1.bb
-
--- 
-2.3.1
-
+On 09/02/2015 01:09 PM, Aníbal Limón wrote:
+> HI Leo,
+>
+> This is a way to do it but implies that functions doing distro_data
+> needs to know about the data store
+> and ii can be improved only exporting the proxies in the interface
+> function update_data,
+>
+> If you don't specify proxies into urllib.urlopen it search into
+> environment.
+>
+> For export proxies you can use as an example [1], see below.
+>
+> Regards,
+>      alimon
+>
+> [1]
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/bitbake/lib/bb/fetch2/wget.py#n221
+>
+>
+>
+> On 02/09/15 03:59, leonardo.sandoval.gonzalez@linux.intel.com wrote:
+>> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>>
+>> Proxies defined in the enviroment where not taken into account
+>> on the distrodata tasks. This commit implied passing the datastore
+>> into the distro_check library and context manager for the
+>> urllib.urlopen function.
+>>
+>> One way to run distrodata tasks is using 'universe' as target and the
+>> 'all' distrodata task:
+>>
+>>        $ bitbake universe -c distrodataall
+>>        $ bitbake universe -c distro_checkall
+>>        $ bitbake universe -c checklicenseall
+>>
+>> Logs are located under TMPDIR/log
+>>
+>> [YOCTO #7567]
+>>
+>> Signed-off-by: Leonardo Sandoval
+>> <leonardo.sandoval.gonzalez@linux.intel.com>
+>> ---
+>>   meta/classes/distrodata.bbclass |   6 +--
+>>   meta/lib/oe/distro_check.py     | 113
+>> +++++++++++++++++++++++-----------------
+>>   2 files changed, 69 insertions(+), 50 deletions(-)
+>>
+>> diff --git a/meta/classes/distrodata.bbclass
+>> b/meta/classes/distrodata.bbclass
+>> index 4168e43..0a706ef 100644
+>> --- a/meta/classes/distrodata.bbclass
+>> +++ b/meta/classes/distrodata.bbclass
+>> @@ -33,7 +33,7 @@ python do_distrodata_np() {
+>>           tmpdir = d.getVar('TMPDIR', True)
+>>           distro_check_dir = os.path.join(tmpdir, "distro_check")
+>>           datetime = localdata.getVar('DATETIME', True)
+>> -        dist_check.update_distro_data(distro_check_dir, datetime)
+>> +        dist_check.update_distro_data(distro_check_dir, datetime,
+>> localdata)
+>>           if pn.find("-native") != -1:
+>>               pnstripped = pn.split("-native")
+>> @@ -118,7 +118,7 @@ python do_distrodata() {
+>>           tmpdir = d.getVar('TMPDIR', True)
+>>           distro_check_dir = os.path.join(tmpdir, "distro_check")
+>>           datetime = localdata.getVar('DATETIME', True)
+>> -        dist_check.update_distro_data(distro_check_dir, datetime)
+>> +        dist_check.update_distro_data(distro_check_dir, datetime,
+>> localdata)
+>>           pn = d.getVar("PN", True)
+>>           bb.note("Package Name: %s" % pn)
+>> @@ -402,7 +402,7 @@ python do_distro_check() {
+>>       bb.utils.mkdirhier(logpath)
+>>       result_file = os.path.join(logpath, "distrocheck.csv")
+>>       datetime = localdata.getVar('DATETIME', True)
+>> -    dc.update_distro_data(distro_check_dir, datetime)
+>> +    dc.update_distro_data(distro_check_dir, datetime, localdata)
+>>       # do the comparison
+>>       result = dc.compare_in_distro_packages_list(distro_check_dir, d)
+>> diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+>> index 8ed5b0e..b3419ce 100644
+>> --- a/meta/lib/oe/distro_check.py
+>> +++ b/meta/lib/oe/distro_check.py
+>> @@ -1,7 +1,28 @@
+>> -def get_links_from_url(url):
+>> +from contextlib import contextmanager
+>> +@contextmanager
+>> +def create_socket(url, d):
+>> +    import urllib
+>> +    socket = urllib.urlopen(url, proxies=get_proxies(d))
+>> +    try:
+>> +        yield socket
+>> +    finally:
+>> +        socket.close()
+>> +
+>> +def get_proxies(d):
+>> +    import os
+>> +    proxykeys = ['HTTP_PROXY', 'http_proxy',
+>> +                 'HTTPS_PROXY', 'https_proxy',
+>> +                 'FTP_PROXY', 'ftp_proxy',
+>> +                 'FTPS_PROXY', 'ftps_proxy',
+>> +                 'NO_PROXY', 'no_proxy',
+>> +                 'ALL_PROXY', 'all_proxy']
+>> +    proxyvalues = map(lambda key: d.getVar(key, True), proxykeys)
+>> +    return dict(zip(proxykeys, proxyvalues))
+>> +
+>> +def get_links_from_url(url, d):
+>>       "Return all the href links found on the web location"
+>> -    import urllib, sgmllib
+>> +    import sgmllib
+>>       class LinksParser(sgmllib.SGMLParser):
+>>           def parse(self, s):
+>> @@ -24,19 +45,18 @@ def get_links_from_url(url):
+>>               "Return the list of hyperlinks."
+>>               return self.hyperlinks
+>> -    sock = urllib.urlopen(url)
+>> -    webpage = sock.read()
+>> -    sock.close()
+>> +    with create_socket(url,d) as sock:
+>> +        webpage = sock.read()
+>>       linksparser = LinksParser()
+>>       linksparser.parse(webpage)
+>>       return linksparser.get_hyperlinks()
+>> -def find_latest_numeric_release(url):
+>> +def find_latest_numeric_release(url, d):
+>>       "Find the latest listed numeric release on the given url"
+>>       max=0
+>>       maxstr=""
+>> -    for link in get_links_from_url(url):
+>> +    for link in get_links_from_url(url, d):
+>>           try:
+>>               release = float(link)
+>>           except:
+>> @@ -70,7 +90,7 @@ def clean_package_list(package_list):
+>>       return set.keys()
+>> -def get_latest_released_meego_source_package_list():
+>> +def get_latest_released_meego_source_package_list(d):
+>>       "Returns list of all the name os packages in the latest meego
+>> distro"
+>>       package_names = []
+>> @@ -82,11 +102,11 @@ def get_latest_released_meego_source_package_list():
+>>       package_list=clean_package_list(package_names)
+>>       return "1.0", package_list
+>> -def get_source_package_list_from_url(url, section):
+>> +def get_source_package_list_from_url(url, section, d):
+>>       "Return a sectioned list of package names from a URL list"
+>>       bb.note("Reading %s: %s" % (url, section))
+>> -    links = get_links_from_url(url)
+>> +    links = get_links_from_url(url, d)
+>>       srpms = filter(is_src_rpm, links)
+>>       names_list = map(package_name_from_srpm, srpms)
+>> @@ -96,44 +116,44 @@ def get_source_package_list_from_url(url, section):
+>>       return new_pkgs
+>> -def get_latest_released_fedora_source_package_list():
+>> +def get_latest_released_fedora_source_package_list(d):
+>>       "Returns list of all the name os packages in the latest fedora
+>> distro"
+>> -    latest =
+>> find_latest_numeric_release("http://archive.fedoraproject.org/pub/fedora/linux/releases/")
+>>
+>> +    latest =
+>> find_latest_numeric_release("http://archive.fedoraproject.org/pub/fedora/linux/releases/",
+>> d)
+>> -    package_names =
+>> get_source_package_list_from_url("http://archive.fedoraproject.org/pub/fedora/linux/releases/%s/Fedora/source/SRPMS/"
+>> % latest, "main")
+>> +    package_names =
+>> get_source_package_list_from_url("http://archive.fedoraproject.org/pub/fedora/linux/releases/%s/Fedora/source/SRPMS/"
+>> % latest, "main", d)
+>>   #    package_names +=
+>> get_source_package_list_from_url("http://download.fedora.redhat.com/pub/fedora/linux/releases/%s/Everything/source/SPRMS/"
+>> % latest, "everything")
+>> -    package_names +=
+>> get_source_package_list_from_url("http://archive.fedoraproject.org/pub/fedora/linux/updates/%s/SRPMS/"
+>> % latest, "updates")
+>> +    package_names +=
+>> get_source_package_list_from_url("http://archive.fedoraproject.org/pub/fedora/linux/updates/%s/SRPMS/"
+>> % latest, "updates", d)
+>>       package_list=clean_package_list(package_names)
+>>       return latest, package_list
+>> -def get_latest_released_opensuse_source_package_list():
+>> +def get_latest_released_opensuse_source_package_list(d):
+>>       "Returns list of all the name os packages in the latest opensuse
+>> distro"
+>> -    latest =
+>> find_latest_numeric_release("http://download.opensuse.org/source/distribution/")
+>>
+>> +    latest =
+>> find_latest_numeric_release("http://download.opensuse.org/source/distribution/",d)
+>>
+>> -    package_names =
+>> get_source_package_list_from_url("http://download.opensuse.org/source/distribution/%s/repo/oss/suse/src/"
+>> % latest, "main")
+>> -    package_names +=
+>> get_source_package_list_from_url("http://download.opensuse.org/update/%s/rpm/src/"
+>> % latest, "updates")
+>> +    package_names =
+>> get_source_package_list_from_url("http://download.opensuse.org/source/distribution/%s/repo/oss/suse/src/"
+>> % latest, "main", d)
+>> +    package_names +=
+>> get_source_package_list_from_url("http://download.opensuse.org/update/%s/rpm/src/"
+>> % latest, "updates", d)
+>>       package_list=clean_package_list(package_names)
+>>       return latest, package_list
+>> -def get_latest_released_mandriva_source_package_list():
+>> +def get_latest_released_mandriva_source_package_list(d):
+>>       "Returns list of all the name os packages in the latest mandriva
+>> distro"
+>> -    latest =
+>> find_latest_numeric_release("http://distrib-coffee.ipsl.jussieu.fr/pub/linux/MandrivaLinux/official/")
+>>
+>> -    package_names =
+>> get_source_package_list_from_url("http://distrib-coffee.ipsl.jussieu.fr/pub/linux/MandrivaLinux/official/%s/SRPMS/main/release/"
+>> % latest, "main")
+>> +    latest =
+>> find_latest_numeric_release("http://distrib-coffee.ipsl.jussieu.fr/pub/linux/MandrivaLinux/official/",
+>> d)
+>> +    package_names =
+>> get_source_package_list_from_url("http://distrib-coffee.ipsl.jussieu.fr/pub/linux/MandrivaLinux/official/%s/SRPMS/main/release/"
+>> % latest, "main", d)
+>>   #    package_names +=
+>> get_source_package_list_from_url("http://distrib-coffee.ipsl.jussieu.fr/pub/linux/MandrivaLinux/official/%s/SRPMS/contrib/release/"
+>> % latest, "contrib")
+>> -    package_names +=
+>> get_source_package_list_from_url("http://distrib-coffee.ipsl.jussieu.fr/pub/linux/MandrivaLinux/official/%s/SRPMS/main/updates/"
+>> % latest, "updates")
+>> +    package_names +=
+>> get_source_package_list_from_url("http://distrib-coffee.ipsl.jussieu.fr/pub/linux/MandrivaLinux/official/%s/SRPMS/main/updates/"
+>> % latest, "updates", d)
+>>       package_list=clean_package_list(package_names)
+>>       return latest, package_list
+>> -def find_latest_debian_release(url):
+>> +def find_latest_debian_release(url, d):
+>>       "Find the latest listed debian release on the given url"
+>>       releases = []
+>> -    for link in get_links_from_url(url):
+>> +    for link in get_links_from_url(url, d):
+>>           if link[:6] == "Debian":
+>>               if ';' not in link:
+>>                   releases.append(link)
+>> @@ -143,16 +163,15 @@ def find_latest_debian_release(url):
+>>       except:
+>>           return "_NotFound_"
+>> -def get_debian_style_source_package_list(url, section):
+>> +def get_debian_style_source_package_list(url, section, d):
+>>       "Return the list of package-names stored in the debian style
+>> Sources.gz file"
+>> -    import urllib
+>> -    sock = urllib.urlopen(url)
+>> -    import tempfile
+>> -    tmpfile = tempfile.NamedTemporaryFile(mode='wb',
+>> prefix='oecore.', suffix='.tmp', delete=False)
+>> -    tmpfilename=tmpfile.name
+>> -    tmpfile.write(sock.read())
+>> -    sock.close()
+>> -    tmpfile.close()
+>> +    with create_socket(url,d) as sock:
+>> +        webpage = sock.read()
+>> +        import tempfile
+>> +        tmpfile = tempfile.NamedTemporaryFile(mode='wb',
+>> prefix='oecore.', suffix='.tmp', delete=False)
+>> +        tmpfilename=tmpfile.name
+>> +        tmpfile.write(sock.read())
+>> +        tmpfile.close()
+>>       import gzip
+>>       bb.note("Reading %s: %s" % (url, section))
+>> @@ -165,41 +184,41 @@ def get_debian_style_source_package_list(url,
+>> section):
+>>       return package_names
+>> -def get_latest_released_debian_source_package_list():
+>> +def get_latest_released_debian_source_package_list(d):
+>>       "Returns list of all the name os packages in the latest debian
+>> distro"
+>> -    latest =
+>> find_latest_debian_release("http://ftp.debian.org/debian/dists/")
+>> +    latest =
+>> find_latest_debian_release("http://ftp.debian.org/debian/dists/", d)
+>>       url =
+>> "http://ftp.debian.org/debian/dists/stable/main/source/Sources.gz"
+>> -    package_names = get_debian_style_source_package_list(url, "main")
+>> +    package_names = get_debian_style_source_package_list(url, "main", d)
+>>   #    url =
+>> "http://ftp.debian.org/debian/dists/stable/contrib/source/Sources.gz"
+>>   #    package_names += get_debian_style_source_package_list(url,
+>> "contrib")
+>>       url =
+>> "http://ftp.debian.org/debian/dists/stable-proposed-updates/main/source/Sources.gz"
+>>
+>> -    package_names += get_debian_style_source_package_list(url,
+>> "updates")
+>> +    package_names += get_debian_style_source_package_list(url,
+>> "updates", d)
+>>       package_list=clean_package_list(package_names)
+>>       return latest, package_list
+>> -def find_latest_ubuntu_release(url):
+>> +def find_latest_ubuntu_release(url, d):
+>>       "Find the latest listed ubuntu release on the given url"
+>>       url += "?C=M;O=D" # Descending Sort by Last Modified
+>> -    for link in get_links_from_url(url):
+>> +    for link in get_links_from_url(url, d):
+>>           if link[-8:] == "-updates":
+>>               return link[:-8]
+>>       return "_NotFound_"
+>> -def get_latest_released_ubuntu_source_package_list():
+>> +def get_latest_released_ubuntu_source_package_list(d):
+>>       "Returns list of all the name os packages in the latest ubuntu
+>> distro"
+>> -    latest =
+>> find_latest_ubuntu_release("http://archive.ubuntu.com/ubuntu/dists/")
+>> +    latest =
+>> find_latest_ubuntu_release("http://archive.ubuntu.com/ubuntu/dists/", d)
+>>       url =
+>> "http://archive.ubuntu.com/ubuntu/dists/%s/main/source/Sources.gz" %
+>> latest
+>> -    package_names = get_debian_style_source_package_list(url, "main")
+>> +    package_names = get_debian_style_source_package_list(url, "main", d)
+>>   #    url =
+>> "http://archive.ubuntu.com/ubuntu/dists/%s/multiverse/source/Sources.gz"
+>> % latest
+>>   #    package_names += get_debian_style_source_package_list(url,
+>> "multiverse")
+>>   #    url =
+>> "http://archive.ubuntu.com/ubuntu/dists/%s/universe/source/Sources.gz"
+>> % latest
+>>   #    package_names += get_debian_style_source_package_list(url,
+>> "universe")
+>>       url =
+>> "http://archive.ubuntu.com/ubuntu/dists/%s-updates/main/source/Sources.gz"
+>> % latest
+>> -    package_names += get_debian_style_source_package_list(url,
+>> "updates")
+>> +    package_names += get_debian_style_source_package_list(url,
+>> "updates", d)
+>>       package_list=clean_package_list(package_names)
+>>       return latest, package_list
+>> -def create_distro_packages_list(distro_check_dir):
+>> +def create_distro_packages_list(distro_check_dir, d):
+>>       pkglst_dir = os.path.join(distro_check_dir, "package_lists")
+>>       if not os.path.isdir (pkglst_dir):
+>>           os.makedirs(pkglst_dir)
+>> @@ -220,7 +239,7 @@ def create_distro_packages_list(distro_check_dir):
+>>       begin = datetime.now()
+>>       for distro in per_distro_functions:
+>>           name = distro[0]
+>> -        release, package_list = distro[1]()
+>> +        release, package_list = distro[1](d)
+>>           bb.note("Distro: %s, Latest Release: %s, # src packages: %d"
+>> % (name, release, len(package_list)))
+>>           package_list_file = os.path.join(pkglst_dir, name + "-" +
+>> release)
+>>           f = open(package_list_file, "w+b")
+>> @@ -231,7 +250,7 @@ def create_distro_packages_list(distro_check_dir):
+>>       delta = end - begin
+>>       bb.note("package_list generatiosn took this much time: %d
+>> seconds" % delta.seconds)
+>> -def update_distro_data(distro_check_dir, datetime):
+>> +def update_distro_data(distro_check_dir, datetime, d):
+>>       """
+>>           If distro packages list data is old then rebuild it.
+>>           The operations has to be protected by a lock so that
+>> @@ -258,7 +277,7 @@ def update_distro_data(distro_check_dir, datetime):
+>>           if saved_datetime[0:8] != datetime[0:8]:
+>>               bb.note("The build datetime did not match: saved:%s
+>> current:%s" % (saved_datetime, datetime))
+>>               bb.note("Regenerating distro package lists")
+>> -            create_distro_packages_list(distro_check_dir)
+>
+> Use export proxies,
+>
+> export_proxies(d)
+>
+>> +            create_distro_packages_list(distro_check_dir, d)
+>>               f.seek(0)
+>>               f.write(datetime)
+>
 
