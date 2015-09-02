@@ -1,34 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 2421177026
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 08A4B7702B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 15:22:29 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t82FMOue031535; Wed, 2 Sep 2015 16:22:24 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 7diDnz7eWjim; Wed,  2 Sep 2015 16:22:24 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t82FM9xL031527
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 2 Sep 2015 16:22:20 +0100
-Message-ID: <1441207329.24871.70.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ed.bartosh@linux.intel.com
-Date: Wed, 02 Sep 2015 16:22:09 +0100
-In-Reply-To: <20150902135445.GA5916@linux.intel.com>
-References: <cover.1440950164.git.ed.bartosh@linux.intel.com>
-	<8c9a985168c6e8d52ac777bc7322c6fda92983c2.1440950164.git.ed.bartosh@linux.intel.com>
-	<CAHiDW_EA-=tfahxA7_KXhfmWmOMBjES4_WCTOns3O25odMJTZg@mail.gmail.com>
-	<20150902135445.GA5916@linux.intel.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: "markus.Lehtonen" <markus.Lehtonen@intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/11] devtool: make 2 functions public
+	Wed,  2 Sep 2015 15:48:19 +0000 (UTC)
+Received: by ioii196 with SMTP id i196so24833701ioi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Sep 2015 08:48:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=30hDULE2r87PqhPDtKxUy2Tfrk9Iz+pVn8tHVyjREsU=;
+	b=PKhBb8COQZwmzReUhS9ppKPB6j9WkamkZFNYHV4EjUFujWcJArNJ3PLQqbcGYnIkK7
+	+JJSM3gczgt0UF9Hpy6LUJtz4SqZCGOe2tX411W2A6QSxyWVPIidQE62YpMyLtJoSntF
+	6JM8trP5swHEGhzmhRLm531c/8viBBeGqp7rFq7ZzgBx7L/2t9R/Nzje2PuwzXY4zWt/
+	OVC0L478JOLwtMbzpQ16PtY9nscVzre8NCuZCQyyCb1N/zhPs2UR3aanDzLYhJe62ER+
+	bVJ9q+iKQA4jSxCZ8W1EQWMCR27LmurTVE+FaC8xA9Ey+Ao/w5SIwdRSMm6FrUjpkOHd
+	OuUA==
+X-Gm-Message-State: ALoCoQkUF81EYOlJ6dECv6+2cHlgogxMFSRi60Y/w9JmH47vvU+OSMmfk+9d67+dvwSszF8f18Qb
+X-Received: by 10.107.29.74 with SMTP id d71mr12254228iod.27.1441208899852;
+	Wed, 02 Sep 2015 08:48:19 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8FD7A.dip0.t-ipconnect.de.
+	[93.232.253.122])
+	by smtp.gmail.com with ESMTPSA id v3sm2479094igb.3.2015.09.02.08.48.18
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 02 Sep 2015 08:48:18 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Sep 2015 17:48:39 +0200
+Message-Id: <cover.1441207840.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/10] enhancing images, booting and runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,47 +43,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 15:22:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Sep 2015 15:48:23 -0000
 
-On Wed, 2015-09-02 at 16:54 +0300, Ed Bartosh wrote:
-> On Wed, Sep 02, 2015 at 02:16:58PM +0300, Jussi Kukkonen wrote:
-> > On 30 August 2015 at 19:08, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
-> > >
-> > > Moved standard.py:_parse_recipe -> __init__.py:parse_recipe and
-> > >       standard.py:_get_recipe_file ->  __init__.py:get_recipe_file
-> > > to be able to call them from other modules.
-> > 
-> > Hi Ed,
-> > 
-> > Can you take a look if the failures in
-> > https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/173/steps/Running%20oe-selftest/logs/stdio
-> > are related to this patch (there's lots of "NameError: global name
-> > '_parse_recipe' is not defined")
-> > 
-> 
-> The autobuilder log looks very strange to me. I don't see any mentioning
-> of _parse_recipe in standard.py on master. Moreover, there is no
-> _prep_extract_operation function mentioned in traceback.
-> 
-> I've just run failed test and it passed without any issues.
-> 
-> 
-> It looks like autobuilder messed the code from some old branch and tests
-> from master.
+I've spent some time lately on building custom full-disk images with a
+custom initramfs based on the initramfs-framework. The ultimate goal
+is to initialize IMA in a initramfs-framework module.
 
-Its building master-next:
+As part of that work, I enhanced runqemu such that it can boot
+full-disk images more easily, made those images more versatile (no
+more hard-coded root=/dev/sda2), and solved a kernel panic that only
+seems to appear under qemu (the /dev/console issue).
 
-http://git.yoctoproject.org/cgit.cgi/poky/log/?h=master-next
+Only a few patches are really important (because I'd probably not be
+able to achieve the same effect with setting variables elsewhere):
+   boot loader: support root=UUID
+   initramfs-framework: handle kernel parameters with . inside
+   initramfs-framework: add separate init_verbose log level parameter
+   initramfs-framework: support mounting rootfs in modules
+   runqemu: support full-disk images
 
-and its therefore probably the devtool patches from Markus that are at
-fault and need rebasing after your changes?
+But I think the rest might also be relevant for others and thus
+worthwile including.
 
-Cheers,
+Note that the mechanism for root=UUID is separated from actually
+making that default. Changing the default this late in the development
+cycle might be a bit risky, so I'd be fine with leaving out the last
+patch which changes the default. On the other hand, it solves one
+potential snag for users of these images, so it might be better to
+include it - your choice.
 
-Richard
+The following changes since commit bdeb32b4cdbe316f17c2fd854d59e05e8f2e8ffc:
 
+  rt-tests: drop unnecessary added-missing-dependencies.patch (2015-09-01 11:43:38 +0100)
 
+are available in the git repository at:
+
+  git://github.com/pohly/openembedded-core booting
+  https://github.com/pohly/openembedded-core/tree/booting
+
+Patrick Ohly (10):
+  runqemu: support full-disk images
+  initrdscripts: create /dev/console
+  initramfs-framework: handle kernel parameters with . inside
+  initramfs-framework: add separate init_verbose log level parameter
+  initramfs-framework: support mounting rootfs in modules
+  initramfs-framework: support live images
+  image-vm.bbclass: avoid duplicating syslinux default values
+  image-vm.bbclass: support specifying an initramfs
+  boot loader: support root=UUID
+  boot-directdisk.bbclass: use rootfs UUID by default
+
+ meta/classes/boot-directdisk.bbclass               |   2 +-
+ meta/classes/fs-uuid.bbclass                       |  24 ++++
+ meta/classes/grub-efi.bbclass                      |   4 +
+ meta/classes/gummiboot.bbclass                     |   4 +
+ meta/classes/image-vm.bbclass                      |   7 +-
+ meta/classes/syslinux.bbclass                      |   5 +-
+ .../initrdscripts/initramfs-framework/finish       |  33 +++---
+ .../initrdscripts/initramfs-framework/init         |  19 ++-
+ .../initrdscripts/initramfs-framework/live         | 131 +++++++++++++++++++++
+ .../initrdscripts/initramfs-framework_1.0.bb       |  16 ++-
+ .../initrdscripts/initramfs-live-boot_1.0.bb       |   4 +-
+ scripts/runqemu                                    |  24 ++--
+ scripts/runqemu-internal                           |  10 +-
+ 13 files changed, 245 insertions(+), 38 deletions(-)
+ create mode 100644 meta/classes/fs-uuid.bbclass
+ create mode 100644 meta/recipes-core/initrdscripts/initramfs-framework/live
+
+-- 
+2.1.4
 
 
