@@ -1,20 +1,43 @@
-Return-Path: <brendan.le.foll@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CF6A27702A
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 163397702A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 20:22:49 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Sep 2015 13:22:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,456,1437462000"; d="scan'208";a="796552787"
-Received: from jupiter.iwi.intel.com ([172.28.33.51])
-	by orsmga002.jf.intel.com with ESMTP; 02 Sep 2015 13:22:48 -0700
-From: brendan.le.foll@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Sep 2015 21:22:56 +0100
-Message-Id: <1441225376-16832-1-git-send-email-brendan.le.foll@intel.com>
-X-Mailer: git-send-email 2.5.0
-Subject: [PATCH v2] devtool: add package plugin that lets you create package via devtool
+	Wed,  2 Sep 2015 20:28:43 +0000 (UTC)
+Received: by wicge5 with SMTP id ge5so53039201wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Sep 2015 13:28:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=3FkyswzMd9N2W/8JrSnmTdPI/ecclN7Zew2fhI9R+gc=;
+	b=IieNKB79aVLjMmNhdwP5D/MloqXf5AWej1yOawhv46vVp3IhCUuJSBxYZRiXdmW1u7
+	4P2k/IdL8TKZDsYMVqe8RQCy47hbeX+UWeUvKIn8HCFSPusWi/Q4BpRHVH/ch6c/yMTZ
+	W/2o/R+yl4csGhb7+Avi0wTAlPI2kGh34Lv6kmWYfA0ZGyKdRCuJ0C0t0wmGNAWh5aC5
+	E2D7I07z2E9Dt5oNh4IL16tquL6mPbDEYcFMLX8D6oVW0g8lMAiWqcbXJvySal2HFraJ
+	i/4vX5Oc0foowMpgCOjhY175MvVlfms0lWf0p3GZ/0F+LGTksYpxogBIS3QufZWh2ORh
+	UViA==
+X-Received: by 10.194.187.79 with SMTP id fq15mr13492052wjc.142.1441225722981; 
+	Wed, 02 Sep 2015 13:28:42 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id i7sm5310813wib.15.2015.09.02.13.28.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 02 Sep 2015 13:28:42 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 2 Sep 2015 22:29:03 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20150902202903.GA29340@jama>
+References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
+	<1441137870.24871.11.camel@linuxfoundation.org>
+	<6BBD8EEF-2579-4C56-98E2-BAC8B974E3FE@gmail.com>
+	<1441179093.24871.49.camel@linuxfoundation.org>
+MIME-Version: 1.0
+In-Reply-To: <1441179093.24871.49.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Patch merge process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,85 +50,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 20:22:50 -0000
+X-List-Received-Date: Wed, 02 Sep 2015 20:28:47 -0000
+X-Groupsio-MsgNum: 70530
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Content-Disposition: inline
 
-From: Brendan Le Foll <brendan.le.foll@intel.com>
+--EeQfGwPcQSOJBaQU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
----
- scripts/lib/devtool/package.py | 62 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 62 insertions(+)
- create mode 100644 scripts/lib/devtool/package.py
+On Wed, Sep 02, 2015 at 08:31:33AM +0100, Richard Purdie wrote:
+> I've not said it is a bad thing. What I'm asking is whether more people
+> can devote a bit of time to fixing things which aren't their immediate
+> problem?
 
-diff --git a/scripts/lib/devtool/package.py b/scripts/lib/devtool/package.py
-new file mode 100644
-index 0000000..bbc85b7
---- /dev/null
-+++ b/scripts/lib/devtool/package.py
-@@ -0,0 +1,62 @@
-+# Development tool - package command plugin
-+#
-+# Copyright (C) 2014-2015 Intel Corporation
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License version 2 as
-+# published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License along
-+# with this program; if not, write to the Free Software Foundation, Inc.,
-+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-+"""Devtool plugin containing the package subcommands"""
-+
-+import os
-+import subprocess
-+import logging
-+from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
-+
-+logger = logging.getLogger('devtool')
-+
-+def plugin_init(pluginlist):
-+    """Plugin initialization"""
-+    pass
-+
-+def package(args, config, basepath, workspace):
-+    """Entry point for the devtool 'package' subcommand"""
-+    import re
-+    import bb
-+    if not args.recipename in workspace:
-+        raise DevtoolError("no recipe named %s in your workspace" %
-+                           args.recipename)
-+
-+    try:
-+        image_pkgtype = config.get('image_pkgtype', None)
-+    except:
-+        tinfoil = setup_tinfoil()
-+        try:
-+            tinfoil.prepare(config_only=True)
-+            image_pkgtype = tinfoil.config_data.getVar('IMAGE_PKGTYPE', True)
-+        finally:
-+            tinfoil.shutdown()
-+
-+    package_task = config.get('Package', 'package_task', 'package_write_%s' % image_pkgtype)
-+    try:
-+        exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s' % (package_task, args.recipename), watch=True)
-+    except bb.process.ExecutionError as e:
-+        # We've already seen the output since watch=True, so just ensure we return something to the user
-+        return e.exitcode
-+    logger.info('Your packages are in %s/tmp/deploy/%s' % (basepath, image_pkgtype))
-+
-+    return 0
-+
-+def register_commands(subparsers, context):
-+    """Register devtool subcommands from the package plugin"""
-+    parser_package = subparsers.add_parser('package', help='Create packages for a recipe', description='Creates packages for a recipe\'s output files')
-+    parser_package.add_argument('recipename', help='Recipe to package')
-+    parser_package.set_defaults(func=package)
--- 
-2.5.0
+Part of this problem is that sometimes it's almost too pain-full to get
+some changes merged for issues which are my immediate problem that in
+the end I have to implement them in our fork anyway, We cannot wait
+months until it's merged and then few more months to get it backported
+into older releases we're using.
 
+So now it's usually fix it in the fork first and then if it doesn't look
+controversial, try to upstream it, but the with much lower priority.
 
+like:
+http://lists.openembedded.org/pipermail/openembedded-core/2014-March/091222.html
+http://patchwork.openembedded.org/patch/76601/ sent July 2014, went in on Mar 9 2015
+
+I'm not saying it's yours or Ross's or anyone's fault. Or I'm faulty as well
+with rejecting meta-oe patches until they pass my "bitbake world" tests
+and sometimes it can be very hard to reproduce the issues found there.
+
+But I understand the pain and frustration of contributors and agree with
+Khem that in long term we have to do something about it or will start
+loosing contributions even faster.
+
+> For example, Martin mentioned problems with errors.yp.org.
+> There are a ton of open issues with errors.yp.org (see bugzilla) and if
+> we fixed a few of those, the reporting systems would work a lot better
+> and more reliably. I am struggling to find anyone to work on that right
+> now :(. Its just one example of where some help from others would go
+> help improve the core of the project for the benefit of all.
+
+I was in contact Andreea about some of these errors.yp.org issues when I
+was extending/re-writting it for our purposes and fixing the issues I found
+along the way, but we didn't get very far into integrating my fixes.
+
+Since then it was re-written by Michael Wood so I cannot easily upstream
+my changes and I'm not very interested in the re-write, because our version
+just works.
+
+I'll send patch which shortens too long failure logs, because it helps
+reporting errors from bitbake world builds.
+
+Cheers,
+
+--EeQfGwPcQSOJBaQU
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlXnXA8ACgkQN1Ujt2V2gBxWXQCgjRMJPSUOzVJHqRB62KHS69KU
+5b4AoIM/na4hA3fy3lz36OIPx2Zoni76
+=jR8t
+-----END PGP SIGNATURE-----
+
+--EeQfGwPcQSOJBaQU--
