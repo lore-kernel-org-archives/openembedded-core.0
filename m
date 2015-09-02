@@ -1,26 +1,32 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E13B7702A
+	by mail.openembedded.org (Postfix) with ESMTP id 463887702A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 19:30:31 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 02 Sep 2015 12:30:13 -0700
+	Wed,  2 Sep 2015 19:39:28 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 02 Sep 2015 12:39:29 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,455,1437462000"; d="scan'208";a="796524993"
+X-IronPort-AV: E=Sophos;i="5.17,455,1437462000"; d="scan'208";a="761067580"
 Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.40])
 	([10.219.5.40])
-	by orsmga002.jf.intel.com with ESMTP; 02 Sep 2015 12:30:12 -0700
-Message-ID: <55E74E8D.7040508@linux.intel.com>
-Date: Wed, 02 Sep 2015 14:31:25 -0500
+	by orsmga001.jf.intel.com with ESMTP; 02 Sep 2015 12:39:27 -0700
+Message-ID: <55E750B8.70107@linux.intel.com>
+Date: Wed, 02 Sep 2015 14:40:40 -0500
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-To: openembedded-core@lists.openembedded.org
-References: <1439327368-2796-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <1439327368-2796-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-Cc: paul.eggleton@linux.intel.com
-Subject: Re: [PATCH] lib/oe/package_manager: Include PACKAGE_FEED_PREFIX instead of hardcode paths
+To: Patrick Ohly <patrick.ohly@intel.com>
+References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>		
+	<16f26bbb5fa39e399b185cd26fe9205c2e0cc5d4.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>	
+	<1440746955.3006.73.camel@intel.com>
+	<55E06356.8000607@linux.intel.com>
+	<1440785288.3006.93.camel@intel.com>
+In-Reply-To: <1440785288.3006.93.camel@intel.com>
+Cc: "Stoppa, Igor" <igor.stoppa@intel.com>, matt.fleming@intel.com,
+	leonardo.sandoval.gonzalez@intel.com, ricardo.neri@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 3/3] runqemu: Define OECORE_MACHINE_SYSROOT on setup_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,103 +39,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 19:30:32 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Wed, 02 Sep 2015 19:39:29 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-ping..
+Patrick
 
-Sent sometime ago, without any comments yet.
+these set of patches should be merged into master(next). I do not see 
+any heavy objection doing it. As you mentioned, there are some points to 
+improve but I think the latter can be done before 2.1 release.
 
-On 08/11/2015 04:09 PM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Let me know if you have any objections, otherwise the merge is pending.
+
+On 08/28/2015 01:08 PM, Patrick Ohly wrote:
+> On Fri, 2015-08-28 at 08:34 -0500, Leonardo Sandoval wrote:
+>> Hi Patrick,
+>>
+>> I do not have much time for a V4 set of patches, but now with all your
+>> input I can rework V3 patches on 2.1.
 >
-> Instead of hardcode paths (/rpm/, /ipk/, /deb/), use a user-defined prefix
-> when creating the URI feeds. URIs now will have the following syntax:
+> What do you mean with "rework on on 2.1"?
 >
->      PACKAGE_FEED_URIS_1/PACKAGE_FEED_PREFIX
->      PACKAGE_FEED_URIS_2/PACKAGE_FEED_PREFIX
->      .
->
-> where PACKAGE_FEED_URIS = "PACKAGE_FEED_URIS_1 PACKAGE_FEED_URIS_2 ...."
->
-> [YOCTO #5407]
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->   meta/lib/oe/package_manager.py |   28 +++++++++++++++++++---------
->   1 file changed, 19 insertions(+), 9 deletions(-)
->
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index 55b8ab0..7a85816 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -488,6 +488,7 @@ class PackageManager(object):
->           self.deploy_dir = None
->           self.deploy_lock = None
->           self.feed_uris = self.d.getVar('PACKAGE_FEED_URIS', True) or ""
-> +        self.feed_prefix = self.d.getVar('PACKAGE_FEED_PREFIX', True) or ""
->
->       """
->       Update the package manager package database.
-> @@ -662,11 +663,14 @@ class RpmPM(PackageManager):
->           channel_priority = 10 + 5 * len(self.feed_uris.split()) * len(arch_list)
->
->           for uri in self.feed_uris.split():
-> +            full_uri = uri
-> +            if self.feed_prefix:
-> +                full_uri = os.path.join(uri, self.feed_prefix)
->               for arch in arch_list:
->                   bb.note('Note: adding Smart channel url%d%s (%s)' %
->                           (uri_iterator, arch, channel_priority))
-> -                self._invoke_smart('channel --add url%d-%s type=rpm-md baseurl=%s/rpm/%s -y'
-> -                                   % (uri_iterator, arch, uri, arch))
-> +                self._invoke_smart('channel --add url%d-%s type=rpm-md baseurl=%s/%s -y'
-> +                                   % (uri_iterator, arch, full_uri, arch))
->                   self._invoke_smart('channel --set url%d-%s priority=%d' %
->                                      (uri_iterator, arch, channel_priority))
->                   channel_priority -= 5
-> @@ -1343,17 +1347,20 @@ class OpkgPM(PackageManager):
->           with open(rootfs_config, "w+") as config_file:
->               uri_iterator = 0
->               for uri in self.feed_uris.split():
-> -                config_file.write("src/gz url-%d %s/ipk\n" %
-> -                                  (uri_iterator, uri))
-> +                full_uri = uri
-> +                if self.feed_prefix:
-> +                    full_uri = os.path.join(uri, self.feed_prefix)
-> +                config_file.write("src/gz url-%d %s\n" %
-> +                                  (uri_iterator, full_uri))
->
->                   for arch in self.pkg_archs.split():
->                       if not os.path.exists(os.path.join(self.deploy_dir, arch)):
->                           continue
->                       bb.note('Note: adding opkg channel url-%s-%d (%s)' %
-> -                        (arch, uri_iterator, uri))
-> +                            (arch, uri_iterator, full_uri))
->
-> -                    config_file.write("src/gz uri-%s-%d %s/ipk/%s\n" %
-> -                                      (arch, uri_iterator, uri, arch))
-> +                    config_file.write("src/gz uri-%s-%d %s/%s\n" %
-> +                                      (arch, uri_iterator, full_uri, arch))
->                   uri_iterator += 1
->
->       def update(self):
-> @@ -1706,10 +1713,13 @@ class DpkgPM(PackageManager):
->
->           with open(sources_conf, "w+") as sources_file:
->               for uri in self.feed_uris.split():
-> +                full_uri = uri
-> +                if self.feed_prefix:
-> +                    full_uri = os.path.join(uri, self.feed_prefix)
->                   for arch in arch_list:
->                       bb.note('Note: adding dpkg channel at (%s)' % uri)
-> -                    sources_file.write("deb %s/deb/%s ./\n" %
-> -                                       (uri, arch))
-> +                    sources_file.write("deb %s/%s ./\n" %
-> +                                       (full_uri, arch))
->
->       def _create_configs(self, archs, base_archs):
->           base_archs = re.sub("_", "-", base_archs)
+> I have some other runqemu changes pending locally (support booting
+> hddimg), so runqemu internals are still kinda fresh in my mind. If you
+> don't have time, then I can rework the patch series. However, it's a
+> side project for me, too.
 >
 
