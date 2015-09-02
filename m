@@ -1,25 +1,24 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 4772076FFA
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B48E77041
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 21:57:41 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 02 Sep 2015 14:57:41 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,456,1437462000"; d="scan'208";a="554117085"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.40])
-	([10.219.5.40])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Sep 2015 14:57:41 -0700
-Message-ID: <55E7711F.4060902@linux.intel.com>
-Date: Wed, 02 Sep 2015 16:58:55 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	Wed,  2 Sep 2015 22:24:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t82MOKOW021349
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 2 Sep 2015 15:24:24 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Wed, 2 Sep 2015 15:24:20 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 2 Sep 2015 15:24:20 -0700
+Message-ID: <1441232660-3941-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-To: brendan.le.foll@intel.com, openembedded-core@lists.openembedded.org
-References: <1441225376-16832-1-git-send-email-brendan.le.foll@intel.com>
-In-Reply-To: <1441225376-16832-1-git-send-email-brendan.le.foll@intel.com>
-Subject: Re: [PATCH v2] devtool: add package plugin that lets you create package via devtool
+Subject: [PATCH 1/1] debianutils: create package for run-parts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,95 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 21:57:43 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Sep 2015 22:24:26 -0000
+Content-Type: text/plain
 
+Also add an RDEPENDS to dpkg so it will still
+pull in run-parts.
 
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ .../debianutils/debianutils_4.5.1.bb               |   11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-On 09/02/2015 03:22 PM, brendan.le.foll@intel.com wrote:
-> From: Brendan Le Foll <brendan.le.foll@intel.com>
->
-> Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
-> ---
->   scripts/lib/devtool/package.py | 62 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 62 insertions(+)
->   create mode 100644 scripts/lib/devtool/package.py
->
-> diff --git a/scripts/lib/devtool/package.py b/scripts/lib/devtool/package.py
-> new file mode 100644
-> index 0000000..bbc85b7
-> --- /dev/null
-> +++ b/scripts/lib/devtool/package.py
-> @@ -0,0 +1,62 @@
-> +# Development tool - package command plugin
-> +#
-> +# Copyright (C) 2014-2015 Intel Corporation
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License version 2 as
-> +# published by the Free Software Foundation.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License along
-> +# with this program; if not, write to the Free Software Foundation, Inc.,
-> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-> +"""Devtool plugin containing the package subcommands"""
-> +
-> +import os
-> +import subprocess
-> +import logging
-> +from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
-> +
-> +logger = logging.getLogger('devtool')
-> +
-> +def plugin_init(pluginlist):
-> +    """Plugin initialization"""
-> +    pass
-> +
-> +def package(args, config, basepath, workspace):
-> +    """Entry point for the devtool 'package' subcommand"""
-> +    import re
+diff --git a/meta/recipes-support/debianutils/debianutils_4.5.1.bb b/meta/recipes-support/debianutils/debianutils_4.5.1.bb
+index 9e5dd70..6b665fb 100644
+--- a/meta/recipes-support/debianutils/debianutils_4.5.1.bb
++++ b/meta/recipes-support/debianutils/debianutils_4.5.1.bb
+@@ -26,8 +26,17 @@ do_install_append() {
+     fi
+ }
+ 
++# Note that we package the update-alternatives name.
++#
++PACKAGES =+ "${PN}-run-parts"
++FILES_${PN}-run-parts = "${base_bindir}/run-parts.debianutils"
++
++RDEPENDS_${PN} += "${PN}-run-parts"
++
++
+ ALTERNATIVE_PRIORITY="100"
+-ALTERNATIVE_${PN} = "add-shell installkernel remove-shell run-parts savelog tempfile which"
++ALTERNATIVE_${PN} = "add-shell installkernel remove-shell savelog tempfile which"
++ALTERNATIVE_${PN}-run-parts = "run-parts"
+ 
+ ALTERNATIVE_LINK_NAME[add-shell]="${sbindir}/add-shell"
+ ALTERNATIVE_LINK_NAME[installkernel]="${sbindir}/installkernel"
+-- 
+1.7.9.5
 
-just some minor details: the regex library is not being used, so it can 
-be removed. Also, the import bb can be moved to the file's head, and 
-just include what you need from it
-
-from bb.process import ExecutionError
-
-> +    import bb
-> +    if not args.recipename in workspace:
-> +        raise DevtoolError("no recipe named %s in your workspace" %
-> +                           args.recipename)
-> +
-> +    try:
-> +        image_pkgtype = config.get('image_pkgtype', None)
-> +    except:
-> +        tinfoil = setup_tinfoil()
-> +        try:
-> +            tinfoil.prepare(config_only=True)
-> +            image_pkgtype = tinfoil.config_data.getVar('IMAGE_PKGTYPE', True)
-> +        finally:
-> +            tinfoil.shutdown()
-> +
-> +    package_task = config.get('Package', 'package_task', 'package_write_%s' % image_pkgtype)
-> +    try:
-> +        exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s' % (package_task, args.recipename), watch=True)
-> +    except bb.process.ExecutionError as e:
-> +        # We've already seen the output since watch=True, so just ensure we return something to the user
-> +        return e.exitcode
-> +    logger.info('Your packages are in %s/tmp/deploy/%s' % (basepath, image_pkgtype))
-> +
-> +    return 0
-> +
-> +def register_commands(subparsers, context):
-> +    """Register devtool subcommands from the package plugin"""
-> +    parser_package = subparsers.add_parser('package', help='Create packages for a recipe', description='Creates packages for a recipe\'s output files')
-> +    parser_package.add_argument('recipename', help='Recipe to package')
-> +    parser_package.set_defaults(func=package)
->
 
