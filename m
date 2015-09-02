@@ -1,20 +1,25 @@
-Return-Path: <josep.puigdemont@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 4881B7700E
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E6B9176FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 14:56:01 +0000 (UTC)
-Received: from iapetus.enea.se (172.16.141.154) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2; Wed, 2 Sep 2015
-	16:55:59 +0200
-From: Josep Puigdemont <josep.puigdemont@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 2 Sep 2015 16:55:59 +0200
-Message-ID: <1441205759-14513-1-git-send-email-josep.puigdemont@enea.com>
-X-Mailer: git-send-email 2.1.0
+	Wed,  2 Sep 2015 15:11:57 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga103.jf.intel.com with ESMTP; 02 Sep 2015 08:11:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,454,1437462000"; d="scan'208";a="553894172"
+Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.143])
+	([10.237.68.143])
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Sep 2015 08:11:57 -0700
+Message-ID: <55E71222.9050409@linux.intel.com>
+Date: Wed, 02 Sep 2015 18:13:38 +0300
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Icedove/31.7.0
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: josep.puigdemont@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH] qemu: enable alsa only if in DISTRO_FEATURES
+To: openembedded-core@lists.openembedded.org
+References: <1439804133-27118-1-git-send-email-raj.khem@gmail.com>
+In-Reply-To: <1439804133-27118-1-git-send-email-raj.khem@gmail.com>
+Subject: Re: [PATCH V2] uclibc: Upgrade to tip of master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,29 +32,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 14:56:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 02 Sep 2015 15:11:59 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 08/17/2015 12:35 PM, Khem Raj wrote:
+> -SRCREV = "48a0006012679ff0eda6f256da958d73a924fb57"
+> +SRCREV = "ca1c74d67dd115d059a875150e10b8560a9c35a8"
+>
+>   PV = "0.9.33+git${SRCPV}"
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index d7457f2..dc7b628 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -94,7 +94,8 @@ do_install_append() {
- # END of qemu-mips workaround
- 
- PACKAGECONFIG ??= " \
--	fdt sdl alsa \
-+	fdt sdl \
-+	${@bb.utils.contains('DISTRO_FEATURES', 'alsa', 'alsa', '', d)} \
- 	${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'xen', '', d)} \
- 	"
- PACKAGECONFIG_class-native ??= "fdt alsa uuid"
--- 
-2.1.0
+The latest upstream release is 0.9.33.2, please update PV.
+
+Regards,
+Alex
 
 
