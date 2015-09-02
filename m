@@ -1,43 +1,41 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 163397702A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
+	[209.85.220.42])
+	by mail.openembedded.org (Postfix) with ESMTP id E66207702A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 20:28:43 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so53039201wic.0
+	Wed,  2 Sep 2015 20:39:15 +0000 (UTC)
+Received: by padhy1 with SMTP id hy1so22363369pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Sep 2015 13:28:43 -0700 (PDT)
+	Wed, 02 Sep 2015 13:39:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=3FkyswzMd9N2W/8JrSnmTdPI/ecclN7Zew2fhI9R+gc=;
-	b=IieNKB79aVLjMmNhdwP5D/MloqXf5AWej1yOawhv46vVp3IhCUuJSBxYZRiXdmW1u7
-	4P2k/IdL8TKZDsYMVqe8RQCy47hbeX+UWeUvKIn8HCFSPusWi/Q4BpRHVH/ch6c/yMTZ
-	W/2o/R+yl4csGhb7+Avi0wTAlPI2kGh34Lv6kmWYfA0ZGyKdRCuJ0C0t0wmGNAWh5aC5
-	E2D7I07z2E9Dt5oNh4IL16tquL6mPbDEYcFMLX8D6oVW0g8lMAiWqcbXJvySal2HFraJ
-	i/4vX5Oc0foowMpgCOjhY175MvVlfms0lWf0p3GZ/0F+LGTksYpxogBIS3QufZWh2ORh
-	UViA==
-X-Received: by 10.194.187.79 with SMTP id fq15mr13492052wjc.142.1441225722981; 
-	Wed, 02 Sep 2015 13:28:42 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id i7sm5310813wib.15.2015.09.02.13.28.42
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Sep 2015 13:28:42 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 2 Sep 2015 22:29:03 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20150902202903.GA29340@jama>
-References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
-	<1441137870.24871.11.camel@linuxfoundation.org>
-	<6BBD8EEF-2579-4C56-98E2-BAC8B974E3FE@gmail.com>
-	<1441179093.24871.49.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <1441179093.24871.49.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Patch merge process
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=i+WArmJy6+a1KCSVsXumOlscowBbjpJxVhnABmqHJ98=;
+	b=MRMVJ3vVw5U8F3BLa6qxaXa92jExqJl9gO/8BmltT5Vh02Bft6fT+pC8rTUcPAtb2N
+	niDkBF8a4h985yRYhnsyA0SRbwqn1O54PxmO1+y58Z7Nyn+8/wVDG5vBlJqzIhcAHBP4
+	U8QinkFUgGnBKBYFha56JBooMD/TLWkssPSrqLQXVa7/SynZnrym4z6kx08z9Sp3PeM8
+	w7xgkyqwuKwr4TXBaAGg9b2IGs3t0R2+bnDraDRyMCKxPqFfH4KVaMnPdan3spCP2Ae8
+	6X+IxgvzDjQDJo7CRpyi/IYHCJPilWo/x9b9Sq8Nv79pD1zBnhFmZJ3D/E4Dn4/ak6Tg
+	fD9Q==
+X-Received: by 10.66.131.10 with SMTP id oi10mr59523936pab.87.1441226355511;
+	Wed, 02 Sep 2015 13:39:15 -0700 (PDT)
+Received: from ?IPv6:2601:647:4c02:370d:c55b:2384:bc60:6bed?
+	([2601:647:4c02:370d:c55b:2384:bc60:6bed])
+	by smtp.gmail.com with ESMTPSA id
+	mw3sm22678581pdb.76.2015.09.02.13.39.14
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 02 Sep 2015 13:39:14 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1435755468-33642-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Wed, 2 Sep 2015 13:39:08 -0700
+Message-Id: <48DC0BFB-A42F-4815-A967-95BD644E0D5A@gmail.com>
+References: <1435755468-33642-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
+To: leonardo.sandoval.gonzalez@linux.intel.com
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc-target.inc: Remove non-related gcc headers from include_fixed folder
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,72 +48,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 20:28:47 -0000
-X-Groupsio-MsgNum: 70530
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 02 Sep 2015 20:39:16 -0000
+X-Groupsio-MsgNum: 70531
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_F30577F0-DC10-4FDF-B3A5-206768C174EA";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---EeQfGwPcQSOJBaQU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Apple-Mail=_F30577F0-DC10-4FDF-B3A5-206768C174EA
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-On Wed, Sep 02, 2015 at 08:31:33AM +0100, Richard Purdie wrote:
-> I've not said it is a bad thing. What I'm asking is whether more people
-> can devote a bit of time to fixing things which aren't their immediate
-> problem?
 
-Part of this problem is that sometimes it's almost too pain-full to get
-some changes merged for issues which are my immediate problem that in
-the end I have to implement them in our fork anyway, We cannot wait
-months until it's merged and then few more months to get it backported
-into older releases we're using.
+> On Jul 1, 2015, at 5:57 AM, leonardo.sandoval.gonzalez@linux.intel.com =
+wrote:
+>=20
+> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+>=20
+> Without this patch, the D's include_fixed folder may change after =
+building it
+> (due to the gcc's fixinc.sh script, executed on the do_compile task) =
+and changes
+> depend on the current sysroot headers, making the gcc's builds =
+non-deterministic.
+>=20
+> [YOCTO #7882]
 
-So now it's usually fix it in the fork first and then if it doesn't look
-controversial, try to upstream it, but the with much lower priority.
+I am good with this patch.
 
-like:
-http://lists.openembedded.org/pipermail/openembedded-core/2014-March/091222.html
-http://patchwork.openembedded.org/patch/76601/ sent July 2014, went in on Mar 9 2015
+>=20
+> Signed-off-by: Leonardo Sandoval =
+<leonardo.sandoval.gonzalez@linux.intel.com>
+> ---
+> meta/recipes-devtools/gcc/gcc-target.inc | 31 =
++++++++++++++++++++++++++++++++
+> 1 file changed, 31 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc =
+b/meta/recipes-devtools/gcc/gcc-target.inc
+> index 5d31446..1f91107 100644
+> --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> @@ -168,6 +168,37 @@ do_install () {
+> 	chown -R root:root ${D}
+> }
+>=20
+> +do_install_append () {
+> +        #
+> +        # Thefixinc.sh script, run on the gcc's compile phase, looks =
+into sysroot header
+> +        # files and places the modified files into
+> +        # {D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed =
+folder. This makes the
+> +        # build not deterministic. The following code prunes all =
+those headers
+> +        # except those under include-fixed/linux, *limits.h and =
+README, yielding
+> +        # the same include-fixed folders no matter what sysroot
+> +
+> +        =
+include_fixed=3D"${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed"
+> +        for f in $(find ${include_fixed} -type f); do
+> +                case $f in
+> +                */include-fixed/linux/*)
+> +                    continue
+> +                    ;;
+> +                */include-fixed/*limits.h)
+> +                    continue
+> +                    ;;
+> +                */include-fixed/README)
+> +                    continue
+> +                    ;;
+> +                *)
+> +                    # remove file and directory if empty
+> +                    bbdebug 2 "Pruning $f"
+> +                    rm $f
+> +                    find $(dirname $f) -maxdepth 0 -empty -exec rmdir =
+{} \;
+> +                    ;;
+> +                esac
+> +        done
+> +}
+> +
+> # Installing /usr/lib/gcc/* means we'd have two copies, one from =
+gcc-cross
+> # and one from here. These can confuse gcc cross where includes use =
+#include_next
+> # and builds track file dependencies (e.g. perl and its makedepends =
+code).
+> --
+> 1.8.4.5
+>=20
 
-I'm not saying it's yours or Ross's or anyone's fault. Or I'm faulty as well
-with rejecting meta-oe patches until they pass my "bitbake world" tests
-and sometimes it can be very hard to reproduce the issues found there.
 
-But I understand the pain and frustration of contributors and agree with
-Khem that in long term we have to do something about it or will start
-loosing contributions even faster.
-
-> For example, Martin mentioned problems with errors.yp.org.
-> There are a ton of open issues with errors.yp.org (see bugzilla) and if
-> we fixed a few of those, the reporting systems would work a lot better
-> and more reliably. I am struggling to find anyone to work on that right
-> now :(. Its just one example of where some help from others would go
-> help improve the core of the project for the benefit of all.
-
-I was in contact Andreea about some of these errors.yp.org issues when I
-was extending/re-writting it for our purposes and fixing the issues I found
-along the way, but we didn't get very far into integrating my fixes.
-
-Since then it was re-written by Michael Wood so I cannot easily upstream
-my changes and I'm not very interested in the re-write, because our version
-just works.
-
-I'll send patch which shortens too long failure logs, because it helps
-reporting errors from bitbake world builds.
-
-Cheers,
-
---EeQfGwPcQSOJBaQU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+--Apple-Mail=_F30577F0-DC10-4FDF-B3A5-206768C174EA
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXnXA8ACgkQN1Ujt2V2gBxWXQCgjRMJPSUOzVJHqRB62KHS69KU
-5b4AoIM/na4hA3fy3lz36OIPx2Zoni76
-=jR8t
+iEYEARECAAYFAlXnXnEACgkQuwUzVZGdMxSNEACfWwydL3FPlldyYrWwcFBRPUAR
+LscAn13NJWJfoCcHbH94hcwU1tbp/dUA
+=ddGs
 -----END PGP SIGNATURE-----
 
---EeQfGwPcQSOJBaQU--
+--Apple-Mail=_F30577F0-DC10-4FDF-B3A5-206768C174EA--
