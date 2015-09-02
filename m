@@ -1,21 +1,34 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 9668277026
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
+	[209.85.192.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 780837702A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 22:45:31 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 02 Sep 2015 15:45:32 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,457,1437462000"; d="scan'208";a="554141325"
-Received: from afshjern.zpn.intel.com ([10.219.128.48])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Sep 2015 15:45:30 -0700
-From: Alex Franco <alejandro.franco@linux.intel.com>
+	Wed,  2 Sep 2015 23:46:03 +0000 (UTC)
+Received: by qgt47 with SMTP id 47so16852224qgt.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Sep 2015 16:46:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=HC8tT8mqJox7wh2wiCgOglrCVuWkHFeXh03G+ZmPesA=;
+	b=f+QaVwMCM3XF61OQW3hnpxOwYufPthZ0gK1V9QD1kQfZdrkgeN7AIt8KUvEkn1PV6W
+	ta2BLVdIK2vkFWsT5QesmqthxEHo4c81utcLOfVJY11N+s7kk2E83PgSrx79ZTlXQB4Y
+	77c8XcEMXxEFfxd3QF+8/0y+8A3mZixKcrkErKNDWY4UUY0EdAI0VkYh/mtsPZV6TnVP
+	V1AkQngVY1asQhM+k/up60a7Jy4GS0KJKfxWv1C8K2R6BQnXp0kTIRWqfwVvPpOvQffu
+	nGQl8XDWQSfz23yGRjV9eCLxits/QD5cWgEg5G4ZaCS3W3ffJk+5iWL8zRnSXJUyLYf/
+	D5Gg==
+X-Received: by 10.140.164.7 with SMTP id k7mr64507750qhk.40.1441237563222;
+	Wed, 02 Sep 2015 16:46:03 -0700 (PDT)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id
+	130sm13709221qhg.13.2015.09.02.16.46.02
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 02 Sep 2015 16:46:02 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Sep 2015 17:45:57 -0500
-Message-Id: <1441233957-13108-1-git-send-email-alejandro.franco@linux.intel.com>
+Date: Wed,  2 Sep 2015 23:45:57 +0000
+Message-Id: <cover.1441237371.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.1
-Cc: clarson@kergoth.com
-Subject: [PATCHv3] Fix recursive mode -st on BUILDDIR setup
+Subject: [PATCH 0/1] Binutils/gold fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,34 +41,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 22:45:31 -0000
+X-List-Received-Date: Wed, 02 Sep 2015 23:46:06 -0000
 
-Removing recursive option from chmod -st on BUILDDIR as it would
-take very long on existing build directories
+While building QML apps using QT 4.8.7, there are problems seen in libQtCore
+random hangs, crashes due to memory consumption etc. This is particular to gold linker
+tested on minnow
 
-[YOCTO 7669]
+The following changes since commit bdeb32b4cdbe316f17c2fd854d59e05e8f2e8ffc:
 
-Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
----
- scripts/oe-setup-builddir | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+  rt-tests: drop unnecessary added-missing-dependencies.patch (2015-09-01 11:43:38 +0100)
 
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-index f5b7e4e..25d9f13 100755
---- a/scripts/oe-setup-builddir
-+++ b/scripts/oe-setup-builddir
-@@ -24,7 +24,10 @@ if [ -z "$BUILDDIR" ]; then
- fi
- 
- mkdir -p "$BUILDDIR/conf"
--chmod -R -st "$BUILDDIR" 
-+
-+# Attempting to remove sticky and setuid bits from BUILDDIR and
-+# BUILDDIR/conf directories. #TODO appropriate checks for this
-+chmod -st "$BUILDDIR" "$BUILDDIR/conf"
- 
- if [ ! -d "$BUILDDIR" ]; then
-     echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
+are available in the git repository at:
+
+  git://github.com/kraj/openembedded-core kraj/gold-dynamic-list
+  https://github.com/kraj/openembedded-core/tree/kraj/gold-dynamic-list
+
+Khem Raj (1):
+  binutils: Fix symbols with --dynamic-list when using gold linker
+
+ meta/recipes-devtools/binutils/binutils-2.25.1.inc |   1 +
+ ...-list-so-that-symbols-not-in-the-list-are.patch | 131 +++++++++++++++++++++
+ 2 files changed, 132 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0015-Fix-dynamic-list-so-that-symbols-not-in-the-list-are.patch
+
 -- 
 2.5.1
 
