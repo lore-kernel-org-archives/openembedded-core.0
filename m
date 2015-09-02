@@ -1,43 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id D739565D6E
+Return-Path: <lixin.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 01F9C77015
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  1 Sep 2015 23:55:47 +0000 (UTC)
-Received: by pacwi10 with SMTP id wi10so11309922pac.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 01 Sep 2015 16:55:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=3GSIeKW30heDCpx5hPPNY3CaoA/j36dOcE+z1yfkvj8=;
-	b=Y/MZC7+0ZZZkCbqw5nIZGF7bBwYBJ1hHImR846nIXFdVjnmJ3/MdYeehk9BYsyqzpg
-	1qUDdp/GMHqwGcL/O2r8OSoebUDeoDcJS9eZvEyrPZ0CGU24OFpjuahZ4XQHg9Zv9Dj+
-	bysgU1tu9W9IEhPsRHUMe/JpqAYQoJ347wrAnHnGGXJ/tDlntWwM4/AzxwMj/2sYox3G
-	Vqbp6ssqeGcm53u5ZXt9KdEaybJpAuuB98FH9wziOu44P4luFqdFkEzKyI+qGLGPzQW0
-	cS0TA7v14jJKYrFGFkyob3qwWwX5TPXS8Lh+1dB/oOVvYgcJpjo2hdZxjqsm5vdgs5wi
-	7oxQ==
-X-Received: by 10.68.182.3 with SMTP id ea3mr50591465pbc.126.1441151747622;
-	Tue, 01 Sep 2015 16:55:47 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:49fd:b69d:583d:d543?
-	([2601:646:8601:4580:49fd:b69d:583d:d543])
-	by smtp.gmail.com with ESMTPSA id
-	iw8sm19405607pbc.21.2015.09.01.16.55.46
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 01 Sep 2015 16:55:46 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1441142254.24871.22.camel@linuxfoundation.org>
-Date: Tue, 1 Sep 2015 16:55:37 -0700
-Message-Id: <7B715C23-22C6-4F08-8389-45CCE8EA7D9A@gmail.com>
-References: <87b72ec93b53c0a0ac61950f52480fa86a93c937.1440446289.git.raj.khem@gmail.com>
-	<96e447b0dad1a139b68ee85780055379147ba40f.1440446289.git.raj.khem@gmail.com>
-	<1441142254.24871.22.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 15/17] busybox: Use CC instead of bare LD to be the Linker
+	Wed,  2 Sep 2015 02:09:18 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="100261314"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 02 Sep 2015 10:12:21 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t8229886026770;
+	Wed, 2 Sep 2015 10:09:08 +0800
+Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0181.006; Wed, 2 Sep 2015 10:09:17 +0800
+From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
+To: Mark Hatle <mark.hatle@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] base-files: Fix LSB NG Cases.
+Thread-Index: AQHQ5PsinvaMKy+q6UW6WS3/gY+aO54nqZmAgADPe/A=
+Date: Wed, 2 Sep 2015 02:09:16 +0000
+Message-ID: <A8FC939F80655644A89BB21CCD3741E8011BCBF51E@G08CNEXMBPEKD03.g08.fujitsu.local>
+References: <1433407956-1948-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+	<1441142028.24871.19.camel@linuxfoundation.org>
+	<55E617F9.3070102@windriver.com>
+In-Reply-To: <55E617F9.3070102@windriver.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.92]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] base-files: Fix LSB NG Cases.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,57 +45,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Sep 2015 23:55:49 -0000
-X-Groupsio-MsgNum: 70457
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_EDBFDBCD-717E-4E42-A3E4-57B79D136B96";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_EDBFDBCD-717E-4E42-A3E4-57B79D136B96
+X-List-Received-Date: Wed, 02 Sep 2015 02:09:22 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="iso-2022-jp"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+Hi, Richard and Mark,
 
-> On Sep 1, 2015, at 2:17 PM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
->> =
-/mnt/home/kraj/work/angstrom/build/tmp-angstrom-glibc/sysroots/x86_64-linu=
-x/usr/bin/arm-angstrom-linux-gnueabi/arm-angstrom-linux-gnueabi-ld:
->> error: applets/built-in.o: unsupported ELF file type 2
->> clang-3.7: error: linker command failed with exit code 1 (use -v to =
-see invocation)
->=20
-> This breaks DISTRO=3Dpoky-lsb:
->=20
-> http://errors.yoctoproject.org/Errors/Details/15705/
->=20
-> (searching for busybox shows many other versions of this too)
->=20
+Thanks for your reply.=20
 
-OK I think we add -fpie to poky-lsb. is that right ?
-now instead of calling ld directly we are calling gcc to do linking so =
-we now also get the baggage of CFLAGS since LDFLAG =3D CFLAGS
-which is actually correct but in this case we are trying to do partial =
-linking so -pie is useless at this stage of linking. So what we need is
-to ignore -pie ( add -fno-pie) in LDFLAGS when doing partial linking. I =
-will send a reworked patch.
+>Subject: Re: [OE-core] [PATCH] base-files: Fix LSB NG Cases.
+>
+>On 9/1/15 4:13 PM, Richard Purdie wrote:
+>> On Thu, 2015-06-04 at 16:52 +0800, Li xin wrote:
+>>> -/tset/LSB.fhs/var/tmp/tmp-tc.
+>>>
+>>> The LSB Core test requires the /var/tmp directory supports creation of =
+files.
+>>> And the mount tmpfs on /var/volatile cause the /var/tmp directory
+>>> can't be writable for non-root users.
+>>
+>> This change doesn't look correct to me, its a pretty fundamental
+>> change to the way the system operates and certainly needs more thought
+>> and justification than the few lines above.
+>>
+>> Surely if its a non-root users issue, the problem is permissions, not
+>> the tmpfs anyway?
+>
+>I agree.. How is /var/volatile mounted in your environment?
+>
+>/var/volatile should be mounted as a tmpfs with default root only permissi=
+ons.
+>(basefiles: fstab)
+>
+>A directory, /var/volatile/tmp should be constructed (after volatile is mo=
+unted) with
+>perms 01777.  (initscripts: populate-volatile.sh)
+>
+>/var/tmp should be a symbolic link to /var/volatile/tmp.  (meta/files/fs-p=
+erms.txt)
+>
+>All of this will result in a /var/tmp that permits any user to write to it=
+ (as it should),
+>but keep it in the volatile area.
+>
+>You should figure out what part of this is not working properly.  (If I ha=
+d to guess it's
+>the mount of the volatile and create of the tmp dir is not working for you=
+ -- or you
+>have a system where the default mount rules / init scripts have been modif=
+ied in
+>some way.)
+>
 
---Apple-Mail=_EDBFDBCD-717E-4E42-A3E4-57B79D136B96
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+On my system:
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+root # cat /etc/fstab
+# stock fstab - you probably want to override this with a machine specific =
+one
 
-iEYEARECAAYFAlXmOwEACgkQuwUzVZGdMxR+9gCePYhJHLaEJ7sKH0CjmRtzaz8H
-OloAn038r9hkCY33NdQ4F14WHoqNxZeZ
-=ta6p
------END PGP SIGNATURE-----
+/dev/root            /                    auto       defaults              =
+1  1
+proc                 /proc                proc       defaults              =
+0  0
+devpts               /dev/pts             devpts     mode=3D0620,gid=3D5   =
+    0  0
+usbdevfs             /proc/bus/usb        usbdevfs   noauto                =
+0  0
+tmpfs                /run                 tmpfs      mode=3D0755,nodev,nosu=
+id,strictatime 0  0
+tmpfs                /var/volatile        tmpfs      defaults              =
+0  0
 
---Apple-Mail=_EDBFDBCD-717E-4E42-A3E4-57B79D136B96--
+# uncomment this if your device has a SD/MMC/Transflash slot
+#/dev/mmcblk0p1       /media/card          auto       defaults,sync,noauto =
+ 0  0
+
+root #
+root # ls /var/tmp -ld
+lrwxrwxrwx 1 root root 12 Aug 24 09:24 /var/tmp -> volatile/tmp
+
+root # ls /var/tmp/ -ld
+drwxr-xr-x 3 root root 60 Sep  1 08:11 /var/tmp/
+root #
+
+This will permit non-root users to write to /var/tmp/ dir,
+But the LSB test requires it can be writable for non-root users. So the tes=
+t result is FAIL.
+
+Regards,
+Li
+
+>>
+>>> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+>>> ---
+>>>  meta/recipes-core/base-files/base-files/fstab | 1 -
+>>>  1 file changed, 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-core/base-files/base-files/fstab
+>>> b/meta/recipes-core/base-files/base-files/fstab
+>>> index d79a016..458ec70 100644
+>>> --- a/meta/recipes-core/base-files/base-files/fstab
+>>> +++ b/meta/recipes-core/base-files/base-files/fstab
+>>> @@ -4,7 +4,6 @@
+>>>  proc                 /proc                proc       defaults
+>0  0
+>>>  devpts               /dev/pts             devpts
+>mode=3D0620,gid=3D5       0  0
+>>>  tmpfs                /run                 tmpfs
+>mode=3D0755,nodev,nosuid,strictatime 0  0
+>>> -tmpfs                /var/volatile        tmpfs      defaults
+>0  0
+>>>
+>>>  # uncomment this if your device has a SD/MMC/Transflash slot
+>>>  #/dev/mmcblk0p1       /media/card          auto
+>defaults,sync,noauto  0  0
+>>> --
+>>> 1.8.4.2
+>>>
+>>
+>>
+>
+>--
+>_______________________________________________
+>Openembedded-core mailing list
+>Openembedded-core@lists.openembedded.org
+>http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
