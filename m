@@ -1,42 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 3241C762A2;
-	Wed,  2 Sep 2015 12:06:19 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so38354880wic.0;
-	Wed, 02 Sep 2015 05:06:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=gA16nf70N5kqEej17hlBOK+9zbx8NOvMtD8+6+cIffA=;
-	b=oe0RGt2szf+9wPtGdLP9MlGkn28BVJHcRLZB9k9pSQjfGvItPY7W39GoBHvS3SfapX
-	2Qn5iDzbrYGA7O3u9KGrOgOMGbW0BP3kccXMPRPt3Z1zDzGs7ZNWSdK2ckk0ILvVgYvJ
-	MxS6B3FnKtsa4lnKUMGmTLDDyjk44QOUPddJlCdeYTmc+GL4wLD3U+iBZCWimKaFjKBl
-	NTeWlZZurSgDS8KGfPQqoiskj4R9wIjJjJYhDbXgsti1KRTOuNaMYbvXgYYY1OLSKJFq
-	mb+wQyoPkAiylKLuzpSqxmWBkf6F6AafTvp8kbREvzRvKw2VUsPuujp8wRbJ2n30T48a
-	YY2g==
-X-Received: by 10.180.21.137 with SMTP id v9mr3561319wie.8.1441195578738;
-	Wed, 02 Sep 2015 05:06:18 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id go5sm3314938wib.5.2015.09.02.05.06.17
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Sep 2015 05:06:17 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 2 Sep 2015 14:06:38 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20150902120638.GA2470@jama>
-References: <20150831125632.GA2465@jama>
-	<1441192582.24871.52.camel@linuxfoundation.org>
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 02C5E7702D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  2 Sep 2015 13:54:51 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga103.fm.intel.com with ESMTP; 02 Sep 2015 06:54:51 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,453,1437462000"; d="scan'208";a="760853549"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga001.jf.intel.com with ESMTP; 02 Sep 2015 06:54:51 -0700
+Received: from linux.intel.com (vmed.fi.intel.com [10.237.72.65])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by linux.intel.com (Postfix) with ESMTP id 858CA6A4083;
+	Wed,  2 Sep 2015 06:53:59 -0700 (PDT)
+Date: Wed, 2 Sep 2015 16:54:45 +0300
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Message-ID: <20150902135445.GA5916@linux.intel.com>
+References: <cover.1440950164.git.ed.bartosh@linux.intel.com>
+	<8c9a985168c6e8d52ac777bc7322c6fda92983c2.1440950164.git.ed.bartosh@linux.intel.com>
+	<CAHiDW_EA-=tfahxA7_KXhfmWmOMBjES4_WCTOns3O25odMJTZg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1441192582.24871.52.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: State of bitbake world, Failed tasks 2015-08-30
+In-Reply-To: <CAHiDW_EA-=tfahxA7_KXhfmWmOMBjES4_WCTOns3O25odMJTZg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/11] devtool: make 2 functions public
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
+Reply-To: ed.bartosh@linux.intel.com
 List-Id: Patches and discussions about the oe-core layer
 	<openembedded-core.lists.openembedded.org>
 List-Unsubscribe: <http://lists.openembedded.org/mailman/options/openembedded-core>,
@@ -46,50 +41,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 12:06:23 -0000
-X-Groupsio-MsgNum: 70488
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
-Content-Disposition: inline
-
---sdtB3X0nJg68CQEu
+X-List-Received-Date: Wed, 02 Sep 2015 13:54:53 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 02, 2015 at 12:16:22PM +0100, Richard Purdie wrote:
-> On Mon, 2015-08-31 at 14:56 +0200, Martin Jansa wrote:
-> > OE @ ~/openembedded-core $ git log --oneline origin/master..contrib/jan=
-sa/master=20
-> > e223862 initramfs-framework: Drop allarch
-> > d51627d linux-firmware: Drop allarch
-> > ee54e69 ppp-dialin: Drop allarch
-> > 2ff92fc usbinit, weston-init, run-postinsts, qt-demo-init: Drop allarch
-> > 913639d resolvconf: Drop allarch
->=20
-> I think that with some recent changes you might be able to drop all of
-> the above. We've also added an automated sanity test to ensure this list
-> doesn't regress either.
+On Wed, Sep 02, 2015 at 02:16:58PM +0300, Jussi Kukkonen wrote:
+> On 30 August 2015 at 19:08, Ed Bartosh <ed.bartosh@linux.intel.com> wrote:
+> >
+> > Moved standard.py:_parse_recipe -> __init__.py:parse_recipe and
+> >       standard.py:_get_recipe_file ->  __init__.py:get_recipe_file
+> > to be able to call them from other modules.
+> 
+> Hi Ed,
+> 
+> Can you take a look if the failures in
+> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/173/steps/Running%20oe-selftest/logs/stdio
+> are related to this patch (there's lots of "NameError: global name
+> '_parse_recipe' is not defined")
+> 
 
-Thanks, I've noticed the SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS additions and
-was planning to drop this before next test signatures run on jenkins..
-it's just too busy doing normal builds so I didn't get to it yet.
+The autobuilder log looks very strange to me. I don't see any mentioning
+of _parse_recipe in standard.py on master. Moreover, there is no
+_prep_extract_operation function mentioned in traceback.
 
-Cheers,
+I've just run failed test and it passed without any issues.
 
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
---sdtB3X0nJg68CQEu
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+It looks like autobuilder messed the code from some old branch and tests
+from master.
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
+Regards,
+Ed
 
-iEYEARECAAYFAlXm5k4ACgkQN1Ujt2V2gBz48gCfdVga7ZQKzZL+CmIJs7KBy12K
-ByQAoKewz1N6fi/kvBHAXXpUXUO4shMA
-=SjqL
------END PGP SIGNATURE-----
+> 
+> >
+> > Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+> > ---
+> >  scripts/lib/devtool/__init__.py | 27 +++++++++++++++++++++++++++
+> >  scripts/lib/devtool/standard.py | 36 ++++--------------------------------
+> >  2 files changed, 31 insertions(+), 32 deletions(-)
+> >
+> > diff --git a/scripts/lib/devtool/__init__.py
+> b/scripts/lib/devtool/__init__.py
+> > index 1747fff..97ac6ae 100644
+> > --- a/scripts/lib/devtool/__init__.py
+> > +++ b/scripts/lib/devtool/__init__.py
+> > @@ -116,3 +116,30 @@ def add_md5(config, recipename, filename):
+> >      md5 = bb.utils.md5_file(filename)
+> >      with open(os.path.join(config.workspace_path, '.devtool_md5'), 'a')
+> as f:
+> >          f.write('%s|%s|%s\n' % (recipename, os.path.relpath(filename,
+> config.workspace_path), md5))
+> > +
+> > +def get_recipe_file(cooker, pn):
+> > +    """Find recipe file corresponding a package name"""
+> > +    import oe.recipeutils
+> > +    recipefile = oe.recipeutils.pn_to_recipe(cooker, pn)
+> > +    if not recipefile:
+> > +        skipreasons = oe.recipeutils.get_unavailable_reasons(cooker, pn)
+> > +        if skipreasons:
+> > +            logger.error('\n'.join(skipreasons))
+> > +        else:
+> > +            logger.error("Unable to find any recipe file matching %s" %
+> pn)
+> > +    return recipefile
+> > +
+> > +def parse_recipe(config, tinfoil, pn, appends):
+> > +    """Parse recipe of a package"""
+> > +    import oe.recipeutils
+> > +    recipefile = get_recipe_file(tinfoil.cooker, pn)
+> > +    if not recipefile:
+> > +        # Error already logged
+> > +        return None
+> > +    if appends:
+> > +        append_files =
+> tinfoil.cooker.collection.get_file_appends(recipefile)
+> > +        # Filter out appends from the workspace
+> > +        append_files = [path for path in append_files if
+> > +                        not path.startswith(config.workspace_path)]
+> > +    return oe.recipeutils.parse_recipe(recipefile, append_files,
+> > +                                       tinfoil.config_data)
+> > diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py
+> > index 4aa6ebd..97c45d9 100644
+> > --- a/scripts/lib/devtool/standard.py
+> > +++ b/scripts/lib/devtool/standard.py
+> > @@ -26,7 +26,7 @@ import argparse
+> >  import scriptutils
+> >  import errno
+> >  from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
+> > -from devtool import add_md5
+> > +from devtool import add_md5, parse_recipe
+> >
+> >  logger = logging.getLogger('devtool')
+> >
+> > @@ -157,34 +157,6 @@ def _check_compatible_recipe(pn, d):
+> >                             "from working. You will need to disable this "
+> >                             "first." % pn)
+> >
+> > -def _get_recipe_file(cooker, pn):
+> > -    """Find recipe file corresponding a package name"""
+> > -    import oe.recipeutils
+> > -    recipefile = oe.recipeutils.pn_to_recipe(cooker, pn)
+> > -    if not recipefile:
+> > -        skipreasons = oe.recipeutils.get_unavailable_reasons(cooker, pn)
+> > -        if skipreasons:
+> > -            logger.error('\n'.join(skipreasons))
+> > -        else:
+> > -            logger.error("Unable to find any recipe file matching %s" %
+> pn)
+> > -    return recipefile
+> > -
+> > -def _parse_recipe(config, tinfoil, pn, appends):
+> > -    """Parse recipe of a package"""
+> > -    import oe.recipeutils
+> > -    recipefile = _get_recipe_file(tinfoil.cooker, pn)
+> > -    if not recipefile:
+> > -        # Error already logged
+> > -        return None
+> > -    if appends:
+> > -        append_files =
+> tinfoil.cooker.collection.get_file_appends(recipefile)
+> > -        # Filter out appends from the workspace
+> > -        append_files = [path for path in append_files if
+> > -                        not path.startswith(config.workspace_path)]
+> > -    return oe.recipeutils.parse_recipe(recipefile, append_files,
+> > -                                       tinfoil.config_data)
+> > -
+> > -
+> >  def _ls_tree(directory):
+> >      """Recursive listing of files in a directory"""
+> >      ret = []
+> > @@ -200,7 +172,7 @@ def extract(args, config, basepath, workspace):
+> >
+> >      tinfoil = setup_tinfoil()
+> >
+> > -    rd = _parse_recipe(config, tinfoil, args.recipename, True)
+> > +    rd = parse_recipe(config, tinfoil, args.recipename, True)
+> >      if not rd:
+> >          return 1
+> >
+> > @@ -420,7 +392,7 @@ def modify(args, config, basepath, workspace):
+> >
+> >      tinfoil = setup_tinfoil()
+> >
+> > -    rd = _parse_recipe(config, tinfoil, args.recipename, True)
+> > +    rd = parse_recipe(config, tinfoil, args.recipename, True)
+> >      if not rd:
+> >          return 1
+> >      recipefile = rd.getVar('FILE', True)
+> > @@ -762,7 +734,7 @@ def update_recipe(args, config, basepath, workspace):
+> >
+> >      tinfoil = setup_tinfoil()
+> >
+> > -    rd = _parse_recipe(config, tinfoil, args.recipename, True)
+> > +    rd = parse_recipe(config, tinfoil, args.recipename, True)
+> >      if not rd:
+> >          return 1
+> >
+> > --
+> > 2.1.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---sdtB3X0nJg68CQEu--
