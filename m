@@ -1,38 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DED57704A
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id EE7FE77046
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 16:00:16 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so22637039wic.1
+	Wed,  2 Sep 2015 16:08:15 +0000 (UTC)
+Received: by iofh134 with SMTP id h134so25852074iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Sep 2015 09:00:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:subject:message-id:mime-version:content-type
-	:content-disposition:user-agent;
-	bh=3rhEzLaBty4/OUNHap8eVJ79Dl3vpFX+9NVN2b5+brk=;
-	b=XUZbSsnlxTjEGlLEWmbDJXRsZPvYHuhthk9w8xSNWxylSVEKRvrcej2Ev3yExD0Q46
-	w96MtUlq2NH3c5reoBXNRYJ928zAuJE6QCnll3GKf4KOSjKxXqDcR6GmLwePWjU0hBje
-	zeIRjQjZgMOiMp/X8GH8dDGBUOMOVt8qHBnLkE5zkHnJIFCnsF6O68dVMmJrg8wrPHAW
-	b+1+zyPJ7LEqnNa4w2KulDEHC/KfXZaA5x1/K1Rq8/4mo8z1lEzDfgwdC1C8IpWAUx9F
-	2VD5hpJRlziZX8dogQFDXTOC/vMJlNUTlortaTEhT0hMgg2GljNbfxt+APgX+2+8F16P
-	DA7Q==
-X-Received: by 10.194.112.104 with SMTP id ip8mr40490377wjb.131.1441209615239; 
-	Wed, 02 Sep 2015 09:00:15 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	ja8sm33061864wjb.13.2015.09.02.09.00.14
+	Wed, 02 Sep 2015 09:08:15 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=hNnaoqq6jkutvQxjpbXfsLdVA6yFolPE5bViCxygqRk=;
+	b=OQ6fMHWO7Q+gRisFkdE7H2M26PH/0eIQWjYMuQViIV9VbThsNg05rNHUt3uLoJBr0V
+	m7AgW6zfsr4okbitoYI8iGWN9z9JX4zEKDL5sh1NC3YDfsIWgduNRga8JZ4m+84d8Zbg
+	MoohvYNoLknaE4hf5Rrgc2FCzicPopKWNZk82jSaoVoGGIE0p4Y5V41BaQpcGcmSNQ0c
+	sHGR4LXG8l/ctLZsylr9USO77ieeAl//ZpYtg252e73ltVNKCq+VRu+7b3mTkwAE1Z72
+	8U5KU3Mxvqo/KstTvNRoJ9Ir+W3rgevbhCcEGyArYtF5CUlXmWM4e7m6RhCFWktDR23r
+	KuTg==
+X-Gm-Message-State: ALoCoQkkNrUHq43fNz2byZg4mYnq5g3SI6d9Grgx7Dl8+8FPyRRpfbCkpRzcPFDhMGSEAHf1Y+wc
+X-Received: by 10.107.32.76 with SMTP id g73mr18270968iog.134.1441210095734;
+	Wed, 02 Sep 2015 09:08:15 -0700 (PDT)
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com.
+	[209.85.213.169]) by smtp.gmail.com with ESMTPSA id
+	g65sm19522782iog.33.2015.09.02.09.08.14
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Sep 2015 09:00:14 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Wed, 2 Sep 2015 18:00:35 +0200
-To: openembedded-core@lists.openembedded.org,
-	Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20150902160035.GD2470@jama>
+	Wed, 02 Sep 2015 09:08:14 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igcrk20 with SMTP id rk20so28596189igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Sep 2015 09:08:13 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: Re: Robert Yang : perf: fix for rebuilding
+X-Received: by 10.50.32.69 with SMTP id g5mr4325717igi.5.1441210093895; Wed,
+	02 Sep 2015 09:08:13 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Wed, 2 Sep 2015 09:08:13 -0700 (PDT)
+In-Reply-To: <33a0da1f6331b4d44deefc5b7916d984981d2c30.1441207840.git.patrick.ohly@intel.com>
+References: <cover.1441207840.git.patrick.ohly@intel.com>
+	<3b40bb267aa67a9c7adae08713d85060129a219b.1441207840.git.patrick.ohly@intel.com>
+	<33a0da1f6331b4d44deefc5b7916d984981d2c30.1441207840.git.patrick.ohly@intel.com>
+Date: Wed, 2 Sep 2015 13:08:13 -0300
+Message-ID: <CAP9ODKqH+pQPezQo1CSyybYU3du+4_B+HOgxzBqui6uCE5Z6hA@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 02/10] initrdscripts: create /dev/console
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,75 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 16:00:16 -0000
-X-Groupsio-MsgNum: 70505
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="5gxpn/Q6ypwruk0T"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 02 Sep 2015 16:08:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
---5gxpn/Q6ypwruk0T
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Sep 2, 2015 at 12:48 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> Some kernels, for example linux-yocto 3.19 for qemux86, fail to
+> execute /init in an initramfs unless there is already a /dev/console
+> char device in the initramfs. Booting then fails with:
+>     Kernel panic - not syncing: /dev/console is missing or not a character device!
+>     Please ensure your rootfs is properly configured
+>
+> The panic itself comes from a linux-yocto specific patch to
+> kernel_init_freeable in init/main.c, but even without it, that
+> function will print an error when /dev/console is missing. The
+> kernel's Documentation/initrd.txt also mentions creating that device.
+>
+> It remained unclear why this is not a problem on other machines. On
+> intel-corei7-64 from meta-intel, something (the kernel?) creates
+> /dev/console and /dev/[012] before transfering control to the init
+> script. In that case, creating /dev/console in advance is not
+> necessary, but does not cause any problem either.
+>
+> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 
-I'm still seeing issues when perf is rebuilt
+I fully agree with the patch but it would be better to split the patch
+for both recipes.
 
-The original issue was:
-OSError: [Errno 2] No such file or directory: 'BUILD/work/qemux86-webos-lin=
-ux/perf/1.0-r9/perf-1.0'
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
-as described here:
-http://patches.openembedded.org/patch/94719/
-
-First part of fix is now backported to dizzy:
-commit 40aeb23c427e0c56f7073fc54ea63bf0eabbe092
-Author: Robert Yang <liezhi.yang@windriver.com>
-Date:   Wed Mar 11 01:35:38 2015 -0700
-
-    license.bbclass: set dirs for do_populate_lic_setscene
-
-but perf is still failing in some builds with the same error when
-do_configure and do_populate_lic are executed at the same time:
-
-NOTE: recipe perf-1.0-r9: task do_configure: Started
-NOTE: recipe perf-1.0-r9: task do_populate_lic: Started
-ERROR: Build of do_populate_lic failed
-ERROR: Traceback (most recent call last):
-  File "bitbake/lib/bb/build.py", line 497, in exec_task
-    return _exec_task(fn, task, d, quieterr)
-  File "bitbake/lib/bb/build.py", line 440, in _exec_task
-    exec_func(func, localdata)
-  File "bitbake/lib/bb/build.py", line 212, in exec_func
-    exec_func_python(func, d, runfile, cwd=3Dadir)
-  File "bitbake/lib/bb/build.py", line 237, in exec_func_python
-    os.chdir(cwd)
-OSError: [Errno 2] No such file or directory: '....../perf/1.0-r9/perf-1.0'
-
-NOTE: recipe perf-1.0-r9: task do_populate_lic: Failed
-ERROR: Task 3826 (../oe-core/meta/recipes-kernel/perf/perf.bb, do_populate_=
-lic) failed with exit code '1'
-NOTE: recipe perf-1.0-r9: task do_configure: Succeeded
-
-So is there some 2nd/3rd part of this fix or is it broken in master?
-
-I haven't found any other commit related to this perf configure or
-populate_lic in master and fido.
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---5gxpn/Q6ypwruk0T
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlXnHPMACgkQN1Ujt2V2gBzGXgCggWTa1gnIONiL5yuR6sen3lNu
-euIAoK+gZCAWfC/xthmSSR79Rf3gHMAK
-=+EOU
------END PGP SIGNATURE-----
-
---5gxpn/Q6ypwruk0T--
