@@ -1,38 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 616EC7702D
+Return-Path: <benjamin.esquivel@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id B80C377022
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 00:57:20 +0000 (UTC)
-Received: by wibz8 with SMTP id z8so82441173wib.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Sep 2015 17:57:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=hhXcldqRbGGeywK+qowth/qXv6aFfTIub4vJhqFk7Hs=;
-	b=zkeDul4tT0iu8EzLwJczyNyW06AU06iI9SNV0VgFgDkcB7SHXNDYcpW7jLBgqvVY7R
-	F5Wag8hY6/SvzdL2UX1zqKKnUazTGPWCA9hCSl+GSjKCqE+/FJ0MQsXog10/b/h+XKh2
-	vQEN/dXw8r8XbQGzeOHixFOp3+NMBZQGsDYi40TUReHaZSrk9Hnz8SkuL3ZLG1EYqzWI
-	9oUrlKC4/iZ229oSGWvqcaduq3qAms+ti2+stLT+IVM3+4AAuJuzQCBNfcpWoDz1KADL
-	sO9ol7nd7+JhAZs4cSKLYbV1QoDTvxZXc4AxHmlBaqQmNPamG2Q1u+xGoKaJQLksltgf
-	Or3g==
-MIME-Version: 1.0
-X-Received: by 10.180.84.163 with SMTP id a3mr5383375wiz.34.1441241840133;
-	Wed, 02 Sep 2015 17:57:20 -0700 (PDT)
-Received: by 10.28.64.196 with HTTP; Wed, 2 Sep 2015 17:57:20 -0700 (PDT)
-In-Reply-To: <55E769B4.4050800@linux.intel.com>
-References: <1441211805-17543-1-git-send-email-alejandro.franco@linux.intel.com>
-	<1441216283.24871.78.camel@linuxfoundation.org>
-	<20150902182548.GG2470@jama> <55E769B4.4050800@linux.intel.com>
-Date: Thu, 3 Sep 2015 02:57:20 +0200
-Message-ID: <CA+chaQddNikh4vveg30U8WVYG5XcpewM9OHrgahzr_qTHSF+pw@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-To: Alex Franco <alejandro.franco@linux.intel.com>
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Fix recursive mode -st on BUILDDIR setup
+	Thu,  3 Sep 2015 04:23:06 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Sep 2015 21:23:08 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,459,1437462000"; d="scan'208";a="781667117"
+Received: from yctb04.ostc.intel.com (HELO yctb04.otcr.jf.intel.com)
+	([10.23.219.53])
+	by fmsmga001.fm.intel.com with ESMTP; 02 Sep 2015 21:23:06 -0700
+From: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  2 Sep 2015 20:18:05 +0000
+Message-Id: <1441225085-2988-1-git-send-email-benjamin.esquivel@linux.intel.com>
+X-Mailer: git-send-email 2.3.0
+In-Reply-To: <1675897.By6dee7Xjq@peggleto-mobl.ger.corp.intel.com>
+References: <1675897.By6dee7Xjq@peggleto-mobl.ger.corp.intel.com>
+Cc: paul.eggleton@linux.intel.com
+Subject: [PATCH v2] selftest/manifest.py: Test support for manifests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,150 +31,203 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 00:57:21 -0000
-Content-Type: multipart/alternative; boundary=f46d043c06e0eaaa64051ecd4353
+X-List-Received-Date: Thu, 03 Sep 2015 04:23:08 -0000
 
---f46d043c06e0eaaa64051ecd4353
-Content-Type: text/plain; charset=UTF-8
+adding support for tests to verify manifest collections
+(i.e. all the manifests found in a given dir) checking them
+to provide entries that exist in an specified pkgdata dir
 
-Warning informing that chmod failed is better than fatal error preventing
-me to build anything in that setup with tmpfs.
+tests added:
+ -adding an SDK manifest test
+ -adding a core-image-minimal manifest test
+test support written for future tests:
+ -adding a setUpClass that supports other tests
+ -a get dir from bb var function that verifies if the dir exists
+ -an initial ManifestCollection and ManifestEntry classes defined
+ -check for the paths and fail gracefully if not there
+ -debug prints for failure analysis
 
-On Wed, Sep 2, 2015 at 11:27 PM, Alex Franco <
-alejandro.franco@linux.intel.com> wrote:
+[YOCTO#8028]
 
-> Checking may be the better approach, as warning here would do little more
-> than what the current failure does (informing that chmod failed)
->
-> Alex Franco
->
->
-> On 09/02/2015 01:25 PM, Martin Jansa wrote:
->
->> On Wed, Sep 02, 2015 at 06:51:23PM +0100, Richard Purdie wrote:
->>
->>> On Wed, 2015-09-02 at 11:36 -0500, Alex Franco wrote:
->>>
->>>> Removing recursive option from chmod -st on BUILDDIR as it would
->>>> take very long on existing build directories
->>>>
->>>> [YOCTO 7669]
->>>>
->>>> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
->>>> ---
->>>>   scripts/oe-setup-builddir | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
->>>> index f5b7e4e..44c7dcc 100755
->>>> --- a/scripts/oe-setup-builddir
->>>> +++ b/scripts/oe-setup-builddir
->>>> @@ -24,7 +24,7 @@ if [ -z "$BUILDDIR" ]; then
->>>>   fi
->>>>     mkdir -p "$BUILDDIR/conf"
->>>> -chmod -R -st "$BUILDDIR"
->>>> +chmod -st "$BUILDDIR"
->>>>
->>> I think you did this so that conf/ gets the right permissions too.
->>> Perhaps the best approach is:
->>>
->>> +chmod -st "$BUILDDIR" $BUILDDIR/conf"
->>>
->> Can we add "|| bbwarn foo"
->>
->> for cases when it doesn't work for whatever reason or check the
->> permissions of these 2 dirs before calling chmod?
->>
->> ?
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->>
->
+Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
+Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+---
+ meta/lib/oeqa/selftest/manifest.py | 165 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 165 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/manifest.py
 
---f46d043c06e0eaaa64051ecd4353
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/lib/oeqa/selftest/manifest.py b/meta/lib/oeqa/selftest/manifest.py
+new file mode 100644
+index 0000000..4843622
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/manifest.py
+@@ -0,0 +1,165 @@
++import unittest
++import os
++
++from oeqa.selftest.base import oeSelfTest
++from oeqa.utils.commands import get_bb_var, bitbake
++from oeqa.utils.decorators import testcase
++from glob import glob
++
++class ManifestEntry:
++    '''A manifest item of a collection able to list missing packages'''
++    def __init__(self, entry):
++        self.entry = entry
++        self.missing = []
++
++class ManifestCollection:
++    '''A manifest collection definition with error check and manifest entries'''
++    def __init__(self, mfiles_path = os.getcwd()):
++        self.entries = glob("%s/*.manifest" % mfiles_path)
++        if not self.entries: raise OSError
++        self.entry = {}
++        for e in self.entries:
++            self.entry[e] = ManifestEntry(e)
++        self.errors = False
++
++class VerifyManifest(oeSelfTest):
++    '''Tests for the manifest files and contents of an image'''
++
++    @classmethod
++    def check_manifest_entries(self, manifest, path):
++        manifest_errors = []
++        try:
++            with open(manifest, "r") as mfile:
++                for line in mfile:
++                    manifest_entry = os.path.join(path, line.split()[0])
++                    self.log.debug("{}: looking for {}"\
++                                    .format(self.classname, manifest_entry))
++                    if not os.path.isfile(manifest_entry):
++                        manifest_errors.append(manifest_entry)
++                        self.log.debug("{}: {} not found"\
++                                    .format(self.classname, manifest_entry))
++        except OSError as e:
++            self.log.debug("{}: checking of {} failed"\
++                    .format(self.classname, manifest))
++            raise e
++
++        return manifest_errors
++
++    #this will possibly move from here
++    @classmethod
++    def get_dir_from_bb_var(self, bb_var, target = None):
++        target == self.buildtarget if target == None else target
++        directory = get_bb_var(bb_var, target);
++        if not directory or not os.path.isdir(directory):
++            self.log.debug("{}: {} points to {} when target = {}"\
++                    .format(self.classname, bb_var, directory, target))
++            raise OSError
++        return directory
++
++    @classmethod
++    def setUpClass(self):
++
++        self.buildtarget = 'core-image-minimal'
++        self.classname = 'VerifyManifest'
++
++        self.log.info("{}: doing bitbake {} as a prerequisite of the test"\
++                .format(self.classname, self.buildtarget))
++        if bitbake(self.buildtarget).status:
++            self.log.debug("{} Failed to setup {}"\
++                    .format(self.classname, self.buildtarget))
++            unittest.SkipTest("{}: Cannot setup testing scenario"\
++                    .format(self.classname))
++
++    def test_SDK_manifest_entries(self):
++        '''Verifying the SDK manifest entries exist, this may take a build'''
++        self.testname = self.id().split('.')[-1]
++        # the setup should bitbake core-image-minimal and here it is required
++        # to do an additional setup for the sdk
++        sdktask = '-c populate_sdk'
++        bbargs = sdktask + ' ' + self.buildtarget
++        self.log.debug("{}: doing bitbake {} as a prerequisite of the test"\
++                .format(self.classname, bbargs))
++        if bitbake(bbargs).status:
++            self.log.debug("{} Failed to bitbake {}"\
++                    .format(self.classname, bbargs))
++            unittest.SkipTest("{}: Cannot setup testing scenario"\
++                    .format(self.classname))
++
++
++        pkgdata_dir = reverse_dir = {}
++        # get manifest location based on target to query about
++        try:
++            mdir = self.get_dir_from_bb_var('SDK_DEPLOY',
++                                                self.buildtarget)
++            pkgdata_dir['target'] = self.get_dir_from_bb_var('PKGDATA_DIR',
++                                                        self.buildtarget)
++            reverse_dir['target'] = os.path.join(pkgdata_dir['target'],
++                                            'runtime-reverse')
++            pkgdata_dir['host'] = self.get_dir_from_bb_var('PKGDATA_DIR',
++                                             'nativesdk-packagegroup-sdk-host')
++            reverse_dir['host'] = os.path.join(pkgdata_dir['host'],
++                                            'runtime-reverse')
++        except OSError:
++            raise unittest.SkipTest("{}: Error in obtaining manifest dirs"\
++                .format(self.classname))
++
++        m_collection = ManifestCollection(mdir)
++
++        for mfile in m_collection.entries:
++            self.log.debug("{}: Check manifest {}"\
++                                .format(self.classname, mfile))
++            #assume target
++            revdir = reverse_dir['target']
++            # if this doesn't end with host.manifest then we need another
++            # consistent way of checking what is this manifest for?
++            if mfile.endswith('host.manifest'):
++                revdir = reverse_dir['host']
++
++            if not os.path.exists(revdir):
++                self.fail("unable to find {} to work on it".format(revdir))
++
++            m_collection.entry[mfile].missing = self.check_manifest_entries(\
++                                                        mfile,revdir)
++            if m_collection.entry[mfile].missing:
++                m_collection.errors = True
++                msg = '{}: {} has missing entries'\
++                        .format(self.classname, mfile)
++                logmsg = msg+':\n'+'\n'.join(m_collection.entry[mfile].missing)
++                self.log.debug(logmsg)
++                self.log.info(msg)
++
++        if m_collection.errors: self.fail()
++
++    def test_image_manifest_entries(self):
++        '''Verifying the image manifest entries exist'''
++        self.testname = self.id().split('.')[-1]
++
++        # get manifest location based on target to query about
++        try:
++            mdir = self.get_dir_from_bb_var('DEPLOY_DIR_IMAGE',
++                                                self.buildtarget)
++            pkgdata_dir = {}
++            pkgdata_dir = self.get_dir_from_bb_var('PKGDATA_DIR',
++                                                self.buildtarget)
++            revdir = os.path.join(pkgdata_dir, 'runtime-reverse')
++            if not os.path.exists(revdir): raise OSError
++        except OSError:
++            raise unittest.SkipTest("{}: Error in obtaining manifest dirs"\
++                .format(self.classname))
++
++        m_collection = ManifestCollection(mdir)
++
++        for mfile in m_collection.entries:
++            self.log.debug("{}: Check manifest {}"\
++                                .format(self.classname, mfile))
++            m_collection.entry[mfile].missing = self.check_manifest_entries(\
++                                                        mfile,revdir)
++            if m_collection.entry[mfile].missing:
++                m_collection.errors = True
++                msg = '{}: {} has missing entries'\
++                        .format(self.classname, mfile)
++                logmsg = msg+':\n'+'\n'.join(m_collection.entry[mfile].missing)
++                self.log.debug(logmsg)
++                self.log.info(msg)
++
++        if m_collection.errors: self.fail()
+-- 
+2.3.0
 
-<div dir=3D"ltr">Warning informing that chmod failed is better than fatal e=
-rror preventing me to build anything in that setup with tmpfs.<div><div cla=
-ss=3D"gmail_extra"><br><div class=3D"gmail_quote">On Wed, Sep 2, 2015 at 11=
-:27 PM, Alex Franco <span dir=3D"ltr">&lt;<a href=3D"mailto:alejandro.franc=
-o@linux.intel.com" target=3D"_blank">alejandro.franco@linux.intel.com</a>&g=
-t;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">Checking may be the bett=
-er approach, as warning here would do little more than what the current fai=
-lure does (informing that chmod failed)<span class=3D"HOEnZb"><font color=
-=3D"#888888"><br>
-<br>
-Alex Franco</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
-<br>
-On 09/02/2015 01:25 PM, Martin Jansa wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Wed, Sep 02, 2015 at 06:51:23PM +0100, Richard Purdie wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-On Wed, 2015-09-02 at 11:36 -0500, Alex Franco wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-Removing recursive option from chmod -st on BUILDDIR as it would<br>
-take very long on existing build directories<br>
-<br>
-[YOCTO 7669]<br>
-<br>
-Signed-off-by: Alex Franco &lt;<a href=3D"mailto:alejandro.franco@linux.int=
-el.com" target=3D"_blank">alejandro.franco@linux.intel.com</a>&gt;<br>
----<br>
-=C2=A0 scripts/oe-setup-builddir | 2 +-<br>
-=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir<br>
-index f5b7e4e..44c7dcc 100755<br>
---- a/scripts/oe-setup-builddir<br>
-+++ b/scripts/oe-setup-builddir<br>
-@@ -24,7 +24,7 @@ if [ -z &quot;$BUILDDIR&quot; ]; then<br>
-=C2=A0 fi<br>
-=C2=A0 =C2=A0 mkdir -p &quot;$BUILDDIR/conf&quot;<br>
--chmod -R -st &quot;$BUILDDIR&quot;<br>
-+chmod -st &quot;$BUILDDIR&quot;<br>
-</blockquote>
-I think you did this so that conf/ gets the right permissions too.<br>
-Perhaps the best approach is:<br>
-<br>
-+chmod -st &quot;$BUILDDIR&quot; $BUILDDIR/conf&quot;<br>
-</blockquote>
-Can we add &quot;|| bbwarn foo&quot;<br>
-<br>
-for cases when it doesn&#39;t work for whatever reason or check the<br>
-permissions of these 2 dirs before calling chmod?<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></blockquote>
-<br>
-</div></div></blockquote></div><br></div></div></div>
 
---f46d043c06e0eaaa64051ecd4353--
