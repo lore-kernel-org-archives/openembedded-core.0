@@ -1,25 +1,20 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D834F7702A
+Return-Path: <brendan.le.foll@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CF6A27702A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 19:44:00 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 02 Sep 2015 12:44:01 -0700
+	Wed,  2 Sep 2015 20:22:49 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga101.fm.intel.com with ESMTP; 02 Sep 2015 13:22:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,455,1437462000"; d="scan'208";a="554048313"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.40])
-	([10.219.5.40])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Sep 2015 12:44:00 -0700
-Message-ID: <55E751C9.8020109@linux.intel.com>
-Date: Wed, 02 Sep 2015 14:45:13 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
-MIME-Version: 1.0
+X-IronPort-AV: E=Sophos;i="5.17,456,1437462000"; d="scan'208";a="796552787"
+Received: from jupiter.iwi.intel.com ([172.28.33.51])
+	by orsmga002.jf.intel.com with ESMTP; 02 Sep 2015 13:22:48 -0700
+From: brendan.le.foll@intel.com
 To: openembedded-core@lists.openembedded.org
-References: <1435755468-33642-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <1435755468-33642-1-git-send-email-leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: Re: [PATCH] gcc-target.inc: Remove non-related gcc headers from include_fixed folder
+Date: Wed,  2 Sep 2015 21:22:56 +0100
+Message-Id: <1441225376-16832-1-git-send-email-brendan.le.foll@intel.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH v2] devtool: add package plugin that lets you create package via devtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,68 +27,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 19:44:01 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 02 Sep 2015 20:22:50 -0000
 
-This patch has not been merged yet. Any comments? otherwise merging is 
-pending.
+From: Brendan Le Foll <brendan.le.foll@intel.com>
 
-On 07/01/2015 07:57 AM, leonardo.sandoval.gonzalez@linux.intel.com wrote:
-> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->
-> Without this patch, the D's include_fixed folder may change after building it
-> (due to the gcc's fixinc.sh script, executed on the do_compile task) and changes
-> depend on the current sysroot headers, making the gcc's builds non-deterministic.
->
-> [YOCTO #7882]
->
-> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-> ---
->   meta/recipes-devtools/gcc/gcc-target.inc | 31 +++++++++++++++++++++++++++++++
->   1 file changed, 31 insertions(+)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-> index 5d31446..1f91107 100644
-> --- a/meta/recipes-devtools/gcc/gcc-target.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
-> @@ -168,6 +168,37 @@ do_install () {
->   	chown -R root:root ${D}
->   }
->
-> +do_install_append () {
-> +        #
-> +        # Thefixinc.sh script, run on the gcc's compile phase, looks into sysroot header
-> +        # files and places the modified files into
-> +        # {D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed folder. This makes the
-> +        # build not deterministic. The following code prunes all those headers
-> +        # except those under include-fixed/linux, *limits.h and README, yielding
-> +        # the same include-fixed folders no matter what sysroot
-> +
-> +        include_fixed="${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed"
-> +        for f in $(find ${include_fixed} -type f); do
-> +                case $f in
-> +                */include-fixed/linux/*)
-> +                    continue
-> +                    ;;
-> +                */include-fixed/*limits.h)
-> +                    continue
-> +                    ;;
-> +                */include-fixed/README)
-> +                    continue
-> +                    ;;
-> +                *)
-> +                    # remove file and directory if empty
-> +                    bbdebug 2 "Pruning $f"
-> +                    rm $f
-> +                    find $(dirname $f) -maxdepth 0 -empty -exec rmdir {} \;
-> +                    ;;
-> +                esac
-> +        done
-> +}
-> +
->   # Installing /usr/lib/gcc/* means we'd have two copies, one from gcc-cross
->   # and one from here. These can confuse gcc cross where includes use #include_next
->   # and builds track file dependencies (e.g. perl and its makedepends code).
->
+Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+---
+ scripts/lib/devtool/package.py | 62 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 62 insertions(+)
+ create mode 100644 scripts/lib/devtool/package.py
+
+diff --git a/scripts/lib/devtool/package.py b/scripts/lib/devtool/package.py
+new file mode 100644
+index 0000000..bbc85b7
+--- /dev/null
++++ b/scripts/lib/devtool/package.py
+@@ -0,0 +1,62 @@
++# Development tool - package command plugin
++#
++# Copyright (C) 2014-2015 Intel Corporation
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++"""Devtool plugin containing the package subcommands"""
++
++import os
++import subprocess
++import logging
++from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
++
++logger = logging.getLogger('devtool')
++
++def plugin_init(pluginlist):
++    """Plugin initialization"""
++    pass
++
++def package(args, config, basepath, workspace):
++    """Entry point for the devtool 'package' subcommand"""
++    import re
++    import bb
++    if not args.recipename in workspace:
++        raise DevtoolError("no recipe named %s in your workspace" %
++                           args.recipename)
++
++    try:
++        image_pkgtype = config.get('image_pkgtype', None)
++    except:
++        tinfoil = setup_tinfoil()
++        try:
++            tinfoil.prepare(config_only=True)
++            image_pkgtype = tinfoil.config_data.getVar('IMAGE_PKGTYPE', True)
++        finally:
++            tinfoil.shutdown()
++
++    package_task = config.get('Package', 'package_task', 'package_write_%s' % image_pkgtype)
++    try:
++        exec_build_env_command(config.init_path, basepath, 'bitbake -c %s %s' % (package_task, args.recipename), watch=True)
++    except bb.process.ExecutionError as e:
++        # We've already seen the output since watch=True, so just ensure we return something to the user
++        return e.exitcode
++    logger.info('Your packages are in %s/tmp/deploy/%s' % (basepath, image_pkgtype))
++
++    return 0
++
++def register_commands(subparsers, context):
++    """Register devtool subcommands from the package plugin"""
++    parser_package = subparsers.add_parser('package', help='Create packages for a recipe', description='Creates packages for a recipe\'s output files')
++    parser_package.add_argument('recipename', help='Recipe to package')
++    parser_package.set_defaults(func=package)
+-- 
+2.5.0
+
 
