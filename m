@@ -1,41 +1,50 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id D560177032
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
+	[209.85.213.175])
+	by mail.openembedded.org (Postfix) with ESMTP id EA51876F8A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 15:48:43 +0000 (UTC)
-Received: by igbni9 with SMTP id ni9so17211394igb.0
+	Wed,  2 Sep 2015 15:55:12 +0000 (UTC)
+Received: by igbni9 with SMTP id ni9so17368359igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Sep 2015 08:48:44 -0700 (PDT)
+	Wed, 02 Sep 2015 08:55:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:in-reply-to:references;
-	bh=hFifYHU4yEtX4JxXMObgPpkkU40KkY90X+Q42gjB0po=;
-	b=aGqxBliVlmnJnq9gignb+q4hRcFrWQr9EV6XtbIcmtHcUpPIqN/Kff3yfPHp7Y/06y
-	Dr1BM+9daMBgPt9dWIqJMICAg6sXH0VgTel8nrvGY8GRtjwG8fOLg/RZbKXgTszA6+b0
-	1i10qP+9Ko6CpEERFqybdRlPXyoTUpivIP7hgL+lc8rMWU5IjJ+hSkSsbEPgV/nCwpeV
-	oXcujKJh/IzdQDcdbSDC0It5WL/zSGkTdjLNsVuoyALQ5JX08vTIjLgRKkw7rWWch7KL
-	6CXOpPFPnQCtVPOur6Z8wGzhE9YjBHkhALYDSKX8kZ9ENkBMcYacRT31P8I/rqFTd1bA
-	qcVg==
-X-Gm-Message-State: ALoCoQkus4j2JDt+HWtiNauKAvPXtq8pvyLP8HbGHzk1RUfVvs3GVGLg3Aw7MgcLfaOnAShZ5pfM
-X-Received: by 10.50.43.227 with SMTP id z3mr3668518igl.22.1441208923899;
-	Wed, 02 Sep 2015 08:48:43 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8FD7A.dip0.t-ipconnect.de.
-	[93.232.253.122]) by smtp.gmail.com with ESMTPSA id
-	o189sm17258398ioe.30.2015.09.02.08.48.42
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 02 Sep 2015 08:48:43 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Sep 2015 17:48:46 +0200
-Message-Id: <8536bdb4d01fa140bde6da2c5e3a8665f5d1f2a9.1441207840.git.patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <3b40bb267aa67a9c7adae08713d85060129a219b.1441207840.git.patrick.ohly@intel.com>
-References: <3b40bb267aa67a9c7adae08713d85060129a219b.1441207840.git.patrick.ohly@intel.com>
-In-Reply-To: <cover.1441207840.git.patrick.ohly@intel.com>
-References: <cover.1441207840.git.patrick.ohly@intel.com>
-Subject: [PATCH 10/10] boot-directdisk.bbclass: use rootfs UUID by default
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=kcyp/WpeC7iDWeeXMhYMmcNPUJFM+90lCTYZgrHhoE8=;
+	b=XAaCRnOLBU+0RveTROETo1T0yzSmMYTR774ne3bwY+stK0kgwU8lR+mPXkGBFv+TG3
+	8xPqDqcVPtL6smk5xENhORqnzgRxAuwK2apmGNDNZlMbsKDa6WraiHr732nEfFBOWSKx
+	bWAsZvAugO14n898WIf68XVg5kjZObRknSM2yATKySh5ouQL3R2oGQabwekcYpBfPCzi
+	mQC/wJeMuW+VLrU89ystFOdqryhL7rtRPgxX3EAGr9YJ+ap19GtMkJM+crvkrSDGCwOt
+	NWOokMQztbU4tuPQDG9pL/uZBa+jqaUCsPjGn1uKCL9Vismq/pJEkrKHJfS5qYJEw8f3
+	KTFg==
+X-Gm-Message-State: ALoCoQn3oqWt4g2peJEhzCDgmNPXbKetsJPMb2oLneXkJ3rcObuM9bU9koXfmeDGTo/zg8gpxmAX
+X-Received: by 10.50.73.97 with SMTP id k1mr3632810igv.61.1441209312680;
+	Wed, 02 Sep 2015 08:55:12 -0700 (PDT)
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com.
+	[209.85.223.179]) by smtp.gmail.com with ESMTPSA id
+	hj18sm2477090igb.7.2015.09.02.08.55.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 02 Sep 2015 08:55:11 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by iofh134 with SMTP id h134so25356210iof.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 02 Sep 2015 08:55:10 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.107.7.225 with SMTP id g94mr4151713ioi.28.1441209310921;
+	Wed, 02 Sep 2015 08:55:10 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Wed, 2 Sep 2015 08:55:10 -0700 (PDT)
+In-Reply-To: <1441143270-27322-2-git-send-email-jslater@windriver.com>
+References: <1441143270-27322-1-git-send-email-jslater@windriver.com>
+	<1441143270-27322-2-git-send-email-jslater@windriver.com>
+Date: Wed, 2 Sep 2015 12:55:10 -0300
+Message-ID: <CAP9ODKp5sMLAB1ohdVPAPZrDeUCjfSGuLVF-VU53BsvzHX29mg@mail.gmail.com>
+To: Joe Slater <jslater@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] ifupdown: import recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,32 +57,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 15:48:44 -0000
+X-List-Received-Date: Wed, 02 Sep 2015 15:55:13 -0000
+Content-Type: text/plain; charset=UTF-8
 
-This changes the default SYSLINUX_ROOTFS such that the rootfs is no
-longer expected under a fixed device path. Instead, the UUID is used
-to find it. This makes the resulting .hdddirect (and thus also the
-vdi/vdmk/qcow2 images derived from that) more flexible.
+On Tue, Sep 1, 2015 at 6:34 PM, Joe Slater <jslater@windriver.com> wrote:
+> Implements ifup and ifdown.
+>
+> Copied from https://github.com/WindRiver-OpenSourceLabs/meta-overc.git
+> as of commit aa89eebffe06e4aa04701eae9691cb3049cbaef9.
+>
+> Signed-off-by: Joe Slater <jslater@windriver.com>
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- meta/classes/boot-directdisk.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I think this belongs to meta-networking. Also, what this one provides
+which is not provided by the busybox one?
 
-diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
-index 600e21a..7cb0ab0 100644
---- a/meta/classes/boot-directdisk.bbclass
-+++ b/meta/classes/boot-directdisk.bbclass
-@@ -60,7 +60,7 @@ inherit ${EFI_CLASS}
- 
- AUTO_SYSLINUXCFG = "1"
- DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
--SYSLINUX_ROOT ?= "root=/dev/sda2"
-+SYSLINUX_ROOT ?= "root=UUID=<<uuid-of-rootfs>>"
- SYSLINUX_TIMEOUT ?= "10"
- 
- IS_VM = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2"], "true", "false", d)}'
 -- 
-2.1.4
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
