@@ -1,32 +1,35 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 463887702A
+Return-Path: <alejandro.delcastillo@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EE0F7702A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 19:39:28 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 02 Sep 2015 12:39:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,455,1437462000"; d="scan'208";a="761067580"
-Received: from lsandov1-mobl-linux.zpn.intel.com (HELO [10.219.5.40])
-	([10.219.5.40])
-	by orsmga001.jf.intel.com with ESMTP; 02 Sep 2015 12:39:27 -0700
-Message-ID: <55E750B8.70107@linux.intel.com>
-Date: Wed, 02 Sep 2015 14:40:40 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+	Wed,  2 Sep 2015 19:40:01 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t82Jdv1X010859; Wed, 2 Sep 2015 14:39:59 -0500
+Received: from [10.2.33.36] ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015090214395857-1122405 ;
+	Wed, 2 Sep 2015 14:39:58 -0500 
+Message-ID: <55E7508D.3050101@ni.com>
+Date: Wed, 02 Sep 2015 14:39:57 -0500
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
+	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
 MIME-Version: 1.0
-To: Patrick Ohly <patrick.ohly@intel.com>
-References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>		
-	<16f26bbb5fa39e399b185cd26fe9205c2e0cc5d4.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>	
-	<1440746955.3006.73.camel@intel.com>
-	<55E06356.8000607@linux.intel.com>
-	<1440785288.3006.93.camel@intel.com>
-In-Reply-To: <1440785288.3006.93.camel@intel.com>
-Cc: "Stoppa, Igor" <igor.stoppa@intel.com>, matt.fleming@intel.com,
-	leonardo.sandoval.gonzalez@intel.com, ricardo.neri@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 3/3] runqemu: Define OECORE_MACHINE_SYSROOT on setup_sysroot
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1441117073-23911-1-git-send-email-alejandro.delcastillo@ni.com>
+	<1441176900.24871.25.camel@linuxfoundation.org>
+In-Reply-To: <1441176900.24871.25.camel@linuxfoundation.org>
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 09/02/2015 02:39:58 PM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 09/02/2015 02:39:59 PM,
+	Serialize complete at 09/02/2015 02:39:59 PM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-09-02_08:, , signatures=0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] opkg: upgrade to v0.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,30 +42,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 19:39:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Wed, 02 Sep 2015 19:40:03 -0000
 Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
 
-Patrick
 
-these set of patches should be merged into master(next). I do not see 
-any heavy objection doing it. As you mentioned, there are some points to 
-improve but I think the latter can be done before 2.1 release.
 
-Let me know if you have any objections, otherwise the merge is pending.
-
-On 08/28/2015 01:08 PM, Patrick Ohly wrote:
-> On Fri, 2015-08-28 at 08:34 -0500, Leonardo Sandoval wrote:
->> Hi Patrick,
+On 09/02/2015 01:55 AM, Richard Purdie wrote:
+> On Tue, 2015-09-01 at 09:17 -0500, Alejandro del Castillo wrote:
+>> Changes required:
+>> - Rename opkg-cl to opkg
+>> - Add libarchive dependency
+>> - Drop backport patches
+>> - Drop obsolete directory options
+>> - Add patch to handle empty index files
 >>
->> I do not have much time for a V4 set of patches, but now with all your
->> input I can rework V3 patches on 2.1.
->
-> What do you mean with "rework on on 2.1"?
->
-> I have some other runqemu changes pending locally (support booting
-> hddimg), so runqemu internals are still kinda fresh in my mind. If you
-> don't have time, then I can rework the patch series. However, it's a
-> side project for me, too.
->
+>> Based on initial work by Paul Barker.
+>>
+>> Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+>> CC: Paul Barker <paul@paulbarker.me.uk>
+> 
+> The autobuilder shows these errors for a build containing this patch:
+> 
+> https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/468/steps/BuildImages/logs/stdio
+> 
+> Not sure why...
+
+running populate-volatile seems to cause the permission problem. If I remove the
+commit below (master-next), I can build fine:
+
+0e59378 image.bbclass: Always try to run populate-volatile.sh at rootfs time
+
+Regarding the opkg upgrade patch, I sent to the same thread a follow up patch
+that fixes the adt-installer. Both changes are related to the opkg upgrade, so
+they can be squashed. Let me know if you want me to send you a v2 patch with the
+adt-installer changes included.
+
+-- 
+Cheers,
+
+Alejandro
 
