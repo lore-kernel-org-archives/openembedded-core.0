@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id F145077046
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7086977059
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 11:00:30 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Sep 2015 04:00:31 -0700
+	Wed,  2 Sep 2015 11:00:31 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP; 02 Sep 2015 04:00:31 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,453,1437462000"; d="scan'208";a="637005727"
+X-IronPort-AV: E=Sophos;i="5.17,453,1437462000"; d="scan'208";a="796215128"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga003.jf.intel.com with ESMTP; 02 Sep 2015 04:00:30 -0700
+	by orsmga002.jf.intel.com with ESMTP; 02 Sep 2015 04:00:32 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 708B66A4083
+	by linux.intel.com (Postfix) with ESMTP id 880986A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 03:59:39 -0700 (PDT)
+	Wed,  2 Sep 2015 03:59:40 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Sep 2015 13:58:13 +0300
-Message-Id: <f0408e078469592b0c167026528ccb3f044f7d0b.1441191270.git.ed.bartosh@linux.intel.com>
+Date: Wed,  2 Sep 2015 13:58:14 +0300
+Message-Id: <37696f8c1bdafe09f0b282df0acc006bc49cfa6c.1441191270.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1441191270.git.ed.bartosh@linux.intel.com>
 References: <cover.1441191270.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1441191270.git.ed.bartosh@linux.intel.com>
 References: <cover.1441191270.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 13/17] wic: fix pylint warning unused-variable
+Subject: [PATCH 14/17] wic: fix pylint warning redefined-builtin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,110 +37,110 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 02 Sep 2015 11:00:31 -0000
 
-Removed or reworked code with unused variables.
+Renamed variables named as Python builtin functions.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/wic/engine.py                     | 4 +---
- scripts/lib/wic/imager/baseimager.py          | 4 ++--
- scripts/lib/wic/imager/direct.py              | 2 +-
- scripts/lib/wic/plugin.py                     | 7 +------
- scripts/lib/wic/plugins/source/bootimg-efi.py | 6 ------
- scripts/wic                                   | 2 +-
- 6 files changed, 6 insertions(+), 19 deletions(-)
+ scripts/lib/wic/engine.py                        | 18 +++++++++---------
+ scripts/lib/wic/imager/baseimager.py             |  4 ++--
+ scripts/lib/wic/imager/direct.py                 |  6 +++---
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py |  6 +++---
+ 4 files changed, 17 insertions(+), 17 deletions(-)
 
 diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index a034841..30c4fa3 100644
+index 30c4fa3..d4a7be6 100644
 --- a/scripts/lib/wic/engine.py
 +++ b/scripts/lib/wic/engine.py
-@@ -43,9 +43,7 @@ def verify_build_env():
+@@ -77,11 +77,11 @@ def find_canned_image(scripts_path, wks_file):
  
-     Returns True if it is, false otherwise
-     """
--    try:
--        builddir = os.environ["BUILDDIR"]
--    except KeyError:
-+    if not os.environ.get("BUILDDIR"):
-         print "BUILDDIR not found, exiting. (Did you forget to source oe-init-build-env?)"
-         sys.exit(1)
+     for canned_wks_dir in layers_canned_wks_dir:
+         for root, dirs, files in os.walk(canned_wks_dir):
+-            for file in files:
+-                if file.endswith("~") or file.endswith("#"):
++            for fname in files:
++                if fname.endswith("~") or fname.endswith("#"):
+                     continue
+-                if file.endswith(".wks") and wks_file + ".wks" == file:
+-                    fullpath = os.path.join(canned_wks_dir, file)
++                if fname.endswith(".wks") and wks_file + ".wks" == fname:
++                    fullpath = os.path.join(canned_wks_dir, fname)
+                     return fullpath
+     return None
+ 
+@@ -94,11 +94,11 @@ def list_canned_images(scripts_path):
+ 
+     for canned_wks_dir in layers_canned_wks_dir:
+         for root, dirs, files in os.walk(canned_wks_dir):
+-            for file in files:
+-                if file.endswith("~") or file.endswith("#"):
++            for fname in files:
++                if fname.endswith("~") or fname.endswith("#"):
+                     continue
+-                if file.endswith(".wks"):
+-                    fullpath = os.path.join(canned_wks_dir, file)
++                if fname.endswith(".wks"):
++                    fullpath = os.path.join(canned_wks_dir, fname)
+                     f = open(fullpath, "r")
+                     lines = f.readlines()
+                     for line in lines:
+@@ -107,7 +107,7 @@ def list_canned_images(scripts_path):
+                         if idx != -1:
+                             desc = line[idx + len("short-description:"):].strip()
+                             break
+-                    basename = os.path.splitext(file)[0]
++                    basename = os.path.splitext(fname)[0]
+                     print "  %s\t\t%s" % (basename.ljust(30), desc)
+ 
  
 diff --git a/scripts/lib/wic/imager/baseimager.py b/scripts/lib/wic/imager/baseimager.py
-index 67a2d01..4abcabc 100644
+index 4abcabc..acbe948 100644
 --- a/scripts/lib/wic/imager/baseimager.py
 +++ b/scripts/lib/wic/imager/baseimager.py
-@@ -132,9 +132,9 @@ class BaseImageCreator(object):
-                 os.makedirs(self.workdir)
-             self.__builddir = tempfile.mkdtemp(dir=self.workdir,
-                                                prefix="imgcreate-")
--        except OSError, (err, msg):
-+        except OSError as err:
-             raise CreatorError("Failed create build directory in %s: %s" %
--                               (self.tmpdir, msg))
-+                               (self.tmpdir, err))
+@@ -186,7 +186,7 @@ class BaseImageCreator(object):
+     def print_outimage_info(self):
+         msg = "The new image can be found here:\n"
+         self.outimage.sort()
+-        for file in self.outimage:
+-            msg += '  %s\n' % os.path.abspath(file)
++        for path in self.outimage:
++            msg += '  %s\n' % os.path.abspath(path)
  
-     def __setup_tmpdir(self):
-         if not self.enabletmpfs:
+         msger.info(msg)
 diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
-index d68fd2a..74ebbe7 100644
+index 74ebbe7..761e436 100644
 --- a/scripts/lib/wic/imager/direct.py
 +++ b/scripts/lib/wic/imager/direct.py
-@@ -327,7 +327,7 @@ class DirectImageCreator(BaseImageCreator):
+@@ -340,10 +340,10 @@ class DirectImageCreator(BaseImageCreator):
+             if p.get_rootfs() is None:
+                 continue
+             if p.mountpoint == '/':
+-                str = ':'
++                suffix = ':'
+             else:
+-                str = '["%s"]:' % (p.mountpoint or p.label)
+-            msg += '  ROOTFS_DIR%s%s\n' % (str.ljust(20), p.get_rootfs())
++                suffix = '["%s"]:' % (p.mountpoint or p.label)
++            msg += '  ROOTFS_DIR%s%s\n' % (suffix.ljust(20), p.get_rootfs())
  
-         parts = self._get_parts()
- 
--        for disk_name, disk in self.__image.disks.items():
-+        for disk_name in self.__image.disks:
-             extension = "direct" + {"gzip": ".gz",
-                                     "bzip2": ".bz2",
-                                     "xz": ".xz",
-diff --git a/scripts/lib/wic/plugin.py b/scripts/lib/wic/plugin.py
-index e901f80..7244989 100644
---- a/scripts/lib/wic/plugin.py
-+++ b/scripts/lib/wic/plugin.py
-@@ -124,12 +124,7 @@ class PluginMgr(object):
- 
-         self.append_dirs(plugins_dir)
- 
--        plugins = []
--
--        for _source_name, klass in self.get_plugins('source').iteritems():
--            plugins.append(_source_name)
--
--        return plugins
-+        return self.get_plugins('source')
- 
- 
-     def get_source_plugin_methods(self, source_name, methods):
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 49d5c8a..b48cc83 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -45,12 +45,6 @@ class BootimgEFIPlugin(SourcePlugin):
+         msg += '  BOOTIMG_DIR:                  %s\n' % self.bootimg_dir
+         msg += '  KERNEL_DIR:                   %s\n' % self.kernel_dir
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index 721c524..3c2dbc9 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -127,9 +127,9 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         'prepares' the partition to be incorporated into the image.
+         In this case, prepare content for legacy bios boot partition.
          """
-         Create loader-specific (grub-efi) config
-         """
--        splash = os.path.join(cr_workdir, "/EFI/boot/splash.jpg")
--        if os.path.exists(splash):
--            splashline = "menu background splash.jpg"
--        else:
--            splashline = ""
--
-         options = cr.ks.handler.bootloader.appendLine
- 
-         grubefi_conf = ""
-diff --git a/scripts/wic b/scripts/wic
-index 94028e2..c99c504 100755
---- a/scripts/wic
-+++ b/scripts/wic
-@@ -308,7 +308,7 @@ def main(argv):
- 
-     parser.disable_interspersed_args()
- 
--    (options, args) = parser.parse_args(argv)
-+    args = parser.parse_args(argv)[1]
- 
-     if len(args):
-         if args[0] == "help":
+-        def _has_syslinux(dir):
+-            if dir:
+-                syslinux = "%s/syslinux" % dir
++        def _has_syslinux(dirname):
++            if dirname:
++                syslinux = "%s/syslinux" % dirname
+                 if os.path.exists(syslinux):
+                     return True
+             return False
 -- 
 2.1.4
 
