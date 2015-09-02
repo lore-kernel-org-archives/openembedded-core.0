@@ -1,34 +1,32 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id D1B997700A
+	by mail.openembedded.org (Postfix) with ESMTP id 1356F7700A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 07:10:01 +0000 (UTC)
+	Wed,  2 Sep 2015 07:15:41 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t827A0Cb004017; Wed, 2 Sep 2015 08:10:00 +0100
+	t827Fe8o004232; Wed, 2 Sep 2015 08:15:40 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id b8HjS1qd9L0f; Wed,  2 Sep 2015 08:10:00 +0100 (BST)
+	with LMTP id zb_To-F1IKjf; Wed,  2 Sep 2015 08:15:40 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8279lUf004009
+	t827FSSI004227
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 2 Sep 2015 08:09:58 +0100
-Message-ID: <1441177787.24871.33.camel@linuxfoundation.org>
+	Wed, 2 Sep 2015 08:15:39 +0100
+Message-ID: <1441178128.24871.36.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Wed, 02 Sep 2015 08:09:47 +0100
-In-Reply-To: <CAP9ODKp9Vkw-vHNp1PMqE1eTfmW8-s5o6+0JYTv=sFEHm9nc1g@mail.gmail.com>
-References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
-	<20150901215512.GE2458@jama>
-	<CAP9ODKq=HsV79hXhHeCwdhpF6uhHdCxYrhC53Kt5+Pe6Qdpf1w@mail.gmail.com>
-	<255516EC-098E-457B-A2E6-2F7C953CAA8D@gmail.com>
-	<CAP9ODKp9Vkw-vHNp1PMqE1eTfmW8-s5o6+0JYTv=sFEHm9nc1g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 02 Sep 2015 08:15:28 +0100
+In-Reply-To: <E9B6BF0B-EC31-4CF5-8756-9A338258CFF7@gmail.com>
+References: <cover.1440446289.git.raj.khem@gmail.com>
+	<87b72ec93b53c0a0ac61950f52480fa86a93c937.1440446289.git.raj.khem@gmail.com>
+	<1441142126.24871.21.camel@linuxfoundation.org>
+	<E9B6BF0B-EC31-4CF5-8756-9A338258CFF7@gmail.com>
 X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Patch merge process
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/17] systemd: Upgrade 219 -> 224
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,56 +39,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 07:10:04 -0000
+X-List-Received-Date: Wed, 02 Sep 2015 07:15:42 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2015-09-01 at 19:51 -0300, Otavio Salvador wrote:
-> On Tue, Sep 1, 2015 at 7:46 PM, Khem Raj <raj.khem@gmail.com> wrote:
-> >> On Sep 1, 2015, at 3:05 PM, Otavio Salvador <otavio.salvador@ossystems.com.br> wrote:
-> >> On Tue, Sep 1, 2015 at 6:55 PM, Martin Jansa <martin.jansa@gmail.com> wrote:
-> >>> I hate to say it, but for meta-oe and meta-qt5 I would like to use
-> >>> gerrit - it's great to see all related information (all revisions of the
-> >>> patch, all review comments, all results of verification builds) in
-> >>> single location from where you do the actual submissions to official
-> >>> branch when all criteria are satisfied.
-> >>
-> >> Me too; we have been using Gerrit for patch management for a while and
-> >> it works very well.
-> >>
-> >> If you want, we can host it at our server, by the way.
-> >
-> > hmm can we use gerrit.openembedded.org or review.openembedded.org ?
-> > may be redirected to a different hosting area underneath.
+On Tue, 2015-09-01 at 16:45 -0700, Khem Raj wrote:
+> > On Sep 1, 2015, at 2:15 PM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > On Mon, 2015-08-24 at 13:03 -0700, Khem Raj wrote:
+> >> Drop patches that were straight backports from upstream
+> >> 
+> >> MIT licence was unused and dropped from systemd sources
+> >> for more details see
+> >> https://github.com/systemd/systemd/commit/8f1e0c5f38cdf7e401ab4d2bb93ad816d08e7715
+> >> 
+> >> Drop gtkdoc dependency since libudev API documentation has been converted from gtkdoc into man pages
+> >> Remove packaging gudev as it has moved to separate repository outside
+> >> systemd
+> >> 
+> >> For more details see
+> >> https://github.com/systemd/systemd/commit/2375607039517c88df51ef16ddbb624ec1c10654
+> >> 
+> >> package newly added script for xorg to be usable with systemd --user
+> >> intance
+> >> For more details see
+> >> https://github.com/systemd/systemd/commit/1401ec2d34bcde406ced531a72dc46ebaf332594
+> >> 
+> >> For complete differences between two releases run
+> >> git log --oneline v219..v224
+> >> in systemd git clone
+> > 
+> > This patch seems to cause the build failures in:
+> > 
+> > https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/466
+> > 
+> > (two different sanity test failures)
 > 
-> If people want it, we can provide a VM for it. So OE can freely host it.
+> 
+> thanks for the info. Looking at the two tests.
+> 
+> setting up date using date -s seems to be assuming that Automatic time synchronization is not enabled
+> that test could be improved for systemd by using systemd utils.
+> 
+> timedatectl set-time "yyyy-MM-dd hh:mm:ss”
+> 
+> and I don’t believe its passing with systemd-219 since locally I executed same commands on my minnow board running 219
+> and it failed.
 
-In the interests of being completely clear I do not want to use gerrit
-for OE-Core. I was asked to use it as part of another project and it
-simply doesn't work with the way I think or handle patches. I cannot
-begin to describe how much I disliked it.
+I believe it passes with 219 (master) and is a regression:
 
-I'd also note that it means moving the meta-oe repository to be under
-gerrit control. One of the issues we've had in the past with it was that
-it is a "all or nothing" solution where it either touches/controls
-everything of you don't use it at all :/. What impact that has for other
-repos in the system and consistency of the server I'm not sure.
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/471
 
-It also doesn't really solve the problem we have with OE-Core which is
-simply too many patches for the maintainers/submaintainers and test
-cycles we have at the moment. Reading Martin's comments, I realised that
-with OE-Core we do try and have a faster turnaround cycle, at least for
-the less controversial patches and this probably increases some of the
-pressure :/.
+(green build with master which contains 219).
 
-I should also mention that progress is being made with patchwork. We've
-gone from many patches not being updated correctly to the interface
-being better updated automatically now. Its still not perfect but its a
-start. I continue to believe that patchwork can better integrated into
-the workflows we have with a bit of time, and work is slowly moving
-forward with that.
+> Second test failure is a good one when mixing sysvinit scripts with systemd which is what systemctl disable avahi-daemon.service is doing
+> 
+> CHANGES WITH 221:
+> 
+>         * Support for chkconfig (--enable-chkconfig) was removed in favour of
+>           calling an abstraction /lib/systemd/systemd-sysv-install. This needs
+>           to be implemented for your distribution. See "SYSV INIT.D SCRIPTS" in
+>           README for details.
+> 
+> This needs implementing  /lib/systemd/systemd-sysv-install for OE and I will update the patch to fix this one.
 
-Cheers,
+Thanks!
 
 Richard
 
