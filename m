@@ -1,51 +1,51 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D96877046
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
+	[209.85.213.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CC327704C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 16:16:21 +0000 (UTC)
-Received: by ioiz6 with SMTP id z6so25983865ioi.2
+	Wed,  2 Sep 2015 16:19:39 +0000 (UTC)
+Received: by igbkq10 with SMTP id kq10so29353185igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Sep 2015 09:16:21 -0700 (PDT)
+	Wed, 02 Sep 2015 09:19:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
 	:message-id:subject:to:cc:content-type;
-	bh=u32DY/kCTZXSMfTJeQUFkF5hgm3ewEhBA/HGLYwQ+Xo=;
-	b=CHxtifsBGHqH9ENzSXx5fTUMZIl5k8VNysNuzrDurWeyNx1RqTgax+87lo4RMxApwh
-	rgP8PuC90SP26+D2FDYgaY1hBpbTRb98UCtdpedvxMpfB384OlU2ZQNByK7c5NPHfpxR
-	PA/qj5qLmyy7cKfknpeYG31vhaSzOO1Ud+29SCpBmD8PWzz5/cMf1V9CDWqhkYd8Ur++
-	skv9hDtakpxfjFwrD9+SRR/20oxbvoAsBQrZR1qSgZzSkU1G+Kmh4jq3OvsPR9dWPOFW
-	8A1gETxOEm1ikoR7JeGlN11V0VthJloezDK1naWQ/prFaRv8/hxvwO/+3uP+bJdjLIFB
-	JuSg==
-X-Gm-Message-State: ALoCoQl5I3Wf1D0lbrP6S8z6YzMpZA/6efJc+cFXsKdKumVBAL/IXgqZuBnjcXnMcKaWCCIgkNWT
-X-Received: by 10.107.4.17 with SMTP id 17mr33880298ioe.10.1441210581290;
-	Wed, 02 Sep 2015 09:16:21 -0700 (PDT)
-Received: from mail-io0-f171.google.com (mail-io0-f171.google.com.
-	[209.85.223.171]) by smtp.gmail.com with ESMTPSA id
-	hj18sm2512308igb.7.2015.09.02.09.16.19
+	bh=le1PiszZjvHZah4JU9y2UCbRIHvP0awrWzT0qMHRHg0=;
+	b=ZWDxoO1VS1u4W6YxDbdbrpEToTWDpuXJGquYkSclL9JlVGId0RqapFNuYNSReh0mjs
+	g9ytLFiee/0qwPawgk659QNE/IhJWu2+b0X18zVnCtKewMsxNqS6yaG5PNex8FauwOhV
+	hihqr7av7AjJ+YbovvvN4oOUXEkg8SXU+2DCnsoRaez9ejuWbKxnvv8L2IVeU7RMbkJZ
+	qx7B9FX+Tu0HW2gCV8O3qrcARQao15TcQkYj2yjQ9WmonyBs5MTZx7valC/2n43r/Z9d
+	PU0XJiC+jARM8cfYE3FuGn43+L5jIj1Ta/zSG4RKwF+11Q6f1igADMdXUFWalkv8Mlxi
+	rLww==
+X-Gm-Message-State: ALoCoQnURIZ9XnjaO7UBV6nSk7NtklOQHmbiqCj5TXWtkex4QBfS+yIiqr8qLkGyNkWwL863Gd7A
+X-Received: by 10.50.112.227 with SMTP id it3mr4152680igb.93.1441210780067;
+	Wed, 02 Sep 2015 09:19:40 -0700 (PDT)
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com.
+	[209.85.223.177])
+	by smtp.gmail.com with ESMTPSA id oo2sm2522356igb.6.2015.09.02.09.19.39
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Sep 2015 09:16:20 -0700 (PDT)
+	Wed, 02 Sep 2015 09:19:39 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by ioii196 with SMTP id i196so25857846ioi.3
+Received: by iofh134 with SMTP id h134so26266797iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Sep 2015 09:16:19 -0700 (PDT)
+	Wed, 02 Sep 2015 09:19:38 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.107.130.153 with SMTP id m25mr33755744ioi.192.1441210579686; 
-	Wed, 02 Sep 2015 09:16:19 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Wed, 2 Sep 2015 09:16:19 -0700 (PDT)
-In-Reply-To: <e0cab1af2f3fa08d0a4d202c65fae83a927e1567.1441207840.git.patrick.ohly@intel.com>
+X-Received: by 10.107.14.145 with SMTP id 139mr32809171ioo.37.1441210778818;
+	Wed, 02 Sep 2015 09:19:38 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Wed, 2 Sep 2015 09:19:38 -0700 (PDT)
+In-Reply-To: <784e52fcd898a07a12236058026fd48d0e01c8b7.1441207840.git.patrick.ohly@intel.com>
 References: <cover.1441207840.git.patrick.ohly@intel.com>
 	<3b40bb267aa67a9c7adae08713d85060129a219b.1441207840.git.patrick.ohly@intel.com>
-	<e0cab1af2f3fa08d0a4d202c65fae83a927e1567.1441207840.git.patrick.ohly@intel.com>
-Date: Wed, 2 Sep 2015 13:16:19 -0300
-Message-ID: <CAP9ODKrCzcUdfs9+GLsSe-ztS3c5BCmcLBPdmSayw-y9ZzPtkA@mail.gmail.com>
+	<784e52fcd898a07a12236058026fd48d0e01c8b7.1441207840.git.patrick.ohly@intel.com>
+Date: Wed, 2 Sep 2015 13:19:38 -0300
+Message-ID: <CAP9ODKpmtON87ZkXHP=gecSznBK_GXFAa=gAkicU2p2WV8qavg@mail.gmail.com>
 To: Patrick Ohly <patrick.ohly@intel.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/10] initramfs-framework: add separate init_verbose log level parameter
+Subject: Re: [PATCH 05/10] initramfs-framework: support mounting rootfs in modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,48 +58,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 16:16:22 -0000
+X-List-Received-Date: Wed, 02 Sep 2015 16:19:43 -0000
 Content-Type: text/plain; charset=UTF-8
 
 On Wed, Sep 2, 2015 at 12:48 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> Using the general purpose "debug" and "verbose" kernel parameters to
-> increase logging in the init script has the disadvantage that it
-> also increases logging in other components, making the output hard
-> to read (in particular with "debug").
+> The "finish" script always expected to mount the rootfs itself if the
+> "root" parameter was set. Now it checks first whether the rootfs
+> directory is still empty (using /dev as indicator, because that was
+> already expected to be present in a supported rootfs) and skips that
+> step if non-empty.
 >
-> The new init_verbose parameter only affects the init script:
->   init_verbose, init_verbose=1, init_verbose=true: enable just some info messages
->   init_verbose=2: debug messages
+> This allows modules to implement their own rootfs handling.
 >
 > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> ---
->  meta/recipes-core/initrdscripts/initramfs-framework/init | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
-> index e8f4713..cd55ee2 100755
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework/init
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
-> @@ -14,6 +14,13 @@
->  # 'foo=value' as 'bootparam_foo=value'
->  # 'foo' as 'bootparam_foo=true'
->  # 'foo.bar[=value] as 'foo_bar=[value|true]'
-> +#
-> +# Special boot parameters always recognized by initramfs-framework (see modules
-> +# like "debug" for additional ones):
-> +# debug: enable debug logging (beware, also enables debug output in other system components)
-> +# verbose: similar do debug, just less output
-> +# init_verbose[=true|1|2]: same output as for verbose when no value or true/1 are given,
-> +#                          same as debug for 2 - only affects logging in initramfs-framework
 
-I personally don't see much benefit on this. The debug module is the
-one used to debug the initramfs-framework script. If we ought to add
-support for something like this, this should be done there.
+I think this should not be applied as is. Anything doing the rootfs
+mapping should set the proper parameters so we don't have multiple
+rootfs mounting code duplicated.
 
-A possible way to do so is adding in the module the init-verbose and
-init-debug params and this to set bootparam_verbose and
-bootparam_debug accordingly. This avoids changing the common code and
-move this where it belongs.
+If there is any limitation please share the use case so we can
+understand the need for it.
 
 -- 
 Otavio Salvador                             O.S. Systems
