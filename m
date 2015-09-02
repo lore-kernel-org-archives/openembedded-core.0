@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id E2E717700A
+	by mail.openembedded.org (Postfix) with ESMTP id 3831C77026
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 11:00:16 +0000 (UTC)
+	Wed,  2 Sep 2015 11:00:18 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 02 Sep 2015 04:00:17 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 02 Sep 2015 04:00:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,453,1437462000"; d="scan'208";a="553762228"
+X-IronPort-AV: E=Sophos;i="5.17,453,1437462000"; d="scan'208";a="553762242"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 02 Sep 2015 04:00:17 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 02 Sep 2015 04:00:19 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.65])
-	by linux.intel.com (Postfix) with ESMTP id 367DF6A4083
+	by linux.intel.com (Postfix) with ESMTP id 5ED276A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 03:57:33 -0700 (PDT)
+	Wed,  2 Sep 2015 03:59:27 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  2 Sep 2015 13:58:01 +0300
-Message-Id: <6899dc7a2b3bae4693954c0dba6374211081544c.1441191270.git.ed.bartosh@linux.intel.com>
+Date: Wed,  2 Sep 2015 13:58:03 +0300
+Message-Id: <30dda8e4a5681c37cc2f14a0f696954d4ea5ddac.1441191270.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1441191270.git.ed.bartosh@linux.intel.com>
 References: <cover.1441191270.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1441191270.git.ed.bartosh@linux.intel.com>
 References: <cover.1441191270.git.ed.bartosh@linux.intel.com>
-Subject: [PATCH 01/17] wic: use ext4 in canned .wks files
+Subject: [PATCH 03/17] oe-selftest: wic: configure a build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,106 +37,48 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 02 Sep 2015 11:00:19 -0000
 
-Latest kernel doesn't have ext3 compiled in. Wic images produced
-from canned .wks can't boot because of that. Switching to ext4
-fixes this issue.
+Added MACHINE_FEATURES and IMAGE_FSTYPES variables to the build config
+to ensure that bootimg and efi artifacts are built. This is needed to
+build canned wic images that are using those artifacts.
+
+Introduced class variable Wic.image_is_ready to avoid building image
+more than once. It would be better to build image in setUpClass, which
+is called only once, but add_config method can't be called in class method,
+so we have to use this trick with class variable in setUp method.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- scripts/lib/image/canned-wks/directdisk-gpt.wks          | 4 ++--
- scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks | 6 +++---
- scripts/lib/image/canned-wks/directdisk.wks              | 4 ++--
- scripts/lib/image/canned-wks/mkefidisk.wks               | 4 ++--
- scripts/lib/image/canned-wks/mkgummidisk.wks             | 4 ++--
- scripts/lib/image/canned-wks/mkhybridiso.wks             | 2 +-
- 6 files changed, 12 insertions(+), 12 deletions(-)
+ meta/lib/oeqa/selftest/wic.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/image/canned-wks/directdisk-gpt.wks b/scripts/lib/image/canned-wks/directdisk-gpt.wks
-index 2355259..ea01cf3 100644
---- a/scripts/lib/image/canned-wks/directdisk-gpt.wks
-+++ b/scripts/lib/image/canned-wks/directdisk-gpt.wks
-@@ -4,7 +4,7 @@
+diff --git a/meta/lib/oeqa/selftest/wic.py b/meta/lib/oeqa/selftest/wic.py
+index 6bc4b60..817a820 100644
+--- a/meta/lib/oeqa/selftest/wic.py
++++ b/meta/lib/oeqa/selftest/wic.py
+@@ -39,12 +39,21 @@ class Wic(oeSelfTest):
  
+     @classmethod
+     def setUpClass(cls):
+-        """Build wic runtime dependencies and images used in the tests."""
++        """Build wic runtime dependencies."""
+         bitbake('syslinux syslinux-native parted-native gptfdisk-native '
+-                'dosfstools-native mtools-native core-image-minimal')
++                'dosfstools-native mtools-native')
++        Wic.image_is_ready = False
  
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024 --use-uuid
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
+     def setUp(self):
+         """This code is executed before each test method."""
++        if not Wic.image_is_ready:
++            # build core-image-minimal with required features
++            features = 'IMAGE_FSTYPES += " hddimg"\nMACHINE_FEATURES_append = " efi"\n'
++            self.append_config(features)
++            bitbake('core-image-minimal')
++            # set this class variable to avoid buiding image many times
++            Wic.image_is_ready = True
++
+         rmtree(self.resultdir, ignore_errors=True)
  
--bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
-+bootloader  --ptable gpt --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0"
- 
-diff --git a/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks b/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
-index f3c6df5..8a81f8f 100644
---- a/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
-+++ b/scripts/lib/image/canned-wks/directdisk-multi-rootfs.wks
-@@ -16,8 +16,8 @@
- #   - or any combinations of -r and --rootfs command line options
- 
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --rootfs-dir=rootfs1 --ondisk sda --fstype=ext3 --label platform --align 1024
--part /rescue --source rootfs --rootfs-dir=rootfs2 --ondisk sda --fstype=ext3 --label secondary --align 1024
-+part / --source rootfs --rootfs-dir=rootfs1 --ondisk sda --fstype=ext4 --label platform --align 1024
-+part /rescue --source rootfs --rootfs-dir=rootfs2 --ondisk sda --fstype=ext4 --label secondary --align 1024
- 
--bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
-+bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0"
- 
-diff --git a/scripts/lib/image/canned-wks/directdisk.wks b/scripts/lib/image/canned-wks/directdisk.wks
-index 62dcab1..af4c9ea 100644
---- a/scripts/lib/image/canned-wks/directdisk.wks
-+++ b/scripts/lib/image/canned-wks/directdisk.wks
-@@ -4,7 +4,7 @@
- 
- 
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
- 
--bootloader  --timeout=0  --append="rootwait rootfstype=ext3 video=vesafb vga=0x318 console=tty0"
-+bootloader  --timeout=0  --append="rootwait rootfstype=ext4 video=vesafb vga=0x318 console=tty0"
- 
-diff --git a/scripts/lib/image/canned-wks/mkefidisk.wks b/scripts/lib/image/canned-wks/mkefidisk.wks
-index 58d42e6..696e94e 100644
---- a/scripts/lib/image/canned-wks/mkefidisk.wks
-+++ b/scripts/lib/image/canned-wks/mkefidisk.wks
-@@ -4,8 +4,8 @@
- 
- part /boot --source bootimg-efi --sourceparams="loader=grub-efi" --ondisk sda --label msdos --active --align 1024
- 
--part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
--bootloader  --timeout=10  --append="rootwait rootfstype=ext3 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
-+bootloader  --timeout=10  --append="rootwait rootfstype=ext4 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
-diff --git a/scripts/lib/image/canned-wks/mkgummidisk.wks b/scripts/lib/image/canned-wks/mkgummidisk.wks
-index f81cbdf..66a22f6 100644
---- a/scripts/lib/image/canned-wks/mkgummidisk.wks
-+++ b/scripts/lib/image/canned-wks/mkgummidisk.wks
-@@ -4,8 +4,8 @@
- 
- part /boot --source bootimg-efi --sourceparams="loader=gummiboot" --ondisk sda --label msdos --active --align 1024
- 
--part / --source rootfs --ondisk sda --fstype=ext3 --label platform --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
- 
- part swap --ondisk sda --size 44 --label swap1 --fstype=swap
- 
--bootloader  --timeout=10  --append="rootwait rootfstype=ext3 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
-+bootloader  --timeout=10  --append="rootwait rootfstype=ext4 console=ttyPCH0,115200 console=tty0 vmalloc=256MB snd-hda-intel.enable_msi=0"
-diff --git a/scripts/lib/image/canned-wks/mkhybridiso.wks b/scripts/lib/image/canned-wks/mkhybridiso.wks
-index b443c15..9d34e9b 100644
---- a/scripts/lib/image/canned-wks/mkhybridiso.wks
-+++ b/scripts/lib/image/canned-wks/mkhybridiso.wks
-@@ -2,6 +2,6 @@
- # long-description: Creates an EFI and legacy bootable hybrid ISO image
- # which can be used on optical media as well as USB media.
- 
--part /boot --source isoimage-isohybrid --sourceparams="loader=grub-efi,image_name=HYBRID_ISO_IMG" --ondisk cd --label HYBRIDISO --fstype=ext3
-+part /boot --source isoimage-isohybrid --sourceparams="loader=grub-efi,image_name=HYBRID_ISO_IMG" --ondisk cd --label HYBRIDISO --fstype=ext4
- 
- bootloader  --timeout=15  --append=""
+     def test01_help(self):
 -- 
 2.1.4
 
