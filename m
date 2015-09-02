@@ -1,21 +1,29 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id A50C176FF2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A069E7702A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  2 Sep 2015 17:10:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 1F549608F4F
-Message-ID: <1441213853.9071.3.camel@collabora.co.uk>
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Armin Kuster
-	<akuster808@gmail.com>
-Date: Wed, 02 Sep 2015 18:10:53 +0100
-In-Reply-To: <1441139962.24871.16.camel@linuxfoundation.org>
-References: <1441139962.24871.16.camel@linuxfoundation.org>
-X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
+	Wed,  2 Sep 2015 17:51:42 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t82Hpctb007689; Wed, 2 Sep 2015 18:51:38 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 2ZsjyQe8fvG5; Wed,  2 Sep 2015 18:51:38 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t82HpNRn007676
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Wed, 2 Sep 2015 18:51:34 +0100
+Message-ID: <1441216283.24871.78.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex Franco <alejandro.franco@linux.intel.com>
+Date: Wed, 02 Sep 2015 18:51:23 +0100
+In-Reply-To: <1441211805-17543-1-git-send-email-alejandro.franco@linux.intel.com>
+References: <1441211805-17543-1-git-send-email-alejandro.franco@linux.intel.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Fido and dizzy collaboration?
+Cc: clarson@kergoth.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Fix recursive mode -st on BUILDDIR setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,41 +36,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Sep 2015 17:10:57 -0000
+X-List-Received-Date: Wed, 02 Sep 2015 17:51:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Richard,
-
-On Tue, 2015-09-01 at 21:39 +0100, Richard Purdie wrote:
-> Hi Armin, Joshua,
+On Wed, 2015-09-02 at 11:36 -0500, Alex Franco wrote:
+> Removing recursive option from chmod -st on BUILDDIR as it would
+> take very long on existing build directories
 > 
-> I've just been looking at the patches queued for the dizzy/fido
-> branches. In fact I ended up merging them before I realised there are
-> some issues.
+> [YOCTO 7669]
 > 
-> The problem is there are dizzy patches which aren't in fido, which
-> breaks our policies. Could the two of you work to resolve that and
-> give
-> me fido branch to pull which resolved it please?
+> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+> ---
+>  scripts/oe-setup-builddir | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+> index f5b7e4e..44c7dcc 100755
+> --- a/scripts/oe-setup-builddir
+> +++ b/scripts/oe-setup-builddir
+> @@ -24,7 +24,7 @@ if [ -z "$BUILDDIR" ]; then
+>  fi
+>  
+>  mkdir -p "$BUILDDIR/conf"
+> -chmod -R -st "$BUILDDIR" 
+> +chmod -st "$BUILDDIR"
 
-I just had a look at changes merged to dizzy in the past two weeks,
-assuming the issues were recent, and found the following changes in
-dizzy which I didn't have in fido:
-* Some QEMU CVE fixes, those don't apply to the newer QEMU in fido
-(2.2.0 vs. 2.1.0).
-* A fix for CVE-2015-5477 in bind, fido has a different patch to
-include this - probably not worth a revert & merge though?
-* Three lib/oeqa changes - I've cherry-picked them to my joshuagl/fido
--next branch[1].
+I think you did this so that conf/ gets the right permissions too.
+Perhaps the best approach is:
 
-In future I'll keep an eye on changes tagged for dizzy too and try to
-help avoid this happening again.
++chmod -st "$BUILDDIR" $BUILDDIR/conf"
 
-Regards,
+?
 
-Joshua
+Cheers,
 
-1. http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshua
-gl/fido-next
+Richard
+
 
