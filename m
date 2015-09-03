@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id F046A77009
+	by mail.openembedded.org (Postfix) with ESMTP id F0DF777054
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  3 Sep 2015 14:58:50 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id E6A613C88699
+	(Authenticated sender: joshuagl) with ESMTPSA id 9EA813C88697
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Sep 2015 15:58:22 +0100
-Message-Id: <078951da0993bd675e4f6d92dfeecd45dacee8d7.1441291646.git.joshua.lock@collabora.co.uk>
+Date: Thu,  3 Sep 2015 15:58:20 +0100
+Message-Id: <ba6fc3c61d95f802d102f9649e9547c4a86753dd.1441291646.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH 7/9] pcmciautils: handle udev dir being 2 levels below /
+Subject: [PATCH 5/9] pulseaudio: handle udev dir being 2 levels below /
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,21 +36,22 @@ ensure a merged /usr works.
 
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-bsp/pcmciautils/pcmciautils_018.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-index 24ceed8..857bd07 100644
---- a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-+++ b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-@@ -9,5 +9,5 @@ SRC_URI[sha256sum] = "79e6ae441278e178c07501d492394ed2c0326fdb66894f6d040ec811b0
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 47f5f39..5454787 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -99,7 +99,7 @@ FILES_${PN}-dbg += "${libexecdir}/pulse/.debug \
+ FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala ${libdir}/cmake"   
+ FILES_${PN}-conf = "${sysconfdir}"
+ FILES_${PN}-bin += "${sysconfdir}/default/volatiles/volatiles.04_pulse"
+-FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules ${systemd_user_unitdir}/*"
++FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
  
- PR = "r1"
- 
--FILES_${PN}-dbg += "*/udev/.debug"
--FILES_${PN} += "*/udev"
-+FILES_${PN}-dbg += "*/udev/.debug */*/udev/.debug"
-+FILES_${PN} += "*/udev */*/udev"
+ #SYSTEMD_PACKAGES = "${PN}-server"
+ SYSTEMD_SERVICE_${PN}-server = "pulseaudio.service"
 -- 
 2.1.4
 
