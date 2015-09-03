@@ -1,37 +1,25 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f48.google.com (mail-qg0-f48.google.com
-	[209.85.192.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C222B76F8A
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id B733F76F50
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 16:08:22 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so32493369qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 09:08:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=v5D6gRpVkF+rbbWj61t/7fwkM6UZvYqpjSar/qI79wQ=;
-	b=WH1oeXd+KgYhaOYnod6Rjyz+0lq5l5kvdAuNTFTsc12Kds1DjM4TbHGyjRBJPQ/kBG
-	IJRcTI+k8nodK7R3T4FNuzT45Hd3275s+NyS0tfGwnWEuLIAfoWjdJrV2tENbrErN86l
-	woGDZIOeTddCHYK1mRsi34Hi5hGquSBh4itbT4SLKPn3dgxyNhPyY1FX2I9s6L424u3l
-	dx0PQRLSPD4eulGIt+DJHNhHFb/AUAjbGLk7RIKInh+D2z0iDHSMVvpqK1RwIMxldjSz
-	nbRBOLcQQC6INp+ZHDe5BgLUH1XXy8kgWRlsuqQNx7ydCY/XV7bPuBibMtdwuFX1x0tK
-	bhmA==
-X-Gm-Message-State: ALoCoQk06DN1r+84RMULWiS8hajXh9A4BZj9PD9azYW3f45hk0IK2DiBSIfMGkhEhNhqUJd/7HY0
-X-Received: by 10.140.109.54 with SMTP id k51mr7637240qgf.77.1441296502147;
-	Thu, 03 Sep 2015 09:08:22 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Thu, 3 Sep 2015 09:08:02 -0700 (PDT)
-In-Reply-To: <f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>
-References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
-	<f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 Sep 2015 17:08:02 +0100
-Message-ID: <CAJTo0LYdE-XZkCASy9n3uuL_HrrFTZKC5a3aA0Mj4FU4kOPnew@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/12] gnome-icon-theme: remove the recipe
+	Thu,  3 Sep 2015 16:29:23 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 03 Sep 2015 09:29:23 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,463,1437462000"; d="scan'208";a="797158621"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.154])
+	([10.218.99.154])
+	by orsmga002.jf.intel.com with ESMTP; 03 Sep 2015 09:29:22 -0700
+Message-ID: <1441297738.2545.4.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 03 Sep 2015 13:28:58 -0300
+In-Reply-To: <1441135341-2048-1-git-send-email-bruno.bottazzini@intel.com>
+References: <bruno.bottazzini@intel.com>
+	<1441135341-2048-1-git-send-email-bruno.bottazzini@intel.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Subject: Re: [PATCH] scripts: Create interactive menu for mkefidisk script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,42 +32,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 16:08:26 -0000
-Content-Type: multipart/alternative; boundary=001a1139a1fa06e690051ed9fe12
+X-List-Received-Date: Thu, 03 Sep 2015 16:29:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a1139a1fa06e690051ed9fe12
-Content-Type: text/plain; charset=UTF-8
+Bump
 
-On 3 September 2015 at 16:34, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+On Tue, 2015-09-01 at 16:22 -0300, Bruno Bottazzini wrote:
+> If it is passed only the image parameter, it will show some interactive
+> options to help to conclude the script.
+> 
+> With this patch it will detect devices available in the machine, asking
+> to choose what it is wanted to be flashed.
+> 
+> it will suggest the target device. If it is a SD card the suggestion
+> is /dev/mmcblk0. If it is a pendrive it will suggest to use /dev/sda.
+> 
+> Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+> ---
+>  scripts/contrib/mkefidisk.sh | 60 ++++++++++++++++++++++++++++++++++++++++----
+>  1 file changed, 55 insertions(+), 5 deletions(-)
+> 
+> diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+> index 55f72b0..7628de7 100755
+> --- a/scripts/contrib/mkefidisk.sh
+> +++ b/scripts/contrib/mkefidisk.sh
+> @@ -152,8 +152,52 @@ unmount() {
+>  # Parse and validate arguments
+>  #
+>  if [ $# -lt 3 ] || [ $# -gt 4 ]; then
+> -	usage
+> -	exit 1
+> +    if [ $# -eq 1 ]; then
+> +        AVAILABLE_DISK=`fdisk -l | grep "Disk /" | cut -f 1 -d ':' | cut -f 2 -d ' '`
+> +        if [ -z "$AVAILABLE_DISK" ]; then
+> +            die "Starting mkefidisk.sh as root is required"
+> +        fi
+> +        echo "Available disks are"
+> +        X=0
+> +        for line in `echo $AVAILABLE_DISK`; do
+> +            info "$X - $line"
+> +            X=`expr $X + 1`
+> +        done
+> +        read -p "Choose flashable device number: " DISK_NUMBER
+> +        X=0
+> +        for line in `echo $AVAILABLE_DISK`; do
+> +            if [ $DISK_NUMBER -eq $X ]; then
+> +                DISK_TO_BE_FLASHED=$line
+> +                break
+> +            else
+> +                X=`expr $X + 1`
+> +            fi
+> +        done
+> +        if [ -z "$DISK_TO_BE_FLASHED" ]; then
+> +            die "Option \"$DISK_NUMBER\" is invalid. Choose a valid option"
+> +        else
+> +            if [ -z `echo $DISK_TO_BE_FLASHED | grep "mmc"` ]; then
+> +                TARGET_TO_BE_BOOT="/dev/sda"
+> +            else
+> +                TARGET_TO_BE_BOOT="/dev/mmcblk0"
+> +            fi
+> +        fi
+> +        echo ""
+> +        echo "Choose a name of the device that will be boot from"
+> +        echo -n "Recommended name is: "
+> +        info "$TARGET_TO_BE_BOOT\n"
+> +        read -p "Is target device okay? [y/N]: " RESPONSE
+> +        if [ "$RESPONSE" != "y" ]; then
+> +            read -p "Choose target device name: " TARGET_TO_BE_BOOT
+> +        fi
+> +        echo ""
+> +        if [ -z "$TARGET_TO_BE_BOOT" ]; then
+> +            die "Error: choose a valid target name"
+> +        fi
+> +    else
+> +        usage
+> +	    exit 1
+> +    fi
+>  fi
+>  
+>  if [ "$1" = "-v" ]; then
+> @@ -162,9 +206,15 @@ if [ "$1" = "-v" ]; then
+>  	shift
+>  fi
+>  
+> -DEVICE=$1
+> -HDDIMG=$2
+> -TARGET_DEVICE=$3
+> +if [ -z "$AVAILABLE_DISK" ]; then
+> +    DEVICE=$1
+> +    HDDIMG=$2
+> +    TARGET_DEVICE=$3
+> +else
+> +    DEVICE=$DISK_TO_BE_FLASHED
+> +    HDDIMG=$1
+> +    TARGET_DEVICE=$TARGET_TO_BE_BOOT
+> +fi
+>  
+>  LINK=$(readlink $DEVICE)
+>  if [ $? -eq 0 ]; then
 
-> It is not used by anything in oe-core and will be moved to meta-gnome
->
 
-I've a feeling that there are some apps in core-image-sato that actually
-like to have gnome-icon-theme installed (specifically I'm thinking
-pcmanfm).  We should probably check that they work correctly without this
-installed (or more likely, show more icons when it is installed) before
-removing it.
 
-Ross
-
---001a1139a1fa06e690051ed9fe12
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 September 2015 at 16:34, Alexander Kanavin <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander=
-.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div id=3D":1yq" class=3D"a3s" style=3D"overflow:hidden">It is not us=
-ed by anything in oe-core and will be moved to meta-gnome<br></div></blockq=
-uote><div><br></div><div>I&#39;ve a feeling that there are some apps in cor=
-e-image-sato that actually like to have gnome-icon-theme installed (specifi=
-cally I&#39;m thinking pcmanfm).=C2=A0 We should probably check that they w=
-ork correctly without this installed (or more likely, show more icons when =
-it is installed) before removing it.</div><div><br></div><div>Ross=C2=A0</d=
-iv></div></div></div>
-
---001a1139a1fa06e690051ed9fe12--
