@@ -1,21 +1,21 @@
-Return-Path: <alejandro.franco@linux.intel.com>
+Return-Path: <alejandro.hernandez@linux.intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A1BC677009
+	by mail.openembedded.org (Postfix) with ESMTP id A458B77002
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 21:56:26 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP; 03 Sep 2015 14:56:26 -0700
+	Thu,  3 Sep 2015 22:02:50 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga102.jf.intel.com with ESMTP; 03 Sep 2015 15:02:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,464,1437462000"; d="scan'208";a="797797774"
-Received: from afshjern.zpn.intel.com ([10.219.128.48])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Sep 2015 14:56:26 -0700
-From: Alex Franco <alejandro.franco@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.17,464,1437462000"; d="scan'208";a="782247229"
+Received: from yctb02.ostc.intel.com (HELO yctb02.otcr.intel.com)
+	([10.23.219.47])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2015 15:02:50 -0700
+From: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Sep 2015 16:56:44 -0500
-Message-Id: <1441317404-6663-1-git-send-email-alejandro.franco@linux.intel.com>
-X-Mailer: git-send-email 2.5.1
-Cc: clarson@kergoth.com
-Subject: [PATCHv4] Fix recursive mode -st on BUILDDIR setup
+Date: Thu,  3 Sep 2015 22:01:02 +0000
+Message-Id: <1441317662-42022-1-git-send-email-alejandro.hernandez@linux.intel.com>
+X-Mailer: git-send-email 1.8.4.5
+Subject: [PATCH] distutils.bbclass: Handle python-backport modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,56 +28,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 21:56:28 -0000
+X-List-Received-Date: Thu, 03 Sep 2015 22:02:50 -0000
 
-Removing recursive option from chmod -st on BUILDDIR as it would
-take very long on existing build directories
+When installing backport modules they stumble upon each other, complaining with
+the following error:
 
-[YOCTO #7669]
+ERROR: The recipe python-backports-ssl is trying to install files into a shared
+area when those files already exist.
 
-Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+This is the correct behavior since thats just the way they were designed, all backport
+modules provide an __init__.py file (the same among all packages), and without it they
+simply wouldnt work.
+
+distutils handles FILES_${PN}* variables for python packages, but it uses wildcards
+to include the required files, hence removing the __init__.py files from each backport
+package during build time is impossible since it doenst actually contain that value,
+this patch simply removes the __init__.py* files from the staging area if they already
+exist on sysroot, this way, these are not included in FILES_${PN} anymore, fixing the
+issue mentioned above.
+
+[YOCTO #8207]
+
+Signed-off-by: Alejandro Hernandez <alejandro.hernandez@linux.intel.com>
 ---
- meta/classes/sanity.bbclass | 9 ++++++---
- scripts/oe-setup-builddir   | 5 ++++-
- 2 files changed, 10 insertions(+), 4 deletions(-)
+ meta/classes/distutils.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 2864318..29bb619 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -841,9 +841,12 @@ def check_sanity_everybuild(status, d):
-     else:
-         bb.utils.mkdirhier(tmpdir)
-         # Remove setuid, setgid and sticky bits from TMPDIR
--        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
--        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
--        os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
-+        try:
-+            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISUID)
-+            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISGID)
-+            os.chmod(tmpdir, os.stat(tmpdir).st_mode & ~ stat.S_ISVTX)
-+        except OSError:
-+            bb.warn("Unable to chmod TMPDIR: %s" % tmpdir)
-         with open(checkfile, "w") as f:
-             f.write(tmpdir)
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 2498685..82f93d8 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -44,7 +44,6 @@ distutils_do_install() {
+         # support filenames with *spaces*
+         # only modify file if it contains path  and recompile it
+         find ${D} -name "*.py" -exec grep -q ${D} {} \; -exec sed -i -e s:${D}::g {} \; -exec ${STAGING_BINDIR_NATIVE}/python-native/python -mcompileall {} \;
+-
+         if test -e ${D}${bindir} ; then	
+             for i in ${D}${bindir}/* ; do \
+                 if [ ${PN} != "${BPN}-native" ]; then
+@@ -73,6 +72,13 @@ distutils_do_install() {
+             mv -f ${D}${datadir}/share/* ${D}${datadir}/
+             rmdir ${D}${datadir}/share
+         fi
++	
++	
++	if [ -e ${STAGING_LIBDIR}/${PYTHON_DIR}/site-packages/backports/__init__.py ]; then
++	rm ${D}${PYTHON_SITEPACKAGES_DIR}/backports/__init__.py;
++	rm ${D}${PYTHON_SITEPACKAGES_DIR}/backports/__init__.pyc;
++	#FILES_${PN}_remove = "${PYTHON_SITEPACKAGES_DIR}/backports/__init__.pyc";
++	fi
+ }
  
-diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
-index f5b7e4e..91bd86b 100755
---- a/scripts/oe-setup-builddir
-+++ b/scripts/oe-setup-builddir
-@@ -24,7 +24,10 @@ if [ -z "$BUILDDIR" ]; then
- fi
- 
- mkdir -p "$BUILDDIR/conf"
--chmod -R -st "$BUILDDIR" 
-+
-+# Attempting removal of sticky,setuid bits from BUILDDIR, BUILDDIR/conf
-+chmod -st "$BUILDDIR" 2>/dev/null || echo "WARNING: unable to chmod $BUILDDIR"
-+chmod -st "$BUILDDIR/conf" 2>/dev/null || echo "WARNING: unable to chmod $BUILDDIR/conf"
- 
- if [ ! -d "$BUILDDIR" ]; then
-     echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
+ EXPORT_FUNCTIONS do_compile do_install
 -- 
-2.5.1
+1.8.4.5
 
 
