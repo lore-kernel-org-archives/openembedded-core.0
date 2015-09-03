@@ -1,21 +1,36 @@
-Return-Path: <anibal.limon@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EB3D76FF2
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f172.google.com (mail-ig0-f172.google.com
+	[209.85.213.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 21F1D76FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 20:03:37 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 03 Sep 2015 13:03:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,463,1437462000"; d="scan'208";a="782183028"
-Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
-	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2015 13:03:22 -0700
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Sep 2015 15:03:30 -0500
-Message-Id: <1441310610-965-1-git-send-email-anibal.limon@linux.intel.com>
-X-Mailer: git-send-email 1.9.1
+	Thu,  3 Sep 2015 20:15:21 +0000 (UTC)
+Received: by igbkq10 with SMTP id kq10so57883132igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Sep 2015 13:15:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=YTnspAd5Yekp4ZwEQsdmSAXbI8MKbfmj8dAbkXHWdmE=;
+	b=lMa9LLnj5IKog+d2d77cOPvhoTxSd0SJPmaLDLKSkXBnJuP60a2V4zTRxFq1fU1KP2
+	wa5VD3FEbWMHeitAlpFFnTKpDDRZM+bDIIpHU2AQfygqxpoNUbYg+aiSaWjWoW1Bc+4s
+	MTV8x5PR13UDZ0Mzc3g8zaeMiq+W48pR6B+SzkMgYAhRrHmoFU/HjEwZG0b4LcB8IFRB
+	YP/TINKbzpkmroggw1tYZYTnJ0sHLrMDv7k7RoLn3RnhGuXabhCiNv7esih4cM42+PGV
+	VtcvcCAUhW+aAEfuuqSFCiG1QsKwune1N9+Ez1k5NBDJxEeNCBJLT+c0UpeBIUIKYdf7
+	T9gg==
+X-Received: by 10.50.55.73 with SMTP id q9mr1927697igp.11.1441311321694; Thu,
+	03 Sep 2015 13:15:21 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] qemu: Fix qemu_cpu_kick_thread on init
+Received: by 10.107.162.202 with HTTP; Thu, 3 Sep 2015 13:14:52 -0700 (PDT)
+In-Reply-To: <c8274a56a32fedca57f68f757c27acf0525b98b4.1441293149.git.alexander.kanavin@linux.intel.com>
+References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+	<c8274a56a32fedca57f68f757c27acf0525b98b4.1441293149.git.alexander.kanavin@linux.intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 3 Sep 2015 13:14:52 -0700
+Message-ID: <CAMKF1spvHGZ_+4fNNZ-qNJJni_Rz2dOFPF0QJydx3K_cxt6kGw@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 10/12] uclibc: update PV to 0.9.33.2 to match latest upstream release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,88 +43,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 20:03:40 -0000
+X-List-Received-Date: Thu, 03 Sep 2015 20:15:22 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-When QEMU starts the RCU thread executes qemu_mutex_lock_thread
-causing error "qemu:qemu_cpu_kick_thread: No such process" and exits.
+On Thu, Sep 3, 2015 at 8:34 AM, Alexander Kanavin
+<alexander.kanavin@linux.intel.com> wrote:
+> -PV = "0.9.33+git${SRCPV}"
+> +PV = "0.9.33.2+git${SRCPV}"
 
-For detail explanation see upstream patch.
-
-[YOCTO #8143]
-
-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc                |  1 +
- ..._mutex_lock_iothread-fix-race-condition-a.patch | 45 ++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index dc7b628..738bf2b 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -21,6 +21,7 @@ SRC_URI = "\
-     file://wacom.patch \
-     file://add-ptest-in-makefile.patch \
-     file://run-ptest \
-+    file://cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch \
-     "
- 
- SRC_URI_append_class-native = "\
-diff --git a/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
-new file mode 100644
-index 0000000..45dffab
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
-@@ -0,0 +1,45 @@
-+Upstream-Status: Submitted
-+
-+From f354b9333408d411854af058cc44cceda60b4473 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
-+Date: Thu, 3 Sep 2015 14:07:34 -0500
-+Subject: [PATCH] cpus.c: qemu_mutex_lock_iothread fix race condition at cpu
-+ thread init
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+When QEMU starts the RCU thread executes qemu_mutex_lock_thread
-+causing error "qemu:qemu_cpu_kick_thread: No such process" and exits.
-+
-+This isn't occur frequently but in glibc the thread id can exist and
-+this not guarantee that the thread is on active/running state. If is
-+inserted a sleep(1) after newthread assignment [1] the issue appears.
-+
-+So not make assumption that thread exist if first_cpu->thread is set
-+then change the validation of cpu to created that is set into cpu
-+threads (kvm, tcg, dummy).
-+
-+[1] https://sourceware.org/git/?p=glibc.git;a=blob;f=nptl/pthread_create.c;h=d10f4ea8004e1d8f3a268b95cc0f8d93b8d89867;hb=HEAD#l621
-+
-+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
-+---
-+ cpus.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/cpus.c b/cpus.c
-+index 7e4786e..05e5400 100644
-+--- a/cpus.c
-++++ b/cpus.c
-+@@ -1171,7 +1171,7 @@ void qemu_mutex_lock_iothread(void)
-+      * TCG code execution.
-+      */
-+     if (!tcg_enabled() || qemu_in_vcpu_thread() ||
-+-        !first_cpu || !first_cpu->thread) {
-++        !first_cpu || !first_cpu->created) {
-+         qemu_mutex_lock(&qemu_global_mutex);
-+         atomic_dec(&iothread_requesting_mutex);
-+     } else {
-+-- 
-+1.9.1
-+
--- 
-1.9.1
-
+technically its not right since we are not on 0.9.33 branch at all.
+We could use 0.9.33+0.9.34+git${SRCPV}
 
