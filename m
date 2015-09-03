@@ -1,53 +1,20 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
-	[209.85.223.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A1E277002
+Return-Path: <sona.sarmadi@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by mail.openembedded.org (Postfix) with SMTP id 305EE76FFA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 11:50:20 +0000 (UTC)
-Received: by ioiz6 with SMTP id z6so54403328ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 04:50:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=hewY7FCw0XtKjr7qWIg4yyJftdnFkQk2ahUNGHCrgx4=;
-	b=jDTUEJzF4uxwJgDWhdFQBQfsBB1yMETohglcVP6Sv4pLKCzcWcc4psOT/mRQtkKfAD
-	KHR/52Uj9CNeHU9mZ5GOhhOh/nWQ88FqvzCDt9MXq/WT7MKSp6ZtGV9/IQPmPJ0CEcfn
-	QXH9Kdb6jNjV1MKGYlnLNR50v5x9BW91xCHwZwS2PGyBShkMhrHJ2Kz6IM/IKbmmGnmu
-	fzAbchkE9CAraQIsiOvnoUARw4MXV5XEzqFtWgwQ1AA+sNIR9/WZRIPksjf/4lX7MuFu
-	3ta7rrT/k2aZAs2MjPubcAO1m3+ult/MNmOyfgf5V8CfcxUBSXXBmYZ9MPEPCpsgRIWY
-	7rfg==
-X-Gm-Message-State: ALoCoQlA5axbNRWx+mJBKNJO6S56Er6nKpfUDgV8VhTCVHgs7QP4eEZ8j+JZBvR0y0yswIHpMBMA
-X-Received: by 10.107.10.11 with SMTP id u11mr15085997ioi.36.1441281021136;
-	Thu, 03 Sep 2015 04:50:21 -0700 (PDT)
-Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com.
-	[209.85.213.173])
-	by smtp.gmail.com with ESMTPSA id 10sm5417079ios.28.2015.09.03.04.50.19
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 03 Sep 2015 04:50:19 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igcpb10 with SMTP id pb10so12143768igc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 04:50:19 -0700 (PDT)
+	Thu,  3 Sep 2015 11:53:39 +0000 (UTC)
+Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Thu, 3 Sep 2015
+	13:53:36 +0200
+From: Sona Sarmadi <sona.sarmadi@enea.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 3 Sep 2015 13:53:34 +0200
+Message-ID: <1441281214-31918-1-git-send-email-sona.sarmadi@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.50.72.19 with SMTP id z19mr11667938igu.19.1441281019287;
-	Thu, 03 Sep 2015 04:50:19 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Thu, 3 Sep 2015 04:50:19 -0700 (PDT)
-In-Reply-To: <1441262218.9573.12.camel@intel.com>
-References: <cover.1441207840.git.patrick.ohly@intel.com>
-	<3b40bb267aa67a9c7adae08713d85060129a219b.1441207840.git.patrick.ohly@intel.com>
-	<e0cab1af2f3fa08d0a4d202c65fae83a927e1567.1441207840.git.patrick.ohly@intel.com>
-	<CAP9ODKrCzcUdfs9+GLsSe-ztS3c5BCmcLBPdmSayw-y9ZzPtkA@mail.gmail.com>
-	<1441262218.9573.12.camel@intel.com>
-Date: Thu, 3 Sep 2015 08:50:19 -0300
-Message-ID: <CAP9ODKoq3ahts8_0WA4K=w=oKhKMhyDB05Zr=6KBQyaA78t3hw@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/10] initramfs-framework: add separate init_verbose log level parameter
+Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH][dizzy] gnutls: CVE-2015-3308
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,64 +27,169 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 11:50:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 03 Sep 2015 11:53:42 -0000
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Sep 3, 2015 at 3:36 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> On Wed, 2015-09-02 at 13:16 -0300, Otavio Salvador wrote:
->> On Wed, Sep 2, 2015 at 12:48 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
->> > Using the general purpose "debug" and "verbose" kernel parameters to
->> > increase logging in the init script has the disadvantage that it
->> > also increases logging in other components, making the output hard
->> > to read (in particular with "debug").
->> >
->> > The new init_verbose parameter only affects the init script:
->> >   init_verbose, init_verbose=1, init_verbose=true: enable just some info messages
->> >   init_verbose=2: debug messages
->> >
->> > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
->> > ---
->> >  meta/recipes-core/initrdscripts/initramfs-framework/init | 16 ++++++++++++++--
->> >  1 file changed, 14 insertions(+), 2 deletions(-)
->> >
->> > diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
->> > index e8f4713..cd55ee2 100755
->> > --- a/meta/recipes-core/initrdscripts/initramfs-framework/init
->> > +++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
->> > @@ -14,6 +14,13 @@
->> >  # 'foo=value' as 'bootparam_foo=value'
->> >  # 'foo' as 'bootparam_foo=true'
->> >  # 'foo.bar[=value] as 'foo_bar=[value|true]'
->> > +#
->> > +# Special boot parameters always recognized by initramfs-framework (see modules
->> > +# like "debug" for additional ones):
->> > +# debug: enable debug logging (beware, also enables debug output in other system components)
->> > +# verbose: similar do debug, just less output
->> > +# init_verbose[=true|1|2]: same output as for verbose when no value or true/1 are given,
->> > +#                          same as debug for 2 - only affects logging in initramfs-framework
->>
->> I personally don't see much benefit on this. The debug module is the
->> one used to debug the initramfs-framework script. If we ought to add
->> support for something like this, this should be done there.
->
-> So you are saying that the msg/info/debug/fatal functions should be in
-> the "debug" module? Or should they be present, but changing the logging
-> level should be done by the "debug" module? How would logging work
-> before the "debug" module is loaded or when it is not installed at all
-> (as in a production image)?
->
-> I guess one could have empty stubs in the main "init" and only do
-> logging after loading the debug module - that should work, at the loss
-> of early log output.
+Fixes use-after-free flaw in CRL distribution points parsing
 
-I think we can use the init-verbose and init-debug params but I would
-like to see them setting the bootparam_verbose and bootparam_debug so
-the init module handles it.
+Reference:
+https://gitlab.com/gnutls/gnutls/commit/d6972be33264ecc49a86cd0958209cd7363=
+af1e9
+https://gitlab.com/gnutls/gnutls/commit/053ae65403216acdb0a4e78b25ad66ee9f4=
+44f02
 
-I am not sure if we ought to have this outside of debug module though...
+http://www.openwall.com/lists/oss-security/2015/04/15/6
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
+---
+ .../better-fix-for-double-free-CVE-2015-3308.patch | 65 ++++++++++++++++++=
+++++
+ .../eliminated-double-free-CVE-2015-3308.patch     | 33 +++++++++++
+ meta/recipes-support/gnutls/gnutls_3.3.5.bb        |  2 +
+ 3 files changed, 100 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/better-fix-for-doubl=
+e-free-CVE-2015-3308.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/eliminated-double-fr=
+ee-CVE-2015-3308.patch
+
+diff --git a/meta/recipes-support/gnutls/gnutls/better-fix-for-double-free-=
+CVE-2015-3308.patch b/meta/recipes-support/gnutls/gnutls/better-fix-for-dou=
+ble-free-CVE-2015-3308.patch
+new file mode 100644
+index 0000000..8824729
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/better-fix-for-double-free-CVE-201=
+5-3308.patch
+@@ -0,0 +1,65 @@
++From 053ae65403216acdb0a4e78b25ad66ee9f444f02 Mon Sep 17 00:00:00 2001
++From: Nikos Mavrogiannopoulos <nmav@gnutls.org>
++Date: Sat, 28 Mar 2015 22:41:03 +0100
++Subject: [PATCH] Better fix for the double free in dist point parsing
++
++Fixes CVE-2015-3308
++Upstream-Status: Backport
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ lib/x509/x509_ext.c | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
++
++diff --git a/lib/x509/x509_ext.c b/lib/x509/x509_ext.c
++index 2e69ed0..f974b02 100644
++--- a/lib/x509/x509_ext.c
+++++ b/lib/x509/x509_ext.c
++@@ -2287,7 +2287,7 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
+tls_datum_t * ext,
++ 	int len, ret;
++ 	uint8_t reasons[2];
++ 	unsigned i, type, rflags, j;
++-	gnutls_datum_t san;
+++	gnutls_datum_t san =3D {NULL, 0};
++=20
++ 	result =3D asn1_create_element
++ 	    (_gnutls_get_pkix(), "PKIX1.CRLDistributionPoints", &c2);
++@@ -2310,9 +2310,6 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
+tls_datum_t * ext,
++=20
++ 	i =3D 0;
++ 	do {
++-		san.data =3D NULL;
++-		san.size =3D 0;
++-
++ 		snprintf(name, sizeof(name), "?%u.reasons", (unsigned)i + 1);
++=20
++ 		len =3D sizeof(reasons);
++@@ -2337,6 +2334,9 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
+tls_datum_t * ext,
++=20
++ 		j =3D 0;
++ 		do {
+++			san.data =3D NULL;
+++			san.size =3D 0;
+++
++ 			ret =3D
++ 			    _gnutls_parse_general_name2(c2, name, j, &san,
++ 							&type, 0);
++@@ -2351,6 +2351,7 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
+tls_datum_t * ext,
++ 			ret =3D crl_dist_points_set(cdp, type, &san, rflags);
++ 			if (ret < 0)
++ 				break;
+++			san.data =3D NULL; /* it is now in cdp */
++=20
++ 			j++;
++ 		} while (ret >=3D 0);
++@@ -2360,6 +2361,7 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
+tls_datum_t * ext,
++=20
++ 	if (ret < 0 && ret !=3D GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
++ 		gnutls_assert();
+++		gnutls_free(san.data);
++ 		goto cleanup;
++ 	}
++=20
++--=20
++1.9.1
++
+diff --git a/meta/recipes-support/gnutls/gnutls/eliminated-double-free-CVE-=
+2015-3308.patch b/meta/recipes-support/gnutls/gnutls/eliminated-double-free=
+-CVE-2015-3308.patch
+new file mode 100644
+index 0000000..628103f
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/eliminated-double-free-CVE-2015-33=
+08.patch
+@@ -0,0 +1,33 @@
++From d6972be33264ecc49a86cd0958209cd7363af1e9 Mon Sep 17 00:00:00 2001
++From: Nikos Mavrogiannopoulos <nmav@gnutls.org>
++Date: Mon, 23 Mar 2015 22:55:29 +0100
++Subject: [PATCH] eliminated double-free in the parsing of dist points
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Reported by Robert =C5=9Awi=C4=99cki.
++
++Fixes CVE-2015-3308
++Upstream-Status: Backport
++
++Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
++---
++ lib/x509/x509_ext.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/lib/x509/x509_ext.c b/lib/x509/x509_ext.c
++index c8d5867..6f09438 100644
++--- a/lib/x509/x509_ext.c
+++++ b/lib/x509/x509_ext.c
++@@ -2360,7 +2360,6 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
+tls_datum_t * ext,
++=20
++ 	if (ret < 0 && ret !=3D GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
++ 		gnutls_assert();
++-		gnutls_free(san.data);
++ 		goto cleanup;
++ 	}
++=20
++--=20
++1.9.1
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.3.5.bb b/meta/recipes-sup=
+port/gnutls/gnutls_3.3.5.bb
+index b3daa49..9f26470 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.3.5.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.3.5.bb
+@@ -1,6 +1,8 @@
+ require gnutls.inc
+=20
+ SRC_URI +=3D "file://correct_rpl_gettimeofday_signature.patch \
++            file://eliminated-double-free-CVE-2015-3308.patch \
++            file://better-fix-for-double-free-CVE-2015-3308.patch \
+            "
+=20
+ SRC_URI[md5sum] =3D "1f396dcf3c14ea67de7243821006d1a2"
+--=20
+1.9.1
+
 
