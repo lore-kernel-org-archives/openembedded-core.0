@@ -1,20 +1,24 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 0758A76FB8
+	by mail.openembedded.org (Postfix) with ESMTP id 2FE847700B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 15:32:46 +0000 (UTC)
+	Thu,  3 Sep 2015 15:32:48 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 03 Sep 2015 08:32:46 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 03 Sep 2015 08:32:47 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,462,1437462000"; d="scan'208";a="797539448"
+X-IronPort-AV: E=Sophos;i="5.17,462,1437462000"; d="scan'208";a="797539461"
 Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Sep 2015 08:32:45 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 03 Sep 2015 08:32:46 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Sep 2015 18:34:09 +0300
-Message-Id: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+Date: Thu,  3 Sep 2015 18:34:10 +0300
+Message-Id: <b8ff0174fb878e4f0d2cf7aabf6769a85c1c6d1d.1441293149.git.alexander.kanavin@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 00/12] Various package/RRS updates
+In-Reply-To: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+In-Reply-To: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+Subject: [PATCH 01/12] ccache: update to 3.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,99 +33,146 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 03 Sep 2015 15:32:48 -0000
 
-This week I've reviewed all the packages that have been last touched in 2013 
-or earlier (according to RRS) and this is the resulting patchset.
+The LICENSE checksum has changed because of updated copyright years.
 
-Since the feature freeze is happening soon, and there is still a large backlog of 
-unmerged patches, I will stop the package version update at this point to avoid making
-the situation worse :) and will look into other things, perhaps these:
+SRC_URI has been changed to git, because upstream tarball is broken
+(includes configure.ac but not .m4 files it depends on).
 
-1) fixing gobject introspection
+Add a backported patch that fixes builds with older versions of make
+and external zlib.
 
-2) completing the work of porting matchbox stuff to gtk3 (or *gasp* looking into 
-replacing it with the most minimal possible gnome 3 shell/launcher).
-
-3) other suggestions?
-
-The following changes since commit c80b582212336044c55052ad0d39f9da06d71438:
-
-  debianutils: create package for run-parts (2015-09-03 12:43:33 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
-
-Alexander Kanavin (12):
-  ccache: update to 3.2.3
-  mailx: update to 12.5-5
-  net-tools: update to 1.60-25
-  gnome-icon-theme: remove the recipe
-  libunique: remove the recipe
-  mkelfimage: add RECIPE_NO_UPDATE_REASON
-  python-async: update to 0.6.2
-  python-smmap: update to 0.9.0
-  remake: update to 4.1+dbg-1.1
-  uclibc: update PV to 0.9.33.2 to match latest upstream release
-  vte: add RECIPE_NO_UPDATE_REASON
-  package_regex.inc: various updates to improve RRS accuracy
-
- meta/conf/distro/include/package_regex.inc         |  14 +-
- meta/recipes-core/uclibc/uclibc-git.inc            |   2 +-
- meta/recipes-devtools/ccache/ccache.inc            |   4 +-
- meta/recipes-devtools/ccache/ccache_3.1.11.bb      |   7 -
- meta/recipes-devtools/ccache/ccache_3.2.3.bb       |   8 +
- ...ion-in-recent-change-related-to-zlib-in-n.patch |  73 ++++
- meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   3 +
- ...python-async_0.6.1.bb => python-async_0.6.2.bb} |   4 +-
- ...python-smmap_0.8.2.bb => python-smmap_0.9.0.bb} |   4 +-
- meta/recipes-devtools/remake/remake.inc            |   4 +-
- ...ve-errors-about-colophon-and-cygnus-comma.patch |  39 --
- .../{remake_git.bb => remake_4.1+dbg-1.1.bb}       |   8 +-
- ...e-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch |  59 +++
- ...-SSL2-support-since-it-is-no-longer-suppo.patch |  41 ++
- ...ntian-warning-warning-macro-N-not-defined.patch |  25 ++
- .../0011-outof-Introduce-expandaddr-flag.patch     |  70 ++++
- ...ble-option-processing-for-email-addresses.patch |  79 ++++
- ...c-Unconditionally-require-wordexp-support.patch | 113 ++++++
- ...4-globname-Invoke-wordexp-with-WRDE_NOCMD.patch |  30 ++
- .../mailx/files/0015-usr-sbin-sendmail.patch       |  38 ++
- .../explicitly.disable.krb5.support.patch          |   0
- .../mailx/{mailx_12.5.bb => mailx_12.5-5.bb}       |  21 +-
- .../{net-tools_1.60-25.bb => net-tools_1.60-26.bb} |   6 +-
- .../gnome/gnome-icon-theme/pkgconfig-native.patch  |  28 --
- .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |  22 --
- meta/recipes-gnome/libunique/libunique/build.patch | 421 ---------------------
- .../libunique/fix_for_compile_with_gcc-4.6.0.patch |  36 --
- .../libunique/libunique/noconst.patch              | 130 -------
- meta/recipes-gnome/libunique/libunique_1.1.6.bb    |  25 --
- meta/recipes-support/vte/vte_0.28.2.bb             |   2 +
- 30 files changed, 579 insertions(+), 737 deletions(-)
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/recipes-devtools/ccache/ccache.inc            |  4 +-
+ meta/recipes-devtools/ccache/ccache_3.1.11.bb      |  7 ---
+ meta/recipes-devtools/ccache/ccache_3.2.3.bb       |  8 +++
+ ...ion-in-recent-change-related-to-zlib-in-n.patch | 73 ++++++++++++++++++++++
+ 4 files changed, 84 insertions(+), 8 deletions(-)
  delete mode 100644 meta/recipes-devtools/ccache/ccache_3.1.11.bb
  create mode 100644 meta/recipes-devtools/ccache/ccache_3.2.3.bb
  create mode 100644 meta/recipes-devtools/ccache/files/0001-Fix-regression-in-recent-change-related-to-zlib-in-n.patch
- rename meta/recipes-devtools/python/{python-async_0.6.1.bb => python-async_0.6.2.bb} (77%)
- rename meta/recipes-devtools/python/{python-smmap_0.8.2.bb => python-smmap_0.9.0.bb} (82%)
- delete mode 100644 meta/recipes-devtools/remake/remake/remake-remove-errors-about-colophon-and-cygnus-comma.patch
- rename meta/recipes-devtools/remake/{remake_git.bb => remake_4.1+dbg-1.1.bb} (80%)
- create mode 100644 meta/recipes-extended/mailx/files/0001-Don-t-reuse-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch
- create mode 100644 meta/recipes-extended/mailx/files/0002-Patched-out-SSL2-support-since-it-is-no-longer-suppo.patch
- create mode 100644 meta/recipes-extended/mailx/files/0003-Fixed-Lintian-warning-warning-macro-N-not-defined.patch
- create mode 100644 meta/recipes-extended/mailx/files/0011-outof-Introduce-expandaddr-flag.patch
- create mode 100644 meta/recipes-extended/mailx/files/0012-unpack-Disable-option-processing-for-email-addresses.patch
- create mode 100644 meta/recipes-extended/mailx/files/0013-fio.c-Unconditionally-require-wordexp-support.patch
- create mode 100644 meta/recipes-extended/mailx/files/0014-globname-Invoke-wordexp-with-WRDE_NOCMD.patch
- create mode 100644 meta/recipes-extended/mailx/files/0015-usr-sbin-sendmail.patch
- rename meta/recipes-extended/mailx/{mailx-12.5 => files}/explicitly.disable.krb5.support.patch (100%)
- rename meta/recipes-extended/mailx/{mailx_12.5.bb => mailx_12.5-5.bb} (48%)
- rename meta/recipes-extended/net-tools/{net-tools_1.60-25.bb => net-tools_1.60-26.bb} (91%)
- delete mode 100644 meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch
- delete mode 100644 meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
- delete mode 100644 meta/recipes-gnome/libunique/libunique/build.patch
- delete mode 100644 meta/recipes-gnome/libunique/libunique/fix_for_compile_with_gcc-4.6.0.patch
- delete mode 100644 meta/recipes-gnome/libunique/libunique/noconst.patch
- delete mode 100644 meta/recipes-gnome/libunique/libunique_1.1.6.bb
 
+diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
+index 087cb7d..4790021 100644
+--- a/meta/recipes-devtools/ccache/ccache.inc
++++ b/meta/recipes-devtools/ccache/ccache.inc
+@@ -9,7 +9,9 @@ LICENSE = "GPLv3+"
+ 
+ DEPENDS = "zlib"
+ 
+-SRC_URI = "http://samba.org/ftp/ccache/ccache-${PV}.tar.xz"
++SRC_URI = "git://git.samba.org/ccache.git"
++
++S = "${WORKDIR}/git"
+ 
+ inherit autotools
+ 
+diff --git a/meta/recipes-devtools/ccache/ccache_3.1.11.bb b/meta/recipes-devtools/ccache/ccache_3.1.11.bb
+deleted file mode 100644
+index 7696003..0000000
+--- a/meta/recipes-devtools/ccache/ccache_3.1.11.bb
++++ /dev/null
+@@ -1,7 +0,0 @@
+-require ccache.inc
+-
+-LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=80e92ec45d4fca91f127864fb9e5d932"
+-
+-SRC_URI[md5sum] = "0f6df80c8941d9020a1fd5df5ad57dd7"
+-SRC_URI[sha256sum] = "60e9f3f1e60f528cfce910f3224bcc698029320f6ab77ec09a7b46bda2bc678e"
+diff --git a/meta/recipes-devtools/ccache/ccache_3.2.3.bb b/meta/recipes-devtools/ccache/ccache_3.2.3.bb
+new file mode 100644
+index 0000000..357df75
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache_3.2.3.bb
+@@ -0,0 +1,8 @@
++require ccache.inc
++
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=b3c337e7664559a789d9f7a93e5283c1"
++
++SRCREV = "4cad46e8ee0053144bb00919f0dadd20c1f87013"
++
++SRC_URI += "file://0001-Fix-regression-in-recent-change-related-to-zlib-in-n.patch"
+diff --git a/meta/recipes-devtools/ccache/files/0001-Fix-regression-in-recent-change-related-to-zlib-in-n.patch b/meta/recipes-devtools/ccache/files/0001-Fix-regression-in-recent-change-related-to-zlib-in-n.patch
+new file mode 100644
+index 0000000..a8400d5
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/files/0001-Fix-regression-in-recent-change-related-to-zlib-in-n.patch
+@@ -0,0 +1,73 @@
++From f74c76107933046309861680b741adc67ac2a34e Mon Sep 17 00:00:00 2001
++From: Joel Rosdahl <joel@rosdahl.net>
++Date: Mon, 17 Aug 2015 19:05:14 +0200
++Subject: [PATCH] Fix regression in recent change related to zlib in
++ nonstandard location
++
++To allow for specifying a -L flag in LDFLAGS and have it take effect for
++-lz, 0220de9c8ebfb18caae2ac1aa163d060e98ceade put -lz in extra_libs
++instead of extra_ldflags. However, extra_libs is supposed to contain
++paths to libraries which are prerequisites of the ccache link rule, and
++some older versions of make got confused by seeing -lz as a
++prerequisite.
++
++This fix is to revert 0220de9c8ebfb18caae2ac1aa163d060e98ceade and
++instead make sure that LDFLAGS comes before extra_ldflags.
++
++Upstream-status: Backport
++---
++ Makefile.in  |  2 +-
++ NEWS.txt     | 10 ++++++++++
++ configure.ac |  2 +-
++ 3 files changed, 12 insertions(+), 2 deletions(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index e7515b1..d3621cd 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -20,7 +20,7 @@ RANLIB = @RANLIB@
++ 
++ all_cflags = $(CFLAGS)
++ all_cppflags = @DEFS@ @extra_cppflags@ -DSYSCONFDIR=$(sysconfdir) -I. -I$(srcdir) $(CPPFLAGS)
++-all_ldflags = @extra_ldflags@ $(LDFLAGS)
+++all_ldflags = $(LDFLAGS) @extra_ldflags@
++ extra_libs = @extra_libs@
++ 
++ base_sources = \
++diff --git a/NEWS.txt b/NEWS.txt
++index f13feeb..eaeadf6 100644
++--- a/NEWS.txt
+++++ b/NEWS.txt
++@@ -2,6 +2,16 @@ ccache news
++ ===========
++ 
++ 
+++Unreleased 3.2.4
+++----------------
+++
+++Bug fixes
+++~~~~~~~~~
+++
+++- Fixed build error related to zlib on systems with older make versions
+++  (regression in ccache 3.2.3).
+++
+++
++ ccache 3.2.3
++ ------------
++ Release date: 2015-08-16
++diff --git a/configure.ac b/configure.ac
++index 8d8ce92..9e65588 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -120,7 +120,7 @@ if test x${use_bundled_zlib} = xyes; then
++     extra_libs="zlib/libz.a"
++     mkdir -p zlib
++ else
++-    extra_libs="-lz"
+++    extra_ldflags="-lz"
++ fi
++ 
++ dnl Linking on Windows needs ws2_32
++-- 
++2.1.4
++
 -- 
 2.1.4
 
