@@ -1,38 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f42.google.com (mail-qg0-f42.google.com
-	[209.85.192.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6887A76FB8
+Return-Path: <alexander.kanavin@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0758A76FB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 15:22:33 +0000 (UTC)
-Received: by qgx61 with SMTP id 61so31135145qgx.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 08:22:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=7E97AokkxvLBhI2QCDirYXr6q6ELa7FuVz8MO7L8sx0=;
-	b=AP+qonnoXvJGgncEyfazNRSj5xTheXK0XFeeX62tOtSzJpXNrEslit8mVzKu+bZbFV
-	QRIbPpny5e8IM7IOh3fTByvqGcNqgRjg9nFvPpDQ3ohdV3vtPouwDq9/HxHaySWfdnMB
-	j4vyRWdQvnkZzgv9eIbB5tQ8ZpTTBRlpfXNGiW/cNVw/A6uUDodGgzhgNRLmYPsLgShU
-	OF7yN4Q9QAoq1uG4Odd6HooRNLs5jKk8GiOx0W3FmUJO3IP68E2cv/28v67LNPWbu/tp
-	mxYe6tlA2EjFmxgYMUAIa9baC98Vp/vuguugY4oy0nHF95fF7JyGlS7oNbMsmjhqxyfj
-	XEsA==
-X-Gm-Message-State: ALoCoQnh43o+y/k4hyH5SWf1QCaW/CaRf9GDRfxEutsTckMOHPQIkT5G5HBSRBxOIhUf//o82Z1/
-X-Received: by 10.140.237.204 with SMTP id i195mr72132203qhc.93.1441293753855; 
-	Thu, 03 Sep 2015 08:22:33 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Thu, 3 Sep 2015 08:22:14 -0700 (PDT)
-In-Reply-To: <1441293176.24871.118.camel@linuxfoundation.org>
-References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
-	<9f749745e56f33bc00d0e08dd4951840b29a557d.1441291646.git.joshua.lock@collabora.co.uk>
-	<1441293176.24871.118.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 3 Sep 2015 16:22:14 +0100
-Message-ID: <CAJTo0LYnmyRGKb0Tjunn8__GYB5mRPkm_dUyrb8678EC2YPhyA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/9] systemd: remove hard-coded paths in FILES entries
+	Thu,  3 Sep 2015 15:32:46 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 03 Sep 2015 08:32:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,462,1437462000"; d="scan'208";a="797539448"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Sep 2015 08:32:45 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Sep 2015 18:34:09 +0300
+Message-Id: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 00/12] Various package/RRS updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,39 +27,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 15:22:36 -0000
-Content-Type: multipart/alternative; boundary=001a1135a030377ae1051ed95a68
+X-List-Received-Date: Thu, 03 Sep 2015 15:32:48 -0000
 
---001a1135a030377ae1051ed95a68
-Content-Type: text/plain; charset=UTF-8
+This week I've reviewed all the packages that have been last touched in 2013 
+or earlier (according to RRS) and this is the resulting patchset.
 
-On 3 September 2015 at 16:12, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Since the feature freeze is happening soon, and there is still a large backlog of 
+unmerged patches, I will stop the package version update at this point to avoid making
+the situation worse :) and will look into other things, perhaps these:
 
-> From what I remember, this is intentional and this change likely breaks
-> multilib. You don't want two sets of rules on a multilib system.
->
+1) fixing gobject introspection
 
-Indeed - you need nonarch_base_libdir or whatever it's called here I think,
-as that doesn't get renamed by multilib.
+2) completing the work of porting matchbox stuff to gtk3 (or *gasp* looking into 
+replacing it with the most minimal possible gnome 3 shell/launcher).
 
-Ross
+3) other suggestions?
 
---001a1135a030377ae1051ed95a68
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit c80b582212336044c55052ad0d39f9da06d71438:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 3 September 2015 at 16:12, Richard Purdie <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.pu=
-rdie@linuxfoundation.org</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div id=3D":371" class=3D"a3s" style=3D"overflow:hidden">From what I =
-remember, this is intentional and this change likely breaks<br>
-multilib. You don&#39;t want two sets of rules on a multilib system.<br></d=
-iv></blockquote></div><br>Indeed - you need nonarch_base_libdir or whatever=
- it&#39;s called here I think, as that doesn&#39;t get renamed by multilib.=
-</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross<=
-/div></div>
+  debianutils: create package for run-parts (2015-09-03 12:43:33 +0100)
 
---001a1135a030377ae1051ed95a68--
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib akanavin/package-version-updates
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
+
+Alexander Kanavin (12):
+  ccache: update to 3.2.3
+  mailx: update to 12.5-5
+  net-tools: update to 1.60-25
+  gnome-icon-theme: remove the recipe
+  libunique: remove the recipe
+  mkelfimage: add RECIPE_NO_UPDATE_REASON
+  python-async: update to 0.6.2
+  python-smmap: update to 0.9.0
+  remake: update to 4.1+dbg-1.1
+  uclibc: update PV to 0.9.33.2 to match latest upstream release
+  vte: add RECIPE_NO_UPDATE_REASON
+  package_regex.inc: various updates to improve RRS accuracy
+
+ meta/conf/distro/include/package_regex.inc         |  14 +-
+ meta/recipes-core/uclibc/uclibc-git.inc            |   2 +-
+ meta/recipes-devtools/ccache/ccache.inc            |   4 +-
+ meta/recipes-devtools/ccache/ccache_3.1.11.bb      |   7 -
+ meta/recipes-devtools/ccache/ccache_3.2.3.bb       |   8 +
+ ...ion-in-recent-change-related-to-zlib-in-n.patch |  73 ++++
+ meta/recipes-devtools/mkelfimage/mkelfimage_git.bb |   3 +
+ ...python-async_0.6.1.bb => python-async_0.6.2.bb} |   4 +-
+ ...python-smmap_0.8.2.bb => python-smmap_0.9.0.bb} |   4 +-
+ meta/recipes-devtools/remake/remake.inc            |   4 +-
+ ...ve-errors-about-colophon-and-cygnus-comma.patch |  39 --
+ .../{remake_git.bb => remake_4.1+dbg-1.1.bb}       |   8 +-
+ ...e-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch |  59 +++
+ ...-SSL2-support-since-it-is-no-longer-suppo.patch |  41 ++
+ ...ntian-warning-warning-macro-N-not-defined.patch |  25 ++
+ .../0011-outof-Introduce-expandaddr-flag.patch     |  70 ++++
+ ...ble-option-processing-for-email-addresses.patch |  79 ++++
+ ...c-Unconditionally-require-wordexp-support.patch | 113 ++++++
+ ...4-globname-Invoke-wordexp-with-WRDE_NOCMD.patch |  30 ++
+ .../mailx/files/0015-usr-sbin-sendmail.patch       |  38 ++
+ .../explicitly.disable.krb5.support.patch          |   0
+ .../mailx/{mailx_12.5.bb => mailx_12.5-5.bb}       |  21 +-
+ .../{net-tools_1.60-25.bb => net-tools_1.60-26.bb} |   6 +-
+ .../gnome/gnome-icon-theme/pkgconfig-native.patch  |  28 --
+ .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb |  22 --
+ meta/recipes-gnome/libunique/libunique/build.patch | 421 ---------------------
+ .../libunique/fix_for_compile_with_gcc-4.6.0.patch |  36 --
+ .../libunique/libunique/noconst.patch              | 130 -------
+ meta/recipes-gnome/libunique/libunique_1.1.6.bb    |  25 --
+ meta/recipes-support/vte/vte_0.28.2.bb             |   2 +
+ 30 files changed, 579 insertions(+), 737 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ccache/ccache_3.1.11.bb
+ create mode 100644 meta/recipes-devtools/ccache/ccache_3.2.3.bb
+ create mode 100644 meta/recipes-devtools/ccache/files/0001-Fix-regression-in-recent-change-related-to-zlib-in-n.patch
+ rename meta/recipes-devtools/python/{python-async_0.6.1.bb => python-async_0.6.2.bb} (77%)
+ rename meta/recipes-devtools/python/{python-smmap_0.8.2.bb => python-smmap_0.9.0.bb} (82%)
+ delete mode 100644 meta/recipes-devtools/remake/remake/remake-remove-errors-about-colophon-and-cygnus-comma.patch
+ rename meta/recipes-devtools/remake/{remake_git.bb => remake_4.1+dbg-1.1.bb} (80%)
+ create mode 100644 meta/recipes-extended/mailx/files/0001-Don-t-reuse-weak-symbol-optopt-to-fix-FTBFS-on-mips.patch
+ create mode 100644 meta/recipes-extended/mailx/files/0002-Patched-out-SSL2-support-since-it-is-no-longer-suppo.patch
+ create mode 100644 meta/recipes-extended/mailx/files/0003-Fixed-Lintian-warning-warning-macro-N-not-defined.patch
+ create mode 100644 meta/recipes-extended/mailx/files/0011-outof-Introduce-expandaddr-flag.patch
+ create mode 100644 meta/recipes-extended/mailx/files/0012-unpack-Disable-option-processing-for-email-addresses.patch
+ create mode 100644 meta/recipes-extended/mailx/files/0013-fio.c-Unconditionally-require-wordexp-support.patch
+ create mode 100644 meta/recipes-extended/mailx/files/0014-globname-Invoke-wordexp-with-WRDE_NOCMD.patch
+ create mode 100644 meta/recipes-extended/mailx/files/0015-usr-sbin-sendmail.patch
+ rename meta/recipes-extended/mailx/{mailx-12.5 => files}/explicitly.disable.krb5.support.patch (100%)
+ rename meta/recipes-extended/mailx/{mailx_12.5.bb => mailx_12.5-5.bb} (48%)
+ rename meta/recipes-extended/net-tools/{net-tools_1.60-25.bb => net-tools_1.60-26.bb} (91%)
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+ delete mode 100644 meta/recipes-gnome/libunique/libunique/build.patch
+ delete mode 100644 meta/recipes-gnome/libunique/libunique/fix_for_compile_with_gcc-4.6.0.patch
+ delete mode 100644 meta/recipes-gnome/libunique/libunique/noconst.patch
+ delete mode 100644 meta/recipes-gnome/libunique/libunique_1.1.6.bb
+
+-- 
+2.1.4
+
+
