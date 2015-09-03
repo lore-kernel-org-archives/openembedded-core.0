@@ -1,31 +1,21 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id A14A876FF2
+Return-Path: <anibal.limon@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5EB3D76FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 20:00:47 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga101.fm.intel.com with ESMTP; 03 Sep 2015 13:00:48 -0700
+	Thu,  3 Sep 2015 20:03:37 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 03 Sep 2015 13:03:23 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,463,1437462000"; 
-	d="scan'208,217";a="638054126"
-Received: from afshjern.zpn.intel.com (HELO [10.219.128.48]) ([10.219.128.48])
-	by orsmga003.jf.intel.com with ESMTP; 03 Sep 2015 13:00:45 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <1441211805-17543-1-git-send-email-alejandro.franco@linux.intel.com>
-	<1441216283.24871.78.camel@linuxfoundation.org>
-	<20150902182548.GG2470@jama> <55E769B4.4050800@linux.intel.com>
-	<CA+chaQddNikh4vveg30U8WVYG5XcpewM9OHrgahzr_qTHSF+pw@mail.gmail.com>
-From: Alex Franco <alejandro.franco@linux.intel.com>
-Message-ID: <55E8A710.6050003@linux.intel.com>
-Date: Thu, 3 Sep 2015 15:01:20 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+X-IronPort-AV: E=Sophos;i="5.17,463,1437462000"; d="scan'208";a="782183028"
+Received: from alimonb-mobl1.zpn.intel.com ([10.219.5.31])
+	by fmsmga001.fm.intel.com with ESMTP; 03 Sep 2015 13:03:22 -0700
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Sep 2015 15:03:30 -0500
+Message-Id: <1441310610-965-1-git-send-email-anibal.limon@linux.intel.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQddNikh4vveg30U8WVYG5XcpewM9OHrgahzr_qTHSF+pw@mail.gmail.com>
-Cc: Christopher Larson <clarson@kergoth.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Fix recursive mode -st on BUILDDIR setup
+Subject: [PATCH] qemu: Fix qemu_cpu_kick_thread on init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,220 +28,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 20:00:50 -0000
-Content-Type: multipart/alternative;
-	boundary="------------040606070106000201050506"
-
---------------040606070106000201050506
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-Hello Martin, so the error you are seeing is related to the chmodding 
-being done in sanity.bbclass, not the chmodding taking place in 
-oe-setup-builddir. I am adding a catch and a warning for that, as I 
-reproduce your setup so I can also reproduce the OSError.
-
-Alex
-
-On 09/02/2015 07:57 PM, Martin Jansa wrote:
-> Warning informing that chmod failed is better than fatal error 
-> preventing me to build anything in that setup with tmpfs.
->
-> On Wed, Sep 2, 2015 at 11:27 PM, Alex Franco 
-> <alejandro.franco@linux.intel.com 
-> <mailto:alejandro.franco@linux.intel.com>> wrote:
->
->     Checking may be the better approach, as warning here would do
->     little more than what the current failure does (informing that
->     chmod failed)
->
->     Alex Franco
->
->
->     On 09/02/2015 01:25 PM, Martin Jansa wrote:
->
->         On Wed, Sep 02, 2015 at 06:51:23PM +0100, Richard Purdie wrote:
->
->             On Wed, 2015-09-02 at 11:36 -0500, Alex Franco wrote:
->
->                 Removing recursive option from chmod -st on BUILDDIR
->                 as it would
->                 take very long on existing build directories
->
->                 [YOCTO 7669]
->
->                 Signed-off-by: Alex Franco
->                 <alejandro.franco@linux.intel.com
->                 <mailto:alejandro.franco@linux.intel.com>>
->                 ---
->                   scripts/oe-setup-builddir | 2 +-
->                   1 file changed, 1 insertion(+), 1 deletion(-)
->
->                 diff --git a/scripts/oe-setup-builddir
->                 b/scripts/oe-setup-builddir
->                 index f5b7e4e..44c7dcc 100755
->                 --- a/scripts/oe-setup-builddir
->                 +++ b/scripts/oe-setup-builddir
->                 @@ -24,7 +24,7 @@ if [ -z "$BUILDDIR" ]; then
->                   fi
->                     mkdir -p "$BUILDDIR/conf"
->                 -chmod -R -st "$BUILDDIR"
->                 +chmod -st "$BUILDDIR"
->
->             I think you did this so that conf/ gets the right
->             permissions too.
->             Perhaps the best approach is:
->
->             +chmod -st "$BUILDDIR" $BUILDDIR/conf"
->
->         Can we add "|| bbwarn foo"
->
->         for cases when it doesn't work for whatever reason or check the
->         permissions of these 2 dirs before calling chmod?
->
->             ?
->
->             Cheers,
->
->             Richard
->
->             -- 
->             _______________________________________________
->             Openembedded-core mailing list
->             Openembedded-core@lists.openembedded.org
->             <mailto:Openembedded-core@lists.openembedded.org>
->             http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
->
-
-
---------------040606070106000201050506
-Content-Type: text/html; charset=utf-8
+X-List-Received-Date: Thu, 03 Sep 2015 20:03:40 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    Hello Martin, so the error you are seeing is related to the
-    chmodding being done in sanity.bbclass, not the chmodding taking
-    place in oe-setup-builddir. I am adding a catch and a warning for
-    that, as I reproduce your setup so I can also reproduce the OSError.<br>
-    <br>
-    Alex<br>
-    <br>
-    <div class="moz-cite-prefix">On 09/02/2015 07:57 PM, Martin Jansa
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CA+chaQddNikh4vveg30U8WVYG5XcpewM9OHrgahzr_qTHSF+pw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">Warning informing that chmod failed is better than
-        fatal error preventing me to build anything in that setup with
-        tmpfs.
-        <div>
-          <div class="gmail_extra"><br>
-            <div class="gmail_quote">On Wed, Sep 2, 2015 at 11:27 PM,
-              Alex Franco <span dir="ltr">&lt;<a moz-do-not-send="true"
-                  href="mailto:alejandro.franco@linux.intel.com"
-                  target="_blank">alejandro.franco@linux.intel.com</a>&gt;</span>
-              wrote:<br>
-              <blockquote class="gmail_quote" style="margin:0 0 0
-                .8ex;border-left:1px #ccc solid;padding-left:1ex">Checking
-                may be the better approach, as warning here would do
-                little more than what the current failure does
-                (informing that chmod failed)<span class="HOEnZb"><font
-                    color="#888888"><br>
-                    <br>
-                    Alex Franco</font></span>
-                <div class="HOEnZb">
-                  <div class="h5"><br>
-                    <br>
-                    On 09/02/2015 01:25 PM, Martin Jansa wrote:<br>
-                    <blockquote class="gmail_quote" style="margin:0 0 0
-                      .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                      On Wed, Sep 02, 2015 at 06:51:23PM +0100, Richard
-                      Purdie wrote:<br>
-                      <blockquote class="gmail_quote" style="margin:0 0
-                        0 .8ex;border-left:1px #ccc
-                        solid;padding-left:1ex">
-                        On Wed, 2015-09-02 at 11:36 -0500, Alex Franco
-                        wrote:<br>
-                        <blockquote class="gmail_quote" style="margin:0
-                          0 0 .8ex;border-left:1px #ccc
-                          solid;padding-left:1ex">
-                          Removing recursive option from chmod -st on
-                          BUILDDIR as it would<br>
-                          take very long on existing build directories<br>
-                          <br>
-                          [YOCTO 7669]<br>
-                          <br>
-                          Signed-off-by: Alex Franco &lt;<a
-                            moz-do-not-send="true"
-                            href="mailto:alejandro.franco@linux.intel.com"
-                            target="_blank"><a class="moz-txt-link-abbreviated" href="mailto:alejandro.franco@linux.intel.com">alejandro.franco@linux.intel.com</a></a>&gt;<br>
-                          ---<br>
-                            scripts/oe-setup-builddir | 2 +-<br>
-                            1 file changed, 1 insertion(+), 1
-                          deletion(-)<br>
-                          <br>
-                          diff --git a/scripts/oe-setup-builddir
-                          b/scripts/oe-setup-builddir<br>
-                          index f5b7e4e..44c7dcc 100755<br>
-                          --- a/scripts/oe-setup-builddir<br>
-                          +++ b/scripts/oe-setup-builddir<br>
-                          @@ -24,7 +24,7 @@ if [ -z "$BUILDDIR" ]; then<br>
-                            fi<br>
-                              mkdir -p "$BUILDDIR/conf"<br>
-                          -chmod -R -st "$BUILDDIR"<br>
-                          +chmod -st "$BUILDDIR"<br>
-                        </blockquote>
-                        I think you did this so that conf/ gets the
-                        right permissions too.<br>
-                        Perhaps the best approach is:<br>
-                        <br>
-                        +chmod -st "$BUILDDIR" $BUILDDIR/conf"<br>
-                      </blockquote>
-                      Can we add "|| bbwarn foo"<br>
-                      <br>
-                      for cases when it doesn't work for whatever reason
-                      or check the<br>
-                      permissions of these 2 dirs before calling chmod?<br>
-                      <br>
-                      <blockquote class="gmail_quote" style="margin:0 0
-                        0 .8ex;border-left:1px #ccc
-                        solid;padding-left:1ex">
-                        ?<br>
-                        <br>
-                        Cheers,<br>
-                        <br>
-                        Richard<br>
-                        <br>
-                        -- <br>
-                        _______________________________________________<br>
-                        Openembedded-core mailing list<br>
-                        <a moz-do-not-send="true"
-                          href="mailto:Openembedded-core@lists.openembedded.org"
-                          target="_blank">Openembedded-core@lists.openembedded.org</a><br>
-                        <a moz-do-not-send="true"
-                          href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-                          rel="noreferrer" target="_blank">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-                      </blockquote>
-                    </blockquote>
-                    <br>
-                  </div>
-                </div>
-              </blockquote>
-            </div>
-            <br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+When QEMU starts the RCU thread executes qemu_mutex_lock_thread
+causing error "qemu:qemu_cpu_kick_thread: No such process" and exits.
 
---------------040606070106000201050506--
+For detail explanation see upstream patch.
+
+[YOCTO #8143]
+
+Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc                |  1 +
+ ..._mutex_lock_iothread-fix-race-condition-a.patch | 45 ++++++++++++++++++++++
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index dc7b628..738bf2b 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -21,6 +21,7 @@ SRC_URI = "\
+     file://wacom.patch \
+     file://add-ptest-in-makefile.patch \
+     file://run-ptest \
++    file://cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch \
+     "
+ 
+ SRC_URI_append_class-native = "\
+diff --git a/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
+new file mode 100644
+index 0000000..45dffab
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/cpus.c-qemu_mutex_lock_iothread-fix-race-condition-a.patch
+@@ -0,0 +1,45 @@
++Upstream-Status: Submitted
++
++From f354b9333408d411854af058cc44cceda60b4473 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
++Date: Thu, 3 Sep 2015 14:07:34 -0500
++Subject: [PATCH] cpus.c: qemu_mutex_lock_iothread fix race condition at cpu
++ thread init
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++When QEMU starts the RCU thread executes qemu_mutex_lock_thread
++causing error "qemu:qemu_cpu_kick_thread: No such process" and exits.
++
++This isn't occur frequently but in glibc the thread id can exist and
++this not guarantee that the thread is on active/running state. If is
++inserted a sleep(1) after newthread assignment [1] the issue appears.
++
++So not make assumption that thread exist if first_cpu->thread is set
++then change the validation of cpu to created that is set into cpu
++threads (kvm, tcg, dummy).
++
++[1] https://sourceware.org/git/?p=glibc.git;a=blob;f=nptl/pthread_create.c;h=d10f4ea8004e1d8f3a268b95cc0f8d93b8d89867;hb=HEAD#l621
++
++Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
++---
++ cpus.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/cpus.c b/cpus.c
++index 7e4786e..05e5400 100644
++--- a/cpus.c
+++++ b/cpus.c
++@@ -1171,7 +1171,7 @@ void qemu_mutex_lock_iothread(void)
++      * TCG code execution.
++      */
++     if (!tcg_enabled() || qemu_in_vcpu_thread() ||
++-        !first_cpu || !first_cpu->thread) {
+++        !first_cpu || !first_cpu->created) {
++         qemu_mutex_lock(&qemu_global_mutex);
++         atomic_dec(&iothread_requesting_mutex);
++     } else {
++-- 
++1.9.1
++
+-- 
+1.9.1
+
+
