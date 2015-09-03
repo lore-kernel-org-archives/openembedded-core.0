@@ -1,21 +1,24 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id E052176FF2
+	by mail.openembedded.org (Postfix) with ESMTP id 3F33076FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 19:15:49 +0000 (UTC)
+	Thu,  3 Sep 2015 19:16:56 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 91F9B3C88695
-Message-ID: <1441307746.2977.32.camel@collabora.co.uk>
+	(Authenticated sender: joshuagl) with ESMTPSA id 3EF683C88695
+Message-ID: <1441307813.2977.33.camel@collabora.co.uk>
 From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 03 Sep 2015 20:15:46 +0100
-In-Reply-To: <55E87FE5.8050406@windriver.com>
+To: "Burton, Ross" <ross.burton@intel.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Date: Thu, 03 Sep 2015 20:16:53 +0100
+In-Reply-To: <CAJTo0LYnmyRGKb0Tjunn8__GYB5mRPkm_dUyrb8678EC2YPhyA@mail.gmail.com>
 References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
-	<82a9dc6d0c430ec44a9a7cf4e2499bdd5bffeb1f.1441291646.git.joshua.lock@collabora.co.uk>
-	<55E87FE5.8050406@windriver.com>
+	<9f749745e56f33bc00d0e08dd4951840b29a557d.1441291646.git.joshua.lock@collabora.co.uk>
+	<1441293176.24871.118.camel@linuxfoundation.org>
+	<CAJTo0LYnmyRGKb0Tjunn8__GYB5mRPkm_dUyrb8678EC2YPhyA@mail.gmail.com>
 X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
 Mime-Version: 1.0
-Subject: Re: [PATCH 8/9] nfs-utils: don't force use of /sbin as sbindir
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/9] systemd: remove hard-coded paths in FILES entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,68 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 19:15:53 -0000
+X-List-Received-Date: Thu, 03 Sep 2015 19:16:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-09-03 at 12:14 -0500, Mark Hatle wrote:
-> On 9/3/15 9:58 AM, Joshua Lock wrote:
-> > In a system with a merged /usr /sbin isn't packaged.
+On Thu, 2015-09-03 at 16:22 +0100, Burton, Ross wrote:
 > 
-> This sounds like an error to me if /sbin doesn't exist at all. It
-> should exist
-> either as a link to /usr/sbin (or the reverse).. but it should be
-> there as lots
-> of things expect the directory (or link) to exist.
+> On 3 September 2015 at 16:12, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > From what I remember, this is intentional and this change likely
+> > breaks
+> > multilib. You don't want two sets of rules on a multilib system.
+> > 
+> Indeed - you need nonarch_base_libdir or whatever it's called here I
+> think, as that doesn't get renamed by multilib.
 
-Sure, it exists in my images but not during packaging. In my testing I
-have base_bindir, base_libdir and base_sbindir set to children of /usr
-in my distro.conf and a base-files_%.bbappend that creates the
-symlinks. Therefore at packaging time the /sbin directory (and symlink)
- doesn't exist.
+Got it, thanks - I'm testing a v2 series with a multilib build thrown
+in to the mix.
 
-I admit this commit message is pretty poor and I'll try and remember to
-fix it in a v2.
-
-Regards,
+Thanks both for the feedback,
 
 Joshua
-
-> (It's also required by the FHS, even though that probably isn't
-> enough of a
-> concern.)
-> 
-> > Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
-> > ---
-> >  meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb | 8
-> > ++++++++
-> >  1 file changed, 8 insertions(+)
-> > 
-> > diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-> > b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-> > index 6da8509..42101de 100644
-> > --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-> > +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-> > @@ -90,6 +90,14 @@ RDEPENDS_${PN}-stats = "python"
-> >  
-> >  FILES_${PN} += "${systemd_unitdir}"
-> >  
-> > +do_configure_prepend() {
-> > +        sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g'
-> > \
-> > +            ${S}/utils/mount/Makefile.am
-> > +
-> > +        sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g'
-> > \
-> > +            ${S}/utils/osd_login/Makefile.am
-> > +}
-> > +
-> >  # Make clean needed because the package comes with
-> >  # precompiled 64-bit objects that break the build
-> >  do_compile_prepend() {
-> > 
-> 
-> So my concern is simply with the commit msg -- not the actual
-> implementation.
-> What you have above looks correct to me.
 
