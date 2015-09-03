@@ -1,25 +1,34 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B733F76F50
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 74F1376FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 16:29:23 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga102.jf.intel.com with ESMTP; 03 Sep 2015 09:29:23 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,463,1437462000"; d="scan'208";a="797158621"
-Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.154])
-	([10.218.99.154])
-	by orsmga002.jf.intel.com with ESMTP; 03 Sep 2015 09:29:22 -0700
-Message-ID: <1441297738.2545.4.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+	Thu,  3 Sep 2015 16:54:31 +0000 (UTC)
+Received: by qkcj187 with SMTP id j187so23878180qkc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Sep 2015 09:54:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=HM31zhAVcf0Us0NZFdDFSjThd3/kPXqBAIBhRZFjt7k=;
+	b=FWizAS5ZJ6oWXP6f3jHa3mFPmlttmih524PasTKFKKG3A02nBIeWcjOGNK/T0j1bIS
+	qAT3ow9CSvWp60hGCD26RAwfCgXzVHScKLXaRBMUB9CBYYMB6JBRJd9VOLYIgwBL07Dd
+	Nt+3K+7ZKFLPjHI2Gbd2gyHDo/arYK+J1Rgjj8n6oUo5GG69xc/VT+vPt75AhJyNSK0a
+	AeRwjZn2mHgcWAxb31f8Pbr1n+EgFfyc6OC9qMun2yvlsVq1T/qYIlf96RX2ReafyZqV
+	EORwy2yUiD6hHbxPZiZWTJK+1kYpX4xd9FSP1ffubCtHJRH1z8NX6Jb6fcpfvAAEd00M
+	136w==
+X-Received: by 10.55.33.74 with SMTP id h71mr40008146qkh.71.1441299271973;
+	Thu, 03 Sep 2015 09:54:31 -0700 (PDT)
+Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	by smtp.gmail.com with ESMTPSA id
+	a73sm15203897qkj.27.2015.09.03.09.54.31
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 03 Sep 2015 09:54:31 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 03 Sep 2015 13:28:58 -0300
-In-Reply-To: <1441135341-2048-1-git-send-email-bruno.bottazzini@intel.com>
-References: <bruno.bottazzini@intel.com>
-	<1441135341-2048-1-git-send-email-bruno.bottazzini@intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Subject: Re: [PATCH] scripts: Create interactive menu for mkefidisk script
+Date: Thu,  3 Sep 2015 16:54:27 +0000
+Message-Id: <cover.1441299182.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.5.1
+Subject: [PATCH 0/1] Busybox fix for utmpx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,105 +41,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 16:29:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 Sep 2015 16:54:32 -0000
 
-Bump
+Patch busybox to use utmpx if libc offers it
 
-On Tue, 2015-09-01 at 16:22 -0300, Bruno Bottazzini wrote:
-> If it is passed only the image parameter, it will show some interactive
-> options to help to conclude the script.
-> 
-> With this patch it will detect devices available in the machine, asking
-> to choose what it is wanted to be flashed.
-> 
-> it will suggest the target device. If it is a SD card the suggestion
-> is /dev/mmcblk0. If it is a pendrive it will suggest to use /dev/sda.
-> 
-> Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
-> ---
->  scripts/contrib/mkefidisk.sh | 60 ++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 55 insertions(+), 5 deletions(-)
-> 
-> diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-> index 55f72b0..7628de7 100755
-> --- a/scripts/contrib/mkefidisk.sh
-> +++ b/scripts/contrib/mkefidisk.sh
-> @@ -152,8 +152,52 @@ unmount() {
->  # Parse and validate arguments
->  #
->  if [ $# -lt 3 ] || [ $# -gt 4 ]; then
-> -	usage
-> -	exit 1
-> +    if [ $# -eq 1 ]; then
-> +        AVAILABLE_DISK=`fdisk -l | grep "Disk /" | cut -f 1 -d ':' | cut -f 2 -d ' '`
-> +        if [ -z "$AVAILABLE_DISK" ]; then
-> +            die "Starting mkefidisk.sh as root is required"
-> +        fi
-> +        echo "Available disks are"
-> +        X=0
-> +        for line in `echo $AVAILABLE_DISK`; do
-> +            info "$X - $line"
-> +            X=`expr $X + 1`
-> +        done
-> +        read -p "Choose flashable device number: " DISK_NUMBER
-> +        X=0
-> +        for line in `echo $AVAILABLE_DISK`; do
-> +            if [ $DISK_NUMBER -eq $X ]; then
-> +                DISK_TO_BE_FLASHED=$line
-> +                break
-> +            else
-> +                X=`expr $X + 1`
-> +            fi
-> +        done
-> +        if [ -z "$DISK_TO_BE_FLASHED" ]; then
-> +            die "Option \"$DISK_NUMBER\" is invalid. Choose a valid option"
-> +        else
-> +            if [ -z `echo $DISK_TO_BE_FLASHED | grep "mmc"` ]; then
-> +                TARGET_TO_BE_BOOT="/dev/sda"
-> +            else
-> +                TARGET_TO_BE_BOOT="/dev/mmcblk0"
-> +            fi
-> +        fi
-> +        echo ""
-> +        echo "Choose a name of the device that will be boot from"
-> +        echo -n "Recommended name is: "
-> +        info "$TARGET_TO_BE_BOOT\n"
-> +        read -p "Is target device okay? [y/N]: " RESPONSE
-> +        if [ "$RESPONSE" != "y" ]; then
-> +            read -p "Choose target device name: " TARGET_TO_BE_BOOT
-> +        fi
-> +        echo ""
-> +        if [ -z "$TARGET_TO_BE_BOOT" ]; then
-> +            die "Error: choose a valid target name"
-> +        fi
-> +    else
-> +        usage
-> +	    exit 1
-> +    fi
->  fi
->  
->  if [ "$1" = "-v" ]; then
-> @@ -162,9 +206,15 @@ if [ "$1" = "-v" ]; then
->  	shift
->  fi
->  
-> -DEVICE=$1
-> -HDDIMG=$2
-> -TARGET_DEVICE=$3
-> +if [ -z "$AVAILABLE_DISK" ]; then
-> +    DEVICE=$1
-> +    HDDIMG=$2
-> +    TARGET_DEVICE=$3
-> +else
-> +    DEVICE=$DISK_TO_BE_FLASHED
-> +    HDDIMG=$1
-> +    TARGET_DEVICE=$TARGET_TO_BE_BOOT
-> +fi
->  
->  LINK=$(readlink $DEVICE)
->  if [ $? -eq 0 ]; then
+The following changes since commit bdeb32b4cdbe316f17c2fd854d59e05e8f2e8ffc:
 
+  rt-tests: drop unnecessary added-missing-dependencies.patch (2015-09-01 11:43:38 +0100)
+
+are available in the git repository at:
+
+  git://github.com/kraj/openembedded-core kraj/busybox_utmpx
+  https://github.com/kraj/openembedded-core/tree/kraj/busybox_utmpx
+
+Khem Raj (1):
+  busybox: Use UTMPX instead of legacy UTMP
+
+ .../busybox/0001-Switch-to-POSIX-utmpx-API.patch   | 388 +++++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 +
+ 2 files changed, 389 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-Switch-to-POSIX-utmpx-API.patch
+
+-- 
+2.5.1
 
 
