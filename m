@@ -1,20 +1,54 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 94F0B73D13
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 676DB73D13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 11:54:23 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Thu, 3 Sep 2015
-	13:54:23 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 3 Sep 2015 13:54:21 +0200
-Message-ID: <1441281261-31970-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Thu,  3 Sep 2015 11:55:29 +0000 (UTC)
+Received: by ioii196 with SMTP id i196so54532636ioi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Sep 2015 04:55:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=nHSSzEy51u28164Ws6aGUOtmxahRNwebiuwwNRySsWY=;
+	b=HC7gPwWj06yM4DFzGuSYX+92rQnlhzZ3f+F3eKABRJznONeUJ4J+LM9w3QkB7UwTQm
+	pF9BLAY+e8+TJks3CZUVLXu3XxQSqvYgHU4rIwQHxm/sE/nzbEyF1Ggh4J5YHG0zxMe9
+	YKintFhpOIzj6TzJOgSKisLyMNjO2sl3K/fHYKwIfJf8oh4voWJVMDUKs4X6E7rCd+J2
+	B5ZHCWIq0fhxRQUHb0VXF57DDTNO9mgzMUzMdUm8VYPG6K39z0T4yC1bVazG9LStvoUW
+	oDi2cHDwLbK5OSic1WOUbUP8BhoX/lcxnBkUEnDMpX0LU0dJIgtMb9mrW+jYXikuqKMc
+	oM1Q==
+X-Gm-Message-State: ALoCoQmhxBmfGuZNYPHzsmhq1WAoSnZn+F0TCCj0Rz0L/cmEJTBkWpStZ71jREWtSjtkDLohVvmz
+X-Received: by 10.107.169.41 with SMTP id s41mr38235752ioe.127.1441281329343; 
+	Thu, 03 Sep 2015 04:55:29 -0700 (PDT)
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com.
+	[209.85.223.178])
+	by smtp.gmail.com with ESMTPSA id qc1sm4382861igb.1.2015.09.03.04.55.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 Sep 2015 04:55:28 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by ioiz6 with SMTP id z6so54538786ioi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 03 Sep 2015 04:55:28 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH][fido] gnutls: CVE-2015-3308
+X-Received: by 10.107.130.153 with SMTP id m25mr41657931ioi.192.1441281328117; 
+	Thu, 03 Sep 2015 04:55:28 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Thu, 3 Sep 2015 04:55:28 -0700 (PDT)
+In-Reply-To: <1441261794.9573.6.camel@intel.com>
+References: <cover.1441207840.git.patrick.ohly@intel.com>
+	<3b40bb267aa67a9c7adae08713d85060129a219b.1441207840.git.patrick.ohly@intel.com>
+	<784e52fcd898a07a12236058026fd48d0e01c8b7.1441207840.git.patrick.ohly@intel.com>
+	<CAP9ODKpmtON87ZkXHP=gecSznBK_GXFAa=gAkicU2p2WV8qavg@mail.gmail.com>
+	<CAP9ODKqiej_Nm_4Rrb1J-BWFwSG8hWzLZ3So_BUSKQ-gKWzCjQ@mail.gmail.com>
+	<1441261794.9573.6.camel@intel.com>
+Date: Thu, 3 Sep 2015 08:55:28 -0300
+Message-ID: <CAP9ODKrK=LnbRoJCsu80bQtEe+AkEW50yqGD5+n+jGRYuVh5fQ@mail.gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/10] initramfs-framework: support mounting rootfs in modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,170 +61,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 11:54:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 03 Sep 2015 11:55:29 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Fixes use-after-free flaw in CRL distribution points parsing
+On Thu, Sep 3, 2015 at 3:29 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> On Wed, 2015-09-02 at 13:24 -0300, Otavio Salvador wrote:
+>> On Wed, Sep 2, 2015 at 1:19 PM, Otavio Salvador <otavio@ossystems.com.br> wrote:
+>> > If there is any limitation please share the use case so we can
+>> > understand the need for it.
+>>
+>> I found the live module and understood why you want to do this.
+>> Instead you could use:
+>>
+>> - live as 99-live
+>> - move finish for 99-rootfs-mount and split as a package
+>> - put RCONFLICTS and RPROVIDES initramfs-module-rootfs-mount.
+>
+> So you are suggesting that either "live" or "finish" do the final step
+> of mounting the rootfs and switching to the rootfs? I actually wanted to
+> have an initramfs which can be used in the live image *and* on a real
+> disk and thus would need both, with the "live" module doing nothing
+> unless booting from the live image.
+>
+> That's because the initramfs would also contain IMA initialization, and
+> that is needed in both cases. Maintaining two different initramfs
+> versions would be an alternative, but then the user and/or script which
+> does the installation must be aware of the difference. It would also
+> prevent embedding the initramfs inside the kernel
+> (INITRAMFS_IMAGE_BUNDLE).
 
-Reference:
-https://gitlab.com/gnutls/gnutls/commit/d6972be33264ecc49a86cd0958209cd7363=
-af1e9
-https://gitlab.com/gnutls/gnutls/commit/053ae65403216acdb0a4e78b25ad66ee9f4=
-44f02
+I see your point and it is a valid one.
 
-http://www.openwall.com/lists/oss-security/2015/04/15/6
+However in this case, the finish change needs to be reworked to avoid
+too much indenting change for no reason, the finish_enabled function
+can be used for this.
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../better-fix-for-double-free-CVE-2015-3308.patch | 65 ++++++++++++++++++=
-++++
- .../eliminated-double-free-CVE-2015-3308.patch     | 33 +++++++++++
- meta/recipes-support/gnutls/gnutls_3.3.12.bb       |  2 +
- 3 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/better-fix-for-doubl=
-e-free-CVE-2015-3308.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/eliminated-double-fr=
-ee-CVE-2015-3308.patch
-
-diff --git a/meta/recipes-support/gnutls/gnutls/better-fix-for-double-free-=
-CVE-2015-3308.patch b/meta/recipes-support/gnutls/gnutls/better-fix-for-dou=
-ble-free-CVE-2015-3308.patch
-new file mode 100644
-index 0000000..8824729
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/better-fix-for-double-free-CVE-201=
-5-3308.patch
-@@ -0,0 +1,65 @@
-+From 053ae65403216acdb0a4e78b25ad66ee9f444f02 Mon Sep 17 00:00:00 2001
-+From: Nikos Mavrogiannopoulos <nmav@gnutls.org>
-+Date: Sat, 28 Mar 2015 22:41:03 +0100
-+Subject: [PATCH] Better fix for the double free in dist point parsing
-+
-+Fixes CVE-2015-3308
-+Upstream-Status: Backport
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+ lib/x509/x509_ext.c | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/lib/x509/x509_ext.c b/lib/x509/x509_ext.c
-+index 2e69ed0..f974b02 100644
-+--- a/lib/x509/x509_ext.c
-++++ b/lib/x509/x509_ext.c
-+@@ -2287,7 +2287,7 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
-tls_datum_t * ext,
-+ 	int len, ret;
-+ 	uint8_t reasons[2];
-+ 	unsigned i, type, rflags, j;
-+-	gnutls_datum_t san;
-++	gnutls_datum_t san =3D {NULL, 0};
-+=20
-+ 	result =3D asn1_create_element
-+ 	    (_gnutls_get_pkix(), "PKIX1.CRLDistributionPoints", &c2);
-+@@ -2310,9 +2310,6 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
-tls_datum_t * ext,
-+=20
-+ 	i =3D 0;
-+ 	do {
-+-		san.data =3D NULL;
-+-		san.size =3D 0;
-+-
-+ 		snprintf(name, sizeof(name), "?%u.reasons", (unsigned)i + 1);
-+=20
-+ 		len =3D sizeof(reasons);
-+@@ -2337,6 +2334,9 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
-tls_datum_t * ext,
-+=20
-+ 		j =3D 0;
-+ 		do {
-++			san.data =3D NULL;
-++			san.size =3D 0;
-++
-+ 			ret =3D
-+ 			    _gnutls_parse_general_name2(c2, name, j, &san,
-+ 							&type, 0);
-+@@ -2351,6 +2351,7 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
-tls_datum_t * ext,
-+ 			ret =3D crl_dist_points_set(cdp, type, &san, rflags);
-+ 			if (ret < 0)
-+ 				break;
-++			san.data =3D NULL; /* it is now in cdp */
-+=20
-+ 			j++;
-+ 		} while (ret >=3D 0);
-+@@ -2360,6 +2361,7 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
-tls_datum_t * ext,
-+=20
-+ 	if (ret < 0 && ret !=3D GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
-+ 		gnutls_assert();
-++		gnutls_free(san.data);
-+ 		goto cleanup;
-+ 	}
-+=20
-+--=20
-+1.9.1
-+
-diff --git a/meta/recipes-support/gnutls/gnutls/eliminated-double-free-CVE-=
-2015-3308.patch b/meta/recipes-support/gnutls/gnutls/eliminated-double-free=
--CVE-2015-3308.patch
-new file mode 100644
-index 0000000..628103f
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/eliminated-double-free-CVE-2015-33=
-08.patch
-@@ -0,0 +1,33 @@
-+From d6972be33264ecc49a86cd0958209cd7363af1e9 Mon Sep 17 00:00:00 2001
-+From: Nikos Mavrogiannopoulos <nmav@gnutls.org>
-+Date: Mon, 23 Mar 2015 22:55:29 +0100
-+Subject: [PATCH] eliminated double-free in the parsing of dist points
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Reported by Robert =C5=9Awi=C4=99cki.
-+
-+Fixes CVE-2015-3308
-+Upstream-Status: Backport
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+ lib/x509/x509_ext.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/lib/x509/x509_ext.c b/lib/x509/x509_ext.c
-+index c8d5867..6f09438 100644
-+--- a/lib/x509/x509_ext.c
-++++ b/lib/x509/x509_ext.c
-+@@ -2360,7 +2360,6 @@ int gnutls_x509_ext_import_crl_dist_points(const gnu=
-tls_datum_t * ext,
-+=20
-+ 	if (ret < 0 && ret !=3D GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
-+ 		gnutls_assert();
-+-		gnutls_free(san.data);
-+ 		goto cleanup;
-+ 	}
-+=20
-+--=20
-+1.9.1
-+
-diff --git a/meta/recipes-support/gnutls/gnutls_3.3.12.bb b/meta/recipes-su=
-pport/gnutls/gnutls_3.3.12.bb
-index b310be0..62cd2d0 100644
---- a/meta/recipes-support/gnutls/gnutls_3.3.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.3.12.bb
-@@ -3,6 +3,8 @@ require gnutls.inc
- SRC_URI +=3D "file://correct_rpl_gettimeofday_signature.patch \
-             file://configure.ac-fix-sed-command.patch \
-             file://use-pkg-config-to-locate-zlib.patch \
-+            file://eliminated-double-free-CVE-2015-3308.patch \
-+            file://better-fix-for-double-free-CVE-2015-3308.patch \
-            "
- SRC_URI[md5sum] =3D "a37b20b4352a5f542367ded904729c90"
- SRC_URI[sha256sum] =3D "67ab3e92c5d48f3323b897d7c1aa0bb2af6f3a84f5bd9931cd=
-a163a7ff32299b"
---=20
-1.9.1
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
