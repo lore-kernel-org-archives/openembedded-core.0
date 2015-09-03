@@ -1,46 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
-	[209.85.213.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 207A477020
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id D7DF777011
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 06:37:00 +0000 (UTC)
-Received: by igbni9 with SMTP id ni9so32328037igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 02 Sep 2015 23:37:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=DLVaizvMfXwhjZfkauzyI3RG+SwuUt74a1eQ2yiC7Xk=;
-	b=IO9I1W45KEWXMLxarRTTkPS8qLwEQQh2rutik3Md//kGazkS30mEYpdumq4+SPhBFN
-	NbLE+qGsvJNB1XNJCMDG0YRyyY/PhSL8qXAdfx96WrgVeoFOWSia48WfGD7Bxtyc4Qcv
-	CjD0jQo18o8GR7L6ZrfLVEnPJjw7DFhwd+wEJqqV/k4zNxWkaay4X/iyV7RE3o16qKF5
-	NykDBEikJsH7f/E9YPXSj3Q8uw/2KnAF6JGEvQmkRgw9uMQYMt80WeCaPb73GFFRxoru
-	uOJ5IEM9Tw0QtGw5brOnWOE1iTRQp9pCMSnOYjARi6TCdxotlyKEyKt5tNm19AnFafQY
-	CpDA==
-X-Gm-Message-State: ALoCoQm6pdaqztOBkF02X+iCv0sMws76vKLiBlCF0LvPRMjQgV70o3kFtbp7hCV2hYhg3cIhRpvk
-X-Received: by 10.50.67.3 with SMTP id j3mr9812817igt.70.1441262220528;
-	Wed, 02 Sep 2015 23:37:00 -0700 (PDT)
-Received: from pohly-mobl1 (p57A5686C.dip0.t-ipconnect.de. [87.165.104.108])
-	by smtp.gmail.com with ESMTPSA id r4sm3945092igh.14.2015.09.02.23.36.59
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 Sep 2015 23:37:00 -0700 (PDT)
-Message-ID: <1441262218.9573.12.camel@intel.com>
-From: Patrick Ohly <patrick.ohly@intel.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Date: Thu, 03 Sep 2015 08:36:58 +0200
-In-Reply-To: <CAP9ODKrCzcUdfs9+GLsSe-ztS3c5BCmcLBPdmSayw-y9ZzPtkA@mail.gmail.com>
-References: <cover.1441207840.git.patrick.ohly@intel.com>
-	<3b40bb267aa67a9c7adae08713d85060129a219b.1441207840.git.patrick.ohly@intel.com>
-	<e0cab1af2f3fa08d0a4d202c65fae83a927e1567.1441207840.git.patrick.ohly@intel.com>
-	<CAP9ODKrCzcUdfs9+GLsSe-ztS3c5BCmcLBPdmSayw-y9ZzPtkA@mail.gmail.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
+	Thu,  3 Sep 2015 08:44:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t838i3ep010210; Thu, 3 Sep 2015 09:44:03 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id oB60etQhMWGp; Thu,  3 Sep 2015 09:44:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t838hoFH010207
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 3 Sep 2015 09:44:01 +0100
+Message-ID: <1441269830.24871.90.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Seebach <peter.seebach@windriver.com>
+Date: Thu, 03 Sep 2015 09:43:50 +0100
+In-Reply-To: <b27a8d540bc9724008d5be09c7ea83ffdbdd6c20.1441219463.git.peter.seebach@windriver.com>
+References: <cover.1441219463.git.peter.seebach@windriver.com>
+	<b27a8d540bc9724008d5be09c7ea83ffdbdd6c20.1441219463.git.peter.seebach@windriver.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/10] initramfs-framework: add separate init_verbose log level parameter
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] pseudo_1.7.1.bb: New version of pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,64 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 06:37:01 -0000
+X-List-Received-Date: Thu, 03 Sep 2015 08:44:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2015-09-02 at 13:16 -0300, Otavio Salvador wrote:
-> On Wed, Sep 2, 2015 at 12:48 PM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> > Using the general purpose "debug" and "verbose" kernel parameters to
-> > increase logging in the init script has the disadvantage that it
-> > also increases logging in other components, making the output hard
-> > to read (in particular with "debug").
-> >
-> > The new init_verbose parameter only affects the init script:
-> >   init_verbose, init_verbose=1, init_verbose=true: enable just some info messages
-> >   init_verbose=2: debug messages
-> >
-> > Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-> > ---
-> >  meta/recipes-core/initrdscripts/initramfs-framework/init | 16 ++++++++++++++--
-> >  1 file changed, 14 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
-> > index e8f4713..cd55ee2 100755
-> > --- a/meta/recipes-core/initrdscripts/initramfs-framework/init
-> > +++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
-> > @@ -14,6 +14,13 @@
-> >  # 'foo=value' as 'bootparam_foo=value'
-> >  # 'foo' as 'bootparam_foo=true'
-> >  # 'foo.bar[=value] as 'foo_bar=[value|true]'
-> > +#
-> > +# Special boot parameters always recognized by initramfs-framework (see modules
-> > +# like "debug" for additional ones):
-> > +# debug: enable debug logging (beware, also enables debug output in other system components)
-> > +# verbose: similar do debug, just less output
-> > +# init_verbose[=true|1|2]: same output as for verbose when no value or true/1 are given,
-> > +#                          same as debug for 2 - only affects logging in initramfs-framework
+On Wed, 2015-09-02 at 13:47 -0500, Peter Seebach wrote:
+> Pseudo 1.7 adds an experimental feature (which I think needs more testing
+> before it becomes the default) allowing the pseudo client to store modes
+> and uid/gid values in extended attributes rather than using the sqlite
+> database. On most Linux-like systems, this works only if the underlying
+> file is a plain file or a directory.
 > 
-> I personally don't see much benefit on this. The debug module is the
-> one used to debug the initramfs-framework script. If we ought to add
-> support for something like this, this should be done there.
+> Also added is a profiling feature to allow some amount of reporting on
+> the wall-clock time the client spends in wrappers, processing operations,
+> or in IPC. This feature is not intendeded to be precisely accurate, but
+> gives a good overview of where time is going.
+> 
+> Based on the results from the profiling feature, the client now suppresses
+> OP_OPEN and OP_EXEC messages if the server is not logging messages, and
+> no longer uses constant dynamic allocation and free cycles for canonicalized
+> paths.
+> 
+> There's a few other likely-looking optimizations being considered, but
+> this seemed like a good cutoff for now.
+> 
+> (1.7.1 fixes two bugs, one affecting mostly XFS systems with 64-bit
+> inode values, and one affecting code that called realpath(x, NULL), such
+> as the RPM backend.)
 
-So you are saying that the msg/info/debug/fatal functions should be in
-the "debug" module? Or should they be present, but changing the logging
-level should be done by the "debug" module? How would logging work
-before the "debug" module is loaded or when it is not installed at all
-(as in a production image)?
+This is better however opkg is still unhappy. This is build with this
+pseudo patch applied:
 
-I guess one could have empty stubs in the main "init" and only do
-logging after loading the debug module - that should work, at the loss
-of early log output.
+https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/469
 
--- 
-Best Regards, Patrick Ohly
+and this is a build with the same patches expect for the pseudo one:
 
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
+https://autobuilder.yoctoproject.org/main/builders/nightly-ipk/builds/470
 
+so something is still unhappy :(. The rpm builds were a lot better
+though.
 
+Cheers,
+
+Richard
 
 
