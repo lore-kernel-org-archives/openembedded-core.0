@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B70877030
+	by mail.openembedded.org (Postfix) with ESMTP id 3C52A77042
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  3 Sep 2015 14:58:49 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 667693C88695
+	(Authenticated sender: joshuagl) with ESMTPSA id 469CA3C88694
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Sep 2015 15:58:18 +0100
-Message-Id: <9f749745e56f33bc00d0e08dd4951840b29a557d.1441291646.git.joshua.lock@collabora.co.uk>
+Date: Thu,  3 Sep 2015 15:58:17 +0100
+Message-Id: <7ce935fb0de1acf645cefb6d3ac850cdd737a99d.1441291646.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH 3/9] systemd: remove hard-coded paths in FILES entries
+Subject: [PATCH 2/9] busybox: fixes for when base_bindir != /bin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,39 +29,121 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 03 Sep 2015 14:58:50 -0000
 
+* Replace all hard-coded paths with variables
+* Run sed over busybox.links.* to replace /bin with ${base_bindir}
+
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-core/systemd/systemd_219.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-core/busybox/busybox.inc | 49 +++++++++++++++++++----------------
+ 1 file changed, 26 insertions(+), 23 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 4d32fd5..fbd86e8 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -306,10 +306,10 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${exec_prefix}/lib/sysctl.d \
-                 ${exec_prefix}/lib/sysusers.d \
-                 ${localstatedir} \
--                /lib/udev/rules.d/70-uaccess.rules \
--                /lib/udev/rules.d/71-seat.rules \
--                /lib/udev/rules.d/73-seat-late.rules \
--                /lib/udev/rules.d/99-systemd.rules \
-+                ${base_libdir}/udev/rules.d/70-uaccess.rules \
-+                ${base_libdir}/udev/rules.d/71-seat.rules \
-+                ${base_libdir}/udev/rules.d/73-seat-late.rules \
-+                ${base_libdir}/udev/rules.d/99-systemd.rules \
-                "
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 0769d92..92b4a29 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -178,6 +178,9 @@ do_install () {
+ 	if [ "${base_sbindir}" != "/sbin" ]; then
+ 		sed -i "s:^/sbin/:${base_sbindir}/:" busybox.links*
+ 	fi
++	if [ "${base_bindir}" != "/bin" ]; then
++		sed -i "s:^/bin/:${base_bindir}/:" busybox.links*
++	fi
  
- FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
-@@ -327,7 +327,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-vconsole-setup \
+ 	install -d ${D}${sysconfdir}/init.d
  
- PACKAGES =+ "udev-dbg udev udev-hwdb"
+@@ -338,10 +341,10 @@ python do_package_prepend () {
+         return
  
--FILES_udev-dbg += "/lib/udev/.debug"
-+FILES_udev-dbg += "${base_libdir}/udev/.debug"
+     if os.path.exists('%s/etc/busybox.links' % (dvar)):
+-        set_alternative_vars("/etc/busybox.links", "/bin/busybox")
++        set_alternative_vars("${sysconfdir}/busybox.links", "${base_bindir}/busybox")
+     else:
+-        set_alternative_vars("/etc/busybox.links.nosuid", "/bin/busybox.nosuid")
+-        set_alternative_vars("/etc/busybox.links.suid", "/bin/busybox.suid")
++        set_alternative_vars("${sysconfdir}/busybox.links.nosuid", "${base_bindir}/busybox.nosuid")
++        set_alternative_vars("${sysconfdir}/busybox.links.suid", "${base_bindir}/busybox.suid")
+ }
  
- RPROVIDES_udev = "hotplug"
+ pkg_postinst_${PN} () {
+@@ -353,22 +356,22 @@ pkg_postinst_${PN} () {
+ 	if test "x$D" = "x"; then
+ 		# Remove busybox.nosuid if it's a symlink, because this situation indicates
+ 		# that we're installing or upgrading to a one-binary busybox.
+-		if test -h /bin/busybox.nosuid; then
+-			rm -f /bin/busybox.nosuid
++		if test -h ${bindir}/busybox.nosuid; then
++			rm -f ${bindir}/busybox.nosuid
+ 		fi
+ 		for suffix in "" ".nosuid" ".suid"; do
+-			if test -e /etc/busybox.links$suffix; then
++			if test -e ${sysconfdir}/busybox.links$suffix; then
+ 				while read link; do
+ 					if test ! -e "$link"; then
+ 						case "$link" in
+ 							/*/*/*)
+-								to="../../bin/busybox$suffix"
++								to="../..${base_bindir}/busybox$suffix"
+ 								;;
+ 							/bin/*)
+ 								to="busybox$suffix"
+ 								;;
+ 							/*/*)
+-								to="../bin/busybox$suffix"
++								to="..${base_bindir}/busybox$suffix"
+ 								;;
+ 						esac
+ 						# we can use busybox here because even if we are using splitted busybox
+@@ -376,7 +379,7 @@ pkg_postinst_${PN} () {
+ 						busybox rm -f $link
+ 						busybox ln -s $to $link
+ 					fi
+-				done < /etc/busybox.links$suffix
++				done < ${sysconfdir}/busybox.links$suffix
+ 			fi
+ 		done
+ 	fi
+@@ -387,19 +390,19 @@ pkg_prerm_${PN} () {
+ 	# providing its files, this will make update-alternatives work, but the update-rc.d part
+ 	# for syslog, httpd and/or udhcpd will fail if there is no other package providing sh
+ 	tmpdir=`mktemp -d /tmp/busyboxrm-XXXXXX`
+-	ln -s /bin/busybox $tmpdir/[
+-	ln -s /bin/busybox $tmpdir/test
+-	ln -s /bin/busybox $tmpdir/head
+-	ln -s /bin/busybox $tmpdir/sh
+-	ln -s /bin/busybox $tmpdir/basename
+-	ln -s /bin/busybox $tmpdir/echo
+-	ln -s /bin/busybox $tmpdir/mv
+-	ln -s /bin/busybox $tmpdir/ln
+-	ln -s /bin/busybox $tmpdir/dirname
+-	ln -s /bin/busybox $tmpdir/rm
+-	ln -s /bin/busybox $tmpdir/sed
+-	ln -s /bin/busybox $tmpdir/sort
+-	ln -s /bin/busybox $tmpdir/grep
++	ln -s ${base_bindir}/busybox $tmpdir/[
++	ln -s ${base_bindir}/busybox $tmpdir/test
++	ln -s ${base_bindir}/busybox $tmpdir/head
++	ln -s ${base_bindir}/busybox $tmpdir/sh
++	ln -s ${base_bindir}/busybox $tmpdir/basename
++	ln -s ${base_bindir}/busybox $tmpdir/echo
++	ln -s ${base_bindir}/busybox $tmpdir/mv
++	ln -s ${base_bindir}/busybox $tmpdir/ln
++	ln -s ${base_bindir}/busybox $tmpdir/dirname
++	ln -s ${base_bindir}/busybox $tmpdir/rm
++	ln -s ${base_bindir}/busybox $tmpdir/sed
++	ln -s ${base_bindir}/busybox $tmpdir/sort
++	ln -s ${base_bindir}/busybox $tmpdir/grep
+ 	export PATH=$PATH:$tmpdir
+ }
  
+@@ -407,7 +410,7 @@ pkg_prerm_${PN}-syslog () {
+ 	# remove syslog
+ 	if test "x$D" = "x"; then
+ 		if test "$1" = "upgrade" -o "$1" = "remove"; then
+-			/etc/init.d/syslog stop
++			${sysconfdir}/init.d/syslog stop
+ 		fi
+ 	fi
+ }
 -- 
 2.1.4
 
