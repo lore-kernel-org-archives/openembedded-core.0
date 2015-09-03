@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C52A77042
+	by mail.openembedded.org (Postfix) with ESMTP id F046A77009
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 14:58:49 +0000 (UTC)
+	Thu,  3 Sep 2015 14:58:50 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 469CA3C88694
+	(Authenticated sender: joshuagl) with ESMTPSA id E6A613C88699
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Sep 2015 15:58:17 +0100
-Message-Id: <7ce935fb0de1acf645cefb6d3ac850cdd737a99d.1441291646.git.joshua.lock@collabora.co.uk>
+Date: Thu,  3 Sep 2015 15:58:22 +0100
+Message-Id: <078951da0993bd675e4f6d92dfeecd45dacee8d7.1441291646.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1441291646.git.joshua.lock@collabora.co.uk>
 References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH 2/9] busybox: fixes for when base_bindir != /bin
+Subject: [PATCH 7/9] pcmciautils: handle udev dir being 2 levels below /
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,123 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 14:58:50 -0000
+X-List-Received-Date: Thu, 03 Sep 2015 14:58:51 -0000
 
-* Replace all hard-coded paths with variables
-* Run sed over busybox.links.* to replace /bin with ${base_bindir}
+When building with a merged /usr dir the udev directory
+lives at /usr/lib/udev - update the FILES pattern to also
+pick up udev files installed two levels below the / to
+ensure a merged /usr works.
 
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-core/busybox/busybox.inc | 49 +++++++++++++++++++----------------
- 1 file changed, 26 insertions(+), 23 deletions(-)
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 0769d92..92b4a29 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -178,6 +178,9 @@ do_install () {
- 	if [ "${base_sbindir}" != "/sbin" ]; then
- 		sed -i "s:^/sbin/:${base_sbindir}/:" busybox.links*
- 	fi
-+	if [ "${base_bindir}" != "/bin" ]; then
-+		sed -i "s:^/bin/:${base_bindir}/:" busybox.links*
-+	fi
+diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+index 24ceed8..857bd07 100644
+--- a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
++++ b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
+@@ -9,5 +9,5 @@ SRC_URI[sha256sum] = "79e6ae441278e178c07501d492394ed2c0326fdb66894f6d040ec811b0
  
- 	install -d ${D}${sysconfdir}/init.d
+ PR = "r1"
  
-@@ -338,10 +341,10 @@ python do_package_prepend () {
-         return
- 
-     if os.path.exists('%s/etc/busybox.links' % (dvar)):
--        set_alternative_vars("/etc/busybox.links", "/bin/busybox")
-+        set_alternative_vars("${sysconfdir}/busybox.links", "${base_bindir}/busybox")
-     else:
--        set_alternative_vars("/etc/busybox.links.nosuid", "/bin/busybox.nosuid")
--        set_alternative_vars("/etc/busybox.links.suid", "/bin/busybox.suid")
-+        set_alternative_vars("${sysconfdir}/busybox.links.nosuid", "${base_bindir}/busybox.nosuid")
-+        set_alternative_vars("${sysconfdir}/busybox.links.suid", "${base_bindir}/busybox.suid")
- }
- 
- pkg_postinst_${PN} () {
-@@ -353,22 +356,22 @@ pkg_postinst_${PN} () {
- 	if test "x$D" = "x"; then
- 		# Remove busybox.nosuid if it's a symlink, because this situation indicates
- 		# that we're installing or upgrading to a one-binary busybox.
--		if test -h /bin/busybox.nosuid; then
--			rm -f /bin/busybox.nosuid
-+		if test -h ${bindir}/busybox.nosuid; then
-+			rm -f ${bindir}/busybox.nosuid
- 		fi
- 		for suffix in "" ".nosuid" ".suid"; do
--			if test -e /etc/busybox.links$suffix; then
-+			if test -e ${sysconfdir}/busybox.links$suffix; then
- 				while read link; do
- 					if test ! -e "$link"; then
- 						case "$link" in
- 							/*/*/*)
--								to="../../bin/busybox$suffix"
-+								to="../..${base_bindir}/busybox$suffix"
- 								;;
- 							/bin/*)
- 								to="busybox$suffix"
- 								;;
- 							/*/*)
--								to="../bin/busybox$suffix"
-+								to="..${base_bindir}/busybox$suffix"
- 								;;
- 						esac
- 						# we can use busybox here because even if we are using splitted busybox
-@@ -376,7 +379,7 @@ pkg_postinst_${PN} () {
- 						busybox rm -f $link
- 						busybox ln -s $to $link
- 					fi
--				done < /etc/busybox.links$suffix
-+				done < ${sysconfdir}/busybox.links$suffix
- 			fi
- 		done
- 	fi
-@@ -387,19 +390,19 @@ pkg_prerm_${PN} () {
- 	# providing its files, this will make update-alternatives work, but the update-rc.d part
- 	# for syslog, httpd and/or udhcpd will fail if there is no other package providing sh
- 	tmpdir=`mktemp -d /tmp/busyboxrm-XXXXXX`
--	ln -s /bin/busybox $tmpdir/[
--	ln -s /bin/busybox $tmpdir/test
--	ln -s /bin/busybox $tmpdir/head
--	ln -s /bin/busybox $tmpdir/sh
--	ln -s /bin/busybox $tmpdir/basename
--	ln -s /bin/busybox $tmpdir/echo
--	ln -s /bin/busybox $tmpdir/mv
--	ln -s /bin/busybox $tmpdir/ln
--	ln -s /bin/busybox $tmpdir/dirname
--	ln -s /bin/busybox $tmpdir/rm
--	ln -s /bin/busybox $tmpdir/sed
--	ln -s /bin/busybox $tmpdir/sort
--	ln -s /bin/busybox $tmpdir/grep
-+	ln -s ${base_bindir}/busybox $tmpdir/[
-+	ln -s ${base_bindir}/busybox $tmpdir/test
-+	ln -s ${base_bindir}/busybox $tmpdir/head
-+	ln -s ${base_bindir}/busybox $tmpdir/sh
-+	ln -s ${base_bindir}/busybox $tmpdir/basename
-+	ln -s ${base_bindir}/busybox $tmpdir/echo
-+	ln -s ${base_bindir}/busybox $tmpdir/mv
-+	ln -s ${base_bindir}/busybox $tmpdir/ln
-+	ln -s ${base_bindir}/busybox $tmpdir/dirname
-+	ln -s ${base_bindir}/busybox $tmpdir/rm
-+	ln -s ${base_bindir}/busybox $tmpdir/sed
-+	ln -s ${base_bindir}/busybox $tmpdir/sort
-+	ln -s ${base_bindir}/busybox $tmpdir/grep
- 	export PATH=$PATH:$tmpdir
- }
- 
-@@ -407,7 +410,7 @@ pkg_prerm_${PN}-syslog () {
- 	# remove syslog
- 	if test "x$D" = "x"; then
- 		if test "$1" = "upgrade" -o "$1" = "remove"; then
--			/etc/init.d/syslog stop
-+			${sysconfdir}/init.d/syslog stop
- 		fi
- 	fi
- }
+-FILES_${PN}-dbg += "*/udev/.debug"
+-FILES_${PN} += "*/udev"
++FILES_${PN}-dbg += "*/udev/.debug */*/udev/.debug"
++FILES_${PN} += "*/udev */*/udev"
 -- 
 2.1.4
 
