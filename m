@@ -1,38 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
-	[209.85.212.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C39576FF2
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 946F876FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 18:45:47 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so29344837wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 11:45:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=j3H1gDnb6odsgu5iBG7Qbm0/duuxLs8lHHouGynjK9Y=;
-	b=lYFfrugXooDtWM4t5QK7ro/05QOyCExIIl8m6v2DEFt8krUt4jdX/vdMCdQNnQ1cv+
-	h1DPq3//axdbHRMexJDkUwTqiM5CweiuxjIB1+EYJM2WDceyI7gjnWNEWjZpguX7nnZ6
-	X8IbMfLTt/+r9UqtNsRBDHBvjx1EnhdEWi94SVHRUBu68+fqRcrqmKqubx6MqKk1Qwiv
-	FD2TWYBy4quNORh94mMGvhQCvol7YRjj8LpPwUHI48XYJZyR0iLlu9pTDp4YXbgifp+F
-	65hcawrLmUII+zRoMsmXE9hyMC8AP/qAevoVgCuFLDVqGE+MwSDoslGdPCA19cd8Y0Vl
-	Lhhw==
-X-Gm-Message-State: ALoCoQkUrwjpx+8TMT0dN4e96kvS3QYbPD1uArrzUe3eL2lfrLMBJ6uDlkW0JPz2zPZtRS5aAea4
-X-Received: by 10.180.186.195 with SMTP id fm3mr17400535wic.1.1441305947650;
-	Thu, 03 Sep 2015 11:45:47 -0700 (PDT)
-Received: from flashheart.home
-	(host212-140-113-248.range212-140.btcentralplus.com.
-	[212.140.113.248])
-	by smtp.gmail.com with ESMTPSA id 4sm39063672wjt.46.2015.09.03.11.45.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 03 Sep 2015 11:45:47 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Thu,  3 Sep 2015 19:10:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 99CBA3C88695
+Message-ID: <1441307448.2977.27.camel@collabora.co.uk>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  3 Sep 2015 19:39:07 +0100
-Message-Id: <1441305547-26111-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH][V2] sstate: implement basic signing/validation
+Date: Thu, 03 Sep 2015 20:10:48 +0100
+In-Reply-To: <55E87F31.9010707@windriver.com>
+References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
+	<55E87F31.9010707@windriver.com>
+X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 0/9] Fixes for a distro with a merged /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,69 +27,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 18:45:50 -0000
+X-List-Received-Date: Thu, 03 Sep 2015 19:10:52 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-To provide some element of integrity to sstate archives, allow sstate archives
-to be GPG signed with a specified key (detached signature to a sidecar .sig
-file), and verify the signatures when sstate archives are unpacked.
+On Thu, 2015-09-03 at 12:11 -0500, Mark Hatle wrote:
+> On 9/3/15 9:58 AM, Joshua Lock wrote:
+> > I've been playing around with building a distro with a merged
+> > /usr[1] and
+> > the following series fixes several issues I ran across in OE core
+> > metadata.
+> 
+> everything in '/' linked to '/usr/' or everything in '/usr/' linked
+> down to '/'?
+> 
+> (I've seen both implementations... just curious which one you are
+> trying.)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/sstate.bbclass | 19 ++++++++++++++++++-
- 1 file changed, 18 insertions(+), 1 deletion(-)
+The latter, as per [1]. That is /bin, /lib and /sbin are symlinked into
+/usr.
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 4e6afef..77313bc 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -54,6 +54,13 @@ EXTRA_STAGING_FIXMES ?= ""
- 
- SIGGEN_LOCKEDSIGS_CHECK_LEVEL ?= 'error'
- 
-+# The GnuPG key ID and passphrase to use to sign sstate archives (or unset to
-+# not sign)
-+SSTATE_SIG_KEY ?= ""
-+SSTATE_SIG_PASSPHRASE ?= ""
-+# Whether to verify the GnUPG signatures when extracting sstate archives
-+SSTATE_VERIFY_SIG ?= "0"
-+
- # Specify dirs in which the shell function is executed and don't use ${B}
- # as default dirs to avoid possible race about ${B} with other task.
- sstate_create_package[dirs] = "${SSTATE_BUILDDIR}"
-@@ -298,6 +305,10 @@ def sstate_installpkg(ss, d):
-     d.setVar('SSTATE_INSTDIR', sstateinst)
-     d.setVar('SSTATE_PKG', sstatepkg)
- 
-+    if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG", True), False):
-+        if subprocess.call(["gpg", "--verify", sstatepkg + ".sig", sstatepkg]) != 0:
-+            bb.warn("Cannot verify signature on sstate package %s" % sstatepkg)
-+
-     for f in (d.getVar('SSTATEPREINSTFUNCS', True) or '').split() + ['sstate_unpack_package'] + (d.getVar('SSTATEPOSTUNPACKFUNCS', True) or '').split():
-         bb.build.exec_func(f, d)
- 
-@@ -605,7 +616,8 @@ def pstaging_fetch(sstatefetch, sstatepkg, d):
-     # Try a fetch from the sstate mirror, if it fails just return and
-     # we will build the package
-     for srcuri in ['file://{0}'.format(sstatefetch),
--                   'file://{0}.siginfo'.format(sstatefetch)]:
-+                   'file://{0}.siginfo'.format(sstatefetch),
-+                   'file://{0}.sig'.format(sstatefetch)]:
-         localdata.setVar('SRC_URI', srcuri)
-         try:
-             fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
-@@ -665,6 +677,11 @@ sstate_create_package () {
- 	chmod 0664 $TFILE 
- 	mv -f $TFILE ${SSTATE_PKG}
- 
-+	if [ -n "${SSTATE_SIG_KEY}" ]; then
-+		rm -f ${SSTATE_PKG}.sig
-+		echo ${SSTATE_SIG_PASSPHRASE} | gpg --batch --passphrase-fd 0 --detach-sign --local-user ${SSTATE_SIG_KEY} --output ${SSTATE_PKG}.sig ${SSTATE_PKG}
-+	fi
-+
- 	cd ${WORKDIR}
- 	rm -rf ${SSTATE_BUILDDIR}
- }
--- 
-2.1.4
+Cheers,
 
+Joshua
+
+1. https://wiki.freedesktop.org/www/Software/systemd/TheCaseForTheUsrMe
+rge/
 
