@@ -1,41 +1,26 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com
-	[209.85.213.169])
-	by mail.openembedded.org (Postfix) with ESMTP id BA2E976EB2
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
+	[209.85.160.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 77F0E76FD0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 12:15:38 +0000 (UTC)
-Received: by igbni9 with SMTP id ni9so37878747igb.0
+	Thu,  3 Sep 2015 12:20:31 +0000 (UTC)
+Received: by ykek143 with SMTP id k143so41028424yke.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 05:15:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=TPGcUoDaMRqK+kLs/UjXhRiNcN29HEg45rQFkdjikas=;
-	b=O1VLsB4AH8acJalq3dtJQfj+Seg0TJDbwvQSS7E3TOnhAfnWviACJAY8Cn3EvZObXd
-	p+gD/h1fsvvG4gx9T9kYwcnHb2B6QRwKjGR13OnuatynK8mMqcrnYdp0x3yXfTskM3e1
-	0TBtoW4//SaI4g5TUOZqz9DCW7UrrvKiHxtYL4rYDpNsFvgDA9R9ptQ52zrPimaRry7h
-	YiOgQfa0T4TNoDKJvJbHqD+vdrglfMKhnOFnBy8nPvoB7QyGDR8jB7oL5lAKpT3I3xH/
-	RL7Kyw4QWRNm6kOFXl6YeAnBDGHex+XAOUTp+E8mJNpARsRVSw2t8yiC82/KBrf6Fs17
-	X/Yg==
-X-Gm-Message-State: ALoCoQmDuxYDofU2rt7SR0rGmKpjo6tCSROUvTFgrUWb07aEEOVyQ4JHZR7F3SDLf7GgibKKFJWu
-X-Received: by 10.50.13.72 with SMTP id f8mr11919830igc.50.1441282538215;
-	Thu, 03 Sep 2015 05:15:38 -0700 (PDT)
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com.
-	[209.85.223.174]) by smtp.gmail.com with ESMTPSA id
-	i89sm14695128ioo.31.2015.09.03.05.15.36
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 03 Sep 2015 05:15:36 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by iofh134 with SMTP id h134so55425047iof.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 05:15:36 -0700 (PDT)
+	Thu, 03 Sep 2015 05:20:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=d9LCctLDEYyUGMM/iUshLHbH3zwTyBkkH2pmlDxpazE=;
+	b=mJ93xNk4tSptDh7RQGtDFBQu5R45rYYUCRNTOkE/WJncDip/IEhQ1vAngdkxd/JkOH
+	rvjntHdKK3Rh1USP7oIahlmD6qRT7ut2zzufpU0sFftjywnDyTnc6CuYKYuvOkaloUae
+	Cd2QKjkF26x8D7KlGTc0B+6VUFAC4xweYiQJX7iJaAOKDhuVLVf9IWkLUzRlt71YQnBb
+	VyeGaoZHYQbffmQ4sADKljpD6PyP6b2/eqi0KI3qfdWvuHmKIO6pvwaVsczR9+S9l0sm
+	Kw9VVjQTe3i0BgBWFKrA1718rMwu8QpIP/KgfKZLKmKhrsNGrtXFJmsj5vDPqRkQcCxv
+	KqBg==
 MIME-Version: 1.0
-X-Received: by 10.107.130.153 with SMTP id m25mr41828126ioi.192.1441282536242; 
-	Thu, 03 Sep 2015 05:15:36 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Thu, 3 Sep 2015 05:15:36 -0700 (PDT)
+X-Received: by 10.170.169.66 with SMTP id l63mr9914189ykd.60.1441282831865;
+	Thu, 03 Sep 2015 05:20:31 -0700 (PDT)
+Received: by 10.129.34.212 with HTTP; Thu, 3 Sep 2015 05:20:31 -0700 (PDT)
 In-Reply-To: <1441282288.24871.113.camel@linuxfoundation.org>
 References: <1441143270-27322-1-git-send-email-jslater@windriver.com>
 	<1441143270-27322-2-git-send-email-jslater@windriver.com>
@@ -43,10 +28,12 @@ References: <1441143270-27322-1-git-send-email-jslater@windriver.com>
 	<55E74986.1030703@windriver.com>
 	<CAP9ODKpx4niWDNDy4t2SUf7xwz5ShoZMsivtM6_qA3o-kBo5AA@mail.gmail.com>
 	<1441282288.24871.113.camel@linuxfoundation.org>
-Date: Thu, 3 Sep 2015 09:15:36 -0300
-Message-ID: <CAP9ODKrX2ebnP9p3xz8M5+zQmy-6a37yz3rUR1QXEroozHCSvQ@mail.gmail.com>
+Date: Thu, 3 Sep 2015 08:20:31 -0400
+Message-ID: <CADkTA4N7yd=iNEJh4dY8Mdt75j25RV8LgCQAqsZ8zRw_h=o1wg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Joe Slater <jslater@windriver.com>,
+	Otavio Salvador <otavio.salvador@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] ifupdown: import recipe
@@ -62,10 +49,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 12:15:40 -0000
+X-List-Received-Date: Thu, 03 Sep 2015 12:20:34 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Sep 3, 2015 at 9:11 AM, Richard Purdie
+On Thu, Sep 3, 2015 at 8:11 AM, Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
 > On Wed, 2015-09-02 at 16:23 -0300, Otavio Salvador wrote:
 >> On Wed, Sep 2, 2015 at 4:09 PM, Randy MacLeod
@@ -99,14 +86,29 @@ On Thu, Sep 3, 2015 at 9:11 AM, Richard Purdie
 > should be able to build an image from OE-Core with basic functionality
 > like networking without busybox?
 
-That is the point; this were not in meta-networking and noone missed
-it until now. Moving this to oe-core straight seems overkill.
+That's what I'd support. If everything you need for the functionality with busy
+box is in oe-core, to me, it doesn't make sense to go outside core to get that
+same functionality without busybox.
 
-I think moving this to meta-networking is right and if many people use
-it, oe-core is next step.
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
