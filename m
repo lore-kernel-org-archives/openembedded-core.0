@@ -1,29 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F005176FF2
+Return-Path: <mario.goulart@gmail.com>
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BA9C76FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 17:14:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t83HEEA1001436
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  3 Sep 2015 18:08:06 +0000 (UTC)
+Received: by qkcj187 with SMTP id j187so24820808qkc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Sep 2015 10:14:14 -0700 (PDT)
-Received: from Marks-MacBook-Pro-2.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 3 Sep 2015 10:14:14 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
-	<82a9dc6d0c430ec44a9a7cf4e2499bdd5bffeb1f.1441291646.git.joshua.lock@collabora.co.uk>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <55E87FE5.8050406@windriver.com>
-Date: Thu, 3 Sep 2015 12:14:13 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <82a9dc6d0c430ec44a9a7cf4e2499bdd5bffeb1f.1441291646.git.joshua.lock@collabora.co.uk>
-Subject: Re: [PATCH 8/9] nfs-utils: don't force use of /sbin as sbindir
+	Thu, 03 Sep 2015 11:08:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id:organization;
+	bh=T82BYEucQKZ4hz4GfPHH+KrESnVF5L/Mi3WnXVHWIuM=;
+	b=qMMxnep2qL1we2OXY+6hwQ4p3T20ocGs+jgv3cpgypASU13FAkk2QueH0Q0kwh9guP
+	fswL/01drRrc/x3AzL7iz8fNrK5xrJ0amAnKRFzx5dDkeEMLXVD6Cu1fcpnER0fhWNpM
+	rFOER7d4Xq+PupUPwBOKpWFxLkOgJQ57kKK8a6HfqMN2BIsUMWZjzvVG09iia4DVaVxQ
+	MZHB+i/Rjx3sBRxSFqqb4VmcjmrN2X85Tmu2Sk5wsPNeJ5LhjKIGFmbKy3Ts86wT/8Xc
+	FepIm1uO79VIa9ejpAJ/39d6WJPAIYrSiLXQJN9Nd2z4T7IBThJkGHpfwaT7fSiKo1/i
+	Cbfg==
+X-Received: by 10.55.217.197 with SMTP id q66mr39306542qkl.14.1441303686578;
+	Thu, 03 Sep 2015 11:08:06 -0700 (PDT)
+Received: from mario.lab.ossystems.com.br ([177.100.224.236])
+	by smtp.gmail.com with ESMTPSA id
+	q21sm15320044qki.35.2015.09.03.11.08.04
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 Sep 2015 11:08:05 -0700 (PDT)
+Sender: Mario Domenech Goulart <mario.goulart@gmail.com>
+From: Mario Domenech Goulart <mario@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  3 Sep 2015 15:06:35 -0300
+Message-Id: <1441303595-5042-1-git-send-email-mario@ossystems.com.br>
+X-Mailer: git-send-email 1.7.10.4
+Organization: O.S. Systems Software LTDA.
+Cc: Mario Domenech Goulart <mario@ossystems.com.br>
+Subject: [PATCH] cross-canadian.bbclass: typo fix in comments (s/repsonsible/responsible/)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,46 +44,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 17:14:15 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 03 Sep 2015 18:08:08 -0000
 
-On 9/3/15 9:58 AM, Joshua Lock wrote:
-> In a system with a merged /usr /sbin isn't packaged.
+Signed-off-by: Mario Domenech Goulart <mario@ossystems.com.br>
+---
+ meta/classes/cross-canadian.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This sounds like an error to me if /sbin doesn't exist at all. It should exist
-either as a link to /usr/sbin (or the reverse).. but it should be there as lots
-of things expect the directory (or link) to exist.
+diff --git a/meta/classes/cross-canadian.bbclass b/meta/classes/cross-canadian.bbclass
+index 65ba457..d30a168 100644
+--- a/meta/classes/cross-canadian.bbclass
++++ b/meta/classes/cross-canadian.bbclass
+@@ -1,5 +1,5 @@
+ #
+-# NOTE - When using this class the user is repsonsible for ensuring that
++# NOTE - When using this class the user is responsible for ensuring that
+ # TRANSLATED_TARGET_ARCH is added into PN. This ensures that if the TARGET_ARCH
+ # is changed, another nativesdk xxx-canadian-cross can be installed
+ #
+-- 
+1.7.10.4
 
-(It's also required by the FHS, even though that probably isn't enough of a
-concern.)
-
-> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
-> ---
->  meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-> index 6da8509..42101de 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_1.3.1.bb
-> @@ -90,6 +90,14 @@ RDEPENDS_${PN}-stats = "python"
->  
->  FILES_${PN} += "${systemd_unitdir}"
->  
-> +do_configure_prepend() {
-> +        sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
-> +            ${S}/utils/mount/Makefile.am
-> +
-> +        sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
-> +            ${S}/utils/osd_login/Makefile.am
-> +}
-> +
->  # Make clean needed because the package comes with
->  # precompiled 64-bit objects that break the build
->  do_compile_prepend() {
-> 
-
-So my concern is simply with the commit msg -- not the actual implementation.
-What you have above looks correct to me.
 
