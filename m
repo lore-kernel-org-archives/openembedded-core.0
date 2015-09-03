@@ -1,53 +1,42 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CC5B76DEB
+Received: from mail-pa0-f50.google.com (mail-pa0-f50.google.com
+	[209.85.220.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D1B176F50
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 21:24:38 +0000 (UTC)
-Received: by igcrk20 with SMTP id rk20so1206705igc.1
+	Thu,  3 Sep 2015 21:28:21 +0000 (UTC)
+Received: by pacwi10 with SMTP id wi10so2049142pac.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 14:24:39 -0700 (PDT)
+	Thu, 03 Sep 2015 14:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=1w6MU0UwjvN6ZnmbBBNhsw6jS08wm4/8Q+8QZ+QAZEg=;
-	b=LWnoGt6xRitEIJNoxdSqR4qPXrUtKhhq6tcvx5vJKodll5UzqQeR6HdclJaHvXB0qr
-	ay4tkLvsscIReUOCuXugnS4WA+RbajImV8FG6hxEm2EQN9Mi87A/DOoJJoF7cYWtUhiN
-	CRHTNiPwiM05OUAeF7H+PhJx41z9GHcYdXwRADWDaZR8c0E373AvgWTJJBLB0FLDDj2b
-	CiAk+CSSCPJoyw7M2iX4wyFgX0eYRlY7nVSIZjtvTmJI+4IJYslvPpK1WA3TcG0KNbXs
-	bCnFOeuF0DGACLQ5I1nCNKMaQpEzR5W+nSnZRdTwQRkPChx+smhpsjWscDHDbaQQhiXH
-	oQbA==
-X-Received: by 10.50.8.33 with SMTP id o1mr152347iga.30.1441315478888;
-	Thu, 03 Sep 2015 14:24:38 -0700 (PDT)
-Received: from 10.168.190.13-ra01.englewood.co.denver.comcast.net
-	(fw01.aurora.co.denver.comcast.net. [198.178.8.81])
-	by smtp.gmail.com with ESMTPSA id j13sm127459igf.6.2015.09.03.14.24.37
+	bh=JsL9nK6Ohqn/LGgvUpJHvlxBlLoSj8sWTJYFnNPEIS8=;
+	b=aeOBbXsiqsn85eJ0+w53u3o67HWydEysfGfBgr4NokV69UBebOnK5F+MCJKZpX5xDM
+	bYKqYtYZELPTBwJfwhd1myr+EjGExV+7+eM4pNOGhnjPqlQSIbPUzx/cxICi/CloHF52
+	xVLctbPB1AYjqMVEgmj9K5MXzEFlrtf4GkwKuUuSk2wyvvn4YOKLhIHMaRHi0Oc0GuOn
+	XFIs2/u1iS2pDr6FZzdy3stKgOEzX9i3ZQarWyxdF/e7hGj/B27acTpUchk3lrCyo5PF
+	htNylALDnmU2r5rcho9Lt8VV2IfYTbyIpPatJEFgFFGWD+PsZHtOwmwLvws2/d7Nh1Xl
+	Eiiw==
+X-Received: by 10.68.88.69 with SMTP id be5mr11297pbb.105.1441315702010;
+	Thu, 03 Sep 2015 14:28:22 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:5d8c:8e6c:621a:cbb3?
+	([2601:646:8601:4580:5d8c:8e6c:621a:cbb3])
+	by smtp.gmail.com with ESMTPSA id xf6sm70870pbc.70.2015.09.03.14.28.21
 	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 03 Sep 2015 14:24:38 -0700 (PDT)
+	Thu, 03 Sep 2015 14:28:21 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5.1
 From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CADkTA4P0WbBagTyDbTJRxb1m7wXX2EMN+c0QAOxn3i8pxqSLQg@mail.gmail.com>
-Date: Thu, 3 Sep 2015 14:24:32 -0700
-Message-Id: <56097049-FAE4-42F5-8BD7-30A7010DEE7C@gmail.com>
-References: <1441143270-27322-1-git-send-email-jslater@windriver.com>
-	<1441143270-27322-2-git-send-email-jslater@windriver.com>
-	<CAP9ODKp5sMLAB1ohdVPAPZrDeUCjfSGuLVF-VU53BsvzHX29mg@mail.gmail.com>
-	<55E74986.1030703@windriver.com>
-	<CAP9ODKpx4niWDNDy4t2SUf7xwz5ShoZMsivtM6_qA3o-kBo5AA@mail.gmail.com>
-	<1441282288.24871.113.camel@linuxfoundation.org>
-	<CADkTA4N7yd=iNEJh4dY8Mdt75j25RV8LgCQAqsZ8zRw_h=o1wg@mail.gmail.com>
-	<CAMKF1sp=Hiwt=oYfFy8Mhj4TMXj3x3Tykmg6mNLLtyEXV+TVwQ@mail.gmail.com>
-	<1441312024.24871.135.camel@linuxfoundation.org>
-	<CAP9ODKrgg8vAT2c6iEkU3THqpqrCYiEz=d61mr3tNwa9P6HGmA@mail.gmail.com>
-	<CADkTA4P0WbBagTyDbTJRxb1m7wXX2EMN+c0QAOxn3i8pxqSLQg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>
+Date: Thu, 3 Sep 2015 14:28:19 -0700
+Message-Id: <B9C7EAB1-4025-474E-8FBB-7DF1BE6C5706@gmail.com>
+References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+	<cover.1441293149.git.alexander.kanavin@linux.intel.com>
+	<f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 X-Mailer: Apple Mail (2.2104)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Otavio Salvador <otavio.salvador@ossystems.com.br>,
-	Joe Slater <jslater@windriver.com>
-Subject: Re: [PATCH 1/2] ifupdown: import recipe
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 04/12] gnome-icon-theme: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,117 +49,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 21:24:40 -0000
-X-Groupsio-MsgNum: 70613
+X-List-Received-Date: Thu, 03 Sep 2015 21:28:22 -0000
+X-Groupsio-MsgNum: 70614
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_59468E11-22A7-41CA-879F-DC739B087A4C";
+	boundary="Apple-Mail=_FE5F2523-37E8-47E9-B8B6-6C057E7CF4D0";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_59468E11-22A7-41CA-879F-DC739B087A4C
+--Apple-Mail=_FE5F2523-37E8-47E9-B8B6-6C057E7CF4D0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
 	charset=us-ascii
 
 
-> On Sep 3, 2015, at 2:02 PM, Bruce Ashfield <bruce.ashfield@gmail.com> =
-wrote:
+> On Sep 3, 2015, at 8:34 AM, Alexander Kanavin =
+<alexander.kanavin@linux.intel.com> wrote:
 >=20
-> On Thu, Sep 3, 2015 at 4:32 PM, Otavio Salvador
-> <otavio.salvador@ossystems.com.br> wrote:
->> On Thu, Sep 3, 2015 at 5:27 PM, Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->>> On Thu, 2015-09-03 at 13:22 -0700, Khem Raj wrote:
->>>> On Thu, Sep 3, 2015 at 5:20 AM, Bruce Ashfield =
-<bruce.ashfield@gmail.com> wrote:
->>>>>> To put this another way, I think it is probably reasonable that =
-we
->>>>>> should be able to build an image from OE-Core with basic =
-functionality
->>>>>> like networking without busybox?
->>>>>=20
->>>>> That's what I'd support. If everything you need for the =
-functionality with busy
->>>>> box is in oe-core, to me, it doesn't make sense to go outside core =
-to get that
->>>>> same functionality without busybox.
->>>>=20
->>>> irrespective of this change. I see yet another configuration with =
-this
->>>> into OE-core, overall OE-Core should get smaller
->>>> and case does not sound convincing to me. You dont want to use =
-busybox
->>>> in a fairly large image which has other GPLv2 software in
->>>> it. Thats fine but doesnt look like a common usecase to me
->>>=20
->>> Nobody mentioned GPLv2, that isn't relevant here.
->>>=20
->>> I have heard OE being dismissed since it can't produce an image =
-without
->>> busybox in it. The implication is we can't build "big" Linux, only =
-small
->>> embedded things. The pieces we need busybox for are tiny and should =
-be
->>> easy to replace (like this does).
->>>=20
->>> So I can see a fairly compelling argument for OE-Core to be able to
->>> generate a busybox free image with standard functionality just from =
-a PR
->>> perspective. =46rom what I gather we have people willing to test and
->>> maintain it too...
->>=20
->> If people were demanding it, it would have been moved for
->> meta-networking ages ago, it seems it is not the case.
+> It is not used by anything in oe-core and will be moved to meta-gnome
 >=20
-> ... or they were just holding it elsewhere, since not everyone has the
-> time to get things merged to core. In particular if they think it will =
-be
-> a battle.
 
-thats how we bloated oe-classic. Oh people might need it because I need =
-it therefore slam it in
-I have written a packagegroup to replace busybox but I never thought it =
-was so core.
+OK, please send the patch for meta-gnome as well. So we can merge them =
+in more or less in sync
 
+> Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+> ---
+> .../gnome/gnome-icon-theme/pkgconfig-native.patch  | 28 =
+----------------------
+> .../recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb | 22 =
+-----------------
+> 2 files changed, 50 deletions(-)
+> delete mode 100644 =
+meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch
+> delete mode 100644 meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
 >=20
->>=20
->> So my vote is:
->>=20
->> - move to meta-networking
+> diff --git =
+a/meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch =
+b/meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch
+> deleted file mode 100644
+> index 6139eab..0000000
+> --- a/meta/recipes-gnome/gnome/gnome-icon-theme/pkgconfig-native.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -icon-naming-utils is a native dependency so we need to use the native =
+pkg-config
+> -to find it.  Simply perform the old switcheroonie on $PKG_CONFIG so
+> -pkg-config-native is used temporarily.
+> -
+> -Upstream-Status: Inappropriate (OE-specific)
+> -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 6074f2c..3d38e49 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -40,6 +40,8 @@ if test "x$enable_mapping" !=3D "xno"; then
+> -    UTILS_REQUIRED=3D0.8.7
+> -
+> -    AC_MSG_CHECKING([icon-naming-utils >=3D $UTILS_REQUIRED])
+> -+   save_PKG_CONFIG=3D$PKG_CONFIG
+> -+   PKG_CONFIG=3Dpkg-config-native
+> -    PKG_CHECK_EXISTS(icon-naming-utils >=3D $UTILS_REQUIRED,
+> -                     have_utils=3Dyes, have_utils=3Dno)
+> -    if test "x$have_utils" =3D "xyes"; then
+> -@@ -51,6 +53,7 @@ if test "x$enable_mapping" !=3D "xno"; then
+> -       AC_MSG_ERROR([icon-naming-utils >=3D $UTILS_REQUIRED is =
+required to build
+> -                     and install gnome-icon-theme])
+> -    fi
+> -+   PKG_CONFIG=3Dsave_PKG_CONFIG
+> - else
+> -    ICONMAP=3D"false"
+> - fi
+> diff --git a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb =
+b/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+> deleted file mode 100644
+> index a6a3afa..0000000
+> --- a/meta/recipes-gnome/gnome/gnome-icon-theme_2.31.0.bb
+> +++ /dev/null
+> @@ -1,22 +0,0 @@
+> -SUMMARY =3D "GNOME 2 default icon themes"
+> -HOMEPAGE =3D "http://www.gnome.org/"
+> -BUGTRACKER =3D "https://bugzilla.gnome.org/"
+> -SECTION =3D "x11/gnome"
+> -
+> -LICENSE =3D "LGPLv3+ | CC-BY-SA-3.0"
+> -LIC_FILES_CHKSUM =3D =
+"file://COPYING;md5=3De7e289d90fc8bdceed5e3f142f98229e"
+> -
+> -PR =3D "r5"
+> -
+> -DEPENDS =3D "icon-naming-utils-native intltool-native =
+libxml-simple-perl-native"
+> -
+> -inherit allarch autotools perlnative gtk-icon-cache pkgconfig gettext
+> -
+> -SRC_URI =3D "${GNOME_MIRROR}/${BPN}/2.31/${BPN}-${PV}.tar.bz2 \
+> -           file://pkgconfig-native.patch"
+> -
+> -SRC_URI[md5sum] =3D "8e727703343d4c18c73c79dd2009f8ed"
+> -SRC_URI[sha256sum] =3D =
+"ea7e05b77ead159379392b3b275ca0c9cbacd7d936014e447cc7c5e27a767982"
+> -
+> -FILES_${PN} +=3D "${datadir}/*"
+> -RRECOMMENDS_${PN} +=3D "librsvg-gtk"
+> --
+> 2.1.4
 >=20
-> And what if the use cases don't want/need meta-networking ? We have
-> the submission and one use case, and one of the reasons it was sent
-> to core was to keep a finite set of layers and recipes to build such =
-an image.
->=20
-> Joe/Randy ?
->=20
-> It is this sort of thing that forces use of combo layers or the =
-whitelist
-> classes :)
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-You can also help in making those layers meet the quality criteria you =
-need instead of being
-pick what I need throw the rest out approach.
 
->=20
->> - for 2.1 we see if it goes to core or not
->=20
-> But without criteria for success .. what does that get us ? What is =
-the
-> case that needs to be made for a move to core in 2.1, that isn't being
-> made now ?
->=20
-> Yes, I'm playing devil's advocate on this thread .. since I want to =
-see
-> this sort of thing clearly defined.
-
-if its required by more than 1 distro. Is duplicated in other layers =
-because the layer it resides in
-is not used by a distro. It replaces a core functionality in OE-Core. It =
-has to be a building block and not a leaf package e.g. These Would be =
-some of things that may be thought of.
-
---Apple-Mail=_59468E11-22A7-41CA-879F-DC739B087A4C
+--Apple-Mail=_FE5F2523-37E8-47E9-B8B6-6C057E7CF4D0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -181,9 +172,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXoupMACgkQuwUzVZGdMxRjEwCfRWySBZTmC5jVWS4zrVI23NXy
-x1YAnjiA+TKkND+3yBFVBJO9YQXIO4aR
-=gIeM
+iEYEARECAAYFAlXou3MACgkQuwUzVZGdMxQRvACfcgBy1yoVgdSmq5iF2tAdVLZh
+wy0Anj7Fj5Drv9pQOjsxD2ALDYTg00Z+
+=Kw6z
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_59468E11-22A7-41CA-879F-DC739B087A4C--
+--Apple-Mail=_FE5F2523-37E8-47E9-B8B6-6C057E7CF4D0--
