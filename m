@@ -1,30 +1,28 @@
 Return-Path: <mark.hatle@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FC2E76FF2
+	by mail.openembedded.org (Postfix) with ESMTP id 5C46777030
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 17:10:34 +0000 (UTC)
+	Thu,  3 Sep 2015 17:11:13 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t83HAXag025292
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t83HBEeX025379
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Sep 2015 10:10:34 -0700 (PDT)
+	Thu, 3 Sep 2015 10:11:14 -0700 (PDT)
 Received: from Marks-MacBook-Pro-2.local (172.25.36.228) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Thu, 3 Sep 2015 10:10:33 -0700
+	14.3.235.1; Thu, 3 Sep 2015 10:11:13 -0700
 To: <openembedded-core@lists.openembedded.org>
 References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
-	<9f749745e56f33bc00d0e08dd4951840b29a557d.1441291646.git.joshua.lock@collabora.co.uk>
-	<1441293176.24871.118.camel@linuxfoundation.org>
 From: Mark Hatle <mark.hatle@windriver.com>
 Organization: Wind River Systems
-Message-ID: <55E87F08.6020902@windriver.com>
-Date: Thu, 3 Sep 2015 12:10:32 -0500
+Message-ID: <55E87F31.9010707@windriver.com>
+Date: Thu, 3 Sep 2015 12:11:13 -0500
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
 	Gecko/20100101 Thunderbird/38.2.0
 MIME-Version: 1.0
-In-Reply-To: <1441293176.24871.118.camel@linuxfoundation.org>
-Subject: Re: [PATCH 3/9] systemd: remove hard-coded paths in FILES entries
+In-Reply-To: <cover.1441291646.git.joshua.lock@collabora.co.uk>
+Subject: Re: [PATCH 0/9] Fixes for a distro with a merged /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,55 +35,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 17:10:36 -0000
+X-List-Received-Date: Thu, 03 Sep 2015 17:11:14 -0000
 Content-Type: text/plain; charset="windows-1252"
 Content-Transfer-Encoding: 7bit
 
-On 9/3/15 10:12 AM, Richard Purdie wrote:
-> On Thu, 2015-09-03 at 15:58 +0100, Joshua Lock wrote:
->> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
->> ---
->>  meta/recipes-core/systemd/systemd_219.bb | 10 +++++-----
->>  1 file changed, 5 insertions(+), 5 deletions(-)
->>
->> diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
->> index 4d32fd5..fbd86e8 100644
->> --- a/meta/recipes-core/systemd/systemd_219.bb
->> +++ b/meta/recipes-core/systemd/systemd_219.bb
->> @@ -306,10 +306,10 @@ FILES_${PN} = " ${base_bindir}/* \
->>                  ${exec_prefix}/lib/sysctl.d \
->>                  ${exec_prefix}/lib/sysusers.d \
->>                  ${localstatedir} \
->> -                /lib/udev/rules.d/70-uaccess.rules \
->> -                /lib/udev/rules.d/71-seat.rules \
->> -                /lib/udev/rules.d/73-seat-late.rules \
->> -                /lib/udev/rules.d/99-systemd.rules \
->> +                ${base_libdir}/udev/rules.d/70-uaccess.rules \
->> +                ${base_libdir}/udev/rules.d/71-seat.rules \
->> +                ${base_libdir}/udev/rules.d/73-seat-late.rules \
->> +                ${base_libdir}/udev/rules.d/99-systemd.rules \
->>                 "
->>  
->>  FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
->> @@ -327,7 +327,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-vconsole-setup \
->>  
->>  PACKAGES =+ "udev-dbg udev udev-hwdb"
->>  
->> -FILES_udev-dbg += "/lib/udev/.debug"
->> +FILES_udev-dbg += "${base_libdir}/udev/.debug"
-> 
-> From what I remember, this is intentional and this change likely breaks
-> multilib. You don't want two sets of rules on a multilib system.
+On 9/3/15 9:58 AM, Joshua Lock wrote:
+> I've been playing around with building a distro with a merged /usr[1] and
+> the following series fixes several issues I ran across in OE core metadata.
 
-Correct.. it has to go into /lib or if everything is move to /usr, then /usr/lib.
+everything in '/' linked to '/usr/' or everything in '/usr/' linked down to '/'?
+
+(I've seen both implementations... just curious which one you are trying.)
 
 --Mark
 
-> Cheers,
+> These have been build tested by building a core-image-sato image with
+> ipk packaging for qemux86 with both a standard/default configuration and
+> for my merged /usr test distro.
 > 
-> Richard
+> I used buildhistory to compare core-image-sato before and after this series
+> and the only change is:
 > 
+> Changes to images/qemux86/glibc/core-image-sato (files-in-image.txt):
+>   /bin/lsmod.kmod changed symlink target from ../bin/kmod to kmod
 > 
+> Regards,
+> 
+> Joshua
+> 
+> 1. https://wiki.freedesktop.org/www/Software/systemd/TheCaseForTheUsrMerge/
+> 
+> The following changes since commit bdeb32b4cdbe316f17c2fd854d59e05e8f2e8ffc:
+> 
+>   rt-tests: drop unnecessary added-missing-dependencies.patch (2015-09-01 11:43:38 +0100)
+> 
+> are available in the git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib joshuagl/merged-usr
+>   http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/merged-usr
+> 
+> Joshua Lock (9):
+>   kmod: fix link creation when base_bindir != /bin
+>   busybox: fixes for when base_bindir != /bin
+>   systemd: remove hard-coded paths in FILES entries
+>   alsa-utils: handle udev dir being 2 levels below /
+>   pulseaudio: handle udev dir being 2 levels below /
+>   bluez: handle udev dir being 2 levels below /
+>   pcmciautils: handle udev dir being 2 levels below /
+>   nfs-utils: don't force use of /sbin as sbindir
+>   procps: fix for base_sbindir == sbindir
+> 
+>  meta/recipes-bsp/pcmciautils/pcmciautils_018.bb    |  4 +-
+>  meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
+>  .../nfs-utils/nfs-utils_1.3.1.bb                   |  8 ++++
+>  meta/recipes-core/busybox/busybox.inc              | 49 ++++++++++++----------
+>  meta/recipes-core/systemd/systemd_219.bb           | 10 ++---
+>  meta/recipes-extended/procps/procps_3.3.10.bb      |  5 ++-
+>  meta/recipes-kernel/kmod/kmod_git.bb               |  4 +-
+>  meta/recipes-multimedia/alsa/alsa-utils_1.0.29.bb  |  2 +-
+>  meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |  2 +-
+>  9 files changed, 49 insertions(+), 36 deletions(-)
 > 
 
 
