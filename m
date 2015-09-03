@@ -1,20 +1,20 @@
 Return-Path: <sona.sarmadi@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id 305EE76FFA
+	by mail.openembedded.org (Postfix) with SMTP id 94F0B73D13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  3 Sep 2015 11:53:39 +0000 (UTC)
+	Thu,  3 Sep 2015 11:54:23 +0000 (UTC)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Thu, 3 Sep 2015
-	13:53:36 +0200
+	13:54:23 +0200
 From: Sona Sarmadi <sona.sarmadi@enea.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 3 Sep 2015 13:53:34 +0200
-Message-ID: <1441281214-31918-1-git-send-email-sona.sarmadi@enea.com>
+Date: Thu, 3 Sep 2015 13:54:21 +0200
+Message-ID: <1441281261-31970-1-git-send-email-sona.sarmadi@enea.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
 	designate permitted sender hosts)
-Subject: [PATCH][dizzy] gnutls: CVE-2015-3308
+Subject: [PATCH][fido] gnutls: CVE-2015-3308
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,8 +27,8 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Sep 2015 11:53:42 -0000
-Content-Type: text/plain; charset="y"
+X-List-Received-Date: Thu, 03 Sep 2015 11:54:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 Fixes use-after-free flaw in CRL distribution points parsing
@@ -46,7 +46,7 @@ Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
  .../better-fix-for-double-free-CVE-2015-3308.patch | 65 ++++++++++++++++++=
 ++++
  .../eliminated-double-free-CVE-2015-3308.patch     | 33 +++++++++++
- meta/recipes-support/gnutls/gnutls_3.3.5.bb        |  2 +
+ meta/recipes-support/gnutls/gnutls_3.3.12.bb       |  2 +
  3 files changed, 100 insertions(+)
  create mode 100644 meta/recipes-support/gnutls/gnutls/better-fix-for-doubl=
 e-free-CVE-2015-3308.patch
@@ -175,20 +175,21 @@ tls_datum_t * ext,
 +--=20
 +1.9.1
 +
-diff --git a/meta/recipes-support/gnutls/gnutls_3.3.5.bb b/meta/recipes-sup=
-port/gnutls/gnutls_3.3.5.bb
-index b3daa49..9f26470 100644
---- a/meta/recipes-support/gnutls/gnutls_3.3.5.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.3.5.bb
-@@ -1,6 +1,8 @@
- require gnutls.inc
-=20
+diff --git a/meta/recipes-support/gnutls/gnutls_3.3.12.bb b/meta/recipes-su=
+pport/gnutls/gnutls_3.3.12.bb
+index b310be0..62cd2d0 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.3.12.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.3.12.bb
+@@ -3,6 +3,8 @@ require gnutls.inc
  SRC_URI +=3D "file://correct_rpl_gettimeofday_signature.patch \
+             file://configure.ac-fix-sed-command.patch \
+             file://use-pkg-config-to-locate-zlib.patch \
 +            file://eliminated-double-free-CVE-2015-3308.patch \
 +            file://better-fix-for-double-free-CVE-2015-3308.patch \
             "
-=20
- SRC_URI[md5sum] =3D "1f396dcf3c14ea67de7243821006d1a2"
+ SRC_URI[md5sum] =3D "a37b20b4352a5f542367ded904729c90"
+ SRC_URI[sha256sum] =3D "67ab3e92c5d48f3323b897d7c1aa0bb2af6f3a84f5bd9931cd=
+a163a7ff32299b"
 --=20
 1.9.1
 
