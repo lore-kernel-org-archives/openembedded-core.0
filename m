@@ -1,40 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 14C7377016
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 813D777038
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 14:07:10 +0000 (UTC)
-Received: by qgx61 with SMTP id 61so16487742qgx.3
+	Fri,  4 Sep 2015 14:16:38 +0000 (UTC)
+Received: by iofh134 with SMTP id h134so25270972iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Sep 2015 07:07:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=shbQ3T0xYABmVL5XwHM+xjtRKA3J4TOKAbKlnLKF6FY=;
-	b=Qa5kE5+DZX5mqP0Qv7H7072y8X2vgtSBI+/F7K6lKZMSJbHl2e7yXqJeRj26WpJ3e2
-	Pm6NMvhU23ufkJQ7CNig2/aFc1y9bPP65apm8LSgj9Yz5UFJHn10AjqxccKbB3H03znD
-	9bRSsGZb6cuHIjineXI8DZ6c821R46RGYvAviCMa/5WkiPBRY3V/dsgZdWB+eGFR/ZJ2
-	M2Vhsu0EPg6zz8gZIP6mKJCHxWSgOWVtYsk9QYJR90kxds9OWPe6CXsEratxyX4lnk5L
-	xxo/5bDjDA7JeaZJMDcwhmszQnvfzFXocb2OXwAiq2QSbwnwNd/DtbNMYgliqf0UvoOw
-	QDUQ==
-X-Gm-Message-State: ALoCoQljqnnrSKgE/oH0oc/Axv+aBD2F3IbaIn6OLF08106hPEiJYTFD8jxRt8il6ZiwnaIbt+MP
-X-Received: by 10.140.133.67 with SMTP id 64mr5750986qhf.52.1441375630748;
-	Fri, 04 Sep 2015 07:07:10 -0700 (PDT)
+	Fri, 04 Sep 2015 07:16:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=j2AJOOvOJlXINmwiMmxzJlMXIUvi+n2QQ7P2Pplsg+8=;
+	b=ndod65Fg54nVZgYKVOu8JQD9VRgTyxWW0EtJl22/fDidVRnnFbxfNBZ6U8mF953R84
+	shdlUKglCDLnQ8nuqz278/yrqP9dAPFFvu2XTptCTyqUs/0ONiowE/ws/k6IQSMsaDOe
+	rAmQvT9+lx+e97V64Xs2oB6xugYYXJloz0FwfRBOCKi9ydXxZWyt2KUMbRBlmAHmrPkZ
+	d9xL4eBXEjZoshsOdWPqslNbcGbs5HOyY6lFgIvI28C6IxrKdBazCMhabHGu+so+uqts
+	TCT8YiGdmFr9snEDmIf72qQ9SLPrIXBHrxqDVkSiy9/n8OhMtdTnz216j1DhJ8h5DhKY
+	sXaQ==
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Fri, 4 Sep 2015 07:06:50 -0700 (PDT)
-In-Reply-To: <1441364835.3071.9.camel@collabora.co.uk>
-References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
-	<9f749745e56f33bc00d0e08dd4951840b29a557d.1441291646.git.joshua.lock@collabora.co.uk>
-	<1441293176.24871.118.camel@linuxfoundation.org>
-	<55E87F08.6020902@windriver.com>
-	<1441364835.3071.9.camel@collabora.co.uk>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Sep 2015 15:06:50 +0100
-Message-ID: <CAJTo0LavWi5JMktv49M9tbk+v8sfCCSC3BsmPvRGKN8wKKF41w@mail.gmail.com>
-To: Joshua Lock <joshua.lock@collabora.co.uk>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/9] systemd: remove hard-coded paths in FILES entries
+X-Received: by 10.107.149.77 with SMTP id x74mr7248302iod.112.1441376199255;
+	Fri, 04 Sep 2015 07:16:39 -0700 (PDT)
+Received: by 10.107.162.202 with HTTP; Fri, 4 Sep 2015 07:16:39 -0700 (PDT)
+In-Reply-To: <55E98B3B.4050704@linux.intel.com>
+References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+	<f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>
+	<B9C7EAB1-4025-474E-8FBB-7DF1BE6C5706@gmail.com>
+	<55E98B3B.4050704@linux.intel.com>
+Date: Fri, 4 Sep 2015 07:16:39 -0700
+Message-ID: <CAMKF1soR0r5ZVYYPnxGg0f+61oC2Cx6Mq0Y2390NXZzZn1-c4w@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/12] gnome-icon-theme: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,68 +45,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 14:07:13 -0000
-Content-Type: multipart/alternative; boundary=001a1136fdce75df11051eec6aae
+X-List-Received-Date: Fri, 04 Sep 2015 14:16:42 -0000
+Content-Type: multipart/alternative; boundary=001a1140ff965829ee051eec8c90
 
---001a1136fdce75df11051eec6aae
+--001a1140ff965829ee051eec8c90
 Content-Type: text/plain; charset=UTF-8
 
-On 4 September 2015 at 12:07, Joshua Lock <joshua.lock@collabora.co.uk>
-wrote:
+On Friday, September 4, 2015, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-> I've prepared a v2 that changes this to nonarch_base_libdir but
-> systemd+multilib appears to be broken, see:
+> On 09/04/2015 12:28 AM, Khem Raj wrote:
 >
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=8256
+> It is not used by anything in oe-core and will be moved to meta-gnome
+>>>
+>>>
+>> OK, please send the patch for meta-gnome as well. So we can merge them in
+>> more or less in sync
+>>
+>
+> I will send these patches only when oe-core is updated. Recipe moving is
+> always controversial, and I don't want to cause confusion when the change
+> is accepted by one side and rejected by the other.
+
+
+On the contrary you can make a note in patch to destination layer citing
+the patch for source layer being a prerequisite to be accepted. Maintainers
+then can schedule it accordingly.
+
+>
+> Alex
+>
 >
 
-As far as I understand it (and that's only a bit, I'll delegate to Mark)
-this is because the sanity check is verifying that the files that get
-overwritten between different subarches are actually identical, but
-lib32-connman and connman have service files in /lib/systemd that refer to
-binaries that are in $(libdir), which changes, so the files change.
-Arguably connman should be using libexecdir and not libdir, but that also
-would mean fixing libexecdir not to change (for which I have a patch series
-that failed to re-send in this cycle).
-
-I've commented on the bug that the example should be changed to be a
-library such as lib32-glib-2.0, which is possibly a more useful real world
-situation ("I have a 32-bit pre-compiled binary that needs glib" is more
-likely than "I want a 64-bit distro with a 32-bit connman") and should
-actually work.
-
-Ross
-
-Ross
-
---001a1136fdce75df11051eec6aae
+--001a1140ff965829ee051eec8c90
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 September 2015 at 12:07, Joshua Lock <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:joshua.lock@collabora.co.uk" target=3D"_blank">joshua.lock@collabora=
-.co.uk</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":=
-3b7" class=3D"a3s" style=3D"overflow:hidden">I&#39;ve prepared a v2 that ch=
-anges this to nonarch_base_libdir but<br>
-systemd+multilib appears to be broken, see:<br>
+<br><br>On Friday, September 4, 2015, Alexander Kanavin &lt;<a href=3D"mail=
+to:alexander.kanavin@linux.intel.com">alexander.kanavin@linux.intel.com</a>=
+&gt; wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">On 09/04/2015 12:28 AM, Khem =
+Raj wrote:<br>
 <br>
-<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D8256" rel=3D=
-"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bug.c=
-gi?id=3D8256</a></div></blockquote><div><br></div><div>As far as I understa=
-nd it (and that&#39;s only a bit, I&#39;ll delegate to Mark) this is becaus=
-e the sanity check is verifying that the files that get overwritten between=
- different subarches are actually identical, but lib32-connman and connman =
-have service files in /lib/systemd that refer to binaries that are in $(lib=
-dir), which changes, so the files change.=C2=A0 Arguably connman should be =
-using libexecdir and not libdir, but that also would mean fixing libexecdir=
- not to change (for which I have a patch series that failed to re-send in t=
-his cycle).</div><div><br></div><div>I&#39;ve commented on the bug that the=
- example should be changed to be a library such as lib32-glib-2.0, which is=
- possibly a more useful real world situation (&quot;I have a 32-bit pre-com=
-piled binary that needs glib&quot; is more likely than &quot;I want a 64-bi=
-t distro with a 32-bit connman&quot;) and should actually work.</div><div><=
-br></div><div>Ross</div><div><br></div><div>Ross</div></div></div></div>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+It is not used by anything in oe-core and will be moved to meta-gnome<br>
+<br>
+</blockquote>
+<br>
+OK, please send the patch for meta-gnome as well. So we can merge them in m=
+ore or less in sync<br>
+</blockquote>
+<br>
+I will send these patches only when oe-core is updated. Recipe moving is al=
+ways controversial, and I don&#39;t want to cause confusion when the change=
+ is accepted by one side and rejected by the other.</blockquote><div><br></=
+div><div>On the contrary you can make a note in patch to destination layer =
+citing the patch for source layer being a prerequisite to be accepted. Main=
+tainers then can schedule it accordingly.=C2=A0=C2=A0</div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">
+<br>
+Alex<br>
+<br>
+</blockquote>
 
---001a1136fdce75df11051eec6aae--
+--001a1140ff965829ee051eec8c90--
