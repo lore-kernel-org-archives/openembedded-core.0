@@ -1,35 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F9B676FC9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A19C576FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 15:32:55 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so18810729qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Sep 2015 08:32:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=yBPIg5HjV+mM4eHb39080vMPnpl00qYm8kJ0zg99wdw=;
-	b=bYZqVUizWmUpzv7P611dcD5DtXKfL/iRvPSs9LdqmLCzVP1xtQquTNOLepJ1m0kx4G
-	2jE1IWVgm/9iy5YshB+L8o9olen/+ddRZgMMX32ozlZ2piRFv1OPs7u3Sm/uZw6l3A++
-	eNZmHGi0aPHrrOBbEom5yVneISBCPFy2hMuwWsTxt3Dk9Mz4Z9HJv0I2AZXZnd1KY6D4
-	7h9201loHruJnMaE0YrbiLRdwg7snvly1wueLfyfibYLwilT55kkCvsS3HSxlwgr7rYL
-	T+yJhtR1Auo6+KnWvIIAB/IhKxXcITFC3iqVqi6ml1bGldSeYJ06kR54mb8vkAlDZT0w
-	aqCQ==
-X-Gm-Message-State: ALoCoQlxWfBrUZPQEBFrwuFbwTNARYxx5tc3Akop5zmn6Nj2kg6eaPc5N5jYhlAItz0RVpSwxjo4
-X-Received: by 10.140.232.150 with SMTP id d144mr3191037qhc.17.1441380775594; 
-	Fri, 04 Sep 2015 08:32:55 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Fri, 4 Sep 2015 08:32:36 -0700 (PDT)
+	Fri,  4 Sep 2015 15:33:34 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t84FXXmM006411; Fri, 4 Sep 2015 16:33:33 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id z_Aj5Cpz7yUr; Fri,  4 Sep 2015 16:33:33 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t84FXKLR006408
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Fri, 4 Sep 2015 16:33:32 +0100
+Message-ID: <1441380800.24871.173.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 04 Sep 2015 16:33:20 +0100
 In-Reply-To: <2CF81DE4-D260-4561-AE95-F321C093AE13@gmail.com>
 References: <1441380461.24871.171.camel@linuxfoundation.org>
 	<2CF81DE4-D260-4561-AE95-F321C093AE13@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Sep 2015 16:32:36 +0100
-Message-ID: <CAJTo0LZDX+hQiAw4cw6Xt6B6YOHPjznO_dSPCSzbQgbz6SVR9Q@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] tcmode-default: Set gcc 5.2 as the default
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -44,40 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 15:32:57 -0000
-Content-Type: multipart/alternative; boundary=001a113548521dcc68051eed9d93
+X-List-Received-Date: Fri, 04 Sep 2015 15:33:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a113548521dcc68051eed9d93
-Content-Type: text/plain; charset=UTF-8
-
-On 4 September 2015 at 16:29, Khem Raj <raj.khem@gmail.com> wrote:
-
-> a small nit. Make it 5.% to logically indicate that 5.x is a bug fix
-> release and next big upgrade will be
+On Fri, 2015-09-04 at 08:29 -0700, Khem Raj wrote:
+> > On Sep 4, 2015, at 8:27 AM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > 
+> > -GCCVERSION ?= "4.9%"
+> > +GCCVERSION ?= "5.2%"
+> 
+> a small nit. Make it 5.% to logically indicate that 5.x is a bug fix release and next big upgrade will be
 > 6.x
->
 
-To be honest I'd prefer *any* change to the compiler beyond eg 5.2.0 ->
-5.2.1 to be explicit.  I think we've all seen enough breakage from a "bug
-fix" release to know that it needs a proper test.
+I'm not sure this would be a good idea. We have had 4.8 alongside 4.9
+and can imagine doing something like that with newer 5.x releases
+depending on how they work out. I doubt 5.2% hurts anything, apart from
+needing to tweak that file slightly more often...
 
-Ross
+Cheers,
 
---001a113548521dcc68051eed9d93
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 September 2015 at 16:29, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":34o" class=3D"a3s" st=
-yle=3D"overflow:hidden">a small nit. Make it 5.% to logically indicate that=
- 5.x is a bug fix release and next big upgrade will be<br>
-6.x<br></div></blockquote></div><br>To be honest I&#39;d prefer *any* chang=
-e to the compiler beyond eg 5.2.0 -&gt; 5.2.1 to be explicit.=C2=A0 I think=
- we&#39;ve all seen enough breakage from a &quot;bug fix&quot; release to k=
-now that it needs a proper test.</div><div class=3D"gmail_extra"><br></div>=
-<div class=3D"gmail_extra">Ross</div></div>
 
---001a113548521dcc68051eed9d93--
+
+
