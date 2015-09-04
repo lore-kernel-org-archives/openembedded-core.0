@@ -1,30 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FD6777038
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id C273B77040
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 17:24:13 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t84HODui013532; Fri, 4 Sep 2015 18:24:13 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1ITrn4SYNuZg; Fri,  4 Sep 2015 18:24:13 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t84HO1br013512
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 4 Sep 2015 18:24:13 +0100
-Message-ID: <1441387441.24871.198.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Seebach <peter.seebach@windriver.com>
-Date: Fri, 04 Sep 2015 18:24:01 +0100
-In-Reply-To: <709779e96e115ed29b9ab7d0e9ba9fba38c584e7.1441336912.git.peter.seebach@windriver.com>
-References: <cover.1441336912.git.peter.seebach@windriver.com>
-	<709779e96e115ed29b9ab7d0e9ba9fba38c584e7.1441336912.git.peter.seebach@windriver.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] pseudo_1.7.2.bb: New version of pseudo
+	Fri,  4 Sep 2015 18:55:53 +0000 (UTC)
+Received: by wibz8 with SMTP id z8so26531012wib.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Sep 2015 11:55:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=1aA0hzgh2ilg7RkRYvPI+H904nH91TI/0jcJ4bfDtUE=;
+	b=Im/nZKMwfmFlLpHhySFZCdVXpY8H3mB0/OcdMDUOOBb0CjrlcDhGo2lFHMV36ODWiK
+	s7tgwAdlyqE8cZ0PwfTf3Rtcsro/JvxnmfZX46ZsKQu2YAfemCHKYf/WoBrVwxzUJ2DN
+	Vzl5g+mU4pQYhZPTgYI3IXSFZucoTOUDA3u5Lc2M2vsNdQpd30fg1GT8gpkri9CH4Rl+
+	SpPRZixIAGTgJ93vov0jp+yWJ/TkJwfRZU2trVGkycJqgBPHPwaMDDCDqRmPnzFx5fiQ
+	zvrP/u+CC4bGT/frdUmLlNynIXyhYdvbQ4/CuqWyjdNdFcVz+RaLn5bChVlv11mU9E5F
+	KwuA==
+X-Received: by 10.180.103.2 with SMTP id fs2mr9651148wib.4.1441392953901;
+	Fri, 04 Sep 2015 11:55:53 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id 4sm5591146wjt.46.2015.09.04.11.55.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 04 Sep 2015 11:55:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Sep 2015 20:56:24 +0200
+Message-Id: <1441392984-24965-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.5.0
+In-Reply-To: <1441369348-32182-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1441369348-32182-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [RFC][PATCH] rootfs.py: show intercept script output in log.do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,44 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 17:24:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Sep 2015 18:55:55 -0000
 
-On Thu, 2015-09-03 at 22:28 -0500, Peter Seebach wrote:
-> Pseudo 1.7 adds an experimental feature (which I think needs more testing
-> before it becomes the default) allowing the pseudo client to store modes
-> and uid/gid values in extended attributes rather than using the sqlite
-> database. On most Linux-like systems, this works only if the underlying
-> file is a plain file or a directory.
-> 
-> Also added is a profiling feature to allow some amount of reporting on
-> the wall-clock time the client spends in wrappers, processing operations,
-> or in IPC. This feature is not intendeded to be precisely accurate, but
-> gives a good overview of where time is going.
-> 
-> Based on the results from the profiling feature, the client now suppresses
-> OP_OPEN and OP_EXEC messages if the server is not logging messages, and
-> no longer uses constant dynamic allocation and free cycles for canonicalized
-> paths.
-> 
-> There's a few other likely-looking optimizations being considered, but
-> this seemed like a good cutoff for now.
-> 
-> 1.7.1 fixes two bugs, one affecting mostly XFS systems with 64-bit
-> inode values, and one affecting code that called realpath(x, NULL), such
-> as the RPM backend.
-> 
-> 1.7.2 fixes an indirect side-effect of the chmod fixes to deal with
-> umask 0700, which had no effect with opkg 0.2.4 but appears to cause
-> failures with 0.3.0.
+* without this the output wasn't shown anywhere even when the bb.warn
+  says:
+  "See log for details!"
 
-https://autobuilder.yoctoproject.org/main/builders/buildtools/builds/473/steps/BuildImages/logs/stdio
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/lib/oe/rootfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-:(
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 76950ec..2372226 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -279,7 +279,7 @@ class Rootfs(object):
+             bb.note("> Executing %s intercept ..." % script)
+ 
+             try:
+-                subprocess.check_output(script_full)
++                subprocess.check_call(script_full)
+             except subprocess.CalledProcessError as e:
+                 bb.warn("The postinstall intercept hook '%s' failed (exit code: %d)! See log for details!" %
+                         (script, e.returncode))
+-- 
+2.5.0
 
 
