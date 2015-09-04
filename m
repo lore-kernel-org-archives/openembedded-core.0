@@ -1,36 +1,44 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by mail.openembedded.org (Postfix) with ESMTP id E96BE77016
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f171.google.com (mail-io0-f171.google.com
+	[209.85.223.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 22D1177016
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 07:20:30 +0000 (UTC)
-Received: by qkcj187 with SMTP id j187so5311981qkc.2
+	Fri,  4 Sep 2015 07:23:05 +0000 (UTC)
+Received: by iofh134 with SMTP id h134so14525418iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Sep 2015 00:20:30 -0700 (PDT)
+	Fri, 04 Sep 2015 00:23:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=bZlMu89aM587I2AMLGzXYMDZqXW9MEpgr+Prl/BaWK4=;
-	b=BlU9VWMaAOdfwmcuYb75S+f/aMItcaQh5qEQmQDREJOd3vAhtTvUdN+L3/nX3dCapn
-	F776hP01PsCfYfurEf0UfaUW1k+XQBcF8F0I0Yw7YD1GpRC81CJujlAa+ThP8yrUCZ6S
-	3qijX2TbAagw3tbBcOg79s62+QEMoXALqSaG60k9ekw0a5y3VRvoqtAhv9oTnGgn2wKN
-	qKebE7BLNYpD83wdygxxti7oDcrB9wEs8JxnVT32xxjUMim1ZDExd1EVcZdMft9/0/e8
-	75Sm5ovotTTdSzqy+vVdScs+br5OP7UqeNg/KjzgifIbjbz+JFICH0gqcdepL3KvxKrT
-	1MEg==
-X-Gm-Message-State: ALoCoQmQtpMaYIzcMIvcP8ZOJo5ETB9cA2TtjecGrZEu9i5pKzHI5Z3/WZb2tsebyBbWXnKSYAbK
-X-Received: by 10.55.195.66 with SMTP id a63mr2909918qkj.67.1441351230655;
-	Fri, 04 Sep 2015 00:20:30 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Fri, 4 Sep 2015 00:20:11 -0700 (PDT)
-In-Reply-To: <1441348974.9573.42.camel@intel.com>
-References: <1441348974.9573.42.camel@intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Sep 2015 08:20:11 +0100
-Message-ID: <CAJTo0LZx0F3MTvq9i2+-ENukC3gA9tG56SNzDm9CAp3amJHKpw@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Subject: Re: oe-init-build-env slowdown: chmod -R
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=ByMktj7vbqqwtW5KhAYfMrDF0duZ/58t/snhYW+iiRg=;
+	b=AeJgbY0gn1D5OmxR0U+pcPyEHzuEJZzXXhtsveG9DNUOBvnYd13SZdYzIBNgmfIJYX
+	PDqdGa0zsKR701RgzhMfyVtPaLHPy+o5gp3T1dzTtqQUCngPpFDyW8QAZRxl1vAut+Wy
+	DX+O6S7Cbsgyb+ueSIfLTyFbl5SmDXpiF0w/rMhye5agMtmKMdrlzTdPwxf69mIDvSNL
+	zP9dHREc67rSXWbjrEP5ipdyidOlE60dO7GUdQasPmpbBCdOpEp5LcFqVWS2dWEwDTBW
+	4SToeap5GdNGJtmxXA+CFIO/tUPhfmV78FUqUjnk2joXvJkVNrOzil4kPVV+4kOrQLIp
+	nrZw==
+X-Gm-Message-State: ALoCoQkunsUAhXTeYo4GDfkZGpW9SlSqdQebGgCPsIHaOQylMDaVC8WIPcOcW6wlodSJgOI9extm
+X-Received: by 10.107.30.13 with SMTP id e13mr4178750ioe.57.1441351385915;
+	Fri, 04 Sep 2015 00:23:05 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8FB6C.dip0.t-ipconnect.de. [93.232.251.108])
+	by smtp.gmail.com with ESMTPSA id
+	os9sm1021587igb.11.2015.09.04.00.23.04
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 04 Sep 2015 00:23:05 -0700 (PDT)
+Message-ID: <1441351382.9573.50.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Alex Franco <alejandro.franco@linux.intel.com>
+Date: Fri, 04 Sep 2015 09:23:02 +0200
+In-Reply-To: <1441351029.9573.47.camel@intel.com>
+References: <1441317404-6663-1-git-send-email-alejandro.franco@linux.intel.com>
+	<1441351029.9573.47.camel@intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: clarson@kergoth.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv4] Fix recursive mode -st on BUILDDIR setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,47 +51,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 07:20:31 -0000
-Content-Type: multipart/alternative; boundary=001a1146675c19abd5051ee6bc66
+X-List-Received-Date: Fri, 04 Sep 2015 07:23:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---001a1146675c19abd5051ee6bc66
-Content-Type: text/plain; charset=UTF-8
+On Fri, 2015-09-04 at 09:17 +0200, Patrick Ohly wrote:
+> On Thu, 2015-09-03 at 16:56 -0500, Alex Franco wrote:
+> > Removing recursive option from chmod -st on BUILDDIR as it would
+> > take very long on existing build directories
+> 
+> Okay, so this *is* a problem others are also seeing ;-}
+> 
+> > diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+> > index f5b7e4e..91bd86b 100755
+> > --- a/scripts/oe-setup-builddir
+> > +++ b/scripts/oe-setup-builddir
+> > @@ -24,7 +24,10 @@ if [ -z "$BUILDDIR" ]; then
+> >  fi
+> >  
+> >  mkdir -p "$BUILDDIR/conf"
+> > -chmod -R -st "$BUILDDIR" 
+> > +
+> > +# Attempting removal of sticky,setuid bits from BUILDDIR, BUILDDIR/conf
+> > +chmod -st "$BUILDDIR" 2>/dev/null || echo "WARNING: unable to chmod $BUILDDIR"
+> > +chmod -st "$BUILDDIR/conf" 2>/dev/null || echo "WARNING: unable to chmod $BUILDDIR/conf"
+> >  
+> >  if [ ! -d "$BUILDDIR" ]; then
+> >      echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
+> 
+> What was the reasoning behind adding these operations on $BUILDDIR/conf
+> before the check whether BUILDDIR exists and is a directory? Looks a bit
+> fishy to me.
 
-On 4 September 2015 at 07:42, Patrick Ohly <patrick.ohly@intel.com> wrote:
+Non-existent parent of $BUILDDIR is caught elsewhere, but pointing
+BUILDDIR to a file instead of a directory indeed leads to sub-optimal
+error reporting:
 
-> In my case (*), that chmod takes about 2 minutes to complete. strace
-> shows that it does a fchmodat on all files, even if nothing needs to be
-> changed. atop then shows that this keeps the disk 100% busy with writes.
-> I don't know what gets written (can't be the access time, I tried
-> mounting with noatime).
->
+$ touch /tmp/foobar
+$ . oe-init-build-env /tmp/foobar
+mkdir: cannot create directory ‘/tmp/foobar’: Not a directory
+chmod: cannot access ‘/tmp/foobar/conf’: Not a directory
+Error: The builddir (/tmp/foobar) does not exist!
 
-The autobuilder has been seen to take 14 minutes at this stage before being
-killed by buildbot. :) There's a patch on the list for this, and will be
-merged soon.
+Not sure whether it's worth fixing, though. Better get this performance
+fix included quickly.
 
-Ross
+-- 
+Best Regards, Patrick Ohly
 
---001a1146675c19abd5051ee6bc66
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 September 2015 at 07:42, Patrick Ohly <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:patrick.ohly@intel.com" target=3D"_blank">patrick.ohly@intel.com</a=
->&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":17c" clas=
-s=3D"a3s" style=3D"overflow:hidden">In my case (*), that chmod takes about =
-2 minutes to complete. strace<br>
-shows that it does a fchmodat on all files, even if nothing needs to be<br>
-changed. atop then shows that this keeps the disk 100% busy with writes.<br=
->
-I don&#39;t know what gets written (can&#39;t be the access time, I tried<b=
-r>
-mounting with noatime).<br></div></blockquote></div><br>The autobuilder has=
- been seen to take 14 minutes at this stage before being killed by buildbot=
-. :) There&#39;s a patch on the list for this, and will be merged soon.</di=
-v><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div=
-></div>
 
---001a1146675c19abd5051ee6bc66--
+
+
