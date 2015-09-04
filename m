@@ -1,26 +1,16 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8607E77016
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 3842777045
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 14:35:55 +0000 (UTC)
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Sep 2015 07:35:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,469,1437462000"; d="scan'208";a="797809378"
-Received: from maholain-mobl1.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.13.141])
-	by orsmga002.jf.intel.com with ESMTP; 04 Sep 2015 07:35:55 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: brendan.le.foll@intel.com
-Date: Fri, 04 Sep 2015 15:35:52 +0100
-Message-ID: <3825765.7SQCRtHUUU@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1441318170-2356-1-git-send-email-brendan.le.foll@intel.com>
-References: <1441318170-2356-1-git-send-email-brendan.le.foll@intel.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] devtool: add package plugin that lets you create package via devtool
+	Fri,  4 Sep 2015 15:00:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id CDE8B6002A0
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Sep 2015 15:59:37 +0100
+Message-Id: <cover.1441374016.git.joshua.lock@collabora.co.uk>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2 0/9] Fixes for a distro with a merged /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,77 +23,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 14:35:58 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 04 Sep 2015 15:00:09 -0000
 
-On Thursday 03 September 2015 23:09:30 brendan.le.foll@intel.com wrote:
-> From: Brendan Le Foll <brendan.le.foll@intel.com>
-> 
-> Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
-> ---
->  scripts/lib/devtool/package.py | 61
-> ++++++++++++++++++++++++++++++++++++++++++ 1 file changed, 61 insertions(+)
->  create mode 100644 scripts/lib/devtool/package.py
-> 
-> diff --git a/scripts/lib/devtool/package.py b/scripts/lib/devtool/package.py
-> new file mode 100644
-> index 0000000..e9d4240
-> --- /dev/null
-> +++ b/scripts/lib/devtool/package.py
-> @@ -0,0 +1,61 @@
-> +# Development tool - package command plugin
-> +#
-> +# Copyright (C) 2014-2015 Intel Corporation
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License version 2 as
-> +# published by the Free Software Foundation.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License along
-> +# with this program; if not, write to the Free Software Foundation, Inc.,
-> +# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-> +"""Devtool plugin containing the package subcommands"""
-> +
-> +import os
-> +import subprocess
-> +import logging
-> +from bb.process import ExecutionError
-> +from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
-> +
-> +logger = logging.getLogger('devtool')
-> +
-> +def plugin_init(pluginlist):
-> +    """Plugin initialization"""
-> +    pass
-> +
-> +def package(args, config, basepath, workspace):
-> +    """Entry point for the devtool 'package' subcommand"""
-> +    if not args.recipename in workspace:
-> +        raise DevtoolError("no recipe named %s in your workspace" %
-> +                           args.recipename)
-> +
-> +    try:
-> +        image_pkgtype = config.get('image_pkgtype', None)
+I've been playing around with building a distro with a merged /usr[1] and
+the following series fixes several issues I ran across in OE core metadata.
 
-This isn't quite right - to be fair though I think you may have copy-pasted 
-something I sent you privately which wasn't correct. The first parameter is the 
-section, second the value name, third the default. If you specify a default 
-you won't need to put it in try/except, just "if not image_pkgtype:'.
+These have been build tested by building a core-image-sato image with
+ipk packaging for: i) qemux86 with a default configuration, ii) qemux86-64
+with a mutlilib configuration where the image includes lib32-ncurses and
+iii) for my merged /usr test distro.
 
-Don't worry about fixing this though, I'm currently rolling up devtool patches 
-into a series and I will fix it as part of that.
+I used buildhistory to compare core-image-sato before and after this series
+and the only change is:
 
-Cheers,
-Paul
+Changes to images/qemux86/glibc/core-image-sato (files-in-image.txt):
+  /bin/lsmod.kmod changed symlink target from ../bin/kmod to kmod
+
+Changes since v1:
+* Fix busybox typo/thinko which lead to installing busybox links into /usr/bin
+* Fix systemd recipe to use nonarch_base_libdir for udev files
+
+Regards,
+
+Joshua
+
+The following changes since commit aba3ef50d65e0dc8659a48bf98d0fb00dd44a6fc:
+
+  debianutils: create package for run-parts (2015-09-02 23:51:16 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/merged-usr
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/merged-usr
+
+Joshua Lock (9):
+  kmod: fix link creation when base_bindir != /bin
+  busybox: fixes for when base_bindir != /bin
+  systemd: remove hard-coded paths in FILES entries
+  alsa-utils: handle udev dir being 2 levels below /
+  pulseaudio: handle udev dir being 2 levels below /
+  bluez: handle udev dir being 2 levels below /
+  pcmciautils: handle udev dir being 2 levels below /
+  nfs-utils: don't force use of /sbin as sbindir
+  procps: fix for base_sbindir == sbindir
+
+ meta/recipes-bsp/pcmciautils/pcmciautils_018.bb    |  4 +-
+ meta/recipes-connectivity/bluez5/bluez5.inc        |  1 +
+ .../nfs-utils/nfs-utils_1.3.1.bb                   |  8 ++++
+ meta/recipes-core/busybox/busybox.inc              | 49 ++++++++++++----------
+ meta/recipes-core/systemd/systemd_219.bb           | 10 ++---
+ meta/recipes-extended/procps/procps_3.3.10.bb      |  5 ++-
+ meta/recipes-kernel/kmod/kmod_git.bb               |  4 +-
+ meta/recipes-multimedia/alsa/alsa-utils_1.0.29.bb  |  2 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc  |  2 +-
+ 9 files changed, 49 insertions(+), 36 deletions(-)
 
 -- 
+2.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
