@@ -1,38 +1,35 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C67276FC9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F9B676FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 15:29:36 +0000 (UTC)
-Received: by padhy16 with SMTP id hy16so25168118pad.1
+	Fri,  4 Sep 2015 15:32:55 +0000 (UTC)
+Received: by qgez77 with SMTP id z77so18810729qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Sep 2015 08:29:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=rcD1I6xqqEtsoEQDJM5FHLbjx5CX7CQpPT6nB0lVXSs=;
-	b=ZlxCjrUWJu3rQr+12hO45OZZOmR05at3auKxqtDsozltvexFxHl5HObkVWoFNF0O43
-	zSL3aiB57G1mvhaNGt+2Z4UBUvuvZFrgpZSYORzKk7RB7tO3OqwGsYRxoEImaY/BplNm
-	2+1lJu7uDtL8PkiCXENveKPKnQYPOUlNYEANiJ7LpDm1unPfXLFBECYPZd8L49/Jkd2K
-	eweyURNBsdeRGJxKDml3y5wuR0h7x7g0UL6l3NJq9NmUV/9kSDFGHz8t7vKbRgZXWgux
-	yOR3fu5+uI3++s2ZkU2DrrtB64/SiwhaNeELsvb8/uE5aDBzgNhYEp57KUUUciQE3pDk
-	3jCg==
-X-Received: by 10.68.96.197 with SMTP id du5mr9501380pbb.32.1441380576661;
-	Fri, 04 Sep 2015 08:29:36 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:9840:3a97:97d7:650a?
-	([2601:646:8601:4580:9840:3a97:97d7:650a])
-	by smtp.gmail.com with ESMTPSA id v8sm2904827pdm.35.2015.09.04.08.29.35
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 04 Sep 2015 08:29:35 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1441380461.24871.171.camel@linuxfoundation.org>
-Date: Fri, 4 Sep 2015 08:29:30 -0700
-Message-Id: <2CF81DE4-D260-4561-AE95-F321C093AE13@gmail.com>
+	Fri, 04 Sep 2015 08:32:55 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=yBPIg5HjV+mM4eHb39080vMPnpl00qYm8kJ0zg99wdw=;
+	b=bYZqVUizWmUpzv7P611dcD5DtXKfL/iRvPSs9LdqmLCzVP1xtQquTNOLepJ1m0kx4G
+	2jE1IWVgm/9iy5YshB+L8o9olen/+ddRZgMMX32ozlZ2piRFv1OPs7u3Sm/uZw6l3A++
+	eNZmHGi0aPHrrOBbEom5yVneISBCPFy2hMuwWsTxt3Dk9Mz4Z9HJv0I2AZXZnd1KY6D4
+	7h9201loHruJnMaE0YrbiLRdwg7snvly1wueLfyfibYLwilT55kkCvsS3HSxlwgr7rYL
+	T+yJhtR1Auo6+KnWvIIAB/IhKxXcITFC3iqVqi6ml1bGldSeYJ06kR54mb8vkAlDZT0w
+	aqCQ==
+X-Gm-Message-State: ALoCoQlxWfBrUZPQEBFrwuFbwTNARYxx5tc3Akop5zmn6Nj2kg6eaPc5N5jYhlAItz0RVpSwxjo4
+X-Received: by 10.140.232.150 with SMTP id d144mr3191037qhc.17.1441380775594; 
+	Fri, 04 Sep 2015 08:32:55 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Fri, 4 Sep 2015 08:32:36 -0700 (PDT)
+In-Reply-To: <2CF81DE4-D260-4561-AE95-F321C093AE13@gmail.com>
 References: <1441380461.24871.171.camel@linuxfoundation.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-X-Mailer: Apple Mail (2.2104)
+	<2CF81DE4-D260-4561-AE95-F321C093AE13@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Sep 2015 16:32:36 +0100
+Message-ID: <CAJTo0LZDX+hQiAw4cw6Xt6B6YOHPjznO_dSPCSzbQgbz6SVR9Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] tcmode-default: Set gcc 5.2 as the default
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,42 +44,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 15:29:38 -0000
-X-Groupsio-MsgNum: 70682
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_5A260DEC-EA1C-4724-BCD8-3A6896C74FCD";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Fri, 04 Sep 2015 15:32:57 -0000
+Content-Type: multipart/alternative; boundary=001a113548521dcc68051eed9d93
 
---Apple-Mail=_5A260DEC-EA1C-4724-BCD8-3A6896C74FCD
+--001a113548521dcc68051eed9d93
+Content-Type: text/plain; charset=UTF-8
+
+On 4 September 2015 at 16:29, Khem Raj <raj.khem@gmail.com> wrote:
+
+> a small nit. Make it 5.% to logically indicate that 5.x is a bug fix
+> release and next big upgrade will be
+> 6.x
+>
+
+To be honest I'd prefer *any* change to the compiler beyond eg 5.2.0 ->
+5.2.1 to be explicit.  I think we've all seen enough breakage from a "bug
+fix" release to know that it needs a proper test.
+
+Ross
+
+--001a113548521dcc68051eed9d93
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 September 2015 at 16:29, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
+der-left:1px #ccc solid;padding-left:1ex"><div id=3D":34o" class=3D"a3s" st=
+yle=3D"overflow:hidden">a small nit. Make it 5.% to logically indicate that=
+ 5.x is a bug fix release and next big upgrade will be<br>
+6.x<br></div></blockquote></div><br>To be honest I&#39;d prefer *any* chang=
+e to the compiler beyond eg 5.2.0 -&gt; 5.2.1 to be explicit.=C2=A0 I think=
+ we&#39;ve all seen enough breakage from a &quot;bug fix&quot; release to k=
+now that it needs a proper test.</div><div class=3D"gmail_extra"><br></div>=
+<div class=3D"gmail_extra">Ross</div></div>
 
-> On Sep 4, 2015, at 8:27 AM, Richard Purdie =
-<richard.purdie@linuxfoundation.org> wrote:
->=20
-> -GCCVERSION ?=3D "4.9%"
-> +GCCVERSION ?=3D "5.2%"
-
-a small nit. Make it 5.% to logically indicate that 5.x is a bug fix =
-release and next big upgrade will be
-6.x
-
---Apple-Mail=_5A260DEC-EA1C-4724-BCD8-3A6896C74FCD
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXpuN4ACgkQuwUzVZGdMxSH/gCghldj5WABVH/KjnNlOX2XKBLs
-O9gAnRckjZiKldBqH1hr6mJZChxfdYda
-=4rLa
------END PGP SIGNATURE-----
-
---Apple-Mail=_5A260DEC-EA1C-4724-BCD8-3A6896C74FCD--
+--001a113548521dcc68051eed9d93--
