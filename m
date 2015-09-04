@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 375F877040
+	by mail.openembedded.org (Postfix) with ESMTP id 367B077038
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  4 Sep 2015 15:00:05 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id 397CD3C886A2
+	(Authenticated sender: joshuagl) with ESMTPSA id F215B6002B2
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Sep 2015 15:59:40 +0100
-Message-Id: <0936aec6bdfb9bbbafcce8adc7a2f40cfff85e80.1441374016.git.joshua.lock@collabora.co.uk>
+Date: Fri,  4 Sep 2015 15:59:38 +0100
+Message-Id: <73dacaee8b4314edec63ee5b383d2fa1d4cdfc87.1441374016.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1441374016.git.joshua.lock@collabora.co.uk>
 References: <cover.1441374016.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1441374016.git.joshua.lock@collabora.co.uk>
 References: <cover.1441374016.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v2 3/9] systemd: remove hard-coded paths in FILES entries
+Subject: [PATCH v2 1/9] kmod: fix link creation when base_bindir != /bin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,39 +29,33 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 04 Sep 2015 15:00:09 -0000
 
+If base_bindir is not a direct child of / the link creation in
+do_install_append creates incorrect relative links.
+
+Instead pass a full path to the link source and use the -r flag
+to ln to ensure the link is relative.
+
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-core/systemd/systemd_219.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ meta/recipes-kernel/kmod/kmod_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd_219.bb b/meta/recipes-core/systemd/systemd_219.bb
-index 4d32fd5..a64dbac 100644
---- a/meta/recipes-core/systemd/systemd_219.bb
-+++ b/meta/recipes-core/systemd/systemd_219.bb
-@@ -306,10 +306,10 @@ FILES_${PN} = " ${base_bindir}/* \
-                 ${exec_prefix}/lib/sysctl.d \
-                 ${exec_prefix}/lib/sysusers.d \
-                 ${localstatedir} \
--                /lib/udev/rules.d/70-uaccess.rules \
--                /lib/udev/rules.d/71-seat.rules \
--                /lib/udev/rules.d/73-seat-late.rules \
--                /lib/udev/rules.d/99-systemd.rules \
-+                ${nonarch_base_libdir}/udev/rules.d/70-uaccess.rules \
-+                ${nonarch_base_libdir}/udev/rules.d/71-seat.rules \
-+                ${nonarch_base_libdir}/udev/rules.d/73-seat-late.rules \
-+                ${nonarch_base_libdir}/udev/rules.d/99-systemd.rules \
-                "
- 
- FILES_${PN}-dbg += "${rootlibdir}/.debug ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug ${base_libdir}/security/.debug/"
-@@ -327,7 +327,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty systemd-vconsole-setup \
- 
- PACKAGES =+ "udev-dbg udev udev-hwdb"
- 
--FILES_udev-dbg += "/lib/udev/.debug"
-+FILES_udev-dbg += "${nonarch_base_libdir}/udev/.debug"
- 
- RPROVIDES_udev = "hotplug"
- 
+diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
+index ba4d85e..120fd87 100644
+--- a/meta/recipes-kernel/kmod/kmod_git.bb
++++ b/meta/recipes-kernel/kmod/kmod_git.bb
+@@ -21,9 +21,9 @@ do_install_append () {
+         install -dm755 ${D}${base_bindir}
+         install -dm755 ${D}${base_sbindir}
+         # add symlinks to kmod
+-        ln -s ..${base_bindir}/kmod ${D}${base_bindir}/lsmod
++        ln -sr ${D}${base_bindir}/kmod ${D}${base_bindir}/lsmod
+         for tool in insmod rmmod depmod modinfo modprobe; do
+-                ln -s ..${base_bindir}/kmod ${D}${base_sbindir}/${tool}
++                ln -sr ${D}${base_bindir}/kmod ${D}${base_sbindir}/${tool}
+         done
+         # configuration directories
+         install -dm755 ${D}${base_libdir}/depmod.d
 -- 
 2.1.4
 
