@@ -1,20 +1,22 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id AA6F076FF2
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B85F73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 10:51:08 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Fri, 4 Sep 2015
-	12:51:03 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 4 Sep 2015 12:51:00 +0200
-Message-ID: <1441363860-25700-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH][dizzy] icu: CVE-2014-8146-CVE-2014-8147
+	Fri,  4 Sep 2015 11:07:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 08A373C8869F
+Message-ID: <1441364835.3071.9.camel@collabora.co.uk>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 04 Sep 2015 12:07:15 +0100
+In-Reply-To: <55E87F08.6020902@windriver.com>
+References: <cover.1441291646.git.joshua.lock@collabora.co.uk>
+	<9f749745e56f33bc00d0e08dd4951840b29a557d.1441291646.git.joshua.lock@collabora.co.uk>
+	<1441293176.24871.118.camel@linuxfoundation.org>
+	<55E87F08.6020902@windriver.com>
+X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
+Mime-Version: 1.0
+Subject: Re: [PATCH 3/9] systemd: remove hard-coded paths in FILES entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,93 +29,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 10:51:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 04 Sep 2015 11:07:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-CVE-2014-8146 icu: heap overflow via incorrect isolateCount
-CVE-2014-8147 icu: integer truncation in the resolveImplicitLevels function
+On Thu, 2015-09-03 at 12:10 -0500, Mark Hatle wrote:
+> On 9/3/15 10:12 AM, Richard Purdie wrote:
+> > On Thu, 2015-09-03 at 15:58 +0100, Joshua Lock wrote:
+> > > Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
+> > > ---
+> > >  meta/recipes-core/systemd/systemd_219.bb | 10 +++++-----
+> > >  1 file changed, 5 insertions(+), 5 deletions(-)
+> > > 
+> > > diff --git a/meta/recipes-core/systemd/systemd_219.bb
+> > > b/meta/recipes-core/systemd/systemd_219.bb
+> > > index 4d32fd5..fbd86e8 100644
+> > > --- a/meta/recipes-core/systemd/systemd_219.bb
+> > > +++ b/meta/recipes-core/systemd/systemd_219.bb
+> > > @@ -306,10 +306,10 @@ FILES_${PN} = " ${base_bindir}/* \
+> > >                  ${exec_prefix}/lib/sysctl.d \
+> > >                  ${exec_prefix}/lib/sysusers.d \
+> > >                  ${localstatedir} \
+> > > -                /lib/udev/rules.d/70-uaccess.rules \
+> > > -                /lib/udev/rules.d/71-seat.rules \
+> > > -                /lib/udev/rules.d/73-seat-late.rules \
+> > > -                /lib/udev/rules.d/99-systemd.rules \
+> > > +                ${base_libdir}/udev/rules.d/70-uaccess.rules \
+> > > +                ${base_libdir}/udev/rules.d/71-seat.rules \
+> > > +                ${base_libdir}/udev/rules.d/73-seat-late.rules \
+> > > +                ${base_libdir}/udev/rules.d/99-systemd.rules \
+> > >                 "
+> > >  
+> > >  FILES_${PN}-dbg += "${rootlibdir}/.debug
+> > > ${systemd_unitdir}/.debug ${systemd_unitdir}/*/.debug
+> > > ${base_libdir}/security/.debug/"
+> > > @@ -327,7 +327,7 @@ RRECOMMENDS_${PN} += "systemd-serialgetty
+> > > systemd-vconsole-setup \
+> > >  
+> > >  PACKAGES =+ "udev-dbg udev udev-hwdb"
+> > >  
+> > > -FILES_udev-dbg += "/lib/udev/.debug"
+> > > +FILES_udev-dbg += "${base_libdir}/udev/.debug"
+> > 
+> > From what I remember, this is intentional and this change likely
+> > breaks
+> > multilib. You don't want two sets of rules on a multilib system.
+> 
+> Correct.. it has to go into /lib or if everything is move to /usr,
+> then /usr/lib.
 
-References:
-[1] https://github.com/pedrib/PoC/raw/master/generic/i-c-u-fail.7z
-[2] https://www.kb.cert.org/vuls/id/602540
-[3] http://bugs.icu-project.org/trac/changeset/37080
-[4] http://bugs.icu-project.org/trac/changeset/37162
+I've prepared a v2 that changes this to nonarch_base_libdir but
+systemd+multilib appears to be broken, see:
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch  | 49 ++++++++++++++++++++++
- meta/recipes-support/icu/icu_53.1.bb               |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=8256
 
-diff --git a/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch b/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch
-new file mode 100644
-index 0000000..2460357
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/icu-CVE-2014-8146-CVE-2014-8147.patch
-@@ -0,0 +1,49 @@
-+icu: CVE-2014-8146-CVE-2014-8147
-+
-+CVE-2014-8146 icu: heap overflow via incorrect isolateCount
-+CVE-2014-8147 icu: integer truncation in the resolveImplicitLevels function
-+
-+References:
-+[1] https://github.com/pedrib/PoC/raw/master/generic/i-c-u-fail.7z
-+[2] https://www.kb.cert.org/vuls/id/602540
-+[3] http://bugs.icu-project.org/trac/changeset/37080
-+[4] http://bugs.icu-project.org/trac/changeset/37162
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
-+---
-+diff -ruN a/common/ubidi.c b/common/ubidi.c
-+--- a/common/ubidi.c	2014-10-03 18:11:20.000000000 +0200
-++++ b/common/ubidi.c	2015-08-28 08:22:39.455906194 +0200
-+@@ -2138,7 +2138,7 @@
-+     /* The isolates[] entries contain enough information to
-+        resume the bidi algorithm in the same state as it was
-+        when it was interrupted by an isolate sequence. */
-+-    if(dirProps[start]==PDI) {
-++    if(dirProps[start]==PDI  && pBiDi->isolateCount >= 0) {
-+         levState.startON=pBiDi->isolates[pBiDi->isolateCount].startON;
-+         start1=pBiDi->isolates[pBiDi->isolateCount].start1;
-+         stateImp=pBiDi->isolates[pBiDi->isolateCount].stateImp;
-+diff -ruN a/common/ubidiimp.h b/common/ubidiimp.h
-+--- a/common/ubidiimp.h	2014-10-03 18:11:16.000000000 +0200
-++++ b/common/ubidiimp.h	2015-08-28 08:28:24.069163845 +0200
-+@@ -1,7 +1,7 @@
-+ /*
-+ ******************************************************************************
-+ *
-+-*   Copyright (C) 1999-2014, International Business Machines
-++*   Copyright (C) 1999-2015, International Business Machines
-+ *   Corporation and others.  All Rights Reserved.
-+ *
-+ ******************************************************************************
-+@@ -184,8 +184,8 @@
-+ typedef struct Isolate {
-+     int32_t startON;
-+     int32_t start1;
-++    int32_t state;
-+     int16_t stateImp;
-+-    int16_t state;
-+ } Isolate;
-+
-+ typedef struct Run {
-diff --git a/meta/recipes-support/icu/icu_53.1.bb b/meta/recipes-support/icu/icu_53.1.bb
-index d93af68..2906e8f 100644
---- a/meta/recipes-support/icu/icu_53.1.bb
-+++ b/meta/recipes-support/icu/icu_53.1.bb
-@@ -11,6 +11,7 @@ ICU_PV = "${@icu_download_version(d)}"
- BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV}-src.tgz"
- SRC_URI = "${BASE_SRC_URI} \
-            file://icu-pkgdata-large-cmd.patch \
-+           file://icu-CVE-2014-8146-CVE-2014-8147.patch \
-           "
- 
- SRC_URI_append_class-target = "\
--- 
-1.9.1
+Regards,
 
+Joshua 
 
