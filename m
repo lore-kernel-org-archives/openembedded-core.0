@@ -1,39 +1,45 @@
 Return-Path: <patrick.ohly@intel.com>
 Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
 	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id E82CC7701D
+	by mail.openembedded.org (Postfix) with ESMTP id 65D607701D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 06:42:57 +0000 (UTC)
-Received: by ioiz6 with SMTP id z6so13540357ioi.2
+	Fri,  4 Sep 2015 07:08:34 +0000 (UTC)
+Received: by ioiz6 with SMTP id z6so14080955ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 03 Sep 2015 23:42:57 -0700 (PDT)
+	Fri, 04 Sep 2015 00:08:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:organization
-	:content-type:mime-version:content-transfer-encoding;
-	bh=nVUSVgBxIi7az9TyCZrMLtri3PKnwqbgodAc/8FFggM=;
-	b=SWWJKh7k6ESpzETx9nXmgRcFTU5rOiOavC3KDeh3p9ScyNmMxCpTGGs7hKQr+TckZ/
-	QjE/WcTRIui95cIschry975jrKSilEh8ZlmLTvCgWB8tWxl8pdXRsTMbBAc8C6lurnj+
-	XnI/rpoHtD/BxEUIlStqRY/upyr1wIyZyudbrJ+gwPf2kF/CnXerqbzviBGGYp2nw9SX
-	XDrKrvTocS8wunEAJydQOB7qrxB+8oGovSm1UX6l/NKUBS/EPhqrB/GtOlVtT2ChCnpj
-	UHS74VnM1DfdgWqW3dvy381YDHwoogGGr6qM5L5yiE8fwB/R3U+oPW1wju3qhJbSIUaB
-	t7aA==
-X-Gm-Message-State: ALoCoQkLh7C4k7FmfJr0kQo+2H/SpYD/Bu79busuWQF82bShT3vDqFuefh1k3wVMQSG/kqq63CE5
-X-Received: by 10.107.41.76 with SMTP id p73mr3879978iop.58.1441348977376;
-	Thu, 03 Sep 2015 23:42:57 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=MCbK6bo7m86x7SoO3PS5G461pWfRv+sKeZT8Akh5lOc=;
+	b=E3GMG1tgspZweHoTuhe8ptYxVN0cq3/LQ+FgA3Ls54yKK4WzfiRtExOGKTY0NKec0n
+	bU+3tQ7y6mWenxNaKYKCEtnUgAByRchKwX13m3ZfneMVSju0NLGvrsfa3EOOE//pt2uy
+	XSHATVYZrXy9jA7NqFM8rL+PlK1GLNGTwXh24ZzfePYN1rPkc7fEMd4AbdrYSl13IX78
+	CNHGxVeDSvb0YIdS9euwXG7P4BuzO3MwW5TinwZCa9SX3/E7BselTQ0/EGa4du0OR/DQ
+	m81bPgAcvWwo8pwpWKpqDF6oXybTUPtU6CQMDYBP2b6GeoepvyfwT/SqEcYHBFu1/kr8
+	k6Hw==
+X-Gm-Message-State: ALoCoQngxR6wIKlEOlkuY1GJ85oF/J1x/vMPAKgMh9/2/QnTbnX4/zKHKcNY78Kt8D7hEPoqviHv
+X-Received: by 10.107.131.16 with SMTP id f16mr4181196iod.100.1441350515136;
+	Fri, 04 Sep 2015 00:08:35 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8FB6C.dip0.t-ipconnect.de. [93.232.251.108])
-	by smtp.gmail.com with ESMTPSA id z65sm890022ioi.38.2015.09.03.23.42.56
-	for <openembedded-core@lists.openembedded.org>
+	by smtp.gmail.com with ESMTPSA id c64sm935656ioc.13.2015.09.04.00.08.33
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 03 Sep 2015 23:42:56 -0700 (PDT)
-Message-ID: <1441348974.9573.42.camel@intel.com>
+	Fri, 04 Sep 2015 00:08:34 -0700 (PDT)
+Message-ID: <1441350512.9573.43.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Sep 2015 08:42:54 +0200
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 04 Sep 2015 09:08:32 +0200
+In-Reply-To: <78A0B9F1-2E28-492F-B07B-445089E6827E@gmail.com>
+References: <2ec9c7eef58ac9972154daa2d5d2d95d64931bd3.1441305437.git.patrick.ohly@intel.com>
+	<cover.1441305437.git.patrick.ohly@intel.com>
+	<f87dd02d2553c3cc459aac628e0435b93e1d32bb.1441305437.git.patrick.ohly@intel.com>
+	<78A0B9F1-2E28-492F-B07B-445089E6827E@gmail.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Subject: oe-init-build-env slowdown: chmod -R
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/8] initramfs-framework: create /dev/console
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,43 +52,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 06:43:00 -0000
+X-List-Received-Date: Fri, 04 Sep 2015 07:08:38 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hello!
+On Thu, 2015-09-03 at 14:34 -0700, Khem Raj wrote:
+> > On Sep 3, 2015, at 11:42 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> > 
+> >     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
+> > +
+> > +    # Create device nodes expected by some kernels in initramfs
+> > +    # before even executing /init.
+> > +    install -d ${D}/dev
+> > +    mknod -m 622 ${D}/dev/console c 5 1
+> > }
+> > 
+> 
+> may be just use USE_DEVFS = “0” instead if we are not letting devtmpfs into initrd image
 
-The following commit introduced a "chmod -R -st" on the build dir:
-
-commit f0d3587706fffdcc1c708013f6d6ce296dfc5f24
-Author: Alex Franco <alejandro.franco@linux.intel.com>
-Date:   Fri Aug 28 17:34:04 2015 -0500
-
-    Fix mode +st on TMPDIR when creating it
-    
-    A sanity check fails when TMPDIR has setuid, setgid set. It was
-    proposed to fix this on TMPDIR creation instead of failing with
-    a sanity test only. This patch handles removal of those special
-    bits (and additonally, the sticky bit) from BUILDDIR and TMPDIR
-    when these directories are created.
-
-In my case (*), that chmod takes about 2 minutes to complete. strace
-shows that it does a fchmodat on all files, even if nothing needs to be
-changed. atop then shows that this keeps the disk 100% busy with writes.
-I don't know what gets written (can't be the access time, I tried
-mounting with noatime).
-
-Are others seeing the same behavior? I can't rule out that my disk is
-just slow due to fragmentation.
-
-The following commands work much better for me. I can submit a patch if
-others see the same thing.
-
-        find . -perm /+st -print0 | xargs -0 --no-run-if-empty chmod -st
-
-
-(*) Debian 8, Linux 3.16.0-4-amd64, coreutils 8.23-4, ext4 on a SATA
-hard disk.
+The fix above is meant for the case were devfs is enabled (USE_DEVFS =
+"1"). In my observation, a completely empty /dev then prevents booting
+under qemu (see the "qemu + initramfs" mail thread).
 
 -- 
 Best Regards, Patrick Ohly
