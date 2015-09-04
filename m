@@ -1,30 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id A091F76FC9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 0200777038
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 15:59:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t84Fxqxg008044 for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Sep 2015 16:59:52 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id BAMJBV37HIYq
+	Fri,  4 Sep 2015 16:00:04 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so25858942pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 16:59:52 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t84FxcA7008027
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Sep 2015 16:59:50 +0100
-Message-ID: <1441382378.24871.180.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Sep 2015 16:59:38 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] oeqa: Test failure/cleanup improvements
+	Fri, 04 Sep 2015 09:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=qWvxF2ozxWPWEVeRgRLCdPwofYmD24pznZa8CIVCSs0=;
+	b=a6R7eNteokWR4/3kCuvAjVb92uytuY+7lkvCbg8cJxJbiwnmWSVH/fWfgCFFG6/iUU
+	4+ddBeo0G7VGLIVhaUTH3A8/LOnagPkNCOJ2hAfXcMZylHE3DHISen8ffPxhu0t3/UBl
+	/dz1O1dXtAMSEiNC9kvvr6+0Yp+Dt7zw4YIkSAqkaHN9ww2RKAOuD+SHbxdW80DY2AAS
+	CgyNgqfWjs57aZ+EhRiq2yDtp5pIHV0KERrSb2CkTc3SecmYwGpv1xkDXW9ssGqIvXwQ
+	x5fgzYrGhPVRbihn63mlnWqtPn5r9UrmAMLXfeHwlALsOElA7qMEX3d3qdz4BJ6tKg2K
+	3hXw==
+X-Received: by 10.66.250.226 with SMTP id zf2mr9698267pac.20.1441382403679;
+	Fri, 04 Sep 2015 09:00:03 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:9840:3a97:97d7:650a?
+	([2601:646:8601:4580:9840:3a97:97d7:650a])
+	by smtp.gmail.com with ESMTPSA id
+	cs6sm2974687pdb.40.2015.09.04.09.00.02
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 04 Sep 2015 09:00:02 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LZDX+hQiAw4cw6Xt6B6YOHPjznO_dSPCSzbQgbz6SVR9Q@mail.gmail.com>
+Date: Fri, 4 Sep 2015 08:59:57 -0700
+Message-Id: <731F6820-34E6-492D-81B4-8393583D7AD3@gmail.com>
+References: <1441380461.24871.171.camel@linuxfoundation.org>
+	<2CF81DE4-D260-4561-AE95-F321C093AE13@gmail.com>
+	<CAJTo0LZDX+hQiAw4cw6Xt6B6YOHPjznO_dSPCSzbQgbz6SVR9Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tcmode-default: Set gcc 5.2 as the default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,178 +50,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 15:59:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 04 Sep 2015 16:00:09 -0000
+X-Groupsio-MsgNum: 70687
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_1492A6B9-0BCB-4C23-9155-979623B6B9F9";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_1492A6B9-0BCB-4C23-9155-979623B6B9F9
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_BE6ABE0A-6F7D-4EFA-8F9B-604648DC2422"
+
+--Apple-Mail=_BE6ABE0A-6F7D-4EFA-8F9B-604648DC2422
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+> On Sep 4, 2015, at 8:32 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 4 September 2015 at 16:29, Khem Raj <raj.khem@gmail.com =
+<mailto:raj.khem@gmail.com>> wrote:
+> a small nit. Make it 5.% to logically indicate that 5.x is a bug fix =
+release and next big upgrade will be
+> 6.x
+>=20
+> To be honest I'd prefer *any* change to the compiler beyond eg 5.2.0 =
+-> 5.2.1 to be explicit.  I think we've all seen enough breakage from a =
+"bug fix" release to know that it needs a proper test.
+>=20
+
+well to put it in simple way gcc has changes its release numbers so
+
+4.9.x  is same as 5.x now ( bug fix release) . Does that help
+
+> Ross
+
+
+--Apple-Mail=_BE6ABE0A-6F7D-4EFA-8F9B-604648DC2422
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Sep 4, 2015, at 8:32 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 4 September 2015 at 16:29, Khem Raj <span =
+dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:raj.khem@gmail.com" =
+target=3D"_blank" class=3D"">raj.khem@gmail.com</a>&gt;</span> wrote:<br =
+class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":34o" =
+class=3D"a3s" style=3D"overflow:hidden">a small nit. Make it 5.% to =
+logically indicate that 5.x is a bug fix release and next big upgrade =
+will be<br class=3D"">
+6.x<br class=3D""></div></blockquote></div><br class=3D"">To be honest =
+I'd prefer *any* change to the compiler beyond eg 5.2.0 -&gt; 5.2.1 to =
+be explicit.&nbsp; I think we've all seen enough breakage from a "bug =
+fix" release to know that it needs a proper test.</div><div =
+class=3D"gmail_extra"><br =
+class=3D""></div></div></div></blockquote><div><br =
+class=3D""></div><div>well to put it in simple way gcc has changes its =
+release numbers so&nbsp;</div><div><br class=3D""></div><div>4.9.x =
+&nbsp;is same as 5.x now ( bug fix release) . Does that help</div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D""><div =
+dir=3D"ltr" class=3D""><div class=3D"gmail_extra">Ross</div></div>
+</div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_BE6ABE0A-6F7D-4EFA-8F9B-604648DC2422--
+
+--Apple-Mail=_1492A6B9-0BCB-4C23-9155-979623B6B9F9
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-Currently, if qemu segfaults, the tests merrily continue trying to execute
-which takes time for them to timeout and is a bit silly. Worse, no logs about
-the segfault are shown to the user, its silent!
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-This patch tries to unravel the tangled web of issues and ensures that we:
+iEYEARECAAYFAlXpwAEACgkQuwUzVZGdMxTb7ACfdR3I1QELhVBFolAH5c8LrF3Q
+F4kAn3ae7FViiS10csaAS4mcYUOAc4p4
+=f3sw
+-----END PGP SIGNATURE-----
 
-* install a SIGCHLD handler which tells the user qemu exited
-* check if qemu is running, if it isn't fail the test outright
-* don't leave processes behind in sshcontrol which would hold
-  bitbake.lock and block shutdown
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index 9724325..ff62c30 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -144,6 +144,9 @@ class oeRuntimeTest(oeTest):
-         self.target = oeRuntimeTest.tc.target
-         super(oeRuntimeTest, self).__init__(methodName)
- 
-+    def setUp(self):
-+        self.assertTrue(self.target.check(), msg = "Qemu not running?")
-+
-     def tearDown(self):
-         # If a test fails or there is an exception
-         if not exc_info() == (None, None, None):
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 542e259..edc0d01 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -188,6 +188,9 @@ class QemuTarget(BaseTarget):
-                     bb.error("Qemu log output from %s:\n%s" % (self.qemulog, f.read()))
-             raise bb.build.FuncFailed("%s - FAILED to start qemu - check the task log and the boot log" % self.pn)
- 
-+    def check(self):
-+        return self.runner.is_alive()
-+
-     def stop(self):
-         self.runner.stop()
-         self.connection = None
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 3ad747a..c04ee0d 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -64,6 +64,22 @@ class QemuRunner:
-             with open(self.logfile, "a") as f:
-                 f.write("%s" % msg)
- 
-+    def getOutput(self, o):
-+        import fcntl
-+        fl = fcntl.fcntl(o, fcntl.F_GETFL)
-+        fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-+        return os.read(o.fileno(), 1000000)
-+
-+
-+    def handleSIGCHLD(self, signum, frame):
-+        if self.runqemu and self.runqemu.poll():
-+            if self.runqemu.returncode:
-+                logger.info('runqemu exited with code %d' % self.runqemu.returncode)
-+                logger.info("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
-+                self.stop()
-+                self._dump_host()
-+                raise SystemExit
-+
-     def start(self, qemuparams = None):
-         if self.display:
-             os.environ["DISPLAY"] = self.display
-@@ -98,11 +114,8 @@ class QemuRunner:
-         if qemuparams:
-             self.qemuparams = self.qemuparams[:-1] + " " + qemuparams + " " + '\"'
- 
--        def getOutput(o):
--            import fcntl
--            fl = fcntl.fcntl(o, fcntl.F_GETFL)
--            fcntl.fcntl(o, fcntl.F_SETFL, fl | os.O_NONBLOCK)
--            return os.read(o.fileno(), 1000000)
-+        self.origchldhandler = signal.getsignal(signal.SIGCHLD)
-+        signal.signal(signal.SIGCHLD, self.handleSIGCHLD)
- 
-         launch_cmd = 'runqemu tcpserial=%s %s %s %s' % (self.serverport, self.machine, self.rootfs, self.qemuparams)
-         # FIXME: We pass in stdin=subprocess.PIPE here to work around stty
-@@ -122,7 +135,7 @@ class QemuRunner:
-                     logger.info('runqemu exited with code %d' % self.runqemu.returncode)
-                     self._dump_host()
-                     self.stop()
--                    logger.info("Output from runqemu:\n%s" % getOutput(output))
-+                    logger.info("Output from runqemu:\n%s" % self.getOutput(output))
-                     return False
-             time.sleep(1)
- 
-@@ -139,7 +152,7 @@ class QemuRunner:
-                     self.ip = ips[0]
-                     self.server_ip = ips[1]
-             except IndexError, ValueError:
--                logger.info("Couldn't get ip from qemu process arguments! Here is the qemu command line used:\n%s\nand output from runqemu:\n%s" % (cmdline, getOutput(output)))
-+                logger.info("Couldn't get ip from qemu process arguments! Here is the qemu command line used:\n%s\nand output from runqemu:\n%s" % (cmdline, self.getOutput(output)))
-                 self._dump_host()
-                 self.stop()
-                 return False
-@@ -154,7 +167,7 @@ class QemuRunner:
-                 logger.error("Didn't receive a console connection from qemu. "
-                              "Here is the qemu command line used:\n%s\nand "
-                              "output from runqemu:\n%s" % (cmdline,
--                                                           getOutput(output)))
-+                                                           self.getOutput(output)))
-                 self.stop_thread()
-                 return False
- 
-@@ -213,7 +226,7 @@ class QemuRunner:
-             logger.info("Qemu pid didn't appeared in %s seconds" % self.runqemutime)
-             self._dump_host()
-             self.stop()
--            logger.info("Output from runqemu:\n%s" % getOutput(output))
-+            logger.info("Output from runqemu:\n%s" % self.getOutput(output))
-             return False
- 
-         return self.is_alive()
-@@ -240,6 +253,7 @@ class QemuRunner:
-             self.server_socket = None
-         self.qemupid = None
-         self.ip = None
-+        signal.signal(signal.SIGCHLD, self.origchldhandler)
- 
-     def stop_thread(self):
-         if self.thread and self.thread.is_alive():
-@@ -255,6 +269,8 @@ class QemuRunner:
-         return False
- 
-     def is_alive(self):
-+        if not self.runqemu:
-+            return False
-         qemu_child = self.find_child(str(self.runqemu.pid))
-         if qemu_child:
-             self.qemupid = qemu_child[0]
-diff --git a/meta/lib/oeqa/utils/sshcontrol.py b/meta/lib/oeqa/utils/sshcontrol.py
-index 6ed48ba..00f5051 100644
---- a/meta/lib/oeqa/utils/sshcontrol.py
-+++ b/meta/lib/oeqa/utils/sshcontrol.py
-@@ -42,7 +42,7 @@ class SSHProcess(object):
-             with open(self.logfile, "a") as f:
-                f.write("%s" % msg)
- 
--    def run(self, command, timeout=None, logfile=None):
-+    def _run(self, command, timeout=None, logfile=None):
-         self.logfile = logfile
-         self.starttime = time.time()
-         output = ''
-@@ -79,8 +79,18 @@ class SSHProcess(object):
- 
-         self.status = self.process.wait()
-         self.output = output.rstrip()
--        return (self.status, self.output)
- 
-+    def run(self, command, timeout=None, logfile=None):
-+        try:
-+            self._run(command, timeout, logfile)
-+        except:
-+            # Need to guard against a SystemExit or other exception occuring whilst running
-+            # and ensure we don't leave a process behind.
-+            if self.process.poll() is None:
-+                self.process.kill()
-+                self.status = self.process.wait()
-+            raise
-+        return (self.status, self.output)
- 
- class SSHControl(object):
-     def __init__(self, ip, logfile=None, timeout=300, user='root', port=None):
-
-
-
+--Apple-Mail=_1492A6B9-0BCB-4C23-9155-979623B6B9F9--
