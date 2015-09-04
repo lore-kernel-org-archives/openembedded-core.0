@@ -1,19 +1,34 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 188DE76FC9
+Return-Path: <eu@felipetonello.com>
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CE59D77016
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 08:10:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id B5E761588C6A
-Message-ID: <1441354255.3071.5.camel@collabora.co.uk>
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 04 Sep 2015 09:10:55 +0100
-In-Reply-To: <1441311635-6303-1-git-send-email-sgw@linux.intel.com>
-References: <1441311635-6303-1-git-send-email-sgw@linux.intel.com>
-X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
-Mime-Version: 1.0
-Subject: Re: [PATCH][master/fido/dizzy] oprofileui: Use inherit gettext
+	Fri,  4 Sep 2015 09:05:10 +0000 (UTC)
+Received: by lamp12 with SMTP id p12so9022355lam.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Sep 2015 02:05:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
+	:content-type;
+	bh=DiI84axCwZ/romqYRhn2trmTa1rIExauFk517veGHS4=;
+	b=X2kL9j3oWRFWDQyT6ie8SbT0snboyx96VK5Cq9zOZ7MhaWsFuje3C5Keni+U32lMYt
+	XQfk2/vtA8rZLEjwXrh07gGa4uctCh/Z5Rds0TD7d82IScnlP4WaLA6Rogzv98cjgQw1
+	YfTKJycRlesob88G+g4pFEAMwrYKsHd5VXQfMFTyhlSjrKDHlBVpoE/cnffrGDXIqmil
+	n8+FuVXxX4YvYb7lHGS2hcfFFUnSBImMbCXMsTPlOkN8qvc+42WIi6cHyADvhlI2VqMl
+	rinEbN82AkAfQIsZ1nNX+8Iq1UbycoB4YKbAtB9oRGHJYeI0c8OGqcQDUPM3skWFOEey
+	xa9A==
+X-Gm-Message-State: ALoCoQmEcwQdXLI/NamEewQYd8z7hfI80Bh0FBdstnzf/XPcTSIo+sOibK3iYYpKDIpP8Kjt8qVF
+MIME-Version: 1.0
+X-Received: by 10.152.45.69 with SMTP id k5mr2643441lam.13.1441357509722; Fri,
+	04 Sep 2015 02:05:09 -0700 (PDT)
+Received: by 10.25.60.193 with HTTP; Fri, 4 Sep 2015 02:05:09 -0700 (PDT)
+Date: Fri, 4 Sep 2015 10:05:09 +0100
+Message-ID: <CAGrhNMy9tDeSecYg3avrzem+tZt0Sh3mmOrG6J2JqBhaj-C53g@mail.gmail.com>
+From: Felipe Tonello <eu@felipetonello.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Remove oprofileui-server
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,50 +41,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 08:10:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Sep 2015 09:05:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Thu, 2015-09-03 at 13:20 -0700, Saul Wold wrote:
-> oprofileui uses gettext during the configuration task so should be
-> inherit
-> gettext. This issue appears when an older version of gettext is used
-> do to
-> pinning to the older non-gplv3 version.
-> 
-> [YOCTO #7795]
+Hi,
 
-I've queued this in my fido-next branch[1].
+oprofileui-server is obsolete since it uses legacy OProfile's
+'opcontrol'  commands to record a session, instead of operf. It
+doesn't work on fido builds.
 
-Cheers,
+Anyone familiar with the code base can tell if it is too much work to
+update it to use operf?
 
-Joshua
-
-1. http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshua
-gl/fido-next
-
-> 
-> Signed-off-by: Saul Wold <sgw@linux.intel.com>
-> ---
->  meta/recipes-kernel/oprofile/oprofileui.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-kernel/oprofile/oprofileui.inc
-> b/meta/recipes-kernel/oprofile/oprofileui.inc
-> index 1dfd0c6..8fcf014 100644
-> --- a/meta/recipes-kernel/oprofile/oprofileui.inc
-> +++ b/meta/recipes-kernel/oprofile/oprofileui.inc
-> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "
-> file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
->  
->  DEPENDS = "glib-2.0 avahi intltool-native"
->  
-> -inherit autotools pkgconfig
-> +inherit autotools pkgconfig gettext
->  
->  EXTRA_OECONF = "--with-avahi"
->  
-> -- 
-> 2.1.0
-> 
+Felipe
 
