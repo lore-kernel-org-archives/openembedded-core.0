@@ -1,28 +1,40 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D2B37702B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by mail.openembedded.org (Postfix) with ESMTP id DB94877045
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 13:32:27 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Sep 2015 06:32:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,469,1437462000"; d="scan'208";a="782652485"
-Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.154])
-	([10.218.99.154])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Sep 2015 06:32:26 -0700
-Message-ID: <1441373521.2545.19.camel@bottazzini-ThinkPad-T430>
-From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
-To: Saul Wold <sgw@linux.intel.com>
-Date: Fri, 04 Sep 2015 10:32:01 -0300
-In-Reply-To: <55E8D96A.80403@linux.intel.com>
-References: <bruno.bottazzini@intel.com>
-	<1441135341-2048-1-git-send-email-bruno.bottazzini@intel.com>
-	<55E8D96A.80403@linux.intel.com>
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-Mime-Version: 1.0
-Cc: "Hart, Darren" <darren.hart@intel.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] scripts: Create interactive menu for mkefidisk script
+	Fri,  4 Sep 2015 13:33:12 +0000 (UTC)
+Received: by qkdv1 with SMTP id v1so8457852qkd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 04 Sep 2015 06:33:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=X2VkEtJQoWgkn2g6CTblYSLLaFj9rkrEcV6Vv4eH++Q=;
+	b=GoRdC0WZEFFrNRE0LQzQF6S1VuIrwkuK8T3fLRKF9hOTGP7RtVpjqtevqxD6R3xWhe
+	BkSafrQl/x+cIBRER5siLnRybAUZ85/VeOebcyH8jNuPFknXxGmiCYi+9LFVF765GQfY
+	Id4F0dBgdAVOXgW5LceZqv6OdgUhXYrMqSOWouMvR5Mj3JoV/F6Etug3mATZmx48MKyo
+	2kMLW5Ig0b/AK5aWzm1oJYOn+alORLJ8nT3WFaItn3E+rcRnZi6U5hTvmeewAesE77A7
+	QQjsNA6MNSQLJxGE0uNt4xZwjcN8knt2Lvw96r4UQ4d0GIy8Tzb1iipyMyuujal/lFLK
+	Tt3w==
+X-Gm-Message-State: ALoCoQn6V13yuiHFEXNXRpeNYtK8llt77FTYx45FJfS0/95n0330etnGtYvk6I65WupdWD+OlDtC
+X-Received: by 10.55.15.3 with SMTP id z3mr5139755qkg.29.1441373592789; Fri,
+	04 Sep 2015 06:33:12 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Fri, 4 Sep 2015 06:32:53 -0700 (PDT)
+In-Reply-To: <55E98AC2.7050107@linux.intel.com>
+References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
+	<f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>
+	<CAJTo0LYdE-XZkCASy9n3uuL_HrrFTZKC5a3aA0Mj4FU4kOPnew@mail.gmail.com>
+	<CAHiDW_EOBOQEzZbQRa7kyapoNWTod-pNDtZQ90u6e0fVv+=OSg@mail.gmail.com>
+	<55E98AC2.7050107@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 4 Sep 2015 14:32:53 +0100
+Message-ID: <CAJTo0LbC_DB0gskfx8Rc4iG=SKhLkRB7dtFv1iVZ-y2J0oPeNg@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/12] gnome-icon-theme: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,129 +47,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 13:32:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Sep 2015 13:33:14 -0000
+Content-Type: multipart/alternative; boundary=001a11474c60fcf8da051eebf025
 
-On Thu, 2015-09-03 at 16:36 -0700, Saul Wold wrote:
-> On 09/01/2015 12:22 PM, Bruno Bottazzini wrote:
-> > If it is passed only the image parameter, it will show some interactive
-> > options to help to conclude the script.
-> >
-> > With this patch it will detect devices available in the machine, asking
-> > to choose what it is wanted to be flashed.
-> >
-> > it will suggest the target device. If it is a SD card the suggestion
-> > is /dev/mmcblk0. If it is a pendrive it will suggest to use /dev/sda.
-> >
-> 
-> I am little concerned by this patch since it allows the root disk to be 
-> selected, even if someone can type it on the command line, but offering 
-> it in list would make someone believe that it was OK.
+--001a11474c60fcf8da051eebf025
+Content-Type: text/plain; charset=UTF-8
 
-You are totally right. 
+On 4 September 2015 at 13:12, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-However, the script already warn and handles this kind of situation. 
-Also, this gives free will to the user. I don't see this as problem but
-something, besides as you have told the user may pass it as argument
-too. Maybe we can change the header message telling "all detect storage"
-or something like this?
+> I just did some tests and indeed pcmanfm looks bad when there is no icon
+> theme at all, or when there is gnome-icon-theme, but looks ok with adwaita.
+> So it needs a soft dependency on that, and gnome-icon-theme can still be
+> dropped. If we find any other app that needs icons, then adwaita is the
+> provider (which reminds me, I need to put the same dependency into epiphany
+> recipe).
+>
 
-I was wondering if the user wants to flash a H.D. when running a live CD
-and then maybe the root may be a right choice.
+Excellent, thanks.
 
-Since I have started using this patch, it got really faster when it
-comes flashing the device (I don't have to remember parameters every
-time). I think this will be a really good new feature for this script.
+Ross
 
-> 
-> 
-> > Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
-> > ---
-> >   scripts/contrib/mkefidisk.sh | 60 ++++++++++++++++++++++++++++++++++++++++----
-> >   1 file changed, 55 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-> > index 55f72b0..7628de7 100755
-> > --- a/scripts/contrib/mkefidisk.sh
-> > +++ b/scripts/contrib/mkefidisk.sh
-> > @@ -152,8 +152,52 @@ unmount() {
-> >   # Parse and validate arguments
-> >   #
-> >   if [ $# -lt 3 ] || [ $# -gt 4 ]; then
-> > -	usage
-> > -	exit 1
-> > +    if [ $# -eq 1 ]; then
-> > +        AVAILABLE_DISK=`fdisk -l | grep "Disk /" | cut -f 1 -d ':' | cut -f 2 -d ' '`
-> > +        if [ -z "$AVAILABLE_DISK" ]; then
-> > +            die "Starting mkefidisk.sh as root is required"
-> > +        fi
-> > +        echo "Available disks are"
-> > +        X=0
-> > +        for line in `echo $AVAILABLE_DISK`; do
-> > +            info "$X - $line"
-> > +            X=`expr $X + 1`
-> > +        done
-> > +        read -p "Choose flashable device number: " DISK_NUMBER
-> > +        X=0
-> > +        for line in `echo $AVAILABLE_DISK`; do
-> > +            if [ $DISK_NUMBER -eq $X ]; then
-> > +                DISK_TO_BE_FLASHED=$line
-> > +                break
-> > +            else
-> > +                X=`expr $X + 1`
-> > +            fi
-> > +        done
-> > +        if [ -z "$DISK_TO_BE_FLASHED" ]; then
-> > +            die "Option \"$DISK_NUMBER\" is invalid. Choose a valid option"
-> > +        else
-> > +            if [ -z `echo $DISK_TO_BE_FLASHED | grep "mmc"` ]; then
-> > +                TARGET_TO_BE_BOOT="/dev/sda"
-> > +            else
-> > +                TARGET_TO_BE_BOOT="/dev/mmcblk0"
-> > +            fi
-> > +        fi
-> > +        echo ""
-> > +        echo "Choose a name of the device that will be boot from"
-> > +        echo -n "Recommended name is: "
-> > +        info "$TARGET_TO_BE_BOOT\n"
-> The \n usage is probably wrong here.
-> 
-> > +        read -p "Is target device okay? [y/N]: " RESPONSE
-> > +        if [ "$RESPONSE" != "y" ]; then
-> > +            read -p "Choose target device name: " TARGET_TO_BE_BOOT
-> > +        fi
-> > +        echo ""
-> > +        if [ -z "$TARGET_TO_BE_BOOT" ]; then
-> > +            die "Error: choose a valid target name"
-> > +        fi
-> > +    else
-> > +        usage
-> > +	    exit 1
-> > +    fi
-> >   fi
-> >
-> >   if [ "$1" = "-v" ]; then
-> > @@ -162,9 +206,15 @@ if [ "$1" = "-v" ]; then
-> >   	shift
-> >   fi
-> >
-> > -DEVICE=$1
-> > -HDDIMG=$2
-> > -TARGET_DEVICE=$3
-> > +if [ -z "$AVAILABLE_DISK" ]; then
-> > +    DEVICE=$1
-> > +    HDDIMG=$2
-> > +    TARGET_DEVICE=$3
-> > +else
-> > +    DEVICE=$DISK_TO_BE_FLASHED
-> > +    HDDIMG=$1
-> > +    TARGET_DEVICE=$TARGET_TO_BE_BOOT
-> > +fi
-> >
-> >   LINK=$(readlink $DEVICE)
-> >   if [ $? -eq 0 ]; then
-> >
+--001a11474c60fcf8da051eebf025
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 4 September 2015 at 13:12, Alexander Kanavin <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander=
+.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
+:1ex"><div id=3D":3nc" class=3D"a3s" style=3D"overflow:hidden">I just did s=
+ome tests and indeed pcmanfm looks bad when there is no icon theme at all, =
+or when there is gnome-icon-theme, but looks ok with adwaita. So it needs a=
+ soft dependency on that, and gnome-icon-theme can still be dropped. If we =
+find any other app that needs icons, then adwaita is the provider (which re=
+minds me, I need to put the same dependency into epiphany recipe).<br></div=
+></blockquote></div><br>Excellent, thanks.</div><div class=3D"gmail_extra">=
+<br></div><div class=3D"gmail_extra">Ross</div></div>
 
-
+--001a11474c60fcf8da051eebf025--
