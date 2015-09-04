@@ -1,36 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
-	[209.85.212.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C273B77040
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f174.google.com (mail-ig0-f174.google.com
+	[209.85.213.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 970727704E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 18:55:53 +0000 (UTC)
-Received: by wibz8 with SMTP id z8so26531012wib.1
+	Fri,  4 Sep 2015 19:13:12 +0000 (UTC)
+Received: by igbni9 with SMTP id ni9so20951910igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Sep 2015 11:55:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1aA0hzgh2ilg7RkRYvPI+H904nH91TI/0jcJ4bfDtUE=;
-	b=Im/nZKMwfmFlLpHhySFZCdVXpY8H3mB0/OcdMDUOOBb0CjrlcDhGo2lFHMV36ODWiK
-	s7tgwAdlyqE8cZ0PwfTf3Rtcsro/JvxnmfZX46ZsKQu2YAfemCHKYf/WoBrVwxzUJ2DN
-	Vzl5g+mU4pQYhZPTgYI3IXSFZucoTOUDA3u5Lc2M2vsNdQpd30fg1GT8gpkri9CH4Rl+
-	SpPRZixIAGTgJ93vov0jp+yWJ/TkJwfRZU2trVGkycJqgBPHPwaMDDCDqRmPnzFx5fiQ
-	zvrP/u+CC4bGT/frdUmLlNynIXyhYdvbQ4/CuqWyjdNdFcVz+RaLn5bChVlv11mU9E5F
-	KwuA==
-X-Received: by 10.180.103.2 with SMTP id fs2mr9651148wib.4.1441392953901;
-	Fri, 04 Sep 2015 11:55:53 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id 4sm5591146wjt.46.2015.09.04.11.55.53
+	Fri, 04 Sep 2015 12:13:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:content-type:mime-version
+	:content-transfer-encoding;
+	bh=SStQChNgzV2d1wVNkXwAscpnVy4nXsgD0go8Ic4fzZQ=;
+	b=g9pv5iq1jACt4RitK2Rx3/6HzCFJcbguLc+A2GXzzaFRvVISr/U4gOFMv7bAVanD9j
+	okXgDTGYs1kySCpiRcPoFphJHHCuKJvXdXpNedd3ETd9kgGbb8MPIiBqB460iNTzNOdC
+	bWN56s4RKjEz+oEi+PFqpoRtaQZLtm3ksuH6gu1/utIetcFfIeMk9Eb4cJ7lEUU1PcPf
+	2Wc8A17h2jUUqU/AsEKCULiGZsfZo86pE0TAJIhv8iAX92X4A6SFT5UgMTbZF9Bc3yV6
+	rIPev/8z1SNfI7SZQ6a27BhZN9ebHg/Xa7ME8lMdeqdaE8GgQYua1Zbu+e7Kq9emQz3X
+	61UQ==
+X-Gm-Message-State: ALoCoQkoAezrIxmNDLzWzznbdKpyqY8q6PweGXEr+O+h73MygpmRU/eMwuQ/9MdCqK7mpD4/3PHk
+X-Received: by 10.50.44.73 with SMTP id c9mr10112537igm.3.1441393992934;
+	Fri, 04 Sep 2015 12:13:12 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8FB6C.dip0.t-ipconnect.de. [93.232.251.108])
+	by smtp.gmail.com with ESMTPSA id
+	y14sm2010743iod.12.2015.09.04.12.13.10
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 Sep 2015 11:55:53 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Sep 2015 20:56:24 +0200
-Message-Id: <1441392984-24965-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.5.0
-In-Reply-To: <1441369348-32182-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1441369348-32182-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [RFC][PATCH] rootfs.py: show intercept script output in log.do_rootfs
+	Fri, 04 Sep 2015 12:13:12 -0700 (PDT)
+Message-ID: <1441393988.9573.65.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Fri, 04 Sep 2015 21:13:08 +0200
+In-Reply-To: <55E750B8.70107@linux.intel.com>
+References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<16f26bbb5fa39e399b185cd26fe9205c2e0cc5d4.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
+	<1440746955.3006.73.camel@intel.com> <55E06356.8000607@linux.intel.com>
+	<1440785288.3006.93.camel@intel.com> <55E750B8.70107@linux.intel.com>
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: "Stoppa, Igor" <igor.stoppa@intel.com>, matt.fleming@intel.com,
+	leonardo.sandoval.gonzalez@intel.com, ricardo.neri@intel.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3 3/3] runqemu: Define OECORE_MACHINE_SYSROOT on setup_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +55,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 18:55:55 -0000
+X-List-Received-Date: Fri, 04 Sep 2015 19:13:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* without this the output wasn't shown anywhere even when the bb.warn
-  says:
-  "See log for details!"
+On Wed, 2015-09-02 at 14:40 -0500, Leonardo Sandoval wrote:
+> these set of patches should be merged into master(next). I do not see 
+> any heavy objection doing it. As you mentioned, there are some points to 
+> improve but I think the latter can be done before 2.1 release.
+> 
+> Let me know if you have any objections, otherwise the merge is pending.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/lib/oe/rootfs.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+No objections from me.
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 76950ec..2372226 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -279,7 +279,7 @@ class Rootfs(object):
-             bb.note("> Executing %s intercept ..." % script)
- 
-             try:
--                subprocess.check_output(script_full)
-+                subprocess.check_call(script_full)
-             except subprocess.CalledProcessError as e:
-                 bb.warn("The postinstall intercept hook '%s' failed (exit code: %d)! See log for details!" %
-                         (script, e.returncode))
 -- 
-2.5.0
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
