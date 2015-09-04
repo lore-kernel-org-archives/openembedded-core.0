@@ -1,26 +1,39 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2510B7700B
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E82CC7701D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 03:28:26 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t843SQss005831
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  4 Sep 2015 06:42:57 +0000 (UTC)
+Received: by ioiz6 with SMTP id z6so13540357ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 3 Sep 2015 20:28:27 -0700 (PDT)
-Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 3 Sep 2015 20:28:26 -0700
-From: Peter Seebach <peter.seebach@windriver.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 3 Sep 2015 22:28:24 -0500
-Message-ID: <709779e96e115ed29b9ab7d0e9ba9fba38c584e7.1441336912.git.peter.seebach@windriver.com>
-X-Mailer: git-send-email 2.3.1
-In-Reply-To: <cover.1441336912.git.peter.seebach@windriver.com>
-References: <cover.1441336912.git.peter.seebach@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] pseudo_1.7.2.bb: New version of pseudo
+	Thu, 03 Sep 2015 23:42:57 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:message-id:subject:from:to:date:organization
+	:content-type:mime-version:content-transfer-encoding;
+	bh=nVUSVgBxIi7az9TyCZrMLtri3PKnwqbgodAc/8FFggM=;
+	b=SWWJKh7k6ESpzETx9nXmgRcFTU5rOiOavC3KDeh3p9ScyNmMxCpTGGs7hKQr+TckZ/
+	QjE/WcTRIui95cIschry975jrKSilEh8ZlmLTvCgWB8tWxl8pdXRsTMbBAc8C6lurnj+
+	XnI/rpoHtD/BxEUIlStqRY/upyr1wIyZyudbrJ+gwPf2kF/CnXerqbzviBGGYp2nw9SX
+	XDrKrvTocS8wunEAJydQOB7qrxB+8oGovSm1UX6l/NKUBS/EPhqrB/GtOlVtT2ChCnpj
+	UHS74VnM1DfdgWqW3dvy381YDHwoogGGr6qM5L5yiE8fwB/R3U+oPW1wju3qhJbSIUaB
+	t7aA==
+X-Gm-Message-State: ALoCoQkLh7C4k7FmfJr0kQo+2H/SpYD/Bu79busuWQF82bShT3vDqFuefh1k3wVMQSG/kqq63CE5
+X-Received: by 10.107.41.76 with SMTP id p73mr3879978iop.58.1441348977376;
+	Thu, 03 Sep 2015 23:42:57 -0700 (PDT)
+Received: from pohly-mobl1 (p5DE8FB6C.dip0.t-ipconnect.de. [93.232.251.108])
+	by smtp.gmail.com with ESMTPSA id z65sm890022ioi.38.2015.09.03.23.42.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 03 Sep 2015 23:42:56 -0700 (PDT)
+Message-ID: <1441348974.9573.42.camel@intel.com>
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Date: Fri, 04 Sep 2015 08:42:54 +0200
+Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Subject: oe-init-build-env slowdown: chmod -R
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,83 +46,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 03:28:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 04 Sep 2015 06:43:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Pseudo 1.7 adds an experimental feature (which I think needs more testing
-before it becomes the default) allowing the pseudo client to store modes
-and uid/gid values in extended attributes rather than using the sqlite
-database. On most Linux-like systems, this works only if the underlying
-file is a plain file or a directory.
+Hello!
 
-Also added is a profiling feature to allow some amount of reporting on
-the wall-clock time the client spends in wrappers, processing operations,
-or in IPC. This feature is not intendeded to be precisely accurate, but
-gives a good overview of where time is going.
+The following commit introduced a "chmod -R -st" on the build dir:
 
-Based on the results from the profiling feature, the client now suppresses
-OP_OPEN and OP_EXEC messages if the server is not logging messages, and
-no longer uses constant dynamic allocation and free cycles for canonicalized
-paths.
+commit f0d3587706fffdcc1c708013f6d6ce296dfc5f24
+Author: Alex Franco <alejandro.franco@linux.intel.com>
+Date:   Fri Aug 28 17:34:04 2015 -0500
 
-There's a few other likely-looking optimizations being considered, but
-this seemed like a good cutoff for now.
+    Fix mode +st on TMPDIR when creating it
+    
+    A sanity check fails when TMPDIR has setuid, setgid set. It was
+    proposed to fix this on TMPDIR creation instead of failing with
+    a sanity test only. This patch handles removal of those special
+    bits (and additonally, the sticky bit) from BUILDDIR and TMPDIR
+    when these directories are created.
 
-1.7.1 fixes two bugs, one affecting mostly XFS systems with 64-bit
-inode values, and one affecting code that called realpath(x, NULL), such
-as the RPM backend.
+In my case (*), that chmod takes about 2 minutes to complete. strace
+shows that it does a fchmodat on all files, even if nothing needs to be
+changed. atop then shows that this keeps the disk 100% busy with writes.
+I don't know what gets written (can't be the access time, I tried
+mounting with noatime).
 
-1.7.2 fixes an indirect side-effect of the chmod fixes to deal with
-umask 0700, which had no effect with opkg 0.2.4 but appears to cause
-failures with 0.3.0.
+Are others seeing the same behavior? I can't rule out that my disk is
+just slow due to fragmentation.
 
-Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
----
- meta/recipes-devtools/pseudo/pseudo_1.7.2.bb | 19 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb   |  4 ++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.7.2.bb
+The following commands work much better for me. I can submit a patch if
+others see the same thing.
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_1.7.2.bb b/meta/recipes-devtools/pseudo/pseudo_1.7.2.bb
-new file mode 100644
-index 0000000..57704a2
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/pseudo_1.7.2.bb
-@@ -0,0 +1,19 @@
-+require pseudo.inc
-+
-+SRC_URI = " \
-+    http://downloads.yoctoproject.org/releases/pseudo/${BPN}-${PV}.tar.bz2 \
-+    file://fallback-passwd \
-+    file://fallback-group \
-+"
-+
-+SRC_URI[md5sum] = "a293a0b38fca6efc9313af24a7cfa369"
-+SRC_URI[sha256sum] = "f0c4fbd7b19622648bfee66bdfcbfc66de6e63d3ec601ca1922b1839143a2f11"
-+
-+PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback"
-+
-+do_install_append_class-native () {
-+	install -d ${D}${sysconfdir}
-+	# The fallback files should never be modified
-+	install -m 444 ${WORKDIR}/fallback-passwd ${D}${sysconfdir}/passwd
-+	install -m 444 ${WORKDIR}/fallback-group ${D}${sysconfdir}/group
-+}
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index aa315d3..31e1223 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,7 +1,7 @@
- require pseudo.inc
- 
--SRCREV = "db758fb11167c79d9682a17d359568e2a3c4acd5"
--PV = "1.6.5+git${SRCPV}"
-+SRCREV = "e795df44a90a426a76b790f1b2774f3046a8fc31"
-+PV = "1.7.2+git${SRCPV}"
- 
- DEFAULT_PREFERENCE = "-1"
- 
+        find . -perm /+st -print0 | xargs -0 --no-run-if-empty chmod -st
+
+
+(*) Debian 8, Linux 3.16.0-4-amd64, coreutils 8.23-4, ext4 on a SATA
+hard disk.
+
 -- 
-2.3.1
+Best Regards, Patrick Ohly
+
+The content of this message is my personal opinion only and although
+I am an employee of Intel, the statements I make here in no way
+represent Intel's position on the issue, nor am I authorized to speak
+on behalf of Intel on this matter.
+
+
 
 
