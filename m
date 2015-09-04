@@ -1,36 +1,19 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
-	[209.85.220.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C81C677016
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 188DE76FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 07:45:19 +0000 (UTC)
-Received: by qkfq186 with SMTP id q186so5490819qkf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Sep 2015 00:45:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=f31563PmXrvlKnwEhw9JFcxlho2j8v9KQsw5YY5p6zI=;
-	b=V3wZe0kFiEcKGKwCg8v6HgEEPSnSmXfiP7jBV2ZCsrvFZzMcJvwV8DubW5beYX9pwW
-	KoImoTUuLZ8kLfRu6/BFmF8iA46RdJWGYzzyMXoz4SVxh+pGpxt+I/wpxsJQ8qFxvxfL
-	4rjnN6xRobme7JT/c3pPvP2jAUidn595kh57ME+NLPdfw80ChRwP1vC7eUR84gttOFoy
-	iA2xGOA7YB6kwLP5hReLWqmHlSrzR53iKjUpM8kxahgqku0VkJ0sn7XllMHKFAIUVomV
-	lgJcxP9uQdK015jQBo77mVxN2wWM94I89uUR1fX7eXuEGqd7v4pUqhUw6KNZqph2TPgR
-	ZVsg==
-X-Gm-Message-State: ALoCoQkMdA++V8g04F4JChoaBogBW+fP3aHbEtQs++jL4IjVECVpXpom3YJsgdXIxhQz74mPCjGF
-X-Received: by 10.55.209.210 with SMTP id o79mr3197874qkl.43.1441352719924;
-	Fri, 04 Sep 2015 00:45:19 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.9 with HTTP; Fri, 4 Sep 2015 00:45:00 -0700 (PDT)
-In-Reply-To: <55E949A4.9050805@dresearch-fe.de>
-References: <55E949A4.9050805@dresearch-fe.de>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Fri, 4 Sep 2015 09:45:00 +0200
-Message-ID: <CAP71Wjzcr_ByLfCnAgQ3t2MYv+D88iTL5_VJ4Cdn23iAnyHfhg@mail.gmail.com>
-To: openembedded-devel <openembedded-devel@lists.openembedded.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] "sub" machine types?
+	Fri,  4 Sep 2015 08:10:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id B5E761588C6A
+Message-ID: <1441354255.3071.5.camel@collabora.co.uk>
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 04 Sep 2015 09:10:55 +0100
+In-Reply-To: <1441311635-6303-1-git-send-email-sgw@linux.intel.com>
+References: <1441311635-6303-1-git-send-email-sgw@linux.intel.com>
+X-Mailer: Evolution 3.16.5 (3.16.5-1.fc22) 
+Mime-Version: 1.0
+Subject: Re: [PATCH][master/fido/dizzy] oprofileui: Use inherit gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,19 +26,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 07:45:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 04 Sep 2015 08:10:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 4, 2015 at 9:35 AM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
-> We have some products which differ in bootloaders (u-boot) and kernel device trees only. They use the same kernel and root filesystem.
->
-> Does OE have concepts for this? Or any suggestions to realize this without building for many machines?
+On Thu, 2015-09-03 at 13:20 -0700, Saul Wold wrote:
+> oprofileui uses gettext during the configuration task so should be
+> inherit
+> gettext. This issue appears when an older version of gettext is used
+> do to
+> pinning to the older non-gplv3 version.
+> 
+> [YOCTO #7795]
 
-most BSP layers use SOC_FAMILY, see [1] for this type of things, such
-that you can create 'SOC' specific packages that are reused across
-multiple (OE) machines. That sounds like that would help in your
-situation.
+I've queued this in my fido-next branch[1].
 
+Cheers,
 
-[1] http://www.yoctoproject.org/docs/1.8/ref-manual/ref-manual.html#var-SOC_FAMILY
+Joshua
+
+1. http://cgit.openembedded.org/openembedded-core-contrib/log/?h=joshua
+gl/fido-next
+
+> 
+> Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> ---
+>  meta/recipes-kernel/oprofile/oprofileui.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-kernel/oprofile/oprofileui.inc
+> b/meta/recipes-kernel/oprofile/oprofileui.inc
+> index 1dfd0c6..8fcf014 100644
+> --- a/meta/recipes-kernel/oprofile/oprofileui.inc
+> +++ b/meta/recipes-kernel/oprofile/oprofileui.inc
+> @@ -10,7 +10,7 @@ LIC_FILES_CHKSUM = "
+> file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f"
+>  
+>  DEPENDS = "glib-2.0 avahi intltool-native"
+>  
+> -inherit autotools pkgconfig
+> +inherit autotools pkgconfig gettext
+>  
+>  EXTRA_OECONF = "--with-avahi"
+>  
+> -- 
+> 2.1.0
+> 
 
