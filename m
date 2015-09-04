@@ -1,45 +1,42 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 65D607701D
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by mail.openembedded.org (Postfix) with ESMTP id E4B1C7701D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 07:08:34 +0000 (UTC)
-Received: by ioiz6 with SMTP id z6so14080955ioi.2
+	Fri,  4 Sep 2015 07:17:12 +0000 (UTC)
+Received: by iofb144 with SMTP id b144so14405432iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Sep 2015 00:08:35 -0700 (PDT)
+	Fri, 04 Sep 2015 00:17:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:content-type:mime-version
 	:content-transfer-encoding;
-	bh=MCbK6bo7m86x7SoO3PS5G461pWfRv+sKeZT8Akh5lOc=;
-	b=E3GMG1tgspZweHoTuhe8ptYxVN0cq3/LQ+FgA3Ls54yKK4WzfiRtExOGKTY0NKec0n
-	bU+3tQ7y6mWenxNaKYKCEtnUgAByRchKwX13m3ZfneMVSju0NLGvrsfa3EOOE//pt2uy
-	XSHATVYZrXy9jA7NqFM8rL+PlK1GLNGTwXh24ZzfePYN1rPkc7fEMd4AbdrYSl13IX78
-	CNHGxVeDSvb0YIdS9euwXG7P4BuzO3MwW5TinwZCa9SX3/E7BselTQ0/EGa4du0OR/DQ
-	m81bPgAcvWwo8pwpWKpqDF6oXybTUPtU6CQMDYBP2b6GeoepvyfwT/SqEcYHBFu1/kr8
-	k6Hw==
-X-Gm-Message-State: ALoCoQngxR6wIKlEOlkuY1GJ85oF/J1x/vMPAKgMh9/2/QnTbnX4/zKHKcNY78Kt8D7hEPoqviHv
-X-Received: by 10.107.131.16 with SMTP id f16mr4181196iod.100.1441350515136;
-	Fri, 04 Sep 2015 00:08:35 -0700 (PDT)
+	bh=Tk77WFxbuFhNK0bFDUzbVr0D5PvRJMuKRbEe/hsm7YM=;
+	b=Mzfy6t4TKpRV4TOp8X2V/hnmIqdtg+LLLlHDugsQtpRoNADIbU1XqDhhhKGpFqn7IC
+	y3bvdWIevhQgrPuDFhKmaTrRP7rHt+3LPPF4lsPORTjgPLhVWgqChsIjW8sRH378+G7J
+	rWohbCVPg6Z7ILCmaEVX6tuQxRJABiYHEjX7AwYP+flEhKtf3BaZM8sOI7NUvBHtowDQ
+	V8hm1BdJIQaDKNtIWyr4v8Rgx6jErYGHMHLg8DSdx8UEM/aP/VlH++3686axrFfBa5HJ
+	I4KUeOLfug3Dki6wLm1wWVmHw5I7g2Lg21VGyVeuidZa4AfKw7FnCjaqmJnSGdMCS8o5
+	6rZw==
+X-Gm-Message-State: ALoCoQnX8Cbg5rDe2X8cD/ZIbsOmkGGVoqoIm7l3R8a9i32PuQxH6wWYHVb8Ir4bsl5JbYawwPKA
+X-Received: by 10.107.152.139 with SMTP id a133mr4141416ioe.145.1441351032393; 
+	Fri, 04 Sep 2015 00:17:12 -0700 (PDT)
 Received: from pohly-mobl1 (p5DE8FB6C.dip0.t-ipconnect.de. [93.232.251.108])
-	by smtp.gmail.com with ESMTPSA id c64sm935656ioc.13.2015.09.04.00.08.33
+	by smtp.gmail.com with ESMTPSA id l14sm931354ioe.35.2015.09.04.00.17.10
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 04 Sep 2015 00:08:34 -0700 (PDT)
-Message-ID: <1441350512.9573.43.camel@intel.com>
+	Fri, 04 Sep 2015 00:17:11 -0700 (PDT)
+Message-ID: <1441351029.9573.47.camel@intel.com>
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 04 Sep 2015 09:08:32 +0200
-In-Reply-To: <78A0B9F1-2E28-492F-B07B-445089E6827E@gmail.com>
-References: <2ec9c7eef58ac9972154daa2d5d2d95d64931bd3.1441305437.git.patrick.ohly@intel.com>
-	<cover.1441305437.git.patrick.ohly@intel.com>
-	<f87dd02d2553c3cc459aac628e0435b93e1d32bb.1441305437.git.patrick.ohly@intel.com>
-	<78A0B9F1-2E28-492F-B07B-445089E6827E@gmail.com>
+To: Alex Franco <alejandro.franco@linux.intel.com>
+Date: Fri, 04 Sep 2015 09:17:09 +0200
+In-Reply-To: <1441317404-6663-1-git-send-email-alejandro.franco@linux.intel.com>
+References: <1441317404-6663-1-git-send-email-alejandro.franco@linux.intel.com>
 Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
 X-Mailer: Evolution 3.12.9-1+b1 
 Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/8] initramfs-framework: create /dev/console
+Cc: clarson@kergoth.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv4] Fix recursive mode -st on BUILDDIR setup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,27 +49,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 07:08:38 -0000
+X-List-Received-Date: Fri, 04 Sep 2015 07:17:14 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Thu, 2015-09-03 at 14:34 -0700, Khem Raj wrote:
-> > On Sep 3, 2015, at 11:42 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> > 
-> >     install -m 0755 ${WORKDIR}/debug ${D}/init.d/00-debug
-> > +
-> > +    # Create device nodes expected by some kernels in initramfs
-> > +    # before even executing /init.
-> > +    install -d ${D}/dev
-> > +    mknod -m 622 ${D}/dev/console c 5 1
-> > }
-> > 
-> 
-> may be just use USE_DEVFS = “0” instead if we are not letting devtmpfs into initrd image
+On Thu, 2015-09-03 at 16:56 -0500, Alex Franco wrote:
+> Removing recursive option from chmod -st on BUILDDIR as it would
+> take very long on existing build directories
 
-The fix above is meant for the case were devfs is enabled (USE_DEVFS =
-"1"). In my observation, a completely empty /dev then prevents booting
-under qemu (see the "qemu + initramfs" mail thread).
+Okay, so this *is* a problem others are also seeing ;-}
+
+> diff --git a/scripts/oe-setup-builddir b/scripts/oe-setup-builddir
+> index f5b7e4e..91bd86b 100755
+> --- a/scripts/oe-setup-builddir
+> +++ b/scripts/oe-setup-builddir
+> @@ -24,7 +24,10 @@ if [ -z "$BUILDDIR" ]; then
+>  fi
+>  
+>  mkdir -p "$BUILDDIR/conf"
+> -chmod -R -st "$BUILDDIR" 
+> +
+> +# Attempting removal of sticky,setuid bits from BUILDDIR, BUILDDIR/conf
+> +chmod -st "$BUILDDIR" 2>/dev/null || echo "WARNING: unable to chmod $BUILDDIR"
+> +chmod -st "$BUILDDIR/conf" 2>/dev/null || echo "WARNING: unable to chmod $BUILDDIR/conf"
+>  
+>  if [ ! -d "$BUILDDIR" ]; then
+>      echo >&2 "Error: The builddir ($BUILDDIR) does not exist!"
+
+What was the reasoning behind adding these operations on $BUILDDIR/conf
+before the check whether BUILDDIR exists and is a directory? Looks a bit
+fishy to me.
 
 -- 
 Best Regards, Patrick Ohly
