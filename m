@@ -1,40 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
-	[209.85.220.176])
-	by mail.openembedded.org (Postfix) with ESMTP id DB94877045
+Return-Path: <george.l.musat@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id B914D7702B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 13:33:12 +0000 (UTC)
-Received: by qkdv1 with SMTP id v1so8457852qkd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 04 Sep 2015 06:33:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=X2VkEtJQoWgkn2g6CTblYSLLaFj9rkrEcV6Vv4eH++Q=;
-	b=GoRdC0WZEFFrNRE0LQzQF6S1VuIrwkuK8T3fLRKF9hOTGP7RtVpjqtevqxD6R3xWhe
-	BkSafrQl/x+cIBRER5siLnRybAUZ85/VeOebcyH8jNuPFknXxGmiCYi+9LFVF765GQfY
-	Id4F0dBgdAVOXgW5LceZqv6OdgUhXYrMqSOWouMvR5Mj3JoV/F6Etug3mATZmx48MKyo
-	2kMLW5Ig0b/AK5aWzm1oJYOn+alORLJ8nT3WFaItn3E+rcRnZi6U5hTvmeewAesE77A7
-	QQjsNA6MNSQLJxGE0uNt4xZwjcN8knt2Lvw96r4UQ4d0GIy8Tzb1iipyMyuujal/lFLK
-	Tt3w==
-X-Gm-Message-State: ALoCoQn6V13yuiHFEXNXRpeNYtK8llt77FTYx45FJfS0/95n0330etnGtYvk6I65WupdWD+OlDtC
-X-Received: by 10.55.15.3 with SMTP id z3mr5139755qkg.29.1441373592789; Fri,
-	04 Sep 2015 06:33:12 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Fri, 4 Sep 2015 06:32:53 -0700 (PDT)
-In-Reply-To: <55E98AC2.7050107@linux.intel.com>
-References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
-	<f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>
-	<CAJTo0LYdE-XZkCASy9n3uuL_HrrFTZKC5a3aA0Mj4FU4kOPnew@mail.gmail.com>
-	<CAHiDW_EOBOQEzZbQRa7kyapoNWTod-pNDtZQ90u6e0fVv+=OSg@mail.gmail.com>
-	<55E98AC2.7050107@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 4 Sep 2015 14:32:53 +0100
-Message-ID: <CAJTo0LbC_DB0gskfx8Rc4iG=SKhLkRB7dtFv1iVZ-y2J0oPeNg@mail.gmail.com>
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/12] gnome-icon-theme: remove the recipe
+	Fri,  4 Sep 2015 13:34:55 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga101.fm.intel.com with ESMTP; 04 Sep 2015 06:34:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,469,1437462000"; d="scan'208";a="782653889"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 04 Sep 2015 06:34:55 -0700
+Received: from localhost.localdomain (unknown [10.237.112.173])
+	by linux.intel.com (Postfix) with ESMTP id C75A16A4083;
+	Fri,  4 Sep 2015 06:34:03 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  4 Sep 2015 16:33:07 +0300
+Message-Id: <1441373587-27103-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/decorators: Fixed a problem with tests having the same names.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,43 +30,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 13:33:14 -0000
-Content-Type: multipart/alternative; boundary=001a11474c60fcf8da051eebf025
+X-List-Received-Date: Fri, 04 Sep 2015 13:34:55 -0000
 
---001a11474c60fcf8da051eebf025
-Content-Type: text/plain; charset=UTF-8
+When two or more tests had the same name but different classes then
+the decorator log whould have the output all wrong. This was because
+a comparison which was made only between method names but now it
+compares classes too.
 
-On 4 September 2015 at 13:12, Alexander Kanavin <
-alexander.kanavin@linux.intel.com> wrote:
+Bug #8029
 
-> I just did some tests and indeed pcmanfm looks bad when there is no icon
-> theme at all, or when there is gnome-icon-theme, but looks ok with adwaita.
-> So it needs a soft dependency on that, and gnome-icon-theme can still be
-> dropped. If we find any other app that needs icons, then adwaita is the
-> provider (which reminds me, I need to put the same dependency into epiphany
-> recipe).
->
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/utils/decorators.py | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Excellent, thanks.
+diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
+index b9fc76c..ff84541 100644
+--- a/meta/lib/oeqa/utils/decorators.py
++++ b/meta/lib/oeqa/utils/decorators.py
+@@ -116,13 +116,14 @@ def LogResults(original_class):
+         orig_method(self, result, *args, **kws)
+         passed = True
+         testMethod = getattr(self, self._testMethodName)
+-
+         #if test case is decorated then use it's number, else use it's name
+         try:
+             test_case = testMethod.test_case
+         except AttributeError:
+             test_case = self._testMethodName
+ 
++        class_name = str(testMethod.im_class).split("'")[1]
++
+         #create custom logging level for filtering.
+         custom_log_level = 100
+         logging.addLevelName(custom_log_level, 'RESULTS')
+@@ -143,18 +144,19 @@ def LogResults(original_class):
+         local_log = logging.getLogger(caller)
+ 
+         #check status of tests and record it
++
+         for (name, msg) in result.errors:
+-            if self._testMethodName == str(name).split(' ')[0]:
++            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
+                 local_log.results("Testcase "+str(test_case)+": ERROR")
+                 local_log.results("Testcase "+str(test_case)+":\n"+msg)
+                 passed = False
+         for (name, msg) in result.failures:
+-            if self._testMethodName == str(name).split(' ')[0]:
++            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
+                 local_log.results("Testcase "+str(test_case)+": FAILED")
+                 local_log.results("Testcase "+str(test_case)+":\n"+msg)
+                 passed = False
+         for (name, msg) in result.skipped:
+-            if self._testMethodName == str(name).split(' ')[0]:
++            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
+                 local_log.results("Testcase "+str(test_case)+": SKIPPED")
+                 passed = False
+         if passed:
+-- 
+2.1.4
 
-Ross
 
---001a11474c60fcf8da051eebf025
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 4 September 2015 at 13:12, Alexander Kanavin <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexander=
-.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><div id=3D":3nc" class=3D"a3s" style=3D"overflow:hidden">I just did s=
-ome tests and indeed pcmanfm looks bad when there is no icon theme at all, =
-or when there is gnome-icon-theme, but looks ok with adwaita. So it needs a=
- soft dependency on that, and gnome-icon-theme can still be dropped. If we =
-find any other app that needs icons, then adwaita is the provider (which re=
-minds me, I need to put the same dependency into epiphany recipe).<br></div=
-></blockquote></div><br>Excellent, thanks.</div><div class=3D"gmail_extra">=
-<br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a11474c60fcf8da051eebf025--
