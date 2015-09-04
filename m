@@ -1,20 +1,20 @@
 Return-Path: <joshua.lock@collabora.co.uk>
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id F18B777053
+	by mail.openembedded.org (Postfix) with ESMTP id 00FE877054
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 15:00:08 +0000 (UTC)
+	Fri,  4 Sep 2015 15:00:09 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id A59E23C886A6
+	(Authenticated sender: joshuagl) with ESMTPSA id D88383C886A8
 From: Joshua Lock <joshua.lock@collabora.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Sep 2015 15:59:44 +0100
-Message-Id: <3f465ea86c373f19eac4ed54788efa584f46504d.1441374016.git.joshua.lock@collabora.co.uk>
+Date: Fri,  4 Sep 2015 15:59:46 +0100
+Message-Id: <4d350d8597736f4f954b6865937b0fe740ff78b0.1441374016.git.joshua.lock@collabora.co.uk>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1441374016.git.joshua.lock@collabora.co.uk>
 References: <cover.1441374016.git.joshua.lock@collabora.co.uk>
 In-Reply-To: <cover.1441374016.git.joshua.lock@collabora.co.uk>
 References: <cover.1441374016.git.joshua.lock@collabora.co.uk>
-Subject: [PATCH v2 7/9] pcmciautils: handle udev dir being 2 levels below /
+Subject: [PATCH v2 9/9] procps: fix for base_sbindir == sbindir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,28 +29,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 04 Sep 2015 15:00:09 -0000
 
-When building with a merged /usr dir the udev directory
-lives at /usr/lib/udev - update the FILES pattern to also
-pick up udev files installed two levels below the / to
-ensure a merged /usr works.
+An rmdir call in do_install_append was trying to remove the
+sbindir, however in a system with a merged usr this directory
+is not empty and therefore failing to rm it causes an ERROR.
+
+Instead check that sbindir != base_sbindir before trying to
+remove the directory.
 
 Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
 ---
- meta/recipes-bsp/pcmciautils/pcmciautils_018.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/procps/procps_3.3.10.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-index 24ceed8..857bd07 100644
---- a/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-+++ b/meta/recipes-bsp/pcmciautils/pcmciautils_018.bb
-@@ -9,5 +9,5 @@ SRC_URI[sha256sum] = "79e6ae441278e178c07501d492394ed2c0326fdb66894f6d040ec811b0
+diff --git a/meta/recipes-extended/procps/procps_3.3.10.bb b/meta/recipes-extended/procps/procps_3.3.10.bb
+index 65d64ec..dcfaba7 100644
+--- a/meta/recipes-extended/procps/procps_3.3.10.bb
++++ b/meta/recipes-extended/procps/procps_3.3.10.bb
+@@ -31,8 +31,9 @@ do_install_append () {
+ 	[ "${bindir}" != "${base_bindir}" ] && for i in ${base_bindir_progs}; do mv ${D}${bindir}/$i ${D}${base_bindir}/$i; done
+ 	install -d ${D}${base_sbindir}
+ 	[ "${sbindir}" != "${base_sbindir}" ] && for i in ${base_sbindir_progs}; do mv ${D}${sbindir}/$i ${D}${base_sbindir}/$i; done
+-        # Remove now empty dir
+-	rmdir ${D}/${sbindir}
++        if [ "${base_sbindir}" != "${sbindir}" ]; then
++                rmdir ${D}${sbindir}
++        fi
  
- PR = "r1"
- 
--FILES_${PN}-dbg += "*/udev/.debug"
--FILES_${PN} += "*/udev"
-+FILES_${PN}-dbg += "*/udev/.debug */*/udev/.debug"
-+FILES_${PN} += "*/udev */*/udev"
+         install -d ${D}${sysconfdir}
+         install -m 0644 ${WORKDIR}/sysctl.conf ${D}${sysconfdir}/sysctl.conf
 -- 
 2.1.4
 
