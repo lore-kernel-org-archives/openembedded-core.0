@@ -1,30 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 73C2676FB8
+Return-Path: <Peter.Seebach@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AD64176FB8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 22:11:52 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t84MBpfj024800; Fri, 4 Sep 2015 23:11:51 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id uvnAeJD4wFyt; Fri,  4 Sep 2015 23:11:51 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t84MBaDf024796
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 4 Sep 2015 23:11:47 +0100
-Message-ID: <1441404696.24871.201.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Lock <joshua.lock@collabora.co.uk>
-Date: Fri, 04 Sep 2015 23:11:36 +0100
-In-Reply-To: <73dacaee8b4314edec63ee5b383d2fa1d4cdfc87.1441374016.git.joshua.lock@collabora.co.uk>
-References: <cover.1441374016.git.joshua.lock@collabora.co.uk>
-	<73dacaee8b4314edec63ee5b383d2fa1d4cdfc87.1441374016.git.joshua.lock@collabora.co.uk>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/9] kmod: fix link creation when base_bindir != /bin
+	Fri,  4 Sep 2015 22:16:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t84MGTZF028203
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 4 Sep 2015 15:16:29 -0700 (PDT)
+Received: from msp-lpggp2.wrs.com (172.25.34.109) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Fri, 4 Sep 2015 15:16:28 -0700
+From: Peter Seebach <peter.seebach@windriver.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 4 Sep 2015 17:16:26 -0500
+Message-ID: <cover.1441404865.git.peter.seebach@windriver.com>
+X-Mailer: git-send-email 2.3.1
+MIME-Version: 1.0
+Subject: [PATCH 0/1] any day now: pseudo 1.7, really
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 22:11:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 04 Sep 2015 22:16:31 -0000
+Content-Type: text/plain
 
-On Fri, 2015-09-04 at 15:59 +0100, Joshua Lock wrote:
-> If base_bindir is not a direct child of / the link creation in
-> do_install_append creates incorrect relative links.
-> 
-> Instead pass a full path to the link source and use the -r flag
-> to ln to ensure the link is relative.
-> 
-> Signed-off-by: Joshua Lock <joshua.lock@collabora.co.uk>
-> ---
->  meta/recipes-kernel/kmod/kmod_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-> index ba4d85e..120fd87 100644
-> --- a/meta/recipes-kernel/kmod/kmod_git.bb
-> +++ b/meta/recipes-kernel/kmod/kmod_git.bb
-> @@ -21,9 +21,9 @@ do_install_append () {
->          install -dm755 ${D}${base_bindir}
->          install -dm755 ${D}${base_sbindir}
->          # add symlinks to kmod
-> -        ln -s ..${base_bindir}/kmod ${D}${base_bindir}/lsmod
-> +        ln -sr ${D}${base_bindir}/kmod ${D}${base_bindir}/lsmod
->          for tool in insmod rmmod depmod modinfo modprobe; do
-> -                ln -s ..${base_bindir}/kmod ${D}${base_sbindir}/${tool}
-> +                ln -sr ${D}${base_bindir}/kmod ${D}${base_sbindir}/${tool}
->          done
->          # configuration directories
->          install -dm755 ${D}${base_libdir}/depmod.d
+So there was a bogus argument on an fchmodat(), which resulted in
+mkdirat() being able to set errno on success, and glibc's localedef
+errors out if errno is set even if it has already confirmed that the
+operation was successful. But it is not *intended* that I set errno
+even on success, so that's fixed now.
 
-Not all our build machines appear to support ln -r, e.g.:
+Tarball sent to RP/halstead, may not be on server yet. I left the
+branch name alone because I am gradually slipping into despair and
+anguish and updating branch names no longer seems like it will
+help slow down the universe's gradual decline into entropy.
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-x32/builds/479/steps/BuildImages/logs/stdio
+The following changes since commit aba3ef50d65e0dc8659a48bf98d0fb00dd44a6fc:
 
-(debian7)
+  debianutils: create package for run-parts (2015-09-02 23:51:16 +0100)
 
-We do however have a python script called "lnr" in scripts which might
-help...
+are available in the git repository at:
 
-Cheers,
+  git://git.yoctoproject.org/poky-contrib seebs/pseudo172
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=seebs/pseudo172
 
-Richard
+Peter Seebach (1):
+  pseudo_1.7.3.bb: New version of pseudo
+
+ meta/recipes-devtools/pseudo/pseudo_1.7.3.bb | 19 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb   |  4 ++--
+ 2 files changed, 21 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/pseudo/pseudo_1.7.3.bb
+
+-- 
+2.3.1
 
 
