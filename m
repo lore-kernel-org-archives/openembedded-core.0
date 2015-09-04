@@ -1,30 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 91EBF76FC9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C67276FC9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 15:27:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t84FRu0r006057 for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Sep 2015 16:27:56 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id RmMfU82o1kYF
+	Fri,  4 Sep 2015 15:29:36 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so25168118pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 16:27:56 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t84FRfcx006052
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 4 Sep 2015 16:27:53 +0100
-Message-ID: <1441380461.24871.171.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 04 Sep 2015 16:27:41 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] tcmode-default: Set gcc 5.2 as the default
+	Fri, 04 Sep 2015 08:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=rcD1I6xqqEtsoEQDJM5FHLbjx5CX7CQpPT6nB0lVXSs=;
+	b=ZlxCjrUWJu3rQr+12hO45OZZOmR05at3auKxqtDsozltvexFxHl5HObkVWoFNF0O43
+	zSL3aiB57G1mvhaNGt+2Z4UBUvuvZFrgpZSYORzKk7RB7tO3OqwGsYRxoEImaY/BplNm
+	2+1lJu7uDtL8PkiCXENveKPKnQYPOUlNYEANiJ7LpDm1unPfXLFBECYPZd8L49/Jkd2K
+	eweyURNBsdeRGJxKDml3y5wuR0h7x7g0UL6l3NJq9NmUV/9kSDFGHz8t7vKbRgZXWgux
+	yOR3fu5+uI3++s2ZkU2DrrtB64/SiwhaNeELsvb8/uE5aDBzgNhYEp57KUUUciQE3pDk
+	3jCg==
+X-Received: by 10.68.96.197 with SMTP id du5mr9501380pbb.32.1441380576661;
+	Fri, 04 Sep 2015 08:29:36 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:9840:3a97:97d7:650a?
+	([2601:646:8601:4580:9840:3a97:97d7:650a])
+	by smtp.gmail.com with ESMTPSA id v8sm2904827pdm.35.2015.09.04.08.29.35
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Fri, 04 Sep 2015 08:29:35 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1441380461.24871.171.camel@linuxfoundation.org>
+Date: Fri, 4 Sep 2015 08:29:30 -0700
+Message-Id: <2CF81DE4-D260-4561-AE95-F321C093AE13@gmail.com>
+References: <1441380461.24871.171.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2104)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tcmode-default: Set gcc 5.2 as the default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +47,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 15:27:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 04 Sep 2015 15:29:38 -0000
+X-Groupsio-MsgNum: 70682
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_5A260DEC-EA1C-4724-BCD8-3A6896C74FCD";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+
+--Apple-Mail=_5A260DEC-EA1C-4724-BCD8-3A6896C74FCD
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+> On Sep 4, 2015, at 8:27 AM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> -GCCVERSION ?=3D "4.9%"
+> +GCCVERSION ?=3D "5.2%"
+
+a small nit. Make it 5.% to logically indicate that 5.x is a bug fix =
+release and next big upgrade will be
+6.x
+
+--Apple-Mail=_5A260DEC-EA1C-4724-BCD8-3A6896C74FCD
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
 
-gcc 5.2 is now working in all the places we test it in, its been in
-testing for quite some time. Time to make it the default (we have some
-room in M4 for any other bugfixes). Its easy to switch back to 4.9, we
-should really remove 4.8 at this point (to meta-oe?).
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+iEYEARECAAYFAlXpuN4ACgkQuwUzVZGdMxSH/gCghldj5WABVH/KjnNlOX2XKBLs
+O9gAnRckjZiKldBqH1hr6mJZChxfdYda
+=4rLa
+-----END PGP SIGNATURE-----
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index fabd347..f34cd22 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -22,7 +22,7 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
- PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial = "nativesdk-${TCLIBC}-initial"
- PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
- 
--GCCVERSION ?= "4.9%"
-+GCCVERSION ?= "5.2%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.25%"
- GDBVERSION ?= "7.9%"
-
-
-
+--Apple-Mail=_5A260DEC-EA1C-4724-BCD8-3A6896C74FCD--
