@@ -1,23 +1,29 @@
-Return-Path: <george.l.musat@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B914D7702B
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BE2497702B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  4 Sep 2015 13:34:55 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 04 Sep 2015 06:34:55 -0700
+	Fri,  4 Sep 2015 13:37:02 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 04 Sep 2015 06:37:03 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,469,1437462000"; d="scan'208";a="782653889"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 04 Sep 2015 06:34:55 -0700
-Received: from localhost.localdomain (unknown [10.237.112.173])
-	by linux.intel.com (Postfix) with ESMTP id C75A16A4083;
-	Fri,  4 Sep 2015 06:34:03 -0700 (PDT)
-From: Lucian Musat <george.l.musat@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Sep 2015 16:33:07 +0300
-Message-Id: <1441373587-27103-1-git-send-email-george.l.musat@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] oeqa/decorators: Fixed a problem with tests having the same names.
+X-IronPort-AV: E=Sophos;i="5.17,469,1437462000"; d="scan'208";a="638510827"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.154])
+	([10.218.99.154])
+	by orsmga003.jf.intel.com with ESMTP; 04 Sep 2015 06:37:02 -0700
+Message-ID: <1441373796.2545.20.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Fri, 04 Sep 2015 10:36:36 -0300
+In-Reply-To: <1441373521.2545.19.camel@bottazzini-ThinkPad-T430>
+References: <bruno.bottazzini@intel.com>
+	<1441135341-2048-1-git-send-email-bruno.bottazzini@intel.com>
+	<55E8D96A.80403@linux.intel.com>
+	<1441373521.2545.19.camel@bottazzini-ThinkPad-T430>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: "Hart, Darren" <darren.hart@intel.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] scripts: Create interactive menu for mkefidisk script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,64 +36,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Sep 2015 13:34:55 -0000
+X-List-Received-Date: Fri, 04 Sep 2015 13:37:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When two or more tests had the same name but different classes then
-the decorator log whould have the output all wrong. This was because
-a comparison which was made only between method names but now it
-compares classes too.
+On Fri, 2015-09-04 at 10:32 -0300, Bottazzini, Bruno wrote:
+> On Thu, 2015-09-03 at 16:36 -0700, Saul Wold wrote:
+> > On 09/01/2015 12:22 PM, Bruno Bottazzini wrote:
+> > > If it is passed only the image parameter, it will show some interactive
+> > > options to help to conclude the script.
+> > >
+> > > With this patch it will detect devices available in the machine, asking
+> > > to choose what it is wanted to be flashed.
+> > >
+> > > it will suggest the target device. If it is a SD card the suggestion
+> > > is /dev/mmcblk0. If it is a pendrive it will suggest to use /dev/sda.
+> > >
+> > 
+> > I am little concerned by this patch since it allows the root disk to be 
+> > selected, even if someone can type it on the command line, but offering 
+> > it in list would make someone believe that it was OK.
+> 
+> You are totally right. 
+> 
+> However, the script already warn and handles this kind of situation. 
+> Also, this gives free will to the user. I don't see this as problem but
+> something, besides as you have told the user may pass it as argument
 
-Bug #8029
+Sorry correcting: s/I don't see this as problem but something/I don't
+see this as problem but as feature/
 
-Signed-off-by: Lucian Musat <george.l.musat@intel.com>
----
- meta/lib/oeqa/utils/decorators.py | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+> too. Maybe we can change the header message telling "all detect storage"
+> or something like this?
+> 
+> I was wondering if the user wants to flash a H.D. when running a live CD
+> and then maybe the root may be a right choice.
+> 
+> Since I have started using this patch, it got really faster when it
+> comes flashing the device (I don't have to remember parameters every
+> time). I think this will be a really good new feature for this script.
+> 
+> > 
+> > 
+> > > Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+> > > ---
+> > >   scripts/contrib/mkefidisk.sh | 60 ++++++++++++++++++++++++++++++++++++++++----
+> > >   1 file changed, 55 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+> > > index 55f72b0..7628de7 100755
+> > > --- a/scripts/contrib/mkefidisk.sh
+> > > +++ b/scripts/contrib/mkefidisk.sh
+> > > @@ -152,8 +152,52 @@ unmount() {
+> > >   # Parse and validate arguments
+> > >   #
+> > >   if [ $# -lt 3 ] || [ $# -gt 4 ]; then
+> > > -	usage
+> > > -	exit 1
+> > > +    if [ $# -eq 1 ]; then
+> > > +        AVAILABLE_DISK=`fdisk -l | grep "Disk /" | cut -f 1 -d ':' | cut -f 2 -d ' '`
+> > > +        if [ -z "$AVAILABLE_DISK" ]; then
+> > > +            die "Starting mkefidisk.sh as root is required"
+> > > +        fi
+> > > +        echo "Available disks are"
+> > > +        X=0
+> > > +        for line in `echo $AVAILABLE_DISK`; do
+> > > +            info "$X - $line"
+> > > +            X=`expr $X + 1`
+> > > +        done
+> > > +        read -p "Choose flashable device number: " DISK_NUMBER
+> > > +        X=0
+> > > +        for line in `echo $AVAILABLE_DISK`; do
+> > > +            if [ $DISK_NUMBER -eq $X ]; then
+> > > +                DISK_TO_BE_FLASHED=$line
+> > > +                break
+> > > +            else
+> > > +                X=`expr $X + 1`
+> > > +            fi
+> > > +        done
+> > > +        if [ -z "$DISK_TO_BE_FLASHED" ]; then
+> > > +            die "Option \"$DISK_NUMBER\" is invalid. Choose a valid option"
+> > > +        else
+> > > +            if [ -z `echo $DISK_TO_BE_FLASHED | grep "mmc"` ]; then
+> > > +                TARGET_TO_BE_BOOT="/dev/sda"
+> > > +            else
+> > > +                TARGET_TO_BE_BOOT="/dev/mmcblk0"
+> > > +            fi
+> > > +        fi
+> > > +        echo ""
+> > > +        echo "Choose a name of the device that will be boot from"
+> > > +        echo -n "Recommended name is: "
+> > > +        info "$TARGET_TO_BE_BOOT\n"
+> > The \n usage is probably wrong here.
+> > 
+> > > +        read -p "Is target device okay? [y/N]: " RESPONSE
+> > > +        if [ "$RESPONSE" != "y" ]; then
+> > > +            read -p "Choose target device name: " TARGET_TO_BE_BOOT
+> > > +        fi
+> > > +        echo ""
+> > > +        if [ -z "$TARGET_TO_BE_BOOT" ]; then
+> > > +            die "Error: choose a valid target name"
+> > > +        fi
+> > > +    else
+> > > +        usage
+> > > +	    exit 1
+> > > +    fi
+> > >   fi
+> > >
+> > >   if [ "$1" = "-v" ]; then
+> > > @@ -162,9 +206,15 @@ if [ "$1" = "-v" ]; then
+> > >   	shift
+> > >   fi
+> > >
+> > > -DEVICE=$1
+> > > -HDDIMG=$2
+> > > -TARGET_DEVICE=$3
+> > > +if [ -z "$AVAILABLE_DISK" ]; then
+> > > +    DEVICE=$1
+> > > +    HDDIMG=$2
+> > > +    TARGET_DEVICE=$3
+> > > +else
+> > > +    DEVICE=$DISK_TO_BE_FLASHED
+> > > +    HDDIMG=$1
+> > > +    TARGET_DEVICE=$TARGET_TO_BE_BOOT
+> > > +fi
+> > >
+> > >   LINK=$(readlink $DEVICE)
+> > >   if [ $? -eq 0 ]; then
+> > >
+> 
+> 
 
-diff --git a/meta/lib/oeqa/utils/decorators.py b/meta/lib/oeqa/utils/decorators.py
-index b9fc76c..ff84541 100644
---- a/meta/lib/oeqa/utils/decorators.py
-+++ b/meta/lib/oeqa/utils/decorators.py
-@@ -116,13 +116,14 @@ def LogResults(original_class):
-         orig_method(self, result, *args, **kws)
-         passed = True
-         testMethod = getattr(self, self._testMethodName)
--
-         #if test case is decorated then use it's number, else use it's name
-         try:
-             test_case = testMethod.test_case
-         except AttributeError:
-             test_case = self._testMethodName
- 
-+        class_name = str(testMethod.im_class).split("'")[1]
-+
-         #create custom logging level for filtering.
-         custom_log_level = 100
-         logging.addLevelName(custom_log_level, 'RESULTS')
-@@ -143,18 +144,19 @@ def LogResults(original_class):
-         local_log = logging.getLogger(caller)
- 
-         #check status of tests and record it
-+
-         for (name, msg) in result.errors:
--            if self._testMethodName == str(name).split(' ')[0]:
-+            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
-                 local_log.results("Testcase "+str(test_case)+": ERROR")
-                 local_log.results("Testcase "+str(test_case)+":\n"+msg)
-                 passed = False
-         for (name, msg) in result.failures:
--            if self._testMethodName == str(name).split(' ')[0]:
-+            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
-                 local_log.results("Testcase "+str(test_case)+": FAILED")
-                 local_log.results("Testcase "+str(test_case)+":\n"+msg)
-                 passed = False
-         for (name, msg) in result.skipped:
--            if self._testMethodName == str(name).split(' ')[0]:
-+            if (self._testMethodName == str(name).split(' ')[0]) and (class_name in str(name).split(' ')[1]):
-                 local_log.results("Testcase "+str(test_case)+": SKIPPED")
-                 passed = False
-         if passed:
--- 
-2.1.4
 
 
