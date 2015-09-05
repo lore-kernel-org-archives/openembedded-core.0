@@ -1,21 +1,30 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id BF30C76FF2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 404C477055
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Sep 2015 04:23:11 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga102.fm.intel.com with ESMTP; 04 Sep 2015 21:23:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,472,1437462000"; d="scan'208";a="555731734"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by FMSMGA003.fm.intel.com with ESMTP; 04 Sep 2015 21:23:11 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  4 Sep 2015 20:14:08 +0000
-Message-Id: <1441397648-16269-1-git-send-email-mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH] testimage: handle SIGTERM to conclude runqemu
+	Sat,  5 Sep 2015 05:24:31 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t855OTEw003557; Sat, 5 Sep 2015 06:24:29 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id RZq1gUU0c2pY; Sat,  5 Sep 2015 06:24:29 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t855OEYO003553
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 5 Sep 2015 06:24:26 +0100
+Message-ID: <1441430654.24871.202.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 05 Sep 2015 06:24:14 +0100
+In-Reply-To: <4f42995bde754f4fe83329c59f487810d2324854.1441299182.git.raj.khem@gmail.com>
+References: <cover.1441299182.git.raj.khem@gmail.com>
+	<4f42995bde754f4fe83329c59f487810d2324854.1441299182.git.raj.khem@gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] busybox: Use UTMPX instead of legacy UTMP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,127 +37,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Sep 2015 04:23:14 -0000
+X-List-Received-Date: Sat, 05 Sep 2015 05:24:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+On Thu, 2015-09-03 at 16:54 +0000, Khem Raj wrote:
+> This makes busybox honor UTMPX feature if available in a libc
+> 
+> [YOCTO #8243]
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  .../busybox/0001-Switch-to-POSIX-utmpx-API.patch   | 388 +++++++++++++++++++++
+>  meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 +
+>  2 files changed, 389 insertions(+)
+>  create mode 100644 meta/recipes-core/busybox/busybox/0001-Switch-to-POSIX-utmpx-API.patch
 
-In the current state if a SIGTERM is sent to
-the testimage worker, the worker will exit but
-runqemu and qemu won't exit and the processes
-need to be killed manually to free the
-bitbake lock.
+This breaks poky-tiny.
 
-This allows to catch the SIGTERM signal in
-testimage, this way it is possible to stop
-runqemu and qemu and allow to free the bitbake lock.
+https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/490/steps/BuildImages/logs/stdio
 
-Also this allows to skip the rest of the tests
-when running the tests in qemu or real hardware.
+Cheers,
 
-This also solves minimal breaks when handling the
-SIGCHLD in qemurunner and when checking if qemu
-is alive in the test setup.
-
-[YOCTO #8239]
-
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/testimage.bbclass    | 12 +++++++++++-
- meta/lib/oeqa/oetest.py           |  6 +++++-
- meta/lib/oeqa/utils/qemurunner.py |  3 +--
- 3 files changed, 17 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 7c783ea..19a37cb 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -236,6 +236,7 @@ def testimage_main(d):
-     import os
-     import oeqa.runtime
-     import time
-+    import signal
-     from oeqa.oetest import loadTests, runTests
-     from oeqa.targetcontrol import get_target_controller
-     from oeqa.utils.dump import get_host_dumper
-@@ -273,12 +274,20 @@ def testimage_main(d):
-             self.imagefeatures = d.getVar("IMAGE_FEATURES", True).split()
-             self.distrofeatures = d.getVar("DISTRO_FEATURES", True).split()
-             manifest = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("IMAGE_LINK_NAME", True) + ".manifest")
-+            self.sigterm = False
-+            self.origsigtermhandler = signal.getsignal(signal.SIGTERM)
-+            signal.signal(signal.SIGTERM, self.sigterm_exception)
-             try:
-                 with open(manifest) as f:
-                     self.pkgmanifest = f.read()
-             except IOError as e:
-                 bb.fatal("No package manifest file found. Did you build the image?\n%s" % e)
- 
-+        def sigterm_exception(self, signum, stackframe):
-+            bb.warn("TestImage received SIGTERM, shutting down...")
-+            self.sigterm = True
-+            self.target.stop()
-+
-     # test context
-     tc = TestContext()
- 
-@@ -293,8 +302,8 @@ def testimage_main(d):
- 
-     target.deploy()
- 
--    target.start()
-     try:
-+        target.start()
-         if export:
-             exportTests(d,tc)
-         else:
-@@ -311,6 +320,7 @@ def testimage_main(d):
-             else:
-                 raise bb.build.FuncFailed("%s - FAILED - check the task log and the ssh log" % pn )
-     finally:
-+        signal.signal(signal.SIGTERM, tc.origsigtermhandler)
-         target.stop()
- 
- testimage_main[vardepsexclude] =+ "BB_ORIGENV"
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index ff62c30..0fe68d4 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -145,7 +145,11 @@ class oeRuntimeTest(oeTest):
-         super(oeRuntimeTest, self).__init__(methodName)
- 
-     def setUp(self):
--        self.assertTrue(self.target.check(), msg = "Qemu not running?")
-+        # Check if test needs to run
-+        if self.tc.sigterm:
-+            self.fail("Got SIGTERM")
-+        elif (type(self.target).__name__ == "QemuTarget"):
-+            self.assertTrue(self.target.check(), msg = "Qemu not running?")
- 
-     def tearDown(self):
-         # If a test fails or there is an exception
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index c04ee0d..4b29284 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -232,7 +232,7 @@ class QemuRunner:
-         return self.is_alive()
- 
-     def stop(self):
--
-+        signal.signal(signal.SIGCHLD, self.origchldhandler)
-         self.stop_thread()
-         if self.runqemu:
-             logger.info("Sending SIGTERM to runqemu")
-@@ -253,7 +253,6 @@ class QemuRunner:
-             self.server_socket = None
-         self.qemupid = None
-         self.ip = None
--        signal.signal(signal.SIGCHLD, self.origchldhandler)
- 
-     def stop_thread(self):
-         if self.thread and self.thread.is_alive():
--- 
-1.8.4.5
+Richard
 
 
