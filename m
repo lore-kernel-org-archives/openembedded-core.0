@@ -1,27 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F28476AC7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 9397476FB8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Sep 2015 05:19:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t865JqnP006660
+	Sun,  6 Sep 2015 07:35:16 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t867ZGxF023028
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 5 Sep 2015 22:19:52 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Sat, 5 Sep 2015 22:19:52 -0700
-Message-ID: <55EBCCF7.3080204@windriver.com>
-Date: Sun, 6 Sep 2015 13:19:51 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	Sun, 6 Sep 2015 00:35:16 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Sun, 6 Sep 2015 00:35:16 -0700
+Message-ID: <55EBECB2.6020102@windriver.com>
+Date: Sun, 6 Sep 2015 15:35:14 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <1440568528-26012-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1440568528-26012-1-git-send-email-rongqing.li@windriver.com>
-Subject: Re: [PATCH][v2] xmlto: xsltproc is required by both native and target
+References: <cover.1436951753.git.liezhi.yang@windriver.com>
+In-Reply-To: <cover.1436951753.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/2] insane.bbclass: fix package_qa_check_buildpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,43 +34,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Sep 2015 05:19:54 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 06 Sep 2015 07:35:20 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-ping
 
--Roy
+Hello, any comments on this please ?
 
-On 2015年08月26日 13:55, rongqing.li@windriver.com wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> xsltproc is used to perform the XSL-T transformation by xmlto by default,
-> so it is required by both native and target, and target has the dependence
-> on libxslt-bin, so add libxslt to native RDEPENDS
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
-> ---
->   meta/recipes-devtools/xmlto/xmlto_0.0.26.bb | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
-> index a7a0183..688be74 100644
-> --- a/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
-> +++ b/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
-> @@ -24,6 +24,9 @@ RDEPENDS_${PN} = "docbook-xml-dtd4 \
->   RDEPENDS_${PN}_append_class-target = " \
->                     libxslt-bin \
->   "
-> +RDEPENDS_${PN}_append_class-native = " \
-> +                  libxslt \
-> +"
->
->   BBCLASSEXTEND = "native"
->
->
+// Robert
 
--- 
-Best Reagrds,
-Roy | RongQing Li
+On 07/15/2015 05:16 PM, Robert Yang wrote:
+> The following changes since commit 6be698b7270f73f40d38713ecf13f12aec0ced61:
+>
+>    dpkg: Fix for Fedora22 and new versions of tar (2015-07-13 13:46:45 +0100)
+>
+> are available in the git repository at:
+>
+>    git://git.openembedded.org/openembedded-core-contrib rbt/buildpath
+>    http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/buildpath
+>
+> Robert Yang (2):
+>    insane.bbclass: fix package_qa_check_buildpaths
+>    insane.bbclass: make package_qa_clean_path return a relative path
+>
+>   meta/classes/insane.bbclass |   14 ++++++++++----
+>   1 file changed, 10 insertions(+), 4 deletions(-)
+>
 
