@@ -1,25 +1,27 @@
-Return-Path: <mariano.lopez@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EBD076FB8
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F28476AC7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  5 Sep 2015 18:26:33 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 05 Sep 2015 11:26:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,475,1437462000"; d="scan'208";a="783526855"
-Received: from yctb01.ostc.intel.com (HELO yctb01.otcr.intel.com)
-	([10.23.219.46])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Sep 2015 11:26:33 -0700
-From: mariano.lopez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  5 Sep 2015 10:17:26 +0000
-Message-Id: <a478eadc586baf9c1c871dd6ccd46a9da3d5f250.1441448042.git.mariano.lopez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1441448042.git.mariano.lopez@linux.intel.com>
-References: <cover.1441448042.git.mariano.lopez@linux.intel.com>
-In-Reply-To: <cover.1441448042.git.mariano.lopez@linux.intel.com>
-References: <cover.1441448042.git.mariano.lopez@linux.intel.com>
-Subject: [PATCH 1/1 v2] testimage: handle SIGTERM to conclude runqemu
+	Sun,  6 Sep 2015 05:19:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t865JqnP006660
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 5 Sep 2015 22:19:52 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Sat, 5 Sep 2015 22:19:52 -0700
+Message-ID: <55EBCCF7.3080204@windriver.com>
+Date: Sun, 6 Sep 2015 13:19:51 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: <openembedded-core@lists.openembedded.org>
+References: <1440568528-26012-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1440568528-26012-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH][v2] xmlto: xsltproc is required by both native and target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,104 +34,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Sep 2015 18:26:34 -0000
+X-List-Received-Date: Sun, 06 Sep 2015 05:19:54 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Mariano Lopez <mariano.lopez@linux.intel.com>
+ping
 
-In the current state if a SIGTERM is sent to
-the testimage worker, the worker will exit but
-runqemu and qemu won't exit and the processes
-need to be killed manually to free the
-bitbake lock.
+-Roy
 
-This allows to catch the SIGTERM signal in
-testimage, this way it is possible to stop
-runqemu and qemu and allow to free the bitbake lock.
+On 2015年08月26日 13:55, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
+>
+> xsltproc is used to perform the XSL-T transformation by xmlto by default,
+> so it is required by both native and target, and target has the dependence
+> on libxslt-bin, so add libxslt to native RDEPENDS
+>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   meta/recipes-devtools/xmlto/xmlto_0.0.26.bb | 3 +++
+>   1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
+> index a7a0183..688be74 100644
+> --- a/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
+> +++ b/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
+> @@ -24,6 +24,9 @@ RDEPENDS_${PN} = "docbook-xml-dtd4 \
+>   RDEPENDS_${PN}_append_class-target = " \
+>                     libxslt-bin \
+>   "
+> +RDEPENDS_${PN}_append_class-native = " \
+> +                  libxslt \
+> +"
+>
+>   BBCLASSEXTEND = "native"
+>
+>
 
-Also this allows to skip the rest of the tests
-when running the tests in qemu or real hardware.
-
-This also solves minimal breaks in the setup of the
-runtime test when checking if qemu is alive.
-
-[YOCTO #8239]
-
-Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
-Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
----
- meta/classes/testimage.bbclass | 12 +++++++++++-
- meta/lib/oeqa/oetest.py        |  6 +++++-
- 2 files changed, 16 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index 7c783ea..19a37cb 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -236,6 +236,7 @@ def testimage_main(d):
-     import os
-     import oeqa.runtime
-     import time
-+    import signal
-     from oeqa.oetest import loadTests, runTests
-     from oeqa.targetcontrol import get_target_controller
-     from oeqa.utils.dump import get_host_dumper
-@@ -273,12 +274,20 @@ def testimage_main(d):
-             self.imagefeatures = d.getVar("IMAGE_FEATURES", True).split()
-             self.distrofeatures = d.getVar("DISTRO_FEATURES", True).split()
-             manifest = os.path.join(d.getVar("DEPLOY_DIR_IMAGE", True), d.getVar("IMAGE_LINK_NAME", True) + ".manifest")
-+            self.sigterm = False
-+            self.origsigtermhandler = signal.getsignal(signal.SIGTERM)
-+            signal.signal(signal.SIGTERM, self.sigterm_exception)
-             try:
-                 with open(manifest) as f:
-                     self.pkgmanifest = f.read()
-             except IOError as e:
-                 bb.fatal("No package manifest file found. Did you build the image?\n%s" % e)
- 
-+        def sigterm_exception(self, signum, stackframe):
-+            bb.warn("TestImage received SIGTERM, shutting down...")
-+            self.sigterm = True
-+            self.target.stop()
-+
-     # test context
-     tc = TestContext()
- 
-@@ -293,8 +302,8 @@ def testimage_main(d):
- 
-     target.deploy()
- 
--    target.start()
-     try:
-+        target.start()
-         if export:
-             exportTests(d,tc)
-         else:
-@@ -311,6 +320,7 @@ def testimage_main(d):
-             else:
-                 raise bb.build.FuncFailed("%s - FAILED - check the task log and the ssh log" % pn )
-     finally:
-+        signal.signal(signal.SIGTERM, tc.origsigtermhandler)
-         target.stop()
- 
- testimage_main[vardepsexclude] =+ "BB_ORIGENV"
-diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
-index ff62c30..0fe68d4 100644
---- a/meta/lib/oeqa/oetest.py
-+++ b/meta/lib/oeqa/oetest.py
-@@ -145,7 +145,11 @@ class oeRuntimeTest(oeTest):
-         super(oeRuntimeTest, self).__init__(methodName)
- 
-     def setUp(self):
--        self.assertTrue(self.target.check(), msg = "Qemu not running?")
-+        # Check if test needs to run
-+        if self.tc.sigterm:
-+            self.fail("Got SIGTERM")
-+        elif (type(self.target).__name__ == "QemuTarget"):
-+            self.assertTrue(self.target.check(), msg = "Qemu not running?")
- 
-     def tearDown(self):
-         # If a test fails or there is an exception
 -- 
-1.8.4.5
-
+Best Reagrds,
+Roy | RongQing Li
 
