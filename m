@@ -1,23 +1,24 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
 	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 01A7476FB8
+	by mail.openembedded.org (Postfix) with ESMTP id 2AE667700D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Sep 2015 15:25:46 +0000 (UTC)
-Received: by qgev79 with SMTP id v79so48364026qge.0
+	Sun,  6 Sep 2015 15:25:47 +0000 (UTC)
+Received: by qgez77 with SMTP id z77so48558972qge.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 06 Sep 2015 08:25:46 -0700 (PDT)
+	Sun, 06 Sep 2015 08:25:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KyM2/Gu4KM/hVT+YSHwjx4XnPaKbKppOLm0YO3w4w+w=;
-	b=iLlFonIBTrGVI+AmUQJb7QJ5Yr7l6/C35vXNtQ81ZXdGhg8DQwzI7kFZUvOAI26l8k
-	fjVNQwEhmURpEZp8jaxWarSHyCC05IgGBX6RJhCwjhb8Kv6bnFO66gjaemG8Xz5elkyA
-	nkWUDqu5h5fjXDV5qWJBTOI1uo5Q+RHzPLCA2uPQD2ZJxg1M64yaBT71fH1kYa/gtYG9
-	Z0GvVUZv9/g7QMkVfDkQs/rkFL7/l7UmMRCyd9CDuTZTLJeuuk0wtq+UrgfQyfUmF45k
-	41OoxPOsgYkMyeQxGQhrxr3cVUqwAG/6Jq2XD/HYpL8/JVfzMxsMOG66pDNkVSH5SR5Z
-	XwZg==
-X-Received: by 10.140.31.203 with SMTP id f69mr20284450qgf.53.1441553146574;
-	Sun, 06 Sep 2015 08:25:46 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:in-reply-to:references;
+	bh=/2L8h82Euk4kz5VBUjRF3YEsoUkGfHsL39SGFedECeM=;
+	b=g0PQkx0z7lGf39Jv4AQDSH/92iC9Sgk4NRazxlpTQeHnt/yBzhQrh+UEg+qCFKL9OA
+	yoOi9I3U9ewvWjgUtpn8hYahUeY2ApM1/oW1vhYydRHSYn6vVQiZSWv0QJqz5VB0YoiD
+	fdxXXDZomFBtZMKeYwj2/Rizr0W3jULKMsAd4Gm+OzuGNiv+27vrPxYArHDbwQ7HtuaG
+	hPTwZMg41gGp33L1qBnf8ck5hgaor0fNW+ciKidPiy2R/1aOJHTig1TAYfIsy8wtoURV
+	wfhGdmSbqKvDhQm54p5cpft5ZRbEka28pvvheEP57vDulcVpJURZnL6TTZFoN3J2iRsH
+	Y57A==
+X-Received: by 10.140.81.135 with SMTP id f7mr20401969qgd.33.1441553147360;
+	Sun, 06 Sep 2015 08:25:47 -0700 (PDT)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
 	i196sm5098459qhc.22.2015.09.06.08.25.46
@@ -25,12 +26,14 @@ Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	Sun, 06 Sep 2015 08:25:46 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  6 Sep 2015 15:25:38 +0000
-Message-Id: <d16024c043abcd21b162f7f93a5bdf29d91c8317.1441552859.git.raj.khem@gmail.com>
+Date: Sun,  6 Sep 2015 15:25:39 +0000
+Message-Id: <a234814e2ad213dc69b90a3450d79b778c0e4c7c.1441552859.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.1
+In-Reply-To: <d16024c043abcd21b162f7f93a5bdf29d91c8317.1441552859.git.raj.khem@gmail.com>
+References: <d16024c043abcd21b162f7f93a5bdf29d91c8317.1441552859.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1441552859.git.raj.khem@gmail.com>
 References: <cover.1441552859.git.raj.khem@gmail.com>
-Subject: [PATCH 1/4] busybox: Enable getopt applet
+Subject: [PATCH 2/4] rootfs: Do not uninstall update-rc.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,39 +46,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Sep 2015 15:25:47 -0000
+X-List-Received-Date: Sun, 06 Sep 2015 15:25:48 -0000
 
-getopts is a common applet more so now needed by systemd for working
-with sysv scripts
+update-rc.d is now needed by systemd to interact with sysv
+scripts, so if we have a mixed system, then we can not uninstall
+update-rc.d as it is going to break systemd functionality
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/busybox/busybox/getopts.cfg | 3 +++
- meta/recipes-core/busybox/busybox_1.23.2.bb   | 1 +
- 2 files changed, 4 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/getopts.cfg
+ meta/lib/oe/rootfs.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox/getopts.cfg b/meta/recipes-core/busybox/busybox/getopts.cfg
-new file mode 100644
-index 0000000..8db0a4a
---- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/getopts.cfg
-@@ -0,0 +1,3 @@
-+CONFIG_GETOPT=y
-+CONFIG_LONG_OPTS=y
-+CONFIG_FEATURE_GETOPT_LONG=y
-diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
-index 8a4bae6..e4d9f97 100644
---- a/meta/recipes-core/busybox/busybox_1.23.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
-@@ -35,6 +35,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://mount-via-label.cfg \
-            file://sha1sum.cfg \
-            file://sha256sum.cfg \
-+           file://getopts.cfg \
- "
- 
- SRC_URI[tarball.md5sum] = "7925683d7dd105aabe9b6b618d48cc73"
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index c29843b..4ef16c4 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -238,8 +238,7 @@ class Rootfs(object):
+                     pkgs_installed = installed_pkgs.read().splitlines()
+                     for pkg_installed in pkgs_installed[:]:
+                         pkg = pkg_installed.split()[0]
+-                        if pkg in ["update-rc.d",
+-                                "base-passwd",
++                        if pkg in ["base-passwd",
+                                 "shadow",
+                                 "update-alternatives",
+                                 self.d.getVar("ROOTFS_BOOTSTRAP_INSTALL", True)
 -- 
 2.5.1
 
