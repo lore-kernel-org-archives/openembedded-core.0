@@ -1,28 +1,22 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id B9D697422C
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id C376A762A2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 09:35:50 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 07 Sep 2015 02:35:51 -0700
+	Mon,  7 Sep 2015 09:59:36 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 07 Sep 2015 02:59:36 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,484,1437462000"; d="scan'208";a="784309814"
-Received: from kanavin-desktop.fi.intel.com (HELO [10.237.68.161])
-	([10.237.68.161])
-	by fmsmga001.fm.intel.com with ESMTP; 07 Sep 2015 02:35:49 -0700
-Message-ID: <55ED5ADF.2090907@linux.intel.com>
-Date: Mon, 07 Sep 2015 12:37:35 +0300
+X-IronPort-AV: E=Sophos;i="5.17,484,1437462000"; d="scan'208";a="799932349"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Sep 2015 02:59:35 -0700
 From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
-MIME-Version: 1.0
-To: Martin Jansa <martin.jansa@gmail.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>	<f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>	<B9C7EAB1-4025-474E-8FBB-7DF1BE6C5706@gmail.com>	<55E98B3B.4050704@linux.intel.com>
-	<CAMKF1soR0r5ZVYYPnxGg0f+61oC2Cx6Mq0Y2390NXZzZn1-c4w@mail.gmail.com>
-In-Reply-To: <CAMKF1soR0r5ZVYYPnxGg0f+61oC2Cx6Mq0Y2390NXZzZn1-c4w@mail.gmail.com>
-Subject: Re: [PATCH 04/12] gnome-icon-theme: remove the recipe
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Sep 2015 13:01:11 +0300
+Message-Id: <45e1a4face3a70d6f6de71d9e52df9e5ed16e6c4.1441620055.git.alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <cover.1441620055.git.alexander.kanavin@linux.intel.com>
+References: <cover.1441620055.git.alexander.kanavin@linux.intel.com>
+Subject: [RFC PATCH 1/1] qemuppc64: add a configuration for a powerpc64 machine
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,26 +29,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 09:35:51 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Sep 2015 09:59:36 -0000
 
-On 09/04/2015 05:16 PM, Khem Raj wrote:
+Note that I copied and tweaked the ppc (32 bit) configuration and
+didn't in any way test this with qemu; I only wanted
+a working configuration for testing ppc64 builds using poky.
+But it could be a starting point.
 
->     I will send these patches only when oe-core is updated. Recipe
->     moving is always controversial, and I don't want to cause confusion
->     when the change is accepted by one side and rejected by the other.
->
->
-> On the contrary you can make a note in patch to destination layer citing
-> the patch for source layer being a prerequisite to be accepted.
-> Maintainers then can schedule it accordingly.
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+---
+ meta/conf/machine/qemuppc64.conf | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+ create mode 100644 meta/conf/machine/qemuppc64.conf
 
-Martin, would you prefer this approach? My problem is that the gap 
-between initial oe-core patch submission and their acceptance is often 
-measured in weeks and sometimes months, so the corresponding meta-oe 
-patches would be hanging in limbo, and may be easily forgotten.
-
-Alex
+diff --git a/meta/conf/machine/qemuppc64.conf b/meta/conf/machine/qemuppc64.conf
+new file mode 100644
+index 0000000..d18eea2
+--- /dev/null
++++ b/meta/conf/machine/qemuppc64.conf
+@@ -0,0 +1,11 @@
++#@TYPE: Machine
++#@NAME: qemu PPC Emulator setup
++#@DESCRIPTION: Machine configuration for running an PPC system under qemu emulation
++
++require conf/machine/include/qemu.inc
++require conf/machine/include/tune-power5.inc
++
++KERNEL_IMAGETYPE = "vmlinux"
++
++SERIAL_CONSOLE = "115200 ttyS0"
++
+-- 
+2.1.4
 
 
