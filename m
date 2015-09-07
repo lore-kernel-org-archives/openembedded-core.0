@@ -1,30 +1,29 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B18F60017
+	by mail.openembedded.org (Postfix) with ESMTP id 27F4860017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 19:24:41 +0000 (UTC)
+	Mon,  7 Sep 2015 19:27:06 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t87JOeKr006245 for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Sep 2015 20:24:40 +0100
+	t87JR5WP006458; Mon, 7 Sep 2015 20:27:05 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id e4Fg120MmSiU
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 20:24:40 +0100 (BST)
+	with LMTP id LnmQqkoMql3X; Mon,  7 Sep 2015 20:27:05 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t87JOS86006240
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 7 Sep 2015 20:24:40 +0100
-Message-ID: <1441653868.24871.258.camel@linuxfoundation.org>
+	t87JQrqc006448
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 7 Sep 2015 20:27:04 +0100
+Message-ID: <1441654013.24871.259.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 07 Sep 2015 20:24:28 +0100
+To: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 07 Sep 2015 20:26:53 +0100
+In-Reply-To: <cover.1441552859.git.raj.khem@gmail.com>
+References: <cover.1441552859.git.raj.khem@gmail.com>
 X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
-Subject: [PATCH] oeqa/sstatettests: Improve output of assert
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/4] Systemd Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,32 +36,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 19:24:45 -0000
+X-List-Received-Date: Mon, 07 Sep 2015 19:27:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Currently if this fails you see:
+On Sun, 2015-09-06 at 15:25 +0000, Khem Raj wrote:
+> Changes Since last time
+> - Now that 225 is out upgrade recipe to 225, changes between 224 and 225 are minor
+>   but fixes in networkd are important
+> - Implement systemd-sysv-install for OE
+> - Enable getopt in busybox needed for systemd-sysv-install
+> - Remove update-rc.d from default uninstall list in rootfs creation
+> - Tested date and systemd unit tests manually to pass
+> - Booted core-image-cmdline-full on all qemu targets
 
-"AssertionError: 1 != 0"
+https://autobuilder.yoctoproject.org/main/builders/nightly-qa-systemd/builds/480
 
-which is useless. Add the output of the failed command so we can stand
-some chance of debugging what went wrong.
+The date test failed in two of the sanity runs with this series
+applied :(
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cheers,
 
-diff --git a/meta/lib/oeqa/selftest/sstatetests.py b/meta/lib/oeqa/selftest/sstatetests.py
-index 1ce8773..6906b21 100644
---- a/meta/lib/oeqa/selftest/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/sstatetests.py
-@@ -153,7 +153,7 @@ class SStateTests(SStateBase):
-                 expected_remaining_sstate += [x for x in target_sstate_after_build if x not in target_sstate_before_build if not any(pattern in x for pattern in ignore_patterns)]
-             self.remove_config(global_config[idx])
-             self.remove_recipeinc(target, target_config[idx])
--            self.assertEqual(result.status, 0)
-+            self.assertEqual(result.status, 0, msg = "build of %s failed with %s" % (target, result.output))
- 
-         runCmd("sstate-cache-management.sh -y --cache-dir=%s --remove-duplicated --extra-archs=%s" % (self.sstate_path, ','.join(map(str, sstate_archs_list))))
-         actual_remaining_sstate = [x for x in self.search_sstate(target + '.*?\.tgz$') if not any(pattern in x for pattern in ignore_patterns)]
-
+Richard
 
 
