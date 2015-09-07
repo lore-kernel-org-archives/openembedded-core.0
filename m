@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id D1F7C60043
+	by mail.openembedded.org (Postfix) with ESMTP id E2DB173232
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 12:42:42 +0000 (UTC)
+	Mon,  7 Sep 2015 12:42:43 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 07 Sep 2015 05:42:42 -0700
+	by orsmga101.jf.intel.com with ESMTP; 07 Sep 2015 05:42:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,485,1437462000"; d="scan'208";a="556940013"
+X-IronPort-AV: E=Sophos;i="5.17,485,1437462000"; d="scan'208";a="556940025"
 Received: from wmurray-mobl3.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.25.6])
-	by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2015 05:42:40 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2015 05:42:43 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Sep 2015 13:42:16 +0100
-Message-Id: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+Date: Mon,  7 Sep 2015 13:42:18 +0100
+Message-Id: <9f2d826750fa29287d8b8a6936fff200c366dc45.1441629547.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 00/11] Extensible SDK fixes
+In-Reply-To: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+References: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+References: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 02/11] toolchain-shar-extract.sh: better default install path for extensible SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,71 +34,81 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 07 Sep 2015 12:42:44 -0000
 
-This rolls up a set of previously posted patches from Qi and Brendan
-with some changes from me.
+From: Brendan Le Foll <brendan.le.foll@intel.com>
 
-Changes since the previously posted versions:
+Extensible SDK cannot be installed as root so by default offer to install it in
+user's home directory under distro/distro_version replacing the normal SDK
+version '+' char with a '_' as that's a restricted character for bitbake
 
-* populate_sdk_ext: install the latest buildtools-tarball:
-  - Avoid poky-specific path usage
-* populate_sdk_ext: consider custom configuration in local.conf:
-  - Allow blacklisting certain variables
-  - Prevent comments and blank lines from coming through
-* toolchain-shar-extract.sh: ensure extensible SDK install path obeys restrictions
-  - Use grep instead of bash-specific =~ operator
-* toolchain-shar-extract.sh: better default install path for extensible SDK:
-  - Fix default path overriding path specified on the command line with
-    the -d option when installing the extensible SDK
-* oe-publish-sdk: add script:
-  - Ensure errors in layer git repo setup exit immediately instead of
-    continuing
-  - Change some debug logging to info for more coherent output
-  - Use -A option with "git add"
-  - Fix command usage info in comments
-* devtool: add mechanism for updating extensible SDK:
-  - Allow default update server to be read from config file
-  - Squash in change to write SDK_TARGETS to config file
+Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/classes/populate_sdk_base.bbclass |  2 ++
+ meta/files/toolchain-shar-extract.sh   | 16 ++++++++++++----
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
-
-The following changes since commit 8402958cd2cb87b8283c8ee4e2d08e1a6717d67a:
-
-  pseudo_1.7.3.bb: New version of pseudo (2015-09-06 15:24:28 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/extsdk4
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/extsdk4
-
-Brendan Le Foll (3):
-  toolchain-shar-extract.sh: ensure extensible SDK install path obeys
-    restrictions
-  toolchain-shar-extract.sh: better default install path for extensible
-    SDK
-  toolchain-shar-extract.sh: explain why we cannot use sudo in
-    extensible SDK
-
-Paul Eggleton (1):
-  classes/populate_sdk_ext: avoid poky-specific buildtools naming
-
-Qi.Chen@windriver.com (7):
-  populate_sdk_ext: install the latest buildtools-tarball
-  copy_buildsystem: make sure bitbake directory is copied
-  populate_sdk_ext: consider custom configuration in local.conf
-  populate_sdk_ext: don't remove the native qemu dependencies
-  Extensible SDK: allow for installation without preparing build system
-  oe-publish-sdk: add script
-  devtool: add mechanism for updating extensible SDK
-
- meta/classes/populate_sdk_base.bbclass |   2 +
- meta/classes/populate_sdk_ext.bbclass  |  59 +++++++---
- meta/files/toolchain-shar-extract.sh   |  41 +++++--
- meta/lib/oe/copy_buildsystem.py        |   7 +-
- scripts/lib/devtool/sdk.py             | 197 +++++++++++++++++++++++++++++++++
- scripts/oe-publish-sdk                 | 143 ++++++++++++++++++++++++
- 6 files changed, 422 insertions(+), 27 deletions(-)
- create mode 100644 scripts/lib/devtool/sdk.py
- create mode 100755 scripts/oe-publish-sdk
-
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index a9e9bd7..b015bf0 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -55,6 +55,7 @@ SDK_PRE_INSTALL_COMMAND ?= ""
+ SDK_POST_INSTALL_COMMAND ?= ""
+ SDK_RELOCATE_AFTER_INSTALL ?= "1"
+ 
++SDKEXTPATH ?= "~/${@d.getVar('DISTRO', True)}_sdk"
+ SDK_TITLE ?= "${@d.getVar('DISTRO_NAME', True) or d.getVar('DISTRO', True)} SDK"
+ 
+ SDK_TARGET_MANIFEST = "${SDK_DEPLOY}/${TOOLCHAIN_OUTPUTNAME}.target.manifest"
+@@ -154,6 +155,7 @@ EOF
+ 	# substitute variables
+ 	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
+ 		-e 's#@SDKPATH@#${SDKPATH}#g' \
++		-e 's#@SDKEXTPATH@#${SDKEXTPATH}#g' \
+ 		-e 's#@OLDEST_KERNEL@#${OLDEST_KERNEL}#g' \
+ 		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
+ 		-e 's#@SDK_TITLE@#${SDK_TITLE}#g' \
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 85719fa..27a1607 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -36,7 +36,6 @@ while getopts ":yd:DRS" OPT; do
+ 	case $OPT in
+ 	y)
+ 		answer="Y"
+-		[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
+ 		;;
+ 	d)
+ 		target_sdk_dir=$OPTARG
+@@ -73,9 +72,18 @@ fi
+ 
+ @SDK_PRE_INSTALL_COMMAND@
+ 
++# SDK_EXTENSIBLE is exposed from the SDK_PRE_INSTALL_COMMAND above
++if [ "$SDK_EXTENSIBLE" = "1" ]; then
++	DEFAULT_INSTALL_DIR="@SDKEXTPATH@"
++fi
++
+ if [ "$target_sdk_dir" = "" ]; then
+-	read -e -p "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): " target_sdk_dir
+-	[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
++	if [ "$answer" = "Y" ]; then
++		target_sdk_dir="$DEFAULT_INSTALL_DIR"
++	else
++		read -e -p "Enter target directory for SDK (default: $DEFAULT_INSTALL_DIR): " target_sdk_dir
++		[ "$target_sdk_dir" = "" ] && target_sdk_dir=$DEFAULT_INSTALL_DIR
++	fi
+ fi
+ 
+ eval target_sdk_dir=$(echo "$target_sdk_dir"|sed 's/ /\\ /g')
+@@ -155,7 +163,7 @@ echo "done"
+ printf "Setting it up..."
+ # fix environment paths
+ for env_setup_script in `ls $target_sdk_dir/environment-setup-*`; do
+-	$SUDO_EXEC sed -e "s:$DEFAULT_INSTALL_DIR:$target_sdk_dir:g" -i $env_setup_script
++	$SUDO_EXEC sed -e "s:@SDKPATH@:$target_sdk_dir:g" -i $env_setup_script
+ done
+ 
+ @SDK_POST_INSTALL_COMMAND@
 -- 
 2.1.0
 
