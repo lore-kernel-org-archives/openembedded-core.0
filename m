@@ -1,25 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DEFAB76FDE
+	by mail.openembedded.org (Postfix) with ESMTP id D18F760132
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 12:42:45 +0000 (UTC)
+	Mon,  7 Sep 2015 12:42:46 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 07 Sep 2015 05:42:47 -0700
+	by orsmga101.jf.intel.com with ESMTP; 07 Sep 2015 05:42:48 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,485,1437462000"; d="scan'208";a="556940040"
+X-IronPort-AV: E=Sophos;i="5.17,485,1437462000"; d="scan'208";a="556940045"
 Received: from wmurray-mobl3.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.25.6])
-	by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2015 05:42:45 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2015 05:42:46 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Sep 2015 13:42:21 +0100
-Message-Id: <458cb48e473044d4bb4525a45207a9457934ce3e.1441629547.git.paul.eggleton@linux.intel.com>
+Date: Mon,  7 Sep 2015 13:42:22 +0100
+Message-Id: <7deab0d0b108022cff22a15775934bc6463efc09.1441629547.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <cover.1441629547.git.paul.eggleton@linux.intel.com>
 References: <cover.1441629547.git.paul.eggleton@linux.intel.com>
 In-Reply-To: <cover.1441629547.git.paul.eggleton@linux.intel.com>
 References: <cover.1441629547.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 05/11] populate_sdk_ext: install the latest buildtools-tarball
+Subject: [PATCH 06/11] copy_buildsystem: make sure bitbake directory is copied
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +32,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 12:42:46 -0000
+X-List-Received-Date: Mon, 07 Sep 2015 12:42:47 -0000
 
 From: "Qi.Chen@windriver.com" <Qi.Chen@windriver.com>
 
-If we do `bitbake buildtools-tarball' and then after one day do `bitbake
-core-image-minimal -c populate_sdk_ext', we would meet errors like below.
-
-| install: cannot stat '/buildarea2/chenqi/poky/build-systemd/tmp/deploy/sdk/
-poky-glibc-x86_64-buildtools-tarball-core2-64-buildtools-nativesdk-standalone
--1.8+snapshot-20150429.sh': No such file or directory
-
-The problem is that the output name for buildtools-tarball has ${DATE} in it.
-So if populate_sdk_ext task is executed but buildtools-tarball is not rebuilt,
-the above error appears.
-
-Instead of hardcoding ${DISTRO_VERSION} which consists of ${DATE} in the
-install_tools() function, we should find the latest buildtools-tarball based
-on the modification time and install it.
-
-[YOCTO #7674]
+The previous code assumes that bitbake/ directory is under the core layer.
+This is the case for Yocto project. But users might clone oe-core and bitbake
+separately. So we use bb.__file__ to locate the bitbake directory to make sure
+it's copied into the extensible SDK.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ meta/lib/oe/copy_buildsystem.py | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 8509f0c..5dd6051 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -163,13 +163,21 @@ python copy_buildsystem () {
-         pass
- }
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index cf7fada..979578c 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -28,11 +28,10 @@ class BuildSystem(object):
+         layers.append(corebase)
  
-+def extsdk_get_buildtools_filename(d):
-+    # This is somewhat of a hack
-+    localdata = bb.data.createCopy(d)
-+    localdata.setVar('PN', 'buildtools-tarball')
-+    return localdata.expand('${SDK_NAME}-buildtools-nativesdk-standalone-*.sh')
-+
- install_tools() {
- 	install -d ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}
- 	lnr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/devtool ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/devtool
- 	lnr ${SDK_OUTPUT}/${SDKPATH}/${scriptrelpath}/recipetool ${SDK_OUTPUT}/${SDKPATHNATIVE}${bindir_nativesdk}/recipetool
- 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
+         corebase_files = self.d.getVar('COREBASE_FILES', True).split()
+-
+-        # bitbake belongs in corebase so make sure it goes there
+-        if "bitbake" not in corebase_files:
+-            corebase_files.append("bitbake")
+         corebase_files = [corebase + '/' +x for x in corebase_files]
++        # Make sure bitbake goes in
++        bitbake_dir = bb.__file__.rsplit('/', 3)[0]
++        corebase_files.append(bitbake_dir)
  
--	install ${SDK_DEPLOY}/${DISTRO}-${TCLIBC}-${SDK_ARCH}-buildtools-tarball-${TUNE_PKGARCH}-buildtools-nativesdk-standalone-${DISTRO_VERSION}.sh ${SDK_OUTPUT}/${SDKPATH}
-+	# find latest buildtools-tarball and install it
-+	buildtools_path=`ls -t1 ${SDK_DEPLOY}/${@extsdk_get_buildtools_filename(d)} | head -n1`
-+	install $buildtools_path ${SDK_OUTPUT}/${SDKPATH}
- 
- 	install ${SDK_DEPLOY}/${BUILD_ARCH}-nativesdk-libc.tar.bz2 ${SDK_OUTPUT}/${SDKPATH}
- }
+         for layer in layers:
+             layerconf = os.path.join(layer, 'conf', 'layer.conf')
 -- 
 2.1.0
 
