@@ -1,25 +1,26 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F96676AC5
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CFCEB762B7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  6 Sep 2015 20:45:42 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1ZYgon-0006Kq-6P; Sun, 06 Sep 2015 22:45:41 +0200
-Message-ID: <1441572334.1680.77.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Date: Sun, 06 Sep 2015 21:45:34 +0100
-In-Reply-To: <55EA8F5B.408@dresearch-fe.de>
-References: <55E949A4.9050805@dresearch-fe.de>
-	<CAP71Wjzcr_ByLfCnAgQ3t2MYv+D88iTL5_VJ4Cdn23iAnyHfhg@mail.gmail.com>
-	<55EA8F5B.408@dresearch-fe.de>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] "sub" machine types?
+	Mon,  7 Sep 2015 01:48:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t871mEv4026950
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 6 Sep 2015 18:48:14 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Sun, 6 Sep 2015 18:48:13 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 6 Sep 2015 18:48:13 -0700
+Message-ID: <5915c718a6a692fa534940048feca6c5ffc8dcc7.1441590457.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1441590457.git.liezhi.yang@windriver.com>
+References: <cover.1441590457.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 1/1] package_manager.py: search provides when not found by pkgname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,19 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Sep 2015 20:45:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Sep 2015 01:48:18 -0000
+Content-Type: text/plain
 
-On Sat, 2015-09-05 at 08:44 +0200, Steffen Sledz wrote:
-> What we wish is one image containing one kernel and device tree files for each product.
+Fixed when:
+PACKAGE_CLASSES = "package_rpm"
+IMAGE_INSTALL_append = " perl-module-warnings-register"
 
-If these devices all use the same kernel and the same rootfs then it
-sounds like, as far as OE is concerned, they are the same MACHINE.  If
-you need to build device trees and different bootloaders for particular
-variants then you can do that easily enough with custom recipes.
+$ bitbake core-image-minimal
+[snip]
+ERROR: perl-module-warnings-register not found in the base feeds
+[snip]
 
-p.
+And it works well when PACKAGE_CLASSES = "package_ipk" since perl
+provides perl-module-warnings-register, the "smart install
+perl-module-warnings-register" also works well, this was because
+_search_pkg_name_in_feeds() only searched pkg name, but no provides,
+this patch fixes the problem.
 
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/lib/oe/package_manager.py |   16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 810b728..292ed44 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -760,6 +760,22 @@ class RpmPM(PackageManager):
+                     # bb.note('%s -> %s' % (pkg, pkg + '@' + arch))
+                     return pkg + '@' + arch
+ 
++        # Search provides if not found by pkgname.
++        bb.note('Not found %s by name, searching provides ...' % pkg)
++        cmd = "%s %s query --provides %s --show-format='$name-$version'" % \
++                (self.smart_cmd, self.smart_opt, pkg)
++        cmd += " | sed -ne 's/ *Provides://p'"
++        bb.note('cmd: %s' % cmd)
++        output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
++        # Found a provider
++        if output:
++            bb.note('Found providers for %s: %s' % (pkg, output))
++            for p in output.split():
++                for arch in feed_archs:
++                    arch = arch.replace('-', '_')
++                    if p.rstrip().endswith('@' + arch):
++                        return p
++
+         return ""
+ 
+     '''
+-- 
+1.7.9.5
 
 
