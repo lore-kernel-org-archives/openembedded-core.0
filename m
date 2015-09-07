@@ -1,34 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
-	[209.85.192.41])
-	by mail.openembedded.org (Postfix) with ESMTP id EEA227422C
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id CDEC675E80
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 14:08:49 +0000 (UTC)
-Received: by qgx61 with SMTP id 61so62737920qgx.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Sep 2015 07:08:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=e9uPBRtZsIoCFaOWqaLFwmHaofYNWuPQgfg4yQO7Jg8=;
-	b=jz594vhvUXmkW8pgzpaCwSm5HEeSvgssQSSrnk0kouKAJQ15VisEAovKE68JOXOLgG
-	Wi9jJebUZJBHYYfzyp7ZlF6ISHpV8tvjbM8AQQvqglHi6WDM0LI1jh2T26MoYOmrNQhM
-	2oLuliOPwjZ9hyGsKKN3494E59qDN2/siW6Zv7sySpix0w/D94LFJkyFbSNQeUbDA0Rc
-	HbtGo1jXfFHn89RJzYxt15uaQCwxlJIx0LZ4D8c+tJT56nVKoZQIfIzQyDSAVaQwBAim
-	RPKuRhJkhDe8+rXFfPOhpDO4l7iHin/1OVRaJI8tgYY8sxxjB/iZzRWo6WWSHCcmke6s
-	JjoQ==
-X-Gm-Message-State: ALoCoQk0AR+K9yEorAFSHcydUFsmJi++XYG9oirZyOoF+9wGzaBw1zx7hjEBR2nVO38Cyx1bv4qW
-X-Received: by 10.140.89.10 with SMTP id u10mr27004918qgd.15.1441634929672;
-	Mon, 07 Sep 2015 07:08:49 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Mon, 7 Sep 2015 07:08:30 -0700 (PDT)
-In-Reply-To: <1441592391-108731-1-git-send-email-wenzong.fan@windriver.com>
+	Mon,  7 Sep 2015 14:15:19 +0000 (UTC)
+Received: from [2a00:14f0:e04c:1:e23f:49ff:fe47:b7fd] (helo=phil-desktop)
+	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1ZYxCU-0001qZ-RZ; Mon, 07 Sep 2015 16:15:15 +0200
+Message-ID: <1441635313.22688.40.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 07 Sep 2015 15:15:13 +0100
+In-Reply-To: <CAJTo0LYt6Qd0OGqZgGKAtxpKuq9Cr2SUr42=vNa67+zPsUebYg@mail.gmail.com>
 References: <1441592391-108731-1-git-send-email-wenzong.fan@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 7 Sep 2015 15:08:30 +0100
-Message-ID: <CAJTo0LYt6Qd0OGqZgGKAtxpKuq9Cr2SUr42=vNa67+zPsUebYg@mail.gmail.com>
-To: wenzong fan <wenzong.fan@windriver.com>
+	<CAJTo0LYt6Qd0OGqZgGKAtxpKuq9Cr2SUr42=vNa67+zPsUebYg@mail.gmail.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] gnu-efi: Make setjmp.S portable to ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,39 +30,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 14:08:50 -0000
-Content-Type: multipart/alternative; boundary=001a11c1211ae138b0051f28c9d0
+X-List-Received-Date: Mon, 07 Sep 2015 14:15:20 -0000
+Content-Type: multipart/alternative; boundary="=-zcY2AOooo87tqIFLA7Xc"
 
---001a11c1211ae138b0051f28c9d0
-Content-Type: text/plain; charset=UTF-8
+--=-zcY2AOooo87tqIFLA7Xc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 7 September 2015 at 03:19, <wenzong.fan@windriver.com> wrote:
+On Mon, 2015-09-07 at 15:08 +0100, Burton, Ross wrote:
+> 
+> 
+> On 7 September 2015 at 03:19, <wenzong.fan@windriver.com> wrote:
+> 
+>         +  > Note on targets where the @ character is the start of a
+>         comment
+>         +  > (eg ARM) then another character is used instead. For
+>         example the
+>         +  > ARM port uses the % character.
+>         
+> 
+> 
+> Is the documentation badly written or does this now broke the build on
+> x86?
 
-> +  > Note on targets where the @ character is the start of a comment
-> +  > (eg ARM) then another character is used instead. For example the
-> +  > ARM port uses the % character.
->
+Surely the ARM assembly code would never have worked on x86 anyway.
+It's a bit of a mystery how the original code ever worked for anyone on
+ARM, given that binutils has behaved this way for nearly 20 years, but
+this patch does seem like an improvement.
 
-Is the documentation badly written or does this now broke the build on x86?
+I agree that the commit message leaves a little bit to be desired
+though.
 
-Ross
+p.
 
---001a11c1211ae138b0051f28c9d0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 September 2015 at 03:19,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenz=
-ong.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1d4" class=3D"a=
-3s" style=3D"overflow:hidden">+=C2=A0 &gt; Note on targets where the @ char=
-acter is the start of a comment<br>
-+=C2=A0 &gt; (eg ARM) then another character is used instead. For example t=
-he<br>
-+=C2=A0 &gt; ARM port uses the % character.<br></div></blockquote></div><br=
->Is the documentation badly written or does this now broke the build on x86=
-?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
-</div></div>
+--=-zcY2AOooo87tqIFLA7Xc
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
---001a11c1211ae138b0051f28c9d0--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 TRANSITIONAL//EN">
+<HTML>
+<HEAD>
+  <META HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=UTF-8">
+  <META NAME="GENERATOR" CONTENT="GtkHTML/4.8.5">
+</HEAD>
+<BODY>
+On Mon, 2015-09-07 at 15:08 +0100, Burton, Ross wrote:
+<BLOCKQUOTE TYPE=CITE>
+    <BR>
+</BLOCKQUOTE>
+<BLOCKQUOTE TYPE=CITE>
+    On 7 September 2015 at 03:19, &lt;<A HREF="mailto:wenzong.fan@windriver.com">wenzong.fan@windriver.com</A>&gt; wrote:
+</BLOCKQUOTE>
+<BLOCKQUOTE TYPE=CITE>
+    <BLOCKQUOTE>
+        +&nbsp; &gt; Note on targets where the @ character is the start of a comment<BR>
+        +&nbsp; &gt; (eg ARM) then another character is used instead. For example the<BR>
+        +&nbsp; &gt; ARM port uses the % character.<BR>
+        <BR>
+    </BLOCKQUOTE>
+</BLOCKQUOTE>
+<BLOCKQUOTE TYPE=CITE>
+    <BR>
+    Is the documentation badly written or does this now broke the build on x86?
+</BLOCKQUOTE>
+<BR>
+Surely the ARM assembly code would never have worked on x86 anyway.&nbsp; It's a bit of a mystery how the original code ever worked for anyone on ARM, given that binutils has behaved this way for nearly 20 years, but this patch does seem like an improvement.<BR>
+<BR>
+I agree that the commit message leaves a little bit to be desired though.<BR>
+<BR>
+p.<BR>
+<BR>
+</BODY>
+</HTML>
+
+--=-zcY2AOooo87tqIFLA7Xc--
