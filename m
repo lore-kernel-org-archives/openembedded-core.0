@@ -1,46 +1,30 @@
-Return-Path: <lee.nipper@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E9CE075E80;
-	Mon,  7 Sep 2015 14:24:47 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so62983543qgt.2;
-	Mon, 07 Sep 2015 07:24:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=2bj0fsg1ky0O1+M4LCaTJpYS7uzqc0chJU9tfeLeduY=;
-	b=jnPE3PkwNt4a6lxqpcvfxq4+Gk2REKHz7NrD5RLo0VJtJ9hDEBQFkxAMnYLM6qzdnQ
-	XQ7MlnY0fMsDMrIt8VBVGOhdGemqtqQ2JeeWnLOU8qZoRHZQr4C9RlplXvy/Ot1nIFMK
-	Cx7VBpc973/XTt1phalZLqyM/clTGa9QKgaslaYeZqTBxk8oX/RjbiQyyUKq81VibShH
-	bRcBjkHkxfw+ieze+IfkHPvVTT0513K6Hsz4lzfQgcGptZO7kJU/V6e/6nma+eDaoLse
-	3DmN0YVKw+k8uENwnzSq+H+1SWqwd6bmiqXLKLyV/ejgJiofDJazhEmUiN9OlB9MHe5H
-	CmIg==
-X-Received: by 10.141.28.21 with SMTP id f21mr11219985qhe.13.1441635887696;
-	Mon, 07 Sep 2015 07:24:47 -0700 (PDT)
-Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com.
-	[209.85.220.180]) by smtp.gmail.com with ESMTPSA id
-	q76sm6904311qkq.22.2015.09.07.07.24.46
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Sep 2015 07:24:47 -0700 (PDT)
-Received: by qkdw123 with SMTP id w123so17299496qkd.0;
-	Mon, 07 Sep 2015 07:24:46 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.55.198.92 with SMTP id b89mr26652870qkj.102.1441635886918;
-	Mon, 07 Sep 2015 07:24:46 -0700 (PDT)
-Received: by 10.140.25.165 with HTTP; Mon, 7 Sep 2015 07:24:46 -0700 (PDT)
-In-Reply-To: <55ED7E38.8050201@dresearch-fe.de>
-References: <55E949A4.9050805@dresearch-fe.de> <55EAD217.3010806@topic.nl>
-	<55ED383E.6070005@dresearch-fe.de>
-	<55ED7E38.8050201@dresearch-fe.de>
-Date: Mon, 7 Sep 2015 09:24:46 -0500
-Message-ID: <CALg11mjA1HpV7eGBZ0c2bsATPmBb-oDpLBhF-ZWuUy8niY9TPQ@mail.gmail.com>
-From: Lee Nipper <lee.nipper@linux.com>
-To: Steffen Sledz <sledz@dresearch-fe.de>
-Cc: Mike Looijmans <mike.looijmans@topic.nl>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: "sub" machine types?
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A43F37404E
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Sep 2015 14:36:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t87Ea2gG022694 for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Sep 2015 15:36:02 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id rhvTaWKsLm32
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  7 Sep 2015 15:36:02 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t87EZnru022611
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 7 Sep 2015 15:36:01 +0100
+Message-ID: <1441636549.24871.251.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 07 Sep 2015 15:35:49 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] qemu: Add fixes for smc91c11 qemu segfaults on arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,67 +37,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 14:24:49 -0000
-Content-Type: multipart/alternative; boundary=001a114787a6ef740c051f2902e4
+X-List-Received-Date: Mon, 07 Sep 2015 14:36:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---001a114787a6ef740c051f2902e4
-Content-Type: text/plain; charset=UTF-8
+The smc91c111.c driver appears to have several issues. The can_receive()
+function can return that the driver is ready when rx_fifo has not been 
+freed yet. There is also no sanity check of rx_fifo() in _receive() which
+can lead to corruption of the rx_fifo array.
 
-On Mon, Sep 7, 2015 at 7:08 AM, Steffen Sledz <sledz@dresearch-fe.de> wrote:
+release_packet() can also call qemu_flush_queued_packets() before rx_fifo 
+has been cleaned up, resulting in cases where packets are submitted
+for which there is not yet any space.
 
-> On 07.09.2015 09:09, Steffen Sledz wrote:
-> > On 05.09.2015 13:29, Mike Looijmans wrote:
-> >> ... and I think the u-boot recipe recently learned to have multiple
-> targets, so you can build multiple bootloaders for a single machine too.
-> >
-> > That sounds great. Can someone give a pointer to some documentation or
-> examples for that?
->
-> Is it correct to just replace the UBOOT_MACHINE item in the machine config
-> with something like this?
->
-> UBOOT_CONFIG ??= "sub1 sub2 sub3"
-> UBOOT_CONFIG[sub1] = "mymachine_sub1_config"
-> UBOOT_CONFIG[sub2] = "mymachine_sub2_config"
-> UBOOT_CONFIG[sub3] = "mymachine_sub3_config"
->
->
-Looks right.
+This patch therefore:
 
-I think you may also want to add something like:
+* fixes the logic in can_receive()
+* adds logic to receive() as a sanity check
+* moves the flush() calls to the correct places where data is ready
+  to be received
 
-KERNEL_DEVICETREE ??= "sub1.dtb  sub2.dtb  sub3.dtb"
+Its currently undergoing discussion upstream about exactly which pieces
+are the correct fix but for now, this stops the segfaults OE is seeing
+which has to be an improvement.
 
---001a114787a6ef740c051f2902e4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+[YOCTO #8234]
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Sep 7, 2015 at 7:08 AM, Steffen Sledz <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:sledz@dresearch-fe.de" target=3D"_blank">sledz@dresearch-fe.de</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex"><span class=3D"">On 07.09.2015 09:=
-09, Steffen Sledz wrote:<br>
-&gt; On 05.09.2015 13:29, Mike Looijmans wrote:<br>
-&gt;&gt; ... and I think the u-boot recipe recently learned to have multipl=
-e targets, so you can build multiple bootloaders for a single machine too.<=
-br>
-&gt;<br>
-&gt; That sounds great. Can someone give a pointer to some documentation or=
- examples for that?<br>
-<br>
-</span>Is it correct to just replace the UBOOT_MACHINE item in the machine =
-config with something like this?<br>
-<br>
-UBOOT_CONFIG ??=3D &quot;sub1 sub2 sub3&quot;<br>
-UBOOT_CONFIG[sub1] =3D &quot;mymachine_sub1_config&quot;<br>
-UBOOT_CONFIG[sub2] =3D &quot;mymachine_sub2_config&quot;<br>
-UBOOT_CONFIG[sub3] =3D &quot;mymachine_sub3_config&quot;<br>
-<div class=3D""><div class=3D"h5"><br></div></div></blockquote><div><br></d=
-iv><div>Looks right.</div><div><br></div><div>I think you may also want to =
-add something like:</div><div><br></div><div>KERNEL_DEVICETREE ??=3D &quot;=
-sub1.dtb =C2=A0sub2.dtb =C2=A0sub3.dtb&quot;</div><div><br></div><div><br><=
-/div></div></div></div>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
---001a114787a6ef740c051f2902e4--
+diff --git a/meta/recipes-devtools/qemu/qemu/smc91c111_fix.patch b/meta/recipes-devtools/qemu/qemu/smc91c111_fix.patch
+new file mode 100644
+index 0000000..e69af94
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/smc91c111_fix.patch
+@@ -0,0 +1,77 @@
++The smc91c111.c driver appears to have several issues. The can_receive()
++function can return that the driver is ready when rx_fifo has not been 
++freed yet. There is also no sanity check of rx_fifo() in _receive() which
++can lead to corruption of the rx_fifo array.
++
++release_packet() can also call qemu_flush_queued_packets() before rx_fifo 
++has been cleaned up, resulting in cases where packets are submitted
++for which there is not yet any space.
++
++This patch therefore:
++
++* fixes the logic in can_receive()
++* adds logic to receive() as a sanity check
++* moves the flush() calls to the correct places where data is ready
++  to be received
++
++Upstream-Status: Pending [discussion in progress on mailing list]
++RP 2015/9/7
++
++Index: qemu-2.4.0/hw/net/smc91c111.c
++===================================================================
++--- qemu-2.4.0.orig/hw/net/smc91c111.c
+++++ qemu-2.4.0/hw/net/smc91c111.c
++@@ -185,7 +185,6 @@ static void smc91c111_release_packet(smc
++     s->allocated &= ~(1 << packet);
++     if (s->tx_alloc == 0x80)
++         smc91c111_tx_alloc(s);
++-    qemu_flush_queued_packets(qemu_get_queue(s->nic));
++ }
++ 
++ /* Flush the TX FIFO.  */
++@@ -237,9 +236,11 @@ static void smc91c111_do_tx(smc91c111_st
++             }
++         }
++ #endif
++-        if (s->ctr & CTR_AUTO_RELEASE)
+++        if (s->ctr & CTR_AUTO_RELEASE) {
++             /* Race?  */
++             smc91c111_release_packet(s, packetnum);
+++            qemu_flush_queued_packets(qemu_get_queue(s->nic));
+++        }
++         else if (s->tx_fifo_done_len < NUM_PACKETS)
++             s->tx_fifo_done[s->tx_fifo_done_len++] = packetnum;
++         qemu_send_packet(qemu_get_queue(s->nic), p, len);
++@@ -379,9 +380,11 @@ static void smc91c111_writeb(void *opaqu
++                     smc91c111_release_packet(s, s->rx_fifo[0]);
++                 }
++                 smc91c111_pop_rx_fifo(s);
+++                qemu_flush_queued_packets(qemu_get_queue(s->nic));
++                 break;
++             case 5: /* Release.  */
++                 smc91c111_release_packet(s, s->packet_num);
+++                qemu_flush_queued_packets(qemu_get_queue(s->nic));
++                 break;
++             case 6: /* Add to TX FIFO.  */
++                 smc91c111_queue_tx(s, s->packet_num);
++@@ -642,7 +642,7 @@ static int smc91c111_can_receive(NetClie
++ 
++     if ((s->rcr & RCR_RXEN) == 0 || (s->rcr & RCR_SOFT_RST))
++         return 1;
++-    if (s->allocated == (1 << NUM_PACKETS) - 1)
+++    if ((s->allocated == (1 << NUM_PACKETS) - 1) || (s->rx_fifo_len == NUM_PACKETS))
++         return 0;
++     return 1;
++ }
++@@ -671,9 +671,11 @@ static ssize_t smc91c111_receive(NetClie
++     /* TODO: Flag overrun and receive errors.  */
++     if (packetsize > 2048)
++         return -1;
+++    if  (s->rx_fifo_len == NUM_PACKETS)
+++        return -1;    
++     packetnum = smc91c111_allocate_packet(s);
++     if (packetnum == 0x80)
++         return -1;
++     s->rx_fifo[s->rx_fifo_len++] = packetnum;
++ 
++     p = &s->data[packetnum][0];
+diff --git a/meta/recipes-devtools/qemu/qemu_2.4.0.bb b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
+index 5e5f786..d545b60 100644
+--- a/meta/recipes-devtools/qemu/qemu_2.4.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_2.4.0.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=441c28d2cf86e15a37fa47e15a72fbac \
+ SRC_URI += "file://configure-fix-Darwin-target-detection.patch \
+             file://qemu-enlarge-env-entry-size.patch \
+             file://Qemu-Arm-versatilepb-Add-memory-size-checking.patch \
++            file://smc91c111_fix.patch \
+            "
+ SRC_URI_prepend = "http://wiki.qemu-project.org/download/${BP}.tar.bz2"
+ SRC_URI[md5sum] = "186ee8194140a484a455f8e3c74589f4"
+
+
+
