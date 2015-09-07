@@ -1,45 +1,25 @@
-Return-Path: <sledz@dresearch-fe.de>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id EB5D876DF8
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id D2E2760132
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 12:08:26 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so86467638wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Sep 2015 05:08:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=ikd5U/J8DluGwVRDvFb+FMQbEuLztPrLy/QHT0KkntU=;
-	b=AASRT5+5DBzvugeUKFDNeJ6MQlh9M7wBwXQT8bkH5wAuF4GE7vm6NzclPgjIUScc0J
-	vZm+cT2VCJoZ0L+eK+PWoZEB89Df/6Xw9gdZ2aU+g+Bll7Fu1xzgmf2rY51Bq2MdRJHM
-	hKi6TyTlW7WOBX2j7+n29yN8oHa6no0uTB032gM6KfKmmD/plEOl2LdQMVvuDr9zhRR0
-	opHP+G8MeNqj56TMX0hSih7xz3br9kJ+KTI9FNdRRDVq9pbnLYXZnM1ciuVxyz9eNmBO
-	khkuuSMFFFskl58zr6Z5+eps5Bg654F0LMz65vP6D/dWBoGOQjKiifkduo2cR8HfpihW
-	oHEg==
-X-Gm-Message-State: ALoCoQnYsLbpj6KyHGenMZbO8BkoWaKu9VB+SKJ2Q/EhIS40FumQewKcK2egnMcmzMdEMzAxvCTe
-X-Received: by 10.180.105.196 with SMTP id go4mr30346169wib.36.1441627706304; 
-	Mon, 07 Sep 2015 05:08:26 -0700 (PDT)
-Received: from [172.29.23.46] (zk223.dresearch-fe.de. [217.92.177.116])
-	by smtp.googlemail.com with ESMTPSA id
-	wo2sm19738525wjb.2.2015.09.07.05.08.25
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 07 Sep 2015 05:08:25 -0700 (PDT)
-To: Mike Looijmans <mike.looijmans@topic.nl>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	openembedded-devel <openembedded-devel@lists.openembedded.org>, pb@pbcl.net
-References: <55E949A4.9050805@dresearch-fe.de> <55EAD217.3010806@topic.nl>
-	<55ED383E.6070005@dresearch-fe.de>
-From: Steffen Sledz <sledz@dresearch-fe.de>
-Message-ID: <55ED7E38.8050201@dresearch-fe.de>
-Date: Mon, 7 Sep 2015 14:08:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <55ED383E.6070005@dresearch-fe.de>
-Subject: Re: "sub" machine types?
+	Mon,  7 Sep 2015 12:42:43 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 07 Sep 2015 05:42:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,485,1437462000"; d="scan'208";a="556940018"
+Received: from wmurray-mobl3.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.25.6])
+	by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2015 05:42:41 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  7 Sep 2015 13:42:17 +0100
+Message-Id: <d69bc064c62cc0293f5e9db1259772639636a31e.1441629547.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.1.0
+In-Reply-To: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+References: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+References: <cover.1441629547.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 01/11] toolchain-shar-extract.sh: ensure extensible SDK install path obeys restrictions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,29 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 12:08:27 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 07 Sep 2015 12:42:44 -0000
 
-On 07.09.2015 09:09, Steffen Sledz wrote:
-> On 05.09.2015 13:29, Mike Looijmans wrote:
->> ... and I think the u-boot recipe recently learned to have multiple targets, so you can build multiple bootloaders for a single machine too.
-> 
-> That sounds great. Can someone give a pointer to some documentation or examples for that?
+From: Brendan Le Foll <brendan.le.foll@intel.com>
 
-Is it correct to just replace the UBOOT_MACHINE item in the machine config with something like this?
+There are some characters that cannot appear in the installation path, so we
+need to check for these
 
-UBOOT_CONFIG ??= "sub1 sub2 sub3"
-UBOOT_CONFIG[sub1] = "mymachine_sub1_config"
-UBOOT_CONFIG[sub2] = "mymachine_sub2_config"
-UBOOT_CONFIG[sub3] = "mymachine_sub3_config"
+Signed-off-by: Brendan Le Foll <brendan.le.foll@intel.com>
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ meta/files/toolchain-shar-extract.sh | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 3a50991..85719fa 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -85,9 +85,18 @@ else
+ 	target_sdk_dir=$(readlink -m "$target_sdk_dir")
+ fi
+ 
+-if [ -n "$(echo $target_sdk_dir|grep ' ')" ]; then
+-	echo "The target directory path ($target_sdk_dir) contains spaces. Abort!"
+-	exit 1
++if [ "$SDK_EXTENSIBLE" = "1" ]; then
++	# We're going to be running the build system, additional restrictions apply
++	if echo "$target_sdk_dir" | grep -q '[+\ @]'; then
++		echo "The target directory path ($target_sdk_dir) contains illegal" \
++		     "characters such as spaces, @ or +. Abort!"
++		exit 1
++	fi
++else
++	if [ -n "$(echo $target_sdk_dir|grep ' ')" ]; then
++		echo "The target directory path ($target_sdk_dir) contains spaces. Abort!"
++		exit 1
++	fi
+ fi
+ 
+ if [ -e "$target_sdk_dir/environment-setup-@REAL_MULTIMACH_TARGET_SYS@" ]; then
 -- 
-DResearch Fahrzeugelektronik GmbH
-Otto-Schmirgal-Str. 3, 10319 Berlin, Germany
-Tel: +49 30 515932-237 mailto:sledz@dresearch-fe.de
-Fax: +49 30 515932-299
-Geschäftsführer: Dr. Michael Weber, Werner Mögle;
-Amtsgericht Berlin Charlottenburg; HRB 130120 B;
-Ust.-IDNr. DE273952058
+2.1.0
+
 
