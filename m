@@ -1,25 +1,36 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id CE85D60017
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pa0-f48.google.com (mail-pa0-f48.google.com
+	[209.85.220.48])
+	by mail.openembedded.org (Postfix) with ESMTP id A62B260017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 21:48:17 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1ZZ4Gu-0003OW-4q; Mon, 07 Sep 2015 23:48:16 +0200
-Message-ID: <1441662490.1680.82.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 07 Sep 2015 22:48:10 +0100
-In-Reply-To: <EC219B31-F312-41D6-81C9-D13213CB2759@gmail.com>
-References: <d16024c043abcd21b162f7f93a5bdf29d91c8317.1441552859.git.raj.khem@gmail.com>
-	<a234814e2ad213dc69b90a3450d79b778c0e4c7c.1441552859.git.raj.khem@gmail.com>
-	<1441654609.1680.79.camel@pbcl.net>
-	<EC219B31-F312-41D6-81C9-D13213CB2759@gmail.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] rootfs: Do not uninstall update-rc.d
+	Mon,  7 Sep 2015 23:21:52 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so104249272pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Sep 2015 16:21:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=cs9lOtAU5ggI6JtX5tkuTdOnJohxW5TYEl4Ti3kwS/I=;
+	b=pTZ2YNWIOLDbInbvLfHHRFvh1RIY1npqyP/zPqVaYM8a/ejyC3mn0yikyIMEuxZGo+
+	QWyto/vkCkJTOI8anSVsm+k2ejI6KwR5cCz29iKAVO95GjfFm1yJSIa6HOmpYNyVrggS
+	a2kxECLgc5DcoH1iR9h8t4DgaIbWzIsL2pEhMj3gCv7BLQpa8WyaF0d0gPR9PtZXwq0R
+	qAusnR+fHg9PI8lm25h4vTHS548aslD81sPLvsTrXpQmUPk52B+sngQysjQYAnQQO/T0
+	8XRpM98pUo+nkyZLbvbQhwiGUCuhH+laT47l4o7G+i6Un3CX4+aQamt/JyfXRqrTxLq3
+	gHYw==
+X-Received: by 10.68.247.226 with SMTP id yh2mr51720378pbc.12.1441668112941;
+	Mon, 07 Sep 2015 16:21:52 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-76-20-92-207.hsd1.ca.comcast.net.
+	[76.20.92.207])
+	by smtp.gmail.com with ESMTPSA id u6sm974231pds.69.2015.09.07.16.21.51
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 07 Sep 2015 16:21:51 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	joshua.lock@collabora.co.uk
+Date: Mon,  7 Sep 2015 16:21:43 -0700
+Message-Id: <1441668103-28663-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.3.5
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [PATCH][fido] bind: CVE-2015-1349 CVE-2015-4620 CVE-2015-5722
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +43,642 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 21:48:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Sep 2015 23:21:54 -0000
 
-On Mon, 2015-09-07 at 14:15 -0700, Khem Raj wrote:
-> > On Sep 7, 2015, at 12:36 PM, Phil Blundell <pb@pbcl.net> wrote:
-> > 
-> > On Sun, 2015-09-06 at 15:25 +0000, Khem Raj wrote:
-> >> update-rc.d is now needed by systemd to interact with sysv
-> >> scripts, so if we have a mixed system, then we can not uninstall
-> >> update-rc.d as it is going to break systemd functionality
-> > 
-> > The description above implies that you will only uninstall update-rc.d
-> > if systemd is present, but that doesn't seem to be what the patch does.
-> 
-> I meant to not say its only for systemd. but that systemd now needs it.
-> so update-rc.d is no longer forcefully removed from image depchain.
+From: Armin Kuster <akuster@mvista.com>
 
-Well, right.  But wouldn't it be better only to leave it in there if
-it's actually necessary, i.e. if you have systemd and you also have sysv
-scripts and the rootfs isn't read-only?  As it stands, your patch will
-cause update-rc.d to be left around for people who aren't using systemd,
-which seems like a retrograde step.
+three security fixes.
 
-p.
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../bind/bind/CVE-2015-1349.patch                  |  60 +++
+ .../bind/bind/CVE-2015-4620.patch                  |  36 ++
+ .../bind/bind/CVE-2015-5722.patch                  | 490 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |   3 +
+ 4 files changed, 589 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-1349.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-4620.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-5722.patch
 
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-1349.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-1349.patch
+new file mode 100644
+index 0000000..dea7aae
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-1349.patch
+@@ -0,0 +1,60 @@
++CVE-2015-1349 bind: issue in trust anchor management can cause named to crash
++
++commit 2e9d79f169663c9aff5f0dcdc626a2cd2dbb5892
++Author: Evan Hunt <each@isc.org>
++Date:   Tue Feb 3 18:30:38 2015 -0800
++
++    [v9_9_6_patch] avoid crash due to managed-key rollover
++    
++    4053.	[security]	Revoking a managed trust anchor and supplying
++    			an untrusted replacement could cause named
++    			to crash with an assertion failure.
++    			(CVE-2015-1349) [RT #38344]
++
++Upstream Status: Backport from Redhat
++
++https://bugzilla.redhat.com/attachment.cgi?id=993045
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: bind-9.9.5/CHANGES
++===================================================================
++--- bind-9.9.5.orig/CHANGES
+++++ bind-9.9.5/CHANGES
++@@ -1,3 +1,10 @@
+++	--- 9.9.6-P2 released ---
+++
+++4053.	[security]	Revoking a managed trust anchor and supplying
+++			an untrusted replacement could cause named
+++			to crash with an assertion failure.
+++			(CVE-2015-1349) [RT #38344]
+++
++ 	--- 9.9.5 released ---
++ 
++ 	--- 9.9.5rc2 released ---
++Index: bind-9.9.5/lib/dns/zone.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/zone.c
+++++ bind-9.9.5/lib/dns/zone.c
++@@ -8496,6 +8496,12 @@ keyfetch_done(isc_task_t *task, isc_even
++ 					     namebuf, tag);
++ 				trustkey = ISC_TRUE;
++ 			}
+++		} else {
+++			/*
+++			 * No previously known key, and the key is not
+++			 * secure, so skip it.
+++			 */
+++			continue;
++ 		}
++ 
++ 		/* Delete old version */
++@@ -8544,7 +8550,7 @@ keyfetch_done(isc_task_t *task, isc_even
++ 			trust_key(zone, keyname, &dnskey, mctx);
++ 		}
++ 
++-		if (!deletekey)
+++		if (secure && !deletekey) 
++ 			set_refreshkeytimer(zone, &keydata, now);
++ 	}
++ 
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-4620.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-4620.patch
+new file mode 100644
+index 0000000..1a5051e
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-4620.patch
+@@ -0,0 +1,36 @@
++CVE-2015-4620 bind: abort DoS caused by uninitialized value use in isselfsigned()
++
++issue introduced by git commit
++
++https://source.isc.org/cgi-bin/gitweb.cgi?p=bind9.git;a=commitdiff;h=44f175a90a855326725439b2f1178f0dcca8f67d
++
++which is in this version of bind.
++
++Upstream Status: Backport from Redhat
++
++https://bugzilla.redhat.com/attachment.cgi?id=1044719
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: bind-9.9.5/lib/dns/validator.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/validator.c
+++++ bind-9.9.5/lib/dns/validator.c
++@@ -1406,7 +1406,6 @@ compute_keytag(dns_rdata_t *rdata, dns_r
++  */
++ static isc_boolean_t
++ isselfsigned(dns_validator_t *val) {
++-	dns_fixedname_t fixed;
++ 	dns_rdataset_t *rdataset, *sigrdataset;
++ 	dns_rdata_t rdata = DNS_RDATA_INIT;
++ 	dns_rdata_t sigrdata = DNS_RDATA_INIT;
++@@ -1462,8 +1461,7 @@ isselfsigned(dns_validator_t *val) {
++ 			result = dns_dnssec_verify3(name, rdataset, dstkey,
++ 						    ISC_TRUE,
++ 						    val->view->maxbits,
++-						    mctx, &sigrdata,
++-						    dns_fixedname_name(&fixed));
+++						    mctx, &sigrdata, NULL);
++ 			dst_key_free(&dstkey);
++ 			if (result != ISC_R_SUCCESS)
++ 				continue;
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2015-5722.patch b/meta/recipes-connectivity/bind/bind/CVE-2015-5722.patch
+new file mode 100644
+index 0000000..af20d5c
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2015-5722.patch
+@@ -0,0 +1,490 @@
++CVE-2015-5722 bind: malformed DNSSEC key failed assertion denial of service
++
++Upstream Status: Backport from Redhat
++
++https://bugzilla.redhat.com/attachment.cgi?id=1069245
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++Index: bind-9.9.5/lib/dns/hmac_link.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/hmac_link.c
+++++ bind-9.9.5/lib/dns/hmac_link.c
++@@ -76,7 +76,7 @@ hmacmd5_createctx(dst_key_t *key, dst_co
++ 	hmacmd5ctx = isc_mem_get(dctx->mctx, sizeof(isc_hmacmd5_t));
++ 	if (hmacmd5ctx == NULL)
++ 		return (ISC_R_NOMEMORY);
++-	isc_hmacmd5_init(hmacmd5ctx, hkey->key, ISC_SHA1_BLOCK_LENGTH);
+++	isc_hmacmd5_init(hmacmd5ctx, hkey->key, ISC_MD5_BLOCK_LENGTH);
++ 	dctx->ctxdata.hmacmd5ctx = hmacmd5ctx;
++ 	return (ISC_R_SUCCESS);
++ }
++@@ -139,7 +139,7 @@ hmacmd5_compare(const dst_key_t *key1, c
++ 	else if (hkey1 == NULL || hkey2 == NULL)
++ 		return (ISC_FALSE);
++ 
++-	if (isc_safe_memcmp(hkey1->key, hkey2->key, ISC_SHA1_BLOCK_LENGTH))
+++	if (isc_safe_memcmp(hkey1->key, hkey2->key, ISC_MD5_BLOCK_LENGTH))
++ 		return (ISC_TRUE);
++ 	else
++ 		return (ISC_FALSE);
++@@ -150,17 +150,17 @@ hmacmd5_generate(dst_key_t *key, int pse
++ 	isc_buffer_t b;
++ 	isc_result_t ret;
++ 	unsigned int bytes;
++-	unsigned char data[ISC_SHA1_BLOCK_LENGTH];
+++	unsigned char data[ISC_MD5_BLOCK_LENGTH];
++ 
++ 	UNUSED(callback);
++ 
++ 	bytes = (key->key_size + 7) / 8;
++-	if (bytes > ISC_SHA1_BLOCK_LENGTH) {
++-		bytes = ISC_SHA1_BLOCK_LENGTH;
++-		key->key_size = ISC_SHA1_BLOCK_LENGTH * 8;
+++	if (bytes > ISC_MD5_BLOCK_LENGTH) {
+++		bytes = ISC_MD5_BLOCK_LENGTH;
+++		key->key_size = ISC_MD5_BLOCK_LENGTH * 8;
++ 	}
++ 
++-	memset(data, 0, ISC_SHA1_BLOCK_LENGTH);
+++	memset(data, 0, ISC_MD5_BLOCK_LENGTH);
++ 	ret = dst__entropy_getdata(data, bytes, ISC_TF(pseudorandom_ok != 0));
++ 
++ 	if (ret != ISC_R_SUCCESS)
++@@ -169,7 +169,7 @@ hmacmd5_generate(dst_key_t *key, int pse
++ 	isc_buffer_init(&b, data, bytes);
++ 	isc_buffer_add(&b, bytes);
++ 	ret = hmacmd5_fromdns(key, &b);
++-	memset(data, 0, ISC_SHA1_BLOCK_LENGTH);
+++	memset(data, 0, ISC_MD5_BLOCK_LENGTH);
++ 
++ 	return (ret);
++ }
++@@ -223,7 +223,7 @@ hmacmd5_fromdns(dst_key_t *key, isc_buff
++ 
++ 	memset(hkey->key, 0, sizeof(hkey->key));
++ 
++-	if (r.length > ISC_SHA1_BLOCK_LENGTH) {
+++	if (r.length > ISC_MD5_BLOCK_LENGTH) {
++ 		isc_md5_init(&md5ctx);
++ 		isc_md5_update(&md5ctx, r.base, r.length);
++ 		isc_md5_final(&md5ctx, hkey->key);
++@@ -236,6 +236,8 @@ hmacmd5_fromdns(dst_key_t *key, isc_buff
++ 	key->key_size = keylen * 8;
++ 	key->keydata.hmacmd5 = hkey;
++ 
+++	isc_buffer_forward(data, r.length);
+++
++ 	return (ISC_R_SUCCESS);
++ }
++ 
++@@ -512,6 +514,8 @@ hmacsha1_fromdns(dst_key_t *key, isc_buf
++ 	key->key_size = keylen * 8;
++ 	key->keydata.hmacsha1 = hkey;
++ 
+++	isc_buffer_forward(data, r.length);
+++
++ 	return (ISC_R_SUCCESS);
++ }
++ 
++@@ -790,6 +794,8 @@ hmacsha224_fromdns(dst_key_t *key, isc_b
++ 	key->key_size = keylen * 8;
++ 	key->keydata.hmacsha224 = hkey;
++ 
+++	isc_buffer_forward(data, r.length);
+++
++ 	return (ISC_R_SUCCESS);
++ }
++ 
++@@ -1068,6 +1074,8 @@ hmacsha256_fromdns(dst_key_t *key, isc_b
++ 	key->key_size = keylen * 8;
++ 	key->keydata.hmacsha256 = hkey;
++ 
+++	isc_buffer_forward(data, r.length);
+++
++ 	return (ISC_R_SUCCESS);
++ }
++ 
++@@ -1346,6 +1354,8 @@ hmacsha384_fromdns(dst_key_t *key, isc_b
++ 	key->key_size = keylen * 8;
++ 	key->keydata.hmacsha384 = hkey;
++ 
+++	isc_buffer_forward(data, r.length);
+++
++ 	return (ISC_R_SUCCESS);
++ }
++ 
++@@ -1624,6 +1634,8 @@ hmacsha512_fromdns(dst_key_t *key, isc_b
++ 	key->key_size = keylen * 8;
++ 	key->keydata.hmacsha512 = hkey;
++ 
+++	isc_buffer_forward(data, r.length);
+++
++ 	return (ISC_R_SUCCESS);
++ }
++ 
++Index: bind-9.9.5/lib/dns/include/dst/dst.h
++===================================================================
++--- bind-9.9.5.orig/lib/dns/include/dst/dst.h
+++++ bind-9.9.5/lib/dns/include/dst/dst.h
++@@ -69,6 +69,7 @@ typedef struct dst_context 	dst_context_
++ #define DST_ALG_HMACSHA256	163	/* XXXMPA */
++ #define DST_ALG_HMACSHA384	164	/* XXXMPA */
++ #define DST_ALG_HMACSHA512	165	/* XXXMPA */
+++#define DST_ALG_INDIRECT	252
++ #define DST_ALG_PRIVATE		254
++ #define DST_ALG_EXPAND		255
++ #define DST_MAX_ALGS		255
++Index: bind-9.9.5/lib/dns/ncache.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/ncache.c
+++++ bind-9.9.5/lib/dns/ncache.c
++@@ -614,13 +614,11 @@ dns_ncache_getsigrdataset(dns_rdataset_t
++ 		dns_name_fromregion(&tname, &remaining);
++ 		INSIST(remaining.length >= tname.length);
++ 		isc_buffer_forward(&source, tname.length);
++-		remaining.length -= tname.length;
++-		remaining.base += tname.length;
+++		isc_region_consume(&remaining, tname.length);
++ 
++ 		INSIST(remaining.length >= 2);
++ 		type = isc_buffer_getuint16(&source);
++-		remaining.length -= 2;
++-		remaining.base += 2;
+++		isc_region_consume(&remaining, 2);
++ 
++ 		if (type != dns_rdatatype_rrsig ||
++ 		    !dns_name_equal(&tname, name)) {
++@@ -632,8 +630,7 @@ dns_ncache_getsigrdataset(dns_rdataset_t
++ 		INSIST(remaining.length >= 1);
++ 		trust = isc_buffer_getuint8(&source);
++ 		INSIST(trust <= dns_trust_ultimate);
++-		remaining.length -= 1;
++-		remaining.base += 1;
+++		isc_region_consume(&remaining, 1);
++ 
++ 		raw = remaining.base;
++ 		count = raw[0] * 256 + raw[1];
++Index: bind-9.9.5/lib/dns/openssldh_link.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/openssldh_link.c
+++++ bind-9.9.5/lib/dns/openssldh_link.c
++@@ -266,8 +266,10 @@ openssldh_destroy(dst_key_t *key) {
++ 
++ static void
++ uint16_toregion(isc_uint16_t val, isc_region_t *region) {
++-	*region->base++ = (val & 0xff00) >> 8;
++-	*region->base++ = (val & 0x00ff);
+++	*region->base = (val & 0xff00) >> 8;
+++	isc_region_consume(region, 1);
+++	*region->base = (val & 0x00ff);
+++	isc_region_consume(region, 1);
++ }
++ 
++ static isc_uint16_t
++@@ -278,7 +280,8 @@ uint16_fromregion(isc_region_t *region)
++ 	val = ((unsigned int)(cp[0])) << 8;
++ 	val |= ((unsigned int)(cp[1]));
++ 
++-	region->base += 2;
+++	isc_region_consume(region, 2);
+++
++ 	return (val);
++ }
++ 
++@@ -319,16 +322,16 @@ openssldh_todns(const dst_key_t *key, is
++ 	}
++ 	else
++ 		BN_bn2bin(dh->p, r.base);
++-	r.base += plen;
+++	isc_region_consume(&r, plen);
++ 
++ 	uint16_toregion(glen, &r);
++ 	if (glen > 0)
++ 		BN_bn2bin(dh->g, r.base);
++-	r.base += glen;
+++	isc_region_consume(&r, glen);
++ 
++ 	uint16_toregion(publen, &r);
++ 	BN_bn2bin(dh->pub_key, r.base);
++-	r.base += publen;
+++	isc_region_consume(&r, publen);
++ 
++ 	isc_buffer_add(data, dnslen);
++ 
++@@ -369,10 +372,12 @@ openssldh_fromdns(dst_key_t *key, isc_bu
++ 		return (DST_R_INVALIDPUBLICKEY);
++ 	}
++ 	if (plen == 1 || plen == 2) {
++-		if (plen == 1)
++-			special = *r.base++;
++-		else
+++		if (plen == 1) {
+++			special = *r.base;
+++			isc_region_consume(&r, 1);
+++		} else {
++ 			special = uint16_fromregion(&r);
+++		}
++ 		switch (special) {
++ 			case 1:
++ 				dh->p = &bn768;
++@@ -387,10 +392,9 @@ openssldh_fromdns(dst_key_t *key, isc_bu
++ 				DH_free(dh);
++ 				return (DST_R_INVALIDPUBLICKEY);
++ 		}
++-	}
++-	else {
+++	} else {
++ 		dh->p = BN_bin2bn(r.base, plen, NULL);
++-		r.base += plen;
+++		isc_region_consume(&r, plen);
++ 	}
++ 
++ 	/*
++@@ -421,15 +425,14 @@ openssldh_fromdns(dst_key_t *key, isc_bu
++ 				return (DST_R_INVALIDPUBLICKEY);
++ 			}
++ 		}
++-	}
++-	else {
+++	} else {
++ 		if (glen == 0) {
++ 			DH_free(dh);
++ 			return (DST_R_INVALIDPUBLICKEY);
++ 		}
++ 		dh->g = BN_bin2bn(r.base, glen, NULL);
++ 	}
++-	r.base += glen;
+++	isc_region_consume(&r, glen);
++ 
++ 	if (r.length < 2) {
++ 		DH_free(dh);
++@@ -441,7 +444,7 @@ openssldh_fromdns(dst_key_t *key, isc_bu
++ 		return (DST_R_INVALIDPUBLICKEY);
++ 	}
++ 	dh->pub_key = BN_bin2bn(r.base, publen, NULL);
++-	r.base += publen;
+++	isc_region_consume(&r, publen);
++ 
++ 	key->key_size = BN_num_bits(dh->p);
++ 
++Index: bind-9.9.5/lib/dns/openssldsa_link.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/openssldsa_link.c
+++++ bind-9.9.5/lib/dns/openssldsa_link.c
++@@ -29,8 +29,6 @@
++  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++  */
++ 
++-/* $Id$ */
++-
++ #ifdef OPENSSL
++ #ifndef USE_EVP
++ #define USE_EVP 1
++@@ -137,6 +135,7 @@ openssldsa_sign(dst_context_t *dctx, isc
++ 	DSA *dsa = key->keydata.dsa;
++ 	isc_region_t r;
++ 	DSA_SIG *dsasig;
+++	unsigned int klen;
++ #if USE_EVP
++ 	EVP_MD_CTX *evp_md_ctx = dctx->ctxdata.evp_md_ctx;
++ 	EVP_PKEY *pkey;
++@@ -188,6 +187,7 @@ openssldsa_sign(dst_context_t *dctx, isc
++ 					       ISC_R_FAILURE));
++ 	}
++ 	free(sigbuf);
+++
++ #elif 0
++ 	/* Only use EVP for the Digest */
++ 	if (!EVP_DigestFinal_ex(evp_md_ctx, digest, &siglen)) {
++@@ -209,11 +209,17 @@ openssldsa_sign(dst_context_t *dctx, isc
++ 					       "DSA_do_sign",
++ 					       DST_R_SIGNFAILURE));
++ #endif
++-	*r.base++ = (key->key_size - 512)/64;
+++
+++	klen = (key->key_size - 512)/64;
+++	if (klen > 255)
+++		return (ISC_R_FAILURE);
+++	*r.base = klen;
+++	isc_region_consume(&r, 1);
+++
++ 	BN_bn2bin_fixed(dsasig->r, r.base, ISC_SHA1_DIGESTLENGTH);
++-	r.base += ISC_SHA1_DIGESTLENGTH;
+++	isc_region_consume(&r, ISC_SHA1_DIGESTLENGTH);
++ 	BN_bn2bin_fixed(dsasig->s, r.base, ISC_SHA1_DIGESTLENGTH);
++-	r.base += ISC_SHA1_DIGESTLENGTH;
+++	isc_region_consume(&r, ISC_SHA1_DIGESTLENGTH);
++ 	DSA_SIG_free(dsasig);
++ 	isc_buffer_add(sig, ISC_SHA1_DIGESTLENGTH * 2 + 1);
++ 
++@@ -446,15 +452,16 @@ openssldsa_todns(const dst_key_t *key, i
++ 	if (r.length < (unsigned int) dnslen)
++ 		return (ISC_R_NOSPACE);
++ 
++-	*r.base++ = t;
+++	*r.base = t;
+++	isc_region_consume(&r, 1);
++ 	BN_bn2bin_fixed(dsa->q, r.base, ISC_SHA1_DIGESTLENGTH);
++-	r.base += ISC_SHA1_DIGESTLENGTH;
+++	isc_region_consume(&r, ISC_SHA1_DIGESTLENGTH);
++ 	BN_bn2bin_fixed(dsa->p, r.base, key->key_size/8);
++-	r.base += p_bytes;
+++	isc_region_consume(&r, p_bytes);
++ 	BN_bn2bin_fixed(dsa->g, r.base, key->key_size/8);
++-	r.base += p_bytes;
+++	isc_region_consume(&r, p_bytes);
++ 	BN_bn2bin_fixed(dsa->pub_key, r.base, key->key_size/8);
++-	r.base += p_bytes;
+++	isc_region_consume(&r, p_bytes);
++ 
++ 	isc_buffer_add(data, dnslen);
++ 
++@@ -479,29 +486,30 @@ openssldsa_fromdns(dst_key_t *key, isc_b
++ 		return (ISC_R_NOMEMORY);
++ 	dsa->flags &= ~DSA_FLAG_CACHE_MONT_P;
++ 
++-	t = (unsigned int) *r.base++;
+++	t = (unsigned int) *r.base;
+++	isc_region_consume(&r, 1);
++ 	if (t > 8) {
++ 		DSA_free(dsa);
++ 		return (DST_R_INVALIDPUBLICKEY);
++ 	}
++ 	p_bytes = 64 + 8 * t;
++ 
++-	if (r.length < 1 + ISC_SHA1_DIGESTLENGTH + 3 * p_bytes) {
+++	if (r.length < ISC_SHA1_DIGESTLENGTH + 3 * p_bytes) {
++ 		DSA_free(dsa);
++ 		return (DST_R_INVALIDPUBLICKEY);
++ 	}
++ 
++ 	dsa->q = BN_bin2bn(r.base, ISC_SHA1_DIGESTLENGTH, NULL);
++-	r.base += ISC_SHA1_DIGESTLENGTH;
+++	isc_region_consume(&r, ISC_SHA1_DIGESTLENGTH);
++ 
++ 	dsa->p = BN_bin2bn(r.base, p_bytes, NULL);
++-	r.base += p_bytes;
+++	isc_region_consume(&r, p_bytes);
++ 
++ 	dsa->g = BN_bin2bn(r.base, p_bytes, NULL);
++-	r.base += p_bytes;
+++	isc_region_consume(&r, p_bytes);
++ 
++ 	dsa->pub_key = BN_bin2bn(r.base, p_bytes, NULL);
++-	r.base += p_bytes;
+++	isc_region_consume(&r, p_bytes);
++ 
++ 	key->key_size = p_bytes * 8;
++ 
++Index: bind-9.9.5/lib/dns/opensslecdsa_link.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/opensslecdsa_link.c
+++++ bind-9.9.5/lib/dns/opensslecdsa_link.c
++@@ -14,8 +14,6 @@
++  * PERFORMANCE OF THIS SOFTWARE.
++  */
++ 
++-/* $Id$ */
++-
++ #include <config.h>
++ 
++ #ifdef HAVE_OPENSSL_ECDSA
++@@ -159,9 +157,9 @@ opensslecdsa_sign(dst_context_t *dctx, i
++ 					       "ECDSA_do_sign",
++ 					       DST_R_SIGNFAILURE));
++ 	BN_bn2bin_fixed(ecdsasig->r, r.base, siglen / 2);
++-	r.base += siglen / 2;
+++	isc_region_consume(&r, siglen / 2);
++ 	BN_bn2bin_fixed(ecdsasig->s, r.base, siglen / 2);
++-	r.base += siglen / 2;
+++	isc_region_consume(&r, siglen / 2);
++ 	ECDSA_SIG_free(ecdsasig);
++ 	isc_buffer_add(sig, siglen);
++ 	ret = ISC_R_SUCCESS;
++Index: bind-9.9.5/lib/dns/opensslrsa_link.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/opensslrsa_link.c
+++++ bind-9.9.5/lib/dns/opensslrsa_link.c
++@@ -965,6 +965,7 @@ opensslrsa_fromdns(dst_key_t *key, isc_b
++ 	RSA *rsa;
++ 	isc_region_t r;
++ 	unsigned int e_bytes;
+++	unsigned int length;
++ #if USE_EVP
++ 	EVP_PKEY *pkey;
++ #endif
++@@ -972,6 +973,7 @@ opensslrsa_fromdns(dst_key_t *key, isc_b
++ 	isc_buffer_remainingregion(data, &r);
++ 	if (r.length == 0)
++ 		return (ISC_R_SUCCESS);
+++	length = r.length;
++ 
++ 	rsa = RSA_new();
++ 	if (rsa == NULL)
++@@ -982,17 +984,18 @@ opensslrsa_fromdns(dst_key_t *key, isc_b
++ 		RSA_free(rsa);
++ 		return (DST_R_INVALIDPUBLICKEY);
++ 	}
++-	e_bytes = *r.base++;
++-	r.length--;
+++	e_bytes = *r.base;
+++	isc_region_consume(&r, 1);
++ 
++ 	if (e_bytes == 0) {
++ 		if (r.length < 2) {
++ 			RSA_free(rsa);
++ 			return (DST_R_INVALIDPUBLICKEY);
++ 		}
++-		e_bytes = ((*r.base++) << 8);
++-		e_bytes += *r.base++;
++-		r.length -= 2;
+++		e_bytes = (*r.base) << 8;
+++		isc_region_consume(&r, 1);
+++		e_bytes += *r.base;
+++		isc_region_consume(&r, 1);
++ 	}
++ 
++ 	if (r.length < e_bytes) {
++@@ -1000,14 +1003,13 @@ opensslrsa_fromdns(dst_key_t *key, isc_b
++ 		return (DST_R_INVALIDPUBLICKEY);
++ 	}
++ 	rsa->e = BN_bin2bn(r.base, e_bytes, NULL);
++-	r.base += e_bytes;
++-	r.length -= e_bytes;
+++	isc_region_consume(&r, e_bytes);
++ 
++ 	rsa->n = BN_bin2bn(r.base, r.length, NULL);
++ 
++ 	key->key_size = BN_num_bits(rsa->n);
++ 
++-	isc_buffer_forward(data, r.length);
+++	isc_buffer_forward(data, length);
++ 
++ #if USE_EVP
++ 	pkey = EVP_PKEY_new();
++Index: bind-9.9.5/lib/dns/resolver.c
++===================================================================
++--- bind-9.9.5.orig/lib/dns/resolver.c
+++++ bind-9.9.5/lib/dns/resolver.c
++@@ -8937,6 +8937,12 @@ dns_resolver_algorithm_supported(dns_res
++ 
++ 	REQUIRE(VALID_RESOLVER(resolver));
++ 
+++	/*
+++	 * DH is unsupported for DNSKEYs, see RFC 4034 sec. A.1.
+++	 */
+++	if ((alg == DST_ALG_DH) || (alg == DST_ALG_INDIRECT))
+++		return (ISC_FALSE);
+++
++ #if USE_ALGLOCK
++ 	RWLOCK(&resolver->alglock, isc_rwlocktype_read);
++ #endif
++@@ -8956,6 +8962,7 @@ dns_resolver_algorithm_supported(dns_res
++ #endif
++ 	if (found)
++ 		return (ISC_FALSE);
+++
++ 	return (dst_algorithm_supported(alg));
++ }
++ 
+diff --git a/meta/recipes-connectivity/bind/bind_9.9.5.bb b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+index 9f0ab2f..d4fdd21 100644
+--- a/meta/recipes-connectivity/bind/bind_9.9.5.bb
++++ b/meta/recipes-connectivity/bind/bind_9.9.5.bb
+@@ -22,6 +22,9 @@ SRC_URI = "ftp://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://bind-subdirs-run-serially.patch \
+            file://bind-confgen-build-unix.o-once.patch \
+            file://cve-2015-5477.patch \
++           file://CVE-2015-1349.patch \
++           file://CVE-2015-4620.patch \
++           file://CVE-2015-5722.patch \
+ 	   "
+ 
+ SRC_URI[md5sum] = "e676c65cad5234617ee22f48e328c24e"
+-- 
+2.3.5
 
 
