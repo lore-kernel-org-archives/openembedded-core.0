@@ -1,25 +1,36 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 7685473232
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f41.google.com (mail-qg0-f41.google.com
+	[209.85.192.41])
+	by mail.openembedded.org (Postfix) with ESMTP id EEA227422C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 12:42:51 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 07 Sep 2015 05:42:52 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,485,1437462000"; d="scan'208";a="556940061"
-Received: from wmurray-mobl3.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.25.6])
-	by FMSMGA003.fm.intel.com with ESMTP; 07 Sep 2015 05:42:51 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  7 Sep 2015 13:42:27 +0100
-Message-Id: <257ea5b57ff0c53cf53d816a1c26c2619968f6b0.1441629547.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <cover.1441629547.git.paul.eggleton@linux.intel.com>
-References: <cover.1441629547.git.paul.eggleton@linux.intel.com>
-In-Reply-To: <cover.1441629547.git.paul.eggleton@linux.intel.com>
-References: <cover.1441629547.git.paul.eggleton@linux.intel.com>
-Subject: [PATCH 11/11] devtool: add mechanism for updating extensible SDK
+	Mon,  7 Sep 2015 14:08:49 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so62737920qgx.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Sep 2015 07:08:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=e9uPBRtZsIoCFaOWqaLFwmHaofYNWuPQgfg4yQO7Jg8=;
+	b=jz594vhvUXmkW8pgzpaCwSm5HEeSvgssQSSrnk0kouKAJQ15VisEAovKE68JOXOLgG
+	Wi9jJebUZJBHYYfzyp7ZlF6ISHpV8tvjbM8AQQvqglHi6WDM0LI1jh2T26MoYOmrNQhM
+	2oLuliOPwjZ9hyGsKKN3494E59qDN2/siW6Zv7sySpix0w/D94LFJkyFbSNQeUbDA0Rc
+	HbtGo1jXfFHn89RJzYxt15uaQCwxlJIx0LZ4D8c+tJT56nVKoZQIfIzQyDSAVaQwBAim
+	RPKuRhJkhDe8+rXFfPOhpDO4l7iHin/1OVRaJI8tgYY8sxxjB/iZzRWo6WWSHCcmke6s
+	JjoQ==
+X-Gm-Message-State: ALoCoQk0AR+K9yEorAFSHcydUFsmJi++XYG9oirZyOoF+9wGzaBw1zx7hjEBR2nVO38Cyx1bv4qW
+X-Received: by 10.140.89.10 with SMTP id u10mr27004918qgd.15.1441634929672;
+	Mon, 07 Sep 2015 07:08:49 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Mon, 7 Sep 2015 07:08:30 -0700 (PDT)
+In-Reply-To: <1441592391-108731-1-git-send-email-wenzong.fan@windriver.com>
+References: <1441592391-108731-1-git-send-email-wenzong.fan@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 7 Sep 2015 15:08:30 +0100
+Message-ID: <CAJTo0LYt6Qd0OGqZgGKAtxpKuq9Cr2SUr42=vNa67+zPsUebYg@mail.gmail.com>
+To: wenzong fan <wenzong.fan@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gnu-efi: Make setjmp.S portable to ARM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,259 +43,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 12:42:51 -0000
+X-List-Received-Date: Mon, 07 Sep 2015 14:08:50 -0000
+Content-Type: multipart/alternative; boundary=001a11c1211ae138b0051f28c9d0
 
-From: "Qi.Chen@windriver.com" <Qi.Chen@windriver.com>
+--001a11c1211ae138b0051f28c9d0
+Content-Type: text/plain; charset=UTF-8
 
-Enable updating the installed extensible SDK from a local or remote
-server, avoiding the need to install it again from scratch when
-updating. (This assumes that the updated SDK has been built and then
-published somewhere using the oe-publish-sdk script beforehand.)
+On 7 September 2015 at 03:19, <wenzong.fan@windriver.com> wrote:
 
-This plugin is only enabled when devtool is used within the extensible
-SDK since it doesn't make sense to use it next to a normal install of
-the build system.
+> +  > Note on targets where the @ character is the start of a comment
+> +  > (eg ARM) then another character is used instead. For example the
+> +  > ARM port uses the % character.
+>
 
-E.g.
-devtool sdk-update /mnt/sdk-repo/
-devtool sdk-update http://mysdkhost/sdk
+Is the documentation badly written or does this now broke the build on x86?
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
----
- meta/classes/populate_sdk_ext.bbclass |   6 ++
- scripts/lib/devtool/sdk.py            | 197 ++++++++++++++++++++++++++++++++++
- 2 files changed, 203 insertions(+)
- create mode 100644 scripts/lib/devtool/sdk.py
+Ross
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 0b012eb..4ef8838 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -18,6 +18,7 @@ SDK_RELOCATE_AFTER_INSTALL_task-populate-sdk-ext = "0"
- SDK_LOCAL_CONF_WHITELIST ?= ""
- SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION BB_NUMBER_THREADS PARALLEL_MAKE PRSERV_HOST"
- SDK_INHERIT_BLACKLIST ?= "buildhistory icecc"
-+SDK_UPDATE_URL ?= ""
- 
- SDK_TARGETS ?= "${PN}"
- OE_INIT_ENV_SCRIPT ?= "oe-init-build-env"
-@@ -85,6 +86,11 @@ python copy_buildsystem () {
-     config.set('General', 'bitbake_subdir', conf_bbpath)
-     config.set('General', 'init_path', conf_initpath)
-     config.set('General', 'core_meta_subdir', core_meta_subdir)
-+    config.add_section('SDK')
-+    config.set('SDK', 'sdk_targets', d.getVar('SDK_TARGETS', True))
-+    updateurl = d.getVar('SDK_UPDATE_URL', True)
-+    if updateurl:
-+        config.set('SDK', 'updateserver', updateurl)
-     bb.utils.mkdirhier(os.path.join(baseoutpath, 'conf'))
-     with open(os.path.join(baseoutpath, 'conf', 'devtool.conf'), 'w') as f:
-         config.write(f)
-diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
-new file mode 100644
-index 0000000..2f416b3
---- /dev/null
-+++ b/scripts/lib/devtool/sdk.py
-@@ -0,0 +1,197 @@
-+# Development tool - sdk-update command plugin
-+
-+import os
-+import subprocess
-+import logging
-+import glob
-+import shutil
-+import errno
-+import sys
-+from devtool import exec_build_env_command, setup_tinfoil, DevtoolError
-+
-+logger = logging.getLogger('devtool')
-+
-+def plugin_init(pluginlist):
-+    """Plugin initialization"""
-+    pass
-+
-+def parse_locked_sigs(sigfile_path):
-+    """Return <pn:task>:<hash> dictionary"""
-+    sig_dict = {}
-+    with open(sigfile_path) as f:
-+        lines = f.readlines()
-+        for line in lines:
-+            if ':' in line:
-+                taskkey, _, hashval = line.rpartition(':')
-+                sig_dict[taskkey.strip()] = hashval.split()[0]
-+    return sig_dict
-+
-+def generate_update_dict(sigfile_new, sigfile_old):
-+    """Return a dict containing <pn:task>:<hash> which indicates what need to be updated"""
-+    update_dict = {}
-+    sigdict_new = parse_locked_sigs(sigfile_new)
-+    sigdict_old = parse_locked_sigs(sigfile_old)
-+    for k in sigdict_new:
-+        if k not in sigdict_old:
-+            update_dict[k] = sigdict_new[k]
-+            continue
-+        if sigdict_new[k] != sigdict_old[k]:
-+            update_dict[k] = sigdict_new[k]
-+            continue
-+    return update_dict
-+
-+def get_sstate_objects(update_dict, newsdk_path):
-+    """Return a list containing sstate objects which are to be installed"""
-+    sstate_objects = []
-+    # Ensure newsdk_path points to an extensible SDK
-+    sstate_dir = os.path.join(newsdk_path, 'sstate-cache')
-+    if not os.path.exists(sstate_dir):
-+        logger.error("sstate-cache directory not found under %s" % newsdk_path)
-+        raise
-+    for k in update_dict:
-+        files = set()
-+        hashval = update_dict[k]
-+        p = sstate_dir + '/' + hashval[:2] + '/*' + hashval + '*.tgz'
-+        files |= set(glob.glob(p))
-+        p = sstate_dir + '/*/' + hashval[:2] + '/*' + hashval + '*.tgz'
-+        files |= set(glob.glob(p))
-+        files = list(files)
-+        if len(files) == 1:
-+            sstate_objects.extend(files)
-+        elif len(files) > 1:
-+            logger.error("More than one matching sstate object found for %s" % hashval)
-+
-+    return sstate_objects
-+
-+def mkdir(d):
-+    try:
-+        os.makedirs(d)
-+    except OSError as e:
-+        if e.errno != errno.EEXIST:
-+            raise e
-+
-+def install_sstate_objects(sstate_objects, src_sdk, dest_sdk):
-+    """Install sstate objects into destination SDK"""
-+    sstate_dir = os.path.join(dest_sdk, 'sstate-cache')
-+    if not os.path.exists(sstate_dir):
-+        logger.error("Missing sstate-cache directory in %s, it might not be an extensible SDK." % dest_sdk)
-+        raise
-+    for sb in sstate_objects:
-+        dst = sb.replace(src_sdk, dest_sdk)
-+        destdir = os.path.dirname(dst)
-+        mkdir(destdir)
-+        logger.debug("Copying %s to %s" % (sb, dst))
-+        shutil.copy(sb, dst)
-+
-+def sdk_update(args, config, basepath, workspace):
-+    # Fetch locked-sigs.inc file from remote/local destination
-+    from ConfigParser import NoSectionError
-+    updateserver = args.updateserver
-+    if not updateserver:
-+        try:
-+            updateserver = config.get('SDK', 'updateserver', None)
-+        except NoSectionError:
-+            pass
-+    if not updateserver:
-+        raise DevtoolError("Update server not specified in config file, you must specify it on the command line")
-+    logger.debug("updateserver: %s" % args.updateserver)
-+
-+    # Make sure we are using sdk-update from within SDK
-+    logger.debug("basepath = %s" % basepath)
-+    old_locked_sig_file_path = os.path.join(basepath, 'conf/locked-sigs.inc')
-+    if not os.path.exists(old_locked_sig_file_path):
-+        logger.error("Not using devtool's sdk-update command from within an extensible SDK. Please specify correct basepath via --basepath option")
-+        return -1
-+    else:
-+        logger.debug("Found conf/locked-sigs.inc in %s" % basepath)
-+
-+    if ':' in args.updateserver:
-+        is_remote = True
-+    else:
-+        is_remote = False
-+
-+    if not is_remote:
-+        # devtool sdk-update /local/path/to/latest/sdk
-+        new_locked_sig_file_path = os.path.join(args.updateserver, 'conf/locked-sigs.inc')
-+        if not os.path.exists(new_locked_sig_file_path):
-+            logger.error("%s doesn't exist or is not an extensible SDK" % args.updateserver)
-+            return -1
-+        else:
-+            logger.debug("Found conf/locked-sigs.inc in %s" % args.updateserver)
-+        update_dict = generate_update_dict(new_locked_sig_file_path, old_locked_sig_file_path)
-+        logger.debug("update_dict = %s" % update_dict)
-+        sstate_objects = get_sstate_objects(update_dict, args.updateserver)
-+        logger.debug("sstate_objects = %s" % sstate_objects)
-+        if len(sstate_objects) == 0:
-+            logger.info("No need to update.")
-+            return 0
-+        logger.info("Installing sstate objects into %s", basepath)
-+        install_sstate_objects(sstate_objects, args.updateserver.rstrip('/'), basepath)
-+        logger.info("Updating configuration files")
-+        new_conf_dir = os.path.join(args.updateserver, 'conf')
-+        old_conf_dir = os.path.join(basepath, 'conf')
-+        shutil.rmtree(old_conf_dir)
-+        shutil.copytree(new_conf_dir, old_conf_dir)
-+        logger.info("Updating layers")
-+        new_layers_dir = os.path.join(args.updateserver, 'layers')
-+        old_layers_dir = os.path.join(basepath, 'layers')
-+        shutil.rmtree(old_layers_dir)
-+        shutil.copytree(new_layers_dir, old_layers_dir)
-+    else:
-+        # devtool sdk-update http://myhost/sdk
-+        tmpsdk_dir = '/tmp/sdk-ext'
-+        if os.path.exists(tmpsdk_dir):
-+            shutil.rmtree(tmpsdk_dir)
-+        os.makedirs(tmpsdk_dir)
-+        os.makedirs(os.path.join(tmpsdk_dir, 'conf'))
-+        # Fetch locked-sigs.inc from update server
-+        ret = subprocess.call("wget -q -O - %s/conf/locked-sigs.inc > %s/locked-sigs.inc" % (args.updateserver, os.path.join(tmpsdk_dir, 'conf')), shell=True)
-+        if ret != 0:
-+            logger.error("Fetching conf/locked-sigs.inc from %s to %s/locked-sigs.inc failed" % (args.updateserver, os.path.join(tmpsdk_dir, 'conf')))
-+            return ret
-+        else:
-+            logger.info("Fetching conf/locked-sigs.inc from %s to %s/locked-sigs.inc succeeded" % (args.updateserver, os.path.join(tmpsdk_dir, 'conf')))
-+        new_locked_sig_file_path = os.path.join(tmpsdk_dir, 'conf/locked-sigs.inc')
-+        update_dict = generate_update_dict(new_locked_sig_file_path, old_locked_sig_file_path)
-+        logger.debug("update_dict = %s" % update_dict)
-+        if len(update_dict) == 0:
-+            logger.info("No need to update.")
-+            return 0
-+        # Update metadata
-+        logger.debug("Updating meta data via git ...")
-+        # Try using 'git pull', if failed, use 'git clone'
-+        if os.path.exists(os.path.join(basepath, 'layers/.git')):
-+            ret = subprocess.call("cd layers && git pull", shell=True)
-+        else:
-+            ret = -1
-+        if ret != 0:
-+            ret = subprocess.call("rm -rf layers && git clone %s/layers" % args.updateserver, shell=True)
-+        if ret != 0:
-+            logger.error("Updating meta data via git failed")
-+            return ret
-+        logger.debug("Updating conf files ...")
-+        conf_files = ['local.conf', 'bblayers.conf', 'devtool.conf', 'work-config.inc', 'locked-sigs.inc']
-+        for conf in conf_files:
-+            ret = subprocess.call("wget -q -O - %s/conf/%s > conf/%s" % (args.updateserver, conf, conf), shell=True)
-+            if ret != 0:
-+                logger.error("Update %s failed" % conf)
-+                return ret
-+        with open(os.path.join(basepath, 'conf/local.conf'), 'a') as f:
-+            f.write('SSTATE_MIRRORS_append = " file://.* %s/sstate-cache/PATH \\n "\n' % args.updateserver)
-+
-+    # Run bitbake command for the whole SDK
-+    sdk_targets = config.get('SDK', 'sdk_targets')
-+    logger.info("Executing 'bitbake %s' ... (This may take some time.)" % sdk_targets)
-+    try:
-+        exec_build_env_command(config.init_path, basepath, 'bitbake %s' % sdk_targets)
-+    except:
-+        logger.error('bitbake %s failed' % sdk_targets)
-+        return -1
-+    return 0
-+
-+def register_commands(subparsers, context):
-+    """Register devtool subcommands from the sdk plugin"""
-+    if context.fixed_setup:
-+        parser_sdk = subparsers.add_parser('sdk-update', help='Update SDK components from a nominated location')
-+        parser_sdk.add_argument('updateserver', help='The update server to fetch latest SDK components from', nargs='?')
-+        parser_sdk.set_defaults(func=sdk_update)
--- 
-2.1.0
+--001a11c1211ae138b0051f28c9d0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 September 2015 at 03:19,  <span dir=3D"ltr">&lt;<a href=3D"mailto:wenz=
+ong.fan@windriver.com" target=3D"_blank">wenzong.fan@windriver.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":1d4" class=3D"a=
+3s" style=3D"overflow:hidden">+=C2=A0 &gt; Note on targets where the @ char=
+acter is the start of a comment<br>
++=C2=A0 &gt; (eg ARM) then another character is used instead. For example t=
+he<br>
++=C2=A0 &gt; ARM port uses the % character.<br></div></blockquote></div><br=
+>Is the documentation badly written or does this now broke the build on x86=
+?</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross=
+</div></div>
 
+--001a11c1211ae138b0051f28c9d0--
