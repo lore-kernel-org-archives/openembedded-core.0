@@ -1,37 +1,37 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
-	[209.85.212.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 637F8762B4
+Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
+	[209.85.212.177])
+	by mail.openembedded.org (Postfix) with ESMTP id D631174197
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 11:50:21 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so81257025wic.0
+	Mon,  7 Sep 2015 11:57:26 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so81451512wic.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Sep 2015 04:50:21 -0700 (PDT)
+	Mon, 07 Sep 2015 04:57:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=o8USeE2Aaj8SfzxB5przblTy79cRZRdkwwIPRYBWxFw=;
-	b=hAN2HKVUvzpVoC/vfcV980EXAgJ/HmMP8h5RPBqONB9bTaz2d75JV//9psjulkPhRp
-	8PgwJ1JGVdvofczXxFFF8fNAwSWFZhapeRG+sTCJJLJMrpm4VxALAMBSwz6AZG1J4HXz
-	Rtr5OzWrY8Pj8gw9Q8KRh/5t8YLGVSla5ViA99qJtRxqOm950oAJZHhx+iz/p04k2sju
-	Bova0Mj995AyNHftNeWj6h0jxgKMhRREkbr7ocGUQ4CEAdKsY2TMyAwETIOrpUjVs1ln
-	yxEr+zITj8vzg3pteQ2bAM+tGvvhnkZJkGeohD8dLZ8PLYaj8a1Jn7qxbJoGkr1j1iu2
-	1trQ==
-X-Gm-Message-State: ALoCoQkvy3QLsscc4lWZacEDL4xHzL1w7z3FU6ysnfoRbpui878XsztqA+GfvOTZGZ7mgEF+RSyv
-X-Received: by 10.180.88.164 with SMTP id bh4mr31841314wib.18.1441626621568;
-	Mon, 07 Sep 2015 04:50:21 -0700 (PDT)
+	bh=IMjJ8s6oIAQ3aDzB1Z/d2rueMGRmQQFsn1avKIBktyo=;
+	b=Bh7qZHnmSiASMPoH1s5+BHL8F4eeJqmUO14JTs9QvaLCrERaQUC8D1j4SpASHozhmx
+	13Z+KUeZH4XqXAdKXouZUO0UzIObN8qQ5eZLkwUeq88FByfwvi4mukjiCOISXkwY0HtD
+	TD+aAZ5Fsv/4ICc6PoQ/s/aoWVFj4A7iw6BfJdRqQDLl8zz6A1+CLJbbmGXFnfS78bO8
+	ko8Cw4nZ1Lij+9ZWbb+DN+r1vkzxQkjgJ9PRPqcmKfkfrbbkPthERRWZbwyXqzYQhyYN
+	u5a157j/JkoXe9FwlLVlMfuJNH4cSPoUs5Sxy5+CWj6matI43kmfDrL45HuLqw1q9BEX
+	1Qjw==
+X-Gm-Message-State: ALoCoQnZAtMr/MaHvxAxvBQ2hG1cA9pcqp/E7EpT7OglBB+Xi/PCO4APjV+/BbIKbfka4BmMBea6
+X-Received: by 10.194.87.4 with SMTP id t4mr37769832wjz.84.1441627045963; Mon,
+	07 Sep 2015 04:57:25 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.27.77.212 with HTTP; Mon, 7 Sep 2015 04:49:52 -0700 (PDT)
-In-Reply-To: <1441713069-15402-1-git-send-email-cristina-danielax.agurida@intel.com>
-References: <1441713069-15402-1-git-send-email-cristina-danielax.agurida@intel.com>
+Received: by 10.27.77.212 with HTTP; Mon, 7 Sep 2015 04:56:56 -0700 (PDT)
+In-Reply-To: <55ED6393.6050906@topic.nl>
+References: <55963864.2030604@topic.nl> <55ED6393.6050906@topic.nl>
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
-Date: Mon, 7 Sep 2015 14:49:52 +0300
-Message-ID: <CAHiDW_Fnc+-9gWNB8UhqVtph4foHBAr9PTbWddAMSyrAg_R1eQ@mail.gmail.com>
-To: Cristina Agurida <cristina-danielax.agurida@intel.com>
+Date: Mon, 7 Sep 2015 14:56:56 +0300
+Message-ID: <CAHiDW_GfhUoDMBtwbj2G8RbRnA7OWR_3b_M_tDc-hEz8g4NqYw@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa/parselogs: Updated error log whitelist.
+Subject: Re: Getting rid of "The license listed internal was not in the licenses collected" warnings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,70 +44,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 11:50:22 -0000
-Content-Type: multipart/alternative; boundary=f46d044303fcad8711051f26daa3
+X-List-Received-Date: Mon, 07 Sep 2015 11:57:28 -0000
+Content-Type: multipart/alternative; boundary=047d7bf10b20f95abe051f26f328
 
---f46d044303fcad8711051f26daa3
+--047d7bf10b20f95abe051f26f328
 Content-Type: text/plain; charset=UTF-8
 
-On 8 September 2015 at 14:51, Cristina Agurida <
-cristina-danielax.agurida@intel.com> wrote:
+On 7 September 2015 at 13:14, Mike Looijmans <mike.looijmans@topic.nl>
+wrote:
 
-> [YOCTO #7898]
-> [YOCTO #7760]
-> [YOCTO #7761]
-> [YOCTO #7804]
+> Just sped another hour or so trying to pinpoint this, but I cannot wrap my
+> head around it. What do I have to do to add a license to a layer without
+> these annoying warnings?
+
+
+I just tried this (with master branch) and it seems to work fine here...
+Are you using master or something older?
+
+Do you not get a "${DEPLOY_DIR}/licenses/${BPN}/generic_internal" file when
+you build the recipe for BPN?
+
+ - Jussi
+
+
+Mike.
 >
-> Signed-off-by: Cristina Agurida <cristina-danielax.agurida@intel.com>
-> ---
->  meta/lib/oeqa/runtime/parselogs.py | 9 +++++++++
->  1 file changed, 9 insertions(+)
 >
-> diff --git a/meta/lib/oeqa/runtime/parselogs.py
-> b/meta/lib/oeqa/runtime/parselogs.py
-> index ed43510..367ee6d 100644
-> --- a/meta/lib/oeqa/runtime/parselogs.py
-> +++ b/meta/lib/oeqa/runtime/parselogs.py
-> @@ -88,6 +88,7 @@ ignore_errors = {
->          '(EE) AIGLX: reverting to software rendering',
->          ] + x86_common,
->      'core2_32' : [
-> +        'ACPI: No _BQC method, cannot determine initial brightness',
->          '[Firmware Bug]: ACPI: No _BQC method, cannot determine initial
-> brightness',
->          '(EE) Failed to load module "psb"',
->          '(EE) Failed to load module psb',
-> @@ -96,6 +97,14 @@ ignore_errors = {
->          '(EE) open /dev/fb0: No such file or directory',
->          '(EE) AIGLX: reverting to software rendering',
->          ] + x86_common,
-> +    'intel-corei7-64' : [
-> +        'Failed to find URL:http://ipv4.connman.net/online/status.html',
-> +        'Online check failed for',
+> On 03-07-15 09:23, Mike Looijmans wrote:
 >
-
-These two should not be corei7 specific.
-
-
-> +        "controller can't do DEVSLP, turning off",
-> +        ] + common_errors,
-> +    'nuc' : [
-> +        '(EE) Failed to load module "fbdev"',
+>> In my layer.conf I have:
+>>
+>> LICENSE_PATH += "${LAYERDIR}/licenses"
+>>
+>>
+>> In that path, there's a license file called "internal" containing the
+>> following short text:
+>>
+>> For TOPIC internal use only.
+>> Do not distribute.
+>>
+>>
+>> Now on each build I get warnings like this for every recipe that refers to
+>> this license:
+>> "WARNING: The license listed internal was not in the licenses collected
+>> for
+>> recipe ..."
+>>
+>>
+>> As far as I know, I did everything right, but I can't figure out what
+>> else I
+>> need to do here. How do I get this license into the "license collected"?
+>>
+>>
 >
-+        ] + common_errors,
 >
-
-Maybe I've misunderstood how the whitelist grep works but shouldn't this be
-caught by this case already in common errors:
-    "Failed to load module \"fbdev\""
-
-
-
->      'crownbay' : x86_common,
->      'genericx86' : x86_common,
->      'genericx86-64' : x86_common,
-> --
-> 2.1.4
+>
+> Kind regards,
+>
+> Mike Looijmans
+> System Expert
+>
+> TOPIC Embedded Products
+> Eindhovenseweg 32-C, NL-5683 KH Best
+> Postbus 440, NL-5680 AK Best
+> Telefoon: +31 (0) 499 33 69 79
+> Telefax: +31 (0) 499 33 69 70
+> E-mail: mike.looijmans@topicproducts.com
+> Website: www.topicproducts.com
+>
+> Please consider the environment before printing this e-mail
+>
+>
+>
+>
 >
 > --
 > _______________________________________________
@@ -116,88 +125,95 @@ caught by this case already in common errors:
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---f46d044303fcad8711051f26daa3
+--047d7bf10b20f95abe051f26f328
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On 8 September 2015 at 14:51, Cristina Agurida <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:cristina-danielax.agurida@intel.com" target=3D"_blank">cris=
-tina-danielax.agurida@intel.com</a>&gt;</span> wrote:<br><blockquote class=
+<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On 7=
+ September 2015 at 13:14, Mike Looijmans <span dir=3D"ltr">&lt;<a href=3D"m=
+ailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic.nl</a=
+>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0p=
+x 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bo=
+rder-left-style:solid;padding-left:1ex">Just sped another hour or so trying=
+ to pinpoint this, but I cannot wrap my head around it. What do I have to d=
+o to add a license to a layer without these annoying warnings?</blockquote>=
+<div><br></div><div>I just tried this (with master branch) and it seems to =
+work fine here...=C2=A0 Are you using master or something older?</div><div>=
+<br></div><div>Do you not get a &quot;${DEPLOY_DIR}/licenses/${BPN}/generic=
+_internal&quot; file when you build the recipe for BPN?</div><div><br></div=
+><div>=C2=A0- Jussi</div><div>=C2=A0</div><div><br></div><blockquote class=
 =3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
 rder-left-color:rgb(204,204,204);border-left-style:solid;padding-left:1ex">=
-[YOCTO #7898]<br>
-[YOCTO #7760]<br>
-[YOCTO #7761]<br>
-[YOCTO #7804]<br>
+<span><font color=3D"#888888">
+Mike.</font></span><span><br>
 <br>
-Signed-off-by: Cristina Agurida &lt;<a href=3D"mailto:cristina-danielax.agu=
-rida@intel.com">cristina-danielax.agurida@intel.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oeqa/runtime/parselogs.py | 9 +++++++++<br>
-=C2=A01 file changed, 9 insertions(+)<br>
 <br>
-diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/par=
-selogs.py<br>
-index ed43510..367ee6d 100644<br>
---- a/meta/lib/oeqa/runtime/parselogs.py<br>
-+++ b/meta/lib/oeqa/runtime/parselogs.py<br>
-@@ -88,6 +88,7 @@ ignore_errors =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;(EE) AIGLX: reverting to software re=
-ndering&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0] + x86_common,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;core2_32&#39; : [<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;ACPI: No _BQC method, cannot determine in=
-itial brightness&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;[Firmware Bug]: ACPI: No _BQC method=
-, cannot determine initial brightness&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;(EE) Failed to load module &quot;psb=
-&quot;&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;(EE) Failed to load module psb&#39;,=
+On 03-07-15 09:23, Mike Looijmans wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;p=
+adding-left:1ex">
+In my layer.conf I have:<br>
 <br>
-@@ -96,6 +97,14 @@ ignore_errors =3D {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;(EE) open /dev/fb0: No such file or =
-directory&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;(EE) AIGLX: reverting to software re=
-ndering&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0] + x86_common,<br>
-+=C2=A0 =C2=A0 &#39;intel-corei7-64&#39; : [<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;Failed to find URL:<a href=3D"http://ipv4=
-.connman.net/online/status.html" rel=3D"noreferrer" target=3D"_blank">http:=
-//ipv4.connman.net/online/status.html</a>&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;Online check failed for&#39;,<br>
-</blockquote><div><br></div><div>These two should not be corei7 specific.</=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bord=
-er-left-style:solid;padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;co=
-ntroller can&#39;t do DEVSLP, turning off&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ] + common_errors,<br>
-+=C2=A0 =C2=A0 &#39;nuc&#39; : [<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;(EE) Failed to load module &quot;fbdev&qu=
-ot;&#39;,<br></blockquote><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204)=
-;border-left-style:solid;padding-left:1ex">+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ] +=
- common_errors,<br></blockquote><div><br class=3D"">Maybe I&#39;ve misunder=
-stood how the whitelist grep works but shouldn&#39;t this be caught by this=
- case already in common errors:</div><div>=C2=A0 =C2=A0 &quot;Failed to loa=
-d module \&quot;fbdev\&quot;&quot;<br></div><div><br></div><div>=C2=A0</div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;=
-padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0&#39;crownbay&#39; : x86_common,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;genericx86&#39; : x86_common,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;genericx86-64&#39; : x86_common,<br>
-<span class=3D""><font color=3D"#888888">--<br>
-2.1.4<br>
+LICENSE_PATH +=3D &quot;${LAYERDIR}/licenses&quot;<br>
 <br>
---<br>
+<br>
+In that path, there&#39;s a license file called &quot;internal&quot; contai=
+ning the<br>
+following short text:<br>
+<br>
+For TOPIC internal use only.<br>
+Do not distribute.<br>
+<br>
+<br>
+Now on each build I get warnings like this for every recipe that refers to<=
+br>
+this license:<br>
+&quot;WARNING: The license listed internal was not in the licenses collecte=
+d for<br>
+recipe ...&quot;<br>
+<br>
+<br>
+As far as I know, I did everything right, but I can&#39;t figure out what e=
+lse I<br>
+need to do here. How do I get this license into the &quot;license collected=
+&quot;?<br>
+<br>
+</blockquote>
+<br>
+<br>
+<br>
+<br></span><div><div>
+Kind regards,<br>
+<br>
+Mike Looijmans<br>
+System Expert<br>
+<br>
+TOPIC Embedded Products<br>
+Eindhovenseweg 32-C, NL-5683 KH Best<br>
+Postbus 440, NL-5680 AK Best<br>
+Telefoon: <a href=3D"tel:%2B31%20%280%29%20499%2033%2069%2079" value=3D"+31=
+499336979" target=3D"_blank">+31 (0) 499 33 69 79</a><br>
+Telefax: <a href=3D"tel:%2B31%20%280%29%20499%2033%2069%2070" value=3D"+314=
+99336970" target=3D"_blank">+31 (0) 499 33 69 70</a><br>
+E-mail: <a href=3D"mailto:mike.looijmans@topicproducts.com" target=3D"_blan=
+k">mike.looijmans@topicproducts.com</a><br>
+Website: <a href=3D"http://www.topicproducts.com" rel=3D"noreferrer" target=
+=3D"_blank">www.topicproducts.com</a><br>
+<br>
+Please consider the environment before printing this e-mail<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+-- <br>
 _______________________________________________<br>
 Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org">Openembedded-co=
-re@lists.openembedded.org</a><br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
 <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
-</font></span></blockquote></div><br></div></div>
+</div></div></blockquote></div><br></div></div>
 
---f46d044303fcad8711051f26daa3--
+--047d7bf10b20f95abe051f26f328--
