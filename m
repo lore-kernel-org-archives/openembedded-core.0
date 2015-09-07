@@ -1,35 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id C4A6260017
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 128F260017
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 21:15:41 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t87LFdm6010785; Mon, 7 Sep 2015 22:15:39 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id MFQFHUMQIjyr; Mon,  7 Sep 2015 22:15:39 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t87LFOMQ010776
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 7 Sep 2015 22:15:35 +0100
-Message-ID: <1441660524.24871.269.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 07 Sep 2015 22:15:24 +0100
-In-Reply-To: <E437DE0B-65F0-42B4-B061-BC30F27A24B8@gmail.com>
-References: <cover.1441552859.git.raj.khem@gmail.com>
-	<1441654013.24871.259.camel@linuxfoundation.org>
-	<4A72FD2B-1B79-4827-B02E-E3B23A966AE7@gmail.com>
-	<1441659401.24871.261.camel@linuxfoundation.org>
-	<956735BC-7AA6-4513-AA09-3FBFD3250428@gmail.com>
-	<1441660176.24871.268.camel@linuxfoundation.org>
-	<E437DE0B-65F0-42B4-B061-BC30F27A24B8@gmail.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
+	Mon,  7 Sep 2015 21:15:57 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so107131694pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 07 Sep 2015 14:15:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=GaFpjQGxyoHBye2+5jjeUQIsmUT/Y9rPtAoxDJ0b/HA=;
+	b=gz2M5EcwVO4GW07dJQGmXK8QDqeL1IrsuKemm38IaRHlgyO77kAyd7adNBK+i1mCKS
+	FYGsdfjurLbI+REaXs0j5O96gzf1JFrCcE1X3OD1P8/5vqK6rVM65IYyLkLdIB5FkoHw
+	mL+Ci2UJal0e3St77hB/LIPd5GhLyVXcNHK+7JS11cbLtfFuIybgsligJe0hopZU4peI
+	XDJdSx5Wc5rqbjXcxas0cUWcN6/HBkgf/QOnY6ZPBbjfzYkef9vMh3634gwO3zqEPsUK
+	U9RwsVdIsAg+oyWo9kAjO7uWwsX9U4c8AZwMTmEyUABo0X4qoOkEJdKq361bjfObiKp2
+	0/KQ==
+X-Received: by 10.68.100.36 with SMTP id ev4mr49347441pbb.119.1441660557806;
+	Mon, 07 Sep 2015 14:15:57 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:497b:74fa:5383:6ca2?
+	([2601:646:8601:4580:497b:74fa:5383:6ca2])
+	by smtp.gmail.com with ESMTPSA id ev2sm818889pbb.37.2015.09.07.14.15.57
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 07 Sep 2015 14:15:57 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1441654609.1680.79.camel@pbcl.net>
+Date: Mon, 7 Sep 2015 14:15:56 -0700
+Message-Id: <EC219B31-F312-41D6-81C9-D13213CB2759@gmail.com>
+References: <d16024c043abcd21b162f7f93a5bdf29d91c8317.1441552859.git.raj.khem@gmail.com>
+	<a234814e2ad213dc69b90a3450d79b778c0e4c7c.1441552859.git.raj.khem@gmail.com>
+	<1441654609.1680.79.camel@pbcl.net>
+To: Phil Blundell <pb@pbcl.net>
+X-Mailer: Apple Mail (2.2104)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] Systemd Upgrade
+Subject: Re: [PATCH 2/4] rootfs: Do not uninstall update-rc.d
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,38 +49,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 21:15:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 07 Sep 2015 21:16:03 -0000
+X-Groupsio-MsgNum: 70772
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_9C4504E0-DE0C-49DB-B31F-A6474065BFEA";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Mon, 2015-09-07 at 14:12 -0700, Khem Raj wrote:
-> > On Sep 7, 2015, at 2:09 PM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> > 
-> > On Mon, 2015-09-07 at 14:00 -0700, Khem Raj wrote:
-> >>> On Sep 7, 2015, at 1:56 PM, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> >>> 
-> >>> A "bitbake core-image-sato -c testimage" replicated it here FWIW, have
-> >>> you tried testimage to see if that somehow makes a difference? Shoudn't
-> >>> be hard to test with that and for sato, it should run pretty quickly.
-> >>> 
-> >>> It all works with 219, its only the upgrade patches that seem to break
-> >>> things :(
-> >> 
-> >> yeah my machine is w/o X and moreover I don’t have sudo on it test image seems to need X
-> >> I will try to build core-image-sato and try to reproduce it locally. in order to analyze
-> >> systemd defect it needs to be reproducible outside testimage infra anyway.
-> > 
-> > I believe the tests will run with the nographic options to qemu which
-> > then won't need X, Ross had a patch around for that recently. To be
-> > honest when looking at this kind of issue, I usually debug it using
-> > testimage now, its actually easier in many cases…
-> 
-> in this case it will be faster. Care to point to Ross’s patch ?
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=ross/mut&id=e67ab458ab2d67908d80f9aa1954dee05cb21fc1
-
-Cheers,
-
-Richard
+--Apple-Mail=_9C4504E0-DE0C-49DB-B31F-A6474065BFEA
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+> On Sep 7, 2015, at 12:36 PM, Phil Blundell <pb@pbcl.net> wrote:
+>=20
+> On Sun, 2015-09-06 at 15:25 +0000, Khem Raj wrote:
+>> update-rc.d is now needed by systemd to interact with sysv
+>> scripts, so if we have a mixed system, then we can not uninstall
+>> update-rc.d as it is going to break systemd functionality
+>=20
+> The description above implies that you will only uninstall update-rc.d
+> if systemd is present, but that doesn't seem to be what the patch =
+does.
+
+I meant to not say its only for systemd. but that systemd now needs it.
+so update-rc.d is no longer forcefully removed from image depchain.
+
+>=20
+> Also, if the rootfs is read-only then you might as well go ahead and
+> uninstall it irrespective of systemd because it isn't going to work.  =
+If
+> systemd will fail catastrophically in this situation then I guess it
+> should be an error to have both systemd and sysv scripts in a =
+read-only
+> filesystem.
+
+That is valid problem, but its not changing that behavior. Code needs to =
+be
+added to check for ro-rootfs check and then uninstall it. In ro-rootfs =
+case this
+disable/enable of script might still be needed and useful since there =
+might overlayfs in use
+
+
+>=20
+> p.
+>=20
+>=20
+
+
+--Apple-Mail=_9C4504E0-DE0C-49DB-B31F-A6474065BFEA
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXt/owACgkQuwUzVZGdMxRnQQCfSGIH27jc1/hfPGHxr6j/23UA
+4m4AnjEYpGrh1zUTmveLO5CfTK7BVZKS
+=W1uw
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_9C4504E0-DE0C-49DB-B31F-A6474065BFEA--
