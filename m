@@ -1,46 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f171.google.com (mail-wi0-f171.google.com
-	[209.85.212.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 4935560017
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id DE02A7422C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 15:14:09 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so87348866wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 07 Sep 2015 08:14:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=CmVDPxqazTsDE2w97UK9I9f1ci1jHz/RsPx6gDM4tyQ=;
-	b=d3AVEzs4AYK6Fd6tMewCoHK3VzTbTNg6C/cqii3L6iamA7ynn8ncKvzN8sF5bkhP+I
-	I8GKLYYoot+K3ChpCifj14k+15yColdiuZ3jkdXQkTjIq/LmfIYKHMJz5RgnBglwlbdi
-	aMAPntXq4/2+WQNsBFZfNjUzDgqGXftXqvijn+QS2N3UFJKAdXdPtoPULPHQWW+FR8gn
-	MtPmgs0cYO0SWpbpY/KgjesfdL5Z+q4tAhYSdDbKR5+gjDs+NXKHWw0YKWNyYgtmx+Ie
-	bXZ6qjsPBzpcgWSR5dFwDRoJ3JQQXvmZvY9r1ZFyScDosRa8DM+jWPS3F1hPvpolEBDN
-	08CQ==
-X-Received: by 10.180.99.232 with SMTP id et8mr33814154wib.80.1441638848459;
-	Mon, 07 Sep 2015 08:14:08 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	cx3sm19885561wjc.27.2015.09.07.08.14.07
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 07 Sep 2015 08:14:07 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 7 Sep 2015 17:14:49 +0200
-To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
-Message-ID: <20150907151449.GB2457@jama>
-References: <cover.1441293149.git.alexander.kanavin@linux.intel.com>
-	<f5f4a16fdb097b19fb45e9f667f59f99e9f04ef5.1441293149.git.alexander.kanavin@linux.intel.com>
-	<B9C7EAB1-4025-474E-8FBB-7DF1BE6C5706@gmail.com>
-	<55E98B3B.4050704@linux.intel.com>
-	<CAMKF1soR0r5ZVYYPnxGg0f+61oC2Cx6Mq0Y2390NXZzZn1-c4w@mail.gmail.com>
-	<55ED5ADF.2090907@linux.intel.com>
-MIME-Version: 1.0
-In-Reply-To: <55ED5ADF.2090907@linux.intel.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/12] gnome-icon-theme: remove the recipe
+	Mon,  7 Sep 2015 15:58:37 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t87FwKqS029282; Mon, 7 Sep 2015 16:58:37 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id 9W8mK0LcDDqD; Mon,  7 Sep 2015 16:58:37 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t87FwLjx029285
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Mon, 7 Sep 2015 16:58:33 +0100
+Message-ID: <1441641501.24871.256.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Seebach <peter.seebach@windriver.com>
+Date: Mon, 07 Sep 2015 16:58:21 +0100
+In-Reply-To: <8c418d1f561ba5cc47bf80ee4d887401059d4683.1441404865.git.peter.seebach@windriver.com>
+References: <cover.1441404865.git.peter.seebach@windriver.com>
+	<8c418d1f561ba5cc47bf80ee4d887401059d4683.1441404865.git.peter.seebach@windriver.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] pseudo_1.7.3.bb: New version of pseudo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,67 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 15:14:10 -0000
-X-Groupsio-MsgNum: 70758
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="H+4ONPRPur6+Ovig"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 07 Sep 2015 15:58:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---H+4ONPRPur6+Ovig
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2015-09-04 at 17:16 -0500, Peter Seebach wrote:
+> Pseudo 1.7 adds an experimental feature (which I think needs more testing
+> before it becomes the default) allowing the pseudo client to store modes
+> and uid/gid values in extended attributes rather than using the sqlite
+> database. On most Linux-like systems, this works only if the underlying
+> file is a plain file or a directory.
+> 
+> Also added is a profiling feature to allow some amount of reporting on
+> the wall-clock time the client spends in wrappers, processing operations,
+> or in IPC. This feature is not intendeded to be precisely accurate, but
+> gives a good overview of where time is going.
+> 
+> Based on the results from the profiling feature, the client now suppresses
+> OP_OPEN and OP_EXEC messages if the server is not logging messages, and
+> no longer uses constant dynamic allocation and free cycles for canonicalized
+> paths.
+> 
+> There's a few other likely-looking optimizations being considered, but
+> this seemed like a good cutoff for now.
+> 
+> 1.7.1 fixes two bugs, one affecting mostly XFS systems with 64-bit
+> inode values, and one affecting code that called realpath(x, NULL), such
+> as the RPM backend.
+> 
+> 1.7.2 fixes an indirect side-effect of the chmod fixes to deal with
+> umask 0700, which had no effect with opkg 0.2.4 but appears to cause
+> failures with 0.3.0.
+> 
+> 1.7.3 prevents mkdirat() (and mkfifoat()) from setting errno on success,
+> because glibc's localedef inexplicably errors out if errno was set, even
+> if the operation's actual return code (which it tests) indicated
+> success.
 
-On Mon, Sep 07, 2015 at 12:37:35PM +0300, Alexander Kanavin wrote:
-> On 09/04/2015 05:16 PM, Khem Raj wrote:
->=20
-> >     I will send these patches only when oe-core is updated. Recipe
-> >     moving is always controversial, and I don't want to cause confusion
-> >     when the change is accepted by one side and rejected by the other.
-> >
-> >
-> > On the contrary you can make a note in patch to destination layer citing
-> > the patch for source layer being a prerequisite to be accepted.
-> > Maintainers then can schedule it accordingly.
->=20
-> Martin, would you prefer this approach? My problem is that the gap=20
+We finally got there, I merged this one after it passed the tests!
 
-yes
+Cheers,
 
-> between initial oe-core patch submission and their acceptance is often=20
-> measured in weeks and sometimes months, so the corresponding meta-oe=20
-> patches would be hanging in limbo, and may be easily forgotten.
+Richard
 
-I shouldn't forget them, because they will sit in patchwork's
-queue or alternatively I'll cherry-pick the removal to my oe-core's
-jansa/master together with these changes in meta-oe's jansa/master
-branches so I'll build-test them in my Jenkins builds until it's merged
-in oe-core.
 
-It's a bit error prone, but the delay will be shorter if we do it this
-way.
-
-Full jenkins build test takes over 3 days (depending on sstate reuse,
-one MACHINE can take more than 24 hours), so if I add them to
-master-next after it's merged to oe-core it will take 3-6 days to
-build-test them (6 days if they are sent just after current queue is
-sent for build).
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---H+4ONPRPur6+Ovig
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlXtqegACgkQN1Ujt2V2gBz6bwCfTFNzY0JIxdkOrP5vnGwtIOwi
-MKgAn0nsAzuM1GEZyKBSB8rAnkLmcBsa
-=6guN
------END PGP SIGNATURE-----
-
---H+4ONPRPur6+Ovig--
