@@ -1,44 +1,62 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 65BE976104
+Return-Path: <B54851@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bn0104.outbound.protection.outlook.com [157.56.110.104])
+	by mail.openembedded.org (Postfix) with ESMTP id 8944F73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 07:04:01 +0000 (UTC)
-Received: by padhy16 with SMTP id hy16so114030604pad.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Sep 2015 00:04:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=SQvLI6iAYhhimm8NvHapGE8SK1/9vh/POF2FvI/UHPk=;
-	b=sYbYZYqB8RTcyLYjMav0arNyCGotit1YZEl6ZCRS7tvCIDtelmXqJ3nE1wTqaqYgFb
-	cA6poH8ywCKJGgITvS9TUM0p83tDxqn+5RDKdWDh9TAofSz8saOY6qphjzhzVDq1pdTS
-	noWenUidJ06w8L7AdqhCSCUDr2OmQE4TvYvBUefIx2pIhs+XUbo0O8jXMlzSrustzMhn
-	im3rfh4r0+6hPGI/kLV0SmLRhrRGTtmawmJ1cxwwldW0ZaUjzup/gdkuLLznshpUQMm2
-	sCEYI04pgeBTr2J4IILfM1D/lULnAN0H6jMGSOspwsJRKwX/Rv8YqaeMZcr2+4opa6dw
-	+ewA==
-X-Received: by 10.68.233.5 with SMTP id ts5mr55136635pbc.58.1441695842058;
-	Tue, 08 Sep 2015 00:04:02 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:6859:6c5c:aa2f:b40a?
-	([2601:646:8601:4580:6859:6c5c:aa2f:b40a])
-	by smtp.gmail.com with ESMTPSA id r16sm2100034pdn.2.2015.09.08.00.04.00
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 08 Sep 2015 00:04:01 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1441662490.1680.82.camel@pbcl.net>
-Date: Tue, 8 Sep 2015 00:03:55 -0700
-Message-Id: <434A343A-193D-4D65-BDE0-FC1BD2D79F28@gmail.com>
-References: <d16024c043abcd21b162f7f93a5bdf29d91c8317.1441552859.git.raj.khem@gmail.com>
-	<a234814e2ad213dc69b90a3450d79b778c0e4c7c.1441552859.git.raj.khem@gmail.com>
-	<1441654609.1680.79.camel@pbcl.net>
-	<EC219B31-F312-41D6-81C9-D13213CB2759@gmail.com>
-	<1441662490.1680.82.camel@pbcl.net>
-To: Phil Blundell <pb@pbcl.net>
-X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/4] rootfs: Do not uninstall update-rc.d
+	Tue,  8 Sep 2015 08:02:52 +0000 (UTC)
+Received: from BN3PR0301MB1172.namprd03.prod.outlook.com (10.160.156.146) by
+	BN3PR0301MB1172.namprd03.prod.outlook.com (10.160.156.146) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.262.15; Tue, 8 Sep 2015 08:02:50 +0000
+Received: from BN3PR0301MB1172.namprd03.prod.outlook.com ([10.160.156.146]) by
+	BN3PR0301MB1172.namprd03.prod.outlook.com ([10.160.156.146]) with
+	mapi id 15.01.0262.011; Tue, 8 Sep 2015 08:02:50 +0000
+From: Zhu Carol <B54851@freescale.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [poky][PATCH v4 0/2] gstreamer1.0: Add patches for
+	Gstreamer 1.4.5
+Thread-Index: AQHQ3B3izbWruPpruka3ABE16B3uI54XAIYAgBtfD4A=
+Date: Tue, 8 Sep 2015 08:02:50 +0000
+Message-ID: <BN3PR0301MB1172F54D78A3B74A137514C786530@BN3PR0301MB1172.namprd03.prod.outlook.com>
+References: <1440167394-20065-1-git-send-email-b54851@freescale.com>
+	<55D79ECC.9070308@pseudoterminal.org>
+In-Reply-To: <55D79ECC.9070308@pseudoterminal.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=B54851@freescale.com; 
+x-originating-ip: [199.59.230.102]
+x-microsoft-exchange-diagnostics: 1; BN3PR0301MB1172;
+	5:fehQwG3GiDOppNVLH0YQKPKPSC67SkKMu/Xzf2pF8YUTl0zv9VYZfpBXoD1eVLkVnS8crfIpmcu3KI5QZz5zszpsx+v0/Er16gf42elZEUk7Z5IPo5oWbAY9f2MkeubOLBZgZtg8qpK4F0D2Ll2Kaw==;
+	24:uv6k3ZRNCP5UzOuZZmDjPgnk92gWDLHgbS5+POz7ndkeSOcg4g8r2HZp16CmY/up8ji2xEiZjjbyVsUtl2AaFJt3yBzPF8CMsCHB2HCzIE4=;
+	20:LCJ33B8yzer2lYpA8CTNb7N3+87akGlSN7DubwhAor3JbV04ZeCSxloNUiujF+JL/O43dbUTmQGwy0h9y43WZw==
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR0301MB1172;
+x-microsoft-antispam-prvs: <BN3PR0301MB117263BF55AB37D72E0FBA1886530@BN3PR0301MB1172.namprd03.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(8121501046)(3002001);
+	SRVR:BN3PR0301MB1172; BCL:0; PCL:0; RULEID:;
+	SRVR:BN3PR0301MB1172; 
+x-forefront-prvs: 069373DFB6
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(199003)(189002)(377424004)(377454003)(13464003)(86362001)(66066001)(5003600100002)(5002640100001)(92566002)(64706001)(46102003)(10400500002)(5001960100002)(101416001)(2501003)(107886002)(5001830100001)(33656002)(5001860100001)(189998001)(106356001)(106116001)(2900100001)(2950100001)(99286002)(105586002)(87936001)(50986999)(54356999)(4001540100001)(76176999)(81156007)(122556002)(5001770100001)(40100003)(76576001)(62966003)(97736004)(77156002)(74316001)(19580405001)(5007970100001)(19580395003)(68736005)(102836002)(15975445007)(77096005)(5004730100002)(1720100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0301MB1172;
+	H:BN3PR0301MB1172.namprd03.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: freescale.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:23
+spamdiagnosticmetadata: NSPM
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Sep 2015 08:02:50.3516 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0301MB1172
+Subject: Re: [poky][PATCH v4 0/2] gstreamer1.0: Add patches for Gstreamer 1.4.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,68 +69,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 07:04:02 -0000
-X-Groupsio-MsgNum: 70778
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_1079446E-59CD-4334-A2DF-53C5963F337B";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
-
---Apple-Mail=_1079446E-59CD-4334-A2DF-53C5963F337B
+X-List-Received-Date: Tue, 08 Sep 2015 08:02:55 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+
+Hi Carlos,
+   If I didn't misunderstand, you meant it's ok for you because they are ba=
+ckports.=20
+   So community will accept these two patches if no other problem. Am I rig=
+ht?
+   The patches are still not being applied to master branch, I am waiting f=
+or your feedback.
+=20
+B.R.
+Yuqing Zhu
 
 
-> On Sep 7, 2015, at 2:48 PM, Phil Blundell <pb@pbcl.net> wrote:
->=20
-> On Mon, 2015-09-07 at 14:15 -0700, Khem Raj wrote:
->>> On Sep 7, 2015, at 12:36 PM, Phil Blundell <pb@pbcl.net> wrote:
->>>=20
->>> On Sun, 2015-09-06 at 15:25 +0000, Khem Raj wrote:
->>>> update-rc.d is now needed by systemd to interact with sysv
->>>> scripts, so if we have a mixed system, then we can not uninstall
->>>> update-rc.d as it is going to break systemd functionality
->>>=20
->>> The description above implies that you will only uninstall =
-update-rc.d
->>> if systemd is present, but that doesn't seem to be what the patch =
-does.
->>=20
->> I meant to not say its only for systemd. but that systemd now needs =
-it.
->> so update-rc.d is no longer forcefully removed from image depchain.
->=20
-> Well, right.  But wouldn't it be better only to leave it in there if
-> it's actually necessary, i.e. if you have systemd and you also have =
-sysv
-> scripts and the rootfs isn't read-only?  As it stands, your patch will
-> cause update-rc.d to be left around for people who aren't using =
-systemd,
-> which seems like a retrograde step.
->=20
+-----Original Message-----
+From: openembedded-core-bounces@lists.openembedded.org [mailto:openembedded=
+-core-bounces@lists.openembedded.org] On Behalf Of Carlos Rafael Giani
+Sent: Saturday, August 22, 2015 5:58 AM
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [poky][PATCH v4 0/2] gstreamer1.0: Add patches for G=
+streamer 1.4.5
 
-makes sense. I can improvise on it and check for all constraints in a =
-follow up.
-
-> p.
->=20
->=20
+These are backports, so I do not see a problem with them. However, keep in =
+mind that GStreamer 1.6 will be out in a few days, so I recommend hold off =
+any patches that are not backports. I have recipes prepared for
+1.5.90 (=3D 1.6 release candidate) that I will then send to the mailing lis=
+t. New patches should be applied on top of that, not 1.4.5.
 
 
---Apple-Mail=_1079446E-59CD-4334-A2DF-53C5963F337B
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
+Am 2015-08-21 um 16:29 schrieb Yuqing Zhu:
+> Fix sticky events haven't been sent out when active track reach EOS
+>
+> Fix QoS/lateness checking if subclass implements prepare/prepare_list=20
+> vfuncs
+>
+>
+> Yuqing Zhu (2):
+>    gstreamer1.0: Fix ticky events haven't been sent out when active track
+>      reach EOS
+>    gstreamer1.0: Fix QoS/lateness checking if subclass implements
+>      prepare/prepare_list vfuncs
+>
+>   ...x-QoS-lateness-checking-if-subclass-imple.patch |  70 +++++++++
+>   ...cky-events-haven-t-send-out-when-ac-1-4-1.patch | 167 ++++++++++++++=
++++++++
+>   .../gstreamer/gstreamer1.0_1.4.5.bb                |   2 +
+>   3 files changed, 239 insertions(+)
+>   create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-=
+basesink-Fix-QoS-lateness-checking-if-subclass-imple.patch
+>   create mode 100755=20
+> meta/recipes-multimedia/gstreamer/gstreamer1.0/inputselector-sticky-ev
+> ents-haven-t-send-out-when-ac-1-4-1.patch
+>
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-iEYEARECAAYFAlXuiF8ACgkQuwUzVZGdMxRrngCeNegKEWuT2kjxEW8OIkFkOWh+
-r+8AnAukpC7dcr4dzvYRsj3+G6SYQ55q
-=LwJV
------END PGP SIGNATURE-----
-
---Apple-Mail=_1079446E-59CD-4334-A2DF-53C5963F337B--
