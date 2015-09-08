@@ -1,21 +1,25 @@
 Return-Path: <paul.eggleton@linux.intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5879C65C8A
+	by mail.openembedded.org (Postfix) with ESMTP id 595F275E80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 10:39:32 +0000 (UTC)
+	Tue,  8 Sep 2015 10:39:33 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP; 08 Sep 2015 03:39:33 -0700
+	by orsmga101.jf.intel.com with ESMTP; 08 Sep 2015 03:39:34 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="800537200"
+X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="800537210"
 Received: from jdkarpin-mobl4.ger.corp.intel.com (HELO
 	peggleto-mobl.ger.corp.intel.com) ([10.252.5.153])
-	by fmsmga002.fm.intel.com with ESMTP; 08 Sep 2015 03:39:31 -0700
+	by fmsmga002.fm.intel.com with ESMTP; 08 Sep 2015 03:39:33 -0700
 From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Sep 2015 11:39:06 +0100
-Message-Id: <cover.1441706523.git.paul.eggleton@linux.intel.com>
+Date: Tue,  8 Sep 2015 11:39:07 +0100
+Message-Id: <61be2ad94304eb9d39e1a80a744c7a3750b85702.1441706523.git.paul.eggleton@linux.intel.com>
 X-Mailer: git-send-email 2.1.0
-Subject: [PATCH 0/9] devtool improvements
+In-Reply-To: <cover.1441706523.git.paul.eggleton@linux.intel.com>
+References: <cover.1441706523.git.paul.eggleton@linux.intel.com>
+In-Reply-To: <cover.1441706523.git.paul.eggleton@linux.intel.com>
+References: <cover.1441706523.git.paul.eggleton@linux.intel.com>
+Subject: [PATCH 1/9] scriptutils: split out simple fetching function from recipetool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,89 +34,97 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Sep 2015 10:39:34 -0000
 
-Adds "upgrade" and "package" subcommands to devtool, provides a way to
-disable parallel make, improves the default behaviour of update-recipe
-with git recipes, and fixes running devtool from a different directory.
+This will now also be used by "devtool upgrade".
 
-This rolls up and fixes some previously posted patches; changes from
-the previously posted versions:
+Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+---
+ scripts/lib/recipetool/create.py | 30 +-----------------------------
+ scripts/lib/scriptutils.py       | 27 +++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+), 29 deletions(-)
 
-* devtool: add upgrade feature:
-  - Handle upgrading git recipes i.e. where version may not change, we
-    need to be able to specify the SRCREV, md5sum/sha256sum aren't used
-    and most importantly we don't want to munge the existing repository
-  - Fix rebasing logic - we want to be rebasing the old patched branch
-    onto the new branch, not the other way around
-  - Fix branching/tagging
-  - Use branch name for the new version branch not the old one
-  - Ensure we delete/preserve copied in recipe files when resetting
-  - Use common fetch_uri function instead of duplicating
-  - Fix handling recipes that use BBCLASSEXTEND
-  - Tweak some messages and command line help
-  - Squash in test commits (we probably need additional tests - to be
-    added later)
-* devtool: Allow disabling make parallelism on build command:
-  - Add a short option (-s for "single")
-  - Use traditional spacing in created postfile
-  - Delete postfile after building, there's not much point keeping it
-  - Tweak log output
-* devtool: add package plugin that lets you create package via devtool:
-  - Fix config file reading
-  - Make this available only within the extensible SDK (since it's not
-    particularly useful outside of it)
-* devtool: update-recipe: better 'auto' mode
-  - Fix oe-selftest tests for this behaviour change
-
-
-The following changes since commit 8402958cd2cb87b8283c8ee4e2d08e1a6717d67a:
-
-  pseudo_1.7.3.bb: New version of pseudo (2015-09-06 15:24:28 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib paule/devtool7
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=paule/devtool7
-
-Brendan Le Foll (1):
-  devtool: add package plugin that lets you create package via devtool
-
-Leonardo Sandoval (3):
-  devtool: add upgrade feature
-  devtool: Create a single file for the build devtool feature
-  devtool: Allow disabling make parallelism on build command
-
-Markus Lehtonen (1):
-  devtool: update-recipe: better 'auto' mode
-
-Paul Eggleton (4):
-  scriptutils: split out simple fetching function from recipetool
-  devtool: improve modified file preservation to handle directory
-    structures
-  devtool: update-recipe: add a warning when recipe is inside the
-    workspace
-  devtool: fix running from a different directory
-
- .../recipes-test/devtool/devtool-upgrade_0.1.bb    |  25 ++
- ...-exit-with-EXIT_SUCCESS-instead-of-a-magi.patch |  27 ++
- .../devtool/files/devtool-upgrade-0.1.tar.gz       | Bin 0 -> 411 bytes
- .../devtool/files/devtool-upgrade-0.2.tar.gz       | Bin 0 -> 411 bytes
- meta/lib/oeqa/selftest/devtool.py                  |  68 +++-
- scripts/devtool                                    |   3 +
- scripts/lib/devtool/build.py                       |  77 +++++
- scripts/lib/devtool/package.py                     |  61 ++++
- scripts/lib/devtool/standard.py                    |  94 +++---
- scripts/lib/devtool/upgrade.py                     | 354 +++++++++++++++++++++
- scripts/lib/recipetool/create.py                   |  30 +-
- scripts/lib/scriptutils.py                         |  27 ++
- 12 files changed, 692 insertions(+), 74 deletions(-)
- create mode 100644 meta-selftest/recipes-test/devtool/devtool-upgrade_0.1.bb
- create mode 100644 meta-selftest/recipes-test/devtool/files/0001-helloword.c-exit-with-EXIT_SUCCESS-instead-of-a-magi.patch
- create mode 100644 meta-selftest/recipes-test/devtool/files/devtool-upgrade-0.1.tar.gz
- create mode 100644 meta-selftest/recipes-test/devtool/files/devtool-upgrade-0.2.tar.gz
- create mode 100644 scripts/lib/devtool/build.py
- create mode 100644 scripts/lib/devtool/package.py
- create mode 100644 scripts/lib/devtool/upgrade.py
-
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index ec6e107..c4754db 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -58,34 +58,6 @@ class RecipeHandler():
+ 
+ 
+ 
+-def fetch_source(uri, destdir, srcrev):
+-    import bb.data
+-    bb.utils.mkdirhier(destdir)
+-    localdata = bb.data.createCopy(tinfoil.config_data)
+-    bb.data.update_data(localdata)
+-    localdata.setVar('BB_STRICT_CHECKSUM', '')
+-    localdata.setVar('SRCREV', srcrev)
+-    ret = (None, None)
+-    olddir = os.getcwd()
+-    try:
+-        fetcher = bb.fetch2.Fetch([uri], localdata)
+-        for u in fetcher.ud:
+-            ud = fetcher.ud[u]
+-            ud.ignore_checksums = True
+-        fetcher.download()
+-        fetcher.unpack(destdir)
+-        for u in fetcher.ud:
+-            ud = fetcher.ud[u]
+-            if ud.method.recommends_checksum(ud):
+-                md5value = bb.utils.md5_file(ud.localpath)
+-                sha256value = bb.utils.sha256_file(ud.localpath)
+-                ret = (md5value, sha256value)
+-    except bb.fetch2.BBFetchException, e:
+-        raise bb.build.FuncFailed(e)
+-    finally:
+-        os.chdir(olddir)
+-    return ret
+-
+ def supports_srcrev(uri):
+     localdata = bb.data.createCopy(tinfoil.config_data)
+     # This is a bit sad, but if you don't have this set there can be some
+@@ -123,7 +95,7 @@ def create_recipe(args):
+         tempsrc = tempfile.mkdtemp(prefix='recipetool-')
+         srctree = tempsrc
+         logger.info('Fetching %s...' % srcuri)
+-        checksums = fetch_source(args.source, srctree, srcrev)
++        checksums = scriptutils.fetch_uri(tinfoil.config_data, args.source, srctree, srcrev)
+         dirlist = os.listdir(srctree)
+         if 'git.indirectionsymlink' in dirlist:
+             dirlist.remove('git.indirectionsymlink')
+diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
+index fdf4b5d..5d103a5 100644
+--- a/scripts/lib/scriptutils.py
++++ b/scripts/lib/scriptutils.py
+@@ -69,3 +69,30 @@ def git_convert_standalone_clone(repodir):
+             # of the contents is shared
+             bb.process.run('git repack -a', cwd=repodir)
+             os.remove(alternatesfile)
++
++def fetch_uri(d, uri, destdir, srcrev=None):
++    """Fetch a URI to a local directory"""
++    import bb.data
++    bb.utils.mkdirhier(destdir)
++    localdata = bb.data.createCopy(d)
++    localdata.setVar('BB_STRICT_CHECKSUM', '')
++    localdata.setVar('SRCREV', srcrev)
++    ret = (None, None)
++    olddir = os.getcwd()
++    try:
++        fetcher = bb.fetch2.Fetch([uri], localdata)
++        for u in fetcher.ud:
++            ud = fetcher.ud[u]
++            ud.ignore_checksums = True
++        fetcher.download()
++        fetcher.unpack(destdir)
++        for u in fetcher.ud:
++            ud = fetcher.ud[u]
++            if ud.method.recommends_checksum(ud):
++                md5value = bb.utils.md5_file(ud.localpath)
++                sha256value = bb.utils.sha256_file(ud.localpath)
++                ret = (md5value, sha256value)
++    finally:
++        os.chdir(olddir)
++    return ret
++
 -- 
 2.1.0
 
