@@ -1,39 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id B3DFB76D96
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 23:08:11 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so96999436qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Sep 2015 16:08:11 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 388A565C8A;
+	Tue,  8 Sep 2015 23:09:50 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so2030819wic.0;
+	Tue, 08 Sep 2015 16:09:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=8TJcBSaGSAjLIkAuNZyEdC9n3yrcDeuutDW+Qs8u9AA=;
-	b=r5on4DPgCgOABBmmXgwodutLlfDEVpTE3lVS+zV9ELbmi3bmrsIpDrNv68X6VGteRE
-	mHWuVC2dzYFQy2lwq+DemOgMGoyd74jUpCPVe0Yk+99aesNlN5HxJQw3kaz2mWWXGpZW
-	BlNo8nGEbM4MVes9DJTQAiQx1yjgm0Sz8vwaR5TV1LujvWFTiE7beQ3sgkfGBSq0zfmY
-	PyynnDS8Wcyk2X0P7tP3eeAZRKXkgvlVr4DkSUmBp7HofhkGqsLkXvbHnGobSEHp2xfV
-	2r773Yq4TPLqFvHfD3QHWmaf1d2j8q6cepL37BdZxJLsGmCwZ5aauP77cSuCOaGe0miQ
-	hQHw==
-X-Received: by 10.140.134.21 with SMTP id 21mr42578803qhg.51.1441753691784;
-	Tue, 08 Sep 2015 16:08:11 -0700 (PDT)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=+lpVYpjWo8njeLWCAijYWaQSC+Exq8llHAOEBOmq35w=;
+	b=mO7km94nX/nBvNmvRHh1sAzt4A7Dko6CBoBhWGQidMaiYnbGKeRTKw1+b9LhcIhGBc
+	Cah33MKxvIX8hgAoHgHQnvi9XNy0gDz3tchl4vS6gLne5hRBy5rNKNVUyWWdIX+18wW2
+	uJREI2K/WgvEe51ZeELRQy42fD970KCEJJmzwD5z3pQxVx6Fro1nxAPy398o5ZWg/GoS
+	pC8q0UnDMlLZFPSWNsIzOOJvu/4updqMjmeilmKAegXJBTe7NfI/WsnJki9Uq+FJ2sn2
+	ewD321KmjA/Z6of/Qf7iBOagYU18LVP2j2JT5+cNSH5I9wku4bMt92ULRpNHxu4OTpfR
+	JDyg==
+X-Received: by 10.180.10.170 with SMTP id j10mr50372004wib.77.1441753790741;
+	Tue, 08 Sep 2015 16:09:50 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
 	by smtp.gmail.com with ESMTPSA id
-	h66sm2784934qkh.28.2015.09.08.16.08.11
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Sep 2015 16:08:11 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Sep 2015 23:07:56 +0000
-Message-Id: <aaaafc16ef9a7ff67a743f277333adc47588ad4c.1441753511.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <762ad7bc4268386c2a29ea6c23bc8094fd52d160.1441753511.git.raj.khem@gmail.com>
-References: <762ad7bc4268386c2a29ea6c23bc8094fd52d160.1441753511.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1441753511.git.raj.khem@gmail.com>
-References: <cover.1441753511.git.raj.khem@gmail.com>
-Subject: [PATCH 16/16] directfb: Avoid using VLAs and printf formats
+	pu6sm7123496wjc.34.2015.09.08.16.09.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 08 Sep 2015 16:09:49 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 9 Sep 2015 01:10:37 +0200
+To: Andreas =?iso-8859-1?Q?M=FCller?= <schnitzeltony@googlemail.com>
+Message-ID: <20150908231037.GH2381@jama>
+References: <20150908155801.GD2381@jama> <20150908170942.GE2381@jama>
+	<CALbNGRQYuQrGc_3Bf0y5CVXHHb3uFDVaLgPcfeAKYCau7X1u2g@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CALbNGRQYuQrGc_3Bf0y5CVXHHb3uFDVaLgPcfeAKYCau7X1u2g@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: State of bitbake world, wrong PACKAGE_ARCHs 2015-09-08
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,100 +49,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 23:08:11 -0000
+X-List-Received-Date: Tue, 08 Sep 2015 23:09:52 -0000
+X-Groupsio-MsgNum: 70868
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="0OWHXb1mYLuhj1Ox"
+Content-Disposition: inline
 
-These are not portable features and are flagged by clang
+--0OWHXb1mYLuhj1Ox
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-graphics/directfb/directfb.inc        |  4 +-
- ...direct-Aboid-usng-VLAs-and-printf-formats.patch | 61 ++++++++++++++++++++++
- 2 files changed, 64 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/directfb/directfb/0001-gfx-direct-Aboid-usng-VLAs-and-printf-formats.patch
+On Tue, Sep 08, 2015 at 11:39:20PM +0200, Andreas M=FCller wrote:
+> On Tue, Sep 8, 2015 at 7:09 PM, Martin Jansa <martin.jansa@gmail.com> wro=
+te:
+> > ERROR: polkit-group-rule-datetime different signature for task do_confi=
+gure.sigdata between qemux86copy and qemuarm
+> > runtaskdeps changed from ['polkitpolkit-group-rule-datetime.bb.do_patch=
+', 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1.bb.do_p=
+opulate_sysroot:virtual:native'] to ['polkitpolkit-group-rule-datetime.bb.d=
+o_patch', 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1.=
+bb.do_populate_sysroot:virtual:native']
+> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-exten=
+ded/polkit/polkit_0.113.bb.do_populate_sysroot with hash 284d6bbd28ea723c46=
+6e0c5c88a09a50
+> I missed many of these - because I am not up to date on oe-core (did
+> not want to loose midori for my images) - will change that soon. For
+> this type of error: is it correct that it is caused by allarch recipes
+> depending on machine/architecture specific recipes?
 
-diff --git a/meta/recipes-graphics/directfb/directfb.inc b/meta/recipes-graphics/directfb/directfb.inc
-index 4fbca87..446aaea 100644
---- a/meta/recipes-graphics/directfb/directfb.inc
-+++ b/meta/recipes-graphics/directfb/directfb.inc
-@@ -14,7 +14,9 @@ DEPENDS = "jpeg libpng freetype zlib tslib sysfsutils"
- SRC_URI = "http://www.directfb.org/downloads/Core/DirectFB-1.7/DirectFB-${PV}.tar.gz \
-            file://configurefix.patch \
-            file://fusion.patch \
--           file://bashism.patch"
-+           file://bashism.patch \
-+           file://0001-gfx-direct-Aboid-usng-VLAs-and-printf-formats.patch \
-+          "
- 
- S = "${WORKDIR}/DirectFB-${PV}"
- 
-diff --git a/meta/recipes-graphics/directfb/directfb/0001-gfx-direct-Aboid-usng-VLAs-and-printf-formats.patch b/meta/recipes-graphics/directfb/directfb/0001-gfx-direct-Aboid-usng-VLAs-and-printf-formats.patch
-new file mode 100644
-index 0000000..76e0f75
---- /dev/null
-+++ b/meta/recipes-graphics/directfb/directfb/0001-gfx-direct-Aboid-usng-VLAs-and-printf-formats.patch
-@@ -0,0 +1,61 @@
-+From f43ef44806ffb8e3b35d99070dde9b6cc1714d3d Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 8 Sep 2015 21:32:20 +0000
-+Subject: [PATCH] gfx,direct: Aboid usng VLAs and printf formats
-+
-+VLAs are flagged by clang when using non-POD types, therefore replace
-+the usage with alloca which is exact same allocation on stack
-+
-+ __attribute__((__format__ (__printf__))) is not portable as used here
-+ therefore disable the check for clang here, we lose no functionality
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ lib/direct/util.h | 2 +-
-+ src/gfx/util.cpp  | 8 ++++----
-+ 2 files changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/lib/direct/util.h b/lib/direct/util.h
-+index 72941e9..8e7fa4a 100644
-+--- a/lib/direct/util.h
-++++ b/lib/direct/util.h
-+@@ -98,7 +98,7 @@
-+ #define D_CONST_FUNC
-+ #endif
-+ 
-+-#if __GNUC__ >= 3
-++#if __GNUC__ >= 3 && !defined __clang__
-+ #define D_FORMAT_PRINTF(n)         __attribute__((__format__ (__printf__, n, n+1)))
-+ #define D_FORMAT_VPRINTF(n)        __attribute__((__format__ (__printf__, n, 0)))
-+ #else
-+diff --git a/src/gfx/util.cpp b/src/gfx/util.cpp
-+index 40032bc..d1015d4 100644
-+--- a/src/gfx/util.cpp
-++++ b/src/gfx/util.cpp
-+@@ -294,8 +294,8 @@ dfb_gfx_copy_regions_stereo( CoreSurface           *source,
-+ {
-+      unsigned int i, n = 0;
-+      DFBRectangle rect = { 0, 0, source->config.size.w, source->config.size.h };
-+-     DFBRectangle rects[num];
-+-     DFBPoint     points[num];
-++     DFBRectangle *rects =  (DFBRectangle*)alloca( sizeof(struct DFBRectangle) * num);
-++     DFBPoint *points =  (DFBPoint*)alloca( sizeof(struct DFBPoint) * num);
-+ 
-+      for (i=0; i<num; i++) {
-+           DFB_REGION_ASSERT( &regions[i] );
-+@@ -351,8 +351,8 @@ dfb_gfx_copy_regions_client( CoreSurface             *source,
-+ {
-+      unsigned int             i, n = 0;
-+      DFBRectangle             rect = { 0, 0, source->config.size.w, source->config.size.h };
-+-     DFBRectangle             rects[num];
-+-     DFBPoint                 points[num];
-++     DFBRectangle            *rects =  (DFBRectangle*)alloca( sizeof(struct DFBRectangle) * num);
-++     DFBPoint                *points =  (DFBPoint*)alloca( sizeof(struct DFBPoint) * num);
-+      CoreGraphicsStateClient *client = _client ? _client : &StateClient::Get()->client;
-+      CardState               *state  = client->state;
-+      CardState                backup;
-+-- 
-+2.5.1
-+
--- 
-2.5.1
+close, the important part is few lines bellow:
 
+/home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extended/=
+polkit/polkit_0.113.bb.do_populate_sysroot
+with hash                              =20
+284d6bbd28ea723c466e0c5c88a09a50                                           =
+                                                                           =
+       =20
+ changed to                                                                =
+                                                                           =
+       =20
+/home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extended/=
+polkit/polkit_0.113.bb.do_populate_sysroot
+with hash                              =20
+06cf7139c6588d047fa11444d88175ab                                           =
+                                                                           =
+       =20
+Hash for dependent task polkitpolkit_0.113.bb.do_populate_sysroot
+changed from 284d6bbd28ea723c466e0c5c88a09a50 to
+06cf7139c6588d047fa11444d88175ab          =20
 
+so allarch recipe polkitpolkit-group-rule-datetime is depending on
+TUNE_PKGARCH-specific recipe polkit (on it's do_populate_sysroot task
+which is expected to be different for diferent TUNE_PKGARCHs)
+
+Regards,
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--0OWHXb1mYLuhj1Ox
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlXvauwACgkQN1Ujt2V2gBxyzwCgobGvXGwMDOBkkKmYtaQH3Ya8
+bX4AniUIpbgBSuRrlfLuKc/DhYOFX+wb
+=pe2U
+-----END PGP SIGNATURE-----
+
+--0OWHXb1mYLuhj1Ox--
