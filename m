@@ -1,37 +1,60 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F50065C8A
+Return-Path: <mike.looijmans@topicproducts.com>
+Received: from mx12-05.smtp.antispamcloud.com (mx12-05.smtp.antispamcloud.com
+	[46.165.232.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DE2D65C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 10:14:58 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so78260556qge.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Sep 2015 03:14:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=3tFzN1AWjK24rVSJAft/AqaKUn+Zwc47jp6ZtVZ74cg=;
-	b=c+UUBKXMe4iqjcnHg0WhIS/LFV9en3mokI76JW5jgO1hErl9xeR7NZAraziBTz5i60
-	4v2WUQXCSK6Y3p2PE5fQ4G4svyxPxogHQlQibZZWovMQ8NP+PVa4XlOWU5X6uD8H/En8
-	iVyfiGNqL2j51fBeXUk2iJ0ZSROuwKeBRT20L1naoq/LQ6jGUY3jfu9m8C5qmi/TH8Do
-	gxumxV+FqVB099v/8YfupgGzhbAOfEa7C8xay5LfsZbLnIrvvZZV8z+bCMSkr5B6r0kG
-	a4jYc+hzZ4kGkiQTF3MGnSpWmyO7mqFlUvoV6U9iztuUKSgG3Y0E1z2VraobUQ9Y4kYu
-	dpvA==
-X-Gm-Message-State: ALoCoQnOpfGQxC/WT3hibvlfJJlJHTlZoNYYOwKCdnujgGv+Bzjwyqg5F07leAs94CvSVOPOqzGe
-X-Received: by 10.140.237.150 with SMTP id i144mr33933865qhc.22.1441707296713; 
-	Tue, 08 Sep 2015 03:14:56 -0700 (PDT)
+	Tue,  8 Sep 2015 10:20:02 +0000 (UTC)
+Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
+	helo=TOP-EX01.TOPIC.LOCAL)
+	by mx12.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
+	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
+	id 1ZZG0H-0008Qg-FG; Tue, 08 Sep 2015 12:20:00 +0200
+Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
+	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
+	Tue, 8 Sep 2015 12:19:19 +0200
+Message-ID: <55EEB647.7000101@topic.nl>
+Date: Tue, 8 Sep 2015 12:19:51 +0200
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Tue, 8 Sep 2015 03:14:37 -0700 (PDT)
-In-Reply-To: <38a54062b7480324d2a289cc18f4c3a8f4d72c8a.1441706663.git.kai.kang@windriver.com>
-References: <cover.1441706663.git.kai.kang@windriver.com>
-	<38a54062b7480324d2a289cc18f4c3a8f4d72c8a.1441706663.git.kai.kang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Sep 2015 11:14:37 +0100
-Message-ID: <CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gdk-pixbuf: 2.30.8 -> 2.31.7
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+References: <55963864.2030604@topic.nl> <55ED6393.6050906@topic.nl>
+	<CAHiDW_GfhUoDMBtwbj2G8RbRnA7OWR_3b_M_tDc-hEz8g4NqYw@mail.gmail.com>
+	<55EDBD6F.7090900@topic.nl>
+	<CAHiDW_GPgMLsLbASU4qHCHY65E9OWK3G3BgTpq=vAd8tsPDNbg@mail.gmail.com>
+In-Reply-To: <CAHiDW_GPgMLsLbASU4qHCHY65E9OWK3G3BgTpq=vAd8tsPDNbg@mail.gmail.com>
+X-Originating-IP: [192.168.80.121]
+X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
+X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
+X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
+	NXFr4uarw51tZiJxcjns2SY3j4UJRi6sxOp0+M2PQ1/4TNBB5Ij0w0IL8f1eek8oyUUuBOOAQa8g
+	ejvs5mxBUzg3jVOf3vvmP3xMDswqyQ6mQ6XwvGLsuJVCkJk9TlVS86xgAgZafbHqj5fcgWKFi0cp
+	Vjs6qIsVBRxTXZY5rRjwUCWOgblDtJR2W3sp9iQnl8NFIeJNHiG7X+t1TW39Ja77LGPpOwDOjyd3
+	oGE1tEOqXHYvZIk4yBUEDKaxNZhQ5w2b7VrnnPRMPeCzA4fvS0eXZ3J8iZshEWyJzIkwSFAW0Pw8
+	uiKeJ9eX2UhoCOjofuIFDReRUAFSU+YtS5ujHPpGDgHLmNg7cwe96RgJ9LTG/qMdWsI692PNDpgL
+	sd6Ddd/s7VM53o6ccHCldH+5aCvCLfmaIvz3uFL8N7VKh/CG+lj0Rj1mjuG3OyA90NHVTFoNkTji
+	gYIHzgrL8il3sV0dVRVXzjqRVYKU9W9tbmVXJBqdHHDmlFyaiSgCQQ1OadeU0o3KJDNLKZUH8kQv
+	CzH7IKj6sa+/C1cmIkpmMu2y/KVVPaNVuERI/lUckE9oPyvcIhwEMmltkIEyb31pMCMMB0fkaiUf
+	hLP+ssd9qBrF2bUx9HvvbufhCZ7MOWUWpNco+KOrHhgD/FVEY7v4laIdTJ8d+KC4ixWSYWIo3iDq
+	xvNn8MbZG8FV/fQARVcG5/WF9EqvuQ==
+X-Report-Abuse-To: spam@mx99.antispamcloud.com
+X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJUb3OPwsHaH0Fvg5oXltHd/JUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
+	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
+	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
+	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
+X-Originating-IP: 88.159.208.100
+X-Spampanel-Domain: topic.nl
+X-Spampanel-Username: 88.159.208.100
+Authentication-Results: antispamcloud.com;
+	auth=pass smtp.auth=88.159.208.100@topic.nl
+X-Spampanel-Outgoing-Class: ham
+X-Spampanel-Outgoing-Evidence: Combined (0.00)
+X-Recommended-Action: accept
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Getting rid of "The license listed internal was not in the licenses collected" warnings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,41 +67,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 10:15:00 -0000
-Content-Type: multipart/alternative; boundary=001a113595aa4a8ecb051f39a3ab
-
---001a113595aa4a8ecb051f39a3ab
-Content-Type: text/plain; charset=UTF-8
-
-On 8 September 2015 at 11:05, <kai.kang@windriver.com> wrote:
-
-> From: Kai Kang <kai.kang@windriver.com>
->
-> * drop backport patch
->
-
-gdk-pixbuf is a GNOME project, so odd-minor-versions are development
-releases and we won't be merging this.  If there's a particular fix you
-want integrated, please backport it.
-
-Ross
-
---001a113595aa4a8ecb051f39a3ab
-Content-Type: text/html; charset=UTF-8
+X-List-Received-Date: Tue, 08 Sep 2015 10:20:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 September 2015 at 11:05,  <span dir=3D"ltr">&lt;<a href=3D"mailto:kai.=
-kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":2h3" class=3D"a3s" st=
-yle=3D"overflow:hidden">From: Kai Kang &lt;<a href=3D"mailto:kai.kang@windr=
-iver.com">kai.kang@windriver.com</a>&gt;<br>
-<br>
-* drop backport patch</div></blockquote></div><br>gdk-pixbuf is a GNOME pro=
-ject, so odd-minor-versions are development releases and we won&#39;t be me=
-rging this.=C2=A0 If there&#39;s a particular fix you want integrated, plea=
-se backport it.</div><div class=3D"gmail_extra"><br></div><div class=3D"gma=
-il_extra">Ross</div></div>
+=EF=BB=BFOn 08-09-15 10:44, Jussi Kukkonen wrote:
+> On 7 September 2015 at 19:38, Mike Looijmans <mike.looijmans@topic.nl
+> <mailto:mike.looijmans@topic.nl>> wrote:
+>
+>     On 07-09-15 13:56, Jussi Kukkonen wrote:
+>
+>         On 7 September 2015 at 13:14, Mike Looijmans <mike.looijmans@topi=
+c.nl
+>         <mailto:mike.looijmans@topic.nl>
+>         <mailto:mike.looijmans@topic.nl <mailto:mike.looijmans@topic.nl>>=
+> wrote:
+>
+>              Just sped another hour or so trying to pinpoint this, but I =
+cannot
+>              wrap my head around it. What do I have to do to add a licens=
+e to a
+>              layer without these annoying warnings?
+>
+>
+>         I just tried this (with master branch) and it seems to work fine
+>         here...  Are you using master or something older?
+>
+>
+>     Did you try that in a separate, empty layer? I suspect I'm missing a
+>     variable or directive of some kind which cause it to miss the license=
+ file.
+>
+>
+> I have layer with literally only:
+> * conf/layer.conf file with just LICENSE_PATH +=3D "${LAYERDIR}/licenses"
+> * licenses/internal file
+> This layer is added to BBLAYERS. After this a recipe from another layer s=
+eems
+> to be able to use the "internal" license...
 
---001a113595aa4a8ecb051f39a3ab--
+The warning doesn't appear until you actually build a rootfs with that pack=
+age=20
+in it.
+
+>
+>         Do you not get a "${DEPLOY_DIR}/licenses/${BPN}/generic_internal"=
+ file
+>         when you build the recipe for BPN?
+>
+>
+>     Nope.
+
+Ah, wait, on closer inspection it actually exists, but it's a symlink to so=
+me=20
+none-existing location. Apparently, to save some diskspace and reduce=20
+maintenance on text files I linked a few files together. Somehow, the link =
+got=20
+copied instead of the file contents.
+
+I un-symlinked the "internal" file, and (together with some forced rebuilds=
+)=20
+that finally made the warning go away.
+
+Thanks!
+
+
+Kind regards,
+
+Mike Looijmans
+System Expert
+
+TOPIC Embedded Products
+Eindhovenseweg 32-C, NL-5683 KH Best
+Postbus 440, NL-5680 AK Best
+Telefoon: +31 (0) 499 33 69 79
+Telefax: +31 (0) 499 33 69 70
+E-mail: mike.looijmans@topicproducts.com
+Website: www.topicproducts.com
+
+Please consider the environment before printing this e-mail
+
+
+
+
+
+
