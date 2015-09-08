@@ -1,20 +1,22 @@
 Return-Path: <markus.lehtonen@linux.intel.com>
 Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 371E575E80
+	by mail.openembedded.org (Postfix) with ESMTP id 363D965C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 10:58:17 +0000 (UTC)
+	Tue,  8 Sep 2015 10:58:18 +0000 (UTC)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Sep 2015 03:58:17 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 08 Sep 2015 03:58:18 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="764592801"
+X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="764592808"
 Received: from unknown (HELO marquiz.fi.intel.com) ([10.237.72.155])
-	by orsmga001.jf.intel.com with ESMTP; 08 Sep 2015 03:58:16 -0700
+	by orsmga001.jf.intel.com with ESMTP; 08 Sep 2015 03:58:17 -0700
 From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Sep 2015 13:58:11 +0300
-Message-Id: <1441709895-1304-1-git-send-email-markus.lehtonen@linux.intel.com>
+Date: Tue,  8 Sep 2015 13:58:12 +0300
+Message-Id: <1441709895-1304-2-git-send-email-markus.lehtonen@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/4] devtool: better support for kernel
+In-Reply-To: <1441709895-1304-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1441709895-1304-1-git-send-email-markus.lehtonen@linux.intel.com>
+Subject: [PATCH 1/4] extrernalsrc.bbclass: treat kernel meta like local source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,38 +31,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 08 Sep 2015 10:58:20 -0000
 
-This patchset contains few patches to improve the devtool support for kernel
-recipes. With these patches it is possible build a modified kernel and also
-build other packages (e.g. external modules) against it. The first three
-patches are actually a bit more generic patches that make externalsrc behave
-better with kernel recipes.
+Kernel metadata repository needs to be fetched/unpacked into the work
+directory in order to build the kernel. Sources pointing to a remote
+location are skipped by externalsrc by default which caused kernel build
+to fail (because of remote kernel-meta was not made availeble). This
+patch will make kernel-meta always available.
 
-The following changes since commit 8402958cd2cb87b8283c8ee4e2d08e1a6717d67a:
+[YOCTO #6658]
 
-  pseudo_1.7.3.bb: New version of pseudo (2015-09-06 15:24:28 +0100)
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/classes/externalsrc.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib marquiz/devtool/kernel
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=marquiz/devtool/kernel
-
-for you to fetch changes up to a7aeb51b63040a2783d60c45d9249daa47c2fde3:
-
-  devtool: modify: enable do_shared_workdir for kernel (2015-09-08 13:29:39 +0300)
-
-----------------------------------------------------------------
-Markus Lehtonen (4):
-  extrernalsrc.bbclass: treat kernel meta like local source
-  kernel-yocto.bbclass: do_kernel_metadata depends on do_unpack
-  kernel.bbclass: do not mv/link sources when externalsrc enabled
-  devtool: modify: enable do_shared_workdir for kernel
-
- meta/classes/externalsrc.bbclass  | 12 ++++++++----
- meta/classes/kernel-yocto.bbclass |  2 +-
- meta/classes/kernel.bbclass       | 10 +++++++---
- scripts/lib/devtool/standard.py   |  2 +-
- 4 files changed, 17 insertions(+), 9 deletions(-)
-
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 8f7f479..37c6320 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -36,11 +36,15 @@ python () {
+         else:
+             d.setVar('B', '${WORKDIR}/${BPN}-${PV}/')
+ 
+-        srcuri = (d.getVar('SRC_URI', True) or '').split()
+         local_srcuri = []
+-        for uri in srcuri:
+-            if uri.startswith('file://'):
+-                local_srcuri.append(uri)
++        fetch = bb.fetch2.Fetch((d.getVar('SRC_URI', True) or '').split(), d)
++        for url in fetch.urls:
++            url_data = fetch.ud[url]
++            parm = url_data.parm
++            if (url_data.type == 'file' or
++                    'type' in parm and parm['type'] == 'kmeta'):
++                local_srcuri.append(url)
++
+         d.setVar('SRC_URI', ' '.join(local_srcuri))
+ 
+         if '{SRCPV}' in d.getVar('PV', False):
 -- 
 2.1.4
 
