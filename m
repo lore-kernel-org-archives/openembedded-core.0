@@ -1,37 +1,30 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
-	[209.85.213.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A340762A2;
-	Tue,  8 Sep 2015 21:39:20 +0000 (UTC)
-Received: by igxx6 with SMTP id x6so369134igx.1;
-	Tue, 08 Sep 2015 14:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=AHzPQ+dIzyL+SCNu6zJK3WlWAWfny+VnsRWpsnMd/2g=;
-	b=r8CROp50EHGS/ujadGdTvGcTUDLp2J3xUMH44IA1rLEFzmCSITdsb55/Z6PAIHFEMe
-	bm+3/YLRbSb4qUBS95I02ok2quB3C2UQEfs3DS2+neaKQjSkZ06PWsFPW2hT1gQjyBJc
-	Eci/SHxueK3wpw1NBtsZtv7D/ImZvsQokEbOuERekPARFdQvl9HhqysSSVuH7Eg93AXz
-	dP9OEyRWgr8ok81aFIK1o+Wr9XiFeDt2pZlfuC/eqnQBylTBVvZdXFIyUtrAw3s0DivW
-	ffOPvvGDeawD+Pr6IkkMdVAx0uqI1IssYq5yLbVxNM+nezvYSYldXJXnSCbPV/aDJxxy
-	o2BQ==
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A82BE762A2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  8 Sep 2015 21:46:00 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP; 08 Sep 2015 14:46:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,492,1437462000"; d="scan'208";a="800974870"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by fmsmga002.fm.intel.com with ESMTP; 08 Sep 2015 14:46:00 -0700
+Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
+	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Tue, 8 Sep 2015 14:46:00 -0700
+Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.154) by
+	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Tue, 8 Sep 2015 14:45:59 -0700
+From: Bruno Bottazzini <bruno.bottazzini@intel.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 8 Sep 2015 18:45:20 -0300
+Message-ID: <1441748721-32485-1-git-send-email-bruno.bottazzini@intel.com>
+X-Mailer: git-send-email 2.5.1
+In-Reply-To: <bruno.bottazzini@intel.com>
+References: <bruno.bottazzini@intel.com>
 MIME-Version: 1.0
-X-Received: by 10.50.119.70 with SMTP id ks6mr31370184igb.78.1441748360656;
-	Tue, 08 Sep 2015 14:39:20 -0700 (PDT)
-Received: by 10.36.98.5 with HTTP; Tue, 8 Sep 2015 14:39:20 -0700 (PDT)
-In-Reply-To: <20150908170942.GE2381@jama>
-References: <20150908155801.GD2381@jama>
-	<20150908170942.GE2381@jama>
-Date: Tue, 8 Sep 2015 23:39:20 +0200
-Message-ID: <CALbNGRQYuQrGc_3Bf0y5CVXHHb3uFDVaLgPcfeAKYCau7X1u2g@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, wrong PACKAGE_ARCHs 2015-09-08
+X-Originating-IP: [10.218.99.154]
+Subject: [PATCH V3] mkefidisk: Create interactive menu for the script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,26 +37,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 21:39:23 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 08 Sep 2015 21:46:00 -0000
+Content-Type: text/plain
 
-On Tue, Sep 8, 2015 at 7:09 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
-:
-> ERROR: polkit-group-rule-datetime different signature for task do_configu=
-re.sigdata between qemux86copy and qemuarm
-> runtaskdeps changed from ['polkitpolkit-group-rule-datetime.bb.do_patch',=
- 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1.bb.do_pop=
-ulate_sysroot:virtual:native'] to ['polkitpolkit-group-rule-datetime.bb.do_=
-patch', 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1.bb=
-.do_populate_sysroot:virtual:native']
-> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extende=
-d/polkit/polkit_0.113.bb.do_populate_sysroot with hash 284d6bbd28ea723c466e=
-0c5c88a09a50
-I missed many of these - because I am not up to date on oe-core (did
-not want to loose midori for my images) - will change that soon. For
-this type of error: is it correct that it is caused by allarch recipes
-depending on machine/architecture specific recipes?
+Differences from v2:
+- Removing unecessary \n as Saul Wold has suggested.
 
-Andreas
+Differences from v1:
+- Now it will show only unmounted devices as Saul Wold has suggested
+- Commit message changed as Saul Wold has suggested
+
+Bruno Bottazzini (1):
+  mkefidisk: Create interactive menu for the script
+
+ scripts/contrib/mkefidisk.sh | 63 ++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 58 insertions(+), 5 deletions(-)
+
+-- 
+2.5.1
+
 
