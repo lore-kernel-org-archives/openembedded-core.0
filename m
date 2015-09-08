@@ -1,30 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id DE02A7422C
+Return-Path: <cristina-danielax.agurida@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EA2B76104
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  7 Sep 2015 15:58:37 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t87FwKqS029282; Mon, 7 Sep 2015 16:58:37 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 9W8mK0LcDDqD; Mon,  7 Sep 2015 16:58:37 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t87FwLjx029285
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 7 Sep 2015 16:58:33 +0100
-Message-ID: <1441641501.24871.256.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Seebach <peter.seebach@windriver.com>
-Date: Mon, 07 Sep 2015 16:58:21 +0100
-In-Reply-To: <8c418d1f561ba5cc47bf80ee4d887401059d4683.1441404865.git.peter.seebach@windriver.com>
-References: <cover.1441404865.git.peter.seebach@windriver.com>
-	<8c418d1f561ba5cc47bf80ee4d887401059d4683.1441404865.git.peter.seebach@windriver.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] pseudo_1.7.3.bb: New version of pseudo
+	Mon,  7 Sep 2015 16:31:12 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga103.fm.intel.com with ESMTP; 07 Sep 2015 09:31:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,485,1437462000"; d="scan'208";a="799532070"
+Received: from linux.intel.com ([10.23.219.25])
+	by orsmga002.jf.intel.com with ESMTP; 07 Sep 2015 09:31:12 -0700
+Received: from localhost.localdomain (unknown [10.237.112.210])
+	by linux.intel.com (Postfix) with ESMTP id D80646A4005;
+	Mon,  7 Sep 2015 09:30:19 -0700 (PDT)
+From: Cristina Agurida <cristina-danielax.agurida@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Sep 2015 04:45:10 +1200
+Message-Id: <1441730710-611-1-git-send-email-cristina-danielax.agurida@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2] oeqa/parselogs: Updated log error whitelist.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +30,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 15:58:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 07 Sep 2015 16:31:13 -0000
 
-On Fri, 2015-09-04 at 17:16 -0500, Peter Seebach wrote:
-> Pseudo 1.7 adds an experimental feature (which I think needs more testing
-> before it becomes the default) allowing the pseudo client to store modes
-> and uid/gid values in extended attributes rather than using the sqlite
-> database. On most Linux-like systems, this works only if the underlying
-> file is a plain file or a directory.
-> 
-> Also added is a profiling feature to allow some amount of reporting on
-> the wall-clock time the client spends in wrappers, processing operations,
-> or in IPC. This feature is not intendeded to be precisely accurate, but
-> gives a good overview of where time is going.
-> 
-> Based on the results from the profiling feature, the client now suppresses
-> OP_OPEN and OP_EXEC messages if the server is not logging messages, and
-> no longer uses constant dynamic allocation and free cycles for canonicalized
-> paths.
-> 
-> There's a few other likely-looking optimizations being considered, but
-> this seemed like a good cutoff for now.
-> 
-> 1.7.1 fixes two bugs, one affecting mostly XFS systems with 64-bit
-> inode values, and one affecting code that called realpath(x, NULL), such
-> as the RPM backend.
-> 
-> 1.7.2 fixes an indirect side-effect of the chmod fixes to deal with
-> umask 0700, which had no effect with opkg 0.2.4 but appears to cause
-> failures with 0.3.0.
-> 
-> 1.7.3 prevents mkdirat() (and mkfifoat()) from setting errno on success,
-> because glibc's localedef inexplicably errors out if errno was set, even
-> if the operation's actual return code (which it tests) indicated
-> success.
+[YOCTO #7898]
+[YOCTO #7761]
+[YOCTO #7804]
 
-We finally got there, I merged this one after it passed the tests!
+Signed-off-by: Cristina Agurida <cristina-danielax.agurida@intel.com>
+---
+ meta/lib/oeqa/runtime/parselogs.py | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/runtime/parselogs.py b/meta/lib/oeqa/runtime/parselogs.py
+index ed43510..e20947b 100644
+--- a/meta/lib/oeqa/runtime/parselogs.py
++++ b/meta/lib/oeqa/runtime/parselogs.py
+@@ -34,6 +34,8 @@ common_errors = [
+     'kernel: Cannot find map file',
+     'omap_hwmod: debugss: _wait_target_disable failed',
+     'VGA arbiter: cannot open kernel arbiter, no multi-card support',
++    'Failed to find URL:http://ipv4.connman.net/online/status.html',
++    'Online check failed for',
+     ]
+ 
+ x86_common = [
+@@ -88,6 +90,7 @@ ignore_errors = {
+         '(EE) AIGLX: reverting to software rendering',
+         ] + x86_common,
+     'core2_32' : [
++        'ACPI: No _BQC method, cannot determine initial brightness',
+         '[Firmware Bug]: ACPI: No _BQC method, cannot determine initial brightness',
+         '(EE) Failed to load module "psb"',
+         '(EE) Failed to load module psb',
+@@ -96,6 +99,9 @@ ignore_errors = {
+         '(EE) open /dev/fb0: No such file or directory',
+         '(EE) AIGLX: reverting to software rendering',
+         ] + x86_common,
++    'intel-corei7-64' : [
++        "controller can't do DEVSLP, turning off",
++        ] + common_errors,
+     'crownbay' : x86_common,
+     'genericx86' : x86_common,
+     'genericx86-64' : x86_common,
+-- 
+2.1.4
 
 
