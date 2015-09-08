@@ -1,39 +1,41 @@
-Return-Path: <obi@opendreambox.org>
-X-Greylist: delayed 430 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 08 Sep 2015 18:28:23 UTC
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by mail.openembedded.org (Postfix) with ESMTP id BEFB565CBF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-ig0-f178.google.com (mail-ig0-f178.google.com
+	[209.85.213.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 634C575E80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 18:28:23 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.dream-property.net (Postfix) with ESMTP id 1E758315A631
+	Tue,  8 Sep 2015 18:39:47 +0000 (UTC)
+Received: by igxx6 with SMTP id x6so23531850igx.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 20:21:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at mail.dream-property.net
-Received: from mail.dream-property.net ([127.0.0.1])
-	by localhost (mail.dream-property.net [127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 6FHwvqx2MSDd
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 20:21:10 +0200 (CEST)
-Received: from [172.22.22.61] (55d46d8b.access.ecotel.net [85.212.109.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 00BCB315A62F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 20:21:09 +0200 (CEST)
-To: openembedded-core@lists.openembedded.org
-References: <1441729207-22458-1-git-send-email-jslater@windriver.com>
-	<1441729207-22458-2-git-send-email-jslater@windriver.com>
-From: Andreas Oberritter <obi@opendreambox.org>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <55EF2714.1090801@opendreambox.org>
-Date: Tue, 8 Sep 2015 20:21:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	Tue, 08 Sep 2015 11:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc:content-type;
+	bh=9F+C5v8zjcY6R+n6VMVok/TpHoWxCxwtR7OhwsPMy9M=;
+	b=wGpS+YU7n/w23fTLUiv4BayTmrFNh+73Hrh13LkOgjw1qK8AN5rw12hQeeeBzvfAbu
+	B3z4fTgubqq+zccgsQ8sC76gzLrimNGxm6Ma4w36oMZWIO7aEFghhl8kFxvXCRfQJf+I
+	2NFhXDggzgxJ4Kh/Zs+ILG8yQybb14q7tdsHqW1MRFr0S+gDugelkUy0sGW9Fz4QA95R
+	IRvSJ9BYhDj0WgNS7x3c7dMqpc2SjMSvqUWgQRD0smHP5065qt750SEFBLdepoOlT61h
+	Wyy7OmTiK67ndxClVEpFHYD5HqLCsxqEY7w1jd3+piR9uAQRaQa0mPmCqs9Ug49lxwsC
+	GyMw==
+X-Received: by 10.50.72.41 with SMTP id a9mr45052818igv.77.1441737587159; Tue,
+	08 Sep 2015 11:39:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1441729207-22458-2-git-send-email-jslater@windriver.com>
-Subject: Re: [PATCH 1/1] dpkg: put start-stop-daemon in its own package
+Received: by 10.107.142.130 with HTTP; Tue, 8 Sep 2015 11:39:17 -0700 (PDT)
+In-Reply-To: <55EF2670.6040101@gmail.com>
+References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
+	<20150901215512.GE2458@jama>
+	<CAP9ODKq=HsV79hXhHeCwdhpF6uhHdCxYrhC53Kt5+Pe6Qdpf1w@mail.gmail.com>
+	<255516EC-098E-457B-A2E6-2F7C953CAA8D@gmail.com>
+	<CAP9ODKp9Vkw-vHNp1PMqE1eTfmW8-s5o6+0JYTv=sFEHm9nc1g@mail.gmail.com>
+	<1441177787.24871.33.camel@linuxfoundation.org>
+	<55EF2670.6040101@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 Sep 2015 11:39:17 -0700
+Message-ID: <CAMKF1sogs9sRR_07nOxZrvvOxXj_=ioqNr=_vN+hr+VFf2BO6A@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Patch merge process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,34 +48,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 18:28:24 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Sep 2015 18:39:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hello Joe,
+On Tue, Sep 8, 2015 at 11:18 AM, Trevor Woerner <twoerner@gmail.com> wrote:
+> If Richard doesn't want to use gerrit for OE-core, that doesn't exclude
+> others from using it for the layers they manage, does it?
 
-On 08.09.2015 18:20, Joe Slater wrote:
-> @@ -67,6 +73,18 @@ PROV_class-native = ""
->  
->  PROVIDES += "${PROV}"
->  
-> +# split out start-stop-daemon to its own package
-> +#
-> +PACKAGES =+ "${PN}-start-stop"
-> +FILES_${PN}-start-stop = "${base_sbindir}/start-stop-daemon.dpkg"
-> +
-> +ALTERNATIVE_PRIORITY="100"
-> +ALTERNATIVE_${PN}-start-stop = "start-stop-daemon"
-> +ALTERNATIVE_LINK_NAME[start-stop-daemon]="${base_sbindir}/start-stop-daemon"
-> +
-> +RDEPENDS_${PN} += "${PN}-start-stop"
-> +#
-> +
-
-I think you should omit the comment, because it only describes the obvious.
-
-How about using ${PN}-start-stop-daemon?
-
-Regards,
-Andreas
+yes, however, we should prefer this to run on oe domain, its better
+for project and then if most of layers use it its fine too, it could
+end up
+with same situation as patchwork where oe-core and bitbake do not use
+it actively. other layers do. its not ideal situation but its ok as
+long as
+its makes people productive, we could be open for options its matter
+of volunteers then maintaining the infra for these services.
 
