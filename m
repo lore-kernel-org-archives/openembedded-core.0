@@ -1,26 +1,42 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 5679565C8A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
+	[209.85.192.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 1124F75E80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 10:27:50 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 08 Sep 2015 03:27:51 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="784916671"
-Received: from jdkarpin-mobl4.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.5.153])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Sep 2015 03:27:50 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Tue, 08 Sep 2015 11:27:49 +0100
-Message-ID: <4075484.OxUd8CpdCA@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1441702411.24871.278.camel@linuxfoundation.org>
-References: <1441702411.24871.278.camel@linuxfoundation.org>
+	Tue,  8 Sep 2015 10:32:10 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so78160232qgx.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Sep 2015 03:32:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=Jjuwo9BxUmQQ14aXNr3dpuzmo83voWQXUv7tSneRcAA=;
+	b=XHLzIUbfERAopx5AZOIcRBezZWO3OuAW8qgonwb8nBXV++V9lpZZh//x7BxJ70KWsp
+	aLIH627jiKS4wuWZsQdmNdBaityjJSyXJYiv7BTUrMhohp/wB5J1GU7Pl1z4B7HaIbYW
+	0VeotgWWmCb549rAX+heNkhLAxFNI83tb6W1+1PqCLA8jG7j880XY81Jyd4XW68CmO1J
+	jio0CK0Ua1iULSm3YjbqZoFEiGC8PdvwanJiP0rXLcfpwclXmyIZkEeStSfP4nVizjFK
+	ulbGERaN74VufcAkmY9J394T5kvtspI+KHRSjM24u3w8stoxs2yO2M2I2Cmi5kPM32Z0
+	WP4g==
+X-Gm-Message-State: ALoCoQkzkGfkHKPLNxa+9n22HSpCQACENJHp2rtsub6j+o1M9jGx1Z9YMPI2+5p3Ay/84e35WOZA
+X-Received: by 10.140.237.150 with SMTP id i144mr34030525qhc.22.1441708330376; 
+	Tue, 08 Sep 2015 03:32:10 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: Illustration of good and bad QA test output
+Received: by 10.140.94.86 with HTTP; Tue, 8 Sep 2015 03:31:50 -0700 (PDT)
+In-Reply-To: <E437DE0B-65F0-42B4-B061-BC30F27A24B8@gmail.com>
+References: <cover.1441552859.git.raj.khem@gmail.com>
+	<1441654013.24871.259.camel@linuxfoundation.org>
+	<4A72FD2B-1B79-4827-B02E-E3B23A966AE7@gmail.com>
+	<1441659401.24871.261.camel@linuxfoundation.org>
+	<956735BC-7AA6-4513-AA09-3FBFD3250428@gmail.com>
+	<1441660176.24871.268.camel@linuxfoundation.org>
+	<E437DE0B-65F0-42B4-B061-BC30F27A24B8@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 8 Sep 2015 11:31:50 +0100
+Message-ID: <CAJTo0LZL5H1uW7nZzyT5q51=2RxmiRr8vAAn4n0e1kKUjrN7ag@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Systemd Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,73 +49,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 10:27:54 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 08 Sep 2015 10:32:11 -0000
+Content-Type: multipart/alternative; boundary=001a113595aae6eaf0051f39e009
 
-On Tuesday 08 September 2015 09:53:31 Richard Purdie wrote:
-> A while back, I asked for a review of test output when things fail as it
-> was causing problems. I suspect some people don't really understand why
-> this is a big deal. I'd therefore like to illustrate this with a new
-> example:
-> 
-> https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/build
-> s/180/steps/Running%20oe-selftest/logs/stdio
-> 
-> This is a failure we encountered on the autobuilder. It basically tells
-> me that "1 is not 0".  I did see this failure in master-next but I had
-> no what to know what was causing it, whether it was a patch in -next or
-> whether it came from somewhere else. I therefore had to move things
-> forward and merged -next.
-> 
-> Locally, I added this change:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=
-> c8134250f72d5102f96137265ae71cf8f2eff5a9
-> 
-> In amongst the build output this shows when the test fails, I see:
-> 
-> WARNING: Failed to fetch URL
-> file://d1/sstate:m4::1.4.17:r0::3:d1c56d6fa574f1093f4be30cb90ac127_populate
-> _lic.tgz.sig, attempting MIRRORS if available ERROR: Fetcher failure: Unable
-> to find file
-> file://d1/sstate:m4::1.4.17:r0::3:d1c56d6fa574f1093f4be30cb90ac127_populate
-> _lic.tgz.sig anywhere. The paths that were searched were:
-> /media/build1/poky/build/temp_sstate_20150907190612
->     /media/build1/poky/build/temp_sstate_20150907190612
-> NOTE: recipe m4-1.4.17-r0: task do_populate_lic_setscene: Succeeded
-> 
-> and from that error and my knowledge of what was in -next, I can be
-> pretty sure this comes from:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=e3feac122b6baa67a6e75a9
-> 9da6e8834f0f2a7b0
-> 
-> and I now know who to blame (sorry Ross!). The issue is that this is now
-> in master and we have the error in a much more serious place. If the QA
-> code was showing better information in the case of failure, this would
-> never have made it into master.
-> 
-> I mention this since I'm hoping a practical example of how the test
-> failures influence decisions and make a difference to the project might
-> encourage people to pay more attention to these details.
+--001a113595aae6eaf0051f39e009
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-This is a good thing to note; being able to tell why the test has failed helps 
-a lot if you're trying to figure out why the test failed and whether it's the 
-test or the code that needs fixing.
+On 7 September 2015 at 22:12, Khem Raj <raj.khem@gmail.com> wrote:
 
-One addendum though, this is not necessary if you are using runCmd() or 
-bitbake() without passing ignore_status=True - it will fail the test and print 
-the output for you if the command fails. Generally I only use 
-ignore_status=True when I need to test a command that is expected to fail (any 
-needed cleanup can generally be handled through add_command_to_tearDown() and 
-track_for_cleanup()).
+> > I believe the tests will run with the nographic options to qemu which
+> > then won't need X, Ross had a patch around for that recently. To be
+> > honest when looking at this kind of issue, I usually debug it using
+> > testimage now, its actually easier in many cases=E2=80=A6
+>
+> in this case it will be faster. Care to point to Ross=E2=80=99s patch ?
+>
 
-Cheers,
-Paul
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/mut=
+&id=3De67ab458ab2d67908d80f9aa1954dee05cb21fc1
+is the patch to run the tests in a nographics qemu.  The framework still
+checks that DISPLAY is set, but you can just set that to anything you want
+as it won't be used.
 
--- 
+Ross
 
-Paul Eggleton
-Intel Open Source Technology Centre
+--001a113595aae6eaf0051f39e009
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 7 September 2015 at 22:12, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
+yle:solid;padding-left:1ex"><span class=3D"">&gt; I believe the tests will =
+run with the nographic options to qemu which<br>
+&gt; then won&#39;t need X, Ross had a patch around for that recently. To b=
+e<br>
+&gt; honest when looking at this kind of issue, I usually debug it using<br=
+>
+</span>&gt; testimage now, its actually easier in many cases=E2=80=A6<br>
+<br>
+in this case it will be faster. Care to point to Ross=E2=80=99s patch ?<br>=
+</blockquote></div><br><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi=
+/poky-contrib/commit/?h=3Dross/mut&amp;id=3De67ab458ab2d67908d80f9aa1954dee=
+05cb21fc1">http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=
+=3Dross/mut&amp;id=3De67ab458ab2d67908d80f9aa1954dee05cb21fc1</a> is the pa=
+tch to run the tests in a nographics qemu.=C2=A0 The framework still checks=
+ that DISPLAY is set, but you can just set that to anything you want as it =
+won&#39;t be used.<br></div><div class=3D"gmail_extra"><br></div><div class=
+=3D"gmail_extra">Ross</div></div>
+
+--001a113595aae6eaf0051f39e009--
