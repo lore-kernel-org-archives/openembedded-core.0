@@ -1,38 +1,25 @@
-Return-Path: <prvs=686ec4387=Mikko.Rapeli@bmw.de>
-Received: from esa7.bmw.c3s2.iphmx.com (esa7.bmw.c3s2.iphmx.com
-	[68.232.133.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 76DD176B7C
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E4AE965C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 10:39:49 +0000 (UTC)
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
-	esa7.bmw.c3s2.iphmx.com with ESMTP/TLS; 08 Sep 2015 12:39:49 +0200
-Received: from unknown (HELO esabb1.muc) ([160.50.100.31]) by esagw5.muc with
-	ESMTP/TLS; 08 Sep 2015 12:39:49 +0200
-Received: from smuch58b.muc (HELO SMUCH58B.europe.bmw.corp) ([160.46.137.108])
-	by esabb1.muc with ESMTP/TLS; 08 Sep 2015 12:39:47 +0200
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH58B.europe.bmw.corp ([160.46.137.108]) with mapi id 14.03.0248.002;
-	Tue, 8 Sep 2015 12:39:47 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <mike.looijmans@topic.nl>
-Thread-Topic: [OE-core] Getting rid of "The license listed internal was not
-	in the licenses collected" warnings?
-Thread-Index: AQHQtWFE4cV8Sr+dsEyawNT+O9yqyp4xH72AgAAcjwCAAE6QgIABDe4AgAAat4CAAAR6AA==
-Date: Tue, 8 Sep 2015 10:39:46 +0000
-Message-ID: <20150908103552.GE8427@loska>
-References: <55963864.2030604@topic.nl> <55ED6393.6050906@topic.nl>
-	<CAHiDW_GfhUoDMBtwbj2G8RbRnA7OWR_3b_M_tDc-hEz8g4NqYw@mail.gmail.com>
-	<55EDBD6F.7090900@topic.nl>
-	<CAHiDW_GPgMLsLbASU4qHCHY65E9OWK3G3BgTpq=vAd8tsPDNbg@mail.gmail.com>
-	<55EEB647.7000101@topic.nl>
-In-Reply-To: <55EEB647.7000101@topic.nl>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.101]
+	Tue,  8 Sep 2015 10:48:07 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga103.jf.intel.com with ESMTP; 08 Sep 2015 03:48:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="640597035"
+Received: from jdkarpin-mobl4.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.5.153])
+	by orsmga003.jf.intel.com with ESMTP; 08 Sep 2015 03:48:03 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 08 Sep 2015 11:48:02 +0100
+Message-ID: <2450586.XQWa6WlBOl@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <1441708600-31394-1-git-send-email-markus.lehtonen@linux.intel.com>
+References: <1441708600-31394-1-git-send-email-markus.lehtonen@linux.intel.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Getting rid of "The license listed internal was not in the licenses collected" warnings?
+Subject: Re: [PATCH] externalsrc.bbclass: better filtering of cleandirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,27 +32,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 10:39:50 -0000
-Content-Language: en-US
+X-List-Received-Date: Tue, 08 Sep 2015 10:48:08 -0000
+Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <692950C8924CB2409F119AC5B706EC27@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 08, 2015 at 12:19:51PM +0200, Mike Looijmans wrote:
-> Ah, wait, on closer inspection it actually exists, but it's a symlink to
-> some none-existing location. Apparently, to save some diskspace and reduc=
-e
-> maintenance on text files I linked a few files together. Somehow, the lin=
-k
-> got copied instead of the file contents.
->
-> I un-symlinked the "internal" file, and (together with some forced rebuil=
-ds)
-> that finally made the warning go away.
+On Tuesday 08 September 2015 13:36:40 Markus Lehtonen wrote:
+> We really do not want our (external) source tree to be removed. There
+> might be multiple values in the 'cleandirs' varflag pointing to our
+> source tree - causing it to be wiped out. This patch improves the
+> filtering of 'cleandirs' by examining the expanded values inside it. Any
+> (expanded) values pointing to our source tree get removed.
+> 
+> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+> ---
+>  meta/classes/externalsrc.bbclass | 18 +++++++-----------
+>  1 file changed, 7 insertions(+), 11 deletions(-)
+> 
+> diff --git a/meta/classes/externalsrc.bbclass
+> b/meta/classes/externalsrc.bbclass index 8f7f479..499688b 100644
+> --- a/meta/classes/externalsrc.bbclass
+> +++ b/meta/classes/externalsrc.bbclass
+> @@ -58,18 +58,14 @@ python () {
+>                  d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
+> 
+>              # We do not want our source to be wiped out, ever
+> (kernel.bbclass does this for do_clean) -            cleandirs =
+> d.getVarFlag(task, 'cleandirs', False)
+> -            if cleandirs:
+> -                cleandirs = cleandirs.split()
+> -                setvalue = False
+> -                if '${S}' in cleandirs:
+> -                    cleandirs.remove('${S}')
+> +            cleandirs = (d.getVarFlag(task, 'cleandirs', False) or
+> '').split() +            setvalue = False
+> +            for cleandir in cleandirs[:]:
+> +                if d.expand(cleandir) == externalsrc:
+> +                    cleandirs.remove(cleandir)
+>                      setvalue = True
+> -                if externalsrcbuild == externalsrc and '${B}' in cleandirs:
+> -                    cleandirs.remove('${B}')
+> -                    setvalue = True
+> -                if setvalue:
+> -                    d.setVarFlag(task, 'cleandirs', ' '.join(cleandirs))
+> +            if setvalue:
+> +                d.setVarFlag(task, 'cleandirs', ' '.join(cleandirs))
+> 
+>          fetch_tasks = ['do_fetch', 'do_unpack']
+>          # If we deltask do_patch, there's no dependency to ensure do_unpack
+> gets run, so add one
 
-Since I had similar stupid-user moments too, there is a generic function in
-sanity tests to check for broken symlinks. Would be great if you could add
-license files to this check.
+Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
 
--Mikko=
+Cheers,
+Paul
+
+-- 
+
+Paul Eggleton
+Intel Open Source Technology Centre
 
