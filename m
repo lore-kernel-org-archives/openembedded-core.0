@@ -1,25 +1,20 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E4AE965C8A
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 371E575E80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 10:48:07 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga103.jf.intel.com with ESMTP; 08 Sep 2015 03:48:05 -0700
+	Tue,  8 Sep 2015 10:58:17 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 08 Sep 2015 03:58:17 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="640597035"
-Received: from jdkarpin-mobl4.ger.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.252.5.153])
-	by orsmga003.jf.intel.com with ESMTP; 08 Sep 2015 03:48:03 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
+X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="764592801"
+Received: from unknown (HELO marquiz.fi.intel.com) ([10.237.72.155])
+	by orsmga001.jf.intel.com with ESMTP; 08 Sep 2015 03:58:16 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 08 Sep 2015 11:48:02 +0100
-Message-ID: <2450586.XQWa6WlBOl@peggleto-mobl.ger.corp.intel.com>
-Organization: Intel Corporation
-User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
-In-Reply-To: <1441708600-31394-1-git-send-email-markus.lehtonen@linux.intel.com>
-References: <1441708600-31394-1-git-send-email-markus.lehtonen@linux.intel.com>
-MIME-Version: 1.0
-Subject: Re: [PATCH] externalsrc.bbclass: better filtering of cleandirs
+Date: Tue,  8 Sep 2015 13:58:11 +0300
+Message-Id: <1441709895-1304-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] devtool: better support for kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +27,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 10:48:08 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 08 Sep 2015 10:58:20 -0000
 
-On Tuesday 08 September 2015 13:36:40 Markus Lehtonen wrote:
-> We really do not want our (external) source tree to be removed. There
-> might be multiple values in the 'cleandirs' varflag pointing to our
-> source tree - causing it to be wiped out. This patch improves the
-> filtering of 'cleandirs' by examining the expanded values inside it. Any
-> (expanded) values pointing to our source tree get removed.
-> 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  meta/classes/externalsrc.bbclass | 18 +++++++-----------
->  1 file changed, 7 insertions(+), 11 deletions(-)
-> 
-> diff --git a/meta/classes/externalsrc.bbclass
-> b/meta/classes/externalsrc.bbclass index 8f7f479..499688b 100644
-> --- a/meta/classes/externalsrc.bbclass
-> +++ b/meta/classes/externalsrc.bbclass
-> @@ -58,18 +58,14 @@ python () {
->                  d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
-> 
->              # We do not want our source to be wiped out, ever
-> (kernel.bbclass does this for do_clean) -            cleandirs =
-> d.getVarFlag(task, 'cleandirs', False)
-> -            if cleandirs:
-> -                cleandirs = cleandirs.split()
-> -                setvalue = False
-> -                if '${S}' in cleandirs:
-> -                    cleandirs.remove('${S}')
-> +            cleandirs = (d.getVarFlag(task, 'cleandirs', False) or
-> '').split() +            setvalue = False
-> +            for cleandir in cleandirs[:]:
-> +                if d.expand(cleandir) == externalsrc:
-> +                    cleandirs.remove(cleandir)
->                      setvalue = True
-> -                if externalsrcbuild == externalsrc and '${B}' in cleandirs:
-> -                    cleandirs.remove('${B}')
-> -                    setvalue = True
-> -                if setvalue:
-> -                    d.setVarFlag(task, 'cleandirs', ' '.join(cleandirs))
-> +            if setvalue:
-> +                d.setVarFlag(task, 'cleandirs', ' '.join(cleandirs))
-> 
->          fetch_tasks = ['do_fetch', 'do_unpack']
->          # If we deltask do_patch, there's no dependency to ensure do_unpack
-> gets run, so add one
+This patchset contains few patches to improve the devtool support for kernel
+recipes. With these patches it is possible build a modified kernel and also
+build other packages (e.g. external modules) against it. The first three
+patches are actually a bit more generic patches that make externalsrc behave
+better with kernel recipes.
 
-Acked-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+The following changes since commit 8402958cd2cb87b8283c8ee4e2d08e1a6717d67a:
 
-Cheers,
-Paul
+  pseudo_1.7.3.bb: New version of pseudo (2015-09-06 15:24:28 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib marquiz/devtool/kernel
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=marquiz/devtool/kernel
+
+for you to fetch changes up to a7aeb51b63040a2783d60c45d9249daa47c2fde3:
+
+  devtool: modify: enable do_shared_workdir for kernel (2015-09-08 13:29:39 +0300)
+
+----------------------------------------------------------------
+Markus Lehtonen (4):
+  extrernalsrc.bbclass: treat kernel meta like local source
+  kernel-yocto.bbclass: do_kernel_metadata depends on do_unpack
+  kernel.bbclass: do not mv/link sources when externalsrc enabled
+  devtool: modify: enable do_shared_workdir for kernel
+
+ meta/classes/externalsrc.bbclass  | 12 ++++++++----
+ meta/classes/kernel-yocto.bbclass |  2 +-
+ meta/classes/kernel.bbclass       | 10 +++++++---
+ scripts/lib/devtool/standard.py   |  2 +-
+ 4 files changed, 17 insertions(+), 9 deletions(-)
 
 -- 
+2.1.4
 
-Paul Eggleton
-Intel Open Source Technology Centre
 
