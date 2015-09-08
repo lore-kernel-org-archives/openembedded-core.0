@@ -1,24 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <mark.hatle@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C508065CBF
+	by mail.openembedded.org (Postfix) with ESMTP id 0ECCE60053
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 13:44:48 +0000 (UTC)
+	Tue,  8 Sep 2015 14:09:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t88Dikpk012982
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t88E9aUN013166
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Sep 2015 06:44:46 -0700 (PDT)
-Received: from yow-bashfiel-d4.wrs.com (128.224.56.94) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 8 Sep 2015 06:44:46 -0700
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Tue, 8 Sep 2015 09:44:45 -0400
-Message-ID: <1441719885-22787-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 2.1.0
+	Tue, 8 Sep 2015 07:09:36 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 8 Sep 2015 07:09:35 -0700
+To: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1441719081.git.paul.eggleton@linux.intel.com>
+	<6b6d4faae6721915597cd9da2a2d1b1b69fa8c11.1441719081.git.paul.eggleton@linux.intel.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+X-Enigmail-Draft-Status: N1110
+Organization: Wind River Systems
+Message-ID: <55EEEC1E.1030401@windriver.com>
+Date: Tue, 8 Sep 2015 09:09:34 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.2.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] linux-yocto/3.14: fix edgerouter (octeon) build
+In-Reply-To: <6b6d4faae6721915597cd9da2a2d1b1b69fa8c11.1441719081.git.paul.eggleton@linux.intel.com>
+Subject: Re: [RFC PATCH 3/3] WIP: classes/packagefeed-stability: add class to help reduce package feed churn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,99 +37,356 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 13:44:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Sep 2015 14:09:38 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 8bit
 
-Upating the SRCREVs to import the following commit:
+I've got some scripts where I do this externally of the build system.  So a few
+comments on the stuff below based on what I found working on those scripts.
 
-    Author: Kevin Hao <kexin.hao@windriver.com>
-    Date:   Mon Aug 31 19:34:48 2015 +0800
+(Basically the system deploys as normal.. then we run the scripts to copy the
+deploy directory contents to a release directory... we do the build-compare as
+part of that copy...)
 
-        mips: octeon: use ll/sc for the atomic ops for all the predecessor
-        of octeon2
+See below inline...
 
-        Even the octeon plus has the support of the 'saa' instruction, but
-        we
-        don't have a way to distinguish between octeon and octeon plus at
-        compile time and pass "-march=octeon" to all the predecessor of
-        octeon2. So it will cause the following error when trying to
-        assemble
-        the "saa" instruction with option "-march=octeon":
-          {standard input}: Assembler messages:
-          {standard input}:360: Error: Unrecognized opcode `saa $2,($4)'
-          scripts/Makefile.build:308: recipe for target
-        'arch/mips/cavium-octeon/executive/cvmx-lap.o' failed
+On 9/8/15 8:41 AM, Paul Eggleton wrote:
+> When a dependency causes a recipe to effectively be rebuilt, its output
+> may in fact not change; but new packages (with an increased PR value, if
+> using the PR server) will be generated nonetheless. There's no practical
+> way for us to predict whether or not this is going to be the case based
+> solely on the inputs, but we can compare the package output and see if
+> that is materially different and based upon that decide to replace the
+> old package with the new one.
+> 
+> This class effectively intercepts packages as they are written out by
+> do_package_write_*, causing them to be written into a different
+> directory where we can compare them to whatever older packages might
+> be in the "real" package feed directory, and avoid copying the new
+> package to the feed if it has not materially changed. We use
+> build-compare to do the package comparison.
+> 
+> (NOTE: this is still a work in progress and there are no doubt
+> unresolved issues.)
+> 
+> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> ---
+>  meta/classes/packagefeed-stability.bbclass | 270 +++++++++++++++++++++++++++++
+>  1 file changed, 270 insertions(+)
+>  create mode 100644 meta/classes/packagefeed-stability.bbclass
+> 
+> diff --git a/meta/classes/packagefeed-stability.bbclass b/meta/classes/packagefeed-stability.bbclass
+> new file mode 100644
+> index 0000000..b5207d9
+> --- /dev/null
+> +++ b/meta/classes/packagefeed-stability.bbclass
+> @@ -0,0 +1,270 @@
+> +# Class to avoid copying packages into the feed if they haven't materially changed
+> +#
+> +# Copyright (C) 2015 Intel Corporation
+> +# Released under the MIT license (see COPYING.MIT for details)
+> +#
+> +# This class effectively intercepts packages as they are written out by
+> +# do_package_write_*, causing them to be written into a different
+> +# directory where we can compare them to whatever older packages might
+> +# be in the "real" package feed directory, and avoid copying the new
+> +# package to the feed if it has not materially changed. The idea is to
+> +# avoid unnecessary churn in the packages when dependencies trigger task
+> +# reexecution (and thus repackaging). Enabling the class is simple:
+> +#
+> +# INHERIT += "packagefeed-stability"
+> +#
+> +# Caveats:
+> +# 1) Latest PR values in the build system may not match those in packages
+> +#    seen on the target (naturally)
+> +# 2) If you rebuild from sstate without the existing package feed present,
+> +#    you will lose the "state" of the package feed i.e. the preserved old
+> +#    package versions. Not the end of the world, but would negate the
+> +#    entire purpose of this class.
+> +#
+> +# Note that running -c cleanall on a recipe will purposely delete the old
+> +# package files so they will definitely be copied the next time.
+> +
+> +python() {
+> +    # Package backend agnostic intercept
+> +    # This assumes that the package_write task is called package_write_<pkgtype>
+> +    # and that the directory in which packages should be written is
+> +    # pointed to by the variable DEPLOY_DIR_<PKGTYPE>
+> +    for pkgclass in (d.getVar('PACKAGE_CLASSES', True) or '').split():
+> +        if pkgclass.startswith('package_'):
+> +            pkgtype = pkgclass.split('_', 1)[1]
+> +            pkgwritefunc = 'do_package_write_%s' % pkgtype
+> +            sstate_outputdirs = d.getVarFlag(pkgwritefunc, 'sstate-outputdirs', False)
+> +            deploydirvar = 'DEPLOY_DIR_%s' % pkgtype.upper()
+> +            deploydirvarref = '${' + deploydirvar + '}'
+> +            pkgcomparefunc = 'do_package_compare_%s' % pkgtype
+> +
+> +            if bb.data.inherits_class('image', d):
+> +                d.appendVarFlag('do_rootfs', 'recrdeptask', ' ' + pkgcomparefunc)
+> +
+> +            if bb.data.inherits_class('populate_sdk_base', d):
+> +                d.appendVarFlag('do_populate_sdk', 'recrdeptask', ' ' + pkgcomparefunc)
+> +
+> +            if bb.data.inherits_class('populate_sdk_ext', d):
+> +                d.appendVarFlag('do_populate_sdk_ext', 'recrdeptask', ' ' + pkgcomparefunc)
+> +
+> +            d.appendVarFlag('do_build', 'recrdeptask', ' ' + pkgcomparefunc)
+> +
+> +            if d.getVarFlag(pkgwritefunc, 'noexec', True) or (not d.getVarFlag(pkgwritefunc, 'task', True)) or pkgwritefunc in (d.getVar('__BBDELTASKS', True) or []):
+> +                # Packaging is disabled for this recipe, we shouldn't do anything
+> +                continue
+> +
+> +            if deploydirvarref in sstate_outputdirs:
+> +                # Set intermediate output directory
+> +                d.setVarFlag(pkgwritefunc, 'sstate-outputdirs', sstate_outputdirs.replace(deploydirvarref, deploydirvarref + '-prediff'))
+> +
+> +            d.setVar(pkgcomparefunc, d.getVar('do_package_compare', False))
+> +            d.setVarFlags(pkgcomparefunc, d.getVarFlags('do_package_compare', False))
+> +            d.appendVarFlag(pkgcomparefunc, 'depends', ' build-compare-native:do_populate_sysroot')
+> +            bb.build.addtask(pkgcomparefunc, 'do_build', 'do_packagedata ' + pkgwritefunc, d)
+> +}
+> +
+> +# This isn't the real task function - it's a template that we use in the
+> +# anonymous python code above
+> +fakeroot python do_package_compare () {
+> +    currenttask = d.getVar('BB_CURRENTTASK', True)
+> +    pkgtype = currenttask.rsplit('_', 1)[1]
+> +    package_compare_impl(pkgtype, d)
+> +}
+> +
+> +def package_compare_impl(pkgtype, d):
+> +    import errno
+> +    import fnmatch
+> +    import glob
+> +    import subprocess
+> +    import oe.sstatesig
+> +
+> +    pn = d.getVar('PN', True)
+> +    deploydir = d.getVar('DEPLOY_DIR_%s' % pkgtype.upper(), True)
+> +    prepath = deploydir + '-prediff/'
+> +
+> +    # Find out PKGR values are
+> +    pkgdatadir = d.getVar('PKGDATA_DIR', True)
+> +    packages = []
+> +    try:
+> +        with open(os.path.join(pkgdatadir, pn), 'r') as f:
+> +            for line in f:
+> +                if line.startswith('PACKAGES:'):
+> +                    packages = line.split(':', 1)[1].split()
+> +                    break
+> +    except IOError as e:
+> +        if e.errno == errno.ENOENT:
+> +            pass
+> +
+> +    if not packages:
+> +        bb.debug(2, '%s: no packages, nothing to do' % pn)
+> +        return
+> +
+> +    pkgrvalues = {}
+> +    rpkgnames = {}
+> +    rdepends = {}
+> +    pkgvvalues = {}
+> +    for pkg in packages:
+> +        with open(os.path.join(pkgdatadir, 'runtime', pkg), 'r') as f:
+> +            for line in f:
+> +                if line.startswith('PKGR:'):
+> +                    pkgrvalues[pkg] = line.split(':', 1)[1].strip()
+> +                if line.startswith('PKGV:'):
+> +                    pkgvvalues[pkg] = line.split(':', 1)[1].strip()
+> +                elif line.startswith('PKG_%s:' % pkg):
+> +                    rpkgnames[pkg] = line.split(':', 1)[1].strip()
+> +                elif line.startswith('RDEPENDS_%s:' % pkg):
+> +                    rdepends[pkg] = line.split(':', 1)[1].strip()
+> +
+> +    # Prepare a list of the runtime package names for packages that were
+> +    # actually produced
+> +    rpkglist = []
+> +    for pkg, rpkg in rpkgnames.iteritems():
+> +        if os.path.exists(os.path.join(pkgdatadir, 'runtime', pkg + '.packaged')):
+> +            rpkglist.append((rpkg, pkg))
+> +    rpkglist.sort(key=lambda x: len(x[0]), reverse=True)
+> +
+> +    pvu = d.getVar('PV', False)
+> +    if '$' + '{SRCPV}' in pvu:
+> +        pvprefix = pvu.split('$' + '{SRCPV}', 1)[0]
+> +    else:
+> +        pvprefix = None
+> +
+> +    pkgwritetask = 'package_write_%s' % pkgtype
+> +    files = []
+> +    copypkgs = []
+> +    manifest, _ = oe.sstatesig.sstate_get_manifest_filename(pkgwritetask, d)
+> +    with open(manifest, 'r') as f:
+> +        for line in f:
+> +            if line.startswith(prepath):
 
-        Forcing to use the "ll/sc" for the atomic ops for all the
-        predecessor
-        of octeon2 to fix this issue.
+Is this comparing the -packages- or the -files-?  I ask, because if you process
+the packages you can short-cut some of the comparisons.. it makes a huge
+improvement in speed.
 
-        Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
-        Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Specifically, skip processing all '-dev' and '-dbg' packages.  (Not -staticdev).
+ The -dev and -dbg components need to match the runtime items.  If the runtime
+items have no changed then there is no reason that the -dev and -dbg items would
+have changed -- other then timestamps and file paths.. which the build-compare
+filters out anyway.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb   |  4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb |  2 +-
- meta/recipes-kernel/linux/linux-yocto_3.14.bb      | 16 ++++++++--------
- 3 files changed, 11 insertions(+), 11 deletions(-)
+> +                srcpath = line.rstrip()
+> +                if os.path.isfile(srcpath):
+> +                    destpath = os.path.join(deploydir, os.path.relpath(srcpath, prepath))
+> +
+> +                    # This is crude but should work assuming the output
+> +                    # package file name starts with the package name
+> +                    # and rpkglist is sorted by length (descending)
+> +                    pkgbasename = os.path.basename(destpath)
+> +                    pkgname = None
+> +                    for rpkg, pkg in rpkglist:
+> +                        if pkgbasename.startswith(rpkg):
+> +                            pkgr = pkgrvalues[pkg]
+> +                            destpathspec = destpath.replace(pkgr, '*')
+> +                            if pvprefix:
+> +                                pkgv = pkgvvalues[pkg]
+> +                                if pkgv.startswith(pvprefix):
+> +                                    pkgvsuffix = pkgv[len(pvprefix):]
+> +                                    if '+' in pkgvsuffix:
+> +                                        newpkgv = pvprefix + '*+' + pkgvsuffix.split('+', 1)[1]
+> +                                        destpathspec = destpathspec.replace(pkgv, newpkgv)
+> +                            pkgname = pkg
+> +                            break
+> +                    else:
+> +                        bb.warn('Unable to map %s back to package' % pkgbasename)
+> +                        destpathspec = destpath
+> +
+> +                    oldfiles = glob.glob(destpathspec)
+> +                    oldfile = None
+> +                    docopy = True
+> +                    if oldfiles:
+> +                        oldfile = oldfiles[-1]
+> +                        result = subprocess.call(['pkg-diff.sh', oldfile, srcpath])
+> +                        if result == 0:
+> +                            docopy = False
+> +
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-index d59f06b81c04..4d3d5c88df07 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_3.14.bb
-@@ -3,8 +3,8 @@ KBRANCH_qemuppc ?= "standard/preempt-rt/qemuppc"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--SRCREV_machine ?= "302ca233332fd364ecd028a0cf21b4cdc045e056"
--SRCREV_machine_qemuppc ?= "e4847afbb42583fa05e6a94c8d0c8f8e37ed5622"
-+SRCREV_machine ?= "8281915527ba8d79e59906c02f28e7aa11424723"
-+SRCREV_machine_qemuppc ?= "5e7d372ebc327f28656fc972fab55605eea8aec3"
- SRCREV_meta ?= "3a09b38a9f5015c56d99d17aa7c2f200c566249b"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;branch=${KBRANCH};name=machine \
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-index f65e0e0ed74f..412c817ff5ab 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_3.14.bb
-@@ -9,7 +9,7 @@ LINUX_VERSION ?= "3.14.36"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine ?= "302ca233332fd364ecd028a0cf21b4cdc045e056"
-+SRCREV_machine ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
- SRCREV_meta ?= "3a09b38a9f5015c56d99d17aa7c2f200c566249b"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto_3.14.bb b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-index 1ed9d00b1687..b6b2e5a9b672 100644
---- a/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_3.14.bb
-@@ -11,14 +11,14 @@ KBRANCH_qemux86  ?= "standard/common-pc/base"
- KBRANCH_qemux86-64 ?= "standard/common-pc-64/base"
- KBRANCH_qemumips64 ?= "standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "9d0a4947dc7117e393dc3b8c07246d26e22ecdec"
--SRCREV_machine_qemuarm64 ?= "302ca233332fd364ecd028a0cf21b4cdc045e056"
--SRCREV_machine_qemumips ?= "9c6fdae47597756042a1d4ed613dff96e430e8e9"
--SRCREV_machine_qemuppc ?= "14679c588669b4b78b329c5858b7aea1791eb451"
--SRCREV_machine_qemux86 ?= "550f5379bc4b001f656e7c98165606e543d0858c"
--SRCREV_machine_qemux86-64 ?= "302ca233332fd364ecd028a0cf21b4cdc045e056"
--SRCREV_machine_qemumips64 ?= "9b203f1aff41f7b713ec973cdcc7d016db4ffc26"
--SRCREV_machine ?= "302ca233332fd364ecd028a0cf21b4cdc045e056"
-+SRCREV_machine_qemuarm ?= "4817747912b5c50ce5c31ef25658340ca615e1b4"
-+SRCREV_machine_qemuarm64 ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
-+SRCREV_machine_qemumips ?= "6ed76ec26b120f65f8547c8612b7334bd2745ec9"
-+SRCREV_machine_qemuppc ?= "a86ade84b2e142c0fd7536d96477107b6d07db5c"
-+SRCREV_machine_qemux86 ?= "af1f7f586bd32d39c057f17606991b887eadb389"
-+SRCREV_machine_qemux86-64 ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
-+SRCREV_machine_qemumips64 ?= "a63d40b860a6d255005a541894d53729090b40ea"
-+SRCREV_machine ?= "578602a722dbfb260801f3b37c6eafd2abb2340d"
- SRCREV_meta ?= "3a09b38a9f5015c56d99d17aa7c2f200c566249b"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto-3.14.git;branch=${KBRANCH};name=machine; \
--- 
-2.1.0
+If any of the packages differ, then -all- of the packages differ.  You can drop
+out of the loop at that point and simply copy the full set of packages over at
+this point.
+
+The reason for this is that the packages from a single recipe may (and often do)
+have PN-PV-PR dependencies in them -- so they have to be kept as a unit.  Also
+the -dbg package contains the overall debug information for the full set of
+packages produced by a recipe.. so if you change a package the -dbg has to be
+updated -- since the -dbg was updated, everything has to be updated.
+
+So drop the loop, abort the compares and copy the full manifest set over in one
+shot..  For large packages like perl and python it makes a HUGH difference to
+avoid all of the extra comparisons.
+
+(I also did this because there is some concern in my mind if releasing only part
+of a recipe build ever makes sense..  because I've not gotten into the situation
+where the only way to reproduce the released feed would be to build the old
+version first, then come in and build the new version next..  this isn't a
+typical workflow and greatly complicates things.)
+
+> +                    files.append((pkgname, pkgbasename, srcpath, oldfile, destpath))
+> +                    bb.debug(2, '%s: package %s %s' % (pn, files[-1], docopy))
+> +                    if docopy:
+> +                        copypkgs.append(pkgname)
+> +
+
+Making the change above would eliminate the need for the code below.. and reduce
+the possibility of things getting out of sync.
+
+> +    # Ensure that dependencies on specific versions (such as -dev on the
+> +    # main package) are copied in lock-step
+> +    changed = True
+> +    while changed:
+> +        rpkgdict = {x[0]: x[1] for x in rpkglist}
+> +        changed = False
+> +        for pkgname, pkgbasename, srcpath, oldfile, destpath in files:
+> +            rdeps = rdepends.get(pkgname, None)
+> +            if not rdeps:
+> +                continue
+> +            rdepvers = bb.utils.explode_dep_versions2(rdeps)
+> +            for rdep, versions in rdepvers.iteritems():
+> +                dep = rpkgdict.get(rdep, None)
+> +                for version in versions:
+> +                    if version and version.startswith('= '):
+> +                        if dep in copypkgs and not pkgname in copypkgs:
+> +                            bb.debug(2, '%s: copying %s because it has a fixed version dependency on %s and that package is going to be copied' % (pn, pkgname, dep))
+> +                            changed = True
+> +                            copypkgs.append(pkgname)
+> +                        elif pkgname in copypkgs and not dep in copypkgs:
+> +                            bb.debug(2, '%s: copying %s because %s has a fixed version dependency on it and that package is going to be copied' % (pn, dep, pkgname))
+> +                            changed = True
+> +                            copypkgs.append(dep)
+> +
+> +    # Read in old manifest so we can delete any packages we aren't going to replace or preserve
+> +    pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
+> +    try:
+> +        with open(pcmanifest, 'r') as f:
+> +            knownfiles = [x[3] for x in files if x[3]]
+> +            for line in f:
+> +                fn = line.rstrip()
+> +                if fn:
+> +                    if fn in knownfiles:
+> +                        knownfiles.remove(fn)
+> +                    else:
+> +                        try:
+> +                            os.remove(fn)
+> +                            bb.warn('Removed old package %s' % fn)
+> +                        except OSError as e:
+> +                            if e.errno == errno.ENOENT:
+> +                                pass
+> +    except IOError as e:
+> +        if e.errno == errno.ENOENT:
+> +            pass
+> +
+> +    # Create new manifest
+> +    with open(pcmanifest, 'w') as f:
+> +        for pkgname, pkgbasename, srcpath, oldfile, destpath in files:
+> +            if pkgname in copypkgs:
+> +                bb.warn('Copying %s' % pkgbasename)
+> +                destdir = os.path.dirname(destpath)
+> +                bb.utils.mkdirhier(destdir)
+> +                if oldfile:
+> +                    try:
+> +                        os.remove(oldfile)
+> +                    except OSError as e:
+> +                        if e.errno == errno.ENOENT:
+> +                            pass
+> +                if (os.stat(srcpath).st_dev == os.stat(destdir).st_dev):
+> +                    # Use a hard link to save space
+> +                    os.link(srcpath, destpath)
+> +                else:
+> +                    shutil.copyfile(srcpath, destpath)
+> +                f.write('%s\n' % destpath)
+> +            else:
+> +                bb.warn('Not copying %s' % pkgbasename)
+> +                f.write('%s\n' % oldfile)
+> +
+> +
+> +do_cleanall_append() {
+> +    import errno
+> +    for pkgclass in (d.getVar('PACKAGE_CLASSES', True) or '').split():
+> +        if pkgclass.startswith('package_'):
+> +            pkgtype = pkgclass.split('_', 1)[1]
+> +            deploydir = d.getVar('DEPLOY_DIR_%s' % pkgtype.upper(), True)
+> +            prepath = deploydir + '-prediff'
+> +            pcmanifest = os.path.join(prepath, d.expand('pkg-compare-manifest-${MULTIMACH_TARGET_SYS}-${PN}'))
+> +            try:
+> +                with open(pcmanifest, 'r') as f:
+> +                    for line in f:
+> +                        fn = line.rstrip()
+> +                        if fn:
+> +                            try:
+> +                                os.remove(fn)
+> +                            except OSError as e:
+> +                                if e.errno == errno.ENOENT:
+> +                                    pass
+> +                os.remove(pcmanifest)
+> +            except IOError as e:
+> +                if e.errno == errno.ENOENT:
+> +                    pass
+> +}
+> 
 
 
