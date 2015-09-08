@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
 	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E1CA60053
+	by mail.openembedded.org (Postfix) with ESMTP id B1B7960053
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 23:08:03 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so96483932qgt.2
+	Tue,  8 Sep 2015 23:08:04 +0000 (UTC)
+Received: by qgev79 with SMTP id v79so96461663qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Sep 2015 16:08:03 -0700 (PDT)
+	Tue, 08 Sep 2015 16:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=4upp/04epqIzUypnzLyIOlCJ85zu3dNdMhmAwDJzEaY=;
-	b=ghgCQ7jxXB3KVU/st5MI60vopehaS6qlwP7/gsim4FkTwJRT+T0XWIG5MY9vHmGm/W
-	P/I++epahLQ0GAZ/LMBNV838UjFRkhOAXRy4CiuhyYIarQNqFLyBCdyJHeW2Tiq8vxho
-	MwVCWvDyMx5jHlNMNMwx8XyPyqLGUc3Pb2FH1rK7p2HJddgL55N4WYqSBX1FYpozpVFd
-	YgPz5imhyejaXeBvuiqu30iLQl8YfHUdO0MOQr20Mx6NDi1GxqVdjiGQOewQCUpspLRr
-	uJH2Ijj2qycIIlU9EA4fw7iSh83Jt+XigyG9q5869S8jNWMmgEL9OlpF04sMyocC/EWt
-	QQEQ==
-X-Received: by 10.140.132.133 with SMTP id 127mr41610923qhe.6.1441753683304;
-	Tue, 08 Sep 2015 16:08:03 -0700 (PDT)
+	bh=X5lCgCCyCHMuESylwsdgVZ2vfNqP6ZcZcNbncAlo2Rc=;
+	b=smQs8S+tAKotEwggnn8uREfSAjEQ7msypwG85g44ZmFPcK04cPTAGSl/wPtqSuFP9z
+	aw7MNvXFoVgWN3RLgrvGyAinfiADyRpYipt5fXfejVX2aseFEREVviPTbj0YQRSRVjzg
+	mGo36bFm6Sv3tTRz6Wp6sTAo/KFYxmM63G5USDhfednLcjKK9kEbwN06xPLJDQcxxJhI
+	CSB6s23LJVVEksDECcyTEKbzmV2de9nNlKDD06fkLmZhj3aoOc56fJMEn1JepjZ8t38x
+	ESNxvcPJDUMbic367xvwWocg8WFOP2wVswhYQ90poUSeR9qxwINNXA2C1K78zQEa1XXt
+	FLgQ==
+X-Received: by 10.140.196.67 with SMTP id r64mr41725318qha.10.1441753685075;
+	Tue, 08 Sep 2015 16:08:05 -0700 (PDT)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	h66sm2784934qkh.28.2015.09.08.16.08.02
+	h66sm2784934qkh.28.2015.09.08.16.08.04
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 08 Sep 2015 16:08:02 -0700 (PDT)
+	Tue, 08 Sep 2015 16:08:04 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Sep 2015 23:07:42 +0000
-Message-Id: <0b794c84466fef2ece1269e01820503b4bce0b52.1441753511.git.raj.khem@gmail.com>
+Date: Tue,  8 Sep 2015 23:07:45 +0000
+Message-Id: <49ad5c695085455129958274302c77263d96b22f.1441753511.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.1
 In-Reply-To: <762ad7bc4268386c2a29ea6c23bc8094fd52d160.1441753511.git.raj.khem@gmail.com>
 References: <762ad7bc4268386c2a29ea6c23bc8094fd52d160.1441753511.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1441753511.git.raj.khem@gmail.com>
 References: <cover.1441753511.git.raj.khem@gmail.com>
-Subject: [PATCH 02/16] slang: Fix namespace conflict vis-a-vis posix_close
+Subject: [PATCH 05/16] minicom: Fix build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,95 +46,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 23:08:03 -0000
+X-List-Received-Date: Tue, 08 Sep 2015 23:08:04 -0000
 
-Fixes errors like
-
-|
-/home/ubuntu/work/oe/openembedded-core/build/tmp-musl/work/core2-64-oe-linux-musl/slang/2.2.4-r12/slang-2.2.4/src/slpo
-sio.c:366:12: error: conflicting types for 'posix_close'
-|  static int posix_close (SLFile_FD_Type *f)
-|             ^
-| In file included from
-/home/ubuntu/work/oe/openembedded-core/build/tmp-musl/work/core2-64-oe-linux-musl/slang/2.2.4-r1
-2/slang-2.2.4/src/slinclud.h:20:0,
-|                  from
-/home/ubuntu/work/oe/openembedded-core/build/tmp-musl/work/core2-64-oe-linux-musl/slang/2.2.4-r1
-2/slang-2.2.4/src/slposio.c:24:
-|
-/home/ubuntu/work/oe/openembedded-core/build/tmp-musl/sysroots/qemux86-64/usr/include/unistd.h:38:5:
-note: previous de
-claration of 'posix_close' was here
-|  int posix_close(int, int);
-|      ^
-| make[1]: ***
-[/home/ubuntu/work/oe/openembedded-core/build/tmp-musl/work/core2-64-oe-linux-musl/slang/2.2.4-r12/slang-
-2.2.4/src/elfobjs/slposio.o] Error 1
+musl exposes the inherent assumption about certain header files from
+glibc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...x-error-conflicting-types-for-posix_close.patch | 39 ++++++++++++++++++++++
- meta/recipes-extended/slang/slang_2.2.4.bb         |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-extended/slang/slang/0001-Fix-error-conflicting-types-for-posix_close.patch
+ ...0001-Fix-build-issus-surfaced-due-to-musl.patch | 47 ++++++++++++++++++++++
+ meta/recipes-extended/minicom/minicom_2.7.bb       |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-extended/minicom/minicom/0001-Fix-build-issus-surfaced-due-to-musl.patch
 
-diff --git a/meta/recipes-extended/slang/slang/0001-Fix-error-conflicting-types-for-posix_close.patch b/meta/recipes-extended/slang/slang/0001-Fix-error-conflicting-types-for-posix_close.patch
+diff --git a/meta/recipes-extended/minicom/minicom/0001-Fix-build-issus-surfaced-due-to-musl.patch b/meta/recipes-extended/minicom/minicom/0001-Fix-build-issus-surfaced-due-to-musl.patch
 new file mode 100644
-index 0000000..57ebfe4
+index 0000000..fec67fd
 --- /dev/null
-+++ b/meta/recipes-extended/slang/slang/0001-Fix-error-conflicting-types-for-posix_close.patch
-@@ -0,0 +1,39 @@
-+From 96eb7e29822151823a66a1eb59f1fa4aead5ae08 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/minicom/minicom/0001-Fix-build-issus-surfaced-due-to-musl.patch
+@@ -0,0 +1,47 @@
++From d62a5862e26ed3fc58d789efe9c40ca6c911d36b Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 31 Aug 2015 06:33:21 +0000
-+Subject: [PATCH] Fix  error: conflicting types for 'posix_close'
++Date: Mon, 31 Aug 2015 22:35:31 +0000
++Subject: [PATCH] Fix build issus surfaced due to musl
 +
-+Exposed while compiling on musl
++src/getsdir.h:28:14: error: 'MAXNAMLEN' undeclared here (not in a function)
++   char fname[MAXNAMLEN + 1];  /* filename + terminating null */
++
++src/dial.c:352:22: error: 'KIOCSOUND' undeclared (first use in this function)
++|      ioctl(consolefd, KIOCSOUND, k);
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 +Upstream-Status: Pending
 +
-+ src/slposio.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ src/dial.c    | 2 +-
++ src/getsdir.c | 1 +
++ 2 files changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/slposio.c b/src/slposio.c
-+index 9ce9697..9ff9bfe 100644
-+--- a/src/slposio.c
-++++ b/src/slposio.c
-+@@ -363,7 +363,7 @@ static int posix_close_fd (int *fd)
-+    return 0;
-+ }
++diff --git a/src/dial.c b/src/dial.c
++index a90c1d2..bf02574 100644
++--- a/src/dial.c
+++++ b/src/dial.c
++@@ -39,7 +39,7 @@
++ #include "intl.h"
 + 
-+-static int posix_close (SLFile_FD_Type *f)
-++static int posix_closex (SLFile_FD_Type *f)
-+ {
-+    int status = do_close (f);
++ #ifdef VC_MUSIC
++-#  if defined(__GLIBC__)
+++#  if defined(__GLIBC__) || defined(__linux__)
++ #    include <sys/ioctl.h>
++ #    include <sys/kd.h>
++ #    include <sys/time.h>
++diff --git a/src/getsdir.c b/src/getsdir.c
++index 2195b27..b61a361 100644
++--- a/src/getsdir.c
+++++ b/src/getsdir.c
++@@ -30,6 +30,7 @@
++ #include <string.h>
++ #include <sys/types.h>
++ #include <sys/stat.h>
+++#include <sys/param.h>
++ #include <errno.h>
 + 
-+@@ -1001,7 +1001,7 @@ static SLang_Intrin_Fun_Type Fd_Name_Table [] =
-+    MAKE_INTRINSIC_2("write", posix_write, V, F, B),
-+    MAKE_INTRINSIC_1("dup_fd", posix_dup, V, F),
-+    MAKE_INTRINSIC_2("dup2_fd", posix_dup2, I, F, I),
-+-   MAKE_INTRINSIC_1("close", posix_close, I, F),
-++   MAKE_INTRINSIC_1("close", posix_closex, I, F),
-+    MAKE_INTRINSIC_1("_close", posix_close_fd, I, I),
-+ #if defined(TTYNAME_R)
-+    MAKE_INTRINSIC_0("ttyname", posix_ttyname, V),
++ #include "getsdir.h"
 +-- 
 +2.5.1
 +
-diff --git a/meta/recipes-extended/slang/slang_2.2.4.bb b/meta/recipes-extended/slang/slang_2.2.4.bb
-index 25f1b0c..5122f53 100644
---- a/meta/recipes-extended/slang/slang_2.2.4.bb
-+++ b/meta/recipes-extended/slang/slang_2.2.4.bb
-@@ -22,6 +22,7 @@ SRC_URI = "ftp://space.mit.edu/pub/davis/slang/v2.2/slang-${PV}.tar.bz2 \
-            file://change-char-type-to-signed-char-in-macros.patch \
-            file://sprintf-bug-concerning-8-bit-characters.patch \
-            file://slang-fix-the-iconv-existence-checking.patch \
-+           file://0001-Fix-error-conflicting-types-for-posix_close.patch \
+diff --git a/meta/recipes-extended/minicom/minicom_2.7.bb b/meta/recipes-extended/minicom/minicom_2.7.bb
+index c002bc8..1575cfb 100644
+--- a/meta/recipes-extended/minicom/minicom_2.7.bb
++++ b/meta/recipes-extended/minicom/minicom_2.7.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=420477abc567404debca0a2a1cb6b645 \
+ SRC_URI = "https://alioth.debian.org/frs/download.php/latestfile/3/${BP}.tar.gz \
+            file://allow.to.disable.lockdev.patch \
+            file://0001-fix-minicom-h-v-return-value-is-not-0.patch \
++           file://0001-Fix-build-issus-surfaced-due-to-musl.patch \
            "
  
- inherit autotools-brokensep
+ SRC_URI[md5sum] = "7044ca3e291268c33294f171d426dc2d"
 -- 
 2.5.1
 
