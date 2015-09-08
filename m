@@ -1,26 +1,30 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A868375E80
+Return-Path: <alejandro.delcastillo@ni.com>
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mail.openembedded.org (Postfix) with ESMTP id C159065CBF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 16:20:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t88GK8cO014598
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Sep 2015 09:20:08 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 8 Sep 2015 09:20:07 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Sep 2015 09:20:07 -0700
-Message-ID: <1441729207-22458-2-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1441729207-22458-1-git-send-email-jslater@windriver.com>
-References: <1441729207-22458-1-git-send-email-jslater@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] dpkg: put start-stop-daemon in its own package
+	Tue,  8 Sep 2015 16:40:39 +0000 (UTC)
+Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
+	[130.164.19.134])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	t88Gecvl017250 for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Sep 2015 11:40:38 -0500
+Received: from delcastillo2.natinst.com ([130.164.14.198])
+	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
+	HF1218) with ESMTP id 2015090811403872-1475492 ;
+	Tue, 8 Sep 2015 11:40:38 -0500 
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 8 Sep 2015 11:40:35 -0500
+Message-Id: <1441730435-26769-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 1.9.1
+X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
+	8.5.3FP6 HF1218|December 12, 2014) at 09/08/2015 11:40:38 AM,
+	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
+	HF1218|December 12, 2014) at 09/08/2015 11:40:38 AM,
+	Serialize complete at 09/08/2015 11:40:38 AM
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2015-09-08_08:, , signatures=0
+Subject: [PATCHv2] adt-installer: upgrade to opkg 0.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +37,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 16:20:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Sep 2015 16:40:40 -0000
 
-Also make it update-alternatives compatible and move
-it to where busybox puts its version.
+- Remove deprecated --disable-shave & --withopkglibdir options.
+- Add -i option to autoreconf since opkg tarball is missing conf.compile
+- Recreate wget_cache.patch
+- Bump PR version.
 
-Make dpkg RDEPEND on dpkg-start-stop.
-
-Signed-off-by: Joe Slater <jslater@windriver.com>
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
 ---
- meta/recipes-devtools/dpkg/dpkg.inc |   20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ .../installer/adt-installer/adt_installer          |  4 ++--
+ .../installer/adt-installer/scripts/data_define    |  1 -
+ .../installer/adt-installer_1.0.bb                 |  8 +++----
+ .../installer/files/wget_cache.patch               | 27 ++++++++++++++--------
+ 4 files changed, 24 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
-index 6eec2cd..2d7cad0 100644
---- a/meta/recipes-devtools/dpkg/dpkg.inc
-+++ b/meta/recipes-devtools/dpkg/dpkg.inc
-@@ -11,7 +11,7 @@ DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alte
- RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} xz run-postinsts perl"
- RDEPENDS_${PN}_class-native = "xz-native"
+v2 changes: fix commit summary
+
+diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer b/meta/recipes-devtools/installer/adt-installer/adt_installer
+index 3172de7..b8cfb2e 100755
+--- a/meta/recipes-devtools/installer/adt-installer/adt_installer
++++ b/meta/recipes-devtools/installer/adt-installer/adt_installer
+@@ -182,8 +182,8 @@ if [ ! -x "$LOCAL_OPKG_LOC/bin/opkg" ]; then
+   check_result
  
--inherit autotools gettext perlnative pkgconfig systemd
-+inherit autotools gettext perlnative pkgconfig systemd update-alternatives
+   echo_info "Configure opkg ...\n"
+-  autoreconf
+-  ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --with-opkglibdir=$OPKG_LIBDIR --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg --disable-shave >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
++  autoreconf -i
++  ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
+   check_result
  
- python () {
-     if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-@@ -43,6 +43,12 @@ do_configure () {
- }
+   echo_info "Make opkg ...\n"
+diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/data_define b/meta/recipes-devtools/installer/adt-installer/scripts/data_define
+index 2781e77..cfd6716 100644
+--- a/meta/recipes-devtools/installer/adt-installer/scripts/data_define
++++ b/meta/recipes-devtools/installer/adt-installer/scripts/data_define
+@@ -27,7 +27,6 @@ source `pwd`/$config_file
  
- do_install_append () {
-+	if [ -e ${D}${sbindir}/start-stop-daemon ]; then
-+		mkdir -p ${D}${base_sbindir}
-+		mv ${D}${sbindir}/start-stop-daemon ${D}${base_sbindir}/start-stop-daemon
-+		rmdir --ignore-fail-on-non-empty ${D}${sbindir}
-+	fi
+ LOCAL_OPKG_LOC="./opkg/build/opkg"
+ LOCAL_OPKG_FOLDER="./opkg/build"
+-OPKG_LIBDIR="/var/lib"
+ 
+ # List all supported root fs types and target types,
+ # it will be used in user configuration validity checking
+diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+index 346fd9e..336cda3 100644
+--- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
++++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
+@@ -31,13 +31,13 @@ LICENSE = "MIT"
+ PACKAGES = ""
+ INHIBIT_DEFAULT_DEPS = "1"
+ 
+-PR = "r11"
++PR = "r12"
+ 
+ ADT_DEPLOY = "${DEPLOY_DIR}/sdk/"
+ ADT_DIR = "${WORKDIR}/adt-installer/"
+ S = "${WORKDIR}/opkg-${PV}"
+ 
+-PV = "0.2.0"
++PV = "0.3.0"
+ SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
+            file://wget_cache.patch \
+            file://adt_installer \
+@@ -50,8 +50,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
+            file://opkg/conf/opkg-sdk-i686.conf \
+ 	  "
+ 
+-SRC_URI[md5sum] = "e8a6fd34fb2529191fe09dc14c934cc3"
+-SRC_URI[sha256sum] = "81b7055eb4c12c5e5652339305c9236cf357890717d4bea063963f3f434d966f"
++SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
++SRC_URI[sha256sum] = "7f735d1cdb8ef3718fb0f9fba44ca0d9a5c90d3a7f014f37a6d2f9474f54988f"
+ 
+ ADTREPO ?= "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
+ 
+diff --git a/meta/recipes-devtools/installer/files/wget_cache.patch b/meta/recipes-devtools/installer/files/wget_cache.patch
+index 1281d12..9117510 100644
+--- a/meta/recipes-devtools/installer/files/wget_cache.patch
++++ b/meta/recipes-devtools/installer/files/wget_cache.patch
+@@ -1,12 +1,21 @@
+ Upstream-Status: Inappropriate [configuration]
+ 
+---- trunk/libopkg/opkg_download.c	2011-03-10 16:41:29.000000000 +0800
+-+++ trunk/libopkg/opkg_download.c	2011-03-10 16:42:33.000000000 +0800
+-@@ -162,6 +162,7 @@
++---
++ libopkg/opkg_download_wget.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
- 	if [ "${PN}" = "dpkg-native" ]; then
- 		# update-alternatives doesn't have an offline mode
- 		rm ${D}${bindir}/update-alternatives
-@@ -67,6 +73,18 @@ PROV_class-native = ""
- 
- PROVIDES += "${PROV}"
- 
-+# split out start-stop-daemon to its own package
-+#
-+PACKAGES =+ "${PN}-start-stop"
-+FILES_${PN}-start-stop = "${base_sbindir}/start-stop-daemon.dpkg"
++diff --git a/libopkg/opkg_download_wget.c b/libopkg/opkg_download_wget.c
++index 9001493..18ef91e 100644
++--- a/libopkg/opkg_download_wget.c
+++++ b/libopkg/opkg_download_wget.c
++@@ -50,6 +50,7 @@ int opkg_download_backend(const char *src, const char *dest,
+  
+-       argv[i++] = "wget";
+-       argv[i++] = "-q";
+-+      argv[i++] = "--no-cache";
+-       if (conf->http_proxy || conf->ftp_proxy) {
+- 	argv[i++] = "-Y";
+- 	argv[i++] = "on";
++     argv[i++] = "wget";
++     argv[i++] = "-q";
+++    argv[i++] = "--no-cache";
++     if (opkg_config->http_proxy || opkg_config->ftp_proxy) {
++         argv[i++] = "-Y";
++         argv[i++] = "on";
++-- 
++1.9.1
 +
-+ALTERNATIVE_PRIORITY="100"
-+ALTERNATIVE_${PN}-start-stop = "start-stop-daemon"
-+ALTERNATIVE_LINK_NAME[start-stop-daemon]="${base_sbindir}/start-stop-daemon"
-+
-+RDEPENDS_${PN} += "${PN}-start-stop"
-+#
-+
- PACKAGES =+ "update-alternatives-dpkg"
- FILES_update-alternatives-dpkg = "${bindir}/update-alternatives ${localstatedir}/lib/dpkg/alternatives ${sysconfdir}/alternatives"
- RPROVIDES_update-alternatives-dpkg += "update-alternatives"
 -- 
-1.7.9.5
+1.9.1
 
 
