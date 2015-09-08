@@ -1,34 +1,30 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 6622D762A2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id CFB7765C8A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 21:46:03 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 08 Sep 2015 14:46:04 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,492,1437462000"; d="scan'208";a="557846818"
-Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Sep 2015 14:46:03 -0700
-Received: from orsmsx161.amr.corp.intel.com (10.22.240.84) by
-	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Tue, 8 Sep 2015 14:46:02 -0700
-Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX161.amr.corp.intel.com (10.22.240.84) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Tue, 8 Sep 2015 14:46:02 -0700
-Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.154) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Tue, 8 Sep 2015 14:46:01 -0700
-From: Bruno Bottazzini <bruno.bottazzini@intel.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Sep 2015 18:45:21 -0300
-Message-ID: <1441748721-32485-2-git-send-email-bruno.bottazzini@intel.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <1441748721-32485-1-git-send-email-bruno.bottazzini@intel.com>
-References: <bruno.bottazzini@intel.com>
-	<1441748721-32485-1-git-send-email-bruno.bottazzini@intel.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.218.99.154]
-Subject: [PATCH] mkefidisk: Create interactive menu for the script
+	Tue,  8 Sep 2015 22:35:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t88MZKU9012407 for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Sep 2015 23:35:20 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id dzyASmynkoCU
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  8 Sep 2015 23:35:20 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t88MZ43j012396
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Sep 2015 23:35:15 +0100
+Message-ID: <1441751704.24871.292.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Tue, 08 Sep 2015 23:35:04 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] qemurunner: Ensure runqemu doesn't survive SIGKILL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,105 +37,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 21:46:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Sep 2015 22:35:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-If it is passed only the image parameter, it will show some interactive
-options to help to conclude the script.
+Currently, we see runqemu and qemu-system-* processes left behind when 
+bitbake is killed by buildbot. This is due to the use of setpgrp() in
+the runqemu subprocess call.
 
-With this patch it will detect devices available in the machine, asking
-to choose what it is wanted to be flashed.
+We need the setpgrp call so that all runqemu processes can easily be
+killed (by killing their process group). This presents a problem if this
+controlling process itself is killed however since those processes don't
+notice the death of the parent and merrily continue on.
 
-it will suggest the target device. If it is a SD card the suggestion
-is /dev/mmcblk0. If it is a pendrive it will suggest to use /dev/sda.
+Rather than hack runqemu to deal with this, we add something to
+qemurunner, at least for now to resolve the issue. Basically we fork off
+another process which holds an open pipe to the parent and also is
+setpgrp. If/when the pipe sees EOF from the parent dieing, it kills the
+process group. This is like pctrl's PDEATHSIG but for a process group
+rather than a single process.
 
-Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
----
- scripts/contrib/mkefidisk.sh | 63 ++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 58 insertions(+), 5 deletions(-)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index 55f72b0..f3ae377 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -152,8 +152,55 @@ unmount() {
- # Parse and validate arguments
- #
- if [ $# -lt 3 ] || [ $# -gt 4 ]; then
--	usage
--	exit 1
-+    if [ $# -eq 1 ]; then
-+        AVAILABLE_DISK=`lsblk | grep "disk" | cut -f 1 -d " "`
-+        X=0
-+        for disk in `echo $AVAILABLE_DISK`; do
-+            mounted=`blkid -o list | grep "/dev/$disk" | grep "not mounted"`
-+            if [ -n "$mounted" ]; then
-+                UNMOUNTED_AVAILABLES="$UNMOUNTED_AVAILABLES /dev/$disk"
-+                info "$X - /dev/$disk"
-+                X=`expr $X + 1`
-+            fi
-+        done
-+        if [ $X -eq 0 ]; then
-+            die "No unmounted device found."
-+        fi
-+        read -p "Choose unmounted device number: " DISK_NUMBER
-+        X=0
-+        for line in `echo $UNMOUNTED_AVAILABLES`; do
-+            if [ $DISK_NUMBER -eq $X ]; then
-+                DISK_TO_BE_FLASHED=$line
-+                break
-+            else
-+                X=`expr $X + 1`
-+            fi
-+        done
-+        if [ -z "$DISK_TO_BE_FLASHED" ]; then
-+            die "Option \"$DISK_NUMBER\" is invalid. Choose a valid option"
-+        else
-+            if [ -z `echo $DISK_TO_BE_FLASHED | grep "mmc"` ]; then
-+                TARGET_TO_BE_BOOT="/dev/sda"
-+            else
-+                TARGET_TO_BE_BOOT="/dev/mmcblk0"
-+            fi
-+        fi
-+        echo ""
-+        echo "Choose a name of the device that will be boot from"
-+        echo -n "Recommended name is: "
-+        info "$TARGET_TO_BE_BOOT"
-+        read -p "Is target device okay? [y/N]: " RESPONSE
-+        if [ "$RESPONSE" != "y" ]; then
-+            read -p "Choose target device name: " TARGET_TO_BE_BOOT
-+        fi
-+        echo ""
-+        if [ -z "$TARGET_TO_BE_BOOT" ]; then
-+            die "Error: choose a valid target name"
-+        fi
-+    else
-+        usage
-+	    exit 1
-+    fi
- fi
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index c3b5c9f..1fd07a8 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -124,6 +124,32 @@ class QemuRunner:
+         self.runqemu = subprocess.Popen(launch_cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, stdin=subprocess.PIPE, preexec_fn=os.setpgrp)
+         output = self.runqemu.stdout
  
- if [ "$1" = "-v" ]; then
-@@ -162,9 +209,15 @@ if [ "$1" = "-v" ]; then
- 	shift
- fi
- 
--DEVICE=$1
--HDDIMG=$2
--TARGET_DEVICE=$3
-+if [ -z "$AVAILABLE_DISK" ]; then
-+    DEVICE=$1
-+    HDDIMG=$2
-+    TARGET_DEVICE=$3
-+else
-+    DEVICE=$DISK_TO_BE_FLASHED
-+    HDDIMG=$1
-+    TARGET_DEVICE=$TARGET_TO_BE_BOOT
-+fi
- 
- LINK=$(readlink $DEVICE)
- if [ $? -eq 0 ]; then
--- 
-2.5.1
++        #
++        # We need the preexec_fn above so that all runqemu processes can easily be killed 
++        # (by killing their process group). This presents a problem if this controlling
++        # process itself is killed however since those processes don't notice the death 
++        # of the parent and merrily continue on.
++        #
++        # Rather than hack runqemu to deal with this, we add something here instead. 
++        # Basically we fork off another process which holds an open pipe to the parent
++        # and also is setpgrp. If/when the pipe sees EOF from the parent dieing, it kills
++        # the process group. This is like pctrl's PDEATHSIG but for a process group
++        # rather than a single process.
++        #
++        r, w = os.pipe()
++        self.monitorpid = os.fork()
++        if self.monitorpid:
++            os.close(r)
++            self.monitorpipe = os.fdopen(w, "w")
++        else:
++            # child process
++            os.setpgrp()
++            os.close(w)
++            r = os.fdopen(r)
++            x = r.read()
++            os.killpg(os.getpgid(self.runqemu.pid), signal.SIGTERM)
++            sys.exit(0)
++
+         logger.info("runqemu started, pid is %s" % self.runqemu.pid)
+         logger.info("waiting at most %s seconds for qemu pid" % self.runqemutime)
+         endtime = time.time() + self.runqemutime
+@@ -235,6 +261,7 @@ class QemuRunner:
+         if self.runqemu:
+             signal.signal(signal.SIGCHLD, self.origchldhandler)
+             logger.info("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
++            os.kill(self.monitorpid, signal.SIGKILL)
+             logger.info("Sending SIGTERM to runqemu")
+             try:
+                 os.killpg(self.runqemu.pid, signal.SIGTERM)
+
 
 
