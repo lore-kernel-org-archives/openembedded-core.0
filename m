@@ -1,30 +1,28 @@
-Return-Path: <alejandro.delcastillo@ni.com>
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by mail.openembedded.org (Postfix) with ESMTP id C159065CBF
+Return-Path: <bruno.bottazzini@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 48B1073D27
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 16:40:39 +0000 (UTC)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t88Gecvl017250 for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Sep 2015 11:40:38 -0500
-Received: from delcastillo2.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015090811403872-1475492 ;
-	Tue, 8 Sep 2015 11:40:38 -0500 
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 8 Sep 2015 11:40:35 -0500
-Message-Id: <1441730435-26769-1-git-send-email-alejandro.delcastillo@ni.com>
-X-Mailer: git-send-email 1.9.1
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 09/08/2015 11:40:38 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 09/08/2015 11:40:38 AM,
-	Serialize complete at 09/08/2015 11:40:38 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-09-08_08:, , signatures=0
-Subject: [PATCHv2] adt-installer: upgrade to opkg 0.3.0
+	Tue,  8 Sep 2015 16:54:05 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga103.fm.intel.com with ESMTP; 08 Sep 2015 09:54:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,491,1437462000"; d="scan'208";a="640827760"
+Received: from bottazzini-thinkpad-t430.bz.intel.com (HELO [10.218.99.154])
+	([10.218.99.154])
+	by orsmga003.jf.intel.com with ESMTP; 08 Sep 2015 09:54:04 -0700
+Message-ID: <1441731212.2545.41.camel@bottazzini-ThinkPad-T430>
+From: "Bottazzini, Bruno" <bruno.bottazzini@intel.com>
+To: Saul Wold <sgw@linux.intel.com>
+Date: Tue, 08 Sep 2015 13:53:32 -0300
+In-Reply-To: <55EEFB75.7050300@linux.intel.com>
+References: <bruno.bottazzini@intel.com>
+	<1441405142-7497-1-git-send-email-bruno.bottazzini@intel.com>
+	<1441405142-7497-2-git-send-email-bruno.bottazzini@intel.com>
+	<55EEFB75.7050300@linux.intel.com>
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mkefidisk: Create interactive menu for the script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,117 +35,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 16:40:40 -0000
+X-List-Received-Date: Tue, 08 Sep 2015 16:54:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-- Remove deprecated --disable-shave & --withopkglibdir options.
-- Add -i option to autoreconf since opkg tarball is missing conf.compile
-- Recreate wget_cache.patch
-- Bump PR version.
+On Tue, 2015-09-08 at 08:15 -0700, Saul Wold wrote:
+> On 09/04/2015 03:19 PM, Bruno Bottazzini wrote:
+> > If it is passed only the image parameter, it will show some interactive
+> > options to help to conclude the script.
+> >
+> > With this patch it will detect devices available in the machine, asking
+> > to choose what it is wanted to be flashed.
+> >
+> > it will suggest the target device. If it is a SD card the suggestion
+> > is /dev/mmcblk0. If it is a pendrive it will suggest to use /dev/sda.
+> >
+> > Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+> > ---
+> >   scripts/contrib/mkefidisk.sh | 63 ++++++++++++++++++++++++++++++++++++++++----
+> >   1 file changed, 58 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+> > index 55f72b0..66e0e58 100755
+> > --- a/scripts/contrib/mkefidisk.sh
+> > +++ b/scripts/contrib/mkefidisk.sh
+> > @@ -152,8 +152,55 @@ unmount() {
+> >   # Parse and validate arguments
+> >   #
+> >   if [ $# -lt 3 ] || [ $# -gt 4 ]; then
+> > -	usage
+> > -	exit 1
+> > +    if [ $# -eq 1 ]; then
+> > +        AVAILABLE_DISK=`lsblk | grep "disk" | cut -f 1 -d " "`
+> > +        X=0
+> > +        for disk in `echo $AVAILABLE_DISK`; do
+> > +            mounted=`blkid -o list | grep "/dev/$disk" | grep "not mounted"`
+> Is there any way to not call blkid multiple time (ie save the output and 
+> use it once?
 
-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
----
- .../installer/adt-installer/adt_installer          |  4 ++--
- .../installer/adt-installer/scripts/data_define    |  1 -
- .../installer/adt-installer_1.0.bb                 |  8 +++----
- .../installer/files/wget_cache.patch               | 27 ++++++++++++++--------
- 4 files changed, 24 insertions(+), 16 deletions(-)
+Unfortunately no, both outputs are different.
 
-v2 changes: fix commit summary
+> 
+> 
+> Are the lsblk and blkid commands guaranteed to be installed on most 
+> machines?
 
-diff --git a/meta/recipes-devtools/installer/adt-installer/adt_installer b/meta/recipes-devtools/installer/adt-installer/adt_installer
-index 3172de7..b8cfb2e 100755
---- a/meta/recipes-devtools/installer/adt-installer/adt_installer
-+++ b/meta/recipes-devtools/installer/adt-installer/adt_installer
-@@ -182,8 +182,8 @@ if [ ! -x "$LOCAL_OPKG_LOC/bin/opkg" ]; then
-   check_result
- 
-   echo_info "Configure opkg ...\n"
--  autoreconf
--  ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --with-opkglibdir=$OPKG_LIBDIR --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg --disable-shave >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
-+  autoreconf -i
-+  ./configure --prefix=$parent_folder/$LOCAL_OPKG_LOC --enable-shared=no --disable-curl --disable-ssl-curl --disable-gpg >> $parent_folder/$YOCTOADT_INSTALL_LOG_FILE
-   check_result
- 
-   echo_info "Make opkg ...\n"
-diff --git a/meta/recipes-devtools/installer/adt-installer/scripts/data_define b/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-index 2781e77..cfd6716 100644
---- a/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-+++ b/meta/recipes-devtools/installer/adt-installer/scripts/data_define
-@@ -27,7 +27,6 @@ source `pwd`/$config_file
- 
- LOCAL_OPKG_LOC="./opkg/build/opkg"
- LOCAL_OPKG_FOLDER="./opkg/build"
--OPKG_LIBDIR="/var/lib"
- 
- # List all supported root fs types and target types,
- # it will be used in user configuration validity checking
-diff --git a/meta/recipes-devtools/installer/adt-installer_1.0.bb b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-index 346fd9e..336cda3 100644
---- a/meta/recipes-devtools/installer/adt-installer_1.0.bb
-+++ b/meta/recipes-devtools/installer/adt-installer_1.0.bb
-@@ -31,13 +31,13 @@ LICENSE = "MIT"
- PACKAGES = ""
- INHIBIT_DEFAULT_DEPS = "1"
- 
--PR = "r11"
-+PR = "r12"
- 
- ADT_DEPLOY = "${DEPLOY_DIR}/sdk/"
- ADT_DIR = "${WORKDIR}/adt-installer/"
- S = "${WORKDIR}/opkg-${PV}"
- 
--PV = "0.2.0"
-+PV = "0.3.0"
- SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
-            file://wget_cache.patch \
-            file://adt_installer \
-@@ -50,8 +50,8 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/opkg/opkg-${PV}.tar.gz \
-            file://opkg/conf/opkg-sdk-i686.conf \
- 	  "
- 
--SRC_URI[md5sum] = "e8a6fd34fb2529191fe09dc14c934cc3"
--SRC_URI[sha256sum] = "81b7055eb4c12c5e5652339305c9236cf357890717d4bea063963f3f434d966f"
-+SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
-+SRC_URI[sha256sum] = "7f735d1cdb8ef3718fb0f9fba44ca0d9a5c90d3a7f014f37a6d2f9474f54988f"
- 
- ADTREPO ?= "http://adtrepo.yoctoproject.org/${SDK_VERSION}"
- 
-diff --git a/meta/recipes-devtools/installer/files/wget_cache.patch b/meta/recipes-devtools/installer/files/wget_cache.patch
-index 1281d12..9117510 100644
---- a/meta/recipes-devtools/installer/files/wget_cache.patch
-+++ b/meta/recipes-devtools/installer/files/wget_cache.patch
-@@ -1,12 +1,21 @@
- Upstream-Status: Inappropriate [configuration]
- 
----- trunk/libopkg/opkg_download.c	2011-03-10 16:41:29.000000000 +0800
--+++ trunk/libopkg/opkg_download.c	2011-03-10 16:42:33.000000000 +0800
--@@ -162,6 +162,7 @@
-+---
-+ libopkg/opkg_download_wget.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/libopkg/opkg_download_wget.c b/libopkg/opkg_download_wget.c
-+index 9001493..18ef91e 100644
-+--- a/libopkg/opkg_download_wget.c
-++++ b/libopkg/opkg_download_wget.c
-+@@ -50,6 +50,7 @@ int opkg_download_backend(const char *src, const char *dest,
-  
--       argv[i++] = "wget";
--       argv[i++] = "-q";
--+      argv[i++] = "--no-cache";
--       if (conf->http_proxy || conf->ftp_proxy) {
-- 	argv[i++] = "-Y";
-- 	argv[i++] = "on";
-+     argv[i++] = "wget";
-+     argv[i++] = "-q";
-++    argv[i++] = "--no-cache";
-+     if (opkg_config->http_proxy || opkg_config->ftp_proxy) {
-+         argv[i++] = "-Y";
-+         argv[i++] = "on";
-+-- 
-+1.9.1
-+
--- 
-1.9.1
+I double checked it before sending this patch and the answer was yes.
+
+> 
+> Also this seems to have matched my root disk, which again concerns me, I 
+> am still not convinced that a selection system like this is safe.
+
+This is odd. My output shows only unmounted disks.
+
+> 
+> > +            if [ -n "$mounted" ]; then
+> > +                UNMOUNTED_AVAILABLES="$UNMOUNTED_AVAILABLES /dev/$disk\n"
+> 
+> I think the \n is not needed here, what shell are you using, with Bash I 
+> get the following output:
+> 
+> 0 - /dev/sda
+> 1 - /dev/sdb
+> 2 - /dev/mmcblk0
+> Choose unmounted device number: 1
+
+This output is strange mine shows only (without sda and sdb which i do
+have them also, but mounted):
+        contrib > ./mkefidisk.sh image
+        0 - /dev/mmcblk0
+        Choose unmounted device number:
+
+Are you sure you have updated the script with the changes? What distro
+are you using?
+
+> 
+> Choose a name of the device that will be boot from
+> Recommended name is: /dev/sda\n
+> Is target device okay? [y/N]: y
+> 
+> Usage: mkefidisk.sh [-v] DEVICE HDDIMG TARGET_DEVICE
+>         -v: Verbose debug
+>         DEVICE: The device to write the image to, e.g. /dev/sdh
+>         HDDIMG: The hddimg file to generate the efi disk from
+>         TARGET_DEVICE: The device the target will boot from, e.g. 
+> /dev/mmcblk0
+> Device /dev/sdb\n cannot be found
+> 
+> Note the \n above in the choose a name and then the trailing \n here 
+> with the device not being found.
+
+You are right I am removing \n. Strangely here it works perfectly:
+        0 - /dev/sdc
+        1 - /dev/mmcblk0
+        Choose unmounted device number: 1
+        
+        Choose a name of the device that will be boot from
+        Recommended name is: /dev/mmcblk0
+        Is target device okay? [y/N]: y
+
+
+> 
+> 
+> 
+> > +                info "$X - /dev/$disk"
+> > +                X=`expr $X + 1`
+> > +            fi
+> > +        done
+> > +        if [ $X -eq 0 ]; then
+> > +            die "No unmounted device found."
+> > +        fi
+> > +        read -p "Choose unmounted device number: " DISK_NUMBER
+> > +        X=0
+> > +        for line in `echo $UNMOUNTED_AVAILABLES`; do
+> > +            if [ $DISK_NUMBER -eq $X ]; then
+> > +                DISK_TO_BE_FLASHED=$line
+> > +                break
+> > +            else
+> > +                X=`expr $X + 1`
+> > +            fi
+> > +        done
+> > +        if [ -z "$DISK_TO_BE_FLASHED" ]; then
+> > +            die "Option \"$DISK_NUMBER\" is invalid. Choose a valid option"
+> > +        else
+> > +            if [ -z `echo $DISK_TO_BE_FLASHED | grep "mmc"` ]; then
+> > +                TARGET_TO_BE_BOOT="/dev/sda"
+> > +            else
+> > +                TARGET_TO_BE_BOOT="/dev/mmcblk0"
+> > +            fi
+> > +        fi
+> > +        echo ""
+> > +        echo "Choose a name of the device that will be boot from"
+> > +        echo -n "Recommended name is: "
+> > +        info "$TARGET_TO_BE_BOOT\n"
+> 
+> You are still outputting the \n here
+
+Removed too
+
+Thank you a lot,
+
+Bruno
+
+> 
+> > +        read -p "Is target device okay? [y/N]: " RESPONSE
+> > +        if [ "$RESPONSE" != "y" ]; then
+> > +            read -p "Choose target device name: " TARGET_TO_BE_BOOT
+> > +        fi
+> > +        echo ""
+> > +        if [ -z "$TARGET_TO_BE_BOOT" ]; then
+> > +            die "Error: choose a valid target name"
+> > +        fi
+> > +    else
+> > +        usage
+> > +	    exit 1
+> > +    fi
+> >   fi
+> >
+> >   if [ "$1" = "-v" ]; then
+> > @@ -162,9 +209,15 @@ if [ "$1" = "-v" ]; then
+> >   	shift
+> >   fi
+> >
+> > -DEVICE=$1
+> > -HDDIMG=$2
+> > -TARGET_DEVICE=$3
+> > +if [ -z "$AVAILABLE_DISK" ]; then
+> > +    DEVICE=$1
+> > +    HDDIMG=$2
+> > +    TARGET_DEVICE=$3
+> > +else
+> > +    DEVICE=$DISK_TO_BE_FLASHED
+> > +    HDDIMG=$1
+> > +    TARGET_DEVICE=$TARGET_TO_BE_BOOT
+> > +fi
+> >
+> This change I like, if done with checking for 2 parameter (image and 
+> disk to flash, the 3 paramter can be determined as you have with best 
+> guess of /dev/sda if it's an sd and mmc if it's a /dev/mmc flash device.
+> 
+> Sau!
+> 
+> 
+> >   LINK=$(readlink $DEVICE)
+> >   if [ $? -eq 0 ]; then
+> >
+
 
 
