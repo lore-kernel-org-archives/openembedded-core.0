@@ -1,28 +1,28 @@
-Return-Path: <Wenzong.Fan@windriver.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E9EF660132
+	by mail.openembedded.org (Postfix) with ESMTP id C9FBB60132
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 01:24:25 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t881OPdZ006169
+	Tue,  8 Sep 2015 03:05:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8835l3P006655
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 7 Sep 2015 18:24:25 -0700 (PDT)
-Received: from [128.224.162.176] (128.224.162.176) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 7 Sep 2015 18:24:24 -0700
-Message-ID: <55EE38C7.30300@windriver.com>
-Date: Tue, 8 Sep 2015 09:24:23 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	Mon, 7 Sep 2015 20:05:47 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Mon, 7 Sep 2015 20:05:47 -0700
+Message-ID: <55EE5089.4000006@windriver.com>
+Date: Tue, 8 Sep 2015 11:05:45 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
 To: "Burton, Ross" <ross.burton@intel.com>
-References: <1441592391-108731-1-git-send-email-wenzong.fan@windriver.com>
-	<CAJTo0LYt6Qd0OGqZgGKAtxpKuq9Cr2SUr42=vNa67+zPsUebYg@mail.gmail.com>
-In-Reply-To: <CAJTo0LYt6Qd0OGqZgGKAtxpKuq9Cr2SUr42=vNa67+zPsUebYg@mail.gmail.com>
+References: <1440568697-32101-1-git-send-email-rongqing.li@windriver.com>	<CAJTo0LZsddTKL-4ZikhvnFrsLr3EmOG2QAKyx8JFB4m7fXbKtQ@mail.gmail.com>
+	<55DE6549.50707@windriver.com>
+In-Reply-To: <55DE6549.50707@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gnu-efi: Make setjmp.S portable to ARM
+Subject: Re: [PATCH][v2] perf: fix the install-python_ext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,30 +35,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 01:24:26 -0000
+X-List-Received-Date: Tue, 08 Sep 2015 03:05:49 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 09/07/2015 10:08 PM, Burton, Ross wrote:
->
-> On 7 September 2015 at 03:19, <wenzong.fan@windriver.com
-> <mailto:wenzong.fan@windriver.com>> wrote:
->
->     +  > Note on targets where the @ character is the start of a comment
->     +  > (eg ARM) then another character is used instead. For example the
->     +  > ARM port uses the % character.
+ping
+
+-Roy
+
+On 2015年08月27日 09:18, Rongqing Li wrote:
 >
 >
-> Is the documentation badly written or does this now broke the build on x86?
-
-The lib/arm/setjmp.S is introduced by gnu-efi 3.0.3, there's not such 
-assembler file in 3.0.2.
-
-It only fails while building qemuarm target.
-
-Thanks
-Wenzong
-
+> On 2015年08月26日 18:16, Burton, Ross wrote:
+>>
+>> On 26 August 2015 at 06:58, <rongqing.li@windriver.com
+>> <mailto:rongqing.li@windriver.com>> wrote:
+>>
+>>     +export PYTHON_SITEPACKAGES_DIR
+>>
+>>
+>> Why do you export this and then use \$(PYTHON_SITEPACKAGES_DIR), isn't
+>> just using ${PYTHON_SITEPACKAGES_DIR} directly so the expansion is
+>> performed by bitbake neater?
+>>
+>> Ross
 >
-> Ross
+>
+> keep it same as original codes.
+>
+> other reason is that this change is under work-shared dir, it will see
+> puzzle if see the source code from other package, like linux kernel,
+>
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
