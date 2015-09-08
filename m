@@ -1,42 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f50.google.com (mail-qg0-f50.google.com
-	[209.85.192.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 1124F75E80
+Return-Path: <markus.lehtonen@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id E392775E80
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 10:32:10 +0000 (UTC)
-Received: by qgx61 with SMTP id 61so78160232qgx.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Sep 2015 03:32:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=Jjuwo9BxUmQQ14aXNr3dpuzmo83voWQXUv7tSneRcAA=;
-	b=XHLzIUbfERAopx5AZOIcRBezZWO3OuAW8qgonwb8nBXV++V9lpZZh//x7BxJ70KWsp
-	aLIH627jiKS4wuWZsQdmNdBaityjJSyXJYiv7BTUrMhohp/wB5J1GU7Pl1z4B7HaIbYW
-	0VeotgWWmCb549rAX+heNkhLAxFNI83tb6W1+1PqCLA8jG7j880XY81Jyd4XW68CmO1J
-	jio0CK0Ua1iULSm3YjbqZoFEiGC8PdvwanJiP0rXLcfpwclXmyIZkEeStSfP4nVizjFK
-	ulbGERaN74VufcAkmY9J394T5kvtspI+KHRSjM24u3w8stoxs2yO2M2I2Cmi5kPM32Z0
-	WP4g==
-X-Gm-Message-State: ALoCoQkzkGfkHKPLNxa+9n22HSpCQACENJHp2rtsub6j+o1M9jGx1Z9YMPI2+5p3Ay/84e35WOZA
-X-Received: by 10.140.237.150 with SMTP id i144mr34030525qhc.22.1441708330376; 
-	Tue, 08 Sep 2015 03:32:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Tue, 8 Sep 2015 03:31:50 -0700 (PDT)
-In-Reply-To: <E437DE0B-65F0-42B4-B061-BC30F27A24B8@gmail.com>
-References: <cover.1441552859.git.raj.khem@gmail.com>
-	<1441654013.24871.259.camel@linuxfoundation.org>
-	<4A72FD2B-1B79-4827-B02E-E3B23A966AE7@gmail.com>
-	<1441659401.24871.261.camel@linuxfoundation.org>
-	<956735BC-7AA6-4513-AA09-3FBFD3250428@gmail.com>
-	<1441660176.24871.268.camel@linuxfoundation.org>
-	<E437DE0B-65F0-42B4-B061-BC30F27A24B8@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 8 Sep 2015 11:31:50 +0100
-Message-ID: <CAJTo0LZL5H1uW7nZzyT5q51=2RxmiRr8vAAn4n0e1kKUjrN7ag@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Systemd Upgrade
+	Tue,  8 Sep 2015 10:36:41 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 08 Sep 2015 03:36:42 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,489,1437462000"; d="scan'208";a="557454020"
+Received: from unknown (HELO marquiz.fi.intel.com) ([10.237.72.155])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Sep 2015 03:36:41 -0700
+From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  8 Sep 2015 13:36:40 +0300
+Message-Id: <1441708600-31394-1-git-send-email-markus.lehtonen@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] externalsrc.bbclass: better filtering of cleandirs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,56 +27,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 10:32:11 -0000
-Content-Type: multipart/alternative; boundary=001a113595aae6eaf0051f39e009
+X-List-Received-Date: Tue, 08 Sep 2015 10:36:42 -0000
 
---001a113595aae6eaf0051f39e009
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+We really do not want our (external) source tree to be removed. There
+might be multiple values in the 'cleandirs' varflag pointing to our
+source tree - causing it to be wiped out. This patch improves the
+filtering of 'cleandirs' by examining the expanded values inside it. Any
+(expanded) values pointing to our source tree get removed.
 
-On 7 September 2015 at 22:12, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
+---
+ meta/classes/externalsrc.bbclass | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-> > I believe the tests will run with the nographic options to qemu which
-> > then won't need X, Ross had a patch around for that recently. To be
-> > honest when looking at this kind of issue, I usually debug it using
-> > testimage now, its actually easier in many cases=E2=80=A6
->
-> in this case it will be faster. Care to point to Ross=E2=80=99s patch ?
->
+diff --git a/meta/classes/externalsrc.bbclass b/meta/classes/externalsrc.bbclass
+index 8f7f479..499688b 100644
+--- a/meta/classes/externalsrc.bbclass
++++ b/meta/classes/externalsrc.bbclass
+@@ -58,18 +58,14 @@ python () {
+                 d.appendVarFlag(task, "lockfiles", " ${S}/singletask.lock")
+ 
+             # We do not want our source to be wiped out, ever (kernel.bbclass does this for do_clean)
+-            cleandirs = d.getVarFlag(task, 'cleandirs', False)
+-            if cleandirs:
+-                cleandirs = cleandirs.split()
+-                setvalue = False
+-                if '${S}' in cleandirs:
+-                    cleandirs.remove('${S}')
++            cleandirs = (d.getVarFlag(task, 'cleandirs', False) or '').split()
++            setvalue = False
++            for cleandir in cleandirs[:]:
++                if d.expand(cleandir) == externalsrc:
++                    cleandirs.remove(cleandir)
+                     setvalue = True
+-                if externalsrcbuild == externalsrc and '${B}' in cleandirs:
+-                    cleandirs.remove('${B}')
+-                    setvalue = True
+-                if setvalue:
+-                    d.setVarFlag(task, 'cleandirs', ' '.join(cleandirs))
++            if setvalue:
++                d.setVarFlag(task, 'cleandirs', ' '.join(cleandirs))
+ 
+         fetch_tasks = ['do_fetch', 'do_unpack']
+         # If we deltask do_patch, there's no dependency to ensure do_unpack gets run, so add one
+-- 
+2.1.4
 
-http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=3Dross/mut=
-&id=3De67ab458ab2d67908d80f9aa1954dee05cb21fc1
-is the patch to run the tests in a nographics qemu.  The framework still
-checks that DISPLAY is set, but you can just set that to anything you want
-as it won't be used.
 
-Ross
-
---001a113595aae6eaf0051f39e009
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 7 September 2015 at 22:12, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
-yle:solid;padding-left:1ex"><span class=3D"">&gt; I believe the tests will =
-run with the nographic options to qemu which<br>
-&gt; then won&#39;t need X, Ross had a patch around for that recently. To b=
-e<br>
-&gt; honest when looking at this kind of issue, I usually debug it using<br=
->
-</span>&gt; testimage now, its actually easier in many cases=E2=80=A6<br>
-<br>
-in this case it will be faster. Care to point to Ross=E2=80=99s patch ?<br>=
-</blockquote></div><br><a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi=
-/poky-contrib/commit/?h=3Dross/mut&amp;id=3De67ab458ab2d67908d80f9aa1954dee=
-05cb21fc1">http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=
-=3Dross/mut&amp;id=3De67ab458ab2d67908d80f9aa1954dee05cb21fc1</a> is the pa=
-tch to run the tests in a nographics qemu.=C2=A0 The framework still checks=
- that DISPLAY is set, but you can just set that to anything you want as it =
-won&#39;t be used.<br></div><div class=3D"gmail_extra"><br></div><div class=
-=3D"gmail_extra">Ross</div></div>
-
---001a113595aae6eaf0051f39e009--
