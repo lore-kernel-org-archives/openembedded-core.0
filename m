@@ -1,26 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 4323173232
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6411673232
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 08:53:47 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t888rhtS000332; Tue, 8 Sep 2015 09:53:43 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id hlLvh7vK_RaG; Tue,  8 Sep 2015 09:53:43 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t888rVpQ000315
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 8 Sep 2015 09:53:42 +0100
-Message-ID: <1441702411.24871.278.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Tue, 08 Sep 2015 09:53:31 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: Illustration of good and bad QA test output
+	Tue,  8 Sep 2015 09:38:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t889cKt7021637
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Sep 2015 02:38:20 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 8 Sep 2015 02:38:20 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 8 Sep 2015 17:33:02 +0800
+Message-ID: <1441704782-23016-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] packagegroup-core-nfs: provide the nfs-client IMAGE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,51 +31,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 08:53:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 08 Sep 2015 09:38:20 -0000
+Content-Type: text/plain
 
-A while back, I asked for a review of test output when things fail as it
-was causing problems. I suspect some people don't really understand why
-this is a big deal. I'd therefore like to illustrate this with a new
-example:
+From: Roy Li <rongqing.li@windriver.com>
 
-https://autobuilder.yoctoproject.org/main/builders/nightly-oe-selftest/builds/180/steps/Running%20oe-selftest/logs/stdio
+provide the nfs-client IMAGE_FEATURES, to ease a user to only
+install nfs client related files to image
 
-This is a failure we encountered on the autobuilder. It basically tells
-me that "1 is not 0".  I did see this failure in master-next but I had
-no what to know what was causing it, whether it was a patch in -next or
-whether it came from somewhere else. I therefore had to move things
-forward and merged -next.
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ meta/classes/core-image.bbclass                          | 2 ++
+ meta/recipes-core/glibc/glibc-testing.inc                | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-core-nfs.bb | 6 +++++-
+ 3 files changed, 8 insertions(+), 2 deletions(-)
 
-Locally, I added this change:
-
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=c8134250f72d5102f96137265ae71cf8f2eff5a9
-
-In amongst the build output this shows when the test fails, I see:
-
-WARNING: Failed to fetch URL file://d1/sstate:m4::1.4.17:r0::3:d1c56d6fa574f1093f4be30cb90ac127_populate_lic.tgz.sig, attempting MIRRORS if available
-ERROR: Fetcher failure: Unable to find file file://d1/sstate:m4::1.4.17:r0::3:d1c56d6fa574f1093f4be30cb90ac127_populate_lic.tgz.sig anywhere. The paths that were searched were:
-    /media/build1/poky/build/temp_sstate_20150907190612
-    /media/build1/poky/build/temp_sstate_20150907190612
-NOTE: recipe m4-1.4.17-r0: task do_populate_lic_setscene: Succeeded
-
-and from that error and my knowledge of what was in -next, I can be
-pretty sure this comes from:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=e3feac122b6baa67a6e75a99da6e8834f0f2a7b0
-
-and I now know who to blame (sorry Ross!). The issue is that this is now
-in master and we have the error in a much more serious place. If the QA
-code was showing better information in the case of failure, this would
-never have made it into master.
-
-I mention this since I'm hoping a practical example of how the test
-failures influence decisions and make a difference to the project might
-encourage people to pay more attention to these details.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/core-image.bbclass b/meta/classes/core-image.bbclass
+index 501456d..8e340d9 100644
+--- a/meta/classes/core-image.bbclass
++++ b/meta/classes/core-image.bbclass
+@@ -21,6 +21,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=4d92cd373abda3937c2bc47fbc49d
+ # - tools-testapps      - tools usable to make some device tests
+ # - tools-sdk           - SDK (C/C++ compiler, autotools, etc.)
+ # - nfs-server          - NFS server
++# - nfs-client          - NFS client
+ # - ssh-server-dropbear - SSH server (dropbear)
+ # - ssh-server-openssh  - SSH server (openssh)
+ # - qt4-pkgs            - Qt4/X11 and demo applications
+@@ -42,6 +43,7 @@ FEATURE_PACKAGES_tools-profile = "packagegroup-core-tools-profile"
+ FEATURE_PACKAGES_tools-testapps = "packagegroup-core-tools-testapps"
+ FEATURE_PACKAGES_tools-sdk = "packagegroup-core-sdk packagegroup-core-standalone-sdk-target"
+ FEATURE_PACKAGES_nfs-server = "packagegroup-core-nfs-server"
++FEATURE_PACKAGES_nfs-client = "packagegroup-core-nfs-client"
+ FEATURE_PACKAGES_ssh-server-dropbear = "packagegroup-core-ssh-dropbear"
+ FEATURE_PACKAGES_ssh-server-openssh = "packagegroup-core-ssh-openssh"
+ FEATURE_PACKAGES_qt4-pkgs = "packagegroup-core-qt-demoapps"
+diff --git a/meta/recipes-core/glibc/glibc-testing.inc b/meta/recipes-core/glibc/glibc-testing.inc
+index fd1af39..a9bbf37 100644
+--- a/meta/recipes-core/glibc/glibc-testing.inc
++++ b/meta/recipes-core/glibc/glibc-testing.inc
+@@ -54,7 +54,7 @@ then
+ 	echo "1. You dont have passwordless ssh setup to access \$target"
+ 	echo "2. NFS share on \$target is not mounted or if mounted then not matching the build tree layout."
+ 	echo "   The tree should be accessible at same location on build host and target"
+-	echo "   You can add nfs-server to IMAGE_FEATURES to get the nfs client on target"
++	echo "   You can add nfs-client to IMAGE_FEATURES to get the nfs client on target"
+ 	echo "3. nfs server on build host is not running."
+ 	echo "   Please make sure that you have 'no_root_squash' added in /etc/exports if you want"
+ 	echo "   to test as root user on target (usually its recommended to create a non"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+index 247a30e..1882d3a 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-nfs.bb
+@@ -8,7 +8,11 @@ PR = "r2"
+ 
+ inherit packagegroup
+ 
+-PACKAGES = "${PN}-server"
++PROVIDES = "${PACKAGES}"
++PACKAGES = "${PN}-server ${PN}-client"
++
++SUMMARY_${PN}-client = "NFS client"
++RDEPENDS_${PN}-client = "nfs-utils-client"
+ 
+ SUMMARY_${PN}-server = "NFS server"
+ RDEPENDS_${PN}-server = "\
+-- 
+1.9.1
 
 
