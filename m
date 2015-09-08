@@ -1,35 +1,35 @@
-Return-Path: <henning@itconsulting-heinold.de>
-Received: from mail.familie-heinold.de (familie-heinold.de [85.214.48.103])
-	by mail.openembedded.org (Postfix) with ESMTP id C6CBC76EBF
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 15:52:54 +0000 (UTC)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id C089BD4035F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 17:47:45 +0200 (CEST)
-Received: from mail.familie-heinold.de (localhost [127.0.0.1])
-	by mail.familie-heinold.de (Postfix) with ESMTP id 756B3D40356
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 17:47:44 +0200 (CEST)
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on
-	h873313.serverkompetenz.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.5 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-Received: from rhein2.am93.sysmocom.de
-	(ip18863918.dynamic.kabel-deutschland.de [24.134.57.24])
-	by mail.familie-heinold.de (Postfix) with ESMTPSA
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 17:47:44 +0200 (CEST)
-From: Henning Heinold <henning@itconsulting-heinold.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Sep 2015 17:47:34 +0200
-Message-Id: <1441727255-16829-2-git-send-email-henning@itconsulting-heinold.de>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1441727255-16829-1-git-send-email-henning@itconsulting-heinold.de>
-References: <1441727255-16829-1-git-send-email-henning@itconsulting-heinold.de>
-X-Virus-Scanned: ClamAV using ClamSMTP
-Subject: [RFC 0/2] busybox:udhcpc: add option for modify resolv.conf
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f174.google.com (mail-wi0-f174.google.com
+	[209.85.212.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A448763F8;
+	Tue,  8 Sep 2015 15:57:14 +0000 (UTC)
+Received: by wicge5 with SMTP id ge5so122434249wic.0;
+	Tue, 08 Sep 2015 08:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:subject:message-id:mime-version:content-type
+	:content-disposition:user-agent;
+	bh=SzgmG01G3KYS6U4f1TzKfuuNHnFSA89+k88+fr9Ed5s=;
+	b=kiqUA3g0UGyJ6OZ/wmAvHHsA9tnMb2jUwcENVepPsNoc0Yqs8geBcZgc9NpE1Boq42
+	h1RjSu0nIO+LzvnJzn+hPEeql8vsiJNK8WfdLiviAmKjEWbcBPrFMG1Oys3OtORB6UUM
+	HdSCvDFra2aqzWwgt75c7JdI28yuBfTLw/WfVMow5xrBdnyVHQNOvujAjpTDOUkfyEbG
+	2WzuFbl85ghqJFTFOd61lsLw7c8Cp6n3RyZzzdQk3gOvi34aRUqJ3MnC7mgcfLdGizuO
+	L54c9IcnG3SscHsp1ZEpUmRpnPcBYQv1xVIDUQ1OjHXQVe0MTrvqiemuhbw76JpGu4Tg
+	Xeng==
+X-Received: by 10.194.82.37 with SMTP id f5mr51767907wjy.36.1441727834551;
+	Tue, 08 Sep 2015 08:57:14 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id l9sm6480412wiy.10.2015.09.08.08.57.13
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 08 Sep 2015 08:57:13 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 8 Sep 2015 17:58:01 +0200
+To: openembedded-core@lists.openembedded.org,
+	openembedded-devel@lists.openembedded.org
+Message-ID: <20150908155801.GD2381@jama>
+MIME-Version: 1.0
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Subject: State of bitbake world, wrong PACKAGE_ARCHs 2015-09-08
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,133 +42,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 15:52:57 -0000
+X-List-Received-Date: Tue, 08 Sep 2015 15:57:16 -0000
+X-Groupsio-MsgNum: 70829
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="AkbCVLjbJ9qUtAXD"
+Content-Disposition: inline
 
-* add a default file for udhcpc which is sourced
-  in simple.script
-* add a configuration option to the default file
-  and simple.script for enable/disable the
-  modification of /etc/resolv.conf
-* the default behavior was not changed
+--AkbCVLjbJ9qUtAXD
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This work was sponsored by sysmocom GmbH
+On Fri, Aug 01, 2014 at 03:46:13PM +0200, Martin Jansa wrote:
+> ERROR: 63 issues were found in these recipes: android-tools dracut
+> font-alias initramfs-framework initscripts ipsec-tools linux-firmware
+> lmsensors oprofile oprofileui oprofileui-server
+> polkit-group-rule-datetime polkit-group-rule-network ppp-dialin
+> qt-demo-init resolvconf run-postinsts shr-theme-neo sysvinit
+> terminus-font tipcutils ttf-arphic-uming ttf-dejavu ttf-droid
+> ttf-gentium ttf-hunkyfonts ttf-inconsolata ttf-liberation ttf-mplus
+> ttf-sazanami ttf-ubuntu-font-family ttf-wqy-zenhei usbinit vpnc
+> weston-init xfce4-session xl2tpd xserver-common xserver-nodm-init
+> xuser-account
 
-Signed-off-by: Henning Heinold <henning@itconsulting-heinold.de>
----
- meta/recipes-core/busybox/busybox.inc          |  4 +++-
- meta/recipes-core/busybox/busybox_1.23.2.bb    |  1 +
- meta/recipes-core/busybox/busybox_git.bb       |  1 +
- meta/recipes-core/busybox/files/simple.script  | 28 +++++++++++++++-----------
- meta/recipes-core/busybox/files/udhcpc.default |  2 ++
- 5 files changed, 23 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-core/busybox/files/udhcpc.default
+ERROR: 154 issues were found in these recipes: android-tools
+cmake-modules-webos-native cpushareholder-stub cryptodev-tests dracut
+initscripts ipsec-tools libauthen-sasl-perl libdigest-hmac-perl
+libio-socket-ssl-perl libpbnjson librolegen linux-atm lmsensors
+lttng-tools luna-next luna-prefs luna-service2 luna-sysmgr-common
+luna-sysmgr-ipc luna-sysmgr-ipc-messages luna-webkit-api netmap nyx-lib
+openlmi-networking openlmi-providers openlmi-storage oprofile oprofileui
+oprofileui-server packagegroup-efl-sdk phpmyadmin pmloglib
+pmloglib-private polkit-group-rule-datetime polkit-group-rule-network
+qt5-creator qtquick1 qtwebkit qtwebkit-examples rdx-utils-stub
+serviceinstaller shr-theme-neo terminus-font tipcutils ttf-arphic-uming
+ttf-dejavu ttf-droid ttf-gentium ttf-hunkyfonts ttf-inconsolata
+ttf-liberation ttf-mplus ttf-sazanami ttf-tlwg ttf-ubuntu-font-family
+ttf-wqy-zenhei xfce4-session xl2tpd xserver-common xserver-nodm-init
+zabbix
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index ed8f9fe..71605be 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -25,7 +25,7 @@ FILES_${PN}-httpd = "${sysconfdir}/init.d/busybox-httpd /srv/www"
- FILES_${PN}-syslog = "${sysconfdir}/init.d/syslog* ${sysconfdir}/syslog-startup.conf* ${sysconfdir}/syslog.conf* ${systemd_unitdir}/system/syslog.service ${sysconfdir}/default/busybox-syslog"
- FILES_${PN}-mdev = "${sysconfdir}/init.d/mdev ${sysconfdir}/mdev.conf ${sysconfdir}/mdev/*"
- FILES_${PN}-udhcpd = "${sysconfdir}/init.d/busybox-udhcpd"
--FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc"
-+FILES_${PN}-udhcpc = "${sysconfdir}/udhcpc.d ${datadir}/udhcpc ${datadir}/default/udhcpc"
- FILES_${PN}-hwclock = "${sysconfdir}/init.d/hwclock.sh"
- 
- INITSCRIPT_PACKAGES = "${PN}-httpd ${PN}-syslog ${PN}-udhcpd ${PN}-mdev ${PN}-hwclock"
-@@ -259,8 +259,10 @@ do_install () {
- 	if grep "CONFIG_UDHCPC=y" ${B}/.config; then
- 		install -d ${D}${sysconfdir}/udhcpc.d
- 		install -d ${D}${datadir}/udhcpc
-+		install -d ${D}${sysconfdir}/default
-                 install -m 0755 ${WORKDIR}/simple.script ${D}${sysconfdir}/udhcpc.d/50default
- 		install -m 0755 ${WORKDIR}/default.script ${D}${datadir}/udhcpc/default.script
-+		install -m 0644 ${WORKDIR}/udhcpc.default ${D}${sysconfdir}/default/udhcpc
- 	fi
- 	if grep "CONFIG_INETD=y" ${B}/.config; then
- 		install -m 0755 ${WORKDIR}/inetd ${D}${sysconfdir}/init.d/inetd.${BPN}
-diff --git a/meta/recipes-core/busybox/busybox_1.23.2.bb b/meta/recipes-core/busybox/busybox_1.23.2.bb
-index 8a4bae6..b904cf7 100644
---- a/meta/recipes-core/busybox/busybox_1.23.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.23.2.bb
-@@ -10,6 +10,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://busybox-udhcpd \
-            file://default.script \
-            file://simple.script \
-+           file://udhcpc.default \
-            file://hwclock.sh \
-            file://mount.busybox \
-            file://syslog \
-diff --git a/meta/recipes-core/busybox/busybox_git.bb b/meta/recipes-core/busybox/busybox_git.bb
-index ade72f4..4c04557 100644
---- a/meta/recipes-core/busybox/busybox_git.bb
-+++ b/meta/recipes-core/busybox/busybox_git.bb
-@@ -16,6 +16,7 @@ SRC_URI = "git://busybox.net/busybox.git \
-            file://busybox-udhcpd \
-            file://default.script \
-            file://simple.script \
-+           file://udhcpc.default \
-            file://hwclock.sh \
-            file://mount.busybox \
-            file://syslog \
-diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
-index 22168b0..216a56f 100644
---- a/meta/recipes-core/busybox/files/simple.script
-+++ b/meta/recipes-core/busybox/files/simple.script
-@@ -4,6 +4,8 @@
- 
- [ -z "$1" ] && echo "Error: should be called from udhcpc" && exit 1
- 
-+[ -r /etc/default/udhcpc ] && . /etc/default/udhcpc
-+
- RESOLV_CONF="/etc/resolv.conf"
- [ -n "$subnet" ] && NETMASK="netmask $subnet"
- 
-@@ -67,22 +69,24 @@ case "$1" in
- 			done
- 		fi
- 
--		# Update resolver configuration file
--		R=""
--		[ -n "$domain" ] && R="domain $domain
-+		if [ "$STATIC_DNS" != "yes" ]; then
-+			# Update resolver configuration file
-+			R=""
-+			[ -n "$domain" ] && R="domain $domain
- "
--		for i in $dns; do
--			echo "$0: Adding DNS $i"
--			R="${R}nameserver $i
-+			for i in $dns; do
-+				echo "$0: Adding DNS $i"
-+				R="${R}nameserver $i
- "
--		done
-+			done
- 
--		if [ -x /sbin/resolvconf ]; then
--			echo -n "$R" | /sbin/resolvconf -a "${interface}.udhcpc"
--		else
--			echo -n "$R" > "$RESOLV_CONF"
-+			if [ -x /sbin/resolvconf ]; then
-+				echo -n "$R" | /sbin/resolvconf -a "${interface}.udhcpc"
-+			else
-+				echo -n "$R" > "$RESOLV_CONF"
-+			fi
-+			;;
- 		fi
--		;;
- esac
- 
- exit 0
-diff --git a/meta/recipes-core/busybox/files/udhcpc.default b/meta/recipes-core/busybox/files/udhcpc.default
-new file mode 100644
-index 0000000..2c42cf0
---- /dev/null
-+++ b/meta/recipes-core/busybox/files/udhcpc.default
-@@ -0,0 +1,2 @@
-+# Uncomment the following line, if udhcpc should not touch /etc/resolv.conf
-+#STATIC_DNS="yes"
--- 
-1.9.1
+Some of these are caused by cmake-modules-webos-native so I'll fix this
+one first and then resend hopefully nicer-looking report.
 
+Complete logs:
+http://logs.nslu2-linux.org/buildlogs/oe/world/log.signatures.20150908_150743.log/
+
+--AkbCVLjbJ9qUtAXD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlXvBYcACgkQN1Ujt2V2gBzB0wCgiwzJGMeDqHs6dHX9Mq+BRebE
+HmkAn2xnfVF34gaAplPuv7Ui3i4E9cYg
+=2iVp
+-----END PGP SIGNATURE-----
+
+--AkbCVLjbJ9qUtAXD--
