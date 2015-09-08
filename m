@@ -1,48 +1,37 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 087F765C8A
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 21:05:55 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so129614559wic.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 08 Sep 2015 14:05:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-type:content-disposition:in-reply-to:user-agent;
-	bh=Cor20/MxvLVK/XaZP3cTjYYOyZIrg2cOQrVdnqcpf4o=;
-	b=zIreMN/3fMXCL7VvxPLfMIG8QCXU2CcaK8DH3acBXq7If0bCXTWbUxivrqbiunGy+y
-	sICA5xKPE4UMDvPit9KJPPAyLnX73hc2Pv7LgLEqsd0qgElkVX/1rDXK3kVHAtYlUw58
-	xUMNDIa2/Yc9oajqmogzCGRWA8Mnje+p52cBKfh6XkaJfSJqTqLNEFbrcMRvDjZUBiyr
-	vVwBl3ISJiUWqsIgO97i2OsLEeOgs72RbwZP9N0p7iJfvvLs467zr9ZR8dzDD25Gudex
-	SqV3lLsSBPZ5bNsKAj5uzD5FW/5GMwByoxEQKc2YkyMYHeknz6vlIlMO+dMT4bIQgIYb
-	QU8w==
-X-Received: by 10.194.10.165 with SMTP id j5mr53192671wjb.147.1441746355741;
-	Tue, 08 Sep 2015 14:05:55 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	bu19sm6709064wjb.45.2015.09.08.14.05.54
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 08 Sep 2015 14:05:54 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 8 Sep 2015 23:06:42 +0200
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20150908210642.GG2381@jama>
-References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
-	<20150901215512.GE2458@jama>
-	<CAP9ODKq=HsV79hXhHeCwdhpF6uhHdCxYrhC53Kt5+Pe6Qdpf1w@mail.gmail.com>
-	<255516EC-098E-457B-A2E6-2F7C953CAA8D@gmail.com>
-	<CAP9ODKp9Vkw-vHNp1PMqE1eTfmW8-s5o6+0JYTv=sFEHm9nc1g@mail.gmail.com>
-	<1441177787.24871.33.camel@linuxfoundation.org>
-	<55EF2670.6040101@gmail.com>
-	<CAMKF1sogs9sRR_07nOxZrvvOxXj_=ioqNr=_vN+hr+VFf2BO6A@mail.gmail.com>
+Return-Path: <schnitzeltony@googlemail.com>
+Received: from mail-ig0-f170.google.com (mail-ig0-f170.google.com
+	[209.85.213.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A340762A2;
+	Tue,  8 Sep 2015 21:39:20 +0000 (UTC)
+Received: by igxx6 with SMTP id x6so369134igx.1;
+	Tue, 08 Sep 2015 14:39:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=AHzPQ+dIzyL+SCNu6zJK3WlWAWfny+VnsRWpsnMd/2g=;
+	b=r8CROp50EHGS/ujadGdTvGcTUDLp2J3xUMH44IA1rLEFzmCSITdsb55/Z6PAIHFEMe
+	bm+3/YLRbSb4qUBS95I02ok2quB3C2UQEfs3DS2+neaKQjSkZ06PWsFPW2hT1gQjyBJc
+	Eci/SHxueK3wpw1NBtsZtv7D/ImZvsQokEbOuERekPARFdQvl9HhqysSSVuH7Eg93AXz
+	dP9OEyRWgr8ok81aFIK1o+Wr9XiFeDt2pZlfuC/eqnQBylTBVvZdXFIyUtrAw3s0DivW
+	ffOPvvGDeawD+Pr6IkkMdVAx0uqI1IssYq5yLbVxNM+nezvYSYldXJXnSCbPV/aDJxxy
+	o2BQ==
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sogs9sRR_07nOxZrvvOxXj_=ioqNr=_vN+hr+VFf2BO6A@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: Patches and discussions about the oe-core layer
+X-Received: by 10.50.119.70 with SMTP id ks6mr31370184igb.78.1441748360656;
+	Tue, 08 Sep 2015 14:39:20 -0700 (PDT)
+Received: by 10.36.98.5 with HTTP; Tue, 8 Sep 2015 14:39:20 -0700 (PDT)
+In-Reply-To: <20150908170942.GE2381@jama>
+References: <20150908155801.GD2381@jama>
+	<20150908170942.GE2381@jama>
+Date: Tue, 8 Sep 2015 23:39:20 +0200
+Message-ID: <CALbNGRQYuQrGc_3Bf0y5CVXHHb3uFDVaLgPcfeAKYCau7X1u2g@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Patch merge process
+Subject: Re: State of bitbake world, wrong PACKAGE_ARCHs 2015-09-08
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,58 +44,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 21:06:00 -0000
-X-Groupsio-MsgNum: 70845
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="yQbNiKLmgenwUfTN"
-Content-Disposition: inline
-
---yQbNiKLmgenwUfTN
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 08 Sep 2015 21:39:23 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 08, 2015 at 11:39:17AM -0700, Khem Raj wrote:
-> On Tue, Sep 8, 2015 at 11:18 AM, Trevor Woerner <twoerner@gmail.com> wrot=
-e:
-> > If Richard doesn't want to use gerrit for OE-core, that doesn't exclude
-> > others from using it for the layers they manage, does it?
->=20
-> yes, however, we should prefer this to run on oe domain, its better
-> for project and then if most of layers use it its fine too, it could
-> end up
-> with same situation as patchwork where oe-core and bitbake do not use
-> it actively. other layers do. its not ideal situation but its ok as
-> long as
-> its makes people productive, we could be open for options its matter
-> of volunteers then maintaining the infra for these services.
+On Tue, Sep 8, 2015 at 7:09 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+> ERROR: polkit-group-rule-datetime different signature for task do_configu=
+re.sigdata between qemux86copy and qemuarm
+> runtaskdeps changed from ['polkitpolkit-group-rule-datetime.bb.do_patch',=
+ 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1.bb.do_pop=
+ulate_sysroot:virtual:native'] to ['polkitpolkit-group-rule-datetime.bb.do_=
+patch', 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1.bb=
+.do_populate_sysroot:virtual:native']
+> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extende=
+d/polkit/polkit_0.113.bb.do_populate_sysroot with hash 284d6bbd28ea723c466e=
+0c5c88a09a50
+I missed many of these - because I am not up to date on oe-core (did
+not want to loose midori for my images) - will change that soon. For
+this type of error: is it correct that it is caused by allarch recipes
+depending on machine/architecture specific recipes?
 
-I agree, there are not technical reasons for not using it for other
-layers, but once we ask contributors to create account on gerrit and
-submit all patches through gerrit for *some* layers, then these people
-will ask why oe-core and bitbake submissions are different.
+Andreas
 
-I should also say that I really like gerrit work-flow and review, but if
-people continue to send patches to e-mail and someone else will need to
-add Change-Ids to them and consolidate them into review-chains, than
-it's not as great as it could be if all related people "buy-it" and use
-it exclusively.
-
-Regards,
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---yQbNiKLmgenwUfTN
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v2
-
-iEYEARECAAYFAlXvTeAACgkQN1Ujt2V2gByYBACeIWriGkTBwzSXfb1xEIu66HVt
-VhgAoIw+bHtH6n3r/bvGzqGfvr8GVtc+
-=3ccc
------END PGP SIGNATURE-----
-
---yQbNiKLmgenwUfTN--
