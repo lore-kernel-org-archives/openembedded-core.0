@@ -1,24 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 455CC65C8A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 424D360053
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 08:20:34 +0000 (UTC)
+	Tue,  8 Sep 2015 08:20:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t888KZml012080
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t888Kaas008328
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Sep 2015 01:20:35 -0700 (PDT)
+	Tue, 8 Sep 2015 01:20:36 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 8 Sep 2015 01:20:34 -0700
+	14.3.235.1; Tue, 8 Sep 2015 01:20:35 -0700
 From: <kai.kang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Sep 2015 16:15:11 +0800
-Message-ID: <cover.1441700018.git.kai.kang@windriver.com>
+Date: Tue, 8 Sep 2015 16:15:12 +0800
+Message-ID: <1cf690b74e5ceabf29a819ff0d426937176a06f6.1441700018.git.kai.kang@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1441700018.git.kai.kang@windriver.com>
+References: <cover.1441700018.git.kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] Fix screen build failure
+Subject: [PATCH 1/1] screen: backport to fix build error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,23 +38,74 @@ Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-The following changes since commit c1df471feacaf2590216aa476ce242908dac38cf:
+It fails to compile screen rarely with:
 
-  pseudo_1.7.3.bb: New version of pseudo (2015-09-06 15:26:27 +0100)
+|.../4.3.1-r0/screen-4.3.1/display.h:154:19: error: 'T_N' undeclared here (not in a function)
+|   union tcu d_tcs[T_N]; /* terminal capabilities */
+|                      ^
 
-are available in the git repository at:
+Macro T_N is defined in header file term.h but it may not be created
+then fails. Backport patch to make sure term.h is created before compile
+other source codes.
 
-  git://git.pokylinux.org/poky-contrib kangkai/screen
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=kangkai/screen
-
-Kai Kang (1):
-  screen: backport to fix build error
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
  .../screen/0002-comm.h-now-depends-on-term.h.patch | 33 ++++++++++++++++++++++
  meta/recipes-extended/screen/screen_4.3.1.bb       |  1 +
  2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
 
+diff --git a/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
+new file mode 100644
+index 0000000..b5d71cc
+--- /dev/null
++++ b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
+@@ -0,0 +1,33 @@
++Upstream-Status: Backport
++
++Backport from:
++
++http://git.savannah.gnu.org/cgit/screen.git/commit/?id=39c5f1c
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++From 39c5f1c76f1fcef4b5958bf828a63f53426b6984 Mon Sep 17 00:00:00 2001
++From: Mike Gerwitz <mike@mikegerwitz.com>
++Date: Tue, 24 Dec 2013 22:16:31 -0500
++Subject: [PATCH] comm.h now depends on term.h
++
++---
++ src/Makefile.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/Makefile.in b/src/Makefile.in
++index e791e79..d4f7c0b 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -113,7 +113,7 @@ term.h: term.c term.sh
++ 
++ kmapdef.c: term.h
++ 
++-comm.h: comm.c comm.sh config.h
+++comm.h: comm.c comm.sh config.h term.h
++ 	AWK=$(AWK) CC="$(CC) $(CFLAGS)" srcdir=${srcdir} sh $(srcdir)/comm.sh
++ 
++ docs:
++-- 
++2.4.1
++
+diff --git a/meta/recipes-extended/screen/screen_4.3.1.bb b/meta/recipes-extended/screen/screen_4.3.1.bb
+index 6aea56d..92457af 100644
+--- a/meta/recipes-extended/screen/screen_4.3.1.bb
++++ b/meta/recipes-extended/screen/screen_4.3.1.bb
+@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://Skip-host-file-system-checks-when-cross-compiling.patch \
+            file://Avoid-mis-identifying-systems-as-SVR4.patch \
+            file://0001-fix-for-multijob-build.patch \
++           file://0002-comm.h-now-depends-on-term.h.patch \
+           "
+ 
+ SRC_URI[md5sum] = "5bb3b0ff2674e29378c31ad3411170ad"
 -- 
 1.9.1
 
