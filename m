@@ -1,26 +1,28 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 424D360053
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 08:20:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t888Kaas008328
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Sep 2015 01:20:36 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 8 Sep 2015 01:20:35 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 8 Sep 2015 16:15:12 +0800
-Message-ID: <1cf690b74e5ceabf29a819ff0d426937176a06f6.1441700018.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1441700018.git.kai.kang@windriver.com>
-References: <cover.1441700018.git.kai.kang@windriver.com>
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E445660053;
+	Tue,  8 Sep 2015 08:31:51 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 08 Sep 2015 01:31:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,488,1437462000"; d="scan'208";a="799888751"
+Received: from jdkarpin-mobl4.ger.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.252.5.153])
+	by orsmga002.jf.intel.com with ESMTP; 08 Sep 2015 01:31:50 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Eduardo Silva <eduardo@monkey.io>
+Date: Tue, 08 Sep 2015 09:31:49 +0100
+Message-ID: <3519207.Zu35S1aTfa@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+User-Agent: KMail/4.14.9 (Linux/4.1.5-100.fc21.x86_64; KDE/4.14.9; x86_64; ; )
+In-Reply-To: <CAEaCVQh3w_b0u_ZrzbBJDrxCKdtVGusg9pHU2L7wEh-qFOb5PQ@mail.gmail.com>
+References: <55CEE8FE.6070907@balister.org>
+	<CAEaCVQh3w_b0u_ZrzbBJDrxCKdtVGusg9pHU2L7wEh-qFOb5PQ@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] screen: backport to fix build error
+Cc: Yocto Project <yocto@yoctoproject.org>,
+	openembedded-devel@lists.openembedded.org,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] OpenEmbeddded Developer meeting Oct 9 after ELCE in Dublin
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,80 +35,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 08:20:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 08 Sep 2015 08:31:54 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-From: Kai Kang <kai.kang@windriver.com>
+I think you may be mixing up the Yocto Project Developer Day (which leans more 
+towards training and is a Yocto Project event) and OEDEM (which is a 
+developer's meeting and an OpenEmbedded event). They're also on separate days 
+so you can attend both :)
 
-It fails to compile screen rarely with:
+Cheers,
+Paul
 
-|.../4.3.1-r0/screen-4.3.1/display.h:154:19: error: 'T_N' undeclared here (not in a function)
-|   union tcu d_tcs[T_N]; /* terminal capabilities */
-|                      ^
+On Monday 07 September 2015 18:17:19 Eduardo Silva wrote:
+> Hi,
+> 
+> would you please confirm the date ?, Linux Foundation page says is October
+> 8 (this email Oct 9):
+> 
+> http://events.linuxfoundation.org/events/embedded-linux-conference-europe/ex
+> tend-the-experience/co-located-events
+> 
+> best
+> 
+> note:
+> 
+> 
+> On Sat, Aug 15, 2015 at 1:23 AM, Philip Balister <philip@balister.org>
+> 
+> wrote:
+> > Just a reminder about the meeting in Dublin after ELCE and the Yocto
+> > Project developer day. Everyone, even if you are not sure you are a
+> > developer, is welcome. The goal of the meeting is to work out future
+> > directions for OpenEmbedded so input from users and developers is welcome.
+> > 
+> > http://openembedded.org/wiki/OEDEM_2015
+> > 
+> > Please add your name to the attendee list, even if tentative so we can
+> > plan accordingly.
+> > 
+> > Thanks,
+> > 
+> > Philip
+> > --
+> > _______________________________________________
+> > Openembedded-devel mailing list
+> > Openembedded-devel@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-devel
 
-Macro T_N is defined in header file term.h but it may not be created
-then fails. Backport patch to make sure term.h is created before compile
-other source codes.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../screen/0002-comm.h-now-depends-on-term.h.patch | 33 ++++++++++++++++++++++
- meta/recipes-extended/screen/screen_4.3.1.bb       |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
-
-diff --git a/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
-new file mode 100644
-index 0000000..b5d71cc
---- /dev/null
-+++ b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
-@@ -0,0 +1,33 @@
-+Upstream-Status: Backport
-+
-+Backport from:
-+
-+http://git.savannah.gnu.org/cgit/screen.git/commit/?id=39c5f1c
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+From 39c5f1c76f1fcef4b5958bf828a63f53426b6984 Mon Sep 17 00:00:00 2001
-+From: Mike Gerwitz <mike@mikegerwitz.com>
-+Date: Tue, 24 Dec 2013 22:16:31 -0500
-+Subject: [PATCH] comm.h now depends on term.h
-+
-+---
-+ src/Makefile.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/Makefile.in b/src/Makefile.in
-+index e791e79..d4f7c0b 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -113,7 +113,7 @@ term.h: term.c term.sh
-+ 
-+ kmapdef.c: term.h
-+ 
-+-comm.h: comm.c comm.sh config.h
-++comm.h: comm.c comm.sh config.h term.h
-+ 	AWK=$(AWK) CC="$(CC) $(CFLAGS)" srcdir=${srcdir} sh $(srcdir)/comm.sh
-+ 
-+ docs:
-+-- 
-+2.4.1
-+
-diff --git a/meta/recipes-extended/screen/screen_4.3.1.bb b/meta/recipes-extended/screen/screen_4.3.1.bb
-index 6aea56d..92457af 100644
---- a/meta/recipes-extended/screen/screen_4.3.1.bb
-+++ b/meta/recipes-extended/screen/screen_4.3.1.bb
-@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://Skip-host-file-system-checks-when-cross-compiling.patch \
-            file://Avoid-mis-identifying-systems-as-SVR4.patch \
-            file://0001-fix-for-multijob-build.patch \
-+           file://0002-comm.h-now-depends-on-term.h.patch \
-           "
- 
- SRC_URI[md5sum] = "5bb3b0ff2674e29378c31ad3411170ad"
 -- 
-1.9.1
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
