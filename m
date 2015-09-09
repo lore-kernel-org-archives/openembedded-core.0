@@ -1,27 +1,42 @@
-Return-Path: <alejandro.franco@linux.intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C2F276D96
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id DBD1C763CE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  8 Sep 2015 23:19:32 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 08 Sep 2015 16:19:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,492,1437462000"; d="scan'208";a="785405892"
-Received: from afshjern.zpn.intel.com (HELO [10.219.26.82]) ([10.219.26.82])
-	by fmsmga001.fm.intel.com with ESMTP; 08 Sep 2015 16:19:32 -0700
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-References: <1440626255-29614-1-git-send-email-alejandro.franco@linux.intel.com>
-	<1440626255-29614-2-git-send-email-alejandro.franco@linux.intel.com>
-	<1443154.Z0jeO7rfN8@peggleto-mobl.ger.corp.intel.com>
-From: Alex Franco <alejandro.franco@linux.intel.com>
-Message-ID: <55EF6D2D.4080706@linux.intel.com>
-Date: Tue, 8 Sep 2015 18:20:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
-MIME-Version: 1.0
-In-Reply-To: <1443154.Z0jeO7rfN8@peggleto-mobl.ger.corp.intel.com>
+	Wed,  9 Sep 2015 00:04:28 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so141085906pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 08 Sep 2015 17:04:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=JI9WLAyjz8LlKnejNoW+FJF6KlFKD1aGMIwv5uqVXYU=;
+	b=aqoymr5EHj/LSoAw6z2SHdKTlRtSTNjKY2IjIUIzYYeIRo9meDOJOsQTjPRP7A0qZ1
+	3Wa28LrzDmYxNL7m9wsRGRsA6e0TTUcPHy+HH/i2c9IGhbV1U+IODwiTnUxPWsqJlpyj
+	ZzdfMSoSGAbPMMrdiyxciKt43LxWdnoLDDIczRqfC/b1364/8ZzG0b/HXbKECmIESmO/
+	WpXPwfjhlhwU9BrTpMmYYV70oY5WHMGbD1ERvfcLajvSWY2wbchNCrU3vwoHpfLlygX6
+	v+YbECyLUFRS7QYWnexfIHOrw9zDtgWjrSK3YG08yC9Cl9+ceQwbfgmU94o4F02DGYHJ
+	ZaGQ==
+X-Received: by 10.68.200.40 with SMTP id jp8mr65066925pbc.16.1441757068772;
+	Tue, 08 Sep 2015 17:04:28 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:4ddf:eeff:d299:213f?
+	([2601:646:8601:4580:4ddf:eeff:d299:213f])
+	by smtp.gmail.com with ESMTPSA id bh5sm4773562pbc.5.2015.09.08.17.04.27
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 08 Sep 2015 17:04:28 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1441430654.24871.202.camel@linuxfoundation.org>
+Date: Tue, 8 Sep 2015 17:04:22 -0700
+Message-Id: <1F034136-91B3-4F7D-943C-F92881B22EE5@gmail.com>
+References: <cover.1441299182.git.raj.khem@gmail.com>
+	<4f42995bde754f4fe83329c59f487810d2324854.1441299182.git.raj.khem@gmail.com>
+	<1441430654.24871.202.camel@linuxfoundation.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+X-Mailer: Apple Mail (2.2104)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] Empty image: core-image-empty recipe, Rootfs fix
+Subject: Re: [PATCH 1/1] busybox: Use UTMPX instead of legacy UTMP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,67 +49,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 23:19:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Sep 2015 00:04:34 -0000
+X-Groupsio-MsgNum: 70870
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_E3DA38E7-03DC-4B60-80E1-F586DA300BA4";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-Yes indeed! Sorry, I didn't see this before!
+--Apple-Mail=_E3DA38E7-03DC-4B60-80E1-F586DA300BA4
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Alex
 
-On 08/29/2015 06:18 AM, Paul Eggleton wrote:
-> Hi Alex,
->
-> On Wednesday 26 August 2015 16:57:33 Alex Franco wrote:
->> Added a core-image-empty recipe, as well as a DpkgOpkgRootfs test
->> which skips the package post installs step, if PACKAGE_INSTALL is
->> empty.
->>
->> [YOCTO #7664]
->>
->> Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+> On Sep 4, 2015, at 10:24 PM, Richard Purdie =
+<richard.purdie@linuxfoundation.org> wrote:
+>=20
+> On Thu, 2015-09-03 at 16:54 +0000, Khem Raj wrote:
+>> This makes busybox honor UTMPX feature if available in a libc
+>>=20
+>> [YOCTO #8243]
+>>=20
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
 >> ---
->>   meta/lib/oe/rootfs.py                        | 6 +++++-
->>   meta/recipes-core/images/core-image-empty.bb | 7 +++++++
->>   2 files changed, 12 insertions(+), 1 deletion(-)
->>   create mode 100644 meta/recipes-core/images/core-image-empty.bb
->>
->> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
->> index 8c8244c..f8cc6eb 100644
->> --- a/meta/lib/oe/rootfs.py
->> +++ b/meta/lib/oe/rootfs.py
->> @@ -585,7 +585,11 @@ class DpkgOpkgRootfs(Rootfs):
->>
->>           pkg_list = []
->>
->> -        pkgs = self._get_pkgs_postinsts(status_file)
->> +        pkgs = None
->> +        if not self.d.getVar('PACKAGE_INSTALL', True).strip():
->> +            bb.note("Building empty image")
->> +        else:
->> +            pkgs = self._get_pkgs_postinsts(status_file)
->>           if pkgs:
->>               root = "__packagegroup_postinst__"
->>               pkgs[root] = pkgs.keys()
->> diff --git a/meta/recipes-core/images/core-image-empty.bb
->> b/meta/recipes-core/images/core-image-empty.bb new file mode 100644
->> index 0000000..550567c
->> --- /dev/null
->> +++ b/meta/recipes-core/images/core-image-empty.bb
->> @@ -0,0 +1,7 @@
->> +SUMMARY = "An empty image."
->> +IMAGE_INSTALL = ""
->> +IMAGE_LINGUAS = ""
->> +PACKAGE_INSTALL = ""
->> +LICENSE = "MIT"
->> +
->> +inherit image
-> Could you please put this image recipe into meta-selftest instead (call it oe-
-> selftest-empty-image.bb) and add an oe-selftest test to ensure it builds and
-> is empty?
->
-> Thanks,
-> Paul
->
+>> .../busybox/0001-Switch-to-POSIX-utmpx-API.patch   | 388 =
++++++++++++++++++++++
+>> meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 +
+>> 2 files changed, 389 insertions(+)
+>> create mode 100644 =
+meta/recipes-core/busybox/busybox/0001-Switch-to-POSIX-utmpx-API.patch
+>=20
+> This breaks poky-tiny.
+>=20
+> =
+https://autobuilder.yoctoproject.org/main/builders/poky-tiny/builds/490/st=
+eps/BuildImages/logs/stdio
+>=20
+
+well poky tiny now needs to enable utmpx support in libc as well, sent a =
+patch for that
+
+https://lists.yoctoproject.org/pipermail/poky/2015-September/010218.html
+
+> Cheers,
+>=20
+> Richard
+>=20
 
 
+--Apple-Mail=_E3DA38E7-03DC-4B60-80E1-F586DA300BA4
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXvd4sACgkQuwUzVZGdMxR05QCcCkrwmF5qTAM0Y+kVN7gtYmiH
+K4YAnR/ffL9XY9nnqLK3zlmpwvrk3aMB
+=j2/x
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_E3DA38E7-03DC-4B60-80E1-F586DA300BA4--
