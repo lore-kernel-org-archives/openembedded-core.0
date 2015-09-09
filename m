@@ -1,20 +1,37 @@
-Return-Path: <cristian.iorga@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A51B176420
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-lb0-f169.google.com (mail-lb0-f169.google.com
+	[209.85.217.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 0592460053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 15:36:27 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 09 Sep 2015 08:36:16 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,497,1437462000"; d="scan'208";a="801557609"
-Received: from sentry.rb.intel.com ([10.237.105.63])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Sep 2015 08:36:10 -0700
-From: Cristian Iorga <cristian.iorga@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Sep 2015 18:36:50 +0300
-Message-Id: <1441813010-31215-1-git-send-email-cristian.iorga@intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] connman: upgrade to 1.30
+	Wed,  9 Sep 2015 15:42:19 +0000 (UTC)
+Received: by lbcjc2 with SMTP id jc2so8107476lbc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Sep 2015 08:42:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=y9ASEclxK8qGq5Un0qxrlMJWlMuozOYI4oIkv2yo/YI=;
+	b=g71tEt5cT8tXcCCgFxhReqQagwESxwMyeal3kaFRK3gep/3Tu38grb34gpeom7liO2
+	mi/5zr7xrM5XZ8KN3nwdUC9tisIDqlUUJ6lMo+8fKbp/4Qs1ITcigowlX/2Zvpt3NVSf
+	lfLbvQKoKkMGu2jVPJS8H9I4UiFrmzEVrOfyPF8equp/+qmhNUUqtT8vUYnLBBR1+fVi
+	rRfJ5vmMoBGsOmL4/9z29/NKhfU2ahFUjJPbgY6oXvNS1yfmnQL/EqVlwvNc3eUNe1iE
+	AmBMRNwDmx/MVUQ9HHsgepsuau2/MUJR6RkjhqHFC5nwSbxeoAdKLwVdrDNnonnNRXKz
+	Bf+w==
+X-Gm-Message-State: ALoCoQkTtGqVnYMt+Ohtp9J2EMTHmeC0DQvDaMP0zTBYH2ojinsp9C5F5UjZXMZL32zbjvdUNynR
+MIME-Version: 1.0
+X-Received: by 10.112.131.98 with SMTP id ol2mr30254629lbb.56.1441813338651;
+	Wed, 09 Sep 2015 08:42:18 -0700 (PDT)
+Received: by 10.25.155.144 with HTTP; Wed, 9 Sep 2015 08:42:18 -0700 (PDT)
+In-Reply-To: <1441799773.1680.102.camel@pbcl.net>
+References: <1441791241-29328-1-git-send-email-nathan@nathanrossi.com>
+	<1441799773.1680.102.camel@pbcl.net>
+Date: Thu, 10 Sep 2015 01:42:18 +1000
+Message-ID: <CA+aJhH2N0jG9amPA9Y2GKuQcJ4yK6H_1omXTCGn7=OdeXJntgA@mail.gmail.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: Phil Blundell <pb@pbcl.net>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot.inc: Add host compiler flags and openssl-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,95 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 15:36:28 -0000
+X-List-Received-Date: Wed, 09 Sep 2015 15:42:20 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Bugfixes.
+On Wed, Sep 9, 2015 at 9:56 PM, Phil Blundell <pb@pbcl.net> wrote:
+> On Wed, 2015-09-09 at 19:34 +1000, Nathan Rossi wrote:
+>> Note: Only a few different board configurations use CONFIG_FIT_SIGNATURE,
+>> for 2015.07 this includes "ids8313", "am335x_boneback_vboot" as well as all the
+>> Xilinx Zynq boards.
+>
+> Can you make the openssl dependency be a PACKAGECONFIG then (or, even
+> better, auto-detect it based on the actual configuration in use)?
+> Dragging it in for everyone doesn't seem all that great if the majority
+> of users don't actually need the feature.
 
-build-create-dirs-before-putting-files-in-them.patch
-patch removed, patch included upstream.
+Auto-detecting would be quite complex as it would need to take into
+account processing the configs in u-boot before being able to know
+whether to add the dependency or not. Making this user configurable
+via PACKAGECONFIG might add additional confusion, especially since it
+is not a dependency of the target output.
 
-Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
----
- ...-create-dirs-before-putting-files-in-them.patch | 46 ----------------------
- .../connman/{connman_1.29.bb => connman_1.30.bb}   |  5 +--
- 2 files changed, 2 insertions(+), 49 deletions(-)
- delete mode 100644 meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
- rename meta/recipes-connectivity/connman/{connman_1.29.bb => connman_1.30.bb} (58%)
+Please keep in mind, openssl-native is already dragged in by other
+dependencies in order to build u-boot (e.g. rpm-native which is added
+to all recipes inheriting package.bbclass regardless of
+PACKAGE_CLASSES). Also if you are using u-boot it is likely that you
+are depending on u-boot-mkimage-native as it is used for kernel image
+and/or rootfs image packing.
 
-diff --git a/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch b/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
-deleted file mode 100644
-index 260d68d..0000000
---- a/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--When automake's dependency tracking is enabled a mirror of the source tree is
--created in the build directory as it writes the dependency information.
--
--However, if dependency tracking is disabled on an out-of-tree build this mirror
--isn't created and it's possible that the .service files can't be written as the
--directories they go into haven't been created yet (racing against the compiles,
--which do create directories).
--
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
-----
-- Makefile.am | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/Makefile.am b/Makefile.am
--index 507736d..bc3c695 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -410,9 +410,11 @@ MAINTAINERCLEANFILES = Makefile.in \
--
--
-- src/builtin.h: src/genbuiltin $(builtin_sources)
--+	$(AM_V_AT)$(MKDIR_P) $(dir $@)
-- 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
--
-- vpn/builtin.h: src/genbuiltin $(builtin_vpn_sources)
--+	$(AM_V_AT)$(MKDIR_P) $(dir $@)
-- 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_vpn_modules) > $@
--
-- src/connman.conf: src/connman-dbus.conf src/connman-polkit.conf
--@@ -449,9 +451,11 @@ do_subst = $(AM_V_GEN)$(SED) \
-- 		-e 's,[@]sysconfdir[@],$(sysconfdir),g'
--
-- %.service: %.service.in Makefile
--+	$(AM_V_AT)$(MKDIR_P) $(dir $@)
-- 	$(do_subst) < $< > $@
--
-- scripts/connman: scripts/connman.in Makefile
--+	$(AM_V_at)$(MKDIR_P) scripts
-- 	$(do_subst) < $< > $@
--
-- include/connman/version.h: include/version.h
----
--2.1.4
--
-diff --git a/meta/recipes-connectivity/connman/connman_1.29.bb b/meta/recipes-connectivity/connman/connman_1.30.bb
-similarity index 58%
-rename from meta/recipes-connectivity/connman/connman_1.29.bb
-rename to meta/recipes-connectivity/connman/connman_1.30.bb
-index 3bcd778..8c47353 100644
---- a/meta/recipes-connectivity/connman/connman_1.29.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.30.bb
-@@ -3,11 +3,10 @@ require connman.inc
- SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
--            file://build-create-dirs-before-putting-files-in-them.patch \
-             file://connman \
-             "
--SRC_URI[md5sum] = "5283884504860f5fba2e6f489f517293"
--SRC_URI[sha256sum] = "2a5a69693566f7fd59b2e677fa89356ada6d709998aa665caef8707b1e7a8594"
-+SRC_URI[md5sum] = "4a3efdbd6796922db9c6f66da57887fa"
-+SRC_URI[sha256sum] = "5c5e464bacc9c27ed4e7269fb9b5059f07947f5be26433b59212133663ffa991"
- 
- RRECOMMENDS_${PN} = "connman-conf"
- 
--- 
-2.1.4
-
+Regards,
+Nathan
 
