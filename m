@@ -1,21 +1,29 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id B28B573D27
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ED6DE73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 01:24:05 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 08 Sep 2015 18:24:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,493,1437462000"; d="scan'208";a="765109458"
-Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
-	by orsmga001.jf.intel.com with ESMTP; 08 Sep 2015 18:24:06 -0700
-From: Juro Bystricky <juro.bystricky@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  8 Sep 2015 18:19:03 -0700
-Message-Id: <1441761543-10979-1-git-send-email-juro.bystricky@intel.com>
-X-Mailer: git-send-email 1.9.1
-Cc: richard.purdie@intel.com
-Subject: [PATCH] kernel-arch.bbclass: Allow 'baremetal' CPUs
+	Wed,  9 Sep 2015 01:36:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t891aKmx012418
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 8 Sep 2015 18:36:20 -0700 (PDT)
+Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 8 Sep 2015 18:36:19 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1441706663.git.kai.kang@windriver.com>
+	<38a54062b7480324d2a289cc18f4c3a8f4d72c8a.1441706663.git.kai.kang@windriver.com>
+	<CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <55EF8D1A.5060602@windriver.com>
+Date: Wed, 9 Sep 2015 09:36:26 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] gdk-pixbuf: 2.30.8 -> 2.31.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,35 +36,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 01:24:06 -0000
+X-List-Received-Date: Wed, 09 Sep 2015 01:36:25 -0000
+Content-Type: multipart/alternative;
+	boundary="------------080902090404000305070705"
 
-Avoid "ERROR: cannot map <cpu> to a linux kernel architecture"
-Not being able to map a CPU to a kernel architecture should not be treated as
-an error when building baremetal toolchains for CPU <cpu> which does not have
-a kernel source tree.
+--------------080902090404000305070705
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Rather then individually enumerating each additional (baremetal) CPU, allow them all.
-This way the kernel-arch.bbclass does not need to be modified each time a support
-for a new baremetal CPU is added.
+On 2015年09月08日 18:14, Burton, Ross wrote:
+>
+> On 8 September 2015 at 11:05, <kai.kang@windriver.com 
+> <mailto:kai.kang@windriver.com>> wrote:
+>
+>     From: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
+>
+>     * drop backport patch
+>
+>
+> gdk-pixbuf is a GNOME project, so odd-minor-versions are development 
+> releases and we won't be merging this.  If there's a particular fix 
+> you want integrated, please backport it.
 
-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
----
- meta/classes/kernel-arch.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+OK. Thanks.
 
-diff --git a/meta/classes/kernel-arch.bbclass b/meta/classes/kernel-arch.bbclass
-index 211b72b..3ffe47c 100644
---- a/meta/classes/kernel-arch.bbclass
-+++ b/meta/classes/kernel-arch.bbclass
-@@ -31,6 +31,7 @@ def map_kernel_arch(a, d):
-     elif re.match('microblazee[bl]', a):        return 'microblaze'
-     elif a in valid_archs:                      return a
-     else:
-+        if d.getVar("TCLIBC", True) == "baremetal": return a;
-         bb.error("cannot map '%s' to a linux kernel architecture" % a)
- 
- export ARCH = "${@map_kernel_arch(d.getVar('TARGET_ARCH', True), d)}"
+--Kai
+
+>
+> Ross
+
+
 -- 
-1.9.1
+Regards,
+Neil | Kai Kang
 
 
+--------------080902090404000305070705
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2015年09月08日 18:14, Burton, Ross
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+          <div class="gmail_quote">On 8 September 2015 at 11:05, <span
+              dir="ltr">&lt;<a moz-do-not-send="true"
+                href="mailto:kai.kang@windriver.com" target="_blank">kai.kang@windriver.com</a>&gt;</span>
+            wrote:<br>
+            <blockquote class="gmail_quote" style="margin:0 0 0
+              .8ex;border-left:1px #ccc solid;padding-left:1ex">
+              <div id=":2h3" class="a3s" style="overflow:hidden">From:
+                Kai Kang &lt;<a moz-do-not-send="true"
+                  href="mailto:kai.kang@windriver.com">kai.kang@windriver.com</a>&gt;<br>
+                <br>
+                * drop backport patch</div>
+            </blockquote>
+          </div>
+          <br>
+          gdk-pixbuf is a GNOME project, so odd-minor-versions are
+          development releases and we won't be merging this.  If there's
+          a particular fix you want integrated, please backport it.</div>
+      </div>
+    </blockquote>
+    <br>
+    OK. Thanks.<br>
+    <br>
+    --Kai<br>
+    <br>
+    <blockquote
+cite="mid:CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com"
+      type="cite">
+      <div dir="ltr">
+        <div class="gmail_extra"><br>
+        </div>
+        <div class="gmail_extra">Ross</div>
+      </div>
+    </blockquote>
+    <br>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Regards,
+Neil | Kai Kang</pre>
+  </body>
+</html>
+
+--------------080902090404000305070705--
