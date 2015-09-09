@@ -1,41 +1,41 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
-	[209.85.223.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 7849A76FF2
+Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
+	[209.85.223.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 075F0765DB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 13:10:25 +0000 (UTC)
-Received: by iofb144 with SMTP id b144so21136232iof.1
+	Wed,  9 Sep 2015 13:10:26 +0000 (UTC)
+Received: by iofh134 with SMTP id h134so21157126iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 06:10:25 -0700 (PDT)
+	Wed, 09 Sep 2015 06:10:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:in-reply-to:references;
-	bh=b5q6m6N3i004Vn4pSmf+WCpZqIso3oF1F5FNPemGBfw=;
-	b=ivmoh2G/uWTo4KXSTyR/JTVQT2WG8Y7j1/FTtvy0dHCI7DsZcI1KwrvkHkXdCB9JbZ
-	BqfZ2C8z+zmdUmCiDQiWRaoNqOXHsMlcDJF5dWiji/AXTCViUMcI+qnLRfOBM6WaN760
-	Xpko5Vj8woOt4Oxs8yxa899UDF9I9t6fb5U5C3SE7A9OQKnqXpQyqvHra3ZnoF9EQSSY
-	E3IPCuvBQ48Kj5er52Q1Zq2Dt4yxrGOS7afE2cZCfCkQjDGqiKTMtskOJPwKOqaJNj6o
-	UM/YSTg9hnTBbkC/82d/fceD9di4lMWFMAQVl5VdVlqb+HlB6iswe6EzZ5DlSaz/9ieG
-	IJ/g==
-X-Gm-Message-State: ALoCoQm/a+ms51a5zm17wAexiymxyXwpGTTfi4QeXR5bpjEqPcCxO8AAwBWPRKWILr6CNBl7sYT2
-X-Received: by 10.107.17.206 with SMTP id 75mr30657607ior.140.1441804225173;
-	Wed, 09 Sep 2015 06:10:25 -0700 (PDT)
+	bh=8JQaZjmFzKbkM2ysCCDSbsPDBEvtPlfA2fsyAbJHs7I=;
+	b=EunZYHbIVOw/8myzD+LOB8UPajdJpOMVgOqqsf1w1nx5d071hmFjMID0FdEcbnoa3y
+	u3sL0AjRJ/k0J6l06/xH4NoKafoYeZpFLeqo0D/p05X4ruwFf/4hFmkDZ8g6kzPmiZdn
+	UQkUkoekiHMsIPKQ6ghf4DGQon5CnH0I4X3Ap+iEv/IILmy3zY2Ujm/L3SYV+0VxlvYE
+	vpRXZfDi0SrwBy5u9ZW2LAVposc1Pjdy63u/+eB6fwXyo1P2qY0CymxP/0rGgo7M++Py
+	VmRZlqfbLekM1jcAYg0kvMD1NIQLZ1RuQ9pcyzbGByRuCh/8pq/jGF2GphpOxLQi4we/
+	lkVQ==
+X-Gm-Message-State: ALoCoQml5Cd5vLHOnKTPBwTM9G9I2Yr4NptEBuxCV2PrNbS4MLCu5tPAbwaTnujscCZVvOaY03Xj
+X-Received: by 10.107.160.194 with SMTP id j185mr7729260ioe.37.1441804227150; 
+	Wed, 09 Sep 2015 06:10:27 -0700 (PDT)
 Received: from pohly-desktop.fritz.box (p57A56733.dip0.t-ipconnect.de.
 	[87.165.103.51]) by smtp.gmail.com with ESMTPSA id
-	k21sm4513409ioi.10.2015.09.09.06.10.24
+	k21sm4513409ioi.10.2015.09.09.06.10.26
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Sep 2015 06:10:24 -0700 (PDT)
+	Wed, 09 Sep 2015 06:10:26 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Sep 2015 15:10:45 +0200
-Message-Id: <08da5db32769473be4884f87ad002fe426770a91.1441803055.git.patrick.ohly@intel.com>
+Date: Wed,  9 Sep 2015 15:10:46 +0200
+Message-Id: <1e612377a8e6331361f984ee0e978fa4a5c4b0b0.1441803055.git.patrick.ohly@intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <e0e5e8bdc09dcfe3b5410ccfed0b11c0c8d63d3b.1441803055.git.patrick.ohly@intel.com>
 References: <e0e5e8bdc09dcfe3b5410ccfed0b11c0c8d63d3b.1441803055.git.patrick.ohly@intel.com>
 In-Reply-To: <cover.1441803055.git.patrick.ohly@intel.com>
 References: <cover.1441803055.git.patrick.ohly@intel.com>
-Subject: [PATCH 3/4] initramfs-framework: support init boot parameter
+Subject: [PATCH 4/4] initramfs-framework: support dropping into shell on failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,31 +48,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 13:10:25 -0000
+X-List-Received-Date: Wed, 09 Sep 2015 13:10:28 -0000
 
-It can be useful for debugging to override the default /sbin/init.
-This is something typically done via the init boot parameter which
-then gets interpreted by the kernel. But when using an initramfs, it
-is the initramfs which must react to the option.
+When the init_fatal_sh boot parameter is present (i.e. used without
+value) and a fatal problem occurs inside the initramfs-module, a shell
+will be started instead of looping forever.
+
+Useful for debugging.
+
+Interestingly enough, the code was already indented to support such an
+if check...
 
 Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/finish | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/initrdscripts/initramfs-framework/init | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/finish b/meta/recipes-core/initrdscripts/initramfs-framework/finish
-index a8806aa..e712ff0 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/finish
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/finish
-@@ -53,7 +53,7 @@ finish_run() {
- 		mount --move /sys $ROOTFS_DIR/sys
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
+index e8f4713..9291ad5 100755
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/init
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
+@@ -58,9 +58,13 @@ fatal() {
+     echo $1 >/dev/console
+     echo >/dev/console
  
- 		cd $ROOTFS_DIR
--		exec switch_root -c /dev/console $ROOTFS_DIR /sbin/init
-+		exec switch_root -c /dev/console $ROOTFS_DIR ${bootparam_init:-/sbin/init}
- 	else
- 		debug "No rootfs has been set"
- 	fi
++    if [ -n "bootparam_init_fatal_sh" ]; then
++        sh
++    else
+ 	while [ "true" ]; do
+ 		sleep 3600
+ 	done
++    fi
+ }
+ 
+ # Variables shared amoung modules
 -- 
 2.1.4
 
