@@ -1,26 +1,31 @@
-Return-Path: <pb@pbcl.net>
-Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
-	by mail.openembedded.org (Postfix) with ESMTP id D308A76F50
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 3611 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 09 Sep 2015 23:05:47 UTC
+Received: from vms173025pub.verizon.net (vms173025pub.verizon.net
+	[206.46.173.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 43F8373243
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 22:00:57 +0000 (UTC)
-Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
-	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <pb@pbcl.net>)
-	id 1ZZnQG-00049F-IU; Thu, 10 Sep 2015 00:00:56 +0200
-Message-ID: <1441836049.2948.8.camel@pbcl.net>
-From: Phil Blundell <pb@pbcl.net>
-To: "Bystricky, Juro" <juro.bystricky@intel.com>
-Date: Wed, 09 Sep 2015 23:00:49 +0100
-In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6101E771D@ORSMSX109.amr.corp.intel.com>
-References: <1441761543-10979-1-git-send-email-juro.bystricky@intel.com>
-	<1441790471.31676.13.camel@pbcl.net>
-	<6E51916E4A1F32428260031F4C7CD2B6101E771D@ORSMSX109.amr.corp.intel.com>
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-arch.bbclass: Allow 'baremetal' CPUs
+	Wed,  9 Sep 2015 23:05:47 +0000 (UTC)
+Received: from gandalf.denix.org ([108.51.169.48]) by vms173025.mailsrvcs.net
+	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
+	16 2014))
+	with ESMTPSA id <0NUF00N1EK0W59D0@vms173025.mailsrvcs.net> for
+	openembedded-core@lists.openembedded.org;
+	Wed, 09 Sep 2015 17:05:20 -0500 (CDT)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.1 cv=EdU1O6SC c=1 sm=1 tr=0	a=x3PDphkivVtATbYodTxRAw==:117
+	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=ff-B7xzCdYMA:10 a=sozttTNsAAAA:8
+	a=yUdsXvDavWi-i-7cSwsA:9
+Received: from localhost.localdomain (elrond [192.168.0.7])
+	by gandalf.denix.org (Postfix) with ESMTP id 0835F161BE4;	Wed,
+	9 Sep 2015 18:05:20 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 09 Sep 2015 18:05:19 -0400
+Message-id: <1441836319-20706-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.2.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] cryptodev-tests: don't use STAGING_KERNEL_DIR, fix re-packaging in multi-machine builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +38,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 22:01:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 09 Sep 2015 23:05:50 -0000
 
-I think what I'm saying is that the whole ARCH thing is a linuxism that
-should not be popping up in a baremetal (or any other non-linux)
-configuration, and hacking map_kernel_arch() to return some
-benign-but-bogus value seems like the wrong fix for it.  Particularly if
-this hacking is based on the value of TCLIBC which, conceptually, is not
-all that tightly bound to a kernel.
+From: Denys Dmytriyenko <denys@ti.com>
 
-If there are places in the metadata that "inherit kernel-arch" in a
-non-linux-specific context then I think we should figure out some way to
-eliminate them.  In the longer term I think it would make sense to have
-a "kernel" -> "linux" renaming to make these assumptions more explicit.
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-p.
-
-On Wed, 2015-09-09 at 21:27 +0000, Bystricky, Juro wrote:
-> I would not call it a real bug. The code just tries to initialize ARCH  (which may not be used
-> for baremetal situations). The name "map_kernel_arch" is a bit misleading
-> in this (baremetal) context.
-> 
-> 
-> > -----Original Message-----
-> > From: Phil Blundell [mailto:pb@pbcl.net]
-> > Sent: Wednesday, September 9, 2015 2:21 AM
-> > To: Bystricky, Juro
-> > Cc: openembedded-core@lists.openembedded.org; Purdie, Richard
-> > Subject: Re: [OE-core] [PATCH] kernel-arch.bbclass: Allow 'baremetal' CPUs
-> > 
-> > On Tue, 2015-09-08 at 18:19 -0700, Juro Bystricky wrote:
-> > > Avoid "ERROR: cannot map <cpu> to a linux kernel architecture"
-> > > Not being able to map a CPU to a kernel architecture should not be
-> > > treated as an error when building baremetal toolchains for CPU <cpu>
-> > > which does not have a kernel source tree.
-> > 
-> > Why is map_kernel_arch() even being invoked for a baremetal
-> > configuration?  That sounds like it is the real bug here.
-> > 
-> > p.
-> > 
-> 
-
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
+index efc41ae..be59a4a 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
++++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
+@@ -9,7 +9,7 @@ file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
+ file://0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch \
+ "
+ 
+-EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
++EXTRA_OEMAKE='KERNEL_DIR="${STAGING_EXECPREFIXDIR}" PREFIX="${D}"'
+ 
+ do_compile() {
+ 	oe_runmake testprogs
+-- 
+2.2.0
 
 
