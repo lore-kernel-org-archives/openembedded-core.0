@@ -1,37 +1,35 @@
 Return-Path: <elena.reshetova@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C270376FF2
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 999CF76EB2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 16:09:17 +0000 (UTC)
+	Wed,  9 Sep 2015 16:14:03 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga101.jf.intel.com with ESMTP; 09 Sep 2015 09:09:07 -0700
+	by orsmga102.jf.intel.com with ESMTP; 09 Sep 2015 09:14:03 -0700
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.17,497,1437462000"; 
-	d="p7s'?scan'208";a="558399834"
-Received: from irsmsx110.ger.corp.intel.com ([163.33.3.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 09 Sep 2015 09:09:06 -0700
-Received: from irsmsx156.ger.corp.intel.com (10.108.20.68) by
-	irsmsx110.ger.corp.intel.com (163.33.3.25) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Wed, 9 Sep 2015 17:09:05 +0100
+	d="p7s'?scan'208";a="558402988"
+Received: from irsmsx109.ger.corp.intel.com ([163.33.3.23])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Sep 2015 09:14:01 -0700
 Received: from irsmsx102.ger.corp.intel.com ([169.254.2.81]) by
-	IRSMSX156.ger.corp.intel.com ([169.254.3.65]) with mapi id
-	14.03.0224.002; Wed, 9 Sep 2015 17:09:05 +0100
+	IRSMSX109.ger.corp.intel.com ([169.254.13.183]) with mapi id
+	14.03.0224.002; Wed, 9 Sep 2015 17:13:58 +0100
 From: "Reshetova, Elena" <elena.reshetova@intel.com>
-To: "MacLeod, Randy (Wind River)" <randy.macleod@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
+To: "Ohly, Patrick" <patrick.ohly@intel.com>, "MacLeod, Randy (Wind River)"
+	<randy.macleod@windriver.com>
 Thread-Topic: [OE-core] How to put a correct dependency with regards to gcc?
-Thread-Index: AdDnMqsfLpontyTuT+6uqwUhUC+6ZADbpnAAAB38mKA=
-Date: Wed, 9 Sep 2015 16:09:05 +0000
-Message-ID: <2236FBA76BA1254E88B949DDB74E612B41979490@IRSMSX102.ger.corp.intel.com>
+Thread-Index: AdDnMqsfLpontyTuT+6uqwUhUC+6ZADbpnAAAAkOxYAAFSiB4A==
+Date: Wed, 9 Sep 2015 16:13:58 +0000
+Message-ID: <2236FBA76BA1254E88B949DDB74E612B419794E5@IRSMSX102.ger.corp.intel.com>
 References: <2236FBA76BA1254E88B949DDB74E612B41976CB1@IRSMSX102.ger.corp.intel.com>
-	<55EF9D64.8000601@windriver.com>
-In-Reply-To: <55EF9D64.8000601@windriver.com>
+	<55EF9D64.8000601@windriver.com> <1441782317.11229.7.camel@intel.com>
+In-Reply-To: <1441782317.11229.7.camel@intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator: 
 x-originating-ip: [163.33.239.180]
 MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: How to put a correct dependency with regards to gcc?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -45,38 +43,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 16:09:19 -0000
-X-Groupsio-MsgNum: 70924
+X-List-Received-Date: Wed, 09 Sep 2015 16:14:05 -0000
+X-Groupsio-MsgNum: 70925
 Content-Language: en-US
 Content-Type: multipart/signed; protocol="application/x-pkcs7-signature";
-	micalg=SHA1; boundary="----=_NextPart_000_0004_01D0EADF.2C3DAB30"
+	micalg=SHA1; boundary="----=_NextPart_000_0009_01D0EADF.DAB9F150"
 
-------=_NextPart_000_0004_01D0EADF.2C3DAB30
+------=_NextPart_000_0009_01D0EADF.DAB9F150
 Content-Type: text/plain;
-	charset="us-ascii"
+	charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
->Maybe we have to fix gcc-source after all rather than use the EXCLUDE_WORLD
-change I made in:
->    https://bugzilla.yoctoproject.org/show_bug.cgi?id=7878
+On Tue, 2015-09-08 at 22:45 -0400, Randy MacLeod wrote:
+> Maybe we have to fix gcc-source after all rather than use the
+> EXCLUDE_WORLD change I made in:
+>     https://bugzilla.yoctoproject.org/show_bug.cgi?id=7878
+> Does your scheme work for the kernel source? See:
+>
+> Search for "kernel-devsrc" here:
+>
+> http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/68352
 
-Should I file a bug about this for easy tracking? My problem really seems
-that do_fetch on some related to gcc packages doesn't result in fetch of
-sources. 
+Also possibly related:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=7959
 
->Does your scheme work for the kernel source? See:
+"archiver.bbclass: fails for linux--yocto when archiving patched source"
 
->Search for "kernel-devsrc" here:
->  http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/68352
-
-There doesn't seem to be an issue with kernel source packages for my task. I
-think this is because the sources are correctly fetched by dependent
-packages.
+Not sure it is 100% related since my issue with doing unpacking is that 
+archive is simply not present *at all* in the download dir. So for me it seems 
+some kind of dependency issue. If I execute do_fetch on gcc, it should put a 
+dependency to gcc-source do_fetch if this is smth that  actually would 
+download the sources.
 
 Best Regards,
 Elena.
 
-------=_NextPart_000_0004_01D0EADF.2C3DAB30
+------=_NextPart_000_0009_01D0EADF.DAB9F150
 Content-Type: application/pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -200,7 +202,7 @@ z1fq9jGCA/kwggP1AgEBMIGQMHkxCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEUMBIGA1UEBxML
 U2FudGEgQ2xhcmExGjAYBgNVBAoTEUludGVsIENvcnBvcmF0aW9uMSswKQYDVQQDEyJJbnRlbCBF
 eHRlcm5hbCBCYXNpYyBJc3N1aW5nIENBIDRCAhMzAAAPeuDTfWPn74vVAAAAAA96MAkGBSsOAwIa
 BQCgggI9MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTE1MDkwOTE2
-MDkwM1owIwYJKoZIhvcNAQkEMRYEFLEQAGstsX6XTXFSDMXnpsPjnBnjMIGTBgkqhkiG9w0BCQ8x
+MTM1NlowIwYJKoZIhvcNAQkEMRYEFI24xKkt6q7TBD2mCnR5uJr0s8lVMIGTBgkqhkiG9w0BCQ8x
 gYUwgYIwCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBFjAKBggqhkiG9w0DBzALBglghkgBZQMEAQIw
 DgYIKoZIhvcNAwICAgCAMA0GCCqGSIb3DQMCAgFAMAcGBSsOAwIaMAsGCWCGSAFlAwQCAzALBglg
 hkgBZQMEAgIwCwYJYIZIAWUDBAIBMIGhBgkrBgEEAYI3EAQxgZMwgZAweTELMAkGA1UEBhMCVVMx
@@ -209,11 +211,11 @@ YXRpb24xKzApBgNVBAMTIkludGVsIEV4dGVybmFsIEJhc2ljIElzc3VpbmcgQ0EgNEECEzMAAGce
 yeUJ4F3k0k4AAAAAZx4wgaMGCyqGSIb3DQEJEAILMYGToIGQMHkxCzAJBgNVBAYTAlVTMQswCQYD
 VQQIEwJDQTEUMBIGA1UEBxMLU2FudGEgQ2xhcmExGjAYBgNVBAoTEUludGVsIENvcnBvcmF0aW9u
 MSswKQYDVQQDEyJJbnRlbCBFeHRlcm5hbCBCYXNpYyBJc3N1aW5nIENBIDRBAhMzAABnHsnlCeBd
-5NJOAAAAAGceMA0GCSqGSIb3DQEBAQUABIIBAIvpTUhjwpc5DCgNyYuEIWF04fKJi+C6XNNOILBt
-2H9QRmOZHca3qDSZnSk+JaJP6BVJTIWcNoKvhC7nNmGwfwyopUbINrXX5v3ZcoZAsBvSrRs2Cp2f
-7BHFvzJ5WqlDz85OdzglWUupzEZ2U0joowOjzR6hrMy4XhgTDYuEodgq6xrEA1h8Qpy6rQqaLf5w
-PWmc8Ll3hPCnwYo8gl9He5qibgH8+NvxNwMQi0jR66QpXhtKJwjV6jxqmhxIPC1+dyjesBGjGhd0
-WLLPGHxXYZL8xL1CE7so8rCH62BF+aKSxvVnIm0KjCR9PTmfsVKYBqbHgeBfHU47pcKtH9zroX0A
+5NJOAAAAAGceMA0GCSqGSIb3DQEBAQUABIIBAENCDGNJc3R76KmKiDSgXHfXjtYEzX3T6C2dkn0I
+v5qIW32tH8qE+qZaUXCgMaP7gmIEj/uYpIDgSM7mVeqGU9Fy7C5jQZBc1DiFeg7Tm05vbYzSmWOC
+3oqWYmjDa9iuLzBEbPfomKcY0kesCcEtTq6/aShcAMpCghPkRwVMDKUys1OJdomblSWzi4tZlb+H
+lky4SrYFGdxoL/3Tl4t79qlOFhvqNqzqPhSFtZXEkshDtH0Q1me3vqz/CjJG265bXumCzStdQkvD
+W5Q2VwwlY8LAAn6bmLmGuceZnvzHcbftr5VO+d4W9CZSSJ2RlOr8F9lxN9AfqPNM4JFLUbXV3OYA
 AAAAAAA=
 
-------=_NextPart_000_0004_01D0EADF.2C3DAB30--
+------=_NextPart_000_0009_01D0EADF.DAB9F150--
