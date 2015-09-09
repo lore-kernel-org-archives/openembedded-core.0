@@ -1,27 +1,26 @@
-Return-Path: <sgw@linux.intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AA397404E
+Return-Path: <pb@pbcl.net>
+Received: from hetzner.pbcl.net (mail.pbcl.net [88.198.119.4])
+	by mail.openembedded.org (Postfix) with ESMTP id D308A76F50
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 21:37:12 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga103.jf.intel.com with ESMTP; 09 Sep 2015 14:37:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,499,1437462000"; d="scan'208";a="801798620"
-Received: from dblythe-mobl1.amr.corp.intel.com (HELO
-	swold-mobl.amr.corp.intel.com) ([10.254.17.144])
-	by fmsmga002.fm.intel.com with ESMTP; 09 Sep 2015 14:37:13 -0700
-To: Bruno Bottazzini <bruno.bottazzini@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <bruno.bottazzini@intel.com>
-	<1441748721-32485-1-git-send-email-bruno.bottazzini@intel.com>
-From: Saul Wold <sgw@linux.intel.com>
-Message-ID: <55F0A688.6050609@linux.intel.com>
-Date: Wed, 9 Sep 2015 14:37:12 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
-MIME-Version: 1.0
-In-Reply-To: <1441748721-32485-1-git-send-email-bruno.bottazzini@intel.com>
-Subject: Re: [PATCH V3] mkefidisk: Create interactive menu for the script
+	Wed,  9 Sep 2015 22:00:57 +0000 (UTC)
+Received: from blundell.swaffham-prior.co.uk ([91.216.112.25] helo=e130.local)
+	by hetzner.pbcl.net with esmtpsa (TLS1.2:RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <pb@pbcl.net>)
+	id 1ZZnQG-00049F-IU; Thu, 10 Sep 2015 00:00:56 +0200
+Message-ID: <1441836049.2948.8.camel@pbcl.net>
+From: Phil Blundell <pb@pbcl.net>
+To: "Bystricky, Juro" <juro.bystricky@intel.com>
+Date: Wed, 09 Sep 2015 23:00:49 +0100
+In-Reply-To: <6E51916E4A1F32428260031F4C7CD2B6101E771D@ORSMSX109.amr.corp.intel.com>
+References: <1441761543-10979-1-git-send-email-juro.bystricky@intel.com>
+	<1441790471.31676.13.camel@pbcl.net>
+	<6E51916E4A1F32428260031F4C7CD2B6101E771D@ORSMSX109.amr.corp.intel.com>
+X-Mailer: Evolution 3.12.9-1+b1 
+Mime-Version: 1.0
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-arch.bbclass: Allow 'baremetal' CPUs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,28 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 21:37:15 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Wed, 09 Sep 2015 22:01:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 09/08/2015 02:45 PM, Bruno Bottazzini wrote:
-> Differences from v2:
-> - Removing unecessary \n as Saul Wold has suggested.
->
-> Differences from v1:
-> - Now it will show only unmounted devices as Saul Wold has suggested
-> - Commit message changed as Saul Wold has suggested
->
-> Bruno Bottazzini (1):
->    mkefidisk: Create interactive menu for the script
->
->   scripts/contrib/mkefidisk.sh | 63 ++++++++++++++++++++++++++++++++++++++++----
->   1 file changed, 58 insertions(+), 5 deletions(-)
->
-I think this still does not address my concern about showing disks that 
-are currently mounted and allows for easier overwriting of root or other 
-disks.
+I think what I'm saying is that the whole ARCH thing is a linuxism that
+should not be popping up in a baremetal (or any other non-linux)
+configuration, and hacking map_kernel_arch() to return some
+benign-but-bogus value seems like the wrong fix for it.  Particularly if
+this hacking is based on the value of TCLIBC which, conceptually, is not
+all that tightly bound to a kernel.
 
-Sau!
+If there are places in the metadata that "inherit kernel-arch" in a
+non-linux-specific context then I think we should figure out some way to
+eliminate them.  In the longer term I think it would make sense to have
+a "kernel" -> "linux" renaming to make these assumptions more explicit.
+
+p.
+
+On Wed, 2015-09-09 at 21:27 +0000, Bystricky, Juro wrote:
+> I would not call it a real bug. The code just tries to initialize ARCH  (which may not be used
+> for baremetal situations). The name "map_kernel_arch" is a bit misleading
+> in this (baremetal) context.
+> 
+> 
+> > -----Original Message-----
+> > From: Phil Blundell [mailto:pb@pbcl.net]
+> > Sent: Wednesday, September 9, 2015 2:21 AM
+> > To: Bystricky, Juro
+> > Cc: openembedded-core@lists.openembedded.org; Purdie, Richard
+> > Subject: Re: [OE-core] [PATCH] kernel-arch.bbclass: Allow 'baremetal' CPUs
+> > 
+> > On Tue, 2015-09-08 at 18:19 -0700, Juro Bystricky wrote:
+> > > Avoid "ERROR: cannot map <cpu> to a linux kernel architecture"
+> > > Not being able to map a CPU to a kernel architecture should not be
+> > > treated as an error when building baremetal toolchains for CPU <cpu>
+> > > which does not have a kernel source tree.
+> > 
+> > Why is map_kernel_arch() even being invoked for a baremetal
+> > configuration?  That sounds like it is the real bug here.
+> > 
+> > p.
+> > 
+> 
+
 
 
