@@ -1,39 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f170.google.com (mail-qk0-f170.google.com
-	[209.85.220.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F31774242
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AB1574197
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 20:14:02 +0000 (UTC)
-Received: by qkcf65 with SMTP id f65so9771331qkc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 13:14:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=+k6CiLH2ZOEhpuCAIYbrEtvGmEkiX/EjsF56rgp8cfA=;
-	b=GJT0L8RHGKN9+tF+BT7bOw3YXarloEnyrACuDX76aLnQewprhxT9NmD5/871cnopEb
-	QLdgLuRSkz5k+oepcm+y/D1BFvWiPOUP6K2Gcdm4RHbFgqDvntp64LfusS+H9iB5EwUU
-	SoWQzihqYXiNgVHgCUiN/qzny+0IpZ4xjyiNr+3ASYMPNPgHJ1L929ItzZHXO5/gudhH
-	12qVluht3HN5UlMgRFsuBYhdSiuBBxEX9uZw6WWIsE52Y3aIUVif9kI6RacNEpbSYLaA
-	CS8FwOYrny/6GFnaxmIGbzGg6cs07+sgoZdFxvRxa2QYbp/sOBXChKKlaTJa4zidb/MR
-	56EA==
-X-Gm-Message-State: ALoCoQk7bmYEAwSiR4vs1w8bercp9/7P0TFEKZqCDAhxdUVCEGuUEtZEDvMDxDNxG4sClVAg7gJv
-X-Received: by 10.55.221.199 with SMTP id u68mr45967071qku.83.1441829642548;
-	Wed, 09 Sep 2015 13:14:02 -0700 (PDT)
+	Wed,  9 Sep 2015 21:27:15 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga103.jf.intel.com with ESMTP; 09 Sep 2015 14:27:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,499,1437462000"; d="scan'208";a="786146123"
+Received: from orsmsx107.amr.corp.intel.com ([10.22.240.5])
+	by fmsmga001.fm.intel.com with ESMTP; 09 Sep 2015 14:27:15 -0700
+Received: from orsmsx155.amr.corp.intel.com (10.22.240.21) by
+	ORSMSX107.amr.corp.intel.com (10.22.240.5) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Wed, 9 Sep 2015 14:27:14 -0700
+Received: from orsmsx109.amr.corp.intel.com ([169.254.2.154]) by
+	ORSMSX155.amr.corp.intel.com ([169.254.7.116]) with mapi id
+	14.03.0224.002; Wed, 9 Sep 2015 14:27:14 -0700
+From: "Bystricky, Juro" <juro.bystricky@intel.com>
+To: Phil Blundell <pb@pbcl.net>
+Thread-Topic: [OE-core] [PATCH] kernel-arch.bbclass: Allow 'baremetal' CPUs
+Thread-Index: AQHQ6p49wcfefQ0JH0iJ0ulPegvHAp40YdiAgABSuCA=
+Date: Wed, 9 Sep 2015 21:27:14 +0000
+Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101E771D@ORSMSX109.amr.corp.intel.com>
+References: <1441761543-10979-1-git-send-email-juro.bystricky@intel.com>
+	<1441790471.31676.13.camel@pbcl.net>
+In-Reply-To: <1441790471.31676.13.camel@pbcl.net>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.22.254.139]
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Wed, 9 Sep 2015 13:13:43 -0700 (PDT)
-In-Reply-To: <CAMKF1soBdYHWVPKHhgN8GR02xn=0CEPZTUB_Njft3YtG+UMkbA@mail.gmail.com>
-References: <cover.1441552859.git.raj.khem@gmail.com>
-	<1441654013.24871.259.camel@linuxfoundation.org>
-	<CAMKF1soBdYHWVPKHhgN8GR02xn=0CEPZTUB_Njft3YtG+UMkbA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Sep 2015 21:13:43 +0100
-Message-ID: <CAJTo0LYxj2FqssLqdXrK6Y0MEFbMghHMpraYVFp5LDPPGVSy8A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Cc: "Purdie, Richard" <richard.purdie@intel.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Systemd Upgrade
+Subject: Re: [PATCH] kernel-arch.bbclass: Allow 'baremetal' CPUs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,92 +45,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 20:14:05 -0000
-Content-Type: multipart/alternative; boundary=001a11499758abe9c2051f561fc9
+X-List-Received-Date: Wed, 09 Sep 2015 21:27:16 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---001a11499758abe9c2051f561fc9
-Content-Type: text/plain; charset=UTF-8
+SSB3b3VsZCBub3QgY2FsbCBpdCBhIHJlYWwgYnVnLiBUaGUgY29kZSBqdXN0IHRyaWVzIHRvIGlu
+aXRpYWxpemUgQVJDSCAgKHdoaWNoIG1heSBub3QgYmUgdXNlZA0KZm9yIGJhcmVtZXRhbCBzaXR1
+YXRpb25zKS4gVGhlIG5hbWUgIm1hcF9rZXJuZWxfYXJjaCIgaXMgYSBiaXQgbWlzbGVhZGluZw0K
+aW4gdGhpcyAoYmFyZW1ldGFsKSBjb250ZXh0Lg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdl
+LS0tLS0NCj4gRnJvbTogUGhpbCBCbHVuZGVsbCBbbWFpbHRvOnBiQHBiY2wubmV0XQ0KPiBTZW50
+OiBXZWRuZXNkYXksIFNlcHRlbWJlciA5LCAyMDE1IDI6MjEgQU0NCj4gVG86IEJ5c3RyaWNreSwg
+SnVybw0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgUHVy
+ZGllLCBSaWNoYXJkDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBrZXJuZWwtYXJj
+aC5iYmNsYXNzOiBBbGxvdyAnYmFyZW1ldGFsJyBDUFVzDQo+IA0KPiBPbiBUdWUsIDIwMTUtMDkt
+MDggYXQgMTg6MTkgLTA3MDAsIEp1cm8gQnlzdHJpY2t5IHdyb3RlOg0KPiA+IEF2b2lkICJFUlJP
+UjogY2Fubm90IG1hcCA8Y3B1PiB0byBhIGxpbnV4IGtlcm5lbCBhcmNoaXRlY3R1cmUiDQo+ID4g
+Tm90IGJlaW5nIGFibGUgdG8gbWFwIGEgQ1BVIHRvIGEga2VybmVsIGFyY2hpdGVjdHVyZSBzaG91
+bGQgbm90IGJlDQo+ID4gdHJlYXRlZCBhcyBhbiBlcnJvciB3aGVuIGJ1aWxkaW5nIGJhcmVtZXRh
+bCB0b29sY2hhaW5zIGZvciBDUFUgPGNwdT4NCj4gPiB3aGljaCBkb2VzIG5vdCBoYXZlIGEga2Vy
+bmVsIHNvdXJjZSB0cmVlLg0KPiANCj4gV2h5IGlzIG1hcF9rZXJuZWxfYXJjaCgpIGV2ZW4gYmVp
+bmcgaW52b2tlZCBmb3IgYSBiYXJlbWV0YWwNCj4gY29uZmlndXJhdGlvbj8gIFRoYXQgc291bmRz
+IGxpa2UgaXQgaXMgdGhlIHJlYWwgYnVnIGhlcmUuDQo+IA0KPiBwLg0KPiANCg0K
 
-On 8 September 2015 at 19:09, Khem Raj <raj.khem@gmail.com> wrote:
-
-> this patch fixed it during autoruns, but date test is common for
-> sysvint and systemd it ignores the outputs of systemctl cmds
-> so in theory it will work on both sysvinit and systemd. Although its not
-> elegant
->
-> diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime/date.py
-> index 97e8ee4..f73ad1c 100644
-> --- a/meta/lib/oeqa/runtime/date.py
-> +++ b/meta/lib/oeqa/runtime/date.py
-> @@ -7,6 +7,7 @@ class DateTest(oeRuntimeTest):
->     @testcase(211)
->     @skipUnlessPassed("test_ssh")
->     def test_date(self):
-> +        (status, output) = self.target.run('systemctl stop
-> systemd-timesyncd')
->         (status, output) = self.target.run('date +"%Y-%m-%d %T"')
->         self.assertEqual(status, 0, msg="Failed to get initial date,
-> output: %s" % output)
->         oldDate = output
-> @@ -21,3 +22,4 @@ class DateTest(oeRuntimeTest):
->
->         (status, output) = self.target.run('date -s "%s"' % oldDate)
->         self.assertEqual(status, 0, msg="Failed to reset date, output:
-> %s" % output)
-> +        (status, output) = self.target.run('systemctl start
-> systemd-timesyncd')
->
-
-Thanks for looking at this, I've rewritten this to use setup/teardown
-methods and check that systemd is being used and will send the patch
-shortly.
-
-Ross
-
---001a11499758abe9c2051f561fc9
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 8 September 2015 at 19:09, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":1vr" class=3D"a3s" st=
-yle=3D"overflow:hidden">this patch fixed it during autoruns, but date test =
-is common for<br>
-sysvint and systemd it ignores the outputs of systemctl cmds<br>
-so in theory it will work on both sysvinit and systemd. Although its not el=
-egant<br>
-<br>
-diff --git a/meta/lib/oeqa/runtime/date.py b/meta/lib/oeqa/runtime/date.py<=
-br>
-index 97e8ee4..f73ad1c 100644<br>
---- a/meta/lib/oeqa/runtime/date.py<br>
-+++ b/meta/lib/oeqa/runtime/date.py<br>
-@@ -7,6 +7,7 @@ class DateTest(oeRuntimeTest):<br>
-=C2=A0 =C2=A0 @testcase(211)<br>
-=C2=A0 =C2=A0 @skipUnlessPassed(&quot;test_ssh&quot;)<br>
-=C2=A0 =C2=A0 def test_date(self):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&#39;syst=
-emctl stop systemd-timesyncd&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&#39;date =
-+&quot;%Y-%m-%d %T&quot;&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(status, 0, msg=3D&quot;Failed =
-to get initial date,<br>
-output: %s&quot; % output)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 oldDate =3D output<br>
-@@ -21,3 +22,4 @@ class DateTest(oeRuntimeTest):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&#39;date =
--s &quot;%s&quot;&#39; % oldDate)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.assertEqual(status, 0, msg=3D&quot;Failed =
-to reset date, output:<br>
-%s&quot; % output)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (status, output) =3D self.target.run(&#39;syst=
-emctl start systemd-timesyncd&#39;)</div></blockquote></div><br>Thanks for =
-looking at this, I&#39;ve rewritten this to use setup/teardown methods and =
-check that systemd is being used and will send the patch shortly.</div><div=
- class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div=
->
-
---001a11499758abe9c2051f561fc9--
