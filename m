@@ -1,45 +1,47 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
-	[209.85.220.51])
-	by mail.openembedded.org (Postfix) with ESMTP id CE2A076DF8
+Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
+	[209.85.220.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A68B76FD5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 16:02:59 +0000 (UTC)
-Received: by padhy16 with SMTP id hy16so14221795pad.1
+	Wed,  9 Sep 2015 16:08:51 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so14520539pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 09:02:59 -0700 (PDT)
+	Wed, 09 Sep 2015 09:08:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=subject:mime-version:content-type:from:in-reply-to:date:cc
 	:message-id:references:to;
-	bh=1VAoOWBqgSSstErokT4+WGhecpGIYKxIhUGe9sTPbis=;
-	b=Vy/U3JRYVomBegJV16RWTy1I3FWlhM5/C70jd9GvXfdnOWpHnFAqkb0tCNo8C6j4Cp
-	ZOL/VWsZIw1ZUyXSOwTL7HkT977c0D2aCqEYy4sx4O07i3DLooBP5jhsV05BXnY0p5Y+
-	naE4GKbmf0YGtiz0wkZDE4ZLVDQ4q6iuL24Psb2EN2oQRacFyD4ViwDBNmeuIqnCy5ap
-	MKHXZxMO3EZM+dkTcQ9j8dwxfafkWaF6v25JCxotgL22Ck5wlLSQ206ZfpaMCYxQBiIz
-	PGcu/+3/N4EbhdLvogoCWNzoh663xXSpFHJmmOq1tTML78/eQKXbmSLqCQIV0NE+sj68
-	Xk3Q==
-X-Received: by 10.67.22.99 with SMTP id hr3mr62004109pad.41.1441814579770;
-	Wed, 09 Sep 2015 09:02:59 -0700 (PDT)
+	bh=Tawgg4emxN1ib1eo+F6Svx1Dx1wJr2C07c9pyiNroQU=;
+	b=t9CnAukKu9g8hAzftWpXRfB8Teb1GB6hxMKtLwslrqkYX2swaGN3bRlyzxT3F4I5yj
+	MPuxneoNHA2UM03Rcsst4fPpjx4+H4YQHIlMO5vFk8hjmLH/pzjO4jkShfZQ/PnVjaSI
+	M6FdtY9uRBNkPIItPUG+2Xh6yodKnY09t2GLsfpQFskRjRD8DitUwlKlCzD5NuqGFUji
+	UzF8lHoRKByN2j71iWdaIPQmylAY6pa92guuhQDAe7xvTBgEjh3c2NWmlE0TFW++MnPv
+	n208PTOW8QK7bPNP04ku9AdszFIHzGl5xOMFKcR0D/lfVBUcbNSDpDShdFBVVw4yyVUI
+	DEgA==
+X-Received: by 10.68.203.66 with SMTP id ko2mr71460262pbc.81.1441814932335;
+	Wed, 09 Sep 2015 09:08:52 -0700 (PDT)
 Received: from ?IPv6:2601:646:8601:4580:a80f:97a4:8ac:b5c7?
 	([2601:646:8601:4580:a80f:97a4:8ac:b5c7])
 	by smtp.gmail.com with ESMTPSA id
-	xv12sm7491123pac.38.2015.09.09.09.02.58
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Sep 2015 09:02:59 -0700 (PDT)
+	gw3sm7491723pbc.46.2015.09.09.09.08.50
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 09 Sep 2015 09:08:51 -0700 (PDT)
 Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
 X-Pgp-Agent: GPGMail 2.5.1
 From: Khem Raj <raj.khem@gmail.com>
-X-Priority: 3 (Normal)
-In-Reply-To: <64065.10.252.58.194.1441794205.squirrel@linux.intel.com>
-Date: Wed, 9 Sep 2015 09:02:50 -0700
-Message-Id: <32176B14-814F-40D7-A452-86D835E38FCB@gmail.com>
+In-Reply-To: <CAP71WjzWEfWq-7NL3Qu-HVCHFXCvrDK=H06qRcSkPZajO4ztUw@mail.gmail.com>
+Date: Wed, 9 Sep 2015 09:08:45 -0700
+Message-Id: <8FF572D7-97AF-4763-99E4-879EEC05FC62@gmail.com>
 References: <cover.1441753511.git.raj.khem@gmail.com>
-	<0b794c84466fef2ece1269e01820503b4bce0b52.1441753511.git.raj.khem@gmail.com>
-	<63981.10.252.58.194.1441792979.squirrel@linux.intel.com>
-	<64065.10.252.58.194.1441794205.squirrel@linux.intel.com>
-To: alexander.kanavin@linux.intel.com
+	<762ad7bc4268386c2a29ea6c23bc8094fd52d160.1441753511.git.raj.khem@gmail.com>
+	<c89abf81c424d620a687f0c7bda8f74fcc0f5faa.1441753511.git.raj.khem@gmail.com>
+	<CAP71Wjw8W61iC_anLZCb2BFQxo0uxTRgKNnHpWYAJn-1xpizow@mail.gmail.com>
+	<92D7A469-14E6-4E5F-835E-C90FF3300346@gmail.com>
+	<CAP71WjzWEfWq-7NL3Qu-HVCHFXCvrDK=H06qRcSkPZajO4ztUw@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
 X-Mailer: Apple Mail (2.2104)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/16] slang: Fix namespace conflict vis-a-vis posix_close
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 11/16] xorg-driver: Fix logical && with bitwise and operation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,78 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 16:03:01 -0000
-X-Groupsio-MsgNum: 70921
+X-List-Received-Date: Wed, 09 Sep 2015 16:08:54 -0000
+X-Groupsio-MsgNum: 70922
 Content-Type: multipart/signed;
-	boundary="Apple-Mail=_660ECE92-F543-46F3-8BA6-1E8199B2B157";
+	boundary="Apple-Mail=_F6B8F87E-A9DC-4139-A711-361300C41742";
 	protocol="application/pgp-signature"; micalg=pgp-sha1
 
---Apple-Mail=_660ECE92-F543-46F3-8BA6-1E8199B2B157
+--Apple-Mail=_F6B8F87E-A9DC-4139-A711-361300C41742
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain;
-	charset=windows-1252
+	charset=utf-8
 
 
-> On Sep 9, 2015, at 3:23 AM, alexander.kanavin@linux.intel.com wrote:
+> On Sep 9, 2015, at 1:07 AM, Nicolas Dechesne =
+<nicolas.dechesne@linaro.org> wrote:
 >=20
->>> +Exposed while compiling on musl
->>> +
->>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
->>> +---
->>> +Upstream-Status: Pending
+> On Wed, Sep 9, 2015 at 9:52 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>>> why are you adding a patch sent to freedreno mailing list (so I =
+would
+>>> assume against xf86-video-freedreno), in the xf86-video-omap recipe,
+>>> is that a typo?
 >>=20
->> If this has been submitted upstream (as you say in the cover letter =
-for
->> this patchset), please provide a link for the submission in the
->> upstream-status. We can't afford to let the amount of 'Pending' =
-patches in
->> oe-core grow indefinitely.
+>> thats where it was sent to. since thats the same list omap driver is =
+using as well.
 >>=20
->> Same goes for other patches in this set.
+>>=20
 >=20
+> hmm. really? I can't find any info about that. how did you figure this =
+out?
+
+well I wanted to get Rob=E2=80=99s attention doesnt matter which mailing =
+list goes :)
+
 >=20
-> Actually scratch the above, it was too hasty. What I really wanted to =
-say
-> is that, ideally, you should first submit the patches upstream, have a
-> prooflink of that, and only then send them here with that proof in the
-> upstream-status. There are already too many eternal 'Pending' patches =
-in
-> oe-core that never made it to upsream. We can't afford more of them.
-
-There is process for that. The upstreaming of a patch is an independent =
-thing thats why pending status
-is agreed upon probably it predates you in OE contributor's community.
-since it deals with different community, and usually we carry a patch =
-for a release or two
-and then it gets merged or redone and we drop it. Many a times with =
-recipe upgrades you will
-see patches get dropped for these reasons. As integrators, the =
-engagement of rule is a bit different for us. since every component =
-community has its own interworking and nature, this way we make progress =
-while upstreaming takes its own course. This process is followed by all =
-major distro=92s as well including OE.
-Now if we want to step ahead and change a policy to first submit patch =
-upstream then it will be accepted in OE
-thats a fine idea, however that requires a wider discussion community =
-wide and also needs tools to reject
-patches with out upstream submission. It also has downside where a =
-distro developer may not participate upstream
-and hence with not enough momentum things will stall and people may =
-prefer to carry own forks, so we have
-to make it less burdensome. We can not go by grey area where we say this =
-patch should be first submitted upstream and this we can accept without =
-submission since that will put extra burden on maintainers of OE for =
-deciding on code thats they may not be experts in.
-
-So I encourage you to formulate a policy and make a proposal to =
-community and get everyone on board in changing
-the policy OE wide.
-
-Cheers
--Khem
+> Note: I saw your patch on the freedreno ML, and actually the patch
+> also exists on the -freedreno driver as well... probably that file was
+> just copy/pasted.. in any case, from your email sent to freedreno it's
+> not obvious at all that you are targeting -omap driver. so if you can
+> confirm that -omap patches need to be sent on the freedreno list, then
+> at least you might want to resend with [omap] in subject to avoid
+> confusion..  I will test/submit the same patch for -freedreno on my
+> side.
 
 
---Apple-Mail=_660ECE92-F543-46F3-8BA6-1E8199B2B157
+--Apple-Mail=_F6B8F87E-A9DC-4139-A711-361300C41742
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment;
 	filename=signature.asc
@@ -134,9 +108,9 @@ Content-Description: Message signed with OpenPGP using GPGMail
 -----BEGIN PGP SIGNATURE-----
 Comment: GPGTools - https://gpgtools.org
 
-iEYEARECAAYFAlXwWDIACgkQuwUzVZGdMxTZMgCffgignfGygTn1mVH+Py/FBATX
-708An2aqBx1FoXGV2hKz34GD+IRY0U3h
-=rd1E
+iEYEARECAAYFAlXwWZEACgkQuwUzVZGdMxRdXACfQEljX0M4FNn19W4LyM4HTS2v
+hUYAoI107c/megxLHwPVkWkdn9Pv7iD+
+=ClPQ
 -----END PGP SIGNATURE-----
 
---Apple-Mail=_660ECE92-F543-46F3-8BA6-1E8199B2B157--
+--Apple-Mail=_F6B8F87E-A9DC-4139-A711-361300C41742--
