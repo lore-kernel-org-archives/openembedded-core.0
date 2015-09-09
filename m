@@ -1,47 +1,39 @@
-Return-Path: <umut.tezduyar@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C8E96763CE
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
+	[209.85.192.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F5E2763CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 07:33:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 2A30518210;
-	Wed,  9 Sep 2015 09:33:46 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id YXRTNQEvwMLp; Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
-Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
-	by bastet.se.axis.com (Postfix) with ESMTP id 5AC54181FF;
-	Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
-Received: from boulder.se.axis.com (localhost [127.0.0.1])
-	by postfix.imss71 (Postfix) with ESMTP id 148C11224;
-	Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
-Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
-	by boulder.se.axis.com (Postfix) with ESMTP id 0810B633;
-	Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
-Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
-	by seth.se.axis.com (Postfix) with ESMTP id 061D13E049;
-	Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
-Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
-	([10.0.5.75]) with mapi; Wed, 9 Sep 2015 09:33:44 +0200
-From: Umut Tezduyar Lindskog <umut.tezduyar@axis.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Sep 2015 09:33:43 +0200
-Thread-Topic: [OE-core] 32 bit time_t in openembedded
-Thread-Index: AdDq0dsrRyVy6cNYT/+OeO/9DFCwhg==
-Message-ID: <F59199FE-4303-4C23-9749-A0567223EE55@axis.com>
-References: <D2E79685-E16A-4941-BB7B-E7F21E250DD2@axis.com>
-	<CAJTo0LaAUgn5i==+JcS5Xd3sFP8jCMWG2M-9ptnhh3j-hsipEw@mail.gmail.com>
-In-Reply-To: <CAJTo0LaAUgn5i==+JcS5Xd3sFP8jCMWG2M-9ptnhh3j-hsipEw@mail.gmail.com>
-Accept-Language: en-US, sv-SE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-acceptlanguage: en-US, sv-SE
+	Wed,  9 Sep 2015 07:44:58 +0000 (UTC)
+Received: by qgx61 with SMTP id 61so1114456qgx.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 09 Sep 2015 00:44:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=JqaVPsWwCa9ANaHRJecPyxKM18eudjC1jtna2cmyUbo=;
+	b=cSLz/Lamgyf3jVzK7Bi5JXrPcMLel6zNSOVrnZOAoDCMKG8ZpTCPesHKO6ecKp3luw
+	jgukRcuIT9WxfaGBwgyjU1cc46K299F5JKM3YGR1RgLL128O7Y/f0uC27YECDFxGNokb
+	hyjLsWzW9yVnvoXrODFY7/ORDB6f7iUSuVKo3DDbCU5IocxijJrrCQg1bAZhw0k8mZTo
+	b7Kt37I1f5imLfOgKU/TLO1XjHmATRWHX7lmlLBLfNY+TVb0kZ35bCsOeqdtAK6y7JNF
+	3vaOJtfmOAFH2xl8AGpQ249Oxgz3a1setfwH9EOy83K+P6Dh5wxTgSns1wFEUjVf78o2
+	sB8g==
+X-Gm-Message-State: ALoCoQkqLMbe5YhZT6oERAVLPFJI4tmf1plHK7sYpH4vcjquShL9uS0uB4jfgzuBSh4z+VcGksOy
+X-Received: by 10.140.151.76 with SMTP id 73mr44088556qhx.61.1441784698735;
+	Wed, 09 Sep 2015 00:44:58 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
+Received: by 10.140.98.9 with HTTP; Wed, 9 Sep 2015 00:44:39 -0700 (PDT)
+In-Reply-To: <c89abf81c424d620a687f0c7bda8f74fcc0f5faa.1441753511.git.raj.khem@gmail.com>
+References: <cover.1441753511.git.raj.khem@gmail.com>
+	<762ad7bc4268386c2a29ea6c23bc8094fd52d160.1441753511.git.raj.khem@gmail.com>
+	<c89abf81c424d620a687f0c7bda8f74fcc0f5faa.1441753511.git.raj.khem@gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Wed, 9 Sep 2015 09:44:39 +0200
+Message-ID: <CAP71Wjw8W61iC_anLZCb2BFQxo0uxTRgKNnHpWYAJn-1xpizow@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: 32 bit time_t in openembedded
+Subject: Re: [PATCH 11/16] xorg-driver: Fix logical && with bitwise and operation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,28 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 07:33:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 09 Sep 2015 07:45:01 -0000
+Content-Type: text/plain; charset=UTF-8
 
-SGkgUm9zcywNCg0KV2hhdCBJIGFtIG1vcmUgYWZ0ZXIgaXMgdHJ5aW5nIHRvIGNvbnZpbmNlIHVw
-c3RyZWFtIHN5c3RlbWQgdGhhdCB0aGlzIG1pZ2h0IGJlIGEgcG90ZW50aWFsIHByb2JsZW0gd2l0
-aGluIHRoZSBlbWJlZGRlZCB3b3JsZC4NCg0KQ29uc2lkZXJpbmcgdGhhdCBkYXRlIG1pZ2h0IGdl
-dCBzZXQgYnkgYSBtYWxpY2lvdXMgbnRwIHNlcnZlci4gSW4gdGhhdCBjYXNlIHVzZXIgc3BhY2Ug
-c3RvcHMgYm9vdGluZyBmb3IgdXMgYW5kIEkgZ3Vlc3MgbXkgdW5kZXJzdGFuZGluZyBpcyBzYW1l
-IHRoaW5nIHdpbGwgaGFwcGVuIGZvciBvcGVuZW1iZWRkZWQgc3RhY2sgdG9vLiBJc27igJl0IHRo
-aXMgYSBjb25jZXJuIHRvIGFueW9uZT8NCg0KVW11dA0KDQoNCj4gT24gU2VwIDgsIDIwMTUsIGF0
-IDI6MDQgUE0sIEJ1cnRvbiwgUm9zcyA8cm9zcy5idXJ0b25AaW50ZWwuY29tPiB3cm90ZToNCj4g
-DQo+IA0KPiBPbiA4IFNlcHRlbWJlciAyMDE1IGF0IDEyOjQ0LCBVbXV0IFRlemR1eWFyIExpbmRz
-a29nIDx1bXV0LnRlemR1eWFyQGF4aXMuY29tPiB3cm90ZToNCj4gVXBzdHJlYW0gc3lzdGVtZOKA
-mXMgYW5zd2VyIGlzIHByZXR0eSBtdWNoIHVzaW5nIDY0IGJpdHMgdGltZV90IHN0cnVjdHVyZSBi
-dXQgdGhpcyBpcyByZWxhdGl2ZWx5IGV4cGVuc2l2ZSBvbiAzMiBiaXRzIElTQS4NCj4gDQo+IFdo
-YXQgcHJvYmxlbSBhcmUgeW91IHRyeWluZyB0byBzb2x2ZSBoZXJlIC0gdGhlIGdlbmVyYWwgcHJv
-YmxlbSBvZiAiSSB3YW50IG15IGhhcmR3YXJlIHRvIHdvcmsgYWZ0ZXIgMjAzOCIgb3IgIm15IFJU
-QyBpcyBzdHVwaWQiPyAgRm9yIHRoZSBmb3JtZXIgeW91J2xsIHBvdGVudGlhbGx5IGJlIHdyaXRp
-bmcgYSBuZXcgQUJJIHRvIGludHJvZHVjZSBhIDY0LWJpdCB0aW1lX3QgKHRoZW4gdXBkYXRpbmcg
-dGhlIGtlcm5lbCwgbGliYywgdG9vbGNoYWluLi4uKSwgZm9yIHRoZSBsYXR0ZXIgY2FuJ3QgeW91
-IGhhdmUgc29tZSBrZXJuZWwgY29kZSB0aGF0IGNsYW1wcyB0aGUgcmFuZG9tIHRpbWVzIG9uIGlu
-aXRpYWxpc2F0aW9uIHRvIGJlIDwyMDM4Pw0KPiANCj4gUm9zcw0KDQo=
+On Wed, Sep 9, 2015 at 1:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>  ...put_dpms-Replace-logical-with-bitwise-ope.patch | 31 ++++++++++++++++++++++
+>  .../xorg-driver/xf86-video-omap_0.4.3.bb           |  2 ++
+>  2 files changed, 33 insertions(+)
+>  create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
+>
+> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch b/meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
+> new file mode 100644
+> index 0000000..41e77d3
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
+> @@ -0,0 +1,31 @@
+> +From fc653ca3b36435aea281ae409fb90f85e1bc0d81 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Mon, 7 Sep 2015 08:44:13 +0000
+> +Subject: [freedreno][PATCH] drmmode_output_dpms: Replace logical && with bitwise &
+> + operation
+
+why are you adding a patch sent to freedreno mailing list (so I would
+assume against xf86-video-freedreno), in the xf86-video-omap recipe,
+is that a typo?
 
