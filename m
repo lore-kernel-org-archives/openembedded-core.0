@@ -1,40 +1,20 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 967577423D;
-	Wed,  9 Sep 2015 15:14:59 +0000 (UTC)
-Received: by igbkq10 with SMTP id kq10so106950732igb.0;
-	Wed, 09 Sep 2015 08:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=ZmRFG1J9VNy1iZ+doJCVXKegXsPvSbs4p2PQsD2qjbo=;
-	b=DeIVxQtItWc2IlA19o9XCLV2yZtWEkSS0UCoz2uP9CjGISGzSKXhZvWJEcbRpHD0W1
-	vv2W/qjPgumLHdTzLPuDCbyjs17Ga1C7Vgpu5OEkSQtuu6dNLtGNuuosNYEf1Cue/XQZ
-	sgaSKznfVaJAzunMTYRi4kIsRh/Z2CAjPL0WJ8RhsTr8iNVVuZBMOJY703sIM7gYmPgA
-	2gCFduIO/kytM6VBw/+Pfr58MzpuRKVhjKyZNpoTo/mC936QV2efb1N1Z7fYDnyof3QJ
-	3+TQSYPtTRvLdSY4Ox+q9En8RVYxM9I6U94tR5zv1G4UnBLw7Z2yEjJe6A3QZBGHyfrO
-	fS5Q==
-MIME-Version: 1.0
-X-Received: by 10.50.43.193 with SMTP id y1mr49586003igl.64.1441811699356;
-	Wed, 09 Sep 2015 08:14:59 -0700 (PDT)
-Received: by 10.36.98.5 with HTTP; Wed, 9 Sep 2015 08:14:59 -0700 (PDT)
-In-Reply-To: <20150909145531.GA2390@jama>
-References: <20150908155801.GD2381@jama> <20150908170942.GE2381@jama>
-	<CALbNGRQYuQrGc_3Bf0y5CVXHHb3uFDVaLgPcfeAKYCau7X1u2g@mail.gmail.com>
-	<20150908231037.GH2381@jama>
-	<CALbNGRTUBBBni8YGkpVx4=HQ97Lz8PzmZo129efUteXhYbEvFQ@mail.gmail.com>
-	<20150909145531.GA2390@jama>
-Date: Wed, 9 Sep 2015 17:14:59 +0200
-Message-ID: <CALbNGRQ9px7rNf_uYdyynHcDAHHDr-vBbh0y8SAObnMcARbORA@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, wrong PACKAGE_ARCHs 2015-09-08
+Return-Path: <cristian.iorga@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id A51B176420
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Sep 2015 15:36:27 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 09 Sep 2015 08:36:16 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,497,1437462000"; d="scan'208";a="801557609"
+Received: from sentry.rb.intel.com ([10.237.105.63])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Sep 2015 08:36:10 -0700
+From: Cristian Iorga <cristian.iorga@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Sep 2015 18:36:50 +0300
+Message-Id: <1441813010-31215-1-git-send-email-cristian.iorga@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] connman: upgrade to 1.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,85 +27,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 15:15:02 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 Sep 2015 15:36:28 -0000
 
-On Wed, Sep 9, 2015 at 4:55 PM, Martin Jansa <martin.jansa@gmail.com> wrote=
-:
-> On Wed, Sep 09, 2015 at 09:14:20AM +0200, Andreas M=C3=BCller wrote:
->> On Wed, Sep 9, 2015 at 1:10 AM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
->> > On Tue, Sep 08, 2015 at 11:39:20PM +0200, Andreas M=C3=BCller wrote:
->> >> On Tue, Sep 8, 2015 at 7:09 PM, Martin Jansa <martin.jansa@gmail.com>=
- wrote:
->> >> > ERROR: polkit-group-rule-datetime different signature for task do_c=
-onfigure.sigdata between qemux86copy and qemuarm
->> >> > runtaskdeps changed from ['polkitpolkit-group-rule-datetime.bb.do_p=
-atch', 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1.bb.=
-do_populate_sysroot:virtual:native'] to ['polkitpolkit-group-rule-datetime.=
-bb.do_patch', 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.=
-2.1.bb.do_populate_sysroot:virtual:native']
->> >> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-e=
-xtended/polkit/polkit_0.113.bb.do_populate_sysroot with hash 284d6bbd28ea72=
-3c466e0c5c88a09a50
->> >> I missed many of these - because I am not up to date on oe-core (did
->> >> not want to loose midori for my images) - will change that soon. For
->> >> this type of error: is it correct that it is caused by allarch recipe=
-s
->> >> depending on machine/architecture specific recipes?
->> >
->> > close, the important part is few lines bellow:
->> >
->> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-exte=
-nded/polkit/polkit_0.113.bb.do_populate_sysroot
->> > with hash
->> > 284d6bbd28ea723c466e0c5c88a09a50
->> >  changed to
->> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-exte=
-nded/polkit/polkit_0.113.bb.do_populate_sysroot
->> > with hash
->> > 06cf7139c6588d047fa11444d88175ab
->> > Hash for dependent task polkitpolkit_0.113.bb.do_populate_sysroot
->> > changed from 284d6bbd28ea723c466e0c5c88a09a50 to
->> > 06cf7139c6588d047fa11444d88175ab
->> >
->> > so allarch recipe polkitpolkit-group-rule-datetime is depending on
->> > TUNE_PKGARCH-specific recipe polkit (on it's do_populate_sysroot task
->> > which is expected to be different for diferent TUNE_PKGARCHs)
->> >
->> So to fix we could
->>
->> 1. either remove dependencies or
->> 2. remove allarch or
->> 3. ??
->
-> 3a) add such dependency to SIGGEN_EXCLUDERECIPES_ABISAFE if it's
-> completely ABI safe (recipes depending on it shouldn't get rebuild after
-> any changes to it)
-> 3b) add such dependency to SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS to exclude it
-> only for given recipe (in this case by saying that polkit-groups doesn't
-> need rebuild when polkit recipe is changed in any way)
->
->> For e.g the polkit-groups 1 seems not possible what about package
->> feeds when removing allarch?
->
-> I think in this case 3a) and 3b) don't apply as well, so easiest and
-> safest option is 2), package feeds should survive that, because new
-> package will have higher version (when PRserv is used) and also higher
-> package arch priority (all is lowest). Even the sysroot should now
-> survive ok, with new functionality which "uninstalls" staged file for
-> unreachable stamps.
->
-> Also polkit-groups build doesn't take very long, so we don't mind to
-> build it once per TUNE_PKGARCH instead of building it as allarch only
-> once but with unsafe deps.
->
-Thanks a lot and I agree with removing allarch for this case. Hope I
-have the courage to update oe-core this weekend :)
+Bugfixes.
 
-Ah - one further question for tests: The allarch signature change is
-detected only when building multiple machines - correct?
+build-create-dirs-before-putting-files-in-them.patch
+patch removed, patch included upstream.
 
-Andreas
+Signed-off-by: Cristian Iorga <cristian.iorga@intel.com>
+---
+ ...-create-dirs-before-putting-files-in-them.patch | 46 ----------------------
+ .../connman/{connman_1.29.bb => connman_1.30.bb}   |  5 +--
+ 2 files changed, 2 insertions(+), 49 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
+ rename meta/recipes-connectivity/connman/{connman_1.29.bb => connman_1.30.bb} (58%)
+
+diff --git a/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch b/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
+deleted file mode 100644
+index 260d68d..0000000
+--- a/meta/recipes-connectivity/connman/connman/build-create-dirs-before-putting-files-in-them.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-When automake's dependency tracking is enabled a mirror of the source tree is
+-created in the build directory as it writes the dependency information.
+-
+-However, if dependency tracking is disabled on an out-of-tree build this mirror
+-isn't created and it's possible that the .service files can't be written as the
+-directories they go into haven't been created yet (racing against the compiles,
+-which do create directories).
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+----
+- Makefile.am | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 507736d..bc3c695 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -410,9 +410,11 @@ MAINTAINERCLEANFILES = Makefile.in \
+-
+-
+- src/builtin.h: src/genbuiltin $(builtin_sources)
+-+	$(AM_V_AT)$(MKDIR_P) $(dir $@)
+- 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_modules) > $@
+-
+- vpn/builtin.h: src/genbuiltin $(builtin_vpn_sources)
+-+	$(AM_V_AT)$(MKDIR_P) $(dir $@)
+- 	$(AM_V_GEN)$(srcdir)/src/genbuiltin $(builtin_vpn_modules) > $@
+-
+- src/connman.conf: src/connman-dbus.conf src/connman-polkit.conf
+-@@ -449,9 +451,11 @@ do_subst = $(AM_V_GEN)$(SED) \
+- 		-e 's,[@]sysconfdir[@],$(sysconfdir),g'
+-
+- %.service: %.service.in Makefile
+-+	$(AM_V_AT)$(MKDIR_P) $(dir $@)
+- 	$(do_subst) < $< > $@
+-
+- scripts/connman: scripts/connman.in Makefile
+-+	$(AM_V_at)$(MKDIR_P) scripts
+- 	$(do_subst) < $< > $@
+-
+- include/connman/version.h: include/version.h
+---
+-2.1.4
+-
+diff --git a/meta/recipes-connectivity/connman/connman_1.29.bb b/meta/recipes-connectivity/connman/connman_1.30.bb
+similarity index 58%
+rename from meta/recipes-connectivity/connman/connman_1.29.bb
+rename to meta/recipes-connectivity/connman/connman_1.30.bb
+index 3bcd778..8c47353 100644
+--- a/meta/recipes-connectivity/connman/connman_1.29.bb
++++ b/meta/recipes-connectivity/connman/connman_1.30.bb
+@@ -3,11 +3,10 @@ require connman.inc
+ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://add_xuser_dbus_permission.patch \
+-            file://build-create-dirs-before-putting-files-in-them.patch \
+             file://connman \
+             "
+-SRC_URI[md5sum] = "5283884504860f5fba2e6f489f517293"
+-SRC_URI[sha256sum] = "2a5a69693566f7fd59b2e677fa89356ada6d709998aa665caef8707b1e7a8594"
++SRC_URI[md5sum] = "4a3efdbd6796922db9c6f66da57887fa"
++SRC_URI[sha256sum] = "5c5e464bacc9c27ed4e7269fb9b5059f07947f5be26433b59212133663ffa991"
+ 
+ RRECOMMENDS_${PN} = "connman-conf"
+ 
+-- 
+2.1.4
+
 
