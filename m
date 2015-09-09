@@ -1,41 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id C0E3B763F8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D4463763F8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 19:28:17 +0000 (UTC)
-Received: by pacex6 with SMTP id ex6so18814016pac.0
+	Wed,  9 Sep 2015 19:29:56 +0000 (UTC)
+Received: by qgt47 with SMTP id 47so17087739qgt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 12:28:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=wGg05WqzELy8TnEVrGRQ9tyeScwUKKVMj3g3RVZygoA=;
-	b=lI5QWdiGYKhFseTrcIKJzlD0khoUF+5sUduzp3dJ93s7r08+tX54ZZptUENkr6sYDs
-	CkGxcIb1z6g4l9uj78nb/rMq1wV93C7ojfyranaHrk9ykkICtrtLIMyPERk5YxixfXKO
-	yl6qu7UkutMwysQHY1dFdWKQRu0/xluSxA3GISmj0JTc8BM7+zJGNAM44wI6YghwLZO8
-	bywfajLj2U1EOO5bihBsTGpWxj+hQrZI0z5B1nk0rUUEeEkcPxUtWrx2ihSLO+qPWVEk
-	MpsKlREEfOerUXm9L7+hCbgS0QML3NxJo9BhktOAEXdrI+FLLeQqSAfZpIRvwCNaawuv
-	aoGA==
-X-Received: by 10.67.8.106 with SMTP id dj10mr64581914pad.123.1441826897328;
-	Wed, 09 Sep 2015 12:28:17 -0700 (PDT)
-Received: from ?IPv6:2601:647:4c02:370d:984a:11bb:da12:b894?
-	([2601:647:4c02:370d:984a:11bb:da12:b894])
-	by smtp.gmail.com with ESMTPSA id
-	di5sm7869090pdb.76.2015.09.09.12.28.16
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Sep 2015 12:28:16 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LaCUeR2pt6d2=yrTtdfJsd1AOd4iUeZMXOuOm_ROvcsWg@mail.gmail.com>
-Date: Wed, 9 Sep 2015 12:28:11 -0700
-Message-Id: <29BB45DC-8BCA-4559-AD0E-BFE1FB3E5A03@gmail.com>
+	Wed, 09 Sep 2015 12:29:56 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=x4AYoxKTolI1LfpTxJ2XwefCN916DSMLesxl/cZGoRA=;
+	b=NcFxnYz7GQFKGaTUxaEXPl0v02hcp54Ob5j3iTz0NQr4HfOfE/bFGPGpVdHkopMgyS
+	dN+IsfZh0gURSJEjXGYaXj+2aPHFr0T++nYbqAqHPQSWBYTk4pLsSxnPmk1f3OnQfs9R
+	fUnOYEkj1EN1GIdTJ0G3G0SnnmlAibVN9G0PTBuFZ6hrAa5BC1OA3Dng3vPpc9wgTxmG
+	MUUEJeSnfoZGIJw8oxiTrvOAOESoYSHPApb6pxy8WdegSdHElvlGnlbMuyMjQMtlwJeC
+	s6WxcK0JGYn6DXWAUAGlSSxM2243KyT4xBL4J1Dxzw1dhwvvMwtrNaFqT4nP22FrDogb
+	lV6A==
+X-Gm-Message-State: ALoCoQkB1CoZh1x0N9QpOD6h7/68pBx3YZdLBOx4684p31qV8/XzA8cTFd6qI69UOLvP5RQaangx
+X-Received: by 10.140.93.53 with SMTP id c50mr46483694qge.59.1441826996359;
+	Wed, 09 Sep 2015 12:29:56 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Wed, 9 Sep 2015 12:29:36 -0700 (PDT)
+In-Reply-To: <29BB45DC-8BCA-4559-AD0E-BFE1FB3E5A03@gmail.com>
 References: <cover.1441753511.git.raj.khem@gmail.com>
 	<b4be4eb148b3551893639ac087be2d4e8dcb8eb5.1441753511.git.raj.khem@gmail.com>
 	<CAJTo0LaCUeR2pt6d2=yrTtdfJsd1AOd4iUeZMXOuOm_ROvcsWg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.2104)
+	<29BB45DC-8BCA-4559-AD0E-BFE1FB3E5A03@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 9 Sep 2015 20:29:36 +0100
+Message-ID: <CAJTo0LZMYLk_4FukX37avDAGJS1LcWikdcNNfQ-d5GToq8oQqQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 14/16] webkit-gtk: Backport fix to remove FrameDestructionObserver
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,67 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 19:28:18 -0000
-X-Groupsio-MsgNum: 70928
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_973F9BF7-5D4B-48C9-B4ED-0EA2B3F75BC4";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 09 Sep 2015 19:29:57 -0000
+Content-Type: multipart/alternative; boundary=001a113a63c0f24cb7051f5581ec
 
---Apple-Mail=_973F9BF7-5D4B-48C9-B4ED-0EA2B3F75BC4
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_DBB73B1A-78C9-4C09-95CF-628D271F759C"
+--001a113a63c0f24cb7051f5581ec
+Content-Type: text/plain; charset=UTF-8
 
---Apple-Mail=_DBB73B1A-78C9-4C09-95CF-628D271F759C
+On 9 September 2015 at 20:28, Khem Raj <raj.khem@gmail.com> wrote:
+
+> yes its been fixed in 2.8.x. point me to MUT commit I can cherry-pick
+> locally here and try it out to make it sure.
+>
+
+The webkitgtk upgrade is poky-contrib:ross/mut (a01c056).
+
+Ross
+
+--001a113a63c0f24cb7051f5581ec
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
-Hi Ross
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 9 September 2015 at 20:28, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
+ wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
+yle:solid;padding-left:1ex"><div>yes its been fixed in 2.8.x. point me to M=
+UT commit I can cherry-pick locally here and try it out to make it sure.</d=
+iv></blockquote></div><br>The webkitgtk upgrade is poky-contrib:ross/mut (a=
+01c056).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
+a">Ross</div></div>
 
-> On Sep 9, 2015, at 6:04 AM, Burton, Ross <ross.burton@intel.com> =
-wrote:
->=20
->=20
-> On 9 September 2015 at 00:07, Khem Raj <raj.khem@gmail.com =
-<mailto:raj.khem@gmail.com>> wrote:
-> This helps clang compile webkit without problems. This is a backport
-> from upstream
->=20
-> MUT has an upgrade to webkitgtk 2.8.5, would this version have this =
-fix integrated?
->=20
-
-yes its been fixed in 2.8.x. point me to MUT commit I can cherry-pick =
-locally here and try it out to make it sure.
-
-> Ross
-
-
---Apple-Mail=_DBB73B1A-78C9-4C09-95CF-628D271F759C
-Content-Transfer-Encoding: 7bit
-Content-Type: text/html;
-	charset=us-ascii
-
-<html><head><meta http-equiv="Content-Type" content="text/html charset=us-ascii"></head><body style="word-wrap: break-word; -webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" class="">Hi Ross<div class=""><br class=""><div><blockquote type="cite" class=""><div class="">On Sep 9, 2015, at 6:04 AM, Burton, Ross &lt;<a href="mailto:ross.burton@intel.com" class="">ross.burton@intel.com</a>&gt; wrote:</div><br class="Apple-interchange-newline"><div class=""><div dir="ltr" class=""><div class="gmail_extra"><br class=""><div class="gmail_quote">On 9 September 2015 at 00:07, Khem Raj <span dir="ltr" class="">&lt;<a href="mailto:raj.khem@gmail.com" target="_blank" class="">raj.khem@gmail.com</a>&gt;</span> wrote:<br class=""><blockquote class="gmail_quote" style="margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=":16x" class="a3s" style="overflow:hidden">This helps clang compile webkit without problems. This is a backport<br class="">
-from upstream<br class=""></div></blockquote></div><br class="">MUT has an upgrade to webkitgtk 2.8.5, would this version have this fix integrated?</div><div class="gmail_extra"><br class=""></div></div></div></blockquote><div><br class=""></div><div>yes its been fixed in 2.8.x. point me to MUT commit I can cherry-pick locally here and try it out to make it sure.</div><br class=""><blockquote type="cite" class=""><div class=""><div dir="ltr" class=""><div class="gmail_extra">Ross</div></div>
-</div></blockquote></div><br class=""></div></body></html>
-
---Apple-Mail=_DBB73B1A-78C9-4C09-95CF-628D271F759C--
-
---Apple-Mail=_973F9BF7-5D4B-48C9-B4ED-0EA2B3F75BC4
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXwiE8ACgkQuwUzVZGdMxSrMgCfb+SM/3yueJi6UUxjsG3si8H+
-9RwAnjiSUgORMFSsxoWgSQA9BhpxyiR0
-=CiB6
------END PGP SIGNATURE-----
-
---Apple-Mail=_973F9BF7-5D4B-48C9-B4ED-0EA2B3F75BC4--
+--001a113a63c0f24cb7051f5581ec--
