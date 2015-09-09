@@ -1,42 +1,38 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C03076F8C
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com
+	[209.85.213.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CA787669F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 15:45:37 +0000 (UTC)
-Received: by pacfv12 with SMTP id fv12so13972185pac.2
+	Wed,  9 Sep 2015 15:45:41 +0000 (UTC)
+Received: by igbni9 with SMTP id ni9so17370294igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 08:45:37 -0700 (PDT)
+	Wed, 09 Sep 2015 08:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=subject:mime-version:content-type:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=H71oBqJgMeRyJR3N6C7W5mdHU3Qohm7sZrA/02mw3ME=;
-	b=rqbueHcMYMIozVdml2+S3v7zSig0hzu6D+FPxmdkLqeM8x9uR36389bpMTbYS2SPBx
-	ixntR59rFYePohksagoZJvX3kM4CZl5G+gfg4KPBF9i2KegjKhCUYaai2ryHvHrXfv6U
-	XfSna3hBoU64vg1Mwf+qrh7X2QCMQCiHeUxsLA7v848VZT52UAKhGlEoqdULyCRw6H95
-	IEKSN880hHYnhVTyMV1Xvfplf0hYm6GqAOhH2YxO0fRSd2imj5dKydfJv7BK2BWK1UOX
-	Rr1J4iLJtZABx0FQj1qwdmpQUl85LIsNJjsm4Vru9GpgWMJ/4bewpCIzCvF8/rroPK/D
-	uYRQ==
-X-Received: by 10.68.131.138 with SMTP id om10mr71935063pbb.3.1441813537763;
-	Wed, 09 Sep 2015 08:45:37 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:a80f:97a4:8ac:b5c7?
-	([2601:646:8601:4580:a80f:97a4:8ac:b5c7])
-	by smtp.gmail.com with ESMTPSA id z6sm7436863pbt.51.2015.09.09.08.45.37
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Sep 2015 08:45:37 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
-X-Pgp-Agent: GPGMail 2.5.1
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAC1BbcRjQbd_py7Tv+TPDG2fcsbh9zO6328HX50wXS9KrxHYng@mail.gmail.com>
-Date: Wed, 9 Sep 2015 08:45:31 -0700
-Message-Id: <3AF99B36-C7DE-4648-9562-D0AAFAB95609@gmail.com>
-References: <cover.1441299182.git.raj.khem@gmail.com>
-	<4f42995bde754f4fe83329c59f487810d2324854.1441299182.git.raj.khem@gmail.com>
-	<CAC1BbcRjQbd_py7Tv+TPDG2fcsbh9zO6328HX50wXS9KrxHYng@mail.gmail.com>
-To: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
-X-Mailer: Apple Mail (2.2104)
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] busybox: Use UTMPX instead of legacy UTMP
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=tErRyIDLZvjzQyrBo5gdppGKXS4jqWZhZ1OWjUh8gQo=;
+	b=QbkDY738sDbRF1t+DsTPt2b6qVOliCaisZ8Nz/JSo3bT6vpKu6v5/2NnUOTIqLBJ+U
+	87i8q2nN0ciBf69WB0H8ygiD01pnQH+vqDmuejpo9N3JxIAgEDJ77BvuMYLWFSAUD/Se
+	xRw1nYVt9VnNmrR95T3Wmdl9qrmfxwD3MZbW8WQIr3NTVhW2GmGeDykHwNGTNPB5H2V6
+	F0qS7FZpuA4FbPFnV5ZK3XCMWl4c9AWXa+xnqY5v+xQLsrQmMy5KXFjFl1WAP8BQ79BS
+	gaKlMuF09yYXryFgAalspiN3RfMZXvLk3+55nxwwwhYOpbeyp2bJOIJ8KApdwsSWXeGC
+	Vtzw==
+X-Received: by 10.50.43.170 with SMTP id x10mr51406484igl.68.1441813541395;
+	Wed, 09 Sep 2015 08:45:41 -0700 (PDT)
+MIME-Version: 1.0
+Sender: kergoth@gmail.com
+Received: by 10.79.100.71 with HTTP; Wed, 9 Sep 2015 08:45:22 -0700 (PDT)
+In-Reply-To: <55F02841.6000209@topic.nl>
+References: <1441800588-25217-1-git-send-email-ross.burton@intel.com>
+	<55F02841.6000209@topic.nl>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Wed, 9 Sep 2015 08:45:22 -0700
+X-Google-Sender-Auth: b372ZJ-QT4yOcY7gKVDfnG60ZWU
+Message-ID: <CABcZANmL4xJbs1yctpMX2jXoUBojCuQ+waD-+Qr=hzosGWMPpw@mail.gmail.com>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ptest: fix file ownerships in ${PTEST_PATH}
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,86 +45,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 15:45:38 -0000
-X-Groupsio-MsgNum: 70918
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_00AD3DB2-C5A1-44BF-801C-23063BF8726C";
-	protocol="application/pgp-signature"; micalg=pgp-sha1
+X-List-Received-Date: Wed, 09 Sep 2015 15:45:42 -0000
+Content-Type: multipart/alternative; boundary=089e01176cadf7a360051f525fc3
 
---Apple-Mail=_00AD3DB2-C5A1-44BF-801C-23063BF8726C
+--089e01176cadf7a360051f525fc3
+Content-Type: text/plain; charset=UTF-8
+
+On Wed, Sep 9, 2015 at 5:38 AM, Mike Looijmans <mike.looijmans@topic.nl>
+wrote:
+
+> Just posting a related idea here:
+>
+> There are quite a few recipes that just contain a bunch of (data) files,
+> and use a simple "cp -r" in the install phase. Instead of peppering these
+> with "chown" calls, it might be better to create a small utility that
+> basically runs the "install" command recursively, and replace the "cp -r"
+> with "install_recursive".
+>
+
+Something like that doesn't seem unreasonable, so the classes/recipes don't
+have to worry about the particulars of the recursive copy tool being used.
+
+That said, doesn't cp -r result in correct ownership, since the files are
+created without preserving permissions or ownership? I'm pretty sure it's
+the cp -a / cp -pPr that we need to be more concerned with.
+
+Note that with gnu cp, it's possible to tell it to preserve permissions,
+but not ownership. It's not portable to non-gnu cp, but I don't know what
+we care about that anyway.
+
+Ex.: `cp -a --no-preserve=ownership`
+-- 
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
+
+--089e01176cadf7a360051f525fc3
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Wed, Sep 9, 2015 at 5:38 AM, Mike Looijmans <span dir=3D"ltr">&lt;<a hre=
+f=3D"mailto:mike.looijmans@topic.nl" target=3D"_blank">mike.looijmans@topic=
+.nl</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":2ah=
+" class=3D"a3s" style=3D"overflow:hidden">Just posting a related idea here:=
+<br>
+<br>
+There are quite a few recipes that just contain a bunch of (data) files, an=
+d use a simple &quot;cp -r&quot; in the install phase. Instead of peppering=
+ these with &quot;chown&quot; calls, it might be better to create a small u=
+tility that basically runs the &quot;install&quot; command recursively, and=
+ replace the &quot;cp -r&quot; with &quot;install_recursive&quot;.<span cla=
+ss=3D""><br></span></div></blockquote></div><br>Something like that doesn&#=
+39;t seem unreasonable, so the classes/recipes don&#39;t have to worry abou=
+t the particulars of the recursive copy tool being used.</div><div class=3D=
+"gmail_extra"><br></div><div class=3D"gmail_extra">That said, doesn&#39;t c=
+p -r result in correct ownership, since the files are created without prese=
+rving permissions or ownership? I&#39;m pretty sure it&#39;s the cp -a / cp=
+ -pPr that we need to be more concerned with.</div><div class=3D"gmail_extr=
+a"><br></div><div class=3D"gmail_extra">Note that with gnu cp, it&#39;s pos=
+sible to tell it to preserve permissions, but not ownership. It&#39;s not p=
+ortable to non-gnu cp, but I don&#39;t know what we care about that anyway.=
+</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ex.: =
+`cp -a --no-preserve=3Downership`<br>-- <br><div class=3D"gmail_signature">=
+Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, Open=
+Embedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer, Men=
+tor Graphics</div>
+</div></div>
 
-> On Sep 9, 2015, at 6:25 AM, Bernhard Reutner-Fischer =
-<rep.dot.nop@gmail.com> wrote:
->=20
-> On 3 September 2015 at 18:54, Khem Raj <raj.khem@gmail.com> wrote:
->> This makes busybox honor UTMPX feature if available in a libc
->>=20
->> [YOCTO #8243]
->>=20
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> .../busybox/0001-Switch-to-POSIX-utmpx-API.patch   | 388 =
-+++++++++++++++++++++
->> meta/recipes-core/busybox/busybox_1.23.2.bb        |   1 +
->> 2 files changed, 389 insertions(+)
->> create mode 100644 =
-meta/recipes-core/busybox/busybox/0001-Switch-to-POSIX-utmpx-API.patch
->>=20
->> diff --git =
-a/meta/recipes-core/busybox/busybox/0001-Switch-to-POSIX-utmpx-API.patch =
-b/meta/recipes-core/busybox/busybox/0001-Switch-to-POSIX-utmpx-API.patch
->> new file mode 100644
->> index 0000000..1d299ee
->> --- /dev/null
->> +++ =
-b/meta/recipes-core/busybox/busybox/0001-Switch-to-POSIX-utmpx-API.patch
->> @@ -0,0 +1,388 @@
->> +=46rom 86a7f18f211af1abda5c855d2674b0fcb53de524 Mon Sep 17 00:00:00 =
-2001
->> +From: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
->> +Date: Thu, 2 Apr 2015 23:03:46 +0200
->> +Subject: [PATCH] *: Switch to POSIX utmpx API
->> +
->> +UTMP is SVID legacy, UTMPX is mandated by POSIX.
->> +
->> +Glibc and uClibc have identical layout of UTMP and UTMPX, both of =
-these
->> +libc treat _PATH_UTMPX as _PATH_UTMP so from a user-perspective =
-nothing
->> +changes except the names of the API entrypoints.
->=20
->=20
-> Ontop of this you might also need
-> =
-http://git.busybox.net/busybox/commit/?id=3D7d86384b246434e72533332f7f409a=
-7aa9efeacb
-> unless you can guarantee a uClibc rebuild with utmpx support enabled
-> at the same time.
-
-in OE we are using git version (0.9.34) so this won=E2=80=99t be needed.
-
->=20
-> Thanks and cheers,
-
-
---Apple-Mail=_00AD3DB2-C5A1-44BF-801C-23063BF8726C
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP using GPGMail
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
-
-iEYEARECAAYFAlXwVCAACgkQuwUzVZGdMxT0oQCeLlRKLlB2yjh4UGRJcQ8FlQFM
-Y8sAn3bz/Ta463a+sIt4JgBO5Y76CoMp
-=ReC4
------END PGP SIGNATURE-----
-
---Apple-Mail=_00AD3DB2-C5A1-44BF-801C-23063BF8726C--
+--089e01176cadf7a360051f525fc3--
