@@ -1,51 +1,36 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 360627669F
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pa0-f43.google.com (mail-pa0-f43.google.com
+	[209.85.220.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 07B9776E04
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 14:12:12 +0000 (UTC)
-Received: by ioii196 with SMTP id i196so23288357ioi.3
+	Wed,  9 Sep 2015 14:13:36 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so11816050pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 07:12:12 -0700 (PDT)
+	Wed, 09 Sep 2015 07:13:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=Z3L2gJFN0TSuzGf8cLRzwhWPKrK/lR1k1ryR1dhh/EM=;
-	b=kQa8C04AXE5Igfi99aHHhU/1wKqzLWmTJEiHCEgb/6i0sC1qmxMgT0TeL3UfEmibm0
-	Pw2DuvD3DHDM0YjhJSCL0Yf3IRO98OL036LRmZBP4scMgYEph8Gl47aQkHrXBPh/jCRU
-	Bec992nzloDiQSqPGTvNFr+fbVyHcxXyk9vw5PNmowRXcsToNwgNKNNL7jfToJUgkYHC
-	GETgpXVVxNr7PxYK1Qmor1Sp8hYuiCK3riackLkvGgx7NN5pueJe9ZqkBgf3S5TKqlAG
-	1uH/iSJXhu/LvpSPf5sZhc7gL0raAzuzr7RkcdukiELoS6KXBe0T55nAEwcaBz80V3D2
-	Oh6A==
-X-Gm-Message-State: ALoCoQn5QD/SrwLKgHISBi8P3wbzZUZMP0b8xTUt+Vo26Cxq8kJrmRULDFJrxHA8Kc9DkvtAzGX9
-X-Received: by 10.107.132.21 with SMTP id g21mr55898397iod.175.1441807932343; 
-	Wed, 09 Sep 2015 07:12:12 -0700 (PDT)
-Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com.
-	[209.85.213.171])
-	by smtp.gmail.com with ESMTPSA id k2sm1772623igx.0.2015.09.09.07.12.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 09 Sep 2015 07:12:11 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by igbkq10 with SMTP id kq10so105324194igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 07:12:10 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.50.78.69 with SMTP id z5mr32319387igw.19.1441807930866; Wed,
-	09 Sep 2015 07:12:10 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Wed, 9 Sep 2015 07:12:10 -0700 (PDT)
-In-Reply-To: <1e612377a8e6331361f984ee0e978fa4a5c4b0b0.1441803055.git.patrick.ohly@intel.com>
-References: <cover.1441803055.git.patrick.ohly@intel.com>
-	<e0e5e8bdc09dcfe3b5410ccfed0b11c0c8d63d3b.1441803055.git.patrick.ohly@intel.com>
-	<1e612377a8e6331361f984ee0e978fa4a5c4b0b0.1441803055.git.patrick.ohly@intel.com>
-Date: Wed, 9 Sep 2015 11:12:10 -0300
-Message-ID: <CAP9ODKq+Egmfrn22FvdgdAyYGfd+7EQFKnnCeO2XRrBbJ-W21w@mail.gmail.com>
-To: Patrick Ohly <patrick.ohly@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] initramfs-framework: support dropping into shell on failure
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MTLbhqwoYLtIySah0msWojjsbfdKI5eqeXkfhz9L4kg=;
+	b=gC1A9/sVoGITyXF6XHl71VpmSowxMj5+gAnsl7mwPq3V+tJ3Nh5fjuq2OtEJvEAB0L
+	VnxKWbXeZ1Yl9p/o20d/ZO8pdz60VY6gUZBwADjpLBwFiMdRmNQTPYjynnUU71v0bExi
+	/AmVrhwm5dcSUXDIshNnC5piU21vXVBiBQFPDRqRjX+3aF6oRKXK3ewoOVBQz6CbDpOi
+	g+p7Ud20plqck3KKYE1XoiK3lDOR+1Qv4hFVuEwxwaFChnT4ujgNFGq003avHB+4QfiR
+	0a7xtFZh/fx5oENOPxywJsTtKNu9dk0tvqN+Jo05eduIwLBHpHPQNZ4xBvyvFS2MA1Zm
+	lNfg==
+X-Gm-Message-State: ALoCoQlbVc3OaZhUpjalKCHE+1PGuyHnyYgiIBAxwLnRn6+WnqCt6rDgy9Xw6nHSXl1zncvu+2HJ
+X-Received: by 10.66.193.162 with SMTP id hp2mr36782102pac.108.1441808016435; 
+	Wed, 09 Sep 2015 07:13:36 -0700 (PDT)
+Received: from nathanbox.home.gateway ([103.26.61.212])
+	by smtp.gmail.com with ESMTPSA id
+	ev2sm7210189pbb.37.2015.09.09.07.13.33
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 Sep 2015 07:13:35 -0700 (PDT)
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Sep 2015 00:13:19 +1000
+Message-Id: <1441807999-21330-1-git-send-email-nathan@nathanrossi.com>
+X-Mailer: git-send-email 2.5.1
+Subject: [PATCH] u-boot.inc: Add U-Boot ELF install and deploy
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,26 +43,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 14:12:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 09 Sep 2015 14:13:39 -0000
 
-On Wed, Sep 9, 2015 at 10:10 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
-> When the init_fatal_sh boot parameter is present (i.e. used without
-> value) and a fatal problem occurs inside the initramfs-module, a shell
-> will be started instead of looping forever.
->
-> Useful for debugging.
->
-> Interestingly enough, the code was already indented to support such an
-> if check...
->
-> Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+Add support for U-Boot recipes to install and deploy the generated ELF
+files for each config. The U-Boot ELF's are useful for debugging, and
+booting (directly booting, e.g. by JTAG or using QEMU) and complement
+the generated binary image.
 
+This additional feature is disabled by default, machines/etc that want
+to use it need to set UBOOT_ELF to the corresponding ELF file (generally
+u-boot or u-boot.elf depending on the architecture)
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 63 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 62 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 51f5423..81ac471 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -35,6 +35,15 @@ UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
+ UBOOT_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_SUFFIX}"
+ UBOOT_MAKE_TARGET ?= "all"
+ 
++# Output the ELF generated. Some platforms can use the ELF file and directly
++# load it (JTAG booting, QEMU) additionally the ELF can be used for debugging
++# purposes.
++UBOOT_ELF ?= ""
++UBOOT_ELF_SUFFIX ?= "elf"
++UBOOT_ELF_IMAGE ?= "u-boot-${MACHINE}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}"
++UBOOT_ELF_BINARY ?= "u-boot.${UBOOT_ELF_SUFFIX}"
++UBOOT_ELF_SYMLINK ?= "u-boot-${MACHINE}.${UBOOT_ELF_SUFFIX}"
++
+ # Some versions of u-boot build an SPL (Second Program Loader) image that
+ # should be packaged along with the u-boot binary as well as placed in the
+ # deploy directory.  For those versions they can set the following variables
+@@ -116,6 +125,30 @@ do_install () {
+         ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+     fi
+ 
++    if [ "x${UBOOT_ELF}" != "x" ]
++    then
++        if [ "x${UBOOT_CONFIG}" != "x" ]
++        then
++            for config in ${UBOOT_MACHINE}; do
++                i=`expr $i + 1`;
++                for type in ${UBOOT_CONFIG}; do
++                    j=`expr $j + 1`;
++                    if [ $j -eq $i ]
++                    then
++                        install ${S}/${config}/${UBOOT_ELF} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
++                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
++                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${D}/boot/${UBOOT_BINARY}
++                    fi
++                done
++                unset j
++            done
++            unset i
++        else
++            install ${S}/${UBOOT_ELF} ${D}/boot/${UBOOT_ELF_IMAGE}
++            ln -sf ${UBOOT_ELF_IMAGE} ${D}/boot/${UBOOT_ELF_BINARY}
++        fi
++    fi
++
+     if [ -e ${WORKDIR}/fw_env.config ] ; then
+         install -d ${D}${sysconfdir}
+         install -m 644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
+@@ -153,6 +186,8 @@ do_install () {
+ }
+ 
+ FILES_${PN} = "/boot ${sysconfdir}"
++# Ensure the split debug part of any elf files are put into dbg
++FILES_${PN}-dbg += "/boot/.debug"
+ 
+ do_deploy () {
+     if [ "x${UBOOT_CONFIG}" != "x" ]
+@@ -183,7 +218,33 @@ do_deploy () {
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+    fi
+-    
++
++    if [ "x${UBOOT_ELF}" != "x" ]
++    then
++        if [ "x${UBOOT_CONFIG}" != "x" ]
++        then
++            for config in ${UBOOT_MACHINE}; do
++                i=`expr $i + 1`;
++                for type in ${UBOOT_CONFIG}; do
++                    j=`expr $j + 1`;
++                    if [ $j -eq $i ]
++                    then
++                        install ${S}/${config}/${UBOOT_ELF} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX}
++                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}-${type}
++                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
++                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}-${type}
++                        ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_ELF_SUFFIX} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
++                    fi
++                done
++                unset j
++            done
++            unset i
++        else
++            install ${S}/${UBOOT_ELF} ${DEPLOYDIR}/${UBOOT_ELF_IMAGE}
++            ln -sf ${UBOOT_ELF_IMAGE} ${DEPLOYDIR}/${UBOOT_ELF_BINARY}
++            ln -sf ${UBOOT_ELF_IMAGE} ${DEPLOYDIR}/${UBOOT_ELF_SYMLINK}
++        fi
++    fi
+ 
+ 
+      if [ "x${SPL_BINARY}" != "x" ]
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+2.5.1
+
 
