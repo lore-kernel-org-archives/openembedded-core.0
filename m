@@ -1,38 +1,47 @@
-Return-Path: <schnitzeltony@googlemail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BDC3763CE;
-	Wed,  9 Sep 2015 07:14:20 +0000 (UTC)
-Received: by igbkq10 with SMTP id kq10so97765904igb.0;
-	Wed, 09 Sep 2015 00:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=googlemail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=osVKaHJEaLFROP/dPYQp/8dbu+pgUHyWxSzTumJR2Vk=;
-	b=pYC2KT1hyr+7w7obbw/q7BYKNBdhoOOL9DJmGA4yY3sPBfqY/vkVjUg6gMW150Y1Km
-	96p/guyUCxNYLBlyNvCwKe79jK8KhoQ5vjGRQi0SSum1LjVnzZM3Gqhjk8EAHQ0hYxfr
-	oaAPl+W9LEbDNqWTXTaGnAh+lSEclGKC82ULUOTEwDAvPVo/sA/e1RjuzLMCnCeY4b/+
-	plbB373prm+1+8+hdgVFUbF1ckIG/fGBF0OYXSBhg2TuBP14rvFM4m59/9VunMUE7tZB
-	EyxsDDKzjGS3AzNMVanbYePb47gj0uaR5lEnsSHm+ksXxpJeOfkByNSe2/5uYD61F8Zf
-	0yMg==
+Return-Path: <umut.tezduyar@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C8E96763CE
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  9 Sep 2015 07:33:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 2A30518210;
+	Wed,  9 Sep 2015 09:33:46 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id YXRTNQEvwMLp; Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
+Received: from boulder.se.axis.com (boulder.se.axis.com [10.0.2.104])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5AC54181FF;
+	Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
+Received: from boulder.se.axis.com (localhost [127.0.0.1])
+	by postfix.imss71 (Postfix) with ESMTP id 148C11224;
+	Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
+Received: from seth.se.axis.com (seth.se.axis.com [10.0.2.172])
+	by boulder.se.axis.com (Postfix) with ESMTP id 0810B633;
+	Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
+Received: from xmail3.se.axis.com (xmail3.se.axis.com [10.0.5.75])
+	by seth.se.axis.com (Postfix) with ESMTP id 061D13E049;
+	Wed,  9 Sep 2015 09:33:45 +0200 (CEST)
+Received: from xmail3.se.axis.com ([10.0.5.75]) by xmail3.se.axis.com
+	([10.0.5.75]) with mapi; Wed, 9 Sep 2015 09:33:44 +0200
+From: Umut Tezduyar Lindskog <umut.tezduyar@axis.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 9 Sep 2015 09:33:43 +0200
+Thread-Topic: [OE-core] 32 bit time_t in openembedded
+Thread-Index: AdDq0dsrRyVy6cNYT/+OeO/9DFCwhg==
+Message-ID: <F59199FE-4303-4C23-9749-A0567223EE55@axis.com>
+References: <D2E79685-E16A-4941-BB7B-E7F21E250DD2@axis.com>
+	<CAJTo0LaAUgn5i==+JcS5Xd3sFP8jCMWG2M-9ptnhh3j-hsipEw@mail.gmail.com>
+In-Reply-To: <CAJTo0LaAUgn5i==+JcS5Xd3sFP8jCMWG2M-9ptnhh3j-hsipEw@mail.gmail.com>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+acceptlanguage: en-US, sv-SE
 MIME-Version: 1.0
-X-Received: by 10.50.43.161 with SMTP id x1mr28671147igl.64.1441782860692;
-	Wed, 09 Sep 2015 00:14:20 -0700 (PDT)
-Received: by 10.36.98.5 with HTTP; Wed, 9 Sep 2015 00:14:20 -0700 (PDT)
-In-Reply-To: <20150908231037.GH2381@jama>
-References: <20150908155801.GD2381@jama> <20150908170942.GE2381@jama>
-	<CALbNGRQYuQrGc_3Bf0y5CVXHHb3uFDVaLgPcfeAKYCau7X1u2g@mail.gmail.com>
-	<20150908231037.GH2381@jama>
-Date: Wed, 9 Sep 2015 09:14:20 +0200
-Message-ID: <CALbNGRTUBBBni8YGkpVx4=HQ97Lz8PzmZo129efUteXhYbEvFQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@googlemail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: State of bitbake world, wrong PACKAGE_ARCHs 2015-09-08
+Subject: Re: 32 bit time_t in openembedded
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,57 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 07:14:21 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 09 Sep 2015 07:33:49 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, Sep 9, 2015 at 1:10 AM, Martin Jansa <martin.jansa@gmail.com> wrote=
-:
-> On Tue, Sep 08, 2015 at 11:39:20PM +0200, Andreas M=C3=BCller wrote:
->> On Tue, Sep 8, 2015 at 7:09 PM, Martin Jansa <martin.jansa@gmail.com> wr=
-ote:
->> > ERROR: polkit-group-rule-datetime different signature for task do_conf=
-igure.sigdata between qemux86copy and qemuarm
->> > runtaskdeps changed from ['polkitpolkit-group-rule-datetime.bb.do_patc=
-h', 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1.bb.do_=
-populate_sysroot:virtual:native'] to ['polkitpolkit-group-rule-datetime.bb.=
-do_patch', 'polkitpolkit_0.113.bb.do_populate_sysroot', 'shadowshadow_4.2.1=
-.bb.do_populate_sysroot:virtual:native']
->> > /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-exte=
-nded/polkit/polkit_0.113.bb.do_populate_sysroot with hash 284d6bbd28ea723c4=
-66e0c5c88a09a50
->> I missed many of these - because I am not up to date on oe-core (did
->> not want to loose midori for my images) - will change that soon. For
->> this type of error: is it correct that it is caused by allarch recipes
->> depending on machine/architecture specific recipes?
->
-> close, the important part is few lines bellow:
->
-> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extende=
-d/polkit/polkit_0.113.bb.do_populate_sysroot
-> with hash
-> 284d6bbd28ea723c466e0c5c88a09a50
->  changed to
-> /home/jenkins/oe/world/shr-core/meta-openembedded/meta-oe/recipes-extende=
-d/polkit/polkit_0.113.bb.do_populate_sysroot
-> with hash
-> 06cf7139c6588d047fa11444d88175ab
-> Hash for dependent task polkitpolkit_0.113.bb.do_populate_sysroot
-> changed from 284d6bbd28ea723c466e0c5c88a09a50 to
-> 06cf7139c6588d047fa11444d88175ab
->
-> so allarch recipe polkitpolkit-group-rule-datetime is depending on
-> TUNE_PKGARCH-specific recipe polkit (on it's do_populate_sysroot task
-> which is expected to be different for diferent TUNE_PKGARCHs)
->
-So to fix we could
-
-1. either remove dependencies or
-2. remove allarch or
-3. ??
-
-For e.g the polkit-groups 1 seems not possible what about package
-feeds when removing allarch?
-
-Andreas
+SGkgUm9zcywNCg0KV2hhdCBJIGFtIG1vcmUgYWZ0ZXIgaXMgdHJ5aW5nIHRvIGNvbnZpbmNlIHVw
+c3RyZWFtIHN5c3RlbWQgdGhhdCB0aGlzIG1pZ2h0IGJlIGEgcG90ZW50aWFsIHByb2JsZW0gd2l0
+aGluIHRoZSBlbWJlZGRlZCB3b3JsZC4NCg0KQ29uc2lkZXJpbmcgdGhhdCBkYXRlIG1pZ2h0IGdl
+dCBzZXQgYnkgYSBtYWxpY2lvdXMgbnRwIHNlcnZlci4gSW4gdGhhdCBjYXNlIHVzZXIgc3BhY2Ug
+c3RvcHMgYm9vdGluZyBmb3IgdXMgYW5kIEkgZ3Vlc3MgbXkgdW5kZXJzdGFuZGluZyBpcyBzYW1l
+IHRoaW5nIHdpbGwgaGFwcGVuIGZvciBvcGVuZW1iZWRkZWQgc3RhY2sgdG9vLiBJc27igJl0IHRo
+aXMgYSBjb25jZXJuIHRvIGFueW9uZT8NCg0KVW11dA0KDQoNCj4gT24gU2VwIDgsIDIwMTUsIGF0
+IDI6MDQgUE0sIEJ1cnRvbiwgUm9zcyA8cm9zcy5idXJ0b25AaW50ZWwuY29tPiB3cm90ZToNCj4g
+DQo+IA0KPiBPbiA4IFNlcHRlbWJlciAyMDE1IGF0IDEyOjQ0LCBVbXV0IFRlemR1eWFyIExpbmRz
+a29nIDx1bXV0LnRlemR1eWFyQGF4aXMuY29tPiB3cm90ZToNCj4gVXBzdHJlYW0gc3lzdGVtZOKA
+mXMgYW5zd2VyIGlzIHByZXR0eSBtdWNoIHVzaW5nIDY0IGJpdHMgdGltZV90IHN0cnVjdHVyZSBi
+dXQgdGhpcyBpcyByZWxhdGl2ZWx5IGV4cGVuc2l2ZSBvbiAzMiBiaXRzIElTQS4NCj4gDQo+IFdo
+YXQgcHJvYmxlbSBhcmUgeW91IHRyeWluZyB0byBzb2x2ZSBoZXJlIC0gdGhlIGdlbmVyYWwgcHJv
+YmxlbSBvZiAiSSB3YW50IG15IGhhcmR3YXJlIHRvIHdvcmsgYWZ0ZXIgMjAzOCIgb3IgIm15IFJU
+QyBpcyBzdHVwaWQiPyAgRm9yIHRoZSBmb3JtZXIgeW91J2xsIHBvdGVudGlhbGx5IGJlIHdyaXRp
+bmcgYSBuZXcgQUJJIHRvIGludHJvZHVjZSBhIDY0LWJpdCB0aW1lX3QgKHRoZW4gdXBkYXRpbmcg
+dGhlIGtlcm5lbCwgbGliYywgdG9vbGNoYWluLi4uKSwgZm9yIHRoZSBsYXR0ZXIgY2FuJ3QgeW91
+IGhhdmUgc29tZSBrZXJuZWwgY29kZSB0aGF0IGNsYW1wcyB0aGUgcmFuZG9tIHRpbWVzIG9uIGlu
+aXRpYWxpc2F0aW9uIHRvIGJlIDwyMDM4Pw0KPiANCj4gUm9zcw0KDQo=
 
