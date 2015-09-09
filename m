@@ -1,37 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
-	[209.85.192.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 3216E76420
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-io0-f178.google.com (mail-io0-f178.google.com
+	[209.85.223.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 96E8B76420
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 13:04:28 +0000 (UTC)
-Received: by qgx61 with SMTP id 61so6498006qgx.3
+	Wed,  9 Sep 2015 13:10:17 +0000 (UTC)
+Received: by ioii196 with SMTP id i196so21021285ioi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 06:04:28 -0700 (PDT)
+	Wed, 09 Sep 2015 06:10:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=RF2tQXjjUUmOsPBBh0dJ2HzWJTs9osyjhj+A3U4UQ58=;
-	b=XL8YHLUOkn5OagH8gPS2BSwt/9tCh561TasiqhPAanHflsotP+gklHrIFPXnYqS9UD
-	ISXfYFpYIflhrrl/jxe1Au+fvIjVzdVWZrXCXeqDN7NHwnAk5714Z4EMBwWF+7s2Csc8
-	QF+9gUahVbNHyfsn094pXgPrtpfQjjrE0i8t7JztXB3pzDLh/S+Nk6rOrgXssRp9xV9S
-	tlQus+aG2QqCSSnk3Bahl0ZOUj511v/nWSN9BF5TUR6viXzMJRS2tipJBinU/L//Su91
-	AwiCZSGi57ds9AhEUNSq3tyjJF8Q7Sq+CzozvcUm9QKX42+P8zm3eGUAdPW80tlLPpOq
-	wKpQ==
-X-Gm-Message-State: ALoCoQmcmtll4RwacVjAtDAgKlFQtEOwNB9zCn/7ivXJ2cUacwGVQlLY09Npbw3YH9DqpvgeIzDE
-X-Received: by 10.140.132.71 with SMTP id 68mr46642507qhe.64.1441803868284;
-	Wed, 09 Sep 2015 06:04:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Wed, 9 Sep 2015 06:04:08 -0700 (PDT)
-In-Reply-To: <b4be4eb148b3551893639ac087be2d4e8dcb8eb5.1441753511.git.raj.khem@gmail.com>
-References: <cover.1441753511.git.raj.khem@gmail.com>
-	<b4be4eb148b3551893639ac087be2d4e8dcb8eb5.1441753511.git.raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Sep 2015 14:04:08 +0100
-Message-ID: <CAJTo0LaCUeR2pt6d2=yrTtdfJsd1AOd4iUeZMXOuOm_ROvcsWg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/16] webkit-gtk: Backport fix to remove FrameDestructionObserver
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=0eCISGnpxNvboECVpTSsu7yt7YbsIV9wPWtVGEQL63M=;
+	b=MuppuNcuJAKbYOFyM4Z3ScodBOt3//N2q4Tb9zF0ioecM5SlqrxIczTznPnUPeRYz1
+	5dTVjH8HBnyQy4k8UPJHvky1IM+z1x0Oo/2GFfH7m3WMAI7A2TZ51rtnxzJMi+hpyQem
+	QA78Vh8Vepowjls+E9ETZaV+Wei0HOJzcj0VV2ohZgbCE2AL9treEe1ERKHgKo6sLz9/
+	sNhPGog9yRjJo7PWTJ3O472basvrJN2/GvpWt2gEFhSvabh35n9eRRhRO77Iny3A2n5p
+	JgJJoZMYvDDfTLAot5CQ1pgea9STl58yVLsBgC7qJqYMR55jfjf4IMR1qbGFnrsLbnhH
+	7LbA==
+X-Gm-Message-State: ALoCoQkSW6K+VuGGD9s/tIB/eTlN8fVUGOw4tHgpdy/ATU6dZ1TD7wN2oh9fZmBkygVIBdhrB5m5
+X-Received: by 10.107.46.158 with SMTP id u30mr54822861iou.56.1441804216049;
+	Wed, 09 Sep 2015 06:10:16 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p57A56733.dip0.t-ipconnect.de.
+	[87.165.103.51])
+	by smtp.gmail.com with ESMTPSA id r4sm1593960igh.14.2015.09.09.06.10.14
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 Sep 2015 06:10:15 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Sep 2015 15:10:38 +0200
+Message-Id: <cover.1441803055.git.patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH 0/4] some init/finish enhancements for initramfs-framework
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 13:04:30 -0000
-Content-Type: multipart/alternative; boundary=001a113510d467d267051f501f3f
+X-List-Received-Date: Wed, 09 Sep 2015 13:10:19 -0000
 
---001a113510d467d267051f501f3f
-Content-Type: text/plain; charset=UTF-8
+While continuing my work in integrating IMA into the
+initramfs-framework, I found that it is necessary to have more control
+over the mount parameters. These patches grant that control using the same
+boot parameters as in the Linux kernel.
 
-On 9 September 2015 at 00:07, Khem Raj <raj.khem@gmail.com> wrote:
+For debugging I also found it useful to have more opportunities to get
+into a shell.
 
-> This helps clang compile webkit without problems. This is a backport
-> from upstream
->
+I'm posting these patches because others may also find them useful. If
+there's no time to review or merge now, feel free to ignore until
+after the next release. In the meantime, I'll proceed with a local
+copy of the two files.
 
-MUT has an upgrade to webkitgtk 2.8.5, would this version have this fix
-integrated?
+The following changes since commit 8402958cd2cb87b8283c8ee4e2d08e1a6717d67a:
 
-Ross
+  pseudo_1.7.3.bb: New version of pseudo (2015-09-06 15:24:28 +0100)
 
---001a113510d467d267051f501f3f
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+are available in the git repository at:
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 September 2015 at 00:07, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><div id=3D":16x" class=3D"a3s" st=
-yle=3D"overflow:hidden">This helps clang compile webkit without problems. T=
-his is a backport<br>
-from upstream<br></div></blockquote></div><br>MUT has an upgrade to webkitg=
-tk 2.8.5, would this version have this fix integrated?</div><div class=3D"g=
-mail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
+  git://github.com/pohly/openembedded-core initramfs-framework
+  https://github.com/pohly/openembedded-core/tree/initramfs-framework
 
---001a113510d467d267051f501f3f--
+Patrick Ohly (4):
+  initramfs-framework: support rootflags and rootfstype boot parameter
+  initramfs-framework: support ro boot parameter
+  initramfs-framework: support init boot parameter
+  initramfs-framework: support dropping into shell on failure
+
+ .../initrdscripts/initramfs-framework/finish            | 17 +++++++++++++++--
+ .../recipes-core/initrdscripts/initramfs-framework/init |  4 ++++
+ 2 files changed, 19 insertions(+), 2 deletions(-)
+
+-- 
+2.1.4
+
+
