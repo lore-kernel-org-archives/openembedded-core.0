@@ -1,37 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
-	[209.85.212.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 87AE174197
+Return-Path: <patrick.ohly@intel.com>
+Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
+	[209.85.213.181])
+	by mail.openembedded.org (Postfix) with ESMTP id BD67A74197
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 12:09:54 +0000 (UTC)
-Received: by wicgb1 with SMTP id gb1so113774075wic.1
+	Wed,  9 Sep 2015 12:31:10 +0000 (UTC)
+Received: by igbni9 with SMTP id ni9so12698603igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 05:09:54 -0700 (PDT)
+	Wed, 09 Sep 2015 05:31:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=BtGvktbqSYFwnSlOlzzw4Md0Kfdk9MGGYlTZZc21YSo=;
-	b=WMXV1GLUzYqv6q9qmNm4cyZnMLg2fDCpCNeUbmDS2RgJ7HvI5HuA4NkK9n+SP56roL
-	Bwwcbc2pPLiOrfJ5ClLkuP+TbsrjGBQsLV12UVQ39OweGhfyOW1WngrxuApzSg7mPVMb
-	W/DmJIJK72Oizi/83PXZKqiBKv/QmmU70nNNLi5C/5wJZ7PZ/aPQkyhuTo+zPIEZW3l1
-	1O9o5Fv8fJrUz7T67aFeoyOoUGc+W6HHnHG/pznK8Bl1ewWB9nb3BLMnGbWmVSZJTwJY
-	NhQVHuNWqX91WNCCr1KRZRxSVU7Ky9cjauXqtBMFDpeNRb1C4akTujoYsdsTJnG7XnmA
-	NBgQ==
-X-Gm-Message-State: ALoCoQnYALQ1SjKbDWmmJxba88J3eapir+imwsTMF8GhFToswYBjEZSwTyaMOiqOMT5vN6mQLDgS
-X-Received: by 10.194.103.103 with SMTP id fv7mr55099824wjb.152.1441800594121; 
-	Wed, 09 Sep 2015 05:09:54 -0700 (PDT)
-Received: from Blackadder.home
-	(host81-153-67-238.range81-153.btcentralplus.com. [81.153.67.238])
-	by smtp.gmail.com with ESMTPSA id m4sm9920920wjb.37.2015.09.09.05.09.52
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Sep 2015 05:09:53 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=4PJVg8f0OZDYlWlYck2vLkxrVAgKwrXvDRpdaGgsyok=;
+	b=mmsWYN2HhG0W5Ll21k51IA4wBJ2Moh9ARpQZpU54u4k5gi/5L+AKGlunMHyrNYOShB
+	nN6j/tMWZ+ii9sIhRtm5Mg/jUEv3C2SB7lEqRBALHjl90uJQOyulxrvOmnZnZr/V9OVp
+	ElCSJuKrPrHnLCx/TfWEProG4x43ynApQOgUSbjWq1e3POhV1+vJPLKuh+7XNBOuzqpu
+	y5IpoZy4RTS/uNtmhZEWLDxF3mXumZjdgec9tzp3SIqlqjZf9NEacPcXspMaM9yETbZx
+	CBcPD2AaHR95YFKLViSKV8h6u5vWmnumVkiPXyE9pUU8eVyDd605G7egb9kRq1gky4JO
+	s2AA==
+X-Gm-Message-State: ALoCoQmIDzcbhiAdvg4FxKKQFsBLwSmi9rXg8UTe7Gldzegv7SweviifOijM5fMi7crNXlGK0GT3
+X-Received: by 10.50.50.240 with SMTP id f16mr51498775igo.95.1441801870375;
+	Wed, 09 Sep 2015 05:31:10 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p57A56733.dip0.t-ipconnect.de.
+	[87.165.103.51]) by smtp.gmail.com with ESMTPSA id
+	r40sm4442073ioe.20.2015.09.09.05.31.09
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 09 Sep 2015 05:31:09 -0700 (PDT)
+From: Patrick Ohly <patrick.ohly@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  9 Sep 2015 13:09:48 +0100
-Message-Id: <1441800588-25217-1-git-send-email-ross.burton@intel.com>
-X-Mailer: git-send-email 2.3.2 (Apple Git-55)
-Subject: [PATCH] ptest: fix file ownerships in ${PTEST_PATH}
+Date: Wed,  9 Sep 2015 14:31:30 +0200
+Message-Id: <1441801890-3769-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] Revert "boot-directdisk.bbclass: use rootfs UUID by default"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 12:09:54 -0000
+X-List-Received-Date: Wed, 09 Sep 2015 12:31:11 -0000
 
-As most upstreams don't have installable test suites it's fairly common to copy
-files directly out of a source tree for ptests, but this results in files in the
-recipe being owned by the user running bitbake:
+This reverts commit 8ca8e2e5bf4a9f01dc48300149a8e1d71d715400.
 
-  WARNING: QA Issue: .../sed/4.2.2-r0/packages-split/sed-ptest/usr/lib64/
-  sed/ptest/testsuite/bug-regex21 is owned by uid 1000, which is the same
-  as the user running bitbake. This may be due to host contamination
-  [host-user-contaminated]
+Further testing showed the kernel does not support root=UUID; it is
+something typically handled by the initramfs.
 
-Instead of needing to fix this in every recipe that has this problem simply
-chown the files to root:root in do_install_ptest_base.
+Because boot-directdisk.bbclass cannot know whether it is using a
+suitable initramfs, root=UUID cannot be the default. Instead, it will
+have to be set in image recipes on a case-by-case basis.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ---
- meta/classes/ptest.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/boot-directdisk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 2ac9143..b5f470f 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -43,6 +43,7 @@ do_install_ptest_base() {
-             oe_runmake DESTDIR=${D}${PTEST_PATH} install-ptest
-         fi
-         do_install_ptest
-+        chown -R root:root ${D}${PTEST_PATH}
-     fi
- }
+diff --git a/meta/classes/boot-directdisk.bbclass b/meta/classes/boot-directdisk.bbclass
+index 7cb0ab0..600e21a 100644
+--- a/meta/classes/boot-directdisk.bbclass
++++ b/meta/classes/boot-directdisk.bbclass
+@@ -60,7 +60,7 @@ inherit ${EFI_CLASS}
  
+ AUTO_SYSLINUXCFG = "1"
+ DISK_SIGNATURE ?= "${DISK_SIGNATURE_GENERATED}"
+-SYSLINUX_ROOT ?= "root=UUID=<<uuid-of-rootfs>>"
++SYSLINUX_ROOT ?= "root=/dev/sda2"
+ SYSLINUX_TIMEOUT ?= "10"
+ 
+ IS_VM = '${@bb.utils.contains_any("IMAGE_FSTYPES", ["vmdk", "vdi", "qcow2"], "true", "false", d)}'
 -- 
-2.3.2 (Apple Git-55)
+2.1.4
 
 
