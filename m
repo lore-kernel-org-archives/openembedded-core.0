@@ -1,39 +1,20 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
-	[209.85.192.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D4463763F8
+Return-Path: <alejandro.franco@linux.intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DA9474197
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 19:29:56 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so17087739qgt.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 12:29:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=x4AYoxKTolI1LfpTxJ2XwefCN916DSMLesxl/cZGoRA=;
-	b=NcFxnYz7GQFKGaTUxaEXPl0v02hcp54Ob5j3iTz0NQr4HfOfE/bFGPGpVdHkopMgyS
-	dN+IsfZh0gURSJEjXGYaXj+2aPHFr0T++nYbqAqHPQSWBYTk4pLsSxnPmk1f3OnQfs9R
-	fUnOYEkj1EN1GIdTJ0G3G0SnnmlAibVN9G0PTBuFZ6hrAa5BC1OA3Dng3vPpc9wgTxmG
-	MUUEJeSnfoZGIJw8oxiTrvOAOESoYSHPApb6pxy8WdegSdHElvlGnlbMuyMjQMtlwJeC
-	s6WxcK0JGYn6DXWAUAGlSSxM2243KyT4xBL4J1Dxzw1dhwvvMwtrNaFqT4nP22FrDogb
-	lV6A==
-X-Gm-Message-State: ALoCoQkB1CoZh1x0N9QpOD6h7/68pBx3YZdLBOx4684p31qV8/XzA8cTFd6qI69UOLvP5RQaangx
-X-Received: by 10.140.93.53 with SMTP id c50mr46483694qge.59.1441826996359;
-	Wed, 09 Sep 2015 12:29:56 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Wed, 9 Sep 2015 12:29:36 -0700 (PDT)
-In-Reply-To: <29BB45DC-8BCA-4559-AD0E-BFE1FB3E5A03@gmail.com>
-References: <cover.1441753511.git.raj.khem@gmail.com>
-	<b4be4eb148b3551893639ac087be2d4e8dcb8eb5.1441753511.git.raj.khem@gmail.com>
-	<CAJTo0LaCUeR2pt6d2=yrTtdfJsd1AOd4iUeZMXOuOm_ROvcsWg@mail.gmail.com>
-	<29BB45DC-8BCA-4559-AD0E-BFE1FB3E5A03@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 9 Sep 2015 20:29:36 +0100
-Message-ID: <CAJTo0LZMYLk_4FukX37avDAGJS1LcWikdcNNfQ-d5GToq8oQqQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/16] webkit-gtk: Backport fix to remove FrameDestructionObserver
+	Wed,  9 Sep 2015 19:55:34 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga103.fm.intel.com with ESMTP; 09 Sep 2015 12:55:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,498,1437462000"; d="scan'208";a="801737699"
+Received: from afshjern.zpn.intel.com ([10.219.128.72])
+	by fmsmga002.fm.intel.com with ESMTP; 09 Sep 2015 12:55:33 -0700
+From: Alex Franco <alejandro.franco@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  9 Sep 2015 14:56:09 -0500
+Message-Id: <1441828569-518-1-git-send-email-alejandro.franco@linux.intel.com>
+X-Mailer: git-send-email 2.5.1
+Subject: [PATCH] lsb: add lsbinitscripts and util-linux rdepends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,35 +27,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 19:29:57 -0000
-Content-Type: multipart/alternative; boundary=001a113a63c0f24cb7051f5581ec
+X-List-Received-Date: Wed, 09 Sep 2015 19:55:35 -0000
 
---001a113a63c0f24cb7051f5581ec
-Content-Type: text/plain; charset=UTF-8
+Building a base image such as core-image-minimal with lsb and then
+attempting to source /lib/lsb/init-functions, then using the start
+_daemon function (to start a daemon, such as syslogd) fails, since
+/lib/lsb/init-functions use functions (incl. "daemon()") from file
+/etc/init.d/functions.lsbinitscripts, which is provided by package
+lsbinitscripts. Running daemon() then calls /usr/bin/mountpoint, a
+binary provided by util-linux. So, both of these dependencies have
+been added to: recipes-extended/lsb/lsb_4.1.bb
 
-On 9 September 2015 at 20:28, Khem Raj <raj.khem@gmail.com> wrote:
+[YOCTO #7732]
 
-> yes its been fixed in 2.8.x. point me to MUT commit I can cherry-pick
-> locally here and try it out to make it sure.
->
+Signed-off-by: Alex Franco <alejandro.franco@linux.intel.com>
+---
+ meta/recipes-extended/lsb/lsb_4.1.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-The webkitgtk upgrade is poky-contrib:ross/mut (a01c056).
+diff --git a/meta/recipes-extended/lsb/lsb_4.1.bb b/meta/recipes-extended/lsb/lsb_4.1.bb
+index b4ef98e..11b788f 100644
+--- a/meta/recipes-extended/lsb/lsb_4.1.bb
++++ b/meta/recipes-extended/lsb/lsb_4.1.bb
+@@ -6,6 +6,9 @@ PR = "r2"
+ 
+ # lsb_release needs getopt
+ RDEPENDS_${PN} += "${VIRTUAL-RUNTIME_getopt}"
++# lsb needs lsbinitscripts and util-linux
++RDEPENDS_${PN} += "lsbinitscripts \
++                   util-linux"
+ 
+ LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
+ 
+-- 
+1.8.4.5
 
-Ross
 
---001a113a63c0f24cb7051f5581ec
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 9 September 2015 at 20:28, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"mai=
-lto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-color:rgb(204,204,204);border-left-st=
-yle:solid;padding-left:1ex"><div>yes its been fixed in 2.8.x. point me to M=
-UT commit I can cherry-pick locally here and try it out to make it sure.</d=
-iv></blockquote></div><br>The webkitgtk upgrade is poky-contrib:ross/mut (a=
-01c056).</div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extr=
-a">Ross</div></div>
-
---001a113a63c0f24cb7051f5581ec--
