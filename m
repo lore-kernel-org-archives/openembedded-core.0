@@ -1,36 +1,42 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-qg0-f44.google.com (mail-qg0-f44.google.com
-	[209.85.192.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F5E2763CE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f51.google.com (mail-pa0-f51.google.com
+	[209.85.220.51])
+	by mail.openembedded.org (Postfix) with ESMTP id C5F11763CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 07:44:58 +0000 (UTC)
-Received: by qgx61 with SMTP id 61so1114456qgx.3
+	Wed,  9 Sep 2015 07:52:23 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so2670522pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 09 Sep 2015 00:44:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=JqaVPsWwCa9ANaHRJecPyxKM18eudjC1jtna2cmyUbo=;
-	b=cSLz/Lamgyf3jVzK7Bi5JXrPcMLel6zNSOVrnZOAoDCMKG8ZpTCPesHKO6ecKp3luw
-	jgukRcuIT9WxfaGBwgyjU1cc46K299F5JKM3YGR1RgLL128O7Y/f0uC27YECDFxGNokb
-	hyjLsWzW9yVnvoXrODFY7/ORDB6f7iUSuVKo3DDbCU5IocxijJrrCQg1bAZhw0k8mZTo
-	b7Kt37I1f5imLfOgKU/TLO1XjHmATRWHX7lmlLBLfNY+TVb0kZ35bCsOeqdtAK6y7JNF
-	3vaOJtfmOAFH2xl8AGpQ249Oxgz3a1setfwH9EOy83K+P6Dh5wxTgSns1wFEUjVf78o2
-	sB8g==
-X-Gm-Message-State: ALoCoQkqLMbe5YhZT6oERAVLPFJI4tmf1plHK7sYpH4vcjquShL9uS0uB4jfgzuBSh4z+VcGksOy
-X-Received: by 10.140.151.76 with SMTP id 73mr44088556qhx.61.1441784698735;
-	Wed, 09 Sep 2015 00:44:58 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.98.9 with HTTP; Wed, 9 Sep 2015 00:44:39 -0700 (PDT)
-In-Reply-To: <c89abf81c424d620a687f0c7bda8f74fcc0f5faa.1441753511.git.raj.khem@gmail.com>
+	Wed, 09 Sep 2015 00:52:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=subject:mime-version:content-type:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=b1LE/3pigkg4z1VFN/ndQcyhq6SST/HQmOfa1F3O4wk=;
+	b=GX7bBffsRJVUC1qUB5fovKPFa2NM1m0ApkfBNvveLt9SYfhuqkOsLaxw5PhZY850PG
+	+8IiPupI1kvg7nfOi2GFIJA/XerY9hg34hXbQLyaQCZn47P0k7A5OJKgIhbTe+pnh6/h
+	xQDGCgRsxjc5ELeJVP2pS8wtZmXCHPWyE47cr6e9HMkFLL4qhRut3lemt9byCZrtN3+i
+	3gw5mtv9T1tp1qLUiIvBraOzQHg0JL9fe0USvkpOUBywEsccH/BXrQaMi4W/6WotV2UB
+	FJLtZJ8d2iEJ3b4qwP/ngkO38sjceg1X87hFk+Kx2WxZc0TUxHA5Fpa3R9XLJh5tIgXr
+	P1xA==
+X-Received: by 10.66.235.226 with SMTP id up2mr28597174pac.89.1441785143914;
+	Wed, 09 Sep 2015 00:52:23 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:17f:93e:50e6:541c?
+	([2601:646:8601:4580:17f:93e:50e6:541c])
+	by smtp.gmail.com with ESMTPSA id
+	f11sm5955225pdl.73.2015.09.09.00.52.22
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 09 Sep 2015 00:52:23 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 8.2 \(2104\))
+X-Pgp-Agent: GPGMail 2.5.1
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAP71Wjw8W61iC_anLZCb2BFQxo0uxTRgKNnHpWYAJn-1xpizow@mail.gmail.com>
+Date: Wed, 9 Sep 2015 00:52:18 -0700
+Message-Id: <92D7A469-14E6-4E5F-835E-C90FF3300346@gmail.com>
 References: <cover.1441753511.git.raj.khem@gmail.com>
 	<762ad7bc4268386c2a29ea6c23bc8094fd52d160.1441753511.git.raj.khem@gmail.com>
 	<c89abf81c424d620a687f0c7bda8f74fcc0f5faa.1441753511.git.raj.khem@gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Wed, 9 Sep 2015 09:44:39 +0200
-Message-ID: <CAP71Wjw8W61iC_anLZCb2BFQxo0uxTRgKNnHpWYAJn-1xpizow@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CAP71Wjw8W61iC_anLZCb2BFQxo0uxTRgKNnHpWYAJn-1xpizow@mail.gmail.com>
+To: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+X-Mailer: Apple Mail (2.2104)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 11/16] xorg-driver: Fix logical && with bitwise and operation
@@ -46,29 +52,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 07:45:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 09 Sep 2015 07:52:24 -0000
+X-Groupsio-MsgNum: 70888
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_8B6E90A4-59D4-4233-AD2A-ECC81EF1C954";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
 
-On Wed, Sep 9, 2015 at 1:07 AM, Khem Raj <raj.khem@gmail.com> wrote:
->
->  ...put_dpms-Replace-logical-with-bitwise-ope.patch | 31 ++++++++++++++++++++++
->  .../xorg-driver/xf86-video-omap_0.4.3.bb           |  2 ++
->  2 files changed, 33 insertions(+)
->  create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
->
-> diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch b/meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
-> new file mode 100644
-> index 0000000..41e77d3
-> --- /dev/null
-> +++ b/meta/recipes-graphics/xorg-driver/xf86-video-omap/0001-drmmode_output_dpms-Replace-logical-with-bitwise-ope.patch
-> @@ -0,0 +1,31 @@
-> +From fc653ca3b36435aea281ae409fb90f85e1bc0d81 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Mon, 7 Sep 2015 08:44:13 +0000
-> +Subject: [freedreno][PATCH] drmmode_output_dpms: Replace logical && with bitwise &
-> + operation
+--Apple-Mail=_8B6E90A4-59D4-4233-AD2A-ECC81EF1C954
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-why are you adding a patch sent to freedreno mailing list (so I would
-assume against xf86-video-freedreno), in the xf86-video-omap recipe,
-is that a typo?
 
+> On Sep 9, 2015, at 12:44 AM, Nicolas Dechesne =
+<nicolas.dechesne@linaro.org> wrote:
+>=20
+>=20
+> why are you adding a patch sent to freedreno mailing list (so I would
+> assume against xf86-video-freedreno), in the xf86-video-omap recipe,
+> is that a typo?
+
+thats where it was sent to. since thats the same list omap driver is =
+using as well.
+
+
+--Apple-Mail=_8B6E90A4-59D4-4233-AD2A-ECC81EF1C954
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP using GPGMail
+
+-----BEGIN PGP SIGNATURE-----
+Comment: GPGTools - https://gpgtools.org
+
+iEYEARECAAYFAlXv5TUACgkQuwUzVZGdMxTQSwCePLnTFxVcVUR993kSyQWeBZxx
+KXUAoIxsiuZna6Ge72gaXRJuEMSSoaaR
+=7ZyJ
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_8B6E90A4-59D4-4233-AD2A-ECC81EF1C954--
