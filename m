@@ -1,27 +1,29 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D97B73D27
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B63173D27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 02:19:50 +0000 (UTC)
+	Wed,  9 Sep 2015 02:45:58 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t892JoOc019546
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 8 Sep 2015 19:19:50 -0700 (PDT)
-Received: from [128.224.162.176] (128.224.162.176) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 8 Sep 2015 19:19:50 -0700
-Message-ID: <55EF9744.8000600@windriver.com>
-Date: Wed, 9 Sep 2015 10:19:48 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t892jvu2020053
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 8 Sep 2015 19:45:57 -0700 (PDT)
+Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 8 Sep 2015 19:45:57 -0700
+To: "Reshetova, Elena" <elena.reshetova@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <2236FBA76BA1254E88B949DDB74E612B41976CB1@IRSMSX102.ger.corp.intel.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <55EF9D64.8000601@windriver.com>
+Date: Tue, 8 Sep 2015 22:45:56 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1438655591-5115-1-git-send-email-wenzong.fan@windriver.com>
-In-Reply-To: <1438655591-5115-1-git-send-email-wenzong.fan@windriver.com>
-Subject: Re: [PATCH v2] bjam-native: build and install bjam.debug
+In-Reply-To: <2236FBA76BA1254E88B949DDB74E612B41976CB1@IRSMSX102.ger.corp.intel.com>
+X-Originating-IP: [172.25.44.6]
+Subject: Re: How to put a correct dependency with regards to gcc?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,111 +36,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 02:19:52 -0000
+X-List-Received-Date: Wed, 09 Sep 2015 02:45:58 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Ping ...
+On 2015-09-04 01:03 PM, Reshetova, Elena wrote:
+> Hi,
+>
+> I have a simple problem but not able to come with simple and elegant
+> solution for it, so would be very thankful for the suggestions.
+>
+> I have a task that is specified to run after do_fetch. The task needs
+> the source to be **actually** fetched, since it operates on archives. It
+> works well for everything apart gcc.
+>
+> For example in fido branch, my task run for libgcc will fail, because
+> do_fetch task for libgcc actually **does not** not fetch the gcc sources
+> (only puts a nice lock file in the download folder).
+>
+> When I noticed this, I tried to put the dependency on
+> gcc-source:do_fetch for my task (because that actually fetches the gcc
+> sources) and it works in fido, but in master after changes to gcc
+> nothing provides gcc-source and it wants to specify the version, which I
+> don’t want to do (ideally I don’t want to put any dependencies to gcc,
+> since I don’t really depend on it!). In master a run for libgcc-initial
+> fails for the same reasons: gcc tar ball is not there.
+>
+> Is there a way to make it work correctly?
 
-Thanks
-Wenzong
+Maybe we have to fix gcc-source after all rather than use the
+EXCLUDE_WORLD change I made in:
+    https://bugzilla.yoctoproject.org/show_bug.cgi?id=7878
+Does your scheme work for the kernel source? See:
 
-On 08/04/2015 10:33 AM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan <wenzong.fan@windriver.com>
+Search for "kernel-devsrc" here:
+  http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/68352
+
+../Randy
+
 >
-> bjam is stripped by default, this causes QA warning while stripping it
-> from do_populate_sysroot():
+> Here is the history of issue we are trying to solve:
+> https://github.com/01org/meta-security-isafw/issues/1
 >
->    WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
->      from bjam-native was already stripped, \
->      this will prevent future debugging!
+> Best Regards,
+> Elena.
 >
-> The JAM scripts allow to build unstripped version with '--debug'. Just
-> build and install the bjam.debug to stop bjam from being stripped in
-> compile step.
 >
-> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ---
->   meta/recipes-support/boost/bjam-native_1.58.0.bb   |  5 ++-
->   .../boost/files/bjam-native-build-bjam.debug.patch | 50 ++++++++++++++++++++++
->   2 files changed, 54 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
 >
-> diff --git a/meta/recipes-support/boost/bjam-native_1.58.0.bb b/meta/recipes-support/boost/bjam-native_1.58.0.bb
-> index d85d1a9..32646d7 100644
-> --- a/meta/recipes-support/boost/bjam-native_1.58.0.bb
-> +++ b/meta/recipes-support/boost/bjam-native_1.58.0.bb
-> @@ -5,11 +5,14 @@ SECTION = "devel"
->
->   inherit native
->
-> +SRC_URI += "file://bjam-native-build-bjam.debug.patch"
-> +
->   do_compile() {
->       ./bootstrap.sh --with-toolset=gcc
->   }
->
->   do_install() {
->       install -d ${D}${bindir}/
-> -    install -c -m 755 bjam ${D}${bindir}/
-> +    # install unstripped version for bjam
-> +    install -c -m 755 bjam.debug ${D}${bindir}/bjam
->   }
-> diff --git a/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch b/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
-> new file mode 100644
-> index 0000000..9f8b7ea
-> --- /dev/null
-> +++ b/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
-> @@ -0,0 +1,50 @@
-> +From 619ada314ab26c0c9cbfe5702cd9c0caa8f6415a Mon Sep 17 00:00:00 2001
-> +From: Wenzong Fan <wenzong.fan@windriver.com>
-> +Date: Mon, 3 Aug 2015 17:12:33 +0800
-> +Subject: [PATCH] bjam-native: build bjam.debug
-> +
-> +bjam is stripped by default, this causes QA warning while stripping it
-> +from do_populate_sysroot():
-> +
-> +  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
-> +    from bjam-native was already stripped, \
-> +    this will prevent future debugging!
-> +
-> +The JAM scripts allow to build unstripped version with '--debug'. Just
-> +build and install the bjam.debug to stop bjam from being stripped in
-> +compile step.
-> +
-> +Upstream-Status: Inappropriate [configuration]
-> +
-> +Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> +---
-> + bootstrap.sh                    | 1 +
-> + tools/build/src/engine/build.sh | 2 +-
-> + 2 files changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/bootstrap.sh b/bootstrap.sh
-> +index 98cf88b..54690aa 100755
-> +--- a/bootstrap.sh
-> ++++ b/bootstrap.sh
-> +@@ -228,6 +228,7 @@ if test "x$BJAM" = x; then
-> +   echo "tools/build/src/engine/$arch/b2"
-> +   cp "$BJAM" .
-> +   cp "$my_dir/tools/build/src/engine/$arch/bjam" .
-> ++  cp "$my_dir/tools/build/src/engine/${arch}.debug/bjam" bjam.debug
-> +
-> + fi
-> +
-> +diff --git a/tools/build/src/engine/build.sh b/tools/build/src/engine/build.sh
-> +index 6dbc706..c69fdc7 100755
-> +--- a/tools/build/src/engine/build.sh
-> ++++ b/tools/build/src/engine/build.sh
-> +@@ -312,5 +312,5 @@ if test -x "./bootstrap/jam0" ; then
-> +     if test "${BJAM_UPDATE}" != "update" ; then
-> +         echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@" clean
-> +     fi
-> +-    echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@"
-> ++    echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@" --debug
-> + fi
-> +--
-> +1.9.1
-> +
->
+
+
+-- 
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
