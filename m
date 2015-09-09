@@ -1,29 +1,27 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ED6DE73D27
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D97B73D27
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  9 Sep 2015 01:36:20 +0000 (UTC)
+	Wed,  9 Sep 2015 02:19:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t891aKmx012418
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 8 Sep 2015 18:36:20 -0700 (PDT)
-Received: from [128.224.162.231] (128.224.162.231) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 8 Sep 2015 18:36:19 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1441706663.git.kai.kang@windriver.com>
-	<38a54062b7480324d2a289cc18f4c3a8f4d72c8a.1441706663.git.kai.kang@windriver.com>
-	<CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <55EF8D1A.5060602@windriver.com>
-Date: Wed, 9 Sep 2015 09:36:26 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.2.0
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t892JoOc019546
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 8 Sep 2015 19:19:50 -0700 (PDT)
+Received: from [128.224.162.176] (128.224.162.176) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 8 Sep 2015 19:19:50 -0700
+Message-ID: <55EF9744.8000600@windriver.com>
+Date: Wed, 9 Sep 2015 10:19:48 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] gdk-pixbuf: 2.30.8 -> 2.31.7
+To: <openembedded-core@lists.openembedded.org>
+References: <1438655591-5115-1-git-send-email-wenzong.fan@windriver.com>
+In-Reply-To: <1438655591-5115-1-git-send-email-wenzong.fan@windriver.com>
+Subject: Re: [PATCH v2] bjam-native: build and install bjam.debug
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,99 +34,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 01:36:25 -0000
-Content-Type: multipart/alternative;
-	boundary="------------080902090404000305070705"
+X-List-Received-Date: Wed, 09 Sep 2015 02:19:52 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---------------080902090404000305070705
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Ping ...
 
-On 2015年09月08日 18:14, Burton, Ross wrote:
+Thanks
+Wenzong
+
+On 08/04/2015 10:33 AM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
 >
-> On 8 September 2015 at 11:05, <kai.kang@windriver.com 
-> <mailto:kai.kang@windriver.com>> wrote:
+> bjam is stripped by default, this causes QA warning while stripping it
+> from do_populate_sysroot():
 >
->     From: Kai Kang <kai.kang@windriver.com
->     <mailto:kai.kang@windriver.com>>
+>    WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
+>      from bjam-native was already stripped, \
+>      this will prevent future debugging!
 >
->     * drop backport patch
+> The JAM scripts allow to build unstripped version with '--debug'. Just
+> build and install the bjam.debug to stop bjam from being stripped in
+> compile step.
 >
+> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> ---
+>   meta/recipes-support/boost/bjam-native_1.58.0.bb   |  5 ++-
+>   .../boost/files/bjam-native-build-bjam.debug.patch | 50 ++++++++++++++++++++++
+>   2 files changed, 54 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
 >
-> gdk-pixbuf is a GNOME project, so odd-minor-versions are development 
-> releases and we won't be merging this.  If there's a particular fix 
-> you want integrated, please backport it.
-
-OK. Thanks.
-
---Kai
-
+> diff --git a/meta/recipes-support/boost/bjam-native_1.58.0.bb b/meta/recipes-support/boost/bjam-native_1.58.0.bb
+> index d85d1a9..32646d7 100644
+> --- a/meta/recipes-support/boost/bjam-native_1.58.0.bb
+> +++ b/meta/recipes-support/boost/bjam-native_1.58.0.bb
+> @@ -5,11 +5,14 @@ SECTION = "devel"
 >
-> Ross
+>   inherit native
+>
+> +SRC_URI += "file://bjam-native-build-bjam.debug.patch"
+> +
+>   do_compile() {
+>       ./bootstrap.sh --with-toolset=gcc
+>   }
+>
+>   do_install() {
+>       install -d ${D}${bindir}/
+> -    install -c -m 755 bjam ${D}${bindir}/
+> +    # install unstripped version for bjam
+> +    install -c -m 755 bjam.debug ${D}${bindir}/bjam
+>   }
+> diff --git a/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch b/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
+> new file mode 100644
+> index 0000000..9f8b7ea
+> --- /dev/null
+> +++ b/meta/recipes-support/boost/files/bjam-native-build-bjam.debug.patch
+> @@ -0,0 +1,50 @@
+> +From 619ada314ab26c0c9cbfe5702cd9c0caa8f6415a Mon Sep 17 00:00:00 2001
+> +From: Wenzong Fan <wenzong.fan@windriver.com>
+> +Date: Mon, 3 Aug 2015 17:12:33 +0800
+> +Subject: [PATCH] bjam-native: build bjam.debug
+> +
+> +bjam is stripped by default, this causes QA warning while stripping it
+> +from do_populate_sysroot():
+> +
+> +  WARNING: File '.../tmp/sysroots/x86_64-linux/usr/bin/bjam' \
+> +    from bjam-native was already stripped, \
+> +    this will prevent future debugging!
+> +
+> +The JAM scripts allow to build unstripped version with '--debug'. Just
+> +build and install the bjam.debug to stop bjam from being stripped in
+> +compile step.
+> +
+> +Upstream-Status: Inappropriate [configuration]
+> +
+> +Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> +---
+> + bootstrap.sh                    | 1 +
+> + tools/build/src/engine/build.sh | 2 +-
+> + 2 files changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/bootstrap.sh b/bootstrap.sh
+> +index 98cf88b..54690aa 100755
+> +--- a/bootstrap.sh
+> ++++ b/bootstrap.sh
+> +@@ -228,6 +228,7 @@ if test "x$BJAM" = x; then
+> +   echo "tools/build/src/engine/$arch/b2"
+> +   cp "$BJAM" .
+> +   cp "$my_dir/tools/build/src/engine/$arch/bjam" .
+> ++  cp "$my_dir/tools/build/src/engine/${arch}.debug/bjam" bjam.debug
+> +
+> + fi
+> +
+> +diff --git a/tools/build/src/engine/build.sh b/tools/build/src/engine/build.sh
+> +index 6dbc706..c69fdc7 100755
+> +--- a/tools/build/src/engine/build.sh
+> ++++ b/tools/build/src/engine/build.sh
+> +@@ -312,5 +312,5 @@ if test -x "./bootstrap/jam0" ; then
+> +     if test "${BJAM_UPDATE}" != "update" ; then
+> +         echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@" clean
+> +     fi
+> +-    echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@"
+> ++    echo_run ./bootstrap/jam0 -f build.jam --toolset=$BOOST_JAM_TOOLSET "--toolset-root=$BOOST_JAM_TOOLSET_ROOT" "$@" --debug
+> + fi
+> +--
+> +1.9.1
+> +
+>
 
-
--- 
-Regards,
-Neil | Kai Kang
-
-
---------------080902090404000305070705
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 2015年09月08日 18:14, Burton, Ross
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com"
-      type="cite">
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On 8 September 2015 at 11:05, <span
-              dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:kai.kang@windriver.com" target="_blank">kai.kang@windriver.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <div id=":2h3" class="a3s" style="overflow:hidden">From:
-                Kai Kang &lt;<a moz-do-not-send="true"
-                  href="mailto:kai.kang@windriver.com">kai.kang@windriver.com</a>&gt;<br>
-                <br>
-                * drop backport patch</div>
-            </blockquote>
-          </div>
-          <br>
-          gdk-pixbuf is a GNOME project, so odd-minor-versions are
-          development releases and we won't be merging this.  If there's
-          a particular fix you want integrated, please backport it.</div>
-      </div>
-    </blockquote>
-    <br>
-    OK. Thanks.<br>
-    <br>
-    --Kai<br>
-    <br>
-    <blockquote
-cite="mid:CAJTo0La8c1nnrCzrfDwfahJ96NeoBfv-qMTDHcfAFou9XS1+Ng@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra"><br>
-        </div>
-        <div class="gmail_extra">Ross</div>
-      </div>
-    </blockquote>
-    <br>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Neil | Kai Kang</pre>
-  </body>
-</html>
-
---------------080902090404000305070705--
