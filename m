@@ -1,34 +1,37 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f170.google.com (mail-wi0-f170.google.com
-	[209.85.212.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 24EB973243
+Received: from mail-wi0-f175.google.com (mail-wi0-f175.google.com
+	[209.85.212.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B3B073243
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 11:52:45 +0000 (UTC)
-Received: by wicge5 with SMTP id ge5so21679023wic.0
+	Thu, 10 Sep 2015 11:52:46 +0000 (UTC)
+Received: by wicgb1 with SMTP id gb1so21494823wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 04:52:45 -0700 (PDT)
+	Thu, 10 Sep 2015 04:52:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=4Wvot44GwqXMmdUyD1fR1djqMOjtyKTToZ+Fq9OJlOo=;
-	b=r6DFZ+Yth+SYZF1x4Wb4rtpTT+4sL3alDM2RbL2EiO/anGvPdhNYVuXGZH/T8CZdBr
-	UyVU9On9MrT3BHu/IxSQgUeyerffqwpHDf2f6QdLVwKTbhkJgk14gJsxjgv78yKVrW9T
-	8RcsDSeepk+b/qrXqmf48lJeN+KzrD19E8YmWC/XHrG/F6PpQ/zhAjvo+RHW6uSIU7wn
-	W9a7+f28Rv85gWP4wPcXKi0uTTexOqXIXyyb5jEI0A+fxlV2EBWGvu2cEzxWO6qNEyi4
-	4GR57Crdtmq2o0UTq4Jy4pb98/fA7xND+qllpPrY8o//PceDu0xKpJvgFXNlK7cwUPMa
-	urGA==
-X-Received: by 10.180.106.4 with SMTP id gq4mr5768298wib.42.1441885965370;
-	Thu, 10 Sep 2015 04:52:45 -0700 (PDT)
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=VWSyUePTGxavVkcYx19jPYeeWPur2sNQuhz880191dc=;
+	b=tbZ73elIrB4zn0eCHe8tiGOXMtt3tOFEIH2atHKFN9quClq4/4yIrS/HUavxKGluWR
+	JKtx1P5Ny0D+kFt2csjMSh+ZhizU8JX/HBANInpWTm8+u1WIybmf2/GVPwjj/q31OAfb
+	1H3YsXv7qskfm8uxmmex+QR14oN0ayn5YQQF0E06Ey0Itx9rSrESXvsIBhSEjWgisJtl
+	0sHPsrLAy2I1PCIURpwv6nY/bDvYDscMzGaYwPXT58hQAdm3hvJxfxU35+T/gUOetIk1
+	Kwo9J35s/C3kx97xHYLe5wjy7jp4VBKwMgMZXWbUeyFXZDiy2f1yijzkb75GNyBGDgcF
+	F/+g==
+X-Received: by 10.194.87.69 with SMTP id v5mr67316738wjz.140.1441885966750;
+	Thu, 10 Sep 2015 04:52:46 -0700 (PDT)
 Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id y15sm8934362wib.7.2015.09.10.04.52.44
+	by smtp.gmail.com with ESMTPSA id
+	sd14sm15281144wjb.36.2015.09.10.04.52.45
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Sep 2015 04:52:44 -0700 (PDT)
+	Thu, 10 Sep 2015 04:52:45 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Sep 2015 13:53:28 +0200
-Message-Id: <1441886010-18631-1-git-send-email-Martin.Jansa@gmail.com>
+Date: Thu, 10 Sep 2015 13:53:29 +0200
+Message-Id: <1441886010-18631-2-git-send-email-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.5.1
-Subject: [dizzy][PATCH 1/3] rootfs.py: Allow to override postinst-intercepts location
+In-Reply-To: <1441886010-18631-1-git-send-email-Martin.Jansa@gmail.com>
+References: <1441886010-18631-1-git-send-email-Martin.Jansa@gmail.com>
+Subject: [dizzy][PATCH 2/3] rootfs.py: show intercept script output in log.do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,42 +44,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 11:52:46 -0000
+X-List-Received-Date: Thu, 10 Sep 2015 11:52:47 -0000
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-* useful when we need to overlay/extend intercept scripts from oe-core
+* without this the output wasn't shown anywhere even when the bb.warn
+  says:
+  "See log for details!"
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oe/rootfs.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/lib/oe/rootfs.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index c4735f2..bbc37d3 100644
+index bbc37d3..db8d8f1 100644
 --- a/meta/lib/oe/rootfs.py
 +++ b/meta/lib/oe/rootfs.py
-@@ -77,6 +77,9 @@ class Rootfs(object):
-         pre_process_cmds = self.d.getVar("ROOTFS_PREPROCESS_COMMAND", True)
-         post_process_cmds = self.d.getVar("ROOTFS_POSTPROCESS_COMMAND", True)
+@@ -183,7 +183,7 @@ class Rootfs(object):
+             bb.note("> Executing %s intercept ..." % script)
  
-+        postinst_intercepts_dir = self.d.getVar("POSTINST_INTERCEPTS_DIR", True)
-+        if not postinst_intercepts_dir:
-+            postinst_intercepts_dir = self.d.expand("${COREBASE}/scripts/postinst-intercepts")
-         intercepts_dir = os.path.join(self.d.getVar('WORKDIR', True),
-                                       "intercept_scripts")
- 
-@@ -86,8 +89,7 @@ class Rootfs(object):
- 
-         bb.utils.mkdirhier(self.deploy_dir_image)
- 
--        shutil.copytree(self.d.expand("${COREBASE}/scripts/postinst-intercepts"),
--                        intercepts_dir)
-+        shutil.copytree(postinst_intercepts_dir, intercepts_dir)
- 
-         shutil.copy(self.d.expand("${COREBASE}/meta/files/deploydir_readme.txt"),
-                     self.deploy_dir_image +
+             try:
+-                subprocess.check_output(script_full)
++                subprocess.check_call(script_full)
+             except subprocess.CalledProcessError as e:
+                 bb.warn("The postinstall intercept hook '%s' failed (exit code: %d)! See log for details!" %
+                         (script, e.returncode))
 -- 
 2.5.1
 
