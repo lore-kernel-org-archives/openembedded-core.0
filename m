@@ -1,28 +1,36 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EB9EB6E26B
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
+	[209.85.220.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BA366E26B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 10:23:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8AANXh4022591
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 10 Sep 2015 03:23:33 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 10 Sep 2015 03:23:33 -0700
-Message-ID: <55F15A23.5010904@windriver.com>
-Date: Thu, 10 Sep 2015 18:23:31 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
-MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1441878476.git.liezhi.yang@windriver.com>
-	<CAJTo0LYdchmiRpbW6TKOQ68pzgLUKiRt4bOP2syNH6-9Zppd2g@mail.gmail.com>
-In-Reply-To: <CAJTo0LYdchmiRpbW6TKOQ68pzgLUKiRt4bOP2syNH6-9Zppd2g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/1] sstate.bbclass: fixes for SSTATE_SIG_KEY when use SSTATE_MIRRORS
+	Thu, 10 Sep 2015 10:24:45 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so39566764pad.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Sep 2015 03:24:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3D6bvdFBapmVhAHgZHLjGBbj4Hpv/iwIiLMuO08xr3M=;
+	b=h9fWKwi8VH5Vq0EiVpJUjMaH92gtkcj+WUxaqCQwGsWwzzddYthUkuh25GHrZkwtOV
+	8BmPnguQHZF5d+mKJlPYALxQIe61VSc0zQvjrFJVrGCTClmiBb4BSxKoOSAzbtI42raI
+	rwTHeu3xpNl2pM0da8BNYD9dBGWu7HPCz1NH+i6RHmAqa3JFDvArXQaaK3PQ+MVrRpjR
+	L3dCOAS47g1H1gWQtDKiDEqWX2sv5IMd8oPA93oFMDHmkO75aXEF7BcaguhgZkxgZAwC
+	F1ZfgEac8fTxApsP5I70MUTVMdtr268Xa+8vvdSyw9RZ0A4+CxfoFZ8K7VtcMJNBPK+j
+	/k0A==
+X-Gm-Message-State: ALoCoQkJ+TADeVrm5r20A8f0iel5l4Z5QV6t6+/jou0bdxCtT8H8vCc93t0M18f04/GXEU5Lu0gq
+X-Received: by 10.66.144.165 with SMTP id sn5mr73848237pab.122.1441880685807; 
+	Thu, 10 Sep 2015 03:24:45 -0700 (PDT)
+Received: from nathanbox.home.gateway ([103.26.61.212])
+	by smtp.gmail.com with ESMTPSA id
+	by1sm11183915pab.6.2015.09.10.03.24.41
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Sep 2015 03:24:44 -0700 (PDT)
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Sep 2015 20:24:12 +1000
+Message-Id: <1441880652-12645-1-git-send-email-nathan@nathanrossi.com>
+X-Mailer: git-send-email 2.5.1
+Subject: [PATCH v2] u-boot.inc: Add host compiler flags and openssl-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,55 +43,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 10:23:35 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Sep 2015 10:24:47 -0000
 
+U-Boot will compile its own tools during the build, with specific
+configurations (aka when CONFIG_FIT_SIGNATURE is enabled) the host tools
+require openssl. This patch adds 'openssl' as a PACKAGECONFIG that
+enables the use of openssl-native as a dependency and also adds the
+HOSTCC flags that U-Boot uses when compiling the host tools.
 
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+Changes in v2:
+* Changed from using an unconditional DEPEND +=, to using PACKAGECONFIG with
+  the "openssl" config and defaulting PACKAGECONFIG to enable the "openssl"
+  config.
+* Reworded the commit message and comments.
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-On 09/10/2015 06:14 PM, Burton, Ross wrote:
-> I sent an almost identical patch to this yesterday :)
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 990ddb1..3d00b14 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -15,6 +15,13 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ inherit uboot-config deploy
+ 
+ EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
++EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
++
++PACKAGECONFIG ??= "openssl"
++# u-boot will compile its own tools during the build, with specific
++# configurations (aka when CONFIG_FIT_SIGNATURE is enabled) openssl is needed as
++# a host build dependency.
++PACKAGECONFIG[openssl] = ",,openssl-native"
+ 
+ # Allow setting an additional version string that will be picked up by the
+ # u-boot build system and appended to the u-boot version.  If the .scmversion
+-- 
+2.5.1
 
-Thanks, please drop this one, something is wrong with my
-thunderbird's searching, I had searched before I worked on it,
-but didn't find the patch, I searched it again just now, and
-did find it. (while its sorting isn't correct)
-
-// Robert
-
->
-> (your patch breaks is SSTATE_VERIFY_KEY="0")
->
-> Ross
->
-> On 10 September 2015 at 11:04, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     The following changes since commit 56c5fa106eeccda2ca92dbeb73ff01ba40992e7d:
->
->        ptest: use fakeroot for do_install_ptest_base (2015-09-09 14:25:09 +0100)
->
->     are available in the git repository at:
->
->        git://git.openembedded.org/openembedded-core-contrib
->     <http://git.openembedded.org/openembedded-core-contrib> rbt/ss
->     http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/ss
->
->     Robert Yang (1):
->        sstate.bbclass: fixes for SSTATE_SIG_KEY when use SSTATE_MIRRORS
->
->       meta/classes/sstate.bbclass |    7 ++++---
->       1 file changed, 4 insertions(+), 3 deletions(-)
->
->     --
->     1.7.9.5
->
->     --
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
 
