@@ -1,37 +1,36 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f182.google.com (mail-qk0-f182.google.com
-	[209.85.220.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ECC373232
+Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
+	[209.85.192.49])
+	by mail.openembedded.org (Postfix) with ESMTP id E734673243
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 19:33:57 +0000 (UTC)
-Received: by qkap81 with SMTP id p81so23054028qka.2
+	Thu, 10 Sep 2015 19:40:47 +0000 (UTC)
+Received: by qgev79 with SMTP id v79so44837770qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 12:33:57 -0700 (PDT)
+	Thu, 10 Sep 2015 12:40:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc:content-type;
-	bh=S6qjlU5m6zH4zUX11EEnQosFOqHDHnuLBPno0X8GoOw=;
-	b=D1D/y/K3KYUYFgEML8uMPrgd36tfgeu2pZnIl2ucSm5am2dXlnredbEqxcgZOYNqBP
-	VAvPTVtycF5MHJDyXOXzhotu+TfDUdlOhZmh1mPBMKMQVdhKLEl6KJCI8iKoeUTfUtZ4
-	6W24fN1UWmqcat1EHh2RTS+qGD1wrnE4wSqFaAQVdH4w0WZPLzyuxqcTFX/+8Tj32pWE
-	jodrwYOrgdkS42wdoQ8kgYRVUx6FTl7uAhGnY/oLNTGkXcRIGs2ei+6OaN2FK+20E1wF
-	7FcPVpq2WJcAGS2ot1Dc29waqPU3PPOnEB+qxl2Qf/ry+fJotQXgRzvJlkNPPXnFYukl
-	77ig==
-X-Gm-Message-State: ALoCoQloq7drKoVp8lRUZQ4f+mypTN9lUMmnny+u7PIvHgVGpw0TCa8KHQcxTV/mgIu/4QJk+KCB
-X-Received: by 10.55.221.199 with SMTP id u68mr55128308qku.83.1441913637760;
-	Thu, 10 Sep 2015 12:33:57 -0700 (PDT)
+	bh=bG5e9m9uW9WRXmaO5yZ+qLXPO0eRSz2m+QknjYaszjc=;
+	b=ayBtMjTw+p3YMQp5PE99P8YZWhPiIteR7yBBcmgSWYuHNlw1YbjQT2/knUuE10cQQ+
+	nlvEmqROrIbP1iaxWtzij8iL4dGddBw0CQvKtvJmY6gYALWKNFI66hcqNfChYBe6Oaxz
+	KCsgASvupf56lQ1XkM3VzdWbVoao37PAEkNNmVhRv+DWnTT2gv1vcokd8YKiXqm9U+qG
+	vQuVjHdEXZ/zkhsSIlDvuhdpbraRtPoaNKvFMmgk21riWNB6dOH+Ujrb3BpmOnVGLay3
+	IyTZeQQP7RqKRuOeDGgQ7ZVMwA/DP+VAXvfA1vu6CN26LIvOnZloWmZTNl9JfM3JU+8x
+	uIMA==
+X-Gm-Message-State: ALoCoQmooYGAbVjBxDc05VkyzmzuGGmKknnXZZlPRuRPf4m8c0ABM4YqJ4ZSXg3+XhIcqapdHD1O
+X-Received: by 10.140.89.10 with SMTP id u10mr56244441qgd.15.1441914047850;
+	Thu, 10 Sep 2015 12:40:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Thu, 10 Sep 2015 12:33:38 -0700 (PDT)
-In-Reply-To: <20150910193310.GE2387@jama>
-References: <1441912203-27833-1-git-send-email-ross.burton@intel.com>
-	<20150910193310.GE2387@jama>
+Received: by 10.140.94.86 with HTTP; Thu, 10 Sep 2015 12:40:28 -0700 (PDT)
+In-Reply-To: <1441909087-3860-1-git-send-email-alexander.kanavin@linux.intel.com>
+References: <1441909087-3860-1-git-send-email-alexander.kanavin@linux.intel.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 10 Sep 2015 20:33:38 +0100
-Message-ID: <CAJTo0LZcOLYi6_psehUKvtu-+LeRkPPHHQfQnn7BLLc3WMQ2bw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+Date: Thu, 10 Sep 2015 20:40:28 +0100
+Message-ID: <CAJTo0LYCw9pFKn+jkT_a-O8h4r48CCjK2DZDe5oJUsuSuKvGQA@mail.gmail.com>
+To: Alexander Kanavin <alexander.kanavin@linux.intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: Fix Upstream-Status statements
+Subject: Re: [PATCH] webkitgtk: add a new recipe for latest upstream version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +43,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 19:34:00 -0000
-Content-Type: multipart/alternative; boundary=001a114997582d1fc4051f69aea7
+X-List-Received-Date: Thu, 10 Sep 2015 19:40:48 -0000
+Content-Type: multipart/alternative; boundary=001a11c1211a9e945a051f69c6a4
 
---001a114997582d1fc4051f69aea7
+--001a11c1211a9e945a051f69c6a4
 Content-Type: text/plain; charset=UTF-8
 
-On 10 September 2015 at 20:33, Martin Jansa <martin.jansa@gmail.com> wrote:
+On 10 September 2015 at 19:18, Alexander Kanavin <
+alexander.kanavin@linux.intel.com> wrote:
 
-> There are at least 2 cases where SOB line is added, why?
+> +Upstream-status: Backport [should appear in 2.10,
+> http://trac.webkit.org/changeset/184856]
 >
 
-Should have mentioned that.  There are two cases from memory, where I was
-fixing a Upstream-Status by hand and looked at the git history to identify
-who added the file.
+Capital S in Status, and missing a signed-off-by (your name in the patch
+header doesn't count).  I've made these changes locally, don't bother
+sending a revised edition.
 
 Ross
 
---001a114997582d1fc4051f69aea7
+--001a11c1211a9e945a051f69c6a4
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 10 September 2015 at 20:33, Martin Jansa <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":22h" c=
-lass=3D"a3s" style=3D"overflow:hidden">There are at least 2 cases where SOB=
- line is added, why?</div></blockquote><div><br></div><div>Should have ment=
-ioned that.=C2=A0 There are two cases from memory, where I was fixing a Ups=
-tream-Status by hand and looked at the git history to identify who added th=
-e file.</div><div><br></div><div>Ross=C2=A0</div></div></div></div>
+On 10 September 2015 at 19:18, Alexander Kanavin <span dir=3D"ltr">&lt;<a h=
+ref=3D"mailto:alexander.kanavin@linux.intel.com" target=3D"_blank">alexande=
+r.kanavin@linux.intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex"><div id=3D":24d" class=3D"a3s" style=3D"overflow:hidden">+Upstream-s=
+tatus: Backport [should appear in 2.10, <a href=3D"http://trac.webkit.org/c=
+hangeset/184856" rel=3D"noreferrer" target=3D"_blank">http://trac.webkit.or=
+g/changeset/184856</a>]<br></div></blockquote></div><br>Capital S in Status=
+, and missing a signed-off-by (your name in the patch header doesn&#39;t co=
+unt).=C2=A0 I&#39;ve made these changes locally, don&#39;t bother sending a=
+ revised edition.</div><div class=3D"gmail_extra"><br></div><div class=3D"g=
+mail_extra">Ross</div></div>
 
---001a114997582d1fc4051f69aea7--
+--001a11c1211a9e945a051f69c6a4--
