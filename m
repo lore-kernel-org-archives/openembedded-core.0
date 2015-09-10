@@ -1,36 +1,48 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f172.google.com (mail-wi0-f172.google.com
-	[209.85.212.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 131D260132
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
+	[209.85.220.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3557473243
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 14:30:33 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so25515628wic.0
+	Thu, 10 Sep 2015 15:22:45 +0000 (UTC)
+Received: by pacex6 with SMTP id ex6so46110204pac.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 07:30:34 -0700 (PDT)
+	Thu, 10 Sep 2015 08:22:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=28I2mliTjJBH9PR4XHhLOwJQDbaH04vmLQD1JzZWJWg=;
-	b=l8HrcVRjr515vKASwRPMAYr5NJCZ3WgwW/lmhWJG7zHyWXriba+pTQBZN2mUjthnUA
-	oRFGY6dAXUyTlH9cB2Jn3CMnxMaI3LCWlT5rBGmR5AbPwRFG7ioxGoOZCUTnSUsXhM1I
-	jlPHPAiiNXt9KwCkRrvByzY/7A8AlbGFn/6iND+Ij//jnQkIB9bSWycKFCjFu7cfZSIk
-	8RyT/KwqxOz46v4nHqx/tuXLJL5z//7EM2kNTPN5ZWZj2Nk15epcplVu6m5PnYGzo8oc
-	vBDX00VkdIL2/NTdRVletvJ4fMiWT1zWxjgIRa6V5u6IxxxUzJIWwnPwhvMgJCqwIeFB
-	vhtg==
-X-Received: by 10.180.187.141 with SMTP id fs13mr7234120wic.13.1441895433714; 
-	Thu, 10 Sep 2015 07:30:33 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id p3sm9630128wib.16.2015.09.10.07.30.32
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Sep 2015 07:30:32 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Sep 2015 16:31:26 +0200
-Message-Id: <1441895486-26145-1-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <1441369348-32182-3-git-send-email-Martin.Jansa@gmail.com>
-References: <1441369348-32182-3-git-send-email-Martin.Jansa@gmail.com>
-Subject: [PATCHv2] fontcache: allow to pass extra parameters and environment to fc-cache
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:message-id:references:to;
+	bh=aXCyM/op3ELtybM39NGSMH/lb8LzG1jcAUNWpyc6XIk=;
+	b=CirgMppBlhkqNYim28q/w7aWh5qr/R24KpxYmLC+gfm6uUd14S3KV1k8bYqB4+LVZz
+	WHrHvYO52VqcuAXeFEgvw9RjRWi0Mk5VRBNmX63ESY7l0GUilnSXgZakc7mE1OHSgqAQ
+	umqQXQt/B5c/bhWu17jm9ve0D5ViaAHNXgtCwUT2r7UlxKSoh/YDVJBTMDyoHljTORg9
+	1DOgpz79i5/iLPvwyusyoOC5FQGVNJKmO6EWsi5WOIPXQv3gHKcg3658eDdIJQTTnF0A
+	aam24JuHWT5IiqiBtUoZHXk/1DpRUjkkvbAAqqXtWlU4MAjoYBp6qHY27FvrgHbAHeGn
+	xDzg==
+X-Received: by 10.66.121.74 with SMTP id li10mr74322855pab.73.1441898565921;
+	Thu, 10 Sep 2015 08:22:45 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:2419:d270:de82:90db?
+	([2601:646:8601:4580:2419:d270:de82:90db])
+	by smtp.gmail.com with ESMTPSA id
+	lq10sm12693096pab.18.2015.09.10.08.22.41
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Thu, 10 Sep 2015 08:22:43 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <CAJTo0LYWxFtoYNseSup-zXAvJMigP_y1c4wdSrFXwk6SP_C-=A@mail.gmail.com>
+Date: Thu, 10 Sep 2015 08:22:41 -0700
+Message-Id: <F0FA75E8-F6E8-496C-8757-68144FDCD0CA@gmail.com>
+References: <cover.1441753511.git.raj.khem@gmail.com>
+	<0b794c84466fef2ece1269e01820503b4bce0b52.1441753511.git.raj.khem@gmail.com>
+	<63981.10.252.58.194.1441792979.squirrel@linux.intel.com>
+	<64065.10.252.58.194.1441794205.squirrel@linux.intel.com>
+	<32176B14-814F-40D7-A452-86D835E38FCB@gmail.com>
+	<55F1679C.5090508@linux.intel.com> <55F16E82.1070708@gmail.com>
+	<55F172C9.3030601@linux.intel.com> <55F173AC.7010808@mlbassoc.com>
+	<CAJTo0LYWxFtoYNseSup-zXAvJMigP_y1c4wdSrFXwk6SP_C-=A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+X-Mailer: Apple Mail (2.3094)
+Cc: Gary Thomas <gary@mlbassoc.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Policy for 'Pending' patches (was Re: [PATCH 02/16] slang: Fix namespace conflict vis-a-vis posix_close)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,77 +55,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 14:30:36 -0000
+X-List-Received-Date: Thu, 10 Sep 2015 15:22:46 -0000
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_AA3D7BF6-FF20-4F67-ACB8-E3BCBA6CD1CE"
 
-* this can be useful for passing extra parameters, pass
-  -v by default to see what's going on in do_rootfs
-* we need to use this for extra parameter we implemented
-  in fontconfig:
-  --ignore-mtime always use cache file regardless of font directory mtime
-  because the checksum of fontcache generated in do_rootfs
-  doesn't match with /usr/share/fonts directory as seen on
-  target device causing fontconfig to re-create the cache
-  when fontconfig is used for first time or worse create
-  new cache in every user's home directory when /usr/
-  filesystem is read only and cache cannot be updated.
-
-  Running FC_DEBUG=16 fc-cache -v on such device shows:
-  FcCacheTimeValid dir "/usr/share/fonts" cache checksum 1441207803 dir checksum 1441206149
-* my guess is that the checksum is different, because pseudo
-  (which is unloaded when running qemuwrapper) or because some
-  influence of running the rootfs under qemu.
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/fontcache.bbclass                | 19 +++++++++++++++----
- scripts/postinst-intercepts/update_font_cache |  4 ++--
- 2 files changed, 17 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
-index d122387..8ebdfc4 100644
---- a/meta/classes/fontcache.bbclass
-+++ b/meta/classes/fontcache.bbclass
-@@ -9,12 +9,23 @@ inherit qemu
- FONT_PACKAGES ??= "${PN}"
- FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
- FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
-+FONTCONFIG_CACHE_PARAMS ?= "-v"
-+# You can change this to e.g. FC_DEBUG=16 to debug fc-cache issues,
-+# something has to be set, because qemuwrapper is using this variable after -E
-+# multiple variables aren't allowed because for qemu they are separated
-+# by comma and in -n "$D" case they should be separated by space
-+FONTCONFIG_CACHE_ENV ?= "FC_DEBUG=1"
- fontcache_common() {
--if [ "x$D" != "x" ] ; then
--	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} bindir=${bindir} \
--		libdir=${libdir} base_libdir=${base_libdir} fontconfigcachedir=${FONTCONFIG_CACHE_DIR}
-+if [ -n "$D" ] ; then
-+	$INTERCEPT_DIR/postinst_intercept update_font_cache ${PKG} mlprefix=${MLPREFIX} \
-+		'bindir="${bindir}"' \
-+		'libdir="${libdir}"' \
-+		'base_libdir="${base_libdir}"' \
-+		'fontconfigcachedir="${FONTCONFIG_CACHE_DIR}"' \
-+		'fontconfigcacheparams="${FONTCONFIG_CACHE_PARAMS}"' \
-+		'fontconfigcacheenv="${FONTCONFIG_CACHE_ENV}"'
- else
--	fc-cache
-+	${FONTCONFIG_CACHE_ENV} fc-cache ${FONTCONFIG_CACHE_PARAMS}
- fi
- }
- 
-diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/postinst-intercepts/update_font_cache
-index c8c6018..0deab3c 100644
---- a/scripts/postinst-intercepts/update_font_cache
-+++ b/scripts/postinst-intercepts/update_font_cache
-@@ -1,5 +1,5 @@
- #!/bin/sh
- 
--PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir}\
--					$D${bindir}/fc-cache --sysroot=$D
-+PSEUDO_UNLOAD=1 qemuwrapper -L $D -E LD_LIBRARY_PATH=$D/${libdir}:$D/${base_libdir} \
-+					-E ${fontconfigcacheenv} $D${bindir}/fc-cache --sysroot=$D ${fontconfigcacheparams}
- chown -R root:root $D${fontconfigcachedir}
--- 
-2.5.1
+--Apple-Mail=_AA3D7BF6-FF20-4F67-ACB8-E3BCBA6CD1CE
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
 
+> On Sep 10, 2015, at 5:12 AM, Burton, Ross <ross.burton@intel.com> =
+wrote:
+>=20
+>=20
+> On 10 September 2015 at 13:12, Gary Thomas <gary@mlbassoc.com =
+<mailto:gary@mlbassoc.com>> wrote:
+> What would you do to the poor sod that sends a patch upstream
+> (i.e. Pending) that is not being moved on by the upstream holders?
+> Punish him by making his patch (and potentially all others he
+> has created) invalid?  Seems a bit harsh...
+>=20
+> Send upstream is Upstream-Status: Submitted.
+>=20
+> Pending means "I wrote a patch but cannot be bothered to send it =
+upstream=E2=80=9D.
+
+Or more politely, I am working on upstreaming it on my own schedule.
+
+>=20
+> Ross=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+--Apple-Mail=_AA3D7BF6-FF20-4F67-ACB8-E3BCBA6CD1CE
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
+charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
+class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
+class=3D"">On Sep 10, 2015, at 5:12 AM, Burton, Ross &lt;<a =
+href=3D"mailto:ross.burton@intel.com" =
+class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
+class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
+class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
+class=3D"gmail_quote">On 10 September 2015 at 13:12, Gary Thomas <span =
+dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:gary@mlbassoc.com" =
+target=3D"_blank" class=3D"">gary@mlbassoc.com</a>&gt;</span> wrote:<br =
+class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
+.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ub" =
+class=3D"a3s" style=3D"overflow:hidden">What would you do to the poor =
+sod that sends a patch upstream<br class=3D"">
+(i.e. Pending) that is not being moved on by the upstream holders?<br =
+class=3D"">
+Punish him by making his patch (and potentially all others he<br =
+class=3D"">
+has created) invalid?&nbsp; Seems a bit harsh...</div></blockquote><div =
+class=3D""><br class=3D""></div><div class=3D"">Send upstream is =
+Upstream-Status: Submitted.</div><div class=3D""><br class=3D""></div><div=
+ class=3D"">Pending means "I wrote a patch but cannot be bothered to =
+send it upstream=E2=80=9D.</div></div></div></div></div></blockquote><div>=
+<br class=3D""></div><div>Or more politely, I am working on upstreaming =
+it on my own schedule.</div><br class=3D""><blockquote type=3D"cite" =
+class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
+class=3D"gmail_extra"><div class=3D"gmail_quote"><div class=3D""><br =
+class=3D""></div><div class=3D"">Ross&nbsp;</div></div></div></div>
+-- <br class=3D"">_______________________________________________<br =
+class=3D"">Openembedded-core mailing list<br class=3D""><a =
+href=3D"mailto:Openembedded-core@lists.openembedded.org" =
+class=3D"">Openembedded-core@lists.openembedded.org</a><br =
+class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
+e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
+
+--Apple-Mail=_AA3D7BF6-FF20-4F67-ACB8-E3BCBA6CD1CE--
