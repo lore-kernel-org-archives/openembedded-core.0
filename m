@@ -1,35 +1,33 @@
 Return-Path: <enrico.scholz@sigma-chemnitz.de>
-X-Greylist: delayed 1659 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 10 Sep 2015 17:18:19 UTC
 Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 6891873232
+	by mail.openembedded.org (Postfix) with ESMTP id 7E87B76EBF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 17:18:18 +0000 (UTC)
+	Thu, 10 Sep 2015 17:18:23 +0000 (UTC)
 Received: from mail.cvg.de (mail.cvg.de [62.153.82.30])
 	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	t8AGskVI019081
+	t8AGoYOL018549
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-SHA bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 18:54:49 +0200
+	Thu, 10 Sep 2015 18:50:37 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1441904089;
-	bh=OYm4waXCkn9focmeVOaMAQ0GuhuMxvghvMdoB8YCjqw=;
+	s=v2012061000; t=1441903837;
+	bh=lf3Q1N87c6FZvopvoHbcwkXytQH0jcmDsSMjY5JdId0=;
 	h=From:To:Cc:Subject:Date:Message-Id:Sender;
-	b=KXv8OyovT53jejCqyAsv3yqruBCopZ9QfaDPvpEz86+QxLyKxxJwU5jFD0MiCKflV
-	jgRoKhyPHm7PB3Uk5qwWQPihnoOlnXYFjSXjw7hz3p1pjSRrQSnUjxpAPZrKp4KGnY
-	Ig8nblULZ6XzvM6vJUrN1K/GnZvWlCck8Rl6tOiQ=
+	b=b+LDagXtwkyRs1xfBYD3fnvJselFE6lTo6zG8J2f6FtkdjEcduhSVhIy+gBrv1mKv
+	8hpvxdRHBfhX+tZA+bE6vaMK2H7ovWktbQxsvTjB9vsxoMBFsp2TlmBhEoboelzCW+
+	YOy+gVfgMczYwtsQpkhhzwJuxcoSpo8rzhActF6s=
 Received: from ensc-virt.intern.sigma-chemnitz.de
 	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id t8AGsYK2026936
+	by mail.cvg.de (8.14.4/8.14.4) with ESMTP id t8AGoKTG026301
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=NO);
-	Thu, 10 Sep 2015 18:54:35 +0200
+	Thu, 10 Sep 2015 18:50:24 +0200
 Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
 	4.85) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1Za57K-0006yY-Lk; Thu, 10 Sep 2015 18:54:34 +0200
+	id 1Za53E-0006vT-JT; Thu, 10 Sep 2015 18:50:20 +0200
 From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Sep 2015 18:54:33 +0200
-Message-Id: <1441904073-26776-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 10 Sep 2015 18:50:16 +0200
+Message-Id: <1441903816-26587-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
 X-Mailer: git-send-email 2.4.3
 Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 X-DSPAM-Result: Innocent
@@ -41,7 +39,7 @@ X-Spam-Tests: AWL, BAYES_00, DKIM_ADSP_ALL, SPF_NEUTRAL, T_RP_MATCHES_RCVD,
 	DSPAM_INNOCENT
 X-Scanned-By: MIMEDefang 2.78
 Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: [PATCH] waf.bbclass: filter out non -j from PARALLEL_MAKE
+Subject: [PATCH] license.bbclass: try copyfile() as fallback when link() fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,55 +52,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 17:18:22 -0000
+X-List-Received-Date: Thu, 10 Sep 2015 17:18:24 -0000
 
-'waf' supports only simple '-j' and fails when parallel make flags
-contain extended options like '--load-average'.
+link() will fail with EXDEV when source and destination are on different mountpoints.
+Unfortunately, stat().st_dev does not identify the mountpoint so that copy_license_files()
+fails in bind-mount environments.
 
-Patch uses the method from 'boost.inc' to filter '-j'.
+E.g.:
+
+| # mkdir /tmp/a /tmp/b /tmp/X /tmp/X/a /tmp/X/b
+| # touch /tmp/a/foo
+| # mount --bind /tmp/a /tmp/X/a
+| # mount --bind /tmp/b /tmp/X/b
+|
+| # python -c 'import os;
+| print(os.stat("/tmp/X/a")).st_dev;
+| print(os.stat("/tmp/X/b")).st_dev;
+| os.link("/tmp/X/a/foo", "/tmp/X/b/foo")'
+| 62
+| 62
+| Traceback (most recent call last):
+|   File "<string>", line 1, in <module>
+| OSError: [Errno 18] Invalid cross-device link
+
+Patch catches errno EXDEV and tries a plain copy then.
 
 Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 ---
- meta/classes/waf.bbclass | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ meta/classes/license.bbclass | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-index 3a221e7..220dc58 100644
---- a/meta/classes/waf.bbclass
-+++ b/meta/classes/waf.bbclass
-@@ -1,9 +1,31 @@
-+def get_waf_parallel_make(bb, d):
-+    pm = d.getVar('PARALLEL_MAKE', True)
-+    if pm:
-+        # look for '-j' and throw other options (e.g. '-l') away
-+        # because they might have different meaning in bjam
-+        pm = pm.split()
-+        while pm:
-+            v = None
-+            opt = pm.pop(0)
-+            if opt == '-j':
-+                v = pm.pop(0)
-+            elif opt.startswith('-j'):
-+                v = opt[2:].strip()
-+            else:
-+                v = None
-+
-+            if v:
-+                v = min(64, int(v))
-+                return '-j' + str(v)
-+
-+    return ""
-+
- waf_do_configure() {
- 	${S}/waf configure --prefix=${prefix} ${EXTRA_OECONF}
- }
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 224d541..ba36c12 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -175,6 +175,7 @@ def add_package_and_files(d):
  
- waf_do_compile()  {
--	${S}/waf build ${PARALLEL_MAKE}
-+	${S}/waf build ${@get_waf_parallel_make('PARALLEL_MAKE', d)}
- }
+ def copy_license_files(lic_files_paths, destdir):
+     import shutil
++    import errno
  
- waf_do_install() {
+     bb.utils.mkdirhier(destdir)
+     for (basename, path) in lic_files_paths:
+@@ -183,8 +184,14 @@ def copy_license_files(lic_files_paths, destdir):
+             dst = os.path.join(destdir, basename)
+             if os.path.exists(dst):
+                 os.remove(dst)
+-            if os.access(src, os.W_OK) and (os.stat(src).st_dev == os.stat(destdir).st_dev):
+-                os.link(src, dst)
++            if os.access(src, os.W_OK):
++                try:
++                    os.link(src, dst)
++                except OSError as e:
++                    if e.errno != errno.EXDEV:
++                        raise e
++
++                    shutil.copyfile(src, dst)
+             else:
+                 shutil.copyfile(src, dst)
+         except Exception as e:
 -- 
 2.4.3
 
