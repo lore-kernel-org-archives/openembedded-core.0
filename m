@@ -1,37 +1,41 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wi0-f177.google.com (mail-wi0-f177.google.com
-	[209.85.212.177])
-	by mail.openembedded.org (Postfix) with ESMTP id D40DA76F58
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f52.google.com (mail-qg0-f52.google.com
+	[209.85.192.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B241A73243
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 11:53:16 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so24923020wic.1
+	Thu, 10 Sep 2015 12:06:36 +0000 (UTC)
+Received: by qgt47 with SMTP id 47so32726265qgt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 04:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=p3g2uR0pN/Y1tclONnbBv3ZX5fsrBOjRZH68Zn5gt5s=;
-	b=U1ofXjhuGBguof10E7vpCkI1+PK7J9gD3kiTmVo8CkqjEWy+DYwmnwzDNLFFsCV6pi
-	magdacOU/EN5iEdS3womcQyGbJccNRdL62mGrxe4irkhX5Y7oEdwcGTs1Lhs2bIeURLJ
-	bOD6MsvmXAEBPLUE0Knyx1Uco90huMGshaoDPdlMF4fND/L6eSRUXRveWrjmeNN8ufVE
-	rghjdUG8jVCf1wJ1z6AKb4zlflIIOAd/n8ruEUxNcLL+qBPYSiq5LIyW0fpni1JQ5H89
-	tzsGJicIf0IyUBPiv9rov8fA7alKVynyioEjx6iVZEiLRLVBANR/dwNelMC8fBz07lcl
-	k9gQ==
-X-Received: by 10.181.25.234 with SMTP id it10mr5598790wid.41.1441885996454;
-	Thu, 10 Sep 2015 04:53:16 -0700 (PDT)
-Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
-	by smtp.gmail.com with ESMTPSA id
-	mz12sm8945728wic.4.2015.09.10.04.53.15
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 10 Sep 2015 04:53:15 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Sep 2015 13:54:11 +0200
-Message-Id: <1441886051-18676-3-git-send-email-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <1441886051-18676-1-git-send-email-Martin.Jansa@gmail.com>
-References: <1441886051-18676-1-git-send-email-Martin.Jansa@gmail.com>
-Subject: [fido][PATCH 3/3] postinst_intercept: allow to pass variables with spaces
+	Thu, 10 Sep 2015 05:06:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=h9uySsIr2GQoQXWFj80VvXBPXK3Z87mQJrnInx7cK9s=;
+	b=HIX/mObqeL4skz1Cc9ohUEpxlKEiMRILDav2s9XUYw/O8gHwYko58vQ9laiZVfGiAS
+	dbPZdmuYP2W4FqixeRyvFfFhOIxzlddxAE7JINsRI78O1mivfkg3yRlph8RkKOXtGTGn
+	aS0rgrPGcsaX9PCeckkXhxXAisSEgTk8k5cmwkB7m3bf6T5nKRa6Fhtk/6ZRYCqor8aF
+	dQe94oXQj66+xFk84VSt4nxTZc8f1WdBj/8NqRXZ8Y1lBcwtG8gxCCv0XrfLVIjRxp4G
+	nrgDw3f9kgFmBDMii7FvS5VvfRxxifjAAyWEpr+KpOte6Ai4dRnHkyNU6kcKS38wHJJk
+	3L2w==
+X-Gm-Message-State: ALoCoQlomPQmHWrfg/8xhjD85XT51Z4PsoiUqEeeLwHChFmhLpQdhXkNp+NFCTzVlp0oeIwAjThG
+X-Received: by 10.140.89.10 with SMTP id u10mr52565998qgd.15.1441886796383;
+	Thu, 10 Sep 2015 05:06:36 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Thu, 10 Sep 2015 05:06:17 -0700 (PDT)
+In-Reply-To: <55F16E82.1070708@gmail.com>
+References: <cover.1441753511.git.raj.khem@gmail.com>
+	<0b794c84466fef2ece1269e01820503b4bce0b52.1441753511.git.raj.khem@gmail.com>
+	<63981.10.252.58.194.1441792979.squirrel@linux.intel.com>
+	<64065.10.252.58.194.1441794205.squirrel@linux.intel.com>
+	<32176B14-814F-40D7-A452-86D835E38FCB@gmail.com>
+	<55F1679C.5090508@linux.intel.com> <55F16E82.1070708@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 10 Sep 2015 13:06:17 +0100
+Message-ID: <CAJTo0LaBtTo+RXw-Z2stbyU75nor=5UCgpsUNJvR5MZctUvJ9g@mail.gmail.com>
+To: Trevor Woerner <twoerner@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 02/16] slang: Fix namespace conflict vis-a-vis posix_close
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,33 +48,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 11:53:18 -0000
+X-List-Received-Date: Thu, 10 Sep 2015 12:06:37 -0000
+Content-Type: multipart/alternative; boundary=001a11c1211a4e45cc051f636e51
 
-* trying to pass foo="a b" through postinst_intercept ends
-  with the actual script header to containing:
-  b
-  foo=a
-  which fails because "b" command doesn't exist.
+--001a11c1211a4e45cc051f636e51
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- scripts/postinst-intercepts/postinst_intercept | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 10 September 2015 at 12:50, Trevor Woerner <twoerner@gmail.com> wrote:
 
-diff --git a/scripts/postinst-intercepts/postinst_intercept b/scripts/postinst-intercepts/postinst_intercept
-index a257198..b18e806 100755
---- a/scripts/postinst-intercepts/postinst_intercept
-+++ b/scripts/postinst-intercepts/postinst_intercept
-@@ -48,7 +48,7 @@ if [ -n "$pkgs_line" ]; then
- 		sed -i -e "s/##PKGS:.*/\0${package_name} /" $intercept_script
- 	fi
- else
--	for var in $@; do
-+	for var in "$@"; do
- 		sed -i -e "\%^#\!/bin/.*sh%a $var" $intercept_script
- 	done
- 	echo "##PKGS: ${package_name} " >> $intercept_script
--- 
-2.5.1
+> With so many maintainers on so many different layers/etc we would need
+> some sort of billboard somewhere listing the names of people currently
+> on the "naughty" list ;-)
+>
 
+I prefer the concept of a naughty list to blanket rejecting...  and I have
+a script for internal tracking this sort of metric so when I have a spare
+hour I'll see if I can extend to do this.   "pending" lines added per
+person or something.
 
+Ross
+
+--001a11c1211a4e45cc051f636e51
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 10 September 2015 at 12:50, Trevor Woerner <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:twoerner@gmail.com" target=3D"_blank">twoerner@gmail.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":15r" class=3D"=
+a3s" style=3D"overflow:hidden">With so many maintainers on so many differen=
+t layers/etc we would need<br>
+some sort of billboard somewhere listing the names of people currently<br>
+on the &quot;naughty&quot; list ;-)</div></blockquote></div><br>I prefer th=
+e concept of a naughty list to blanket rejecting... =C2=A0and I have a scri=
+pt for internal tracking this sort of metric so when I have a spare hour I&=
+#39;ll see if I can extend to do this. =C2=A0 &quot;pending&quot; lines add=
+ed per person or something.</div><div class=3D"gmail_extra"><br></div><div =
+class=3D"gmail_extra">Ross</div></div>
+
+--001a11c1211a4e45cc051f636e51--
