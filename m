@@ -1,28 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C0BD76EBF
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A86373243
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 14:26:40 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 10 Sep 2015 07:26:41 -0700
+	Thu, 10 Sep 2015 14:26:41 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga101.jf.intel.com with ESMTP; 10 Sep 2015 07:26:42 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,505,1437462000"; d="scan'208";a="766298265"
+X-IronPort-AV: E=Sophos;i="5.17,505,1437462000"; d="scan'208";a="559075519"
 Received: from linux.intel.com ([10.23.219.25])
-	by orsmga001.jf.intel.com with ESMTP; 10 Sep 2015 07:26:42 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 10 Sep 2015 07:26:42 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id 22E626A4083
+	by linux.intel.com (Postfix) with ESMTP id 3FF0B6A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 07:25:47 -0700 (PDT)
+	Thu, 10 Sep 2015 07:25:49 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Sep 2015 17:26:33 +0300
-Message-Id: <7ce9204b58f1217354e3d35b706fde7fb26a807b.1441889095.git.ed.bartosh@linux.intel.com>
+Date: Thu, 10 Sep 2015 17:26:34 +0300
+Message-Id: <c16fe71c91318b30e67bf414fdac475c2733271e.1441889095.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1441889095.git.ed.bartosh@linux.intel.com>
 References: <cover.1441889095.git.ed.bartosh@linux.intel.com>
 In-Reply-To: <cover.1441889095.git.ed.bartosh@linux.intel.com>
 References: <cover.1441889095.git.ed.bartosh@linux.intel.com>
-Subject: [wic][PATCH 2/3] wic: use ext4 in wic-image-minimal.wks
+Subject: [wic][PATCH 3/3] wic: fix partition size calculation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +37,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 10 Sep 2015 14:26:42 -0000
 
-ext4 is used in canned wks files, so let's use it here too
-for the sake of consistency.
+It was wrongly assumed that part.size is meagured in Mb. In fact it's
+in Kb, so there is no need to convert bitbake variable ROOTFS_SIZE as
+it's also in Kb.
 
 Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
 ---
- meta-selftest/recipes-test/images/wic-image-minimal.wks | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ scripts/lib/wic/imager/direct.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-index 29cd8f2..8f9be09 100644
---- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
-+++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
-@@ -3,8 +3,8 @@
- # created from core-image-minimal and wic-image-minimal image recipes.
- 
- part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
--part / --source rootfs --ondisk sda --fstype=ext2 --label platform --align 1024
--part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext2 --label core --align 1024
--part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext2 --label backup --align 1024
-+part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
-+part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext4 --label core --align 1024
-+part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label backup --align 1024
- 
- bootloader  --timeout=0  --append="rootwait console=tty0"
+diff --git a/scripts/lib/wic/imager/direct.py b/scripts/lib/wic/imager/direct.py
+index 146a0d1..d5603fa 100644
+--- a/scripts/lib/wic/imager/direct.py
++++ b/scripts/lib/wic/imager/direct.py
+@@ -241,8 +241,7 @@ class DirectImageCreator(BaseImageCreator):
+                     # IMAGE_OVERHEAD_FACTOR and IMAGE_ROOTFS_EXTRA_SPACE
+                     rsize_bb = get_bitbake_var('ROOTFS_SIZE', image_name)
+                     if rsize_bb:
+-                        # convert from Kb to Mb
+-                        part.size = int(round(float(rsize_bb) / 1024.))
++                        part.size = int(round(float(rsize_bb)))
+             # need to create the filesystems in order to get their
+             # sizes before we can add them and do the layout.
+             # Image.create() actually calls __format_disks() to create
 -- 
 2.1.4
 
