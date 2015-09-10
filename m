@@ -1,48 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 3557473243
+Return-Path: <kad@kad.name>
+Received: from mail-io0-f175.google.com (mail-io0-f175.google.com
+	[209.85.223.175])
+	by mail.openembedded.org (Postfix) with ESMTP id D850B73232
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 15:22:45 +0000 (UTC)
-Received: by pacex6 with SMTP id ex6so46110204pac.0
+	Thu, 10 Sep 2015 15:23:07 +0000 (UTC)
+Received: by iofh134 with SMTP id h134so64912554iof.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 08:22:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:message-id:references:to;
-	bh=aXCyM/op3ELtybM39NGSMH/lb8LzG1jcAUNWpyc6XIk=;
-	b=CirgMppBlhkqNYim28q/w7aWh5qr/R24KpxYmLC+gfm6uUd14S3KV1k8bYqB4+LVZz
-	WHrHvYO52VqcuAXeFEgvw9RjRWi0Mk5VRBNmX63ESY7l0GUilnSXgZakc7mE1OHSgqAQ
-	umqQXQt/B5c/bhWu17jm9ve0D5ViaAHNXgtCwUT2r7UlxKSoh/YDVJBTMDyoHljTORg9
-	1DOgpz79i5/iLPvwyusyoOC5FQGVNJKmO6EWsi5WOIPXQv3gHKcg3658eDdIJQTTnF0A
-	aam24JuHWT5IiqiBtUoZHXk/1DpRUjkkvbAAqqXtWlU4MAjoYBp6qHY27FvrgHbAHeGn
-	xDzg==
-X-Received: by 10.66.121.74 with SMTP id li10mr74322855pab.73.1441898565921;
-	Thu, 10 Sep 2015 08:22:45 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:2419:d270:de82:90db?
-	([2601:646:8601:4580:2419:d270:de82:90db])
-	by smtp.gmail.com with ESMTPSA id
-	lq10sm12693096pab.18.2015.09.10.08.22.41
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 10 Sep 2015 08:22:43 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <CAJTo0LYWxFtoYNseSup-zXAvJMigP_y1c4wdSrFXwk6SP_C-=A@mail.gmail.com>
-Date: Thu, 10 Sep 2015 08:22:41 -0700
-Message-Id: <F0FA75E8-F6E8-496C-8757-68144FDCD0CA@gmail.com>
-References: <cover.1441753511.git.raj.khem@gmail.com>
-	<0b794c84466fef2ece1269e01820503b4bce0b52.1441753511.git.raj.khem@gmail.com>
-	<63981.10.252.58.194.1441792979.squirrel@linux.intel.com>
-	<64065.10.252.58.194.1441794205.squirrel@linux.intel.com>
-	<32176B14-814F-40D7-A452-86D835E38FCB@gmail.com>
-	<55F1679C.5090508@linux.intel.com> <55F16E82.1070708@gmail.com>
-	<55F172C9.3030601@linux.intel.com> <55F173AC.7010808@mlbassoc.com>
-	<CAJTo0LYWxFtoYNseSup-zXAvJMigP_y1c4wdSrFXwk6SP_C-=A@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3094)
-Cc: Gary Thomas <gary@mlbassoc.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Policy for 'Pending' patches (was Re: [PATCH 02/16] slang: Fix namespace conflict vis-a-vis posix_close)
+	Thu, 10 Sep 2015 08:23:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=/4DSHfLZe9WZRNZr8cKSxVkbIoFf6BCYzukGXGqCM2Y=;
+	b=OTf3i6uf/j7w13akHiHvG9ItxfBalgk/ghuSXpjS5hJGXzToTQs1xVD43rElCdg9fe
+	wqze6Z7kQjV4FghF5UKP6MfMGZl+8cFRgJ0C6m5D/LquxqDBp47Ppp34bsVps3JLwXWc
+	qNKyAoKVllNF7TfXIGoRHcoEALnXHI+tRBD2rUsqC4dQcNSlUk7ZTwAsFTXtVWDLnmy5
+	QGbsgJfcsswASCQNDRBhNtJ8IwAqORXij0HbGZwnaE3g0OsIfthigfp90hZ5hNx77y18
+	GhT1hxKqu0vk6nPxV7JtbB3DokWDUViQjqP2oniCSUtcuG6Mgdb0Jg9IgQddAdkZAHxZ
+	2gnw==
+X-Gm-Message-State: ALoCoQnnaqHJfw4vmwJzH78xIJCLBuoUC1QM+4R91+nIZj0zBLFM5txdWDFMY8n4hyALPv2braMT
+MIME-Version: 1.0
+X-Received: by 10.107.25.71 with SMTP id 68mr33621969ioz.46.1441898587365;
+	Thu, 10 Sep 2015 08:23:07 -0700 (PDT)
+Received: by 10.107.36.196 with HTTP; Thu, 10 Sep 2015 08:23:07 -0700 (PDT)
+In-Reply-To: <20150910141812.GA2387@jama>
+References: <8B394616-9009-4FF4-828C-561A859D34B3@gmail.com>
+	<20150901215512.GE2458@jama>
+	<CAP9ODKq=HsV79hXhHeCwdhpF6uhHdCxYrhC53Kt5+Pe6Qdpf1w@mail.gmail.com>
+	<255516EC-098E-457B-A2E6-2F7C953CAA8D@gmail.com>
+	<CAP9ODKp9Vkw-vHNp1PMqE1eTfmW8-s5o6+0JYTv=sFEHm9nc1g@mail.gmail.com>
+	<1441177787.24871.33.camel@linuxfoundation.org>
+	<55EF2670.6040101@gmail.com>
+	<CAMKF1sogs9sRR_07nOxZrvvOxXj_=ioqNr=_vN+hr+VFf2BO6A@mail.gmail.com>
+	<20150908210642.GG2381@jama>
+	<CANFkWp=w7Lj_M4hPdBjNya+EHd_9oMJ9QM-ewGO2AAsxJs-9uA@mail.gmail.com>
+	<20150910141812.GA2387@jama>
+Date: Thu, 10 Sep 2015 18:23:07 +0300
+Message-ID: <CANFkWp=0itcR3EOSnYS2Mjttg3kCxEHqCygAyigvkVE9kuNkaA@mail.gmail.com>
+From: Alexander Kanevskiy <kad@kad.name>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Patch merge process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,83 +54,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 15:22:46 -0000
-Content-Type: multipart/alternative;
-	boundary="Apple-Mail=_AA3D7BF6-FF20-4F67-ACB8-E3BCBA6CD1CE"
+X-List-Received-Date: Thu, 10 Sep 2015 15:23:08 -0000
+Content-Type: multipart/alternative; boundary=001a113ff20e1a3f08051f662dbe
 
---Apple-Mail=_AA3D7BF6-FF20-4F67-ACB8-E3BCBA6CD1CE
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+--001a113ff20e1a3f08051f662dbe
+Content-Type: text/plain; charset=UTF-8
 
-
-> On Sep 10, 2015, at 5:12 AM, Burton, Ross <ross.burton@intel.com> =
+On Thu, Sep 10, 2015 at 5:18 PM, Martin Jansa <martin.jansa@gmail.com>
 wrote:
->=20
->=20
-> On 10 September 2015 at 13:12, Gary Thomas <gary@mlbassoc.com =
-<mailto:gary@mlbassoc.com>> wrote:
-> What would you do to the poor sod that sends a patch upstream
-> (i.e. Pending) that is not being moved on by the upstream holders?
-> Punish him by making his patch (and potentially all others he
-> has created) invalid?  Seems a bit harsh...
->=20
-> Send upstream is Upstream-Status: Submitted.
->=20
-> Pending means "I wrote a patch but cannot be bothered to send it =
-upstream=E2=80=9D.
 
-Or more politely, I am working on upstreaming it on my own schedule.
-
->=20
-> Ross=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On Thu, Sep 10, 2015 at 05:03:25PM +0300, Alexander Kanevskiy wrote:
+> > On Wed, Sep 9, 2015 at 12:06 AM, Martin Jansa <martin.jansa@gmail.com>
+> > wrote:
+> > Gerrit, despite its good ability to integrate into existing
+> infrastructures
+> > might be not the best solution for OE, and I must admit, gerrit is not
+> the
+> > best tool in the world for reviews, as there are limits in it like
+> missing
+>
+> I disagree, we can agree on that :).
+>
+>
+ok :)
 
 
---Apple-Mail=_AA3D7BF6-FF20-4F67-ACB8-E3BCBA6CD1CE
+> > ability to review properly series of patches.
+>
+> It allows to review series of patches very well, newer versions also
+> show chains of reviews in better UI than older versions did.
+>
+> Worse problem is that such series need to be uploaded as series not as
+> individual patches, because gerrit cannot automagically discover such
+> dependencies between patches and cherry-pick them to single branch and
+> resolve conflicts if there are, but if you push whole series of patches
+> it will show it as chain and all works correctly.
+>
+>
+might be. I haven't checked latest versions 2.10+, but versions below were
+not up to the shape compared to e.g. pull-request workflow in GitHub.
+
+
+
+> > However, for people who don't like Gerrit, there is also always a
+> > possibility to use GitHub or something similar, like locally hosted
+> GitLab
+> > if OE don't want to be dependant on external service.
+>
+> I want to use it to share status of the meta-oe patches with contributors,
+> running my own GitLab locally won't help with this.
+>
+>
+GitHub's model is to fork repository, do any amount of modification in your
+own copy and then open "pull-request" for review where you just specify
+source/destination repositories and branches with set of changes.
+
+Gitlab comment was practically to have similar to GitHub workflow, but
+instead of public's GitHub service to have instance on openembedded.org
+infrastructure, and thus requiring users to register accounts there.
+
+
+-- 
+br, Alexander Kanevskiy
+
+--001a113ff20e1a3f08051f662dbe
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/html;
-	charset=utf-8
 
-<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html =
-charset=3Dutf-8"></head><body style=3D"word-wrap: break-word; =
--webkit-nbsp-mode: space; -webkit-line-break: after-white-space;" =
-class=3D""><br class=3D""><div><blockquote type=3D"cite" class=3D""><div =
-class=3D"">On Sep 10, 2015, at 5:12 AM, Burton, Ross &lt;<a =
-href=3D"mailto:ross.burton@intel.com" =
-class=3D"">ross.burton@intel.com</a>&gt; wrote:</div><br =
-class=3D"Apple-interchange-newline"><div class=3D""><div dir=3D"ltr" =
-class=3D""><div class=3D"gmail_extra"><br class=3D""><div =
-class=3D"gmail_quote">On 10 September 2015 at 13:12, Gary Thomas <span =
-dir=3D"ltr" class=3D"">&lt;<a href=3D"mailto:gary@mlbassoc.com" =
-target=3D"_blank" class=3D"">gary@mlbassoc.com</a>&gt;</span> wrote:<br =
-class=3D""><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 =
-.8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":ub" =
-class=3D"a3s" style=3D"overflow:hidden">What would you do to the poor =
-sod that sends a patch upstream<br class=3D"">
-(i.e. Pending) that is not being moved on by the upstream holders?<br =
-class=3D"">
-Punish him by making his patch (and potentially all others he<br =
-class=3D"">
-has created) invalid?&nbsp; Seems a bit harsh...</div></blockquote><div =
-class=3D""><br class=3D""></div><div class=3D"">Send upstream is =
-Upstream-Status: Submitted.</div><div class=3D""><br class=3D""></div><div=
- class=3D"">Pending means "I wrote a patch but cannot be bothered to =
-send it upstream=E2=80=9D.</div></div></div></div></div></blockquote><div>=
-<br class=3D""></div><div>Or more politely, I am working on upstreaming =
-it on my own schedule.</div><br class=3D""><blockquote type=3D"cite" =
-class=3D""><div class=3D""><div dir=3D"ltr" class=3D""><div =
-class=3D"gmail_extra"><div class=3D"gmail_quote"><div class=3D""><br =
-class=3D""></div><div class=3D"">Ross&nbsp;</div></div></div></div>
--- <br class=3D"">_______________________________________________<br =
-class=3D"">Openembedded-core mailing list<br class=3D""><a =
-href=3D"mailto:Openembedded-core@lists.openembedded.org" =
-class=3D"">Openembedded-core@lists.openembedded.org</a><br =
-class=3D"">http://lists.openembedded.org/mailman/listinfo/openembedded-cor=
-e<br class=3D""></div></blockquote></div><br class=3D""></body></html>=
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Sep 10, 2015 at 5:18 PM, Martin Jansa <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail=
+.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div class=3D"=
+HOEnZb"><div class=3D"h5">On Thu, Sep 10, 2015 at 05:03:25PM +0300, Alexand=
+er Kanevskiy wrote:<br>
+&gt; On Wed, Sep 9, 2015 at 12:06 AM, Martin Jansa &lt;<a href=3D"mailto:ma=
+rtin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt;<br>
+&gt; wrote:<br>&gt; Gerrit, despite its good ability to integrate into exis=
+ting infrastructures<br>
+&gt; might be not the best solution for OE, and I must admit, gerrit is not=
+ the<br>
+&gt; best tool in the world for reviews, as there are limits in it like mis=
+sing<br>
+<br>
+</div></div>I disagree, we can agree on that :).<br>
+<span class=3D""><br></span></blockquote><div><br></div><div>ok :)</div><di=
+v>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
+border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">
+&gt; ability to review properly series of patches.<br>
+<br>
+</span>It allows to review series of patches very well, newer versions also=
+<br>
+show chains of reviews in better UI than older versions did.<br>
+<br>
+Worse problem is that such series need to be uploaded as series not as<br>
+individual patches, because gerrit cannot automagically discover such<br>
+dependencies between patches and cherry-pick them to single branch and<br>
+resolve conflicts if there are, but if you push whole series of patches<br>
+it will show it as chain and all works correctly.<br>
+<span class=3D""><br></span></blockquote><div><br></div><div>might be. I ha=
+ven&#39;t checked latest versions 2.10+, but versions below were not up to =
+the shape compared to e.g. pull-request workflow in GitHub.</div><div><br><=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">
+&gt; However, for people who don&#39;t like Gerrit, there is also always a<=
+br>
+&gt; possibility to use GitHub or something similar, like locally hosted Gi=
+tLab<br>
+&gt; if OE don&#39;t want to be dependant on external service.<br>
+<br>
+</span>I want to use it to share status of the meta-oe patches with contrib=
+utors,<br>
+running my own GitLab locally won&#39;t help with this.<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br></div></div></blockquote></div>=
+<div><br></div><div>GitHub&#39;s model is to fork repository, do any amount=
+ of modification in your own copy and then open &quot;pull-request&quot; fo=
+r review where you just specify source/destination repositories and branche=
+s with set of changes.</div><div><br></div><div>Gitlab comment was practica=
+lly to have similar to GitHub workflow, but instead of public&#39;s GitHub =
+service to have instance on <a href=3D"http://openembedded.org">openembedde=
+d.org</a> infrastructure, and thus requiring users to register accounts the=
+re.</div><div><br></div><div><br></div>-- <br><div class=3D"gmail_signature=
+">br, Alexander Kanevskiy</div>
+</div></div>
 
---Apple-Mail=_AA3D7BF6-FF20-4F67-ACB8-E3BCBA6CD1CE--
+--001a113ff20e1a3f08051f662dbe--
