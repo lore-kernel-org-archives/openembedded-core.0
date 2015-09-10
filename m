@@ -1,37 +1,21 @@
 Return-Path: <alexander.kanavin@linux.intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 147EF60132
+	by mail.openembedded.org (Postfix) with ESMTP id E10B760132
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 18:07:52 +0000 (UTC)
+	Thu, 10 Sep 2015 18:16:49 +0000 (UTC)
 Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga103.fm.intel.com with ESMTP; 10 Sep 2015 11:07:51 -0700
+	by fmsmga103.fm.intel.com with ESMTP; 10 Sep 2015 11:16:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,506,1437462000"; d="scan'208";a="802487845"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga002.fm.intel.com with ESMTP; 10 Sep 2015 11:07:51 -0700
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 235A26A4087; Thu, 10 Sep 2015 11:06:59 -0700 (PDT)
-Received: from 10.252.58.194
-	(SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Thu, 10 Sep 2015 21:06:59 +0300 (EEST)
-Message-ID: <57616.10.252.58.194.1441908419.squirrel@linux.intel.com>
-In-Reply-To: <55F1A3D3.30106@gmail.com>
-References: <cover.1441753511.git.raj.khem@gmail.com>
-	<0b794c84466fef2ece1269e01820503b4bce0b52.1441753511.git.raj.khem@gmail.com>
-	<63981.10.252.58.194.1441792979.squirrel@linux.intel.com>
-	<64065.10.252.58.194.1441794205.squirrel@linux.intel.com>
-	<32176B14-814F-40D7-A452-86D835E38FCB@gmail.com>
-	<55F1679C.5090508@linux.intel.com> <55F16E82.1070708@gmail.com>
-	<55F172C9.3030601@linux.intel.com> <55F1A3D3.30106@gmail.com>
-Date: Thu, 10 Sep 2015 21:06:59 +0300 (EEST)
-From: alexander.kanavin@linux.intel.com
-To: "akuster808" <akuster808@gmail.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
-MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Policy for 'Pending' patches (was Re: [PATCH 02/16] slang: Fix namespace conflict vis-a-vis posix_close)
+X-IronPort-AV: E=Sophos;i="5.17,506,1437462000"; d="scan'208";a="802494813"
+Received: from kanavin-desktop.fi.intel.com ([10.237.68.161])
+	by fmsmga002.fm.intel.com with ESMTP; 10 Sep 2015 11:16:40 -0700
+From: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+To: openembedded-core@lists.openembedded.org,
+	ross.burton@intel.com
+Date: Thu, 10 Sep 2015 21:18:07 +0300
+Message-Id: <1441909087-3860-1-git-send-email-alexander.kanavin@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] webkitgtk: add a new recipe for latest upstream version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,22 +28,182 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 18:07:53 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 10 Sep 2015 18:16:50 -0000
 
->> And the autobuilder could automatically reject or flag a patch that adds
->> custom 'Pending' patches, if the patch author is determined to be on the
->> 'naughty' list :-)
->
-> That might just alter peoples behavior and change them to use
-> "Submitted" and still not do anything. It does not address the issue.
+Also, add a backported patch that prevents too long command lines from happening.
 
-Of course 'Submitted' must include a proof link of the submission, or a
-notice that the only way to submit upstream is by private email (which is
-very rare). Such link is necessary anyway to follow up later what happened
-with the submission.
+Recipe for the obsolete webkit-gtk 1.8.3 is removed in a separate commit.
 
-Regards,
-Alex
+(From OE-Core rev: 1ffa1c36f5d3d3f076840c9239c17f13f36064c3)
+
+Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ ...fixes-a-command-line-that-is-too-long-ove.patch | 89 ++++++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.8.5.bb        | 57 ++++++++++++++
+ 2 files changed, 146 insertions(+)
+ create mode 100644 meta/recipes-sato/webkit/files/0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+
+diff --git a/meta/recipes-sato/webkit/files/0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch b/meta/recipes-sato/webkit/files/0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch
+new file mode 100644
+index 0000000..ee9c807
+--- /dev/null
++++ b/meta/recipes-sato/webkit/files/0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch
+@@ -0,0 +1,89 @@
++From 22d5063c551d3c08c0a4ad8b80e08b793d53093d Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 10 Sep 2015 16:23:27 +0300
++Subject: [PATCH] This patch fixes a command line that is too long (over 100K!)
++ and is rejected by /bin/sh.
++
++Upstream-status: Backport [should appear in 2.10, http://trac.webkit.org/changeset/184856]
++---
++ Source/WebKit2/PlatformGTK.cmake                   | 11 ++++++-----
++ Tools/gtk/generate-inspector-gresource-manifest.py | 16 ++++++++++++----
++ 2 files changed, 18 insertions(+), 9 deletions(-)
++
++diff --git a/Source/WebKit2/PlatformGTK.cmake b/Source/WebKit2/PlatformGTK.cmake
++index a13af7c..058c241 100644
++--- a/Source/WebKit2/PlatformGTK.cmake
+++++ b/Source/WebKit2/PlatformGTK.cmake
++@@ -408,7 +408,7 @@ set(WebKit2WebExtension_INSTALLED_HEADERS
++     ${WEBKIT2_DIR}/WebProcess/InjectedBundle/API/gtk/webkit-web-extension.h
++ )
++ 
++-file(GLOB InspectorFiles
+++set(InspectorFiles
++     ${CMAKE_SOURCE_DIR}/Source/WebInspectorUI/UserInterface/*.html
++     ${CMAKE_SOURCE_DIR}/Source/WebInspectorUI/UserInterface/Base/*.js
++     ${CMAKE_SOURCE_DIR}/Source/WebInspectorUI/UserInterface/Controllers/*.css
++@@ -423,13 +423,14 @@ file(GLOB InspectorFiles
++     ${CMAKE_SOURCE_DIR}/Source/WebInspectorUI/UserInterface/Views/*.js
++     ${CMAKE_SOURCE_DIR}/Source/WebInspectorUI/UserInterface/Images/gtk/*.png
++     ${CMAKE_SOURCE_DIR}/Source/WebInspectorUI/UserInterface/Images/gtk/*.svg
++-)
++-
++-list(APPEND InspectorFiles
++     ${CMAKE_SOURCE_DIR}/Source/WebInspectorUI/Localizations/en.lproj/localizedStrings.js
++     ${DERIVED_SOURCES_WEBINSPECTORUI_DIR}/UserInterface/Protocol/InspectorBackendCommands.js
++ )
++ 
+++file(GLOB InspectorFilesDependencies
+++    ${InspectorFiles}
+++)
+++
++ # This is necessary because of a conflict between the GTK+ API WebKitVersion.h and one generated by WebCore.
++ list(INSERT WebKit2_INCLUDE_DIRECTORIES 0
++     "${FORWARDING_HEADERS_WEBKIT2GTK_DIR}"
++@@ -564,7 +565,7 @@ add_custom_command(
++ 
++ add_custom_command(
++     OUTPUT ${DERIVED_SOURCES_WEBKIT2GTK_DIR}/InspectorGResourceBundle.xml
++-    DEPENDS ${InspectorFiles}
+++    DEPENDS ${InspectorFilesDependencies}
++             ${TOOLS_DIR}/gtk/generate-inspector-gresource-manifest.py
++     COMMAND ${TOOLS_DIR}/gtk/generate-inspector-gresource-manifest.py --output=${DERIVED_SOURCES_WEBKIT2GTK_DIR}/InspectorGResourceBundle.xml ${InspectorFiles}
++     VERBATIM
++diff --git a/Tools/gtk/generate-inspector-gresource-manifest.py b/Tools/gtk/generate-inspector-gresource-manifest.py
++index 0687c4c..03060cf 100755
++--- a/Tools/gtk/generate-inspector-gresource-manifest.py
+++++ b/Tools/gtk/generate-inspector-gresource-manifest.py
++@@ -16,6 +16,7 @@
++ # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
++ 
++ import argparse
+++import glob
++ import os
++ import sys
++ 
++@@ -26,10 +27,17 @@ BASE_DIR = 'WebInspectorUI/'
++ def get_filenames(args):
++     filenames = []
++ 
++-    for filename in args:
++-        base_dir_index = filename.rfind(BASE_DIR)
++-        if base_dir_index != -1:
++-            filenames.append(filename[base_dir_index + len(BASE_DIR):])
+++    for pattern in args:
+++        paths = glob.glob(pattern)
+++        for filename in paths:
+++            base_dir_index = filename.rfind(BASE_DIR)
+++            if base_dir_index != -1:
+++                name = filename[base_dir_index + len(BASE_DIR):]
+++                # The result should use forward slashes, thus make sure any os-specific
+++                # separator, added by the glob.glob() call, is properly replaced
+++                if os.sep != '/':
+++                    name = name.replace(os.sep, '/')
+++                filenames.append(name)
++     return filenames
++ 
++ 
++-- 
++2.1.4
++
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+new file mode 100644
+index 0000000..365f20b
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+@@ -0,0 +1,57 @@
++SUMMARY = "WebKit web rendering engine for the GTK+ platform"
++HOMEPAGE = "http://www.webkitgtk.org/"
++BUGTRACKER = "http://bugs.webkit.org/"
++
++LICENSE = "BSD & LGPLv2+"
++LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d84286dda758da57bd691 \
++                    file://Source/WebKit/LICENSE;md5=4646f90082c40bcf298c285f8bab0b12 \
++                    file://Source/WebCore/LICENSE-APPLE;md5=4646f90082c40bcf298c285f8bab0b12 \
++		    file://Source/WebCore/LICENSE-LGPL-2;md5=36357ffde2b64ae177b2494445b79d21 \
++		    file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 \
++		   "
++
++SRC_URI = "\
++  http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
++  file://0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch \
++  "
++SRC_URI[md5sum] = "df79991848a5096d3a75289ebce547ae"
++SRC_URI[sha256sum] = "3d1f0c534935f43fd74df90f2648fcee672d60f1f57a30fa557a77891ae04d20"
++
++inherit cmake lib_package pkgconfig perlnative pythonnative
++
++DEPENDS = "zlib enchant libsoup-2.4 curl libxml2 cairo libxslt libxt libidn gnutls \
++           gtk+ gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
++	   pango icu bison-native gnome-common gawk intltool-native libwebp \
++	   atk udev harfbuzz jpeg libpng pulseaudio librsvg libtheora libvorbis libxcomposite libxtst \
++	   ruby-native libsecret libnotify gstreamer1.0-plugins-bad \
++          "
++DEPENDS += " ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)}"
++
++EXTRA_OECMAKE = " \
++		-DPORT=GTK \
++		-DCMAKE_BUILD_TYPE=Release \
++		-DENABLE_INTROSPECTION=False \
++		-DENABLE_MINIBROWSER=True \
++	        ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', '-DENABLE_WEBGL=True', '-DENABLE_WEBGL=False', d)} \
++		"
++
++# Javascript JIT is not supported on powerpc
++EXTRA_OECMAKE_append_powerpc = " -DENABLE_JIT=False "
++EXTRA_OECMAKE_append_powerpc64 = " -DENABLE_JIT=False "
++
++# ARM JIT code does not build on ARMv5/6 anymore, apparently they test only on v7 onwards
++EXTRA_OECMAKE_append_armv5 = " -DENABLE_JIT=False "
++EXTRA_OECMAKE_append_armv6 = " -DENABLE_JIT=False "
++
++# binutils 2.25.1 has a bug on aarch64:
++# https://sourceware.org/bugzilla/show_bug.cgi?id=18430
++EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=False "
++
++# JIT not supported on MIPS either
++EXTRA_OECMAKE_append_mips = " -DENABLE_JIT=False "
++EXTRA_OECMAKE_append_mips64 = " -DENABLE_JIT=False "
++
++FILES_${PN} += "${libdir}/webkit2gtk-4.0/injected-bundle/libwebkit2gtkinjectedbundle.so"
++FILES_${PN}-dbg += "${libdir}/webkit2gtk-4.0/injected-bundle/.debug/libwebkit2gtkinjectedbundle.so"
++FILES_${PN}-dbg += "${libdir}/webkitgtk/webkit2gtk-4.0/.debug/*"
++
+-- 
+2.1.4
+
 
