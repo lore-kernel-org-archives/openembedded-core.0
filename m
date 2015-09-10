@@ -1,34 +1,49 @@
-Return-Path: <george.mccollister@gmail.com>
-Received: from mail-ig0-f179.google.com (mail-ig0-f179.google.com
-	[209.85.213.179])
-	by mail.openembedded.org (Postfix) with ESMTP id BDB6C6E26B
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f179.google.com (mail-io0-f179.google.com
+	[209.85.223.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AE5860053
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 17:31:01 +0000 (UTC)
-Received: by igcpb10 with SMTP id pb10so25733812igc.1
+	Thu, 10 Sep 2015 17:45:10 +0000 (UTC)
+Received: by ioii196 with SMTP id i196so69756815ioi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 10:31:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=WsNOxUyMAOA/xl/s748hJcZQbnh5QKZtYgwMijd2I+E=;
-	b=JO16u5LSBDFi57GP9nUFRZTDbHbHdyRdlMaOcDRseXNsWu1h5eChZwWlka8B4sMPb5
-	7E5Xz0oJyFEGWP+5u7h4zh6RqCavAO3tOKAR0i+EztFrcrOMBoeyYTSdQz/2zGLWEg3E
-	fc9qzitzc80STaxV7skX52iQ01wo23oPeetHCelQ1yAlFfLwzbfq0T3N0QpgCpEvuWeI
-	ZzFKH1yOyyTH9mms+Ny36vBaK+S//ofaLljVnCwnhbCcY3NjQJUK79A0sHF8usbbgAZt
-	3EtmC6TtrZOLcqQnmGe9BiHwGJfn/6YtTWMUYb21eaLx2bhtvynp8ye5HysgwtZM+HJz
-	YVcg==
-X-Received: by 10.50.3.66 with SMTP id a2mr8609542iga.92.1441906262300;
-	Thu, 10 Sep 2015 10:31:02 -0700 (PDT)
-Received: from localhost.localdomain (mail.novatech-llc.com. [64.126.95.172])
-	by smtp.gmail.com with ESMTPSA id
-	20sm7509797ioj.25.2015.09.10.10.31.01
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 10 Sep 2015 10:31:01 -0700 (PDT)
-From: George McCollister <george.mccollister@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 10 Sep 2015 12:30:52 -0500
-Message-Id: <1441906252-28516-1-git-send-email-george.mccollister@gmail.com>
-X-Mailer: git-send-email 2.4.5
-Subject: [PATCH][fido] wic: fix path parsing, use last occurrence
+	Thu, 10 Sep 2015 10:45:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=27fPABKL7llf6KnZhlbx3xFFguhpRwCQyJ9hntxtYQU=;
+	b=OnPN578ISiCoD9KrpnE9GlHW9EM9Hzbr6WRYhcesZKaJdyK7mZdFrVUyg2GpO/0GHf
+	yg7FnJ3MWPBf1M+Dxsp2mToQse+B9VIlD+SLsWzJ7kdY/CXDb87LBDlaouZ98HDWAh8P
+	udOcsAEXeq0+TpUlQu0bqG/eQsyRAObTipwH4TL9UDNDZowv2otifnoYehU/6qvrMawX
+	BSxfNEtZO3bV3Kn7kb+Bc9XDQ32bTCLFVWpIigEtbZYjTHMYwrcQtfi1NnImpDDtmrxV
+	Z6EO1Ee5bcVopJcRto4h/Ic4UGbIy6XNHAAMzVdjsEotlTmfQf+NtZQQKtrrRh7ubM28
+	Fo3g==
+X-Gm-Message-State: ALoCoQkcDGbDRmJgM6SPNaiCwHgHJlVmRvjvfBjw0r/9X/6VHO/Xo5IrWYslgH3hI+KAurd1bdBi
+X-Received: by 10.107.25.71 with SMTP id 68mr34761294ioz.46.1441907110403;
+	Thu, 10 Sep 2015 10:45:10 -0700 (PDT)
+Received: from mail-ig0-f171.google.com (mail-ig0-f171.google.com.
+	[209.85.213.171])
+	by smtp.gmail.com with ESMTPSA id 67sm7540662iol.7.2015.09.10.10.45.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Sep 2015 10:45:09 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igcrk20 with SMTP id rk20so22561892igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 10 Sep 2015 10:45:08 -0700 (PDT)
+MIME-Version: 1.0
+X-Received: by 10.50.72.19 with SMTP id z19mr8223429igu.19.1441907108784; Thu,
+	10 Sep 2015 10:45:08 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Thu, 10 Sep 2015 10:45:08 -0700 (PDT)
+In-Reply-To: <1441904073-26776-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+References: <1441904073-26776-1-git-send-email-enrico.scholz@sigma-chemnitz.de>
+Date: Thu, 10 Sep 2015 14:45:08 -0300
+Message-ID: <CAP9ODKpUU+2dShV0P6Do_rGXrqLhGezoxwZN6x1PX5kGBiHHuw@mail.gmail.com>
+To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] waf.bbclass: filter out non -j from PARALLEL_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,30 +56,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 17:31:04 -0000
+X-List-Received-Date: Thu, 10 Sep 2015 17:45:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-If the path contains 'scripts' more than once the first occurrence will be
-incorrectly used. Use rfind instead of find to find the last occurrence.
+On Thu, Sep 10, 2015 at 1:54 PM, Enrico Scholz
+<enrico.scholz@sigma-chemnitz.de> wrote:
+> 'waf' supports only simple '-j' and fails when parallel make flags
+> contain extended options like '--load-average'.
+>
+> Patch uses the method from 'boost.inc' to filter '-j'.
+>
+> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 
-Signed-off-by: George McCollister <george.mccollister@gmail.com>
----
- scripts/lib/wic/plugin.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-diff --git a/scripts/lib/wic/plugin.py b/scripts/lib/wic/plugin.py
-index 41a8017..3acd5b4 100644
---- a/scripts/lib/wic/plugin.py
-+++ b/scripts/lib/wic/plugin.py
-@@ -42,7 +42,7 @@ class PluginMgr(object):
- 
-     def __init__(self):
-         wic_path = os.path.dirname(__file__)
--        eos = wic_path.find('scripts') + len('scripts')
-+        eos = wic_path.rfind('scripts') + len('scripts')
-         scripts_path = wic_path[:eos]
-         self.scripts_path = scripts_path
-         self.plugin_dir = scripts_path + PLUGIN_DIR
 -- 
-2.4.5
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
