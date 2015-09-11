@@ -1,25 +1,34 @@
-Return-Path: <Peter.Seebach@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 113B173232
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f46.google.com (mail-pa0-f46.google.com
+	[209.85.220.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F633736B6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 23:48:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8ANmBcX015013
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 10 Sep 2015 23:53:49 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so56613135pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 10 Sep 2015 16:48:11 -0700 (PDT)
-Received: from seebs-worktop (172.25.40.228) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 10 Sep 2015 16:48:11 -0700
-Date: Thu, 10 Sep 2015 18:48:10 -0500
-From: Peter Seebach <peter.seebach@windriver.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20150910184810.566531e7@seebs-worktop>
-X-Mailer: Claws Mail 3.9.3 (GTK+ 2.24.23; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Subject: opkg --install and "attempt-only" packages
+	Thu, 10 Sep 2015 16:53:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=V+D7h4aZk4jqq754SiejGyfMbh2rLRAuu63ZNNrLA6c=;
+	b=yWK4/B6ZL9KNM1h1rHplBB33AtN5y7VVwWRPh/cDHtWKv4Kf1nlXIAYO2FBpolzcZ7
+	RTvJ1xJ6XQGVQIyu8fikrns8nRyL3WUd9rXbjqd1rIhzno63TH8Habmk5zYfbJ0nu5wa
+	Gir/INZ1FXjlMXbHaHBU4cVcwbfBT+CgUZMWUUTxeCyhMxDJ92y7pVkgw2EU/qsAr+YJ
+	pGUbjmCad8L8cf4PUbIcQdz274SeOWKMGlSXuSXCjUokDo/Y4xEuKIZFl3ETnI19QDRR
+	iEzm5FOOzO3MvXEvuL87EJNhi8b28YTlC6ZduLB6d3DqbGrWtNuP5vb2ILFIYF1d71yu
+	AuWw==
+X-Received: by 10.68.143.70 with SMTP id sc6mr87867929pbb.87.1441929230344;
+	Thu, 10 Sep 2015 16:53:50 -0700 (PDT)
+Received: from haswell.localdomain ([2601:646:8601:4580:baca:3aff:fe80:aa8f])
+	by smtp.gmail.com with ESMTPSA id
+	xi1sm14189320pac.48.2015.09.10.16.53.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 10 Sep 2015 16:53:49 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 10 Sep 2015 17:02:57 -0700
+Message-Id: <cover.1441929533.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.5.1
+Subject: [PATCH V2 0/3] Systemd Upgrade
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,30 +41,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 23:48:12 -0000
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Sep 2015 23:53:50 -0000
 
-So, I'm not 100% sure yet, but it appears to me that if you have a large list
-of "attempt-only" packages, and *any* of them can't be found at all, opkg
-bails out without doing anything about the rest of them.
+Changes Since V1:
+Install update-rc.d conditionally when both systemd and sysvinit are in distro features
+and we are not building r/o image
 
-This seems a little surprising, because my assumption would be that the
-expected behavior for "attempt-only" packages would be to try to install as
-many as possible.
+The following changes since commit 56c5fa106eeccda2ca92dbeb73ff01ba40992e7d:
 
-Looking at other cases, it looks like the RpmPM and related code try to
-handle each package separately to build a list, but OpkgPM doesn't.
+  ptest: use fakeroot for do_install_ptest_base (2015-09-09 14:25:09 +0100)
 
-I note also that RpmPM will allow an empty list of mandatory packages, while
-OpkgPM only accepts an empty list when attempt_only is True.
+are available in the git repository at:
 
-This affects us because we have a setup in which we put a very large pool of
-packages in as attempt-only because we know that there will be small
-variances in package lists which are hard to anticipate, and the net result
-is that none get installed at all.
+  git://github.com/kraj/openembedded-core kraj/systemd-225
+  https://github.com/kraj/openembedded-core/tree/kraj/systemd-225
 
--s
+Khem Raj (3):
+  rootfs: Conditionally uninstall update-rc.d
+  systemd: Upgrade 219 -> 225
+  systemd: Implement OE-Specific systemd-sysv-install
+
+ meta/lib/oe/rootfs.py                              |  10 +-
+ ...-mount-add-dependencies-to-dynamically-mo.patch |  36 ----
+ ...ed-missing.h-fall-back-to-insecure-getenv.patch |  25 ---
+ ...t-install-dependency-links-at-install-tim.patch |  35 ++--
+ ...heck-for-additional-features-that-uclibc-.patch |  23 ++-
+ ...wn-Use-execvpe-only-when-libc-supports-it.patch |  37 ++---
+ ...til-Use-mkostemp-only-if-libc-supports-it.patch |   8 +-
+ ...-unimplemented-_SC_PHYS_PAGES-system-conf.patch |   8 +-
+ ...0-Make-root-s-home-directory-configurable.patch | 136 ++++++++-------
+ ...0012-implment-systemd-sysv-install-for-OE.patch |  40 +++++
+ ...files.c-Honor-ordering-within-files-as-th.patch | 185 ---------------------
+ ...-remove-userspace-firmware-loading-suppor.patch |  99 ++++++-----
+ .../systemd/systemd/tmpfiles-pam.patch             |  30 ----
+ .../systemd/{systemd_219.bb => systemd_225.bb}     |  29 ++--
+ 14 files changed, 226 insertions(+), 475 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-Revert-core-mount-add-dependencies-to-dynamically-mo.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0002-shared-missing.h-fall-back-to-insecure-getenv.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0012-implment-systemd-sysv-install-for-OE.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/0012-systemd-tmpfiles.c-Honor-ordering-within-files-as-th.patch
+ delete mode 100644 meta/recipes-core/systemd/systemd/tmpfiles-pam.patch
+ rename meta/recipes-core/systemd/{systemd_219.bb => systemd_225.bb} (95%)
+
 -- 
-Listen, get this.  Nobody with a good compiler needs to be justified.
+2.5.1
+
 
