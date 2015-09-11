@@ -1,27 +1,28 @@
-Return-Path: <clopez@igalia.com>
-X-Greylist: delayed 626 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 11 Sep 2015 13:00:38 UTC
-Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
-	by mail.openembedded.org (Postfix) with ESMTP id 2986360053
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CBA197423D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 13:00:38 +0000 (UTC)
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: A2ALBgCxzPJV/5tjdVtdGQEBgwgBU2m9QIFpC4dSORMBAQEBAQEBgQqFcoECiDIBp2qkMYZziiiEFQWVVoUKh3COMoxHIwM9gUoMgixvih8BAQE
-X-IPAS-Result: A2ALBgCxzPJV/5tjdVtdGQEBgwgBU2m9QIFpC4dSORMBAQEBAQEBgQqFcoECiDIBp2qkMYZziiiEFQWVVoUKh3COMoxHIwM9gUoMgixvih8BAQE
-X-IronPort-AV: E=Sophos;i="5.17,511,1437429600"; d="scan'208";a="20149267"
-Received: from fanzine.igalia.com ([91.117.99.155])
-	by smtp4.mundo-r.com with ESMTP; 11 Sep 2015 14:50:10 +0200
-Received: from 239.20.165.83.dynamic.mundo-r.com ([83.165.20.239]
-	helo=trinity.local.igalia.com) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.0:RSA_AES_128_CBC_SHA1:16) (Exim) id 1ZaNmM-0005zC-Ae
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 14:50:10 +0200
-From: Carlos Alberto Lopez Perez <clopez@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Sep 2015 14:49:43 +0200
-Message-Id: <1441975783-21782-1-git-send-email-clopez@igalia.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] matchbox-keyboard: Fix build failure with ld-is-gold
+	Fri, 11 Sep 2015 13:24:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8BDOdnN022220
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 11 Sep 2015 06:24:39 -0700 (PDT)
+Received: from Marks-MacBook-Pro.local (172.25.36.227) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.235.1; Fri, 11 Sep 2015 06:24:39 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+References: <1441974346.24871.383.camel@linuxfoundation.org>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <55F2D616.1080604@windriver.com>
+Date: Fri, 11 Sep 2015 08:24:38 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <1441974346.24871.383.camel@linuxfoundation.org>
+Subject: Re: [PATCH] populate_sdk_base: Fix aarch64 OLDEST_KERNEL sdk issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,33 +35,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Sep 2015 13:00:42 -0000
+X-List-Received-Date: Fri, 11 Sep 2015 13:24:42 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-  * When ld-is-gold is enabled in DISTRO_FEATURES, matchbox-keyboard
-    will fail to build with this error:
+On 9/11/15 7:25 AM, Richard Purdie wrote:
+> aarch64 sets OLDEST_KERNEL to 3.14. This stops the aarch64 SDK installing on
+> anything with an older kernel which is clearly incorrect.
+> 
+> I attempted to extract the correct non-overridden version from the data store
+> but it proved problematic and I was running into data store issues. Those
+> are a separate problem but there isn't time to fix this right now.
+> 
+> Instead just code the SDK kernel version separately to work around this for
+> now (and fix the autobuilder tests and SDK usage).
 
-    ld: error: matchbox-keyboard-image.o: requires unsupported dynamic
-               reloc R_ARM_MOVW_ABS_NC; recompile with -fPIC
+Just an FYI -- if you package QEMU with your SDK, 3.14 might still be required.
+ (System level emulation works, but application level emulation will fail on
+older kernels.)
 
-Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
----
- meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+--Mark
 
-diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-index 0d321d3..cde1c49 100644
---- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-+++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
-@@ -25,6 +25,8 @@ inherit autotools pkgconfig gettext gtk-immodules-cache distro_features_check
- # The libxft, libfakekey and matchbox-panel-2 requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
- 
-+CFLAGS_append = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', ' -fPIC ', '', d)}"
-+
- EXTRA_OECONF = "--disable-cairo --enable-gtk-im --enable-applet"
- 
- PACKAGES += "${PN}-im ${PN}-applet"
--- 
-2.1.4
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index b015bf0..aa7a9a5 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -81,6 +81,11 @@ python write_host_sdk_manifest () {
+>  POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; "
+>  POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
+>  
+> +# Some archs override this, we need the nativesdk version
+> +# turns out this is hard to get from the datastore due to TRANSLATED_TARGET_ARCH
+> +# manipulation.
+> +SDK_OLDEST_KERNEL = "2.6.32"
+> +
+>  fakeroot python do_populate_sdk() {
+>      from oe.sdk import populate_sdk
+>      from oe.manifest import create_manifest, Manifest
+> @@ -156,7 +161,7 @@ EOF
+>  	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
+>  		-e 's#@SDKPATH@#${SDKPATH}#g' \
+>  		-e 's#@SDKEXTPATH@#${SDKEXTPATH}#g' \
+> -		-e 's#@OLDEST_KERNEL@#${OLDEST_KERNEL}#g' \
+> +		-e 's#@OLDEST_KERNEL@#${SDK_OLDEST_KERNEL}#g' \
+>  		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
+>  		-e 's#@SDK_TITLE@#${SDK_TITLE}#g' \
+>  		-e 's#@SDK_VERSION@#${SDK_VERSION}#g' \
+> 
+> 
 
 
