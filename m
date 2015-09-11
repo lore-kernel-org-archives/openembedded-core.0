@@ -1,20 +1,30 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 3013A755F4
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FB107423D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 10:08:10 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Sep 2015 03:08:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,511,1437462000"; d="scan'208";a="559698883"
-Received: from unknown (HELO marquiz.fi.intel.com) ([10.237.72.155])
-	by FMSMGA003.fm.intel.com with ESMTP; 11 Sep 2015 03:08:09 -0700
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Sep 2015 13:08:08 +0300
-Message-Id: <1441966088-2657-1-git-send-email-markus.lehtonen@linux.intel.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCH] devtool: update-recipe: get srcuri parameters with decodeurl()
+	Fri, 11 Sep 2015 12:25:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8BCOuNs027258 for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Sep 2015 13:25:03 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id y_NpKORiKjgi
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Sep 2015 13:25:03 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8BCOoQc027253
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Sep 2015 13:25:01 +0100
+Message-ID: <1441974290.24871.382.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Sep 2015 13:24:50 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] testimage: Fix SDK extraction error handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,35 +37,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Sep 2015 10:08:11 -0000
+X-List-Received-Date: Fri, 11 Sep 2015 12:25:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Use already existing bb.fetch.decodeurl() for getting the parameters for
-a URI. This is more fault tolerant and maintainable.
+Currently if the SDK fails to extract, no error is shown and the test is marked
+as passed! Clearly this is incorrect, fix it to correctly raise an error.
 
-Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
----
- scripts/lib/devtool/standard.py | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 4702491..20a7fe2 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -766,11 +766,8 @@ def _guess_recipe_update_mode(srctree, rdata):
-     # Just use the first URI for now
-     uri = git_uris[0]
-     # Check remote branch
--    upstr_branch = 'master'
--    for paramdef in uri.split(';')[1:]:
--        name, value = paramdef.split('=', 1)
--        if name == 'branch':
--            upstr_branch = value
-+    params = bb.fetch.decodeurl(uri)[5]
-+    upstr_branch = params['branch'] if 'branch' in params else 'master'
-     # Check if current branch HEAD is found in upstream branch
-     stdout, _ = bb.process.run('git rev-parse HEAD', cwd=srctree)
-     head_rev = stdout.rstrip()
--- 
-2.1.4
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index f0b732a..ad1f0d1 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -379,7 +379,10 @@ def testsdk_main(d):
+     sdktestdir = d.expand("${WORKDIR}/testimage-sdk/")
+     bb.utils.remove(sdktestdir, True)
+     bb.utils.mkdirhier(sdktestdir)
+-    subprocess.call("cd %s; %s <<EOF\n./tc\nY\nEOF" % (sdktestdir, tcname), shell=True)
++    try:
++        subprocess.check_output("cd %s; %s <<EOF\n./tc\nY\nEOF" % (sdktestdir, tcname), shell=True)
++    except subprocess.CalledProcessError as e:
++        bb.fatal("Couldn't install the SDK:\n%s" % e.output)
+ 
+     try:
+         targets = glob.glob(d.expand(sdktestdir + "/tc/environment-setup-*"))
+
 
 
