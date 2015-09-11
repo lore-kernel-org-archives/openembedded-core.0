@@ -1,19 +1,21 @@
-Return-Path: <mike.looijmans@topic.nl>
+Return-Path: <milo-software@users.sourceforge.net>
+X-Greylist: delayed 446 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 11 Sep 2015 17:10:20 UTC
 Received: from smtp03.mail.online.nl (smtp03.mail.online.nl [194.134.25.73])
-	by mail.openembedded.org (Postfix) with ESMTP id A532660053
+	by mail.openembedded.org (Postfix) with ESMTP id 7A0D660053
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 17:06:43 +0000 (UTC)
+	Fri, 11 Sep 2015 17:10:20 +0000 (UTC)
 Received: from localhost.localdomain (s55969068.adsl.online.nl
 	[85.150.144.104])
-	by smtp03.mail.online.nl (Postfix) with ESMTP id B7B3E1C002A;
-	Fri, 11 Sep 2015 19:06:42 +0200 (CEST)
-From: Mike Looijmans <mike.looijmans@topic.nl>
+	by smtp03.mail.online.nl (Postfix) with ESMTP id E1DA31C0105;
+	Fri, 11 Sep 2015 19:02:51 +0200 (CEST)
+From: Mike Looijmans <milo-software@users.sourceforge.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 11 Sep 2015 19:06:40 +0200
-Message-Id: <1441991200-12654-1-git-send-email-mike.looijmans@topic.nl>
+Date: Fri, 11 Sep 2015 19:02:44 +0200
+Message-Id: <1441990964-12205-1-git-send-email-milo-software@users.sourceforge.net>
 X-Mailer: git-send-email 2.1.0
 Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH] image_types.bbclass: Restore compatibility with previous UBI filesystems
+Subject: [PATCH] image.py: Allow IMAGE_LINK_NAME to be empty
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,51 +28,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Sep 2015 17:06:45 -0000
+X-List-Received-Date: Fri, 11 Sep 2015 17:10:20 -0000
 
-Support for multiple ubi images has broken dozens of machine deployment scripts
-in two ways:
-Previously, ubi filesystems would be named $IMAGE_NAME as one would expect. The
-current version would append "_rootfs" to that name for no reason. Fix it so that
-the name for ubi images remains unchanged if there is only one image to build.
-Machines would append to IMAGE_CMD_ubi, adding extra image processing of their
-own. This is broken now that IMAGE_CMD_ubi became a variable instead of a function.
-Make IMAGE_CMD_ubi a function again, this also makes for more logical quotes (I
-was surprised to find that " within " would even work).
+From: Mike Looijmans <mike.looijmans@topic.nl>
+
+When IMAGE_LINK_NAME is empty, OE will try to create a "blank" link instead
+of just skipping it. The code checks for "link_name is not None" which will
+never evaluate to true. Change the test to a simple "if link_name:" so it
+no longer attempt to create links when the variable is an empty string.
 
 Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
 ---
- meta/classes/image_types.bbclass | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/lib/oe/image.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index ecb066b..306403e 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -120,7 +120,11 @@ UBI_VOLNAME ?= "${MACHINE}-rootfs"
- multiubi_mkfs() {
- 	local mkubifs_args="$1"
- 	local ubinize_args="$2"
--	local vname="_$3"
-+	if [ -z "$3" ]; then
-+		local vname=""
-+	else
-+		local vname="_$3"
-+	fi
+diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+index 5b77306..2361955 100644
+--- a/meta/lib/oe/image.py
++++ b/meta/lib/oe/image.py
+@@ -194,7 +194,7 @@ class Image(ImageDepGraph):
  
- 	echo \[ubifs\] > ubinize${vname}.cfg
- 	echo mode=ubi >> ubinize${vname}.cfg
-@@ -158,7 +162,9 @@ IMAGE_CMD_multiubi () {
- 	done
- }
+         os.chdir(deploy_dir)
  
--IMAGE_CMD_ubi = "multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}" "${UBI_VOLNAME}""
-+IMAGE_CMD_ubi () {
-+	multiubi_mkfs "${MKUBIFS_ARGS}" "${UBINIZE_ARGS}"
-+}
- 
- IMAGE_CMD_ubifs = "mkfs.ubifs -r ${IMAGE_ROOTFS} -o ${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ubifs ${MKUBIFS_ARGS}"
- 
+-        if link_name is not None:
++        if link_name:
+             for type in subimages:
+                 if os.path.exists(img_name + ".rootfs." + type):
+                     dst = link_name + "." + type
 -- 
 2.1.0
 
