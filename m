@@ -1,32 +1,30 @@
-Return-Path: <alexander.kanavin@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 90DEE60053
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id 9779173CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 20:16:09 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga103.fm.intel.com with ESMTP; 11 Sep 2015 13:16:10 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,513,1437462000"; d="scan'208";a="787638930"
-Received: from linux.intel.com ([10.23.219.25])
-	by fmsmga001.fm.intel.com with ESMTP; 11 Sep 2015 13:16:09 -0700
-Received: by linux.intel.com (Postfix, from userid 48)
-	id 71B5B6A4087; Fri, 11 Sep 2015 13:15:17 -0700 (PDT)
-Received: from 10.252.58.194
-	(SquirrelMail authenticated user alexander.kanavin)
-	by linux.intel.com with HTTP; Fri, 11 Sep 2015 23:15:17 +0300 (EEST)
-Message-ID: <64584.10.252.58.194.1442002517.squirrel@linux.intel.com>
-In-Reply-To: <CAJTo0LYETBvMzwYDqNJGRpKhgG79TJBYg-psQdGi7fEqGHn0yg@mail.gmail.com>
-References: <1441909087-3860-1-git-send-email-alexander.kanavin@linux.intel.com>
-	<CAJTo0LYETBvMzwYDqNJGRpKhgG79TJBYg-psQdGi7fEqGHn0yg@mail.gmail.com>
-Date: Fri, 11 Sep 2015 23:15:17 +0300 (EEST)
-From: alexander.kanavin@linux.intel.com
-To: "Burton, Ross" <ross.burton@intel.com>
-User-Agent: SquirrelMail/1.4.8-5.el4.centos.8
-MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] webkitgtk: add a new recipe for latest upstream version
+	Fri, 11 Sep 2015 22:24:56 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8BMOuHI026433 for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Sep 2015 23:24:56 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id PY5Uu5bCnie5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Sep 2015 23:24:56 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8BMOe1H026426
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Sep 2015 23:24:51 +0100
+Message-ID: <1442010280.24871.457.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Fri, 11 Sep 2015 23:24:40 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] testimage: Handle core-image-lsb-sdk qemumips test restriction
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,51 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Sep 2015 20:16:14 -0000
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 11 Sep 2015 22:24:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On qemumips, some tests are slow to the point of the autobuilder appearing 
+hung. We therefore specifically exclude buildsudoku but to do this, we need 
+to list the tests we expect to work on core-image-lsb-sdk.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index ad1f0d1..fbf5950 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -32,17 +32,22 @@ TEST_LOG_DIR ?= "${WORKDIR}/testimage"
+ TEST_EXPORT_DIR ?= "${TMPDIR}/testimage/${PN}"
+ TEST_EXPORT_ONLY ?= "0"
+ 
++RPMTESTSUITE = "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'smart rpm', '', d)}"
++
+ DEFAULT_TEST_SUITES = "ping auto"
+ DEFAULT_TEST_SUITES_pn-core-image-minimal = "ping"
+-DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date parselogs \
+-    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python smart rpm', '', d)}"
+-DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc kernelmodule python parselogs \
+-    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'smart rpm', '', d)}"
++DEFAULT_TEST_SUITES_pn-core-image-sato = "ping ssh df connman syslog xorg scp vnc date dmesg parselogs ${RPMTESTSUITE} \
++    ${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'python', '', d)}"
++DEFAULT_TEST_SUITES_pn-core-image-sato-sdk = "ping ssh df connman syslog xorg scp vnc date perl ldd gcc kernelmodule dmesg python parselogs ${RPMTESTSUITE}"
++DEFAULT_TEST_SUITES_pn-core-image-lsb-sdk = "ping buildcvs buildiptables buildsudoku connman date df gcc kernelmodule ldd pam parselogs perl python scp ${RPMTESTSUITE} ssh syslog logrotate"
+ DEFAULT_TEST_SUITES_pn-meta-toolchain = "auto"
+ 
+ # aarch64 has no graphics
+ DEFAULT_TEST_SUITES_remove_aarch64 = "xorg vnc"
+ 
++#qemumips is too slow for buildsudoku
++DEFAULT_TEST_SUITES_remove_qemumips = "buildsudoku"
++
+ TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
+ 
+ TEST_QEMUBOOT_TIMEOUT ?= "1000"
 
 
-
-
-> This is now failing on qemumips for me:
-....
-
-| CMakeFiles/JavaScriptCore.dir/runtime/JSArray.cpp.o: In function
-> `JSC::JSArray::push(JSC::ExecState*, JSC::JSValue)':
-> |
-> /data/poky-master/tmp/work/mips32r2-poky-linux/webkitgtk/2.8.5-r0/webkitgtk-2.8.5/Source/JavaScriptCore/runtime/JSArray.cpp:566:
-> undefined reference to `void
-> JSC::JSObject::putByIndexBeyondVectorLengthWithoutAttributes<(unsigned
-> char)20>(JSC::ExecState*, unsigned int, JSC::JSValue)'
-> | collect2: error: ld returned 1 exit status
-> | Source/JavaScriptCore/CMakeFiles/JavaScriptCore.dir/build.make:14167:
-> recipe for target 'lib/libjavascriptcoregtk-4.0.so.18.1.12' failed
->
-> (similar failure on qemuppc too)
-
-'git bisect' identified this as the reason:
-
-
-3d81a56912fb2c6ca1c5aafb93cbc6e2cfea20b3 is the first bad commit
-commit 3d81a56912fb2c6ca1c5aafb93cbc6e2cfea20b3
-Author: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date:   Fri Sep 4 16:27:41 2015 +0100
-
-    tcmode-default: Set gcc 5.2 as the default
-
-    gcc 5.X is now working in all the places we test it in, its been in
-    testing for quite some time. Time to make it the default (we have some
-    room in M4 for any other bugfixes). Its easy to switch back to 4.9, we
-    should really remove 4.8 at this point (to meta-oe?).
-
-    (From OE-Core rev: 039211f0d8fe79d07b65f2f02e299b9656034214)
-
-    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-:040000 040000 e99162e4020b9b8b286c355c8afef5d63317c149
-69db8e38223a0107e38e2a054a8b1b2b5dc6974d M      meta
-
-Regards,
-Alex
 
