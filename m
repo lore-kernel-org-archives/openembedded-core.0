@@ -1,30 +1,30 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A609763F8
+	by mail.openembedded.org (Postfix) with ESMTP id 1907A73243
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 12:25:59 +0000 (UTC)
+	Fri, 11 Sep 2015 12:26:48 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8BCPxqR027328 for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 13:25:59 +0100
+	t8BCQm8P027365 for <openembedded-core@lists.openembedded.org>;
+	Fri, 11 Sep 2015 13:26:48 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id h1Yx7EIz8sY9
+	with LMTP id YEWMhLZ1oKn8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 13:25:59 +0100 (BST)
+	Fri, 11 Sep 2015 13:26:48 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8BCPkOk027313
+	t8BCQZcr027348
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 13:25:58 +0100
-Message-ID: <1441974346.24871.383.camel@linuxfoundation.org>
+	Fri, 11 Sep 2015 13:26:46 +0100
+Message-ID: <1441974395.24871.384.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 Sep 2015 13:25:46 +0100
+Date: Fri, 11 Sep 2015 13:26:35 +0100
 X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
-Subject: [PATCH] populate_sdk_base: Fix aarch64 OLDEST_KERNEL sdk issues
+Subject: [PATCH] oeqa/targetbuild: Ensure we run gnu-configize so config files are up to date
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,47 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Sep 2015 12:25:59 -0000
+X-List-Received-Date: Fri, 11 Sep 2015 12:26:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-aarch64 sets OLDEST_KERNEL to 3.14. This stops the aarch64 SDK installing on
-anything with an older kernel which is clearly incorrect.
-
-I attempted to extract the correct non-overridden version from the data store
-but it proved problematic and I was running into data store issues. Those
-are a separate problem but there isn't time to fix this right now.
-
-Instead just code the SDK kernel version separately to work around this for
-now (and fix the autobuilder tests and SDK usage).
+On aarch64 we need to do this as the versions in the upstream source don't
+recognise the target triplet causing SDK test failures.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index b015bf0..aa7a9a5 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -81,6 +81,11 @@ python write_host_sdk_manifest () {
- POPULATE_SDK_POST_TARGET_COMMAND_append = " write_target_sdk_manifest ; "
- POPULATE_SDK_POST_HOST_COMMAND_append = " write_host_sdk_manifest; "
+diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
+index 9d532e7..f850d78 100644
+--- a/meta/lib/oeqa/utils/targetbuild.py
++++ b/meta/lib/oeqa/utils/targetbuild.py
+@@ -55,8 +55,8 @@ class BuildProject():
  
-+# Some archs override this, we need the nativesdk version
-+# turns out this is hard to get from the datastore due to TRANSLATED_TARGET_ARCH
-+# manipulation.
-+SDK_OLDEST_KERNEL = "2.6.32"
-+
- fakeroot python do_populate_sdk() {
-     from oe.sdk import populate_sdk
-     from oe.manifest import create_manifest, Manifest
-@@ -156,7 +161,7 @@ EOF
- 	sed -i -e 's#@SDK_ARCH@#${SDK_ARCH}#g' \
- 		-e 's#@SDKPATH@#${SDKPATH}#g' \
- 		-e 's#@SDKEXTPATH@#${SDKEXTPATH}#g' \
--		-e 's#@OLDEST_KERNEL@#${OLDEST_KERNEL}#g' \
-+		-e 's#@OLDEST_KERNEL@#${SDK_OLDEST_KERNEL}#g' \
- 		-e 's#@REAL_MULTIMACH_TARGET_SYS@#${REAL_MULTIMACH_TARGET_SYS}#g' \
- 		-e 's#@SDK_TITLE@#${SDK_TITLE}#g' \
- 		-e 's#@SDK_VERSION@#${SDK_VERSION}#g' \
+     # The timeout parameter of target.run is set to 0 to make the ssh command
+     # run with no timeout.
+-    def run_configure(self, configure_args=''):
+-        return self._run('cd %s; ./configure %s' % (self.targetdir, configure_args))
++    def run_configure(self, configure_args='', extra_cmds=''):
++        return self._run('cd %s; %s ./configure %s' % (self.targetdir, extra_cmds, configure_args))
+ 
+     def run_make(self, make_args=''):
+         return self._run('cd %s; make %s' % (self.targetdir, make_args))
+@@ -121,7 +121,7 @@ class SDKBuildProject(BuildProject):
+         self.targetdir = self.targetdir + self.fname
+ 
+     def run_configure(self, configure_args=''):
+-        return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'))
++        return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'), extra_cmds=' gnu-configize; ')
+ 
+     def run_install(self, install_args=''):
+         return super(SDKBuildProject, self).run_install(install_args=(install_args or "DESTDIR=%s/../install" % self.targetdir))
 
 
 
