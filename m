@@ -1,30 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1907A73243
+Return-Path: <clopez@igalia.com>
+X-Greylist: delayed 626 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 11 Sep 2015 13:00:38 UTC
+Received: from smtp4.mundo-r.com (smtp3.mundo-r.com [212.51.32.191])
+	by mail.openembedded.org (Postfix) with ESMTP id 2986360053
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 12:26:48 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8BCQm8P027365 for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 13:26:48 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id YEWMhLZ1oKn8
+	Fri, 11 Sep 2015 13:00:38 +0000 (UTC)
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: A2ALBgCxzPJV/5tjdVtdGQEBgwgBU2m9QIFpC4dSORMBAQEBAQEBgQqFcoECiDIBp2qkMYZziiiEFQWVVoUKh3COMoxHIwM9gUoMgixvih8BAQE
+X-IPAS-Result: A2ALBgCxzPJV/5tjdVtdGQEBgwgBU2m9QIFpC4dSORMBAQEBAQEBgQqFcoECiDIBp2qkMYZziiiEFQWVVoUKh3COMoxHIwM9gUoMgixvih8BAQE
+X-IronPort-AV: E=Sophos;i="5.17,511,1437429600"; d="scan'208";a="20149267"
+Received: from fanzine.igalia.com ([91.117.99.155])
+	by smtp4.mundo-r.com with ESMTP; 11 Sep 2015 14:50:10 +0200
+Received: from 239.20.165.83.dynamic.mundo-r.com ([83.165.20.239]
+	helo=trinity.local.igalia.com) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.0:RSA_AES_128_CBC_SHA1:16) (Exim) id 1ZaNmM-0005zC-Ae
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 13:26:48 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8BCQZcr027348
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 11 Sep 2015 13:26:46 +0100
-Message-ID: <1441974395.24871.384.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Fri, 11 Sep 2015 13:26:35 +0100
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Subject: [PATCH] oeqa/targetbuild: Ensure we run gnu-configize so config files are up to date
+	Fri, 11 Sep 2015 14:50:10 +0200
+From: Carlos Alberto Lopez Perez <clopez@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 11 Sep 2015 14:49:43 +0200
+Message-Id: <1441975783-21782-1-git-send-email-clopez@igalia.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] matchbox-keyboard: Fix build failure with ld-is-gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Sep 2015 12:26:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Sep 2015 13:00:42 -0000
 
-On aarch64 we need to do this as the versions in the upstream source don't
-recognise the target triplet causing SDK test failures.
+  * When ld-is-gold is enabled in DISTRO_FEATURES, matchbox-keyboard
+    will fail to build with this error:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+    ld: error: matchbox-keyboard-image.o: requires unsupported dynamic
+               reloc R_ARM_MOVW_ABS_NC; recompile with -fPIC
 
-diff --git a/meta/lib/oeqa/utils/targetbuild.py b/meta/lib/oeqa/utils/targetbuild.py
-index 9d532e7..f850d78 100644
---- a/meta/lib/oeqa/utils/targetbuild.py
-+++ b/meta/lib/oeqa/utils/targetbuild.py
-@@ -55,8 +55,8 @@ class BuildProject():
- 
-     # The timeout parameter of target.run is set to 0 to make the ssh command
-     # run with no timeout.
--    def run_configure(self, configure_args=''):
--        return self._run('cd %s; ./configure %s' % (self.targetdir, configure_args))
-+    def run_configure(self, configure_args='', extra_cmds=''):
-+        return self._run('cd %s; %s ./configure %s' % (self.targetdir, extra_cmds, configure_args))
- 
-     def run_make(self, make_args=''):
-         return self._run('cd %s; make %s' % (self.targetdir, make_args))
-@@ -121,7 +121,7 @@ class SDKBuildProject(BuildProject):
-         self.targetdir = self.targetdir + self.fname
- 
-     def run_configure(self, configure_args=''):
--        return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'))
-+        return super(SDKBuildProject, self).run_configure(configure_args=(configure_args or '$CONFIGURE_FLAGS'), extra_cmds=' gnu-configize; ')
- 
-     def run_install(self, install_args=''):
-         return super(SDKBuildProject, self).run_install(install_args=(install_args or "DESTDIR=%s/../install" % self.targetdir))
+Signed-off-by: Carlos Alberto Lopez Perez <clopez@igalia.com>
+---
+ meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
+diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+index 0d321d3..cde1c49 100644
+--- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
++++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_git.bb
+@@ -25,6 +25,8 @@ inherit autotools pkgconfig gettext gtk-immodules-cache distro_features_check
+ # The libxft, libfakekey and matchbox-panel-2 requires x11 in DISTRO_FEATURES
+ REQUIRED_DISTRO_FEATURES = "x11"
+ 
++CFLAGS_append = "${@base_contains('DISTRO_FEATURES', 'ld-is-gold', ' -fPIC ', '', d)}"
++
+ EXTRA_OECONF = "--disable-cairo --enable-gtk-im --enable-applet"
+ 
+ PACKAGES += "${PN}-im ${PN}-applet"
+-- 
+2.1.4
 
 
