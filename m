@@ -1,27 +1,36 @@
-Return-Path: <Wenzong.Fan@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 684D473D13
+Return-Path: <romain.perier@gmail.com>
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C72F16E26B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 02:30:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E2UdQc024637
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 14 Sep 2015 05:56:28 +0000 (UTC)
+Received: by wicfx3 with SMTP id fx3so125066062wic.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Sep 2015 19:30:40 -0700 (PDT)
-Received: from [128.224.162.176] (128.224.162.176) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 13 Sep 2015 19:30:39 -0700
-Message-ID: <55F6314D.8090502@windriver.com>
-Date: Mon, 14 Sep 2015 10:30:37 +0800
-From: wenzong fan <wenzong.fan@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
-MIME-Version: 1.0
-To: <openembedded-core@lists.openembedded.org>
-References: <1438591965-24099-1-git-send-email-wenzong.fan@windriver.com>
-In-Reply-To: <1438591965-24099-1-git-send-email-wenzong.fan@windriver.com>
-Subject: Re: [PATCH] openssl: fix ptest issues
+	Sun, 13 Sep 2015 22:56:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=fBUQidDvMKeYhZAS65ElrPPYqPHHtP8qpUnqb4ZYsTw=;
+	b=XbQZEwA4lv/GeeVXFvQU3hTGARsUDz2r+xLy/UMfb2OiWMDUXawe42s74o9VdnKeN4
+	SXMy+prOAWQBw0DqMu6haQ6FUBjCsD3L5Ozm+2slu+G7hk/ISsPQfYQh2XYJA0iUFU3B
+	OaLm8CgGzgOIq6b8F5Vinfv0hdil512X+0kauXwGeBer2aLz9ZFsDEfqH8V+ixwBD+Zt
+	glxNAjiv/qR0WPe+IttCSVwIzC2Y6aNcRLpKXDAS02UVAQZRDBAV9gQsqFw4FkP8kIRJ
+	C/mxUbUpFDdefO0y4auEgyGcWibPQymYXBGUdimhEPFTqz6/DcUOySDE3lJntO845M35
+	RH7g==
+X-Received: by 10.180.90.198 with SMTP id by6mr23607961wib.82.1442210188205;
+	Sun, 13 Sep 2015 22:56:28 -0700 (PDT)
+Received: from localhost.localdomain
+	(i19-les01-ntr-176-186-2-137.sfr.lns.abo.bbox.fr. [176.186.2.137])
+	by smtp.gmail.com with ESMTPSA id
+	pg5sm13584705wjb.21.2015.09.13.22.56.26
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 13 Sep 2015 22:56:27 -0700 (PDT)
+From: Romain Perier <romain.perier@gmail.com>
+To: cristian.iorga@intel.com
+Date: Mon, 14 Sep 2015 07:56:25 +0200
+Message-Id: <1442210185-29335-1-git-send-email-romain.perier@gmail.com>
+X-Mailer: git-send-email 2.1.4
+Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] linux-firmware: package Broadcom BCM4354 firmware
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,57 +43,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 02:30:42 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Sep 2015 05:56:29 -0000
 
-Ping ...
+Signed-off-by: Romain Perier <romain.perier@gmail.com>
+---
 
-Thanks
-Wenzong
+changes in v2:
+    - changed short log message
+    - included the package maintainer in cc:
 
-On 08/03/2015 04:52 PM, wenzong.fan@windriver.com wrote:
-> From: Wenzong Fan <wenzong.fan@windriver.com>
->
-> * follow symbolic links while copying sources from test/*
-> * install required target files to remove Make errors:
->
->    make[2]: *** No rule to make target 'xxx', needed by 'yyy'.
->
-> * fix hardcode pathes:
->    /usr/lib -> ${libdir}, /usr/bin -> ${bindir}
->
-> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
-> ---
->   meta/recipes-connectivity/openssl/openssl.inc | 14 ++++++++++----
->   1 file changed, 10 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
-> index 53dcfd9..8d62915 100644
-> --- a/meta/recipes-connectivity/openssl/openssl.inc
-> +++ b/meta/recipes-connectivity/openssl/openssl.inc
-> @@ -191,12 +191,18 @@ do_install () {
->   }
->
->   do_install_ptest () {
-> -	cp -r Makefile test ${D}${PTEST_PATH}
-> +	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
-> +	cp Configure config e_os.h ${D}${PTEST_PATH}
-> +	cp -r -L include ${D}${PTEST_PATH}
-> +	ln -sf ${base_libdir}/libcrypto.a ${D}${PTEST_PATH}
-> +	ln -sf ${libdir}/libssl.a ${D}${PTEST_PATH}
-> +	mkdir -p ${D}${PTEST_PATH}/crypto
-> +	cp crypto/constant_time_locl.h ${D}${PTEST_PATH}/crypto
->   	cp -r certs ${D}${PTEST_PATH}
->   	mkdir -p ${D}${PTEST_PATH}/apps
-> -	ln -sf /usr/lib/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
-> -	ln -sf /usr/lib/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
-> -	ln -sf /usr/bin/openssl         ${D}${PTEST_PATH}/apps
-> +	ln -sf ${libdir}/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
-> +	ln -sf ${libdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
-> +	ln -sf ${bindir}/openssl         ${D}${PTEST_PATH}/apps
->   	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
->   	mkdir -p ${D}${PTEST_PATH}/util
->   	install util/opensslwrap.sh    ${D}${PTEST_PATH}/util
->
+Note: we need this change for meta-rockchip
+
+ meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+index ef8117c..4939ca6 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+@@ -168,7 +168,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
+              ${PN}-vt6656-license ${PN}-vt6656 \
+              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
+-             ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
++             ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm4354 \
+              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
+              \
+              ${PN}-iwlwifi-license ${PN}-iwlwifi-135-6 \
+@@ -311,6 +311,7 @@ RDEPENDS_${PN}-vt6656 = "${PN}-vt6656-license"
+ LICENSE_${PN}-bcm4329 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4330 = "Firmware-broadcom_bcm43xx"
+ LICENSE_${PN}-bcm4334 = "Firmware-broadcom_bcm43xx"
++LICENSE_${PN}-bcm4354 = "Firmware-broadcom_bcm43xx"
+ 
+ FILES_${PN}-broadcom-license = " \
+   /lib/firmware/LICENCE.broadcom_bcm43xx \
+@@ -324,11 +325,16 @@ FILES_${PN}-bcm4330 = " \
+ FILES_${PN}-bcm4334 = " \
+   /lib/firmware/brcm/brcmfmac4334-sdio.bin \
+ "
++FILES_${PN}-bcm4354 = " \
++  /lib/firmware/brcm/brcmfmac4354-sdio.bin \
++"
+ 
+ ALTERNATIVE_LINK_NAME[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac-sdio.bin"
+ 
+ ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
+ ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334-sdio.bin"
++ALTERNATIVE_linux_firmware-bcm4354 = "brcmfmac-sdio.bin"
++ALTERNATIVE_TARGET_linux-firmware-bcm4354[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4354-sdio.bin"
+ ALTERNATIVE_linux-firmware-bcm4329 = "brcmfmac-sdio.bin"
+ ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4329-sdio.bin"
+ ALTERNATIVE_linux-firmware-bcm4330 = "brcmfmac-sdio.bin"
+@@ -337,6 +343,7 @@ ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/br
+ RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4330 += "${PN}-broadcom-license"
+ RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
++RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
+ 
+ # For iwlwifi
+ LICENSE_${PN}-iwlwifi-135-6     = "Firmware-iwlwifi_firmware"
+-- 
+2.1.4
+
 
