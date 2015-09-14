@@ -1,57 +1,51 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-X-Greylist: delayed 9293 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 14 Sep 2015 11:42:14 UTC
-Received: from mx6-14.smtp.antispamcloud.com (mx6-14.smtp.antispamcloud.com
-	[95.211.2.226])
-	by mail.openembedded.org (Postfix) with ESMTP id B2C1273CBD
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
+	[209.85.223.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 9406F73CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 11:42:14 +0000 (UTC)
-Received: from 100-208.ftth.onsbrabantnet.nl ([88.159.208.100]
-	helo=TOP-EX01.TOPIC.LOCAL)
-	by mx6.antispamcloud.com with esmtps (TLSv1:AES128-SHA:128)
-	(Exim 4.85) (envelope-from <mike.looijmans@topicproducts.com>)
-	id 1ZbPj7-0006lS-J2; Mon, 14 Sep 2015 11:07:19 +0200
-Received: from [192.168.80.121] (192.168.80.121) by TOP-EX01.TOPIC.LOCAL
-	(192.168.10.102) with Microsoft SMTP Server (TLS) id 14.3.224.2;
-	Mon, 14 Sep 2015 11:06:27 +0200
-Message-ID: <55F68E36.1020904@topic.nl>
-Date: Mon, 14 Sep 2015 11:07:02 +0200
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: TOPIC
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Mon, 14 Sep 2015 11:49:09 +0000 (UTC)
+Received: by ioii196 with SMTP id i196so162508565ioi.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Sep 2015 04:49:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
+	:message-id:subject:to:cc:content-type;
+	bh=Fac/WTmtYJ9SwHCzWORNPLHy1OI8PL5+0pt3XB1my5Y=;
+	b=e8Oo9qdBGp4qbOm8JITr2CrxSqQsrzXq9HYxSdrQf3CK3P0t76vr0PZjIFBrIdALA4
+	Gtl58Gz+EYBXcX2nw/EiHC0WZyg4RcoY79zf+ECNf024drzzbopDwGFRc5aYzyXKWepR
+	WLjUheW99+0S/5/V30Thm4mcy2nJH8UM8TM9g8UzKobgEncN6AxToW88bJMs8s/1vtB1
+	DzIfjbaTQaskiR6QkNIEX//LtPvf8LRFWolJ2jlLb0MFLQPWyZ1ZqYTIZNjyK73X3LxZ
+	fgXQpSAHdcxZQKutv1kmE6ewWUyLCN0hJ1cIiIUioUACzd0KCthhWAZ444HDeFVps80s
+	CSHQ==
+X-Gm-Message-State: ALoCoQksetK3KnZ5gNIin/RwJ6jJun9aVuDoYI6oyFgdQx088VGDvN7tZPRKP2o+8O9XLLCJOuFc
+X-Received: by 10.107.46.158 with SMTP id u30mr26148715iou.56.1442231349222;
+	Mon, 14 Sep 2015 04:49:09 -0700 (PDT)
+Received: from mail-ig0-f173.google.com (mail-ig0-f173.google.com.
+	[209.85.213.173])
+	by smtp.gmail.com with ESMTPSA id u99sm5787610ioi.0.2015.09.14.04.49.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 14 Sep 2015 04:49:07 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igbkq10 with SMTP id kq10so84684058igb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Sep 2015 04:49:07 -0700 (PDT)
 MIME-Version: 1.0
-To: <rongqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>
-References: <1442215997-24116-1-git-send-email-rongqing.li@windriver.com>
-In-Reply-To: <1442215997-24116-1-git-send-email-rongqing.li@windriver.com>
-X-Originating-IP: [192.168.80.121]
-X-EXCLAIMER-MD-CONFIG: 9833cda7-5b21-4d34-9a38-8d025ddc3664
-X-EXCLAIMER-MD-BIFURCATION-INSTANCE: 0
-X-Filter-ID: s0sct1PQhAABKnZB5plbIbbvfIHzQjPVmPLZeVYSu3xU9luQrU+8/8qthi+0Jd/W6KAUC/fjyuDn
-	NXFr4uarwz/JranuFG7WjVrudach2Mbql9V0UyRhY0gQ3A2Tj6ghEOeIoF9IAWOyYoSBw4zOJzdu
-	eNnf2+7fZR5g0PMoex2gXhaAqQU2X/7w/twqlH6drAYFlMEm685+7MdKnBgxXEOeXmhDDkeFXPCt
-	uM7U852V7M5yO2lcQdwCvR3etp4cqb5owzVwh2tLSAneXpL2G2bjO41FyBEqIaDudcVplPF/LmA2
-	yXofPpu9UTTjJcgKoF6RdQbaL0aq6N3+IND68ZrH+sc8EjLuqCrc7WMgoj+Z3JKVmi72ocgY5kMQ
-	Sjs7FfgNUKRAYCE2OIhkjrd3UxBlNuVQYCKBDREGm3Gz+6tynbBHKmj8PpjpHk0omGLE0z6bhalF
-	EM/pjPCQA+BAlihTEzuhH4RXLgA+yrbzj5V7Zn6OGQcTLcl+10S2CCSFw5t/JJNzDYCqHXGiQWAF
-	IavC0PSzboMv15NgMxO5GJBWBb39uS1TjWG2Inx+Ts2QCgay2O3PHOrAPSCfPk8Za9PHVX1uQF7e
-	I6fa8+SQSXLBkQqJW+epIaGr0Ul6Vjri8M2oUrr42YKjVVGTpbenSWltkIEyb31pMCMMB0fkaiWa
-	gvPXpcm8chwrA+CzbjkhUu/lltGsdqZhncgWCORTp/v2EwFMyChA4XSUAxJsdi13KLwbXHjHpxz8
-	VOWtxaqRXMZCrFUeI14mn3kw3+LRTg==
-X-Report-Abuse-To: spam@mx99.antispamcloud.com
-X-Filter-Fingerprint: IFrWXGses7OKB5S5G8/dJXhXyDRoOQM5J3kcUr0HrMvJUWjZ8+qhjyB23tbDuyLOYL8Ff78gYsez
-	4Rl08xudmXi4esCQ0R1MchVjt7wblGlvhFgW0MjUMRkF5sMCDfftTXNFDzN17hnrWeZYOJvLq0Ic
-	WjZ+XcEjj/7Pkld0zkmvziDInX9WdMov2kn2yXjdwv61T+KDYyYtREgszdyFwv8IxCB3p/oCKvxr
-	eyISh3JGb7OS5oVgiO+kDxZrVPLz3MmEGC2PrUKqLq5WmHK+Nw==
-X-Originating-IP: 88.159.208.100
-X-Spampanel-Domain: topic.nl
-X-Spampanel-Username: 88.159.208.100
-Authentication-Results: antispamcloud.com;
-	auth=pass smtp.auth=88.159.208.100@topic.nl
-X-Spampanel-Outgoing-Class: unsure
-X-Spampanel-Outgoing-Evidence: Combined (0.12)
-X-Recommended-Action: accept
-Subject: Re: [PATCH] quashfs-tools: make it be able to be compiled by gcc5 with "-O0"
+X-Received: by 10.50.17.67 with SMTP id m3mr18005709igd.5.1442231347163; Mon,
+	14 Sep 2015 04:49:07 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Mon, 14 Sep 2015 04:49:07 -0700 (PDT)
+In-Reply-To: <CA+aJhH0B8WM-TOM_aL-7cPOA3z8H5y7KyT1DYq9AhizR2VydMg@mail.gmail.com>
+References: <1441880652-12645-1-git-send-email-nathan@nathanrossi.com>
+	<CAP9ODKr=Sg2Gq8AghfQD-SFWWr2vF=wOo0VqStfjsjkYW2WDRw@mail.gmail.com>
+	<CA+aJhH0B8WM-TOM_aL-7cPOA3z8H5y7KyT1DYq9AhizR2VydMg@mail.gmail.com>
+Date: Mon, 14 Sep 2015 08:49:07 -0300
+Message-ID: <CAP9ODKpa9iFBdDfcRhkQbQFSAFqkkoojNRRvdvePNXO3EsBOoA@mail.gmail.com>
+To: Nathan Rossi <nathan@nathanrossi.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] u-boot.inc: Add host compiler flags and openssl-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,31 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 11:42:16 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 14 Sep 2015 11:49:11 -0000
+Content-Type: text/plain; charset=UTF-8
 
-=EF=BB=BFTypo: "(s)quashfs"
+On Mon, Sep 14, 2015 at 6:29 AM, Nathan Rossi <nathan@nathanrossi.com> wrote:
+> On Fri, Sep 11, 2015 at 3:50 AM, Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+>> On Thu, Sep 10, 2015 at 7:24 AM, Nathan Rossi <nathan@nathanrossi.com> wrote:
+>>> U-Boot will compile its own tools during the build, with specific
+>>> configurations (aka when CONFIG_FIT_SIGNATURE is enabled) the host tools
+>>> require openssl. This patch adds 'openssl' as a PACKAGECONFIG that
+>>> enables the use of openssl-native as a dependency and also adds the
+>>> HOSTCC flags that U-Boot uses when compiling the host tools.
+>>>
+>>> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+>>
+>> Ideally we ought to ensure U-Boot stops to build the native part when
+>> doing the target one.
+>
+> Are you suggesting that the compile step (of the recipe) should build
+> the "tools"/native make target first, then execute the make target for
+> the rest afterwards as two separate steps?
 
+Two separated _recipes_.
 
-
-Kind regards,
-
-Mike Looijmans
-System Expert
-
-TOPIC Embedded Products
-Eindhovenseweg 32-C, NL-5683 KH Best
-Postbus 440, NL-5680 AK Best
-Telefoon: +31 (0) 499 33 69 79
-Telefax: +31 (0) 499 33 69 70
-E-mail: mike.looijmans@topicproducts.com
-Website: www.topicproducts.com
-
-Please consider the environment before printing this e-mail
-
-
-
-
-
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
