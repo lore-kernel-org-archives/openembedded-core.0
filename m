@@ -1,26 +1,38 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 77030756C5
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E21E073CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 08:28:35 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E8SYJt011713
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 Sep 2015 01:28:34 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 14 Sep 2015 01:28:34 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Mon, 14 Sep 2015 16:22:46 +0800
-Message-ID: <76d99379a666c39cbceaf807758544aacb90b9d3.1442218854.git.kai.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1442218854.git.kai.kang@windriver.com>
-References: <cover.1442218854.git.kai.kang@windriver.com>
+	Mon, 14 Sep 2015 09:29:13 +0000 (UTC)
+Received: by lahg1 with SMTP id g1so52878396lah.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Sep 2015 02:29:12 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=TyFwoCdqd32b3XKihTd0vyVyRD5euleSzFAp1PYYkC0=;
+	b=mHDhzEzCwLLp/KyFPGilh7W/cROHnaqscPRstR4bmnS/LUpFbg6al2LHV9141p4P0R
+	j+cmK9dwsA0v3vVSEcj/5bSqViXSeBJczurLa0VqGTNbJRnuNqZHJSxTmizTca4F0zuQ
+	O8u7r4QqDDKEtisMCdj4RUbo3rGCaukSx+17dyAZ8v7PbsnqcvXOZQqzhmcSZzS8EBsT
+	4rWUg/dzabuQ8+TRkQFobogVfmTOYMUQAQltJMmjAFBc++02T5zK9xmJncXAafhKINR+
+	FAJi+wjNmEusnBlPN2ByFyU5d96lTFEd5kyaz2pAba4O4xSFqFLPNv0f1QO23RMGG3HX
+	m20g==
+X-Gm-Message-State: ALoCoQm+H4vJsUbblzCwd4Hs+RIczA+NTBvxQsqk5plE33QyESUl5SqMusoJhkvaxZ+ddjJPZpXG
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/1] qemu: remove redundant lines in smc91c111_fix.patch
+X-Received: by 10.152.161.232 with SMTP id xv8mr12898140lab.32.1442222952517; 
+	Mon, 14 Sep 2015 02:29:12 -0700 (PDT)
+Received: by 10.25.155.13 with HTTP; Mon, 14 Sep 2015 02:29:12 -0700 (PDT)
+In-Reply-To: <CAP9ODKr=Sg2Gq8AghfQD-SFWWr2vF=wOo0VqStfjsjkYW2WDRw@mail.gmail.com>
+References: <1441880652-12645-1-git-send-email-nathan@nathanrossi.com>
+	<CAP9ODKr=Sg2Gq8AghfQD-SFWWr2vF=wOo0VqStfjsjkYW2WDRw@mail.gmail.com>
+Date: Mon, 14 Sep 2015 19:29:12 +1000
+Message-ID: <CA+aJhH0B8WM-TOM_aL-7cPOA3z8H5y7KyT1DYq9AhizR2VydMg@mail.gmail.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] u-boot.inc: Add host compiler flags and openssl-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,40 +45,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 08:28:36 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Sep 2015 09:29:15 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Kai Kang <kai.kang@windriver.com>
+On Fri, Sep 11, 2015 at 3:50 AM, Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+> On Thu, Sep 10, 2015 at 7:24 AM, Nathan Rossi <nathan@nathanrossi.com> wrote:
+>> U-Boot will compile its own tools during the build, with specific
+>> configurations (aka when CONFIG_FIT_SIGNATURE is enabled) the host tools
+>> require openssl. This patch adds 'openssl' as a PACKAGECONFIG that
+>> enables the use of openssl-native as a dependency and also adds the
+>> HOSTCC flags that U-Boot uses when compiling the host tools.
+>>
+>> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+>
+> Ideally we ought to ensure U-Boot stops to build the native part when
+> doing the target one.
 
-Remove redundant lines in smc91c111_fix.patch which caused command patch
-of lower version fails to work.
+Are you suggesting that the compile step (of the recipe) should build
+the "tools"/native make target first, then execute the make target for
+the rest afterwards as two separate steps?
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-devtools/qemu/qemu/smc91c111_fix.patch | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+For reference the U-Boot makefile setup handles the dependence on the
+tools, and will ensure they are built before needed. So splitting out
+the steps is probably not necessary.
 
-diff --git a/meta/recipes-devtools/qemu/qemu/smc91c111_fix.patch b/meta/recipes-devtools/qemu/qemu/smc91c111_fix.patch
-index e69af94..e37e777 100644
---- a/meta/recipes-devtools/qemu/qemu/smc91c111_fix.patch
-+++ b/meta/recipes-devtools/qemu/qemu/smc91c111_fix.patch
-@@ -63,7 +63,7 @@ Index: qemu-2.4.0/hw/net/smc91c111.c
-          return 0;
-      return 1;
-  }
--@@ -671,9 +671,11 @@ static ssize_t smc91c111_receive(NetClie
-+@@ -671,6 +671,8 @@ static ssize_t smc91c111_receive(NetClie
-      /* TODO: Flag overrun and receive errors.  */
-      if (packetsize > 2048)
-          return -1;
-@@ -72,6 +72,3 @@ Index: qemu-2.4.0/hw/net/smc91c111.c
-      packetnum = smc91c111_allocate_packet(s);
-      if (packetnum == 0x80)
-          return -1;
--     s->rx_fifo[s->rx_fifo_len++] = packetnum;
-- 
--     p = &s->data[packetnum][0];
--- 
-1.9.1
-
+Regards,
+Nathan
 
