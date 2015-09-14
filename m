@@ -1,24 +1,30 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F1E1B73CBD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id A2DFE6E26B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 09:33:23 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E9XOp3012165
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 14 Sep 2015 09:56:54 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8E9urZQ006083 for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Sep 2015 10:56:53 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id YJB23QnPR5so
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 02:33:24 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 14 Sep 2015 02:33:23 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Sep 2015 17:27:40 +0800
-Message-ID: <1442222860-27516-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH][v2] squashfs-tools: make it be able to be compiled by gcc5 with "-O0"
+	Mon, 14 Sep 2015 10:56:53 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8E9udsb006078
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Sep 2015 10:56:50 +0100
+Message-ID: <1442224599.26666.9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Sep 2015 10:56:39 +0100
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Subject: [PATCH] webkitgtk: Add patch to fix gcc5 compile issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,191 +37,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 09:33:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Sep 2015 09:56:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Roy Li <rongqing.li@windriver.com>
+Without this patch, webkitgtk fails to build with gcc5. I found Khem had
+sent the patch against Qt for the same issue we were seeing on mips/ppc.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- ...shfs.c-get-inline-functions-work-with-C99.patch | 154 +++++++++++++++++++++
- .../squashfs-tools/squashfs-tools_git.bb           |   1 +
- 2 files changed, 155 insertions(+)
- create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/gcc5.patch b/meta/recipes-sato/webkit/webkitgtk/gcc5.patch
 new file mode 100644
-index 0000000..fefe9f6
+index 0000000..5951a81
 --- /dev/null
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
-@@ -0,0 +1,154 @@
-+From ac6268e843c43286eebff2a1052182c2393cdb2e Mon Sep 17 00:00:00 2001
-+From: Roy Li <rongqing.li@windriver.com>
-+Date: Mon, 14 Sep 2015 12:31:42 +0800
-+Subject: [PATCH] mksquashfs.c:  get inline functions work with both gnu11 and gnu89
++++ b/meta/recipes-sato/webkit/webkitgtk/gcc5.patch
+@@ -0,0 +1,26 @@
++JSObject: Create explicit instantiation of putByIndexBeyondVectorLengthWithoutAttributes
 +
-+Upstream-status: pending
++Reason for change: newer gcc might optimize away the templates
++and they wont be available for other .cpp files to use as these
++are used in a different .cpp we need to tell compiler to explicitly
++instantiate them.
 +
-+After gcc upgraded to gcc5, and if the codes is compiled without optimization(-O0),
-+and the below error will happen:
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +
-+| mksquashfs.o: In function `create_inode':
-+| git/squashfs-tools/mksquashfs.c:897: undefined reference to `get_inode_no'
-+| git/squashfs-tools/mksquashfs.c:960: undefined reference to `get_parent_no'
-+| git/squashfs-tools/mksquashfs.c:983: undefined reference to `get_parent_no'
-+| mksquashfs.o: In function `reader_read_process':
-+| git/squashfs-tools/mksquashfs.c:2132: undefined reference to `is_fragment'
-+| mksquashfs.o: In function `reader_read_file':
-+| git/squashfs-tools/mksquashfs.c:2228: undefined reference to `is_fragment'
-+| mksquashfs.o: In function `dir_scan':
-+| git/squashfs-tools/mksquashfs.c:3101: undefined reference to `create_dir_entry'
++Upstream-Status: Pending
 +
-+gcc5 defaults to -std=gnu11 instead of -std=gnu89, and it requires that exactly one C
-+source file has the callable copy of the inline function. Consider the following
-+program:
-+
-+  inline int
-+  foo (void)
-+  {
-+    return 42;
-+  }
-+
-+  int
-+  main (void)
-+  {
-+    return foo ();
-+  }
-+
-+The program above will not link with the C99 inline semantics, because no out-of-line
-+function foo is generated. To fix this, either mark the function foo as static, or
-+add the following declaration:
-+  static inline int foo (void);
-+
-+more information refer to: https://gcc.gnu.org/gcc-5/porting_to.html;
-+
-+but the use of "extern inline" will lead to the compilation issue if gcc is not
-+gcc5, as the commit in oe-core d0af30c92fde [alsa-lib: Change function type to
-+"static __inline__"]
-+    "extern __inline__ function()" is the inlined version that
-+    can be used in this compilation unit, but there will be another
-+    definition of this function somewhere, so compiler will not emit
-+    any code for the function body. This causes problem in -O0,
-+    where functions are never inlined, the function call is preserved,
-+    but linker can't find the symbol, thus the error happens.
-+
-+so replace "inline" with "static inline" to make it work with both gnu11 and gnu89
-+
-+Signed-off-by: Roy Li <rongqing.li@windriver.com>
-+---
-+ squashfs-tools/mksquashfs.c | 20 ++++++++++----------
-+ 1 file changed, 10 insertions(+), 10 deletions(-)
-+
-+diff --git a/squashfs-tools/mksquashfs.c b/squashfs-tools/mksquashfs.c
-+index d221c35..6bba1d2 100644
-+--- a/squashfs-tools/mksquashfs.c
-++++ b/squashfs-tools/mksquashfs.c
-+@@ -828,13 +828,13 @@ char *subpathname(struct dir_ent *dir_ent)
++Index: webkitgtk-2.8.5/Source/JavaScriptCore/runtime/JSObject.cpp
++===================================================================
++--- webkitgtk-2.8.5.orig/Source/JavaScriptCore/runtime/JSObject.cpp
+++++ webkitgtk-2.8.5/Source/JavaScriptCore/runtime/JSObject.cpp
++@@ -1965,6 +1965,10 @@ void JSObject::putByIndexBeyondVectorLen
++     }
 + }
 + 
-+ 
-+-inline unsigned int get_inode_no(struct inode_info *inode)
-++static inline unsigned int get_inode_no(struct inode_info *inode)
+++template void JSObject::putByIndexBeyondVectorLengthWithoutAttributes<Int32Shape>(ExecState* exec, unsigned i, JSValue value);
+++template void JSObject::putByIndexBeyondVectorLengthWithoutAttributes<DoubleShape>(ExecState* exec, unsigned i, JSValue value);
+++template void JSObject::putByIndexBeyondVectorLengthWithoutAttributes<ContiguousShape>(ExecState* exec, unsigned i, JSValue value);
+++
++ void JSObject::putByIndexBeyondVectorLengthWithArrayStorage(ExecState* exec, unsigned i, JSValue value, bool shouldThrow, ArrayStorage* storage)
 + {
-+ 	return inode->inode_number;
-+ }
-+ 
-+ 
-+-inline unsigned int get_parent_no(struct dir_info *dir)
-++static inline unsigned int get_parent_no(struct dir_info *dir)
-+ {
-+ 	return dir->depth ? get_inode_no(dir->dir_ent->inode) : inode_no;
-+ }
-+@@ -2027,7 +2027,7 @@ struct file_info *duplicate(long long file_size, long long bytes,
-+ }
-+ 
-+ 
-+-inline int is_fragment(struct inode_info *inode)
-++static inline int is_fragment(struct inode_info *inode)
-+ {
-+ 	off_t file_size = inode->buf.st_size;
-+ 
-+@@ -2996,13 +2996,13 @@ struct inode_info *lookup_inode2(struct stat *buf, int pseudo, int id)
-+ }
-+ 
-+ 
-+-inline struct inode_info *lookup_inode(struct stat *buf)
-++static inline struct inode_info *lookup_inode(struct stat *buf)
-+ {
-+ 	return lookup_inode2(buf, 0, 0);
-+ }
-+ 
-+ 
-+-inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
-++static inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
-+ {
-+ 	if (inode->inode_number == 0) {
-+ 		inode->inode_number = use_this ? : inode_no ++;
-+@@ -3013,7 +3013,7 @@ inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
-+ }
-+ 
-+ 
-+-inline struct dir_ent *create_dir_entry(char *name, char *source_name,
-++static inline struct dir_ent *create_dir_entry(char *name, char *source_name,
-+ 	char *nonstandard_pathname, struct dir_info *dir)
-+ {
-+ 	struct dir_ent *dir_ent = malloc(sizeof(struct dir_ent));
-+@@ -3031,7 +3031,7 @@ inline struct dir_ent *create_dir_entry(char *name, char *source_name,
-+ }
-+ 
-+ 
-+-inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
-++static inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
-+ 	struct inode_info *inode_info)
-+ {
-+ 	struct dir_info *dir = dir_ent->our_dir;
-+@@ -3047,7 +3047,7 @@ inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
-+ }
-+ 
-+ 
-+-inline void add_dir_entry2(char *name, char *source_name,
-++static inline void add_dir_entry2(char *name, char *source_name,
-+ 	char *nonstandard_pathname, struct dir_info *sub_dir,
-+ 	struct inode_info *inode_info, struct dir_info *dir)
-+ {
-+@@ -3059,7 +3059,7 @@ inline void add_dir_entry2(char *name, char *source_name,
-+ }
-+ 
-+ 
-+-inline void free_dir_entry(struct dir_ent *dir_ent)
-++static inline void free_dir_entry(struct dir_ent *dir_ent)
-+ {
-+ 	if(dir_ent->name)
-+ 		free(dir_ent->name);
-+@@ -3080,7 +3080,7 @@ inline void free_dir_entry(struct dir_ent *dir_ent)
-+ }
-+ 
-+ 
-+-inline void add_excluded(struct dir_info *dir)
-++static inline void add_excluded(struct dir_info *dir)
-+ {
-+ 	dir->excluded ++;
-+ }
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index 497b282..7aebd00 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -12,6 +12,7 @@ PV = "4.3+gitr${SRCPV}"
- SRCREV = "9c1db6d13a51a2e009f0027ef336ce03624eac0d"
- SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
-            http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
-+           file://0001-mksquashfs.c-get-inline-functions-work-with-C99.patch;striplevel=2 \
- "
- SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
- SRC_URI[lzma.sha256sum] = "c935fd04dd8e0e8c688a3078f3675d699679a90be81c12686837e0880aa0fa1e"
--- 
-1.9.1
++     VM& vm = exec->vm();
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+index 365f20b..82d670d 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.8.5.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d842
+ SRC_URI = "\
+   http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+   file://0001-This-patch-fixes-a-command-line-that-is-too-long-ove.patch \
++  file://gcc5.patch \
+   "
+ SRC_URI[md5sum] = "df79991848a5096d3a75289ebce547ae"
+ SRC_URI[sha256sum] = "3d1f0c534935f43fd74df90f2648fcee672d60f1f57a30fa557a77891ae04d20"
+
 
 
