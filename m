@@ -1,29 +1,16 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id D5E4173D13
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 27A7F6E26B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 15:36:08 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 14 Sep 2015 08:36:09 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,529,1437462000"; d="scan'208";a="804888487"
-Received: from aomotosh-mobl3.amr.corp.intel.com (HELO [10.254.14.204])
-	([10.254.14.204])
-	by fmsmga002.fm.intel.com with ESMTP; 14 Sep 2015 08:36:08 -0700
-Message-ID: <55F6E9BE.8030701@linux.intel.com>
-Date: Mon, 14 Sep 2015 10:37:34 -0500
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Icedove/31.7.0
-MIME-Version: 1.0
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>	
-	<7f18159f085ddebd9b4dd58912b83c83f092b10e.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<1442095230.18370.2.camel@linuxfoundation.org>
-In-Reply-To: <1442095230.18370.2.camel@linuxfoundation.org>
-Cc: leonardo.sandoval.gonzalez@intel.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH V3 1/3] iasl: Recipe taken from the luv-yocto repository
+	Mon, 14 Sep 2015 15:41:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id 859CF3C88753
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Sep 2015 16:41:19 +0100
+Message-Id: <cover.1442245106.git.joshua.lock@collabora.co.uk>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH v2 0/1] Fixes for a distro with a merged /usr
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,40 +23,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 15:36:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 14 Sep 2015 15:41:28 -0000
 
+This fixes the previous kmod submission to use the lnr script from OE-Core
+rather than requiring a version of coreutils where ln supports the -r switch,
+thus ensuring compatibility with Debian 7 (though only tested locally on
+Ubuntu 15.04).
 
+The following changes since commit 2c8c3d9c4b65d2a5c7976d530138ebcaac2b1447:
 
-On 09/12/2015 05:00 PM, Richard Purdie wrote:
-> On Tue, 2015-07-14 at 20:07 +0000,
-> leonardo.sandoval.gonzalez@linux.intel.com wrote:
->> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->>
->> Taken from [1]. ACPICA is licensed under two main licenses:
->> 1) An Intel license (Intel-ACPI) and 2) a dual GPL/BSP license. This
->> recipe uses the latter.
->>
->> [1] https://github.com/01org/luv-yocto/tree/master/meta-luv/recipes-extended/iasl
->>
->> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->> ---
->>   meta/recipes-extended/iasl/iasl_20150515.bb | 27 +++++++++++++++++++++++++++
->>   1 file changed, 27 insertions(+)
->>   create mode 100644 meta/recipes-extended/iasl/iasl_20150515.bb
->
-> Sadly this and the ovmf patch trigger failures in world and world-lsb
-> builds:
+  gcc: reformat 0063-nativesdk-gcc-support.patch (2015-09-12 23:01:31 +0100)
 
-RP, Working on it. I will send an update ASAP.
+are available in the git repository at:
 
->
-> https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds/495
-> https://autobuilder.yoctoproject.org/main/builders/nightly-world-lsb/builds/213
->
-> Cheers,
->
-> Richard
->
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/merged-usr
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/merged-usr
+
+Joshua Lock (1):
+  kmod: fix link creation when base_bindir != /bin
+
+ meta/recipes-kernel/kmod/kmod_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.1.4
+
 
