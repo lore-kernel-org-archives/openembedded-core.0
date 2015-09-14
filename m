@@ -1,30 +1,31 @@
 Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BC4F86E26B
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 33E756E26B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 21:29:51 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga103.jf.intel.com with ESMTP; 14 Sep 2015 14:29:52 -0700
+	Mon, 14 Sep 2015 21:29:53 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2015 14:29:55 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,531,1437462000"; d="scan'208";a="789354250"
-Received: from orsmsx108.amr.corp.intel.com ([10.22.240.6])
-	by fmsmga001.fm.intel.com with ESMTP; 14 Sep 2015 14:29:51 -0700
-Received: from orsmsx112.amr.corp.intel.com (10.22.240.13) by
-	ORSMSX108.amr.corp.intel.com (10.22.240.6) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:51 -0700
+X-IronPort-AV: E=Sophos;i="5.17,531,1437462000"; d="scan'208";a="644762192"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by orsmga003.jf.intel.com with ESMTP; 14 Sep 2015 14:29:54 -0700
+Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
+	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:53 -0700
 Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX112.amr.corp.intel.com (10.22.240.13) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:51 -0700
+	ORSMSX160.amr.corp.intel.com (10.22.226.43) with Microsoft SMTP Server
+	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:53 -0700
 Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.154) by
 	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:50 -0700
+	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:52 -0700
 From: Bruno Bottazzini <bruno.bottazzini@intel.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Sep 2015 18:29:03 -0300
-Message-ID: <1442266144-28775-1-git-send-email-bruno.bottazzini@intel.com>
+Date: Mon, 14 Sep 2015 18:29:04 -0300
+Message-ID: <1442266144-28775-2-git-send-email-bruno.bottazzini@intel.com>
 X-Mailer: git-send-email 2.5.1
-In-Reply-To: <bruno.bottazzini@intel.com>
+In-Reply-To: <1442266144-28775-1-git-send-email-bruno.bottazzini@intel.com>
 References: <bruno.bottazzini@intel.com>
+	<1442266144-28775-1-git-send-email-bruno.bottazzini@intel.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.218.99.154]
 Subject: [PATCH V4] mkefidisk: Create interactive menu for the script
@@ -40,25 +41,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 21:29:52 -0000
+X-List-Received-Date: Mon, 14 Sep 2015 21:29:54 -0000
 Content-Type: text/plain
 
-Differences from v3:
-- Fix issue that was listing mounted devices as unmounted.
+If it is passed only the image parameter, it will show some interactive
+options to help to conclude the script.
 
-Differences from v2:
-- Removing unecessary \n as Saul Wold has suggested.
+With this patch it will detect devices available in the machine, asking
+to choose what it is wanted to be flashed.
 
-Differences from v1:
-- Now it will show only unmounted devices as Saul Wold has suggested
-- Commit message changed as Saul Wold has suggested
+it will suggest the target device. If it is a SD card the suggestion
+is /dev/mmcblk0. If it is a pendrive it will suggest to use /dev/sda.
 
-Bruno Bottazzini (1):
-  mkefidisk: Create interactive menu for the script
-
+Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+---
  scripts/contrib/mkefidisk.sh | 63 ++++++++++++++++++++++++++++++++++++++++----
  1 file changed, 58 insertions(+), 5 deletions(-)
 
+diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
+index 55f72b0..cd4de05 100755
+--- a/scripts/contrib/mkefidisk.sh
++++ b/scripts/contrib/mkefidisk.sh
+@@ -152,8 +152,55 @@ unmount() {
+ # Parse and validate arguments
+ #
+ if [ $# -lt 3 ] || [ $# -gt 4 ]; then
+-	usage
+-	exit 1
++    if [ $# -eq 1 ]; then
++        AVAILABLE_DISK=`lsblk | grep "disk" | cut -f 1 -d " "`
++        X=0
++        for disk in `echo $AVAILABLE_DISK`; do
++            mounted=`lsblk /dev/$disk | awk {'print $7'} | sed "s/MOUNTPOINT//"`
++            if [ -z "$mounted" ]; then
++                UNMOUNTED_AVAILABLES="$UNMOUNTED_AVAILABLES /dev/$disk"
++                info "$X - /dev/$disk"
++                X=`expr $X + 1`
++            fi
++        done
++        if [ $X -eq 0 ]; then
++            die "No unmounted device found."
++        fi
++        read -p "Choose unmounted device number: " DISK_NUMBER
++        X=0
++        for line in `echo $UNMOUNTED_AVAILABLES`; do
++            if [ $DISK_NUMBER -eq $X ]; then
++                DISK_TO_BE_FLASHED=$line
++                break
++            else
++                X=`expr $X + 1`
++            fi
++        done
++        if [ -z "$DISK_TO_BE_FLASHED" ]; then
++            die "Option \"$DISK_NUMBER\" is invalid. Choose a valid option"
++        else
++            if [ -z `echo $DISK_TO_BE_FLASHED | grep "mmc"` ]; then
++                TARGET_TO_BE_BOOT="/dev/sda"
++            else
++                TARGET_TO_BE_BOOT="/dev/mmcblk0"
++            fi
++        fi
++        echo ""
++        echo "Choose a name of the device that will be boot from"
++        echo -n "Recommended name is: "
++        info "$TARGET_TO_BE_BOOT"
++        read -p "Is target device okay? [y/N]: " RESPONSE
++        if [ "$RESPONSE" != "y" ]; then
++            read -p "Choose target device name: " TARGET_TO_BE_BOOT
++        fi
++        echo ""
++        if [ -z "$TARGET_TO_BE_BOOT" ]; then
++            die "Error: choose a valid target name"
++        fi
++    else
++        usage
++	    exit 1
++    fi
+ fi
+ 
+ if [ "$1" = "-v" ]; then
+@@ -162,9 +209,15 @@ if [ "$1" = "-v" ]; then
+ 	shift
+ fi
+ 
+-DEVICE=$1
+-HDDIMG=$2
+-TARGET_DEVICE=$3
++if [ -z "$AVAILABLE_DISK" ]; then
++    DEVICE=$1
++    HDDIMG=$2
++    TARGET_DEVICE=$3
++else
++    DEVICE=$DISK_TO_BE_FLASHED
++    HDDIMG=$1
++    TARGET_DEVICE=$TARGET_TO_BE_BOOT
++fi
+ 
+ LINK=$(readlink $DEVICE)
+ if [ $? -eq 0 ]; then
 -- 
 2.5.1
 
