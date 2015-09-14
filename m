@@ -1,28 +1,24 @@
 Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C02DB73CBD
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F1E1B73CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 09:32:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E9WlI2003779
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 Sep 2015 02:32:47 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Mon, 14 Sep 2015 02:32:46 -0700
-Message-ID: <55F6943D.9060606@windriver.com>
-Date: Mon, 14 Sep 2015 17:32:45 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Mon, 14 Sep 2015 09:33:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E9XOp3012165
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Sep 2015 02:33:24 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 14 Sep 2015 02:33:23 -0700
+From: <rongqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Sep 2015 17:27:40 +0800
+Message-ID: <1442222860-27516-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Mike Looijmans <mike.looijmans@topic.nl>,
-	<openembedded-core@lists.openembedded.org>
-References: <1442215997-24116-1-git-send-email-rongqing.li@windriver.com>
-	<55F68E36.1020904@topic.nl>
-In-Reply-To: <55F68E36.1020904@topic.nl>
-Subject: Re: [PATCH] quashfs-tools: make it be able to be compiled by gcc5 with "-O0"
+Subject: [PATCH][v2] squashfs-tools: make it be able to be compiled by gcc5 with "-O0"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,45 +31,191 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 09:32:47 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 14 Sep 2015 09:33:24 -0000
+Content-Type: text/plain
 
+From: Roy Li <rongqing.li@windriver.com>
 
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ ...shfs.c-get-inline-functions-work-with-C99.patch | 154 +++++++++++++++++++++
+ .../squashfs-tools/squashfs-tools_git.bb           |   1 +
+ 2 files changed, 155 insertions(+)
+ create mode 100644 meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
 
-On 2015年09月14日 17:07, Mike Looijmans wrote:
-> Typo: "(s)quashfs"
->
->
-
-thanks
-
--Roy
-
->
-> Kind regards,
->
-> Mike Looijmans
-> System Expert
->
-> TOPIC Embedded Products
-> Eindhovenseweg 32-C, NL-5683 KH Best
-> Postbus 440, NL-5680 AK Best
-> Telefoon: +31 (0) 499 33 69 79
-> Telefax: +31 (0) 499 33 69 70
-> E-mail: mike.looijmans@topicproducts.com
-> Website: www.topicproducts.com
->
-> Please consider the environment before printing this e-mail
->
->
->
->
->
->
->
-
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
+new file mode 100644
+index 0000000..fefe9f6
+--- /dev/null
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools/0001-mksquashfs.c-get-inline-functions-work-with-C99.patch
+@@ -0,0 +1,154 @@
++From ac6268e843c43286eebff2a1052182c2393cdb2e Mon Sep 17 00:00:00 2001
++From: Roy Li <rongqing.li@windriver.com>
++Date: Mon, 14 Sep 2015 12:31:42 +0800
++Subject: [PATCH] mksquashfs.c:  get inline functions work with both gnu11 and gnu89
++
++Upstream-status: pending
++
++After gcc upgraded to gcc5, and if the codes is compiled without optimization(-O0),
++and the below error will happen:
++
++| mksquashfs.o: In function `create_inode':
++| git/squashfs-tools/mksquashfs.c:897: undefined reference to `get_inode_no'
++| git/squashfs-tools/mksquashfs.c:960: undefined reference to `get_parent_no'
++| git/squashfs-tools/mksquashfs.c:983: undefined reference to `get_parent_no'
++| mksquashfs.o: In function `reader_read_process':
++| git/squashfs-tools/mksquashfs.c:2132: undefined reference to `is_fragment'
++| mksquashfs.o: In function `reader_read_file':
++| git/squashfs-tools/mksquashfs.c:2228: undefined reference to `is_fragment'
++| mksquashfs.o: In function `dir_scan':
++| git/squashfs-tools/mksquashfs.c:3101: undefined reference to `create_dir_entry'
++
++gcc5 defaults to -std=gnu11 instead of -std=gnu89, and it requires that exactly one C
++source file has the callable copy of the inline function. Consider the following
++program:
++
++  inline int
++  foo (void)
++  {
++    return 42;
++  }
++
++  int
++  main (void)
++  {
++    return foo ();
++  }
++
++The program above will not link with the C99 inline semantics, because no out-of-line
++function foo is generated. To fix this, either mark the function foo as static, or
++add the following declaration:
++  static inline int foo (void);
++
++more information refer to: https://gcc.gnu.org/gcc-5/porting_to.html;
++
++but the use of "extern inline" will lead to the compilation issue if gcc is not
++gcc5, as the commit in oe-core d0af30c92fde [alsa-lib: Change function type to
++"static __inline__"]
++    "extern __inline__ function()" is the inlined version that
++    can be used in this compilation unit, but there will be another
++    definition of this function somewhere, so compiler will not emit
++    any code for the function body. This causes problem in -O0,
++    where functions are never inlined, the function call is preserved,
++    but linker can't find the symbol, thus the error happens.
++
++so replace "inline" with "static inline" to make it work with both gnu11 and gnu89
++
++Signed-off-by: Roy Li <rongqing.li@windriver.com>
++---
++ squashfs-tools/mksquashfs.c | 20 ++++++++++----------
++ 1 file changed, 10 insertions(+), 10 deletions(-)
++
++diff --git a/squashfs-tools/mksquashfs.c b/squashfs-tools/mksquashfs.c
++index d221c35..6bba1d2 100644
++--- a/squashfs-tools/mksquashfs.c
+++++ b/squashfs-tools/mksquashfs.c
++@@ -828,13 +828,13 @@ char *subpathname(struct dir_ent *dir_ent)
++ }
++ 
++ 
++-inline unsigned int get_inode_no(struct inode_info *inode)
+++static inline unsigned int get_inode_no(struct inode_info *inode)
++ {
++ 	return inode->inode_number;
++ }
++ 
++ 
++-inline unsigned int get_parent_no(struct dir_info *dir)
+++static inline unsigned int get_parent_no(struct dir_info *dir)
++ {
++ 	return dir->depth ? get_inode_no(dir->dir_ent->inode) : inode_no;
++ }
++@@ -2027,7 +2027,7 @@ struct file_info *duplicate(long long file_size, long long bytes,
++ }
++ 
++ 
++-inline int is_fragment(struct inode_info *inode)
+++static inline int is_fragment(struct inode_info *inode)
++ {
++ 	off_t file_size = inode->buf.st_size;
++ 
++@@ -2996,13 +2996,13 @@ struct inode_info *lookup_inode2(struct stat *buf, int pseudo, int id)
++ }
++ 
++ 
++-inline struct inode_info *lookup_inode(struct stat *buf)
+++static inline struct inode_info *lookup_inode(struct stat *buf)
++ {
++ 	return lookup_inode2(buf, 0, 0);
++ }
++ 
++ 
++-inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
+++static inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
++ {
++ 	if (inode->inode_number == 0) {
++ 		inode->inode_number = use_this ? : inode_no ++;
++@@ -3013,7 +3013,7 @@ inline void alloc_inode_no(struct inode_info *inode, unsigned int use_this)
++ }
++ 
++ 
++-inline struct dir_ent *create_dir_entry(char *name, char *source_name,
+++static inline struct dir_ent *create_dir_entry(char *name, char *source_name,
++ 	char *nonstandard_pathname, struct dir_info *dir)
++ {
++ 	struct dir_ent *dir_ent = malloc(sizeof(struct dir_ent));
++@@ -3031,7 +3031,7 @@ inline struct dir_ent *create_dir_entry(char *name, char *source_name,
++ }
++ 
++ 
++-inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
+++static inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
++ 	struct inode_info *inode_info)
++ {
++ 	struct dir_info *dir = dir_ent->our_dir;
++@@ -3047,7 +3047,7 @@ inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
++ }
++ 
++ 
++-inline void add_dir_entry2(char *name, char *source_name,
+++static inline void add_dir_entry2(char *name, char *source_name,
++ 	char *nonstandard_pathname, struct dir_info *sub_dir,
++ 	struct inode_info *inode_info, struct dir_info *dir)
++ {
++@@ -3059,7 +3059,7 @@ inline void add_dir_entry2(char *name, char *source_name,
++ }
++ 
++ 
++-inline void free_dir_entry(struct dir_ent *dir_ent)
+++static inline void free_dir_entry(struct dir_ent *dir_ent)
++ {
++ 	if(dir_ent->name)
++ 		free(dir_ent->name);
++@@ -3080,7 +3080,7 @@ inline void free_dir_entry(struct dir_ent *dir_ent)
++ }
++ 
++ 
++-inline void add_excluded(struct dir_info *dir)
+++static inline void add_excluded(struct dir_info *dir)
++ {
++ 	dir->excluded ++;
++ }
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+index 497b282..7aebd00 100644
+--- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
++++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+@@ -12,6 +12,7 @@ PV = "4.3+gitr${SRCPV}"
+ SRCREV = "9c1db6d13a51a2e009f0027ef336ce03624eac0d"
+ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
+            http://downloads.sourceforge.net/sevenzip/lzma465.tar.bz2;name=lzma \
++           file://0001-mksquashfs.c-get-inline-functions-work-with-C99.patch;striplevel=2 \
+ "
+ SRC_URI[lzma.md5sum] = "29d5ffd03a5a3e51aef6a74e9eafb759"
+ SRC_URI[lzma.sha256sum] = "c935fd04dd8e0e8c688a3078f3675d699679a90be81c12686837e0880aa0fa1e"
 -- 
-Best Reagrds,
-Roy | RongQing Li
+1.9.1
+
 
