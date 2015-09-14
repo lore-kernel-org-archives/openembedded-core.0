@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f45.google.com (mail-qg0-f45.google.com
-	[209.85.192.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 95B55762B7
+Received: from mail-qg0-f53.google.com (mail-qg0-f53.google.com
+	[209.85.192.53])
+	by mail.openembedded.org (Postfix) with ESMTP id DB8BE76FED
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 16:31:34 +0000 (UTC)
-Received: by qgt47 with SMTP id 47so119397842qgt.2
+	Mon, 14 Sep 2015 16:31:35 +0000 (UTC)
+Received: by qgev79 with SMTP id v79so119335645qge.0
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 14 Sep 2015 09:31:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=WVbQ+8Q4znnrq72qQaswQEA3X2z7+OntRchvathPwwA=;
-	b=xa8XMxuxRKA8paIkm4/tpER1DvHcZhHb2RwRP/yglGzoWTTIkM3o2ulx28MFbbdP70
-	WY/Uok4VqzeCiAiMwxoHtABkzRgBQnQ4Go710EIz8ZvO0DlwYyoQ1FmjxGMvnFhVVLpY
-	a8S4uZjgvkqmNElO+1YRVWP02ERIVjKwBiHQR/++e0MyLmbx+IvvTl6IIgQeS2lA3SIj
-	vTr6yRryfgqCzlBPIX1ZOOk8qbYjQM1o4UKzSoL8ryCiOEW+r7505MJ0g5YtcIXWgSGQ
-	H0ttvJAfrvkPhZedyPurAlE8zSgrZJQ/t6j6bXaooS86eb+SF6ZW0t5+sKczcE0BJ4Nr
-	3Yng==
-X-Received: by 10.140.27.130 with SMTP id 2mr23493848qgx.72.1442248295270;
+	bh=NTPuxHOy0aOps9Z9Ou6ydhaCf0g9PoCrgpqwVobwGrQ=;
+	b=DrCFsSrbmRR1uZUlr7WWdr5vm38zXFnQbUWpkwBgwLAAU1cAqaQ6Ebibtqd54cm7DT
+	17fAH/9z9D3VUrbNnNHu5YP1BkcOU5D8v8h6VeIbRrVuHHDnt5Ovh0unmIWhgn4gRy+x
+	/E8SXkWP5L1fxdmBZEqKGnuZjiqdUaF2L72UHtJuzps3wyTko/lXQpGKaq4y7M6rBIDH
+	RKipc9vsn2Eu8a/7vxOXyCso0zDSk1d8rQDGS2oZ7NxnIEcxW9IS/qTVu+acXogEsYA2
+	i4vYkwZWPGA07Dm0omj6YZcSzx38quIDsDKp67ir68Rr+x7J94qO+YQM2KmP4L9FcG4s
+	vzlQ==
+X-Received: by 10.140.234.78 with SMTP id f75mr24931213qhc.20.1442248295784;
 	Mon, 14 Sep 2015 09:31:35 -0700 (PDT)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	w138sm6172059qkw.40.2015.09.14.09.31.34
+	w138sm6172059qkw.40.2015.09.14.09.31.35
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 Sep 2015 09:31:34 -0700 (PDT)
+	Mon, 14 Sep 2015 09:31:35 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Sep 2015 16:31:23 +0000
-Message-Id: <cb95f9267480e927c5c0d9d9f598f4673b332c30.1442248108.git.raj.khem@gmail.com>
+Date: Mon, 14 Sep 2015 16:31:24 +0000
+Message-Id: <1e0bbf9af05b607f0cdcf6952539e5ff1e90854e.1442248108.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.2
 In-Reply-To: <cd66976d7a276b7c39d20f37242c7331386b301e.1442248108.git.raj.khem@gmail.com>
 References: <cd66976d7a276b7c39d20f37242c7331386b301e.1442248108.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1442248108.git.raj.khem@gmail.com>
 References: <cover.1442248108.git.raj.khem@gmail.com>
-Subject: [PATCH 08/12] opkg: Include stdio.h for FILE definition
+Subject: [PATCH 09/12] quota: Replace using -I= with STAGING_INCDIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,80 +46,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 16:31:35 -0000
+X-List-Received-Date: Mon, 14 Sep 2015 16:31:36 -0000
 
-Helps with compling it on musl
+-I= is gcc specific, using STAGING_INCDIR makes it compiler independent
+Update posix types patch to include new u_int -> uint32_t changes
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-include-stdio.h-for-getting-FILE-defined.patch | 45 ++++++++++++++++++++++
- meta/recipes-devtools/opkg/opkg_0.3.0.bb           |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg/opkg/0001-libopkg-include-stdio.h-for-getting-FILE-defined.patch
+ .../quota/quota/remove_non_posix_types.patch                | 13 +++++++++++++
+ meta/recipes-extended/quota/quota_4.02.bb                   |  2 +-
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg/0001-libopkg-include-stdio.h-for-getting-FILE-defined.patch b/meta/recipes-devtools/opkg/opkg/0001-libopkg-include-stdio.h-for-getting-FILE-defined.patch
-new file mode 100644
-index 0000000..acc1338
---- /dev/null
-+++ b/meta/recipes-devtools/opkg/opkg/0001-libopkg-include-stdio.h-for-getting-FILE-defined.patch
-@@ -0,0 +1,45 @@
-+From 58f4d3d63cd6097154205ea7ee042005036659b3 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 10 Sep 2015 21:43:32 -0700
-+Subject: [PATCH] libopkg: include stdio.h for getting FILE defined
-+To: opkg-devel@googlegroups.com
-+Cc: paul@paulbarker.me.uk
-+
-+For some libc(musl) stdio.h may not get included indirectly which means
-+we need to mention it in explicit include list
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Submitted
-+
-+ libopkg/opkg_verify.c | 1 +
-+ libopkg/pkg_src.c     | 1 +
-+ 2 files changed, 2 insertions(+)
-+
-+diff --git a/libopkg/opkg_verify.c b/libopkg/opkg_verify.c
-+index 41dc3f4..a71591d 100644
-+--- a/libopkg/opkg_verify.c
-++++ b/libopkg/opkg_verify.c
-+@@ -18,6 +18,7 @@
+diff --git a/meta/recipes-extended/quota/quota/remove_non_posix_types.patch b/meta/recipes-extended/quota/quota/remove_non_posix_types.patch
+index 5442d98..06ff13c 100644
+--- a/meta/recipes-extended/quota/quota/remove_non_posix_types.patch
++++ b/meta/recipes-extended/quota/quota/remove_non_posix_types.patch
+@@ -183,3 +183,16 @@ Index: quota-tools/quot.h
+  } du_t;
+  
+  #define	NDU	60000
++Index: quota-tools/rquota_server.c
++===================================================================
++--- quota-tools.orig/rquota_server.c
+++++ quota-tools/rquota_server.c
++@@ -60,7 +60,7 @@ extern char nfs_pseudoroot[PATH_MAX];
++  */
++ extern struct authunix_parms *unix_cred;
 + 
-+ #include <malloc.h>
-+ #include <string.h>
-++#include <stdio.h>
++-int in_group(gid_t * gids, u_int len, gid_t gid)
+++int in_group(gid_t * gids, uint32_t len, gid_t gid)
++ {
++ 	gid_t *gidsp = gids + len;
 + 
-+ #include "file_util.h"
-+ #include "opkg_conf.h"
-+diff --git a/libopkg/pkg_src.c b/libopkg/pkg_src.c
-+index e31ec21..6b49a00 100644
-+--- a/libopkg/pkg_src.c
-++++ b/libopkg/pkg_src.c
-+@@ -20,6 +20,7 @@
-+ 
-+ #include <malloc.h>
-+ #include <unistd.h>
-++#include <stdio.h>
-+ 
-+ #include "file_util.h"
-+ #include "opkg_conf.h"
-+-- 
-+2.5.1
-+
-diff --git a/meta/recipes-devtools/opkg/opkg_0.3.0.bb b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-index f4dbb2d..884368f 100644
---- a/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.3.0.bb
-@@ -15,6 +15,7 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
-            file://opkg-configure.service \
-            file://opkg.conf \
-            file://0001-opkg_archive-add-support-for-empty-compressed-files.patch \
-+           file://0001-libopkg-include-stdio.h-for-getting-FILE-defined.patch \
- "
+diff --git a/meta/recipes-extended/quota/quota_4.02.bb b/meta/recipes-extended/quota/quota_4.02.bb
+index 124b0a3..673d584 100644
+--- a/meta/recipes-extended/quota/quota_4.02.bb
++++ b/meta/recipes-extended/quota/quota_4.02.bb
+@@ -23,7 +23,7 @@ DEPENDS = "gettext-native e2fsprogs"
  
- SRC_URI[md5sum] = "3412cdc71d78b98facc84b19331ec64e"
+ inherit autotools-brokensep gettext pkgconfig
+ 
+-CFLAGS += "-I=${includedir}/tirpc"
++CFLAGS += "-I${STAGING_INCDIR}/tirpc"
+ LDFLAGS += "-ltirpc"
+ ASNEEDED = ""
+ EXTRA_OEMAKE += 'STRIP=""'
 -- 
 2.5.2
 
