@@ -1,36 +1,41 @@
-Return-Path: <romain.perier@gmail.com>
-Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
-	[209.85.212.180])
-	by mail.openembedded.org (Postfix) with ESMTP id C72F16E26B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F14173D27
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 05:56:28 +0000 (UTC)
-Received: by wicfx3 with SMTP id fx3so125066062wic.1
+	Mon, 14 Sep 2015 07:24:04 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so138841892pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Sep 2015 22:56:28 -0700 (PDT)
+	Mon, 14 Sep 2015 00:24:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=fBUQidDvMKeYhZAS65ElrPPYqPHHtP8qpUnqb4ZYsTw=;
-	b=XbQZEwA4lv/GeeVXFvQU3hTGARsUDz2r+xLy/UMfb2OiWMDUXawe42s74o9VdnKeN4
-	SXMy+prOAWQBw0DqMu6haQ6FUBjCsD3L5Ozm+2slu+G7hk/ISsPQfYQh2XYJA0iUFU3B
-	OaLm8CgGzgOIq6b8F5Vinfv0hdil512X+0kauXwGeBer2aLz9ZFsDEfqH8V+ixwBD+Zt
-	glxNAjiv/qR0WPe+IttCSVwIzC2Y6aNcRLpKXDAS02UVAQZRDBAV9gQsqFw4FkP8kIRJ
-	C/mxUbUpFDdefO0y4auEgyGcWibPQymYXBGUdimhEPFTqz6/DcUOySDE3lJntO845M35
-	RH7g==
-X-Received: by 10.180.90.198 with SMTP id by6mr23607961wib.82.1442210188205;
-	Sun, 13 Sep 2015 22:56:28 -0700 (PDT)
-Received: from localhost.localdomain
-	(i19-les01-ntr-176-186-2-137.sfr.lns.abo.bbox.fr. [176.186.2.137])
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=ytkT9JLi76dWPbGJJppQ0WIIBrve/DBNDh2TC6bnWPo=;
+	b=NJaH+PlHPPmel8qL/oDM8U4IR4uIooVEOFC5eMnlaN9WMIaxpKVT3or6ZEBA9/xx3F
+	TQ4YVDyfCZPK1HchNuHwd1Eb1LHaOUGKde9ifIdu8Fe8hZlS0zb5UmrPXPAy4vl1hjbl
+	s7PSLV5R8sPi0+KfkjDo6+oyacpRc9j0DCvJDY9+wuRshkgPaMgrBZWDstCdrNA9Nuse
+	ogcpcAU/EJimR09rGsEd/VvB/BJwmxxUEjEP76Pg9AdHwd9aRQgWOvlcA9YuUMDo7Nnj
+	YQzdiH05Jtzt4G8S/fVvoszGf+WvsP7STljFAPI0UMMgWsmANgDFRI2pUL+VqbnnGcxM
+	LsdQ==
+X-Received: by 10.66.218.135 with SMTP id pg7mr31737024pac.141.1442215445069; 
+	Mon, 14 Sep 2015 00:24:05 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:2d2a:c874:d212:2f46?
+	([2601:646:8601:4580:2d2a:c874:d212:2f46])
 	by smtp.gmail.com with ESMTPSA id
-	pg5sm13584705wjb.21.2015.09.13.22.56.26
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 13 Sep 2015 22:56:27 -0700 (PDT)
-From: Romain Perier <romain.perier@gmail.com>
-To: cristian.iorga@intel.com
-Date: Mon, 14 Sep 2015 07:56:25 +0200
-Message-Id: <1442210185-29335-1-git-send-email-romain.perier@gmail.com>
-X-Mailer: git-send-email 2.1.4
-Cc: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] linux-firmware: package Broadcom BCM4354 firmware
+	oq7sm11585825pbb.86.2015.09.14.00.24.04
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 14 Sep 2015 00:24:04 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
+From: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <1441983077.31676.17.camel@pbcl.net>
+Date: Mon, 14 Sep 2015 00:24:03 -0700
+Message-Id: <E1DF44AB-9219-4848-9031-60846FC2BF7B@gmail.com>
+References: <1441975783-21782-1-git-send-email-clopez@igalia.com>
+	<1441983077.31676.17.camel@pbcl.net>
+To: Phil Blundell <pb@pbcl.net>
+X-Mailer: Apple Mail (2.3094)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] matchbox-keyboard: Fix build failure with ld-is-gold
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,67 +48,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 05:56:29 -0000
+X-List-Received-Date: Mon, 14 Sep 2015 07:24:05 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Romain Perier <romain.perier@gmail.com>
----
 
-changes in v2:
-    - changed short log message
-    - included the package maintainer in cc:
+> On Sep 11, 2015, at 7:51 AM, Phil Blundell <pb@pbcl.net> wrote:
+>=20
+> On Fri, 2015-09-11 at 14:49 +0200, Carlos Alberto Lopez Perez wrote:
+>>  * When ld-is-gold is enabled in DISTRO_FEATURES, matchbox-keyboard
+>>    will fail to build with this error:
+>>=20
+>>    ld: error: matchbox-keyboard-image.o: requires unsupported dynamic
+>>               reloc R_ARM_MOVW_ABS_NC; recompile with -fPIC
+>=20
+> This is only an issue for ARM (and only for Thumb2 at that).  I don't
+> think it's necessarily appropriate to force -fPIC on all targets.
+>=20
+> Also, before adding this sort of hack it would be worth verifying
+> whether this is in fact a toolchain bug and, if it is, fixing it =
+there.
+>=20
 
-Note: we need this change for meta-rockchip
+This may not be a toolchain bug if there is a MOVW_ABS relocation being =
+emitted
+into an object that is eventually linked into shared library. Using =
+-fPIC seems to be right fix
+I know bfd linker silently ignored these relocations and generated bad =
+.so files but that was fixed
+several years ago. So I think what needs to be looked at is why does =
+same .o links ok with bfd linker
+is it some linker trampoline code thats in question here which may be =
+different between gold and ld
 
- meta/recipes-kernel/linux-firmware/linux-firmware_git.bb | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Carlos
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-index ef8117c..4939ca6 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
-@@ -168,7 +168,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-ti-connectivity-license ${PN}-wl12xx ${PN}-wl18xx \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rtl-license ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
--             ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 \
-+             ${PN}-broadcom-license ${PN}-bcm4329 ${PN}-bcm4330 ${PN}-bcm4334 ${PN}-bcm4354 \
-              ${PN}-atheros-license ${PN}-ar9170 ${PN}-ar3k ${PN}-ath6k ${PN}-ath9k \
-              \
-              ${PN}-iwlwifi-license ${PN}-iwlwifi-135-6 \
-@@ -311,6 +311,7 @@ RDEPENDS_${PN}-vt6656 = "${PN}-vt6656-license"
- LICENSE_${PN}-bcm4329 = "Firmware-broadcom_bcm43xx"
- LICENSE_${PN}-bcm4330 = "Firmware-broadcom_bcm43xx"
- LICENSE_${PN}-bcm4334 = "Firmware-broadcom_bcm43xx"
-+LICENSE_${PN}-bcm4354 = "Firmware-broadcom_bcm43xx"
- 
- FILES_${PN}-broadcom-license = " \
-   /lib/firmware/LICENCE.broadcom_bcm43xx \
-@@ -324,11 +325,16 @@ FILES_${PN}-bcm4330 = " \
- FILES_${PN}-bcm4334 = " \
-   /lib/firmware/brcm/brcmfmac4334-sdio.bin \
- "
-+FILES_${PN}-bcm4354 = " \
-+  /lib/firmware/brcm/brcmfmac4354-sdio.bin \
-+"
- 
- ALTERNATIVE_LINK_NAME[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac-sdio.bin"
- 
- ALTERNATIVE_linux-firmware-bcm4334 = "brcmfmac-sdio.bin"
- ALTERNATIVE_TARGET_linux-firmware-bcm4334[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4334-sdio.bin"
-+ALTERNATIVE_linux_firmware-bcm4354 = "brcmfmac-sdio.bin"
-+ALTERNATIVE_TARGET_linux-firmware-bcm4354[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4354-sdio.bin"
- ALTERNATIVE_linux-firmware-bcm4329 = "brcmfmac-sdio.bin"
- ALTERNATIVE_TARGET_linux-firmware-bcm4329[brcmfmac-sdio.bin] = "/lib/firmware/brcm/brcmfmac4329-sdio.bin"
- ALTERNATIVE_linux-firmware-bcm4330 = "brcmfmac-sdio.bin"
-@@ -337,6 +343,7 @@ ALTERNATIVE_TARGET_linux-firmware-bcm4330[brcmfmac-sdio.bin] = "/lib/firmware/br
- RDEPENDS_${PN}-bcm4329 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm4330 += "${PN}-broadcom-license"
- RDEPENDS_${PN}-bcm4334 += "${PN}-broadcom-license"
-+RDEPENDS_${PN}-bcm4354 += "${PN}-broadcom-license"
- 
- # For iwlwifi
- LICENSE_${PN}-iwlwifi-135-6     = "Firmware-iwlwifi_firmware"
--- 
-2.1.4
-
+Can you check the linker cmdline of failing link step and see if its =
+generating a shared object there ?
+if thats the case and I assume gcc is generating this relocation into =
+both=
 
