@@ -1,39 +1,40 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 84A2576FF2
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 023A47404E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 16:31:37 +0000 (UTC)
-Received: by qkfq186 with SMTP id q186so60380766qkf.1
+	Mon, 14 Sep 2015 16:38:41 +0000 (UTC)
+Received: by padhy16 with SMTP id hy16so148443965pad.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 09:31:37 -0700 (PDT)
+	Mon, 14 Sep 2015 09:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:in-reply-to:references;
-	bh=E8A4Vpiz3y6mMO3+dvnkZfN6aAFdQ5bdtVhXUe+zPdg=;
-	b=QH0SWtW25dTLaLuJ1i1lslosAEC2pfxFats5Ku8wjK7XaPz4Nw8TLpswMXMBC6tTMl
-	gCubSf9CYrLudOhMV7Mx+At54nHbmea4jBnLGgBWfwLhdNBb7jZZsuQHhpIPPqy9XvOZ
-	w8Ni/HhauK38rXzD9FBIZuH/O8AjG8hA/XwHD1Xq8ZaA5MLFYlIcHZEyhIlX/+wv+fWN
-	QRMjmfwPfUQcRbXeJ1N7TNo8q3S1dmOW/XpSamBMxMtHW7t96FtZl3R5udmsClE/AHB6
-	5nJEvROhZNA2P7W0RfyXm1CQT+kPshw0xmmk8hSwRl9Aq/NSTxkKvoxdKjdrY0HNfOm8
-	K3BA==
-X-Received: by 10.55.27.203 with SMTP id m72mr23107389qkh.39.1442248297433;
-	Mon, 14 Sep 2015 09:31:37 -0700 (PDT)
-Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
+	h=content-type:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=GwMUVVzCYAsoqez291VjHxxItH5GNwWhalLZTM09M50=;
+	b=aN3WOlybvVWQ/lJ+kwq1bfrdUXMCM+k8cGS6rprMlzGYZA6DMak137tSgnmwxI5PFZ
+	xIq0VKiV83ZSWMXB4ovqcgzxaBBXr+5hPrw9EpHhr8dZhrhGl9imVHGgIxJY8lX9AsB3
+	BnITkHf7cwyErK8EgOH2EzefQ/JKGFhJDdwsz82iHt6cqYczuHQfIXtfT0mLJg0hEt/C
+	jHN2doQEBNw/BVE4qyiPEfqMHz3l8x3HL2aKg/LUPxWjdRyvUjXlctTMSNatZwzcphAu
+	p56yB2A9tBLZZLpUqIVjzvDWUOGRc55h/HFyOZ5dbRQCHKKn5vDu5y/VRpMaQDQCQ0J2
+	HLZw==
+X-Received: by 10.68.94.195 with SMTP id de3mr36510053pbb.47.1442248721550;
+	Mon, 14 Sep 2015 09:38:41 -0700 (PDT)
+Received: from ?IPv6:2601:646:8601:4580:8d6e:46a6:5187:f53c?
+	([2601:646:8601:4580:8d6e:46a6:5187:f53c])
 	by smtp.gmail.com with ESMTPSA id
-	w138sm6172059qkw.40.2015.09.14.09.31.36
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 Sep 2015 09:31:36 -0700 (PDT)
+	qr5sm17155686pbb.26.2015.09.14.09.38.40
+	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 14 Sep 2015 09:38:41 -0700 (PDT)
+Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Sep 2015 16:31:27 +0000
-Message-Id: <d63e43271776f750645f3298b175b2e04898dca9.1442248108.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.5.2
-In-Reply-To: <cd66976d7a276b7c39d20f37242c7331386b301e.1442248108.git.raj.khem@gmail.com>
-References: <cd66976d7a276b7c39d20f37242c7331386b301e.1442248108.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1442248108.git.raj.khem@gmail.com>
-References: <cover.1442248108.git.raj.khem@gmail.com>
-Subject: [PATCH 12/12] sysstat: Include needed headers explicitly
+In-Reply-To: <1442247767-7879-1-git-send-email-juro.bystricky@intel.com>
+Date: Mon, 14 Sep 2015 09:38:40 -0700
+Message-Id: <7D6F58E5-BF37-4757-8B9A-5C37BAE5ED8E@gmail.com>
+References: <1442247767-7879-1-git-send-email-juro.bystricky@intel.com>
+To: Juro Bystricky <juro.bystricky@intel.com>
+X-Mailer: Apple Mail (2.3094)
+Cc: richard.purdie@intel.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libgcc.inc: package baremetal multilib libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,102 +47,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 16:31:38 -0000
+X-List-Received-Date: Mon, 14 Sep 2015 16:38:42 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-It depends on defines from .h files that are not includes as part of
-source file, on glibc it works because they get included indirectly but
-that can change any time since its internal glibc behaviour, at user
-level the header needed should be explicitly included.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../0001-Include-needed-headers-explicitly.patch   | 62 ++++++++++++++++++++++
- meta/recipes-extended/sysstat/sysstat_11.1.5.bb    |  2 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
+> On Sep 14, 2015, at 9:22 AM, Juro Bystricky <juro.bystricky@intel.com> =
+wrote:
+>=20
+> When building libgcc for baremetal cross-compilers, some files and =
+libraries
+> may be built but not packaged. This patch fixes errors such as these:
+>=20
+> ERROR: QA Issue: libgcc: Files/directories were installed but not =
+shipped in any package:
+>  /usr/lib/arm-poky-eabi/4.9.3/thumb
+>  /usr/lib/arm-poky-eabi/4.9.3/fpu
+>  /usr/lib/arm-poky-eabi/4.9.3/thumb/libgcov.a
+>  /usr/lib/arm-poky-eabi/4.9.3/thumb/crtn.o
+>  /usr/lib/arm-poky-eabi/4.9.3/thumb/crtend.o
+>  /usr/lib/arm-poky-eabi/4.9.3/thumb/crtbegin.o
+>  /usr/lib/arm-poky-eabi/4.9.3/thumb/libgcc.a
+>  /usr/lib/arm-poky-eabi/4.9.3/thumb/crti.o
+>  /usr/lib/arm-poky-eabi/4.9.3/fpu/libgcov.a
+>  /usr/lib/arm-poky-eabi/4.9.3/fpu/crtn.o
+>  /usr/lib/arm-poky-eabi/4.9.3/fpu/crtend.o
+>  /usr/lib/arm-poky-eabi/4.9.3/fpu/crtbegin.o
+>  /usr/lib/arm-poky-eabi/4.9.3/fpu/libgcc.a
+>  /usr/lib/arm-poky-eabi/4.9.3/fpu/crti.o
+> Please set FILES such that these items are packaged. Alternatively if =
+they are unneeded,
+> avoid installing them or delete them within do_install. =
+[installed-vs-shipped]
+>=20
+> Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+> ---
+> meta/recipes-devtools/gcc/libgcc.inc | 6 ++++++
+> 1 file changed, 6 insertions(+)
+>=20
+> diff --git a/meta/recipes-devtools/gcc/libgcc.inc =
+b/meta/recipes-devtools/gcc/libgcc.inc
+> index 739adbd..95709e4 100644
+> --- a/meta/recipes-devtools/gcc/libgcc.inc
+> +++ b/meta/recipes-devtools/gcc/libgcc.inc
+> @@ -28,6 +28,12 @@ FILES_${PN}-dev =3D "\
+>     ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a \
+> "
+>=20
+> +FILES_${PN}-dev_libc-baremetal =3D "\
+> +    ${base_libdir}/ \
+> +    ${libdir}/* \
+> +    ${libdir}/${TARGET_SYS}/* \
+> +=E2=80=9D
 
-diff --git a/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch b/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
-new file mode 100644
-index 0000000..c126523
---- /dev/null
-+++ b/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
-@@ -0,0 +1,62 @@
-+From 42325faa88d64cce799977d611b2792beb154643 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 14 Sep 2015 08:36:59 +0000
-+Subject: [PATCH] Include needed headers explicitly
-+
-+on glibc these headers get pulled in indirectly via other .h files
-+but right fix is to include them directly when used
-+
-+fixes
-+
-+error: use of undeclared identifier 'PATH_MAX'
-+error: called object type 'unsigned int' is not a function or function pointer
-+dm_major = major(aux.st_rdev);
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ common.c    | 1 +
-+ ioconf.c    | 1 +
-+ sa_common.c | 1 +
-+ 3 files changed, 3 insertions(+)
-+
-+diff --git a/common.c b/common.c
-+index a23155b..ad86446 100644
-+--- a/common.c
-++++ b/common.c
-+@@ -20,6 +20,7 @@
-+  */
-+ 
-+ #include <stdio.h>
-++#include <limits.h>
-+ #include <string.h>
-+ #include <stdlib.h>
-+ #include <time.h>
-+diff --git a/ioconf.c b/ioconf.c
-+index 7d88c5d..6d67691 100644
-+--- a/ioconf.c
-++++ b/ioconf.c
-+@@ -27,6 +27,7 @@
-+ #include <errno.h>
-+ #include <dirent.h>
-+ #include <sys/stat.h>
-++#include <sys/types.h>
-+ 
-+ #include "ioconf.h"
-+ #include "common.h"
-+diff --git a/sa_common.c b/sa_common.c
-+index b7351d9..c9e3299 100644
-+--- a/sa_common.c
-++++ b/sa_common.c
-+@@ -20,6 +20,7 @@
-+  */
-+ 
-+ #include <stdio.h>
-++#include <limits.h>
-+ #include <string.h>
-+ #include <stdlib.h>
-+ #include <time.h>
-+-- 
-+2.5.2
-+
-diff --git a/meta/recipes-extended/sysstat/sysstat_11.1.5.bb b/meta/recipes-extended/sysstat/sysstat_11.1.5.bb
-index 69d2ec2..bff8616 100644
---- a/meta/recipes-extended/sysstat/sysstat_11.1.5.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_11.1.5.bb
-@@ -2,6 +2,8 @@ require sysstat.inc
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
- 
-+SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
-+
- SRC_URI[md5sum] = "4d8e6e72d057189a1660462a678d9ada"
- SRC_URI[sha256sum] = "feb3a90d86ffd69cf5b88144a8876ae05bd42384f559676f08100671589fa2bb"
- 
--- 
-2.5.2
+why not put it into libgcc-dev itself=20
+
+> +
+
+> FILES_${PN}-dbg +=3D "${base_libdir}/.debug/"
+>=20
+> LIBGCCBUILDTREENAME =3D "gcc-build-internal-"
+> --=20
+> 1.9.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
