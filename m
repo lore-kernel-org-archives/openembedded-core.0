@@ -1,38 +1,28 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E21E073CBD
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C02DB73CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 09:29:13 +0000 (UTC)
-Received: by lahg1 with SMTP id g1so52878396lah.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 02:29:12 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=TyFwoCdqd32b3XKihTd0vyVyRD5euleSzFAp1PYYkC0=;
-	b=mHDhzEzCwLLp/KyFPGilh7W/cROHnaqscPRstR4bmnS/LUpFbg6al2LHV9141p4P0R
-	j+cmK9dwsA0v3vVSEcj/5bSqViXSeBJczurLa0VqGTNbJRnuNqZHJSxTmizTca4F0zuQ
-	O8u7r4QqDDKEtisMCdj4RUbo3rGCaukSx+17dyAZ8v7PbsnqcvXOZQqzhmcSZzS8EBsT
-	4rWUg/dzabuQ8+TRkQFobogVfmTOYMUQAQltJMmjAFBc++02T5zK9xmJncXAafhKINR+
-	FAJi+wjNmEusnBlPN2ByFyU5d96lTFEd5kyaz2pAba4O4xSFqFLPNv0f1QO23RMGG3HX
-	m20g==
-X-Gm-Message-State: ALoCoQm+H4vJsUbblzCwd4Hs+RIczA+NTBvxQsqk5plE33QyESUl5SqMusoJhkvaxZ+ddjJPZpXG
+	Mon, 14 Sep 2015 09:32:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E9WlI2003779
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 14 Sep 2015 02:32:47 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Mon, 14 Sep 2015 02:32:46 -0700
+Message-ID: <55F6943D.9060606@windriver.com>
+Date: Mon, 14 Sep 2015 17:32:45 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-X-Received: by 10.152.161.232 with SMTP id xv8mr12898140lab.32.1442222952517; 
-	Mon, 14 Sep 2015 02:29:12 -0700 (PDT)
-Received: by 10.25.155.13 with HTTP; Mon, 14 Sep 2015 02:29:12 -0700 (PDT)
-In-Reply-To: <CAP9ODKr=Sg2Gq8AghfQD-SFWWr2vF=wOo0VqStfjsjkYW2WDRw@mail.gmail.com>
-References: <1441880652-12645-1-git-send-email-nathan@nathanrossi.com>
-	<CAP9ODKr=Sg2Gq8AghfQD-SFWWr2vF=wOo0VqStfjsjkYW2WDRw@mail.gmail.com>
-Date: Mon, 14 Sep 2015 19:29:12 +1000
-Message-ID: <CA+aJhH0B8WM-TOM_aL-7cPOA3z8H5y7KyT1DYq9AhizR2VydMg@mail.gmail.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: Patches and discussions about the oe-core layer
+To: Mike Looijmans <mike.looijmans@topic.nl>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] u-boot.inc: Add host compiler flags and openssl-native dependency
+References: <1442215997-24116-1-git-send-email-rongqing.li@windriver.com>
+	<55F68E36.1020904@topic.nl>
+In-Reply-To: <55F68E36.1020904@topic.nl>
+Subject: Re: [PATCH] quashfs-tools: make it be able to be compiled by gcc5 with "-O0"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,31 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 09:29:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 14 Sep 2015 09:32:47 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 11, 2015 at 3:50 AM, Otavio Salvador
-<otavio.salvador@ossystems.com.br> wrote:
-> On Thu, Sep 10, 2015 at 7:24 AM, Nathan Rossi <nathan@nathanrossi.com> wrote:
->> U-Boot will compile its own tools during the build, with specific
->> configurations (aka when CONFIG_FIT_SIGNATURE is enabled) the host tools
->> require openssl. This patch adds 'openssl' as a PACKAGECONFIG that
->> enables the use of openssl-native as a dependency and also adds the
->> HOSTCC flags that U-Boot uses when compiling the host tools.
->>
->> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+
+
+On 2015年09月14日 17:07, Mike Looijmans wrote:
+> Typo: "(s)quashfs"
 >
-> Ideally we ought to ensure U-Boot stops to build the native part when
-> doing the target one.
+>
 
-Are you suggesting that the compile step (of the recipe) should build
-the "tools"/native make target first, then execute the make target for
-the rest afterwards as two separate steps?
+thanks
 
-For reference the U-Boot makefile setup handles the dependence on the
-tools, and will ensure they are built before needed. So splitting out
-the steps is probably not necessary.
+-Roy
 
-Regards,
-Nathan
+>
+> Kind regards,
+>
+> Mike Looijmans
+> System Expert
+>
+> TOPIC Embedded Products
+> Eindhovenseweg 32-C, NL-5683 KH Best
+> Postbus 440, NL-5680 AK Best
+> Telefoon: +31 (0) 499 33 69 79
+> Telefax: +31 (0) 499 33 69 70
+> E-mail: mike.looijmans@topicproducts.com
+> Website: www.topicproducts.com
+>
+> Please consider the environment before printing this e-mail
+>
+>
+>
+>
+>
+>
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
