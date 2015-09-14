@@ -1,38 +1,27 @@
-Return-Path: <fathi.boudra@linaro.org>
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by mail.openembedded.org (Postfix) with ESMTP id CF28473243
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0000360053
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Sep 2015 07:13:39 +0000 (UTC)
-Received: by wiclk2 with SMTP id lk2so98259939wic.1
+	Mon, 14 Sep 2015 00:32:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E0WKYm018420
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Sep 2015 00:13:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc:content-type;
-	bh=TauBkcAatEiKEWtNKEXJ2pKY92SlwYzJy6Y7VSInfU4=;
-	b=XUPvClzineEKreoAQPKeIF9f6RLIG2WBVnntBLj9FMWMTNuW1UzKFhGpa1SF5PsG/7
-	Pe3bW+2EZAyid7jMzE1TJ6slhfbOWw2BlRvgGHtknz3LOgLjjVh0kk77n1OAIKhQEiuu
-	WLDhEk81hcNnAqZVf1+CYqwvwN7mjhCWI5dkiCocn2b0Jh36XfGre7XLscje0/Y2lm0s
-	loRuOBHdc4EMBa8q9uKw91evgkRhsyxUzJRdCB3LRouruXd16nji6UzE5TNRZcyjAEQB
-	3/NuEIVWgYgBQyzIcLI8SgoIhfF7OMtCuIvHkcAVwB0DjJoJwh1HBdp7uTnTO7dLAMBd
-	uMCA==
-X-Gm-Message-State: ALoCoQnCEl6j5AbEPdoljQNUkYGCFYnN6Og7E6yjFF3KUVK/YKfPc2SBCnIMgW6cyE0gkN8Cn9NH
+	Sun, 13 Sep 2015 17:32:20 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Sun, 13 Sep 2015 17:32:19 -0700
+Message-ID: <55F61592.3070808@windriver.com>
+Date: Mon, 14 Sep 2015 08:32:18 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-X-Received: by 10.180.186.195 with SMTP id fm3mr13794174wic.1.1442128419019;
-	Sun, 13 Sep 2015 00:13:39 -0700 (PDT)
-Received: by 10.28.127.141 with HTTP; Sun, 13 Sep 2015 00:13:38 -0700 (PDT)
-In-Reply-To: <1442095230.18370.2.camel@linuxfoundation.org>
-References: <cover.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<7f18159f085ddebd9b4dd58912b83c83f092b10e.1436903712.git.leonardo.sandoval.gonzalez@linux.intel.com>
-	<1442095230.18370.2.camel@linuxfoundation.org>
-Date: Sun, 13 Sep 2015 10:13:38 +0300
-Message-ID: <CAGNsrLD2jivE1q9g6HO2Yzoc-fRb=+CZF_sTS0moXUc1b6ZAXA@mail.gmail.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: leonardo.sandoval.gonzalez@intel.com
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3 1/3] iasl: Recipe taken from the luv-yocto repository
+To: <openembedded-core@lists.openembedded.org>
+References: <1440576307-16564-1-git-send-email-rongqing.li@windriver.com>
+In-Reply-To: <1440576307-16564-1-git-send-email-rongqing.li@windriver.com>
+Subject: Re: [PATCH] asciidoc: create recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +34,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Sep 2015 07:13:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 14 Sep 2015 00:32:21 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 13 September 2015 at 01:00, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2015-07-14 at 20:07 +0000,
-> leonardo.sandoval.gonzalez@linux.intel.com wrote:
->> From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->>
->> Taken from [1]. ACPICA is licensed under two main licenses:
->> 1) An Intel license (Intel-ACPI) and 2) a dual GPL/BSP license. This
->> recipe uses the latter.
->>
->> [1] https://github.com/01org/luv-yocto/tree/master/meta-luv/recipes-extended/iasl
+ping
 
-fwiw, acpica is already part of meta-oe and generate iasl:
-http://cgit.openembedded.org/cgit.cgi/meta-openembedded/tree/meta-oe/recipes-extended/acpica/acpica_20140828.bb?h=master
+-Roy
 
->> Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
->> ---
->>  meta/recipes-extended/iasl/iasl_20150515.bb | 27 +++++++++++++++++++++++++++
->>  1 file changed, 27 insertions(+)
->>  create mode 100644 meta/recipes-extended/iasl/iasl_20150515.bb
+On 2015年08月26日 16:05, rongqing.li@windriver.com wrote:
+> From: Roy Li <rongqing.li@windriver.com>
 >
-> Sadly this and the ovmf patch trigger failures in world and world-lsb
-> builds:
+> To fix [YOCTO #3388], asciidoc is needed
 >
-> https://autobuilder.yoctoproject.org/main/builders/nightly-world/builds/495
-> https://autobuilder.yoctoproject.org/main/builders/nightly-world-lsb/builds/213
+> AsciiDoc is a text document format for writing short documents, articles,
+> books and UNIX man pages.
 >
-> Cheers,
+> get recipe from openembedded, update the download url, remove the vim magic
+> since it becomes useless, enable native, and upgrade to 8.6.9
 >
-> Richard
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> ---
+>   meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 21 +++++++++++++++++++++
+>   1 file changed, 21 insertions(+)
+>   create mode 100644 meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+> new file mode 100644
+> index 0000000..79747ae
+> --- /dev/null
+> +++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+> @@ -0,0 +1,21 @@
+> +DESCRIPTION = "AsciiDoc is a text document format for writing short documents, \
+> +articles, books and UNIX man pages."
+> +
+> +HOMEPAGE = "http://www.methods.co.nz/asciidoc/"
+> +LICENSE = "GPLv2"
+> +
+> +SRC_URI = " http://downloads.sourceforge.net/project/${BPN}/${BPN}/${PV}/${BPN}-${PV}.tar.gz"
+> +
+> +inherit distutils-base autotools-brokensep
+> +
+> +export DESTDIR = "${D}"
+> +
+> +FILES_${PN} += "${sysconfdir}"
+> +
+> +RDEPENDS_${PN} += "python"
+> +
+> +SRC_URI[md5sum] = "c59018f105be8d022714b826b0be130a"
+> +SRC_URI[sha256sum] = "78db9d0567c8ab6570a6eff7ffdf84eadd91f2dfc0a92a2d0105d323cab4e1f0"
+> +LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
+> +
+> +BBCLASSEXTEND = "native"
+>
+
+-- 
+Best Reagrds,
+Roy | RongQing Li
 
