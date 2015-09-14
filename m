@@ -1,34 +1,35 @@
-Return-Path: <bruno.bottazzini@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 33E756E26B
+Return-Path: <kergoth@gmail.com>
+Received: from mail-wi0-f173.google.com (mail-wi0-f173.google.com
+	[209.85.212.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6764C6E26B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 21:29:53 +0000 (UTC)
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP; 14 Sep 2015 14:29:55 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,531,1437462000"; d="scan'208";a="644762192"
-Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
-	by orsmga003.jf.intel.com with ESMTP; 14 Sep 2015 14:29:54 -0700
-Received: from orsmsx160.amr.corp.intel.com (10.22.226.43) by
-	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:53 -0700
-Received: from fmsmsx104.amr.corp.intel.com (10.18.124.202) by
-	ORSMSX160.amr.corp.intel.com (10.22.226.43) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:53 -0700
-Received: from bottazzini-ThinkPad-T430.bz.intel.com (10.218.99.154) by
-	fmsmsx104.amr.corp.intel.com (10.18.124.202) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Mon, 14 Sep 2015 14:29:52 -0700
-From: Bruno Bottazzini <bruno.bottazzini@intel.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Sep 2015 18:29:04 -0300
-Message-ID: <1442266144-28775-2-git-send-email-bruno.bottazzini@intel.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <1442266144-28775-1-git-send-email-bruno.bottazzini@intel.com>
-References: <bruno.bottazzini@intel.com>
-	<1442266144-28775-1-git-send-email-bruno.bottazzini@intel.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.218.99.154]
-Subject: [PATCH V4] mkefidisk: Create interactive menu for the script
+	Mon, 14 Sep 2015 21:38:22 +0000 (UTC)
+Received: by wiclk2 with SMTP id lk2so2514041wic.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 14 Sep 2015 14:38:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=wDUUAQGuOhBc37DjTwA8v2O2FJgK+GheQp7zuebZGdo=;
+	b=xQ/tXpv3PGNdvP5GCQxMi1iQdLNxOGrPd852m6/5oqcLzVNQ2BuqEMtP6VWczHEimo
+	3woy7mNKmAPcl3+kjrTDRlZKVT3zD31gkx8/keNw48FYm4bQ4sXY0XUdr0E4BMeMJiTk
+	ZRLC3eHZDmtcRWyBotqCtLoXhwfektDz9yzYCSKSuK/9JQN+QhGNZbol0z3OEWggO4zb
+	rP0hAI0aorN0vXIQXyHEexZFFyvMO8To0iLZuyZisuKL2e7p/UYSWliRjdGbKZtmEXc9
+	9/GoOt1uNtalKpg2niBxfNpYzPxOK7O8vYwB/q7CgJRj4uuZLf6rjrpnSdl+ORE2ZnWr
+	to4Q==
+X-Received: by 10.180.216.108 with SMTP id op12mr209009wic.43.1442266702197;
+	Mon, 14 Sep 2015 14:38:22 -0700 (PDT)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	ex8sm16414981wib.14.2015.09.14.14.38.20
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 14 Sep 2015 14:38:21 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Sep 2015 14:38:16 -0700
+Message-Id: <1442266696-6751-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] image.bbclass: add do_rootfs vardeps for IMAGE_{CMD, TYPEDEP}_*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,105 +42,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 21:29:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 14 Sep 2015 21:38:24 -0000
 
-If it is passed only the image parameter, it will show some interactive
-options to help to conclude the script.
+From: Christopher Larson <chris_larson@mentor.com>
 
-With this patch it will detect devices available in the machine, asking
-to choose what it is wanted to be flashed.
+We want do_rootfs to rerun if the image commands or dependencies change for any of
+our configured fstypes (IMGE_FSTYPES).
 
-it will suggest the target device. If it is a SD card the suggestion
-is /dev/mmcblk0. If it is a pendrive it will suggest to use /dev/sda.
-
-Signed-off-by: Bruno Bottazzini <bruno.bottazzini@intel.com>
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- scripts/contrib/mkefidisk.sh | 63 ++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 58 insertions(+), 5 deletions(-)
+ meta/classes/image.bbclass | 24 +++++++++++++++++++++++-
+ 1 file changed, 23 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/contrib/mkefidisk.sh b/scripts/contrib/mkefidisk.sh
-index 55f72b0..cd4de05 100755
---- a/scripts/contrib/mkefidisk.sh
-+++ b/scripts/contrib/mkefidisk.sh
-@@ -152,8 +152,55 @@ unmount() {
- # Parse and validate arguments
- #
- if [ $# -lt 3 ] || [ $# -gt 4 ]; then
--	usage
--	exit 1
-+    if [ $# -eq 1 ]; then
-+        AVAILABLE_DISK=`lsblk | grep "disk" | cut -f 1 -d " "`
-+        X=0
-+        for disk in `echo $AVAILABLE_DISK`; do
-+            mounted=`lsblk /dev/$disk | awk {'print $7'} | sed "s/MOUNTPOINT//"`
-+            if [ -z "$mounted" ]; then
-+                UNMOUNTED_AVAILABLES="$UNMOUNTED_AVAILABLES /dev/$disk"
-+                info "$X - /dev/$disk"
-+                X=`expr $X + 1`
-+            fi
-+        done
-+        if [ $X -eq 0 ]; then
-+            die "No unmounted device found."
-+        fi
-+        read -p "Choose unmounted device number: " DISK_NUMBER
-+        X=0
-+        for line in `echo $UNMOUNTED_AVAILABLES`; do
-+            if [ $DISK_NUMBER -eq $X ]; then
-+                DISK_TO_BE_FLASHED=$line
-+                break
-+            else
-+                X=`expr $X + 1`
-+            fi
-+        done
-+        if [ -z "$DISK_TO_BE_FLASHED" ]; then
-+            die "Option \"$DISK_NUMBER\" is invalid. Choose a valid option"
-+        else
-+            if [ -z `echo $DISK_TO_BE_FLASHED | grep "mmc"` ]; then
-+                TARGET_TO_BE_BOOT="/dev/sda"
-+            else
-+                TARGET_TO_BE_BOOT="/dev/mmcblk0"
-+            fi
-+        fi
-+        echo ""
-+        echo "Choose a name of the device that will be boot from"
-+        echo -n "Recommended name is: "
-+        info "$TARGET_TO_BE_BOOT"
-+        read -p "Is target device okay? [y/N]: " RESPONSE
-+        if [ "$RESPONSE" != "y" ]; then
-+            read -p "Choose target device name: " TARGET_TO_BE_BOOT
-+        fi
-+        echo ""
-+        if [ -z "$TARGET_TO_BE_BOOT" ]; then
-+            die "Error: choose a valid target name"
-+        fi
-+    else
-+        usage
-+	    exit 1
-+    fi
- fi
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index fc7d64d..d81fa27 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -106,14 +106,36 @@ python () {
+             d.setVarFlag(var, 'func', '1')
+ }
  
- if [ "$1" = "-v" ]; then
-@@ -162,9 +209,15 @@ if [ "$1" = "-v" ]; then
- 	shift
- fi
- 
--DEVICE=$1
--HDDIMG=$2
--TARGET_DEVICE=$3
-+if [ -z "$AVAILABLE_DISK" ]; then
-+    DEVICE=$1
-+    HDDIMG=$2
-+    TARGET_DEVICE=$3
-+else
-+    DEVICE=$DISK_TO_BE_FLASHED
-+    HDDIMG=$1
-+    TARGET_DEVICE=$TARGET_TO_BE_BOOT
-+fi
- 
- LINK=$(readlink $DEVICE)
- if [ $? -eq 0 ]; then
++def fstype_variables(d):
++    fstype_vars = set()
++    fstypes = set(d.getVar('IMAGE_FSTYPES', True).split())
++    def _typedeps(fstype, seen):
++        if fstype in seen:
++            return
++
++        yield fstype
++        for typedep in (d.getVar('IMAGE_TYPEDEP_%s' % fstype, True) or "").split():
++            for _typedep in _typedeps(typedep, seen):
++                yield _typedep
++
++    seen = set()
++    for fstype in list(fstypes):
++        fstypes |= set(_typedeps(fstype, seen))
++
++    for fstype in fstypes:
++        fstype_vars.add('IMAGE_TYPEDEP_%s' % fstype)
++        fstype_vars.add('IMAGE_CMD_%s' % fstype)
++    return sorted(fstype_vars)
++
+ def rootfs_variables(d):
+     from oe.rootfs import variable_depends
+-    variables = ['IMAGE_DEVICE_TABLES','BUILD_IMAGES_FROM_FEEDS','IMAGE_TYPEDEP_','IMAGE_TYPES_MASKED','IMAGE_ROOTFS_ALIGNMENT','IMAGE_OVERHEAD_FACTOR','IMAGE_ROOTFS_SIZE','IMAGE_ROOTFS_EXTRA_SPACE',
++    variables = ['IMAGE_DEVICE_TABLES','BUILD_IMAGES_FROM_FEEDS','IMAGE_TYPES_MASKED','IMAGE_ROOTFS_ALIGNMENT','IMAGE_OVERHEAD_FACTOR','IMAGE_ROOTFS_SIZE','IMAGE_ROOTFS_EXTRA_SPACE',
+                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','RM_OLD_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS','SDK_OS',
+                  'SDK_OUTPUT','SDKPATHNATIVE','SDKTARGETSYSROOT','SDK_DIR','SDK_VENDOR','SDKIMAGE_INSTALL_COMPLEMENTARY','SDK_PACKAGE_ARCHS','SDK_OUTPUT','SDKTARGETSYSROOT','MULTILIBRE_ALLOW_REP',
+                  'MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS','PACKAGE_ARCHS',
+                  'PACKAGE_CLASSES','TARGET_VENDOR','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
+                  'COMPRESSIONTYPES', 'IMAGE_GEN_DEBUGFS']
++    variables.extend(fstype_variables(d))
+     variables.extend(command_variables(d))
+     variables.extend(variable_depends(d))
+     return " ".join(variables)
 -- 
-2.5.1
+2.2.1
 
 
