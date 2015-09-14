@@ -1,39 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pa0-f42.google.com (mail-pa0-f42.google.com
-	[209.85.220.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1546D7404E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
+	[209.85.192.46])
+	by mail.openembedded.org (Postfix) with ESMTP id A038473CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 16:06:53 +0000 (UTC)
-Received: by padhk3 with SMTP id hk3so147688733pad.3
+	Mon, 14 Sep 2015 16:10:22 +0000 (UTC)
+Received: by qgev79 with SMTP id v79so118765844qge.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 09:06:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=content-type:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=Q1QqF/yMKo95vj6/2MRcOBKgzuAdTLkczxjtsHvqs/E=;
-	b=BPAkCNubpbsMEeX6fr7qJgAzKZCHCZsto43YhLPpbxJos/LdOq7iSdyMPBz6PH+VnF
-	9uRtTcwoK7x2WGGywg16YLIwnlmGpc/Izsbrxfp8Cwy00CPGGSRNcN2bvx3Pq3QjYLrJ
-	cVbZu5I563739QcmO5SvqPfKxRk6GLAQKe4RxTg7M+T+BlRHvwRgTh/ChtKfk59pLY79
-	eO8r/EGrgZR9uCStqA7caTQiUt+yuQ+6VHg8WuuYb6YLyeufQYmKXLrrLOMo84qta7ZA
-	6lhQzlklYxwXk3cPzrVtLfOCk3lb0FAWGDNgE/H3+47WTuiEX1r9UuvvvwD614b24KgU
-	Gszw==
-X-Received: by 10.68.65.3 with SMTP id t3mr36239914pbs.127.1442246813698;
-	Mon, 14 Sep 2015 09:06:53 -0700 (PDT)
-Received: from ?IPv6:2601:646:8601:4580:8d6e:46a6:5187:f53c?
-	([2601:646:8601:4580:8d6e:46a6:5187:f53c])
-	by smtp.gmail.com with ESMTPSA id
-	im2sm17027453pbc.34.2015.09.14.09.06.52
-	(version=TLS1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 14 Sep 2015 09:06:53 -0700 (PDT)
-Mime-Version: 1.0 (Mac OS X Mail 9.0 \(3094\))
-From: Khem Raj <raj.khem@gmail.com>
-In-Reply-To: <1442246267-35258-1-git-send-email-ross.burton@intel.com>
-Date: Mon, 14 Sep 2015 09:06:52 -0700
-Message-Id: <FE596366-AE31-43F6-9EF4-B25CFB1B6162@gmail.com>
+	Mon, 14 Sep 2015 09:10:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=9IBjBFO1vWgZI0N1kBg7e++gABMEKbTa5iaZFs5J9R0=;
+	b=hDPsL0vl5YddbxtQ/HUxSsc3UfsLsFocoeyfgyUC/HxVGBdlAIxkLpaDiLiiX/l5R5
+	E2wO2Ubl22Qi3BL+BYa+rson6xv4lgLvo93vZhUxCvxNMXTYV3VfiWodG8/ZJS52LOh/
+	W2VxFijS1CjcVovTeyaauRINJZtta+G+y2fzE7eM3aA2yVjwIaPV6IHJy0ArH/iuA4zc
+	ufaA9B3OTLGz2JEcADcQYm8PYzCUKUmlBc/5+DR7oMMV/4lF0p32Hv7+mggyI8oNjztl
+	szJEUzTVspBHKTZt48Q6yI6pynqrgF1hsadwSJxxHEnO9Lf8S43a/9h+WhtJCNcF1Nem
+	0RSA==
+X-Gm-Message-State: ALoCoQnfctbMTw6szju2T5LLP2ir4WCnhnMvuqtLzw4RELb2iD1QPNf5oO3SetDbDJ4+6geXnEet
+X-Received: by 10.140.132.71 with SMTP id 68mr24762687qhe.64.1442247021871;
+	Mon, 14 Sep 2015 09:10:21 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Mon, 14 Sep 2015 09:10:02 -0700 (PDT)
+In-Reply-To: <FE596366-AE31-43F6-9EF4-B25CFB1B6162@gmail.com>
 References: <1442246267-35258-1-git-send-email-ross.burton@intel.com>
-To: Ross Burton <ross.burton@intel.com>
-X-Mailer: Apple Mail (2.3094)
-Cc: openembedded-core@lists.openembedded.org
+	<FE596366-AE31-43F6-9EF4-B25CFB1B6162@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 14 Sep 2015 17:10:02 +0100
+Message-ID: <CAJTo0LbSuE+C1R3pmd=G1xuroqgn0Yn4G+mLdOu8hOW_tYwQSw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] glibc: don't require bash for nscd init script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -47,124 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 16:06:54 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Mon, 14 Sep 2015 16:10:24 -0000
+Content-Type: multipart/alternative; boundary=001a113510d46b031c051fb74d63
+
+--001a113510d46b031c051fb74d63
+Content-Type: text/plain; charset=UTF-8
+
+On 14 September 2015 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
+
+> it used to be like that and then changed to use translated strings. Do you
+> see any downsides of removing it ?
+> locales related or otherwise ? if not then it looks ok to me.
+>
+
+When given the choice of translated strings in an *init script* with
+enforced bash or English strings with no bash, I think most people here
+would go for English and not enforced bash.  Nobody noticed this as the
+bash dependency wasn't declared (and thus was a QA warning with Poky at
+least).
+
+Ross
+
+--001a113510d46b031c051fb74d63
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 14 September 2015 at 17:06, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":20a" class=3D"a3s" s=
+tyle=3D"overflow:hidden">it used to be like that and then changed to use tr=
+anslated strings. Do you see any downsides of removing it ?<br>
+locales related or otherwise ? if not then it looks ok to me.</div></blockq=
+uote><div><br></div><div>When given the choice of translated strings in an =
+*init script* with enforced bash or English strings with no bash, I think m=
+ost people here would go for English and not enforced bash.=C2=A0 Nobody no=
+ticed this as the bash dependency wasn&#39;t declared (and thus was a QA wa=
+rning with Poky at least).</div><div><br></div><div>Ross=C2=A0</div></div><=
+/div></div>
 
-> On Sep 14, 2015, at 8:57 AM, Ross Burton <ross.burton@intel.com> =
-wrote:
->=20
-> The nscd init script uses #! /bin/bash but only really uses one =
-bashism
-> (translated strings), so remove them and switch the shell to #! =
-/bin/sh.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
-> meta/recipes-core/glibc/glibc/nscd-no-bash.patch | 61 =
-++++++++++++++++++++++++
-> meta/recipes-core/glibc/glibc_2.22.bb            |  1 +
-> 2 files changed, 62 insertions(+)
-> create mode 100644 meta/recipes-core/glibc/glibc/nscd-no-bash.patch
->=20
-> diff --git a/meta/recipes-core/glibc/glibc/nscd-no-bash.patch =
-b/meta/recipes-core/glibc/glibc/nscd-no-bash.patch
-> new file mode 100644
-> index 0000000..c306ce6
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/nscd-no-bash.patch
-> @@ -0,0 +1,61 @@
-> +Don't use bashisms (except for echo -n, which busybox supports) to =
-avoid needing bash to start nscd.
-> +
-
-it used to be like that and then changed to use translated strings. Do =
-you see any downsides of removing it ?
-locales related or otherwise ? if not then it looks ok to me.
-
-> +Upstream-Status: Pending
-> +Signed-off-by: Ross Burton <ross.burton@intel.com>
-> +
-> +diff --git a/nscd/nscd.init b/nscd/nscd.init
-> +index a882da7..b02986e 100644
-> +--- a/nscd/nscd.init
-> ++++ b/nscd/nscd.init
-> +@@ -1,4 +1,4 @@
-> +-#!/bin/bash
-> ++#!/bin/sh
-> + #
-> + # nscd:		Starts the Name Switch Cache Daemon
-> + #
-> +@@ -49,7 +49,7 @@ prog=3Dnscd
-> + start () {
-> +     [ -d /var/run/nscd ] || mkdir /var/run/nscd
-> +     [ -d /var/db/nscd ] || mkdir /var/db/nscd
-> +-    echo -n $"Starting $prog: "
-> ++    echo -n "Starting $prog: "
-> +     daemon /usr/sbin/nscd
-> +     RETVAL=3D$?
-> +     echo
-> +@@ -58,7 +58,7 @@ start () {
-> + }
-> +=20
-> + stop () {
-> +-    echo -n $"Stopping $prog: "
-> ++    echo -n "Stopping $prog: "
-> +     /usr/sbin/nscd -K
-> +     RETVAL=3D$?
-> +     if [ $RETVAL -eq 0 ]; then
-> +@@ -67,9 +67,9 @@ stop () {
-> + 	# a non-privileged user
-> + 	rm -f /var/run/nscd/nscd.pid
-> + 	rm -f /var/run/nscd/socket
-> +-       	success $"$prog shutdown"
-> ++	success "$prog shutdown"
-> +     else
-> +-       	failure $"$prog shutdown"
-> ++	failure "$prog shutdown"
-> +     fi
-> +     echo
-> +     return $RETVAL
-> +@@ -103,13 +103,13 @@ case "$1" in
-> + 	RETVAL=3D$?
-> + 	;;
-> +     force-reload | reload)
-> +-    	echo -n $"Reloading $prog: "
-> ++	echo -n "Reloading $prog: "
-> + 	killproc /usr/sbin/nscd -HUP
-> + 	RETVAL=3D$?
-> + 	echo
-> + 	;;
-> +     *)
-> +-	echo $"Usage: $0 {start|stop|status|restart|reload|condrestart}"
-> ++	echo "Usage: $0 {start|stop|status|restart|reload|condrestart}"
-> + 	RETVAL=3D1
-> + 	;;
-> + esac
-> diff --git a/meta/recipes-core/glibc/glibc_2.22.bb =
-b/meta/recipes-core/glibc/glibc_2.22.bb
-> index f0e1fad..09f0428 100644
-> --- a/meta/recipes-core/glibc/glibc_2.22.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.22.bb
-> @@ -38,6 +38,7 @@ SRC_URI =3D =
-"${GLIBC_GIT_URI};branch=3D${BRANCH};name=3Dglibc \
->            file://0025-eglibc-Install-PIC-archives.patch \
->            =
-file://0026-eglibc-dl_debug_mask-is-controlled-by-__OPTION_EGLIB.patch \
->            =
-file://0027-eglibc-use-option-groups-Conditionally-exclude-c-tes.patch \
-> +           file://nscd-no-bash.patch \
-> "
->=20
-> SRC_URI +=3D "\
-> --=20
-> 2.3.2 (Apple Git-55)
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+--001a113510d46b031c051fb74d63--
