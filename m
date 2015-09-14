@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f51.google.com (mail-qg0-f51.google.com
-	[209.85.192.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 9106C77016
+Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
+	[209.85.220.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 84A2576FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 16:31:36 +0000 (UTC)
-Received: by qgez77 with SMTP id z77so120011531qge.1
+	Mon, 14 Sep 2015 16:31:37 +0000 (UTC)
+Received: by qkfq186 with SMTP id q186so60380766qkf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 09:31:36 -0700 (PDT)
+	Mon, 14 Sep 2015 09:31:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=O7bGTr5FpcZD8tE86d2vgkTgDUn7sXzT1ggpnDXodIU=;
-	b=BV+q33tkcSJF80O0fA5eWPwlL9w/VV8Ac+m3WfQEdQoXxS/BWsXxFX9Ur3nhwnioqx
-	P0E2puLTFJNjm42QnIPgMJ27hND4zRtKFs4t9NCbWtNjas0NYlICsfshaYPx5vbDKO0b
-	1RZN6C5QQKN57mnk9SD45huAQHa+eYIQiRjShQrPGFFKIU+1X5s/PdmIuSPKFtgRMRse
-	fryEX/OMgmU8hWh01v2RtK56uzBYwu57oCak1QNs3fNReNNGyRC6xU0S7ABw/DjCmV1G
-	0vTGroXQrtKghtM8Nv3c1NjJDgUe/iP0r7JDUskS1rGWdGwfSkjrpt6LTEikhJJY+7Ie
-	fQXA==
-X-Received: by 10.140.218.133 with SMTP id o127mr24995398qhb.4.1442248296366; 
-	Mon, 14 Sep 2015 09:31:36 -0700 (PDT)
+	bh=E8A4Vpiz3y6mMO3+dvnkZfN6aAFdQ5bdtVhXUe+zPdg=;
+	b=QH0SWtW25dTLaLuJ1i1lslosAEC2pfxFats5Ku8wjK7XaPz4Nw8TLpswMXMBC6tTMl
+	gCubSf9CYrLudOhMV7Mx+At54nHbmea4jBnLGgBWfwLhdNBb7jZZsuQHhpIPPqy9XvOZ
+	w8Ni/HhauK38rXzD9FBIZuH/O8AjG8hA/XwHD1Xq8ZaA5MLFYlIcHZEyhIlX/+wv+fWN
+	QRMjmfwPfUQcRbXeJ1N7TNo8q3S1dmOW/XpSamBMxMtHW7t96FtZl3R5udmsClE/AHB6
+	5nJEvROhZNA2P7W0RfyXm1CQT+kPshw0xmmk8hSwRl9Aq/NSTxkKvoxdKjdrY0HNfOm8
+	K3BA==
+X-Received: by 10.55.27.203 with SMTP id m72mr23107389qkh.39.1442248297433;
+	Mon, 14 Sep 2015 09:31:37 -0700 (PDT)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	w138sm6172059qkw.40.2015.09.14.09.31.35
+	w138sm6172059qkw.40.2015.09.14.09.31.36
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 Sep 2015 09:31:35 -0700 (PDT)
+	Mon, 14 Sep 2015 09:31:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Sep 2015 16:31:25 +0000
-Message-Id: <34c5b615bb018c7e8adfe2f94accba9543a8c066.1442248108.git.raj.khem@gmail.com>
+Date: Mon, 14 Sep 2015 16:31:27 +0000
+Message-Id: <d63e43271776f750645f3298b175b2e04898dca9.1442248108.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.2
 In-Reply-To: <cd66976d7a276b7c39d20f37242c7331386b301e.1442248108.git.raj.khem@gmail.com>
 References: <cd66976d7a276b7c39d20f37242c7331386b301e.1442248108.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1442248108.git.raj.khem@gmail.com>
 References: <cover.1442248108.git.raj.khem@gmail.com>
-Subject: [PATCH 10/12] connman: Fix build with musl
+Subject: [PATCH 12/12] sysstat: Include needed headers explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,279 +48,99 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 14 Sep 2015 16:31:38 -0000
 
+It depends on defines from .h files that are not includes as part of
+source file, on glibc it works because they get included indirectly but
+that can change any time since its internal glibc behaviour, at user
+level the header needed should be explicitly included.
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-connectivity/connman/connman.inc      |  1 +
- ...acktrace-API-availability-before-using-it.patch | 55 ++++++++++++++
- ...resolve-musl-does-not-implement-res_ninit.patch | 77 ++++++++++++++++++++
- .../0003-Fix-header-inclusions-for-musl.patch      | 85 ++++++++++++++++++++++
- meta/recipes-connectivity/connman/connman_1.30.bb  |  3 +
- 5 files changed, 221 insertions(+)
- create mode 100644 meta/recipes-connectivity/connman/connman/0001-Detect-backtrace-API-availability-before-using-it.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
- create mode 100644 meta/recipes-connectivity/connman/connman/0003-Fix-header-inclusions-for-musl.patch
+ .../0001-Include-needed-headers-explicitly.patch   | 62 ++++++++++++++++++++++
+ meta/recipes-extended/sysstat/sysstat_11.1.5.bb    |  2 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 17dc4b9..fd9640e 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -30,6 +30,7 @@ EXTRA_OECONF += "\
-     --disable-polkit \
-     --enable-client \
- "
-+CFLAGS += "-D_GNU_SOURCE"
- 
- PACKAGECONFIG ??= "wispr \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd','systemd', '', d)} \
-diff --git a/meta/recipes-connectivity/connman/connman/0001-Detect-backtrace-API-availability-before-using-it.patch b/meta/recipes-connectivity/connman/connman/0001-Detect-backtrace-API-availability-before-using-it.patch
+diff --git a/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch b/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
 new file mode 100644
-index 0000000..5dc6fd6
+index 0000000..c126523
 --- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/0001-Detect-backtrace-API-availability-before-using-it.patch
-@@ -0,0 +1,55 @@
-+From 00d4447395725abaa651e12ed40095081e04011e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/sysstat/sysstat/0001-Include-needed-headers-explicitly.patch
+@@ -0,0 +1,62 @@
++From 42325faa88d64cce799977d611b2792beb154643 Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 13 Sep 2015 13:22:01 -0700
-+Subject: [PATCH 1/3] Detect backtrace() API availability before using it
++Date: Mon, 14 Sep 2015 08:36:59 +0000
++Subject: [PATCH] Include needed headers explicitly
 +
-+C libraries besides glibc do not have backtrace() implemented
++on glibc these headers get pulled in indirectly via other .h files
++but right fix is to include them directly when used
++
++fixes
++
++error: use of undeclared identifier 'PATH_MAX'
++error: called object type 'unsigned int' is not a function or function pointer
++dm_major = major(aux.st_rdev);
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 +Upstream-Status: Pending
 +
-+ configure.ac | 2 ++
-+ src/log.c    | 5 ++---
-+ 2 files changed, 4 insertions(+), 3 deletions(-)
++ common.c    | 1 +
++ ioconf.c    | 1 +
++ sa_common.c | 1 +
++ 3 files changed, 3 insertions(+)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 69c0eeb..90099f2 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -171,6 +171,8 @@ fi
-+ AM_CONDITIONAL(PPTP, test "${enable_pptp}" != "no")
-+ AM_CONDITIONAL(PPTP_BUILTIN, test "${enable_pptp}" = "builtin")
++diff --git a/common.c b/common.c
++index a23155b..ad86446 100644
++--- a/common.c
+++++ b/common.c
++@@ -20,6 +20,7 @@
++  */
 + 
-++AC_CHECK_HEADERS([execinfo.h])
-++
-+ AC_CHECK_HEADERS(resolv.h, dummy=yes,
-+ 	AC_MSG_ERROR(resolver header files are required))
-+ AC_CHECK_LIB(resolv, ns_initparse, dummy=yes, [
-+diff --git a/src/log.c b/src/log.c
-+index a693bd0..5b40c1f 100644
-+--- a/src/log.c
-++++ b/src/log.c
-+@@ -30,7 +30,6 @@
-+ #include <stdlib.h>
-+ #include <string.h>
-+ #include <syslog.h>
-+-#include <execinfo.h>
-+ #include <dlfcn.h>
-+ 
-+ #include "connman.h"
-+@@ -215,9 +214,9 @@ static void print_backtrace(unsigned int offset)
-+ static void signal_handler(int signo)
-+ {
-+ 	connman_error("Aborting (signal %d) [%s]", signo, program_exec);
-+-
-++#ifdef HAVE_EXECINFO_H
-+ 	print_backtrace(2);
-+-
-++#endif /* HAVE_EXECINFO_H */
-+ 	exit(EXIT_FAILURE);
-+ }
-+ 
-+-- 
-+2.5.1
-+
-diff --git a/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
-new file mode 100644
-index 0000000..0593427
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/0002-resolve-musl-does-not-implement-res_ninit.patch
-@@ -0,0 +1,77 @@
-+From 10b0d16d04b811b1ccd1f9b0cfe757bce8d876a1 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 6 Apr 2015 23:02:21 -0700
-+Subject: [PATCH 2/3] resolve: musl does not implement res_ninit
-+
-+ported from
-+http://git.alpinelinux.org/cgit/aports/plain/testing/connman/libresolv.patch
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ gweb/gresolv.c | 33 ++++++++++++---------------------
-+ 1 file changed, 12 insertions(+), 21 deletions(-)
-+
-+diff --git a/gweb/gresolv.c b/gweb/gresolv.c
-+index 5cf7a9a..3ad8e70 100644
-+--- a/gweb/gresolv.c
-++++ b/gweb/gresolv.c
-+@@ -875,8 +875,6 @@ GResolv *g_resolv_new(int index)
-+ 	resolv->index = index;
-+ 	resolv->nameserver_list = NULL;
-+ 
-+-	res_ninit(&resolv->res);
-+-
-+ 	return resolv;
-+ }
-+ 
-+@@ -916,8 +914,6 @@ void g_resolv_unref(GResolv *resolv)
-+ 
-+ 	flush_nameservers(resolv);
-+ 
-+-	res_nclose(&resolv->res);
-+-
-+ 	g_free(resolv);
-+ }
-+ 
-+@@ -1020,24 +1016,19 @@ guint g_resolv_lookup_hostname(GResolv *resolv, const char *hostname,
-+ 	debug(resolv, "hostname %s", hostname);
-+ 
-+ 	if (!resolv->nameserver_list) {
-+-		int i;
-+-
-+-		for (i = 0; i < resolv->res.nscount; i++) {
-+-			char buf[100];
-+-			int family = resolv->res.nsaddr_list[i].sin_family;
-+-			void *sa_addr = &resolv->res.nsaddr_list[i].sin_addr;
-+-
-+-			if (family != AF_INET &&
-+-					resolv->res._u._ext.nsaddrs[i]) {
-+-				family = AF_INET6;
-+-				sa_addr = &resolv->res._u._ext.nsaddrs[i]->sin6_addr;
-++		FILE *f = fopen("/etc/resolv.conf", "r");
-++		if (f) {
-++			char line[256], *s;
-++			int i;
-++			while (fgets(line, sizeof(line), f)) {
-++				if (strncmp(line, "nameserver", 10) || !isspace(line[10]))
-++					continue;
-++				for (s = &line[11]; isspace(s[0]); s++);
-++				for (i = 0; s[i] && !isspace(s[i]); i++);
-++				s[i] = 0;
-++				g_resolv_add_nameserver(resolv, s, 53, 0);
-+ 			}
-+-
-+-			if (family != AF_INET && family != AF_INET6)
-+-				continue;
-+-
-+-			if (inet_ntop(family, sa_addr, buf, sizeof(buf)))
-+-				g_resolv_add_nameserver(resolv, buf, 53, 0);
-++			fclose(f);
-+ 		}
-+ 
-+ 		if (!resolv->nameserver_list)
-+-- 
-+2.5.1
-+
-diff --git a/meta/recipes-connectivity/connman/connman/0003-Fix-header-inclusions-for-musl.patch b/meta/recipes-connectivity/connman/connman/0003-Fix-header-inclusions-for-musl.patch
-new file mode 100644
-index 0000000..6327aa2
---- /dev/null
-+++ b/meta/recipes-connectivity/connman/connman/0003-Fix-header-inclusions-for-musl.patch
-@@ -0,0 +1,85 @@
-+From 67645a01a2f3f52625d8dd77f2811a9e213e1b7d Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 13 Sep 2015 13:28:20 -0700
-+Subject: [PATCH] Fix header inclusions for musl
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+Upstream-Status: Pending
-+
-+ gweb/gresolv.c        | 1 +
-+ plugins/wifi.c        | 3 +--
-+ src/tethering.c       | 2 --
-+ tools/dhcp-test.c     | 1 -
-+ tools/dnsproxy-test.c | 1 +
-+ 5 files changed, 3 insertions(+), 5 deletions(-)
-+
-+diff --git a/gweb/gresolv.c b/gweb/gresolv.c
-+index 3ad8e70..61d6fe8 100644
-+--- a/gweb/gresolv.c
-++++ b/gweb/gresolv.c
-+@@ -28,6 +28,7 @@
-+ #include <stdarg.h>
-+ #include <string.h>
-+ #include <stdlib.h>
-++#include <stdio.h>
-+ #include <resolv.h>
-+ #include <sys/types.h>
-+ #include <sys/socket.h>
-+diff --git a/plugins/wifi.c b/plugins/wifi.c
-+index dfe849f..99cff3f 100644
-+--- a/plugins/wifi.c
-++++ b/plugins/wifi.c
-+@@ -30,9 +30,8 @@
-+ #include <string.h>
-+ #include <sys/ioctl.h>
-+ #include <sys/socket.h>
-+-#include <linux/if_arp.h>
-+-#include <linux/wireless.h>
-+ #include <net/ethernet.h>
-++#include <linux/wireless.h>
-+ 
-+ #ifndef IFF_LOWER_UP
-+ #define IFF_LOWER_UP	0x10000
-+diff --git a/src/tethering.c b/src/tethering.c
-+index ceeec74..c44cb36 100644
-+--- a/src/tethering.c
-++++ b/src/tethering.c
-+@@ -31,10 +31,8 @@
 + #include <stdio.h>
-+ #include <sys/ioctl.h>
-+ #include <net/if.h>
-+-#include <linux/sockios.h>
+++#include <limits.h>
 + #include <string.h>
-+ #include <fcntl.h>
-+-#include <linux/if_tun.h>
-+ #include <netinet/in.h>
-+ #include <linux/if_bridge.h>
-+ 
-+diff --git a/tools/dhcp-test.c b/tools/dhcp-test.c
-+index c34e10a..eae66fc 100644
-+--- a/tools/dhcp-test.c
-++++ b/tools/dhcp-test.c
-+@@ -33,7 +33,6 @@
-+ #include <arpa/inet.h>
-+ #include <net/route.h>
-+ #include <net/ethernet.h>
-+-#include <linux/if_arp.h>
-+ 
-+ #include <gdhcp/gdhcp.h>
-+ 
-+diff --git a/tools/dnsproxy-test.c b/tools/dnsproxy-test.c
-+index 551cae9..226ba86 100644
-+--- a/tools/dnsproxy-test.c
-++++ b/tools/dnsproxy-test.c
-+@@ -27,6 +27,7 @@
 + #include <stdlib.h>
++ #include <time.h>
++diff --git a/ioconf.c b/ioconf.c
++index 7d88c5d..6d67691 100644
++--- a/ioconf.c
+++++ b/ioconf.c
++@@ -27,6 +27,7 @@
++ #include <errno.h>
++ #include <dirent.h>
++ #include <sys/stat.h>
+++#include <sys/types.h>
++ 
++ #include "ioconf.h"
++ #include "common.h"
++diff --git a/sa_common.c b/sa_common.c
++index b7351d9..c9e3299 100644
++--- a/sa_common.c
+++++ b/sa_common.c
++@@ -20,6 +20,7 @@
++  */
++ 
++ #include <stdio.h>
+++#include <limits.h>
 + #include <string.h>
-+ #include <unistd.h>
-++#include <stdio.h>
-+ #include <arpa/inet.h>
-+ #include <netinet/in.h>
-+ #include <sys/types.h>
++ #include <stdlib.h>
++ #include <time.h>
 +-- 
-+2.5.1
++2.5.2
 +
-diff --git a/meta/recipes-connectivity/connman/connman_1.30.bb b/meta/recipes-connectivity/connman/connman_1.30.bb
-index 8c47353..9b512c5 100644
---- a/meta/recipes-connectivity/connman/connman_1.30.bb
-+++ b/meta/recipes-connectivity/connman/connman_1.30.bb
-@@ -3,6 +3,9 @@ require connman.inc
- SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
-             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
-             file://add_xuser_dbus_permission.patch \
-+            file://0001-Detect-backtrace-API-availability-before-using-it.patch \
-+            file://0002-resolve-musl-does-not-implement-res_ninit.patch \
-+            file://0003-Fix-header-inclusions-for-musl.patch \
-             file://connman \
-             "
- SRC_URI[md5sum] = "4a3efdbd6796922db9c6f66da57887fa"
+diff --git a/meta/recipes-extended/sysstat/sysstat_11.1.5.bb b/meta/recipes-extended/sysstat/sysstat_11.1.5.bb
+index 69d2ec2..bff8616 100644
+--- a/meta/recipes-extended/sysstat/sysstat_11.1.5.bb
++++ b/meta/recipes-extended/sysstat/sysstat_11.1.5.bb
+@@ -2,6 +2,8 @@ require sysstat.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+ 
++SRC_URI += "file://0001-Include-needed-headers-explicitly.patch"
++
+ SRC_URI[md5sum] = "4d8e6e72d057189a1660462a678d9ada"
+ SRC_URI[sha256sum] = "feb3a90d86ffd69cf5b88144a8876ae05bd42384f559676f08100671589fa2bb"
+ 
 -- 
 2.5.2
 
