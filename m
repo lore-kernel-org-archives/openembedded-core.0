@@ -1,39 +1,39 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 11FE376FC9
+Received: from mail-qk0-f180.google.com (mail-qk0-f180.google.com
+	[209.85.220.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 94E0E77008
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 16:31:33 +0000 (UTC)
-Received: by qgx61 with SMTP id 61so119655512qgx.3
+	Mon, 14 Sep 2015 16:31:36 +0000 (UTC)
+Received: by qkdw123 with SMTP id w123so60407599qkd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 09:31:33 -0700 (PDT)
+	Mon, 14 Sep 2015 09:31:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=f4bpDPgUfypo0cp3mGmXA5jnIHoWT8JN+EKoLKnHUGk=;
-	b=MtTjf1MW9HEmFUr6PBg+Cr0WLqu/ASs3mmuMKrKZRFvBpObJR9X37nwgOZBiBi4BlU
-	YRDxwkR9BPXj8tAN1sEpWauyQovwTpt0NbaxADakdZO7Z2YbMC//G/0MMUUbToVjgBRt
-	Iljg2YxzDWP1MqhNnDxmtjw9V8UaeqKq4/K9VeUjvg8HlEObF721B4V69bJ2tv0NZzpj
-	OQ1H8ibBjXbGuqJ5oNTiTmBV5rzDyUfyHNq3w1zetE90qqxcyj0uCYAcmozZI7gWRAG9
-	3U13qTqkAPJYzhEqJWjQX0sqNWxHCuDXHm3UNfC2UGECFht5KIqmU1UDXoBb9wH5baI+
-	/kIA==
-X-Received: by 10.140.23.8 with SMTP id 8mr3690611qgo.67.1442248293684;
-	Mon, 14 Sep 2015 09:31:33 -0700 (PDT)
+	bh=eRTBP9hBHG7eMZSODEeMowDIV6NgxqOADU8FdIonNWI=;
+	b=lpxU33rSTlpnBj7+dA3A/GtturiF1F/MHE5okz7YjWeZgr5eymypXXYWTXNkOnM05p
+	TBF3biVsfRcSZLMNKSdOyW4a/h6zEu5n7qoHingPgGm6OKIcW8BBNtQu2THj94tLNVa5
+	dyq3Qwn/VdugfmJFEW/1zPsmv8s89GkSe++YoEZ8PIsfPhNXR7aowFF8Tt5umn3pEcty
+	QuE1bAkYZxmMxdccKr04Zf0mZBvLwDVG+x+8k3KDi7nE6uvxJQfxITB0Ye71uKzr8tf/
+	ATaiJY/yQ7OYUkq8lsq7KFtdCanAqL9noZ+XbbX9nR74wVJzaGg6dcQe67rteqYnbH8P
+	KpdQ==
+X-Received: by 10.55.221.199 with SMTP id u68mr23052300qku.83.1442248296864;
+	Mon, 14 Sep 2015 09:31:36 -0700 (PDT)
 Received: from ip-96-114-220-84.ae.ccp.cable.comcast.com ([96.114.220.84])
 	by smtp.gmail.com with ESMTPSA id
-	w138sm6172059qkw.40.2015.09.14.09.31.33
+	w138sm6172059qkw.40.2015.09.14.09.31.36
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 14 Sep 2015 09:31:33 -0700 (PDT)
+	Mon, 14 Sep 2015 09:31:36 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Sep 2015 16:31:20 +0000
-Message-Id: <455283dc1b384e7b7b82304aac9a2fbb3b04c13e.1442248108.git.raj.khem@gmail.com>
+Date: Mon, 14 Sep 2015 16:31:26 +0000
+Message-Id: <0a11e2878fd22572867a93a8e31e26524cab11c1.1442248108.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.5.2
 In-Reply-To: <cd66976d7a276b7c39d20f37242c7331386b301e.1442248108.git.raj.khem@gmail.com>
 References: <cd66976d7a276b7c39d20f37242c7331386b301e.1442248108.git.raj.khem@gmail.com>
 In-Reply-To: <cover.1442248108.git.raj.khem@gmail.com>
 References: <cover.1442248108.git.raj.khem@gmail.com>
-Subject: [PATCH 05/12] gummiboot: Fix build warnings seen with gcc5
+Subject: [PATCH 11/12] waffle: upgrade waffle_1.5.1.bb -> waffle_1.5.2.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,119 +48,98 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 14 Sep 2015 16:31:36 -0000
 
-gummiboot uses -mno-sse so we should disble using sse for mfpmath as
-well
-
-Fix syntax errors in struct defines
+Backport needed patches for compilation fixes on musl
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-C-syntax-errors-for-function-declaration.patch | 74 ++++++++++++++++++++++
- meta/recipes-bsp/gummiboot/gummiboot_git.bb        |  3 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
+ ...-threads-Use-PTHREAD_MUTEX_RECURSIVE-by-d.patch | 54 ++++++++++++++++++++++
+ .../waffle/{waffle_1.5.1.bb => waffle_1.5.2.bb}    |  8 ++--
+ 2 files changed, 59 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-graphics/waffle/waffle/0001-third_party-threads-Use-PTHREAD_MUTEX_RECURSIVE-by-d.patch
+ rename meta/recipes-graphics/waffle/{waffle_1.5.1.bb => waffle_1.5.2.bb} (84%)
 
-diff --git a/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch b/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
+diff --git a/meta/recipes-graphics/waffle/waffle/0001-third_party-threads-Use-PTHREAD_MUTEX_RECURSIVE-by-d.patch b/meta/recipes-graphics/waffle/waffle/0001-third_party-threads-Use-PTHREAD_MUTEX_RECURSIVE-by-d.patch
 new file mode 100644
-index 0000000..fa50bc4
+index 0000000..a0c826e
 --- /dev/null
-+++ b/meta/recipes-bsp/gummiboot/gummiboot/0001-console-Fix-C-syntax-errors-for-function-declaration.patch
-@@ -0,0 +1,74 @@
-+From 55957faf1272c8f5f304909faeebf647a78e3701 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 9 Sep 2015 07:19:45 +0000
-+Subject: [PATCH] console: Fix C syntax errors for function declaration
++++ b/meta/recipes-graphics/waffle/waffle/0001-third_party-threads-Use-PTHREAD_MUTEX_RECURSIVE-by-d.patch
+@@ -0,0 +1,54 @@
++From 3b9b8f5f6d1b99af43e95ec0868404e552a85b73 Mon Sep 17 00:00:00 2001
++From: Emil Velikov <emil.l.velikov@gmail.com>
++Date: Thu, 19 Mar 2015 22:26:11 +0000
++Subject: [PATCH] third_party/threads: Use PTHREAD_MUTEX_RECURSIVE by default
 +
-+To address this, the semicolons after the function parameters should be
-+replaced by commas, and the last one should be omitted
++PTHREAD_MUTEX_RECURSIVE_NP was used for compatibility with old glibc.
++Although due to the_GNU_SOURCES define the portable,
++PTHREAD_MUTEX_RECURSIVE will be available for Linuxes since at least
++1998. Simplify things giving us compatibility with musl which
++apparently does not provide the non-portable define.
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Inspired by almost identical commit in mesa aead7fe2e2b(c11/threads: Use
++PTHREAD_MUTEX_RECURSIVE by default) by Felix Janda.
++
++Signed-off-by: Emil Velikov <emil.l.velikov@gmail.com>
++Reviewed-by: Chad Versace <chad.versace@intel.com>
 +---
-+Upstream-Status: Pending
++Upstream-Status: Backport
 +
-+ src/efi/console.c | 26 +++++++++++++-------------
-+ 1 file changed, 13 insertions(+), 13 deletions(-)
++ third_party/threads/threads_posix.c | 10 ++++------
++ 1 file changed, 4 insertions(+), 6 deletions(-)
 +
-+diff --git a/src/efi/console.c b/src/efi/console.c
-+index 6206c80..66aa88f 100644
-+--- a/src/efi/console.c
-++++ b/src/efi/console.c
-+@@ -27,8 +27,8 @@
-+ struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL;
-+ 
-+ typedef EFI_STATUS (EFIAPI *EFI_INPUT_RESET_EX)(
-+-        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
-+-        BOOLEAN ExtendedVerification;
-++        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
-++        BOOLEAN ExtendedVerification
-+ );
-+ 
-+ typedef UINT8 EFI_KEY_TOGGLE_STATE;
-+@@ -44,29 +44,29 @@ typedef struct {
-+ } EFI_KEY_DATA;
-+ 
-+ typedef EFI_STATUS (EFIAPI *EFI_INPUT_READ_KEY_EX)(
-+-        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
-+-        EFI_KEY_DATA *KeyData;
-++        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
-++        EFI_KEY_DATA *KeyData
-+ );
-+ 
-+ typedef EFI_STATUS (EFIAPI *EFI_SET_STATE)(
-+-        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
-+-        EFI_KEY_TOGGLE_STATE *KeyToggleState;
-++        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
-++        EFI_KEY_TOGGLE_STATE *KeyToggleState
-+ );
-+ 
-+ typedef EFI_STATUS (EFIAPI *EFI_KEY_NOTIFY_FUNCTION)(
-+-        EFI_KEY_DATA *KeyData;
-++        EFI_KEY_DATA *KeyData
-+ );
-+ 
-+ typedef EFI_STATUS (EFIAPI *EFI_REGISTER_KEYSTROKE_NOTIFY)(
-+-        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
-+-        EFI_KEY_DATA KeyData;
-+-        EFI_KEY_NOTIFY_FUNCTION KeyNotificationFunction;
-+-        VOID **NotifyHandle;
-++        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
-++        EFI_KEY_DATA KeyData,
-++        EFI_KEY_NOTIFY_FUNCTION KeyNotificationFunction,
-++        VOID **NotifyHandle
-+ );
-+ 
-+ typedef EFI_STATUS (EFIAPI *EFI_UNREGISTER_KEYSTROKE_NOTIFY)(
-+-        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This;
-+-        VOID *NotificationHandle;
-++        struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL *This,
-++        VOID *NotificationHandle
-+ );
-+ 
-+ typedef struct _EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL {
++diff --git a/third_party/threads/threads_posix.c b/third_party/threads/threads_posix.c
++index 5835e43..e122bf9 100644
++--- a/third_party/threads/threads_posix.c
+++++ b/third_party/threads/threads_posix.c
++@@ -26,6 +26,9 @@
++  * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++  * DEALINGS IN THE SOFTWARE.
++  */
+++
+++#define _GNU_SOURCE
+++
++ #include <stdlib.h>
++ #ifndef assert
++ #include <assert.h>
++@@ -150,13 +153,8 @@ int mtx_init(mtx_t *mtx, int type)
++       && type != (mtx_try|mtx_recursive))
++         return thrd_error;
++     pthread_mutexattr_init(&attr);
++-    if ((type & mtx_recursive) != 0) {
++-#if defined(__linux__) || defined(__linux)
++-        pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE_NP);
++-#else
+++    if ((type & mtx_recursive) != 0)
++         pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
++-#endif
++-    }
++     pthread_mutex_init(mtx, &attr);
++     pthread_mutexattr_destroy(&attr);
++     return thrd_success;
 +-- 
-+2.5.1
++2.5.2
 +
-diff --git a/meta/recipes-bsp/gummiboot/gummiboot_git.bb b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-index 91c3db9..376ab54 100644
---- a/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-+++ b/meta/recipes-bsp/gummiboot/gummiboot_git.bb
-@@ -13,6 +13,7 @@ PV = "48+git${SRCPV}"
- SRCREV = "2bcd919c681c952eb867ef1bdb458f1bc49c2d55"
- SRC_URI = "git://anongit.freedesktop.org/gummiboot \
-            file://fix-objcopy.patch \
-+           file://0001-console-Fix-C-syntax-errors-for-function-declaration.patch \
-           "
+diff --git a/meta/recipes-graphics/waffle/waffle_1.5.1.bb b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
+similarity index 84%
+rename from meta/recipes-graphics/waffle/waffle_1.5.1.bb
+rename to meta/recipes-graphics/waffle/waffle_1.5.2.bb
+index b8aa05a..6923f1c 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.5.1.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
+@@ -3,9 +3,11 @@ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=4c5154407c2490750dd461c50ad94797 \
+                     file://include/waffle/waffle.h;endline=24;md5=61dbf8697f61c78645e75a93c585b1bf"
  
- # Note: Add COMPATIBLE_HOST here is only because it depends on gnu-efi
-@@ -28,6 +29,8 @@ EXTRA_OECONF = "--disable-manpages --with-efi-includedir=${STAGING_INCDIR} \
+-SRC_URI = "http://waffle-gl.org/files/release/${BPN}-${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "c0d802bc3d0aba87c51e423a3a8bdd69"
+-SRC_URI[sha256sum] = "cbab0e926515064e818bf089a5af04be33307e5f40d07659fb40d59b2bfe20aa"
++SRC_URI = "http://waffle-gl.org/files/release/${BPN}-${PV}/${BPN}-${PV}.tar.xz \
++           file://0001-third_party-threads-Use-PTHREAD_MUTEX_RECURSIVE-by-d.patch \
++          "
++SRC_URI[md5sum] = "c669c91bf2f7e13a5d781c3dbb30fd8c"
++SRC_URI[sha256sum] = "d2c096cf654bf0061323a4b9231a1ef5b749a1e5c7c5bfe067e964219c2a851c"
  
- EXTRA_OEMAKE += "gummibootlibdir=${libdir}/gummiboot"
+ inherit cmake distro_features_check lib_package
  
-+TUNE_CCARGS_remove = "-mfpmath=sse"
-+
- do_deploy () {
-         install ${B}/gummiboot*.efi ${DEPLOYDIR}
- }
 -- 
 2.5.2
 
