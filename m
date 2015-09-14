@@ -1,28 +1,27 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 743DB60053
+Return-Path: <Wenzong.Fan@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 684D473D13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 00:32:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E0WjUZ009476
+	Mon, 14 Sep 2015 02:30:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8E2UdQc024637
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 13 Sep 2015 17:32:45 -0700 (PDT)
-Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Sun, 13 Sep 2015 17:32:44 -0700
-Message-ID: <55F615AB.5090305@windriver.com>
-Date: Mon, 14 Sep 2015 08:32:43 +0800
-From: Rongqing Li <rongqing.li@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Sun, 13 Sep 2015 19:30:40 -0700 (PDT)
+Received: from [128.224.162.176] (128.224.162.176) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
+	Sun, 13 Sep 2015 19:30:39 -0700
+Message-ID: <55F6314D.8090502@windriver.com>
+Date: Mon, 14 Sep 2015 10:30:37 +0800
+From: wenzong fan <wenzong.fan@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.5.0
 MIME-Version: 1.0
 To: <openembedded-core@lists.openembedded.org>
-References: <1440568528-26012-1-git-send-email-rongqing.li@windriver.com>
-	<55EBCCF7.3080204@windriver.com>
-In-Reply-To: <55EBCCF7.3080204@windriver.com>
-Subject: Re: [PATCH][v2] xmlto: xsltproc is required by both native and target
+References: <1438591965-24099-1-git-send-email-wenzong.fan@windriver.com>
+In-Reply-To: <1438591965-24099-1-git-send-email-wenzong.fan@windriver.com>
+Subject: Re: [PATCH] openssl: fix ptest issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,51 +34,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 00:32:47 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 14 Sep 2015 02:30:42 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-ping
+Ping ...
 
--Roy
+Thanks
+Wenzong
 
-On 2015年09月06日 13:19, Rongqing Li wrote:
-> ping
+On 08/03/2015 04:52 PM, wenzong.fan@windriver.com wrote:
+> From: Wenzong Fan <wenzong.fan@windriver.com>
 >
-> -Roy
+> * follow symbolic links while copying sources from test/*
+> * install required target files to remove Make errors:
 >
-> On 2015年08月26日 13:55, rongqing.li@windriver.com wrote:
->> From: Roy Li <rongqing.li@windriver.com>
->>
->> xsltproc is used to perform the XSL-T transformation by xmlto by default,
->> so it is required by both native and target, and target has the
->> dependence
->> on libxslt-bin, so add libxslt to native RDEPENDS
->>
->> Signed-off-by: Roy Li <rongqing.li@windriver.com>
->> ---
->>   meta/recipes-devtools/xmlto/xmlto_0.0.26.bb | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
->> b/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
->> index a7a0183..688be74 100644
->> --- a/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
->> +++ b/meta/recipes-devtools/xmlto/xmlto_0.0.26.bb
->> @@ -24,6 +24,9 @@ RDEPENDS_${PN} = "docbook-xml-dtd4 \
->>   RDEPENDS_${PN}_append_class-target = " \
->>                     libxslt-bin \
->>   "
->> +RDEPENDS_${PN}_append_class-native = " \
->> +                  libxslt \
->> +"
->>
->>   BBCLASSEXTEND = "native"
->>
->>
+>    make[2]: *** No rule to make target 'xxx', needed by 'yyy'.
 >
-
--- 
-Best Reagrds,
-Roy | RongQing Li
+> * fix hardcode pathes:
+>    /usr/lib -> ${libdir}, /usr/bin -> ${bindir}
+>
+> Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> ---
+>   meta/recipes-connectivity/openssl/openssl.inc | 14 ++++++++++----
+>   1 file changed, 10 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-connectivity/openssl/openssl.inc b/meta/recipes-connectivity/openssl/openssl.inc
+> index 53dcfd9..8d62915 100644
+> --- a/meta/recipes-connectivity/openssl/openssl.inc
+> +++ b/meta/recipes-connectivity/openssl/openssl.inc
+> @@ -191,12 +191,18 @@ do_install () {
+>   }
+>
+>   do_install_ptest () {
+> -	cp -r Makefile test ${D}${PTEST_PATH}
+> +	cp -r -L Makefile.org Makefile test ${D}${PTEST_PATH}
+> +	cp Configure config e_os.h ${D}${PTEST_PATH}
+> +	cp -r -L include ${D}${PTEST_PATH}
+> +	ln -sf ${base_libdir}/libcrypto.a ${D}${PTEST_PATH}
+> +	ln -sf ${libdir}/libssl.a ${D}${PTEST_PATH}
+> +	mkdir -p ${D}${PTEST_PATH}/crypto
+> +	cp crypto/constant_time_locl.h ${D}${PTEST_PATH}/crypto
+>   	cp -r certs ${D}${PTEST_PATH}
+>   	mkdir -p ${D}${PTEST_PATH}/apps
+> -	ln -sf /usr/lib/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
+> -	ln -sf /usr/lib/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
+> -	ln -sf /usr/bin/openssl         ${D}${PTEST_PATH}/apps
+> +	ln -sf ${libdir}/ssl/misc/CA.sh  ${D}${PTEST_PATH}/apps
+> +	ln -sf ${libdir}/ssl/openssl.cnf ${D}${PTEST_PATH}/apps
+> +	ln -sf ${bindir}/openssl         ${D}${PTEST_PATH}/apps
+>   	cp apps/server2.pem             ${D}${PTEST_PATH}/apps
+>   	mkdir -p ${D}${PTEST_PATH}/util
+>   	install util/opensslwrap.sh    ${D}${PTEST_PATH}/util
+>
 
