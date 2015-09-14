@@ -1,37 +1,21 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f46.google.com (mail-qg0-f46.google.com
-	[209.85.192.46])
-	by mail.openembedded.org (Postfix) with ESMTP id A038473CBD
+Return-Path: <juro.bystricky@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EB096E26B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 16:10:22 +0000 (UTC)
-Received: by qgev79 with SMTP id v79so118765844qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 09:10:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=9IBjBFO1vWgZI0N1kBg7e++gABMEKbTa5iaZFs5J9R0=;
-	b=hDPsL0vl5YddbxtQ/HUxSsc3UfsLsFocoeyfgyUC/HxVGBdlAIxkLpaDiLiiX/l5R5
-	E2wO2Ubl22Qi3BL+BYa+rson6xv4lgLvo93vZhUxCvxNMXTYV3VfiWodG8/ZJS52LOh/
-	W2VxFijS1CjcVovTeyaauRINJZtta+G+y2fzE7eM3aA2yVjwIaPV6IHJy0ArH/iuA4zc
-	ufaA9B3OTLGz2JEcADcQYm8PYzCUKUmlBc/5+DR7oMMV/4lF0p32Hv7+mggyI8oNjztl
-	szJEUzTVspBHKTZt48Q6yI6pynqrgF1hsadwSJxxHEnO9Lf8S43a/9h+WhtJCNcF1Nem
-	0RSA==
-X-Gm-Message-State: ALoCoQnfctbMTw6szju2T5LLP2ir4WCnhnMvuqtLzw4RELb2iD1QPNf5oO3SetDbDJ4+6geXnEet
-X-Received: by 10.140.132.71 with SMTP id 68mr24762687qhe.64.1442247021871;
-	Mon, 14 Sep 2015 09:10:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Mon, 14 Sep 2015 09:10:02 -0700 (PDT)
-In-Reply-To: <FE596366-AE31-43F6-9EF4-B25CFB1B6162@gmail.com>
-References: <1442246267-35258-1-git-send-email-ross.burton@intel.com>
-	<FE596366-AE31-43F6-9EF4-B25CFB1B6162@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 14 Sep 2015 17:10:02 +0100
-Message-ID: <CAJTo0LbSuE+C1R3pmd=G1xuroqgn0Yn4G+mLdOu8hOW_tYwQSw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: don't require bash for nscd init script
+	Mon, 14 Sep 2015 16:28:09 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 14 Sep 2015 09:28:10 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,529,1437462000"; d="scan'208";a="768788467"
+Received: from juro-precision-t5610.jf.intel.com ([10.7.198.145])
+	by orsmga001.jf.intel.com with ESMTP; 14 Sep 2015 09:28:10 -0700
+From: Juro Bystricky <juro.bystricky@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 14 Sep 2015 09:22:47 -0700
+Message-Id: <1442247767-7879-1-git-send-email-juro.bystricky@intel.com>
+X-Mailer: git-send-email 1.9.1
+Cc: richard.purdie@intel.com
+Subject: [PATCH] libgcc.inc: package baremetal multilib libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,44 +28,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 14 Sep 2015 16:10:24 -0000
-Content-Type: multipart/alternative; boundary=001a113510d46b031c051fb74d63
+X-List-Received-Date: Mon, 14 Sep 2015 16:28:10 -0000
 
---001a113510d46b031c051fb74d63
-Content-Type: text/plain; charset=UTF-8
+When building libgcc for baremetal cross-compilers, some files and libraries
+may be built but not packaged. This patch fixes errors such as these:
 
-On 14 September 2015 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
+ERROR: QA Issue: libgcc: Files/directories were installed but not shipped in any package:
+  /usr/lib/arm-poky-eabi/4.9.3/thumb
+  /usr/lib/arm-poky-eabi/4.9.3/fpu
+  /usr/lib/arm-poky-eabi/4.9.3/thumb/libgcov.a
+  /usr/lib/arm-poky-eabi/4.9.3/thumb/crtn.o
+  /usr/lib/arm-poky-eabi/4.9.3/thumb/crtend.o
+  /usr/lib/arm-poky-eabi/4.9.3/thumb/crtbegin.o
+  /usr/lib/arm-poky-eabi/4.9.3/thumb/libgcc.a
+  /usr/lib/arm-poky-eabi/4.9.3/thumb/crti.o
+  /usr/lib/arm-poky-eabi/4.9.3/fpu/libgcov.a
+  /usr/lib/arm-poky-eabi/4.9.3/fpu/crtn.o
+  /usr/lib/arm-poky-eabi/4.9.3/fpu/crtend.o
+  /usr/lib/arm-poky-eabi/4.9.3/fpu/crtbegin.o
+  /usr/lib/arm-poky-eabi/4.9.3/fpu/libgcc.a
+  /usr/lib/arm-poky-eabi/4.9.3/fpu/crti.o
+Please set FILES such that these items are packaged. Alternatively if they are unneeded,
+avoid installing them or delete them within do_install. [installed-vs-shipped]
 
-> it used to be like that and then changed to use translated strings. Do you
-> see any downsides of removing it ?
-> locales related or otherwise ? if not then it looks ok to me.
->
+Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+---
+ meta/recipes-devtools/gcc/libgcc.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-When given the choice of translated strings in an *init script* with
-enforced bash or English strings with no bash, I think most people here
-would go for English and not enforced bash.  Nobody noticed this as the
-bash dependency wasn't declared (and thus was a QA warning with Poky at
-least).
+diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
+index 739adbd..95709e4 100644
+--- a/meta/recipes-devtools/gcc/libgcc.inc
++++ b/meta/recipes-devtools/gcc/libgcc.inc
+@@ -28,6 +28,12 @@ FILES_${PN}-dev = "\
+     ${libdir}/${TARGET_SYS}/${BINV}/libgcov.a \
+ "
+ 
++FILES_${PN}-dev_libc-baremetal = "\
++    ${base_libdir}/ \
++    ${libdir}/* \
++    ${libdir}/${TARGET_SYS}/* \
++"
++
+ FILES_${PN}-dbg += "${base_libdir}/.debug/"
+ 
+ LIBGCCBUILDTREENAME = "gcc-build-internal-"
+-- 
+1.9.1
 
-Ross
 
---001a113510d46b031c051fb74d63
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 14 September 2015 at 17:06, Khem Raj <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div id=3D":20a" class=3D"a3s" s=
-tyle=3D"overflow:hidden">it used to be like that and then changed to use tr=
-anslated strings. Do you see any downsides of removing it ?<br>
-locales related or otherwise ? if not then it looks ok to me.</div></blockq=
-uote><div><br></div><div>When given the choice of translated strings in an =
-*init script* with enforced bash or English strings with no bash, I think m=
-ost people here would go for English and not enforced bash.=C2=A0 Nobody no=
-ticed this as the bash dependency wasn&#39;t declared (and thus was a QA wa=
-rning with Poky at least).</div><div><br></div><div>Ross=C2=A0</div></div><=
-/div></div>
-
---001a113510d46b031c051fb74d63--
