@@ -1,21 +1,25 @@
 Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B36C6E630
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E97F16E630
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 23:06:58 +0000 (UTC)
+	Tue, 15 Sep 2015 23:07:08 +0000 (UTC)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Sep 2015 16:06:58 -0700
+	by orsmga103.jf.intel.com with ESMTP; 15 Sep 2015 16:07:07 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,537,1437462000"; d="scan'208";a="790178830"
+X-IronPort-AV: E=Sophos;i="5.17,537,1437462000"; d="scan'208";a="790178891"
 Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
 	([10.23.219.54])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Sep 2015 16:06:47 -0700
+	by fmsmga001.fm.intel.com with ESMTP; 15 Sep 2015 16:06:59 -0700
 From: leonardo.sandoval.gonzalez@linux.intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Sep 2015 14:59:37 +0000
-Message-Id: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Date: Tue, 15 Sep 2015 14:59:38 +0000
+Message-Id: <dd8f0cd54df04854359ea31ba7b523a64d4ba033.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
 X-Mailer: git-send-email 1.8.4.5
-Subject: [PATCH 0/3] PRServer: Fixes daemon issues.
+In-Reply-To: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
+In-Reply-To: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
+References: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
+Subject: [PATCH 1/3] prserv/serv: Start/Stop daemon using ip instead of host
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,33 +32,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 23:06:59 -0000
+X-List-Received-Date: Tue, 15 Sep 2015 23:07:10 -0000
 
 From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
 
-First two patches fix issues when using hostnames instead of IPs. Third patch
-change the journal mode, allowing the DB to be hosted on a remote server and
-network filesystems. Detail is given on each patch. Fixes 8258, 8560 and 8215
+In cases where hostname is given instead of an IP (i.e. localhost
+instead of 127.0.0.1) when stopping the server with bitbake-prserv --stop,
+the server shows a misleading message indicating that the daemon was not
+found, where it is actually stopped. This patch converts host to IP values
+before starting/stopping the daemon, so it will always work on IP, not on
+hostnames, avoiding problems like the latter.
 
-The following changes since commit 71b0568fa43285f0946fae93fb43cea5f3bbecec:
+[YOCTO #8258]
 
-  rt-tests: drop unnecessary added-missing-dependencies.patch (2015-09-01 11:44:04 +0100)
+Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+---
+ bitbake/lib/prserv/serv.py | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib lsandov1/Remote-PR-server-not-writing-PR-values-to-database
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=lsandov1/Remote-PR-server-not-writing-PR-values-to-database
-
-Leonardo Sandoval (3):
-  prserv/serv: Start/Stop daemon using ip instead of host
-  prserv/serv.py: Better messaging when starting/stopping the server
-    with port=0
-  prserv/db: Use DELETE instead of WAL journal mode
-
- bitbake/lib/prserv/db.py   |  2 +-
- bitbake/lib/prserv/serv.py | 36 +++++++++++++++++++++++++++++-------
- 2 files changed, 30 insertions(+), 8 deletions(-)
-
+diff --git a/bitbake/lib/prserv/serv.py b/bitbake/lib/prserv/serv.py
+index 0507485..0d96963 100644
+--- a/bitbake/lib/prserv/serv.py
++++ b/bitbake/lib/prserv/serv.py
+@@ -3,6 +3,7 @@ import signal, time
+ from SimpleXMLRPCServer import SimpleXMLRPCServer, SimpleXMLRPCRequestHandler
+ import threading
+ import Queue
++import socket
+ 
+ try:
+     import sqlite3
+@@ -37,7 +38,6 @@ singleton = None
+ class PRServer(SimpleXMLRPCServer):
+     def __init__(self, dbfile, logfile, interface, daemon=True):
+         ''' constructor '''
+-        import socket
+         try:
+             SimpleXMLRPCServer.__init__(self, interface,
+                                         logRequests=False, allow_none=True)
+@@ -261,7 +261,8 @@ class PRServerConnection(object):
+         return self.host, self.port
+ 
+ def start_daemon(dbfile, host, port, logfile):
+-    pidfile = PIDPREFIX % (host, port)
++    ip = socket.gethostbyname(host)
++    pidfile = PIDPREFIX % (ip, port)
+     try:
+         pf = file(pidfile,'r')
+         pid = int(pf.readline().strip())
+@@ -274,12 +275,14 @@ def start_daemon(dbfile, host, port, logfile):
+                             % pidfile)
+         return 1
+ 
+-    server = PRServer(os.path.abspath(dbfile), os.path.abspath(logfile), (host,port))
++    server = PRServer(os.path.abspath(dbfile), os.path.abspath(logfile), (ip,port))
+     server.start()
++
+     return 0
+ 
+ def stop_daemon(host, port):
+-    pidfile = PIDPREFIX % (host, port)
++    ip = socket.gethostbyname(host)
++    pidfile = PIDPREFIX % (ip, port)
+     try:
+         pf = file(pidfile,'r')
+         pid = int(pf.readline().strip())
+@@ -292,7 +295,7 @@ def stop_daemon(host, port):
+                         % pidfile)
+ 
+     try:
+-        PRServerConnection(host, port).terminate()
++        PRServerConnection(ip, port).terminate()
+     except:
+         logger.critical("Stop PRService %s:%d failed" % (host,port))
+ 
 -- 
 1.8.4.5
 
