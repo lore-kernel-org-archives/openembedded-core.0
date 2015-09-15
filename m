@@ -1,37 +1,38 @@
 Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f181.google.com (mail-ig0-f181.google.com
-	[209.85.213.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E54065D00
+Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
+	[209.85.213.182])
+	by mail.openembedded.org (Postfix) with ESMTP id DDCA4762B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 00:12:03 +0000 (UTC)
-Received: by igbni9 with SMTP id ni9so3658883igb.0
+	Tue, 15 Sep 2015 00:12:30 +0000 (UTC)
+Received: by igbni9 with SMTP id ni9so3664474igb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 17:12:03 -0700 (PDT)
+	Mon, 14 Sep 2015 17:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:sender:in-reply-to:references:from:date:message-id
 	:subject:to:cc:content-type;
-	bh=D9Fq65YKdEw8lypHOjwLb/C8u/XBG2rjhBoRPXybZyI=;
-	b=zvNuiXR85EB1fcJZFO1qf/R3OZpvkl5O9gpXwHyANKpztgcmSjzpb/KQk8DD8W1psX
-	rVoMVqxQ3Z0+46FdO3Suis+srU+wsFRAY5vR0AqbCrMZLWZVWdt39d/PpJQrkQa6liED
-	Tv5mb6D7pTvLcla/gN5CqO0fIx/H4K3gbUrQYnOIicGjt1QiypHceDsduEqSF7XI0oAR
-	SYl84nX72SHfvOd29KIFvnnYFP2s1YbfI7JokWAHDRzelgFhrbLAd1ErldrimsroiGkQ
-	+ouwEL4Noy5qVBFJn1MfLyFTFWln2XKC7dHtTbQrAbZ0xRRfsFItlrMYR9rhuCHS3V9Z
-	8JJg==
-X-Received: by 10.50.43.193 with SMTP id y1mr961278igl.38.1442275923609; Mon,
-	14 Sep 2015 17:12:03 -0700 (PDT)
+	bh=BhEaqRoHjGfTVMchPBJkhQ1W2LYmRHeOTzkh4l2WCeo=;
+	b=Hc1LEKQ5DvvEjBUO1Uu12PkrGhOpz7uxgmYge91P9F/0BS5TP34E28bkt1fDDDtgs4
+	x1gHwA8UJHoDHCenrolbxPiqpGK4KHXXr8zfN+AC5fJtedp/b5M9UAOxnNCBmeuKZ8zd
+	GLIPWksgjQXnDskDvNx961p4iaJqgJmwteH/HMFQELmwV+xfHcIcJUDbjbV6ldC8Ca9x
+	aYLsAg7P8A+vyjbEj0lHQHGgSHVKegmg0NTY6CeoOpP6dyTjzYZnOwxAibUO4fNxChT+
+	IYz5Rn2Jkzh/nryS9ISqXrEt1ZjYrlrcLHJ8Hwa8v6ly14lrEGrbQtLBEOpEffTgDdWA
+	5GGw==
+X-Received: by 10.50.61.165 with SMTP id q5mr1008753igr.10.1442275950662; Mon,
+	14 Sep 2015 17:12:30 -0700 (PDT)
 MIME-Version: 1.0
 Sender: kergoth@gmail.com
-Received: by 10.79.100.71 with HTTP; Mon, 14 Sep 2015 17:11:44 -0700 (PDT)
-In-Reply-To: <1442275837-23562-1-git-send-email-kergoth@gmail.com>
-References: <1442275837-23562-1-git-send-email-kergoth@gmail.com>
+Received: by 10.79.100.71 with HTTP; Mon, 14 Sep 2015 17:12:11 -0700 (PDT)
+In-Reply-To: <CABcZANmRBjAg_T_W_ZKdoEmCGjmffmfvKqSr3O_FGos-jKSe5Q@mail.gmail.com>
+References: <1442266696-6751-1-git-send-email-kergoth@gmail.com>
+	<CABcZANmRBjAg_T_W_ZKdoEmCGjmffmfvKqSr3O_FGos-jKSe5Q@mail.gmail.com>
 From: Christopher Larson <chris_larson@mentor.com>
-Date: Mon, 14 Sep 2015 17:11:44 -0700
-X-Google-Sender-Auth: Pm-etTTG4B-WqUko5FxDWz4zgPs
-Message-ID: <CABcZAN=S9Fw-hJyjkgPxzq9Kxqfhfdbk0vSYCfATFQV3HH6drw@mail.gmail.com>
+Date: Mon, 14 Sep 2015 17:12:11 -0700
+X-Google-Sender-Auth: Q__Ums2nwddHxDRI_98huvhEM8A
+Message-ID: <CABcZANn9G+31+sRvMzvakG4qTP18ce0awPmqR+Vz8QhfMWG1Jw@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH] image.bbclass: add do_rootfs vardeps for {COMPRESS, IMAGE}_CMD_*
+Subject: Re: [PATCH] image.bbclass: add do_rootfs vardeps for IMAGE_{CMD, TYPEDEP}_*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,32 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 00:12:06 -0000
-Content-Type: multipart/alternative; boundary=089e0111d1be18764c051fbe0828
+X-List-Received-Date: Tue, 15 Sep 2015 00:12:31 -0000
+Content-Type: multipart/alternative; boundary=047d7bdca446b519ce051fbe0912
 
---089e0111d1be18764c051fbe0828
+--047d7bdca446b519ce051fbe0912
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Sep 14, 2015 at 5:10 PM, Christopher Larson <kergoth@gmail.com>
-wrote:
+On Mon, Sep 14, 2015 at 4:41 PM, Christopher Larson <chris_larson@mentor.com
+> wrote:
 
-> From: Christopher Larson <chris_larson@mentor.com>
+> On Mon, Sep 14, 2015 at 2:38 PM, Christopher Larson <kergoth@gmail.com>
+> wrote:
 >
-> We want do_rootfs to rerun if the fstype or compression commands or
-> dependencies change for any of our configured fstypes (IMAGE_FSTYPES).
-> IMAGE_TYPEDEP isn't explicitly handled, as it's traversed already, so the
-> end
-> result will change if it does, and we only really care about the results,
-> not
-> how we got there. This uses oe.image.Image()._get_image_types() to get the
-> info about the image and compression types in use.
+>> From: Christopher Larson <chris_larson@mentor.com>
+>>
+>> We want do_rootfs to rerun if the image commands or dependencies change
+>> for any of
+>> our configured fstypes (IMGE_FSTYPES).
+>>
+>> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>>
 >
-> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
->
+> Hold off on accepting this, need to account compression types and
+> COMPRESS_CMD. Expect a v2.
 
-This version supercedes '[PATCH] image.bbclass: add do_rootfs vardeps for
-IMAGE_{CMD,TYPEDEP}_*' (didn't send as v2 as the commit summary message
-changed), but it's essentially a v2).
+
+'[PATCH] image.bbclass: add do_rootfs vardeps for {COMPRESS,IMAGE}_CMD_*'
+is submitted, and supercedes this.
 -- 
 Christopher Larson
 kergoth at gmail dot com
@@ -77,37 +79,37 @@ Founder - BitBake, OpenEmbedded, OpenZaurus
 Maintainer - Tslib
 Senior Software Engineer, Mentor Graphics
 
---089e0111d1be18764c051fbe0828
+--047d7bdca446b519ce051fbe0912
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Sep 14, 2015 at 5:10 PM, Christopher Larson <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:kergoth@gmail.com" target=3D"_blank">kergoth@gmail.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);bor=
-der-left-style:solid;padding-left:1ex"><div id=3D":338" class=3D"" style=3D=
-"overflow:hidden">From: Christopher Larson &lt;<a href=3D"mailto:chris_lars=
-on@mentor.com">chris_larson@mentor.com</a>&gt;<br>
+On Mon, Sep 14, 2015 at 4:41 PM, Christopher Larson <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:chris_larson@mentor.com" target=3D"_blank">chris_larson@me=
+ntor.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
+4,204,204);border-left-style:solid;padding-left:1ex"><span class=3D""><div =
+class=3D"gmail_quote">On Mon, Sep 14, 2015 at 2:38 PM, Christopher Larson <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank"=
+>kergoth@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-colo=
+r:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div style=3D"=
+overflow:hidden">From: Christopher Larson &lt;<a href=3D"mailto:chris_larso=
+n@mentor.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
 <br>
-We want do_rootfs to rerun if the fstype or compression commands or<br>
-dependencies change for any of our configured fstypes (IMAGE_FSTYPES).<br>
-IMAGE_TYPEDEP isn&#39;t explicitly handled, as it&#39;s traversed already, =
-so the end<br>
-result will change if it does, and we only really care about the results, n=
-ot<br>
-how we got there. This uses oe.image.Image()._get_image_types() to get the<=
-br>
-info about the image and compression types in use.<br>
+We want do_rootfs to rerun if the image commands or dependencies change for=
+ any of<br>
+our configured fstypes (IMGE_FSTYPES).<br>
 <br>
 Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com">chris_larson@mentor.com</a>&gt;</div></blockquote></div><br>This vers=
-ion supercedes &#39;[PATCH] image.bbclass: add do_rootfs vardeps for IMAGE_=
-{CMD,TYPEDEP}_*&#39; (didn&#39;t send as v2 as the commit summary message c=
-hanged), but it&#39;s essentially a v2).<br>-- <br><div class=3D"gmail_sign=
-ature"><div dir=3D"ltr">Christopher Larson<br>kergoth at gmail dot com<br>F=
-ounder - BitBake, OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior =
-Software Engineer, Mentor Graphics</div></div>
+.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;</div></blockquote><=
+/div><br></span>Hold off on accepting this, need to account compression typ=
+es and COMPRESS_CMD. Expect a v2.</blockquote></div><br>&#39;[PATCH] image.=
+bbclass: add do_rootfs vardeps for {COMPRESS,IMAGE}_CMD_*&#39; is submitted=
+, and supercedes this.<br>-- <br><div class=3D"gmail_signature"><div dir=3D=
+"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, =
+OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer,=
+ Mentor Graphics</div></div>
 </div></div>
 
---089e0111d1be18764c051fbe0828--
+--047d7bdca446b519ce051fbe0912--
