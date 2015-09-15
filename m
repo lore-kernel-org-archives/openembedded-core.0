@@ -1,26 +1,37 @@
-Return-Path: <mike.looijmans@topic.nl>
-Received: from atl4mhob19.myregisteredsite.com
-	(atl4mhob19.myregisteredsite.com [209.17.115.112])
-	by mail.openembedded.org (Postfix) with ESMTP id 005F36E630
+Return-Path: <tanuk@iki.fi>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+	[66.111.4.29])
+	by mail.openembedded.org (Postfix) with ESMTP id EF57776DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 09:50:43 +0000 (UTC)
-Received: from mailpod.hostingplatform.com ([10.30.71.207])
-	by atl4mhob19.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
-	t8F9ogXI017441 for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 05:50:42 -0400
-Received: (qmail 345 invoked by uid 0); 15 Sep 2015 09:50:42 -0000
-X-TCPREMOTEIP: 88.159.208.100
-X-Authenticated-UID: mike@milosoftware.com
-Received: from unknown (HELO mikebuntu.TOPIC.LOCAL)
-	(mike@milosoftware.com@88.159.208.100)
-	by 0 with ESMTPA; 15 Sep 2015 09:50:42 -0000
-From: Mike Looijmans <mike.looijmans@topic.nl>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Sep 2015 11:50:39 +0200
-Message-Id: <1442310639-1597-1-git-send-email-mike.looijmans@topic.nl>
-X-Mailer: git-send-email 1.9.1
-Cc: Mike Looijmans <mike.looijmans@topic.nl>
-Subject: [PATCH] image_types.bbclass: Don't try to create ubi symlink twice
+	Tue, 15 Sep 2015 11:36:52 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 305D12210B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Sep 2015 07:36:51 -0400 (EDT)
+Received: from frontend1 ([10.202.2.160])
+	by compute5.internal (MEProxy); Tue, 15 Sep 2015 07:36:51 -0400
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=tLu6H1ni9de22it
+	unkAs2iAGYCA=; b=IdF6vou9HJOrK6O/SwwlWKnWnxhu/ecjnOjE+n1ErO4hejA
+	9DQWJ/5cixoC2NT2TRMkyqk4Z650lWOR3fqwfRpsqodkeCcPNLKXd88/l48sUE2f
+	UfqYGVlSHMmqLydZDf/7ffg+kIklg1NmLNs41NxzvTDNJEcEykZha8XScSsk=
+X-Sasl-enc: zRoBwL2LEvI05XOuuerWmWjgK4AMFy6p4HOEeJmbciU3 1442317010
+Received: from laptop (a88-114-110-232.elisa-laajakaista.fi [88.114.110.232])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 85EE2C00021;
+	Tue, 15 Sep 2015 07:36:50 -0400 (EDT)
+Message-ID: <1442317009.1922.4.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: Andrew Shadura <andrew.shadura@collabora.co.uk>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 15 Sep 2015 14:36:49 +0300
+In-Reply-To: <1442227275-19855-1-git-send-email-andrew.shadura@collabora.co.uk>
+References: <1440666021-11411-1-git-send-email-andrew.shadura@collabora.co.uk>
+	<1442227275-19855-1-git-send-email-andrew.shadura@collabora.co.uk>
+X-Mailer: Evolution 3.16.5-1 
+Mime-Version: 1.0
+Subject: Re: [PATCH v3 1/2] dbus: add user sessions support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,62 +44,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 09:50:46 -0000
+X-List-Received-Date: Tue, 15 Sep 2015 11:36:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fixes b6e64de541b37 "Restore compatibility with previous UBI filesystems"
+On Mon, 2015-09-14 at 12:41 +0200, Andrew Shadura wrote:
+> ---
+>  meta/recipes-core/dbus/dbus_1.10.0.bb | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/dbus/dbus_1.10.0.bb b/meta/recipes-core/dbus/dbus_1.10.0.bb
+> index 31cbef0..e099f4b 100644
+> --- a/meta/recipes-core/dbus/dbus_1.10.0.bb
+> +++ b/meta/recipes-core/dbus/dbus_1.10.0.bb
+> @@ -68,7 +68,9 @@ FILES_${PN} = "${bindir}/dbus-daemon* \
+>                 ${datadir}/dbus-1/session.conf \
+>                 ${datadir}/dbus-1/system.d \
+>                 ${datadir}/dbus-1/system.conf \
+> -               ${systemd_unitdir}/system/"
+> +               ${systemd_system_unitdir} \
+> +               ${systemd_user_unitdir} \
+> +"
+>  FILES_${PN}-lib = "${libdir}/lib*.so.*"
+>  RRECOMMENDS_${PN}-lib = "${PN}"
+>  FILES_${PN}-dev += "${libdir}/dbus-1.0/include ${bindir}/dbus-glib-tool ${bindir}/dbus-test-tool"
+> @@ -105,6 +107,7 @@ PACKAGECONFIG_class-nativesdk = ""
+>  PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir"
+>  PACKAGECONFIG[x11] = "--with-x --enable-x11-autolaunch,--without-x --disable-x11-autolaunch, virtual/libx11 libsm"
+>  PACKAGECONFIG[apparmor] = "--enable-apparmor,--disable-apparmor,libapparmor"
+> +PACKAGECONFIG[user-session] = "--enable-user-session,--disable-user-session"
 
-The multivolume UBI code creates symlinks for each volume. If the volume name
-is empty, it will create a symlink that the rootfs code will attempt to
-create again later, resulting in a crash like this (unless IMAGE_LINK_NAME
-is blank):
-  ERROR: Error executing a python function in .../recipes-core/images/my-image.bb:
-  File: '.../oe-core/meta/lib/oe/image.py', lineno: 203, function: _create_symlinks
-   *** 0203:                    os.symlink(src, dst)
-  Exception: OSError: [Errno 17] File exists
+I think user-session should be enabled by default when systemd is in
+DISTRO_FEATURES. Some services, e.g. PulseAudio, can fully enable their
+systemd integration only if dbus is compiled with --enable-user
+-session.
 
-To prevent this from happening, only create symlinks to volumes that have
-a name, and let the rootfs script create the default symlink later.
-
-Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
----
- meta/classes/image_types.bbclass | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
-
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 306403e..afa2e8e 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -139,17 +139,19 @@ multiubi_mkfs() {
- 	# Cleanup cfg file
- 	mv ubinize${vname}.cfg ${DEPLOY_DIR_IMAGE}/
- 
--	# Create own symlink
--	cd ${DEPLOY_DIR_IMAGE}
--	if [ -e ${IMAGE_NAME}${vname}.rootfs.ubifs ]; then
--		ln -sf ${IMAGE_NAME}${vname}.rootfs.ubifs \
--		${IMAGE_LINK_NAME}${vname}.ubifs
--	fi
--	if [ -e ${IMAGE_NAME}${vname}.rootfs.ubi ]; then
--		ln -sf ${IMAGE_NAME}${vname}.rootfs.ubi \
--		${IMAGE_LINK_NAME}${vname}.ubi
-+	# Create own symlinks for 'named' volumes
-+	if [ -n "$vname" ]; then
-+		cd ${DEPLOY_DIR_IMAGE}
-+		if [ -e ${IMAGE_NAME}${vname}.rootfs.ubifs ]; then
-+			ln -sf ${IMAGE_NAME}${vname}.rootfs.ubifs \
-+			${IMAGE_LINK_NAME}${vname}.ubifs
-+		fi
-+		if [ -e ${IMAGE_NAME}${vname}.rootfs.ubi ]; then
-+			ln -sf ${IMAGE_NAME}${vname}.rootfs.ubi \
-+			${IMAGE_LINK_NAME}${vname}.ubi
-+		fi
-+		cd -
- 	fi
--	cd -
- }
- 
- IMAGE_CMD_multiubi () {
 -- 
-1.9.1
-
+Tanu
 
