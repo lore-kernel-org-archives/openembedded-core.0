@@ -1,21 +1,23 @@
-Return-Path: <erkka.kaaria@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 79E1F76E2E
+Return-Path: <andrew.shadura@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id EFC5373D13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 12:36:13 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Sep 2015 05:36:13 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,535,1437462000"; d="scan'208";a="805549398"
-Received: from ekaaria-xps-8300.fi.intel.com ([10.237.68.35])
-	by fmsmga002.fm.intel.com with ESMTP; 15 Sep 2015 05:36:13 -0700
-From: =?UTF-8?q?Erkka=20K=C3=A4=C3=A4ri=C3=A4?= <erkka.kaaria@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Sep 2015 15:34:19 +0300
-Message-Id: <1442320459-25899-1-git-send-email-erkka.kaaria@intel.com>
-X-Mailer: git-send-email 2.1.4
+	Tue, 15 Sep 2015 12:53:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: andrewsh) with ESMTPSA id 42D7E60008F
+To: Tanu Kaskinen <tanuk@iki.fi>, openembedded-core@lists.openembedded.org
+References: <1440666021-11411-1-git-send-email-andrew.shadura@collabora.co.uk>
+	<1442227275-19855-1-git-send-email-andrew.shadura@collabora.co.uk>
+	<1442317009.1922.4.camel@iki.fi>
+From: Andrew Shadura <andrew.shadura@collabora.co.uk>
+Organization: Collabora Limited
+Message-ID: <55F814DC.2050403@collabora.co.uk>
+Date: Tue, 15 Sep 2015 14:53:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-Subject: [PATCH] Add python-misc as rdependency to python-modules
+In-Reply-To: <1442317009.1922.4.camel@iki.fi>
+Subject: Re: [PATCH v3 1/2] dbus: add user sessions support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,38 +30,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 12:36:14 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 15 Sep 2015 12:53:53 -0000
+X-Groupsio-MsgNum: 71104
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="ECU2nr1NW1mm13mVgmjFxHo3Ex16SRoXE"
 
-Q3VycmVudGx5IHB5dGhvbi1taXNjIGlzIG5vdCBpbmNsdWRlZCBldmVuIGlmIHB5dGhvbi1tb2R1
-bGVzIGlzLiBUaGlzIG1lYW5zIHNvbWUgcHl0aG9uIHNjcmlwdHMgZmFpbCBldmVuIGlmIHB5dGhv
-bi1tb2R1bGVzIGlzIGluY2x1ZGVkIGluIHRoZSBpbWFnZSAoZm9yIGV4YW1wbGUsIGdldC1waXAu
-cHkgYXQgYm9vdHJhcC5weXBhLmlvL2dldC1waXAucHkpLiBUaGlzIHBhdGNoIGFkZHMgcHl0aG9u
-LW1pc2MgYXMgcnVudGltZSBkZXBlbmRlbmN5IGZvciBweXRob24tbW9kdWxlcy4KClNpZ25lZC1v
-ZmYtYnk6IEVya2thIEvDpMOkcmnDpCA8ZXJra2Eua2FhcmlhQGludGVsLmNvbT4KLS0tCiBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbl8yLjcuOS5iYiB8IDMgKystCiAxIGZpbGUg
-Y2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob25fMi43LjkuYmIgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbl8yLjcuOS5iYgppbmRleCBhZTQ1NTc3Li5mN2UyZjI3IDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbl8yLjcuOS5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbl8yLjcuOS5iYgpAQCAtMTYx
-LDcgKzE2MSw4IEBAIEZJTEVTXyR7UE59LWRiZyArPSAiJHtsaWJkaXJ9L3B5dGhvbiR7UFlUSE9O
-X01BSk1JTn0vbGliLWR5bmxvYWQvLmRlYnVnIgogIyBjYXRjaCBhbGwgdGhlIHJlc3QgKHVuc29y
-dGVkKQogUEFDS0FHRVMgKz0gIiR7UE59LW1pc2MiCiBGSUxFU18ke1BOfS1taXNjID0gIiR7bGli
-ZGlyfS9weXRob24ke1BZVEhPTl9NQUpNSU59IgotUkRFUEVORFNfJHtQTn0tcHRlc3QgPSAiJHtQ
-Tn0tbW9kdWxlcyAke1BOfS1taXNjIgorUkRFUEVORFNfJHtQTn0tbW9kdWxlcyArPSAiJHtQTn0t
-bWlzYyIKK1JERVBFTkRTXyR7UE59LXB0ZXN0ID0gIiR7UE59LW1vZHVsZXMiCiAjaW5oZXJpdCBw
-dGVzdCBhZnRlciAicmVxdWlyZSBweXRob24tJHtQWVRIT05fTUFKTUlOfS1tYW5pZmVzdC5pbmMi
-IHNvIFBBQ0tBR0VTIGRvZXNuJ3QgZ2V0IG92ZXJ3cml0dGVuCiBpbmhlcml0IHB0ZXN0CiAKLS0g
-CjIuMS40CgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0KSW50ZWwgRmlubGFuZCBPeQpSZWdpc3RlcmVkIEFkZHJlc3M6
-IFBMIDI4MSwgMDAxODEgSGVsc2lua2kgCkJ1c2luZXNzIElkZW50aXR5IENvZGU6IDAzNTc2MDYg
-LSA0IApEb21pY2lsZWQgaW4gSGVsc2lua2kgCgpUaGlzIGUtbWFpbCBhbmQgYW55IGF0dGFjaG1l
-bnRzIG1heSBjb250YWluIGNvbmZpZGVudGlhbCBtYXRlcmlhbCBmb3IKdGhlIHNvbGUgdXNlIG9m
-IHRoZSBpbnRlbmRlZCByZWNpcGllbnQocykuIEFueSByZXZpZXcgb3IgZGlzdHJpYnV0aW9uCmJ5
-IG90aGVycyBpcyBzdHJpY3RseSBwcm9oaWJpdGVkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5k
-ZWQKcmVjaXBpZW50LCBwbGVhc2UgY29udGFjdCB0aGUgc2VuZGVyIGFuZCBkZWxldGUgYWxsIGNv
-cGllcy4K
+--ECU2nr1NW1mm13mVgmjFxHo3Ex16SRoXE
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+On 15/09/15 13:36, Tanu Kaskinen wrote:
+> I think user-session should be enabled by default when systemd is in
+> DISTRO_FEATURES. Some services, e.g. PulseAudio, can fully enable their=
+
+> systemd integration only if dbus is compiled with --enable-user
+> -session.
+
+I think so too, but I think it's worth a separate patch, right?
+
+--=20
+Cheers,
+  Andrew
 
 
+--ECU2nr1NW1mm13mVgmjFxHo3Ex16SRoXE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iQIcBAEBCAAGBQJV+BTdAAoJEEFnG7NKhJOByB8P/0qLa6TY+4ofJ/uKnoke7e8+
+2Me6qKZ2937dgj55la2xJ3RMqrhhW5ztNEe+z50TcKM65Q70N8cSR1g1y4XcKFza
+42llk+Cs0O+DifJvvQNJrE2hxaLZ0LmQOe/pmPIZdogjdg+5qqFqErZDnlupDgXM
+8k3t2B2AVuzmGHj22LIk5e/mdhT3jd9VIvYIEM+4XYl5BdzBnFuftXojKz+gt/kr
+JmemoDGYgjE25nhaBmr4atyLXIxdL/b6TWTMZE81o0gm73JvPRCM2ZpKJ3jSX7UR
+2IUtx19ZgsJuebanwJe6btVTSFi2bhWvyXYC45stoubqZO9KB8BGgKa+vIdsqYuB
+6bZQyLL48ENYF5pWgH3qtxcf75YIVu+aNa70gdQe2esDGTGo4r20SBVi5XCaLIa9
+h5aoBtbgkG9/GH6eHbIcGCJhLqWOAuwsqj7PbVYBLvZdcDsKVXFTQkidNSFhlsoc
+wwxxuGFYdFVocK8agndckUPAKfI8f1gnQbgyxxMHiofjNRuoZlqxggXlST8G4AgZ
+uS8XTSKglgaj8v1bBB1ZEHjy8PAnWIIFZP5nxUocLGYYMsE/+Ug9D07swyVBjKBx
+JcUVbFv3hAIImzqZpZzqtS+bUSbct5mTVXg+vV6InvBwPsc9Q4YoJ305wMr1RW7T
+Kc+Q/qzhWAnrXWYwN7pn
+=vYvM
+-----END PGP SIGNATURE-----
+
+--ECU2nr1NW1mm13mVgmjFxHo3Ex16SRoXE--
