@@ -1,38 +1,23 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id B421275CF1
+Return-Path: <george.l.musat@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 638E676DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 13:49:59 +0000 (UTC)
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-	by mailout.nyi.internal (Postfix) with ESMTP id BF06A22B47
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 09:49:58 -0400 (EDT)
-Received: from frontend2 ([10.202.2.161])
-	by compute4.internal (MEProxy); Tue, 15 Sep 2015 09:49:58 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-sasl-enc:x-sasl-enc; s=smtpout; bh=zbuUfDThgFtncco
-	cHW5fQiysYf0=; b=fLiZUXc+4xKZqgjPq+242aYFN6Vgzca4uLTs3cCXaeja2g2
-	xt3oF9rJwdt75/3J4DKNvhqEvLWrK7tpBqRvtEjbduKh7MiUZNgcWARTl0lWtMkl
-	ZAaSGPL88zLjlHhbziRmGISfkAM/M8Ri2uCdtT866xfswJpv5OSzSP1xvUt8=
-X-Sasl-enc: EI/HASuCtpWrUk/7Hbz5B2q7BRjPuvhsDq5UMPCX2KLW 1442324998
-Received: from laptop (a88-114-110-232.elisa-laajakaista.fi [88.114.110.232])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 2C0AE680176;
-	Tue, 15 Sep 2015 09:49:58 -0400 (EDT)
-Message-ID: <1442324997.1922.7.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: Andrew Shadura <andrew.shadura@collabora.co.uk>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 15 Sep 2015 16:49:57 +0300
-In-Reply-To: <55F814DC.2050403@collabora.co.uk>
-References: <1440666021-11411-1-git-send-email-andrew.shadura@collabora.co.uk>
-	<1442227275-19855-1-git-send-email-andrew.shadura@collabora.co.uk>
-	<1442317009.1922.4.camel@iki.fi> <55F814DC.2050403@collabora.co.uk>
-X-Mailer: Evolution 3.16.5-1 
-Mime-Version: 1.0
-Subject: Re: [PATCH v3 1/2] dbus: add user sessions support
+	Tue, 15 Sep 2015 13:51:49 +0000 (UTC)
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga101.jf.intel.com with ESMTP; 15 Sep 2015 06:51:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,536,1437462000"; d="scan'208";a="789832699"
+Received: from linux.intel.com ([10.23.219.25])
+	by fmsmga001.fm.intel.com with ESMTP; 15 Sep 2015 06:51:49 -0700
+Received: from localhost.localdomain (unknown [10.237.112.174])
+	by linux.intel.com (Postfix) with ESMTP id C25D36A4005;
+	Tue, 15 Sep 2015 06:50:55 -0700 (PDT)
+From: Lucian Musat <george.l.musat@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Sep 2015 16:52:44 +0300
+Message-Id: <1442325164-17188-1-git-send-email-george.l.musat@intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] oeqa/testimage: Enhance -v switch in testimage
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,22 +30,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 13:49:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Sep 2015 13:51:51 -0000
 
-On Tue, 2015-09-15 at 14:53 +0200, Andrew Shadura wrote:
-> On 15/09/15 13:36, Tanu Kaskinen wrote:
-> > I think user-session should be enabled by default when systemd is in
-> > DISTRO_FEATURES. Some services, e.g. PulseAudio, can fully enable their
-> > systemd integration only if dbus is compiled with --enable-user
-> > -session.
-> 
-> I think so too, but I think it's worth a separate patch, right?
+When testimage is run with -v switch now individual
+test progress can be seen directly in bitbake console.
 
-I think this patch could already have it "right", but I don't really
-mind either way.
+[YOCTO #6841]
 
+Signed-off-by: Lucian Musat <george.l.musat@intel.com>
+---
+ meta/lib/oeqa/oetest.py | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/meta/lib/oeqa/oetest.py b/meta/lib/oeqa/oetest.py
+index 0fe68d4..99da20d 100644
+--- a/meta/lib/oeqa/oetest.py
++++ b/meta/lib/oeqa/oetest.py
+@@ -106,6 +106,17 @@ def loadTests(tc, type="runtime"):
+     suites.sort(cmp=lambda a,b: cmp((a.depth, a.index), (b.depth, b.index)))
+     return testloader.suiteClass(suites)
+ 
++_buffer = ""
++
++def custom_verbose(msg, *args, **kwargs):
++    global _buffer
++    if msg[-1] != "\n":
++        _buffer += msg
++    else:
++        _buffer += msg
++        bb.plain(_buffer.rstrip("\n"), *args, **kwargs)
++        _buffer = ""
++
+ def runTests(tc, type="runtime"):
+ 
+     suite = loadTests(tc, type)
+@@ -114,6 +125,8 @@ def runTests(tc, type="runtime"):
+         bb.note("Filter test cases by tags: %s" % tc.tagexp)
+     bb.note("Found %s tests" % suite.countTestCases())
+     runner = unittest.TextTestRunner(verbosity=2)
++    if bb.msg.loggerDefaultVerbose:
++        runner.stream.write = custom_verbose
+     result = runner.run(suite)
+ 
+     return result
 -- 
-Tanu
+2.1.4
+
 
