@@ -1,29 +1,37 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 86E4275CF1
+Return-Path: <kergoth@gmail.com>
+Received: from mail-vk0-f41.google.com (mail-vk0-f41.google.com
+	[209.85.213.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F2C673D13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 13:58:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8FDw1Y8000643
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Sep 2015 06:58:02 -0700 (PDT)
-Received: from Marks-MacBook-Pro.local (172.25.36.228) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 15 Sep 2015 06:58:01 -0700
-To: Markus Lehtonen <markus.lehtonen@linux.intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1442322326-10462-1-git-send-email-markus.lehtonen@linux.intel.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Organization: Wind River Systems
-Message-ID: <55F823E8.2030800@windriver.com>
-Date: Tue, 15 Sep 2015 08:58:00 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
-	Gecko/20100101 Thunderbird/38.2.0
+	Tue, 15 Sep 2015 14:28:37 +0000 (UTC)
+Received: by vkgd64 with SMTP id d64so80908326vkg.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Sep 2015 07:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc:content-type;
+	bh=jHcqyDyGDp19FQOliEFMCSO24VhNoEbDDgbldIWzHlU=;
+	b=wXW40yt02AiaLAbbkk2gwI52Lk3dHMCvSY8/wFfWuDObOwrw3QsliAViP6i2vSMJEP
+	8jxO9fTSKCMlFizjtsmW9iGC74e/uRjx8FmXFQNk0onfo/8E2RhtlV/VIBEbN0RVZxvW
+	iq4CZFMqFiAG3F37GgIYD2IBwGGNgr39Efu+ITkFh1h1CbySYXNr1HCb8w3t44RCT6sh
+	YhoyuleIOr2vdevZ6ajIevma0mLQ9Yz/ZDitaYu99lkvWfPbbdcHdMHF+92Jnb4QFV4W
+	dFcO76P2GOwrP4Vi4Y7hpgIOUDldWux7VHhy9106Xi5zihy9EeOKH5jmQpIdiNEyvoI6
+	zX5Q==
+X-Received: by 10.31.16.41 with SMTP id g41mr21110883vki.158.1442327317080;
+	Tue, 15 Sep 2015 07:28:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1442322326-10462-1-git-send-email-markus.lehtonen@linux.intel.com>
-Cc: Bogdan Voiculescu <bogdanx.a.voiculescu@intel.com>
-Subject: Re: [PATCH] rpm: search for gpg if gpg2 is not found
+Sender: kergoth@gmail.com
+Received: by 10.31.203.2 with HTTP; Tue, 15 Sep 2015 07:28:17 -0700 (PDT)
+In-Reply-To: <1442302953-14230-1-git-send-email-erkka.kaaria@intel.com>
+References: <1442302953-14230-1-git-send-email-erkka.kaaria@intel.com>
+From: Christopher Larson <clarson@kergoth.com>
+Date: Tue, 15 Sep 2015 07:28:17 -0700
+X-Google-Sender-Auth: 0KmXM9fOJhYEdqr1jetf3ocmHfY
+Message-ID: <CABcZANmbrQjgv0yAaSZqGSVV1QbYCO+p5e=8R=Cmi1m5P0V5XA@mail.gmail.com>
+To: =?UTF-8?B?RXJra2EgS8Okw6RyacOk?= <erkka.kaaria@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Removes --with-wctype-functions configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,94 +44,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 13:58:15 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 15 Sep 2015 14:28:37 -0000
+Content-Type: multipart/alternative; boundary=001a11c003d6626fe2051fc9ff97
 
-On 9/15/15 8:05 AM, Markus Lehtonen wrote:
-> Some (host) systems only have a binary named 'gpg' (e.g. Fedora) while
-> some only have 'gpg2' (Ubuntu) and others have both of them (openSUSE).
-> Currently the behavior of rpm-native with regards to GnuPG depends on
-> the host platform: rpm(-native) is configured to use GnuPG binary of the
-> host system if 'gpg2' is found in $PATH. Otherwise, rpm(-native) will
-> default to using '%{_bindir}/gpg2' which will be pointing to a sysroot
-> binary which usually does not exist.
-> 
-> This patch changes rpm to look for both 'gpg' and 'gpg2' when searching
-> for the GnuPG binary in PATH. This makes possible to create signed RPM
-> packages on different host platforms, using the GnuPG binary of the
-> host, without the need to explicitly define the gpg binary in bitbake
-> configuration (via GPG_BIN variable).
-> 
-> [YOCTO #8134]
+--001a11c003d6626fe2051fc9ff97
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-The only concern I have with this change is that it may affect both native and
-target RPM.  Please verify that the target RPM settings are still correct.
+On Tue, Sep 15, 2015 at 12:42 AM, Erkka K=C3=A4=C3=A4ri=C3=A4 <erkka.kaaria=
+@intel.com>
+wrote:
 
-FYI, the value isn't used for anything but the initial setup of some RPM macro
-scripts.  Typically I tell uses that they are responsible for providing the
-proper ~/.oerpmmacros file in order to instruct RPM where some of these types of
-tools are present.  My file for instance:
+> This option is causing issues with python unicode support. Several unicod=
+e
+> related regression tests are currently failing (test_re and test_codecs f=
+or
+> example) and removing this option fixes these.
+>
+> This configure option mostly seems to be historical. Discussion related t=
+o
+> python issue 9210 (https://bugs.python.org/issue9210) indicates its
+> original goal was to save memory and that the option should have been
+> deprecated ages ago.
+>
+> Signed-off-by: Erkka K=C3=A4=C3=A4ri=C3=A4 <erkka.kaaria@intel.com>
+>
 
-%__gpg gpg2
-%_gpg_name Test RPM Signing Key
+The commit message subject line is missing the recipe or filename. See
+http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines for
+details.
+--=20
+Christopher Larson
+clarson at kergoth dot com
+Founder - BitBake, OpenEmbedded, OpenZaurus
+Maintainer - Tslib
+Senior Software Engineer, Mentor Graphics
 
---Mark
+--001a11c003d6626fe2051fc9ff97
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> ---
->  .../configure.ac-check-for-both-gpg2-and-gpg.patch | 29 ++++++++++++++++++++++
->  meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
->  2 files changed, 30 insertions(+)
->  create mode 100644 meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
-> 
-> diff --git a/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch b/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
-> new file mode 100644
-> index 0000000..f5db167
-> --- /dev/null
-> +++ b/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
-> @@ -0,0 +1,29 @@
-> +configure.ac: search for both gpg2 and gpg
-> +
-> +On some platforms the GnuPG binary is named 'gpg2' whereas others have 'gpp'.
-> +This patch increases compatibility by searching for 'gpg' in addition to
-> +'gpg2'.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> +---
-> + configure.ac | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index 6746b4c..f6922ae 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -562,7 +562,7 @@ AC_PATH_PROG(__DIFF, diff, /bin/diff, $MYPATH)
-> + AC_PATH_PROG(__DITTO, ditto, %{_bindir}/ditto, $MYPATH)
-> + AC_PATH_PROG(__FILE, file, %{_bindir}/file, $MYPATH)
-> + AC_PATH_PROG(__GIT, git, %{_bindir}/git, $MYPATH)
-> +-AC_PATH_PROG(__GPG, gpg2, %{_bindir}/gpg2, $MYPATH)
-> ++AC_PATH_PROGS(__GPG, [gpg2 gpg], %{_bindir}/gpg2, $MYPATH)
-> + AC_PATH_PROG(__GSR, gsr, %{_bindir}/gsr, $MYPATH)
-> + AC_PATH_PROG(__GST_INSPECT, gst-inspect-0.10, %{_bindir}/gst-inspect-0.10, $MYPATH)
-> + AC_PATH_PROG(__GZIP, gzip, /bin/gzip, $MYPATH)
-> +-- 
-> +2.1.4
-> +
-> diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> index 1f9a4bd..b450c6f 100644
-> --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> @@ -98,6 +98,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
->  	   file://rpm-check-rootpath-reasonableness.patch \
->  	   file://rpm-macros.in-disable-external-key-server.patch \
->  	   file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
-> +	   file://configure.ac-check-for-both-gpg2-and-gpg.patch \
->  	  "
->  
->  # Uncomment the following line to enable platform score debugging
-> 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On Tue, Sep 15, 2015 at 12:42 AM, Erkka K=C3=A4=C3=A4ri=C3=A4 <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:erkka.kaaria@intel.com" target=3D"_blank">erkka.=
+kaaria@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:=
+rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div id=3D":1tp"=
+ class=3D"" style=3D"overflow:hidden">This option is causing issues with py=
+thon unicode support. Several unicode related regression tests are currentl=
+y failing (test_re and test_codecs for example) and removing this option fi=
+xes these.<br>
+<br>
+This configure option mostly seems to be historical. Discussion related to =
+python issue 9210 (<a href=3D"https://bugs.python.org/issue9210" rel=3D"nor=
+eferrer" target=3D"_blank">https://bugs.python.org/issue9210</a>) indicates=
+ its original goal was to save memory and that the option should have been =
+deprecated ages ago.<br>
+<br>
+Signed-off-by: Erkka K=C3=A4=C3=A4ri=C3=A4 &lt;<a href=3D"mailto:erkka.kaar=
+ia@intel.com">erkka.kaaria@intel.com</a>&gt;</div></blockquote></div><br>Th=
+e commit message subject line is missing the recipe or filename. See=C2=A0<=
+a href=3D"http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines"=
+>http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a> for d=
+etails.<br>-- <br><div class=3D"gmail_signature">Christopher Larson<br>clar=
+son at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>Ma=
+intainer - Tslib<br>Senior Software Engineer, Mentor Graphics</div>
+</div></div>
 
-
+--001a11c003d6626fe2051fc9ff97--
