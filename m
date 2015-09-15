@@ -1,24 +1,24 @@
 Return-Path: <alejandro.joya.cruz@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BA13769A7
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 21E0A75F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 22:40:10 +0000 (UTC)
+	Tue, 15 Sep 2015 22:40:18 +0000 (UTC)
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP; 15 Sep 2015 15:40:10 -0700
+	by fmsmga101.fm.intel.com with ESMTP; 15 Sep 2015 15:40:19 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,536,1437462000"; d="scan'208";a="562399245"
+X-IronPort-AV: E=Sophos;i="5.17,536,1437462000"; d="scan'208";a="562399301"
 Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Sep 2015 15:40:09 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 15 Sep 2015 15:40:18 -0700
 From: Alejandro Joya <alejandro.joya.cruz@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Sep 2015 17:40:01 -0500
-Message-Id: <d6fe2afa0c925476905ba22781f1c1a057b403d6.1442355130.git.alejandro.joya.cruz@intel.com>
+Date: Tue, 15 Sep 2015 17:40:02 -0500
+Message-Id: <d6ef7aefeb091eafe59724a74fa59ad0b0ca0b20.1442355130.git.alejandro.joya.cruz@intel.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <dc1b328b4e41695df96acac6ba73620a535d2ee1.1442355130.git.alejandro.joya.cruz@intel.com>
 References: <dc1b328b4e41695df96acac6ba73620a535d2ee1.1442355130.git.alejandro.joya.cruz@intel.com>
 In-Reply-To: <cover.1442355130.git.alejandro.joya.cruz@intel.com>
 References: <cover.1442355130.git.alejandro.joya.cruz@intel.com>
-Subject: [PATCH 2/3] initramfs-framework: overwrite hardcoded dependency to virtual reference
+Subject: [PATCH 3/3] packagegroup-core-boot: overwrite hardcoded dependency to virtual reference
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 22:40:10 -0000
+X-List-Received-Date: Tue, 15 Sep 2015 22:40:19 -0000
 
 This recipe have a hardcoded dependency to busybox, in order to be able to have a flexible selection,
 instead of the hardcoded dependency,now is point to virtual reference anybox.
 
 Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 6c37b9a..0704cb1 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Modular initramfs system"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
--RDEPENDS_${PN} += "busybox"
-+RDEPENDS_${PN} += "virtual/anybox"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index 09f5373..355631f 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -19,12 +19,12 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
  
- PR = "r2"
+ # Distro can override the following VIRTUAL-RUNTIME providers:
+ VIRTUAL-RUNTIME_dev_manager ?= "udev"
+-VIRTUAL-RUNTIME_login_manager ?= "busybox"
++VIRTUAL-RUNTIME_login_manager ?= "${VIRTUAL-RUNTIME_anybox}"
+ VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ?= "initscripts"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
  
+-SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
++SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_anybox-hwclock}', '', d)} \
+                     modutils-initscripts \
+                     init-ifupdown \
+                     ${VIRTUAL-RUNTIME_initscripts} \
+@@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
+ RDEPENDS_${PN} = "\
+     base-files \
+     base-passwd \
+-    busybox \
++    ${VIRTUAL-RUNTIME_anybox} \
+     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
+     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
+     netbase \
 -- 
 2.1.0
 
