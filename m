@@ -1,23 +1,21 @@
-Return-Path: <Rongqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E48D26E630
+Return-Path: <erkka.kaaria@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 24E9C6E630
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 06:40:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8F6eCkh003322
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 14 Sep 2015 23:40:12 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Mon, 14 Sep 2015 23:40:12 -0700
-From: <rongqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <sgw@linux.intel.com>
-Date: Tue, 15 Sep 2015 14:34:24 +0800
-Message-ID: <1442298864-25559-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 15 Sep 2015 07:42:38 +0000 (UTC)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga103.jf.intel.com with ESMTP; 15 Sep 2015 00:42:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,534,1437462000"; d="scan'208";a="804639339"
+Received: from ekaaria-xps-8300.fi.intel.com ([10.237.68.35])
+	by orsmga002.jf.intel.com with ESMTP; 15 Sep 2015 00:42:36 -0700
+From: =?UTF-8?q?Erkka=20K=C3=A4=C3=A4ri=C3=A4?= <erkka.kaaria@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 15 Sep 2015 10:42:33 +0300
+Message-Id: <1442302953-14230-1-git-send-email-erkka.kaaria@intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: [PATCH] perf: fix the install-python_ext on upstream kernel
+Subject: [PATCH] Removes --with-wctype-functions configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,44 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 06:40:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 15 Sep 2015 07:42:41 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-From: Roy Li <rongqing.li@windriver.com>
-
-The Perf source code between Yocto and upstream are different, like below
-commit is not in upstream, so broaden the "--root" replacement to Makefile*
-
-   commit 33e96fb1e2d77541e81eb341ccd3fbe9419e4c9a
-   Author: Tom Zanussi <tom.zanussi@intel.com>
-   Date:   Tue Jul 3 13:07:23 2012 -0500
-
-      perf: change --root to --prefix for python install
-
-      Otherwise we get the sysroot path appended to the build path, not what
-      we want.
-
-      Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index adb3a2c..241cca9 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -148,7 +148,7 @@ do_configure_prepend () {
-             ${S}/tools/perf/Makefile.perf
-     fi
-     sed -i -e "s,--root='/\$(DESTDIR_SQ)',--prefix='\$(DESTDIR_SQ)/usr' --install-lib='\$(DESTDIR)\$(PYTHON_SITEPACKAGES_DIR)',g" \
--        ${S}/tools/perf/Makefile
-+        ${S}/tools/perf/Makefile*
- 
-     if [ -e "${S}/tools/build/Makefile.build" ]; then
-         sed -i -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
--- 
-1.9.1
+VGhpcyBvcHRpb24gaXMgY2F1c2luZyBpc3N1ZXMgd2l0aCBweXRob24gdW5pY29kZSBzdXBwb3J0
+LiBTZXZlcmFsIHVuaWNvZGUgcmVsYXRlZCByZWdyZXNzaW9uIHRlc3RzIGFyZSBjdXJyZW50bHkg
+ZmFpbGluZyAodGVzdF9yZSBhbmQgdGVzdF9jb2RlY3MgZm9yIGV4YW1wbGUpIGFuZCByZW1vdmlu
+ZyB0aGlzIG9wdGlvbiBmaXhlcyB0aGVzZS4KClRoaXMgY29uZmlndXJlIG9wdGlvbiBtb3N0bHkg
+c2VlbXMgdG8gYmUgaGlzdG9yaWNhbC4gRGlzY3Vzc2lvbiByZWxhdGVkIHRvIHB5dGhvbiBpc3N1
+ZSA5MjEwIChodHRwczovL2J1Z3MucHl0aG9uLm9yZy9pc3N1ZTkyMTApIGluZGljYXRlcyBpdHMg
+b3JpZ2luYWwgZ29hbCB3YXMgdG8gc2F2ZSBtZW1vcnkgYW5kIHRoYXQgdGhlIG9wdGlvbiBzaG91
+bGQgaGF2ZSBiZWVuIGRlcHJlY2F0ZWQgYWdlcyBhZ28uCgpTaWduZWQtb2ZmLWJ5OiBFcmtrYSBL
+w6TDpHJpw6QgPGVya2thLmthYXJpYUBpbnRlbC5jb20+Ci0tLQogbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24uaW5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigt
+KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLmluYyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLmluYwppbmRleCBlMThhYjhlLi40
+ZDQyOGYzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi5p
+bmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24uaW5jCkBAIC0xNiw3
+ICsxNiw2IEBAIFBZVEhPTl9NQUpNSU4gPSAiMi43IgogCiBpbmhlcml0IGF1dG90b29scwogCi1Q
+WVRIT05MU0JPUFRTID0gIi0td2l0aC13Y3R5cGUtZnVuY3Rpb25zIgogUFlUSE9OTFNCT1BUU19s
+aW51eHN0ZGJhc2UgPSAiYWNfY3Zfc2l6ZW9mX29mZl90PTgiCiAKIEVYVFJBX09FQ09ORiA9ICJc
+Ci0tIAoyLjEuNAoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkludGVsIEZpbmxhbmQgT3kKUmVnaXN0ZXJlZCBBZGRy
+ZXNzOiBQTCAyODEsIDAwMTgxIEhlbHNpbmtpIApCdXNpbmVzcyBJZGVudGl0eSBDb2RlOiAwMzU3
+NjA2IC0gNCAKRG9taWNpbGVkIGluIEhlbHNpbmtpIAoKVGhpcyBlLW1haWwgYW5kIGFueSBhdHRh
+Y2htZW50cyBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgbWF0ZXJpYWwgZm9yCnRoZSBzb2xlIHVz
+ZSBvZiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KHMpLiBBbnkgcmV2aWV3IG9yIGRpc3RyaWJ1dGlv
+bgpieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFyZSBub3QgdGhlIGlu
+dGVuZGVkCnJlY2lwaWVudCwgcGxlYXNlIGNvbnRhY3QgdGhlIHNlbmRlciBhbmQgZGVsZXRlIGFs
+bCBjb3BpZXMuCg==
 
 
