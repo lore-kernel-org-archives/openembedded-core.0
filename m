@@ -1,24 +1,35 @@
-Return-Path: <alejandro.joya.cruz@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 21E0A75F3A
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pa0-f49.google.com (mail-pa0-f49.google.com
+	[209.85.220.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 11AF775F3A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 22:40:18 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 15 Sep 2015 15:40:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,536,1437462000"; d="scan'208";a="562399301"
-Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
-	by FMSMGA003.fm.intel.com with ESMTP; 15 Sep 2015 15:40:18 -0700
-From: Alejandro Joya <alejandro.joya.cruz@intel.com>
+	Tue, 15 Sep 2015 22:54:35 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so192592890pac.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Sep 2015 15:54:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=SKdfh3c/vlHiV9AIr6doeNYOHf4N2KsOsWqRrto9oDE=;
+	b=R3rzNZTDLXOELKy6n1EiBWkyQINoDsxNOdD2SKerpdEKHrfn2iajY+qs9Jbjv9bLu9
+	zR0rcooxygNh9Psec246+cs4u1jtn8+Q6qMAen3+Ewbd90rR6onUIyZICIx5mT49GteA
+	bnVSUA8W6GZbeU+RvEeGKyV9b9gITuY/1pTkaifSwtf3AUCAAHk4kI3aRzpADn0ZUMm1
+	fZi3q91aF9ZbhnMvdr34CTDWbV6IXH1IBri+qhIIerHuPBWln+mMw7BBxAw6t1xBj7jP
+	nnW8Y3NN1RowCQdIN9cgG5WGyCIYCmel8ofwGamVWTgRcEvDJV80M8rM+qzm+CMsP8AQ
+	exGA==
+X-Received: by 10.68.227.227 with SMTP id sd3mr9275721pbc.116.1442357675353;
+	Tue, 15 Sep 2015 15:54:35 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	ch3sm24014395pbb.18.2015.09.15.15.54.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Sep 2015 15:54:34 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Sep 2015 17:40:02 -0500
-Message-Id: <d6ef7aefeb091eafe59724a74fa59ad0b0ca0b20.1442355130.git.alejandro.joya.cruz@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <dc1b328b4e41695df96acac6ba73620a535d2ee1.1442355130.git.alejandro.joya.cruz@intel.com>
-References: <dc1b328b4e41695df96acac6ba73620a535d2ee1.1442355130.git.alejandro.joya.cruz@intel.com>
-In-Reply-To: <cover.1442355130.git.alejandro.joya.cruz@intel.com>
-References: <cover.1442355130.git.alejandro.joya.cruz@intel.com>
-Subject: [PATCH 3/3] packagegroup-core-boot: overwrite hardcoded dependency to virtual reference
+Date: Tue, 15 Sep 2015 15:56:33 -0700
+Message-Id: <1442357793-20405-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Cc: Christopher Larson <chris_larson@mentor.com>
+Subject: [PATCH] devshell: symlink $TOPDIR to $WORKDIR/topdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +42,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 22:40:19 -0000
+X-List-Received-Date: Tue, 15 Sep 2015 22:54:36 -0000
 
-This recipe have a hardcoded dependency to busybox, in order to be able to have a flexible selection,
-instead of the hardcoded dependency,now is point to virtual reference anybox.
+From: Christopher Larson <chris_larson@mentor.com>
 
-Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
+It's quite common to need to copy files out of the devshell back to your
+layers, but most of the variables referring to such paths are not exported
+(and in some cases, should not be, as it'll affect buildsystems we run, e.g.
+TOPDIR/BUILDDIR). To resolve this while still making it easier to get files
+out of the devshell, create a ${WORKDIR}/topdir symlink to ${TOPDIR}, removing
+it after exiting the devshell.
+
+[YOCTO #7670]
+
+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
 ---
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/classes/devshell.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 09f5373..355631f 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -19,12 +19,12 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
+diff --git a/meta/classes/devshell.bbclass b/meta/classes/devshell.bbclass
+index 4451436..e2c200c 100644
+--- a/meta/classes/devshell.bbclass
++++ b/meta/classes/devshell.bbclass
+@@ -12,7 +12,10 @@ python do_devshell () {
+             d.appendVar("OE_TERMINAL_EXPORTS", " " + k[0])
+        d.delVarFlag("do_devshell", "fakeroot")
  
- # Distro can override the following VIRTUAL-RUNTIME providers:
- VIRTUAL-RUNTIME_dev_manager ?= "udev"
--VIRTUAL-RUNTIME_login_manager ?= "busybox"
-+VIRTUAL-RUNTIME_login_manager ?= "${VIRTUAL-RUNTIME_anybox}"
- VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
- VIRTUAL-RUNTIME_initscripts ?= "initscripts"
- VIRTUAL-RUNTIME_keymaps ?= "keymaps"
++    topdir_link = os.path.join(d.getVar('WORKDIR', True), 'topdir')
++    os.symlink(d.getVar('TOPDIR', True), topdir_link)
+     oe_terminal(d.getVar('DEVSHELL', True), 'OpenEmbedded Developer Shell', d)
++    os.unlink(topdir_link)
+ }
  
--SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
-+SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_anybox-hwclock}', '', d)} \
-                     modutils-initscripts \
-                     init-ifupdown \
-                     ${VIRTUAL-RUNTIME_initscripts} \
-@@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
- RDEPENDS_${PN} = "\
-     base-files \
-     base-passwd \
--    busybox \
-+    ${VIRTUAL-RUNTIME_anybox} \
-     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
-     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
-     netbase \
+ addtask devshell after do_patch
 -- 
-2.1.0
+2.2.1
 
 
