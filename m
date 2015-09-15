@@ -1,38 +1,27 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ig0-f182.google.com (mail-ig0-f182.google.com
-	[209.85.213.182])
-	by mail.openembedded.org (Postfix) with ESMTP id DDCA4762B7
+Return-Path: <Rongqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A6D565D00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 00:12:30 +0000 (UTC)
-Received: by igbni9 with SMTP id ni9so3664474igb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 14 Sep 2015 17:12:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc:content-type;
-	bh=BhEaqRoHjGfTVMchPBJkhQ1W2LYmRHeOTzkh4l2WCeo=;
-	b=Hc1LEKQ5DvvEjBUO1Uu12PkrGhOpz7uxgmYge91P9F/0BS5TP34E28bkt1fDDDtgs4
-	x1gHwA8UJHoDHCenrolbxPiqpGK4KHXXr8zfN+AC5fJtedp/b5M9UAOxnNCBmeuKZ8zd
-	GLIPWksgjQXnDskDvNx961p4iaJqgJmwteH/HMFQELmwV+xfHcIcJUDbjbV6ldC8Ca9x
-	aYLsAg7P8A+vyjbEj0lHQHGgSHVKegmg0NTY6CeoOpP6dyTjzYZnOwxAibUO4fNxChT+
-	IYz5Rn2Jkzh/nryS9ISqXrEt1ZjYrlrcLHJ8Hwa8v6ly14lrEGrbQtLBEOpEffTgDdWA
-	5GGw==
-X-Received: by 10.50.61.165 with SMTP id q5mr1008753igr.10.1442275950662; Mon,
-	14 Sep 2015 17:12:30 -0700 (PDT)
+	Tue, 15 Sep 2015 01:08:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8F18Jpe011150
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 14 Sep 2015 18:08:19 -0700 (PDT)
+Received: from [128.224.162.158] (128.224.162.158) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Mon, 14 Sep 2015 18:08:18 -0700
+Message-ID: <55F76F81.7040809@windriver.com>
+Date: Tue, 15 Sep 2015 09:08:17 +0800
+From: Rongqing Li <rongqing.li@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.79.100.71 with HTTP; Mon, 14 Sep 2015 17:12:11 -0700 (PDT)
-In-Reply-To: <CABcZANmRBjAg_T_W_ZKdoEmCGjmffmfvKqSr3O_FGos-jKSe5Q@mail.gmail.com>
-References: <1442266696-6751-1-git-send-email-kergoth@gmail.com>
-	<CABcZANmRBjAg_T_W_ZKdoEmCGjmffmfvKqSr3O_FGos-jKSe5Q@mail.gmail.com>
-From: Christopher Larson <chris_larson@mentor.com>
-Date: Mon, 14 Sep 2015 17:12:11 -0700
-X-Google-Sender-Auth: Q__Ums2nwddHxDRI_98huvhEM8A
-Message-ID: <CABcZANn9G+31+sRvMzvakG4qTP18ce0awPmqR+Vz8QhfMWG1Jw@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: Re: [PATCH] image.bbclass: add do_rootfs vardeps for IMAGE_{CMD, TYPEDEP}_*
+To: Saul Wold <sgw@linux.intel.com>, <openembedded-core@lists.openembedded.org>
+References: <1440568697-32101-1-git-send-email-rongqing.li@windriver.com>
+	<55F6DCF8.9030906@linux.intel.com>
+In-Reply-To: <55F6DCF8.9030906@linux.intel.com>
+Subject: Re: [PATCH][v2] perf: fix the install-python_ext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,71 +34,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 00:12:31 -0000
-Content-Type: multipart/alternative; boundary=047d7bdca446b519ce051fbe0912
+X-List-Received-Date: Tue, 15 Sep 2015 01:08:34 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
---047d7bdca446b519ce051fbe0912
-Content-Type: text/plain; charset=UTF-8
 
-On Mon, Sep 14, 2015 at 4:41 PM, Christopher Larson <chris_larson@mentor.com
-> wrote:
 
-> On Mon, Sep 14, 2015 at 2:38 PM, Christopher Larson <kergoth@gmail.com>
-> wrote:
+On 2015年09月14日 22:43, Saul Wold wrote:
+> On 08/25/2015 10:58 PM, rongqing.li@windriver.com wrote:
+>> From: Roy Li <rongqing.li@windriver.com>
+>>
+>> 1. $(grep xxx xxx) never returns 0, it maybe return empty or string, and
+>> can not compare with 0, this fixes that python module never are
+>> installed.
+>>
+>> 2. python library is installed into /usr/lib/ by default, but we expect
+>> it is installed into ${libdir}, so add --install-lib parameter for python
+>> setup.py to set the library dir;
+>> this fixes not shipped warning, since python modules are installed into
+>> /usr/lib/, but FILE_${PN}-python expects it is under ${libdir}, which is
+>> /usr/lib64/ for 64bit machine
+>>
+>> 3. the makefile target install-python_ext is moved from Makefile to
+>> Makefile.perf from linux v3.13, so match install-python_ext in Makefile.*
+>> and --root='/\$(DESTDIR_SQ)' before linux v3.13 will install the target
+>> python library to native sysroot, so replace it with --prefix as after
+>> linux
+>> 3.13;
+>> this fixes not shipped warning, and install target files to native
+>> dir, like
+>> below:
+>> ERROR: QA Issue: perf: Files/directories were installed but not
+>> shipped in any package:
+>>    /home
+>>    /home/pokybuild
+>>    /home/pokybuild/yocto-autobuilder
+>>    /home/pokybuild/yocto-autobuilder/yocto-worker
+>>    /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/perf.so
+>>
+>>
+>> /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/perf-0.1-py2.7.egg-info
+>>
+>>
 >
->> From: Christopher Larson <chris_larson@mentor.com>
+> This patch actually seems to introduce this failure,
+>
+> https://autobuilder.yoctoproject.org/main/builders/nightly-fsl-arm/builds/494/steps/BuildImages/logs/stdio
+>
+>
+> This needs to be addressed.
+>
+> Sau!
+
+
+Ok, I will see it
+
+-Roy
+
+
+>
+>> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+>> ---
+>>   meta/recipes-kernel/perf/perf.bb | 8 +++++++-
+>>   1 file changed, 7 insertions(+), 1 deletion(-)
 >>
->> We want do_rootfs to rerun if the image commands or dependencies change
->> for any of
->> our configured fstypes (IMGE_FSTYPES).
+>> diff --git a/meta/recipes-kernel/perf/perf.bb
+>> b/meta/recipes-kernel/perf/perf.bb
+>> index b18e474..adb3a2c 100644
+>> --- a/meta/recipes-kernel/perf/perf.bb
+>> +++ b/meta/recipes-kernel/perf/perf.bb
+>> @@ -44,6 +44,7 @@ export STAGING_INCDIR
+>>   export STAGING_LIBDIR
+>>   export BUILD_SYS
+>>   export HOST_SYS
+>> +export PYTHON_SITEPACKAGES_DIR
 >>
->> Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+>>   #kernel 3.1+ supports WERROR to disable warnings as errors
+>>   export WERROR = "0"
+>> @@ -111,7 +112,7 @@ do_install() {
+>>       unset CFLAGS
+>>       oe_runmake DESTDIR=${D} install
+>>       # we are checking for this make target to be compatible with
+>> older perf versions
+>> -    if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1"
+>> -a $(grep install-python_ext ${S}/tools/perf/Makefile) = "0" ]; then
+>> +    if [ "${@perf_feature_enabled('perf-scripting', 1, 0, d)}" = "1"
+>> ] && grep -q install-python_ext ${S}/tools/perf/Makefile*; then
+>>           oe_runmake DESTDIR=${D} install-python_ext
+>>       fi
+>>   }
+>> @@ -143,7 +144,12 @@ do_configure_prepend () {
+>>       if [ -e "${S}/tools/perf/Makefile.perf" ]; then
+>>           sed -i -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
+>>               ${S}/tools/perf/Makefile.perf
+>> +        sed -i -e
+>> "s,prefix='\$(DESTDIR_SQ)/usr'$,prefix='\$(DESTDIR_SQ)/usr'
+>> --install-lib='\$(DESTDIR)\$(PYTHON_SITEPACKAGES_DIR)',g" \
+>> +            ${S}/tools/perf/Makefile.perf
+>>       fi
+>> +    sed -i -e
+>> "s,--root='/\$(DESTDIR_SQ)',--prefix='\$(DESTDIR_SQ)/usr'
+>> --install-lib='\$(DESTDIR)\$(PYTHON_SITEPACKAGES_DIR)',g" \
+>> +        ${S}/tools/perf/Makefile
+>> +
+>>       if [ -e "${S}/tools/build/Makefile.build" ]; then
+>>           sed -i -e 's,\ .config-detected, $(OUTPUT)/config-detected,g' \
+>>               ${S}/tools/build/Makefile.build
 >>
 >
-> Hold off on accepting this, need to account compression types and
-> COMPRESS_CMD. Expect a v2.
+>
 
-
-'[PATCH] image.bbclass: add do_rootfs vardeps for {COMPRESS,IMAGE}_CMD_*'
-is submitted, and supercedes this.
 -- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+Best Reagrds,
+Roy | RongQing Li
 
---047d7bdca446b519ce051fbe0912
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Sep 14, 2015 at 4:41 PM, Christopher Larson <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:chris_larson@mentor.com" target=3D"_blank">chris_larson@me=
-ntor.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(20=
-4,204,204);border-left-style:solid;padding-left:1ex"><span class=3D""><div =
-class=3D"gmail_quote">On Mon, Sep 14, 2015 at 2:38 PM, Christopher Larson <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:kergoth@gmail.com" target=3D"_blank"=
->kergoth@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-colo=
-r:rgb(204,204,204);border-left-style:solid;padding-left:1ex"><div style=3D"=
-overflow:hidden">From: Christopher Larson &lt;<a href=3D"mailto:chris_larso=
-n@mentor.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;<br>
-<br>
-We want do_rootfs to rerun if the image commands or dependencies change for=
- any of<br>
-our configured fstypes (IMGE_FSTYPES).<br>
-<br>
-Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:chris_larson@mentor=
-.com" target=3D"_blank">chris_larson@mentor.com</a>&gt;</div></blockquote><=
-/div><br></span>Hold off on accepting this, need to account compression typ=
-es and COMPRESS_CMD. Expect a v2.</blockquote></div><br>&#39;[PATCH] image.=
-bbclass: add do_rootfs vardeps for {COMPRESS,IMAGE}_CMD_*&#39; is submitted=
-, and supercedes this.<br>-- <br><div class=3D"gmail_signature"><div dir=3D=
-"ltr">Christopher Larson<br>kergoth at gmail dot com<br>Founder - BitBake, =
-OpenEmbedded, OpenZaurus<br>Maintainer - Tslib<br>Senior Software Engineer,=
- Mentor Graphics</div></div>
-</div></div>
-
---047d7bdca446b519ce051fbe0912--
