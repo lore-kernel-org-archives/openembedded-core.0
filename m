@@ -1,40 +1,46 @@
-Return-Path: <juro.bystricky@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FC896E630
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-io0-f181.google.com (mail-io0-f181.google.com
+	[209.85.223.181])
+	by mail.openembedded.org (Postfix) with ESMTP id EB47C7687B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 16:23:49 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Sep 2015 09:23:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,536,1437462000"; d="scan'208";a="769549102"
-Received: from orsmsx104.amr.corp.intel.com ([10.22.225.131])
-	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2015 09:23:49 -0700
-Received: from orsmsx154.amr.corp.intel.com (10.22.226.12) by
-	ORSMSX104.amr.corp.intel.com (10.22.225.131) with Microsoft SMTP Server
-	(TLS) id 14.3.224.2; Tue, 15 Sep 2015 09:23:48 -0700
-Received: from orsmsx109.amr.corp.intel.com ([169.254.2.154]) by
-	ORSMSX154.amr.corp.intel.com ([169.254.11.4]) with mapi id
-	14.03.0224.002; Tue, 15 Sep 2015 09:23:48 -0700
-From: "Bystricky, Juro" <juro.bystricky@intel.com>
-To: Phil Blundell <pb@pbcl.net>, Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] libgcc.inc: package baremetal multilib
-	libraries
-Thread-Index: AQHQ7wpe+BPv7+ECTECB7c0kUU+XLZ48ruMAgAA2YICAAOIa8A==
-Date: Tue, 15 Sep 2015 16:23:47 +0000
-Message-ID: <6E51916E4A1F32428260031F4C7CD2B6101E855C@ORSMSX109.amr.corp.intel.com>
-References: <1442247767-7879-1-git-send-email-juro.bystricky@intel.com>
-	<7D6F58E5-BF37-4757-8B9A-5C37BAE5ED8E@gmail.com>
-	<1442260397.2948.87.camel@pbcl.net>
-In-Reply-To: <1442260397.2948.87.camel@pbcl.net>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.22.254.138]
+	Tue, 15 Sep 2015 19:00:35 +0000 (UTC)
+Received: by iofb144 with SMTP id b144so209786401iof.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Sep 2015 12:00:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:mime-version:date:message-id:subject:to:cc
+	:content-type;
+	bh=IlDlr/Y/wAlFS7ibMSWu+3yIoff1Zwh+G1mcPQVmUpw=;
+	b=QDGoRbbzI1PVfyg071YtdisiyJzR5m954t3ton1hAVfpaAfFZFk+X4WL7FL0oBkr8X
+	F8fbT6rLAvNRN7BJNPzaBRZGKIzAfjfK3c3BpbnqPXaPx+su+oM1eVvuN32qFG52Yb9a
+	svD8P4LDtWaSS3eIDjvCCGwLJRhgF3/K+A2PTPrl4BUprgKmqCXX/dn2d70i1Kt0Bn3M
+	hPkPgXsowRw5FaAzDvh4GTCP9+jhA3+9LgQ2CXmaEgGo5IyAd+LQkUElAZg5k+a0JAad
+	WYIFGuCCg/jiFM+lXbYj48b2Aj+oASycK5rhUzJkSfnN/LXMLI8swEosD+Jk+ZuPvafh
+	v7Hw==
+X-Gm-Message-State: ALoCoQnZ8HyWXLglg7HGZvONE7h/VWkABnxKHdO3SXD3XljYjfa/F/rfaH/XykGUh/qi09x4s1Bg
+X-Received: by 10.107.19.161 with SMTP id 33mr41738032iot.62.1442343633560;
+	Tue, 15 Sep 2015 12:00:33 -0700 (PDT)
+Received: from mail-ig0-f169.google.com (mail-ig0-f169.google.com.
+	[209.85.213.169])
+	by smtp.gmail.com with ESMTPSA id k2sm210901igx.0.2015.09.15.12.00.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 15 Sep 2015 12:00:32 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by igcrk20 with SMTP id rk20so20327416igc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Sep 2015 12:00:31 -0700 (PDT)
 MIME-Version: 1.0
-Cc: "Purdie, Richard" <richard.purdie@intel.com>,
-	"openembedded-core@lists.openembedded.org"
+X-Received: by 10.50.80.12 with SMTP id n12mr70157igx.5.1442343631391; Tue, 15
+	Sep 2015 12:00:31 -0700 (PDT)
+Received: by 10.36.218.7 with HTTP; Tue, 15 Sep 2015 12:00:31 -0700 (PDT)
+Date: Tue, 15 Sep 2015 16:00:31 -0300
+Message-ID: <CAP9ODKp9wA6oCdU6_e2T05ryMtdygBtA25EcyZhCGsPUtWOX+A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libgcc.inc: package baremetal multilib libraries
+Subject: perf triggering a QA error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,56 +53,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 16:23:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 15 Sep 2015 19:00:37 -0000
+Content-Type: text/plain; charset=UTF-8
 
-VGhhbmtzLCBJIHNlZSB3aGF0IHlvdSBtZWFuLiBJJ2xsIHJlcG9zdCBhIG5ldyBwYXRjaCBhZnRl
-ciBJJ3ZlIHRlc3RlZCBpdC4NCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
-OiBQaGlsIEJsdW5kZWxsIFttYWlsdG86cGJAcGJjbC5uZXRdDQo+IFNlbnQ6IE1vbmRheSwgU2Vw
-dGVtYmVyIDE0LCAyMDE1IDEyOjUzIFBNDQo+IFRvOiBLaGVtIFJhag0KPiBDYzogQnlzdHJpY2t5
-LCBKdXJvOyBQdXJkaWUsIFJpY2hhcmQ7IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBsaWJnY2MuaW5j
-OiBwYWNrYWdlIGJhcmVtZXRhbCBtdWx0aWxpYiBsaWJyYXJpZXMNCj4gDQo+IE9uIE1vbiwgMjAx
-NS0wOS0xNCBhdCAwOTozOCAtMDcwMCwgS2hlbSBSYWogd3JvdGU6DQo+ID4gPiBPbiBTZXAgMTQs
-IDIwMTUsIGF0IDk6MjIgQU0sIEp1cm8gQnlzdHJpY2t5IDxqdXJvLmJ5c3RyaWNreUBpbnRlbC5j
-b20+DQo+IHdyb3RlOg0KPiA+ID4NCj4gPiA+IFdoZW4gYnVpbGRpbmcgbGliZ2NjIGZvciBiYXJl
-bWV0YWwgY3Jvc3MtY29tcGlsZXJzLCBzb21lIGZpbGVzIGFuZA0KPiA+ID4gbGlicmFyaWVzIG1h
-eSBiZSBidWlsdCBidXQgbm90IHBhY2thZ2VkLiBUaGlzIHBhdGNoIGZpeGVzIGVycm9ycyBzdWNo
-IGFzDQo+IHRoZXNlOg0KPiA+ID4NCj4gPiA+IEVSUk9SOiBRQSBJc3N1ZTogbGliZ2NjOiBGaWxl
-cy9kaXJlY3RvcmllcyB3ZXJlIGluc3RhbGxlZCBidXQgbm90IHNoaXBwZWQNCj4gaW4gYW55IHBh
-Y2thZ2U6DQo+ID4gPiAgL3Vzci9saWIvYXJtLXBva3ktZWFiaS80LjkuMy90aHVtYg0KPiA+ID4g
-IC91c3IvbGliL2FybS1wb2t5LWVhYmkvNC45LjMvZnB1DQo+ID4gPiAgL3Vzci9saWIvYXJtLXBv
-a3ktZWFiaS80LjkuMy90aHVtYi9saWJnY292LmENCj4gPiA+ICAvdXNyL2xpYi9hcm0tcG9reS1l
-YWJpLzQuOS4zL3RodW1iL2NydG4ubw0KPiA+ID4gIC91c3IvbGliL2FybS1wb2t5LWVhYmkvNC45
-LjMvdGh1bWIvY3J0ZW5kLm8NCj4gPiA+ICAvdXNyL2xpYi9hcm0tcG9reS1lYWJpLzQuOS4zL3Ro
-dW1iL2NydGJlZ2luLm8NCj4gPiA+ICAvdXNyL2xpYi9hcm0tcG9reS1lYWJpLzQuOS4zL3RodW1i
-L2xpYmdjYy5hDQo+ID4gPiAgL3Vzci9saWIvYXJtLXBva3ktZWFiaS80LjkuMy90aHVtYi9jcnRp
-Lm8NCj4gPiA+ICAvdXNyL2xpYi9hcm0tcG9reS1lYWJpLzQuOS4zL2ZwdS9saWJnY292LmENCj4g
-PiA+ICAvdXNyL2xpYi9hcm0tcG9reS1lYWJpLzQuOS4zL2ZwdS9jcnRuLm8NCj4gPiA+ICAvdXNy
-L2xpYi9hcm0tcG9reS1lYWJpLzQuOS4zL2ZwdS9jcnRlbmQubw0KPiA+ID4gIC91c3IvbGliL2Fy
-bS1wb2t5LWVhYmkvNC45LjMvZnB1L2NydGJlZ2luLm8NCj4gPiA+ICAvdXNyL2xpYi9hcm0tcG9r
-eS1lYWJpLzQuOS4zL2ZwdS9saWJnY2MuYQ0KPiA+ID4gIC91c3IvbGliL2FybS1wb2t5LWVhYmkv
-NC45LjMvZnB1L2NydGkubw0KPiA+ID4gUGxlYXNlIHNldCBGSUxFUyBzdWNoIHRoYXQgdGhlc2Ug
-aXRlbXMgYXJlIHBhY2thZ2VkLiBBbHRlcm5hdGl2ZWx5DQo+ID4gPiBpZiB0aGV5IGFyZSB1bm5l
-ZWRlZCwgYXZvaWQgaW5zdGFsbGluZyB0aGVtIG9yIGRlbGV0ZSB0aGVtIHdpdGhpbg0KPiA+ID4g
-ZG9faW5zdGFsbC4gW2luc3RhbGxlZC12cy1zaGlwcGVkXQ0KPiA+ID4NCj4gPiA+IFNpZ25lZC1v
-ZmYtYnk6IEp1cm8gQnlzdHJpY2t5IDxqdXJvLmJ5c3RyaWNreUBpbnRlbC5jb20+DQo+ID4gPiAt
-LS0NCj4gPiA+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvbGliZ2NjLmluYyB8IDYgKysrKysr
-DQo+ID4gPiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspDQo+ID4gPg0KPiA+ID4gZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvbGliZ2NjLmluYw0KPiA+ID4gYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2xpYmdjYy5pbmMNCj4gPiA+IGluZGV4IDczOWFkYmQu
-Ljk1NzA5ZTQgMTAwNjQ0DQo+ID4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2NjL2xp
-YmdjYy5pbmMNCj4gPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9nY2MvbGliZ2NjLmlu
-Yw0KPiA+ID4gQEAgLTI4LDYgKzI4LDEyIEBAIEZJTEVTXyR7UE59LWRldiA9ICJcDQo+ID4gPiAg
-ICAgJHtsaWJkaXJ9LyR7VEFSR0VUX1NZU30vJHtCSU5WfS9saWJnY292LmEgXCAiDQo+ID4gPg0K
-PiA+ID4gK0ZJTEVTXyR7UE59LWRldl9saWJjLWJhcmVtZXRhbCA9ICJcDQo+ID4gPiArICAgICR7
-YmFzZV9saWJkaXJ9LyBcDQo+ID4gPiArICAgICR7bGliZGlyfS8qIFwNCj4gPiA+ICsgICAgJHts
-aWJkaXJ9LyR7VEFSR0VUX1NZU30vKiBcDQo+ID4gPiAr4oCdDQo+ID4NCj4gPiB3aHkgbm90IHB1
-dCBpdCBpbnRvIGxpYmdjYy1kZXYgaXRzZWxmDQo+IA0KPiBBZ3JlZWQuICBJIHRoaW5rIHRoZSBy
-ZWFsIGlzc3VlIGhlcmUgaXMgbm90aGluZyByZWFsbHkgdG8gZG8gd2l0aCBiYXJlbWV0YWwsIGl0
-J3MNCj4ganVzdCB0aGF0IHRoZSBleGlzdGluZyBGSUxFU18ke1BOfS1kZXYgcGF0dGVybiBkb2Vz
-bid0IGNvbnNpZGVyIG11bHRpbGliIGZvcg0KPiBhbnl0aGluZyBvdGhlciB0aGFuIElBIGFuZCBt
-aXBzLg0KPiANCj4gcC4NCj4gDQoNCg==
+Hello folks,
+
+It seems the commit:
+
+commit 43f965061f8af4c4537e9d9c0257253e613a616d
+Author: Roy Li <rongqing.li@windriver.com>
+Date:   Wed Aug 26 13:58:17 2015 +0800
+
+    perf: fix the install-python_ext
+
+    1. $(grep xxx xxx) never returns 0, it maybe return empty or string, and
+    can not compare with 0, this fixes that python module never are installed.
+
+    2. python library is installed into /usr/lib/ by default, but we expect
+    it is installed into ${libdir}, so add --install-lib parameter for python
+    setup.py to set the library dir;
+    this fixes not shipped warning, since python modules are installed into
+    /usr/lib/, but FILE_${PN}-python expects it is under ${libdir}, which is
+    /usr/lib64/ for 64bit machine
+
+    3. the makefile target install-python_ext is moved from Makefile to
+    Makefile.perf from linux v3.13, so match install-python_ext in Makefile.*
+    and --root='/\$(DESTDIR_SQ)' before linux v3.13 will install the target
+    python library to native sysroot, so replace it with --prefix as after linux
+    3.13;
+    this fixes not shipped warning, and install target files to native dir, like
+    below:
+    ERROR: QA Issue: perf: Files/directories were installed but not
+shipped in any package:
+      /home
+      /home/pokybuild
+      /home/pokybuild/yocto-autobuilder
+      /home/pokybuild/yocto-autobuilder/yocto-worker
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/perf.so
+      /home/pokybuild/yocto-autobuilder/yocto-worker/nightly-fsl-ppc-lsb/build/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/perf-0.1-py2.7.egg-info
+
+    Signed-off-by: Roy Li <rongqing.li@windriver.com>
+    Signed-off-by: Ross Burton <ross.burton@intel.com>
+
+
+did not address the issue.
+
+I am capable of reproduce the issue in kernel 3.14. See the log below:
+
+NOTE: make -j 2 -C $S/tools/perf O=$B
+CROSS_COMPILE=arm-oel-linux-gnueabi- ARCH=arm
+CC=arm-oel-linux-gnueabi-gcc  -march=armv7-a -marm  -mthumb-interwork
+-mfloat-abi=hard -mfpu=neon -mtune=cortex-a9
+--sysroot=$TMPDIR/sysroots/imx6sxsabresd AR=arm-oel-linux-gnueabi-ar
+EXTRA_CFLAGS=-ldw perfexecdir=/usr/lib/perf NO_GTK2=1 NO_DWARF=1
+NO_LIBUNWIND=1 NO_LIBDW_DWARF_UNWIND=1 NO_LIBNUMA=1 prefix=/usr
+bindir=/usr/bin sharedir=/usr/share sysconfdir=/etc
+perfexecdir=/usr/lib/perf/perf-core ETC_PERFCONFIG=../etc
+sharedir=share mandir=share/man infodir=share/info
+DESTDIR=$WORKDIR/image install-python_ext
+make: Entering directory '$S/tools/perf'
+  BUILD:   Doing 'make -j8' parallel build
+Auto-detecting system features:
+...                     backtrace: [ on  ]
+...                         dwarf: [ on  ]
+...                fortify-source: [ on  ]
+...                         glibc: [ on  ]
+...                          gtk2: [ OFF ]
+...                  gtk2-infobar: [ OFF ]
+...                      libaudit: [ OFF ]
+...                        libbfd: [ on  ]
+...                        libelf: [ on  ]
+...             libelf-getphdrnum: [ on  ]
+...                   libelf-mmap: [ on  ]
+...                       libnuma: [ OFF ]
+...                       libperl: [ on  ]
+...                     libpython: [ on  ]
+...             libpython-version: [ on  ]
+...                      libslang: [ on  ]
+...                     libunwind: [ OFF ]
+...                       on-exit: [ on  ]
+...            stackprotector-all: [ on  ]
+...                       timerfd: [ on  ]
+config/Makefile:350: No libaudit.h found, disables 'trace' tool,
+please install audit-libs-devel or libaudit-dev
+'$TMPDIR/sysroots/x86_64-linux/usr/bin/python-native/python'
+util/setup.py --quiet install --root='/$WORKDIR/image'
+make: Leaving directory '$S/tools/perf'
+DEBUG: Shell function do_install finished
+
+and the error:
+
+ERROR: QA Issue: perf: Files/directories were installed but not
+shipped in any package:
+  /home
+  /home/otavio
+  /home/otavio/src
+  /home/otavio/src/yocto
+  /home/otavio/src/yocto/build
+  /home/otavio/src/yocto/build/tmp
+  /home/otavio/src/yocto/build/tmp/sysroots
+  /home/otavio/src/yocto/build/tmp/sysroots/x86_64-linux
+  /home/otavio/src/yocto/build/tmp/sysroots/x86_64-linux/usr
+  /home/otavio/src/yocto/build/tmp/sysroots/x86_64-linux/usr/lib
+  /home/otavio/src/yocto/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7
+  /home/otavio/src/yocto/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages
+  /home/otavio/src/yocto/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/perf-0.1-py2.7.egg-info
+  /home/otavio/src/yocto/build/tmp/sysroots/x86_64-linux/usr/lib/python2.7/site-packages/perf.so
+Please set FILES such that these items are packaged. Alternatively if
+they are unneeded, avoid installing them or delete them within
+do_install. [installed-vs-shipped]
+
+Any thoughts?
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
 
