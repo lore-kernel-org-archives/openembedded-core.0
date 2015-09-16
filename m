@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1193E75CF1
+	by mail.openembedded.org (Postfix) with ESMTP id 1438A76DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 02:28:49 +0000 (UTC)
+	Wed, 16 Sep 2015 02:28:50 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2SnZE007222
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2SoAc007225
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 19:28:49 -0700 (PDT)
+	Tue, 15 Sep 2015 19:28:50 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 15 Sep 2015 19:28:49 -0700
+	Tue, 15 Sep 2015 19:28:50 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Sep 2015 19:28:46 -0700
-Message-ID: <4295d930d43211a0a4da0dee7a62473247b56204.1442370259.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Sep 2015 19:28:48 -0700
+Message-ID: <df9ebc20e08cd18130e175d7ffb45ad6bf2ba911.1442370259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1442370259.git.liezhi.yang@windriver.com>
 References: <cover.1442370259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] libsdl: depends on libglu when both x11 and opengl
+Subject: [PATCH 4/4] insane.bbclass: make package_qa_clean_path return a relative path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,31 +36,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 16 Sep 2015 02:28:51 -0000
 Content-Type: text/plain
 
-The libglu requires both opengl (depends on virtual/libgl) and x11
-(needs libGL.so which is provided by mesa when x11 in DISTRO_FEATURES),
-so let libsdl depends on libglu when both x11 and opengl in
-DISTRO_FEATURES.
+Make package_qa_clean_path() return something like "work/path/to/file"
+rather than "/work/path/to/file", the relative path is a little clear.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/insane.bbclass |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-index 266bd42..c0d5c6a 100644
---- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-+++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
-@@ -13,8 +13,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
- PROVIDES = "virtual/libsdl"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 943ada8..628b63f 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -166,7 +166,7 @@ def package_qa_get_machine_dict():
  
- DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl libglu', '', d)} \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'libglu', '', d)} \
-            tslib"
- DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
+ def package_qa_clean_path(path,d):
+     """ Remove the common prefix from the path. In this case it is the TMPDIR"""
+-    return path.replace(d.getVar('TMPDIR',True),"")
++    return path.replace(d.getVar("TMPDIR", True) + "/", "")
  
+ def package_qa_write_error(type, error, d):
+     logfile = d.getVar('QA_LOGFILE', True)
 -- 
 1.7.9.5
 
