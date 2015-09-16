@@ -1,26 +1,16 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B9F376FB8
+Return-Path: <joshua.lock@collabora.co.uk>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CA4773243
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 07:52:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G7qjYs008142
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 00:52:45 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 16 Sep 2015 00:52:45 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Sep 2015 00:52:43 -0700
-Message-ID: <8bf3ec997007d1d921f4dce21f55612da0dce585.1442389930.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1442389930.git.liezhi.yang@windriver.com>
-References: <cover.1442389930.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/3] subversion: 1.8.13 -> 1.8.14 since 1.8.13.tar.gz was gone
+	Wed, 16 Sep 2015 08:34:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: joshuagl) with ESMTPSA id CC5883C88766
+From: Joshua Lock <joshua.lock@collabora.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Sep 2015 09:34:27 +0100
+Message-Id: <cover.1442390752.git.joshua.lock@collabora.co.uk>
+X-Mailer: git-send-email 2.4.3
+Subject: [PATCH 00/14] Proposed Fido changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +23,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 07:52:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Sep 2015 08:34:35 -0000
 
-The subversion-1.8.13.tar.bz2 is gone from ftp, so upgrade to 1.8.14.
+Please consider the following changes for the fido branch.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- .../disable_macos.patch                            |    0
- .../libtool2.patch                                 |    0
- ...erf.m4-Regex-modified-to-allow-D-in-paths.patch |    0
- .../{subversion_1.8.13.bb => subversion_1.8.14.bb} |    4 ++--
- 4 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/subversion/{subversion-1.8.13 => subversion}/disable_macos.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion-1.8.13 => subversion}/libtool2.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion-1.8.13 => subversion}/serf.m4-Regex-modified-to-allow-D-in-paths.patch (100%)
- rename meta/recipes-devtools/subversion/{subversion_1.8.13.bb => subversion_1.8.14.bb} (96%)
+The branch has successfully passed an autobuilder run:
 
-diff --git a/meta/recipes-devtools/subversion/subversion-1.8.13/disable_macos.patch b/meta/recipes-devtools/subversion/subversion/disable_macos.patch
-similarity index 100%
-rename from meta/recipes-devtools/subversion/subversion-1.8.13/disable_macos.patch
-rename to meta/recipes-devtools/subversion/subversion/disable_macos.patch
-diff --git a/meta/recipes-devtools/subversion/subversion-1.8.13/libtool2.patch b/meta/recipes-devtools/subversion/subversion/libtool2.patch
-similarity index 100%
-rename from meta/recipes-devtools/subversion/subversion-1.8.13/libtool2.patch
-rename to meta/recipes-devtools/subversion/subversion/libtool2.patch
-diff --git a/meta/recipes-devtools/subversion/subversion-1.8.13/serf.m4-Regex-modified-to-allow-D-in-paths.patch b/meta/recipes-devtools/subversion/subversion/serf.m4-Regex-modified-to-allow-D-in-paths.patch
-similarity index 100%
-rename from meta/recipes-devtools/subversion/subversion-1.8.13/serf.m4-Regex-modified-to-allow-D-in-paths.patch
-rename to meta/recipes-devtools/subversion/subversion/serf.m4-Regex-modified-to-allow-D-in-paths.patch
-diff --git a/meta/recipes-devtools/subversion/subversion_1.8.13.bb b/meta/recipes-devtools/subversion/subversion_1.8.14.bb
-similarity index 96%
-rename from meta/recipes-devtools/subversion/subversion_1.8.13.bb
-rename to meta/recipes-devtools/subversion/subversion_1.8.14.bb
-index f843b95..115ae16 100644
---- a/meta/recipes-devtools/subversion/subversion_1.8.13.bb
-+++ b/meta/recipes-devtools/subversion/subversion_1.8.14.bb
-@@ -14,8 +14,8 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://disable_macos.patch \
-            file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
- "
--SRC_URI[md5sum] = "4413417b529d7bdf82f74e50df02e88b"
--SRC_URI[sha256sum] = "1099cc68840753b48aedb3a27ebd1e2afbcc84ddb871412e5d500e843d607579"
-+SRC_URI[md5sum] = "fe476ba26d6835eba4393780ea907361"
-+SRC_URI[sha256sum] = "7f3883cdfcad4174e06dd94d6e3e8ec91856823268eebe60c924be76f5229a1f"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1c2f0119e478700b5428e26386cff923"
- 
+https://autobuilder.yoctoproject.org/main/builders/nightly/builds/547
+
+The following changes since commit 5a1839ecc9a2191252019ddd5c253098006f5bc3:
+
+  tzdata: update to 2015d (2015-09-01 21:41:24 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib joshuagl/fido-next
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/fido-next
+
+Alejandro Hernandez (1):
+  qemurunner: Improves checking for server and target IPs on qemus
+    parameters
+
+Armin Kuster (2):
+  bind: CVE-2015-1349 CVE-2015-4620 CVE-2015-5722
+  openssh: CVE-2015-6563 CVE-2015-6564 CVE-2015-6565
+
+George McCollister (1):
+  wic: fix path parsing, use last occurrence
+
+Li Zhou (1):
+  libunwind: Security Advisory - libunwind - CVE-2015-3239
+
+Martin Jansa (3):
+  rootfs.py: Allow to override postinst-intercepts location
+  postinst_intercept: allow to pass variables with spaces
+  rootfs.py: show intercept script output in log.do_rootfs
+
+Paul Eggleton (1):
+  oeqa/utils/qemurunner: fix logging
+
+Richard Purdie (1):
+  runqemu: Handle device names like tapX@NONE
+
+Ross Burton (1):
+  oeqa/QemuRunner: don't use bb for logging
+
+Saul Wold (1):
+  oprofileui: Use inherit gettext
+
+Sona Sarmadi (2):
+  gnutls: CVE-2015-3308
+  libtasn1: CVE-2015-3622
+
+ meta/lib/oe/rootfs.py                              |   8 +-
+ meta/lib/oeqa/utils/qemurunner.py                  |  73 +--
+ .../bind/bind/CVE-2015-1349.patch                  |  60 +++
+ .../bind/bind/CVE-2015-4620.patch                  |  36 ++
+ .../bind/bind/CVE-2015-5722.patch                  | 490 +++++++++++++++++++++
+ meta/recipes-connectivity/bind/bind_9.9.5.bb       |   3 +
+ .../openssh/openssh/CVE-2015-6563.patch            |  36 ++
+ .../openssh/openssh/CVE-2015-6564.patch            |  34 ++
+ .../openssh/openssh/CVE-2015-6565.patch            |  35 ++
+ meta/recipes-connectivity/openssh/openssh_6.7p1.bb |   6 +-
+ meta/recipes-kernel/oprofile/oprofileui.inc        |   2 +-
+ .../better-fix-for-double-free-CVE-2015-3308.patch |  65 +++
+ .../eliminated-double-free-CVE-2015-3308.patch     |  33 ++
+ meta/recipes-support/gnutls/gnutls_3.3.12.bb       |   2 +
+ .../gnutls/libtasn1/libtasn1-CVE-2015-3622.patch   |  44 ++
+ meta/recipes-support/gnutls/libtasn1_4.0.bb        |   1 +
+ ...rf-opcodes-can-cause-references-beyond-th.patch |  29 ++
+ meta/recipes-support/libunwind/libunwind_1.1.bb    |   1 +
+ scripts/lib/wic/plugin.py                          |   2 +-
+ scripts/postinst-intercepts/postinst_intercept     |   2 +-
+ scripts/runqemu-internal                           |   2 +-
+ 21 files changed, 922 insertions(+), 42 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-1349.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-4620.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-5722.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6563.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6564.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6565.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/better-fix-for-double-free-CVE-2015-3308.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/eliminated-double-free-CVE-2015-3308.patch
+ create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1-CVE-2015-3622.patch
+ create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch
+
 -- 
-1.7.9.5
+2.4.3
 
 
