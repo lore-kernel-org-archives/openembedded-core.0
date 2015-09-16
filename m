@@ -1,20 +1,39 @@
-Return-Path: <sona.sarmadi@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by mail.openembedded.org (Postfix) with SMTP id D1CEB60053
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qg0-f43.google.com (mail-qg0-f43.google.com
+	[209.85.192.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7431560053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 14:31:47 +0000 (UTC)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
-	Wed, 16 Sep 2015 16:31:44 +0200
-From: Sona Sarmadi <sona.sarmadi@enea.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Sep 2015 16:31:42 +0200
-Message-ID: <1442413902-65012-1-git-send-email-sona.sarmadi@enea.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 16 Sep 2015 15:15:27 +0000 (UTC)
+Received: by qgev79 with SMTP id v79so173666455qge.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Sep 2015 08:15:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=56/PaA1gyGzCI4XBcHhaOTKwvpOiC7nH3CpOrIxGDsU=;
+	b=aZJo5Umw7F4ZAprmDn/N9D5XJ0QMWvYtvHMieVXjgRxRybYNfMfkXHAECDehNGFvs4
+	LKEgBgDwbADO2CcHl261lRmW6RuYRPZqscQ1yDr4zy3T3xSGGhfbXSkqgVx12F1rwEYK
+	i2cMMr1bYwj5luhuUXB3BZwuouP9Rq3fko3t33B+0E/fwi9Ijr90Sc4CA/aeqkUBMEpH
+	2uCFNMp4ChDOqU2Ij4Ltpb0MorF0o2zCslHado9YOrFSxyZ5Ek1UKsufT1es7xvJqy8B
+	JHAIO8jnPG1Kn5hhrSMTRC3fpTAISK/h1+sZ3tkbOpOvsMAF5dI//XjTUBTUoU9seJ0t
+	0C9g==
+X-Gm-Message-State: ALoCoQlUpoUhdR8Uzz9f4+pcyjdtsMVCWnsaOOcrNYNBSHH61y1aC/umQELSDl5fBnL/fw9Qm17i
+X-Received: by 10.140.232.150 with SMTP id d144mr44735816qhc.17.1442416527094; 
+	Wed, 16 Sep 2015 08:15:27 -0700 (PDT)
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: sona.sarmadi@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH][dizzy] grep2.19: CVE-2015-1345
+Received: by 10.140.94.86 with HTTP; Wed, 16 Sep 2015 08:15:07 -0700 (PDT)
+In-Reply-To: <55F978DD.9060007@windriver.com>
+References: <cover.1442389930.git.liezhi.yang@windriver.com>
+	<8bf3ec997007d1d921f4dce21f55612da0dce585.1442389930.git.liezhi.yang@windriver.com>
+	<CAJTo0LbZTObHC+Urrc=3_EXWVaJb-_JeMnxO+=cRXsZySzM4PA@mail.gmail.com>
+	<55F978DD.9060007@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 16 Sep 2015 16:15:07 +0100
+Message-ID: <CAJTo0LaCot0Fx-ZHEJRP7j75Op2KT5sAMpF5pa1ttBcYee5cSA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] subversion: 1.8.13 -> 1.8.14 since 1.8.13.tar.gz was gone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,178 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 14:31:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Sep 2015 15:15:31 -0000
+Content-Type: multipart/alternative; boundary=001a11354852b80971051fdec487
 
-Fixes heap-based buffer overflow flaw in grep.
-Affected versions are: grep 2.19 through 2.21
+--001a11354852b80971051fdec487
+Content-Type: text/plain; charset=UTF-8
 
-Removed THANKS.in changes from upstream patch since this
-file does not exist in version 2.19.
-Replaced tab with spaces in SRC_URI as well.
+On 16 September 2015 at 15:12, Robert Yang <liezhi.yang@windriver.com>
+wrote:
 
-Upstream fix:
-http://git.sv.gnu.org/cgit/grep.git/commit/?id=
-83a95bd8c8561875b948cadd417c653dbe7ef2e2
+> -SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+> +SRC_URI = "http://archive.apache.org/dist/${BPN}/${BP}.tar.bz2 \
+>
 
-Signed-off-by: Sona Sarmadi <sona.sarmadi@enea.com>
----
- .../grep/grep-2.19/grep2.19-CVE-2015-1345.patch    | 129 +++++++++++++++++++++
- meta/recipes-extended/grep/grep_2.19.bb            |   4 +-
- 2 files changed, 132 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
+Looking at http://www.apache.org/dist/apr/ ($APACHE_MIRROR/apr) it appears
+that this latest-release-only applies to every project they release, so we
+should change APACHE_MIRROR instead of just the subversion recipe.
 
-diff --git a/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch b/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
-new file mode 100644
-index 0000000..32846f5
---- /dev/null
-+++ b/meta/recipes-extended/grep/grep-2.19/grep2.19-CVE-2015-1345.patch
-@@ -0,0 +1,129 @@
-+From 83a95bd8c8561875b948cadd417c653dbe7ef2e2 Mon Sep 17 00:00:00 2001
-+From: Yuliy Pisetsky <ypisetsky@fb.com>
-+Date: Thu, 01 Jan 2015 23:36:55 +0000
-+Subject: grep -F: fix a heap buffer (read) overrun
-+
-+grep's read buffer is often filled to its full size, except when
-+reading the final buffer of a file.  In that case, the number of
-+bytes read may be far less than the size of the buffer.  However, for
-+certain unusual pattern/text combinations, grep -F would mistakenly
-+examine bytes in that uninitialized region of memory when searching
-+for a match.  With carefully chosen inputs, one can cause grep -F to
-+read beyond the end of that buffer altogether.  This problem arose via
-+commit v2.18-90-g73893ff with the introduction of a more efficient
-+heuristic using what is now the memchr_kwset function. The use of
-+that function in bmexec_trans could leave TP much larger than EP,
-+and the subsequent call to bm_delta2_search would mistakenly access
-+beyond end of the main input read buffer.
-+
-+* src/kwset.c (bmexec_trans): When TP reaches or exceeds EP,
-+do not call bm_delta2_search.
-+* tests/kwset-abuse: New file.
-+* tests/Makefile.am (TESTS): Add it.
-+* NEWS (Bug fixes): Mention it.
-+
-+Prior to this patch, this command would trigger a UMR:
-+
-+  printf %0360db 0 | valgrind src/grep -F $(printf %019dXb 0)
-+
-+  Use of uninitialised value of size 8
-+     at 0x4142BE: bmexec_trans (kwset.c:657)
-+     by 0x4143CA: bmexec (kwset.c:678)
-+     by 0x414973: kwsexec (kwset.c:848)
-+     by 0x414DC4: Fexecute (kwsearch.c:128)
-+     by 0x404E2E: grepbuf (grep.c:1238)
-+     by 0x4054BF: grep (grep.c:1417)
-+     by 0x405CEB: grepdesc (grep.c:1645)
-+     by 0x405EC1: grep_command_line_arg (grep.c:1692)
-+     by 0x4077D4: main (grep.c:2570)
-+
-+See the accompanying test for how to trigger the heap buffer overrun.
-+
-+Thanks to Nima Aghdaii for testing and finding numerous
-+ways to break early iterations of this patch.
-+
-+Fixes CVE-2015-1345.
-+Upstream-Status: Backport
-+
-+---
-+diff --git a/NEWS b/NEWS
-+index 975440d..3835d8d 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -2,6 +2,11 @@ GNU grep NEWS                                    -*- outline -*-
-+ 
-+ * Noteworthy changes in release ?.? (????-??-??) [?]
-+ 
-++** Bug fixes
-++
-++  grep no longer reads from uninitialized memory or from beyond the end
-++  of the heap-allocated input buffer.
-++
-+ 
-+ * Noteworthy changes in release 2.21 (2014-11-23) [stable]
-+ 
-+diff --git a/src/kwset.c b/src/kwset.c
-+index 4003c8d..376f7c3 100644
-+--- a/src/kwset.c
-++++ b/src/kwset.c
-+@@ -643,6 +643,8 @@ bmexec_trans (kwset_t kwset, char const *text, size_t size)
-+                     if (! tp)
-+                       return -1;
-+                     tp++;
-++                    if (ep <= tp)
-++                      break;
-+                   }
-+               }
-+           }
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index 2cba2cd..0508cd2 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -75,6 +75,7 @@ TESTS =						\
-+   inconsistent-range				\
-+   invalid-multibyte-infloop			\
-+   khadafy					\
-++  kwset-abuse					\
-+   long-line-vs-2GiB-read			\
-+   match-lines					\
-+   max-count-overread				\
-+diff --git a/tests/kwset-abuse b/tests/kwset-abuse
-+new file mode 100755
-+index 0000000..6d8ec0c
-+--- a/dev/null
-++++ b/tests/kwset-abuse
-+@@ -0,0 +1,32 @@
-++#! /bin/sh
-++# Evoke a segfault in a hard-to-reach code path of kwset.c.
-++# This bug affected grep versions 2.19 through 2.21.
-++#
-++# Copyright (C) 2015 Free Software Foundation, Inc.
-++#
-++# This program is free software: you can redistribute it and/or modify
-++# it under the terms of the GNU General Public License as published by
-++# the Free Software Foundation, either version 3 of the License, or
-++# (at your option) any later version.
-++
-++# This program is distributed in the hope that it will be useful,
-++# but WITHOUT ANY WARRANTY; without even the implied warranty of
-++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-++# GNU General Public License for more details.
-++
-++# You should have received a copy of the GNU General Public License
-++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-++
-++. "${srcdir=.}/init.sh"; path_prepend_ ../src
-++
-++fail=0
-++
-++# This test case chooses a haystack of size 260,000, since prodding
-++# with gdb showed a reallocation slightly larger than that in fillbuf.
-++# To reach the buggy code, the needle must have length < 1/11 that of
-++# the haystack, and 10,000 is a nice round number that fits the bill.
-++printf '%0260000dXy\n' 0 | grep -F $(printf %010000dy 0)
-++
-++test $? = 1 || fail=1
-++
-++Exit $fail
-+--
-+cgit v0.9.0.2
-diff --git a/meta/recipes-extended/grep/grep_2.19.bb b/meta/recipes-extended/grep/grep_2.19.bb
-index 9c162cc..d60ce5e 100644
---- a/meta/recipes-extended/grep/grep_2.19.bb
-+++ b/meta/recipes-extended/grep/grep_2.19.bb
-@@ -5,7 +5,9 @@ SECTION = "console/utils"
- LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8006d9c814277c1bfc4ca22af94b59ee"
- 
--SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz"
-+SRC_URI = "${GNU_MIRROR}/grep/grep-${PV}.tar.xz \
-+           file://grep2.19-CVE-2015-1345.patch \
-+           "
- 
- SRC_URI[md5sum] = "ac732142227d9fe9567d71301e127979"
- SRC_URI[sha256sum] = "6388295be48cfcaf7665d9cd3914e6625ea000e9414132bfefd45cf1d8eec34d"
--- 
-1.9.1
+Ross
 
+--001a11354852b80971051fdec487
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 September 2015 at 15:12, Robert Yang <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,2=
+04);border-left-style:solid;padding-left:1ex"><div id=3D":pi" class=3D"" st=
+yle=3D"overflow:hidden">-SRC_URI =3D &quot;${APACHE_MIRROR}/${BPN}/${BPN}-$=
+{PV}.tar.bz2 \<br>
++SRC_URI =3D &quot;<a href=3D"http://archive.apache.org/dist/$%7BBPN%7D/$%7=
+BBP%7D.tar.bz2" rel=3D"noreferrer" target=3D"_blank">http://archive.apache.=
+org/dist/${BPN}/${BP}.tar.bz2</a> \</div></blockquote></div><br>Looking at=
+=C2=A0<a href=3D"http://www.apache.org/dist/apr/">http://www.apache.org/dis=
+t/apr/</a> ($APACHE_MIRROR/apr) it appears that this latest-release-only ap=
+plies to every project they release, so we should change APACHE_MIRROR inst=
+ead of just the subversion recipe.</div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a11354852b80971051fdec487--
