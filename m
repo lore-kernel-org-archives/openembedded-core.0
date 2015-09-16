@@ -1,16 +1,38 @@
-Return-Path: <joshua.lock@collabora.co.uk>
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [93.93.135.160])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CA4773243
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
+	[209.85.220.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B82C60053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 08:34:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	(Authenticated sender: joshuagl) with ESMTPSA id CC5883C88766
-From: Joshua Lock <joshua.lock@collabora.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Sep 2015 09:34:27 +0100
-Message-Id: <cover.1442390752.git.joshua.lock@collabora.co.uk>
-X-Mailer: git-send-email 2.4.3
-Subject: [PATCH 00/14] Proposed Fido changes
+	Wed, 16 Sep 2015 08:58:05 +0000 (UTC)
+Received: by qkdw123 with SMTP id w123so83369044qkd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Sep 2015 01:58:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=r2YLNceQNhaxphi6rlMjSikQyRoOkz67x12f16LE8vs=;
+	b=F/psC9KC8WuXUxPcflvOnyrTBlnUp92hJ33oanDjNmBZDiNQ4WV+naEZbQLJxWS1Cx
+	goK+UIn/aDXZXbP6FM7TUIAbctYUAs1IzIdiJlOP9oEp8nvI6UMMrT28Y9UGocZIXUNi
+	APIrZH2On+Tlfu6iFh+mWuQ/nfKkM8g1UVEriFeqU4LRdKqJnPOsiCY6qw4EkvZNvJJz
+	iNbnMKqTcXfODdMMBYAXq6xJZncMEhxo5f6xkLKAueyYA7WZyOcGYiQ/i7cjc6PhaMkO
+	YrjL7eqTEeaX7Fh78m9qBkoWBjD8MnQZSeswPXsI/paMnPOqVuRXoFE7VGRT8XY9ZI7w
+	m/9g==
+X-Gm-Message-State: ALoCoQnF2XTcAsMQBjwT0oQLZmd/3zjJBj4UlKNg8AarrNN+RqcVGbImqY6w5jEZs/ZKybVMiWNH
+X-Received: by 10.55.195.86 with SMTP id a83mr39109809qkj.72.1442393885763;
+	Wed, 16 Sep 2015 01:58:05 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Wed, 16 Sep 2015 01:57:46 -0700 (PDT)
+In-Reply-To: <55F91EEA.8040005@windriver.com>
+References: <20150910160557.GD2387@jama>
+	<1442294991-12427-1-git-send-email-Martin.Jansa@gmail.com>
+	<55F7B25B.6030801@windriver.com> <55F91EEA.8040005@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 16 Sep 2015 09:57:46 +0100
+Message-ID: <CAJTo0LYNyBdzb64QZHYobCdKUm-w1wAK4M3bn7CvCFmxR_ak4w@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][master][fido][dizzy] Revert "perf: fix for rebuilding"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -23,92 +45,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 08:34:35 -0000
+X-List-Received-Date: Wed, 16 Sep 2015 08:58:06 -0000
+Content-Type: multipart/alternative; boundary=001a1142b95030072f051fd97f22
 
-Please consider the following changes for the fido branch.
+--001a1142b95030072f051fd97f22
+Content-Type: text/plain; charset=UTF-8
 
-The branch has successfully passed an autobuilder run:
+On 16 September 2015 at 08:48, Robert Yang <liezhi.yang@windriver.com>
+wrote:
 
-https://autobuilder.yoctoproject.org/main/builders/nightly/builds/547
+> I've figured out the reason, this is because the task's default cwd
+> is ${B}, the easier way to fix the problem is use mkdir -p rather than
+> mkdir, autotools.bbclass also has this problem, but I'd like to fix
+> exec_func, I will send a patch to bitbake-devel after more testing.
+>
 
-The following changes since commit 5a1839ecc9a2191252019ddd5c253098006f5bc3:
+Changing the default $B of [dirs] is not something we'll be doing post-M3.
+I've a branch that changes that default and have fixed all the obvious
+breakage in oe-core already so this is something on my plan for immediately
+after 2.1 branches off.
 
-  tzdata: update to 2015d (2015-09-01 21:41:24 +0100)
+Ross
 
-are available in the git repository at:
+--001a1142b95030072f051fd97f22
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-  git://git.openembedded.org/openembedded-core-contrib joshuagl/fido-next
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=joshuagl/fido-next
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 16 September 2015 at 08:48, Robert Yang <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":14n=
+" class=3D"a3s" style=3D"overflow:hidden">I&#39;ve figured out the reason, =
+this is because the task&#39;s default cwd<br>
+is ${B}, the easier way to fix the problem is use mkdir -p rather than<br>
+mkdir, autotools.bbclass also has this problem, but I&#39;d like to fix<br>
+exec_func, I will send a patch to bitbake-devel after more testing.</div></=
+blockquote></div><br>Changing the default $B of [dirs] is not something we&=
+#39;ll be doing post-M3. I&#39;ve a branch that changes that default and ha=
+ve fixed all the obvious breakage in oe-core already so this is something o=
+n my plan for immediately after 2.1 branches off.</div><div class=3D"gmail_=
+extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
 
-Alejandro Hernandez (1):
-  qemurunner: Improves checking for server and target IPs on qemus
-    parameters
-
-Armin Kuster (2):
-  bind: CVE-2015-1349 CVE-2015-4620 CVE-2015-5722
-  openssh: CVE-2015-6563 CVE-2015-6564 CVE-2015-6565
-
-George McCollister (1):
-  wic: fix path parsing, use last occurrence
-
-Li Zhou (1):
-  libunwind: Security Advisory - libunwind - CVE-2015-3239
-
-Martin Jansa (3):
-  rootfs.py: Allow to override postinst-intercepts location
-  postinst_intercept: allow to pass variables with spaces
-  rootfs.py: show intercept script output in log.do_rootfs
-
-Paul Eggleton (1):
-  oeqa/utils/qemurunner: fix logging
-
-Richard Purdie (1):
-  runqemu: Handle device names like tapX@NONE
-
-Ross Burton (1):
-  oeqa/QemuRunner: don't use bb for logging
-
-Saul Wold (1):
-  oprofileui: Use inherit gettext
-
-Sona Sarmadi (2):
-  gnutls: CVE-2015-3308
-  libtasn1: CVE-2015-3622
-
- meta/lib/oe/rootfs.py                              |   8 +-
- meta/lib/oeqa/utils/qemurunner.py                  |  73 +--
- .../bind/bind/CVE-2015-1349.patch                  |  60 +++
- .../bind/bind/CVE-2015-4620.patch                  |  36 ++
- .../bind/bind/CVE-2015-5722.patch                  | 490 +++++++++++++++++++++
- meta/recipes-connectivity/bind/bind_9.9.5.bb       |   3 +
- .../openssh/openssh/CVE-2015-6563.patch            |  36 ++
- .../openssh/openssh/CVE-2015-6564.patch            |  34 ++
- .../openssh/openssh/CVE-2015-6565.patch            |  35 ++
- meta/recipes-connectivity/openssh/openssh_6.7p1.bb |   6 +-
- meta/recipes-kernel/oprofile/oprofileui.inc        |   2 +-
- .../better-fix-for-double-free-CVE-2015-3308.patch |  65 +++
- .../eliminated-double-free-CVE-2015-3308.patch     |  33 ++
- meta/recipes-support/gnutls/gnutls_3.3.12.bb       |   2 +
- .../gnutls/libtasn1/libtasn1-CVE-2015-3622.patch   |  44 ++
- meta/recipes-support/gnutls/libtasn1_4.0.bb        |   1 +
- ...rf-opcodes-can-cause-references-beyond-th.patch |  29 ++
- meta/recipes-support/libunwind/libunwind_1.1.bb    |   1 +
- scripts/lib/wic/plugin.py                          |   2 +-
- scripts/postinst-intercepts/postinst_intercept     |   2 +-
- scripts/runqemu-internal                           |   2 +-
- 21 files changed, 922 insertions(+), 42 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-1349.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-4620.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2015-5722.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6563.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6564.patch
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2015-6565.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/better-fix-for-double-free-CVE-2015-3308.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/eliminated-double-free-CVE-2015-3308.patch
- create mode 100644 meta/recipes-support/gnutls/libtasn1/libtasn1-CVE-2015-3622.patch
- create mode 100644 meta/recipes-support/libunwind/libunwind-1.1/0001-Invalid-dwarf-opcodes-can-cause-references-beyond-th.patch
-
--- 
-2.4.3
-
-
+--001a1142b95030072f051fd97f22--
