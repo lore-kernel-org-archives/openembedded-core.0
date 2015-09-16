@@ -1,37 +1,29 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qk0-f174.google.com (mail-qk0-f174.google.com
-	[209.85.220.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 7175760053
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EC51860053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 13:17:00 +0000 (UTC)
-Received: by qkap81 with SMTP id p81so86111227qka.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 06:17:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=15F0CR9rW6EZYOjw3XflVYJmdmWZdAT3YJ+YdmOebPM=;
-	b=fO6JO85MhMsr+PDklzOxdUZ9SNWRs8N0NxijIS+VFaHRmssVpWcXtCbQinqfGyH+TP
-	33T1eg2dJMQbf/O1mOe/zzCeoKCvag6dU7r9XdD7Dxl+cIMt61BU/qyaPgRL4F6r6qPW
-	fAZcG/ZUf6E1hs8GVpyHqRYd70zbMDBOQV0cHJSTVKpu0IWsiXrsZJ5zp9nSKzcm5kVP
-	e5DPuYBlgxaiZEqIRD60/5VsLU3EnVAQ7W87o1+ea2ds4kWnSHjrZdBHcfhLK9Ax4NMa
-	qVCnIzPaho+ZCXmXEJZX/l6xSrA3lSVYUEybBotr4SbxOgBbrMo1wv7dgwkw6mKy09zq
-	yLZg==
-X-Gm-Message-State: ALoCoQkycKuTR0UaoSEam6G4C82N4REzTNmkNR30L4lv6tQF8i8KTKiWIggz2bG1uSOKDCr4w3La
-X-Received: by 10.55.221.199 with SMTP id u68mr40809879qku.83.1442409421121;
-	Wed, 16 Sep 2015 06:17:01 -0700 (PDT)
+	Wed, 16 Sep 2015 13:56:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8GDuhBu018418
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Sep 2015 06:56:43 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Wed, 16 Sep 2015 06:56:43 -0700
+Message-ID: <55F97519.5000600@windriver.com>
+Date: Wed, 16 Sep 2015 21:56:41 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Wed, 16 Sep 2015 06:16:41 -0700 (PDT)
-In-Reply-To: <8bf3ec997007d1d921f4dce21f55612da0dce585.1442389930.git.liezhi.yang@windriver.com>
-References: <cover.1442389930.git.liezhi.yang@windriver.com>
-	<8bf3ec997007d1d921f4dce21f55612da0dce585.1442389930.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 16 Sep 2015 14:16:41 +0100
-Message-ID: <CAJTo0LbZTObHC+Urrc=3_EXWVaJb-_JeMnxO+=cRXsZySzM4PA@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] subversion: 1.8.13 -> 1.8.14 since 1.8.13.tar.gz was gone
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1442370259.git.liezhi.yang@windriver.com>	
+	<6f49ee1c3fac0a39d8976d7c74000ad507031516.1442370259.git.liezhi.yang@windriver.com>
+	<1442407090.26666.64.camel@linuxfoundation.org>
+In-Reply-To: <1442407090.26666.64.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] insane.bbclass: fix package_qa_check_buildpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,45 +36,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 13:17:06 -0000
-Content-Type: multipart/alternative; boundary=001a114997582ae2d7051fdd1d05
+X-List-Received-Date: Wed, 16 Sep 2015 13:56:46 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a114997582ae2d7051fdd1d05
-Content-Type: text/plain; charset=UTF-8
+On 09/16/2015 08:38 PM, Richard Purdie wrote:
+> On Tue, 2015-09-15 at 19:28 -0700, Robert Yang wrote:
+>> * Ignore elf files because they usually contain build path:
+>>    - The path of the source file such as .c, these are usually happen
+>>      when separate B and S since we use absolute path to run configure
+>>      script, and then VPATH in Makefile will be an absolute path and
+>>      contains build path, we can use relative path in autotools.bbclass
+>>      to fix the problem, but we don't have to since they are harmless.
+>>    - The configure options such as "configure --with-libtool-sysroot"
+>>    - The compile options such as "gcc --sysroot"
+>>    These are harmless usually, so ignore elf files.
+>
+> I'm not sure about this. Yes, elf files have large issues in the debug
+> symbols but the main elf files really shouldn't have build paths in
+> them. I understand they can creep in through a variety of sources
+> including B!=S but we should really be identifying them and fixing them,
+> not pretending they don't exist. The whole point of this check
+> originally was to get to the bottom of this!
 
-On 16 September 2015 at 08:52, Robert Yang <liezhi.yang@windriver.com>
-wrote:
+Thanks, the fix will change a lot to the build behaviour, I'd like to fix
+them in 2.1.
 
-> The subversion-1.8.13.tar.bz2 is gone from ftp, so upgrade to 1.8.14.
+// Robert
+
+>
+>> * Ignore "-dbg" and "-staticdev" package since symbols and .a files
+>>    usually contain buildpath.
+>
+> Ideally, we should be fixing the debug code so its using target paths
+> rather than build ones too...
+>
+> Cheers,
+>
+> Richard
+>
+>> * Ignore .a files too since they contain buildpath, this mainly for
+>>    ignoring:
+>>    glibc-2.21: glibc-dev/usr/lib/libc_nonshared.a
+>>    libgcc-4.9.3: libgcc-dev/usr/lib/x86_64-poky-linux/4.9.3/libgcc_eh.a
+>>    gcc-runtime-4.9.3: libssp-dev/usr/lib/libssp_nonshared.a
+>>
+>> * Use full path rather than package_qa_clean_path() when report issue,
+>>    this makes it easier to find the file and fix the problem.
+>>
+>> Then we will verify other warings and fix one be one.
+>
+>
+>
 >
 
-The FTP server only contains the latest release for each release series so
-if they release a 1.8.15 the day after we ship Jethro we'd need to upgrade
-subversion again.
-
-The subversion archive is at http://archive.apache.org/dist/subversion/ and
-includes all historical releases.  The recipe should use this URL instead.
-
-Ross
-
---001a114997582ae2d7051fdd1d05
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 16 September 2015 at 08:52, Robert Yang <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,2=
-04);border-left-style:solid;padding-left:1ex"><div id=3D":1jn" class=3D"" s=
-tyle=3D"overflow:hidden">The subversion-1.8.13.tar.bz2 is gone from ftp, so=
- upgrade to 1.8.14.<br></div></blockquote></div><div class=3D"gmail_extra">=
-<br></div>The FTP server only contains the latest release for each release =
-series so if they release a 1.8.15 the day after we ship Jethro we&#39;d ne=
-ed to upgrade subversion again.</div><div class=3D"gmail_extra"><br>The sub=
-version archive is at=C2=A0<a href=3D"http://archive.apache.org/dist/subver=
-sion/">http://archive.apache.org/dist/subversion/</a> and includes all hist=
-orical releases.=C2=A0 The recipe should use this URL instead.</div><div cl=
-ass=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</div></div>
-
---001a114997582ae2d7051fdd1d05--
