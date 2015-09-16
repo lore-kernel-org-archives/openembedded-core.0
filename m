@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1694C76E04
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5673176DEB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 02:28:48 +0000 (UTC)
+	Wed, 16 Sep 2015 02:28:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2Smuj007219
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2SoLt002044
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 19:28:48 -0700 (PDT)
+	Tue, 15 Sep 2015 19:28:50 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 15 Sep 2015 19:28:48 -0700
+	Tue, 15 Sep 2015 19:28:49 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Sep 2015 19:28:44 -0700
-Message-ID: <cover.1442370259.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Sep 2015 19:28:47 -0700
+Message-ID: <6f49ee1c3fac0a39d8976d7c74000ad507031516.1442370259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1442370259.git.liezhi.yang@windriver.com>
+References: <cover.1442370259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] meta: resend patches
+Subject: [PATCH 3/4] insane.bbclass: fix package_qa_check_buildpaths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,42 +36,65 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 16 Sep 2015 02:28:51 -0000
 Content-Type: text/plain
 
-Hi RP and Ross,
+* Ignore elf files because they usually contain build path:
+  - The path of the source file such as .c, these are usually happen
+    when separate B and S since we use absolute path to run configure
+    script, and then VPATH in Makefile will be an absolute path and
+    contains build path, we can use relative path in autotools.bbclass
+    to fix the problem, but we don't have to since they are harmless.
+  - The configure options such as "configure --with-libtool-sysroot"
+  - The compile options such as "gcc --sysroot"
+  These are harmless usually, so ignore elf files.
 
-I had sent these patches before, but didn't get any feedback, now send
-again, would you please take a look at them ?
+* Ignore "-dbg" and "-staticdev" package since symbols and .a files
+  usually contain buildpath.
 
-The following two patches would make oe-core can do world build well
-without x11 in DISTRO_FEATURES:
-gtk+/cairo: enable x11 or directfb
-libsdl: depends on libglu when both x11 and opengl
+* Ignore .a files too since they contain buildpath, this mainly for
+  ignoring:
+  glibc-2.21: glibc-dev/usr/lib/libc_nonshared.a
+  libgcc-4.9.3: libgcc-dev/usr/lib/x86_64-poky-linux/4.9.3/libgcc_eh.a
+  gcc-runtime-4.9.3: libssp-dev/usr/lib/libssp_nonshared.a
 
-And the patches for insane.bbclass will make package_qa_check_buildpaths
-actually useful.
+* Use full path rather than package_qa_clean_path() when report issue,
+  this makes it easier to find the file and fix the problem.
 
-// Robert
+Then we will verify other warings and fix one be one.
 
-The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ meta/classes/insane.bbclass |   12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-  qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/resend
-  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/resend
-
-Robert Yang (4):
-  gtk+/cairo: enable x11 or directfb
-  libsdl: depends on libglu when both x11 and opengl
-  insane.bbclass: fix package_qa_check_buildpaths
-  insane.bbclass: make package_qa_clean_path return a relative path
-
- meta/classes/insane.bbclass                   |   14 ++++++++++----
- meta/recipes-gnome/gtk+/gtk+.inc              |    5 ++---
- meta/recipes-graphics/cairo/cairo.inc         |    8 ++++++--
- meta/recipes-graphics/libsdl/libsdl_1.2.15.bb |    3 ++-
- 4 files changed, 20 insertions(+), 10 deletions(-)
-
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 5c8629a..943ada8 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -571,8 +571,14 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     """
+     Check for build paths inside target files and error if not found in the whitelist
+     """
+-    # Ignore .debug files, not interesting
+-    if path.find(".debug") != -1:
++
++    # Ignore staticdev and debug files since symbols and .a usually
++    # contain buildpath.
++    if name.endswith("-dbg") or name.endswith("-staticdev"):
++        return
++
++    # Ignore elf and .a files
++    if elf or path.endswith('.a'):
+         return
+ 
+     # Ignore symlinks
+@@ -583,7 +589,7 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
+     with open(path) as f:
+         file_content = f.read()
+         if tmpdir in file_content:
+-            messages["buildpaths"] = "File %s in package contained reference to tmpdir" % package_qa_clean_path(path,d)
++            messages["buildpaths"] = "File %s in package contained reference to tmpdir" % path
+ 
+ 
+ QAPATHTEST[xorg-driver-abi] = "package_qa_check_xorg_driver_abi"
 -- 
 1.7.9.5
 
