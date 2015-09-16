@@ -1,31 +1,29 @@
-Return-Path: <denis@denix.org>
-Received: from vms173021pub.verizon.net (vms173021pub.verizon.net
-	[206.46.173.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 2918B75F3A
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FB5660053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 14:09:08 +0000 (UTC)
-Received: from gandalf.denix.org ([108.51.169.48]) by vms173021.mailsrvcs.net
-	(Oracle Communications Messaging Server 7.0.5.32.0 64bit (built Jul
-	16 2014))
-	with ESMTPSA id <0NUR00GUYWMJB680@vms173021.mailsrvcs.net> for
-	openembedded-core@lists.openembedded.org;
-	Wed, 16 Sep 2015 09:08:48 -0500 (CDT)
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.1 cv=WpDWSorv c=1 sm=1 tr=0	a=x3PDphkivVtATbYodTxRAw==:117
-	a=0gcC27t9AAAA:8 a=oR5dmqMzAAAA:8	a=kj9zAlcOel0A:10 a=ff-B7xzCdYMA:10
-	a=sozttTNsAAAA:8 a=Q4-j1AaZAAAA:8	a=AVGh8H5I1iu6DgjCIxIA:9
-	a=CjuIK1q_8ugA:10
-Received: by gandalf.denix.org (Postfix, from userid 1000)	id 5144E161C3D; Wed,
-	16 Sep 2015 10:08:43 -0400 (EDT)
-Date: Wed, 16 Sep 2015 10:08:43 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Message-id: <20150916140843.GN8323@denix.org>
-References: <1441836319-20706-1-git-send-email-denis@denix.org>
-MIME-version: 1.0
-In-reply-to: <1441836319-20706-1-git-send-email-denis@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Subject: Re: [PATCH] cryptodev-tests: don't use STAGING_KERNEL_DIR, fix re-packaging in multi-machine builds
+	Wed, 16 Sep 2015 14:12:47 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8GEClXU022610
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Sep 2015 07:12:47 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Wed, 16 Sep 2015 07:12:46 -0700
+Message-ID: <55F978DD.9060007@windriver.com>
+Date: Wed, 16 Sep 2015 22:12:45 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+MIME-Version: 1.0
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1442389930.git.liezhi.yang@windriver.com>
+	<8bf3ec997007d1d921f4dce21f55612da0dce585.1442389930.git.liezhi.yang@windriver.com>
+	<CAJTo0LbZTObHC+Urrc=3_EXWVaJb-_JeMnxO+=cRXsZySzM4PA@mail.gmail.com>
+In-Reply-To: <CAJTo0LbZTObHC+Urrc=3_EXWVaJb-_JeMnxO+=cRXsZySzM4PA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] subversion: 1.8.13 -> 1.8.14 since 1.8.13.tar.gz was gone
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,39 +36,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 14:09:09 -0000
-Content-type: text/plain; charset=us-ascii
-Content-disposition: inline
+X-List-Received-Date: Wed, 16 Sep 2015 14:12:49 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Ping. Any comments?
 
-On Wed, Sep 09, 2015 at 06:05:19PM -0400, Denys Dmytriyenko wrote:
-> From: Denys Dmytriyenko <denys@ti.com>
-> 
-> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> ---
->  meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
-> index efc41ae..be59a4a 100644
-> --- a/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
-> +++ b/meta/recipes-kernel/cryptodev/cryptodev-tests_1.6.bb
-> @@ -9,7 +9,7 @@ file://0001-Add-the-compile-and-install-rules-for-cryptodev-test.patch \
->  file://0002-Fix-tests-Makefile-usage-of-LDLIBS-vs.-LDFLAGS.patch \
->  "
->  
-> -EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
-> +EXTRA_OEMAKE='KERNEL_DIR="${STAGING_EXECPREFIXDIR}" PREFIX="${D}"'
->  
->  do_compile() {
->  	oe_runmake testprogs
-> -- 
-> 2.2.0
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+On 09/16/2015 09:16 PM, Burton, Ross wrote:
+>
+> On 16 September 2015 at 08:52, Robert Yang <liezhi.yang@windriver.com
+> <mailto:liezhi.yang@windriver.com>> wrote:
+>
+>     The subversion-1.8.13.tar.bz2 is gone from ftp, so upgrade to 1.8.14.
+>
+>
+> The FTP server only contains the latest release for each release series so if
+> they release a 1.8.15 the day after we ship Jethro we'd need to upgrade
+> subversion again.
+>
+> The subversion archive is at http://archive.apache.org/dist/subversion/ and
+> includes all historical releases.  The recipe should use this URL instead.
+
+Thanks, I updated it in the repo:
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/3fixes
+
+commit 967c17d861ce2b9835e3ab12d5b172b059291dd7
+Author: Robert Yang <liezhi.yang@windriver.com>
+Date:   Wed Sep 16 07:05:47 2015 -0700
+
+     subversion: fix SRC_URI
+
+     Fixed:
+     WARNING: Failed to fetch URL 
+http://www.apache.org/dist/subversion/subversion-1.8.13.tar.bz2, attempting 
+MIRRORS if available
+
+     Ross:
+     The FTP server only contains the latest release for each release series,
+     the subversion archive is at http://archive.apache.org/dist/subversion/
+     and includes all historical releases. The recipe should use this URL
+     instead.
+
+     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+
+diff --git a/meta/recipes-devtools/subversion/subversion_1.8.13.bb 
+b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+index f843b95..eb1f0f2 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.8.13.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.8.13.bb
+@@ -9,7 +9,7 @@ BBCLASSEXTEND = "native"
+
+  inherit gettext pythonnative
+
+-SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
++SRC_URI = "http://archive.apache.org/dist/${BPN}/${BP}.tar.bz2 \
+             file://libtool2.patch \
+             file://disable_macos.patch \
+             file://serf.m4-Regex-modified-to-allow-D-in-paths.patch \
+
+// Robert
+
+>
+> Ross
 
