@@ -1,30 +1,59 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 31ED960053
+Return-Path: <zhenhua.luo@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0142.outbound.protection.outlook.com [157.56.111.142])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CB5F73CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 09:07:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G97FAg019734
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 16 Sep 2015 02:07:15 -0700 (PDT)
-Received: from [128.224.162.200] (128.224.162.200) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 16 Sep 2015 02:07:15 -0700
-Message-ID: <55F93141.9080608@windriver.com>
-Date: Wed, 16 Sep 2015 17:07:13 +0800
-From: Robert Yang <liezhi.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Wed, 16 Sep 2015 09:58:07 +0000 (UTC)
+Received: from BN3PR03MB1367.namprd03.prod.outlook.com (10.163.34.153) by
+	BN3PR03MB1367.namprd03.prod.outlook.com (10.163.34.153) with Microsoft
+	SMTP Server (TLS) id 15.1.268.17; Wed, 16 Sep 2015 09:42:45 +0000
+Received: from BN3PR03MB1367.namprd03.prod.outlook.com ([10.163.34.153]) by
+	BN3PR03MB1367.namprd03.prod.outlook.com ([10.163.34.153]) with mapi id
+	15.01.0268.017; Wed, 16 Sep 2015 09:42:45 +0000
+From: Luo Zhenhua <zhenhua.luo@freescale.com>
+To: Mark Hatle <mark.hatle@windriver.com>, OE-core
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Multilib build support by single toolchain generated
+	by Yocto
+Thread-Index: AdDvj7VaW+Zc6g3xT9+Ccwbs2v0F5AAJ1oKAACsKLLA=
+Date: Wed, 16 Sep 2015 09:42:44 +0000
+Message-ID: <BN3PR03MB1367DBA1F9AC876D42A7EF6AE45B0@BN3PR03MB1367.namprd03.prod.outlook.com>
+References: <BN3PR03MB1367C0B9D89AD811CC625D7CE45C0@BN3PR03MB1367.namprd03.prod.outlook.com>
+	<55F8175F.6050709@windriver.com>
+In-Reply-To: <55F8175F.6050709@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=zhenhua.luo@freescale.com; 
+x-originating-ip: [199.59.230.102]
+x-microsoft-exchange-diagnostics: 1; BN3PR03MB1367;
+	5:SsR+lyYb1oJHRDC1bF16H/KQ5Enx9s7684I75zJWtHogv5DJZ2EZ7Lx4ml4pY7Fa/f4LFTOx/D9wAYktAqqopGS7V2ezXW+2gAlBxyBY4mEyRWimx2ZwadNsLleDLG9VNbT8VMI9yGlVtbBXGpU9mw==;
+	24:WWblI5zxp1qLLtbYQCPVxDJjQYYR4vq1tZE/02eDjQkJVJ95KvzKl4U3zGjmD4S612/RWLbEk5bOeMcx/R/mA9ZtR/2c5mcZwp/7o3m5268=;
+	20:AVy2LF+VaSPUNhfloOomzmBd2CPK6jqm2CD0BTOgvphj2n2KAFQaHJVo8r2Waj8wzZkX6jIjc02s0cEo4xpshw==
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR03MB1367;
+x-microsoft-antispam-prvs: <BN3PR03MB1367CC059E157A009A6D9605E45B0@BN3PR03MB1367.namprd03.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(520075)(5005006)(8121501046)(520078)(520058)(3002001);
+	SRVR:BN3PR03MB1367; BCL:0; PCL:0; RULEID:; SRVR:BN3PR03MB1367; 
+x-forefront-prvs: 07013D7479
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(6009001)(199003)(189002)(377454003)(13464003)(479174004)(24454002)(19580395003)(2950100001)(5001960100002)(54356999)(76176999)(19580405001)(5001770100001)(97736004)(77156002)(4001540100001)(87936001)(5001830100001)(81156007)(10400500002)(5007970100001)(107886002)(5001860100001)(11100500001)(5004730100002)(101416001)(50986999)(122556002)(66066001)(40100003)(77096005)(5003600100002)(99286002)(189998001)(105586002)(102836002)(86362001)(46102003)(33656002)(64706001)(106356001)(68736005)(5002640100001)(2900100001)(76576001)(74316001)(62966003)(92566002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR03MB1367;
+	H:BN3PR03MB1367.namprd03.prod.outlook.com; FPR:; SPF:None;
+	PTR:InfoNoRecords; A:1; MX:1; LANG:en; 
+received-spf: None (protection.outlook.com: freescale.com does not designate
+	permitted sender hosts)
+spamdiagnosticoutput: 1:23
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20150910160557.GD2387@jama>
-	<1442294991-12427-1-git-send-email-Martin.Jansa@gmail.com>
-	<55F7B25B.6030801@windriver.com> <55F91EEA.8040005@windriver.com>
-	<CAJTo0LYNyBdzb64QZHYobCdKUm-w1wAK4M3bn7CvCFmxR_ak4w@mail.gmail.com>
-In-Reply-To: <CAJTo0LYNyBdzb64QZHYobCdKUm-w1wAK4M3bn7CvCFmxR_ak4w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][master][fido][dizzy] Revert "perf: fix for rebuilding"
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2015 09:42:44.9632 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR03MB1367
+Subject: Re: Multilib build support by single toolchain generated by Yocto
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,96 +66,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 09:07:21 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Sep 2015 09:58:10 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Mark,=20
+
+Thanks for your comments.=20
+
+> -----Original Message-----
+> From: Mark Hatle [mailto:mark.hatle@windriver.com]
+> Sent: Tuesday, September 15, 2015 9:05 PM
+>=20
+> On 9/15/15 3:23 AM, Luo Zhenhua wrote:
+> >
+> > Currently to support 32b and 64b build for same core in Yocto, two
+> > separated compilers need to be generated. Is there plan to support
+> > multilib build(32b and
+> > 64b) by single toolchain which is generated by Yocto in future?
+> >
+>=20
+> The requirements for multilib compilers depend on architecture, configura=
+tion
+> and GNU GCC limitations.  Some architects will work fine with a single co=
+mpiler,
+> others may require multiple compilers.
+[Luo Zhenhua-B19537] It is feasible to generate the single toolchain with m=
+ultilib support in Yocto, is the understanding right?=20
+	Do you mind to give more details of above comments for better understandin=
+g?=20
 
 
+Best Regards,
 
-On 09/16/2015 04:57 PM, Burton, Ross wrote:
->
-> On 16 September 2015 at 08:48, Robert Yang <liezhi.yang@windriver.com
-> <mailto:liezhi.yang@windriver.com>> wrote:
->
->     I've figured out the reason, this is because the task's default cwd
->     is ${B}, the easier way to fix the problem is use mkdir -p rather than
->     mkdir, autotools.bbclass also has this problem, but I'd like to fix
->     exec_func, I will send a patch to bitbake-devel after more testing.
->
->
-> Changing the default $B of [dirs] is not something we'll be doing post-M3. I've
-
-Thanks, so let's simply use "mkdir -p" to fix the problem, atm ?
-
-> a branch that changes that default and have fixed all the obvious breakage in
-> oe-core already so this is something on my plan for immediately after 2.1
-> branches off.
-
-I made 2 patches just now, one is for bitbake, and one for insane.bbclass,
-  maybe we are doing the similar things, I can drop them then.
-
-     build.py: default exec_func's cwd to WORKDIR
-
-     This can fix a few problems:
-     - The ${B} was nearly always created in the past after any tak runs, for
-       example, the ${B} exists after do_clean or do_cleansstate (first
-       removed, then created), but ${B} is useless and confused end user in
-       this case, the similar to a lot of prefuncs and postfuncs which also
-       create ${B}, but not used. This patch fixes the problem.
-
-     - This can fix race issue when we use the following commands in other
-       tasks:
-         rm -rf ${B}
-         mkdir ${B}
-       such as autotools.bbclass and perf.bb.
-
-     When the 'dirs' or 'cleandirs' is not specified by task, which means
-     that they are not important, so default to WORKDIR which is more common
-     and usually existed.
-
-     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-
-diff --git a/bitbake/lib/bb/build.py b/bitbake/lib/bb/build.py
-index 948c395..a413c35 100644
---- a/bitbake/lib/bb/build.py
-+++ b/bitbake/lib/bb/build.py
-@@ -182,8 +182,9 @@ def exec_func(func, d, dirs = None):
-              bb.utils.mkdirhier(adir)
-          adir = dirs[-1]
-      else:
--        adir = d.getVar('B', True)
--        bb.utils.mkdirhier(adir)
-+        adir = d.getVar('WORKDIR', True)
-+        if not os.path.exists(adir):
-+            bb.utils.mkdirhier(adir)
-
-      ispython = flags.get('python')
-
-===================
-
-     insane.bbclass: only do_qa_unpack warn when SRC_URI is not null
-
-     If SRC_URI is null, then no source is needed to be unpacked, thus no
-     warn.
-
-     Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 5c8629a..e22e8a0 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1214,7 +1214,7 @@ python do_qa_unpack() {
-      bb.note("Checking has ${S} been created")
-
-      s_dir = d.getVar('S', True)
--    if not os.path.exists(s_dir):
-+    if not os.path.exists(s_dir) and d.getVar('SRC_URI', True):
-          bb.warn('%s: the directory %s (%s) pointed to by the S variable 
-doesn\'t exist - please set S within the recipe to point to where the source has 
-been unpacked to' % (d.getVar('PN', T
-  }
-
-// Robert
->
-> Ross
+Zhenhua
 
