@@ -1,37 +1,21 @@
-Return-Path: <prvs=694d4cdb9=Mikko.Rapeli@bmw.de>
-Received: from esa3.bmw.c3s2.iphmx.com (esa3.bmw.c3s2.iphmx.com
-	[68.232.133.150])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D0CE60053
+Return-Path: <erkka.kaaria@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A9EA60053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 06:01:11 +0000 (UTC)
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
-	esa3.bmw.c3s2.iphmx.com with ESMTP/TLS; 16 Sep 2015 08:01:11 +0200
-Received: from unknown (HELO esabb4.muc) ([160.50.100.33]) by esagw5.muc with
-	ESMTP/TLS; 16 Sep 2015 08:01:11 +0200
-Received: from smuch52b.muc (HELO SMUCH52B.europe.bmw.corp) ([160.46.137.114])
-	by esabb4.muc with ESMTP/TLS; 16 Sep 2015 08:01:09 +0200
-Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
-	SMUCH52B.europe.bmw.corp ([160.46.137.114]) with mapi id 14.03.0248.002;
-	Wed, 16 Sep 2015 08:01:09 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH 02/12] hostap-utils: Use C99 stddefs in
-	defining local typedefs
-Thread-Index: AQHQ74B1azg272f4V0WUnPO2a1TLOJ49kZsAgAD25QA=
-Date: Wed, 16 Sep 2015 06:01:08 +0000
-Message-ID: <20150916055705.GX9460@loska>
-References: <cover.1442248108.git.raj.khem@gmail.com>
-	<2e8b33d5ff6928987dde0b059cd7403fc32a2e0b.1442248108.git.raj.khem@gmail.com>
-	<20150915062937.GN9460@loska>
-	<CAMKF1soOSzDNCTtCk-piCt0LHbrP6p6eZZCE6EuWaf5WHkK2BQ@mail.gmail.com>
-In-Reply-To: <CAMKF1soOSzDNCTtCk-piCt0LHbrP6p6eZZCE6EuWaf5WHkK2BQ@mail.gmail.com>
-Accept-Language: en-US, de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [192.168.44.101]
+	Wed, 16 Sep 2015 06:19:43 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP; 15 Sep 2015 23:19:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,537,1437462000"; d="scan'208";a="769998708"
+Received: from ekaaria-xps-8300.fi.intel.com ([10.237.68.35])
+	by orsmga001.jf.intel.com with ESMTP; 15 Sep 2015 23:19:42 -0700
+From: =?UTF-8?q?Erkka=20K=C3=A4=C3=A4ri=C3=A4?= <erkka.kaaria@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Sep 2015 09:18:50 +0300
+Message-Id: <1442384330-27947-1-git-send-email-erkka.kaaria@intel.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 02/12] hostap-utils: Use C99 stddefs in defining local typedefs
+Subject: [PATCH v2] python.inc: Remove --with-wctype-functions configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +28,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 06:01:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <27FFBA3AF147D544ADF0C7FEA9583382@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 16 Sep 2015 06:19:44 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, Sep 15, 2015 at 08:13:26AM -0700, Khem Raj wrote:
-> On Mon, Sep 14, 2015 at 11:33 PM,  <Mikko.Rapeli@bmw.de> wrote:
-> > On Mon, Sep 14, 2015 at 04:31:17PM +0000, Khem Raj wrote:
-> >> The code is creating more abstract types which is nice however it shou=
-ld
-> >> be using standard defines from stdint.h and not random defines to base
-> >> its own type system
-> >
-> > These types are not random. They are standard Linux kernel types used b=
-y headers
-> > exported to userspace and their definitions come from <linux/types.h>.
-> > These headers should not depend on libc headers like stdint.h.
->=20
-> Right they are not random in general but they are randomly being
-> redefined by the application,
-> if it should be using linux/types.h those are different types than
-> what is being defined here. I have just
-> made the semantics of existing logic to be more c99 compliant.
->=20
-> >
-> > Also, this file is actually a convenience copy of <linux/wireless.h> wh=
-ich should
-> > be used directly instead.
->=20
-> There must be a reason to make own copy. May be hostap-utils want to
-> be portable to more than linux
+VGhpcyBvcHRpb24gaXMgY2F1c2luZyBpc3N1ZXMgd2l0aCBweXRob24gdW5pY29kZSBzdXBwb3J0
+LiBTZXZlcmFsIHVuaWNvZGUgcmVsYXRlZCByZWdyZXNzaW9uIHRlc3RzIGFyZSBjdXJyZW50bHkg
+ZmFpbGluZyAodGVzdF9yZSBhbmQgdGVzdF9jb2RlY3MgZm9yIGV4YW1wbGUpIGFuZCByZW1vdmlu
+ZyB0aGlzIG9wdGlvbiBmaXhlcyB0aGVzZS4KClRoaXMgY29uZmlndXJlIG9wdGlvbiBtb3N0bHkg
+c2VlbXMgdG8gYmUgaGlzdG9yaWNhbC4gRGlzY3Vzc2lvbiByZWxhdGVkIHRvIHB5dGhvbiBpc3N1
+ZSA5MjEwIChodHRwczovL2J1Z3MucHl0aG9uLm9yZy9pc3N1ZTkyMTApIGluZGljYXRlcyBpdHMg
+b3JpZ2luYWwgZ29hbCB3YXMgdG8gc2F2ZSBtZW1vcnkgYW5kIHRoYXQgdGhlIG9wdGlvbiBzaG91
+bGQgaGF2ZSBiZWVuIGRlcHJlY2F0ZWQgYWdlcyBhZ28uCgpTaWduZWQtb2ZmLWJ5OiBFcmtrYSBL
+w6TDpHJpw6QgPGVya2thLmthYXJpYUBpbnRlbC5jb20+Ci0tLQogbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24uaW5jIHwgMSAtCiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigt
+KQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLmluYyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLmluYwppbmRleCBlMThhYjhlLi40
+ZDQyOGYzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi5p
+bmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24uaW5jCkBAIC0xNiw3
+ICsxNiw2IEBAIFBZVEhPTl9NQUpNSU4gPSAiMi43IgogCiBpbmhlcml0IGF1dG90b29scwogCi1Q
+WVRIT05MU0JPUFRTID0gIi0td2l0aC13Y3R5cGUtZnVuY3Rpb25zIgogUFlUSE9OTFNCT1BUU19s
+aW51eHN0ZGJhc2UgPSAiYWNfY3Zfc2l6ZW9mX29mZl90PTgiCiAKIEVYVFJBX09FQ09ORiA9ICJc
+Ci0tIAoyLjEuNAoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCkludGVsIEZpbmxhbmQgT3kKUmVnaXN0ZXJlZCBBZGRy
+ZXNzOiBQTCAyODEsIDAwMTgxIEhlbHNpbmtpIApCdXNpbmVzcyBJZGVudGl0eSBDb2RlOiAwMzU3
+NjA2IC0gNCAKRG9taWNpbGVkIGluIEhlbHNpbmtpIAoKVGhpcyBlLW1haWwgYW5kIGFueSBhdHRh
+Y2htZW50cyBtYXkgY29udGFpbiBjb25maWRlbnRpYWwgbWF0ZXJpYWwgZm9yCnRoZSBzb2xlIHVz
+ZSBvZiB0aGUgaW50ZW5kZWQgcmVjaXBpZW50KHMpLiBBbnkgcmV2aWV3IG9yIGRpc3RyaWJ1dGlv
+bgpieSBvdGhlcnMgaXMgc3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFyZSBub3QgdGhlIGlu
+dGVuZGVkCnJlY2lwaWVudCwgcGxlYXNlIGNvbnRhY3QgdGhlIHNlbmRlciBhbmQgZGVsZXRlIGFs
+bCBjb3BpZXMuCg==
 
-A private copy of <linux/wireless.h> is only usefull with Linux kernel. Sin=
-ce
-mid 2000's Linux kernel has a way to properly export these headers to
-userspace. Thus the private copies should not be needed anymore.
-
--Mikko=
 
