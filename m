@@ -1,39 +1,37 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pa0-f53.google.com (mail-pa0-f53.google.com
-	[209.85.220.53])
-	by mail.openembedded.org (Postfix) with ESMTP id B8F1760053
+Return-Path: <prvs=694d4cdb9=Mikko.Rapeli@bmw.de>
+Received: from esa3.bmw.c3s2.iphmx.com (esa3.bmw.c3s2.iphmx.com
+	[68.232.133.150])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D0CE60053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 05:00:20 +0000 (UTC)
-Received: by padhk3 with SMTP id hk3so197410813pad.3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 22:00:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=AInn/8t2Hqn2yenvuRpohOxkQ9zPvZsXle0joYQMgfE=;
-	b=RKUDUyhaG27RhX/helF3o5leUgFR6EeqwL2oK5Ih0/+xVteMgFYL7gxUH1WAQpSUTK
-	T21U48rErFxnk2D9H0XQatdiHoJSNN8SbvODyg8d2DDsEyIK953jLdqF54lzs7Hy45Wq
-	PSwA22U2r6C/yb9yOm/Odfm4sXdfh3Nm+d1RUtTPfxDU0KvqWPKSmXelwOnYJQ7I+Xt2
-	QpKRONXwdMQ07JvCJnry2u3LNHXMjs6Qa3fkf2llLl0Ty2gVgr/Blc6clKaaUqIQMi/C
-	G18bB2mcw3QV7scqyBYjHYmdM4ti4PttqwTHEPoFhQ3xU+qS+nn/Fg/dP36a4j49PEPj
-	Qspg==
-X-Gm-Message-State: ALoCoQm4RN7kTx+NyCrQcIgcZSpnbTwE8dKrFE0LpjOrqaJNIK/96sI33uZy6V8kEYu542ecRdoc
-X-Received: by 10.68.181.130 with SMTP id dw2mr54065680pbc.70.1442379620322;
-	Tue, 15 Sep 2015 22:00:20 -0700 (PDT)
-Received: from nathanbox.home.gateway ([103.26.61.212])
-	by smtp.gmail.com with ESMTPSA id
-	lg7sm25143220pbc.1.2015.09.15.22.00.17
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 15 Sep 2015 22:00:19 -0700 (PDT)
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Sep 2015 14:59:59 +1000
-Message-Id: <1442379599-27186-3-git-send-email-nathan@nathanrossi.com>
-X-Mailer: git-send-email 2.5.1
-In-Reply-To: <1442379599-27186-1-git-send-email-nathan@nathanrossi.com>
-References: <1442379599-27186-1-git-send-email-nathan@nathanrossi.com>
-Subject: [PATCH 2/2] runqemu-internal: For qemumicroblaze use the QEMU provided device tree
+	Wed, 16 Sep 2015 06:01:11 +0000 (UTC)
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+	esa3.bmw.c3s2.iphmx.com with ESMTP/TLS; 16 Sep 2015 08:01:11 +0200
+Received: from unknown (HELO esabb4.muc) ([160.50.100.33]) by esagw5.muc with
+	ESMTP/TLS; 16 Sep 2015 08:01:11 +0200
+Received: from smuch52b.muc (HELO SMUCH52B.europe.bmw.corp) ([160.46.137.114])
+	by esabb4.muc with ESMTP/TLS; 16 Sep 2015 08:01:09 +0200
+Received: from SMUCM65A.europe.bmw.corp ([160.46.134.155]) by
+	SMUCH52B.europe.bmw.corp ([160.46.137.114]) with mapi id 14.03.0248.002;
+	Wed, 16 Sep 2015 08:01:09 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH 02/12] hostap-utils: Use C99 stddefs in
+	defining local typedefs
+Thread-Index: AQHQ74B1azg272f4V0WUnPO2a1TLOJ49kZsAgAD25QA=
+Date: Wed, 16 Sep 2015 06:01:08 +0000
+Message-ID: <20150916055705.GX9460@loska>
+References: <cover.1442248108.git.raj.khem@gmail.com>
+	<2e8b33d5ff6928987dde0b059cd7403fc32a2e0b.1442248108.git.raj.khem@gmail.com>
+	<20150915062937.GN9460@loska>
+	<CAMKF1soOSzDNCTtCk-piCt0LHbrP6p6eZZCE6EuWaf5WHkK2BQ@mail.gmail.com>
+In-Reply-To: <CAMKF1soOSzDNCTtCk-piCt0LHbrP6p6eZZCE6EuWaf5WHkK2BQ@mail.gmail.com>
+Accept-Language: en-US, de-DE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [192.168.44.101]
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 02/12] hostap-utils: Use C99 stddefs in defining local typedefs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,40 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 05:00:22 -0000
+X-List-Received-Date: Wed, 16 Sep 2015 06:01:16 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <27FFBA3AF147D544ADF0C7FEA9583382@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Setup the qemumicroblaze machine to use the device tree provided by QEMU
-instead of the device tree located in the images directory. Additionally
-setup the default memory size to match the QEMU device tree.
+On Tue, Sep 15, 2015 at 08:13:26AM -0700, Khem Raj wrote:
+> On Mon, Sep 14, 2015 at 11:33 PM,  <Mikko.Rapeli@bmw.de> wrote:
+> > On Mon, Sep 14, 2015 at 04:31:17PM +0000, Khem Raj wrote:
+> >> The code is creating more abstract types which is nice however it shou=
+ld
+> >> be using standard defines from stdint.h and not random defines to base
+> >> its own type system
+> >
+> > These types are not random. They are standard Linux kernel types used b=
+y headers
+> > exported to userspace and their definitions come from <linux/types.h>.
+> > These headers should not depend on libc headers like stdint.h.
+>=20
+> Right they are not random in general but they are randomly being
+> redefined by the application,
+> if it should be using linux/types.h those are different types than
+> what is being defined here. I have just
+> made the semantics of existing logic to be more c99 compliant.
+>=20
+> >
+> > Also, this file is actually a convenience copy of <linux/wireless.h> wh=
+ich should
+> > be used directly instead.
+>=20
+> There must be a reason to make own copy. May be hostap-utils want to
+> be portable to more than linux
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
- scripts/runqemu-internal | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+A private copy of <linux/wireless.h> is only usefull with Linux kernel. Sin=
+ce
+mid 2000's Linux kernel has a way to properly export these headers to
+userspace. Thus the private copies should not be needed anymore.
 
-diff --git a/scripts/runqemu-internal b/scripts/runqemu-internal
-index 2d2a839..d6b1102 100755
---- a/scripts/runqemu-internal
-+++ b/scripts/runqemu-internal
-@@ -54,7 +54,7 @@ else
-             mem_size=512
-             ;;
-         "qemumicroblaze")
--            mem_size=64
-+            mem_size=256
-             ;;
-         "qemumips"|"qemumips64")
-             mem_size=256
-@@ -587,7 +587,7 @@ fi
- 
- if [ "$MACHINE" = "qemumicroblaze" ]; then
-     QEMU=qemu-system-microblazeel
--    QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M petalogix-ml605 -serial mon:stdio -dtb $KERNEL-$MACHINE.dtb"
-+    QEMU_SYSTEM_OPTIONS="$QEMU_NETWORK_CMD -M petalogix-ml605 -serial mon:stdio"
-     if [ "${FSTYPE:0:3}" = "ext" -o "${FSTYPE:0:4}" = "cpio" ]; then
-         KERNCMDLINE="earlyprintk root=/dev/ram rw $KERNEL_NETWORK_CMD mem=$QEMU_MEMORY"
-         QEMUOPTIONS="$QEMU_SYSTEM_OPTIONS -initrd $ROOTFS"
--- 
-2.5.1
-
+-Mikko=
 
