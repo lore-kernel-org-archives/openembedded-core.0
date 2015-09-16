@@ -1,25 +1,26 @@
-Return-Path: <leonardo.sandoval.gonzalez@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 1216E73D13
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BC9E67680D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 23:07:26 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 15 Sep 2015 16:07:27 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,537,1437462000"; d="scan'208";a="790179105"
-Received: from yctb05.ostc.intel.com (HELO yctb05.otcr.jf.intel.com)
-	([10.23.219.54])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Sep 2015 16:07:18 -0700
-From: leonardo.sandoval.gonzalez@linux.intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Sep 2015 14:59:40 +0000
-Message-Id: <bfec72e383e99ef94ded6164ae7a313853c5240e.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
-X-Mailer: git-send-email 1.8.4.5
-In-Reply-To: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
-In-Reply-To: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
-References: <cover.1442328203.git.leonardo.sandoval.gonzalez@linux.intel.com>
-Subject: [PATCH 3/3] prserv/db: Use DELETE instead of WAL journal mode
+	Wed, 16 Sep 2015 02:04:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G24GBR028058
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 15 Sep 2015 19:04:16 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Tue, 15 Sep 2015 19:04:16 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Sep 2015 19:04:13 -0700
+Message-ID: <500f789ce6811f73a2ee887a047fb5b41baff7f4.1442311946.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <cover.1442311946.git.liezhi.yang@windriver.com>
+References: <cover.1442311946.git.liezhi.yang@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH 5/6] populate_sdk_base.bbclass: fix SDKTARGETSYSROOT when populate mlprefix SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,39 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Sep 2015 23:07:27 -0000
+X-List-Received-Date: Wed, 16 Sep 2015 02:04:17 -0000
+Content-Type: text/plain
 
-From: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Fixed when populate multlib sdk:
+$ bitbake lib32-core-image-minimal -cpopulate_sdk
 
-Disadvantages of WAL journal mode are explained on [1], but the
-one affecting our case is "All processes using a database must be
-on the same host computer; WAL does not work over a network filesystem".
-Changing the Journal mode into DELETE which is the normal behavior for
-rollback journal.
+When extract sdk, there was a sysroots/core2-64-pokymllib32-linux, but the
+SDKTARGETSYSROOT path in environment-setup-x86-pokymllib32-linux was
+sysroots/core2-64-poky-linux, so it was incorrect, install sysroot to
+sysroots/core2-64-poky-linux would fix the problem since:
+1) We install both 32 and 64 bit toolchains
+2) The meta-environment is a nativesdk recipe which doesn't have
+   multilib extend, so we can't or hard to fix from meta-environment.
 
-[YOCTO #8215]
+[YOCTO #8089]
 
-[1] https://www.sqlite.org/wal.html
-
-Signed-off-by: Leonardo Sandoval <leonardo.sandoval.gonzalez@linux.intel.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- bitbake/lib/prserv/db.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/multilib.bbclass          |    1 +
+ meta/classes/populate_sdk_base.bbclass |    6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/bitbake/lib/prserv/db.py b/bitbake/lib/prserv/db.py
-index 4379580..b3e3a4f 100644
---- a/bitbake/lib/prserv/db.py
-+++ b/bitbake/lib/prserv/db.py
-@@ -245,7 +245,7 @@ class PRData(object):
-         self.connection=sqlite3.connect(self.filename, isolation_level="EXCLUSIVE", check_same_thread = False)
-         self.connection.row_factory=sqlite3.Row
-         self.connection.execute("pragma synchronous = off;")
--        self.connection.execute("PRAGMA journal_mode = WAL;")
-+        self.connection.execute("PRAGMA journal_mode = DELETE;")
-         self._tables={}
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index 465e208..fd54b69 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -28,6 +28,7 @@ python multilib_virtclass_handler () {
+         e.data.setVar("PN", variant + "-" + e.data.getVar("PN", False))
+         target_vendor = e.data.getVar("TARGET_VENDOR_" + "virtclass-multilib-" + variant, False)
+         if target_vendor:
++            e.data.setVar("TARGET_VENDOR_MULTILIB_ORIGINAL", e.data.getVar("TARGET_VENDOR", True))
+             e.data.setVar("TARGET_VENDOR", target_vendor)
+         return
  
-     def __del__(self):
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index aa7a9a5..9c5a360 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -28,7 +28,11 @@ SDK_DEPLOY = "${DEPLOY_DIR}/sdk"
+ 
+ B_task-populate-sdk = "${SDK_DIR}"
+ 
+-SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${REAL_MULTIMACH_TARGET_SYS}"
++# Install toolchain to the path with TARGET_VENDOR_MULTILIB_ORIGINAL since:
++# 1) Both toolchains (32 and 64 bits) are installed
++# 2) The environment-setup-* doesn't contain mllib
++TARGET_VENDOR_MULTILIB_ORIGINAL ??= "${TARGET_VENDOR}"
++SDKTARGETSYSROOT = "${SDKPATH}/sysroots/${TUNE_PKGARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}"
+ 
+ TOOLCHAIN_HOST_TASK ?= "nativesdk-packagegroup-sdk-host packagegroup-cross-canadian-${MACHINE}"
+ TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
 -- 
-1.8.4.5
+1.7.9.5
 
 
