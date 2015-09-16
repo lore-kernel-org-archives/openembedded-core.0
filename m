@@ -1,33 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BE477404E
+Return-Path: <kergoth@gmail.com>
+Received: from mail-pa0-f45.google.com (mail-pa0-f45.google.com
+	[209.85.220.45])
+	by mail.openembedded.org (Postfix) with ESMTP id ADD647404E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 16:53:09 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8GGr4SP001391; Wed, 16 Sep 2015 17:53:04 +0100
-Received: from dan.rpsys.net ([127.0.0.1])
-	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id 1Z-oVi5R2tgT; Wed, 16 Sep 2015 17:53:04 +0100 (BST)
-Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
-	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8GGqn7e001367
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 16 Sep 2015 17:53:01 +0100
-Message-ID: <1442422369.26666.147.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Randy MacLeod <randy.macleod@windriver.com>
-Date: Wed, 16 Sep 2015 17:52:49 +0100
-In-Reply-To: <55F8D5CD.70606@windriver.com>
-References: <2236FBA76BA1254E88B949DDB74E612B41976CB1@IRSMSX102.ger.corp.intel.com>
-	<55EF9D64.8000601@windriver.com>
-	<2236FBA76BA1254E88B949DDB74E612B41979490@IRSMSX102.ger.corp.intel.com>
-	<55F70A07.20409@windriver.com> <55F8D5CD.70606@windriver.com>
-X-Mailer: Evolution 3.12.11-0ubuntu3 
-Mime-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to put a correct dependency with regards to gcc?
+	Wed, 16 Sep 2015 17:01:24 +0000 (UTC)
+Received: by padhk3 with SMTP id hk3so214089459pad.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Sep 2015 10:01:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:subject:date:message-id;
+	bh=Esz3zhGlKvoMUrjjJeCK381fg2zHB9YpiWUgY5gMlN4=;
+	b=PMHcqKvs2P0QYhEka3l6tz8zx+AdrMmHNrWmcYbrF6FccsSZQ7laVVgUNpPG3EWdLe
+	3dNR4jfimoV9giLA0TLCBVXJPxIDrz/wPE10i++MDf4cf5YKrnBX0tO11imolOsgbYeQ
+	l5bjM8xK4F4cSvNqDe0NUSNsRdQpdMzJkHTo+lPJvsCnkVDL/6h6um02+mAXO4yUMsBc
+	/Jyp8BjHcuLaf9dvAyrcoVVMKQRnza9UyDbF8b3e686ekq5LNoh3LwlTgaSk3PVMsEjf
+	dSXbpO/A6TySIfNHNa/CWFKt43K/YXmw9Uw/t7gTbr78Ck0lSM41vwf/2B+JrT4lHC4x
+	i/9g==
+X-Received: by 10.69.27.70 with SMTP id je6mr58949053pbd.62.1442422884675;
+	Wed, 16 Sep 2015 10:01:24 -0700 (PDT)
+Received: from quark.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by smtp.gmail.com with ESMTPSA id
+	xd10sm28968897pab.25.2015.09.16.10.01.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 16 Sep 2015 10:01:23 -0700 (PDT)
+From: Christopher Larson <kergoth@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 16 Sep 2015 10:03:32 -0700
+Message-Id: <1442423012-22426-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 2.2.1
+Subject: [PATCHv2] recipetool: add 'newappend' sub-command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,42 +42,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 16:53:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 16 Sep 2015 17:01:28 -0000
 
-On Tue, 2015-09-15 at 22:37 -0400, Randy MacLeod wrote:
-> I haven't been able to come up with a scheme that works yet.
-> With the patch below, I get:
-> 
-> I'll need someone to explain the intent of the gcc-* pkgs
-> design or more time to dig though the files and history.
-> 
-> Robert tells me that my idea that I need a bitbake rule to:
->   " call the parent implementation or
->     if there isn't one, return success."
-> has been discussed before and it is not easy to do.
-> 
-> For me, this is "a nice to have" feature that could wait
-> for oe-core-2.1.
+This sub-command creates a bbappend for the specified target and prints the
+path to the bbappend. The -w argument, as with some of the other recipetool
+commands, will make a version-independent bbappend.
 
-The idea is quite simple. Rather than having a copy of the gcc source
-for each recipe variant (-cross-initial, -cross, -crosssdk-initial,
--crosssdk, -cross-canadian etc.) we have a single copy of the source.
+Example usage: recipetool newappend meta-mylayer virtual/kernel
 
-We tried an older shared stamp scheme which was fragile and prone to
-weird failures.  Instead we created the gcc-source recipe which is
-responsible for the fetch/unpack/patch/preconfigure and then each recipe
-can work off the shared source (and has a dependency on gcc-source).
+[YOCTO #7964]
 
-For Elena's use case, I therefore think it might be better to analyse
-the shared source once and not in the case of each recipe (e.g. if
-SRC_URI is empty).
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ scripts/lib/recipetool/newappend.py | 111 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 111 insertions(+)
+ create mode 100644 scripts/lib/recipetool/newappend.py
 
-Cheers,
-
-Richard
-
-
+diff --git a/scripts/lib/recipetool/newappend.py b/scripts/lib/recipetool/newappend.py
+new file mode 100644
+index 0000000..77b74cb
+--- /dev/null
++++ b/scripts/lib/recipetool/newappend.py
+@@ -0,0 +1,111 @@
++# Recipe creation tool - newappend plugin
++#
++# This sub-command creates a bbappend for the specified target and prints the
++# path to the bbappend.
++#
++# Example: recipetool newappend meta-mylayer busybox
++#
++# Copyright (C) 2015 Christopher Larson <kergoth@gmail.com>
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License version 2 as
++# published by the Free Software Foundation.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License along
++# with this program; if not, write to the Free Software Foundation, Inc.,
++# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++
++import argparse
++import errno
++import logging
++import os
++import re
++import sys
++
++
++logger = logging.getLogger('recipetool')
++tinfoil = None
++
++
++def plugin_init(pluginlist):
++    # Don't need to do anything here right now, but plugins must have this function defined
++    pass
++
++
++def tinfoil_init(instance):
++    global tinfoil
++    tinfoil = instance
++
++
++def _provide_to_pn(cooker, provide):
++    """Get the name of the preferred recipe for the specified provide."""
++    import bb.providers
++    filenames = cooker.recipecache.providers[provide]
++    eligible, foundUnique = bb.providers.filterProviders(filenames, provide, cooker.expanded_data, cooker.recipecache)
++    filename = eligible[0]
++    pn = cooker.recipecache.pkg_fn[filename]
++    return pn
++
++
++def _get_recipe_file(cooker, pn):
++    import oe.recipeutils
++    recipefile = oe.recipeutils.pn_to_recipe(cooker, pn)
++    if not recipefile:
++        skipreasons = oe.recipeutils.get_unavailable_reasons(cooker, pn)
++        if skipreasons:
++            logger.error('\n'.join(skipreasons))
++        else:
++            logger.error("Unable to find any recipe file matching %s" % pn)
++    return recipefile
++
++
++def layer(layerpath):
++    if not os.path.exists(os.path.join(layerpath, 'conf', 'layer.conf')):
++        raise argparse.ArgumentTypeError('{0!r} must be a path to a valid layer'.format(layerpath))
++    return layerpath
++
++
++def newappend(args):
++    import oe.recipeutils
++
++    pn = _provide_to_pn(tinfoil.cooker, args.target)
++    recipe_path = _get_recipe_file(tinfoil.cooker, pn)
++
++    rd = tinfoil.config_data.createCopy()
++    rd.setVar('FILE', recipe_path)
++    append_path, path_ok = oe.recipeutils.get_bbappend_path(rd, args.destlayer, args.wildcard_version)
++    if not append_path:
++        logger.error('Unable to determine layer directory containing %s', recipe_path)
++        return 1
++
++    if not path_ok:
++        logger.warn('Unable to determine correct subdirectory path for bbappend file - check that what %s adds to BBFILES also matches .bbappend files. Using %s for now, but until you fix this the bbappend will not be applied.', os.path.join(destlayerdir, 'conf', 'layer.conf'), os.path.dirname(appendpath))
++
++    layerdirs = [os.path.abspath(layerdir) for layerdir in rd.getVar('BBLAYERS', True).split()]
++    if not os.path.abspath(args.destlayer) in layerdirs:
++        logger.warn('Specified layer is not currently enabled in bblayers.conf, you will need to add it before this bbappend will be active')
++
++    if not os.path.exists(append_path):
++        bb.utils.mkdirhier(os.path.dirname(append_path))
++
++        try:
++            open(append_path, 'a')
++        except (OSError, IOError) as exc:
++            logger.critical(str(exc))
++            return 1
++
++    print(append_path)
++
++
++def register_command(subparsers):
++    parser = subparsers.add_parser('newappend',
++                                   help='Create a bbappend for the specified target in the specified layer')
++    parser.add_argument('-w', '--wildcard-version', help='Use wildcard to make the bbappend apply to any recipe version', action='store_true')
++    parser.add_argument('destlayer', help='Base directory of the destination layer to write the bbappend to', type=layer)
++    parser.add_argument('target', help='Target recipe/provide to append')
++    parser.set_defaults(func=newappend, parserecipes=True)
+-- 
+2.2.1
 
 
