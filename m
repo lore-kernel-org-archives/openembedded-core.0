@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1438A76DEB
+	by mail.openembedded.org (Postfix) with ESMTP id 1694C76E04
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 02:28:50 +0000 (UTC)
+	Wed, 16 Sep 2015 02:28:48 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2SoAc007225
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2Smuj007219
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 19:28:50 -0700 (PDT)
+	Tue, 15 Sep 2015 19:28:48 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 15 Sep 2015 19:28:50 -0700
+	Tue, 15 Sep 2015 19:28:48 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Sep 2015 19:28:48 -0700
-Message-ID: <df9ebc20e08cd18130e175d7ffb45ad6bf2ba911.1442370259.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Sep 2015 19:28:44 -0700
+Message-ID: <cover.1442370259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1442370259.git.liezhi.yang@windriver.com>
-References: <cover.1442370259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/4] insane.bbclass: make package_qa_clean_path return a relative path
+Subject: [PATCH 0/4] meta: resend patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +34,42 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 16 Sep 2015 02:28:51 -0000
 Content-Type: text/plain
 
-Make package_qa_clean_path() return something like "work/path/to/file"
-rather than "/work/path/to/file", the relative path is a little clear.
+Hi RP and Ross,
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/insane.bbclass |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I had sent these patches before, but didn't get any feedback, now send
+again, would you please take a look at them ?
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 943ada8..628b63f 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -166,7 +166,7 @@ def package_qa_get_machine_dict():
- 
- def package_qa_clean_path(path,d):
-     """ Remove the common prefix from the path. In this case it is the TMPDIR"""
--    return path.replace(d.getVar('TMPDIR',True),"")
-+    return path.replace(d.getVar("TMPDIR", True) + "/", "")
- 
- def package_qa_write_error(type, error, d):
-     logfile = d.getVar('QA_LOGFILE', True)
+The following two patches would make oe-core can do world build well
+without x11 in DISTRO_FEATURES:
+gtk+/cairo: enable x11 or directfb
+libsdl: depends on libglu when both x11 and opengl
+
+And the patches for insane.bbclass will make package_qa_check_buildpaths
+actually useful.
+
+// Robert
+
+The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
+
+  qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/resend
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/resend
+
+Robert Yang (4):
+  gtk+/cairo: enable x11 or directfb
+  libsdl: depends on libglu when both x11 and opengl
+  insane.bbclass: fix package_qa_check_buildpaths
+  insane.bbclass: make package_qa_clean_path return a relative path
+
+ meta/classes/insane.bbclass                   |   14 ++++++++++----
+ meta/recipes-gnome/gtk+/gtk+.inc              |    5 ++---
+ meta/recipes-graphics/cairo/cairo.inc         |    8 ++++++--
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb |    3 ++-
+ 4 files changed, 20 insertions(+), 10 deletions(-)
+
 -- 
 1.7.9.5
 
