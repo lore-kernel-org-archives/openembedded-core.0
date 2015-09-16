@@ -1,21 +1,28 @@
-Return-Path: <erkka.kaaria@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 912A860053
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 20BE872A78
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 06:32:18 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga102.jf.intel.com with ESMTP; 15 Sep 2015 23:32:17 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,537,1437462000"; d="scan'208";a="790397017"
-Received: from ekaaria-xps-8300.fi.intel.com ([10.237.68.35])
-	by fmsmga001.fm.intel.com with ESMTP; 15 Sep 2015 23:32:18 -0700
-From: =?UTF-8?q?Erkka=20K=C3=A4=C3=A4ri=C3=A4?= <erkka.kaaria@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 16 Sep 2015 09:31:49 +0300
-Message-Id: <1442385109-28179-1-git-send-email-erkka.kaaria@intel.com>
-X-Mailer: git-send-email 2.1.4
+	Wed, 16 Sep 2015 07:49:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G7n0iI008860
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 16 Sep 2015 00:49:00 -0700 (PDT)
+Received: from [128.224.162.200] (128.224.162.200) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Wed, 16 Sep 2015 00:49:00 -0700
+Message-ID: <55F91EEA.8040005@windriver.com>
+Date: Wed, 16 Sep 2015 15:48:58 +0800
+From: Robert Yang <liezhi.yang@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
 MIME-Version: 1.0
-Subject: [PATCH v2] python_2.7.9.bb: Add python-misc as runtime dependency to python-modules
+To: Martin Jansa <martin.jansa@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20150910160557.GD2387@jama>	<1442294991-12427-1-git-send-email-Martin.Jansa@gmail.com>
+	<55F7B25B.6030801@windriver.com>
+In-Reply-To: <55F7B25B.6030801@windriver.com>
+Subject: Re: [PATCH][master][fido][dizzy] Revert "perf: fix for rebuilding"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,36 +35,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 06:32:24 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 16 Sep 2015 07:49:02 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Q3VycmVudGx5IHB5dGhvbi1taXNjIGlzIG5vdCBpbmNsdWRlZCBldmVuIGlmIHB5dGhvbi1tb2R1
-bGVzIGlzLiBUaGlzIG1lYW5zIHNvbWUgcHl0aG9uIHNjcmlwdHMgZmFpbCBldmVuIGlmIHB5dGhv
-bi1tb2R1bGVzIGlzIGluY2x1ZGVkIGluIHRoZSBpbWFnZSAoZm9yIGV4YW1wbGUsIGdldC1waXAu
-cHkgYXQgYm9vdHN0cmFwLnB5cGEuaW8vZ2V0LXBpcC5weSkuCgpTaWduZWQtb2ZmLWJ5OiBFcmtr
-YSBLw6TDpHJpw6QgPGVya2thLmthYXJpYUBpbnRlbC5jb20+Ci0tLQogbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3B5dGhvbi9weXRob25fMi43LjkuYmIgfCAzICsrLQogMSBmaWxlIGNoYW5nZWQsIDIg
-aW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uXzIuNy45LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob25fMi43LjkuYmIKaW5kZXggYWU0NTU3Ny4uZjdlMmYyNyAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob25fMi43LjkuYmIKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob25fMi43LjkuYmIKQEAgLTE2MSw3ICsxNjEsOCBA
-QCBGSUxFU18ke1BOfS1kYmcgKz0gIiR7bGliZGlyfS9weXRob24ke1BZVEhPTl9NQUpNSU59L2xp
-Yi1keW5sb2FkLy5kZWJ1ZyIKICMgY2F0Y2ggYWxsIHRoZSByZXN0ICh1bnNvcnRlZCkKIFBBQ0tB
-R0VTICs9ICIke1BOfS1taXNjIgogRklMRVNfJHtQTn0tbWlzYyA9ICIke2xpYmRpcn0vcHl0aG9u
-JHtQWVRIT05fTUFKTUlOfSIKLVJERVBFTkRTXyR7UE59LXB0ZXN0ID0gIiR7UE59LW1vZHVsZXMg
-JHtQTn0tbWlzYyIKK1JERVBFTkRTXyR7UE59LW1vZHVsZXMgKz0gIiR7UE59LW1pc2MiCitSREVQ
-RU5EU18ke1BOfS1wdGVzdCA9ICIke1BOfS1tb2R1bGVzIgogI2luaGVyaXQgcHRlc3QgYWZ0ZXIg
-InJlcXVpcmUgcHl0aG9uLSR7UFlUSE9OX01BSk1JTn0tbWFuaWZlc3QuaW5jIiBzbyBQQUNLQUdF
-UyBkb2Vzbid0IGdldCBvdmVyd3JpdHRlbgogaW5oZXJpdCBwdGVzdAogCi0tIAoyLjEuNAoKLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tCkludGVsIEZpbmxhbmQgT3kKUmVnaXN0ZXJlZCBBZGRyZXNzOiBQTCAyODEsIDAw
-MTgxIEhlbHNpbmtpIApCdXNpbmVzcyBJZGVudGl0eSBDb2RlOiAwMzU3NjA2IC0gNCAKRG9taWNp
-bGVkIGluIEhlbHNpbmtpIAoKVGhpcyBlLW1haWwgYW5kIGFueSBhdHRhY2htZW50cyBtYXkgY29u
-dGFpbiBjb25maWRlbnRpYWwgbWF0ZXJpYWwgZm9yCnRoZSBzb2xlIHVzZSBvZiB0aGUgaW50ZW5k
-ZWQgcmVjaXBpZW50KHMpLiBBbnkgcmV2aWV3IG9yIGRpc3RyaWJ1dGlvbgpieSBvdGhlcnMgaXMg
-c3RyaWN0bHkgcHJvaGliaXRlZC4gSWYgeW91IGFyZSBub3QgdGhlIGludGVuZGVkCnJlY2lwaWVu
-dCwgcGxlYXNlIGNvbnRhY3QgdGhlIHNlbmRlciBhbmQgZGVsZXRlIGFsbCBjb3BpZXMuCg==
 
+Hi Martin,
+
+I've figured out the reason, this is because the task's default cwd
+is ${B}, the easier way to fix the problem is use mkdir -p rather than
+mkdir, autotools.bbclass also has this problem, but I'd like to fix
+exec_func, I will send a patch to bitbake-devel after more testing.
+
+// Robert
+
+On 09/15/2015 01:53 PM, Robert Yang wrote:
+>
+> Hi Martin,
+>
+> Sorry, I'm blocked by mutitlib SDK issues recently, I will fix it sooner.
+> Revert the patch is fine to me if it is urgent.
+>
+> // Robert
+>
+> On 09/15/2015 01:29 PM, Martin Jansa wrote:
+>> * This reverts commit 9dafa571ed0a40d21a886dec7704c31150b21942.
+>>
+>> * The "fix" is causing more issues then it's fixing and there was no
+>>    feedback in many months.
+>> * More info:
+>>
+>> http://lists.openembedded.org/pipermail/openembedded-core/2015-June/105684.html
+>>
+>> http://lists.openembedded.org/pipermail/openembedded-core/2015-September/109870.html
+>>
+>>
+>> http://lists.openembedded.org/pipermail/openembedded-core/2015-September/110338.html
+>>
+>>
+>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+>> ---
+>>   meta/recipes-kernel/perf/perf.bb | 4 ----
+>>   1 file changed, 4 deletions(-)
+>>
+>> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+>> index adb3a2c..f1d7894 100644
+>> --- a/meta/recipes-kernel/perf/perf.bb
+>> +++ b/meta/recipes-kernel/perf/perf.bb
+>> @@ -118,10 +118,6 @@ do_install() {
+>>   }
+>>
+>>   do_configure_prepend () {
+>> -    # Fix for rebuilding
+>> -    rm -rf ${B}/
+>> -    mkdir ${B}/
+>> -
+>>       # If building a multlib based perf, the incorrect library path will be
+>>       # detected by perf, since it triggers via: ifeq ($(ARCH),x86_64). In a
+>> 32 bit
+>>       # build, with a 64 bit multilib, the arch won't match and the detection
+>> of a
+>>
 
