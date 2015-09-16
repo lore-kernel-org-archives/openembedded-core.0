@@ -1,26 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5673176DEB
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 2928073D13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 02:28:49 +0000 (UTC)
+	Wed, 16 Sep 2015 02:37:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2SoLt002044
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 15 Sep 2015 19:28:50 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2b3g5007298
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 15 Sep 2015 19:37:03 -0700 (PDT)
+Received: from [172.25.44.6] (172.25.44.6) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Tue, 15 Sep 2015 19:28:49 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Sep 2015 19:28:47 -0700
-Message-ID: <6f49ee1c3fac0a39d8976d7c74000ad507031516.1442370259.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1442370259.git.liezhi.yang@windriver.com>
-References: <cover.1442370259.git.liezhi.yang@windriver.com>
+	Tue, 15 Sep 2015 19:37:02 -0700
+To: "Reshetova, Elena" <elena.reshetova@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "Yang, Liezhi"
+	<Liezhi.Yang@windriver.com>
+References: <2236FBA76BA1254E88B949DDB74E612B41976CB1@IRSMSX102.ger.corp.intel.com>
+	<55EF9D64.8000601@windriver.com>
+	<2236FBA76BA1254E88B949DDB74E612B41979490@IRSMSX102.ger.corp.intel.com>
+	<55F70A07.20409@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <55F8D5CD.70606@windriver.com>
+Date: Tue, 15 Sep 2015 22:37:01 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
 MIME-Version: 1.0
-Subject: [PATCH 3/4] insane.bbclass: fix package_qa_check_buildpaths
+In-Reply-To: <55F70A07.20409@windriver.com>
+X-Originating-IP: [172.25.44.6]
+Subject: Re: How to put a correct dependency with regards to gcc?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +40,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 02:28:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Sep 2015 02:37:05 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-* Ignore elf files because they usually contain build path:
-  - The path of the source file such as .c, these are usually happen
-    when separate B and S since we use absolute path to run configure
-    script, and then VPATH in Makefile will be an absolute path and
-    contains build path, we can use relative path in autotools.bbclass
-    to fix the problem, but we don't have to since they are harmless.
-  - The configure options such as "configure --with-libtool-sysroot"
-  - The compile options such as "gcc --sysroot"
-  These are harmless usually, so ignore elf files.
+On 2015-09-14 01:55 PM, Randy MacLeod wrote:
+> On 2015-09-09 12:09 PM, Reshetova, Elena wrote:
+>>> Maybe we have to fix gcc-source after all rather than use the
+>>> EXCLUDE_WORLD
+>> change I made in:
+>>>     https://bugzilla.yoctoproject.org/show_bug.cgi?id=7878
+>>
+>> Should I file a bug about this for easy tracking? My problem really seems
+>> that do_fetch on some related to gcc packages doesn't result in fetch of
+>> sources.
+>
+> I'll send a fix early this week.
+>
+> ../Randy
+>
+>>
+>>> Does your scheme work for the kernel source? See:
+>>
+>>> Search for "kernel-devsrc" here:
+>>>   http://comments.gmane.org/gmane.comp.handhelds.openembedded.core/68352
+>>
+>> There doesn't seem to be an issue with kernel source packages for my
+>> task. I
+>> think this is because the sources are correctly fetched by dependent
+>> packages.
+>>
+>> Best Regards,
+>> Elena.
+>>
+>
 
-* Ignore "-dbg" and "-staticdev" package since symbols and .a files
-  usually contain buildpath.
+I haven't been able to come up with a scheme that works yet.
+With the patch below, I get:
 
-* Ignore .a files too since they contain buildpath, this mainly for
-  ignoring:
-  glibc-2.21: glibc-dev/usr/lib/libc_nonshared.a
-  libgcc-4.9.3: libgcc-dev/usr/lib/x86_64-poky-linux/4.9.3/libgcc_eh.a
-  gcc-runtime-4.9.3: libssp-dev/usr/lib/libssp_nonshared.a
+I'll need someone to explain the intent of the gcc-* pkgs
+design or more time to dig though the files and history.
 
-* Use full path rather than package_qa_clean_path() when report issue,
-  this makes it easier to find the file and fix the problem.
+Robert tells me that my idea that I need a bitbake rule to:
+  " call the parent implementation or
+    if there isn't one, return success."
+has been discussed before and it is not easy to do.
 
-Then we will verify other warings and fix one be one.
+For me, this is "a nice to have" feature that could wait
+for oe-core-2.1.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/insane.bbclass |   12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+../Randy
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 5c8629a..943ada8 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -571,8 +571,14 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
-     """
-     Check for build paths inside target files and error if not found in the whitelist
-     """
--    # Ignore .debug files, not interesting
--    if path.find(".debug") != -1:
+
+
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc 
+b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index c987ccb..1da7bda 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -5,12 +5,18 @@ LICENSE = "NCSA | MIT"
+  LIC_FILES_CHKSUM = "\
+      file://libsanitizer/LICENSE.TXT;md5=0249c37748936faf5b1efd5789587909 \
+  "
++EXCLUDE_FROM_WORLD = "1"
+
+  EXTRA_OECONF_PATHS = "\
+      --with-sysroot=/not/exist \
+      --with-build-sysroot=${STAGING_DIR_TARGET} \
+  "
+
++# These stages are done by the sister gcc package:
++# do_unpack[noexec] = "1"
++# do_patch[noexec] = "1"
 +
-+    # Ignore staticdev and debug files since symbols and .a usually
-+    # contain buildpath.
-+    if name.endswith("-dbg") or name.endswith("-staticdev"):
-+        return
 +
-+    # Ignore elf and .a files
-+    if elf or path.endswith('.a'):
-         return
- 
-     # Ignore symlinks
-@@ -583,7 +589,7 @@ def package_qa_check_buildpaths(path, name, d, elf, messages):
-     with open(path) as f:
-         file_content = f.read()
-         if tmpdir in file_content:
--            messages["buildpaths"] = "File %s in package contained reference to tmpdir" % package_qa_clean_path(path,d)
-+            messages["buildpaths"] = "File %s in package contained reference to tmpdir" % path
- 
- 
- QAPATHTEST[xorg-driver-abi] = "package_qa_check_xorg_driver_abi"
+  do_configure () {
+      mtarget=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+      target=`echo ${TARGET_SYS} | sed -e s#-${SDKPKGSUFFIX}##`
+diff --git a/meta/recipes-devtools/gcc/gcc-source.inc 
+b/meta/recipes-devtools/gcc/gcc-source.inc
+index 794fd4d..ef4ff60 100644
+--- a/meta/recipes-devtools/gcc/gcc-source.inc
++++ b/meta/recipes-devtools/gcc/gcc-source.inc
+@@ -1,15 +1,16 @@
+-deltask do_configure
+-deltask do_compile
+-deltask do_package
+-deltask do_package_write_rpm
+-deltask do_package_write_ipk
+-deltask do_package_write_deb
+-deltask do_install
+-deltask do_populate_sysroot
+-deltask do_populate_lic
+-deltask do_package_qa
+-deltask do_packagedata
+-deltask do_rm_work
++# gcc-source should only be fetched, unpacked and patched.
++do_configure[noexec] = "1"
++do_compile[noexec] = "1"
++do_package[noexec] = "1"
++do_package_write_rpm[noexec] = "1"
++do_package_write_ipk[noexec] = "1"
++do_package_write_deb[noexec] = "1"
++do_install[noexec] = "1"
++do_populate_sysroot[noexec] = "1"
++do_populate_lic[noexec] = "1"
++do_package_qa[noexec] = "1"
++do_packagedata[noexec] = "1"
++do_rm_work[noexec] = "1"
+
+  PN = "gcc-source-${PV}"
+  WORKDIR = "${TMPDIR}/work-shared/gcc-${PV}-${PR}"
+
+
 -- 
-1.7.9.5
-
+# Randy MacLeod. SMTS, Linux, Wind River
+Direct: 613.963.1350 | 350 Terry Fox Drive, Suite 200, Ottawa, ON, 
+Canada, K2K 2W5
 
