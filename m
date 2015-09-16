@@ -1,25 +1,28 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 709427404E
+	by mail.openembedded.org (Postfix) with ESMTP id 1BE477404E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 16:44:05 +0000 (UTC)
+	Wed, 16 Sep 2015 16:53:09 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8GGi3UA000913; Wed, 16 Sep 2015 17:44:03 +0100
+	t8GGr4SP001391; Wed, 16 Sep 2015 17:53:04 +0100
 Received: from dan.rpsys.net ([127.0.0.1])
 	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
-	with LMTP id ZXdVPzHMV0A3; Wed, 16 Sep 2015 17:44:03 +0100 (BST)
+	with LMTP id 1Z-oVi5R2tgT; Wed, 16 Sep 2015 17:53:04 +0100 (BST)
 Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
 	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
-	t8GGhlPK000887
+	t8GGqn7e001367
 	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 16 Sep 2015 17:43:58 +0100
-Message-ID: <1442421827.26666.142.camel@linuxfoundation.org>
+	Wed, 16 Sep 2015 17:53:01 +0100
+Message-ID: <1442422369.26666.147.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Reshetova, Elena" <elena.reshetova@intel.com>
-Date: Wed, 16 Sep 2015 17:43:47 +0100
-In-Reply-To: <2236FBA76BA1254E88B949DDB74E612B41976CB1@IRSMSX102.ger.corp.intel.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Date: Wed, 16 Sep 2015 17:52:49 +0100
+In-Reply-To: <55F8D5CD.70606@windriver.com>
 References: <2236FBA76BA1254E88B949DDB74E612B41976CB1@IRSMSX102.ger.corp.intel.com>
+	<55EF9D64.8000601@windriver.com>
+	<2236FBA76BA1254E88B949DDB74E612B41979490@IRSMSX102.ger.corp.intel.com>
+	<55F70A07.20409@windriver.com> <55F8D5CD.70606@windriver.com>
 X-Mailer: Evolution 3.12.11-0ubuntu3 
 Mime-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
@@ -37,48 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 16:44:07 -0000
+X-List-Received-Date: Wed, 16 Sep 2015 16:53:10 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2015-09-04 at 17:03 +0000, Reshetova, Elena wrote:
-> I have a simple problem but not able to come with simple and elegant
-> solution for it, so would be very thankful for the suggestions. 
->  
-> I have a task that is specified to run after do_fetch. The task needs
-> the source to be *actually* fetched, since it operates on archives. It
-> works well for everything apart gcc. 
->
-> For example in fido branch, my task run for libgcc will fail, because
-> do_fetch task for libgcc actually *does not* not fetch the gcc sources
-> (only puts a nice lock file in the download folder).
->  
-> When I noticed this, I tried to put the dependency on
-> gcc-source:do_fetch for my task (because that actually fetches the gcc
-> sources) and it works in fido, but in master after changes to gcc
-> nothing provides gcc-source and it wants to specify the version, which
-> I don’t want to do (ideally I don’t want to put any dependencies to
-> gcc, since I don’t really depend on it!). In master a run for
-> libgcc-initial fails for the same reasons: gcc tar ball is not there. 
->  
-> Is there a way to make it work correctly? 
+On Tue, 2015-09-15 at 22:37 -0400, Randy MacLeod wrote:
+> I haven't been able to come up with a scheme that works yet.
+> With the patch below, I get:
+> 
+> I'll need someone to explain the intent of the gcc-* pkgs
+> design or more time to dig though the files and history.
+> 
+> Robert tells me that my idea that I need a bitbake rule to:
+>   " call the parent implementation or
+>     if there isn't one, return success."
+> has been discussed before and it is not easy to do.
+> 
+> For me, this is "a nice to have" feature that could wait
+> for oe-core-2.1.
 
-We could change gcc-shared-work.inc to add:
+The idea is quite simple. Rather than having a copy of the gcc source
+for each recipe variant (-cross-initial, -cross, -crosssdk-initial,
+-crosssdk, -cross-canadian etc.) we have a single copy of the source.
 
-do_fetch[depends] += "gcc-source-${PV}:do_fetch"
+We tried an older shared stamp scheme which was fragile and prone to
+weird failures.  Instead we created the gcc-source recipe which is
+responsible for the fetch/unpack/patch/preconfigure and then each recipe
+can work off the shared source (and has a dependency on gcc-source).
 
-which I think might fix the issues you're seeing. The good news is that
-gcc is pretty unique in this regard so you shouldn't see the issue
-anywhere else.
-
-I'm also wondering whether we simply should set SRC_URI to be empty
-here. The source is fetched, unpacked and patched as part of the
-gcc-source recipe. Your code should only really analyse the copy in
-gcc-source, its the same source used by all the different gcc variants.
+For Elena's use case, I therefore think it might be better to analyse
+the shared source once and not in the case of each recipe (e.g. if
+SRC_URI is empty).
 
 Cheers,
 
 Richard
+
 
 
 
