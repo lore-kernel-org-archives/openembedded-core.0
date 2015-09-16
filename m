@@ -1,11 +1,11 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DC1EE73D13
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1193E75CF1
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 16 Sep 2015 02:28:49 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2SnDe002030
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2SnZE007222
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 15 Sep 2015 19:28:49 -0700 (PDT)
@@ -14,13 +14,13 @@ Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	Tue, 15 Sep 2015 19:28:49 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 15 Sep 2015 19:28:45 -0700
-Message-ID: <90e4a1064ea7dfa9be458d306bba765136b50306.1442370259.git.liezhi.yang@windriver.com>
+Date: Tue, 15 Sep 2015 19:28:46 -0700
+Message-ID: <4295d930d43211a0a4da0dee7a62473247b56204.1442370259.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <cover.1442370259.git.liezhi.yang@windriver.com>
 References: <cover.1442370259.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] gtk+/cairo: enable x11 or directfb
+Subject: [PATCH 2/4] libsdl: depends on libglu when both x11 and opengl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,51 +36,31 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 16 Sep 2015 02:28:51 -0000
 Content-Type: text/plain
 
-The gtk+2 requires whether x11 or directfb to build, so we need enable
-either of them. The cairo can be built without x11 or directfb, but gtk+
-requires cairo, so enable x11 or directfb for cairo, too.
+The libglu requires both opengl (depends on virtual/libgl) and x11
+(needs libGL.so which is provided by mesa when x11 in DISTRO_FEATURES),
+so let libsdl depends on libglu when both x11 and opengl in
+DISTRO_FEATURES.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-gnome/gtk+/gtk+.inc      |    5 ++---
- meta/recipes-graphics/cairo/cairo.inc |    8 ++++++--
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
-index be5273d..9d697cdb 100644
---- a/meta/recipes-gnome/gtk+/gtk+.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+.inc
-@@ -17,9 +17,8 @@ X11DEPENDS = "virtual/libx11 libxext libxcursor libxrandr libxdamage libxrender
- DEPENDS = "glib-2.0 pango atk jpeg libpng gdk-pixbuf-native docbook-utils-native \
-  cairo gdk-pixbuf"
+diff --git a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+index 266bd42..c0d5c6a 100644
+--- a/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
++++ b/meta/recipes-graphics/libsdl/libsdl_1.2.15.bb
+@@ -13,8 +13,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=27818cd7fd83877a8e3ef82b82798ef4"
+ PROVIDES = "virtual/libsdl"
  
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
--"
-+# Requires x11 or directfb
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'directfb', d)}"
+ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)} \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl libglu', '', d)} \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virtual/libgl', '', d)} \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxext libxrandr libxrender', '', d)} \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'libglu', '', d)} \
+            tslib"
+ DEPENDS_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/nativesdk-libx11 nativesdk-libxrandr nativesdk-libxrender nativesdk-libxext', '', d)}"
  
- PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
- # without --with-gdktarget=directfb it will check for cairo-xlib which isn't available without X11 DISTRO_FEATURE
-diff --git a/meta/recipes-graphics/cairo/cairo.inc b/meta/recipes-graphics/cairo/cairo.inc
-index 1e45318..f6474bc 100644
---- a/meta/recipes-graphics/cairo/cairo.inc
-+++ b/meta/recipes-graphics/cairo/cairo.inc
-@@ -17,8 +17,12 @@ LICENSE_${PN}-perf-utils = "GPLv3+"
- X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
- DEPENDS = "libpng fontconfig pixman glib-2.0 zlib"
- 
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
--           ${@bb.utils.contains('DISTRO_FEATURES', 'directfb', 'directfb', '', d)}"
-+# Build cairo-xlib or cairo-directfb for gtk+
-+PACKAGECONFIG ??= " ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', 'directfb', d)} \
-+                    "
-+
-+# No directfb-native, so set PACKAGECONFIG to null when no x11
-+PACKAGECONFIG_class-native ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', '', d)}"
- 
- PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
- PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
 -- 
 1.7.9.5
 
