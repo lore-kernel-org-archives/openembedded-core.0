@@ -1,42 +1,39 @@
 Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by mail.openembedded.org (Postfix) with ESMTP id EE05B76FDE
+Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
+	[209.85.223.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E1EAE76FDE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 06:44:44 +0000 (UTC)
-Received: by iofh134 with SMTP id h134so12158004iof.0
+	Thu, 17 Sep 2015 06:49:13 +0000 (UTC)
+Received: by ioiz6 with SMTP id z6so12132868ioi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 23:44:44 -0700 (PDT)
+	Wed, 16 Sep 2015 23:49:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:organization:content-type:mime-version
-	:content-transfer-encoding;
-	bh=Ju50fIVWgSCgX5x5TyxKC95XTUbF2Ihtcw5h5h5/I/4=;
-	b=WhVJO3/BLUESEbG+lO6ujuCpDyK1jbUjQDE1eMN5C+kR5nMH1aoWKBd3gRHenPI1JG
-	2FV3JpCB8ldcnCE1ByhIT+LV9B7tl49N1r8j1Z5A3p0AUbtxQFTc64EncToiIuy4JCZf
-	arZqdZNSJhoFZug3Qf7mJR1+hD6faAiBe5CszS5MzkGyW2cINMDEQYdvEdX/qfxHHCn6
-	Uh+4f3jvGiJB/6tZIkrMFdGkfdLhTKRmn5kPX1/eLWjLigi1ezIM63AF5OF3kFO3sJqh
-	gngQlVhj0l5LJnt1p0KJP8Ix9gVdHM+tggMoXsRrQ+RUmJdBn3rf5Kl8d8Y9FzLRUnk9
-	u83Q==
-X-Gm-Message-State: ALoCoQmhvXxmy0l9XguRLfASO3+PSi1ud3ZzU0H/MPdT0oyz8rKg1K9r2ht8EkUQGxbgwruZmBzg
-X-Received: by 10.107.138.21 with SMTP id m21mr3670411iod.115.1442472284025;
-	Wed, 16 Sep 2015 23:44:44 -0700 (PDT)
-Received: from pohly-mobl1 (p5DE8E7DB.dip0.t-ipconnect.de. [93.232.231.219])
-	by smtp.gmail.com with ESMTPSA id g198sm758199ioe.6.2015.09.16.23.44.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 16 Sep 2015 23:44:43 -0700 (PDT)
-Message-ID: <1442472281.27156.24.camel@intel.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=fHM/nq+V+cTxkEQEduf6I1EYAasueKVFOpi666Kikr4=;
+	b=ld8i20dKzHZ6t1LRJXEbyKssddQcaKdeD1krk1w538LQ1wTsweu9BrsKH8qGFVdQKQ
+	aWLHT+hQXMe0vEhejCAdBUCWJWhm9vV6+OQEZKtS+XAWzded3dsFHjhcgtvx6uEwaOj9
+	428sMRhT8xlfo86kc+dpXpzIzrR+IbJaImWmmySzbT4Vn8yigvaKs27ds54INaJQhKsi
+	dI9WJ9xpjebsOxzCtzWj6aDJmtn/TwuHCJqRHl/oBMlzcHb2cwuw7AORXdrIxm6Fy0bl
+	8b4Bo3T7mWtfzQC6lSekZIjv+gts0Z+IMDg79Ug3DQuuNN5Iv0vu1rhZbub5iknWzRCc
+	JIwQ==
+X-Gm-Message-State: ALoCoQlAR9Of502sVZkhJrWspWoOywHxZzQLRuhN2GqkXp8dI9zT19b0dzLQuUhKi7HnET+tj8Wn
+X-Received: by 10.107.5.74 with SMTP id 71mr3337587iof.161.1442472553607;
+	Wed, 16 Sep 2015 23:49:13 -0700 (PDT)
+Received: from pohly-desktop.fritz.box (p5DE8E7DB.dip0.t-ipconnect.de.
+	[93.232.231.219])
+	by smtp.gmail.com with ESMTPSA id 67sm746553iog.34.2015.09.16.23.49.12
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 16 Sep 2015 23:49:13 -0700 (PDT)
 From: Patrick Ohly <patrick.ohly@intel.com>
-To: OpenEmbedded <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Sep 2015 08:44:41 +0200
-In-Reply-To: <1442405501.27156.9.camel@intel.com>
-References: <1442405501.27156.9.camel@intel.com>
-Organization: Intel GmbH, Dornacher Strasse 1, D-85622 Feldkirchen/Munich
-X-Mailer: Evolution 3.12.9-1+b1 
-Mime-Version: 1.0
-Subject: Re: udev + 60-persistent-storage.rules + IDE
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Sep 2015 08:49:36 +0200
+Message-Id: <1442472576-2334-1-git-send-email-patrick.ohly@intel.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1442472281.27156.24.camel@intel.com>
+References: <1442472281.27156.24.camel@intel.com>
+Subject: [PATCH] systemd: apply persistent storage udev rules also for /dev/hd*
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,45 +46,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 06:44:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Sep 2015 06:49:14 -0000
 
-On Wed, 2015-09-16 at 14:11 +0200, Patrick Ohly wrote:
-> I just noticed that udev (no longer) creates /dev/disk/by-uuid links for
-> my boot partition under qemu when booting a whole-disk image
-> (hdddirect). The device is then /dev/hda, with /dev/hda2 being the root
-> partition.
-> 
-> systemd's 60-persistent-storage.rules indeed skips the relevant rules
-> because "hd" is not listed:
-> 
-> KERNEL!="loop*|mmcblk*[0-9]|msblk*[0-9]|mspblk*[0-9]|nvme*|sd*|sr*|vd*|xvd*|bcache*|cciss*|dasd*|ubd*", GOTO="persistent_storage_end"
-> 
-> Adding "hd*" to that line fixes the problem. I'll send patches to
-> systemd and for OE-core.
+This fixes booting with initramfs and root=UUID on machines with IDE
+disks, like "runqemu hdddirect", and kernels which still use the
+deprecated CONFIG_IDE.
 
-Lennart argued that /dev/hd* is caused by using the deprecated
-CONFIG_IDE in the kernel and therefore rejected adding "hd*" to upstream
-udev.
+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
+---
+ .../systemd/rules-whitelist-hd-devices.patch       | 32 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_225.bb           |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/rules-whitelist-hd-devices.patch
 
-CONFIG_IDE seems to come from common-pc-drivers.cfg [1] but that's just
-a guess - I'm not entirely sure how to identify the actual kernel config
-fragments that were used during a build. Anyway, it has been there since
-2011 and modernizing that is a different topic, so I'll just send the
-patch for systemd/udev.
-
-[1]
-http://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/tree/bsp/common-pc/common-pc-drivers.cfg
-
+diff --git a/meta/recipes-core/systemd/systemd/rules-whitelist-hd-devices.patch b/meta/recipes-core/systemd/systemd/rules-whitelist-hd-devices.patch
+new file mode 100644
+index 0000000..8975b05
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/rules-whitelist-hd-devices.patch
+@@ -0,0 +1,32 @@
++From f77b7e5626e70c3a775e993816a33af5a61dea42 Mon Sep 17 00:00:00 2001
++From: Patrick Ohly <patrick.ohly@intel.com>
++Date: Wed, 16 Sep 2015 13:55:58 +0200
++Subject: [PATCH] rules: whitelist hd* devices
++
++qemu by default emulates IDE and the linux-yocto kernel(s) use
++CONFIG_IDE instead of the more modern libsata, so disks appear as
++/dev/hd*. Patch rejected upstream because CONFIG_IDE is deprecated.
++
++Upstream-Status: Denied [https://github.com/systemd/systemd/pull/1276]
++
++Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
++---
++ rules/60-persistent-storage.rules | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/rules/60-persistent-storage.rules b/rules/60-persistent-storage.rules
++index 0b14bb4..1c4d97a 100644
++--- a/rules/60-persistent-storage.rules
+++++ b/rules/60-persistent-storage.rules
++@@ -6,7 +6,7 @@
++ ACTION=="remove", GOTO="persistent_storage_end"
++ 
++ SUBSYSTEM!="block", GOTO="persistent_storage_end"
++-KERNEL!="loop*|mmcblk*[0-9]|msblk*[0-9]|mspblk*[0-9]|nvme*|sd*|sr*|vd*|xvd*|bcache*|cciss*|dasd*|ubd*", GOTO="persistent_storage_end"
+++KERNEL!="loop*|mmcblk*[0-9]|msblk*[0-9]|mspblk*[0-9]|nvme*|hd*|sd*|sr*|vd*|xvd*|bcache*|cciss*|dasd*|ubd*", GOTO="persistent_storage_end"
++ 
++ # ignore partitions that span the entire disk
++ TEST=="whole_disk", GOTO="persistent_storage_end"
++-- 
++2.1.4
++
+diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
+index 6ac99cd..b1a1818 100644
+--- a/meta/recipes-core/systemd/systemd_225.bb
++++ b/meta/recipes-core/systemd/systemd_225.bb
+@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
+            file://00-create-volatile.conf \
+            file://init \
+            file://run-ptest \
++           file://rules-whitelist-hd-devices.patch \
+           "
+ SRC_URI_append_qemuall = "file://qemuall_io_latency-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
 -- 
-Best Regards, Patrick Ohly
-
-The content of this message is my personal opinion only and although
-I am an employee of Intel, the statements I make here in no way
-represent Intel's position on the issue, nor am I authorized to speak
-on behalf of Intel on this matter.
-
-
+2.1.4
 
 
