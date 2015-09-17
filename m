@@ -1,24 +1,98 @@
-Return-Path: <marex@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C5F477030
+Return-Path: <B54851@freescale.com>
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bn0109.outbound.protection.outlook.com [157.56.110.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 86C8477011
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 14:41:20 +0000 (UTC)
-Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3nH12h4X3Kz3hj3D;
-	Thu, 17 Sep 2015 16:31:56 +0200 (CEST)
-X-Auth-Info: JMKW4oSXpWacE8EUM2+QF1qULPsFLe3np6N6LkwFrA8=
-Received: from chi.lan (host-82-135-33-74.customer.m-online.net [82.135.33.74])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3nH12h2dj9zvhTZ;
-	Thu, 17 Sep 2015 16:31:56 +0200 (CEST)
-From: Marek Vasut <marex@denx.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 16:31:54 +0200
-Message-Id: <1442500317-9064-6-git-send-email-marex@denx.de>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1442500317-9064-1-git-send-email-marex@denx.de>
-References: <1442500317-9064-1-git-send-email-marex@denx.de>
-Cc: Marek Vasut <marex@denx.de>, lftan@altera.com, waltergoossens@home.nl
-Subject: [PATCH 5/8] siteinfo: Add nios2-linux
+	Thu, 17 Sep 2015 14:42:45 +0000 (UTC)
+Received: from BLUPR03CA008.namprd03.prod.outlook.com (10.255.124.25) by
+	BN3PR0301MB1171.namprd03.prod.outlook.com (10.160.156.145) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.268.17; Thu, 17 Sep 2015 14:42:44 +0000
+Received: from BN1AFFO11FD032.protection.gbl (10.255.124.4) by
+	BLUPR03CA008.outlook.office365.com (10.255.124.25) with Microsoft SMTP
+	Server (TLS) id 15.1.274.16 via Frontend Transport;
+	Thu, 17 Sep 2015 14:42:43 +0000
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=freescale.com; freescale.mail.onmicrosoft.com; dkim=none
+	(message not signed) header.d=none; freescale.mail.onmicrosoft.com;
+	dmarc=none action=none header.from=freescale.com;
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BN1AFFO11FD032.mail.protection.outlook.com (10.58.52.186) with
+	Microsoft SMTP Server (TLS) id 15.1.274.4 via Frontend Transport;
+	Thu, 17 Sep 2015 14:42:42 +0000
+Received: from carol-OptiPlex-3020.ap.freescale.net
+	(carol-OptiPlex-3020.ap.freescale.net [10.192.241.17])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	t8HEgdc9026780; Thu, 17 Sep 2015 07:42:40 -0700
+From: Yuqing Zhu <b54851@freescale.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 17 Sep 2015 22:42:18 +0800
+Message-ID: <1442500938-13048-1-git-send-email-b54851@freescale.com>
+X-Mailer: git-send-email 1.9.1
+X-EOPAttributedMessage: 0
+X-Microsoft-Exchange-Diagnostics: 1; BN1AFFO11FD032;
+	1:0snyJPc/ItotIOt8HPTnDy3knUXE+N/YLG/47b6X7sRHrGtS7EI5IIDf8QtrIPyL2Zn9F7Frcy9AvT8S9R6y091Kj3gPYuWsf+b5L4NbFTDgo2GCf+afep5mrti33hpFwatdAPcZzjY0wYwyimcp8+4aYfp7/kxS2ptM3hWvV3w9W4FGIeMY8W2lYO4GHhquklW33VyKQrUNIsWhopFuv6bpTU6DlaZ6SlrH7RtRNFSMhrjcF9oG4J1Rdgc5gSG8OEOzt8e/5DOOZRSgKFuc16IvWv52PQnt1Zd2fJDfCjc+z+s13qIBwggYK1+dFfJvg4B7dNkGg33kUiorUW/L5X2c2kgfK6wEVTMknSBblA8C3tk23Vi0nebbKega5dpURMrJz/cXBc0qupAYr0Xlbw==
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(2980300002)(1109001)(1110001)(339900001)(189002)(199003)(50466002)(107886002)(110136002)(5001960100002)(5001860100001)(6806004)(85426001)(62966003)(5003940100001)(189998001)(64706001)(15975445007)(104016003)(47776003)(19580395003)(46102003)(36756003)(92566002)(50226001)(50986999)(2351001)(48376002)(87936001)(5001830100001)(97736004)(77156002)(19580405001)(5007970100001)(106466001)(81156007)(68736005)(33646002)(575784001)(4001540100001)(229853001)(105606002)(86362001)(77096005)(450100001)(4001430100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN3PR0301MB1171;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail;
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
+MIME-Version: 1.0
+X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
+	2:JJSidfOtEJ9Ie936dDBdWYSw0YLbQ3MzVfl5PyqwgE8Rg1DPOYsSvp7LAPgjlVsjPK+2hD3nLc5Ri+z92ZQgCUvxnc/4lxdqiEUcVhzu0n4PNPHkyFp3Z7jw1huInY4bv6gsBva4AxXmyMdraDdRfjI6A2R8TX4CMcQLdQeR5w8=;
+	3:JY3va6wc+77wQ5Xr7EvbMOuEoVu24RlHPWKPXL3XBYQVJBu/Mx0sTnFjmp+Wru1GPzjMdbbUDQSnmg4zwfnz4e1NJRfkyRs0MsynZ4Bigg0DEtl7aQSez2LNnULl9QNGKLh69L0Igyx2P3fshelAe+ydpFlZyLyZK0qqbEikLb6OQcUETju9TM2eefHu+dnBtBmFqHwwyR+P0YYFy8DS39tTVGCYfRfNIJH3kUqjUSk=;
+	25:HFsjm80D4H+V0VuZIbTYuAglA8AGkxVyXr/L1F+YijvB2A0sbt5s/AOOsfPi6qhdU06N9RbfXhxi8yzeywkaLoNWcaaie8DLTBTNidAQC7VkPJKFoJIakrmdQP6S8xZRIMe+K1sBcHH7adTxj46T15spXbOqf19JVJVkdl9hLtsUh3pTYfZP3q7dhvbYBBKkCCoYjV56evgoIPer3JwjNhEoYMqXInh36bDMVYbXQ9uyshOmSqt+lVAN28FgK1zj
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BN3PR0301MB1171;
+X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
+	20:3KTam0+WxZRfsgoIjw/CgaoAoJ2wNwCnksmEbnBW2MRleqKVw7PtVQXE5tD2X273yGDiCkVeTSgxPrf171gha6lM73n/zj6BMU7Lb0wGZ/D/zrW0GdaHYMwFPvud7oF700TEgy5+tYLurrI+ifQU7Pwac4hIINLuVJLjVQbQAVjorRLnu/pN5yq8Pd/FVUXey3Q9tGbfL7ll0KxzPwFcbVHzYi9WX9jq1O9nNdNfZzijPDita6WlUhGWKnohOx6+6z5b91G+zxdOBxGcqzqALl0d78K194i0qhjY1iIbMH1Kpu7aVbFTxRChiXQpJFNi75fHfpnnUAgGjGBYP51ND9ALzmMMO3/TWbtg3XvDheE=;
+	4:b3PE41QqPtnyRMixj1d8GPddYqC82ZDjhskLNNH6IUcJoOoS5oG/lkjtLPySdUj4PuI/fm5kjriuHGWSIHKdI/TcbMLZzU8Ax5fR0kot/yJvQD8+81o7gpf8lPugHBFAonxs+uEmJ+HcH/fXyJO/cOU9zDrgclPShAkf3XPX/BeN82mNijkm71Mpt4KLEM2Uokckv/Grqo46WUbbz2TFGiSH4ufsCZMvNfFHpOgjmhxZK9aIlVugJmNeDOl7rXrF1XnQQlLnX4TrDwAgJwOS4m6oow/z8Xl9K+Cz7nmbtDqbA0LLo1IbBZUDnnfKMvFoZUyoD42/T6n8dVRa5t5zj6IRhmjwkbuobMV7nktrLw0=
+X-Microsoft-Antispam-PRVS: <BN3PR0301MB11718AEF944898FC69C4BEFD865A0@BN3PR0301MB1171.namprd03.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(8121501046)(520078)(520075)(3002001);
+	SRVR:BN3PR0301MB1171; BCL:0; PCL:0; RULEID:;
+	SRVR:BN3PR0301MB1171; 
+X-Forefront-PRVS: 07025866F6
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; BN3PR0301MB1171;
+	23:xnMNjZNqMTZxUYLvp6e0DCzsQaBVjtUPb0AkA0Z?=
+	=?us-ascii?Q?G/+8qF2JHqmZ8BM+i++8k+TWy3pVRWFAY1oljbRa7oEiUA4C2PMTp0DoUZr2?=
+	=?us-ascii?Q?7ck09/6v55yF3UiI44RFq7NGC2o0ZHYZyrc3Vta9iJMpj+ymx6b6VUiS+OFp?=
+	=?us-ascii?Q?pgJnYkq50MSaV2DRiu1z4gKAHWMFE3EHbjRNWZTXSJ/iIHTeS6ypvKbCeIMm?=
+	=?us-ascii?Q?W64xKYp3POAkXC1F34ML4eAnPz8k3vVykERVTEzipt3M44dJVispRZyBAd4z?=
+	=?us-ascii?Q?rUmgJPgs/eQeU31x7gfdrPqNeJZNT3bOqJg7xveEVbtixGxINsC7VOBCXp2k?=
+	=?us-ascii?Q?8OaLxO8SVRSnBKe6pbJ9OV9hyHSo+YZVSZA9AFJ5hNma0XWloBTGylVJJ1rG?=
+	=?us-ascii?Q?8Pb3+2Mu7/GNRvYLfnV0O9N02VZiyh+2fq7axuILreEYA5QuFjpRQ1VoV2tY?=
+	=?us-ascii?Q?UNrw47IevpnWyj6euQch/d95BTfD5FXn+xy9NbfB5kwtCrS/pE0G4e6TCktV?=
+	=?us-ascii?Q?ABrqTRZuICe1wevwLB1buxhjUQd1Damwi6eycmPYnSc3SCOW3XzYRjHsaEfz?=
+	=?us-ascii?Q?58Z1tkdJpdbmHwKaSsNMlGnhzEvQKzGC9DKbi4W1gByaFB987y7GiGOLXnJ7?=
+	=?us-ascii?Q?ueR+wydqr/xVSsPpGeUGiuOwcgRfzFad3wOS9G3joB2dVJs22+9RzwWR3Hha?=
+	=?us-ascii?Q?okyRLb6ytzkx3wn6I6gd+nlgV7H2rkNzlinlV7NL33rGSlP/eXKhIGOdaZGE?=
+	=?us-ascii?Q?F5nDbL9YujAEaLXAEfdgm2YzuNKv5M61P4zbfw0YVcZbv+Y6gVzuXMwi4RSo?=
+	=?us-ascii?Q?n/FpNvRWWiK2XOilFQI3DW933sWDszr+TLy9qEp0JiNZAfvlj2s1NWKF01Ii?=
+	=?us-ascii?Q?Xov0huXVomaqiuB9mjNnMV2d0EdC9tWAw2EjZNRugrCF/+QTB3Q4w/Z3gfNv?=
+	=?us-ascii?Q?VQu1Ll0Pyr/UZvZ6T/R6irpJ9fnvc8gIhxsTpF30t3FBGOC1JzvKk94px2KX?=
+	=?us-ascii?Q?i5I8ZpVQd0H97PyUpPYSOvKPuMqCU4DRRCP7/ZM+EZZ77EQf0BDUvawgnkR9?=
+	=?us-ascii?Q?jIUGEOa96T/glUWjbhdfXNj1QQkcAOkIM38EkCQRKuWDvfKWt0TEuTwUef2r?=
+	=?us-ascii?Q?zVRLdJQPh5/mDgbQ+o/Osxh7lkQqFEhk93SMmiuZCxZsA45dxJUYSyeEPcoK?=
+	=?us-ascii?Q?YLOox0lO1dDWX7GkbjOXOvNbL9EvWD9KL7KI7Y2LiLuejsskLjp6x4eCeFsv?=
+	=?us-ascii?Q?OaourlGzg8R7w43DVA97Ch4e9rIFf2q6cZ/GLyHpV?=
+X-Microsoft-Exchange-Diagnostics: 1; BN3PR0301MB1171;
+	5:7SenAp+s5Qq4l3E9q6ebyfKf+xaJn5d1fUH72wMBDqzapvr8bhBv8n6PnjW0CODbR4aJXZCdxqHvF3pfw2Aq9U8kHRgSSbEPY8MfM4sRNsW/E0ZCtGxi+pB00KN1bsTjpBM/oAxAoTS2TZViU5U3uA==;
+	24:5oVhqL+KtKa/KmoNzjeff633AWEZ4zI2F/dmAb904+Adlh30OQTsN1NS2wK1Bqd3S6F8SuofSjTtB7P5MJuNWq0IItETUAJFS/I1Y0rOuRY=;
+	20:OJkWXHNXfg1PgGWhsDFYuydyP/MurmMGxUR0ps3bBVTcJzeaTGN7fffwePJjRPk0wSe6q8b3H+C4ITA4IpYx3A==
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2015 14:42:42.7668 (UTC)
+X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d;
+	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN3PR0301MB1171
+Subject: [poky][PATCH] gstreamer1.0: Fix basesink drop buffer error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,421 +105,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 14:41:21 -0000
+X-List-Received-Date: Thu, 17 Sep 2015 14:42:47 -0000
+Content-Type: text/plain
 
-Add nios2-linux info, pulled from OE-Classic [1] as of commit
-fabd8e6d07d3cd0cc93c2a0fc804f8c8f316c649 .
+Basesink: Shouldn't drop buffer when sync=false
 
-[1] https://github.com/openembedded/openembedded.git
-
-Signed-off-by: Marek Vasut <marex@denx.de>
+Signed-off-by: Yuqing Zhu <b54851@freescale.com>
 ---
- meta/site/nios2-linux | 395 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 395 insertions(+)
- create mode 100644 meta/site/nios2-linux
+ ...ink-Shouldn-t-drop-buffer-when-sync-false.patch | 30 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.4.5.bb                |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100755 meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-basesink-Shouldn-t-drop-buffer-when-sync-false.patch
 
-diff --git a/meta/site/nios2-linux b/meta/site/nios2-linux
-new file mode 100644
-index 0000000..9e53e5d
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-basesink-Shouldn-t-drop-buffer-when-sync-false.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-basesink-Shouldn-t-drop-buffer-when-sync-false.patch
+new file mode 100755
+index 0000000..d682ee6
 --- /dev/null
-+++ b/meta/site/nios2-linux
-@@ -0,0 +1,395 @@
-+ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_slashed_symlink=yes}
-+ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
-+ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
-+ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
-+ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
-+ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
-+ac_cv_sctp=${ac_cv_sctp=no}
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-basesink-Shouldn-t-drop-buffer-when-sync-false.patch
+@@ -0,0 +1,30 @@
++From 73df2b5c0aea58015788f5a94a3ec65296a688d3 Mon Sep 17 00:00:00 2001
++From: Song Bing <b06498@freescale.com>
++Date: Thu, 2 Jul 2015 14:32:21 +0800
++Subject: [PATCH] basesink: Shouldn't drop buffer when sync=false
 +
-+# apache
-+ac_cv_func_pthread_key_delete=${ac_cv_func_pthread_key_delete=yes}
-+apr_cv_process_shared_works=${apr_cv_process_shared_works=no}
-+ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
-+apr_cv_tcp_nodelay_with_cork=${apr_cv_tcp_nodelay_with_cork=yes}
++Shouldn't drop buffer when sync=false
 +
-+# bash
-+ac_cv_c_long_double=${ac_cv_c_long_double=yes}
-+bash_cv_func_sigsetjmp=${bash_cv_func_sigsetjmp=missing}
++Upstream-Status: Accepted
 +
-+# coreutils
-+utils_cv_sys_open_max=${utils_cv_sys_open_max=1019}
++https://bugzilla.gnome.org/show_bug.cgi?id=751819
++---
++ libs/gst/base/gstbasesink.c |    2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+# cvs
-+cvs_cv_func_printf_ptr=${cvs_cv_func_printf_ptr=yes}
++diff --git a/libs/gst/base/gstbasesink.c b/libs/gst/base/gstbasesink.c
++index d44e8fc..cd759ac 100644
++--- a/libs/gst/base/gstbasesink.c
+++++ b/libs/gst/base/gstbasesink.c
++@@ -3423,7 +3423,7 @@ gst_base_sink_chain_unlocked (GstBaseSink * basesink, GstPad * pad,
++     if (G_UNLIKELY (stepped))
++       goto dropped;
++ 
++-    if (syncable && do_sync) {
+++    if (syncable && do_sync && gst_base_sink_get_sync (basesink)) {
++       GstClock *clock;
++ 
++       GST_OBJECT_LOCK (basesink);
++-- 
++1.7.9.5
 +
-+# db (sleepycat)
-+db_cv_fcntl_f_setfd=${db_cv_fcntl_f_setfd=yes}
-+db_cv_sprintf_count=${db_cv_sprintf_count=yes}
-+db_cv_path_ar=${db_cv_path_ar=/usr/bin/ar}
-+db_cv_path_chmod=${db_cv_path_chmod=/bin/chmod}
-+db_cv_path_cp=${db_cv_path_cp=/bin/cp}
-+db_cv_path_ln=${db_cv_path_ln=/bin/ln}
-+db_cv_path_mkdir=${db_cv_path_mkdir=/bin/mkdir}
-+db_cv_path_ranlib=${db_cv_path_ranlib=/usr/bin/ranlib}
-+db_cv_path_rm=${db_cv_path_rm=/bin/rm}
-+db_cv_path_sh=${db_cv_path_sh=/bin/sh}
-+db_cv_path_strip=${db_cv_path_strip=/usr/bin/strip}
-+db_cv_align_t=${db_cv_align_t='unsigned long long'}
-+db_cv_alignp_t=${db_cv_alignp_t='unsigned long'}
-+db_cv_mutex=${db_cv_mutex=ARM/gcc-assembly}
-+db_cv_posixmutexes=${db_cv_posixmutexes=no}
-+db_cv_uimutexes=${db_cv_uimutexes=no}
-+
-+# D-BUS
-+ac_cv_func_posix_getpwnam_r=${ac_cv_func_posix_getpwnam_r=yes}
-+
-+# edb
-+db_cv_spinlocks=${db_cv_spinlocks=no}
-+
-+# ettercap
-+ettercap_cv_type_socklen_t=${ettercap_cv_type_socklen_t=yes}
-+
-+# fget
-+compat_cv_func_snprintf_works=${compat_cv_func_snprintf_works=yes}
-+compat_cv_func_basename_works=${compat_cv_func_basename_works=no}
-+compat_cv_func_dirname_works=${compat_cv_func_dirname_works=no}
-+
-+# fnmatch
-+ac_cv_func_fnmatch_works=${ac_cv_func_fnmatch_works=yes}
-+
-+# gettext
-+am_cv_func_working_getline=${am_cv_func_working_getline=yes}
-+
-+# gio
-+ac_cv_func_getgrgid_r=${ac_cv_func_getgrgid_r=yes}
-+
-+# glib
-+glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
-+glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
-+glib_cv_stack_grows=${glib_cv_stack_grows=no}
-+glib_cv_uscore=${glib_cv_uscore=no}
-+glib_cv_use_pid_surrogate=${glib_cv_use_pid_surrogate=yes}
-+glib_cv_has__inline=${glib_cv_has__inline=yes}
-+glib_cv_has__inline__=${glib_cv_has__inline__=yes}
-+glib_cv_hasinline=${glib_cv_hasinline=yes}
-+glib_cv_sane_realloc=${glib_cv_sane_realloc=yes}
-+glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
-+glib_cv_uscore=${glib_cv_uscore=no}
-+glib_cv_va_copy=${glib_cv_va_copy=yes}
-+glib_cv_va_val_copy=${glib_cv_va_val_copy=yes}
-+glib_cv___va_copy=${glib_cv___va_copy=yes}
-+glib_cv_rtldglobal_broken=${glib_cv_rtldglobal_broken=no}
-+ac_cv_func_getpwuid_r=${ac_cv_func_getpwuid_r=yes}
-+glib_cv_sys_pthread_mutex_trylock_posix=${glib_cv_sys_pthread_mutex_trylock_posix=yes}
-+glib_cv_sys_pthread_getspecific_posix=${glib_cv_sys_pthread_getspecific_posix=yes}
-+glib_cv_sys_pthread_cond_timedwait_posix=${glib_cv_sys_pthread_cond_timedwait_posix=yes}
-+
-+# glib-2.0
-+glib_cv_long_long_format=${glib_cv_long_long_format=ll}
-+glib_cv_sizeof_gmutex=${glib_cv_sizeof_gmutex=24}
-+glib_cv_sizeof_intmax_t=${glib_cv_sizeof_intmax_t=8}
-+glib_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
-+glib_cv_sizeof_size_t=${glib_cv_sizeof_size_t=4}
-+glib_cv_sizeof_system_thread=${glib_cv_sizeof_system_thread=4}
-+glib_cv_sys_use_pid_niceness_surrogate=${glib_cv_sys_use_pid_niceness_surrogate=yes}
-+
-+#gstreamer
-+as_cv_unaligned_access=${as_cv_unaligned_access=no}
-+
-+# httppc
-+ac_cv_strerror_r_SUSv3=${ac_cv_strerror_r_SUSv3=no}
-+
-+# ipsec-tools
-+ac_cv_va_copy=${ac_cv_va_copy=yes}
-+ac_cv___va_copy=${ac_cv___va_copy=yes}
-+ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
-+racoon_cv_bug_getaddrinfo=${racoon_cv_bug_getaddrinfo=no}
-+
-+# jikes
-+ac_cv_sizeof_wchar_t=4
-+
-+# lftp
-+ac_cv_need_trio=${ac_cv_need_trio=no}
-+lftp_cv_va_copy=${lftp_cv_va_copy=yes}
-+lftp_cv_va_val_copy=${lftp_cv_va_val_copy=yes}
-+lftp_cv___va_copy=${lftp_cv___va_copy=yes}
-+
-+# libesmtp
-+acx_working_snprintf=${acx_working_snprintf=yes}
-+
-+# libidl
-+libIDL_cv_long_long_format=${libIDL_cv_long_long_format=ll}
-+
-+# libnet 
-+ac_libnet_have_packet_socket=${ac_libnet_have_packet_socket=yes}
-+
-+# libpcap
-+ac_cv_linux_vers=${ac_cv_linux_vers=2}
-+
-+# libxfce4util
-+with_broken_putenv=${with_broken_putenv=no}
-+
-+# links
-+ac_cv_lib_png_png_create_info_struct=${ac_cv_lib_png_png_create_info_struct=yes}
-+
-+# mono
-+cv_mono_sizeof_sunpath=108
-+mono_cv_sizeof_sunpath=108
-+
-+# mysql
-+mysql_cv_func_atomic_sub=${mysql_cv_func_atomic_sub=no}
-+mysql_cv_func_atomic_add=${mysql_cv_func_atomic_add=no}
-+
-+# nano
-+ac_cv_regexec_segfault_emptystr=${ac_cv_regexec_segfault_emptystr=no}
-+nano_cv_func_regexec_segv_emptystr=${nano_cv_func_regexec_segv_emptystr=no}
-+
-+# ORBit2
-+ac_cv_alignof_CORBA_boolean=1
-+ac_cv_alignof_CORBA_char=1
-+ac_cv_alignof_CORBA_double=8
-+ac_cv_alignof_CORBA_float=4
-+ac_cv_alignof_CORBA_long=4
-+ac_cv_alignof_CORBA_long_double=8
-+ac_cv_alignof_CORBA_long_long=8
-+ac_cv_alignof_CORBA_octet=1
-+ac_cv_alignof_CORBA_pointer=4
-+ac_cv_alignof_CORBA_short=2
-+ac_cv_alignof_CORBA_struct=1
-+ac_cv_alignof_CORBA_wchar=2
-+ac_cv_func_getaddrinfo=${ac_cv_func_getaddrinfo=yes}
-+
-+# php
-+ac_cv_pread=${ac_cv_pread=no}
-+ac_cv_pwrite=${ac_cv_pwrite=no}
-+php_cv_lib_cookie_io_functions_use_off64_t=${php_cv_lib_cookie_io_functions_use_off64_t=yes}
-+cv_php_mbstring_stdarg=${cv_php_mbstring_stdarg=yes}
-+
-+# rsync
-+rsync_cv_HAVE_BROKEN_LARGEFILE=${rsync_cv_HAVE_BROKEN_LARGEFILE=no}
-+rsync_cv_HAVE_SOCKETPAIR=${rsync_cv_HAVE_SOCKETPAIR=yes}
-+rsync_cv_HAVE_LONGLONG=${rsync_cv_HAVE_LONGLONG=yes}
-+rsync_cv_HAVE_OFF64_T=${rsync_cv_HAVE_OFF64_T=no}
-+rsync_cv_HAVE_SHORT_INO_T=${rsync_cv_HAVE_SHORT_INO_T=no}
-+rsync_cv_HAVE_UNSIGNED_CHAR=${rsync_cv_HAVE_UNSIGNED_CHAR=no}
-+rsync_cv_HAVE_BROKEN_READDIR=${rsync_cv_HAVE_BROKEN_READDIR=no}
-+rsync_cv_HAVE_GETTIMEOFDAY_TZ=${rsync_cv_HAVE_GETTIMEOFDAY_TZ=yes}
-+rsync_cv_HAVE_C99_VSNPRINTF=${rsync_cv_HAVE_C99_VSNPRINTF=yes}
-+rsync_cv_HAVE_SECURE_MKSTEMP=${rsync_cv_HAVE_SECURE_MKSTEMP=yes}
-+rsync_cv_REPLACE_INET_NTOA=${rsync_cv_REPLACE_INET_NTOA=no}
-+rsync_cv_REPLACE_INET_ATON=${rsync_cv_REPLACE_INET_ATON=no}
-+
-+# screen
-+screen_cv_sys_bcopy_overlap=${screen_cv_sys_bcopy_overlap=no}
-+screen_cv_sys_memcpy_overlap=${screen_cv_sys_memcpy_overlap=no}
-+screen_cv_sys_memmove_overlap=${screen_cv_sys_memmove_overlap=no}
-+screen_cv_sys_fifo_broken_impl=${screen_cv_sys_fifo_broken_impl=yes}
-+screen_cv_sys_fifo_usable=${screen_cv_sys_fifo_usable=yes}
-+screen_cv_sys_select_broken_retval=${screen_cv_sys_select_broken_retval=no}
-+screen_cv_sys_sockets_nofs=${screen_cv_sys_sockets_nofs=no}
-+screen_cv_sys_sockets_usable=${screen_cv_sys_sockets_usable=yes}
-+screen_cv_sys_terminfo_used=${screen_cv_sys_terminfo_used=yes}
-+
-+# slrn
-+slrn_cv___va_copy=${slrn_cv___va_copy=yes}
-+slrn_cv_va_copy=${slrn_cv_va_copy=yes}
-+slrn_cv_va_val_copy=${slrn_cv_va_val_copy=yes}
-+ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
-+ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
-+ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
-+ac_cv_func_malloc_0_nonnull=${ac_cv_func_malloc_0_nonnull=yes}
-+
-+# socat
-+ac_cv_ispeed_offset=${ac_cv_ispeed_offset=13}
-+sc_cv_termios_ispeed=${sc_cv_termios_ispeed=yes}
-+
-+# ssh
-+ac_cv_have_space_d_name_in_struct_dirent=${ac_cv_dirent_have_space_d_name=yes}
-+ac_cv_have_broken_snprintf=${ac_cv_have_broken_snprintf=no}
-+ac_cv_have_accrights_in_msghdr=${ac_cv_have_accrights_in_msghdr=no}
-+ac_cv_have_control_in_msghdr=${ac_cv_have_control_in_msghdr=yes}
-+ac_cv_have_openpty_ctty_bug=${ac_cv_have_openpty_ctty_bug=yes}
-+
-+# startup-notification
-+lf_cv_sane_realloc=yes
-+
-+# sudo
-+sudo_cv_uid_t_len=${sudo_cv_uid_t_len=10}
-+
-+# xffm
-+jm_cv_func_working_readdir=yes
-+
-+# dpkg
-+dpkg_cv_va_copy=${ac_cv_va_copy=yes}
-+dpkg_cv___va_copy=${ac_cv___va_copy=yes}
-+
-+# eds-dbus
-+ac_cv_libiconv_utf8=${ac_cv_libiconv_utf8=yes}
-+ac_cv_func_getpgrp_void=yes
-+ac_cv_func_setpgrp_void=yes
-+ac_cv_func_setgrent_void=yes
-+ac_cv_func_malloc_0_nonnull=yes
-+ac_cv_func_malloc_works=yes
-+ac_cv_func_posix_getpwuid_r=${ac_cv_func_posix_getpwuid_r=yes}
-+ac_cv_func_posix_getgrgid_r=${ac_cv_func_posix_getgrgid_r=yes}
-+ac_cv_func_setvbuf_reversed=no
-+ac_cv_sizeof___int64=${ac_cv_sizeof___int64=0}
-+ac_cv_sizeof_char=${ac_cv_sizeof_char=1}
-+ac_cv_sizeof_wchar_t=${ac_cv_sizeof_wchar_t=1}
-+ac_cv_sizeof_unsigned_char=${ac_cv_sizeof_unsigned_char=1}
-+ac_cv_sizeof_bool=${ac_cv_sizeof_bool=1}
-+ac_cv_sizeof_char_p=${ac_cv_sizeof_int_p=4}
-+ac_cv_sizeof_int=${ac_cv_sizeof_int=4}
-+ac_cv_sizeof_int_p=${ac_cv_sizeof_int_p=4}
-+ac_cv_sizeof_long=${ac_cv_sizeof_long=4}
-+ac_cv_sizeof_long_int=${ac_cv_sizeof_long_int=4}
-+ac_cv_sizeof_long_long=${ac_cv_sizeof_long_long=8}
-+ac_cv_sizeof_off_t=${ac_cv_sizeof_off_t=4}
-+ac_cv_sizeof_short=${ac_cv_sizeof_short=2}
-+ac_cv_sizeof_short_int=${ac_cv_sizeof_short_int=2}
-+ac_cv_sizeof_size_t=${ac_cv_sizeof_size_t=4}
-+ac_cv_sizeof_void_p=${ac_cv_sizeof_void_p=4}
-+ac_cv_sizeof_long_p=${ac_cv_sizeof_long_p=4}
-+ac_cv_sizeof_float=${ac_cv_sizeof_float=4}
-+ac_cv_sizeof_double=${ac_cv_sizeof_double=8}
-+ac_cv_sizeof_long_double=${ac_cv_sizeof_long_double=8}
-+ac_cv_sizeof_ptrdiff_t=${glib_cv_sizeof_ptrdiff_t=4}
-+ac_cv_sizeof_unsigned_short=${ac_cv_sizeof_unsigned_short=2}
-+ac_cv_sizeof_unsigned=${ac_cv_sizeof_unsigned=4}
-+ac_cv_sizeof_unsigned_int=${ac_cv_sizeof_unsigned_int=4}
-+ac_cv_sizeof_unsigned_long=${ac_cv_sizeof_unsigned_long=4}
-+ac_cv_sizeof_unsigned_long_long=${ac_cv_sizeof_unsigned_long_long=8}
-+ac_cv_sizeof_signed_char=${ac_cv_sizeof_signed_char=1}
-+
-+ac_cv_uchar=${ac_cv_uchar=no}
-+ac_cv_uint=${ac_cv_uint=yes}
-+ac_cv_ulong=${ac_cv_ulong=yes}
-+ac_cv_ushort=${ac_cv_ushort=yes}
-+ac_cv_time_r_type=${ac_cv_time_r_type=POSIX}
-+
-+# samba
-+samba_cv_BROKEN_NISPLUS_INCLUDE_FILES=${samba_cv_BROKEN_NISPLUS_INCLUDE_FILES=yes}
-+samba_cv_BROKEN_REDHAT_7_SYSTEM_HEADERS=${samba_cv_BROKEN_REDHAT_7_SYSTEM_HEADERS=no}
-+samba_cv_HAVE_BROKEN_FCNTL64_LOCKS=${samba_cv_HAVE_BROKEN_FCNTL64_LOCKS=no}
-+samba_cv_HAVE_BROKEN_GETGROUPS=${samba_cv_HAVE_BROKEN_GETGROUPS=no}
-+samba_cv_HAVE_BROKEN_LINUX_SENDFILE=${samba_cv_HAVE_BROKEN_LINUX_SENDFILE=yes}
-+samba_cv_HAVE_BROKEN_READDIR=${samba_cv_HAVE_BROKEN_READDIR=yes}
-+samba_cv_HAVE_BROKEN_READDIR_NAME=${samba_cv_HAVE_BROKEN_READDIR_NAME=no}
-+samba_cv_HAVE_C99_VSNPRINTF=${samba_cv_HAVE_C99_VSNPRINTF=yes}
-+samba_cv_HAVE_DEV64_T=${samba_cv_HAVE_DEV64_T=no}
-+samba_cv_HAVE_DEVICE_MAJOR_FN=${samba_cv_HAVE_DEVICE_MAJOR_FN=yes}
-+samba_cv_HAVE_DEVICE_MINOR_FN=${samba_cv_HAVE_DEVICE_MINOR_FN=yes}
-+samba_cv_HAVE_DQB_FSOFTLIMIT=${samba_cv_HAVE_DQB_FSOFTLIMIT=no}
-+samba_cv_HAVE_EXPLICIT_LARGEFILE_SUPPORT=${samba_cv_HAVE_EXPLICIT_LARGEFILE_SUPPORT=yes}
-+samba_cv_HAVE_FAM_H=${samba_cv_HAVE_FAM_H=no}
-+samba_cv_HAVE_FCNTL_LOCK=${samba_cv_HAVE_FCNTL_LOCK=yes}
-+samba_cv_HAVE_FTRUNCATE_EXTEND=${samba_cv_HAVE_FTRUNCATE_EXTEND=yes}
-+samba_cv_HAVE_FUNCTION_MACRO=${samba_cv_HAVE_FUNCTION_MACRO=yes}
-+samba_cv_HAVE_GETTIMEOFDAY_TZ=${samba_cv_HAVE_GETTIMEOFDAY_TZ=yes}
-+samba_cv_HAVE_INO64_T=${samba_cv_HAVE_INO64_T=no}
-+samba_cv_HAVE_INT16_FROM_RPC_RPC_H=${samba_cv_HAVE_INT16_FROM_RPC_RPC_H=no}
-+samba_cv_HAVE_INT32_FROM_RPC_RPC_H=${samba_cv_HAVE_INT32_FROM_RPC_RPC_H=no}
-+samba_cv_HAVE_KERNEL_CHANGE_NOTIFY=${samba_cv_HAVE_KERNEL_CHANGE_NOTIFY=yes}
-+samba_cv_HAVE_KERNEL_OPLOCKS_IRIX=${samba_cv_HAVE_KERNEL_OPLOCKS_IRIX=no}
-+samba_cv_HAVE_KERNEL_OPLOCKS_LINUX=${samba_cv_HAVE_KERNEL_OPLOCKS_LINUX=yes}
-+samba_cv_HAVE_KERNEL_SHARE_MODES=${samba_cv_HAVE_KERNEL_SHARE_MODES=yes}
-+samba_cv_HAVE_MAKEDEV=${samba_cv_HAVE_MAKEDEV=yes}
-+samba_cv_HAVE_MMAP=${samba_cv_HAVE_MMAP=yes}
-+samba_cv_HAVE_NATIVE_ICONV=${samba_cv_HAVE_NATIVE_ICONV=yes}
-+samba_cv_HAVE_OFF64_T=${samba_cv_HAVE_OFF64_T=no}
-+samba_cv_HAVE_ROOT=${samba_cv_HAVE_ROOT=yes}
-+samba_cv_HAVE_RPC_AUTH_ERROR_CONFLICT=${samba_cv_HAVE_RPC_AUTH_ERROR_CONFLICT=no}
-+samba_cv_HAVE_SECURE_MKSTEMP=${samba_cv_HAVE_SECURE_MKSTEMP=yes}
-+samba_cv_HAVE_SENDFILE=${samba_cv_HAVE_SENDFILE=yes}
-+samba_cv_HAVE_SENDFILE64=${samba_cv_HAVE_SENDFILE64=yes}
-+samba_cv_HAVE_SOCK_SIN_LEN=${samba_cv_HAVE_SOCK_SIN_LEN=no}
-+samba_cv_HAVE_STAT_ST_BLKSIZE=${samba_cv_HAVE_STAT_ST_BLKSIZE=yes}
-+samba_cv_HAVE_STAT_ST_BLOCKS=${samba_cv_HAVE_STAT_ST_BLOCKS=yes}
-+samba_cv_HAVE_STRUCT_DIR64=${samba_cv_HAVE_STRUCT_DIR64=no}
-+samba_cv_HAVE_STRUCT_DIRENT64=${samba_cv_HAVE_STRUCT_DIRENT64=yes}
-+samba_cv_HAVE_STRUCT_FLOCK64=${samba_cv_HAVE_STRUCT_FLOCK64=yes}
-+samba_cv_HAVE_TRUNCATED_SALT=${samba_cv_HAVE_TRUNCATED_SALT=no}
-+samba_cv_HAVE_UINT16_FROM_RPC_RPC_H=${samba_cv_HAVE_UINT16_FROM_RPC_RPC_H=no}
-+samba_cv_HAVE_UINT32_FROM_RPC_RPC_H=${samba_cv_HAVE_UINT32_FROM_RPC_RPC_H=no}
-+samba_cv_HAVE_UNSIGNED_CHAR=${samba_cv_HAVE_UNSIGNED_CHAR=yes}
-+samba_cv_HAVE_UTIMBUF=${samba_cv_HAVE_UTIMBUF=yes}
-+samba_cv_HAVE_UT_UT_ADDR=${samba_cv_HAVE_UT_UT_ADDR=yes}
-+samba_cv_HAVE_UT_UT_EXIT=${samba_cv_HAVE_UT_UT_EXIT=yes}
-+samba_cv_HAVE_UT_UT_HOST=${samba_cv_HAVE_UT_UT_HOST=yes}
-+samba_cv_HAVE_UT_UT_ID=${samba_cv_HAVE_UT_UT_ID=yes}
-+samba_cv_HAVE_UT_UT_NAME=${samba_cv_HAVE_UT_UT_NAME=yes}
-+samba_cv_HAVE_UT_UT_PID=${samba_cv_HAVE_UT_UT_PID=yes}
-+samba_cv_HAVE_UT_UT_TIME=${samba_cv_HAVE_UT_UT_TIME=yes}
-+samba_cv_HAVE_UT_UT_TV=${samba_cv_HAVE_UT_UT_TV=yes}
-+samba_cv_HAVE_UT_UT_TYPE=${samba_cv_HAVE_UT_UT_TYPE=yes}
-+samba_cv_HAVE_UT_UT_USER=${samba_cv_HAVE_UT_UT_USER=yes}
-+samba_cv_HAVE_UX_UT_SYSLEN=${samba_cv_HAVE_UX_UT_SYSLEN=no}
-+samba_cv_HAVE_VA_COPY=${samba_cv_HAVE_VA_COPY=yes}
-+samba_cv_HAVE_WORKING_AF_LOCAL=${samba_cv_HAVE_WORKING_AF_LOCAL=yes}
-+samba_cv_HAVE_Werror=${samba_cv_HAVE_Werror=yes}
-+samba_cv_PUTUTLINE_RETURNS_UTMP=${samba_cv_PUTUTLINE_RETURNS_UTMP=yes}
-+samba_cv_QUOTA_WORKS=${samba_cv_QUOTA_WORKS=yes}
-+samba_cv_REALPATH_TAKES_NULL=${samba_cv_REALPATH_TAKES_NULL=yes}
-+samba_cv_REPLACE_GETPASS=${samba_cv_REPLACE_GETPASS=yes}
-+samba_cv_REPLACE_INET_NTOA=${samba_cv_REPLACE_INET_NTOA=no}
-+samba_cv_REPLACE_READDIR=${samba_cv_REPLACE_READDIR=no}
-+samba_cv_RUN_QUOTA_TESTS=${samba_cv_RUN_QUOTA_TESTS=yes}
-+samba_cv_SEEKDIR_RETURNS_VOID=${samba_cv_SEEKDIR_RETURNS_VOID=yes}
-+samba_cv_SIZEOF_DEV_T=${samba_cv_SIZEOF_DEV_T=yes}
-+samba_cv_SIZEOF_INO_T=${samba_cv_SIZEOF_INO_T=yes}
-+samba_cv_SIZEOF_OFF_T=${samba_cv_SIZEOF_OFF_T=yes}
-+samba_cv_SYSCONF_SC_NGROUPS_MAX=${samba_cv_SYSCONF_SC_NGROUPS_MAX=yes}
-+samba_cv_SYSCONF_SC_NPROCESSORS_ONLN=${samba_cv_SYSCONF_SC_NPROCESSORS_ONLN=yes}
-+samba_cv_SYSCONF_SC_NPROC_ONLN=${samba_cv_SYSCONF_SC_NPROC_ONLN=no}
-+samba_cv_SYSCONF_SC_PAGESIZE=${samba_cv_SYSCONF_SC_PAGESIZE=yes}
-+samba_cv_SYSQUOTA_FOUND=${samba_cv_SYSQUOTA_FOUND=yes}
-+samba_cv_SYSQUOTA_WORKS=${samba_cv_SYSQUOTA_WORKS=yes}
-+samba_cv_SYSQUOTA_WORKS_XFS=${samba_cv_SYSQUOTA_WORKS_XFS=yes}
-+samba_cv_TRY_QUOTAS=${samba_cv_TRY_QUOTAS=no}
-+samba_cv_TRY_SYS_QUOTAS=${samba_cv_TRY_SYS_QUOTAS=yes}
-+samba_cv_USE_SETRESUID=${samba_cv_USE_SETRESUID=yes}
-+samba_cv_WE_USE_SYS_QUOTAS=${samba_cv_WE_USE_SYS_QUOTAS=yes}
-+samba_cv_WITH_AFS=${samba_cv_WITH_AFS=no}
-+samba_cv_WITH_FAKE_KASERVER=${samba_cv_WITH_FAKE_KASERVER=no}
-+samba_cv_WITH_QUOTAS=${samba_cv_WITH_QUOTAS=auto}
-+samba_cv_WITH_SYS_QUOTAS=${samba_cv_WITH_SYS_QUOTAS=auto}
-+samba_cv_WITH_VFS_AFSACL=${samba_cv_WITH_VFS_AFSACL=no}
-+samba_cv_compiler_supports_ll=${samba_cv_compiler_supports_ll=yes}
-+samba_cv_found_xfs_header=${samba_cv_found_xfs_header=yes}
-+samba_cv_have_longlong=${samba_cv_have_longlong=yes}
-+samba_cv_have_setresgid=${samba_cv_have_setresgid=yes}
-+samba_cv_have_setresuid=${samba_cv_have_setresuid=yes}
-+samba_cv_immediate_structures=${samba_cv_immediate_structures=yes}
-+samba_cv_optimize_out_funcation_calls=${samba_cv_optimize_out_funcation_calls=yes}
-+samba_cv_sig_atomic_t=${samba_cv_sig_atomic_t=yes}
-+samba_cv_socklen_t=${samba_cv_socklen_t=yes}
-+samba_cv_struct_timespec=${samba_cv_struct_timespec=yes}
-+samba_cv_sysquotas_file=${samba_cv_sysquotas_file=lib/sysquotas_linux.c}
-+samba_cv_unixsocket=${samba_cv_unixsocket=yes}
-+samba_cv_volatile=${samba_cv_volatile=yes}
-+
-+#older sambe defines
-+samba_cv_USE_SETEUID=${samba_cv_USE_SETEUID=yes}
-+samba_cv_USE_SETREUID=${samba_cv_USE_SETREUID=yes}
-+samba_cv_USE_SETUIDX=${samba_cv_USE_SETUIDX=yes}
-+samba_cv_LINUX_LFS_SUPPORT=${samba_cv_LINUX_LFS_SUPPORT=yes}
-+
-+# clamav
-+clamav_av_func_working_snprintf_long=${clamav_av_func_working_snprintf_long=yes}
-+clamav_av_have_in_port_t=${clamav_av_have_in_port_t=yes}
-+clamav_av_have_in_addr_t=${clamav_av_have_in_addr_t=yes}
-+ac_cv_func_mmap_fixed_mapped=${ac_cv_func_mmap_fixed_mapped=yes}
-+
-+#dbus
-+ac_cv_have_abstract_sockets=${ac_cv_have_abstract_sockets=yes}
-+
-+# lftp
-+ac_cv_file___dev_ptc_=yes
-+
-+# guile
-+ac_cv_func_pthread_attr_getstack=${ac_cv_func_pthread_attr_getstack=yes}
-+
-+# gnet
-+ac_cv_member_struct_sockaddr_sa_len=${ac_cv_member_struct_sockaddr_sa_len=no}
-+ac_cv_gnet_have_abstract_sockets=${ac_cv_gnet_have_abstract_sockets=no}
-+gnet_sockaddr_family_field_name=${gnet_sockaddr_family_field_name=ss_family}
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+index db58754..73a4a99 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.4.5.bb
+@@ -9,6 +9,7 @@ SRC_URI = " \
+     file://0001-gstinfo-Shorten-__FILE__-on-all-platforms.patch \
+     file://inputselector-sticky-events-haven-t-send-out-when-ac-1-4-1.patch \
+     file://0002-basesink-Fix-QoS-lateness-checking-if-subclass-imple.patch \
++    file://0003-basesink-Shouldn-t-drop-buffer-when-sync-false.patch \
+ "
+ SRC_URI[md5sum] = "88a9289c64a4950ebb4f544980234289"
+ SRC_URI[sha256sum] = "40801aa7f979024526258a0e94707ba42b8ab6f7d2206e56adbc4433155cb0ae"
 -- 
-2.1.4
+1.9.1
 
 
