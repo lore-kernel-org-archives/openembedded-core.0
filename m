@@ -1,24 +1,28 @@
 Return-Path: <ed.bartosh@linux.intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C13076E04
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D01A77010
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 08:49:37 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by orsmga102.jf.intel.com with ESMTP; 17 Sep 2015 01:49:38 -0700
+	Thu, 17 Sep 2015 08:49:44 +0000 (UTC)
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Sep 2015 01:49:44 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,545,1437462000"; d="scan'208";a="563417747"
+X-IronPort-AV: E=Sophos;i="5.17,545,1437462000"; d="scan'208";a="646631087"
 Received: from linux.intel.com ([10.23.219.25])
-	by FMSMGA003.fm.intel.com with ESMTP; 17 Sep 2015 01:49:38 -0700
+	by orsmga003.jf.intel.com with ESMTP; 17 Sep 2015 01:49:40 -0700
 Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
-	by linux.intel.com (Postfix) with ESMTP id E41256A4083
+	by linux.intel.com (Postfix) with ESMTP id 246A96A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 01:48:43 -0700 (PDT)
+	Thu, 17 Sep 2015 01:48:45 -0700 (PDT)
 From: Ed Bartosh <ed.bartosh@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 11:49:29 +0300
-Message-Id: <cover.1442479528.git.ed.bartosh@linux.intel.com>
+Date: Thu, 17 Sep 2015 11:49:31 +0300
+Message-Id: <8105fa100729e9944d341edc2be7dda278038618.1442479528.git.ed.bartosh@linux.intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [wic] [PATCH v2 0/4] wic bugfix and improvements
+In-Reply-To: <cover.1442479528.git.ed.bartosh@linux.intel.com>
+References: <cover.1442479528.git.ed.bartosh@linux.intel.com>
+In-Reply-To: <cover.1442479528.git.ed.bartosh@linux.intel.com>
+References: <cover.1442479528.git.ed.bartosh@linux.intel.com>
+Subject: [PATCH 2/4] wic: use ext4 in wic-image-minimal.wks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,36 +35,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 08:49:39 -0000
+X-List-Received-Date: Thu, 17 Sep 2015 08:49:45 -0000
 
-Hi,
+ext4 is used in canned wks files, so let's use it here too
+for the sake of consistency.
 
-This patchset contains a changes suggested by QA team.
-Daniel, thank you for suggestions!
-
-Changes in v2: added one more patch
-
-The following changes since commit ea562de57590c966cd5a75fda8defecd397e6436:
-
-  qemu: Update to upstream patches (2015-09-14 20:46:40 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib ed/wic/misc
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/misc
-
-Ed Bartosh (4):
-  wic: add dependencies to wic-image-minimal recipe
-  wic: use ext4 in wic-image-minimal.wks
-  wic: fix partition size calculation
-  wic-image-minimal: add dependency to .wks
-
- meta-selftest/recipes-test/images/wic-image-minimal.bb  | 4 ++++
+Signed-off-by: Ed Bartosh <ed.bartosh@linux.intel.com>
+---
  meta-selftest/recipes-test/images/wic-image-minimal.wks | 6 +++---
- scripts/lib/wic/imager/direct.py                        | 3 +--
- 3 files changed, 8 insertions(+), 5 deletions(-)
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---
-Ed
+diff --git a/meta-selftest/recipes-test/images/wic-image-minimal.wks b/meta-selftest/recipes-test/images/wic-image-minimal.wks
+index 29cd8f2..8f9be09 100644
+--- a/meta-selftest/recipes-test/images/wic-image-minimal.wks
++++ b/meta-selftest/recipes-test/images/wic-image-minimal.wks
+@@ -3,8 +3,8 @@
+ # created from core-image-minimal and wic-image-minimal image recipes.
+ 
+ part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+-part / --source rootfs --ondisk sda --fstype=ext2 --label platform --align 1024
+-part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext2 --label core --align 1024
+-part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext2 --label backup --align 1024
++part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024
++part /core --source rootfs --rootfs-dir=core-image-minimal --ondisk sda --fstype=ext4 --label core --align 1024
++part /backup --source rootfs --rootfs-dir=wic-image-minimal --ondisk sda --fstype=ext4 --label backup --align 1024
+ 
+ bootloader  --timeout=0  --append="rootwait console=tty0"
+-- 
+2.1.4
 
 
