@@ -1,26 +1,34 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CE38376FFA
+Return-Path: <net147@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B5E776DF8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 01:39:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8H1dbG2012454
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 17 Sep 2015 03:55:18 +0000 (UTC)
+Received: by pacfv12 with SMTP id fv12so8051707pac.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 18:39:37 -0700 (PDT)
-Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 16 Sep 2015 18:39:37 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 16 Sep 2015 18:39:36 -0700
-Message-ID: <7c13e4135b350d50a9aeb4d8597dbb62ec81161d.1442453859.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1442453859.git.liezhi.yang@windriver.com>
-References: <cover.1442453859.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] bitbake.conf: update APACHE_MIRROR
+	Wed, 16 Sep 2015 20:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=heFqTMwr4LApRbCzyOyHArESdrGtBmxySGV6ODKidGo=;
+	b=C2Kx/ZL66COD5fGvid5NMVZs/cWtctzUMkoNNOqJjhAasK24vqqMSGTtPDxaSTVzVE
+	1JbUl4R8an1Byv3hIseI4YOgVEAJyFGEC0/MdRY+/BAtDUngNQVRp/DuxuZORihKWTp3
+	w1GzElkgooFFNLDtdq9QFlmvsCWhM20lCR6L7J0E/MpEsBockE5o8X5bO+xU3KP0mPUy
+	16lZocTeV3hcEU0IBEctvJBHfH4iwgdemM2j7DMD/n2al/gV0WxuPqNATj6+soHRvHsS
+	wexkiOit3sDUMWFezprJeYhiogO6rVhIP4nkRperKqzVFTrcJKvnTVa3mdFnAPLLP2ij
+	77sQ==
+X-Received: by 10.68.65.3 with SMTP id t3mr67378036pbs.127.1442462119205;
+	Wed, 16 Sep 2015 20:55:19 -0700 (PDT)
+Received: from 60-242-179-244.static.tpgi.com.au
+	(60-242-179-244.static.tpgi.com.au. [60.242.179.244])
+	by smtp.gmail.com with ESMTPSA id qr5sm965072pbb.26.2015.09.16.20.55.17
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 16 Sep 2015 20:55:18 -0700 (PDT)
+From: Jonathan Liu <net147@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Sep 2015 13:55:31 +1000
+Message-Id: <1442462131-20150-1-git-send-email-net147@gmail.com>
+X-Mailer: git-send-email 2.5.0
+Subject: [PATCH] image.py: make sure ROOTFS_SIZE is an integer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,32 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 01:39:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 17 Sep 2015 03:55:21 -0000
 
-From Ross:
-The http://www.apache.org/dist only keeps latest release, so use
-http://archive.apache.org/dist, which keeps all the archives.
+_get_rootfs_size was returning a float in some cases (e.g. 12288.0).
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Jonathan Liu <net147@gmail.com>
 ---
- meta/conf/bitbake.conf |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/image.py | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d8a66f9..d57f921 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -566,7 +566,7 @@ BBLAYERS_FETCH_DIR ??= "${COREBASE}"
- # Download locations and utilities.
- ##################################################################
+diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+index 2361955..f8aa88b 100644
+--- a/meta/lib/oe/image.py
++++ b/meta/lib/oe/image.py
+@@ -1,6 +1,7 @@
+ from oe.utils import execute_pre_post_process
+ import os
+ import subprocess
++import math
+ import multiprocessing
  
--APACHE_MIRROR = "http://www.apache.org/dist"
-+APACHE_MIRROR = "http://archive.apache.org/dist"
- DEBIAN_MIRROR = "ftp://ftp.debian.org/debian/pool"
- GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
- GNOME_GIT = "git://git.gnome.org"
+ 
+@@ -169,10 +170,7 @@ class Image(ImageDepGraph):
+         base_size = size_kb * overhead_factor
+         base_size = (base_size, rootfs_req_size)[base_size < rootfs_req_size] + \
+             rootfs_extra_space
+-
+-        if base_size != int(base_size):
+-            base_size = int(base_size + 1)
+-
++        base_size = int(math.ceil(base_size))
+         base_size += rootfs_alignment - 1
+         base_size -= base_size % rootfs_alignment
+ 
 -- 
-1.7.9.5
+2.5.0
 
 
