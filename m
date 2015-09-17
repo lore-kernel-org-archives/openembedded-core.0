@@ -1,30 +1,41 @@
-Return-Path: <ray.kinsella@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FA8476E2E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wi0-f176.google.com (mail-wi0-f176.google.com
+	[209.85.212.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FCD376FF2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 15:03:53 +0000 (UTC)
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 17 Sep 2015 08:03:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,547,1437462000"; d="scan'208";a="771142141"
-Received: from irsmsx151.ger.corp.intel.com ([163.33.192.59])
-	by orsmga001.jf.intel.com with ESMTP; 17 Sep 2015 08:03:30 -0700
-Received: from irsmsx107.ger.corp.intel.com ([169.254.10.252]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.237]) with mapi id
-	14.03.0248.002; Thu, 17 Sep 2015 16:03:29 +0100
-From: "Kinsella, Ray" <ray.kinsella@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [meta-oe][PATCH] openssl: remove lock data_word from x86cpuid.pl
-Thread-Index: AQHQ8VoCUA+RiLif40+UoOInWVgCyQ==
-Date: Thu, 17 Sep 2015 15:03:28 +0000
-Message-ID: <1442502208.12473.4.camel@intel.com>
-Accept-Language: en-IE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.252.23.10]
+	Thu, 17 Sep 2015 15:08:54 +0000 (UTC)
+Received: by wiclk2 with SMTP id lk2so28307910wic.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Sep 2015 08:08:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-type:content-disposition:in-reply-to:user-agent;
+	bh=o9CMx85jqvrmbQVUS2yQcIy6DBxAjm+24Hw8yBAAjng=;
+	b=azhchmfBVwFxYIvdYst8YJRnaR3S+XofQLSf4wMC7DVKF5TVDk1L3X16eHMZCjTEWU
+	XQTAIjXRlAEujdZtCq+T4pfrRlkN9dWdN8WCJJ4j2fg/lXjW6ZPPZbbeO8B2gxBvy7no
+	EM/mcIPt1t8/ggxXmrmm6mfTRplmW6ejcoXnCD9AYKyK43pxXyj9AdMr7vaXdu9NoQkf
+	EqxEmlZccPIiFuE6WTuedKyP9C57bHi0Ljmj1060xOCVEIpMt/0mqFg3rx0S1spAIuYl
+	5y45dliXIIyDwKZBzvabn4vRp4hRuc7Gez8qJLjD2q2NDEZZEKaehjaHRqSoricC7ej2
+	sBmQ==
+X-Received: by 10.194.62.48 with SMTP id v16mr1873185wjr.60.1442502533982;
+	Thu, 17 Sep 2015 08:08:53 -0700 (PDT)
+Received: from localhost (ip-86-49-34-37.net.upcbroadband.cz. [86.49.34.37])
+	by smtp.gmail.com with ESMTPSA id
+	o10sm10565753wia.4.2015.09.17.08.08.52
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 17 Sep 2015 08:08:53 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 17 Sep 2015 17:09:09 +0200
+To: Jussi Kukkonen <jussi.kukkonen@intel.com>
+Message-ID: <20150917150909.GA2380@jama>
+References: <cover.1442494048.git.jussi.kukkonen@intel.com>
+	<f0b5037b3efdd8498a6499690009aed1c1273315.1442494048.git.jussi.kukkonen@intel.com>
 MIME-Version: 1.0
-Subject: [meta-oe][PATCH] openssl: remove lock data_word from x86cpuid.pl
+In-Reply-To: <f0b5037b3efdd8498a6499690009aed1c1273315.1442494048.git.jussi.kukkonen@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] xinput-calibrator: Add a dummy calibration file for qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +48,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 15:03:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <750C6A71E61C614CA2C175F858EBB35B@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 17 Sep 2015 15:08:55 -0000
+X-Groupsio-MsgNum: 71239
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
+Content-Disposition: inline
 
-VGhlIGNtcHhjaGcgaW5zdHJ1Y3Rpb24gaXMgZW5jb2RlZCBpbiBmdW5jdGlvbnMgc3VjaCBhcyBP
-UEVOU1NMX2F0b21pY19hZGQNCmFzIGEgcGVybGFzbSBkYXRhX3dvcmQuIFRoaXMgaGFzIHRoZSBl
-ZmZlY3Qgb2YgaGlkaW5nIHRoZSBpbnN0cnVjdGlvbiBmcm9tIA0KdGhlIGFzc2VtYmxlci4gU3Ry
-aXBwaW5nIHRoZSBMT0NLIHByZWZpeCBvbiBjbXB4Y2hnIHZpYSB0aGUgYXNzZW1ibGVyIHdpdGgg
-DQotLW1vbWl0LWxvY2stcHJlZml4PXllcyB0aGVuIGJlY29tZXMgaW1wb3NzaWJsZSAocmVxdWly
-ZWQgb24gdGhlIEludGVsIFgxMDAwKS4gDQpUaGlzIHBhdGNoIGNvbnZlcnRzIHRoZSBkYXRhX3dv
-cmQgaW50byBwZXJsYXNtIGluc3RydWN0aW9ucy4NCg0KU2lnbmVkLW9mZi1ieTogUmF5IEtpbnNl
-bGxhIDxyYXkua2luc2VsbGFAaW50ZWwuY29tPg0KLS0tDQogLi4uL29wZW5zc2wvcmVtb3ZlLWxv
-Y2stZGF0YV93b3JkLWZyb20teDg2Y3B1aWQucGwucGF0Y2ggICB8ICAgMTIgKysrKysrKysrKysr
-DQogbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMS4wLjJkLmJiICAg
-ICAgICB8ICAgIDEgKw0KIDIgZmlsZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKQ0KIGNyZWF0
-ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC9y
-ZW1vdmUtbG9jay1kYXRhX3dvcmQtZnJvbS14ODZjcHVpZC5wbC5wYXRjaA0KDQpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2wvcmVtb3ZlLWxvY2st
-ZGF0YV93b3JkLWZyb20teDg2Y3B1aWQucGwucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2
-aXR5L29wZW5zc2wvb3BlbnNzbC9yZW1vdmUtbG9jay1kYXRhX3dvcmQtZnJvbS14ODZjcHVpZC5w
-bC5wYXRjaA0KbmV3IGZpbGUgbW9kZSAxMDA2NDQNCmluZGV4IDAwMDAwMDAuLmU5NjllOTENCi0t
-LSAvZGV2L251bGwNCisrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVu
-c3NsL3JlbW92ZS1sb2NrLWRhdGFfd29yZC1mcm9tLXg4NmNwdWlkLnBsLnBhdGNoDQpAQCAtMCww
-ICsxLDEyIEBADQorLS0tIG9wZW5zc2wtMS4wLjJkL2NyeXB0by94ODZjcHVpZC5wbC5vcmlnCTIw
-MTUtMDktMTYgMjE6MTE6MDEuOTI3MzIyMjUyICswMTAwDQorKysrIG9wZW5zc2wtMS4wLjJkL2Ny
-eXB0by94ODZjcHVpZC5wbAkyMDE1LTA5LTE2IDIxOjE0OjQ1Ljc5NTMxNDk5MiArMDEwMA0KK0BA
-IC0yNzUsNyArMjc1LDggQEANCisgJnNldF9sYWJlbCgic3BpbiIpOw0KKyAJJmxlYQkoImVieCIs
-JkRXUCgwLCJlYXgiLCJlY3giKSk7DQorIAkmbm9wCSgpOw0KKy0JJmRhdGFfd29yZCgweDFhYjEw
-ZmYwKTsJIyBsb2NrOwljbXB4Y2hnCSVlYngsKCVlZHgpCSMgJWVheCBpcyBlbnZvbHZlZCBhbmQg
-aXMgYWx3YXlzIHJlbG9hZGVkDQorKwkmbG9jawkoKTsNCisrCSZjbXB4Y2hnKCZEV1AoMCwiZWR4
-IiksICJlYngiKTsgIyAlZWF4IGlzIGVudm9sdmVkIGFuZCBpcyBhbHdheXMgcmVsb2FkZWQNCisg
-CSZqbmUJKCZsYWJlbCgic3BpbiIpKTsNCisgCSZtb3YJKCJlYXgiLCJlYngiKTsJIyBPcGVuU1NM
-IGV4cGVjdHMgdGhlIG5ldyB2YWx1ZQ0KKyAJJnBvcAkoImVieCIpOw0KZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzEuMC4yZC5iYiBiL21ldGEv
-cmVjaXBlcy1jb25uZWN0aXZpdHkvb3BlbnNzbC9vcGVuc3NsXzEuMC4yZC5iYg0KaW5kZXggMzJk
-OGRjZS4uZGUyZWMxYSAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb3Bl
-bnNzbC9vcGVuc3NsXzEuMC4yZC5iYg0KKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9v
-cGVuc3NsL29wZW5zc2xfMS4wLjJkLmJiDQpAQCAtMzMsNiArMzMsNyBAQCBTUkNfVVJJICs9ICJm
-aWxlOi8vY29uZmlndXJlLXRhcmdldHMucGF0Y2ggXA0KICAgICAgICAgICAgIGZpbGU6Ly9vcGVu
-c3NsLWZpeC1kZXMucG9kLWVycm9yLnBhdGNoIFwNCiAgICAgICAgICAgICBmaWxlOi8vTWFrZWZp
-bGVzLXB0ZXN0LnBhdGNoIFwNCiAgICAgICAgICAgICBmaWxlOi8vcHRlc3QtZGVwcy5wYXRjaCBc
-DQorICAgICAgICAgICAgZmlsZTovL3JlbW92ZS1sb2NrLWRhdGFfd29yZC1mcm9tLXg4NmNwdWlk
-LnBsLnBhdGNoIFwNCiAgICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwNCiAgICAgICAgICAg
-ICBmaWxlOi8vY3J5cHRvX3VzZV9iaWdpbnRfaW5feDg2LTY0X3BlcmwucGF0Y2ggXA0KICAgICAg
-ICAgICAgIGZpbGU6Ly9vcGVuc3NsLTEuMC4yYS14MzItYXNtLnBhdGNoIFwNCi0tIA0KMS43LjEw
-LjQNCg0K
+--a8Wt8u1KmwUX3Y2C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Sep 17, 2015 at 04:00:38PM +0300, Jussi Kukkonen wrote:
+> This prevents xinput_calibrator from popping up on every boot in qemu.
+>=20
+> Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+> ---
+>  .../xinput-calibrator/pointercal-xinput/pointercal-qemu.xinput      | 2 =
+++
+>  meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb    | 6 =
+++++++
+>  2 files changed, 8 insertions(+)
+>  create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xi=
+nput/pointercal-qemu.xinput
+>=20
+> diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/po=
+intercal-qemu.xinput b/meta/recipes-graphics/xinput-calibrator/pointercal-x=
+input/pointercal-qemu.xinput
+> new file mode 100644
+> index 0000000..a816d6d
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointerca=
+l-qemu.xinput
+> @@ -0,0 +1,2 @@
+> +# Dummy pointercal.xinput file to prevent xinput_calibrator
+> +# from running on qemu startup
+
+NAK
+
+Just put this in qemuall subdirectory and don't change the recipe.
+
+> diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.=
+0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> index 65348c3..cab3d14 100644
+> --- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> +++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+> @@ -5,8 +5,14 @@ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MI=
+T;md5=3D3da9cfbcb788c80a0384
+>  PR =3D "r7"
+> =20
+>  SRC_URI =3D "file://pointercal.xinput"
+> +SRC_URI_append_qemuall =3D " file://pointercal-qemu.xinput"
+>  S =3D "${WORKDIR}"
+> =20
+> +do_install_prepend_qemuall () {
+> +    install -d ${D}${sysconfdir}/
+> +    install -m 0644 ${S}/pointercal-qemu.xinput ${D}${sysconfdir}/pointe=
+rcal.xinput
+> +}
+> +
+>  do_install() {
+>      # Only install file if it has a contents
+>      if [ -s ${S}/pointercal.xinput ] &&\
+> --=20
+> 2.1.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
+
+--a8Wt8u1KmwUX3Y2C
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2
+
+iEYEARECAAYFAlX615MACgkQN1Ujt2V2gBzqwQCfTGKpRfPA8iUOROBjPElUVQMx
+G9QAn3CaZnUYepib92Md/RFNWCjrlL92
+=IQon
+-----END PGP SIGNATURE-----
+
+--a8Wt8u1KmwUX3Y2C--
