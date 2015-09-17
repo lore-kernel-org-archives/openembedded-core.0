@@ -1,30 +1,24 @@
-Return-Path: <pderocco@ix.netcom.com>
-Received: from elasmtp-dupuy.atl.sa.earthlink.net
-	(elasmtp-dupuy.atl.sa.earthlink.net [209.86.89.62])
-	by mail.openembedded.org (Postfix) with ESMTP id 859B277005
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CD33A76FF5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 00:52:01 +0000 (UTC)
-DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=dk20050327; d=ix.netcom.com;
-	b=kerZlnA6GPW2CUY0LFqCovmQHyESMEEt+x9KIpDEtZqkIZD+oCk/26Hp3h/yOLeQ;
-	h=Received:From:To:References:In-Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:X-Mailer:Thread-Index:X-MimeOLE:X-ELNK-Trace:X-Originating-IP;
-Received: from [45.49.236.199] (helo=PAULD)
-	by elasmtp-dupuy.atl.sa.earthlink.net with esmtpa (Exim 4.67)
-	(envelope-from <pderocco@ix.netcom.com>) id 1ZcNQa-0005mm-MZ
-	for openembedded-core@lists.openembedded.org;
-	Wed, 16 Sep 2015 20:51:56 -0400
-From: "Paul D. DeRocco" <pderocco@ix.netcom.com>
-To: "OpenEmbedded list" <openembedded-core@lists.openembedded.org>
-References: <DECE55FFDD9A4BE0A917289E0F6A7775@PAULD>
-In-Reply-To: <DECE55FFDD9A4BE0A917289E0F6A7775@PAULD>
-Date: Wed, 16 Sep 2015 17:52:01 -0700
-Message-ID: <2F27C16D6CE947B9A299856B9910FE9B@PAULD>
+	Thu, 17 Sep 2015 01:39:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8H1dbOn019908
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 16 Sep 2015 18:39:37 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Wed, 16 Sep 2015 18:39:36 -0700
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 16 Sep 2015 18:39:35 -0700
+Message-ID: <cover.1442453859.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Mailer: Microsoft Office Outlook 11
-Thread-Index: AdDw0wWnqPVV1P/mSsK3xw4ExAFkqgAD9V8w
-X-MimeOLE: Produced By Microsoft MimeOLE V6.1.7601.17609
-X-ELNK-Trace: bd7d5d4e6f8f652c74cfc7ce3b1ad11381c87f5e5196068832979921b0c8eaedae3049f0dd2bd8ec350badd9bab72f9c350badd9bab72f9c350badd9bab72f9c
-X-Originating-IP: 45.49.236.199
-Subject: Re: Migrating from Samba 3 to 4
+Subject: [PATCH 0/1] bitbake.conf: update APACHE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +31,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 00:52:04 -0000
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Sep 2015 01:39:38 -0000
+Content-Type: text/plain
 
-> From: Paul D. DeRocco
-> 
-> A couple years ago, I included Samba 3 in a Yocto (Dylan 
-> branch) project,
-> and got it working. It included a custom smb.conf file, and an added
-> usermap file. I'm doing a new version of that project using 
-> the Yocto Fido
-> branch, and incorporating Samba 4, whose recipe works differently.
-> 
-> To provide a custom smb.conf, I simply did the usual 
-> .bbappend prepending
-> my own files subdirectory containing the new smb.conf. The new recipe
-> copies smb.conf explicitly inside a do_install_append() 
-> function, so never
-> looks for mine.
-> 
-> To provide a usermap file, I created a do_install_append() 
-> that created
-> the necessary subdirectories and copied the file. Worked fine.
-> 
-> Neither of those is working now. The final sysroot contains the stock
-> smb.conf and no usermap. I'm a bitbake near-newbie, so I need 
-> some help.
-> Why wouldn't my do_install_append() be called? Isn't it legal 
-> to have one
-> in the .bb and another in the .bbappend?
-> 
-> And what is the now-accepted method of supplying a custom smb.conf?
-> Copying it in a do_install_append(), or by running a little 
-> script with
-> ROOTFS_POSTPROCESS_COMMAND? Is the latter how I should be 
-> doing both of
-> these things?
+The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
 
-Never mind about usermap: that was cockpit error.
+  qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
 
-I'm still left with the question: is there a "standard" way of supplying a
-custom smb.conf file for Samba 4?
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/bbconf
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/bbconf
+
+Robert Yang (1):
+  bitbake.conf: update APACHE_MIRROR
+
+ meta/conf/bitbake.conf |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 -- 
-
-Ciao,               Paul D. DeRocco
-Paul                mailto:pderocco@ix.netcom.com
+1.7.9.5
 
 
