@@ -1,39 +1,30 @@
-Return-Path: <patrick.ohly@intel.com>
-Received: from mail-io0-f176.google.com (mail-io0-f176.google.com
-	[209.85.223.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E1EAE76FDE
+Return-Path: <mike.looijmans@topic.nl>
+Received: from atl4mhob10.myregisteredsite.com
+	(atl4mhob10.myregisteredsite.com [209.17.115.48])
+	by mail.openembedded.org (Postfix) with ESMTP id B673876FEA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 06:49:13 +0000 (UTC)
-Received: by ioiz6 with SMTP id z6so12132868ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 16 Sep 2015 23:49:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=fHM/nq+V+cTxkEQEduf6I1EYAasueKVFOpi666Kikr4=;
-	b=ld8i20dKzHZ6t1LRJXEbyKssddQcaKdeD1krk1w538LQ1wTsweu9BrsKH8qGFVdQKQ
-	aWLHT+hQXMe0vEhejCAdBUCWJWhm9vV6+OQEZKtS+XAWzded3dsFHjhcgtvx6uEwaOj9
-	428sMRhT8xlfo86kc+dpXpzIzrR+IbJaImWmmySzbT4Vn8yigvaKs27ds54INaJQhKsi
-	dI9WJ9xpjebsOxzCtzWj6aDJmtn/TwuHCJqRHl/oBMlzcHb2cwuw7AORXdrIxm6Fy0bl
-	8b4Bo3T7mWtfzQC6lSekZIjv+gts0Z+IMDg79Ug3DQuuNN5Iv0vu1rhZbub5iknWzRCc
-	JIwQ==
-X-Gm-Message-State: ALoCoQlAR9Of502sVZkhJrWspWoOywHxZzQLRuhN2GqkXp8dI9zT19b0dzLQuUhKi7HnET+tj8Wn
-X-Received: by 10.107.5.74 with SMTP id 71mr3337587iof.161.1442472553607;
-	Wed, 16 Sep 2015 23:49:13 -0700 (PDT)
-Received: from pohly-desktop.fritz.box (p5DE8E7DB.dip0.t-ipconnect.de.
-	[93.232.231.219])
-	by smtp.gmail.com with ESMTPSA id 67sm746553iog.34.2015.09.16.23.49.12
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 16 Sep 2015 23:49:13 -0700 (PDT)
-From: Patrick Ohly <patrick.ohly@intel.com>
+	Thu, 17 Sep 2015 07:01:10 +0000 (UTC)
+Received: from mailpod.hostingplatform.com ([10.30.71.207])
+	by atl4mhob10.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	t8H719Ni012135 for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Sep 2015 03:01:09 -0400
+Received: (qmail 14501 invoked by uid 0); 17 Sep 2015 07:01:09 -0000
+X-TCPREMOTEIP: 88.159.208.100
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO ?192.168.80.121?)
+	(mike@milosoftware.com@88.159.208.100)
+	by 0 with ESMTPA; 17 Sep 2015 07:01:09 -0000
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 08:49:36 +0200
-Message-Id: <1442472576-2334-1-git-send-email-patrick.ohly@intel.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1442472281.27156.24.camel@intel.com>
-References: <1442472281.27156.24.camel@intel.com>
-Subject: [PATCH] systemd: apply persistent storage udev rules also for /dev/hd*
+References: <1442462131-20150-1-git-send-email-net147@gmail.com>
+From: Mike Looijmans <mike.looijmans@topic.nl>
+Organization: TOPIC
+Message-ID: <55FA6533.1010205@topic.nl>
+Date: Thu, 17 Sep 2015 09:01:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <1442462131-20150-1-git-send-email-net147@gmail.com>
+Subject: Re: [PATCH] image.py: make sure ROOTFS_SIZE is an integer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,70 +37,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 06:49:14 -0000
+X-List-Received-Date: Thu, 17 Sep 2015 07:01:12 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This fixes booting with initramfs and root=UUID on machines with IDE
-disks, like "runqemu hdddirect", and kernels which still use the
-deprecated CONFIG_IDE.
+Suggestion: Why bother so much about that last bit? If floats are being used 
+(I suspect because "overhead_factor" is float), any bit-perfect accuracy has 
+been thrown out the window anyway.
 
-Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
----
- .../systemd/rules-whitelist-hd-devices.patch       | 32 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_225.bb           |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/rules-whitelist-hd-devices.patch
+I suggest just saying "base_size = int(size_kb * overhead_factor)", and be 
+done with it. If someone specifies "overhead_factor=1.2" or something, he 
+really is not going to care about that last bit being rounded upwards. If 
+everything is integer anyway, it will still be bit-perfect.
 
-diff --git a/meta/recipes-core/systemd/systemd/rules-whitelist-hd-devices.patch b/meta/recipes-core/systemd/systemd/rules-whitelist-hd-devices.patch
-new file mode 100644
-index 0000000..8975b05
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/rules-whitelist-hd-devices.patch
-@@ -0,0 +1,32 @@
-+From f77b7e5626e70c3a775e993816a33af5a61dea42 Mon Sep 17 00:00:00 2001
-+From: Patrick Ohly <patrick.ohly@intel.com>
-+Date: Wed, 16 Sep 2015 13:55:58 +0200
-+Subject: [PATCH] rules: whitelist hd* devices
-+
-+qemu by default emulates IDE and the linux-yocto kernel(s) use
-+CONFIG_IDE instead of the more modern libsata, so disks appear as
-+/dev/hd*. Patch rejected upstream because CONFIG_IDE is deprecated.
-+
-+Upstream-Status: Denied [https://github.com/systemd/systemd/pull/1276]
-+
-+Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
-+---
-+ rules/60-persistent-storage.rules | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/rules/60-persistent-storage.rules b/rules/60-persistent-storage.rules
-+index 0b14bb4..1c4d97a 100644
-+--- a/rules/60-persistent-storage.rules
-++++ b/rules/60-persistent-storage.rules
-+@@ -6,7 +6,7 @@
-+ ACTION=="remove", GOTO="persistent_storage_end"
-+ 
-+ SUBSYSTEM!="block", GOTO="persistent_storage_end"
-+-KERNEL!="loop*|mmcblk*[0-9]|msblk*[0-9]|mspblk*[0-9]|nvme*|sd*|sr*|vd*|xvd*|bcache*|cciss*|dasd*|ubd*", GOTO="persistent_storage_end"
-++KERNEL!="loop*|mmcblk*[0-9]|msblk*[0-9]|mspblk*[0-9]|nvme*|hd*|sd*|sr*|vd*|xvd*|bcache*|cciss*|dasd*|ubd*", GOTO="persistent_storage_end"
-+ 
-+ # ignore partitions that span the entire disk
-+ TEST=="whole_disk", GOTO="persistent_storage_end"
-+-- 
-+2.1.4
-+
-diff --git a/meta/recipes-core/systemd/systemd_225.bb b/meta/recipes-core/systemd/systemd_225.bb
-index 6ac99cd..b1a1818 100644
---- a/meta/recipes-core/systemd/systemd_225.bb
-+++ b/meta/recipes-core/systemd/systemd_225.bb
-@@ -45,6 +45,7 @@ SRC_URI = "git://github.com/systemd/systemd.git;protocol=git \
-            file://00-create-volatile.conf \
-            file://init \
-            file://run-ptest \
-+           file://rules-whitelist-hd-devices.patch \
-           "
- SRC_URI_append_qemuall = "file://qemuall_io_latency-core-device.c-Change-the-default-device-timeout-to-2.patch"
- 
--- 
-2.1.4
+
+On 17-09-15 05:55, Jonathan Liu wrote:
+> _get_rootfs_size was returning a float in some cases (e.g. 12288.0).
+>
+> Signed-off-by: Jonathan Liu <net147@gmail.com>
+> ---
+>   meta/lib/oe/image.py | 6 ++----
+>   1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/lib/oe/image.py b/meta/lib/oe/image.py
+> index 2361955..f8aa88b 100644
+> --- a/meta/lib/oe/image.py
+> +++ b/meta/lib/oe/image.py
+> @@ -1,6 +1,7 @@
+>   from oe.utils import execute_pre_post_process
+>   import os
+>   import subprocess
+> +import math
+>   import multiprocessing
+>
+>
+> @@ -169,10 +170,7 @@ class Image(ImageDepGraph):
+>           base_size = size_kb * overhead_factor
+>           base_size = (base_size, rootfs_req_size)[base_size < rootfs_req_size] + \
+>               rootfs_extra_space
+> -
+> -        if base_size != int(base_size):
+> -            base_size = int(base_size + 1)
+> -
+> +        base_size = int(math.ceil(base_size))
+>           base_size += rootfs_alignment - 1
+>           base_size -= base_size % rootfs_alignment
+>
+>
 
 
