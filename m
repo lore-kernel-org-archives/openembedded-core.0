@@ -1,38 +1,36 @@
 Return-Path: <dominic.sacre@gmx.de>
-X-Greylist: delayed 304 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 17 Sep 2015 16:20:11 UTC
 Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 31AA176E2E
+	by mail.openembedded.org (Postfix) with ESMTP id 3073676E04
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Sep 2015 16:20:11 +0000 (UTC)
 Received: from dastp.lan ([37.24.103.185]) by mail.gmx.com (mrgmx102) with
-	ESMTPSA (Nemesis) id 0MUCTO-1ZBYXg0pu6-00R4UA; Thu, 17 Sep 2015 18:15:06
+	ESMTPSA (Nemesis) id 0MSY2q-1ZDChi0FLI-00RciO; Thu, 17 Sep 2015 18:15:06
 	+0200
 From: =?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 18:13:44 +0200
-Message-Id: <1442506425-5096-4-git-send-email-dominic.sacre@gmx.de>
+Date: Thu, 17 Sep 2015 18:13:43 +0200
+Message-Id: <1442506425-5096-3-git-send-email-dominic.sacre@gmx.de>
 X-Mailer: git-send-email 2.5.2
 In-Reply-To: <1442506425-5096-1-git-send-email-dominic.sacre@gmx.de>
 References: <1442506425-5096-1-git-send-email-dominic.sacre@gmx.de>
 MIME-Version: 1.0
-X-Provags-ID: V03:K0:f9UKiS8KweJAX7BfKuuDbLCWuJqvMqPk9Qtp2qrJ9akX+HEzOZo
-	7bdzMffHyWIXm2f2oY8mxxDhGWQkanE4cWmluZjm4DFTbR3+0IZrepIf4CArzfAQvzZmVI+
-	qvrxPhixaecGo3szyItnXDTaPKcvWp8/pNNoVOrtDecQ+VJk3s+DDoLLnKxQdahmTF0O0Mc
-	MOHE+8NTgFyenGx47rJ4A==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:ZXSKai513Vg=:/Ml3ERpFkXFcNZu7WZg8tM
-	7U6/40c/4hwfKzBjNy6qBMPscXmO0qtw7EOIgr4P0ouNiJRnN6nrQm7cADeOFaSjgGgijNrtM
-	vDFdxW9KeArCcaSWrx21Vu7QwZ+xNeVqJs6MYQYX7izkkhh+pB5nhorLyc6O6cnB16JH333Ti
-	gPqeQxgDvj/X4AQwcCIUXQzXTRG4/nwzz25OVypoFcodu4stJH7mM2B7O6TIaObySGgnLSLT5
-	WCY6ceGoB+tZEKD30rlZWdGTuUS27ardnpivRPlG1Ixe2SVHdRD7AQ4J/RC4YIFcyzH7UvuR9
-	aIKiaPRRAy80guLDBQVOaud3UX1hYYDmRD+hoJBGXISlc9izFd4Cc7kpBFkhL1gh7CNSvyqWM
-	KLMwO8ajkc5+L9d79h8AziUS85sP8h96nMP5Jio0ZgkIjuVgHe1jwkxaBHJRAnCXuCKVGz8VX
-	m4hRbfLrVl2lsEnDOsNbvXWlgb7Qk0ish0sKpgUYz8lwN1/eS8qrkwjvE5o+fo3img/TCuqqs
-	O9vumd8eL3RuBpAPxSuFFSf1UG/F17R7QvDDcSCF1q9CnPvSzwx7aPEYrv5KvJtJdd16myrVv
-	lI9ZSlMaSH3YUWVbJx0ykc5zbsVUJSQMAcKyvsnglbzJyG01hBsnvDHd7l1T06kGkqQCud7LS
-	toSNdwyTMb7ov3Ja6h0F9aCKYwQw/ZAcZsmyHPyzQau3QB2eYg5o1pV/lYO86tzsWkJ00GV3W
-	pbrS+ONk/o/PfiNJ45CV32zE74Pspyo0rYiJ7A==
-Subject: [PATCH 3/4] gzip: fix install if bindir == base_bindir
+X-Provags-ID: V03:K0:hwl/0sf6JD8T2ykPWPUd4or56pmnGrTeY2t9HBmPgFWLrvKE2EH
+	8/lT9R52ZUF+dVMfs30IhCGd6iig6JhrtGKhQjOsGF20x+lzICseXgDb5QyCJ+tfPIpRtQP
+	HFA0YPhY5D7t2j2mKpUSvjugcjjuUCpj1Bbg6ZqmRRh4JpCGdRWttqbXm4gE1lqZcWpiVUu
+	8RkQ3fKHAnS+SR8zR8Fig==
+X-UI-Out-Filterresults: notjunk:1;V01:K0:T+8Frcgk5gc=:pY4moATk/EpnZljKxuk3Fw
+	nBlVRNEAPXooO/MEZgZkQxflmjVq2zAFgZUtz6zjgSJ3MXS4EhlT/eEmUZLd7HbIkjv7DoYr+
+	W4XFWmUP8IcrYdTllsFaP+1xVjscvVTaM1IUF5REXj0RJH+gZpCOcVyRu6iQlJ6c1uJ9DuQ1h
+	bEejl5qIWiwln5XgKXWMRAV9uIoRK7ozeGFpMuYlxy4kugwpsEWi5tNcAtt+uf/XgnXhobuOV
+	L7UuDscAgeqiZVlCPigCUBnNhe1JM0/n52nwUPhIKaI2OfVawoy9YGhuJmQC3/D8+zxrsJofA
+	PCR5gic2G1/PcSCVIAtD2jNotG+nPF9olTg/dwDDsHVo1uboNjDQ+TMbFy+4AN0DsUXAAFfFL
+	4WDdpUsy2+RJ70JFaG4x2ceTjv9dkoBqGOa/GBBYvL2V4CqHG2rH/JB2siNyTXTI22NL5cMj1
+	hbCKFNQPTKMFIm4cUMRChqRAm0sfj+XRPA7wvQhMKFLiXnSz3u6VUimRcCFBe+vekT2U0sBWK
+	isOdRMSscJIdI9y7xOb1ychItq4XwrNVrzV1SRmFjscrK6eS53AXrAd2CFdH6wFGHNbHt+ULU
+	PJVyZ4IlsCDtw3y0IHoJz3HsjubDJCDHdWsQC5Fi92JTBFRaouvW3dYNtNi4uYkWbHl1t9pIT
+	Bpt86CvElZ3uQEiIXlLUQ0KZ9DwXQewzcCqQ+/jfQSN0Wl3xVqCEmpp4MHdIAp8Das1zJQxvt
+	3OD3f6rzUFHDCXbL7BB6lw2TEzrE5RKjSTzaCg==
+Subject: [PATCH 2/4] cpio: fix install if bindir == base_bindir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +53,28 @@ merged /usr directory.
 
 Signed-off-by: Dominic Sacré <dominic.sacre@gmx.de>
 ---
- meta/recipes-extended/gzip/gzip.inc | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ meta/recipes-extended/cpio/cpio_v2.inc | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/gzip/gzip.inc b/meta/recipes-extended/gzip/gzip.inc
-index 94480ec..58e5e0c 100644
---- a/meta/recipes-extended/gzip/gzip.inc
-+++ b/meta/recipes-extended/gzip/gzip.inc
-@@ -10,12 +10,14 @@ inherit autotools texinfo
- EXTRA_OEMAKE_class-target = "GREP=${base_bindir}/grep"
+diff --git a/meta/recipes-extended/cpio/cpio_v2.inc b/meta/recipes-extended/cpio/cpio_v2.inc
+index 93de4bb..8520ff2 100644
+--- a/meta/recipes-extended/cpio/cpio_v2.inc
++++ b/meta/recipes-extended/cpio/cpio_v2.inc
+@@ -18,9 +18,11 @@ EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
  
- do_install_append () {
--	# Rename and move files into /bin (FHS), which is typical place for gzip
--	install -d ${D}${base_bindir}
--	mv ${D}${bindir}/gunzip ${D}${base_bindir}/gunzip
--	mv ${D}${bindir}/gzip ${D}${base_bindir}/gzip
--	mv ${D}${bindir}/zcat ${D}${base_bindir}/zcat
--	mv ${D}${bindir}/uncompress ${D}${base_bindir}/uncompress
-+	if [ "${base_bindir}" != "${bindir}" ]; then
-+		# Rename and move files into /bin (FHS), which is typical place for gzip
-+		install -d ${D}${base_bindir}
-+		mv ${D}${bindir}/gunzip ${D}${base_bindir}/gunzip
-+		mv ${D}${bindir}/gzip ${D}${base_bindir}/gzip
-+		mv ${D}${bindir}/zcat ${D}${base_bindir}/zcat
-+		mv ${D}${bindir}/uncompress ${D}${base_bindir}/uncompress
-+	fi
+ do_install () {
+     autotools_do_install
+-    install -d ${D}${base_bindir}/
+-    mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
+-    rmdir ${D}${bindir}/
++    if [ "${base_bindir}" != "${bindir}" ]; then
++        install -d ${D}${base_bindir}/
++        mv "${D}${bindir}/cpio" "${D}${base_bindir}/cpio"
++        rmdir ${D}${bindir}/
++    fi
  }
  
- inherit update-alternatives
+ PACKAGES =+ "${PN}-rmt"
 -- 
 2.5.2
 
