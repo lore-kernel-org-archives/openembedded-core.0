@@ -1,37 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 08EF577010
+Return-Path: <marex@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id BD4F077003
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 14:33:10 +0000 (UTC)
-Received: by qgev79 with SMTP id v79so14052240qge.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 07:33:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=FvESrG4DXKCgQ9y0h3DOp28SUSiHxXYN6//iIHnLU2s=;
-	b=KAmG+Xd5aPnZYXubWliYwryYNmdwlplzDyFqzUOh9DUtrRVcfMN+MdRgdAOMyOOQzX
-	kCrFOtb4yswhtZCiBRfar11RjBtgiucOGUEeJg2cUjrnYAwxEg4cd9uB/162h9OtA/M5
-	crWu17PetglnoUV5j6m3Xwn/DTeVXScOxV+Gkbi+mcc3YtpTJHc4UzaEZ8WzQU2EkDwr
-	1J/6c9tVmI2M0ThpOnUbtPiR46RVMzJK9J39ClytmSrRWevBh4/0rADrJef2oa1977Mg
-	6ewmGhMbRsY3Z89j3YyEsdnL5vod5T9UFMe+T68MfbLqhr/ZgBKKLoDS3doda8fWRExS
-	3ykA==
-X-Gm-Message-State: ALoCoQlb3TZEQRRE2BB/QrkOXNshIqCYigXRsl6SczVZ/STKLGO8zY91hGOmjvZqeE2zi59nKZSr
-X-Received: by 10.140.235.147 with SMTP id g141mr52078950qhc.22.1442500390207; 
-	Thu, 17 Sep 2015 07:33:10 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.140.94.86 with HTTP; Thu, 17 Sep 2015 07:32:50 -0700 (PDT)
-In-Reply-To: <449d22e4acbad6a99a1a7372181c815e528a579f.1442475786.git.liezhi.yang@windriver.com>
-References: <cover.1442475786.git.liezhi.yang@windriver.com>
-	<449d22e4acbad6a99a1a7372181c815e528a579f.1442475786.git.liezhi.yang@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 17 Sep 2015 15:32:50 +0100
-Message-ID: <CAJTo0Lb=Osg5hn1vvgXKCRn6RFhJZngP=iAeLJB=ADBdGHnHRQ@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] meta: fix build with gettext 0.16.1
+	Thu, 17 Sep 2015 14:38:01 +0000 (UTC)
+Received: from mail.nefkom.net (unknown [192.168.8.184])
+	by mail-out.m-online.net (Postfix) with ESMTP id 3nH12h3ZT4z3hkK2;
+	Thu, 17 Sep 2015 16:31:55 +0200 (CEST)
+X-Auth-Info: lu7nuZpLLVx/o155SkzU8+JOwUJvLIHiNP17ItvNVz4=
+Received: from chi.lan (host-82-135-33-74.customer.m-online.net [82.135.33.74])
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3nH12g4WSKzvdWt;
+	Thu, 17 Sep 2015 16:31:55 +0200 (CEST)
+From: Marek Vasut <marex@denx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Sep 2015 16:31:52 +0200
+Message-Id: <1442500317-9064-4-git-send-email-marex@denx.de>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1442500317-9064-1-git-send-email-marex@denx.de>
+References: <1442500317-9064-1-git-send-email-marex@denx.de>
+Cc: Marek Vasut <marex@denx.de>, lftan@altera.com, waltergoossens@home.nl
+Subject: [PATCH 3/8] linux-yocto: depend on libgcc for nios2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,37 +31,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 14:33:12 -0000
-Content-Type: multipart/alternative; boundary=001a11376e6e58e74c051ff24b47
+X-List-Received-Date: Thu, 17 Sep 2015 14:38:02 -0000
 
---001a11376e6e58e74c051ff24b47
-Content-Type: text/plain; charset=UTF-8
+Make nios2 kernel depend on libgcc.
 
-On 17 September 2015 at 08:46, Robert Yang <liezhi.yang@windriver.com>
-wrote:
+In arch/nios2/Makefile, it adds LIBGCC to libs-y:
 
-> -DEPENDS = "gtk+ dbus-glib intltool-native"
-> +DEPENDS = "gtk+ dbus-glib intltool-native gettext-native"
->
+LIBGCC          := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
+libs-y          += $(LIBGCC)
 
-Shouldn't this be "inherit gettext"?
+In file Makefile in top directory, libs-y is assigned to to var
+KBUILD_VMLINUX_MAIN. It uses script link-vmlinux.sh to link vmlinux.o,
+and when execute function vmlinux_link() in link-vmlinux.sh,
+KBUILD_VMLINUX_MAIN is passed to ${LD}.
 
-Ross
+If build without libgcc, the value of LIBGCC is just libgcc.a without
+parent directory. linux-yocto fails to build:
 
---001a11376e6e58e74c051ff24b47
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+|   LD      vmlinux.o
+| nios2-poky-linux-ld.bfd: cannot find libgcc.a: No such file or directory
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On 17 September 2015 at 08:46, Robert Yang <span dir=3D"ltr">&lt;<a href=3D=
-"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windriver.=
-com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div id=3D":87"=
- class=3D"a3s" style=3D"overflow:hidden">-DEPENDS =3D &quot;gtk+ dbus-glib =
-intltool-native&quot;<br>
-+DEPENDS =3D &quot;gtk+ dbus-glib intltool-native gettext-native&quot;</div=
-></blockquote></div><br>Shouldn&#39;t this be &quot;inherit gettext&quot;?<=
-/div><div class=3D"gmail_extra"><br></div><div class=3D"gmail_extra">Ross</=
-div></div>
+Add libgcc to nios2 kernel dependency.
 
---001a11376e6e58e74c051ff24b47--
+Signed-off-by: Marek Vasut <marex@denx.de>
+---
+ meta/recipes-kernel/linux/linux-yocto.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 3b41a61..81ffa24 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -11,6 +11,10 @@ DEPENDS_append_aarch64 = " libgcc"
+ KERNEL_CC_append_aarch64 = " ${TOOLCHAIN_OPTIONS}"
+ KERNEL_LD_append_aarch64 = " ${TOOLCHAIN_OPTIONS}"
+ 
++DEPENDS_append_nios2 = " libgcc"
++KERNEL_CC_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
++KERNEL_LD_append_nios2 = " ${TOOLCHAIN_OPTIONS}"
++
+ # A KMACHINE is the mapping of a yocto $MACHINE to what is built
+ # by the kernel. This is typically the branch that should be built,
+ # and it can be specific to the machine or shared
+-- 
+2.1.4
+
+
