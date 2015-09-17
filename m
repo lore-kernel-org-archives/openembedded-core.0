@@ -1,24 +1,37 @@
-Return-Path: <alejandro.joya.cruz@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id AEFFD76E04
+Return-Path: <ross.burton@intel.com>
+Received: from mail-qk0-f177.google.com (mail-qk0-f177.google.com
+	[209.85.220.177])
+	by mail.openembedded.org (Postfix) with ESMTP id C537476E2E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 16:20:24 +0000 (UTC)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP; 17 Sep 2015 09:20:25 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,548,1437462000"; d="scan'208";a="807393003"
-Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
-	by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2015 09:20:24 -0700
-From: Alejandro Joya <alejandro.joya.cruz@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 11:20:16 -0500
-Message-Id: <d6ef7aefeb091eafe59724a74fa59ad0b0ca0b20.1442503745.git.alejandro.joya.cruz@intel.com>
-X-Mailer: git-send-email 2.1.0
-In-Reply-To: <dc1b328b4e41695df96acac6ba73620a535d2ee1.1442503745.git.alejandro.joya.cruz@intel.com>
-References: <dc1b328b4e41695df96acac6ba73620a535d2ee1.1442503745.git.alejandro.joya.cruz@intel.com>
-In-Reply-To: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
-References: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
-Subject: [PATCH 3/3] packagegroup-core-boot: overwrite hardcoded dependency to virtual reference
+	Thu, 17 Sep 2015 19:54:45 +0000 (UTC)
+Received: by qkcf65 with SMTP id f65so11251733qkc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Sep 2015 12:54:45 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc:content-type;
+	bh=ldqOk/mfg3UY6Vk+wgDMNO+qDXUHZuIF4EXecko5W90=;
+	b=RRODRWyewBKFRcQP4wT6AQLdHi1IaITnNdWxMFThsclWu+Bpyq0AasjpqUCfvHyiNz
+	XlaBe1xsqZVq/SpwpR5gbZqJlgvGz/p+lW8TK0y3wBjaTOkPbOtKB5SOv1Io/TZ9tRJc
+	6liS1lDsHAqno2D6kYHW48ioWOedM8I18xztL/gM1IxoIubI4j9qnC10uSK27MTz2GQO
+	p001MAmqUP9OO/d3uTy0gpa/jqaczRbFfv+NbriX5xxSZkj7yLw65ym2RWQjxpepbgFD
+	paLhqcDJqzt0UL9iJnMcmJGkWmyohb0kpXBxHtrPgw2uEr1fXbcqqwjXYBeWltXKTo51
+	kl4g==
+X-Gm-Message-State: ALoCoQk9Rpn5VRvKVw01oGBd0iA/CzH2Y3/UM3SliwUlEcq31+t+kQcFixbmEqi+eg0iuMtIKoQq
+X-Received: by 10.55.221.199 with SMTP id u68mr1604762qku.83.1442519685345;
+	Thu, 17 Sep 2015 12:54:45 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.140.94.86 with HTTP; Thu, 17 Sep 2015 12:54:26 -0700 (PDT)
+In-Reply-To: <1442500317-9064-1-git-send-email-marex@denx.de>
+References: <1442500317-9064-1-git-send-email-marex@denx.de>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 17 Sep 2015 20:54:26 +0100
+Message-ID: <CAJTo0Lb3jFKOQqhV+PzOHUurauGRFFK55GufPt2isWABdvGCpg@mail.gmail.com>
+To: Marek Vasut <marex@denx.de>
+Cc: lftan@altera.com, waltergoossens@home.nl,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/8] nios2 fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,45 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 16:20:24 -0000
+X-List-Received-Date: Thu, 17 Sep 2015 19:54:47 -0000
+Content-Type: multipart/alternative; boundary=001a114997586d57ed051ff6c9c9
 
-This recipe have a hardcoded dependency to busybox, in order to be able to have a flexible selection,
-instead of the hardcoded dependency,now is point to virtual reference anybox.
+--001a114997586d57ed051ff6c9c9
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Alejandro Joya <alejandro.joya.cruz@intel.com>
----
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+On 17 September 2015 at 15:31, Marek Vasut <marex@denx.de> wrote:
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index 09f5373..355631f 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -19,12 +19,12 @@ MACHINE_ESSENTIAL_EXTRA_RRECOMMENDS ?= ""
- 
- # Distro can override the following VIRTUAL-RUNTIME providers:
- VIRTUAL-RUNTIME_dev_manager ?= "udev"
--VIRTUAL-RUNTIME_login_manager ?= "busybox"
-+VIRTUAL-RUNTIME_login_manager ?= "${VIRTUAL-RUNTIME_anybox}"
- VIRTUAL-RUNTIME_init_manager ?= "sysvinit"
- VIRTUAL-RUNTIME_initscripts ?= "initscripts"
- VIRTUAL-RUNTIME_keymaps ?= "keymaps"
- 
--SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwclock', '', d)} \
-+SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_anybox-hwclock}', '', d)} \
-                     modutils-initscripts \
-                     init-ifupdown \
-                     ${VIRTUAL-RUNTIME_initscripts} \
-@@ -33,7 +33,7 @@ SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', 'busybox-hwc
- RDEPENDS_${PN} = "\
-     base-files \
-     base-passwd \
--    busybox \
-+    ${VIRTUAL-RUNTIME_anybox} \
-     ${@bb.utils.contains("DISTRO_FEATURES", "sysvinit", "${SYSVINIT_SCRIPTS}", "", d)} \
-     ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "${VIRTUAL-RUNTIME_keymaps}", "", d)} \
-     netbase \
--- 
-2.1.0
+> This patchset fixes various minor issues found during the process
+> of getting Yocto working with the Altera NIOS2 soft-processor.
+>
 
+The patches all look good, but the patches which include changes to
+upstream need an Upstream-Status tag in the patch alongside your
+signed-off-by.
 
+See http://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines for
+details.
+
+Ross
+
+--001a114997586d57ed051ff6c9c9
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
+On 17 September 2015 at 15:31, Marek Vasut <span dir=3D"ltr">&lt;<a href=3D=
+"mailto:marex@denx.de" target=3D"_blank">marex@denx.de</a>&gt;</span> wrote=
+:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:so=
+lid;padding-left:1ex"><div id=3D":25t" class=3D"" style=3D"overflow:hidden"=
+>This patchset fixes various minor issues found during the process<br>
+of getting Yocto working with the Altera NIOS2 soft-processor.<br></div></b=
+lockquote></div><br>The patches all look good, but the patches which includ=
+e changes to upstream need an Upstream-Status tag in the patch alongside yo=
+ur signed-off-by.=C2=A0</div><div class=3D"gmail_extra"><br></div><div clas=
+s=3D"gmail_extra">See <a href=3D"http://www.openembedded.org/wiki/Commit_Pa=
+tch_Message_Guidelines">http://www.openembedded.org/wiki/Commit_Patch_Messa=
+ge_Guidelines</a> for details.<br></div><div class=3D"gmail_extra"><br></di=
+v><div class=3D"gmail_extra">Ross</div></div>
+
+--001a114997586d57ed051ff6c9c9--
