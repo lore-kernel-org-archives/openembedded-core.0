@@ -1,26 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AEB8766A3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F32F76FF5
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Sep 2015 07:46:27 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8H7kRdk021687
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8H7kRei013279
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 00:46:28 -0700 (PDT)
+	Thu, 17 Sep 2015 00:46:27 -0700 (PDT)
 Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
 	Thu, 17 Sep 2015 00:46:27 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 17 Sep 2015 00:46:27 -0700
-Message-ID: <449d22e4acbad6a99a1a7372181c815e528a579f.1442475786.git.liezhi.yang@windriver.com>
+Date: Thu, 17 Sep 2015 00:46:26 -0700
+Message-ID: <cover.1442475786.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <cover.1442475786.git.liezhi.yang@windriver.com>
-References: <cover.1442475786.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/1] meta: fix build with gettext 0.16.1
+Subject: [PATCH 0/1] meta: fix build with gettext 0.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,30 +34,95 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 17 Sep 2015 07:46:28 -0000
 Content-Type: text/plain
 
-The gettext 0.16.1 doesn't install any m4 files to sysroot, please see
-the following commit:
+The world build will be OK with this patch when buidling low versions:
 
-  commit 9e10db5bdfe77c0ef2aff2f1cf89958b62c294a1
-  Author: Christopher Larson <kergoth@gmail.com>
-  Date:   Mon Mar 17 18:10:54 2014 +0000
+PREFERRED_VERSION_bash = "3.2.48"
+PREFERRED_VERSION_bison = "2.3"
+PREFERRED_VERSION_busybox = "1.23.2"
+PREFERRED_VERSION_coreutils = "6.9"
+PREFERRED_VERSION_cpio = "2.8"
+PREFERRED_VERSION_db = "5.3.28"
+PREFERRED_VERSION_diffutils = "2.8.1"
+PREFERRED_VERSION_dri2proto = "2.8"
+PREFERRED_VERSION_ed = "0.5"
+PREFERRED_VERSION_elfutils = "0.148"
+PREFERRED_VERSION_findutils = "4.2.31"
+PREFERRED_VERSION_gawk = "3.1.5"
+PREFERRED_VERSION_gdbm = "1.8.3"
+PREFERRED_VERSION_gettext = "0.16.1"
+PREFERRED_VERSION_gnu-config = "20120814"
+PREFERRED_VERSION_gnupg = "1.4.7"
+PREFERRED_VERSION_gperf = "3.0.3"
+PREFERRED_VERSION_grep = "2.5.1a"
+PREFERRED_VERSION_groff = "1.18.1.4"
+PREFERRED_VERSION_gzip = "1.3.12"
+PREFERRED_VERSION_inputproto = "2.3.1"
+PREFERRED_VERSION_libgfortran = "4.8"
+PREFERRED_VERSION_libiconv = "1.11.1"
+PREFERRED_VERSION_libidn = "0.6.14"
+PREFERRED_VERSION_libxcb = "1.11"
+PREFERRED_VERSION_libxext = "1.3.3"
+PREFERRED_VERSION_m4 = "1.4.9"
+PREFERRED_VERSION_make = "3.81"
+PREFERRED_VERSION_mc = "4.7.5.2"
+PREFERRED_VERSION_mesa = "10.6.3"
+PREFERRED_VERSION_mtools = "3.9.9"
+PREFERRED_VERSION_ofono = "1.16"
+PREFERRED_VERSION_patch = "2.5.9"
+PREFERRED_VERSION_readline = "5.2"
+PREFERRED_VERSION_rsync = "2.6.9"
+PREFERRED_VERSION_rxvt-unicode = "9.20"
+PREFERRED_VERSION_sed = "4.1.2"
+PREFERRED_VERSION_tar = "1.17"
+PREFERRED_VERSION_texinfo = "4.8"
+PREFERRED_VERSION_usbutils = "007"
+PREFERRED_VERSION_which = "2.18"
+PREFERRED_VERSION_xcb-proto = "1.11"
+PREFERRED_VERSION_xf86-input-keyboard = "1.8.1"
+PREFERRED_VERSION_xf86-input-mouse = "1.9.1"
+PREFERRED_VERSION_xf86-input-synaptics = "1.8.2"
 
-      gettext-0.16.1: kill target m4 macros from sysroot
+PREFERRED_VERSION_coreutils-native = "6.9"
+PREFERRED_VERSION_db-native = "5.3.28"
+PREFERRED_VERSION_gdbm-native = "1.8.3"
+PREFERRED_VERSION_elfutils-native = "0.148"
+PREFERRED_VERSION_findutils-native = "4.2.31"
+PREFERRED_VERSION_gnu-config-native = "20120814"
+PREFERRED_VERSION_gperf-native = "3.0.3"
+PREFERRED_VERSION_inputproto-native = "2.3.1"
+PREFERRED_VERSION_libxcb-native = "1.11"
+PREFERRED_VERSION_libxext-native = "1.3.3"
+PREFERRED_VERSION_mtools-native = "3.9.9"
+PREFERRED_VERSION_readline-native = "5.2"
+PREFERRED_VERSION_xcb-proto-native = "1.11"
 
-This is aim for using gettext-native's macros(gettext-native-0.19.4),
-but when we set:
-  PREFERRED_VERSION_gettext = "0.16.1"
-And build the recipes like pcmanfm, we would get errors when
-do_configure:
+PREFERRED_VERSION_nativesdk-db = "5.3.28"
+PREFERRED_VERSION_nativesdk-gdbm = "1.8.3"
+PREFERRED_VERSION_nativesdk-elfutils = "0.148"
+PREFERRED_VERSION_nativesdk-findutils = "4.2.31"
+PREFERRED_VERSION_nativesdk-gnu-config = "20120814"
+PREFERRED_VERSION_nativesdk-inputproto = "2.3.1"
+PREFERRED_VERSION_nativesdk-libxcb = "1.11"
+PREFERRED_VERSION_nativesdk-libxext = "1.3.3"
+PREFERRED_VERSION_nativesdk-mtools = "3.9.9"
+PREFERRED_VERSION_nativesdk-qemu = "2.2.0"
+PREFERRED_VERSION_nativesdk-readline = "5.2"
+PREFERRED_VERSION_nativesdk-xcb-proto = "1.11"
 
-configure:5164: error: possibly undefined macro: AM_NLS
+// Robert
 
-This is because autotools_copy_aclocals doesn't copy the native macros
-for target unless they're direct dependencies.
+The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
 
-Add gettext-native to DEPENDS will fix the problem.
+  qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/low_version
+  http://cgit.openembedded.org/cgit.cgi/openembedded-core-contrib/log/?h=rbt/low_version
+
+Robert Yang (1):
+  meta: fix build with gettext 0.16.1
+
  .../connman/connman-gnome_0.7.bb                   |    2 +-
  .../gtk-engines/gtk-engines_2.20.2.bb              |    2 +-
  meta/recipes-gnome/libsecret/libsecret_0.18.2.bb   |    2 +-
@@ -75,174 +138,6 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
  meta/recipes-support/pinentry/pinentry_0.9.2.bb    |    2 ++
  13 files changed, 14 insertions(+), 12 deletions(-)
 
-diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-index f5575d2..b54d703 100644
---- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-+++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-                     file://properties/main.c;beginline=1;endline=20;md5=50c77c81871308b033ab7a1504626afb \
-                     file://common/connman-dbus.c;beginline=1;endline=20;md5=de6b485c0e717a0236402d220187717a"
- 
--DEPENDS = "gtk+ dbus-glib intltool-native"
-+DEPENDS = "gtk+ dbus-glib intltool-native gettext-native"
- 
- # 0.7 tag
- SRCREV = "cf3c325b23dae843c5499a113591cfbc98acb143"
-diff --git a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-index c30454c..212bc52 100644
---- a/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-+++ b/meta/recipes-gnome/gtk-engines/gtk-engines_2.20.2.bb
-@@ -6,7 +6,7 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
- 
- SECTION = "x11/base"
--DEPENDS = "intltool-native gtk+"
-+DEPENDS = "intltool-native gtk+ gettext-native"
- 
- PR = "r3"
- 
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb b/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
-index cebc83b..ac84cb1 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.18.2.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
- 
- inherit gnomebase gtk-doc
- 
--DEPENDS = "glib-2.0 libgcrypt"
-+DEPENDS = "glib-2.0 libgcrypt gettext-native"
- 
- EXTRA_OECONF += "--disable-manpages"
- 
-diff --git a/meta/recipes-graphics/xorg-app/xwininfo_1.1.3.bb b/meta/recipes-graphics/xorg-app/xwininfo_1.1.3.bb
-index 7a45241..0c23d19 100644
---- a/meta/recipes-graphics/xorg-app/xwininfo_1.1.3.bb
-+++ b/meta/recipes-graphics/xorg-app/xwininfo_1.1.3.bb
-@@ -7,7 +7,7 @@ windows.  Information may include window position, size, color depth, \
- and a number of other items."
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=78976cd3115f6faf615accc4e094d90e"
--DEPENDS += "libxext libxmu"
-+DEPENDS += "libxext libxmu gettext-native"
- 
- PE = "0"
- 
-diff --git a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-index eb3b78b..cc3477b 100644
---- a/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-+++ b/meta/recipes-kernel/oprofile/oprofileui-server_git.bb
-@@ -9,7 +9,7 @@ SRC_URI = "git://git.yoctoproject.org/oprofileui \
-            file://init \
-            file://oprofileui-server.service "
- 
--DEPENDS += "intltool-native"
-+DEPENDS += "intltool-native gettext-native"
- 
- EXTRA_OECONF += "--disable-client --enable-server"
- 
-diff --git a/meta/recipes-kernel/oprofile/oprofileui_git.bb b/meta/recipes-kernel/oprofile/oprofileui_git.bb
-index bb69d54..7fbc03d 100644
---- a/meta/recipes-kernel/oprofile/oprofileui_git.bb
-+++ b/meta/recipes-kernel/oprofile/oprofileui_git.bb
-@@ -1,6 +1,6 @@
- require oprofileui.inc
- 
--DEPENDS += "gtk+ libglade libxml2 avahi-ui gconf"
-+DEPENDS += "gtk+ libglade libxml2 avahi-ui gconf gettext-native"
- 
- SRCREV = "389e1875af4721d52c7e65cf9cfffb69b0ed6a59"
- PV = "0.0+git${SRCPV}"
-diff --git a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-index f715149..093b89f 100644
---- a/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-+++ b/meta/recipes-sato/leafpad/leafpad_0.8.18.1.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-                     file://src/leafpad.h;endline=20;md5=d3d6a89f5e61e8b13bdea537511ba1fa \
-                     file://src/utils.c;endline=20;md5=0d2cc6584ba3202448bb274f62739571"
- 
--DEPENDS = "gtk+ intltool-native libowl"
-+DEPENDS = "gtk+ intltool-native libowl gettext-native"
- # The libowl requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
- 
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb
-index 4467303..b63db87 100644
---- a/meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb
-+++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.2.3.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-                     file://src/gseal-gtk-compat.h;endline=21;md5=46922c8691f58d124f9420fe16149ce2"
- 
- SECTION = "x11"
--DEPENDS = "gtk+ startup-notification libfm intltool-native"
-+DEPENDS = "gtk+ startup-notification libfm intltool-native gettext-native"
- DEPENDS_append_poky = " libowl"
- 
- 
-diff --git a/meta/recipes-sato/puzzles/oh-puzzles_git.bb b/meta/recipes-sato/puzzles/oh-puzzles_git.bb
-index 36cd2cc..9876fe0 100644
---- a/meta/recipes-sato/puzzles/oh-puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/oh-puzzles_git.bb
-@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENCE;md5=f56ec6772dd1c7c367067bbea8ea1675 \
-                     file://src/tree234.c;endline=28;md5=b4feb1976feebf8f1379093ed52f2945"
- 
- SECTION = "x11"
--DEPENDS = "gtk+ gconf intltool-native librsvg"
-+DEPENDS = "gtk+ gconf intltool-native librsvg gettext-native"
- 
- # libowl requires x11 in DISTRO_FEATURES
- DEPENDS_append_poky = " ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'libowl', '', d)}"
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.16.0.bb b/meta/recipes-support/atk/at-spi2-core_2.16.0.bb
-index 933cbe7..7c12b54 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.16.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.16.0.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
- SRC_URI[md5sum] = "be6eeea370f913b7639b609913b2cf02"
- SRC_URI[sha256sum] = "1c0b77fb8ce81abbf1d80c0afee9858b3f9229f673b7881995fe0fc16b1a74d0"
- 
--DEPENDS = "dbus glib-2.0 virtual/libx11 libxi libxtst intltool-native"
-+DEPENDS = "dbus glib-2.0 virtual/libx11 libxi libxtst intltool-native gettext-native"
- 
- inherit autotools gtk-doc pkgconfig distro_features_check
- # depends on virtual/libx11
-diff --git a/meta/recipes-support/libfm/libfm-extra_1.2.3.bb b/meta/recipes-support/libfm/libfm-extra_1.2.3.bb
-index 46d2d62..3675269 100644
---- a/meta/recipes-support/libfm/libfm-extra_1.2.3.bb
-+++ b/meta/recipes-support/libfm/libfm-extra_1.2.3.bb
-@@ -5,7 +5,7 @@ LICENSE = "LGPLv2+"
- LIC_FILES_CHKSUM = "file://src/fm-extra.h;beginline=8;endline=21;md5=ef1f84da64b3c01cca447212f7ef6007"
- 
- SECTION = "x11/libs"
--DEPENDS = "glib-2.0 intltool-native"
-+DEPENDS = "glib-2.0 intltool-native gettext-native"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
-            file://0001-nls.m4-Take-it-from-gettext-0.15.patch \
-diff --git a/meta/recipes-support/libfm/libfm_1.2.3.bb b/meta/recipes-support/libfm/libfm_1.2.3.bb
-index 629502f..aa48fb9 100644
---- a/meta/recipes-support/libfm/libfm_1.2.3.bb
-+++ b/meta/recipes-support/libfm/libfm_1.2.3.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
- 
- 
- SECTION = "x11/libs"
--DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native libexif libfm-extra"
-+DEPENDS = "glib-2.0 pango gtk+ menu-cache intltool-native libexif libfm-extra gettext-native"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz"
- 
-diff --git a/meta/recipes-support/pinentry/pinentry_0.9.2.bb b/meta/recipes-support/pinentry/pinentry_0.9.2.bb
-index c836ca4..d6b7130 100644
---- a/meta/recipes-support/pinentry/pinentry_0.9.2.bb
-+++ b/meta/recipes-support/pinentry/pinentry_0.9.2.bb
-@@ -10,6 +10,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=cbbd794e2a0a289b9dfcc9f513d1996e"
- 
- inherit autotools
- 
-+DEPENDS = "gettext-native"
-+
- SRC_URI = "ftp://ftp.gnupg.org/gcrypt/${BPN}/${BPN}-${PV}.tar.bz2"
- 
- SRC_URI[md5sum] = "f51d454f921111b5156a2291cbf70278"
 -- 
 1.7.9.5
 
