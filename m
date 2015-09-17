@@ -1,25 +1,35 @@
-Return-Path: <markus.lehtonen@linux.intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id CE18472A78
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-yk0-f196.google.com (mail-yk0-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B06247687B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 11:56:22 +0000 (UTC)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga101.jf.intel.com with ESMTP; 17 Sep 2015 04:56:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,546,1437462000"; d="scan'208";a="791672055"
-Received: from marquiz.fi.intel.com ([10.237.72.155])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Sep 2015 04:56:21 -0700
-Message-ID: <1442490980.11206.28.camel@linux.intel.com>
-From: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-To: Gary Thomas <gary@mlbassoc.com>
-Date: Thu, 17 Sep 2015 14:56:20 +0300
-In-Reply-To: <55F818FF.2060605@mlbassoc.com>
-References: <1442322326-10462-1-git-send-email-markus.lehtonen@linux.intel.com>
-	<55F818FF.2060605@mlbassoc.com>
-X-Mailer: Evolution 3.12.11 
-Mime-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] rpm: search for gpg if gpg2 is not found
+	Thu, 17 Sep 2015 12:24:02 +0000 (UTC)
+Received: by ykdg206 with SMTP id g206so1341671ykd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 17 Sep 2015 05:24:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=4EzSw47NkEcwbwe/6Cwmqo/idtzNHsmYYnU/VYFfmYg=;
+	b=Ce1+V7+TfB3hFxoCnf/CM/NxfaWsE6L4s9zKhTSuKM1iAy/9wc/D2Jmup1lGJpkdAR
+	2Mwh3EdvRzj4m2pM4eeYJGfiQENks7xvc0nkcB/uyIWOS+rJVmP7fXj4Qe1+HKrI1O0q
+	3zyTS4vgVrqAaUSRl9bciC/Fv1TMH7R9NAhpzT/hm3t18mfJ7W2SVkAU5bp9UclBFY+a
+	DoBVNHeYyrsQ6f5OVVZR3FS7SUudV3Kcl4naYuWiQrK7HKl8cOrNKP0FY1G11uKJ7GtT
+	WmDkAonMX/qpZ/fe8LxiN1qdW7Xmj6td/wMo5fXP+oa/b38RE7zgyxsrT67sfZ/7QSVu
+	dkVw==
+MIME-Version: 1.0
+X-Received: by 10.170.225.68 with SMTP id r65mr34323777ykf.58.1442492642249;
+	Thu, 17 Sep 2015 05:24:02 -0700 (PDT)
+Received: by 10.13.203.151 with HTTP; Thu, 17 Sep 2015 05:24:02 -0700 (PDT)
+In-Reply-To: <1442472281.27156.24.camel@intel.com>
+References: <1442405501.27156.9.camel@intel.com>
+	<1442472281.27156.24.camel@intel.com>
+Date: Thu, 17 Sep 2015 08:24:02 -0400
+Message-ID: <CADkTA4P+Zi2zL0yzWV3DBdskLkUdwxc-HtsudqTVQwQv7TU0jA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Patrick Ohly <patrick.ohly@intel.com>
+Cc: OpenEmbedded <openembedded-core@lists.openembedded.org>
+Subject: Re: udev + 60-persistent-storage.rules + IDE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,107 +42,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 11:56:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Sep 2015 12:24:02 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi Gary,
-
-On Tue, 2015-09-15 at 07:11 -0600, Gary Thomas wrote:
-> On 2015-09-15 07:05, Markus Lehtonen wrote:
-> > Some (host) systems only have a binary named 'gpg' (e.g. Fedora) while
-> > some only have 'gpg2' (Ubuntu) and others have both of them (openSUSE).
-> > Currently the behavior of rpm-native with regards to GnuPG depends on
-> > the host platform: rpm(-native) is configured to use GnuPG binary of the
-> > host system if 'gpg2' is found in $PATH. Otherwise, rpm(-native) will
-> > default to using '%{_bindir}/gpg2' which will be pointing to a sysroot
-> > binary which usually does not exist.
-> >
-> > This patch changes rpm to look for both 'gpg' and 'gpg2' when searching
-> > for the GnuPG binary in PATH. This makes possible to create signed RPM
-> > packages on different host platforms, using the GnuPG binary of the
-> > host, without the need to explicitly define the gpg binary in bitbake
-> > configuration (via GPG_BIN variable).
-> >
-> > [YOCTO #8134]
-> >
-> > Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> > ---
-> >   .../configure.ac-check-for-both-gpg2-and-gpg.patch | 29 ++++++++++++++++++++++
-> >   meta/recipes-devtools/rpm/rpm_5.4.14.bb            |  1 +
-> >   2 files changed, 30 insertions(+)
-> >   create mode 100644 meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
-> >
-> > diff --git a/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch b/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
-> > new file mode 100644
-> > index 0000000..f5db167
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/rpm/rpm/configure.ac-check-for-both-gpg2-and-gpg.patch
-> > @@ -0,0 +1,29 @@
-> > +configure.ac: search for both gpg2 and gpg
-> > +
-> > +On some platforms the GnuPG binary is named 'gpg2' whereas others have 'gpp'.
->                                                                             ^^^
-> Typo?
-
-Oh, indeed. Well spotted, thanks! An updated patch with the typo fixed
-is found here:
-git://git.openembedded.org/openembedded-core-contrib marquiz/rpmsign
-http://cgit.openembedded.org/openembedded-core-contrib/commit/?h=marquiz/rpmsign&id=b1d86be082e3cdb9dc1f3885e7b18c56a6094cc3
+On Thu, Sep 17, 2015 at 2:44 AM, Patrick Ohly <patrick.ohly@intel.com> wrote:
+> On Wed, 2015-09-16 at 14:11 +0200, Patrick Ohly wrote:
+>> I just noticed that udev (no longer) creates /dev/disk/by-uuid links for
+>> my boot partition under qemu when booting a whole-disk image
+>> (hdddirect). The device is then /dev/hda, with /dev/hda2 being the root
+>> partition.
+>>
+>> systemd's 60-persistent-storage.rules indeed skips the relevant rules
+>> because "hd" is not listed:
+>>
+>> KERNEL!="loop*|mmcblk*[0-9]|msblk*[0-9]|mspblk*[0-9]|nvme*|sd*|sr*|vd*|xvd*|bcache*|cciss*|dasd*|ubd*", GOTO="persistent_storage_end"
+>>
+>> Adding "hd*" to that line fixes the problem. I'll send patches to
+>> systemd and for OE-core.
+>
+> Lennart argued that /dev/hd* is caused by using the deprecated
+> CONFIG_IDE in the kernel and therefore rejected adding "hd*" to upstream
+> udev.
+>
+> CONFIG_IDE seems to come from common-pc-drivers.cfg [1] but that's just
+> a guess - I'm not entirely sure how to identify the actual kernel config
+> fragments that were used during a build. Anyway, it has been there since
+> 2011 and modernizing that is a different topic, so I'll just send the
+> patch for systemd/udev.
 
 
-Cheers,
-  Markus
+That is in fact where it comes from for those machines .. and in fact, I started
+removing it from various trees about a year ago. Up until recently, it
+was around
+for compatibility reasons .. but now the generic scsi subsystem
+provides everything
+that CONFIG_IDE used to .. and they can in fact be dropped.
 
+I may do it to the 4.1 kernel, or wait until after the upcoming
+release to avoid any
+chance of breaking something that still depends on it.
 
+Bruce
 
-> 
-> > +This patch increases compatibility by searching for 'gpg' in addition to
-> > +'gpg2'.
-> > +
-> > +Upstream-Status: Pending
-> > +
-> > +Signed-off-by: Markus Lehtonen <markus.lehtonen@linux.intel.com>
-> > +---
-> > + configure.ac | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/configure.ac b/configure.ac
-> > +index 6746b4c..f6922ae 100644
-> > +--- a/configure.ac
-> > ++++ b/configure.ac
-> > +@@ -562,7 +562,7 @@ AC_PATH_PROG(__DIFF, diff, /bin/diff, $MYPATH)
-> > + AC_PATH_PROG(__DITTO, ditto, %{_bindir}/ditto, $MYPATH)
-> > + AC_PATH_PROG(__FILE, file, %{_bindir}/file, $MYPATH)
-> > + AC_PATH_PROG(__GIT, git, %{_bindir}/git, $MYPATH)
-> > +-AC_PATH_PROG(__GPG, gpg2, %{_bindir}/gpg2, $MYPATH)
-> > ++AC_PATH_PROGS(__GPG, [gpg2 gpg], %{_bindir}/gpg2, $MYPATH)
-> > + AC_PATH_PROG(__GSR, gsr, %{_bindir}/gsr, $MYPATH)
-> > + AC_PATH_PROG(__GST_INSPECT, gst-inspect-0.10, %{_bindir}/gst-inspect-0.10, $MYPATH)
-> > + AC_PATH_PROG(__GZIP, gzip, /bin/gzip, $MYPATH)
-> > +--
-> > +2.1.4
-> > +
-> > diff --git a/meta/recipes-devtools/rpm/rpm_5.4.14.bb b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> > index 1f9a4bd..b450c6f 100644
-> > --- a/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> > +++ b/meta/recipes-devtools/rpm/rpm_5.4.14.bb
-> > @@ -98,6 +98,7 @@ SRC_URI = "http://www.rpm5.org/files/rpm/rpm-5.4/rpm-5.4.14-0.20131024.src.rpm;e
-> >   	   file://rpm-check-rootpath-reasonableness.patch \
-> >   	   file://rpm-macros.in-disable-external-key-server.patch \
-> >   	   file://rpm-opendb-before-verifyscript-to-avoid-null-point.patch \
-> > +	   file://configure.ac-check-for-both-gpg2-and-gpg.patch \
-> >   	  "
-> >
-> >   # Uncomment the following line to enable platform score debugging
-> >
-> 
-> -- 
-> ------------------------------------------------------------
-> Gary Thomas                 |  Consulting for the
-> MLB Associates              |    Embedded world
-> ------------------------------------------------------------
+>
+> [1]
+> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-kernel-cache/tree/bsp/common-pc/common-pc-drivers.cfg
+>
+> --
+> Best Regards, Patrick Ohly
+>
+> The content of this message is my personal opinion only and although
+> I am an employee of Intel, the statements I make here in no way
+> represent Intel's position on the issue, nor am I authorized to speak
+> on behalf of Intel on this matter.
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
