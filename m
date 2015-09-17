@@ -1,20 +1,22 @@
 Return-Path: <jussi.kukkonen@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id CEBB076DE1
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 7831076E2E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 12:58:09 +0000 (UTC)
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP; 17 Sep 2015 05:58:10 -0700
+	Thu, 17 Sep 2015 12:58:39 +0000 (UTC)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Sep 2015 05:58:32 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.17,547,1437462000"; d="scan'208";a="563542344"
+X-IronPort-AV: E=Sophos;i="5.17,547,1437462000"; d="scan'208";a="771069221"
 Received: from theory.fi.intel.com ([10.237.72.196])
-	by FMSMGA003.fm.intel.com with ESMTP; 17 Sep 2015 05:58:08 -0700
+	by orsmga001.jf.intel.com with ESMTP; 17 Sep 2015 05:58:28 -0700
 From: Jussi Kukkonen <jussi.kukkonen@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 16:00:20 +0300
-Message-Id: <cover.1442494048.git.jussi.kukkonen@intel.com>
+Date: Thu, 17 Sep 2015 16:00:38 +0300
+Message-Id: <f0b5037b3efdd8498a6499690009aed1c1273315.1442494048.git.jussi.kukkonen@intel.com>
 X-Mailer: git-send-email 2.1.4
-Subject: [PATCH 0/1] Add a dummy pointercal calibration for qemu
+In-Reply-To: <cover.1442494048.git.jussi.kukkonen@intel.com>
+References: <cover.1442494048.git.jussi.kukkonen@intel.com>
+Subject: [PATCH 1/1] xinput-calibrator: Add a dummy calibration file for qemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,36 +29,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 12:58:11 -0000
+X-List-Received-Date: Thu, 17 Sep 2015 12:58:40 -0000
 
-xinput_calibrator keeps popping up on every boot (or session start)
-when testing Sato image on qemu: This seems to be because qemu
-emulates a tablet and is made worse by xinput_calibrator not
-actually being able to write xinput files for xorg drivers, so the
-problem persists on following boots.
+This prevents xinput_calibrator from popping up on every boot in qemu.
 
-The patch adds a dummy calibration file for "qemuall". I wasn't sure
-how this should be done so let me know if there's a better solution.
-
- - Jussi
-
-The following changes since commit ea562de57590c966cd5a75fda8defecd397e6436:
-
-  qemu: Update to upstream patches (2015-09-14 20:46:40 +0100)
-
-are available in the git repository at:
-
-  git://git.yoctoproject.org/poky-contrib jku/pointercal-xinput
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=jku/pointercal-xinput
-
-Jussi Kukkonen (1):
-  xinput-calibrator: Add a dummy calibration file for qemu
-
+Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+---
  .../xinput-calibrator/pointercal-xinput/pointercal-qemu.xinput      | 2 ++
  meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb    | 6 ++++++
  2 files changed, 8 insertions(+)
  create mode 100644 meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal-qemu.xinput
 
+diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal-qemu.xinput b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal-qemu.xinput
+new file mode 100644
+index 0000000..a816d6d
+--- /dev/null
++++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput/pointercal-qemu.xinput
+@@ -0,0 +1,2 @@
++# Dummy pointercal.xinput file to prevent xinput_calibrator
++# from running on qemu startup
+diff --git a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+index 65348c3..cab3d14 100644
+--- a/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
++++ b/meta/recipes-graphics/xinput-calibrator/pointercal-xinput_0.0.bb
+@@ -5,8 +5,14 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
+ PR = "r7"
+ 
+ SRC_URI = "file://pointercal.xinput"
++SRC_URI_append_qemuall = " file://pointercal-qemu.xinput"
+ S = "${WORKDIR}"
+ 
++do_install_prepend_qemuall () {
++    install -d ${D}${sysconfdir}/
++    install -m 0644 ${S}/pointercal-qemu.xinput ${D}${sysconfdir}/pointercal.xinput
++}
++
+ do_install() {
+     # Only install file if it has a contents
+     if [ -s ${S}/pointercal.xinput ] &&\
 -- 
 2.1.4
 
