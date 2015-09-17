@@ -1,26 +1,24 @@
 Return-Path: <marex@denx.de>
-X-Greylist: delayed 366 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 17 Sep 2015 14:38:01 UTC
 Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
-	by mail.openembedded.org (Postfix) with ESMTP id BE28F77010
+	by mail.openembedded.org (Postfix) with ESMTP id BC65C76FF2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 17 Sep 2015 14:38:01 +0000 (UTC)
 Received: from mail.nefkom.net (unknown [192.168.8.184])
-	by mail-out.m-online.net (Postfix) with ESMTP id 3nH12j73K4z3hkLQ;
-	Thu, 17 Sep 2015 16:31:56 +0200 (CEST)
-X-Auth-Info: JMKW4oSXpWacE8EUM2+QF1qULPsFLe3np6N6LkwFrA8=
+	by mail-out.m-online.net (Postfix) with ESMTP id 3nH12j73Mxz3hkLg;
+	Thu, 17 Sep 2015 16:31:57 +0200 (CEST)
+X-Auth-Info: wIlSk8l0Lz1B19eCvSlVWA3pw2Tz8A+zrV1fqIJXS+g=
 Received: from chi.lan (host-82-135-33-74.customer.m-online.net [82.135.33.74])
-	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3nH12h59l3zvhTZ;
-	Thu, 17 Sep 2015 16:31:56 +0200 (CEST)
+	by smtp-auth.mnet-online.de (Postfix) with ESMTPA id 3nH12j0clDzvhTg;
+	Thu, 17 Sep 2015 16:31:57 +0200 (CEST)
 From: Marek Vasut <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 16:31:55 +0200
-Message-Id: <1442500317-9064-7-git-send-email-marex@denx.de>
+Date: Thu, 17 Sep 2015 16:31:56 +0200
+Message-Id: <1442500317-9064-8-git-send-email-marex@denx.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1442500317-9064-1-git-send-email-marex@denx.de>
 References: <1442500317-9064-1-git-send-email-marex@denx.de>
 Cc: Marek Vasut <marex@denx.de>, lftan@altera.com, waltergoossens@home.nl
-Subject: [PATCH 6/8] libtool: Fix nios2 support
+Subject: [PATCH 7/8] pixman: Fix missing FE_DIVBYZERO on nios2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,100 +33,100 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 17 Sep 2015 14:38:02 -0000
 
-Add patch to fix excessive greediness of OS/2 check in libtool.
+The FE_DIVBYZERO is missing on nios2 , add a small patch to pixman
+which checks for the presence of FE_DIVBYZERO and disables the test
+which depends on it.
 
 Signed-off-by: Marek Vasut <marex@denx.de>
 ---
- meta/recipes-devtools/libtool/libtool-2.4.6.inc    |  1 +
- ...1-libtool-Fix-support-for-NIOS2-processor.patch | 67 ++++++++++++++++++++++
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-devtools/libtool/libtool/0001-libtool-Fix-support-for-NIOS2-processor.patch
+ ...0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch | 65 ++++++++++++++++++++++
+ meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb    |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.4.6.inc b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-index a977c73..de06ccb 100644
---- a/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-+++ b/meta/recipes-devtools/libtool/libtool-2.4.6.inc
-@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-            file://fix-resolve-lt-sysroot.patch \
-            file://nohardcodepaths.patch \
-            file://unwind-opt-parsing.patch \
-+           file://0001-libtool-Fix-support-for-NIOS2-processor.patch \
-           "
- 
- SRC_URI[md5sum] = "addf44b646ddb4e3919805aa88fa7c5e"
-diff --git a/meta/recipes-devtools/libtool/libtool/0001-libtool-Fix-support-for-NIOS2-processor.patch b/meta/recipes-devtools/libtool/libtool/0001-libtool-Fix-support-for-NIOS2-processor.patch
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch b/meta/recipes-graphics/xorg-lib/pixman/0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch
 new file mode 100644
-index 0000000..297b2dd
+index 0000000..8aac226
 --- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/0001-libtool-Fix-support-for-NIOS2-processor.patch
-@@ -0,0 +1,67 @@
-+From df2cd898e48208f26320d40c3ed6b19c75c27142 Mon Sep 17 00:00:00 2001
-+From: Marek Vasut <marex@denx.de>
-+Date: Thu, 17 Sep 2015 00:43:15 +0200
-+Subject: [PATCH] libtool: Fix support for NIOS2 processor
++++ b/meta/recipes-graphics/xorg-lib/pixman/0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch
+@@ -0,0 +1,65 @@
++From fcd5eb9bd0e8674a6f4987a8fce7dc1ba8f9320c Mon Sep 17 00:00:00 2001
++From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
++Date: Thu, 17 Sep 2015 03:08:36 +0200
++Subject: [PATCH] [v3] test: add a check for FE_DIVBYZERO
 +
-+The name of the system contains the string "nios2". This string
-+is caught by the some of the greedy checks for OS/2 in libtool,
-+in particular the *os2* branches of switch statements match for
-+the nios2 string, which results in incorrect behavior of libtool.
++Some architectures, such as Microblaze and Nios2, currently do not
++implement FE_DIVBYZERO, even though they have <fenv.h> and
++feenableexcept(). This commit adds a configure.ac check to verify
++whether FE_DIVBYZERO is defined or not, and if not, disables the
++problematic code in test/utils.c.
 +
-+This patch adds an explicit check for *nios2* before the *os2*
-+checks to prevent the OS/2 check incorrectly trapping the nios2
-+as well.
-+
++Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
 +Signed-off-by: Marek Vasut <marex@denx.de>
++
 +---
-+ build-aux/ltmain.in | 20 ++++++++++++++++++++
-+ 1 file changed, 20 insertions(+)
++Changes v1 -> v2:
 +
-+diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
-+index d5cf07a..4164284 100644
-+--- a/build-aux/ltmain.in
-++++ b/build-aux/ltmain.in
-+@@ -504,6 +504,12 @@ libtool_validate_options ()
-+     test : = "$debug_cmd" || func_append preserve_args " --debug"
++ * Use the ac_cv_have_decl_FE_DIVBYZERO variable, which is
++   automatically set by AC_CHECK_DECL, to decide whether or not
++   HAVE_FEDIVBYZERO should be defined.
++
++Changes v2 -> v3:
++
++ * Use action-if-yes of AC_CHECK_DECL as suggested in
++   http://lists.freedesktop.org/archives/pixman/2014-February/003176.html
++---
++ configure.ac | 5 +++++
++ test/utils.c | 2 ++
++ 2 files changed, 7 insertions(+)
++
++diff --git a/configure.ac b/configure.ac
++index f93cc30..424bfd3 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -891,6 +891,11 @@ if test x$have_feenableexcept = xyes; then
++    AC_DEFINE(HAVE_FEENABLEEXCEPT, 1, [Whether we have feenableexcept()])
++ fi
 + 
-+     case $host in
-++      # For NIOS2, we want to make sure that it's not caught by the
-++      # more general OS/2 check below. Otherwise, NIOS2 is the same
-++      # as the default option.
-++      *nios2*)
-++        opt_duplicate_compiler_generated_deps=$opt_preserve_dup_deps
-++        ;;
-+       # Solaris2 added to fix http://debbugs.gnu.org/cgi/bugreport.cgi?bug=16452
-+       # see also: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=59788
-+       *cygwin* | *mingw* | *pw32* | *cegcc* | *solaris2* | *os2*)
-+@@ -6220,6 +6226,15 @@ func_mode_link ()
-+ 	if test -n "$library_names" &&
-+ 	   { test no = "$use_static_libs" || test -z "$old_library"; }; then
-+ 	  case $host in
-++	  *nios2*)
-++	    # For NIOS2, we want to make sure that it's not caught by the
-++	    # more general OS/2 check below. Otherwise, NIOS2 is the same
-++	    # as the default option.
-++	    if test no = "$installed"; then
-++	      func_append notinst_deplibs " $lib"
-++	      need_relink=yes
-++	    fi
-++	    ;;
-+ 	  *cygwin* | *mingw* | *cegcc* | *os2*)
-+ 	      # No point in relinking DLLs because paths are not encoded
-+ 	      func_append notinst_deplibs " $lib"
-+@@ -6290,6 +6305,11 @@ func_mode_link ()
-+ 	    elif test -n "$soname_spec"; then
-+ 	      # bleh windows
-+ 	      case $host in
-++	      *nios2*)
-++		# For NIOS2, we want to make sure that it's not caught by the
-++		# more general OS/2 check below. Otherwise, NIOS2 is the same
-++		# as the default option.
-++		;;
-+ 	      *cygwin* | mingw* | *cegcc* | *os2*)
-+ 	        func_arith $current - $age
-+ 		major=$func_arith_result
+++AC_CHECK_DECL([FE_DIVBYZERO],
+++	[AC_DEFINE(HAVE_FEDIVBYZERO, 1, [Whether we have FE_DIVBYZERO])],
+++	[],
+++	[[#include <fenv.h>]])
+++
++ AC_CHECK_FUNC(gettimeofday, have_gettimeofday=yes, have_gettimeofday=no)
++ AC_CHECK_HEADER(sys/time.h, have_sys_time_h=yes, have_sys_time_h=no)
++ if test x$have_gettimeofday = xyes && test x$have_sys_time_h = xyes; then
++diff --git a/test/utils.c b/test/utils.c
++index 222d4d5..8657966 100644
++--- a/test/utils.c
+++++ b/test/utils.c
++@@ -966,9 +966,11 @@ enable_divbyzero_exceptions (void)
++ {
++ #ifdef HAVE_FENV_H
++ #ifdef HAVE_FEENABLEEXCEPT
+++#ifdef HAVE_FEDIVBYZERO
++     feenableexcept (FE_DIVBYZERO);
+++#endif
++ #endif
++ #endif
++ }
++ 
++ void
 +-- 
-+2.5.1
++2.1.4
 +
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb b/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
+index eae59b6..317a568 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.32.6.bb
+@@ -31,6 +31,7 @@ SRC_URI += "\
+             file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
+             file://mips-export-revert.patch \
+ 	    file://asm_include.patch \
++	    file://0001-v3-test-add-a-check-for-FE_DIVBYZERO.patch \
+ "
+ 
+ SRC_URI[md5sum] = "8a9e8f14743a39cf303803f369c1f344"
 -- 
 2.1.4
 
