@@ -1,34 +1,20 @@
-Return-Path: <dominic.sacre@gmx.de>
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	by mail.openembedded.org (Postfix) with ESMTP id 3296577003
+Return-Path: <alejandro.joya.cruz@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ADE676E04
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 16:20:12 +0000 (UTC)
-Received: from dastp.lan ([37.24.103.185]) by mail.gmx.com (mrgmx102) with
-	ESMTPSA (Nemesis) id 0MCOdh-1ZU38C32Xp-0097rR; Thu, 17 Sep 2015 18:15:05
-	+0200
-From: =?UTF-8?q?Dominic=20Sacr=C3=A9?= <dominic.sacre@gmx.de>
+	Thu, 17 Sep 2015 16:20:19 +0000 (UTC)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP; 17 Sep 2015 09:20:20 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,548,1437462000"; d="scan'208";a="807392953"
+Received: from afjoyacr-mobl2.zpn.intel.com ([10.219.128.56])
+	by fmsmga002.fm.intel.com with ESMTP; 17 Sep 2015 09:20:19 -0700
+From: Alejandro Joya <alejandro.joya.cruz@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2015 18:13:41 +0200
-Message-Id: <1442506425-5096-1-git-send-email-dominic.sacre@gmx.de>
-X-Mailer: git-send-email 2.5.2
-MIME-Version: 1.0
-X-Provags-ID: V03:K0:SN9xBpRbituI8qE/SNAMGTQCJs33TkUQhMRF+IoOb83CbvOvJVd
-	EW043uwkNTBkE1PjcsTgcRTJ4XooF5zWMceH9YThEtTjluZTz8IM/y21MFK0VYvVSG6IRuD
-	dNU2mUKfE4ZSwaDnIOS/Pe0V2H1qeJVCghIeuQm/AfW6LWJEzIe+W6nO5yoEjCrzGUpLTGl
-	0G7sWI/jdJ++ns0Ur/tIQ==
-X-UI-Out-Filterresults: notjunk:1;V01:K0:C70EN5sFM5M=:avkAslR2Rxn8CAspE0eUXI
-	gM5KAeBBH93GeNzhFyVE6ljR2w2+RGwncwjEbFlOquKU/4CVx4o/NktGdwqvM0selypiH7C3U
-	lI7cI+l9sV7pSb6Plt5udfEeVwz7DMDa4LYES5sSiW9KnHRsQPoDDXxkFW8F+9dEVurXuGy5G
-	sOQ6XUR0IjFBSgO9HWFYrP67r//PMIDFozOjtGLiGZMH2s5YwsoGtR2bL5DhQP3TolyNCtIUF
-	mjgveP0n56hZCvRdhpqH0MgVfdmIhNy/8/ZSQfZwuMviins26EvpELPE0NQWQGJM810BVoNyU
-	niI5tlQ541t3C4/vwS8ojO6PXFSS0LsxQ/5D75tFtyGspQr2Lj+ROSsI+SD7ereO9KAOJ1nTk
-	otehhnLDDE9cwf4XHo6lCRWKwOpYCXsaDkCXsvHoCdIlleQi83ZhM1pJFbhp+dMPquhjDe/UQ
-	XV72KiKvvMtpo/8sUqkasgdAzcbIaMj0vOpokkj+ihZiG4R3JMlGOLTpGlui9qIPiP/6lbzaF
-	KWaKc4u8vZhyqe11NNP7ZDrA0o732idwAY84ym7cJpbtQ2wdCTapjczCtKuJTSG8CpoCTxo6N
-	Uuv5nqnrftuVguRFF53NASWyKxjupqRKapq+5tUySY3dPZoua6mKQ/o1ChwG6RgbuU2T381So
-	VcHkcXmLBS8fHBTC+vmazGVkBmqG2cvqx+lLdsuzI2lzHCjg6pFaStQG4cTt3LU6s/91ppBVU
-	ZDcS2DSwge6iAzaSfGz+CwM4hWc5uiBLxrk4kw==
-Subject: [PATCH 0/4] Some fixes for distros with merged /usr directory
+Date: Thu, 17 Sep 2015 11:20:08 -0500
+Message-Id: <cover.1442503745.git.alejandro.joya.cruz@intel.com>
+X-Mailer: git-send-email 2.1.0
+Subject: [PATCH 0/3] Dynamic common utilities
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,26 +27,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 16:20:13 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 17 Sep 2015 16:20:22 -0000
 
-This fixes a few recipes that move binaries from ${bindir} to
-${base_bindir}, which fails if the two directories are the same.
+It provide a virtual reference for the common utilities.
+it replace of the lock to busybox, it will be simple exchange between other
+common utilities like gnu core utils or toybox among others.
 
-Dominic Sacré (4):
-  tar: fix install if bindir == base_bindir
-  cpio: fix install if bindir == base_bindir
-  gzip: fix install if bindir == base_bindir
-  grep: fix install if bindir == base_bindir
+In order to enable its required to fill at the distro conf or local.conf
 
- meta/recipes-extended/cpio/cpio_v2.inc  |  8 +++++---
- meta/recipes-extended/grep/grep_2.21.bb | 12 +++++++-----
- meta/recipes-extended/gzip/gzip.inc     | 14 ++++++++------
- meta/recipes-extended/tar/tar.inc       | 10 ++++++----
- 4 files changed, 26 insertions(+), 18 deletions(-)
+VIRTUAL-RUNTIME_login_manager ?= "busybox"
+PREFERRED_PROVIDER_virtual/anybox ?= "busybox"
+PREFERRED_RPROVIDER_virtual/anybox ?= "busybox"
+VIRTUAL-RUNTIME_anybox ?= "busybox"
+VIRTUAL-RUNTIME_anybox-hwclock ?= "busybox-hwclock"
+
+The following changes since commit f0189829498e30231d826c9f55aad73e622d076e:
+
+  qemu: Update to upstream patches (2015-09-14 11:22:02 +0100)
+
+are available in the git repository at:
+
+  git://github.com/Ajoyacr/openembedded-core anybox
+  https://github.com/Ajoyacr/openembedded-core/tree/anybox
+
+Alejandro Joya (3):
+  core-mage-minimal-initramfs: overwrite hardcoded dependency to virtual
+    reference
+  initramfs-framework: overwrite hardcoded dependency to virtual
+    reference
+  packagegroup-core-boot: overwrite hardcoded dependency to virtual
+    reference
+
+ meta/recipes-core/images/core-image-minimal-initramfs.bb   | 2 +-
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 2 +-
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb  | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
 -- 
-2.5.2
+2.1.0
 
 
