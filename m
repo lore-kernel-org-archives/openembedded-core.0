@@ -1,29 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AFC576E04
+Return-Path: <ed.bartosh@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C13076E04
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 08:37:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t8H8bgBc022102
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 17 Sep 2015 08:49:37 +0000 (UTC)
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by orsmga102.jf.intel.com with ESMTP; 17 Sep 2015 01:49:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.17,545,1437462000"; d="scan'208";a="563417747"
+Received: from linux.intel.com ([10.23.219.25])
+	by FMSMGA003.fm.intel.com with ESMTP; 17 Sep 2015 01:49:38 -0700
+Received: from vmed.fi.intel.com (vmed.fi.intel.com [10.237.72.51])
+	by linux.intel.com (Postfix) with ESMTP id E41256A4083
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 01:37:42 -0700 (PDT)
-Received: from [128.224.162.211] (128.224.162.211) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.235.1;
-	Thu, 17 Sep 2015 01:37:40 -0700
-Message-ID: <55FA7C1C.6060702@windriver.com>
-Date: Thu, 17 Sep 2015 16:38:52 +0800
-From: ChenQi <Qi.Chen@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.4.0
-MIME-Version: 1.0
-To: Shan Hai <shan.hai@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1431667783-27190-1-git-send-email-shan.hai@windriver.com>
-In-Reply-To: <1431667783-27190-1-git-send-email-shan.hai@windriver.com>
-X-Originating-IP: [128.224.162.211]
-Subject: Re: [PATCH 0/1] util-linux: add runuser PAM config files
+	Thu, 17 Sep 2015 01:48:43 -0700 (PDT)
+From: Ed Bartosh <ed.bartosh@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 17 Sep 2015 11:49:29 +0300
+Message-Id: <cover.1442479528.git.ed.bartosh@linux.intel.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [wic] [PATCH v2 0/4] wic bugfix and improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,35 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 08:37:44 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 17 Sep 2015 08:49:39 -0000
 
-Without this patch, we would meet errors like below.
-Please consider merging this patch.
+Hi,
 
-root@qemux86-64:~# touch 1 2
-root@qemux86-64:~# ls
-1  2
-root@qemux86-64:~# runuser -l root -c ls
-runuser: Failure setting user credentials
+This patchset contains a changes suggested by QA team.
+Daniel, thank you for suggestions!
 
-Best Regards,
-Chen Qi
+Changes in v2: added one more patch
 
-On 05/15/2015 01:29 PM, Shan Hai wrote:
-> Add PAM config files for util-linux to fix a runtime failure of the
-> runuser command.
->
-> meta/recipes-core/util-linux/util-linux.inc            | 8 ++++++++
->   meta/recipes-core/util-linux/util-linux/runuser-l.pamd | 4 ++++
->   meta/recipes-core/util-linux/util-linux/runuser.pamd   | 5 +++++
->   meta/recipes-core/util-linux/util-linux_2.24.2.bb      | 2 ++
->   4 files changed, 19 insertions(+)
->   create mode 100644 meta/recipes-core/util-linux/util-linux/runuser-l.pamd
->   create mode 100644 meta/recipes-core/util-linux/util-linux/runuser.pamd
->
-> Thanks
-> Shan Hai
+The following changes since commit ea562de57590c966cd5a75fda8defecd397e6436:
+
+  qemu: Update to upstream patches (2015-09-14 20:46:40 +0100)
+
+are available in the git repository at:
+
+  git://git.yoctoproject.org/poky-contrib ed/wic/misc
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=ed/wic/misc
+
+Ed Bartosh (4):
+  wic: add dependencies to wic-image-minimal recipe
+  wic: use ext4 in wic-image-minimal.wks
+  wic: fix partition size calculation
+  wic-image-minimal: add dependency to .wks
+
+ meta-selftest/recipes-test/images/wic-image-minimal.bb  | 4 ++++
+ meta-selftest/recipes-test/images/wic-image-minimal.wks | 6 +++---
+ scripts/lib/wic/imager/direct.py                        | 3 +--
+ 3 files changed, 8 insertions(+), 5 deletions(-)
+
+--
+Ed
 
 
