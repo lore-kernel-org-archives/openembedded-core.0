@@ -1,49 +1,32 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-ig0-f175.google.com (mail-ig0-f175.google.com
-	[209.85.213.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D34577003
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
+	by mail.openembedded.org (Postfix) with ESMTP id AAA7C76DE1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 13:58:00 +0000 (UTC)
-Received: by igxx6 with SMTP id x6so14459975igx.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 06:58:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:mime-version:in-reply-to:references:date
-	:message-id:subject:to:cc:content-type;
-	bh=bjl3ZILcZq1B13zOVBbmBkmHGagGMcj/94Zqc2iKQ9g=;
-	b=Wz43H9AHyjAHWlMi0OfR7qLuB4NZFcQ/ZSUt87qNb3pmfAvwc1B71lRYWGw37QDJKU
-	t/YuXaPAkBDZioDZcbd1yDWofW9Ergh5eusAlQUO07U1C6p/tZ4gG0rBldBO7Sijjy98
-	bFw5vuGBQX/DsNRPs486gQggkoFLlbfj90Nqq9bIPpFt7zV+aNnZUqT18TzHvxcm+h87
-	t0nNPKkwAqGN4oP/vZ7tsop80dEZIASXVTTx43p9pLgLgnktAdenfq2gux0j51GHeOVJ
-	LCsDfgXAnLYK3FsMvw5NvlKhofqKnS/iQg6EWL2efBxZsFUk6NgxRH4QfjkDV+ACulMx
-	PE0w==
-X-Gm-Message-State: ALoCoQnNqZ87rUI1ofRc9j1Skw0+NP86HvVY+z4+vdjoKMnGdnJkv49jxt/Cbhx99tkEkHZ9xiEq
-X-Received: by 10.50.60.3 with SMTP id d3mr6630721igr.37.1442498280871;
-	Thu, 17 Sep 2015 06:58:00 -0700 (PDT)
-Received: from mail-io0-f175.google.com (mail-io0-f175.google.com.
-	[209.85.223.175])
-	by smtp.gmail.com with ESMTPSA id 8sm4227824igy.3.2015.09.17.06.57.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 17 Sep 2015 06:58:00 -0700 (PDT)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by ioiz6 with SMTP id z6so22475477ioi.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 17 Sep 2015 06:57:59 -0700 (PDT)
-MIME-Version: 1.0
-X-Received: by 10.107.131.134 with SMTP id n6mr6322452ioi.192.1442498279554;
-	Thu, 17 Sep 2015 06:57:59 -0700 (PDT)
-Received: by 10.36.218.7 with HTTP; Thu, 17 Sep 2015 06:57:59 -0700 (PDT)
-In-Reply-To: <CAMKF1sqNCr5FZOnhetkihHHqLAdkP5EX3YJgO7guM2REX+Oudw@mail.gmail.com>
+	Thu, 17 Sep 2015 14:07:00 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8HE6ale030283; Thu, 17 Sep 2015 15:06:59 +0100
+Received: from dan.rpsys.net ([127.0.0.1])
+	by localhost (dan.rpsys.net [127.0.0.1]) (amavisd-new, port 10024)
+	with LMTP id Beba4a4B3r23; Thu, 17 Sep 2015 15:06:59 +0100 (BST)
+Received: from [192.168.3.10] ([192.168.3.10]) (authenticated bits=0)
+	by dan.rpsys.net (8.14.4/8.14.4/Debian-4.1ubuntu1) with ESMTP id
+	t8HE6kXa030302
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 17 Sep 2015 15:06:57 +0100
+Message-ID: <1442498806.26666.212.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Date: Thu, 17 Sep 2015 15:06:46 +0100
+In-Reply-To: <CAP9ODKqAQiGTZ5vbQjcpYbywAto6caG9Vcvbx4KQbYeQnUY2JQ@mail.gmail.com>
 References: <1442496086-1994-1-git-send-email-otavio@ossystems.com.br>
-	<CAMKF1sqNCr5FZOnhetkihHHqLAdkP5EX3YJgO7guM2REX+Oudw@mail.gmail.com>
-Date: Thu, 17 Sep 2015 10:57:59 -0300
-Message-ID: <CAP9ODKo81RRQ7KKaPOU2CKKGuBhkgFw-6LA4u+d8m54N8khbRw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+	<55FAC07A.3000907@mlbassoc.com>
+	<CAP9ODKqAQiGTZ5vbQjcpYbywAto6caG9Vcvbx4KQbYeQnUY2JQ@mail.gmail.com>
+X-Mailer: Evolution 3.12.11-0ubuntu3 
+Mime-Version: 1.0
+Cc: Gary Thomas <gary@mlbassoc.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] Rename 'BRANCH' variable to 'SRCBRANCH' for clearness
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,21 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Sep 2015 13:58:01 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 17 Sep 2015 14:07:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 17, 2015 at 10:54 AM, Khem Raj <raj.khem@gmail.com> wrote:
->>  meta/recipes-core/glibc/cross-localedef-native_2.22.bb | 4 ++--
->>  meta/recipes-core/glibc/glibc_2.22.bb                  | 4 ++--
->>  meta/recipes-devtools/mmc/mmc-utils_git.bb             | 4 ++--
->
->
-> Did you cover all the recipes
+On Thu, 2015-09-17 at 10:33 -0300, Otavio Salvador wrote:
+> On Thu, Sep 17, 2015 at 10:30 AM, Gary Thomas <gary@mlbassoc.com> wrote:
+> > On 2015-09-17 07:21, Otavio Salvador wrote:
+> >>
+> >> The 'BRANCH' variable name has no explicit relation with the
+> >> SRC_URI. Using 'SRCBRANCH' makes it more obvious and easier to
+> >> identify.
+> >>
+> >> This patch makes the use consistent across the metadata.
+> >>
+> >> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> >
+> >
+> > These should be separated into one for glibc and another for mmc.
+> > Also, the subject line needs to mention the recipe name based on
+> > the commit guidelines.
+> 
+> I can split it but it does not make much sense for this specific case,
+> IMO. This is a global change and so it provides an easier view of
+> affected recipes for such a change. If it, supposedly, introduces a
+> regression it is easier to revert it.
 
-Yes.
+I don't think it needs to be split, I would like "glibc/mmc-utils:" at
+the start of the subject line so we give the casual reader some idea
+what the scope of the patch is though. In this case I'll just add that
+before merging.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9981-7854            Mobile: +1 (347) 903-9750
+Cheers,
+
+Richard
+
 
